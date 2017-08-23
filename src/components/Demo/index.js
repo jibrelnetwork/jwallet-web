@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
-
+import Link from 'react-toolbox/lib/link';
 import JbButton from '../../components/JbButton/';
 
 class Demo extends Component {
   render() {
-    return (<div className="App">
-<div className="App-header">
-  <h2>Welcome to React - test auto-deploy</h2>
-  <JbButton text="Test text"/>
-</div>
-<p className="App-intro">
-  To get started, edit <code>src/App.js</code> and save to reload.
-</p>
-</div>
+    return ( <nav>
+      <Link active href="/#/list" label="Transactions"/>
+      <Link href="/#/login" label="Login"/>
+      <Link href="/#/settings" label="Setting" />
+    </nav>
 );
 }
 }
