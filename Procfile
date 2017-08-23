@@ -1,1 +1,1 @@
-web: npm demo
+web: npm start
