@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import JbButton from '../components/JbButton/';
+import JbButton from '../../components/JbButton/';
 
 class App extends Component {
   render() {
