@@ -105,7 +105,7 @@
       .content-bottom {
         .table {
           padding: 0;
-          min-height: calc(~"100vh - 376px");
+          min-height: unquote("calc(100vh - 376px)");
           overflow: hidden;
           .row, .full-info {
             padding: 0 30px;
@@ -185,7 +185,7 @@
       }
       .content-bottom {
         .table {
-          min-height: calc(~"100vh - 156px");
+          min-height: unquote("calc(100vh - 156px)");
           .no-data {
             position: relative;
             margin: 50px auto;

@@ -2,15 +2,17 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
+import '../src/styles/core.scss'
+
 import JbButton from '../src/components/JbButton'
 import JbIcon from '../src/components/base/JbIcon'
 
 storiesOf('JbButton', module)
   .add('with text', () => (
-    <JbButton onClick={action('clicked')} text="Hello Button"/>
+    <JbButton onClick={action('clicked')} text="Hello Button" />
   ))
   .add('with some emoji', () => (
-    <JbButton onClick={action('clicked')} text="😀 😎 👍 💯"/>
+    <JbButton onClick={action('clicked')} text="😀 😎 👍 💯" />
   ))
 
 storiesOf('JbIcon', module)

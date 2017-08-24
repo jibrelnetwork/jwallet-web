@@ -1,5 +1,6 @@
 :global {
   @import 'base';
+  @import 'colors';
   @import 'adaptive';
   @import 'animations';
   @import 'grid';
@@ -55,4 +56,6 @@
   .pull-right {
     float: right;
   }
+
+  @import '../components/base/JbIcon/jbIcon.scss';
 }

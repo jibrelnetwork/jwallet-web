@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import './jbIcon.scss'
-
 function JbIcon({ name, small }) {
-  return <span className={`icon icon--${name} ${small ? 'small' : ''}`} />
+  return <span className={`icon icon--${name} ${small ? 'icon--small' : ''}`} />
 }
 
 JbIcon.propTypes = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 
-import './App.css';
+import './styles/core.scss';
 
 import JbButton from './components/JbButton/';
 import Demo from  './components/Demo/';
