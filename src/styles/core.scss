@@ -1,0 +1,58 @@
+:global {
+  @import 'base';
+  @import 'adaptive';
+  @import 'animations';
+  @import 'grid';
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: $line;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    color: $gray;
+  }
+
+  .clear:after {
+    clear: both;
+    display: block;
+    height: 0;
+    content: "";
+  }
+
+  a {
+    text-decoration: none;
+    color: $blue;
+
+    &:hover {
+      color: $blue2;
+    }
+  }
+
+  li {
+    list-style: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+  }
+
+  .pull-left {
+    float: left;
+  }
+
+  .pull-right {
+    float: right;
+  }
+}
