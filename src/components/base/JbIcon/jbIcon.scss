@@ -1,16 +1,21 @@
 .icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
   background-size: 24px 24px;
   background-repeat: no-repeat;
   background-position: left center;
 }
 
 .icon--small {
+  width: 16px;
+  height: 16px;
   background-size: 16px 16px;
 }
 
 .icon--send {
   background-image: $iconSend;
-  background-position: left 7px;
+  background-position: left 0px;
 }
 
 .icon--receive {
