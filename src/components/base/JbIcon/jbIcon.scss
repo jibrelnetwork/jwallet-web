@@ -1,0 +1,103 @@
+.icon {
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.icon--small {
+  background-size: 16px 16px;
+}
+
+.icon--send {
+  background-image: $iconSend;
+  background-position: left 7px;
+}
+
+.icon--receive {
+  background-image: $iconReceive;
+  background-position: left 7px;
+}
+
+.icon--convert {
+  background-image: $iconConvert;
+}
+
+.icon--settings {
+  background-image: $iconSettings;
+}
+
+.icon--keys {
+  background-image: $iconKeys;
+  background-position: right center;
+}
+
+.icon--dots {
+  background-image: $iconDots;
+  background-size: 18px 4px;
+}
+
+.icon--close {
+  background-image: $iconClose;
+}
+
+.icon--add {
+  background-image: $iconSmallAdd;
+}
+
+.icon--import {
+  background-image: $iconSmallImport;
+}
+
+.icon--backup {
+  background-image: $iconSmallBackup;
+}
+
+.icon--clear {
+  background-image: $iconSmallClear;
+}
+
+.icon--arrow {
+  background-image: $iconSmallArrow;
+}
+
+.icon--send-funds {
+  background-image: $iconSendFunds;
+}
+
+.icon--convert-funds {
+  background-image: $iconConvertFunds;
+}
+
+.icon--qr-code {
+  background-image: $iconQRCode;
+}
+
+.icon--copy {
+  background-image: $iconCopy;
+}
+
+.icon--import-keys {
+  background-image: $iconImportKeys;
+}
+
+.icon--txt {
+  background-image: $iconTxt;
+}
+
+.icon--alert {
+  background-image: $iconAlert;
+}
+
+@media only screen and (max-width: 1024px) {
+  .icon--send {
+    background-image: $iconSendW;
+  }
+
+  .icon--receive {
+    background-image: $iconReceiveW;
+  }
+
+  .icon--convert {
+    background-image: $iconConvertW;
+  }
+}
