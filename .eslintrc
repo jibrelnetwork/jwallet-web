@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb-base",
+  "extends": [
+    "react-app",
+    "airbnb-base"
+  ],
   "env": {
     "node": true,
     "es6": true,
@@ -64,6 +67,9 @@
     "class-methods-use-this": "warn",
     "require-yield": "warn",
     "no-underscore-dangle": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off"
   }
 }
