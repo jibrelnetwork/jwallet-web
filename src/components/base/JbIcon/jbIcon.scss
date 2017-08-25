@@ -2,6 +2,7 @@
   display: inline-block;
   width: 24px;
   height: 24px;
+  margin-right: 0!important; // Replace react-toolbox .icon margin-right
   background-size: 24px 24px;
   background-repeat: no-repeat;
   background-position: left center;
@@ -91,6 +92,53 @@
 
 .icon--alert {
   background-image: $iconAlert;
+}
+
+.icon--licensed {
+  background-image: $iconLicensed;
+}
+
+.icon--account-eth,
+.icon--account-jusd,
+.icon--account-jeur,
+.icon--account-jgbp,
+.icon--account-jaed,
+.icon--account-jrub,
+.icon--account-jcny,
+.icon--account-jnt {
+  background-size: cover;
+}
+
+.icon--account-eth {
+  background-image: $iconAccountETH;
+}
+
+.icon--account-jusd {
+  background-image: $iconAccountJUSD;
+}
+
+.icon--account-jeur {
+  background-image: $iconAccountJEUR;
+}
+
+.icon--account-jgbp {
+  background-image: $iconAccountJGBP;
+}
+
+.icon--account-jaed {
+  background-image: $iconAccountJAED;
+}
+
+.icon--account-jrub {
+  background-image: $iconAccountJRUB;
+}
+
+.icon--account-jcny {
+  background-image: $iconAccountJCNY;
+}
+
+.icon--account-jnt {
+  background-image: $iconAccountJNT;
 }
 
 @media only screen and (max-width: 1024px) {
