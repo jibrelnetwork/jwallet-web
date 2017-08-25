@@ -1,13 +1,13 @@
 import React from 'react'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 
-import 'styles/core.scss'
-
 import Demo from  'components/Demo/'
 import JbNavBar from  'components/JbNavBar/'
 import TransactionsList from  'containers/TransactionsList/'
 import Settings from  'containers/Settings/'
 import Login from  'containers/Login/'
+
+import './styles/core.scss'
 
 function App() {
   return (
