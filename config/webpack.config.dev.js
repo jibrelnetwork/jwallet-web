@@ -144,7 +144,16 @@ module.exports = {
           {
             test: /\.scss$/,
             include: paths.appSrc,
-            loaders: ['style', 'css', 'sass'],
+            use: [
+              require.resolve('style-loader'),
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                },
+              },
+              require.resolve('sass-loader'),
+            ],
           },
           // Process JS with Babel.
           {
