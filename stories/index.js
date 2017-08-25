@@ -9,6 +9,8 @@ import JbIcon from '../src/components/base/JbIcon'
 import JbLogo from '../src/components/base/JbLogo'
 import JbAccountItem from '../src/components/base/JbAccountItem'
 
+import KeysManager from '../src/components/KeysManager'
+
 storiesOf('JbButton', module)
   .add('with text', () => (
     <JbButton onClick={action('clicked')} text="Hello Button" />
@@ -59,5 +61,28 @@ storiesOf('JbAccountItem', module)
   .add('authorization required and licensed', () => (
     <div style={accountsStyle}>
       <JbAccountItem symbol='JNT' isAuthRequired isLicensed />
+    </div>
+  ))
+
+const keys = [
+  { privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
+  { privateKey: '0x22E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
+  { privateKey: '0x32E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
+  { privateKey: '0x42E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
+  { privateKey: '0x52E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
+  { privateKey: '0x62E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
+]
+
+storiesOf('KeysManager', module)
+  .add('Keys Manager', () => (
+    <div style={{ margin: '40px 100px' }}>
+      <KeysManager
+        addNewKeys={() => alert('addNewKeys handler')}
+        importKeys={() => alert('importKeys handler')}
+        backupKeys={() => alert('backupKeys handler')}
+        clearKeys={() => alert('clearKeys handler')}
+        keys={keys}
+        active={1}
+      />
     </div>
   ))
