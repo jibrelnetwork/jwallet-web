@@ -1,0 +1,28 @@
+.popover {
+  z-index: 20;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  min-width: 160px;
+  padding: 20px 30px;
+  background-color: $white;
+  border-radius: 3px;
+  box-shadow: $shadow3;
+
+  &:target {
+    display: block;
+  }
+}
+
+.popover__item {
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    display: block;
+    font-weight: 600;
+  }
+}

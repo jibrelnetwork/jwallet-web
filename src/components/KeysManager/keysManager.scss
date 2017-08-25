@@ -1,0 +1,95 @@
+.keys-manager {
+  position: relative;
+  max-width: 220px;
+  margin-top: 5px;
+}
+
+.keys-manager__title {
+  position: relative;
+  padding-right: 32px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.keys-manager__head {
+  text-align: right;
+  color: $blue;
+}
+
+.keys-manager__active-key {
+  margin-top: 4px;
+  text-align: right;
+}
+
+.keys-manager__key-hash,
+.keys-manager__key-balance,
+.keys-manager__key-code {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.keys-manager__key-hash,
+.keys-manager__key-balance {
+  margin-right: 5px;
+}
+
+.keys-manager__key-hash {
+  max-width: 110px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.keys-manager__icon {
+  position: absolute;
+  right: 0;
+  top: 4px; // (32 - 24) / 2
+}
+
+.address {
+  color: $gray;
+  margin-top: 5px;
+}
+
+.addresses {
+  min-width: 220px;
+  &.scroll {
+    height: 126px;
+    overflow: auto;
+  }
+  a {
+    opacity: 0.5;
+    color: $gray;
+    &:hover {
+      opacity: 1;
+    }
+    &.active {
+      color: $blue;
+      opacity: 1;
+    }
+  }
+}
+.actions {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid $line;
+  a {
+    padding-left: 28px;
+    line-height: 16px;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  li:last-child {
+    a {
+      color: $gray;
+      opacity: 0.5;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+.popover--keys-manager {
+  width: 280px;
+}
