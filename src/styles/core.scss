@@ -57,5 +57,6 @@
     float: right;
   }
 
-  @import '../components/base/JbIcon/jbIcon.scss';
+  @import '../components/base/JbIcon/jbIcon';
+  @import '../components/base/JbLogo/jbLogo';
 }

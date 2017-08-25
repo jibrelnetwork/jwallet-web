@@ -6,6 +6,7 @@ import '../src/styles/core.scss'
 
 import JbButton from '../src/components/JbButton'
 import JbIcon from '../src/components/base/JbIcon'
+import JbLogo from '../src/components/base/JbLogo'
 
 storiesOf('JbButton', module)
   .add('with text', () => (
@@ -21,4 +22,9 @@ storiesOf('JbIcon', module)
   ))
   .add('small', () => (
     <JbIcon name='convert' small />
+  ))
+
+storiesOf('JbLogo', module)
+  .add('common logo', () => (
+    <JbLogo />
   ))

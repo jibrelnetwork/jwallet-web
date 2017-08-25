@@ -3,6 +3,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom'
 
 import Demo from  'components/Demo/'
 import JbNavBar from  'components/JbNavBar/'
+import JbLogo from  'components/base/JbLogo/'
 import TransactionsList from  'containers/TransactionsList/'
 import Settings from  'containers/Settings/'
 import Login from  'containers/Login/'
@@ -14,6 +15,7 @@ function App() {
     <div>
       <Demo/>
       <JbNavBar/>
+      <JbLogo />
       <HashRouter>
         <Switch>
           <Route exact path="/" component={TransactionsList}/>
