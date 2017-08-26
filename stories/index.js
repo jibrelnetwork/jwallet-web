@@ -8,29 +8,40 @@ import JbButton from '../src/components/JbButton'
 import JbIcon from '../src/components/base/JbIcon'
 import JbLogo from '../src/components/base/JbLogo'
 import JbAccountItem from '../src/components/base/JbAccountItem'
+import JbInput from '../src/components/base/JbInput'
 
 import KeysManager from '../src/components/KeysManager'
 
 storiesOf('JbButton', module)
-  .add('with text', () => (
-    <JbButton onClick={action('clicked')} text="Hello Button" />
-  ))
-  .add('with some emoji', () => (
-    <JbButton onClick={action('clicked')} text="😀 😎 👍 💯" />
-  ))
+  .add('with text', () => {
+    return (
+      <JbButton onClick={action('clicked')} text="Hello Button" />
+    )
+  })
+  .add('with some emoji', () => {
+    return (
+      <JbButton onClick={action('clicked')} text="😀 😎 👍 💯" />
+    )
+  })
 
 storiesOf('JbIcon', module)
-  .add('common', () => (
-    <JbIcon name='send' />
-  ))
-  .add('small', () => (
-    <JbIcon name='convert' small />
-  ))
+  .add('common', () => {
+    return (
+      <JbIcon name='send' />
+    )
+  })
+  .add('small', () => {
+    return (
+      <JbIcon name='convert' small />
+    )
+  })
 
 storiesOf('JbLogo', module)
-  .add('common', () => (
-    <JbLogo />
-  ))
+  .add('common', () => {
+    return (
+      <JbLogo />
+    )
+  })
 
 const accountsStyle = {
   backgroundColor: '#2d2c3e',
@@ -38,31 +49,41 @@ const accountsStyle = {
 }
 
 storiesOf('JbAccountItem', module)
-  .add('common', () => (
-    <div style={accountsStyle}>
-      <JbAccountItem symbol='ETH' balance='12.990' />
-    </div>
-  ))
-  .add('active', () => (
-    <div style={accountsStyle}>
-      <JbAccountItem symbol='jUSD' balance='12.990' isActive />
-    </div>
-  ))
-  .add('authorization required', () => (
-    <div style={accountsStyle}>
-      <JbAccountItem symbol='jEUR' balance='12.990' isAuthRequired />
-    </div>
-  ))
-  .add('without balance', () => (
-    <div style={accountsStyle}>
-      <JbAccountItem symbol='jGBP' />
-    </div>
-  ))
-  .add('authorization required and licensed', () => (
-    <div style={accountsStyle}>
-      <JbAccountItem symbol='JNT' isAuthRequired isLicensed />
-    </div>
-  ))
+  .add('common', () => {
+    return (
+      <div style={accountsStyle}>
+        <JbAccountItem symbol='ETH' balance='12.990' />
+      </div>
+    )
+  })
+  .add('active', () => {
+    return (
+      <div style={accountsStyle}>
+        <JbAccountItem symbol='jUSD' balance='12.990' isActive />
+      </div>
+    )
+  })
+  .add('authorization required', () => {
+    return (
+      <div style={accountsStyle}>
+        <JbAccountItem symbol='jEUR' balance='12.990' isAuthRequired />
+      </div>
+    )
+  })
+  .add('without balance', () => {
+    return (
+      <div style={accountsStyle}>
+        <JbAccountItem symbol='jGBP' />
+      </div>
+    )
+  })
+  .add('authorization required and licensed', () => {
+    return (
+      <div style={accountsStyle}>
+        <JbAccountItem symbol='JNT' isAuthRequired isLicensed />
+      </div>
+    )
+  })
 
 const keys = [
   { privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
@@ -74,15 +95,38 @@ const keys = [
 ]
 
 storiesOf('KeysManager', module)
-  .add('Keys Manager', () => (
-    <div style={{ margin: '40px 100px' }}>
-      <KeysManager
-        addNewKeys={() => alert('addNewKeys handler')}
-        importKeys={() => alert('importKeys handler')}
-        backupKeys={() => alert('backupKeys handler')}
-        clearKeys={() => alert('clearKeys handler')}
-        keys={keys}
-        active={1}
+  .add('Keys Manager', () => {
+    return (
+      <div style={{ margin: '40px 100px' }}>
+        <KeysManager
+          addNewKeys={() => { return alert('addNewKeys handler') }}
+          importKeys={() => { return alert('importKeys handler') }}
+          backupKeys={() => { return alert('backupKeys handler') }}
+          clearKeys={() => { return alert('clearKeys handler') }}
+          keys={keys}
+          active={1}
+        />
+      </div>
+    )
+  })
+
+storiesOf('JbInput', module)
+  .add('common', () => {
+    return (
+      <JbInput
+        error={null}
+        label={'Account name'}
+        placeholder={'Mr. Cardholder'}
       />
-    </div>
-  ))
+    )
+  })
+  .add('error', () => {
+    return (
+      <JbInput
+        error={'Missing name'}
+        label={'Account name'}
+        placeholder={'Mr. Cardholder'}
+      />
+    )
+  })
+
