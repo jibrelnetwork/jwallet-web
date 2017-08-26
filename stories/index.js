@@ -9,6 +9,7 @@ import JbIcon from '../src/components/base/JbIcon'
 import JbLogo from '../src/components/base/JbLogo'
 import JbAccountItem from '../src/components/base/JbAccountItem'
 import JbInput from '../src/components/base/JbInput'
+import JbSelect from '../src/components/base/JbSelect'
 
 import KeysManager from '../src/components/KeysManager'
 
@@ -126,6 +127,35 @@ storiesOf('JbInput', module)
         error={'Missing name'}
         label={'Account name'}
         placeholder={'Mr. Cardholder'}
+      />
+    )
+  })
+
+const currencyList = [{
+  text: 'USD',
+}, {
+  text: 'EUR',
+}, {
+  text: 'GBK',
+}]
+
+storiesOf('JbSelect', module)
+  .add('common', () => {
+    return (
+      <JbSelect
+        error={null}
+        label={'Currency'}
+        list={currencyList}
+      />
+    )
+  })
+  .add('selected', () => {
+    return (
+      <JbSelect
+        error={null}
+        label={'Currency'}
+        list={currencyList}
+        selected={currencyList[0]}
       />
     )
   })
