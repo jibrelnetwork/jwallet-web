@@ -1,7 +1,6 @@
 import React from 'react'
 import { HashRouter, Switch, Route } from 'react-router-dom'
 
-import Demo from  'components/Demo/'
 import JbNavBar from  'components/JbNavBar/'
 import JbLogo from  'components/base/JbLogo/'
 import TransactionsList from  'containers/TransactionsList/'
@@ -13,7 +12,6 @@ import './styles/core.scss'
 function App() {
   return (
     <div>
-      <Demo/>
       <JbNavBar/>
       <JbLogo />
       <HashRouter>
