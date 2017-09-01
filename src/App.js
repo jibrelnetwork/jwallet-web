@@ -16,10 +16,10 @@ function App() {
       <JbLogo />
       <HashRouter>
         <Switch>
-          <Route exact path="/" component={TransactionsList}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/settings" component={Settings}/>
-          <Route path="/list" component={TransactionsList}/>
+          <Route exact path='/' component={TransactionsList}/>
+          <Route path='/login' component={Login}/>
+          <Route path='/settings' component={Settings}/>
+          <Route path='/list' component={TransactionsList}/>
         </Switch>
       </HashRouter>
     </div>

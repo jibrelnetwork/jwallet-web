@@ -11,18 +11,18 @@ function JbSelect(props) {
 
   const htmlList = list.map((item, i) => {
     return (
-      <li key={i}><a href="#">{item.text}</a></li>
+      <li key={i}><a href='#'>{item.text}</a></li>
     )
   })
 
-  return (<div className="field field-select">
-    <div className="select">
+  return (<div className='field field-select'>
+    <div className='select'>
       <label>{label}</label>
-      {selected && <a href="#select" className="selected">{selected.text}</a>}
-      { htmlList && <ul class="scroll" id="select">
+      {selected && <a href='#select' className='selected'>{selected.text}</a>}
+      { htmlList && <ul class='scroll' id='select'>
         {htmlList}
       </ul>}
-      {error && <div className="message">{error}</div>}
+      {error && <div className='message'>{error}</div>}
     </div>
   </div>)
 }
