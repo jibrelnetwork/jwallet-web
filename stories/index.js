@@ -100,6 +100,7 @@ storiesOf('KeysManager', module)
     return (
       <div style={{ margin: '40px 100px' }}>
         <KeysManager
+          setActiveKey={index => { return () => alert(`Key ${index + 1} picked`) }}
           addNewKeys={() => { return alert('addNewKeys handler') }}
           importKeys={() => { return alert('importKeys handler') }}
           backupKeys={() => { return alert('backupKeys handler') }}

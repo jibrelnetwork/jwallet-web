@@ -2,12 +2,12 @@
   position: relative;
   max-width: 220px;
   margin-top: 5px;
+  font-weight: 600;
 }
 
 .keys-manager__title {
   position: relative;
   padding-right: 32px;
-  font-weight: 600;
   cursor: pointer;
 }
 
@@ -16,24 +16,43 @@
   color: $blue;
 }
 
-.keys-manager__active-key {
-  margin-top: 4px;
-  text-align: right;
+.key {
+  margin-top: 5px;
+  color: $gray;
+  opacity: 0.5;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  transition: opacity 0.3s ease 0s;
 }
 
-.keys-manager__key-hash,
-.keys-manager__key-balance,
-.keys-manager__key-code {
+.key--title {
+  margin-top: 4px;
+  text-align: right;
+  opacity: 1;
+}
+
+.key--active {
+  color: $blue;
+  opacity: 1;
+}
+
+.key__hash,
+.key__balance,
+.key__code {
   display: inline-block;
   overflow: hidden;
 }
 
-.keys-manager__key-hash,
-.keys-manager__key-balance {
+.key__hash,
+.key__balance {
   margin-right: 5px;
 }
 
-.keys-manager__key-hash {
+.key__hash {
   max-width: 110px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -42,54 +61,51 @@
 .keys-manager__icon {
   position: absolute;
   right: 0;
-  top: 4px; // (32 - 24) / 2
+  top: 4px; /* (32 - 24) / 2 */
 }
 
-.address {
-  color: $gray;
-  margin-top: 5px;
-}
-
-.addresses {
+.keys-manager__keys {
   min-width: 220px;
-  &.scroll {
-    height: 126px;
-    overflow: auto;
-  }
-  a {
-    opacity: 0.5;
-    color: $gray;
-    &:hover {
-      opacity: 1;
-    }
-    &.active {
-      color: $blue;
-      opacity: 1;
-    }
-  }
+  height: 126px;
+  overflow: auto;
 }
-.actions {
+
+.keys-manager__actions {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid $line;
-  a {
-    padding-left: 28px;
-    line-height: 16px;
+
+  .action {
+    height: 16px;
+    color: $blue;
+    cursor: pointer;
+    transition: opacity 0.3s ease 0s;
+
     &:hover {
       opacity: 0.7;
     }
   }
-  li:last-child {
-    a {
-      color: $gray;
-      opacity: 0.5;
-      &:hover {
-        opacity: 0.7;
-      }
+
+  .action--clear {
+    color: $gray;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.7;
     }
+  }
+
+  .action__title {
+    display: inline-block;
+    padding-left: 12px;
+    line-height: 16px;
+    vertical-align: top;
   }
 }
 
 .popover--keys-manager {
+  top: 20px;
+  right: -20px;
   width: 280px;
+  margin: 20px;
 }

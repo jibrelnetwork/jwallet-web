@@ -8,21 +8,10 @@
   background-color: $white;
   border-radius: 3px;
   box-shadow: $shadow3;
-
-  &:target {
-    display: block;
-  }
 }
 
 .popover__item {
-  margin-bottom: 15px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  a {
-    display: block;
-    font-weight: 600;
+  &:not(:last-child) {
+    margin-bottom: 15px;
   }
 }

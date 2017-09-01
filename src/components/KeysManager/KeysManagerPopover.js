@@ -7,6 +7,7 @@ import JbIcon from 'components/base/JbIcon'
 function KeysManagerPopover(props) {
   const {
     onClickOutside,
+    setActiveKey,
     addNewKeys,
     importKeys,
     backupKeys,
@@ -17,47 +18,49 @@ function KeysManagerPopover(props) {
 
   const body = (
     <div className='keys-manager-popover-wrap'>
-      <div className='keys-manager__addresses scroll'>
+      <div className='keys-manager__keys'>
         {keys.map((key, i) => {
           const { privateKey, balance, code } = key
-          const activeClass = (active === i) ? 'keys-manager__address--active' : ''
 
           return (
-            <div className={`keys-manager__address ${activeClass}`} key={i}>
-              <span className='keys-manager__key-hash'>{privateKey}</span>
-              <span className='keys-manager__key-balance'>{balance}</span>
-              <span className='keys-manager__key-code'>{code}</span>
+            <div
+              key={i}
+              className={`key popover__item ${(active === i) ? 'key--active' : ''}`}
+              onClick={setActiveKey(i)}
+            >
+              <span className='key__hash'>{privateKey}</span>
+              <span className='key__balance'>{balance}</span>
+              <span className='key__code'>{code}</span>
             </div>
           )
         })}
       </div>
       <div className='keys-manager__actions'>
-        <div className='keys-manager__action' onClick={addNewKeys}>
-          <JbIcon name='add' small />{'New keys'}
+        <div className='action popover__item' onClick={addNewKeys}>
+          <JbIcon name='add' small />
+          <span className='action__title'>{'New keys'}</span>
         </div>
-        <div className='keys-manager__action' onClick={importKeys}>
-          <JbIcon name='import' small />Import keys
+        <div className='action popover__item' onClick={importKeys}>
+          <JbIcon name='import' small />
+          <span className='action__title'>{'Import keys'}</span>
         </div>
-        <div className='keys-manager__action' onClick={backupKeys}>
-          <JbIcon name='backup' small />Backup keys
+        <div className='action popover__item' onClick={backupKeys}>
+          <JbIcon name='backup' small />
+          <span className='action__title'>{'Backup keys'}</span>
         </div>
-        <div className='keys-manager__action' onClick={clearKeys}>
-          <JbIcon name='clear' small />Clear keys
+        <div className='action popover__item action--clear' onClick={clearKeys}>
+          <JbIcon name='clear' small />
+          <span className='action__title'>{'Clear keys'}</span>
         </div>
       </div>
     </div>
   )
 
-  return (
-    <JbPopover
-      name='keys-manager'
-      onClickOutside={onClickOutside}
-      body={body}
-    />
-  )
+  return <JbPopover name='keys-manager' onClickOutside={onClickOutside} body={body} />
 }
 
 KeysManagerPopover.propTypes = {
+  setActiveKey: PropTypes.func.isRequired,
   addNewKeys: PropTypes.func.isRequired,
   importKeys: PropTypes.func.isRequired,
   backupKeys: PropTypes.func.isRequired,

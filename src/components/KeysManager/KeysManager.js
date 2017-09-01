@@ -8,6 +8,7 @@ import KeysManagerPopover from './KeysManagerPopover'
 
 function KeysManager(props) {
   const {
+    setActiveKey,
     addNewKeys,
     importKeys,
     backupKeys,
@@ -21,10 +22,10 @@ function KeysManager(props) {
   const title = (
     <div className='keys-manager__title'>
       <div className='keys-manager__head'>{'Keys manager'}</div>
-      <div className='keys-manager__active-key'>
-        <span className='keys-manager__key-hash'>{privateKey}</span>
-        <span className='keys-manager__key-balance'>{balance}</span>
-        <span className='keys-manager__key-code'>{code}</span>
+      <div className='key key--title'>
+        <span className='key__hash'>{privateKey}</span>
+        <span className='key__balance'>{balance}</span>
+        <span className='key__code'>{code}</span>
       </div>
       <JbIcon name='keys' className='keys-manager__icon' />
     </div>
@@ -37,6 +38,7 @@ function KeysManager(props) {
       title={title}
     >
       <KeysManagerPopover
+        setActiveKey={setActiveKey}
         addNewKeys={addNewKeys}
         importKeys={importKeys}
         backupKeys={backupKeys}
@@ -49,6 +51,7 @@ function KeysManager(props) {
 }
 
 KeysManager.propTypes = {
+  setActiveKey: PropTypes.func.isRequired,
   addNewKeys: PropTypes.func.isRequired,
   importKeys: PropTypes.func.isRequired,
   backupKeys: PropTypes.func.isRequired,
