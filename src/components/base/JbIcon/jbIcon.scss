@@ -45,26 +45,6 @@
   background-image: $iconClose;
 }
 
-.icon--add {
-  background-image: $iconSmallAdd;
-}
-
-.icon--import {
-  background-image: $iconSmallImport;
-}
-
-.icon--backup {
-  background-image: $iconSmallBackup;
-}
-
-.icon--clear {
-  background-image: $iconSmallClear;
-}
-
-.icon--arrow {
-  background-image: $iconSmallArrow;
-}
-
 .icon--send-funds {
   background-image: $iconSendFunds;
 }
@@ -95,6 +75,38 @@
 
 .icon--licensed {
   background-image: $iconLicensed;
+}
+
+.icon--small-add {
+  background-image: $iconSmallAdd;
+}
+
+.icon--small-import {
+  background-image: $iconSmallImport;
+}
+
+.icon--small-backup {
+  background-image: $iconSmallBackup;
+}
+
+.icon--small-clear {
+  background-image: $iconSmallClear;
+}
+
+.icon--small-arrow {
+  background-image: $iconSmallArrow;
+}
+
+.icon--small-send {
+  background-image: $iconSmallSend;
+}
+
+.icon--small-receive {
+  background-image: $iconSmallReceive;
+}
+
+.icon--small-convert {
+  background-image: $iconSmallConvert;
 }
 
 .icon--account-eth,

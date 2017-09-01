@@ -37,19 +37,19 @@ function KeysManagerPopover(props) {
       </div>
       <div className='keys-manager__actions'>
         <div className='action popover__item' onClick={addNewKeys}>
-          <JbIcon name='add' small />
+          <JbIcon name='small-add' small />
           <span className='action__title'>{'New keys'}</span>
         </div>
         <div className='action popover__item' onClick={importKeys}>
-          <JbIcon name='import' small />
+          <JbIcon name='small-import' small />
           <span className='action__title'>{'Import keys'}</span>
         </div>
         <div className='action popover__item' onClick={backupKeys}>
-          <JbIcon name='backup' small />
+          <JbIcon name='small-backup' small />
           <span className='action__title'>{'Backup keys'}</span>
         </div>
         <div className='action popover__item action--clear' onClick={clearKeys}>
-          <JbIcon name='clear' small />
+          <JbIcon name='small-clear' small />
           <span className='action__title'>{'Clear keys'}</span>
         </div>
       </div>
