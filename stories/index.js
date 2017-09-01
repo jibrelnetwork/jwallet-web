@@ -11,6 +11,7 @@ import JbAccountItem from '../src/components/base/JbAccountItem'
 import JbInput from '../src/components/base/JbInput'
 import JbSelect from '../src/components/base/JbSelect'
 import JbLoader from '../src/components/base/JbLoader'
+import JbSearch from '../src/components/base/JbSearch'
 
 import KeysManager from '../src/components/KeysManager'
 import Transaction from '../src/components/Transaction'
@@ -157,6 +158,18 @@ storiesOf('JbLoader', module)
   })
   .add('fixed', () => {
     return <JbLoader fixed />
+  })
+
+storiesOf('JbSearch', module)
+  .add('common', () => {
+    return (
+      <div style={{ margin: '20px' }}>
+        <JbSearch
+          placeholder='Search transactions ...'
+          search={text => { return console.log(`Text ${text} was requested`) }}
+        />
+      </div>
+    )
   })
 
 storiesOf('KeysManager', module)
