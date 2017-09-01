@@ -8,10 +8,10 @@ function JbInput(props) {
     placeholder,
   } = props
 
-  return (<div className="field field-input">
-    <input type="text" placeholder={placeholder} />
-    <label htmlFor="field-2">{label}</label>
-    {error && <div className="message">{error}</div>}
+  return (<div className='field field-input'>
+    <input type='text' placeholder={placeholder} />
+    <label htmlFor='field-2'>{label}</label>
+    {error && <div className='message'>{error}</div>}
   </div>)
 }
 

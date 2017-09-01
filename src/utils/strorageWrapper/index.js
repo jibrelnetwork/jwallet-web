@@ -7,8 +7,6 @@
 
 import Storage from 'react-native-storage'
 
-import defaults from './defaults'
-
 class storageWrapper {
     static Storage
 
@@ -19,7 +17,7 @@ class storageWrapper {
 
         // Use AsyncStorage for RN, or window.localStorage for web.
         // If not set, data would be lost after reload.
-        storageBackend: AsyncStorage,
+        storageBackend: window.localStorage,
 
         // expire time, default 1 day(1000 * 3600 * 24 milliseconds).
         // can be null, which means never expire.
