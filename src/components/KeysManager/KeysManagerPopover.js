@@ -17,7 +17,7 @@ function KeysManagerPopover(props) {
   } = props
 
   const body = (
-    <div className='keys-manager-popover-wrap'>
+    <div className='keys-manager__popover'>
       <div className='keys-manager__keys'>
         {keys.map((key, i) => {
           const { privateKey, balance, code } = key
@@ -35,22 +35,22 @@ function KeysManagerPopover(props) {
           )
         })}
       </div>
-      <div className='keys-manager__actions'>
-        <div className='action popover__item' onClick={addNewKeys}>
+      <div className='popover__items'>
+        <div className='popover__item' onClick={addNewKeys}>
           <JbIcon name='small-add' small />
-          <span className='action__title'>{'New keys'}</span>
+          <span className='title'>{'New keys'}</span>
         </div>
-        <div className='action popover__item' onClick={importKeys}>
+        <div className='popover__item' onClick={importKeys}>
           <JbIcon name='small-import' small />
-          <span className='action__title'>{'Import keys'}</span>
+          <span className='title'>{'Import keys'}</span>
         </div>
-        <div className='action popover__item' onClick={backupKeys}>
+        <div className='popover__item' onClick={backupKeys}>
           <JbIcon name='small-backup' small />
-          <span className='action__title'>{'Backup keys'}</span>
+          <span className='title'>{'Backup keys'}</span>
         </div>
-        <div className='action popover__item action--clear' onClick={clearKeys}>
+        <div className='popover__item popover__item--gray' onClick={clearKeys}>
           <JbIcon name='small-clear' small />
-          <span className='action__title'>{'Clear keys'}</span>
+          <span className='title'>{'Clear keys'}</span>
         </div>
       </div>
     </div>

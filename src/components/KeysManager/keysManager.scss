@@ -70,39 +70,6 @@
   overflow: auto;
 }
 
-.keys-manager__actions {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid $line;
-
-  .action {
-    height: 16px;
-    color: $blue;
-    cursor: pointer;
-    transition: opacity 0.3s ease 0s;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  .action--clear {
-    color: $gray;
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  .action__title {
-    display: inline-block;
-    padding-left: 12px;
-    line-height: 16px;
-    vertical-align: top;
-  }
-}
-
 .popover--keys-manager {
   top: 20px;
   right: -20px;
