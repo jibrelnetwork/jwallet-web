@@ -14,6 +14,7 @@ import JbLoader from '../src/components/base/JbLoader'
 
 import KeysManager from '../src/components/KeysManager'
 import Transaction from '../src/components/Transaction'
+import TransactionManager from '../src/components/TransactionManager'
 
 storiesOf('JbButton', module)
   .add('with text', () => {
@@ -222,6 +223,21 @@ storiesOf('Transaction', module)
           fee={'0.0005 ETH 1.5 JNT'}
           amount={'0.200'}
           timestamp={Date.now()}
+        />
+      </div>
+    )
+  })
+
+storiesOf('TransactionManager', module)
+  .add('Transaction Manager', () => {
+    return (
+      <div style={{ margin: '40px 100px 40px 300px' }}>
+        <TransactionManager
+          sendFunds={() => { return alert('sendFunds handler') }}
+          receiveFunds={() => { return alert('receiveFunds handler') }}
+          convertFunds={() => { return alert('convertFunds handler') }}
+          filter={() => { return alert('filter handler') }}
+          remove={() => { return alert('remove handler') }}
         />
       </div>
     )
