@@ -10,6 +10,7 @@ import JbLogo from '../src/components/base/JbLogo'
 import JbAccountItem from '../src/components/base/JbAccountItem'
 import JbInput from '../src/components/base/JbInput'
 import JbSelect from '../src/components/base/JbSelect'
+import JbLoader from '../src/components/base/JbLoader'
 
 import KeysManager from '../src/components/KeysManager'
 
@@ -161,3 +162,14 @@ storiesOf('JbSelect', module)
     )
   })
 
+storiesOf('JbLoader', module)
+  .add('common', () => {
+    return (
+      <div style={{ width: '200px', height: '100px', position: 'relative', border: '3px solid #999' }}>
+        <JbLoader />
+      </div>
+    )
+  })
+  .add('fixed', () => {
+    return <JbLoader fixed />
+  })

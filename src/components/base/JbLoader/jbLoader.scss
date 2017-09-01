@@ -1,0 +1,51 @@
+.loader {
+  overflow: hidden;
+  touch-action: none;
+
+  &:before {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $line;
+    content: '';
+  }
+
+  &:after {
+    z-index: 1001;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background-image: url("../public/img/logo-loading.svg");
+    background-size: 24px 16px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: -25px 0 0 -25px;
+    pointer-events: none;
+    border-radius: 50%;
+    background-color: $gray2;
+    opacity: 0.5;
+    animation: loaderAnimation 0.8s ease-out infinite alternate forwards;
+    content: '';
+  }
+}
+
+.loader--fixed {
+  &:before {
+    position: fixed;
+  }
+
+  &:after {
+    position: fixed;
+  }
+}
+
+@keyframes loaderAnimation {
+  to {
+    transform: scale3d(0.5, 0.5, 1);
+  }
+}
