@@ -1,12 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class TransactionsList extends Component {
-  render() {
-    return (<div className="App">
+function TransactionsList() {
+  return (
+    <div className="App">
       <h2>TransactionsList</h2>
     </div>
-    )
-  }
+  )
 }
 
 export default TransactionsList

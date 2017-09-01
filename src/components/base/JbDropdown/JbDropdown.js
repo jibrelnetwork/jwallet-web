@@ -8,7 +8,7 @@ class JbDropdown extends Component {
   }
 
   render() {
-    const { children, title, parentClassName, className } = this.props
+    const { title, parentClassName, className } = this.props
 
     return (
       <div className={parentClassName} onClick={this.showDropdown}>
