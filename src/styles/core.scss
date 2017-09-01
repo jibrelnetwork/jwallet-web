@@ -16,7 +16,7 @@
     margin: 0;
     padding: 0;
     background-color: $line;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: $font;
     font-size: 13px;
     line-height: 1;
     color: $gray;
@@ -64,6 +64,7 @@
   @import '../components/base/JbInput/JbInput';
   @import '../components/base/JbSelect/JbSelect';
   @import '../components/base/JbLoader/jbLoader';
+  @import '../components/base/JbSearch/jbSearch';
 
   @import '../components/KeysManager/keysManager';
   @import '../components/Transaction/transaction';

@@ -6,6 +6,7 @@
   background-size: 24px 24px;
   background-repeat: no-repeat;
   background-position: left center;
+  vertical-align: middle;
 }
 
 .icon--small {
@@ -75,6 +76,10 @@
 
 .icon--licensed {
   background-image: $iconLicensed;
+}
+
+.icon--search {
+  background-image: $iconSearch;
 }
 
 .icon--small-add {

@@ -1,0 +1,31 @@
+.search {
+  position: relative;
+  width: 50%;
+  padding-left: 30px;
+}
+
+.search__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+}
+
+.search__input {
+  width: 100%;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  line-height: 24px;
+  font-size: 13px;
+  font-family: $font;
+  font-weight: 600;
+  color: $gray;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+
+  &:focus,
+  &:hover {
+    opacity: 1;
+  }
+}
