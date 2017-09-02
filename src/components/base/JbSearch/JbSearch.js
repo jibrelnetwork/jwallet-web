@@ -14,10 +14,10 @@ class JbSearch extends Component {
   }
 
   render() {
-    const { placeholder } = this.props
+    const { placeholder, className = '' } = this.props
 
     return (
-      <div className='search'>
+      <div className={`search ${className}`}>
         <JbIcon name='search' className='search__icon' small />
         <input
           className='search__input'
@@ -48,6 +48,7 @@ class JbSearch extends Component {
 JbSearch.propTypes = {
   search: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
+  className: PropTypes.string,
 }
 
 export default JbSearch

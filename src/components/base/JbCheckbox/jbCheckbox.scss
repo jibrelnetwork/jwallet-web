@@ -1,0 +1,36 @@
+.checkbox {
+  position: relative;
+}
+
+.checkbox__icon {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 10px;
+}
+
+.checkbox__icon--disabled {
+  display: inline-block;
+  background-color: $white;
+  border-color: $gray2;
+}
+
+.checkbox__icon--enabled {
+  display: block;
+  background-color: $blue;
+  background-image: $iconCheckbox;
+  background-size: 9px 7px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-color: $blue;
+}
+
+.checkbox__label {
+  position: relative;
+  top: 0;
+  left: 0;
+  padding-left: 30px;
+}

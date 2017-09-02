@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function JbIcon({ name, className = '', small }) {
+function JbIcon({ name, small, className = '' }) {
   return <span className={`icon icon--${name} ${small ? 'icon--small' : ''} ${className}`} />
 }
 

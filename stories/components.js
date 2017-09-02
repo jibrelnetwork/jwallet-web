@@ -6,6 +6,7 @@ import KeysManager from '../src/components/KeysManager'
 import Transaction from '../src/components/Transaction'
 import TransactionManager from '../src/components/TransactionManager'
 import Header from '../src/components/Header'
+import AccountManager from '../src/components/AccountManager'
 
 import props from './props'
 
@@ -94,5 +95,12 @@ storiesOf('Header', module)
         receiveFunds={() => { return alert('receiveFunds handler') }}
         convertFunds={() => { return alert('convertFunds handler') }}
       />
+    )
+  })
+
+storiesOf('AccountManager', module)
+  .add('AccountManager', () => {
+    return (
+      <AccountManager />
     )
   })
