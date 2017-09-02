@@ -1,0 +1,30 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import JbIcon from 'components/base/JbIcon'
+
+function KeysManagerTitle({ privateKey, balance, code }) {
+  return (
+    <div className='keys-manager-title'>
+      <div className='keys-manager-title__head'>{'Keys manager'}</div>
+      <div className='key key--title'>
+        <span className='key__hash'>{privateKey}</span>
+        <span className='key__balance'>{balance}</span>
+        <span className='key__code'>{code}</span>
+      </div>
+      <JbIcon name='keys' className='keys-manager-title__icon' />
+    </div>
+  )
+}
+
+KeysManagerTitle.propTypes = {
+  setActiveKey: PropTypes.func.isRequired,
+  addNewKeys: PropTypes.func.isRequired,
+  importKeys: PropTypes.func.isRequired,
+  backupKeys: PropTypes.func.isRequired,
+  clearKeys: PropTypes.func.isRequired,
+  keys: PropTypes.array.isRequired,
+  active: PropTypes.number.isRequired,
+}
+
+export default KeysManagerTitle

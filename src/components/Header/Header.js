@@ -1,13 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbDropdown from 'components/base/JbDropdown'
+import JbLogo from 'components/base/JbLogo'
 
-import KeysManagerPopover from './KeysManagerPopover'
-import KeysManagerTitle from './KeysManagerTitle'
+import KeysManager from 'components/KeysManager'
 
-function KeysManager(props) {
+import HeaderMenu from './HeaderMenu'
+
+function Header(props) {
   const {
+    sendFunds,
+    receiveFunds,
+    convertFunds,
     setActiveKey,
     addNewKeys,
     importKeys,
@@ -17,16 +21,15 @@ function KeysManager(props) {
     active,
   } = props
 
-  const { privateKey, balance, code } = keys[active]
-  const title = <KeysManagerTitle privateKey={privateKey} balance={balance} code={code} />
-
   return (
-    <JbDropdown
-      className='keys-manager'
-      parentClassName='header__keys-manager pull-right'
-      title={title}
-    >
-      <KeysManagerPopover
+    <div className='header clear'>
+      <JbLogo className='header__logo pull-left' />
+      <HeaderMenu
+        sendFunds={sendFunds}
+        receiveFunds={receiveFunds}
+        convertFunds={convertFunds}
+      />
+      <KeysManager
         setActiveKey={setActiveKey}
         addNewKeys={addNewKeys}
         importKeys={importKeys}
@@ -35,11 +38,14 @@ function KeysManager(props) {
         keys={keys}
         active={active}
       />
-    </JbDropdown>
+    </div>
   )
 }
 
-KeysManager.propTypes = {
+Header.propTypes = {
+  sendFunds: PropTypes.func.isRequired,
+  receiveFunds: PropTypes.func.isRequired,
+  convertFunds: PropTypes.func.isRequired,
   setActiveKey: PropTypes.func.isRequired,
   addNewKeys: PropTypes.func.isRequired,
   importKeys: PropTypes.func.isRequired,
@@ -49,4 +55,4 @@ KeysManager.propTypes = {
   active: PropTypes.number.isRequired,
 }
 
-export default KeysManager
+export default Header
