@@ -1,0 +1,90 @@
+.modal {
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  text-align: center;
+  backface-visibility: hidden;
+  overflow-scrolling: touch;
+}
+
+.modal__overlay {
+  z-index: 1999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(43, 46, 56, 0.9);
+}
+
+.modal__content {
+  position: relative;
+  display: inline-block;
+  max-width: 420px;
+  width: 100%;
+  margin: 40px 0;
+  background-color: $white;
+  border-radius: 5px 5px 10px 10px;
+  box-shadow: $shadow2;
+  vertical-align: middle;
+  text-size-adjust: 100%;
+  text-align: left;
+  outline: medium none;
+}
+
+.modal__header {
+  position: relative;
+  margin: 30px;
+}
+
+.modal__title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.modal__close {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  opacity: 0.5;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.modal__body {
+  padding: 0 30px 30px 30px;
+}
+
+.modal--account-manager {
+  .modal__content {
+    min-width: 680px;
+    border-radius: 5px;
+  }
+
+  .modal__body {
+    border-top: 1px solid $line;
+  }
+}
+
+.modal-is-opened {
+  .container {
+    filter: blur(3px);
+  }
+  .modal-overlay {
+    display: block;
+  }
+  .modal-wrapper {
+    display: block;
+  }
+}
