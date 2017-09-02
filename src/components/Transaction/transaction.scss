@@ -18,14 +18,15 @@
 }
 
 .transaction__type {
-  float: left;
-  padding-left: 24px;
+  position: absolute;
+  top: 0;
+  left: 10px; /* .row has negative margin 10px */
 }
 
 .transaction__amount {
-  float: left;
   height: 16px;
   line-height: 16px;
+  padding-left: 24px;
 }
 
 .transaction__address {

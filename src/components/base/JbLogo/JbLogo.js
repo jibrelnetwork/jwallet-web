@@ -1,8 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Link from 'react-toolbox/lib/link'
 
-function JbLogo() {
-  return <Link href='/' className='logo pull-left' />
+function JbLogo({ className = '' }) {
+  return <Link href='/' className={`logo pull-left ${className}`} />
+}
+
+JbLogo.propTypes = {
+  className: PropTypes.string.isRequired,
 }
 
 export default JbLogo

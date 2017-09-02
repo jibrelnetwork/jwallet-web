@@ -5,13 +5,13 @@
   font-weight: 600;
 }
 
-.keys-manager__title {
+.keys-manager-title {
   position: relative;
   padding-right: 32px;
   cursor: pointer;
 }
 
-.keys-manager__head {
+.keys-manager-title__head {
   text-align: right;
   color: $blue;
 }
@@ -58,7 +58,7 @@
   white-space: nowrap;
 }
 
-.keys-manager__icon {
+.keys-manager-title__icon {
   position: absolute;
   right: 0;
   top: 4px; /* (32 - 24) / 2 */

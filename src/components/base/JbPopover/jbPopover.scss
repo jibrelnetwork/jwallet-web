@@ -18,6 +18,7 @@
 
 .popover__item {
   height: 16px;
+  margin-bottom: 15px;
   color: $blue;
   cursor: pointer;
   transition: opacity 0.3s ease 0s;
@@ -26,8 +27,8 @@
     opacity: 0.7;
   }
 
-  &:not(:last-child) {
-    margin-bottom: 15px;
+  &:last-child {
+    margin-bottom: 0;
   }
 
   .title {
