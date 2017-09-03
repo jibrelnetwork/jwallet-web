@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 
 import JbModal from 'components/base/JbModal'
 
-import AccountManagerHead from './AccountManagerHead'
+import AccountManagerHeader from './AccountManagerHeader'
 import AccountManagerBody from './AccountManagerBody'
+import AccountManagerFooter from './AccountManagerFooter'
 
 class AccountManager extends Component {
   constructor(props) {
@@ -31,11 +32,12 @@ class AccountManager extends Component {
   }
 
   render() {
+    const { searchAccounts, addCustomToken } = this.props
     const { isActiveAll, accounts } = this.state
 
-    const head = <AccountManagerHead search={console.log} />
+    const accountManagerHeader = <AccountManagerHeader searchAccounts={searchAccounts} />
 
-    const body = (
+    const accountManagerBody = (
       <AccountManagerBody
         accounts={accounts}
         toggleAccount={this.toggleAccount}
@@ -43,12 +45,15 @@ class AccountManager extends Component {
       />
     )
 
+    const accountManagerFooter = <AccountManagerFooter addCustomToken={addCustomToken} />
+
     return (
       <JbModal
         closeModal={this.closeAccountManagerModal}
         name='account-manager'
-        head={head}
-        body={body}
+        header={accountManagerHeader}
+        body={accountManagerBody}
+        footer={accountManagerFooter}
         isOpen={this.state.isOpen}
       />
     )
@@ -63,13 +68,11 @@ class AccountManager extends Component {
       let newIsActiveAll = (index === -1) ? !isActiveAll : isActiveAll
 
       const newAccounts = accounts.map((account, i) => {
+        const isCurrentActive = (index === i) ? !account.isActive : account.isActive
+
         return {
           ...account,
-          isActive: (index === -1) // toggle all
-            ? newIsActiveAll
-            : (index === i) // toggle only the current
-              ? !account.isActive
-              : account.isActive,
+          isActive: (index === -1) ? newIsActiveAll : isCurrentActive,
         }
       })
 
@@ -77,13 +80,11 @@ class AccountManager extends Component {
       if (index !== -1) {
         newIsActiveAll = true
 
-        for (let account of newAccounts) {
+        newAccounts.forEach((account) => {
           if (!account.isActive) {
             newIsActiveAll = false
-
-            break
           }
-        }
+        })
       }
 
       return this.setState({ accounts: newAccounts, isActiveAll: newIsActiveAll })
@@ -92,7 +93,11 @@ class AccountManager extends Component {
 }
 
 AccountManager.propTypes = {
-  //className: PropTypes.string.isRequired,
+  searchAccounts: PropTypes.func.isRequired,
+  addCustomToken: PropTypes.func.isRequired,
+  accounts: PropTypes.array,
+  isActiveAll: PropTypes.bool,
+  isOpen: PropTypes.bool,
 }
 
 export default AccountManager

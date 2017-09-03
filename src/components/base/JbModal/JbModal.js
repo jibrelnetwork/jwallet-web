@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JbIcon from 'components/base/JbIcon'
 
-function JbModal({ closeModal, head, body, name, isOpen }) {
+function JbModal({ closeModal, header, body, footer, name, isOpen }) {
   if (!isOpen) {
     return null
   }
@@ -14,14 +14,13 @@ function JbModal({ closeModal, head, body, name, isOpen }) {
       <div className={`modal modal--${name}`}>
         <div className='modal__content'>
           <div className='modal__header'>
-            {head}
+            {header}
             <div className='modal__close' onClick={closeModal}>
               <JbIcon name='close' small />
             </div>
           </div>
-          <div className='modal__body'>
-            {body}
-          </div>
+          <div className='modal__body'>{body}</div>
+          <div className='modal__footer'>{footer}</div>
         </div>
       </div>
     </div>

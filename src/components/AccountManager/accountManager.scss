@@ -17,3 +17,19 @@
   color: $gray2;
   font-size: 11px;
 }
+
+.account-manager-footer {
+  position: relative;
+  height: 16px;
+  line-height: 16px;
+  padding-left: 20px;
+  color: $blue;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.account-manager-footer__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
