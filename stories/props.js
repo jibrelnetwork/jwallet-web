@@ -20,10 +20,10 @@ export default {
   loaderStyle: { width: '200px', height: '100px', position: 'relative', border: '3px solid #999' },
   keysManagerProps: {
     setActiveKey: index => { return () => alert(`Key ${index + 1} picked`) },
-    addNewKeys: () => { return alert('addNewKeys handler') },
-    importKeys: () => { return alert('importKeys handler') },
-    backupKeys: () => { return alert('backupKeys handler') },
-    clearKeys: () => { return alert('clearKeys handler') },
+    addNewKeys: () => alert('addNewKeys handler'),
+    importKeys: () => alert('importKeys handler'),
+    backupKeys: () => alert('backupKeys handler'),
+    clearKeys: () => alert('clearKeys handler'),
     keys: keys,
     active: 1,
   }

@@ -76,11 +76,11 @@ storiesOf('TransactionManager', module)
     return (
       <div style={{ margin: '40px 100px 40px 300px' }}>
         <TransactionManager
-          sendFunds={() => { return alert('sendFunds handler') }}
-          receiveFunds={() => { return alert('receiveFunds handler') }}
-          convertFunds={() => { return alert('convertFunds handler') }}
-          filter={() => { return alert('filter handler') }}
-          remove={() => { return alert('remove handler') }}
+          sendFunds={() => alert('sendFunds handler') }
+          receiveFunds={() => alert('receiveFunds handler') }
+          convertFunds={() => alert('convertFunds handler') }
+          filter={() => alert('filter handler') }
+          remove={() => alert('remove handler') }
         />
       </div>
     )
@@ -91,9 +91,9 @@ storiesOf('Header', module)
     return (
       <Header
         {...props.keysManagerProps}
-        sendFunds={() => { return alert('sendFunds handler') }}
-        receiveFunds={() => { return alert('receiveFunds handler') }}
-        convertFunds={() => { return alert('convertFunds handler') }}
+        sendFunds={() => alert('sendFunds handler')}
+        receiveFunds={() => alert('receiveFunds handler')}
+        convertFunds={() => alert('convertFunds handler')}
       />
     )
   })
@@ -101,6 +101,9 @@ storiesOf('Header', module)
 storiesOf('AccountManager', module)
   .add('AccountManager', () => {
     return (
-      <AccountManager />
+      <AccountManager
+        searchAccounts={() => alert('searchAccounts handler')}
+        addCustomToken={() => alert('addCustomToken handler')}
+      />
     )
   })

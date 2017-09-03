@@ -77,6 +77,11 @@
   }
 }
 
+.modal__footer {
+  position: relative;
+  padding: 0 30px 30px 30px;
+}
+
 .modal-is-opened {
   .container {
     filter: blur(3px);
