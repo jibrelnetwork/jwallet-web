@@ -10,7 +10,7 @@ let searchTimerId
 class JbSearch extends Component {
   constructor(props) {
     super(props)
-    this.state = { text: '' }
+    this.state = { query: props.query }
   }
 
   render() {
@@ -25,7 +25,7 @@ class JbSearch extends Component {
           placeholder={placeholder}
           title={placeholder}
           onChange={this._search}
-          value={this.state.text}
+          value={this.state.query}
         />
       </div>
     )
@@ -36,18 +36,19 @@ class JbSearch extends Component {
       clearTimeout(searchTimerId)
     }
 
-    const text = e.target.value
+    const query = e.target.value
 
-    this.setState({ text })
+    this.setState({ query })
 
     // to prevent searching by each entered symbol
-    searchTimerId = setTimeout(() => this.props.search(text), config.searchTimeout)
+    searchTimerId = setTimeout(() => this.props.search(query), config.searchTimeout)
   }
 }
 
 JbSearch.propTypes = {
   search: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
