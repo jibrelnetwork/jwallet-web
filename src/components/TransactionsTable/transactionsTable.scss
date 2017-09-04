@@ -1,0 +1,65 @@
+.transactions-table-header {
+  height: 84px;
+  padding: 30px;
+  line-height: 24px;
+}
+
+.transactions-table-header__filter {
+  position: relative;
+  margin-right: 30px;
+  padding-right: 30px;
+  font-weight: 600;
+
+  &:after {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    height: 30px;
+    width: 1px;
+    margin-top: -15px;
+    background-color: $black;
+    opacity: 0.1;
+    content: '';
+  }
+}
+
+.filter__clear-icon {
+  position: relative;
+  top: -1px;
+  margin-left: 4px;
+  opacity: 0.5;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.transaction-table-body {
+  position: relative;
+  padding: 0 30px 30px 30px;
+  min-height: unquote('calc(100vh - 276px)');
+  border-top: 1px solid $line;
+}
+
+.transaction-table-body--empty {
+  width: 200px;
+  height: 200px;
+  padding-top: 150px;
+  background-image: url('../public/img/no-data.svg');
+  background-size: 198px 129px;
+  background-position: center top;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -120px;
+
+  h3 {
+    font-size: 13px;
+    line-height: 20px;
+    text-align: center;
+    color: $gray2;
+  }
+}

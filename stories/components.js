@@ -7,6 +7,7 @@ import Transaction from '../src/components/Transaction'
 import TransactionManager from '../src/components/TransactionManager'
 import Header from '../src/components/Header'
 import YourAccounts from '../src/components/YourAccounts'
+import TransactionsTable from '../src/components/TransactionsTable'
 
 import props from './props'
 
@@ -105,5 +106,14 @@ storiesOf('YourAccounts', module)
         searchAccounts={() => alert('searchAccounts handler')}
         addCustomToken={() => alert('addCustomToken handler')}
       />
+    )
+  })
+
+storiesOf('TransactionsTable', module)
+  .add('TransactionsTable', () => {
+    return (
+      <div style={{width: '80%'}}>
+        <TransactionsTable transactions={props.transactions} />
+      </div>
     )
   })
