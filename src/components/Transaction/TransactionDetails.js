@@ -28,4 +28,8 @@ TransactionDetails.propTypes = {
   isActive: PropTypes.bool,
 }
 
+TransactionDetails.defaultProps = {
+  isActive: false,
+}
+
 export default TransactionDetails

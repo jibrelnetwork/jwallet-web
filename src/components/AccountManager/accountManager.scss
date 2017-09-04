@@ -5,6 +5,7 @@
   border-bottom: 1px solid $line;
   font-size: 13px;
   font-weight: 600;
+  color: $gray;
   cursor: pointer;
 
   &:last-child {
@@ -16,6 +17,12 @@
   text-transform: uppercase;
   color: $gray2;
   font-size: 11px;
+}
+
+.account-manager__field {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .account-manager-footer {

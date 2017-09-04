@@ -1,0 +1,41 @@
+.your-accounts {
+  width: 30%;
+  height: 100%;
+  padding-top: 30px;
+  background: linear-gradient(to top, $black, $gray);
+  border-radius: 5px 0 0 5px;
+  color: $white;
+}
+
+.your-accounts-header {
+  position: relative;
+  height: 24px;
+  line-height: 24px;
+  margin: 0 30px 30px 30px;
+}
+
+.your-accounts-header__title {
+  color: $white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.your-accounts-header__icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  opacity: 0.5;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.your-accounts-body {
+  min-height: unquote('calc(100vh - 246px)');
+}

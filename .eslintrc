@@ -64,6 +64,11 @@
         }
       }
     ],
+    "no-multiple-empty-lines": [
+      "error",
+      { "max": 1 }
+    ],
+    "react/require-default-props": "error",
     "max-len": ["error", 100],
     "newline-per-chained-call": "off",
     "no-console": "warn",
