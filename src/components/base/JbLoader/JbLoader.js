@@ -11,4 +11,8 @@ JbLoader.propTypes = {
   fixed: PropTypes.bool,
 }
 
+JbLoader.defaultProps = {
+  fixed: false,
+}
+
 export default JbLoader

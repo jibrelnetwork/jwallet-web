@@ -1,41 +1,52 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
+
 import JbCheckbox from 'components/base/JbCheckbox'
 
-function AccountManagerBody({ toggleAccount, accounts, isActiveAll }) {
+function AccountManagerBody({ toggleAccount, accounts }) {
+  const { items, isActiveAll } = accounts
+
   return (
     <div className='account-manager-body'>
       <div className='account-manager__table'>
         <div className='account-manager__item account-manager__item--title'>
           <div className='row clear'>
-            <div className='col-1-5'>
+            <div className='account-manager__field col-2'>
               <JbCheckbox toggle={toggleAccount(-1)} isActive={isActiveAll} label={'Symbol'} />
             </div>
-            <div className='col-1-5'>{'Name'}</div>
-            <div className='col-1-5'>{'Balance'}</div>
-            <div className='col-1-5'>{'Licenced'}</div>
-            <div className='col-1-5'>{'Transfer'}</div>
+            <div className='account-manager__field col-3'>{'Name'}</div>
+            <div className='account-manager__field col-2'>{'Balance'}</div>
+            <div className='account-manager__field col-2'>{'Licenced'}</div>
+            <div className='account-manager__field col-3'>{'Transfer'}</div>
           </div>
         </div>
         <div className='scroll'>
-          {accounts.map((account, index) => {
-            const { label, name, balance, licensed, transfer, isActive } = account
+          {items.map((account, index) => {
+            const { symbol, balance, isLicensed, isAuthRequired, isActive } = account
+            const tokenName = getTokenNameBySymbolName(symbol)
+            const licensed = isLicensed ? 'Yes' : 'No'
+            const transfer = isAuthRequired ? 'Not Authorized' : 'Authorized'
 
             return (
-              <div className='account-manager__item' key={index}>
+              <div
+                className='account-manager__item'
+                key={index}
+                onClick={toggleAccount(index)(!isActive)}
+              >
                 <div className='row clear'>
-                  <div className='col-1-5'>
+                  <div className='account-manager__field col-2'>
                     <JbCheckbox
                       toggle={toggleAccount(index)}
                       isActive={isActive}
-                      label={label}
+                      label={symbol}
                     />
                   </div>
-                  <div className='col-1-5'>{name}</div>
-                  <div className='col-1-5'>{balance}</div>
-                  <div className='col-1-5'>{licensed}</div>
-                  <div className='col-1-5'>{transfer}</div>
+                  <div className='account-manager__field col-3'>{tokenName}</div>
+                  <div className='account-manager__field col-2'>{balance}</div>
+                  <div className='account-manager__field col-2'>{licensed}</div>
+                  <div className='account-manager__field col-3'>{transfer}</div>
                 </div>
               </div>
             )
@@ -48,8 +59,17 @@ function AccountManagerBody({ toggleAccount, accounts, isActiveAll }) {
 
 AccountManagerBody.propTypes = {
   toggleAccount: PropTypes.func.isRequired,
-  accounts: PropTypes.array.isRequired,
-  isActiveAll: PropTypes.bool,
+  accounts: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      symbol: PropTypes.string.isRequired,
+      balance: PropTypes.string.isRequired,
+      isActive: PropTypes.bool.isRequired,
+      isAuthRequired: PropTypes.bool.isRequired,
+      isLicensed: PropTypes.bool.isRequired,
+    })).isRequired,
+    current: PropTypes.number.isRequired,
+    isActiveAll: PropTypes.bool.isRequired,
+  }).isRequired,
 }
 
 export default AccountManagerBody

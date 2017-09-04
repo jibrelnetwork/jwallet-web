@@ -6,7 +6,7 @@ import KeysManager from '../src/components/KeysManager'
 import Transaction from '../src/components/Transaction'
 import TransactionManager from '../src/components/TransactionManager'
 import Header from '../src/components/Header'
-import AccountManager from '../src/components/AccountManager'
+import YourAccounts from '../src/components/YourAccounts'
 
 import props from './props'
 
@@ -98,10 +98,10 @@ storiesOf('Header', module)
     )
   })
 
-storiesOf('AccountManager', module)
-  .add('AccountManager', () => {
+storiesOf('YourAccounts', module)
+  .add('YourAccounts', () => {
     return (
-      <AccountManager
+      <YourAccounts
         searchAccounts={() => alert('searchAccounts handler')}
         addCustomToken={() => alert('addCustomToken handler')}
       />

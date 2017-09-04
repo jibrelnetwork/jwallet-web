@@ -16,4 +16,8 @@ JbCheckbox.propTypes = {
   isActive: PropTypes.bool,
 }
 
+JbCheckbox.defaultProps = {
+  isActive: false,
+}
+
 export default JbCheckbox

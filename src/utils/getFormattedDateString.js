@@ -1,4 +1,4 @@
-export default function date(dateObj, format) {
+export default function getFormattedDateString(dateObj, format) {
   const _year = dateObj.getFullYear()
   const _month = dateObj.getMonth() + 1
   const _date = dateObj.getDate()

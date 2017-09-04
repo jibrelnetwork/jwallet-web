@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import date from 'utils/date'
+import getFormattedDateString from 'utils/getFormattedDateString'
 
 import JbIcon from 'components/base/JbIcon'
 
 function TransactionMain({ type, amount, symbol, timestamp, status, from, to, isActive }) {
-  const dateString = date(new Date(timestamp), 'hh:mm MM/DD/YYYY')
+  const dateString = getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY')
 
   return (
     <div className='row clear'>
@@ -43,6 +43,10 @@ TransactionMain.propTypes = {
   to: PropTypes.string.isRequired,
   timestamp: PropTypes.number.isRequired,
   isActive: PropTypes.bool,
+}
+
+TransactionMain.defaultProps = {
+  isActive: false,
 }
 
 export default TransactionMain
