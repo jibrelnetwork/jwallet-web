@@ -41,7 +41,7 @@ function AccountItem(props) {
 AccountItem.propTypes = {
   setCurrentAccount: PropTypes.func.isRequired,
   symbol: PropTypes.string.isRequired,
-  balance: PropTypes.string.isRequired,
+  balance: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
   isAuthRequired: PropTypes.bool.isRequired,
   isLicensed: PropTypes.bool.isRequired,

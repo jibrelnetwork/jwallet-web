@@ -46,7 +46,7 @@ YourAccountsHeader.propTypes = {
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
-      balance: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,

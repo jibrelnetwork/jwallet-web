@@ -1,25 +1,14 @@
 .transaction {
-  position: relative;
-  padding: 20px 0;
-  border-bottom: 1px solid $line;
-  font-weight: 600;
-  cursor: pointer;
-
   &:hover {
     .transaction__icon {
       opacity: 1;
     }
   }
-
-  .col-3 {
-    height: 16px;
-    line-height: 16px;
-  }
 }
 
 .transaction__type {
   position: absolute;
-  top: 0;
+  top: 17px;
   left: 10px; /* .row has negative margin 10px */
 }
 

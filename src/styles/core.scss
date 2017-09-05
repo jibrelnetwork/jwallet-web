@@ -1,8 +1,8 @@
 :global {
   @import 'base';
-  @import 'colors';
   @import 'adaptive';
   @import 'animations';
+  @import 'colors';
   @import 'grid';
 
   * {
@@ -57,6 +57,7 @@
     float: right;
   }
 
+  @import '../components/base/JbButton/jbButton';
   @import '../components/base/JbCheckbox/jbCheckbox';
   @import '../components/base/JbIcon/jbIcon';
   @import '../components/base/JbInput/JbInput';
@@ -65,9 +66,11 @@
   @import '../components/base/JbModal/jbModal';
   @import '../components/base/JbPopover/jbPopover';
   @import '../components/base/JbSelect/JbSelect';
+  @import '../components/base/JbTable/jbTable';
 
   @import '../components/AccountItem/accountItem';
   @import '../components/AccountManager/accountManager';
+  @import '../components/AccountsTable/accountsTable';
   @import '../components/Header/header';
   @import '../components/KeysManager/keysManager';
   @import '../components/Search/search';

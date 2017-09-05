@@ -1,0 +1,51 @@
+.button {
+  display: inline-block;
+  min-width: 340px;
+  height: 70px;
+  line-height: 70px;
+  padding: 0 20px;
+  border: 2px solid;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .3s ease;
+
+  &:hover {
+    background-color: $blue;
+    color: $white;
+    border-color: $blue;
+  }
+
+  &:active {
+    background: linear-gradient(to right, $blue, $blue2);
+    color: $white;
+    border-color: $blue;
+  }
+}
+
+.button--disabled {
+  &,
+  &:hover,
+  &:active {
+    background: $gray3;
+    color: $white;
+    border-color: $gray3;
+    cursor: not-allowed;
+  }
+}
+
+.button--white {
+  background-color: $white;
+  color: $blue;
+  border-color: $blue;
+}
+
+.button--blue {
+  background-color: $blue;
+  color: $white;
+  border-color: $blue;
+}

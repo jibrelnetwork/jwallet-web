@@ -7,14 +7,10 @@ import JbIcon from 'components/base/JbIcon'
 
 const notImplementedHandler = () => alert('Not implemented yet')
 
-function TransactionsTableHeader({ searchTransactions }) {
+function TransactionsTableHeader({ searchTransactions, searchQuery }) {
   return (
     <div className='transactions-table-header clear'>
-      <Search
-        search={searchTransactions}
-        placeholder={'Search transactions...'}
-        className='search--transactions pull-left'
-      />
+      <Search search={searchTransactions} name='transactions' query={searchQuery} />
       <div className='more pull-right'>
         <TransactionManager
           sendFunds={notImplementedHandler}

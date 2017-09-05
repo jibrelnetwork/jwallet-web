@@ -2,14 +2,16 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import AccountItem from '../src/components/AccountItem'
-import KeysManager from '../src/components/KeysManager'
-import Transaction from '../src/components/Transaction'
-import TransactionManager from '../src/components/TransactionManager'
-import Header from '../src/components/Header'
-import YourAccounts from '../src/components/YourAccounts'
-import Search from '../src/components/Search'
-import TransactionsTable from '../src/components/TransactionsTable'
+import {
+  AccountItem,
+  KeysManager,
+  Transaction,
+  TransactionManager,
+  Header,
+  YourAccounts,
+  Search,
+  TransactionsTable,
+} from '../src/components'
 
 import props from './props'
 
@@ -40,50 +42,10 @@ storiesOf('Transaction', module)
   .add('Transaction', () => {
     return (
       <div style={{ margin: '20px auto', width: '800px', background: '#fff' }}>
-        <Transaction
-          type={'receive'}
-          symbol={'ETH'}
-          status={'Pending'}
-          from={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          to={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          txHash={'0x7d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d'}
-          fee={'0.0005 ETH 1.5 JNT'}
-          amount={'0.200'}
-          timestamp={Date.now()}
-        />
-        <Transaction
-          type={'send'}
-          symbol={'ETH'}
-          status={'Accepted'}
-          from={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          to={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          txHash={'0x7d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d'}
-          fee={'0.0005 ETH 1.5 JNT'}
-          amount={'0.200'}
-          timestamp={Date.now()}
-        />
-        <Transaction
-          type={'receive'}
-          symbol={'ETH'}
-          status={'Rejected'}
-          from={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          to={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          txHash={'0x7d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d'}
-          fee={'0.0005 ETH 1.5 JNT'}
-          amount={'0.200'}
-          timestamp={Date.now()}
-        />
-        <Transaction
-          type={'send'}
-          symbol={'ETH'}
-          status={'Waiting'}
-          from={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          to={'0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'}
-          txHash={'0x7d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d'}
-          fee={'0.0005 ETH 1.5 JNT'}
-          amount={'0.200'}
-          timestamp={Date.now()}
-        />
+        <Transaction {...props.transactions[0]} />
+        <Transaction {...props.transactions[1]} />
+        <Transaction {...props.transactions[2]} />
+        <Transaction {...props.transactions[3]} />
       </div>
     )
   })
@@ -126,13 +88,10 @@ storiesOf('YourAccounts', module)
   })
 
 storiesOf('Search', module)
-  .add('common', () => {
+  .add('Search', () => {
     return (
       <div style={{ margin: '20px' }}>
-        <Search
-          placeholder='Search transactions...'
-          search={text => { return console.log(`Text ${text} was requested`) }}
-        />
+        <Search name='something' search={text => { return console.log(`${text} was requested`) }} />
       </div>
     )
   })
@@ -140,8 +99,8 @@ storiesOf('Search', module)
 storiesOf('TransactionsTable', module)
   .add('TransactionsTable', () => {
     return (
-      <div style={{width: '80%'}}>
-        <TransactionsTable transactions={props.transactions} />
+      <div style={{width: '80%', margin: '40px', background: '#fff'}}>
+        <TransactionsTable items={props.transactions} sortField='timestamp' />
       </div>
     )
   })

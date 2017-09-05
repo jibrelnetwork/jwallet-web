@@ -2,6 +2,7 @@ export base from './base'
 
 export AccountItem from './AccountItem'
 export AccountManager from './AccountManager'
+export AccountsTable from './AccountsTable'
 export Header from './Header'
 export KeysManager from './KeysManager'
 export Search from './Search'

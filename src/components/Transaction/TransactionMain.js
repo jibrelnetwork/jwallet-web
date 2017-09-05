@@ -16,7 +16,7 @@ function TransactionMain({ type, amount, symbol, timestamp, status, from, to, is
           className='transaction__type'
           small
         />
-        <span className='transaction__amount'>{`${amount} ${symbol}`}</span>
+        <span className='transaction__amount'>{`${amount.toFixed(3)} ${symbol}`}</span>
       </div>
       <div className='col-3'>{dateString}</div>
       <div className='col-3 transaction__address'>{(type === 'receive') ? from : to}</div>
@@ -36,11 +36,11 @@ function TransactionMain({ type, amount, symbol, timestamp, status, from, to, is
 
 TransactionMain.propTypes = {
   type: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
   timestamp: PropTypes.number.isRequired,
   isActive: PropTypes.bool,
 }
