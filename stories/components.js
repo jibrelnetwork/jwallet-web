@@ -2,14 +2,30 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
+import AccountItem from '../src/components/AccountItem'
 import KeysManager from '../src/components/KeysManager'
 import Transaction from '../src/components/Transaction'
 import TransactionManager from '../src/components/TransactionManager'
 import Header from '../src/components/Header'
 import YourAccounts from '../src/components/YourAccounts'
+import Search from '../src/components/Search'
 import TransactionsTable from '../src/components/TransactionsTable'
 
 import props from './props'
+
+storiesOf('AccountItem', module)
+  .add('common', () => {
+    return <div style={props.accountsStyle}><AccountItem {...props.accounts[0]} /></div>
+  })
+  .add('active', () => {
+    return <div style={props.accountsStyle}><AccountItem {...props.accounts[1]} /></div>
+  })
+  .add('authorization required', () => {
+    return <div style={props.accountsStyle}><AccountItem {...props.accounts[2]} /></div>
+  })
+  .add('authorization required and licensed', () => {
+    return <div style={props.accountsStyle}><AccountItem {...props.accounts[3]} /></div>
+  })
 
 storiesOf('KeysManager', module)
   .add('Keys Manager', () => {
@@ -106,6 +122,18 @@ storiesOf('YourAccounts', module)
         searchAccounts={() => alert('searchAccounts handler')}
         addCustomToken={() => alert('addCustomToken handler')}
       />
+    )
+  })
+
+storiesOf('Search', module)
+  .add('common', () => {
+    return (
+      <div style={{ margin: '20px' }}>
+        <Search
+          placeholder='Search transactions...'
+          search={text => { return console.log(`Text ${text} was requested`) }}
+        />
+      </div>
     )
   })
 

@@ -7,7 +7,7 @@ import JbIcon from 'components/base/JbIcon'
 
 let searchTimerId
 
-class JbSearch extends Component {
+class Search extends Component {
   constructor(props) {
     super(props)
     this.state = { query: props.query }
@@ -24,14 +24,14 @@ class JbSearch extends Component {
           type='text'
           placeholder={placeholder}
           title={placeholder}
-          onChange={this._search}
+          onChange={this.search}
           value={this.state.query}
         />
       </div>
     )
   }
 
-  _search = (e) => {
+  search = (e) => {
     if (searchTimerId) {
       clearTimeout(searchTimerId)
     }
@@ -45,15 +45,15 @@ class JbSearch extends Component {
   }
 }
 
-JbSearch.propTypes = {
+Search.propTypes = {
   search: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
   className: PropTypes.string,
 }
 
-JbSearch.defaultProps = {
+Search.defaultProps = {
   className: '',
 }
 
-export default JbSearch
+export default Search
