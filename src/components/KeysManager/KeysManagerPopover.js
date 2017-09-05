@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbPopover from 'components/base/JbPopover'
-import JbIcon from 'components/base/JbIcon'
+import { JbIcon, JbPopover } from 'components/base'
 
 function KeysManagerPopover(props) {
   const {

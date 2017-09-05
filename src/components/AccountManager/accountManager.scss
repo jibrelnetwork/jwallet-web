@@ -1,28 +1,5 @@
-.account-manager__item {
-  position: relative;
-  height: 50px;
-  line-height: 50px;
-  border-bottom: 1px solid $line;
-  font-size: 13px;
-  font-weight: 600;
-  color: $gray;
-  cursor: pointer;
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.account-manager__item--title {
-  text-transform: uppercase;
-  color: $gray2;
-  font-size: 11px;
-}
-
-.account-manager__field {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.account-manager-header {
+  height: 24px;
 }
 
 .account-manager-footer {

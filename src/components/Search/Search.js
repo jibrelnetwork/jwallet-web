@@ -14,10 +14,11 @@ class Search extends Component {
   }
 
   render() {
-    const { placeholder, className } = this.props
+    const { name } = this.props
+    const placeholder = `Search ${name}...`
 
     return (
-      <div className={`search ${className}`}>
+      <div className={`search search--${name} pull-left`}>
         <JbIcon name='search' className='search__icon' small />
         <input
           className='search__input'
@@ -47,13 +48,8 @@ class Search extends Component {
 
 Search.propTypes = {
   search: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
-  className: PropTypes.string,
-}
-
-Search.defaultProps = {
-  className: '',
 }
 
 export default Search

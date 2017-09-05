@@ -15,25 +15,25 @@ class YourAccounts extends Component {
         current: 0,
         items: [{
           symbol: 'ETH',
-          balance: '2.123',
+          balance: 2.123,
           isLicensed: false,
           isAuthRequired: false,
           isActive: true,
         }, {
           symbol: 'jUSD',
-          balance: '7.890',
+          balance: 7.890,
           isLicensed: false,
           isAuthRequired: false,
           isActive: true,
         }, {
           symbol: 'jEUR',
-          balance: '8.657',
+          balance: 8.657,
           isLicensed: false,
           isAuthRequired: false,
           isActive: false,
         }, {
           symbol: 'JNT',
-          balance: '9.999',
+          balance: 9.999,
           isLicensed: true,
           isAuthRequired: true,
           isActive: true,
@@ -74,7 +74,7 @@ class YourAccounts extends Component {
   }
 
   toggleAccount = (index) => {
-    return (/* new checkbox state here */) => (/* event here */) => {
+    return (/* new checkbox state here */) => (e) => {
       const { accounts } = this.state
       const { items, current, isActiveAll } = accounts
 
@@ -100,9 +100,15 @@ class YourAccounts extends Component {
         })
       }
 
-      return this.setState({
+      this.setState({
         accounts: { current, items: newItems, isActiveAll: newIsActiveAll },
       })
+
+      /**
+       * clicking on checkbox call this function twice,
+       * because account row has the same onClick handler too
+       */
+      e.stopPropagation()
     }
   }
 }
@@ -114,7 +120,7 @@ YourAccounts.propTypes = {
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
-      balance: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,

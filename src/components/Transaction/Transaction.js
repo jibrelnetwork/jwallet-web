@@ -15,7 +15,7 @@ class Transaction extends Component {
     const { isActive } = this.state
 
     return (
-      <div className='transaction' onClick={this.toggle}>
+      <div className='transaction table__item' onClick={this.toggle}>
         <TransactionMain
           type={type}
           amount={amount}
@@ -42,13 +42,13 @@ class Transaction extends Component {
 
 Transaction.propTypes = {
   type: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
   txHash: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
   timestamp: PropTypes.number.isRequired,
 }
 

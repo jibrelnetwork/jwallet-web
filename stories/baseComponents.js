@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import {
+  JbButton,
   JbCheckbox,
   JbIcon,
   JbInput,
@@ -12,6 +13,29 @@ import {
 } from '../src/components/base'
 
 import props from './props'
+
+storiesOf('JbButton', module)
+  .add('white', () => {
+    return (
+      <div style={{padding: '20px'}}>
+        <JbButton white label={'White Button'} onClick={() => alert('Button click')} />
+      </div>
+    )
+  })
+  .add('blue', () => {
+    return (
+      <div style={{padding: '20px'}}>
+        <JbButton blue label={'Blue Button'} onClick={() => alert('Button click')} />
+      </div>
+    )
+  })
+  .add('disabled', () => {
+    return (
+      <div style={{padding: '20px'}}>
+        <JbButton disabled label={'Disabled Button'} onClick={() => alert('Button click')} />
+      </div>
+    )
+  })
 
 storiesOf('JbCheckbox', module)
   .add('common', () => {

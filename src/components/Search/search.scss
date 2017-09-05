@@ -1,6 +1,6 @@
 .search {
   position: relative;
-  width: 50%;
+  width: 100%;
   padding-left: 30px;
 }
 
@@ -30,7 +30,10 @@
   }
 }
 
-.search--account-manager {
-  width: 100%;
+.search--transactions {
+  width: 50%;
+}
+
+.search--accounts {
   padding-right: 30px;
 }

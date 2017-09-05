@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbDropdown from 'components/base/JbDropdown'
-import JbIcon from 'components/base/JbIcon'
+import { JbDropdown, JbIcon } from 'components/base'
 
 import TransactionManagerPopover from './TransactionManagerPopover'
 

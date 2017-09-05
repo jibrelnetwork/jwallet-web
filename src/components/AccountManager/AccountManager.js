@@ -10,31 +10,23 @@ import AccountManagerFooter from './AccountManagerFooter'
 function AccountManager(props) {
   const {
     toggleAccount,
-    searchAccounts,
     addCustomToken,
     closeAccountManager,
     accounts,
     isOpen,
   } = props
 
-  const accountManagerHeader = <AccountManagerHeader searchAccounts={searchAccounts} />
-
-  const accountManagerBody = (
-    <AccountManagerBody
-      accounts={accounts}
-      toggleAccount={toggleAccount}
-    />
-  )
-
-  const accountManagerFooter = <AccountManagerFooter addCustomToken={addCustomToken} />
+  const accManagerHeader = <AccountManagerHeader />
+  const accManagerBody = <AccountManagerBody accounts={accounts} toggleAccount={toggleAccount} />
+  const accManagerFooter = <AccountManagerFooter addCustomToken={addCustomToken} />
 
   return (
     <JbModal
       closeModal={closeAccountManager}
       name='account-manager'
-      header={accountManagerHeader}
-      body={accountManagerBody}
-      footer={accountManagerFooter}
+      header={accManagerHeader}
+      body={accManagerBody}
+      footer={accManagerFooter}
       isOpen={isOpen}
     />
   )
@@ -43,12 +35,11 @@ function AccountManager(props) {
 AccountManager.propTypes = {
   closeAccountManager: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
-  searchAccounts: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
-      balance: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,

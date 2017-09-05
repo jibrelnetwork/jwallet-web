@@ -102,6 +102,11 @@
   background-image: $iconSmallArrow;
 }
 
+.icon--small-arrow-up {
+  background-image: $iconSmallArrow;
+  transform: rotate(-180deg);
+}
+
 .icon--small-send {
   background-image: $iconSmallSend;
 }

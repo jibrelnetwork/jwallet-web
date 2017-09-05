@@ -1,6 +1,6 @@
 export default function searchItems(items, searchQuery) {
   if (!(searchQuery && searchQuery.length)) {
-    return { items, searchQuery }
+    return items
   }
 
   const foundItems = []
@@ -21,5 +21,5 @@ export default function searchItems(items, searchQuery) {
     }
   })
 
-  return { searchQuery, items: foundItems }
+  return foundItems
 }
