@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import TransactionManager from 'components/TransactionManager'
+import { Search, TransactionManager } from 'components'
 
-import JbSearch from 'components/base/JbSearch'
 import JbIcon from 'components/base/JbIcon'
 
 const notImplementedHandler = () => alert('Not implemented yet')
@@ -11,7 +10,7 @@ const notImplementedHandler = () => alert('Not implemented yet')
 function TransactionsTableHeader({ searchTransactions }) {
   return (
     <div className='transactions-table-header clear'>
-      <JbSearch
+      <Search
         search={searchTransactions}
         placeholder={'Search transactions...'}
         className='search--transactions pull-left'

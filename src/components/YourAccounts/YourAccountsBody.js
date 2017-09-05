@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbAccountItem from 'components/base/JbAccountItem'
+import AccountItem from 'components/AccountItem'
 
 function YourAccountsBody({ setCurrentAccount, accounts }) {
   const { items, current } = accounts
@@ -12,7 +12,7 @@ function YourAccountsBody({ setCurrentAccount, accounts }) {
         const isCurrent = (i === current)
 
         return (
-          <JbAccountItem
+          <AccountItem
             key={i}
             isCurrent={isCurrent}
             setCurrentAccount={setCurrentAccount(i)}

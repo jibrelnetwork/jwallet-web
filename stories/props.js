@@ -68,4 +68,33 @@ export default {
     amount: '0.200',
     timestamp: Date.now(),
   }],
+  accounts: [{
+    symbol: 'ETH',
+    balance: '2.123',
+    isLicensed: false,
+    isAuthRequired: false,
+    isActive: true,
+    isCurrent: false,
+  }, {
+    symbol: 'jUSD',
+    balance: '7.890',
+    isLicensed: false,
+    isAuthRequired: false,
+    isActive: true,
+    isCurrent: true,
+  }, {
+    symbol: 'jEUR',
+    balance: '8.657',
+    isLicensed: false,
+    isAuthRequired: true,
+    isActive: true,
+    isCurrent: false,
+  }, {
+    symbol: 'JNT',
+    balance: '9.999',
+    isLicensed: true,
+    isAuthRequired: true,
+    isActive: true,
+    isCurrent: false,
+  }],
 }

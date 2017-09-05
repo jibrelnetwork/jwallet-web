@@ -5,7 +5,7 @@ import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
 
 import JbIcon from 'components/base/JbIcon'
 
-function JbAccountItem(props) {
+function AccountItem(props) {
   const { symbol, balance, isActive, isAuthRequired, isLicensed, isCurrent } = props
   const setCurrentAccount = isAuthRequired ? () => {} : props.setCurrentAccount
 
@@ -38,7 +38,7 @@ function JbAccountItem(props) {
   )
 }
 
-JbAccountItem.propTypes = {
+AccountItem.propTypes = {
   setCurrentAccount: PropTypes.func.isRequired,
   symbol: PropTypes.string.isRequired,
   balance: PropTypes.string.isRequired,
@@ -48,4 +48,4 @@ JbAccountItem.propTypes = {
   isCurrent: PropTypes.bool.isRequired,
 }
 
-export default JbAccountItem
+export default AccountItem

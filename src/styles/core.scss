@@ -57,7 +57,6 @@
     float: right;
   }
 
-  @import '../components/base/JbAccountItem/jbAccountItem';
   @import '../components/base/JbCheckbox/jbCheckbox';
   @import '../components/base/JbIcon/jbIcon';
   @import '../components/base/JbInput/JbInput';
@@ -65,12 +64,13 @@
   @import '../components/base/JbLogo/jbLogo';
   @import '../components/base/JbModal/jbModal';
   @import '../components/base/JbPopover/jbPopover';
-  @import '../components/base/JbSearch/jbSearch';
   @import '../components/base/JbSelect/JbSelect';
 
+  @import '../components/AccountItem/accountItem';
   @import '../components/AccountManager/accountManager';
   @import '../components/Header/header';
   @import '../components/KeysManager/keysManager';
+  @import '../components/Search/search';
   @import '../components/Transaction/transaction';
   @import '../components/TransactionManager/transactionManager';
   @import '../components/TransactionsTable/transactionsTable';

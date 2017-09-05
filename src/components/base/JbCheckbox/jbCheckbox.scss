@@ -1,5 +1,6 @@
 .checkbox {
   position: relative;
+  cursor: default;
 }
 
 .checkbox__icon {
@@ -32,5 +33,6 @@
   position: relative;
   top: 0;
   left: 0;
+  line-height: 50px;
   padding-left: 30px;
 }
