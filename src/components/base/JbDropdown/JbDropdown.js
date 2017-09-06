@@ -36,8 +36,8 @@ class JbDropdown extends Component {
 }
 
 JbDropdown.propTypes = {
-  children: PropTypes.element.isRequired,
   title: PropTypes.node.isRequired,
+  children: PropTypes.element.isRequired,
   parentClassName: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
 }
