@@ -14,10 +14,10 @@ function KeysManager(props) {
     backupKeys,
     clearKeys,
     keys,
-    active,
   } = props
 
-  const { privateKey, balance, code } = keys[active]
+  const { items, active } = keys
+  const { privateKey, balance, code } = items[active]
   const title = <KeysManagerTitle privateKey={privateKey} balance={balance} code={code} />
 
   return (
@@ -33,7 +33,6 @@ function KeysManager(props) {
         backupKeys={backupKeys}
         clearKeys={clearKeys}
         keys={keys}
-        active={active}
       />
     </JbDropdown>
   )
@@ -45,8 +44,10 @@ KeysManager.propTypes = {
   importKeys: PropTypes.func.isRequired,
   backupKeys: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
-  keys: PropTypes.array.isRequired,
-  active: PropTypes.number.isRequired,
+  keys: PropTypes.shape({
+    items: PropTypes.array.isRequired,
+    active: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default KeysManager

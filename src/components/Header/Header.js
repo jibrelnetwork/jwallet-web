@@ -18,7 +18,6 @@ function Header(props) {
     backupKeys,
     clearKeys,
     keys,
-    active,
   } = props
 
   return (
@@ -36,7 +35,6 @@ function Header(props) {
         backupKeys={backupKeys}
         clearKeys={clearKeys}
         keys={keys}
-        active={active}
       />
     </div>
   )
@@ -51,8 +49,10 @@ Header.propTypes = {
   importKeys: PropTypes.func.isRequired,
   backupKeys: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
-  keys: PropTypes.array.isRequired,
-  active: PropTypes.number.isRequired,
+  keys: PropTypes.shape({
+    items: PropTypes.array.isRequired,
+    active: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default Header

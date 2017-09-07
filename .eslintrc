@@ -9,6 +9,10 @@
     "es6": true,
     "browser": true
   },
+  "globals": {
+    "__DEV__": false,
+    "__PROD__": false
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
@@ -80,6 +84,7 @@
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "global-require": "off"
   }
 }
