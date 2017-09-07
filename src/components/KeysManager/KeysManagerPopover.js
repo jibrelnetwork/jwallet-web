@@ -12,13 +12,14 @@ function KeysManagerPopover(props) {
     backupKeys,
     clearKeys,
     keys,
-    active,
   } = props
+
+  const { items, active } = keys
 
   const body = (
     <div className='keys-manager__popover'>
       <div className='keys-manager__keys'>
-        {keys.map((key, i) => {
+        {items.map((key, i) => {
           const { privateKey, balance, code } = key
 
           return (
@@ -64,8 +65,10 @@ KeysManagerPopover.propTypes = {
   importKeys: PropTypes.func.isRequired,
   backupKeys: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
-  keys: PropTypes.array.isRequired,
-  active: PropTypes.number.isRequired,
+  keys: PropTypes.shape({
+    items: PropTypes.array.isRequired,
+    active: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 export default KeysManagerPopover

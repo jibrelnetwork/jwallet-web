@@ -1,6 +1,10 @@
 {
-  "main.css": "static/css/main.6f94ccf7.css",
-  "main.css.map": "static/css/main.6f94ccf7.css.map",
-  "main.js": "static/js/main.2e00e1bd.js",
-  "main.js.map": "static/js/main.2e00e1bd.js.map"
+  "auth.js": "static/js/auth.1417907c.chunk.js",
+  "auth.js.map": "static/js/auth.1417907c.chunk.js.map",
+  "jwallet.js": "static/js/jwallet.122284dc.chunk.js",
+  "jwallet.js.map": "static/js/jwallet.122284dc.chunk.js.map",
+  "main.css": "static/css/main.c5bf8046.css",
+  "main.css.map": "static/css/main.c5bf8046.css.map",
+  "main.js": "static/js/main.68c48bee.js",
+  "main.js.map": "static/js/main.68c48bee.js.map"
 }

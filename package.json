@@ -13,15 +13,20 @@
   "dependencies": {
     "dotenv": "4.0.0",
     "express": "4.15.4",
+    "history": "3.3.0",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
     "prop-types": "15.5.10",
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "react-native-storage": "0.2.2",
-    "react-router": "4.1.2",
+    "react-redux": "5.0.6",
+    "react-router": "3.0.5",
     "react-router-dom": "4.1.2",
+    "react-router-redux": "4.0.8",
     "react-toolbox": "2.0.0-beta.12",
+    "redux": "3.7.2",
+    "redux-saga": "0.15.6",
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
@@ -31,6 +36,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.1",
+    "babel-plugin-transform-export-extensions": "6.22.0",
     "babel-preset-react-app": "3.0.2",
     "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -54,6 +60,8 @@
     "postcss-loader": "2.0.6",
     "react-dev-utils": "3.1.0",
     "react-error-overlay": "1.0.10",
+    "redbox-react": "1.5.0",
+    "redux-logger": "3.0.6",
     "sass-loader": "6.0.6",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -94,13 +102,5 @@
       "jsx",
       "node"
     ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }

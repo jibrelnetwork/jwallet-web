@@ -24,8 +24,10 @@ export default {
     importKeys: () => alert('importKeys handler'),
     backupKeys: () => alert('backupKeys handler'),
     clearKeys: () => alert('clearKeys handler'),
-    keys: keys,
-    active: 1,
+    keys: {
+      items: keys,
+      active: 1,
+    },
   },
   transactions: [{
     type: 'receive',
