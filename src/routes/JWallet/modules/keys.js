@@ -1,9 +1,10 @@
-const GET_KEYS_FROM_CACHE = 'GET_KEYS_FROM_CACHE'
-const SET_ACTIVE_KEY = 'SET_ACTIVE_KEY'
-const ADD_NEW_KEYS = 'ADD_NEW_KEYS'
-const IMPORT_KEYS = 'IMPORT_KEYS'
-const BACKUP_KEYS = 'BACKUP_KEYS'
-const CLEAR_KEYS = 'CLEAR_KEYS'
+export const GET_KEYS_FROM_CACHE = 'GET_KEYS_FROM_CACHE'
+export const SET_KEYS_FROM_CACHE = 'SET_KEYS_FROM_CACHE'
+export const SET_ACTIVE_KEY = 'SET_ACTIVE_KEY'
+export const ADD_NEW_KEYS = 'ADD_NEW_KEYS'
+export const IMPORT_KEYS = 'IMPORT_KEYS'
+export const BACKUP_KEYS = 'BACKUP_KEYS'
+export const CLEAR_KEYS = 'CLEAR_KEYS'
 
 export function getKeysFromCache() {
   return {
@@ -11,9 +12,10 @@ export function getKeysFromCache() {
   }
 }
 
-export function setActiveKey() {
+export function setActiveKey(index) {
   return {
     type: SET_ACTIVE_KEY,
+    index,
   }
 }
 
@@ -44,12 +46,22 @@ export function clearKeys() {
 const ACTION_HANDLERS = {
   [GET_KEYS_FROM_CACHE]: state => ({
     ...state,
+    items: [],
+    currentActiveIndex: 0,
+    isLoading: true,
   }),
-  [SET_ACTIVE_KEY]: state => ({
+  [SET_KEYS_FROM_CACHE]: (state, action) => ({
     ...state,
+    isLoading: false,
+    items: action.items,
   }),
-  [ADD_NEW_KEYS]: state => ({
+  [SET_ACTIVE_KEY]: (state, action) => ({
     ...state,
+    currentActiveIndex: action.index,
+  }),
+  [ADD_NEW_KEYS]: (state, items) => ({
+    ...state,
+    items: [...state.items, ...items],
   }),
   [IMPORT_KEYS]: state => ({
     ...state,
@@ -59,19 +71,15 @@ const ACTION_HANDLERS = {
   }),
   [CLEAR_KEYS]: state => ({
     ...state,
+    items: [],
+    currentActiveIndex: 0,
   }),
 }
 
 const initialState = {
-  items: [
-    { privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
-    { privateKey: '0x22E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
-    { privateKey: '0x32E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
-    { privateKey: '0x42E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
-    { privateKey: '0x52E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
-    { privateKey: '0x62E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: '12.990', code: 'ETH' },
-  ],
-  active: 1,
+  items: [],
+  currentActiveIndex: 0,
+  isLoading: true,
 }
 
 export default function keys(state = initialState, action) {

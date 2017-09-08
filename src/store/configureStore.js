@@ -40,7 +40,7 @@ export default (initialState = {}, history) => {
   // ======================================================
   // Inject sagas
   // ======================================================
-  sagas.map(sagaMiddleware.run)
+  Object.keys(sagas).map(sagaName => sagaMiddleware.run(sagas[sagaName]))
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

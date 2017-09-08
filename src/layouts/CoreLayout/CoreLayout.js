@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Header from 'components/Header'
+import { JbFooter, JbLoader } from 'components/base'
+
+import AuthHeader from 'components/AuthHeader'
+import JWalletHeader from 'components/JWalletHeader'
 
 import 'styles/core.scss'
 
@@ -9,27 +12,83 @@ class CoreLayout extends Component {
   componentWillMount() {
     const { getKeysFromCache, keys } = this.props
 
-    if (!(keys && keys.items && keys.items.length)) {
+    if (!(keys.items && keys.items.length)) {
       getKeysFromCache()
     }
   }
 
   render() {
-    const { children, ...otherProps } = this.props
+    const { keys, children } = this.props
 
-    console.log(otherProps)
+    if (keys.isLoading || !children) {
+      return <JbLoader fixed />
+    }
 
     return (
-      <div className='main-content'>
-        <Header {...otherProps} />
-        <div className='content'>{children}</div>
+      <div className='container'>
+        {this.renderHeader()}
+        {this.renderContent()}
+        {this.renderFooter()}
       </div>
+    )
+  }
+
+  renderHeader() {
+    const keys = this.props.keys.items
+    const isAuthRequired = !(keys && keys.length)
+
+    if (isAuthRequired) {
+      return this.renderAuthHeader()
+    }
+
+    return this.renderJWalletHeader()
+  }
+
+  renderContent() {
+    return <div className='content'>{this.props.children}</div>
+  }
+
+  /* eslint-disable class-methods-use-this */
+  renderFooter() {
+    return <JbFooter />
+  }
+
+  renderAuthHeader() {
+    return <AuthHeader />
+  }
+
+  renderJWalletHeader() {
+    const {
+      getKeysFromCache,
+      setActiveKey,
+      addNewKeys,
+      importKeys,
+      backupKeys,
+      clearKeys,
+      sendFunds,
+      receiveFunds,
+      convertFunds,
+      keys,
+    } = this.props
+
+    return (
+      <JWalletHeader
+        getKeysFromCache={getKeysFromCache}
+        setActiveKey={setActiveKey}
+        addNewKeys={addNewKeys}
+        importKeys={importKeys}
+        backupKeys={backupKeys}
+        clearKeys={clearKeys}
+        sendFunds={sendFunds}
+        receiveFunds={receiveFunds}
+        convertFunds={convertFunds}
+        keys={keys}
+      />
     )
   }
 }
 
 CoreLayout.propTypes = {
-  children: PropTypes.element.isRequired,
   getKeysFromCache: PropTypes.func.isRequired,
   setActiveKey: PropTypes.func.isRequired,
   addNewKeys: PropTypes.func.isRequired,
@@ -41,8 +100,13 @@ CoreLayout.propTypes = {
   convertFunds: PropTypes.func.isRequired,
   keys: PropTypes.shape({
     items: PropTypes.array.isRequired,
-    active: PropTypes.number.isRequired,
+    currentActiveIndex: PropTypes.number.isRequired,
   }).isRequired,
+  children: PropTypes.element,
+}
+
+CoreLayout.defaultProps = {
+  children: null,
 }
 
 export default CoreLayout

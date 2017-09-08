@@ -1,33 +1,41 @@
-.modal {
+.modal-wrap {
   z-index: 2000;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  text-align: center;
   backface-visibility: hidden;
   overflow-scrolling: touch;
 }
 
 .modal__overlay {
   z-index: 2000;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(43, 46, 56, 0.9);
+  cursor: pointer;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  max-width: 420px;
 }
 
 .modal__content {
   z-index: 2001;
   position: relative;
   display: inline-block;
-  max-width: 420px;
   width: 100%;
-  margin: 40px 0;
+  margin: 20px 0;
   background-color: $white;
   border-radius: 5px 5px 10px 10px;
   box-shadow: $shadow2;
@@ -67,8 +75,10 @@
 }
 
 .modal--account-manager {
+  min-width: 680px;
+  max-height: 450px;
+
   .modal__content {
-    min-width: 680px;
     border-radius: 5px;
   }
 

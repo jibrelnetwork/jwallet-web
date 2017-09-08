@@ -1,9 +1,12 @@
 .your-accounts {
+  position: relative;
+  display: table-cell;
   width: 30%;
   height: 100%;
   padding-top: 30px;
   background: linear-gradient(to top, $black, $gray);
   border-radius: 5px 0 0 5px;
+  vertical-align: top;
   color: $white;
 }
 

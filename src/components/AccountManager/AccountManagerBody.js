@@ -3,12 +3,15 @@ import PropTypes from 'prop-types'
 
 import AccountsTable from 'components/AccountsTable'
 
-function AccountManagerBody({ toggleAccount, accounts }) {
+function AccountManagerBody({ setAccounts, toggleAccount, accounts }) {
   const { items, isActiveAll } = accounts
+
+  console.log('AccountManagerBody',items[1].symbol)
 
   return (
     <div className='account-manager-body'>
       <AccountsTable
+        syncItems={setAccounts}
         toggleAccount={toggleAccount}
         items={items}
         sortField='symbol'
@@ -19,6 +22,7 @@ function AccountManagerBody({ toggleAccount, accounts }) {
 }
 
 AccountManagerBody.propTypes = {
+  setAccounts: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -28,7 +32,6 @@ AccountManagerBody.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
-    current: PropTypes.number.isRequired,
     isActiveAll: PropTypes.bool.isRequired,
   }).isRequired,
 }

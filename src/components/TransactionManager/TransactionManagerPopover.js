@@ -20,12 +20,16 @@ function TransactionManagerPopover(props) {
 }
 
 TransactionManagerPopover.propTypes = {
-  onClickOutside: PropTypes.func.isRequired,
   sendFunds: PropTypes.func.isRequired,
   receiveFunds: PropTypes.func.isRequired,
   convertFunds: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
+  onClickOutside: PropTypes.func,
+}
+
+TransactionManagerPopover.defaultProps = {
+  onClickOutside: () => {},
 }
 
 export default TransactionManagerPopover

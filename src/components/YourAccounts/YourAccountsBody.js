@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import AccountItem from 'components/AccountItem'
 
 function YourAccountsBody({ setCurrentAccount, accounts }) {
-  const { items, current } = accounts
+  const { items, currentActiveIndex } = accounts
 
   return (
     <div className='your-accounts-body'>
       {items.map((accountProps, i) => {
-        const isCurrent = (i === current)
+        const isCurrent = (i === currentActiveIndex)
 
         return (
           <AccountItem
@@ -34,8 +34,8 @@ YourAccountsBody.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
-    current: PropTypes.number.isRequired,
-    isActiveAll: PropTypes.bool.isRequired,
+    currentActiveIndex: PropTypes.number.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }).isRequired,
 }
 

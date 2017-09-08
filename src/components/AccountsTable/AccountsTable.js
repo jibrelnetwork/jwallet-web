@@ -11,6 +11,8 @@ class AccountsTable extends JbTable {
     const { items, sortField, sortDirection, searchQuery } = this.state
     const { toggleAccount, isActiveAll } = this.props
 
+    console.log('AccountsTable',items[1].symbol)
+
     return (
       <div className='accounts-table'>
         <AccountsTableHeader
@@ -32,6 +34,7 @@ class AccountsTable extends JbTable {
 
 AccountsTable.propTypes = {
   toggleAccount: PropTypes.func.isRequired,
+  syncItems: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
     symbol: PropTypes.string.isRequired,
     balance: PropTypes.number.isRequired,

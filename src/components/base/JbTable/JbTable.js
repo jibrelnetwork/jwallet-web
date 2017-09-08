@@ -7,9 +7,9 @@ class JbTable extends Component {
   constructor(props) {
     super(props)
 
-    const { items, searchQuery, sortField, sortDirection } = props
+    const { syncItems, items, searchQuery, sortField, sortDirection } = props
 
-    this.state = { searchQuery, sortField, sortDirection, items }
+    this.state = { syncItems, searchQuery, sortField, sortDirection, items }
   }
 
   componentWillMount() {
@@ -27,8 +27,9 @@ class JbTable extends Component {
   }
 
   searchItems = (searchQuery) => {
+    const { sortField } = this.state
     const foundItems = this.getFoundItems(this.props.items, searchQuery)
-    const result = this.getSortedItems(foundItems, this.state.sortField, true)
+    const result = this.getSortedItems(foundItems, sortField, true)
 
     this.setState({
       searchQuery,
@@ -36,6 +37,8 @@ class JbTable extends Component {
       sortField: result.sortField,
       sortDirection: result.sortDirection,
     })
+
+    // syncItems(result.items)
   }
 
   sortItems = (field) => {
@@ -48,6 +51,8 @@ class JbTable extends Component {
         sortField: result.sortField,
         sortDirection: result.sortDirection,
       })
+
+      // this.state.syncItems(foundItems)
     }
   }
 
@@ -75,6 +80,11 @@ JbTable.propTypes = {
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
   searchQuery: PropTypes.string.isRequired,
+  syncItems: PropTypes.func,
+}
+
+JbTable.defaultProps = {
+  syncItems: () => {},
 }
 
 export default JbTable

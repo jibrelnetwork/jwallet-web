@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbLogo from 'components/base/JbLogo'
+import JbHeader from 'components/base/JbHeader'
 
 import KeysManager from 'components/KeysManager'
 
 import HeaderMenu from './HeaderMenu'
 
-function Header(props) {
+function JWalletHeader(props) {
   const {
     sendFunds,
     receiveFunds,
@@ -21,26 +21,27 @@ function Header(props) {
   } = props
 
   return (
-    <div className='header clear'>
-      <JbLogo className='header__logo pull-left' />
-      <HeaderMenu
-        sendFunds={sendFunds}
-        receiveFunds={receiveFunds}
-        convertFunds={convertFunds}
-      />
-      <KeysManager
-        setActiveKey={setActiveKey}
-        addNewKeys={addNewKeys}
-        importKeys={importKeys}
-        backupKeys={backupKeys}
-        clearKeys={clearKeys}
-        keys={keys}
-      />
-    </div>
+    <JbHeader>
+      <div className='clear'>
+        <HeaderMenu
+          sendFunds={sendFunds}
+          receiveFunds={receiveFunds}
+          convertFunds={convertFunds}
+        />
+        <KeysManager
+          setActiveKey={setActiveKey}
+          addNewKeys={addNewKeys}
+          importKeys={importKeys}
+          backupKeys={backupKeys}
+          clearKeys={clearKeys}
+          keys={keys}
+        />
+      </div>
+    </JbHeader>
   )
 }
 
-Header.propTypes = {
+JWalletHeader.propTypes = {
   sendFunds: PropTypes.func.isRequired,
   receiveFunds: PropTypes.func.isRequired,
   convertFunds: PropTypes.func.isRequired,
@@ -51,8 +52,8 @@ Header.propTypes = {
   clearKeys: PropTypes.func.isRequired,
   keys: PropTypes.shape({
     items: PropTypes.array.isRequired,
-    active: PropTypes.number.isRequired,
+    currentActiveIndex: PropTypes.number.isRequired,
   }).isRequired,
 }
 
-export default Header
+export default JWalletHeader

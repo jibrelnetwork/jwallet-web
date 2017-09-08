@@ -1,9 +1,9 @@
 .button {
   display: inline-block;
-  min-width: 340px;
-  height: 70px;
-  line-height: 70px;
-  padding: 0 20px;
+  min-width: 150px;
+  margin-right: 20px;
+  margin-left: 0;
+  padding: 15px 20px;
   border: 2px solid;
   border-radius: 5px;
   text-align: center;
@@ -14,16 +14,14 @@
   cursor: pointer;
   transition: all .3s ease;
 
-  &:hover {
-    background-color: $blue;
-    color: $white;
-    border-color: $blue;
-  }
-
   &:active {
     background: linear-gradient(to right, $blue, $blue2);
     color: $white;
     border-color: $blue;
+  }
+
+  &:last-child {
+    margin-right: 0;
   }
 }
 
@@ -42,10 +40,25 @@
   background-color: $white;
   color: $blue;
   border-color: $blue;
+
+  &:hover {
+    background-color: $blue;
+    color: $white;
+    border-color: $blue;
+  }
 }
 
 .button--blue {
   background-color: $blue;
   color: $white;
   border-color: $blue;
+
+  &:hover {
+    background-color: $white;
+    color: $blue;
+  }
+
+  &:active {
+    color: $white;
+  }
 }
