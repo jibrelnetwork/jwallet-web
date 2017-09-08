@@ -8,7 +8,7 @@ class JbDropdown extends Component {
   }
 
   render() {
-    const { children, title, parentClassName, className } = this.props
+    const { title, parentClassName, className } = this.props
 
     return (
       <div className={parentClassName} onClick={this.showDropdown}>
@@ -30,9 +30,9 @@ class JbDropdown extends Component {
     return React.cloneElement(props.children, { onClickOutside: hideDropdown })
   }
 
-  showDropdown = () => this.setState({ isOpen: true })
+  showDropdown = () => { return this.setState({ isOpen: true }) }
 
-  hideDropdown = () => this.setState({ isOpen: false })
+  hideDropdown = () => { return this.setState({ isOpen: false }) }
 }
 
 JbDropdown.propTypes = {
