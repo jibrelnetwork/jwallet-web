@@ -14,7 +14,7 @@ function KeysManagerPopover(props) {
     keys,
   } = props
 
-  const { items, active } = keys
+  const { items, currentActiveIndex } = keys
 
   const body = (
     <div className='keys-manager__popover'>
@@ -25,11 +25,11 @@ function KeysManagerPopover(props) {
           return (
             <div
               key={i}
-              className={`key popover__item ${(active === i) ? 'key--active' : ''}`}
+              className={`key popover__item ${(currentActiveIndex === i) ? 'key--active' : ''}`}
               onClick={setActiveKey(i)}
             >
               <span className='key__hash'>{privateKey}</span>
-              <span className='key__balance'>{balance}</span>
+              <span className='key__balance'>{balance.toFixed(3)}</span>
               <span className='key__code'>{code}</span>
             </div>
           )
@@ -67,7 +67,7 @@ KeysManagerPopover.propTypes = {
   clearKeys: PropTypes.func.isRequired,
   keys: PropTypes.shape({
     items: PropTypes.array.isRequired,
-    active: PropTypes.number.isRequired,
+    currentActiveIndex: PropTypes.number.isRequired,
   }).isRequired,
 }
 

@@ -12,7 +12,7 @@ function JbModal({ closeModal, header, body, footer, name, isOpen }) {
 
   return (
     <div className='modal-wrap'>
-      <div className='modal__overlay' />
+      <div className='modal__overlay' onClick={closeModal} />
       <div className={`modal modal--${name}`}>
         <div className='modal__content'>
           <div className='modal__header'>

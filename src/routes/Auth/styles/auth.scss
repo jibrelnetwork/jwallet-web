@@ -1,0 +1,27 @@
+.auth-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  margin: auto;
+  text-align: center;
+  overflow: auto;
+  color: $gray2;
+}
+
+.auth__title {
+  font-size: 20px;
+}
+
+.auth__subtitle {
+  margin-top: 40px;
+  font-size: 15px;
+}
+
+.auth__buttons {
+  margin-top: 40px;
+}

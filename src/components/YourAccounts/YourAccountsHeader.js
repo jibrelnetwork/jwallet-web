@@ -7,13 +7,12 @@ import JbIcon from 'components/base/JbIcon'
 
 function YourAccountsHeader(props) {
   const {
+    setAccounts,
     openAccountManager,
     closeAccountManager,
     toggleAccount,
-    searchAccounts,
     addCustomToken,
     accounts,
-    isAccountManagerOpen,
   } = props
 
   return (
@@ -27,11 +26,11 @@ function YourAccountsHeader(props) {
       />
       <AccountManager
         closeAccountManager={closeAccountManager}
+        setAccounts={setAccounts}
         toggleAccount={toggleAccount}
-        searchAccounts={searchAccounts}
         addCustomToken={addCustomToken}
         accounts={accounts}
-        isOpen={isAccountManagerOpen}
+        isOpen={accounts.isAccountManagerOpen}
       />
     </div>
   )
@@ -40,8 +39,8 @@ function YourAccountsHeader(props) {
 YourAccountsHeader.propTypes = {
   openAccountManager: PropTypes.func.isRequired,
   closeAccountManager: PropTypes.func.isRequired,
+  setAccounts: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
-  searchAccounts: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -51,10 +50,9 @@ YourAccountsHeader.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
-    current: PropTypes.number.isRequired,
+    isAccountManagerOpen: PropTypes.bool.isRequired,
     isActiveAll: PropTypes.bool.isRequired,
   }).isRequired,
-  isAccountManagerOpen: PropTypes.bool.isRequired,
 }
 
 export default YourAccountsHeader

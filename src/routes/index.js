@@ -5,9 +5,6 @@ import JWalletRoute from './JWallet'
 const createRoutes = store => ({
   path: '/',
   component: CoreLayout,
-  indexRoute: {
-    onEnter: (nextState, replace) => replace('/jwallet'),
-  },
   childRoutes: [
     AuthRoute(store),
     JWalletRoute(store),

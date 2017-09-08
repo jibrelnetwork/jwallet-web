@@ -7,8 +7,10 @@ function Auth({ addNewKeys, importKeys }) {
   return (
     <div className='auth-wrap'>
       <div className='auth'>
-        <h1>{'Authorization'}</h1>
-        <h2>{'Lorem ipsum'}</h2>
+        <div className='auth__title'>{'Authorization'}</div>
+        <div className='auth__subtitle'>
+          {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae egestas nisi.'}
+        </div>
         <div className='auth__buttons'>
           <JbButton white label={'Create new keys'} onClick={addNewKeys} />
           <JbButton blue label={'Import keys'} onClick={importKeys} />

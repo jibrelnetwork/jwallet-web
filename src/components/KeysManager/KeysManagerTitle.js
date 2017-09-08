@@ -9,7 +9,7 @@ function KeysManagerTitle({ privateKey, balance, code }) {
       <div className='keys-manager-title__head'>{'Keys manager'}</div>
       <div className='key key--title'>
         <span className='key__hash'>{privateKey}</span>
-        <span className='key__balance'>{balance}</span>
+        <span className='key__balance'>{balance.toFixed(6)}</span>
         <span className='key__code'>{code}</span>
       </div>
       <JbIcon name='keys' className='keys-manager-title__icon' />
@@ -18,13 +18,9 @@ function KeysManagerTitle({ privateKey, balance, code }) {
 }
 
 KeysManagerTitle.propTypes = {
-  setActiveKey: PropTypes.func.isRequired,
-  addNewKeys: PropTypes.func.isRequired,
-  importKeys: PropTypes.func.isRequired,
-  backupKeys: PropTypes.func.isRequired,
-  clearKeys: PropTypes.func.isRequired,
-  keys: PropTypes.array.isRequired,
-  active: PropTypes.number.isRequired,
+  privateKey: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
+  balance: PropTypes.number.isRequired,
 }
 
 export default KeysManagerTitle
