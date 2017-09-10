@@ -17,7 +17,7 @@ export function getAccounts() {
   }
 }
 
-function setAccounts(items) {
+export function setAccounts(items) {
   return {
     type: SET_ACCOUNTS,
     items,
@@ -71,7 +71,7 @@ export function addCustomToken() {
   }
 }
 
-function setSearchOptions(foundItemsSymbols, searchQuery) {
+export function setSearchOptions(foundItemsSymbols, searchQuery) {
   return {
     type: SET_SEARCH_OPTIONS,
     foundItemsSymbols,
@@ -79,7 +79,7 @@ function setSearchOptions(foundItemsSymbols, searchQuery) {
   }
 }
 
-function setSortOptions(sortField, sortDirection) {
+export function setSortOptions(sortField, sortDirection) {
   return {
     type: SET_SORT_OPTIONS,
     sortField,

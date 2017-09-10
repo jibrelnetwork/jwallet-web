@@ -51,6 +51,10 @@ JWallet.propTypes = {
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      balanceFixed: PropTypes.string.isRequired,
+      licensed: PropTypes.string.isRequired,
+      transfer: PropTypes.string.isRequired,
       balance: PropTypes.number.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,

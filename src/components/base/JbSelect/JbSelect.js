@@ -30,9 +30,9 @@ function JbSelect(props) {
 }
 
 JbSelect.propTypes = {
-  list: PropTypes.arrayOf.object.isRequired,
-  selected: PropTypes.object,
+  list: PropTypes.arrayOf(PropTypes.object).isRequired,
   label: PropTypes.string.isRequired,
+  selected: PropTypes.object,
   error: PropTypes.string,
 }
 

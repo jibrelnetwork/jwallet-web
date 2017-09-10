@@ -1,7 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
-import { searchItems, sortItems } from 'utils'
+import { getTokenNameBySymbolName, searchItems, sortItems } from 'utils'
 
 import {
   GET_ACCOUNTS,
@@ -19,29 +19,31 @@ import { GET_TRANSACTIONS, SET_TRANSACTIONS } from '../modules/transactions'
 
 const accountsStub = [{
   symbol: 'ETH',
-  balance: 2.123,
+  balance: 2.12345,
   isLicensed: false,
   isAuthRequired: false,
   isActive: true,
 }, {
   symbol: 'jUSD',
-  balance: 7.890,
+  balance: 7.8900000001,
   isLicensed: false,
   isAuthRequired: false,
   isActive: true,
 }, {
   symbol: 'jEUR',
-  balance: 8.657,
+  balance: 8.65789999,
   isLicensed: false,
   isAuthRequired: false,
   isActive: false,
 }, {
   symbol: 'JNT',
-  balance: 9.999,
+  balance: 9.9999999,
   isLicensed: true,
   isAuthRequired: true,
   isActive: true,
 }]
+
+const accountsSearchFields = ['symbol', 'name', 'balanceFixed', 'licensed', 'transfer']
 
 function getStateAccounts(state) {
   return state.accounts
@@ -50,7 +52,17 @@ function getStateAccounts(state) {
 function* getAccounts() {
   yield delay(500)
 
-  const items = accountsStub
+  const items = accountsStub.map((item) => {
+    const { symbol, balance, isLicensed, isAuthRequired } = item
+
+    return {
+      ...item,
+      name: getTokenNameBySymbolName(symbol),
+      balanceFixed: balance.toFixed(3),
+      licensed: isLicensed ? 'Yes' : 'No',
+      transfer: isAuthRequired ? 'Not Authorized' : 'Authorized',
+    }
+  })
 
   yield put({ type: SET_ACCOUNTS, items })
 }
@@ -111,7 +123,7 @@ function* searchAccounts(action) {
   const accounts = yield select(getStateAccounts)
   const searchQuery = action.searchQuery
 
-  const foundItems = searchItems(accounts.items, searchQuery)
+  const foundItems = searchItems(accounts.items, searchQuery, accountsSearchFields)
   const foundItemsSymbols = foundItems.map(i => i.symbol)
 
   yield put({ type: SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })

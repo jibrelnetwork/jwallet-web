@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
-
 import JbIcon from 'components/base/JbIcon'
 
 function AccountItem(props) {
-  const { symbol, balance, isActive, isAuthRequired, isLicensed, isCurrent } = props
+  const { symbol, name, balanceFixed, isActive, isAuthRequired, isLicensed, isCurrent } = props
   const setCurrentAccount = isAuthRequired ? () => {} : props.setCurrentAccount
 
   if (!isActive) {
@@ -28,9 +26,9 @@ function AccountItem(props) {
       <div className={`account-item__image account-item__image--${symbol.toLowerCase()}`} />
       <JbIcon name={`account-${symbol.toLowerCase()}`} className='account-item__symbol' />
       <div className='account-item__info'>
-        <h3 className='account-item__name'>{getTokenNameBySymbolName(symbol)}</h3>
+        <h3 className='account-item__name'>{name}</h3>
         <div className='account-item__balance'>
-          {isAuthRequired ? 'Authorization required!' : `${balance} ${symbol}`}
+          {isAuthRequired ? 'Authorization required!' : `${balanceFixed} ${symbol}`}
         </div>
       </div>
       {isLicensed ? <JbIcon name='licensed' className='account-item__licensed' small /> : null}
@@ -41,7 +39,8 @@ function AccountItem(props) {
 AccountItem.propTypes = {
   setCurrentAccount: PropTypes.func.isRequired,
   symbol: PropTypes.string.isRequired,
-  balance: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  balanceFixed: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   isAuthRequired: PropTypes.bool.isRequired,
   isLicensed: PropTypes.bool.isRequired,
