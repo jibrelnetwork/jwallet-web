@@ -30,14 +30,14 @@ class JbDropdown extends Component {
     return React.cloneElement(props.children, { onClickOutside: hideDropdown })
   }
 
-  showDropdown = () => this.setState({ isOpen: true })
+  showDropdown = () => { return this.setState({ isOpen: true }) }
 
-  hideDropdown = () => this.setState({ isOpen: false })
+  hideDropdown = () => { return this.setState({ isOpen: false }) }
 }
 
 JbDropdown.propTypes = {
-  children: PropTypes.element.isRequired,
   title: PropTypes.node.isRequired,
+  children: PropTypes.element.isRequired,
   parentClassName: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
 }

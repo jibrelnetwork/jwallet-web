@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbTable from 'components/base/JbTable'
-
 import AccountsTableHeader from './AccountsTableHeader'
 import AccountsTableBody from './AccountsTableBody'
 
