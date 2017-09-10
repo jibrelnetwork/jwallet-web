@@ -27,10 +27,11 @@ AccountsTable.propTypes = {
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
-      balance: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      balanceFixed: PropTypes.string.isRequired,
+      licensed: PropTypes.string.isRequired,
+      transfer: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
-      isAuthRequired: PropTypes.bool.isRequired,
-      isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
     foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,

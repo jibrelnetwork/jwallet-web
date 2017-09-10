@@ -6,15 +6,13 @@ import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
 import { JbCheckbox, JbIcon } from 'components/base'
 
 function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
-  const { items, foundItemsSymbols, sortField, sortDirection, isActiveAll } = accounts
+  const { items, foundItemsSymbols, sortField, sortDirection, searchQuery, isActiveAll } = accounts
   const iconClassName = 'pull-left table__icon table__icon--'
   const isDesc = (sortDirection === 'DESC')
 
   const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
 
-  const foundItems = (foundItemsSymbols && foundItemsSymbols.length)
-    ? items.filter(isItemsFound)
-    : items
+  const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
 
   return (
     <div className='account-table-body'>
@@ -45,30 +43,27 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
               className={`${iconClassName}${(sortField === 'balance') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-2 clear' onClick={sortAccounts('isLicensed')}>
+          <div className='table__title-item col-2 clear' onClick={sortAccounts('licensed')}>
             <span className='pull-left'>{'Licenced'}</span>
             <JbIcon
               small
-              name={`small-arrow${(isDesc && (sortField === 'isLicensed')) ? '' : '-up'}`}
-              className={`${iconClassName}${(sortField === 'isLicensed') ? 'active' : ''}`}
+              name={`small-arrow${(isDesc && (sortField === 'licensed')) ? '' : '-up'}`}
+              className={`${iconClassName}${(sortField === 'licensed') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-1-5 clear' onClick={sortAccounts('isAuthRequired')}>
+          <div className='table__title-item col-1-5 clear' onClick={sortAccounts('transfer')}>
             <span className='pull-left'>{'Transfer'}</span>
             <JbIcon
               small
-              name={`small-arrow${(isDesc && (sortField === 'isAuthRequired')) ? '' : '-up'}`}
-              className={`${iconClassName}${(sortField === 'isAuthRequired') ? 'active' : ''}`}
+              name={`small-arrow${(isDesc && (sortField === 'transfer')) ? '' : '-up'}`}
+              className={`${iconClassName}${(sortField === 'transfer') ? 'active' : ''}`}
             />
           </div>
         </div>
       </div>
       <div className='scroll'>
         {foundItems.map((account, index) => {
-          const { symbol, balance, isLicensed, isAuthRequired, isActive } = account
-          const tokenName = getTokenNameBySymbolName(symbol)
-          const licensed = isLicensed ? 'Yes' : 'No'
-          const transfer = isAuthRequired ? 'Not Authorized' : 'Authorized'
+          const { symbol, name, balanceFixed, licensed, transfer, isActive } = account
 
           return (
             <div
@@ -84,8 +79,8 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
                     label={symbol}
                   />
                 </div>
-                <div className='accounts-table__field col-3'>{tokenName}</div>
-                <div className='accounts-table__field col-2'>{balance.toFixed(3)}</div>
+                <div className='accounts-table__field col-3'>{name}</div>
+                <div className='accounts-table__field col-2'>{balanceFixed}</div>
                 <div className='accounts-table__field col-2'>{licensed}</div>
                 <div className='accounts-table__field col-1-5'>{transfer}</div>
               </div>
@@ -103,14 +98,16 @@ AccountsTableBody.propTypes = {
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
-      balance: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      balanceFixed: PropTypes.string.isRequired,
+      licensed: PropTypes.string.isRequired,
+      transfer: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
-      isAuthRequired: PropTypes.bool.isRequired,
-      isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
     foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     isActiveAll: PropTypes.bool.isRequired,
   }).isRequired,
 }

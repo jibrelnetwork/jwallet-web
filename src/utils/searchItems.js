@@ -1,7 +1,9 @@
-export default function searchItems(items, searchQuery) {
+export default function searchItems(items, searchQuery, searchFields) {
   if (!(searchQuery && searchQuery.length)) {
     return items
   }
+
+  const isSearchFieldsPresent = (searchFields && searchFields.length)
 
   const foundItems = []
 
@@ -9,6 +11,10 @@ export default function searchItems(items, searchQuery) {
     let isFound = false
 
     Object.keys(item).forEach((key) => {
+      if (!(isSearchFieldsPresent && searchFields.indexOf(key) !== -1)) {
+        return
+      }
+
       const value = item[key].toString().toLowerCase()
 
       if (value.indexOf(searchQuery.toLowerCase()) > -1) {
