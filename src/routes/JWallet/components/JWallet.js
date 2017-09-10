@@ -7,11 +7,12 @@ import TransactionsTable from 'components/TransactionsTable'
 function JWallet(props) {
   const {
     getAccounts,
-    setAccounts,
     openAccountManager,
     closeAccountManager,
     setCurrentAccount,
     toggleAccount,
+    searchAccounts,
+    sortAccounts,
     addCustomToken,
     getTransactions,
     accounts,
@@ -22,11 +23,12 @@ function JWallet(props) {
     <div className='jwallet'>
       <YourAccounts
         getAccounts={getAccounts}
-        setAccounts={setAccounts}
         openAccountManager={openAccountManager}
         closeAccountManager={closeAccountManager}
         setCurrentAccount={setCurrentAccount}
         toggleAccount={toggleAccount}
+        searchAccounts={searchAccounts}
+        sortAccounts={sortAccounts}
         addCustomToken={addCustomToken}
         accounts={accounts}
         isTransactionsLoading={transactions.isLoading}
@@ -39,11 +41,12 @@ function JWallet(props) {
 JWallet.propTypes = {
   addCustomToken: PropTypes.func.isRequired,
   getAccounts: PropTypes.func.isRequired,
-  setAccounts: PropTypes.func.isRequired,
   openAccountManager: PropTypes.func.isRequired,
   closeAccountManager: PropTypes.func.isRequired,
   setCurrentAccount: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
+  searchAccounts: PropTypes.func.isRequired,
+  sortAccounts: PropTypes.func.isRequired,
   getTransactions: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -53,6 +56,10 @@ JWallet.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
+    foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isAccountManagerOpen: PropTypes.bool.isRequired,
     isActiveAll: PropTypes.bool.isRequired,

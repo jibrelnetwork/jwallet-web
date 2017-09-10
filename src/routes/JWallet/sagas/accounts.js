@@ -1,12 +1,18 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
+import { searchItems, sortItems } from 'utils'
+
 import {
   GET_ACCOUNTS,
   SET_ACCOUNTS,
   SET_CURRENT_ACCOUNT,
   SET_ACTIVE_ALL,
   TOGGLE_ACCOUNT,
+  SEARCH_ACCOUNTS,
+  SORT_ACCOUNTS,
+  SET_SEARCH_OPTIONS,
+  SET_SORT_OPTIONS,
 } from '../modules/accounts'
 
 import { GET_TRANSACTIONS, SET_TRANSACTIONS } from '../modules/transactions'
@@ -71,13 +77,8 @@ function* setAccounts(action) {
   }
 }
 
-export function* toggleAccount(action) {
-  if (!action) {
-    return
-  }
-
-  const accounts = yield select(getStateAccounts)
-  const { items, isActiveAll } = accounts
+function* toggleAccount(action) {
+  const { items, isActiveAll } = yield select(getStateAccounts)
   const { index } = action
 
   let newIsActiveAll = (index === -1) ? !isActiveAll : isActiveAll
@@ -106,6 +107,42 @@ export function* toggleAccount(action) {
   yield put({ type: SET_ACTIVE_ALL, isActiveAll: newIsActiveAll })
 }
 
+function* searchAccounts(action) {
+  const accounts = yield select(getStateAccounts)
+  const searchQuery = action.searchQuery
+
+  const foundItems = searchItems(accounts.items, searchQuery)
+  const foundItemsSymbols = foundItems.map(i => i.symbol)
+
+  yield put({ type: SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
+}
+
+function* sortAccounts(action) {
+  const accounts = yield select(getStateAccounts)
+
+  const oldSortField = accounts.sortField
+  const sortField = action.sortField || oldSortField
+  const { items, sortDirection } = accounts
+
+  /**
+   * We need to save sort direction during of searching,
+   * because old and new fields are equal and during of sorting,
+   * direction will be changed
+   */
+  const anotherDirection = (sortDirection === 'ASC') ? 'DESC' : 'ASC'
+  const newDirection = action.saveDirection ? anotherDirection : sortDirection
+
+  const result = sortItems(items, oldSortField, sortField, newDirection)
+
+  yield put({ type: SET_ACCOUNTS, items: result.items })
+
+  yield put({
+    type: SET_SORT_OPTIONS,
+    sortField: result.sortField,
+    sortDirection: result.sortDirection,
+  })
+}
+
 export function* watchGetAccounts() {
   yield takeEvery(GET_ACCOUNTS, getAccounts)
 }
@@ -120,4 +157,12 @@ export function* watchSetCurrentAccount() {
 
 export function* watchSetActiveAll() {
   yield takeEvery(SET_ACCOUNTS, setAccounts)
+}
+
+export function* watchSearchAccounts() {
+  yield takeEvery(SEARCH_ACCOUNTS, searchAccounts)
+}
+
+export function* watchSortAccounts() {
+  yield takeEvery(SORT_ACCOUNTS, sortAccounts)
 }

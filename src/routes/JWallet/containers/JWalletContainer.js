@@ -2,11 +2,12 @@ import { connect } from 'react-redux'
 
 import {
   getAccounts,
-  setAccounts,
   openAccountManager,
   closeAccountManager,
   setCurrentAccount,
   toggleAccount,
+  searchAccounts,
+  sortAccounts,
   addCustomToken,
 } from 'routes/JWallet/modules/accounts'
 
@@ -21,11 +22,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getAccounts,
-  setAccounts,
   openAccountManager,
   closeAccountManager,
   setCurrentAccount,
   toggleAccount,
+  searchAccounts,
+  sortAccounts,
   addCustomToken,
   getTransactions,
 }

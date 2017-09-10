@@ -3,27 +3,23 @@ import PropTypes from 'prop-types'
 
 import AccountsTable from 'components/AccountsTable'
 
-function AccountManagerBody({ setAccounts, toggleAccount, accounts }) {
-  const { items, isActiveAll } = accounts
-
-  console.log('AccountManagerBody',items[1].symbol)
-
+function AccountManagerBody({ toggleAccount, searchAccounts, sortAccounts, accounts }) {
   return (
     <div className='account-manager-body'>
       <AccountsTable
-        syncItems={setAccounts}
         toggleAccount={toggleAccount}
-        items={items}
-        sortField='symbol'
-        isActiveAll={isActiveAll}
+        searchAccounts={searchAccounts}
+        sortAccounts={sortAccounts}
+        accounts={accounts}
       />
     </div>
   )
 }
 
 AccountManagerBody.propTypes = {
-  setAccounts: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
+  searchAccounts: PropTypes.func.isRequired,
+  sortAccounts: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
@@ -32,6 +28,10 @@ AccountManagerBody.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
+    foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     isActiveAll: PropTypes.bool.isRequired,
   }).isRequired,
 }
