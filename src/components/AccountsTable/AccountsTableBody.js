@@ -10,15 +10,11 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   const iconClassName = 'pull-left table__icon table__icon--'
   const isDesc = (sortDirection === 'DESC')
 
-<<<<<<< HEAD
   const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
 
   const foundItems = (foundItemsSymbols && foundItemsSymbols.length)
     ? items.filter(isItemsFound)
     : items
-=======
-  console.log('AccountsTableBody', items[1].symbol)
->>>>>>> 1f493cbba08dd0af39f8a7ab2bea4533ea9230e9
 
   return (
     <div className='account-table-body'>
