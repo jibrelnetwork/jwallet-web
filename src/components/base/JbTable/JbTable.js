@@ -7,9 +7,9 @@ class JbTable extends Component {
   constructor(props) {
     super(props)
 
-    const { syncItems, items, searchQuery, sortField, sortDirection } = props
+    const { items, searchQuery, sortField, sortDirection } = props
 
-    this.state = { syncItems, searchQuery, sortField, sortDirection, items }
+    this.state = { searchQuery, sortField, sortDirection, items }
   }
 
   componentWillMount() {
@@ -80,11 +80,6 @@ JbTable.propTypes = {
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
   searchQuery: PropTypes.string.isRequired,
-  syncItems: PropTypes.func,
-}
-
-JbTable.defaultProps = {
-  syncItems: () => {},
 }
 
 export default JbTable

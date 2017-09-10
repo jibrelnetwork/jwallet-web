@@ -5,12 +5,16 @@ import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
 
 import { JbCheckbox, JbIcon } from 'components/base'
 
-function AccountsTableBody(props) {
-  const { sortAccounts, toggleAccount, items, sortField, sortDirection, isActiveAll } = props
+function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
+  const { items, foundItemsSymbols, sortField, sortDirection, isActiveAll } = accounts
   const iconClassName = 'pull-left table__icon table__icon--'
   const isDesc = (sortDirection === 'DESC')
 
-  console.log('AccountsTableBody',items[1].symbol)
+  const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
+
+  const foundItems = (foundItemsSymbols && foundItemsSymbols.length)
+    ? items.filter(isItemsFound)
+    : items
 
   return (
     <div className='account-table-body'>
@@ -60,7 +64,7 @@ function AccountsTableBody(props) {
         </div>
       </div>
       <div className='scroll'>
-        {items.map((account, index) => {
+        {foundItems.map((account, index) => {
           const { symbol, balance, isLicensed, isAuthRequired, isActive } = account
           const tokenName = getTokenNameBySymbolName(symbol)
           const licensed = isLicensed ? 'Yes' : 'No'
@@ -96,16 +100,19 @@ function AccountsTableBody(props) {
 AccountsTableBody.propTypes = {
   sortAccounts: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    symbol: PropTypes.string.isRequired,
-    balance: PropTypes.number.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    isAuthRequired: PropTypes.bool.isRequired,
-    isLicensed: PropTypes.bool.isRequired,
-  })).isRequired,
-  sortField: PropTypes.string.isRequired,
-  sortDirection: PropTypes.string.isRequired,
-  isActiveAll: PropTypes.bool.isRequired,
+  accounts: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      symbol: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
+      isActive: PropTypes.bool.isRequired,
+      isAuthRequired: PropTypes.bool.isRequired,
+      isLicensed: PropTypes.bool.isRequired,
+    })).isRequired,
+    foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    isActiveAll: PropTypes.bool.isRequired,
+  }).isRequired,
 }
 
 export default AccountsTableBody

@@ -7,10 +7,11 @@ import JbIcon from 'components/base/JbIcon'
 
 function YourAccountsHeader(props) {
   const {
-    setAccounts,
     openAccountManager,
     closeAccountManager,
     toggleAccount,
+    searchAccounts,
+    sortAccounts,
     addCustomToken,
     accounts,
   } = props
@@ -26,11 +27,11 @@ function YourAccountsHeader(props) {
       />
       <AccountManager
         closeAccountManager={closeAccountManager}
-        setAccounts={setAccounts}
         toggleAccount={toggleAccount}
+        searchAccounts={searchAccounts}
+        sortAccounts={sortAccounts}
         addCustomToken={addCustomToken}
         accounts={accounts}
-        isOpen={accounts.isAccountManagerOpen}
       />
     </div>
   )
@@ -39,8 +40,9 @@ function YourAccountsHeader(props) {
 YourAccountsHeader.propTypes = {
   openAccountManager: PropTypes.func.isRequired,
   closeAccountManager: PropTypes.func.isRequired,
-  setAccounts: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
+  searchAccounts: PropTypes.func.isRequired,
+  sortAccounts: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -50,6 +52,10 @@ YourAccountsHeader.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
+    foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     isAccountManagerOpen: PropTypes.bool.isRequired,
     isActiveAll: PropTypes.bool.isRequired,
   }).isRequired,

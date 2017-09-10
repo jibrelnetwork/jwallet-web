@@ -17,8 +17,8 @@ class YourAccounts extends Component {
 
   render() {
     const {
-      setAccounts,
       openAccountManager,
+      searchAccounts,
       addCustomToken,
       closeAccountManager,
       accounts,
@@ -31,10 +31,11 @@ class YourAccounts extends Component {
     return (
       <div className='your-accounts'>
         <YourAccountsHeader
-          setAccounts={setAccounts}
           openAccountManager={openAccountManager}
           closeAccountManager={closeAccountManager}
           toggleAccount={this.toggleAccount}
+          searchAccounts={searchAccounts}
+          sortAccounts={this.sortAccounts}
           addCustomToken={addCustomToken}
           accounts={accounts}
         />
@@ -64,15 +65,18 @@ class YourAccounts extends Component {
       e.stopPropagation()
     }
   }
+
+  sortAccounts = field => (/* event */) => this.props.sortAccounts(field)
 }
 
 YourAccounts.propTypes = {
   getAccounts: PropTypes.func.isRequired,
-  setAccounts: PropTypes.func.isRequired,
   openAccountManager: PropTypes.func.isRequired,
   closeAccountManager: PropTypes.func.isRequired,
   setCurrentAccount: PropTypes.func.isRequired,
   toggleAccount: PropTypes.func.isRequired,
+  searchAccounts: PropTypes.func.isRequired,
+  sortAccounts: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -82,6 +86,10 @@ YourAccounts.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
+    foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isAccountManagerOpen: PropTypes.bool.isRequired,
     isActiveAll: PropTypes.bool.isRequired,
