@@ -11,7 +11,7 @@ class AccountsTable extends JbTable {
     const { items, sortField, sortDirection, searchQuery } = this.state
     const { toggleAccount, isActiveAll } = this.props
 
-    console.log('AccountsTable',items[1].symbol)
+    console.log('AccountsTable', items[1].symbol)
 
     return (
       <div className='accounts-table'>

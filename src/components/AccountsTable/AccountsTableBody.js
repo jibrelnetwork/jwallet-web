@@ -10,7 +10,7 @@ function AccountsTableBody(props) {
   const iconClassName = 'pull-left table__icon table__icon--'
   const isDesc = (sortDirection === 'DESC')
 
-  console.log('AccountsTableBody',items[1].symbol)
+  console.log('AccountsTableBody', items[1].symbol)
 
   return (
     <div className='account-table-body'>

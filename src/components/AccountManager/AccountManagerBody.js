@@ -6,7 +6,7 @@ import AccountsTable from 'components/AccountsTable'
 function AccountManagerBody({ setAccounts, toggleAccount, accounts }) {
   const { items, isActiveAll } = accounts
 
-  console.log('AccountManagerBody',items[1].symbol)
+  console.log('AccountManagerBody', items[1].symbol)
 
   return (
     <div className='account-manager-body'>
