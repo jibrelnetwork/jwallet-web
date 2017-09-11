@@ -9,13 +9,13 @@ import HeaderMenu from './HeaderMenu'
 
 function JWalletHeader(props) {
   const {
-    sendFunds,
-    receiveFunds,
-    convertFunds,
+    openSendFundsModal,
+    openReceiveFundsModal,
+    openConvertFundsModal,
     setActiveKey,
-    addNewKeys,
-    importKeys,
-    backupKeys,
+    openNewKeysModal,
+    openImportKeysModal,
+    openBackupKeysModal,
     clearKeys,
     keys,
   } = props
@@ -24,15 +24,15 @@ function JWalletHeader(props) {
     <JbHeader>
       <div className='clear'>
         <HeaderMenu
-          sendFunds={sendFunds}
-          receiveFunds={receiveFunds}
-          convertFunds={convertFunds}
+          openSendFundsModal={openSendFundsModal}
+          openReceiveFundsModal={openReceiveFundsModal}
+          openConvertFundsModal={openConvertFundsModal}
         />
         <KeysManager
           setActiveKey={setActiveKey}
-          addNewKeys={addNewKeys}
-          importKeys={importKeys}
-          backupKeys={backupKeys}
+          addNewKeys={openNewKeysModal}
+          importKeys={openImportKeysModal}
+          backupKeys={openBackupKeysModal}
           clearKeys={clearKeys}
           keys={keys}
         />
@@ -42,13 +42,13 @@ function JWalletHeader(props) {
 }
 
 JWalletHeader.propTypes = {
-  sendFunds: PropTypes.func.isRequired,
-  receiveFunds: PropTypes.func.isRequired,
-  convertFunds: PropTypes.func.isRequired,
+  openSendFundsModal: PropTypes.func.isRequired,
+  openReceiveFundsModal: PropTypes.func.isRequired,
+  openConvertFundsModal: PropTypes.func.isRequired,
   setActiveKey: PropTypes.func.isRequired,
-  addNewKeys: PropTypes.func.isRequired,
-  importKeys: PropTypes.func.isRequired,
-  backupKeys: PropTypes.func.isRequired,
+  openNewKeysModal: PropTypes.func.isRequired,
+  openImportKeysModal: PropTypes.func.isRequired,
+  openBackupKeysModal: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
   keys: PropTypes.shape({
     items: PropTypes.array.isRequired,
