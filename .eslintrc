@@ -33,7 +33,9 @@
     "arrow-parens": [
       "error",
       "as-needed",
-      { "requireForBlockBody": true }
+      {
+        "requireForBlockBody": true
+      }
     ],
     "comma-dangle": [
       "error",
@@ -70,8 +72,49 @@
     ],
     "no-multiple-empty-lines": [
       "error",
-      { "max": 1 }
+      {
+        "max": 1
+      }
     ],
+    "react/prop-types": [
+      "error",
+      {
+        "skipUndeclared": true
+      }
+    ],
+    "react/default-props-match-prop-types": [
+      "error"
+    ],
+    "react/forbid-prop-types": [
+      "error"
+    ],
+    "react/jsx-boolean-value": [
+      "error",
+      "never"
+    ],
+    "react/jsx-curly-spacing": [
+      "error",
+      {
+        "when": "never",
+        "allowMultiline": false
+      }
+    ],
+    "react/jsx-equals-spacing": [
+      "error",
+      "never"
+    ],
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".js"]
+      }
+    ],
+    "react/jsx-indent": [
+      "error",
+      2
+    ],
+    "react/jsx-key": "error",
+    "react/jsx-closing-bracket-location": "error",
     "react/require-default-props": "error",
     "max-len": ["error", 100],
     "newline-per-chained-call": "off",

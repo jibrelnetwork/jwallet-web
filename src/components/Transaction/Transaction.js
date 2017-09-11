@@ -11,19 +11,18 @@ class Transaction extends Component {
   }
 
   render() {
-    const { type, amount, symbol, timestamp, status, from, to, txHash, fee } = this.props
+    const { type, symbol, status, from, to, address, txHash, fee, date, amountFixed } = this.props
     const { isActive } = this.state
 
     return (
       <div className='transaction table__item' onClick={this.toggle}>
         <TransactionMain
           type={type}
-          amount={amount}
           symbol={symbol}
           status={status}
-          from={from}
-          to={to}
-          timestamp={timestamp}
+          address={address}
+          date={date}
+          amountFixed={amountFixed}
           isActive={isActive}
         />
         <TransactionDetails
@@ -46,10 +45,11 @@ Transaction.propTypes = {
   status: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
   txHash: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-  timestamp: PropTypes.number.isRequired,
+  date: PropTypes.string.isRequired,
+  amountFixed: PropTypes.string.isRequired,
 }
 
 export default Transaction
