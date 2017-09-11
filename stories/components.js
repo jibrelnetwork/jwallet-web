@@ -56,11 +56,11 @@ storiesOf('TransactionManager', module)
     return (
       <div style={{ margin: '40px 100px 40px 300px' }}>
         <TransactionManager
-          sendFunds={() => alert('sendFunds handler') }
-          receiveFunds={() => alert('receiveFunds handler') }
-          convertFunds={() => alert('convertFunds handler') }
-          filter={() => alert('filter handler') }
-          remove={() => alert('remove handler') }
+          sendFunds={() => alert('sendFunds handler')}
+          receiveFunds={() => alert('receiveFunds handler')}
+          convertFunds={() => alert('convertFunds handler')}
+          filter={() => alert('filter handler')}
+          remove={() => alert('remove handler')}
         />
       </div>
     )
@@ -107,17 +107,17 @@ storiesOf('TransactionsTable', module)
   })
 
 storiesOf('QrCode', module)
-  .add('QrCode', () => {
-
-    const configs = {
-      to: '0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8',
-      value: 10,
-      gas: 42000,
-    }
-
+  .add('basic', () => {
     return (
       <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <QrCode code={configs} />
+        <QrCode code={props.QRcodeConfigsBasic} />
+      </div>
+    )
+  })
+  .add('changed UI', () => {
+    return (
+      <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
+        <QrCode code={props.QRcodeConfigsBasic} ui={props.QRcodeConfigsUI}/>
       </div>
     )
   })
