@@ -8,8 +8,8 @@ export const TOGGLE_ACCOUNT = 'TOGGLE_ACCOUNT'
 export const SEARCH_ACCOUNTS = 'SEARCH_ACCOUNTS'
 export const SORT_ACCOUNTS = 'SORT_ACCOUNTS'
 export const ADD_CUSTOM_TOKEN = 'ADD_CUSTOM_TOKEN'
-export const SET_SEARCH_OPTIONS = 'SET_SEARCH_OPTIONS'
-export const SET_SORT_OPTIONS = 'SET_SORT_OPTIONS'
+export const SET_SEARCH_ACCOUNTS_OPTIONS = 'SET_SEARCH_ACCOUNTS_OPTIONS'
+export const SET_SORT_ACCOUNTS_OPTIONS = 'SET_SORT_ACCOUNTS_OPTIONS'
 
 export function getAccounts() {
   return {
@@ -71,17 +71,17 @@ export function addCustomToken() {
   }
 }
 
-export function setSearchOptions(foundItemsSymbols, searchQuery) {
+export function setSearchAccountsOptions(foundItemsSymbols, searchQuery) {
   return {
-    type: SET_SEARCH_OPTIONS,
+    type: SET_SEARCH_ACCOUNTS_OPTIONS,
     foundItemsSymbols,
     searchQuery,
   }
 }
 
-export function setSortOptions(sortField, sortDirection) {
+export function setSortAccountsOptions(sortField, sortDirection) {
   return {
-    type: SET_SORT_OPTIONS,
+    type: SET_SORT_ACCOUNTS_OPTIONS,
     sortField,
     sortDirection,
   }
@@ -113,12 +113,12 @@ const ACTION_HANDLERS = {
   [ADD_CUSTOM_TOKEN]: state => ({
     ...state,
   }),
-  [SET_SEARCH_OPTIONS]: (state, action) => ({
+  [SET_SEARCH_ACCOUNTS_OPTIONS]: (state, action) => ({
     ...state,
     foundItemsSymbols: action.foundItemsSymbols,
     searchQuery: action.searchQuery,
   }),
-  [SET_SORT_OPTIONS]: (state, action) => ({
+  [SET_SORT_ACCOUNTS_OPTIONS]: (state, action) => ({
     ...state,
     sortField: action.sortField,
     sortDirection: action.sortDirection,

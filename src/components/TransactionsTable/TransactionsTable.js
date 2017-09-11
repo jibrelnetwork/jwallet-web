@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { JbLoader, JbTable } from 'components/base'
+import JbLoader from 'components/base/JbLoader'
 
 import TransactionsTableHeader from './TransactionsTableHeader'
 import TransactionsTableBody from './TransactionsTableBody'
 
-class TransactionsTable extends JbTable {
+class TransactionsTable extends Component {
   componentWillMount() {
     const { getTransactions, items } = this.props
 
@@ -16,8 +16,8 @@ class TransactionsTable extends JbTable {
   }
 
   render() {
-    const { items, sortField, sortDirection, searchQuery } = this.state
-    const { isLoading } = this.props
+    const { searchTransactions, transactions } = this.props
+    const { items, searchQuery, isLoading } = transactions
 
     if (isLoading) {
       return <div className='transactions-table'><JbLoader /></div>
@@ -38,27 +38,43 @@ class TransactionsTable extends JbTable {
     return (
       <div className='transactions-table'>
         <TransactionsTableHeader
-          searchTransactions={this.searchItems}
+          searchTransactions={searchTransactions}
           searchQuery={searchQuery}
         />
         <TransactionsTableBody
-          sortTransactions={this.sortItems}
-          transactions={items}
-          sortField={sortField}
-          sortDirection={sortDirection}
+          sortTransactions={this.sortTransactions}
+          transactions={transactions}
         />
       </div>
     )
   }
+
+  sortTransactions = field => (/* event */) => this.props.sortTransactions(field)
 }
 
 TransactionsTable.propTypes = {
   getTransactions: PropTypes.func.isRequired,
-  items: PropTypes.array.isRequired,
-  sortField: PropTypes.string.isRequired,
-  sortDirection: PropTypes.string.isRequired,
-  searchQuery: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  searchTransactions: PropTypes.func.isRequired,
+  sortTransactions: PropTypes.func.isRequired,
+  transactions: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      symbol: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+      from: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+      address: PropTypes.string.isRequired,
+      txHash: PropTypes.string.isRequired,
+      fee: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      amountFixed: PropTypes.string.isRequired,
+    })).isRequired,
+    foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+  }).isRequired,
 }
 
 export default TransactionsTable

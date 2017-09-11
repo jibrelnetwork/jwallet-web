@@ -1,13 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import getFormattedDateString from 'utils/getFormattedDateString'
-
 import JbIcon from 'components/base/JbIcon'
 
-function TransactionMain({ type, amount, symbol, timestamp, status, from, to, isActive }) {
-  const dateString = getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY')
-
+function TransactionMain({ type, symbol, status, address, amountFixed, date, isActive }) {
   return (
     <div className='row clear'>
       <div className='col-3'>
@@ -16,10 +12,10 @@ function TransactionMain({ type, amount, symbol, timestamp, status, from, to, is
           className='transaction__type'
           small
         />
-        <span className='transaction__amount'>{`${amount.toFixed(3)} ${symbol}`}</span>
+        <span className='transaction__amount'>{`${amountFixed} ${symbol}`}</span>
       </div>
-      <div className='col-3'>{dateString}</div>
-      <div className='col-3 transaction__address'>{(type === 'receive') ? from : to}</div>
+      <div className='col-3'>{date}</div>
+      <div className='col-3 transaction__address'>{address}</div>
       <div className='col-3'>
         <span className={`transaction__status transaction__status--${status.toLowerCase()}`}>
           {status}
@@ -38,15 +34,10 @@ TransactionMain.propTypes = {
   type: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  from: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-  timestamp: PropTypes.number.isRequired,
-  isActive: PropTypes.bool,
-}
-
-TransactionMain.defaultProps = {
-  isActive: false,
+  address: PropTypes.string.isRequired,
+  amountFixed: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
 }
 
 export default TransactionMain

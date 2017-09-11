@@ -11,7 +11,11 @@ import {
   addCustomToken,
 } from 'routes/JWallet/modules/accounts'
 
-import { getTransactions } from 'routes/JWallet/modules/transactions'
+import {
+  getTransactions,
+  searchTransactions,
+  sortTransactions,
+} from 'routes/JWallet/modules/transactions'
 
 import JWallet from '../components/JWallet'
 
@@ -30,6 +34,8 @@ const mapDispatchToProps = {
   sortAccounts,
   addCustomToken,
   getTransactions,
+  searchTransactions,
+  sortTransactions,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(JWallet)
