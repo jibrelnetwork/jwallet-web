@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
-
 import { JbCheckbox, JbIcon } from 'components/base'
 
 function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {

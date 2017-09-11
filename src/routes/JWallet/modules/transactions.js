@@ -18,7 +18,7 @@ export function searchTransactions(searchQuery) {
   }
 }
 
-export function sortTransactions(sortField, saveDirection = false) {
+export function sortTransactions(sortField) {
   return {
     type: SORT_TRANSACTIONS,
     sortField,
