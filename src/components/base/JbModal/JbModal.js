@@ -31,6 +31,7 @@ JbModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   header: PropTypes.node.isRequired,
   body: PropTypes.node.isRequired,
+  footer: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
   isOpen: PropTypes.bool,

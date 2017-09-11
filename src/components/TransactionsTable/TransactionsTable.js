@@ -8,9 +8,9 @@ import TransactionsTableBody from './TransactionsTableBody'
 
 class TransactionsTable extends Component {
   componentWillMount() {
-    const { getTransactions, items } = this.props
+    const { getTransactions, transactions } = this.props
 
-    if (!(items && items.length)) {
+    if (!(transactions.items && transactions.items.length)) {
       getTransactions()
     }
   }

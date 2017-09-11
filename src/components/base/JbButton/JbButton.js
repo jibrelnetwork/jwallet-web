@@ -23,6 +23,7 @@ JbButton.propTypes = {
   label: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   white: PropTypes.bool,
   blue: PropTypes.bool,
 }

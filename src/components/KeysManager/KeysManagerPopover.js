@@ -69,6 +69,11 @@ KeysManagerPopover.propTypes = {
     items: PropTypes.array.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
   }).isRequired,
+  onClickOutside: PropTypes.func,
+}
+
+KeysManagerPopover.defaultProps = {
+  onClickOutside: () => {},
 }
 
 export default KeysManagerPopover
