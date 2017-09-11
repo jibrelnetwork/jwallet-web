@@ -14,9 +14,10 @@ class QrCode extends Component {
   }
 
   renderQr() {
-    this.qr.toCanvas(this.props.code, {
+    const uiSettings = Object.assign({}, this.props.ui, {
       selector: '#in-app-qr-code',
     })
+    this.qr.toCanvas(this.props.code, uiSettings)
   }
 
   render() {
@@ -26,6 +27,11 @@ class QrCode extends Component {
 
 QrCode.propTypes = {
   code: PropTypes.object.isRequired,
+  ui: PropTypes.object,
+}
+
+QrCode.defaultProps = {
+  ui: {},
 }
 
 export default QrCode
