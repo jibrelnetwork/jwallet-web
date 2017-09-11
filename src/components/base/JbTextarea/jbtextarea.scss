@@ -1,0 +1,6 @@
+.field-textarea {
+    min-height: 120px;
+  }
+  .field-textarea :placeholder-shown + label {
+    opacity: 0;
+  }
