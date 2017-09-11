@@ -4,6 +4,7 @@
   @import 'animations';
   @import 'colors';
   @import 'grid';
+  @import 'table';
 
   * {
     margin: 0;
@@ -89,7 +90,6 @@
   @import '../components/base/JbModal/jbModal';
   @import '../components/base/JbPopover/jbPopover';
   @import '../components/base/JbSelect/JbSelect';
-  @import '../components/base/JbTable/jbTable';
 
   @import '../components/AccountItem/accountItem';
   @import '../components/AccountManager/accountManager';
