@@ -7,10 +7,11 @@ import {
   KeysManager,
   Transaction,
   TransactionManager,
-  Header,
+  // Header,
   YourAccounts,
   Search,
   TransactionsTable,
+  QrCode,
 } from '../src/components'
 
 import props from './props'
@@ -65,17 +66,17 @@ storiesOf('TransactionManager', module)
     )
   })
 
-storiesOf('Header', module)
-  .add('Header', () => {
-    return (
-      <Header
-        {...props.keysManagerProps}
-        sendFunds={() => alert('sendFunds handler')}
-        receiveFunds={() => alert('receiveFunds handler')}
-        convertFunds={() => alert('convertFunds handler')}
-      />
-    )
-  })
+// storiesOf('Header', module)
+//   .add('Header', () => {
+//     return (
+//       <Header
+//         {...props.keysManagerProps}
+//         sendFunds={() => alert('sendFunds handler')}
+//         receiveFunds={() => alert('receiveFunds handler')}
+//         convertFunds={() => alert('convertFunds handler')}
+//       />
+//     )
+//   })
 
 storiesOf('YourAccounts', module)
   .add('YourAccounts', () => {
@@ -91,7 +92,7 @@ storiesOf('Search', module)
   .add('Search', () => {
     return (
       <div style={{ margin: '20px' }}>
-        <Search name='something' search={text => { return console.log(`${text} was requested`) }} />
+        <Search name='something' search={(text) => { return console.log(`${text} was requested`) }} />
       </div>
     )
   })
@@ -99,8 +100,24 @@ storiesOf('Search', module)
 storiesOf('TransactionsTable', module)
   .add('TransactionsTable', () => {
     return (
-      <div style={{width: '80%', margin: '40px', background: '#fff'}}>
+      <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
         <TransactionsTable items={props.transactions} sortField='timestamp' />
+      </div>
+    )
+  })
+
+storiesOf('QrCode', module)
+  .add('QrCode', () => {
+
+    const configs = {
+      to: '0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8',
+      value: 10,
+      gas: 42000,
+    }
+
+    return (
+      <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
+        <QrCode code={configs} />
       </div>
     )
   })
