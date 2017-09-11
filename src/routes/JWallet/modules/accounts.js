@@ -57,11 +57,10 @@ export function searchAccounts(searchQuery) {
   }
 }
 
-export function sortAccounts(sortField, saveDirection = false) {
+export function sortAccounts(sortField) {
   return {
     type: SORT_ACCOUNTS,
     sortField,
-    saveDirection,
   }
 }
 

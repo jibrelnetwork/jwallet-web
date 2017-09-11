@@ -136,15 +136,7 @@ function* sortAccounts(action) {
   const sortField = action.sortField || oldSortField
   const { items, sortDirection } = accounts
 
-  /**
-   * We need to save sort direction during of searching,
-   * because old and new fields are equal and during of sorting,
-   * direction will be changed
-   */
-  const anotherDirection = (sortDirection === 'ASC') ? 'DESC' : 'ASC'
-  const newDirection = action.saveDirection ? anotherDirection : sortDirection
-
-  const result = sortItems(items, oldSortField, sortField, newDirection)
+  const result = sortItems(items, oldSortField, sortField, sortDirection)
 
   yield put({ type: SET_ACCOUNTS, items: result.items })
 
