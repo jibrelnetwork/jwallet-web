@@ -10,6 +10,7 @@ import {
   JbLoader,
   JbLogo,
   JbSelect,
+  JbAlert,
 } from '../src/components/base'
 
 import props from './props'
@@ -120,5 +121,12 @@ storiesOf('JbSelect', module)
         list={props.currencyList}
         selected={props.currencyList[0]}
       />
+    )
+  })
+
+storiesOf('JbAlert', module)
+  .add('common', () => {
+    return (
+      <JbAlert text='Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' />
     )
   })
