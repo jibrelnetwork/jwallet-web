@@ -2,6 +2,7 @@ export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 export const SET_TRANSACTIONS = 'SET_TRANSACTIONS'
 export const SEARCH_TRANSACTIONS = 'SEARCH_TRANSACTIONS'
 export const SORT_TRANSACTIONS = 'SORT_TRANSACTIONS'
+export const FILTER_TRANSACTIONS = 'FILTER_TRANSACTIONS'
 export const SET_SEARCH_TRANSACTIONS_OPTIONS = 'SET_SEARCH_TRANSACTIONS_OPTIONS'
 export const SET_SORT_TRANSACTIONS_OPTIONS = 'SET_SORT_TRANSACTIONS_OPTIONS'
 
@@ -22,6 +23,14 @@ export function sortTransactions(sortField) {
   return {
     type: SORT_TRANSACTIONS,
     sortField,
+  }
+}
+
+export function filterTransactions(startDate, endDate) {
+  return {
+    type: FILTER_TRANSACTIONS,
+    startDate,
+    endDate,
   }
 }
 

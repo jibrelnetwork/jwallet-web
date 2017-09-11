@@ -5,19 +5,27 @@ import { Search, TransactionManager } from 'components'
 
 import JbIcon from 'components/base/JbIcon'
 
-const notImplementedHandler = () => alert('Not implemented yet')
+function TransactionsTableHeader(props) {
+  const {
+    removeAccount,
+    sendFunds,
+    receiveFunds,
+    convertFunds,
+    searchTransactions,
+    filterTransactions,
+    searchQuery,
+  } = props
 
-function TransactionsTableHeader({ searchTransactions, searchQuery }) {
   return (
     <div className='transactions-table-header clear'>
       <Search search={searchTransactions} name='transactions' query={searchQuery} />
       <div className='more pull-right'>
         <TransactionManager
-          sendFunds={notImplementedHandler}
-          receiveFunds={notImplementedHandler}
-          convertFunds={notImplementedHandler}
-          filter={notImplementedHandler}
-          remove={notImplementedHandler}
+          sendFunds={sendFunds}
+          receiveFunds={receiveFunds}
+          convertFunds={convertFunds}
+          filter={filterTransactions}
+          remove={removeAccount}
         />
       </div>
       <div className='transactions-table-header__filter pull-right'>
@@ -29,7 +37,12 @@ function TransactionsTableHeader({ searchTransactions, searchQuery }) {
 }
 
 TransactionsTableHeader.propTypes = {
+  removeAccount: PropTypes.func.isRequired,
+  sendFunds: PropTypes.func.isRequired,
+  receiveFunds: PropTypes.func.isRequired,
+  convertFunds: PropTypes.func.isRequired,
   searchTransactions: PropTypes.func.isRequired,
+  filterTransactions: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
 }
 

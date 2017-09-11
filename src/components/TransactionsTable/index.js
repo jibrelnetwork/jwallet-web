@@ -1,3 +1,3 @@
-import TransactionsTable from './TransactionsTable'
+import TransactionsTable from './TransactionsTableContainer'
 
 export default TransactionsTable

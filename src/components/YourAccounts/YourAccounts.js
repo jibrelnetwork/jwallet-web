@@ -45,9 +45,10 @@ class YourAccounts extends Component {
   }
 
   setCurrentAccount = current => (/* event */) => {
-    const { setCurrentAccount, isTransactionsLoading } = this.props
+    const { setCurrentAccount, isTransactionsLoading, accounts } = this.props
+    const isAlreadyCurrent = (current === accounts.currentActiveIndex)
 
-    if (isTransactionsLoading) {
+    if (isTransactionsLoading || isAlreadyCurrent) {
       return
     }
 

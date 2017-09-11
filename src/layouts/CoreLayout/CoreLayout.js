@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { JbFooter, JbLoader } from 'components/base'
-
-import AuthHeader from 'components/AuthHeader'
-import JWalletHeader from 'components/JWalletHeader'
+import {
+  base,
+  AuthHeader,
+  JWalletHeader,
+  ConvertFundsModal,
+  ReceiveFundsModal,
+  SendFundsModal,
+  BackupKeysModal,
+  ImportKeysModal,
+  NewKeysModal,
+} from 'components'
 
 import 'styles/core.scss'
+
+const { JbFooter, JbLoader } = base
 
 class CoreLayout extends Component {
   componentWillMount() {
@@ -29,6 +38,7 @@ class CoreLayout extends Component {
         {this.renderHeader()}
         {this.renderContent()}
         {this.renderFooter()}
+        {this.renderModals()}
       </div>
     )
   }
@@ -61,43 +71,56 @@ class CoreLayout extends Component {
     const {
       getKeysFromCache,
       setActiveKey,
-      addNewKeys,
-      importKeys,
-      backupKeys,
+      openNewKeysModal,
+      openImportKeysModal,
+      openBackupKeysModal,
       clearKeys,
-      sendFunds,
-      receiveFunds,
-      convertFunds,
+      openSendFundsModal,
+      openReceiveFundsModal,
+      openConvertFundsModal,
       keys,
     } = this.props
 
     return (
       <JWalletHeader
+        openSendFundsModal={openSendFundsModal}
+        openReceiveFundsModal={openReceiveFundsModal}
+        openConvertFundsModal={openConvertFundsModal}
         getKeysFromCache={getKeysFromCache}
         setActiveKey={setActiveKey}
-        addNewKeys={addNewKeys}
-        importKeys={importKeys}
-        backupKeys={backupKeys}
+        openNewKeysModal={openNewKeysModal}
+        openImportKeysModal={openImportKeysModal}
+        openBackupKeysModal={openBackupKeysModal}
         clearKeys={clearKeys}
-        sendFunds={sendFunds}
-        receiveFunds={receiveFunds}
-        convertFunds={convertFunds}
         keys={keys}
       />
+    )
+  }
+
+  renderModals() {
+    return (
+      <div>
+        <SendFundsModal />
+        <ReceiveFundsModal />
+        <ConvertFundsModal />
+        <BackupKeysModal />
+        <ImportKeysModal />
+        <NewKeysModal />
+      </div>
     )
   }
 }
 
 CoreLayout.propTypes = {
+  openSendFundsModal: PropTypes.func.isRequired,
+  openReceiveFundsModal: PropTypes.func.isRequired,
+  openConvertFundsModal: PropTypes.func.isRequired,
   getKeysFromCache: PropTypes.func.isRequired,
   setActiveKey: PropTypes.func.isRequired,
-  addNewKeys: PropTypes.func.isRequired,
-  importKeys: PropTypes.func.isRequired,
-  backupKeys: PropTypes.func.isRequired,
+  openNewKeysModal: PropTypes.func.isRequired,
+  openImportKeysModal: PropTypes.func.isRequired,
+  openBackupKeysModal: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
-  sendFunds: PropTypes.func.isRequired,
-  receiveFunds: PropTypes.func.isRequired,
-  convertFunds: PropTypes.func.isRequired,
   keys: PropTypes.shape({
     items: PropTypes.array.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,

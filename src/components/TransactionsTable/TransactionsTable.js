@@ -16,7 +16,13 @@ class TransactionsTable extends Component {
   }
 
   render() {
-    const { searchTransactions, transactions } = this.props
+    const {
+      searchTransactions,
+      filterTransactions,
+      transactions,
+      currentAccountSymbol,
+    } = this.props
+
     const { items, searchQuery, isLoading } = transactions
 
     if (isLoading) {
@@ -24,12 +30,14 @@ class TransactionsTable extends Component {
     }
 
     if (!(items && items.length)) {
+      const message = currentAccountSymbol.length
+        ? `Look like there isn't any ${currentAccountSymbol} in your account yet`
+        : 'Look like there isn\'t any active account'
+
       return (
         <div className='transactions-table'>
           <div className='transactions-table-empty'>
-            <div className='transactions-table__title'>
-              {'Look like there isn\'t any jUSD in your account yet'}
-            </div>
+            <div className='transactions-table__title'>{message}</div>
           </div>
         </div>
       )
@@ -39,6 +47,11 @@ class TransactionsTable extends Component {
       <div className='transactions-table'>
         <TransactionsTableHeader
           searchTransactions={searchTransactions}
+          sendFunds={this.sendFunds}
+          receiveFunds={this.receiveFunds}
+          convertFunds={this.convertFunds}
+          filterTransactions={filterTransactions}
+          removeAccount={this.removeAccount}
           searchQuery={searchQuery}
         />
         <TransactionsTableBody
@@ -50,12 +63,21 @@ class TransactionsTable extends Component {
   }
 
   sortTransactions = field => (/* event */) => this.props.sortTransactions(field)
+  sendFunds = (/* event */) => this.props.openSendFundsModal(this.props.currentAccountIndex)
+  receiveFunds = (/* event */) => this.props.openReceiveFundsModal(this.props.currentAccountIndex)
+  convertFunds = (/* event */) => this.props.openConvertFundsModal(this.props.currentAccountIndex)
+  removeAccount = (/* event */) => this.props.toggleAccount(this.props.currentAccountIndex)
 }
 
 TransactionsTable.propTypes = {
+  toggleAccount: PropTypes.func.isRequired,
+  openSendFundsModal: PropTypes.func.isRequired,
+  openReceiveFundsModal: PropTypes.func.isRequired,
+  openConvertFundsModal: PropTypes.func.isRequired,
   getTransactions: PropTypes.func.isRequired,
   searchTransactions: PropTypes.func.isRequired,
   sortTransactions: PropTypes.func.isRequired,
+  filterTransactions: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -75,6 +97,8 @@ TransactionsTable.propTypes = {
     searchQuery: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
+  currentAccountSymbol: PropTypes.string.isRequired,
+  currentAccountIndex: PropTypes.number.isRequired,
 }
 
 export default TransactionsTable

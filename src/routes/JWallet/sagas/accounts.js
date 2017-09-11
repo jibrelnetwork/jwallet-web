@@ -15,7 +15,7 @@ import {
   SET_SORT_ACCOUNTS_OPTIONS,
 } from '../modules/accounts'
 
-import { GET_TRANSACTIONS, SET_TRANSACTIONS } from '../modules/transactions'
+import { GET_TRANSACTIONS } from '../modules/transactions'
 
 const accountsStub = [{
   symbol: 'ETH',
@@ -67,26 +67,34 @@ function* getAccounts() {
   yield put({ type: SET_ACCOUNTS, items })
 }
 
-function* setCurrentAccount() {
-  yield put({ type: GET_TRANSACTIONS })
+function* setCurrentAccount(action) {
+  yield put({ type: GET_TRANSACTIONS, accountIndex: action.index })
 }
 
-function* setAccounts(action) {
-  const { items } = action
+function* setAccounts() {
+  const { items, currentActiveIndex } = yield select(getStateAccounts)
+  const isCurrentActive = (currentActiveIndex > -1) ? items[currentActiveIndex].isActive : false
 
-  let isActiveAccount = false
-
-  items.forEach((account) => {
-    if (account.isActive) {
-      isActiveAccount = true
-    }
-  })
-
-  if (!isActiveAccount) {
-    yield put({ type: SET_TRANSACTIONS, items: [] })
-  } else {
-    yield put({ type: GET_TRANSACTIONS })
+  if (isCurrentActive) {
+    return
   }
+
+  /**
+   * if isActive flag was set to false for current account
+   * need to set next isActive account as current
+   * if there are no isActive accounts, set currentActiveIndex to -1
+   */
+  let nextActiveIndex = -1
+
+  for (let i = 0; i < items.length; i += 1) {
+    if (items[i].isActive) {
+      nextActiveIndex = i
+
+      break
+    }
+  }
+
+  yield put({ type: SET_CURRENT_ACCOUNT, index: nextActiveIndex })
 }
 
 function* toggleAccount(action) {
