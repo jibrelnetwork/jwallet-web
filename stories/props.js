@@ -19,7 +19,7 @@ export default {
   ],
   loaderStyle: { width: '200px', height: '100px', position: 'relative', border: '3px solid #999' },
   keysManagerProps: {
-    setActiveKey: index => { return () => alert(`Key ${index + 1} picked`) },
+    setActiveKey: (index) => { return () => alert(`Key ${index + 1} picked`) },
     addNewKeys: () => alert('addNewKeys handler'),
     importKeys: () => alert('importKeys handler'),
     backupKeys: () => alert('backupKeys handler'),
@@ -99,4 +99,17 @@ export default {
     isActive: true,
     isCurrent: false,
   }],
+  QRcodeConfigsBasic: {
+    to: '0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8',
+    value: 100,
+    gas: 42000,
+  },
+  QRcodeConfigsUI: {
+    size: 350,
+    errorCorrectionLevel: 'high',
+    color: {
+      light: '#ffcc00ff',
+      dark: '#001111ff',
+    },
+  },
 }
