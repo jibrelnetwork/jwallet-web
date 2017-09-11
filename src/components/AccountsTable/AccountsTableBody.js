@@ -11,7 +11,6 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   const isDesc = (sortDirection === 'DESC')
 
   const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
-
   const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
 
   return (

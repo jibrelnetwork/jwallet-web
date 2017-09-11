@@ -30,6 +30,7 @@ function TransactionsTableHeader({ searchTransactions, searchQuery }) {
 
 TransactionsTableHeader.propTypes = {
   searchTransactions: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
 }
 
 export default TransactionsTableHeader
