@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import YourAccounts from 'components/YourAccounts'
 import TransactionsTable from 'components/TransactionsTable'
 
+import Form from 'components/Form'
+
 function JWallet(props) {
   const {
     getAccounts,
@@ -19,9 +21,16 @@ function JWallet(props) {
     transactions,
   } = props
 
+  const configs = {
+    to: '0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8',
+    value: 10,
+    gas: 42000,
+  }
+
   return (
     <div className='jwallet'>
-      <YourAccounts
+      <Form configs={configs} />
+      {/* <YourAccounts
         getAccounts={getAccounts}
         openAccountManager={openAccountManager}
         closeAccountManager={closeAccountManager}
@@ -33,7 +42,7 @@ function JWallet(props) {
         accounts={accounts}
         isTransactionsLoading={transactions.isLoading}
       />
-      <TransactionsTable getTransactions={getTransactions} {...transactions} />
+      <TransactionsTable getTransactions={getTransactions} {...transactions} /> */}
     </div>
   )
 }
