@@ -66,11 +66,22 @@
     width: 100%;
   }
 
+  .container-wrap {
+    width: 100%;
+    height: 100%;
+  }
+
   .container {
     position: relative;
     max-width: 1200px;
     height: 100%;
     margin: 0 auto;
+    transition: filter .1s ease;
+    will-change: filter;
+  }
+
+  .container--modal-open {
+    filter: blur(1.3px);
   }
 
   .content {

@@ -19,11 +19,11 @@ class NewKeysModal extends Component {
     )
   }
 
-  renderBody() {
+  renderBody = () => {
     return 'New Keys Body'
   }
 
-  renderFooter() {
+  renderFooter = () => {
     return 'New Keys Footer'
   }
 }

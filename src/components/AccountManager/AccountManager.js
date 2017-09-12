@@ -1,45 +1,66 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbModal from 'components/base/JbModal'
+import { JbIcon, JbModal } from 'components/base'
+import AccountsTable from 'components/AccountsTable'
 
-import AccountManagerHeader from './AccountManagerHeader'
-import AccountManagerBody from './AccountManagerBody'
-import AccountManagerFooter from './AccountManagerFooter'
+class AccountManager extends Component {
+  render() {
+    const { closeAccountManager, accounts } = this.props
 
-function AccountManager(props) {
-  const {
-    toggleAccount,
-    searchAccounts,
-    sortAccounts,
-    addCustomToken,
-    closeAccountManager,
-    accounts,
-  } = props
+    return (
+      <JbModal
+        closeModal={closeAccountManager}
+        name='account-manager'
+        header={this.renderAccountManagerHeader()}
+        body={this.renderAccountManagerBody()}
+        footer={this.renderAccountManagerFooter()}
+        isOpen={accounts.isAccountManagerOpen}
+      />
+    )
+  }
 
-  const accountManagerHeader = <AccountManagerHeader />
+  renderAccountManagerHeader = () => {
+    return <div className='account-manager-header' />
+  }
 
-  const accountManagerBody = (
-    <AccountManagerBody
-      accounts={accounts}
-      toggleAccount={toggleAccount}
-      searchAccounts={searchAccounts}
-      sortAccounts={sortAccounts}
-    />
-  )
+  renderAccountManagerBody = () => {
+    const { searchAccounts, accounts } = this.props
 
-  const accountManagerFooter = <AccountManagerFooter addCustomToken={addCustomToken} />
+    return (
+      <div className='account-manager-body'>
+        <AccountsTable
+          toggleAccount={this.toggleAccount}
+          searchAccounts={searchAccounts}
+          sortAccounts={this.sortAccounts}
+          accounts={accounts}
+        />
+      </div>
+    )
+  }
 
-  return (
-    <JbModal
-      closeModal={closeAccountManager}
-      name='account-manager'
-      header={accountManagerHeader}
-      body={accountManagerBody}
-      footer={accountManagerFooter}
-      isOpen={accounts.isAccountManagerOpen}
-    />
-  )
+  renderAccountManagerFooter = () => {
+    return (
+      <div className='account-manager-footer' onClick={this.props.openAddCustomTokenModal}>
+        <JbIcon name='small-add' className='account-manager-footer__icon' small />
+        {'Add custom token'}
+      </div>
+    )
+  }
+
+  toggleAccount = (index) => {
+    return (/* new checkbox state here */) => (e) => {
+      this.props.toggleAccount(index)
+
+      /**
+       * clicking on checkbox call this function twice,
+       * because account row has the same onClick handler as well
+       */
+      e.stopPropagation()
+    }
+  }
+
+  sortAccounts = field => (/* event */) => this.props.sortAccounts(field)
 }
 
 AccountManager.propTypes = {
@@ -47,7 +68,7 @@ AccountManager.propTypes = {
   toggleAccount: PropTypes.func.isRequired,
   searchAccounts: PropTypes.func.isRequired,
   sortAccounts: PropTypes.func.isRequired,
-  addCustomToken: PropTypes.func.isRequired,
+  openAddCustomTokenModal: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,

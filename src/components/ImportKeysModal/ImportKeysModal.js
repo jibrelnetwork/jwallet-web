@@ -19,11 +19,11 @@ class ImportKeysModal extends Component {
     )
   }
 
-  renderBody() {
+  renderBody = () => {
     return 'Import Keys Body'
   }
 
-  renderFooter() {
+  renderFooter = () => {
     return 'Import Keys Footer'
   }
 }
