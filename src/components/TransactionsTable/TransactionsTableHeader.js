@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Search, TransactionManager } from 'components'
-
-import JbIcon from 'components/base/JbIcon'
+import { DatePicker, Search, TransactionManager } from 'components'
 
 function TransactionsTableHeader(props) {
   const {
@@ -13,13 +11,24 @@ function TransactionsTableHeader(props) {
     convertFunds,
     searchTransactions,
     filterTransactions,
+    setStartFilterTime,
+    setEndFilterTime,
+    filterData,
     searchQuery,
   } = props
 
   return (
     <div className='transactions-table-header clear'>
       <Search search={searchTransactions} name='transactions' query={searchQuery} />
-      <div className='more pull-right'>
+      <div className='transactions-table-header__filter pull-left'>
+        <DatePicker
+          filterTransactions={filterTransactions}
+          setStartFilterTime={setStartFilterTime}
+          setEndFilterTime={setEndFilterTime}
+          filterData={filterData}
+        />
+      </div>
+      <div className='transactions-table-header__more'>
         <TransactionManager
           sendFunds={sendFunds}
           receiveFunds={receiveFunds}
@@ -27,10 +36,6 @@ function TransactionsTableHeader(props) {
           filter={filterTransactions}
           remove={removeAccount}
         />
-      </div>
-      <div className='transactions-table-header__filter pull-right'>
-        <span>{'Date: 27.03 - 31.05'}</span>
-        <JbIcon name='small-clear' small className='filter__clear-icon' />
       </div>
     </div>
   )
@@ -43,6 +48,13 @@ TransactionsTableHeader.propTypes = {
   convertFunds: PropTypes.func.isRequired,
   searchTransactions: PropTypes.func.isRequired,
   filterTransactions: PropTypes.func.isRequired,
+  setStartFilterTime: PropTypes.func.isRequired,
+  setEndFilterTime: PropTypes.func.isRequired,
+  filterData: PropTypes.shape({
+    startTime: PropTypes.number.isRequired,
+    endTime: PropTypes.number.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+  }).isRequired,
   searchQuery: PropTypes.string.isRequired,
 }
 

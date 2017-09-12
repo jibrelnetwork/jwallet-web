@@ -1,10 +1,15 @@
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 export const SET_TRANSACTIONS = 'SET_TRANSACTIONS'
+
 export const SEARCH_TRANSACTIONS = 'SEARCH_TRANSACTIONS'
-export const SORT_TRANSACTIONS = 'SORT_TRANSACTIONS'
-export const FILTER_TRANSACTIONS = 'FILTER_TRANSACTIONS'
 export const SET_SEARCH_TRANSACTIONS_OPTIONS = 'SET_SEARCH_TRANSACTIONS_OPTIONS'
+
+export const SORT_TRANSACTIONS = 'SORT_TRANSACTIONS'
 export const SET_SORT_TRANSACTIONS_OPTIONS = 'SET_SORT_TRANSACTIONS_OPTIONS'
+
+export const SET_START_FILTER_TIME = 'SET_START_FILTER_TIME'
+export const SET_END_FILTER_TIME = 'SET_END_FILTER_TIME'
+export const FILTER_TRANSACTIONS = 'FILTER_TRANSACTIONS'
 
 export function getTransactions() {
   return {
@@ -26,14 +31,6 @@ export function sortTransactions(sortField) {
   }
 }
 
-export function filterTransactions(startDate, endDate) {
-  return {
-    type: FILTER_TRANSACTIONS,
-    startDate,
-    endDate,
-  }
-}
-
 export function setSearchTransactionsOptions(foundItemsHashes, searchQuery) {
   return {
     type: SET_SEARCH_TRANSACTIONS_OPTIONS,
@@ -47,6 +44,27 @@ export function setSortTransactionsOptions(sortField, sortDirection) {
     type: SET_SORT_TRANSACTIONS_OPTIONS,
     sortField,
     sortDirection,
+  }
+}
+
+export function setStartFilterTime(startTime) {
+  return {
+    type: SET_START_FILTER_TIME,
+    startTime,
+  }
+}
+
+export function setEndFilterTime(endTime) {
+  return {
+    type: SET_END_FILTER_TIME,
+    endTime,
+  }
+}
+
+export function filterTransactions(isOpen) {
+  return {
+    type: FILTER_TRANSACTIONS,
+    isOpen,
   }
 }
 
@@ -72,9 +90,35 @@ const ACTION_HANDLERS = {
     sortField: action.sortField,
     sortDirection: action.sortDirection,
   }),
+  [SET_START_FILTER_TIME]: (state, action) => ({
+    ...state,
+    filterData: {
+      ...state.filterData,
+      startTime: action.startTime,
+    },
+  }),
+  [SET_END_FILTER_TIME]: (state, action) => ({
+    ...state,
+    filterData: {
+      ...state.filterData,
+      endTime: action.endTime,
+    },
+  }),
+  [FILTER_TRANSACTIONS]: (state, action) => ({
+    ...state,
+    filterData: {
+      ...state.filterData,
+      isOpen: action.isOpen,
+    },
+  }),
 }
 
 const initialState = {
+  filterData: {
+    startTime: 0,
+    endTime: 0,
+    isOpen: false,
+  },
   items: [],
   foundItemsHashes: [],
   sortField: '',

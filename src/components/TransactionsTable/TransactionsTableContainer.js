@@ -12,6 +12,8 @@ import {
   getTransactions,
   searchTransactions,
   sortTransactions,
+  setStartFilterTime,
+  setEndFilterTime,
   filterTransactions,
 } from 'routes/JWallet/modules/transactions'
 
@@ -37,6 +39,8 @@ const mapDispatchToProps = {
   getTransactions,
   searchTransactions,
   sortTransactions,
+  setStartFilterTime,
+  setEndFilterTime,
   filterTransactions,
 }
 

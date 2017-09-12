@@ -18,12 +18,13 @@ class TransactionsTable extends Component {
   render() {
     const {
       searchTransactions,
-      filterTransactions,
+      setStartFilterTime,
+      setEndFilterTime,
       transactions,
       currentAccountSymbol,
     } = this.props
 
-    const { items, searchQuery, isLoading } = transactions
+    const { filterData, items, searchQuery, isLoading } = transactions
 
     if (isLoading) {
       return <div className='transactions-table'><JbLoader /></div>
@@ -50,8 +51,11 @@ class TransactionsTable extends Component {
           sendFunds={this.sendFunds}
           receiveFunds={this.receiveFunds}
           convertFunds={this.convertFunds}
-          filterTransactions={filterTransactions}
+          filterTransactions={this.filterTransactions}
           removeAccount={this.removeAccount}
+          setStartFilterTime={setStartFilterTime}
+          setEndFilterTime={setEndFilterTime}
+          filterData={filterData}
           searchQuery={searchQuery}
         />
         <TransactionsTableBody
@@ -66,6 +70,7 @@ class TransactionsTable extends Component {
   sendFunds = (/* event */) => this.props.openSendFundsModal(this.props.currentAccountIndex)
   receiveFunds = (/* event */) => this.props.openReceiveFundsModal(this.props.currentAccountIndex)
   convertFunds = (/* event */) => this.props.openConvertFundsModal(this.props.currentAccountIndex)
+  filterTransactions = isFilterOpen => (/* event */) => this.props.filterTransactions(isFilterOpen)
   removeAccount = (/* event */) => this.props.toggleAccount(this.props.currentAccountIndex)
 }
 
@@ -77,8 +82,15 @@ TransactionsTable.propTypes = {
   getTransactions: PropTypes.func.isRequired,
   searchTransactions: PropTypes.func.isRequired,
   sortTransactions: PropTypes.func.isRequired,
+  setStartFilterTime: PropTypes.func.isRequired,
+  setEndFilterTime: PropTypes.func.isRequired,
   filterTransactions: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
+    filterData: PropTypes.shape({
+      startTime: PropTypes.number.isRequired,
+      endTime: PropTypes.number.isRequired,
+      isOpen: PropTypes.bool.isRequired,
+    }).isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       type: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
@@ -90,6 +102,7 @@ TransactionsTable.propTypes = {
       fee: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       amountFixed: PropTypes.string.isRequired,
+      timestamp: PropTypes.number.isRequired,
     })).isRequired,
     foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,
