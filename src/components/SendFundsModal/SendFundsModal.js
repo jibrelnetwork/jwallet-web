@@ -19,11 +19,11 @@ class SendFundsModal extends Component {
     )
   }
 
-  renderBody() {
+  renderBody = () => {
     return 'Send Funds Body'
   }
 
-  renderFooter() {
+  renderFooter = () => {
     return 'Send Funds Footer'
   }
 }

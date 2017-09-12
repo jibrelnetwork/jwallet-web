@@ -18,6 +18,8 @@ import {
 import CoreLayout from './CoreLayout'
 
 const mapStateToProps = state => ({
+  accounts: state.accounts,
+  funds: state.funds,
   keys: state.keys,
 })
 

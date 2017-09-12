@@ -1,3 +1,3 @@
-import AccountManager from './AccountManager'
+import AccountManager from './AccountManagerContainer'
 
 export default AccountManager

@@ -19,11 +19,11 @@ class ConvertFundsModal extends Component {
     )
   }
 
-  renderBody() {
+  renderBody = () => {
     return 'Convert Funds Body'
   }
 
-  renderFooter() {
+  renderFooter = () => {
     return 'Convert Funds Footer'
   }
 }

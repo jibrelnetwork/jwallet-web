@@ -19,11 +19,11 @@ class ReceiveFundsModal extends Component {
     )
   }
 
-  renderBody() {
+  renderBody = () => {
     return 'Receive Funds Body'
   }
 
-  renderFooter() {
+  renderFooter = () => {
     return 'Receive Funds Footer'
   }
 }
