@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 function TransactionMain({ type, symbol, status, address, amountFixed, date, isActive }) {
   return (
     <div className='row clear'>
       <div className='col-3'>
-        <JbIcon
+        <JIcon
           name={`small-${(status === 'Rejected') ? 'convert' : type}`}
           className='transaction__type'
           small
@@ -21,7 +21,7 @@ function TransactionMain({ type, symbol, status, address, amountFixed, date, isA
           {status}
         </span>
       </div>
-      <JbIcon
+      <JIcon
         name={'small-arrow'}
         className={`transaction__icon ${isActive ? 'transaction__icon--active' : ''}`}
         small

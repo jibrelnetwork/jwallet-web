@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 class DatePicker extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class DatePicker extends Component {
     const endDate = endTime ? moment(endTime) : null
 
     const icon = (startDate || endDate)
-      ? <JbIcon name='small-clear' small className='filter__clear-icon' onClick={this.clean} />
+      ? <JIcon name='small-clear' small className='filter__clear-icon' onClick={this.clean} />
       : null
 
     return (

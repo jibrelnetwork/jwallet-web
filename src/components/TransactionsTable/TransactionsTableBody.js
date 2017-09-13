@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Transaction from 'components/Transaction'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 const transactionsColumns = [
   { field: 'amount', title: 'Amount' },
@@ -46,7 +46,7 @@ function TransactionsTableBody({ sortTransactions, transactions }) {
                   onClick={sortTransactions(field)}
                 >
                   <span className='pull-left'>{title}</span>
-                  <JbIcon
+                  <JIcon
                     small
                     name={`small-arrow${(isDesc && isCurrent) ? '' : '-up'}`}
                     className={`pull-left table__icon table__icon--${isCurrent ? 'active' : ''}`}

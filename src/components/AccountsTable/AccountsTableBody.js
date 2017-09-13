@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { JbCheckbox, JbIcon } from 'components/base'
+import { JCheckbox, JIcon } from 'components/base'
 
 function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   const { items, foundItemsSymbols, sortField, sortDirection, searchQuery, isActiveAll } = accounts
@@ -16,9 +16,9 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
       <div className='accounts-table__item table__item table__item--title'>
         <div className='row clear'>
           <div className='table__title-item col-1-5 clear' onClick={sortAccounts('symbol')}>
-            <JbCheckbox toggle={toggleAccount(-1)} isActive={isActiveAll} />
+            <JCheckbox toggle={toggleAccount(-1)} isActive={isActiveAll} />
             <span className='accounts-table__symbol pull-left'>{'Symbol'}</span>
-            <JbIcon
+            <JIcon
               small
               name={`small-arrow${(isDesc && (sortField === 'symbol')) ? '' : '-up'}`}
               className={`${iconClassName}${(sortField === 'symbol') ? 'active' : ''}`}
@@ -26,7 +26,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div className='table__title-item col-3 clear' onClick={sortAccounts('name')}>
             <span className='pull-left'>{'Name'}</span>
-            <JbIcon
+            <JIcon
               small
               name={`small-arrow${(isDesc && (sortField === 'name')) ? '' : '-up'}`}
               className={`${iconClassName}${(sortField === 'name') ? 'active' : ''}`}
@@ -34,7 +34,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div className='table__title-item col-2 clear' onClick={sortAccounts('balance')}>
             <span className='pull-left'>{'Balance'}</span>
-            <JbIcon
+            <JIcon
               small
               name={`small-arrow${(isDesc && (sortField === 'balance')) ? '' : '-up'}`}
               className={`${iconClassName}${(sortField === 'balance') ? 'active' : ''}`}
@@ -42,7 +42,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div className='table__title-item col-2 clear' onClick={sortAccounts('licensed')}>
             <span className='pull-left'>{'Licenced'}</span>
-            <JbIcon
+            <JIcon
               small
               name={`small-arrow${(isDesc && (sortField === 'licensed')) ? '' : '-up'}`}
               className={`${iconClassName}${(sortField === 'licensed') ? 'active' : ''}`}
@@ -50,7 +50,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div className='table__title-item col-1-5 clear' onClick={sortAccounts('transfer')}>
             <span className='pull-left'>{'Transfer'}</span>
-            <JbIcon
+            <JIcon
               small
               name={`small-arrow${(isDesc && (sortField === 'transfer')) ? '' : '-up'}`}
               className={`${iconClassName}${(sortField === 'transfer') ? 'active' : ''}`}
@@ -70,7 +70,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
             >
               <div className='row clear'>
                 <div className='accounts-table__field col-1-5'>
-                  <JbCheckbox
+                  <JCheckbox
                     toggle={toggleAccount(index)}
                     isActive={isActive}
                     label={symbol}

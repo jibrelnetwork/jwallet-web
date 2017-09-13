@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbModal from 'components/base/JbModal'
+import JModal from 'components/base/JModal'
 
 class ConvertFundsModal extends Component {
   render() {
     const { closeConvertFundsModal, funds } = this.props
 
     return (
-      <JbModal
+      <JModal
         closeModal={closeConvertFundsModal}
         name='send-funds'
         header={'Convert Funds'}

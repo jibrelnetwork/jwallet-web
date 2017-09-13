@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbModal from 'components/base/JbModal'
+import JModal from 'components/base/JModal'
 
 class ImportKeysModal extends Component {
   render() {
     const { closeImportKeysModal, keys } = this.props
 
     return (
-      <JbModal
+      <JModal
         closeModal={closeImportKeysModal}
         name='import-keys'
         header={'Import Keys'}

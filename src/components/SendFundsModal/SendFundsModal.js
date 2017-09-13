@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbModal from 'components/base/JbModal'
+import JModal from 'components/base/JModal'
 import JTextInput from 'components/base/JTextInput'
 
 class SendFundsModal extends Component {
@@ -9,7 +9,7 @@ class SendFundsModal extends Component {
     const { closeSendFundsModal, funds } = this.props
 
     return (
-      <JbModal
+      <JModal
         closeModal={closeSendFundsModal}
         name='send-funds'
         header={'Send Funds'}

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbButton from 'components/base/JbButton'
+import JButton from 'components/base/JButton'
 
 function Auth({ openNewKeysModal, openImportKeysModal }) {
   return (
@@ -12,8 +12,8 @@ function Auth({ openNewKeysModal, openImportKeysModal }) {
           {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae egestas nisi.'}
         </div>
         <div className='auth__buttons'>
-          <JbButton white label={'Create new keys'} onClick={openNewKeysModal} />
-          <JbButton blue label={'Import keys'} onClick={openImportKeysModal} />
+          <JButton white label={'Create new keys'} onClick={openNewKeysModal} />
+          <JButton blue label={'Import keys'} onClick={openImportKeysModal} />
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { JbIcon, JbModal } from 'components/base'
+import { JIcon, JModal } from 'components/base'
 import AccountsTable from 'components/AccountsTable'
 
 class AccountManager extends Component {
@@ -9,7 +9,7 @@ class AccountManager extends Component {
     const { closeAccountManager, accounts } = this.props
 
     return (
-      <JbModal
+      <JModal
         closeModal={closeAccountManager}
         name='account-manager'
         header={this.renderAccountManagerHeader()}
@@ -42,7 +42,7 @@ class AccountManager extends Component {
   renderAccountManagerFooter = () => {
     return (
       <div className='account-manager-footer' onClick={this.props.openAddCustomTokenModal}>
-        <JbIcon name='small-add' className='account-manager-footer__icon' small />
+        <JIcon name='small-add' className='account-manager-footer__icon' small />
         {'Add custom token'}
       </div>
     )
