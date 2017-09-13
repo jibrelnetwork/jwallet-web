@@ -1,12 +1,63 @@
-.select {
+.select-list {
     padding: 0;
     &:hover {
-      ul {
+      .select-list__list {
         border: 1px solid rgba(45,44,62,0.4);
       }
     }
-    .selected {
+  }
+
+.select-list__list {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    border: 1px solid rgba(45,44,62,0.2);
+    background-color: $white;
+    z-index: 10;
+    padding: 5px 0;
+    &.scroll {
+      height: 136px;
+      overflow: auto;
+    }
+    a {
       display: block;
+      line-height: 42px;
+      padding: 0 15px;
+      color: $gray;
+      &.disabled {
+        opacity: 0.4;
+        cursor: default;
+        background-color: transparent !important;
+      }
+      &.active {
+        background-color: $line;
+        color: $gray;
+      }
+      &:hover {
+        color: $blue;
+      }
+    }
+    &:target {
+      display: block;
+    }
+  }
+
+  .select-list__label {
+    font-size: 11px;
+    padding: 0 5px;
+    background-color: $white;
+    position: absolute;
+    color: $gray2;
+    left: 10px;
+    top: -5px;
+    opacity: 1;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .select-list__selected {
+  display: block;
       position: relative;
       color: $gray;
       padding: 10px 15px;
@@ -26,41 +77,8 @@
           transform: rotate(180deg);
         }
       }
-    }
-    ul {
-      display: none;
-      position: absolute;
-      top: 45px;
-      left: 0;
-      width: 100%;
-      border: 1px solid rgba(45,44,62,0.2);
-      background-color: $white;
-      z-index: 10;
-      padding: 5px 0;
-      &.scroll {
-        height: 136px;
-        overflow: auto;
-      }
-      a {
-        display: block;
-        line-height: 42px;
-        padding: 0 15px;
-        color: $gray;
-        &.disabled {
-          opacity: 0.4;
-          cursor: default;
-          background-color: transparent !important;
-        }
-        &.active {
-          background-color: $line;
-          color: $gray;
-        }
-        &:hover {
-          color: $blue;
-        }
-      }
-      &:target {
-        display: block;
-      }
-    }
+  }
+
+  .select-list__message {
+
   }
