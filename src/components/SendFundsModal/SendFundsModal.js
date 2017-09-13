@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import JbModal from 'components/base/JbModal'
+import JTextInput from 'components/base/JTextInput'
 
 class SendFundsModal extends Component {
   render() {
@@ -20,12 +21,54 @@ class SendFundsModal extends Component {
   }
 
   renderBody = () => {
-    return 'Send Funds Body'
+    return (
+      <div className='send-funds__body'>
+        {this.renderRecipientAddress()}
+      </div>
+    )
+  }
+
+  renderRecipientAddress = () => {
+    const { setSendFundsAddress, funds } = this.props
+
+    return (
+      <JTextInput
+        onValueChange={setSendFundsAddress}
+        name='recipient-address'
+        placeholder='Recipient address'
+        value={funds.sendFormData.address}
+        errorMessage={this.getInvalidFieldMessage('address')}
+        successMessage={this.getValidFieldMessage('address')}
+        editable={this.isEditableField('address')}
+      />
+    )
   }
 
   renderFooter = () => {
     return 'Send Funds Footer'
   }
+
+  getValidFieldMessage = (name) => {
+    return this.getFieldMessage(this.props.funds.sendFormData.validFields, name)
+  }
+
+  getInvalidFieldMessage = (name) => {
+    return this.getFieldMessage(this.props.funds.sendFormData.invalidFields, name)
+  }
+
+  getFieldMessage = (fields, name) => {
+    for (let i = 0; i < fields.length; i += 1) {
+      const field = fields[i]
+
+      if (field.name === name) {
+        return field.message
+      }
+    }
+
+    return ''
+  }
+
+  isEditableField = name => (this.props.funds.sendFormData.disabledFields.indexOf(name) === -1)
 }
 
 SendFundsModal.propTypes = {

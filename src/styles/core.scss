@@ -1,7 +1,6 @@
 :global {
   @import 'base';
   @import 'adaptive';
-  @import 'animations';
   @import 'colors';
   @import 'grid';
   @import 'table';
@@ -90,12 +89,12 @@
     min-height: unquote('calc(100vh - 160px)');
   }
 
+  @import '../components/base/JTextInput/jTextInput';
   @import '../components/base/JbButton/jbButton';
   @import '../components/base/JbCheckbox/jbCheckbox';
   @import '../components/base/JbFooter/jbFooter';
   @import '../components/base/JbHeader/jbHeader';
   @import '../components/base/JbIcon/jbIcon';
-  @import '../components/base/JbInput/JbInput';
   @import '../components/base/JbLoader/jbLoader';
   @import '../components/base/JbLogo/jbLogo';
   @import '../components/base/JbModal/jbModal';

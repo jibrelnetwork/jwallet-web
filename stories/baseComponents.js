@@ -3,10 +3,10 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import {
+  JTextInput,
   JbButton,
   JbCheckbox,
   JbIcon,
-  JbInput,
   JbLoader,
   JbLogo,
   JbSelect,
@@ -64,23 +64,65 @@ storiesOf('JbIcon', module)
     )
   })
 
-storiesOf('JbInput', module)
+storiesOf('JTextInput', module)
   .add('common', () => {
     return (
-      <JbInput
-        error={null}
-        label={'Account name'}
-        placeholder={'Mr. Cardholder'}
-      />
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JTextInput
+          onValueChange={text => console.log(text)}
+          name='common'
+          placeholder='Common Field'
+          value={''}
+          errorMessage={''}
+          successMessage={''}
+          editable={true}
+        />
+      </div>
     )
   })
-  .add('error', () => {
+  .add('with error message', () => {
     return (
-      <JbInput
-        error={'Missing name'}
-        label={'Account name'}
-        placeholder={'Mr. Cardholder'}
-      />
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JTextInput
+          onValueChange={text => console.log(text)}
+          name='error'
+          placeholder='Error Field'
+          value={''}
+          errorMessage={'Something is wrong'}
+          successMessage={''}
+          editable={true}
+        />
+      </div>
+    )
+  })
+  .add('with success message', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JTextInput
+          onValueChange={text => console.log(text)}
+          name='success'
+          placeholder='Success Field'
+          value={''}
+          errorMessage={''}
+          successMessage={'Something is right'}
+          editable={true}
+        />
+      </div>
+    )
+  })
+  .add('disabled', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JTextInput
+          onValueChange={text => console.log(text)}
+          name='disabled'
+          placeholder='Disabled Field'
+          value={''}
+          errorMessage={''}
+          successMessage={''}
+          editable={false}
+        />
+      </div>
     )
   })
 
