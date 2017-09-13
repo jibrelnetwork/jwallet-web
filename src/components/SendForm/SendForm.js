@@ -7,6 +7,7 @@ import {
   JbAlert,
   JTextInput,
   JbIcon,
+  JbInputSelect,
 } from '../base'
 
 const currencyList = [
@@ -26,7 +27,7 @@ class SendForm extends Component {
 
   toggleExtraOptions() {
     this.setState({
-      toggleExtraOptions: !this.state.toggleExtraOptions,
+      extraFieldsVizible: !this.state.extraFieldsVizible,
     })
   }
 
@@ -35,12 +36,14 @@ class SendForm extends Component {
   }
 
   render() {
+    const extraFieldsBlockOpen = this.state.extraFieldsVizible
+
     return <div className='app-form'>
       <JbAlert text='Test alert box text'/>
-      <JTextInput
+    {}  <JTextInput
         onValueChange={this.updateFromState}
         multiline={false}
-        errorMessage=''
+        errorMessage='Something is wrong!'
         successMessage=''
         name='Disabled field'
         placeholder='0x678546756745..'
@@ -51,32 +54,57 @@ class SendForm extends Component {
         multiline={false}
         errorMessage=''
         successMessage=''
-        name='Amount'
-        placeholder='100'
+        editable={false}
+        name='Disabled field'
+        placeholder='0x678546756745..'
         value={''}
       />
-
-      <span onClick={this.toggleExtraOptions}>
-        <JbIcon name='add' small='true'/> Custom options
-        
-        <JTextInput
+      <JTextInput
         onValueChange={this.updateFromState}
-        multiline={true}
+        multiline={false}
+        editable
         errorMessage=''
         successMessage=''
-        name='Transaction description'
-        placeholder=''
+        name='Amount'
+        placeholder='Amount'
         value={''}
       />
+    
+    {<div>
+      <div onClick={() => this.toggleExtraOptions()}>
+        <JbIcon
+          name='small-add'
+          small
+        /> Custom options
+        </div>
 
-        <JbSelect error={null}
-          label={'Currency'}
-          list={currencyList}
-          selected={currencyList[0]}
-      />
-      </span>
+        {extraFieldsBlockOpen && <div>
+          <JTextInput
+            onValueChange={this.updateFromState}
+            multiline
+            editable
+            errorMessage=''
+            successMessage=''
+            name='Transaction description'
+            placeholder=''
+            value={''}
+          />
 
-      <JbButton label='Send'/>
+          <JbSelect error={null}
+            label={'Currency'}
+            list={currencyList}
+            selected={currencyList[0]}
+          />
+
+          <JbInputSelect error={null}
+            label={'Currency'}
+            list={currencyList}
+            selected={currencyList[0]}
+          />
+                </div>}
+      </div>
+      }
+      <JbButton label='Send' fullWidth />
 
     </div>
   }
