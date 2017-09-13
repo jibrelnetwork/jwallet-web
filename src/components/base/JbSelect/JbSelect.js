@@ -13,19 +13,17 @@ function JbSelect(props) {
     return <li key={i}><a href='#'>{item.text}</a></li>
   }) : null
 
-  const htmlListEl = htmlListItems ? <ul class='scroll' id='select'>{htmlListItems}</ul> : null
+  const htmlListEl = htmlListItems ? <ul className='select-list__list'>{htmlListItems}</ul> : null
 
-  const selectedEl = selected ? <a href='#select' className='selected'>{selected.text}</a> : null
+  const selectedEl = selected ? <a href='#select' className='select-list__selected'>{selected.text}</a> : null
 
-  const errorEl = error ? <div className='message'>{error}</div> : null
+  const errorEl = error ? <div className='select-list__message'>{error}</div> : null
 
-  return (<div className='field field-select'>
-    <div className='select'>
-      <label>{label}</label>
-      {selectedEl}
-      {htmlListEl}
-      {errorEl}
-    </div>
+  return (<div className='select-list'>
+    <label className='select-list__label'>{label}</label>
+    {selectedEl}
+    {htmlListEl}
+    {errorEl}
   </div>)
 }
 
