@@ -7,10 +7,7 @@ import {
   KeysManager,
   Transaction,
   TransactionManager,
-  // Header,
-  YourAccounts,
   Search,
-  TransactionsTable,
   QrCode,
 } from '../src/components'
 
@@ -59,32 +56,10 @@ storiesOf('TransactionManager', module)
           sendFunds={() => alert('sendFunds handler')}
           receiveFunds={() => alert('receiveFunds handler')}
           convertFunds={() => alert('convertFunds handler')}
-          filter={() => alert('filter handler')}
+          filter={() => () => alert('filter handler')}
           remove={() => alert('remove handler')}
         />
       </div>
-    )
-  })
-
-// storiesOf('Header', module)
-//   .add('Header', () => {
-//     return (
-//       <Header
-//         {...props.keysManagerProps}
-//         sendFunds={() => alert('sendFunds handler')}
-//         receiveFunds={() => alert('receiveFunds handler')}
-//         convertFunds={() => alert('convertFunds handler')}
-//       />
-//     )
-//   })
-
-storiesOf('YourAccounts', module)
-  .add('YourAccounts', () => {
-    return (
-      <YourAccounts
-        searchAccounts={() => alert('searchAccounts handler')}
-        addCustomToken={() => alert('addCustomToken handler')}
-      />
     )
   })
 
@@ -92,16 +67,11 @@ storiesOf('Search', module)
   .add('Search', () => {
     return (
       <div style={{ margin: '20px' }}>
-        <Search name='something' search={(text) => { return console.log(`${text} was requested`) }} />
-      </div>
-    )
-  })
-
-storiesOf('TransactionsTable', module)
-  .add('TransactionsTable', () => {
-    return (
-      <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <TransactionsTable items={props.transactions} sortField='timestamp' />
+        <Search
+          search={text => console.log(`${text} was requested`)}
+          name='something'
+          query=''
+        />
       </div>
     )
   })
