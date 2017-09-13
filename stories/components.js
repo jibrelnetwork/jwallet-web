@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions'
 
 import {
   AccountItem,
+  CopyableField,
   KeysManager,
   Transaction,
   TransactionManager,
@@ -88,6 +89,15 @@ storiesOf('QrCode', module)
     return (
       <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
         <QrCode code={props.QRcodeConfigsBasic} ui={props.QRcodeConfigsUI}/>
+      </div>
+    )
+  })
+
+storiesOf('CopyableField', module)
+  .add('common', () => {
+    return (
+      <div style={{ width: '420px', padding: '40px', background: '#fff' }}>
+        <CopyableField value={props.transactions[0].from} placeholder='Address' />
       </div>
     )
   })
