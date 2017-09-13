@@ -9,6 +9,7 @@ import {
   TransactionManager,
   Search,
   QrCode,
+  SendForm,
 } from '../src/components'
 
 import props from './props'
@@ -92,18 +93,12 @@ storiesOf('QrCode', module)
     )
   })
 
-storiesOf('QrCode', module)
+storiesOf('SendForm', module)
   .add('basic', () => {
     return (
       <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <QrCode code={props.QRcodeConfigsBasic} />
+        <SendForm/>
       </div>
     )
   })
-  .add('changed UI', () => {
-    return (
-      <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <QrCode code={props.QRcodeConfigsBasic} ui={props.QRcodeConfigsUI}/>
-      </div>
-    )
-  })
+
