@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function JbButton({ onClick, label, className, disabled, white, blue, ...otherProps }) {
-  let buttonClassName = 'button'
+function JbButton({ onClick, label, className, disabled, white, blue, fullWidth, ...otherProps }) {
+  let buttonClassName = fullWidth ? 'button button--full-width' : 'button'
 
   if (disabled) {
     buttonClassName = `${buttonClassName} button--disabled`
@@ -26,6 +26,7 @@ JbButton.propTypes = {
   disabled: PropTypes.bool,
   white: PropTypes.bool,
   blue: PropTypes.bool,
+  fullWidth: PropTypes.bool,
 }
 
 JbButton.defaultProps = {
@@ -34,6 +35,7 @@ JbButton.defaultProps = {
   disabled: false,
   white: false,
   blue: true,
+  fullWidth: false,
 }
 
 export default JbButton

@@ -36,6 +36,11 @@
   }
 }
 
+.button--full-width {
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+}
+
 .button--white {
   background-color: $white;
   color: $blue;
