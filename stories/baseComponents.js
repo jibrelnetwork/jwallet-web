@@ -120,7 +120,22 @@ storiesOf('JTextInput', module)
           value={''}
           errorMessage={''}
           successMessage={''}
-          editable={false}
+        />
+      </div>
+    )
+  })
+  .add('multiline', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JTextInput
+          multiline
+          onValueChange={text => console.log(text)}
+          name='multiline'
+          placeholder='Multiline Field'
+          value={''}
+          errorMessage={''}
+          successMessage={''}
+          editable={true}
         />
       </div>
     )
