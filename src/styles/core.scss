@@ -89,6 +89,7 @@
     min-height: unquote('calc(100vh - 160px)');
   }
 
+  @import '../components/base/JFormAlert/jFormAlert';
   @import '../components/base/JTextInput/jTextInput';
   @import '../components/base/JbButton/jbButton';
   @import '../components/base/JbCheckbox/jbCheckbox';
@@ -100,7 +101,6 @@
   @import '../components/base/JbModal/jbModal';
   @import '../components/base/JbPopover/jbPopover';
   @import '../components/base/JbSelect/JbSelect';
-  @import '../components/base/JbAlert/jbalert';
   @import '../components/base/JbInputSelect/jbinputselect';
 
   @import '../components/AccountItem/accountItem';

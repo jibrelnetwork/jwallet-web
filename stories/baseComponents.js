@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import {
+  JFormAlert,
   JTextInput,
   JbButton,
   JbCheckbox,
@@ -10,7 +11,6 @@ import {
   JbLoader,
   JbLogo,
   JbSelect,
-  JbAlert,
 } from '../src/components/base'
 
 import props from './props'
@@ -181,9 +181,13 @@ storiesOf('JbSelect', module)
     )
   })
 
-storiesOf('JbAlert', module)
+storiesOf('JFormAlert', module)
   .add('common', () => {
     return (
-      <JbAlert text='Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' />
+      <div style={{width: '420px'}}>
+        <JFormAlert
+          text='Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'
+        />
+      </div>
     )
   })
