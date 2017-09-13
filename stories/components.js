@@ -9,7 +9,6 @@ import {
   TransactionManager,
   Search,
   QrCode,
-  SendForm,
 } from '../src/components'
 
 import props from './props'
@@ -92,13 +91,3 @@ storiesOf('QrCode', module)
       </div>
     )
   })
-
-storiesOf('SendForm', module)
-  .add('basic', () => {
-    return (
-      <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <SendForm/>
-      </div>
-    )
-  })
-
