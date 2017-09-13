@@ -4,6 +4,7 @@
   width: 70%;
   height: 100%;
   background: $white;
+  overflow: hidden;
 }
 
 .transactions-table-header {
@@ -15,14 +16,15 @@
 
 .transactions-table-header__filter {
   position: relative;
-  margin-right: 30px;
-  padding-right: 30px;
+  width: 50%;
+  height: 24px;
+  line-height: 24px;
   font-weight: 600;
 
   &:after {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: 30px;
     height: 30px;
     width: 1px;
     margin-top: -15px;
@@ -32,10 +34,20 @@
   }
 }
 
+.transactions-table-header__more {
+  position: absolute;
+  top: 30px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+}
+
 .filter__clear-icon {
-  position: relative;
-  top: -1px;
-  margin-left: 4px;
+  position: absolute;
+  top: 1px;
+  right: 40px;
+  height: 24px;
+  line-height: 24px;
   opacity: 0.5;
   cursor: pointer;
 

@@ -1,3 +1,3 @@
-import YourAccounts from './YourAccounts'
+import YourAccounts from './YourAccountsContainer'
 
 export default YourAccounts

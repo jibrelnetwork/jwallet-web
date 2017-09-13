@@ -13,7 +13,19 @@ const transactionsColumns = [
 ]
 
 function TransactionsTableBody({ sortTransactions, transactions }) {
-  const { items, foundItemsHashes, sortField, sortDirection, searchQuery } = transactions
+  const {
+    filterData,
+    items,
+    foundItemsHashes,
+    sortField,
+    sortDirection,
+    searchQuery,
+  } = transactions
+
+  const { startTime, endTime, isOpen } = filterData
+  const isStartTime = (isOpen && (startTime !== 0))
+  const isEndTime = (isOpen && (endTime !== 0))
+
   const isDesc = (sortDirection === 'DESC')
 
   const isItemsFound = item => (foundItemsHashes.indexOf(item.txHash) > -1)
@@ -45,7 +57,17 @@ function TransactionsTableBody({ sortTransactions, transactions }) {
           </div>
         </div>
       </div>
-      {foundItems.map((transactionProps, i) => <Transaction key={i} {...transactionProps} />)}
+      {foundItems.map((transactionProps, i) => {
+        const { timestamp } = transactionProps
+        const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
+        const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
+
+        if (isAfterStartTime && isBeforeEndTime) {
+          return <Transaction key={i} {...transactionProps} />
+        }
+
+        return null
+      })}
     </div>
   )
 }
@@ -53,6 +75,11 @@ function TransactionsTableBody({ sortTransactions, transactions }) {
 TransactionsTableBody.propTypes = {
   sortTransactions: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
+    filterData: PropTypes.shape({
+      startTime: PropTypes.number.isRequired,
+      endTime: PropTypes.number.isRequired,
+      isOpen: PropTypes.bool.isRequired,
+    }).isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       type: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
@@ -64,6 +91,7 @@ TransactionsTableBody.propTypes = {
       fee: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       amountFixed: PropTypes.string.isRequired,
+      timestamp: PropTypes.number.isRequired,
     })).isRequired,
     foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,

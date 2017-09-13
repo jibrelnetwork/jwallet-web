@@ -1,0 +1,73 @@
+@import 'react-dates-variables';
+@import '~react-dates/css/styles';
+
+.date-picker {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  .DateRangePicker {
+    float: left;
+    padding-right: 55px;
+  }
+
+  .DateRangePickerInput {
+    border: none;
+
+    &:after {
+      clear: both;
+      display: block;
+      height: 0;
+      content: '';
+    }
+  }
+
+  .DateInput {
+    float: left;
+    margin: 0 5px;
+    font-weight: 600;
+
+    &:before {
+      top: 30px;
+    }
+
+    &:after {
+      top: 31px;
+    }
+  }
+
+  .DateInput__input {
+    cursor: pointer;
+  }
+
+  .DateRangePickerInput__arrow {
+    float: left;
+    width: 15px;
+    overflow: hidden;
+
+    svg {
+      vertical-align: top;
+    }
+  }
+
+  .DateRangePicker__picker {
+    top: 40px;
+    box-shadow: $shadow3;
+  }
+
+  .CalendarMonth__caption {
+    margin: 7px 0;
+  }
+
+  .CalendarDay--after-hovered-start {
+    border-color: $blue;
+  }
+
+  .DayPickerKeyboardShortcuts__show {
+    display: none;
+  }
+}
+
+.date-picker__title {
+  display: inline-block;
+}

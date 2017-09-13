@@ -1,0 +1,104 @@
+.text-input {
+  position: relative;
+}
+
+.text-input--error {
+  .text-input__message {
+    color: $red;
+  }
+
+  .text-input__input {
+    &,
+    &:hover,
+    &:focus {
+      color: $red;
+      border-color: rgba(229,57,53,0.2);
+    }
+
+    &::placeholder {
+      color: rgba(229,57,53,0.5);
+    }
+  }
+
+  .text-input__label {
+    color: rgba(229,57,53,0.5);
+  }
+}
+
+.text-input--success {
+  .text-input__message {
+    color: $blue;
+  }
+
+  .text-input__input {
+    &,
+    &:hover,
+    &:focus {
+      color: $blue;
+      border-color: rgba(17, 85, 204,0.2);
+    }
+
+    &::placeholder {
+      color: rgba(17, 85, 204,0.5);
+    }
+  }
+
+  .text-input__label {
+    color: rgba(17, 85, 204,0.5);
+  }
+}
+
+.text-input__input {
+  display: block;
+  width: 100%;
+  line-height: 24px;
+  padding: 10px 15px;
+  border: 1px solid rgba(45,44,62,0.2);
+  font-family: $font;
+  font-weight: 600;
+  font-size: 14px;
+  color: $gray;
+  transition: border 0.3s ease 0s;
+
+  &:hover,
+  &:focus {
+    border: 1px solid rgba(45,44,62,0.4);
+  }
+
+  &:disabled {
+    background-color: $white;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.text-input__input--multiline {
+  min-height: 120px;
+}
+
+.text-input__label {
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  line-height: 11px;
+  padding: 0 5px;
+  background-color: $white;
+  font-size: 11px;
+  font-weight: 600;
+  color: $gray2;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.text-input__label--hidden {
+  top: 20px;
+  left: 15px;
+  opacity: 0;
+}
+
+.text-input__message {
+  text-align: right;
+  position: relative;
+  margin-top: 5px;
+  font-size: 11px;
+}

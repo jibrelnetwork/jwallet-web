@@ -1,10 +1,12 @@
-export default function getFormattedDateString(dateObj, format) {
-  const _year = dateObj.getFullYear()
-  const _month = dateObj.getMonth() + 1
-  const _date = dateObj.getDate()
-  const _hour = dateObj.getHours()
-  const _min = dateObj.getMinutes()
-  const _sec = dateObj.getSeconds()
+export default function getFormattedDateString(dateObj, format = 'hh:mm MM/DD/YYYY') {
+  const date = (dateObj instanceof Date) ? dateObj : new Date(dateObj)
+
+  const _year = date.getFullYear()
+  const _month = date.getMonth() + 1
+  const _date = date.getDate()
+  const _hour = date.getHours()
+  const _min = date.getMinutes()
+  const _sec = date.getSeconds()
 
   const tokens = {
     MM: (_month > 9) ? _month : `0${_month}`,
