@@ -5,62 +5,62 @@ import { action } from '@storybook/addon-actions'
 import {
   JFormAlert,
   JTextInput,
-  JbButton,
-  JbCheckbox,
-  JbIcon,
-  JbLoader,
-  JbLogo,
-  JbSelect,
+  JButton,
+  JCheckbox,
+  JIcon,
+  JLoader,
+  JLogo,
+  JSelect,
 } from '../src/components/base'
 
 import props from './props'
 
-storiesOf('JbButton', module)
+storiesOf('JButton', module)
   .add('white', () => {
     return (
       <div style={{padding: '20px'}}>
-        <JbButton white label={'White Button'} onClick={() => alert('Button click')} />
+        <JButton white label={'White Button'} onClick={() => alert('Button click')} />
       </div>
     )
   })
   .add('blue', () => {
     return (
       <div style={{padding: '20px'}}>
-        <JbButton blue label={'Blue Button'} onClick={() => alert('Button click')} />
+        <JButton blue label={'Blue Button'} onClick={() => alert('Button click')} />
       </div>
     )
   })
   .add('disabled', () => {
     return (
       <div style={{padding: '20px'}}>
-        <JbButton disabled label={'Disabled Button'} onClick={() => alert('Button click')} />
+        <JButton disabled label={'Disabled Button'} onClick={() => alert('Button click')} />
       </div>
     )
   })
 
-storiesOf('JbCheckbox', module)
+storiesOf('JCheckbox', module)
   .add('common', () => {
     let isActive = false
     const toggle = newState => { isActive = newState }
 
-    return <JbCheckbox toggle={toggle} isActive={isActive} />
+    return <JCheckbox toggle={toggle} isActive={isActive} />
   })
   .add('with label', () => {
     let isActive = false
     const toggle = newState => { isActive = newState }
 
-    return <JbCheckbox toggle={toggle} isActive={isActive} label={'Label'} />
+    return <JCheckbox toggle={toggle} isActive={isActive} label={'Label'} />
   })
 
-storiesOf('JbIcon', module)
+storiesOf('JIcon', module)
   .add('common', () => {
     return (
-      <JbIcon name='send' />
+      <JIcon name='send' />
     )
   })
   .add('small', () => {
     return (
-      <JbIcon name='convert' small />
+      <JIcon name='convert' small />
     )
   })
 
@@ -141,29 +141,29 @@ storiesOf('JTextInput', module)
     )
   })
 
-storiesOf('JbLoader', module)
+storiesOf('JLoader', module)
   .add('common', () => {
     return (
       <div style={props.loaderStyle}>
-        <JbLoader />
+        <JLoader />
       </div>
     )
   })
   .add('fixed', () => {
-    return <JbLoader fixed />
+    return <JLoader fixed />
   })
 
-storiesOf('JbLogo', module)
+storiesOf('JLogo', module)
   .add('common', () => {
     return (
-      <JbLogo />
+      <JLogo />
     )
   })
 
-storiesOf('JbSelect', module)
+storiesOf('JSelect', module)
   .add('common', () => {
     return (
-      <JbSelect
+      <JSelect
         error={null}
         label={'Currency'}
         list={props.currencyList}
@@ -172,7 +172,7 @@ storiesOf('JbSelect', module)
   })
   .add('selected', () => {
     return (
-      <JbSelect
+      <JSelect
         error={null}
         label={'Currency'}
         list={props.currencyList}

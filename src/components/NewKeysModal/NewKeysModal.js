@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbModal from 'components/base/JbModal'
+import JModal from 'components/base/JModal'
 
 class NewKeysModal extends Component {
   render() {
     const { closeNewKeysModal, keys } = this.props
 
     return (
-      <JbModal
+      <JModal
         closeModal={closeNewKeysModal}
         name='new-keys'
         header={'New Keys'}

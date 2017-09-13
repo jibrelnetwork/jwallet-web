@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbPopover from 'components/base/JbPopover'
+import JPopover from 'components/base/JPopover'
 
 function TransactionManagerPopover(props) {
   const { onClickOutside, sendFunds, receiveFunds, convertFunds, filter, remove } = props
@@ -17,7 +17,7 @@ function TransactionManagerPopover(props) {
   )
 
   return (
-    <JbPopover
+    <JPopover
       name='transaction-manager'
       onClickOutside={onClickOutside}
       body={body}

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbModal from 'components/base/JbModal'
+import JModal from 'components/base/JModal'
 
 class AddCustomTokenModal extends Component {
   render() {
     const { closeAddCustomTokenModal, accounts } = this.props
 
     return (
-      <JbModal
+      <JModal
         closeModal={closeAddCustomTokenModal}
         name='add-custom-token'
         header={'Add custom token'}

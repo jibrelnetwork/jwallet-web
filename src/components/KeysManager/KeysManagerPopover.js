@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { JbIcon, JbPopover } from 'components/base'
+import { JIcon, JPopover } from 'components/base'
 
 function KeysManagerPopover(props) {
   const {
@@ -37,26 +37,26 @@ function KeysManagerPopover(props) {
       </div>
       <div className='popover__items'>
         <div className='popover__item' onClick={addNewKeys}>
-          <JbIcon name='small-add' small />
+          <JIcon name='small-add' small />
           <span className='title'>{'New keys'}</span>
         </div>
         <div className='popover__item' onClick={importKeys}>
-          <JbIcon name='small-import' small />
+          <JIcon name='small-import' small />
           <span className='title'>{'Import keys'}</span>
         </div>
         <div className='popover__item' onClick={backupKeys}>
-          <JbIcon name='small-backup' small />
+          <JIcon name='small-backup' small />
           <span className='title'>{'Backup keys'}</span>
         </div>
         <div className='popover__item popover__item--gray' onClick={clearKeys}>
-          <JbIcon name='small-clear' small />
+          <JIcon name='small-clear' small />
           <span className='title'>{'Clear keys'}</span>
         </div>
       </div>
     </div>
   )
 
-  return <JbPopover name='keys-manager' onClickOutside={onClickOutside} body={body} />
+  return <JPopover name='keys-manager' onClickOutside={onClickOutside} body={body} />
 }
 
 KeysManagerPopover.propTypes = {

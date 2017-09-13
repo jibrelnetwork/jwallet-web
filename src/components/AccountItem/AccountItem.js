@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 function AccountItem(props) {
   const { symbol, name, balanceFixed, isActive, isAuthRequired, isLicensed, isCurrent } = props
@@ -24,14 +24,14 @@ function AccountItem(props) {
   return (
     <div className={accountItemClassName} onClick={setCurrentAccount}>
       <div className={`account-item__image account-item__image--${symbol.toLowerCase()}`} />
-      <JbIcon name={`account-${symbol.toLowerCase()}`} className='account-item__symbol' />
+      <JIcon name={`account-${symbol.toLowerCase()}`} className='account-item__symbol' />
       <div className='account-item__info'>
         <h3 className='account-item__name'>{name}</h3>
         <div className='account-item__balance'>
           {isAuthRequired ? 'Authorization required!' : `${balanceFixed} ${symbol}`}
         </div>
       </div>
-      {isLicensed ? <JbIcon name='licensed' className='account-item__licensed' small /> : null}
+      {isLicensed ? <JIcon name='licensed' className='account-item__licensed' small /> : null}
     </div>
   )
 }

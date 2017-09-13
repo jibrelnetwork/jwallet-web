@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbHeader from 'components/base/JbHeader'
+import JHeader from 'components/base/JHeader'
 
 import KeysManager from 'components/KeysManager'
 
@@ -21,7 +21,7 @@ function JWalletHeader(props) {
   } = props
 
   return (
-    <JbHeader>
+    <JHeader>
       <div className='clear'>
         <HeaderMenu
           openSendFundsModal={openSendFundsModal}
@@ -37,7 +37,7 @@ function JWalletHeader(props) {
           keys={keys}
         />
       </div>
-    </JbHeader>
+    </JHeader>
   )
 }
 

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 function YourAccountsHeader({ openAccountManager }) {
   return (
     <div className='your-accounts-header clear'>
       <div className='your-accounts-header__title pull-left'>{'Your Accounts'}</div>
-      <JbIcon
+      <JIcon
         name='settings'
         className='your-accounts-header__icon pull-right'
         title='Manage accounts'

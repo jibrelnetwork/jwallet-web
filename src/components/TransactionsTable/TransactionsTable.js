@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbLoader from 'components/base/JbLoader'
+import JLoader from 'components/base/JLoader'
 
 import TransactionsTableHeader from './TransactionsTableHeader'
 import TransactionsTableBody from './TransactionsTableBody'
@@ -27,7 +27,7 @@ class TransactionsTable extends Component {
     const { filterData, items, searchQuery, isLoading } = transactions
 
     if (isLoading) {
-      return <div className='transactions-table'><JbLoader /></div>
+      return <div className='transactions-table'><JLoader /></div>
     }
 
     if (!(items && items.length)) {

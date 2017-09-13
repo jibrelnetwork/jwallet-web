@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import config from 'config'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 let searchTimerId
 
@@ -19,7 +19,7 @@ class Search extends Component {
 
     return (
       <div className={`search search--${name} pull-left`}>
-        <JbIcon name='search' className='search__icon' small />
+        <JIcon name='search' className='search__icon' small />
         <input
           className='search__input'
           type='text'

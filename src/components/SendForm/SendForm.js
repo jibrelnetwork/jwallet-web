@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import {
-  JbButton,
-  JbSelect,
+  JButton,
+  JSelect,
   JbAlert,
   JTextInput,
-  JbIcon,
-  JbInputSelect,
+  JIcon,
+  JInputSelect,
 } from '../base'
 
 const currencyList = [
@@ -72,7 +72,7 @@ class SendForm extends Component {
     
     {<div>
       <div onClick={() => this.toggleExtraOptions()}>
-        <JbIcon
+        <JIcon
           name='small-add'
           small
         /> Custom options
@@ -90,13 +90,13 @@ class SendForm extends Component {
             value={''}
           />
 
-          <JbSelect error={null}
+          <JSelect error={null}
             label={'Currency'}
             list={currencyList}
             selected={currencyList[0]}
           />
 
-          <JbInputSelect error={null}
+          <JInputSelect error={null}
             label={'Currency'}
             list={currencyList}
             selected={currencyList[0]}
@@ -104,7 +104,7 @@ class SendForm extends Component {
                 </div>}
       </div>
       }
-      <JbButton label='Send' fullWidth />
+      <JButton label='Send' fullWidth />
 
     </div>
   }

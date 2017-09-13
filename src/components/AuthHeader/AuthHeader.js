@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { JbHeader, JbIcon } from 'components/base'
+import { JHeader, JIcon } from 'components/base'
 
 function AuthHeader() {
   return (
-    <JbHeader>
+    <JHeader>
       <div className='clear'>
         <a href='/' className='header__back pull-right'>
-          <JbIcon name='convert' />{'Back to front page'}
+          <JIcon name='convert' />{'Back to front page'}
         </a>
       </div>
-    </JbHeader>
+    </JHeader>
   )
 }
 

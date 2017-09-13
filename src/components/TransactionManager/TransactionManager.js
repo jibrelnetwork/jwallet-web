@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { JbDropdown, JbIcon } from 'components/base'
+import { JDropdown, JIcon } from 'components/base'
 
 import TransactionManagerPopover from './TransactionManagerPopover'
 
 function TransactionManager(props) {
-  const title = <JbIcon name='dots' className='transaction-manager__icon' />
+  const title = <JIcon name='dots' className='transaction-manager__icon' />
 
   return (
-    <JbDropdown
+    <JDropdown
       className='transaction-manager'
       parentClassName='transactions-header__transaction-manager'
       title={title}
     >
       <TransactionManagerPopover {...props} />
-    </JbDropdown>
+    </JDropdown>
   )
 }
 

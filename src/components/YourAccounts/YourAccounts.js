@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbLoader from 'components/base/JbLoader'
+import JLoader from 'components/base/JLoader'
 
 import YourAccountsHeader from './YourAccountsHeader'
 import YourAccountsBody from './YourAccountsBody'
@@ -19,7 +19,7 @@ class YourAccounts extends Component {
     const { openAccountManager, accounts } = this.props
 
     if (accounts.isLoading) {
-      return <div className='your-accounts'><JbLoader /></div>
+      return <div className='your-accounts'><JLoader /></div>
     }
 
     return (

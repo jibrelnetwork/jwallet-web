@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JbDropdown from 'components/base/JbDropdown'
+import JDropdown from 'components/base/JDropdown'
 
 import KeysManagerPopover from './KeysManagerPopover'
 import KeysManagerTitle from './KeysManagerTitle'
@@ -21,7 +21,7 @@ class KeysManager extends Component {
     const title = <KeysManagerTitle privateKey={privateKey} balance={balance} code={code} />
 
     return (
-      <JbDropdown
+      <JDropdown
         className='keys-manager'
         parentClassName='header__keys-manager pull-right'
         title={title}
@@ -34,7 +34,7 @@ class KeysManager extends Component {
           clearKeys={clearKeys}
           keys={keys}
         />
-      </JbDropdown>
+      </JDropdown>
     )
   }
 

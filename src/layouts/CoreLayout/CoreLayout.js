@@ -17,7 +17,7 @@ import {
 
 import 'styles/core.scss'
 
-const { JbFooter, JbLoader } = base
+const { JFooter, JLoader } = base
 
 class CoreLayout extends Component {
   componentWillMount() {
@@ -32,7 +32,7 @@ class CoreLayout extends Component {
     const { keys, children } = this.props
 
     if (keys.isLoading || !children) {
-      return <JbLoader fixed />
+      return <JLoader fixed />
     }
 
     return (
@@ -64,7 +64,7 @@ class CoreLayout extends Component {
 
   /* eslint-disable class-methods-use-this */
   renderFooter = () => {
-    return <JbFooter />
+    return <JFooter />
   }
 
   renderAuthHeader = () => {

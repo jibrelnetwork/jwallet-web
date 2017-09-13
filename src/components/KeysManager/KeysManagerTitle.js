@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JbIcon from 'components/base/JbIcon'
+import JIcon from 'components/base/JIcon'
 
 function KeysManagerTitle({ privateKey, balance, code }) {
   return (
@@ -12,7 +12,7 @@ function KeysManagerTitle({ privateKey, balance, code }) {
         <span className='key__balance'>{balance.toFixed(6)}</span>
         <span className='key__code'>{code}</span>
       </div>
-      <JbIcon name='keys' className='keys-manager-title__icon' />
+      <JIcon name='keys' className='keys-manager-title__icon' />
     </div>
   )
 }
