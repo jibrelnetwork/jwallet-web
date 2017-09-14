@@ -77,11 +77,6 @@
   padding: 0 30px 30px 30px;
 }
 
-.modal__footer {
-  position: relative;
-  padding: 0 30px 30px 30px;
-}
-
 .modal--account-manager {
   min-width: 680px;
   max-height: 450px;
@@ -92,6 +87,10 @@
 
   .modal__body {
     border-top: 1px solid $line;
+  }
+
+  .modal__footer {
+    padding: 0 30px 30px 30px;
   }
 }
 
