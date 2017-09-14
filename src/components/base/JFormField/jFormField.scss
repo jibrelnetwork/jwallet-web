@@ -1,8 +1,7 @@
 .field {
   z-index: 1;
   position: relative;
-  height: 44px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   background-color: $white;
 
   &:last-child {
@@ -33,7 +32,7 @@
 .field__placeholder {
   z-index: -2;
   position: absolute;
-  top: 10px;
+  top: 11px;
   left: 15px;
   line-height: 24px;
   font-size: 14px;
@@ -65,7 +64,6 @@
 .field__select {
   display: block;
   width: 100%;
-  height: 100%;
   line-height: 24px;
   padding: 10px 15px;
   background: transparent;
@@ -115,4 +113,22 @@
       border-color: rgba(17, 85, 204,0.2);
     }
   }
+}
+
+.field__select {
+  padding: 0;
+  color: $gray;
+  cursor: pointer;
+
+  &:hover {
+    .picker__items {
+      border-color: rgba(45,44,62,0.4);
+    }
+  }
+}
+
+.field__select--disabled {
+  background-color: $white;
+  opacity: 0.3;
+  cursor: not-allowed;
 }

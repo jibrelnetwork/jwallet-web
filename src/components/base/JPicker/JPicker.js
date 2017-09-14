@@ -35,7 +35,7 @@ class JPicker extends JFormField {
     return (
       <div
         className={`${selectClassName} ${disabled ? 'field__select--disabled' : ''}`}
-        onClick={disabled ? null : this.toggleFocused}
+        onClick={disabled ? null : this.setFocused(!focused)}
       >
         <div className='picker__selected'>{selectedValue}</div>
         <div className={`picker__items ${focused ? '' : 'picker__items--hidden'}`}>
@@ -60,7 +60,7 @@ class JPicker extends JFormField {
       })
     })
 
-    return <JPopover onClickOutside={this.toggleFocused} body={body} name={name} reset />
+    return <JPopover onClickOutside={this.setFocused(false)} body={body} name={name} reset />
   }
 
   renderArrowIcon = () => {
@@ -72,8 +72,6 @@ class JPicker extends JFormField {
       />
     )
   }
-
-  toggleFocused = (/* event */) => this.setState({ focused: !this.state.focused })
 }
 
 JPicker.propTypes = {

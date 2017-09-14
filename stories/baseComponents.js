@@ -82,6 +82,21 @@ storiesOf('JTextInput', module)
       </div>
     )
   })
+  .add('with value', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JTextInput
+          onValueChange={text => console.log(text)}
+          name='with-value'
+          placeholder='Value Field'
+          value={'Some Value'}
+          errorMessage={''}
+          successMessage={''}
+          editable={true}
+        />
+      </div>
+    )
+  })
   .add('with error message', () => {
     return (
       <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
@@ -257,6 +272,27 @@ storiesOf('JPicker', module)
           errorMessage={''}
           successMessage={''}
           enabled={false}
+        >
+          <Item label='Item Value' value='Item Value' />
+          <Item label='Item2 Value' value='Item2 Value' />
+          <Item label='Item3 Value' value='Item3 Value' />
+          <Item label='Item4 Value' value='Item4 Value' />
+          <Item label='Item5 Value' value='Item5 Value' disabled />
+        </JPicker>
+      </div>
+    )
+  })
+  .add('without placeholder', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JPicker
+          enabled
+          onValueChange={text => console.log(text)}
+          name='without-placeholder'
+          selectedValue={'Item2 Value'}
+          placeholder={''}
+          errorMessage={''}
+          successMessage={''}
         >
           <Item label='Item Value' value='Item Value' />
           <Item label='Item2 Value' value='Item2 Value' />
