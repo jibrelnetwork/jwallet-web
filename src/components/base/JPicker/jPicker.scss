@@ -1,21 +1,3 @@
-.field__select {
-  padding: 0;
-  color: $gray;
-  cursor: pointer;
-
-  &:hover {
-    .picker__items {
-      border-color: rgba(45,44,62,0.4);
-    }
-  }
-}
-
-.field__select--disabled {
-  background-color: $white;
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
 .picker__selected,
 .picker__item {
   display: block;
@@ -26,15 +8,15 @@
 }
 
 .picker__selected {
+  height: 44px;
   position: relative;
-  height: 100%;
   background: transparent;
 }
 
 .picker__items {
   z-index: 3;
   position: absolute;
-  top: 45px;
+  top: 46px;
   left: 0;
   max-height: 136px;
   width: 100%;

@@ -16,6 +16,11 @@ class JFormField extends Component {
 
   renderPlaceholder = (value) => {
     const { name, placeholder } = this.props
+
+    if (!placeholder.length) {
+      return null
+    }
+
     const isValuePresent = value && value.length
 
     return (
@@ -45,6 +50,8 @@ class JFormField extends Component {
       this.setState({ disabled })
     }
   }
+
+  setFocused = (focused = true) => (/* event */) => this.setState({ focused })
 }
 
 JFormField.propTypes = {
