@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JTextInput from 'components/base/JTextInput'
+import { JIcon, JTextInput } from 'components/base'
 
 class CopyableField extends Component {
   constructor(props) {
@@ -26,13 +26,12 @@ class CopyableField extends Component {
           multiline={false}
         />
         <div className='copyable-field__hidden' id={name}>{value}</div>
-        <div
+        <JIcon
+          name='copy'
           onClick={this.copyContentToBuffer(name)}
           className='copyable-field__copy'
           title={this.state.isCopied ? 'Copied' : 'Copy to Clipboard'}
-        >
-          {'COPY'}
-        </div>
+        />
       </div>
     )
   }
