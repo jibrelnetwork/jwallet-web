@@ -25,9 +25,12 @@ class JPopover extends Component {
   }
 
   render() {
-    const { name, body } = this.props
+    const { name, body, reset } = this.props
 
-    return <div className={`popover popover--${name}`} ref={name}>{body}</div>
+    // no need to set popover style, if reset flag is true
+    const popoverClassName = reset ? null : `popover popover--${name}`
+
+    return <div className={popoverClassName} ref={name}>{body}</div>
   }
 }
 
@@ -36,10 +39,12 @@ JPopover.propTypes = {
   body: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
   isCloseOnClickInside: PropTypes.bool,
+  reset: PropTypes.bool,
 }
 
 JPopover.defaultProps = {
   isCloseOnClickInside: false,
+  reset: false,
 }
 
 export default JPopover

@@ -56,7 +56,14 @@ function KeysManagerPopover(props) {
     </div>
   )
 
-  return <JPopover name='keys-manager' onClickOutside={onClickOutside} body={body} />
+  return (
+    <JPopover
+      onClickOutside={onClickOutside}
+      body={body}
+      name='keys-manager'
+      isCloseOnClickInside
+    />
+  )
 }
 
 KeysManagerPopover.propTypes = {

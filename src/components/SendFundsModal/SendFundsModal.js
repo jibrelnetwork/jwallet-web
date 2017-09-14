@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JModal from 'components/base/JModal'
-import JTextInput from 'components/base/JTextInput'
+import { JModal, JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends Component {
   render() {
@@ -24,6 +23,7 @@ class SendFundsModal extends Component {
     return (
       <div className='send-funds__body'>
         {this.renderRecipientAddress()}
+        {this.renderAccount()}
       </div>
     )
   }
@@ -39,8 +39,26 @@ class SendFundsModal extends Component {
         value={funds.sendFormData.address}
         errorMessage={this.getInvalidFieldMessage('address')}
         successMessage={this.getValidFieldMessage('address')}
-        editable={this.isEditableField('address')}
+        editable={this.isEnabledField('address')}
       />
+    )
+  }
+
+  renderAccount = () => {
+    const { setSendFundsAccount, funds } = this.props
+
+    return (
+      <JPicker
+        onValueChange={setSendFundsAccount}
+        name='account'
+        placeholder='Account'
+        selectedValue={funds.sendFormData.account}
+        errorMessage={this.getInvalidFieldMessage('address')}
+        successMessage={this.getValidFieldMessage('address')}
+        enabled={this.isEnabledField('address')}
+      >
+        <JPicker.Item label='example' value='example' />
+      </JPicker>
     )
   }
 
@@ -68,7 +86,7 @@ class SendFundsModal extends Component {
     return ''
   }
 
-  isEditableField = name => (this.props.funds.sendFormData.disabledFields.indexOf(name) === -1)
+  isEnabledField = name => (this.props.funds.sendFormData.disabledFields.indexOf(name) === -1)
 }
 
 SendFundsModal.propTypes = {

@@ -10,10 +10,12 @@ import {
   JIcon,
   JLoader,
   JLogo,
-  JSelect,
+  JPicker,
 } from '../src/components/base'
 
 import props from './props'
+
+const { Item } = JPicker
 
 storiesOf('JButton', module)
   .add('white', () => {
@@ -160,24 +162,109 @@ storiesOf('JLogo', module)
     )
   })
 
-storiesOf('JSelect', module)
+storiesOf('JPicker', module)
   .add('common', () => {
     return (
-      <JSelect
-        error={null}
-        label={'Currency'}
-        list={props.currencyList}
-      />
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JPicker
+          onValueChange={text => console.log(text)}
+          name='common'
+          placeholder='Common Field'
+          errorMessage={''}
+          successMessage={''}
+          enabled={true}
+        >
+          <Item label='Item Value' value='Item Value' />
+          <Item label='Item2 Value' value='Item2 Value' />
+          <Item label='Item3 Value' value='Item3 Value' />
+          <Item label='Item4 Value' value='Item4 Value' />
+          <Item label='Item5 Value' value='Item5 Value' disabled />
+        </JPicker>
+      </div>
     )
   })
-  .add('selected', () => {
+  .add('selected value', () => {
     return (
-      <JSelect
-        error={null}
-        label={'Currency'}
-        list={props.currencyList}
-        selected={props.currencyList[0]}
-      />
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JPicker
+          onValueChange={text => console.log(text)}
+          name='selected'
+          selectedValue={'Item2 Value'}
+          placeholder='Selected Field'
+          errorMessage={''}
+          successMessage={''}
+          enabled={true}
+        >
+          <Item label='Item Value' value='Item Value' />
+          <Item label='Item2 Value' value='Item2 Value' />
+          <Item label='Item3 Value' value='Item3 Value' />
+          <Item label='Item4 Value' value='Item4 Value' />
+          <Item label='Item5 Value' value='Item5 Value' disabled />
+        </JPicker>
+      </div>
+    )
+  })
+  .add('error', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JPicker
+          onValueChange={text => console.log(text)}
+          name='error'
+          selectedValue={'Item2 Value'}
+          placeholder='Error Field'
+          errorMessage={'Error msg'}
+          successMessage={''}
+          enabled={true}
+        >
+          <Item label='Item Value' value='Item Value' />
+          <Item label='Item2 Value' value='Item2 Value' />
+          <Item label='Item3 Value' value='Item3 Value' />
+          <Item label='Item4 Value' value='Item4 Value' />
+          <Item label='Item5 Value' value='Item5 Value' disabled />
+        </JPicker>
+      </div>
+    )
+  })
+  .add('success', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JPicker
+          onValueChange={text => console.log(text)}
+          name='success'
+          selectedValue={'Item2 Value'}
+          placeholder='Success Field'
+          errorMessage={''}
+          successMessage={'Success msg'}
+          enabled={true}
+        >
+          <Item label='Item Value' value='Item Value' />
+          <Item label='Item2 Value' value='Item2 Value' />
+          <Item label='Item3 Value' value='Item3 Value' />
+          <Item label='Item4 Value' value='Item4 Value' />
+          <Item label='Item5 Value' value='Item5 Value' disabled />
+        </JPicker>
+      </div>
+    )
+  })
+  .add('disabled', () => {
+    return (
+      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+        <JPicker
+          onValueChange={text => console.log(text)}
+          name='disabled'
+          selectedValue={'Item2 Value'}
+          placeholder='Disabled Field'
+          errorMessage={''}
+          successMessage={''}
+          enabled={false}
+        >
+          <Item label='Item Value' value='Item Value' />
+          <Item label='Item2 Value' value='Item2 Value' />
+          <Item label='Item3 Value' value='Item3 Value' />
+          <Item label='Item4 Value' value='Item4 Value' />
+          <Item label='Item5 Value' value='Item5 Value' disabled />
+        </JPicker>
+      </div>
     )
   })
 
