@@ -1,0 +1,80 @@
+.field__select {
+  padding: 0;
+  color: $gray;
+  cursor: pointer;
+
+  &:hover {
+    .picker__items {
+      border-color: rgba(45,44,62,0.4);
+    }
+  }
+}
+
+.field__select--disabled {
+  background-color: $white;
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.picker__selected,
+.picker__item {
+  display: block;
+  padding: 10px 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picker__selected {
+  position: relative;
+  height: 100%;
+  background: transparent;
+}
+
+.picker__items {
+  z-index: 3;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  max-height: 136px;
+  width: 100%;
+  padding: 5px 0;
+  background-color: $white;
+  border: 1px solid rgba(45,44,62,0.2);
+  overflow: auto;
+  transition: all .3s ease;
+}
+
+.picker__items--hidden {
+  padding: 0;
+  border: none;
+}
+
+.picker__item {
+  line-height: 22px;
+  color: $gray;
+
+  &:hover {
+    color: $blue;
+  }
+}
+
+.picker__item--disabled {
+  background-color: transparent!important;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.picker__item--selected {
+  background-color: $line;
+  color: $gray;
+}
+
+.picker__arrow-icon {
+  z-index: -1;
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  margin-top: -8px;
+  transition: transform .3s ease;
+}
