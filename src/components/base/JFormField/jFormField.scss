@@ -1,8 +1,6 @@
 .field {
-  z-index: 1;
   position: relative;
   margin-bottom: 20px;
-  background-color: $white;
 
   &:last-child {
     margin-bottom: 0;
@@ -30,7 +28,7 @@
 }
 
 .field__placeholder {
-  z-index: -2;
+  z-index: -1;
   position: absolute;
   top: 11px;
   left: 15px;
@@ -131,4 +129,35 @@
   background-color: $white;
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.field-group {
+  position: relative;
+
+  .field + .field {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    height: 44px;
+    width: 80px;
+  }
+
+  .field__input {
+    padding-right: 80px;
+  }
+
+  .field__select {
+    border: none;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 1px;
+      height: 44px;
+      background-color: rgba(45,44,62,0.2);
+      content: '';
+    }
+  }
 }

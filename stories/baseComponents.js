@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import {
-  JFormAlert,
+  JModalAlert,
   JTextInput,
   JButton,
   JCheckbox,
@@ -304,11 +304,11 @@ storiesOf('JPicker', module)
     )
   })
 
-storiesOf('JFormAlert', module)
+storiesOf('JModalAlert', module)
   .add('common', () => {
     return (
       <div style={{width: '420px'}}>
-        <JFormAlert
+        <JModalAlert
           text='Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'
         />
       </div>

@@ -1,6 +1,6 @@
 .modal-wrap {
   z-index: 2000;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -11,7 +11,7 @@
 
 .modal__overlay {
   z-index: 2000;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -36,7 +36,7 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  margin: 20px 0;
+  margin: 40px 0;
   background-color: $white;
   border-radius: 5px 5px 10px 10px;
   box-shadow: $shadow2;
@@ -77,6 +77,11 @@
   padding: 0 30px 30px 30px;
 }
 
+.modal__footer {
+  position: relative;
+  padding: 0 30px 30px 30px;
+}
+
 .modal--account-manager {
   min-width: 680px;
   max-height: 450px;
@@ -90,7 +95,6 @@
   }
 }
 
-.modal__footer {
-  position: relative;
-  padding: 0 30px 30px 30px;
+.modal--send-funds {
+  max-height: 490px;
 }
