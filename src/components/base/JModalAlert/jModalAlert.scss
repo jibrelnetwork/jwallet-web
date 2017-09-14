@@ -1,4 +1,4 @@
-.form-alert {
+.modal-alert {
   display: table;
   width: 100%;
   margin-bottom: 30px;
@@ -7,14 +7,15 @@
   color: $blue;
 }
 
-.icon.form-alert__icon,
-.form-alert__text {
+.icon.modal-alert__icon,
+.modal-alert__text {
   display: table-cell;
   vertical-align: middle;
   height: 100%;
 }
 
-.form-alert__text {
+.modal-alert__text {
   line-height: 20px;
   padding-left: 10px;
 }
+

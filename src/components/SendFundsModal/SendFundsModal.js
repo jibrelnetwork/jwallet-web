@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import getFieldMessage from 'utils/getFieldMessage'
+
 import { JModal, JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends Component {
@@ -11,11 +13,20 @@ class SendFundsModal extends Component {
       <JModal
         closeModal={closeSendFundsModal}
         name='send-funds'
-        header={'Send Funds'}
+        alert={funds.sendFormData.alert}
+        header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={funds.isSendFundsModalOpen}
       />
+    )
+  }
+
+  renderHeader = () => {
+    return (
+      <div className='send-funds__header'>
+        <div className='modal__title'>{'Send Funds'}</div>
+      </div>
     )
   }
 
@@ -24,6 +35,9 @@ class SendFundsModal extends Component {
       <div className='send-funds__body'>
         {this.renderRecipientAddress()}
         {this.renderAccount()}
+        {this.renderAmmountAndSymbol()}
+        {this.renderGas()}
+        {this.renderGasPriceAndSymbol()}
       </div>
     )
   }
@@ -62,31 +76,87 @@ class SendFundsModal extends Component {
     )
   }
 
+  renderAmmountAndSymbol = () => {
+    const { setSendFundsAmount, setSendFundsSymbol, funds } = this.props
+
+    return (
+      <div className='field-group'>
+        <JTextInput
+          onValueChange={setSendFundsAmount}
+          name='amount'
+          placeholder='Amount'
+          value={funds.sendFormData.amount}
+          errorMessage={this.getInvalidFieldMessage('amount')}
+          successMessage={this.getValidFieldMessage('amount')}
+          editable={this.isEnabledField('amount')}
+        />
+        <JPicker
+          onValueChange={setSendFundsSymbol}
+          name='symbol'
+          placeholder=''
+          selectedValue={funds.sendFormData.symbol}
+          errorMessage={this.getInvalidFieldMessage('symbol')}
+          successMessage={this.getValidFieldMessage('symbol')}
+          enabled={this.isEnabledField('symbol')}
+        >
+          <JPicker.Item label='ETH' value='ETH' />
+        </JPicker>
+      </div>
+    )
+  }
+
+  renderGas = () => {
+    const { setSendFundsGas, funds } = this.props
+
+    return (
+      <JTextInput
+        onValueChange={setSendFundsGas}
+        name='gas'
+        placeholder='Gas'
+        value={funds.sendFormData.gas}
+        errorMessage={this.getInvalidFieldMessage('gas')}
+        successMessage={this.getValidFieldMessage('gas')}
+        editable={this.isEnabledField('gas')}
+      />
+    )
+  }
+
+  renderGasPriceAndSymbol = () => {
+    const { setSendFundsGasPrice, setSendFundsGasSymbol, funds } = this.props
+
+    return (
+      <div className='field-group'>
+        <JTextInput
+          onValueChange={setSendFundsGasPrice}
+          name='gas-price'
+          placeholder='Gas price'
+          value={funds.sendFormData.gasPrice}
+          errorMessage={this.getInvalidFieldMessage('gasPrice')}
+          successMessage={this.getValidFieldMessage('gasPrice')}
+          editable={this.isEnabledField('gasPrice')}
+        />
+        <JPicker
+          onValueChange={setSendFundsGasSymbol}
+          name='gas-symbol'
+          placeholder=''
+          selectedValue={funds.sendFormData.gasSymbol}
+          errorMessage={this.getInvalidFieldMessage('gasSymbol')}
+          successMessage={this.getValidFieldMessage('gasSymbol')}
+          enabled={this.isEnabledField('gasSymbol')}
+        >
+          <JPicker.Item label='ETH' value='ETH' />
+        </JPicker>
+      </div>
+    )
+  }
+
   renderFooter = () => {
     return 'Send Funds Footer'
   }
 
-  getValidFieldMessage = (name) => {
-    return this.getFieldMessage(this.props.funds.sendFormData.validFields, name)
-  }
-
-  getInvalidFieldMessage = (name) => {
-    return this.getFieldMessage(this.props.funds.sendFormData.invalidFields, name)
-  }
-
-  getFieldMessage = (fields, name) => {
-    for (let i = 0; i < fields.length; i += 1) {
-      const field = fields[i]
-
-      if (field.name === name) {
-        return field.message
-      }
-    }
-
-    return ''
-  }
-
   isEnabledField = name => (this.props.funds.sendFormData.disabledFields.indexOf(name) === -1)
+  getValidFieldMessage = name => getFieldMessage(this.props.funds.sendFormData.validFields, name)
+  getInvalidFieldMessage = n => getFieldMessage(this.props.funds.sendFormData.invalidFields, n)
 }
 
 SendFundsModal.propTypes = {
