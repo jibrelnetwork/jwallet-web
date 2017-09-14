@@ -1,4 +1,5 @@
-.field {
+.field,
+.field-group {
   position: relative;
   margin-bottom: 20px;
 
@@ -132,7 +133,9 @@
 }
 
 .field-group {
-  position: relative;
+  .field {
+    margin-bottom: 0;
+  }
 
   .field + .field {
     position: absolute;

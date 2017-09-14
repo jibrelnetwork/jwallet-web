@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import getFieldMessage from 'utils/getFieldMessage'
 
-import { JModal, JPicker, JTextInput } from 'components/base'
+import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends Component {
   render() {
@@ -12,12 +12,14 @@ class SendFundsModal extends Component {
     return (
       <JModal
         closeModal={closeSendFundsModal}
+        submitModal={this.submitFormOnEnter}
         name='send-funds'
         alert={funds.sendFormData.alert}
         header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={funds.isSendFundsModalOpen}
+        isForm
       />
     )
   }
@@ -151,12 +153,23 @@ class SendFundsModal extends Component {
   }
 
   renderFooter = () => {
-    return 'Send Funds Footer'
+    const { sendFunds, funds } = this.props
+
+    return (
+      <JModalButton
+        onPress={sendFunds}
+        name={'send-funds'}
+        title={'Send Funds'}
+        iconName={'send-funds'}
+        disabled={(funds.sendFormData.invalidFields.length > 0)}
+      />
+    )
   }
 
   isEnabledField = name => (this.props.funds.sendFormData.disabledFields.indexOf(name) === -1)
   getValidFieldMessage = name => getFieldMessage(this.props.funds.sendFormData.validFields, name)
   getInvalidFieldMessage = n => getFieldMessage(this.props.funds.sendFormData.invalidFields, n)
+  submitFormOnEnter = (e) => { return (e.key === 'Enter') ? this.props.sendFunds() : null }
 }
 
 SendFundsModal.propTypes = {

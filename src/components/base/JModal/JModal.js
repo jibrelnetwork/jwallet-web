@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import { JModalAlert, JIcon } from 'components/base'
 
-function JModal({ closeModal, header, body, footer, name, alert, isOpen }) {
+function JModal({ closeModal, submitModal, header, body, footer, name, alert, isOpen }) {
   if (!isOpen) {
     return null
   }
 
   const closeIcon = <JIcon name='close' small className='modal__close' onClick={closeModal} />
-  const formAlert = alert.length ? <JModalAlert text={alert} /> : null
+  const modalAlert = alert.length ? <JModalAlert text={alert} /> : null
 
   return (
     <div className='modal-wrap'>
@@ -20,8 +20,8 @@ function JModal({ closeModal, header, body, footer, name, alert, isOpen }) {
             {header}
             {closeIcon}
           </div>
-          <div className='modal__alert'>{formAlert}</div>
-          <div className='modal__body'>{body}</div>
+          <div className='modal__alert'>{modalAlert}</div>
+          <div className='modal__body' onKeyPress={submitModal}>{body}</div>
           <div className='modal__footer'>{footer}</div>
         </div>
       </div>
@@ -35,11 +35,13 @@ JModal.propTypes = {
   body: PropTypes.node.isRequired,
   footer: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
+  submitModal: PropTypes.func,
   alert: PropTypes.string,
   isOpen: PropTypes.bool,
 }
 
 JModal.defaultProps = {
+  submitModal: () => {},
   alert: '',
   isOpen: false,
 }
