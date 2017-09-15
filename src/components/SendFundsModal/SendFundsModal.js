@@ -94,11 +94,11 @@ class SendFundsModal extends Component {
         />
         <JPicker
           onValueChange={setSendFundsSymbol}
+          selectedValue={funds.sendFormData.symbol}
           name='symbol'
           placeholder=''
-          selectedValue={funds.sendFormData.symbol}
-          errorMessage={this.getInvalidFieldMessage('symbol')}
-          successMessage={this.getValidFieldMessage('symbol')}
+          errorMessage=''
+          successMessage=''
           enabled={this.isEnabledField('symbol')}
         >
           <JPicker.Item label='ETH' value='ETH' />
@@ -139,11 +139,11 @@ class SendFundsModal extends Component {
         />
         <JPicker
           onValueChange={setSendFundsGasSymbol}
+          selectedValue={funds.sendFormData.gasSymbol}
           name='gas-symbol'
           placeholder=''
-          selectedValue={funds.sendFormData.gasSymbol}
-          errorMessage={this.getInvalidFieldMessage('gasSymbol')}
-          successMessage={this.getValidFieldMessage('gasSymbol')}
+          errorMessage=''
+          successMessage=''
           enabled={this.isEnabledField('gasSymbol')}
         >
           <JPicker.Item label='ETH' value='ETH' />
