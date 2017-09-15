@@ -9,7 +9,7 @@ import {
   Transaction,
   TransactionManager,
   Search,
-  QrCode,
+  QRCode,
 } from '../src/components'
 
 import props from './props'
@@ -77,18 +77,18 @@ storiesOf('Search', module)
     )
   })
 
-storiesOf('QrCode', module)
+storiesOf('QRCode', module)
   .add('basic', () => {
     return (
       <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <QrCode code={props.QRcodeConfigsBasic} />
+        <QRCode requisites={props.QRcodeConfigsBasic} />
       </div>
     )
   })
   .add('changed UI', () => {
     return (
       <div style={{ width: '80%', margin: '40px', background: '#fff' }}>
-        <QrCode code={props.QRcodeConfigsBasic} ui={props.QRcodeConfigsUI}/>
+        <QRCode requisites={props.QRcodeConfigsBasic} appearance={props.QRcodeConfigsUI} />
       </div>
     )
   })

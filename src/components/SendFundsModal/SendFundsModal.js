@@ -22,7 +22,6 @@ class SendFundsModal extends Component {
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={funds.isSendFundsModalOpen}
-        isForm
       />
     )
   }
@@ -187,7 +186,13 @@ class SendFundsModal extends Component {
 
     const { typeSendFundsPincode, sendFunds, funds } = this.props
 
-    return funds.sendFormData.isTypingOfPincode ? sendFunds() : typeSendFundsPincode(true)
+    if (funds.sendFormData.isTypingOfPincode) {
+      sendFunds()
+
+      return
+    }
+
+    typeSendFundsPincode(true)
   }
 }
 
