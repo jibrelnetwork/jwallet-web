@@ -69,14 +69,14 @@ storiesOf('JIcon', module)
 storiesOf('JTextInput', module)
   .add('common', () => {
     return (
-      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+      <div style={props.textInputStyle}>
         <JTextInput
           onValueChange={text => console.log(text)}
           name='common'
           placeholder='Common Field'
-          value={''}
-          errorMessage={''}
-          successMessage={''}
+          value=''
+          errorMessage=''
+          successMessage=''
           editable={true}
         />
       </div>
@@ -84,14 +84,14 @@ storiesOf('JTextInput', module)
   })
   .add('with value', () => {
     return (
-      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+      <div style={props.textInputStyle}>
         <JTextInput
           onValueChange={text => console.log(text)}
           name='with-value'
           placeholder='Value Field'
           value={'Some Value'}
-          errorMessage={''}
-          successMessage={''}
+          errorMessage=''
+          successMessage=''
           editable={true}
         />
       </div>
@@ -99,14 +99,14 @@ storiesOf('JTextInput', module)
   })
   .add('with error message', () => {
     return (
-      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+      <div style={props.textInputStyle}>
         <JTextInput
           onValueChange={text => console.log(text)}
           name='error'
           placeholder='Error Field'
-          value={''}
+          value=''
           errorMessage={'Something is wrong'}
-          successMessage={''}
+          successMessage=''
           editable={true}
         />
       </div>
@@ -114,13 +114,13 @@ storiesOf('JTextInput', module)
   })
   .add('with success message', () => {
     return (
-      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+      <div style={props.textInputStyle}>
         <JTextInput
           onValueChange={text => console.log(text)}
           name='success'
           placeholder='Success Field'
-          value={''}
-          errorMessage={''}
+          value=''
+          errorMessage=''
           successMessage={'Something is right'}
           editable={true}
         />
@@ -129,29 +129,29 @@ storiesOf('JTextInput', module)
   })
   .add('disabled', () => {
     return (
-      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+      <div style={props.textInputStyle}>
         <JTextInput
           onValueChange={text => console.log(text)}
           name='disabled'
           placeholder='Disabled Field'
-          value={''}
-          errorMessage={''}
-          successMessage={''}
+          value=''
+          errorMessage=''
+          successMessage=''
         />
       </div>
     )
   })
   .add('multiline', () => {
     return (
-      <div style={{backgroundColor: '#fff', padding: '20px', maxWidth: '400px'}}>
+      <div style={props.textInputStyle}>
         <JTextInput
           multiline
           onValueChange={text => console.log(text)}
           name='multiline'
           placeholder='Multiline Field'
-          value={''}
-          errorMessage={''}
-          successMessage={''}
+          value=''
+          errorMessage=''
+          successMessage=''
           editable={true}
         />
       </div>

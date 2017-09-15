@@ -14,7 +14,7 @@
 }
 
 .picker__items {
-  z-index: 3;
+  z-index: 10;
   position: absolute;
   top: 46px;
   left: 0;
@@ -22,7 +22,8 @@
   width: 100%;
   padding: 5px 0;
   background-color: $white;
-  border: 1px solid rgba(45,44,62,0.2);
+  border: 1px solid $black4;
+  border-top: none;
   overflow: auto;
   transition: all .3s ease;
 }

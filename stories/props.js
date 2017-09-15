@@ -134,4 +134,11 @@ export default {
       dark: '#001111ff',
     },
   },
+  textInputStyle: {
+    zIndex: 1,
+    position: 'relative',
+    maxWidth: '400px',
+    padding: '20px',
+    backgroundColor: '#fff',
+  },
 }

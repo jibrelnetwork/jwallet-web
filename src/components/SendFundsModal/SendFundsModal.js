@@ -5,16 +5,19 @@ import getFieldMessage from 'utils/getFieldMessage'
 
 import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
+import PincodeButton from 'components/PincodeButton'
+
 class SendFundsModal extends Component {
   render() {
     const { closeSendFundsModal, funds } = this.props
+    const { alert, isPincodeIncorrect } = funds.sendFormData
 
     return (
       <JModal
         closeModal={closeSendFundsModal}
         submitModal={this.submitFormOnEnter}
-        name='send-funds'
-        alert={funds.sendFormData.alert}
+        name={`send-funds ${isPincodeIncorrect ? 'modal--shake' : ''}`}
+        alert={alert}
         header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
@@ -153,11 +156,18 @@ class SendFundsModal extends Component {
   }
 
   renderFooter = () => {
-    const { sendFunds, funds } = this.props
+    const { setSendFundsPincode, typeSendFundsPincode, sendFunds, funds } = this.props
+    const { pincode, isTypingOfPincode } = funds.sendFormData
+
+    if (isTypingOfPincode) {
+      return (
+        <PincodeButton setPincode={setSendFundsPincode} onPress={sendFunds} pincode={pincode} />
+      )
+    }
 
     return (
       <JModalButton
-        onPress={sendFunds}
+        onPress={typeSendFundsPincode}
         name={'send-funds'}
         title={'Send Funds'}
         iconName={'send-funds'}
@@ -169,7 +179,16 @@ class SendFundsModal extends Component {
   isEnabledField = name => (this.props.funds.sendFormData.disabledFields.indexOf(name) === -1)
   getValidFieldMessage = name => getFieldMessage(this.props.funds.sendFormData.validFields, name)
   getInvalidFieldMessage = n => getFieldMessage(this.props.funds.sendFormData.invalidFields, n)
-  submitFormOnEnter = (e) => { return (e.key === 'Enter') ? this.props.sendFunds() : null }
+
+  submitFormOnEnter = (e) => {
+    if (e.key !== 'Enter') {
+      return
+    }
+
+    const { typeSendFundsPincode, sendFunds, funds } = this.props
+
+    return funds.sendFormData.isTypingOfPincode ? sendFunds() : typeSendFundsPincode(true)
+  }
 }
 
 SendFundsModal.propTypes = {
@@ -203,6 +222,9 @@ SendFundsModal.propTypes = {
       gas: PropTypes.string.isRequired,
       gasPrice: PropTypes.string.isRequired,
       gasSymbol: PropTypes.string.isRequired,
+      pincode: PropTypes.string.isRequired,
+      isPincodeIncorrect: PropTypes.bool.isRequired,
+      isTypingOfPincode: PropTypes.bool.isRequired,
     }).isRequired,
     isSendFundsModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
