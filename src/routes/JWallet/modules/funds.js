@@ -8,6 +8,7 @@ export const SET_SEND_FUNDS_GAS = 'SET_SEND_FUNDS_GAS'
 export const SET_SEND_FUNDS_GAS_PRICE = 'SET_SEND_FUNDS_GAS_PRICE'
 export const SET_SEND_FUNDS_GAS_SYMBOL = 'SET_SEND_FUNDS_GAS_SYMBOL'
 export const SET_SEND_FUNDS_PINCODE = 'SET_SEND_FUNDS_PINCODE'
+export const SET_SEND_FUNDS_IS_PINCODE_INCORRECT = 'SET_SEND_FUNDS_IS_PINCODE_INCORRECT'
 export const TYPE_SEND_FUNDS_PINCODE = 'TYPE_SEND_FUNDS_PINCODE'
 export const SEND_FUNDS = 'SEND_FUNDS'
 
@@ -99,6 +100,13 @@ export function setSendFundsPincode(pincode) {
   return {
     type: SET_SEND_FUNDS_PINCODE,
     pincode,
+  }
+}
+
+export function setSendFundsIsPincodeIncorrect(isPincodeIncorrect = true) {
+  return {
+    type: SET_SEND_FUNDS_IS_PINCODE_INCORRECT,
+    isPincodeIncorrect,
   }
 }
 
@@ -304,11 +312,18 @@ const ACTION_HANDLERS = {
       pincode: action.pincode,
     },
   }),
+  [SET_SEND_FUNDS_IS_PINCODE_INCORRECT]: (state, action) => ({
+    ...state,
+    sendFormData: {
+      ...state.sendFormData,
+      isPincodeIncorrect: !!action.isPincodeIncorrect,
+    },
+  }),
   [TYPE_SEND_FUNDS_PINCODE]: (state, action) => ({
     ...state,
     sendFormData: {
       ...state.sendFormData,
-      isTypingOfPincode: action.isTypingOfPincode,
+      isTypingOfPincode: !!action.isTypingOfPincode,
     },
   }),
   [SEND_FUNDS]: state => ({
@@ -446,6 +461,7 @@ const initialState = {
     gasPrice: '',
     gasSymbol: '',
     pincode: '',
+    isPincodeIncorrect: false,
     isTypingOfPincode: false,
   },
   receiveFormData: {
