@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JModal from 'components/base/JModal'
+import getFieldMessage from 'utils/getFieldMessage'
+
+import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
+
+import { CopyableField, QRCode } from 'components'
 
 class ReceiveFundsModal extends Component {
   render() {
@@ -10,8 +14,10 @@ class ReceiveFundsModal extends Component {
     return (
       <JModal
         closeModal={closeReceiveFundsModal}
+        submitModal={this.submitFormOnEnter}
         name='receive-funds'
-        header={'Receive Funds'}
+        alert={funds.receiveFormData.alert}
+        header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={funds.isReceiveFundsModalOpen}
@@ -19,13 +25,111 @@ class ReceiveFundsModal extends Component {
     )
   }
 
+  renderHeader = () => {
+    return (
+      <div className='receive-funds__header'>
+        <div className='modal__title'>{'Receive Funds'}</div>
+      </div>
+    )
+  }
+
   renderBody = () => {
-    return 'Receive Funds Body'
+    return (
+      <div className='receive-funds__body'>
+        {this.renderAmmountAndSymbol()}
+        {this.renderAccount()}
+        {this.renderRecipientAddress()}
+        {this.renderQRCode()}
+      </div>
+    )
+  }
+
+  renderAmmountAndSymbol = () => {
+    const { setReceiveFundsAmount, setReceiveFundsSymbol, funds } = this.props
+
+    return (
+      <div className='field-group'>
+        <JTextInput
+          onValueChange={setReceiveFundsAmount}
+          name='amount'
+          placeholder='Amount'
+          value={funds.receiveFormData.amount}
+          errorMessage={this.getInvalidFieldMessage('amount')}
+          successMessage={this.getValidFieldMessage('amount')}
+          editable={this.isEnabledField('amount')}
+        />
+        <JPicker
+          onValueChange={setReceiveFundsSymbol}
+          selectedValue={funds.receiveFormData.symbol}
+          name='symbol'
+          placeholder=''
+          errorMessage=''
+          successMessage=''
+          enabled={this.isEnabledField('symbol')}
+        >
+          <JPicker.Item label='ETH' value='ETH' />
+        </JPicker>
+      </div>
+    )
+  }
+
+  renderAccount = () => {
+    const { setReceiveFundsAccount, funds } = this.props
+
+    return (
+      <JPicker
+        onValueChange={setReceiveFundsAccount}
+        name='account'
+        placeholder='Account'
+        selectedValue={funds.receiveFormData.account}
+        errorMessage={this.getInvalidFieldMessage('address')}
+        successMessage={this.getValidFieldMessage('address')}
+        enabled={this.isEnabledField('address')}
+      >
+        <JPicker.Item label='example' value='example' />
+      </JPicker>
+    )
+  }
+
+  renderRecipientAddress = () => {
+    return (
+      <CopyableField
+        placeholder='Recipient address'
+        value={this.props.funds.receiveFormData.address}
+      />
+    )
+  }
+
+  renderQRCode = () => {
+    const { amount } = this.props.funds.receiveFormData
+
+    // Just for test
+    const requisites = {
+      to: '0x01360d2b7d240ec0643b6d819ba81a09e40e5bcd',
+      value: parseInt(amount, 10),
+    }
+
+    return <QRCode requisites={requisites} />
   }
 
   renderFooter = () => {
-    return 'Receive Funds Footer'
+    const { receiveFunds, funds } = this.props
+
+    return (
+      <JModalButton
+        onPress={receiveFunds}
+        name={'receive-funds'}
+        title={'Generate QR Code'}
+        iconName={'qr-code'}
+        disabled={(funds.receiveFormData.invalidFields.length > 0)}
+      />
+    )
   }
+
+  isEnabledField = name => (this.props.funds.receiveFormData.disabledFields.indexOf(name) === -1)
+  getValidFieldMessage = name => getFieldMessage(this.props.funds.receiveFormData.validFields, name)
+  getInvalidFieldMessage = n => getFieldMessage(this.props.funds.receiveFormData.invalidFields, n)
+  submitFormOnEnter = (e) => { return (e.key === 'Enter') ? this.props.receiveFunds() : null }
 }
 
 ReceiveFundsModal.propTypes = {

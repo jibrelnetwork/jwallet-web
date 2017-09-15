@@ -11,7 +11,7 @@ class PincodeButton extends Component {
   }
 
   render = () => {
-    const { onPress, pincode } = this.props
+    const { pincode } = this.props
     const isPincodeTyping = this.state.isPincodeTyping || pincode.length
 
     return (
@@ -66,7 +66,7 @@ class PincodeButton extends Component {
     )
   }
 
-  submitOnEnter = e => { return (e.key === 'Enter') ? this.props.onPress() : null }
+  submitOnEnter = (e) => { return (e.key === 'Enter') ? this.props.onPress() : null }
 
   setPincodeTyping = isPincodeTyping => (/* event */) => this.setState({ isPincodeTyping })
 
@@ -83,7 +83,7 @@ class PincodeButton extends Component {
     setPincode(pincode)
 
     if (pincode.length === 6) {
-      return onPress()
+      onPress()
     }
   }
 }

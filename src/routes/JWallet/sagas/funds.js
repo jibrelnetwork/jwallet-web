@@ -34,6 +34,6 @@ function* setIncorrectPincodeFlag() {
   yield put({ type: SET_SEND_FUNDS_PINCODE, pincode: '' })
 }
 
-export function* watchSendFunds() {
+export function* watchSendFunds() { // eslint-disable-line import/prefer-default-export
   yield takeEvery(SEND_FUNDS, sendFunds)
 }
