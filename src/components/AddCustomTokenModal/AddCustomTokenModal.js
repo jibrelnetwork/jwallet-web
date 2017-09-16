@@ -1,17 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JModal from 'components/base/JModal'
+import { getFieldMessage, handleEnterKeyPress } from 'utils'
+
+import { JModal, JModalButton, JTextInput } from 'components/base'
 
 class AddCustomTokenModal extends Component {
   render() {
-    const { closeAddCustomTokenModal, accounts } = this.props
+    const { closeAddCustomTokenModal, addCustomToken, accounts } = this.props
+    const { alert } = accounts.customTokenData
 
     return (
       <JModal
         closeModal={closeAddCustomTokenModal}
+        submitModal={handleEnterKeyPress(addCustomToken)}
         name='add-custom-token'
-        header={'Add custom token'}
+        alert={alert}
+        header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={accounts.isAddCustomTokenModalOpen}
@@ -19,12 +24,71 @@ class AddCustomTokenModal extends Component {
     )
   }
 
+  renderHeader = () => {
+    return (
+      <div className='add-custom-token__header'>
+        <div className='modal__title'>{'Add Custom Token'}</div>
+      </div>
+    )
+  }
+
   renderBody = () => {
-    return 'Import Keys Body'
+    const {
+      setCustomTokenAddress,
+      setCustomTokenName,
+      setCustomTokenSymbol,
+      setCustomTokenDecimals,
+      accounts,
+    } = this.props
+
+    const customTokenFieldsMap = {
+      address: setCustomTokenAddress,
+      name: setCustomTokenName,
+      symbol: setCustomTokenSymbol,
+      decimals: setCustomTokenDecimals,
+    }
+
+    return (
+      <div className='add-custom-token__body'>
+        {Object.keys(customTokenFieldsMap).map((field) => {
+          const handler = customTokenFieldsMap[field]
+          const placeholder = `${field.charAt(0).toUpperCase()}${field.slice(1)}`
+
+          return (
+            <JTextInput
+              key={field}
+              onValueChange={handler}
+              name={`custom-token-${field}`}
+              placeholder={placeholder}
+              value={accounts.customTokenData[field]}
+              errorMessage={this.getInvalidFieldMessage(field)}
+              successMessage={this.getValidFieldMessage(field)}
+              editable={this.isEnabledField(field)}
+            />
+          )
+        })}
+      </div>
+    )
   }
 
   renderFooter = () => {
-    return 'Import Keys Footer'
+    const { addCustomToken, accounts } = this.props
+
+    return (
+      <JModalButton
+        onPress={addCustomToken}
+        name={'add-custom-token'}
+        title={'Save'}
+        disabled={(accounts.customTokenData.invalidFields.length > 0)}
+      />
+    )
+  }
+
+  isEnabledField = name => (this.props.accounts.customTokenData.disabledFields.indexOf(name) === -1)
+  getValidFieldMessage = n => getFieldMessage(this.props.accounts.customTokenData.validFields, n)
+
+  getInvalidFieldMessage = (name) => {
+    return getFieldMessage(this.props.accounts.customTokenData.invalidFields, name)
   }
 }
 
