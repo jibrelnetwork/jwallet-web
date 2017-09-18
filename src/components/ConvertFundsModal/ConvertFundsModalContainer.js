@@ -4,10 +4,10 @@ import {
   closeConvertFundsModal,
   setConvertFundsFromAmount,
   setConvertFundsFromSymbol,
-  setConvertFundsFromAddress,
+  setConvertFundsFromAccount,
   setConvertFundsToAmount,
   setConvertFundsToSymbol,
-  setConvertFundsToAddress,
+  setConvertFundsToAccount,
   convertFunds,
 } from 'routes/JWallet/modules/funds'
 
@@ -21,10 +21,10 @@ const mapDispatchToProps = {
   closeConvertFundsModal,
   setConvertFundsFromAmount,
   setConvertFundsFromSymbol,
-  setConvertFundsFromAddress,
+  setConvertFundsFromAccount,
   setConvertFundsToAmount,
   setConvertFundsToSymbol,
-  setConvertFundsToAddress,
+  setConvertFundsToAccount,
   convertFunds,
 }
 

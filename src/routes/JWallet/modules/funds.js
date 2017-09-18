@@ -25,10 +25,10 @@ export const OPEN_CONVERT_FUNDS_MODAL = 'OPEN_CONVERT_FUNDS_MODAL'
 export const CLOSE_CONVERT_FUNDS_MODAL = 'CLOSE_CONVERT_FUNDS_MODAL'
 export const SET_CONVERT_FUNDS_FROM_AMOUNT = 'SET_CONVERT_FUNDS_FROM_AMOUNT'
 export const SET_CONVERT_FUNDS_FROM_SYMBOL = 'SET_CONVERT_FUNDS_FROM_SYMBOL'
-export const SET_CONVERT_FUNDS_FROM_ADDRESS = 'SET_CONVERT_FUNDS_FROM_ADDRESS'
+export const SET_CONVERT_FUNDS_FROM_ACCOUNT = 'SET_CONVERT_FUNDS_FROM_ACCOUNT'
 export const SET_CONVERT_FUNDS_TO_AMOUNT = 'SET_CONVERT_FUNDS_TO_AMOUNT'
 export const SET_CONVERT_FUNDS_TO_SYMBOL = 'SET_CONVERT_FUNDS_TO_SYMBOL'
-export const SET_CONVERT_FUNDS_TO_ADDRESS = 'SET_CONVERT_FUNDS_TO_ADDRESS'
+export const SET_CONVERT_FUNDS_TO_ACCOUNT = 'SET_CONVERT_FUNDS_TO_ACCOUNT'
 export const CONVERT_FUNDS = 'CONVERT_FUNDS'
 
 /**
@@ -210,10 +210,10 @@ export function setConvertFundsFromSymbol(symbol) {
   }
 }
 
-export function setConvertFundsFromAddress(address) {
+export function setConvertFundsFromAccount(account) {
   return {
-    type: SET_CONVERT_FUNDS_FROM_ADDRESS,
-    address,
+    type: SET_CONVERT_FUNDS_FROM_ACCOUNT,
+    account,
   }
 }
 
@@ -231,10 +231,10 @@ export function setConvertFundsToSymbol(symbol) {
   }
 }
 
-export function setConvertFundsToAddress(address) {
+export function setConvertFundsToAccount(account) {
   return {
-    type: SET_CONVERT_FUNDS_TO_ADDRESS,
-    address,
+    type: SET_CONVERT_FUNDS_TO_ACCOUNT,
+    account,
   }
 }
 
@@ -402,13 +402,13 @@ const ACTION_HANDLERS = {
       },
     },
   }),
-  [SET_CONVERT_FUNDS_FROM_ADDRESS]: (state, action) => ({
+  [SET_CONVERT_FUNDS_FROM_ACCOUNT]: (state, action) => ({
     ...state,
     convertFormData: {
       ...state.convertFormData,
       from: {
         ...state.convertFormData.from,
-        address: action.address,
+        account: action.account,
       },
     },
   }),
@@ -416,8 +416,8 @@ const ACTION_HANDLERS = {
     ...state,
     convertFormData: {
       ...state.convertFormData,
-      from: {
-        ...state.convertFormData.from,
+      to: {
+        ...state.convertFormData.to,
         amount: action.amount,
       },
     },
@@ -426,19 +426,19 @@ const ACTION_HANDLERS = {
     ...state,
     convertFormData: {
       ...state.convertFormData,
-      from: {
-        ...state.convertFormData.from,
+      to: {
+        ...state.convertFormData.to,
         symbol: action.symbol,
       },
     },
   }),
-  [SET_CONVERT_FUNDS_TO_ADDRESS]: (state, action) => ({
+  [SET_CONVERT_FUNDS_TO_ACCOUNT]: (state, action) => ({
     ...state,
     convertFormData: {
       ...state.convertFormData,
-      from: {
-        ...state.convertFormData.from,
-        address: action.address,
+      to: {
+        ...state.convertFormData.to,
+        account: action.account,
       },
     },
   }),
@@ -478,12 +478,12 @@ const initialState = {
     from: {
       amount: '',
       symbol: '',
-      address: '',
+      account: '',
     },
     to: {
       amount: '',
       symbol: '',
-      address: '',
+      account: '',
     },
     disabledFields: [],
     validFields: [],
