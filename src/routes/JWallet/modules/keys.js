@@ -18,6 +18,7 @@ export const CLOSE_BACKUP_KEYS_MODAL = 'CLOSE_BACKUP_KEYS_MODAL'
 export const SET_BACKUP_KEYS_ADDRESS = 'SET_BACKUP_KEYS_ADDRESS'
 export const SET_BACKUP_KEYS_PRIVATE_KEY = 'SET_BACKUP_KEYS_PRIVATE_KEY'
 export const SET_BACKUP_KEYS_MNEMONIC = 'SET_BACKUP_KEYS_MNEMONIC'
+export const SET_BACKUP_KEYS_PINCODE = 'SET_BACKUP_KEYS_PINCODE'
 export const BACKUP_KEYS = 'BACKUP_KEYS'
 
 export const CLEAR_KEYS = 'CLEAR_KEYS'
@@ -134,6 +135,13 @@ export function setBackupKeysMnemonic(mnemonic) {
   }
 }
 
+export function setBackupKeysPincode(pincode) {
+  return {
+    type: SET_BACKUP_KEYS_PINCODE,
+    pincode,
+  }
+}
+
 export function backupKeys() {
   return {
     type: BACKUP_KEYS,
@@ -232,6 +240,13 @@ const ACTION_HANDLERS = {
       mnemonic: action.mnemonic,
     },
   }),
+  [SET_BACKUP_KEYS_PINCODE]: (state, action) => ({
+    ...state,
+    backupKeysData: {
+      ...state.backupKeysData,
+      pincode: action.pincode,
+    },
+  }),
   [CLEAR_KEYS]: state => ({
     ...state,
     items: [],
@@ -263,6 +278,7 @@ const initialState = {
     address: '',
     privateKey: '',
     mnemonic: '',
+    pincode: '',
   },
   items: [],
   currentActiveIndex: -1,
