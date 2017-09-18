@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JModal from 'components/base/JModal'
+import { getFieldMessage, handleEnterKeyPress } from 'utils'
+
+import { JModal, JModalButton, JTextInput } from 'components/base'
 
 class NewKeysModal extends Component {
   render() {
-    const { closeNewKeysModal, keys } = this.props
+    const { closeNewKeysModal, saveNewKeysAsTXT, keys } = this.props
 
     return (
       <JModal
         closeModal={closeNewKeysModal}
+        submitModal={handleEnterKeyPress(saveNewKeysAsTXT)}
         name='new-keys'
-        header={'New Keys'}
+        alert={keys.newKeysData.alert}
+        header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={keys.isNewKeysModalOpen}
@@ -19,13 +23,44 @@ class NewKeysModal extends Component {
     )
   }
 
+  renderHeader = () => {
+    return <div className='modal__title'>{'New Keys'}</div>
+  }
+
   renderBody = () => {
-    return 'New Keys Body'
+    const { setNewKeysMnemonic, keys } = this.props
+
+    return (
+      <JTextInput
+        onValueChange={setNewKeysMnemonic}
+        name='new-keys-mnemonic'
+        placeholder='Mnemonic'
+        value={keys.newKeysData.mnemonic}
+        errorMessage={this.getInvalidFieldMessage('mnemonic')}
+        successMessage={this.getValidFieldMessage('mnemonic')}
+        editable={this.isEnabledField('mnemonic')}
+        multiline
+      />
+    )
   }
 
   renderFooter = () => {
-    return 'New Keys Footer'
+    const { saveNewKeysAsTXT, keys } = this.props
+
+    return (
+      <JModalButton
+        onPress={saveNewKeysAsTXT}
+        name={'new-keys'}
+        iconName={'txt'}
+        title={'Save as TXT'}
+        disabled={keys.newKeysData.invalidFields.length > 0}
+      />
+    )
   }
+
+  isEnabledField = name => (this.props.keys.newKeysData.disabledFields.indexOf(name) === -1)
+  getValidFieldMessage = name => getFieldMessage(this.props.keys.newKeysData.validFields, name)
+  getInvalidFieldMessage = n => getFieldMessage(this.props.keys.newKeysData.invalidFields, n)
 }
 
 NewKeysModal.propTypes = {
