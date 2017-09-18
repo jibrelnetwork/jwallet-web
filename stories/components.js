@@ -5,12 +5,16 @@ import { action } from '@storybook/addon-actions'
 import {
   AccountItem,
   CopyableField,
+  Expandable,
   KeysManager,
   Transaction,
   TransactionManager,
   Search,
   QRCode,
+  base,
 } from '../src/components'
+
+const { JTextInput } = base
 
 import props from './props'
 
@@ -98,6 +102,60 @@ storiesOf('CopyableField', module)
     return (
       <div style={{ width: '420px', padding: '40px', background: '#fff' }}>
         <CopyableField value={props.transactions[0].from} placeholder='Address' />
+      </div>
+    )
+  })
+
+storiesOf('Expandable', module)
+  .add('default', () => {
+    return (
+      <div style={{ backgroundColor: '#fff', padding: '20px', maxWidth: '420px' }}>
+        <Expandable>
+          <JTextInput
+            onValueChange={text => console.log(text)}
+            name='common'
+            placeholder='Common Field'
+            value={'34543'}
+            errorMessage={''}
+            successMessage={''}
+            editable
+          />
+          <JTextInput
+            onValueChange={text => console.log(text)}
+            name='common'
+            placeholder='Another Field'
+            value={'Transfer name'}
+            errorMessage={''}
+            successMessage={''}
+            editable
+          />
+        </Expandable>
+      </div>
+    )
+  })
+  .add('with optional params', () => {
+    return (
+      <div style={{ backgroundColor: '#fff', padding: '20px', maxWidth: '420px' }}>
+        <Expandable title={'Display more fields'} iconName={'small-arrow'}>
+          <JTextInput
+            onValueChange={text => console.log(text)}
+            name='common'
+            placeholder='Common Field'
+            value={'34543'}
+            errorMessage={''}
+            successMessage={''}
+            editable
+          />
+          <JTextInput
+            onValueChange={text => console.log(text)}
+            name='common'
+            placeholder='Another Field'
+            value={'Transfer name'}
+            errorMessage={''}
+            successMessage={''}
+            editable
+          />
+        </Expandable>
       </div>
     )
   })
