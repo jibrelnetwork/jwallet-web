@@ -5,6 +5,7 @@ import {
   setBackupKeysAddress,
   setBackupKeysPrivateKey,
   setBackupKeysMnemonic,
+  setBackupKeysPincode,
   backupKeys,
 } from 'routes/JWallet/modules/keys'
 
@@ -19,6 +20,7 @@ const mapDispatchToProps = {
   setBackupKeysAddress,
   setBackupKeysPrivateKey,
   setBackupKeysMnemonic,
+  setBackupKeysPincode,
   backupKeys,
 }
 
