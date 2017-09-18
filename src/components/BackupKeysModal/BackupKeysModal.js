@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import getFieldMessage from 'utils/getFieldMessage'
 
-import { JIcon, JModal, JModalButton, JPicker, JTextInput } from 'components/base'
+import { JModal, JPicker, JTextInput } from 'components/base'
 
 import PincodeButton from 'components/PincodeButton'
 
