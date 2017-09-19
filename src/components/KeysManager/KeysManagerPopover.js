@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JIcon, JPopover } from 'components/base'
 
@@ -19,21 +20,23 @@ function KeysManagerPopover(props) {
   const body = (
     <div className='keys-manager__popover'>
       <div className='keys-manager__keys'>
-        {items.map((key, i) => {
-          const { privateKey, balance, code } = key
+        <Scrollbars>
+          {items.map((key, i) => {
+            const { privateKey, balance, code } = key
 
-          return (
-            <div
-              key={i}
-              className={`key popover__item ${(currentActiveIndex === i) ? 'key--active' : ''}`}
-              onClick={setActiveKey(i)}
-            >
-              <span className='key__hash'>{privateKey}</span>
-              <span className='key__balance'>{balance.toFixed(3)}</span>
-              <span className='key__code'>{code}</span>
-            </div>
-          )
-        })}
+            return (
+              <div
+                key={i}
+                className={`key popover__item ${(currentActiveIndex === i) ? 'key--active' : ''}`}
+                onClick={setActiveKey(i)}
+              >
+                <span className='key__hash'>{privateKey}</span>
+                <span className='key__balance'>{balance.toFixed(3)}</span>
+                <span className='key__code'>{code}</span>
+              </div>
+            )
+          })}
+        </Scrollbars>
       </div>
       <div className='popover__items'>
         <div className='popover__item' onClick={addNewKeys}>

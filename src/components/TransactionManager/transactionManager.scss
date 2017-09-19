@@ -8,6 +8,7 @@
 .transaction-manager__icon {
   opacity: 0.5;
   cursor: pointer;
+  transition: opacity .3s ease;
 
   &:hover {
     opacity: 0.7;

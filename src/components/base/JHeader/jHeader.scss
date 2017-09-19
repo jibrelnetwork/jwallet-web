@@ -1,6 +1,6 @@
 .header {
-  height: 40px;
-  padding: 40px 0 40px 117px;
+  height: $header-height;
+  padding: $header-v-padding 0 $header-v-padding 117px;
   box-sizing: content-box;
 }
 
