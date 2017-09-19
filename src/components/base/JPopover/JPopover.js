@@ -2,12 +2,19 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-class JPopover extends Component {
+import config from 'config'
+
+import Appearable from 'components/Appearable'
+
+const { popoverClickTimeout, popoverOpeningClosingTimeout } = config
+
+class JPopover extends Appearable {
   componentWillMount() {
-    // To prevent closing of first open we need timeout
-    setTimeout(() => {
-      window.addEventListener('click', this.onClick)
-    }, 50)
+    this.setState({ timeout: popoverOpeningClosingTimeout })
+
+    this.open(true)
+
+    setTimeout(() => window.addEventListener('click', this.onClick), popoverClickTimeout)
   }
 
   componentWillUnmount() {
@@ -20,17 +27,36 @@ class JPopover extends Component {
     const isClickOutside = !popover.contains(event.target)
 
     if (isClickOutside || isCloseOnClickInside) {
-      onClickOutside()
+      this.close(true)
+
+      setTimeout(onClickOutside, popoverOpeningClosingTimeout)
     }
   }
 
   render() {
-    const { name, body, reset } = this.props
+    const { name, body } = this.props
 
-    // no need to set popover style, if reset flag is true
-    const popoverClassName = reset ? null : `popover popover--${name}`
+    return <div className={this.getPopoverClassName()} ref={name}>{body}</div>
+  }
 
-    return <div className={popoverClassName} ref={name}>{body}</div>
+  getPopoverClassName = () => {
+    const { name, reset } = this.props
+    const { opening, closing } = this.state
+
+    if (reset) {
+      // no need to set popover style, if reset flag is true
+      return null
+    }
+
+    const popoverClassName = `popover popover--${name}`
+
+    if (opening) {
+      return `${popoverClassName} popover--opening`
+    } else if (closing) {
+      return `${popoverClassName} popover--closing`
+    }
+
+    return popoverClassName
   }
 }
 

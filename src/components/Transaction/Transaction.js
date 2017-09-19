@@ -15,7 +15,10 @@ class Transaction extends Component {
     const { isActive } = this.state
 
     return (
-      <div className='transaction table__item' onClick={this.toggle}>
+      <div
+        className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}
+        onClick={this.toggle}
+      >
         <TransactionMain
           type={type}
           symbol={symbol}

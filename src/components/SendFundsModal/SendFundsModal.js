@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import getFieldMessage from 'utils/getFieldMessage'
 
-import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
+import { Expandable, PincodeButton } from 'components'
 
-import PincodeButton from 'components/PincodeButton'
+import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends Component {
   render() {
@@ -16,12 +16,13 @@ class SendFundsModal extends Component {
       <JModal
         closeModal={closeSendFundsModal}
         submitModal={this.submitFormOnEnter}
-        name={`send-funds ${isPincodeIncorrect ? 'modal--shake' : ''}`}
+        name='send-funds'
         alert={alert}
         header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
         isOpen={funds.isSendFundsModalOpen}
+        isShake={isPincodeIncorrect}
       />
     )
   }
@@ -40,8 +41,7 @@ class SendFundsModal extends Component {
         {this.renderRecipientAddress()}
         {this.renderAccount()}
         {this.renderAmmountAndSymbol()}
-        {this.renderGas()}
-        {this.renderGasPriceAndSymbol()}
+        {this.renderCustomOptions()}
       </div>
     )
   }
@@ -106,6 +106,15 @@ class SendFundsModal extends Component {
           <JPicker.Item label='ETH' value='ETH' />
         </JPicker>
       </div>
+    )
+  }
+
+  renderCustomOptions = () => {
+    return (
+      <Expandable>
+        {this.renderGas()}
+        {this.renderGasPriceAndSymbol()}
+      </Expandable>
     )
   }
 

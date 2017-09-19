@@ -19,7 +19,7 @@ class YourAccounts extends Component {
     const { openAccountManager, accounts } = this.props
 
     if (accounts.isLoading) {
-      return <div className='your-accounts'><JLoader /></div>
+      return <div className='your-accounts loading'><JLoader /></div>
     }
 
     return (

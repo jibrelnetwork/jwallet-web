@@ -77,16 +77,16 @@
     margin: 0 auto;
     transition: filter .1s ease;
     will-change: filter;
-  }
 
-  .container--modal-open {
-    filter: blur(1.3px);
+    &--modal-open {
+      filter: blur(3px);
+    }
   }
 
   .content {
     position: relative;
     width: 100%;
-    min-height: unquote('calc(100vh - 160px)');
+    min-height: calc(100vh - #{$header-and-footer-height});
   }
 
   @import '../components/base/JFormField/jFormField';
