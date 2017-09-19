@@ -1,11 +1,11 @@
 .account-item {
   position: relative;
   padding: 25px 30px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255,255,255,0.1);
   cursor: pointer;
 
-  &:first-child {
-    border-top: 1px solid rgba(255,255,255,0.1);
+  &:last-child {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
   &:hover {
@@ -13,28 +13,33 @@
       opacity: 0.05;
     }
   }
-}
 
-.account-item--active {
-  background: linear-gradient(to right, $blue, $blue2);
+  &--active {
+    background: linear-gradient(to right, $blue, $blue2);
+    border-top: none;
 
-  .account-item__balance {
-    color: $white;
-    opacity: 0.7;
+    .account-item__balance {
+      color: $white;
+      opacity: 0.7;
+    }
+
+    .account-item__image,
+    &:hover .account-item__image {
+      opacity: 0.1;
+    }
   }
 
-  .account-item__image,
-  &:hover .account-item__image {
-    opacity: 0.1;
-  }
-}
+  &--authorization {
+    cursor: default;
 
-.account-item--authorization {
-  cursor: default;
+    .account-item__image {
+      background-image: none;
+    }
 
-  .account-item__balance {
-    color: $white;
-    opacity: 0.3;
+    .account-item__balance {
+      color: $white;
+      opacity: 0.3;
+    }
   }
 }
 
@@ -59,38 +64,38 @@
   content: '';
   transition: opacity .3s ease;
   will-change: opacity;
-}
 
-.account-item__image--eth {
-  background-image: $accountIconETH;
-}
+  &--eth {
+    background-image: $accountIconETH;
+  }
 
-.account-item__image--jusd {
-  background-image: $accountIconJUSD;
-}
+  &--jusd {
+    background-image: $accountIconJUSD;
+  }
 
-.account-item__image--jeur {
-  background-image: $accountIconJEUR;
-}
+  &--jeur {
+    background-image: $accountIconJEUR;
+  }
 
-.account-item__image--jgbp {
-  background-image: $accountIconJGBP;
-}
+  &--jgbp {
+    background-image: $accountIconJGBP;
+  }
 
-.account-item__image--jaed {
-  background-image: $accountIconJAED;
-}
+  &--jaed {
+    background-image: $accountIconJAED;
+  }
 
-.account-item__image--jrub {
-  background-image: $accountIconJRUB;
-}
+  &--jrub {
+    background-image: $accountIconJRUB;
+  }
 
-.account-item__image--jcny {
-  background-image: $accountIconJCNY;
-}
+  &--jcny {
+    background-image: $accountIconJCNY;
+  }
 
-.account-item__image--jnt {
-  background-image: $accountIconJNT;
+  &--jnt {
+    background-image: $accountIconJNT;
+  }
 }
 
 .account-item__name {
@@ -111,7 +116,7 @@
   position: absolute;
   right: 30px;
   top: 50%;
-  width: 12px;
+  width: 13px;
   height: 14px;
   margin-top: -7px;
   background-repeat: no-repeat;

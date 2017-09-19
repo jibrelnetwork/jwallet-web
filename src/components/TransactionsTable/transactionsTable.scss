@@ -1,3 +1,7 @@
+$t-table-header-padding: 30px;
+$t-table-header-line-height: 24px;
+$t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-height;
+
 .transactions-table {
   position: relative;
   display: table-cell;
@@ -8,9 +12,9 @@
 }
 
 .transactions-table-header {
-  height: 84px;
-  padding: 30px;
-  line-height: 24px;
+  height: $t-table-header-height;
+  padding: $t-table-header-padding;
+  line-height: $t-table-header-line-height;
   border-bottom: 1px solid $line;
 }
 
@@ -20,18 +24,6 @@
   height: 24px;
   line-height: 24px;
   font-weight: 600;
-
-  &:after {
-    position: absolute;
-    top: 50%;
-    right: 30px;
-    height: 30px;
-    width: 1px;
-    margin-top: -15px;
-    background-color: $black;
-    opacity: 0.1;
-    content: '';
-  }
 }
 
 .transactions-table-header__more {
@@ -45,11 +37,12 @@
 .filter__clear-icon {
   position: absolute;
   top: 1px;
-  right: 40px;
+  right: 78px;
   height: 24px;
   line-height: 24px;
   opacity: 0.5;
   cursor: pointer;
+  transition: opacity .3s ease;
 
   &:hover {
     opacity: 0.7;
@@ -58,6 +51,7 @@
 
 .transactions-table-body {
   position: relative;
+  height: calc(100% - #{$t-table-header-height});
   padding: 0 30px 30px 30px;
 }
 

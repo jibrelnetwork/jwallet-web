@@ -27,7 +27,7 @@ class TransactionsTable extends Component {
     const { filterData, items, searchQuery, isLoading } = transactions
 
     if (isLoading) {
-      return <div className='transactions-table'><JLoader /></div>
+      return <div className='transactions-table loading'><JLoader /></div>
     }
 
     if (!(items && items.length)) {
@@ -61,6 +61,7 @@ class TransactionsTable extends Component {
         <TransactionsTableBody
           sortTransactions={this.sortTransactions}
           transactions={transactions}
+          currentAccountSymbol={currentAccountSymbol}
         />
       </div>
     )

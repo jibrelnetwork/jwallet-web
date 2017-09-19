@@ -18,26 +18,27 @@
 
 .key {
   margin-top: 5px;
+  padding-right: 20px;
   color: $gray;
   opacity: 0.5;
   cursor: pointer;
+  transition: opacity 0.3s ease 0s;
 
   &:hover {
     opacity: 1;
   }
 
-  transition: opacity 0.3s ease 0s;
-}
+  &--title {
+    margin-top: 4px;
+    padding-right: 0;
+    text-align: right;
+    opacity: 1;
+  }
 
-.key--title {
-  margin-top: 4px;
-  text-align: right;
-  opacity: 1;
-}
-
-.key--active {
-  color: $blue;
-  opacity: 1;
+  &--active {
+    color: $blue;
+    opacity: 1;
+  }
 }
 
 .key__hash,
@@ -67,5 +68,4 @@
 .keys-manager__keys {
   min-width: 220px;
   height: 126px;
-  overflow: auto;
 }

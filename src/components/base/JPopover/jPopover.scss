@@ -1,3 +1,5 @@
+@import './jPopoverOpenCloseAnimation';
+
 .popover {
   z-index: 20;
   position: absolute;
@@ -7,7 +9,34 @@
   padding: 20px 30px;
   background-color: $white;
   border-radius: 3px;
+  overflow: hidden;
   box-shadow: $shadow3;
+
+  &--opening,
+  &--closing {
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
+
+  &--opening {
+    animation-name: popover-opening;
+  }
+
+  &--closing {
+    animation-name: popover-closing;
+  }
+
+  &--transaction-manager {
+    right: -20px;
+    margin: 20px;
+  }
+
+  &--keys-manager {
+    top: -20px;
+    right: -20px;
+    width: 280px;
+    margin: 20px;
+  }
 }
 
 .popover__items {
@@ -46,17 +75,4 @@
   &:hover {
     opacity: 0.7;
   }
-}
-
-.popover--transaction-manager {
-  top: 10px;
-  right: -20px;
-  margin: 20px;
-}
-
-.popover--keys-manager {
-  top: 20px;
-  right: -20px;
-  width: 280px;
-  margin: 20px;
 }

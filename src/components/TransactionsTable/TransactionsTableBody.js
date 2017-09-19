@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import Transaction from 'components/Transaction'
@@ -12,27 +12,44 @@ const transactionsColumns = [
   { field: 'status', title: 'Status' },
 ]
 
-function TransactionsTableBody({ sortTransactions, transactions }) {
-  const {
-    filterData,
-    items,
-    foundItemsHashes,
-    sortField,
-    sortDirection,
-    searchQuery,
-  } = transactions
+class TransactionsTableBody extends Component {
+  render() {
+    const { transactions, currentAccountSymbol } = this.props
+    const { items, foundItemsHashes, searchQuery } = transactions
 
-  const { startTime, endTime, isOpen } = filterData
-  const isStartTime = (isOpen && (startTime !== 0))
-  const isEndTime = (isOpen && (endTime !== 0))
+    const isItemsFound = item => (foundItemsHashes.indexOf(item.txHash) > -1)
+    const isSearching = (searchQuery && searchQuery.length)
+    const foundItems = isSearching ? items.filter(isItemsFound) : items
 
-  const isDesc = (sortDirection === 'DESC')
+    const isSearchedTransactionsEmpty = (isSearching && !foundItems.length)
+    const isFilteredTransactionsEmpty = this.isFilteredTransactionsEmpty(foundItems)
 
-  const isItemsFound = item => (foundItemsHashes.indexOf(item.txHash) > -1)
-  const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
+    if (isSearchedTransactionsEmpty || isFilteredTransactionsEmpty) {
+      return (
+        <div className='transactions-table-body'>
+          <div className='transactions-table-empty'>
+            <div className='transactions-table__title'>
+              {`Look like there isn't any ${currentAccountSymbol} in your account yet`}
+            </div>
+          </div>
+        </div>
+      )
+    }
 
-  return (
-    <div className='transactions-table-body'>
+    return (
+      <div className='transactions-table-body'>
+        {this.renderTableHeader()}
+        {this.renderTransactions(foundItems)}
+      </div>
+    )
+  }
+
+  renderTableHeader = () => {
+    const { sortTransactions, transactions } = this.props
+    const { sortField, sortDirection } = transactions
+    const isDesc = (sortDirection === 'DESC')
+
+    return (
       <div className='transactions-table-body__table'>
         <div className='transaction table__item table__item--title'>
           <div className='row clear'>
@@ -57,19 +74,48 @@ function TransactionsTableBody({ sortTransactions, transactions }) {
           </div>
         </div>
       </div>
-      {foundItems.map((transactionProps, i) => {
-        const { timestamp } = transactionProps
+    )
+  }
+
+  renderTransactions = (foundItems) => {
+    const { startTime, endTime, isOpen } = this.props.transactions.filterData
+
+    const isStartTime = (isOpen && (startTime !== 0))
+    const isEndTime = (isOpen && (endTime !== 0))
+
+    return (
+      <div>
+        {foundItems.map((transactionProps, i) => {
+          const { timestamp } = transactionProps
+          const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
+          const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
+
+          if (isAfterStartTime && isBeforeEndTime) {
+            return <Transaction key={i} {...transactionProps} />
+          }
+
+          return null
+        })}
+      </div>
+    )
+  }
+
+  isFilteredTransactionsEmpty = (foundItems) => {
+    const { startTime, endTime, isOpen } = this.props.transactions.filterData
+
+    const isStartTime = (isOpen && (startTime !== 0))
+    const isEndTime = (isOpen && (endTime !== 0))
+
+    return (foundItems
+      .map(({ timestamp }) => {
         const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
         const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
 
-        if (isAfterStartTime && isBeforeEndTime) {
-          return <Transaction key={i} {...transactionProps} />
-        }
-
-        return null
-      })}
-    </div>
-  )
+        return (isAfterStartTime && isBeforeEndTime)
+      })
+      .filter(item => (item === true))
+      .length === 0)
+  }
 }
 
 TransactionsTableBody.propTypes = {
@@ -98,6 +144,7 @@ TransactionsTableBody.propTypes = {
     sortDirection: PropTypes.string.isRequired,
     searchQuery: PropTypes.string.isRequired,
   }).isRequired,
+  currentAccountSymbol: PropTypes.string.isRequired,
 }
 
 export default TransactionsTableBody
