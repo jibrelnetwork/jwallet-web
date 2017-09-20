@@ -5,7 +5,7 @@ import getFieldMessage from 'utils/getFieldMessage'
 
 import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
-import { CopyableField, QRCode } from 'components'
+import { CopyableField, QRCode, SymbolPicker } from 'components'
 
 class ReceiveFundsModal extends Component {
   render() {
@@ -58,17 +58,12 @@ class ReceiveFundsModal extends Component {
           successMessage={this.getValidFieldMessage('amount')}
           editable={this.isEnabledField('amount')}
         />
-        <JPicker
+        <SymbolPicker
           onValueChange={setReceiveFundsSymbol}
           selectedValue={funds.receiveFormData.symbol}
-          name='symbol'
-          placeholder=''
-          errorMessage=''
-          successMessage=''
+          name='receive-funds-symbol'
           enabled={this.isEnabledField('symbol')}
-        >
-          <JPicker.Item label='ETH' value='ETH' />
-        </JPicker>
+        />
       </div>
     )
   }

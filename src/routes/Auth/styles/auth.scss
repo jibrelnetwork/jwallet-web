@@ -1,8 +1,7 @@
 .auth-wrap {
   position: absolute;
-  top: 0;
+  top: 20%;
   left: 0;
-  bottom: 0;
   right: 0;
   width: 100%;
   max-width: 320px;
@@ -10,7 +9,7 @@
   margin: auto;
   text-align: center;
   overflow: auto;
-  color: $gray2;
+  color: $gray;
 }
 
 .auth__title {
@@ -18,10 +17,8 @@
 }
 
 .auth__subtitle {
-  margin-top: 40px;
+  margin: 20px auto 30px;
+  line-height: 24px;
   font-size: 15px;
-}
-
-.auth__buttons {
-  margin-top: 40px;
+  color: $gray2;
 }

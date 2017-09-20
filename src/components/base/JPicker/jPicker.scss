@@ -25,13 +25,15 @@
   border: 1px solid $black4;
   border-top: none;
   overflow: auto;
+  opacity: 1;
   transition: all .3s ease;
 }
 
 .picker__items--hidden {
-  max-height: 0;
+  top: 0;
   padding: 0;
   border: none;
+  opacity: 0;
 }
 
 .picker__item {

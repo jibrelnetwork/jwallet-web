@@ -4,12 +4,8 @@ import PropTypes from 'prop-types'
 import JIcon from 'components/base/JIcon'
 
 function AccountItem(props) {
-  const { symbol, name, balanceFixed, isActive, isAuthRequired, isLicensed, isCurrent } = props
+  const { symbol, name, balanceFixed, isAuthRequired, isLicensed, isCurrent } = props
   const setCurrentAccount = isAuthRequired ? () => {} : props.setCurrentAccount
-
-  if (!isActive) {
-    return null
-  }
 
   let accountItemClassName = 'account-item'
 
@@ -41,7 +37,6 @@ AccountItem.propTypes = {
   symbol: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   balanceFixed: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
   isAuthRequired: PropTypes.bool.isRequired,
   isLicensed: PropTypes.bool.isRequired,
   isCurrent: PropTypes.bool.isRequired,

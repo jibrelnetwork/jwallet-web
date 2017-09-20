@@ -42,7 +42,7 @@ class ImportKeysModal extends Component {
     return (
       <JTextInput
         onValueChange={setImportKeysData}
-        name='data'
+        name='import-keys-data'
         placeholder='Address, private key, mnemonic'
         value={keys.importKeysData.data}
         errorMessage={this.getInvalidFieldMessage('data')}

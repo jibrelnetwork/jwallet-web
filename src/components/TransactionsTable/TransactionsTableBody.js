@@ -6,10 +6,10 @@ import Transaction from 'components/Transaction'
 import JIcon from 'components/base/JIcon'
 
 const transactionsColumns = [
-  { field: 'amount', title: 'Amount' },
-  { field: 'timestamp', title: 'Time' },
-  { field: 'address', title: 'From/To' },
-  { field: 'status', title: 'Status' },
+  { field: 'amount', title: 'Amount', colSize: '2-4' },
+  { field: 'timestamp', title: 'Time', colSize: '2-4' },
+  { field: 'address', title: 'From/To', colSize: '4-8' },
+  { field: 'status', title: 'Status', colSize: '2-4' },
 ]
 
 class TransactionsTableBody extends Component {
@@ -26,7 +26,7 @@ class TransactionsTableBody extends Component {
 
     if (isSearchedTransactionsEmpty || isFilteredTransactionsEmpty) {
       return (
-        <div className='transactions-table-body'>
+        <div className='transactions-table-body transactions-table-body--empty'>
           <div className='transactions-table-empty'>
             <div className='transactions-table__title'>
               {`Look like there isn't any ${currentAccountSymbol} in your account yet`}
@@ -53,12 +53,12 @@ class TransactionsTableBody extends Component {
       <div className='transactions-table-body__table'>
         <div className='transaction table__item table__item--title'>
           <div className='row clear'>
-            {transactionsColumns.map(({ field, title }) => {
+            {transactionsColumns.map(({ field, title, colSize }) => {
               const isCurrent = (field === sortField)
 
               return (
                 <div
-                  className='col-3 clear table__title-item'
+                  className={`col-${colSize} clear table__title-item`}
                   key={field}
                   onClick={sortTransactions(field)}
                 >
@@ -78,7 +78,8 @@ class TransactionsTableBody extends Component {
   }
 
   renderTransactions = (foundItems) => {
-    const { startTime, endTime, isOpen } = this.props.transactions.filterData
+    const { toggleActive, transactions, activeTransactionIndex } = this.props
+    const { startTime, endTime, isOpen } = transactions.filterData
 
     const isStartTime = (isOpen && (startTime !== 0))
     const isEndTime = (isOpen && (endTime !== 0))
@@ -89,9 +90,17 @@ class TransactionsTableBody extends Component {
           const { timestamp } = transactionProps
           const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
           const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
+          const isActive = (activeTransactionIndex === i)
 
           if (isAfterStartTime && isBeforeEndTime) {
-            return <Transaction key={i} {...transactionProps} />
+            return (
+              <Transaction
+                {...transactionProps}
+                toggleActive={toggleActive(i)}
+                key={i}
+                isActive={isActive}
+              />
+            )
           }
 
           return null
@@ -120,6 +129,7 @@ class TransactionsTableBody extends Component {
 
 TransactionsTableBody.propTypes = {
   sortTransactions: PropTypes.func.isRequired,
+  toggleActive: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
     filterData: PropTypes.shape({
       startTime: PropTypes.number.isRequired,
@@ -145,6 +155,7 @@ TransactionsTableBody.propTypes = {
     searchQuery: PropTypes.string.isRequired,
   }).isRequired,
   currentAccountSymbol: PropTypes.string.isRequired,
+  activeTransactionIndex: PropTypes.number.isRequired,
 }
 
 export default TransactionsTableBody
