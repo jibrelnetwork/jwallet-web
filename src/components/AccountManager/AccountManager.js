@@ -41,7 +41,7 @@ class AccountManager extends Component {
 
   renderAccountManagerFooter = () => {
     return (
-      <div className='account-manager-footer' onClick={this.props.openAddCustomTokenModal}>
+      <div className='account-manager-footer' onClick={this.addCustomToken}>
         <JIcon name='small-add' className='account-manager-footer__icon' small />
         {'Add custom token'}
       </div>
@@ -61,6 +61,11 @@ class AccountManager extends Component {
   }
 
   sortAccounts = field => (/* event */) => this.props.sortAccounts(field)
+
+  addCustomToken = (/* event */) => {
+    this.props.openAddCustomTokenModal()
+    this.props.closeAccountManager()
+  }
 }
 
 AccountManager.propTypes = {

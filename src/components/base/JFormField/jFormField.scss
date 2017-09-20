@@ -8,23 +8,47 @@
   }
 }
 
-.field--error {
-  .field__message {
-    color: $red;
+.field {
+  &--error {
+    .field__message {
+      color: $red;
+    }
+
+    .field__placeholder {
+      color: $red2;
+    }
+
+    .field__input,
+    .field__select {
+      color: $red;
+      border-color: $red3;
+
+      &:hover,
+      &:focus {
+        border-color: $red2;
+      }
+    }
   }
 
-  .field__placeholder {
-    color: $red2;
-  }
-}
+  &--success {
+    .field__message {
+      color: $blue;
+    }
 
-.field--success {
-  .field__message {
-    color: $blue;
-  }
+    .field__placeholder {
+      color: $blue5;
+    }
 
-  .field__placeholder {
-    color: $blue5;
+    .field__input,
+    .field__select {
+      color: $blue;
+      border-color: $blue6;
+
+      &:hover,
+      &:focus {
+        border-color: $blue5;
+      }
+    }
   }
 }
 
@@ -39,17 +63,17 @@
   color: $gray2;
   opacity: 0.5;
   transition: all 0.3s ease;
-}
 
-.field__placeholder--top {
-  z-index: 3;
-  top: -6px;
-  left: 10px;
-  line-height: 11px;
-  padding: 0 5px;
-  background-color: $white;
-  font-size: 11px;
-  opacity: 1;
+  &--top {
+    z-index: 3;
+    top: -6px;
+    left: 10px;
+    line-height: 11px;
+    padding: 0 5px;
+    background-color: $white;
+    font-size: 11px;
+    opacity: 1;
+  }
 }
 
 .field__message {
@@ -90,32 +114,6 @@
   resize: vertical;
 }
 
-.field--error {
-  .field__input,
-  .field__select {
-    color: $red;
-    border-color: $red3;
-
-    &:hover,
-    &:focus {
-      border-color: $red2;
-    }
-  }
-}
-
-.field--success {
-  .field__input,
-  .field__select {
-    color: $blue;
-    border-color: $blue6;
-
-    &:hover,
-    &:focus {
-      border-color: $blue5;
-    }
-  }
-}
-
 .field__select {
   padding: 0;
   color: $gray;
@@ -126,12 +124,12 @@
       border-color: $black3;
     }
   }
-}
 
-.field__select--disabled {
-  background-color: $white;
-  opacity: 0.3;
-  cursor: not-allowed;
+  &--disabled {
+    background-color: $white;
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
 }
 
 .field-group {

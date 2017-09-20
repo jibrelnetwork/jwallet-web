@@ -21,22 +21,23 @@ class JTextInput extends JFormField {
       className, // eslint-disable-line
       errorMessage, // eslint-disable-line
       successMessage, // eslint-disable-line
+      secureTextEntry,
       name,
       value,
       placeholder,
       keyboardType,
       editable,
       multiline,
-      secureTextEntry,
       ...otherProps
     } = this.props
 
     const inputProps = {
       name,
-      value,
-      className: `field__input field__input--${name}`,
-      type: secureTextEntry ? 'password' : keyboardType,
       disabled: this.state.disabled,
+      value: secureTextEntry ? value.replace(/\S/g, '*') : value,
+      className: `field__input field__input--${name}`,
+      type: keyboardType,
+      onSelect: this.onSelect,
       onChange: this.onValueChange,
       onFocus: this.setFocused(),
       onBlur: this.setFocused(false),

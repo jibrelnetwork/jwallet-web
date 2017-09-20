@@ -1,8 +1,11 @@
 import React from 'react'
 
-import { JHeader, JIcon } from 'components/base'
+import JHeader from 'components/base/JHeader'
 
 function AuthHeader() {
+  return <JHeader><div /></JHeader>
+
+  /*
   return (
     <JHeader>
       <div className='clear'>
@@ -12,6 +15,7 @@ function AuthHeader() {
       </div>
     </JHeader>
   )
+  */
 }
 
 export default AuthHeader

@@ -15,7 +15,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
     <div className='account-table-body'>
       <div className='accounts-table__item table__item table__item--title'>
         <div className='row clear'>
-          <div className='table__title-item col-1-5 clear' onClick={sortAccounts('symbol')}>
+          <div className='table__title-item col-2-4 clear' onClick={sortAccounts('symbol')}>
             <JCheckbox toggle={toggleAccount(-1)} isActive={isActiveAll} />
             <span className='accounts-table__symbol pull-left'>{'Symbol'}</span>
             <JIcon
@@ -48,7 +48,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
               className={`${iconClassName}${(sortField === 'licensed') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-1-5 clear' onClick={sortAccounts('transfer')}>
+          <div className='table__title-item col-2-4 clear' onClick={sortAccounts('transfer')}>
             <span className='pull-left'>{'Transfer'}</span>
             <JIcon
               small
@@ -69,7 +69,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
               onClick={toggleAccount(index)(!isActive)}
             >
               <div className='row clear'>
-                <div className='accounts-table__field col-1-5'>
+                <div className='accounts-table__field col-2-4'>
                   <JCheckbox
                     toggle={toggleAccount(index)}
                     isActive={isActive}
@@ -79,7 +79,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
                 <div className='accounts-table__field col-3'>{name}</div>
                 <div className='accounts-table__field col-2'>{balanceFixed}</div>
                 <div className='accounts-table__field col-2'>{licensed}</div>
-                <div className='accounts-table__field col-1-5'>{transfer}</div>
+                <div className='accounts-table__field col-2-4'>{transfer}</div>
               </div>
             </div>
           )

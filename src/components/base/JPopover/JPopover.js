@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
@@ -22,14 +22,15 @@ class JPopover extends Appearable {
   }
 
   onClick = (event) => {
-    const { onClickOutside, name, isCloseOnClickInside } = this.props
+    const { onClickOutside, name, isCloseOnClickInside, reset } = this.props
     const popover = ReactDOM.findDOMNode(this.refs[name])
     const isClickOutside = !popover.contains(event.target)
 
     if (isClickOutside || isCloseOnClickInside) {
       this.close(true)
 
-      setTimeout(onClickOutside, popoverOpeningClosingTimeout)
+      const timeout = reset ? 0 : popoverOpeningClosingTimeout
+      setTimeout(onClickOutside, timeout)
     }
   }
 

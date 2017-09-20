@@ -3,6 +3,7 @@
   @import 'adaptive';
   @import 'colors';
   @import 'grid';
+  @import 'slider';
   @import 'table';
 
   * {
@@ -68,6 +69,13 @@
   .container-wrap {
     width: 100%;
     height: 100%;
+
+    &--auth {
+      background-image: $auth-bg;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
   }
 
   .container {
@@ -102,6 +110,7 @@
   @import '../components/base/JModalButton/jModalButton';
   @import '../components/base/JPicker/jPicker';
   @import '../components/base/JPopover/jPopover';
+  @import '../components/base/JTextInput/jTextInput';
 
   @import '../components/AccountItem/accountItem';
   @import '../components/AccountManager/accountManager';

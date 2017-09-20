@@ -79,7 +79,7 @@ class BackupKeysModal extends Component {
     return (
       <JTextInput
         onValueChange={setBackupKeysMnemonic}
-        name='mnemonic'
+        name='backup-keys-mnemonic'
         placeholder='Mnemonic'
         value={keys.backupKeysData.mnemonic}
         errorMessage={this.getInvalidFieldMessage('mnemonic')}
