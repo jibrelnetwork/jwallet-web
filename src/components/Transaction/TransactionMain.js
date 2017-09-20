@@ -6,7 +6,7 @@ import JIcon from 'components/base/JIcon'
 function TransactionMain({ type, symbol, status, address, amountFixed, date, isActive }) {
   return (
     <div className='row clear'>
-      <div className='col-3'>
+      <div className='transaction__item col-2-4'>
         <JIcon
           name={`small-${(status === 'Rejected') ? 'convert' : type}`}
           className='transaction__type'
@@ -14,9 +14,9 @@ function TransactionMain({ type, symbol, status, address, amountFixed, date, isA
         />
         <span className='transaction__amount'>{`${amountFixed} ${symbol}`}</span>
       </div>
-      <div className='col-3'>{date}</div>
-      <div className='col-3 transaction__address'>{address}</div>
-      <div className='col-3'>
+      <div className='transaction__item col-2-4'>{date}</div>
+      <div className='transaction__item col-4-8'>{address}</div>
+      <div className='transaction__item col-2-4'>
         <span className={`transaction__status transaction__status--${status.toLowerCase()}`}>
           {status}
         </span>

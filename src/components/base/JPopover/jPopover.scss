@@ -3,9 +3,10 @@
 .popover {
   z-index: 20;
   position: absolute;
-  right: 0;
-  top: -10px;
+  top: -20px;
+  right: -20px;
   min-width: 160px;
+  margin: 20px;
   padding: 20px 30px;
   background-color: $white;
   border-radius: 3px;
@@ -26,16 +27,8 @@
     animation-name: popover-closing;
   }
 
-  &--transaction-manager {
-    right: -20px;
-    margin: 20px;
-  }
-
   &--keys-manager {
-    top: -20px;
-    right: -20px;
     width: 280px;
-    margin: 20px;
   }
 }
 

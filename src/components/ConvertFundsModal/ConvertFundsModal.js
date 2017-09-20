@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { getFieldMessage, handleEnterKeyPress } from 'utils'
 
+import SymbolPicker from 'components/SymbolPicker'
 import { JIcon, JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
 class ConvertFundsModal extends Component {
@@ -62,17 +63,12 @@ class ConvertFundsModal extends Component {
           successMessage={this.getValidFieldMessage('from.amount')}
           editable={this.isEnabledField('from.amount')}
         />
-        <JPicker
+        <SymbolPicker
           onValueChange={setConvertFundsFromSymbol}
           selectedValue={funds.convertFormData.from.symbol}
           name='convert-funds-from-symbol'
-          placeholder=''
-          errorMessage=''
-          successMessage=''
           enabled={this.isEnabledField('from.symbol')}
-        >
-          <JPicker.Item label='ETH' value='ETH' />
-        </JPicker>
+        />
       </div>
     )
   }
@@ -96,7 +92,7 @@ class ConvertFundsModal extends Component {
   }
 
   renderToText = () => {
-    return <div className='modal__text'><JIcon name='convert' className='modal__icon' />{'To'}</div>
+    return <div className='modal__text'><JIcon name='switch' className='modal__icon' />{'To'}</div>
   }
 
   renderToAmmountAndSymbol = () => {
@@ -113,17 +109,12 @@ class ConvertFundsModal extends Component {
           successMessage={this.getValidFieldMessage('to.amount')}
           editable={this.isEnabledField('to.amount')}
         />
-        <JPicker
+        <SymbolPicker
           onValueChange={setConvertFundsToSymbol}
           selectedValue={funds.convertFormData.to.symbol}
           name='convert-funds-to-symbol'
-          placeholder=''
-          errorMessage=''
-          successMessage=''
           enabled={this.isEnabledField('to.symbol')}
-        >
-          <JPicker.Item label='ETH' value='ETH' />
-        </JPicker>
+        />
       </div>
     )
   }

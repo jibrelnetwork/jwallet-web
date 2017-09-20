@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Scrollbars } from 'react-custom-scrollbars'
 
 import {
   base,
@@ -30,14 +29,16 @@ class CoreLayout extends Component {
   }
 
   render() {
-    const { keys, children } = this.props
+    const { keys, location, children } = this.props
+
+    const isAuth = (location.pathname.indexOf('/auth') === 0)
 
     if (keys.isLoading || !children) {
       return <JLoader fixed />
     }
 
     return (
-      <div className='container-wrap'>
+      <div className={`container-wrap container-wrap--${isAuth ? 'auth' : 'jwallet'}`}>
         <div className={`container ${this.isAnyModalOpened() ? 'container--modal-open' : ''}`}>
           {this.renderHeader()}
           {this.renderContent()}
@@ -173,6 +174,9 @@ CoreLayout.propTypes = {
     isNewKeysModalOpen: PropTypes.bool.isRequired,
     isImportKeysModalOpen: PropTypes.bool.isRequired,
     isBackupKeysModalOpen: PropTypes.bool.isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
   children: PropTypes.element,
 }

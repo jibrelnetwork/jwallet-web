@@ -43,6 +43,7 @@ $y-a-before-body-height: $y-a-before-height + $y-a-full-header-height + (2 * $y-
   margin-top: -12px;
   opacity: 0.5;
   cursor: pointer;
+  transition: opacity .3s ease;
 
   &:hover {
     opacity: 1;

@@ -16,7 +16,7 @@
 
   &--active {
     background: linear-gradient(to right, $blue, $blue2);
-    border-top: none;
+    border-color: transparent!important;
 
     .account-item__balance {
       color: $white;
@@ -26,6 +26,10 @@
     .account-item__image,
     &:hover .account-item__image {
       opacity: 0.1;
+    }
+
+    & + .account-item {
+      border-top-color: transparent;
     }
   }
 

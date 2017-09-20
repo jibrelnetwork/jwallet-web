@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 
 import getFieldMessage from 'utils/getFieldMessage'
 
-import { Expandable, PincodeButton } from 'components'
-
+import { Expandable, PincodeButton, SymbolPicker } from 'components'
 import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends Component {
@@ -94,17 +93,12 @@ class SendFundsModal extends Component {
           successMessage={this.getValidFieldMessage('amount')}
           editable={this.isEnabledField('amount')}
         />
-        <JPicker
+        <SymbolPicker
           onValueChange={setSendFundsSymbol}
           selectedValue={funds.sendFormData.symbol}
-          name='symbol'
-          placeholder=''
-          errorMessage=''
-          successMessage=''
+          name='send-funds-symbol'
           enabled={this.isEnabledField('symbol')}
-        >
-          <JPicker.Item label='ETH' value='ETH' />
-        </JPicker>
+        />
       </div>
     )
   }
@@ -148,17 +142,12 @@ class SendFundsModal extends Component {
           successMessage={this.getValidFieldMessage('gasPrice')}
           editable={this.isEnabledField('gasPrice')}
         />
-        <JPicker
+        <SymbolPicker
           onValueChange={setSendFundsGasSymbol}
           selectedValue={funds.sendFormData.gasSymbol}
           name='gas-symbol'
-          placeholder=''
-          errorMessage=''
-          successMessage=''
           enabled={this.isEnabledField('gasSymbol')}
-        >
-          <JPicker.Item label='ETH' value='ETH' />
-        </JPicker>
+        />
       </div>
     )
   }

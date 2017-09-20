@@ -1,48 +1,52 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import TransactionMain from './TransactionMain'
 import TransactionDetails from './TransactionDetails'
 
-class Transaction extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { isActive: false }
-  }
+function Transaction(props) {
+  const {
+    toggleActive,
+    type,
+    symbol,
+    status,
+    from,
+    to,
+    address,
+    txHash,
+    fee,
+    date,
+    amountFixed,
+    isActive,
+  } = props
 
-  render() {
-    const { type, symbol, status, from, to, address, txHash, fee, date, amountFixed } = this.props
-    const { isActive } = this.state
-
-    return (
-      <div
-        className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}
-        onClick={this.toggle}
-      >
-        <TransactionMain
-          type={type}
-          symbol={symbol}
-          status={status}
-          address={address}
-          date={date}
-          amountFixed={amountFixed}
-          isActive={isActive}
-        />
-        <TransactionDetails
-          from={from}
-          to={to}
-          txHash={txHash}
-          fee={fee}
-          isActive={isActive}
-        />
-      </div>
-    )
-  }
-
-  toggle = () => this.setState({ isActive: !this.state.isActive })
+  return (
+    <div
+      className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}
+      onClick={toggleActive}
+    >
+      <TransactionMain
+        type={type}
+        symbol={symbol}
+        status={status}
+        address={address}
+        date={date}
+        amountFixed={amountFixed}
+        isActive={isActive}
+      />
+      <TransactionDetails
+        from={from}
+        to={to}
+        txHash={txHash}
+        fee={fee}
+        isActive={isActive}
+      />
+    </div>
+  )
 }
 
 Transaction.propTypes = {
+  toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
@@ -53,6 +57,7 @@ Transaction.propTypes = {
   fee: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   amountFixed: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
 }
 
 export default Transaction

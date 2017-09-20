@@ -1,6 +1,7 @@
 export getFieldMessage from './getFieldMessage'
 export getFormattedDateString from './getFormattedDateString'
 export getTokenNameBySymbolName from './getTokenNameBySymbolName'
+export getWindowWidth from './getWindowWidth'
 export handleEnterKeyPress from './handleEnterKeyPress'
 export searchItems from './searchItems'
 export sortItems from './sortItems'

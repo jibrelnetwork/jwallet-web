@@ -11,6 +11,13 @@ $t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-heigh
   overflow: hidden;
 }
 
+.transactions-table,
+.transactions-table-body {
+  &--empty {
+    min-height: 240px;
+  }
+}
+
 .transactions-table-header {
   height: $t-table-header-height;
   padding: $t-table-header-padding;

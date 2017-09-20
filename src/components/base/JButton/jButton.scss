@@ -6,8 +6,10 @@
   padding: 15px 20px;
   border: 2px solid;
   border-radius: 5px;
+  box-shadow: $shadow;
   text-align: center;
   font-size: 13px;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -22,6 +24,12 @@
 
   &:last-child {
     margin-right: 0;
+  }
+
+  &:hover {
+    background-color: $blue2;
+    color: $white;
+    border-color: $blue2;
   }
 }
 
@@ -45,25 +53,10 @@
   background-color: $white;
   color: $blue;
   border-color: $blue;
-
-  &:hover {
-    background-color: $blue;
-    color: $white;
-    border-color: $blue;
-  }
 }
 
 .button--blue {
   background-color: $blue;
   color: $white;
   border-color: $blue;
-
-  &:hover {
-    background-color: $white;
-    color: $blue;
-  }
-
-  &:active {
-    color: $white;
-  }
 }

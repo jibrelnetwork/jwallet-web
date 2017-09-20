@@ -1,16 +1,19 @@
 @media only screen and (max-width: 1200px) {
-  .container {
-    padding: 0 30px;
+  body {
+    .container {
+      padding: 0 30px;
+    }
   }
 }
 
 @media only screen and (max-width: 1024px) {
   body {
-    background-color: $black;
+    .container-wrap--jwallet {
+      background-color: #2F2F4B;
+    }
 
     .container {
       padding: 0;
-      background-color: #2F2F4B;
     }
 
     .header {
@@ -29,6 +32,10 @@
 
     .logo__image {
       background-image: $logo1024;
+    }
+
+    .container-wrap--auth .logo__image {
+      background-image: $auth-logo1024;
     }
 
     .header-menu {
@@ -123,8 +130,8 @@
     }
 
     .transactions-table-body {
+      height: auto;
       padding: 0;
-      min-height: calc(100vh - 376px);
       overflow: hidden;
 
       .row {
@@ -146,6 +153,25 @@
     }
 
     .footer {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  body {
+    .keys-manager {
+      margin-top: 5px;
+    }
+
+    .keys-manager-title {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+    }
+
+    .keys-manager-title__head,
+    .key--title {
       display: none;
     }
   }
@@ -188,21 +214,6 @@
       background-position: center top;
     }
 
-    .keys-manager {
-      margin-top: 8px;
-    }
-
-    .keys-manager-title {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-    }
-
-    .keys-manager-title__head,
-    .key--title {
-      display: none;
-    }
-
     .your-accounts {
       padding-bottom: 90px;
     }
@@ -220,13 +231,12 @@
     }
 
     .transactions-table-body {
-      min-height: calc(100vh - 156px);
-
       .row {
         padding: 0 20px;
       }
 
-      .col-3 {
+      .table__title-item,
+      .transaction__item {
         width: 50%;
 
         &:nth-child(2), &:nth-child(3) {

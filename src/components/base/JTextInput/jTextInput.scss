@@ -1,0 +1,13 @@
+.field__input {
+  &--new-keys-mnemonic {
+    min-height: 160px;
+  }
+
+  &--backup-keys-mnemonic {
+    min-height: 140px;
+  }
+
+  &--import-keys-data {
+    min-height: 200px;
+  }
+}

@@ -7,6 +7,11 @@ import TransactionsTableHeader from './TransactionsTableHeader'
 import TransactionsTableBody from './TransactionsTableBody'
 
 class TransactionsTable extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { active: -1 }
+  }
+
   componentWillMount() {
     const { getTransactions, transactions } = this.props
 
@@ -31,17 +36,7 @@ class TransactionsTable extends Component {
     }
 
     if (!(items && items.length)) {
-      const message = currentAccountSymbol.length
-        ? `Look like there isn't any ${currentAccountSymbol} in your account yet`
-        : 'Look like there isn\'t any active account'
-
-      return (
-        <div className='transactions-table'>
-          <div className='transactions-table-empty'>
-            <div className='transactions-table__title'>{message}</div>
-          </div>
-        </div>
-      )
+      return this.renderEmptyTable()
     }
 
     return (
@@ -60,9 +55,27 @@ class TransactionsTable extends Component {
         />
         <TransactionsTableBody
           sortTransactions={this.sortTransactions}
+          toggleActive={this.toggleActive}
           transactions={transactions}
           currentAccountSymbol={currentAccountSymbol}
+          activeTransactionIndex={this.state.active}
         />
+      </div>
+    )
+  }
+
+  renderEmptyTable = () => {
+    const { currentAccountSymbol } = this.props
+
+    const message = currentAccountSymbol.length
+      ? `Look like there isn't any ${currentAccountSymbol} in your account yet`
+      : 'Look like there isn\'t any active account'
+
+    return (
+      <div className='transactions-table transactions-table--empty'>
+        <div className='transactions-table-empty'>
+          <div className='transactions-table__title'>{message}</div>
+        </div>
       </div>
     )
   }
@@ -73,6 +86,7 @@ class TransactionsTable extends Component {
   convertFunds = (/* event */) => this.props.openConvertFundsModal(this.props.currentAccountIndex)
   filterTransactions = isFilterOpen => (/* event */) => this.props.filterTransactions(isFilterOpen)
   removeAccount = (/* event */) => this.props.toggleAccount(this.props.currentAccountIndex)
+  toggleActive = i => (/* event */) => this.setState({ active: (this.state.active === i) ? -1 : i })
 }
 
 TransactionsTable.propTypes = {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import config from 'config'
@@ -14,6 +14,11 @@ class JModal extends Appearable {
 
   componentWillReceiveProps(nextProps) {
     const { isOpen } = this.props
+    const isJustNowOpened = !isOpen && nextProps.isOpen
+
+    if (isJustNowOpened) {
+      window.scrollTo(0, 0)
+    }
 
     if (nextProps.isOpen) {
       this.open(!isOpen)

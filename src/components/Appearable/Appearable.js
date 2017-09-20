@@ -9,10 +9,8 @@ class Appearable extends Component {
     this.state = { opening: false, closing: false }
   }
 
-  open = (isClosed) => this.setOpeningClosing({ opening: isClosed })
-
-  close = (isOpened) => this.setOpeningClosing({ closing: isOpened })
-
+  open = isClosed => this.setOpeningClosing({ opening: isClosed })
+  close = isOpened => this.setOpeningClosing({ closing: isOpened })
   isOpen = () => (this.props.isOpen || this.state.closing)
 
   setOpeningClosing = (state) => {
