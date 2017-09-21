@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JLoader from 'components/base/JLoader'
-
 import YourAccountsHeader from './YourAccountsHeader'
 import YourAccountsBody from './YourAccountsBody'
 
@@ -17,14 +15,11 @@ class YourAccounts extends Component {
 
   render() {
     const { openAccountManager, accounts } = this.props
-
-    if (accounts.isLoading) {
-      return <div className='your-accounts loading'><JLoader /></div>
-    }
+    const { isLoading } = accounts
 
     return (
       <div className='your-accounts'>
-        <YourAccountsHeader openAccountManager={openAccountManager} />
+        <YourAccountsHeader openAccountManager={openAccountManager} isLoading={isLoading} />
         <YourAccountsBody setCurrentAccount={this.setCurrentAccount} accounts={accounts} />
       </div>
     )

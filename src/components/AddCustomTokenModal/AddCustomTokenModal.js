@@ -7,12 +7,12 @@ import { JModal, JModalButton, JTextInput } from 'components/base'
 
 class AddCustomTokenModal extends Component {
   render() {
-    const { closeAddCustomTokenModal, addCustomToken, accounts } = this.props
+    const { addCustomToken, accounts } = this.props
     const { alert } = accounts.customTokenData
 
     return (
       <JModal
-        closeModal={closeAddCustomTokenModal}
+        closeModal={this.closeAddCustomTokenModal}
         submitModal={handleEnterKeyPress(addCustomToken)}
         name='add-custom-token'
         alert={alert}
@@ -90,6 +90,11 @@ class AddCustomTokenModal extends Component {
   getInvalidFieldMessage = (name) => {
     return getFieldMessage(this.props.accounts.customTokenData.invalidFields, name)
   }
+
+  closeAddCustomTokenModal = (/* event */) => {
+    this.props.openAccountManager()
+    this.props.closeAddCustomTokenModal()
+  }
 }
 
 AddCustomTokenModal.propTypes = {
@@ -99,6 +104,7 @@ AddCustomTokenModal.propTypes = {
   setCustomTokenSymbol: PropTypes.func.isRequired,
   setCustomTokenDecimals: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
+  openAccountManager: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     customTokenData: PropTypes.shape({
       validFields: PropTypes.arrayOf(PropTypes.shape({

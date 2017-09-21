@@ -21,11 +21,9 @@ function Transaction(props) {
   } = props
 
   return (
-    <div
-      className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}
-      onClick={toggleActive}
-    >
+    <div className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}>
       <TransactionMain
+        toggleActive={toggleActive}
         type={type}
         symbol={symbol}
         status={status}

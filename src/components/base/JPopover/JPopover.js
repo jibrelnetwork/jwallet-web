@@ -14,6 +14,7 @@ class JPopover extends Appearable {
 
     this.open(true)
 
+    // check config.js to understand why we need setTimeout
     setTimeout(() => window.addEventListener('click', this.onClick), popoverClickTimeout)
   }
 
