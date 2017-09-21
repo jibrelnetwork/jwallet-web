@@ -50,7 +50,7 @@ function getStateAccounts(state) {
 }
 
 function* getAccounts() {
-  yield delay(500)
+  yield delay(1000)
 
   const items = accountsStub.map((item) => {
     const { symbol, balance, isLicensed, isAuthRequired } = item

@@ -9,7 +9,16 @@
 @media only screen and (max-width: 1024px) {
   body {
     .container-wrap--jwallet {
-      background-color: #2F2F4B;
+      background: $white;
+    }
+
+    .jwallet {
+      box-shadow: none;
+    }
+
+    .header,
+    .your-accounts {
+      background: $black-background;
     }
 
     .container {
@@ -17,7 +26,7 @@
     }
 
     .header {
-      padding: 40px 30px;
+      padding: $tablet-header-v-padding $tablet-header-h-padding;
     }
 
     .header__logo {
@@ -68,15 +77,13 @@
       float: none;
       display: block;
       width: 100%;
-      min-height: auto;
       padding: 0 15px;
       padding-bottom: 30px;
-      background: transparent;
       border-radius: 0px;
+    }
 
-      &:before {
-        display: none;
-      }
+    .your-accounts-body {
+      min-height: auto;
     }
 
     .your-accounts-header {
@@ -89,8 +96,9 @@
       border-radius: 5px;
       box-shadow: $shadow3;
 
-      &:not(:first-child) {
-        border-top: none;
+      &,
+      &:last-child {
+        border: none;
       }
     }
 
@@ -109,12 +117,12 @@
       top: 0;
       left: 0;
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: $tablet-account-item-symbol-margin-bottom;
     }
 
     .account-item__name,
     .account-item__balance {
-      padding-left: 0;
+      margin-left: 0;
     }
 
     .account-item__balance {
@@ -126,7 +134,10 @@
       float: none;
       display: block;
       width: 100%;
-      background-color: $white;
+
+      &--loading {
+        height: calc(100vh - #{$tablet-transactions-table-before-height});
+      }
     }
 
     .transactions-table-body {
@@ -180,7 +191,7 @@
 @media only screen and (max-width: 600px) {
   body {
     .header {
-      padding: 20px;
+      padding: $mobile-header-padding;
     }
 
     .logo {
@@ -215,15 +226,22 @@
     }
 
     .your-accounts {
-      padding-bottom: 90px;
+      padding-bottom: 0;
     }
 
     .your-accounts-body {
       padding: 0;
+      padding-bottom: $mobile-your-accounts-padding-bottom;
     }
 
     .account-item {
-      margin: 0 5px;
+      margin: 0 15px;
+    }
+
+    .transactions-table {
+      &--loading {
+        height: calc(100vh - #{$mobile-transactions-table-before-height});
+      }
     }
 
     .transactions-table-header {

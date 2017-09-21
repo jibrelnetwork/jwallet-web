@@ -5,8 +5,4 @@
   min-height: calc(100vh - #{$header-and-footer-height});
   vertical-align: top;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
-
-  .loading {
-    height: calc(100vh - #{$header-and-footer-height});
-  }
 }

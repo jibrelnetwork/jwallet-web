@@ -7,6 +7,7 @@ import {
   setCustomTokenSymbol,
   setCustomTokenDecimals,
   addCustomToken,
+  openAccountManager,
 } from 'routes/JWallet/modules/accounts'
 
 import AddCustomTokenModal from './AddCustomTokenModal'
@@ -22,6 +23,7 @@ const mapDispatchToProps = {
   setCustomTokenSymbol,
   setCustomTokenDecimals,
   addCustomToken,
+  openAccountManager,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCustomTokenModal)

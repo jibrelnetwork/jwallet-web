@@ -16,20 +16,8 @@
   cursor: pointer;
   transition: all .3s ease;
 
-  &:active {
-    background: linear-gradient(to right, $blue, $blue2);
-    color: $white;
-    border-color: $blue;
-  }
-
   &:last-child {
     margin-right: 0;
-  }
-
-  &:hover {
-    background-color: $blue2;
-    color: $white;
-    border-color: $blue2;
   }
 }
 
@@ -53,10 +41,21 @@
   background-color: $white;
   color: $blue;
   border-color: $blue;
+
+  &:hover {
+    color: $blue2;
+    border-color: $blue2;
+  }
 }
 
 .button--blue {
   background-color: $blue;
   color: $white;
   border-color: $blue;
+
+  &:hover {
+    background-color: $blue2;
+    color: $white;
+    border-color: $blue2;
+  }
 }

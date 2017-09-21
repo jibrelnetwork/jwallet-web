@@ -16,4 +16,10 @@ export default {
 
   // Default Appearable timeout
   defaultAppearableTimeout: 300,
+
+  // Tablet/Mobile window width
+  mobileWidth: 1024,
+
+  // Total number of accounts while loading
+  accountsLoadingCount: 3,
 }

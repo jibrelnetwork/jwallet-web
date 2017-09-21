@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 
 import JIcon from 'components/base/JIcon'
 
-function TransactionMain({ type, symbol, status, address, amountFixed, date, isActive }) {
+function TransactionMain(props) {
+  const { toggleActive, type, symbol, status, address, amountFixed, date, isActive } = props
+
   return (
-    <div className='row clear'>
+    <div className='row clear' onClick={toggleActive}>
       <div className='transaction__item col-2-4'>
         <JIcon
           name={`small-${(status === 'Rejected') ? 'convert' : type}`}
@@ -31,6 +33,7 @@ function TransactionMain({ type, symbol, status, address, amountFixed, date, isA
 }
 
 TransactionMain.propTypes = {
+  toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
