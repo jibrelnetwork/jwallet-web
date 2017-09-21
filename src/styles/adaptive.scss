@@ -7,18 +7,20 @@
 }
 
 @media only screen and (max-width: 1024px) {
+  html, body {
+    background: $white!important;
+  }
+
   body {
     .container-wrap--jwallet {
-      background: $white;
+      .header,
+      .your-accounts {
+        background: $black-background;
+      }
     }
 
     .jwallet {
       box-shadow: none;
-    }
-
-    .header,
-    .your-accounts {
-      background: $black-background;
     }
 
     .container {
@@ -150,6 +152,10 @@
       }
     }
 
+    .table__item:last-child {
+      border-bottom: 1px solid $line;
+    }
+
     .transaction__detail {
       padding: 0 30px;
     }
@@ -216,13 +222,12 @@
     }
 
     .header-menu__title {
+      line-height: 25px;
       padding-left: 0;
     }
 
     .header-menu__icon {
       position: static;
-      padding-top: 16px;
-      background-position: center top;
     }
 
     .your-accounts {
