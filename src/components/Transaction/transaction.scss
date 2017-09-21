@@ -79,9 +79,8 @@
 }
 
 .transaction__details--active {
-  max-height: 200px;
-  margin-top: 15px;
-  margin-bottom: 30px;
+  max-height: 300px;
+  padding: 15px 0 30px;
   opacity: 1;
   cursor: default;
 }
@@ -99,5 +98,11 @@
     font-weight: 600;
     text-transform: uppercase;
     opacity: 0.5;
+  }
+
+  .value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

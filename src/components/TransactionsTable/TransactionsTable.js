@@ -30,6 +30,7 @@ class TransactionsTable extends Component {
     } = this.props
 
     const { filterData, items, searchQuery, isLoading } = transactions
+    const isFilterOpen = filterData.isOpen
 
     if (isLoading) {
       return <div className='transactions-table transactions-table--loading'><JLoader /></div>
@@ -40,7 +41,7 @@ class TransactionsTable extends Component {
     }
 
     return (
-      <div className='transactions-table'>
+      <div className={`transactions-table ${isFilterOpen ? 'transactions-table--filter' : ''}`}>
         <TransactionsTableHeader
           searchTransactions={searchTransactions}
           sendFunds={this.sendFunds}
