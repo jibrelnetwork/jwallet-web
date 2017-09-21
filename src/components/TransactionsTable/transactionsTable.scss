@@ -9,6 +9,10 @@ $t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-heigh
   height: 100%;
   background: $white;
   overflow: hidden;
+
+  &--filter {
+    min-height: 360px;
+  }
 }
 
 .transactions-table,
