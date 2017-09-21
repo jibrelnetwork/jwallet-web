@@ -10,7 +10,7 @@ import AccountItem from 'components/AccountItem'
 
 const { mobileWidth, accountsLoadingCount } = config
 
-function getSliderOptions(isMobileSlider) {
+function getSliderOptions(isMobileSlider, afterChange) {
   const basicSliderOptions = {
     arrows: false,
     dots: false,
@@ -19,7 +19,6 @@ function getSliderOptions(isMobileSlider) {
   }
 
   const mobileSliderOptions = isMobileSlider ? {
-    focusOnSelect: false,
     draggable: isMobileSlider,
     slidesToShow: 3,
     slidesToScroll: 3,
@@ -32,6 +31,7 @@ function getSliderOptions(isMobileSlider) {
     }, {
       breakpoint: 601,
       settings: {
+        afterChange,
         slidesToShow: 1,
         slidesToScroll: 1,
         centerMode: true,
@@ -75,22 +75,23 @@ class YourAccountsBody extends Component {
   }
 
   render() {
-    const isMobile = this.state.isMobileSlider
-    const accounts = this.getAccounts(isMobile)
+    const isMobileSlider = this.state.isMobileSlider
+    const accounts = this.getAccounts(isMobileSlider)
+    const sliderOptions = getSliderOptions(isMobileSlider, this.afterChange)
 
     return (
       <div className='your-accounts-body'>
-        {isMobile ? <Slider {...getSliderOptions(isMobile)} >{accounts}</Slider> : accounts}
+        {isMobileSlider ? <Slider {...sliderOptions} >{accounts}</Slider> : accounts}
       </div>
     )
   }
 
-  getAccounts = (isMobile) => {
+  getAccounts = (isMobileSlider) => {
     const { setCurrentAccount, accounts } = this.props
     const { items, currentActiveIndex, isLoading } = accounts
 
     if (isLoading) {
-      return this.getLoadingAccounts(isMobile)
+      return this.getLoadingAccounts(isMobileSlider)
     }
 
     return items.map((accountProps, i) => {
@@ -108,16 +109,16 @@ class YourAccountsBody extends Component {
       )
 
       // div wrapper is needed for slick on tablet/mobile
-      return isMobile ? <div key={i}>{accountItem}</div> : accountItem
+      return isMobileSlider ? <div key={i}>{accountItem}</div> : accountItem
     })
   }
 
-  getLoadingAccounts = (isMobile) => {
+  getLoadingAccounts = (isMobileSlider) => {
     const accountsLoading = []
 
     for (let i = 0; i < accountsLoadingCount; i += 1) {
       const accountItem = (
-        <div className='account-item' key={i}>
+        <div className={`account-item ${!i ? 'account-item--active' : ''}`} key={i}>
           <div className='account-item__symbol loading loading--account-symbol' />
           <div className='account-item__name loading loading--account-name' />
           <div className='account-item__balance loading loading--account-balance' />
@@ -125,10 +126,36 @@ class YourAccountsBody extends Component {
       )
 
       // div wrapper is needed for slick on tablet/mobile
-      accountsLoading.push(isMobile ? <div key={i}>{accountItem}</div> : accountItem)
+      accountsLoading.push(isMobileSlider ? <div key={i}>{accountItem}</div> : accountItem)
     }
 
     return accountsLoading
+  }
+
+  afterChange = (index) => {
+    const { items, isLoading } = this.props.accounts
+
+    if (isLoading) {
+      return null
+    }
+
+    const nextAccount = items[index]
+
+    if (!nextAccount) {
+      return null
+    }
+
+    const { isAuthRequired, isActive } = nextAccount
+
+    if (!isActive) {
+      return this.afterChange(index + 1)
+    }
+
+    if (isAuthRequired) {
+      return null
+    }
+
+    return this.props.setCurrentAccount(index)()
   }
 }
 
