@@ -32,7 +32,7 @@ class TransactionsTable extends Component {
     const { filterData, items, searchQuery, isLoading } = transactions
 
     if (isLoading) {
-      return <div className='transactions-table loading'><JLoader /></div>
+      return <div className='transactions-table transactions-table--loading'><JLoader /></div>
     }
 
     if (!(items && items.length)) {

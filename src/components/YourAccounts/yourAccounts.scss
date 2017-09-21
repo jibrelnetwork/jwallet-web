@@ -1,19 +1,9 @@
-$y-a-padding-top: 30px;
-$y-a-header-height: 24px;
-$y-a-header-margin-bottom: 30px;
-$y-a-header-h-margin: 30px;
-$y-a-border-width: 1px;
-
-$y-a-before-height: $header-and-footer-height;
-$y-a-full-header-height: $y-a-padding-top + $y-a-header-height + $y-a-header-margin-bottom;
-$y-a-before-body-height: $y-a-before-height + $y-a-full-header-height + (2 * $y-a-border-width);
-
 .your-accounts {
   position: relative;
   display: table-cell;
   width: 30%;
   height: 100%;
-  padding-top: $y-a-padding-top;
+  padding-top: $your-accounts-padding-top;
   background: linear-gradient(to top, $black, $gray);
   border-radius: 5px 0 0 5px;
   vertical-align: top;
@@ -22,9 +12,9 @@ $y-a-before-body-height: $y-a-before-height + $y-a-full-header-height + (2 * $y-
 
 .your-accounts-header {
   position: relative;
-  height: $y-a-header-height;
-  line-height: $y-a-header-height;
-  margin: 0 $y-a-header-h-margin $y-a-header-margin-bottom $y-a-header-h-margin;
+  height: $your-accounts-header-height;
+  line-height: $your-accounts-header-height;
+  margin: 0 $your-accounts-header-h-margin $your-accounts-header-margin-bottom $your-accounts-header-h-margin;
 }
 
 .your-accounts-header__title {
@@ -51,5 +41,5 @@ $y-a-before-body-height: $y-a-before-height + $y-a-full-header-height + (2 * $y-
 }
 
 .your-accounts-body {
-  min-height: calc(100vh - #{$y-a-before-body-height});
+  min-height: calc(100vh - #{$your-accounts-before-body-height});
 }

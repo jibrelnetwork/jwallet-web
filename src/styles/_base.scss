@@ -4,8 +4,55 @@
 
 $header-height: 40px;
 $header-v-padding: 40px;
+$tablet-header-v-padding: 40px;
+$tablet-header-h-padding: 30px;
+$mobile-header-padding: 20px;
 $header-full-height: $header-height + ($header-v-padding * 2);
+$mobile-header-full-height: $header-height + ($mobile-header-padding * 2);
 
 $footer-full-height: 40px;
 
 $header-and-footer-height: $header-full-height + $footer-full-height;
+
+$your-accounts-padding-top: 30px;
+$tablet-your-accounts-padding-bottom: 30px;
+$mobile-your-accounts-padding-bottom: 90px;
+$your-accounts-header-height: 24px;
+$your-accounts-header-margin-bottom: 30px;
+$your-accounts-header-h-margin: 30px;
+$your-accounts-border-width: 1px;
+
+$your-accounts-before-height: $header-and-footer-height;
+$your-accounts-full-header-height: $your-accounts-padding-top + $your-accounts-header-height + $your-accounts-header-margin-bottom;
+$your-accounts-before-body-height: $your-accounts-before-height + $your-accounts-full-header-height + (2 * $your-accounts-border-width);
+
+$account-item-v-padding: 25px;
+$account-item-h-padding: 30px;
+$account-item-symbol-size: 36px;
+$tablet-account-item-symbol-margin-bottom: 20px;
+$account-item-border-width: 1px;
+$account-item-name-font-size: 14px;
+$account-item-name-margin-bottom: 5px;
+$account-item-balance-font-size: 13px;
+
+$tablet-your-accounts-full-height: (
+  ($account-item-v-padding * 2) +
+  $tablet-your-accounts-padding-bottom +
+  $account-item-symbol-size +
+  $tablet-account-item-symbol-margin-bottom +
+  $account-item-name-font-size +
+  $account-item-name-margin-bottom +
+  $account-item-balance-font-size
+);
+
+$mobile-your-accounts-full-height: (
+  $tablet-your-accounts-full-height -
+  $tablet-your-accounts-padding-bottom +
+  $mobile-your-accounts-padding-bottom
+);
+
+$tablet-transactions-table-before-height: $header-full-height + $tablet-your-accounts-full-height;
+$mobile-transactions-table-before-height: (
+  $mobile-header-full-height +
+  $mobile-your-accounts-full-height
+);

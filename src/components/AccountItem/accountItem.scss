@@ -1,11 +1,11 @@
 .account-item {
   position: relative;
-  padding: 25px 30px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: $account-item-v-padding $account-item-h-padding;
+  border-top: $account-item-border-width solid rgba(255,255,255,0.1);
   cursor: pointer;
 
   &:last-child {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: $account-item-border-width solid rgba(255,255,255,0.1);
   }
 
   &:hover {
@@ -51,8 +51,8 @@
   position: absolute;
   left: 30px;
   top: 50%;
-  width: 36px;
-  height: 36px;
+  width: $account-item-symbol-size;
+  height: $account-item-symbol-size;
   margin-top: -18px;
 }
 
@@ -102,17 +102,23 @@
   }
 }
 
+.account-item__name,
+.account-item__balance {
+  margin-left: 46px;
+}
+
 .account-item__name {
   position: relative;
-  margin-bottom: 5px;
-  padding-left: 46px;
-  font-size: 14px;
+  line-height: $account-item-name-font-size;
+  margin-bottom: $account-item-name-margin-bottom;
+  font-size: $account-item-name-font-size;
   color: $white;
 }
 
 .account-item__balance {
   position: relative;
-  padding-left: 46px;
+  line-height: $account-item-balance-font-size;
+  font-size: $account-item-balance-font-size;
   color: $blue3;
 }
 

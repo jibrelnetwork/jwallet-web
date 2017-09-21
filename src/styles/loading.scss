@@ -1,0 +1,42 @@
+.loading {
+  position: relative;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: loading;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, $white 8%, $gray2 18%, $white 33%);
+  background-size: 800px 100px;
+  border-radius: 10px;
+  opacity: 0.6;
+}
+
+.loading--accounts-title {
+  height: $your-accounts-header-height;
+  width: 100px;
+}
+
+.loading--accounts-icon,
+.loading--account-symbol {
+  border-radius: 50%;
+}
+
+.loading--account-name {
+  height: $account-item-name-font-size;
+  width: 150px;
+}
+
+.loading--account-balance {
+  height: $account-item-balance-font-size;
+  width: 80px;
+}
+
+@keyframes loading{
+  0%{
+    background-position: -450px 0
+  }
+  100%{
+    background-position: 450px 0
+  }
+}
