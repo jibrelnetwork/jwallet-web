@@ -167,13 +167,6 @@ export function setReceiveFundsAddress(address) {
   }
 }
 
-export function generateQRCode(address) {
-  return {
-    type: GENERATE_QR_CODE,
-    address,
-  }
-}
-
 /**
  * Convert Funds
  */
