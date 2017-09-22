@@ -135,7 +135,6 @@ ReceiveFundsModal.propTypes = {
   setReceiveFundsSymbol: PropTypes.func.isRequired,
   setReceiveFundsAccount: PropTypes.func.isRequired,
   setReceiveFundsAddress: PropTypes.func.isRequired,
-  generateQRCode: PropTypes.func.isRequired,
   funds: PropTypes.shape({
     receiveFormData: PropTypes.shape({
       validFields: PropTypes.arrayOf(PropTypes.shape({
