@@ -22,4 +22,14 @@ export default {
 
   // Total number of accounts while loading
   accountsLoadingCount: 3,
+
+  // default QRCode appearance
+  qrCodeDefaultAppearance: {
+    size: 150,
+    errorCorrectionLevel: 'high',
+    color: {
+      light: '#ffcc00ff',
+      dark: '#001111ff',
+    },
+  },
 }

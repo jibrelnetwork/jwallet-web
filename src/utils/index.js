@@ -1,3 +1,4 @@
+export generateQRCode from './generateQRCode'
 export getFieldMessage from './getFieldMessage'
 export getFormattedDateString from './getFormattedDateString'
 export getTokenNameBySymbolName from './getTokenNameBySymbolName'

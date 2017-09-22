@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import getFieldMessage from 'utils/getFieldMessage'
+import { generateQRCode, getFieldMessage, handleEnterKeyPress } from 'utils'
 
 import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
-import { CopyableField, QRCode, SymbolPicker } from 'components'
+import { CopyableField, SymbolPicker } from 'components'
 
 class ReceiveFundsModal extends Component {
   render() {
@@ -14,7 +14,7 @@ class ReceiveFundsModal extends Component {
     return (
       <JModal
         closeModal={closeReceiveFundsModal}
-        submitModal={this.submitFormOnEnter}
+        submitModal={handleEnterKeyPress(this.generateQRCodeToReceive)}
         name='receive-funds'
         alert={funds.receiveFormData.alert}
         header={this.renderHeader()}
@@ -96,35 +96,37 @@ class ReceiveFundsModal extends Component {
   }
 
   renderQRCode = () => {
-    const { amount } = this.props.funds.receiveFormData
-
-    // Just for test
-    const requisites = {
-      to: '0x01360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-      value: parseInt(amount, 10),
-    }
-
-    return <QRCode requisites={requisites} />
+    return <div id='qr-code' style={{ textAlign: 'center' }} />
   }
 
   renderFooter = () => {
-    const { receiveFunds, funds } = this.props
-
     return (
       <JModalButton
-        onPress={receiveFunds}
+        onPress={this.generateQRCodeToReceive}
         name={'receive-funds'}
         title={'Generate QR Code'}
         iconName={'qr-code'}
-        disabled={(funds.receiveFormData.invalidFields.length > 0)}
+        disabled={this.props.funds.receiveFormData.invalidFields.length > 0}
       />
     )
+  }
+
+  generateQRCodeToReceive = () => {
+    const { amount } = this.props.funds.receiveFormData
+    const value = parseInt(amount, 10) || 0
+
+    // Just for test
+    const requisites = {
+      value,
+      to: '0x01360d2b7d240ec0643b6d819ba81a09e40e5bcd',
+    }
+
+    return generateQRCode({ requisites })
   }
 
   isEnabledField = name => (this.props.funds.receiveFormData.disabledFields.indexOf(name) === -1)
   getValidFieldMessage = name => getFieldMessage(this.props.funds.receiveFormData.validFields, name)
   getInvalidFieldMessage = n => getFieldMessage(this.props.funds.receiveFormData.invalidFields, n)
-  submitFormOnEnter = (e) => { return (e.key === 'Enter') ? this.props.receiveFunds() : null }
 }
 
 ReceiveFundsModal.propTypes = {
@@ -134,7 +136,6 @@ ReceiveFundsModal.propTypes = {
   setReceiveFundsAccount: PropTypes.func.isRequired,
   setReceiveFundsAddress: PropTypes.func.isRequired,
   generateQRCode: PropTypes.func.isRequired,
-  receiveFunds: PropTypes.func.isRequired,
   funds: PropTypes.shape({
     receiveFormData: PropTypes.shape({
       validFields: PropTypes.arrayOf(PropTypes.shape({
