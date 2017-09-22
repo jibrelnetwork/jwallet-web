@@ -174,12 +174,6 @@ export function generateQRCode(address) {
   }
 }
 
-export function receiveFunds() {
-  return {
-    type: RECEIVE_FUNDS,
-  }
-}
-
 /**
  * Convert Funds
  */
@@ -469,7 +463,7 @@ const initialState = {
     validFields: [],
     invalidFields: [],
     alert: '',
-    amount: '',
+    amount: '0',
     symbol: 'ETH',
     account: '',
     address: '',
