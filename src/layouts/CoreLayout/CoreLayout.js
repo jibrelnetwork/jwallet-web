@@ -21,10 +21,14 @@ const { JFooter, JLoader } = base
 
 class CoreLayout extends Component {
   componentWillMount() {
-    const { getKeysFromCache, keys } = this.props
+    const { getKeysFromCache, getNetworksFromCache, keys, networks } = this.props
 
     if (!(keys.items && keys.items.length)) {
       getKeysFromCache()
+    }
+
+    if (!(networks.items && networks.items.length)) {
+      getNetworksFromCache()
     }
   }
 
@@ -75,16 +79,20 @@ class CoreLayout extends Component {
 
   renderJWalletHeader = () => {
     const {
+      openSendFundsModal,
+      openReceiveFundsModal,
+      openConvertFundsModal,
       getKeysFromCache,
       setActiveKey,
       openNewKeysModal,
       openImportKeysModal,
       openBackupKeysModal,
       clearKeys,
-      openSendFundsModal,
-      openReceiveFundsModal,
-      openConvertFundsModal,
+      setActiveNetwork,
+      saveCustomNetwork,
+      removeCustomNetwork,
       keys,
+      networks,
     } = this.props
 
     return (
@@ -98,7 +106,11 @@ class CoreLayout extends Component {
         openImportKeysModal={openImportKeysModal}
         openBackupKeysModal={openBackupKeysModal}
         clearKeys={clearKeys}
+        setActiveNetwork={setActiveNetwork}
+        saveCustomNetwork={saveCustomNetwork}
+        removeCustomNetwork={removeCustomNetwork}
         keys={keys}
+        networks={networks}
       />
     )
   }
@@ -159,6 +171,10 @@ CoreLayout.propTypes = {
   openImportKeysModal: PropTypes.func.isRequired,
   openBackupKeysModal: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
+  getNetworksFromCache: PropTypes.func.isRequired,
+  setActiveNetwork: PropTypes.func.isRequired,
+  saveCustomNetwork: PropTypes.func.isRequired,
+  removeCustomNetwork: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     isAccountManagerOpen: PropTypes.bool.isRequired,
     isAddCustomTokenModalOpen: PropTypes.bool.isRequired,
@@ -169,11 +185,24 @@ CoreLayout.propTypes = {
     isConvertFundsModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
   keys: PropTypes.shape({
-    items: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      privateKey: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
+    })).isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isNewKeysModalOpen: PropTypes.bool.isRequired,
     isImportKeysModalOpen: PropTypes.bool.isRequired,
     isBackupKeysModalOpen: PropTypes.bool.isRequired,
+  }).isRequired,
+  networks: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      rpcAddr: PropTypes.string.isRequired,
+      isCustom: PropTypes.bool.isRequired,
+    })).isRequired,
+    currentActiveIndex: PropTypes.number.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,

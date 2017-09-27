@@ -1,0 +1,138 @@
+.networks-manager {
+  position: relative;
+  width: 200px;
+  height: $header-height;
+  margin-left: 40px;
+  font-weight: 600;
+}
+
+.networks-manager__title-wrap {
+  height: 100%;
+}
+
+.networks-manager-title {
+  position: relative;
+  height: 100%;
+  line-height: $header-height;
+  padding-right: 32px;
+  opacity: 1;
+  cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.networks-manager-title__head {
+  text-align: right;
+  color: $blue;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.networks-manager-title__icon {
+  position: absolute;
+  right: 0;
+  top: 8px;  /* (40 - 24) / 2 */
+}
+
+.networks-manager__popover {
+  width: 170px;
+  padding: 10px 0;
+}
+
+.network {
+  position: relative;
+  height: 18px;
+  line-height: 18px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover .network__icon {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &--active {
+    .network__title {
+      color: $blue;
+    }
+  }
+}
+
+.network__title {
+  display: inline-block;
+  max-width: 155px;
+  font-size: 13px;
+  color: $gray;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network__icon {
+  z-index: 1;
+  position: absolute;
+  top: 1px; /* (18 - 16) / 2 */
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition: opacity .3s ease;
+}
+
+.networks-custom-rpc {
+  position: relative;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid $line;
+
+  &--value .networks-custom-rpc__icon {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.networks-custom-rpc__input {
+  width: 100%;
+  padding: 0 20px 0 0;
+  background-color: transparent;
+  border: none;
+  line-height: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: $gray;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+
+  &:focus,
+  &:hover {
+    opacity: 1;
+  }
+
+  &:focus {
+    color: $black;
+  }
+}
+
+.shake .networks-custom-rpc__input {
+  color: $red;
+}
+
+.networks-custom-rpc__icon {
+  z-index: 1;
+  position: absolute;
+  bottom: 4px; /* (24 - 16) / 2 */
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition: opacity .3s ease;
+}

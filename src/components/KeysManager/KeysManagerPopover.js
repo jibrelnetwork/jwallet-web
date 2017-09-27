@@ -76,7 +76,11 @@ KeysManagerPopover.propTypes = {
   backupKeys: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
   keys: PropTypes.shape({
-    items: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      privateKey: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+      balance: PropTypes.number.isRequired,
+    })).isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
   }).isRequired,
   onClickOutside: PropTypes.func,

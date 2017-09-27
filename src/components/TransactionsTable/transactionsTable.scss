@@ -75,7 +75,6 @@ $t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-heigh
   width: 200px;
   height: 200px;
   margin: auto;
-  background-image: $empty-transactions-table;
   background-size: 198px 129px;
   background-position: center top;
   background-repeat: no-repeat;
@@ -90,4 +89,9 @@ $t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-heigh
   text-align: center;
   vertical-align: bottom;
   color: $gray2;
+}
+
+.transactions-table__etherscan {
+  display: block;
+  margin-top: 10px;
 }
