@@ -42,7 +42,7 @@ class JPopover extends Appearable {
   }
 
   getPopoverClassName = () => {
-    const { name, reset } = this.props
+    const { name, reset, isShake } = this.props
     const { opening, closing } = this.state
 
     if (reset) {
@@ -56,6 +56,8 @@ class JPopover extends Appearable {
       return `${popoverClassName} popover--opening`
     } else if (closing) {
       return `${popoverClassName} popover--closing`
+    } else if (isShake) {
+      return `${popoverClassName} shake`
     }
 
     return popoverClassName
@@ -68,11 +70,13 @@ JPopover.propTypes = {
   name: PropTypes.string.isRequired,
   isCloseOnClickInside: PropTypes.bool,
   reset: PropTypes.bool,
+  isShake: PropTypes.bool,
 }
 
 JPopover.defaultProps = {
   isCloseOnClickInside: false,
   reset: false,
+  isShake: false,
 }
 
 export default JPopover

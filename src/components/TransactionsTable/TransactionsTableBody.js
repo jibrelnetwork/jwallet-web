@@ -14,7 +14,7 @@ const transactionsColumns = [
 
 class TransactionsTableBody extends Component {
   render() {
-    const { transactions, currentAccountSymbol } = this.props
+    const { transactions, currentAccountSymbol, emptyTableImageSrc } = this.props
     const { items, foundItemsHashes, searchQuery } = transactions
 
     const isItemsFound = item => (foundItemsHashes.indexOf(item.txHash) > -1)
@@ -27,7 +27,10 @@ class TransactionsTableBody extends Component {
     if (isSearchedTransactionsEmpty || isFilteredTransactionsEmpty) {
       return (
         <div className='transactions-table-body transactions-table-body--empty'>
-          <div className='transactions-table-empty'>
+          <div
+            className='transactions-table-empty'
+            style={{ backgroundImage: `url(${emptyTableImageSrc})` }}
+          >
             <div className='transactions-table__title'>
               {`Look like there isn't any ${currentAccountSymbol} in your account yet`}
             </div>
@@ -78,7 +81,14 @@ class TransactionsTableBody extends Component {
   }
 
   renderTransactions = (foundItems) => {
-    const { toggleActive, transactions, activeTransactionIndex } = this.props
+    const {
+      setCurrentAccount,
+      toggleActive,
+      accountItems,
+      transactions,
+      activeTransactionIndex,
+    } = this.props
+
     const { startTime, endTime, isOpen } = transactions.filterData
 
     const isStartTime = (isOpen && (startTime !== 0))
@@ -96,7 +106,9 @@ class TransactionsTableBody extends Component {
             return (
               <Transaction
                 {...transactionProps}
+                setCurrentAccount={setCurrentAccount}
                 toggleActive={toggleActive(i)}
+                accountItems={accountItems}
                 key={i}
                 isActive={isActive}
               />
@@ -128,6 +140,7 @@ class TransactionsTableBody extends Component {
 }
 
 TransactionsTableBody.propTypes = {
+  setCurrentAccount: PropTypes.func.isRequired,
   sortTransactions: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
@@ -154,7 +167,13 @@ TransactionsTableBody.propTypes = {
     sortDirection: PropTypes.string.isRequired,
     searchQuery: PropTypes.string.isRequired,
   }).isRequired,
+  accountItems: PropTypes.arrayOf(PropTypes.shape({
+    address: PropTypes.string.isRequired,
+    isActive: PropTypes.bool.isRequired,
+    isAuthRequired: PropTypes.bool.isRequired,
+  })).isRequired,
   currentAccountSymbol: PropTypes.string.isRequired,
+  emptyTableImageSrc: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
 }
 

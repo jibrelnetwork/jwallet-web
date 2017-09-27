@@ -23,24 +23,28 @@ const accountsStub = [{
   isLicensed: false,
   isAuthRequired: false,
   isActive: true,
+  address: '',
 }, {
   symbol: 'jUSD',
   balance: 7.8900000001,
   isLicensed: false,
   isAuthRequired: false,
   isActive: true,
+  address: '0x04360d2b7d240ec0643b6d819ba81a09e40e5bcd',
 }, {
   symbol: 'jEUR',
   balance: 8.65789999,
   isLicensed: false,
   isAuthRequired: false,
   isActive: false,
+  address: '0x06360d2b7d240ec0643b6d819ba81a09e40e5bcd',
 }, {
   symbol: 'JNT',
   balance: 9.9999999,
   isLicensed: true,
   isAuthRequired: true,
   isActive: true,
+  address: '0x09360d2b7d240ec0643b6d819ba81a09e40e5bcd',
 }]
 
 const accountsSearchFields = ['symbol', 'name', 'balanceFixed', 'licensed', 'transfer']

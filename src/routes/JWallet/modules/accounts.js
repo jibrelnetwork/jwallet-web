@@ -221,7 +221,7 @@ const initialState = {
   sortField: '',
   sortDirection: 'ASC',
   searchQuery: '',
-  currentActiveIndex: 0,
+  currentActiveIndex: 1,
   isLoading: true,
   isActiveAll: false,
   isAccountManagerOpen: false,
