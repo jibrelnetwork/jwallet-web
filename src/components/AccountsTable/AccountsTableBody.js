@@ -12,7 +12,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
 
   return (
-    <div className='account-table-body'>
+    <div className='accounts-table-body'>
       <div className='accounts-table__item table__item table__item--title'>
         <div className='row clear'>
           <div className='table__title-item col-2-4 clear' onClick={sortAccounts('symbol')}>
@@ -32,7 +32,10 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
               className={`${iconClassName}${(sortField === 'name') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-2 clear' onClick={sortAccounts('balance')}>
+          <div
+            className='table__title-item table__title-item--balance col-2 clear'
+            onClick={sortAccounts('balance')}
+          >
             <span className='pull-left'>{'Balance'}</span>
             <JIcon
               small
@@ -40,7 +43,10 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
               className={`${iconClassName}${(sortField === 'balance') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-2 clear' onClick={sortAccounts('licensed')}>
+          <div
+            className='table__title-item table__title-item--licensed col-2 clear'
+            onClick={sortAccounts('licensed')}
+          >
             <span className='pull-left'>{'Licenced'}</span>
             <JIcon
               small
@@ -48,7 +54,10 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
               className={`${iconClassName}${(sortField === 'licensed') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-2-4 clear' onClick={sortAccounts('transfer')}>
+          <div
+            className='table__title-item table__title-item--transfer col-2-4 clear'
+            onClick={sortAccounts('transfer')}
+          >
             <span className='pull-left'>{'Transfer'}</span>
             <JIcon
               small
@@ -77,9 +86,15 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
                   />
                 </div>
                 <div className='accounts-table__field col-3'>{name}</div>
-                <div className='accounts-table__field col-2'>{balanceFixed}</div>
-                <div className='accounts-table__field col-2'>{licensed}</div>
-                <div className='accounts-table__field col-2-4'>{transfer}</div>
+                <div className='accounts-table__field accounts-table__field--balance col-2'>
+                  {balanceFixed}
+                </div>
+                <div className='accounts-table__field accounts-table__field--licensed col-2'>
+                  {licensed}
+                </div>
+                <div className='accounts-table__field accounts-table__field--transfer col-2-4'>
+                  {transfer}
+                </div>
               </div>
             </div>
           )
