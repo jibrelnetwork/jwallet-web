@@ -17,7 +17,7 @@ function YourAccountsHeader({ openAccountManager, isLoading }) {
     <div className='your-accounts-header clear'>
       <div className='your-accounts-header__title pull-left'>{'Your Accounts'}</div>
       <JIcon
-        name='settings'
+        name='accounts'
         className='your-accounts-header__icon pull-right'
         title='Manage accounts'
         onClick={openAccountManager}

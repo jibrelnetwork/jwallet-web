@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JHeader from 'components/base/JHeader'
+import { JHeader, JIcon } from 'components/base'
 
 import { KeysManager, NetworksManager } from 'components'
 
@@ -20,6 +20,7 @@ function JWalletHeader(props) {
     setActiveNetwork,
     saveCustomNetwork,
     removeCustomNetwork,
+    openAccountManager,
     keys,
     networks,
   } = props
@@ -46,12 +47,19 @@ function JWalletHeader(props) {
           clearKeys={clearKeys}
           keys={keys}
         />
+        <JIcon
+          name='accounts-header'
+          className='header__accounts-manager pull-right'
+          title='Manage accounts'
+          onClick={openAccountManager}
+        />
       </div>
     </JHeader>
   )
 }
 
 JWalletHeader.propTypes = {
+  openAccountManager: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
