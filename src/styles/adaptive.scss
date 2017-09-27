@@ -61,12 +61,24 @@
       color: $white;
     }
 
-    .keys-manager-title__head {
-      color: $white;
+    .header__accounts-manager {
+      display: block;
     }
 
-    .key--title {
-      color: $gray2;
+    .keys-manager-title__head,
+    .key--title,
+    .networks-manager-title__head {
+      display: none;
+    }
+
+    .popover--keys-manager {
+      right: -80px;
+    }
+
+    .networks-manager,
+    .keys-manager {
+      width: auto;
+      margin-left: 20px;
     }
 
     .jwallet {
