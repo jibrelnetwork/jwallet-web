@@ -23,6 +23,9 @@ export default {
   // Total number of accounts while loading
   accountsLoadingCount: 3,
 
+  // timeout for resetting of shaking popover state
+  popoverShakeTimeout: 1000,
+
   // default QRCode appearance
   qrCodeDefaultAppearance: {
     size: 150,
@@ -32,4 +35,10 @@ export default {
       dark: '#001111ff',
     },
   },
+
+  /**
+   * URL/IP regex, that includes localhost and port checking
+   * to check - https://regexr.com/3grae - set of valid/invalid examples
+   */
+  urlRe: /^(((https?:\/\/)|(www\.))((([A-Z\d_-]+\.)+)([A-Z\d_-]+)|(localhost))((:\d{2,4})?))$/i,
 }

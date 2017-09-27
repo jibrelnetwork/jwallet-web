@@ -4,6 +4,7 @@
   @import 'colors';
   @import 'grid';
   @import 'loading';
+  @import 'shake';
   @import 'slider';
   @import 'table';
 
@@ -122,6 +123,7 @@
   @import '../components/Expandable/expandable';
   @import '../components/JWalletHeader/headerMenu';
   @import '../components/KeysManager/keysManager';
+  @import '../components/NetworksManager/networksManager';
   @import '../components/PincodeButton/pincodeButton';
   @import '../components/Search/search';
   @import '../components/Transaction/transaction';

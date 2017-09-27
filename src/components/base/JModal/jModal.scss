@@ -1,4 +1,3 @@
-@import './jModalShakeAnimation';
 @import './jModalOpenCloseAnimation';
 
 .modal-wrap {
@@ -64,17 +63,6 @@
 
     .modal__footer {
       padding: 0 30px 30px 30px;
-    }
-  }
-
-  &--shake {
-    animation: modal-shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-    transform: translateX(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-
-    .pincode-button__dot {
-      background-color: $red;
     }
   }
 

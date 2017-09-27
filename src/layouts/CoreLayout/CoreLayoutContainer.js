@@ -15,12 +15,20 @@ import {
   clearKeys,
 } from 'routes/JWallet/modules/keys'
 
+import {
+  getNetworksFromCache,
+  setActiveNetwork,
+  saveCustomNetwork,
+  removeCustomNetwork,
+} from 'routes/JWallet/modules/networks'
+
 import CoreLayout from './CoreLayout'
 
 const mapStateToProps = state => ({
   accounts: state.accounts,
   funds: state.funds,
   keys: state.keys,
+  networks: state.networks,
 })
 
 const mapDispatchToProps = {
@@ -33,6 +41,10 @@ const mapDispatchToProps = {
   openImportKeysModal,
   openBackupKeysModal,
   clearKeys,
+  getNetworksFromCache,
+  setActiveNetwork,
+  saveCustomNetwork,
+  removeCustomNetwork,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)

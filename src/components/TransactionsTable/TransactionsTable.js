@@ -9,10 +9,13 @@ import TransactionsTableBody from './TransactionsTableBody'
 class TransactionsTable extends Component {
   constructor(props) {
     super(props)
-    this.state = { active: -1 }
+    this.state = { active: -1, emptyTableImageSrc: '/img/no-data.svg' }
   }
 
   componentWillMount() {
+    const emptyTableImage = new Image()
+    emptyTableImage.src = this.state.emptyTableImageSrc
+
     const { getTransactions, transactions } = this.props
 
     if (!(transactions.items && transactions.items.length)) {
@@ -22,12 +25,16 @@ class TransactionsTable extends Component {
 
   render() {
     const {
+      setCurrentAccount,
       searchTransactions,
       setStartFilterTime,
       setEndFilterTime,
+      accountItems,
       transactions,
       currentAccountSymbol,
     } = this.props
+
+    const { emptyTableImageSrc, active } = this.state
 
     const { filterData, items, searchQuery, isLoading } = transactions
     const isFilterOpen = filterData.isOpen
@@ -55,30 +62,54 @@ class TransactionsTable extends Component {
           searchQuery={searchQuery}
         />
         <TransactionsTableBody
+          setCurrentAccount={setCurrentAccount}
           sortTransactions={this.sortTransactions}
           toggleActive={this.toggleActive}
+          accountItems={accountItems}
           transactions={transactions}
           currentAccountSymbol={currentAccountSymbol}
-          activeTransactionIndex={this.state.active}
+          emptyTableImageSrc={emptyTableImageSrc}
+          activeTransactionIndex={active}
         />
       </div>
     )
   }
 
   renderEmptyTable = () => {
-    const { currentAccountSymbol } = this.props
+    return (
+      <div className='transactions-table transactions-table--empty'>
+        <div
+          className='transactions-table-empty'
+          style={{ backgroundImage: `url(${this.state.emptyTableImageSrc})` }}
+        >
+          {this.getEmptyTableMessage(this.props.currentAccountSymbol)}
+        </div>
+      </div>
+    )
+  }
 
+  getEmptyTableMessage = (currentAccountSymbol) => {
     const message = currentAccountSymbol.length
       ? `Look like there isn't any ${currentAccountSymbol} in your account yet`
       : 'Look like there isn\'t any active account'
 
-    return (
-      <div className='transactions-table transactions-table--empty'>
-        <div className='transactions-table-empty'>
-          <div className='transactions-table__title'>{message}</div>
+    if (currentAccountSymbol === 'ETH') {
+      return (
+        <div className='transactions-table__title'>
+          {'At the moment we can not load your ETH transactions'}
+          <a
+            className='transactions-table__etherscan'
+            href='//etherscan.io'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            {'See them in the blockexplorer'}
+          </a>
         </div>
-      </div>
-    )
+      )
+    }
+
+    return <div className='transactions-table__title'>{message}</div>
   }
 
   sortTransactions = field => (/* event */) => this.props.sortTransactions(field)
@@ -92,6 +123,7 @@ class TransactionsTable extends Component {
 
 TransactionsTable.propTypes = {
   toggleAccount: PropTypes.func.isRequired,
+  setCurrentAccount: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
@@ -101,6 +133,11 @@ TransactionsTable.propTypes = {
   setStartFilterTime: PropTypes.func.isRequired,
   setEndFilterTime: PropTypes.func.isRequired,
   filterTransactions: PropTypes.func.isRequired,
+  accountItems: PropTypes.arrayOf(PropTypes.shape({
+    address: PropTypes.string.isRequired,
+    isActive: PropTypes.bool.isRequired,
+    isAuthRequired: PropTypes.bool.isRequired,
+  })).isRequired,
   transactions: PropTypes.shape({
     filterData: PropTypes.shape({
       startTime: PropTypes.number.isRequired,

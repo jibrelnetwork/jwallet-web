@@ -39,7 +39,7 @@ class JModal extends Appearable {
     let modalOverlayClassName = 'modal__overlay'
 
     if (isShake) {
-      modalClassName = `${modalClassName} modal--shake`
+      modalClassName = `${modalClassName} shake`
     } else if (opening) {
       modalClassName = `${modalClassName} modal--opening`
       modalOverlayClassName = `${modalOverlayClassName} modal__overlay--opening`
