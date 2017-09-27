@@ -1,13 +1,14 @@
 .keys-manager {
   position: relative;
   max-width: 300px;
-  margin-top: 5px;
+  height: $header-height;
   font-weight: 600;
 }
 
 .keys-manager-title {
   position: relative;
-  padding-right: 32px;
+  height: $header-height;
+  padding: $keys-manager-title-padding;
   opacity: 1;
   cursor: pointer;
   transition: opacity .3s ease;
@@ -18,8 +19,14 @@
 }
 
 .keys-manager-title__head {
-  text-align: right;
   color: $blue;
+}
+
+.keys-manager-title__head,
+.key--title {
+  text-align: right;
+  height: $keys-manager-title-line-height;
+  line-height: $keys-manager-title-line-height;
 }
 
 .key {
@@ -35,9 +42,8 @@
   }
 
   &--title {
-    margin-top: 4px;
+    margin-top: 0;
     padding-right: 0;
-    text-align: right;
     opacity: 1;
   }
 
@@ -67,8 +73,8 @@
 
 .keys-manager-title__icon {
   position: absolute;
+  top: 8px;
   right: 0;
-  top: 4px; /* (32 - 24) / 2 */
 }
 
 .keys-manager__keys {

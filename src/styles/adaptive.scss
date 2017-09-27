@@ -65,6 +65,12 @@
       display: block;
     }
 
+    .keys-manager-title,
+    .networks-manager-title {
+      width: 24px;
+      padding-right: 0;
+    }
+
     .keys-manager-title__head,
     .key--title,
     .networks-manager-title__head {
@@ -79,6 +85,11 @@
     .keys-manager {
       width: auto;
       margin-left: 20px;
+    }
+
+    .network .network__icon {
+      opacity: 1;
+      visibility: visible;
     }
 
     .jwallet {
@@ -189,19 +200,19 @@
 
 @media only screen and (max-width: 700px) {
   body {
-    .keys-manager {
-      margin-top: 5px;
-    }
+    .modal--account-manager {
+      min-width: auto;
 
-    .keys-manager-title {
-      width: 24px;
-      height: 24px;
-      padding: 0;
-    }
+      .table__title-item,
+      .accounts-table__field {
+        width: 50%;
 
-    .keys-manager-title__head,
-    .key--title {
-      display: none;
+        &--balance,
+        &--licensed,
+        &--transfer {
+          display: none;
+        }
+      }
     }
   }
 }
