@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 
+import { openAccountManager } from 'routes/JWallet/modules/accounts'
+
 import {
   openSendFundsModal,
   openReceiveFundsModal,
@@ -32,6 +34,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  openAccountManager,
   openSendFundsModal,
   openReceiveFundsModal,
   openConvertFundsModal,

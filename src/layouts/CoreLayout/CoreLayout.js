@@ -79,6 +79,7 @@ class CoreLayout extends Component {
 
   renderJWalletHeader = () => {
     const {
+      openAccountManager,
       openSendFundsModal,
       openReceiveFundsModal,
       openConvertFundsModal,
@@ -97,6 +98,7 @@ class CoreLayout extends Component {
 
     return (
       <JWalletHeader
+        openAccountManager={openAccountManager}
         openSendFundsModal={openSendFundsModal}
         openReceiveFundsModal={openReceiveFundsModal}
         openConvertFundsModal={openConvertFundsModal}
@@ -162,6 +164,7 @@ class CoreLayout extends Component {
 }
 
 CoreLayout.propTypes = {
+  openAccountManager: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
