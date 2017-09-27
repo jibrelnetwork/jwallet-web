@@ -5,10 +5,10 @@
   left: 0;
   width: 100%;
   height: 100%;
+  padding-left: 3000px;
   color: transparent;
   opacity: 0;
   cursor: pointer;
-  transform: scale(0);
 
   &:focus {
     outline: none;
@@ -18,6 +18,8 @@
 .pincode-button__dots {
   z-index: -1;
   position: relative;
+  top: 0;
+  left: 0;
 }
 
 .pincode-button__dot {
