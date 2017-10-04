@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JButton from 'components/base/JButton'
 
-function Auth({ openNewKeysModal, openImportKeysModal }) {
+function Auth({ openNewKeyModal, openImportKeyModal }) {
   return (
     <div className='auth-wrap'>
       <div className='auth'>
@@ -12,8 +12,8 @@ function Auth({ openNewKeysModal, openImportKeysModal }) {
           {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae egestas nisi.'}
         </div>
         <div className='auth__buttons'>
-          <JButton white label={'Create new keys'} onClick={openNewKeysModal} />
-          <JButton blue label={'Import keys'} onClick={openImportKeysModal} />
+          <JButton white label={'Create new key'} onClick={openNewKeyModal} />
+          <JButton blue label={'Import key'} onClick={openImportKeyModal} />
         </div>
       </div>
     </div>
@@ -21,8 +21,8 @@ function Auth({ openNewKeysModal, openImportKeysModal }) {
 }
 
 Auth.propTypes = {
-  openNewKeysModal: PropTypes.func.isRequired,
-  openImportKeysModal: PropTypes.func.isRequired,
+  openNewKeyModal: PropTypes.func.isRequired,
+  openImportKeyModal: PropTypes.func.isRequired,
 }
 
 export default Auth

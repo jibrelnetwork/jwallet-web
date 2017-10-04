@@ -86,7 +86,7 @@ JPicker.propTypes = {
 }
 
 JPicker.defaultProps = {
-  enabled: false,
+  enabled: true,
 }
 
 JPicker.Item = JPickerItem
