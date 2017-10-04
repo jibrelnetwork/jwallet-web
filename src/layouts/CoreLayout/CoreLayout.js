@@ -9,9 +9,10 @@ import {
   ConvertFundsModal,
   ReceiveFundsModal,
   SendFundsModal,
-  BackupKeysModal,
-  ImportKeysModal,
-  NewKeysModal,
+  KeystoreModal,
+  NewKeyModal,
+  ImportKeyModal,
+  BackupKeystoreModal,
   AddCustomTokenModal,
 } from 'components'
 
@@ -21,10 +22,10 @@ const { JFooter, JLoader } = base
 
 class CoreLayout extends Component {
   componentWillMount() {
-    const { getKeysFromCache, getNetworksFromCache, keys, networks } = this.props
+    const { getKeystoreFromStorage, getNetworksFromCache, keystore, networks } = this.props
 
-    if (!(keys.items && keys.items.length)) {
-      getKeysFromCache()
+    if (!(keystore.accounts && keystore.accounts.length)) {
+      getKeystoreFromStorage()
     }
 
     if (!(networks.items && networks.items.length)) {
@@ -33,11 +34,11 @@ class CoreLayout extends Component {
   }
 
   render() {
-    const { keys, location, children } = this.props
+    const { keystore, location, children } = this.props
 
     const isAuth = (location.pathname.indexOf('/auth') === 0)
 
-    if (keys.isLoading || !children) {
+    if (keystore.isLoading || !children) {
       return <JLoader fixed />
     }
 
@@ -54,8 +55,8 @@ class CoreLayout extends Component {
   }
 
   renderHeader = () => {
-    const keys = this.props.keys.items
-    const isAuthRequired = !(keys && keys.length)
+    const accounts = this.props.keystore.items
+    const isAuthRequired = !(accounts && accounts.length)
 
     if (isAuthRequired) {
       return this.renderAuthHeader()
@@ -83,16 +84,12 @@ class CoreLayout extends Component {
       openSendFundsModal,
       openReceiveFundsModal,
       openConvertFundsModal,
-      getKeysFromCache,
-      setActiveKey,
-      openNewKeysModal,
-      openImportKeysModal,
-      openBackupKeysModal,
-      clearKeys,
+      openKeystoreModal,
+      openNewKeyModal,
+      openImportKeyModal,
       setActiveNetwork,
       saveCustomNetwork,
       removeCustomNetwork,
-      keys,
       networks,
     } = this.props
 
@@ -102,16 +99,12 @@ class CoreLayout extends Component {
         openSendFundsModal={openSendFundsModal}
         openReceiveFundsModal={openReceiveFundsModal}
         openConvertFundsModal={openConvertFundsModal}
-        getKeysFromCache={getKeysFromCache}
-        setActiveKey={setActiveKey}
-        openNewKeysModal={openNewKeysModal}
-        openImportKeysModal={openImportKeysModal}
-        openBackupKeysModal={openBackupKeysModal}
-        clearKeys={clearKeys}
+        openKeystoreModal={openKeystoreModal}
+        openNewKeyModal={openNewKeyModal}
+        openImportKeyModal={openImportKeyModal}
         setActiveNetwork={setActiveNetwork}
         saveCustomNetwork={saveCustomNetwork}
         removeCustomNetwork={removeCustomNetwork}
-        keys={keys}
         networks={networks}
       />
     )
@@ -124,9 +117,10 @@ class CoreLayout extends Component {
         <SendFundsModal />
         <ReceiveFundsModal />
         <ConvertFundsModal />
-        <BackupKeysModal />
-        <ImportKeysModal />
-        <NewKeysModal />
+        <KeystoreModal />
+        <NewKeyModal />
+        <ImportKeyModal />
+        <BackupKeystoreModal />
         <AddCustomTokenModal />
       </div>
     )
@@ -143,10 +137,11 @@ class CoreLayout extends Component {
         isReceiveFundsModalOpen,
         isConvertFundsModalOpen,
       },
-      keys: {
-        isNewKeysModalOpen,
-        isImportKeysModalOpen,
-        isBackupKeysModalOpen,
+      keystore: {
+        isKeystoreModalOpen,
+        isNewKeyModalOpen,
+        isImportKeyModalOpen,
+        isBackupKeystoreModalOpen,
       },
     } = this.props
 
@@ -156,9 +151,10 @@ class CoreLayout extends Component {
       isSendFundsModalOpen ||
       isReceiveFundsModalOpen ||
       isConvertFundsModalOpen ||
-      isNewKeysModalOpen ||
-      isImportKeysModalOpen ||
-      isBackupKeysModalOpen
+      isKeystoreModalOpen ||
+      isNewKeyModalOpen ||
+      isImportKeyModalOpen ||
+      isBackupKeystoreModalOpen
     )
   }
 }
@@ -168,12 +164,10 @@ CoreLayout.propTypes = {
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
-  getKeysFromCache: PropTypes.func.isRequired,
-  setActiveKey: PropTypes.func.isRequired,
-  openNewKeysModal: PropTypes.func.isRequired,
-  openImportKeysModal: PropTypes.func.isRequired,
-  openBackupKeysModal: PropTypes.func.isRequired,
-  clearKeys: PropTypes.func.isRequired,
+  getKeystoreFromStorage: PropTypes.func.isRequired,
+  openKeystoreModal: PropTypes.func.isRequired,
+  openNewKeyModal: PropTypes.func.isRequired,
+  openImportKeyModal: PropTypes.func.isRequired,
   getNetworksFromCache: PropTypes.func.isRequired,
   setActiveNetwork: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
@@ -187,16 +181,25 @@ CoreLayout.propTypes = {
     isReceiveFundsModalOpen: PropTypes.bool.isRequired,
     isConvertFundsModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
-  keys: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      privateKey: PropTypes.string.isRequired,
-      code: PropTypes.string.isRequired,
-      balance: PropTypes.number.isRequired,
+  keystore: PropTypes.shape({
+    accounts: PropTypes.arrayOf(PropTypes.shape({
+      encrypted: PropTypes.shape({
+        privateKey: PropTypes.object,
+        mnemonic: PropTypes.object,
+        hdPath: PropTypes.object,
+      }).isRequired,
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      accountName: PropTypes.string.isRequired,
+      address: PropTypes.string,
+      derivationPath: PropTypes.string,
+      bip32XPublicKey: PropTypes.string,
+      isReadOnly: PropTypes.bool,
     })).isRequired,
-    currentActiveIndex: PropTypes.number.isRequired,
-    isNewKeysModalOpen: PropTypes.bool.isRequired,
-    isImportKeysModalOpen: PropTypes.bool.isRequired,
-    isBackupKeysModalOpen: PropTypes.bool.isRequired,
+    isKeystoreModalOpen: PropTypes.bool.isRequired,
+    isNewKeyModalOpen: PropTypes.bool.isRequired,
+    isImportKeyModalOpen: PropTypes.bool.isRequired,
+    isBackupKeystoreModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
