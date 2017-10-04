@@ -95,13 +95,16 @@ JFormField.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  successMessage: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
   secureTextEntry: PropTypes.bool,
 }
 
 JFormField.defaultProps = {
+  placeholder: '',
+  errorMessage: '',
+  successMessage: '',
   secureTextEntry: false,
 }
 

@@ -8,13 +8,13 @@ export default store => ({
 
       const accounts = require('./modules/accounts').default
       const funds = require('./modules/funds').default
-      const keys = require('./modules/keys').default
+      const keystore = require('./modules/keystore').default
       const networks = require('./modules/networks').default
       const transactions = require('./modules/transactions').default
 
       injectReducer(store, { key: 'accounts', reducer: accounts })
       injectReducer(store, { key: 'funds', reducer: funds })
-      injectReducer(store, { key: 'keys', reducer: keys })
+      injectReducer(store, { key: 'keystore', reducer: keystore })
       injectReducer(store, { key: 'networks', reducer: networks })
       injectReducer(store, { key: 'transactions', reducer: transactions })
 
