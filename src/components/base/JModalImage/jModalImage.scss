@@ -1,0 +1,20 @@
+.modal-image {
+  margin: 70px auto 40px;
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &--rocket {
+    background-image: $modal-rocket;
+  }
+
+  &--plane {
+    background-image: $modal-plane;
+  }
+
+  &--paper-plane {
+    background-image: $modal-paper-plane;
+  }
+}

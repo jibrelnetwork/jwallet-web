@@ -55,9 +55,10 @@ class CoreLayout extends Component {
   }
 
   renderHeader = () => {
-    const accounts = this.props.keystore.items
+    const { accounts } = this.props.keystore
     const isAuthRequired = !(accounts && accounts.length)
 
+    return this.renderAuthHeader()
     if (isAuthRequired) {
       return this.renderAuthHeader()
     }
@@ -117,7 +118,6 @@ class CoreLayout extends Component {
         <SendFundsModal />
         <ReceiveFundsModal />
         <ConvertFundsModal />
-        <KeystoreModal />
         <NewKeyModal />
         <ImportKeyModal />
         <BackupKeystoreModal />

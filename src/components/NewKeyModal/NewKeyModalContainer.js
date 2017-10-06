@@ -2,11 +2,16 @@ import { connect } from 'react-redux'
 
 import {
   closeNewKeyModal,
+  setNewKeyMnemonic,
   setNewKeyMnemonicConfirm,
   setNewKeyPassword,
   setNewKeyPasswordConfirm,
+  setNewKeyCurrentStep,
+  setNewKeyValidField,
+  setNewKeyInvalidField,
+  setNewKeyAlert,
+  saveMnemonicToFile,
   createKeystoreAccount,
-  backupKeystore,
 } from 'routes/JWallet/modules/keystore'
 
 import NewKeyModal from './NewKeyModal'
@@ -17,11 +22,16 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   closeNewKeyModal,
+  setNewKeyMnemonic,
   setNewKeyMnemonicConfirm,
   setNewKeyPassword,
   setNewKeyPasswordConfirm,
+  setNewKeyCurrentStep,
+  setNewKeyValidField,
+  setNewKeyInvalidField,
+  setNewKeyAlert,
+  saveMnemonicToFile,
   createKeystoreAccount,
-  backupKeystore,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewKeyModal)

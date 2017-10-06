@@ -20,9 +20,9 @@
   cursor: pointer;
   transition: all .3s ease;
 
-  &:disabled {
+  &--disabled {
     background-color: $gray2!important;
-    cursor: not-allowed;
+    cursor: default;
 
     .modal-button__title {
       opacity: 0.5;
@@ -47,4 +47,60 @@
   position: absolute;
   top: 23px;
   left: 0;
+}
+
+/**
+ * GIF Animation
+ */
+/*
+.modal-button__loader-image {
+  width: 40px;
+  height: 40px;
+  margin: 15px auto;
+  background-image: $modal-button-loader;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+*/
+
+.modal-button__loader {
+  width: 52px;
+  height: 10px;
+  margin: 30px auto;
+
+  .loader__dot {
+    float: left;
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+    background-color: $blue;
+    border-radius: 50%;
+    animation-name: modal-button-loader;
+    animation-duration: 1.1675s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+
+    &--1 {
+      animation-delay: 0.2295s;
+    }
+
+    &--2 {
+      animation-delay: 0.5455s;
+    }
+
+    &--3 {
+      animation-delay: 0.6985s;
+    }
+  }
+}
+
+@keyframes modal-button-loader {
+  0% {}
+
+  50% {
+    background-color: $white;
+  }
+
+  100% {}
 }

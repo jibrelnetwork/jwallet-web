@@ -1,3 +1,5 @@
+import pushField from 'utils/pushField'
+
 export const KEYSTORE_GET_FROM_STORAGE = 'KEYSTORE_GET_FROM_STORAGE'
 export const KEYSTORE_SET_ACCOUNTS = 'KEYSTORE_SET_ACCOUNTS'
 export const KEYSTORE_SET_CURRENT_ACCOUNT = 'KEYSTORE_SET_CURRENT_ACCOUNT'
@@ -11,6 +13,7 @@ export const KEYSTORE_SET_ADDRESS = 'KEYSTORE_SET_ADDRESS'
 export const KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC = 'KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC'
 export const KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC = 'KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC'
 export const KEYSTORE_SET_PASSWORD = 'KEYSTORE_SET_PASSWORD'
+export const KEYSTORE_SAVE_MNEMONIC_TO_FILE = 'KEYSTORE_SAVE_MNEMONIC_TO_FILE'
 
 export const KEYSTORE_OPEN_MODAL = 'KEYSTORE_OPEN_MODAL'
 export const KEYSTORE_CLOSE_MODAL = 'KEYSTORE_CLOSE_MODAL'
@@ -21,12 +24,18 @@ export const KEYSTORE_SET_NEW_KEY_MNEMONIC = 'KEYSTORE_SET_NEW_KEY_MNEMONIC'
 export const KEYSTORE_SET_NEW_KEY_MNEMONIC_CONFIRM = 'KEYSTORE_SET_NEW_KEY_MNEMONIC_CONFIRM'
 export const KEYSTORE_SET_NEW_KEY_PASSWORD = 'KEYSTORE_SET_NEW_KEY_PASSWORD'
 export const KEYSTORE_SET_NEW_KEY_PASSWORD_CONFIRM = 'KEYSTORE_SET_NEW_KEY_PASSWORD_CONFIRM'
+export const KEYSTORE_SET_NEW_KEY_CURRENT_STEP = 'KEYSTORE_SET_NEW_KEY_CURRENT_STEP'
+export const KEYSTORE_SET_NEW_KEY_ALERT = 'KEYSTORE_SET_NEW_KEY_ALERT'
+export const KEYSTORE_SET_NEW_KEY_VALID_FIELD = 'KEYSTORE_SET_NEW_KEY_VALID_FIELD'
+export const KEYSTORE_SET_NEW_KEY_INVALID_FIELD = 'KEYSTORE_SET_NEW_KEY_INVALID_FIELD'
 
 export const KEYSTORE_OPEN_IMPORT_KEY_MODAL = 'KEYSTORE_OPEN_IMPORT_KEY_MODAL'
 export const KEYSTORE_CLOSE_IMPORT_KEY_MODAL = 'KEYSTORE_CLOSE_IMPORT_KEY_MODAL'
 export const KEYSTORE_SET_IMPORT_KEY_DATA = 'KEYSTORE_SET_IMPORT_KEY_DATA'
 export const KEYSTORE_SET_IMPORT_KEY_PASSWORD = 'KEYSTORE_SET_IMPORT_KEY_PASSWORD'
 export const KEYSTORE_SET_IMPORT_KEY_PASSWORD_CONFIRM = 'KEYSTORE_SET_IMPORT_KEY_PASSWORD_CONFIRM'
+export const KEYSTORE_SET_IMPORT_KEY_CURRENT_STEP = 'KEYSTORE_SET_IMPORT_KEY_CURRENT_STEP'
+export const KEYSTORE_SET_IMPORT_KEY_ALERT = 'KEYSTORE_SET_IMPORT_KEY_ALERT'
 
 export const KEYSTORE_OPEN_BACKUP_MODAL = 'KEYSTORE_OPEN_BACKUP_MODAL'
 export const KEYSTORE_CLOSE_BACKUP_MODAL = 'KEYSTORE_CLOSE_BACKUP_MODAL'
@@ -39,9 +48,12 @@ export function getKeystoreFromStorage() {
   }
 }
 
-export function createKeystoreAccount() {
+export function createKeystoreAccount(props, onSuccess, onError) {
   return {
     type: KEYSTORE_CREATE_ACCOUNT,
+    props,
+    onSuccess,
+    onError,
   }
 }
 
@@ -108,6 +120,15 @@ export function setKeystorePassword(password, newPassword) {
   }
 }
 
+export function saveMnemonicToFile(mnemonic, onSuccess, onError) {
+  return {
+    type: KEYSTORE_SAVE_MNEMONIC_TO_FILE,
+    mnemonic,
+    onSuccess,
+    onError,
+  }
+}
+
 /**
  * Modals
  */
@@ -163,6 +184,36 @@ export function setNewKeyPasswordConfirm(passwordConfirm) {
   }
 }
 
+export function setNewKeyCurrentStep(currentStep) {
+  return {
+    type: KEYSTORE_SET_NEW_KEY_CURRENT_STEP,
+    currentStep,
+  }
+}
+
+export function setNewKeyValidField(name, message) {
+  return {
+    type: KEYSTORE_SET_NEW_KEY_VALID_FIELD,
+    name,
+    message,
+  }
+}
+
+export function setNewKeyInvalidField(name, message) {
+  return {
+    type: KEYSTORE_SET_NEW_KEY_INVALID_FIELD,
+    name,
+    message,
+  }
+}
+
+export function setNewKeyAlert(alert) {
+  return {
+    type: KEYSTORE_SET_NEW_KEY_ALERT,
+    alert,
+  }
+}
+
 export function openImportKeyModal() {
   return {
     type: KEYSTORE_OPEN_IMPORT_KEY_MODAL,
@@ -196,6 +247,20 @@ export function setImportKeyPasswordConfirm(passwordConfirm) {
   }
 }
 
+export function setImportKeyCurrentStep(currentStep) {
+  return {
+    type: KEYSTORE_SET_IMPORT_KEY_CURRENT_STEP,
+    currentStep,
+  }
+}
+
+export function setImportKeyAlert(alert) {
+  return {
+    type: KEYSTORE_SET_IMPORT_KEY_ALERT,
+    alert,
+  }
+}
+
 export function openBackupKeystoreModal() {
   return {
     type: KEYSTORE_OPEN_BACKUP_MODAL,
@@ -218,6 +283,7 @@ export function setBackupKeystorePassword(password) {
 export function backupKeystore(password) {
   return {
     type: KEYSTORE_BACKUP,
+    password,
   }
 }
 
@@ -229,6 +295,10 @@ const ACTION_HANDLERS = {
     addressesFromMnemonic: [],
     isLoading: true,
   }),
+  [KEYSTORE_CREATE_ACCOUNT]: state => ({
+    ...state,
+    isCreating: true,
+  }),
   [KEYSTORE_SET_ACCOUNTS]: (state, action) => ({
     ...state,
     accounts: action.accounts,
@@ -237,6 +307,9 @@ const ACTION_HANDLERS = {
     ...state,
     currentAccount: action.currentAccount,
     isLoading: false,
+    isCreating: false,
+    newKeyData: initialState.newKeyData,
+    importKeyData: initialState.importKeyData,
   }),
   [KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC]: (state, action) => ({
     ...state,
@@ -273,6 +346,8 @@ const ACTION_HANDLERS = {
     newKeyData: {
       ...state.newKeyData,
       mnemonicConfirm: action.mnemonicConfirm,
+      validFields: pushField(state.newKeyData.validFields, 'mnemonicConfirm'),
+      invalidFields: pushField(state.newKeyData.invalidFields, 'mnemonicConfirm'),
     },
   }),
   [KEYSTORE_SET_NEW_KEY_PASSWORD]: (state, action) => ({
@@ -280,6 +355,8 @@ const ACTION_HANDLERS = {
     newKeyData: {
       ...state.newKeyData,
       password: action.password,
+      validFields: pushField(state.newKeyData.validFields, 'password'),
+      invalidFields: pushField(state.newKeyData.invalidFields, 'password'),
     },
   }),
   [KEYSTORE_SET_NEW_KEY_PASSWORD_CONFIRM]: (state, action) => ({
@@ -287,6 +364,36 @@ const ACTION_HANDLERS = {
     newKeyData: {
       ...state.newKeyData,
       passwordConfirm: action.passwordConfirm,
+      validFields: pushField(state.newKeyData.validFields, 'passwordConfirm'),
+      invalidFields: pushField(state.newKeyData.invalidFields, 'passwordConfirm'),
+    },
+  }),
+  [KEYSTORE_SET_NEW_KEY_CURRENT_STEP]: (state, action) => ({
+    ...state,
+    newKeyData: {
+      ...state.newKeyData,
+      currentStep: action.currentStep,
+    },
+  }),
+  [KEYSTORE_SET_NEW_KEY_VALID_FIELD]: (state, action) => ({
+    ...state,
+    newKeyData: {
+      ...state.newKeyData,
+      validFields: pushField(state.newKeyData.validFields, action.name, action.message),
+    },
+  }),
+  [KEYSTORE_SET_NEW_KEY_INVALID_FIELD]: (state, action) => ({
+    ...state,
+    newKeyData: {
+      ...state.newKeyData,
+      invalidFields: pushField(state.newKeyData.invalidFields, action.name, action.message),
+    },
+  }),
+  [KEYSTORE_SET_NEW_KEY_ALERT]: (state, action) => ({
+    ...state,
+    newKeyData: {
+      ...state.newKeyData,
+      alert: action.alert,
     },
   }),
   [KEYSTORE_OPEN_IMPORT_KEY_MODAL]: state => ({
@@ -318,6 +425,20 @@ const ACTION_HANDLERS = {
       passwordConfirm: action.passwordConfirm,
     },
   }),
+  [KEYSTORE_SET_IMPORT_KEY_CURRENT_STEP]: (state, action) => ({
+    ...state,
+    importKeyData: {
+      ...state.importKeyData,
+      currentStep: action.currentStep,
+    },
+  }),
+  [KEYSTORE_SET_IMPORT_KEY_ALERT]: (state, action) => ({
+    ...state,
+    importKeyData: {
+      ...state.importKeyData,
+      alert: action.alert,
+    },
+  }),
   [KEYSTORE_OPEN_BACKUP_MODAL]: state => ({
     ...state,
     isBackupKeystoreModalOpen: true,
@@ -337,15 +458,15 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   newKeyData: {
-    disabledFields: [],
     validFields: [],
     invalidFields: [],
-    alert: '',
+    alert: 'Anyone who has access to your passphrase can spend your money.',
     mnemonic: '',
     mnemonicConfirm: '',
     password: '',
     passwordConfirm: '',
-    currentStep: 0,
+    currentStep: 1,
+    totalSteps: 6,
   },
   importKeyData: {
     disabledFields: [],
@@ -368,6 +489,7 @@ const initialState = {
   accounts: [],
   addressesFromMnemonic: [],
   isLoading: true,
+  isCreating: false,
   isKeystoreModalOpen: false,
   isNewKeyModalOpen: false,
   isImportKeyModalOpen: false,

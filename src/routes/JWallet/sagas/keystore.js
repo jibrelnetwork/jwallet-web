@@ -4,8 +4,6 @@ import Keystore from 'blockchain-wallet-keystore'
 import storage from 'local-storage-polyfill'
 import fileSaver from 'file-saver'
 
-const keystore = new Keystore()
-
 import {
   KEYSTORE_GET_FROM_STORAGE,
   KEYSTORE_SET_ACCOUNTS,
@@ -20,14 +18,13 @@ import {
   KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
   KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
   KEYSTORE_SET_PASSWORD,
+  KEYSTORE_SAVE_MNEMONIC_TO_FILE,
   KEYSTORE_BACKUP,
 } from '../modules/keystore'
 
-function getStateAccountData(state) {
-  return state.keystore.accountData
-}
+const keystore = new Keystore({ scryptParams: { N: 2 ** 14, r: 8, p: 1 } })
 
-function getStateCurrentAccount(state) {
+function getStateCurrentAccountId(state) {
   return state.keystore.currentAccount.id
 }
 
@@ -38,15 +35,11 @@ function* getKeystoreFromStorage() {
 
     if (keystoreData) {
       keystore.deserialize(keystoreData)
-
-      yield setAccounts()
     }
 
     yield setCurrentAccountData(currentAccountId)
-
-    return
   } catch (e) {
-    console.error('Cannot parse keystore data from storage')
+    console.error('Cannot parse keystore data from storage') // eslint-disable-line no-console
   }
 
   yield setAccounts()
@@ -62,12 +55,12 @@ function* setAccounts() {
   if (accounts && accounts.length) {
     yield put(push('/jwallet'))
   } else {
-    yield put(push('/auth'))
+    return yield put(push('/auth'))
   }
 
   setKeystoreToStorage()
 
-  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
+  return yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
 }
 
 function* setCurrentAccountData(accountId) {
@@ -75,11 +68,9 @@ function* setCurrentAccountData(accountId) {
     return yield setFirstAccountAsCurrent()
   }
 
-  const account = keystore.getAccount(accountId)
+  const account = keystore.getAccount({ id: accountId })
 
   if (!account) {
-    console.error('Cannot set current account')
-
     return yield setEmptyCurrentAccount()
   }
 
@@ -97,20 +88,26 @@ function* setFirstAccountAsCurrent() {
 
   const firstAccountId = accounts[0].id
 
-  yield setCurrentAccountData(firstAccountId)
+  return yield setCurrentAccountData(firstAccountId)
 }
 
 function* setEmptyCurrentAccount() {
   yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount: {} })
 }
 
-function* createAccount() {
-  const accountData = yield select(getStateAccounts)
+function* createAccount(action) {
+  const { props, onSuccess, onError } = action
 
-  const accountId = keystore.createAccount(accountData)
+  try {
+    const accountId = keystore.createAccount(props)
 
-  yield setAccounts()
-  yield setCurrentAccountData(accountId)
+    yield setAccounts()
+    yield setCurrentAccountData(accountId)
+
+    return onSuccess ? onSuccess(accountId) : null
+  } catch (e) {
+    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
+  }
 }
 
 function* setCurrentAccount(action) {
@@ -172,7 +169,7 @@ function* getAddressesFromMnemonic(action) {
   yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, addressesFromMnemonic })
 }
 
-function* setPassword(action) {
+function setPassword(action) {
   const { password, newPassword } = action
 
   keystore.setPassword(password, newPassword)
@@ -180,15 +177,35 @@ function* setPassword(action) {
   setKeystoreToStorage()
 }
 
-function* backupKeystore() {
-  try {
-    const backupData = new Blob([keystore.serialize()], { type: 'application/json' })
-    const timestamp = (new Date()).toString()
+function saveMnemonicToFile(action) {
+  const { mnemonic, onSuccess, onError } = action
 
-    fileSaver.saveAs(backupData, `jwallet-keystore-backup-${timestamp}.json`)
+  try {
+    const data = new Blob([mnemonic], { type: 'plain/text', endings: 'native' })
+    const timestamp = getTimestamp()
+
+    fileSaver.saveAs(data, `jwallet-keystore-mnemonic ${timestamp}.txt`)
+
+    return onSuccess ? onSuccess() : null
   } catch (e) {
-    console.error(e)
+    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
   }
+}
+
+function backupKeystore(action) {
+  try {
+    const decryptedAccounts = keystore.getDecryptedAccounts(action.password)
+    const backupData = new Blob([decryptedAccounts], { type: 'plain/text', endings: 'native' })
+    const timestamp = getTimestamp()
+
+    fileSaver.saveAs(backupData, `jwallet-keystore-backup ${timestamp}.json`)
+  } catch (e) {
+    console.error(e) // eslint-disable-line no-console
+  }
+}
+
+function getTimestamp() {
+  return (new Date()).toString()
 }
 
 export function* watchGetKeystoreFromStorage() {
@@ -233,4 +250,8 @@ export function* watchSetPassword() {
 
 export function* watchBackupKeystore() {
   yield takeEvery(KEYSTORE_BACKUP, backupKeystore)
+}
+
+export function* watchSaveMnemonicToFile() {
+  yield takeEvery(KEYSTORE_SAVE_MNEMONIC_TO_FILE, saveMnemonicToFile)
 }

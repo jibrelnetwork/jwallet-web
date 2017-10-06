@@ -105,7 +105,7 @@
   &:disabled {
     background-color: $white;
     opacity: 0.3;
-    cursor: not-allowed;
+    cursor: default;
   }
 }
 
@@ -128,7 +128,7 @@
   &--disabled {
     background-color: $white;
     opacity: 0.3;
-    cursor: not-allowed;
+    cursor: default;
   }
 }
 
