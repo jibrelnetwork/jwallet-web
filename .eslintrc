@@ -113,6 +113,13 @@
       "error",
       2
     ],
+    "object-curly-newline": [
+      "error",
+      {
+        "multiline": true,
+        "consistent": true
+      }
+    ],
     "react/jsx-key": "error",
     "react/jsx-closing-bracket-location": "error",
     "react/require-default-props": "error",

@@ -123,6 +123,19 @@
   }
 }
 
+.modal__step-line {
+  width: 100%;
+  height: 4px;
+  background-color: $blue3;
+  opacity: 0.8;
+}
+
+.modal__step-line-overlay {
+  height: 100%;
+  background-color: $blue;
+  transition: width .3s ease;
+}
+
 .modal__body {
   padding: 0 30px 30px 30px;
 }

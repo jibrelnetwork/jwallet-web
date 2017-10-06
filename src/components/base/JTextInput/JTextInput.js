@@ -26,22 +26,36 @@ class JTextInput extends JFormField {
       value,
       placeholder,
       keyboardType,
+      readOnly,
       editable,
       multiline,
+      preventCopy,
+      unselectable,
       ...otherProps
     } = this.props
 
     const inputProps = {
       name,
+      value,
+      readOnly,
       disabled: this.state.disabled,
-      value: secureTextEntry ? value.replace(/\S/g, '*') : value,
       className: `field__input field__input--${name}`,
-      type: keyboardType,
-      onSelect: this.onSelect,
+      type: secureTextEntry ? 'password' : keyboardType || 'text',
       onChange: this.onValueChange,
       onFocus: this.setFocused(),
       onBlur: this.setFocused(false),
       ...otherProps,
+    }
+
+    if (preventCopy) {
+      inputProps.onCut = this.prevent
+      inputProps.onCopy = this.prevent
+    }
+
+    if (unselectable) {
+      inputProps.onFocus = this.prevent
+      inputProps.unselectable = 'on'
+      inputProps.className += ' unselectable'
     }
 
     return (
@@ -61,23 +75,30 @@ class JTextInput extends JFormField {
 }
 
 JTextInput.propTypes = {
-  onValueChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  successMessage: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func,
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
   keyboardType: PropTypes.string,
-  multiline: PropTypes.bool,
+  readOnly: PropTypes.bool,
   editable: PropTypes.bool,
-  secureTextEntry: PropTypes.bool,
+  multiline: PropTypes.bool,
+  preventCopy: PropTypes.bool,
+  unselectable: PropTypes.bool,
 }
 
 JTextInput.defaultProps = {
+  onValueChange: () => {},
   keyboardType: 'text',
-  multiline: false,
+  errorMessage: '',
+  successMessage: '',
+  readOnly: false,
   editable: false,
-  secureTextEntry: false,
+  multiline: false,
+  preventCopy: false,
+  unselectable: false,
 }
 
 export default JTextInput

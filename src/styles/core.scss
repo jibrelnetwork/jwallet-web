@@ -99,6 +99,11 @@
     min-height: calc(100vh - #{$header-and-footer-height});
   }
 
+  .unselectable {
+    user-select: none;
+    cursor: default;
+  }
+
   @import '../components/base/JFormField/jFormField';
   @import '../components/base/JButton/jButton';
   @import '../components/base/JCheckbox/jCheckbox';
@@ -110,6 +115,7 @@
   @import '../components/base/JModal/jModal';
   @import '../components/base/JModalAlert/jModalAlert';
   @import '../components/base/JModalButton/jModalButton';
+  @import '../components/base/JModalImage/jModalImage';
   @import '../components/base/JPicker/jPicker';
   @import '../components/base/JPopover/jPopover';
   @import '../components/base/JTextInput/jTextInput';
@@ -124,6 +130,7 @@
   @import '../components/JWalletHeader/headerMenu';
   @import '../components/KeysManager/keysManager';
   @import '../components/NetworksManager/networksManager';
+  @import '../components/PasswordField/passwordField';
   @import '../components/PincodeButton/pincodeButton';
   @import '../components/Search/search';
   @import '../components/Transaction/transaction';

@@ -137,7 +137,7 @@ function* toggleAccount(action) {
 
 function* searchAccounts(action) {
   const accounts = yield select(getStateAccounts)
-  const searchQuery = action.searchQuery
+  const { searchQuery } = action
 
   const foundItems = searchItems(accounts.items, searchQuery, accountsSearchFields)
   const foundItemsSymbols = foundItems.map(i => i.symbol)

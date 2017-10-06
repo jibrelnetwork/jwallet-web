@@ -44,7 +44,7 @@ class BackupKeystoreModal extends Component {
         onValueChange={setBackupKeystorePassword}
         name='backup-password'
         placeholder='Keystore password'
-        selectedValue={keystore.backupData.password}
+        value={keystore.backupData.password}
         errorMessage={this.getInvalidFieldMessage('password')}
         successMessage={this.getValidFieldMessage('password')}
         editable={this.isEnabledField('password')}
@@ -88,8 +88,8 @@ BackupKeystoreModal.propTypes = {
         message: PropTypes.string.isRequired,
       })).isRequired,
       disabledFields: PropTypes.arrayOf(PropTypes.string).isRequired,
-      alert: PropTypes.string.isRequired,
       password: PropTypes.string.isRequired,
+      alert: PropTypes.string,
     }).isRequired,
     isBackupKeystoreModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
