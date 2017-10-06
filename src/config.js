@@ -41,4 +41,7 @@ export default {
    * to check - https://regexr.com/3grae - set of valid/invalid examples
    */
   urlRe: /^(((https?:\/\/)|(www\.))((([A-Z\d_-]+\.)+)([A-Z\d_-]+)|(localhost))((:\d{2,4})?))$/i,
+
+  // modal shake timeout
+  modalShakeTimeout: 1000,
 }

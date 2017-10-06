@@ -60,6 +60,7 @@ class JModal extends Appearable {
     return (
       <div className='modal__content'>
         {this.renderModalHeader()}
+        {this.renderModalTopLine()}
         {this.renderModalAlert()}
         {this.renderModalBody()}
         {this.renderModalFooter()}
@@ -78,10 +79,22 @@ class JModal extends Appearable {
     )
   }
 
-  renderModalAlert = () => {
-    const { alert } = this.props
+  renderModalTopLine = () => {
+    const width = this.props.topLineFullness
 
-    return <div className='modal__alert'>{alert.length ? <JModalAlert text={alert} /> : null}</div>
+    if (!(width && width.length)) {
+      return null
+    }
+
+    return (
+      <div className='modal__step-line'>
+        <div className='modal__step-line-overlay' style={{ width }} />
+      </div>
+    )
+  }
+
+  renderModalAlert = () => {
+    return <JModalAlert text={this.props.alert} />
   }
 
   renderModalBody = () => {
@@ -103,6 +116,7 @@ JModal.propTypes = {
   name: PropTypes.string.isRequired,
   submitModal: PropTypes.func,
   alert: PropTypes.string,
+  topLineFullness: PropTypes.string,
   isOpen: PropTypes.bool,
   isShake: PropTypes.bool,
 }
@@ -110,6 +124,7 @@ JModal.propTypes = {
 JModal.defaultProps = {
   submitModal: () => {},
   alert: '',
+  topLineFullness: '',
   isOpen: false,
   isShake: false,
 }

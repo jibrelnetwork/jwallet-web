@@ -48,7 +48,7 @@
 .picker__item--disabled {
   background-color: transparent!important;
   opacity: 0.4;
-  cursor: not-allowed;
+  cursor: default;
 }
 
 .picker__item--selected {
