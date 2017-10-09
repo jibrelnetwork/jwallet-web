@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import { toggleAccount, setCurrentAccount } from 'routes/JWallet/modules/accounts'
+import { toggleActiveCurrency, setCurrentCurrency } from 'routes/JWallet/modules/currencies'
 
 import {
   openSendFundsModal,
@@ -20,21 +20,21 @@ import {
 import TransactionsTable from './TransactionsTable'
 
 const mapStateToProps = (state) => {
-  const { items, currentActiveIndex } = state.accounts
-  const currentAccount = items[currentActiveIndex]
-  const currentAccountSymbol = currentAccount ? currentAccount.symbol : ''
+  const { items, currentActiveIndex } = state.currencies
+  const currentCurrency = items[currentActiveIndex]
+  const currentCurrencySymbol = currentCurrency ? currentCurrency.symbol : ''
 
   return {
-    currentAccountSymbol,
-    currentAccountIndex: currentActiveIndex,
-    accountItems: items,
+    currentCurrencySymbol,
+    currentCurrencyIndex: currentActiveIndex,
+    currenciesItems: items,
     transactions: state.transactions,
   }
 }
 
 const mapDispatchToProps = {
-  toggleAccount,
-  setCurrentAccount,
+  toggleActiveCurrency,
+  setCurrentCurrency,
   openSendFundsModal,
   openReceiveFundsModal,
   openConvertFundsModal,

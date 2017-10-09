@@ -70,19 +70,19 @@ function getStateTransactions(state) {
   return state.transactions
 }
 
-function getStateAccounts(state) {
-  return state.accounts
+function getStateCurrencies(state) {
+  return state.currencies
 }
 
 function* getTransactions(action) {
   yield delay(1000)
 
-  const { items, currentActiveIndex } = yield select(getStateAccounts)
-  const accountIndex = action.accountIndex || currentActiveIndex
-  const { isActive, symbol } = items[accountIndex]
-  const isActiveAccount = (accountIndex > -1) ? isActive : false
+  const { items, currentActiveIndex } = yield select(getStateCurrencies)
+  const currencyIndex = action.currencyIndex || currentActiveIndex
+  const { isActive, symbol } = items[currencyIndex]
+  const isActiveCurrency = (currencyIndex > -1) ? isActive : false
 
-  if (!isActiveAccount || (symbol === 'ETH')) {
+  if (!isActiveCurrency || (symbol === 'ETH')) {
     return yield put({ type: SET_TRANSACTIONS, items: [] })
   }
 

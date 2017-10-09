@@ -24,9 +24,9 @@ class Transaction extends Component {
     return (
       <div className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}>
         <TransactionMain
-          setCurrentAccount={this.setCurrentAccount}
+          setCurrentCurrency={this.setCurrentCurrency}
           toggleActive={toggleActive}
-          accountIndex={this.getAccountIndex(to)}
+          currencyIndex={this.getCurrencyIndex(to)}
           type={type}
           symbol={symbol}
           status={status}
@@ -46,10 +46,10 @@ class Transaction extends Component {
     )
   }
 
-  getAccountIndex = (requestedAddress) => {
+  getCurrencyIndex = (requestedAddress) => {
     let foundIndex = -1
 
-    this.props.accountItems.forEach(({ address, isActive, isAuthRequired }, index) => {
+    this.props.currenciesItems.forEach(({ address, isActive, isAuthRequired }, index) => {
       if (!isActive || isAuthRequired) {
         return
       }
@@ -62,19 +62,19 @@ class Transaction extends Component {
     return foundIndex
   }
 
-  setCurrentAccount = accountIndex => (e) => {
+  setCurrentCurrency = currencyIndex => (e) => {
     e.preventDefault()
 
-    this.props.setCurrentAccount(accountIndex)
+    this.props.setCurrentCurrency(currencyIndex)
 
     e.stopPropagation()
   }
 }
 
 Transaction.propTypes = {
-  setCurrentAccount: PropTypes.func.isRequired,
+  setCurrentCurrency: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
-  accountItems: PropTypes.arrayOf(PropTypes.shape({
+  currenciesItems: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
     isAuthRequired: PropTypes.bool.isRequired,

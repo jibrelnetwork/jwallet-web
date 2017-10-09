@@ -2,13 +2,8 @@
   position: relative;
   max-width: 300px;
   height: $header-height;
-  font-weight: 600;
-}
-
-.keys-manager-title {
-  position: relative;
-  height: $header-height;
   padding: $keys-manager-title-padding;
+  font-weight: 600;
   opacity: 1;
   cursor: pointer;
   transition: opacity .3s ease;
@@ -18,66 +13,28 @@
   }
 }
 
-.keys-manager-title__head {
+.keys-manager__title {
   color: $blue;
 }
 
-.keys-manager-title__head,
-.key--title {
+.keys-manager__title,
+.keys-manager__account {
   text-align: right;
   height: $keys-manager-title-line-height;
   line-height: $keys-manager-title-line-height;
 }
 
-.key {
-  margin-top: 5px;
-  padding-right: 20px;
+.keys-manager__account {
+  margin-top: 0;
+  padding-right: 0;
   color: $gray;
-  opacity: 0.5;
+  opacity: 1;
   cursor: pointer;
   transition: opacity 0.3s ease 0s;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &--title {
-    margin-top: 0;
-    padding-right: 0;
-    opacity: 1;
-  }
-
-  &--active {
-    color: $blue;
-    opacity: 1;
-  }
 }
 
-.key__hash,
-.key__balance,
-.key__code {
-  display: inline-block;
-  overflow: hidden;
-}
-
-.key__hash,
-.key__balance {
-  margin-right: 5px;
-}
-
-.key__hash {
-  max-width: 110px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.keys-manager-title__icon {
+.keys-manager__icon {
   position: absolute;
   top: 8px;
   right: 0;
-}
-
-.keys-manager__keys {
-  min-width: 220px;
-  height: 126px;
 }

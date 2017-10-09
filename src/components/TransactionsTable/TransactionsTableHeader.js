@@ -5,7 +5,7 @@ import { DatePicker, Search, TransactionManager } from 'components'
 
 function TransactionsTableHeader(props) {
   const {
-    removeAccount,
+    removeCurrency,
     sendFunds,
     receiveFunds,
     convertFunds,
@@ -34,7 +34,7 @@ function TransactionsTableHeader(props) {
           receiveFunds={receiveFunds}
           convertFunds={convertFunds}
           filter={filterTransactions}
-          remove={removeAccount}
+          remove={removeCurrency}
         />
       </div>
     </div>
@@ -42,7 +42,7 @@ function TransactionsTableHeader(props) {
 }
 
 TransactionsTableHeader.propTypes = {
-  removeAccount: PropTypes.func.isRequired,
+  removeCurrency: PropTypes.func.isRequired,
   sendFunds: PropTypes.func.isRequired,
   receiveFunds: PropTypes.func.isRequired,
   convertFunds: PropTypes.func.isRequired,

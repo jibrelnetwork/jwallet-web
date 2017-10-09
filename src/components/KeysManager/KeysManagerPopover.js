@@ -12,10 +12,10 @@ function KeysManagerPopover(props) {
     importKeys,
     backupKeys,
     clearKeys,
-    keys,
+    keystore,
   } = props
 
-  const { items, currentActiveIndex } = keys
+  const { items, currentActiveIndex } = keystore
 
   const body = (
     <div className='keys-manager__popover'>
@@ -75,7 +75,7 @@ KeysManagerPopover.propTypes = {
   importKeys: PropTypes.func.isRequired,
   backupKeys: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
-  keys: PropTypes.shape({
+  keystore: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       privateKey: PropTypes.string.isRequired,
       code: PropTypes.string.isRequired,

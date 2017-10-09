@@ -1,22 +1,22 @@
-.accounts-table {
+.currencies-table {
   margin-top: -84px; /* margin = 30px * 2 + search input height = 24px */
 }
 
-.accounts-table-header {
+.currencies-table-header {
   margin: 30px 0;
 }
 
-.accounts-table__item {
+.currencies-table__item {
   height: 50px;
   line-height: 50px;
 }
 
-.accounts-table__field {
+.currencies-table__field {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.accounts-table__symbol {
+.currencies-table__symbol {
   padding-left: 30px;
 }

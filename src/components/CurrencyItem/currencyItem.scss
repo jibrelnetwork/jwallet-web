@@ -1,0 +1,134 @@
+.currency-item {
+  position: relative;
+  padding: $currency-item-v-padding $currency-item-h-padding;
+  border-top: $currency-item-border-width solid rgba(255,255,255,0.1);
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: $currency-item-border-width solid rgba(255,255,255,0.1);
+  }
+
+  &:hover {
+    .currency-item__image {
+      opacity: 0.05;
+    }
+  }
+
+  &--active {
+    background: linear-gradient(to right, $blue, $blue2);
+    border-color: transparent!important;
+
+    .currency-item__balance {
+      color: $white;
+      opacity: 0.7;
+    }
+
+    .currency-item__image,
+    &:hover .currency-item__image {
+      opacity: 0.1;
+    }
+
+    & + .currency-item {
+      border-top-color: transparent;
+    }
+  }
+
+  &--authorization {
+    cursor: default;
+
+    .currency-item__image {
+      background-image: none;
+    }
+
+    .currency-item__balance {
+      color: $white;
+      opacity: 0.3;
+    }
+  }
+}
+
+.currency-item__symbol {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  width: $currency-item-symbol-size;
+  height: $currency-item-symbol-size;
+  margin-top: -18px;
+}
+
+.currency-item__image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  opacity: 0;
+  content: '';
+  transition: opacity .3s ease;
+  will-change: opacity;
+
+  &--eth {
+    background-image: $bgCurrencyETH;
+  }
+
+  &--jusd {
+    background-image: $bgCurrencyJUSD;
+  }
+
+  &--jeur {
+    background-image: $bgCurrencyJEUR;
+  }
+
+  &--jgbp {
+    background-image: $bgCurrencyJGBP;
+  }
+
+  &--jaed {
+    background-image: $bgCurrencyJAED;
+  }
+
+  &--jrub {
+    background-image: $bgCurrencyJRUB;
+  }
+
+  &--jcny {
+    background-image: $bgCurrencyJCNY;
+  }
+
+  &--jnt {
+    background-image: $bgCurrencyJNT;
+  }
+}
+
+.currency-item__name,
+.currency-item__balance {
+  margin-left: 46px;
+}
+
+.currency-item__name {
+  position: relative;
+  line-height: $currency-item-name-font-size;
+  margin-bottom: $currency-item-name-margin-bottom;
+  font-size: $currency-item-name-font-size;
+  color: $white;
+}
+
+.currency-item__balance {
+  position: relative;
+  line-height: $currency-item-balance-font-size;
+  font-size: $currency-item-balance-font-size;
+  color: $blue3;
+}
+
+.currency-item__licensed {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  width: 13px;
+  height: 14px;
+  margin-top: -7px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
