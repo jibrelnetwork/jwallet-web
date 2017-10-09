@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import { openAccountManager } from 'routes/JWallet/modules/accounts'
+import { openCurrenciesModal } from 'routes/JWallet/modules/currencies'
 
 import {
   openSendFundsModal,
@@ -16,7 +16,7 @@ import {
 } from 'routes/JWallet/modules/keystore'
 
 import {
-  getNetworksFromCache,
+  getNetworksFromStorage,
   setActiveNetwork,
   saveCustomNetwork,
   removeCustomNetwork,
@@ -25,14 +25,13 @@ import {
 import CoreLayout from './CoreLayout'
 
 const mapStateToProps = state => ({
-  accounts: state.accounts,
+  currencies: state.currencies,
   funds: state.funds,
   keystore: state.keystore,
   networks: state.networks,
 })
 
 const mapDispatchToProps = {
-  openAccountManager,
   openSendFundsModal,
   openReceiveFundsModal,
   openConvertFundsModal,
@@ -40,10 +39,11 @@ const mapDispatchToProps = {
   openKeystoreModal,
   openNewKeyModal,
   openImportKeyModal,
-  getNetworksFromCache,
+  getNetworksFromStorage,
   setActiveNetwork,
   saveCustomNetwork,
   removeCustomNetwork,
+  openCurrenciesModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)

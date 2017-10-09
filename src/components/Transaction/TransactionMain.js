@@ -5,7 +5,7 @@ import JIcon from 'components/base/JIcon'
 
 function TransactionMain(props) {
   const {
-    setCurrentAccount,
+    setCurrentCurrency,
     toggleActive,
     type,
     symbol,
@@ -13,11 +13,11 @@ function TransactionMain(props) {
     address,
     amountFixed,
     date,
-    accountIndex,
+    currencyIndex,
     isActive,
   } = props
 
-  const isToken = (accountIndex !== -1)
+  const isToken = (currencyIndex !== -1)
 
   return (
     <div className='row clear' onClick={toggleActive}>
@@ -32,7 +32,7 @@ function TransactionMain(props) {
       <div className='transaction__item col-2-4'>{date}</div>
       <div
         className={`transaction__item ${isToken ? 'transaction__item--token' : ''} col-4-8`}
-        onClick={isToken ? setCurrentAccount(accountIndex) : null}
+        onClick={isToken ? setCurrentCurrency(currencyIndex) : null}
       >
         {address}
       </div>
@@ -51,7 +51,7 @@ function TransactionMain(props) {
 }
 
 TransactionMain.propTypes = {
-  setCurrentAccount: PropTypes.func.isRequired,
+  setCurrentCurrency: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
@@ -59,7 +59,7 @@ TransactionMain.propTypes = {
   address: PropTypes.string.isRequired,
   amountFixed: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  accountIndex: PropTypes.number.isRequired,
+  currencyIndex: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
 

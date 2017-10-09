@@ -10,6 +10,8 @@ class KeystoreModal extends Component {
     const { closeBackupKeystoreModal, keystore } = this.props
     const { alert, password } = keystore.backupData
 
+    return null
+
     return (
       <JModal
         closeModal={closeBackupKeystoreModal}

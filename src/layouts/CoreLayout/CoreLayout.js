@@ -5,15 +5,15 @@ import {
   base,
   AuthHeader,
   JWalletHeader,
-  AccountManager,
   ConvertFundsModal,
   ReceiveFundsModal,
   SendFundsModal,
   KeystoreModal,
+  CurrenciesModal,
   NewKeyModal,
   ImportKeyModal,
   BackupKeystoreModal,
-  AddCustomTokenModal,
+  CustomTokenModal,
 } from 'components'
 
 import 'styles/core.scss'
@@ -22,14 +22,14 @@ const { JFooter, JLoader } = base
 
 class CoreLayout extends Component {
   componentWillMount() {
-    const { getKeystoreFromStorage, getNetworksFromCache, keystore, networks } = this.props
+    const { getKeystoreFromStorage, getNetworksFromStorage, keystore, networks } = this.props
 
     if (!(keystore.accounts && keystore.accounts.length)) {
       getKeystoreFromStorage()
     }
 
     if (!(networks.items && networks.items.length)) {
-      getNetworksFromCache()
+      getNetworksFromStorage()
     }
   }
 
@@ -58,7 +58,6 @@ class CoreLayout extends Component {
     const { accounts } = this.props.keystore
     const isAuthRequired = !(accounts && accounts.length)
 
-    return this.renderAuthHeader()
     if (isAuthRequired) {
       return this.renderAuthHeader()
     }
@@ -81,7 +80,6 @@ class CoreLayout extends Component {
 
   renderJWalletHeader = () => {
     const {
-      openAccountManager,
       openSendFundsModal,
       openReceiveFundsModal,
       openConvertFundsModal,
@@ -91,12 +89,13 @@ class CoreLayout extends Component {
       setActiveNetwork,
       saveCustomNetwork,
       removeCustomNetwork,
+      openCurrenciesModal,
+      keystore,
       networks,
     } = this.props
 
     return (
       <JWalletHeader
-        openAccountManager={openAccountManager}
         openSendFundsModal={openSendFundsModal}
         openReceiveFundsModal={openReceiveFundsModal}
         openConvertFundsModal={openConvertFundsModal}
@@ -106,6 +105,8 @@ class CoreLayout extends Component {
         setActiveNetwork={setActiveNetwork}
         saveCustomNetwork={saveCustomNetwork}
         removeCustomNetwork={removeCustomNetwork}
+        openCurrenciesModal={openCurrenciesModal}
+        accountName={keystore.currentAccount.accountName}
         networks={networks}
       />
     )
@@ -114,23 +115,24 @@ class CoreLayout extends Component {
   renderModals = () => {
     return (
       <div>
-        <AccountManager />
         <SendFundsModal />
         <ReceiveFundsModal />
         <ConvertFundsModal />
+        <KeystoreModal />
+        <CurrenciesModal />
         <NewKeyModal />
         <ImportKeyModal />
         <BackupKeystoreModal />
-        <AddCustomTokenModal />
+        <CustomTokenModal />
       </div>
     )
   }
 
   isAnyModalOpened() {
     const {
-      accounts: {
-        isAccountManagerOpen,
-        isAddCustomTokenModalOpen,
+      currencies: {
+        isCurrenciesModalOpen,
+        isCustomTokenModalOpen,
       },
       funds: {
         isSendFundsModalOpen,
@@ -146,8 +148,8 @@ class CoreLayout extends Component {
     } = this.props
 
     return (
-      isAccountManagerOpen ||
-      isAddCustomTokenModalOpen ||
+      isCurrenciesModalOpen ||
+      isCustomTokenModalOpen ||
       isSendFundsModalOpen ||
       isReceiveFundsModalOpen ||
       isConvertFundsModalOpen ||
@@ -160,7 +162,6 @@ class CoreLayout extends Component {
 }
 
 CoreLayout.propTypes = {
-  openAccountManager: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
@@ -168,13 +169,14 @@ CoreLayout.propTypes = {
   openKeystoreModal: PropTypes.func.isRequired,
   openNewKeyModal: PropTypes.func.isRequired,
   openImportKeyModal: PropTypes.func.isRequired,
-  getNetworksFromCache: PropTypes.func.isRequired,
+  getNetworksFromStorage: PropTypes.func.isRequired,
   setActiveNetwork: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
-  accounts: PropTypes.shape({
-    isAccountManagerOpen: PropTypes.bool.isRequired,
-    isAddCustomTokenModalOpen: PropTypes.bool.isRequired,
+  openCurrenciesModal: PropTypes.func.isRequired,
+  currencies: PropTypes.shape({
+    isCurrenciesModalOpen: PropTypes.bool.isRequired,
+    isCustomTokenModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
   funds: PropTypes.shape({
     isSendFundsModalOpen: PropTypes.bool.isRequired,
@@ -196,6 +198,9 @@ CoreLayout.propTypes = {
       bip32XPublicKey: PropTypes.string,
       isReadOnly: PropTypes.bool,
     })).isRequired,
+    currentAccount: PropTypes.shape({
+      accountName: PropTypes.string.isRequired,
+    }).isRequired,
     isKeystoreModalOpen: PropTypes.bool.isRequired,
     isNewKeyModalOpen: PropTypes.bool.isRequired,
     isImportKeyModalOpen: PropTypes.bool.isRequired,

@@ -1,29 +1,29 @@
-.your-accounts {
+.currencies {
   position: relative;
   display: table-cell;
   width: 30%;
   height: 100%;
-  padding-top: $your-accounts-padding-top;
+  padding-top: $currencies-padding-top;
   background: linear-gradient(to top, $black, $gray);
   border-radius: 5px 0 0 5px;
   vertical-align: top;
   color: $white;
 }
 
-.your-accounts-header {
+.currencies-header {
   position: relative;
-  height: $your-accounts-header-height;
-  line-height: $your-accounts-header-height;
-  margin: 0 $your-accounts-header-h-margin $your-accounts-header-margin-bottom $your-accounts-header-h-margin;
+  height: $currencies-header-height;
+  line-height: $currencies-header-height;
+  margin: 0 $currencies-header-h-margin $currencies-header-margin-bottom $currencies-header-h-margin;
 }
 
-.your-accounts-header__title {
+.currencies-header__title {
   color: $white;
   font-size: 15px;
   font-weight: 600;
 }
 
-.your-accounts-header__icon {
+.currencies-header__icon {
   position: absolute;
   top: 50%;
   right: 0;
@@ -40,6 +40,6 @@
   }
 }
 
-.your-accounts-body {
-  min-height: calc(100vh - #{$your-accounts-before-body-height});
+.currencies-body {
+  min-height: calc(100vh - #{$currencies-before-body-height});
 }

@@ -14,7 +14,7 @@ const transactionsColumns = [
 
 class TransactionsTableBody extends Component {
   render() {
-    const { transactions, currentAccountSymbol, emptyTableImageSrc } = this.props
+    const { transactions, currentCurrencySymbol, emptyTableImageSrc } = this.props
     const { items, foundItemsHashes, searchQuery } = transactions
 
     const isItemsFound = item => (foundItemsHashes.indexOf(item.txHash) > -1)
@@ -32,7 +32,7 @@ class TransactionsTableBody extends Component {
             style={{ backgroundImage: `url(${emptyTableImageSrc})` }}
           >
             <div className='transactions-table__title'>
-              {`Look like there isn't any ${currentAccountSymbol} in your account yet`}
+              {`Look like there isn't any ${currentCurrencySymbol} in your account yet`}
             </div>
           </div>
         </div>
@@ -82,9 +82,9 @@ class TransactionsTableBody extends Component {
 
   renderTransactions = (foundItems) => {
     const {
-      setCurrentAccount,
+      setCurrentCurrency,
       toggleActive,
-      accountItems,
+      currenciesItems,
       transactions,
       activeTransactionIndex,
     } = this.props
@@ -106,9 +106,9 @@ class TransactionsTableBody extends Component {
             return (
               <Transaction
                 {...transactionProps}
-                setCurrentAccount={setCurrentAccount}
+                setCurrentCurrency={setCurrentCurrency}
                 toggleActive={toggleActive(i)}
-                accountItems={accountItems}
+                currenciesItems={currenciesItems}
                 key={i}
                 isActive={isActive}
               />
@@ -140,7 +140,7 @@ class TransactionsTableBody extends Component {
 }
 
 TransactionsTableBody.propTypes = {
-  setCurrentAccount: PropTypes.func.isRequired,
+  setCurrentCurrency: PropTypes.func.isRequired,
   sortTransactions: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
@@ -167,12 +167,12 @@ TransactionsTableBody.propTypes = {
     sortDirection: PropTypes.string.isRequired,
     searchQuery: PropTypes.string.isRequired,
   }).isRequired,
-  accountItems: PropTypes.arrayOf(PropTypes.shape({
+  currenciesItems: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
     isAuthRequired: PropTypes.bool.isRequired,
   })).isRequired,
-  currentAccountSymbol: PropTypes.string.isRequired,
+  currentCurrencySymbol: PropTypes.string.isRequired,
   emptyTableImageSrc: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
 }

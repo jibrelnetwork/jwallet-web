@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import { JCheckbox, JIcon } from 'components/base'
 
-function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
-  const { items, foundItemsSymbols, sortField, sortDirection, searchQuery, isActiveAll } = accounts
+function CurrenciesTableBody({ sortCurrencies, toggleActiveCurrency, currencies }) {
+  const { items, foundItemsSymbols, sortField, sortDirection, searchQuery, isActiveAll } = currencies
   const iconClassName = 'pull-left table__icon table__icon--'
   const isDesc = (sortDirection === 'DESC')
 
@@ -12,19 +12,19 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
 
   return (
-    <div className='accounts-table-body'>
-      <div className='accounts-table__item table__item table__item--title'>
+    <div className='currencies-table-body'>
+      <div className='currencies-table__item table__item table__item--title'>
         <div className='row clear'>
-          <div className='table__title-item col-2-4 clear' onClick={sortAccounts('symbol')}>
-            <JCheckbox toggle={toggleAccount(-1)} isActive={isActiveAll} />
-            <span className='accounts-table__symbol pull-left'>{'Symbol'}</span>
+          <div className='table__title-item col-2-4 clear' onClick={sortCurrencies('symbol')}>
+            <JCheckbox toggle={toggleActiveCurrency(-1)} isActive={isActiveAll} />
+            <span className='currencies-table__symbol pull-left'>{'Symbol'}</span>
             <JIcon
               small
               name={`small-arrow${(isDesc && (sortField === 'symbol')) ? '' : '-up'}`}
               className={`${iconClassName}${(sortField === 'symbol') ? 'active' : ''}`}
             />
           </div>
-          <div className='table__title-item col-3 clear' onClick={sortAccounts('name')}>
+          <div className='table__title-item col-3 clear' onClick={sortCurrencies('name')}>
             <span className='pull-left'>{'Name'}</span>
             <JIcon
               small
@@ -34,7 +34,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div
             className='table__title-item table__title-item--balance col-2 clear'
-            onClick={sortAccounts('balance')}
+            onClick={sortCurrencies('balance')}
           >
             <span className='pull-left'>{'Balance'}</span>
             <JIcon
@@ -45,7 +45,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div
             className='table__title-item table__title-item--licensed col-2 clear'
-            onClick={sortAccounts('licensed')}
+            onClick={sortCurrencies('licensed')}
           >
             <span className='pull-left'>{'Licenced'}</span>
             <JIcon
@@ -56,7 +56,7 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
           </div>
           <div
             className='table__title-item table__title-item--transfer col-2-4 clear'
-            onClick={sortAccounts('transfer')}
+            onClick={sortCurrencies('transfer')}
           >
             <span className='pull-left'>{'Transfer'}</span>
             <JIcon
@@ -68,31 +68,31 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
         </div>
       </div>
       <div className='scroll'>
-        {foundItems.map((account, index) => {
-          const { symbol, name, balanceFixed, licensed, transfer, isActive } = account
+        {foundItems.map((currency, index) => {
+          const { symbol, name, balanceFixed, licensed, transfer, isActive } = currency
 
           return (
             <div
-              className='accounts-table__item table__item'
+              className='currencies-table__item table__item'
               key={index}
-              onClick={toggleAccount(index)(!isActive)}
+              onClick={toggleActiveCurrency(index)(!isActive)}
             >
               <div className='row clear'>
-                <div className='accounts-table__field col-2-4'>
+                <div className='currencies-table__field col-2-4'>
                   <JCheckbox
-                    toggle={toggleAccount(index)}
+                    toggle={toggleActiveCurrency(index)}
                     isActive={isActive}
                     label={symbol}
                   />
                 </div>
-                <div className='accounts-table__field col-3'>{name}</div>
-                <div className='accounts-table__field accounts-table__field--balance col-2'>
+                <div className='currencies-table__field col-3'>{name}</div>
+                <div className='currencies-table__field currencies-table__field--balance col-2'>
                   {balanceFixed}
                 </div>
-                <div className='accounts-table__field accounts-table__field--licensed col-2'>
+                <div className='currencies-table__field currencies-table__field--licensed col-2'>
                   {licensed}
                 </div>
-                <div className='accounts-table__field accounts-table__field--transfer col-2-4'>
+                <div className='currencies-table__field currencies-table__field--transfer col-2-4'>
                   {transfer}
                 </div>
               </div>
@@ -104,10 +104,10 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   )
 }
 
-AccountsTableBody.propTypes = {
-  sortAccounts: PropTypes.func.isRequired,
-  toggleAccount: PropTypes.func.isRequired,
-  accounts: PropTypes.shape({
+CurrenciesTableBody.propTypes = {
+  sortCurrencies: PropTypes.func.isRequired,
+  toggleActiveCurrency: PropTypes.func.isRequired,
+  currencies: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -124,4 +124,4 @@ AccountsTableBody.propTypes = {
   }).isRequired,
 }
 
-export default AccountsTableBody
+export default CurrenciesTableBody

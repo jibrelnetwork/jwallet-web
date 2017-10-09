@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { JHeader, JIcon } from 'components/base'
+import { JHeader } from 'components/base'
 
-import { KeysManager, NetworksManager } from 'components'
+import { KeysManager, NetworksManager, CurrenciesManager } from 'components'
 
 import HeaderMenu from './HeaderMenu'
 
@@ -12,16 +12,12 @@ function JWalletHeader(props) {
     openSendFundsModal,
     openReceiveFundsModal,
     openConvertFundsModal,
-    setActiveKey,
-    openNewKeysModal,
-    openImportKeysModal,
-    openBackupKeysModal,
-    clearKeys,
+    openKeystoreModal,
     setActiveNetwork,
     saveCustomNetwork,
     removeCustomNetwork,
-    openAccountManager,
-    keys,
+    openCurrenciesModal,
+    accountName,
     networks,
   } = props
 
@@ -40,18 +36,13 @@ function JWalletHeader(props) {
           networks={networks}
         />
         <KeysManager
-          setActiveKey={setActiveKey}
-          addNewKeys={openNewKeysModal}
-          importKeys={openImportKeysModal}
-          backupKeys={openBackupKeysModal}
-          clearKeys={clearKeys}
-          keys={keys}
+          openKeystoreModal={openKeystoreModal}
+          accountName={accountName}
         />
-        <JIcon
-          name='accounts-header'
-          className='header__accounts-manager pull-right'
-          title='Manage accounts'
-          onClick={openAccountManager}
+        <CurrenciesManager
+          iconName='currencies-header'
+          className='header__currencies-manager pull-right'
+          onClick={openCurrenciesModal}
         />
       </div>
     </JHeader>
@@ -59,26 +50,14 @@ function JWalletHeader(props) {
 }
 
 JWalletHeader.propTypes = {
-  openAccountManager: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
-  setActiveKey: PropTypes.func.isRequired,
-  openNewKeysModal: PropTypes.func.isRequired,
-  openImportKeysModal: PropTypes.func.isRequired,
-  openBackupKeysModal: PropTypes.func.isRequired,
-  clearKeys: PropTypes.func.isRequired,
+  openKeystoreModal: PropTypes.func.isRequired,
   setActiveNetwork: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
-  keys: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      privateKey: PropTypes.string.isRequired,
-      code: PropTypes.string.isRequired,
-      balance: PropTypes.number.isRequired,
-    })).isRequired,
-    currentActiveIndex: PropTypes.number.isRequired,
-  }).isRequired,
+  openCurrenciesModal: PropTypes.func.isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -88,6 +67,7 @@ JWalletHeader.propTypes = {
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
+  accountName: PropTypes.string.isRequired,
 }
 
 export default JWalletHeader

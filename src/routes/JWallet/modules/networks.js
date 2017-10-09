@@ -1,18 +1,18 @@
-export const GET_NETWORKS_FROM_CACHE = 'GET_NETWORKS_FROM_CACHE'
-export const SET_NETWORKS = 'SET_NETWORKS'
-export const SET_ACTIVE_NETWORK = 'SET_ACTIVE_NETWORK'
-export const SAVE_CUSTOM_NETWORK = 'SAVE_CUSTOM_NETWORK'
-export const REMOVE_CUSTOM_NETWORK = 'REMOVE_CUSTOM_NETWORK'
+export const NETWORKS_GET_FROM_STORAGE = 'NETWORKS_GET_FROM_STORAGE'
+export const NETWORKS_SET = 'NETWORKS_SET'
+export const NETWORKS_SET_ACTIVE = 'NETWORKS_SET_ACTIVE'
+export const NETWORKS_SAVE_CUSTOM_NETWORK = 'NETWORKS_SAVE_CUSTOM_NETWORK'
+export const NETWORKS_REMOVE_CUSTOM_NETWORK = 'NETWORKS_REMOVE_CUSTOM_NETWORK'
 
-export function getNetworksFromCache() {
+export function getNetworksFromStorage() {
   return {
-    type: GET_NETWORKS_FROM_CACHE,
+    type: NETWORKS_GET_FROM_STORAGE,
   }
 }
 
 export function setNetworks(items, currentActiveIndex) {
   return {
-    type: SET_NETWORKS,
+    type: NETWORKS_SET,
     items,
     currentActiveIndex,
   }
@@ -20,38 +20,38 @@ export function setNetworks(items, currentActiveIndex) {
 
 export function setActiveNetwork(currentActiveIndex) {
   return {
-    type: SET_ACTIVE_NETWORK,
+    type: NETWORKS_SET_ACTIVE,
     currentActiveIndex,
   }
 }
 
 export function saveCustomNetwork(customNetworkRpc) {
   return {
-    type: SAVE_CUSTOM_NETWORK,
+    type: NETWORKS_SAVE_CUSTOM_NETWORK,
     customNetworkRpc,
   }
 }
 
 export function removeCustomNetwork(networkIndex) {
   return {
-    type: REMOVE_CUSTOM_NETWORK,
+    type: NETWORKS_REMOVE_CUSTOM_NETWORK,
     networkIndex,
   }
 }
 
 const ACTION_HANDLERS = {
-  [GET_NETWORKS_FROM_CACHE]: state => ({
+  [NETWORKS_GET_FROM_STORAGE]: state => ({
     ...state,
     items: [],
     currentActiveIndex: -1,
     isLoading: true,
   }),
-  [SET_NETWORKS]: (state, action) => ({
+  [NETWORKS_SET]: (state, action) => ({
     ...state,
     items: action.items,
     isLoading: false,
   }),
-  [SET_ACTIVE_NETWORK]: (state, action) => ({
+  [NETWORKS_SET_ACTIVE]: (state, action) => ({
     ...state,
     currentActiveIndex: action.currentActiveIndex,
   }),

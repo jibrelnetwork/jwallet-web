@@ -1,29 +1,29 @@
 import { connect } from 'react-redux'
 
 import {
-  closeAddCustomTokenModal,
+  closeCustomTokenModal,
   setCustomTokenAddress,
   setCustomTokenName,
   setCustomTokenSymbol,
   setCustomTokenDecimals,
   addCustomToken,
-  openAccountManager,
-} from 'routes/JWallet/modules/accounts'
+  openCurrenciesModal,
+} from 'routes/JWallet/modules/currencies'
 
-import AddCustomTokenModal from './AddCustomTokenModal'
+import CustomTokenModal from './CustomTokenModal'
 
 const mapStateToProps = state => ({
-  accounts: state.accounts,
+  currencies: state.currencies,
 })
 
 const mapDispatchToProps = {
-  closeAddCustomTokenModal,
+  closeCustomTokenModal,
   setCustomTokenAddress,
   setCustomTokenName,
   setCustomTokenSymbol,
   setCustomTokenDecimals,
   addCustomToken,
-  openAccountManager,
+  openCurrenciesModal,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCustomTokenModal)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomTokenModal)

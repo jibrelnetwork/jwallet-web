@@ -6,9 +6,9 @@ import config from 'config'
 
 import getWindowWidth from 'utils/getWindowWidth'
 
-import AccountItem from 'components/AccountItem'
+import CurrencyItem from 'components/CurrencyItem'
 
-const { mobileWidth, accountsLoadingCount } = config
+const { mobileWidth, currenciesLoadingCount } = config
 
 function getSliderOptions(isMobileSlider, afterChange) {
   const basicSliderOptions = {
@@ -43,7 +43,7 @@ function getSliderOptions(isMobileSlider, afterChange) {
   return { ...basicSliderOptions, ...mobileSliderOptions }
 }
 
-class YourAccountsBody extends Component {
+class CurrenciesBody extends Component {
   constructor(props) {
     super(props)
     this.state = { isMobileSlider: (getWindowWidth() <= mobileWidth) }
@@ -76,76 +76,76 @@ class YourAccountsBody extends Component {
 
   render() {
     const isMobileSlider = this.state.isMobileSlider
-    const accounts = this.getAccounts(isMobileSlider)
+    const currencies = this.getCurrencies(isMobileSlider)
     const sliderOptions = getSliderOptions(isMobileSlider, this.afterChange)
 
     return (
-      <div className='your-accounts-body'>
-        {isMobileSlider ? <Slider {...sliderOptions} >{accounts}</Slider> : accounts}
+      <div className='currencies-body'>
+        {isMobileSlider ? <Slider {...sliderOptions} >{currencies}</Slider> : currencies}
       </div>
     )
   }
 
-  getAccounts = (isMobileSlider) => {
-    const { setCurrentAccount, accounts } = this.props
-    const { items, currentActiveIndex, isLoading } = accounts
+  getCurrencies = (isMobileSlider) => {
+    const { setCurrentCurrency, currencies } = this.props
+    const { items, currentActiveIndex, isLoading } = currencies
 
     if (isLoading) {
-      return this.getLoadingAccounts(isMobileSlider)
+      return this.getLoadingCurrencies(isMobileSlider)
     }
 
-    return items.map((accountProps, i) => {
-      if (!accountProps.isActive) {
+    return items.map((currencyProps, i) => {
+      if (!currencyProps.isActive) {
         return null
       }
 
-      const accountItem = (
-        <AccountItem
+      const currencyItem = (
+        <CurrencyItem
           key={i}
           isCurrent={i === currentActiveIndex}
-          setCurrentAccount={setCurrentAccount(i)}
-          {...accountProps}
+          setCurrentCurrency={setCurrentCurrency(i)}
+          {...currencyProps}
         />
       )
 
       // div wrapper is needed for slick on tablet/mobile
-      return isMobileSlider ? <div key={i}>{accountItem}</div> : accountItem
+      return isMobileSlider ? <div key={i}>{currencyItem}</div> : currencyItem
     })
   }
 
-  getLoadingAccounts = (isMobileSlider) => {
-    const accountsLoading = []
+  getLoadingCurrencies = (isMobileSlider) => {
+    const currenciesLoading = []
 
-    for (let i = 0; i < accountsLoadingCount; i += 1) {
-      const accountItem = (
-        <div className={`account-item ${!i ? 'account-item--active' : ''}`} key={i}>
-          <div className='account-item__symbol loading loading--account-symbol' />
-          <div className='account-item__name loading loading--account-name' />
-          <div className='account-item__balance loading loading--account-balance' />
+    for (let i = 0; i < currenciesLoadingCount; i += 1) {
+      const currencyItem = (
+        <div className={`currency-item ${!i ? 'currency-item--active' : ''}`} key={i}>
+          <div className='currency-item__symbol loading loading--currency-symbol' />
+          <div className='currency-item__name loading loading--currency-name' />
+          <div className='currency-item__balance loading loading--currency-balance' />
         </div>
       )
 
       // div wrapper is needed for slick on tablet/mobile
-      accountsLoading.push(isMobileSlider ? <div key={i}>{accountItem}</div> : accountItem)
+      currenciesLoading.push(isMobileSlider ? <div key={i}>{currencyItem}</div> : currencyItem)
     }
 
-    return accountsLoading
+    return currenciesLoading
   }
 
   afterChange = (index) => {
-    const { items, isLoading } = this.props.accounts
+    const { items, isLoading } = this.props.currencies
 
     if (isLoading) {
       return null
     }
 
-    const nextAccount = items[index]
+    const nextCurrency = items[index]
 
-    if (!nextAccount) {
+    if (!nextCurrency) {
       return null
     }
 
-    const { isAuthRequired, isActive } = nextAccount
+    const { isAuthRequired, isActive } = nextCurrency
 
     if (!isActive) {
       return this.afterChange(index + 1)
@@ -155,13 +155,13 @@ class YourAccountsBody extends Component {
       return null
     }
 
-    return this.props.setCurrentAccount(index)()
+    return this.props.setCurrentCurrency(index)()
   }
 }
 
-YourAccountsBody.propTypes = {
-  setCurrentAccount: PropTypes.func.isRequired,
-  accounts: PropTypes.shape({
+CurrenciesBody.propTypes = {
+  setCurrentCurrency: PropTypes.func.isRequired,
+  currencies: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -175,4 +175,4 @@ YourAccountsBody.propTypes = {
   }).isRequired,
 }
 
-export default YourAccountsBody
+export default CurrenciesBody

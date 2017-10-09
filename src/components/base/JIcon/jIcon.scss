@@ -28,12 +28,12 @@
   background-image: $iconConvert;
 }
 
-.icon--accounts {
-  background-image: $iconAccounts;
+.icon--currencies {
+  background-image: $iconCurrencies;
 }
 
-.icon--accounts-header {
-  background-image: $iconAccountsHeader;
+.icon--currencies-header {
+  background-image: $iconCurrenciesHeader;
 }
 
 .icon--keys {
@@ -142,47 +142,47 @@
   background-image: $iconSmallConvert;
 }
 
-.icon--account-eth,
-.icon--account-jusd,
-.icon--account-jeur,
-.icon--account-jgbp,
-.icon--account-jaed,
-.icon--account-jrub,
-.icon--account-jcny,
-.icon--account-jnt {
+.icon--currency-eth,
+.icon--currency-jusd,
+.icon--currency-jeur,
+.icon--currency-jgbp,
+.icon--currency-jaed,
+.icon--currency-jrub,
+.icon--currency-jcny,
+.icon--currency-jnt {
   background-size: cover;
 }
 
-.icon--account-eth {
-  background-image: $iconAccountETH;
+.icon--currency-eth {
+  background-image: $iconCurrencyETH;
 }
 
-.icon--account-jusd {
-  background-image: $iconAccountJUSD;
+.icon--currency-jusd {
+  background-image: $iconCurrencyJUSD;
 }
 
-.icon--account-jeur {
-  background-image: $iconAccountJEUR;
+.icon--currency-jeur {
+  background-image: $iconCurrencyJEUR;
 }
 
-.icon--account-jgbp {
-  background-image: $iconAccountJGBP;
+.icon--currency-jgbp {
+  background-image: $iconCurrencyJGBP;
 }
 
-.icon--account-jaed {
-  background-image: $iconAccountJAED;
+.icon--currency-jaed {
+  background-image: $iconCurrencyJAED;
 }
 
-.icon--account-jrub {
-  background-image: $iconAccountJRUB;
+.icon--currency-jrub {
+  background-image: $iconCurrencyJRUB;
 }
 
-.icon--account-jcny {
-  background-image: $iconAccountJCNY;
+.icon--currency-jcny {
+  background-image: $iconCurrencyJCNY;
 }
 
-.icon--account-jnt {
-  background-image: $iconAccountJNT;
+.icon--currency-jnt {
+  background-image: $iconCurrencyJNT;
 }
 
 @media only screen and (max-width: 1024px) {
