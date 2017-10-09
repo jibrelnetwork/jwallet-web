@@ -25,13 +25,13 @@ class TransactionsTable extends Component {
 
   render() {
     const {
-      setCurrentAccount,
+      setCurrentCurrency,
       searchTransactions,
       setStartFilterTime,
       setEndFilterTime,
-      accountItems,
+      currenciesItems,
       transactions,
-      currentAccountSymbol,
+      currentCurrencySymbol,
     } = this.props
 
     const { emptyTableImageSrc, active } = this.state
@@ -55,19 +55,19 @@ class TransactionsTable extends Component {
           receiveFunds={this.receiveFunds}
           convertFunds={this.convertFunds}
           filterTransactions={this.filterTransactions}
-          removeAccount={this.removeAccount}
+          removeCurrency={this.removeCurrency}
           setStartFilterTime={setStartFilterTime}
           setEndFilterTime={setEndFilterTime}
           filterData={filterData}
           searchQuery={searchQuery}
         />
         <TransactionsTableBody
-          setCurrentAccount={setCurrentAccount}
+          setCurrentCurrency={setCurrentCurrency}
           sortTransactions={this.sortTransactions}
           toggleActive={this.toggleActive}
-          accountItems={accountItems}
+          currenciesItems={currenciesItems}
           transactions={transactions}
-          currentAccountSymbol={currentAccountSymbol}
+          currentCurrencySymbol={currentCurrencySymbol}
           emptyTableImageSrc={emptyTableImageSrc}
           activeTransactionIndex={active}
         />
@@ -82,18 +82,18 @@ class TransactionsTable extends Component {
           className='transactions-table-empty'
           style={{ backgroundImage: `url(${this.state.emptyTableImageSrc})` }}
         >
-          {this.getEmptyTableMessage(this.props.currentAccountSymbol)}
+          {this.getEmptyTableMessage(this.props.currentCurrencySymbol)}
         </div>
       </div>
     )
   }
 
-  getEmptyTableMessage = (currentAccountSymbol) => {
-    const message = currentAccountSymbol.length
-      ? `Look like there isn't any ${currentAccountSymbol} in your account yet`
-      : 'Look like there isn\'t any active account'
+  getEmptyTableMessage = (currentCurrencySymbol) => {
+    const message = currentCurrencySymbol.length
+      ? `Look like there isn't any ${currentCurrencySymbol} in your account yet`
+      : 'Look like there isn\'t any active currency'
 
-    if (currentAccountSymbol === 'ETH') {
+    if (currentCurrencySymbol === 'ETH') {
       return (
         <div className='transactions-table__title'>
           {'At the moment we can not load your ETH transactions'}
@@ -113,17 +113,17 @@ class TransactionsTable extends Component {
   }
 
   sortTransactions = field => (/* event */) => this.props.sortTransactions(field)
-  sendFunds = (/* event */) => this.props.openSendFundsModal(this.props.currentAccountIndex)
-  receiveFunds = (/* event */) => this.props.openReceiveFundsModal(this.props.currentAccountIndex)
-  convertFunds = (/* event */) => this.props.openConvertFundsModal(this.props.currentAccountIndex)
+  sendFunds = (/* event */) => this.props.openSendFundsModal(this.props.currentCurrencyIndex)
+  receiveFunds = (/* event */) => this.props.openReceiveFundsModal(this.props.currentCurrencyIndex)
+  convertFunds = (/* event */) => this.props.openConvertFundsModal(this.props.currentCurrencyIndex)
   filterTransactions = isFilterOpen => (/* event */) => this.props.filterTransactions(isFilterOpen)
-  removeAccount = (/* event */) => this.props.toggleAccount(this.props.currentAccountIndex)
+  removeCurrency = (/* event */) => this.props.toggleActiveCurrency(this.props.currentCurrencyIndex)
   toggleActive = i => (/* event */) => this.setState({ active: (this.state.active === i) ? -1 : i })
 }
 
 TransactionsTable.propTypes = {
-  toggleAccount: PropTypes.func.isRequired,
-  setCurrentAccount: PropTypes.func.isRequired,
+  toggleActiveCurrency: PropTypes.func.isRequired,
+  setCurrentCurrency: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
@@ -133,7 +133,7 @@ TransactionsTable.propTypes = {
   setStartFilterTime: PropTypes.func.isRequired,
   setEndFilterTime: PropTypes.func.isRequired,
   filterTransactions: PropTypes.func.isRequired,
-  accountItems: PropTypes.arrayOf(PropTypes.shape({
+  currenciesItems: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
     isAuthRequired: PropTypes.bool.isRequired,
@@ -163,8 +163,8 @@ TransactionsTable.propTypes = {
     searchQuery: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
-  currentAccountSymbol: PropTypes.string.isRequired,
-  currentAccountIndex: PropTypes.number.isRequired,
+  currentCurrencySymbol: PropTypes.string.isRequired,
+  currentCurrencyIndex: PropTypes.number.isRequired,
 }
 
 export default TransactionsTable

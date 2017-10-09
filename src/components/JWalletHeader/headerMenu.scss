@@ -48,7 +48,8 @@
   left: 0;
 }
 
-.header__accounts-manager {
+.header__currencies-manager {
   display: none;
   height: $header-height;
+  cursor: pointer;
 }

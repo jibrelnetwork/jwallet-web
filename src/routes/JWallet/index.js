@@ -6,13 +6,13 @@ export default store => ({
     require.ensure([], (require) => {
       const JWallet = require('./containers/JWalletContainer').default
 
-      const accounts = require('./modules/accounts').default
+      const currencies = require('./modules/currencies').default
       const funds = require('./modules/funds').default
       const keystore = require('./modules/keystore').default
       const networks = require('./modules/networks').default
       const transactions = require('./modules/transactions').default
 
-      injectReducer(store, { key: 'accounts', reducer: accounts })
+      injectReducer(store, { key: 'currencies', reducer: currencies })
       injectReducer(store, { key: 'funds', reducer: funds })
       injectReducer(store, { key: 'keystore', reducer: keystore })
       injectReducer(store, { key: 'networks', reducer: networks })

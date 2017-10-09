@@ -2,11 +2,11 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
 import {
-  GET_NETWORKS_FROM_CACHE,
-  SET_NETWORKS,
-  SET_ACTIVE_NETWORK,
-  SAVE_CUSTOM_NETWORK,
-  REMOVE_CUSTOM_NETWORK,
+  NETWORKS_GET_FROM_STORAGE,
+  NETWORKS_SET,
+  NETWORKS_SET_ACTIVE,
+  NETWORKS_SAVE_CUSTOM_NETWORK,
+  NETWORKS_REMOVE_CUSTOM_NETWORK,
 } from '../modules/networks'
 
 const networksStub = [
@@ -27,8 +27,8 @@ function* getNetworksFromCache() {
   const items = networksStub
   const currentActiveIndex = 0
 
-  yield put({ type: SET_ACTIVE_NETWORK, currentActiveIndex })
-  yield put({ type: SET_NETWORKS, items })
+  yield put({ type: NETWORKS_SET_ACTIVE, currentActiveIndex })
+  yield put({ type: NETWORKS_SET, items })
 }
 
 function* saveCustomNetwork(action) {
@@ -39,8 +39,8 @@ function* saveCustomNetwork(action) {
   newItems.push({ title: customNetworkRpc, rpcAddr: customNetworkRpc, isCustom: true })
   const currentActiveIndex = newItems.length - 1
 
-  yield put({ type: SET_ACTIVE_NETWORK, currentActiveIndex })
-  yield put({ type: SET_NETWORKS, items: newItems })
+  yield put({ type: NETWORKS_SET_ACTIVE, currentActiveIndex })
+  yield put({ type: NETWORKS_SET, items: newItems })
 }
 
 function* removeCustomNetwork(action) {
@@ -59,18 +59,18 @@ function* removeCustomNetwork(action) {
 
   newItems.splice(networkIndex, 1)
 
-  yield put({ type: SET_ACTIVE_NETWORK, currentActiveIndex: newCurrentActiveIndex })
-  yield put({ type: SET_NETWORKS, items: newItems })
+  yield put({ type: NETWORKS_SET_ACTIVE, currentActiveIndex: newCurrentActiveIndex })
+  yield put({ type: NETWORKS_SET, items: newItems })
 }
 
 export function* watchGetActiveNetwork() {
-  yield takeEvery(GET_NETWORKS_FROM_CACHE, getNetworksFromCache)
+  yield takeEvery(NETWORKS_GET_FROM_STORAGE, getNetworksFromCache)
 }
 
 export function* watchSaveCustomNetwork() {
-  yield takeEvery(SAVE_CUSTOM_NETWORK, saveCustomNetwork)
+  yield takeEvery(NETWORKS_SAVE_CUSTOM_NETWORK, saveCustomNetwork)
 }
 
 export function* watchRemoveCustomNetwork() {
-  yield takeEvery(REMOVE_CUSTOM_NETWORK, removeCustomNetwork)
+  yield takeEvery(NETWORKS_REMOVE_CUSTOM_NETWORK, removeCustomNetwork)
 }

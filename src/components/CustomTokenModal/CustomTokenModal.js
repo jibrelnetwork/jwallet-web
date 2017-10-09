@@ -5,21 +5,21 @@ import { getFieldMessage, handleEnterKeyPress } from 'utils'
 
 import { JModal, JModalButton, JTextInput } from 'components/base'
 
-class AddCustomTokenModal extends Component {
+class CustomTokenModal extends Component {
   render() {
-    const { addCustomToken, accounts } = this.props
-    const { alert } = accounts.customTokenData
+    const { addCustomToken, currencies } = this.props
+    const { alert } = currencies.customTokenData
 
     return (
       <JModal
-        closeModal={this.closeAddCustomTokenModal}
+        closeModal={this.closeCustomTokenModal}
         submitModal={handleEnterKeyPress(addCustomToken)}
         name='add-custom-token'
         alert={alert}
         header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
-        isOpen={accounts.isAddCustomTokenModalOpen}
+        isOpen={currencies.isCustomTokenModalOpen}
       />
     )
   }
@@ -38,7 +38,7 @@ class AddCustomTokenModal extends Component {
       setCustomTokenName,
       setCustomTokenSymbol,
       setCustomTokenDecimals,
-      accounts,
+      currencies,
     } = this.props
 
     const customTokenFieldsMap = {
@@ -60,7 +60,7 @@ class AddCustomTokenModal extends Component {
               onValueChange={handler}
               name={`custom-token-${field}`}
               placeholder={placeholder}
-              value={accounts.customTokenData[field]}
+              value={currencies.customTokenData[field]}
               errorMessage={this.getInvalidFieldMessage(field)}
               successMessage={this.getValidFieldMessage(field)}
               editable={this.isEnabledField(field)}
@@ -72,40 +72,42 @@ class AddCustomTokenModal extends Component {
   }
 
   renderFooter = () => {
-    const { addCustomToken, accounts } = this.props
+    const { addCustomToken, currencies } = this.props
 
     return (
       <JModalButton
         onPress={addCustomToken}
         name={'add-custom-token'}
         title={'Save'}
-        disabled={(accounts.customTokenData.invalidFields.length > 0)}
+        disabled={(currencies.customTokenData.invalidFields.length > 0)}
       />
     )
   }
 
-  isEnabledField = name => (this.props.accounts.customTokenData.disabledFields.indexOf(name) === -1)
-  getValidFieldMessage = n => getFieldMessage(this.props.accounts.customTokenData.validFields, n)
+  isEnabledField = name => (this.props.currencies.customTokenData.disabledFields.indexOf(name) === -1)
+  getValidFieldMessage = n => getFieldMessage(this.props.currencies.customTokenData.validFields, n)
 
   getInvalidFieldMessage = (name) => {
-    return getFieldMessage(this.props.accounts.customTokenData.invalidFields, name)
+    return getFieldMessage(this.props.currencies.customTokenData.invalidFields, name)
   }
 
-  closeAddCustomTokenModal = (/* event */) => {
-    this.props.openAccountManager()
-    this.props.closeAddCustomTokenModal()
+  closeCustomTokenModal = (/* event */) => {
+    const { openCurrenciesModal, closeCustomTokenModal } = this.props
+
+    openCurrenciesModal()
+    closeCustomTokenModal()
   }
 }
 
-AddCustomTokenModal.propTypes = {
-  closeAddCustomTokenModal: PropTypes.func.isRequired,
+CustomTokenModal.propTypes = {
+  closeCustomTokenModal: PropTypes.func.isRequired,
   setCustomTokenAddress: PropTypes.func.isRequired,
   setCustomTokenName: PropTypes.func.isRequired,
   setCustomTokenSymbol: PropTypes.func.isRequired,
   setCustomTokenDecimals: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
-  openAccountManager: PropTypes.func.isRequired,
-  accounts: PropTypes.shape({
+  openCurrenciesModal: PropTypes.func.isRequired,
+  currencies: PropTypes.shape({
     customTokenData: PropTypes.shape({
       validFields: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -122,8 +124,8 @@ AddCustomTokenModal.propTypes = {
       symbol: PropTypes.string.isRequired,
       decimals: PropTypes.string.isRequired,
     }).isRequired,
-    isAddCustomTokenModalOpen: PropTypes.bool.isRequired,
+    isCustomTokenModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
 }
 
-export default AddCustomTokenModal
+export default CustomTokenModal

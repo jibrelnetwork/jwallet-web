@@ -14,7 +14,7 @@
   body {
     .container-wrap--jwallet {
       .header,
-      .your-accounts {
+      .currencies {
         background: $black-background;
       }
     }
@@ -61,7 +61,7 @@
       color: $white;
     }
 
-    .header__accounts-manager {
+    .header__currencies-manager {
       display: block;
     }
 
@@ -71,8 +71,8 @@
       padding-right: 0;
     }
 
-    .keys-manager-title__head,
-    .key--title,
+    .keys-manager__title,
+    .keys-manager__account,
     .networks-manager-title__head {
       display: none;
     }
@@ -98,7 +98,7 @@
       border-radius: 0px;
     }
 
-    .your-accounts {
+    .currencies {
       float: none;
       display: block;
       width: 100%;
@@ -107,15 +107,15 @@
       border-radius: 0px;
     }
 
-    .your-accounts-body {
+    .currencies-body {
       min-height: auto;
     }
 
-    .your-accounts-header {
+    .currencies-header {
       display: none;
     }
 
-    .account-item {
+    .currency-item {
       margin: 0 10px;
       background-color: rgba(255,255,255,0.05);
       border-radius: 5px;
@@ -127,30 +127,30 @@
       }
     }
 
-    .account-item__image {
+    .currency-item__image {
       border-radius: 5px;
       opacity: 0.05;
     }
 
-    .account-item__licensed {
+    .currency-item__licensed {
       top: 38px;
       margin-top: 0;
     }
 
-    .account-item__symbol {
+    .currency-item__symbol {
       position: relative;
       top: 0;
       left: 0;
       margin-top: 0;
-      margin-bottom: $tablet-account-item-symbol-margin-bottom;
+      margin-bottom: $tablet-currency-item-symbol-margin-bottom;
     }
 
-    .account-item__name,
-    .account-item__balance {
+    .currency-item__name,
+    .currency-item__balance {
       margin-left: 0;
     }
 
-    .account-item__balance {
+    .currency-item__balance {
       color: $white;
       opacity: 0.5;
     }
@@ -200,11 +200,11 @@
 
 @media only screen and (max-width: 700px) {
   body {
-    .modal--account-manager {
+    .modal--currencies-modal {
       min-width: auto;
 
       .table__title-item,
-      .accounts-table__field {
+      .currencies-table__field {
         width: 50%;
 
         &--balance,
@@ -253,16 +253,16 @@
       position: static;
     }
 
-    .your-accounts {
+    .currencies {
       padding: 0;
     }
 
-    .your-accounts-body {
+    .currencies-body {
       padding: 0;
-      padding-bottom: $mobile-your-accounts-padding-bottom;
+      padding-bottom: $mobile-currencies-padding-bottom;
     }
 
-    .account-item {
+    .currency-item {
       margin: 0 5px;
     }
 

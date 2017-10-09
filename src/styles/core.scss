@@ -120,11 +120,12 @@
   @import '../components/base/JPopover/jPopover';
   @import '../components/base/JTextInput/jTextInput';
 
-  @import '../components/AccountItem/accountItem';
-  @import '../components/AccountManager/accountManager';
-  @import '../components/AccountsTable/accountsTable';
+  @import '../components/CurrenciesTable/currenciesTable';
   @import '../components/AuthHeader/authHeader';
   @import '../components/CopyableField/copyableField';
+  @import '../components/Currencies/currencies';
+  @import '../components/CurrenciesModal/currenciesModal';
+  @import '../components/CurrencyItem/currencyItem';
   @import '../components/DatePicker/datePicker';
   @import '../components/Expandable/expandable';
   @import '../components/JWalletHeader/headerMenu';
@@ -136,7 +137,6 @@
   @import '../components/Transaction/transaction';
   @import '../components/TransactionManager/transactionManager';
   @import '../components/TransactionsTable/transactionsTable';
-  @import '../components/YourAccounts/yourAccounts';
 
   @import '../routes/Auth/styles/auth';
   @import '../routes/JWallet/styles/jWallet';

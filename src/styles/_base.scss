@@ -18,45 +18,53 @@ $footer-full-height: 40px;
 
 $header-and-footer-height: $header-full-height + $footer-full-height;
 
-$your-accounts-padding-top: 30px;
-$tablet-your-accounts-padding-bottom: 30px;
-$mobile-your-accounts-padding-bottom: 90px;
-$your-accounts-header-height: 24px;
-$your-accounts-header-margin-bottom: 30px;
-$your-accounts-header-h-margin: 30px;
-$your-accounts-border-width: 1px;
+$currencies-padding-top: 30px;
+$tablet-currencies-padding-bottom: 30px;
+$mobile-currencies-padding-bottom: 90px;
+$currencies-header-height: 24px;
+$currencies-header-margin-bottom: 30px;
+$currencies-header-h-margin: 30px;
+$currencies-border-width: 1px;
 
-$your-accounts-before-height: $header-and-footer-height;
-$your-accounts-full-header-height: $your-accounts-padding-top + $your-accounts-header-height + $your-accounts-header-margin-bottom;
-$your-accounts-before-body-height: $your-accounts-before-height + $your-accounts-full-header-height + (2 * $your-accounts-border-width);
-
-$account-item-v-padding: 25px;
-$account-item-h-padding: 30px;
-$account-item-symbol-size: 36px;
-$tablet-account-item-symbol-margin-bottom: 20px;
-$account-item-border-width: 1px;
-$account-item-name-font-size: 14px;
-$account-item-name-margin-bottom: 5px;
-$account-item-balance-font-size: 13px;
-
-$tablet-your-accounts-full-height: (
-  ($account-item-v-padding * 2) +
-  $tablet-your-accounts-padding-bottom +
-  $account-item-symbol-size +
-  $tablet-account-item-symbol-margin-bottom +
-  $account-item-name-font-size +
-  $account-item-name-margin-bottom +
-  $account-item-balance-font-size
+$currencies-before-height: $header-and-footer-height;
+$currencies-full-header-height: (
+  $currencies-padding-top +
+  $currencies-header-height +
+  $currencies-header-margin-bottom
+);
+$currencies-before-body-height: (
+  $currencies-before-height +
+  $currencies-full-header-height +
+  (2 * $currencies-border-width)
 );
 
-$mobile-your-accounts-full-height: (
-  $tablet-your-accounts-full-height -
-  $tablet-your-accounts-padding-bottom +
-  $mobile-your-accounts-padding-bottom
+$currency-item-v-padding: 25px;
+$currency-item-h-padding: 30px;
+$currency-item-symbol-size: 36px;
+$tablet-currency-item-symbol-margin-bottom: 20px;
+$currency-item-border-width: 1px;
+$currency-item-name-font-size: 14px;
+$currency-item-name-margin-bottom: 5px;
+$currency-item-balance-font-size: 13px;
+
+$tablet-currencies-full-height: (
+  ($currency-item-v-padding * 2) +
+  $tablet-currencies-padding-bottom +
+  $currency-item-symbol-size +
+  $tablet-currency-item-symbol-margin-bottom +
+  $currency-item-name-font-size +
+  $currency-item-name-margin-bottom +
+  $currency-item-balance-font-size
 );
 
-$tablet-transactions-table-before-height: $header-full-height + $tablet-your-accounts-full-height;
+$mobile-currencies-full-height: (
+  $tablet-currencies-full-height -
+  $tablet-currencies-padding-bottom +
+  $mobile-currencies-padding-bottom
+);
+
+$tablet-transactions-table-before-height: $header-full-height + $tablet-currencies-full-height;
 $mobile-transactions-table-before-height: (
   $mobile-header-full-height +
-  $mobile-your-accounts-full-height
+  $mobile-currencies-full-height
 );

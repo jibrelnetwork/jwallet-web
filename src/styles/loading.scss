@@ -12,23 +12,23 @@
   opacity: 0.2 !important;
 }
 
-.loading--accounts-title {
-  height: $your-accounts-header-height;
+.loading--currencies-title {
+  height: $currencies-header-height;
   width: 100px;
 }
 
-.loading--accounts-icon,
-.loading--account-symbol {
+.loading--currencies-icon,
+.loading--currency-symbol {
   border-radius: 50%;
 }
 
-.loading--account-name {
-  height: $account-item-name-font-size;
+.loading--currency-name {
+  height: $currency-item-name-font-size;
   width: 150px;
 }
 
-.loading--account-balance {
-  height: $account-item-balance-font-size;
+.loading--currency-balance {
+  height: $currency-item-balance-font-size;
   width: 80px;
 }
 

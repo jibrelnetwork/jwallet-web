@@ -1,12 +1,12 @@
 import React from 'react'
 
-import YourAccounts from 'components/YourAccounts'
+import Currencies from 'components/Currencies'
 import TransactionsTable from 'components/TransactionsTable'
 
 function JWallet() {
   return (
     <div className='jwallet'>
-      <YourAccounts />
+      <Currencies />
       <TransactionsTable />
     </div>
   )
