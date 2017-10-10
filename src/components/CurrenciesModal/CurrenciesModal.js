@@ -12,19 +12,19 @@ class CurrenciesModal extends Component {
       <JModal
         closeModal={closeCurrenciesModal}
         name='currencies-modal'
-        header={this.renderCurrencyManagerHeader()}
-        body={this.renderCurrencyManagerBody()}
-        footer={this.renderCurrencyManagerFooter()}
+        header={this.renderHeader()}
+        body={this.renderBody()}
+        footer={this.renderFooter()}
         isOpen={currencies.isCurrenciesModalOpen}
       />
     )
   }
 
-  renderCurrencyManagerHeader = () => {
+  renderHeader = () => {
     return <div className='currencies-modal-header' />
   }
 
-  renderCurrencyManagerBody = () => {
+  renderBody = () => {
     const { searchCurrencies, currencies } = this.props
 
     return (
@@ -39,7 +39,7 @@ class CurrenciesModal extends Component {
     )
   }
 
-  renderCurrencyManagerFooter = () => {
+  renderFooter = () => {
     return (
       <div className='currencies-modal-footer' onClick={this.addCustomToken}>
         <JIcon name='small-add' className='currencies-modal-footer__icon' small />

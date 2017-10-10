@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 
 import {
+  openKeystoreModal,
   closeImportKeyModal,
   setImportKeyData,
   setImportKeyPassword,
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  openKeystoreModal,
   closeImportKeyModal,
   setImportKeyData,
   setImportKeyPassword,

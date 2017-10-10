@@ -21,13 +21,13 @@ class NewKeyModal extends Component {
   }
 
   render() {
-    const { closeNewKeyModal, createKeystoreAccount, keystore } = this.props
+    const { createKeystoreAccount, keystore } = this.props
     const { alert, currentStep, totalSteps } = keystore.newKeyData
     const submit = (currentStep === totalSteps) ? handleEnterKeyPress(createKeystoreAccount) : null
 
     return (
       <JModal
-        closeModal={closeNewKeyModal}
+        closeModal={this.closeNewKeyModal}
         submitModal={submit}
         name='new-key'
         alert={alert}
@@ -269,11 +269,22 @@ class NewKeyModal extends Component {
     }, config.modalShakeTimeout)
   }
 
+  closeNewKeyModal = (/* event */) => {
+    const { openKeystoreModal, closeNewKeyModal, keystore } = this.props
+
+    if (keystore.showKeystoreModalAfterClose) {
+      openKeystoreModal()
+    }
+
+    closeNewKeyModal()
+  }
+
   getValidFieldMessage = n => getFieldMessage(this.props.keystore.newKeyData.validFields, n)
   getInvalidFieldMessage = n => getFieldMessage(this.props.keystore.newKeyData.invalidFields, n)
 }
 
 NewKeyModal.propTypes = {
+  openKeystoreModal: PropTypes.func.isRequired,
   closeNewKeyModal: PropTypes.func.isRequired,
   setNewKeyMnemonic: PropTypes.func.isRequired,
   setNewKeyMnemonicConfirm: PropTypes.func.isRequired,
@@ -305,6 +316,7 @@ NewKeyModal.propTypes = {
     }).isRequired,
     isCreating: PropTypes.bool.isRequired,
     isNewKeyModalOpen: PropTypes.bool.isRequired,
+    showKeystoreModalAfterClose: PropTypes.bool.isRequired,
   }).isRequired,
 }
 

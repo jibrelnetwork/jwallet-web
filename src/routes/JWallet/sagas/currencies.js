@@ -71,7 +71,7 @@ function* getCurrencies() {
   yield put({ type: CURRENCIES_SET, items })
 }
 
-function* setCurrentAccount(action) {
+function* setCurrentCurrency(action) {
   yield put({ type: GET_TRANSACTIONS, currencyIndex: action.index })
 }
 
@@ -105,7 +105,7 @@ function getNextAvailableActiveIndex(items) {
   return -1
 }
 
-function* toggleAccount(action) {
+function* toggleCurrency(action) {
   const { items, isActiveAll } = yield select(getStateCurrencies)
   const { index } = action
 
@@ -180,12 +180,12 @@ export function* watchGetCurrencies() {
   yield takeEvery(CURRENCIES_GET_FROM_STORAGE, getCurrencies)
 }
 
-export function* watchToggleAccount() {
-  yield takeEvery(CURRENCIES_TOGGLE_ACTIVE, toggleAccount)
+export function* watchToggleCurrency() {
+  yield takeEvery(CURRENCIES_TOGGLE_ACTIVE, toggleCurrency)
 }
 
-export function* watchSetCurrentAccount() {
-  yield takeEvery(CURRENCIES_SET_CURRENT, setCurrentAccount)
+export function* watchSetCurrentCurrency() {
+  yield takeEvery(CURRENCIES_SET_CURRENT, setCurrentCurrency)
 }
 
 export function* watchSetActiveAll() {

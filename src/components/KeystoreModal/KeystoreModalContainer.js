@@ -1,9 +1,19 @@
 import { connect } from 'react-redux'
 
 import {
-  closeBackupKeystoreModal,
-  setBackupKeystorePassword,
-  backupKeystore,
+  setCurrentKeystoreAccount,
+  removeKeystoreAccount,
+  removeKeystoreAccounts,
+  setKeystoreAccountName,
+  setKeystoreAccountDerivationPath,
+  setKeystoreAccountAddress,
+  getKeystoreAddressesFromMnemonic,
+  setKeystorePassword,
+  sortAccounts,
+  closeKeystoreModal,
+  openNewKeyModal,
+  openImportKeyModal,
+  openBackupKeystoreModal,
 } from 'routes/JWallet/modules/keystore'
 
 import KeystoreModal from './KeystoreModal'
@@ -13,9 +23,19 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  closeBackupKeystoreModal,
-  setBackupKeystorePassword,
-  backupKeystore,
+  setCurrentKeystoreAccount,
+  removeKeystoreAccount,
+  removeKeystoreAccounts,
+  setKeystoreAccountName,
+  setKeystoreAccountDerivationPath,
+  setKeystoreAccountAddress,
+  getKeystoreAddressesFromMnemonic,
+  setKeystorePassword,
+  sortAccounts,
+  closeKeystoreModal,
+  openNewKeyModal,
+  openImportKeyModal,
+  openBackupKeystoreModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeystoreModal)
