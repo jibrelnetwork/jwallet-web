@@ -4,6 +4,8 @@ import Keystore from 'blockchain-wallet-keystore'
 import storage from 'local-storage-polyfill'
 import fileSaver from 'file-saver'
 
+import { sortItems } from 'utils'
+
 import {
   KEYSTORE_GET_FROM_STORAGE,
   KEYSTORE_SET_ACCOUNTS,
@@ -20,9 +22,15 @@ import {
   KEYSTORE_SET_PASSWORD,
   KEYSTORE_SAVE_MNEMONIC_TO_FILE,
   KEYSTORE_BACKUP,
+  KEYSTORE_SORT_ACCOUNTS,
+  KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
 } from '../modules/keystore'
 
 const keystore = new Keystore({ scryptParams: { N: 2 ** 14, r: 8, p: 1 } })
+
+function getStateKeystore(state) {
+  return state.keystore
+}
 
 function getStateCurrentAccountId(state) {
   return state.keystore.currentAccount.id
@@ -208,6 +216,24 @@ function getTimestamp() {
   return (new Date()).toString()
 }
 
+function* sortAccounts(action) {
+  const keystore = yield select(getStateKeystore)
+
+  const oldSortField = keystore.sortField
+  const sortField = action.sortField || oldSortField
+  const { accounts, sortDirection } = keystore
+
+  const result = sortItems(accounts, oldSortField, sortField, sortDirection)
+
+  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts: result.items })
+
+  yield put({
+    type: KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
+    sortField: result.sortField,
+    sortDirection: result.sortDirection,
+  })
+}
+
 export function* watchGetKeystoreFromStorage() {
   yield takeEvery(KEYSTORE_GET_FROM_STORAGE, getKeystoreFromStorage)
 }
@@ -254,4 +280,8 @@ export function* watchBackupKeystore() {
 
 export function* watchSaveMnemonicToFile() {
   yield takeEvery(KEYSTORE_SAVE_MNEMONIC_TO_FILE, saveMnemonicToFile)
+}
+
+export function* watchSortAccounts() {
+  yield takeEvery(KEYSTORE_SORT_ACCOUNTS, sortAccounts)
 }

@@ -7,11 +7,11 @@ import { JModal, JModalButton, JTextInput } from 'components/base'
 
 class ImportKeyModal extends Component {
   render() {
-    const { closeImportKeyModal, createKeystoreAccount, keystore } = this.props
+    const { createKeystoreAccount, keystore } = this.props
 
     return (
       <JModal
-        closeModal={closeImportKeyModal}
+        closeModal={this.closeImportKeyModal}
         submitModal={handleEnterKeyPress(createKeystoreAccount)}
         name='import-key'
         alert={keystore.importKeyData.alert}
@@ -102,12 +102,23 @@ class ImportKeyModal extends Component {
     )
   }
 
+  closeImportKeyModal = (/* event */) => {
+    const { openKeystoreModal, closeImportKeyModal, keystore } = this.props
+
+    if (keystore.showKeystoreModalAfterClose) {
+      openKeystoreModal()
+    }
+
+    closeImportKeyModal()
+  }
+
   isEnabledField = n => (this.props.keystore.importKeyData.disabledFields.indexOf(n) === -1)
   getValidFieldMessage = n => getFieldMessage(this.props.keystore.importKeyData.validFields, n)
   getInvalidFieldMessage = n => getFieldMessage(this.props.keystore.importKeyData.invalidFields, n)
 }
 
 ImportKeyModal.propTypes = {
+  openKeystoreModal: PropTypes.func.isRequired,
   closeImportKeyModal: PropTypes.func.isRequired,
   setImportKeyData: PropTypes.func.isRequired,
   setImportKeyPassword: PropTypes.func.isRequired,
@@ -130,6 +141,7 @@ ImportKeyModal.propTypes = {
       alert: PropTypes.string,
     }).isRequired,
     isImportKeyModalOpen: PropTypes.bool.isRequired,
+    showKeystoreModalAfterClose: PropTypes.bool.isRequired,
   }).isRequired,
 }
 

@@ -20,8 +20,8 @@ function TransactionMain(props) {
   const isToken = (currencyIndex !== -1)
 
   return (
-    <div className='row clear' onClick={toggleActive}>
-      <div className='transaction__item col-2-4'>
+    <div className='table-row row clear' onClick={toggleActive}>
+      <div className='table-body-item col col--2-4'>
         <JIcon
           name={`small-${(status === 'Rejected') ? 'convert' : type}`}
           className='transaction__type'
@@ -29,14 +29,14 @@ function TransactionMain(props) {
         />
         <span className='transaction__amount'>{`${amountFixed} ${symbol}`}</span>
       </div>
-      <div className='transaction__item col-2-4'>{date}</div>
+      <div className='table-body-item col col--2-4'>{date}</div>
       <div
-        className={`transaction__item ${isToken ? 'transaction__item--token' : ''} col-4-8`}
+        className={`table-body-item ${isToken ? 'transaction__token' : ''} col col--4-8`}
         onClick={isToken ? setCurrentCurrency(currencyIndex) : null}
       >
         {address}
       </div>
-      <div className='transaction__item col-2-4'>
+      <div className='table-body-item col col--2-4'>
         <span className={`transaction__status transaction__status--${status.toLowerCase()}`}>
           {status}
         </span>

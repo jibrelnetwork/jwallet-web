@@ -11,9 +11,10 @@ export const SET_START_FILTER_TIME = 'SET_START_FILTER_TIME'
 export const SET_END_FILTER_TIME = 'SET_END_FILTER_TIME'
 export const FILTER_TRANSACTIONS = 'FILTER_TRANSACTIONS'
 
-export function getTransactions() {
+export function getTransactions(currencyIndex) {
   return {
     type: GET_TRANSACTIONS,
+    currencyIndex,
   }
 }
 

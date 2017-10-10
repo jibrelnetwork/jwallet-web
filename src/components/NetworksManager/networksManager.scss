@@ -1,6 +1,6 @@
 .networks-manager {
   position: relative;
-  width: 200px;
+  width: 24px;
   height: $header-height;
   margin-left: 40px;
   font-weight: 600;
@@ -14,7 +14,6 @@
   position: relative;
   height: 100%;
   line-height: $header-height;
-  padding-right: 32px;
   opacity: 1;
   cursor: pointer;
   transition: opacity .3s ease;

@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JLoader from 'components/base/JLoader'
+import { JLoader, JTable } from 'components/base'
 
-import TransactionsTableHeader from './TransactionsTableHeader'
+import TransactionsTableFilters from './TransactionsTableFilters'
 import TransactionsTableBody from './TransactionsTableBody'
+
+const transactionsTableHeaderItems = [
+  { name: 'amount', title: 'Amount', colWidth: 'col--2-4' },
+  { name: 'timestamp', title: 'Time', colWidth: 'col--2-4' },
+  { name: 'address', title: 'From/To', colWidth: 'col--4-8' },
+  { name: 'status', title: 'Status', colWidth: 'col--2-4' },
+]
 
 class TransactionsTable extends Component {
   constructor(props) {
@@ -13,8 +20,7 @@ class TransactionsTable extends Component {
   }
 
   componentWillMount() {
-    const emptyTableImage = new Image()
-    emptyTableImage.src = this.state.emptyTableImageSrc
+    this.preloadEmptyTableImage()
 
     const { getTransactions, transactions } = this.props
 
@@ -34,13 +40,15 @@ class TransactionsTable extends Component {
       currentCurrencySymbol,
     } = this.props
 
+    const { sortField, sortDirection } = transactions
+
     const { emptyTableImageSrc, active } = this.state
 
     const { filterData, items, searchQuery, isLoading } = transactions
     const isFilterOpen = filterData.isOpen
 
     if (isLoading) {
-      return <div className='transactions-table transactions-table--loading'><JLoader /></div>
+      return <JTable name='transactions transactions transactions--loading'><JLoader /></JTable>
     }
 
     if (!(items && items.length)) {
@@ -48,8 +56,8 @@ class TransactionsTable extends Component {
     }
 
     return (
-      <div className={`transactions-table ${isFilterOpen ? 'transactions-table--filter' : ''}`}>
-        <TransactionsTableHeader
+      <JTable name={`transactions transactions ${isFilterOpen ? 'transactions--filter' : ''}`}>
+        <TransactionsTableFilters
           searchTransactions={searchTransactions}
           sendFunds={this.sendFunds}
           receiveFunds={this.receiveFunds}
@@ -61,30 +69,37 @@ class TransactionsTable extends Component {
           filterData={filterData}
           searchQuery={searchQuery}
         />
-        <TransactionsTableBody
-          setCurrentCurrency={setCurrentCurrency}
-          sortTransactions={this.sortTransactions}
-          toggleActive={this.toggleActive}
-          currenciesItems={currenciesItems}
-          transactions={transactions}
-          currentCurrencySymbol={currentCurrencySymbol}
-          emptyTableImageSrc={emptyTableImageSrc}
-          activeTransactionIndex={active}
+        <JTable.Header
+          items={transactionsTableHeaderItems}
+          onClick={this.sortTransactions}
+          sortField={sortField}
+          sortDirection={sortDirection}
         />
-      </div>
+        <JTable.Body>
+          <TransactionsTableBody
+            setCurrentCurrency={setCurrentCurrency}
+            toggleActive={this.toggleActive}
+            currenciesItems={currenciesItems}
+            transactions={transactions}
+            currentCurrencySymbol={currentCurrencySymbol}
+            emptyTableImageSrc={emptyTableImageSrc}
+            activeTransactionIndex={active}
+          />
+        </JTable.Body>
+      </JTable>
     )
   }
 
   renderEmptyTable = () => {
     return (
-      <div className='transactions-table transactions-table--empty'>
+      <JTable name='transactions transactions transactions--empty'>
         <div
-          className='transactions-table-empty'
+          className='transactions-table__empty'
           style={{ backgroundImage: `url(${this.state.emptyTableImageSrc})` }}
         >
           {this.getEmptyTableMessage(this.props.currentCurrencySymbol)}
         </div>
-      </div>
+      </JTable>
     )
   }
 
@@ -110,6 +125,11 @@ class TransactionsTable extends Component {
     }
 
     return <div className='transactions-table__title'>{message}</div>
+  }
+
+  preloadEmptyTableImage = () => {
+    const emptyTableImage = new Image()
+    emptyTableImage.src = this.state.emptyTableImageSrc
   }
 
   sortTransactions = field => (/* event */) => this.props.sortTransactions(field)
