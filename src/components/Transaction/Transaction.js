@@ -22,7 +22,7 @@ class Transaction extends Component {
     } = this.props
 
     return (
-      <div className={`transaction ${isActive ? 'transaction--active' : ''} table__item`}>
+      <div className={`transaction ${isActive ? 'transaction--active' : ''}`}>
         <TransactionMain
           setCurrentCurrency={this.setCurrentCurrency}
           toggleActive={toggleActive}

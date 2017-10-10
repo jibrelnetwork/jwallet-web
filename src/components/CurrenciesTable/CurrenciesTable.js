@@ -1,22 +1,68 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CurrenciesTableHeader from './CurrenciesTableHeader'
-import CurrenciesTableBody from './CurrenciesTableBody'
+import JTable from 'components/base/JTable'
 
-function CurrenciesTable({ toggleActiveCurrency, searchCurrencies, sortCurrencies, currencies }) {
+import CurrenciesTableSearch from './CurrenciesTableSearch'
+import CurrenciesTableBodyRow from './CurrenciesTableBodyRow'
+
+function CurrenciesTable(props) {
+  const { toggleActiveCurrency, searchCurrencies, sortCurrencies, currencies } = props
+
+  const {
+    items,
+    foundItemsSymbols,
+    sortField,
+    sortDirection,
+    searchQuery,
+    isActiveAll,
+  } = currencies
+
+  const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
+  const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
+  const isChecked = isActiveAll
+
+  const currenciesTableHeaderItems = [
+    { title: 'Symbol', name: 'symbol', colWidth: 'col--2-4', isCheckable: true, isChecked },
+    { title: 'Name', name: 'name', colWidth: 'col--3' },
+    { title: 'Balance', name: 'balance', colWidth: 'col--2' },
+    { title: 'Licensed', name: 'licensed', colWidth: 'col--2' },
+    { title: 'Transfer', name: 'transfer', colWidth: 'col--2-4' },
+  ]
+
   return (
-    <div className='currencies-table'>
-      <CurrenciesTableHeader
+    <JTable name='currencies'>
+      <CurrenciesTableSearch
         searchCurrencies={searchCurrencies}
-        searchQuery={currencies.searchQuery}
+        searchQuery={searchQuery}
       />
-      <CurrenciesTableBody
-        sortCurrencies={sortCurrencies}
-        toggleActiveCurrency={toggleActiveCurrency}
-        currencies={currencies}
+      <JTable.Header
+        items={currenciesTableHeaderItems}
+        onClick={sortCurrencies}
+        onToggle={toggleActiveCurrency(-1)}
+        sortField={sortField}
+        sortDirection={sortDirection}
       />
-    </div>
+      <JTable.Body>
+        {foundItems.map((currency, index) => {
+          const { symbol, name, balanceFixed, licensed, transfer, isActive } = currency
+
+          return (
+            <CurrenciesTableBodyRow
+              key={index}
+              toggleActiveCurrency={toggleActiveCurrency}
+              symbol={symbol}
+              name={name}
+              balanceFixed={balanceFixed}
+              licensed={licensed}
+              transfer={transfer}
+              index={index}
+              isActive={isActive}
+            />
+          )
+        })}
+      </JTable.Body>
+    </JTable>
   )
 }
 

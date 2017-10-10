@@ -10,6 +10,11 @@
   color: $blue;
   font-weight: 600;
   cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .currencies-modal-footer__icon {

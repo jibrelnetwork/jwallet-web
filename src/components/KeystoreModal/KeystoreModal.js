@@ -1,99 +1,132 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { getFieldMessage, handleEnterKeyPress } from 'utils'
-
-import { JModal, JModalButton, JTextInput } from 'components/base'
+import { JIcon, JModal } from 'components/base'
+import AccountsTable from 'components/AccountsTable'
 
 class KeystoreModal extends Component {
   render() {
-    const { closeBackupKeystoreModal, keystore } = this.props
-    const { alert, password } = keystore.backupData
-
-    return null
+    const { closeKeystoreModal, keystore } = this.props
 
     return (
       <JModal
-        closeModal={closeBackupKeystoreModal}
-        submitModal={handleEnterKeyPress(this.backupKeystore(password))}
-        name='backup-keystore'
-        alert={alert}
+        closeModal={closeKeystoreModal}
+        name='keystore-modal'
         header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}
-        isOpen={keystore.isBackupKeystoreModalOpen}
+        isOpen={keystore.isKeystoreModalOpen}
       />
     )
   }
 
   renderHeader = () => {
-    return <div className='modal__title'>{'Backup Keystore'}</div>
+    return <div className='modal__title'>{'Keys manager'}</div>
   }
 
   renderBody = () => {
-    return (
-      <div className='backup-keys__body'>
-        {this.renderPassword()}
-      </div>
-    )
-  }
+    const {
+      removeKeystoreAccount,
+      removeKeystoreAccounts,
+      setKeystoreAccountName,
+      setKeystoreAccountDerivationPath,
+      setKeystoreAccountAddress,
+      getKeystoreAddressesFromMnemonic,
+      setKeystorePassword,
+      keystore,
+    } = this.props
 
-  renderPassword = () => {
-    const { setBackupKeystorePassword, keystore } = this.props
-
     return (
-      <JTextInput
-        onValueChange={setBackupKeystorePassword}
-        name='backup-password'
-        placeholder='Keystore password'
-        selectedValue={keystore.backupData.password}
-        errorMessage={this.getInvalidFieldMessage('password')}
-        successMessage={this.getValidFieldMessage('password')}
-        editable={this.isEnabledField('password')}
-        secureTextEntry
+      <AccountsTable
+        setCurrentKeystoreAccount={this.setCurrentKeystoreAccount}
+        removeKeystoreAccount={removeKeystoreAccount}
+        removeKeystoreAccounts={removeKeystoreAccounts}
+        setKeystoreAccountName={setKeystoreAccountName}
+        setKeystoreAccountDerivationPath={setKeystoreAccountDerivationPath}
+        setKeystoreAccountAddress={setKeystoreAccountAddress}
+        getKeystoreAddressesFromMnemonic={getKeystoreAddressesFromMnemonic}
+        setKeystorePassword={setKeystorePassword}
+        sortAccounts={this.sortAccounts}
+        keystore={keystore}
       />
     )
   }
 
   renderFooter = () => {
-    const { backupKeystore, keystore } = this.props
-
     return (
-      <JModalButton
-        onPress={this.backupKeystore(keystore.backupData.password)}
-        name={'backup-keystore'}
-        title={'Save as TXT'}
-        iconName={'txt'}
-        disabled={this.props.keystore.backupData.invalidFields.length > 0}
-      />
+      <div className='keystore-modal-footer clear'>
+        <div className='keystore-modal-footer__item pull-left' onClick={this.addNewKey}>
+          <JIcon name='small-add' className='keystore-modal-footer__icon' small />
+          {'New key'}
+        </div>
+        <div className='keystore-modal-footer__item pull-left' onClick={this.importKey}>
+          <JIcon name='small-import' className='keystore-modal-footer__icon' small />
+          {'Import key'}
+        </div>
+      </div>
     )
   }
 
-  isEnabledField = n => (this.props.keystore.backupData.disabledFields.indexOf(n) === -1)
-  getValidFieldMessage = n => getFieldMessage(this.props.keystore.backupData.validFields, n)
-  getInvalidFieldMessage = n => getFieldMessage(this.props.keystore.backupData.invalidFields, n)
-  backupKeystore = password => (/* event */) => this.props.backupData(password)
+  addNewKey = (/* event */) => {
+    const { openNewKeyModal, closeKeystoreModal } = this.props
+    const showKeystoreModalAfterClose = true
+
+    openNewKeyModal(showKeystoreModalAfterClose)
+    closeKeystoreModal()
+  }
+
+  importKey = (/* event */) => {
+    const { openImportKeyModal, closeKeystoreModal } = this.props
+    const showKeystoreModalAfterClose = true
+
+    openImportKeyModal(showKeystoreModalAfterClose)
+    closeKeystoreModal()
+  }
+
+  setCurrentKeystoreAccount = id => (event) => {
+    event.preventDefault()
+
+    this.props.setCurrentKeystoreAccount(id)
+
+    event.stopPropagation()
+  }
+
+  sortAccounts = sortField => (/* event */) => this.props.sortAccounts(sortField)
 }
 
 KeystoreModal.propTypes = {
-  closeBackupKeystoreModal: PropTypes.func.isRequired,
-  setBackupKeystorePassword: PropTypes.func.isRequired,
-  backupKeystore: PropTypes.func.isRequired,
+  setCurrentKeystoreAccount: PropTypes.func.isRequired,
+  removeKeystoreAccount: PropTypes.func.isRequired,
+  removeKeystoreAccounts: PropTypes.func.isRequired,
+  setKeystoreAccountName: PropTypes.func.isRequired,
+  setKeystoreAccountDerivationPath: PropTypes.func.isRequired,
+  setKeystoreAccountAddress: PropTypes.func.isRequired,
+  getKeystoreAddressesFromMnemonic: PropTypes.func.isRequired,
+  setKeystorePassword: PropTypes.func.isRequired,
+  sortAccounts: PropTypes.func.isRequired,
+  closeKeystoreModal: PropTypes.func.isRequired,
+  openNewKeyModal: PropTypes.func.isRequired,
+  openImportKeyModal: PropTypes.func.isRequired,
+  openBackupKeystoreModal: PropTypes.func.isRequired,
   keystore: PropTypes.shape({
-    backupData: PropTypes.shape({
-      validFields: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        message: PropTypes.string.isRequired,
-      })).isRequired,
-      invalidFields: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        message: PropTypes.string.isRequired,
-      })).isRequired,
-      disabledFields: PropTypes.arrayOf(PropTypes.string).isRequired,
-      alert: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired,
+    currentAccount: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      accountName: PropTypes.string.isRequired,
+      address: PropTypes.string,
+      isReadOnly: PropTypes.bool,
     }).isRequired,
-    isBackupKeystoreModalOpen: PropTypes.bool.isRequired,
+    accounts: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      accountName: PropTypes.string.isRequired,
+      address: PropTypes.string,
+      isReadOnly: PropTypes.bool,
+    })).isRequired,
+    addressesFromMnemonic: PropTypes.arrayOf(PropTypes.string).isRequired,
+    sortField: PropTypes.string.isRequired,
+    sortDirection: PropTypes.string.isRequired,
+    isKeystoreModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
 }
 
