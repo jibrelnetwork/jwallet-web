@@ -155,28 +155,33 @@
       opacity: 0.5;
     }
 
-    .transactions-table {
+    .transactions {
       float: none;
       display: block;
       width: 100%;
+      padding: 0 30px;
 
-      &--loading {
-        height: calc(100vh - #{$tablet-transactions-table-before-height});
+      .table-body {
+        height: auto;
+        padding: 0;
+        overflow: hidden;
       }
     }
 
-    .transactions-table-body {
-      height: auto;
-      padding: 0;
-      overflow: hidden;
-
-      .row {
-        padding: 0 30px;
-      }
+    .table--transactions-loading {
+      height: calc(100vh - #{$tablet-transactions-table-before-height});
     }
 
-    .table__item:last-child {
+    .transactions-filters {
+      padding: 30px 0;
+    }
+
+    .transaction:last-child {
       border-bottom: 1px solid $line;
+    }
+
+    .table--transactions {
+      padding: 0;
     }
 
     .transaction__detail {
@@ -200,11 +205,14 @@
 
 @media only screen and (max-width: 700px) {
   body {
-    .modal--currencies-modal {
+    .modal--currencies,
+    .modal--keystore {
       min-width: auto;
+    }
 
-      .table__title-item,
-      .currencies-table__field {
+    .modal--currencies {
+      .table-header-item,
+      .table-body-item {
         width: 50%;
 
         &--balance,
@@ -266,29 +274,25 @@
       margin: 0 5px;
     }
 
-    .transactions-table {
-      &--loading {
-        height: calc(100vh - #{$mobile-transactions-table-before-height});
-      }
-    }
-
-    .transactions-table-header {
+    .transactions-filters {
       display: none;
     }
 
-    .transactions-table-body {
-      .row {
-        padding: 0 20px;
-      }
+    .transactions {
+      padding: 0 20px;
 
-      .table__title-item,
-      .transaction__item {
+      .table-header-item,
+      .table-body-item {
         width: 50%;
 
         &:nth-child(2), &:nth-child(3) {
           display: none;
         }
       }
+    }
+
+    .table--transactions-loading {
+      height: calc(100vh - #{$mobile-transactions-table-before-height});
     }
 
     .transactions-table-empty {

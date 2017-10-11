@@ -6,7 +6,7 @@ import { JDropdown, JIcon } from 'components/base'
 import TransactionsManagerPopover from './Popover'
 
 function TransactionsManager(props) {
-  const title = <JIcon name='dots' className='transactions-manager__icon' />
+  const title = <JIcon name='dots' className='icon--dots-manager' />
 
   return (
     <JDropdown

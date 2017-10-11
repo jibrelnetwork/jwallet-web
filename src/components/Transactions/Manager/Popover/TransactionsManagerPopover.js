@@ -7,7 +7,7 @@ function TransactionsManagerPopover(props) {
   const { onClickOutside, sendFunds, receiveFunds, convertFunds, filter, remove } = props
 
   const body = (
-    <div className='transactions-manager__popover'>
+    <div className='transactions-manager-popover'>
       <div className='popover__item' onClick={sendFunds}>{'Send funds'}</div>
       <div className='popover__item' onClick={receiveFunds}>{'Receive funds'}</div>
       <div className='popover__item' onClick={convertFunds}>{'Convert funds'}</div>

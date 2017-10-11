@@ -14,10 +14,12 @@
   padding-left: 30px;
 }
 
-.table-header-item.table-header-item--transfer {
+.table-header-item--transfer span {
   float: right;
-  width: auto;
-  padding-right: 18px;
+
+  &:last-child {
+    margin: 0 5px;
+  }
 }
 
 .table-body-item--transfer {

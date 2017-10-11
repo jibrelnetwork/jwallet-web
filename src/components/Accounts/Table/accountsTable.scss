@@ -1,0 +1,13 @@
+@import './BodyRow/accountsTableBodyRow';
+
+.table-header-item--accountActions span {
+  float: right;
+
+  &:last-child {
+    margin: 0 5px;
+  }
+}
+
+.table-body-item--accountActions {
+  text-align: right;
+}
