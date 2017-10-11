@@ -1,0 +1,30 @@
+.accounts-table-body-row {
+  padding: 0 10px;
+
+  .radio__label {
+    margin: 16px 0;
+  }
+}
+
+.account-row__info {
+  height: 50px;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.account-row__type,
+.account-row__account-name {
+  height: 20px;
+  line-height: 20px;
+}
+
+.account-row__type {
+  margin-top: 5px;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.account-row__account-name {
+  font-size: 15px;
+  margin-bottom: 5px;
+}

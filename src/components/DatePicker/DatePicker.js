@@ -31,7 +31,7 @@ class DatePicker extends Component {
     const endDate = endTime ? moment(endTime) : null
 
     const icon = (startDate || endDate)
-      ? <JIcon name='small-clear' small className='filter__clear-icon' onClick={this.clean} />
+      ? <JIcon name='small-clear' small className='date-picker__clear-icon' onClick={this.clean} />
       : null
 
     return (

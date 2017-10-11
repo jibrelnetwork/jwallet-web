@@ -79,10 +79,14 @@ function* getTransactions(action) {
 
   const { items, currentActiveIndex } = yield select(getStateCurrencies)
   const currencyIndex = action.currencyIndex || currentActiveIndex
-  const { isActive, symbol } = items[currencyIndex]
-  const isActiveCurrency = (currencyIndex > -1) ? isActive : false
 
-  if (!isActiveCurrency || (symbol === 'ETH')) {
+  if (currencyIndex < 0) {
+    return yield put({ type: SET_TRANSACTIONS, items: [] })
+  }
+
+  const { isActive, symbol } = items[currencyIndex]
+
+  if (!isActive || (symbol === 'ETH')) {
     return yield put({ type: SET_TRANSACTIONS, items: [] })
   }
 
@@ -101,8 +105,8 @@ function* getTransactions(action) {
 }
 
 function* searchTransactions(action) {
+  const { searchQuery } = action
   const transactions = yield select(getStateTransactions)
-  const searchQuery = action.searchQuery
 
   const foundItems = searchItems(transactions.items, searchQuery, transactionsSearchFields)
   const foundItemsHashes = foundItems.map(i => i.txHash)

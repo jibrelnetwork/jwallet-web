@@ -1,0 +1,18 @@
+@import './Body/transactionsTableBody';
+@import './Empty/transactionsTableEmpty';
+
+.table {
+  &--transactions {
+    position: relative;
+    height: calc(100% - #{$t-table-header-height});
+    padding: 0 30px 30px;
+  }
+
+  &--transactions-filter {
+    min-height: 360px;
+  }
+
+  &--transactions-empty {
+    min-height: 240px;
+  }
+}
