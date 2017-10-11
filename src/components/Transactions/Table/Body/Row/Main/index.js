@@ -1,0 +1,3 @@
+import TransactionsTableBodyRowMain from './TransactionsTableBodyRowMain'
+
+export default TransactionsTableBodyRowMain
