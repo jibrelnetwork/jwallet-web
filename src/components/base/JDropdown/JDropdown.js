@@ -11,7 +11,7 @@ class JDropdown extends Component {
     const { title, parentClassName, className } = this.props
 
     return (
-      <div className={parentClassName} onClick={this.showDropdown}>
+      <div className={parentClassName} onClick={this.showDropdown()}>
         <div className={className}>
           <div className={`${className}__title-wrap`}>{title}</div>
           {this.renderChildren()}
@@ -21,25 +21,33 @@ class JDropdown extends Component {
   }
 
   renderChildren() {
-    const { props, hideDropdown, state } = this
+    const { props, showDropdown, state } = this
 
     if (!state.isOpen) {
       return null
     }
 
-    return React.cloneElement(props.children, { onClickOutside: hideDropdown })
+    return React.cloneElement(props.children, { onClickOutside: showDropdown(false) })
   }
 
-  showDropdown = () => { return this.setState({ isOpen: true }) }
+  showDropdown = (isOpen = true) => (event) => {
+    this.setState({ isOpen })
 
-  hideDropdown = () => { return this.setState({ isOpen: false }) }
+    if (event) {
+      event.stopPropagation()
+    }
+  }
 }
 
 JDropdown.propTypes = {
   title: PropTypes.node.isRequired,
   children: PropTypes.element.isRequired,
-  parentClassName: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
+  parentClassName: PropTypes.string,
+}
+
+JDropdown.defaultProps = {
+  parentClassName: '',
 }
 
 export default JDropdown
