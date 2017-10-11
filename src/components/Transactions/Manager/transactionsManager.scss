@@ -1,0 +1,16 @@
+.transactions-manager {
+  position: relative;
+  width: 18px;
+  height: 24px;
+  font-weight: 600;
+}
+
+.transactions-manager__icon {
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

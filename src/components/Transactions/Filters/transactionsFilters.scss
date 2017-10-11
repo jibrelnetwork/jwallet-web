@@ -1,0 +1,22 @@
+.transactions-filters {
+  height: $t-table-header-height;
+  padding: $t-table-header-padding;
+  line-height: $t-table-header-line-height;
+  border-bottom: 1px solid $line;
+}
+
+.transactions-filters__filter {
+  position: relative;
+  width: 50%;
+  height: 24px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.transactions-filters__more {
+  position: absolute;
+  top: 30px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+}

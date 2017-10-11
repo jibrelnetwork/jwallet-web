@@ -1,0 +1,42 @@
+.radio {
+  position: relative;
+}
+
+.radio__input {
+  display: none;
+}
+
+.radio__label {
+  position: relative;
+  display: block;
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+
+  &.radio__label--active {
+    &:before {
+      border: 2px solid $blue;
+    }
+
+    &:after {
+      position: relative;
+      top: -12px;
+      left: 6.4px;
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: $blue;
+      content: '';
+    }
+  }
+}
+
+.radio__label:before {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid $gray2;
+  content: '';
+}

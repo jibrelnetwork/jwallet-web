@@ -1,0 +1,16 @@
+$t-table-header-padding: 30px;
+$t-table-header-line-height: 24px;
+$t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-height;
+
+@import './Filters/transactionsFilters';
+@import './Manager/transactionsManager';
+@import './Table/transactionsTable';
+
+.transactions {
+  position: relative;
+  display: table-cell;
+  width: 70%;
+  height: 100%;
+  background: $white;
+  overflow: hidden;
+}
