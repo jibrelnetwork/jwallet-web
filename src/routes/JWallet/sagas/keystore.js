@@ -11,6 +11,7 @@ import {
   KEYSTORE_SET_ACCOUNTS,
   KEYSTORE_SET_CURRENT_ACCOUNT,
   KEYSTORE_SET_CURRENT_ACCOUNT_DATA,
+  KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA,
   KEYSTORE_CREATE_ACCOUNT,
   KEYSTORE_REMOVE_ACCOUNT,
   KEYSTORE_REMOVE_ACCOUNTS,
@@ -24,6 +25,7 @@ import {
   KEYSTORE_BACKUP,
   KEYSTORE_SORT_ACCOUNTS,
   KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
+  KEYSTORE_CLOSE_MODAL,
 } from '../modules/keystore'
 
 const keystore = new Keystore({ scryptParams: { N: 2 ** 14, r: 8, p: 1 } })
@@ -63,7 +65,8 @@ function* setAccounts() {
   if (accounts && accounts.length) {
     yield put(push('/jwallet'))
   } else {
-    return yield put(push('/auth'))
+    yield put(push('/auth'))
+    yield put({ type: KEYSTORE_CLOSE_MODAL })
   }
 
   setKeystoreToStorage()
@@ -84,7 +87,7 @@ function* setCurrentAccountData(accountId) {
 
   storage.setItem('keystoreCurrentAccount', account.id)
 
-  return yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount: account })
+  yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount: account })
 }
 
 function* setFirstAccountAsCurrent() {
@@ -100,7 +103,9 @@ function* setFirstAccountAsCurrent() {
 }
 
 function* setEmptyCurrentAccount() {
-  yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount: {} })
+  storage.removeItem('keystoreCurrentAccount')
+
+  yield put({ type: KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA })
 }
 
 function* createAccount(action) {

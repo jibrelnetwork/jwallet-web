@@ -63,7 +63,18 @@ $mobile-currencies-full-height: (
   $mobile-currencies-padding-bottom
 );
 
-$tablet-transactions-table-before-height: $header-full-height + $tablet-currencies-full-height;
+$transactions-filters-height: 24px;
+$transactions-filters-padding: 30px;
+$transactions-filters-full-height: (
+  $transactions-filters-height +
+  ($transactions-filters-padding * 2)
+);
+
+$tablet-transactions-table-before-height: (
+  $header-full-height +
+  $tablet-currencies-full-height +
+  $transactions-filters-full-height
+);
 $mobile-transactions-table-before-height: (
   $mobile-header-full-height +
   $mobile-currencies-full-height

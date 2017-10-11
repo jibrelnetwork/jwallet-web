@@ -4,6 +4,7 @@ export const KEYSTORE_GET_FROM_STORAGE = 'KEYSTORE_GET_FROM_STORAGE'
 export const KEYSTORE_SET_ACCOUNTS = 'KEYSTORE_SET_ACCOUNTS'
 export const KEYSTORE_SET_CURRENT_ACCOUNT = 'KEYSTORE_SET_CURRENT_ACCOUNT'
 export const KEYSTORE_SET_CURRENT_ACCOUNT_DATA = 'KEYSTORE_SET_CURRENT_ACCOUNT_DATA'
+export const KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA = 'KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA'
 export const KEYSTORE_CREATE_ACCOUNT = 'KEYSTORE_CREATE_ACCOUNT'
 export const KEYSTORE_REMOVE_ACCOUNT = 'KEYSTORE_REMOVE_ACCOUNT'
 export const KEYSTORE_REMOVE_ACCOUNTS = 'KEYSTORE_REMOVE_ACCOUNTS'
@@ -43,6 +44,13 @@ export const KEYSTORE_BACKUP_OPEN_MODAL = 'KEYSTORE_BACKUP_OPEN_MODAL'
 export const KEYSTORE_BACKUP_CLOSE_MODAL = 'KEYSTORE_BACKUP_CLOSE_MODAL'
 export const KEYSTORE_BACKUP_SET_PASSWORD = 'KEYSTORE_BACKUP_SET_PASSWORD'
 export const KEYSTORE_BACKUP = 'KEYSTORE_BACKUP'
+
+export const KEYSTORE_DERIVATION_PATH_OPEN_MODAL = 'KEYSTORE_DERIVATION_PATH_OPEN_MODAL'
+export const KEYSTORE_DERIVATION_PATH_CLOSE_MODAL = 'KEYSTORE_DERIVATION_PATH_CLOSE_MODAL'
+export const KEYSTORE_DERIVATION_PATH_MODAL_SET = 'KEYSTORE_DERIVATION_PATH_MODAL_SET'
+
+export const KEYSTORE_SET_EDIT_ACCOUNT_NAME = 'KEYSTORE_SET_EDIT_ACCOUNT_NAME'
+export const KEYSTORE_SET_NEW_ACCOUNT_NAME = 'KEYSTORE_SET_NEW_ACCOUNT_NAME'
 
 export function getKeystoreFromStorage() {
   return {
@@ -306,6 +314,46 @@ export function backupKeystore(password) {
   }
 }
 
+export function openDerivationPathModal(accountId, derivationPath) {
+  return {
+    type: KEYSTORE_DERIVATION_PATH_OPEN_MODAL,
+    accountId,
+    derivationPath,
+  }
+}
+
+export function closeDerivationPathModal() {
+  return {
+    type: KEYSTORE_DERIVATION_PATH_CLOSE_MODAL,
+  }
+}
+
+export function setModalDerivationPath(newDerivationPath) {
+  return {
+    type: KEYSTORE_DERIVATION_PATH_SET_NEW,
+    newDerivationPath,
+  }
+}
+
+/**
+ * Editing of account name
+ */
+export function setEditAccountName(accountId, newAccountName = '', isEditAccountName = true) {
+  return {
+    type: KEYSTORE_SET_EDIT_ACCOUNT_NAME,
+    accountId,
+    newAccountName,
+    isEditAccountName,
+  }
+}
+
+export function setNewAccountName(newAccountName) {
+  return {
+    type: KEYSTORE_SET_NEW_ACCOUNT_NAME,
+    newAccountName,
+  }
+}
+
 const ACTION_HANDLERS = {
   [KEYSTORE_GET_FROM_STORAGE]: state => ({
     ...state,
@@ -329,6 +377,11 @@ const ACTION_HANDLERS = {
     isCreating: false,
     newKeyData: initialState.newKeyData,
     importKeyData: initialState.importKeyData,
+  }),
+  [KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA]: state => ({
+    ...state,
+    currentAccount: initialState.currentAccount,
+    isLoading: false,
   }),
   [KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC]: (state, action) => ({
     ...state,
@@ -481,6 +534,45 @@ const ACTION_HANDLERS = {
       password: action.password,
     },
   }),
+  [KEYSTORE_DERIVATION_PATH_OPEN_MODAL]: (state, action) => ({
+    ...state,
+    isDerivationPathModalOpen: true,
+    newDerivationPathData: {
+      ...state.newDerivationPathData,
+      accountId: action.accountId,
+      derivationPath: action.derivationPath,
+    },
+  }),
+  [KEYSTORE_DERIVATION_PATH_CLOSE_MODAL]: state => ({
+    ...state,
+    isDerivationPathModalOpen: false,
+  }),
+  [KEYSTORE_DERIVATION_PATH_MODAL_SET]: (state, action) => ({
+    ...state,
+    newDerivationPathData: {
+      ...state.newDerivationPathData,
+      newDerivationPath: action.newDerivationPath,
+    },
+  }),
+  /**
+   * Editing of account name
+   */
+  [KEYSTORE_SET_EDIT_ACCOUNT_NAME]: (state, action) => ({
+    ...state,
+    newAccountNameData: {
+      ...state.newAccountNameData,
+      accountId: action.accountId,
+      isEditAccountName: action.isEditAccountName,
+      newAccountName: action.newAccountName,
+    },
+  }),
+  [KEYSTORE_SET_NEW_ACCOUNT_NAME]: (state, action) => ({
+    ...state,
+    newAccountNameData: {
+      ...state.newAccountNameData,
+      newAccountName: action.newAccountName,
+    },
+  }),
 }
 
 const initialState = {
@@ -512,6 +604,16 @@ const initialState = {
     alert: '',
     password: '',
   },
+  newDerivationPathData: {
+    accountId: '',
+    derivationPath: '',
+    newDerivationPath: '',
+  },
+  newAccountNameData: {
+    accountId: '',
+    newAccountName: '',
+    isEditAccountName: false,
+  },
   currentAccount: {
     encrypted: {
       privateKey: {},
@@ -537,6 +639,7 @@ const initialState = {
   isImportKeyModalOpen: false,
   isBackupKeystoreModalOpen: false,
   showKeystoreModalAfterClose: false,
+  isDerivationPathModalOpen: false,
 }
 
 export default function keystore(state = initialState, action) {

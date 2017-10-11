@@ -14,6 +14,9 @@ import {
   openNewKeyModal,
   openImportKeyModal,
   openBackupKeystoreModal,
+  openDerivationPathModal,
+  setEditAccountName,
+  setNewAccountName,
 } from 'routes/JWallet/modules/keystore'
 
 import KeystoreModal from './KeystoreModal'
@@ -36,6 +39,9 @@ const mapDispatchToProps = {
   openNewKeyModal,
   openImportKeyModal,
   openBackupKeystoreModal,
+  openDerivationPathModal,
+  setEditAccountName,
+  setNewAccountName,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeystoreModal)

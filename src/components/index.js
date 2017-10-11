@@ -1,6 +1,6 @@
 export * as base from './base'
 
-export AccountsTable from './AccountsTable'
+export Accounts from './Accounts'
 export Appearable from './Appearable'
 export AuthHeader from './AuthHeader'
 export BackupKeystoreModal from './BackupKeystoreModal'

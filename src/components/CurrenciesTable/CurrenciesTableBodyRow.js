@@ -15,19 +15,21 @@ function CurrenciesTableBodyRow(props) {
     isActive,
   } = props
 
+  const itemClassName = 'table-body-item table-body-item'
+
   return (
     <div
       className='table-row row clear'
       key={index}
       onClick={toggleActiveCurrency(index)(!isActive)}
     >
-      <div className='table-body-item col col--2-4'>
+      <div className={`${itemClassName}--symbol col col--2-4`}>
         <JCheckbox toggle={toggleActiveCurrency(index)} isActive={isActive} label={symbol} />
       </div>
-      <div className='table-body-item col col--3'>{name}</div>
-      <div className='table-body-item col col--2'>{balanceFixed}</div>
-      <div className='table-body-item col col--2'>{licensed}</div>
-      <div className='table-body-item table-body-item--transfer col col--2-4'>{transfer}</div>
+      <div className={`${itemClassName}--name col col--3`}>{name}</div>
+      <div className={`${itemClassName}--balance col col--2`}>{balanceFixed}</div>
+      <div className={`${itemClassName}--licensed col col--2`}>{licensed}</div>
+      <div className={`${itemClassName}--transfer col col--2-4`}>{transfer}</div>
     </div>
   )
 }

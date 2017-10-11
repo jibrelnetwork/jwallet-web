@@ -11,7 +11,7 @@ class CurrenciesModal extends Component {
     return (
       <JModal
         closeModal={closeCurrenciesModal}
-        name='currencies-modal'
+        name='currencies'
         header={this.renderHeader()}
         body={this.renderBody()}
         footer={this.renderFooter()}

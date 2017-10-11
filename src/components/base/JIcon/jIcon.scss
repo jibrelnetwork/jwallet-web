@@ -45,6 +45,16 @@
   background-size: 18px 4px;
 }
 
+.icon--dots-manager {
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
 .icon--close {
   background-image: $iconClose;
 }

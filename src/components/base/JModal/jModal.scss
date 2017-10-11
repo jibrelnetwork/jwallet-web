@@ -50,8 +50,8 @@
   width: 420px;
   margin: 0 auto;
 
-  &--currencies-modal,
-  &--keystore-modal {
+  &--currencies,
+  &--keystore {
     min-width: 680px;
 
     .modal__content {
