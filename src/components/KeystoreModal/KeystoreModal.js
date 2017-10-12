@@ -41,16 +41,17 @@ class KeystoreModal extends Component {
     return (
       <Accounts
         setCurrentKeystoreAccount={this.setCurrentKeystoreAccount}
-        removeKeystoreAccount={this.popoverHandler(removeKeystoreAccount)}
+        removeKeystoreAccount={this.preventEventHandler(removeKeystoreAccount)}
         removeKeystoreAccounts={removeKeystoreAccounts}
-        setKeystoreAccountName={setKeystoreAccountName}
+        setKeystoreAccountName={this.preventEventHandler(setKeystoreAccountName)}
         setKeystoreAccountAddress={setKeystoreAccountAddress}
         getKeystoreAddressesFromMnemonic={getKeystoreAddressesFromMnemonic}
         setKeystorePassword={setKeystorePassword}
         sortAccounts={this.sortAccounts}
-        openDerivationPathModal={this.popoverHandler(openDerivationPathModal)}
-        setEditAccountName={this.popoverHandler(setEditAccountName)}
-        setNewAccountName={setNewAccountName}
+        openDerivationPathModal={this.preventEventHandler(openDerivationPathModal)}
+        setEditAccountName={this.preventEventHandler(setEditAccountName)}
+        setNewAccountName={this.setNewAccountName}
+        selectAccountName={this.selectAccountName}
         keystore={keystore}
       />
     )
@@ -93,12 +94,29 @@ class KeystoreModal extends Component {
     this.props.setCurrentKeystoreAccount(id)
   }
 
-  popoverHandler = handler => (...args) => (event) => {
+  setNewAccountName = (event) => {
+    event.preventDefault()
+
+    this.props.setNewAccountName(event.target.value)
+
+    event.stopPropagation()
+  }
+
+  preventEventHandler = handler => (...args) => (event) => {
     event.preventDefault()
 
     handler(...args)
 
+    // stop propagation to omit clicking on account (that will fire unnecessary actions)
     event.stopPropagation()
+
+    // generate click event to hide popover
+    document.body.click()
+  }
+
+  selectAccountName = (event) => {
+    event.target.selectionStart = 0
+    event.target.selectionEnd = event.target.value.length
   }
 
   sortAccounts = sortField => (/* event */) => this.props.sortAccounts(sortField)
@@ -122,8 +140,8 @@ KeystoreModal.propTypes = {
   setNewAccountName: PropTypes.func.isRequired,
   keystore: PropTypes.shape({
     newAccountNameData: PropTypes.shape({
+      accountId: PropTypes.string.isRequired,
       newAccountName: PropTypes.string.isRequired,
-      isEditAccountName: PropTypes.bool.isRequired,
     }).isRequired,
     currentAccount: PropTypes.shape({
       id: PropTypes.string.isRequired,

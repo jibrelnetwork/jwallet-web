@@ -338,12 +338,11 @@ export function setModalDerivationPath(newDerivationPath) {
 /**
  * Editing of account name
  */
-export function setEditAccountName(accountId, newAccountName = '', isEditAccountName = true) {
+export function setEditAccountName(accountId, newAccountName = '') {
   return {
     type: KEYSTORE_SET_EDIT_ACCOUNT_NAME,
     accountId,
     newAccountName,
-    isEditAccountName,
   }
 }
 
@@ -382,6 +381,10 @@ const ACTION_HANDLERS = {
     ...state,
     currentAccount: initialState.currentAccount,
     isLoading: false,
+  }),
+  [KEYSTORE_SET_ACCOUNT_NAME]: state => ({
+    ...state,
+    newAccountNameData: initialState.newAccountNameData,
   }),
   [KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC]: (state, action) => ({
     ...state,
@@ -562,7 +565,6 @@ const ACTION_HANDLERS = {
     newAccountNameData: {
       ...state.newAccountNameData,
       accountId: action.accountId,
-      isEditAccountName: action.isEditAccountName,
       newAccountName: action.newAccountName,
     },
   }),
@@ -612,7 +614,6 @@ const initialState = {
   newAccountNameData: {
     accountId: '',
     newAccountName: '',
-    isEditAccountName: false,
   },
   currentAccount: {
     encrypted: {

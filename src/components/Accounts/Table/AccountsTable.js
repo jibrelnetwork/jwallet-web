@@ -20,6 +20,7 @@ function AccountsTable(props) {
     openDerivationPathModal,
     setNewAccountName,
     setEditAccountName,
+    selectAccountName,
     keystore,
   } = props
 
@@ -55,6 +56,7 @@ function AccountsTable(props) {
               openDerivationPathModal={openDerivationPathModal}
               setEditAccountName={setEditAccountName}
               setNewAccountName={setNewAccountName}
+              selectAccountName={selectAccountName}
               newAccountNameData={newAccountNameData}
               addressesFromMnemonic={addressesFromMnemonic}
               id={id}
@@ -83,10 +85,11 @@ AccountsTable.propTypes = {
   openDerivationPathModal: PropTypes.func.isRequired,
   setEditAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
+  selectAccountName: PropTypes.func.isRequired,
   keystore: PropTypes.shape({
     newAccountNameData: PropTypes.shape({
+      accountId: PropTypes.string.isRequired,
       newAccountName: PropTypes.string.isRequired,
-      isEditAccountName: PropTypes.bool.isRequired,
     }).isRequired,
     currentAccount: PropTypes.shape({
       id: PropTypes.string.isRequired,
