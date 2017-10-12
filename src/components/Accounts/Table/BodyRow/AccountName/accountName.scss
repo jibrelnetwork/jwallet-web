@@ -1,0 +1,33 @@
+.account-name {
+  position: relative;
+  height: 20px;
+  line-height: 20px;
+  font-size: 15px;
+  margin-bottom: 5px;
+
+  &--input {
+    &::after {
+      position: absolute;
+      display: block;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $gray2;
+      content: '';
+    }
+  }
+}
+
+.account-name__input {
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: $font;
+  border: none;
+  color: $gray;
+  box-shadow: none;
+  outline: none;
+}

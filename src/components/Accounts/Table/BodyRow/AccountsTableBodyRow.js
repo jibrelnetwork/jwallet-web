@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import JRadio from 'components/base/JRadio'
 
+import AccountName from './AccountName'
 import AccountManager from '../../Manager'
 
 function AccountsTableBodyRow(props) {
@@ -15,6 +16,7 @@ function AccountsTableBodyRow(props) {
     openDerivationPathModal,
     setEditAccountName,
     setNewAccountName,
+    selectAccountName,
     newAccountNameData,
     addressesFromMnemonic,
     id,
@@ -29,21 +31,31 @@ function AccountsTableBodyRow(props) {
   const accountType = (isReadOnly ? `${type}, READ ONLY` : type).toUpperCase()
 
   return (
-    <div className='accounts-table-body-row table-row row' onClick={setCurrentKeystoreAccount(id)}>
-      <div className='table-body-item pull-left'>
+    <div
+      className='accounts-table-body-row table-row row clear'
+      onClick={setCurrentKeystoreAccount(id)}
+    >
+      <div className='accounts-table-body-row__info table-body-item pull-left col col--10'>
         <JRadio
           toggle={setCurrentKeystoreAccount(id)}
-          name={`toggle-${id} pull-left`}
+          name={`toggle-${id}`}
           isActive={isActive}
         />
-        <div className='account-row__info pull-left'>
+        <div className='account-row__info'>
           <div className='account-row__type'>{accountType}</div>
-          <div className='account-row__account-name'>{accountName}</div>
+          <AccountName
+            setKeystoreAccountName={setKeystoreAccountName}
+            setNewAccountName={setNewAccountName}
+            selectAccountName={selectAccountName}
+            newAccountNameData={newAccountNameData}
+            id={id}
+            accountName={accountName}
+          />
         </div>
       </div>
       <div className='table-body-item pull-right'>
         <AccountManager
-          setEditAccountName={setEditAccountName(id, accountName, true)}
+          setEditAccountName={setEditAccountName(id, accountName)}
           openDerivationPathModal={openDerivationPathModal(id, derivationPath)}
           removeKeystoreAccount={removeKeystoreAccount(id)}
         />
@@ -61,9 +73,10 @@ AccountsTableBodyRow.propTypes = {
   openDerivationPathModal: PropTypes.func.isRequired,
   setEditAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
+  selectAccountName: PropTypes.func.isRequired,
   newAccountNameData: PropTypes.shape({
+    accountId: PropTypes.string.isRequired,
     newAccountName: PropTypes.string.isRequired,
-    isEditAccountName: PropTypes.bool.isRequired,
   }).isRequired,
   addressesFromMnemonic: PropTypes.arrayOf(PropTypes.string).isRequired,
   id: PropTypes.string.isRequired,
