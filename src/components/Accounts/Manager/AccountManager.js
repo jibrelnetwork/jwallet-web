@@ -6,7 +6,7 @@ import { JDropdown, JIcon } from 'components/base'
 import AccountManagerPopover from './Popover'
 
 function AccountManager(props) {
-  const title = <JIcon name='dots' className='icon--dots-manager' />
+  const title = <div className='icon--dots-wrapper'><JIcon name='dots' /></div>
 
   return (
     <JDropdown className='account-manager' title={title}>
