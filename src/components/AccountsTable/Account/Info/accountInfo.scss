@@ -1,0 +1,30 @@
+@import './MnemonicAddresses/accountInfoMnemonicAddresses.scss';
+@import './Name/accountInfoName';
+
+.account-info-container.col {
+  padding-left: 0;
+}
+
+.account-info {
+  width: 100%;
+  height: 50px;
+  padding-left: 30px;
+  font-weight: 600;
+  transition: height .3s ease;
+
+  &--active-mnemonic {
+    height: auto;
+  }
+}
+
+.account-info__title {
+  cursor: pointer;
+}
+
+.account-info-type {
+  height: 20px;
+  line-height: 20px;
+  margin-top: 5px;
+  font-size: 9px;
+  text-transform: uppercase;
+}

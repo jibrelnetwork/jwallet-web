@@ -17,12 +17,13 @@ function JRadio({ toggle, name, isActive }) {
 }
 
 JRadio.propTypes = {
-  toggle: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  toggle: PropTypes.func,
   isActive: PropTypes.bool,
 }
 
 JRadio.defaultProps = {
+  toggle: null,
   isActive: false,
 }
 

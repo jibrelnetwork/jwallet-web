@@ -1,0 +1,19 @@
+@import './Info/accountInfo';
+@import './Manager/accountManager';
+
+.account {
+  position: relative;
+  margin: 0;
+  border-bottom: 1px solid $line;
+  cursor: default;
+
+  .radio__label {
+    position: absolute;
+    top: 16px;
+    left: 0;
+  }
+
+  &.table-row:last-child {
+    border-bottom: 1px solid $line;
+  }
+}

@@ -43,6 +43,7 @@ export const KEYSTORE_IMPORT_KEY_SET_ALERT = 'KEYSTORE_IMPORT_KEY_SET_ALERT'
 export const KEYSTORE_BACKUP_OPEN_MODAL = 'KEYSTORE_BACKUP_OPEN_MODAL'
 export const KEYSTORE_BACKUP_CLOSE_MODAL = 'KEYSTORE_BACKUP_CLOSE_MODAL'
 export const KEYSTORE_BACKUP_SET_PASSWORD = 'KEYSTORE_BACKUP_SET_PASSWORD'
+export const KEYSTORE_BACKUP_SET_INVALID_FIELD = 'KEYSTORE_BACKUP_SET_INVALID_FIELD'
 export const KEYSTORE_BACKUP = 'KEYSTORE_BACKUP'
 
 export const KEYSTORE_DERIVATION_PATH_OPEN_MODAL = 'KEYSTORE_DERIVATION_PATH_OPEN_MODAL'
@@ -113,20 +114,23 @@ export function setKeystoreAccountAddress(password, accountId, addressIndex) {
   }
 }
 
-export function getKeystoreAddressesFromMnemonic(password, accountId, iteration) {
+export function getKeystoreAddressesFromMnemonic(password, accountId, iteration, limit) {
   return {
     type: KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
     password,
     accountId,
     iteration,
+    limit,
   }
 }
 
-export function setKeystorePassword(password, newPassword) {
+export function setKeystorePassword(password, newPassword, onSuccess, onError) {
   return {
     type: KEYSTORE_SET_PASSWORD,
     password,
     newPassword,
+    onSuccess,
+    onError,
   }
 }
 
@@ -288,9 +292,10 @@ export function setImportKeyAlert(alert) {
   }
 }
 
-export function openBackupKeystoreModal() {
+export function openBackupKeystoreModal(showKeystoreModalAfterClose = false) {
   return {
     type: KEYSTORE_BACKUP_OPEN_MODAL,
+    showKeystoreModalAfterClose,
   }
 }
 
@@ -307,10 +312,20 @@ export function setBackupKeystorePassword(password) {
   }
 }
 
-export function backupKeystore(password) {
+export function setBackupKeystoreInvalidField(name, message) {
+  return {
+    type: KEYSTORE_BACKUP_SET_INVALID_FIELD,
+    name,
+    message,
+  }
+}
+
+export function backupKeystore(password, onSuccess, onError) {
   return {
     type: KEYSTORE_BACKUP,
     password,
+    onSuccess,
+    onError,
   }
 }
 
@@ -358,7 +373,6 @@ const ACTION_HANDLERS = {
     ...state,
     accounts: [],
     currentAccount: {},
-    addressesFromMnemonic: [],
     isLoading: true,
   }),
   [KEYSTORE_CREATE_ACCOUNT]: state => ({
@@ -386,9 +400,17 @@ const ACTION_HANDLERS = {
     ...state,
     newAccountNameData: initialState.newAccountNameData,
   }),
+  [KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC]: state => ({
+    ...state,
+    isLoading: true,
+  }),
   [KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC]: (state, action) => ({
     ...state,
-    addressesFromMnemonic: action.addressesFromMnemonic,
+    addressesFromMnemonic: {
+      items: action.items,
+      currentIteration: action.currentIteration,
+    },
+    isLoading: false,
   }),
   [KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS]: (state, action) => ({
     ...state,
@@ -522,9 +544,10 @@ const ACTION_HANDLERS = {
       alert: action.alert,
     },
   }),
-  [KEYSTORE_BACKUP_OPEN_MODAL]: state => ({
+  [KEYSTORE_BACKUP_OPEN_MODAL]: (state, action) => ({
     ...state,
     isBackupKeystoreModalOpen: true,
+    showKeystoreModalAfterClose: action.showKeystoreModalAfterClose,
   }),
   [KEYSTORE_BACKUP_CLOSE_MODAL]: state => ({
     ...state,
@@ -535,6 +558,14 @@ const ACTION_HANDLERS = {
     backupData: {
       ...state.backupData,
       password: action.password,
+      invalidFields: pushField(state.newKeyData.invalidFields, 'password'),
+    },
+  }),
+  [KEYSTORE_BACKUP_SET_INVALID_FIELD]: (state, action) => ({
+    ...state,
+    backupData: {
+      ...state.backupData,
+      invalidFields: pushField(state.backupData.invalidFields, action.name, action.message),
     },
   }),
   [KEYSTORE_DERIVATION_PATH_OPEN_MODAL]: (state, action) => ({
@@ -629,8 +660,11 @@ const initialState = {
     bip32XPublicKey: '',
     isReadOnly: false,
   },
+  addressesFromMnemonic: {
+    items: [],
+    currentIteration: 0,
+  },
   accounts: [],
-  addressesFromMnemonic: [],
   sortField: '',
   sortDirection: 'ASC',
   isLoading: true,

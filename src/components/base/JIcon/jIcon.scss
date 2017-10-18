@@ -41,15 +41,19 @@
 }
 
 .icon--dots {
-  margin: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
   background-image: $iconDots;
   background-size: 18px 4px;
-  vertical-align: initial;
 }
 
 .icon--dots-wrapper {
-  width: 44px;
-  height: 44px;
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
   opacity: 0.5;
   cursor: pointer;
   transition: opacity .3s ease;

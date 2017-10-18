@@ -6,7 +6,7 @@ export default {
   resetIncorrectPincodeTimeout: 1000,
 
   // timeout before opening/closing modal animation
-  modalOpeningClosingTimeout: 300,
+  modalOpeningClosingTimeout: 400,
 
   // To prevent closing on first open of popover
   popoverClickTimeout: 50,

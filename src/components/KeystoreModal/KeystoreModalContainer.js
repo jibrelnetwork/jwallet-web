@@ -8,8 +8,8 @@ import {
   setKeystoreAccountDerivationPath,
   setKeystoreAccountAddress,
   getKeystoreAddressesFromMnemonic,
-  setKeystorePassword,
   sortAccounts,
+  openKeystoreModal,
   closeKeystoreModal,
   openNewKeyModal,
   openImportKeyModal,
@@ -18,6 +18,8 @@ import {
   setEditAccountName,
   setNewAccountName,
 } from 'routes/JWallet/modules/keystore'
+
+import { openNewKeystorePasswordModal } from 'routes/JWallet/modules/modals/newKeystorePassword'
 
 import KeystoreModal from './KeystoreModal'
 
@@ -33,8 +35,8 @@ const mapDispatchToProps = {
   setKeystoreAccountDerivationPath,
   setKeystoreAccountAddress,
   getKeystoreAddressesFromMnemonic,
-  setKeystorePassword,
   sortAccounts,
+  openKeystoreModal,
   closeKeystoreModal,
   openNewKeyModal,
   openImportKeyModal,
@@ -42,6 +44,7 @@ const mapDispatchToProps = {
   openDerivationPathModal,
   setEditAccountName,
   setNewAccountName,
+  openNewKeystorePasswordModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KeystoreModal)

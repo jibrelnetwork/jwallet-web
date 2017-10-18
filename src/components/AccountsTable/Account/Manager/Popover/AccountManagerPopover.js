@@ -9,6 +9,8 @@ function AccountManagerPopover(props) {
     setEditAccountName,
     removeKeystoreAccount,
     openDerivationPathModal,
+    id,
+    derivationPath,
   } = props
 
   const editDerivationPath = !openDerivationPathModal ? null : (
@@ -21,8 +23,8 @@ function AccountManagerPopover(props) {
     <div className='account-manager-popover'>
       <div className='popover__item' onClick={setEditAccountName}>{'Edit name'}</div>
       {editDerivationPath}
-      <div className='popover__item popover__item--gray' onClick=
-        {removeKeystoreAccount}>{'Clear key'}
+      <div className='popover__item popover__item--gray' onClick={removeKeystoreAccount}>
+        {'Clear key'}
       </div>
     </div>
   )
@@ -32,7 +34,6 @@ function AccountManagerPopover(props) {
       name='account-manager'
       onClickOutside={onClickOutside}
       body={body}
-      isCloseOnClickInside
     />
   )
 }
