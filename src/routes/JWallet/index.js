@@ -12,11 +12,15 @@ export default store => ({
       const networks = require('./modules/networks').default
       const transactions = require('./modules/transactions').default
 
+      const newKeystorePassword = require('./modules/modals/newKeystorePassword').default
+
       injectReducer(store, { key: 'currencies', reducer: currencies })
       injectReducer(store, { key: 'funds', reducer: funds })
       injectReducer(store, { key: 'keystore', reducer: keystore })
       injectReducer(store, { key: 'networks', reducer: networks })
       injectReducer(store, { key: 'transactions', reducer: transactions })
+
+      injectReducer(store, { key: 'newKeystorePasswordModal', reducer: newKeystorePassword })
 
       cb(null, JWallet)
     }, 'jwallet')

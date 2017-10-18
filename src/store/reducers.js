@@ -7,6 +7,8 @@ import keystore from 'routes/JWallet/modules/keystore'
 import networks from 'routes/JWallet/modules/networks'
 import transactions from 'routes/JWallet/modules/transactions'
 
+import newKeystorePasswordModal from 'routes/JWallet/modules/modals/newKeystorePassword'
+
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     currencies,
@@ -14,6 +16,7 @@ export const makeRootReducer = (asyncReducers) => {
     keystore,
     networks,
     transactions,
+    newKeystorePasswordModal,
     router,
     ...asyncReducers,
   })

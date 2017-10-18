@@ -13,6 +13,7 @@ import {
   NewKeyModal,
   ImportKeyModal,
   BackupKeystoreModal,
+  NewKeystorePasswordModal,
   CustomTokenModal,
 } from 'components'
 
@@ -123,6 +124,7 @@ class CoreLayout extends Component {
         <NewKeyModal />
         <ImportKeyModal />
         <BackupKeystoreModal />
+        <NewKeystorePasswordModal />
         <CustomTokenModal />
       </div>
     )
@@ -145,6 +147,7 @@ class CoreLayout extends Component {
         isImportKeyModalOpen,
         isBackupKeystoreModalOpen,
       },
+      isNewKeystorePasswordModalOpen,
     } = this.props
 
     return (
@@ -156,7 +159,8 @@ class CoreLayout extends Component {
       isKeystoreModalOpen ||
       isNewKeyModalOpen ||
       isImportKeyModalOpen ||
-      isBackupKeystoreModalOpen
+      isBackupKeystoreModalOpen ||
+      isNewKeystorePasswordModalOpen
     )
   }
 }
@@ -218,6 +222,7 @@ CoreLayout.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  isNewKeystorePasswordModalOpen: PropTypes.bool.isRequired,
   children: PropTypes.element,
 }
 

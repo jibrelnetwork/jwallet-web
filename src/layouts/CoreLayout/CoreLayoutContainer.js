@@ -29,6 +29,7 @@ const mapStateToProps = state => ({
   funds: state.funds,
   keystore: state.keystore,
   networks: state.networks,
+  isNewKeystorePasswordModalOpen: state.newKeystorePasswordModal.isOpen,
 })
 
 const mapDispatchToProps = {
