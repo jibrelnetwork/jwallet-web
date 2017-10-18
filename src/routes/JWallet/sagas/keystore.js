@@ -28,9 +28,10 @@ import {
   KEYSTORE_CLOSE_MODAL,
 } from '../modules/keystore'
 
-const keystore = new Keystore({ scryptParams: { N: 2 ** 14, r: 8, p: 1 } })
+const keystore = new Keystore({ scryptParams: { N: 2 ** 3, r: 8, p: 1 } })
+const ADDRESSES_PER_ITERATION = 4
 
-function getStateKeystore(state) {
+function getStateKeystoreData(state) {
   return state.keystore
 }
 
@@ -66,7 +67,6 @@ function* setAccounts() {
     yield put(push('/jwallet'))
   } else {
     yield put(push('/auth'))
-    yield put({ type: KEYSTORE_CLOSE_MODAL })
   }
 
   setKeystoreToStorage()
@@ -104,8 +104,10 @@ function* setFirstAccountAsCurrent() {
 
 function* setEmptyCurrentAccount() {
   storage.removeItem('keystoreCurrentAccount')
+  storage.removeItem('keystoreAddressesFromMnemonic')
 
   yield put({ type: KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA })
+  yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, items: [], currentIteration: 0 })
 }
 
 function* createAccount(action) {
@@ -133,6 +135,8 @@ function* removeAccount(action) {
 
   keystore.removeAccount(accountId)
 
+  yield closeKeystoreModal()
+
   if (currentAccountId === accountId) {
     yield setFirstAccountAsCurrent()
   }
@@ -140,11 +144,18 @@ function* removeAccount(action) {
   yield setAccounts()
 }
 
+function* closeKeystoreModal() {
+  if (!keystore.getAccounts().length) {
+    yield put({ type: KEYSTORE_CLOSE_MODAL })
+  }
+}
+
 function* removeAccounts() {
   keystore.removeAccounts()
 
+  yield closeKeystoreModal()
   yield setAccounts()
-  yield setCurrentAccountData()
+  yield setEmptyCurrentAccount()
 }
 
 function* setAccountName(action) {
@@ -175,19 +186,87 @@ function* setAddress(action) {
 }
 
 function* getAddressesFromMnemonic(action) {
+  const { currentAccount, addressesFromMnemonic } = yield select(getStateKeystoreData)
+  const { address } = currentAccount
   const { password, accountId, iteration } = action
+  const existedItems = addressesFromMnemonic.items
 
-  const addressesFromMnemonic = keystore.getAddressesFromMnemonic(password, accountId, iteration)
+  const fromStorage = getAddressesFromStorage(iteration)
+  const isFromStorage = !!fromStorage
 
-  yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, addressesFromMnemonic })
+  const newItems = isFromStorage
+    ? fromStorage
+    : keystore.getAddressesFromMnemonic(password, accountId, iteration, ADDRESSES_PER_ITERATION)
+
+  yield setAddressesFromMnemonic(existedItems, newItems, iteration)
+
+  if (!(address && address.length)) {
+    yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
+  }
+
+  if (!isFromStorage) {
+    setAddressesToStorage(newItems)
+  }
+}
+
+function getAddressesFromStorage(iteration = -1) {
+  const addresses = storage.getItem('keystoreAddressesFromMnemonic')
+
+  if (!addresses) {
+    return null
+  }
+
+  const parsedAddresses = JSON.parse(addresses)
+  const isFound = (parsedAddresses.length > (iteration * ADDRESSES_PER_ITERATION))
+
+  if (!isFound) {
+    return null
+  }
+
+  // return all found results if iteration parameter was not passed
+  if (iteration === -1) {
+    return parsedAddresses
+  }
+
+  const startIndex = (iteration * ADDRESSES_PER_ITERATION)
+  const endIndex = (startIndex + ADDRESSES_PER_ITERATION)
+  const foundItems = []
+
+  for (let i = startIndex; i < endIndex; i += 1) {
+    foundItems.push(parsedAddresses[i])
+  }
+
+  return foundItems
+}
+
+function* setAddressesFromMnemonic(existedItems, newItems, iteration) {
+  yield put({
+    type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
+    items: [...existedItems, ...newItems],
+    currentIteration: (iteration + 1),
+  })
+}
+
+function setAddressesToStorage(newItems) {
+  const addresses = storage.getItem('keystoreAddressesFromMnemonic')
+  const parsedAddresses = !addresses ? [] : JSON.parse(addresses)
+  const newAddresses = [...parsedAddresses, ...newItems]
+
+  storage.setItem('keystoreAddressesFromMnemonic', JSON.stringify(newAddresses))
 }
 
 function setPassword(action) {
-  const { password, newPassword } = action
+  const { password, newPassword, onSuccess, onError } = action
 
-  keystore.setPassword(password, newPassword)
+  try {
+    keystore.setPassword(password, newPassword)
 
-  setKeystoreToStorage()
+    setKeystoreToStorage()
+
+    return onSuccess ? onSuccess() : null
+  } catch(e) {
+    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
+  }
 }
 
 function saveMnemonicToFile(action) {
@@ -206,14 +285,18 @@ function saveMnemonicToFile(action) {
 }
 
 function backupKeystore(action) {
+  const { password, onSuccess, onError } = action
+
   try {
-    const decryptedAccounts = keystore.getDecryptedAccounts(action.password)
+    const decryptedAccounts = JSON.stringify(keystore.getDecryptedAccounts(password))
     const backupData = new Blob([decryptedAccounts], { type: 'plain/text', endings: 'native' })
     const timestamp = getTimestamp()
 
     fileSaver.saveAs(backupData, `jwallet-keystore-backup ${timestamp}.json`)
+
+    return onSuccess ? onSuccess() : null
   } catch (e) {
-    console.error(e) // eslint-disable-line no-console
+    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
   }
 }
 
@@ -222,11 +305,11 @@ function getTimestamp() {
 }
 
 function* sortAccounts(action) {
-  const keystore = yield select(getStateKeystore)
+  const keystoreData = yield select(getStateKeystoreData)
 
-  const oldSortField = keystore.sortField
+  const oldSortField = keystoreData.sortField
   const sortField = action.sortField || oldSortField
-  const { accounts, sortDirection } = keystore
+  const { accounts, sortDirection } = keystoreData
 
   const result = sortItems(accounts, oldSortField, sortField, sortDirection)
 

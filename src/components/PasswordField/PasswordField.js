@@ -20,14 +20,19 @@ class PasswordField extends Component {
   }
 
   renderPasswordInput = () => {
-    const { onPasswordChange, password, ...otherProps } = this.props // eslint-disable-line
+    const {
+      onPasswordChange, // eslint-disable-line
+      password,
+      placeholder,
+      ...otherProps
+    } = this.props
 
     return (
       <JTextInput
         {...otherProps}
         onValueChange={this.onPasswordChange}
         name='password'
-        placeholder='Password'
+        placeholder={placeholder}
         value={password}
         editable
         preventCopy
@@ -79,6 +84,11 @@ class PasswordField extends Component {
 PasswordField.propTypes = {
   onPasswordChange: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+}
+
+PasswordField.defaultProps = {
+  placeholder: 'Password',
 }
 
 export default PasswordField

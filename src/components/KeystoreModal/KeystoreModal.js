@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { JIcon, JModal } from 'components/base'
-import Accounts from 'components/Accounts'
+import { JLoader, JModal } from 'components/base'
+import AccountsTable from 'components/AccountsTable'
+import KeystoreModalFooter from './Footer'
 
 class KeystoreModal extends Component {
   render() {
@@ -31,7 +32,6 @@ class KeystoreModal extends Component {
       setKeystoreAccountName,
       setKeystoreAccountAddress,
       getKeystoreAddressesFromMnemonic,
-      setKeystorePassword,
       openDerivationPathModal,
       setEditAccountName,
       setNewAccountName,
@@ -39,17 +39,16 @@ class KeystoreModal extends Component {
     } = this.props
 
     return (
-      <Accounts
+      <AccountsTable
         setCurrentKeystoreAccount={this.setCurrentKeystoreAccount}
         removeKeystoreAccount={this.preventEventHandler(removeKeystoreAccount)}
         removeKeystoreAccounts={removeKeystoreAccounts}
         setKeystoreAccountName={this.preventEventHandler(setKeystoreAccountName)}
-        setKeystoreAccountAddress={setKeystoreAccountAddress}
-        getKeystoreAddressesFromMnemonic={getKeystoreAddressesFromMnemonic}
-        setKeystorePassword={setKeystorePassword}
+        setKeystoreAccountAddress={this.preventEventHandler(setKeystoreAccountAddress)}
+        getAddressesFromMnemonic={this.preventEventHandler(getKeystoreAddressesFromMnemonic)}
         sortAccounts={this.sortAccounts}
-        openDerivationPathModal={this.preventEventHandler(openDerivationPathModal)}
-        setEditAccountName={this.preventEventHandler(setEditAccountName)}
+        openDerivationPathModal={this.popoverHandler(openDerivationPathModal)}
+        setEditAccountName={this.popoverHandler(setEditAccountName)}
         setNewAccountName={this.setNewAccountName}
         selectAccountName={this.selectAccountName}
         keystore={keystore}
@@ -58,40 +57,37 @@ class KeystoreModal extends Component {
   }
 
   renderFooter = () => {
+    const {
+      openNewKeyModal,
+      openImportKeyModal,
+      openBackupKeystoreModal,
+      removeKeystoreAccounts,
+    } = this.props
+
     return (
-      <div className='keystore-modal-footer clear'>
-        <div className='keystore-modal-footer__item pull-left' onClick={this.addNewKey}>
-          <JIcon name='small-add' className='keystore-modal-footer__icon' small />
-          {'New key'}
-        </div>
-        <div className='keystore-modal-footer__item pull-left' onClick={this.importKey}>
-          <JIcon name='small-import' className='keystore-modal-footer__icon' small />
-          {'Import key'}
-        </div>
-      </div>
+      <KeystoreModalFooter
+        addNewKey={this.openModalHandler(openNewKeyModal)}
+        importKey={this.openModalHandler(openImportKeyModal)}
+        backupKeystore={this.openModalHandler(openBackupKeystoreModal)}
+        setNewKeystorePassword={this.openModal('NewKeystorePassword')}
+        removeKeystoreAccounts={removeKeystoreAccounts}
+      />
     )
   }
 
-  addNewKey = (/* event */) => {
-    const { openNewKeyModal, closeKeystoreModal } = this.props
+  openModalHandler = handler => (/* event */) => {
     const showKeystoreModalAfterClose = true
 
-    openNewKeyModal(showKeystoreModalAfterClose)
-    closeKeystoreModal()
+    handler(showKeystoreModalAfterClose)
+    this.props.closeKeystoreModal()
   }
 
-  importKey = (/* event */) => {
-    const { openImportKeyModal, closeKeystoreModal } = this.props
-    const showKeystoreModalAfterClose = true
+  openModal = modalName => () => {
+    const { openKeystoreModal, closeKeystoreModal } = this.props
+    const openModalHandler = `open${modalName}Modal`
 
-    openImportKeyModal(showKeystoreModalAfterClose)
+    this.props[openModalHandler](openKeystoreModal)
     closeKeystoreModal()
-  }
-
-  setCurrentKeystoreAccount = id => (event) => {
-    event.preventDefault()
-
-    this.props.setCurrentKeystoreAccount(id)
   }
 
   setNewAccountName = (event) => {
@@ -102,16 +98,32 @@ class KeystoreModal extends Component {
     event.stopPropagation()
   }
 
+  popoverHandler = handler => (...args) => (event) => {
+    this.preventEventHandler(handler)(...args)(event)
+
+    // generate click event to hide popover
+    document.body.click()
+  }
+
   preventEventHandler = handler => (...args) => (event) => {
-    event.preventDefault()
+    if (event) {
+      event.preventDefault()
+    }
 
     handler(...args)
 
     // stop propagation to omit clicking on account (that will fire unnecessary actions)
-    event.stopPropagation()
+    if (event) {
+      event.stopPropagation()
+    }
+  }
 
-    // generate click event to hide popover
-    document.body.click()
+  setCurrentKeystoreAccount = accountId => (/* event */) => {
+    const { setCurrentKeystoreAccount, keystore } = this.props
+
+    if (accountId !== keystore.currentAccount.id) {
+      setCurrentKeystoreAccount(accountId)
+    }
   }
 
   selectAccountName = (event) => {
@@ -129,8 +141,8 @@ KeystoreModal.propTypes = {
   setKeystoreAccountName: PropTypes.func.isRequired,
   setKeystoreAccountAddress: PropTypes.func.isRequired,
   getKeystoreAddressesFromMnemonic: PropTypes.func.isRequired,
-  setKeystorePassword: PropTypes.func.isRequired,
   sortAccounts: PropTypes.func.isRequired,
+  openKeystoreModal: PropTypes.func.isRequired,
   closeKeystoreModal: PropTypes.func.isRequired,
   openNewKeyModal: PropTypes.func.isRequired,
   openImportKeyModal: PropTypes.func.isRequired,
@@ -138,6 +150,7 @@ KeystoreModal.propTypes = {
   openDerivationPathModal: PropTypes.func.isRequired,
   setEditAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
+  openNewKeystorePasswordModal: PropTypes.func.isRequired,
   keystore: PropTypes.shape({
     newAccountNameData: PropTypes.shape({
       accountId: PropTypes.string.isRequired,
@@ -158,7 +171,10 @@ KeystoreModal.propTypes = {
       address: PropTypes.string,
       isReadOnly: PropTypes.bool,
     })).isRequired,
-    addressesFromMnemonic: PropTypes.arrayOf(PropTypes.string).isRequired,
+    addressesFromMnemonic: PropTypes.shape({
+      items: PropTypes.arrayOf(PropTypes.string).isRequired,
+      currentIteration: PropTypes.number.isRequired,
+    }).isRequired,
     sortField: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
     isKeystoreModalOpen: PropTypes.bool.isRequired,

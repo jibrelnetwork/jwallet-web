@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function AccountName(props) {
+function AccountInfoName(props) {
   const {
     setKeystoreAccountName,
     setNewAccountName,
@@ -14,13 +14,13 @@ function AccountName(props) {
   const { accountId, newAccountName } = newAccountNameData
 
   if (id !== accountId) {
-    return <div className='account-name'>{accountName}</div>
+    return <div className='account-info-name'>{accountName}</div>
   }
 
   return (
-    <div className='account-name account-name--input'>
+    <div className='account-info-name account-name--input'>
       <input
-        className='account-name__input'
+        className='account-info-name__input'
         type='text'
         placeholder='New name'
         value={newAccountName}
@@ -33,7 +33,7 @@ function AccountName(props) {
   )
 }
 
-AccountName.propTypes = {
+AccountInfoName.propTypes = {
   setKeystoreAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
   selectAccountName: PropTypes.func.isRequired,
@@ -45,4 +45,4 @@ AccountName.propTypes = {
   accountName: PropTypes.string.isRequired,
 }
 
-export default AccountName
+export default AccountInfoName

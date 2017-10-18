@@ -21,9 +21,12 @@ class NewKeyModal extends Component {
   }
 
   render() {
-    const { createKeystoreAccount, keystore } = this.props
+    const { keystore } = this.props
     const { alert, currentStep, totalSteps } = keystore.newKeyData
-    const submit = (currentStep === totalSteps) ? handleEnterKeyPress(createKeystoreAccount) : null
+
+    const submit = (currentStep === totalSteps)
+      ? handleEnterKeyPress(this.createKeystoreAccount)
+      : null
 
     return (
       <JModal
@@ -181,10 +184,6 @@ class NewKeyModal extends Component {
 
       return null
     } else if (isSetPasswordStep) {
-      if (!this.checkPasswordConfirm()) {
-        return this.shake()
-      }
-
       return this.createKeystoreAccount()
     } else if (nextStep > totalSteps) {
       return null
@@ -205,6 +204,10 @@ class NewKeyModal extends Component {
   }
 
   createKeystoreAccount = () => {
+    if (!this.checkPasswordConfirm()) {
+      return this.shake()
+    }
+
     const { closeNewKeyModal, createKeystoreAccount, keystore } = this.props
 
     const { password, mnemonic } = keystore.newKeyData
@@ -264,9 +267,7 @@ class NewKeyModal extends Component {
   shake = () => {
     this.setState({ isShake: true })
 
-    setTimeout(() => {
-      this.setState({ isShake: false })
-    }, config.modalShakeTimeout)
+    setTimeout(() => this.setState({ isShake: false }), config.modalShakeTimeout)
   }
 
   closeNewKeyModal = (/* event */) => {
