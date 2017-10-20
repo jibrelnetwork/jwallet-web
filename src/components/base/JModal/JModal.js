@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import config from 'config'
 
+import getFieldMessage from 'utils/getFieldMessage'
+
 import { JModalAlert, JIcon } from 'components/base'
 
 import Appearable from 'components/Appearable'
@@ -28,8 +30,7 @@ class JModal extends Appearable {
   }
 
   render() {
-    const { closeModal, name, isShake } = this.props
-    const { opening, closing } = this.state
+    const { name, opening, closing, isShake } = this.state
 
     if (!this.isOpen()) {
       return null
@@ -50,7 +51,7 @@ class JModal extends Appearable {
 
     return (
       <div className='modal-wrap'>
-        <div className={modalOverlayClassName} onClick={closeModal} />
+        <div className={modalOverlayClassName} onClick={this._closeModal} />
         <div className={modalClassName}>{this.renderModalContent()}</div>
       </div>
     )
@@ -69,18 +70,16 @@ class JModal extends Appearable {
   }
 
   renderModalHeader = () => {
-    const { closeModal, header } = this.props
-
     return (
       <div className='modal__header'>
-        {header}
-        <JIcon name='close' small className='modal__close' onClick={closeModal} />
+        {this.renderHeader()}
+        <JIcon name='close' small className='modal__close' onClick={this._closeModal} />
       </div>
     )
   }
 
   renderModalTopLine = () => {
-    const width = this.props.topLineFullness
+    const width = this.state.topLineFullness
 
     if (!(width && width.length)) {
       return null
@@ -98,35 +97,58 @@ class JModal extends Appearable {
   }
 
   renderModalBody = () => {
-    const { submitModal, body } = this.props
-
-    return <div className='modal__body' onKeyPress={submitModal}>{body}</div>
+    return <div className='modal__body' onKeyPress={this.submitModal}>{this.renderBody()}</div>
   }
 
   renderModalFooter = () => {
-    return <div className='modal__footer'>{this.props.footer}</div>
+    return <div className='modal__footer'>{this.renderFooter()}</div>
   }
+
+  shake = () => {
+    this.setState({ isShake: true })
+
+    setTimeout(() => this.setState({ isShake: false }), config.modalShakeTimeout)
+  }
+
+  _closeModal = () => {
+    const { onClose } = this.props
+
+    console.log(onClose)
+
+    if (onClose) {
+      onClose()
+    }
+
+    this.closeModal()
+  }
+
+  isEnabledField = fieldName => (this.props.disabledFields.indexOf(fieldName) === -1)
+  getValidFieldMessage = fieldName => getFieldMessage(this.props.validFields, fieldName)
+  getInvalidFieldMessage = fieldName => getFieldMessage(this.props.invalidFields, fieldName)
 }
 
 JModal.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  header: PropTypes.node.isRequired,
-  body: PropTypes.node.isRequired,
-  footer: PropTypes.node.isRequired,
-  name: PropTypes.string.isRequired,
-  submitModal: PropTypes.func,
+  onClose: PropTypes.func,
+  validFields: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+  })),
+  invalidFields: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+  })),
+  disabledFields: PropTypes.arrayOf(PropTypes.string),
   alert: PropTypes.string,
-  topLineFullness: PropTypes.string,
   isOpen: PropTypes.bool,
-  isShake: PropTypes.bool,
 }
 
 JModal.defaultProps = {
-  submitModal: () => {},
+  onClose: null,
+  validFields: [],
+  invalidFields: [],
+  disabledFields: [],
   alert: '',
-  topLineFullness: '',
   isOpen: false,
-  isShake: false,
 }
 
 export default JModal

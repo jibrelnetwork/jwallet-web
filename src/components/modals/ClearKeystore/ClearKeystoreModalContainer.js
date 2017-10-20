@@ -1,0 +1,15 @@
+import { connect } from 'react-redux'
+
+import { closeClearKeystoreModal } from 'routes/JWallet/modules/modals/clearKeystore'
+import { removeKeystoreAccounts } from 'routes/JWallet/modules/keystore'
+
+import ClearKeystoreModal from './ClearKeystoreModal'
+
+const mapStateToProps = state => state.clearKeystoreModal
+
+const mapDispatchToProps = {
+  closeClearKeystoreModal,
+  removeKeystoreAccounts,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClearKeystoreModal)

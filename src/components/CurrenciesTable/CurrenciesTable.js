@@ -7,16 +7,17 @@ import CurrenciesTableSearch from './CurrenciesTableSearch'
 import CurrenciesTableBodyRow from './CurrenciesTableBodyRow'
 
 function CurrenciesTable(props) {
-  const { toggleActiveCurrency, searchCurrencies, sortCurrencies, currencies } = props
-
   const {
+    toggleActiveCurrency,
+    searchCurrencies,
+    sortCurrencies,
     items,
     foundItemsSymbols,
     sortField,
     sortDirection,
     searchQuery,
     isActiveAll,
-  } = currencies
+  } = props
 
   const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
   const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
@@ -70,21 +71,19 @@ CurrenciesTable.propTypes = {
   toggleActiveCurrency: PropTypes.func.isRequired,
   searchCurrencies: PropTypes.func.isRequired,
   sortCurrencies: PropTypes.func.isRequired,
-  currencies: PropTypes.shape({
-    items: PropTypes.arrayOf(PropTypes.shape({
-      symbol: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      balanceFixed: PropTypes.string.isRequired,
-      licensed: PropTypes.string.isRequired,
-      transfer: PropTypes.string.isRequired,
-      isActive: PropTypes.bool.isRequired,
-    })).isRequired,
-    foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
-    sortField: PropTypes.string.isRequired,
-    sortDirection: PropTypes.string.isRequired,
-    searchQuery: PropTypes.string.isRequired,
-    isActiveAll: PropTypes.bool.isRequired,
-  }).isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    symbol: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    balanceFixed: PropTypes.string.isRequired,
+    licensed: PropTypes.string.isRequired,
+    transfer: PropTypes.string.isRequired,
+    isActive: PropTypes.bool.isRequired,
+  })).isRequired,
+  foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
+  sortField: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  isActiveAll: PropTypes.bool.isRequired,
 }
 
 export default CurrenciesTable
