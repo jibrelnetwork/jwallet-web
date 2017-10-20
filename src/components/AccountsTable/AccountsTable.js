@@ -79,7 +79,6 @@ function AccountsTable(props) {
 AccountsTable.propTypes = {
   setCurrentKeystoreAccount: PropTypes.func.isRequired,
   removeKeystoreAccount: PropTypes.func.isRequired,
-  removeKeystoreAccounts: PropTypes.func.isRequired,
   setKeystoreAccountName: PropTypes.func.isRequired,
   setKeystoreAccountAddress: PropTypes.func.isRequired,
   getAddressesFromMnemonic: PropTypes.func.isRequired,

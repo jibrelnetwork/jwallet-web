@@ -2,8 +2,8 @@ import { connect } from 'react-redux'
 
 import {
   getCurrencies,
-  openCurrenciesModal,
   setCurrentCurrency,
+  openCurrenciesModal,
 } from 'routes/JWallet/modules/currencies'
 
 import Currencies from './Currencies'
@@ -15,8 +15,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getCurrencies,
-  openCurrenciesModal,
   setCurrentCurrency,
+  openCurrenciesModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Currencies)

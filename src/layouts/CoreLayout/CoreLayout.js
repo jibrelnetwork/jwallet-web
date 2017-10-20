@@ -1,35 +1,35 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import {
-  base,
-  AuthHeader,
-  JWalletHeader,
-  ConvertFundsModal,
-  ReceiveFundsModal,
-  SendFundsModal,
-  KeystoreModal,
-  CurrenciesModal,
-  NewKeyModal,
-  ImportKeyModal,
-  BackupKeystoreModal,
-  NewKeystorePasswordModal,
-  CustomTokenModal,
-} from 'components'
+import { base, modals, AuthHeader, JWalletHeader } from 'components'
 
 import 'styles/core.scss'
 
 const { JFooter, JLoader } = base
 
+const {
+  BackupKeystoreModal,
+  ClearKeystoreModal,
+  ConvertFundsModal,
+  CurrenciesModal,
+  CustomTokenModal,
+  ImportKeyStoreAccountModal,
+  KeystoreModal,
+  NewKeystoreAccountModal,
+  NewKeystorePasswordModal,
+  ReceiveFundsModal,
+  SendFundsModal,
+} = modals
+
 class CoreLayout extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { getKeystoreFromStorage, getNetworksFromStorage, keystore, networks } = this.props
 
-    if (!(keystore.accounts && keystore.accounts.length)) {
+    if (!keystore.accounts.length) {
       getKeystoreFromStorage()
     }
 
-    if (!(networks.items && networks.items.length)) {
+    if (!networks.items.length) {
       getNetworksFromStorage()
     }
   }
@@ -56,8 +56,7 @@ class CoreLayout extends Component {
   }
 
   renderHeader = () => {
-    const { accounts } = this.props.keystore
-    const isAuthRequired = !(accounts && accounts.length)
+    const isAuthRequired = !this.props.keystore.accounts.length
 
     if (isAuthRequired) {
       return this.renderAuthHeader()
@@ -81,32 +80,29 @@ class CoreLayout extends Component {
 
   renderJWalletHeader = () => {
     const {
-      openSendFundsModal,
-      openReceiveFundsModal,
-      openConvertFundsModal,
-      openKeystoreModal,
-      openNewKeyModal,
-      openImportKeyModal,
       setActiveNetwork,
       saveCustomNetwork,
       removeCustomNetwork,
       openCurrenciesModal,
+      openImportKeystoreAccountModal,
+      openNewKeystoreAccountModal,
+      openKeystoreModal,
       keystore,
       networks,
     } = this.props
 
     return (
       <JWalletHeader
-        openSendFundsModal={openSendFundsModal}
-        openReceiveFundsModal={openReceiveFundsModal}
-        openConvertFundsModal={openConvertFundsModal}
-        openKeystoreModal={openKeystoreModal}
-        openNewKeyModal={openNewKeyModal}
-        openImportKeyModal={openImportKeyModal}
         setActiveNetwork={setActiveNetwork}
         saveCustomNetwork={saveCustomNetwork}
         removeCustomNetwork={removeCustomNetwork}
+        openConvertFundsModal={this.fundsModal('Convert')}
         openCurrenciesModal={openCurrenciesModal}
+        openImportKeystoreAccountModal={openImportKeystoreAccountModal}
+        openKeystoreModal={openKeystoreModal}
+        openNewKeystoreAccountModal={openNewKeystoreAccountModal}
+        openReceiveFundsModal={this.fundsModal('Receive')}
+        openSendFundsModal={this.fundsModal('Send')}
         accountName={keystore.currentAccount.accountName}
         networks={networks}
       />
@@ -116,77 +112,67 @@ class CoreLayout extends Component {
   renderModals = () => {
     return (
       <div>
-        <SendFundsModal />
-        <ReceiveFundsModal />
-        <ConvertFundsModal />
-        <KeystoreModal />
-        <CurrenciesModal />
-        <NewKeyModal />
-        <ImportKeyModal />
         <BackupKeystoreModal />
-        <NewKeystorePasswordModal />
+        <ClearKeystoreModal />
+        <ConvertFundsModal />
+        <CurrenciesModal />
         <CustomTokenModal />
+        <KeystoreModal />
+        <ImportKeyStoreAccountModal />
+        <NewKeystoreAccountModal />
+        <NewKeystorePasswordModal />
+        <ReceiveFundsModal />
+        <SendFundsModal />
       </div>
     )
   }
 
   isAnyModalOpened() {
     const {
-      currencies: {
-        isCurrenciesModalOpen,
-        isCustomTokenModalOpen,
-      },
-      funds: {
-        isSendFundsModalOpen,
-        isReceiveFundsModalOpen,
-        isConvertFundsModalOpen,
-      },
-      keystore: {
-        isKeystoreModalOpen,
-        isNewKeyModalOpen,
-        isImportKeyModalOpen,
-        isBackupKeystoreModalOpen,
-      },
+      isBackupKeystoreModalOpen,
+      isClearKeystoreModalOpen,
+      isConvertFundsModalOpen,
+      isCurrenciesModalOpen,
+      isCustomTokenModalOpen,
+      isImportKeystoreAccountModalOpen,
+      isNewKeystoreAccountModalOpen,
       isNewKeystorePasswordModalOpen,
+      isReceiveFundsModalOpen,
+      isSendFundsModalOpen,
+      keystore: { isKeystoreModalOpen },
     } = this.props
 
     return (
+      isBackupKeystoreModalOpen ||
+      isClearKeystoreModalOpen ||
+      isConvertFundsModalOpen ||
       isCurrenciesModalOpen ||
       isCustomTokenModalOpen ||
-      isSendFundsModalOpen ||
-      isReceiveFundsModalOpen ||
-      isConvertFundsModalOpen ||
+      isImportKeystoreAccountModalOpen ||
       isKeystoreModalOpen ||
-      isNewKeyModalOpen ||
-      isImportKeyModalOpen ||
-      isBackupKeystoreModalOpen ||
-      isNewKeystorePasswordModalOpen
+      isNewKeystoreAccountModalOpen ||
+      isNewKeystorePasswordModalOpen ||
+      isReceiveFundsModalOpen ||
+      isSendFundsModalOpen
     )
   }
+
+  fundsModal = modalName => () => this.props[`open${modalName}FundsModal`]()
 }
 
 CoreLayout.propTypes = {
-  openSendFundsModal: PropTypes.func.isRequired,
-  openReceiveFundsModal: PropTypes.func.isRequired,
-  openConvertFundsModal: PropTypes.func.isRequired,
   getKeystoreFromStorage: PropTypes.func.isRequired,
-  openKeystoreModal: PropTypes.func.isRequired,
-  openNewKeyModal: PropTypes.func.isRequired,
-  openImportKeyModal: PropTypes.func.isRequired,
   getNetworksFromStorage: PropTypes.func.isRequired,
   setActiveNetwork: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
+  openConvertFundsModal: PropTypes.func.isRequired,
   openCurrenciesModal: PropTypes.func.isRequired,
-  currencies: PropTypes.shape({
-    isCurrenciesModalOpen: PropTypes.bool.isRequired,
-    isCustomTokenModalOpen: PropTypes.bool.isRequired,
-  }).isRequired,
-  funds: PropTypes.shape({
-    isSendFundsModalOpen: PropTypes.bool.isRequired,
-    isReceiveFundsModalOpen: PropTypes.bool.isRequired,
-    isConvertFundsModalOpen: PropTypes.bool.isRequired,
-  }).isRequired,
+  openImportKeystoreAccountModal: PropTypes.func.isRequired,
+  openKeystoreModal: PropTypes.func.isRequired,
+  openNewKeystoreAccountModal: PropTypes.func.isRequired,
+  openReceiveFundsModal: PropTypes.func.isRequired,
+  openSendFundsModal: PropTypes.func.isRequired,
   keystore: PropTypes.shape({
     accounts: PropTypes.arrayOf(PropTypes.shape({
       encrypted: PropTypes.shape({
@@ -206,9 +192,6 @@ CoreLayout.propTypes = {
       accountName: PropTypes.string.isRequired,
     }).isRequired,
     isKeystoreModalOpen: PropTypes.bool.isRequired,
-    isNewKeyModalOpen: PropTypes.bool.isRequired,
-    isImportKeyModalOpen: PropTypes.bool.isRequired,
-    isBackupKeystoreModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -222,7 +205,16 @@ CoreLayout.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,
+  isNewKeystoreAccountModalOpen: PropTypes.bool.isRequired,
+  isClearKeystoreModalOpen: PropTypes.bool.isRequired,
+  isBackupKeystoreModalOpen: PropTypes.bool.isRequired,
+  isConvertFundsModalOpen: PropTypes.bool.isRequired,
+  isCurrenciesModalOpen: PropTypes.bool.isRequired,
+  isCustomTokenModalOpen: PropTypes.bool.isRequired,
+  isImportKeystoreAccountModalOpen: PropTypes.bool.isRequired,
   isNewKeystorePasswordModalOpen: PropTypes.bool.isRequired,
+  isReceiveFundsModalOpen: PropTypes.bool.isRequired,
+  isSendFundsModalOpen: PropTypes.bool.isRequired,
   children: PropTypes.element,
 }
 

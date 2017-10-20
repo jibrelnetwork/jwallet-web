@@ -5,27 +5,27 @@ import CurrenciesHeader from './CurrenciesHeader'
 import CurrenciesBody from './CurrenciesBody'
 
 class Currencies extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { getCurrencies, currencies } = this.props
 
-    if (!(currencies.items && currencies.items.length)) {
+    if (!currencies.items.length) {
       getCurrencies()
     }
   }
 
   render() {
-    const { openCurrenciesModal, currencies } = this.props
+    const { currencies } = this.props
     const { isLoading } = currencies
 
     return (
       <div className='currencies'>
-        <CurrenciesHeader openCurrenciesModal={openCurrenciesModal} isLoading={isLoading} />
+        <CurrenciesHeader openCurrenciesModal={this.openCurrenciesModal} isLoading={isLoading} />
         <CurrenciesBody setCurrentCurrency={this.setCurrentCurrency} currencies={currencies} />
       </div>
     )
   }
 
-  setCurrentCurrency = current => (/* event */) => {
+  setCurrentCurrency = current => () => {
     const { setCurrentCurrency, isTransactionsLoading, currencies } = this.props
     const isAlreadyCurrent = (current === currencies.currentActiveIndex)
 
@@ -35,12 +35,14 @@ class Currencies extends Component {
 
     setCurrentCurrency(current)
   }
+
+  openCurrenciesModal = () => this.props.openCurrenciesModal(/* without param */)
 }
 
 Currencies.propTypes = {
   getCurrencies: PropTypes.func.isRequired,
-  openCurrenciesModal: PropTypes.func.isRequired,
   setCurrentCurrency: PropTypes.func.isRequired,
+  openCurrenciesModal: PropTypes.func.isRequired,
   currencies: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,

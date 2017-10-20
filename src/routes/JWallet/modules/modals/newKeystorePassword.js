@@ -75,7 +75,7 @@ const initialState = {
   isOpen: false,
 }
 
-export default function newKeystorePassword(state = initialState, action) {
+export default function newKeystorePasswordModal(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
 
-import { openNewKeyModal, openImportKeyModal } from 'routes/JWallet/modules/keystore'
+import { openNewKeystoreAccountModal } from 'routes/JWallet/modules/modals/newKeystoreAccount'
+import { openImportKeystoreAccountModal } from 'routes/JWallet/modules/modals/importKeystoreAccount'
 
 import Auth from '../components/Auth'
 
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {
-  openNewKeyModal: openNewKeyModal.bind(null, false),
-  openImportKeyModal: openNewKeyModal.bind(null, false),
+  openNewKeystoreAccountModal: openNewKeystoreAccountModal.bind(null, null),
+  openImportKeystoreAccountModal: openImportKeystoreAccountModal.bind(null, null),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth)
