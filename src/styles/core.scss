@@ -121,18 +121,19 @@
   @import '../components/base/JTable/jTable';
   @import '../components/base/JTextInput/jTextInput';
 
+  @import '../components/modals/Keystore/keystoreModal';
+  @import '../components/modals/Currencies/currenciesModal';
+
   @import '../components/AccountsTable/accountsTable';
   @import '../components/AuthHeader/authHeader';
   @import '../components/CopyableField/copyableField';
   @import '../components/Currencies/currencies';
-  @import '../components/CurrenciesModal/currenciesModal';
   @import '../components/CurrenciesTable/currenciesTable';
   @import '../components/CurrencyItem/currencyItem';
   @import '../components/DatePicker/datePicker';
   @import '../components/Expandable/expandable';
   @import '../components/JWalletHeader/headerMenu';
   @import '../components/KeysManager/keysManager';
-  @import '../components/KeystoreModal/keystoreModal';
   @import '../components/NetworksManager/networksManager';
   @import '../components/PasswordField/passwordField';
   @import '../components/PincodeButton/pincodeButton';

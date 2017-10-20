@@ -3,12 +3,6 @@ import { connect } from 'react-redux'
 import { toggleActiveCurrency, setCurrentCurrency } from 'routes/JWallet/modules/currencies'
 
 import {
-  openSendFundsModal,
-  openReceiveFundsModal,
-  openConvertFundsModal,
-} from 'routes/JWallet/modules/funds'
-
-import {
   getTransactions,
   searchTransactions,
   sortTransactions,
@@ -16,6 +10,10 @@ import {
   setEndFilterTime,
   filterTransactions,
 } from 'routes/JWallet/modules/transactions'
+
+import { openConvertFundsModal } from 'routes/JWallet/modules/modals/convertFunds'
+import { openReceiveFundsModal } from 'routes/JWallet/modules/modals/receiveFunds'
+import { openSendFundsModal } from 'routes/JWallet/modules/modals/sendFunds'
 
 import Transactions from './Transactions'
 

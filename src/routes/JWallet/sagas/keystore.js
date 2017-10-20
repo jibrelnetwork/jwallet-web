@@ -79,15 +79,24 @@ function* setCurrentAccountData(accountId) {
     return yield setFirstAccountAsCurrent()
   }
 
+  yield refreshAddressesFromMnemonic()
+
+  // TODO: remove it
+  const password = 'qwert12345!Q'
+
+  yield getAddressesFromMnemonic({ accountId, iteration: 0, password })
+
   const account = keystore.getAccount({ id: accountId })
 
   if (!account) {
     return yield setEmptyCurrentAccount()
   }
 
-  storage.setItem('keystoreCurrentAccount', account.id)
+  storage.setItem('keystoreCurrentAccount', accountId)
 
   yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount: account })
+
+  yield setAccountAddress(accountId, account.address, password)
 }
 
 function* setFirstAccountAsCurrent() {
@@ -111,17 +120,22 @@ function* setEmptyCurrentAccount() {
 }
 
 function* createAccount(action) {
+  const currentAccountId = yield select(getStateCurrentAccountId)
+  const isAccountExist = !!currentAccountId.length
   const { props, onSuccess, onError } = action
 
   try {
     const accountId = keystore.createAccount(props)
 
     yield setAccounts()
-    yield setCurrentAccountData(accountId)
+
+    if (!isAccountExist) {
+      yield setCurrentAccountData(accountId)
+    }
 
     return onSuccess ? onSuccess(accountId) : null
   } catch (e) {
-    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
+    return onError ? onError(e) : null
   }
 }
 
@@ -150,12 +164,19 @@ function* closeKeystoreModal() {
   }
 }
 
-function* removeAccounts() {
-  keystore.removeAccounts()
+function* removeAccounts(action) {
+  const { onSuccess, onError } = action
 
-  yield closeKeystoreModal()
-  yield setAccounts()
-  yield setEmptyCurrentAccount()
+  try {
+    keystore.removeAccounts()
+
+    yield setAccounts()
+    yield setEmptyCurrentAccount()
+
+    return onSuccess ? onSuccess() : null
+  } catch (e) {
+    return onError ? onError(e) : null
+  }
 }
 
 function* setAccountName(action) {
@@ -191,21 +212,23 @@ function* getAddressesFromMnemonic(action) {
   const { password, accountId, iteration } = action
   const existedItems = addressesFromMnemonic.items
 
-  const fromStorage = getAddressesFromStorage(iteration)
-  const isFromStorage = !!fromStorage
+  const addressesFromStorage = getAddressesFromStorage(iteration)
+  const isFromStorage = !!addressesFromStorage
 
   const newItems = isFromStorage
-    ? fromStorage
+    ? addressesFromStorage
     : keystore.getAddressesFromMnemonic(password, accountId, iteration, ADDRESSES_PER_ITERATION)
 
   yield setAddressesFromMnemonic(existedItems, newItems, iteration)
 
-  if (!(address && address.length)) {
-    yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
-  }
-
   if (!isFromStorage) {
     setAddressesToStorage(newItems)
+  }
+}
+
+function* setAccountAddress(accountId, address, password) {
+  if (!(address && address.length)) {
+    yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
   }
 }
 
@@ -239,7 +262,7 @@ function getAddressesFromStorage(iteration = -1) {
   return foundItems
 }
 
-function* setAddressesFromMnemonic(existedItems, newItems, iteration) {
+function* setAddressesFromMnemonic(existedItems = [], newItems = [], iteration = -1) {
   yield put({
     type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
     items: [...existedItems, ...newItems],
@@ -247,12 +270,17 @@ function* setAddressesFromMnemonic(existedItems, newItems, iteration) {
   })
 }
 
-function setAddressesToStorage(newItems) {
+function setAddressesToStorage(newItems = []) {
   const addresses = storage.getItem('keystoreAddressesFromMnemonic')
   const parsedAddresses = !addresses ? [] : JSON.parse(addresses)
   const newAddresses = [...parsedAddresses, ...newItems]
 
   storage.setItem('keystoreAddressesFromMnemonic', JSON.stringify(newAddresses))
+}
+
+function* refreshAddressesFromMnemonic() {
+  yield setAddressesFromMnemonic()
+  storage.removeItem('keystoreAddressesFromMnemonic')
 }
 
 function setPassword(action) {
@@ -265,7 +293,7 @@ function setPassword(action) {
 
     return onSuccess ? onSuccess() : null
   } catch(e) {
-    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
+    return onError ? onError(e) : null
   }
 }
 
@@ -280,7 +308,7 @@ function saveMnemonicToFile(action) {
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
-    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
+    return onError ? onError(e) : null
   }
 }
 
@@ -296,7 +324,7 @@ function backupKeystore(action) {
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
-    return onError ? onError(e) : console.error(e) // eslint-disable-line no-console
+    return onError ? onError(e) : null
   }
 }
 
