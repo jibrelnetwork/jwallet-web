@@ -29,6 +29,7 @@ const mapStateToProps = state => ({
   isCurrenciesModalOpen: state.currencies.isOpen,
   isCustomTokenModalOpen: state.customTokenModal.isOpen,
   isImportKeystoreAccountModalOpen: state.importKeystoreAccountModal.isOpen,
+  isNewDerivationPathModalOpen: state.newDerivationPathModal.isOpen,
   isNewKeystoreAccountModalOpen: state.newKeystoreAccountModal.isOpen,
   isNewKeystorePasswordModalOpen: state.newKeystorePasswordModal.isOpen,
   isReceiveFundsModalOpen: state.receiveFundsModal.isOpen,

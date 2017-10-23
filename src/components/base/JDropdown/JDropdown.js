@@ -30,13 +30,7 @@ class JDropdown extends Component {
     return React.cloneElement(props.children, { onClickOutside: showDropdown(false) })
   }
 
-  showDropdown = (isOpen = true) => (event) => {
-    this.setState({ isOpen })
-
-    if (event) {
-      event.stopPropagation()
-    }
-  }
+  showDropdown = (isOpen = true) => () => this.setState({ isOpen })
 }
 
 JDropdown.propTypes = {

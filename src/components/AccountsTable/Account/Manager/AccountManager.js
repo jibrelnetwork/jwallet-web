@@ -20,11 +20,8 @@ function AccountManager(props) {
 AccountManager.propTypes = {
   setEditAccountName: PropTypes.func.isRequired,
   removeKeystoreAccount: PropTypes.func.isRequired,
-  openDerivationPathModal: PropTypes.func,
-}
-
-AccountManager.defaultProps = {
-  openDerivationPathModal: null,
+  openNewDerivationPathModal: PropTypes.func.isRequired,
+  isMnemonicType: PropTypes.bool.isRequired,
 }
 
 export default AccountManager
