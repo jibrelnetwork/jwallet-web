@@ -8,13 +8,12 @@ function AccountManagerPopover(props) {
     onClickOutside,
     setEditAccountName,
     removeKeystoreAccount,
-    openDerivationPathModal,
-    id,
-    derivationPath,
+    openNewDerivationPathModal,
+    isMnemonicType,
   } = props
 
-  const editDerivationPath = !openDerivationPathModal ? null : (
-    <div className='popover__item' onClick={openDerivationPathModal}>
+  const editDerivationPath = !isMnemonicType ? null : (
+    <div className='popover__item' onClick={openNewDerivationPathModal}>
       {'Edit derivation path'}
     </div>
   )
@@ -29,25 +28,15 @@ function AccountManagerPopover(props) {
     </div>
   )
 
-  return (
-    <JPopover
-      name='account-manager'
-      onClickOutside={onClickOutside}
-      body={body}
-    />
-  )
+  return <JPopover name='account-manager' onClickOutside={onClickOutside} body={body} />
 }
 
 AccountManagerPopover.propTypes = {
   setEditAccountName: PropTypes.func.isRequired,
   removeKeystoreAccount: PropTypes.func.isRequired,
-  openDerivationPathModal: PropTypes.func,
+  openNewDerivationPathModal: PropTypes.func.isRequired,
+  isMnemonicType: PropTypes.bool.isRequired,
   onClickOutside: PropTypes.func,
-}
-
-AccountManagerPopover.defaultProps = {
-  openEditDerivationPathModal: null,
-  onClickOutside: null,
 }
 
 export default AccountManagerPopover

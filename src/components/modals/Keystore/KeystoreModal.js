@@ -23,10 +23,14 @@ class KeystoreModal extends JModal {
       setKeystoreAccountName,
       setKeystoreAccountAddress,
       getKeystoreAddressesFromMnemonic,
-      openDerivationPathModal,
       setEditAccountName,
       setNewAccountName,
-      keystore,
+      currentAccount,
+      newAccountNameData,
+      addressesFromMnemonic,
+      accounts,
+      sortField,
+      sortDirection,
     } = this.props
 
     return (
@@ -37,41 +41,37 @@ class KeystoreModal extends JModal {
         setKeystoreAccountAddress={this.preventEventHandler(setKeystoreAccountAddress)}
         getAddressesFromMnemonic={this.preventEventHandler(getKeystoreAddressesFromMnemonic)}
         sortAccounts={this.sortAccounts}
-        openDerivationPathModal={this.popoverHandler(openDerivationPathModal)}
+        openNewDerivationPathModal={this.openNewDerivationPathModal}
         setEditAccountName={this.popoverHandler(setEditAccountName)}
         setNewAccountName={this.setNewAccountName}
         selectAccountName={this.selectAccountName}
-        keystore={keystore}
+        newAccountNameData={newAccountNameData}
+        addressesFromMnemonic={addressesFromMnemonic}
+        accounts={accounts}
+        currentAccountId={currentAccount.id}
+        sortField={sortField}
+        sortDirection={sortDirection}
       />
     )
   }
 
   renderFooter = () => {
-    const { openImportKeyModal } = this.props
-
     return (
       <KeystoreModalFooter
-        importKey={this.openModalHandler(openImportKeyModal)}
         addNewKeystoreAccount={this.openModal('NewKeystoreAccount')}
         backupKeystore={this.openModal('BackupKeystore')}
         clearKeystore={this.openModal('ClearKeystore')}
+        importNewKeystoreAccount={this.openModal('ImportKeystoreAccount')}
         setKeystorePassword={this.openModal('NewKeystorePassword')}
       />
     )
   }
 
-  openModalHandler = handler => (/* event */) => {
-    const showKeystoreModalAfterClose = true
-
-    handler(showKeystoreModalAfterClose)
-    this.props.closeKeystoreModal()
-  }
-
-  openModal = modalName => () => {
+  openModal = modalName => (...args) => {
     const { openKeystoreModal, closeKeystoreModal } = this.props
     const openModalHandler = `open${modalName}Modal`
 
-    this.props[openModalHandler](openKeystoreModal)
+    this.props[openModalHandler](openKeystoreModal, ...args)
     closeKeystoreModal()
   }
 
@@ -104,9 +104,9 @@ class KeystoreModal extends JModal {
   }
 
   setCurrentKeystoreAccount = accountId => (/* event */) => {
-    const { setCurrentKeystoreAccount, keystore } = this.props
+    const { setCurrentKeystoreAccount, currentAccount } = this.props
 
-    if (accountId !== keystore.currentAccount.id) {
+    if (accountId !== currentAccount.id) {
       setCurrentKeystoreAccount(accountId)
     }
   }
@@ -117,6 +117,7 @@ class KeystoreModal extends JModal {
   }
 
   sortAccounts = sortField => (/* event */) => this.props.sortAccounts(sortField)
+  openNewDerivationPathModal = (...args) => () => this.openModal('NewDerivationPath')(...args)
 }
 
 KeystoreModal.propTypes = {
@@ -128,42 +129,39 @@ KeystoreModal.propTypes = {
   sortAccounts: PropTypes.func.isRequired,
   openKeystoreModal: PropTypes.func.isRequired,
   closeKeystoreModal: PropTypes.func.isRequired,
-  openImportKeyModal: PropTypes.func.isRequired,
-  openDerivationPathModal: PropTypes.func.isRequired,
   setEditAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
   openBackupKeystoreModal: PropTypes.func.isRequired,
   openClearKeystoreModal: PropTypes.func.isRequired,
+  openImportKeystoreAccountModal: PropTypes.func.isRequired,
+  openNewDerivationPathModal: PropTypes.func.isRequired,
   openNewKeystoreAccountModal: PropTypes.func.isRequired,
   openNewKeystorePasswordModal: PropTypes.func.isRequired,
-  keystore: PropTypes.shape({
-    newAccountNameData: PropTypes.shape({
-      accountId: PropTypes.string.isRequired,
-      newAccountName: PropTypes.string.isRequired,
-    }).isRequired,
-    currentAccount: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      accountName: PropTypes.string.isRequired,
-      address: PropTypes.string,
-      isReadOnly: PropTypes.bool,
-    }).isRequired,
-    accounts: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      accountName: PropTypes.string.isRequired,
-      derivationPath: PropTypes.string,
-      address: PropTypes.string,
-      isReadOnly: PropTypes.bool,
-    })).isRequired,
-    addressesFromMnemonic: PropTypes.shape({
-      items: PropTypes.arrayOf(PropTypes.string).isRequired,
-      currentIteration: PropTypes.number.isRequired,
-    }).isRequired,
-    sortField: PropTypes.string.isRequired,
-    sortDirection: PropTypes.string.isRequired,
-    isDerivationPathModalOpen: PropTypes.bool.isRequired,
+  currentAccount: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    accountName: PropTypes.string.isRequired,
+    address: PropTypes.string,
+    isReadOnly: PropTypes.bool,
   }).isRequired,
+  newAccountNameData: PropTypes.shape({
+    accountId: PropTypes.string.isRequired,
+    newAccountName: PropTypes.string.isRequired,
+  }).isRequired,
+  addressesFromMnemonic: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currentIteration: PropTypes.number.isRequired,
+  }).isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    accountName: PropTypes.string.isRequired,
+    derivationPath: PropTypes.string,
+    address: PropTypes.string,
+    isReadOnly: PropTypes.bool,
+  })).isRequired,
+  sortField: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
 }
 

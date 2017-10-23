@@ -17,21 +17,17 @@ function AccountsTable(props) {
     setKeystoreAccountAddress,
     getAddressesFromMnemonic,
     sortAccounts,
-    openDerivationPathModal,
+    openNewDerivationPathModal,
     setNewAccountName,
     setEditAccountName,
     selectAccountName,
-    keystore,
-  } = props
-
-  const {
     accounts,
     newAccountNameData,
-    currentAccount,
     addressesFromMnemonic,
+    currentAccountId,
     sortField,
     sortDirection,
-  } = keystore
+  } = props
 
   return (
     <JTable name='accounts'>
@@ -61,12 +57,13 @@ function AccountsTable(props) {
                 accountName={accountName}
                 address={address}
                 isReadOnly={isReadOnly}
-                isActive={currentAccount.id === id}
+                isActive={currentAccountId === id}
               />
               <Account.Manager
                 removeKeystoreAccount={removeKeystoreAccount(id)}
                 setEditAccountName={setEditAccountName(id, accountName)}
-                openDerivationPathModal={openDerivationPathModal(id, derivationPath)}
+                openNewDerivationPathModal={openNewDerivationPathModal(id, derivationPath)}
+                isMnemonicType={type === 'mnemonic'}
               />
             </Account>
           )
@@ -83,34 +80,29 @@ AccountsTable.propTypes = {
   setKeystoreAccountAddress: PropTypes.func.isRequired,
   getAddressesFromMnemonic: PropTypes.func.isRequired,
   sortAccounts: PropTypes.func.isRequired,
-  openDerivationPathModal: PropTypes.func.isRequired,
+  openNewDerivationPathModal: PropTypes.func.isRequired,
   setEditAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
   selectAccountName: PropTypes.func.isRequired,
-  keystore: PropTypes.shape({
-    newAccountNameData: PropTypes.shape({
-      accountId: PropTypes.string.isRequired,
-      newAccountName: PropTypes.string.isRequired,
-    }).isRequired,
-    currentAccount: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }).isRequired,
-    addressesFromMnemonic: PropTypes.shape({
-      items: PropTypes.arrayOf(PropTypes.string).isRequired,
-      currentIteration: PropTypes.number.isRequired,
-    }).isRequired,
-    accounts: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      accountName: PropTypes.string.isRequired,
-      address: PropTypes.string,
-      derivationPath: PropTypes.string,
-      isReadOnly: PropTypes.bool,
-    })).isRequired,
-    sortField: PropTypes.string.isRequired,
-    sortDirection: PropTypes.string.isRequired,
-    isDerivationPathModalOpen: PropTypes.bool.isRequired,
+  newAccountNameData: PropTypes.shape({
+    accountId: PropTypes.string.isRequired,
+    newAccountName: PropTypes.string.isRequired,
   }).isRequired,
+  addressesFromMnemonic: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currentIteration: PropTypes.number.isRequired,
+  }).isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    accountName: PropTypes.string.isRequired,
+    address: PropTypes.string,
+    derivationPath: PropTypes.string,
+    isReadOnly: PropTypes.bool,
+  })).isRequired,
+  currentAccountId: PropTypes.string.isRequired,
+  sortField: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
 }
 
 export default AccountsTable

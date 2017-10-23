@@ -48,7 +48,7 @@ function* getKeystoreFromStorage() {
       keystore.deserialize(keystoreData)
     }
 
-    yield setCurrentAccountData(currentAccountId)
+    yield setCurrentAccount({ accountId: currentAccountId })
   } catch (e) {
     console.error('Cannot parse keystore data from storage') // eslint-disable-line no-console
   }
@@ -58,6 +58,10 @@ function* getKeystoreFromStorage() {
 
 function setKeystoreToStorage() {
   storage.setItem('keystore', keystore.serialize())
+}
+
+function setCurrentAccountToStorage(accountId) {
+  storage.setItem('keystoreCurrentAccount', accountId)
 }
 
 function* setAccounts() {
@@ -74,44 +78,33 @@ function* setAccounts() {
   return yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
 }
 
-function* setCurrentAccountData(accountId) {
-  if (!accountId) {
-    return yield setFirstAccountAsCurrent()
-  }
+function getAccountData(accountId) {
+  return keystore.getAccount({ id: accountId })
+}
 
-  yield refreshAddressesFromMnemonic()
+function* setCurrentAccountData(currentAccount) {
+  yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount })
+}
 
-  // TODO: remove it
-  const password = 'qwert12345!Q'
+function* updateCurrentAccountData() {
+  const currentAccountId = yield select(getStateCurrentAccountId)
+  const accountData = getAccountData(currentAccountId)
 
-  yield getAddressesFromMnemonic({ accountId, iteration: 0, password })
-
-  const account = keystore.getAccount({ id: accountId })
-
-  if (!account) {
-    return yield setEmptyCurrentAccount()
-  }
-
-  storage.setItem('keystoreCurrentAccount', accountId)
-
-  yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount: account })
-
-  yield setAccountAddress(accountId, account.address, password)
+  yield setCurrentAccountData(accountData)
 }
 
 function* setFirstAccountAsCurrent() {
   const accounts = keystore.getAccounts()
+  const firstAccountId = (accounts && accounts.length && accounts[0]) ? accounts[0].id : null
 
-  if (!accounts.length) {
-    return yield setEmptyCurrentAccount()
+  if (!firstAccountId) {
+    return yield clearCurrentAccount()
   }
 
-  const firstAccountId = accounts[0].id
-
-  return yield setCurrentAccountData(firstAccountId)
+  return yield setCurrentAccount({ accountId: firstAccountId })
 }
 
-function* setEmptyCurrentAccount() {
+function* clearCurrentAccount() {
   storage.removeItem('keystoreCurrentAccount')
   storage.removeItem('keystoreAddressesFromMnemonic')
 
@@ -140,7 +133,38 @@ function* createAccount(action) {
 }
 
 function* setCurrentAccount(action) {
-  yield setCurrentAccountData(action.accountId)
+  const currentAccountId = yield select(getStateCurrentAccountId)
+  const { accountId } = action
+
+  if (currentAccountId === accountId) {
+    return null
+  }
+
+  const accountData = accountId ? getAccountData(accountId) : null
+
+  if (!accountData) {
+    return yield setFirstAccountAsCurrent()
+  }
+
+  const { type, address } = accountData
+
+  yield setCurrentAccountData(accountData)
+
+  if (type === 'mnemonic') {
+    // TODO: remove it
+    const password = 'qwert12345!Q'
+
+    yield refreshAddressesFromMnemonic()
+    yield getAddressesFromMnemonic({ accountId, iteration: 0, password })
+
+    const isAddressEmpty = !(address && address.length)
+
+    if (isAddressEmpty) {
+      yield setFirstMnemonicAddress(accountId, password)
+    }
+  }
+
+  setCurrentAccountToStorage(accountId)
 }
 
 function* removeAccount(action) {
@@ -185,16 +209,22 @@ function* setAccountName(action) {
   keystore.setAccountName(accountId, newName)
 
   yield setAccounts()
-  yield setCurrentAccountData(accountId)
+  yield updateCurrentAccountData()
 }
 
 function* setDerivationPath(action) {
-  const { password, accountId, newDerivationPath } = action
+  const { password, accountId, newDerivationPath, onSuccess, onError } = action
 
-  keystore.setDerivationPath(password, accountId, newDerivationPath)
+  try {
+    keystore.setDerivationPath(password, accountId, newDerivationPath)
 
-  yield setAccounts()
-  yield setCurrentAccountData(accountId)
+    yield setAccounts()
+    yield updateCurrentAccountData()
+
+    return onSuccess ? onSuccess() : null
+  } catch (e) {
+    return onError ? onError(e) : null
+  }
 }
 
 function* setAddress(action) {
@@ -203,7 +233,12 @@ function* setAddress(action) {
   keystore.setAddress(password, accountId, addressIndex)
 
   yield setAccounts()
-  yield setCurrentAccountData(accountId)
+  yield updateCurrentAccountData()
+}
+
+function* refreshAddressesFromMnemonic() {
+  yield setAddressesFromMnemonic()
+  storage.removeItem('keystoreAddressesFromMnemonic')
 }
 
 function* getAddressesFromMnemonic(action) {
@@ -226,10 +261,8 @@ function* getAddressesFromMnemonic(action) {
   }
 }
 
-function* setAccountAddress(accountId, address, password) {
-  if (!(address && address.length)) {
-    yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
-  }
+function* setFirstMnemonicAddress(accountId, password) {
+  yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
 }
 
 function getAddressesFromStorage(iteration = -1) {
@@ -276,11 +309,6 @@ function setAddressesToStorage(newItems = []) {
   const newAddresses = [...parsedAddresses, ...newItems]
 
   storage.setItem('keystoreAddressesFromMnemonic', JSON.stringify(newAddresses))
-}
-
-function* refreshAddressesFromMnemonic() {
-  yield setAddressesFromMnemonic()
-  storage.removeItem('keystoreAddressesFromMnemonic')
 }
 
 function setPassword(action) {

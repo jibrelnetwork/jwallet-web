@@ -1,0 +1,35 @@
+.derivation-path__known {
+  margin-bottom: 30px;
+
+  &--disabled {
+    color: $gray2;
+  }
+}
+
+.derivation-path__item {
+  position: relative;
+  height: 18px;
+  line-height: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.derivation-path__path {
+  padding-left: 30px;
+}
+
+.derivation-path__description {
+  margin-left: 10px;
+  color: $gray2;
+}

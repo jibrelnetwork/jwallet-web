@@ -10,7 +10,7 @@ class JTextInput extends JFormField {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setDisabled(!nextProps.editable)
+    this.setState({ disabled: !nextProps.editable })
   }
 
   render() {
