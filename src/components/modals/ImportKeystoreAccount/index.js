@@ -1,3 +1,3 @@
-import ImportKeyModal from './ImportKeyModalContainer'
+import ImportKeystoreAccountModal from './ImportKeystoreAccountModalContainer'
 
-export default ImportKeyModal
+export default ImportKeystoreAccountModal

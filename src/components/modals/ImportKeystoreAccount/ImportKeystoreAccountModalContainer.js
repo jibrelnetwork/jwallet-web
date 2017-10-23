@@ -5,6 +5,12 @@ import {
   setImportKeystoreAccountData,
   setImportKeystoreAccountPassword,
   setImportKeystoreAccountPasswordConfirm,
+  setImportKeystoreAccountKnownDerivationPath,
+  setImportKeystoreAccountCustomDerivationPath,
+  setImportKeystoreAccountCurrentStep,
+  setImportKeystoreAccountAlert,
+  setImportKeystoreAccountInvalidField,
+  clearImportKeystoreAccountData,
 } from 'routes/JWallet/modules/modals/importKeystoreAccount'
 
 import { createKeystoreAccount } from 'routes/JWallet/modules/keystore'
@@ -22,6 +28,12 @@ const mapDispatchToProps = {
   setImportKeystoreAccountData,
   setImportKeystoreAccountPassword,
   setImportKeystoreAccountPasswordConfirm,
+  setImportKeystoreAccountKnownDerivationPath,
+  setImportKeystoreAccountCustomDerivationPath,
+  setImportKeystoreAccountCurrentStep,
+  setImportKeystoreAccountAlert,
+  setImportKeystoreAccountInvalidField,
+  clearImportKeystoreAccountData,
   createKeystoreAccount,
 }
 

@@ -113,8 +113,6 @@ class JModal extends Appearable {
   _closeModal = () => {
     const { onClose } = this.props
 
-    console.log(onClose)
-
     if (onClose) {
       onClose()
     }

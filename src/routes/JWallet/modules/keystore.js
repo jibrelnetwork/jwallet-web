@@ -22,10 +22,6 @@ export const KEYSTORE_BACKUP = 'KEYSTORE_BACKUP'
 export const KEYSTORE_OPEN_MODAL = 'KEYSTORE_OPEN_MODAL'
 export const KEYSTORE_CLOSE_MODAL = 'KEYSTORE_CLOSE_MODAL'
 
-export const KEYSTORE_DERIVATION_PATH_OPEN_MODAL = 'KEYSTORE_DERIVATION_PATH_OPEN_MODAL'
-export const KEYSTORE_DERIVATION_PATH_CLOSE_MODAL = 'KEYSTORE_DERIVATION_PATH_CLOSE_MODAL'
-export const KEYSTORE_DERIVATION_PATH_MODAL_SET = 'KEYSTORE_DERIVATION_PATH_MODAL_SET'
-
 export const KEYSTORE_SET_EDIT_ACCOUNT_NAME = 'KEYSTORE_SET_EDIT_ACCOUNT_NAME'
 export const KEYSTORE_SET_NEW_ACCOUNT_NAME = 'KEYSTORE_SET_NEW_ACCOUNT_NAME'
 
@@ -74,12 +70,15 @@ export function setKeystoreAccountName(accountId, newName) {
   }
 }
 
-export function setKeystoreAccountDerivationPath(password, accountId, newDerivationPath) {
+export function setKeystoreAccountDerivationPath(password, accountId, newDerivationPath,
+  onSuccess = null, onError = null) {
   return {
     type: KEYSTORE_SET_DERIVATION_PATH,
     password,
     accountId,
     newDerivationPath,
+    onSuccess,
+    onError,
   }
 }
 
@@ -157,27 +156,6 @@ export function closeKeystoreModal() {
   }
 }
 
-export function openDerivationPathModal(accountId, derivationPath) {
-  return {
-    type: KEYSTORE_DERIVATION_PATH_OPEN_MODAL,
-    accountId,
-    derivationPath,
-  }
-}
-
-export function closeDerivationPathModal() {
-  return {
-    type: KEYSTORE_DERIVATION_PATH_CLOSE_MODAL,
-  }
-}
-
-export function setModalDerivationPath(newDerivationPath) {
-  return {
-    type: KEYSTORE_DERIVATION_PATH_SET_NEW,
-    newDerivationPath,
-  }
-}
-
 /**
  * Editing of account name
  */
@@ -200,7 +178,7 @@ const ACTION_HANDLERS = {
   [KEYSTORE_GET_FROM_STORAGE]: state => ({
     ...state,
     accounts: [],
-    currentAccount: {},
+    currentAccount: initialState.currentAccount,
     isLoading: true,
   }),
   [KEYSTORE_SET_ACCOUNTS]: (state, action) => ({
@@ -209,11 +187,12 @@ const ACTION_HANDLERS = {
   }),
   [KEYSTORE_SET_CURRENT_ACCOUNT_DATA]: (state, action) => ({
     ...state,
-    currentAccount: action.currentAccount,
+    currentAccount: {
+      ...state.currentAccount,
+      ...action.currentAccount,
+    },
     isLoading: false,
     isCreating: false,
-    newKeyData: initialState.newKeyData,
-    importKeyData: initialState.importKeyData,
   }),
   [KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA]: state => ({
     ...state,
@@ -243,32 +222,11 @@ const ACTION_HANDLERS = {
   }),
   [KEYSTORE_OPEN_MODAL]: state => ({
     ...state,
-    isKeystoreModalOpen: true,
-    showKeystoreModalAfterClose: false,
+    isOpen: true,
   }),
   [KEYSTORE_CLOSE_MODAL]: state => ({
     ...state,
-    isKeystoreModalOpen: false,
-  }),
-  [KEYSTORE_DERIVATION_PATH_OPEN_MODAL]: (state, action) => ({
-    ...state,
-    isDerivationPathModalOpen: true,
-    newDerivationPathData: {
-      ...state.newDerivationPathData,
-      accountId: action.accountId,
-      derivationPath: action.derivationPath,
-    },
-  }),
-  [KEYSTORE_DERIVATION_PATH_CLOSE_MODAL]: state => ({
-    ...state,
-    isDerivationPathModalOpen: false,
-  }),
-  [KEYSTORE_DERIVATION_PATH_MODAL_SET]: (state, action) => ({
-    ...state,
-    newDerivationPathData: {
-      ...state.newDerivationPathData,
-      newDerivationPath: action.newDerivationPath,
-    },
+    isOpen: false,
   }),
   /**
    * Editing of account name
@@ -291,15 +249,6 @@ const ACTION_HANDLERS = {
 }
 
 const initialState = {
-  newDerivationPathData: {
-    accountId: '',
-    derivationPath: '',
-    newDerivationPath: '',
-  },
-  newAccountNameData: {
-    accountId: '',
-    newAccountName: '',
-  },
   currentAccount: {
     encrypted: {
       privateKey: {},
@@ -314,6 +263,10 @@ const initialState = {
     bip32XPublicKey: '',
     isReadOnly: false,
   },
+  newAccountNameData: {
+    accountId: '',
+    newAccountName: '',
+  },
   addressesFromMnemonic: {
     items: [],
     currentIteration: 0,
@@ -323,8 +276,7 @@ const initialState = {
   sortDirection: 'ASC',
   isLoading: true,
   isCreating: false,
-  isKeystoreModalOpen: false,
-  isDerivationPathModalOpen: false,
+  isOpen: false,
 }
 
 export default function keystore(state = initialState, action) {

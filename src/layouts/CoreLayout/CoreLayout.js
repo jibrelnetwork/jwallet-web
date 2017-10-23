@@ -13,8 +13,9 @@ const {
   ConvertFundsModal,
   CurrenciesModal,
   CustomTokenModal,
-  ImportKeyStoreAccountModal,
+  ImportKeystoreAccountModal,
   KeystoreModal,
+  NewDerivationPathModal,
   NewKeystoreAccountModal,
   NewKeystorePasswordModal,
   ReceiveFundsModal,
@@ -118,7 +119,8 @@ class CoreLayout extends Component {
         <CurrenciesModal />
         <CustomTokenModal />
         <KeystoreModal />
-        <ImportKeyStoreAccountModal />
+        <ImportKeystoreAccountModal />
+        <NewDerivationPathModal />
         <NewKeystoreAccountModal />
         <NewKeystorePasswordModal />
         <ReceiveFundsModal />
@@ -129,6 +131,7 @@ class CoreLayout extends Component {
 
   isAnyModalOpened() {
     const {
+      keystore,
       isBackupKeystoreModalOpen,
       isClearKeystoreModalOpen,
       isConvertFundsModalOpen,
@@ -139,17 +142,16 @@ class CoreLayout extends Component {
       isNewKeystorePasswordModalOpen,
       isReceiveFundsModalOpen,
       isSendFundsModalOpen,
-      keystore: { isKeystoreModalOpen },
     } = this.props
 
     return (
+      keystore.isOpen ||
       isBackupKeystoreModalOpen ||
       isClearKeystoreModalOpen ||
       isConvertFundsModalOpen ||
       isCurrenciesModalOpen ||
       isCustomTokenModalOpen ||
       isImportKeystoreAccountModalOpen ||
-      isKeystoreModalOpen ||
       isNewKeystoreAccountModalOpen ||
       isNewKeystorePasswordModalOpen ||
       isReceiveFundsModalOpen ||
@@ -191,7 +193,7 @@ CoreLayout.propTypes = {
     currentAccount: PropTypes.shape({
       accountName: PropTypes.string.isRequired,
     }).isRequired,
-    isKeystoreModalOpen: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool.isRequired,
   }).isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -212,6 +214,7 @@ CoreLayout.propTypes = {
   isCurrenciesModalOpen: PropTypes.bool.isRequired,
   isCustomTokenModalOpen: PropTypes.bool.isRequired,
   isImportKeystoreAccountModalOpen: PropTypes.bool.isRequired,
+  isNewDerivationPathModalOpen: PropTypes.bool.isRequired,
   isNewKeystorePasswordModalOpen: PropTypes.bool.isRequired,
   isReceiveFundsModalOpen: PropTypes.bool.isRequired,
   isSendFundsModalOpen: PropTypes.bool.isRequired,

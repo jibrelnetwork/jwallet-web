@@ -4,7 +4,7 @@ import Keystore from 'blockchain-wallet-keystore'
 
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
-import PasswordField from 'components/PasswordField'
+import { DerivationPath, Expandable, PasswordField } from 'components'
 import { JModal, JModalButton, JModalImage, JTextInput } from 'components/base'
 
 const DATA_STEP = 1
@@ -21,7 +21,19 @@ class ImportKeystoreAccountModal extends JModal {
     this.state = {
       name: 'import-keystore-account',
       topLineFullness: `${100 * (currentStep / totalSteps)}%`,
-      type: null,
+      accountData: {},
+    }
+  }
+
+  componentWillMount() {
+    this.updateStep(1)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { currentStep, totalSteps } = this.props
+
+    if (currentStep !== nextProps.currentStep) {
+      this.setState({ topLineFullness: `${100 * (nextProps.currentStep / totalSteps)}%` })
     }
   }
 
@@ -38,7 +50,12 @@ class ImportKeystoreAccountModal extends JModal {
   }
 
   renderStep2 = () => {
-    return this.renderData(false)
+    return (
+      <div>
+        {this.renderData(false)}
+        {this.renderDerivationPathOptions()}
+      </div>
+    )
   }
 
   renderStep3 = () => {
@@ -56,31 +73,45 @@ class ImportKeystoreAccountModal extends JModal {
     return <JModalImage name='plane' />
   }
 
-  renderData = (editable) => {
+  renderData = (editable = true) => {
     const fieldName = 'data'
-    const { setImportKeystoreAccountData } = this.props
 
     return (
       <JTextInput
-        onValueChange={setImportKeystoreAccountData}
+        onValueChange={this.props.setImportKeystoreAccountData}
         name='import-keystore-account-data'
         placeholder='Address, private key, mnemonic, BIP32 xpub'
         value={this.props[fieldName]}
         errorMessage={this.getInvalidFieldMessage(fieldName)}
-        successMessage={this.getValidFieldMessage(fieldName)}
         editable={editable}
         multiline
       />
     )
   }
 
+  renderDerivationPathOptions = () => {
+    const { setImportKeystoreAccountCustomDerivationPath, knownDerivationPath } = this.props
+    const fieldName = 'customDerivationPath'
+
+    return (
+      <Expandable>
+        <DerivationPath
+          setKnownDerivationPath={this.setKnownDerivationPath}
+          setCustomDerivationPath={setImportKeystoreAccountCustomDerivationPath}
+          knownDerivationPath={knownDerivationPath}
+          customDerivationPath={this.props[fieldName]}
+          errorMessage={this.getInvalidFieldMessage(fieldName)}
+        />
+      </Expandable>
+    )
+  }
+
   renderPasswordField = (isCreating, isInitialized) => {
-    const fieldName = 'password'
     const { setImportKeystoreAccountPassword } = this.props
+    const fieldName = 'password'
 
     const passwordProps = {
       errorMessage: this.getInvalidFieldMessage(fieldName),
-      successMessage: this.getValidFieldMessage(fieldName),
       editable: !isCreating,
     }
 
@@ -120,7 +151,6 @@ class ImportKeystoreAccountModal extends JModal {
         placeholder='Confirm Password'
         value={this.props[fieldName]}
         errorMessage={this.getInvalidFieldMessage(fieldName)}
-        successMessage={this.getValidFieldMessage(fieldName)}
         editable={!isCreating}
         secureTextEntry
       />
@@ -132,10 +162,9 @@ class ImportKeystoreAccountModal extends JModal {
 
     return (
       <JModalButton
-        onPress={this.goToNextStep(currentStep)}
-        name={'import-key'}
-        iconName={'import-key'}
-        title={'Import Key'}
+        onPress={this.goToNextStep}
+        name={'import-keystore-account'}
+        title={this.getButtonTitle(currentStep)}
         disabled={this.isModalButtonDisabled(currentStep)}
         isLoading={isCreating}
       />
@@ -143,43 +172,88 @@ class ImportKeystoreAccountModal extends JModal {
   }
 
   getButtonTitle = (currentStep) => {
-    const title = ['Continue', 'Continue', 'Save', 'I understood']
+    const title = [
+      'Continue',
+      'Continue',
+      'Save',
+      this.props.isInitialized ? 'OK' : 'I understood',
+    ]
 
     return title[currentStep - 1]
   }
 
   getAlert = (nextStep) => {
+    const { isInitialized } = this.props
+
     const alerts = [
       'Please input data for your key. It will be stored only in your browser.',
       'Now you can set custom options for keys derivation from your mnemonic.',
       // if keystore already initialised no need to show this message
-      this.props.isInitialized ? '' : 'It\'s time to create a secure password for your wallet.',
-      'Excellent! Keep your password in a safe place. Without it, ' +
-      'you will not be able to use jWallet.',
+      isInitialized
+        ? 'Please input your password'
+        : 'It\'s time to create a secure password for your wallet.',
+      isInitialized
+        ? 'Your key has been successfully imported'
+        : 'Excellent! Keep your password in a safe place. Without it, ' +
+          'you will not be able to use jWallet.',
     ]
 
     return alerts[nextStep - 1]
   }
 
-  goToNextStep = currentStep => () => {
-    const { data, totalSteps, isInitialized } = this.props
-    const nextStep = currentStep + 1
+  goToNextStep = () => {
+    switch (this.props.currentStep) {
+      case DATA_STEP:
+        return this.getDataType()
+      case MNEMONIC_OPTIONS_STEP:
+        return this.checkMnemonicOptions()
+      case SET_PASSWORD_STEP:
+        return this.createKeystoreAccount(this.props.isInitialized)
+      case SUCCESS_STEP:
+        return this.resetModal()
+      default:
+        return null
+    }
+  }
 
-    const isDataStep = (currentStep === DATA_STEP)
-    const isMnemonicStep = (currentStep === MNEMONIC_OPTIONS_STEP)
-    const isPasswordStep = (currentStep === SET_PASSWORD_STEP)
+  getDataType = () => {
+    const { data } = this.props
+    const newAccountData = { type: null }
 
-    if (isDataStep) {
-      this.getDataType()
-    } else if (isMnemonicStep) {
-      return this.checkMnemonicOptions()
-    } else if (isPasswordStep) {
-      return this.createKeystoreAccount(isInitialized)
-    } else if (nextStep > totalSteps) {
-      return null
+    if (Keystore.isMnemonicValid(data)) {
+      newAccountData.type = 'mnemonic'
+      newAccountData.isReadOnly = false
+      newAccountData.mnemonic = data
+    // } else if (Keystore.isBip32XPublicKeyValid(data)) {
+    } else if (/^(xpub)([A-Z\d]{107})$/i.test(data)) {
+      newAccountData.type = 'mnemonic'
+      newAccountData.isReadOnly = true
+      newAccountData.bip32XPublicKey = data
+    } else if (Keystore.isHexStringValid(data, 64)) {
+      newAccountData.type = 'address'
+      newAccountData.isReadOnly = false
+      newAccountData.privateKey = data
+    } else if (Keystore.isHexStringValid(data, 40)) {
+      newAccountData.type = 'address'
+      newAccountData.isReadOnly = true
+      newAccountData.address = data
+    } else {
+      this.props.setImportKeystoreAccountInvalidField('data', 'Please input correct data to import')
+
+      return this.shake()
     }
 
-    return this.updateStep(nextStep)
+    this.setState({ accountData: newAccountData })
+
+    if (newAccountData.type === 'mnemonic') {
+      return this.updateStep(MNEMONIC_OPTIONS_STEP)
+    }
+
+    return this.updateStep(SET_PASSWORD_STEP)
+  }
+
+  checkMnemonicOptions = () => {
+    this.updateStep(SET_PASSWORD_STEP)
   }
 
   updateStep = (nextStep) => {
@@ -194,27 +268,31 @@ class ImportKeystoreAccountModal extends JModal {
       return this.shake()
     }
 
-    const { createKeystoreAccount, password, mnemonic } = this.props
-    const NewKeystoreAccountData = { type: 'mnemonic', password, mnemonic }
+    const {
+      createKeystoreAccount,
+      password,
+      knownDerivationPath,
+      customDerivationPath
+    } = this.props
+
+    const derivationPath = customDerivationPath.length ? customDerivationPath : knownDerivationPath
+    const NewKeystoreAccountData = { ...this.state.accountData, password, derivationPath }
 
     return createKeystoreAccount(NewKeystoreAccountData, this.onSuccessfulCreate, this.onFailCreate)
   }
 
-  onSuccessfulCreate = () => {
-    this.closeModal()
-    this.goToMnemonicStep()
-  }
+  onSuccessfulCreate = () => this.updateStep(SUCCESS_STEP)
 
   onFailCreate = (err) => {
     this.shake()
-    this.props.setNewKeystoreAccountInvalidField('password', err.message)
+    this.props.setImportKeystoreAccountInvalidField('password', err.message)
   }
 
   isModalButtonDisabled = (currentStep) => {
-    const { password, mnemonicConfirm } = this.props
+    const { data, password } = this.props
 
-    if (currentStep === CHECK_MNEMONIC_STEP) {
-      return !mnemonicConfirm.length
+    if (currentStep === DATA_STEP) {
+      return !data.length
     } else if (currentStep === SET_PASSWORD_STEP) {
       return !password.length
     }
@@ -222,32 +300,14 @@ class ImportKeystoreAccountModal extends JModal {
     return false
   }
 
-  checkMnemonicConfirm = () => {
-    const { setNewKeystoreAccountInvalidField, mnemonic, mnemonicConfirm } = this.props
-    const isMnemonicMatch = (mnemonic === mnemonicConfirm)
-
-    if (!isMnemonicMatch) {
-      setNewKeystoreAccountInvalidField('mnemonicConfirm', 'Mnemonic should match')
-    }
-
-    return isMnemonicMatch
-  }
-
   checkPasswordConfirm = () => {
-    const {
-      setNewKeystoreAccountValidField,
-      setNewKeystoreAccountInvalidField,
-      password,
-      passwordConfirm,
-    } = this.props
+    const { setImportKeystoreAccountInvalidField, password, passwordConfirm } = this.props
 
     const isPasswordValid = this.testPassword(password)
     const isPasswordMatch = (password === passwordConfirm)
 
     if (!isPasswordMatch) {
-      setNewKeystoreAccountInvalidField('passwordConfirm', 'Password should match')
-    } else {
-      setNewKeystoreAccountValidField('passwordConfirm', ' ')
+      setImportKeystoreAccountInvalidField('passwordConfirm', 'Password should match')
     }
 
     return (isPasswordValid && isPasswordMatch)
@@ -257,11 +317,13 @@ class ImportKeystoreAccountModal extends JModal {
     const error = Keystore.testPassword(password).errors[0]
 
     if (error) {
-      this.props.setNewKeystoreAccountInvalidField('password', error)
+      this.props.setImportKeystoreAccountInvalidField('password', error)
     }
 
     return !error
   }
+
+  setKnownDerivationPath = p => () => this.props.setImportKeystoreAccountKnownDerivationPath(p)
 
   closeModal = () => {
     const { closeImportKeystoreAccountModal, onClose } = this.props
@@ -273,17 +335,14 @@ class ImportKeystoreAccountModal extends JModal {
     closeImportKeystoreAccountModal()
   }
 
-  submitModal = (event) => {
-    const { currentStep, totalSteps, isInitialized } = this.props
-
-    if (currentStep === totalSteps) {
-      return handleEnterKeyPress(this.createKeystoreAccount, [isInitialized])(event)
-    }
-
-    return null
+  resetModal = () => {
+    this.closeModal()
+    this.props.clearImportKeystoreAccountData()
+    this.updateStep(DATA_STEP)
+    this.setState({ accountData: {} })
   }
 
-  isModalButtonDisabled = () => (this.props.invalidFields.length > 0)
+  submitModal = event => handleEnterKeyPress(this.goToNextStep)(event)
 }
 
 ImportKeystoreAccountModal.propTypes = {
@@ -291,19 +350,22 @@ ImportKeystoreAccountModal.propTypes = {
   setImportKeystoreAccountData: PropTypes.func.isRequired,
   setImportKeystoreAccountPassword: PropTypes.func.isRequired,
   setImportKeystoreAccountPasswordConfirm: PropTypes.func.isRequired,
+  setImportKeystoreAccountKnownDerivationPath: PropTypes.func.isRequired,
+  setImportKeystoreAccountCustomDerivationPath: PropTypes.func.isRequired,
+  setImportKeystoreAccountCurrentStep: PropTypes.func.isRequired,
+  setImportKeystoreAccountAlert: PropTypes.func.isRequired,
+  setImportKeystoreAccountInvalidField: PropTypes.func.isRequired,
+  clearImportKeystoreAccountData: PropTypes.func.isRequired,
   createKeystoreAccount: PropTypes.func.isRequired,
-  validFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
   invalidFields: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
   })).isRequired,
-  disabledFields: PropTypes.arrayOf(PropTypes.string).isRequired,
   data: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   passwordConfirm: PropTypes.string.isRequired,
+  knownDerivationPath: PropTypes.string.isRequired,
+  customDerivationPath: PropTypes.string.isRequired,
   alert: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
   totalSteps: PropTypes.number.isRequired,
