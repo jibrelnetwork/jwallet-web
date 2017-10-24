@@ -272,7 +272,7 @@ class ImportKeystoreAccountModal extends JModal {
       createKeystoreAccount,
       password,
       knownDerivationPath,
-      customDerivationPath
+      customDerivationPath,
     } = this.props
 
     const derivationPath = customDerivationPath.length ? customDerivationPath : knownDerivationPath

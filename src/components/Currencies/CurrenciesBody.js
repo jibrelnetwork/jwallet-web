@@ -75,7 +75,7 @@ class CurrenciesBody extends Component {
   }
 
   render() {
-    const isMobileSlider = this.state.isMobileSlider
+    const { isMobileSlider } = this.state
     const currencies = this.getCurrencies(isMobileSlider)
     const sliderOptions = getSliderOptions(isMobileSlider, this.afterChange)
 

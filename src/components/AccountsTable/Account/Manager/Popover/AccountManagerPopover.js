@@ -4,27 +4,25 @@ import PropTypes from 'prop-types'
 import JPopover from 'components/base/JPopover'
 
 function AccountManagerPopover(props) {
-  const {
-    onClickOutside,
-    setEditAccountName,
-    removeKeystoreAccount,
-    openNewDerivationPathModal,
-    isMnemonicType,
-  } = props
+  const { onClickOutside, removeAccount, editName, setDerivationPath, isMnemonicType } = props
 
-  const editDerivationPath = !isMnemonicType ? null : (
-    <div className='popover__item' onClick={openNewDerivationPathModal}>
-      {'Edit derivation path'}
-    </div>
-  )
+  const popoverItems = [{
+    handler: editName, title: 'Edit name', show: true,
+  }, {
+    handler: setDerivationPath, title: 'Edit  derivation path', show: isMnemonicType,
+  }, {
+    handler: removeAccount, title: 'Clear key', show: true, modifier: 'gray',
+  }]
 
   const body = (
     <div className='account-manager-popover'>
-      <div className='popover__item' onClick={setEditAccountName}>{'Edit name'}</div>
-      {editDerivationPath}
-      <div className='popover__item popover__item--gray' onClick={removeKeystoreAccount}>
-        {'Clear key'}
-      </div>
+      {popoverItems.map((item, i) => {
+        const { handler, title, show, modifier } = item
+        const modifierClassName = modifier ? `popover__item--${modifier}` : ''
+        const itemClassName = `popover__item ${modifierClassName}`
+
+        return show ? <div onClick={handler} className={itemClassName} key={i}>{title}</div> : null
+      })}
     </div>
   )
 
@@ -32,11 +30,15 @@ function AccountManagerPopover(props) {
 }
 
 AccountManagerPopover.propTypes = {
-  setEditAccountName: PropTypes.func.isRequired,
-  removeKeystoreAccount: PropTypes.func.isRequired,
-  openNewDerivationPathModal: PropTypes.func.isRequired,
+  removeAccount: PropTypes.func.isRequired,
+  editName: PropTypes.func.isRequired,
+  setDerivationPath: PropTypes.func.isRequired,
   isMnemonicType: PropTypes.bool.isRequired,
   onClickOutside: PropTypes.func,
+}
+
+AccountManagerPopover.defaultProps = {
+  onClickOutside: () => {},
 }
 
 export default AccountManagerPopover

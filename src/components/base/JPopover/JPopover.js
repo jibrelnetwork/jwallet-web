@@ -28,11 +28,16 @@ class JPopover extends Appearable {
     const isClickOutside = !popover.contains(event.target)
 
     if (isClickOutside || isCloseOnClickInside) {
+      if (reset) {
+        return onClickOutside()
+      }
+
       this.close(true)
 
-      const timeout = reset ? 0 : popoverOpeningClosingTimeout
-      setTimeout(onClickOutside, timeout)
+      return setTimeout(onClickOutside, this.state.timeout)
     }
+
+    return null
   }
 
   render() {
