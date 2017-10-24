@@ -24,7 +24,6 @@ class KeystoreModal extends JModal {
       setKeystoreAccountAddress,
       getKeystoreAddressesFromMnemonic,
       setEditAccountName,
-      setNewAccountName,
       currentAccount,
       newAccountNameData,
       addressesFromMnemonic,
@@ -111,10 +110,12 @@ class KeystoreModal extends JModal {
     }
   }
 
+  /* eslint-disable no-param-reassign */
   selectAccountName = (event) => {
     event.target.selectionStart = 0
     event.target.selectionEnd = event.target.value.length
   }
+  /* eslint-enable no-param-reassign */
 
   sortAccounts = sortField => (/* event */) => this.props.sortAccounts(sortField)
   openNewDerivationPathModal = (...args) => () => this.openModal('NewDerivationPath')(...args)

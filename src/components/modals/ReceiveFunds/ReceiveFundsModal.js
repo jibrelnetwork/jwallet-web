@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { generateQRCode, getFieldMessage, handleEnterKeyPress } from 'utils'
+import { generateQRCode, handleEnterKeyPress } from 'utils'
 
 import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
@@ -29,8 +29,8 @@ class ReceiveFundsModal extends JModal {
   }
 
   renderAmmountAndSymbol = () => {
-    const fieldName = 'amount'
     const { setReceiveFundsAmount, setReceiveFundsSymbol, symbol } = this.props
+    const fieldName = 'amount'
 
     return (
       <div className='field-group'>
@@ -55,11 +55,10 @@ class ReceiveFundsModal extends JModal {
 
   renderAccount = () => {
     const fieldName = 'accountId'
-    const { setReceiveFundsAccount, funds } = this.props
 
     return (
       <JPicker
-        onValueChange={setReceiveFundsAccount}
+        onValueChange={this.props.setReceiveFundsAccount}
         name={fieldName}
         placeholder='Account'
         selectedValue={this.props[fieldName]}

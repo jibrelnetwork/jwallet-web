@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import getFieldMessage from 'utils/getFieldMessage'
-
-import { Expandable, PincodeButton, SymbolPicker } from 'components'
+import { Expandable, SymbolPicker } from 'components'
 import { JModal, JModalButton, JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends JModal {
@@ -29,11 +27,10 @@ class SendFundsModal extends JModal {
 
   renderRecipientAddress = () => {
     const fieldName = 'address'
-    const { setSendFundsAddress } = this.props
 
     return (
       <JTextInput
-        onValueChange={setSendFundsAddress}
+        onValueChange={this.props.setSendFundsAddress}
         name='recipient-address'
         placeholder='Recipient address'
         value={this.props[fieldName]}
@@ -46,11 +43,10 @@ class SendFundsModal extends JModal {
 
   renderAccount = () => {
     const fieldName = 'accountId'
-    const { setSendFundsAccount } = this.props
 
     return (
       <JPicker
-        onValueChange={setSendFundsAccount}
+        onValueChange={this.props.setSendFundsAccount}
         name='account'
         placeholder='Account'
         selectedValue={this.props[fieldName]}
@@ -64,8 +60,8 @@ class SendFundsModal extends JModal {
   }
 
   renderAmmountAndSymbol = () => {
-    const fieldName = 'amount'
     const { setSendFundsAmount, setSendFundsSymbol, symbol } = this.props
+    const fieldName = 'amount'
 
     return (
       <div className='field-group'>
@@ -99,11 +95,10 @@ class SendFundsModal extends JModal {
 
   renderGas = () => {
     const fieldName = 'gas'
-    const { setSendFundsGas } = this.props
 
     return (
       <JTextInput
-        onValueChange={setSendFundsGas}
+        onValueChange={this.props.setSendFundsGas}
         name={fieldName}
         placeholder='Gas'
         value={this.props[fieldName]}
@@ -115,8 +110,8 @@ class SendFundsModal extends JModal {
   }
 
   renderGasPriceAndSymbol = () => {
-    const fieldName = 'gasPrice'
     const { setSendFundsGasPrice, setSendFundsGasSymbol, gasSymbol } = this.props
+    const fieldName = 'gasPrice'
 
     return (
       <div className='field-group'>
@@ -140,7 +135,7 @@ class SendFundsModal extends JModal {
   }
 
   renderFooter = () => {
-    const { setSendFundsPassword, sendFunds, password } = this.props
+    // const { setSendFundsPassword, sendFunds, password } = this.props
 
     /*
     if (isTypingOfPincode) {
@@ -152,7 +147,7 @@ class SendFundsModal extends JModal {
 
     return (
       <JModalButton
-        onPress={sendFunds}
+        onPress={this.props.sendFunds}
         name={'send-funds'}
         title={'Send Funds'}
         iconName={'send-funds'}
@@ -163,9 +158,10 @@ class SendFundsModal extends JModal {
 
   closeModal = () => this.props.closeSendFundsModal()
 
-  submitModal = (e) => {
-    return
+  submitModal = (/* e */) => {
+    return null
 
+    /*
     if (e.key !== 'Enter') {
       return
     }
@@ -179,6 +175,7 @@ class SendFundsModal extends JModal {
     }
 
     typeSendFundsPincode(true)
+    */
   }
 
   isModalButtonDisabled = () => (this.props.invalidFields.length > 0)

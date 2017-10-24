@@ -4,6 +4,8 @@ import Keystore from 'blockchain-wallet-keystore'
 import storage from 'local-storage-polyfill'
 import fileSaver from 'file-saver'
 
+import config from 'config'
+
 import { sortItems } from 'utils'
 
 import {
@@ -29,7 +31,7 @@ import {
 } from '../modules/keystore'
 
 const keystore = new Keystore({ scryptParams: { N: 2 ** 3, r: 8, p: 1 } })
-const ADDRESSES_PER_ITERATION = 4
+const { addressesPerIteration } = config
 
 function getStateKeystoreData(state) {
   return state.keystore
@@ -123,7 +125,7 @@ function* createAccount(action) {
     yield setAccounts()
 
     if (!isAccountExist) {
-      yield setCurrentAccountData(accountId)
+      yield setCurrentAccount({ accountId })
     }
 
     return onSuccess ? onSuccess(accountId) : null
@@ -151,20 +153,10 @@ function* setCurrentAccount(action) {
   yield setCurrentAccountData(accountData)
 
   if (type === 'mnemonic') {
-    // TODO: remove it
-    const password = 'qwert12345!Q'
-
-    yield refreshAddressesFromMnemonic()
-    yield getAddressesFromMnemonic({ accountId, iteration: 0, password })
-
-    const isAddressEmpty = !(address && address.length)
-
-    if (isAddressEmpty) {
-      yield setFirstMnemonicAddress(accountId, password)
-    }
+    yield refreshAddressesFromMnemonic(accountId, address)
   }
 
-  setCurrentAccountToStorage(accountId)
+  return setCurrentAccountToStorage(accountId)
 }
 
 function* removeAccount(action) {
@@ -195,7 +187,7 @@ function* removeAccounts(action) {
     keystore.removeAccounts()
 
     yield setAccounts()
-    yield setEmptyCurrentAccount()
+    yield clearCurrentAccount()
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
@@ -216,10 +208,10 @@ function* setDerivationPath(action) {
   const { password, accountId, newDerivationPath, onSuccess, onError } = action
 
   try {
-    keystore.setDerivationPath(password, accountId, newDerivationPath)
+    const account = keystore.setDerivationPath(password, accountId, newDerivationPath)
 
     yield setAccounts()
-    yield updateCurrentAccountData()
+    yield refreshAddressesFromMnemonic(accountId, account.address)
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
@@ -236,23 +228,33 @@ function* setAddress(action) {
   yield updateCurrentAccountData()
 }
 
-function* refreshAddressesFromMnemonic() {
-  yield setAddressesFromMnemonic()
+function* refreshAddressesFromMnemonic(accountId, address) {
   storage.removeItem('keystoreAddressesFromMnemonic')
+  yield setAddressesFromMnemonic()
+
+  // TODO: remove it
+  const password = 'qwert12345!Q'
+
+  yield getAddressesFromMnemonic({ accountId, iteration: 0, password })
+
+  const isAddressEmpty = !(address && address.length)
+
+  if (isAddressEmpty) {
+    yield setFirstMnemonicAddress(accountId, password)
+  }
 }
 
 function* getAddressesFromMnemonic(action) {
-  const { currentAccount, addressesFromMnemonic } = yield select(getStateKeystoreData)
-  const { address } = currentAccount
-  const { password, accountId, iteration } = action
+  const { addressesFromMnemonic } = yield select(getStateKeystoreData)
+  const { password, accountId, iteration, limit } = action
   const existedItems = addressesFromMnemonic.items
 
-  const addressesFromStorage = getAddressesFromStorage(iteration)
+  const addressesFromStorage = getAddressesFromStorage(iteration, limit)
   const isFromStorage = !!addressesFromStorage
 
   const newItems = isFromStorage
     ? addressesFromStorage
-    : keystore.getAddressesFromMnemonic(password, accountId, iteration, ADDRESSES_PER_ITERATION)
+    : keystore.getAddressesFromMnemonic(password, accountId, iteration, limit)
 
   yield setAddressesFromMnemonic(existedItems, newItems, iteration)
 
@@ -265,7 +267,7 @@ function* setFirstMnemonicAddress(accountId, password) {
   yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
 }
 
-function getAddressesFromStorage(iteration = -1) {
+function getAddressesFromStorage(iteration = -1, limit = addressesPerIteration) {
   const addresses = storage.getItem('keystoreAddressesFromMnemonic')
 
   if (!addresses) {
@@ -273,7 +275,7 @@ function getAddressesFromStorage(iteration = -1) {
   }
 
   const parsedAddresses = JSON.parse(addresses)
-  const isFound = (parsedAddresses.length > (iteration * ADDRESSES_PER_ITERATION))
+  const isFound = (parsedAddresses.length > (iteration * limit))
 
   if (!isFound) {
     return null
@@ -284,8 +286,8 @@ function getAddressesFromStorage(iteration = -1) {
     return parsedAddresses
   }
 
-  const startIndex = (iteration * ADDRESSES_PER_ITERATION)
-  const endIndex = (startIndex + ADDRESSES_PER_ITERATION)
+  const startIndex = (iteration * limit)
+  const endIndex = (startIndex + limit)
   const foundItems = []
 
   for (let i = startIndex; i < endIndex; i += 1) {
@@ -320,7 +322,7 @@ function setPassword(action) {
     setKeystoreToStorage()
 
     return onSuccess ? onSuccess() : null
-  } catch(e) {
+  } catch (e) {
     return onError ? onError(e) : null
   }
 }

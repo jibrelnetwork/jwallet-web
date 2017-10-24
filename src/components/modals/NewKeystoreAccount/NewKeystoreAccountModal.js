@@ -32,7 +32,7 @@ class NewKeystoreAccountModal extends JModal {
     }
 
     // start from mnemonic step if keystore already initialized
-    return this.goToMnemonicStep()
+    return this.generateMnemonic()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,7 +112,7 @@ class NewKeystoreAccountModal extends JModal {
 
     return (
       <JModalButton
-        onPress={this.goToNextStep(currentStep)}
+        onPress={this.goToNextStep}
         name={'new-keystore-account'}
         iconName={this.getButtonIconName(currentStep)}
         title={this.getButtonTitle(currentStep)}
@@ -195,45 +195,29 @@ class NewKeystoreAccountModal extends JModal {
       'Excellent! Keep your passphrase in a safe place. Without it, ' +
       'access to your account may be lost forever.',
       // if keystore already initialised no need to show this message
-      this.props.isInitialized ? '' : 'It\'s time to create a secure password for your wallet.',
+      this.props.isInitialized
+        ? 'Please input your password'
+        : 'It\'s time to create a secure password for your wallet.',
     ]
 
     return alerts[nextStep - 1]
   }
 
-  goToNextStep = currentStep => () => {
-    const { mnemonic, totalSteps, isInitialized } = this.props
-    const nextStep = currentStep + 1
-
-    const isBeforeSaveMnemonicStep = (currentStep === BEFORE_MNEMONIC_STEP)
-    const isSaveMnemonicStep = (currentStep === SAVE_MNEMONIC_STEP)
-    const isCheckMnemonicStep = (currentStep === CHECK_MNEMONIC_STEP)
-    const isBeforeSetPasswordStep = (currentStep === BEFORE_PASSWORD_STEP)
-    const isSetPasswordStep = (currentStep === SET_PASSWORD_STEP)
-
-    if (isBeforeSaveMnemonicStep) {
-      this.generateMnemonic()
-    } else if (isSaveMnemonicStep) {
-      return this.saveMnemonicToFile(mnemonic)
-    } else if (isCheckMnemonicStep) {
-      if (!this.checkMnemonicConfirm()) {
-        return this.shake()
-      } else if (isInitialized) {
+  goToNextStep = () => {
+    switch (this.props.currentStep) {
+      case BEFORE_MNEMONIC_STEP:
+        return this.generateMnemonic()
+      case SAVE_MNEMONIC_STEP:
+        return this.saveMnemonicToFile()
+      case CHECK_MNEMONIC_STEP:
+        return this.checkMnemonicConfirm()
+      case BEFORE_PASSWORD_STEP:
         return this.updateStep(SET_PASSWORD_STEP)
-      }
-    } else if (isSetPasswordStep) {
-      return this.createKeystoreAccount(isInitialized)
-    } else if (nextStep > totalSteps) {
-      return null
+      case SET_PASSWORD_STEP:
+        return this.createKeystoreAccount()
+      default:
+        return null
     }
-
-    return this.updateStep(nextStep)
-  }
-
-  goToMnemonicStep = () => {
-    this.generateMnemonic()
-
-    return this.updateStep(SAVE_MNEMONIC_STEP)
   }
 
   updateStep = (nextStep) => {
@@ -245,18 +229,23 @@ class NewKeystoreAccountModal extends JModal {
 
   generateMnemonic = () => {
     this.props.setNewKeystoreAccountMnemonic(Keystore.generateMnemonic().toString())
+
+    return this.updateStep(SAVE_MNEMONIC_STEP)
   }
 
-  saveMnemonicToFile = (mnemonic) => {
-    this.props.saveMnemonicToFile(mnemonic, this.updateStep(CHECK_MNEMONIC_STEP))
+  saveMnemonicToFile = () => {
+    const { saveMnemonicToFile, mnemonic } = this.props
+
+    saveMnemonicToFile(mnemonic, this.updateStep(CHECK_MNEMONIC_STEP))
   }
 
-  createKeystoreAccount = (isInitialized = false) => {
+  createKeystoreAccount = () => {
+    const { createKeystoreAccount, password, mnemonic, isInitialized } = this.props
+
     if (!(isInitialized || this.checkPasswordConfirm())) {
       return this.shake()
     }
 
-    const { createKeystoreAccount, password, mnemonic } = this.props
     const NewKeystoreAccountData = { type: 'mnemonic', password, mnemonic }
 
     return createKeystoreAccount(NewKeystoreAccountData, this.onSuccessfulCreate, this.onFailCreate)
@@ -264,7 +253,7 @@ class NewKeystoreAccountModal extends JModal {
 
   onSuccessfulCreate = () => {
     this.closeModal()
-    this.goToMnemonicStep()
+    this.generateMnemonic()
   }
 
   onFailCreate = (err) => {
@@ -285,14 +274,20 @@ class NewKeystoreAccountModal extends JModal {
   }
 
   checkMnemonicConfirm = () => {
-    const { setNewKeystoreAccountInvalidField, mnemonic, mnemonicConfirm } = this.props
-    const isMnemonicMatch = (mnemonic === mnemonicConfirm)
+    const {
+      setNewKeystoreAccountInvalidField,
+      mnemonic,
+      mnemonicConfirm,
+      isInitialized,
+    } = this.props
 
-    if (!isMnemonicMatch) {
-      setNewKeystoreAccountInvalidField('mnemonicConfirm', 'Mnemonic should match')
+    if (mnemonic === mnemonicConfirm) {
+      return this.updateStep(isInitialized ? SET_PASSWORD_STEP : BEFORE_PASSWORD_STEP)
     }
 
-    return isMnemonicMatch
+    setNewKeystoreAccountInvalidField('mnemonicConfirm', 'Mnemonic should match')
+
+    return this.shake()
   }
 
   checkPasswordConfirm = () => {
@@ -336,10 +331,10 @@ class NewKeystoreAccountModal extends JModal {
   }
 
   submitModal = (event) => {
-    const { currentStep, totalSteps, isInitialized } = this.props
+    const { currentStep, totalSteps } = this.props
 
     if (currentStep === totalSteps) {
-      return handleEnterKeyPress(this.createKeystoreAccount, [isInitialized])(event)
+      return handleEnterKeyPress(this.createKeystoreAccount)(event)
     }
 
     return null

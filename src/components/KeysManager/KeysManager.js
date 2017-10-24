@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import JIcon from 'components/base/JIcon'
 
-function KeysManager({ openKeystoreModal, accountName }) {
+function KeysManager(props) {
+  const { openKeystoreModal, accountName } = props
+
   return (
     <div className='keys-manager pull-right' onClick={openKeystoreModal}>
       <div className='keys-manager__title'>{'Keys manager'}</div>

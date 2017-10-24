@@ -60,9 +60,9 @@ function AccountsTable(props) {
                 isActive={currentAccountId === id}
               />
               <Account.Manager
-                removeKeystoreAccount={removeKeystoreAccount(id)}
-                setEditAccountName={setEditAccountName(id, accountName)}
-                openNewDerivationPathModal={openNewDerivationPathModal(id, derivationPath)}
+                removeAccount={removeKeystoreAccount(id)}
+                editName={setEditAccountName(id, accountName)}
+                setDerivationPath={openNewDerivationPathModal(id, derivationPath)}
                 isMnemonicType={type === 'mnemonic'}
               />
             </Account>

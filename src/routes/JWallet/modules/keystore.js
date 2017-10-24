@@ -1,4 +1,6 @@
-import pushField from 'utils/pushField'
+import config from 'config'
+
+const { addressesPerIteration } = config
 
 export const KEYSTORE_GET_FROM_STORAGE = 'KEYSTORE_GET_FROM_STORAGE'
 export const KEYSTORE_SET_ACCOUNTS = 'KEYSTORE_SET_ACCOUNTS'
@@ -31,7 +33,7 @@ export function getKeystoreFromStorage() {
   }
 }
 
-export function createKeystoreAccount(props, onSuccess, onError) {
+export function createKeystoreAccount(props = {}, onSuccess = null, onError = null) {
   return {
     type: KEYSTORE_CREATE_ACCOUNT,
     props,
@@ -40,14 +42,14 @@ export function createKeystoreAccount(props, onSuccess, onError) {
   }
 }
 
-export function setCurrentKeystoreAccount(accountId) {
+export function setCurrentKeystoreAccount(accountId = '') {
   return {
     type: KEYSTORE_SET_CURRENT_ACCOUNT,
     accountId,
   }
 }
 
-export function removeKeystoreAccount(accountId) {
+export function removeKeystoreAccount(accountId = '') {
   return {
     type: KEYSTORE_REMOVE_ACCOUNT,
     accountId,
@@ -62,7 +64,7 @@ export function removeKeystoreAccounts(onSuccess = null, onError = null) {
   }
 }
 
-export function setKeystoreAccountName(accountId, newName) {
+export function setKeystoreAccountName(accountId = '', newName = '') {
   return {
     type: KEYSTORE_SET_ACCOUNT_NAME,
     accountId,
@@ -70,8 +72,13 @@ export function setKeystoreAccountName(accountId, newName) {
   }
 }
 
-export function setKeystoreAccountDerivationPath(password, accountId, newDerivationPath,
-  onSuccess = null, onError = null) {
+export function setKeystoreAccountDerivationPath(
+  password = '',
+  accountId = '',
+  newDerivationPath = '',
+  onSuccess = null,
+  onError = null
+) {
   return {
     type: KEYSTORE_SET_DERIVATION_PATH,
     password,
@@ -82,7 +89,7 @@ export function setKeystoreAccountDerivationPath(password, accountId, newDerivat
   }
 }
 
-export function setKeystoreAccountAddress(password, accountId, addressIndex) {
+export function setKeystoreAccountAddress(password = '', accountId = '', addressIndex = 0) {
   return {
     type: KEYSTORE_SET_ADDRESS,
     password,
@@ -91,7 +98,12 @@ export function setKeystoreAccountAddress(password, accountId, addressIndex) {
   }
 }
 
-export function getKeystoreAddressesFromMnemonic(password, accountId, iteration, limit) {
+export function getKeystoreAddressesFromMnemonic(
+  password = '',
+  accountId = '',
+  iteration = 0,
+  limit = addressesPerIteration
+) {
   return {
     type: KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
     password,
@@ -101,7 +113,12 @@ export function getKeystoreAddressesFromMnemonic(password, accountId, iteration,
   }
 }
 
-export function setKeystorePassword(password, newPassword, onSuccess, onError) {
+export function setKeystorePassword(
+  password = '',
+  newPassword = '',
+  onSuccess = null,
+  onError = null
+) {
   return {
     type: KEYSTORE_SET_PASSWORD,
     password,
@@ -111,7 +128,7 @@ export function setKeystorePassword(password, newPassword, onSuccess, onError) {
   }
 }
 
-export function saveMnemonicToFile(mnemonic, onSuccess, onError) {
+export function saveMnemonicToFile(mnemonic = '', onSuccess = null, onError = null) {
   return {
     type: KEYSTORE_SAVE_MNEMONIC_TO_FILE,
     mnemonic,
@@ -159,7 +176,7 @@ export function closeKeystoreModal() {
 /**
  * Editing of account name
  */
-export function setEditAccountName(accountId, newAccountName = '') {
+export function setEditAccountName(accountId = '', newAccountName = '') {
   return {
     type: KEYSTORE_SET_EDIT_ACCOUNT_NAME,
     accountId,
@@ -167,7 +184,7 @@ export function setEditAccountName(accountId, newAccountName = '') {
   }
 }
 
-export function setNewAccountName(newAccountName) {
+export function setNewAccountName(newAccountName = '') {
   return {
     type: KEYSTORE_SET_NEW_ACCOUNT_NAME,
     newAccountName,
