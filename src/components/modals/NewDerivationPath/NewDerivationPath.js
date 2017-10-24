@@ -24,6 +24,8 @@ class NewDerivationPath extends JModal {
 
       return setCustomDerivationPath(nextPath)
     }
+
+    return null
   }
 
   renderHeader = () => {
@@ -84,20 +86,13 @@ class NewDerivationPath extends JModal {
   }
 
   closeModal = () => {
-    const {
-      closeNewDerivationPathModal,
-      setKnownDerivationPath,
-      setCustomDerivationPath,
-      onClose
-    } = this.props
+    const { closeNewDerivationPathModal, onClose } = this.props
 
     if (onClose) {
       onClose()
     }
 
     closeNewDerivationPathModal()
-    setKnownDerivationPath()
-    setCustomDerivationPath()
   }
 
   submitModal = event => handleEnterKeyPress(this.setDerivationPath)(event)

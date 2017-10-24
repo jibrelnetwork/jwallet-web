@@ -1,8 +1,9 @@
+/*
 import keystoreMethods from './keystoreWorker'
 
 const keystoreWorker = new Worker('./keystoreWorker.js')
 
-keystoreWorker.onmessage = function(e) {
+keystoreWorker.onmessage = function callKeystoreMethod(e) {
   const { method, result } = e.data
 }
 
@@ -15,3 +16,4 @@ keystoreMethods.forEach((method) => {
     keystoreWorker.postMessage({ method, args, id })
   }
 })
+*/

@@ -54,6 +54,9 @@ const ACTION_HANDLERS = {
   [NEW_DERIVATION_PATH_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
+    currentDerivationPath: '',
+    knownDerivationPath: '',
+    customDerivationPath: '',
   }),
   [NEW_DERIVATION_PATH_SET_KNOWN_PATH]: (state, action) => ({
     ...state,

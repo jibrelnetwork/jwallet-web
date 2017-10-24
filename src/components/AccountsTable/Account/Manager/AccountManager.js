@@ -18,9 +18,9 @@ function AccountManager(props) {
 }
 
 AccountManager.propTypes = {
-  setEditAccountName: PropTypes.func.isRequired,
-  removeKeystoreAccount: PropTypes.func.isRequired,
-  openNewDerivationPathModal: PropTypes.func.isRequired,
+  removeAccount: PropTypes.func.isRequired,
+  editName: PropTypes.func.isRequired,
+  setDerivationPath: PropTypes.func.isRequired,
   isMnemonicType: PropTypes.bool.isRequired,
 }
 

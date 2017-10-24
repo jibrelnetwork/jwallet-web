@@ -44,4 +44,7 @@ export default {
 
   // modal shake timeout
   modalShakeTimeout: 1000,
+
+  // addresses count to get from mnemonic per one iteration
+  addressesPerIteration: 4,
 }

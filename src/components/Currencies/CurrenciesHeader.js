@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JIcon from 'components/base/JIcon'
 import CurrenciesManager from 'components/CurrenciesManager'
 
 function CurrenciesHeader({ openCurrenciesModal, isLoading }) {

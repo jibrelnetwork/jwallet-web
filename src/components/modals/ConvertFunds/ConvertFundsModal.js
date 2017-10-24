@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { getFieldMessage, handleEnterKeyPress } from 'utils'
+import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
 import SymbolPicker from 'components/SymbolPicker'
 import { JIcon, JModal, JModalButton, JPicker, JTextInput } from 'components/base'

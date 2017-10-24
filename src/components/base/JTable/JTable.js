@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JTableHeader from './JTableHeader'
-import JTableBody from './JTableBody'
+import JTableHeader from './Header'
+import JTableBody from './Body'
 
 function JTable(props) {
   const { children, name } = props

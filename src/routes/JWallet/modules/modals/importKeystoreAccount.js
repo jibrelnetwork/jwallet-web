@@ -143,7 +143,7 @@ const initialState = {
   data: '',
   password: '',
   passwordConfirm: '',
-  knownDerivationPath: "m/44'/60'/0'/0'",
+  knownDerivationPath: "m/44'/60'/0'/0'", // eslint-disable-line quotes
   customDerivationPath: '',
   totalSteps: 4,
   currentStep: 1,
