@@ -31,15 +31,16 @@
   }
 
   &--transactions-manager {
-    width: 160px;
+    width: 180px;
   }
 
-  &--account-manager {
+  &--account-manager,
+  &--keystore-manager {
     padding: 10px 20px;
   }
 
   &--keystore-manager {
-    width: 180px;
+    width: 200px;
   }
 }
 
@@ -50,10 +51,12 @@
 }
 
 .popover__item {
+  position: relative;
   height: 24px;
   line-height: 24px;
   margin-bottom: 5px;
   font-weight: 600;
+  text-align: left;
   color: $blue;
   cursor: pointer;
   transition: opacity 0.3s ease 0s;
@@ -66,18 +69,22 @@
     margin-bottom: 0;
   }
 
-  .title {
-    display: inline-block;
-    padding-left: 12px;
-    vertical-align: top;
+  &--gray {
+    color: $gray;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }
 
-.popover__item--gray {
-  color: $gray;
-  opacity: 0.5;
+.popover__icon {
+  position: absolute;
+  top: 4px;
+  left: 0;
+}
 
-  &:hover {
-    opacity: 0.7;
-  }
+.popover__label {
+  padding-left: 25px;
 }

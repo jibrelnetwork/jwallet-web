@@ -10,7 +10,7 @@ function AccountInfo(props) {
   const {
     setCurrentKeystoreAccount,
     setKeystoreAccountName,
-    setKeystoreAccountAddress,
+    setKeystoreAccountAddressIndex,
     getAddressesFromMnemonic,
     setNewAccountName,
     selectAccountName,
@@ -19,7 +19,7 @@ function AccountInfo(props) {
     id,
     type,
     accountName,
-    address,
+    addressIndex,
     isReadOnly,
     isActive,
   } = props
@@ -43,11 +43,11 @@ function AccountInfo(props) {
           />
         </div>
         <AccountInfoMnemonicAddresses
-          setKeystoreAccountAddress={setKeystoreAccountAddress}
+          setKeystoreAccountAddressIndex={setKeystoreAccountAddressIndex}
           getAddressesFromMnemonic={getAddressesFromMnemonic}
           addressesFromMnemonic={addressesFromMnemonic}
           id={id}
-          address={address}
+          addressIndex={addressIndex}
           isActive={isMnemonicAndActive}
         />
       </div>
@@ -57,7 +57,7 @@ function AccountInfo(props) {
 
 AccountInfo.propTypes = {
   setCurrentKeystoreAccount: PropTypes.func.isRequired,
-  setKeystoreAccountAddress: PropTypes.func.isRequired,
+  setKeystoreAccountAddressIndex: PropTypes.func.isRequired,
   getAddressesFromMnemonic: PropTypes.func.isRequired,
   setKeystoreAccountName: PropTypes.func.isRequired,
   setNewAccountName: PropTypes.func.isRequired,
@@ -73,13 +73,13 @@ AccountInfo.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   accountName: PropTypes.string.isRequired,
-  address: PropTypes.string,
+  addressIndex: PropTypes.number,
   isReadOnly: PropTypes.bool,
   isActive: PropTypes.bool,
 }
 
 AccountInfo.defaultProps = {
-  address: null,
+  addressIndex: 0,
   isReadOnly: false,
   isActive: false,
 }

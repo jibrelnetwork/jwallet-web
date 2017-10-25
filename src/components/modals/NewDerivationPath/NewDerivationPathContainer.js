@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 
 import {
   closeNewDerivationPathModal,
+  setDerivationPathPassword,
   setKnownDerivationPath,
   setCustomDerivationPath,
   setNewDerivationPathInvalidField,
@@ -15,6 +16,7 @@ const mapStateToProps = state => state.newDerivationPathModal
 
 const mapDispatchToProps = {
   closeNewDerivationPathModal,
+  setDerivationPathPassword,
   setKnownDerivationPath,
   setCustomDerivationPath,
   setNewDerivationPathInvalidField,

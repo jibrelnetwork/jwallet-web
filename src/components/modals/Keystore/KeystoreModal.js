@@ -20,8 +20,7 @@ class KeystoreModal extends JModal {
   renderBody = () => {
     const {
       removeKeystoreAccount,
-      setKeystoreAccountName,
-      setKeystoreAccountAddress,
+      setKeystoreAccountAddressIndex,
       getKeystoreAddressesFromMnemonic,
       setEditAccountName,
       currentAccount,
@@ -36,8 +35,8 @@ class KeystoreModal extends JModal {
       <AccountsTable
         setCurrentKeystoreAccount={this.setCurrentKeystoreAccount}
         removeKeystoreAccount={this.preventEventHandler(removeKeystoreAccount)}
-        setKeystoreAccountName={this.preventEventHandler(setKeystoreAccountName)}
-        setKeystoreAccountAddress={this.preventEventHandler(setKeystoreAccountAddress)}
+        setKeystoreAccountName={this.setKeystoreAccountName}
+        setKeystoreAccountAddressIndex={this.preventEventHandler(setKeystoreAccountAddressIndex)}
         getAddressesFromMnemonic={this.preventEventHandler(getKeystoreAddressesFromMnemonic)}
         sortAccounts={this.sortAccounts}
         openNewDerivationPathModal={this.openNewDerivationPathModal}
@@ -74,6 +73,10 @@ class KeystoreModal extends JModal {
     closeKeystoreModal()
   }
 
+  setKeystoreAccountName = (...args) => () => {
+    this.props.setKeystoreAccountName(...args, null, this.shake)
+  }
+
   setNewAccountName = (event) => {
     event.preventDefault()
 
@@ -102,7 +105,7 @@ class KeystoreModal extends JModal {
     }
   }
 
-  setCurrentKeystoreAccount = accountId => (/* event */) => {
+  setCurrentKeystoreAccount = accountId => () => {
     const { setCurrentKeystoreAccount, currentAccount } = this.props
 
     if (accountId !== currentAccount.id) {
@@ -117,7 +120,7 @@ class KeystoreModal extends JModal {
   }
   /* eslint-enable no-param-reassign */
 
-  sortAccounts = sortField => (/* event */) => this.props.sortAccounts(sortField)
+  sortAccounts = sortField => () => this.props.sortAccounts(sortField)
   openNewDerivationPathModal = (...args) => () => this.openModal('NewDerivationPath')(...args)
 }
 
@@ -125,7 +128,7 @@ KeystoreModal.propTypes = {
   setCurrentKeystoreAccount: PropTypes.func.isRequired,
   removeKeystoreAccount: PropTypes.func.isRequired,
   setKeystoreAccountName: PropTypes.func.isRequired,
-  setKeystoreAccountAddress: PropTypes.func.isRequired,
+  setKeystoreAccountAddressIndex: PropTypes.func.isRequired,
   getKeystoreAddressesFromMnemonic: PropTypes.func.isRequired,
   sortAccounts: PropTypes.func.isRequired,
   openKeystoreModal: PropTypes.func.isRequired,
@@ -158,7 +161,7 @@ KeystoreModal.propTypes = {
     type: PropTypes.string.isRequired,
     accountName: PropTypes.string.isRequired,
     derivationPath: PropTypes.string,
-    address: PropTypes.string,
+    addressIndex: PropTypes.number,
     isReadOnly: PropTypes.bool,
   })).isRequired,
   sortField: PropTypes.string.isRequired,

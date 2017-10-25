@@ -14,7 +14,7 @@ function AccountsTable(props) {
     setCurrentKeystoreAccount,
     removeKeystoreAccount,
     setKeystoreAccountName,
-    setKeystoreAccountAddress,
+    setKeystoreAccountAddressIndex,
     getAddressesFromMnemonic,
     sortAccounts,
     openNewDerivationPathModal,
@@ -39,14 +39,14 @@ function AccountsTable(props) {
       />
       <JTable.Body>
         {accounts.map((account) => {
-          const { id, type, accountName, address, derivationPath, isReadOnly } = account
+          const { id, type, accountName, derivationPath, addressIndex, isReadOnly } = account
 
           return (
             <Account key={id}>
               <Account.Info
                 setCurrentKeystoreAccount={setCurrentKeystoreAccount(id)}
                 setKeystoreAccountName={setKeystoreAccountName}
-                setKeystoreAccountAddress={setKeystoreAccountAddress}
+                setKeystoreAccountAddressIndex={setKeystoreAccountAddressIndex}
                 getAddressesFromMnemonic={getAddressesFromMnemonic}
                 setNewAccountName={setNewAccountName}
                 selectAccountName={selectAccountName}
@@ -55,7 +55,7 @@ function AccountsTable(props) {
                 id={id}
                 type={type}
                 accountName={accountName}
-                address={address}
+                addressIndex={addressIndex}
                 isReadOnly={isReadOnly}
                 isActive={currentAccountId === id}
               />
@@ -63,7 +63,7 @@ function AccountsTable(props) {
                 removeAccount={removeKeystoreAccount(id)}
                 editName={setEditAccountName(id, accountName)}
                 setDerivationPath={openNewDerivationPathModal(id, derivationPath)}
-                isMnemonicType={type === 'mnemonic'}
+                isMnemonic={(type === 'mnemonic') && !isReadOnly}
               />
             </Account>
           )
@@ -77,7 +77,7 @@ AccountsTable.propTypes = {
   setCurrentKeystoreAccount: PropTypes.func.isRequired,
   removeKeystoreAccount: PropTypes.func.isRequired,
   setKeystoreAccountName: PropTypes.func.isRequired,
-  setKeystoreAccountAddress: PropTypes.func.isRequired,
+  setKeystoreAccountAddressIndex: PropTypes.func.isRequired,
   getAddressesFromMnemonic: PropTypes.func.isRequired,
   sortAccounts: PropTypes.func.isRequired,
   openNewDerivationPathModal: PropTypes.func.isRequired,
@@ -96,8 +96,8 @@ AccountsTable.propTypes = {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     accountName: PropTypes.string.isRequired,
-    address: PropTypes.string,
     derivationPath: PropTypes.string,
+    addressIndex: PropTypes.number,
     isReadOnly: PropTypes.bool,
   })).isRequired,
   currentAccountId: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Keystore from 'blockchain-wallet-keystore'
+import Keystore from 'jwallet-web-keystore'
 
 import { JIcon, JTextInput } from 'components/base'
 

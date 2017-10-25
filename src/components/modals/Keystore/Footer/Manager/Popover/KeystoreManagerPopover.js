@@ -1,17 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JPopover from 'components/base/JPopover'
+import { JIcon, JPopover } from 'components/base'
 
 function KeystoreManagerPopover(props) {
   const { onClickOutside, backupKeystore, clearKeystore, setKeystorePassword } = props
 
   const body = (
     <div className='keystore-manager-popover'>
-      <div className='popover__item' onClick={backupKeystore}>{'Backup keys'}</div>
-      <div className='popover__item' onClick={setKeystorePassword}>{'Set new password'}</div>
+      <div className='popover__item' onClick={backupKeystore}>
+        <JIcon name='small-backup' className='popover__icon' small />
+        <span className='popover__label'>{'Backup keys'}</span>
+      </div>
+      <div className='popover__item' onClick={setKeystorePassword}>
+        <JIcon name='gear' className='popover__icon' small />
+        <span className='popover__label'>{'Set new password'}</span>
+      </div>
       <div className='popover__item popover__item--gray' onClick={clearKeystore}>
-        {'Clear keys'}
+        <JIcon name='small-clear' className='popover__icon' small />
+        <span className='popover__label'>{'Clear keys'}</span>
       </div>
     </div>
   )

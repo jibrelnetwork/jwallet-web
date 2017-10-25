@@ -1,7 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import Keystore from 'blockchain-wallet-keystore'
-import storage from 'local-storage-polyfill'
+import Keystore from 'jwallet-web-keystore'
+import storage from 'jwallet-web-storage'
 import fileSaver from 'file-saver'
 
 import config from 'config'
@@ -19,7 +19,7 @@ import {
   KEYSTORE_REMOVE_ACCOUNTS,
   KEYSTORE_SET_ACCOUNT_NAME,
   KEYSTORE_SET_DERIVATION_PATH,
-  KEYSTORE_SET_ADDRESS,
+  KEYSTORE_SET_ADDRESS_INDEX,
   KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
   KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
   KEYSTORE_SET_PASSWORD,
@@ -67,7 +67,8 @@ function setCurrentAccountToStorage(accountId) {
 }
 
 function* setAccounts() {
-  const accounts = keystore.getAccounts()
+  // Need to clone keystore accounts array to re-render if it was changed
+  const accounts = [...keystore.getAccounts()]
 
   if (accounts && accounts.length) {
     yield put(push('/jwallet'))
@@ -196,22 +197,13 @@ function* removeAccounts(action) {
 }
 
 function* setAccountName(action) {
-  const { accountId, newName } = action
-
-  keystore.setAccountName(accountId, newName)
-
-  yield setAccounts()
-  yield updateCurrentAccountData()
-}
-
-function* setDerivationPath(action) {
-  const { password, accountId, newDerivationPath, onSuccess, onError } = action
+  const { accountId, newName, onSuccess, onError } = action
 
   try {
-    const account = keystore.setDerivationPath(password, accountId, newDerivationPath)
+    keystore.setAccountName(accountId, newName)
 
     yield setAccounts()
-    yield refreshAddressesFromMnemonic(accountId, account.address)
+    yield updateCurrentAccountData()
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
@@ -219,34 +211,40 @@ function* setDerivationPath(action) {
   }
 }
 
-function* setAddress(action) {
-  const { password, accountId, addressIndex } = action
+function* setDerivationPath(action) {
+  const { password, accountId, newDerivationPath, onSuccess, onError } = action
 
-  keystore.setAddress(password, accountId, addressIndex)
+  try {
+    keystore.setDerivationPath(password, accountId, newDerivationPath)
+
+    yield setAccounts()
+    yield refreshAddressesFromMnemonic(accountId)
+
+    return onSuccess ? onSuccess() : null
+  } catch (e) {
+    return onError ? onError(e) : null
+  }
+}
+
+function* setAddressIndex(action) {
+  const { accountId, addressIndex } = action
+
+  keystore.setAddressIndex(accountId, addressIndex)
 
   yield setAccounts()
   yield updateCurrentAccountData()
 }
 
-function* refreshAddressesFromMnemonic(accountId, address) {
+function* refreshAddressesFromMnemonic(accountId) {
   storage.removeItem('keystoreAddressesFromMnemonic')
+
   yield setAddressesFromMnemonic()
-
-  // TODO: remove it
-  const password = 'qwert12345!Q'
-
-  yield getAddressesFromMnemonic({ accountId, iteration: 0, password })
-
-  const isAddressEmpty = !(address && address.length)
-
-  if (isAddressEmpty) {
-    yield setFirstMnemonicAddress(accountId, password)
-  }
+  yield getAddressesFromMnemonic({ accountId, iteration: 0, limit: addressesPerIteration })
 }
 
 function* getAddressesFromMnemonic(action) {
   const { addressesFromMnemonic } = yield select(getStateKeystoreData)
-  const { password, accountId, iteration, limit } = action
+  const { accountId, iteration, limit } = action
   const existedItems = addressesFromMnemonic.items
 
   const addressesFromStorage = getAddressesFromStorage(iteration, limit)
@@ -254,17 +252,13 @@ function* getAddressesFromMnemonic(action) {
 
   const newItems = isFromStorage
     ? addressesFromStorage
-    : keystore.getAddressesFromMnemonic(password, accountId, iteration, limit)
+    : keystore.getAddressesFromMnemonic(accountId, iteration, limit)
 
   yield setAddressesFromMnemonic(existedItems, newItems, iteration)
 
   if (!isFromStorage) {
     setAddressesToStorage(newItems)
   }
-}
-
-function* setFirstMnemonicAddress(accountId, password) {
-  yield put({ type: KEYSTORE_SET_ADDRESS, password, accountId, addressIndex: 0 })
 }
 
 function getAddressesFromStorage(iteration = -1, limit = addressesPerIteration) {
@@ -408,8 +402,8 @@ export function* watchSetDerivationPath() {
   yield takeEvery(KEYSTORE_SET_DERIVATION_PATH, setDerivationPath)
 }
 
-export function* watchSetAddress() {
-  yield takeEvery(KEYSTORE_SET_ADDRESS, setAddress)
+export function* watchSetAddressIndex() {
+  yield takeEvery(KEYSTORE_SET_ADDRESS_INDEX, setAddressIndex)
 }
 
 export function* watchGetAddressesFromMnemonic() {

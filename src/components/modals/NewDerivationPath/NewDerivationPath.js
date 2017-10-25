@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Keystore from 'blockchain-wallet-keystore'
 
 import { handleEnterKeyPress, isKnownPath } from 'utils'
 
 import { DerivationPath } from 'components'
-import { JModal, JModalButton } from 'components/base'
+import { JModal, JModalButton, JTextInput } from 'components/base'
 
 class NewDerivationPath extends JModal {
   constructor(props) {
@@ -33,6 +32,15 @@ class NewDerivationPath extends JModal {
   }
 
   renderBody = () => {
+    return (
+      <div>
+        {this.renderPassword()}
+        {this.renderDerivationPathOptions()}
+      </div>
+    )
+  }
+
+  renderDerivationPathOptions = () => {
     const { setCustomDerivationPath, knownDerivationPath } = this.props
     const fieldName = 'customDerivationPath'
 
@@ -43,6 +51,22 @@ class NewDerivationPath extends JModal {
         knownDerivationPath={knownDerivationPath}
         customDerivationPath={this.props[fieldName]}
         errorMessage={this.getInvalidFieldMessage(fieldName)}
+      />
+    )
+  }
+
+  renderPassword = () => {
+    const fieldName = 'password'
+
+    return (
+      <JTextInput
+        onValueChange={this.props.setDerivationPathPassword}
+        name='new-derivation-path-password'
+        placeholder='Password'
+        value={this.props[fieldName]}
+        errorMessage={this.getInvalidFieldMessage(fieldName)}
+        editable
+        secureTextEntry
       />
     )
   }
@@ -58,31 +82,35 @@ class NewDerivationPath extends JModal {
     )
   }
 
-  isModalButtonDisabled = () => (!!this.getInvalidFieldMessage('customDerivationPath').length)
+  isModalButtonDisabled = () => {
+    const isPasswordEmpty = !this.props.password.length
+    const isPasswordInvalid = !!this.getInvalidFieldMessage('password').length
+    const isCusomPathInvalid = !!this.getInvalidFieldMessage('customDerivationPath').length
 
-  setKnownDerivationPath = path => () => this.props.setKnownDerivationPath(path)
+    return !(isPasswordEmpty || isPasswordInvalid || isCusomPathInvalid)
+  }
 
   setDerivationPath = () => {
     const {
       setKeystoreAccountDerivationPath,
       accountId,
+      password,
       knownDerivationPath,
       customDerivationPath,
     } = this.props
 
     const newPath = customDerivationPath.length ? customDerivationPath : knownDerivationPath
 
-    // TODO: remove it
-    const password = 'qwert12345!Q'
-
     setKeystoreAccountDerivationPath(password, accountId, newPath, this.onSuccess, this.onFail)
   }
 
-  onSuccess = () => this.closeModal()
-
   onFail = (err) => {
+    const { message } = err
+    const isPasswordError = /password/ig.test(message)
+    const errField = isPasswordError ? 'password' : 'customDerivationPath'
+
     this.shake()
-    this.props.setNewDerivationPathInvalidField('customDerivationPath', err.message)
+    this.props.setNewDerivationPathInvalidField(errField, message)
   }
 
   closeModal = () => {
@@ -95,11 +123,14 @@ class NewDerivationPath extends JModal {
     closeNewDerivationPathModal()
   }
 
+  onSuccess = () => this.closeModal()
+  setKnownDerivationPath = path => () => this.props.setKnownDerivationPath(path)
   submitModal = event => handleEnterKeyPress(this.setDerivationPath)(event)
 }
 
 NewDerivationPath.propTypes = {
   closeNewDerivationPathModal: PropTypes.func.isRequired,
+  setDerivationPathPassword: PropTypes.func.isRequired,
   setKnownDerivationPath: PropTypes.func.isRequired,
   setCustomDerivationPath: PropTypes.func.isRequired,
   setNewDerivationPathInvalidField: PropTypes.func.isRequired,

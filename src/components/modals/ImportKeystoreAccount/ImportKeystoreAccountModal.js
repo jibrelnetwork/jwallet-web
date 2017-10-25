@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Keystore from 'blockchain-wallet-keystore'
+import Keystore from 'jwallet-web-keystore'
 
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
@@ -224,8 +224,7 @@ class ImportKeystoreAccountModal extends JModal {
       newAccountData.type = 'mnemonic'
       newAccountData.isReadOnly = false
       newAccountData.mnemonic = data
-    // } else if (Keystore.isBip32XPublicKeyValid(data)) {
-    } else if (/^(xpub)([A-Z\d]{107})$/i.test(data)) {
+    } else if (Keystore.isBip32XPublicKeyValid(data)) {
       newAccountData.type = 'mnemonic'
       newAccountData.isReadOnly = true
       newAccountData.bip32XPublicKey = data
@@ -245,7 +244,9 @@ class ImportKeystoreAccountModal extends JModal {
 
     this.setState({ accountData: newAccountData })
 
-    if (newAccountData.type === 'mnemonic') {
+    const isMnemonic = ((newAccountData.type === 'mnemonic') && (!newAccountData.isReadOnly))
+
+    if (isMnemonic) {
       return this.updateStep(MNEMONIC_OPTIONS_STEP)
     }
 

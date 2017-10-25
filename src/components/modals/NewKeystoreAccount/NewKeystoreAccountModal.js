@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Keystore from 'blockchain-wallet-keystore'
+import Keystore from 'jwallet-web-keystore'
 
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
