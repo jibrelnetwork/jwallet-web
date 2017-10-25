@@ -205,6 +205,8 @@ class NewKeystoreAccountModal extends JModal {
 
   goToNextStep = () => {
     switch (this.props.currentStep) {
+      case FIRST_STEP:
+        return this.updateStep(BEFORE_MNEMONIC_STEP)
       case BEFORE_MNEMONIC_STEP:
         return this.generateMnemonic()
       case SAVE_MNEMONIC_STEP:
