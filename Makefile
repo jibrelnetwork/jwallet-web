@@ -3,7 +3,7 @@ GIT = /usr/bin/git
 DOCKER = /usr/bin/docker
 
 GIT-REPOSITORY-BRANCH = master
-DOCKER-IMAGE-TAG = jibrel-web-platform
+DOCKER-IMAGE-TAG = jwallet-web
 DOCKER-CONTAINER-NAME = jwp
 
 git-pull:
