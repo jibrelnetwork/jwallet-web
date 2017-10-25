@@ -12,7 +12,7 @@ export const KEYSTORE_REMOVE_ACCOUNT = 'KEYSTORE_REMOVE_ACCOUNT'
 export const KEYSTORE_REMOVE_ACCOUNTS = 'KEYSTORE_REMOVE_ACCOUNTS'
 export const KEYSTORE_SET_ACCOUNT_NAME = 'KEYSTORE_SET_ACCOUNT_NAME'
 export const KEYSTORE_SET_DERIVATION_PATH = 'KEYSTORE_SET_DERIVATION_PATH'
-export const KEYSTORE_SET_ADDRESS = 'KEYSTORE_SET_ADDRESS'
+export const KEYSTORE_SET_ADDRESS_INDEX = 'KEYSTORE_SET_ADDRESS_INDEX'
 export const KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC = 'KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC'
 export const KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC = 'KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC'
 export const KEYSTORE_SET_PASSWORD = 'KEYSTORE_SET_PASSWORD'
@@ -64,11 +64,18 @@ export function removeKeystoreAccounts(onSuccess = null, onError = null) {
   }
 }
 
-export function setKeystoreAccountName(accountId = '', newName = '') {
+export function setKeystoreAccountName(
+  accountId = '',
+  newName = '',
+  onSuccess = null,
+  onError = null
+) {
   return {
     type: KEYSTORE_SET_ACCOUNT_NAME,
     accountId,
     newName,
+    onSuccess,
+    onError,
   }
 }
 
@@ -89,24 +96,21 @@ export function setKeystoreAccountDerivationPath(
   }
 }
 
-export function setKeystoreAccountAddress(password = '', accountId = '', addressIndex = 0) {
+export function setKeystoreAccountAddressIndex(accountId = '', addressIndex = 0) {
   return {
-    type: KEYSTORE_SET_ADDRESS,
-    password,
+    type: KEYSTORE_SET_ADDRESS_INDEX,
     accountId,
     addressIndex,
   }
 }
 
 export function getKeystoreAddressesFromMnemonic(
-  password = '',
   accountId = '',
   iteration = 0,
   limit = addressesPerIteration
 ) {
   return {
     type: KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
-    password,
     accountId,
     iteration,
     limit,
@@ -276,6 +280,7 @@ const initialState = {
     type: '',
     accountName: '',
     address: '',
+    addressIndex: 0,
     derivationPath: '',
     bip32XPublicKey: '',
     isReadOnly: false,

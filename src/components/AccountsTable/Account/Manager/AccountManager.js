@@ -21,7 +21,7 @@ AccountManager.propTypes = {
   removeAccount: PropTypes.func.isRequired,
   editName: PropTypes.func.isRequired,
   setDerivationPath: PropTypes.func.isRequired,
-  isMnemonicType: PropTypes.bool.isRequired,
+  isMnemonic: PropTypes.bool.isRequired,
 }
 
 export default AccountManager
