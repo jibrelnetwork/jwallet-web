@@ -1,27 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JPopover from 'components/base/JPopover'
+import { JIcon, JPopover } from 'components/base'
 
 function AccountManagerPopover(props) {
-  const { onClickOutside, removeAccount, editName, setDerivationPath, isMnemonicType } = props
+  const { onClickOutside, removeAccount, editName, setDerivationPath, isMnemonic } = props
 
   const popoverItems = [{
-    handler: editName, title: 'Edit name', show: true,
+    handler: editName, title: 'Edit name', show: true, icon: 'edit',
   }, {
-    handler: setDerivationPath, title: 'Edit  derivation path', show: isMnemonicType,
+    handler: setDerivationPath, title: 'Edit  derivation path', show: isMnemonic, icon: 'gear',
   }, {
-    handler: removeAccount, title: 'Clear key', show: true, modifier: 'gray',
+    handler: removeAccount, title: 'Clear key', show: true, modifier: 'gray', icon: 'small-clear',
   }]
 
   const body = (
     <div className='account-manager-popover'>
       {popoverItems.map((item, i) => {
-        const { handler, title, show, modifier } = item
+        const { handler, title, show, modifier, icon } = item
         const modifierClassName = modifier ? `popover__item--${modifier}` : ''
         const itemClassName = `popover__item ${modifierClassName}`
 
-        return show ? <div onClick={handler} className={itemClassName} key={i}>{title}</div> : null
+        return !show ? null : (
+          <div onClick={handler} className={itemClassName} key={i}>
+            <JIcon name={icon} className='popover__icon' small />
+            <span className='popover__label'>{title}</span>
+          </div>
+        )
       })}
     </div>
   )
@@ -33,7 +38,7 @@ AccountManagerPopover.propTypes = {
   removeAccount: PropTypes.func.isRequired,
   editName: PropTypes.func.isRequired,
   setDerivationPath: PropTypes.func.isRequired,
-  isMnemonicType: PropTypes.bool.isRequired,
+  isMnemonic: PropTypes.bool.isRequired,
   onClickOutside: PropTypes.func,
 }
 

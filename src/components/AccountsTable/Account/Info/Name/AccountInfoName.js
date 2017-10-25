@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import handleEnterKeyPress from 'utils/handleEnterKeyPress'
+
 function AccountInfoName(props) {
   const {
     setKeystoreAccountName,
@@ -12,6 +14,7 @@ function AccountInfoName(props) {
   } = props
 
   const { accountId, newAccountName } = newAccountNameData
+  const setName = setKeystoreAccountName(accountId, newAccountName)
 
   if (id !== accountId) {
     return <div className='account-info-name'>{accountName}</div>
@@ -25,8 +28,9 @@ function AccountInfoName(props) {
         placeholder='New name'
         value={newAccountName}
         onChange={setNewAccountName}
-        onBlur={setKeystoreAccountName(accountId, newAccountName)}
+        onBlur={setName}
         onFocus={selectAccountName}
+        onKeyPress={handleEnterKeyPress(setName)}
         autoFocus
       />
     </div>

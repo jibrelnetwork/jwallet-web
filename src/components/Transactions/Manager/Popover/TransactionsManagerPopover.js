@@ -1,18 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JPopover from 'components/base/JPopover'
+import { JIcon, JPopover } from 'components/base'
 
 function TransactionsManagerPopover(props) {
   const { onClickOutside, sendFunds, receiveFunds, convertFunds, filter, remove } = props
 
   const body = (
     <div className='transactions-manager-popover'>
-      <div className='popover__item' onClick={sendFunds}>{'Send funds'}</div>
-      <div className='popover__item' onClick={receiveFunds}>{'Receive funds'}</div>
-      <div className='popover__item' onClick={convertFunds}>{'Convert funds'}</div>
-      <div className='popover__item' onClick={filter(true)}>{'Filter'}</div>
-      <div className='popover__item popover__item--gray' onClick={remove}>{'Remove'}</div>
+      <div className='popover__item' onClick={sendFunds}>
+        <JIcon name='small-send' className='popover__icon' small />
+        <span className='popover__label'>{'Send funds'}</span>
+      </div>
+      <div className='popover__item' onClick={receiveFunds}>
+        <JIcon name='small-receive' className='popover__icon' small />
+        <span className='popover__label'>{'Receive funds'}</span>
+      </div>
+      <div className='popover__item' onClick={convertFunds}>
+        <JIcon name='small-convert' className='popover__icon' small />
+        <span className='popover__label'>{'Convert funds'}</span>
+      </div>
+      <div className='popover__item' onClick={filter(true)}>
+        <JIcon name='date' className='popover__icon' small />
+        <span className='popover__label'>{'Filter'}</span>
+      </div>
+      <div className='popover__item popover__item--gray' onClick={remove}>
+        <JIcon name='small-clear' className='popover__icon' small />
+        <span className='popover__label'>{'Remove'}</span>
+      </div>
     </div>
   )
 

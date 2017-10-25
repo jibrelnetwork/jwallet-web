@@ -5,16 +5,13 @@ import JRadio from 'components/base/JRadio'
 
 function AccountInfoMnemonicAddresses(props) {
   const {
-    setKeystoreAccountAddress,
+    setKeystoreAccountAddressIndex,
     getAddressesFromMnemonic,
     addressesFromMnemonic,
     id,
-    address,
+    addressIndex,
     isActive,
   } = props
-
-  // TODO: remove it
-  const password = 'qwert12345!Q'
 
   const { items, currentIteration } = addressesFromMnemonic
 
@@ -25,8 +22,8 @@ function AccountInfoMnemonicAddresses(props) {
   return (
     <div className='account-info-mnemonic-addresses'>
       {items.map((mnemonicAddress, index) => {
-        const active = (mnemonicAddress === address)
-        const setAddress = active ? null : setKeystoreAccountAddress(password, id, index)
+        const active = (index === addressIndex)
+        const setAddress = active ? null : setKeystoreAccountAddressIndex(id, index)
 
         return (
           <div className='mnemonic-address-container' key={index}>
@@ -36,10 +33,7 @@ function AccountInfoMnemonicAddresses(props) {
         )
       })}
       <div>
-        <span
-          className='get-more'
-          onClick={getAddressesFromMnemonic(password, id, currentIteration)}
-        >
+        <span className='get-more' onClick={getAddressesFromMnemonic(id, currentIteration)}>
           {'Get more'}
         </span>
       </div>
@@ -48,20 +42,15 @@ function AccountInfoMnemonicAddresses(props) {
 }
 
 AccountInfoMnemonicAddresses.propTypes = {
-  setKeystoreAccountAddress: PropTypes.func.isRequired,
+  setKeystoreAccountAddressIndex: PropTypes.func.isRequired,
   getAddressesFromMnemonic: PropTypes.func.isRequired,
   addressesFromMnemonic: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentIteration: PropTypes.number.isRequired,
   }).isRequired,
   id: PropTypes.string.isRequired,
-  address: PropTypes.string,
-  isActive: PropTypes.bool,
-}
-
-AccountInfoMnemonicAddresses.defaultProps = {
-  address: null,
-  isActive: false,
+  addressIndex: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
 }
 
 export default AccountInfoMnemonicAddresses

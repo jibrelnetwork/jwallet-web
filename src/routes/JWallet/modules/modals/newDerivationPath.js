@@ -2,6 +2,7 @@ import pushField from 'utils/pushField'
 
 export const NEW_DERIVATION_PATH_OPEN_MODAL = 'NEW_DERIVATION_PATH_OPEN_MODAL'
 export const NEW_DERIVATION_PATH_CLOSE_MODAL = 'NEW_DERIVATION_PATH_CLOSE_MODAL'
+export const NEW_DERIVATION_PATH_SET_PASSWORD = 'NEW_DERIVATION_PATH_SET_PASSWORD'
 export const NEW_DERIVATION_PATH_SET_KNOWN_PATH = 'NEW_DERIVATION_PATH_SET_KNOWN_PATH'
 export const NEW_DERIVATION_PATH_SET_CUSTOM_PATH = 'NEW_DERIVATION_PATH_SET_CUSTOM_PATH'
 export const NEW_DERIVATION_PATH_SET_INVALID_FIELD = 'NEW_DERIVATION_PATH_SET_INVALID_FIELD'
@@ -18,6 +19,13 @@ export function openNewDerivationPathModal(onClose = null, accountId = '', deriv
 export function closeNewDerivationPathModal() {
   return {
     type: NEW_DERIVATION_PATH_CLOSE_MODAL,
+  }
+}
+
+export function setDerivationPathPassword(password = '') {
+  return {
+    type: NEW_DERIVATION_PATH_SET_PASSWORD,
+    password,
   }
 }
 
@@ -54,9 +62,14 @@ const ACTION_HANDLERS = {
   [NEW_DERIVATION_PATH_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
-    currentDerivationPath: '',
-    knownDerivationPath: '',
-    customDerivationPath: '',
+    currentDerivationPath: initialState.currentDerivationPath,
+    knownDerivationPath: initialState.knownDerivationPath,
+    customDerivationPath: initialState.customDerivationPath,
+  }),
+  [NEW_DERIVATION_PATH_SET_PASSWORD]: (state, action) => ({
+    ...state,
+    password: action.password,
+    invalidFields: pushField(state.invalidFields, 'password'),
   }),
   [NEW_DERIVATION_PATH_SET_KNOWN_PATH]: (state, action) => ({
     ...state,
@@ -75,6 +88,7 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   invalidFields: [],
+  password: '',
   accountId: '',
   currentDerivationPath: '',
   knownDerivationPath: '',
