@@ -5,6 +5,7 @@ import config from 'config'
 
 import JDropdown from 'components/base/JDropdown'
 
+import NetworksManagerLoading from './NetworksManagerLoading'
 import NetworksManagerPopover from './NetworksManagerPopover'
 import NetworksManagerTitle from './NetworksManagerTitle'
 
@@ -15,15 +16,13 @@ class NetworksManager extends Component {
   }
 
   render() {
-    const { saveCustomNetwork, networks } = this.props
-    const { items, currentActiveIndex, isLoading } = networks
+    const { setCurrentNetwork, removeCustomNetwork, networks } = this.props
 
-    if (isLoading) {
-      return null
+    if (networks.isLoading) {
+      return <NetworksManagerLoading />
     }
 
-    const currentNetwork = items[currentActiveIndex]
-    const title = <NetworksManagerTitle title={currentNetwork.title} />
+    const title = <NetworksManagerTitle />
 
     return (
       <JDropdown
@@ -32,9 +31,10 @@ class NetworksManager extends Component {
         title={title}
       >
         <NetworksManagerPopover
-          setActiveNetwork={this.setActiveNetwork}
-          saveCustomNetwork={saveCustomNetwork}
-          removeCustomNetwork={this.removeCustomNetwork}
+          setCurrentNetwork={this.popoverHandlerWithClick(setCurrentNetwork)}
+          setCustomNetworkValue={this.setCustomNetworkValue}
+          saveCustomNetwork={this.saveCustomNetwork}
+          removeCustomNetwork={this.popoverHandlerWithClick(removeCustomNetwork)}
           shakePopover={this.shakePopover}
           networks={networks}
           isShake={this.state.isShake}
@@ -43,8 +43,17 @@ class NetworksManager extends Component {
     )
   }
 
-  setActiveNetwork = i => this.popoverHandlerWithClick(this.props.setActiveNetwork)(i)
-  removeCustomNetwork = i => this.popoverHandlerWithClick(this.props.removeCustomNetwork)(i)
+  setCustomNetworkValue = e => this.props.setCustomNetworkValue(e.target.value)
+
+  saveCustomNetwork = customNetworkRpc => (e) => {
+    const { saveCustomNetwork, setCustomNetworkValue } = this.props
+
+    if (!customNetworkRpc.length || this.state.isShake) {
+      return null
+    }
+
+    saveCustomNetwork(customNetworkRpc, setCustomNetworkValue, this.shakePopover)
+  }
 
   popoverHandlerWithClick = handler => index => (e) => {
     e.preventDefault()
@@ -65,15 +74,16 @@ class NetworksManager extends Component {
 }
 
 NetworksManager.propTypes = {
-  setActiveNetwork: PropTypes.func.isRequired,
+  setCurrentNetwork: PropTypes.func.isRequired,
+  setCustomNetworkValue: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
-      rpcAddr: PropTypes.string.isRequired,
       isCustom: PropTypes.bool.isRequired,
     })).isRequired,
+    customNetworkRpc: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,

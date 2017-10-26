@@ -8,15 +8,15 @@ import NetworksCustomRpc from './NetworksCustomRpc'
 function NetworksManagerPopover(props) {
   const {
     onClickOutside,
-    setActiveNetwork,
+    setCurrentNetwork,
+    setCustomNetworkValue,
     saveCustomNetwork,
     removeCustomNetwork,
-    shakePopover,
     networks,
     isShake,
   } = props
 
-  const { items, currentActiveIndex } = networks
+  const { items, customNetworkRpc, currentActiveIndex } = networks
 
   const body = (
     <div className='networks-manager__popover'>
@@ -36,7 +36,7 @@ function NetworksManagerPopover(props) {
 
           return (
             <div
-              onClick={setActiveNetwork(i)}
+              onClick={setCurrentNetwork(i)}
               className={`network ${isActive ? 'network--active' : ''}`}
               key={i}
             >
@@ -45,7 +45,11 @@ function NetworksManagerPopover(props) {
           )
         })}
       </div>
-      <NetworksCustomRpc saveCustomNetwork={saveCustomNetwork} shakePopover={shakePopover} />
+      <NetworksCustomRpc
+        setCustomNetworkValue={setCustomNetworkValue}
+        saveCustomNetwork={saveCustomNetwork}
+        customNetworkRpc={customNetworkRpc}
+      />
     </div>
   )
 
@@ -60,18 +64,17 @@ function NetworksManagerPopover(props) {
 }
 
 NetworksManagerPopover.propTypes = {
-  setActiveNetwork: PropTypes.func.isRequired,
+  setCurrentNetwork: PropTypes.func.isRequired,
+  setCustomNetworkValue: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
-  shakePopover: PropTypes.func.isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
-      rpcAddr: PropTypes.string.isRequired,
       isCustom: PropTypes.bool.isRequired,
     })).isRequired,
+    customNetworkRpc: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
-    isLoading: PropTypes.bool.isRequired,
   }).isRequired,
   isShake: PropTypes.bool.isRequired,
   onClickOutside: PropTypes.func,
