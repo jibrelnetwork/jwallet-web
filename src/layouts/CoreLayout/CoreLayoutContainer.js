@@ -6,7 +6,8 @@ import { getKeystoreFromStorage, openKeystoreModal } from 'routes/JWallet/module
 
 import {
   getNetworksFromStorage,
-  setActiveNetwork,
+  setCurrentNetwork,
+  setCustomNetworkValue,
   saveCustomNetwork,
   removeCustomNetwork,
 } from 'routes/JWallet/modules/networks'
@@ -39,7 +40,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getKeystoreFromStorage,
   getNetworksFromStorage,
-  setActiveNetwork,
+  setCurrentNetwork,
+  setCustomNetworkValue,
   saveCustomNetwork,
   removeCustomNetwork,
   openConvertFundsModal,

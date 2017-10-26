@@ -10,26 +10,31 @@
   background-size: 800px 100px;
   border-radius: 10px;
   opacity: 0.2 !important;
-}
 
-.loading--currencies-title {
-  height: $currencies-header-height;
-  width: 100px;
-}
+  &--currencies-title {
+    height: $currencies-header-height;
+    width: 100px;
+  }
 
-.loading--currencies-icon,
-.loading--currency-symbol {
-  border-radius: 50%;
-}
+  &--currencies-icon,
+  &--currency-symbol {
+    border-radius: 50%;
+  }
 
-.loading--currency-name {
-  height: $currency-item-name-font-size;
-  width: 150px;
-}
+  &--currency-name {
+    height: $currency-item-name-font-size;
+    width: 150px;
+  }
 
-.loading--currency-balance {
-  height: $currency-item-balance-font-size;
-  width: 80px;
+  &--currency-balance {
+    height: $currency-item-balance-font-size;
+    width: 80px;
+  }
+
+  &--icon {
+    width: $iconSize;
+    height: $iconSize;
+  }
 }
 
 @keyframes loading{
