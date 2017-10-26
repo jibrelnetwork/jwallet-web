@@ -1,10 +1,12 @@
-import { put, select, takeEvery } from 'redux-saga/effects'
+import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
+import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
-import { getTokenNameBySymbolName, searchItems, sortItems } from 'utils'
+import config from 'config'
+import { tokens, searchItems, sortItems, storage, storageKeys } from 'utils'
 
 import {
-  CURRENCIES_GET_FROM_STORAGE,
+  CURRENCIES_GET,
   CURRENCIES_SET,
   CURRENCIES_SET_CURRENT,
   CURRENCIES_SET_ACTIVE_ALL,
@@ -13,84 +15,146 @@ import {
   CURRENCIES_SORT,
   CURRENCIES_SET_SEARCH_OPTIONS,
   CURRENCIES_SET_SORT_OPTIONS,
+  CURRENCIES_SET_BALANCES,
 } from '../modules/currencies'
 
 import { GET_TRANSACTIONS } from '../modules/transactions'
 
-const currenciesStub = [{
-  symbol: 'ETH',
-  balance: 2.12345,
-  isLicensed: false,
-  isAuthRequired: false,
-  isActive: true,
-  address: '',
-}, {
-  symbol: 'jUSD',
-  balance: 7.8900000001,
-  isLicensed: false,
-  isAuthRequired: false,
-  isActive: true,
-  address: '0x04360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-}, {
-  symbol: 'jEUR',
-  balance: 8.65789999,
-  isLicensed: false,
-  isAuthRequired: false,
-  isActive: false,
-  address: '0x06360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-}, {
-  symbol: 'JNT',
-  balance: 9.9999999,
-  isLicensed: true,
-  isAuthRequired: true,
-  isActive: true,
-  address: '0x09360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-}]
+const { getBalanceIntervalTimeout, defaultDecimals } = config
+const currenciesSearchFields = ['symbol', 'name']
 
-const currenciesSearchFields = ['symbol', 'name', 'balanceFixed', 'licensed', 'transfer']
+let getBalanceLaunchId = 0
 
 function getStateCurrencies(state) {
   return state.currencies
 }
 
-function* getCurrencies() {
-  yield delay(1000)
+function getRpcProps(state) {
+  const { items, currentActiveIndex } = state.networks
+  const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
 
-  const items = currenciesStub.map((item) => {
-    const { symbol, balance, isLicensed, isAuthRequired } = item
-
-    return {
-      ...item,
-      name: getTokenNameBySymbolName(symbol),
-      balanceFixed: balance.toFixed(3),
-      licensed: isLicensed ? 'Yes' : 'No',
-      transfer: isAuthRequired ? 'Not Authorized' : 'Authorized',
-    }
-  })
-
-  yield put({ type: CURRENCIES_SET, items })
+  return { rpcaddr, rpcport, ssl }
 }
 
-function* setCurrentCurrency(action) {
-  yield put({ type: GET_TRANSACTIONS, currencyIndex: action.index })
+function getKeystoreAddress(state) {
+  const { currentAccount, addressesFromMnemonic } = state.keystore
+  const { type, address, addressIndex } = currentAccount
+
+  return (type === 'mnemonic') ? addressesFromMnemonic[addressIndex] : address
 }
 
-function* setCurrencies() {
-  const { items, currentActiveIndex } = yield select(getStateCurrencies)
-  const isCurrentActive = (currentActiveIndex > -1) ? items[currentActiveIndex].isActive : false
+function setCurrenciesToStorage(action) {
+  const { items, currentActiveIndex } = action
 
-  if (isCurrentActive) {
+  storage.setItem(storageKeys.CURRENCIES, JSON.stringify(items || []))
+  storage.setItem(storageKeys.CURRENCIES_CURRENT, currentActiveIndex || 0)
+}
+
+function* setCurrentCurrencyToStorage(action) {
+  const { currentActiveIndex } = action
+
+  storage.setItem(storageKeys.CURRENCIES_CURRENT, currentActiveIndex || 0)
+  yield put({ type: GET_TRANSACTIONS, currencyIndex: currentActiveIndex })
+}
+
+function setBalancesToStorage(action) {
+  storage.setItem(storageKeys.CURRENCIES_BALANCES, JSON.stringify(action.balances || {}))
+}
+
+function* setBalances(balances) {
+  yield put({ type: CURRENCIES_SET_BALANCES, balances })
+
+  if (getBalanceLaunchId > 1) {
     return
   }
+
+  yield delay(getBalanceIntervalTimeout)
+  yield getBalances()
+}
+
+function* getCurrenciesFromStorage() {
+  let items = tokens.main
+  let balances = {}
+  let currentActiveIndex = 0
+
+  try {
+    const currenciesFromStorage = storage.getItem(storageKeys.CURRENCIES)
+    const balancesFromStorage = storage.getItem(storageKeys.CURRENCIES_BALANCES)
+    const currencyIndexFromStorage = storage.getItem(storageKeys.CURRENCIES_CURRENT)
+
+    items = currenciesFromStorage ? JSON.parse(currenciesFromStorage) : tokens.main
+    balances = balancesFromStorage ? JSON.parse(balancesFromStorage) : {}
+    currentActiveIndex = parseInt(currencyIndexFromStorage, 10) || 0
+  } catch (e) {
+    // console.error(e)
+  }
+
+  yield setCurrencies(items, currentActiveIndex)
+  yield setBalances(balances)
+
+  // need to increment counter, to prevent another loops when getBalance is called
+  getBalanceLaunchId += 1
+}
+
+function* getBalances() {
+  const { items, isLoading } = yield select(getStateCurrencies)
+
+  if (isLoading) {
+    return
+  }
+
+  const rpcProps = yield select(getRpcProps)
+  const address = yield select(getKeystoreAddress)
+
+  const tokensBalances = getTokensBalances(items, rpcProps, address)
+
+  const balances = yield all({
+    ETH: call(getEthBalance, address, rpcProps),
+    ...tokensBalances,
+  })
+
+  yield setBalances(balances)
+}
+
+function getEthBalance(address, rpcProps) {
+  return jibrelContractsApi.eth
+    .getBalance({ ...rpcProps, address })
+    .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
+}
+
+function getTokensBalances(items, rpcProps, owner) {
+  const result = {}
+
+  items.forEach((token) => {
+    const { symbol, address, decimals } = token
+
+    if (!(address && address.length)) {
+      return
+    }
+
+    result[symbol] = call(getTokenBalance, address, owner, rpcProps, decimals)
+  })
+
+  return result
+}
+
+function getTokenBalance(contractAddress, owner, rpcProps, decimals = defaultDecimals) {
+  return jibrelContractsApi.contracts.erc20
+    .balanceOf({ ...rpcProps, contractAddress, owner })
+    .then(balance => (balance.toNumber() / (10 ** decimals)))
+}
+
+function* setCurrencies(items, currentIndex) {
+  const isCurrentActive = (currentIndex > -1) ? items[currentIndex].isActive : false
 
   /**
    * if isActive flag was set to false for current currency
    * need to set next available isActive currency as current
    * if there are no isActive currencies, set currentActiveIndex to -1
    */
-  const nextAvailableActiveIndex = getNextAvailableActiveIndex(items)
+  const currentActiveIndex = isCurrentActive ? currentIndex : getNextAvailableActiveIndex(items)
 
-  yield put({ type: CURRENCIES_SET_CURRENT, index: nextAvailableActiveIndex })
+  yield put({ type: CURRENCIES_SET, items, currentActiveIndex })
 }
 
 function getNextAvailableActiveIndex(items) {
@@ -106,7 +170,7 @@ function getNextAvailableActiveIndex(items) {
 }
 
 function* toggleCurrency(action) {
-  const { items, isActiveAll } = yield select(getStateCurrencies)
+  const { items, currentActiveIndex, isActiveAll } = yield select(getStateCurrencies)
   const { index } = action
 
   let newIsActiveAll = (index === -1) ? !isActiveAll : isActiveAll
@@ -131,7 +195,7 @@ function* toggleCurrency(action) {
     })
   }
 
-  yield put({ type: CURRENCIES_SET, items: newItems })
+  yield setCurrencies(newItems, currentActiveIndex)
   yield put({ type: CURRENCIES_SET_ACTIVE_ALL, isActiveAll: newIsActiveAll })
 }
 
@@ -156,8 +220,7 @@ function* sortCurrencies(action) {
   const result = sortItems(items, oldSortField, sortField, sortDirection)
   const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
 
-  yield put({ type: CURRENCIES_SET, items: result.items })
-  yield put({ type: CURRENCIES_SET_CURRENT, index: newActiveIndex })
+  yield setCurrencies(result.items, newActiveIndex)
 
   yield put({
     type: CURRENCIES_SET_SORT_OPTIONS,
@@ -177,7 +240,15 @@ function getNewActiveIndex(items, symbol) {
 }
 
 export function* watchGetCurrencies() {
-  yield takeEvery(CURRENCIES_GET_FROM_STORAGE, getCurrencies)
+  yield takeEvery(CURRENCIES_GET, getCurrenciesFromStorage)
+}
+
+export function* watchSetCurrencies() {
+  yield takeEvery(CURRENCIES_SET, setCurrenciesToStorage)
+}
+
+export function* watchSetBalances() {
+  yield takeEvery(CURRENCIES_SET_BALANCES, setBalancesToStorage)
 }
 
 export function* watchToggleCurrency() {
@@ -185,11 +256,7 @@ export function* watchToggleCurrency() {
 }
 
 export function* watchSetCurrentCurrency() {
-  yield takeEvery(CURRENCIES_SET_CURRENT, setCurrentCurrency)
-}
-
-export function* watchSetActiveAll() {
-  yield takeEvery(CURRENCIES_SET, setCurrencies)
+  yield takeEvery(CURRENCIES_SET_CURRENT, setCurrentCurrencyToStorage)
 }
 
 export function* watchSearchCurrencies() {

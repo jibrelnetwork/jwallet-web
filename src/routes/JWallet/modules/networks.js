@@ -1,4 +1,4 @@
-export const NETWORKS_GET_FROM_STORAGE = 'NETWORKS_GET_FROM_STORAGE'
+export const NETWORKS_GET = 'NETWORKS_GET'
 export const NETWORKS_SET = 'NETWORKS_SET'
 export const NETWORKS_SET_CURRENT = 'NETWORKS_SET_CURRENT'
 export const NETWORKS_SET_CUSTOM_NETWORK_VALUE = 'NETWORKS_SET_CUSTOM_NETWORK_VALUE'
@@ -7,7 +7,7 @@ export const NETWORKS_REMOVE_CUSTOM_NETWORK = 'NETWORKS_REMOVE_CUSTOM_NETWORK'
 
 export function getNetworksFromStorage() {
   return {
-    type: NETWORKS_GET_FROM_STORAGE,
+    type: NETWORKS_GET,
   }
 }
 
@@ -50,7 +50,7 @@ export function removeCustomNetwork(networkIndex = 0) {
 }
 
 const ACTION_HANDLERS = {
-  [NETWORKS_GET_FROM_STORAGE]: () => initialState,
+  [NETWORKS_GET]: () => initialState,
   [NETWORKS_SET]: (state, action) => ({
     ...state,
     items: action.items,

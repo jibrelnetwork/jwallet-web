@@ -45,11 +45,11 @@ class NetworksManager extends Component {
 
   setCustomNetworkValue = e => this.props.setCustomNetworkValue(e.target.value)
 
-  saveCustomNetwork = customNetworkRpc => (e) => {
+  saveCustomNetwork = customNetworkRpc => () => {
     const { saveCustomNetwork, setCustomNetworkValue } = this.props
 
     if (!customNetworkRpc.length || this.state.isShake) {
-      return null
+      return
     }
 
     saveCustomNetwork(customNetworkRpc, setCustomNetworkValue, this.shakePopover)

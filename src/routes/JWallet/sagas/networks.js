@@ -1,24 +1,25 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import storage from 'jwallet-web-storage'
 
 import config from 'config'
-import storageKeys from 'utils/storageKeys'
+import { storage, storageKeys } from 'utils'
 
 import {
-  NETWORKS_GET_FROM_STORAGE,
+  NETWORKS_GET,
   NETWORKS_SET,
   NETWORKS_SET_CURRENT,
   NETWORKS_SAVE_CUSTOM_NETWORK,
   NETWORKS_REMOVE_CUSTOM_NETWORK,
 } from '../modules/networks'
 
+import { CURRENCIES_GET } from '../modules/currencies'
+
 const defaultProps = { isCustom: false, ssl: false }
 const defaultNetworks = [
-  { title: 'Main Ethereum Network', rpcAddr: '37.59.55.6', rpcPort: '10001', ...defaultProps },
-  { title: 'Ropsten Test Network', rpcAddr: '37.59.55.6', rpcPort: '10004', ...defaultProps },
-  { title: 'Kovan Test Network', rpcAddr: '37.59.55.6', rpcPort: '10002', ...defaultProps },
-  { title: 'Rinkeby Test Network', rpcAddr: '37.59.55.6', rpcPort: '10003', ...defaultProps },
-  { title: 'Localhost 8545', rpcAddr: 'localhost', rpcPort: '8545', ...defaultProps },
+  { title: 'Main Ethereum Network', rpcaddr: '37.59.55.6', rpcport: '10001', ...defaultProps },
+  { title: 'Ropsten Test Network', rpcaddr: '37.59.55.6', rpcport: '10004', ...defaultProps },
+  { title: 'Kovan Test Network', rpcaddr: '37.59.55.6', rpcport: '10002', ...defaultProps },
+  { title: 'Rinkeby Test Network', rpcaddr: '37.59.55.6', rpcport: '10003', ...defaultProps },
+  { title: 'Localhost 8545', rpcaddr: 'localhost', rpcport: '8545', ...defaultProps },
 ]
 
 function getStateNetworks(state) {
@@ -33,7 +34,7 @@ function setNetworksToStorage(action) {
 }
 
 function setCurrentNetworkToStorage(action) {
-  storage.setItem(storageKeys.NETWORKS_CURRENT, action.currentActiveIndex)
+  storage.setItem(storageKeys.NETWORKS_CURRENT, action.currentActiveIndex || 0)
 }
 
 function* setNetworks(items, currentActiveIndex) {
@@ -51,7 +52,7 @@ function* getNetworksFromStorage() {
     items = networksFromStorage ? JSON.parse(networksFromStorage) : defaultNetworks
     currentActiveIndex = parseInt(networkIndexFromStorage, 10) || 0
   } catch (e) {
-    console.error(e)
+    // console.error(e)
   }
 
   yield setNetworks(items, currentActiveIndex)
@@ -93,9 +94,9 @@ function checkCustomNetworkRpc(items, customNetworkRpc) {
 function parseCustomNetworkRpc(customNetworkRpc) {
   const ssl = /^https:\/\//i.test(customNetworkRpc)
   const withoutProtocol = customNetworkRpc.replace(/^http(s?):\/\//i, '')
-  const [rpcAddr, rpcPort = ssl ? '443' : '80'] = withoutProtocol.split(':')
+  const [rpcaddr, rpcport = ssl ? '443' : '80'] = withoutProtocol.split(':')
 
-  return { title: customNetworkRpc, rpcAddr, rpcPort, ssl, isCustom: true }
+  return { title: customNetworkRpc, rpcaddr, rpcport, ssl, isCustom: true }
 }
 
 function* removeCustomNetwork(action) {
@@ -117,7 +118,7 @@ function* removeCustomNetwork(action) {
 }
 
 export function* watchGetNetworksFromStorage() {
-  yield takeEvery(NETWORKS_GET_FROM_STORAGE, getNetworksFromStorage)
+  yield takeEvery(NETWORKS_GET, getNetworksFromStorage)
 }
 
 export function* watchSetNetworks() {

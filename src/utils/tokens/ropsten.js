@@ -1,1 +1,3 @@
-export default tokens = []
+const tokens = []
+
+export default tokens

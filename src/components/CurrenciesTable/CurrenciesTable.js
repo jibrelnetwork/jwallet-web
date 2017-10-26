@@ -13,6 +13,7 @@ function CurrenciesTable(props) {
     sortCurrencies,
     items,
     foundItemsSymbols,
+    balances,
     sortField,
     sortDirection,
     searchQuery,
@@ -26,9 +27,9 @@ function CurrenciesTable(props) {
   const currenciesTableHeaderItems = [
     { title: 'Symbol', name: 'symbol', colWidth: 'col--2-4', isCheckable: true, isChecked },
     { title: 'Name', name: 'name', colWidth: 'col--3' },
-    { title: 'Balance', name: 'balance', colWidth: 'col--2' },
-    { title: 'Licensed', name: 'licensed', colWidth: 'col--2' },
-    { title: 'Transfer', name: 'transfer', colWidth: 'col--2-4' },
+    { title: 'Balance', name: 'balance', colWidth: 'col--2', isReadOnly: true },
+    { title: 'Licensed', name: 'licensed', colWidth: 'col--2', isReadOnly: true },
+    { title: 'Transfer', name: 'transfer', colWidth: 'col--2-4', isReadOnly: true },
   ]
 
   return (
@@ -46,7 +47,13 @@ function CurrenciesTable(props) {
       />
       <JTable.Body>
         {foundItems.map((currency, index) => {
-          const { symbol, name, balanceFixed, licensed, transfer, isActive } = currency
+          const { symbol, name, isAuthRequired, isLicensed, isActive } = currency
+          const balanceFixed = (balances[symbol] || 0).toFixed(3)
+          const isETH = (symbol === 'ETH')
+
+          if (isETH) {
+            return null
+          }
 
           return (
             <CurrenciesTableBodyRow
@@ -55,9 +62,9 @@ function CurrenciesTable(props) {
               symbol={symbol}
               name={name}
               balanceFixed={balanceFixed}
-              licensed={licensed}
-              transfer={transfer}
               index={index}
+              isAuthRequired={isAuthRequired}
+              isLicensed={isLicensed}
               isActive={isActive}
             />
           )
@@ -74,11 +81,11 @@ CurrenciesTable.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     symbol: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    balanceFixed: PropTypes.string.isRequired,
-    licensed: PropTypes.string.isRequired,
-    transfer: PropTypes.string.isRequired,
+    isAuthRequired: PropTypes.bool.isRequired,
+    isLicensed: PropTypes.bool.isRequired,
     isActive: PropTypes.bool.isRequired,
   })).isRequired,
+  balances: PropTypes.shape(PropTypes.object).isRequired,
   foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
