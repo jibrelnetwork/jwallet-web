@@ -76,7 +76,10 @@ class CurrenciesBody extends Component {
 
   render() {
     const { isMobileSlider } = this.state
-    const currencies = this.getCurrencies(isMobileSlider)
+
+    const eth = this.getEthereum(isMobileSlider)
+    const currencies = [eth, ...this.getCurrencies(isMobileSlider)]
+
     const sliderOptions = getSliderOptions(isMobileSlider, this.afterChange)
 
     return (
@@ -86,16 +89,45 @@ class CurrenciesBody extends Component {
     )
   }
 
+  getEthereum = (isMobileSlider) => {
+    const { setCurrentCurrency, currencies } = this.props
+    const { balances, currentActiveIndex, isLoading } = currencies
+
+    if (isLoading) {
+      return this.getLoadingCurrencies(isMobileSlider)
+    }
+
+    const ethereum = (
+      <CurrencyItem
+        key={0}
+        isCurrent={currentActiveIndex === 0}
+        setCurrentCurrency={setCurrentCurrency(0)}
+        balanceFixed={(balances.ETH || 0).toFixed(3)}
+        name='Ethereum'
+        symbol='ETH'
+        isLicensed={false}
+        isAuthRequired={false}
+        isActive
+      />
+    )
+
+    // div wrapper is needed for slick on tablet/mobile
+    return isMobileSlider ? <div key={0}>{ethereum}</div> : ethereum
+  }
+
   getCurrencies = (isMobileSlider) => {
     const { setCurrentCurrency, currencies } = this.props
-    const { items, currentActiveIndex, isLoading } = currencies
+    const { items, balances, currentActiveIndex, isLoading } = currencies
 
     if (isLoading) {
       return this.getLoadingCurrencies(isMobileSlider)
     }
 
     return items.map((currencyProps, i) => {
-      if (!currencyProps.isActive) {
+      const { symbol, isActive } = currencyProps
+      const isETH = (symbol === 'ETH')
+
+      if (!isActive || isETH) {
         return null
       }
 
@@ -104,6 +136,7 @@ class CurrenciesBody extends Component {
           key={i}
           isCurrent={i === currentActiveIndex}
           setCurrentCurrency={setCurrentCurrency(i)}
+          balanceFixed={(balances[symbol] || 0).toFixed(3)}
           {...currencyProps}
         />
       )
@@ -165,13 +198,13 @@ CurrenciesBody.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      balanceFixed: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    balances: PropTypes.object,
   }).isRequired,
 }
 

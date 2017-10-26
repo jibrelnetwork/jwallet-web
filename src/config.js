@@ -47,4 +47,10 @@ export default {
 
   // addresses count to get from mnemonic per one iteration
   addressesPerIteration: 4,
+
+  // currencies get balance interval timeout
+  getBalanceIntervalTimeout: 30000,
+
+  // defaultDecimals
+  defaultDecimals: 18,
 }

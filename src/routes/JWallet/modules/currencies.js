@@ -1,4 +1,4 @@
-export const CURRENCIES_GET_FROM_STORAGE = 'GET_ACCOUNTS_FROM_STORAGE'
+export const CURRENCIES_GET = 'CURRENCIES_GET'
 export const CURRENCIES_SET = 'CURRENCIES_SET'
 export const CURRENCIES_SET_CURRENT = 'CURRENCIES_SET_CURRENT'
 export const CURRENCIES_TOGGLE_ACTIVE = 'CURRENCIES_TOGGLE_ACTIVE'
@@ -11,25 +11,28 @@ export const CURRENCIES_SET_SEARCH_OPTIONS = 'CURRENCIES_SET_SEARCH_OPTIONS'
 export const CURRENCIES_SET_SORT_OPTIONS = 'CURRENCIES_SET_SORT_OPTIONS'
 export const CURRENCIES_SET_ACTIVE_ALL = 'CURRENCIES_SET_ACTIVE_ALL'
 
+export const CURRENCIES_SET_BALANCES = 'CURRENCIES_SET_BALANCES'
+
 export const CURRENCIES_ADD_CUSTOM = 'CURRENCIES_ADD_CUSTOM'
 
 export function getCurrencies() {
   return {
-    type: CURRENCIES_GET_FROM_STORAGE,
+    type: CURRENCIES_GET,
   }
 }
 
-export function setCurrencies(items = []) {
+export function setCurrencies(items = [], currentActiveIndex = 0) {
   return {
     type: CURRENCIES_SET,
     items,
+    currentActiveIndex,
   }
 }
 
-export function setCurrentCurrency(index = 0) {
+export function setCurrentCurrency(currentActiveIndex = 0) {
   return {
     type: CURRENCIES_SET_CURRENT,
-    index,
+    currentActiveIndex,
   }
 }
 
@@ -53,21 +56,21 @@ export function closeCurrenciesModal() {
   }
 }
 
-export function searchCurrencies(searchQuery) {
+export function searchCurrencies(searchQuery = '') {
   return {
     type: CURRENCIES_SEARCH,
     searchQuery,
   }
 }
 
-export function sortCurrencies(sortField) {
+export function sortCurrencies(sortField = '') {
   return {
     type: CURRENCIES_SORT,
     sortField,
   }
 }
 
-export function setSearchCurrenciesOptions(foundItemsSymbols, searchQuery) {
+export function setSearchCurrenciesOptions(foundItemsSymbols = [], searchQuery = '') {
   return {
     type: CURRENCIES_SET_SEARCH_OPTIONS,
     foundItemsSymbols,
@@ -75,7 +78,7 @@ export function setSearchCurrenciesOptions(foundItemsSymbols, searchQuery) {
   }
 }
 
-export function setSortCurrenciesOptions(sortField, sortDirection) {
+export function setSortCurrenciesOptions(sortField = '', sortDirection = 'ASC') {
   return {
     type: CURRENCIES_SET_SORT_OPTIONS,
     sortField,
@@ -90,15 +93,16 @@ export function addCustomToken() {
 }
 
 const ACTION_HANDLERS = {
-  [CURRENCIES_GET_FROM_STORAGE]: () => initialState,
+  [CURRENCIES_GET]: () => initialState,
   [CURRENCIES_SET]: (state, action) => ({
     ...state,
-    items: action.items || state.items,
+    items: action.items,
+    currentActiveIndex: action.currentActiveIndex,
     isLoading: false,
   }),
   [CURRENCIES_SET_CURRENT]: (state, action) => ({
     ...state,
-    currentActiveIndex: action.index,
+    currentActiveIndex: action.currentActiveIndex,
   }),
   [CURRENCIES_SET_ACTIVE_ALL]: (state, action) => ({
     ...state,
@@ -123,11 +127,16 @@ const ACTION_HANDLERS = {
     sortField: action.sortField,
     sortDirection: action.sortDirection,
   }),
+  [CURRENCIES_SET_BALANCES]: (state, action) => ({
+    ...state,
+    balances: action.balances,
+  }),
 }
 
 const initialState = {
   items: [],
   foundItemsSymbols: [],
+  balances: {},
   sortField: '',
   sortDirection: 'ASC',
   searchQuery: '',

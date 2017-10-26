@@ -9,13 +9,15 @@ function CurrenciesTableBodyRow(props) {
     symbol,
     name,
     balanceFixed,
-    licensed,
-    transfer,
     index,
+    isAuthRequired,
+    isLicensed,
     isActive,
   } = props
 
   const itemClassName = 'table-body-item table-body-item'
+  const licensed = isLicensed ? 'Yes' : 'No'
+  const transfer = isAuthRequired ? 'Not Authorized' : 'Authorized'
 
   return (
     <div
@@ -39,9 +41,9 @@ CurrenciesTableBodyRow.propTypes = {
   symbol: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   balanceFixed: PropTypes.string.isRequired,
-  licensed: PropTypes.string.isRequired,
-  transfer: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  isAuthRequired: PropTypes.bool.isRequired,
+  isLicensed: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
 
