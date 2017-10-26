@@ -1,17 +1,17 @@
 .icon {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  background-size: 24px 24px;
+  width: $iconSize;
+  height: $iconSize;
+  background-size: $iconSize $iconSize;
   background-repeat: no-repeat;
   background-position: left center;
   vertical-align: middle;
 }
 
 .icon--small {
-  width: 16px;
-  height: 16px;
-  background-size: 16px 16px;
+  width: $iconSmallSize;
+  height: $iconSmallSize;
+  background-size: $iconSmallSize $iconSmallSize;
 }
 
 .icon--send {
@@ -51,8 +51,8 @@
 .icon--dots-wrapper {
   position: relative;
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: $iconSize;
+  height: $iconSize;
   vertical-align: middle;
   opacity: 0.5;
   cursor: pointer;

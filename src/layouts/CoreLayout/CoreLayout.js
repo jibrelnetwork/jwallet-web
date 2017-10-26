@@ -26,11 +26,11 @@ class CoreLayout extends Component {
   componentDidMount() {
     const { getKeystoreFromStorage, getNetworksFromStorage, keystore, networks } = this.props
 
-    if (!keystore.accounts.length) {
+    if (!(keystore.accounts && keystore.accounts.length)) {
       getKeystoreFromStorage()
     }
 
-    if (!networks.items.length) {
+    if (!(networks.items && networks.items.length)) {
       getNetworksFromStorage()
     }
   }
@@ -81,7 +81,8 @@ class CoreLayout extends Component {
 
   renderJWalletHeader = () => {
     const {
-      setActiveNetwork,
+      setCurrentNetwork,
+      setCustomNetworkValue,
       saveCustomNetwork,
       removeCustomNetwork,
       openCurrenciesModal,
@@ -94,7 +95,8 @@ class CoreLayout extends Component {
 
     return (
       <JWalletHeader
-        setActiveNetwork={setActiveNetwork}
+        setCurrentNetwork={setCurrentNetwork}
+        setCustomNetworkValue={setCustomNetworkValue}
         saveCustomNetwork={saveCustomNetwork}
         removeCustomNetwork={removeCustomNetwork}
         openConvertFundsModal={this.fundsModal('Convert')}
@@ -165,7 +167,8 @@ class CoreLayout extends Component {
 CoreLayout.propTypes = {
   getKeystoreFromStorage: PropTypes.func.isRequired,
   getNetworksFromStorage: PropTypes.func.isRequired,
-  setActiveNetwork: PropTypes.func.isRequired,
+  setCurrentNetwork: PropTypes.func.isRequired,
+  setCustomNetworkValue: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
@@ -198,9 +201,9 @@ CoreLayout.propTypes = {
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
-      rpcAddr: PropTypes.string.isRequired,
       isCustom: PropTypes.bool.isRequired,
     })).isRequired,
+    customNetworkRpc: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,

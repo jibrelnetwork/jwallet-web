@@ -13,7 +13,8 @@ function JWalletHeader(props) {
     openReceiveFundsModal,
     openConvertFundsModal,
     openKeystoreModal,
-    setActiveNetwork,
+    setCurrentNetwork,
+    setCustomNetworkValue,
     saveCustomNetwork,
     removeCustomNetwork,
     openCurrenciesModal,
@@ -30,7 +31,8 @@ function JWalletHeader(props) {
           openConvertFundsModal={openConvertFundsModal}
         />
         <NetworksManager
-          setActiveNetwork={setActiveNetwork}
+          setCurrentNetwork={setCurrentNetwork}
+          setCustomNetworkValue={setCustomNetworkValue}
           saveCustomNetwork={saveCustomNetwork}
           removeCustomNetwork={removeCustomNetwork}
           networks={networks}
@@ -54,16 +56,17 @@ JWalletHeader.propTypes = {
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
   openKeystoreModal: PropTypes.func.isRequired,
-  setActiveNetwork: PropTypes.func.isRequired,
+  setCurrentNetwork: PropTypes.func.isRequired,
+  setCustomNetworkValue: PropTypes.func.isRequired,
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
   openCurrenciesModal: PropTypes.func.isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
-      rpcAddr: PropTypes.string.isRequired,
       isCustom: PropTypes.bool.isRequired,
     })).isRequired,
+    customNetworkRpc: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
