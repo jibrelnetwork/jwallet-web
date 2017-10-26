@@ -19,6 +19,7 @@ class CurrenciesModal extends JModal {
       searchCurrencies,
       items,
       foundItemsSymbols,
+      balances,
       sortField,
       sortDirection,
       searchQuery,
@@ -32,6 +33,7 @@ class CurrenciesModal extends JModal {
         sortCurrencies={this.sortCurrencies}
         items={items}
         foundItemsSymbols={foundItemsSymbols}
+        balances={balances}
         sortField={sortField}
         sortDirection={sortDirection}
         searchQuery={searchQuery}
@@ -83,9 +85,8 @@ CurrenciesModal.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     symbol: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    balanceFixed: PropTypes.string.isRequired,
-    licensed: PropTypes.string.isRequired,
-    transfer: PropTypes.string.isRequired,
+    isAuthRequired: PropTypes.bool.isRequired,
+    isLicensed: PropTypes.bool.isRequired,
     isActive: PropTypes.bool.isRequired,
   })).isRequired,
   foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -95,10 +96,12 @@ CurrenciesModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isActiveAll: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
+  balances: PropTypes.shape({}),
 }
 
 CurrenciesModal.defaultProps = {
   onClose: null,
+  balances: {},
 }
 
 export default CurrenciesModal

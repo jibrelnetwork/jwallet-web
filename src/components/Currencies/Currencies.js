@@ -47,13 +47,13 @@ Currencies.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      balanceFixed: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    balances: PropTypes.object,
   }).isRequired,
   isTransactionsLoading: PropTypes.bool.isRequired,
 }
