@@ -91,7 +91,9 @@ class CurrenciesBody extends Component {
 
   getEthereum = (isMobileSlider) => {
     const { setCurrentCurrency, currencies } = this.props
-    const { balances, currentActiveIndex, isLoading } = currencies
+    const { items, balances, currentActiveIndex, isLoading } = currencies
+    const ethIndex = 0
+    const currencyProps = items[ethIndex]
 
     if (isLoading) {
       return this.getLoadingCurrencies(isMobileSlider)
@@ -99,15 +101,11 @@ class CurrenciesBody extends Component {
 
     const ethereum = (
       <CurrencyItem
-        key={0}
-        isCurrent={currentActiveIndex === 0}
-        setCurrentCurrency={setCurrentCurrency(0)}
+        key={ethIndex}
+        isCurrent={currentActiveIndex === ethIndex}
+        setCurrentCurrency={setCurrentCurrency(ethIndex)}
         balanceFixed={(balances.ETH || 0).toFixed(3)}
-        name='Ethereum'
-        symbol='ETH'
-        isLicensed={false}
-        isAuthRequired={false}
-        isActive
+        {...currencyProps}
       />
     )
 

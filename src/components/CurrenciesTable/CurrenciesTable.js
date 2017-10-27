@@ -85,12 +85,16 @@ CurrenciesTable.propTypes = {
     isLicensed: PropTypes.bool.isRequired,
     isActive: PropTypes.bool.isRequired,
   })).isRequired,
-  balances: PropTypes.shape(PropTypes.object).isRequired,
   foundItemsSymbols: PropTypes.arrayOf(PropTypes.string).isRequired,
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
   searchQuery: PropTypes.string.isRequired,
   isActiveAll: PropTypes.bool.isRequired,
+  balances: PropTypes.shape(),
+}
+
+CurrenciesTable.defaultProps = {
+  balances: {},
 }
 
 export default CurrenciesTable

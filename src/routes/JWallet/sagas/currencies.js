@@ -3,11 +3,14 @@ import { delay } from 'redux-saga'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
 import config from 'config'
-import { tokens, searchItems, sortItems, storage, storageKeys } from 'utils'
+import storage from 'services/storage'
+import { getDefaultTokens, searchItems, sortItems } from 'utils'
 
 import {
   CURRENCIES_GET,
   CURRENCIES_SET,
+  CURRENCIES_GET_BALANCES,
+  CURRENCIES_SET_BALANCES,
   CURRENCIES_SET_CURRENT,
   CURRENCIES_SET_ACTIVE_ALL,
   CURRENCIES_TOGGLE_ACTIVE,
@@ -15,7 +18,6 @@ import {
   CURRENCIES_SORT,
   CURRENCIES_SET_SEARCH_OPTIONS,
   CURRENCIES_SET_SORT_OPTIONS,
-  CURRENCIES_SET_BALANCES,
 } from '../modules/currencies'
 
 import { GET_TRANSACTIONS } from '../modules/transactions'
@@ -40,57 +42,40 @@ function getKeystoreAddress(state) {
   const { currentAccount, addressesFromMnemonic } = state.keystore
   const { type, address, addressIndex } = currentAccount
 
-  return (type === 'mnemonic') ? addressesFromMnemonic[addressIndex] : address
+  return (type === 'mnemonic') ? addressesFromMnemonic.items[addressIndex] : address
 }
 
-function setCurrenciesToStorage(action) {
-  const { items, currentActiveIndex } = action
+function getNetworkName(state) {
+  const { items, currentActiveIndex } = state.networks
 
-  storage.setItem(storageKeys.CURRENCIES, JSON.stringify(items || []))
-  storage.setItem(storageKeys.CURRENCIES_CURRENT, currentActiveIndex || 0)
+  return items[currentActiveIndex].title
 }
 
-function* setCurrentCurrencyToStorage(action) {
-  const { currentActiveIndex } = action
-
-  storage.setItem(storageKeys.CURRENCIES_CURRENT, currentActiveIndex || 0)
-  yield put({ type: GET_TRANSACTIONS, currencyIndex: currentActiveIndex })
-}
-
-function setBalancesToStorage(action) {
-  storage.setItem(storageKeys.CURRENCIES_BALANCES, JSON.stringify(action.balances || {}))
-}
-
-function* setBalances(balances) {
-  yield put({ type: CURRENCIES_SET_BALANCES, balances })
-
-  if (getBalanceLaunchId > 1) {
-    return
-  }
-
-  yield delay(getBalanceIntervalTimeout)
-  yield getBalances()
+function* getTransactions(currencyIndex) {
+  yield put({ type: GET_TRANSACTIONS, currencyIndex })
 }
 
 function* getCurrenciesFromStorage() {
-  let items = tokens.main
+  const networkName = yield select(getNetworkName)
+
+  let items = getDefaultTokens(networkName)
   let balances = {}
   let currentActiveIndex = 0
 
   try {
-    const currenciesFromStorage = storage.getItem(storageKeys.CURRENCIES)
-    const balancesFromStorage = storage.getItem(storageKeys.CURRENCIES_BALANCES)
-    const currencyIndexFromStorage = storage.getItem(storageKeys.CURRENCIES_CURRENT)
+    const currenciesFromStorage = storage.getCurrencies(networkName)
+    const balancesFromStorage = storage.getCurrenciesBalances(networkName)
+    const currencyIndexFromStorage = storage.getCurrenciesCurrent(networkName)
 
-    items = currenciesFromStorage ? JSON.parse(currenciesFromStorage) : tokens.main
+    items = currenciesFromStorage ? JSON.parse(currenciesFromStorage) : items
     balances = balancesFromStorage ? JSON.parse(balancesFromStorage) : {}
     currentActiveIndex = parseInt(currencyIndexFromStorage, 10) || 0
   } catch (e) {
-    // console.error(e)
+    console.error(e)
   }
 
   yield setCurrencies(items, currentActiveIndex)
-  yield setBalances(balances)
+  yield setBalances(balances, true)
 
   // need to increment counter, to prevent another loops when getBalance is called
   getBalanceLaunchId += 1
@@ -113,6 +98,10 @@ function* getBalances() {
     ...tokensBalances,
   })
 
+  if (getBalanceLaunchId > 1) {
+    return
+  }
+
   yield setBalances(balances)
 }
 
@@ -120,6 +109,11 @@ function getEthBalance(address, rpcProps) {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
     .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
+    .catch((err) => {
+      console.error(err.message)
+
+      return 0
+    })
 }
 
 function getTokensBalances(items, rpcProps, owner) {
@@ -142,6 +136,48 @@ function getTokenBalance(contractAddress, owner, rpcProps, decimals = defaultDec
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
+    .catch((err) => {
+      console.error(err.message)
+
+      return 0
+    })
+}
+
+function* setCurrenciesToStorage(action) {
+  const { items, currentActiveIndex } = action
+  const networkName = yield select(getNetworkName)
+
+  storage.setCurrencies(JSON.stringify(items || []), networkName)
+  storage.setCurrenciesCurrent(currentActiveIndex || 0, networkName)
+
+  yield getTransactions(currentActiveIndex)
+}
+
+function* setCurrentCurrencyToStorage(action) {
+  const { currentActiveIndex } = action
+  const networkName = yield select(getNetworkName)
+
+  storage.setCurrenciesCurrent(currentActiveIndex || 0, networkName)
+
+  yield getTransactions(currentActiveIndex)
+}
+
+function* setBalancesToStorage(action) {
+  const networkName = yield select(getNetworkName)
+
+  storage.setCurrenciesBalances(JSON.stringify(action.balances || {}), networkName)
+}
+
+function* setBalances(balances, isFirstLaunch = false) {
+  yield put({ type: CURRENCIES_SET_BALANCES, balances })
+
+  // request balances without delay, if this method launched first time
+  if (isFirstLaunch) {
+    yield getBalances()
+  }
+
+  yield delay(getBalanceIntervalTimeout)
+  yield getBalances()
 }
 
 function* setCurrencies(items, currentIndex) {
@@ -245,6 +281,10 @@ export function* watchGetCurrencies() {
 
 export function* watchSetCurrencies() {
   yield takeEvery(CURRENCIES_SET, setCurrenciesToStorage)
+}
+
+export function* watchGetBalances() {
+  yield takeEvery(CURRENCIES_GET_BALANCES, getBalances)
 }
 
 export function* watchSetBalances() {

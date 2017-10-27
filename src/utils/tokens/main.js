@@ -1,12 +1,4 @@
 const tokens = [{
-  name: 'Ethereum',
-  symbol: 'ETH',
-  decimals: 18,
-  address: '',
-  isLicensed: false,
-  isAuthRequired: false,
-  isActive: true,
-}, {
   name: 'Qtum',
   symbol: 'QTUM',
   decimals: 18,
