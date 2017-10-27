@@ -1,7 +1,8 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { storage, storageKeys } from 'utils'
+import storage from 'services/storage'
+import defaultNetworks from 'utils/defaultNetworks'
 
 import {
   NETWORKS_GET,
@@ -13,32 +14,12 @@ import {
 
 import { CURRENCIES_GET } from '../modules/currencies'
 
-const defaultProps = { isCustom: false, ssl: false }
-const defaultNetworks = [
-  { title: 'Main Ethereum Network', rpcaddr: '37.59.55.6', rpcport: '10001', ...defaultProps },
-  { title: 'Ropsten Test Network', rpcaddr: '37.59.55.6', rpcport: '10004', ...defaultProps },
-  { title: 'Kovan Test Network', rpcaddr: '37.59.55.6', rpcport: '10002', ...defaultProps },
-  { title: 'Rinkeby Test Network', rpcaddr: '37.59.55.6', rpcport: '10003', ...defaultProps },
-  { title: 'Localhost 8545', rpcaddr: 'localhost', rpcport: '8545', ...defaultProps },
-]
-
 function getStateNetworks(state) {
   return state.networks
 }
 
-function setNetworksToStorage(action) {
-  const { items, currentActiveIndex } = action
-
-  storage.setItem(storageKeys.NETWORKS, JSON.stringify(items || defaultNetworks))
-  storage.setItem(storageKeys.NETWORKS_CURRENT, currentActiveIndex || 0)
-}
-
-function setCurrentNetworkToStorage(action) {
-  storage.setItem(storageKeys.NETWORKS_CURRENT, action.currentActiveIndex || 0)
-}
-
-function* setNetworks(items, currentActiveIndex) {
-  yield put({ type: NETWORKS_SET, items, currentActiveIndex })
+function* getCurrencies() {
+  yield put ({ type: CURRENCIES_GET })
 }
 
 function* getNetworksFromStorage() {
@@ -46,16 +27,37 @@ function* getNetworksFromStorage() {
   let currentActiveIndex = 0
 
   try {
-    const networksFromStorage = storage.getItem(storageKeys.NETWORKS)
-    const networkIndexFromStorage = storage.getItem(storageKeys.NETWORKS_CURRENT)
+    const networksFromStorage = storage.getNetworks()
+    const networkIndexFromStorage = storage.getNetworksCurrent()
 
     items = networksFromStorage ? JSON.parse(networksFromStorage) : defaultNetworks
     currentActiveIndex = parseInt(networkIndexFromStorage, 10) || 0
   } catch (e) {
-    // console.error(e)
+    console.error(e)
   }
 
   yield setNetworks(items, currentActiveIndex)
+}
+
+function setNetworksToStorage(action) {
+  const { items, currentActiveIndex } = action
+
+  storage.setNetworks(JSON.stringify(items || defaultNetworks))
+  storage.setNetworksCurrent(currentActiveIndex || 0)
+}
+
+function* setCurrentNetworkToStorage(action) {
+  storage.setNetworksCurrent(action.currentActiveIndex || 0)
+
+  // need to change currencies if current network changed
+  yield getCurrencies()
+}
+
+function* setNetworks(items, currentActiveIndex) {
+  yield put({ type: NETWORKS_SET, items, currentActiveIndex })
+
+  // need to change currencies if networks changed
+  yield getCurrencies()
 }
 
 function* saveCustomNetwork(action) {
@@ -85,7 +87,7 @@ function checkCustomNetworkRpc(items, customNetworkRpc) {
 
   // check uniqueness
   items.forEach(({ title }) => {
-    if (title === customNetworkRpc) {
+    if (title.toLowerCase() === customNetworkRpc.toLowerCase()) {
       throw (new Error('This RPC address already exists'))
     }
   })

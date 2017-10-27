@@ -1,12 +1,11 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import Keystore from 'jwallet-web-keystore'
-import storage from 'jwallet-web-storage'
 import fileSaver from 'file-saver'
 
 import config from 'config'
-
-import { sortItems } from 'utils'
+import storage from 'services/storage'
+import sortItems from 'utils/sortItems'
 
 import {
   KEYSTORE_GET_FROM_STORAGE,
@@ -30,6 +29,8 @@ import {
   KEYSTORE_CLOSE_MODAL,
 } from '../modules/keystore'
 
+import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
+
 const keystore = new Keystore({ scryptParams: { N: 2 ** 3, r: 8, p: 1 } })
 const { addressesPerIteration } = config
 
@@ -43,8 +44,8 @@ function getStateCurrentAccountId(state) {
 
 function* getKeystoreFromStorage() {
   try {
-    const keystoreData = storage.getItem('keystore')
-    const currentAccountId = storage.getItem('keystoreCurrentAccount')
+    const keystoreData = storage.getKeystore()
+    const currentAccountId = storage.getKeystoreCurrentAccount()
 
     if (keystoreData) {
       keystore.deserialize(keystoreData)
@@ -59,11 +60,11 @@ function* getKeystoreFromStorage() {
 }
 
 function setKeystoreToStorage() {
-  storage.setItem('keystore', keystore.serialize())
+  storage.setKeystore(keystore.serialize())
 }
 
 function setCurrentAccountToStorage(accountId) {
-  storage.setItem('keystoreCurrentAccount', accountId)
+  storage.setKeystoreCurrentAccount(accountId)
 }
 
 function* setAccounts() {
@@ -89,6 +90,10 @@ function* setCurrentAccountData(currentAccount) {
   yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount })
 }
 
+function* getBalances() {
+  yield put({ type: CURRENCIES_GET_BALANCES })
+}
+
 function* updateCurrentAccountData() {
   const currentAccountId = yield select(getStateCurrentAccountId)
   const accountData = getAccountData(currentAccountId)
@@ -108,8 +113,8 @@ function* setFirstAccountAsCurrent() {
 }
 
 function* clearCurrentAccount() {
-  storage.removeItem('keystoreCurrentAccount')
-  storage.removeItem('keystoreAddressesFromMnemonic')
+  storage.removeKeystoreCurrentAccount()
+  storage.removeKeystoreAddressesFromMnemonic()
 
   yield put({ type: KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA })
   yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, items: [], currentIteration: 0 })
@@ -156,6 +161,8 @@ function* setCurrentAccount(action) {
   if (type === 'mnemonic') {
     yield refreshAddressesFromMnemonic(accountId, address)
   }
+
+  yield getBalances()
 
   return setCurrentAccountToStorage(accountId)
 }
@@ -233,10 +240,11 @@ function* setAddressIndex(action) {
 
   yield setAccounts()
   yield updateCurrentAccountData()
+  yield getBalances()
 }
 
 function* refreshAddressesFromMnemonic(accountId) {
-  storage.removeItem('keystoreAddressesFromMnemonic')
+  storage.removeKeystoreAddressesFromMnemonic()
 
   yield setAddressesFromMnemonic()
   yield getAddressesFromMnemonic({ accountId, iteration: 0, limit: addressesPerIteration })
@@ -262,7 +270,7 @@ function* getAddressesFromMnemonic(action) {
 }
 
 function getAddressesFromStorage(iteration = -1, limit = addressesPerIteration) {
-  const addresses = storage.getItem('keystoreAddressesFromMnemonic')
+  const addresses = storage.getKeystoreAddressesFromMnemonic()
 
   if (!addresses) {
     return null
@@ -300,11 +308,11 @@ function* setAddressesFromMnemonic(existedItems = [], newItems = [], iteration =
 }
 
 function setAddressesToStorage(newItems = []) {
-  const addresses = storage.getItem('keystoreAddressesFromMnemonic')
+  const addresses = storage.getKeystoreAddressesFromMnemonic()
   const parsedAddresses = !addresses ? [] : JSON.parse(addresses)
   const newAddresses = [...parsedAddresses, ...newItems]
 
-  storage.setItem('keystoreAddressesFromMnemonic', JSON.stringify(newAddresses))
+  storage.setKeystoreAddressesFromMnemonic(JSON.stringify(newAddresses))
 }
 
 function setPassword(action) {

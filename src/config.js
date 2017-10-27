@@ -49,7 +49,7 @@ export default {
   addressesPerIteration: 4,
 
   // currencies get balance interval timeout
-  getBalanceIntervalTimeout: 30000,
+  getBalanceIntervalTimeout: 60000,
 
   // defaultDecimals
   defaultDecimals: 18,
