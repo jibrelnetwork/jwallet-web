@@ -1,111 +1,111 @@
-export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
-export const SET_TRANSACTIONS = 'SET_TRANSACTIONS'
+export const TRANSACTIONS_GET = 'TRANSACTIONS_GET'
+export const TRANSACTIONS_SET = 'TRANSACTIONS_SET'
 
-export const SEARCH_TRANSACTIONS = 'SEARCH_TRANSACTIONS'
-export const SET_SEARCH_TRANSACTIONS_OPTIONS = 'SET_SEARCH_TRANSACTIONS_OPTIONS'
+export const TRANSACTIONS_SEARCH = 'TRANSACTIONS_SEARCH'
+export const TRANSACTIONS_SET_SEARCH_OPTIONS = 'TRANSACTIONS_SET_SEARCH_OPTIONS'
 
-export const SORT_TRANSACTIONS = 'SORT_TRANSACTIONS'
-export const SET_SORT_TRANSACTIONS_OPTIONS = 'SET_SORT_TRANSACTIONS_OPTIONS'
+export const TRANSACTIONS_SORT = 'TRANSACTIONS_SORT'
+export const TRANSACTIONS_SET_SORT_OPTIONS = 'TRANSACTIONS_SET_SORT_OPTIONS'
 
-export const SET_START_FILTER_TIME = 'SET_START_FILTER_TIME'
-export const SET_END_FILTER_TIME = 'SET_END_FILTER_TIME'
-export const FILTER_TRANSACTIONS = 'FILTER_TRANSACTIONS'
+export const TRANSACTIONS_SET_START_FILTER_TIME = 'TRANSACTIONS_SET_START_FILTER_TIME'
+export const TRANSACTIONS_SET_END_FILTER_TIME = 'TRANSACTIONS_SET_END_FILTER_TIME'
+export const TRANSACTIONS_FILTER = 'TRANSACTIONS_FILTER'
 
-export function getTransactions(currencyIndex) {
+export function getTransactions(currencyIndex = 0) {
   return {
-    type: GET_TRANSACTIONS,
+    type: TRANSACTIONS_GET,
     currencyIndex,
   }
 }
 
-export function searchTransactions(searchQuery) {
+export function searchTransactions(searchQuery = '') {
   return {
-    type: SEARCH_TRANSACTIONS,
+    type: TRANSACTIONS_SEARCH,
     searchQuery,
   }
 }
 
-export function sortTransactions(sortField) {
+export function setSearchTransactionsOptions(foundItemsHashes = [], searchQuery = '') {
   return {
-    type: SORT_TRANSACTIONS,
-    sortField,
-  }
-}
-
-export function setSearchTransactionsOptions(foundItemsHashes, searchQuery) {
-  return {
-    type: SET_SEARCH_TRANSACTIONS_OPTIONS,
+    type: TRANSACTIONS_SET_SEARCH_OPTIONS,
     foundItemsHashes,
     searchQuery,
   }
 }
 
-export function setSortTransactionsOptions(sortField, sortDirection) {
+export function sortTransactions(sortField = '') {
   return {
-    type: SET_SORT_TRANSACTIONS_OPTIONS,
+    type: TRANSACTIONS_SORT,
+    sortField,
+  }
+}
+
+export function setSortTransactionsOptions(sortField = '', sortDirection = 'ASC') {
+  return {
+    type: TRANSACTIONS_SET_SORT_OPTIONS,
     sortField,
     sortDirection,
   }
 }
 
-export function setStartFilterTime(startTime) {
+export function setStartFilterTime(startTime = 0) {
   return {
-    type: SET_START_FILTER_TIME,
+    type: TRANSACTIONS_SET_START_FILTER_TIME,
     startTime,
   }
 }
 
-export function setEndFilterTime(endTime) {
+export function setEndFilterTime(endTime = 0) {
   return {
-    type: SET_END_FILTER_TIME,
+    type: TRANSACTIONS_SET_END_FILTER_TIME,
     endTime,
   }
 }
 
-export function filterTransactions(isOpen) {
+export function filterTransactions(isOpen = false) {
   return {
-    type: FILTER_TRANSACTIONS,
+    type: TRANSACTIONS_FILTER,
     isOpen,
   }
 }
 
 const ACTION_HANDLERS = {
-  [GET_TRANSACTIONS]: state => ({
+  [TRANSACTIONS_GET]: state => ({
     ...state,
-    items: [],
-    searchQuery: '',
-    isLoading: true,
+    items: initialState.items,
+    searchQuery: initialState.searchQuery,
+    isLoading: initialState.isLoading,
   }),
-  [SET_TRANSACTIONS]: (state, action) => ({
+  [TRANSACTIONS_SET]: (state, action) => ({
     ...state,
     items: action.items,
     isLoading: false,
   }),
-  [SET_SEARCH_TRANSACTIONS_OPTIONS]: (state, action) => ({
+  [TRANSACTIONS_SET_SEARCH_OPTIONS]: (state, action) => ({
     ...state,
     foundItemsHashes: action.foundItemsHashes,
     searchQuery: action.searchQuery,
   }),
-  [SET_SORT_TRANSACTIONS_OPTIONS]: (state, action) => ({
+  [TRANSACTIONS_SET_SORT_OPTIONS]: (state, action) => ({
     ...state,
     sortField: action.sortField,
     sortDirection: action.sortDirection,
   }),
-  [SET_START_FILTER_TIME]: (state, action) => ({
+  [TRANSACTIONS_SET_START_FILTER_TIME]: (state, action) => ({
     ...state,
     filterData: {
       ...state.filterData,
       startTime: action.startTime,
     },
   }),
-  [SET_END_FILTER_TIME]: (state, action) => ({
+  [TRANSACTIONS_SET_END_FILTER_TIME]: (state, action) => ({
     ...state,
     filterData: {
       ...state.filterData,
       endTime: action.endTime,
     },
   }),
-  [FILTER_TRANSACTIONS]: (state, action) => ({
+  [TRANSACTIONS_FILTER]: (state, action) => ({
     ...state,
     filterData: {
       ...state.filterData,

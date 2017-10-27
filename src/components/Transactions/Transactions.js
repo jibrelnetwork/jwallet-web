@@ -12,12 +12,6 @@ class Transactions extends Component {
 
   componentDidMount() {
     this.preloadEmptyTableImage()
-
-    const { getTransactions, transactions } = this.props
-
-    if (!transactions.items.length) {
-      getTransactions()
-    }
   }
 
   render() {

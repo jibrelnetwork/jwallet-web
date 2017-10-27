@@ -20,7 +20,7 @@ import {
   CURRENCIES_SET_SORT_OPTIONS,
 } from '../modules/currencies'
 
-import { GET_TRANSACTIONS } from '../modules/transactions'
+import { TRANSACTIONS_GET } from '../modules/transactions'
 
 const { getBalanceIntervalTimeout, defaultDecimals } = config
 const currenciesSearchFields = ['symbol', 'name']
@@ -52,7 +52,7 @@ function getNetworkName(state) {
 }
 
 function* getTransactions(currencyIndex) {
-  yield put({ type: GET_TRANSACTIONS, currencyIndex })
+  yield put({ type: TRANSACTIONS_GET, currencyIndex })
 }
 
 function* getCurrenciesFromStorage() {
