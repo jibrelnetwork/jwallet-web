@@ -31,15 +31,15 @@ function getStorage() {
 }
 
 function addStorageMethods(key, value) {
-  storageMethods[`get${key}`] = function(suffix = '') {
+  storageMethods[`get${key}`] = function getItem(suffix = '') {
     return storage.getItem(getStorageKey(value, suffix))
   }
 
-  storageMethods[`set${key}`] = function(data = '', suffix = '') {
+  storageMethods[`set${key}`] = function setItem(data = '', suffix = '') {
     storage.setItem(getStorageKey(value, suffix), data)
   }
 
-  storageMethods[`remove${key}`] = function(suffix = '') {
+  storageMethods[`remove${key}`] = function removeItem(suffix = '') {
     storage.removeItem(getStorageKey(value, suffix))
   }
 }

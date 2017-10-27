@@ -19,7 +19,7 @@ function getStateNetworks(state) {
 }
 
 function* getCurrencies() {
-  yield put ({ type: CURRENCIES_GET })
+  yield put({ type: CURRENCIES_GET })
 }
 
 function* getNetworksFromStorage() {
