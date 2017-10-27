@@ -1,15 +1,15 @@
-import { put, select, takeEvery } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
 import { getFormattedDateString, searchItems, sortItems } from 'utils'
 
 import {
-  GET_TRANSACTIONS,
-  SET_TRANSACTIONS,
-  SEARCH_TRANSACTIONS,
-  SORT_TRANSACTIONS,
-  SET_SEARCH_TRANSACTIONS_OPTIONS,
-  SET_SORT_TRANSACTIONS_OPTIONS,
+  TRANSACTIONS_GET,
+  TRANSACTIONS_SET,
+  TRANSACTIONS_SEARCH,
+  TRANSACTIONS_SET_SEARCH_OPTIONS,
+  TRANSACTIONS_SORT,
+  TRANSACTIONS_SET_SORT_OPTIONS,
 } from '../modules/transactions'
 
 const transactionsStub = [{
@@ -70,38 +70,98 @@ function getStateTransactions(state) {
   return state.transactions
 }
 
-function getStateCurrencies(state) {
-  return state.currencies
+function getStateCurrentCurrency(state) {
+  const { items, currentActiveIndex } = state.currencies
+
+  return items[currentActiveIndex]
 }
 
-function* getTransactions(action) {
-  yield delay(1000)
+function getStateRpcProps(state) {
+  const { items, currentActiveIndex } = state.networks
+  const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
 
-  const { items, currentActiveIndex } = yield select(getStateCurrencies)
-  const currencyIndex = action.currencyIndex || currentActiveIndex
+  return { rpcaddr, rpcport, ssl }
+}
 
-  if (currencyIndex < 0) {
-    return yield put({ type: SET_TRANSACTIONS, items: [] })
+function getStateCurrentAddress(state) {
+  const { currentAccount, addressesFromMnemonic } = state.keystore
+  const { type, address, addressIndex } = currentAccount
+
+  return (type === 'mnemonic') ? addressesFromMnemonic.items[addressIndex] : address
+}
+
+function* getTransactions() {
+  const currentCurrency = yield select(getStateCurrentCurrency)
+  const currentAddress = yield select(getStateCurrentAddress)
+  const rpcProps = yield select(getStateRpcProps)
+  const { isActive, symbol, address } = currentCurrency
+
+  if (!isActive) {
+    return yield setTransactions()
+  } else if (symbol === 'ETH') {
+    return yield getETHTransactions(rpcProps, currentAddress)
   }
 
-  const { isActive, symbol } = items[currencyIndex]
+  return yield getContractsTransactions(rpcProps, address, currentAddress)
+}
 
-  if (!isActive || (symbol === 'ETH')) {
-    return yield put({ type: SET_TRANSACTIONS, items: [] })
+function* getETHTransactions() {
+  yield setTransactions()
+}
+
+function* getContractsTransactions(rpcProps, contractAddress, owner) {
+  const fromProps = {
+    ...rpcProps,
+    contractAddress,
+    event: 'Transfer',
+    options: {
+      fromBlock: 1,
+      toBlock: 'latest',
+      filter: { from: owner },
+    },
   }
 
-  const transactionsItems = transactionsStub.map((item) => {
-    const { type, from, to, amount, timestamp } = item
+  const toProps = { ...fromProps, options: { ...fromProps.options, filter: { to: owner } } }
+  const getEvents = jibrelContractsApi.contracts.erc20.getPastEvents
+  const [from, to] = yield all([call(getEvents, fromProps), call(getEvents, toProps)])
+  const transactions = [...parseEvents(from, true), ...parseEvents(to)]
+
+  yield setTransactions(transactions)
+}
+
+function parseEvents(events, from = false) {
+  return events.map((event) => {
+    const { args, blockNumber, removed, transactionHash } = event
+    const amount = (args.value.toNumber() / (10 ** 18))
+    const timestamp = Date.now()
 
     return {
-      ...item,
-      address: (type === 'send') ? to : from,
+      amount,
+      timestamp,
+      to: args.to,
+      from: args.from,
+      symbol: 'JNT',
+      status: 'Accepted',
+      txHash: transactionHash,
+      fee: '0.0005 ETH 1.5 JNT',
+      address: from ? args.to : args.from,
       amountFixed: amount.toFixed(3),
+      type: from ? 'send' : 'receive',
       date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
     }
   })
+}
 
-  return yield put({ type: SET_TRANSACTIONS, items: transactionsItems })
+function* setTransactions(items = []) {
+  yield put({ type: TRANSACTIONS_SET, items })
+}
+
+function* setSearchOptions(foundItemsHashes, searchQuery) {
+  yield put({ type: TRANSACTIONS_SET_SEARCH_OPTIONS, foundItemsHashes, searchQuery })
+}
+
+function* setSortOptions(sortField, sortDirection) {
+  yield put({ type: TRANSACTIONS_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
 function* searchTransactions(action) {
@@ -111,7 +171,7 @@ function* searchTransactions(action) {
   const foundItems = searchItems(transactions.items, searchQuery, transactionsSearchFields)
   const foundItemsHashes = foundItems.map(i => i.txHash)
 
-  yield put({ type: SET_SEARCH_TRANSACTIONS_OPTIONS, foundItemsHashes, searchQuery })
+  yield setSearchOptions(foundItemsHashes, searchQuery)
 }
 
 function* sortTransactions(action) {
@@ -123,24 +183,19 @@ function* sortTransactions(action) {
 
   const result = sortItems(items, oldSortField, sortField, sortDirection)
 
-  yield put({ type: SET_TRANSACTIONS, items: result.items })
-
-  yield put({
-    type: SET_SORT_TRANSACTIONS_OPTIONS,
-    sortField: result.sortField,
-    sortDirection: result.sortDirection,
-  })
+  yield setTransactions(result.items)
+  yield setSortOptions(result.sortField, result.sortDirection)
 }
 
 /* eslint-disable import/prefer-default-export */
 export function* watchGetTransactions() {
-  yield takeEvery(GET_TRANSACTIONS, getTransactions)
+  yield takeEvery(TRANSACTIONS_GET, getTransactions)
 }
 
 export function* watchSearchTransactions() {
-  yield takeEvery(SEARCH_TRANSACTIONS, searchTransactions)
+  yield takeEvery(TRANSACTIONS_SEARCH, searchTransactions)
 }
 
 export function* watchSortTransactions() {
-  yield takeEvery(SORT_TRANSACTIONS, sortTransactions)
+  yield takeEvery(TRANSACTIONS_SORT, sortTransactions)
 }
