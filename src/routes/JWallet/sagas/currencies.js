@@ -1,9 +1,8 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
 import config from 'config'
-import storage from 'services/storage'
+import { storage, web3 } from 'services'
 import { getDefaultTokens, searchItems, sortItems } from 'utils'
 
 import {
@@ -29,13 +28,6 @@ let getBalanceLaunchId = 0
 
 function getStateCurrencies(state) {
   return state.currencies
-}
-
-function getRpcProps(state) {
-  const { items, currentActiveIndex } = state.networks
-  const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
-
-  return { rpcaddr, rpcport, ssl }
 }
 
 function getKeystoreAddress(state) {
@@ -88,35 +80,18 @@ function* getBalances() {
     return
   }
 
-  const rpcProps = yield select(getRpcProps)
   const address = yield select(getKeystoreAddress)
-
-  const tokensBalances = getTokensBalances(items, rpcProps, address)
+  const tokensBalances = getTokensBalances(items, address)
 
   const balances = yield all({
-    ETH: call(getEthBalance, address, rpcProps),
+    ETH: call(web3.getETHBalance, address),
     ...tokensBalances,
   })
-
-  if (getBalanceLaunchId > 1) {
-    return
-  }
 
   yield setBalances(balances)
 }
 
-function getEthBalance(address, rpcProps) {
-  return jibrelContractsApi.eth
-    .getBalance({ ...rpcProps, address })
-    .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
-    .catch((err) => {
-      console.error(err.message)
-
-      return 0
-    })
-}
-
-function getTokensBalances(items, rpcProps, owner) {
+function getTokensBalances(items, owner) {
   const result = {}
 
   items.forEach((token) => {
@@ -126,21 +101,10 @@ function getTokensBalances(items, rpcProps, owner) {
       return
     }
 
-    result[symbol] = call(getTokenBalance, address, owner, rpcProps, decimals)
+    result[symbol] = call(web3.getTokenBalance, address, owner, decimals)
   })
 
   return result
-}
-
-function getTokenBalance(contractAddress, owner, rpcProps, decimals = defaultDecimals) {
-  return jibrelContractsApi.contracts.erc20
-    .balanceOf({ ...rpcProps, contractAddress, owner })
-    .then(balance => (balance.toNumber() / (10 ** decimals)))
-    .catch((err) => {
-      console.error(err.message)
-
-      return 0
-    })
 }
 
 function* setCurrenciesToStorage(action) {
@@ -170,6 +134,11 @@ function* setBalancesToStorage(action) {
 
 function* setBalances(balances, isFirstLaunch = false) {
   yield put({ type: CURRENCIES_SET_BALANCES, balances })
+
+  // ignore if getBalance loop was already launched
+  if (getBalanceLaunchId > 1) {
+    return
+  }
 
   // request balances without delay, if this method launched first time
   if (isFirstLaunch) {
@@ -208,20 +177,21 @@ function getNextAvailableActiveIndex(items) {
 function* toggleCurrency(action) {
   const { items, currentActiveIndex, isActiveAll } = yield select(getStateCurrencies)
   const { index } = action
+  const isAllToggled = (index === -1)
 
-  let newIsActiveAll = (index === -1) ? !isActiveAll : isActiveAll
+  let newIsActiveAll = isAllToggled ? !isActiveAll : isActiveAll
 
   const newItems = items.map((item, i) => {
     const isCurrentActive = (index === i) ? !item.isActive : item.isActive
 
     return {
       ...item,
-      isActive: (index === -1) ? newIsActiveAll : isCurrentActive,
+      isActive: isAllToggled ? newIsActiveAll : isCurrentActive,
     }
   })
 
   // check if all is active - set isActiveAll flag to true, otherwise set to false
-  if (index !== -1) {
+  if (!isAllToggled) {
     newIsActiveAll = true
 
     newItems.forEach((item) => {
@@ -232,7 +202,19 @@ function* toggleCurrency(action) {
   }
 
   yield setCurrencies(newItems, currentActiveIndex)
-  yield put({ type: CURRENCIES_SET_ACTIVE_ALL, isActiveAll: newIsActiveAll })
+  yield setActiveAllFlag(newIsActiveAll)
+}
+
+function* setActiveAllFlag(isActiveAll) {
+  yield put({ type: CURRENCIES_SET_ACTIVE_ALL, isActiveAll })
+}
+
+function* setSearchOptions(foundItemsSymbols, searchQuery) {
+  yield put({ type: CURRENCIES_SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
+}
+
+function* setSortOptions(sortField, sortDirection) {
+  yield put({ type: CURRENCIES_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
 function* searchCurrencies(action) {
@@ -242,7 +224,7 @@ function* searchCurrencies(action) {
   const foundItems = searchItems(currencies.items, searchQuery, currenciesSearchFields)
   const foundItemsSymbols = foundItems.map(i => i.symbol)
 
-  yield put({ type: CURRENCIES_SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
+  yield setSearchOptions(foundItemsSymbols, searchQuery)
 }
 
 function* sortCurrencies(action) {
@@ -257,12 +239,7 @@ function* sortCurrencies(action) {
   const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
 
   yield setCurrencies(result.items, newActiveIndex)
-
-  yield put({
-    type: CURRENCIES_SET_SORT_OPTIONS,
-    sortField: result.sortField,
-    sortDirection: result.sortDirection,
-  })
+  yield setSortOptions(result.sortField, result.sortDirection)
 }
 
 function getNewActiveIndex(items, symbol) {
