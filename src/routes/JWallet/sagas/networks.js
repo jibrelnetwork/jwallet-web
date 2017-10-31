@@ -1,7 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import storage from 'services/storage'
+import { storage, web3 } from 'services'
 import defaultNetworks from 'utils/defaultNetworks'
 
 import {
@@ -46,18 +46,26 @@ function setNetworksToStorage(action) {
   storage.setNetworksCurrent(currentActiveIndex || 0)
 }
 
-function* setCurrentNetworkToStorage(action) {
-  storage.setNetworksCurrent(action.currentActiveIndex || 0)
+function* setCurrentNetwork(action) {
+  const { currentActiveIndex } = action
+  storage.setNetworksCurrent(currentActiveIndex || 0)
+
+  yield setNetworkRpcProps(currentActiveIndex)
 
   // need to change currencies if current network changed
   yield getCurrencies()
 }
 
+function* setNetworkRpcProps(currentActiveIndex) {
+  const { items } = yield select(getStateNetworks)
+  const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
+
+  web3.setRpcProps({ rpcaddr, rpcport, ssl })
+}
+
 function* setNetworks(items, currentActiveIndex) {
   yield put({ type: NETWORKS_SET, items, currentActiveIndex })
-
-  // need to change currencies if networks changed
-  yield getCurrencies()
+  yield setCurrentNetwork({ currentActiveIndex })
 }
 
 function* saveCustomNetwork(action) {
@@ -128,7 +136,7 @@ export function* watchSetNetworks() {
 }
 
 export function* watchSetCurrentNetwork() {
-  yield takeEvery(NETWORKS_SET_CURRENT, setCurrentNetworkToStorage)
+  yield takeEvery(NETWORKS_SET_CURRENT, setCurrentNetwork)
 }
 
 export function* watchSaveCustomNetwork() {
