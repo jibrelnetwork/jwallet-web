@@ -1,7 +1,8 @@
-import { all, call, put, select, takeEvery } from 'redux-saga/effects'
-import jibrelContractsApi from 'jibrel-contracts-jsapi'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
+import isEmpty from 'lodash/isEmpty'
 
-import { getFormattedDateString, searchItems, sortItems } from 'utils'
+import web3 from 'services/web3'
+import { searchItems, sortItems } from 'utils'
 
 import {
   TRANSACTIONS_GET,
@@ -76,13 +77,6 @@ function getStateCurrentCurrency(state) {
   return items[currentActiveIndex]
 }
 
-function getStateRpcProps(state) {
-  const { items, currentActiveIndex } = state.networks
-  const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
-
-  return { rpcaddr, rpcport, ssl }
-}
-
 function getStateCurrentAddress(state) {
   const { currentAccount, addressesFromMnemonic } = state.keystore
   const { type, address, addressIndex } = currentAccount
@@ -93,63 +87,30 @@ function getStateCurrentAddress(state) {
 function* getTransactions() {
   const currentCurrency = yield select(getStateCurrentCurrency)
   const currentAddress = yield select(getStateCurrentAddress)
-  const rpcProps = yield select(getStateRpcProps)
-  const { isActive, symbol, address } = currentCurrency
 
-  if (!isActive) {
+  if (isEmpty(currentCurrency) || !currentCurrency.isActive) {
     return yield setTransactions()
-  } else if (symbol === 'ETH') {
-    return yield getETHTransactions(rpcProps, currentAddress)
   }
 
-  return yield getContractsTransactions(rpcProps, address, currentAddress)
-}
+  const { symbol, address, decimals } = currentCurrency
 
-function* getETHTransactions() {
-  yield setTransactions()
-}
-
-function* getContractsTransactions(rpcProps, contractAddress, owner) {
-  const fromProps = {
-    ...rpcProps,
-    contractAddress,
-    event: 'Transfer',
-    options: {
-      fromBlock: 1,
-      toBlock: 'latest',
-      filter: { from: owner },
-    },
+  if (symbol === 'ETH') {
+    return yield getETHTransactions(currentAddress)
   }
 
-  const toProps = { ...fromProps, options: { ...fromProps.options, filter: { to: owner } } }
-  const getEvents = jibrelContractsApi.contracts.erc20.getPastEvents
-  const [from, to] = yield all([call(getEvents, fromProps), call(getEvents, toProps)])
-  const transactions = [...parseEvents(from, true), ...parseEvents(to)]
+  return yield getContractsTransactions(address, currentAddress, decimals)
+}
+
+function* getETHTransactions(address) {
+  const transactions = yield call(web3.getETHTransactions, address)
 
   yield setTransactions(transactions)
 }
 
-function parseEvents(events, from = false) {
-  return events.map((event) => {
-    const { args, blockNumber, removed, transactionHash } = event
-    const amount = (args.value.toNumber() / (10 ** 18))
-    const timestamp = Date.now()
+function* getContractsTransactions(contractAddress, owner, decimals) {
+  const transactions = yield call(web3.getContractTransactions, contractAddress, owner, decimals)
 
-    return {
-      amount,
-      timestamp,
-      to: args.to,
-      from: args.from,
-      symbol: 'JNT',
-      status: 'Accepted',
-      txHash: transactionHash,
-      fee: '0.0005 ETH 1.5 JNT',
-      address: from ? args.to : args.from,
-      amountFixed: amount.toFixed(3),
-      type: from ? 'send' : 'receive',
-      date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
-    }
-  })
+  yield setTransactions(transactions)
 }
 
 function* setTransactions(items = []) {
@@ -187,7 +148,6 @@ function* sortTransactions(action) {
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
-/* eslint-disable import/prefer-default-export */
 export function* watchGetTransactions() {
   yield takeEvery(TRANSACTIONS_GET, getTransactions)
 }

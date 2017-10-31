@@ -30,6 +30,7 @@ import {
 } from '../modules/keystore'
 
 import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
+import { TRANSACTIONS_GET } from '../modules/transactions'
 
 const keystore = new Keystore({ scryptParams: { N: 2 ** 3, r: 8, p: 1 } })
 const { addressesPerIteration } = config
@@ -92,6 +93,10 @@ function* setCurrentAccountData(currentAccount) {
 
 function* getBalances() {
   yield put({ type: CURRENCIES_GET_BALANCES })
+}
+
+function* getTransactions() {
+  yield put({ type: TRANSACTIONS_GET })
 }
 
 function* updateCurrentAccountData() {
@@ -163,6 +168,7 @@ function* setCurrentAccount(action) {
   }
 
   yield getBalances()
+  yield getTransactions()
 
   return setCurrentAccountToStorage(accountId)
 }
