@@ -1,9 +1,13 @@
+import pushField from 'utils/pushField'
+
 export const CUSTOM_TOKEN_OPEN_MODAL = 'CUSTOM_TOKEN_OPEN_MODAL'
 export const CUSTOM_TOKEN_CLOSE_MODAL = 'CUSTOM_TOKEN_CLOSE_MODAL'
 export const CUSTOM_TOKEN_SET_ADDRESS = 'CUSTOM_TOKEN_SET_ADDRESS'
 export const CUSTOM_TOKEN_SET_NAME = 'CUSTOM_TOKEN_SET_NAME'
 export const CUSTOM_TOKEN_SET_SYMBOL = 'CUSTOM_TOKEN_SET_SYMBOL'
 export const CUSTOM_TOKEN_SET_DECIMALS = 'CUSTOM_TOKEN_SET_DECIMALS'
+export const CUSTOM_TOKEN_SET_INVALID_FIELD = 'CUSTOM_TOKEN_SET_INVALID_FIELD'
+export const CUSTOM_TOKEN_CLEAR = 'CUSTOM_TOKEN_CLEAR'
 
 export function openCustomTokenModal(onClose = null) {
   return {
@@ -46,6 +50,14 @@ export function setCustomTokenDecimals(decimals = '') {
   }
 }
 
+export function setCustomTokenInvalidField(fieldName, message = '') {
+  return {
+    type: CUSTOM_TOKEN_SET_INVALID_FIELD,
+    fieldName,
+    message,
+  }
+}
+
 const ACTION_HANDLERS = {
   [CUSTOM_TOKEN_OPEN_MODAL]: (state, action) => ({
     ...state,
@@ -59,26 +71,32 @@ const ACTION_HANDLERS = {
   [CUSTOM_TOKEN_SET_ADDRESS]: (state, action) => ({
     ...state,
     address: action.address,
+    invalidFields: pushField(state.invalidFields, 'address'),
   }),
   [CUSTOM_TOKEN_SET_NAME]: (state, action) => ({
     ...state,
     name: action.name,
+    invalidFields: pushField(state.invalidFields, 'name'),
   }),
   [CUSTOM_TOKEN_SET_SYMBOL]: (state, action) => ({
     ...state,
     symbol: action.symbol,
+    invalidFields: pushField(state.invalidFields, 'symbol'),
   }),
   [CUSTOM_TOKEN_SET_DECIMALS]: (state, action) => ({
     ...state,
     decimals: action.decimals,
+    invalidFields: pushField(state.invalidFields, 'decimals'),
   }),
+  [CUSTOM_TOKEN_SET_INVALID_FIELD]: (state, action) => ({
+    ...state,
+    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+  }),
+  [CUSTOM_TOKEN_CLEAR]: () => initialState,
 }
 
 const initialState = {
-  disabledFields: [],
-  validFields: [],
   invalidFields: [],
-  alert: '',
   address: '',
   name: '',
   symbol: '',

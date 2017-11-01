@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
 import config from 'config'
@@ -136,7 +135,7 @@ function getTransactionReceipt(item) {
 
 function getTransactionReceiptsData(transactionReceiptsData = []) {
   return transactionReceiptsData.map((transactionReceiptData) => {
-    const { cumulativeGasUsed, status, from, to, contractAddress } = transactionReceiptData
+    const { cumulativeGasUsed, status } = transactionReceiptData
 
     return {
       gas: (cumulativeGasUsed || 0),
@@ -197,7 +196,7 @@ function mergeEvents(events) {
   events.forEach(list => list.forEach((item) => {
     const { args, address, blockHash, removed, transactionHash } = item
 
-    mergedEvents.push({ address, blockHash, transactionHash, removed, status, ...args })
+    mergedEvents.push({ address, blockHash, transactionHash, removed, ...args })
   }))
 
   return mergedEvents
