@@ -79,13 +79,15 @@ JPicker.propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string.isRequired,
-  successMessage: PropTypes.string.isRequired,
   selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
   enabled: PropTypes.bool,
 }
 
 JPicker.defaultProps = {
+  errorMessage: '',
+  successMessage: '',
   enabled: true,
 }
 

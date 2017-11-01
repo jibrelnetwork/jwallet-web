@@ -5,16 +5,18 @@ import {
   setReceiveFundsAmount,
   setReceiveFundsSymbol,
   setReceiveFundsAccount,
-  setReceiveFundsAddress,
 } from 'routes/JWallet/modules/modals/receiveFunds'
 
 import ReceiveFundsModal from './ReceiveFundsModal'
 
-const mapStateToProps = state => state.receiveFundsModal
+const mapStateToProps = state => ({
+  ...state.receiveFundsModal,
+  accounts: state.keystore.accounts,
+  addressesFromMnemonic: state.keystore.addressesFromMnemonic.items,
+})
 
 const mapDispatchToProps = {
   closeReceiveFundsModal,
-  setReceiveFundsAddress,
   setReceiveFundsAmount,
   setReceiveFundsSymbol,
   setReceiveFundsAccount,
