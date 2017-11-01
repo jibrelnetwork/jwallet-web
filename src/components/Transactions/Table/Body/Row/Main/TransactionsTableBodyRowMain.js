@@ -8,10 +8,9 @@ function TransactionsTableBodyRowMain(props) {
     setCurrentCurrency,
     toggleActive,
     type,
-    symbol,
     status,
     address,
-    amountFixed,
+    amount,
     date,
     currencyIndex,
     isActive,
@@ -27,14 +26,14 @@ function TransactionsTableBodyRowMain(props) {
           className='transaction__type'
           small
         />
-        <span className='transaction__amount'>{`${amountFixed} ${symbol}`}</span>
+        <span className='transaction__amount'>{amount}</span>
       </div>
       <div className='table-body-item col col--2-4'>{date}</div>
       <div
         className={`table-body-item ${isToken ? 'transaction__token' : ''} col col--4-8`}
         onClick={isToken ? setCurrentCurrency(currencyIndex) : null}
       >
-        {address}
+        {`${address.slice(0, 30)}...`}
       </div>
       <div className='table-body-item col col--2-4'>
         <span className={`transaction__status transaction__status--${status.toLowerCase()}`}>
@@ -54,11 +53,10 @@ TransactionsTableBodyRowMain.propTypes = {
   setCurrentCurrency: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  amountFixed: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
+  amount: PropTypes.string.isRequired,
   currencyIndex: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
 }

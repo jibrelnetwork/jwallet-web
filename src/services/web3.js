@@ -8,7 +8,7 @@ const { defaultDecimals } = config
 
 let rpcProps = {
   rpcaddr: '127.0.0.1',
-  rpcprops: '8545',
+  rpcport: 8545,
   ssl: false,
 }
 
@@ -53,40 +53,61 @@ function getETHTransactions(address) {
       },
     })
     .then(getLast20)
-    .then(getBlocks)
-    .then(getTransactions)
-    .then(getTransactionReceipts)
-    .then(parseTransactions)
-    .catch((err) => {
-      console.error(err.message)
+    .then(list => getTransactionsInfo(list))
+    .then(list => parseTransactions(list, defaultDecimals))
+    .catch(handleTransactionsError)
+}
 
-      return 0
+function getTransactionsInfo(list, isContract) {
+  return Promise.all([
+    getBlocks(list),
+    getTransactions(list, isContract),
+    getTransactionReceipts(list),
+  ]).then(([blocksData, transactionsData, transactionReceiptsData]) => {
+    return list.map((item, index) => {
+      return {
+        ...item,
+        ...blocksData[index],
+        ...transactionsData[index],
+        ...transactionReceiptsData[index],
+      }
+    })
   })
 }
 
 function getLast20(list = []) {
-  return list.slice(-20)
+  return list.slice(-20).map((item) => {
+    const { transactionHash, blockHash, address } = item
+    const status = getTransactionStatus(blockHash)
+    const to = item.to || 'n/a'
+
+    return { transactionHash, blockHash, address, status, to }
+  })
+}
+
+function getTransactionStatus(blockHash) {
+  return blockHash ? 'Accepted' : 'Pending'
 }
 
 function getBlocks(list) {
-  return Promise
-    .all(list.map(getBlock))
-    .then(blocksData => list.map((item, index) => addBlockData(item, blocksData[index])))
+  return Promise.all(list.map(getBlock)).then(getBlocksData)
 }
 
 function getBlock(item) {
-  return jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId: item.blockHash })
+  const blockId = item.blockHash
+
+  return blockId ? jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId }) : {}
 }
 
-function addBlockData(item, blockData = {}) {
-  // web3 returns timestamp in unix format, so for new Date it should be converted (mul by 1000)
-  return { ...item, timestamp: blockData.timestamp * 1000 }
+function getBlocksData(blocksData = []) {
+  return blocksData.map((blockData = {}) => {
+    // web3 returns timestamp in unix format, so for new Date it should be converted (mul by 1000)
+    return { timestamp: (blockData.timestamp || 0) * 1000 }
+  })
 }
 
-function getTransactions(list) {
-  return Promise
-    .all(list.map(getTransaction))
-    .then(txsData => list.map((item, index) => addTransactionData(item, txsData[index])))
+function getTransactions(list, isContract) {
+  return Promise.all(list.map(getTransaction)).then(data => getTransactionsData(data, isContract))
 }
 
 function getTransaction(item) {
@@ -94,16 +115,18 @@ function getTransaction(item) {
     .getTransaction({ ...rpcProps, transactionHash: item.transactionHash })
 }
 
-function addTransactionData(item, txData = {}) {
-  const { from, to, value, gasPrice } = txData
+function getTransactionsData(transactionsData = [], isContract = false) {
+  return transactionsData.map((transactionData = {}) => {
+    const { from, to, value, gasPrice } = transactionData
+    const _gasPrice = gasPrice ? (gasPrice.toNumber() / (10 ** defaultDecimals)) : 0
+    const _value = value ? value.toNumber() : 0
 
-  return { ...item, from, to, value: value.toNumber(), gasPrice: gasPrice.toNumber() }
+    return isContract ? { gasPrice: _gasPrice } : { from, to, value: _value, gasPrice: _gasPrice }
+  })
 }
 
 function getTransactionReceipts(list) {
-  return Promise
-    .all(list.map(getTransactionReceipt))
-    .then(receipts => list.map((item, index) => addTransactionReceipt(item, receipts[index])))
+  return Promise.all(list.map(getTransactionReceipt)).then(getTransactionReceiptsData)
 }
 
 function getTransactionReceipt(item) {
@@ -111,34 +134,73 @@ function getTransactionReceipt(item) {
     .getTransactionReceipt({ ...rpcProps, transactionHash: item.transactionHash })
 }
 
-function addTransactionReceipt(item, receipt = {}) {
-  return { ...item, fee: (receipt.cumulativeGasUsed * item.gasPrice) }
+function getTransactionReceiptsData(transactionReceiptsData = []) {
+  return transactionReceiptsData.map((transactionReceiptData) => {
+    const { cumulativeGasUsed, status, from, to, contractAddress } = transactionReceiptData
+
+    return {
+      gas: (cumulativeGasUsed || 0),
+      /**
+       * status flag contains 0 if tx was rejected and 1 otherwise
+       * (see Byzantium changes)
+       */
+      isRejected: (status === 0),
+    }
+  })
 }
 
-function parseTransactions(list) {
-  return list.map(parseTransaction)
+function parseTransactions(list, decimals) {
+  return list.map(item => parseTransaction(item, decimals))
 }
 
-function parseTransaction(item) {
-  const { timestamp, address, from } = item
+function parseTransaction(item, decimals) {
+  const { timestamp, address, from, value, gas, gasPrice, isRejected, removed } = item
 
   return {
     ...item,
-    status: 'Accepted',
+    fee: (gas * gasPrice),
+    amount: (value / (10 ** decimals)),
     type: (address === from) ? 'send' : 'receive',
-    date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
+    /**
+     * removed flag is present for contract events only
+     * (see https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events)
+     */
+    status: (isRejected || removed) ? 'Rejected' : item.status,
+    date: timestamp ? getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY') : 'n/a',
   }
+}
+
+function handleTransactionsError(err) {
+  console.error(err.message)
+
+  return []
 }
 
 function getContractTransactions(contractAddress, owner, decimals) {
   const fromProps = getEventsProps(contractAddress, { from: owner })
   const toProps = getEventsProps(contractAddress, { to: owner })
+  const getEventsHandler = jibrelContractsApi.contracts.erc20.getPastEvents
 
-  const getEvents = jibrelContractsApi.contracts.erc20.getPastEvents
+  return Promise
+    .all([getEventsHandler(fromProps), getEventsHandler(toProps)])
+    .then(mergeEvents)
+    .then(getLast20)
+    .then(list => getTransactionsData(list, true))
+    .then(list => parseTransactions(list, decimals))
+    .catch(handleTransactionsError)
+}
 
-  return Promise.all([getEvents(fromProps), getEvents(toProps)]).then(([from, to]) => {
-    return [...parseEvents(from, decimals, true), ...parseEvents(to, decimals)]
-  })
+function mergeEvents(events) {
+  const mergedEvents = []
+
+  // events contains [from, to] list
+  events.forEach(list => list.forEach((item) => {
+    const { args, address, blockHash, removed, transactionHash } = item
+
+    mergedEvents.push({ address, blockHash, transactionHash, removed, status, ...args })
+  }))
+
+  return mergedEvents
 }
 
 function getEventsProps(contractAddress, filter = null) {
@@ -147,35 +209,6 @@ function getEventsProps(contractAddress, filter = null) {
     contractAddress,
     event: 'Transfer',
     options: { filter, fromBlock: 0, toBlock: 'latest' },
-  }
-}
-
-function parseEvents(events = [], decimals = defaultDecimals, from = false) {
-  return events.map(event => parseEvent(event, decimals, from))
-}
-
-function parseEvent(event, decimals, from) {
-  if (isEmpty(event) || isEmpty(event.args)) {
-    return {}
-  }
-
-  const { args, blockNumber, removed, transactionHash } = event
-  const amount = (args.value.toNumber() / (10 ** decimals))
-  const timestamp = Date.now()
-
-  return {
-    amount,
-    timestamp,
-    to: args.to,
-    from: args.from,
-    symbol: 'JNT',
-    status: 'Accepted',
-    txHash: transactionHash,
-    fee: '0.0005 ETH 1.5 JNT',
-    address: from ? args.to : args.from,
-    amountFixed: amount.toFixed(3),
-    type: from ? 'send' : 'receive',
-    date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
   }
 }
 
