@@ -3,7 +3,6 @@ export const RECEIVE_FUNDS_CLOSE_MODAL = 'RECEIVE_FUNDS_CLOSE_MODAL'
 export const RECEIVE_FUNDS_SET_AMOUNT = 'RECEIVE_FUNDS_SET_AMOUNT'
 export const RECEIVE_FUNDS_SET_SYMBOL = 'RECEIVE_FUNDS_SET_SYMBOL'
 export const RECEIVE_FUNDS_SET_ACCOUNT = 'RECEIVE_FUNDS_SET_ACCOUNT'
-export const RECEIVE_FUNDS_SET_ADDRESS = 'RECEIVE_FUNDS_SET_ADDRESS'
 export const GENERATE_QR_CODE = 'GENERATE_QR_CODE'
 export const RECEIVE_FUNDS = 'RECEIVE_FUNDS'
 
@@ -42,13 +41,6 @@ export function setReceiveFundsAccount(accountId = '') {
   }
 }
 
-export function setReceiveFundsAddress(address = '') {
-  return {
-    type: RECEIVE_FUNDS_SET_ADDRESS,
-    address,
-  }
-}
-
 const ACTION_HANDLERS = {
   [RECEIVE_FUNDS_OPEN_MODAL]: (state, action) => ({
     ...state,
@@ -72,24 +64,15 @@ const ACTION_HANDLERS = {
     ...state,
     accountId: action.accountId,
   }),
-  [RECEIVE_FUNDS_SET_ADDRESS]: (state, action) => ({
-    ...state,
-    address: action.address,
-  }),
   [RECEIVE_FUNDS]: state => ({
     ...state,
   }),
 }
 
 const initialState = {
-  disabledFields: [],
-  validFields: [],
-  invalidFields: [],
-  alert: '',
-  amount: '0',
+  amount: '',
   symbol: 'ETH',
   accountId: '',
-  address: '',
   isOpen: false,
 }
 
