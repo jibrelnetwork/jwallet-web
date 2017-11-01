@@ -39,40 +39,43 @@ class ReceiveFundsModal extends JModal {
           name={fieldName}
           placeholder='Amount'
           value={this.props[fieldName]}
-          errorMessage={this.getInvalidFieldMessage(fieldName)}
-          successMessage={this.getValidFieldMessage(fieldName)}
-          editable={this.isEnabledField(fieldName)}
+          editable
         />
         <SymbolPicker
           onValueChange={setReceiveFundsSymbol}
           selectedValue={symbol}
           name='receive-funds-symbol'
-          enabled={this.isEnabledField('symbol')}
+          enabled
         />
       </div>
     )
   }
 
   renderAccount = () => {
-    const fieldName = 'accountId'
+    const { setReceiveFundsAccount, accounts } = this.props
+    const currentAccount = this.getCurrentAccount()
 
     return (
       <JPicker
-        onValueChange={this.props.setReceiveFundsAccount}
-        name={fieldName}
+        onValueChange={setReceiveFundsAccount}
+        name={'accountId'}
         placeholder='Account'
-        selectedValue={this.props[fieldName]}
-        errorMessage={this.getInvalidFieldMessage(fieldName)}
-        successMessage={this.getValidFieldMessage(fieldName)}
-        enabled={this.isEnabledField(fieldName)}
+        selectedValue={currentAccount.accountName || ''}
+        enabled
       >
-        <JPicker.Item label='example' value='example' />
+        {accounts.map((account) => {
+          const { id, accountName } = account
+
+          return <JPicker.Item key={id} label={accountName} value={id} />
+        })}
       </JPicker>
     )
   }
 
   renderRecipientAddress = () => {
-    return <CopyableField placeholder='Recipient address' value={this.props.address} />
+    const { address } = this.getCurrentAccount()
+
+    return <CopyableField placeholder='Recipient address' value={address} />
   }
 
   renderQRCode = () => {
@@ -92,20 +95,44 @@ class ReceiveFundsModal extends JModal {
   }
 
   generateQRCodeToReceive = () => {
-    const value = parseInt(this.props.amount, 10) || 0
+    return generateQRCode({
+      requisites: {
+        to: this.getCurrentAccount().address,
+        value: parseInt(this.props.amount, 10) || 0,
+      },
+    })
+  }
 
-    // Just for test
-    const requisites = {
-      value,
-      to: '0x01360d2b7d240ec0643b6d819ba81a09e40e5bcd',
+  getCurrentAccount = () => {
+    const { accounts, accountId, addressesFromMnemonic } = this.props
+
+    for (let i = 0; i < accounts.length; i += 1) {
+      const account = accounts[i]
+
+      if (account.id === accountId) {
+        const { id, accountName, type, address, addressIndex } = account
+
+        return {
+          id,
+          accountName,
+          address: (type === 'mnemonic') ? addressesFromMnemonic[addressIndex] : address,
+        }
+      }
     }
 
-    return generateQRCode({ requisites })
+    return {}
+  }
+
+  isModalButtonDisabled = () => {
+    const { accountId, amount } = this.props
+    const isAmountValid = (parseInt(amount, 10) || 0) > 0
+    const isAccountValid = !!accountId.length
+
+    return !(isAmountValid && isAccountValid)
   }
 
   closeModal = () => this.props.closeReceiveFundsModal()
   submitModal = () => handleEnterKeyPress(this.generateQRCodeToReceive)
-  isModalButtonDisabled = () => (this.props.invalidFields.length > 0)
 }
 
 ReceiveFundsModal.propTypes = {
@@ -113,21 +140,17 @@ ReceiveFundsModal.propTypes = {
   setReceiveFundsAmount: PropTypes.func.isRequired,
   setReceiveFundsSymbol: PropTypes.func.isRequired,
   setReceiveFundsAccount: PropTypes.func.isRequired,
-  setReceiveFundsAddress: PropTypes.func.isRequired,
-  validFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    accountName: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    address: PropTypes.string,
+    addressIndex: PropTypes.number,
   })).isRequired,
-  invalidFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
-  disabledFields: PropTypes.arrayOf(PropTypes.string).isRequired,
-  alert: PropTypes.string.isRequired,
+  addressesFromMnemonic: PropTypes.arrayOf(PropTypes.string).isRequired,
   amount: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   accountId: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 }

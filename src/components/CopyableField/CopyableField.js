@@ -72,8 +72,12 @@ class CopyableField extends Component {
 }
 
 CopyableField.propTypes = {
-  value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string,
+}
+
+CopyableField.defaultProps = {
+  value: '',
 }
 
 export default CopyableField
