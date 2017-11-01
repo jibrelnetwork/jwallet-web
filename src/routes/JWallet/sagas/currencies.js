@@ -17,11 +17,12 @@ import {
   CURRENCIES_SORT,
   CURRENCIES_SET_SEARCH_OPTIONS,
   CURRENCIES_SET_SORT_OPTIONS,
+  CURRENCIES_ADD_CUSTOM,
 } from '../modules/currencies'
 
 import { TRANSACTIONS_GET } from '../modules/transactions'
+import { CUSTOM_TOKEN_CLEAR } from '../modules/modals/customToken'
 
-const { getBalanceIntervalTimeout, defaultDecimals } = config
 const currenciesSearchFields = ['symbol', 'name']
 
 let getBalanceLaunchId = 0
@@ -145,7 +146,7 @@ function* setBalances(balances, isFirstLaunch = false) {
     yield getBalances()
   }
 
-  yield delay(getBalanceIntervalTimeout)
+  yield delay(config.getBalanceIntervalTimeout)
   yield getBalances()
 }
 
@@ -252,6 +253,32 @@ function getNewActiveIndex(items, symbol) {
   return -1
 }
 
+function* addCustomToken(action) {
+  try {
+    const { customTokenData } = action
+    const { items } = yield select(getStateCurrencies)
+    const newActiveIndex = items.length
+
+    const newItems = [...items, {
+      ...customTokenData,
+      isLicensed: false,
+      isAuthRequired: false,
+      isActive: true,
+    }]
+
+    yield setCurrencies(newItems, newActiveIndex)
+    yield addCustomTokenSuccess()
+  } catch (e) {
+    addCustomTokenError(e)
+  }
+}
+
+function* addCustomTokenSuccess() {
+  yield put({ type: CUSTOM_TOKEN_CLEAR })
+}
+
+function addCustomTokenError() {}
+
 export function* watchGetCurrencies() {
   yield takeEvery(CURRENCIES_GET, getCurrenciesFromStorage)
 }
@@ -282,4 +309,8 @@ export function* watchSearchCurrencies() {
 
 export function* watchSortCurrencies() {
   yield takeEvery(CURRENCIES_SORT, sortCurrencies)
+}
+
+export function* watchAddCustom() {
+  yield takeEvery(CURRENCIES_ADD_CUSTOM, addCustomToken)
 }
