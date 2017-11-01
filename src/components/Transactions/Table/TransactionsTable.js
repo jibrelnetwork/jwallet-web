@@ -57,6 +57,7 @@ function TransactionsTable(props) {
           toggleActive={toggleActive}
           getCurrencyIndex={getCurrencyIndex}
           transactions={transactions}
+          currencySymbol={currentCurrencySymbol}
           activeTransactionIndex={activeTransactionIndex}
         />
       </JTable.Body>
@@ -77,15 +78,14 @@ TransactionsTable.propTypes = {
     }).isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       type: PropTypes.string.isRequired,
-      symbol: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       address: PropTypes.string.isRequired,
-      txHash: PropTypes.string.isRequired,
-      fee: PropTypes.string.isRequired,
+      transactionHash: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
-      amountFixed: PropTypes.string.isRequired,
+      fee: PropTypes.number.isRequired,
+      amount: PropTypes.number.isRequired,
       timestamp: PropTypes.number.isRequired,
     })).isRequired,
     foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,

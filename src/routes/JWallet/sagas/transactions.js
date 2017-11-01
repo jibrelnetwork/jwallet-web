@@ -13,59 +13,7 @@ import {
   TRANSACTIONS_SET_SORT_OPTIONS,
 } from '../modules/transactions'
 
-const transactionsStub = [{
-  type: 'receive',
-  symbol: 'ETH',
-  status: 'Pending',
-  from: '0x01360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  to: '0x02360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  txHash: '0x1d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d',
-  fee: '0.0005 ETH',
-  amount: 0.21234,
-  timestamp: (new Date()).setDate(11),
-}, {
-  type: 'send',
-  symbol: 'jUSD',
-  status: 'Accepted',
-  from: '0x03360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  to: '0x04360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  txHash: '0x2d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d',
-  fee: '0.0005 ETH 1.5 jUSD',
-  amount: 9.23456,
-  timestamp: (new Date()).setDate(1),
-}, {
-  type: 'receive',
-  symbol: 'jEUR',
-  status: 'Rejected',
-  from: '0x05360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  to: '0x06360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  txHash: '0x3d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d',
-  fee: '0.0005 ETH 1.5 jEUR',
-  amount: 6.78900009765,
-  timestamp: (new Date()).setDate(21),
-}, {
-  type: 'send',
-  symbol: 'ETH',
-  status: 'Waiting',
-  from: '0x07360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  to: '0x08360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  txHash: '0x4d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d',
-  fee: '0.0005 ETH',
-  amount: 3.12313123213,
-  timestamp: (new Date()).setDate(3),
-}, {
-  type: 'send',
-  symbol: 'JNT',
-  status: 'Waiting',
-  from: '0x07360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  to: '0x09360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-  txHash: '0x4d6302979fa103b64b9645972774a790b8973e50d9b4771ab3c55e292db0cc1d',
-  fee: '0.0005 ETH 1.5 JNT',
-  amount: 3.12313123213,
-  timestamp: (new Date()).setDate(4),
-}]
-
-const transactionsSearchFields = ['symbol', 'status', 'address', 'txHash', 'fee', 'amount', 'date']
+const transactionsSearchFields = ['status', 'address', 'transactionHash', 'fee', 'amount', 'date']
 
 function getStateTransactions(state) {
   return state.transactions

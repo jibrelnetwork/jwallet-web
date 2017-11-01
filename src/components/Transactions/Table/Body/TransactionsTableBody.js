@@ -9,6 +9,7 @@ function TransactionsTableBody(props) {
     toggleActive,
     getCurrencyIndex,
     transactions,
+    currencySymbol,
     activeTransactionIndex,
   } = props
 
@@ -38,6 +39,7 @@ function TransactionsTableBody(props) {
                 {...transactionProps}
                 setCurrentCurrency={setCurrentCurrency}
                 toggleActive={toggleActive(i)}
+                currencySymbol={currencySymbol}
                 currencyIndex={getCurrencyIndex(to)}
                 isActive={isActive}
               />
@@ -63,20 +65,20 @@ TransactionsTableBody.propTypes = {
     }).isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
       type: PropTypes.string.isRequired,
-      symbol: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       address: PropTypes.string.isRequired,
-      txHash: PropTypes.string.isRequired,
-      fee: PropTypes.string.isRequired,
+      transactionHash: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
-      amountFixed: PropTypes.string.isRequired,
+      fee: PropTypes.number.isRequired,
+      amount: PropTypes.number.isRequired,
       timestamp: PropTypes.number.isRequired,
     })).isRequired,
     foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
     searchQuery: PropTypes.string.isRequired,
   }).isRequired,
+  currencySymbol: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
 }
 
