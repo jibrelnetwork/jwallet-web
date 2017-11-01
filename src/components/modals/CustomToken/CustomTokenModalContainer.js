@@ -6,6 +6,7 @@ import {
   setCustomTokenName,
   setCustomTokenSymbol,
   setCustomTokenDecimals,
+  setCustomTokenInvalidField,
 } from 'routes/JWallet/modules/modals/customToken'
 
 import { addCustomToken } from 'routes/JWallet/modules/currencies'
@@ -20,6 +21,7 @@ const mapDispatchToProps = {
   setCustomTokenName,
   setCustomTokenSymbol,
   setCustomTokenDecimals,
+  setCustomTokenInvalidField,
   addCustomToken,
 }
 

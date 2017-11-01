@@ -86,9 +86,10 @@ export function setSortCurrenciesOptions(sortField = '', sortDirection = 'ASC') 
   }
 }
 
-export function addCustomToken() {
+export function addCustomToken(customTokenData) {
   return {
     type: CURRENCIES_ADD_CUSTOM,
+    customTokenData,
   }
 }
 
