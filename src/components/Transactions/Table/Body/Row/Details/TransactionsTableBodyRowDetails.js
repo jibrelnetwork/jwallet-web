@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function TransactionsTableBodyRowDetails(props) {
-  const { from, to, txHash, fee, isActive } = props
+  const { from, to, transactionHash, fee, isActive } = props
 
   return (
     <div className={`transaction-details ${isActive ? 'transaction-details--active' : ''}`}>
       <div className='transaction-detail'>
         <div className='transaction-detail__title'>{'Txhash'}</div>
-        <div className='transaction-detail__value'>{txHash}</div>
+        <div className='transaction-detail__value'>{transactionHash}</div>
       </div>
       <div className='transaction-detail'>
         <div className='transaction-detail__title'>{'Fee'}</div>
@@ -29,7 +29,7 @@ function TransactionsTableBodyRowDetails(props) {
 TransactionsTableBodyRowDetails.propTypes = {
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  txHash: PropTypes.string.isRequired,
+  transactionHash: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
 }

@@ -9,15 +9,15 @@ function TransactionsTableBodyRow(props) {
     setCurrentCurrency,
     toggleActive,
     type,
-    symbol,
     status,
     from,
     to,
     address,
-    txHash,
-    fee,
-    amountFixed,
+    transactionHash,
     date,
+    currencySymbol,
+    fee,
+    amount,
     currencyIndex,
     isActive,
   } = props
@@ -28,10 +28,9 @@ function TransactionsTableBodyRow(props) {
         setCurrentCurrency={setCurrentCurrency}
         toggleActive={toggleActive}
         type={type}
-        symbol={symbol}
         status={status}
         address={address}
-        amountFixed={amountFixed}
+        amount={`${amount.toFixed(5)} ${currencySymbol}`}
         date={date}
         currencyIndex={currencyIndex}
         isActive={isActive}
@@ -39,8 +38,8 @@ function TransactionsTableBodyRow(props) {
       <TransactionsTableBodyRowDetails
         from={from}
         to={to}
-        txHash={txHash}
-        fee={fee}
+        transactionHash={transactionHash}
+        fee={`${fee.toFixed(5)} ${currencySymbol}`}
         isActive={isActive}
       />
     </div>
@@ -51,15 +50,15 @@ TransactionsTableBodyRow.propTypes = {
   setCurrentCurrency: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  symbol: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  txHash: PropTypes.string.isRequired,
-  fee: PropTypes.string.isRequired,
+  transactionHash: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  amountFixed: PropTypes.string.isRequired,
+  currencySymbol: PropTypes.string.isRequired,
+  fee: PropTypes.number.isRequired,
+  amount: PropTypes.number.isRequired,
   currencyIndex: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
