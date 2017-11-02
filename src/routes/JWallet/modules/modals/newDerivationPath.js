@@ -1,5 +1,3 @@
-import pushField from 'utils/pushField'
-
 export const NEW_DERIVATION_PATH_OPEN_MODAL = 'NEW_DERIVATION_PATH_OPEN_MODAL'
 export const NEW_DERIVATION_PATH_CLOSE_MODAL = 'NEW_DERIVATION_PATH_CLOSE_MODAL'
 export const NEW_DERIVATION_PATH_SET_PASSWORD = 'NEW_DERIVATION_PATH_SET_PASSWORD'
@@ -69,7 +67,10 @@ const ACTION_HANDLERS = {
   [NEW_DERIVATION_PATH_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
-    invalidFields: pushField(state.invalidFields, 'password'),
+    invalidFields: {
+      ...state.invalidFields,
+      password: '',
+    },
   }),
   [NEW_DERIVATION_PATH_SET_KNOWN_PATH]: (state, action) => ({
     ...state,
@@ -78,16 +79,22 @@ const ACTION_HANDLERS = {
   [NEW_DERIVATION_PATH_SET_CUSTOM_PATH]: (state, action) => ({
     ...state,
     customDerivationPath: action.customDerivationPath,
-    invalidFields: pushField(state.invalidFields, 'customDerivationPath'),
+    invalidFields: {
+      ...state.invalidFields,
+      customDerivationPath: '',
+    },
   }),
   [NEW_DERIVATION_PATH_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
-    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message,
+    },
   }),
 }
 
 const initialState = {
-  invalidFields: [],
+  invalidFields: {},
   password: '',
   accountId: '',
   currentDerivationPath: '',

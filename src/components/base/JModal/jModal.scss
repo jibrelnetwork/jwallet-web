@@ -1,4 +1,6 @@
 @import './jModalOpenCloseAnimation';
+@import './Overlay/jModalOverlay';
+@import './Content/jModalContent';
 
 .modal-wrap {
   z-index: 2000;
@@ -19,31 +21,6 @@
   align-items: center;
 }
 
-.modal__overlay {
-  z-index: 2000;
-  position: fixed;
-  top: -5000px;
-  right: -5000px;
-  bottom: -5000px;
-  left: -5000px;
-  background: rgba(43, 46, 56, 0.9);
-  cursor: pointer;
-
-  &--opening,
-  &--closing {
-    animation-duration: 0.3s;
-    animation-fill-mode: forwards;
-  }
-
-  &--opening {
-    animation-name: modal-overlay-opening;
-  }
-
-  &--closing {
-    animation-name: modal-overlay-closing;
-  }
-}
-
 .modal {
   z-index: 2001;
   position: relative;
@@ -54,11 +31,11 @@
   &--keystore {
     min-width: 680px;
 
-    .modal__content {
+    .modal-content {
       border-radius: 5px;
     }
 
-    .modal__body {
+    .modal-body {
       border-top: 1px solid $line;
 
       .table-header {
@@ -67,7 +44,7 @@
       }
     }
 
-    .modal__footer {
+    .modal-footer {
       padding: 0 30px 30px 30px;
     }
   }
@@ -85,83 +62,4 @@
   &--closing {
     animation-name: modal-closing;
   }
-}
-
-.modal__content {
-  z-index: 2002;
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  background-color: $white;
-  border-radius: 5px 5px 10px 10px;
-  box-shadow: $shadow2;
-  vertical-align: middle;
-  text-size-adjust: 100%;
-  text-align: left;
-  outline: medium none;
-}
-
-.modal__header {
-  position: relative;
-  min-height: 24px;
-  line-height: 24px;
-  margin: 30px;
-}
-
-.modal__title {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.modal__close {
-  z-index: 2002;
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 24px;
-  line-height: 24px;
-  opacity: 0.5;
-  cursor: pointer;
-  transition: opacity .3s ease;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.modal__step-line {
-  width: 100%;
-  height: 4px;
-  background-color: $blue3;
-  opacity: 0.8;
-}
-
-.modal__step-line-overlay {
-  height: 100%;
-  background-color: $blue;
-  transition: width .3s ease;
-}
-
-.modal__body {
-  padding: 0 30px 30px 30px;
-}
-
-.modal__text {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 24px;
-  line-height: 24px;
-  margin-bottom: 10px;
-  padding-right: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.modal__icon {
-  position: absolute;
-  top: 0;
-  right: 0;
 }

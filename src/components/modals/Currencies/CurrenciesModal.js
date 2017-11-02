@@ -5,11 +5,6 @@ import { JIcon, JModal } from 'components/base'
 import CurrenciesTable from 'components/CurrenciesTable'
 
 class CurrenciesModal extends JModal {
-  constructor(props) {
-    super(props)
-    this.state = { name: 'currencies' }
-  }
-
   renderHeader = () => {
     return <div className='currencies-modal-header' />
   }
@@ -51,8 +46,6 @@ class CurrenciesModal extends JModal {
     )
   }
 
-  closeModal = () => this.props.closeCurrenciesModal()
-
   toggleActiveCurrency = (index) => {
     return (/* new checkbox state here */) => (e) => {
       this.props.toggleActiveCurrency(index)
@@ -65,14 +58,15 @@ class CurrenciesModal extends JModal {
     }
   }
 
-  sortCurrencies = field => () => this.props.sortCurrencies(field)
-
   openCustomTokenModal = () => {
     const { openCurrenciesModal, closeCurrenciesModal, openCustomTokenModal } = this.props
 
     openCustomTokenModal(openCurrenciesModal)
     closeCurrenciesModal()
   }
+
+  closeModal = () => this.props.closeCurrenciesModal()
+  sortCurrencies = field => () => this.props.sortCurrencies(field)
 }
 
 CurrenciesModal.propTypes = {
@@ -93,14 +87,17 @@ CurrenciesModal.propTypes = {
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
   searchQuery: PropTypes.string.isRequired,
+  modalName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   isActiveAll: PropTypes.bool.isRequired,
+  /* optional */
   onClose: PropTypes.func,
   balances: PropTypes.shape({}),
 }
 
 CurrenciesModal.defaultProps = {
-  onClose: null,
+  ...JModal.defaultProps,
+  onClose: () => {},
   balances: {},
 }
 

@@ -10,8 +10,6 @@ const { popoverClickTimeout, popoverOpeningClosingTimeout } = config
 
 class JPopover extends Appearable {
   componentWillMount() {
-    this.setState({ timeout: popoverOpeningClosingTimeout })
-
     this.open(true)
 
     // check config.js to understand why we need setTimeout
@@ -23,7 +21,7 @@ class JPopover extends Appearable {
   }
 
   onClick = (event) => {
-    const { onClickOutside, name, isCloseOnClickInside, reset } = this.props
+    const { onClickOutside, name, appearableTimeout, isCloseOnClickInside, reset } = this.props
     const popover = ReactDOM.findDOMNode(this.refs[name])
     const isClickOutside = !popover.contains(event.target)
 
@@ -34,7 +32,7 @@ class JPopover extends Appearable {
 
       this.close(true)
 
-      return setTimeout(onClickOutside, this.state.timeout)
+      return setTimeout(onClickOutside, appearableTimeout)
     }
 
     return null
@@ -73,12 +71,14 @@ JPopover.propTypes = {
   onClickOutside: PropTypes.func.isRequired,
   body: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
+  appearableTimeout: PropTypes.number,
   isCloseOnClickInside: PropTypes.bool,
   reset: PropTypes.bool,
   isShake: PropTypes.bool,
 }
 
 JPopover.defaultProps = {
+  appearableTimeout: popoverOpeningClosingTimeout,
   isCloseOnClickInside: false,
   reset: false,
   isShake: false,

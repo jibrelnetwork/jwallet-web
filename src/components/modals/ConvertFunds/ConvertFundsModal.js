@@ -1,22 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import handleEnterKeyPress from 'utils/handleEnterKeyPress'
+import { SubmitModal, SymbolPicker } from 'components'
+import { JIcon, JPicker, JTextInput } from 'components/base'
 
-import SymbolPicker from 'components/SymbolPicker'
-import { JIcon, JModal, JModalButton, JPicker, JTextInput } from 'components/base'
-
-class ConvertFundsModal extends JModal {
-  constructor(props) {
-    super(props)
-    this.state = { name: 'convert-funds' }
-  }
-
-  renderHeader = () => {
-    return <div className='modal__title'>{'Convert Funds'}</div>
-  }
-
-  renderBody = () => {
+class ConvertFundsModal extends SubmitModal {
+  renderModalBody = () => {
     return (
       <div>
         {this.renderFromText()}
@@ -34,7 +23,7 @@ class ConvertFundsModal extends JModal {
   }
 
   renderFromAmmountAndSymbol = () => {
-    const { setConvertFundsFromAmount, setConvertFundsFromSymbol, from } = this.props
+    const { setConvertFundsFromAmount, setConvertFundsFromSymbol, invalidFields, from } = this.props
 
     return (
       <div className='field-group'>
@@ -43,34 +32,34 @@ class ConvertFundsModal extends JModal {
           name='convert-funds-from-amount'
           placeholder='Amount'
           value={from.amount}
-          errorMessage={this.getInvalidFieldMessage('from.amount')}
-          successMessage={this.getValidFieldMessage('from.amount')}
-          editable={this.isEnabledField('from.amount')}
+          errorMessage={invalidFields['from.amount']}
+          editable
         />
         <SymbolPicker
           onValueChange={setConvertFundsFromSymbol}
           selectedValue={from.symbol}
           name='convert-funds-from-symbol'
-          enabled={this.isEnabledField('from.symbol')}
+          enabled
         />
       </div>
     )
   }
 
   renderFromAccount = () => {
-    const { setConvertFundsFromAccount, from } = this.props
+    const { accounts, invalidFields, from } = this.props
 
     return (
       <JPicker
-        onValueChange={setConvertFundsFromAccount}
+        onValueChange={this.setConvertAccountId('from')}
         name='convert-funds-from-account'
         placeholder='Account'
-        selectedValue={from.accountId}
-        errorMessage={this.getInvalidFieldMessage('from.accountId')}
-        successMessage={this.getValidFieldMessage('from.accountId')}
-        enabled={this.isEnabledField('from.accountId')}
+        selectedValue={from.account.accountName}
+        errorMessage={invalidFields['from.accountId']}
+        enabled
       >
-        <JPicker.Item label='example' value='example' />
+        {accounts.map((account) => {
+          return <JPicker.Item key={account.id} label={account.accountName} value={account.id} />
+        })}
       </JPicker>
     )
   }
@@ -80,99 +69,101 @@ class ConvertFundsModal extends JModal {
   }
 
   renderToAmmountAndSymbol = () => {
-    const { setConvertFundsToAmount, setConvertFundsToSymbol, to } = this.props
+    const { setConvertFundsToSymbol, invalidFields, to } = this.props
 
     return (
       <div className='field-group'>
         <JTextInput
-          onValueChange={setConvertFundsToAmount}
+          onValueChange={setConvertFundsToSymbol}
           name='convert-funds-to-amount'
           placeholder='Amount'
           value={to.amount}
-          errorMessage={this.getInvalidFieldMessage('to.amount')}
-          successMessage={this.getValidFieldMessage('to.amount')}
-          editable={this.isEnabledField('to.amount')}
+          errorMessage={invalidFields['to.amount']}
+          editable
         />
         <SymbolPicker
           onValueChange={setConvertFundsToSymbol}
           selectedValue={to.symbol}
           name='convert-funds-to-symbol'
-          enabled={this.isEnabledField('to.symbol')}
+          enabled
         />
       </div>
     )
   }
 
   renderToAccount = () => {
-    const { setConvertFundsToAccount, to } = this.props
+    const { accounts, invalidFields, to } = this.props
 
     return (
       <JPicker
-        onValueChange={setConvertFundsToAccount}
+        onValueChange={this.setConvertAccountId('to')}
         name='convert-funds-to-account'
         placeholder='Account'
-        selectedValue={to.accountId}
-        errorMessage={this.getInvalidFieldMessage('to.accountId')}
-        successMessage={this.getValidFieldMessage('to.accountId')}
-        enabled={this.isEnabledField('to.accountId')}
+        selectedValue={to.account.accountName}
+        errorMessage={invalidFields['to.accountId']}
+        enabled
       >
-        <JPicker.Item label='example' value='example' />
+        {accounts.map((account) => {
+          return <JPicker.Item key={account.id} label={account.accountName} value={account.id} />
+        })}
       </JPicker>
     )
   }
 
-  renderFooter = () => {
-    return (
-      <JModalButton
-        onPress={this.props.convertFunds}
-        name={'convert-funds'}
-        iconName={'convert-funds'}
-        title={'Convert Funds'}
-        disabled={this.isModalButtonDisabled()}
-      />
-    )
+  setConvertAccountId = container => (accountId) => {
+    const { setConvertFundsFromAccountId, setConvertFundsToAccountId, accounts } = this.props
+    const setId = (container === 'from') ? setConvertFundsFromAccountId : setConvertFundsToAccountId
+
+    return setId(accountId, accounts)
   }
 
   closeModal = () => this.props.closeConvertFundsModal()
-  submitModal = event => handleEnterKeyPress(this.props.convertFunds)(event)
-  isModalButtonDisabled = () => (this.props.invalidFields.length > 0)
+  submitModal = () => this.props.convertFunds()
+  isModalButtonDisabled = () => false
 }
 
 ConvertFundsModal.propTypes = {
   closeConvertFundsModal: PropTypes.func.isRequired,
   setConvertFundsFromAmount: PropTypes.func.isRequired,
   setConvertFundsFromSymbol: PropTypes.func.isRequired,
-  setConvertFundsFromAccount: PropTypes.func.isRequired,
+  setConvertFundsFromAccountId: PropTypes.func.isRequired,
   setConvertFundsToAmount: PropTypes.func.isRequired,
   setConvertFundsToSymbol: PropTypes.func.isRequired,
-  setConvertFundsToAccount: PropTypes.func.isRequired,
+  setConvertFundsToAccountId: PropTypes.func.isRequired,
   convertFunds: PropTypes.func.isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    accountName: PropTypes.string.isRequired,
+  })).isRequired,
   from: PropTypes.shape({
     amount: PropTypes.string.isRequired,
     symbol: PropTypes.string.isRequired,
-    accountId: PropTypes.string.isRequired,
+    account: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      accountName: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
   to: PropTypes.shape({
     amount: PropTypes.string.isRequired,
     symbol: PropTypes.string.isRequired,
-    accountId: PropTypes.string.isRequired,
+    account: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      accountName: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
-  validFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
-  invalidFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
-  disabledFields: PropTypes.arrayOf(PropTypes.string).isRequired,
-  alert: PropTypes.string.isRequired,
+  invalidFields: PropTypes.shape({}).isRequired,
+  modalName: PropTypes.string.isRequired,
+  modalTitle: PropTypes.string.isRequired,
+  buttonTitle: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  /* optional */
   onClose: PropTypes.func,
 }
 
 ConvertFundsModal.defaultProps = {
-  onClose: null,
+  ...SubmitModal.defaultProps,
+  onClose: () => {},
 }
 
 export default ConvertFundsModal

@@ -4,7 +4,7 @@ import Keystore from 'jwallet-web-keystore'
 
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
-import { JModal, JModalButton, JTextInput } from 'components/base'
+import { JModal, JTextInput } from 'components/base'
 
 class CustomTokenModal extends JModal {
   renderHeader = () => {
@@ -50,7 +50,7 @@ class CustomTokenModal extends JModal {
 
   renderFooter = () => {
     return (
-      <JModalButton
+      <JModal.Button
         onPress={this.addCustomToken}
         name={'custom-token'}
         title={'Save'}
