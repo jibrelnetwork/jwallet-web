@@ -87,7 +87,7 @@ class NewDerivationPath extends JModal {
     const isPasswordInvalid = !!this.getInvalidFieldMessage('password').length
     const isCusomPathInvalid = !!this.getInvalidFieldMessage('customDerivationPath').length
 
-    return !(isPasswordEmpty || isPasswordInvalid || isCusomPathInvalid)
+    return (isPasswordEmpty || isPasswordInvalid || isCusomPathInvalid)
   }
 
   setDerivationPath = () => {

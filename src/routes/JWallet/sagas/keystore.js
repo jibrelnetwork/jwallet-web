@@ -1,10 +1,9 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import Keystore from 'jwallet-web-keystore'
-import fileSaver from 'file-saver'
 
 import config from 'config'
-import storage from 'services/storage'
+import { fileSaver, storage } from 'services'
 import sortItems from 'utils/sortItems'
 
 import {
@@ -159,12 +158,12 @@ function* setCurrentAccount(action) {
     return yield setFirstAccountAsCurrent()
   }
 
-  const { type, address } = accountData
+  const { type, addressIndex } = accountData
 
   yield setCurrentAccountData(accountData)
 
   if (type === 'mnemonic') {
-    yield refreshAddressesFromMnemonic(accountId, address)
+    yield refreshAddressesFromMnemonic(accountId, addressIndex)
   }
 
   yield getBalances()
@@ -229,9 +228,10 @@ function* setDerivationPath(action) {
 
   try {
     keystore.setDerivationPath(password, accountId, newDerivationPath)
+    const accountData = getAccountData(accountId)
 
     yield setAccounts()
-    yield refreshAddressesFromMnemonic(accountId)
+    yield refreshAddressesFromMnemonic(accountId, accountData.addressIndex)
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
@@ -249,11 +249,24 @@ function* setAddressIndex(action) {
   yield getBalances()
 }
 
-function* refreshAddressesFromMnemonic(accountId) {
+function* refreshAddressesFromMnemonic(accountId, addressIndex = 0) {
   storage.removeKeystoreAddressesFromMnemonic()
 
   yield setAddressesFromMnemonic()
-  yield getAddressesFromMnemonic({ accountId, iteration: 0, limit: addressesPerIteration })
+
+  const limit = addressesPerIteration
+  let iteration = 0
+
+  while (addressIndex >= (iteration * limit)) {
+    yield getAddressesFromMnemonic({ accountId, iteration, limit })
+
+    iteration += 1
+
+    // to prevent infinite loop
+    if (iteration > 1000) {
+      return
+    }
+  }
 }
 
 function* getAddressesFromMnemonic(action) {
@@ -339,10 +352,7 @@ function saveMnemonicToFile(action) {
   const { mnemonic, onSuccess, onError } = action
 
   try {
-    const data = new Blob([mnemonic], { type: 'plain/text', endings: 'native' })
-    const timestamp = getTimestamp()
-
-    fileSaver.saveAs(data, `jwallet-keystore-mnemonic ${timestamp}.txt`)
+    fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
@@ -354,20 +364,12 @@ function backupKeystore(action) {
   const { password, onSuccess, onError } = action
 
   try {
-    const decryptedAccounts = JSON.stringify(keystore.getDecryptedAccounts(password))
-    const backupData = new Blob([decryptedAccounts], { type: 'plain/text', endings: 'native' })
-    const timestamp = getTimestamp()
-
-    fileSaver.saveAs(backupData, `jwallet-keystore-backup ${timestamp}.json`)
+    fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
 
     return onSuccess ? onSuccess() : null
   } catch (e) {
     return onError ? onError(e) : null
   }
-}
-
-function getTimestamp() {
-  return (new Date()).toString()
 }
 
 function* sortAccounts(action) {
