@@ -53,4 +53,10 @@ export default {
 
   // defaultDecimals
   defaultDecimals: 18,
+
+  // json-format config
+  jsonFormat: {
+    type: 'space',
+    size: 2,
+  },
 }
