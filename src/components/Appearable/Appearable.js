@@ -15,18 +15,19 @@ class Appearable extends Component {
 
   setOpeningClosing = (state) => {
     this.setState(state)
+    const initialState = { opening: false, closing: false }
 
-    const timeout = this.state.timeout || config.defaultAppearableTimeout
-
-    setTimeout(() => this.setState({ opening: false, closing: false }), timeout)
+    setTimeout(() => this.setState(initialState), this.props.appearableTimeout)
   }
 }
 
 Appearable.propTypes = {
+  appearableTimeout: PropTypes.number,
   isOpen: PropTypes.bool,
 }
 
 Appearable.defaultProps = {
+  appearableTimeout: config.defaultAppearableTimeout,
   isOpen: true,
 }
 

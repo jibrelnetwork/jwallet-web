@@ -1,9 +1,8 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
-import Keystore from 'jwallet-web-keystore'
 
 import config from 'config'
-import { fileSaver, storage } from 'services'
+import { fileSaver, keystore, storage } from 'services'
 import sortItems from 'utils/sortItems'
 
 import {
@@ -31,7 +30,6 @@ import {
 import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
 
-const keystore = new Keystore({ scryptParams: { N: 2 ** 3, r: 8, p: 1 } })
 const { addressesPerIteration } = config
 
 function getStateKeystoreData(state) {

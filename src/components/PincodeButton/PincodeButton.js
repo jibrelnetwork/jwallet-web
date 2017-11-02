@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import JModalButton from 'components/base/JModalButton'
+import JModal from 'components/base/JModal'
 
 class PincodeButton extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class PincodeButton extends Component {
     const { name, title, iconName } = this.props
 
     return (
-      <JModalButton
+      <JModal.Button
         onPress={this.setPincodeTyping(true)}
         name={name}
         title={title}

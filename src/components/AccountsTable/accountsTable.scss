@@ -1,5 +1,9 @@
 @import './Account/account';
 
+.table--accounts {
+  padding: 0 30px;
+}
+
 .table-header-item--accountActions span {
   float: right;
 

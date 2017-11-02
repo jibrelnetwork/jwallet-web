@@ -1,0 +1,22 @@
+.modal-header {
+  position: relative;
+  min-height: 24px;
+  line-height: 24px;
+  margin: 30px;
+}
+
+.modal-close {
+  z-index: 2002;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 24px;
+  line-height: 24px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}

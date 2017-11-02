@@ -3,9 +3,11 @@ export const CONVERT_FUNDS_CLOSE_MODAL = 'CONVERT_FUNDS_CLOSE_MODAL'
 export const CONVERT_FUNDS_SET_FROM_AMOUNT = 'CONVERT_FUNDS_SET_FROM_AMOUNT'
 export const CONVERT_FUNDS_SET_FROM_SYMBOL = 'CONVERT_FUNDS_SET_FROM_SYMBOL'
 export const CONVERT_FUNDS_SET_FROM_ACCOUNT = 'CONVERT_FUNDS_SET_FROM_ACCOUNT'
+export const CONVERT_FUNDS_SET_FROM_ACCOUNT_ID = 'CONVERT_FUNDS_SET_FROM_ACCOUNT_ID'
 export const CONVERT_FUNDS_SET_TO_AMOUNT = 'CONVERT_FUNDS_SET_TO_AMOUNT'
 export const CONVERT_FUNDS_SET_TO_SYMBOL = 'CONVERT_FUNDS_SET_TO_SYMBOL'
 export const CONVERT_FUNDS_SET_TO_ACCOUNT = 'CONVERT_FUNDS_SET_TO_ACCOUNT'
+export const CONVERT_FUNDS_SET_TO_ACCOUNT_ID = 'CONVERT_FUNDS_SET_TO_ACCOUNT_ID'
 export const CONVERT_FUNDS = 'CONVERT_FUNDS'
 
 export function openConvertFundsModal(accountId = '', onClose = null) {
@@ -36,10 +38,11 @@ export function setConvertFundsFromSymbol(symbol = '') {
   }
 }
 
-export function setConvertFundsFromAccount(accountId = '') {
+export function setConvertFundsFromAccountId(accountId = '', accounts = []) {
   return {
-    type: CONVERT_FUNDS_SET_FROM_ACCOUNT,
+    type: CONVERT_FUNDS_SET_FROM_ACCOUNT_ID,
     accountId,
+    accounts,
   }
 }
 
@@ -57,10 +60,11 @@ export function setConvertFundsToSymbol(symbol = '') {
   }
 }
 
-export function setConvertFundsToAccount(accountId = '') {
+export function setConvertFundsToAccountId(accountId = '', accounts = []) {
   return {
-    type: CONVERT_FUNDS_SET_TO_ACCOUNT,
+    type: CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
     accountId,
+    accounts,
   }
 }
 
@@ -75,10 +79,6 @@ const ACTION_HANDLERS = {
     ...state,
     isOpen: true,
     onClose: action.onClose,
-    from: {
-      ...state.from,
-      accountId: action.accountId,
-    },
   }),
   [CONVERT_FUNDS_CLOSE_MODAL]: state => ({
     ...state,
@@ -102,7 +102,7 @@ const ACTION_HANDLERS = {
     ...state,
     from: {
       ...state.from,
-      accountId: action.accountId,
+      account: action.currentAccount || initialState.from.account,
     },
   }),
   [CONVERT_FUNDS_SET_TO_AMOUNT]: (state, action) => ({
@@ -123,11 +123,8 @@ const ACTION_HANDLERS = {
     ...state,
     to: {
       ...state.to,
-      accountId: action.accountId,
+      account: action.currentAccount || initialState.to.account,
     },
-  }),
-  [CONVERT_FUNDS]: state => ({
-    ...state,
   }),
 }
 
@@ -135,17 +132,20 @@ const initialState = {
   from: {
     amount: '',
     symbol: 'ETH',
-    accountId: '',
+    account: {
+      id: '',
+      accountName: '',
+    },
   },
   to: {
     amount: '',
     symbol: 'ETH',
-    accountId: '',
+    account: {
+      id: '',
+      accountName: '',
+    },
   },
-  disabledFields: [],
-  validFields: [],
-  invalidFields: [],
-  alert: '',
+  invalidFields: {},
   isOpen: false,
   onClose: null,
 }

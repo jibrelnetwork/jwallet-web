@@ -112,9 +112,6 @@
   @import '../components/base/JLoader/jLoader';
   @import '../components/base/JLogo/jLogo';
   @import '../components/base/JModal/jModal';
-  @import '../components/base/JModalAlert/jModalAlert';
-  @import '../components/base/JModalButton/jModalButton';
-  @import '../components/base/JModalImage/jModalImage';
   @import '../components/base/JPicker/jPicker';
   @import '../components/base/JPopover/jPopover';
   @import '../components/base/JRadio/jRadio';
@@ -139,6 +136,7 @@
   @import '../components/PasswordField/passwordField';
   @import '../components/PincodeButton/pincodeButton';
   @import '../components/Search/search';
+  @import '../components/SubmitModal/submitModal';
   @import '../components/Transactions/transactions';
 
   @import '../routes/Auth/styles/auth';

@@ -5,7 +5,7 @@ import {
   setSendFundsAddress,
   setSendFundsAmount,
   setSendFundsSymbol,
-  setSendFundsAccount,
+  setSendFundsAccountId,
   setSendFundsGas,
   setSendFundsGasPrice,
   setSendFundsGasSymbol,
@@ -15,14 +15,21 @@ import {
 
 import SendFundsModal from './SendFundsModal'
 
-const mapStateToProps = state => state.sendFundsModal
+const mapStateToProps = state => ({
+  ...state.sendFundsModal,
+  accounts: state.keystore.accounts,
+  modalName: 'send-funds',
+  modalTitle: 'Send Funds',
+  buttonTitle: 'Send Funds',
+  iconName: 'send-funds',
+})
 
 const mapDispatchToProps = {
   closeSendFundsModal,
   setSendFundsAddress,
   setSendFundsAmount,
   setSendFundsSymbol,
-  setSendFundsAccount,
+  setSendFundsAccountId,
   setSendFundsGas,
   setSendFundsGasPrice,
   setSendFundsGasSymbol,

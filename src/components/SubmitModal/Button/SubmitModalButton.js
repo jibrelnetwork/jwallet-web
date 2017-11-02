@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JIcon from 'components/base/JIcon'
 
-function JModalButton({ onPress, name, title, iconName, disabled, isLoading }) {
+function SubmitModalButton({ onPress, name, title, iconName, disabled, isLoading }) {
   const isIcon = (iconName.length > 0)
   const icon = isIcon ? <JIcon name={iconName} className='modal-button__icon' /> : null
   const className = `modal-button modal-button--${name} ${disabled ? 'modal-button--disabled' : ''}`
@@ -23,7 +23,7 @@ function JModalButton({ onPress, name, title, iconName, disabled, isLoading }) {
   return <div className={className} onClick={(disabled || isLoading) ? null : onPress}>{label}</div>
 }
 
-JModalButton.propTypes = {
+SubmitModalButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -32,10 +32,10 @@ JModalButton.propTypes = {
   isLoading: PropTypes.bool,
 }
 
-JModalButton.defaultProps = {
+SubmitModalButton.defaultProps = {
   iconName: '',
   disabled: false,
   isLoading: false,
 }
 
-export default JModalButton
+export default SubmitModalButton

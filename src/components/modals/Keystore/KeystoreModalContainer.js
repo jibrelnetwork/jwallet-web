@@ -23,7 +23,10 @@ import { openNewKeystorePasswordModal } from 'routes/JWallet/modules/modals/newK
 
 import KeystoreModal from './KeystoreModal'
 
-const mapStateToProps = state => state.keystore
+const mapStateToProps = state => ({
+  ...state.keystore,
+  modalName: 'keystore',
+})
 
 const mapDispatchToProps = {
   setCurrentKeystoreAccount,
