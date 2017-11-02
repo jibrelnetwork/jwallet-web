@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
-import { JModal, JModalButton, JTextInput } from 'components/base'
+import { JModal, JTextInput } from 'components/base'
 
 class BackupKeystoreModal extends JModal {
   constructor(props) {
@@ -21,7 +21,7 @@ class BackupKeystoreModal extends JModal {
 
   renderFooter = () => {
     return (
-      <JModalButton
+      <JModal.Button
         onPress={this.backupKeystore}
         name={'backup-keystore'}
         title={'Save as TXT'}

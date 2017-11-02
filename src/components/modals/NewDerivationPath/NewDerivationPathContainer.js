@@ -12,7 +12,13 @@ import { setKeystoreAccountDerivationPath } from 'routes/JWallet/modules/keystor
 
 import NewDerivationPath from './NewDerivationPath'
 
-const mapStateToProps = state => state.newDerivationPathModal
+const mapStateToProps = state => ({
+  ...state.newDerivationPathModal,
+  modalName: 'new-derivation-path',
+  modalTitle: 'New Derivation Path',
+  buttonTitle: 'Set derivation path',
+  iconName: '',
+})
 
 const mapDispatchToProps = {
   closeNewDerivationPathModal,

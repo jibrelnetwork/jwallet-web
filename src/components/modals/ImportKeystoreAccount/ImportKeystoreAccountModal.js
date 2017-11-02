@@ -5,7 +5,7 @@ import Keystore from 'jwallet-web-keystore'
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
 import { DerivationPath, Expandable, PasswordField } from 'components'
-import { JModal, JModalButton, JModalImage, JTextInput } from 'components/base'
+import { JModal, JTextInput } from 'components/base'
 
 const DATA_STEP = 1
 const MNEMONIC_OPTIONS_STEP = 2
@@ -70,7 +70,7 @@ class ImportKeystoreAccountModal extends JModal {
   }
 
   renderStep4 = () => {
-    return <JModalImage name='plane' />
+    return <JModal.Image name='plane' />
   }
 
   renderData = (editable = true) => {
@@ -161,7 +161,7 @@ class ImportKeystoreAccountModal extends JModal {
     const { currentStep, isCreating } = this.props
 
     return (
-      <JModalButton
+      <JModal.Button
         onPress={this.goToNextStep}
         name={'import-keystore-account'}
         title={this.getButtonTitle(currentStep)}

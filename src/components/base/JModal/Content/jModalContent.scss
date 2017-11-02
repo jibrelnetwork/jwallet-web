@@ -1,0 +1,16 @@
+@import './Body/jModalContentBody';
+@import './Header/jModalContentHeader';
+
+.modal-content {
+  z-index: 2002;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  background-color: $white;
+  border-radius: 5px 5px 10px 10px;
+  box-shadow: $shadow2;
+  vertical-align: middle;
+  text-size-adjust: 100%;
+  text-align: left;
+  outline: medium none;
+}

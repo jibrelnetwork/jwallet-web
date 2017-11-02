@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
 import PasswordField from 'components/PasswordField'
-import { JModal, JModalButton, JTextInput } from 'components/base'
+import { JModal, JTextInput } from 'components/base'
 
 class NewKeystorePasswordModal extends JModal {
   constructor(props) {
@@ -56,7 +56,7 @@ class NewKeystorePasswordModal extends JModal {
 
   renderFooter = () => {
     return (
-      <JModalButton
+      <JModal.Button
         onPress={this.setKeystorePassword}
         name={'new-keystore-password'}
         title={'Confirm'}

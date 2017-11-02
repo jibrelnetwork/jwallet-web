@@ -34,7 +34,12 @@ DerivationPath.propTypes = {
   setCustomDerivationPath: PropTypes.func.isRequired,
   knownDerivationPath: PropTypes.string.isRequired,
   customDerivationPath: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string.isRequired,
+  /* optional */
+  errorMessage: PropTypes.string,
+}
+
+DerivationPath.defaultProps = {
+  errorMessage: '',
 }
 
 export default DerivationPath

@@ -1,5 +1,4 @@
 export * as base from './base'
-export * as modals from './modals'
 
 export AccountsTable from './AccountsTable'
 export Appearable from './Appearable'
@@ -18,5 +17,8 @@ export NetworksManager from './NetworksManager'
 export PasswordField from './PasswordField'
 export PincodeButton from './PincodeButton'
 export Search from './Search'
+export SubmitModal from './SubmitModal'
 export SymbolPicker from './SymbolPicker'
 export Transactions from './Transactions'
+
+export * as modals from './modals'

@@ -3,8 +3,7 @@ export const RECEIVE_FUNDS_CLOSE_MODAL = 'RECEIVE_FUNDS_CLOSE_MODAL'
 export const RECEIVE_FUNDS_SET_AMOUNT = 'RECEIVE_FUNDS_SET_AMOUNT'
 export const RECEIVE_FUNDS_SET_SYMBOL = 'RECEIVE_FUNDS_SET_SYMBOL'
 export const RECEIVE_FUNDS_SET_ACCOUNT = 'RECEIVE_FUNDS_SET_ACCOUNT'
-export const GENERATE_QR_CODE = 'GENERATE_QR_CODE'
-export const RECEIVE_FUNDS = 'RECEIVE_FUNDS'
+export const RECEIVE_FUNDS_SET_ACCOUNT_ID = 'RECEIVE_FUNDS_SET_ACCOUNT_ID'
 
 export function openReceiveFundsModal(accountId = '', onClose = null) {
   return {
@@ -34,10 +33,16 @@ export function setReceiveFundsSymbol(symbol = '') {
   }
 }
 
-export function setReceiveFundsAccount(accountId = '') {
+export function setReceiveFundsAccountId(
+  accountId = '',
+  accounts = [],
+  addressesFromMnemonic = []
+) {
   return {
-    type: RECEIVE_FUNDS_SET_ACCOUNT,
+    type: RECEIVE_FUNDS_SET_ACCOUNT_ID,
     accountId,
+    accounts,
+    addressesFromMnemonic,
   }
 }
 
@@ -45,7 +50,6 @@ const ACTION_HANDLERS = {
   [RECEIVE_FUNDS_OPEN_MODAL]: (state, action) => ({
     ...state,
     isOpen: true,
-    accountId: action.accountId,
     onClose: action.onClose,
   }),
   [RECEIVE_FUNDS_CLOSE_MODAL]: state => ({
@@ -62,17 +66,18 @@ const ACTION_HANDLERS = {
   }),
   [RECEIVE_FUNDS_SET_ACCOUNT]: (state, action) => ({
     ...state,
-    accountId: action.accountId,
-  }),
-  [RECEIVE_FUNDS]: state => ({
-    ...state,
+    currentAccount: action.currentAccount || initialState.currentAccount,
   }),
 }
 
 const initialState = {
+  currentAccount: {
+    id: '',
+    accountName: '',
+    address: '',
+  },
   amount: '',
   symbol: 'ETH',
-  accountId: '',
   isOpen: false,
 }
 

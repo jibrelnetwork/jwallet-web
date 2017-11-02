@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function JModalAlert({ text }) {
+function SubmitModalAlert({ text }) {
   return !text ? null : <div className='modal-alert'>{text}</div>
 }
 
-JModalAlert.propTypes = {
+SubmitModalAlert.propTypes = {
   text: PropTypes.node,
 }
 
-JModalAlert.defaultProps = {
+SubmitModalAlert.defaultProps = {
   text: null,
 }
 
-export default JModalAlert
+export default SubmitModalAlert

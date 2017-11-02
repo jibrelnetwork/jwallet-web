@@ -12,7 +12,10 @@ import { openCustomTokenModal } from 'routes/JWallet/modules/modals/customToken'
 
 import CurrenciesModal from './CurrenciesModal'
 
-const mapStateToProps = state => state.currencies
+const mapStateToProps = state => ({
+  ...state.currencies,
+  modalName: 'currencies',
+})
 
 const mapDispatchToProps = {
   openCurrenciesModal,

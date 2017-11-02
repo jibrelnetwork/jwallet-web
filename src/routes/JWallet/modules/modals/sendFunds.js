@@ -3,6 +3,7 @@ export const SEND_FUNDS_CLOSE_MODAL = 'SEND_FUNDS_CLOSE_MODAL'
 export const SEND_FUNDS_SET_ADDRESS = 'SEND_FUNDS_SET_ADDRESS'
 export const SEND_FUNDS_SET_AMOUNT = 'SEND_FUNDS_SET_AMOUNT'
 export const SEND_FUNDS_SET_SYMBOL = 'SEND_FUNDS_SET_SYMBOL'
+export const SEND_FUNDS_SET_ACCOUNT_ID = 'SEND_FUNDS_SET_ACCOUNT_ID'
 export const SEND_FUNDS_SET_ACCOUNT = 'SEND_FUNDS_SET_ACCOUNT'
 export const SEND_FUNDS_SET_GAS = 'SEND_FUNDS_SET_GAS'
 export const SEND_FUNDS_SET_GAS_PRICE = 'SEND_FUNDS_SET_GAS_PRICE'
@@ -10,9 +11,10 @@ export const SEND_FUNDS_SET_GAS_SYMBOL = 'SEND_FUNDS_SET_GAS_SYMBOL'
 export const SEND_FUNDS_SET_PASSWORD = 'SEND_FUNDS_SET_PASSWORD'
 export const SEND_FUNDS = 'SEND_FUNDS'
 
-export function openSendFundsModal(accountId = '', onClose = null) {
+export function openSendFundsModal(accounts = [], accountId = '', onClose = null) {
   return {
     type: SEND_FUNDS_OPEN_MODAL,
+    accounts,
     accountId,
     onClose,
   }
@@ -45,10 +47,18 @@ export function setSendFundsSymbol(symbol = '') {
   }
 }
 
-export function setSendFundsAccount(accountId = '') {
+export function setSendFundsAccountId(accountId = '', accounts = []) {
+  return {
+    type: SEND_FUNDS_SET_ACCOUNT_ID,
+    accountId,
+    accounts,
+  }
+}
+
+export function setSendFundsAccount(currentAccount = {}) {
   return {
     type: SEND_FUNDS_SET_ACCOUNT,
-    accountId,
+    currentAccount,
   }
 }
 
@@ -90,7 +100,6 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_OPEN_MODAL]: (state, action) => ({
     ...state,
     isOpen: true,
-    accountId: action.accountId,
     onClose: action.onClose,
   }),
   [SEND_FUNDS_CLOSE_MODAL]: state => ({
@@ -111,7 +120,7 @@ const ACTION_HANDLERS = {
   }),
   [SEND_FUNDS_SET_ACCOUNT]: (state, action) => ({
     ...state,
-    accountId: action.accountId,
+    currentAccount: action.currentAccount || initialState.currentAccount,
   }),
   [SEND_FUNDS_SET_GAS]: (state, action) => ({
     ...state,
@@ -129,20 +138,17 @@ const ACTION_HANDLERS = {
     ...state,
     password: action.password,
   }),
-  [SEND_FUNDS]: state => ({
-    ...state,
-  }),
 }
 
 const initialState = {
-  disabledFields: [],
-  validFields: [],
-  invalidFields: [],
-  alert: '',
+  currentAccount: {
+    id: '',
+    accountName: '',
+  },
+  invalidFields: {},
   address: '',
   amount: '',
   symbol: 'ETH',
-  accountId: '',
   gas: '',
   gasPrice: '',
   gasSymbol: 'ETH',

@@ -6,15 +6,8 @@ import AccountsTable from 'components/AccountsTable'
 import KeystoreModalFooter from './Footer'
 
 class KeystoreModal extends JModal {
-  constructor(props) {
-    super(props)
-    this.state = { name: 'keystore' }
-  }
-
-  closeModal = () => this.props.closeKeystoreModal()
-
   renderHeader = () => {
-    return <div className='modal__title'>{'Keys Manager'}</div>
+    return <div className='modal-title'>{'Keys Manager'}</div>
   }
 
   renderBody = () => {
@@ -120,6 +113,7 @@ class KeystoreModal extends JModal {
   }
   /* eslint-enable no-param-reassign */
 
+  closeModal = () => this.props.closeKeystoreModal()
   sortAccounts = sortField => () => this.props.sortAccounts(sortField)
   openNewDerivationPathModal = (...args) => () => this.openModal('NewDerivationPath')(...args)
 }
@@ -166,6 +160,7 @@ KeystoreModal.propTypes = {
   })).isRequired,
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,
+  modalName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
 }
 
