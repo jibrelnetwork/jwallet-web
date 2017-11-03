@@ -1,5 +1,3 @@
-import pushField from 'utils/pushField'
-
 export const IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL'
 export const IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL'
 export const IMPORT_KEYSTORE_ACCOUNT_SET_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_DATA'
@@ -8,9 +6,18 @@ export const IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM = 'IMPORT_KEYSTORE_ACC
 export const IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH = 'IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH' // eslint-disable-line max-len
 export const IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH = 'IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH' // eslint-disable-line max-len
 export const IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP = 'IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_ALERT = 'IMPORT_KEYSTORE_ACCOUNT_SET_ALERT'
+export const IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA'
 export const IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD = 'IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD'
+export const IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA'
 export const IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA = 'IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA'
+
+export const IMPORT_KEYSTORE_ACCOUNT_STEPS = {
+  BEFORE: -1,
+  DATA: 0,
+  MNEMONIC_OPTIONS: 1,
+  SET_PASSWORD: 2,
+  SUCCESS: 3,
+}
 
 export function openImportKeystoreAccountModal(onClose = null) {
   return {
@@ -60,17 +67,11 @@ export function setImportKeystoreAccountCustomDerivationPath(customDerivationPat
   }
 }
 
-export function setImportKeystoreAccountCurrentStep(currentStep = 0) {
+export function setImportKeystoreAccountCurrentStep(currentStep = -1, props = {}) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
     currentStep,
-  }
-}
-
-export function setImportKeystoreAccountAlert(alert = '') {
-  return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_ALERT,
-    alert,
+    props,
   }
 }
 
@@ -101,22 +102,34 @@ const ACTION_HANDLERS = {
   [IMPORT_KEYSTORE_ACCOUNT_SET_DATA]: (state, action) => ({
     ...state,
     data: action.data,
-    invalidFields: pushField(state.invalidFields, 'data'),
+    invalidFields: {
+      ...state.invalidFields,
+      data: '',
+    },
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
-    invalidFields: pushField(state.invalidFields, 'password'),
+    invalidFields: {
+      ...state.invalidFields,
+      password: '',
+    },
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH]: (state, action) => ({
     ...state,
     knownDerivationPath: action.knownDerivationPath,
-    invalidFields: pushField(state.invalidFields, 'knownDerivationPath'),
+    invalidFields: {
+      ...state.invalidFields,
+      knownDerivationPath: '',
+    },
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH]: (state, action) => ({
     ...state,
     customDerivationPath: action.customDerivationPath,
-    invalidFields: pushField(state.invalidFields, 'customDerivationPath'),
+    invalidFields: {
+      ...state.invalidFields,
+      customDerivationPath: '',
+    },
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM]: (state, action) => ({
     ...state,
@@ -126,27 +139,40 @@ const ACTION_HANDLERS = {
     ...state,
     currentStep: action.currentStep,
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_ALERT]: (state, action) => ({
+  [IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA]: (state, action) => ({
     ...state,
-    alert: action.alert,
+    alert: action.alert || '',
+    buttonTitle: action.buttonTitle || '',
+    imageName: action.imageName || '',
+    currentStep: action.nextStep || 0,
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
-    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message,
+    },
+  }),
+  [IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA]: (state, action) => ({
+    ...state,
+    accountData: action.accountData || initialState.accountData,
   }),
   [IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA]: () => initialState,
 }
 
 const initialState = {
-  invalidFields: [],
+  accountData: {},
+  invalidFields: {},
   alert: '',
   data: '',
   password: '',
   passwordConfirm: '',
   knownDerivationPath: "m/44'/60'/0'/0", // eslint-disable-line quotes
   customDerivationPath: '',
+  buttonTitle: '',
+  imageName: '',
   totalSteps: 4,
-  currentStep: 1,
+  currentStep: -1,
   isOpen: false,
   onClose: null,
 }

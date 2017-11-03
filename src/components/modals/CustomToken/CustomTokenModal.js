@@ -2,21 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Keystore from 'jwallet-web-keystore'
 
-import handleEnterKeyPress from 'utils/handleEnterKeyPress'
+import SubmitModal from 'components/SubmitModal'
+import JTextInput from 'components/base/JTextInput'
 
-import { JModal, JTextInput } from 'components/base'
-
-class CustomTokenModal extends JModal {
-  renderHeader = () => {
-    return <div className='modal__title'>{'Add Custom Token'}</div>
-  }
-
-  renderBody = () => {
+class CustomTokenModal extends SubmitModal {
+  renderModalBody = () => {
     const {
       setCustomTokenAddress,
       setCustomTokenName,
       setCustomTokenSymbol,
       setCustomTokenDecimals,
+      invalidFields,
     } = this.props
 
     const customTokenFieldsMap = {
@@ -39,23 +35,12 @@ class CustomTokenModal extends JModal {
               name={`custom-token-${field}`}
               placeholder={placeholder}
               value={this.props[field]}
-              errorMessage={this.getInvalidFieldMessage(field)}
+              errorMessage={invalidFields[field]}
               editable
             />
           )
         })}
       </div>
-    )
-  }
-
-  renderFooter = () => {
-    return (
-      <JModal.Button
-        onPress={this.addCustomToken}
-        name={'custom-token'}
-        title={'Save'}
-        disabled={this.isModalButtonDisabled()}
-      />
     )
   }
 
@@ -104,8 +89,8 @@ class CustomTokenModal extends JModal {
     return !(address.length && name.length && symbol.length && decimals.length)
   }
 
+  submitModal = () => this.addCustomToken()
   closeModal = () => this.props.closeCustomTokenModal()
-  submitModal = event => handleEnterKeyPress(this.addCustomToken)(event)
 }
 
 CustomTokenModal.propTypes = {
@@ -116,20 +101,23 @@ CustomTokenModal.propTypes = {
   setCustomTokenDecimals: PropTypes.func.isRequired,
   setCustomTokenInvalidField: PropTypes.func.isRequired,
   addCustomToken: PropTypes.func.isRequired,
-  invalidFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
+  invalidFields: PropTypes.shape({}).isRequired,
   address: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   decimals: PropTypes.string.isRequired,
+  modalName: PropTypes.string.isRequired,
+  modalTitle: PropTypes.string.isRequired,
+  buttonTitle: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  /* optional */
   onClose: PropTypes.func,
 }
 
 CustomTokenModal.defaultProps = {
-  onClose: null,
+  ...SubmitModal.defaultProps,
+  onClose: () => {},
 }
 
 export default CustomTokenModal

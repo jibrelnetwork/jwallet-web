@@ -1,5 +1,3 @@
-import pushField from 'utils/pushField'
-
 export const NEW_KEYSTORE_PASSWORD_OPEN_MODAL = 'NEW_KEYSTORE_PASSWORD_OPEN_MODAL'
 export const NEW_KEYSTORE_PASSWORD_CLOSE_MODAL = 'NEW_KEYSTORE_PASSWORD_CLOSE_MODAL'
 export const NEW_KEYSTORE_PASSWORD_SET_OLD = 'NEW_KEYSTORE_PASSWORD_SET_OLD'
@@ -54,21 +52,30 @@ const ACTION_HANDLERS = {
   [NEW_KEYSTORE_PASSWORD_SET_OLD]: (state, action) => ({
     ...state,
     oldPassword: action.oldPassword,
-    invalidFields: pushField(state.invalidFields, 'oldPassword'),
+    invalidFields: {
+      ...state.invalidFields,
+      oldPassword: '',
+    },
   }),
   [NEW_KEYSTORE_PASSWORD_SET_NEW]: (state, action) => ({
     ...state,
     newPassword: action.newPassword,
-    invalidFields: pushField(state.invalidFields, 'newPassword'),
+    invalidFields: {
+      ...state.invalidFields,
+      newPassword: '',
+    },
   }),
   [NEW_KEYSTORE_PASSWORD_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
-    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message,
+    },
   }),
 }
 
 const initialState = {
-  invalidFields: [],
+  invalidFields: {},
   oldPassword: '',
   newPassword: '',
   onClose: null,

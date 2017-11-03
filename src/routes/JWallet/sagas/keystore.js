@@ -123,22 +123,12 @@ function* clearCurrentAccount() {
 }
 
 function* createAccount(action) {
-  const currentAccountId = yield select(getStateCurrentAccountId)
-  const isAccountExist = !!currentAccountId.length
-  const { props, onSuccess, onError } = action
+  const { accountId, isInitialised } = action
 
-  try {
-    const accountId = keystore.createAccount(props)
+  yield setAccounts()
 
-    yield setAccounts()
-
-    if (!isAccountExist) {
-      yield setCurrentAccount({ accountId })
-    }
-
-    return onSuccess ? onSuccess(accountId) : null
-  } catch (e) {
-    return onError ? onError(e) : null
+  if (!isInitialised) {
+    yield setCurrentAccount({ accountId })
   }
 }
 

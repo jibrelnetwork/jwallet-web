@@ -8,20 +8,25 @@ import {
   setImportKeystoreAccountKnownDerivationPath,
   setImportKeystoreAccountCustomDerivationPath,
   setImportKeystoreAccountCurrentStep,
-  setImportKeystoreAccountAlert,
-  setImportKeystoreAccountInvalidField,
-  clearImportKeystoreAccountData,
 } from 'routes/JWallet/modules/modals/importKeystoreAccount'
-
-import { createKeystoreAccount } from 'routes/JWallet/modules/keystore'
 
 import ImportKeystoreAccountModal from './ImportKeystoreAccountModal'
 
-const mapStateToProps = state => ({
-  ...state.importKeystoreAccountModal,
-  isCreating: state.keystore.isCreating,
-  isInitialized: !!state.keystore.currentAccount.id.length,
-})
+const mapStateToProps = (state) => {
+  const { importKeystoreAccountModal, keystore } = state
+  const { currentStep, totalSteps } = importKeystoreAccountModal
+  const { isCreating, currentAccount } = keystore
+
+  return {
+    ...importKeystoreAccountModal,
+    modalName: 'import-keystore-account',
+    modalTitle: 'Import Key',
+    topLineFullness: `${100 * (currentStep / totalSteps)}%`,
+    isInitialized: !!currentAccount.id.length,
+    isButtonLoading: isCreating,
+    isCreating,
+  }
+}
 
 const mapDispatchToProps = {
   closeImportKeystoreAccountModal,
@@ -31,10 +36,6 @@ const mapDispatchToProps = {
   setImportKeystoreAccountKnownDerivationPath,
   setImportKeystoreAccountCustomDerivationPath,
   setImportKeystoreAccountCurrentStep,
-  setImportKeystoreAccountAlert,
-  setImportKeystoreAccountInvalidField,
-  clearImportKeystoreAccountData,
-  createKeystoreAccount,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ImportKeystoreAccountModal)

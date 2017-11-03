@@ -1,38 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import handleEnterKeyPress from 'utils/handleEnterKeyPress'
+import SubmitModal from 'components/SubmitModal'
+import JTextInput from 'components/base/JTextInput'
 
-import { JModal, JTextInput } from 'components/base'
-
-class BackupKeystoreModal extends JModal {
-  constructor(props) {
-    super(props)
-    this.state = { name: 'backup-keystore' }
-  }
-
-  renderHeader = () => {
-    return <div className='modal__title'>{'Backup Keystore'}</div>
-  }
-
-  renderBody = () => {
+class BackupKeystoreModal extends SubmitModal {
+  renderModalBody = () => {
     return this.renderPassword()
   }
 
-  renderFooter = () => {
-    return (
-      <JModal.Button
-        onPress={this.backupKeystore}
-        name={'backup-keystore'}
-        title={'Save as TXT'}
-        iconName={'txt'}
-        disabled={this.isModalButtonDisabled()}
-      />
-    )
-  }
-
   renderPassword = () => {
-    const { setBackupKeystorePassword, password } = this.props
+    const { setBackupKeystorePassword, invalidFields, password } = this.props
 
     return (
       <JTextInput
@@ -40,24 +18,12 @@ class BackupKeystoreModal extends JModal {
         name='backup-password'
         placeholder='Keystore password'
         value={password}
-        errorMessage={this.getInvalidFieldMessage('password')}
+        errorMessage={invalidFields.password}
         editable
         secureTextEntry
       />
     )
   }
-
-  closeModal = () => {
-    const { closeBackupKeystoreModal, onClose } = this.props
-
-    if (onClose) {
-      onClose()
-    }
-
-    closeBackupKeystoreModal()
-  }
-
-  submitModal = event => handleEnterKeyPress(this.backupKeystore)(event)
 
   backupKeystore = () => {
     const { backupKeystore, password } = this.props
@@ -70,6 +36,8 @@ class BackupKeystoreModal extends JModal {
     this.shake()
   }
 
+  submitModal = () => this.backupKeystore()
+  closeModal = () => this.props.closeBackupKeystoreModal()
   isModalButtonDisabled = () => (this.props.password.length < 1)
 }
 
@@ -78,17 +46,20 @@ BackupKeystoreModal.propTypes = {
   setBackupKeystorePassword: PropTypes.func.isRequired,
   setBackupKeystoreInvalidField: PropTypes.func.isRequired,
   backupKeystore: PropTypes.func.isRequired,
-  invalidFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
+  invalidFields: PropTypes.shape({}).isRequired,
   password: PropTypes.string.isRequired,
+  modalName: PropTypes.string.isRequired,
+  modalTitle: PropTypes.string.isRequired,
+  buttonTitle: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  /* optional */
   onClose: PropTypes.func,
 }
 
 BackupKeystoreModal.defaultProps = {
-  onClose: null,
+  ...SubmitModal.defaultProps,
+  onClose: () => {},
 }
 
 export default BackupKeystoreModal
