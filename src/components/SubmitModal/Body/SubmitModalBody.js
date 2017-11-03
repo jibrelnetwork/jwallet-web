@@ -1,18 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import SubmitModalBodyImage from './Image'
+
 function SubmitModalBody(props) {
-  return <div className='modal-content-body'>{props.body}</div>
+  const { body, imageName } = props
+
+  return !!imageName.length
+    ? <SubmitModalBodyImage name={imageName} />
+    : <div className='modal-content-body'>{body}</div>
 }
 
 SubmitModalBody.propTypes = {
   body: PropTypes.node.isRequired,
-  /* optional */
-  imageName: PropTypes.string,
-}
-
-SubmitModalBody.defaultProps = {
-  imageName: null,
+  imageName: PropTypes.string.isRequired,
 }
 
 export default SubmitModalBody

@@ -1,5 +1,3 @@
-import pushField from 'utils/pushField'
-
 export const CUSTOM_TOKEN_OPEN_MODAL = 'CUSTOM_TOKEN_OPEN_MODAL'
 export const CUSTOM_TOKEN_CLOSE_MODAL = 'CUSTOM_TOKEN_CLOSE_MODAL'
 export const CUSTOM_TOKEN_SET_ADDRESS = 'CUSTOM_TOKEN_SET_ADDRESS'
@@ -71,32 +69,47 @@ const ACTION_HANDLERS = {
   [CUSTOM_TOKEN_SET_ADDRESS]: (state, action) => ({
     ...state,
     address: action.address,
-    invalidFields: pushField(state.invalidFields, 'address'),
+    invalidFields: {
+      ...state.invalidFields,
+      address: '',
+    },
   }),
   [CUSTOM_TOKEN_SET_NAME]: (state, action) => ({
     ...state,
     name: action.name,
-    invalidFields: pushField(state.invalidFields, 'name'),
+    invalidFields: {
+      ...state.invalidFields,
+      name: '',
+    },
   }),
   [CUSTOM_TOKEN_SET_SYMBOL]: (state, action) => ({
     ...state,
     symbol: action.symbol,
-    invalidFields: pushField(state.invalidFields, 'symbol'),
+    invalidFields: {
+      ...state.invalidFields,
+      symbol: '',
+    },
   }),
   [CUSTOM_TOKEN_SET_DECIMALS]: (state, action) => ({
     ...state,
     decimals: action.decimals,
-    invalidFields: pushField(state.invalidFields, 'decimals'),
+    invalidFields: {
+      ...state.invalidFields,
+      decimals: '',
+    },
   }),
   [CUSTOM_TOKEN_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
-    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message,
+    },
   }),
   [CUSTOM_TOKEN_CLEAR]: () => initialState,
 }
 
 const initialState = {
-  invalidFields: [],
+  invalidFields: {},
   address: '',
   name: '',
   symbol: '',

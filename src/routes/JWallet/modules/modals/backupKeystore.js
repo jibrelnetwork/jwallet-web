@@ -1,5 +1,3 @@
-import pushField from 'utils/pushField'
-
 export const BACKUP_KEYSTORE_OPEN_MODAL = 'BACKUP_KEYSTORE_OPEN_MODAL'
 export const BACKUP_KEYSTORE_CLOSE_MODAL = 'BACKUP_KEYSTORE_CLOSE_MODAL'
 export const BACKUP_KEYSTORE_SET_PASSWORD = 'BACKUP_KEYSTORE_SET_PASSWORD'
@@ -46,16 +44,22 @@ const ACTION_HANDLERS = {
   [BACKUP_KEYSTORE_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
-    invalidFields: pushField(state.invalidFields, 'password'),
+    invalidFields: {
+      ...state.invalidFields,
+      password: '',
+    },
   }),
   [BACKUP_KEYSTORE_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
-    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message,
+    },
   }),
 }
 
 const initialState = {
-  invalidFields: [],
+  invalidFields: {},
   password: '',
   onClose: null,
   isOpen: false,
