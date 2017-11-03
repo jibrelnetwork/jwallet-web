@@ -11,17 +11,14 @@ import JModalContent from './Content'
 class JModal extends Appearable {
   componentWillReceiveProps(nextProps) {
     const { isOpen } = this.props
-    const isJustNowOpened = !isOpen && nextProps.isOpen
-
-    if (isJustNowOpened) {
-      window.scrollTo(0, 0)
-    }
 
     if (nextProps.isOpen) {
       this.open(!isOpen)
     } else {
       this.close(isOpen)
     }
+
+    this.scrollToTop(nextProps)
   }
 
   render() {
@@ -56,6 +53,14 @@ class JModal extends Appearable {
         />
       </div>
     )
+  }
+
+  scrollToTop = (nextProps) => {
+    const isJustNowOpened = !this.props.isOpen && nextProps.isOpen
+
+    if (isJustNowOpened) {
+      window.scrollTo(0, 0)
+    }
   }
 
   shake = () => {

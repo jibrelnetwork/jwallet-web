@@ -17,12 +17,16 @@ class ImportKeystoreAccountModal extends SubmitModal {
     if (this.props.invalidFields !== invalidFields) {
       this.shakeIfInvalidField(invalidFields)
     }
+
+    this.scrollToTop(nextProps)
   }
 
   shakeIfInvalidField = (invalidFields) => {
     Object.keys(invalidFields).map((field) => {
       if (invalidFields[field] && invalidFields[field].length) {
-        this.shake()
+        if (this.props.invalidFields[field] !== invalidFields[field]) {
+          this.shake()
+        }
       }
     })
   }
@@ -148,7 +152,12 @@ class ImportKeystoreAccountModal extends SubmitModal {
   }
 
   isModalButtonDisabled = () => {
-    const { data, password, currentStep } = this.props
+    const { invalidFields, data, password, currentStep } = this.props
+    const isInvalidField = !!Object.keys(invalidFields).filter(f => invalidFields[f].length).length
+
+    if (isInvalidField) {
+      return true
+    }
 
     if (currentStep === IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA) {
       return !data.length
@@ -214,13 +223,14 @@ ImportKeystoreAccountModal.propTypes = {
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
-  iconName: PropTypes.string.isRequired,
+  imageName: PropTypes.string.isRequired,
   topLineFullness: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
   isOpen: PropTypes.bool.isRequired,
   isCreating: PropTypes.bool.isRequired,
   isInitialized: PropTypes.bool.isRequired,
   isButtonLoading: PropTypes.bool.isRequired,
+  /* optional */
   onClose: PropTypes.func,
 }
 
