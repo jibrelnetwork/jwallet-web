@@ -336,18 +336,6 @@ function setPassword(action) {
   }
 }
 
-function saveMnemonicToFile(action) {
-  const { mnemonic, onSuccess, onError } = action
-
-  try {
-    fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
-
-    return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
-  }
-}
-
 function backupKeystore(action) {
   const { password, onSuccess, onError } = action
 
@@ -420,10 +408,6 @@ export function* watchSetPassword() {
 
 export function* watchBackupKeystore() {
   yield takeEvery(KEYSTORE_BACKUP, backupKeystore)
-}
-
-export function* watchSaveMnemonicToFile() {
-  yield takeEvery(KEYSTORE_SAVE_MNEMONIC_TO_FILE, saveMnemonicToFile)
 }
 
 export function* watchSortAccounts() {

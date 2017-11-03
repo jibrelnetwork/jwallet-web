@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import JIcon from 'components/base/JIcon'
 
 function SubmitModalButton({ onPress, name, title, iconName, disabled, isLoading }) {
-  const isIcon = (iconName.length > 0)
+  const isIcon = !!iconName.length
   const icon = isIcon ? <JIcon name={iconName} className='modal-button__icon' /> : null
   const className = `modal-button modal-button--${name} ${disabled ? 'modal-button--disabled' : ''}`
   const labelClassName = `modal-button__title ${isIcon ? 'modal-button__title--with-icon' : ''}`

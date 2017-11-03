@@ -2,7 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects'
 import Keystore from 'jwallet-web-keystore'
 
 import isMnemonicType from 'utils/isMnemonicType'
-import keystore from 'services/keystore'
+import { fileSaver, keystore } from 'services'
 
 import {
   IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL,
@@ -13,6 +13,17 @@ import {
   IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA,
   IMPORT_KEYSTORE_ACCOUNT_STEPS,
 } from '../modules/modals/importKeystoreAccount'
+
+import {
+  NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL,
+  NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
+  NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
+  NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA,
+  NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
+  NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD,
+  NEW_KEYSTORE_ACCOUNT_CLEAR_DATA,
+  NEW_KEYSTORE_ACCOUNT_STEPS,
+} from '../modules/modals/newKeystoreAccount'
 
 import { KEYSTORE_CREATE_ACCOUNT } from '../modules/keystore'
 
@@ -35,7 +46,7 @@ function* setImportStep(action = {}) {
     case IMPORT_KEYSTORE_ACCOUNT_STEPS.MNEMONIC_OPTIONS:
       return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD)
     case IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD:
-      return yield createKeystoreAccount({
+      return yield importKeystoreAccount({
         accountData,
         password,
         passwordConfirm,
@@ -74,11 +85,11 @@ function* getImportDataType(data, isInitialized) {
 
   const isMnemonic = (isMnemonicType(newAccountData.type) && (!newAccountData.isReadOnly))
 
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA, accountData: newAccountData })
+
   if (isMnemonic) {
     return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.MNEMONIC_OPTIONS, isInitialized)
   }
-
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA, accountData: newAccountData })
 
   return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD, isInitialized)
 }
@@ -97,7 +108,7 @@ function* updateImportStep(nextStep, isInitialized) {
   })
 }
 
-function* createKeystoreAccount(props) {
+function* importKeystoreAccount(props) {
   const { accountData, password, passwordConfirm, derivationPath, isInitialized } = props
 
   try {
@@ -127,7 +138,7 @@ function* onImportFail(err) {
 }
 
 function* checkImportPasswordConfirm(password, passwordConfirm) {
-  const isPasswordValid = yield testPassword(password)
+  const isPasswordValid = yield testPassword(password, 'import')
   const isPasswordMatch = (password === passwordConfirm)
 
   if (!isPasswordMatch) {
@@ -137,11 +148,12 @@ function* checkImportPasswordConfirm(password, passwordConfirm) {
   return (isPasswordValid && isPasswordMatch)
 }
 
-function* testPassword(password) {
+function* testPassword(password, type = 'import') {
   const error = Keystore.testPassword(password).errors[0]
 
   if (error) {
-    yield setImportInvalidField('password', error)
+    const args = ['password', error]
+    yield (type === 'import') ? setImportInvalidField(...args) : setNewInvalidField(...args)
   }
 
   return !error
@@ -158,7 +170,7 @@ function* resetImportModal(onClose, isInitialized) {
 
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA, isInitialized)
 
-  onClose()
+  return onClose ? onClose() : null
 }
 
 function getImportButtonTitle(nextStep, isInitialized = false) {
@@ -194,6 +206,181 @@ function getImportImageName(nextStep) {
   return imageName[nextStep]
 }
 
-export function* watchReceiveFundsAccountId() {
+/**
+ * New Keystore Account Modal
+ */
+function* setNewStep(action) {
+  const {
+    onClose,
+    mnemonic,
+    mnemonicConfirm,
+    password,
+    passwordConfirm,
+    isInitialized,
+  } = action.props
+
+  switch (action.currentStep) {
+    case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE:
+      return yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.FIRST, isInitialized)
+    case NEW_KEYSTORE_ACCOUNT_STEPS.FIRST:
+      return yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC, isInitialized)
+    case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC:
+      return yield generateNewMnemonic(isInitialized)
+    case NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC:
+      return yield saveMnemonicToFile(mnemonic, isInitialized)
+    case NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC:
+      return yield checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized)
+    case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD:
+      return yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD, isInitialized)
+    case NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD:
+      return yield createKeystoreAccount(action.props)
+    default:
+      return null
+  }
+}
+
+function* updateNewStep(nextStep, isInitialized) {
+  const alert = getNewAlert(nextStep, isInitialized)
+  const buttonTitle = getNewButtonTitle(nextStep)
+  const imageName = getNewImageName(nextStep)
+  const iconName = getNewIconName(nextStep)
+
+  yield put({
+    type: NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA,
+    alert,
+    buttonTitle,
+    imageName,
+    iconName,
+    nextStep,
+  })
+}
+
+function* generateNewMnemonic(isInitialized) {
+  yield put({
+    type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
+    mnemonic: Keystore.generateMnemonic().toString(),
+  })
+
+  yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC, isInitialized)
+}
+
+function* saveMnemonicToFile(mnemonic, isInitialized) {
+  try {
+    fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
+
+    yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC, isInitialized)
+  } catch (e) {
+    return
+  }
+}
+
+function* createKeystoreAccount(props) {
+  try {
+    const { onClose, password, passwordConfirm, mnemonic, isInitialized } = props
+
+    if (!isInitialized) {
+      const isPasswordConfirmed = yield checkNewPasswordConfirm(password, passwordConfirm)
+
+      if (!isPasswordConfirmed) {
+        return
+      }
+    }
+
+    const accountId = keystore.createAccount({ type: 'mnemonic', password, mnemonic })
+
+    yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
+    yield onCreateSuccess(onClose)
+  } catch (err) {
+    yield onCreateFail(err)
+  }
+}
+
+function* onCreateSuccess(onClose) {
+  yield resetNewModal(onClose)
+}
+
+function* onCreateFail(err) {
+  yield setNewInvalidField('password', err.message)
+}
+
+function* resetNewModal(onClose) {
+  yield put({ type: NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL })
+  yield generateNewMnemonic(true)
+
+  return onClose ? onClose() : null
+}
+
+function* setNewInvalidField(fieldName, message) {
+  yield put({ type: NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD, fieldName, message })
+}
+
+function* setNewValidField(fieldName, message) {
+  yield put({ type: NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD, fieldName, message })
+}
+
+function* checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized) {
+  if (mnemonic !== mnemonicConfirm) {
+    return yield setNewInvalidField('mnemonicConfirm', 'Mnemonic should match')
+  }
+
+  yield updateNewStep(isInitialized
+    ? NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD
+    : NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD
+  )
+}
+
+function* checkNewPasswordConfirm(password, passwordConfirm) {
+  const isPasswordValid = yield testPassword(password, 'new')
+  const isPasswordMatch = (password === passwordConfirm)
+
+  if (!isPasswordMatch) {
+    yield setNewInvalidField('passwordConfirm', 'Password should match')
+  } else {
+    yield setNewValidField('passwordConfirm', '')
+  }
+
+  return (isPasswordValid && isPasswordMatch)
+}
+
+function getNewButtonTitle(nextStep) {
+  const title = ['I understood', 'I understood', 'Save as TXT', 'Confirm', 'I understood', 'Save']
+
+  return title[nextStep]
+}
+
+function getNewAlert(nextStep, isInitialized = false) {
+  const alert = [
+    'Anyone who has access to your passphrase can spend your money.',
+    'Screenshots are not secure. ' +
+    'If you save a screenshot, it can be viewed by other applications.',
+    'Save your passphrase and move it to a safe place, in the next step we will check it.',
+    'Let\'s check your word combination. Enter it in the box below.',
+    'Excellent! Keep your passphrase in a safe place. Without it, ' +
+    'access to your account may be lost forever.',
+    isInitialized
+      ? 'Please input your password'
+      : 'It\'s time to create a secure password for your wallet.',
+  ]
+
+  return alert[nextStep]
+}
+
+function getNewImageName(nextStep) {
+  const imageName = ['rocket', 'plane', '', '', 'paper-plane', '']
+
+  return imageName[nextStep]
+}
+
+function getNewIconName(nextStep) {
+  const iconName = ['', '', 'txt', '', '', '']
+
+  return iconName[nextStep]
+}
+
+export function* watchSetImportAccountStep() {
   yield takeEvery(IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, setImportStep)
+}
+
+export function* watchSetNewAccountStep() {
+  yield takeEvery(NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, setNewStep)
 }

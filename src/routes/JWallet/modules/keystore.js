@@ -16,7 +16,6 @@ export const KEYSTORE_SET_ADDRESS_INDEX = 'KEYSTORE_SET_ADDRESS_INDEX'
 export const KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC = 'KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC'
 export const KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC = 'KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC'
 export const KEYSTORE_SET_PASSWORD = 'KEYSTORE_SET_PASSWORD'
-export const KEYSTORE_SAVE_MNEMONIC_TO_FILE = 'KEYSTORE_SAVE_MNEMONIC_TO_FILE'
 export const KEYSTORE_SORT_ACCOUNTS = 'KEYSTORE_SORT_ACCOUNTS'
 export const KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS = 'KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS'
 export const KEYSTORE_BACKUP = 'KEYSTORE_BACKUP'
@@ -127,15 +126,6 @@ export function setKeystorePassword(
     type: KEYSTORE_SET_PASSWORD,
     password,
     newPassword,
-    onSuccess,
-    onError,
-  }
-}
-
-export function saveMnemonicToFile(mnemonic = '', onSuccess = null, onError = null) {
-  return {
-    type: KEYSTORE_SAVE_MNEMONIC_TO_FILE,
-    mnemonic,
     onSuccess,
     onError,
   }
