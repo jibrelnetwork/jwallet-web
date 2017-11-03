@@ -1,5 +1,3 @@
-import pushField from 'utils/pushField'
-
 export const NEW_KEYSTORE_ACCOUNT_OPEN_MODAL = 'NEW_KEYSTORE_ACCOUNT_OPEN_MODAL'
 export const NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL = 'NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL'
 export const NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC = 'NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC'
@@ -99,20 +97,38 @@ const ACTION_HANDLERS = {
   [NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM]: (state, action) => ({
     ...state,
     mnemonicConfirm: action.mnemonicConfirm,
-    validFields: pushField(state.validFields, 'mnemonicConfirm'),
-    invalidFields: pushField(state.invalidFields, 'mnemonicConfirm'),
+    validFields: {
+      ...state.validFields,
+      mnemonicConfirm: '',
+    },
+    invalidFields: {
+      ...state.invalidFields,
+      mnemonicConfirm: '',
+    },
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
-    validFields: pushField(state.validFields, 'password'),
-    invalidFields: pushField(state.invalidFields, 'password'),
+    validFields: {
+      ...state.validFields,
+      password: '',
+    },
+    invalidFields: {
+      ...state.invalidFields,
+      password: '',
+    },
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM]: (state, action) => ({
     ...state,
     passwordConfirm: action.passwordConfirm,
-    validFields: pushField(state.validFields, 'passwordConfirm'),
-    invalidFields: pushField(state.invalidFields, 'passwordConfirm'),
+    validFields: {
+      ...state.validFields,
+      passwordConfirm: '',
+    },
+    invalidFields: {
+      ...state.invalidFields,
+      passwordConfirm: '',
+    },
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP]: (state, action) => ({
     ...state,
@@ -124,17 +140,23 @@ const ACTION_HANDLERS = {
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD]: (state, action) => ({
     ...state,
-    validFields: pushField(state.validFields, action.fieldName, action.message),
+    validFields: {
+      ...state.validFields,
+      [action.fieldName]: action.message,
+    },
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
-    invalidFields: pushField(state.invalidFields, action.fieldName, action.message),
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message,
+    },
   }),
 }
 
 const initialState = {
-  validFields: [],
-  invalidFields: [],
+  validFields: {},
+  invalidFields: {},
   alert: '',
   mnemonic: '',
   mnemonicConfirm: '',

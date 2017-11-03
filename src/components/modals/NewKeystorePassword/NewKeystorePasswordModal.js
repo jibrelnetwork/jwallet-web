@@ -1,22 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import handleEnterKeyPress from 'utils/handleEnterKeyPress'
+import { PasswordField, SubmitModal } from 'components'
+import JTextInput from 'components/base/JTextInput'
 
-import PasswordField from 'components/PasswordField'
-import { JModal, JTextInput } from 'components/base'
-
-class NewKeystorePasswordModal extends JModal {
-  constructor(props) {
-    super(props)
-    this.state = { name: 'new-keystore-password' }
-  }
-
-  renderHeader = () => {
-    return <div className='modal__title'>{'New Keystore Password'}</div>
-  }
-
-  renderBody = () => {
+class NewKeystorePasswordModal extends SubmitModal {
+  renderModalBody = () => {
     return (
       <div>
         {this.renderOldPassword()}
@@ -26,7 +15,7 @@ class NewKeystorePasswordModal extends JModal {
   }
 
   renderOldPassword = () => {
-    const { setOldKeystorePassword, oldPassword } = this.props
+    const { setOldKeystorePassword, invalidFields, oldPassword } = this.props
 
     return (
       <JTextInput
@@ -34,7 +23,7 @@ class NewKeystorePasswordModal extends JModal {
         name='keystore-password'
         placeholder='Current password'
         value={oldPassword}
-        errorMessage={this.getInvalidFieldMessage('oldPassword')}
+        errorMessage={invalidFields.oldPassword}
         editable
         secureTextEntry
       />
@@ -42,40 +31,17 @@ class NewKeystorePasswordModal extends JModal {
   }
 
   renderNewPassword = () => {
-    const { setNewKeystorePassword, newPassword } = this.props
+    const { setNewKeystorePassword, invalidFields, newPassword } = this.props
 
     return (
       <PasswordField
         onPasswordChange={setNewKeystorePassword}
         password={newPassword}
         placeholder='New password'
-        errorMessage={this.getInvalidFieldMessage('newPassword')}
+        errorMessage={invalidFields.newPassword}
       />
     )
   }
-
-  renderFooter = () => {
-    return (
-      <JModal.Button
-        onPress={this.setKeystorePassword}
-        name={'new-keystore-password'}
-        title={'Confirm'}
-        disabled={this.isModalButtonDisabled()}
-      />
-    )
-  }
-
-  closeModal = () => {
-    const { closeNewKeystorePasswordModal, onClose } = this.props
-
-    if (onClose) {
-      onClose()
-    }
-
-    closeNewKeystorePasswordModal()
-  }
-
-  submitModal = event => handleEnterKeyPress(this.setKeystorePassword)(event)
 
   setKeystorePassword = () => {
     const { setKeystorePassword, oldPassword, newPassword } = this.props
@@ -96,6 +62,9 @@ class NewKeystorePasswordModal extends JModal {
 
     return !(oldPassword.length && newPassword.length)
   }
+
+  submitModal = () => this.setKeystorePassword()
+  closeModal = () => this.props.closeNewKeystorePasswordModal()
 }
 
 NewKeystorePasswordModal.propTypes = {
@@ -104,18 +73,21 @@ NewKeystorePasswordModal.propTypes = {
   setNewKeystorePassword: PropTypes.func.isRequired,
   setNewKeystorePasswordInvalidField: PropTypes.func.isRequired,
   setKeystorePassword: PropTypes.func.isRequired,
-  invalidFields: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  })).isRequired,
+  invalidFields: PropTypes.shape({}).isRequired,
   oldPassword: PropTypes.string.isRequired,
   newPassword: PropTypes.string.isRequired,
+  modalName: PropTypes.string.isRequired,
+  modalTitle: PropTypes.string.isRequired,
+  buttonTitle: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  /* optional */
   onClose: PropTypes.func,
 }
 
 NewKeystorePasswordModal.defaultProps = {
-  onClose: null,
+  ...SubmitModal.defaultProps,
+  onClose: () => {},
 }
 
 export default NewKeystorePasswordModal

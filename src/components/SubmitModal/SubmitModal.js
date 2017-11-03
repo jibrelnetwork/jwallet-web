@@ -9,7 +9,6 @@ import JModal from 'components/base/JModal'
 import SubmitModalAlert from './Alert'
 import SubmitModalBody from './Body'
 import SubmitModalButton from './Button'
-import SubmitModalImage from './Image'
 import SubmitModalTitle from './Title'
 import SubmitModalTopLine from './TopLine'
 
@@ -31,7 +30,7 @@ class SubmitModal extends JModal {
   }
 
   renderFooter = () => {
-    const { modalName, buttonTitle, iconName } = this.props
+    const { modalName, buttonTitle, iconName, isButtonLoading } = this.props
 
     return (
       <SubmitModalButton
@@ -40,6 +39,7 @@ class SubmitModal extends JModal {
         title={buttonTitle}
         iconName={iconName}
         disabled={this.isModalButtonDisabled()}
+        isLoading={isButtonLoading}
       />
     )
   }
@@ -56,7 +56,9 @@ SubmitModal.propTypes = {
   alert: PropTypes.string,
   topLineFullness: PropTypes.string,
   iconName: PropTypes.string,
+  imageName: PropTypes.string,
   isOpen: PropTypes.bool,
+  isButtonLoading: PropTypes.bool,
 }
 
 SubmitModal.defaultProps = {
@@ -64,8 +66,9 @@ SubmitModal.defaultProps = {
   alert: '',
   topLineFullness: '',
   iconName: '',
-  buttonTitle: '',
+  imageName: '',
   isOpen: false,
+  isButtonLoading: false,
 }
 
 export default SubmitModal
