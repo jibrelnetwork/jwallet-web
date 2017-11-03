@@ -5,9 +5,19 @@ export const NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM = 'NEW_KEYSTORE_ACCOUNT_S
 export const NEW_KEYSTORE_ACCOUNT_SET_PASSWORD = 'NEW_KEYSTORE_ACCOUNT_SET_PASSWORD'
 export const NEW_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM = 'NEW_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM'
 export const NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP = 'NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP'
-export const NEW_KEYSTORE_ACCOUNT_SET_ALERT = 'NEW_KEYSTORE_ACCOUNT_SET_ALERT'
+export const NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA = 'NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA'
 export const NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD = 'NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD'
 export const NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD = 'NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD'
+
+export const NEW_KEYSTORE_ACCOUNT_STEPS = {
+  BEFORE: -1,
+  FIRST: 0,
+  BEFORE_MNEMONIC: 1,
+  SAVE_MNEMONIC: 2,
+  CHECK_MNEMONIC: 3,
+  BEFORE_PASSWORD: 4,
+  SET_PASSWORD: 5,
+}
 
 export function openNewKeystoreAccountModal(onClose = null) {
   return {
@@ -19,13 +29,6 @@ export function openNewKeystoreAccountModal(onClose = null) {
 export function closeNewKeystoreAccountModal() {
   return {
     type: NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL,
-  }
-}
-
-export function setNewKeystoreAccountMnemonic(mnemonic = '') {
-  return {
-    type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
-    mnemonic,
   }
 }
 
@@ -50,10 +53,11 @@ export function setNewKeystoreAccountPasswordConfirm(passwordConfirm = '') {
   }
 }
 
-export function setNewKeystoreAccountCurrentStep(currentStep = 0) {
+export function setNewKeystoreAccountCurrentStep(currentStep = -1, props = {}) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
     currentStep,
+    props,
   }
 }
 
@@ -73,13 +77,6 @@ export function setNewKeystoreAccountInvalidField(fieldName, message = '') {
   }
 }
 
-export function setNewKeystoreAccountAlert(alert = '') {
-  return {
-    type: NEW_KEYSTORE_ACCOUNT_SET_ALERT,
-    alert,
-  }
-}
-
 const ACTION_HANDLERS = {
   [NEW_KEYSTORE_ACCOUNT_OPEN_MODAL]: (state, action) => ({
     ...state,
@@ -92,7 +89,7 @@ const ACTION_HANDLERS = {
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC]: (state, action) => ({
     ...state,
-    mnemonic: action.mnemonic,
+    mnemonic: action.mnemonic || '',
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM]: (state, action) => ({
     ...state,
@@ -134,9 +131,13 @@ const ACTION_HANDLERS = {
     ...state,
     currentStep: action.currentStep,
   }),
-  [NEW_KEYSTORE_ACCOUNT_SET_ALERT]: (state, action) => ({
+  [NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA]: (state, action) => ({
     ...state,
-    alert: action.alert,
+    alert: action.alert || '',
+    buttonTitle: action.buttonTitle || '',
+    imageName: action.imageName || '',
+    iconName: action.iconName || '',
+    currentStep: action.nextStep || 0,
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD]: (state, action) => ({
     ...state,
@@ -162,7 +163,10 @@ const initialState = {
   mnemonicConfirm: '',
   password: '',
   passwordConfirm: '',
-  currentStep: 0,
+  buttonTitle: '',
+  imageName: '',
+  iconName: '',
+  currentStep: NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE,
   totalSteps: 6,
   isOpen: false,
   onClose: null,

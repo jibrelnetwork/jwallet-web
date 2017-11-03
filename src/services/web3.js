@@ -20,6 +20,10 @@ function getRpcProps() {
 }
 
 function getETHBalance(address) {
+  if (!(address && address.length)) {
+    return 0
+  }
+
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
     .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
@@ -31,6 +35,10 @@ function getETHBalance(address) {
 }
 
 function getTokenBalance(contractAddress, owner, decimals = defaultDecimals) {
+  if (!(owner && owner.length)) {
+    return 0
+  }
+
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
@@ -42,6 +50,10 @@ function getTokenBalance(contractAddress, owner, decimals = defaultDecimals) {
 }
 
 function getETHTransactions(address) {
+  if (!(address && address.length)) {
+    return []
+  }
+
   return jibrelContractsApi.eth
     .getPastLogs({
       ...rpcProps,
@@ -176,6 +188,10 @@ function handleTransactionsError(err) {
 }
 
 function getContractTransactions(contractAddress, owner, decimals) {
+  if (!(owner && owner.length)) {
+    return []
+  }
+
   const fromProps = getEventsProps(contractAddress, { from: owner })
   const toProps = getEventsProps(contractAddress, { to: owner })
   const getEventsHandler = jibrelContractsApi.contracts.erc20.getPastEvents

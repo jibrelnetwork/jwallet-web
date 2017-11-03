@@ -134,6 +134,10 @@ const ACTION_HANDLERS = {
   [IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM]: (state, action) => ({
     ...state,
     passwordConfirm: action.passwordConfirm,
+    invalidFields: {
+      ...state.invalidFields,
+      passwordConfirm: '',
+    },
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP]: (state, action) => ({
     ...state,
