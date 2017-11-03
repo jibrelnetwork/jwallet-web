@@ -76,11 +76,11 @@ function getTransactionsInfo(list, isContract) {
 
 function getLast20(list = []) {
   return list.slice(-20).map((item) => {
-    const { transactionHash, blockHash, address } = item
+    const { transactionHash, blockHash, address, from, value } = item
     const status = getTransactionStatus(blockHash)
     const to = item.to || 'n/a'
 
-    return { transactionHash, blockHash, address, status, to }
+    return { transactionHash, blockHash, address, status, to, from, value }
   })
 }
 
@@ -184,7 +184,7 @@ function getContractTransactions(contractAddress, owner, decimals) {
     .all([getEventsHandler(fromProps), getEventsHandler(toProps)])
     .then(mergeEvents)
     .then(getLast20)
-    .then(list => getTransactionsData(list, true))
+    .then(list => getTransactionsInfo(list, true))
     .then(list => parseTransactions(list, decimals))
     .catch(handleTransactionsError)
 }
