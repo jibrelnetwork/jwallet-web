@@ -169,6 +169,7 @@ function parseTransaction(item, decimals) {
 
   return {
     ...item,
+    contractAddress: '',
     fee: (gas * gasPrice),
     amount: (value / (10 ** decimals)),
     type: (address === from) ? 'send' : 'receive',
@@ -198,21 +199,21 @@ function getContractTransactions(contractAddress, owner, decimals) {
 
   return Promise
     .all([getEventsHandler(fromProps), getEventsHandler(toProps)])
-    .then(mergeEvents)
+    .then(events => mergeEvents(events, owner))
     .then(getLast20)
     .then(list => getTransactionsInfo(list, true))
     .then(list => parseTransactions(list, decimals))
     .catch(handleTransactionsError)
 }
 
-function mergeEvents(events) {
+function mergeEvents(events, address) {
   const mergedEvents = []
 
   // events contains [from, to] list
-  events.forEach(list => list.forEach((item) => {
-    const { args, address, blockHash, removed, transactionHash } = item
+  events.forEach(list => list.forEach((item, index) => {
+    const { args, blockHash, removed, transactionHash } = item
 
-    mergedEvents.push({ address, blockHash, transactionHash, removed, ...args })
+    mergedEvents.push({ blockHash, transactionHash, address, removed, ...args })
   }))
 
   return mergedEvents

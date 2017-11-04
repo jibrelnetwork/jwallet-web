@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
-import web3 from 'services/web3'
+import { etherscan, web3 } from 'services'
 import { searchItems, sortItems } from 'utils'
 
 import {
@@ -50,7 +50,7 @@ function* getTransactions() {
 }
 
 function* getETHTransactions(address) {
-  const transactions = yield call(web3.getETHTransactions, address)
+  const transactions = yield call(etherscan.getETHTransactions, address)
 
   yield setTransactions(transactions)
 }

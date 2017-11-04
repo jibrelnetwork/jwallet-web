@@ -16,6 +16,7 @@ function TransactionsTableBodyRow(props) {
     transactionHash,
     date,
     currencySymbol,
+    contractAddress,
     fee,
     amount,
     currencyIndex,
@@ -40,6 +41,7 @@ function TransactionsTableBodyRow(props) {
         to={to}
         transactionHash={transactionHash}
         fee={`${fee.toFixed(5)} ${currencySymbol}`}
+        contractAddress={contractAddress}
         isActive={isActive}
       />
     </div>
@@ -57,6 +59,7 @@ TransactionsTableBodyRow.propTypes = {
   transactionHash: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   currencySymbol: PropTypes.string.isRequired,
+  contractAddress: PropTypes.string.isRequired,
   fee: PropTypes.number.isRequired,
   amount: PropTypes.number.isRequired,
   currencyIndex: PropTypes.number.isRequired,

@@ -63,6 +63,10 @@ class Transactions extends Component {
   getCurrencyIndex = (requestedAddress) => {
     let foundIndex = -1
 
+    if (!(requestedAddress && requestedAddress.length)) {
+      return foundIndex
+    }
+
     this.props.currenciesItems.forEach(({ address, isActive, isAuthRequired }, index) => {
       if (!isActive || isAuthRequired) {
         return
@@ -162,6 +166,7 @@ Transactions.propTypes = {
       address: PropTypes.string.isRequired,
       transactionHash: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
+      contractAddress: PropTypes.string.isRequired,
       fee: PropTypes.number.isRequired,
       amount: PropTypes.number.isRequired,
       timestamp: PropTypes.number.isRequired,
