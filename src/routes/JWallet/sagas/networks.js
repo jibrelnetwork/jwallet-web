@@ -1,7 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { storage, web3 } from 'services'
+import { etherscan, storage, web3 } from 'services'
 import defaultNetworks from 'utils/defaultNetworks'
 
 import {
@@ -61,6 +61,7 @@ function* setNetworkRpcProps(currentActiveIndex) {
   const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
 
   web3.setRpcProps({ rpcaddr, rpcport, ssl })
+  etherscan.setEndpoint(currentActiveIndex)
 }
 
 function* setNetworks(items, currentActiveIndex) {
