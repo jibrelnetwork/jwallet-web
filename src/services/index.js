@@ -1,3 +1,4 @@
+export etherscan from './etherscan'
 export fileSaver from './fileSaver'
 export keystore from './keystore'
 export storage from './storage'

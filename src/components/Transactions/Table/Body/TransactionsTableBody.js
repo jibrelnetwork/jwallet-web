@@ -71,6 +71,7 @@ TransactionsTableBody.propTypes = {
       address: PropTypes.string.isRequired,
       transactionHash: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
+      contractAddress: PropTypes.string.isRequired,
       fee: PropTypes.number.isRequired,
       amount: PropTypes.number.isRequired,
       timestamp: PropTypes.number.isRequired,
