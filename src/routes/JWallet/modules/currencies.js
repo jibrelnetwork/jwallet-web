@@ -21,11 +21,10 @@ export function getCurrencies() {
   }
 }
 
-export function setCurrencies(items = [], currentActiveIndex = 0) {
+export function setCurrencies(items = []) {
   return {
     type: CURRENCIES_SET,
     items,
-    currentActiveIndex,
   }
 }
 
@@ -86,7 +85,7 @@ export function setSortCurrenciesOptions(sortField = '', sortDirection = 'ASC') 
   }
 }
 
-export function addCustomToken(customTokenData) {
+export function addCustomToken(customTokenData = {}) {
   return {
     type: CURRENCIES_ADD_CUSTOM,
     customTokenData,
@@ -98,12 +97,11 @@ const ACTION_HANDLERS = {
   [CURRENCIES_SET]: (state, action) => ({
     ...state,
     items: action.items,
-    currentActiveIndex: action.currentActiveIndex,
-    isLoading: false,
   }),
   [CURRENCIES_SET_CURRENT]: (state, action) => ({
     ...state,
     currentActiveIndex: action.currentActiveIndex,
+    isLoading: false,
   }),
   [CURRENCIES_SET_ACTIVE_ALL]: (state, action) => ({
     ...state,
