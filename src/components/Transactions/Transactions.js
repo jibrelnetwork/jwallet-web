@@ -126,13 +126,13 @@ class Transactions extends Component {
       .length === 0)
   }
 
-  sortTransactions = field => (/* event */) => this.props.sortTransactions(field)
-  sendFunds = (/* event */) => this.props.openSendFundsModal(this.props.currentCurrencyIndex)
-  receiveFunds = (/* event */) => this.props.openReceiveFundsModal(this.props.currentCurrencyIndex)
-  convertFunds = (/* event */) => this.props.openConvertFundsModal(this.props.currentCurrencyIndex)
-  filterTransactions = isFilterOpen => (/* event */) => this.props.filterTransactions(isFilterOpen)
-  removeCurrency = (/* event */) => this.props.toggleActiveCurrency(this.props.currentCurrencyIndex)
-  toggleActive = i => (/* event */) => this.setState({ active: (this.state.active === i) ? -1 : i })
+  sortTransactions = field => () => this.props.sortTransactions(field)
+  sendFunds = () => this.props.openSendFundsModal(this.props.currentCurrencyIndex)
+  receiveFunds = () => this.props.openReceiveFundsModal(this.props.currentCurrencyIndex)
+  convertFunds = () => this.props.openConvertFundsModal(this.props.currentCurrencyIndex)
+  filterTransactions = isFilterOpen => () => this.props.filterTransactions(isFilterOpen)
+  removeCurrency = () => this.props.toggleActiveCurrency(this.props.currentCurrencyIndex)
+  toggleActive = i => () => this.setState({ active: (this.state.active === i) ? -1 : i })
 }
 
 Transactions.propTypes = {

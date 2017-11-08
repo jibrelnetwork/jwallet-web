@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Keystore from 'jwallet-web-keystore'
 
+import config from 'config'
+
 import { JIcon, JTextInput } from 'components/base'
 
 class PasswordField extends Component {
@@ -53,6 +55,10 @@ class PasswordField extends Component {
   }
 
   onPasswordChange = (password) => {
+    if (password.length > config.maxPasswordLength) {
+      return
+    }
+
     this.props.onPasswordChange(password)
     this.updateStatus(password)
   }
