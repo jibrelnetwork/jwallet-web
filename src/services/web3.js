@@ -228,6 +228,19 @@ function getEventsProps(contractAddress, filter = null) {
   }
 }
 
+function sendETHTransaction(props) {
+  const { privateKey, to, value, gasLimit, gasPrice } = props
+
+  return jibrelContractsApi.eth.sendTransaction({
+    ...rpcProps,
+    privateKey,
+    to,
+    value,
+    gasLimit,
+    gasPrice,
+  }).catch(console.error)
+}
+
 export default {
   setRpcProps,
   getRpcProps,
@@ -235,4 +248,5 @@ export default {
   getTokenBalance,
   getETHTransactions,
   getContractTransactions,
+  sendETHTransaction,
 }

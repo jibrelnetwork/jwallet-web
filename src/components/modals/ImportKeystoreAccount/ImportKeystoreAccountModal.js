@@ -11,26 +11,6 @@ class ImportKeystoreAccountModal extends SubmitModal {
     this.props.setImportKeystoreAccountCurrentStep()
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { invalidFields } = nextProps
-
-    if (this.props.invalidFields !== invalidFields) {
-      this.shakeIfInvalidField(invalidFields)
-    }
-
-    this.scrollToTop(nextProps)
-  }
-
-  shakeIfInvalidField = (invalidFields) => {
-    Object.keys(invalidFields).map((field) => {
-      if (invalidFields[field] && invalidFields[field].length) {
-        if (this.props.invalidFields[field] !== invalidFields[field]) {
-          this.shake()
-        }
-      }
-    })
-  }
-
   renderModalBody = () => {
     switch (this.props.currentStep) {
       case IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA:

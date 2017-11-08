@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   modalName: 'send-funds',
   modalTitle: 'Send Funds',
   buttonTitle: 'Send Funds',
+  buttonType: 'password',
   iconName: 'send-funds',
 })
 

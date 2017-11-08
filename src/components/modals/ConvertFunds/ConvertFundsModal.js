@@ -37,6 +37,7 @@ class ConvertFundsModal extends SubmitModal {
         />
         <SymbolPicker
           onValueChange={setConvertFundsFromSymbol}
+          items={[]}
           selectedValue={from.symbol}
           name='convert-funds-from-symbol'
           enabled
@@ -83,6 +84,7 @@ class ConvertFundsModal extends SubmitModal {
         />
         <SymbolPicker
           onValueChange={setConvertFundsToSymbol}
+          items={[]}
           selectedValue={to.symbol}
           name='convert-funds-to-symbol'
           enabled

@@ -26,7 +26,7 @@ function getTransactions(address) {
     action: 'txlist',
     sort: 'desc',
     page: 1,
-    offset: 20,
+    offset: 50,
     // startblock: 0,
     // endblock: 99999999,
     // apikey: 'JibrelNetworkApiKeyToken',
