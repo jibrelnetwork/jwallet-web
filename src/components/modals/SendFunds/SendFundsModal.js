@@ -51,26 +51,41 @@ class SendFundsModal extends SubmitModal {
   }
 
   renderAmmountAndSymbol = () => {
-    const { setSendFundsAmount, setSendFundsSymbol, invalidFields, amount, symbol } = this.props
-
     return (
       <div className='field-group'>
-        <JTextInput
-          onValueChange={setSendFundsAmount}
-          name='amount'
-          placeholder='Amount'
-          value={amount}
-          errorMessage={invalidFields.amount}
-          editable
-        />
-        <SymbolPicker
-          onValueChange={setSendFundsSymbol}
-          items={[]}
-          selectedValue={symbol}
-          name='send-funds-symbol'
-          enabled
-        />
+        {this.renderAmount()}
+        {this.renderSymbol()}
       </div>
+    )
+  }
+
+  renderAmount = () => {
+    const { setSendFundsAmount, invalidFields, amount } = this.props
+
+    return (
+      <JTextInput
+        onValueChange={setSendFundsAmount}
+        name='amount'
+        placeholder='Amount'
+        value={amount}
+        errorMessage={invalidFields.amount}
+        editable
+      />
+    )
+  }
+
+  renderSymbol = () => {
+    const { setSendFundsSymbol, currencies, symbol } = this.props
+    const symbols = currencies.map(({ symbol }) => symbol).filter(s => (s && s.length))
+
+    return (
+      <SymbolPicker
+        onValueChange={setSendFundsSymbol}
+        items={symbols}
+        selectedValue={symbol}
+        name='send-funds-symbol'
+        enabled
+      />
     )
   }
 
@@ -99,54 +114,18 @@ class SendFundsModal extends SubmitModal {
   }
 
   renderGasPriceAndSymbol = () => {
-    const {
-      setSendFundsGasPrice,
-      setSendFundsGasSymbol,
-      invalidFields,
-      gasSymbol,
-      gasPrice,
-    } = this.props
+    const { setSendFundsGasPrice, invalidFields, gasPrice } = this.props
 
     return (
-      <div className='field-group'>
-        <JTextInput
-          onValueChange={setSendFundsGasPrice}
-          name='gas-price'
-          placeholder='Gas price'
-          value={gasPrice}
-          errorMessage={invalidFields.gasPrice}
-          editable
-        />
-        <SymbolPicker
-          onValueChange={setSendFundsGasSymbol}
-          items={[]}
-          selectedValue={gasSymbol}
-          name='gas-symbol'
-          enabled
-        />
-      </div>
+      <JTextInput
+        onValueChange={setSendFundsGasPrice}
+        name='gas-price'
+        placeholder='Gas price (wei)'
+        value={gasPrice}
+        errorMessage={invalidFields.gasPrice}
+        editable
+      />
     )
-  }
-
-  submitModal = () => {
-    const {
-      sendFunds,
-      onClose,
-      currentAccount,
-      address,
-      amount,
-      gas,
-      gasPrice,
-      password,
-    } = this.props
-
-    if (!password.length) {
-      return
-    }
-
-    const accountId = currentAccount.id
-
-    sendFunds({ onClose, password, gas, gasPrice, address, accountId, amount })
   }
 
   isModalButtonDisabled = () => {
@@ -156,6 +135,7 @@ class SendFundsModal extends SubmitModal {
   }
 
   closeModal = () => this.props.closeSendFundsModal()
+  submitModal = () => (this.props.password.length ? this.props.sendFunds() : null)
   setPassword = password => this.props.setSendFundsPassword(password)
   setSendFundsAccountId = id => this.props.setSendFundsAccountId(id, this.props.accounts)
 }
@@ -168,13 +148,17 @@ SendFundsModal.propTypes = {
   setSendFundsAccountId: PropTypes.func.isRequired,
   setSendFundsGas: PropTypes.func.isRequired,
   setSendFundsGasPrice: PropTypes.func.isRequired,
-  setSendFundsGasSymbol: PropTypes.func.isRequired,
   setSendFundsPassword: PropTypes.func.isRequired,
   sendFunds: PropTypes.func.isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     accountName: PropTypes.string.isRequired,
     isReadOnly: PropTypes.bool.isRequired,
+  })).isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.shape({
+    symbol: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    decimals: PropTypes.number.isRequired,
   })).isRequired,
   currentAccount: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -188,7 +172,6 @@ SendFundsModal.propTypes = {
   symbol: PropTypes.string.isRequired,
   gas: PropTypes.string.isRequired,
   gasPrice: PropTypes.string.isRequired,
-  gasSymbol: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,

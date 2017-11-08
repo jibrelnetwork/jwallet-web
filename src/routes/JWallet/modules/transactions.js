@@ -122,8 +122,8 @@ const initialState = {
   },
   items: [],
   foundItemsHashes: [],
-  sortField: '',
-  sortDirection: 'ASC',
+  sortField: 'timestamp',
+  sortDirection: 'DESC',
   searchQuery: '',
   isLoading: true,
 }

@@ -26,24 +26,24 @@ import { CUSTOM_TOKEN_CLEAR } from '../modules/modals/customToken'
 const currenciesSearchFields = ['symbol', 'name']
 let isGetBalancesLoopLaunched = 0
 
-function getStateCurrencies(state) {
+function getStateCurrencies(state = {}) {
   return state.currencies
 }
 
-function getKeystoreAddress(state) {
+function getKeystoreAddress(state = {}) {
   const { currentAccount, addressesFromMnemonic } = state.keystore
   const { type, address, addressIndex } = currentAccount
 
   return (type === 'mnemonic') ? addressesFromMnemonic.items[addressIndex] : address
 }
 
-function getNetworkName(state) {
+function getNetworkName(state = {}) {
   const { items, currentActiveIndex } = state.networks
 
   return items[currentActiveIndex].title
 }
 
-function* getTransactions(currencyIndex) {
+function* getTransactions(currencyIndex = 0) {
   yield put({ type: TRANSACTIONS_GET, currencyIndex })
 }
 
@@ -109,7 +109,7 @@ function* getBalancesLoop() {
   yield getBalancesLoop()
 }
 
-function getTokensBalances(items, owner) {
+function getTokensBalances(items = [], owner = '') {
   const result = {}
 
   items.forEach((token) => {
@@ -125,17 +125,13 @@ function getTokensBalances(items, owner) {
   return result
 }
 
-function* setCurrenciesToStorage(action) {
-  const { items, currentActiveIndex } = action
+function* setCurrenciesToStorage(action = {}) {
   const networkName = yield select(getNetworkName)
 
-  storage.setCurrencies(JSON.stringify(items || []), networkName)
-  storage.setCurrenciesCurrent(currentActiveIndex || 0, networkName)
-
-  yield getTransactions(currentActiveIndex)
+  storage.setCurrencies(JSON.stringify(action.items || []), networkName)
 }
 
-function* setCurrentCurrencyToStorage(action) {
+function* setCurrentCurrencyToStorage(action = {}) {
   const { currentActiveIndex } = action
   const networkName = yield select(getNetworkName)
 
@@ -144,17 +140,17 @@ function* setCurrentCurrencyToStorage(action) {
   yield getTransactions(currentActiveIndex)
 }
 
-function* setBalancesToStorage(action) {
+function* setBalancesToStorage(action = {}) {
   const networkName = yield select(getNetworkName)
 
   storage.setCurrenciesBalances(JSON.stringify(action.balances || {}), networkName)
 }
 
-function* setBalances(balances) {
+function* setBalances(balances = []) {
   yield put({ type: CURRENCIES_SET_BALANCES, balances })
 }
 
-function* setCurrencies(items, currentIndex) {
+function* setCurrencies(items = [], currentIndex = 0) {
   const isCurrentActive = (currentIndex > -1) ? items[currentIndex].isActive : false
 
   /**
@@ -164,10 +160,11 @@ function* setCurrencies(items, currentIndex) {
    */
   const currentActiveIndex = isCurrentActive ? currentIndex : getNextAvailableActiveIndex(items)
 
-  yield put({ type: CURRENCIES_SET, items, currentActiveIndex })
+  yield put({ type: CURRENCIES_SET, items })
+  yield put({ type: CURRENCIES_SET_CURRENT, currentActiveIndex })
 }
 
-function getNextAvailableActiveIndex(items) {
+function getNextAvailableActiveIndex(items = []) {
   for (let i = 0; i < items.length; i += 1) {
     const { isActive, isAuthRequired } = items[i]
 
@@ -179,14 +176,20 @@ function getNextAvailableActiveIndex(items) {
   return -1
 }
 
-function* toggleCurrency(action) {
+function* toggleCurrency(action = {}) {
   const { items, currentActiveIndex, isActiveAll } = yield select(getStateCurrencies)
   const { index } = action
-  const isAllToggled = (index === -1)
 
+  // if ETH index
+  if (index === 0) {
+    return
+  }
+
+  const [eth, ...tokens] = items
+  const isAllToggled = (index === -1)
   let newIsActiveAll = isAllToggled ? !isActiveAll : isActiveAll
 
-  const newItems = items.map((item, i) => {
+  const newTokens = tokens.map((item, i) => {
     const isCurrentActive = (index === i) ? !item.isActive : item.isActive
 
     return {
@@ -199,30 +202,30 @@ function* toggleCurrency(action) {
   if (!isAllToggled) {
     newIsActiveAll = true
 
-    newItems.forEach((item) => {
+    newTokens.forEach((item) => {
       if (!item.isActive) {
         newIsActiveAll = false
       }
     })
   }
 
-  yield setCurrencies(newItems, currentActiveIndex)
+  yield setCurrencies([eth, ...newTokens], currentActiveIndex)
   yield setActiveAllFlag(newIsActiveAll)
 }
 
-function* setActiveAllFlag(isActiveAll) {
+function* setActiveAllFlag(isActiveAll = false) {
   yield put({ type: CURRENCIES_SET_ACTIVE_ALL, isActiveAll })
 }
 
-function* setSearchOptions(foundItemsSymbols, searchQuery) {
+function* setSearchOptions(foundItemsSymbols = [], searchQuery = '') {
   yield put({ type: CURRENCIES_SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
 }
 
-function* setSortOptions(sortField, sortDirection) {
+function* setSortOptions(sortField = '', sortDirection = 'ASC') {
   yield put({ type: CURRENCIES_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
-function* searchCurrencies(action) {
+function* searchCurrencies(action = {}) {
   const currencies = yield select(getStateCurrencies)
   const { searchQuery } = action
 
@@ -232,7 +235,7 @@ function* searchCurrencies(action) {
   yield setSearchOptions(foundItemsSymbols, searchQuery)
 }
 
-function* sortCurrencies(action) {
+function* sortCurrencies(action = {}) {
   const currencies = yield select(getStateCurrencies)
 
   const oldSortField = currencies.sortField
@@ -248,7 +251,7 @@ function* sortCurrencies(action) {
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
-function getNewActiveIndex(items, symbol) {
+function getNewActiveIndex(items = [], symbol = '') {
   for (let i = 0; i < items.length; i += 1) {
     if (items[i].symbol === symbol) {
       return i
@@ -258,14 +261,16 @@ function getNewActiveIndex(items, symbol) {
   return -1
 }
 
-function* addCustomToken(action) {
+function* addCustomToken(action = {}) {
   try {
     const { customTokenData } = action
-    const { items } = yield select(getStateCurrencies)
+    const decimals = parseInt(customTokenData.decimals, 10) || 0
+    const { items } = yield select(getStateCurrencies) || {}
     const newActiveIndex = items.length
 
     const newItems = [...items, {
       ...customTokenData,
+      decimals,
       isLicensed: false,
       isAuthRequired: false,
       isActive: true,

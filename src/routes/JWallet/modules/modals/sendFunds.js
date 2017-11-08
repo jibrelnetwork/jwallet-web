@@ -1,5 +1,8 @@
+import config from 'config'
+
 export const SEND_FUNDS_OPEN_MODAL = 'SEND_FUNDS_OPEN_MODAL'
 export const SEND_FUNDS_CLOSE_MODAL = 'SEND_FUNDS_CLOSE_MODAL'
+export const SEND_FUNDS_SET_ALERT = 'SEND_FUNDS_SET_ALERT'
 export const SEND_FUNDS_SET_ADDRESS = 'SEND_FUNDS_SET_ADDRESS'
 export const SEND_FUNDS_SET_AMOUNT = 'SEND_FUNDS_SET_AMOUNT'
 export const SEND_FUNDS_SET_SYMBOL = 'SEND_FUNDS_SET_SYMBOL'
@@ -7,9 +10,9 @@ export const SEND_FUNDS_SET_ACCOUNT_ID = 'SEND_FUNDS_SET_ACCOUNT_ID'
 export const SEND_FUNDS_SET_ACCOUNT = 'SEND_FUNDS_SET_ACCOUNT'
 export const SEND_FUNDS_SET_GAS = 'SEND_FUNDS_SET_GAS'
 export const SEND_FUNDS_SET_GAS_PRICE = 'SEND_FUNDS_SET_GAS_PRICE'
-export const SEND_FUNDS_SET_GAS_SYMBOL = 'SEND_FUNDS_SET_GAS_SYMBOL'
 export const SEND_FUNDS_SET_PASSWORD = 'SEND_FUNDS_SET_PASSWORD'
 export const SEND_FUNDS_SET_INVALID_FIELD = 'SEND_FUNDS_SET_INVALID_FIELD'
+export const SEND_FUNDS_CLEAR = 'SEND_FUNDS_CLEAR'
 export const SEND_FUNDS = 'SEND_FUNDS'
 
 export function openSendFundsModal(accounts = [], accountId = '', onClose = null) {
@@ -77,13 +80,6 @@ export function setSendFundsGasPrice(gasPrice = '') {
   }
 }
 
-export function setSendFundsGasSymbol(gasSymbol = '') {
-  return {
-    type: SEND_FUNDS_SET_GAS_SYMBOL,
-    gasSymbol,
-  }
-}
-
 export function setSendFundsPassword(password = '') {
   return {
     type: SEND_FUNDS_SET_PASSWORD,
@@ -107,6 +103,10 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
+  }),
+  [SEND_FUNDS_SET_ALERT]: (state, action) => ({
+    ...state,
+    alert: action.alert || '',
   }),
   [SEND_FUNDS_SET_ADDRESS]: (state, action) => ({
     ...state,
@@ -152,13 +152,9 @@ const ACTION_HANDLERS = {
       gasPrice: '',
     },
   }),
-  [SEND_FUNDS_SET_GAS_SYMBOL]: (state, action) => ({
-    ...state,
-    gasSymbol: action.gasSymbol,
-  }),
   [SEND_FUNDS_SET_PASSWORD]: (state, action) => ({
     ...state,
-    password: action.password,
+    password: action.password || '',
     invalidFields: {
       ...state.invalidFields,
       password: '',
@@ -171,6 +167,16 @@ const ACTION_HANDLERS = {
       [action.fieldName]: action.message || '',
     },
   }),
+  [SEND_FUNDS_CLEAR]: (state, action) => ({
+    ...state,
+    currentAccount: initialState.currentAccount,
+    invalidFields: initialState.invalidFields,
+    address: initialState.address,
+    amount: initialState.amount,
+    gas: initialState.gas,
+    gasPrice: initialState.gasPrice,
+    password: initialState.password,
+  })
 }
 
 const initialState = {
@@ -180,12 +186,12 @@ const initialState = {
     addressIndex: 0,
   },
   invalidFields: {},
+  alert: '',
   address: '',
   amount: '',
   symbol: 'ETH',
   gas: '',
   gasPrice: '',
-  gasSymbol: 'ETH',
   password: '',
   isOpen: false,
 }
