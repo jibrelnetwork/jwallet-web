@@ -38,9 +38,7 @@ function getTransactions(address) {
     }
 
     return parseTransactions(result, address)
-  }).catch((err) => {
-    return []
-  })
+  }).catch(() => [])
 }
 
 function parseTransactions(list, address, decimals = defaultDecimals) {
@@ -48,7 +46,6 @@ function parseTransactions(list, address, decimals = defaultDecimals) {
     const {
       hash,
       blockNumber,
-      blockHash,
       to,
       from,
       value,
@@ -64,7 +61,7 @@ function parseTransactions(list, address, decimals = defaultDecimals) {
      * js Date requires ms
      */
     const timestamp = timeStamp * 1000
-    const status = !!blockNumber ? 'Accepted' : 'Pending'
+    const status = blockNumber ? 'Accepted' : 'Pending'
     const isRejected = (parseInt(isError, 10) === 1)
 
     return {
@@ -77,7 +74,7 @@ function parseTransactions(list, address, decimals = defaultDecimals) {
       status: isRejected ? 'Rejected' : status,
       amount: (value / (10 ** decimals)),
       type: (address === from) ? 'send' : 'receive',
-      fee: (cumulativeGasUsed * gasPrice / (10 ** defaultDecimals)),
+      fee: ((cumulativeGasUsed * gasPrice) / (10 ** defaultDecimals)),
       date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
     }
   })
@@ -96,7 +93,7 @@ function filterETHTransactions(list) {
 function callApi(params) {
   const apiEnpoint = `https://${endpoint}.etherscan.io/api`
 
-  return fetch(`${apiEnpoint}?${getQueryParams(params)}`).then(response => response.json())
+  return fetch(`${apiEnpoint}?${getQueryParams(params)}`, etherscanApiOptions).then(r => r.json())
 }
 
 function getQueryParams(params) {
@@ -106,6 +103,5 @@ function getQueryParams(params) {
 
   return Object.keys(params).map(key => `${key}=${params[key]}`).join('&').replace(/&$/, '')
 }
-
 
 export default { setEndpoint, getEndpoint, getETHTransactions }

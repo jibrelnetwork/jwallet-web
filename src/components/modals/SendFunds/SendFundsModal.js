@@ -40,7 +40,7 @@ class SendFundsModal extends SubmitModal {
         name='account-id'
         placeholder='Account'
         selectedValue={currentAccount.accountName}
-          errorMessage={invalidFields.account}
+        errorMessage={invalidFields.account}
         enabled
       >
         {accounts.filter(account => !account.isReadOnly).map((account) => {
@@ -76,7 +76,7 @@ class SendFundsModal extends SubmitModal {
 
   renderSymbol = () => {
     const { setSendFundsSymbol, currencies, symbol } = this.props
-    const symbols = currencies.map(({ symbol }) => symbol).filter(s => (s && s.length))
+    const symbols = currencies.map(c => c.symbol).filter(s => (s && s.length))
 
     return (
       <SymbolPicker

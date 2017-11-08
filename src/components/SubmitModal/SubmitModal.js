@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import config from 'config'
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
 import JModal from 'components/base/JModal'
@@ -30,7 +29,7 @@ class SubmitModal extends JModal {
   }
 
   shakeIfInvalidField = (invalidFields) => {
-    Object.keys(invalidFields).map((field) => {
+    Object.keys(invalidFields).forEach((field) => {
       if (invalidFields[field] && invalidFields[field].length) {
         if (this.props.invalidFields[field] !== invalidFields[field]) {
           this.shake()
@@ -59,16 +58,16 @@ class SubmitModal extends JModal {
     const { modalName, buttonTitle, iconName, isButtonLoading, buttonType } = this.props
 
     const buttonProps = {
+      iconName,
       onPress: this.submitModal,
       name: modalName,
       title: buttonTitle,
-      iconName: iconName,
       disabled: this.isModalButtonDisabled(),
       isLoading: isButtonLoading,
     }
 
     if (buttonType === 'password') {
-      const { invalidFields, setPassword, password } = this.props
+      const { invalidFields, password } = this.props
 
       return (
         <SubmitModalPasswordButton

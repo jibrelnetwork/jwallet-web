@@ -218,8 +218,8 @@ function mergeEvents(events, address) {
   const mergedEvents = []
 
   // events contains [from, to] list
-  events.forEach(list => list.forEach((item, index) => {
-    const { args, blockHash, removed, transactionHash } = item
+  events.forEach(list => list.forEach((item) => {
+    const { args, blockHash, removed, transactionHash } = item || {}
 
     mergedEvents.push({ blockHash, transactionHash, address, removed, ...args })
   }))
@@ -237,30 +237,11 @@ function getEventsProps(contractAddress, filter = null) {
 }
 
 function sendETHTransaction(props = {}) {
-  const { privateKey, to, value, gasLimit, gasPrice } = props
-
-  return jibrelContractsApi.eth.sendTransaction({
-    ...rpcProps,
-    privateKey,
-    to,
-    value,
-    gasLimit,
-    gasPrice,
-  })
+  return jibrelContractsApi.eth.sendTransaction({ ...rpcProps, ...props })
 }
 
 function sendContractTransaction(props = {}) {
-  const { privateKey, contractAddress, to, value, gasLimit, gasPrice } = props
-
-  return jibrelContractsApi.contracts.erc20.transfer({
-    ...rpcProps,
-    privateKey,
-    contractAddress,
-    to,
-    value,
-    gasLimit,
-    gasPrice,
-  })
+  return jibrelContractsApi.contracts.erc20.transfer({ ...rpcProps, ...props })
 }
 
 export default {

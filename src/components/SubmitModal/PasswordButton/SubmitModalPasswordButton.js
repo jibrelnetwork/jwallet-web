@@ -24,7 +24,7 @@ class SubmitModalPasswordButton extends Component {
   }
 
   renderInput = () => {
-    const { setButtonState, password, buttonState } = this.props
+    const { password, buttonState } = this.props
 
     if (this.isTitleState(buttonState)) {
       return null
@@ -92,9 +92,7 @@ class SubmitModalPasswordButton extends Component {
 
     return (
       <div className={`password-button__dots ${dotsModifier}`} onClick={this.submit}>
-        {password.split('').map((_, i) => {
-          return <div key={i} className={`password-button__dot`} />
-        })}
+        {password.split('').map((_, i) => <div key={i} className='password-button__dot' />)}
       </div>
     )
   }
@@ -106,7 +104,7 @@ class SubmitModalPasswordButton extends Component {
     setPassword('')
   }
 
-  setPassword = e => {
+  setPassword = (e) => {
     const password = e.target.value
 
     if (password.length > config.maxPasswordLength) {

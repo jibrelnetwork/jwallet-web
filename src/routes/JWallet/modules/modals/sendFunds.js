@@ -1,5 +1,3 @@
-import config from 'config'
-
 export const SEND_FUNDS_OPEN_MODAL = 'SEND_FUNDS_OPEN_MODAL'
 export const SEND_FUNDS_CLOSE_MODAL = 'SEND_FUNDS_CLOSE_MODAL'
 export const SEND_FUNDS_SET_ALERT = 'SEND_FUNDS_SET_ALERT'
@@ -167,7 +165,7 @@ const ACTION_HANDLERS = {
       [action.fieldName]: action.message || '',
     },
   }),
-  [SEND_FUNDS_CLEAR]: (state, action) => ({
+  [SEND_FUNDS_CLEAR]: state => ({
     ...state,
     currentAccount: initialState.currentAccount,
     invalidFields: initialState.invalidFields,
@@ -176,7 +174,7 @@ const ACTION_HANDLERS = {
     gas: initialState.gas,
     gasPrice: initialState.gasPrice,
     password: initialState.password,
-  })
+  }),
 }
 
 const initialState = {
