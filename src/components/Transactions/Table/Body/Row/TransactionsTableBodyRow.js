@@ -40,7 +40,7 @@ function TransactionsTableBodyRow(props) {
         from={from}
         to={to}
         transactionHash={transactionHash}
-        fee={`${fee.toFixed(5)} ${currencySymbol}`}
+        fee={`${fee.toFixed(5)} ETH`}
         contractAddress={contractAddress}
         isActive={isActive}
       />

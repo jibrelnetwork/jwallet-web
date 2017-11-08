@@ -1,6 +1,8 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import isEmpty from 'lodash/isEmpty'
 
+import config from 'config'
 import { etherscan, web3 } from 'services'
 import { searchItems, sortItems } from 'utils'
 
@@ -14,6 +16,7 @@ import {
 } from '../modules/transactions'
 
 const transactionsSearchFields = ['status', 'address', 'transactionHash', 'fee', 'amount', 'date']
+let isGetTransactionsLoopLaunched = 0
 
 function getStateTransactions(state) {
   return state.transactions
@@ -32,6 +35,32 @@ function getStateCurrentAddress(state) {
   return (type === 'mnemonic') ? addressesFromMnemonic.items[addressIndex] : address
 }
 
+function* startGetTransactions() {
+  yield getTransactions()
+
+  // ignore if getTransactionsLoop was already launched
+  if (isGetTransactionsLoopLaunched) {
+    return
+  }
+
+  // otherwise set flag to prevent another loops when getTransactions is called
+  isGetTransactionsLoopLaunched += 1
+
+  yield getTransactionsLoop()
+}
+
+function* getTransactionsLoop() {
+  yield getTransactions()
+
+  // check that getTransactionsLoop was not called more than one time
+  if (isGetTransactionsLoopLaunched > 1) {
+    return
+  }
+
+  yield delay(config.getTransactionsIntervalTimeout)
+  yield getTransactionsLoop()
+}
+
 function* getTransactions() {
   const currentCurrency = yield select(getStateCurrentCurrency)
   const currentAddress = yield select(getStateCurrentAddress)
@@ -42,23 +71,19 @@ function* getTransactions() {
 
   const { symbol, address, decimals } = currentCurrency
 
-  if (symbol === 'ETH') {
-    return yield getETHTransactions(currentAddress)
-  }
+  const transactions = (symbol === 'ETH')
+    ? yield getETHTransactions(currentAddress)
+    : yield getContractsTransactions(address, currentAddress, decimals)
 
-  return yield getContractsTransactions(address, currentAddress, decimals)
+  return yield setTransactions(transactions)
 }
 
 function* getETHTransactions(address) {
-  const transactions = yield call(etherscan.getETHTransactions, address)
-
-  yield setTransactions(transactions)
+  return yield call(etherscan.getETHTransactions, address)
 }
 
 function* getContractsTransactions(contractAddress, owner, decimals) {
-  const transactions = yield call(web3.getContractTransactions, contractAddress, owner, decimals)
-
-  yield setTransactions(transactions)
+  return yield call(web3.getContractTransactions, contractAddress, owner, decimals)
 }
 
 function* setTransactions(items = []) {
@@ -97,7 +122,7 @@ function* sortTransactions(action) {
 }
 
 export function* watchGetTransactions() {
-  yield takeEvery(TRANSACTIONS_GET, getTransactions)
+  yield takeEvery(TRANSACTIONS_GET, startGetTransactions)
 }
 
 export function* watchSearchTransactions() {

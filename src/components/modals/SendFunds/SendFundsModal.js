@@ -25,14 +25,14 @@ class SendFundsModal extends SubmitModal {
         name='recipient-address'
         placeholder='Recipient address'
         value={address}
-        errorMessage={invalidFields['address']}
+        errorMessage={invalidFields.address}
         editable
       />
     )
   }
 
   renderAccount = () => {
-    const { accounts, currentAccount } = this.props
+    const { accounts, invalidFields, currentAccount } = this.props
 
     return (
       <JPicker
@@ -40,9 +40,10 @@ class SendFundsModal extends SubmitModal {
         name='account-id'
         placeholder='Account'
         selectedValue={currentAccount.accountName}
+          errorMessage={invalidFields.account}
         enabled
       >
-        {accounts.map((account) => {
+        {accounts.filter(account => !account.isReadOnly).map((account) => {
           return <JPicker.Item key={account.id} label={account.accountName} value={account.id} />
         })}
       </JPicker>
@@ -59,11 +60,12 @@ class SendFundsModal extends SubmitModal {
           name='amount'
           placeholder='Amount'
           value={amount}
-          errorMessage={invalidFields['amount']}
+          errorMessage={invalidFields.amount}
           editable
         />
         <SymbolPicker
           onValueChange={setSendFundsSymbol}
+          items={[]}
           selectedValue={symbol}
           name='send-funds-symbol'
           enabled
@@ -90,7 +92,7 @@ class SendFundsModal extends SubmitModal {
         name='gas'
         placeholder='Gas'
         value={gas}
-        errorMessage={invalidFields['gas']}
+        errorMessage={invalidFields.gas}
         editable
       />
     )
@@ -112,11 +114,12 @@ class SendFundsModal extends SubmitModal {
           name='gas-price'
           placeholder='Gas price'
           value={gasPrice}
-          errorMessage={invalidFields['gasPrice']}
+          errorMessage={invalidFields.gasPrice}
           editable
         />
         <SymbolPicker
           onValueChange={setSendFundsGasSymbol}
+          items={[]}
           selectedValue={gasSymbol}
           name='gas-symbol'
           enabled
@@ -125,40 +128,36 @@ class SendFundsModal extends SubmitModal {
     )
   }
 
-  /*renderFooter = () => {
-    const { setSendFundsPassword, sendFunds, password } = this.props
+  submitModal = () => {
+    const {
+      sendFunds,
+      onClose,
+      currentAccount,
+      address,
+      amount,
+      gas,
+      gasPrice,
+      password,
+    } = this.props
 
-    if (isTypingOfPincode) {
-      return (
-        <PincodeButton setPincode={setSendFundsPassword} onPress={sendFunds} pincode={pincode} />
-      )
-    }
-  }
-  */
-
-  submitModal = (/* e */) => {
-    return this.props.sendFunds()
-
-    /*
-    if (e.key !== 'Enter') {
+    if (!password.length) {
       return
     }
 
-    const { typeSendFundsPincode, sendFunds, funds } = this.props
+    const accountId = currentAccount.id
 
-    if (funds.sendFormData.isTypingOfPincode) {
-      sendFunds()
-
-      return
-    }
-
-    typeSendFundsPincode(true)
-    */
+    sendFunds({ onClose, password, gas, gasPrice, address, accountId, amount })
   }
 
-  setSendFundsAccountId = id => this.props.setSendFundsAccountId(id, this.props.accounts)
+  isModalButtonDisabled = () => {
+    const { currentAccount, address, amount } = this.props
+
+    return !(currentAccount.id.length && address.length && amount.length)
+  }
+
   closeModal = () => this.props.closeSendFundsModal()
-  isModalButtonDisabled = () => false
+  setPassword = password => this.props.setSendFundsPassword(password)
+  setSendFundsAccountId = id => this.props.setSendFundsAccountId(id, this.props.accounts)
 }
 
 SendFundsModal.propTypes = {
@@ -175,10 +174,13 @@ SendFundsModal.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     accountName: PropTypes.string.isRequired,
+    isReadOnly: PropTypes.bool.isRequired,
   })).isRequired,
   currentAccount: PropTypes.shape({
     id: PropTypes.string.isRequired,
     accountName: PropTypes.string.isRequired,
+    /* optional */
+    addressIndex: PropTypes.number,
   }).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   address: PropTypes.string.isRequired,
@@ -191,6 +193,7 @@ SendFundsModal.propTypes = {
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
+  buttonType: PropTypes.string.isRequired,
   iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   /* optional */

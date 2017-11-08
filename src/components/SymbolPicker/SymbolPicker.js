@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JPicker from 'components/base/JPicker'
 
-function SymbolPicker({ onValueChange, selectedValue, name, enabled }) {
+function SymbolPicker({ onValueChange, items, selectedValue, name, enabled }) {
   return (
     <JPicker
       onValueChange={onValueChange}
@@ -12,16 +12,16 @@ function SymbolPicker({ onValueChange, selectedValue, name, enabled }) {
       placeholder=''
       errorMessage=''
       successMessage=''
-      enabled={enabled}
+      enabled={enabled && !!items.length}
     >
-      <JPicker.Item label='ETH' value='ETH' />
-      <JPicker.Item label='USD' value='USD' />
+      {items.map(item => <JPicker.Item key={item} label={item} value={item} />)}
     </JPicker>
   )
 }
 
 SymbolPicker.propTypes = {
   onValueChange: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedValue: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   enabled: PropTypes.bool.isRequired,

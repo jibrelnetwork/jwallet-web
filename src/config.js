@@ -48,8 +48,11 @@ export default {
   // addresses count to get from mnemonic per one iteration
   addressesPerIteration: 4,
 
-  // currencies get balance interval timeout
-  getBalanceIntervalTimeout: 60000,
+  // get balances interval timeout
+  getBalancesIntervalTimeout: 15000,
+
+  // get transactions interval timeout
+  getTransactionsIntervalTimeout: 15000,
 
   // defaultDecimals
   defaultDecimals: 18,
@@ -70,4 +73,7 @@ export default {
     mode: 'cors',
     cache: 'default',
   },
+
+  // max password length
+  maxPasswordLength: 40,
 }

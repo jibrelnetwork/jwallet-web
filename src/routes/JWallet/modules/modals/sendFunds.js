@@ -9,6 +9,7 @@ export const SEND_FUNDS_SET_GAS = 'SEND_FUNDS_SET_GAS'
 export const SEND_FUNDS_SET_GAS_PRICE = 'SEND_FUNDS_SET_GAS_PRICE'
 export const SEND_FUNDS_SET_GAS_SYMBOL = 'SEND_FUNDS_SET_GAS_SYMBOL'
 export const SEND_FUNDS_SET_PASSWORD = 'SEND_FUNDS_SET_PASSWORD'
+export const SEND_FUNDS_SET_INVALID_FIELD = 'SEND_FUNDS_SET_INVALID_FIELD'
 export const SEND_FUNDS = 'SEND_FUNDS'
 
 export function openSendFundsModal(accounts = [], accountId = '', onClose = null) {
@@ -90,9 +91,10 @@ export function setSendFundsPassword(password = '') {
   }
 }
 
-export function sendFunds() {
+export function sendFunds(props = {}) {
   return {
     type: SEND_FUNDS,
+    props,
   }
 }
 
@@ -109,10 +111,18 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_SET_ADDRESS]: (state, action) => ({
     ...state,
     address: action.address,
+    invalidFields: {
+      ...state.invalidFields,
+      address: '',
+    },
   }),
   [SEND_FUNDS_SET_AMOUNT]: (state, action) => ({
     ...state,
     amount: action.amount,
+    invalidFields: {
+      ...state.invalidFields,
+      amount: '',
+    },
   }),
   [SEND_FUNDS_SET_SYMBOL]: (state, action) => ({
     ...state,
@@ -121,14 +131,26 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_SET_ACCOUNT]: (state, action) => ({
     ...state,
     currentAccount: action.currentAccount || initialState.currentAccount,
+    invalidFields: {
+      ...state.invalidFields,
+      account: '',
+    },
   }),
   [SEND_FUNDS_SET_GAS]: (state, action) => ({
     ...state,
     gas: action.gas,
+    invalidFields: {
+      ...state.invalidFields,
+      gas: '',
+    },
   }),
   [SEND_FUNDS_SET_GAS_PRICE]: (state, action) => ({
     ...state,
     gasPrice: action.gasPrice,
+    invalidFields: {
+      ...state.invalidFields,
+      gasPrice: '',
+    },
   }),
   [SEND_FUNDS_SET_GAS_SYMBOL]: (state, action) => ({
     ...state,
@@ -137,6 +159,17 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
+    invalidFields: {
+      ...state.invalidFields,
+      password: '',
+    },
+  }),
+  [SEND_FUNDS_SET_INVALID_FIELD]: (state, action) => ({
+    ...state,
+    invalidFields: {
+      ...state.invalidFields,
+      [action.fieldName]: action.message || '',
+    },
   }),
 }
 
@@ -144,6 +177,7 @@ const initialState = {
   currentAccount: {
     id: '',
     accountName: '',
+    addressIndex: 0,
   },
   invalidFields: {},
   address: '',

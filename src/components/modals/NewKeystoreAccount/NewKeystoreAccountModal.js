@@ -18,26 +18,6 @@ class NewKeystoreAccountModal extends SubmitModal {
     return setNewKeystoreAccountCurrentStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { invalidFields } = nextProps
-
-    if (this.props.invalidFields !== invalidFields) {
-      this.shakeIfInvalidField(invalidFields)
-    }
-
-    this.scrollToTop(nextProps)
-  }
-
-  shakeIfInvalidField = (invalidFields) => {
-    Object.keys(invalidFields).map((field) => {
-      if (invalidFields[field] && invalidFields[field].length) {
-        if (this.props.invalidFields[field] !== invalidFields[field]) {
-          this.shake()
-        }
-      }
-    })
-  }
-
   renderModalBody = () => {
     switch (this.props.currentStep) {
       case NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC:

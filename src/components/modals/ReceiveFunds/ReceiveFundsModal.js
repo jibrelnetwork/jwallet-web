@@ -32,6 +32,7 @@ class ReceiveFundsModal extends SubmitModal {
         />
         <SymbolPicker
           onValueChange={setReceiveFundsSymbol}
+          items={[]}
           selectedValue={symbol}
           name='receive-funds-symbol'
           enabled

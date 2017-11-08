@@ -24,8 +24,7 @@ import { TRANSACTIONS_GET } from '../modules/transactions'
 import { CUSTOM_TOKEN_CLEAR } from '../modules/modals/customToken'
 
 const currenciesSearchFields = ['symbol', 'name']
-
-let getBalanceLaunchId = 0
+let isGetBalancesLoopLaunched = 0
 
 function getStateCurrencies(state) {
   return state.currencies
@@ -68,10 +67,16 @@ function* getCurrenciesFromStorage() {
   }
 
   yield setCurrencies(items, currentActiveIndex)
-  yield setBalances(balances, true)
+  yield setBalances(balances)
 
-  // need to increment counter, to prevent another loops when getBalance is called
-  getBalanceLaunchId += 1
+  // ignore if getBalances loop was already launched
+  if (isGetBalancesLoopLaunched) {
+    return
+  }
+
+  // need to set flag to prevent another loops when getBalances is called
+  isGetBalancesLoopLaunched += 1
+  yield getBalancesLoop()
 }
 
 function* getBalances() {
@@ -90,6 +95,18 @@ function* getBalances() {
   })
 
   yield setBalances(balances)
+}
+
+function* getBalancesLoop() {
+  yield getBalances()
+
+  // check that getBalancesLoop was not called more than one time
+  if (isGetBalancesLoopLaunched > 1) {
+    return
+  }
+
+  yield delay(config.getBalancesIntervalTimeout)
+  yield getBalancesLoop()
 }
 
 function getTokensBalances(items, owner) {
@@ -133,21 +150,8 @@ function* setBalancesToStorage(action) {
   storage.setCurrenciesBalances(JSON.stringify(action.balances || {}), networkName)
 }
 
-function* setBalances(balances, isFirstLaunch = false) {
+function* setBalances(balances) {
   yield put({ type: CURRENCIES_SET_BALANCES, balances })
-
-  // ignore if getBalance loop was already launched
-  if (getBalanceLaunchId > 1) {
-    return
-  }
-
-  // request balances without delay, if this method launched first time
-  if (isFirstLaunch) {
-    yield getBalances()
-  }
-
-  yield delay(config.getBalanceIntervalTimeout)
-  yield getBalances()
 }
 
 function* setCurrencies(items, currentIndex) {
@@ -234,12 +238,13 @@ function* sortCurrencies(action) {
   const oldSortField = currencies.sortField
   const sortField = action.sortField || oldSortField
   const { items, sortDirection, currentActiveIndex } = currencies
-  const currentActiveSymbol = items[currentActiveIndex].symbol
+  const [eth, ...tokens] = items
+  const currentActiveSymbol = tokens[currentActiveIndex].symbol
 
-  const result = sortItems(items, oldSortField, sortField, sortDirection)
+  const result = sortItems(tokens, oldSortField, sortField, sortDirection)
   const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
 
-  yield setCurrencies(result.items, newActiveIndex)
+  yield setCurrencies([eth, ...result.items], newActiveIndex)
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
