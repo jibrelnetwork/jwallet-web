@@ -6,7 +6,7 @@ import JModalContentBody from './Body'
 import JModalContentFooter from './Footer'
 
 function JModalContent(props) {
-  const { closeModal, submitModal, header, body, footer, className } = props
+  const { closeModal, header, body, footer, className } = props
 
   return (
     <div className={className}>

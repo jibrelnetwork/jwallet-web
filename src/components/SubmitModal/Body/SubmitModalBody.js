@@ -6,7 +6,7 @@ import SubmitModalBodyImage from './Image'
 function SubmitModalBody(props) {
   const { body, imageName } = props
 
-  return !!imageName.length
+  return imageName.length
     ? <SubmitModalBodyImage name={imageName} />
     : <div className='modal-content-body'>{body}</div>
 }
