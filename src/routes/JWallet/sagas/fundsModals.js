@@ -13,8 +13,6 @@ import {
   SEND_FUNDS_SET_ALERT,
   SEND_FUNDS_SET_ACCOUNT_ID,
   SEND_FUNDS_SET_ACCOUNT,
-  SEND_FUNDS_SET_SYMBOL,
-  SEND_FUNDS_SET_CURRENCY,
   SEND_FUNDS_SET_PASSWORD,
   SEND_FUNDS_SET_INVALID_FIELD,
   SEND_FUNDS_CLEAR,
@@ -32,10 +30,6 @@ import {
   CONVERT_FUNDS_SET_TO_ACCOUNT,
   CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
 } from '../modules/modals/convertFunds'
-
-import {
-  CURRENCIES_SET_BALANCES,
-} from '../modules/currencies'
 
 function* onSendFundsSetAccountId(action = {}) {
   const { accountId, accounts } = action
@@ -102,7 +96,7 @@ function* onSendFunds() {
 function* setAccount(accountId = '', accounts = [], type = '') {
   yield put({
     type,
-    currentAccount: accounts.filter(account => (account.id === accountId)).shift()
+    currentAccount: accounts.filter(account => (account.id === accountId)).shift(),
   })
 }
 
@@ -170,13 +164,13 @@ function getTransactionData(props = {}) {
   }
 
   if (gasPrice && gasPrice.length) {
-    data.gasPrice = getTransactionValue(gasPrice)
+    data.gasPrice = new BigNumber(parseInt(gasPrice, 10) || 0, 10)
     validateTransactionGasPrice(data.gasPrice)
   }
 
   if (gas && gas.length) {
-    data.gas = parseInt(gas, 10) || 0
-    validateTransactionGas(data.gas)
+    data.gasLimit = new BigNumber(parseInt(gas, 10) || 0, 10)
+    validateTransactionGas(data.gasLimit)
   }
 
   return data
@@ -217,7 +211,7 @@ function validateGas(gas = '') {
 }
 
 function validateGasPrice(gasPrice = '') {
-  if (/^\d./.test(gasPrice)) {
+  if (/\D/.test(gasPrice)) {
     throw (new InvalidFieldError('gasPrice', 'Please input valid gas price value'))
   }
 }
@@ -235,13 +229,13 @@ function validateTransactionValue(value = 0, balance = 0, decimals = config.defa
 }
 
 function validateTransactionGas(gas = 0) {
-  if (gas <= 0) {
+  if (gas.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('gas', 'Gas limit should be greater than 0'))
   }
 }
 
 function validateTransactionGasPrice(gasPrice = 0) {
-  if (data.gasPrice.lessThanOrEqualTo(0)) {
+  if (gasPrice.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('gasPrice', 'Gas price should be greater than 0'))
   }
 }

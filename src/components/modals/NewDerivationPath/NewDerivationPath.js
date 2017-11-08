@@ -45,7 +45,7 @@ class NewDerivationPath extends SubmitModal {
         setCustomDerivationPath={setCustomDerivationPath}
         knownDerivationPath={knownDerivationPath}
         customDerivationPath={customDerivationPath}
-        errorMessage={invalidFields['customDerivationPath']}
+        errorMessage={invalidFields.customDerivationPath}
       />
     )
   }
@@ -59,7 +59,7 @@ class NewDerivationPath extends SubmitModal {
         name='new-derivation-path-password'
         placeholder='Password'
         value={password}
-        errorMessage={invalidFields['password']}
+        errorMessage={invalidFields.password}
         editable
         secureTextEntry
       />
@@ -68,8 +68,8 @@ class NewDerivationPath extends SubmitModal {
 
   isModalButtonDisabled = () => {
     const { invalidFields, password } = this.props
-    const invalidPassword = invalidFields['password'] || ''
-    const invalidCusomPath = invalidFields['customDerivationPath'] || ''
+    const invalidPassword = invalidFields.password || ''
+    const invalidCusomPath = invalidFields.customDerivationPath || ''
 
     const isPasswordEmpty = !password.length
     const isPasswordInvalid = !!invalidPassword.length

@@ -210,14 +210,7 @@ function getImportImageName(nextStep) {
  * New Keystore Account Modal
  */
 function* setNewStep(action) {
-  const {
-    onClose,
-    mnemonic,
-    mnemonicConfirm,
-    password,
-    passwordConfirm,
-    isInitialized,
-  } = action.props
+  const { mnemonic, mnemonicConfirm, isInitialized } = action.props
 
   switch (action.currentStep) {
     case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE:
@@ -270,7 +263,7 @@ function* saveMnemonicToFile(mnemonic, isInitialized) {
 
     yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC, isInitialized)
   } catch (e) {
-    return
+    console.error(e)
   }
 }
 
@@ -305,6 +298,7 @@ function* onCreateFail(err) {
 
 function* resetNewModal(onClose) {
   yield put({ type: NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL })
+  yield put({ type: NEW_KEYSTORE_ACCOUNT_CLEAR_DATA })
   yield generateNewMnemonic(true)
 
   return onClose ? onClose() : null
@@ -320,13 +314,14 @@ function* setNewValidField(fieldName, message) {
 
 function* checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized) {
   if (mnemonic !== mnemonicConfirm) {
-    return yield setNewInvalidField('mnemonicConfirm', 'Mnemonic should match')
+    yield setNewInvalidField('mnemonicConfirm', 'Mnemonic should match')
+
+    return
   }
 
   yield updateNewStep(isInitialized
     ? NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD
-    : NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD
-  )
+    : NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD)
 }
 
 function* checkNewPasswordConfirm(password, passwordConfirm) {
