@@ -1,3 +1,4 @@
+import { sortBy } from 'lodash/collection'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
 import config from 'config'
@@ -63,9 +64,9 @@ function getETHTransactions(address) {
         toBlock: 'latest',
       },
     })
-    .then(getLast20)
     .then(list => getTransactionsInfo(list))
     .then(list => parseTransactions(list, defaultDecimals))
+    .then(sortTransactions)
     .catch(handleTransactionsError)
 }
 
@@ -76,24 +77,26 @@ function getTransactionsInfo(list, isContract) {
     getTransactionReceipts(list),
   ]).then(([blocksData, transactionsData, transactionReceiptsData]) => {
     return list.map((item, index) => {
+      const { transactionHash, blockHash, address, from, value } = item
+
       return {
-        ...item,
         ...blocksData[index],
         ...transactionsData[index],
         ...transactionReceiptsData[index],
+        from,
+        value,
+        address,
+        blockHash,
+        transactionHash,
+        to: item.to || 'n/a',
+        status: getTransactionStatus(blockHash),
       }
     })
   })
 }
 
-function getLast20(list = []) {
-  return list.slice(-20).map((item) => {
-    const { transactionHash, blockHash, address, from, value } = item
-    const status = getTransactionStatus(blockHash)
-    const to = item.to || 'n/a'
-
-    return { transactionHash, blockHash, address, status, to, from, value }
-  })
+function getLast50(list = []) {
+  return list.slice(-50)
 }
 
 function getTransactionStatus(blockHash) {
@@ -182,6 +185,10 @@ function parseTransaction(item, decimals) {
   }
 }
 
+function sortTransactions(list) {
+  return sortBy(list, ['timestamp']).reverse()
+}
+
 function handleTransactionsError(err) {
   console.error(err.message)
 
@@ -200,9 +207,10 @@ function getContractTransactions(contractAddress, owner, decimals) {
   return Promise
     .all([getEventsHandler(fromProps), getEventsHandler(toProps)])
     .then(events => mergeEvents(events, owner))
-    .then(getLast20)
+    .then(getLast50)
     .then(list => getTransactionsInfo(list, true))
     .then(list => parseTransactions(list, decimals))
+    .then(sortTransactions)
     .catch(handleTransactionsError)
 }
 
@@ -228,7 +236,7 @@ function getEventsProps(contractAddress, filter = null) {
   }
 }
 
-function sendETHTransaction(props) {
+function sendETHTransaction(props = {}) {
   const { privateKey, to, value, gasLimit, gasPrice } = props
 
   return jibrelContractsApi.eth.sendTransaction({
@@ -238,7 +246,21 @@ function sendETHTransaction(props) {
     value,
     gasLimit,
     gasPrice,
-  }).catch(console.error)
+  })
+}
+
+function sendContractTransaction(props = {}) {
+  const { privateKey, contractAddress, to, value, gasLimit, gasPrice } = props
+
+  return jibrelContractsApi.contracts.erc20.transfer({
+    ...rpcProps,
+    privateKey,
+    contractAddress,
+    to,
+    value,
+    gasLimit,
+    gasPrice,
+  })
 }
 
 export default {
@@ -249,4 +271,5 @@ export default {
   getETHTransactions,
   getContractTransactions,
   sendETHTransaction,
+  sendContractTransaction,
 }

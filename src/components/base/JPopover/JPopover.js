@@ -23,7 +23,7 @@ class JPopover extends Appearable {
   onClick = (event) => {
     const { onClickOutside, name, appearableTimeout, isCloseOnClickInside, reset } = this.props
     const popover = ReactDOM.findDOMNode(this.refs[name])
-    const isClickOutside = !popover.contains(event.target)
+    const isClickOutside = !(popover && popover.contains(event.target))
 
     if (isClickOutside || isCloseOnClickInside) {
       if (reset) {

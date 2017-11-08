@@ -49,10 +49,10 @@ export default {
   addressesPerIteration: 4,
 
   // get balances interval timeout
-  getBalancesIntervalTimeout: 15000,
+  getBalancesIntervalTimeout: 50000,
 
   // get transactions interval timeout
-  getTransactionsIntervalTimeout: 15000,
+  getTransactionsIntervalTimeout: 60000,
 
   // defaultDecimals
   defaultDecimals: 18,

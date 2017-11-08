@@ -8,7 +8,6 @@ import {
   setSendFundsAccountId,
   setSendFundsGas,
   setSendFundsGasPrice,
-  setSendFundsGasSymbol,
   setSendFundsPassword,
   sendFunds,
 } from 'routes/JWallet/modules/modals/sendFunds'
@@ -18,6 +17,7 @@ import SendFundsModal from './SendFundsModal'
 const mapStateToProps = state => ({
   ...state.sendFundsModal,
   accounts: state.keystore.accounts,
+  currencies: state.currencies.items,
   modalName: 'send-funds',
   modalTitle: 'Send Funds',
   buttonTitle: 'Send Funds',
@@ -33,7 +33,6 @@ const mapDispatchToProps = {
   setSendFundsAccountId,
   setSendFundsGas,
   setSendFundsGasPrice,
-  setSendFundsGasSymbol,
   setSendFundsPassword,
   sendFunds,
 }
