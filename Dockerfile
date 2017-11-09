@@ -8,7 +8,8 @@ COPY ./ /app
 WORKDIR /app
 
 RUN npm install
+RUN npm run compile:prod
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "prod" ]
 
 EXPOSE 3000

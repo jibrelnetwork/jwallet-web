@@ -69,7 +69,6 @@ export default {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    mode: 'no-cors',
     cache: 'default',
   },
 
