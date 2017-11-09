@@ -6,7 +6,11 @@ import config from 'config'
 import { etherscan, web3 } from 'services'
 import { searchItems, sortItems } from 'utils'
 
-import { selectCurrentCurrency, selectCurrentKeystoreAddress } from './stateSelectors'
+import {
+  selectCurrentCurrency,
+  selectCurrentKeystoreAddress,
+  selectTransactions,
+} from './stateSelectors'
 
 import {
   TRANSACTIONS_GET,
@@ -87,7 +91,7 @@ function* setSortOptions(sortField, sortDirection) {
 
 function* searchTransactions(action) {
   const { searchQuery } = action
-  const transactions = yield select(getStateTransactions)
+  const transactions = yield select(selectTransactions)
 
   const foundItems = searchItems(transactions.items, searchQuery, transactionsSearchFields)
   const foundItemsHashes = foundItems.map(i => i.txHash)
@@ -96,7 +100,7 @@ function* searchTransactions(action) {
 }
 
 function* sortTransactions(action) {
-  const transactions = yield select(getStateTransactions)
+  const transactions = yield select(selectTransactions)
 
   const oldSortField = transactions.sortField
   const sortField = action.sortField || oldSortField

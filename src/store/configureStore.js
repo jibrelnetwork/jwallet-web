@@ -44,7 +44,8 @@ export default (initialState = {}, history) => {
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
+      const reducers = require('./reducers').makeRootReducer
+
       store.replaceReducer(reducers(store.asyncReducers))
     })
   }

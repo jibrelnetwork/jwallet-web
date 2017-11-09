@@ -2,7 +2,6 @@ export * as base from './base'
 
 export AccountsTable from './AccountsTable'
 export Appearable from './Appearable'
-export AuthHeader from './AuthHeader'
 export CopyableField from './CopyableField'
 export Currencies from './Currencies'
 export CurrenciesManager from './CurrenciesManager'
