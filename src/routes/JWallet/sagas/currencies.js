@@ -242,6 +242,11 @@ function* sortCurrencies(action = {}) {
   const sortField = action.sortField || oldSortField
   const { items, sortDirection, currentActiveIndex } = currencies
   const [eth, ...tokens] = items
+
+  if (!tokens.length) {
+    return
+  }
+
   const currentActiveSymbol = tokens[currentActiveIndex].symbol
 
   const result = sortItems(tokens, oldSortField, sortField, sortDirection)
