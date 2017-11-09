@@ -1,11 +1,11 @@
 .button {
+  position: relative;
   display: inline-block;
-  min-width: 150px;
-  margin-right: 20px;
+  min-width: 300px;
   margin-left: 0;
   padding: 15px 20px;
   border: 2px solid;
-  border-radius: 5px;
+  border-radius: 25px;
   box-shadow: $shadow;
   text-align: center;
   font-size: 13px;
@@ -15,10 +15,6 @@
   white-space: nowrap;
   cursor: pointer;
   transition: all .3s ease;
-
-  &:last-child {
-    margin-right: 0;
-  }
 }
 
 .button--disabled {
@@ -58,4 +54,10 @@
     color: $white;
     border-color: $blue2;
   }
+}
+
+.button__icon {
+  position: absolute;
+  top: 15px;
+  left: 15px;
 }

@@ -5,7 +5,6 @@ import JTable from 'components/base/JTable'
 
 import TransactionsTableBody from './Body'
 import TransactionsTableEmpty from './Empty'
-import TransactionsTableLoading from './Loading'
 
 const transactionsTableHeaderItems = [
   { name: 'amount', title: 'Amount', colWidth: 'col--2-4' },
@@ -27,12 +26,8 @@ function TransactionsTable(props) {
     isTransactionsEmpty,
   } = props
 
-  const { filterData, sortField, sortDirection, isLoading } = transactions
+  const { filterData, sortField, sortDirection } = transactions
   const isFilterOpen = filterData.isOpen
-
-  if (isLoading) {
-    return <TransactionsTableLoading />
-  }
 
   if (isTransactionsEmpty) {
     return (
@@ -91,7 +86,6 @@ TransactionsTable.propTypes = {
     foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool.isRequired,
   }).isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
   emptyTableImageSrc: PropTypes.string.isRequired,

@@ -1,9 +1,10 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
 
 import config from 'config'
 import { fileSaver, keystore, storage } from 'services'
 import sortItems from 'utils/sortItems'
+
+import { selectKeystore, selectCurrentAccountId } from './stateSelectors'
 
 import {
   KEYSTORE_GET_FROM_STORAGE,
@@ -30,14 +31,6 @@ import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
 
 const { addressesPerIteration } = config
-
-function getStateKeystoreData(state) {
-  return state.keystore
-}
-
-function getStateCurrentAccountId(state) {
-  return state.keystore.currentAccount.id
-}
 
 function* getKeystoreFromStorage() {
   try {
@@ -68,12 +61,6 @@ function* setAccounts() {
   // Need to clone keystore accounts array to re-render if it was changed
   const accounts = [...keystore.getAccounts()]
 
-  if (accounts && accounts.length) {
-    yield put(push('/jwallet'))
-  } else {
-    yield put(push('/auth'))
-  }
-
   setKeystoreToStorage()
 
   return yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
@@ -96,7 +83,7 @@ function* getTransactions() {
 }
 
 function* updateCurrentAccountData() {
-  const currentAccountId = yield select(getStateCurrentAccountId)
+  const currentAccountId = yield select(selectCurrentAccountId)
   const accountData = getAccountData(currentAccountId)
 
   yield setCurrentAccountData(accountData)
@@ -132,7 +119,7 @@ function* createAccount(action) {
 }
 
 function* setCurrentAccount(action) {
-  const currentAccountId = yield select(getStateCurrentAccountId)
+  const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
 
   if (currentAccountId === accountId) {
@@ -160,7 +147,7 @@ function* setCurrentAccount(action) {
 }
 
 function* removeAccount(action) {
-  const currentAccountId = yield select(getStateCurrentAccountId)
+  const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
 
   keystore.removeAccount(accountId)
@@ -257,7 +244,7 @@ function* refreshAddressesFromMnemonic(accountId, addressIndex = 0) {
 }
 
 function* getAddressesFromMnemonic(action) {
-  const { addressesFromMnemonic } = yield select(getStateKeystoreData)
+  const { addressesFromMnemonic } = yield select(selectKeystore)
   const { accountId, iteration, limit } = action
   const existedItems = addressesFromMnemonic.items
 
@@ -348,7 +335,7 @@ function backupKeystore(action) {
 }
 
 function* sortAccounts(action) {
-  const keystoreData = yield select(getStateKeystoreData)
+  const keystoreData = yield select(selectKeystore)
 
   const oldSortField = keystoreData.sortField
   const sortField = action.sortField || oldSortField

@@ -1,9 +1,16 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
+import isEmpty from 'lodash/isEmpty'
 
 import config from 'config'
 import { storage, web3 } from 'services'
 import { getDefaultTokens, searchItems, sortItems } from 'utils'
+
+import {
+  selectCurrencies,
+  selectCurrentKeystoreAddress,
+  selectCurrentNetworkName,
+} from './stateSelectors'
 
 import {
   CURRENCIES_GET,
@@ -26,29 +33,12 @@ import { CUSTOM_TOKEN_CLEAR } from '../modules/modals/customToken'
 const currenciesSearchFields = ['symbol', 'name']
 let isGetBalancesLoopLaunched = 0
 
-function getStateCurrencies(state = {}) {
-  return state.currencies
-}
-
-function getKeystoreAddress(state = {}) {
-  const { currentAccount, addressesFromMnemonic } = state.keystore
-  const { type, address, addressIndex } = currentAccount
-
-  return (type === 'mnemonic') ? addressesFromMnemonic.items[addressIndex] : address
-}
-
-function getNetworkName(state = {}) {
-  const { items, currentActiveIndex } = state.networks
-
-  return items[currentActiveIndex].title
-}
-
 function* getTransactions(currencyIndex = 0) {
   yield put({ type: TRANSACTIONS_GET, currencyIndex })
 }
 
 function* getCurrenciesFromStorage() {
-  const networkName = yield select(getNetworkName)
+  const networkName = yield select(selectCurrentNetworkName)
 
   let items = getDefaultTokens(networkName)
   let balances = {}
@@ -80,13 +70,18 @@ function* getCurrenciesFromStorage() {
 }
 
 function* getBalances() {
-  const { items, isLoading } = yield select(getStateCurrencies)
+  const { items, isLoading } = yield select(selectCurrencies)
 
   if (isLoading) {
     return
   }
 
-  const address = yield select(getKeystoreAddress)
+  const address = yield select(selectCurrentKeystoreAddress)
+
+  if (isEmpty(address)) {
+    return
+  }
+
   const tokensBalances = getTokensBalances(items, address)
 
   const balances = yield all({
@@ -125,23 +120,23 @@ function getTokensBalances(items = [], owner = '') {
   return result
 }
 
-function* setCurrenciesToStorage(action = {}) {
-  const networkName = yield select(getNetworkName)
+function* setCurrenciesToStorage(action) {
+  const networkName = yield select(selectCurrentNetworkName)
 
   storage.setCurrencies(JSON.stringify(action.items || []), networkName)
 }
 
-function* setCurrentCurrencyToStorage(action = {}) {
+function* setCurrentCurrencyToStorage(action) {
   const { currentActiveIndex } = action
-  const networkName = yield select(getNetworkName)
+  const networkName = yield select(selectCurrentNetworkName)
 
   storage.setCurrenciesCurrent(currentActiveIndex || 0, networkName)
 
   yield getTransactions(currentActiveIndex)
 }
 
-function* setBalancesToStorage(action = {}) {
-  const networkName = yield select(getNetworkName)
+function* setBalancesToStorage(action) {
+  const networkName = yield select(selectCurrentNetworkName)
 
   storage.setCurrenciesBalances(JSON.stringify(action.balances || {}), networkName)
 }
@@ -176,8 +171,8 @@ function getNextAvailableActiveIndex(items = []) {
   return -1
 }
 
-function* toggleCurrency(action = {}) {
-  const { items, currentActiveIndex, isActiveAll } = yield select(getStateCurrencies)
+function* toggleCurrency(action) {
+  const { items, currentActiveIndex, isActiveAll } = yield select(selectCurrencies)
   const { index } = action
 
   // if ETH index
@@ -225,8 +220,8 @@ function* setSortOptions(sortField = '', sortDirection = 'ASC') {
   yield put({ type: CURRENCIES_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
-function* searchCurrencies(action = {}) {
-  const currencies = yield select(getStateCurrencies)
+function* searchCurrencies(action) {
+  const currencies = yield select(selectCurrencies)
   const { searchQuery } = action
 
   const foundItems = searchItems(currencies.items, searchQuery, currenciesSearchFields)
@@ -235,24 +230,21 @@ function* searchCurrencies(action = {}) {
   yield setSearchOptions(foundItemsSymbols, searchQuery)
 }
 
-function* sortCurrencies(action = {}) {
-  const currencies = yield select(getStateCurrencies)
+function* sortCurrencies(action) {
+  const currencies = yield select(selectCurrencies)
 
   const oldSortField = currencies.sortField
   const sortField = action.sortField || oldSortField
   const { items, sortDirection, currentActiveIndex } = currencies
   const [eth, ...tokens] = items
 
-  if (!tokens.length) {
-    return
-  }
-
-  const currentActiveSymbol = tokens[currentActiveIndex].symbol
+  const currentActiveSymbol = items[currentActiveIndex].symbol
 
   const result = sortItems(tokens, oldSortField, sortField, sortDirection)
-  const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
+  const newItems = [eth, ...result.items]
+  const newActiveIndex = getNewActiveIndex(newItems, currentActiveSymbol)
 
-  yield setCurrencies([eth, ...result.items], newActiveIndex)
+  yield setCurrencies(newItems, newActiveIndex)
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
@@ -266,11 +258,11 @@ function getNewActiveIndex(items = [], symbol = '') {
   return -1
 }
 
-function* addCustomToken(action = {}) {
+function* addCustomToken(action) {
   try {
     const { customTokenData } = action
     const decimals = parseInt(customTokenData.decimals, 10) || 0
-    const { items } = yield select(getStateCurrencies) || {}
+    const { items } = yield select(selectCurrencies)
     const newActiveIndex = items.length
 
     const newItems = [...items, {

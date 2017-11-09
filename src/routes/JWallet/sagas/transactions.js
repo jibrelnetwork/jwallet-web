@@ -6,6 +6,8 @@ import config from 'config'
 import { etherscan, web3 } from 'services'
 import { searchItems, sortItems } from 'utils'
 
+import { selectCurrentCurrency, selectCurrentKeystoreAddress } from './stateSelectors'
+
 import {
   TRANSACTIONS_GET,
   TRANSACTIONS_SET,
@@ -17,23 +19,6 @@ import {
 
 const transactionsSearchFields = ['status', 'address', 'transactionHash', 'fee', 'amount', 'date']
 let isGetTransactionsLoopLaunched = 0
-
-function getStateTransactions(state) {
-  return state.transactions
-}
-
-function getStateCurrentCurrency(state) {
-  const { items, currentActiveIndex } = state.currencies
-
-  return items[currentActiveIndex]
-}
-
-function getStateCurrentAddress(state) {
-  const { currentAccount, addressesFromMnemonic } = state.keystore
-  const { type, address, addressIndex } = currentAccount
-
-  return (type === 'mnemonic') ? addressesFromMnemonic.items[addressIndex] : address
-}
 
 function* startGetTransactions() {
   yield getTransactions()
@@ -62,20 +47,22 @@ function* getTransactionsLoop() {
 }
 
 function* getTransactions() {
-  const currentCurrency = yield select(getStateCurrentCurrency)
-  const currentAddress = yield select(getStateCurrentAddress)
+  const currentCurrency = yield select(selectCurrentCurrency)
+  const currentAddress = yield select(selectCurrentKeystoreAddress)
 
-  if (isEmpty(currentCurrency) || !currentCurrency.isActive) {
-    return yield setTransactions()
+  if (isEmpty(currentAddress) || isEmpty(currentCurrency) || !currentCurrency.isActive) {
+    yield setTransactions()
+
+    return
   }
 
-  const { symbol, address, decimals } = currentCurrency
+  const { address, symbol, decimals } = currentCurrency
 
   const transactions = (symbol === 'ETH')
     ? yield getETHTransactions(currentAddress)
     : yield getContractsTransactions(address, currentAddress, decimals)
 
-  return yield setTransactions(transactions)
+  yield setTransactions(transactions)
 }
 
 function* getETHTransactions(address) {

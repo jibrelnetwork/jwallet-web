@@ -50,7 +50,7 @@ class ReceiveFundsModal extends SubmitModal {
         name={'accountId'}
         placeholder='Account'
         selectedValue={currentAccount.accountName || ''}
-        enabled
+        enabled={!!accounts.length}
       >
         {accounts.map((account) => {
           return <JPicker.Item key={account.id} label={account.accountName} value={account.id} />
