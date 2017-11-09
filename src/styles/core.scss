@@ -103,6 +103,18 @@
     cursor: default;
   }
 
+  @mixin flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @mixin flex-column-center {
+    @include flex-column;
+
+    align-items: center;
+    justify-content: center;
+  }
+
   @import '../components/base/JFormField/jFormField';
   @import '../components/base/JButton/jButton';
   @import '../components/base/JCheckbox/jCheckbox';
@@ -132,6 +144,7 @@
   @import '../components/Expandable/expandable';
   @import '../components/JWalletHeader/headerMenu';
   @import '../components/KeysManager/keysManager';
+  @import '../components/KeystoreButtons/keystoreButtons';
   @import '../components/NetworksManager/networksManager';
   @import '../components/PasswordField/passwordField';
   @import '../components/Search/search';

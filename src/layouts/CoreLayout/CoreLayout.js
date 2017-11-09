@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { base, modals, AuthHeader, JWalletHeader } from 'components'
+import { base, modals, JWalletHeader } from 'components'
 
 import 'styles/core.scss'
 
@@ -10,7 +10,6 @@ const { JFooter, JLoader } = base
 const {
   BackupKeystoreModal,
   ClearKeystoreModal,
-  ConvertFundsModal,
   CurrenciesModal,
   CustomTokenModal,
   ImportKeystoreAccountModal,
@@ -57,29 +56,6 @@ class CoreLayout extends Component {
   }
 
   renderHeader = () => {
-    const isAuthRequired = !this.props.keystore.accounts.length
-
-    if (isAuthRequired) {
-      return this.renderAuthHeader()
-    }
-
-    return this.renderJWalletHeader()
-  }
-
-  renderContent = () => {
-    return <div className='content'>{this.props.children}</div>
-  }
-
-  /* eslint-disable class-methods-use-this */
-  renderFooter = () => {
-    return <JFooter />
-  }
-
-  renderAuthHeader = () => {
-    return <AuthHeader />
-  }
-
-  renderJWalletHeader = () => {
     const {
       setCurrentNetwork,
       setCustomNetworkValue,
@@ -112,12 +88,20 @@ class CoreLayout extends Component {
     )
   }
 
+  renderContent = () => {
+    return <div className='content'>{this.props.children}</div>
+  }
+
+  /* eslint-disable class-methods-use-this */
+  renderFooter = () => {
+    return <JFooter />
+  }
+
   renderModals = () => {
     return (
       <div>
         <BackupKeystoreModal />
         <ClearKeystoreModal />
-        <ConvertFundsModal />
         <CurrenciesModal />
         <CustomTokenModal />
         <KeystoreModal />

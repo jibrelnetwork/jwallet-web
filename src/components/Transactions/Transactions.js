@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import KeystoreButtons from 'components/KeystoreButtons'
+
 import TransactionsFilters from './Filters'
+import TransactionsLoading from './Loading'
 import TransactionsTable from './Table'
 
 class Transactions extends Component {
@@ -19,12 +22,29 @@ class Transactions extends Component {
       searchTransactions,
       setStartFilterTime,
       setEndFilterTime,
+      openNewKeystoreAccountModal,
+      openImportKeystoreAccountModal,
       transactions,
       currentCurrencySymbol,
+      isKeystoreInitialised,
     } = this.props
 
+    const { filterData, searchQuery, isLoading } = transactions
+
+    if (isLoading) {
+      return <TransactionsLoading />
+    }
+
+    if (!isKeystoreInitialised) {
+      return (
+        <KeystoreButtons
+          openNewKeystoreAccountModal={openNewKeystoreAccountModal}
+          openImportKeystoreAccountModal={openImportKeystoreAccountModal}
+        />
+      )
+    }
+
     const { emptyTableImageSrc, active } = this.state
-    const { filterData, searchQuery } = transactions
 
     return (
       <div className='transactions'>
@@ -141,6 +161,8 @@ Transactions.propTypes = {
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
+  openNewKeystoreAccountModal: PropTypes.func.isRequired,
+  openImportKeystoreAccountModal: PropTypes.func.isRequired,
   getTransactions: PropTypes.func.isRequired,
   searchTransactions: PropTypes.func.isRequired,
   sortTransactions: PropTypes.func.isRequired,
@@ -179,6 +201,7 @@ Transactions.propTypes = {
   }).isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
   currentCurrencyIndex: PropTypes.number.isRequired,
+  isKeystoreInitialised: PropTypes.bool.isRequired,
 }
 
 export default Transactions

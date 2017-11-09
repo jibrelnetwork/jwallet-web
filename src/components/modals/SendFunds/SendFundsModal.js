@@ -41,7 +41,7 @@ class SendFundsModal extends SubmitModal {
         placeholder='Account'
         selectedValue={currentAccount.accountName}
         errorMessage={invalidFields.account}
-        enabled
+        enabled={!!accounts.length}
       >
         {accounts.filter(account => !account.isReadOnly).map((account) => {
           return <JPicker.Item key={account.id} label={account.accountName} value={account.id} />
