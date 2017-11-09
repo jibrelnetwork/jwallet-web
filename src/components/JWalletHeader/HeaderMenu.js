@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JIcon from 'components/base/JIcon'
 
-function HeaderMenu({ openSendFundsModal, openReceiveFundsModal, openConvertFundsModal }) {
+function HeaderMenu({ openSendFundsModal, openReceiveFundsModal }) {
   return (
     <div className='header-menu pull-left'>
       <div className='header-menu__item' onClick={openSendFundsModal}>
@@ -14,10 +14,6 @@ function HeaderMenu({ openSendFundsModal, openReceiveFundsModal, openConvertFund
         <JIcon name='receive' className='header-menu__icon' />
         <span className='header-menu__title'>{'Receive'}</span>
       </div>
-      <div className='header-menu__item' onClick={openConvertFundsModal}>
-        <JIcon name='convert' className='header-menu__icon' />
-        <span className='header-menu__title'>{'Convert'}</span>
-      </div>
     </div>
   )
 }
@@ -25,7 +21,6 @@ function HeaderMenu({ openSendFundsModal, openReceiveFundsModal, openConvertFund
 HeaderMenu.propTypes = {
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
-  openConvertFundsModal: PropTypes.func.isRequired,
 }
 
 export default HeaderMenu

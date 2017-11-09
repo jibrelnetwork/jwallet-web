@@ -6,6 +6,11 @@ import JIcon from 'components/base/JIcon'
 function KeysManager(props) {
   const { openKeystoreModal, accountName } = props
 
+  // if keystore was not initialised yet
+  if (!(accountName && accountName.length)) {
+    return null
+  }
+
   return (
     <div className='keys-manager pull-right' onClick={openKeystoreModal}>
       <div className='keys-manager__title'>{'Keys manager'}</div>

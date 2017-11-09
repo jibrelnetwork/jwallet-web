@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function JLogo({ className }) {
-  return <a href='/' className={`logo pull-left ${className}`}><div className='logo__image' /></a>
+  return (
+    <a href='/jwallet' className={`logo pull-left ${className}`}>
+      <div className='logo__image' />
+    </a>
+  )
 }
 
 JLogo.propTypes = {
