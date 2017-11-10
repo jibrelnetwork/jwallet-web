@@ -119,7 +119,7 @@ function* sendFundsFail(err = {}) {
   const isPasswordError = /password/i.test(err.message)
 
   if (isPasswordError) {
-    yield setInvalidField('password', err.message)
+    yield setInvalidField('password', 'Password is incorrect')
   } else {
     yield cleanPassword()
     yield setAlert('Sending of the transaction was failed. Please try again later')
