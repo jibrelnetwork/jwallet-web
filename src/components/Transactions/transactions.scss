@@ -2,6 +2,7 @@ $t-table-header-padding: 30px;
 $t-table-header-line-height: 24px;
 $t-table-header-height: 2 * $t-table-header-padding + $t-table-header-line-height;
 
+@import './Empty/transactionsEmpty';
 @import './Filters/transactionsFilters';
 @import './Manager/transactionsManager';
 @import './Table/transactionsTable';

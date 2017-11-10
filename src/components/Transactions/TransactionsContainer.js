@@ -20,7 +20,7 @@ import { openImportKeystoreAccountModal } from 'routes/JWallet/modules/modals/im
 import Transactions from './Transactions'
 
 const mapStateToProps = (state) => {
-  const { currencies, keystore, transactions } = state
+  const { currencies, keystore, networks, transactions } = state
   const { items, currentActiveIndex } = currencies
   const currentCurrency = items[currentActiveIndex]
   const currentCurrencySymbol = currentCurrency ? currentCurrency.symbol : ''
@@ -30,8 +30,9 @@ const mapStateToProps = (state) => {
     transactions,
     currentCurrencySymbol,
     isKeystoreInitialised,
-    currenciesItems: items,
+    currencyItems: items,
     currentCurrencyIndex: currentActiveIndex,
+    isCustomNetwork: (networks.currentActiveIndex > 3),
   }
 }
 

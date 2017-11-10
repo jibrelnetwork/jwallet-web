@@ -168,14 +168,16 @@ function parseTransactions(list, decimals) {
 }
 
 function parseTransaction(item, decimals) {
-  const { timestamp, address, from, value, gas, gasPrice, isRejected, removed } = item
+  const { timestamp, address, from, to, value, gas, gasPrice, isRejected, removed } = item
+  const isSender = (address === from)
 
   return {
     ...item,
     contractAddress: '',
     fee: (gas * gasPrice),
+    address: isSender ? to : from,
     amount: (value / (10 ** decimals)),
-    type: (address === from) ? 'send' : 'receive',
+    type: isSender ? 'send' : 'receive',
     /**
      * removed flag is present for contract events only
      * (see https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events)

@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 
 function TransactionsTableBodyRowDetails(props) {
   const { from, to, transactionHash, fee, isActive, contractAddress } = props
-  const _to = (to && to.length) ? to : `Contract creation (${contractAddress})`
+  const _to = isEmpty(to) ? `Contract creation (${contractAddress})` : to
 
   return (
     <div className={`transaction-details ${isActive ? 'transaction-details--active' : ''}`}>

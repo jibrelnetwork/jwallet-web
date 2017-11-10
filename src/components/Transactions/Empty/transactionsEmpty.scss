@@ -1,0 +1,35 @@
+.transactions-empty {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  background-size: 198px 129px;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  &--etherscan-error {
+    height: 220px;
+  }
+}
+
+.transactions-empty__message {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  line-height: 20px;
+  padding-top: 20px;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: bottom;
+  color: $gray2;
+}
+
+.transactions-empty__etherscan-link {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
