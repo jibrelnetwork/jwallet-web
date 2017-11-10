@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
+import BigNumber from 'bignumber.js'
 
-import { generateQRCode } from 'utils'
+import config from 'config'
+import qrCode from 'services/qrCode'
 
 import { CopyableField, SubmitModal } from 'components'
 import JTextInput from 'components/base/JTextInput'
@@ -42,11 +44,12 @@ class ReceiveFundsModal extends SubmitModal {
 
   generateQRCodeToReceive = () => {
     const { currentAddress, amount } = this.props
+    const amountWei = parseFloat(amount, 10) * (10 ** config.defaultDecimals)
 
-    return generateQRCode({
+    return qrCode.generate({
       requisites: {
         to: currentAddress,
-        value: parseFloat(amount, 10),
+        value: new BigNumber(amountWei.toFixed(0), 10),
       },
     })
   }
@@ -55,7 +58,7 @@ class ReceiveFundsModal extends SubmitModal {
     const { amount, currentAddress } = this.props
 
     const isAmountInvalid = /[^\d.]/.test(amount)
-    const isAmountLte0 = (!isAmountInvalid && (parseFloat(amount, 10) || 0) <= 0)
+    const isAmountLte0 = (isAmountInvalid || (parseFloat(amount, 10) || 0) <= 0)
     const isAddressInvalid = isEmpty(currentAddress)
 
     return (isAmountLte0 || isAddressInvalid)

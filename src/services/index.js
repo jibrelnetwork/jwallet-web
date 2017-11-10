@@ -1,5 +1,6 @@
 export etherscan from './etherscan'
 export fileSaver from './fileSaver'
 export keystore from './keystore'
+export qrCode from './qrCode'
 export storage from './storage'
 export web3 from './web3'

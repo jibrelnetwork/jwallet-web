@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
@@ -62,8 +63,8 @@ class SubmitModal extends JModal {
       onPress: this.submitModal,
       name: modalName,
       title: buttonTitle,
-      disabled: this.isModalButtonDisabled(),
       isLoading: isButtonLoading,
+      disabled: (this.isModalButtonDisabled() || this.isInvalidFields()),
     }
 
     if (buttonType === 'password') {
@@ -109,6 +110,12 @@ class SubmitModal extends JModal {
       default:
         return null
     }
+  }
+
+  isInvalidFields = () => {
+    const { invalidFields } = this.props
+
+    return !!Object.keys(invalidFields).filter(field => (!isEmpty(invalidFields[field]))).length
   }
 }
 
