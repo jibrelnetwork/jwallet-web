@@ -22,7 +22,6 @@ function TransactionsManager(props) {
 TransactionsManager.propTypes = {
   sendFunds: PropTypes.func.isRequired,
   receiveFunds: PropTypes.func.isRequired,
-  convertFunds: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 }

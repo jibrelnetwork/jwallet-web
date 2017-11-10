@@ -52,7 +52,6 @@ class Transactions extends Component {
           searchTransactions={searchTransactions}
           sendFunds={this.sendFunds}
           receiveFunds={this.receiveFunds}
-          convertFunds={this.convertFunds}
           filterTransactions={this.filterTransactions}
           removeCurrency={this.removeCurrency}
           setStartFilterTime={setStartFilterTime}

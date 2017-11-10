@@ -10,7 +10,6 @@ function TransactionsFilters(props) {
     removeCurrency,
     sendFunds,
     receiveFunds,
-    convertFunds,
     searchTransactions,
     filterTransactions,
     setStartFilterTime,
@@ -34,7 +33,6 @@ function TransactionsFilters(props) {
         <TransactionsManager
           sendFunds={sendFunds}
           receiveFunds={receiveFunds}
-          convertFunds={convertFunds}
           filter={filterTransactions}
           remove={removeCurrency}
         />
@@ -47,7 +45,6 @@ TransactionsFilters.propTypes = {
   removeCurrency: PropTypes.func.isRequired,
   sendFunds: PropTypes.func.isRequired,
   receiveFunds: PropTypes.func.isRequired,
-  convertFunds: PropTypes.func.isRequired,
   searchTransactions: PropTypes.func.isRequired,
   filterTransactions: PropTypes.func.isRequired,
   setStartFilterTime: PropTypes.func.isRequired,
