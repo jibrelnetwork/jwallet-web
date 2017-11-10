@@ -1,6 +1,5 @@
 export defaultNetworks from './defaultNetworks'
 export * from './errors'
-export generateQRCode from './generateQRCode'
 export getDefaultTokens from './getDefaultTokens'
 export getFieldMessage from './getFieldMessage'
 export getFormattedDateString from './getFormattedDateString'
