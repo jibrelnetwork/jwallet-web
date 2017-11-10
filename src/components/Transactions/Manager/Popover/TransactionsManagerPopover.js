@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 
 import { JIcon, JPopover } from 'components/base'
 
-function TransactionsManagerPopover(props) {
-  const { onClickOutside, sendFunds, receiveFunds, convertFunds, filter, remove } = props
-
+function TransactionsManagerPopover({ onClickOutside, sendFunds, receiveFunds, filter, remove }) {
   const body = (
     <div className='transactions-manager-popover'>
       <div className='popover__item' onClick={sendFunds}>
@@ -15,10 +13,6 @@ function TransactionsManagerPopover(props) {
       <div className='popover__item' onClick={receiveFunds}>
         <JIcon name='small-receive' className='popover__icon' small />
         <span className='popover__label'>{'Receive funds'}</span>
-      </div>
-      <div className='popover__item' onClick={convertFunds}>
-        <JIcon name='small-convert' className='popover__icon' small />
-        <span className='popover__label'>{'Convert funds'}</span>
       </div>
       <div className='popover__item' onClick={filter(true)}>
         <JIcon name='date' className='popover__icon' small />
@@ -44,7 +38,6 @@ function TransactionsManagerPopover(props) {
 TransactionsManagerPopover.propTypes = {
   sendFunds: PropTypes.func.isRequired,
   receiveFunds: PropTypes.func.isRequired,
-  convertFunds: PropTypes.func.isRequired,
   filter: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
   onClickOutside: PropTypes.func,
