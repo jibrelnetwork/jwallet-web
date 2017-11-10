@@ -125,7 +125,17 @@ module.exports = {
         password: 'Password',
         passwordConfirm: 'Confirm password',
       },
-      error: {},
+      error: {
+        mnemonicConfirm: {
+          notMatched: 'Mnemonic should match',
+        },
+        password: {
+          incorrect: 'Password is incorrect',
+        },
+        passwordConfirm: {
+          notMatched: 'Password should match',
+        },
+      },
       buttonTitles: [
         'I understood',
         'I understood',
@@ -155,7 +165,17 @@ module.exports = {
         password: 'Password',
         passwordConfirm: 'Confirm password',
       },
-      error: {},
+      error: {
+        data: {
+          invalid: 'Please input valid data to import',
+        },
+        password: {
+          incorrect: 'Password is incorrect',
+        },
+        passwordConfirm: {
+          notMatched: 'Password should match',
+        },
+      },
       buttonTitles: [{
         yes: 'Continue',
         no: 'Continue',
