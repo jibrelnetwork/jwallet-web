@@ -31,6 +31,7 @@ function TransactionsTableBodyRow(props) {
         type={type}
         status={status}
         address={address}
+        contractAddress={contractAddress}
         amount={`${amount.toFixed(5)} ${currencySymbol}`}
         date={date}
         currencyIndex={currencyIndex}

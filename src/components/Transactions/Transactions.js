@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 
 import KeystoreButtons from 'components/KeystoreButtons'
 
+import TransactionsEmpty from './Empty'
 import TransactionsFilters from './Filters'
 import TransactionsLoading from './Loading'
 import TransactionsTable from './Table'
@@ -10,7 +12,7 @@ import TransactionsTable from './Table'
 class Transactions extends Component {
   constructor(props) {
     super(props)
-    this.state = { active: -1, emptyTableImageSrc: '/img/no-data.svg' }
+    this.state = { active: -1, emptyImageSrc: '/img/no-data.svg' }
   }
 
   componentDidMount() {
@@ -18,33 +20,55 @@ class Transactions extends Component {
   }
 
   render() {
+    const { transactions, isKeystoreInitialised, isCustomNetwork } = this.props
+    const { isLoading, isBlockExplorerError } = transactions
+
+    if (isLoading) {
+      return this.renderTransactionsLoading()
+    } else if (!isKeystoreInitialised) {
+      return this.renderKeystoreButtons()
+    } else if (isCustomNetwork || isBlockExplorerError) {
+      return this.renderTransactionsEmpty()
+    }
+
+    return this.renderTransactions()
+  }
+
+  renderTransactionsLoading = () => {
+    return <TransactionsLoading />
+  }
+
+  renderKeystoreButtons = () => {
+    const { openNewKeystoreAccountModal, openImportKeystoreAccountModal } = this.props
+
+    return (
+      <KeystoreButtons
+        openNewKeystoreAccountModal={openNewKeystoreAccountModal}
+        openImportKeystoreAccountModal={openImportKeystoreAccountModal}
+      />
+    )
+  }
+
+  renderTransactionsEmpty = () => {
+    return (
+      <TransactionsEmpty
+        emptyImageSrc={this.state.emptyImageSrc}
+        isCustomNetwork={this.props.isCustomNetwork}
+      />
+    )
+  }
+
+  renderTransactions = () => {
     const {
       searchTransactions,
       setStartFilterTime,
       setEndFilterTime,
-      openNewKeystoreAccountModal,
-      openImportKeystoreAccountModal,
       transactions,
       currentCurrencySymbol,
-      isKeystoreInitialised,
     } = this.props
 
-    const { filterData, searchQuery, isLoading } = transactions
-
-    if (isLoading) {
-      return <TransactionsLoading />
-    }
-
-    if (!isKeystoreInitialised) {
-      return (
-        <KeystoreButtons
-          openNewKeystoreAccountModal={openNewKeystoreAccountModal}
-          openImportKeystoreAccountModal={openImportKeystoreAccountModal}
-        />
-      )
-    }
-
-    const { emptyTableImageSrc, active } = this.state
+    const { filterData, searchQuery } = transactions
+    const { emptyImageSrc, active } = this.state
 
     return (
       <div className='transactions'>
@@ -66,7 +90,7 @@ class Transactions extends Component {
           toggleActive={this.toggleActive}
           transactions={transactions}
           currentCurrencySymbol={currentCurrencySymbol}
-          emptyTableImageSrc={emptyTableImageSrc}
+          emptyImageSrc={emptyImageSrc}
           activeTransactionIndex={active}
           isTransactionsEmpty={this.isTransactionsEmpty()}
         />
@@ -75,23 +99,23 @@ class Transactions extends Component {
   }
 
   preloadEmptyTableImage = () => {
-    const emptyTableImage = new Image()
-    emptyTableImage.src = this.state.emptyTableImageSrc
+    const emptyImage = new Image()
+    emptyImage.src = this.state.emptyImageSrc
   }
 
   getCurrencyIndex = (requestedAddress) => {
     let foundIndex = -1
 
-    if (!(requestedAddress && requestedAddress.length)) {
+    if (isEmpty(requestedAddress)) {
       return foundIndex
     }
 
-    this.props.currenciesItems.forEach(({ address, isActive, isAuthRequired }, index) => {
+    this.props.currencyItems.forEach(({ address, isActive, isAuthRequired }, index) => {
       if (!isActive || isAuthRequired) {
         return
       }
 
-      if (address === requestedAddress) {
+      if (address.toLowerCase() === requestedAddress) {
         foundIndex = index
       }
     })
@@ -168,7 +192,7 @@ Transactions.propTypes = {
   setStartFilterTime: PropTypes.func.isRequired,
   setEndFilterTime: PropTypes.func.isRequired,
   filterTransactions: PropTypes.func.isRequired,
-  currenciesItems: PropTypes.arrayOf(PropTypes.shape({
+  currencyItems: PropTypes.arrayOf(PropTypes.shape({
     address: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
     isAuthRequired: PropTypes.bool.isRequired,
@@ -197,10 +221,12 @@ Transactions.propTypes = {
     sortDirection: PropTypes.string.isRequired,
     searchQuery: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isBlockExplorerError: PropTypes.bool.isRequired,
   }).isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
   currentCurrencyIndex: PropTypes.number.isRequired,
   isKeystoreInitialised: PropTypes.bool.isRequired,
+  isCustomNetwork: PropTypes.bool.isRequired,
 }
 
 export default Transactions

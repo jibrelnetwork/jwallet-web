@@ -1,5 +1,6 @@
-import config from 'config'
+import isEmpty from 'lodash/isEmpty'
 
+import config from 'config'
 import getFormattedDateString from 'utils/getFormattedDateString'
 
 const { etherscanApiOptions, defaultDecimals } = config
@@ -33,12 +34,14 @@ function getTransactions(address) {
   }).then((response) => {
     const { message, result } = response
 
-    if (message !== 'OK') {
+    if (message === 'No transactions found') {
+      return []
+    } else if (message !== 'OK') {
       throw (new Error('Can not get transactions'))
     }
 
     return parseTransactions(result, address)
-  }).catch(() => [])
+  })
 }
 
 function parseTransactions(list, address, decimals = defaultDecimals) {
@@ -63,17 +66,19 @@ function parseTransactions(list, address, decimals = defaultDecimals) {
     const timestamp = timeStamp * 1000
     const status = blockNumber ? 'Accepted' : 'Pending'
     const isRejected = (parseInt(isError, 10) === 1)
+    const isSender = (address === from)
+    const toOrContractAddress = isEmpty(to) ? contractAddress : to
 
     return {
       to,
       from,
-      address,
       timestamp,
       contractAddress,
       transactionHash: hash,
-      status: isRejected ? 'Rejected' : status,
+      address: isSender ? toOrContractAddress : from,
       amount: (value / (10 ** decimals)),
-      type: (address === from) ? 'send' : 'receive',
+      type: isSender ? 'send' : 'receive',
+      status: isRejected ? 'Rejected' : status,
       fee: ((cumulativeGasUsed * gasPrice) / (10 ** defaultDecimals)),
       date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
     }

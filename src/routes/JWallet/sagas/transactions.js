@@ -19,12 +19,13 @@ import {
   TRANSACTIONS_SET_SEARCH_OPTIONS,
   TRANSACTIONS_SORT,
   TRANSACTIONS_SET_SORT_OPTIONS,
+  TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR,
 } from '../modules/transactions'
 
 const transactionsSearchFields = ['status', 'address', 'transactionHash', 'fee', 'amount', 'date']
 let isGetTransactionsLoopLaunched = 0
 
-function* startGetTransactions() {
+function* onGetTransactions() {
   yield getTransactions()
 
   // ignore if getTransactionsLoop was already launched
@@ -36,6 +37,29 @@ function* startGetTransactions() {
   isGetTransactionsLoopLaunched += 1
 
   yield getTransactionsLoop()
+}
+
+function* onSearchTransactions(action) {
+  const { searchQuery } = action
+  const transactions = yield select(selectTransactions)
+
+  const foundItems = searchItems(transactions.items, searchQuery, transactionsSearchFields)
+  const foundItemsHashes = foundItems.map(i => i.txHash)
+
+  yield setSearchOptions(foundItemsHashes, searchQuery)
+}
+
+function* onSortTransactions(action) {
+  const transactions = yield select(selectTransactions)
+
+  const oldSortField = transactions.sortField
+  const sortField = action.sortField || oldSortField
+  const { items, sortDirection } = transactions
+
+  const result = sortItems(items, oldSortField, sortField, sortDirection)
+
+  yield setTransactions(result.items)
+  yield setSortOptions(result.sortField, result.sortDirection)
 }
 
 function* getTransactionsLoop() {
@@ -70,7 +94,13 @@ function* getTransactions() {
 }
 
 function* getETHTransactions(address) {
-  return yield call(etherscan.getETHTransactions, address)
+  try {
+    return yield call(etherscan.getETHTransactions, address)
+  } catch (err) {
+    yield put({ type: TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR })
+
+    return []
+  }
 }
 
 function* getContractsTransactions(contractAddress, owner, decimals) {
@@ -89,37 +119,14 @@ function* setSortOptions(sortField, sortDirection) {
   yield put({ type: TRANSACTIONS_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
-function* searchTransactions(action) {
-  const { searchQuery } = action
-  const transactions = yield select(selectTransactions)
-
-  const foundItems = searchItems(transactions.items, searchQuery, transactionsSearchFields)
-  const foundItemsHashes = foundItems.map(i => i.txHash)
-
-  yield setSearchOptions(foundItemsHashes, searchQuery)
-}
-
-function* sortTransactions(action) {
-  const transactions = yield select(selectTransactions)
-
-  const oldSortField = transactions.sortField
-  const sortField = action.sortField || oldSortField
-  const { items, sortDirection } = transactions
-
-  const result = sortItems(items, oldSortField, sortField, sortDirection)
-
-  yield setTransactions(result.items)
-  yield setSortOptions(result.sortField, result.sortDirection)
-}
-
 export function* watchGetTransactions() {
-  yield takeEvery(TRANSACTIONS_GET, startGetTransactions)
+  yield takeEvery(TRANSACTIONS_GET, onGetTransactions)
 }
 
 export function* watchSearchTransactions() {
-  yield takeEvery(TRANSACTIONS_SEARCH, searchTransactions)
+  yield takeEvery(TRANSACTIONS_SEARCH, onSearchTransactions)
 }
 
 export function* watchSortTransactions() {
-  yield takeEvery(TRANSACTIONS_SORT, sortTransactions)
+  yield takeEvery(TRANSACTIONS_SORT, onSortTransactions)
 }

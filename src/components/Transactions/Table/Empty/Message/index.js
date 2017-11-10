@@ -1,3 +1,0 @@
-import TransactionsTableEmptyMessage from './TransactionsTableEmptyMessage'
-
-export default TransactionsTableEmptyMessage

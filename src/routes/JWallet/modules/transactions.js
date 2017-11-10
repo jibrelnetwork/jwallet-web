@@ -11,21 +11,23 @@ export const TRANSACTIONS_SET_START_FILTER_TIME = 'TRANSACTIONS_SET_START_FILTER
 export const TRANSACTIONS_SET_END_FILTER_TIME = 'TRANSACTIONS_SET_END_FILTER_TIME'
 export const TRANSACTIONS_FILTER = 'TRANSACTIONS_FILTER'
 
-export function getTransactions(currencyIndex = 0) {
+export const TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR = 'TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR'
+
+export function getTransactions(currencyIndex) {
   return {
     type: TRANSACTIONS_GET,
     currencyIndex,
   }
 }
 
-export function searchTransactions(searchQuery = '') {
+export function searchTransactions(searchQuery) {
   return {
     type: TRANSACTIONS_SEARCH,
     searchQuery,
   }
 }
 
-export function setSearchTransactionsOptions(foundItemsHashes = [], searchQuery = '') {
+export function setSearchTransactionsOptions(foundItemsHashes, searchQuery) {
   return {
     type: TRANSACTIONS_SET_SEARCH_OPTIONS,
     foundItemsHashes,
@@ -33,14 +35,14 @@ export function setSearchTransactionsOptions(foundItemsHashes = [], searchQuery 
   }
 }
 
-export function sortTransactions(sortField = '') {
+export function sortTransactions(sortField) {
   return {
     type: TRANSACTIONS_SORT,
     sortField,
   }
 }
 
-export function setSortTransactionsOptions(sortField = '', sortDirection = 'ASC') {
+export function setSortTransactionsOptions(sortField, sortDirection) {
   return {
     type: TRANSACTIONS_SET_SORT_OPTIONS,
     sortField,
@@ -48,21 +50,21 @@ export function setSortTransactionsOptions(sortField = '', sortDirection = 'ASC'
   }
 }
 
-export function setStartFilterTime(startTime = 0) {
+export function setStartFilterTime(startTime) {
   return {
     type: TRANSACTIONS_SET_START_FILTER_TIME,
     startTime,
   }
 }
 
-export function setEndFilterTime(endTime = 0) {
+export function setEndFilterTime(endTime) {
   return {
     type: TRANSACTIONS_SET_END_FILTER_TIME,
     endTime,
   }
 }
 
-export function filterTransactions(isOpen = false) {
+export function filterTransactions(isOpen) {
   return {
     type: TRANSACTIONS_FILTER,
     isOpen,
@@ -75,6 +77,7 @@ const ACTION_HANDLERS = {
     items: initialState.items,
     searchQuery: initialState.searchQuery,
     isLoading: initialState.isLoading,
+    isBlockExplorerError: initialState.isBlockExplorerError,
   }),
   [TRANSACTIONS_SET]: (state, action) => ({
     ...state,
@@ -112,6 +115,10 @@ const ACTION_HANDLERS = {
       isOpen: action.isOpen,
     },
   }),
+  [TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR]: state => ({
+    ...state,
+    isBlockExplorerError: true,
+  }),
 }
 
 const initialState = {
@@ -126,6 +133,7 @@ const initialState = {
   sortDirection: 'DESC',
   searchQuery: '',
   isLoading: true,
+  isBlockExplorerError: false,
 }
 
 export default function transactions(state = initialState, action) {
