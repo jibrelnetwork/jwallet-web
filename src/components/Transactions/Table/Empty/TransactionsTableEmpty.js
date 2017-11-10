@@ -3,32 +3,21 @@ import PropTypes from 'prop-types'
 
 import JTable from 'components/base/JTable'
 
-import TransactionsTableEmptyMessage from './Message'
-
-function TransactionsTableEmpty(props) {
-  const { imageSrc, currencySymbol } = props
-  const backgroundImage = `url(${imageSrc})`
-  const isETH = (currencySymbol === 'ETH')
-
+function TransactionsTableEmpty({ emptyImageSrc, currencySymbol }) {
   return (
     <JTable name='transactions table--transactions-empty'>
-      <div
-        className={`transactions-table-empty ${isETH ? 'transactions-table-empty--eth' : ''}`}
-        style={{ backgroundImage }}
-      >
-        <TransactionsTableEmptyMessage currencySymbol={currencySymbol} isETH={isETH} />
+      <div className='transactions-empty' style={{ backgroundImage: `url(${emptyImageSrc})` }}>
+        <div className='transactions-empty__message'>
+          {`Look like there isn't any ${currencySymbol} in your account yet`}
+        </div>
       </div>
     </JTable>
   )
 }
 
 TransactionsTableEmpty.propTypes = {
-  imageSrc: PropTypes.string.isRequired,
-  currencySymbol: PropTypes.string,
-}
-
-TransactionsTableEmpty.defaultProps = {
-  currencySymbol: null,
+  emptyImageSrc: PropTypes.string.isRequired,
+  currencySymbol: PropTypes.string.isRequired,
 }
 
 export default TransactionsTableEmpty

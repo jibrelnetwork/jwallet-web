@@ -3,8 +3,8 @@
 }
 
 .logo__image {
-  width: 117px;
-  height: 27px;
+  width: $logo-width;
+  height: $logo-height;
   background-image: $logo;
   background-repeat: no-repeat;
   background-position: center;

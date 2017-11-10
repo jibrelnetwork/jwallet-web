@@ -21,28 +21,28 @@ export function getCurrencies() {
   }
 }
 
-export function setCurrencies(items = []) {
+export function setCurrencies(items) {
   return {
     type: CURRENCIES_SET,
     items,
   }
 }
 
-export function setCurrentCurrency(currentActiveIndex = 0) {
+export function setCurrentCurrency(currentActiveIndex) {
   return {
     type: CURRENCIES_SET_CURRENT,
     currentActiveIndex,
   }
 }
 
-export function toggleActiveCurrency(index = 0) {
+export function toggleActiveCurrency(index) {
   return {
     type: CURRENCIES_TOGGLE_ACTIVE,
     index,
   }
 }
 
-export function openCurrenciesModal(onClose = null) {
+export function openCurrenciesModal(onClose) {
   return {
     type: CURRENCIES_OPEN_MODAL,
     onClose,
@@ -55,21 +55,21 @@ export function closeCurrenciesModal() {
   }
 }
 
-export function searchCurrencies(searchQuery = '') {
+export function searchCurrencies(searchQuery) {
   return {
     type: CURRENCIES_SEARCH,
     searchQuery,
   }
 }
 
-export function sortCurrencies(sortField = '') {
+export function sortCurrencies(sortField) {
   return {
     type: CURRENCIES_SORT,
     sortField,
   }
 }
 
-export function setSearchCurrenciesOptions(foundItemsSymbols = [], searchQuery = '') {
+export function setSearchCurrenciesOptions(foundItemsSymbols, searchQuery) {
   return {
     type: CURRENCIES_SET_SEARCH_OPTIONS,
     foundItemsSymbols,
@@ -77,7 +77,7 @@ export function setSearchCurrenciesOptions(foundItemsSymbols = [], searchQuery =
   }
 }
 
-export function setSortCurrenciesOptions(sortField = '', sortDirection = 'ASC') {
+export function setSortCurrenciesOptions(sortField, sortDirection) {
   return {
     type: CURRENCIES_SET_SORT_OPTIONS,
     sortField,
@@ -85,7 +85,7 @@ export function setSortCurrenciesOptions(sortField = '', sortDirection = 'ASC') 
   }
 }
 
-export function addCustomToken(customTokenData = {}) {
+export function addCustomToken(customTokenData) {
   return {
     type: CURRENCIES_ADD_CUSTOM,
     customTokenData,

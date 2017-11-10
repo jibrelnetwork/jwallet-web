@@ -21,7 +21,7 @@ function TransactionsTable(props) {
     getCurrencyIndex,
     transactions,
     currentCurrencySymbol,
-    emptyTableImageSrc,
+    emptyImageSrc,
     activeTransactionIndex,
     isTransactionsEmpty,
   } = props
@@ -32,7 +32,7 @@ function TransactionsTable(props) {
   if (isTransactionsEmpty) {
     return (
       <TransactionsTableEmpty
-        imageSrc={emptyTableImageSrc}
+        emptyImageSrc={emptyImageSrc}
         currencySymbol={currentCurrencySymbol}
       />
     )
@@ -88,7 +88,7 @@ TransactionsTable.propTypes = {
     sortDirection: PropTypes.string.isRequired,
   }).isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
-  emptyTableImageSrc: PropTypes.string.isRequired,
+  emptyImageSrc: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
   isTransactionsEmpty: PropTypes.bool.isRequired,
 }

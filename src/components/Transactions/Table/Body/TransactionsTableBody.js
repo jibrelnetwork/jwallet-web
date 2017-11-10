@@ -27,7 +27,7 @@ function TransactionsTableBody(props) {
     <div className='transactions-table-body'>
       <div>
         {foundItems.map((transactionProps, i) => {
-          const { timestamp, to } = transactionProps
+          const { timestamp, contractAddress } = transactionProps
           const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
           const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
           const isActive = (activeTransactionIndex === i)
@@ -40,7 +40,7 @@ function TransactionsTableBody(props) {
                 setCurrentCurrency={setCurrentCurrency}
                 toggleActive={toggleActive(i)}
                 currencySymbol={currencySymbol}
-                currencyIndex={getCurrencyIndex(to)}
+                currencyIndex={getCurrencyIndex(contractAddress)}
                 isActive={isActive}
               />
             )
