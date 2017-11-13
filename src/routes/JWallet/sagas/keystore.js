@@ -4,11 +4,7 @@ import config from 'config'
 import { fileSaver, keystore, storage } from 'services'
 import sortItems from 'utils/sortItems'
 
-import {
-  selectKeystoreData,
-  selectCurrentAccountId,
-  selectClearKeystoreData,
-} from './stateSelectors'
+import { selectKeystoreData, selectCurrentAccountId } from './stateSelectors'
 
 import {
   KEYSTORE_GET_FROM_STORAGE,

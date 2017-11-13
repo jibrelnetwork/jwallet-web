@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { isKnownPath } from 'utils'
 
 import { DerivationPath, SubmitModal } from 'components'
-import JTextInput from 'components/base/JTextInput'
 
 class NewDerivationPath extends SubmitModal {
   componentWillReceiveProps(nextProps) {
