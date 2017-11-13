@@ -5,25 +5,7 @@ import SubmitModal from 'components/SubmitModal'
 import JTextInput from 'components/base/JTextInput'
 
 class BackupKeystoreModal extends SubmitModal {
-  renderModalBody = () => {
-    return this.renderPassword()
-  }
-
-  renderPassword = () => {
-    const { setBackupKeystorePassword, invalidFields, password } = this.props
-
-    return (
-      <JTextInput
-        onValueChange={setBackupKeystorePassword}
-        name='backup-password'
-        placeholder='Keystore password'
-        value={password}
-        errorMessage={invalidFields.password}
-        editable
-        secureTextEntry
-      />
-    )
-  }
+  renderModalBody = () => ''
 
   backupKeystore = () => {
     const { backupKeystore, password } = this.props
@@ -38,7 +20,7 @@ class BackupKeystoreModal extends SubmitModal {
 
   submitModal = () => this.backupKeystore()
   closeModal = () => this.props.closeBackupKeystoreModal()
-  isModalButtonDisabled = () => (this.props.password.length < 1)
+  setPassword = password => this.props.setBackupKeystorePassword(password)
 }
 
 BackupKeystoreModal.propTypes = {
@@ -51,6 +33,8 @@ BackupKeystoreModal.propTypes = {
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
+  buttonType: PropTypes.string.isRequired,
+  imageName: PropTypes.string.isRequired,
   iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   /* optional */

@@ -117,6 +117,8 @@ class SubmitModal extends JModal {
 
     return !!Object.keys(invalidFields).filter(field => (!isEmpty(invalidFields[field]))).length
   }
+
+  isModalButtonDisabled = () => false
 }
 
 SubmitModal.propTypes = {

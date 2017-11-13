@@ -1,12 +1,12 @@
 .button {
   position: relative;
   display: inline-block;
-  min-width: 300px;
+  min-width: 260px;
+  line-height: 16px;
   margin-left: 0;
   padding: 15px 20px;
   border: 2px solid;
   border-radius: 25px;
-  box-shadow: $shadow;
   text-align: center;
   font-size: 13px;
   font-weight: 600;
@@ -58,6 +58,6 @@
 
 .button__icon {
   position: absolute;
-  top: 15px;
-  left: 15px;
+  top: 14px;
+  left: 24px;
 }

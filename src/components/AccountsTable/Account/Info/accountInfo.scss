@@ -1,5 +1,6 @@
 @import './MnemonicAddresses/accountInfoMnemonicAddresses.scss';
 @import './Name/accountInfoName';
+@import './Type/accountInfoType';
 
 .account-info-container.col {
   padding-left: 0;
@@ -19,12 +20,4 @@
 
 .account-info__title {
   cursor: pointer;
-}
-
-.account-info-type {
-  height: 20px;
-  line-height: 20px;
-  margin-top: 5px;
-  font-size: 9px;
-  text-transform: uppercase;
 }

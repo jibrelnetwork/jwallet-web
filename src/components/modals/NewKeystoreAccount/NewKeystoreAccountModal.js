@@ -69,33 +69,27 @@ class NewKeystoreAccountModal extends SubmitModal {
   }
 
   renderSetPassword = () => {
-    const { isCreating, isInitialized } = this.props
-
-    return (
-      <div>
-        {this.renderPasswordField(isCreating, isInitialized)}
-        {this.renderPasswordConfirmField(isCreating, isInitialized)}
-      </div>
-    )
-  }
-
-  renderPasswordField = (isCreating, isInitialized) => {
-    const { setNewKeystoreAccountPassword, validFields, invalidFields, password } = this.props
-
-    const passwordProps = {
-      errorMessage: invalidFields.password,
-      successMessage: validFields.password,
-      editable: !isCreating,
-    }
+    const {
+      setNewKeystoreAccountPassword,
+      setNewKeystoreAccountPasswordConfirm,
+      validFields,
+      invalidFields,
+      password,
+      passwordConfirm,
+      isCreating,
+      isInitialized,
+    } = this.props
 
     if (isInitialized) {
       return (
         <JTextInput
-          {...passwordProps}
           onValueChange={setNewKeystoreAccountPassword}
           name='new-keystore-account-password'
           placeholder='Password'
           value={password}
+          errorMessage={invalidFields.password}
+          successMessage={validFields.password}
+          editable={!isCreating}
           secureTextEntry
         />
       )
@@ -103,35 +97,13 @@ class NewKeystoreAccountModal extends SubmitModal {
 
     return (
       <PasswordField
-        {...passwordProps}
         onPasswordChange={setNewKeystoreAccountPassword}
+        onPasswordConfirmChange={setNewKeystoreAccountPasswordConfirm}
         password={password}
-      />
-    )
-  }
-
-  renderPasswordConfirmField = (isCreating, isInitialized) => {
-    if (isInitialized) {
-      return null
-    }
-
-    const {
-      setNewKeystoreAccountPasswordConfirm,
-      invalidFields,
-      validFields,
-      passwordConfirm,
-    } = this.props
-
-    return (
-      <JTextInput
-        onValueChange={setNewKeystoreAccountPasswordConfirm}
-        name='new-keystore-account-password-confirm'
-        placeholder='Confirm Password'
-        value={passwordConfirm}
-        errorMessage={invalidFields.passwordConfirm}
-        successMessage={validFields.passwordConfirm}
-        editable={!isCreating}
-        secureTextEntry
+        passwordConfirm={passwordConfirm}
+        passwordError={invalidFields.password}
+        passwordConfirmError={invalidFields.passwordConfirm}
+        withConfirm
       />
     )
   }

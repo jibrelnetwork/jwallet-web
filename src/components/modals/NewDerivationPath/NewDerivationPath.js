@@ -23,15 +23,6 @@ class NewDerivationPath extends SubmitModal {
   }
 
   renderModalBody = () => {
-    return (
-      <div>
-        {this.renderPassword()}
-        {this.renderDerivationPathOptions()}
-      </div>
-    )
-  }
-
-  renderDerivationPathOptions = () => {
     const {
       setCustomDerivationPath,
       invalidFields,
@@ -48,34 +39,6 @@ class NewDerivationPath extends SubmitModal {
         errorMessage={invalidFields.customDerivationPath}
       />
     )
-  }
-
-  renderPassword = () => {
-    const { setDerivationPathPassword, invalidFields, password } = this.props
-
-    return (
-      <JTextInput
-        onValueChange={setDerivationPathPassword}
-        name='new-derivation-path-password'
-        placeholder='Password'
-        value={password}
-        errorMessage={invalidFields.password}
-        editable
-        secureTextEntry
-      />
-    )
-  }
-
-  isModalButtonDisabled = () => {
-    const { invalidFields, password } = this.props
-    const invalidPassword = invalidFields.password || ''
-    const invalidCusomPath = invalidFields.customDerivationPath || ''
-
-    const isPasswordEmpty = !password.length
-    const isPasswordInvalid = !!invalidPassword.length
-    const isCusomPathInvalid = !!invalidCusomPath.length
-
-    return (isPasswordEmpty || isPasswordInvalid || isCusomPathInvalid)
   }
 
   setDerivationPath = () => {
@@ -104,6 +67,7 @@ class NewDerivationPath extends SubmitModal {
   onSuccess = () => this.closeModal()
   submitModal = () => this.setDerivationPath()
   closeModal = () => this.props.closeNewDerivationPathModal()
+  setPassword = password => this.props.setDerivationPathPassword(password)
   setKnownDerivationPath = path => () => this.props.setKnownDerivationPath(path)
 }
 
@@ -122,6 +86,7 @@ NewDerivationPath.propTypes = {
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
+  buttonType: PropTypes.string.isRequired,
   iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   /* optional */
