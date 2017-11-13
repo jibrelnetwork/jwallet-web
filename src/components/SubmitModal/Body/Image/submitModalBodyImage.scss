@@ -6,15 +6,35 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  &--rocket {
-    background-image: $modal-rocket;
+  &--done {
+    background-image: $modal-done;
   }
 
-  &--plane {
-    background-image: $modal-plane;
+  &--email-no-ok {
+    background-image: $modal-email-no-ok;
   }
 
-  &--paper-plane {
-    background-image: $modal-paper-plane;
+  &--email-ok {
+    background-image: $modal-email-ok;
+  }
+
+  &--error {
+    background-image: $modal-error;
+  }
+
+  &--keys-no-ok {
+    background-image: $modal-keys-no-ok;
+  }
+
+  &--keys-ok {
+    background-image: $modal-keys-ok;
+  }
+
+  &--screenshot {
+    background-image: $modal-screenshot;
+  }
+
+  &--spy {
+    background-image: $modal-spy;
   }
 }

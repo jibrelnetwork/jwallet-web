@@ -4,7 +4,11 @@ import config from 'config'
 import { fileSaver, keystore, storage } from 'services'
 import sortItems from 'utils/sortItems'
 
-import { selectKeystore, selectCurrentAccountId } from './stateSelectors'
+import {
+  selectKeystoreData,
+  selectCurrentAccountId,
+  selectClearKeystoreData,
+} from './stateSelectors'
 
 import {
   KEYSTORE_GET_FROM_STORAGE,
@@ -26,6 +30,11 @@ import {
   KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
   KEYSTORE_CLOSE_MODAL,
 } from '../modules/keystore'
+
+import {
+  CLEAR_KEYSTORE_CLOSE_MODAL,
+  CLEAR_KEYSTORE_SET_INVALID_FIELD,
+} from '../modules/modals/clearKeystore'
 
 import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
@@ -167,19 +176,25 @@ function* closeKeystoreModal() {
   }
 }
 
-function* removeAccounts(action) {
-  const { onSuccess, onError } = action
-
+function* onRemoveAccounts(action) {
   try {
-    keystore.removeAccounts()
+    keystore.removeAccounts(action.password)
 
-    yield setAccounts()
-    yield clearCurrentAccount()
-
-    return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
+    yield onRemoveAccountsSuccess()
+  } catch (err) {
+    yield onRemoveAccountsError(err.message)
   }
+}
+
+function* onRemoveAccountsSuccess() {
+  yield setAccounts()
+  yield clearCurrentAccount()
+
+  yield put({ type: CLEAR_KEYSTORE_CLOSE_MODAL })
+}
+
+function* onRemoveAccountsError(errMessage) {
+  yield put({ type: CLEAR_KEYSTORE_SET_INVALID_FIELD, fieldName: 'password', message: errMessage })
 }
 
 function* setAccountName(action) {
@@ -244,7 +259,7 @@ function* refreshAddressesFromMnemonic(accountId, addressIndex = 0) {
 }
 
 function* getAddressesFromMnemonic(action) {
-  const { addressesFromMnemonic } = yield select(selectKeystore)
+  const { addressesFromMnemonic } = yield select(selectKeystoreData)
   const { accountId, iteration, limit } = action
   const existedItems = addressesFromMnemonic.items
 
@@ -335,7 +350,7 @@ function backupKeystore(action) {
 }
 
 function* sortAccounts(action) {
-  const keystoreData = yield select(selectKeystore)
+  const keystoreData = yield select(selectKeystoreData)
 
   const oldSortField = keystoreData.sortField
   const sortField = action.sortField || oldSortField
@@ -369,7 +384,7 @@ export function* watchRemoveAccount() {
 }
 
 export function* watchRemoveAccounts() {
-  yield takeEvery(KEYSTORE_REMOVE_ACCOUNTS, removeAccounts)
+  yield takeEvery(KEYSTORE_REMOVE_ACCOUNTS, onRemoveAccounts)
 }
 
 export function* watchSetAccountName() {

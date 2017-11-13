@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
   modalName: 'new-derivation-path',
   modalTitle: 'New Derivation Path',
   buttonTitle: 'Set derivation path',
-  iconName: '',
+  buttonType: 'password',
 })
 
 const mapDispatchToProps = {

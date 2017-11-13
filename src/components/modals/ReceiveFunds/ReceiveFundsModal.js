@@ -72,7 +72,6 @@ ReceiveFundsModal.propTypes = {
   closeReceiveFundsModal: PropTypes.func.isRequired,
   setReceiveFundsAmount: PropTypes.func.isRequired,
   amount: PropTypes.string.isRequired,
-  currentAddress: PropTypes.string.isRequired,
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
@@ -80,11 +79,13 @@ ReceiveFundsModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   /* optional */
   onClose: PropTypes.func,
+  currentAddress: PropTypes.string,
 }
 
 ReceiveFundsModal.defaultProps = {
   ...SubmitModal.defaultProps,
   onClose: () => {},
+  currentAddress: '',
 }
 
 export default ReceiveFundsModal

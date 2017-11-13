@@ -15,6 +15,8 @@ const mapStateToProps = state => ({
   modalName: 'backup-keystore',
   modalTitle: 'Backup Keystore',
   buttonTitle: 'Save as TXT',
+  buttonType: 'password',
+  imageName: 'keys-ok',
   iconName: 'txt',
 })
 

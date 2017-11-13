@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 
 import JRadio from 'components/base/JRadio'
 
-import AccountInfoName from './Name'
 import AccountInfoMnemonicAddresses from './MnemonicAddresses'
+import AccountInfoName from './Name'
+import AccountInfoType from './Type'
 
 function AccountInfo(props) {
   const {
@@ -24,15 +25,12 @@ function AccountInfo(props) {
     isActive,
   } = props
 
-  const accountType = (isReadOnly ? `${type}, READ ONLY` : type).toUpperCase()
-  const isMnemonicAndActive = ((type === 'mnemonic') && isActive)
-
   return (
     <div className='account-info-container table-body-item pull-left col col--10'>
       <JRadio toggle={setCurrentKeystoreAccount} name={`toggle-${id}`} isActive={isActive} />
       <div className='account-info account-info--active-mnemonic'>
         <div className='account-info__title' onClick={setCurrentKeystoreAccount}>
-          <div className='account-info-type'>{accountType}</div>
+          <AccountInfoType type={type} isReadOnly={isReadOnly} />
           <AccountInfoName
             setKeystoreAccountName={setKeystoreAccountName}
             setNewAccountName={setNewAccountName}
@@ -48,7 +46,7 @@ function AccountInfo(props) {
           addressesFromMnemonic={addressesFromMnemonic}
           id={id}
           addressIndex={addressIndex}
-          isActive={isMnemonicAndActive}
+          isActive={((type === 'mnemonic') && isActive)}
         />
       </div>
     </div>
