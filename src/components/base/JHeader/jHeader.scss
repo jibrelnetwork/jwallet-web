@@ -1,10 +1,5 @@
 .header {
   height: $header-height;
-  padding: $header-v-padding 0 $header-v-padding $logo-width;
+  padding: $header-v-padding 0;
   box-sizing: content-box;
-}
-
-.header__logo {
-  position: absolute;
-  left: 0;
 }

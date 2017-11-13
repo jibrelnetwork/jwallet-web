@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Slider from 'react-slick'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import config from 'config'
 
@@ -84,7 +85,9 @@ class CurrenciesBody extends Component {
 
     return (
       <div className='currencies-body'>
-        {isMobileSlider ? <Slider {...sliderOptions} >{currencies}</Slider> : currencies}
+        {isMobileSlider
+          ? <Slider {...sliderOptions} >{currencies}</Slider>
+          : <Scrollbars>{currencies}</Scrollbars>}
       </div>
     )
   }

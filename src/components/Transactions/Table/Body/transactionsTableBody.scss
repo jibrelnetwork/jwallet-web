@@ -1,1 +1,5 @@
 @import './Row/transactionsTableBodyRow';
+
+.transactions-table-body {
+  height: calc(100vh - #{$transactions-table-body-before-height});
+}
