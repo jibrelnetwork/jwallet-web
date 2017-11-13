@@ -1,10 +1,16 @@
 .row {
-  margin: 0 -10px;
-
   .col {
     float: left;
     position: relative;
     padding: 0 10px;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
 
     &--2 {
       width: 16.6666%;
