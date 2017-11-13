@@ -3,7 +3,6 @@
   display: table-cell;
   width: 30%;
   height: 100%;
-  padding-top: $currencies-padding-top;
   background: linear-gradient(to top, $black, $gray);
   border-radius: 5px 0 0 5px;
   vertical-align: top;
@@ -13,8 +12,9 @@
 .currencies-header {
   position: relative;
   height: $currencies-header-height;
-  line-height: $currencies-header-height;
-  margin: 0 $currencies-header-h-margin $currencies-header-margin-bottom $currencies-header-h-margin;
+  line-height: $currencies-header-line-height;
+  padding: $currencies-header-v-padding $currencies-header-h-padding;
+  border-bottom: $currency-item-border-width solid rgba(255,255,255,0.1);
 }
 
 .currencies-header__title {
@@ -30,7 +30,7 @@
   display: block;
   width: 24px;
   height: 24px;
-  margin-top: -12px;
+  margin: -12px 30px 0 0;
   opacity: 0.5;
   cursor: pointer;
   transition: opacity .3s ease;
@@ -41,5 +41,5 @@
 }
 
 .currencies-body {
-  min-height: calc(100vh - #{$currencies-before-body-height});
+  height: calc(100vh - #{$currencies-before-body-height});
 }

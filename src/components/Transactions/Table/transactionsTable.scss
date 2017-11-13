@@ -3,8 +3,8 @@
 .table {
   &--transactions {
     position: relative;
-    height: calc(100% - #{$t-table-header-height});
-    padding: 0 30px 30px;
+    height: calc(100vh - #{$transactions-table-before-height});
+    padding: 0 $transactions-table-padding-bottom $transactions-table-h-padding;
   }
 
   &--transactions-filter {

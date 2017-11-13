@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import TransactionsTableBodyRow from './Row'
 
@@ -25,7 +26,7 @@ function TransactionsTableBody(props) {
 
   return (
     <div className='transactions-table-body'>
-      <div>
+      <Scrollbars>
         {foundItems.map((transactionProps, i) => {
           const { timestamp, contractAddress } = transactionProps
           const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
@@ -48,7 +49,7 @@ function TransactionsTableBody(props) {
 
           return null
         })}
-      </div>
+      </Scrollbars>
     </div>
   )
 }

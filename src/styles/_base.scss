@@ -21,23 +21,17 @@ $footer-full-height: 40px;
 
 $header-and-footer-height: $header-full-height + $footer-full-height;
 
-$currencies-padding-top: 30px;
 $tablet-currencies-padding-bottom: 30px;
 $mobile-currencies-padding-bottom: 90px;
-$currencies-header-height: 24px;
-$currencies-header-margin-bottom: 30px;
-$currencies-header-h-margin: 30px;
+$currencies-header-height: 85px;
+$currencies-header-line-height: 24px;
+$currencies-header-v-padding: 30px;
+$currencies-header-h-padding: 30px;
 $currencies-border-width: 1px;
 
-$currencies-before-height: $header-and-footer-height;
-$currencies-full-header-height: (
-  $currencies-padding-top +
-  $currencies-header-height +
-  $currencies-header-margin-bottom
-);
 $currencies-before-body-height: (
-  $currencies-before-height +
-  $currencies-full-header-height +
+  $header-and-footer-height +
+  $currencies-header-height +
   (2 * $currencies-border-width)
 );
 
@@ -68,9 +62,21 @@ $mobile-currencies-full-height: (
 
 $transactions-filters-height: 24px;
 $transactions-filters-padding: 30px;
+$transactions-table-h-padding: 30px;
+$transactions-table-padding-bottom: 30px;
+$transactions-table-header-height: 50px;
+
 $transactions-filters-full-height: (
   $transactions-filters-height +
   ($transactions-filters-padding * 2)
+);
+
+$transactions-table-before-height: $header-and-footer-height + $transactions-filters-full-height;
+
+$transactions-table-body-before-height: (
+  $transactions-table-before-height +
+  $transactions-table-header-height +
+  $transactions-table-padding-bottom
 );
 
 $tablet-transactions-table-before-height: (
@@ -78,6 +84,7 @@ $tablet-transactions-table-before-height: (
   $tablet-currencies-full-height +
   $transactions-filters-full-height
 );
+
 $mobile-transactions-table-before-height: (
   $mobile-header-full-height +
   $mobile-currencies-full-height
