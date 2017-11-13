@@ -1,8 +1,6 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
 import SubmitModal from 'components/SubmitModal'
-import JTextInput from 'components/base/JTextInput'
 
 class BackupKeystoreModal extends SubmitModal {
   renderModalBody = () => ''
