@@ -201,7 +201,7 @@ function getImportAlert(nextStep, isInitialized) {
 }
 
 function getImportImageName(nextStep) {
-  const imageName = ['', '', '', 'plane']
+  const imageName = ['', '', '', 'done']
 
   return imageName[nextStep]
 }
@@ -321,7 +321,7 @@ function* checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized) {
 
   yield updateNewStep(isInitialized
     ? NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD
-    : NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD)
+    : NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD, isInitialized)
 }
 
 function* checkNewPasswordConfirm(password, passwordConfirm) {
@@ -361,7 +361,7 @@ function getNewAlert(nextStep, isInitialized = false) {
 }
 
 function getNewImageName(nextStep) {
-  const imageName = ['rocket', 'plane', '', '', 'paper-plane', '']
+  const imageName = ['spy', 'screenshot', '', '', 'done', '']
 
   return imageName[nextStep]
 }

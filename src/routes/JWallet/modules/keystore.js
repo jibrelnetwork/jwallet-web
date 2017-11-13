@@ -41,25 +41,24 @@ export function createKeystoreAccount(props = {}, onSuccess = null, onError = nu
   }
 }
 
-export function setCurrentKeystoreAccount(accountId = '') {
+export function setCurrentKeystoreAccount(accountId) {
   return {
     type: KEYSTORE_SET_CURRENT_ACCOUNT,
     accountId,
   }
 }
 
-export function removeKeystoreAccount(accountId = '') {
+export function removeKeystoreAccount(accountId) {
   return {
     type: KEYSTORE_REMOVE_ACCOUNT,
     accountId,
   }
 }
 
-export function removeKeystoreAccounts(onSuccess = null, onError = null) {
+export function removeKeystoreAccounts(password) {
   return {
     type: KEYSTORE_REMOVE_ACCOUNTS,
-    onSuccess,
-    onError,
+    password,
   }
 }
 

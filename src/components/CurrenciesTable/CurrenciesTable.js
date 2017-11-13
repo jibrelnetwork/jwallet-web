@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
 
 import JTable from 'components/base/JTable'
 
 import CurrenciesTableSearch from './CurrenciesTableSearch'
 import CurrenciesTableBodyRow from './CurrenciesTableBodyRow'
+import CurrenciesTableEmpty from './Empty'
 
 function CurrenciesTable(props) {
   const {
@@ -32,6 +34,32 @@ function CurrenciesTable(props) {
     { title: 'Transfer', name: 'transfer', colWidth: 'col--2-4', isReadOnly: true },
   ]
 
+  const currenciesTableBody = (isEmpty(foundItems) || (foundItems.length === 1))
+    ? <CurrenciesTableEmpty />
+    : foundItems.map((currency, index) => {
+      const { symbol, name, isAuthRequired, isLicensed, isActive } = currency
+      const balanceFixed = (balances[symbol] || 0).toFixed(3)
+      const isETH = (symbol === 'ETH')
+
+      if (isETH) {
+        return null
+      }
+
+      return (
+        <CurrenciesTableBodyRow
+          key={index}
+          toggleActiveCurrency={toggleActiveCurrency}
+          symbol={symbol}
+          name={name}
+          balanceFixed={balanceFixed}
+          index={index}
+          isAuthRequired={isAuthRequired}
+          isLicensed={isLicensed}
+          isActive={isActive}
+        />
+      )
+    })
+
   return (
     <JTable name='currencies'>
       <CurrenciesTableSearch
@@ -45,31 +73,7 @@ function CurrenciesTable(props) {
         sortField={sortField}
         sortDirection={sortDirection}
       />
-      <JTable.Body>
-        {foundItems.map((currency, index) => {
-          const { symbol, name, isAuthRequired, isLicensed, isActive } = currency
-          const balanceFixed = (balances[symbol] || 0).toFixed(3)
-          const isETH = (symbol === 'ETH')
-
-          if (isETH) {
-            return null
-          }
-
-          return (
-            <CurrenciesTableBodyRow
-              key={index}
-              toggleActiveCurrency={toggleActiveCurrency}
-              symbol={symbol}
-              name={name}
-              balanceFixed={balanceFixed}
-              index={index}
-              isAuthRequired={isAuthRequired}
-              isLicensed={isLicensed}
-              isActive={isActive}
-            />
-          )
-        })}
-      </JTable.Body>
+      <JTable.Body>{currenciesTableBody}</JTable.Body>
     </JTable>
   )
 }

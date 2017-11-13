@@ -162,7 +162,7 @@ const ACTION_HANDLERS = {
     ...state,
     invalidFields: {
       ...state.invalidFields,
-      [action.fieldName]: action.message || '',
+      [action.fieldName]: action.message,
     },
   }),
   [SEND_FUNDS_CLEAR]: state => ({

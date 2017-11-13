@@ -1,6 +1,10 @@
 import { connect } from 'react-redux'
 
-import { closeClearKeystoreModal } from 'routes/JWallet/modules/modals/clearKeystore'
+import {
+  closeClearKeystoreModal,
+  setClearKeystorePassword,
+} from 'routes/JWallet/modules/modals/clearKeystore'
+
 import { removeKeystoreAccounts } from 'routes/JWallet/modules/keystore'
 
 import ClearKeystoreModal from './ClearKeystoreModal'
@@ -11,11 +15,13 @@ const mapStateToProps = state => ({
   modalName: 'clear-keystore',
   modalTitle: 'Clear Keystore',
   buttonTitle: 'Confirm',
-  iconName: '',
+  buttonType: 'password',
+  imageName: 'done',
 })
 
 const mapDispatchToProps = {
   closeClearKeystoreModal,
+  setClearKeystorePassword,
   removeKeystoreAccounts,
 }
 

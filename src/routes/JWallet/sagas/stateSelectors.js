@@ -40,7 +40,7 @@ export function selectCurrentNetworkName(state) {
   return items[currentActiveIndex].title
 }
 
-export function selectKeystore(state) {
+export function selectKeystoreData(state) {
   return state.keystore
 }
 
@@ -50,4 +50,8 @@ export function selectCurrentAccountId(state) {
 
 export function selectTransactions(state) {
   return state.transactions
+}
+
+export function selectClearKeystoreData(state) {
+  return state.clearKeystoreModal
 }

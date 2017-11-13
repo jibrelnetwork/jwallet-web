@@ -50,13 +50,40 @@ class ImportKeystoreAccountModal extends SubmitModal {
   }
 
   renderSetPassword = () => {
-    const { isCreating, isInitialized } = this.props
+    const {
+      setImportKeystoreAccountPassword,
+      setImportKeystoreAccountPasswordConfirm,
+      invalidFields,
+      password,
+      passwordConfirm,
+      isCreating,
+      isInitialized,
+    } = this.props
+
+    if (isInitialized) {
+      return (
+        <JTextInput
+          onValueChange={setImportKeystoreAccountPassword}
+          name='import-keystore-account-password'
+          placeholder='Password'
+          value={password}
+          errorMessage={invalidFields.password}
+          editable={!isCreating}
+          secureTextEntry
+        />
+      )
+    }
 
     return (
-      <div>
-        {this.renderPasswordField(isCreating, isInitialized)}
-        {this.renderPasswordConfirmField(isCreating, isInitialized)}
-      </div>
+      <PasswordField
+        onPasswordChange={setImportKeystoreAccountPassword}
+        onPasswordConfirmChange={setImportKeystoreAccountPasswordConfirm}
+        password={password}
+        passwordConfirm={passwordConfirm}
+        passwordError={invalidFields.password}
+        passwordConfirmError={invalidFields.passwordConfirm}
+        withConfirm
+      />
     )
   }
 
@@ -78,56 +105,6 @@ class ImportKeystoreAccountModal extends SubmitModal {
           errorMessage={invalidFields.customDerivationPath}
         />
       </Expandable>
-    )
-  }
-
-  renderPasswordField = (isCreating, isInitialized) => {
-    const { setImportKeystoreAccountPassword, invalidFields, password } = this.props
-
-    const passwordProps = {
-      errorMessage: invalidFields.password,
-      editable: !isCreating,
-    }
-
-    if (isInitialized) {
-      return (
-        <JTextInput
-          {...passwordProps}
-          onValueChange={setImportKeystoreAccountPassword}
-          name='import-keystore-account-password'
-          placeholder='Password'
-          value={password}
-          secureTextEntry
-        />
-      )
-    }
-
-    return (
-      <PasswordField
-        {...passwordProps}
-        onPasswordChange={setImportKeystoreAccountPassword}
-        password={password}
-      />
-    )
-  }
-
-  renderPasswordConfirmField = (isCreating, isInitialized) => {
-    if (isInitialized) {
-      return null
-    }
-
-    const { setImportKeystoreAccountPasswordConfirm, invalidFields, passwordConfirm } = this.props
-
-    return (
-      <JTextInput
-        onValueChange={setImportKeystoreAccountPasswordConfirm}
-        name='import-keystore-account-password-confirm'
-        placeholder='Confirm Password'
-        value={passwordConfirm}
-        errorMessage={invalidFields.passwordConfirm}
-        editable={!isCreating}
-        secureTextEntry
-      />
     )
   }
 
