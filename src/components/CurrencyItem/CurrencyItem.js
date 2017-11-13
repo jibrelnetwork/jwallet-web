@@ -17,10 +17,12 @@ function CurrencyItem(props) {
     currencyItemClassName += ' currency-item--authorization'
   }
 
+  const backgroundImage = `url(/img/tokens/${symbol.toLowerCase()}.svg)`
+
   return (
     <div className={currencyItemClassName} onClick={setCurrentCurrency}>
       <div className={`currency-item__image currency-item__image--${symbol.toLowerCase()}`} />
-      <JIcon name={`currency-${symbol.toLowerCase()}`} className='currency-item__symbol' />
+      <div className='currency-item__symbol' style={{ backgroundImage }} />
       <div className='currency-item__info'>
         <h3 className='currency-item__name'>{name}</h3>
         <div className='currency-item__balance'>

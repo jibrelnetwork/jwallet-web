@@ -58,6 +58,9 @@
   width: $currency-item-symbol-size;
   height: $currency-item-symbol-size;
   margin-top: -18px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .currency-item__image {
@@ -74,35 +77,35 @@
   will-change: opacity;
 
   &--eth {
-    background-image: $bgCurrencyETH;
+    background-image: $bg-currency-eth;
   }
 
   &--jusd {
-    background-image: $bgCurrencyJUSD;
+    background-image: $bg-currency-jusd;
   }
 
   &--jeur {
-    background-image: $bgCurrencyJEUR;
+    background-image: $bg-currency-jeur;
   }
 
   &--jgbp {
-    background-image: $bgCurrencyJGBP;
+    background-image: $bg-currency-jgbp;
   }
 
   &--jaed {
-    background-image: $bgCurrencyJAED;
+    background-image: $bg-currency-jaed;
   }
 
   &--jrub {
-    background-image: $bgCurrencyJRUB;
+    background-image: $bg-currency-jrub;
   }
 
   &--jcny {
-    background-image: $bgCurrencyJCNY;
+    background-image: $bg-currency-jcny;
   }
 
   &--jnt {
-    background-image: $bgCurrencyJNT;
+    background-image: $bg-currency-jnt;
   }
 }
 

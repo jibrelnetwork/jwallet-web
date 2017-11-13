@@ -180,49 +180,6 @@
   background-image: $icon-eye;
 }
 
-.icon--currency-eth,
-.icon--currency-jusd,
-.icon--currency-jeur,
-.icon--currency-jgbp,
-.icon--currency-jaed,
-.icon--currency-jrub,
-.icon--currency-jcny,
-.icon--currency-jnt {
-  background-size: cover;
-}
-
-.icon--currency-eth {
-  background-image: $icon-currency-eth;
-}
-
-.icon--currency-jusd {
-  background-image: $icon-currency-jusd;
-}
-
-.icon--currency-jeur {
-  background-image: $icon-currency-jeur;
-}
-
-.icon--currency-jgbp {
-  background-image: $icon-currency-jgbp;
-}
-
-.icon--currency-jaed {
-  background-image: $icon-currency-jaed;
-}
-
-.icon--currency-jrub {
-  background-image: $icon-currency-jrub;
-}
-
-.icon--currency-jcny {
-  background-image: $icon-currency-jcny;
-}
-
-.icon--currency-jnt {
-  background-image: $icon-currency-jnt;
-}
-
 @media only screen and (max-width: 1024px) {
   .icon--send {
     background-image: $icon-send-w;
