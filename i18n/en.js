@@ -22,8 +22,8 @@ module.exports = {
       title: 'Send Funds',
       customOptionsTitle: 'Custom options',
       alert: {
-        incorrectPassword: 'Password is incorrect',
-        internalError: 'Sending of the transaction was failed. Please try again later'
+        incorrectPassword: 'Incorrect Password',
+        internalError: 'Transaction failed. Please try again'
       },
       placeholder: {
         address: 'Recipient address',
@@ -34,22 +34,22 @@ module.exports = {
       },
       error: {
         address: {
-          invalid: 'Please input valid account address',
+          invalid: 'Please enter a valid account address',
         }
         account: {
-          notSelected: 'Please select account',
+          notSelected: 'Please select an account',
         },
         amount: {
-          invalid: 'Please input valid amount to transfer',
+          invalid: 'Please enter a valid transfer amount',
           lessThan0: 'Amount should be greater than 0',
-          exceedsBalance: 'Amount exceeds account balance',
+          exceedsBalance: 'Amount specified exceeds current balance. Please enter a valid amount.',
         },
         gas: {
-          invalid: 'Please input valid gas limit value',
+          invalid: 'Please enter a valid gas limit value',
           lessThan0: 'Gas limit should be greater than 0',
         },
         gasPrice: {
-          invalid: 'Please input valid gas price value',
+          invalid: 'Please input a valid gas price value',
           lessThan0: 'Gas price should be greater than 0',
         },
       },
@@ -69,7 +69,7 @@ module.exports = {
       buttonTitle: 'Generate QR Code',
     },
     keystore: {
-      title: 'Keys Manager',
+      title: 'Key Manager',
       getMoreTitle: 'Get more',
       createAccountTitle: 'New key',
       importAccountTitle: 'Import key',
@@ -102,22 +102,22 @@ module.exports = {
       title: 'Create new key',
       alerts: [{
         yes: '',
-        no: 'Anyone who has access to your passphrase can spend your money.',
+        no: 'Your passphrase provides access to your wallet and funds.',
       }, {
         yes: '',
-        no: 'Screenshots are not secure. If you save a screenshot, it can be viewed by other applications.',
+        no: 'It is important to keep your passphrase stored in a safe place.',
       }, {
-        yes: 'Save your passphrase and move it to a safe place, in the next step we will check it.',
-        no: 'Save your passphrase and move it to a safe place, in the next step we will check it.',
+        yes: 'Please ensure to save your passphrase, you will be required to enter your passphrase on the next screen.',
+        no: 'Please ensure to save your passphrase, you will be required to enter your passphrase on the next screen.',
       }, {
-        yes: 'Let\'s check your word combination. Enter it in the box below.',
-        no: 'Let\'s check your word combination. Enter it in the box below.',
+        yes: 'Please confirm that you have saved your passphrase by re-entering it below.',
+        no: 'Please confirm that you have saved your passphrase by re-entering it below.',
       }, {
-        yes: 'Excellent! Keep your passphrase in a safe place. Without it, access to your account may be lost forever.',
-        no: 'Excellent! Keep your passphrase in a safe place. Without it, access to your account may be lost forever.',
+        yes: 'Great! You’re all set! Remember to keep your passphrase safe, you can’t access your account with it!',
+        no: 'Great! You’re all set! Remember to keep your passphrase safe, you can’t access your account with it!',
       }, {
-        yes: 'Please input your password',
-        no: 'It\'s time to create a secure password for your wallet.',
+        yes: 'Please enter your password',
+        no: 'Please provide a secure password for your wallet.',
       }],
       placeholder: {
         mnemonic: 'Mnemonic',
@@ -148,17 +148,17 @@ module.exports = {
     importAccount: {
       title: 'Import key',
       alerts: [{
-        yes: 'Please input data for your key. It will be stored only in your browser.',
-        no: 'Please input data for your key. It will be stored only in your browser.',
+        yes: 'Please enter your key data. Sensitive information never leaves your device.',
+        no: 'Please enter your key data. Sensitive information never leaves your device.',
       }, {
-        yes: 'Now you can set custom options for keys derivation from your mnemonic.',
-        no: 'Now you can set custom options for keys derivation from your mnemonic.',
+        yes: 'You can also set custom options for keys derivation from your mnemonic.',
+        no: 'You can also set custom options for keys derivation from your mnemonic.',
       }, {
-        yes: 'Please input your password',
-        no: 'It\'s time to create a secure password for your wallet.',
+        yes: 'Please enter your password',
+        no: 'Please provide a secure password for your wallet.',
       }, {
-        yes: 'Your key has been successfully imported',
-        no: 'Excellent! Keep your password in a safe place. Without it, you will not be able to use jWallet.',
+        yes: 'Your key was imported successfully!',
+        no: 'Great! You’re all set! Remember to keep your password safe, you can’t access your account with it!',
       }],
       placeholder: {
         data: 'Address, private key, mnemonic, BIP32 xpub',
@@ -223,7 +223,7 @@ module.exports = {
       },
       error: {
         password: {
-          incorrect: 'Password is incorrect',
+          incorrect: 'Incorrect Password',
         },
       },
     },
@@ -236,7 +236,7 @@ module.exports = {
       },
       error: {
         password: {
-          incorrect: 'Password is incorrect',
+          incorrect: 'Incorrect Password',
         },
         newPassword: {
           weak: 'Password is too weak',
@@ -245,7 +245,7 @@ module.exports = {
     },
     removeAccounts: {
       title: 'Clear Keystore',
-      alert: 'Please confirm that you really want to remove all your keys',
+      alert: 'Please confirm that you would like to remove all your keys',
       buttonTitle: 'Confirm',
     },
     tokens: {
@@ -280,13 +280,13 @@ module.exports = {
       },
       error: {
         address: {
-          invalid: 'Address should be valid contract address',
+          invalid: 'Address should be a valid contract address',
         },
         name: {
-          invalid: 'Name should be valid contract name',
+          invalid: 'Name should be a valid contract name',
         },
         symbol: {
-          invalid: 'Symbol should be valid contract symbol',
+          invalid: 'Symbol should be a valid contract symbol',
         },
         decimals: {
           invalid: 'Decimals should be valid contract decimals',
@@ -306,8 +306,8 @@ module.exports = {
         'in your account yet',
       ],
       emptyETH: [
-        'At the moment we can not load your ETH transactions',
-        'See them in the blockexplorer',
+        'We could not load your ETH transactions',
+        'View transactions in block explorer',
       ],
       field: {
         amount: 'AMOUNT',
