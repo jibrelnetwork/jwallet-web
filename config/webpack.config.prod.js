@@ -153,7 +153,6 @@ module.exports = {
             options: {
               formatter: eslintFormatter,
               eslintPath: require.resolve('eslint'),
-              
             },
             loader: require.resolve('eslint-loader'),
           },
@@ -194,7 +193,6 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx)$/,
-            include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
@@ -276,7 +274,6 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
     // Minify the code.
-    /*
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
@@ -294,7 +291,6 @@ module.exports = {
       },
       sourceMap: shouldUseSourceMap,
     }),
-    */
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({
       filename: cssFilename,
