@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { base, modals, JWalletHeader } from 'components'
+import { getStorageName } from 'services/storage'
+
+import { base, modals, JWalletHeader, Warning } from 'components'
 
 import 'styles/core.scss'
 
@@ -44,11 +46,26 @@ class CoreLayout extends Component {
     return (
       <div className='container-wrap'>
         <div className={`container ${this.isAnyModalOpened() ? 'container--modal-open' : ''}`}>
+          {this.renderWarnings()}
           {this.renderHeader()}
           {this.renderContent()}
           {this.renderFooter()}
         </div>
         {this.renderModals()}
+      </div>
+    )
+  }
+
+  renderWarnings = () => {
+    const isMemory = (getStorageName() === 'MemoryStorage')
+
+    const memoryWarn = 'You are using Memory as storage. Please don\'t forget to backup your keys!'
+    const alphaWarn = 'jWallet alpha version is not stable. Please use very carefully!'
+
+    return (
+      <div>
+        <Warning text={alphaWarn} color='blue' index={0} isOpen />
+        {isMemory ? <Warning text={memoryWarn} color='red' index={1} isOpen /> : null}
       </div>
     )
   }
