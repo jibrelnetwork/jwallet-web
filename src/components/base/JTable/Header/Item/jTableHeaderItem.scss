@@ -2,7 +2,6 @@
   position: relative;
   height: 50px;
   line-height: 50px;
-  opacity: 0.5;
 
   &:hover {
     .table-header-item__icon {
@@ -17,6 +16,10 @@
   &--read-only {
     cursor: default;
   }
+}
+
+.table-header-item__title {
+  opacity: 0.5;
 }
 
 .table-header-item__icon {

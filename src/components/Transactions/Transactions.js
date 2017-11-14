@@ -20,14 +20,21 @@ class Transactions extends Component {
   }
 
   render() {
-    const { transactions, isKeystoreInitialised, isCustomNetwork } = this.props
+    const {
+      transactions,
+      currentCurrencySymbol,
+      isKeystoreInitialised,
+      isCustomNetwork,
+    } = this.props
+
     const { isLoading, isBlockExplorerError } = transactions
+    const isCurrenciesEmpty = isEmpty(currentCurrencySymbol)
 
     if (isLoading) {
       return this.renderTransactionsLoading()
     } else if (!isKeystoreInitialised) {
       return this.renderKeystoreButtons()
-    } else if (isCustomNetwork || isBlockExplorerError) {
+    } else if (isCustomNetwork || isBlockExplorerError || isCurrenciesEmpty) {
       return this.renderTransactionsEmpty()
     }
 
@@ -50,10 +57,13 @@ class Transactions extends Component {
   }
 
   renderTransactionsEmpty = () => {
+    const { isCustomNetwork, transactions } = this.props
+
     return (
       <TransactionsEmpty
         emptyImageSrc={this.state.emptyImageSrc}
-        isCustomNetwork={this.props.isCustomNetwork}
+        isCustomNetwork={isCustomNetwork}
+        isBlockExplorerError={transactions.isBlockExplorerError}
       />
     )
   }

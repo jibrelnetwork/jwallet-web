@@ -2,6 +2,11 @@
 
 .table--accounts {
   padding: 0 30px;
+
+  .table-body {
+    height: calc(100vh - #{$modal-table-body-without-height});
+    overflow: hidden;
+  }
 }
 
 .table-header-item--accountActions span {
