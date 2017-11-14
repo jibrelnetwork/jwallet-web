@@ -58,6 +58,7 @@ function* getCurrenciesFromStorage() {
 
   yield setCurrencies(items, currentActiveIndex)
   yield setBalances(balances)
+  yield sortCurrencies({ sortField: 'symbol' })
 
   // ignore if getBalances loop was already launched
   if (isGetBalancesLoopLaunched) {
@@ -175,16 +176,10 @@ function* toggleCurrency(action) {
   const { items, currentActiveIndex, isActiveAll } = yield select(selectCurrencies)
   const { index } = action
 
-  // if ETH index
-  if (index === 0) {
-    return
-  }
-
-  const [eth, ...tokens] = items
   const isAllToggled = (index === -1)
   let newIsActiveAll = isAllToggled ? !isActiveAll : isActiveAll
 
-  const newTokens = tokens.map((item, i) => {
+  const newItems = items.map((item, i) => {
     const isCurrentActive = (index === i) ? !item.isActive : item.isActive
 
     return {
@@ -197,14 +192,14 @@ function* toggleCurrency(action) {
   if (!isAllToggled) {
     newIsActiveAll = true
 
-    newTokens.forEach((item) => {
+    newItems.forEach((item) => {
       if (!item.isActive) {
         newIsActiveAll = false
       }
     })
   }
 
-  yield setCurrencies([eth, ...newTokens], currentActiveIndex)
+  yield setCurrencies(newItems, currentActiveIndex)
   yield setActiveAllFlag(newIsActiveAll)
 }
 
@@ -236,15 +231,13 @@ function* sortCurrencies(action) {
   const oldSortField = currencies.sortField
   const sortField = action.sortField || oldSortField
   const { items, sortDirection, currentActiveIndex } = currencies
-  const [eth, ...tokens] = items
 
   const currentActiveSymbol = items[currentActiveIndex].symbol
 
-  const result = sortItems(tokens, oldSortField, sortField, sortDirection)
-  const newItems = [eth, ...result.items]
-  const newActiveIndex = getNewActiveIndex(newItems, currentActiveSymbol)
+  const result = sortItems(items, oldSortField, sortField, sortDirection)
+  const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
 
-  yield setCurrencies(newItems, newActiveIndex)
+  yield setCurrencies(result.items, newActiveIndex)
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 

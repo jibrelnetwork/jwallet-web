@@ -77,10 +77,7 @@ class CurrenciesBody extends Component {
 
   render() {
     const { isMobileSlider } = this.state
-
-    const eth = this.getEthereum(isMobileSlider)
-    const currencies = [eth, ...this.getCurrencies(isMobileSlider)]
-
+    const currencies = this.getCurrencies(isMobileSlider)
     const sliderOptions = getSliderOptions(isMobileSlider, this.afterChange)
 
     return (
@@ -90,30 +87,6 @@ class CurrenciesBody extends Component {
           : <Scrollbars>{currencies}</Scrollbars>}
       </div>
     )
-  }
-
-  getEthereum = (isMobileSlider) => {
-    const { setCurrentCurrency, currencies } = this.props
-    const { items, balances, currentActiveIndex, isLoading } = currencies
-    const ethIndex = 0
-    const currencyProps = items[ethIndex]
-
-    if (isLoading) {
-      return this.getLoadingCurrencies(isMobileSlider)
-    }
-
-    const ethereum = (
-      <CurrencyItem
-        key={ethIndex}
-        isCurrent={currentActiveIndex === ethIndex}
-        setCurrentCurrency={setCurrentCurrency(ethIndex)}
-        balanceFixed={(balances.ETH || 0).toFixed(3)}
-        {...currencyProps}
-      />
-    )
-
-    // div wrapper is needed for slick on tablet/mobile
-    return isMobileSlider ? <div key={0}>{ethereum}</div> : ethereum
   }
 
   getCurrencies = (isMobileSlider) => {
@@ -126,9 +99,8 @@ class CurrenciesBody extends Component {
 
     return items.map((currencyProps, i) => {
       const { symbol, isActive } = currencyProps
-      const isETH = (symbol === 'ETH')
 
-      if (!isActive || isETH) {
+      if (!isActive) {
         return null
       }
 

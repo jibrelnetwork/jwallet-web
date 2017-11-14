@@ -2,6 +2,8 @@
 @import 'icons';
 @import 'images';
 
+/* Header */
+
 $header-height: 40px;
 $header-v-padding: 40px;
 $tablet-header-v-padding: 40px;
@@ -10,16 +12,26 @@ $mobile-header-padding: 20px;
 $header-full-height: $header-height + ($header-v-padding * 2);
 $mobile-header-full-height: $header-height + ($mobile-header-padding * 2);
 
+/* Footer */
+
+$footer-full-height: 40px;
+
+/* Header + Footer */
+
+$header-and-footer-height: $header-full-height + $footer-full-height;
+
+/* Logo */
+
 $logo-width: 137px;
 $logo-height: 36px;
+
+/* Key manager */
 
 $keys-manager-title-v-padding: 3px;
 $keys-manager-title-padding: $keys-manager-title-v-padding 32px $keys-manager-title-v-padding 0;
 $keys-manager-title-line-height: 17px;
 
-$footer-full-height: 40px;
-
-$header-and-footer-height: $header-full-height + $footer-full-height;
+/* Currencies */
 
 $tablet-currencies-padding-bottom: 30px;
 $mobile-currencies-padding-bottom: 90px;
@@ -60,6 +72,8 @@ $mobile-currencies-full-height: (
   $mobile-currencies-padding-bottom
 );
 
+/* Transactions */
+
 $transactions-filters-height: 24px;
 $transactions-filters-padding: 30px;
 $transactions-table-h-padding: 30px;
@@ -88,4 +102,30 @@ $tablet-transactions-table-before-height: (
 $mobile-transactions-table-before-height: (
   $mobile-header-full-height +
   $mobile-currencies-full-height
+);
+
+/* Modal */
+
+$modal-padding-v: 40px;
+
+$modal-header-margin: 30px;
+$modal-header-height: 24px;
+$modal-header-full-height: ($modal-header-margin * 2) + $modal-header-height;
+
+/* Modal with table */
+
+$modal-table-header-height: 50px;
+
+$modal-table-body-border-width: 1px;
+
+$modal-table-footer-height: 16px;
+$modal-table-footer-padding: 30px;
+$modal-table-footer-full-height: ($modal-table-footer-padding * 2) + $modal-table-footer-height;
+
+$modal-table-body-without-height: (
+  ($modal-padding-v * 2) +
+  $modal-header-full-height +
+  $modal-table-header-height +
+  $modal-table-body-border-width +
+  $modal-table-footer-full-height
 );

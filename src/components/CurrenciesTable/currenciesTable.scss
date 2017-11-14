@@ -1,12 +1,17 @@
 @import './Empty/currenciesTableEmpty';
 
 .table--currencies {
-  margin-top: -84px; /* margin = 30px * 2 + search input height = 24px */
+  margin-top: -$modal-header-full-height;
   padding: 0 30px;
+
+  .table-body {
+    height: calc(100vh - #{$modal-table-body-without-height});
+    overflow: hidden;
+  }
 }
 
 .currencies-table-search {
-  margin: 30px 0;
+  margin: $modal-header-margin 0;
 }
 
 .table-header-item--symbol .table-header-item__title {

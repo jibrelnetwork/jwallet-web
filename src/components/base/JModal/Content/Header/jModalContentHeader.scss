@@ -1,8 +1,8 @@
 .modal-header {
   position: relative;
-  min-height: 24px;
-  line-height: 24px;
-  margin: 30px;
+  height: $modal-header-height;
+  line-height: $modal-header-height;
+  margin: $modal-header-margin;
 }
 
 .modal-close {
@@ -10,8 +10,8 @@
   position: absolute;
   top: 0;
   right: 0;
-  height: 24px;
-  line-height: 24px;
+  height: $modal-header-height;
+  line-height: $modal-header-height;
   opacity: 0.5;
   cursor: pointer;
   transition: opacity .3s ease;
