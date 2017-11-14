@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import JTable from 'components/base/JTable'
 
@@ -36,29 +37,26 @@ function CurrenciesTable(props) {
 
   const currenciesTableBody = (isEmpty(foundItems) || (foundItems.length === 1))
     ? <CurrenciesTableEmpty />
-    : foundItems.map((currency, index) => {
-      const { symbol, name, isAuthRequired, isLicensed, isActive } = currency
-      const balanceFixed = (balances[symbol] || 0).toFixed(3)
-      const isETH = (symbol === 'ETH')
+    : <Scrollbars>
+      {foundItems.map((currency, index) => {
+        const { symbol, name, isAuthRequired, isLicensed, isActive } = currency
+        const balanceFixed = (balances[symbol] || 0).toFixed(3)
 
-      if (isETH) {
-        return null
-      }
-
-      return (
-        <CurrenciesTableBodyRow
-          key={index}
-          toggleActiveCurrency={toggleActiveCurrency}
-          symbol={symbol}
-          name={name}
-          balanceFixed={balanceFixed}
-          index={index}
-          isAuthRequired={isAuthRequired}
-          isLicensed={isLicensed}
-          isActive={isActive}
-        />
-      )
-    })
+        return (
+          <CurrenciesTableBodyRow
+            key={index}
+            toggleActiveCurrency={toggleActiveCurrency}
+            symbol={symbol}
+            name={name}
+            balanceFixed={balanceFixed}
+            index={index}
+            isAuthRequired={isAuthRequired}
+            isLicensed={isLicensed}
+            isActive={isActive}
+          />
+        )
+      })}
+    </Scrollbars>
 
   return (
     <JTable name='currencies'>
