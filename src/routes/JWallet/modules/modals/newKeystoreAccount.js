@@ -116,6 +116,7 @@ const ACTION_HANDLERS = {
     invalidFields: {
       ...state.invalidFields,
       password: '',
+      passwordConfirm: '',
     },
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM]: (state, action) => ({

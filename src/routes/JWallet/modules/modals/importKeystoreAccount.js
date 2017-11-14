@@ -114,6 +114,7 @@ const ACTION_HANDLERS = {
     invalidFields: {
       ...state.invalidFields,
       password: '',
+      passwordConfirm: '',
     },
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH]: (state, action) => ({

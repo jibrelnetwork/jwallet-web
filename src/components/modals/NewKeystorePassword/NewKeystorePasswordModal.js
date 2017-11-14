@@ -38,7 +38,7 @@ class NewKeystorePasswordModal extends SubmitModal {
         onPasswordChange={setNewKeystorePassword}
         password={newPassword}
         placeholder='New password'
-        errorMessage={invalidFields.newPassword}
+        passwordError={invalidFields.newPassword}
       />
     )
   }
