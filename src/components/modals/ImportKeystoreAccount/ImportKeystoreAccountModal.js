@@ -8,7 +8,7 @@ import { IMPORT_KEYSTORE_ACCOUNT_STEPS } from 'routes/JWallet/modules/modals/imp
 
 class ImportKeystoreAccountModal extends SubmitModal {
   componentWillMount() {
-    this.props.setImportKeystoreAccountCurrentStep()
+    this.resetModal()
   }
 
   renderModalBody = () => {
@@ -150,8 +150,16 @@ class ImportKeystoreAccountModal extends SubmitModal {
     })
   }
 
+  closeModal = () => {
+    this.props.closeImportKeystoreAccountModal()
+    this.resetModal()
+  }
+
+  resetModal = () => {
+    this.props.setImportKeystoreAccountCurrentStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.BEFORE, {})
+  }
+
   setKnownDerivationPath = p => () => this.props.setImportKeystoreAccountKnownDerivationPath(p)
-  closeModal = () => this.props.closeImportKeystoreAccountModal()
 }
 
 ImportKeystoreAccountModal.propTypes = {

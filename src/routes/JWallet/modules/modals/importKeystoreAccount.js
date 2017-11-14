@@ -19,7 +19,7 @@ export const IMPORT_KEYSTORE_ACCOUNT_STEPS = {
   SUCCESS: 3,
 }
 
-export function openImportKeystoreAccountModal(onClose = null) {
+export function openImportKeystoreAccountModal(onClose) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL,
     onClose,
@@ -32,42 +32,42 @@ export function closeImportKeystoreAccountModal() {
   }
 }
 
-export function setImportKeystoreAccountData(data = '') {
+export function setImportKeystoreAccountData(data) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_DATA,
     data,
   }
 }
 
-export function setImportKeystoreAccountPassword(password = '') {
+export function setImportKeystoreAccountPassword(password) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD,
     password,
   }
 }
 
-export function setImportKeystoreAccountPasswordConfirm(passwordConfirm = '') {
+export function setImportKeystoreAccountPasswordConfirm(passwordConfirm) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM,
     passwordConfirm,
   }
 }
 
-export function setImportKeystoreAccountKnownDerivationPath(knownDerivationPath = '') {
+export function setImportKeystoreAccountKnownDerivationPath(knownDerivationPath) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH,
     knownDerivationPath,
   }
 }
 
-export function setImportKeystoreAccountCustomDerivationPath(customDerivationPath = '') {
+export function setImportKeystoreAccountCustomDerivationPath(customDerivationPath) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH,
     customDerivationPath,
   }
 }
 
-export function setImportKeystoreAccountCurrentStep(currentStep = -1, props = {}) {
+export function setImportKeystoreAccountCurrentStep(currentStep, props) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
     currentStep,
@@ -75,7 +75,7 @@ export function setImportKeystoreAccountCurrentStep(currentStep = -1, props = {}
   }
 }
 
-export function setImportKeystoreAccountInvalidField(fieldName, message = '') {
+export function setImportKeystoreAccountInvalidField(fieldName, message) {
   return {
     type: IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
     fieldName,
@@ -98,6 +98,7 @@ const ACTION_HANDLERS = {
   [IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
+    invalidFields: initialState.invalidFields,
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_DATA]: (state, action) => ({
     ...state,
@@ -145,10 +146,10 @@ const ACTION_HANDLERS = {
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA]: (state, action) => ({
     ...state,
-    alert: action.alert || '',
-    buttonTitle: action.buttonTitle || '',
-    imageName: action.imageName || '',
-    currentStep: action.nextStep || 0,
+    alert: action.alert,
+    buttonTitle: action.buttonTitle,
+    imageName: action.imageName,
+    currentStep: action.nextStep,
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD]: (state, action) => ({
     ...state,
@@ -159,7 +160,7 @@ const ACTION_HANDLERS = {
   }),
   [IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA]: (state, action) => ({
     ...state,
-    accountData: action.accountData || initialState.accountData,
+    accountData: action.accountData,
   }),
   [IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA]: () => initialState,
 }
@@ -171,7 +172,7 @@ const initialState = {
   data: '',
   password: '',
   passwordConfirm: '',
-  knownDerivationPath: "m/44'/60'/0'/0", // eslint-disable-line quotes
+  knownDerivationPath: 'm/44\'/60\'/0\'/0',
   customDerivationPath: '',
   buttonTitle: '',
   imageName: '',

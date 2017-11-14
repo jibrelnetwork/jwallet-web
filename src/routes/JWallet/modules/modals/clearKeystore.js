@@ -29,10 +29,7 @@ const ACTION_HANDLERS = {
     isOpen: true,
     onClose: action.onClose,
   }),
-  [CLEAR_KEYSTORE_CLOSE_MODAL]: state => ({
-    ...state,
-    isOpen: false,
-  }),
+  [CLEAR_KEYSTORE_CLOSE_MODAL]: () => initialState,
   [CLEAR_KEYSTORE_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
