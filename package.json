@@ -24,7 +24,7 @@
     "jibrel-contracts-jsapi": "0.3.3",
     "json-format": "1.0.1",
     "jwallet-web-keystore": "0.2.5",
-    "jwallet-web-storage": "0.1.0",
+    "jwallet-web-storage": "0.2.0",
     "koa": "2.4.1",
     "koa-convert": "1.2.0",
     "koa-router": "7.2.1",

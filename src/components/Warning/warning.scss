@@ -1,0 +1,37 @@
+.warning-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--red {
+    background-color: $red3;
+    color: $red;
+  }
+
+  &--deep-orange {
+    background-color: $deep-orange3;
+    color: $deep-orange;
+  }
+
+  &--blue {
+    background-color: $blue6;
+    color: $blue;
+  }
+
+  &--close {
+    text-align: left;
+  }
+}
+
+.warning {
+  width: 1200px;
+  margin: 5px auto;
+}

@@ -19,5 +19,6 @@ export Search from './Search'
 export SubmitModal from './SubmitModal'
 export SymbolPicker from './SymbolPicker'
 export Transactions from './Transactions'
+export Warning from './Warning'
 
 export * as modals from './modals'
