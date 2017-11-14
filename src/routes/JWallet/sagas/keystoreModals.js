@@ -1,5 +1,4 @@
 import { put, takeEvery } from 'redux-saga/effects'
-import isEmpty from 'lodash/isEmpty'
 import Keystore from 'jwallet-web-keystore'
 
 import isMnemonicType from 'utils/isMnemonicType'
