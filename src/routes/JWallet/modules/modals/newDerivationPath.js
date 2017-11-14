@@ -5,7 +5,7 @@ export const NEW_DERIVATION_PATH_SET_KNOWN_PATH = 'NEW_DERIVATION_PATH_SET_KNOWN
 export const NEW_DERIVATION_PATH_SET_CUSTOM_PATH = 'NEW_DERIVATION_PATH_SET_CUSTOM_PATH'
 export const NEW_DERIVATION_PATH_SET_INVALID_FIELD = 'NEW_DERIVATION_PATH_SET_INVALID_FIELD'
 
-export function openNewDerivationPathModal(onClose = null, accountId = '', derivationPath = '') {
+export function openNewDerivationPathModal(onClose, accountId, derivationPath) {
   return {
     type: NEW_DERIVATION_PATH_OPEN_MODAL,
     onClose,
@@ -20,28 +20,28 @@ export function closeNewDerivationPathModal() {
   }
 }
 
-export function setDerivationPathPassword(password = '') {
+export function setDerivationPathPassword(password) {
   return {
     type: NEW_DERIVATION_PATH_SET_PASSWORD,
     password,
   }
 }
 
-export function setKnownDerivationPath(knownDerivationPath = '') {
+export function setKnownDerivationPath(knownDerivationPath) {
   return {
     type: NEW_DERIVATION_PATH_SET_KNOWN_PATH,
     knownDerivationPath,
   }
 }
 
-export function setCustomDerivationPath(customDerivationPath = '') {
+export function setCustomDerivationPath(customDerivationPath) {
   return {
     type: NEW_DERIVATION_PATH_SET_CUSTOM_PATH,
     customDerivationPath,
   }
 }
 
-export function setNewDerivationPathInvalidField(fieldName, message = '') {
+export function setNewDerivationPathInvalidField(fieldName, message) {
   return {
     type: NEW_DERIVATION_PATH_SET_INVALID_FIELD,
     fieldName,
@@ -57,13 +57,7 @@ const ACTION_HANDLERS = {
     currentDerivationPath: action.derivationPath,
     isOpen: true,
   }),
-  [NEW_DERIVATION_PATH_CLOSE_MODAL]: state => ({
-    ...state,
-    isOpen: false,
-    currentDerivationPath: initialState.currentDerivationPath,
-    knownDerivationPath: initialState.knownDerivationPath,
-    customDerivationPath: initialState.customDerivationPath,
-  }),
+  [NEW_DERIVATION_PATH_CLOSE_MODAL]: () => initialState,
   [NEW_DERIVATION_PATH_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,

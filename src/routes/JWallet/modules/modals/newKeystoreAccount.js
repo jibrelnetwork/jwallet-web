@@ -20,7 +20,7 @@ export const NEW_KEYSTORE_ACCOUNT_STEPS = {
   SET_PASSWORD: 5,
 }
 
-export function openNewKeystoreAccountModal(onClose = null) {
+export function openNewKeystoreAccountModal(onClose) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_OPEN_MODAL,
     onClose,
@@ -33,28 +33,28 @@ export function closeNewKeystoreAccountModal() {
   }
 }
 
-export function setNewKeystoreAccountMnemonicConfirm(mnemonicConfirm = '') {
+export function setNewKeystoreAccountMnemonicConfirm(mnemonicConfirm) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM,
     mnemonicConfirm,
   }
 }
 
-export function setNewKeystoreAccountPassword(password = '') {
+export function setNewKeystoreAccountPassword(password) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_PASSWORD,
     password,
   }
 }
 
-export function setNewKeystoreAccountPasswordConfirm(passwordConfirm = '') {
+export function setNewKeystoreAccountPasswordConfirm(passwordConfirm) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM,
     passwordConfirm,
   }
 }
 
-export function setNewKeystoreAccountCurrentStep(currentStep = -1, props = {}) {
+export function setNewKeystoreAccountCurrentStep(currentStep, props) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
     currentStep,
@@ -62,7 +62,7 @@ export function setNewKeystoreAccountCurrentStep(currentStep = -1, props = {}) {
   }
 }
 
-export function setNewKeystoreAccountValidField(fieldName, message = '') {
+export function setNewKeystoreAccountValidField(fieldName, message) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD,
     fieldName,
@@ -70,7 +70,7 @@ export function setNewKeystoreAccountValidField(fieldName, message = '') {
   }
 }
 
-export function setNewKeystoreAccountInvalidField(fieldName, message = '') {
+export function setNewKeystoreAccountInvalidField(fieldName, message) {
   return {
     type: NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
     fieldName,
@@ -87,10 +87,12 @@ const ACTION_HANDLERS = {
   [NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
+    validFields: initialState.validFields,
+    invalidFields: initialState.invalidFields,
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC]: (state, action) => ({
     ...state,
-    mnemonic: action.mnemonic || '',
+    mnemonic: action.mnemonic,
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM]: (state, action) => ({
     ...state,
@@ -134,11 +136,11 @@ const ACTION_HANDLERS = {
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA]: (state, action) => ({
     ...state,
-    alert: action.alert || '',
-    buttonTitle: action.buttonTitle || '',
-    imageName: action.imageName || '',
-    iconName: action.iconName || '',
-    currentStep: action.nextStep || 0,
+    alert: action.alert,
+    buttonTitle: action.buttonTitle,
+    imageName: action.imageName,
+    iconName: action.iconName,
+    currentStep: action.nextStep,
   }),
   [NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD]: (state, action) => ({
     ...state,

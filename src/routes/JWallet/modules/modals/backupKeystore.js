@@ -37,10 +37,7 @@ const ACTION_HANDLERS = {
     isOpen: true,
     onClose: action.onClose,
   }),
-  [BACKUP_KEYSTORE_CLOSE_MODAL]: state => ({
-    ...state,
-    isOpen: false,
-  }),
+  [BACKUP_KEYSTORE_CLOSE_MODAL]: () => initialState,
   [BACKUP_KEYSTORE_SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
