@@ -35,16 +35,14 @@ class CoreLayout extends Component {
   }
 
   render() {
-    const { keystore, location, children } = this.props
-
-    const isAuth = (location.pathname.indexOf('/auth') === 0)
+    const { keystore, children } = this.props
 
     if (keystore.isLoading || !children) {
       return <JLoader fixed />
     }
 
     return (
-      <div className={`container-wrap container-wrap--${isAuth ? 'auth' : 'jwallet'}`}>
+      <div className='container-wrap'>
         <div className={`container ${this.isAnyModalOpened() ? 'container--modal-open' : ''}`}>
           {this.renderHeader()}
           {this.renderContent()}
@@ -190,9 +188,6 @@ CoreLayout.propTypes = {
     customNetworkRpc: PropTypes.string.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
   }).isRequired,
   isNewKeystoreAccountModalOpen: PropTypes.bool.isRequired,
   isClearKeystoreModalOpen: PropTypes.bool.isRequired,
