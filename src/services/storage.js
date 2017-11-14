@@ -50,4 +50,8 @@ function getStorageKey(key, suffix) {
   return `${key}${additional}`
 }
 
+export function getStorageName() {
+  return storage.constructor.name
+}
+
 export default getStorage()
