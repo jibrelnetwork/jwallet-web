@@ -45,10 +45,7 @@ const ACTION_HANDLERS = {
     isOpen: true,
     onClose: action.onClose,
   }),
-  [NEW_KEYSTORE_PASSWORD_CLOSE_MODAL]: state => ({
-    ...state,
-    isOpen: false,
-  }),
+  [NEW_KEYSTORE_PASSWORD_CLOSE_MODAL]: () => initialState,
   [NEW_KEYSTORE_PASSWORD_SET_OLD]: (state, action) => ({
     ...state,
     oldPassword: action.oldPassword,

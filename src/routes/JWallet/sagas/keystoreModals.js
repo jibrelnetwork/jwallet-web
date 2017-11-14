@@ -1,4 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects'
+import isEmpty from 'lodash/isEmpty'
 import Keystore from 'jwallet-web-keystore'
 
 import isMnemonicType from 'utils/isMnemonicType'
@@ -17,6 +18,7 @@ import {
 import {
   NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL,
   NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
+  NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM,
   NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
   NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA,
   NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
@@ -27,7 +29,7 @@ import {
 
 import { KEYSTORE_CREATE_ACCOUNT } from '../modules/keystore'
 
-function* setImportStep(action = {}) {
+function* onSetImportStep(action = {}) {
   const {
     onClose,
     accountData,
@@ -166,7 +168,7 @@ function* setImportInvalidField(fieldName, message) {
 function* resetImportModal(onClose, isInitialized) {
   yield put({ type: IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL })
   yield put({ type: IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA })
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA })
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA, accountData: {} })
 
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA, isInitialized)
 
@@ -209,7 +211,7 @@ function getImportImageName(nextStep) {
 /**
  * New Keystore Account Modal
  */
-function* setNewStep(action) {
+function* onSetNewStep(action) {
   const { mnemonic, mnemonicConfirm, isInitialized } = action.props
 
   switch (action.currentStep) {
@@ -253,6 +255,8 @@ function* generateNewMnemonic(isInitialized) {
     type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
     mnemonic: Keystore.generateMnemonic().toString(),
   })
+
+  yield put({ type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM, mnemonicConfirm: '' })
 
   yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC, isInitialized)
 }
@@ -373,9 +377,9 @@ function getNewIconName(nextStep) {
 }
 
 export function* watchSetImportAccountStep() {
-  yield takeEvery(IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, setImportStep)
+  yield takeEvery(IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, onSetImportStep)
 }
 
 export function* watchSetNewAccountStep() {
-  yield takeEvery(NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, setNewStep)
+  yield takeEvery(NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, onSetNewStep)
 }

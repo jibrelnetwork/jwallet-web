@@ -9,7 +9,7 @@ import { JIcon, JTextInput } from 'components/base'
 class PasswordField extends Component {
   constructor(props) {
     super(props)
-    this.state = { status: 'default', message: '', isConfirmed: false }
+    this.state = { status: 'default', message: '', isConfirmed: false, isApproved: false }
   }
 
   render() {
@@ -82,10 +82,13 @@ class PasswordField extends Component {
       return null
     }
 
-    const { message } = this.state
-    const passwordMessage = message.length ? message : <JIcon name='networks-checkbox' small />
+    const { isApproved, message } = this.state
 
-    return <div className='password__message'>{passwordMessage}</div>
+    return (
+      <div className='password__message'>
+        {isApproved ? <JIcon name='networks-checkbox' small /> : message}
+      </div>
+    )
   }
 
   renderPasswordConfirmIcon = () => {
@@ -105,10 +108,10 @@ class PasswordField extends Component {
 
     onPasswordChange(password)
 
-    const { status, message } = this.getStatus(password)
-    const isConfirmed = this.isConfirmed(password, passwordConfirm, status)
+    const { status, message, isApproved } = this.getStatus(password)
+    const isConfirmed = this.isConfirmed(password, passwordConfirm, isApproved)
 
-    this.setState({ status, message, isConfirmed })
+    this.setState({ status, message, isApproved, isConfirmed })
   }
 
   onPasswordConfirmChange = (passwordConfirm) => {
@@ -120,7 +123,7 @@ class PasswordField extends Component {
 
     onPasswordConfirmChange(passwordConfirm)
 
-    const isConfirmed = this.isConfirmed(password, passwordConfirm, this.state.status)
+    const isConfirmed = this.isConfirmed(password, passwordConfirm, this.state.isApproved)
     this.setState({ isConfirmed })
   }
 
@@ -131,27 +134,26 @@ class PasswordField extends Component {
     const failedTestsCount = failedTests.length
 
     if (isEmpty) {
-      return { status: 'default', message: '' }
+      return { status: 'default', message: '', isApproved: false }
     } else if (isShort) {
-      return { status: 'red', message: 'Too short' }
+      return { status: 'red', message: 'Too short', isApproved: false }
     } else if (failedTestsCount > 3) {
-      return { status: 'deep-orange', message: 'Easily cracked' }
+      return { status: 'deep-orange', message: 'Easily cracked', isApproved: false }
     } else if (failedTestsCount > 2) {
-      return { status: 'orange', message: 'Bit weak' }
+      return { status: 'orange', message: 'Bit weak', isApproved: false }
     } else if (failedTestsCount > 1) {
-      return { status: 'lime', message: 'Not bad' }
+      return { status: 'lime', message: 'Not bad', isApproved: false }
     } else if (failedTestsCount > 0) {
-      return { status: 'light-green', message: 'Pretty good' }
+      return { status: 'light-green', message: 'Pretty good', isApproved: false }
     }
 
-    return { status: 'blue', message: '' }
+    return { status: 'blue', message: '', isApproved: true }
   }
 
-  isConfirmed = (password, passwordConfirm, status) => {
+  isConfirmed = (password, passwordConfirm, isApproved) => {
     const isMatch = (passwordConfirm === password)
-    const isPasswordEntered = (status === 'blue')
 
-    return (isPasswordEntered && isMatch)
+    return (isApproved && isMatch)
   }
 }
 

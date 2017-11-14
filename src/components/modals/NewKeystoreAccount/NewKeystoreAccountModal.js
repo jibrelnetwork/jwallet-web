@@ -8,14 +8,7 @@ import { NEW_KEYSTORE_ACCOUNT_STEPS } from 'routes/JWallet/modules/modals/newKey
 
 class NewKeystoreAccountModal extends SubmitModal {
   componentWillMount() {
-    const { setNewKeystoreAccountCurrentStep, isInitialized } = this.props
-
-    if (!isInitialized) {
-      return setNewKeystoreAccountCurrentStep()
-    }
-
-    // start from mnemonic step if keystore already initialized
-    return setNewKeystoreAccountCurrentStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC)
+    this.resetModal()
   }
 
   renderModalBody = () => {
@@ -147,7 +140,21 @@ class NewKeystoreAccountModal extends SubmitModal {
     })
   }
 
-  closeModal = () => this.props.closeNewKeystoreAccountModal()
+  closeModal = () => {
+    this.props.closeNewKeystoreAccountModal()
+    this.resetModal()
+  }
+
+  resetModal = () => {
+    const { setNewKeystoreAccountCurrentStep, isInitialized } = this.props
+
+    if (!isInitialized) {
+      return setNewKeystoreAccountCurrentStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE, {})
+    }
+
+    // start from mnemonic step if keystore already initialized
+    return setNewKeystoreAccountCurrentStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC, {})
+  }
 }
 
 NewKeystoreAccountModal.propTypes = {
