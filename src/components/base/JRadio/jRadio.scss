@@ -9,8 +9,8 @@
 .radio__label {
   position: relative;
   display: block;
-  height: 18px;
-  width: 18px;
+  height: 14px;
+  width: 14px;
   cursor: pointer;
 
   &.radio__label--active {
@@ -20,11 +20,11 @@
 
     &:after {
       position: relative;
-      top: -13px;
-      left: 5.4px;
+      top: -10px;
+      left: 4.4px;
       display: block;
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background-color: $blue;
       content: '';
@@ -34,8 +34,8 @@
 
 .radio__label:before {
   display: block;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: 2px solid $gray2;
   content: '';

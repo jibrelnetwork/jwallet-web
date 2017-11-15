@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+import isMnemonicType from 'utils/isMnemonicType'
+
 import JTable from 'components/base/JTable'
 import Account from './Account'
 
@@ -30,40 +32,36 @@ function AccountsTable(props) {
     sortDirection,
   } = props
 
-  const accountList = (
-    <Scrollbars>
-      {accounts.map((account) => {
-        const { id, type, accountName, derivationPath, addressIndex, isReadOnly } = account
+  const accountList = accounts.map((account) => {
+    const { id, type, accountName, derivationPath, addressIndex, isReadOnly } = account
 
-        return (
-          <Account key={id}>
-            <Account.Info
-              setCurrentKeystoreAccount={setCurrentKeystoreAccount(id)}
-              setKeystoreAccountName={setKeystoreAccountName}
-              setKeystoreAccountAddressIndex={setKeystoreAccountAddressIndex}
-              getAddressesFromMnemonic={getAddressesFromMnemonic}
-              setNewAccountName={setNewAccountName}
-              selectAccountName={selectAccountName}
-              newAccountNameData={newAccountNameData}
-              addressesFromMnemonic={addressesFromMnemonic}
-              id={id}
-              type={type}
-              accountName={accountName}
-              addressIndex={addressIndex}
-              isReadOnly={isReadOnly}
-              isActive={currentAccountId === id}
-            />
-            <Account.Manager
-              removeAccount={removeKeystoreAccount(id)}
-              editName={setEditAccountName(id, accountName)}
-              setDerivationPath={openNewDerivationPathModal(id, derivationPath)}
-              isMnemonic={(type === 'mnemonic') && !isReadOnly}
-            />
-          </Account>
-        )
-      })}
-    </Scrollbars>
-  )
+    return (
+      <Account key={id}>
+        <Account.Info
+          setCurrentKeystoreAccount={setCurrentKeystoreAccount(id)}
+          setKeystoreAccountName={setKeystoreAccountName}
+          setKeystoreAccountAddressIndex={setKeystoreAccountAddressIndex}
+          getAddressesFromMnemonic={getAddressesFromMnemonic}
+          setNewAccountName={setNewAccountName}
+          selectAccountName={selectAccountName}
+          newAccountNameData={newAccountNameData}
+          addressesFromMnemonic={addressesFromMnemonic}
+          id={id}
+          type={type}
+          accountName={accountName}
+          addressIndex={addressIndex}
+          isReadOnly={isReadOnly}
+          isActive={currentAccountId === id}
+        />
+        <Account.Manager
+          removeAccount={removeKeystoreAccount(id)}
+          editName={setEditAccountName(id, accountName)}
+          setDerivationPath={openNewDerivationPathModal(id, derivationPath)}
+          isMnemonic={isMnemonicType(type) && !isReadOnly}
+        />
+      </Account>
+    )
+  })
 
   return (
     <JTable name='accounts'>
@@ -73,7 +71,9 @@ function AccountsTable(props) {
         sortField={sortField}
         sortDirection={sortDirection}
       />
-      <JTable.Body>{accountList}</JTable.Body>
+      <JTable.Body>
+        <Scrollbars>{accountList}</Scrollbars>
+      </JTable.Body>
     </JTable>
   )
 }
