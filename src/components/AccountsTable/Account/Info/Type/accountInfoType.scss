@@ -1,7 +1,6 @@
 .account-info-type {
-  height: 20px;
-  line-height: 20px;
-  margin-top: 5px;
+  line-height: 11px;
+  margin-bottom: 5px;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -15,6 +14,6 @@
 
 .account-info-type__icon {
   position: absolute;
-  top: 2px;
+  top: -2px;
   right: -21px;
 }

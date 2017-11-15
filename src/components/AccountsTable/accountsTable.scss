@@ -5,6 +5,7 @@
 
   .table-body {
     height: calc(100vh - #{$modal-table-body-without-height});
+    margin-right: -15px;
     overflow: hidden;
   }
 }

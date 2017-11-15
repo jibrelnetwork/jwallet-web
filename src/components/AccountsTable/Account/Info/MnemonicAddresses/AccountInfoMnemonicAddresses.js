@@ -32,7 +32,7 @@ function AccountInfoMnemonicAddresses(props) {
           </div>
         )
       })}
-      <div>
+      <div className='get-more-wrap'>
         <span className='get-more' onClick={getAddressesFromMnemonic(id, currentIteration)}>
           {'Get more'}
         </span>

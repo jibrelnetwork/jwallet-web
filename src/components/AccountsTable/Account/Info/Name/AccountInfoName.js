@@ -21,7 +21,7 @@ function AccountInfoName(props) {
   }
 
   return (
-    <div className='account-info-name account-name--input'>
+    <div className='account-info-name account-info-name--input'>
       <input
         className='account-info-name__input'
         type='text'
