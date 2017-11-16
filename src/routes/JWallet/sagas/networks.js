@@ -1,4 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
+import findIndex from 'lodash/findIndex'
 
 import config from 'config'
 import { etherscan, storage, web3 } from 'services'
@@ -14,78 +15,99 @@ import {
 
 import { CURRENCIES_GET } from '../modules/currencies'
 
-function getStateNetworks(state) {
-  return state.networks
+import { selectNetworks } from './stateSelectors'
+
+const ETHEREUM_MAINNET_CHAIN_ID = 1
+
+function* onGetNetworks() {
+  const defaultNetworks = getDefaultNetworks()
+
+  let customNetworks = []
+  let currentNetworkIndex = 0
+
+  try {
+    const networksFromStorage = storage.getNetworks()
+    const networkIdFromStorage = storage.getNetworksCurrent()
+
+    customNetworks = networksFromStorage ? JSON.parse(networksFromStorage) : []
+    const currentNetworkId = parseInt(networkIdFromStorage, 10) || ETHEREUM_MAINNET_CHAIN_ID
+    currentNetworkIndex = findIndex(defaultNetworks, { id: currentNetworkId })
+  } catch (err) {
+    console.error(err)
+  }
+
+  const mergedNetworks = [...defaultNetworks, ...customNetworks]
+
+  yield setNetworks(mergedNetworks, currentNetworkIndex)
+}
+
+function onSetNetworks({ items }) {
+  const customNetworks = items.filter(({ isCustom }) => isCustom)
+
+  storage.setNetworks(JSON.stringify(customNetworks))
 }
 
 function* getCurrencies() {
   yield put({ type: CURRENCIES_GET })
 }
 
-function* getNetworksFromStorage() {
-  let items = getDefaultNetworks()
-  let currentActiveIndex = 0
+function* onSetCurrentNetwork({ currentNetworkIndex }) {
+  const { items } = yield select(selectNetworks)
 
-  try {
-    const networksFromStorage = storage.getNetworks()
-    const networkIndexFromStorage = storage.getNetworksCurrent()
+  storage.setNetworksCurrent(items[currentNetworkIndex].id || ETHEREUM_MAINNET_CHAIN_ID)
 
-    items = networksFromStorage ? JSON.parse(networksFromStorage) : items
-    currentActiveIndex = parseInt(networkIndexFromStorage, 10) || 0
-  } catch (e) {
-    console.error(e)
-  }
-
-  yield setNetworks(items, currentActiveIndex)
-}
-
-function setNetworksToStorage(action) {
-  const { items, currentActiveIndex } = action
-
-  storage.setNetworks(JSON.stringify(items || getDefaultNetworks()))
-  storage.setNetworksCurrent(currentActiveIndex || 0)
-}
-
-function* setCurrentNetwork(action) {
-  const { currentActiveIndex } = action
-  storage.setNetworksCurrent(currentActiveIndex || 0)
-
-  yield setNetworkRpcProps(currentActiveIndex)
+  yield setNetworkRpcProps(currentNetworkIndex)
 
   // need to change currencies if current network changed
   yield getCurrencies()
 }
 
-function* setNetworkRpcProps(currentActiveIndex) {
-  const { items } = yield select(getStateNetworks)
-  const { rpcaddr, rpcport, ssl } = items[currentActiveIndex]
-
-  web3.setRpcProps({ rpcaddr, rpcport, ssl })
-  etherscan.setEndpoint(currentActiveIndex)
-}
-
-function* setNetworks(items, currentActiveIndex) {
-  yield put({ type: NETWORKS_SET, items, currentActiveIndex })
-  yield setCurrentNetwork({ currentActiveIndex })
-}
-
-function* saveCustomNetwork(action) {
-  const { customNetworkRpc, onSuccess, onError } = action
-  const { items } = yield select(getStateNetworks)
+function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }) {
+  const { items } = yield select(selectNetworks)
 
   try {
     checkCustomNetworkRpc(items, customNetworkRpc)
 
     const newCustomNetwork = parseCustomNetworkRpc(customNetworkRpc)
     const newItems = [...items, newCustomNetwork]
-    const newCurrentActiveIndex = (newItems.length - 1)
+    const newCurrentNetworkIndex = newItems.length - 1
 
-    yield setNetworks(newItems, newCurrentActiveIndex)
+    yield setNetworks(newItems, newCurrentNetworkIndex)
 
     return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
+  } catch (err) {
+    return onError ? onError(err) : null
   }
+}
+
+function* onRemoveCustomNetwork({ networkIndex }) {
+  const { items, currentNetworkIndex } = yield select(selectNetworks)
+
+  const newItems = [...items]
+  newItems.splice(networkIndex, 1)
+
+  let newCurrentNetworkIndex = currentNetworkIndex
+
+  if (currentNetworkIndex === networkIndex) {
+    newCurrentNetworkIndex = 0
+  } else if (currentNetworkIndex > networkIndex) {
+    newCurrentNetworkIndex = currentNetworkIndex - 1
+  }
+
+  yield setNetworks(newItems, newCurrentNetworkIndex)
+}
+
+function* setNetworkRpcProps(currentNetworkIndex) {
+  const { items } = yield select(selectNetworks)
+  const { id, rpcaddr, rpcport, ssl } = items[currentNetworkIndex]
+
+  web3.setRpcProps({ rpcaddr, rpcport, ssl })
+  etherscan.setEndpoint(id)
+}
+
+function* setNetworks(items, currentNetworkIndex) {
+  yield put({ type: NETWORKS_SET, items, currentNetworkIndex })
+  yield onSetCurrentNetwork({ currentNetworkIndex })
 }
 
 function checkCustomNetworkRpc(items, customNetworkRpc) {
@@ -107,43 +129,25 @@ function parseCustomNetworkRpc(customNetworkRpc) {
   const withoutProtocol = customNetworkRpc.replace(/^http(s?):\/\//i, '')
   const [rpcaddr, rpcport = ssl ? '443' : '80'] = withoutProtocol.split(':')
 
-  return { title: customNetworkRpc, rpcaddr, rpcport, ssl, isCustom: true }
+  return { title: customNetworkRpc, rpcaddr, rpcport, ssl, isCustom: true, id: 0 }
 }
 
-function* removeCustomNetwork(action) {
-  const { networkIndex } = action
-  const { items, currentActiveIndex } = yield select(getStateNetworks)
-
-  const newItems = [...items]
-  newItems.splice(networkIndex, 1)
-
-  let newCurrentActiveIndex = currentActiveIndex
-
-  if (currentActiveIndex === networkIndex) {
-    newCurrentActiveIndex = 0
-  } else if (currentActiveIndex > networkIndex) {
-    newCurrentActiveIndex = currentActiveIndex - 1
-  }
-
-  yield setNetworks(newItems, newCurrentActiveIndex)
-}
-
-export function* watchGetNetworksFromStorage() {
-  yield takeEvery(NETWORKS_GET, getNetworksFromStorage)
+export function* watchGetNetworks() {
+  yield takeEvery(NETWORKS_GET, onGetNetworks)
 }
 
 export function* watchSetNetworks() {
-  yield takeEvery(NETWORKS_SET, setNetworksToStorage)
+  yield takeEvery(NETWORKS_SET, onSetNetworks)
 }
 
 export function* watchSetCurrentNetwork() {
-  yield takeEvery(NETWORKS_SET_CURRENT, setCurrentNetwork)
+  yield takeEvery(NETWORKS_SET_CURRENT, onSetCurrentNetwork)
 }
 
 export function* watchSaveCustomNetwork() {
-  yield takeEvery(NETWORKS_SAVE_CUSTOM_NETWORK, saveCustomNetwork)
+  yield takeEvery(NETWORKS_SAVE_CUSTOM_NETWORK, onSaveCustomNetwork)
 }
 
 export function* watchRemoveCustomNetwork() {
-  yield takeEvery(NETWORKS_REMOVE_CUSTOM_NETWORK, removeCustomNetwork)
+  yield takeEvery(NETWORKS_REMOVE_CUSTOM_NETWORK, onRemoveCustomNetwork)
 }

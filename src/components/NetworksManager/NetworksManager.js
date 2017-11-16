@@ -84,7 +84,7 @@ NetworksManager.propTypes = {
       isCustom: PropTypes.bool.isRequired,
     })).isRequired,
     customNetworkRpc: PropTypes.string.isRequired,
-    currentActiveIndex: PropTypes.number.isRequired,
+    currentNetworkIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
 }

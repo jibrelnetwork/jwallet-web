@@ -131,7 +131,6 @@ class Transactions extends Component {
     return !!find(this.props.currencyItems, { address: contractAddress })
   }
 
-
   isTransactionsEmpty = () => {
     const { items, foundItemsHashes, searchQuery } = this.props.transactions
 

@@ -11,18 +11,10 @@ export function getNetworksFromStorage() {
   }
 }
 
-export function setNetworks(items = [], currentActiveIndex = 0) {
-  return {
-    type: NETWORKS_SET,
-    items,
-    currentActiveIndex,
-  }
-}
-
-export function setCurrentNetwork(currentActiveIndex = 0) {
+export function setCurrentNetwork(currentNetworkIndex) {
   return {
     type: NETWORKS_SET_CURRENT,
-    currentActiveIndex,
+    currentNetworkIndex,
   }
 }
 
@@ -33,7 +25,7 @@ export function setCustomNetworkValue(customNetworkRpc = '') {
   }
 }
 
-export function saveCustomNetwork(customNetworkRpc = '', onSuccess = null, onError = null) {
+export function saveCustomNetwork(customNetworkRpc, onSuccess, onError) {
   return {
     type: NETWORKS_SAVE_CUSTOM_NETWORK,
     customNetworkRpc,
@@ -42,7 +34,7 @@ export function saveCustomNetwork(customNetworkRpc = '', onSuccess = null, onErr
   }
 }
 
-export function removeCustomNetwork(networkIndex = 0) {
+export function removeCustomNetwork(networkIndex) {
   return {
     type: NETWORKS_REMOVE_CUSTOM_NETWORK,
     networkIndex,
@@ -54,12 +46,12 @@ const ACTION_HANDLERS = {
   [NETWORKS_SET]: (state, action) => ({
     ...state,
     items: action.items,
-    currentActiveIndex: action.currentActiveIndex,
+    currentNetworkIndex: action.currentNetworkIndex,
     isLoading: false,
   }),
   [NETWORKS_SET_CURRENT]: (state, action) => ({
     ...state,
-    currentActiveIndex: action.currentActiveIndex,
+    currentNetworkIndex: action.currentNetworkIndex,
   }),
   [NETWORKS_SET_CUSTOM_NETWORK_VALUE]: (state, action) => ({
     ...state,
@@ -70,7 +62,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   items: [],
   customNetworkRpc: '',
-  currentActiveIndex: -1,
+  currentNetworkIndex: 0,
   isLoading: true,
 }
 

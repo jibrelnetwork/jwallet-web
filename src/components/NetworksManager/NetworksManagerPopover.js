@@ -16,13 +16,13 @@ function NetworksManagerPopover(props) {
     isShake,
   } = props
 
-  const { items, customNetworkRpc, currentActiveIndex } = networks
+  const { items, customNetworkRpc, currentNetworkIndex } = networks
 
   const body = (
     <div className='networks-manager__popover'>
       <div className='networks-manager__items'>
         {items.map(({ title, isCustom }, i) => {
-          const isActive = (currentActiveIndex === i)
+          const isActive = (currentNetworkIndex === i)
 
           const icon = isCustom
             ? (
@@ -74,7 +74,7 @@ NetworksManagerPopover.propTypes = {
       isCustom: PropTypes.bool.isRequired,
     })).isRequired,
     customNetworkRpc: PropTypes.string.isRequired,
-    currentActiveIndex: PropTypes.number.isRequired,
+    currentNetworkIndex: PropTypes.number.isRequired,
   }).isRequired,
   isShake: PropTypes.bool.isRequired,
   onClickOutside: PropTypes.func,
