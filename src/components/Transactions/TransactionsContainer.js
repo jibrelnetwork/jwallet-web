@@ -1,6 +1,10 @@
 import { connect } from 'react-redux'
+import find from 'lodash/find'
 
-import { toggleActiveCurrency, setCurrentCurrency } from 'routes/JWallet/modules/currencies'
+import {
+  toggleDigitalAsset,
+  setCurrentDigitalAssetAddress
+} from 'routes/JWallet/modules/currencies'
 
 import {
   getTransactions,
@@ -21,24 +25,24 @@ import Transactions from './Transactions'
 
 const mapStateToProps = (state) => {
   const { currencies, keystore, networks, transactions } = state
-  const { items, currentActiveIndex } = currencies
-  const currentCurrency = items[currentActiveIndex]
+  const { items, currentAddress } = currencies
+  const currentCurrency = find(items, { address: currentAddress })
   const currentCurrencySymbol = currentCurrency ? currentCurrency.symbol : ''
   const isKeystoreInitialised = !!keystore.accounts.length
 
   return {
     transactions,
+    currentAddress,
     currentCurrencySymbol,
     isKeystoreInitialised,
     currencyItems: items,
-    currentCurrencyIndex: currentActiveIndex,
     isCustomNetwork: (networks.currentActiveIndex > 3),
   }
 }
 
 const mapDispatchToProps = {
-  toggleActiveCurrency,
-  setCurrentCurrency,
+  toggleDigitalAsset,
+  setCurrentDigitalAssetAddress,
   openSendFundsModal,
   openReceiveFundsModal,
   openConvertFundsModal,

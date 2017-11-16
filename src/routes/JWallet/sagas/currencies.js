@@ -1,13 +1,13 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import isEmpty from 'lodash/isEmpty'
+import { find, isEmpty } from 'lodash'
 
 import config from 'config'
 import { storage, web3 } from 'services'
-import { getDefaultTokens, searchItems, sortItems } from 'utils'
+import { getDefaultDigitalAssets, searchItems, sortItems } from 'utils'
 
 import {
-  selectCurrencies,
+  selectDigitalAssets,
   selectCurrentKeystoreAddress,
   selectCurrentNetworkName,
 } from './stateSelectors'
@@ -30,35 +30,33 @@ import {
 import { TRANSACTIONS_GET } from '../modules/transactions'
 import { CUSTOM_TOKEN_CLEAR } from '../modules/modals/customToken'
 
-const currenciesSearchFields = ['symbol', 'name']
+const digitalAssetsSearchFields = ['symbol', 'name']
 let isGetBalancesLoopLaunched = 0
 
-function* getTransactions(currencyIndex = 0) {
-  yield put({ type: TRANSACTIONS_GET, currencyIndex })
-}
-
-function* getCurrenciesFromStorage() {
+function* onGetDigitalAssets() {
   const networkName = yield select(selectCurrentNetworkName)
 
-  let items = getDefaultTokens(networkName)
+  let defaultDigitalAssets = getDefaultDigitalAssets(networkName)
+  let storageDigitalAssets = []
   let balances = {}
-  let currentActiveIndex = 0
+  let currentAddress = null
 
   try {
-    const currenciesFromStorage = storage.getCurrencies(networkName)
-    const balancesFromStorage = storage.getCurrenciesBalances(networkName)
-    const currencyIndexFromStorage = storage.getCurrenciesCurrent(networkName)
+    const digitalAssetsFromStorage = storage.getDigitalAssets(networkName) || '[]'
+    const balancesFromStorage = storage.getDigitalAssetsBalances(networkName) || '{}'
+    currentAddress = storage.getDigitalAssetsCurrent(networkName)
 
-    items = currenciesFromStorage ? JSON.parse(currenciesFromStorage) : items
-    balances = balancesFromStorage ? JSON.parse(balancesFromStorage) : {}
-    currentActiveIndex = parseInt(currencyIndexFromStorage, 10) || 0
-  } catch (e) {
-    console.error(e)
+    storageDigitalAssets = JSON.parse(digitalAssetsFromStorage)
+    balances = JSON.parse(balancesFromStorage)
+  } catch (err) {
+    console.error(err)
   }
 
-  yield setCurrencies(items, currentActiveIndex)
+  const freshDigitalAssets = refreshDigitalAssets(defaultDigitalAssets, storageDigitalAssets)
+
+  yield setDigitalAssets(freshDigitalAssets, currentAddress)
   yield setBalances(balances)
-  yield sortCurrencies({ sortField: 'symbol' })
+  yield onSortDigitalAssets({ sortField: 'symbol' })
 
   // ignore if getBalances loop was already launched
   if (isGetBalancesLoopLaunched) {
@@ -70,8 +68,125 @@ function* getCurrenciesFromStorage() {
   yield getBalancesLoop()
 }
 
+function* onSetDigitalAssets(action) {
+  const networkName = yield select(selectCurrentNetworkName)
+
+  storage.setDigitalAssets(JSON.stringify(action.items), networkName)
+}
+
+function* onToggleDigitalAsset(action) {
+  const { items, currentAddress, isActiveAll } = yield select(selectDigitalAssets)
+  const toggledAddress = action.address
+
+  if (toggledAddress === null) {
+    yield toggleAllDigitalAssets(items, isActiveAll)
+
+    return
+  }
+
+  // toggle isActive state of found item
+  const newItems = [...items]
+  const toggledItem = find(newItems, { address: toggledAddress })
+  toggledItem.isActive = !toggledItem.isActive
+
+  // need to get new active address is current was toggled off
+  const isCurrentOff = ((currentAddress === toggledAddress) && !toggledItem.isActive)
+  const newCurrentAddress = isCurrentOff ? getNextAvailableActiveAddress(newItems) : currentAddress
+
+  // set new isActiveAll state
+  const totalItemsLength = newItems.length
+  const activeItemsLength = newItems.filter(({ isActive }) => isActive).length
+  const newIsActiveAll = (totalItemsLength === activeItemsLength)
+
+  yield setDigitalAssets(newItems, newCurrentAddress)
+  yield setActiveAllFlag(newIsActiveAll)
+}
+
+function* onSetCurrentDigitalAsset(action) {
+  const networkName = yield select(selectCurrentNetworkName)
+  const { currentAddress } = action
+
+  storage.setDigitalAssetsCurrent(currentAddress, networkName)
+
+  yield getTransactions()
+}
+
+function* onSearchDigitalAssets(action) {
+  const { items } = yield select(selectDigitalAssets)
+  const { searchQuery } = action
+
+  const foundItems = searchItems(items, searchQuery, digitalAssetsSearchFields)
+  const foundItemsSymbols = foundItems.map(i => i.symbol)
+
+  yield setSearchOptions(foundItemsSymbols, searchQuery)
+}
+
+function* onSortDigitalAssets(action) {
+  const { items, currentAddress, sortField, sortDirection } = yield select(selectDigitalAssets)
+  const newSortField = action.sortField || sortField
+  const result = sortItems(items, sortField, newSortField, sortDirection)
+
+  yield setDigitalAssets(result.items, currentAddress)
+  yield setSortOptions(result.sortField, result.sortDirection)
+}
+
+function* onAddCustomToken(action) {
+  try {
+    const { items } = yield select(selectDigitalAssets)
+    const { address, name, symbol, decimals } = action.customTokenData
+
+    const newItems = [...items, {
+      name,
+      symbol,
+      isLicensed: false,
+      isAuthRequired: false,
+      isActive: true,
+      isCustom: true,
+      address: address.toLowerCase(),
+      decimals: parseInt(decimals, 10) || 0,
+    }]
+
+    yield setDigitalAssets(newItems, address)
+    yield onAddCustomTokenSuccess()
+  } catch (err) {}
+}
+
+function* toggleAllDigitalAssets(items, isActiveAll) {
+  const newIsActiveAll = !isActiveAll
+  const newItems = items.map(item => ({ ...item, isActive: newIsActiveAll }))
+  const newCurrentAddress = newIsActiveAll ? newItems[0].address : null
+
+  yield setDigitalAssets(newItems, newCurrentAddress)
+  yield setActiveAllFlag(newIsActiveAll)
+}
+
+function refreshDigitalAssets(defaultDigitalAssets, storageDigitalAssets) {
+  const freshDigitalAssets = [...defaultDigitalAssets]
+
+  storageDigitalAssets.forEach((item) => {
+    const { address, isCustom, isActive } = item
+
+    const defaultDigitalAsset = find(defaultDigitalAssets, { address })
+    const isDefault = !!defaultDigitalAsset
+
+    if (isCustom) {
+      freshDigitalAssets.push(item)
+    } else if (isActive && !isDefault) {
+      freshDigitalAssets.push({ ...item, isCustom: true })
+    } else {
+      defaultDigitalAsset.isActive = isActive
+    }
+  })
+
+  return freshDigitalAssets
+}
+
+function* getTransactions() {
+  yield put({ type: TRANSACTIONS_GET })
+}
+
 function* getBalances() {
-  const { items, isLoading } = yield select(selectCurrencies)
+  const { items, isLoading } = yield select(selectDigitalAssets)
 
   if (isLoading) {
     return
@@ -105,7 +220,7 @@ function* getBalancesLoop() {
   yield getBalancesLoop()
 }
 
-function getTokensBalances(items = [], owner = '') {
+function getTokensBalances(items, owner) {
   const result = {}
 
   items.forEach((token) => {
@@ -121,170 +236,63 @@ function getTokensBalances(items = [], owner = '') {
   return result
 }
 
-function* setCurrenciesToStorage(action) {
-  const networkName = yield select(selectCurrentNetworkName)
-
-  storage.setCurrencies(JSON.stringify(action.items || []), networkName)
-}
-
-function* setCurrentCurrencyToStorage(action) {
-  const { currentActiveIndex } = action
-  const networkName = yield select(selectCurrentNetworkName)
-
-  storage.setCurrenciesCurrent(currentActiveIndex || 0, networkName)
-
-  yield getTransactions(currentActiveIndex)
-}
-
 function* setBalancesToStorage(action) {
   const networkName = yield select(selectCurrentNetworkName)
 
-  storage.setCurrenciesBalances(JSON.stringify(action.balances || {}), networkName)
+  storage.setDigitalAssetsBalances(JSON.stringify(action.balances || {}), networkName)
 }
 
-function* setBalances(balances = []) {
+function* setBalances(balances) {
   yield put({ type: CURRENCIES_SET_BALANCES, balances })
 }
 
-function* setCurrencies(items = [], currentIndex = 0) {
-  const isCurrentActive = (currentIndex > -1) ? items[currentIndex].isActive : false
-
-  /**
-   * if isActive flag was set to false for current currency
-   * need to set next available isActive currency as current
-   * if there are no isActive currencies, set currentActiveIndex to -1
-   */
-  const currentActiveIndex = isCurrentActive ? currentIndex : getNextAvailableActiveIndex(items)
-
+function* setDigitalAssets(items, currentAddress) {
   yield put({ type: CURRENCIES_SET, items })
-  yield put({ type: CURRENCIES_SET_CURRENT, currentActiveIndex })
+  yield setCurrentDigitalAssetAddress(items, currentAddress)
 }
 
-function getNextAvailableActiveIndex(items = []) {
+function* setCurrentDigitalAssetAddress(items, currentAddress) {
+  const currentDigitalAsset = find(items, { address: currentAddress })
+  const isAcive = currentDigitalAsset ? currentDigitalAsset.isActive : false
+  const newCurrentAddress = isAcive ? currentAddress : getNextAvailableActiveAddress(items)
+
+  yield put({ type: CURRENCIES_SET_CURRENT, currentAddress: newCurrentAddress })
+}
+
+function getNextAvailableActiveAddress(items) {
   for (let i = 0; i < items.length; i += 1) {
-    const { isActive, isAuthRequired } = items[i]
+    const { address, isActive, isAuthRequired } = items[i]
 
     if (isActive && !isAuthRequired) {
-      return i
+      return address
     }
   }
 
-  return -1
+  return null
 }
 
-function* toggleCurrency(action) {
-  const { items, currentActiveIndex, isActiveAll } = yield select(selectCurrencies)
-  const { index } = action
-
-  const isAllToggled = (index === -1)
-  let newIsActiveAll = isAllToggled ? !isActiveAll : isActiveAll
-
-  const newItems = items.map((item, i) => {
-    const isCurrentActive = (index === i) ? !item.isActive : item.isActive
-
-    return {
-      ...item,
-      isActive: isAllToggled ? newIsActiveAll : isCurrentActive,
-    }
-  })
-
-  // check if all is active - set isActiveAll flag to true, otherwise set to false
-  if (!isAllToggled) {
-    newIsActiveAll = true
-
-    newItems.forEach((item) => {
-      if (!item.isActive) {
-        newIsActiveAll = false
-      }
-    })
-  }
-
-  yield setCurrencies(newItems, currentActiveIndex)
-  yield setActiveAllFlag(newIsActiveAll)
-}
-
-function* setActiveAllFlag(isActiveAll = false) {
+function* setActiveAllFlag(isActiveAll) {
   yield put({ type: CURRENCIES_SET_ACTIVE_ALL, isActiveAll })
 }
 
-function* setSearchOptions(foundItemsSymbols = [], searchQuery = '') {
+function* setSearchOptions(foundItemsSymbols, searchQuery) {
   yield put({ type: CURRENCIES_SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
 }
 
-function* setSortOptions(sortField = '', sortDirection = 'ASC') {
+function* setSortOptions(sortField, sortDirection) {
   yield put({ type: CURRENCIES_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
-function* searchCurrencies(action) {
-  const currencies = yield select(selectCurrencies)
-  const { searchQuery } = action
-
-  const foundItems = searchItems(currencies.items, searchQuery, currenciesSearchFields)
-  const foundItemsSymbols = foundItems.map(i => i.symbol)
-
-  yield setSearchOptions(foundItemsSymbols, searchQuery)
-}
-
-function* sortCurrencies(action) {
-  const currencies = yield select(selectCurrencies)
-
-  const oldSortField = currencies.sortField
-  const sortField = action.sortField || oldSortField
-  const { items, sortDirection, currentActiveIndex } = currencies
-
-  const currentActiveSymbol = items[currentActiveIndex].symbol
-
-  const result = sortItems(items, oldSortField, sortField, sortDirection)
-  const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
-
-  yield setCurrencies(result.items, newActiveIndex)
-  yield setSortOptions(result.sortField, result.sortDirection)
-}
-
-function getNewActiveIndex(items = [], symbol = '') {
-  for (let i = 0; i < items.length; i += 1) {
-    if (items[i].symbol === symbol) {
-      return i
-    }
-  }
-
-  return -1
-}
-
-function* addCustomToken(action) {
-  try {
-    const { customTokenData } = action
-    const decimals = parseInt(customTokenData.decimals, 10) || 0
-    const { items } = yield select(selectCurrencies)
-    const newActiveIndex = items.length
-
-    const newItems = [...items, {
-      ...customTokenData,
-      decimals,
-      isLicensed: false,
-      isAuthRequired: false,
-      isActive: true,
-    }]
-
-    yield setCurrencies(newItems, newActiveIndex)
-    yield addCustomTokenSuccess()
-  } catch (e) {
-    addCustomTokenError(e)
-  }
-}
-
-function* addCustomTokenSuccess() {
+function* onAddCustomTokenSuccess() {
   yield put({ type: CUSTOM_TOKEN_CLEAR })
 }
 
-function addCustomTokenError() {}
-
-export function* watchGetCurrencies() {
-  yield takeEvery(CURRENCIES_GET, getCurrenciesFromStorage)
+export function* watchGetDigitalAssets() {
+  yield takeEvery(CURRENCIES_GET, onGetDigitalAssets)
 }
 
-export function* watchSetCurrencies() {
-  yield takeEvery(CURRENCIES_SET, setCurrenciesToStorage)
+export function* watchSetDigitalAssets() {
+  yield takeEvery(CURRENCIES_SET, onSetDigitalAssets)
 }
 
 export function* watchGetBalances() {
@@ -295,22 +303,22 @@ export function* watchSetBalances() {
   yield takeEvery(CURRENCIES_SET_BALANCES, setBalancesToStorage)
 }
 
-export function* watchToggleCurrency() {
-  yield takeEvery(CURRENCIES_TOGGLE_ACTIVE, toggleCurrency)
+export function* watchToggleDigitalAsset() {
+  yield takeEvery(CURRENCIES_TOGGLE_ACTIVE, onToggleDigitalAsset)
 }
 
-export function* watchSetCurrentCurrency() {
-  yield takeEvery(CURRENCIES_SET_CURRENT, setCurrentCurrencyToStorage)
+export function* watchSetCurrentDigitalAsset() {
+  yield takeEvery(CURRENCIES_SET_CURRENT, onSetCurrentDigitalAsset)
 }
 
-export function* watchSearchCurrencies() {
-  yield takeEvery(CURRENCIES_SEARCH, searchCurrencies)
+export function* watchSearchDigitalAssets() {
+  yield takeEvery(CURRENCIES_SEARCH, onSearchDigitalAssets)
 }
 
-export function* watchSortCurrencies() {
-  yield takeEvery(CURRENCIES_SORT, sortCurrencies)
+export function* watchSortDigitalAssets() {
+  yield takeEvery(CURRENCIES_SORT, onSortDigitalAssets)
 }
 
 export function* watchAddCustom() {
-  yield takeEvery(CURRENCIES_ADD_CUSTOM, addCustomToken)
+  yield takeEvery(CURRENCIES_ADD_CUSTOM, onAddCustomToken)
 }

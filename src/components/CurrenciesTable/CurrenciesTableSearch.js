@@ -12,7 +12,7 @@ function CurrenciesTableSearch({ searchCurrencies, searchQuery }) {
         search={searchCurrencies}
         name='currencies'
         query={searchQuery}
-        placeholder={i18n.modals.assetManager.searchField}
+        placeholder={i18n.modals.digitalAssetManager.searchField}
       />
     </div>
   )

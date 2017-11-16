@@ -256,8 +256,8 @@ module.exports = {
         },
       },
     },
-    assetManager: {
-      searchField: 'Search assets...',
+    digitalAssetManager: {
+      searchField: 'Search digital assets...',
       table: {
         field: {
           symbol: 'SYMBOL',
@@ -304,7 +304,7 @@ module.exports = {
   },
   digitalAssets: {
     title: 'Digital Assets',
-    iconTitle: 'Manage Assets',
+    iconTitle: 'Manage Digital Assets',
   },
   transactions: {
     searchField: 'Search transactions...',
@@ -313,7 +313,7 @@ module.exports = {
         'Look like there isn\'t any',
         'in your account yet',
       ],
-      noActiveCurrency: 'Look like there isn\'t any active currency',
+      noActiveDigitalAsset: 'Look like there isn\'t any active digital asset',
       customNetwork: 'We can not load transactions for the private blockchain',
       blockExplorerError: 'We could not load your ETH transactions',
       blockExplorerLink: 'View transactions in block explorer',

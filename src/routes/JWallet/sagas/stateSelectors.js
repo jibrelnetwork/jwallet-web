@@ -1,13 +1,15 @@
+import find from 'lodash/find'
+
 import isMnemonicType from 'utils/isMnemonicType'
 
-export function selectCurrencies(state) {
+export function selectDigitalAssets(state) {
   return state.currencies
 }
 
-export function selectCurrentCurrency(state) {
-  const { items, currentActiveIndex } = state.currencies
+export function selectCurrentDigitalAsset(state) {
+  const { items, currentAddress } = state.currencies
 
-  return items[currentActiveIndex]
+  return find(items, { address: currentAddress })
 }
 
 export function selectSendFundsModal(state) {
