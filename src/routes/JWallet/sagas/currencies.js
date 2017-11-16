@@ -35,8 +35,8 @@ let isGetBalancesLoopLaunched = 0
 
 function* onGetDigitalAssets() {
   const networkName = yield select(selectCurrentNetworkName)
+  const defaultDigitalAssets = getDefaultDigitalAssets(networkName)
 
-  let defaultDigitalAssets = getDefaultDigitalAssets(networkName)
   let storageDigitalAssets = []
   let balances = {}
   let currentAddress = null
@@ -148,7 +148,9 @@ function* onAddCustomToken(action) {
 
     yield setDigitalAssets(newItems, address)
     yield onAddCustomTokenSuccess()
-  } catch (err) {}
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 function* toggleAllDigitalAssets(items, isActiveAll) {

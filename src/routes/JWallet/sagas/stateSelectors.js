@@ -36,10 +36,14 @@ export function selectCurrentKeystoreAddress(state) {
   return isMnemonicType(type) ? addressesFromMnemonic.items[addressIndex] : address
 }
 
-export function selectCurrentNetworkName(state) {
-  const { items, currentActiveIndex } = state.networks
+export function selectNetworks(state) {
+  return state.networks
+}
 
-  return items[currentActiveIndex].title
+export function selectCurrentNetworkName(state) {
+  const { items, currentNetworkIndex } = state.networks
+
+  return items[currentNetworkIndex].title
 }
 
 export function selectKeystoreData(state) {
