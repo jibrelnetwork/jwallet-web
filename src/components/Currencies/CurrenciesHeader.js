@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import CurrenciesManager from 'components/CurrenciesManager'
 
 function CurrenciesHeader({ openCurrenciesModal, isLoading }) {
@@ -15,7 +17,7 @@ function CurrenciesHeader({ openCurrenciesModal, isLoading }) {
 
   return (
     <div className='currencies-header clear'>
-      <div className='currencies-header__title pull-left'>{'Currencies'}</div>
+      <div className='currencies-header__title pull-left'>{i18n.digitalAssets.title}</div>
       <CurrenciesManager
         iconName='currencies'
         className='currencies-header__icon pull-right'

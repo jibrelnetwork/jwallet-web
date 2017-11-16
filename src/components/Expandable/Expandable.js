@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JIcon from 'components/base/JIcon'
 
 class Expandable extends Component {
@@ -45,7 +47,7 @@ Expandable.propTypes = {
 }
 
 Expandable.defaultProps = {
-  title: 'Custom options',
+  title: i18n.modals.sendFunds.customOptionsTitle,
   iconName: 'small-add',
 }
 

@@ -40,7 +40,9 @@ let render = () => {
   )
 }
 
-// This code is excluded from production bundle
+// ========================================================
+// HMR Setup
+// ========================================================
 if (__DEV__) {
   if (module.hot) {
     // Development render functions

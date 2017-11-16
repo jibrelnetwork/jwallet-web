@@ -2,8 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Keystore from 'jwallet-web-keystore'
 
+import i18n from 'i18n/en'
+
 import SubmitModal from 'components/SubmitModal'
 import JTextInput from 'components/base/JTextInput'
+
+const { placeholder, error } = i18n.modals.addCustomToken
 
 class CustomTokenModal extends SubmitModal {
   renderModalBody = () => {
@@ -26,14 +30,14 @@ class CustomTokenModal extends SubmitModal {
       <div>
         {Object.keys(customTokenFieldsMap).map((field) => {
           const handler = customTokenFieldsMap[field]
-          const placeholder = `${field.charAt(0).toUpperCase()}${field.slice(1)}`
+          const i18nPlaceholder = placeholder[field]
 
           return (
             <JTextInput
               key={field}
               onValueChange={handler}
               name={`custom-token-${field}`}
-              placeholder={placeholder}
+              placeholder={i18nPlaceholder}
               value={this.props[field]}
               errorMessage={invalidFields[field]}
               editable
@@ -61,22 +65,22 @@ class CustomTokenModal extends SubmitModal {
     let isValid = true
 
     if (!Keystore.isHexStringValid(address, 40)) {
-      setCustomTokenInvalidField('address', 'Address should be valid contract address')
+      setCustomTokenInvalidField('address', error.address.invalid)
       isValid = false
     }
 
     if (alphaRe.test(name) || (name.length < 3) || (name.length > 100)) {
-      setCustomTokenInvalidField('name', 'Name should be valid contract name')
+      setCustomTokenInvalidField('name', error.name.invalid)
       isValid = false
     }
 
     if (alphaRe.test(symbol) || (symbol.length < 3) || (symbol.length > 4)) {
-      setCustomTokenInvalidField('symbol', 'Symbol should be valid contract symbol')
+      setCustomTokenInvalidField('symbol', error.symbol.invalid)
       isValid = false
     }
 
     if ((decimalsInt <= 0) || (decimalsInt > 18)) {
-      setCustomTokenInvalidField('decimals', 'Decimals should be valid contract decimals')
+      setCustomTokenInvalidField('decimals', error.decimals.invalid)
       isValid = false
     }
 
@@ -109,7 +113,6 @@ CustomTokenModal.propTypes = {
   modalName: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
-  iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   /* optional */
   onClose: PropTypes.func,

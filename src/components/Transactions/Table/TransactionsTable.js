@@ -1,17 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JTable from 'components/base/JTable'
 
 import TransactionsTableBody from './Body'
 import TransactionsTableEmpty from './Empty'
 
+const { field } = i18n.transactions.table
+
 const transactionsTableHeaderItems = [
-  { name: 'amount', title: 'Amount', colWidth: 'col--2-4' },
-  { name: 'timestamp', title: 'Time', colWidth: 'col--2-4' },
-  { name: 'address', title: 'From/To', colWidth: 'col--4-8' },
-  { name: 'status', title: 'Status', colWidth: 'col--2-4' },
-]
+  { name: 'amount', colWidth: 'col--2-4' },
+  { name: 'timestamp', colWidth: 'col--2-4' },
+  { name: 'address', colWidth: 'col--4-8' },
+  { name: 'status', colWidth: 'col--2-4' },
+].map(item => ({ ...item, title: field[item.name] }))
 
 function TransactionsTable(props) {
   const {

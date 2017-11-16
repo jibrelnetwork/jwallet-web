@@ -1,6 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import Keystore from 'jwallet-web-keystore'
 
+import i18n from 'i18n/en'
 import isMnemonicType from 'utils/isMnemonicType'
 import { fileSaver, keystore } from 'services'
 
@@ -27,6 +28,8 @@ import {
 } from '../modules/modals/newKeystoreAccount'
 
 import { KEYSTORE_CREATE_ACCOUNT } from '../modules/keystore'
+
+const { createAccount, importAccount } = i18n.modals
 
 function* onSetImportStep(action = {}) {
   const {
@@ -81,7 +84,7 @@ function* getImportDataType(data, isInitialized) {
     newAccountData.isReadOnly = true
     newAccountData.address = data
   } else {
-    return yield setImportInvalidField('data', 'Please input correct data to import')
+    return yield setImportInvalidField('data', importAccount.error.data.invalid)
   }
 
   const isMnemonic = (isMnemonicType(newAccountData.type) && (!newAccountData.isReadOnly))
@@ -126,7 +129,7 @@ function* importKeystoreAccount(props) {
     yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
     yield onImportSuccess(isInitialized)
   } catch (err) {
-    yield onImportFail(err)
+    yield onImportFail()
   }
 }
 
@@ -134,8 +137,8 @@ function* onImportSuccess(isInitialized) {
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.SUCCESS, isInitialized)
 }
 
-function* onImportFail(err) {
-  yield setImportInvalidField('password', err.message)
+function* onImportFail() {
+  yield setImportInvalidField('password', importAccount.error.password.invalid)
 }
 
 function* checkImportPasswordConfirm(password, passwordConfirm) {
@@ -143,7 +146,7 @@ function* checkImportPasswordConfirm(password, passwordConfirm) {
   const isPasswordMatch = (password === passwordConfirm)
 
   if (!isPasswordMatch) {
-    yield setImportInvalidField('passwordConfirm', 'Password should match')
+    yield setImportInvalidField('passwordConfirm', importAccount.error.passwordConfirm.notMatched)
   }
 
   return (isPasswordValid && isPasswordMatch)
@@ -174,37 +177,18 @@ function* resetImportModal(onClose, isInitialized) {
   return onClose ? onClose() : null
 }
 
-function getImportButtonTitle(nextStep, isInitialized = false) {
-  const title = [
-    'Continue',
-    'Continue',
-    'Save',
-    isInitialized ? 'OK' : 'I understood',
-  ]
-
-  return title[nextStep]
+function getImportButtonTitle(nextStep, isInitialized) {
+  return importAccount.buttonTitles[nextStep][isInitialized ? 'yes' : 'no']
 }
 
 function getImportAlert(nextStep, isInitialized) {
-  const alert = [
-    'Please input data for your key. It will be stored only in your browser.',
-    'Now you can set custom options for keys derivation from your mnemonic.',
-    isInitialized
-      ? 'Please input your password'
-      : 'It\'s time to create a secure password for your wallet.',
-    isInitialized
-      ? 'Your key has been successfully imported'
-      : 'Excellent! Keep your password in a safe place. Without it, ' +
-        'you will not be able to use jWallet.',
-  ]
-
-  return alert[nextStep]
+  return importAccount.alerts[nextStep][isInitialized ? 'yes' : 'no']
 }
 
 function getImportImageName(nextStep) {
-  const imageName = ['', '', '', 'done']
+  const imageNames = ['', '', '', 'done']
 
-  return imageName[nextStep]
+  return imageNames[nextStep]
 }
 
 /**
@@ -295,8 +279,8 @@ function* onCreateSuccess(onClose) {
   yield resetNewModal(onClose)
 }
 
-function* onCreateFail(err) {
-  yield setNewInvalidField('password', err.message)
+function* onCreateFail() {
+  yield setNewInvalidField('password', createAccount.error.password.invalid)
 }
 
 function* resetNewModal(onClose) {
@@ -317,7 +301,7 @@ function* setNewValidField(fieldName, message) {
 
 function* checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized) {
   if (mnemonic !== mnemonicConfirm) {
-    yield setNewInvalidField('mnemonicConfirm', 'Mnemonic should match')
+    yield setNewInvalidField('mnemonicConfirm', createAccount.error.mnemonicConfirm.notMatched)
 
     return
   }
@@ -332,7 +316,7 @@ function* checkNewPasswordConfirm(password, passwordConfirm) {
   const isPasswordMatch = (password === passwordConfirm)
 
   if (!isPasswordMatch) {
-    yield setNewInvalidField('passwordConfirm', 'Password should match')
+    yield setNewInvalidField('passwordConfirm', createAccount.error.passwordConfirm.notMatched)
   } else {
     yield setNewValidField('passwordConfirm', '')
   }
@@ -341,38 +325,23 @@ function* checkNewPasswordConfirm(password, passwordConfirm) {
 }
 
 function getNewButtonTitle(nextStep) {
-  const title = ['I understood', 'I understood', 'Save as TXT', 'Confirm', 'I understood', 'Save']
-
-  return title[nextStep]
+  return createAccount.buttonTitles[nextStep]
 }
 
-function getNewAlert(nextStep, isInitialized = false) {
-  const alert = [
-    'Anyone who has access to your passphrase can spend your money.',
-    'Screenshots are not secure. ' +
-    'If you save a screenshot, it can be viewed by other applications.',
-    'Save your passphrase and move it to a safe place, in the next step we will check it.',
-    'Let\'s check your word combination. Enter it in the box below.',
-    'Excellent! Keep your passphrase in a safe place. Without it, ' +
-    'access to your account may be lost forever.',
-    isInitialized
-      ? 'Please input your password'
-      : 'It\'s time to create a secure password for your wallet.',
-  ]
-
-  return alert[nextStep]
+function getNewAlert(nextStep, isInitialized) {
+  return createAccount.alerts[nextStep][isInitialized ? 'yes' : 'no']
 }
 
 function getNewImageName(nextStep) {
-  const imageName = ['spy', 'screenshot', '', '', 'done', '']
+  const imageNames = ['spy', 'screenshot', '', '', 'done', '']
 
-  return imageName[nextStep]
+  return imageNames[nextStep]
 }
 
 function getNewIconName(nextStep) {
-  const iconName = ['', '', 'txt', '', '', '']
+  const iconNames = ['', '', 'txt', '', '', '']
 
-  return iconName[nextStep]
+  return iconNames[nextStep]
 }
 
 export function* watchSetImportAccountStep() {

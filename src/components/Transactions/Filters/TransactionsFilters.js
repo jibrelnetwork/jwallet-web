@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import { DatePicker, Search } from 'components'
 
 import TransactionsManager from '../Manager'
@@ -20,7 +22,12 @@ function TransactionsFilters(props) {
 
   return (
     <div className='transactions-filters clear'>
-      <Search search={searchTransactions} name='transactions' query={searchQuery} />
+      <Search
+        search={searchTransactions}
+        name='transactions'
+        query={searchQuery}
+        placeholder={i18n.transactions.searchField}
+      />
       <div className='transactions-filters__filter pull-left'>
         <DatePicker
           filterTransactions={filterTransactions}

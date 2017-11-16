@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import { etherscan, storage, web3 } from 'services'
-import defaultNetworks from 'utils/defaultNetworks'
+import getDefaultNetworks from 'utils/getDefaultNetworks'
 
 import {
   NETWORKS_GET,
@@ -23,14 +23,14 @@ function* getCurrencies() {
 }
 
 function* getNetworksFromStorage() {
-  let items = defaultNetworks
+  let items = getDefaultNetworks()
   let currentActiveIndex = 0
 
   try {
     const networksFromStorage = storage.getNetworks()
     const networkIndexFromStorage = storage.getNetworksCurrent()
 
-    items = networksFromStorage ? JSON.parse(networksFromStorage) : defaultNetworks
+    items = networksFromStorage ? JSON.parse(networksFromStorage) : items
     currentActiveIndex = parseInt(networkIndexFromStorage, 10) || 0
   } catch (e) {
     console.error(e)
@@ -42,7 +42,7 @@ function* getNetworksFromStorage() {
 function setNetworksToStorage(action) {
   const { items, currentActiveIndex } = action
 
-  storage.setNetworks(JSON.stringify(items || defaultNetworks))
+  storage.setNetworks(JSON.stringify(items || getDefaultNetworks()))
   storage.setNetworksCurrent(currentActiveIndex || 0)
 }
 

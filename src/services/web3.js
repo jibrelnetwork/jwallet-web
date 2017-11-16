@@ -1,9 +1,11 @@
 import { sortBy } from 'lodash/collection'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
 
+import i18n from 'i18n/en'
 import config from 'config'
 import getFormattedDateString from 'utils/getFormattedDateString'
 
+const { statusValue } = i18n.transactions.table
 const { defaultDecimals } = config
 
 let rpcProps = {
@@ -100,7 +102,7 @@ function getLast50(list = []) {
 }
 
 function getTransactionStatus(blockHash) {
-  return blockHash ? 'Accepted' : 'Pending'
+  return blockHash ? statusValue.accepted : statusValue.pending
 }
 
 function getBlocks(list) {
@@ -182,7 +184,7 @@ function parseTransaction(item, decimals) {
      * removed flag is present for contract events only
      * (see https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events)
      */
-    status: (isRejected || removed) ? 'Rejected' : item.status,
+    status: (isRejected || removed) ? statusValue.rejected : item.status,
     date: timestamp ? getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY') : 'n/a',
   }
 }

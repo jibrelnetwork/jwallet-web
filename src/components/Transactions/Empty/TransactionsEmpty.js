@@ -1,6 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
+const {
+  noActiveCurrency,
+  customNetwork,
+  blockExplorerError,
+  blockExplorerLink,
+} = i18n.transactions.table
+
 function TransactionsEmpty({ emptyImageSrc, isCustomNetwork, isBlockExplorerError }) {
   const emptyClassNameModifier = isBlockExplorerError ? 'etherscan-error' : 'custom-network'
 
@@ -11,16 +20,16 @@ function TransactionsEmpty({ emptyImageSrc, isCustomNetwork, isBlockExplorerErro
       target='_blank'
       rel='noopener noreferrer'
     >
-      {'See them in the blockexplorer'}
+      {blockExplorerLink}
     </a>
   )
 
-  let message = 'Look like there isn\'t any active currency'
+  let message = noActiveCurrency
 
   if (isCustomNetwork) {
-    message = 'We can not load transactions for the private blockchain'
+    message = customNetwork
   } else if (isBlockExplorerError) {
-    message = 'At the moment we can not load your ETH transactions'
+    message = blockExplorerError
   }
 
   return (

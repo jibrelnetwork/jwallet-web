@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { DateRangePicker } from 'react-dates'
 import moment from 'moment'
 
+import i18n from 'i18n/en'
+
 import JIcon from 'components/base/JIcon'
 
 class DatePicker extends Component {
@@ -36,7 +38,7 @@ class DatePicker extends Component {
 
     return (
       <div className='date-picker clear'>
-        <div className='date-picker__title pull-left'>{'Date:'}</div>
+        <div className='date-picker__title pull-left'>{`${i18n.transactions.filterTitle}:`}</div>
         <DateRangePicker
           onDatesChange={this.setFilterTime}
           onFocusChange={this.setFocused}

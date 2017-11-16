@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import { JIcon, JTextInput } from 'components/base'
+
+const { copyTitle } = i18n.modals.receiveFunds
 
 class CopyableField extends Component {
   constructor(props) {
@@ -30,7 +34,7 @@ class CopyableField extends Component {
           name='copy'
           onClick={this.copyContentToBuffer(name)}
           className='copyable-field__copy'
-          title={this.state.isCopied ? 'Copied' : 'Copy to Clipboard'}
+          title={this.state.isCopied ? copyTitle.done : copyTitle.do}
         />
       </div>
     )

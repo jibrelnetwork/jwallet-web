@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 
+import i18n from 'i18n/en'
+
 import {
   closeSendFundsModal,
   setSendFundsAddress,
@@ -14,13 +16,15 @@ import {
 
 import SendFundsModal from './SendFundsModal'
 
+const { title, buttonTitle } = i18n.modals.sendFunds
+
 const mapStateToProps = state => ({
   ...state.sendFundsModal,
+  buttonTitle,
   accounts: state.keystore.accounts,
   currencies: state.currencies.items,
   modalName: 'send-funds',
-  modalTitle: 'Send Funds',
-  buttonTitle: 'Send Funds',
+  modalTitle: title,
   buttonType: 'password',
   iconName: 'send-funds',
 })

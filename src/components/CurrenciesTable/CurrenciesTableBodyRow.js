@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JCheckbox from 'components/base/JCheckbox'
+
+const { licensedValue, transferValue } = i18n.modals.assetManager.table
 
 function CurrenciesTableBodyRow(props) {
   const {
@@ -16,8 +20,8 @@ function CurrenciesTableBodyRow(props) {
   } = props
 
   const itemClassName = 'table-body-item table-body-item'
-  const licensed = isLicensed ? 'Yes' : 'No'
-  const transfer = isAuthRequired ? 'Not Authorized' : 'Authorized'
+  const licensed = isLicensed ? licensedValue.yes : licensedValue.no
+  const transfer = isAuthRequired ? transferValue.authorized : transferValue.notAuthorized
 
   return (
     <div

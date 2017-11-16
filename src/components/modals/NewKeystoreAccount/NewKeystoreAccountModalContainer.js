@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 
+import i18n from 'i18n/en'
+
 import {
   closeNewKeystoreAccountModal,
   setNewKeystoreAccountMnemonicConfirm,
@@ -18,7 +20,7 @@ const mapStateToProps = (state) => {
   return {
     ...newKeystoreAccountModal,
     modalName: 'new-keystore-account',
-    modalTitle: 'Create new key',
+    modalTitle: i18n.modals.createAccount.title,
     topLineFullness: `${100 * (currentStep / totalSteps)}%`,
     isInitialized: !!currentAccount.id.length,
     isButtonLoading: isCreating,

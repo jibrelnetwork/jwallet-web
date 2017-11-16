@@ -2,23 +2,39 @@ import sortBy from 'lodash/sortBy'
 
 export default function sortItems(items, oldField, newField, oldDirection) {
   const isASC = (oldDirection === 'ASC')
-  const changeDirection = (newField === oldField)
+  const isChangingDirection = (newField === oldField)
+  const isNeedToReverse = (isASC && isChangingDirection)
 
-  const lowerCaseItems = items.map((i, index) => ({
-    index,
-    [newField]: ((typeof i[newField] === 'string') ? i[newField].toLowerCase() : i[newField])
-  }))
+  return {
+    sortField: newField,
+    sortDirection: getSortDirection(isNeedToReverse),
+    items: getSortedItems(items, newField, isNeedToReverse),
+  }
+}
 
+function getSortedItems(items, newField, isNeedToReverse) {
+  const lowerCaseItems = getLowerCaseItems(items, newField)
   const sortedItems = sortBy(lowerCaseItems, newField)
   const mappedItems = sortedItems.map(({ index }) => items[index])
 
-  if (changeDirection && isASC) {
+  if (isNeedToReverse) {
     mappedItems.reverse()
   }
 
-  return {
-    items: mappedItems,
-    sortField: newField,
-    sortDirection: (changeDirection && isASC) ? 'DESC' : 'ASC',
-  }
+  return mappedItems
+}
+
+function getLowerCaseItems(items, newField) {
+  return items.map((i, index) => ({
+    index,
+    [newField]: getLowerCaseField(i[newField]),
+  }))
+}
+
+function getLowerCaseField(field) {
+  return (typeof field === 'string') ? field.toLowerCase() : field
+}
+
+function getSortDirection(isNeedToReverse) {
+  return isNeedToReverse ? 'DESC' : 'ASC'
 }

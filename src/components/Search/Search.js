@@ -14,8 +14,7 @@ class Search extends Component {
   }
 
   render() {
-    const { name } = this.props
-    const placeholder = `Search ${name}...`
+    const { name, placeholder } = this.props
 
     return (
       <div className={`search search--${name} pull-left`}>
@@ -50,6 +49,7 @@ Search.propTypes = {
   search: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   query: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
 }
 
 export default Search
