@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
 function AccountInfoName(props) {
@@ -25,7 +26,7 @@ function AccountInfoName(props) {
       <input
         className='account-info-name__input'
         type='text'
-        placeholder='New name'
+        placeholder={i18n.modals.keystore.table.placeholder.name}
         value={newAccountName}
         onChange={setNewAccountName}
         onBlur={setName}

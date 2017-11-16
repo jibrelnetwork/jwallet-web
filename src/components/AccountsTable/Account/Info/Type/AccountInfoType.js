@@ -1,10 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JIcon from 'components/base/JIcon'
 
+const { accountType } = i18n.modals.keystore.table
+
 function AccountInfoType({ type, isReadOnly }) {
-  const accountType = (isReadOnly ? `${type}, READ ONLY` : type).toUpperCase()
+  const i18nType = accountType[type]
+  const i18nReadOnly = accountType.readOnly
+  const typeWithStatus = isReadOnly ? `${i18nType}, ${i18nReadOnly}` : i18nType
 
   const accountTypeReadOnlyIcon = !isReadOnly ? null : (
     <JIcon name='small-eye' className='account-info-type__icon' small />
@@ -12,7 +18,7 @@ function AccountInfoType({ type, isReadOnly }) {
 
   return (
     <div className='account-info-type'>
-      <div className='account-info-type__label'>{accountType}{accountTypeReadOnlyIcon}</div>
+      <div className='account-info-type__label'>{typeWithStatus}{accountTypeReadOnlyIcon}</div>
     </div>
   )
 }

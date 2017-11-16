@@ -2,14 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+import i18n from 'i18n/en'
 import isMnemonicType from 'utils/isMnemonicType'
 
 import JTable from 'components/base/JTable'
 import Account from './Account'
 
+const { field } = i18n.modals.keystore.table
+
 const accountsTableHeaderItems = [
-  { title: 'Name', name: 'accountName', colWidth: 'col--10' },
-  { title: 'Actions', name: 'accountActions', colWidth: 'col--2', isReadOnly: true },
+  { title: field.name, name: 'accountName', colWidth: 'col--10' },
+  { title: field.actions, name: 'accountActions', colWidth: 'col--2', isReadOnly: true },
 ]
 
 function AccountsTable(props) {

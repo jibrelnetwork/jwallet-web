@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import BigNumber from 'bignumber.js'
 
+import i18n from 'i18n/en'
 import config from 'config'
 import qrCode from 'services/qrCode'
 
 import { CopyableField, SubmitModal } from 'components'
 import JTextInput from 'components/base/JTextInput'
+
+const { placeholder } = i18n.modals.receiveFunds
 
 class ReceiveFundsModal extends SubmitModal {
   renderModalBody = () => {
@@ -27,7 +30,7 @@ class ReceiveFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setReceiveFundsAmount}
         name={'amount'}
-        placeholder='Amount (ETH)'
+        placeholder={placeholder.amount}
         value={amount}
         editable
       />
@@ -35,7 +38,7 @@ class ReceiveFundsModal extends SubmitModal {
   }
 
   renderRecipientAddress = () => {
-    return <CopyableField placeholder='Recipient address' value={this.props.currentAddress} />
+    return <CopyableField placeholder={placeholder.address} value={this.props.currentAddress} />
   }
 
   renderQRCode = () => {

@@ -1,5 +1,5 @@
-export defaultNetworks from './defaultNetworks'
 export * from './errors'
+export getDefaultNetworks from './getDefaultNetworks'
 export getDefaultTokens from './getDefaultTokens'
 export getFieldMessage from './getFieldMessage'
 export getFormattedDateString from './getFormattedDateString'

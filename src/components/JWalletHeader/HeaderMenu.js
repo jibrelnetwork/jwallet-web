@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JIcon from 'components/base/JIcon'
 
 function HeaderMenu({ openSendFundsModal, openReceiveFundsModal }) {
@@ -8,11 +10,11 @@ function HeaderMenu({ openSendFundsModal, openReceiveFundsModal }) {
     <div className='header-menu pull-left'>
       <div className='header-menu__item' onClick={openSendFundsModal}>
         <JIcon name='send' className='header-menu__icon' />
-        <span className='header-menu__title'>{'Send'}</span>
+        <span className='header-menu__title'>{i18n.header.sendTitle}</span>
       </div>
       <div className='header-menu__item' onClick={openReceiveFundsModal}>
         <JIcon name='receive' className='header-menu__icon' />
-        <span className='header-menu__title'>{'Receive'}</span>
+        <span className='header-menu__title'>{i18n.header.receiveTitle}</span>
       </div>
     </div>
   )

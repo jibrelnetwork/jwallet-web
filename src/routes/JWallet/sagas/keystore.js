@@ -1,8 +1,10 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
+import isEmpty from 'lodash/isEmpty'
 
+import i18n from 'i18n/en'
 import config from 'config'
 import { fileSaver, keystore, storage } from 'services'
-import sortItems from 'utils/sortItems'
+import { sortItems, isMnemonicType } from 'utils'
 
 import { selectKeystoreData, selectCurrentAccountId } from './stateSelectors'
 
@@ -36,6 +38,7 @@ import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
 
 const { addressesPerIteration } = config
+const { modals } = i18n
 
 function* getKeystoreFromStorage() {
   try {
@@ -47,8 +50,8 @@ function* getKeystoreFromStorage() {
     }
 
     yield setCurrentAccount({ accountId: currentAccountId })
-  } catch (e) {
-    console.error('Cannot parse keystore data from storage') // eslint-disable-line no-console
+  } catch (err) {
+    console.error('Cannot parse keystore data from storage')
   }
 
   yield setAccounts()
@@ -96,7 +99,7 @@ function* updateCurrentAccountData() {
 
 function* setFirstAccountAsCurrent() {
   const accounts = keystore.getAccounts()
-  const firstAccountId = (accounts && accounts.length && accounts[0]) ? accounts[0].id : null
+  const firstAccountId = (isEmpty(accounts) || isEmpty(accounts[0])) ? null : accounts[0].id
 
   if (!firstAccountId) {
     return yield clearCurrentAccount()
@@ -141,7 +144,7 @@ function* setCurrentAccount(action) {
 
   yield setCurrentAccountData(accountData)
 
-  if (type === 'mnemonic') {
+  if (isMnemonicType(type)) {
     yield refreshAddressesFromMnemonic(accountId, addressIndex)
   }
 
@@ -178,7 +181,7 @@ function* onRemoveAccounts(action) {
 
     yield onRemoveAccountsSuccess()
   } catch (err) {
-    yield onRemoveAccountsError(err.message)
+    yield onRemoveAccountsError()
   }
 }
 
@@ -189,8 +192,12 @@ function* onRemoveAccountsSuccess() {
   yield put({ type: CLEAR_KEYSTORE_CLOSE_MODAL })
 }
 
-function* onRemoveAccountsError(errMessage) {
-  yield put({ type: CLEAR_KEYSTORE_SET_INVALID_FIELD, fieldName: 'password', message: errMessage })
+function* onRemoveAccountsError() {
+  yield put({
+    type: CLEAR_KEYSTORE_SET_INVALID_FIELD,
+    fieldName: 'password',
+    message: modals.removeAccounts.error.password.incorrect,
+  })
 }
 
 function* setAccountName(action) {
@@ -203,8 +210,8 @@ function* setAccountName(action) {
     yield updateCurrentAccountData()
 
     return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
+  } catch (err) {
+    return onError ? onError(err) : null
   }
 }
 
@@ -219,8 +226,8 @@ function* setDerivationPath(action) {
     yield refreshAddressesFromMnemonic(accountId, accountData.addressIndex)
 
     return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
+  } catch (err) {
+    return onError ? onError(err) : null
   }
 }
 
@@ -234,7 +241,7 @@ function* setAddressIndex(action) {
   yield getBalances()
 }
 
-function* refreshAddressesFromMnemonic(accountId, addressIndex = 0) {
+function* refreshAddressesFromMnemonic(accountId, addressIndex) {
   storage.removeKeystoreAddressesFromMnemonic()
 
   yield setAddressesFromMnemonic()
@@ -273,7 +280,7 @@ function* getAddressesFromMnemonic(action) {
   }
 }
 
-function getAddressesFromStorage(iteration = -1, limit = addressesPerIteration) {
+function getAddressesFromStorage(iteration, limit) {
   const addresses = storage.getKeystoreAddressesFromMnemonic()
 
   if (!addresses) {
@@ -311,7 +318,7 @@ function* setAddressesFromMnemonic(existedItems = [], newItems = [], iteration =
   })
 }
 
-function setAddressesToStorage(newItems = []) {
+function setAddressesToStorage(newItems) {
   const addresses = storage.getKeystoreAddressesFromMnemonic()
   const parsedAddresses = !addresses ? [] : JSON.parse(addresses)
   const newAddresses = [...parsedAddresses, ...newItems]
@@ -328,8 +335,8 @@ function setPassword(action) {
     setKeystoreToStorage()
 
     return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
+  } catch (err) {
+    return onError ? onError(err) : null
   }
 }
 
@@ -340,8 +347,8 @@ function backupKeystore(action) {
     fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
 
     return onSuccess ? onSuccess() : null
-  } catch (e) {
-    return onError ? onError(e) : null
+  } catch (err) {
+    return onError ? onError(err) : null
   }
 }
 

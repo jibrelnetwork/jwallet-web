@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
 import handleEnterKeyPress from 'utils/handleEnterKeyPress'
 
 import JIcon from 'components/base/JIcon'
@@ -42,7 +43,7 @@ NetworksCustomRpc.propTypes = {
 }
 
 NetworksCustomRpc.defaultProps = {
-  placeholder: 'Custom RPC',
+  placeholder: i18n.networkManager.placeholder.customNetwork,
 }
 
 export default NetworksCustomRpc

@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JRadio from 'components/base/JRadio'
 
 function AccountInfoMnemonicAddresses(props) {
@@ -34,7 +36,7 @@ function AccountInfoMnemonicAddresses(props) {
       })}
       <div className='get-more-wrap'>
         <span className='get-more' onClick={getAddressesFromMnemonic(id, currentIteration)}>
-          {'Get more'}
+          {i18n.modals.keystore.getMoreTitle}
         </span>
       </div>
     </div>

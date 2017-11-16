@@ -1,10 +1,12 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import BigNumber from 'bignumber.js'
+import isEmpty from 'lodash/isEmpty'
 import Keystore from 'jwallet-web-keystore'
 
+import i18n from 'i18n/en'
 import config from 'config'
 import { keystore, web3 } from 'services'
-import { InvalidFieldError, isMnemonicType } from 'utils'
+import { InvalidFieldError } from 'utils/errors'
 
 import { selectCurrencies, selectSendFundsModal } from './stateSelectors'
 
@@ -20,61 +22,36 @@ import {
 } from '../modules/modals/sendFunds'
 
 import {
-  RECEIVE_FUNDS_SET_ACCOUNT_ID,
-  RECEIVE_FUNDS_SET_ACCOUNT,
-} from '../modules/modals/receiveFunds'
-
-import {
   CONVERT_FUNDS_SET_FROM_ACCOUNT,
   CONVERT_FUNDS_SET_FROM_ACCOUNT_ID,
   CONVERT_FUNDS_SET_TO_ACCOUNT,
   CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
 } from '../modules/modals/convertFunds'
 
-function* onSendFundsSetAccountId(action = {}) {
+const { alert, error } = i18n.modals.sendFunds
+
+function* onSendFundsSetAccountId(action) {
   const { accountId, accounts } = action
 
   yield setAccount(accountId, accounts, SEND_FUNDS_SET_ACCOUNT)
 }
 
-function* onConvertFundsSetFromAccountId(action = {}) {
+function* onConvertFundsSetFromAccountId(action) {
   const { accountId, accounts } = action
 
   yield setAccount(accountId, accounts, CONVERT_FUNDS_SET_FROM_ACCOUNT)
 }
 
-function* onConvertFundsSetToAccountId(action = {}) {
+function* onConvertFundsSetToAccountId(action) {
   const { accountId, accounts } = action
 
   yield setAccount(accountId, accounts, CONVERT_FUNDS_SET_TO_ACCOUNT)
 }
 
-function* onReceiveFundsSetAccountId(action = {}) {
-  try {
-    const { accountId, accounts, addressesFromMnemonic } = action
-    const currentAccount = accounts.filter(account => (account.id === accountId)).shift() || {}
-    const { id, type, addressIndex } = currentAccount
-
-    if (isMnemonicType(type)) {
-      let addressFromMnemonic = addressesFromMnemonic[addressIndex]
-
-      if (!addressFromMnemonic) {
-        addressFromMnemonic = getAddressFromMnemonicByIndex(id, addressIndex)
-      }
-
-      currentAccount.address = addressFromMnemonic
-    }
-
-    yield put({ type: RECEIVE_FUNDS_SET_ACCOUNT, currentAccount })
-  } catch (e) {
-    yield put({ type: RECEIVE_FUNDS_SET_ACCOUNT })
-  }
-}
-
 function* onSendFunds() {
   try {
     const sendFundsData = yield select(selectSendFundsModal)
-    const { onClose, symbol } = sendFundsData || {}
+    const { onClose, symbol } = sendFundsData
     const currency = yield getCurrencyBySymbol(symbol)
 
     const transactionHandler = getTransactionHandler(symbol)
@@ -93,19 +70,11 @@ function* onSendFunds() {
   }
 }
 
-function* setAccount(accountId = '', accounts = [], type = '') {
+function* setAccount(accountId, accounts, type) {
   yield put({
     type,
     currentAccount: accounts.filter(account => (account.id === accountId)).shift(),
   })
-}
-
-function getAddressFromMnemonicByIndex(accountId = '', addressIndex = 0) {
-  const iteration = 0
-  const limit = (addressIndex + 1)
-  const addresses = keystore.getAddressesFromMnemonic(accountId, iteration, limit) || []
-
-  return addresses[addressIndex] || {}
 }
 
 function* sendFundsSuccess(onClose) {
@@ -115,36 +84,36 @@ function* sendFundsSuccess(onClose) {
   return onClose ? onClose() : null
 }
 
-function* sendFundsFail(err = {}) {
+function* sendFundsFail(err) {
   const isPasswordError = /password/i.test(err.message)
 
   if (isPasswordError) {
-    yield setInvalidField('password', 'Password is incorrect')
+    yield setInvalidField('password', error.password.invalid)
   } else {
     yield cleanPassword()
-    yield setAlert('Sending of the transaction was failed. Please try again later')
+    yield setAlert(alert.internalError)
   }
 
   console.error(err)
 }
 
-function* setInvalidField(fieldName = '', message = '') {
+function* setInvalidField(fieldName, message) {
   yield put({ type: SEND_FUNDS_SET_INVALID_FIELD, fieldName, message })
 }
 
-function* setAlert(alert = '') {
-  yield put({ type: SEND_FUNDS_SET_ALERT, alert })
+function* setAlert(alertMessage) {
+  yield put({ type: SEND_FUNDS_SET_ALERT, alert: alertMessage })
 }
 
 function* cleanPassword() {
   yield put({ type: SEND_FUNDS_SET_PASSWORD })
 }
 
-function getTransactionHandler(symbol = '') {
+function getTransactionHandler(symbol) {
   return (symbol === 'ETH') ? web3.sendETHTransaction : web3.sendContractTransaction
 }
 
-function getTransactionData(props = {}) {
+function getTransactionData(props) {
   validateTransactionData(props)
 
   const { currency, accountId, password, address, amount, addressIndex, gas, gasPrice } = props
@@ -176,7 +145,7 @@ function getTransactionData(props = {}) {
   return data
 }
 
-function validateTransactionData(props = {}) {
+function validateTransactionData(props) {
   const { accountId, address, amount, gas, gasPrice } = props
 
   validateAccountId(accountId)
@@ -186,61 +155,61 @@ function validateTransactionData(props = {}) {
   validateGasPrice(gasPrice)
 }
 
-function validateAccountId(accountId = '') {
-  if (!(accountId && accountId.length)) {
-    throw (new InvalidFieldError('account', 'Please select account'))
+function validateAccountId(accountId) {
+  if (isEmpty(accountId)) {
+    throw (new InvalidFieldError('account', error.account.notSelected))
   }
 }
 
-function validateAddress(address = '') {
+function validateAddress(address) {
   if (!Keystore.isHexStringValid(address, 40)) {
-    throw (new InvalidFieldError('address', 'Please input valid account address'))
+    throw (new InvalidFieldError('address', error.address.invalid))
   }
 }
 
-function validateAmount(amount = '') {
+function validateAmount(amount) {
   if (/[^\d.]/.test(amount)) {
-    throw (new InvalidFieldError('amount', 'Please input valid amount to transfer'))
+    throw (new InvalidFieldError('amount', error.amount.invalid))
   }
 }
 
-function validateGas(gas = '') {
+function validateGas(gas) {
   if (/\D/.test(gas)) {
-    throw (new InvalidFieldError('gas', 'Please input valid gas limit value'))
+    throw (new InvalidFieldError('gas', error.gas.invalid))
   }
 }
 
-function validateGasPrice(gasPrice = '') {
+function validateGasPrice(gasPrice) {
   if (/\D/.test(gasPrice)) {
-    throw (new InvalidFieldError('gasPrice', 'Please input valid gas price value'))
+    throw (new InvalidFieldError('gasPrice', error.gasPrice.invalid))
   }
 }
 
-function validateTransactionValue(value = 0, balance = 0, decimals = config.defaultDecimals) {
+function validateTransactionValue(value, balance, decimals) {
   if (value.lessThanOrEqualTo(0)) {
-    throw (new InvalidFieldError('amount', 'Amount should be greater than 0'))
+    throw (new InvalidFieldError('amount', error.amount.lessThan0))
   }
 
   const balanceUnits = balance * (10 ** decimals)
 
   if (value.greaterThan(balanceUnits)) {
-    throw (new InvalidFieldError('amount', 'Amount exceeds account balance'))
+    throw (new InvalidFieldError('amount', error.amount.exceedsBalance))
   }
 }
 
-function validateTransactionGas(gas = 0) {
+function validateTransactionGas(gas) {
   if (gas.lessThanOrEqualTo(0)) {
-    throw (new InvalidFieldError('gas', 'Gas limit should be greater than 0'))
+    throw (new InvalidFieldError('gas', error.gas.lessThan0))
   }
 }
 
-function validateTransactionGasPrice(gasPrice = 0) {
+function validateTransactionGasPrice(gasPrice) {
   if (gasPrice.lessThanOrEqualTo(0)) {
-    throw (new InvalidFieldError('gasPrice', 'Gas price should be greater than 0'))
+    throw (new InvalidFieldError('gasPrice', error.gasPrice.lessThan0))
   }
 }
 
-function getTransactionValue(amount = '', decimals = config.defaultDecimals) {
+function getTransactionValue(amount, decimals) {
   const parsedAmount = parseFloat(amount, 10) || 0
   const fixedAmount = parsedAmount.toFixed(18)
   const unitsAmount = fixedAmount * (10 ** decimals)
@@ -248,7 +217,7 @@ function getTransactionValue(amount = '', decimals = config.defaultDecimals) {
   return new BigNumber(unitsAmount, 10)
 }
 
-function* getCurrencyBySymbol(symbol = '') {
+function* getCurrencyBySymbol(symbol) {
   const { items, balances } = yield select(selectCurrencies)
   const currency = items.filter(c => (c.symbol === symbol))[0] || {}
 
@@ -270,10 +239,6 @@ export function* watchConvertFundsFromAccountId() {
 
 export function* watchConvertFundsToAccountId() {
   yield takeEvery(CONVERT_FUNDS_SET_TO_ACCOUNT_ID, onConvertFundsSetToAccountId)
-}
-
-export function* watchReceiveFundsAccountId() {
-  yield takeEvery(RECEIVE_FUNDS_SET_ACCOUNT_ID, onReceiveFundsSetAccountId)
 }
 
 export function* watchSendFunds() {

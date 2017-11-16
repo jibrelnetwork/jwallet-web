@@ -1,12 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import Search from 'components/Search'
 
 function CurrenciesTableSearch({ searchCurrencies, searchQuery }) {
   return (
     <div className='currencies-table-search clear'>
-      <Search search={searchCurrencies} name='currencies' query={searchQuery} />
+      <Search
+        search={searchCurrencies}
+        name='currencies'
+        query={searchQuery}
+        placeholder={i18n.modals.assetManager.searchField}
+      />
     </div>
   )
 }

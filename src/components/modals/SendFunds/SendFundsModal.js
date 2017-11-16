@@ -1,8 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import { Expandable, SubmitModal, SymbolPicker } from 'components'
 import { JPicker, JTextInput } from 'components/base'
+
+const { placeholder } = i18n.modals.sendFunds
 
 class SendFundsModal extends SubmitModal {
   renderModalBody = () => {
@@ -23,7 +27,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsAddress}
         name='recipient-address'
-        placeholder='Recipient address'
+        placeholder={placeholder.address}
         value={address}
         errorMessage={invalidFields.address}
         editable
@@ -38,7 +42,7 @@ class SendFundsModal extends SubmitModal {
       <JPicker
         onValueChange={this.setSendFundsAccountId}
         name='account-id'
-        placeholder='Account'
+        placeholder={placeholder.account}
         selectedValue={currentAccount.accountName}
         errorMessage={invalidFields.account}
         enabled={!!accounts.length}
@@ -66,7 +70,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsAmount}
         name='amount'
-        placeholder='Amount'
+        placeholder={placeholder.amount}
         value={amount}
         errorMessage={invalidFields.amount}
         editable
@@ -105,7 +109,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsGas}
         name='gas'
-        placeholder='Gas'
+        placeholder={placeholder.gas}
         value={gas}
         errorMessage={invalidFields.gas}
         editable
@@ -120,7 +124,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsGasPrice}
         name='gas-price'
-        placeholder='Gas price (wei)'
+        placeholder={placeholder.gasPrice}
         value={gasPrice}
         errorMessage={invalidFields.gasPrice}
         editable
