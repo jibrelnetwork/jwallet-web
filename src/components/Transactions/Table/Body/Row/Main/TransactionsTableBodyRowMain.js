@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
 
 import i18n from 'i18n/en'
 
@@ -61,6 +60,7 @@ TransactionsTableBodyRowMain.propTypes = {
   date: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
+  isToken: PropTypes.bool.isRequired,
 }
 
 export default TransactionsTableBodyRowMain

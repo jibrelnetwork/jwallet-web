@@ -3,7 +3,7 @@ import find from 'lodash/find'
 
 import {
   toggleDigitalAsset,
-  setCurrentDigitalAssetAddress
+  setCurrentDigitalAssetAddress,
 } from 'routes/JWallet/modules/currencies'
 
 import {
@@ -26,17 +26,14 @@ import Transactions from './Transactions'
 const mapStateToProps = (state) => {
   const { currencies, keystore, networks, transactions } = state
   const { items, currentAddress } = currencies
-  const currentCurrency = find(items, { address: currentAddress })
-  const currentCurrencySymbol = currentCurrency ? currentCurrency.symbol : ''
-  const isKeystoreInitialised = !!keystore.accounts.length
 
   return {
     transactions,
     currentAddress,
-    currentCurrencySymbol,
-    isKeystoreInitialised,
     currencyItems: items,
-    isCustomNetwork: (networks.currentActiveIndex > 3),
+    isKeystoreInitialised: !!keystore.accounts.length,
+    isCustomNetwork: isCustomNetwork(networks),
+    currentCurrencySymbol: getCurrentCurrencySymbol(items, currentAddress),
   }
 }
 
@@ -54,6 +51,16 @@ const mapDispatchToProps = {
   filterTransactions,
   openNewKeystoreAccountModal: openNewKeystoreAccountModal.bind(null, null),
   openImportKeystoreAccountModal: openImportKeystoreAccountModal.bind(null, null),
+}
+
+function isCustomNetwork({ items, currentNetworkIndex }) {
+  return items[currentNetworkIndex].isCustom
+}
+
+function getCurrentCurrencySymbol(items, currentAddress) {
+  const currentCurrency = find(items, { address: currentAddress })
+
+  return currentCurrency ? currentCurrency.symbol : ''
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)

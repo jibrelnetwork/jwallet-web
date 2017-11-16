@@ -6,10 +6,15 @@ import getFormattedDateString from 'utils/getFormattedDateString'
 const { etherscanApiOptions, defaultDecimals } = config
 let endpoint = 'api'
 
-const enpointNames = ['api', 'ropsten', 'kovan', 'rinkeby']
+const enpointNames = {
+  1: 'api',
+  3: 'ropsten',
+  42: 'kovan',
+  4: 'rinkeby',
+}
 
-function setEndpoint(index = 0) {
-  endpoint = enpointNames[index] || 'api'
+function setEndpoint(networkId) {
+  endpoint = enpointNames[networkId]
 }
 
 function getEndpoint() {
