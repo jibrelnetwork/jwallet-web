@@ -9,16 +9,9 @@ import JModalOverlay from './Overlay'
 import JModalContent from './Content'
 
 class JModal extends Appearable {
-  componentWillReceiveProps(nextProps) {
-    const { isOpen } = this.props
-
-    if (nextProps.isOpen) {
-      this.open(!isOpen)
-    } else {
-      this.close(isOpen)
-    }
-
-    this.scrollToTop(nextProps)
+  componentWillReceiveProps({ isOpen }) {
+    this.toggleModal(isOpen)
+    this.scrollToTop(isOpen)
   }
 
   render() {
@@ -55,10 +48,20 @@ class JModal extends Appearable {
     )
   }
 
-  scrollToTop = (nextProps) => {
-    const isJustNowOpened = !this.props.isOpen && nextProps.isOpen
+  toggleModal = (isAboutToOpen) => {
+    const isClosed = !this.props.isOpen
 
-    if (isJustNowOpened) {
+    if (isAboutToOpen) {
+      this.open(isClosed)
+    } else {
+      this.close(!isClosed)
+    }
+  }
+
+  scrollToTop = (isAboutToOpen) => {
+    const isClosed = !this.props.isOpen
+
+    if (isClosed && isAboutToOpen) {
       window.scrollTo(0, 0)
     }
   }
