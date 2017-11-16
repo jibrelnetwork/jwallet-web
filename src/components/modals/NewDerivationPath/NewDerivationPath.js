@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
 import { isKnownPath } from 'utils'
 
 import { DerivationPath, SubmitModal } from 'components'
+
+const { error } = i18n.modals.derivationPath
 
 class NewDerivationPath extends SubmitModal {
   componentWillReceiveProps(nextProps) {
@@ -58,9 +61,17 @@ class NewDerivationPath extends SubmitModal {
     const { message } = err
     const isPasswordError = /password/ig.test(message)
     const errField = isPasswordError ? 'password' : 'customDerivationPath'
+    const errorMessage = isPasswordError ? error.password.invalid : this.getDPError(message)
 
     this.shake()
-    this.props.setNewDerivationPathInvalidField(errField, message)
+    this.props.setNewDerivationPathInvalidField(errField, errorMessage)
+  }
+
+  getDPError = (message) => {
+    const isSameDP = /same/ig.test(message)
+    const { same, invalid } = error.customDerivationPath
+
+    return isSameDP ? same : invalid
   }
 
   onSuccess = () => this.closeModal()

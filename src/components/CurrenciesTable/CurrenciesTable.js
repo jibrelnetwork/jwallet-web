@@ -3,11 +3,15 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+import i18n from 'i18n/en'
+
 import JTable from 'components/base/JTable'
 
 import CurrenciesTableSearch from './CurrenciesTableSearch'
 import CurrenciesTableBodyRow from './CurrenciesTableBodyRow'
 import CurrenciesTableEmpty from './Empty'
+
+const { field } = i18n.modals.assetManager.table
 
 function CurrenciesTable(props) {
   const {
@@ -28,12 +32,12 @@ function CurrenciesTable(props) {
   const isChecked = isActiveAll
 
   const currenciesTableHeaderItems = [
-    { title: 'Symbol', name: 'symbol', colWidth: 'col--2-4', isCheckable: true, isChecked },
-    { title: 'Name', name: 'name', colWidth: 'col--3' },
-    { title: 'Balance', name: 'balance', colWidth: 'col--2', isReadOnly: true },
-    { title: 'Licensed', name: 'licensed', colWidth: 'col--2', isReadOnly: true },
-    { title: 'Transfer', name: 'transfer', colWidth: 'col--2-4', isReadOnly: true },
-  ]
+    { name: 'symbol', colWidth: 'col--2-4', isCheckable: true, isChecked },
+    { name: 'name', colWidth: 'col--3' },
+    { name: 'balance', colWidth: 'col--2', isReadOnly: true },
+    { name: 'licensed', colWidth: 'col--2', isReadOnly: true },
+    { name: 'transfer', colWidth: 'col--2-4', isReadOnly: true },
+  ].map(item => ({ ...item, title: field[item.name] }))
 
   const currenciesTableBody = (isEmpty(foundItems) || (foundItems.length === 1))
     ? <CurrenciesTableEmpty />

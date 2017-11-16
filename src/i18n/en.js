@@ -1,10 +1,12 @@
+/* eslint-disable max-len */
+
 module.exports = {
   language: 'en',
   header: {
     sendTitle: 'Send',
     receiveTitle: 'Receive',
     convertTitle: 'Convert',
-    keysTitle: 'Keys manager',
+    keyManagerTitle: 'Key manager',
   },
   networkManager: {
     knownNetworkTitle: {
@@ -22,8 +24,7 @@ module.exports = {
       title: 'Send Funds',
       customOptionsTitle: 'Custom options',
       alert: {
-        incorrectPassword: 'Incorrect Password',
-        internalError: 'Transaction failed. Please try again'
+        internalError: 'Transaction failed. Please try again',
       },
       placeholder: {
         address: 'Recipient address',
@@ -33,9 +34,12 @@ module.exports = {
         gasPrice: 'Gas price (wei)',
       },
       error: {
+        password: {
+          invalid: 'Incorrect Password',
+        },
         address: {
           invalid: 'Please enter a valid account address',
-        }
+        },
         account: {
           notSelected: 'Please select an account',
         },
@@ -62,7 +66,7 @@ module.exports = {
         done: 'Copied',
       },
       placeholder: {
-        amount: 'Amount',
+        amount: 'Amount (ETH)',
         address: 'Recipient address',
       },
       error: {},
@@ -130,7 +134,7 @@ module.exports = {
           notMatched: 'Mnemonic should match',
         },
         password: {
-          incorrect: 'Password is incorrect',
+          incorrect: 'Incorrect Password',
         },
         passwordConfirm: {
           notMatched: 'Password should match',
@@ -170,7 +174,7 @@ module.exports = {
           invalid: 'Please input valid data to import',
         },
         password: {
-          incorrect: 'Password is incorrect',
+          invalid: 'Incorrect Password',
         },
         passwordConfirm: {
           notMatched: 'Password should match',
@@ -201,12 +205,11 @@ module.exports = {
         'Network: Expanse',
       ],
       placeholder: {
-        password: 'Password',
         customDerivationPath: 'Custom derivation path',
       },
       error: {
         password: {
-          incorrect: 'Password is incorrect',
+          invalid: 'Incorrect Password',
         },
         customDerivationPath: {
           same: 'Can not set the same derivation path',
@@ -223,7 +226,7 @@ module.exports = {
       },
       error: {
         password: {
-          incorrect: 'Incorrect Password',
+          invalid: 'Incorrect Password',
         },
       },
     },
@@ -236,7 +239,7 @@ module.exports = {
       },
       error: {
         password: {
-          incorrect: 'Incorrect Password',
+          invalid: 'Incorrect Password',
         },
         newPassword: {
           weak: 'Password is too weak',
@@ -247,9 +250,14 @@ module.exports = {
       title: 'Clear Keystore',
       alert: 'Please confirm that you would like to remove all your keys',
       buttonTitle: 'Confirm',
+      error: {
+        password: {
+          invalid: 'Incorrect Password',
+        },
+      },
     },
-    tokens: {
-      searchField: 'Search tokens',
+    assetManager: {
+      searchField: 'Search assets...',
       table: {
         field: {
           symbol: 'SYMBOL',
@@ -294,24 +302,24 @@ module.exports = {
       },
     },
   },
-  currencies: {
-    title: 'Currencies',
-    iconTitle: 'Manage tokens',
+  digitalAssets: {
+    title: 'Digital Assets',
+    iconTitle: 'Manage Assets',
   },
   transactions: {
-    searchField: 'Search transactions',
+    searchField: 'Search transactions...',
     table: {
       emptyContract: [
         'Look like there isn\'t any',
         'in your account yet',
       ],
-      emptyETH: [
-        'We could not load your ETH transactions',
-        'View transactions in block explorer',
-      ],
+      noActiveCurrency: 'Look like there isn\'t any active currency',
+      customNetwork: 'We can not load transactions for the private blockchain',
+      blockExplorerError: 'We could not load your ETH transactions',
+      blockExplorerLink: 'View transactions in block explorer',
       field: {
         amount: 'AMOUNT',
-        time: 'TIME',
+        timestamp: 'TIME',
         address: 'FROM/TO',
         status: 'STATUS',
       },
@@ -337,3 +345,5 @@ module.exports = {
     filterTitle: 'Date',
   },
 }
+
+/* eslint-enable max-len */

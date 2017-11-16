@@ -1,8 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import JIcon from 'components/base/JIcon'
 import KeystoreManager from './Manager'
+
+const { createAccountTitle, importAccountTitle } = i18n.modals.keystore
 
 function KeystoreModalFooter(props) {
   const {
@@ -16,10 +20,12 @@ function KeystoreModalFooter(props) {
   return (
     <div className='keystore-modal-footer clear'>
       <div className='keystore-modal-footer__item pull-left' onClick={addNewKeystoreAccount}>
-        <JIcon name='small-add' className='keystore-modal-footer__icon' small />{'New key'}
+        <JIcon name='small-add' className='keystore-modal-footer__icon' small />
+        {createAccountTitle}
       </div>
       <div className='keystore-modal-footer__item pull-left' onClick={importNewKeystoreAccount}>
-        <JIcon name='small-import' className='keystore-modal-footer__icon' small />{'Import key'}
+        <JIcon name='small-import' className='keystore-modal-footer__icon' small />
+        {importAccountTitle}
       </div>
       <KeystoreManager
         backupKeystore={backupKeystore}

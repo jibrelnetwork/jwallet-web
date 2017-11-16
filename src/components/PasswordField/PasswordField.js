@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Keystore from 'jwallet-web-keystore'
 
+import i18n from 'i18n/en'
 import config from 'config'
 
 import { JIcon, JTextInput } from 'components/base'
+
+const { placeholder } = i18n.modals.createAccount
 
 class PasswordField extends Component {
   constructor(props) {
@@ -44,13 +47,13 @@ class PasswordField extends Component {
   }
 
   renderPasswordInput = () => {
-    const { password, placeholder, passwordError } = this.props
+    const { password, passwordPlaceholder, passwordError } = this.props
 
     return (
       <JTextInput
         onValueChange={this.onPasswordChange}
         name='password'
-        placeholder={placeholder}
+        placeholder={passwordPlaceholder}
         value={password}
         errorMessage={passwordError}
         editable
@@ -61,13 +64,13 @@ class PasswordField extends Component {
   }
 
   renderPasswordConfirmInput = () => {
-    const { passwordConfirm, passwordConfirmError } = this.props
+    const { passwordConfirm, passwordConfirmPlaceholder, passwordConfirmError } = this.props
 
     return (
       <JTextInput
         onValueChange={this.onPasswordConfirmChange}
         name='password-confirm'
-        placeholder='Confirm password'
+        placeholder={passwordConfirmPlaceholder}
         value={passwordConfirm}
         errorMessage={passwordConfirmError}
         editable
@@ -130,7 +133,7 @@ class PasswordField extends Component {
   getStatus = (password) => {
     const { failedTests } = Keystore.testPassword(password)
     const isEmpty = !password.length
-    const isShort = password.length < 6
+    const isShort = (password.length < 6)
     const failedTestsCount = failedTests.length
 
     if (isEmpty) {
@@ -162,7 +165,8 @@ PasswordField.propTypes = {
   password: PropTypes.string.isRequired,
   /* optional */
   onPasswordConfirmChange: PropTypes.func,
-  placeholder: PropTypes.string,
+  passwordPlaceholder: PropTypes.string,
+  passwordConfirmPlaceholder: PropTypes.string,
   passwordConfirm: PropTypes.string,
   passwordError: PropTypes.string,
   passwordConfirmError: PropTypes.string,
@@ -171,7 +175,8 @@ PasswordField.propTypes = {
 
 PasswordField.defaultProps = {
   onPasswordConfirmChange: () => {},
-  placeholder: 'Password',
+  passwordPlaceholder: placeholder.password,
+  passwordConfirmPlaceholder: placeholder.passwordConfirm,
   passwordConfirm: '',
   passwordError: '',
   passwordConfirmError: '',

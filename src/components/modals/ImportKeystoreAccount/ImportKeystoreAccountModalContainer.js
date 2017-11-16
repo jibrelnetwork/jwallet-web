@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 
+import i18n from 'i18n/en'
+
 import {
   closeImportKeystoreAccountModal,
   setImportKeystoreAccountData,
@@ -20,7 +22,7 @@ const mapStateToProps = (state) => {
   return {
     ...importKeystoreAccountModal,
     modalName: 'import-keystore-account',
-    modalTitle: 'Import Key',
+    modalTitle: i18n.modals.importAccount.title,
     topLineFullness: `${100 * (currentStep / totalSteps)}%`,
     isInitialized: !!currentAccount.id.length,
     isButtonLoading: isCreating,

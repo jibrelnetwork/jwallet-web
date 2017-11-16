@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 
+import i18n from 'i18n/en'
+
 import {
   closeNewDerivationPathModal,
   setDerivationPathPassword,
@@ -12,11 +14,13 @@ import { setKeystoreAccountDerivationPath } from 'routes/JWallet/modules/keystor
 
 import NewDerivationPath from './NewDerivationPath'
 
+const { title, buttonTitle } = i18n.modals.derivationPath
+
 const mapStateToProps = state => ({
   ...state.newDerivationPathModal,
+  buttonTitle,
   modalName: 'new-derivation-path',
-  modalTitle: 'New Derivation Path',
-  buttonTitle: 'Set derivation path',
+  modalTitle: title,
   buttonType: 'password',
 })
 

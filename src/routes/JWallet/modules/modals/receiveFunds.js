@@ -1,11 +1,8 @@
 export const RECEIVE_FUNDS_OPEN_MODAL = 'RECEIVE_FUNDS_OPEN_MODAL'
 export const RECEIVE_FUNDS_CLOSE_MODAL = 'RECEIVE_FUNDS_CLOSE_MODAL'
 export const RECEIVE_FUNDS_SET_AMOUNT = 'RECEIVE_FUNDS_SET_AMOUNT'
-export const RECEIVE_FUNDS_SET_SYMBOL = 'RECEIVE_FUNDS_SET_SYMBOL'
-export const RECEIVE_FUNDS_SET_ACCOUNT = 'RECEIVE_FUNDS_SET_ACCOUNT'
-export const RECEIVE_FUNDS_SET_ACCOUNT_ID = 'RECEIVE_FUNDS_SET_ACCOUNT_ID'
 
-export function openReceiveFundsModal(accountId = '', onClose = null) {
+export function openReceiveFundsModal(accountId, onClose) {
   return {
     type: RECEIVE_FUNDS_OPEN_MODAL,
     accountId,
@@ -19,30 +16,10 @@ export function closeReceiveFundsModal() {
   }
 }
 
-export function setReceiveFundsAmount(amount = '') {
+export function setReceiveFundsAmount(amount) {
   return {
     type: RECEIVE_FUNDS_SET_AMOUNT,
     amount,
-  }
-}
-
-export function setReceiveFundsSymbol(symbol = '') {
-  return {
-    type: RECEIVE_FUNDS_SET_SYMBOL,
-    symbol,
-  }
-}
-
-export function setReceiveFundsAccountId(
-  accountId = '',
-  accounts = [],
-  addressesFromMnemonic = []
-) {
-  return {
-    type: RECEIVE_FUNDS_SET_ACCOUNT_ID,
-    accountId,
-    accounts,
-    addressesFromMnemonic,
   }
 }
 
@@ -60,24 +37,10 @@ const ACTION_HANDLERS = {
     ...state,
     amount: action.amount,
   }),
-  [RECEIVE_FUNDS_SET_SYMBOL]: (state, action) => ({
-    ...state,
-    symbol: action.symbol,
-  }),
-  [RECEIVE_FUNDS_SET_ACCOUNT]: (state, action) => ({
-    ...state,
-    currentAccount: action.currentAccount || initialState.currentAccount,
-  }),
 }
 
 const initialState = {
-  currentAccount: {
-    id: '',
-    accountName: '',
-    address: '',
-  },
   amount: '',
-  symbol: 'ETH',
   isOpen: false,
 }
 

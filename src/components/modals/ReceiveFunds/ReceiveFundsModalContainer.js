@@ -1,12 +1,16 @@
 import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 
+import i18n from 'i18n/en'
+
 import {
   closeReceiveFundsModal,
   setReceiveFundsAmount,
 } from 'routes/JWallet/modules/modals/receiveFunds'
 
 import ReceiveFundsModal from './ReceiveFundsModal'
+
+const { title, buttonTitle } = i18n.modals.receiveFunds
 
 const mapStateToProps = (state) => {
   const { receiveFundsModal, keystore } = state
@@ -18,9 +22,9 @@ const mapStateToProps = (state) => {
   return {
     ...receiveFundsModal,
     currentAddress,
+    buttonTitle,
     modalName: 'receive-funds',
-    modalTitle: 'Receive Funds',
-    buttonTitle: 'Generate QR Code',
+    modalTitle: title,
     iconName: 'qr-code',
   }
 }

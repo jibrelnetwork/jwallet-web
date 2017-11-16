@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
+
 import { PasswordField, SubmitModal } from 'components'
 import JTextInput from 'components/base/JTextInput'
 
 import { NEW_KEYSTORE_ACCOUNT_STEPS } from 'routes/JWallet/modules/modals/newKeystoreAccount'
+
+const { placeholder } = i18n.modals.createAccount
 
 class NewKeystoreAccountModal extends SubmitModal {
   componentWillMount() {
@@ -28,7 +32,7 @@ class NewKeystoreAccountModal extends SubmitModal {
     return (
       <JTextInput
         name='new-keystore-account-mnemonic'
-        placeholder='Mnemonic'
+        placeholder={placeholder.mnemonic}
         value={this.props.mnemonic}
         editable
         readOnly
@@ -51,7 +55,7 @@ class NewKeystoreAccountModal extends SubmitModal {
       <JTextInput
         onValueChange={setNewKeystoreAccountMnemonicConfirm}
         name='new-keystore-account-mnemonic-confirm'
-        placeholder='Mnemonic'
+        placeholder={placeholder.mnemonicConfirm}
         value={mnemonicConfirm}
         errorMessage={invalidFields.mnemonicConfirm}
         successMessage={validFields.mnemonicConfirm}
@@ -78,7 +82,7 @@ class NewKeystoreAccountModal extends SubmitModal {
         <JTextInput
           onValueChange={setNewKeystoreAccountPassword}
           name='new-keystore-account-password'
-          placeholder='Password'
+          placeholder={placeholder.password}
           value={password}
           errorMessage={invalidFields.password}
           successMessage={validFields.password}
