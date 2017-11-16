@@ -19,10 +19,10 @@ const transactionsTableHeaderItems = [
 
 function TransactionsTable(props) {
   const {
-    setCurrentCurrency,
+    setCurrentDigitalAssetAddress,
     sortTransactions,
     toggleActive,
-    getCurrencyIndex,
+    isToken,
     transactions,
     currentCurrencySymbol,
     emptyImageSrc,
@@ -52,9 +52,9 @@ function TransactionsTable(props) {
       />
       <JTable.Body>
         <TransactionsTableBody
-          setCurrentCurrency={setCurrentCurrency}
+          setCurrentDigitalAssetAddress={setCurrentDigitalAssetAddress}
           toggleActive={toggleActive}
-          getCurrencyIndex={getCurrencyIndex}
+          isToken={isToken}
           transactions={transactions}
           currencySymbol={currentCurrencySymbol}
           activeTransactionIndex={activeTransactionIndex}
@@ -65,10 +65,10 @@ function TransactionsTable(props) {
 }
 
 TransactionsTable.propTypes = {
-  setCurrentCurrency: PropTypes.func.isRequired,
+  setCurrentDigitalAssetAddress: PropTypes.func.isRequired,
   sortTransactions: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
-  getCurrencyIndex: PropTypes.func.isRequired,
+  isToken: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
     filterData: PropTypes.shape({
       startTime: PropTypes.number.isRequired,

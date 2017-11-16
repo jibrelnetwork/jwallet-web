@@ -28,17 +28,17 @@ export function setCurrencies(items) {
   }
 }
 
-export function setCurrentCurrency(currentActiveIndex) {
+export function setCurrentDigitalAssetAddress(currentAddress) {
   return {
     type: CURRENCIES_SET_CURRENT,
-    currentActiveIndex,
+    currentAddress,
   }
 }
 
-export function toggleActiveCurrency(index) {
+export function toggleDigitalAsset(address) {
   return {
     type: CURRENCIES_TOGGLE_ACTIVE,
-    index,
+    address,
   }
 }
 
@@ -100,7 +100,7 @@ const ACTION_HANDLERS = {
   }),
   [CURRENCIES_SET_CURRENT]: (state, action) => ({
     ...state,
-    currentActiveIndex: action.currentActiveIndex,
+    currentAddress: action.currentAddress,
     isLoading: false,
   }),
   [CURRENCIES_SET_ACTIVE_ALL]: (state, action) => ({
@@ -139,7 +139,7 @@ const initialState = {
   sortField: '',
   sortDirection: 'ASC',
   searchQuery: '',
-  currentActiveIndex: 1,
+  currentAddress: '',
   isLoading: true,
   isActiveAll: false,
   isOpen: false,

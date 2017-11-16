@@ -1,9 +1,9 @@
 import storage from 'jwallet-web-storage'
 
 const storageKeys = {
-  currencies: 'JWALLET-CURRENCIES',
-  currenciesBalances: 'JWALLET-CURRENCIES-BALANCES',
-  currenciesCurrent: 'JWALLET-CURRENCIES-CURRENT',
+  digitalAssets: 'JWALLET-DIGITAL-ASSETS',
+  digitalAssetsBalances: 'JWALLET-DIGITAL-ASSETS-BALANCES',
+  digitalAssetsCurrent: 'JWALLET-DIGITAL-ASSETS-CURRENT',
   keystore: 'JWALLET-KEYSTORE',
   keystoreCurrentAccount: 'JWALLET-KEYSTORE-CURRENT-ACCOUNT',
   keystoreAddressesFromMnemonic: 'JWALLET-KEYSTORE-ADDRESSES-FROM-MNEMONIC',
@@ -45,7 +45,7 @@ function addStorageMethods(key, value) {
 }
 
 function getStorageKey(key, suffix) {
-  const additional = (suffix && suffix.length) ? `-${suffix.replace(' ', '-').toUpperCase()}` : ''
+  const additional = (suffix && suffix.length) ? `-${suffix.replace(/ /g, '-').toUpperCase()}` : ''
 
   return `${key}${additional}`
 }

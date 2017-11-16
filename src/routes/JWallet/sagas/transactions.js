@@ -7,7 +7,7 @@ import { etherscan, web3 } from 'services'
 import { searchItems, sortItems } from 'utils'
 
 import {
-  selectCurrentCurrency,
+  selectCurrentDigitalAsset,
   selectCurrentKeystoreAddress,
   selectTransactions,
 } from './stateSelectors'
@@ -75,16 +75,16 @@ function* getTransactionsLoop() {
 }
 
 function* getTransactions() {
-  const currentCurrency = yield select(selectCurrentCurrency)
+  const currentDigitalAsset = yield select(selectCurrentDigitalAsset)
   const currentAddress = yield select(selectCurrentKeystoreAddress)
 
-  if (isEmpty(currentAddress) || isEmpty(currentCurrency) || !currentCurrency.isActive) {
+  if (isEmpty(currentAddress) || isEmpty(currentDigitalAsset) || !currentDigitalAsset.isActive) {
     yield setTransactions()
 
     return
   }
 
-  const { address, symbol, decimals } = currentCurrency
+  const { address, symbol, decimals } = currentDigitalAsset
 
   const transactions = (symbol === 'ETH')
     ? yield getETHTransactions(currentAddress)

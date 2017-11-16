@@ -6,9 +6,9 @@ import TransactionsTableBodyRow from './Row'
 
 function TransactionsTableBody(props) {
   const {
-    setCurrentCurrency,
+    setCurrentDigitalAssetAddress,
     toggleActive,
-    getCurrencyIndex,
+    isToken,
     transactions,
     currencySymbol,
     activeTransactionIndex,
@@ -38,11 +38,11 @@ function TransactionsTableBody(props) {
               <TransactionsTableBodyRow
                 key={i}
                 {...transactionProps}
-                setCurrentCurrency={setCurrentCurrency}
+                setCurrentDigitalAssetAddress={setCurrentDigitalAssetAddress}
                 toggleActive={toggleActive(i)}
                 currencySymbol={currencySymbol}
-                currencyIndex={getCurrencyIndex(contractAddress)}
                 isActive={isActive}
+                isToken={isToken(contractAddress)}
               />
             )
           }
@@ -55,9 +55,9 @@ function TransactionsTableBody(props) {
 }
 
 TransactionsTableBody.propTypes = {
-  setCurrentCurrency: PropTypes.func.isRequired,
+  setCurrentDigitalAssetAddress: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
-  getCurrencyIndex: PropTypes.func.isRequired,
+  isToken: PropTypes.func.isRequired,
   transactions: PropTypes.shape({
     filterData: PropTypes.shape({
       startTime: PropTypes.number.isRequired,

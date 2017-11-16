@@ -8,6 +8,7 @@ const ethereum = {
   isLicensed: false,
   isAuthRequired: false,
   isActive: true,
+  isCustom: false,
 }
 
 const networksTokensMap = {
@@ -15,7 +16,7 @@ const networksTokensMap = {
   'Ropsten Test Network': 'ropsten',
 }
 
-export default function getDefaultTokens(networkName) {
+export default function getDefaultDigitalAssets(networkName) {
   const tokensName = networksTokensMap[networkName]
   const defaultTokens = tokens[tokensName] || []
 

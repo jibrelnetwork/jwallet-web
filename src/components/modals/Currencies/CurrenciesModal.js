@@ -25,7 +25,7 @@ class CurrenciesModal extends JModal {
 
     return (
       <CurrenciesTable
-        toggleActiveCurrency={this.toggleActiveCurrency}
+        toggleActive={this.toggleActive}
         searchCurrencies={searchCurrencies}
         sortCurrencies={this.sortCurrencies}
         items={items}
@@ -43,14 +43,14 @@ class CurrenciesModal extends JModal {
     return (
       <div className='currencies-modal-footer' onClick={this.openCustomTokenModal}>
         <JIcon name='small-add' className='currencies-modal-footer__icon' small />
-        {i18n.modals.assetManager.addCustomTokenTitle}
+        {i18n.modals.digitalAssetManager.addCustomTokenTitle}
       </div>
     )
   }
 
-  toggleActiveCurrency = (index) => {
+  toggleActive = (address) => {
     return (/* new checkbox state here */) => (e) => {
-      this.props.toggleActiveCurrency(index)
+      this.props.toggleDigitalAsset(address)
 
       /**
        * clicking on checkbox call this function twice,
@@ -74,11 +74,12 @@ class CurrenciesModal extends JModal {
 CurrenciesModal.propTypes = {
   openCurrenciesModal: PropTypes.func.isRequired,
   closeCurrenciesModal: PropTypes.func.isRequired,
-  toggleActiveCurrency: PropTypes.func.isRequired,
+  toggleDigitalAsset: PropTypes.func.isRequired,
   searchCurrencies: PropTypes.func.isRequired,
   sortCurrencies: PropTypes.func.isRequired,
   openCustomTokenModal: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
+    address: PropTypes.string.isRequired,
     symbol: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     isAuthRequired: PropTypes.bool.isRequired,

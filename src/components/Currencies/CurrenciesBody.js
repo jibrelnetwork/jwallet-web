@@ -90,15 +90,15 @@ class CurrenciesBody extends Component {
   }
 
   getCurrencies = (isMobileSlider) => {
-    const { setCurrentCurrency, currencies } = this.props
-    const { items, balances, currentActiveIndex, isLoading } = currencies
+    const { setCurrentAddress, currencies } = this.props
+    const { items, balances, currentAddress, isLoading } = currencies
 
     if (isLoading) {
       return this.getLoadingCurrencies(isMobileSlider)
     }
 
     return items.map((currencyProps, i) => {
-      const { symbol, isActive } = currencyProps
+      const { address, symbol, isActive } = currencyProps
 
       if (!isActive) {
         return null
@@ -107,8 +107,8 @@ class CurrenciesBody extends Component {
       const currencyItem = (
         <CurrencyItem
           key={i}
-          isCurrent={i === currentActiveIndex}
-          setCurrentCurrency={setCurrentCurrency(i)}
+          isCurrent={address === currentAddress}
+          setCurrentAddress={setCurrentAddress(address)}
           balanceFixed={(balances[symbol] || 0).toFixed(3)}
           {...currencyProps}
         />
@@ -161,23 +161,25 @@ class CurrenciesBody extends Component {
       return null
     }
 
-    return this.props.setCurrentCurrency(index)()
+    return this.props.setCurrentAddress(nextCurrency.address)()
   }
 }
 
 CurrenciesBody.propTypes = {
-  setCurrentCurrency: PropTypes.func.isRequired,
+  setCurrentAddress: PropTypes.func.isRequired,
   currencies: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
+      address: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
-    currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    /* optional */
     balances: PropTypes.object,
+    currentAddress: PropTypes.string,
   }).isRequired,
 }
 

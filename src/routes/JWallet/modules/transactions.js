@@ -13,10 +13,9 @@ export const TRANSACTIONS_FILTER = 'TRANSACTIONS_FILTER'
 
 export const TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR = 'TRANSACTIONS_SET_BLOCK_EXPLORER_ERROR'
 
-export function getTransactions(currencyIndex) {
+export function getTransactions() {
   return {
     type: TRANSACTIONS_GET,
-    currencyIndex,
   }
 }
 

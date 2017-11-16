@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import i18n from 'i18n/en'
 
 const {
-  noActiveCurrency,
+  noActiveDigitalAsset,
   customNetwork,
   blockExplorerError,
   blockExplorerLink,
@@ -24,7 +24,7 @@ function TransactionsEmpty({ emptyImageSrc, isCustomNetwork, isBlockExplorerErro
     </a>
   )
 
-  let message = noActiveCurrency
+  let message = noActiveDigitalAsset
 
   if (isCustomNetwork) {
     message = customNetwork

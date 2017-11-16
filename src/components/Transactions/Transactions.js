@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
+import { find, isEmpty } from 'lodash'
 
 import KeystoreButtons from 'components/KeystoreButtons'
 
@@ -95,9 +95,9 @@ class Transactions extends Component {
         />
         <TransactionsTable
           sortTransactions={this.sortTransactions}
-          getCurrencyIndex={this.getCurrencyIndex}
-          setCurrentCurrency={this.setCurrentCurrency}
+          setCurrentDigitalAssetAddress={this.setCurrentDigitalAssetAddress}
           toggleActive={this.toggleActive}
+          isToken={this.isToken}
           transactions={transactions}
           currentCurrencySymbol={currentCurrencySymbol}
           emptyImageSrc={emptyImageSrc}
@@ -113,33 +113,24 @@ class Transactions extends Component {
     emptyImage.src = this.state.emptyImageSrc
   }
 
-  getCurrencyIndex = (requestedAddress) => {
-    let foundIndex = -1
+  setCurrentDigitalAssetAddress = (contractAddress) => {
+    return isEmpty(contractAddress) ? null : (e) => {
+      e.preventDefault()
 
-    if (isEmpty(requestedAddress)) {
-      return foundIndex
+      this.props.setCurrentDigitalAssetAddress(contractAddress)
+
+      e.stopPropagation()
+    }
+  }
+
+  isToken = (contractAddress) => {
+    if (isEmpty(contractAddress)) {
+      return false
     }
 
-    this.props.currencyItems.forEach(({ address, isActive, isAuthRequired }, index) => {
-      if (!isActive || isAuthRequired) {
-        return
-      }
-
-      if (address.toLowerCase() === requestedAddress) {
-        foundIndex = index
-      }
-    })
-
-    return foundIndex
+    return !!find(this.props.currencyItems, { address: contractAddress })
   }
 
-  setCurrentCurrency = currencyIndex => (e) => {
-    e.preventDefault()
-
-    this.props.setCurrentCurrency(currencyIndex)
-
-    e.stopPropagation()
-  }
 
   isTransactionsEmpty = () => {
     const { items, foundItemsHashes, searchQuery } = this.props.transactions
@@ -180,17 +171,17 @@ class Transactions extends Component {
   }
 
   sortTransactions = field => () => this.props.sortTransactions(field)
-  sendFunds = () => this.props.openSendFundsModal(this.props.currentCurrencyIndex)
-  receiveFunds = () => this.props.openReceiveFundsModal(this.props.currentCurrencyIndex)
-  convertFunds = () => this.props.openConvertFundsModal(this.props.currentCurrencyIndex)
+  sendFunds = () => this.props.openSendFundsModal(this.props.currentAddress)
+  receiveFunds = () => this.props.openReceiveFundsModal(this.props.currentAddress)
+  convertFunds = () => this.props.openConvertFundsModal(this.props.currentAddress)
   filterTransactions = isFilterOpen => () => this.props.filterTransactions(isFilterOpen)
-  removeCurrency = () => this.props.toggleActiveCurrency(this.props.currentCurrencyIndex)
+  removeCurrency = () => this.props.toggleDigitalAsset(this.props.currentAddress)
   toggleActive = i => () => this.setState({ active: (this.state.active === i) ? -1 : i })
 }
 
 Transactions.propTypes = {
-  toggleActiveCurrency: PropTypes.func.isRequired,
-  setCurrentCurrency: PropTypes.func.isRequired,
+  toggleDigitalAsset: PropTypes.func.isRequired,
+  setCurrentDigitalAssetAddress: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openConvertFundsModal: PropTypes.func.isRequired,
@@ -234,9 +225,14 @@ Transactions.propTypes = {
     isBlockExplorerError: PropTypes.bool.isRequired,
   }).isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
-  currentCurrencyIndex: PropTypes.number.isRequired,
   isKeystoreInitialised: PropTypes.bool.isRequired,
   isCustomNetwork: PropTypes.bool.isRequired,
+  /* optional */
+  currentAddress: PropTypes.string,
+}
+
+Transactions.defaultProps = {
+  currentAddress: null,
 }
 
 export default Transactions

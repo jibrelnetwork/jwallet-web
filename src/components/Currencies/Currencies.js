@@ -20,20 +20,20 @@ class Currencies extends Component {
     return (
       <div className='currencies'>
         <CurrenciesHeader openCurrenciesModal={this.openCurrenciesModal} isLoading={isLoading} />
-        <CurrenciesBody setCurrentCurrency={this.setCurrentCurrency} currencies={currencies} />
+        <CurrenciesBody setCurrentAddress={this.setCurrentAddress} currencies={currencies} />
       </div>
     )
   }
 
-  setCurrentCurrency = current => () => {
-    const { setCurrentCurrency, isTransactionsLoading, currencies } = this.props
-    const isAlreadyCurrent = (current === currencies.currentActiveIndex)
+  setCurrentAddress = current => () => {
+    const { setCurrentDigitalAssetAddress, isTransactionsLoading, currencies } = this.props
+    const isAlreadyCurrent = (current === currencies.currentAddress)
 
     if (isTransactionsLoading || isAlreadyCurrent) {
       return
     }
 
-    setCurrentCurrency(current)
+    setCurrentDigitalAssetAddress(current)
   }
 
   openCurrenciesModal = () => this.props.openCurrenciesModal(/* without param */)
@@ -41,7 +41,7 @@ class Currencies extends Component {
 
 Currencies.propTypes = {
   getCurrencies: PropTypes.func.isRequired,
-  setCurrentCurrency: PropTypes.func.isRequired,
+  setCurrentDigitalAssetAddress: PropTypes.func.isRequired,
   openCurrenciesModal: PropTypes.func.isRequired,
   currencies: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -51,9 +51,10 @@ Currencies.propTypes = {
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
     })).isRequired,
-    currentActiveIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    /* optional */
     balances: PropTypes.object,
+    currentAddress: PropTypes.string,
   }).isRequired,
   isTransactionsLoading: PropTypes.bool.isRequired,
 }
