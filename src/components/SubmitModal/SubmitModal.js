@@ -19,17 +19,17 @@ class SubmitModal extends JModal {
     this.state = { passwordButtonState: SubmitModalPasswordButton.STATES.TITLE }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { invalidFields } = nextProps
-
-    if (this.props.invalidFields !== invalidFields) {
-      this.shakeIfInvalidField(invalidFields)
-    }
-
-    this.scrollToTop(nextProps)
+  componentWillReceiveProps({ invalidFields, isOpen }) {
+    this.shakeIfInvalidField(invalidFields)
+    this.scrollToTop(isOpen)
+    this.toggleModal(isOpen)
   }
 
   shakeIfInvalidField = (invalidFields) => {
+    if (this.props.invalidFields === invalidFields) {
+      return
+    }
+
     Object.keys(invalidFields).forEach((field) => {
       if (invalidFields[field] && invalidFields[field].length) {
         if (this.props.invalidFields[field] !== invalidFields[field]) {
