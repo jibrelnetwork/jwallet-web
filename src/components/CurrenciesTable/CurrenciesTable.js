@@ -11,11 +11,11 @@ import CurrenciesTableSearch from './CurrenciesTableSearch'
 import CurrenciesTableBodyRow from './CurrenciesTableBodyRow'
 import CurrenciesTableEmpty from './Empty'
 
-const { field } = i18n.modals.assetManager.table
+const { field } = i18n.modals.digitalAssetManager.table
 
 function CurrenciesTable(props) {
   const {
-    toggleActiveCurrency,
+    toggleActive,
     searchCurrencies,
     sortCurrencies,
     items,
@@ -39,17 +39,17 @@ function CurrenciesTable(props) {
     { name: 'transfer', colWidth: 'col--2-4', isReadOnly: true },
   ].map(item => ({ ...item, title: field[item.name] }))
 
-  const currenciesTableBody = (isEmpty(foundItems) || (foundItems.length === 1))
+  const currenciesTableBody = isEmpty(foundItems)
     ? <CurrenciesTableEmpty />
     : <Scrollbars>
       {foundItems.map((currency, index) => {
-        const { symbol, name, isAuthRequired, isLicensed, isActive } = currency
+        const { address, symbol, name, isAuthRequired, isLicensed, isActive } = currency
         const balanceFixed = (balances[symbol] || 0).toFixed(3)
 
         return (
           <CurrenciesTableBodyRow
             key={index}
-            toggleActiveCurrency={toggleActiveCurrency}
+            onToggle={toggleActive(address)}
             symbol={symbol}
             name={name}
             balanceFixed={balanceFixed}
@@ -71,7 +71,7 @@ function CurrenciesTable(props) {
       <JTable.Header
         items={currenciesTableHeaderItems}
         onClick={sortCurrencies}
-        onToggle={toggleActiveCurrency(-1)}
+        onToggle={toggleActive(null)}
         sortField={sortField}
         sortDirection={sortDirection}
       />
@@ -81,10 +81,11 @@ function CurrenciesTable(props) {
 }
 
 CurrenciesTable.propTypes = {
-  toggleActiveCurrency: PropTypes.func.isRequired,
+  toggleActive: PropTypes.func.isRequired,
   searchCurrencies: PropTypes.func.isRequired,
   sortCurrencies: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
+    address: PropTypes.string.isRequired,
     symbol: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     isAuthRequired: PropTypes.bool.isRequired,

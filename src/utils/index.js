@@ -1,6 +1,6 @@
 export * from './errors'
 export getDefaultNetworks from './getDefaultNetworks'
-export getDefaultTokens from './getDefaultTokens'
+export getDefaultDigitalAssets from './getDefaultDigitalAssets'
 export getFieldMessage from './getFieldMessage'
 export getFormattedDateString from './getFormattedDateString'
 export getTokenNameBySymbolName from './getTokenNameBySymbolName'

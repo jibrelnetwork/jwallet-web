@@ -5,11 +5,11 @@ import i18n from 'i18n/en'
 
 import JCheckbox from 'components/base/JCheckbox'
 
-const { licensedValue, transferValue } = i18n.modals.assetManager.table
+const { licensedValue, transferValue } = i18n.modals.digitalAssetManager.table
 
 function CurrenciesTableBodyRow(props) {
   const {
-    toggleActiveCurrency,
+    onToggle,
     symbol,
     name,
     balanceFixed,
@@ -27,10 +27,10 @@ function CurrenciesTableBodyRow(props) {
     <div
       className='table-row row clear'
       key={index}
-      onClick={toggleActiveCurrency(index)(!isActive)}
+      onClick={onToggle(!isActive)}
     >
       <div className={`${itemClassName}--symbol col col--2-4`}>
-        <JCheckbox toggle={toggleActiveCurrency(index)} isActive={isActive} label={symbol} />
+        <JCheckbox toggle={onToggle} isActive={isActive} label={symbol} />
       </div>
       <div className={`${itemClassName}--name col col--3`}>{name}</div>
       <div className={`${itemClassName}--balance col col--2`}>{balanceFixed}</div>
@@ -41,7 +41,7 @@ function CurrenciesTableBodyRow(props) {
 }
 
 CurrenciesTableBodyRow.propTypes = {
-  toggleActiveCurrency: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
   symbol: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   balanceFixed: PropTypes.string.isRequired,

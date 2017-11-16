@@ -8,7 +8,7 @@ import config from 'config'
 import { keystore, web3 } from 'services'
 import { InvalidFieldError } from 'utils/errors'
 
-import { selectCurrencies, selectSendFundsModal } from './stateSelectors'
+import { selectDigitalAssets, selectSendFundsModal } from './stateSelectors'
 
 import {
   SEND_FUNDS_CLOSE_MODAL,
@@ -218,7 +218,7 @@ function getTransactionValue(amount, decimals) {
 }
 
 function* getCurrencyBySymbol(symbol) {
-  const { items, balances } = yield select(selectCurrencies)
+  const { items, balances } = yield select(selectDigitalAssets)
   const currency = items.filter(c => (c.symbol === symbol))[0] || {}
 
   return {

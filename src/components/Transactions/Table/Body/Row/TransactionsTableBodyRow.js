@@ -6,7 +6,7 @@ import TransactionsTableBodyRowDetails from './Details'
 
 function TransactionsTableBodyRow(props) {
   const {
-    setCurrentCurrency,
+    setCurrentDigitalAssetAddress,
     toggleActive,
     type,
     status,
@@ -19,14 +19,14 @@ function TransactionsTableBodyRow(props) {
     contractAddress,
     fee,
     amount,
-    currencyIndex,
     isActive,
+    isToken,
   } = props
 
   return (
     <div className={`transaction ${isActive ? 'transaction--active' : ''}`}>
       <TransactionsTableBodyRowMain
-        setCurrentCurrency={setCurrentCurrency}
+        setCurrentDigitalAssetAddress={setCurrentDigitalAssetAddress}
         toggleActive={toggleActive}
         type={type}
         status={status}
@@ -34,8 +34,8 @@ function TransactionsTableBodyRow(props) {
         contractAddress={contractAddress}
         amount={`${amount.toFixed(5)} ${currencySymbol}`}
         date={date}
-        currencyIndex={currencyIndex}
         isActive={isActive}
+        isToken={isToken}
       />
       <TransactionsTableBodyRowDetails
         from={from}
@@ -50,7 +50,7 @@ function TransactionsTableBodyRow(props) {
 }
 
 TransactionsTableBodyRow.propTypes = {
-  setCurrentCurrency: PropTypes.func.isRequired,
+  setCurrentDigitalAssetAddress: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
@@ -63,8 +63,8 @@ TransactionsTableBodyRow.propTypes = {
   contractAddress: PropTypes.string.isRequired,
   fee: PropTypes.number.isRequired,
   amount: PropTypes.number.isRequired,
-  currencyIndex: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
+  isToken: PropTypes.bool.isRequired,
 }
 
 export default TransactionsTableBodyRow

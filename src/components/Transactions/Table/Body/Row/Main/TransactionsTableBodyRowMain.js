@@ -1,28 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEmpty from 'lodash/isEmpty'
+
+import i18n from 'i18n/en'
 
 import JIcon from 'components/base/JIcon'
 
 function TransactionsTableBodyRowMain(props) {
   const {
-    setCurrentCurrency,
+    setCurrentDigitalAssetAddress,
     toggleActive,
     type,
     status,
     address,
+    contractAddress,
     amount,
     date,
-    currencyIndex,
     isActive,
+    isToken,
   } = props
-
-  const isToken = (currencyIndex !== -1)
 
   return (
     <div className='table-row row clear' onClick={toggleActive}>
       <div className='table-body-item col col--2-4'>
         <JIcon
-          name={`small-${(status === 'Rejected') ? 'convert' : type}`}
+          name={`small-${(status === i18n.transactions.table.statusValue) ? 'convert' : type}`}
           className='transaction__type'
           small
         />
@@ -31,7 +33,7 @@ function TransactionsTableBodyRowMain(props) {
       <div className='table-body-item col col--2-4'>{date}</div>
       <div
         className={`table-body-item ${isToken ? 'transaction__token' : ''} col col--4-8`}
-        onClick={isToken ? setCurrentCurrency(currencyIndex) : null}
+        onClick={isToken ? setCurrentDigitalAssetAddress(contractAddress) : null}
       >
         {`${address.slice(0, 30)}...`}
       </div>
@@ -50,14 +52,14 @@ function TransactionsTableBodyRowMain(props) {
 }
 
 TransactionsTableBodyRowMain.propTypes = {
-  setCurrentCurrency: PropTypes.func.isRequired,
+  setCurrentDigitalAssetAddress: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
+  contractAddress: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
-  currencyIndex: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
 }
 
