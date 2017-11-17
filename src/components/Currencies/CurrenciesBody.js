@@ -84,7 +84,7 @@ class CurrenciesBody extends Component {
       <div className='currencies-body'>
         {isMobileSlider
           ? <Slider {...sliderOptions} >{currencies}</Slider>
-          : <Scrollbars>{currencies}</Scrollbars>}
+          : <Scrollbars autoHide>{currencies}</Scrollbars>}
       </div>
     )
   }
@@ -175,6 +175,7 @@ CurrenciesBody.propTypes = {
       isActive: PropTypes.bool.isRequired,
       isAuthRequired: PropTypes.bool.isRequired,
       isLicensed: PropTypes.bool.isRequired,
+      isCustom: PropTypes.bool.isRequired,
     })).isRequired,
     isLoading: PropTypes.bool.isRequired,
     /* optional */

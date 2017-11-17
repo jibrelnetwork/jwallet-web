@@ -41,7 +41,7 @@ function CurrenciesTable(props) {
 
   const currenciesTableBody = isEmpty(foundItems)
     ? <CurrenciesTableEmpty />
-    : <Scrollbars>
+    : <Scrollbars autoHide>
       {foundItems.map((currency, index) => {
         const { address, symbol, name, isAuthRequired, isLicensed, isActive } = currency
         const balanceFixed = (balances[symbol] || 0).toFixed(3)

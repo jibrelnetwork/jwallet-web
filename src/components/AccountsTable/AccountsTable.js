@@ -75,7 +75,7 @@ function AccountsTable(props) {
         sortDirection={sortDirection}
       />
       <JTable.Body>
-        <Scrollbars>{accountList}</Scrollbars>
+        <Scrollbars autoHide>{accountList}</Scrollbars>
       </JTable.Body>
     </JTable>
   )
