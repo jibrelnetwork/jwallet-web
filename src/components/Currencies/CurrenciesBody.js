@@ -4,7 +4,6 @@ import Slider from 'react-slick'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import config from 'config'
-
 import getWindowWidth from 'utils/getWindowWidth'
 
 import CurrencyItem from 'components/CurrencyItem'

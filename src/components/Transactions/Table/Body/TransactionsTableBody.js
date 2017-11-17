@@ -12,6 +12,7 @@ function TransactionsTableBody(props) {
     transactions,
     currencySymbol,
     activeTransactionIndex,
+    isMobile,
   } = props
 
   const { filterData, items, foundItemsHashes, searchQuery } = transactions
@@ -24,32 +25,32 @@ function TransactionsTableBody(props) {
   const isStartTime = (isOpen && (startTime !== 0))
   const isEndTime = (isOpen && (endTime !== 0))
 
+  const transactionItems = foundItems.map((transactionProps, i) => {
+    const { timestamp, contractAddress } = transactionProps
+    const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
+    const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
+    const isActive = (activeTransactionIndex === i)
+
+    if (isAfterStartTime && isBeforeEndTime) {
+      return (
+        <TransactionsTableBodyRow
+          key={i}
+          {...transactionProps}
+          setCurrentDigitalAssetAddress={setCurrentDigitalAssetAddress}
+          toggleActive={toggleActive(i)}
+          currencySymbol={currencySymbol}
+          isActive={isActive}
+          isToken={isToken(contractAddress)}
+        />
+      )
+    }
+
+    return null
+  })
+
   return (
     <div className='transactions-table-body'>
-      <Scrollbars autoHide>
-        {foundItems.map((transactionProps, i) => {
-          const { timestamp, contractAddress } = transactionProps
-          const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
-          const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
-          const isActive = (activeTransactionIndex === i)
-
-          if (isAfterStartTime && isBeforeEndTime) {
-            return (
-              <TransactionsTableBodyRow
-                key={i}
-                {...transactionProps}
-                setCurrentDigitalAssetAddress={setCurrentDigitalAssetAddress}
-                toggleActive={toggleActive(i)}
-                currencySymbol={currencySymbol}
-                isActive={isActive}
-                isToken={isToken(contractAddress)}
-              />
-            )
-          }
-
-          return null
-        })}
-      </Scrollbars>
+      {isMobile ? transactionItems : <Scrollbars autoHide>{transactionItems}</Scrollbars>}
     </div>
   )
 }
@@ -82,6 +83,7 @@ TransactionsTableBody.propTypes = {
   }).isRequired,
   currencySymbol: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 }
 
 export default TransactionsTableBody
