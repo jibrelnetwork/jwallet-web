@@ -93,16 +93,14 @@ $transactions-table-body-before-height: (
   $transactions-table-padding-bottom
 );
 
+$tablet-transactions-before-height: $header-full-height + $tablet-currencies-full-height;
+
 $tablet-transactions-table-before-height: (
-  $header-full-height +
-  $tablet-currencies-full-height +
+  $tablet-transactions-before-height +
   $transactions-filters-full-height
 );
 
-$mobile-transactions-table-before-height: (
-  $mobile-header-full-height +
-  $mobile-currencies-full-height
-);
+$mobile-transactions-before-height: $mobile-header-full-height + $mobile-currencies-full-height;
 
 /* Modal */
 

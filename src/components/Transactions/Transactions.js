@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { find, isEmpty } from 'lodash'
 
+import config from 'config'
+import getWindowWidth from 'utils/getWindowWidth'
+
 import KeystoreButtons from 'components/KeystoreButtons'
 
 import TransactionsEmpty from './Empty'
@@ -9,14 +12,29 @@ import TransactionsFilters from './Filters'
 import TransactionsLoading from './Loading'
 import TransactionsTable from './Table'
 
+const { mobileWidth } = config
+
 class Transactions extends Component {
   constructor(props) {
     super(props)
-    this.state = { active: -1, emptyImageSrc: '/img/no-data.svg' }
+
+    this.state = {
+      active: -1,
+      emptyImageSrc: '/img/no-data.svg',
+      isMobile: (getWindowWidth() <= mobileWidth),
+    }
   }
 
   componentDidMount() {
     this.preloadEmptyTableImage()
+  }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.onResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize)
   }
 
   render() {
@@ -78,7 +96,7 @@ class Transactions extends Component {
     } = this.props
 
     const { filterData, searchQuery } = transactions
-    const { emptyImageSrc, active } = this.state
+    const { emptyImageSrc, active, isMobile } = this.state
 
     return (
       <div className='transactions'>
@@ -103,6 +121,7 @@ class Transactions extends Component {
           emptyImageSrc={emptyImageSrc}
           activeTransactionIndex={active}
           isTransactionsEmpty={this.isTransactionsEmpty()}
+          isMobile={isMobile}
         />
       </div>
     )
@@ -167,6 +186,23 @@ class Transactions extends Component {
       })
       .filter(item => (item === true))
       .length === 0)
+  }
+
+  onResize = () => {
+    const { isMobile } = this.state
+    const isMobileWidth = (getWindowWidth() <= mobileWidth)
+
+    /**
+     * ignore if was mobile and will be mobile
+     * ignore if was not mobile and will not be mobile
+     */
+    if (isMobile && isMobileWidth) {
+      return
+    } else if (!(isMobile || isMobileWidth)) {
+      return
+    }
+
+    this.setState({ isMobile: isMobileWidth })
   }
 
   sortTransactions = field => () => this.props.sortTransactions(field)
