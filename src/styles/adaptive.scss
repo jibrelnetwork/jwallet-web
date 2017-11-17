@@ -161,6 +161,10 @@
       width: 100%;
       min-height: calc(100vh - #{$tablet-transactions-before-height});
 
+      &--loading {
+        padding: 50px 0;
+      }
+
       .transactions-table-body {
         height: auto;
       }
@@ -176,6 +180,11 @@
         padding: 0 30px;
         margin-right: 0;
       }
+    }
+
+    .transactions-empty {
+      position: relative;
+      margin: 50px auto;
     }
 
     .transactions-filters {
@@ -203,6 +212,12 @@
     .transaction__icon {
       opacity: 1;
       right: 30px;
+    }
+
+    .keystore-buttons {
+      position: relative;
+      min-height: calc(100vh - #{$tablet-transactions-before-height});
+      padding: 50px 0;
     }
 
     .footer {
@@ -316,6 +331,10 @@
 
     .transaction__icon {
       right: 20px;
+    }
+
+    .keystore-buttons {
+      min-height: calc(100vh - #{$mobile-transactions-before-height});
     }
 
     .modal {
