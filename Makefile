@@ -2,11 +2,15 @@ ECHO = /bin/echo
 GIT = /usr/bin/git
 DOCKER = /usr/bin/docker
 NPM = /usr/bin/npm
+CP = /bin/cp
 
 GIT-REPOSITORY-DEV-BRANCH = dev
 GIT-REPOSITORY-MASTER-BRANCH = master
 DOCKER-IMAGE-TAG = jwallet-web
 DOCKER-CONTAINER-NAME = jwp
+
+BUILD_DIR = ./build
+PRODUCTION_DIR = ./production
 
 git-pull-dev:
 	$(ECHO) "Pulling dev branch"
@@ -40,4 +44,4 @@ npm-install:
 
 compile:
 	$(ECHO) "Compiling of production bundle"
-	$(NPM) run compile:prod 
+	$(NPM) run compile:prod && $(CP) -rf $(BUILD_DIR)/* $(PRODUCTION_DIR)/
