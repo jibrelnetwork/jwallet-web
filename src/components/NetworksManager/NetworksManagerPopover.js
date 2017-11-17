@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JIcon, JPopover } from 'components/base'
 
@@ -21,29 +22,30 @@ function NetworksManagerPopover(props) {
   const body = (
     <div className='networks-manager__popover'>
       <div className='networks-manager__items'>
-        {items.map(({ title, isCustom }, i) => {
-          const isActive = (currentNetworkIndex === i)
+        <Scrollbars autoHeightMin={90} autoHeightMax={150} autoHide autoHeight>
+          {items.map(({ title, isCustom }, i) => {
+            const isActive = (currentNetworkIndex === i)
 
-          const icon = isCustom
-            ? (
+            const icon = !isCustom ? null : (
               <JIcon
                 name='small-clear'
                 small
                 className='network__icon'
                 onClick={removeCustomNetwork(i)}
               />
-            ) : null
+            )
 
-          return (
-            <div
-              onClick={setCurrentNetwork(i)}
-              className={`network ${isActive ? 'network--active' : ''}`}
-              key={i}
-            >
-              <span className='network__title'>{title}</span>{icon}
-            </div>
-          )
-        })}
+            return (
+              <div
+                onClick={setCurrentNetwork(i)}
+                className={`network ${isActive ? 'network--active' : ''}`}
+                key={i}
+              >
+                <span className='network__title'>{title}</span>{icon}
+              </div>
+            )
+          })}
+        </Scrollbars>
       </div>
       <NetworksCustomRpc
         setCustomNetworkValue={setCustomNetworkValue}

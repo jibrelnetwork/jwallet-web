@@ -2,6 +2,9 @@
 
 module.exports = {
   language: 'en',
+  warning: {
+    memoryStorage: 'You are using Memory as storage. Please don\'t forget to backup your keys!',
+  },
   header: {
     sendTitle: 'Send',
     receiveTitle: 'Receive',
@@ -300,6 +303,10 @@ module.exports = {
           invalid: 'Decimals should be valid contract decimals',
         },
       },
+    },
+    alphaWarning: {
+      buttonTitle: 'I understood!',
+      message: 'jWallet alpha version is not stable. Please use very carefully!',
     },
   },
   digitalAssets: {

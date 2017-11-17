@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import JIcon from 'components/base/JIcon'
 
 function CurrencyItem(props) {
-  const { symbol, name, balanceFixed, isAuthRequired, isLicensed, isCurrent } = props
+  const { symbol, name, balanceFixed, isAuthRequired, isLicensed, isCurrent, isCustom } = props
   const setCurrentAddress = isAuthRequired ? () => {} : props.setCurrentAddress
 
   let currencyItemClassName = 'currency-item'
@@ -17,7 +17,7 @@ function CurrencyItem(props) {
     currencyItemClassName += ' currency-item--authorization'
   }
 
-  const backgroundImage = `url(/img/tokens/${symbol.toLowerCase()}.svg)`
+  const backgroundImage = `url(/img/tokens/${isCustom ? 'null' : symbol.toLowerCase()}.svg)`
 
   return (
     <div className={currencyItemClassName} onClick={setCurrentAddress}>
@@ -42,6 +42,7 @@ CurrencyItem.propTypes = {
   isAuthRequired: PropTypes.bool.isRequired,
   isLicensed: PropTypes.bool.isRequired,
   isCurrent: PropTypes.bool.isRequired,
+  isCustom: PropTypes.bool.isRequired,
 }
 
 export default CurrencyItem
