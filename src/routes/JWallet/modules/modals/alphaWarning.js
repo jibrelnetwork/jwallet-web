@@ -14,7 +14,7 @@ export function closeAlphaWarningModal() {
 }
 
 const ACTION_HANDLERS = {
-  [ALPHA_WARNING_OPEN_MODAL]: (state, action) => ({
+  [ALPHA_WARNING_OPEN_MODAL]: state => ({
     ...state,
     isOpen: true,
   }),
