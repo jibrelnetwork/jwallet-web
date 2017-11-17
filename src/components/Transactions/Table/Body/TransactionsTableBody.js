@@ -26,7 +26,7 @@ function TransactionsTableBody(props) {
 
   return (
     <div className='transactions-table-body'>
-      <Scrollbars>
+      <Scrollbars autoHide>
         {foundItems.map((transactionProps, i) => {
           const { timestamp, contractAddress } = transactionProps
           const isAfterStartTime = isStartTime ? (timestamp > startTime) : true

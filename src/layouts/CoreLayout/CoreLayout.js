@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import i18n from 'i18n/en'
 import { getStorageName } from 'services/storage'
 
 import { base, modals, JWalletHeader, Warning } from 'components'
@@ -10,6 +11,7 @@ import 'styles/core.scss'
 const { JFooter, JLoader } = base
 
 const {
+  AlphaWarningModal,
   BackupKeystoreModal,
   ClearKeystoreModal,
   CurrenciesModal,
@@ -57,17 +59,11 @@ class CoreLayout extends Component {
   }
 
   renderWarnings = () => {
-    const isMemory = (getStorageName() === 'MemoryStorage')
-
-    const memoryWarn = 'You are using Memory as storage. Please don\'t forget to backup your keys!'
-    const alphaWarn = 'jWallet alpha version is not stable. Please use very carefully!'
-
-    return (
-      <div>
-        <Warning text={alphaWarn} color='blue' index={0} isOpen />
-        {isMemory ? <Warning text={memoryWarn} color='red' index={1} isOpen /> : null}
-      </div>
+    const memoryWarning = (getStorageName() !== 'MemoryStorage') ? null : (
+      <Warning text={i18n.warning.memoryStorage} color='red' index={0} isOpen />
     )
+
+    return <div>{memoryWarning}</div>
   }
 
   renderHeader = () => {
@@ -115,6 +111,7 @@ class CoreLayout extends Component {
   renderModals = () => {
     return (
       <div>
+        <AlphaWarningModal />
         <BackupKeystoreModal />
         <ClearKeystoreModal />
         <CurrenciesModal />
@@ -133,6 +130,7 @@ class CoreLayout extends Component {
   isAnyModalOpened() {
     const {
       keystore,
+      isAlphaWarningModalOpen,
       isBackupKeystoreModalOpen,
       isClearKeystoreModalOpen,
       isConvertFundsModalOpen,
@@ -147,6 +145,7 @@ class CoreLayout extends Component {
 
     return (
       keystore.isOpen ||
+      isAlphaWarningModalOpen ||
       isBackupKeystoreModalOpen ||
       isClearKeystoreModalOpen ||
       isConvertFundsModalOpen ||
@@ -206,6 +205,7 @@ CoreLayout.propTypes = {
     currentNetworkIndex: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
+  isAlphaWarningModalOpen: PropTypes.bool.isRequired,
   isNewKeystoreAccountModalOpen: PropTypes.bool.isRequired,
   isClearKeystoreModalOpen: PropTypes.bool.isRequired,
   isBackupKeystoreModalOpen: PropTypes.bool.isRequired,

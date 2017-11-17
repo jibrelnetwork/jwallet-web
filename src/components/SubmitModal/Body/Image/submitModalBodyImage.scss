@@ -37,4 +37,9 @@
   &--spy {
     background-image: $modal-spy;
   }
+
+  &--warning {
+    margin: 80px auto 0;
+    background-image: $modal-warning;
+  }
 }

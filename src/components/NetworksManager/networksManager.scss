@@ -42,10 +42,15 @@
   padding: 10px 0;
 }
 
+.networks-manager__items {
+  margin-right: -20px; // free space for scrollbar
+}
+
 .network {
   position: relative;
   height: 18px;
   line-height: 18px;
+  margin-right: 20px; // free space for scrollbar
   margin-bottom: 15px;
   cursor: pointer;
   transition: opacity .3s ease;
