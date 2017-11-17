@@ -72,7 +72,6 @@ class CoreLayout extends Component {
       setCustomNetworkValue,
       saveCustomNetwork,
       removeCustomNetwork,
-      openCurrenciesModal,
       openImportKeystoreAccountModal,
       openNewKeystoreAccountModal,
       openKeystoreModal,
@@ -87,7 +86,7 @@ class CoreLayout extends Component {
         saveCustomNetwork={saveCustomNetwork}
         removeCustomNetwork={removeCustomNetwork}
         openConvertFundsModal={this.fundsModal('Convert')}
-        openCurrenciesModal={openCurrenciesModal}
+        openCurrenciesModal={this.openCurrenciesModal}
         openImportKeystoreAccountModal={openImportKeystoreAccountModal}
         openKeystoreModal={openKeystoreModal}
         openNewKeystoreAccountModal={openNewKeystoreAccountModal}
@@ -160,6 +159,7 @@ class CoreLayout extends Component {
   }
 
   fundsModal = modalName => () => this.props[`open${modalName}FundsModal`]()
+  openCurrenciesModal = () => this.props.openCurrenciesModal(/* without param */)
 }
 
 CoreLayout.propTypes = {

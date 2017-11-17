@@ -28,6 +28,7 @@ function TransactionsTable(props) {
     emptyImageSrc,
     activeTransactionIndex,
     isTransactionsEmpty,
+    isMobile,
   } = props
 
   const { filterData, sortField, sortDirection } = transactions
@@ -58,6 +59,7 @@ function TransactionsTable(props) {
           transactions={transactions}
           currencySymbol={currentCurrencySymbol}
           activeTransactionIndex={activeTransactionIndex}
+          isMobile={isMobile}
         />
       </JTable.Body>
     </JTable>
@@ -95,6 +97,7 @@ TransactionsTable.propTypes = {
   emptyImageSrc: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
   isTransactionsEmpty: PropTypes.bool.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 }
 
 export default TransactionsTable
