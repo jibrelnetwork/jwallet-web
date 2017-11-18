@@ -15,10 +15,12 @@ class JbPopover extends Component {
   }
 
   onClick = (event) => {
-    const popover = ReactDOM.findDOMNode(this.refs[this.props.name])
+    const { onClickOutside, name, isCloseOnClickInside } = this.props
+    const popover = ReactDOM.findDOMNode(this.refs[name])
+    const isClickOutside = !popover.contains(event.target)
 
-    if (!popover.contains(event.target)) {
-      this.props.onClickOutside()
+    if (isClickOutside || isCloseOnClickInside) {
+      onClickOutside()
     }
   }
 
@@ -33,6 +35,11 @@ JbPopover.propTypes = {
   onClickOutside: PropTypes.func.isRequired,
   body: PropTypes.node.isRequired,
   name: PropTypes.string.isRequired,
+  isCloseOnClickInside: PropTypes.bool,
+}
+
+JbPopover.defaultProps = {
+  isCloseOnClickInside: false,
 }
 
 export default JbPopover

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JbButton from 'components/base/JbButton'
 
-function Auth({ addNewKeys, importKeys }) {
+function Auth({ openNewKeysModal, openImportKeysModal }) {
   return (
     <div className='auth-wrap'>
       <div className='auth'>
@@ -12,8 +12,8 @@ function Auth({ addNewKeys, importKeys }) {
           {'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae egestas nisi.'}
         </div>
         <div className='auth__buttons'>
-          <JbButton white label={'Create new keys'} onClick={addNewKeys} />
-          <JbButton blue label={'Import keys'} onClick={importKeys} />
+          <JbButton white label={'Create new keys'} onClick={openNewKeysModal} />
+          <JbButton blue label={'Import keys'} onClick={openImportKeysModal} />
         </div>
       </div>
     </div>
@@ -21,8 +21,8 @@ function Auth({ addNewKeys, importKeys }) {
 }
 
 Auth.propTypes = {
-  addNewKeys: PropTypes.func.isRequired,
-  importKeys: PropTypes.func.isRequired,
+  openNewKeysModal: PropTypes.func.isRequired,
+  openImportKeysModal: PropTypes.func.isRequired,
 }
 
 export default Auth

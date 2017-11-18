@@ -60,10 +60,22 @@ function getStateTransactions(state) {
   return state.transactions
 }
 
-function* getTransactions() {
+function getStateAccounts(state) {
+  return state.accounts
+}
+
+function* getTransactions(action) {
   yield delay(1000)
 
-  const items = transactionsStub.map((item) => {
+  const { items, currentActiveIndex } = yield select(getStateAccounts)
+  const accountIndex = action.accountIndex || currentActiveIndex
+  const isActiveAccount = (accountIndex > -1) ? items[accountIndex].isActive : false
+
+  if (!isActiveAccount) {
+    return yield put({ type: SET_TRANSACTIONS, items: [] })
+  }
+
+  const transactionsItems = transactionsStub.map((item) => {
     const { type, from, to, amount, timestamp } = item
 
     return {
@@ -74,7 +86,7 @@ function* getTransactions() {
     }
   })
 
-  yield put({ type: SET_TRANSACTIONS, items })
+  return yield put({ type: SET_TRANSACTIONS, items: transactionsItems })
 }
 
 function* searchTransactions(action) {

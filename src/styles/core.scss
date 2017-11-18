@@ -1,7 +1,6 @@
 :global {
   @import 'base';
   @import 'adaptive';
-  @import 'animations';
   @import 'colors';
   @import 'grid';
   @import 'table';
@@ -66,11 +65,22 @@
     width: 100%;
   }
 
+  .container-wrap {
+    width: 100%;
+    height: 100%;
+  }
+
   .container {
     position: relative;
     max-width: 1200px;
     height: 100%;
     margin: 0 auto;
+    transition: filter .1s ease;
+    will-change: filter;
+  }
+
+  .container--modal-open {
+    filter: blur(1.3px);
   }
 
   .content {
@@ -79,17 +89,19 @@
     min-height: unquote('calc(100vh - 160px)');
   }
 
+  @import '../components/base/JTextInput/jTextInput';
   @import '../components/base/JbButton/jbButton';
   @import '../components/base/JbCheckbox/jbCheckbox';
   @import '../components/base/JbFooter/jbFooter';
   @import '../components/base/JbHeader/jbHeader';
   @import '../components/base/JbIcon/jbIcon';
-  @import '../components/base/JbInput/JbInput';
   @import '../components/base/JbLoader/jbLoader';
   @import '../components/base/JbLogo/jbLogo';
   @import '../components/base/JbModal/jbModal';
   @import '../components/base/JbPopover/jbPopover';
   @import '../components/base/JbSelect/JbSelect';
+  @import '../components/base/JbAlert/jbalert';
+  @import '../components/base/JbTextarea/jbtextarea';
 
   @import '../components/base/JbAlert/jbalert';
   @import '../components/base/JbTextarea/jbtextarea';
@@ -98,6 +110,7 @@
   @import '../components/AccountManager/accountManager';
   @import '../components/AccountsTable/accountsTable';
   @import '../components/AuthHeader/authHeader';
+  @import '../components/DatePicker/datePicker';
   @import '../components/JWalletHeader/headerMenu';
   @import '../components/KeysManager/keysManager';
   @import '../components/Search/search';

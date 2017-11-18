@@ -1,36 +1,38 @@
 import { connect } from 'react-redux'
 
 import {
-  getKeysFromCache,
-  setActiveKey,
-  addNewKeys,
-  importKeys,
-  backupKeys,
-  clearKeys,
-} from 'routes/JWallet/modules/keys'
+  openSendFundsModal,
+  openReceiveFundsModal,
+  openConvertFundsModal,
+} from 'routes/JWallet/modules/funds'
 
 import {
-  sendFunds,
-  receiveFunds,
-  convertFunds,
-} from 'routes/JWallet/modules/funds'
+  getKeysFromCache,
+  setActiveKey,
+  openNewKeysModal,
+  openImportKeysModal,
+  openBackupKeysModal,
+  clearKeys,
+} from 'routes/JWallet/modules/keys'
 
 import CoreLayout from './CoreLayout'
 
 const mapStateToProps = state => ({
+  accounts: state.accounts,
+  funds: state.funds,
   keys: state.keys,
 })
 
 const mapDispatchToProps = {
+  openSendFundsModal,
+  openReceiveFundsModal,
+  openConvertFundsModal,
   getKeysFromCache,
   setActiveKey,
-  addNewKeys,
-  importKeys,
-  backupKeys,
+  openNewKeysModal,
+  openImportKeysModal,
+  openBackupKeysModal,
   clearKeys,
-  sendFunds,
-  receiveFunds,
-  convertFunds,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)

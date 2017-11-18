@@ -15,7 +15,7 @@ import {
   SET_SORT_ACCOUNTS_OPTIONS,
 } from '../modules/accounts'
 
-import { GET_TRANSACTIONS, SET_TRANSACTIONS } from '../modules/transactions'
+import { GET_TRANSACTIONS } from '../modules/transactions'
 
 const accountsStub = [{
   symbol: 'ETH',
@@ -67,26 +67,38 @@ function* getAccounts() {
   yield put({ type: SET_ACCOUNTS, items })
 }
 
-function* setCurrentAccount() {
-  yield put({ type: GET_TRANSACTIONS })
+function* setCurrentAccount(action) {
+  yield put({ type: GET_TRANSACTIONS, accountIndex: action.index })
 }
 
-function* setAccounts(action) {
-  const { items } = action
+function* setAccounts() {
+  const { items, currentActiveIndex } = yield select(getStateAccounts)
+  const isCurrentActive = (currentActiveIndex > -1) ? items[currentActiveIndex].isActive : false
 
-  let isActiveAccount = false
-
-  items.forEach((account) => {
-    if (account.isActive) {
-      isActiveAccount = true
-    }
-  })
-
-  if (!isActiveAccount) {
-    yield put({ type: SET_TRANSACTIONS, items: [] })
-  } else {
-    yield put({ type: GET_TRANSACTIONS })
+  if (isCurrentActive) {
+    return
   }
+
+  /**
+   * if isActive flag was set to false for current account
+   * need to set next available isActive account as current
+   * if there are no isActive accounts, set currentActiveIndex to -1
+   */
+  const nextAvailableActiveIndex = getNextAvailableActiveIndex(items)
+
+  yield put({ type: SET_CURRENT_ACCOUNT, index: nextAvailableActiveIndex })
+}
+
+function getNextAvailableActiveIndex(items) {
+  for (let i = 0; i < items.length; i += 1) {
+    const { isActive, isAuthRequired } = items[i]
+
+    if (isActive && !isAuthRequired) {
+      return i
+    }
+  }
+
+  return -1
 }
 
 function* toggleAccount(action) {
@@ -134,17 +146,30 @@ function* sortAccounts(action) {
 
   const oldSortField = accounts.sortField
   const sortField = action.sortField || oldSortField
-  const { items, sortDirection } = accounts
+  const { items, sortDirection, currentActiveIndex } = accounts
+  const currentActiveSymbol = items[currentActiveIndex].symbol
 
   const result = sortItems(items, oldSortField, sortField, sortDirection)
+  const newActiveIndex = getNewActiveIndex(result.items, currentActiveSymbol)
 
   yield put({ type: SET_ACCOUNTS, items: result.items })
+  yield put({ type: SET_CURRENT_ACCOUNT, index: newActiveIndex })
 
   yield put({
     type: SET_SORT_ACCOUNTS_OPTIONS,
     sortField: result.sortField,
     sortDirection: result.sortDirection,
   })
+}
+
+function getNewActiveIndex(items, symbol) {
+  for (let i = 0; i < items.length; i += 1) {
+    if (items[i].symbol === symbol) {
+      return i
+    }
+  }
+
+  return -1
 }
 
 export function* watchGetAccounts() {

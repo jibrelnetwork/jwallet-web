@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { JbFooter, JbLoader } from 'components/base'
-
-import AuthHeader from 'components/AuthHeader'
-import JWalletHeader from 'components/JWalletHeader'
+import {
+  base,
+  AuthHeader,
+  JWalletHeader,
+  AccountManager,
+  ConvertFundsModal,
+  ReceiveFundsModal,
+  SendFundsModal,
+  BackupKeysModal,
+  ImportKeysModal,
+  NewKeysModal,
+  AddCustomTokenModal,
+} from 'components'
 
 import 'styles/core.scss'
+
+const { JbFooter, JbLoader } = base
 
 class CoreLayout extends Component {
   componentWillMount() {
@@ -25,15 +36,18 @@ class CoreLayout extends Component {
     }
 
     return (
-      <div className='container'>
-        {this.renderHeader()}
-        {this.renderContent()}
-        {this.renderFooter()}
+      <div className='container-wrap'>
+        <div className={`container ${this.isAnyModalOpened() ? 'container--modal-open' : ''}`}>
+          {this.renderHeader()}
+          {this.renderContent()}
+          {this.renderFooter()}
+        </div>
+        {this.renderModals()}
       </div>
     )
   }
 
-  renderHeader() {
+  renderHeader = () => {
     const keys = this.props.keys.items
     const isAuthRequired = !(keys && keys.length)
 
@@ -44,63 +58,120 @@ class CoreLayout extends Component {
     return this.renderJWalletHeader()
   }
 
-  renderContent() {
+  renderContent = () => {
     return <div className='content'>{this.props.children}</div>
   }
 
   /* eslint-disable class-methods-use-this */
-  renderFooter() {
+  renderFooter = () => {
     return <JbFooter />
   }
 
-  renderAuthHeader() {
+  renderAuthHeader = () => {
     return <AuthHeader />
   }
 
-  renderJWalletHeader() {
+  renderJWalletHeader = () => {
     const {
       getKeysFromCache,
       setActiveKey,
-      addNewKeys,
-      importKeys,
-      backupKeys,
+      openNewKeysModal,
+      openImportKeysModal,
+      openBackupKeysModal,
       clearKeys,
-      sendFunds,
-      receiveFunds,
-      convertFunds,
+      openSendFundsModal,
+      openReceiveFundsModal,
+      openConvertFundsModal,
       keys,
     } = this.props
 
     return (
       <JWalletHeader
+        openSendFundsModal={openSendFundsModal}
+        openReceiveFundsModal={openReceiveFundsModal}
+        openConvertFundsModal={openConvertFundsModal}
         getKeysFromCache={getKeysFromCache}
         setActiveKey={setActiveKey}
-        addNewKeys={addNewKeys}
-        importKeys={importKeys}
-        backupKeys={backupKeys}
+        openNewKeysModal={openNewKeysModal}
+        openImportKeysModal={openImportKeysModal}
+        openBackupKeysModal={openBackupKeysModal}
         clearKeys={clearKeys}
-        sendFunds={sendFunds}
-        receiveFunds={receiveFunds}
-        convertFunds={convertFunds}
         keys={keys}
       />
+    )
+  }
+
+  renderModals = () => {
+    return (
+      <div>
+        <AccountManager />
+        <SendFundsModal />
+        <ReceiveFundsModal />
+        <ConvertFundsModal />
+        <BackupKeysModal />
+        <ImportKeysModal />
+        <NewKeysModal />
+        <AddCustomTokenModal />
+      </div>
+    )
+  }
+
+  isAnyModalOpened() {
+    const {
+      accounts: {
+        isAccountManagerOpen,
+        isAddCustomTokenModalOpen,
+      },
+      funds: {
+        isSendFundsModalOpen,
+        isReceiveFundsModalOpen,
+        isConvertFundsModalOpen,
+      },
+      keys: {
+        isNewKeysModalOpen,
+        isImportKeysModalOpen,
+        isBackupKeysModalOpen,
+      },
+    } = this.props
+
+    return (
+      isAccountManagerOpen ||
+      isAddCustomTokenModalOpen ||
+      isSendFundsModalOpen ||
+      isReceiveFundsModalOpen ||
+      isConvertFundsModalOpen ||
+      isNewKeysModalOpen ||
+      isImportKeysModalOpen ||
+      isBackupKeysModalOpen
     )
   }
 }
 
 CoreLayout.propTypes = {
+  openSendFundsModal: PropTypes.func.isRequired,
+  openReceiveFundsModal: PropTypes.func.isRequired,
+  openConvertFundsModal: PropTypes.func.isRequired,
   getKeysFromCache: PropTypes.func.isRequired,
   setActiveKey: PropTypes.func.isRequired,
-  addNewKeys: PropTypes.func.isRequired,
-  importKeys: PropTypes.func.isRequired,
-  backupKeys: PropTypes.func.isRequired,
+  openNewKeysModal: PropTypes.func.isRequired,
+  openImportKeysModal: PropTypes.func.isRequired,
+  openBackupKeysModal: PropTypes.func.isRequired,
   clearKeys: PropTypes.func.isRequired,
-  sendFunds: PropTypes.func.isRequired,
-  receiveFunds: PropTypes.func.isRequired,
-  convertFunds: PropTypes.func.isRequired,
+  accounts: PropTypes.shape({
+    isAccountManagerOpen: PropTypes.bool.isRequired,
+    isAddCustomTokenModalOpen: PropTypes.bool.isRequired,
+  }).isRequired,
+  funds: PropTypes.shape({
+    isSendFundsModalOpen: PropTypes.bool.isRequired,
+    isReceiveFundsModalOpen: PropTypes.bool.isRequired,
+    isConvertFundsModalOpen: PropTypes.bool.isRequired,
+  }).isRequired,
   keys: PropTypes.shape({
     items: PropTypes.array.isRequired,
     currentActiveIndex: PropTypes.number.isRequired,
+    isNewKeysModalOpen: PropTypes.bool.isRequired,
+    isImportKeysModalOpen: PropTypes.bool.isRequired,
+    isBackupKeysModalOpen: PropTypes.bool.isRequired,
   }).isRequired,
   children: PropTypes.element,
 }

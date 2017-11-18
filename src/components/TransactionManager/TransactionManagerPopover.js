@@ -11,12 +11,19 @@ function TransactionManagerPopover(props) {
       <div className='popover__item' onClick={sendFunds}>{'Send funds'}</div>
       <div className='popover__item' onClick={receiveFunds}>{'Receive funds'}</div>
       <div className='popover__item' onClick={convertFunds}>{'Convert funds'}</div>
-      <div className='popover__item' onClick={filter}>{'Filter'}</div>
+      <div className='popover__item' onClick={filter(true)}>{'Filter'}</div>
       <div className='popover__item popover__item--gray' onClick={remove}>{'Remove'}</div>
     </div>
   )
 
-  return <JbPopover name='transaction-manager' onClickOutside={onClickOutside} body={body} />
+  return (
+    <JbPopover
+      name='transaction-manager'
+      onClickOutside={onClickOutside}
+      body={body}
+      isCloseOnClickInside
+    />
+  )
 }
 
 TransactionManagerPopover.propTypes = {
