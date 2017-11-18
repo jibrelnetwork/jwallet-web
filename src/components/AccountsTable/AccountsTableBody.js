@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import getTokenNameBySymbolName from 'utils/getTokenNameBySymbolName'
-
 import { JbCheckbox, JbIcon } from 'components/base'
 
 function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
@@ -11,7 +9,6 @@ function AccountsTableBody({ sortAccounts, toggleAccount, accounts }) {
   const isDesc = (sortDirection === 'DESC')
 
   const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
-
   const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
 
   return (

@@ -11,8 +11,8 @@ import {
   TOGGLE_ACCOUNT,
   SEARCH_ACCOUNTS,
   SORT_ACCOUNTS,
-  SET_SEARCH_OPTIONS,
-  SET_SORT_OPTIONS,
+  SET_SEARCH_ACCOUNTS_OPTIONS,
+  SET_SORT_ACCOUNTS_OPTIONS,
 } from '../modules/accounts'
 
 import { GET_TRANSACTIONS, SET_TRANSACTIONS } from '../modules/transactions'
@@ -126,7 +126,7 @@ function* searchAccounts(action) {
   const foundItems = searchItems(accounts.items, searchQuery, accountsSearchFields)
   const foundItemsSymbols = foundItems.map(i => i.symbol)
 
-  yield put({ type: SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
+  yield put({ type: SET_SEARCH_ACCOUNTS_OPTIONS, foundItemsSymbols, searchQuery })
 }
 
 function* sortAccounts(action) {
@@ -136,20 +136,12 @@ function* sortAccounts(action) {
   const sortField = action.sortField || oldSortField
   const { items, sortDirection } = accounts
 
-  /**
-   * We need to save sort direction during of searching,
-   * because old and new fields are equal and during of sorting,
-   * direction will be changed
-   */
-  const anotherDirection = (sortDirection === 'ASC') ? 'DESC' : 'ASC'
-  const newDirection = action.saveDirection ? anotherDirection : sortDirection
-
-  const result = sortItems(items, oldSortField, sortField, newDirection)
+  const result = sortItems(items, oldSortField, sortField, sortDirection)
 
   yield put({ type: SET_ACCOUNTS, items: result.items })
 
   yield put({
-    type: SET_SORT_OPTIONS,
+    type: SET_SORT_ACCOUNTS_OPTIONS,
     sortField: result.sortField,
     sortDirection: result.sortDirection,
   })

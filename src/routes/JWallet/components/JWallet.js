@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import YourAccounts from 'components/YourAccounts'
 import TransactionsTable from 'components/TransactionsTable'
 
-import Form from 'components/Form'
-
 function JWallet(props) {
   const {
     getAccounts,
@@ -17,20 +15,15 @@ function JWallet(props) {
     sortAccounts,
     addCustomToken,
     getTransactions,
+    searchTransactions,
+    sortTransactions,
     accounts,
     transactions,
   } = props
 
-  const configs = {
-    to: '0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8',
-    value: 10,
-    gas: 42000,
-  }
-
   return (
     <div className='jwallet'>
-      <Form configs={configs} />
-      {/* <YourAccounts
+      <YourAccounts
         getAccounts={getAccounts}
         openAccountManager={openAccountManager}
         closeAccountManager={closeAccountManager}
@@ -42,7 +35,12 @@ function JWallet(props) {
         accounts={accounts}
         isTransactionsLoading={transactions.isLoading}
       />
-      <TransactionsTable getTransactions={getTransactions} {...transactions} /> */}
+      <TransactionsTable
+        getTransactions={getTransactions}
+        searchTransactions={searchTransactions}
+        sortTransactions={sortTransactions}
+        transactions={transactions}
+      />
     </div>
   )
 }
@@ -57,6 +55,8 @@ JWallet.propTypes = {
   searchAccounts: PropTypes.func.isRequired,
   sortAccounts: PropTypes.func.isRequired,
   getTransactions: PropTypes.func.isRequired,
+  searchTransactions: PropTypes.func.isRequired,
+  sortTransactions: PropTypes.func.isRequired,
   accounts: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       symbol: PropTypes.string.isRequired,
@@ -79,7 +79,19 @@ JWallet.propTypes = {
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
   transactions: PropTypes.shape({
-    items: PropTypes.array.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      symbol: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+      from: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired,
+      address: PropTypes.string.isRequired,
+      txHash: PropTypes.string.isRequired,
+      fee: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      amountFixed: PropTypes.string.isRequired,
+    })).isRequired,
+    foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,
     sortDirection: PropTypes.string.isRequired,
     searchQuery: PropTypes.string.isRequired,

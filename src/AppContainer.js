@@ -13,6 +13,7 @@ function AppContainer({ history, routes, store }) {
   )
 }
 
+/* eslint-disable react/forbid-prop-types */
 AppContainer.propTypes = {
   history: PropTypes.object.isRequired,
   routes: PropTypes.object.isRequired,
