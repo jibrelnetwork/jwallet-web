@@ -194,7 +194,7 @@ module.exports = {
         no: 'Save',
       }, {
         yes: 'OK',
-        no: 'I understood',
+        no: 'I understand',
       }],
     },
     derivationPath: {
@@ -306,7 +306,7 @@ module.exports = {
       },
     },
     alphaWarning: {
-      buttonTitle: 'I understood!',
+      buttonTitle: 'Got it!',
       message: 'jWallet alpha version is not stable. Please use very carefully!',
     },
   },
