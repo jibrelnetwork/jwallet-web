@@ -124,6 +124,7 @@ function* onSearchDigitalAssets(action) {
 function* onSortDigitalAssets(action) {
   const { items, currentAddress, sortField, sortDirection } = yield select(selectDigitalAssets)
   const newSortField = action.sortField || sortField
+
   const result = sortItems(items, sortField, newSortField, sortDirection)
   const newItems = placeEthFirst(result.items)
 
@@ -134,23 +135,25 @@ function* onSortDigitalAssets(action) {
 function* onAddCustomToken(action) {
   try {
     const { items } = yield select(selectDigitalAssets)
-    const { address, name, symbol, decimals } = action.customTokenData
+    const newItems = [...items, getCustomTokenData(action.customTokenData)]
 
-    const newItems = [...items, {
-      name,
-      symbol,
-      isLicensed: false,
-      isAuthRequired: false,
-      isActive: true,
-      isCustom: true,
-      address: address.toLowerCase(),
-      decimals: parseInt(decimals, 10) || 0,
-    }]
-
-    yield setDigitalAssets(newItems, address)
+    yield setDigitalAssets(newItems, action.customTokenData.address)
     yield onAddCustomTokenSuccess()
   } catch (err) {
     console.error(err)
+  }
+}
+
+function getCustomTokenData({ address, name, symbol, decimals }) {
+  return {
+    name,
+    symbol,
+    isLicensed: false,
+    isAuthRequired: false,
+    isActive: true,
+    isCustom: true,
+    address: address.toLowerCase(),
+    decimals: parseInt(decimals, 10) || 0,
   }
 }
 
@@ -200,23 +203,15 @@ function* getTransactions() {
 
 function* getBalances() {
   const { items, isLoading } = yield select(selectDigitalAssets)
-
-  if (isLoading) {
-    return
-  }
-
   const address = yield select(selectCurrentKeystoreAddress)
 
-  if (isEmpty(address)) {
+  if (isLoading || isEmpty(address)) {
     return
   }
 
+  const ethBalance = { ETH: call(web3.getETHBalance, address) }
   const tokensBalances = getTokensBalances(items, address)
-
-  const balances = yield all({
-    ETH: call(web3.getETHBalance, address),
-    ...tokensBalances,
-  })
+  const balances = yield all({ ...ethBalance, ...tokensBalances })
 
   yield setBalances(balances)
 }
@@ -236,10 +231,8 @@ function* getBalancesLoop() {
 function getTokensBalances(items, owner) {
   const result = {}
 
-  items.forEach((token) => {
-    const { symbol, address, decimals } = token
-
-    if (!(address && address.length)) {
+  items.forEach(({ symbol, address, decimals }) => {
+    if (isEmpty(address)) {
       return
     }
 
