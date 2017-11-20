@@ -6,8 +6,8 @@ function getDefaultNetworks() {
   const { main, ropsten /* , kovan, rinkeby */ } = i18n.networkManager.knownNetworkTitle
 
   return [
-    { title: main, rpcaddr: '37.59.55.6', rpcport: '10001', ...defaultProps, id: 1 },
-    { title: ropsten, rpcaddr: '37.59.55.6', rpcport: '10003', ...defaultProps, id: 3 },
+    { title: main, rpcaddr: 'node.jwallet.network', rpcport: '8545', ...defaultProps, id: 1 },
+    { title: ropsten, rpcaddr: '37.59.55.6', rpcport: '20003', ...defaultProps, id: 3 },
     /*
     { title: main, rpcaddr: '138.197.180.127', rpcport: '20001', ...defaultProps },
     { title: ropsten, rpcaddr: '37.59.55.6', rpcport: '20003', ...defaultProps },
