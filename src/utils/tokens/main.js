@@ -5,7 +5,7 @@ const tokens = [{
   symbol: 'QTUM',
   decimals: 18,
   address: '0x9a642d6b3368ddc662CA244bAdf32cDA716005BC',
-  isActive: true,
+  isActive: false,
   ...defaultTokenProps,
 }, {
   name: 'OmiseGo',
@@ -19,14 +19,14 @@ const tokens = [{
   symbol: 'EOS',
   decimals: 18,
   address: '0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0',
-  isActive: true,
+  isActive: false,
   ...defaultTokenProps,
 }, {
   name: 'Maker',
   symbol: 'MKR',
   decimals: 18,
   address: '0xc66ea802717bfb9833400264dd12c2bceaa34a6d',
-  isActive: true,
+  isActive: false,
   ...defaultTokenProps,
 }, {
   name: 'Augur Reputation',
@@ -54,7 +54,7 @@ const tokens = [{
   symbol: 'KNC',
   decimals: 18,
   address: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
-  isActive: false,
+  isActive: true,
   ...defaultTokenProps,
 }, {
   name: 'Basic Attention Token',
@@ -124,7 +124,7 @@ const tokens = [{
   symbol: 'BNT',
   decimals: 18,
   address: '0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c',
-  isActive: false,
+  isActive: true,
   ...defaultTokenProps,
 }, {
   name: 'Gnosis Token',
