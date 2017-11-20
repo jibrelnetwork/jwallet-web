@@ -21,7 +21,8 @@ function CurrenciesTableBodyRow(props) {
 
   const itemClassName = 'table-body-item table-body-item'
   const licensed = isLicensed ? licensedValue.yes : licensedValue.no
-  const transfer = isAuthRequired ? transferValue.authorized : transferValue.notAuthorized
+  const isAuthorized = !isLicensed || isAuthRequired
+  const transfer = isAuthorized ? transferValue.authorized : transferValue.notAuthorized
 
   return (
     <div
