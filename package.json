@@ -21,7 +21,7 @@
     "file-saver": "1.3.3",
     "history": "3.3.0",
     "immutable": "3.8.1",
-    "jibrel-contracts-jsapi": "0.3.3",
+    "jibrel-contracts-jsapi": "0.3.4",
     "json-format": "1.0.1",
     "jwallet-web-keystore": "0.3.2",
     "jwallet-web-storage": "0.2.0",
