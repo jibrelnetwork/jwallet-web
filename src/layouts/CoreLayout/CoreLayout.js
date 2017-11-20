@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import i18n from 'i18n/en'
-import { getStorageName } from 'services/storage'
+import { isMemoryStorage } from 'services/storage'
 
 import { base, modals, JWalletHeader, Warning } from 'components'
 
@@ -59,7 +59,7 @@ class CoreLayout extends Component {
   }
 
   renderWarnings = () => {
-    const memoryWarning = (getStorageName() !== 'MemoryStorage') ? null : (
+    const memoryWarning = !isMemoryStorage() ? null : (
       <Warning text={i18n.warning.memoryStorage} color='red' index={0} isOpen />
     )
 
