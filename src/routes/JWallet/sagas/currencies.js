@@ -1,6 +1,6 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { find, isEmpty } from 'lodash'
+import { find, findIndex, isEmpty } from 'lodash'
 
 import config from 'config'
 import { storage, web3 } from 'services'
@@ -125,8 +125,9 @@ function* onSortDigitalAssets(action) {
   const { items, currentAddress, sortField, sortDirection } = yield select(selectDigitalAssets)
   const newSortField = action.sortField || sortField
   const result = sortItems(items, sortField, newSortField, sortDirection)
+  const newItems = placeEthFirst(result.items)
 
-  yield setDigitalAssets(result.items, currentAddress)
+  yield setDigitalAssets(newItems, currentAddress)
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
@@ -151,6 +152,16 @@ function* onAddCustomToken(action) {
   } catch (err) {
     console.error(err)
   }
+}
+
+function placeEthFirst(items) {
+  const ethIndex = findIndex(items, { symbol: 'ETH' })
+  const newItems = [...items]
+
+  newItems.splice(ethIndex, 1)
+  newItems.unshift(items[ethIndex])
+
+  return newItems
 }
 
 function* toggleAllDigitalAssets(items, isActiveAll) {
