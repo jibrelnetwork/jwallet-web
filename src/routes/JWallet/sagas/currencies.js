@@ -1,10 +1,12 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { find, findIndex, isEmpty } from 'lodash'
+import Keystore from 'jwallet-web-keystore'
 
+import i18n from 'i18n/en'
 import config from 'config'
 import { storage, web3 } from 'services'
-import { getDefaultDigitalAssets, searchItems, sortItems } from 'utils'
+import { InvalidFieldError, getDefaultDigitalAssets, searchItems, sortItems } from 'utils'
 
 import {
   selectDigitalAssets,
@@ -27,9 +29,14 @@ import {
   CURRENCIES_ADD_CUSTOM,
 } from '../modules/currencies'
 
-import { TRANSACTIONS_GET } from '../modules/transactions'
-import { CUSTOM_TOKEN_CLEAR } from '../modules/modals/customToken'
+import {
+  CUSTOM_TOKEN_SET_INVALID_FIELD,
+  CUSTOM_TOKEN_CLEAR,
+} from '../modules/modals/customToken'
 
+import { TRANSACTIONS_GET } from '../modules/transactions'
+
+const { addCustomToken } = i18n.modals
 const digitalAssetsSearchFields = ['symbol', 'name']
 let isGetBalancesLoopLaunched = 0
 
@@ -68,17 +75,16 @@ function* onGetDigitalAssets() {
   yield getBalancesLoop()
 }
 
-function* onSetDigitalAssets(action) {
+function* onSetDigitalAssets({ items }) {
   const networkName = yield select(selectCurrentNetworkName)
 
-  storage.setDigitalAssets(JSON.stringify(action.items), networkName)
+  storage.setDigitalAssets(JSON.stringify(items), networkName)
 }
 
-function* onToggleDigitalAsset(action) {
+function* onToggleDigitalAsset({ address }) {
   const { items, currentAddress, isActiveAll } = yield select(selectDigitalAssets)
-  const toggledAddress = action.address
 
-  if (toggledAddress === null) {
+  if (address === null) {
     yield toggleAllDigitalAssets(items, isActiveAll)
 
     return
@@ -86,11 +92,11 @@ function* onToggleDigitalAsset(action) {
 
   // toggle isActive state of found item
   const newItems = [...items]
-  const toggledItem = find(newItems, { address: toggledAddress })
+  const toggledItem = find(newItems, { address })
   toggledItem.isActive = !toggledItem.isActive
 
   // need to get new active address is current was toggled off
-  const isCurrentOff = ((currentAddress === toggledAddress) && !toggledItem.isActive)
+  const isCurrentOff = ((currentAddress === address) && !toggledItem.isActive)
   const newCurrentAddress = isCurrentOff ? getNextAvailableActiveAddress(newItems) : currentAddress
 
   // set new isActiveAll state
@@ -102,18 +108,16 @@ function* onToggleDigitalAsset(action) {
   yield setActiveAllFlag(newIsActiveAll)
 }
 
-function* onSetCurrentDigitalAsset(action) {
+function* onSetCurrentDigitalAsset({ currentAddress }) {
   const networkName = yield select(selectCurrentNetworkName)
-  const { currentAddress } = action
 
   storage.setDigitalAssetsCurrent(currentAddress, networkName)
 
   yield getTransactions()
 }
 
-function* onSearchDigitalAssets(action) {
+function* onSearchDigitalAssets({ searchQuery }) {
   const { items } = yield select(selectDigitalAssets)
-  const { searchQuery } = action
 
   const foundItems = searchItems(items, searchQuery, digitalAssetsSearchFields)
   const foundItemsSymbols = foundItems.map(i => i.symbol)
@@ -132,15 +136,61 @@ function* onSortDigitalAssets(action) {
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
-function* onAddCustomToken(action) {
+function* onAddCustomToken({ customTokenData }) {
   try {
     const { items } = yield select(selectDigitalAssets)
-    const newItems = [...items, getCustomTokenData(action.customTokenData)]
 
-    yield setDigitalAssets(newItems, action.customTokenData.address)
+    checkCustomTokenData(customTokenData, items)
+
+    const newItems = [...items, getCustomTokenData(customTokenData)]
+
+    yield setDigitalAssets(newItems, customTokenData.address)
     yield onAddCustomTokenSuccess()
   } catch (err) {
-    console.error(err)
+    yield onAddCustomTokenError(err)
+  }
+}
+
+function checkCustomTokenData({ address, name, symbol, decimals }, items) {
+  checkCustomTokenAddress(address, items)
+  checkCustomTokenName(name)
+  checkCustomTokenSymbol(symbol)
+  checkCustomTokenDecimals(decimals)
+}
+
+function checkCustomTokenAddress(address, items) {
+  if (!Keystore.isHexStringValid(address, 40)) {
+    throw (new InvalidFieldError('address', addCustomToken.error.address.invalid))
+  }
+
+  checkContractAddressUniq(address, items)
+}
+
+function checkContractAddressUniq(address, items) {
+  items.forEach((token) => {
+    if (address.toLowerCase() === token.address.toLowerCase()) {
+      throw (new InvalidFieldError('address', addCustomToken.error.address.exists))
+    }
+  })
+}
+
+function checkCustomTokenName(name) {
+  if (/[^a-zA-Z ]/.test(name) || (name.length < 3) || (name.length > 100)) {
+    throw (new InvalidFieldError('name', addCustomToken.error.name.invalid))
+  }
+}
+
+function checkCustomTokenSymbol(symbol) {
+  if (/[^a-zA-Z]/.test(symbol) || (symbol.length < 3) || (symbol.length > 5)) {
+    throw (new InvalidFieldError('symbol', addCustomToken.error.symbol.invalid))
+  }
+}
+
+function checkCustomTokenDecimals(decimals) {
+  const decimalsInt = parseInt(decimals, 10) || 0
+
+  if ((decimalsInt <= 0) || (decimalsInt > 18)) {
+    throw (new InvalidFieldError('decimals', addCustomToken.error.decimals.invalid))
   }
 }
 
@@ -291,6 +341,10 @@ function* setSortOptions(sortField, sortDirection) {
 
 function* onAddCustomTokenSuccess() {
   yield put({ type: CUSTOM_TOKEN_CLEAR })
+}
+
+function* onAddCustomTokenError({ fieldName, message }) {
+  yield put({ type: CUSTOM_TOKEN_SET_INVALID_FIELD, fieldName, message })
 }
 
 export function* watchGetDigitalAssets() {

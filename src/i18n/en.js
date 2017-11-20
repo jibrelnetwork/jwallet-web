@@ -292,6 +292,7 @@ module.exports = {
       error: {
         address: {
           invalid: 'Address should be a valid contract address',
+          exists: 'Token with this address already exists',
         },
         name: {
           invalid: 'Name should be a valid contract name',
