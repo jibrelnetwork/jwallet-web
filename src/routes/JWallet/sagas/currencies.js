@@ -231,8 +231,8 @@ function* getBalancesLoop() {
 function getTokensBalances(items, owner) {
   const result = {}
 
-  items.forEach(({ symbol, address, decimals }) => {
-    if (isEmpty(address)) {
+  items.forEach(({ symbol, address, decimals, isActive }) => {
+    if (!isActive || isEmpty(address)) {
       return
     }
 
