@@ -2,6 +2,7 @@ import fileSaver from 'file-saver'
 import jsonFormat from 'json-format'
 
 import config from 'config'
+import isSafari from 'utils/isSafari'
 
 function saveTXT(data, name) {
   return saveAs(data, getFileName(name, 'txt'))
@@ -16,7 +17,7 @@ function saveAs(data, fileName) {
 }
 
 function getBlob(data) {
-  return new Blob([data], { type: 'plain/text', endings: 'native' })
+  return new Blob([data], { type: isSafari() ? 'application/octet-stream' : 'text/plain' })
 }
 
 function getFileName(fileName = 'jwallet-backup', format = 'txt') {
