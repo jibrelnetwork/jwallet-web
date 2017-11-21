@@ -282,12 +282,20 @@ module.exports = {
         // Pending further investigation:
         // https://github.com/mishoo/UglifyJS2/issues/2011
         comparisons: false,
+        keep_fnames: true,
       },
       output: {
         comments: false,
         // Turned on because emoji and regex is not minified properly using default
         // https://github.com/facebookincubator/create-react-app/issues/2488
         ascii_only: true,
+      },
+      mangle: {
+        /**
+         * TODO: remove it (it costs ~30Kb additional bundle size)
+         * It is needed for jibrel-contracts-jsapi module
+         */
+        keep_fnames: true,
       },
       sourceMap: shouldUseSourceMap,
     }),
