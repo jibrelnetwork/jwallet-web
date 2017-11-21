@@ -44,7 +44,7 @@ function* onSearchTransactions(action) {
   const transactions = yield select(selectTransactions)
 
   const foundItems = searchItems(transactions.items, searchQuery, transactionsSearchFields)
-  const foundItemsHashes = foundItems.map(i => i.txHash)
+  const foundItemsHashes = foundItems.map(i => i.transactionHash)
 
   yield setSearchOptions(foundItemsHashes, searchQuery)
 }

@@ -95,8 +95,9 @@ class Transactions extends Component {
       currentCurrencySymbol,
     } = this.props
 
-    const { filterData, searchQuery } = transactions
+    const { filterData, sortField, sortDirection, searchQuery } = transactions
     const { emptyImageSrc, active, isMobile } = this.state
+    const foundAndFilteredTransactions = this.getTransactions()
 
     return (
       <div className='transactions'>
@@ -116,11 +117,14 @@ class Transactions extends Component {
           setCurrentDigitalAssetAddress={this.setCurrentDigitalAssetAddress}
           toggleActive={this.toggleActive}
           isToken={this.isToken}
-          transactions={transactions}
+          transactions={foundAndFilteredTransactions}
+          sortField={sortField}
+          sortDirection={sortDirection}
           currentCurrencySymbol={currentCurrencySymbol}
           emptyImageSrc={emptyImageSrc}
           activeTransactionIndex={active}
-          isTransactionsEmpty={this.isTransactionsEmpty()}
+          isTransactionsEmpty={isEmpty(foundAndFilteredTransactions)}
+          isFilterOpen={filterData.isOpen}
           isMobile={isMobile}
         />
       </div>
@@ -150,42 +154,34 @@ class Transactions extends Component {
     return !!find(this.props.currencyItems, { address: contractAddress })
   }
 
-  isTransactionsEmpty = () => {
+  getTransactions = () => {
     const { items, foundItemsHashes, searchQuery } = this.props.transactions
 
-    if (!items.length) {
-      return true
+    if (isEmpty(items)) {
+      return []
     }
 
-    const isItemsFound = item => (foundItemsHashes.indexOf(item.txHash) > -1)
-    const isSearching = (searchQuery && searchQuery.length)
-    const foundItems = isSearching ? items.filter(isItemsFound) : items
+    const isItemsFound = item => (foundItemsHashes.indexOf(item.transactionHash) > -1)
+    const foundItems = isEmpty(searchQuery) ? items : items.filter(isItemsFound)
 
-    const isSearchedTransactionsEmpty = (isSearching && !foundItems.length)
-    const isFilteredTransactionsEmpty = this.isFilteredTransactionsEmpty(foundItems)
-
-    if (isSearchedTransactionsEmpty || isFilteredTransactionsEmpty) {
-      return true
-    }
-
-    return false
+    return this.getFilteredTransactions(foundItems)
   }
 
-  isFilteredTransactionsEmpty = (foundItems) => {
+  getFilteredTransactions = (foundItems) => {
     const { startTime, endTime, isOpen } = this.props.transactions.filterData
 
     const isStartTime = (isOpen && (startTime !== 0))
     const isEndTime = (isOpen && (endTime !== 0))
 
-    return (foundItems
-      .map(({ timestamp }) => {
+    return foundItems
+      .map((item) => {
+        const { timestamp } = item
         const isAfterStartTime = isStartTime ? (timestamp > startTime) : true
         const isBeforeEndTime = isEndTime ? (timestamp < endTime) : true
 
-        return (isAfterStartTime && isBeforeEndTime)
+        return (isAfterStartTime && isBeforeEndTime) ? item : null
       })
-      .filter(item => (item === true))
-      .length === 0)
+      .filter(item => !!item)
   }
 
   onResize = () => {
