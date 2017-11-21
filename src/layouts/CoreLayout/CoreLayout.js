@@ -47,8 +47,8 @@ class CoreLayout extends Component {
 
     return (
       <div className='container-wrap'>
+        {this.renderWarning()}
         <div className={`container ${this.isAnyModalOpened() ? 'container--modal-open' : ''}`}>
-          {this.renderWarnings()}
           {this.renderHeader()}
           {this.renderContent()}
           {this.renderFooter()}
@@ -58,7 +58,7 @@ class CoreLayout extends Component {
     )
   }
 
-  renderWarnings = () => {
+  renderWarning = () => {
     const memoryWarning = !isMemoryStorage() ? null : (
       <Warning text={i18n.warning.memoryStorage} color='red' index={0} isOpen />
     )
