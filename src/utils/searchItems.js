@@ -1,10 +1,11 @@
+import isEmpty from 'lodash/isEmpty'
+
 export default function searchItems(items, searchQuery, searchFields) {
-  if (!(searchQuery && searchQuery.length)) {
+  if (isEmpty(searchQuery)) {
     return items
   }
 
-  const isSearchFieldsPresent = (searchFields && searchFields.length)
-
+  const isSearchFieldsPresent = !isEmpty(searchFields)
   const foundItems = []
 
   items.forEach((item) => {

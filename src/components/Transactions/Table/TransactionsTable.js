@@ -24,15 +24,15 @@ function TransactionsTable(props) {
     toggleActive,
     isToken,
     transactions,
+    sortField,
+    sortDirection,
     currentCurrencySymbol,
     emptyImageSrc,
     activeTransactionIndex,
     isTransactionsEmpty,
     isMobile,
+    isFilterOpen,
   } = props
-
-  const { filterData, sortField, sortDirection } = transactions
-  const isFilterOpen = filterData.isOpen
 
   if (isTransactionsEmpty) {
     return (
@@ -71,33 +71,26 @@ TransactionsTable.propTypes = {
   sortTransactions: PropTypes.func.isRequired,
   toggleActive: PropTypes.func.isRequired,
   isToken: PropTypes.func.isRequired,
-  transactions: PropTypes.shape({
-    filterData: PropTypes.shape({
-      startTime: PropTypes.number.isRequired,
-      endTime: PropTypes.number.isRequired,
-      isOpen: PropTypes.bool.isRequired,
-    }).isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired,
-      from: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired,
-      address: PropTypes.string.isRequired,
-      transactionHash: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      fee: PropTypes.number.isRequired,
-      amount: PropTypes.number.isRequired,
-      timestamp: PropTypes.number.isRequired,
-    })).isRequired,
-    foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    sortField: PropTypes.string.isRequired,
-    sortDirection: PropTypes.string.isRequired,
-  }).isRequired,
+  transactions: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    transactionHash: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    fee: PropTypes.number.isRequired,
+    amount: PropTypes.number.isRequired,
+    timestamp: PropTypes.number.isRequired,
+  })).isRequired,
+  sortField: PropTypes.string.isRequired,
+  sortDirection: PropTypes.string.isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
   emptyImageSrc: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,
   isTransactionsEmpty: PropTypes.bool.isRequired,
   isMobile: PropTypes.bool.isRequired,
+  isFilterOpen: PropTypes.bool.isRequired,
 }
 
 export default TransactionsTable
