@@ -6,10 +6,10 @@ function getDefaultNetworks() {
   return [{
     id: 1,
     title: main,
-    rpcaddr: 'ns3089219.ip-37-59-55.eu',
-    rpcport: '10001', // parity node
-    // rpcaddr: 'node.jwallet.network',
-    // rpcport: '8545',
+    // rpcaddr: 'ns3089219.ip-37-59-55.eu',
+    // rpcport: '10001', // parity node
+    rpcaddr: 'node.jwallet.network',
+    rpcport: '8545',
     ssl: true,
     isCustom: false,
   }, {
@@ -23,7 +23,7 @@ function getDefaultNetworks() {
     id: 1,
     title: main,
     rpcaddr: '138.197.180.127',
-    rpcport: '20001',
+    rpcport: '20001', // geth node
     ssl: true,
     isCustom: false,
   }, {
