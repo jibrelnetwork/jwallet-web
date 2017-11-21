@@ -266,7 +266,7 @@ html.active {
   transition: background 0.3s ease 0s;
 }
 .header .logo {
-  margin-top: 48px;
+  margin-top: 40px;
   display: block;
 }
 .header .logo img {
@@ -1016,11 +1016,6 @@ html.active {
   }
   .footer .links li a {
     font-size: 0;
-  }
-}
-@media only screen and (max-width: 320px) {
-  .features .col-6 .img {
-    left: -20px;
   }
 }
 @media (-webkit-min-device-pixel-ratio: 2) {
