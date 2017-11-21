@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev-old": "node scripts/start.js",
     "dev": "NODE_ENV=development BABEL_ENV=development node server",
     "prod": "NODE_ENV=production BABEL_ENV=production node server",
     "compile": "NODE_ENV=development BABEL_ENV=development node scripts/build.js",
     "compile:prod": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "start": "node build/demo-server.js",
+    "start": "node scripts/start.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "lint": "./node_modules/.bin/eslint ./src"
   },
