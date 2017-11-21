@@ -67,6 +67,8 @@ function* onGetDigitalAssets() {
 
   // ignore if getBalances loop was already launched
   if (isGetBalancesLoopLaunched) {
+    yield getBalances()
+
     return
   }
 
