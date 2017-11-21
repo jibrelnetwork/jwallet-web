@@ -141,4 +141,10 @@ $(document).ready(function() {
         },
     }
 
+    // Loader
+    // Timeout is needed to prevent screen blinking if page loaded to fast
+    setTimeout(function() {
+        $('.loader').css('display', 'none');
+    }, 500);
+
 });
