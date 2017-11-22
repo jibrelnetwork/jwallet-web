@@ -307,7 +307,7 @@ module.exports = {
     },
     alphaWarning: {
       buttonTitle: 'Got it!',
-      message: 'jWallet alpha version is not stable. Please use very carefully!',
+      message: 'jWallet is still in alpha and not production ready. Please exercise caution and avoid transacting large values.',
     },
   },
   digitalAssets: {
