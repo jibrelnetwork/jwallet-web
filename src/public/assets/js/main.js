@@ -5,6 +5,16 @@ $(document).ready(function() {
         disable: 'mobile'
     });
 
+    //Banner animation
+    $(window).scroll(function() {
+        if ($(this).scrollTop() >= 500) {
+            $('.sale-starts').addClass('active');
+        }
+        else {
+            $('.sale-starts').removeClass('active');
+        }
+    });
+
     //Header animation
     $(window).scroll(function() {
         if ($(this).scrollTop() >= 100) {
