@@ -5,16 +5,6 @@ $(document).ready(function() {
         disable: 'mobile'
     });
 
-    //Banner animation
-    $(window).scroll(function() {
-        if ($(this).scrollTop() >= 500) {
-            $('.sale-starts').addClass('active');
-        }
-        else {
-            $('.sale-starts').removeClass('active');
-        }
-    });
-
     //Header animation
     $(window).scroll(function() {
         if ($(this).scrollTop() >= 100) {
@@ -154,7 +144,49 @@ $(document).ready(function() {
     // Loader
     // Timeout is needed to prevent screen blinking if page loaded to fast
     setTimeout(function() {
-        $('.loader').css('display', 'none');
+      $('.loader').css('display', 'none');
     }, 500);
+
+    //Banner animation
+    function showSaleNotification() {
+      try {
+        var isSaleNotificationClosed = (localStorage.getItem('saleNotificationClosed') === '1');
+
+        if (isSaleNotificationClosed) {
+          return;
+        }
+
+        $('.sale-starts').addClass('active');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function closeSaleNotification() {
+      $('.sale-starts').removeClass('active');
+
+      try {
+        localStorage.setItem('saleNotificationClosed', '1');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function closeSaleNotificationPrevent(e) {
+      e.preventDefault();
+      closeSaleNotification();
+      e.stopPropagation();
+    }
+
+    $('#sale-notification').click(closeSaleNotification);
+    $('#close-sale-notification').click(closeSaleNotificationPrevent);
+
+    $(window).scroll(function() {
+      if ($(this).scrollTop() >= 500) {
+        showSaleNotification()
+      } else {
+        $('.sale-starts').removeClass('active');
+      }
+    });
 
 });
