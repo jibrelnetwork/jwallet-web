@@ -15,6 +15,7 @@ class Notification extends Component {
       return null
     }
 
+    /* eslint-disable react/jsx-no-target-blank */
     return (
       <div className='notification'>
         <a

@@ -20,7 +20,7 @@ function* onCheckNotification() {
   }
 }
 
-function* onCloseNotification() {
+function onCloseNotification() {
   try {
     storage.setNotificationSaleClosed('1')
   } catch (err) {
