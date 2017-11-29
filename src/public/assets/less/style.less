@@ -785,6 +785,85 @@ html.active {
   }
 }
 
+//Banner
+.sale-starts {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 0;
+  background-color: rgba(0,90,230,0.9);
+  z-index: 200;
+  transition: all 0.5s ease 0s;
+  transform: translateY(120px);
+  &:hover {
+    background-color: #00C1FF;
+  }
+  &.active {
+    transform: translateY(0px);
+  }
+  .inner {
+    padding: 0;
+    a {
+      display: block;
+      color: @white;
+      padding: 20px 0;
+    }
+    span {
+      display: block;
+    }
+    .logo {
+      width: 127px;
+      height: 44px;
+      background-image: url("../img/logo-sale.svg");
+      background-size: 127px 44px;
+      margin-top: 18px;
+    }
+    .text {
+      padding: 20px 0;
+      margin-left: 40px;
+      br {
+        display: none;
+      }
+    }
+    .title {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .paragraph {
+      opacity: 0.6;
+      &.last {
+        display: none;
+      }
+    }
+    .link {
+      height: 40px;
+      line-height: 38px;
+      padding: 0 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-weight: 600;
+      margin-top: 20px;
+      position: relative;
+      right: 100px;
+    }
+    .close {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: -12px;
+      background-image: url("../img/icons/close.svg");
+      background-size: 24px 24px;
+      width: 24px;
+      height: 24px;
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 1100px) {
   .section {
     padding-left: 30px;
@@ -796,6 +875,13 @@ html.active {
         a {
           padding: 0 24px;
         }
+      }
+    }
+  }
+  .sale-starts {
+    .inner {
+      .link {
+        display: none;
       }
     }
   }
@@ -890,6 +976,20 @@ html.active {
         a {
           padding: 0;
         }
+      }
+    }
+  }
+  .sale-starts {
+    transform: translateY(0px) !important;
+    .inner {
+      .text {
+        line-height: 1.5;
+        br {
+          display: inline-block;
+        }
+      }
+      .logo {
+        margin-top: 30px;
       }
     }
   }
@@ -1142,6 +1242,32 @@ html.active {
       margin-bottom: 0;
       li a {
         font-size: 0;
+      }
+    }
+  }
+  .sale-starts {
+    padding: 0 !important;
+    .inner {
+      .logo {
+        display: none;
+      }
+      a {
+        padding: 0;
+      }
+      .text {
+        margin-left: 30px;
+      }
+      .close {
+        right: 30px;
+      }
+      .paragraph {
+        display: none;
+        &.last {
+          display: block;
+        }
+      }
+      .title {
+        margin-bottom: 2px;
       }
     }
   }
