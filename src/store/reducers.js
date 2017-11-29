@@ -4,6 +4,7 @@ import { routerReducer as router } from 'react-router-redux'
 import currencies from 'routes/JWallet/modules/currencies'
 import keystore from 'routes/JWallet/modules/keystore'
 import networks from 'routes/JWallet/modules/networks'
+import notification from 'routes/JWallet/modules/notification'
 import transactions from 'routes/JWallet/modules/transactions'
 
 import alphaWarningModal from 'routes/JWallet/modules/modals/alphaWarning'
@@ -23,6 +24,7 @@ export const makeRootReducer = (asyncReducers) => {
     currencies,
     keystore,
     networks,
+    notification,
     transactions,
     alphaWarningModal,
     backupKeystoreModal,
