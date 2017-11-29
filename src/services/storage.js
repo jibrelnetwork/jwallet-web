@@ -9,6 +9,7 @@ const storageKeys = {
   keystoreAddressesFromMnemonic: 'JWALLET-KEYSTORE-ADDRESSES-FROM-MNEMONIC',
   networks: 'JWALLET-NETWORKS',
   networksCurrent: 'JWALLET-NETWORKS-CURRENT',
+  notificationSaleClosed: 'JWALLET-NOTIFICATION-SALE-CLOSED',
 }
 
 const storageMethods = {}
@@ -22,9 +23,9 @@ function getStorage() {
   isStorageInited = true
 
   Object.keys(storageKeys).forEach((key) => {
-    const keyUpperCase = `${key.charAt(0).toUpperCase()}${key.slice(1)}`
+    const keyCapitalized = `${key.charAt(0).toUpperCase()}${key.slice(1)}`
 
-    addStorageMethods(keyUpperCase, storageKeys[key])
+    addStorageMethods(keyCapitalized, storageKeys[key])
   })
 
   return storageMethods
