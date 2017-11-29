@@ -15,7 +15,7 @@ export function closeNotification() {
 }
 
 const ACTION_HANDLERS = {
-  [NOTIFICATION_OPEN]: (state) => ({
+  [NOTIFICATION_OPEN]: state => ({
     ...state,
     isOpen: true,
   }),

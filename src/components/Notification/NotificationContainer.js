@@ -4,7 +4,7 @@ import { checkNotification, closeNotification } from 'routes/JWallet/modules/not
 
 import Notification from './Notification'
 
-const mapStateToProps = (state) => state.notification
+const mapStateToProps = state => state.notification
 
 const mapDispatchToProps = { checkNotification, closeNotification }
 
