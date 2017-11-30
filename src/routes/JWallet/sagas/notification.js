@@ -1,7 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects'
 
-import storage from 'services/storage'
-
 import {
   NOTIFICATION_CHECK,
   NOTIFICATION_OPEN,
