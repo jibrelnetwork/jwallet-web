@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import ignoreEvent from 'utils/ignoreEvent'
+
 import JIcon from 'components/base/JIcon'
 
 class Notification extends Component {
@@ -35,21 +37,13 @@ class Notification extends Component {
           </span>
           <span className='notification__link'>{'Participate in token sale'}</span>
           <JIcon
-            onClick={this.closeNotification}
+            onClick={ignoreEvent(closeNotification)}
             name='close-white'
             className='notification__close'
           />
         </a>
       </div>
     )
-  }
-
-  closeNotification = (e) => {
-    e.preventDefault()
-
-    this.props.closeNotification()
-
-    e.stopPropagation()
   }
 }
 

@@ -9,7 +9,6 @@ const storageKeys = {
   keystoreAddressesFromMnemonic: 'JWALLET-KEYSTORE-ADDRESSES-FROM-MNEMONIC',
   networks: 'JWALLET-NETWORKS',
   networksCurrent: 'JWALLET-NETWORKS-CURRENT',
-  notificationSaleClosed: 'JWALLET-NOTIFICATION-SALE-CLOSED',
 }
 
 const storageMethods = {}
