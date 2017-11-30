@@ -10,7 +10,7 @@ import {
 
 function* onCheckNotification() {
   try {
-    const isClosed = (storage.getNotificationSaleClosed() === '1')
+    const isClosed = (sessionStorage.getItem('saleNotificationClosed') === '1')
 
     if (!isClosed) {
       yield put({ type: NOTIFICATION_OPEN })
@@ -22,7 +22,7 @@ function* onCheckNotification() {
 
 function onCloseNotification() {
   try {
-    storage.setNotificationSaleClosed('1')
+    sessionStorage.setItem('saleNotificationClosed', '1')
   } catch (err) {
     console.error(err)
   }

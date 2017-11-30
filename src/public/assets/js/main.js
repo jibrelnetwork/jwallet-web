@@ -150,7 +150,7 @@ $(document).ready(function() {
     //Banner animation
     function showSaleNotification() {
       try {
-        var isSaleNotificationClosed = (localStorage.getItem('saleNotificationClosed') === '1');
+        var isSaleNotificationClosed = (sessionStorage.getItem('saleNotificationClosed') === '1');
 
         if (isSaleNotificationClosed) {
           return;
@@ -166,7 +166,7 @@ $(document).ready(function() {
       $('.sale-starts').removeClass('active');
 
       try {
-        localStorage.setItem('saleNotificationClosed', '1');
+        sessionStorage.setItem('saleNotificationClosed', '1');
       } catch (err) {
         console.error(err);
       }
