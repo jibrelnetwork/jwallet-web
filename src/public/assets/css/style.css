@@ -771,6 +771,9 @@ html.active {
 .sale-starts .inner .close:hover {
   opacity: 1;
 }
+.hidden {
+  display: none;
+}
 @media only screen and (max-width: 1100px) {
   .section {
     padding-left: 30px;

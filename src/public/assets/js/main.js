@@ -152,11 +152,9 @@ $(document).ready(function() {
       try {
         var isSaleNotificationClosed = (sessionStorage.getItem('saleNotificationClosed') === '1');
 
-        if (isSaleNotificationClosed) {
-          return;
+        if (!isSaleNotificationClosed) {
+          $('.sale-starts').addClass('active');
         }
-
-        $('.sale-starts').addClass('active');
       } catch (err) {
         console.error(err);
       }
@@ -164,11 +162,20 @@ $(document).ready(function() {
 
     function closeSaleNotification() {
       $('.sale-starts').removeClass('active');
+      $('.sale-starts').addClass('hidden');
 
       try {
         sessionStorage.setItem('saleNotificationClosed', '1');
       } catch (err) {
         console.error(err);
+      }
+    }
+
+    function checkSaleNotificationClosed() {
+      var isSaleNotificationClosed = (sessionStorage.getItem('saleNotificationClosed') === '1');
+
+      if (!isSaleNotificationClosed) {
+        $('.sale-starts').removeClass('hidden');
       }
     }
 
@@ -178,12 +185,13 @@ $(document).ready(function() {
       e.stopPropagation();
     }
 
-    $('#sale-notification').click(closeSaleNotification);
-    $('#close-sale-notification').click(closeSaleNotificationPrevent);
+    checkSaleNotificationClosed();
+    $('#sale-notification').bind('touchstart click', closeSaleNotification);
+    $('#close-sale-notification').bind('touchstart click', closeSaleNotificationPrevent);
 
     $(window).scroll(function() {
       if ($(this).scrollTop() >= 500) {
-        showSaleNotification()
+        showSaleNotification();
       } else {
         $('.sale-starts').removeClass('active');
       }
