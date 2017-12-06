@@ -1,0 +1,16 @@
+      <div class="section footer">
+        <div class="inner">
+          <ul class="links">
+            {% for link in footer.links %}<li>
+              <a
+                href="{{ link.href }}"
+                class="icons big icon-big-{{ link.type }}"
+                target="_blank"
+              >
+                {{ link.title }}
+              </a>
+            </li>{% endfor %}
+          </ul>
+          <p class="copy">{{ footer.copy[0] }}<br />{{ footer.copy[1] }}</p>
+        </div>
+      </div>

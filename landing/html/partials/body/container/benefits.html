@@ -1,0 +1,17 @@
+      <div class="section benefits" id="benefits">
+        <div class="inner clear">
+          <div class="row clear">
+            {% for item in benefits.items %}<div
+              class="col-4"
+              data-aos="fade-down"
+              data-aos-duration="{{ loop.index * 300 }}"
+            >
+              <div class="img">
+                <img src="assets/img/benefits/{{ loop.index }}.svg" alt="" />
+              </div>
+              <h2>{{ item.title }}</h2>
+              <p>{{ item.description }}</p>
+            </div>{% endfor %}
+          </div>
+        </div>
+      </div>

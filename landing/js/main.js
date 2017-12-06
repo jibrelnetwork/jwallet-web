@@ -113,7 +113,7 @@ $(document).ready(function() {
                     : -0.5 * Math.pow(2.0, 10.0 - (t * 20.0)) + 1.0;
         },
         sineOut: function(t) {
-            const HALF_PI = 1.5707963267948966;
+            var HALF_PI = 1.5707963267948966;
             return Math.sin(t * HALF_PI);
         },
         circularInOut: function(t) {
@@ -125,7 +125,7 @@ $(document).ready(function() {
             return t * t * t;
         },
         cubicOut: function(t) {
-            const f = t - 1.0;
+            var f = t - 1.0;
             return f * f * f + 1.0;
         },
         cubicInOut: function(t) {
