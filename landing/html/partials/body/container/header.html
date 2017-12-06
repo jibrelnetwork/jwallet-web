@@ -1,0 +1,24 @@
+      <div class="section header">
+        <div class="inner clear">
+          <a href="/" class="logo pull-left scroll">
+            <img
+              src="assets/img/logo.svg"
+              data-aos="fade-down"
+              data-aos-duration="600"
+              data-aos-delay="150"
+            />
+          </a>
+          <ul class="menu pull-right">
+            {% for item in header.items %}<li
+              data-aos="fade-down"
+              data-aos-duration="{{ (loop.index0 * 100) + 600 }}"
+              data-aos-delay="150"
+            >
+              <a href="{{ item.href }}" class="{{ item.class }}">{{ item.title }}</a>
+            </li>{% endfor %}
+          </ul>
+          <button class="menu-button">
+            <span>{{ header.buttonTitle }}</span>
+          </button>
+        </div>
+      </div>

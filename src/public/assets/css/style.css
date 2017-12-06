@@ -15,7 +15,7 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 13px;
   line-height: 1;
-  color: #3c3c58;
+  color: #3C3C58;
 }
 .clear:after {
   clear: both;
@@ -24,11 +24,11 @@ body {
   height: 0;
 }
 a {
-  color: #005be6;
+  color: #005BE6;
   text-decoration: none;
 }
 a:hover {
-  color: #005fea;
+  color: #005FEA;
 }
 li {
   list-style: none;
@@ -303,7 +303,7 @@ html.active {
 .header.active {
   height: 80px;
   line-height: 80px;
-  background-color: #005be6;
+  background-color: #005BE6;
 }
 .header.active .logo {
   margin-top: 28px;
@@ -312,11 +312,11 @@ html.active {
   top: 28px;
 }
 .active .header {
-  background-color: #002db6;
+  background-color: #002DB6;
 }
 .start {
-  background-color: #005be6;
-  background-image: linear-gradient(to top left, #005be6, #002db6);
+  background-color: #005BE6;
+  background-image: linear-gradient(to top left, #005BE6, #002DB6);
   overflow: hidden;
   position: relative;
 }
@@ -435,8 +435,8 @@ html.active {
 .apps {
   text-align: center;
   color: #ffffff;
-  background-color: #005be6;
-  background: linear-gradient(to top left, #005be6, #002db6);
+  background-color: #005BE6;
+  background: linear-gradient(to top left, #005BE6, #002DB6);
 }
 .apps h2 {
   font-size: 32px;
@@ -488,7 +488,7 @@ html.active {
   content: '';
   border-radius: 1px;
   opacity: 0.2;
-  background-color: #005be6;
+  background-color: #005BE6;
   left: 0;
   bottom: -40px;
 }
@@ -560,7 +560,7 @@ html.active {
   content: '';
   border-radius: 1px;
   opacity: 0.2;
-  background-color: #005be6;
+  background-color: #005BE6;
   left: 50%;
   margin-left: -30px;
   bottom: -40px;
@@ -572,12 +572,12 @@ html.active {
 }
 .faq .item h3 {
   font-size: 20px;
-  color: #005be6;
+  color: #005BE6;
   cursor: pointer;
   position: relative;
 }
 .faq .item h3:hover {
-  color: #3c3c58;
+  color: #3C3C58;
 }
 .faq .item h3:before {
   position: absolute;
@@ -608,7 +608,7 @@ html.active {
   display: block;
 }
 .faq .item.active h3 {
-  color: #3c3c58;
+  color: #3C3C58;
 }
 .faq .item.active h3:before {
   background-image: url("../img/icons/minus.svg");
@@ -617,7 +617,7 @@ html.active {
   text-align: center;
 }
 .footer {
-  background-color: #3c3c58;
+  background-color: #3C3C58;
   text-align: center;
   color: #ffffff;
 }
@@ -903,7 +903,7 @@ html.active {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #005fea;
+    background-color: #005FEA;
     padding: 30px;
     z-index: 100;
   }

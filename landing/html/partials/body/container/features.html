@@ -1,0 +1,23 @@
+      <div class="section features" id="features">
+        <div class="inner clear">
+          {% for item in features.items %}<div
+            class="row {{ item.direction }} clear feature-{{ loop.index }}"
+          >
+            <div class="col-6">
+              <div class="img" data-aos="fade-down" data-aos-duration="900"></div>
+            </div>
+            <div
+              class="col-6"
+              data-aos="fade-{% if (item.direction === 'right') %}left{% else %}right{% endif %}"
+              data-aos-duration="900"
+            >
+              <h2>{{ item.title }}</h2>
+              <p>{{ item.subtitle }}</p>
+              {% if (loop.index === 5) %}<div class="links">
+                <a href="#" class="ios"><img src="assets/img/ios.svg" alt="" /></a>
+                <a href="#" class="android"><img src="assets/img/android.svg" alt="" /></a>
+              </div>{% endif %}
+            </div>
+          </div>{% endfor %}
+        </div>
+      </div>
