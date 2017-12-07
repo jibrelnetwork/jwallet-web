@@ -255,6 +255,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
+      filename: 'jwallet/index.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,

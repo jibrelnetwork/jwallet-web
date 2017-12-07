@@ -27,7 +27,7 @@ gulp.task('html-en', function() {
     .src('./landing/html/index.html')
     .pipe(nunjucks.compile(i18nEN))
     .pipe(rename('index.html'))
-    .pipe(gulp.dest('./src/public/landing/'));
+    .pipe(gulp.dest('./src/public/'));
 });
 
 gulp.task('html-ko', function() {
@@ -35,7 +35,7 @@ gulp.task('html-ko', function() {
     .src('./landing/html/index.html')
     .pipe(nunjucks.compile(i18nKO))
     .pipe(rename('ko.html'))
-    .pipe(gulp.dest('./src/public/landing/'));
+    .pipe(gulp.dest('./src/public/'));
 });
 
 gulp.task('css', function() {

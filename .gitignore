@@ -26,3 +26,5 @@ production
 
 src/public/landing
 src/public/assets
+src/public/index.html
+src/public/ko.html
