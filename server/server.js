@@ -15,6 +15,7 @@ const router = _router()
 const env = process.env.NODE_ENV || 'development'
 
 router.get('/', renderHome)
+router.get('/ko', renderHomeKo)
 router.get('/jwallet', renderJwallet)
 
 app.use(convert(router.routes()))
@@ -46,8 +47,13 @@ if (env === 'development') {
 }
 
 function renderHome(ctx) {
-  const homePath = resolve(__dirname, '..', 'build', 'home-index.html')
+  const homePath = resolve(__dirname, '..', 'build', 'landing', 'index.html')
   ctx.body = readFileSync(homePath, 'utf8')
+}
+
+function renderHomeKo(ctx) {
+  const homeKoPath = resolve(__dirname, '..', 'build', 'landing', 'ko.html')
+  ctx.body = readFileSync(homeKoPath, 'utf8')
 }
 
 function renderJwallet(ctx) {
