@@ -5,6 +5,8 @@ module.exports = {
   },
   meta: {
     title: 'jWallet by the Jibrel Network',
+    description: 'The jWallet is the first institutional-grade Ethereum wallet. It works across desktop and mobile devices, and private keys never leave your device. The jWallet comes preconfigured to work with your favorite tokens.',
+    name: 'jWallet by the Jibrel Network',
   },
   header: {
     items: [{
