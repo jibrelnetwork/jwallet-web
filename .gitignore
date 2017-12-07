@@ -23,3 +23,6 @@ production
 
 # JetBrains
 .idea/
+
+src/public/landing
+src/public/assets
