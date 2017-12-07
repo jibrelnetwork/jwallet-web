@@ -16,6 +16,35 @@
             >
               <a href="{{ item.href }}" class="{{ item.class }}">{{ item.title }}</a>
             </li>{% endfor %}
+            <li
+              class="popover-wrap language-popover"
+              id="language-popover"
+              data-aos="fade-down"
+              data-aos-duration="1000"
+              data-aos-delay="150"
+            >
+              <div class="popover-title">
+                <span class="text">{{ language.title }}</span>
+                <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="3343 -1546 12 12"><defs><style>.a{fill:#0050db;}.b{fill:none;}</style></defs><g transform="translate(2163 -1601)"><g transform="translate(1166.744 88.744)"><path class="a" d="M13.616,4.131l-.838-.838L8.455,7.616,4.131,3.293l-.838.838L7.616,8.455l.838.838.838-.838Z" transform="translate(10.707 -34.293)"/></g><rect class="b" width="12" height="12" transform="translate(1180 55)"/></g></svg>
+                </div>
+              </div>
+              <div class="popover-overlay"></div>
+              <div class="popover">
+                <div class="popover-content">
+                  {% for lang in header.languages %}<div class="popover-item">
+                    <a href="{{ lang.href }}" title="{{ lang.title }}">{{ lang.title }}</a>
+                  </div>{% endfor %}
+                </div>
+              </div>
+            </li>
+            <li
+              data-aos="fade-down"
+              data-aos-duration="1100"
+              data-aos-delay="150"
+            >
+              <a href="/jwallet" class="button">Try jWallet</a>
+            </li>
           </ul>
           <button class="menu-button">
             <span>{{ header.buttonTitle }}</span>

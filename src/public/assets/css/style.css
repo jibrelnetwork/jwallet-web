@@ -1157,3 +1157,132 @@ html.active {
     background-image: url("../img/features/5@2x.png");
   }
 }
+/* Popover */
+.popover-wrap {
+  position: relative;
+}
+.popover-wrap .popover-title {
+  z-index: 1000;
+  position: relative;
+  display: inline;
+  line-height: 19px;
+  cursor: pointer;
+}
+.popover-wrap .popover-title .text {
+  padding-right: 20px;
+  font-size: 14px;
+  color: #005BE6;
+}
+.popover-wrap .popover-title .icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+}
+.popover-wrap .popover-title .icon svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.popover-wrap .popover-title:hover .text {
+  color: #005FEA;
+}
+.popover-wrap .popover-title:hover .icon svg .a {
+  fill: #005FEA;
+}
+.popover-wrap .popover-overlay {
+  z-index: 1001;
+  position: fixed;
+  top: -1000px;
+  right: -1000px;
+  bottom: -1000px;
+  left: -1000px;
+  display: none;
+  opacity: 0;
+  cursor: pointer;
+}
+.popover-wrap .popover {
+  z-index: 1002;
+  position: absolute;
+  right: -10px;
+  display: none;
+  background-color: #ffffff;
+  border: 1px solid #E4EBF3;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+}
+.popover-wrap .popover-content {
+  width: 100%;
+  padding: 30px;
+}
+.popover-wrap .popover-item {
+  line-height: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #005BE6;
+  cursor: pointer;
+}
+.popover-wrap .popover-item:hover {
+  color: #005FEA;
+}
+.popover-wrap .popover-item:last-child {
+  margin-bottom: 0;
+}
+.popover-wrap.open .popover-overlay,
+.popover-wrap.open .popover {
+  display: block;
+}
+.popover-wrap.open .popover {
+  top: 20px;
+  opacity: 1;
+}
+.popover-wrap.opening .popover,
+.popover-wrap.closing .popover {
+  top: -20px;
+  display: block;
+  opacity: 0;
+}
+.header.active .popover-wrap.opening .popover,
+.header.active .popover-wrap.closing .popover {
+  top: -60px;
+}
+.header.active .popover {
+  top: 0;
+}
+@media only screen and (max-width: 768px) {
+  .language-popover .popover-title .text,
+  .language-popover .popover-item .text,
+  .language-popover .popover-title:hover .text,
+  .language-popover .popover-item:hover .text {
+    color: #ffffff;
+  }
+  .language-popover .popover-title .icon svg .a,
+  .language-popover .popover-item .icon svg .a,
+  .language-popover .popover-title:hover .icon svg .a,
+  .language-popover .popover-item:hover .icon svg .a {
+    fill: #ffffff;
+  }
+  .language-popover .popover {
+    left: 0;
+    right: initial;
+    background-color: #3C3C58;
+    border: none;
+    box-shadow: none;
+  }
+  .language-popover.opening.open .popover {
+    top: 20px;
+  }
+  .language-popover.open .popover {
+    top: 0;
+  }
+  .language-popover .popover-content {
+    padding: 0 20px 0 0;
+  }
+  .language-popover .popover-item {
+    line-height: 40px;
+    margin: 0;
+  }
+}
