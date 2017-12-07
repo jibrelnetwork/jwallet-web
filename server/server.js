@@ -47,17 +47,17 @@ if (env === 'development') {
 }
 
 function renderHome(ctx) {
-  const homePath = resolve(__dirname, '..', 'build', 'landing', 'index.html')
+  const homePath = resolve(__dirname, '..', 'build', 'index.html')
   ctx.body = readFileSync(homePath, 'utf8')
 }
 
 function renderHomeKo(ctx) {
-  const homeKoPath = resolve(__dirname, '..', 'build', 'landing', 'ko.html')
+  const homeKoPath = resolve(__dirname, '..', 'build', 'ko.html')
   ctx.body = readFileSync(homeKoPath, 'utf8')
 }
 
 function renderJwallet(ctx) {
-  const jWalletPath = resolve(__dirname, '..', 'build', 'index.html')
+  const jWalletPath = resolve(__dirname, '..', 'build', 'jwallet', 'index.html')
   ctx.body = readFileSync(jWalletPath, 'utf8')
 }
 
