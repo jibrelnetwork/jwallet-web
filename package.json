@@ -1,7 +1,12 @@
 {
-  "name": "jibrel-web-platform",
+  "name": "jwallet-web",
   "version": "0.1.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jibrelnetwork/jwallet-web.git"
+  },
+  "author": "Jibrel Network",
+  "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "dev": "NODE_ENV=development BABEL_ENV=development node server",
     "prod": "NODE_ENV=production BABEL_ENV=production node server",
