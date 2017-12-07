@@ -11,26 +11,26 @@ module.exports = {
   header: {
     items: [{
       href: '#benefits',
-      class: 'scroll', // not translate
       title: '장점',
     }, {
       href: '#features',
-      class: 'scroll', // not translate
       title: '특징',
     }, {
       href: '#apps',
-      class: 'scroll', // not translate
       title: '앱',
     }, {
       href: '#faq',
-      class: 'scroll', // not translate
       title: 'FAQ',
-    }, {
-      href: '/jwallet',
-      class: 'button', // not translate
-      title: 'jWallet 사용하기',
     }],
-    buttonTitle: 'Menu',
+    languages: [{
+      href: '/',
+      title: 'English',
+    }, {
+      href: '/ko.html',
+      title: 'Korean',
+    }],
+    jWalletButtonTitle: 'jWallet 사용하기',
+    menuButtonTitle: 'Menu',
   },
   start: {
     title: [

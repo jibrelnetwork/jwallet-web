@@ -197,4 +197,6 @@ $(document).ready(function() {
       }
     });
 
+    // Popover
+    initPopover({ id: 'language-popover' });
 });

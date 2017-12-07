@@ -11,26 +11,26 @@ module.exports = {
   header: {
     items: [{
       href: '#benefits',
-      class: 'scroll',
       title: 'Benefits',
     }, {
       href: '#features',
-      class: 'scroll',
       title: 'Features',
     }, {
       href: '#apps',
-      class: 'scroll',
       title: 'Apps',
     }, {
       href: '#faq',
-      class: 'scroll',
       title: 'FAQ',
-    }, {
-      href: '/jwallet',
-      class: 'button',
-      title: 'Try jWallet',
     }],
-    buttonTitle: 'Menu',
+    languages: [{
+      href: '/',
+      title: 'English',
+    }, {
+      href: '/ko.html',
+      title: 'Korean',
+    }],
+    jWalletButtonTitle: 'Try jWallet',
+    menuButtonTitle: 'Menu',
   },
   start: {
     title: [

@@ -19,6 +19,7 @@ var vendorScripts = [
 
 var scripts = [
   './landing/js/main.js',
+  './landing/js/popover.js',
 ]
 
 gulp.task('html-en', function() {
