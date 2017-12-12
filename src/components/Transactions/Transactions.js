@@ -81,10 +81,11 @@ class Transactions extends Component {
   }
 
   renderTransactionsEmpty = () => {
-    const { isCustomNetwork, transactions } = this.props
+    const { transactions, accountAddress, isCustomNetwork } = this.props
 
     return (
       <TransactionsEmpty
+        accountAddress={accountAddress}
         emptyImageSrc={this.state.emptyImageSrc}
         isCustomNetwork={isCustomNetwork}
         isBlockExplorerError={transactions.isBlockExplorerError}
@@ -262,6 +263,7 @@ Transactions.propTypes = {
     isBlockExplorerError: PropTypes.bool.isRequired,
   }).isRequired,
   currentCurrencySymbol: PropTypes.string.isRequired,
+  accountAddress: PropTypes.string.isRequired,
   isKeystoreInitialised: PropTypes.bool.isRequired,
   isCustomNetwork: PropTypes.bool.isRequired,
   /* optional */

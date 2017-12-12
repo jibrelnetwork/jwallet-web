@@ -32,6 +32,7 @@ const mapStateToProps = (state) => {
     currentAddress,
     currencyItems: items,
     isKeystoreInitialised: !!keystore.accounts.length,
+    accountAddress: keystore.currentAccount.address,
     isCustomNetwork: isCustomNetwork(networks),
     currentCurrencySymbol: getCurrentCurrencySymbol(items, currentAddress),
   }
