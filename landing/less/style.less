@@ -344,6 +344,24 @@ html.active {
   .menu-button {
     top: 46px;
   }
+  .github {
+    a {
+      svg {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+
+        .a {
+          opacity: 0;
+        }
+
+        .b {
+          fill: @white;
+        }
+      }
+    }
+  }
   &.active {
     height: 80px;
     line-height: 80px;
@@ -937,9 +955,9 @@ html.active {
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 880px) {
   .header li:not(:first-child) {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 }
 
