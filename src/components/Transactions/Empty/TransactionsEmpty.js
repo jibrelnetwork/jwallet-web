@@ -10,13 +10,14 @@ const {
   blockExplorerLink,
 } = i18n.transactions.table
 
-function TransactionsEmpty({ emptyImageSrc, isCustomNetwork, isBlockExplorerError }) {
+function TransactionsEmpty(props) {
+  const { accountAddress, emptyImageSrc, isCustomNetwork, isBlockExplorerError } = props
   const emptyClassNameModifier = isBlockExplorerError ? 'etherscan-error' : 'custom-network'
 
-  const blockEplorerLink = !isBlockExplorerError ? null : (
+  const blockExplorerLinkEl = !isBlockExplorerError ? null : (
     <a
       className='transactions-empty__etherscan-link'
-      href='//etherscan.io'
+      href={`//etherscan.io/address/${accountAddress}`}
       target='_blank'
       rel='noopener noreferrer'
     >
@@ -38,13 +39,14 @@ function TransactionsEmpty({ emptyImageSrc, isCustomNetwork, isBlockExplorerErro
         className={`transactions-empty transactions-empty--${emptyClassNameModifier}`}
         style={{ backgroundImage: `url(${emptyImageSrc})` }}
       >
-        <div className='transactions-empty__message'>{message}{blockEplorerLink}</div>
+        <div className='transactions-empty__message'>{message}{blockExplorerLinkEl}</div>
       </div>
     </div>
   )
 }
 
 TransactionsEmpty.propTypes = {
+  accountAddress: PropTypes.string.isRequired,
   emptyImageSrc: PropTypes.string.isRequired,
   isCustomNetwork: PropTypes.bool.isRequired,
   isBlockExplorerError: PropTypes.bool.isRequired,
