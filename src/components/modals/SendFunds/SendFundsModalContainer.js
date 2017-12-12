@@ -22,11 +22,11 @@ const mapStateToProps = state => ({
   ...state.sendFundsModal,
   buttonTitle,
   accounts: state.keystore.accounts,
-  currencies: state.currencies.items,
   modalName: 'send-funds',
   modalTitle: title,
   buttonType: 'password',
   iconName: 'send-funds',
+  currencies: state.currencies.items.filter(currency => currency.isActive),
 })
 
 const mapDispatchToProps = {
