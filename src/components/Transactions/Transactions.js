@@ -37,6 +37,12 @@ class Transactions extends Component {
     window.removeEventListener('resize', this.onResize)
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.currentCurrencySymbol !== nextProps.currentCurrencySymbol) {
+      this.setState({ active: -1 })
+    }
+  }
+
   render() {
     const {
       transactions,
