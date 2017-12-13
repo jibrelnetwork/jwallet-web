@@ -26,7 +26,7 @@ class Expandable extends Component {
       <div className='expandable__title-wrap'>
         <div className='expandable__title' onClick={this.toggleOpen}>
           <JIcon className='expandable__icon' name={expandableIconName} small />
-          {title || i18n('modals.sendFunds.customOptionsTitle')}
+          {title || i18n('modals.customOptionsTitle')}
         </div>
       </div>
     )

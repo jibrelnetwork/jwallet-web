@@ -91,7 +91,7 @@ class SendFundsModal extends SubmitModal {
 
   renderCustomOptions = () => {
     return (
-      <Expandable>
+      <Expandable title={i18n('modals.sendFunds.customGasTitle')} >
         {this.renderGas()}
         {this.renderGasPriceAndSymbol()}
       </Expandable>
