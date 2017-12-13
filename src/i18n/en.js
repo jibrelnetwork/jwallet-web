@@ -137,7 +137,7 @@ module.exports = {
           notMatched: 'Mnemonic should match',
         },
         password: {
-          incorrect: 'Incorrect Password',
+          invalid: 'Incorrect Password',
         },
         passwordConfirm: {
           notMatched: 'Password should match',
