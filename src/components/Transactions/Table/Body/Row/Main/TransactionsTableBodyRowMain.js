@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JIcon from 'components/base/JIcon'
 
 function TransactionsTableBodyRowMain(props) {
@@ -23,7 +21,7 @@ function TransactionsTableBodyRowMain(props) {
     <div className='table-row row clear' onClick={toggleActive}>
       <div className='table-body-item col col--2-4'>
         <JIcon
-          name={`small-${(status === i18n.transactions.table.statusValue) ? 'convert' : type}`}
+          name={`small-${(status === i18n('transactions.table.statusValue')) ? 'convert' : type}`}
           className='transaction__type'
           small
         />

@@ -1,9 +1,8 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects'
 import BigNumber from 'bignumber.js'
 import isEmpty from 'lodash/isEmpty'
 import Keystore from 'jwallet-web-keystore'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import i18n from 'i18n/en'
 import config from 'config'
 import { keystore, web3 } from 'services'
 import { InvalidFieldError } from 'utils/errors'
@@ -27,8 +26,6 @@ import {
   CONVERT_FUNDS_SET_TO_ACCOUNT,
   CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
 } from '../modules/modals/convertFunds'
-
-const { alert, error } = i18n.modals.sendFunds
 
 function* onSendFundsSetAccountId(action) {
   const { accountId, accounts } = action
@@ -88,10 +85,10 @@ function* sendFundsFail(err) {
   const isPasswordError = /password/i.test(err.message)
 
   if (isPasswordError) {
-    yield setInvalidField('password', error.password.invalid)
+    yield setInvalidField('password', i18n('modals.sendFunds.error.password.invalid'))
   } else {
     yield cleanPassword()
-    yield setAlert(alert.internalError)
+    yield setAlert(i18n('modals.sendFunds.alert.internalError'))
   }
 
   console.error(err)
@@ -157,55 +154,55 @@ function validateTransactionData(props) {
 
 function validateAccountId(accountId) {
   if (isEmpty(accountId)) {
-    throw (new InvalidFieldError('account', error.account.notSelected))
+    throw (new InvalidFieldError('account', i18n('modals.sendFunds.error.account.notSelected')))
   }
 }
 
 function validateAddress(address) {
   if (!Keystore.isHexStringValid(address, 40)) {
-    throw (new InvalidFieldError('address', error.address.invalid))
+    throw (new InvalidFieldError('address', i18n('modals.sendFunds.error.address.invalid')))
   }
 }
 
 function validateAmount(amount) {
   if (/[^\d.]/.test(amount)) {
-    throw (new InvalidFieldError('amount', error.amount.invalid))
+    throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.invalid')))
   }
 }
 
 function validateGas(gas) {
   if (/\D/.test(gas)) {
-    throw (new InvalidFieldError('gas', error.gas.invalid))
+    throw (new InvalidFieldError('gas', i18n('modals.sendFunds.error.gas.invalid')))
   }
 }
 
 function validateGasPrice(gasPrice) {
   if (/\D/.test(gasPrice)) {
-    throw (new InvalidFieldError('gasPrice', error.gasPrice.invalid))
+    throw (new InvalidFieldError('gasPrice', i18n('modals.sendFunds.error.gasPrice.invalid')))
   }
 }
 
 function validateTransactionValue(value, balance, decimals) {
   if (value.lessThanOrEqualTo(0)) {
-    throw (new InvalidFieldError('amount', error.amount.lessThan0))
+    throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.lessThan0')))
   }
 
   const balanceUnits = balance * (10 ** decimals)
 
   if (value.greaterThan(balanceUnits)) {
-    throw (new InvalidFieldError('amount', error.amount.exceedsBalance))
+    throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.exceedsBalance')))
   }
 }
 
 function validateTransactionGas(gas) {
   if (gas.lessThanOrEqualTo(0)) {
-    throw (new InvalidFieldError('gas', error.gas.lessThan0))
+    throw (new InvalidFieldError('gas', i18n('modals.sendFunds.error.gas.lessThan0')))
   }
 }
 
 function validateTransactionGasPrice(gasPrice) {
   if (gasPrice.lessThanOrEqualTo(0)) {
-    throw (new InvalidFieldError('gasPrice', error.gasPrice.lessThan0))
+    throw (new InvalidFieldError('gasPrice', i18n('modals.sendFunds.error.gasPrice.lessThan0')))
   }
 }
 

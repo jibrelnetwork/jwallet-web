@@ -1,39 +1,49 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { JIcon, JPopover } from 'components/base'
 
-const { keystoreManagerAction } = i18n.modals.keystore
-
-function KeystoreManagerPopover(props) {
-  const { onClickOutside, backupKeystore, clearKeystore, setKeystorePassword } = props
-
-  const body = (
-    <div className='keystore-manager-popover'>
-      <div className='popover__item' onClick={backupKeystore}>
-        <JIcon name='small-backup' className='popover__icon' small />
-        <span className='popover__label'>{keystoreManagerAction.backupKeystore}</span>
-      </div>
-      <div className='popover__item' onClick={setKeystorePassword}>
-        <JIcon name='gear' className='popover__icon' small />
-        <span className='popover__label'>{keystoreManagerAction.changePassword}</span>
-      </div>
-      <div className='popover__item popover__item--gray' onClick={clearKeystore}>
-        <JIcon name='small-clear' className='popover__icon' small />
-        <span className='popover__label'>{keystoreManagerAction.removeAccounts}</span>
-      </div>
-    </div>
+function KeystoreManagerPopover({
+  onClickOutside,
+  backupKeystore,
+  clearKeystore,
+  setKeystorePassword,
+}) {
+  return (
+    <JPopover
+      onClickOutside={onClickOutside}
+      body={(
+        <div className='keystore-manager-popover'>
+          <div className='popover__item' onClick={backupKeystore}>
+            <JIcon name='small-backup' className='popover__icon' small />
+            <span className='popover__label'>
+              {i18n('modals.keystore.keystoreManagerAction.backupKeystore')}
+            </span>
+          </div>
+          <div className='popover__item' onClick={setKeystorePassword}>
+            <JIcon name='gear' className='popover__icon' small />
+            <span className='popover__label'>
+              {i18n('modals.keystore.keystoreManagerAction.changePassword')}
+            </span>
+          </div>
+          <div className='popover__item popover__item--gray' onClick={clearKeystore}>
+            <JIcon name='small-clear' className='popover__icon' small />
+            <span className='popover__label'>
+              {i18n('modals.keystore.keystoreManagerAction.removeAccounts')}
+            </span>
+          </div>
+        </div>
+      )}
+      name='keystore-manager'
+    />
   )
-
-  return <JPopover onClickOutside={onClickOutside} body={body} name='keystore-manager' />
 }
 
 KeystoreManagerPopover.propTypes = {
   backupKeystore: PropTypes.func.isRequired,
   clearKeystore: PropTypes.func.isRequired,
   setKeystorePassword: PropTypes.func.isRequired,
+  /* optional */
   onClickOutside: PropTypes.func,
 }
 

@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { JIcon, JPopover } from 'components/base'
 
-const { accountManagerAction } = i18n.modals.keystore
-
 function AccountManagerPopover(props) {
+  const accountManagerAction = i18n('modals.keystore.accountManagerAction') || {}
   const { onClickOutside, removeAccount, editName, setDerivationPath, isMnemonic } = props
 
   const popoverItems = [{

@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JTable from 'components/base/JTable'
 
 import TransactionsTableBody from './Body'
 import TransactionsTableEmpty from './Empty'
 
-const { field } = i18n.transactions.table
+function getTransactionsTableHeaderItems() {
+  const field = i18n('transactions.table.field') || {}
 
-const transactionsTableHeaderItems = [
-  { name: 'amount', colWidth: 'col--2-4' },
-  { name: 'timestamp', colWidth: 'col--2-4' },
-  { name: 'address', colWidth: 'col--4-8' },
-  { name: 'status', colWidth: 'col--2-4' },
-].map(item => ({ ...item, title: field[item.name] }))
+  return [
+    { name: 'amount', colWidth: 'col--2-4' },
+    { name: 'timestamp', colWidth: 'col--2-4' },
+    { name: 'address', colWidth: 'col--4-8' },
+    { name: 'status', colWidth: 'col--2-4' },
+  ].map(item => ({ ...item, title: field[item.name] }))
+}
 
 function TransactionsTable(props) {
   const {
@@ -46,7 +46,7 @@ function TransactionsTable(props) {
   return (
     <JTable name={`transactions ${isFilterOpen ? 'table--transactions-filter' : ''}`}>
       <JTable.Header
-        items={transactionsTableHeaderItems}
+        items={getTransactionsTableHeaderItems()}
         onClick={sortTransactions}
         sortField={sortField}
         sortDirection={sortDirection}

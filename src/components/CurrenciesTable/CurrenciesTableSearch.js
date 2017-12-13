@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import Search from 'components/Search'
 
 function CurrenciesTableSearch({ searchCurrencies, searchQuery }) {
@@ -12,7 +10,7 @@ function CurrenciesTableSearch({ searchCurrencies, searchQuery }) {
         search={searchCurrencies}
         name='currencies'
         query={searchQuery}
-        placeholder={i18n.modals.digitalAssetManager.searchField}
+        placeholder={i18n('modals.digitalAssetManager.searchField')}
       />
     </div>
   )

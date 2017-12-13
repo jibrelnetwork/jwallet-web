@@ -4,6 +4,7 @@ const storageKeys = {
   digitalAssets: 'JWALLET-DIGITAL-ASSETS',
   digitalAssetsBalances: 'JWALLET-DIGITAL-ASSETS-BALANCES',
   digitalAssetsCurrent: 'JWALLET-DIGITAL-ASSETS-CURRENT',
+  i18n: 'JWALLET-I18N',
   keystore: 'JWALLET-KEYSTORE',
   keystoreCurrentAccount: 'JWALLET-KEYSTORE-CURRENT-ACCOUNT',
   keystoreAddressesFromMnemonic: 'JWALLET-KEYSTORE-ADDRESSES-FROM-MNEMONIC',

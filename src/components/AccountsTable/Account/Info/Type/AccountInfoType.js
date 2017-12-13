@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JIcon from 'components/base/JIcon'
 
-const { accountType } = i18n.modals.keystore.table
-
 function AccountInfoType({ type, isReadOnly }) {
+  const accountType = i18n('modals.keystore.table.accountType') || {}
   const i18nType = accountType[type]
   const i18nReadOnly = accountType.readOnly
   const typeWithStatus = isReadOnly ? `${i18nType}, ${i18nReadOnly}` : i18nType

@@ -1,7 +1,5 @@
 import { connect } from 'react-redux'
 
-import i18n from 'i18n/en'
-
 import {
   closeCustomTokenModal,
   setCustomTokenAddress,
@@ -14,13 +12,11 @@ import { addCustomToken } from 'routes/JWallet/modules/currencies'
 
 import CustomTokenModal from './CustomTokenModal'
 
-const { title, buttonTitle } = i18n.modals.addCustomToken
-
-const mapStateToProps = state => ({
-  ...state.customTokenModal,
-  buttonTitle,
-  modalTitle: title,
+const mapStateToProps = ({ customTokenModal }) => ({
+  ...customTokenModal,
   modalName: 'custom-token',
+  modalTitle: i18n('modals.addCustomToken.title'),
+  buttonTitle: i18n('modals.addCustomToken.buttonTitle'),
 })
 
 const mapDispatchToProps = {

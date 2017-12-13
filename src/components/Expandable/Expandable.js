@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JIcon from 'components/base/JIcon'
 
 class Expandable extends Component {
@@ -27,7 +25,8 @@ class Expandable extends Component {
     return (
       <div className='expandable__title-wrap'>
         <div className='expandable__title' onClick={this.toggleOpen}>
-          <JIcon className='expandable__icon' name={expandableIconName} small />{title}
+          <JIcon className='expandable__icon' name={expandableIconName} small />
+          {title || i18n('modals.sendFunds.customOptionsTitle')}
         </div>
       </div>
     )
@@ -42,12 +41,13 @@ class Expandable extends Component {
 
 Expandable.propTypes = {
   children: PropTypes.node.isRequired,
+  /* optional */
   title: PropTypes.string,
   iconName: PropTypes.string,
 }
 
 Expandable.defaultProps = {
-  title: i18n.modals.sendFunds.customOptionsTitle,
+  title: null,
   iconName: 'small-add',
 }
 

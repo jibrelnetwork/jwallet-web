@@ -1,0 +1,15 @@
+import at from 'lodash/at'
+
+import storage from 'services/storage'
+
+import en from './en'
+import ko from './ko'
+
+const i18nMap = { en, ko }
+
+export default function i18n() {
+  const i18nLanguage = storage.getI18n()
+  const i18nLibrary = i18nMap[i18nLanguage] || en
+
+  return (path => at(i18nLibrary, path)[0] || '')
+}

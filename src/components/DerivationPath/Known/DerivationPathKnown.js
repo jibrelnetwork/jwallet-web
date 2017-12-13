@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { knownDerivationPaths } from 'utils/knownDerivationPaths'
+import { getKnownDerivationPaths } from 'utils/knownDerivationPaths'
 
 import JRadio from 'components/base/JRadio'
 
@@ -11,7 +11,7 @@ function DerivationPathKnown(props) {
 
   return (
     <div className={`derivation-path__known ${disabledClassName}`}>
-      {knownDerivationPaths.map((item, index) => {
+      {getKnownDerivationPaths().map((item, index) => {
         const { path, description } = item
         const isActive = (!disabled && (knownDerivationPath === path))
         const setPath = disabled ? null : setKnownDerivationPath(path)

@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Keystore from 'jwallet-web-keystore'
 
-import i18n from 'i18n/en'
 import config from 'config'
 
 import { JIcon, JTextInput } from 'components/base'
-
-const { placeholder } = i18n.modals.createAccount
 
 class PasswordField extends Component {
   constructor(props) {
@@ -48,12 +45,13 @@ class PasswordField extends Component {
 
   renderPasswordInput = () => {
     const { password, passwordPlaceholder, passwordError } = this.props
+    const placeholderPassword = i18n('modals.createAccount.placeholder.password')
 
     return (
       <JTextInput
         onValueChange={this.onPasswordChange}
         name='password'
-        placeholder={passwordPlaceholder}
+        placeholder={passwordPlaceholder || placeholderPassword}
         value={password}
         errorMessage={passwordError}
         editable
@@ -65,12 +63,13 @@ class PasswordField extends Component {
 
   renderPasswordConfirmInput = () => {
     const { passwordConfirm, passwordConfirmPlaceholder, passwordConfirmError } = this.props
+    const placeholderPasswordConfirm = i18n('modals.createAccount.placeholder.passwordConfirm')
 
     return (
       <JTextInput
         onValueChange={this.onPasswordConfirmChange}
         name='password-confirm'
-        placeholder={passwordConfirmPlaceholder}
+        placeholder={passwordConfirmPlaceholder || placeholderPasswordConfirm}
         value={passwordConfirm}
         errorMessage={passwordConfirmError}
         editable
@@ -175,11 +174,11 @@ PasswordField.propTypes = {
 
 PasswordField.defaultProps = {
   onPasswordConfirmChange: () => {},
-  passwordPlaceholder: placeholder.password,
-  passwordConfirmPlaceholder: placeholder.passwordConfirm,
   passwordConfirm: '',
   passwordError: '',
   passwordConfirmError: '',
+  passwordPlaceholder: null,
+  passwordConfirmPlaceholder: null,
   withConfirm: false,
 }
 

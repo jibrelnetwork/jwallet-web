@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { JIcon, JPopover } from 'components/base'
 
-const { transactionManagerAction } = i18n.transactions
-
 function TransactionsManagerPopover({ onClickOutside, sendFunds, receiveFunds, filter, remove }) {
+  const transactionManagerAction = i18n('transactions.transactionManagerAction') || {}
+
   const body = (
     <div className='transactions-manager-popover'>
       <div className='popover__item' onClick={sendFunds}>

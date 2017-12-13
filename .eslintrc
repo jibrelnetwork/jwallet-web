@@ -11,7 +11,8 @@
   },
   "globals": {
     "__DEV__": false,
-    "__PROD__": false
+    "__PROD__": false,
+    "i18n": false
   },
   "parserOptions": {
     "ecmaVersion": 6,

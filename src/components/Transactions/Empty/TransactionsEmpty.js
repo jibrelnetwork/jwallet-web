@@ -1,16 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
-const {
-  noActiveDigitalAsset,
-  customNetwork,
-  blockExplorerError,
-  blockExplorerLink,
-} = i18n.transactions.table
-
 function TransactionsEmpty(props) {
+  const {
+    noActiveDigitalAsset,
+    customNetwork,
+    blockExplorerError,
+    blockExplorerLink,
+  } = i18n('transactions.table') || {}
+
   const { accountAddress, emptyImageSrc, isCustomNetwork, isBlockExplorerError } = props
   const emptyClassNameModifier = isBlockExplorerError ? 'etherscan-error' : 'custom-network'
 

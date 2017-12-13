@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JTextInput from 'components/base/JTextInput'
 
 function DerivationPathCustom(props) {
@@ -12,7 +10,7 @@ function DerivationPathCustom(props) {
     <JTextInput
       onValueChange={setCustomDerivationPath}
       name='custom-derivation--path'
-      placeholder={i18n.modals.derivationPath.placeholder.customDerivationPath}
+      placeholder={i18n('modals.derivationPath.placeholder.customDerivationPath')}
       value={customDerivationPath}
       errorMessage={errorMessage}
       editable

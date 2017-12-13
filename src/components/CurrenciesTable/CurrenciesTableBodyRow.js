@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JCheckbox from 'components/base/JCheckbox'
-
-const { licensedValue, transferValue } = i18n.modals.digitalAssetManager.table
 
 function CurrenciesTableBodyRow(props) {
   const {
@@ -19,6 +15,8 @@ function CurrenciesTableBodyRow(props) {
     isActive,
   } = props
 
+  const licensedValue = i18n('modals.digitalAssetManager.table.licensedValue') || {}
+  const transferValue = i18n('modals.digitalAssetManager.table.transferValue') || {}
   const itemClassName = 'table-body-item table-body-item'
   const licensed = isLicensed ? licensedValue.yes : licensedValue.no
   const isAuthorized = !isLicensed || isAuthRequired

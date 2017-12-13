@@ -221,7 +221,7 @@ module.exports = {
       },
       buttonTitle: 'Set derivation path',
     },
-    backupKeysore: {
+    backupKeystore: {
       title: 'Backup Keystore',
       buttonTitle: 'Save as TXT',
       placeholder: {

@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { DerivationPath, Expandable, PasswordField, SubmitModal } from 'components'
 import JTextInput from 'components/base/JTextInput'
 
 import { IMPORT_KEYSTORE_ACCOUNT_STEPS } from 'routes/JWallet/modules/modals/importKeystoreAccount'
-
-const { placeholder } = i18n.modals.importAccount
 
 class ImportKeystoreAccountModal extends SubmitModal {
   componentWillMount() {
@@ -35,7 +31,7 @@ class ImportKeystoreAccountModal extends SubmitModal {
       <JTextInput
         onValueChange={setImportKeystoreAccountData}
         name='import-keystore-account-data'
-        placeholder={placeholder.data}
+        placeholder={i18n('modals.importAccount.placeholder.data')}
         value={data}
         errorMessage={invalidFields.data}
         editable={editable}
@@ -69,7 +65,7 @@ class ImportKeystoreAccountModal extends SubmitModal {
         <JTextInput
           onValueChange={setImportKeystoreAccountPassword}
           name='import-keystore-account-password'
-          placeholder={placeholder.password}
+          placeholder={i18n('modals.importAccount.placeholder.password')}
           value={password}
           errorMessage={invalidFields.password}
           editable={!isCreating}
