@@ -137,7 +137,7 @@ module.exports = {
           notMatched: '니모닉이 일치하지 않습니다',
         },
         password: {
-          incorrect: '비밀번호 불일치',
+          invalid: '비밀번호 불일치',
         },
         passwordConfirm: {
           notMatched: '비밀번호가 일치하지 않습니다',
