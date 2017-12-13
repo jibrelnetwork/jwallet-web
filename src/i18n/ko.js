@@ -25,7 +25,7 @@ module.exports = {
   modals: {
     sendFunds: {
       title: '출금',
-      customOptionsTitle: '사용자 정의 옵션',
+      customGasTitle: '사용자 정의 옵션',
       alert: {
         internalError: '거래 실패. 다시 시도해주세요',
       },
@@ -309,6 +309,7 @@ module.exports = {
       buttonTitle: '알겠습니다',
       message: 'jWallet 알파 버전은 안정적이지 않습니다. 조심히 사용해주세요.',
     },
+    customOptionsTitle: '사용자 정의 옵션',
   },
   digitalAssets: {
     title: '디지털 자산',

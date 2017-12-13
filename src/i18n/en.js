@@ -25,7 +25,7 @@ module.exports = {
   modals: {
     sendFunds: {
       title: 'Send Funds',
-      customOptionsTitle: 'Custom options',
+      customGasTitle: 'Custom Gas',
       alert: {
         internalError: 'Transaction failed. Please try again',
       },
@@ -33,8 +33,8 @@ module.exports = {
         address: 'Recipient address',
         account: 'Account',
         amount: 'Amount',
-        gas: 'Gas',
-        gasPrice: 'Gas price (wei)',
+        gas: 'Limit (21,000 Gas)',
+        gasPrice: 'Price (1 Gwei)',
       },
       error: {
         password: {
@@ -309,6 +309,7 @@ module.exports = {
       buttonTitle: 'Got it!',
       message: 'jWallet is still in alpha and not production ready. Please exercise caution and avoid transacting large values.',
     },
+    customOptionsTitle: 'Custom options',
   },
   digitalAssets: {
     title: 'Digital Assets',
