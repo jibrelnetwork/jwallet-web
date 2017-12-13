@@ -1,11 +1,7 @@
-import i18n from 'i18n/en'
-
-function getDefaultNetworks() {
-  const { main, ropsten } = i18n.networkManager.knownNetworkTitle
-
+export default function getDefaultNetworks() {
   return [{
     id: 1,
-    title: main,
+    title: i18n('networkManager.knownNetworkTitle.main'),
     rpcaddr: 'ns3089219.ip-37-59-55.eu',
     rpcport: '10001', // parity node
     // rpcaddr: 'node.jwallet.network',
@@ -28,7 +24,7 @@ function getDefaultNetworks() {
     isCustom: false,
   }, */ {
     id: 3,
-    title: ropsten,
+    title: i18n('networkManager.knownNetworkTitle.ropsten'),
     rpcaddr: 'ns3089219.ip-37-59-55.eu',
     rpcport: '10003', // geth node
     ssl: true,
@@ -54,5 +50,3 @@ function getDefaultNetworks() {
     isCustom: false,
   }]
 }
-
-export default getDefaultNetworks

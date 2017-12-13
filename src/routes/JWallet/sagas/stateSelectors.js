@@ -2,17 +2,15 @@ import find from 'lodash/find'
 
 import isMnemonicType from 'utils/isMnemonicType'
 
-export function selectDigitalAssets(state) {
-  return state.currencies
+export function selectDigitalAssets({ currencies }) {
+  return currencies
 }
 
-export function selectCurrentDigitalAsset(state) {
-  const { items, currentAddress } = state.currencies
-
-  return find(items, { address: currentAddress })
+export function selectCurrentDigitalAsset({ currencies }) {
+  return find(currencies.items, { address: currencies.currentAddress })
 }
 
-export function selectSendFundsModal(state) {
+export function selectSendFundsModal({ sendFundsModal }) {
   const {
     onClose,
     currentAccount,
@@ -22,42 +20,40 @@ export function selectSendFundsModal(state) {
     symbol,
     gas,
     gasPrice,
-  } = state.sendFundsModal
+  } = sendFundsModal
 
   const accountId = currentAccount.id
 
   return { onClose, password, address, accountId, amount, symbol, gas, gasPrice }
 }
 
-export function selectCurrentKeystoreAddress(state) {
-  const { currentAccount, addressesFromMnemonic } = state.keystore
+export function selectCurrentKeystoreAddress({ keystore }) {
+  const { currentAccount, addressesFromMnemonic } = keystore
   const { type, address, addressIndex } = currentAccount
 
   return isMnemonicType(type) ? addressesFromMnemonic.items[addressIndex] : address
 }
 
-export function selectNetworks(state) {
-  return state.networks
+export function selectNetworks({ networks }) {
+  return networks
 }
 
-export function selectCurrentNetworkName(state) {
-  const { items, currentNetworkIndex } = state.networks
-
-  return items[currentNetworkIndex].title
+export function selectCurrentNetworkId({ networks }) {
+  return `${networks.items[networks.currentNetworkIndex].id}`
 }
 
-export function selectKeystoreData(state) {
-  return state.keystore
+export function selectKeystoreData({ keystore }) {
+  return keystore
 }
 
-export function selectCurrentAccountId(state) {
-  return state.keystore.currentAccount.id
+export function selectCurrentAccountId({ keystore }) {
+  return keystore.currentAccount.id
 }
 
-export function selectTransactions(state) {
-  return state.transactions
+export function selectTransactions({ transactions }) {
+  return transactions
 }
 
-export function selectClearKeystoreData(state) {
-  return state.clearKeystoreModal
+export function selectClearKeystoreData({ clearKeystoreModal }) {
+  return clearKeystoreModal
 }

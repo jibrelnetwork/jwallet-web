@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JIcon from 'components/base/JIcon'
 
 function CurrenciesManager({ iconName, className, onClick }) {
@@ -10,7 +8,7 @@ function CurrenciesManager({ iconName, className, onClick }) {
     <JIcon
       name={iconName}
       className={className}
-      title={i18n.digitalAssets.iconTitle}
+      title={i18n('digitalAssets.iconTitle')}
       onClick={onClick}
     />
   )

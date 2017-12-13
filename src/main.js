@@ -2,8 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { syncHistoryWithStore } from 'react-router-redux'
-import configureStore from './store/configureStore'
-import router from './routes/index'
+
+import i18n from 'i18n'
+import router from 'routes/index'
+import configureStore from 'store/configureStore'
+
 import AppContainer from './AppContainer'
 
 // ========================================================
@@ -70,6 +73,13 @@ if (__DEV__) {
       })
     })
   }
+}
+
+// ========================================================
+// i18n
+// ========================================================
+if (typeof window !== 'undefined') {
+  window.i18n = i18n()
 }
 
 // ========================================================

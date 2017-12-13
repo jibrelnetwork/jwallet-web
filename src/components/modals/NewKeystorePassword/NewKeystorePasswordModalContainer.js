@@ -11,12 +11,12 @@ import { setKeystorePassword } from 'routes/JWallet/modules/keystore'
 
 import NewKeystorePasswordModal from './NewKeystorePasswordModal'
 
-const mapStateToProps = state => ({
-  ...state.newKeystorePasswordModal,
-  modalName: 'new-keystore-password',
-  modalTitle: 'New Keystore Password',
-  buttonTitle: 'Confirm',
+const mapStateToProps = ({ newKeystorePasswordModal }) => ({
+  ...newKeystorePasswordModal,
   iconName: '',
+  modalName: 'new-keystore-password',
+  modalTitle: i18n('modals.changePassword.title'),
+  buttonTitle: i18n('modals.changePassword.buttonTitle'),
 })
 
 const mapDispatchToProps = {

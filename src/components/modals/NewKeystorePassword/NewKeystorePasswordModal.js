@@ -21,7 +21,7 @@ class NewKeystorePasswordModal extends SubmitModal {
       <JTextInput
         onValueChange={setOldKeystorePassword}
         name='keystore-password'
-        placeholder='Current password'
+        placeholder={i18n('modals.changePassword.placeholder.password')}
         value={oldPassword}
         errorMessage={invalidFields.oldPassword}
         editable
@@ -37,7 +37,7 @@ class NewKeystorePasswordModal extends SubmitModal {
       <PasswordField
         onPasswordChange={setNewKeystorePassword}
         password={newPassword}
-        placeholder='New password'
+        placeholder={i18n('modals.changePassword.placeholder.newPassword')}
         passwordError={invalidFields.newPassword}
       />
     )

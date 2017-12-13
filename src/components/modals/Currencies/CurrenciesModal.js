@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { JIcon, JModal } from 'components/base'
 import CurrenciesTable from 'components/CurrenciesTable'
 
@@ -43,7 +41,7 @@ class CurrenciesModal extends JModal {
     return (
       <div className='currencies-modal-footer' onClick={this.openCustomTokenModal}>
         <JIcon name='small-add' className='currencies-modal-footer__icon' small />
-        {i18n.modals.digitalAssetManager.addCustomTokenTitle}
+        {i18n('modals.digitalAssetManager.addCustomTokenTitle')}
       </div>
     )
   }

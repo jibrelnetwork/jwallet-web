@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import SubmitModal from 'components/SubmitModal'
 
 class BackupKeystoreModal extends SubmitModal {
@@ -14,7 +12,7 @@ class BackupKeystoreModal extends SubmitModal {
   }
 
   setIncorrectPassword = () => {
-    const errorMessage = i18n.modals.backupKeysore.error.password.invalid
+    const errorMessage = i18n('modals.backupKeystore.error.password.invalid')
 
     this.props.setBackupKeystoreInvalidField('password', errorMessage)
     this.shake()

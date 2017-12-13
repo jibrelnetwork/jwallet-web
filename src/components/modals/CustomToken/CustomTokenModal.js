@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import SubmitModal from 'components/SubmitModal'
 import JTextInput from 'components/base/JTextInput'
-
-const { placeholder } = i18n.modals.addCustomToken
 
 class CustomTokenModal extends SubmitModal {
   renderModalBody = () => {
@@ -27,22 +23,17 @@ class CustomTokenModal extends SubmitModal {
 
     return (
       <div>
-        {Object.keys(customTokenFieldsMap).map((field) => {
-          const handler = customTokenFieldsMap[field]
-          const i18nPlaceholder = placeholder[field]
-
-          return (
-            <JTextInput
-              key={field}
-              onValueChange={handler}
-              name={`custom-token-${field}`}
-              placeholder={i18nPlaceholder}
-              value={this.props[field]}
-              errorMessage={invalidFields[field]}
-              editable
-            />
-          )
-        })}
+        {Object.keys(customTokenFieldsMap).map(field => (
+          <JTextInput
+            key={field}
+            onValueChange={customTokenFieldsMap[field]}
+            name={`custom-token-${field}`}
+            placeholder={i18n(`modals.addCustomToken.placeholder.${field}`)}
+            value={this.props[field]}
+            errorMessage={invalidFields[field]}
+            editable
+          />
+        ))}
       </div>
     )
   }

@@ -1,7 +1,5 @@
-import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
-
-import i18n from 'i18n/en'
+import { connect } from 'react-redux'
 
 import {
   closeReceiveFundsModal,
@@ -10,22 +8,17 @@ import {
 
 import ReceiveFundsModal from './ReceiveFundsModal'
 
-const { title, buttonTitle } = i18n.modals.receiveFunds
-
-const mapStateToProps = (state) => {
-  const { receiveFundsModal, keystore } = state
+const mapStateToProps = ({ receiveFundsModal, keystore }) => {
   const { currentAccount, addressesFromMnemonic } = keystore
   const { address, addressIndex } = currentAccount
 
-  const currentAddress = isEmpty(address) ? addressesFromMnemonic.items[addressIndex] : address
-
   return {
     ...receiveFundsModal,
-    currentAddress,
-    buttonTitle,
     modalName: 'receive-funds',
-    modalTitle: title,
     iconName: 'qr-code',
+    modalTitle: i18n('modals.receiveFunds.title'),
+    buttonTitle: i18n('modals.receiveFunds.buttonTitle'),
+    currentAddress: isEmpty(address) ? addressesFromMnemonic.items[addressIndex] : address,
   }
 }
 

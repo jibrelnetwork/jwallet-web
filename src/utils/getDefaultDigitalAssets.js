@@ -12,12 +12,12 @@ const ethereum = {
 }
 
 const networksTokensMap = {
-  'Main Ethereum Network': 'main',
-  'Ropsten Test Network': 'ropsten',
+  '1': 'main',
+  '3': 'ropsten',
 }
 
-export default function getDefaultDigitalAssets(networkName) {
-  const tokensName = networksTokensMap[networkName]
+export default function getDefaultDigitalAssets(networkId) {
+  const tokensName = networksTokensMap[networkId]
   const defaultTokens = tokens[tokensName] || []
 
   return [ethereum, ...defaultTokens]

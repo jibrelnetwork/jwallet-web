@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { JIcon, JTextInput } from 'components/base'
-
-const { copyTitle } = i18n.modals.receiveFunds
 
 class CopyableField extends Component {
   constructor(props) {
@@ -16,6 +12,7 @@ class CopyableField extends Component {
   render() {
     const { value, placeholder } = this.props
     const name = placeholder.toLowerCase().replace(' ', '-')
+    const copyTitle = i18n('modals.receiveFunds.copyTitle') || {}
 
     return (
       <div className='copyable-field'>

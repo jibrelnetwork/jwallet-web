@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import JModal from 'components/base/JModal'
 import AccountsTable from 'components/AccountsTable'
 import KeystoreModalFooter from './Footer'
 
 class KeystoreModal extends JModal {
   renderHeader = () => {
-    return <div className='modal-title'>{i18n.modals.keystore.title}</div>
+    return <div className='modal-title'>{i18n('modals.keystore.title')}</div>
   }
 
   renderBody = () => {

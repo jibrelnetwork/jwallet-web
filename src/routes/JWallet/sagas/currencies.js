@@ -3,7 +3,6 @@ import { delay } from 'redux-saga'
 import { find, findIndex, isEmpty } from 'lodash'
 import Keystore from 'jwallet-web-keystore'
 
-import i18n from 'i18n/en'
 import config from 'config'
 import { storage, web3 } from 'services'
 import { InvalidFieldError, getDefaultDigitalAssets, searchItems, sortItems } from 'utils'
@@ -11,7 +10,7 @@ import { InvalidFieldError, getDefaultDigitalAssets, searchItems, sortItems } fr
 import {
   selectDigitalAssets,
   selectCurrentKeystoreAddress,
-  selectCurrentNetworkName,
+  selectCurrentNetworkId,
 } from './stateSelectors'
 
 import {
@@ -36,22 +35,21 @@ import {
 
 import { TRANSACTIONS_GET } from '../modules/transactions'
 
-const { addCustomToken } = i18n.modals
 const digitalAssetsSearchFields = ['symbol', 'name']
 let isGetBalancesLoopLaunched = 0
 
 function* onGetDigitalAssets() {
-  const networkName = yield select(selectCurrentNetworkName)
-  const defaultDigitalAssets = getDefaultDigitalAssets(networkName)
+  const networkId = yield select(selectCurrentNetworkId)
+  const defaultDigitalAssets = getDefaultDigitalAssets(networkId)
 
   let storageDigitalAssets = []
   let balances = {}
   let currentAddress = null
 
   try {
-    const digitalAssetsFromStorage = storage.getDigitalAssets(networkName) || '[]'
-    const balancesFromStorage = storage.getDigitalAssetsBalances(networkName) || '{}'
-    currentAddress = storage.getDigitalAssetsCurrent(networkName)
+    const digitalAssetsFromStorage = storage.getDigitalAssets(networkId) || '[]'
+    const balancesFromStorage = storage.getDigitalAssetsBalances(networkId) || '{}'
+    currentAddress = storage.getDigitalAssetsCurrent(networkId)
 
     storageDigitalAssets = JSON.parse(digitalAssetsFromStorage)
     balances = JSON.parse(balancesFromStorage)
@@ -78,9 +76,9 @@ function* onGetDigitalAssets() {
 }
 
 function* onSetDigitalAssets({ items }) {
-  const networkName = yield select(selectCurrentNetworkName)
+  const networkId = yield select(selectCurrentNetworkId)
 
-  storage.setDigitalAssets(JSON.stringify(items), networkName)
+  storage.setDigitalAssets(JSON.stringify(items), networkId)
 }
 
 function* onToggleDigitalAsset({ address }) {
@@ -111,9 +109,9 @@ function* onToggleDigitalAsset({ address }) {
 }
 
 function* onSetCurrentDigitalAsset({ currentAddress }) {
-  const networkName = yield select(selectCurrentNetworkName)
+  const networkId = yield select(selectCurrentNetworkId)
 
-  storage.setDigitalAssetsCurrent(currentAddress, networkName)
+  storage.setDigitalAssetsCurrent(currentAddress, networkId)
 
   yield getTransactions()
 }
@@ -162,7 +160,7 @@ function checkCustomTokenData({ address, name, symbol, decimals }, items) {
 
 function checkCustomTokenAddress(address, items) {
   if (!Keystore.isHexStringValid(address, 40)) {
-    throw (new InvalidFieldError('address', addCustomToken.error.address.invalid))
+    throw (new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.invalid')))
   }
 
   checkContractAddressUniq(address, items)
@@ -171,20 +169,20 @@ function checkCustomTokenAddress(address, items) {
 function checkContractAddressUniq(address, items) {
   items.forEach((token) => {
     if (address.toLowerCase() === token.address.toLowerCase()) {
-      throw (new InvalidFieldError('address', addCustomToken.error.address.exists))
+      throw (new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.exists')))
     }
   })
 }
 
 function checkCustomTokenName(name) {
   if (/[^a-zA-Z ]/.test(name) || (name.length < 3) || (name.length > 100)) {
-    throw (new InvalidFieldError('name', addCustomToken.error.name.invalid))
+    throw (new InvalidFieldError('name', i18n('modals.addCustomToken.error.name.invalid')))
   }
 }
 
 function checkCustomTokenSymbol(symbol) {
   if (/[^a-zA-Z]/.test(symbol) || (symbol.length < 3) || (symbol.length > 5)) {
-    throw (new InvalidFieldError('symbol', addCustomToken.error.symbol.invalid))
+    throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.invalid')))
   }
 }
 
@@ -192,7 +190,7 @@ function checkCustomTokenDecimals(decimals) {
   const decimalsInt = parseInt(decimals, 10) || 0
 
   if ((decimalsInt <= 0) || (decimalsInt > 18)) {
-    throw (new InvalidFieldError('decimals', addCustomToken.error.decimals.invalid))
+    throw (new InvalidFieldError('decimals', i18n('modals.addCustomToken.error.decimals.invalid')))
   }
 }
 
@@ -295,9 +293,9 @@ function getTokensBalances(items, owner) {
 }
 
 function* setBalancesToStorage(action) {
-  const networkName = yield select(selectCurrentNetworkName)
+  const networkId = yield select(selectCurrentNetworkId)
 
-  storage.setDigitalAssetsBalances(JSON.stringify(action.balances || {}), networkName)
+  storage.setDigitalAssetsBalances(JSON.stringify(action.balances || {}), networkId)
 }
 
 function* setBalances(balances) {

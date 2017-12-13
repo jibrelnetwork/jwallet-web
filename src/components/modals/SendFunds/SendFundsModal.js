@@ -1,12 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import { Expandable, SubmitModal, SymbolPicker } from 'components'
 import { JPicker, JTextInput } from 'components/base'
-
-const { placeholder } = i18n.modals.sendFunds
 
 class SendFundsModal extends SubmitModal {
   renderModalBody = () => {
@@ -27,7 +23,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsAddress}
         name='recipient-address'
-        placeholder={placeholder.address}
+        placeholder={i18n('modals.sendFunds.placeholder.address')}
         value={address}
         errorMessage={invalidFields.address}
         editable
@@ -42,7 +38,7 @@ class SendFundsModal extends SubmitModal {
       <JPicker
         onValueChange={this.setSendFundsAccountId}
         name='account-id'
-        placeholder={placeholder.account}
+        placeholder={i18n('modals.sendFunds.placeholder.account')}
         selectedValue={currentAccount.accountName}
         errorMessage={invalidFields.account}
         enabled={!!accounts.length}
@@ -70,7 +66,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsAmount}
         name='amount'
-        placeholder={placeholder.amount}
+        placeholder={i18n('modals.sendFunds.placeholder.amount')}
         value={amount}
         errorMessage={invalidFields.amount}
         editable
@@ -109,7 +105,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsGas}
         name='gas'
-        placeholder={placeholder.gas}
+        placeholder={i18n('modals.sendFunds.placeholder.gas')}
         value={gas}
         errorMessage={invalidFields.gas}
         editable
@@ -124,7 +120,7 @@ class SendFundsModal extends SubmitModal {
       <JTextInput
         onValueChange={setSendFundsGasPrice}
         name='gas-price'
-        placeholder={placeholder.gasPrice}
+        placeholder={i18n('modals.sendFunds.placeholder.gasPrice')}
         value={gasPrice}
         errorMessage={invalidFields.gasPrice}
         editable

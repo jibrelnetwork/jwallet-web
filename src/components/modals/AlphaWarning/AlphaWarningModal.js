@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
-
 import SubmitModal from 'components/SubmitModal'
 
 class AlphaWarningModal extends SubmitModal {
@@ -10,9 +8,7 @@ class AlphaWarningModal extends SubmitModal {
     return (
       <div className='alpha-warning'>
         <div className='modal-image modal-image--warning' />
-        <div className='alpha-warning__message'>
-          {i18n.modals.alphaWarning.message}
-        </div>
+        <div className='alpha-warning__message'>{i18n('modals.alphaWarning.message')}</div>
       </div>
     )
   }

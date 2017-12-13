@@ -1,7 +1,6 @@
-import { put, takeEvery } from 'redux-saga/effects'
 import Keystore from 'jwallet-web-keystore'
+import { put, takeEvery } from 'redux-saga/effects'
 
-import i18n from 'i18n/en'
 import isMnemonicType from 'utils/isMnemonicType'
 import { fileSaver, keystore } from 'services'
 
@@ -28,8 +27,6 @@ import {
 } from '../modules/modals/newKeystoreAccount'
 
 import { KEYSTORE_CREATE_ACCOUNT } from '../modules/keystore'
-
-const { createAccount, importAccount } = i18n.modals
 
 function* onSetImportStep(action = {}) {
   const {
@@ -84,7 +81,7 @@ function* getImportDataType(data, isInitialized) {
     newAccountData.isReadOnly = true
     newAccountData.address = data
   } else {
-    return yield setImportInvalidField('data', importAccount.error.data.invalid)
+    return yield setImportInvalidField('data', i18n('modals.importAccount.error.data.invalid'))
   }
 
   const isMnemonic = (isMnemonicType(newAccountData.type) && (!newAccountData.isReadOnly))
@@ -138,7 +135,7 @@ function* onImportSuccess(isInitialized) {
 }
 
 function* onImportFail() {
-  yield setImportInvalidField('password', importAccount.error.password.invalid)
+  yield setImportInvalidField('password', i18n('modals.importAccount.error.password.invalid'))
 }
 
 function* checkImportPasswordConfirm(password, passwordConfirm) {
@@ -146,7 +143,10 @@ function* checkImportPasswordConfirm(password, passwordConfirm) {
   const isPasswordMatch = (password === passwordConfirm)
 
   if (!isPasswordMatch) {
-    yield setImportInvalidField('passwordConfirm', importAccount.error.passwordConfirm.notMatched)
+    yield setImportInvalidField(
+      'passwordConfirm',
+      i18n('modals.importAccount.error.passwordConfirm.notMatched'),
+    )
   }
 
   return (isPasswordValid && isPasswordMatch)
@@ -178,11 +178,11 @@ function* resetImportModal(onClose, isInitialized) {
 }
 
 function getImportButtonTitle(nextStep, isInitialized) {
-  return importAccount.buttonTitles[nextStep][isInitialized ? 'yes' : 'no']
+  return i18n(`modals.importAccount.buttonTitles.${nextStep}.${isInitialized ? 'yes' : 'no'}`)
 }
 
 function getImportAlert(nextStep, isInitialized) {
-  return importAccount.alerts[nextStep][isInitialized ? 'yes' : 'no']
+  return i18n(`modals.importAccount.alerts.${nextStep}.${isInitialized ? 'yes' : 'no'}`)
 }
 
 function getImportImageName(nextStep) {
@@ -280,7 +280,7 @@ function* onCreateSuccess(onClose) {
 }
 
 function* onCreateFail() {
-  yield setNewInvalidField('password', createAccount.error.password.invalid)
+  yield setNewInvalidField('password', i18n('modals.createAccount.error.password.invalid'))
 }
 
 function* resetNewModal(onClose) {
@@ -301,7 +301,10 @@ function* setNewValidField(fieldName, message) {
 
 function* checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized) {
   if (mnemonic !== mnemonicConfirm) {
-    yield setNewInvalidField('mnemonicConfirm', createAccount.error.mnemonicConfirm.notMatched)
+    yield setNewInvalidField(
+      'mnemonicConfirm',
+      i18n('modals.createAccount.error.mnemonicConfirm.notMatched'),
+    )
 
     return
   }
@@ -316,7 +319,10 @@ function* checkNewPasswordConfirm(password, passwordConfirm) {
   const isPasswordMatch = (password === passwordConfirm)
 
   if (!isPasswordMatch) {
-    yield setNewInvalidField('passwordConfirm', createAccount.error.passwordConfirm.notMatched)
+    yield setNewInvalidField(
+      'passwordConfirm',
+      i18n('modals.createAccount.error.passwordConfirm.notMatched'),
+    )
   } else {
     yield setNewValidField('passwordConfirm', '')
   }
@@ -325,11 +331,11 @@ function* checkNewPasswordConfirm(password, passwordConfirm) {
 }
 
 function getNewButtonTitle(nextStep) {
-  return createAccount.buttonTitles[nextStep]
+  return i18n(`modals.createAccount.buttonTitles.${nextStep}`)
 }
 
 function getNewAlert(nextStep, isInitialized) {
-  return createAccount.alerts[nextStep][isInitialized ? 'yes' : 'no']
+  return i18n(`modals.createAccount.alerts.${nextStep}.${isInitialized ? 'yes' : 'no'}`)
 }
 
 function getNewImageName(nextStep) {

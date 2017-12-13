@@ -3,15 +3,11 @@ import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import i18n from 'i18n/en'
-
 import JTable from 'components/base/JTable'
 
 import CurrenciesTableSearch from './CurrenciesTableSearch'
 import CurrenciesTableBodyRow from './CurrenciesTableBodyRow'
 import CurrenciesTableEmpty from './Empty'
-
-const { field } = i18n.modals.digitalAssetManager.table
 
 function CurrenciesTable(props) {
   const {
@@ -27,6 +23,7 @@ function CurrenciesTable(props) {
     isActiveAll,
   } = props
 
+  const field = i18n('modals.digitalAssetManager.table.field') || {}
   const isItemsFound = item => (foundItemsSymbols.indexOf(item.symbol) > -1)
   const foundItems = (searchQuery && searchQuery.length) ? items.filter(isItemsFound) : items
   const isChecked = isActiveAll

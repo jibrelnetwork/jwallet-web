@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import i18n from 'i18n/en'
 import { isMemoryStorage } from 'services/storage'
-
 import { base, modals, JWalletHeader, Notification, Warning } from 'components'
 
 import 'styles/core.scss'
@@ -61,7 +59,7 @@ class CoreLayout extends Component {
 
   renderWarning = () => {
     const memoryWarning = !isMemoryStorage() ? null : (
-      <Warning text={i18n.warning.memoryStorage} color='red' index={0} isOpen />
+      <Warning text={i18n('warning.memoryStorage')} color='red' index={0} isOpen />
     )
 
     return <div>{memoryWarning}</div>
