@@ -1,4 +1,4 @@
-import { put, select, takeEvery } from 'redux-saga/effects'
+import { takeEvery } from 'redux-saga/effects'
 
 import storage from 'services/storage'
 
@@ -11,6 +11,6 @@ function onSetLanguage({ languageCode }) {
   window.location.href = `${origin}${pathname}?lang=${languageCode}`
 }
 
-export function* watchSetLanguage() {
+export function* watchSetLanguage() { // eslint-disable-line import/prefer-default-export
   yield takeEvery(LANGUAGE_SET, onSetLanguage)
 }

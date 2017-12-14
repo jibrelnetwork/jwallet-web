@@ -12,8 +12,8 @@ const ethereum = {
 }
 
 const networksTokensMap = {
-  '1': 'main',
-  '3': 'ropsten',
+  1: 'main',
+  3: 'ropsten',
 }
 
 export default function getDefaultDigitalAssets(networkId) {

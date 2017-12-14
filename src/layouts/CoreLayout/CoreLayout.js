@@ -164,8 +164,7 @@ class CoreLayout extends Component {
 
   fundsModal = modalName => () => this.props[`open${modalName}FundsModal`]()
   openCurrenciesModal = () => this.props.openCurrenciesModal(/* without param */)
-
-  setLanguage = (languageCode) => () => this.props.setLanguage(languageCode)
+  setLanguage = languageCode => () => this.props.setLanguage(languageCode)
 }
 
 CoreLayout.propTypes = {

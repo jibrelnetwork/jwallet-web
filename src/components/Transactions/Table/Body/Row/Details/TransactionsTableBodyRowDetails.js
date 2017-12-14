@@ -12,7 +12,7 @@ function TransactionsTableBodyRowDetails({
   contractAddress,
 }) {
   return (
-    <div className={classNames('transaction-details', {'transaction-details--active': isActive })}>
+    <div className={classNames('transaction-details', { 'transaction-details--active': isActive })}>
       <div className='transaction-detail'>
         <div className='transaction-detail__title'>
           {i18n('transactions.table.detailsField.txHash')}
