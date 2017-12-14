@@ -19,7 +19,7 @@
             <li
               class="github"
               data-aos="fade-down"
-              data-aos-duration="1000"
+              data-aos-duration="900"
               data-aos-delay="150"
             >
               <a href="https://github.com/jibrelnetwork/jwallet-web" target="_blank">
@@ -30,7 +30,7 @@
               class="popover-wrap language-popover"
               id="language-popover"
               data-aos="fade-down"
-              data-aos-duration="1100"
+              data-aos-duration="1000"
               data-aos-delay="150"
             >
               <div class="popover-title">
@@ -50,14 +50,16 @@
             </li>
             <li
               data-aos="fade-down"
-              data-aos-duration="1200"
+              data-aos-duration="1100"
               data-aos-delay="150"
             >
-              <a href="/jwallet" class="button">Try jWallet</a>
+              <a href="{{ header.jWalletLink }}" target="_blank" class="button">
+                {{ header.jWalletButtonTitle }}
+              </a>
             </li>
           </ul>
           <button class="menu-button">
-            <span>{{ header.buttonTitle }}</span>
+            <span>{{ header.menuButtonTitle }}</span>
           </button>
         </div>
       </div>

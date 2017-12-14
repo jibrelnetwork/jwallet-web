@@ -18,9 +18,6 @@ module.exports = {
     }, {
       href: '#apps',
       title: 'Apps',
-    }, {
-      href: '#faq',
-      title: 'FAQ',
     }],
     languages: [{
       href: '/',
@@ -29,6 +26,7 @@ module.exports = {
       href: '/ko.html',
       title: 'Korean',
     }],
+    jWalletLink: '/jwallet',
     jWalletButtonTitle: 'Try jWallet',
     menuButtonTitle: 'Menu',
   },
@@ -37,7 +35,7 @@ module.exports = {
       'A better way to manage',
       'your tokens',
     ],
-    subtitle: 'An institutional grade wallet to manage your cryptocurrencies',
+    subtitle: 'An institutional-grade wallet to manage your digital assets',
   },
   benefits: {
     items: [{
@@ -53,20 +51,20 @@ module.exports = {
   },
   features: {
     items: [{
-      title: 'Stocked and ready to go',
-      subtitle: 'The jWallet is preconfigured to be compatible with all Ethereum tokens and Ethereum itself, straight out of the box, no configuration necessary',
+      title: 'Stocked and Loaded',
+      subtitle: 'The jWallet is preconfigured to be compatible with the most popular ERC-20 tokens, straight out of the box, no configuration necessary',
       direction: 'left',
     }, {
-      title: 'Bring your own token',
-      subtitle: 'Want to add a token that isn\'t listed or public yet? Add your own, in under five seconds',
+      title: 'Bring Your Own Token (BYOT)',
+      subtitle: 'Want to add a token that isn\'t listed or public yet? You can easily add your own, using the import token feature',
       direction: 'right',
     }, {
-      title: 'Private keys never leave your device',
-      subtitle: 'All key, user and transaction data is stored locally on your device. Ensuring you take full advantage of the security and anonymity of crypto',
+      title: 'Private Keys Always Stay Private',
+      subtitle: 'With the jWallet, all sensitive data never leaves your device. Your private keys are never shared with anyone, including us!',
       direction: 'left',
     }, {
-      title: 'Institutional-grade tracking tools',
-      subtitle: 'See your transaction history, total value summaries and other traditional banking features you\'ve grown accustomed to',
+      title: 'Banking-grade Tracking Tools',
+      subtitle: 'See your transaction history, total value summaries and other traditional banking features you\'ve gotten used to',
       direction: 'right',
     }, {
       title: 'Multi-device support',
@@ -75,8 +73,8 @@ module.exports = {
     }],
   },
   apps: {
-    title: 'Choose a better way to manage your tokens',
-    subtitle: 'Future is already here – manage and monitor your tokens on the move',
+    title: 'The Next Generation of Token Wallets has Arrived',
+    subtitle: 'Manage all your digital assets easily and securely',
     items: [{
       title: 'Open Web App',
       href: '/jwallet',
@@ -89,37 +87,6 @@ module.exports = {
       title: 'Android Coming soon',
       href: '#',
       class: 'android button soon',
-    }],
-  },
-  faq: {
-    title: 'Frequently Asked Questions',
-    items: [{
-      question: 'What is jWallet?',
-      answer: [
-        'The jWallet makes it easy and safe to store and transfer value of any tokens – anywhere, anytime, anyplace.',
-      ],
-    }, {
-      question: 'What makes it safe?',
-      answer: [
-        'All the keys are encoded and stored only on user’s device. jWallet also has an open code, which allows community and developers to control the safety of all operations.',
-      ],
-    }, {
-      question: 'Who is behind jWallet?',
-      answer: [
-        'Jibrel Network. It is the platform which provides traditional financial assets, such as currencies, bonds, commodities and securities, as standard ERC-20 tokens on the ethereum blockchain.',
-        'We also create different kind of products on blockchain.',
-        'In the longer-term we aim to fully automate and decentralize consumer banking.',
-      ],
-    }, {
-      question: 'How do I get started?',
-      answer: [
-        'Follow instructions, they will not mislead. You are going to create your own key for managing your assets. After that you will find yourself in the system which is very similar to any kind of internet-banking.',
-      ],
-    }, {
-      question: 'Is it free?',
-      answer: [
-        'Yes, jWallet is free to use. And will always be.',
-      ],
     }],
   },
   footer: {

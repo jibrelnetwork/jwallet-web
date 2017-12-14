@@ -18,9 +18,6 @@ module.exports = {
     }, {
       href: '#apps',
       title: '앱',
-    }, {
-      href: '#faq',
-      title: 'FAQ',
     }],
     languages: [{
       href: '/',
@@ -29,6 +26,7 @@ module.exports = {
       href: '/ko.html',
       title: 'Korean',
     }],
+    jWalletLink: '/jwallet?lang=ko',
     jWalletButtonTitle: 'jWallet 사용하기',
     menuButtonTitle: 'Menu',
   },
@@ -79,7 +77,7 @@ module.exports = {
     subtitle: '미래의 기술들이 실현되고 있습니다. 이동 중에 토큰을 관리하고 모니터하세요',
     items: [{
       title: '웹 버전 사용하기',
-      href: '/jwallet',
+      href: '/jwallet?lang=ko',
       class: 'web button', // not translate
     }, {
       title: 'iOS 버전 출시 예정',
@@ -89,37 +87,6 @@ module.exports = {
       title: 'Android 버전 출시 예정',
       href: '#',
       class: 'android button soon', // not translate
-    }],
-  },
-  faq: {
-    title: 'FAQ',
-    items: [{
-      question: 'jWallet이란 무엇인가요?',
-      answer: [
-        'jWallet을 사용하면 언제 어디서나 모든 토큰을 쉽고 안전하게 저장 및 거래할 수 있습니다.',
-      ],
-    }, {
-      question: '왜 안전한가요?',
-      answer: [
-        '모든 키는 사용자의 디바이스에만 인코딩되어 저장됩니다. jWallet에는 오픈 코드가 있어 커뮤니티와 개발자가 모든 작업의 안전을 통제할 수 있습니다.',
-      ],
-    }, {
-      question: 'jWallet은 누구의 지원을 받나요?',
-      answer: [
-        '지브렐 네트워크를 기반으로 두고 있습니다. 지브렐 네트워크는 화폐, 채권, 원자재 및 증권과 같은 전통 금융 자산을 이더리움 블록체인에 적용시킨 ERC-20토큰입니다.',
-        '블록체인에 또 다른 종류의 제품도 만들고 있습니다.',
-        '장기적으로 소비자 금융의 완전한 자동화 및 탈중심화를 목표로 합니다.',
-      ],
-    }, {
-      question: '어떻게 사용하나요?',
-      answer: [
-        '사용 설명서를 따라 진행해주세요. 자산 관리를 위한 개인 키를 만들게 되며 그 후는 인터넷 뱅킹과 유사한 시스템인 것을 확인할 수 있습니다.',
-      ],
-    }, {
-      question: '무료인가요?',
-      answer: [
-        '예, jWallet은 무료로 사용이 가능하며 평생 무료입니다.',
-      ],
     }],
   },
   footer: {
