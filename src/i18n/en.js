@@ -124,8 +124,8 @@ module.exports = {
         yes: 'Please confirm that you have saved your passphrase by re-entering it below.',
         no: 'Please confirm that you have saved your passphrase by re-entering it below.',
       }, {
-        yes: 'Great! You’re all set! Remember to keep your passphrase safe, you can’t access your account with it!',
-        no: 'Great! You’re all set! Remember to keep your passphrase safe, you can’t access your account with it!',
+        yes: 'Great! You’re all set! Remember to keep your passphrase safe, you can’t access your account without it!',
+        no: 'Great! You’re all set! Remember to keep your passphrase safe, you can’t access your account without it!',
       }, {
         yes: 'Please enter your password',
         no: 'Please provide a secure password for your wallet.',
@@ -169,7 +169,7 @@ module.exports = {
         no: 'Please provide a secure password for your wallet.',
       }, {
         yes: 'Your key was imported successfully!',
-        no: 'Great! You’re all set! Remember to keep your password safe, you can’t access your account with it!',
+        no: 'Great! You’re all set! Remember to keep your password safe, you can’t access your account without it!',
       }],
       placeholder: {
         data: 'Address, private key, mnemonic, BIP32 xpub',
