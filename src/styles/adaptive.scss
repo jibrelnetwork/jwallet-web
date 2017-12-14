@@ -31,19 +31,6 @@
       padding: $tablet-header-v-padding $tablet-header-h-padding;
     }
 
-    .header__logo {
-      position: relative;
-    }
-
-    .logo {
-      width: 53px;
-      overflow: hidden;
-    }
-
-    .logo__image {
-      background-image: $logo1024;
-    }
-
     .header-menu {
       padding-left: 0;
 
@@ -252,11 +239,6 @@
   body {
     .header {
       padding: $mobile-header-padding;
-    }
-
-    .logo {
-      width: auto;
-      overflow: inherit;
     }
 
     .header-menu {

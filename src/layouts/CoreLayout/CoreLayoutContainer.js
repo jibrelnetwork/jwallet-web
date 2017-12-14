@@ -4,6 +4,8 @@ import { openCurrenciesModal } from 'routes/JWallet/modules/currencies'
 
 import { getKeystoreFromStorage, openKeystoreModal } from 'routes/JWallet/modules/keystore'
 
+import { setLanguage } from 'routes/JWallet/modules/i18n'
+
 import {
   getNetworksFromStorage,
   setCurrentNetwork,
@@ -52,6 +54,7 @@ const mapDispatchToProps = {
   openNewKeystoreAccountModal,
   openReceiveFundsModal,
   openSendFundsModal,
+  setLanguage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoreLayout)
