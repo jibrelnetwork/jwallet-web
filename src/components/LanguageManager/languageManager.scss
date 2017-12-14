@@ -1,0 +1,40 @@
+.language-manager {
+  position: relative;
+  margin-left: 40px;
+}
+
+.language-manager__title {
+  position: relative;
+  height: $header-height;
+  padding-right: 24px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.language-manager__head {
+  height: 100%;
+  line-height: $header-height;
+  color: $blue;
+  font-weight: 600;
+}
+
+.language-manager__icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -8px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .language-manager {
+    margin-left: 20px;
+  }
+
+  .language-manager__title {
+    padding-right: 20px;
+  }
+}

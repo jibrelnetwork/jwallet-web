@@ -9,3 +9,18 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+@media only screen and (max-width: 1024px) {
+  .header__logo {
+    position: relative;
+  }
+
+  .logo {
+    width: 53px;
+    overflow: hidden;
+  }
+
+  .logo__image {
+    background-image: $logo1024;
+  }
+}

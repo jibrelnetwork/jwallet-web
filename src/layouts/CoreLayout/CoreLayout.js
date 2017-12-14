@@ -91,6 +91,7 @@ class CoreLayout extends Component {
         openNewKeystoreAccountModal={openNewKeystoreAccountModal}
         openReceiveFundsModal={this.fundsModal('Receive')}
         openSendFundsModal={this.fundsModal('Send')}
+        setLanguage={this.setLanguage}
         accountName={keystore.currentAccount.accountName}
         networks={networks}
       />
@@ -163,6 +164,8 @@ class CoreLayout extends Component {
 
   fundsModal = modalName => () => this.props[`open${modalName}FundsModal`]()
   openCurrenciesModal = () => this.props.openCurrenciesModal(/* without param */)
+
+  setLanguage = (languageCode) => () => this.props.setLanguage(languageCode)
 }
 
 CoreLayout.propTypes = {
@@ -179,6 +182,7 @@ CoreLayout.propTypes = {
   openNewKeystoreAccountModal: PropTypes.func.isRequired,
   openReceiveFundsModal: PropTypes.func.isRequired,
   openSendFundsModal: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired,
   keystore: PropTypes.shape({
     accounts: PropTypes.arrayOf(PropTypes.shape({
       encrypted: PropTypes.shape({

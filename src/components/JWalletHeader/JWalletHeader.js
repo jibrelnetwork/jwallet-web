@@ -2,26 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { JHeader } from 'components/base'
-
-import { KeysManager, NetworksManager, CurrenciesManager } from 'components'
+import { KeysManager, NetworksManager, CurrenciesManager, LanguageManager } from 'components'
 
 import HeaderMenu from './HeaderMenu'
 
-function JWalletHeader(props) {
-  const {
-    openSendFundsModal,
-    openReceiveFundsModal,
-    openConvertFundsModal,
-    openKeystoreModal,
-    setCurrentNetwork,
-    setCustomNetworkValue,
-    saveCustomNetwork,
-    removeCustomNetwork,
-    openCurrenciesModal,
-    accountName,
-    networks,
-  } = props
-
+function JWalletHeader({
+  openSendFundsModal,
+  openReceiveFundsModal,
+  openConvertFundsModal,
+  openKeystoreModal,
+  setCurrentNetwork,
+  setCustomNetworkValue,
+  saveCustomNetwork,
+  removeCustomNetwork,
+  openCurrenciesModal,
+  setLanguage,
+  accountName,
+  networks,
+}) {
   return (
     <JHeader>
       <div className='clear'>
@@ -30,6 +28,7 @@ function JWalletHeader(props) {
           openReceiveFundsModal={openReceiveFundsModal}
           openConvertFundsModal={openConvertFundsModal}
         />
+        <LanguageManager setLanguage={setLanguage} />
         <NetworksManager
           setCurrentNetwork={setCurrentNetwork}
           setCustomNetworkValue={setCustomNetworkValue}
@@ -42,9 +41,9 @@ function JWalletHeader(props) {
           accountName={accountName}
         />
         <CurrenciesManager
+          onClick={openCurrenciesModal}
           iconName='currencies-header'
           className='header__currencies-manager pull-right'
-          onClick={openCurrenciesModal}
         />
       </div>
     </JHeader>
@@ -61,6 +60,7 @@ JWalletHeader.propTypes = {
   saveCustomNetwork: PropTypes.func.isRequired,
   removeCustomNetwork: PropTypes.func.isRequired,
   openCurrenciesModal: PropTypes.func.isRequired,
+  setLanguage: PropTypes.func.isRequired,
   networks: PropTypes.shape({
     items: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,

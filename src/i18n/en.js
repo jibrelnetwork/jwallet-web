@@ -22,6 +22,10 @@ module.exports = {
       customNetwork: 'Custom RPC',
     },
   },
+  languages: {
+    en: 'English',
+    ko: 'Korean',
+  },
   modals: {
     sendFunds: {
       title: 'Send Funds',
