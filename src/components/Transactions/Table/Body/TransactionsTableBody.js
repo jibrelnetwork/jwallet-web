@@ -53,6 +53,7 @@ TransactionsTableBody.propTypes = {
     from: PropTypes.string,
     to: PropTypes.string,
     address: PropTypes.string,
+    isJNT: PropTypes.bool,
   })).isRequired,
   currencySymbol: PropTypes.string.isRequired,
   activeTransactionIndex: PropTypes.number.isRequired,

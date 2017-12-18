@@ -174,10 +174,25 @@
 
 .icon--small-send {
   background-image: $icon-small-send;
+
+  &.jnt {
+    background-image: $icon-small-jnt-burn;
+  }
 }
 
 .icon--small-receive {
   background-image: $icon-small-receive;
+
+  &.jnt {
+    background-image: $icon-small-jnt-mint;
+  }
+}
+
+.icon--small-send,
+.icon--small-receive {
+  &.rejected {
+    background-image: $icon-small-convert;
+  }
 }
 
 .icon--small-convert {
