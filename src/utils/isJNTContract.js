@@ -1,3 +1,7 @@
+import find from 'lodash/find'
+
+import mainTokens from './tokens/main'
+
 export default function isJNTContract(contractAddress) {
-  return (contractAddress === '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7')
+  return (contractAddress === (find(mainTokens, { symbol: 'JNT' }) || {}).address)
 }

@@ -303,6 +303,7 @@ module.exports = {
         },
         symbol: {
           invalid: '유효한 컨트랙트 심볼을 입력해주세요',
+          exists: 'Token with this symbol already exists',
         },
         decimals: {
           invalid: '유효한 컨트랙트 소수점을 입력해주세요',
