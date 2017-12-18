@@ -1,5 +1,6 @@
-import { sortBy } from 'lodash/collection'
+import Promise from 'bluebird'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
+import { flatten, sortBy } from 'lodash'
 
 import config from 'config'
 import getFormattedDateString from 'utils/getFormattedDateString'
@@ -76,22 +77,18 @@ function getTransactionsInfo(list, isContract) {
     getTransactions(list, isContract),
     getTransactionReceipts(list),
   ]).then(([blocksData, transactionsData, transactionReceiptsData]) => {
-    return list.map((item, index) => {
-      const { transactionHash, blockHash, address, from, value } = item
-
-      return {
-        ...blocksData[index],
-        ...transactionsData[index],
-        ...transactionReceiptsData[index],
-        from,
-        value,
-        address,
-        blockHash,
-        transactionHash,
-        to: item.to || 'n/a',
-        status: getTransactionStatus(blockHash),
-      }
-    })
+    return list.map(({ transactionHash, blockHash, address, from, to, value }, index) => ({
+      ...blocksData[index],
+      ...transactionsData[index],
+      ...transactionReceiptsData[index],
+      to,
+      from,
+      value,
+      address,
+      blockHash,
+      transactionHash,
+      status: getTransactionStatus(blockHash),
+    }))
   })
 }
 
@@ -194,7 +191,7 @@ function sortTransactions(list) {
 }
 
 function handleTransactionsError(err) {
-  console.error(err.message)
+  console.error(err)
 
   return []
 }
@@ -204,8 +201,32 @@ function getContractTransactions(contractAddress, owner, decimals) {
     return []
   }
 
-  const fromProps = getEventsProps(contractAddress, { from: owner })
-  const toProps = getEventsProps(contractAddress, { to: owner })
+  if (isJNTContract(contractAddress)) {
+    return getJNTTransactions(contractAddress, owner, decimals)
+  }
+
+  return getERC20Transactions(contractAddress, owner, decimals)
+}
+
+function getJNTTransactions(contractAddress, owner, decimals) {
+  const mintEventProps = getEventsProps(contractAddress, 'MintEvent')
+  const burnEventProps = getEventsProps(contractAddress, 'BurnEvent')
+  const getEventsHandler = jibrelContractsApi.contracts.erc20Mintable.getPastEvents
+
+  return Promise
+    .all([getEventsHandler(mintEventProps), getEventsHandler(burnEventProps)])
+    .then(events => mergeEvents(events, owner))
+    .then(events => filterJNTEvents(events, owner))
+    .then(getLast50)
+    .then(list => getTransactionsInfo(list, true))
+    .then(list => parseTransactions(list, decimals))
+    .then(sortTransactions)
+    .catch(handleTransactionsError)
+}
+
+function getERC20Transactions(contractAddress, owner, decimals) {
+  const fromProps = getEventsProps(contractAddress, 'Transfer', { from: owner })
+  const toProps = getEventsProps(contractAddress, 'Transfer', { to: owner })
   const getEventsHandler = jibrelContractsApi.contracts.erc20.getPastEvents
 
   return Promise
@@ -218,24 +239,32 @@ function getContractTransactions(contractAddress, owner, decimals) {
     .catch(handleTransactionsError)
 }
 
-function mergeEvents(events, address) {
-  const mergedEvents = []
-
-  // events contains [from, to] list
-  events.forEach(list => list.forEach((item) => {
-    const { args, blockHash, removed, transactionHash } = item || {}
-
-    mergedEvents.push({ blockHash, transactionHash, address, removed, ...args })
-  }))
-
-  return mergedEvents
+function filterJNTEvents(events, owner) {
+  return events
+    .filter(event => (event.owner === owner))
+    .map(event => ({
+      ...event,
+      from: isMintEvent(event) ? null : owner,
+      to: isMintEvent(event) ? owner : null,
+    }))
 }
 
-function getEventsProps(contractAddress, filter = null) {
+function mergeEvents(events, owner) {
+  // events contains [from, to] list
+  return flatten(events.map(list => list.map(event => getContractEventData(event, owner))))
+}
+
+function getContractEventData(item, address) {
+  const { args, blockHash, transactionHash, event, removed } = item || {}
+
+  return { blockHash, transactionHash, event, removed, address, ...args }
+}
+
+function getEventsProps(contractAddress, event = 'Transfer', filter = {}) {
   return {
     ...rpcProps,
+    event,
     contractAddress,
-    event: 'Transfer',
     options: { filter, fromBlock: 0, toBlock: 'latest' },
   }
 }
@@ -246,6 +275,14 @@ function sendETHTransaction(props = {}) {
 
 function sendContractTransaction(props = {}) {
   return jibrelContractsApi.contracts.erc20.transfer({ ...rpcProps, ...props })
+}
+
+function isJNTContract(contractAddress) {
+  return (contractAddress === '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7')
+}
+
+function isMintEvent({ event }) {
+  return (event === 'MintEvent')
 }
 
 export default {

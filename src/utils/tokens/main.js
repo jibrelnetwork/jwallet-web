@@ -1,6 +1,15 @@
 const defaultTokenProps = { isLicensed: false, isAuthRequired: false, isCustom: false }
 
 const tokens = [{
+  name: 'Jibrel Network Token',
+  symbol: 'JNT',
+  decimals: 18,
+  address: '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7',
+  isActive: true,
+  isLicensed: true,
+  isAuthRequired: false,
+  isCustom: false,
+}, {
   name: 'Qtum',
   symbol: 'QTUM',
   decimals: 18,
