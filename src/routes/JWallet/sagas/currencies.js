@@ -1,6 +1,6 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { find, findIndex, isEmpty } from 'lodash'
+import { find, findIndex, findLastIndex, isEmpty } from 'lodash'
 import Keystore from 'jwallet-web-keystore'
 
 import config from 'config'
@@ -154,7 +154,7 @@ function* onAddCustomToken({ customTokenData }) {
 function checkCustomTokenData({ address, name, symbol, decimals }, items) {
   checkCustomTokenAddress(address, items)
   checkCustomTokenName(name)
-  checkCustomTokenSymbol(symbol)
+  checkCustomTokenSymbol(symbol, items)
   checkCustomTokenDecimals(decimals)
 }
 
@@ -180,10 +180,20 @@ function checkCustomTokenName(name) {
   }
 }
 
-function checkCustomTokenSymbol(symbol) {
+function checkCustomTokenSymbol(symbol, items) {
   if (/[^a-zA-Z]/.test(symbol) || (symbol.length < 3) || (symbol.length > 5)) {
     throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.invalid')))
   }
+
+  checkContractSymbolUniq(symbol, items)
+}
+
+function checkContractSymbolUniq(symbol, items) {
+  items.forEach((token) => {
+    if (symbol.toLowerCase() === token.symbol.toLowerCase()) {
+      throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.exists')))
+    }
+  })
 }
 
 function checkCustomTokenDecimals(decimals) {
@@ -240,8 +250,9 @@ function* toggleAllDigitalAssets(items, isActiveAll) {
 
 function refreshDigitalAssets(defaultDigitalAssets, storageDigitalAssets) {
   const freshDigitalAssets = [...defaultDigitalAssets]
+  const storageDigitalAssetsWithoutJNT = removeExistedJNTFromAssets(storageDigitalAssets)
 
-  storageDigitalAssets.forEach((item) => {
+  storageDigitalAssetsWithoutJNT.forEach((item) => {
     const { address, isCustom, isActive } = item
 
     const defaultDigitalAsset = find(defaultDigitalAssets, { address })
@@ -257,6 +268,19 @@ function refreshDigitalAssets(defaultDigitalAssets, storageDigitalAssets) {
   })
 
   return freshDigitalAssets
+}
+
+function removeExistedJNTFromAssets(digitalAssets) {
+  const jntIndex = findLastIndex(digitalAssets, { symbol: 'JNT' })
+
+  if (jntIndex > -1) {
+    const newDigitalAssets = [...digitalAssets]
+    newDigitalAssets.splice(jntIndex, 1)
+
+    return newDigitalAssets
+  }
+
+  return digitalAssets
 }
 
 function* getTransactions() {

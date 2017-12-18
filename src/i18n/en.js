@@ -303,6 +303,7 @@ module.exports = {
         },
         symbol: {
           invalid: 'Symbol should be a valid contract symbol',
+          exists: 'Token with this symbol already exists',
         },
         decimals: {
           invalid: 'Decimals should be valid contract decimals',
