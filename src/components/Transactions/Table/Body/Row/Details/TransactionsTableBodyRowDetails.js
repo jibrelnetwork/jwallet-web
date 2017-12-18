@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEmpty from 'lodash/isEmpty'
 import classNames from 'classnames'
 
 function TransactionsTableBodyRowDetails({
