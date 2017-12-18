@@ -74,14 +74,15 @@ TransactionsTable.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired,
     transactionHash: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     fee: PropTypes.number.isRequired,
     amount: PropTypes.number.isRequired,
     timestamp: PropTypes.number.isRequired,
+    /* optional */
+    from: PropTypes.string,
+    to: PropTypes.string,
+    address: PropTypes.string,
   })).isRequired,
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,

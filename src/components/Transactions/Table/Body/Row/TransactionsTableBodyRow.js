@@ -54,9 +54,6 @@ TransactionsTableBodyRow.propTypes = {
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  from: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
   transactionHash: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   currencySymbol: PropTypes.string.isRequired,
@@ -65,6 +62,16 @@ TransactionsTableBodyRow.propTypes = {
   amount: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
   isToken: PropTypes.bool.isRequired,
+  /* optional */
+  from: PropTypes.string,
+  to: PropTypes.string,
+  address: PropTypes.string,
+}
+
+TransactionsTableBodyRow.defaultProps = {
+  from: null,
+  to: null,
+  address: null,
 }
 
 export default TransactionsTableBodyRow

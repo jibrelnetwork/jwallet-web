@@ -25,31 +25,41 @@ function TransactionsTableBodyRowDetails({
         </div>
         <div className='transaction-detail__value'>{fee}</div>
       </div>
-      <div className='transaction-detail'>
-        <div className='transaction-detail__title'>
-          {i18n('transactions.table.detailsField.from')}
+      {from && (
+        <div className='transaction-detail'>
+          <div className='transaction-detail__title'>
+            {i18n('transactions.table.detailsField.from')}
+          </div>
+          <div className='transaction-detail__value'>{from}</div>
         </div>
-        <div className='transaction-detail__value'>{from}</div>
-      </div>
-      <div className='transaction-detail'>
-        <div className='transaction-detail__title'>
-          {i18n('transactions.table.detailsField.to')}
+      )}
+      {(to || contractAddress) && (
+        <div className='transaction-detail'>
+          <div className='transaction-detail__title'>
+            {i18n('transactions.table.detailsField.to')}
+          </div>
+          <div className='transaction-detail__value'>
+            {contractAddress ? `Contract creation (${contractAddress})` : to}
+          </div>
         </div>
-        <div className='transaction-detail__value'>
-          {isEmpty(to) ? `Contract creation (${contractAddress})` : to}
-        </div>
-      </div>
+      )}
     </div>
   )
 }
 
 TransactionsTableBodyRowDetails.propTypes = {
-  from: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
   transactionHash: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
   contractAddress: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
+  /* optional */
+  from: PropTypes.string,
+  to: PropTypes.string,
+}
+
+TransactionsTableBodyRowDetails.defaultProps = {
+  from: null,
+  to: null,
 }
 
 export default TransactionsTableBodyRowDetails

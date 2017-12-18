@@ -130,7 +130,7 @@ function* onSortDigitalAssets(action) {
   const newSortField = action.sortField || sortField
 
   const result = sortItems(items, sortField, newSortField, sortDirection)
-  const newItems = placeEthFirst(result.items)
+  const newItems = placeEthAndJntFirst(result.items)
 
   yield setDigitalAssets(newItems, currentAddress)
   yield setSortOptions(result.sortField, result.sortDirection)
@@ -207,9 +207,15 @@ function getCustomTokenData({ address, name, symbol, decimals }) {
   }
 }
 
-function placeEthFirst(items) {
+function placeEthAndJntFirst(items) {
   const ethIndex = findIndex(items, { symbol: 'ETH' })
+  const jntIndex = findIndex(items, { symbol: 'JNT' })
   const newItems = [...items]
+
+  if (jntIndex > -1) {
+    newItems.splice(jntIndex, 1)
+    newItems.unshift(items[jntIndex])
+  }
 
   newItems.splice(ethIndex, 1)
   newItems.unshift(items[ethIndex])

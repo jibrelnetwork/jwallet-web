@@ -32,7 +32,7 @@ function TransactionsTableBodyRowMain(props) {
         className={`table-body-item ${isToken ? 'transaction__token' : ''} col col--4-8`}
         onClick={isToken ? setCurrentDigitalAssetAddress(contractAddress) : null}
       >
-        {`${address.slice(0, 30)}...`}
+        {address ? `${address.slice(0, 30)}...` : '–'}
       </div>
       <div className='table-body-item col col--2-4'>
         <span className={`transaction__status transaction__status--${status.toLowerCase()}`}>
@@ -53,12 +53,17 @@ TransactionsTableBodyRowMain.propTypes = {
   toggleActive: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
   contractAddress: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
   isToken: PropTypes.bool.isRequired,
+  /* optional */
+  address: PropTypes.string,
+}
+
+TransactionsTableBodyRowMain.defaultProps = {
+  address: null,
 }
 
 export default TransactionsTableBodyRowMain
