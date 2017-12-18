@@ -3,7 +3,7 @@ import jibrelContractsApi from 'jibrel-contracts-jsapi'
 import { flatten, sortBy } from 'lodash'
 
 import config from 'config'
-import getFormattedDateString from 'utils/getFormattedDateString'
+import { getFormattedDateString, isJNTContract } from 'utils'
 
 const { defaultDecimals } = config
 
@@ -221,6 +221,7 @@ function getJNTTransactions(contractAddress, owner, decimals) {
     .then(list => getTransactionsInfo(list, true))
     .then(list => parseTransactions(list, decimals))
     .then(sortTransactions)
+    .then(addJNTFlag)
     .catch(handleTransactionsError)
 }
 
@@ -277,12 +278,12 @@ function sendContractTransaction(props = {}) {
   return jibrelContractsApi.contracts.erc20.transfer({ ...rpcProps, ...props })
 }
 
-function isJNTContract(contractAddress) {
-  return (contractAddress === '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7')
-}
-
 function isMintEvent({ event }) {
   return (event === 'MintEvent')
+}
+
+function addJNTFlag(list) {
+  return list.map(item => ({ ...item, isJNT: true }))
 }
 
 export default {

@@ -83,6 +83,7 @@ TransactionsTable.propTypes = {
     from: PropTypes.string,
     to: PropTypes.string,
     address: PropTypes.string,
+    isJNT: PropTypes.bool,
   })).isRequired,
   sortField: PropTypes.string.isRequired,
   sortDirection: PropTypes.string.isRequired,

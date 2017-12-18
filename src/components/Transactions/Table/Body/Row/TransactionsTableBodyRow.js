@@ -21,6 +21,7 @@ function TransactionsTableBodyRow(props) {
     amount,
     isActive,
     isToken,
+    isJNT,
   } = props
 
   return (
@@ -36,6 +37,7 @@ function TransactionsTableBodyRow(props) {
         date={date}
         isActive={isActive}
         isToken={isToken}
+        isJNT={isJNT}
       />
       <TransactionsTableBodyRowDetails
         from={from}
@@ -66,12 +68,14 @@ TransactionsTableBodyRow.propTypes = {
   from: PropTypes.string,
   to: PropTypes.string,
   address: PropTypes.string,
+  isJNT: PropTypes.bool,
 }
 
 TransactionsTableBodyRow.defaultProps = {
   from: null,
   to: null,
   address: null,
+  isJNT: false,
 }
 
 export default TransactionsTableBodyRow

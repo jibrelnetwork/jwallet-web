@@ -255,6 +255,7 @@ Transactions.propTypes = {
       from: PropTypes.string,
       to: PropTypes.string,
       address: PropTypes.string,
+      isJNT: PropTypes.bool,
     })).isRequired,
     foundItemsHashes: PropTypes.arrayOf(PropTypes.string).isRequired,
     sortField: PropTypes.string.isRequired,
