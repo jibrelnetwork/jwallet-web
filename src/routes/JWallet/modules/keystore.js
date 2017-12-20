@@ -32,12 +32,10 @@ export function getKeystoreFromStorage() {
   }
 }
 
-export function createKeystoreAccount(props = {}, onSuccess = null, onError = null) {
+export function createKeystoreAccount(props = {}) {
   return {
     type: KEYSTORE_CREATE_ACCOUNT,
     props,
-    onSuccess,
-    onError,
   }
 }
 
@@ -77,20 +75,9 @@ export function setKeystoreAccountName(
   }
 }
 
-export function setKeystoreAccountDerivationPath(
-  password = '',
-  accountId = '',
-  newDerivationPath = '',
-  onSuccess = null,
-  onError = null
-) {
+export function setKeystoreAccountDerivationPath() {
   return {
     type: KEYSTORE_SET_DERIVATION_PATH,
-    password,
-    accountId,
-    newDerivationPath,
-    onSuccess,
-    onError,
   }
 }
 

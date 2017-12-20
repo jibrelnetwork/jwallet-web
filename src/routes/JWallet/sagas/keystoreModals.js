@@ -1,180 +1,165 @@
 import Keystore from 'jwallet-web-keystore'
-import { put, takeEvery } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { put, select, takeEvery } from 'redux-saga/effects'
 
-import isMnemonicType from 'utils/isMnemonicType'
-import { fileSaver, keystore } from 'services'
+import config from 'config'
+import { fileSaver, gtm, keystore } from 'services'
+import { isMnemonicType, InvalidFieldError } from 'utils'
 
-import {
-  IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL,
-  IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
-  IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA,
-  IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
-  IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA,
-  IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA,
-  IMPORT_KEYSTORE_ACCOUNT_STEPS,
-} from '../modules/modals/importKeystoreAccount'
+import * as IMPORT_KEYSTORE_ACCOUNT from '../modules/modals/importKeystoreAccount'
+import * as NEW_KEYSTORE_ACCOUNT from '../modules/modals/newKeystoreAccount'
+import { KEYSTORE_CREATE_ACCOUNT, KEYSTORE_OPEN_MODAL } from '../modules/keystore'
 
 import {
-  NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL,
-  NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
-  NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM,
-  NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
-  NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA,
-  NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
-  NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD,
-  NEW_KEYSTORE_ACCOUNT_CLEAR_DATA,
-  NEW_KEYSTORE_ACCOUNT_STEPS,
-} from '../modules/modals/newKeystoreAccount'
+  selectImportAccountModalData,
+  selectNewAccountModalData,
+  selectCurrentAccountId,
+} from './stateSelectors'
 
-import { KEYSTORE_CREATE_ACCOUNT } from '../modules/keystore'
+function* onSetImportStep({ currentStep }) {
+  const data = yield select(selectImportAccountModalData)
+  const isInitialized = !!(yield select(selectCurrentAccountId))
 
-function* onSetImportStep(action = {}) {
-  const {
-    onClose,
-    accountData,
-    data,
-    password,
-    passwordConfirm,
-    derivationPath,
-    isInitialized,
-  } = action.props
+  try {
+    switch (currentStep) {
+      case IMPORT_KEYSTORE_ACCOUNT.STEPS.BEFORE:
+        return yield goToImportDataStep(isInitialized)
+      case IMPORT_KEYSTORE_ACCOUNT.STEPS.DATA:
+        return yield getImportDataType(data, isInitialized)
+      case IMPORT_KEYSTORE_ACCOUNT.STEPS.MNEMONIC_OPTIONS:
+        return yield goFromMnemonicOptionsStep()
+      case IMPORT_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD:
+        return yield importKeystoreAccount(data, isInitialized)
+      case IMPORT_KEYSTORE_ACCOUNT.STEPS.SUCCESS:
+        return yield resetImportModal(data, isInitialized)
+      default:
+        return null
+    }
+  } catch (err) {
+    if (err instanceof InvalidFieldError) {
+      yield setImportInvalidField(err.fieldName, err.message)
+    } else {
+      console.error(err)
+    }
 
-  switch (action.currentStep) {
-    case IMPORT_KEYSTORE_ACCOUNT_STEPS.BEFORE:
-      return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA, isInitialized)
-    case IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA:
-      return yield getImportDataType(data, isInitialized)
-    case IMPORT_KEYSTORE_ACCOUNT_STEPS.MNEMONIC_OPTIONS:
-      return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD)
-    case IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD:
-      return yield importKeystoreAccount({
-        accountData,
-        password,
-        passwordConfirm,
-        derivationPath,
-        isInitialized,
-      })
-    case IMPORT_KEYSTORE_ACCOUNT_STEPS.SUCCESS:
-      return yield resetImportModal(onClose, isInitialized)
-    default:
-      return null
+    return null
   }
 }
 
-function* getImportDataType(data, isInitialized) {
-  const newAccountData = {}
+function* goToImportDataStep(isInitialized) {
+  gtm.pushImportAccount('Start')
+  yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.DATA, isInitialized)
+}
 
+function* getImportDataType({ data, isInitialized }) {
+  const newAccountData = getNewAccountData(data)
+
+  gtm.pushImportAccount('SetData', newAccountData.type)
+
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT.SET_ACCOUNT_DATA, accountData: newAccountData })
+
+  yield updateImportStep(
+    isMnemonic(newAccountData)
+      ? IMPORT_KEYSTORE_ACCOUNT.STEPS.MNEMONIC_OPTIONS
+      : IMPORT_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD,
+    isInitialized,
+  )
+}
+
+function* goFromMnemonicOptionsStep() {
+  gtm.pushImportAccount('ChangeDerivationPath')
+  yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD)
+}
+
+function isMnemonic({ type, isReadOnly }) {
+  return (isMnemonicType(type) && !isReadOnly)
+}
+
+function getNewAccountData(data) {
   if (Keystore.isMnemonicValid(data)) {
-    newAccountData.type = 'mnemonic'
-    newAccountData.isReadOnly = false
-    newAccountData.mnemonic = data
+    return { type: 'mnemonic', isReadOnly: false, mnemonic: data }
   } else if (Keystore.isBip32XPublicKeyValid(data)) {
-    newAccountData.type = 'mnemonic'
-    newAccountData.isReadOnly = true
-    newAccountData.bip32XPublicKey = data
+    return { type: 'mnemonic', isReadOnly: true, bip32XPublicKey: data }
   } else if (Keystore.isHexStringValid(data, 64)) {
-    newAccountData.type = 'address'
-    newAccountData.isReadOnly = false
-    newAccountData.privateKey = data
+    return { type: 'address', isReadOnly: false, privateKey: data }
   } else if (Keystore.isHexStringValid(data, 40)) {
-    newAccountData.type = 'address'
-    newAccountData.isReadOnly = true
-    newAccountData.address = data
-  } else {
-    return yield setImportInvalidField('data', i18n('modals.importAccount.error.data.invalid'))
+    return { type: 'address', isReadOnly: true, address: data }
   }
 
-  const isMnemonic = (isMnemonicType(newAccountData.type) && (!newAccountData.isReadOnly))
-
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA, accountData: newAccountData })
-
-  if (isMnemonic) {
-    return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.MNEMONIC_OPTIONS, isInitialized)
-  }
-
-  return yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD, isInitialized)
+  throw new InvalidFieldError('data', i18n('modals.importAccount.error.data.invalid'))
 }
 
 function* updateImportStep(nextStep, isInitialized) {
-  const alert = getImportAlert(nextStep, isInitialized)
-  const buttonTitle = getImportButtonTitle(nextStep, isInitialized)
-  const imageName = getImportImageName(nextStep)
-
   yield put({
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA,
-    alert,
-    buttonTitle,
-    imageName,
     nextStep,
+    type: IMPORT_KEYSTORE_ACCOUNT.SET_STEP_DATA,
+    imageName: getImportImageName(nextStep),
+    alert: getImportAlert(nextStep, isInitialized),
+    buttonTitle: getImportButtonTitle(nextStep, isInitialized),
   })
 }
 
-function* importKeystoreAccount(props) {
-  const { accountData, password, passwordConfirm, derivationPath, isInitialized } = props
+function* importKeystoreAccount(props, isInitialized) {
+  const { accountData, password, passwordConfirm, derivationPath } = props
+
+  if (!isInitialized) {
+    yield checkPassword(password, passwordConfirm)
+  }
+
+  gtm.pushImportAccount('EnterPassword', accountData.type)
 
   try {
-    if (!isInitialized) {
-      const isPasswordConfirmed = yield checkImportPasswordConfirm(password, passwordConfirm)
-
-      if (!isPasswordConfirmed) {
-        return
-      }
-    }
-
     const accountId = keystore.createAccount({ ...accountData, password, derivationPath })
-
-    yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
-    yield onImportSuccess(isInitialized)
+    yield onImportSuccess(accountId, isInitialized)
   } catch (err) {
-    yield onImportFail()
+    yield onImportFail(err.message)
   }
 }
 
-function* onImportSuccess(isInitialized) {
-  yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.SUCCESS, isInitialized)
+function* onImportSuccess(accountId, isInitialized) {
+  gtm.pushImportAccount('ImportSuccess')
+
+  yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
+  yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.SUCCESS, isInitialized)
 }
 
-function* onImportFail() {
-  yield setImportInvalidField('password', i18n('modals.importAccount.error.password.invalid'))
+function* onImportFail(errMessage) {
+  throw new InvalidFieldError('password', errMessage)
 }
 
-function* checkImportPasswordConfirm(password, passwordConfirm) {
-  const isPasswordValid = yield testPassword(password, 'import')
-  const isPasswordMatch = (password === passwordConfirm)
+function* checkPassword(password, passwordConfirm, type) {
+  testKeystorePassword(password)
 
-  if (!isPasswordMatch) {
-    yield setImportInvalidField(
+  if (password !== passwordConfirm) {
+    throw new InvalidFieldError(
       'passwordConfirm',
-      i18n('modals.importAccount.error.passwordConfirm.notMatched'),
+      i18n('modals.general.error.passwordConfirm.notMatched'),
     )
   }
 
-  return (isPasswordValid && isPasswordMatch)
+  if (type === 'new') {
+    yield setNewValidField('passwordConfirm', '')
+  }
 }
 
-function* testPassword(password, type = 'import') {
+function testKeystorePassword(password) {
   const error = Keystore.testPassword(password).errors[0]
 
   if (error) {
-    const args = ['password', error]
-    yield (type === 'import') ? setImportInvalidField(...args) : setNewInvalidField(...args)
+    throw new InvalidFieldError('password', error)
   }
-
-  return !error
 }
 
 function* setImportInvalidField(fieldName, message) {
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD, fieldName, message })
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT.SET_INVALID_FIELD, fieldName, message })
 }
 
-function* resetImportModal(onClose, isInitialized) {
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL })
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA })
-  yield put({ type: IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA, accountData: {} })
-
-  yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA, isInitialized)
-
-  return onClose ? onClose() : null
+function* resetImportModal(isInitialized) {
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT.CLOSE_MODAL })
+  yield delay(config.modalOpeningClosingTimeout)
+  yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.DATA, isInitialized)
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT.CLEAR_DATA })
+  yield put({ type: IMPORT_KEYSTORE_ACCOUNT.SET_ACCOUNT_DATA, accountData: {} })
 }
 
 function getImportButtonTitle(nextStep, isInitialized) {
@@ -186,148 +171,137 @@ function getImportAlert(nextStep, isInitialized) {
 }
 
 function getImportImageName(nextStep) {
-  const imageNames = ['', '', '', 'done']
-
-  return imageNames[nextStep]
+  return ['', '', '', 'done'][nextStep]
 }
 
 /**
  * New Keystore Account Modal
  */
-function* onSetNewStep(action) {
-  const { mnemonic, mnemonicConfirm, isInitialized } = action.props
+function* onSetNewStep({ currentStep }) {
+  const data = yield select(selectNewAccountModalData)
+  const isInitialized = !!(yield select(selectCurrentAccountId))
 
-  switch (action.currentStep) {
-    case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE:
-      return yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.FIRST, isInitialized)
-    case NEW_KEYSTORE_ACCOUNT_STEPS.FIRST:
-      return yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC, isInitialized)
-    case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC:
-      return yield generateNewMnemonic(isInitialized)
-    case NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC:
-      return yield saveMnemonicToFile(mnemonic, isInitialized)
-    case NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC:
-      return yield checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized)
-    case NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD:
-      return yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD, isInitialized)
-    case NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD:
-      return yield createKeystoreAccount(action.props)
-    default:
-      return null
+  try {
+    switch (currentStep) {
+      case NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE:
+        return yield goToNewFirstStep(isInitialized)
+      case NEW_KEYSTORE_ACCOUNT.STEPS.FIRST:
+        return yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE_MNEMONIC, isInitialized)
+      case NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE_MNEMONIC:
+        return yield generateNewMnemonic(isInitialized)
+      case NEW_KEYSTORE_ACCOUNT.STEPS.SAVE_MNEMONIC:
+        return yield saveMnemonicToFile(data.mnemonic, isInitialized)
+      case NEW_KEYSTORE_ACCOUNT.STEPS.CHECK_MNEMONIC:
+        return yield checkMnemonicConfirm(data, isInitialized)
+      case NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE_PASSWORD:
+        return yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD, isInitialized)
+      case NEW_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD:
+        return yield createKeystoreAccount(data, isInitialized)
+      default:
+        return null
+    }
+  } catch (err) {
+    if (err instanceof InvalidFieldError) {
+      yield setNewInvalidField(err.fieldName, err.message)
+    } else {
+      console.error(err)
+    }
+
+    return null
   }
 }
 
-function* updateNewStep(nextStep, isInitialized) {
-  const alert = getNewAlert(nextStep, isInitialized)
-  const buttonTitle = getNewButtonTitle(nextStep)
-  const imageName = getNewImageName(nextStep)
-  const iconName = getNewIconName(nextStep)
+function* goToNewFirstStep(isInitialized) {
+  gtm.pushCreateAccount('Start')
+  yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.FIRST, isInitialized)
+}
 
+function* updateNewStep(nextStep, isInitialized) {
   yield put({
-    type: NEW_KEYSTORE_ACCOUNT_SET_STEP_DATA,
-    alert,
-    buttonTitle,
-    imageName,
-    iconName,
+    type: NEW_KEYSTORE_ACCOUNT.SET_STEP_DATA,
     nextStep,
+    iconName: getNewIconName(nextStep),
+    imageName: getNewImageName(nextStep),
+    buttonTitle: getNewButtonTitle(nextStep),
+    alert: getNewAlert(nextStep, isInitialized),
   })
 }
 
 function* generateNewMnemonic(isInitialized) {
   yield put({
-    type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC,
+    type: NEW_KEYSTORE_ACCOUNT.SET_MNEMONIC,
     mnemonic: Keystore.generateMnemonic().toString(),
   })
 
-  yield put({ type: NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC_CONFIRM, mnemonicConfirm: '' })
+  gtm.pushCreateAccount('GenerateMnemonic')
 
-  yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC, isInitialized)
+  yield put({ type: NEW_KEYSTORE_ACCOUNT.SET_MNEMONIC_CONFIRM, mnemonicConfirm: '' })
+  yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.SAVE_MNEMONIC, isInitialized)
 }
 
 function* saveMnemonicToFile(mnemonic, isInitialized) {
-  try {
-    fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
-
-    yield updateNewStep(NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC, isInitialized)
-  } catch (e) {
-    console.error(e)
-  }
+  fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
+  gtm.pushCreateAccount('SaveMnemonic')
+  yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.CHECK_MNEMONIC, isInitialized)
 }
 
-function* createKeystoreAccount(props) {
+function* createKeystoreAccount({ password, passwordConfirm, mnemonic }, isInitialized) {
+  if (!isInitialized) {
+    yield checkPassword(password, passwordConfirm, 'new')
+  }
+
+  gtm.pushCreateAccount('EnterPassword')
+
   try {
-    const { onClose, password, passwordConfirm, mnemonic, isInitialized } = props
-
-    if (!isInitialized) {
-      const isPasswordConfirmed = yield checkNewPasswordConfirm(password, passwordConfirm)
-
-      if (!isPasswordConfirmed) {
-        return
-      }
-    }
-
     const accountId = keystore.createAccount({ type: 'mnemonic', password, mnemonic })
-
-    yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
-    yield onCreateSuccess(onClose)
+    yield onCreateSuccess(accountId, isInitialized)
   } catch (err) {
-    yield onCreateFail(err)
+    onCreateFail(err.message)
   }
 }
 
-function* onCreateSuccess(onClose) {
-  yield resetNewModal(onClose)
+function* onCreateSuccess(accountId, isInitialized) {
+  gtm.pushCreateAccount('CreateSuccess')
+
+  yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
+  yield resetNewModal()
 }
 
-function* onCreateFail() {
-  yield setNewInvalidField('password', i18n('modals.createAccount.error.password.invalid'))
+function onCreateFail(errMessage) {
+  throw new InvalidFieldError('password', errMessage)
 }
 
-function* resetNewModal(onClose) {
-  yield put({ type: NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL })
-  yield put({ type: NEW_KEYSTORE_ACCOUNT_CLEAR_DATA })
+function* resetNewModal() {
+  yield put({ type: NEW_KEYSTORE_ACCOUNT.CLOSE_MODAL })
+  yield delay(config.modalOpeningClosingTimeout)
+  yield put({ type: NEW_KEYSTORE_ACCOUNT.CLEAR_DATA })
   yield generateNewMnemonic(true)
-
-  return onClose ? onClose() : null
 }
 
 function* setNewInvalidField(fieldName, message) {
-  yield put({ type: NEW_KEYSTORE_ACCOUNT_SET_INVALID_FIELD, fieldName, message })
+  yield put({ type: NEW_KEYSTORE_ACCOUNT.SET_INVALID_FIELD, fieldName, message })
 }
 
 function* setNewValidField(fieldName, message) {
-  yield put({ type: NEW_KEYSTORE_ACCOUNT_SET_VALID_FIELD, fieldName, message })
+  yield put({ type: NEW_KEYSTORE_ACCOUNT.SET_VALID_FIELD, fieldName, message })
 }
 
-function* checkMnemonicConfirm(mnemonic, mnemonicConfirm, isInitialized) {
+function* checkMnemonicConfirm({ mnemonic, mnemonicConfirm }, isInitialized) {
   if (mnemonic !== mnemonicConfirm) {
-    yield setNewInvalidField(
+    throw new InvalidFieldError(
       'mnemonicConfirm',
       i18n('modals.createAccount.error.mnemonicConfirm.notMatched'),
     )
-
-    return
   }
 
-  yield updateNewStep(isInitialized
-    ? NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD
-    : NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_PASSWORD, isInitialized)
-}
+  gtm.pushCreateAccount('ConfirmMnemonic')
 
-function* checkNewPasswordConfirm(password, passwordConfirm) {
-  const isPasswordValid = yield testPassword(password, 'new')
-  const isPasswordMatch = (password === passwordConfirm)
-
-  if (!isPasswordMatch) {
-    yield setNewInvalidField(
-      'passwordConfirm',
-      i18n('modals.createAccount.error.passwordConfirm.notMatched'),
-    )
-  } else {
-    yield setNewValidField('passwordConfirm', '')
-  }
-
-  return (isPasswordValid && isPasswordMatch)
+  yield updateNewStep(
+    isInitialized
+      ? NEW_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD
+      : NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE_PASSWORD,
+    isInitialized,
+  )
 }
 
 function getNewButtonTitle(nextStep) {
@@ -339,21 +313,72 @@ function getNewAlert(nextStep, isInitialized) {
 }
 
 function getNewImageName(nextStep) {
-  const imageNames = ['spy', 'screenshot', '', '', 'done', '']
-
-  return imageNames[nextStep]
+  return ['spy', 'screenshot', '', '', 'done', ''][nextStep]
 }
 
 function getNewIconName(nextStep) {
-  const iconNames = ['', '', 'txt', '', '', '']
+  return ['', '', 'txt', '', '', ''][nextStep]
+}
 
-  return iconNames[nextStep]
+/**
+ * On open keystore modals
+ */
+
+function* onOpenImportAccountModal() {
+  yield onSetImportStep({ currentStep: IMPORT_KEYSTORE_ACCOUNT.STEPS.BEFORE })
+}
+
+function* onOpenNewAccountModal() {
+  const isInitialized = !!(yield select(selectCurrentAccountId))
+
+  // start from mnemonic step if keystore already initialized
+  yield onSetNewStep({
+    currentStep: isInitialized
+      ? NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE_MNEMONIC
+      : NEW_KEYSTORE_ACCOUNT.STEPS.BEFORE,
+  })
+}
+
+/**
+ * On close keystore modals
+ */
+
+function* onCloseImportAccountModal() {
+  const { isOpenedFromKeystoreModal } = yield select(selectImportAccountModalData)
+
+  if (isOpenedFromKeystoreModal) {
+    yield put({ type: KEYSTORE_OPEN_MODAL })
+  }
+}
+
+function* onCloseNewAccountModal() {
+  const { isOpenedFromKeystoreModal } = yield select(selectNewAccountModalData)
+
+  if (isOpenedFromKeystoreModal) {
+    yield put({ type: KEYSTORE_OPEN_MODAL })
+  }
 }
 
 export function* watchSetImportAccountStep() {
-  yield takeEvery(IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, onSetImportStep)
+  yield takeEvery(IMPORT_KEYSTORE_ACCOUNT.SET_CURRENT_STEP, onSetImportStep)
 }
 
 export function* watchSetNewAccountStep() {
-  yield takeEvery(NEW_KEYSTORE_ACCOUNT_SET_CURRENT_STEP, onSetNewStep)
+  yield takeEvery(NEW_KEYSTORE_ACCOUNT.SET_CURRENT_STEP, onSetNewStep)
+}
+
+export function* watchOpenImportAccountModal() {
+  yield takeEvery(IMPORT_KEYSTORE_ACCOUNT.OPEN_MODAL, onOpenImportAccountModal)
+}
+
+export function* watchOpenNewAccountModal() {
+  yield takeEvery(NEW_KEYSTORE_ACCOUNT.OPEN_MODAL, onOpenNewAccountModal)
+}
+
+export function* watchCloseImportAccountModal() {
+  yield takeEvery(IMPORT_KEYSTORE_ACCOUNT.CLOSE_MODAL, onCloseImportAccountModal)
+}
+
+export function* watchCloseNewAccountModal() {
+  yield takeEvery(NEW_KEYSTORE_ACCOUNT.CLOSE_MODAL, onCloseNewAccountModal)
 }

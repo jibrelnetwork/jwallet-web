@@ -1,17 +1,17 @@
-export const IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL'
-export const IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_DATA'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD = 'IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM = 'IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM' // eslint-disable-line max-len
-export const IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH = 'IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH' // eslint-disable-line max-len
-export const IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH = 'IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH' // eslint-disable-line max-len
-export const IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP = 'IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD = 'IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD'
-export const IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA'
-export const IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA = 'IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA'
+export const OPEN_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL'
+export const CLOSE_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL'
+export const SET_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_DATA'
+export const SET_PASSWORD = 'IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD'
+export const SET_PASSWORD_CONFIRM = 'IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM' // eslint-disable-line max-len
+export const SET_KNOWN_DERIVATION_PATH = 'IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH' // eslint-disable-line max-len
+export const SET_CUSTOM_DERIVATION_PATH = 'IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH' // eslint-disable-line max-len
+export const SET_CURRENT_STEP = 'IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP'
+export const SET_STEP_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA'
+export const SET_INVALID_FIELD = 'IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD'
+export const SET_ACCOUNT_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA'
+export const CLEAR_DATA = 'IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA'
 
-export const IMPORT_KEYSTORE_ACCOUNT_STEPS = {
+export const STEPS = {
   BEFORE: -1,
   DATA: 0,
   MNEMONIC_OPTIONS: 1,
@@ -19,65 +19,64 @@ export const IMPORT_KEYSTORE_ACCOUNT_STEPS = {
   SUCCESS: 3,
 }
 
-export function openImportKeystoreAccountModal(onClose) {
+export function openImportKeystoreAccountModal(isOpenedFromKeystoreModal = false) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL,
-    onClose,
+    type: OPEN_MODAL,
+    isOpenedFromKeystoreModal,
   }
 }
 
 export function closeImportKeystoreAccountModal() {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL,
+    type: CLOSE_MODAL,
   }
 }
 
 export function setImportKeystoreAccountData(data) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_DATA,
+    type: SET_DATA,
     data,
   }
 }
 
 export function setImportKeystoreAccountPassword(password) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD,
+    type: SET_PASSWORD,
     password,
   }
 }
 
 export function setImportKeystoreAccountPasswordConfirm(passwordConfirm) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM,
+    type: SET_PASSWORD_CONFIRM,
     passwordConfirm,
   }
 }
 
 export function setImportKeystoreAccountKnownDerivationPath(knownDerivationPath) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH,
+    type: SET_KNOWN_DERIVATION_PATH,
     knownDerivationPath,
   }
 }
 
 export function setImportKeystoreAccountCustomDerivationPath(customDerivationPath) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH,
+    type: SET_CUSTOM_DERIVATION_PATH,
     customDerivationPath,
   }
 }
 
-export function setImportKeystoreAccountCurrentStep(currentStep, props) {
+export function setImportKeystoreAccountCurrentStep(currentStep) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP,
+    type: SET_CURRENT_STEP,
     currentStep,
-    props,
   }
 }
 
 export function setImportKeystoreAccountInvalidField(fieldName, message) {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD,
+    type: SET_INVALID_FIELD,
     fieldName,
     message,
   }
@@ -85,22 +84,22 @@ export function setImportKeystoreAccountInvalidField(fieldName, message) {
 
 export function clearImportKeystoreAccountData() {
   return {
-    type: IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA,
+    type: CLEAR_DATA,
   }
 }
 
 const ACTION_HANDLERS = {
-  [IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL]: (state, action) => ({
+  [OPEN_MODAL]: (state, action) => ({
     ...state,
     isOpen: true,
-    onClose: action.onClose,
+    isOpenedFromKeystoreModal: action.isOpenedFromKeystoreModal,
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL]: state => ({
+  [CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
     invalidFields: initialState.invalidFields,
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_DATA]: (state, action) => ({
+  [SET_DATA]: (state, action) => ({
     ...state,
     data: action.data,
     invalidFields: {
@@ -108,7 +107,7 @@ const ACTION_HANDLERS = {
       data: '',
     },
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD]: (state, action) => ({
+  [SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
     invalidFields: {
@@ -117,7 +116,7 @@ const ACTION_HANDLERS = {
       passwordConfirm: '',
     },
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_KNOWN_DERIVATION_PATH]: (state, action) => ({
+  [SET_KNOWN_DERIVATION_PATH]: (state, action) => ({
     ...state,
     knownDerivationPath: action.knownDerivationPath,
     invalidFields: {
@@ -125,7 +124,7 @@ const ACTION_HANDLERS = {
       knownDerivationPath: '',
     },
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_CUSTOM_DERIVATION_PATH]: (state, action) => ({
+  [SET_CUSTOM_DERIVATION_PATH]: (state, action) => ({
     ...state,
     customDerivationPath: action.customDerivationPath,
     invalidFields: {
@@ -133,7 +132,7 @@ const ACTION_HANDLERS = {
       customDerivationPath: '',
     },
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_PASSWORD_CONFIRM]: (state, action) => ({
+  [SET_PASSWORD_CONFIRM]: (state, action) => ({
     ...state,
     passwordConfirm: action.passwordConfirm,
     invalidFields: {
@@ -141,29 +140,29 @@ const ACTION_HANDLERS = {
       passwordConfirm: '',
     },
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_CURRENT_STEP]: (state, action) => ({
+  [SET_CURRENT_STEP]: (state, action) => ({
     ...state,
     currentStep: action.currentStep,
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_STEP_DATA]: (state, action) => ({
+  [SET_STEP_DATA]: (state, action) => ({
     ...state,
     alert: action.alert,
     buttonTitle: action.buttonTitle,
     imageName: action.imageName,
     currentStep: action.nextStep,
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_INVALID_FIELD]: (state, action) => ({
+  [SET_INVALID_FIELD]: (state, action) => ({
     ...state,
     invalidFields: {
       ...state.invalidFields,
       [action.fieldName]: action.message,
     },
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_SET_ACCOUNT_DATA]: (state, action) => ({
+  [SET_ACCOUNT_DATA]: (state, action) => ({
     ...state,
     accountData: action.accountData,
   }),
-  [IMPORT_KEYSTORE_ACCOUNT_CLEAR_DATA]: () => initialState,
+  [CLEAR_DATA]: () => initialState,
 }
 
 const initialState = {
@@ -180,7 +179,7 @@ const initialState = {
   totalSteps: 4,
   currentStep: -1,
   isOpen: false,
-  onClose: null,
+  isOpenedFromKeystoreModal: false,
 }
 
 export default function importKeystoreAccountModal(state = initialState, action) {

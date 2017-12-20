@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import JModal from 'components/base/JModal'
 import AccountsTable from 'components/AccountsTable'
+
 import KeystoreModalFooter from './Footer'
 
 class KeystoreModal extends JModal {
@@ -49,10 +50,10 @@ class KeystoreModal extends JModal {
   renderFooter = () => {
     return (
       <KeystoreModalFooter
-        addNewKeystoreAccount={this.openModal('NewKeystoreAccount')}
+        addNewKeystoreAccount={this.openNewKeystoreAccountModal}
         backupKeystore={this.openModal('BackupKeystore')}
         clearKeystore={this.openModal('ClearKeystore')}
-        importNewKeystoreAccount={this.openModal('ImportKeystoreAccount')}
+        importNewKeystoreAccount={this.openImportKeystoreAccountModal}
         setKeystorePassword={this.openModal('NewKeystorePassword')}
       />
     )
@@ -113,9 +114,23 @@ class KeystoreModal extends JModal {
   }
   /* eslint-enable no-param-reassign */
 
+  openImportKeystoreAccountModal = () => {
+    this.props.openImportKeystoreAccountModal(true)
+    this.props.closeKeystoreModal()
+  }
+
+  openNewKeystoreAccountModal = () => {
+    this.props.openNewKeystoreAccountModal(true)
+    this.props.closeKeystoreModal()
+  }
+
+  openNewDerivationPathModal = (id, derivationPath) => () => {
+    this.props.openNewDerivationPathModal(id, derivationPath, true)
+    this.props.closeKeystoreModal()
+  }
+
   closeModal = () => this.props.closeKeystoreModal()
   sortAccounts = sortField => () => this.props.sortAccounts(sortField)
-  openNewDerivationPathModal = (...args) => () => this.openModal('NewDerivationPath')(...args)
 }
 
 KeystoreModal.propTypes = {

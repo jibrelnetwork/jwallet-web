@@ -1,10 +1,10 @@
-import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+import Keystore from 'jwallet-web-keystore'
 import { delay } from 'redux-saga'
 import { find, findIndex, findLastIndex, isEmpty } from 'lodash'
-import Keystore from 'jwallet-web-keystore'
+import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { storage, web3 } from 'services'
+import { gtm, storage, web3 } from 'services'
 import { InvalidFieldError, getDefaultDigitalAssets, searchItems, sortItems } from 'utils'
 
 import {
@@ -376,6 +376,7 @@ function* setSortOptions(sortField, sortDirection) {
 }
 
 function* onAddCustomTokenSuccess() {
+  gtm.pushAddCustomToken()
   yield put({ type: CUSTOM_TOKEN_CLEAR })
 }
 

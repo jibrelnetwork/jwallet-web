@@ -4,7 +4,7 @@ import Keystore from 'jwallet-web-keystore'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { keystore, web3 } from 'services'
+import { keystore, gtm, web3 } from 'services'
 import { InvalidFieldError } from 'utils/errors'
 
 import { selectDigitalAssets, selectSendFundsModal } from './stateSelectors'
@@ -48,14 +48,14 @@ function* onConvertFundsSetToAccountId(action) {
 function* onSendFunds() {
   try {
     const sendFundsData = yield select(selectSendFundsModal)
-    const { onClose, symbol } = sendFundsData
+    const { symbol } = sendFundsData
     const currency = yield getCurrencyBySymbol(symbol)
 
     const transactionHandler = getTransactionHandler(symbol)
     const transactionData = getTransactionData({ ...sendFundsData, currency })
 
     yield call(transactionHandler, transactionData)
-    yield sendFundsSuccess(onClose)
+    yield sendFundsSuccess(sendFundsData)
   } catch (err) {
     if (err instanceof InvalidFieldError) {
       yield setInvalidField(err.fieldName, err.message)
@@ -74,7 +74,9 @@ function* setAccount(accountId, accounts, type) {
   })
 }
 
-function* sendFundsSuccess(onClose) {
+function* sendFundsSuccess({ onClose, symbol }) {
+  gtm.pushSendFundsSuccess(symbol)
+
   yield put({ type: SEND_FUNDS_CLOSE_MODAL })
   yield put({ type: SEND_FUNDS_CLEAR })
 

@@ -57,3 +57,15 @@ export function selectTransactions({ transactions }) {
 export function selectClearKeystoreData({ clearKeystoreModal }) {
   return clearKeystoreModal
 }
+
+export function selectImportAccountModalData({ importKeystoreAccountModal }) {
+  return importKeystoreAccountModal
+}
+
+export function selectNewAccountModalData({ newKeystoreAccountModal }) {
+  return newKeystoreAccountModal
+}
+
+export function selectNewDerivationPathModalData({ newDerivationPathModal }) {
+  return newDerivationPathModal
+}

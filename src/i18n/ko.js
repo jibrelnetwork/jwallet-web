@@ -140,12 +140,6 @@ module.exports = {
         mnemonicConfirm: {
           notMatched: '니모닉이 일치하지 않습니다',
         },
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-        passwordConfirm: {
-          notMatched: '비밀번호가 일치하지 않습니다',
-        },
       },
       buttonTitles: [
         '알겠습니다.',
@@ -179,12 +173,6 @@ module.exports = {
       error: {
         data: {
           invalid: '유효한 데이터를 입력하세요',
-        },
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-        passwordConfirm: {
-          notMatched: '비밀번호가 일치하지 않습니다',
         },
       },
       buttonTitles: [{
@@ -315,6 +303,16 @@ module.exports = {
       message: 'jWallet 알파 버전은 안정적이지 않습니다. 조심히 사용해주세요.',
     },
     customOptionsTitle: '사용자 정의 옵션',
+    general: {
+      error: {
+        password: {
+          invalid: '비밀번호 불일치',
+        },
+        passwordConfirm: {
+          notMatched: '비밀번호가 일치하지 않습니다',
+        },
+      },
+    },
   },
   digitalAssets: {
     title: '디지털 자산',

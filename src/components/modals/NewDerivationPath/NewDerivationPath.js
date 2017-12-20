@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { isKnownPath } from 'utils'
+import { isKnownPath, handle } from 'utils'
 import { DerivationPath, SubmitModal } from 'components'
 
 class NewDerivationPath extends SubmitModal {
@@ -22,6 +22,7 @@ class NewDerivationPath extends SubmitModal {
 
   renderModalBody = () => {
     const {
+      setKnownDerivationPath,
       setCustomDerivationPath,
       invalidFields,
       knownDerivationPath,
@@ -30,7 +31,7 @@ class NewDerivationPath extends SubmitModal {
 
     return (
       <DerivationPath
-        setKnownDerivationPath={this.setKnownDerivationPath}
+        setKnownDerivationPath={handle(setKnownDerivationPath)}
         setCustomDerivationPath={setCustomDerivationPath}
         knownDerivationPath={knownDerivationPath}
         customDerivationPath={customDerivationPath}
@@ -39,46 +40,10 @@ class NewDerivationPath extends SubmitModal {
     )
   }
 
-  setDerivationPath = () => {
-    const {
-      setKeystoreAccountDerivationPath,
-      accountId,
-      password,
-      knownDerivationPath,
-      customDerivationPath,
-    } = this.props
-
-    const newPath = customDerivationPath.length ? customDerivationPath : knownDerivationPath
-
-    setKeystoreAccountDerivationPath(password, accountId, newPath, this.onSuccess, this.onFail)
-  }
-
-  onFail = (err) => {
-    const { message } = err
-    const isPasswordError = /password/ig.test(message)
-    const errField = isPasswordError ? 'password' : 'customDerivationPath'
-
-    const errorMessage = isPasswordError
-      ? i18n('modals.derivationPath.error.password.invalid')
-      : this.getDerivationPathError(message)
-
-    this.shake()
-    this.props.setNewDerivationPathInvalidField(errField, errorMessage)
-  }
-
-  getDerivationPathError = (message) => {
-    const isSameDerivationPath = /same/ig.test(message)
-
-    return isSameDerivationPath
-      ? i18n('modals.derivationPath.error.customDerivationPath.same')
-      : i18n('modals.derivationPath.error.customDerivationPath.invalid')
-  }
-
-  onSuccess = () => this.closeModal()
   submitModal = () => this.setDerivationPath()
   closeModal = () => this.props.closeNewDerivationPathModal()
+  setDerivationPath = () => this.props.setKeystoreAccountDerivationPath()
   setPassword = password => this.props.setDerivationPathPassword(password)
-  setKnownDerivationPath = path => () => this.props.setKnownDerivationPath(path)
 }
 
 NewDerivationPath.propTypes = {
@@ -99,13 +64,7 @@ NewDerivationPath.propTypes = {
   buttonType: PropTypes.string.isRequired,
   iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  /* optional */
-  onClose: PropTypes.func,
-}
-
-NewDerivationPath.defaultProps = {
-  ...SubmitModal.defaultProps,
-  onClose: () => {},
+  isOpenedFromKeystoreModal: PropTypes.bool.isRequired,
 }
 
 export default NewDerivationPath
