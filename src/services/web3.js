@@ -149,10 +149,10 @@ function getTransactionReceipt(item) {
 
 function getTransactionReceiptsData(transactionReceiptsData = []) {
   return transactionReceiptsData.map((transactionReceiptData) => {
-    const { cumulativeGasUsed, status } = transactionReceiptData
+    const { gasUsed, status } = transactionReceiptData
 
     return {
-      gas: (cumulativeGasUsed || 0),
+      gas: (gasUsed || 0),
       /**
        * status flag contains 0 if tx was rejected and 1 otherwise
        * (see Byzantium changes)
