@@ -49,7 +49,7 @@ function getTransactions(address) {
   })
 }
 
-function parseTransactions(list, address, decimals = defaultDecimals) {
+function parseTransactions(list, address) {
   return list.map((item) => {
     const {
       hash,
@@ -59,7 +59,7 @@ function parseTransactions(list, address, decimals = defaultDecimals) {
       value,
       timeStamp,
       gasPrice,
-      cumulativeGasUsed,
+      gasUsed,
       contractAddress,
       isError,
     } = item
@@ -81,10 +81,10 @@ function parseTransactions(list, address, decimals = defaultDecimals) {
       contractAddress,
       transactionHash: hash,
       address: isSender ? toOrContractAddress : from,
-      amount: (value / (10 ** decimals)),
+      amount: (value / (10 ** defaultDecimals)),
       type: isSender ? 'send' : 'receive',
       status: isRejected ? 'Rejected' : status,
-      fee: ((cumulativeGasUsed * gasPrice) / (10 ** defaultDecimals)),
+      fee: ((gasUsed * gasPrice) / (10 ** defaultDecimals)),
       date: getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY'),
     }
   })
