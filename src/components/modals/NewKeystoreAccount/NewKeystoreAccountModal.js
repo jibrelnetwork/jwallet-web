@@ -1,22 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { PasswordField, SubmitModal } from 'components'
 import JTextInput from 'components/base/JTextInput'
-import { NEW_KEYSTORE_ACCOUNT_STEPS } from 'routes/JWallet/modules/modals/newKeystoreAccount'
+import { PasswordField, SubmitModal } from 'components'
+import { STEPS } from 'routes/JWallet/modules/modals/newKeystoreAccount'
 
 class NewKeystoreAccountModal extends SubmitModal {
-  componentWillMount() {
-    this.resetModal()
-  }
-
   renderModalBody = () => {
     switch (this.props.currentStep) {
-      case NEW_KEYSTORE_ACCOUNT_STEPS.SAVE_MNEMONIC:
+      case STEPS.SAVE_MNEMONIC:
         return this.renderSaveMnemonic()
-      case NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC:
+      case STEPS.CHECK_MNEMONIC:
         return this.renderCheckMnemonic()
-      case NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD:
+      case STEPS.SET_PASSWORD:
         return this.renderSetPassword()
       default:
         return ''
@@ -108,9 +104,9 @@ class NewKeystoreAccountModal extends SubmitModal {
       return true
     }
 
-    if (currentStep === NEW_KEYSTORE_ACCOUNT_STEPS.CHECK_MNEMONIC) {
+    if (currentStep === STEPS.CHECK_MNEMONIC) {
       return !mnemonicConfirm.length
-    } else if (currentStep === NEW_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD) {
+    } else if (currentStep === STEPS.SET_PASSWORD) {
       return !password.length
     }
 
@@ -118,42 +114,12 @@ class NewKeystoreAccountModal extends SubmitModal {
   }
 
   submitModal = () => {
-    const {
-      setNewKeystoreAccountCurrentStep,
-      onClose,
-      mnemonic,
-      mnemonicConfirm,
-      password,
-      passwordConfirm,
-      currentStep,
-      isInitialized,
-    } = this.props
+    const { setNewKeystoreAccountCurrentStep, currentStep } = this.props
 
-    setNewKeystoreAccountCurrentStep(currentStep, {
-      onClose,
-      mnemonic,
-      mnemonicConfirm,
-      password,
-      passwordConfirm,
-      isInitialized,
-    })
+    setNewKeystoreAccountCurrentStep(currentStep)
   }
 
-  closeModal = () => {
-    this.props.closeNewKeystoreAccountModal()
-    this.resetModal()
-  }
-
-  resetModal = () => {
-    const { setNewKeystoreAccountCurrentStep, isInitialized } = this.props
-
-    if (!isInitialized) {
-      return setNewKeystoreAccountCurrentStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE, {})
-    }
-
-    // start from mnemonic step if keystore already initialized
-    return setNewKeystoreAccountCurrentStep(NEW_KEYSTORE_ACCOUNT_STEPS.BEFORE_MNEMONIC, {})
-  }
+  closeModal = () => this.props.closeNewKeystoreAccountModal()
 }
 
 NewKeystoreAccountModal.propTypes = {
@@ -178,13 +144,6 @@ NewKeystoreAccountModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isCreating: PropTypes.bool.isRequired,
   isInitialized: PropTypes.bool.isRequired,
-  /* optional */
-  onClose: PropTypes.func,
-}
-
-NewKeystoreAccountModal.defaultProps = {
-  ...SubmitModal.defaultProps,
-  onClose: () => {},
 }
 
 export default NewKeystoreAccountModal

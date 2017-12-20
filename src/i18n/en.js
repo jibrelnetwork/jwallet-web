@@ -140,12 +140,6 @@ module.exports = {
         mnemonicConfirm: {
           notMatched: 'Mnemonic should match',
         },
-        password: {
-          invalid: 'Incorrect Password',
-        },
-        passwordConfirm: {
-          notMatched: 'Password should match',
-        },
       },
       buttonTitles: [
         'Got it!',
@@ -179,12 +173,6 @@ module.exports = {
       error: {
         data: {
           invalid: 'Please input valid data to import',
-        },
-        password: {
-          invalid: 'Incorrect Password',
-        },
-        passwordConfirm: {
-          notMatched: 'Password should match',
         },
       },
       buttonTitles: [{
@@ -315,6 +303,16 @@ module.exports = {
       message: 'jWallet is still in alpha and not production ready. Please exercise caution and avoid transacting large values.',
     },
     customOptionsTitle: 'Custom options',
+    general: {
+      error: {
+        password: {
+          invalid: 'Incorrect Password',
+        },
+        passwordConfirm: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
   },
   digitalAssets: {
     title: 'Digital Assets',

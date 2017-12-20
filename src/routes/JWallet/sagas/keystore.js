@@ -3,10 +3,14 @@ import isEmpty from 'lodash/isEmpty'
 
 import i18n from 'i18n/en'
 import config from 'config'
-import { fileSaver, keystore, storage } from 'services'
 import { sortItems, isMnemonicType } from 'utils'
+import { fileSaver, gtm, keystore, storage } from 'services'
 
-import { selectKeystoreData, selectCurrentAccountId } from './stateSelectors'
+import {
+  selectKeystoreData,
+  selectCurrentAccountId,
+  selectNewDerivationPathModalData,
+} from './stateSelectors'
 
 import {
   KEYSTORE_GET_FROM_STORAGE,
@@ -26,6 +30,7 @@ import {
   KEYSTORE_BACKUP,
   KEYSTORE_SORT_ACCOUNTS,
   KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
+  KEYSTORE_OPEN_MODAL,
   KEYSTORE_CLOSE_MODAL,
 } from '../modules/keystore'
 
@@ -33,6 +38,8 @@ import {
   CLEAR_KEYSTORE_CLOSE_MODAL,
   CLEAR_KEYSTORE_SET_INVALID_FIELD,
 } from '../modules/modals/clearKeystore'
+
+import * as NEW_DERIVATION_PATH from '../modules/modals/newDerivationPath'
 
 import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
@@ -55,6 +62,14 @@ function* getKeystoreFromStorage() {
   }
 
   yield setAccounts()
+}
+
+function* onCreateAccount({ accountId, isInitialised }) {
+  yield setAccounts()
+
+  if (!isInitialised) {
+    yield setCurrentAccount({ accountId })
+  }
 }
 
 function setKeystoreToStorage() {
@@ -116,16 +131,6 @@ function* clearCurrentAccount() {
   yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, items: [], currentIteration: 0 })
 }
 
-function* createAccount(action) {
-  const { accountId, isInitialised } = action
-
-  yield setAccounts()
-
-  if (!isInitialised) {
-    yield setCurrentAccount({ accountId })
-  }
-}
-
 function* setCurrentAccount(action) {
   const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
@@ -154,11 +159,10 @@ function* setCurrentAccount(action) {
   return setCurrentAccountToStorage(accountId)
 }
 
-function* removeAccount(action) {
+function* onRemoveAccount({ accountId }) {
   const currentAccountId = yield select(selectCurrentAccountId)
-  const { accountId } = action
-
   keystore.removeAccount(accountId)
+  gtm.pushRemoveAccountSuccess()
 
   yield closeKeystoreModal()
 
@@ -178,6 +182,7 @@ function* closeKeystoreModal() {
 function* onRemoveAccounts(action) {
   try {
     keystore.removeAccounts(action.password)
+    gtm.pushClearKeystore()
 
     yield onRemoveAccountsSuccess()
   } catch (err) {
@@ -215,8 +220,10 @@ function* setAccountName(action) {
   }
 }
 
-function* setDerivationPath(action) {
-  const { password, accountId, newDerivationPath, onSuccess, onError } = action
+function* onSetDerivationPath() {
+  const derivationPathData = yield select(selectNewDerivationPathModalData)
+  const { password, accountId, customDerivationPath, knownDerivationPath } = derivationPathData
+  const newDerivationPath = customDerivationPath || knownDerivationPath
 
   try {
     keystore.setDerivationPath(password, accountId, newDerivationPath)
@@ -225,10 +232,41 @@ function* setDerivationPath(action) {
     yield setAccounts()
     yield refreshAddressesFromMnemonic(accountId, accountData.addressIndex)
 
-    return onSuccess ? onSuccess() : null
+    yield onSetDerivationPathSuccess()
   } catch (err) {
-    return onError ? onError(err) : null
+    yield onSetDerivationPathError(err.message)
   }
+}
+
+function* onSetDerivationPathSuccess() {
+  gtm.pushSetDerivationPathSuccess()
+  yield put({ type: NEW_DERIVATION_PATH.CLOSE_MODAL })
+}
+
+function* onSetDerivationPathError(errMessage) {
+  const isPasswordError = /password/ig.test(errMessage)
+
+  yield put({
+    type: NEW_DERIVATION_PATH.SET_INVALID_FIELD,
+    fieldName: isPasswordError ? 'password' : 'customDerivationPath',
+    message: isPasswordError
+      ? i18n('modals.derivationPath.error.password.invalid')
+      : getDerivationPathError(errMessage),
+  })
+}
+
+function* onCloseDerivationPathModal() {
+  const data = yield select(selectNewDerivationPathModalData)
+
+  if (data.isOpenedFromKeystoreModal) {
+    yield put({ type: KEYSTORE_OPEN_MODAL })
+  }
+}
+
+function getDerivationPathError(message) {
+  return /same/ig.test(message)
+    ? i18n('modals.derivationPath.error.customDerivationPath.same')
+    : i18n('modals.derivationPath.error.customDerivationPath.invalid')
 }
 
 function* setAddressIndex(action) {
@@ -326,12 +364,10 @@ function setAddressesToStorage(newItems) {
   storage.setKeystoreAddressesFromMnemonic(JSON.stringify(newAddresses))
 }
 
-function setPassword(action) {
-  const { password, newPassword, onSuccess, onError } = action
-
+function onSetPassword({ password, newPassword, onSuccess, onError }) {
   try {
     keystore.setPassword(password, newPassword)
-
+    gtm.pushChangePassword()
     setKeystoreToStorage()
 
     return onSuccess ? onSuccess() : null
@@ -340,11 +376,10 @@ function setPassword(action) {
   }
 }
 
-function backupKeystore(action) {
-  const { password, onSuccess, onError } = action
-
+function onBackupKeystore({ password, onSuccess, onError }) {
   try {
     fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
+    gtm.pushBackupKeystore()
 
     return onSuccess ? onSuccess() : null
   } catch (err) {
@@ -375,7 +410,7 @@ export function* watchGetKeystoreFromStorage() {
 }
 
 export function* watchCreateAccount() {
-  yield takeEvery(KEYSTORE_CREATE_ACCOUNT, createAccount)
+  yield takeEvery(KEYSTORE_CREATE_ACCOUNT, onCreateAccount)
 }
 
 export function* watchSetCurrentAccount() {
@@ -383,7 +418,7 @@ export function* watchSetCurrentAccount() {
 }
 
 export function* watchRemoveAccount() {
-  yield takeEvery(KEYSTORE_REMOVE_ACCOUNT, removeAccount)
+  yield takeEvery(KEYSTORE_REMOVE_ACCOUNT, onRemoveAccount)
 }
 
 export function* watchRemoveAccounts() {
@@ -395,7 +430,11 @@ export function* watchSetAccountName() {
 }
 
 export function* watchSetDerivationPath() {
-  yield takeEvery(KEYSTORE_SET_DERIVATION_PATH, setDerivationPath)
+  yield takeEvery(KEYSTORE_SET_DERIVATION_PATH, onSetDerivationPath)
+}
+
+export function* watchCloseDerivationPath() {
+  yield takeEvery(NEW_DERIVATION_PATH.CLOSE_MODAL, onCloseDerivationPathModal)
 }
 
 export function* watchSetAddressIndex() {
@@ -407,11 +446,11 @@ export function* watchGetAddressesFromMnemonic() {
 }
 
 export function* watchSetPassword() {
-  yield takeEvery(KEYSTORE_SET_PASSWORD, setPassword)
+  yield takeEvery(KEYSTORE_SET_PASSWORD, onSetPassword)
 }
 
 export function* watchBackupKeystore() {
-  yield takeEvery(KEYSTORE_BACKUP, backupKeystore)
+  yield takeEvery(KEYSTORE_BACKUP, onBackupKeystore)
 }
 
 export function* watchSortAccounts() {

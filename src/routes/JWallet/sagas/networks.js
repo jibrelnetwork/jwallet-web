@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import findIndex from 'lodash/findIndex'
 
 import config from 'config'
-import { etherscan, storage, web3 } from 'services'
+import { gtm, etherscan, storage, web3 } from 'services'
 import getDefaultNetworks from 'utils/getDefaultNetworks'
 
 import {
@@ -73,6 +73,8 @@ function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }) {
     const newCurrentNetworkIndex = newItems.length - 1
 
     yield setNetworks(newItems, newCurrentNetworkIndex)
+
+    gtm.pushAddCustomNetwork()
 
     return onSuccess ? onSuccess() : null
   } catch (err) {

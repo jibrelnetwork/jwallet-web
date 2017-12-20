@@ -1,23 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { DerivationPath, Expandable, PasswordField, SubmitModal } from 'components'
+import handle from 'utils/handle'
 import JTextInput from 'components/base/JTextInput'
-
-import { IMPORT_KEYSTORE_ACCOUNT_STEPS } from 'routes/JWallet/modules/modals/importKeystoreAccount'
+import { DerivationPath, Expandable, PasswordField, SubmitModal } from 'components'
+import { STEPS } from 'routes/JWallet/modules/modals/importKeystoreAccount'
 
 class ImportKeystoreAccountModal extends SubmitModal {
-  componentWillMount() {
-    this.resetModal()
-  }
-
   renderModalBody = () => {
     switch (this.props.currentStep) {
-      case IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA:
+      case STEPS.DATA:
         return this.renderData()
-      case IMPORT_KEYSTORE_ACCOUNT_STEPS.MNEMONIC_OPTIONS:
+      case STEPS.MNEMONIC_OPTIONS:
         return this.renderMnemonicOptions()
-      case IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD:
+      case STEPS.SET_PASSWORD:
         return this.renderSetPassword()
       default:
         return ''
@@ -90,6 +86,7 @@ class ImportKeystoreAccountModal extends SubmitModal {
   renderDerivationPathOptions = () => {
     const {
       setImportKeystoreAccountCustomDerivationPath,
+      setImportKeystoreAccountKnownDerivationPath,
       invalidFields,
       knownDerivationPath,
       customDerivationPath,
@@ -98,7 +95,7 @@ class ImportKeystoreAccountModal extends SubmitModal {
     return (
       <Expandable>
         <DerivationPath
-          setKnownDerivationPath={this.setKnownDerivationPath}
+          setKnownDerivationPath={handle(setImportKeystoreAccountKnownDerivationPath)}
           setCustomDerivationPath={setImportKeystoreAccountCustomDerivationPath}
           knownDerivationPath={knownDerivationPath}
           customDerivationPath={customDerivationPath}
@@ -116,9 +113,9 @@ class ImportKeystoreAccountModal extends SubmitModal {
       return true
     }
 
-    if (currentStep === IMPORT_KEYSTORE_ACCOUNT_STEPS.DATA) {
+    if (currentStep === STEPS.DATA) {
       return !data.length
-    } else if (currentStep === IMPORT_KEYSTORE_ACCOUNT_STEPS.SET_PASSWORD) {
+    } else if (currentStep === STEPS.SET_PASSWORD) {
       return !password.length
     }
 
@@ -126,40 +123,12 @@ class ImportKeystoreAccountModal extends SubmitModal {
   }
 
   submitModal = () => {
-    const {
-      setImportKeystoreAccountCurrentStep,
-      onClose,
-      accountData,
-      data,
-      password,
-      passwordConfirm,
-      knownDerivationPath,
-      customDerivationPath,
-      currentStep,
-      isInitialized,
-    } = this.props
+    const { setImportKeystoreAccountCurrentStep, currentStep } = this.props
 
-    setImportKeystoreAccountCurrentStep(currentStep, {
-      onClose,
-      accountData,
-      data,
-      password,
-      passwordConfirm,
-      isInitialized,
-      derivationPath: customDerivationPath.length ? customDerivationPath : knownDerivationPath,
-    })
+    setImportKeystoreAccountCurrentStep(currentStep)
   }
 
-  closeModal = () => {
-    this.props.closeImportKeystoreAccountModal()
-    this.resetModal()
-  }
-
-  resetModal = () => {
-    this.props.setImportKeystoreAccountCurrentStep(IMPORT_KEYSTORE_ACCOUNT_STEPS.BEFORE, {})
-  }
-
-  setKnownDerivationPath = p => () => this.props.setImportKeystoreAccountKnownDerivationPath(p)
+  closeModal = () => this.props.closeImportKeystoreAccountModal()
 }
 
 ImportKeystoreAccountModal.propTypes = {
@@ -195,13 +164,6 @@ ImportKeystoreAccountModal.propTypes = {
   isCreating: PropTypes.bool.isRequired,
   isInitialized: PropTypes.bool.isRequired,
   isButtonLoading: PropTypes.bool.isRequired,
-  /* optional */
-  onClose: PropTypes.func,
-}
-
-ImportKeystoreAccountModal.defaultProps = {
-  ...SubmitModal.defaultProps,
-  onClose: () => {},
 }
 
 export default ImportKeystoreAccountModal

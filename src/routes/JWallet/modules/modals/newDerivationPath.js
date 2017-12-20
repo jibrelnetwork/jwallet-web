@@ -1,64 +1,71 @@
-export const NEW_DERIVATION_PATH_OPEN_MODAL = 'NEW_DERIVATION_PATH_OPEN_MODAL'
-export const NEW_DERIVATION_PATH_CLOSE_MODAL = 'NEW_DERIVATION_PATH_CLOSE_MODAL'
-export const NEW_DERIVATION_PATH_SET_PASSWORD = 'NEW_DERIVATION_PATH_SET_PASSWORD'
-export const NEW_DERIVATION_PATH_SET_KNOWN_PATH = 'NEW_DERIVATION_PATH_SET_KNOWN_PATH'
-export const NEW_DERIVATION_PATH_SET_CUSTOM_PATH = 'NEW_DERIVATION_PATH_SET_CUSTOM_PATH'
-export const NEW_DERIVATION_PATH_SET_INVALID_FIELD = 'NEW_DERIVATION_PATH_SET_INVALID_FIELD'
+export const OPEN_MODAL = 'NEW_DERIVATION_PATH_OPEN_MODAL'
+export const CLOSE_MODAL = 'NEW_DERIVATION_PATH_CLOSE_MODAL'
+export const SET_PASSWORD = 'NEW_DERIVATION_PATH_SET_PASSWORD'
+export const SET_KNOWN_PATH = 'NEW_DERIVATION_PATH_SET_KNOWN_PATH'
+export const SET_CUSTOM_PATH = 'NEW_DERIVATION_PATH_SET_CUSTOM_PATH'
+export const SET_INVALID_FIELD = 'NEW_DERIVATION_PATH_SET_INVALID_FIELD'
 
-export function openNewDerivationPathModal(onClose, accountId, derivationPath) {
+export function openNewDerivationPathModal(
+  accountId,
+  derivationPath,
+  isOpenedFromKeystoreModal = false,
+) {
   return {
-    type: NEW_DERIVATION_PATH_OPEN_MODAL,
-    onClose,
+    type: OPEN_MODAL,
     accountId,
     derivationPath,
+    isOpenedFromKeystoreModal,
   }
 }
 
 export function closeNewDerivationPathModal() {
   return {
-    type: NEW_DERIVATION_PATH_CLOSE_MODAL,
+    type: CLOSE_MODAL,
   }
 }
 
 export function setDerivationPathPassword(password) {
   return {
-    type: NEW_DERIVATION_PATH_SET_PASSWORD,
+    type: SET_PASSWORD,
     password,
   }
 }
 
 export function setKnownDerivationPath(knownDerivationPath) {
   return {
-    type: NEW_DERIVATION_PATH_SET_KNOWN_PATH,
+    type: SET_KNOWN_PATH,
     knownDerivationPath,
   }
 }
 
 export function setCustomDerivationPath(customDerivationPath) {
   return {
-    type: NEW_DERIVATION_PATH_SET_CUSTOM_PATH,
+    type: SET_CUSTOM_PATH,
     customDerivationPath,
   }
 }
 
 export function setNewDerivationPathInvalidField(fieldName, message) {
   return {
-    type: NEW_DERIVATION_PATH_SET_INVALID_FIELD,
+    type: SET_INVALID_FIELD,
     fieldName,
     message,
   }
 }
 
 const ACTION_HANDLERS = {
-  [NEW_DERIVATION_PATH_OPEN_MODAL]: (state, action) => ({
+  [OPEN_MODAL]: (state, action) => ({
     ...state,
-    onClose: action.onClose,
     accountId: action.accountId,
     currentDerivationPath: action.derivationPath,
+    isOpenedFromKeystoreModal: action.isOpenedFromKeystoreModal,
     isOpen: true,
   }),
-  [NEW_DERIVATION_PATH_CLOSE_MODAL]: () => initialState,
-  [NEW_DERIVATION_PATH_SET_PASSWORD]: (state, action) => ({
+  [CLOSE_MODAL]: state => ({
+    ...initialState,
+    isOpenedFromKeystoreModal: state.isOpenedFromKeystoreModal,
+  }),
+  [SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
     invalidFields: {
@@ -66,11 +73,11 @@ const ACTION_HANDLERS = {
       password: '',
     },
   }),
-  [NEW_DERIVATION_PATH_SET_KNOWN_PATH]: (state, action) => ({
+  [SET_KNOWN_PATH]: (state, action) => ({
     ...state,
     knownDerivationPath: action.knownDerivationPath,
   }),
-  [NEW_DERIVATION_PATH_SET_CUSTOM_PATH]: (state, action) => ({
+  [SET_CUSTOM_PATH]: (state, action) => ({
     ...state,
     customDerivationPath: action.customDerivationPath,
     invalidFields: {
@@ -78,7 +85,7 @@ const ACTION_HANDLERS = {
       customDerivationPath: '',
     },
   }),
-  [NEW_DERIVATION_PATH_SET_INVALID_FIELD]: (state, action) => ({
+  [SET_INVALID_FIELD]: (state, action) => ({
     ...state,
     invalidFields: {
       ...state.invalidFields,
@@ -94,8 +101,8 @@ const initialState = {
   currentDerivationPath: '',
   knownDerivationPath: '',
   customDerivationPath: '',
-  onClose: null,
   isOpen: false,
+  isOpenedFromKeystoreModal: false,
 }
 
 export default function newDerivationPathModal(state = initialState, action) {

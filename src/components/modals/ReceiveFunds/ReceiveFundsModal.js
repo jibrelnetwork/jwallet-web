@@ -4,9 +4,9 @@ import isEmpty from 'lodash/isEmpty'
 import BigNumber from 'bignumber.js'
 
 import config from 'config'
-import qrCode from 'services/qrCode'
-import { CopyableField, SubmitModal } from 'components'
 import JTextInput from 'components/base/JTextInput'
+import { gtm, qrCode } from 'services'
+import { CopyableField, SubmitModal } from 'components'
 
 class ReceiveFundsModal extends SubmitModal {
   renderModalBody = () => {
@@ -49,6 +49,8 @@ class ReceiveFundsModal extends SubmitModal {
   generateQRCodeToReceive = () => {
     const { currentAddress, amount } = this.props
     const amountWei = parseFloat(amount, 10) * (10 ** config.defaultDecimals)
+
+    gtm.pushGenerateQRCode()
 
     return qrCode.generate({
       requisites: {
