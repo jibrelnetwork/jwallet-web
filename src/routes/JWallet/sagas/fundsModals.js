@@ -161,7 +161,7 @@ function validateAccountId(accountId) {
 }
 
 function validateAddress(address) {
-  if (!Keystore.isHexStringValid(address, 40)) {
+  if (!Keystore.isValidAddress(address)) {
     throw (new InvalidFieldError('address', i18n('modals.sendFunds.error.address.invalid')))
   }
 }
