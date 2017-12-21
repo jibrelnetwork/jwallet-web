@@ -64,7 +64,7 @@ class SubmitModalPasswordButton extends Component {
       <SubmitModalButton
         onPress={this.submit}
         name={isTitleState ? name : 'password'}
-        title={isTitleState ? title : 'Type your password'}
+        title={isTitleState ? title : i18n('modals.passwordButtonTitle')}
         iconName={isTitleState ? iconName : 'pin'}
         disabled={disabled}
         isLoading={isLoading}

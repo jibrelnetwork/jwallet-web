@@ -1,17 +1,12 @@
 import { connect } from 'react-redux'
 
-import {
-  closeBackupKeystoreModal,
-  setBackupKeystorePassword,
-  setBackupKeystoreInvalidField,
-} from 'routes/JWallet/modules/modals/backupKeystore'
-
 import { backupKeystore } from 'routes/JWallet/modules/keystore'
+import { closeModal, setPassword } from 'routes/JWallet/modules/modals/backupKeystore'
 
 import BackupKeystoreModal from './BackupKeystoreModal'
 
-const mapStateToProps = state => ({
-  ...state.backupKeystoreModal,
+const mapStateToProps = ({ backupKeystoreModal }) => ({
+  ...backupKeystoreModal,
   modalName: 'backup-keystore',
   buttonType: 'password',
   imageName: 'keys-ok',
@@ -21,9 +16,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  closeBackupKeystoreModal,
-  setBackupKeystorePassword,
-  setBackupKeystoreInvalidField,
+  closeModal,
+  setPassword,
   backupKeystore,
 }
 

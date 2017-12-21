@@ -14,7 +14,7 @@ import {
   setNewAccountName,
 } from 'routes/JWallet/modules/keystore'
 
-import { openBackupKeystoreModal } from 'routes/JWallet/modules/modals/backupKeystore'
+import { openModal as openBackupKeystoreModal } from 'routes/JWallet/modules/modals/backupKeystore'
 import { openClearKeystoreModal } from 'routes/JWallet/modules/modals/clearKeystore'
 import { openImportKeystoreAccountModal } from 'routes/JWallet/modules/modals/importKeystoreAccount'
 import { openNewDerivationPathModal } from 'routes/JWallet/modules/modals/newDerivationPath'

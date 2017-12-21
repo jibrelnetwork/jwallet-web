@@ -1,10 +1,9 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
-import i18n from 'i18n/en'
 import config from 'config'
 import { sortItems, isMnemonicType } from 'utils'
-import { fileSaver, gtm, keystore, storage } from 'services'
+import { gtm, keystore, storage } from 'services'
 
 import {
   selectKeystoreData,
@@ -27,7 +26,6 @@ import {
   KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
   KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
   KEYSTORE_SET_PASSWORD,
-  KEYSTORE_BACKUP,
   KEYSTORE_SORT_ACCOUNTS,
   KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
   KEYSTORE_OPEN_MODAL,
@@ -45,7 +43,6 @@ import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
 
 const { addressesPerIteration } = config
-const { modals } = i18n
 
 function* getKeystoreFromStorage() {
   try {
@@ -201,7 +198,7 @@ function* onRemoveAccountsError() {
   yield put({
     type: CLEAR_KEYSTORE_SET_INVALID_FIELD,
     fieldName: 'password',
-    message: modals.removeAccounts.error.password.incorrect,
+    message: i18n('modals.general.error.password.invalid'),
   })
 }
 
@@ -250,7 +247,7 @@ function* onSetDerivationPathError(errMessage) {
     type: NEW_DERIVATION_PATH.SET_INVALID_FIELD,
     fieldName: isPasswordError ? 'password' : 'customDerivationPath',
     message: isPasswordError
-      ? i18n('modals.derivationPath.error.password.invalid')
+      ? i18n('modals.general.error.password.invalid')
       : getDerivationPathError(errMessage),
   })
 }
@@ -376,17 +373,6 @@ function onSetPassword({ password, newPassword, onSuccess, onError }) {
   }
 }
 
-function onBackupKeystore({ password, onSuccess, onError }) {
-  try {
-    fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
-    gtm.pushBackupKeystore()
-
-    return onSuccess ? onSuccess() : null
-  } catch (err) {
-    return onError ? onError(err) : null
-  }
-}
-
 function* sortAccounts(action) {
   const keystoreData = yield select(selectKeystoreData)
 
@@ -447,10 +433,6 @@ export function* watchGetAddressesFromMnemonic() {
 
 export function* watchSetPassword() {
   yield takeEvery(KEYSTORE_SET_PASSWORD, onSetPassword)
-}
-
-export function* watchBackupKeystore() {
-  yield takeEvery(KEYSTORE_BACKUP, onBackupKeystore)
 }
 
 export function* watchSortAccounts() {

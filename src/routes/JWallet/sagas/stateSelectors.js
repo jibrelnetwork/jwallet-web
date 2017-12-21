@@ -73,3 +73,7 @@ export function selectNewDerivationPathModalData({ newDerivationPathModal }) {
 export function selectAlphaWarningModalData({ alphaWarningModal }) {
   return alphaWarningModal
 }
+
+export function selectBackupKeystoreModalData({ backupKeystoreModal }) {
+  return backupKeystoreModal
+}
