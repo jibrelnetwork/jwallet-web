@@ -132,12 +132,10 @@ export function setSortAccountsOptions(sortField = 'name', sortDirection = 'ASC'
   }
 }
 
-export function backupKeystore(password = '', onSuccess = null, onError = null) {
+export function backupKeystore(password = '') {
   return {
     type: KEYSTORE_BACKUP,
     password,
-    onSuccess,
-    onError,
   }
 }
 

@@ -203,9 +203,6 @@ module.exports = {
         customDerivationPath: '사용자 정의 Derivation Path',
       },
       error: {
-        password: {
-          invalid: '비밀번호 불일치',
-        },
         customDerivationPath: {
           same: '동일한 Derivation Path를 설정할 수 없습니다',
           invalid: '유효하지 않은 Derivation Path',
@@ -245,11 +242,6 @@ module.exports = {
       title: '키스토어 초기화',
       alert: '모든 키를 제거하시겠습니까?',
       buttonTitle: '확인',
-      error: {
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-      },
     },
     digitalAssetManager: {
       searchField: '디지털 자산 검색...',
@@ -302,7 +294,6 @@ module.exports = {
       buttonTitle: '알겠습니다',
       message: 'jWallet 알파 버전은 안정적이지 않습니다. 조심히 사용해주세요.',
     },
-    customOptionsTitle: '사용자 정의 옵션',
     general: {
       error: {
         password: {
@@ -313,6 +304,8 @@ module.exports = {
         },
       },
     },
+    customOptionsTitle: '사용자 정의 옵션',
+    passwordButtonTitle: 'Type your password',
   },
   digitalAssets: {
     title: '디지털 자산',

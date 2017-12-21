@@ -1,44 +1,47 @@
-export const BACKUP_KEYSTORE_OPEN_MODAL = 'BACKUP_KEYSTORE_OPEN_MODAL'
-export const BACKUP_KEYSTORE_CLOSE_MODAL = 'BACKUP_KEYSTORE_CLOSE_MODAL'
-export const BACKUP_KEYSTORE_SET_PASSWORD = 'BACKUP_KEYSTORE_SET_PASSWORD'
-export const BACKUP_KEYSTORE_SET_INVALID_FIELD = 'BACKUP_KEYSTORE_SET_INVALID_FIELD'
+export const OPEN_MODAL = 'BACKUP_KEYSTORE_OPEN_MODAL'
+export const CLOSE_MODAL = 'BACKUP_KEYSTORE_CLOSE_MODAL'
+export const SET_PASSWORD = 'BACKUP_KEYSTORE_SET_PASSWORD'
+export const SET_INVALID_FIELD = 'BACKUP_KEYSTORE_SET_INVALID_FIELD'
 
-export function openBackupKeystoreModal(onClose = null) {
+export function openModal(isOpenedFromKeystoreModal = false) {
   return {
-    type: BACKUP_KEYSTORE_OPEN_MODAL,
-    onClose,
+    type: OPEN_MODAL,
+    isOpenedFromKeystoreModal,
   }
 }
 
-export function closeBackupKeystoreModal() {
+export function closeModal() {
   return {
-    type: BACKUP_KEYSTORE_CLOSE_MODAL,
+    type: CLOSE_MODAL,
   }
 }
 
-export function setBackupKeystorePassword(password = '') {
+export function setPassword(password = '') {
   return {
-    type: BACKUP_KEYSTORE_SET_PASSWORD,
+    type: SET_PASSWORD,
     password,
   }
 }
 
-export function setBackupKeystoreInvalidField(fieldName, message = '') {
+export function setInvalidField(fieldName, message = '') {
   return {
-    type: BACKUP_KEYSTORE_SET_INVALID_FIELD,
+    type: SET_INVALID_FIELD,
     fieldName,
     message,
   }
 }
 
 const ACTION_HANDLERS = {
-  [BACKUP_KEYSTORE_OPEN_MODAL]: (state, action) => ({
+  [OPEN_MODAL]: (state, action) => ({
     ...state,
     isOpen: true,
-    onClose: action.onClose,
+    isOpenedFromKeystoreModal: action.isOpenedFromKeystoreModal,
   }),
-  [BACKUP_KEYSTORE_CLOSE_MODAL]: () => initialState,
-  [BACKUP_KEYSTORE_SET_PASSWORD]: (state, action) => ({
+  [CLOSE_MODAL]: state => ({
+    ...initialState,
+    isOpenedFromKeystoreModal: state.isOpenedFromKeystoreModal,
+  }),
+  [SET_PASSWORD]: (state, action) => ({
     ...state,
     password: action.password,
     invalidFields: {
@@ -46,7 +49,7 @@ const ACTION_HANDLERS = {
       password: '',
     },
   }),
-  [BACKUP_KEYSTORE_SET_INVALID_FIELD]: (state, action) => ({
+  [SET_INVALID_FIELD]: (state, action) => ({
     ...state,
     invalidFields: {
       ...state.invalidFields,
@@ -58,7 +61,6 @@ const ACTION_HANDLERS = {
 const initialState = {
   invalidFields: {},
   password: '',
-  onClose: null,
   isOpen: false,
 }
 

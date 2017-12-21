@@ -203,9 +203,6 @@ module.exports = {
         customDerivationPath: 'Custom derivation path',
       },
       error: {
-        password: {
-          invalid: 'Incorrect Password',
-        },
         customDerivationPath: {
           same: 'Can not set the same derivation path',
           invalid: 'Invalid derivation path',
@@ -245,11 +242,6 @@ module.exports = {
       title: 'Clear Keystore',
       alert: 'Please confirm that you would like to remove all your keys',
       buttonTitle: 'Confirm',
-      error: {
-        password: {
-          invalid: 'Incorrect Password',
-        },
-      },
     },
     digitalAssetManager: {
       searchField: 'Search digital assets...',
@@ -302,7 +294,6 @@ module.exports = {
       buttonTitle: 'Got it!',
       message: 'jWallet is still in alpha and not production ready. Please exercise caution and avoid transacting large values.',
     },
-    customOptionsTitle: 'Custom options',
     general: {
       error: {
         password: {
@@ -313,6 +304,8 @@ module.exports = {
         },
       },
     },
+    customOptionsTitle: 'Custom options',
+    passwordButtonTitle: 'Type your password',
   },
   digitalAssets: {
     title: 'Digital Assets',
