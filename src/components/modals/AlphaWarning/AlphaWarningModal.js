@@ -4,6 +4,10 @@ import PropTypes from 'prop-types'
 import SubmitModal from 'components/SubmitModal'
 
 class AlphaWarningModal extends SubmitModal {
+  componentDidMount() {
+    this.props.startTimer()
+  }
+
   renderModalBody = () => {
     return (
       <div className='alpha-warning'>
@@ -13,22 +17,18 @@ class AlphaWarningModal extends SubmitModal {
     )
   }
 
-  submitModal = () => this.closeModal()
-  closeModal = () => this.props.closeAlphaWarningModal()
+  closeModal = () => {}
+  submitModal = () => this.props.closeModal()
+  isModalButtonDisabled = () => (this.props.seconds > 0)
 }
 
 AlphaWarningModal.propTypes = {
-  closeAlphaWarningModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  startTimer: PropTypes.func.isRequired,
   modalName: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
+  seconds: PropTypes.number.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  /* optional */
-  onClose: PropTypes.func,
-}
-
-AlphaWarningModal.defaultProps = {
-  ...SubmitModal.defaultProps,
-  onClose: () => {},
 }
 
 export default AlphaWarningModal

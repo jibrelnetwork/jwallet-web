@@ -69,3 +69,7 @@ export function selectNewAccountModalData({ newKeystoreAccountModal }) {
 export function selectNewDerivationPathModalData({ newDerivationPathModal }) {
   return newDerivationPathModal
 }
+
+export function selectAlphaWarningModalData({ alphaWarningModal }) {
+  return alphaWarningModal
+}

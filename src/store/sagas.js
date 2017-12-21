@@ -1,3 +1,4 @@
+import * as alphaWarningModalSagas from 'routes/JWallet/sagas/alphaWarningModal'
 import * as currenciesSagas from 'routes/JWallet/sagas/currencies'
 import * as fundsModalsSagas from 'routes/JWallet/sagas/fundsModals'
 import * as i18nSagas from 'routes/JWallet/sagas/i18n'
@@ -8,6 +9,7 @@ import * as notificationSagas from 'routes/JWallet/sagas/notification'
 import * as transactionsSagas from 'routes/JWallet/sagas/transactions'
 
 export default {
+  ...alphaWarningModalSagas,
   ...currenciesSagas,
   ...fundsModalsSagas,
   ...i18nSagas,
