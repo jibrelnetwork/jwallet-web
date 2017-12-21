@@ -8,21 +8,21 @@ export default function getDefaultNetworks() {
     // rpcport: '8545',
     ssl: true,
     isCustom: false,
-  }, /* {
+  }, {
     id: 3,
-    title: ropsten,
-    rpcaddr: 'ns3089219.ip-37-59-55.eu',
-    rpcport: '20003', // parity node
+    title: i18n('networkManager.knownNetworkTitle.ropsten'),
+    rpcaddr: 'ropsten.node.jwallet.network',
+    rpcport: '8545', // parity node
     ssl: true,
     isCustom: false,
-  }, {
+  }, /* {
     id: 1,
     title: main,
     rpcaddr: '138.197.180.127',
     rpcport: '20001', // geth node
     ssl: true,
     isCustom: false,
-  }, */ {
+  }, {
     id: 3,
     title: i18n('networkManager.knownNetworkTitle.ropsten'),
     rpcaddr: 'ns3089219.ip-37-59-55.eu',
