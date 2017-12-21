@@ -28,7 +28,7 @@
     "immutable": "3.8.1",
     "jibrel-contracts-jsapi": "0.4.0",
     "json-format": "1.0.1",
-    "jwallet-web-keystore": "0.3.2",
+    "jwallet-web-keystore": "0.4.0",
     "jwallet-web-storage": "0.2.1",
     "koa": "2.4.1",
     "koa-convert": "1.2.0",

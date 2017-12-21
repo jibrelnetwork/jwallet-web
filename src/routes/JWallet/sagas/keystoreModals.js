@@ -80,9 +80,9 @@ function getNewAccountData(data) {
     return { type: 'mnemonic', isReadOnly: false, mnemonic: data }
   } else if (Keystore.isBip32XPublicKeyValid(data)) {
     return { type: 'mnemonic', isReadOnly: true, bip32XPublicKey: data }
-  } else if (Keystore.isHexStringValid(data, 64)) {
+  } else if (Keystore.isValidPrivateKey(data)) {
     return { type: 'address', isReadOnly: false, privateKey: data }
-  } else if (Keystore.isHexStringValid(data, 40)) {
+  } else if (Keystore.isValidAddress(data)) {
     return { type: 'address', isReadOnly: true, address: data }
   }
 
