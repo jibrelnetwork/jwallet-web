@@ -1,7 +1,6 @@
 function push(data) {
   const dataLayer = window.dataLayer || []
   dataLayer.push(data)
-  console.log(data)
 }
 
 /**

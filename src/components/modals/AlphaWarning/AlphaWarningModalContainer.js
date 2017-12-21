@@ -1,16 +1,20 @@
 import { connect } from 'react-redux'
 
-import { closeAlphaWarningModal } from 'routes/JWallet/modules/modals/alphaWarning'
+import { closeModal, startTimer } from 'routes/JWallet/modules/modals/alphaWarning'
 
 import AlphaWarningModal from './AlphaWarningModal'
 
-const mapStateToProps = state => ({
-  ...state.alphaWarningModal,
+const mapStateToProps = ({ alphaWarningModal: { isOpen, seconds } }) => ({
+  isOpen,
+  seconds,
   modalTitle: '',
   modalName: 'alpha-warning',
-  buttonTitle: i18n('modals.alphaWarning.buttonTitle'),
+  buttonTitle: (seconds > 0) ? seconds : i18n('modals.alphaWarning.buttonTitle'),
 })
 
-const mapDispatchToProps = { closeAlphaWarningModal }
+const mapDispatchToProps = {
+  closeModal,
+  startTimer,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlphaWarningModal)
