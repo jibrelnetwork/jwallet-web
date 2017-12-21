@@ -32,12 +32,8 @@
   background-image: $icon-currencies;
 }
 
-.icon--currencies-header {
-  background-image: $icon-currencies-header;
-}
-
 .icon--keys {
-  background-image: $icon-keys;
+  background-image: $icon-keys-blue;
 }
 
 .icon--dots {
@@ -116,7 +112,7 @@
 }
 
 .icon--networks {
-  background-image: $icon-networks;
+  background-image: $icon-networks-blue;
 }
 
 .icon--networks-checkbox {
@@ -160,15 +156,15 @@
 }
 
 .icon--small-arrow {
-  background-image: $icon-small-arrow;
+  background-image: $icon-small-arrow-gray;
 }
 
 .icon--small-arrow-up {
-  background-image: $icon-small-arrow;
+  background-image: $icon-small-arrow-gray;
   transform: rotate(-180deg);
 }
 
-.icon--small-arrow-blue {
+.icon--small-arrow-popover {
   background-image: $icon-small-arrow-blue;
 }
 
@@ -214,5 +210,17 @@
 
   .icon--convert {
     background-image: $icon-convert-w;
+  }
+
+  .icon--keys {
+    background-image: $icon-keys-white;
+  }
+
+  .icon--networks {
+    background-image: $icon-networks-white;
+  }
+
+  .icon--small-arrow-popover {
+    background-image: $icon-small-arrow-white;
   }
 }

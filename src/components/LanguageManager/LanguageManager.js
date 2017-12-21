@@ -11,7 +11,7 @@ function LanguageManager({ setLanguage }) {
       <div className='language-manager__head'>
         {i18n(`languages.${i18n('language')}`)}
       </div>
-      <JIcon name='small-arrow-blue' className='language-manager__icon' small />
+      <JIcon name='small-arrow-popover' className='language-manager__icon' small />
     </div>
   )
 

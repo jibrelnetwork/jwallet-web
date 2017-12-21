@@ -42,7 +42,7 @@ function JWalletHeader({
         />
         <CurrenciesManager
           onClick={openCurrenciesModal}
-          iconName='currencies-header'
+          iconName='currencies'
           className='header__currencies-manager pull-right'
         />
       </div>
