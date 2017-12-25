@@ -5,29 +5,32 @@ function push(data) {
 
 /**
  * eventAction value is one of:
- * Start/GenerateMnemonic/SaveMnemonic/ConfirmMnemonic/EnterPassword/CreateSuccess
+ * GenerateMnemonic/SaveMnemonic/ConfirmMnemonic/EnterPassword/CreateSuccess
  */
-function pushCreateAccount(eventAction) {
+function pushCreateAccount(eventLabel) {
   push({
-    event: 'Account',
-    eventCategory: 'New',
-    eventAction,
-  })
-}
-
-/**
- * eventAction value is one of Start/SetData/ChangeDerivationPath/EnterPassword/ImportSuccess
- * eventLabel value is one of address/privateKey/bip32Xpub/mnemonic
- */
-function pushImportAccount(eventAction, eventLabel) {
-  push({
-    event: 'Account',
-    eventCategory: 'Import',
-    eventAction,
+    event: 'RegistrationProcess',
+    eventCategory: 'CreateNewWallet',
+    eventAction: 'CreateNew',
     eventLabel,
   })
 }
 
+/**
+ * eventLabel value is one of Start/SetData/ChangeDerivationPath/EnterPassword/Success
+ * eventValue value is one of address/privateKey/bip32Xpub/mnemonic
+ */
+function pushImportAccount(eventLabel, eventValue) {
+  push({
+    event: 'RegistrationProcess',
+    eventCategory: 'CreateNewWallet',
+    eventAction: 'ImportFirstWallet',
+    eventLabel,
+    eventValue,
+  })
+}
+
+/*
 function pushSetDerivationPathSuccess() {
   push({
     event: 'Account',
@@ -43,6 +46,7 @@ function pushRemoveAccountSuccess() {
     eventAction: 'RemoveAccountSuccess',
   })
 }
+*/
 
 /**
  * eventLabel value is code of digital asset (e.g. ETH, JNT)
@@ -50,75 +54,92 @@ function pushRemoveAccountSuccess() {
 function pushSendFundsSuccess(eventLabel) {
   push({
     event: 'Transaction',
-    eventCategory: 'Send',
+    eventCategory: 'TransactionInWallet',
     eventAction: 'SendFundsSuccess',
     eventLabel,
   })
 }
 
-function pushGenerateQRCode() {
+/**
+ * eventCategory value is one of ReceiveFunds/QRCodeGenerate
+ */
+function pushReceiveFunds(eventCategory) {
   push({
-    event: 'ReceiveFunds',
-    eventCategory: 'QRCode',
-    eventAction: 'GenerateQRCode',
+    event: 'ReceiveFundsProcess',
+    eventCategory,
+    eventAction: 'StartProcess',
   })
 }
 
 function pushAddCustomToken() {
   push({
-    event: 'DigitalAsset',
-    eventCategory: 'CustomToken',
+    event: 'AddCustom',
+    eventCategory: 'DigitalAsset',
     eventAction: 'AddCustomToken',
+    eventLabel: 'Success',
   })
 }
 
-function pushBackupKeystore() {
+/**
+ * eventLabel value is one of Open/Success
+ */
+function pushBackupKeystore(eventLabel) {
   push({
-    event: 'Keystore',
-    eventCategory: 'Backup',
+    event: 'BackupKeystore',
+    eventCategory: 'ProfileSettings',
     eventAction: 'BackupKeystore',
+    eventLabel,
   })
 }
 
 function pushChangePassword() {
   push({
-    event: 'Keystore',
-    eventCategory: 'Password',
+    event: 'ChangePassword',
+    eventCategory: 'ProfileSettings',
     eventAction: 'ChangePassword',
+    eventLabel: 'Success',
   })
 }
 
 function pushClearKeystore() {
   push({
-    event: 'Keystore',
-    eventCategory: 'Remove',
-    eventAction: 'ClearKeystore',
+    event: 'DeleteKeystore',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'DeleteKeystore',
+    eventLabel: 'Success',
   })
 }
 
 function pushAddCustomNetwork() {
   push({
-    event: 'Network',
-    eventCategory: 'CustomNetwork',
+    event: 'AddCustom',
+    eventCategory: 'Network',
     eventAction: 'AddCustomNetwork',
+    eventLabel: 'Success',
   })
 }
 
-function pushChangeLanguage() {
+/**
+ * eventLabel value is a current language
+ */
+function pushChangeLanguage(eventLabel) {
   push({
-    event: 'Language',
-    eventCategory: 'ChangeLanguage',
+    event: 'ChangeLanguage',
+    eventCategory: 'ProfileSettings',
     eventAction: 'ChangeLanguage',
+    eventLabel,
   })
 }
 
 export default {
   pushCreateAccount,
   pushImportAccount,
+  /*
   pushSetDerivationPathSuccess,
   pushRemoveAccountSuccess,
+  */
   pushSendFundsSuccess,
-  pushGenerateQRCode,
+  pushReceiveFunds,
   pushAddCustomToken,
   pushBackupKeystore,
   pushChangePassword,

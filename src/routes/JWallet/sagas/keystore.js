@@ -159,7 +159,7 @@ function* setCurrentAccount(action) {
 function* onRemoveAccount({ accountId }) {
   const currentAccountId = yield select(selectCurrentAccountId)
   keystore.removeAccount(accountId)
-  gtm.pushRemoveAccountSuccess()
+  // gtm.pushRemoveAccountSuccess()
 
   yield closeKeystoreModal()
 
@@ -236,7 +236,7 @@ function* onSetDerivationPath() {
 }
 
 function* onSetDerivationPathSuccess() {
-  gtm.pushSetDerivationPathSuccess()
+  // gtm.pushSetDerivationPathSuccess()
   yield put({ type: NEW_DERIVATION_PATH.CLOSE_MODAL })
 }
 

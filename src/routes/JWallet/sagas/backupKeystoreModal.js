@@ -13,8 +13,6 @@ function* onBackupKeystore({ password }) {
 
   try {
     fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
-    gtm.pushBackupKeystore()
-
     yield onBackupKeystoreSuccess()
   } catch (err) {
     yield onBackupKeystoreFail()
@@ -22,6 +20,7 @@ function* onBackupKeystore({ password }) {
 }
 
 function* onBackupKeystoreSuccess() {
+  gtm.pushBackupKeystore('Success')
   yield put({ type: BACKUP_KEYSTORE.CLOSE_MODAL })
 }
 
@@ -31,6 +30,10 @@ function* onBackupKeystoreFail() {
     fieldName: 'password',
     message: i18n('modals.backupKeystore.error.password.invalid'),
   })
+}
+
+function onOpenBackupKeystoreModal() {
+  gtm.pushBackupKeystore('Open')
 }
 
 function* onCloseBackupKeystoreModal() {
@@ -43,6 +46,10 @@ function* onCloseBackupKeystoreModal() {
 
 export function* watchBackupKeystore() {
   yield takeEvery(KEYSTORE_BACKUP, onBackupKeystore)
+}
+
+export function* watchOpenBackupKeystoreModal() {
+  yield takeEvery(BACKUP_KEYSTORE.OPEN_MODAL, onOpenBackupKeystoreModal)
 }
 
 export function* watchCloseBackupKeystoreModal() {

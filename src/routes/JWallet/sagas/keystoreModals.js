@@ -212,7 +212,7 @@ function* onSetNewStep({ currentStep }) {
 }
 
 function* goToNewFirstStep(isInitialized) {
-  gtm.pushCreateAccount('Start')
+  gtm.pushCreateAccount()
   yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.FIRST, isInitialized)
 }
 
