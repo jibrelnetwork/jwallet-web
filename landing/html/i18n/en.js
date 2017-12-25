@@ -78,15 +78,18 @@ module.exports = {
     items: [{
       title: 'Open Web App',
       href: '/jwallet',
-      class: 'web button',
+      class: 'web button', // not translate
+      id: 'try-jwallet-web-app', // not translate
     }, {
       title: 'iOS Coming soon',
       href: '#',
-      class: 'ios button soon',
+      class: 'ios button soon', // not translate
+      id: 'try-jwallet-ios-app', // not translate
     }, {
       title: 'Android Coming soon',
       href: '#',
-      class: 'android button soon',
+      class: 'android button soon', // not translate
+      id: 'try-jwallet-android-app', // not translate
     }],
   },
   footer: {

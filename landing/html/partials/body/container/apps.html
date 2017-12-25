@@ -9,7 +9,7 @@
               data-aos="fade-up"
               data-aos-duration="{{ loop.index * 300 }}"
             >
-              <a href="{{ item.href }}" target="_blank" class="{{ item.class }}">
+              <a href="{{ item.href }}" target="_blank" class="{{ item.class }}" id="{{ item.id }}">
                 {{ item.title }}
               </a>
             </div>{% endfor %}
