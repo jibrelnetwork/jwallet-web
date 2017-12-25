@@ -79,14 +79,17 @@ module.exports = {
       title: '웹 버전 사용하기',
       href: '/jwallet?lang=ko',
       class: 'web button', // not translate
+      id: 'try-jwallet-web-app', // not translate
     }, {
       title: 'iOS 버전 출시 예정',
       href: '#',
       class: 'ios button soon', // not translate
+      id: 'try-jwallet-ios-app', // not translate
     }, {
       title: 'Android 버전 출시 예정',
       href: '#',
       class: 'android button soon', // not translate
+      id: 'try-jwallet-android-app', // not translate
     }],
   },
   footer: {
