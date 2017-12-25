@@ -50,7 +50,7 @@ class ReceiveFundsModal extends SubmitModal {
     const { currentAddress, amount } = this.props
     const amountWei = parseFloat(amount, 10) * (10 ** config.defaultDecimals)
 
-    gtm.pushGenerateQRCode()
+    gtm.pushReceiveFunds('QRCodeGenerate')
 
     return qrCode.generate({
       requisites: {

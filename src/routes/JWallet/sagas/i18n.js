@@ -6,7 +6,7 @@ import { LANGUAGE_SET } from '../modules/i18n'
 function onSetLanguage({ languageCode }) {
   storage.setI18n(languageCode)
 
-  gtm.pushChangeLanguage()
+  gtm.pushChangeLanguage(languageCode)
 
   const { origin, pathname } = window.location
   window.location.href = `${origin}${pathname}?lang=${languageCode}`

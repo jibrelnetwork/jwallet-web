@@ -20,6 +20,8 @@ import {
   SEND_FUNDS,
 } from '../modules/modals/sendFunds'
 
+import { RECEIVE_FUNDS_OPEN_MODAL } from '../modules/modals/receiveFunds'
+
 import {
   CONVERT_FUNDS_SET_FROM_ACCOUNT,
   CONVERT_FUNDS_SET_FROM_ACCOUNT_ID,
@@ -228,6 +230,10 @@ function* getCurrencyBySymbol(symbol) {
   }
 }
 
+function onReceiveOpenModal() {
+  gtm.pushReceiveFunds('ReceiveFunds')
+}
+
 export function* watchSendFundsAccountId() {
   yield takeEvery(SEND_FUNDS_SET_ACCOUNT_ID, onSendFundsSetAccountId)
 }
@@ -242,4 +248,8 @@ export function* watchConvertFundsToAccountId() {
 
 export function* watchSendFunds() {
   yield takeEvery(SEND_FUNDS, onSendFunds)
+}
+
+export function* watchReceiveOpenModal() {
+  yield takeEvery(RECEIVE_FUNDS_OPEN_MODAL, onReceiveOpenModal)
 }
