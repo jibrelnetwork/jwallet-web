@@ -41,6 +41,10 @@
   &--account-manager {
     top: -10px;
   }
+
+  &--language-manager {
+    min-width: 100px;
+  }
 }
 
 .popover__items {
@@ -86,4 +90,8 @@
 
 .popover__label {
   padding-left: 25px;
+}
+
+.modals--ja .popover--keystore-manager {
+  width: 230px;
 }

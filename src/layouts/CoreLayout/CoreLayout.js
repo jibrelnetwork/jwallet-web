@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import { isMemoryStorage } from 'services/storage'
 import { base, modals, JWalletHeader, Warning } from 'components'
@@ -44,9 +45,15 @@ class CoreLayout extends Component {
     }
 
     return (
-      <div className='container-wrap'>
+      <div className={`container-wrap `}>
         {this.renderWarning()}
-        <div className={`container ${this.isAnyModalOpened() ? 'container--modal-open' : ''}`}>
+        <div
+          className={classNames(
+            'container',
+            `container--${i18n('language')}`,
+            { 'container--modal-open': this.isAnyModalOpened() },
+          )}
+        >
           {this.renderHeader()}
           {this.renderContent()}
           {this.renderFooter()}
@@ -108,7 +115,7 @@ class CoreLayout extends Component {
 
   renderModals = () => {
     return (
-      <div>
+      <div className={`modals modals--${i18n('language')}`}>
         <AlphaWarningModal />
         <BackupKeystoreModal />
         <ClearKeystoreModal />

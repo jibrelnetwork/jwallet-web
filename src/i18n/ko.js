@@ -25,6 +25,7 @@ module.exports = {
   languages: {
     en: 'English',
     ko: 'Korean',
+    ja: 'Japanese',
   },
   modals: {
     sendFunds: {
