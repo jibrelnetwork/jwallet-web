@@ -9,7 +9,6 @@ export default store => ({
       const currencies = require('./modules/currencies').default
       const keystore = require('./modules/keystore').default
       const networks = require('./modules/networks').default
-      const notification = require('./modules/notification').default
       const transactions = require('./modules/transactions').default
 
       const alphaWarningModal = require('./modules/modals/alphaWarning').default
@@ -27,7 +26,6 @@ export default store => ({
       injectReducer(store, { key: 'currencies', reducer: currencies })
       injectReducer(store, { key: 'keystore', reducer: keystore })
       injectReducer(store, { key: 'networks', reducer: networks })
-      injectReducer(store, { key: 'notification', reducer: notification })
       injectReducer(store, { key: 'transactions', reducer: transactions })
 
       injectReducer(store, { key: 'alphaWarningModal', reducer: alphaWarningModal })
