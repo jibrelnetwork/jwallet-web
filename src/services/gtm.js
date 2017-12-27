@@ -38,15 +38,16 @@ function pushSetDerivationPathSuccess() {
     eventAction: 'SetDerivationPathSuccess',
   })
 }
+*/
 
 function pushRemoveAccountSuccess() {
   push({
-    event: 'Account',
-    eventCategory: 'Remove',
-    eventAction: 'RemoveAccountSuccess',
+    event: 'RemoveAccountSuccess',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'Remove',
+    eventLabel: 'RemoveAccountSuccess',
   })
 }
-*/
 
 /**
  * eventLabel value is code of digital asset (e.g. ETH, JNT)
