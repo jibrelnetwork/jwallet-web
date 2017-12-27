@@ -45,7 +45,7 @@ class CoreLayout extends Component {
     }
 
     return (
-      <div className={`container-wrap `}>
+      <div className='container-wrap'>
         {this.renderWarning()}
         <div
           className={classNames(
