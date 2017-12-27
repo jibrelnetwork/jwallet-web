@@ -18,7 +18,6 @@ var vendorScripts = [
 ]
 
 var scripts = [
-  './landing/js/banner.js',
   './landing/js/main.js',
   './landing/js/popover.js',
   './landing/js/tokens.js',

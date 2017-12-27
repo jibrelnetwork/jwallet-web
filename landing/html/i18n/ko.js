@@ -128,13 +128,5 @@ module.exports = {
       'Baarerstrasse 10, 6302 Zug, Switzerland',
     ],
   },
-  notification: {
-    title: 'Token Sale is now live',
-    description: [
-      'Jibrel provides traditional financial assets,',
-      'as ERC-20 tokens, on the Ethereum blockchain',
-    ],
-    link: 'Participate in token sale',
-  },
   timestamp: Date.now(),
 }

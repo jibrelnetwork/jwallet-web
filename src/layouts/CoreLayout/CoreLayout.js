@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { isMemoryStorage } from 'services/storage'
-import { base, modals, JWalletHeader, Notification, Warning } from 'components'
+import { base, modals, JWalletHeader, Warning } from 'components'
 
 import 'styles/core.scss'
 
@@ -52,7 +52,6 @@ class CoreLayout extends Component {
           {this.renderFooter()}
         </div>
         {this.renderModals()}
-        {this.renderNotification()}
       </div>
     )
   }
@@ -124,10 +123,6 @@ class CoreLayout extends Component {
         <SendFundsModal />
       </div>
     )
-  }
-
-  renderNotification = () => {
-    return <Notification />
   }
 
   isAnyModalOpened() {
