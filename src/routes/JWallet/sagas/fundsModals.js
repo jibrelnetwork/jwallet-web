@@ -5,9 +5,9 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import { keystore, gtm, web3 } from 'services'
-import { InvalidFieldError } from 'utils/errors'
+import { getKeystoreAccountType, InvalidFieldError } from 'utils'
 
-import { selectDigitalAssets, selectSendFundsModal } from './stateSelectors'
+import { selectDigitalAssets, selectSendFundsModal, selectCurrentAccountId } from './stateSelectors'
 
 import {
   SEND_FUNDS_CLOSE_MODAL,
@@ -76,8 +76,11 @@ function* setAccount(accountId, accounts, type) {
   })
 }
 
-function* sendFundsSuccess({ onClose, symbol }) {
-  gtm.pushSendFundsSuccess(symbol)
+function* sendFundsSuccess({ onClose, accountId, symbol }) {
+  const accountData = keystore.getAccount({ id: accountId })
+  const accountType = getKeystoreAccountType(accountData)
+
+  gtm.pushSendFundsSuccess(symbol, accountType)
 
   yield put({ type: SEND_FUNDS_CLOSE_MODAL })
   yield put({ type: SEND_FUNDS_CLEAR })
@@ -230,8 +233,17 @@ function* getCurrencyBySymbol(symbol) {
   }
 }
 
-function onReceiveOpenModal() {
-  gtm.pushReceiveFunds('ReceiveFunds')
+function* onReceiveOpenModal() {
+  const currentAccountId = yield select(selectCurrentAccountId)
+
+  if (!currentAccountId) {
+    return
+  }
+
+  const accountData = keystore.getAccount({ id: currentAccountId })
+  const accountType = getKeystoreAccountType(accountData)
+
+  gtm.pushReceiveFunds('ReceiveFunds', accountType)
 }
 
 export function* watchSendFundsAccountId() {

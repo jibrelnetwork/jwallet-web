@@ -47,10 +47,10 @@ class ReceiveFundsModal extends SubmitModal {
   }
 
   generateQRCodeToReceive = () => {
-    const { currentAddress, amount } = this.props
+    const { currentAddress, amount, accountType } = this.props
     const amountWei = parseFloat(amount, 10) * (10 ** config.defaultDecimals)
 
-    gtm.pushReceiveFunds('QRCodeGenerate')
+    gtm.pushReceiveFunds('QRCodeGenerate', accountType)
 
     return qrCode.generate({
       requisites: {
@@ -86,12 +86,14 @@ ReceiveFundsModal.propTypes = {
   /* optional */
   onClose: PropTypes.func,
   currentAddress: PropTypes.string,
+  accountType: PropTypes.string,
 }
 
 ReceiveFundsModal.defaultProps = {
   ...SubmitModal.defaultProps,
   onClose: () => {},
   currentAddress: '',
+  accountType: null,
 }
 
 export default ReceiveFundsModal

@@ -4,7 +4,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import { fileSaver, gtm, keystore } from 'services'
-import { isMnemonicType, InvalidFieldError } from 'utils'
+import { getKeystoreAccountType, isMnemonicType, InvalidFieldError } from 'utils'
 
 import * as IMPORT_KEYSTORE_ACCOUNT from '../modules/modals/importKeystoreAccount'
 import * as NEW_KEYSTORE_ACCOUNT from '../modules/modals/newKeystoreAccount'
@@ -27,7 +27,7 @@ function* onSetImportStep({ currentStep }) {
       case IMPORT_KEYSTORE_ACCOUNT.STEPS.DATA:
         return yield getImportDataType(data, isInitialized)
       case IMPORT_KEYSTORE_ACCOUNT.STEPS.MNEMONIC_OPTIONS:
-        return yield goFromMnemonicOptionsStep()
+        return yield goFromMnemonicOptionsStep(data.accountData, isInitialized)
       case IMPORT_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD:
         return yield importKeystoreAccount(data, isInitialized)
       case IMPORT_KEYSTORE_ACCOUNT.STEPS.SUCCESS:
@@ -47,14 +47,14 @@ function* onSetImportStep({ currentStep }) {
 }
 
 function* goToImportDataStep(isInitialized) {
-  gtm.pushImportAccount('Start')
+  gtm.pushImportAccount('Start', null, isInitialized)
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.DATA, isInitialized)
 }
 
-function* getImportDataType({ data, isInitialized }) {
-  const newAccountData = getNewAccountData(data)
+function* getImportDataType(data, isInitialized) {
+  const newAccountData = getNewAccountData(data.data)
 
-  gtm.pushImportAccount('SetData', newAccountData.type)
+  gtm.pushImportAccount('SetData', getKeystoreAccountType(newAccountData), isInitialized)
 
   yield put({ type: IMPORT_KEYSTORE_ACCOUNT.SET_ACCOUNT_DATA, accountData: newAccountData })
 
@@ -66,8 +66,8 @@ function* getImportDataType({ data, isInitialized }) {
   )
 }
 
-function* goFromMnemonicOptionsStep() {
-  gtm.pushImportAccount('ChangeDerivationPath')
+function* goFromMnemonicOptionsStep(accountData, isInitialized) {
+  gtm.pushImportAccount('ChangeDerivationPath', getKeystoreAccountType(accountData), isInitialized)
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.SET_PASSWORD)
 }
 
@@ -106,18 +106,18 @@ function* importKeystoreAccount(props, isInitialized) {
     yield checkPassword(password, passwordConfirm)
   }
 
-  gtm.pushImportAccount('EnterPassword', accountData.type)
+  gtm.pushImportAccount('EnterPassword', getKeystoreAccountType(accountData), isInitialized)
 
   try {
     const accountId = keystore.createAccount({ ...accountData, password, derivationPath })
-    yield onImportSuccess(accountId, isInitialized)
+    yield onImportSuccess(accountId, accountData, isInitialized)
   } catch (err) {
     yield onImportFail(err.message)
   }
 }
 
-function* onImportSuccess(accountId, isInitialized) {
-  gtm.pushImportAccount('ImportSuccess')
+function* onImportSuccess(accountId, accountData, isInitialized) {
+  gtm.pushImportAccount('ImportSuccess', getKeystoreAccountType(accountData), isInitialized)
 
   yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.SUCCESS, isInitialized)
@@ -212,7 +212,7 @@ function* onSetNewStep({ currentStep }) {
 }
 
 function* goToNewFirstStep(isInitialized) {
-  gtm.pushCreateAccount()
+  gtm.pushCreateAccount('Start', isInitialized)
   yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.FIRST, isInitialized)
 }
 
@@ -233,7 +233,7 @@ function* generateNewMnemonic(isInitialized) {
     mnemonic: Keystore.generateMnemonic().toString(),
   })
 
-  gtm.pushCreateAccount('GenerateMnemonic')
+  gtm.pushCreateAccount('GenerateMnemonic', isInitialized)
 
   yield put({ type: NEW_KEYSTORE_ACCOUNT.SET_MNEMONIC_CONFIRM, mnemonicConfirm: '' })
   yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.SAVE_MNEMONIC, isInitialized)
@@ -241,7 +241,7 @@ function* generateNewMnemonic(isInitialized) {
 
 function* saveMnemonicToFile(mnemonic, isInitialized) {
   fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
-  gtm.pushCreateAccount('SaveMnemonic')
+  gtm.pushCreateAccount('SaveMnemonic', isInitialized)
   yield updateNewStep(NEW_KEYSTORE_ACCOUNT.STEPS.CHECK_MNEMONIC, isInitialized)
 }
 
@@ -250,7 +250,7 @@ function* createKeystoreAccount({ password, passwordConfirm, mnemonic }, isIniti
     yield checkPassword(password, passwordConfirm, 'new')
   }
 
-  gtm.pushCreateAccount('EnterPassword')
+  gtm.pushCreateAccount('EnterPassword', isInitialized)
 
   try {
     const accountId = keystore.createAccount({ type: 'mnemonic', password, mnemonic })
@@ -261,7 +261,7 @@ function* createKeystoreAccount({ password, passwordConfirm, mnemonic }, isIniti
 }
 
 function* onCreateSuccess(accountId, isInitialized) {
-  gtm.pushCreateAccount('CreateSuccess')
+  gtm.pushCreateAccount('CreateSuccess', isInitialized)
 
   yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
   yield resetNewModal()
@@ -294,7 +294,7 @@ function* checkMnemonicConfirm({ mnemonic, mnemonicConfirm }, isInitialized) {
     )
   }
 
-  gtm.pushCreateAccount('ConfirmMnemonic')
+  gtm.pushCreateAccount('ConfirmMnemonic', isInitialized)
 
   yield updateNewStep(
     isInitialized
