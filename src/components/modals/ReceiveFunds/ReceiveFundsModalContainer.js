@@ -1,6 +1,8 @@
 import isEmpty from 'lodash/isEmpty'
 import { connect } from 'react-redux'
 
+import getKeystoreAccountType from 'utils/getKeystoreAccountType'
+
 import {
   closeReceiveFundsModal,
   setReceiveFundsAmount,
@@ -18,6 +20,7 @@ const mapStateToProps = ({ receiveFundsModal, keystore }) => {
     iconName: 'qr-code',
     modalTitle: i18n('modals.receiveFunds.title'),
     buttonTitle: i18n('modals.receiveFunds.buttonTitle'),
+    accountType: getKeystoreAccountType(currentAccount),
     currentAddress: isEmpty(address) ? addressesFromMnemonic.items[addressIndex] : address,
   }
 }

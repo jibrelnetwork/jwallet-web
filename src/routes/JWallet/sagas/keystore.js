@@ -2,7 +2,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
 import config from 'config'
-import { sortItems, isMnemonicType } from 'utils'
+import { getKeystoreAccountType, sortItems, isMnemonicType } from 'utils'
 import { gtm, keystore, storage } from 'services'
 
 import {
@@ -158,8 +158,11 @@ function* setCurrentAccount(action) {
 
 function* onRemoveAccount({ accountId }) {
   const currentAccountId = yield select(selectCurrentAccountId)
+  const accountData = getAccountData(accountId)
+  const accountType = getKeystoreAccountType(accountData)
+
   keystore.removeAccount(accountId)
-  gtm.pushRemoveAccountSuccess()
+  gtm.pushRemoveAccountSuccess(accountType)
 
   yield closeKeystoreModal()
 
@@ -236,7 +239,7 @@ function* onSetDerivationPath() {
 }
 
 function* onSetDerivationPathSuccess() {
-  // gtm.pushSetDerivationPathSuccess()
+  gtm.pushSetDerivationPathSuccess()
   yield put({ type: NEW_DERIVATION_PATH.CLOSE_MODAL })
 }
 
