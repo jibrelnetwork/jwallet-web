@@ -12,12 +12,15 @@ module.exports = {
     items: [{
       href: '#benefits',
       title: 'Benefits',
+      class: 'scroll', // not translate
     }, {
       href: '#features',
       title: 'Features',
+      class: 'scroll', // not translate
     }, {
       href: '#apps',
       title: 'Apps',
+      class: 'scroll', // not translate
     }],
     languages: [{
       href: '/',

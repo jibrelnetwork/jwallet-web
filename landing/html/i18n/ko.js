@@ -12,12 +12,15 @@ module.exports = {
     items: [{
       href: '#benefits',
       title: '장점',
+      class: 'scroll', // not translate
     }, {
       href: '#features',
       title: '특징',
+      class: 'scroll', // not translate
     }, {
       href: '#apps',
       title: '앱',
+      class: 'scroll', // not translate
     }],
     languages: [{
       href: '/',
