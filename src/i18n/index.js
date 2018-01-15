@@ -3,10 +3,11 @@ import at from 'lodash/at'
 import storage from 'services/storage'
 
 import en from './en'
-import ja from './ja'
+import zh from './zh'
 import ko from './ko'
+import ja from './ja'
 
-const i18nMap = { en, ja, ko }
+const i18nMap = { en, zh, ko, ja }
 
 export default function i18n() {
   const i18nLanguageFromQuery = (/lang=([a-z]{2})/ig.exec(window.location.href) || [])[1]
