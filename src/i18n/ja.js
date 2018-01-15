@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 module.exports = {
-  language: 'ja',
+  language: 'ja', // not translate
   warning: {
     memoryStorage: 'メモリをストレージとして使用しています。キーをバックアップすることを忘れないでください!',
   },
@@ -23,9 +23,10 @@ module.exports = {
     },
   },
   languages: {
-    en: '英語',
-    ko: '韓国語',
-    ja: '日本語',
+    en: 'English',
+    zh: 'Chinese',
+    ko: 'Korean',
+    ja: 'Japanese',
   },
   modals: {
     sendFunds: {

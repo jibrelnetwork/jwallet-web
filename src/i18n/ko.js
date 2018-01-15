@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 module.exports = {
-  language: 'ko',
+  language: 'ko', // not translate
   warning: {
     memoryStorage: '메모리를 스토리지로 사용 중입니다. 반드시 키를 백업하세요!',
   },
@@ -24,6 +24,7 @@ module.exports = {
   },
   languages: {
     en: 'English',
+    zh: 'Chinese',
     ko: 'Korean',
     ja: 'Japanese',
   },

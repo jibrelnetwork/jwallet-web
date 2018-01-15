@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 module.exports = {
-  language: 'en',
+  language: 'en', // not translate
   warning: {
     memoryStorage: 'You are using Memory as storage. Please don\'t forget to backup your keys!',
   },
@@ -24,6 +24,7 @@ module.exports = {
   },
   languages: {
     en: 'English',
+    zh: 'Chinese',
     ko: 'Korean',
     ja: 'Japanese',
   },
