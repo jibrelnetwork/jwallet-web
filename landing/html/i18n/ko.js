@@ -109,7 +109,7 @@ module.exports = {
       type: 'bitcointalk', // not translate
       title: '비트코인 토크',
     }, {
-      href: 'https://open.kakao.com/o/gJDnwxB',
+      href: 'https://open.kakao.com/o/ghfXgFE',
       type: 'kakaotalk', // not translate
       title: '카카오톡',
     }, {
