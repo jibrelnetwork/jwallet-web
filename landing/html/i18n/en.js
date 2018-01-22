@@ -109,7 +109,7 @@ module.exports = {
       type: 'bitcointalk',
       title: 'Bitcointalk',
     }, {
-      href: 'https://open.kakao.com/o/gJDnwxB',
+      href: 'https://open.kakao.com/o/ghfXgFE',
       type: 'kakaotalk',
       title: 'Kakaotalk',
     }, {
