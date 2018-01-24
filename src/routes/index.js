@@ -4,9 +4,7 @@ import JWalletRoute from './JWallet'
 const createRoutes = store => ({
   path: '/',
   component: CoreLayout,
-  childRoutes: [
-    JWalletRoute(store),
-  ],
+  indexRoute: JWalletRoute(store),
 })
 
 export default createRoutes

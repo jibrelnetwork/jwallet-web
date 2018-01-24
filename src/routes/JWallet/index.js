@@ -1,7 +1,6 @@
 import { injectReducer } from 'store/reducers'
 
 export default store => ({
-  path: 'jwallet',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       const JWallet = require('./containers/JWalletContainer').default
@@ -41,6 +40,6 @@ export default store => ({
       injectReducer(store, { key: 'sendFundsModal', reducer: sendFundsModal })
 
       cb(null, JWallet)
-    }, 'jwallet')
+    }, '')
   },
 })
