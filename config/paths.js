@@ -43,7 +43,7 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
   appPublic: resolveApp('src/public'),
-  appHtml: resolveApp('src/public/jwallet/index.html'),
+  appHtml: resolveApp('src/public/index.html'),
   appIndexJs: resolveApp('src/main.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
