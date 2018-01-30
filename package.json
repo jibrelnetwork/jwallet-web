@@ -15,7 +15,8 @@
     "test": "node scripts/test.js --env=jsdom",
     "start": "node scripts/start.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "lint": "./node_modules/.bin/eslint ./src"
+    "lint": "./node_modules/.bin/eslint ./src",
+    "flow": "./node_modules/.bin/flow"
   },
   "dependencies": {
     "bignumber.js": "4.0.4",
@@ -70,6 +71,7 @@
     "babel-plugin-transform-proto-to-assign": "6.26.0",
     "babel-plugin-transform-replace-object-assign": "0.2.1",
     "babel-preset-airbnb": "2.4.0",
+    "babel-preset-flow": "6.23.0",
     "babel-preset-react-app": "3.0.2",
     "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
