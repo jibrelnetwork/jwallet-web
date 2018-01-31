@@ -1,3 +1,5 @@
+// @flow
+
 import { put, select, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
@@ -56,11 +58,11 @@ function* getKeystoreFromStorage() {
   yield setAccounts()
 }
 
-function* onCreateAccount({ accountId, isInitialised }) {
+function* onCreateAccount(action: { accountId: AccountId, isInitialised: boolean }) {
   yield setAccounts()
 
-  if (!isInitialised) {
-    yield setCurrentAccount({ accountId })
+  if (!action.isInitialised) {
+    yield setCurrentAccount({ accountId: action.accountId })
   }
 }
 
@@ -68,7 +70,7 @@ function setKeystoreToStorage() {
   storage.setKeystore(keystore.serialize())
 }
 
-function setCurrentAccountToStorage(accountId) {
+function setCurrentAccountToStorage(accountId: AccountId) {
   storage.setKeystoreCurrentAccount(accountId)
 }
 
@@ -85,11 +87,11 @@ function* setAccounts() {
   }
 }
 
-function getAccountData(accountId) {
+function getAccountData(accountId: AccountId) {
   return keystore.getAccount({ id: accountId })
 }
 
-function* setCurrentAccountData(currentAccount) {
+function* setCurrentAccountData(currentAccount: Account) {
   yield put({ type: KEYSTORE_SET_CURRENT_ACCOUNT_DATA, currentAccount })
 }
 
@@ -127,7 +129,7 @@ function* clearCurrentAccount() {
   yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, items: [], currentIteration: 0 })
 }
 
-function* setCurrentAccount(action) {
+function* setCurrentAccount(action: { accountId: AccountId }) {
   const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
 
@@ -161,8 +163,9 @@ function* onCurrentAddressChange() {
   yield getTransactions()
 }
 
-function* onRemoveAccount({ accountId }) {
+function* onRemoveAccount(action: { accountId: AccountId }) {
   const currentAccountId = yield select(selectCurrentAccountId)
+  const { accountId } = action
   const accountData = getAccountData(accountId)
   const accountType = getKeystoreAccountType(accountData)
 
@@ -244,7 +247,7 @@ function* onSetDerivationPathSuccess() {
   yield put({ type: NEW_DERIVATION_PATH.CLOSE_MODAL })
 }
 
-function* onSetDerivationPathError(errMessage) {
+function* onSetDerivationPathError(errMessage: string) {
   const isPasswordError = /password/ig.test(errMessage)
 
   yield put({
@@ -264,13 +267,13 @@ function* onCloseDerivationPathModal() {
   }
 }
 
-function getDerivationPathError(message) {
+function getDerivationPathError(message: string) {
   return /same/ig.test(message)
     ? i18n('modals.derivationPath.error.customDerivationPath.same')
     : i18n('modals.derivationPath.error.customDerivationPath.invalid')
 }
 
-function* setAddressIndex(action) {
+function* setAddressIndex(action: { accountId: AccountId, addressIndex: Index }) {
   const { accountId, addressIndex } = action
 
   keystore.setAddressIndex(accountId, addressIndex)
@@ -280,10 +283,10 @@ function* setAddressIndex(action) {
   yield onCurrentAddressChange()
 }
 
-function* refreshAddressesFromMnemonic(accountId, addressIndex) {
+function* refreshAddressesFromMnemonic(accountId: AccountId, addressIndex: Index) {
   storage.removeKeystoreAddressesFromMnemonic()
 
-  yield setAddressesFromMnemonic()
+  yield setAddressesFromMnemonic([], [], 0)
 
   const limit = addressesPerIteration
   let iteration = 0
@@ -300,13 +303,17 @@ function* refreshAddressesFromMnemonic(accountId, addressIndex) {
   }
 }
 
-function* getAddressesFromMnemonic(action) {
+function* getAddressesFromMnemonic(action: {
+  accountId: AccountId,
+  iteration: number,
+  limit: number,
+}) {
   const { addressesFromMnemonic } = yield select(selectKeystoreData)
   const { accountId, iteration, limit } = action
   const existedItems = addressesFromMnemonic.items
 
   const addressesFromStorage = getAddressesFromStorage(iteration, limit)
-  const isFromStorage = !!addressesFromStorage
+  const isFromStorage = !isEmpty(addressesFromStorage)
 
   const newItems = isFromStorage
     ? addressesFromStorage
@@ -319,18 +326,18 @@ function* getAddressesFromMnemonic(action) {
   }
 }
 
-function getAddressesFromStorage(iteration, limit) {
+function getAddressesFromStorage(iteration: number, limit: number): Addresses {
   const addresses = storage.getKeystoreAddressesFromMnemonic()
 
   if (!addresses) {
-    return null
+    return []
   }
 
   const parsedAddresses = JSON.parse(addresses)
   const isFound = (parsedAddresses.length > (iteration * limit))
 
   if (!isFound) {
-    return null
+    return []
   }
 
   // return all found results if iteration parameter was not passed
@@ -349,7 +356,11 @@ function getAddressesFromStorage(iteration, limit) {
   return foundItems
 }
 
-function* setAddressesFromMnemonic(existedItems = [], newItems = [], iteration = -1) {
+function* setAddressesFromMnemonic(
+  existedItems: Addresses,
+  newItems: Addresses,
+  iteration: number,
+) {
   yield put({
     type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
     items: [...existedItems, ...newItems],
@@ -357,7 +368,7 @@ function* setAddressesFromMnemonic(existedItems = [], newItems = [], iteration =
   })
 }
 
-function setAddressesToStorage(newItems) {
+function setAddressesToStorage(newItems: Addresses) {
   const addresses = storage.getKeystoreAddressesFromMnemonic()
   const parsedAddresses = !addresses ? [] : JSON.parse(addresses)
   const newAddresses = [...parsedAddresses, ...newItems]
@@ -377,7 +388,7 @@ function onSetPassword({ password, newPassword, onSuccess, onError }) {
   }
 }
 
-function* sortAccounts(action) {
+function* sortAccounts(action: { sortField: string }) {
   const keystoreData = yield select(selectKeystoreData)
 
   const oldSortField = keystoreData.sortField
@@ -395,50 +406,50 @@ function* sortAccounts(action) {
   })
 }
 
-export function* watchGetKeystoreFromStorage() {
+export function* watchGetKeystoreFromStorage(): Saga<void> {
   yield takeEvery(KEYSTORE_GET_FROM_STORAGE, getKeystoreFromStorage)
 }
 
-export function* watchCreateAccount() {
+export function* watchCreateAccount(): Saga<void> {
   yield takeEvery(KEYSTORE_CREATE_ACCOUNT, onCreateAccount)
 }
 
-export function* watchSetCurrentAccount() {
+export function* watchSetCurrentAccount(): Saga<void> {
   yield takeEvery(KEYSTORE_SET_CURRENT_ACCOUNT, setCurrentAccount)
 }
 
-export function* watchRemoveAccount() {
+export function* watchRemoveAccount(): Saga<void> {
   yield takeEvery(KEYSTORE_REMOVE_ACCOUNT, onRemoveAccount)
 }
 
-export function* watchRemoveAccounts() {
+export function* watchRemoveAccounts(): Saga<void> {
   yield takeEvery(KEYSTORE_REMOVE_ACCOUNTS, onRemoveAccounts)
 }
 
-export function* watchSetAccountName() {
+export function* watchSetAccountName(): Saga<void> {
   yield takeEvery(KEYSTORE_SET_ACCOUNT_NAME, setAccountName)
 }
 
-export function* watchSetDerivationPath() {
+export function* watchSetDerivationPath(): Saga<void> {
   yield takeEvery(KEYSTORE_SET_DERIVATION_PATH, onSetDerivationPath)
 }
 
-export function* watchCloseDerivationPath() {
+export function* watchCloseDerivationPath(): Saga<void> {
   yield takeEvery(NEW_DERIVATION_PATH.CLOSE_MODAL, onCloseDerivationPathModal)
 }
 
-export function* watchSetAddressIndex() {
+export function* watchSetAddressIndex(): Saga<void> {
   yield takeEvery(KEYSTORE_SET_ADDRESS_INDEX, setAddressIndex)
 }
 
-export function* watchGetAddressesFromMnemonic() {
+export function* watchGetAddressesFromMnemonic(): Saga<void> {
   yield takeEvery(KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC, getAddressesFromMnemonic)
 }
 
-export function* watchSetPassword() {
+export function* watchSetPassword(): Saga<void> {
   yield takeEvery(KEYSTORE_SET_PASSWORD, onSetPassword)
 }
 
-export function* watchSortAccounts() {
+export function* watchSortAccounts(): Saga<void> {
   yield takeEvery(KEYSTORE_SORT_ACCOUNTS, sortAccounts)
 }
