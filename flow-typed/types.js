@@ -13,7 +13,7 @@ declare type Addresses = Array<Address>
  */
 
 declare type DigitalAsset = {
-  address: string,
+  address: Address,
   symbol: string,
   name: string,
   decimals: number,
@@ -27,7 +27,7 @@ declare type DigitalAsset = {
 declare type DigitalAssets = Array<DigitalAsset>
 
 declare type TokenData = {
-  address: string,
+  address: Address,
   symbol: string,
   name: string,
   decimals: string,
@@ -52,7 +52,7 @@ declare type Account = {
   accountName: string,
   derivationPath?: string,
   bip32XPublicKey?: string,
-  addressIndex?: number,
+  addressIndex?: Index,
   isReadOnly: boolean,
   isActive: boolean,
 }
@@ -67,9 +67,32 @@ declare type Network = {
   title: string,
   rpcaddr: string,
   rpcport: string,
-  id: number,
+  id: Index,
   ssl: boolean,
   isCustom: boolean,
 }
 
 declare type Networks = Array<Network>
+
+/**
+ * Transactions
+ */
+
+declare type Hash = string
+
+declare type Transaction = {
+  type: string,
+  status: string,
+  transactionHash: Hash,
+  date: string,
+  contractAddress: Address,
+  fee: number,
+  amount: number,
+  timestamp: number,
+  from?: Address,
+  to?: Address,
+  address?: Address,
+  isJNT?: boolean,
+}
+
+declare type Transactions = Array<Transaction>
