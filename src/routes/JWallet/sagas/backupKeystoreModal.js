@@ -1,3 +1,5 @@
+// @flow
+
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { fileSaver, gtm, keystore } from 'services'
@@ -6,13 +8,13 @@ import * as BACKUP_KEYSTORE from '../modules/modals/backupKeystore'
 import { selectBackupKeystoreModalData } from './stateSelectors'
 import { KEYSTORE_OPEN_MODAL, KEYSTORE_BACKUP } from '../modules/keystore'
 
-function* onBackupKeystore({ password }) {
-  if (!password) {
+function* onBackupKeystore(action: { password: Password }) {
+  if (!action.password) {
     return
   }
 
   try {
-    fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
+    fileSaver.saveJSON(keystore.getDecryptedAccounts(action.password), 'jwallet-keystore-backup')
     yield onBackupKeystoreSuccess()
   } catch (err) {
     yield onBackupKeystoreFail()
@@ -44,14 +46,14 @@ function* onCloseBackupKeystoreModal() {
   }
 }
 
-export function* watchBackupKeystore() {
+export function* watchBackupKeystore(): Saga<void> {
   yield takeEvery(KEYSTORE_BACKUP, onBackupKeystore)
 }
 
-export function* watchOpenBackupKeystoreModal() {
+export function* watchOpenBackupKeystoreModal(): Saga<void> {
   yield takeEvery(BACKUP_KEYSTORE.OPEN_MODAL, onOpenBackupKeystoreModal)
 }
 
-export function* watchCloseBackupKeystoreModal() {
+export function* watchCloseBackupKeystoreModal(): Saga<void> {
   yield takeEvery(BACKUP_KEYSTORE.CLOSE_MODAL, onCloseBackupKeystoreModal)
 }
