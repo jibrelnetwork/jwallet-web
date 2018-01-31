@@ -40,24 +40,31 @@ declare type TokenData = {
 declare type AccountId = string
 declare type Password = string
 
-declare type EncryptedAccountData = {
-  privateKey: string,
-  mnemonic: string,
-}
-
 declare type Account = {
-  encrypted: EncryptedAccountData,
+  encrypted: {
+    privateKey: string,
+    mnemonic: string,
+  },
   id: string,
   type: string,
   accountName: string,
+  isReadOnly: boolean,
+  isActive: boolean,
   derivationPath?: string,
   bip32XPublicKey?: string,
   addressIndex?: Index,
-  isReadOnly: boolean,
-  isActive: boolean,
 }
 
 declare type Accounts = Array<Account>
+
+declare type NewAccountData = {
+  type: string,
+  isReadOnly: boolean,
+  mnemonic?: string,
+  bip32XPublicKey?: string,
+  privateKey?: string,
+  address?: string,
+}
 
 /**
  * Networks
