@@ -1,3 +1,5 @@
+// @flow
+
 import Keystore from 'jwallet-web-keystore'
 import { delay } from 'redux-saga'
 import { find, findIndex, findLastIndex, isEmpty } from 'lodash'
@@ -76,16 +78,16 @@ function* onGetDigitalAssets() {
   yield getBalancesLoop()
 }
 
-function* onSetDigitalAssets({ items }) {
+function* onSetDigitalAssets(action: { items: DigitalAssets }) {
   const networkId = yield select(selectCurrentNetworkId)
 
-  storage.setDigitalAssets(JSON.stringify(items), networkId)
+  storage.setDigitalAssets(JSON.stringify(action.items), networkId)
 }
 
-function* onToggleDigitalAsset({ address }) {
+function* onToggleDigitalAsset(action: { address: Address | null }) {
   const { items, currentAddress, isActiveAll } = yield select(selectDigitalAssets)
 
-  if (address === null) {
+  if (action.address === null) {
     yield toggleAllDigitalAssets(items, isActiveAll)
 
     return
@@ -93,11 +95,11 @@ function* onToggleDigitalAsset({ address }) {
 
   // toggle isActive state of found item
   const newItems = [...items]
-  const toggledItem = find(newItems, { address })
+  const toggledItem = find(newItems, { address: action.address })
   toggledItem.isActive = !toggledItem.isActive
 
   // need to get new active address is current was toggled off
-  const isCurrentOff = ((currentAddress === address) && !toggledItem.isActive)
+  const isCurrentOff = ((currentAddress === action.address) && !toggledItem.isActive)
   const newCurrentAddress = isCurrentOff ? getNextAvailableActiveAddress(newItems) : currentAddress
 
   // set new isActiveAll state
@@ -109,24 +111,24 @@ function* onToggleDigitalAsset({ address }) {
   yield setActiveAllFlag(newIsActiveAll)
 }
 
-function* onSetCurrentDigitalAsset({ currentAddress }) {
+function* onSetCurrentDigitalAsset(action: { currentAddress: Address }) {
   const networkId = yield select(selectCurrentNetworkId)
 
-  storage.setDigitalAssetsCurrent(currentAddress, networkId)
+  storage.setDigitalAssetsCurrent(action.currentAddress, networkId)
 
   yield getTransactions()
 }
 
-function* onSearchDigitalAssets({ searchQuery }) {
+function* onSearchDigitalAssets(action: { searchQuery: string }) {
   const { items } = yield select(selectDigitalAssets)
 
-  const foundItems = searchItems(items, searchQuery, digitalAssetsSearchFields)
+  const foundItems = searchItems(items, action.searchQuery, digitalAssetsSearchFields)
   const foundItemsSymbols = foundItems.map(i => i.symbol)
 
-  yield setSearchOptions(foundItemsSymbols, searchQuery)
+  yield setSearchOptions(foundItemsSymbols, action.searchQuery)
 }
 
-function* onSortDigitalAssets(action) {
+function* onSortDigitalAssets(action: { sortField: string }) {
   const { items, currentAddress, sortField, sortDirection } = yield select(selectDigitalAssets)
   const newSortField = action.sortField || sortField
 
@@ -137,29 +139,29 @@ function* onSortDigitalAssets(action) {
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
-function* onAddCustomToken({ customTokenData }) {
+function* onAddCustomToken(action: { customTokenData: TokenData }) {
   try {
     const { items } = yield select(selectDigitalAssets)
 
-    checkCustomTokenData(customTokenData, items)
+    checkCustomTokenData(action.customTokenData, items)
 
-    const newItems = [...items, getCustomTokenData(customTokenData)]
+    const newItems = [...items, getCustomTokenData(action.customTokenData)]
 
-    yield setDigitalAssets(newItems, customTokenData.address)
+    yield setDigitalAssets(newItems, action.customTokenData.address)
     yield onAddCustomTokenSuccess()
   } catch (err) {
     yield onAddCustomTokenError(err)
   }
 }
 
-function checkCustomTokenData({ address, name, symbol, decimals }, items) {
-  checkCustomTokenAddress(address, items)
-  checkCustomTokenName(name)
-  checkCustomTokenSymbol(symbol, items)
-  checkCustomTokenDecimals(decimals)
+function checkCustomTokenData(tokenData: TokenData, items: DigitalAssets) {
+  checkCustomTokenAddress(tokenData.address, items)
+  checkCustomTokenName(tokenData.name)
+  checkCustomTokenSymbol(tokenData.symbol, items)
+  checkCustomTokenDecimals(tokenData.decimals)
 }
 
-function checkCustomTokenAddress(address, items) {
+function checkCustomTokenAddress(address: Address, items: DigitalAssets) {
   if (!Keystore.isValidAddress(address)) {
     throw (new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.invalid')))
   }
@@ -167,7 +169,7 @@ function checkCustomTokenAddress(address, items) {
   checkContractAddressUniq(address, items)
 }
 
-function checkContractAddressUniq(address, items) {
+function checkContractAddressUniq(address: Address, items: DigitalAssets) {
   items.forEach((token) => {
     if (address.toLowerCase() === token.address.toLowerCase()) {
       throw (new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.exists')))
@@ -175,13 +177,13 @@ function checkContractAddressUniq(address, items) {
   })
 }
 
-function checkCustomTokenName(name) {
+function checkCustomTokenName(name: string) {
   if (/[^a-zA-Z ]/.test(name) || (name.length < 3) || (name.length > 100)) {
     throw (new InvalidFieldError('name', i18n('modals.addCustomToken.error.name.invalid')))
   }
 }
 
-function checkCustomTokenSymbol(symbol, items) {
+function checkCustomTokenSymbol(symbol: string, items: DigitalAssets) {
   if (/[^a-zA-Z]/.test(symbol) || (symbol.length < 3) || (symbol.length > 5)) {
     throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.invalid')))
   }
@@ -189,7 +191,7 @@ function checkCustomTokenSymbol(symbol, items) {
   checkContractSymbolUniq(symbol, items)
 }
 
-function checkContractSymbolUniq(symbol, items) {
+function checkContractSymbolUniq(symbol: string, items: DigitalAssets) {
   items.forEach((token) => {
     if (symbol.toLowerCase() === token.symbol.toLowerCase()) {
       throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.exists')))
@@ -197,7 +199,7 @@ function checkContractSymbolUniq(symbol, items) {
   })
 }
 
-function checkCustomTokenDecimals(decimals) {
+function checkCustomTokenDecimals(decimals: string) {
   const decimalsInt = parseInt(decimals, 10) || 0
 
   if ((decimalsInt <= 0) || (decimalsInt > 18)) {
@@ -205,20 +207,21 @@ function checkCustomTokenDecimals(decimals) {
   }
 }
 
-function getCustomTokenData({ address, name, symbol, decimals }) {
+function getCustomTokenData(tokenData: TokenData): DigitalAsset {
   return {
-    name,
-    symbol,
+    name: tokenData.name,
+    symbol: tokenData.symbol,
     isLicensed: false,
     isAuthRequired: false,
     isActive: true,
     isCustom: true,
-    address: address.toLowerCase(),
-    decimals: parseInt(decimals, 10) || 0,
+    isCurrent: true,
+    address: tokenData.address.toLowerCase(),
+    decimals: parseInt(tokenData.decimals, 10) || 0,
   }
 }
 
-function placeETHAndJNTFirst(items) {
+function placeETHAndJNTFirst(items: DigitalAssets): DigitalAssets {
   const newItems = [...items]
   const symbolJNT = { symbol: 'JNT' }
   const symbolETH = { symbol: 'ETH' }
@@ -240,7 +243,7 @@ function placeETHAndJNTFirst(items) {
   return newItems
 }
 
-function* toggleAllDigitalAssets(items, isActiveAll) {
+function* toggleAllDigitalAssets(items: DigitalAssets, isActiveAll: boolean) {
   const newIsActiveAll = !isActiveAll
   const newItems = items.map(item => ({ ...item, isActive: newIsActiveAll }))
   const newCurrentAddress = newIsActiveAll ? newItems[0].address : null
@@ -249,7 +252,10 @@ function* toggleAllDigitalAssets(items, isActiveAll) {
   yield setActiveAllFlag(newIsActiveAll)
 }
 
-function refreshDigitalAssets(defaultDigitalAssets, storageDigitalAssets) {
+function refreshDigitalAssets(
+  defaultDigitalAssets: DigitalAssets,
+  storageDigitalAssets: DigitalAssets,
+): Array<any> {
   const freshDigitalAssets = [...defaultDigitalAssets]
   const storageDigitalAssetsWithoutJNT = removeExistedJNTFromAssets(storageDigitalAssets)
 
@@ -271,7 +277,7 @@ function refreshDigitalAssets(defaultDigitalAssets, storageDigitalAssets) {
   return freshDigitalAssets
 }
 
-function removeExistedJNTFromAssets(digitalAssets) {
+function removeExistedJNTFromAssets(digitalAssets: DigitalAssets): DigitalAssets {
   const jntIndex = findLastIndex(digitalAssets, { symbol: 'JNT' })
 
   if (jntIndex > -1) {
@@ -315,7 +321,7 @@ function* getBalancesLoop() {
   yield getBalancesLoop()
 }
 
-function getTokensBalances(items, owner) {
+function getTokensBalances(items: DigitalAssets, owner: Address) {
   const result = {}
 
   items.forEach(({ symbol, address, decimals, isActive }) => {
@@ -343,12 +349,12 @@ function* setBalances(balances) {
   yield put({ type: CURRENCIES_SET_BALANCES, balances })
 }
 
-function* setDigitalAssets(items, currentAddress) {
+function* setDigitalAssets(items: DigitalAssets, currentAddress: Address | null) {
   yield put({ type: CURRENCIES_SET, items })
   yield setCurrentDigitalAssetAddress(items, currentAddress)
 }
 
-function* setCurrentDigitalAssetAddress(items, currentAddress) {
+function* setCurrentDigitalAssetAddress(items: DigitalAssets, currentAddress: Address | null) {
   const currentDigitalAsset = find(items, { address: currentAddress })
   const isAcive = currentDigitalAsset ? currentDigitalAsset.isActive : false
   const newCurrentAddress = isAcive ? currentAddress : getNextAvailableActiveAddress(items)
@@ -356,7 +362,7 @@ function* setCurrentDigitalAssetAddress(items, currentAddress) {
   yield put({ type: CURRENCIES_SET_CURRENT, currentAddress: newCurrentAddress })
 }
 
-function getNextAvailableActiveAddress(items) {
+function getNextAvailableActiveAddress(items: DigitalAssets): Address | null {
   for (let i = 0; i < items.length; i += 1) {
     const { address, isActive, isAuthRequired } = items[i]
 
@@ -368,15 +374,15 @@ function getNextAvailableActiveAddress(items) {
   return null
 }
 
-function* setActiveAllFlag(isActiveAll) {
+function* setActiveAllFlag(isActiveAll: boolean) {
   yield put({ type: CURRENCIES_SET_ACTIVE_ALL, isActiveAll })
 }
 
-function* setSearchOptions(foundItemsSymbols, searchQuery) {
+function* setSearchOptions(foundItemsSymbols: Array<string>, searchQuery: string) {
   yield put({ type: CURRENCIES_SET_SEARCH_OPTIONS, foundItemsSymbols, searchQuery })
 }
 
-function* setSortOptions(sortField, sortDirection) {
+function* setSortOptions(sortField: string, sortDirection: string) {
   yield put({ type: CURRENCIES_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
@@ -385,42 +391,46 @@ function* onAddCustomTokenSuccess() {
   yield put({ type: CUSTOM_TOKEN_CLEAR })
 }
 
-function* onAddCustomTokenError({ fieldName, message }) {
-  yield put({ type: CUSTOM_TOKEN_SET_INVALID_FIELD, fieldName, message })
+function* onAddCustomTokenError(action: { fieldName: string, message: string }) {
+  yield put({
+    type: CUSTOM_TOKEN_SET_INVALID_FIELD,
+    fieldName: action.fieldName,
+    message: action.message,
+  })
 }
 
-export function* watchGetDigitalAssets() {
+export function* watchGetDigitalAssets(): Saga<void> {
   yield takeEvery(CURRENCIES_GET, onGetDigitalAssets)
 }
 
-export function* watchSetDigitalAssets() {
+export function* watchSetDigitalAssets(): Saga<void> {
   yield takeEvery(CURRENCIES_SET, onSetDigitalAssets)
 }
 
-export function* watchGetBalances() {
+export function* watchGetBalances(): Saga<void> {
   yield takeEvery(CURRENCIES_GET_BALANCES, getBalances)
 }
 
-export function* watchSetBalances() {
+export function* watchSetBalances(): Saga<void> {
   yield takeEvery(CURRENCIES_SET_BALANCES, setBalancesToStorage)
 }
 
-export function* watchToggleDigitalAsset() {
+export function* watchToggleDigitalAsset(): Saga<void> {
   yield takeEvery(CURRENCIES_TOGGLE_ACTIVE, onToggleDigitalAsset)
 }
 
-export function* watchSetCurrentDigitalAsset() {
+export function* watchSetCurrentDigitalAsset(): Saga<void> {
   yield takeEvery(CURRENCIES_SET_CURRENT, onSetCurrentDigitalAsset)
 }
 
-export function* watchSearchDigitalAssets() {
+export function* watchSearchDigitalAssets(): Saga<void> {
   yield takeEvery(CURRENCIES_SEARCH, onSearchDigitalAssets)
 }
 
-export function* watchSortDigitalAssets() {
+export function* watchSortDigitalAssets(): Saga<void> {
   yield takeEvery(CURRENCIES_SORT, onSortDigitalAssets)
 }
 
-export function* watchAddCustom() {
+export function* watchAddCustom(): Saga<void> {
   yield takeEvery(CURRENCIES_ADD_CUSTOM, onAddCustomToken)
 }
