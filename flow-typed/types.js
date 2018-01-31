@@ -1,3 +1,5 @@
+import type { Saga } from 'redux-saga'
+
 declare type Address = string
 
 declare type DigitalAsset = {
