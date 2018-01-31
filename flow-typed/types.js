@@ -56,3 +56,20 @@ declare type Account = {
   isReadOnly: boolean,
   isActive: boolean,
 }
+
+declare type Accounts = Array<Account>
+
+/**
+ * Networks
+ */
+
+declare type Network = {
+  title: string,
+  rpcaddr: string,
+  rpcport: string,
+  id: number,
+  ssl: boolean,
+  isCustom: boolean,
+}
+
+declare type Networks = Array<Network>

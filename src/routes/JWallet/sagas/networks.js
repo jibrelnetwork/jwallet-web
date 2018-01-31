@@ -1,3 +1,5 @@
+// @flow
+
 import { put, select, takeEvery } from 'redux-saga/effects'
 import findIndex from 'lodash/findIndex'
 
@@ -41,8 +43,8 @@ function* onGetNetworks() {
   yield setNetworks(mergedNetworks, currentNetworkIndex)
 }
 
-function onSetNetworks({ items }) {
-  const customNetworks = items.filter(({ isCustom }) => isCustom)
+function onSetNetworks(action: { items: Networks }) {
+  const customNetworks = action.items.filter(({ isCustom }) => isCustom)
 
   storage.setNetworks(JSON.stringify(customNetworks))
 }
@@ -51,8 +53,9 @@ function* getCurrencies() {
   yield put({ type: CURRENCIES_GET })
 }
 
-function* onSetCurrentNetwork({ currentNetworkIndex }) {
+function* onSetCurrentNetwork(action: { currentNetworkIndex: Index }) {
   const { items } = yield select(selectNetworks)
+  const { currentNetworkIndex } = action
 
   storage.setNetworksCurrent(items[currentNetworkIndex].id || ETHEREUM_MAINNET_CHAIN_ID)
 
@@ -82,8 +85,9 @@ function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }) {
   }
 }
 
-function* onRemoveCustomNetwork({ networkIndex }) {
+function* onRemoveCustomNetwork(action: { networkIndex: Index }) {
   const { items, currentNetworkIndex } = yield select(selectNetworks)
+  const { networkIndex } = action
 
   const newItems = [...items]
   newItems.splice(networkIndex, 1)
@@ -99,7 +103,7 @@ function* onRemoveCustomNetwork({ networkIndex }) {
   yield setNetworks(newItems, newCurrentNetworkIndex)
 }
 
-function* setNetworkRpcProps(currentNetworkIndex) {
+function* setNetworkRpcProps(currentNetworkIndex: Index) {
   const { items } = yield select(selectNetworks)
   const { id, rpcaddr, rpcport, ssl } = items[currentNetworkIndex]
 
@@ -107,12 +111,12 @@ function* setNetworkRpcProps(currentNetworkIndex) {
   etherscan.setEndpoint(id)
 }
 
-function* setNetworks(items, currentNetworkIndex) {
+function* setNetworks(items: Networks, currentNetworkIndex: Index) {
   yield put({ type: NETWORKS_SET, items, currentNetworkIndex })
   yield onSetCurrentNetwork({ currentNetworkIndex })
 }
 
-function checkCustomNetworkRpc(items, customNetworkRpc) {
+function checkCustomNetworkRpc(items: Networks, customNetworkRpc: string) {
   // check validity
   if (!config.urlRe.test(customNetworkRpc)) {
     throw (new Error('Invalid RPC address'))
@@ -126,7 +130,7 @@ function checkCustomNetworkRpc(items, customNetworkRpc) {
   })
 }
 
-function parseCustomNetworkRpc(customNetworkRpc) {
+function parseCustomNetworkRpc(customNetworkRpc: string) {
   const ssl = /^https:\/\//i.test(customNetworkRpc)
   const withoutProtocol = customNetworkRpc.replace(/^http(s?):\/\//i, '')
   const [rpcaddr, rpcport = ssl ? '443' : '80'] = withoutProtocol.split(':')
@@ -134,22 +138,22 @@ function parseCustomNetworkRpc(customNetworkRpc) {
   return { title: customNetworkRpc, rpcaddr, rpcport, ssl, isCustom: true, id: 0 }
 }
 
-export function* watchGetNetworks() {
+export function* watchGetNetworks(): Saga<void> {
   yield takeEvery(NETWORKS_GET, onGetNetworks)
 }
 
-export function* watchSetNetworks() {
+export function* watchSetNetworks(): Saga<void> {
   yield takeEvery(NETWORKS_SET, onSetNetworks)
 }
 
-export function* watchSetCurrentNetwork() {
+export function* watchSetCurrentNetwork(): Saga<void> {
   yield takeEvery(NETWORKS_SET_CURRENT, onSetCurrentNetwork)
 }
 
-export function* watchSaveCustomNetwork() {
+export function* watchSaveCustomNetwork(): Saga<void> {
   yield takeEvery(NETWORKS_SAVE_CUSTOM_NETWORK, onSaveCustomNetwork)
 }
 
-export function* watchRemoveCustomNetwork() {
+export function* watchRemoveCustomNetwork(): Saga<void> {
   yield takeEvery(NETWORKS_REMOVE_CUSTOM_NETWORK, onRemoveCustomNetwork)
 }
