@@ -1,0 +1,14 @@
+{
+  "concurrentFiles": 5,
+  "excludeGlob": [
+    "node_modules/**"
+  ],
+  "flowCommandPath": "./node_modules/.bin/flow",
+  "includeGlob": [
+    "./src/routes/JWallet/sagas/**/*.js"
+  ],
+  "outputDir": "./coverage/flow/",
+  "projectDir": "./",
+  "threshold": 90,
+  "type": "html"
+}
