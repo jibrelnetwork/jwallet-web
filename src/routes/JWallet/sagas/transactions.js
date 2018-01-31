@@ -1,3 +1,5 @@
+// @flow
+
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import isEmpty from 'lodash/isEmpty'
@@ -39,7 +41,7 @@ function* onGetTransactions() {
   yield getTransactionsLoop()
 }
 
-function* onSearchTransactions(action) {
+function* onSearchTransactions(action: { searchQuery: string }) {
   const { searchQuery } = action
   const transactions = yield select(selectTransactions)
 
@@ -49,7 +51,7 @@ function* onSearchTransactions(action) {
   yield setSearchOptions(foundItemsHashes, searchQuery)
 }
 
-function* onSortTransactions(action) {
+function* onSortTransactions(action: { sortField: string }) {
   const transactions = yield select(selectTransactions)
 
   const oldSortField = transactions.sortField
@@ -79,7 +81,7 @@ function* getTransactions() {
   const currentAddress = yield select(selectCurrentKeystoreAddress)
 
   if (isEmpty(currentAddress) || isEmpty(currentDigitalAsset) || !currentDigitalAsset.isActive) {
-    yield setTransactions()
+    yield setTransactions([])
 
     return
   }
@@ -93,7 +95,7 @@ function* getTransactions() {
   yield setTransactions(transactions)
 }
 
-function* getETHTransactions(address) {
+function* getETHTransactions(address: Address) {
   try {
     return yield call(etherscan.getETHTransactions, address)
   } catch (err) {
@@ -103,30 +105,30 @@ function* getETHTransactions(address) {
   }
 }
 
-function* getContractsTransactions(contractAddress, owner, decimals) {
+function* getContractsTransactions(contractAddress: Address, owner: Address, decimals: number) {
   return yield call(web3.getContractTransactions, contractAddress, owner, decimals)
 }
 
-function* setTransactions(items = []) {
+function* setTransactions(items: Transactions) {
   yield put({ type: TRANSACTIONS_SET, items })
 }
 
-function* setSearchOptions(foundItemsHashes, searchQuery) {
+function* setSearchOptions(foundItemsHashes: Array<Hash>, searchQuery: string) {
   yield put({ type: TRANSACTIONS_SET_SEARCH_OPTIONS, foundItemsHashes, searchQuery })
 }
 
-function* setSortOptions(sortField, sortDirection) {
+function* setSortOptions(sortField: string, sortDirection: string) {
   yield put({ type: TRANSACTIONS_SET_SORT_OPTIONS, sortField, sortDirection })
 }
 
-export function* watchGetTransactions() {
+export function* watchGetTransactions(): Saga<void> {
   yield takeEvery(TRANSACTIONS_GET, onGetTransactions)
 }
 
-export function* watchSearchTransactions() {
+export function* watchSearchTransactions(): Saga<void> {
   yield takeEvery(TRANSACTIONS_SEARCH, onSearchTransactions)
 }
 
-export function* watchSortTransactions() {
+export function* watchSortTransactions(): Saga<void> {
   yield takeEvery(TRANSACTIONS_SORT, onSortTransactions)
 }
