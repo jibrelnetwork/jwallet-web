@@ -1,3 +1,5 @@
+// @flow
+
 import isEmpty from 'lodash/isEmpty'
 
 import config from 'config'
@@ -7,13 +9,13 @@ const { etherscanApiOptions, defaultDecimals } = config
 let endpoint = 'api'
 
 const enpointNames = {
-  1: 'api',
-  3: 'ropsten',
-  42: 'kovan',
-  4: 'rinkeby',
+  '1': 'api',
+  '3': 'ropsten',
+  '42': 'kovan',
+  '4': 'rinkeby',
 }
 
-function setEndpoint(networkId) {
+function setEndpoint(networkId: string) {
   endpoint = enpointNames[networkId]
 }
 
@@ -21,11 +23,11 @@ function getEndpoint() {
   return endpoint
 }
 
-function getETHTransactions(address) {
+function getETHTransactions(address: Address): Promise<any> {
   return getTransactions(address).then(filterETHTransactions)
 }
 
-function getTransactions(address) {
+function getTransactions(address: Address) {
   return callApi({
     address,
     module: 'account',
@@ -49,7 +51,7 @@ function getTransactions(address) {
   })
 }
 
-function parseTransactions(list, address) {
+function parseTransactions(list: any, address: Address) {
   return list.map((item) => {
     const {
       hash,
@@ -90,7 +92,7 @@ function parseTransactions(list, address) {
   })
 }
 
-function filterETHTransactions(list) {
+function filterETHTransactions(list: any) {
   return list.filter((item) => {
     const { amount, contractAddress } = item
     const isEmptyAmount = (amount === 0)
@@ -100,14 +102,14 @@ function filterETHTransactions(list) {
   })
 }
 
-function callApi(params) {
+function callApi(params: any) {
   const apiEnpoint = `https://${endpoint}.etherscan.io/api`
 
   return fetch(`${apiEnpoint}?${getQueryParams(params)}`, etherscanApiOptions).then(r => r.json())
 }
 
-function getQueryParams(params) {
-  if (!params) {
+function getQueryParams(params: any) {
+  if (isEmpty(params)) {
     return ''
   }
 

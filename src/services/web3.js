@@ -1,3 +1,5 @@
+// @flow
+
 import Promise from 'bluebird'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
 import { flatten, sortBy } from 'lodash'
@@ -13,7 +15,7 @@ let rpcProps = {
   ssl: false,
 }
 
-function setRpcProps(props) {
+function setRpcProps(props: any) {
   rpcProps = props
 }
 
@@ -21,7 +23,7 @@ function getRpcProps() {
   return rpcProps
 }
 
-function getETHBalance(address) {
+function getETHBalance(address: Address) {
   if (!(address && address.length)) {
     return 0
   }
@@ -36,7 +38,11 @@ function getETHBalance(address) {
     })
 }
 
-function getTokenBalance(contractAddress, owner, decimals = defaultDecimals) {
+function getTokenBalance(
+  contractAddress: Address,
+  owner: Address,
+  decimals: number = defaultDecimals,
+) {
   if (!(owner && owner.length)) {
     return 0
   }
@@ -51,7 +57,7 @@ function getTokenBalance(contractAddress, owner, decimals = defaultDecimals) {
     })
 }
 
-function getETHTransactions(address) {
+function getETHTransactions(address: Address) {
   if (!(address && address.length)) {
     return []
   }
@@ -65,13 +71,13 @@ function getETHTransactions(address) {
         toBlock: 'latest',
       },
     })
-    .then(list => getTransactionsInfo(list))
+    .then(list => getTransactionsInfo(list, false))
     .then(list => parseTransactions(list, defaultDecimals))
     .then(sortTransactions)
     .catch(handleTransactionsError)
 }
 
-function getTransactionsInfo(list, isContract) {
+function getTransactionsInfo(list: any, isContract: boolean) {
   return Promise.all([
     getBlocks(list),
     getTransactions(list, isContract),
@@ -92,43 +98,43 @@ function getTransactionsInfo(list, isContract) {
   })
 }
 
-function getLast50(list = []) {
+function getLast50(list: any = []) {
   return list.slice(-50)
 }
 
-function getTransactionStatus(blockHash) {
+function getTransactionStatus(blockHash: Hash) {
   return blockHash
     ? i18n('transactions.table.statusValue.accepted')
     : i18n('transactions.table.statusValue.pending')
 }
 
-function getBlocks(list) {
+function getBlocks(list: any) {
   return Promise.all(list.map(getBlock)).then(getBlocksData)
 }
 
-function getBlock(item) {
+function getBlock(item: any) {
   const blockId = item.blockHash
 
   return blockId ? jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId }) : {}
 }
 
-function getBlocksData(blocksData = []) {
+function getBlocksData(blocksData: any = []) {
   return blocksData.map((blockData = {}) => {
     // web3 returns timestamp in unix format, so for new Date it should be converted (mul by 1000)
     return { timestamp: (blockData.timestamp || 0) * 1000 }
   })
 }
 
-function getTransactions(list, isContract) {
+function getTransactions(list: any, isContract: boolean) {
   return Promise.all(list.map(getTransaction)).then(data => getTransactionsData(data, isContract))
 }
 
-function getTransaction(item) {
+function getTransaction(item: any) {
   return jibrelContractsApi.eth
     .getTransaction({ ...rpcProps, transactionHash: item.transactionHash })
 }
 
-function getTransactionsData(transactionsData = [], isContract = false) {
+function getTransactionsData(transactionsData: any = [], isContract: boolean = false) {
   return transactionsData.map((transactionData = {}) => {
     const { from, to, value, gasPrice } = transactionData
     const _gasPrice = gasPrice ? (gasPrice.toNumber() / (10 ** defaultDecimals)) : 0
@@ -138,16 +144,16 @@ function getTransactionsData(transactionsData = [], isContract = false) {
   })
 }
 
-function getTransactionReceipts(list) {
+function getTransactionReceipts(list: any) {
   return Promise.all(list.map(getTransactionReceipt)).then(getTransactionReceiptsData)
 }
 
-function getTransactionReceipt(item) {
+function getTransactionReceipt(item: any) {
   return jibrelContractsApi.eth
     .getTransactionReceipt({ ...rpcProps, transactionHash: item.transactionHash })
 }
 
-function getTransactionReceiptsData(transactionReceiptsData = []) {
+function getTransactionReceiptsData(transactionReceiptsData: any = []) {
   return transactionReceiptsData.map((transactionReceiptData) => {
     const { gasUsed, status } = transactionReceiptData
 
@@ -162,11 +168,11 @@ function getTransactionReceiptsData(transactionReceiptsData = []) {
   })
 }
 
-function parseTransactions(list, decimals) {
+function parseTransactions(list: any, decimals: number) {
   return list.map(item => parseTransaction(item, decimals))
 }
 
-function parseTransaction(item, decimals) {
+function parseTransaction(item: any, decimals: number) {
   const { timestamp, address, from, to, value, gas, gasPrice, isRejected, removed } = item
 
   // case-insensitive comparison
@@ -188,17 +194,17 @@ function parseTransaction(item, decimals) {
   }
 }
 
-function sortTransactions(list) {
+function sortTransactions(list: any) {
   return sortBy(list, ['timestamp']).reverse()
 }
 
-function handleTransactionsError(err) {
+function handleTransactionsError(err: any) {
   console.error(err)
 
   return []
 }
 
-function getContractTransactions(contractAddress, owner, decimals) {
+function getContractTransactions(contractAddress: Address, owner: Address, decimals: number) {
   if (!(owner && owner.length)) {
     return []
   }
@@ -217,7 +223,7 @@ function getContractTransactions(contractAddress, owner, decimals) {
     .then(sortTransactions)
 }
 
-function getJNTTransactions(contractAddress, owner, decimals) {
+function getJNTTransactions(contractAddress: Address, owner: Address, decimals: number) {
   const mintEventProps = getEventsProps(contractAddress, 'MintEvent')
   const burnEventProps = getEventsProps(contractAddress, 'BurnEvent')
   const getEventsHandler = jibrelContractsApi.contracts.erc20Mintable.getPastEvents
@@ -233,7 +239,7 @@ function getJNTTransactions(contractAddress, owner, decimals) {
     .catch(handleTransactionsError)
 }
 
-function getERC20Transactions(contractAddress, owner, decimals) {
+function getERC20Transactions(contractAddress: Address, owner: Address, decimals: number) {
   const fromProps = getEventsProps(contractAddress, 'Transfer', { from: owner })
   const toProps = getEventsProps(contractAddress, 'Transfer', { to: owner })
   const getEventsHandler = jibrelContractsApi.contracts.erc20.getPastEvents
@@ -248,7 +254,7 @@ function getERC20Transactions(contractAddress, owner, decimals) {
     .catch(handleTransactionsError)
 }
 
-function filterJNTEvents(events, owner) {
+function filterJNTEvents(events: any, owner: Address) {
   return events
     // case-insensitive comparison
     .filter(event => (event.owner.toLowerCase() === owner.toLowerCase()))
@@ -259,18 +265,18 @@ function filterJNTEvents(events, owner) {
     }))
 }
 
-function mergeEvents(events, owner) {
+function mergeEvents(events: any, owner: Address) {
   // events contains [from, to] list
   return flatten(events.map(list => list.map(event => getContractEventData(event, owner))))
 }
 
-function getContractEventData(item, address) {
+function getContractEventData(item: any, address: Address) {
   const { args, blockHash, transactionHash, event, removed } = item || {}
 
   return { blockHash, transactionHash, event, removed, address, ...args }
 }
 
-function getEventsProps(contractAddress, event = 'Transfer', filter = {}) {
+function getEventsProps(contractAddress: Address, event: string = 'Transfer', filter: any = {}) {
   return {
     ...rpcProps,
     event,
@@ -279,19 +285,19 @@ function getEventsProps(contractAddress, event = 'Transfer', filter = {}) {
   }
 }
 
-function sendETHTransaction(props = {}) {
+function sendETHTransaction(props: any = {}) {
   return jibrelContractsApi.eth.sendTransaction({ ...rpcProps, ...props })
 }
 
-function sendContractTransaction(props = {}) {
+function sendContractTransaction(props: any = {}) {
   return jibrelContractsApi.contracts.erc20.transfer({ ...rpcProps, ...props })
 }
 
-function isMintEvent({ event }) {
-  return (event === 'MintEvent')
+function isMintEvent(data: { event: string }) {
+  return (data.event === 'MintEvent')
 }
 
-function addJNTFlag(list) {
+function addJNTFlag(list: any) {
   return list.map(item => ({ ...item, isJNT: true }))
 }
 
