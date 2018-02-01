@@ -47,7 +47,7 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   seconds: 5,
-  isOpen: __DEV__ ? false : true,
+  isOpen: !__DEV__,
 }
 
 export default function alphaWarningModal(state: any = initialState, action: any) {
