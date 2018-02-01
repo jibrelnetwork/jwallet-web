@@ -1,10 +1,12 @@
+// @flow
+
 export const NEW_KEYSTORE_PASSWORD_OPEN_MODAL = 'NEW_KEYSTORE_PASSWORD_OPEN_MODAL'
 export const NEW_KEYSTORE_PASSWORD_CLOSE_MODAL = 'NEW_KEYSTORE_PASSWORD_CLOSE_MODAL'
 export const NEW_KEYSTORE_PASSWORD_SET_OLD = 'NEW_KEYSTORE_PASSWORD_SET_OLD'
 export const NEW_KEYSTORE_PASSWORD_SET_NEW = 'NEW_KEYSTORE_PASSWORD_SET_NEW'
 export const NEW_KEYSTORE_PASSWORD_SET_INVALID_FIELD = 'NEW_KEYSTORE_PASSWORD_SET_INVALID_FIELD'
 
-export function openNewKeystorePasswordModal(onClose = null) {
+export function openNewKeystorePasswordModal(onClose: any = null) {
   return {
     type: NEW_KEYSTORE_PASSWORD_OPEN_MODAL,
     onClose,
@@ -17,21 +19,21 @@ export function closeNewKeystorePasswordModal() {
   }
 }
 
-export function setOldKeystorePassword(oldPassword = '') {
+export function setOldKeystorePassword(oldPassword: string = '') {
   return {
     type: NEW_KEYSTORE_PASSWORD_SET_OLD,
     oldPassword,
   }
 }
 
-export function setNewKeystorePassword(newPassword = '') {
+export function setNewKeystorePassword(newPassword: string = '') {
   return {
     type: NEW_KEYSTORE_PASSWORD_SET_NEW,
     newPassword,
   }
 }
 
-export function setNewKeystorePasswordInvalidField(fieldName, message = '') {
+export function setNewKeystorePasswordInvalidField(fieldName: string, message: string = '') {
   return {
     type: NEW_KEYSTORE_PASSWORD_SET_INVALID_FIELD,
     fieldName,
@@ -79,7 +81,7 @@ const initialState = {
   isOpen: false,
 }
 
-export default function newKeystorePasswordModal(state = initialState, action) {
+export default function newKeystorePasswordModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

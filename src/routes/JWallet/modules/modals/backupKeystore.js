@@ -1,9 +1,11 @@
+// @flow
+
 export const OPEN_MODAL = 'BACKUP_KEYSTORE_OPEN_MODAL'
 export const CLOSE_MODAL = 'BACKUP_KEYSTORE_CLOSE_MODAL'
 export const SET_PASSWORD = 'BACKUP_KEYSTORE_SET_PASSWORD'
 export const SET_INVALID_FIELD = 'BACKUP_KEYSTORE_SET_INVALID_FIELD'
 
-export function openModal(isOpenedFromKeystoreModal = false) {
+export function openModal(isOpenedFromKeystoreModal: boolean = false) {
   return {
     type: OPEN_MODAL,
     isOpenedFromKeystoreModal,
@@ -16,14 +18,14 @@ export function closeModal() {
   }
 }
 
-export function setPassword(password = '') {
+export function setPassword(password: string = '') {
   return {
     type: SET_PASSWORD,
     password,
   }
 }
 
-export function setInvalidField(fieldName, message = '') {
+export function setInvalidField(fieldName: string, message: string = '') {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -64,7 +66,7 @@ const initialState = {
   isOpen: false,
 }
 
-export default function backupKeystoreModal(state = initialState, action) {
+export default function backupKeystoreModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

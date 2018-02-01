@@ -1,3 +1,5 @@
+// @flow
+
 export const TRANSACTIONS_GET = 'TRANSACTIONS_GET'
 export const TRANSACTIONS_SET = 'TRANSACTIONS_SET'
 
@@ -19,14 +21,14 @@ export function getTransactions() {
   }
 }
 
-export function searchTransactions(searchQuery) {
+export function searchTransactions(searchQuery: string) {
   return {
     type: TRANSACTIONS_SEARCH,
     searchQuery,
   }
 }
 
-export function setSearchTransactionsOptions(foundItemsHashes, searchQuery) {
+export function setSearchTransactionsOptions(foundItemsHashes: Array<Hash>, searchQuery: string) {
   return {
     type: TRANSACTIONS_SET_SEARCH_OPTIONS,
     foundItemsHashes,
@@ -34,14 +36,14 @@ export function setSearchTransactionsOptions(foundItemsHashes, searchQuery) {
   }
 }
 
-export function sortTransactions(sortField) {
+export function sortTransactions(sortField: string) {
   return {
     type: TRANSACTIONS_SORT,
     sortField,
   }
 }
 
-export function setSortTransactionsOptions(sortField, sortDirection) {
+export function setSortTransactionsOptions(sortField: string, sortDirection: string) {
   return {
     type: TRANSACTIONS_SET_SORT_OPTIONS,
     sortField,
@@ -49,21 +51,21 @@ export function setSortTransactionsOptions(sortField, sortDirection) {
   }
 }
 
-export function setStartFilterTime(startTime) {
+export function setStartFilterTime(startTime: string) {
   return {
     type: TRANSACTIONS_SET_START_FILTER_TIME,
     startTime,
   }
 }
 
-export function setEndFilterTime(endTime) {
+export function setEndFilterTime(endTime: string) {
   return {
     type: TRANSACTIONS_SET_END_FILTER_TIME,
     endTime,
   }
 }
 
-export function filterTransactions(isOpen) {
+export function filterTransactions(isOpen: boolean) {
   return {
     type: TRANSACTIONS_FILTER,
     isOpen,
@@ -135,7 +137,7 @@ const initialState = {
   isBlockExplorerError: false,
 }
 
-export default function transactions(state = initialState, action) {
+export default function transactions(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

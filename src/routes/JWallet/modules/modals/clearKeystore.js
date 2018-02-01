@@ -1,7 +1,9 @@
+// @flow
+
 export const CLEAR_KEYSTORE_OPEN_MODAL = 'CLEAR_KEYSTORE_OPEN_MODAL'
 export const CLEAR_KEYSTORE_CLOSE_MODAL = 'CLEAR_KEYSTORE_CLOSE_MODAL'
 
-export function openClearKeystoreModal(onClose) {
+export function openClearKeystoreModal(onClose: any) {
   return {
     type: CLEAR_KEYSTORE_OPEN_MODAL,
     onClose,
@@ -28,7 +30,7 @@ const initialState = {
   onClose: null,
 }
 
-export default function clearKeystoreModal(state = initialState, action) {
+export default function clearKeystoreModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

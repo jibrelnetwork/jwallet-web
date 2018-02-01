@@ -1,3 +1,5 @@
+// @flow
+
 export const OPEN_MODAL = 'NEW_DERIVATION_PATH_OPEN_MODAL'
 export const CLOSE_MODAL = 'NEW_DERIVATION_PATH_CLOSE_MODAL'
 export const SET_PASSWORD = 'NEW_DERIVATION_PATH_SET_PASSWORD'
@@ -6,9 +8,9 @@ export const SET_CUSTOM_PATH = 'NEW_DERIVATION_PATH_SET_CUSTOM_PATH'
 export const SET_INVALID_FIELD = 'NEW_DERIVATION_PATH_SET_INVALID_FIELD'
 
 export function openNewDerivationPathModal(
-  accountId,
-  derivationPath,
-  isOpenedFromKeystoreModal = false,
+  accountId: AccountId,
+  derivationPath: string,
+  isOpenedFromKeystoreModal: boolean = false,
 ) {
   return {
     type: OPEN_MODAL,
@@ -24,28 +26,28 @@ export function closeNewDerivationPathModal() {
   }
 }
 
-export function setDerivationPathPassword(password) {
+export function setDerivationPathPassword(password: string) {
   return {
     type: SET_PASSWORD,
     password,
   }
 }
 
-export function setKnownDerivationPath(knownDerivationPath) {
+export function setKnownDerivationPath(knownDerivationPath: string) {
   return {
     type: SET_KNOWN_PATH,
     knownDerivationPath,
   }
 }
 
-export function setCustomDerivationPath(customDerivationPath) {
+export function setCustomDerivationPath(customDerivationPath: string) {
   return {
     type: SET_CUSTOM_PATH,
     customDerivationPath,
   }
 }
 
-export function setNewDerivationPathInvalidField(fieldName, message) {
+export function setNewDerivationPathInvalidField(fieldName: string, message: string) {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -105,7 +107,7 @@ const initialState = {
   isOpenedFromKeystoreModal: false,
 }
 
-export default function newDerivationPathModal(state = initialState, action) {
+export default function newDerivationPathModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

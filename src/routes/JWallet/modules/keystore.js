@@ -1,3 +1,5 @@
+// @flow
+
 import config from 'config'
 
 const { addressesPerIteration } = config
@@ -32,21 +34,21 @@ export function getKeystoreFromStorage() {
   }
 }
 
-export function createKeystoreAccount(props = {}) {
+export function createKeystoreAccount(props: any = {}) {
   return {
     type: KEYSTORE_CREATE_ACCOUNT,
     props,
   }
 }
 
-export function setCurrentKeystoreAccount(accountId) {
+export function setCurrentKeystoreAccount(accountId: AccountId) {
   return {
     type: KEYSTORE_SET_CURRENT_ACCOUNT,
     accountId,
   }
 }
 
-export function removeKeystoreAccount(accountId) {
+export function removeKeystoreAccount(accountId: AccountId) {
   return {
     type: KEYSTORE_REMOVE_ACCOUNT,
     accountId,
@@ -60,10 +62,10 @@ export function removeKeystoreAccounts() {
 }
 
 export function setKeystoreAccountName(
-  accountId = '',
-  newName = '',
-  onSuccess = null,
-  onError = null
+  accountId: AccountId = '',
+  newName: string = '',
+  onSuccess: any = null,
+  onError: any = null,
 ) {
   return {
     type: KEYSTORE_SET_ACCOUNT_NAME,
@@ -80,7 +82,10 @@ export function setKeystoreAccountDerivationPath() {
   }
 }
 
-export function setKeystoreAccountAddressIndex(accountId = '', addressIndex = 0) {
+export function setKeystoreAccountAddressIndex(
+  accountId: AccountId = '',
+  addressIndex: Index = 0,
+) {
   return {
     type: KEYSTORE_SET_ADDRESS_INDEX,
     accountId,
@@ -89,9 +94,9 @@ export function setKeystoreAccountAddressIndex(accountId = '', addressIndex = 0)
 }
 
 export function getKeystoreAddressesFromMnemonic(
-  accountId = '',
-  iteration = 0,
-  limit = addressesPerIteration
+  accountId: AccountId = '',
+  iteration: number = 0,
+  limit: number = addressesPerIteration,
 ) {
   return {
     type: KEYSTORE_GET_ADDRESSES_FROM_MNEMONIC,
@@ -102,10 +107,10 @@ export function getKeystoreAddressesFromMnemonic(
 }
 
 export function setKeystorePassword(
-  password = '',
-  newPassword = '',
-  onSuccess = null,
-  onError = null
+  password: string = '',
+  newPassword: string = '',
+  onSuccess: any = null,
+  onError: any = null
 ) {
   return {
     type: KEYSTORE_SET_PASSWORD,
@@ -116,14 +121,14 @@ export function setKeystorePassword(
   }
 }
 
-export function sortAccounts(sortField = 'name') {
+export function sortAccounts(sortField: string = 'name') {
   return {
     type: KEYSTORE_SORT_ACCOUNTS,
     sortField,
   }
 }
 
-export function setSortAccountsOptions(sortField = 'name', sortDirection = 'ASC') {
+export function setSortAccountsOptions(sortField: string = 'name', sortDirection: string = 'ASC') {
   return {
     type: KEYSTORE_SET_SORT_ACCOUNTS_OPTIONS,
     sortField,
@@ -131,7 +136,7 @@ export function setSortAccountsOptions(sortField = 'name', sortDirection = 'ASC'
   }
 }
 
-export function backupKeystore(password = '') {
+export function backupKeystore(password: string = '') {
   return {
     type: KEYSTORE_BACKUP,
     password,
@@ -153,7 +158,7 @@ export function closeKeystoreModal() {
 /**
  * Editing of account name
  */
-export function setEditAccountName(accountId = '', newAccountName = '') {
+export function setEditAccountName(accountId: string = '', newAccountName: string = '') {
   return {
     type: KEYSTORE_SET_EDIT_ACCOUNT_NAME,
     accountId,
@@ -161,7 +166,7 @@ export function setEditAccountName(accountId = '', newAccountName = '') {
   }
 }
 
-export function setNewAccountName(newAccountName = '') {
+export function setNewAccountName(newAccountName: string = '') {
   return {
     type: KEYSTORE_SET_NEW_ACCOUNT_NAME,
     newAccountName,
@@ -274,7 +279,7 @@ const initialState = {
   isOpen: false,
 }
 
-export default function keystore(state = initialState, action) {
+export default function keystore(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

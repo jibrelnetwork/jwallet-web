@@ -1,3 +1,5 @@
+// @flow
+
 export const OPEN_MODAL = 'ALPHA_WARNING_OPEN_MODAL'
 export const CLOSE_MODAL = 'ALPHA_WARNING_CLOSE_MODAL'
 export const START_TIMER = 'ALPHA_WARNING_START_TIMER'
@@ -21,7 +23,7 @@ export function startTimer() {
   }
 }
 
-export function setSeconds(seconds) {
+export function setSeconds(seconds: number) {
   return {
     type: SET_SECONDS,
     seconds,
@@ -48,7 +50,7 @@ const initialState = {
   isOpen: true,
 }
 
-export default function alphaWarningModal(state = initialState, action) {
+export default function alphaWarningModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
