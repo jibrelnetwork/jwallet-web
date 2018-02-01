@@ -27,7 +27,7 @@ declare type DigitalAsset = {
 
 declare type DigitalAssets = Array<DigitalAsset>
 
-declare type TokenData = {
+declare type CustomAssetData = {
   address: Address,
   symbol: string,
   name: string,
