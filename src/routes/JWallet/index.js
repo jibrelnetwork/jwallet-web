@@ -40,6 +40,6 @@ export default store => ({
       injectReducer(store, { key: 'sendFundsModal', reducer: sendFundsModal })
 
       cb(null, JWallet)
-    }, '')
+    }, 'jwallet')
   },
 })
