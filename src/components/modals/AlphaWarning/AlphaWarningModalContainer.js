@@ -9,7 +9,7 @@ const mapStateToProps = ({ alphaWarningModal: { isOpen, seconds } }) => ({
   seconds,
   modalTitle: '',
   modalName: 'alpha-warning',
-  buttonTitle: (seconds > 0) ? seconds : i18n('modals.alphaWarning.buttonTitle'),
+  buttonTitle: (seconds > 0) ? `${seconds}` : i18n('modals.alphaWarning.buttonTitle'),
 })
 
 const mapDispatchToProps = {
