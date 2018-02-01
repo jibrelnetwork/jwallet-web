@@ -3,6 +3,7 @@ import JWalletRoute from './JWallet'
 import KeysRoute from './Keys'
 import StartRoute from './Start'
 import DigitalAssetsRoute from './DigitalAssets'
+import CreateKeyRoute from './CreateKey'
 
 const createRoutes = store => ({
   path: '/',
@@ -12,6 +13,7 @@ const createRoutes = store => ({
     KeysRoute(store),
     StartRoute(store),
     DigitalAssetsRoute(store),
+    CreateKeyRoute(store),
   ],
 })
 
