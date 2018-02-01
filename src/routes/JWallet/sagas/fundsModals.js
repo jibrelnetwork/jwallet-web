@@ -1,3 +1,5 @@
+// @flow
+
 import BigNumber from 'bignumber.js'
 import Keystore from 'jwallet-web-keystore'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
@@ -31,13 +33,13 @@ import {
   CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
 } from '../modules/modals/convertFunds'
 
-function* onConvertFundsSetFromAccountId(action) {
+function* onConvertFundsSetFromAccountId(action: { accountId: AccountId }) {
   const { accountId } = action
 
   yield setAccount(accountId, CONVERT_FUNDS_SET_FROM_ACCOUNT)
 }
 
-function* onConvertFundsSetToAccountId(action) {
+function* onConvertFundsSetToAccountId(action: { accountId: AccountId }) {
   const { accountId } = action
 
   yield setAccount(accountId, CONVERT_FUNDS_SET_TO_ACCOUNT)
@@ -65,7 +67,7 @@ function* onSendFunds() {
   }
 }
 
-function* setAccount(accountId, type) {
+function* setAccount(accountId: AccountId, type: string) {
   const { address, addressIndex, accountName } = keystore.getAccount({ id: accountId })
 
   yield put({
@@ -79,7 +81,7 @@ function* setAccount(accountId, type) {
   })
 }
 
-function* sendFundsSuccess(symbol) {
+function* sendFundsSuccess(symbol: string) {
   const currentAccountId = yield select(selectCurrentAccountId)
   const accountData = keystore.getAccount({ id: currentAccountId })
   const accountType = getKeystoreAccountType(accountData)
@@ -90,7 +92,7 @@ function* sendFundsSuccess(symbol) {
   yield put({ type: SEND_FUNDS_CLEAN })
 }
 
-function* sendFundsFail(err) {
+function* sendFundsFail(err: { message: string }) {
   const isPasswordError = /password/i.test(err.message)
 
   if (isPasswordError) {
@@ -103,11 +105,11 @@ function* sendFundsFail(err) {
   console.error(err)
 }
 
-function* setInvalidField(fieldName, message) {
+function* setInvalidField(fieldName: string, message: string) {
   yield put({ type: SEND_FUNDS_SET_INVALID_FIELD, fieldName, message })
 }
 
-function* setAlert(alertMessage) {
+function* setAlert(alertMessage: string) {
   yield put({ type: SEND_FUNDS_SET_ALERT, alert: alertMessage })
 }
 
@@ -115,16 +117,23 @@ function* cleanPassword() {
   yield put({ type: SEND_FUNDS_SET_PASSWORD })
 }
 
-function getTransactionHandler(symbol) {
+function getTransactionHandler(symbol: string) {
   return isETH(symbol) ? web3.sendETHTransaction : web3.sendContractTransaction
 }
 
-function* getTransactionData(data) {
+function* getTransactionData(data: SendFundsData) {
   const { id, addressIndex } = yield select(selectCurrentAccount)
   const { password, recipient, amount, symbol, gas, gasPrice } = data
   const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
 
-  const txData = {
+  const txData: {
+    to: Address,
+    value: BigNumber,
+    privateKey: string,
+    contractAddress?: Address,
+    gasPrice?: BigNumber,
+    gasLimit?: BigNumber,
+  } = {
     to: recipient,
     value: getTransactionValue(amount, decimals),
     privateKey: keystore.getPrivateKey(password, id, addressIndex).replace('0x', ''),
@@ -147,7 +156,7 @@ function* getTransactionData(data) {
   return txData
 }
 
-function validateSendFundsData(data) {
+function validateSendFundsData(data: SendFundsData) {
   const { recipient, amount, gas, gasPrice } = data
 
   validateAddress(recipient)
@@ -156,31 +165,31 @@ function validateSendFundsData(data) {
   validateGasPrice(gasPrice)
 }
 
-function validateAddress(address) {
+function validateAddress(address: Address) {
   if (!Keystore.isValidAddress(address)) {
     throw (new InvalidFieldError('address', i18n('modals.sendFunds.error.address.invalid')))
   }
 }
 
-function validateAmount(amount) {
+function validateAmount(amount: string) {
   if (/[^\d.]/.test(amount)) {
     throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.invalid')))
   }
 }
 
-function validateGas(gas) {
-  if (/\D/.test(gas)) {
+function validateGas(gas: string | void) {
+  if (gas && /\D/.test(gas)) {
     throw (new InvalidFieldError('gas', i18n('modals.sendFunds.error.gas.invalid')))
   }
 }
 
-function validateGasPrice(gasPrice) {
-  if (/\D/.test(gasPrice)) {
+function validateGasPrice(gasPrice: string | void) {
+  if (gasPrice && /\D/.test(gasPrice)) {
     throw (new InvalidFieldError('gasPrice', i18n('modals.sendFunds.error.gasPrice.invalid')))
   }
 }
 
-function* validateTransactionValue(symbol, value) {
+function* validateTransactionValue(symbol: string, value: Bignumber) {
   if (value.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.lessThan0')))
   }
@@ -193,19 +202,19 @@ function* validateTransactionValue(symbol, value) {
   }
 }
 
-function validateTransactionGas(gas) {
+function validateTransactionGas(gas: Bignumber) {
   if (gas.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('gas', i18n('modals.sendFunds.error.gas.lessThan0')))
   }
 }
 
-function validateTransactionGasPrice(gasPrice) {
+function validateTransactionGasPrice(gasPrice: Bignumber) {
   if (gasPrice.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('gasPrice', i18n('modals.sendFunds.error.gasPrice.lessThan0')))
   }
 }
 
-function getTransactionValue(amount, decimals) {
+function getTransactionValue(amount: string, decimals: number) {
   const value = new BigNumber(amount, 10)
   const units = new BigNumber(10, 10)
   const decimalsPower = units.pow(decimals)
@@ -214,7 +223,7 @@ function getTransactionValue(amount, decimals) {
   return new BigNumber(fixedValue, 10)
 }
 
-function* getCurrencyBySymbol(symbol) {
+function* getCurrencyBySymbol(symbol: string) {
   const { items, balances } = yield select(selectDigitalAssets)
   const currency = items.filter(c => (c.symbol === symbol))[0]
 
@@ -247,26 +256,26 @@ function* onReceiveOpenModal() {
   gtm.pushReceiveFunds('ReceiveFunds', accountType)
 }
 
-function isETH(symbol) {
+function isETH(symbol: string) {
   return (symbol === 'ETH')
 }
 
-export function* watchConvertFundsFromAccountId() {
+export function* watchConvertFundsFromAccountId(): Saga<void> {
   yield takeEvery(CONVERT_FUNDS_SET_FROM_ACCOUNT_ID, onConvertFundsSetFromAccountId)
 }
 
-export function* watchConvertFundsToAccountId() {
+export function* watchConvertFundsToAccountId(): Saga<void> {
   yield takeEvery(CONVERT_FUNDS_SET_TO_ACCOUNT_ID, onConvertFundsSetToAccountId)
 }
 
-export function* watchSendFunds() {
+export function* watchSendFunds(): Saga<void> {
   yield takeEvery(SEND_FUNDS, onSendFunds)
 }
 
-export function* watchSendOpenModal() {
+export function* watchSendOpenModal(): Saga<void> {
   yield takeEvery(SEND_FUNDS_OPEN_MODAL, onSendOpenModal)
 }
 
-export function* watchReceiveOpenModal() {
+export function* watchReceiveOpenModal(): Saga<void> {
   yield takeEvery(RECEIVE_FUNDS_OPEN_MODAL, onReceiveOpenModal)
 }

@@ -7,6 +7,7 @@ import type { Saga } from 'redux-saga'
 declare type Index = number
 declare type Address = string
 declare type Addresses = Array<Address>
+declare type Bignumber = any
 
 /**
  * Digital Assets
@@ -103,3 +104,22 @@ declare type Transaction = {
 }
 
 declare type Transactions = Array<Transaction>
+
+/**
+ * Funds
+ */
+
+declare type SendFundsData = {
+  currency: {
+    contractAddress: Address,
+    symbol: string,
+    balance: number,
+    decimals: number,
+  },
+  recipient: Address,
+  password: string,
+  amount: string,
+  symbol: string,
+  gas?: string,
+  gasPrice?: string,
+}
