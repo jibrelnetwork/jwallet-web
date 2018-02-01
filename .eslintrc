@@ -137,6 +137,7 @@
     "import/extensions": "off",
     "arrow-body-style": "off",
     "global-require": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "quote-props": "off"
   }
 }
