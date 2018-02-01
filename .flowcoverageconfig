@@ -5,8 +5,8 @@
   ],
   "flowCommandPath": "./node_modules/.bin/flow",
   "includeGlob": [
-    "./src/routes/JWallet/modules/**/*.js",
-    "./src/routes/JWallet/sagas/**/*.js",
+    "./src/routes/*/modules/**/*.js",
+    "./src/routes/*/sagas/**/*.js",
     "./src/services/**/*.js"
   ],
   "outputDir": "./coverage/flow/",
