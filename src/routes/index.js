@@ -11,6 +11,7 @@ import EditKeyRoute from './EditKey'
 import ChangePasswordRoute from './ChangePassword'
 import BackupKeysRoute from './BackupKeys'
 import ClearKeysRoute from './ClearKeys'
+import AddCustomAssetRoute from './AddCustomAsset'
 
 const createRoutes = store => ({
   path: '/',
@@ -28,6 +29,7 @@ const createRoutes = store => ({
     ChangePasswordRoute(store),
     BackupKeysRoute(store),
     ClearKeysRoute(store),
+    AddCustomAssetRoute(store),
   ],
 })
 
