@@ -1,3 +1,5 @@
+// @flow
+
 import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
@@ -22,6 +24,6 @@ function* onTick() {
   yield onTick()
 }
 
-export function* watchStartTimer() { // eslint-disable-line import/prefer-default-export
+export function* watchStartTimer(): Saga<void> {
   yield takeEvery(START_TIMER, onStartTimer)
 }
