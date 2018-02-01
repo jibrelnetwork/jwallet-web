@@ -1,3 +1,5 @@
+// @flow
+
 export const NETWORKS_GET = 'NETWORKS_GET'
 export const NETWORKS_SET = 'NETWORKS_SET'
 export const NETWORKS_SET_CURRENT = 'NETWORKS_SET_CURRENT'
@@ -11,21 +13,21 @@ export function getNetworksFromStorage() {
   }
 }
 
-export function setCurrentNetwork(currentNetworkIndex) {
+export function setCurrentNetwork(currentNetworkIndex: Index) {
   return {
     type: NETWORKS_SET_CURRENT,
     currentNetworkIndex,
   }
 }
 
-export function setCustomNetworkValue(customNetworkRpc = '') {
+export function setCustomNetworkValue(customNetworkRpc: string = '') {
   return {
     type: NETWORKS_SET_CUSTOM_NETWORK_VALUE,
     customNetworkRpc,
   }
 }
 
-export function saveCustomNetwork(customNetworkRpc, onSuccess, onError) {
+export function saveCustomNetwork(customNetworkRpc: string, onSuccess: any, onError: any) {
   return {
     type: NETWORKS_SAVE_CUSTOM_NETWORK,
     customNetworkRpc,
@@ -34,7 +36,7 @@ export function saveCustomNetwork(customNetworkRpc, onSuccess, onError) {
   }
 }
 
-export function removeCustomNetwork(networkIndex) {
+export function removeCustomNetwork(networkIndex: Index) {
   return {
     type: NETWORKS_REMOVE_CUSTOM_NETWORK,
     networkIndex,
@@ -66,7 +68,7 @@ const initialState = {
   isLoading: true,
 }
 
-export default function networks(state = initialState, action) {
+export default function networks(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

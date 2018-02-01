@@ -1,3 +1,5 @@
+// @flow
+
 export const CURRENCIES_GET = 'CURRENCIES_GET'
 export const CURRENCIES_SET = 'CURRENCIES_SET'
 export const CURRENCIES_GET_BALANCES = 'CURRENCIES_GET_BALANCES'
@@ -21,28 +23,28 @@ export function getCurrencies() {
   }
 }
 
-export function setCurrencies(items) {
+export function setCurrencies(items: DigitalAssets) {
   return {
     type: CURRENCIES_SET,
     items,
   }
 }
 
-export function setCurrentDigitalAssetAddress(currentAddress) {
+export function setCurrentDigitalAssetAddress(currentAddress: Address) {
   return {
     type: CURRENCIES_SET_CURRENT,
     currentAddress,
   }
 }
 
-export function toggleDigitalAsset(address) {
+export function toggleDigitalAsset(address: Address) {
   return {
     type: CURRENCIES_TOGGLE_ACTIVE,
     address,
   }
 }
 
-export function openCurrenciesModal(onClose) {
+export function openCurrenciesModal(onClose: any) {
   return {
     type: CURRENCIES_OPEN_MODAL,
     onClose,
@@ -55,21 +57,21 @@ export function closeCurrenciesModal() {
   }
 }
 
-export function searchCurrencies(searchQuery) {
+export function searchCurrencies(searchQuery: string) {
   return {
     type: CURRENCIES_SEARCH,
     searchQuery,
   }
 }
 
-export function sortCurrencies(sortField) {
+export function sortCurrencies(sortField: string) {
   return {
     type: CURRENCIES_SORT,
     sortField,
   }
 }
 
-export function setSearchCurrenciesOptions(foundItemsSymbols, searchQuery) {
+export function setSearchCurrenciesOptions(foundItemsSymbols: Array<string>, searchQuery: string) {
   return {
     type: CURRENCIES_SET_SEARCH_OPTIONS,
     foundItemsSymbols,
@@ -77,7 +79,7 @@ export function setSearchCurrenciesOptions(foundItemsSymbols, searchQuery) {
   }
 }
 
-export function setSortCurrenciesOptions(sortField, sortDirection) {
+export function setSortCurrenciesOptions(sortField: string, sortDirection: string) {
   return {
     type: CURRENCIES_SET_SORT_OPTIONS,
     sortField,
@@ -85,7 +87,7 @@ export function setSortCurrenciesOptions(sortField, sortDirection) {
   }
 }
 
-export function addCustomToken(customTokenData) {
+export function addCustomToken(customTokenData: TokenData) {
   return {
     type: CURRENCIES_ADD_CUSTOM,
     customTokenData,
@@ -146,7 +148,7 @@ const initialState = {
   onClose: null,
 }
 
-export default function currencies(state = initialState, action) {
+export default function currencies(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

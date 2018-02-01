@@ -1,3 +1,5 @@
+// @flow
+
 export const OPEN_MODAL = 'NEW_KEYSTORE_ACCOUNT_OPEN_MODAL'
 export const CLOSE_MODAL = 'NEW_KEYSTORE_ACCOUNT_CLOSE_MODAL'
 export const SET_MNEMONIC = 'NEW_KEYSTORE_ACCOUNT_SET_MNEMONIC'
@@ -20,7 +22,7 @@ export const STEPS = {
   SET_PASSWORD: 5,
 }
 
-export function openNewKeystoreAccountModal(isOpenedFromKeystoreModal = false) {
+export function openNewKeystoreAccountModal(isOpenedFromKeystoreModal: boolean = false) {
   return {
     type: OPEN_MODAL,
     isOpenedFromKeystoreModal,
@@ -33,35 +35,35 @@ export function closeNewKeystoreAccountModal() {
   }
 }
 
-export function setNewKeystoreAccountMnemonicConfirm(mnemonicConfirm) {
+export function setNewKeystoreAccountMnemonicConfirm(mnemonicConfirm: string) {
   return {
     type: SET_MNEMONIC_CONFIRM,
     mnemonicConfirm,
   }
 }
 
-export function setNewKeystoreAccountPassword(password) {
+export function setNewKeystoreAccountPassword(password: string) {
   return {
     type: SET_PASSWORD,
     password,
   }
 }
 
-export function setNewKeystoreAccountPasswordConfirm(passwordConfirm) {
+export function setNewKeystoreAccountPasswordConfirm(passwordConfirm: string) {
   return {
     type: SET_PASSWORD_CONFIRM,
     passwordConfirm,
   }
 }
 
-export function setNewKeystoreAccountCurrentStep(currentStep) {
+export function setNewKeystoreAccountCurrentStep(currentStep: number) {
   return {
     type: SET_CURRENT_STEP,
     currentStep,
   }
 }
 
-export function setNewKeystoreAccountValidField(fieldName, message) {
+export function setNewKeystoreAccountValidField(fieldName: string, message: string) {
   return {
     type: SET_VALID_FIELD,
     fieldName,
@@ -69,7 +71,7 @@ export function setNewKeystoreAccountValidField(fieldName, message) {
   }
 }
 
-export function setNewKeystoreAccountInvalidField(fieldName, message) {
+export function setNewKeystoreAccountInvalidField(fieldName: string, message: string) {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -176,7 +178,7 @@ const initialState = {
   isOpenedFromKeystoreModal: false,
 }
 
-export default function newKeystoreAccountModal(state = initialState, action) {
+export default function newKeystoreAccountModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

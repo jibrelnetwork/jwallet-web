@@ -1,3 +1,5 @@
+// @flow
+
 export const SEND_FUNDS_OPEN_MODAL = 'SEND_FUNDS_OPEN_MODAL'
 export const SEND_FUNDS_CLOSE_MODAL = 'SEND_FUNDS_CLOSE_MODAL'
 export const SEND_FUNDS_SET_ALERT = 'SEND_FUNDS_SET_ALERT'
@@ -13,7 +15,11 @@ export const SEND_FUNDS_SET_INVALID_FIELD = 'SEND_FUNDS_SET_INVALID_FIELD'
 export const SEND_FUNDS_CLEAR = 'SEND_FUNDS_CLEAR'
 export const SEND_FUNDS = 'SEND_FUNDS'
 
-export function openSendFundsModal(accounts = [], accountId = '', onClose = null) {
+export function openSendFundsModal(
+  accounts: any = [],
+  accountId: AccountId = '',
+  onClose: any = null,
+) {
   return {
     type: SEND_FUNDS_OPEN_MODAL,
     accounts,
@@ -28,28 +34,28 @@ export function closeSendFundsModal() {
   }
 }
 
-export function setSendFundsAddress(address = '') {
+export function setSendFundsAddress(address: string = '') {
   return {
     type: SEND_FUNDS_SET_ADDRESS,
     address,
   }
 }
 
-export function setSendFundsAmount(amount = '') {
+export function setSendFundsAmount(amount: string = '') {
   return {
     type: SEND_FUNDS_SET_AMOUNT,
     amount,
   }
 }
 
-export function setSendFundsSymbol(symbol = '') {
+export function setSendFundsSymbol(symbol: string = '') {
   return {
     type: SEND_FUNDS_SET_SYMBOL,
     symbol,
   }
 }
 
-export function setSendFundsAccountId(accountId = '', accounts = []) {
+export function setSendFundsAccountId(accountId: string = '', accounts: any = []) {
   return {
     type: SEND_FUNDS_SET_ACCOUNT_ID,
     accountId,
@@ -57,35 +63,35 @@ export function setSendFundsAccountId(accountId = '', accounts = []) {
   }
 }
 
-export function setSendFundsAccount(currentAccount = {}) {
+export function setSendFundsAccount(currentAccount: any = {}) {
   return {
     type: SEND_FUNDS_SET_ACCOUNT,
     currentAccount,
   }
 }
 
-export function setSendFundsGas(gas = '') {
+export function setSendFundsGas(gas: any = '') {
   return {
     type: SEND_FUNDS_SET_GAS,
     gas,
   }
 }
 
-export function setSendFundsGasPrice(gasPrice = '') {
+export function setSendFundsGasPrice(gasPrice: any = '') {
   return {
     type: SEND_FUNDS_SET_GAS_PRICE,
     gasPrice,
   }
 }
 
-export function setSendFundsPassword(password = '') {
+export function setSendFundsPassword(password: any = '') {
   return {
     type: SEND_FUNDS_SET_PASSWORD,
     password,
   }
 }
 
-export function sendFunds(props = {}) {
+export function sendFunds(props: any = {}) {
   return {
     type: SEND_FUNDS,
     props,
@@ -194,7 +200,7 @@ const initialState = {
   isOpen: false,
 }
 
-export default function sendFundsModal(state = initialState, action) {
+export default function sendFundsModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

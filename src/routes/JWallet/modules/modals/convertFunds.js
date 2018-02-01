@@ -1,3 +1,5 @@
+// @flow
+
 export const CONVERT_FUNDS_OPEN_MODAL = 'CONVERT_FUNDS_OPEN_MODAL'
 export const CONVERT_FUNDS_CLOSE_MODAL = 'CONVERT_FUNDS_CLOSE_MODAL'
 export const CONVERT_FUNDS_SET_FROM_AMOUNT = 'CONVERT_FUNDS_SET_FROM_AMOUNT'
@@ -10,7 +12,7 @@ export const CONVERT_FUNDS_SET_TO_ACCOUNT = 'CONVERT_FUNDS_SET_TO_ACCOUNT'
 export const CONVERT_FUNDS_SET_TO_ACCOUNT_ID = 'CONVERT_FUNDS_SET_TO_ACCOUNT_ID'
 export const CONVERT_FUNDS = 'CONVERT_FUNDS'
 
-export function openConvertFundsModal(accountId = '', onClose = null) {
+export function openConvertFundsModal(accountId: AccountId = '', onClose: any = null) {
   return {
     type: CONVERT_FUNDS_OPEN_MODAL,
     accountId,
@@ -24,21 +26,21 @@ export function closeConvertFundsModal() {
   }
 }
 
-export function setConvertFundsFromAmount(amount = '') {
+export function setConvertFundsFromAmount(amount: string = '') {
   return {
     type: CONVERT_FUNDS_SET_FROM_AMOUNT,
     amount,
   }
 }
 
-export function setConvertFundsFromSymbol(symbol = '') {
+export function setConvertFundsFromSymbol(symbol: string = '') {
   return {
     type: CONVERT_FUNDS_SET_FROM_SYMBOL,
     symbol,
   }
 }
 
-export function setConvertFundsFromAccountId(accountId = '', accounts = []) {
+export function setConvertFundsFromAccountId(accountId: AccountId = '', accounts: any = []) {
   return {
     type: CONVERT_FUNDS_SET_FROM_ACCOUNT_ID,
     accountId,
@@ -46,21 +48,21 @@ export function setConvertFundsFromAccountId(accountId = '', accounts = []) {
   }
 }
 
-export function setConvertFundsToAmount(amount = '') {
+export function setConvertFundsToAmount(amount: string = '') {
   return {
     type: CONVERT_FUNDS_SET_TO_AMOUNT,
     amount,
   }
 }
 
-export function setConvertFundsToSymbol(symbol = '') {
+export function setConvertFundsToSymbol(symbol: string = '') {
   return {
     type: CONVERT_FUNDS_SET_TO_SYMBOL,
     symbol,
   }
 }
 
-export function setConvertFundsToAccountId(accountId = '', accounts = []) {
+export function setConvertFundsToAccountId(accountId: AccountId = '', accounts: any = []) {
   return {
     type: CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
     accountId,
@@ -150,7 +152,7 @@ const initialState = {
   onClose: null,
 }
 
-export default function convertFundsModal(state = initialState, action) {
+export default function convertFundsModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

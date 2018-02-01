@@ -1,3 +1,5 @@
+// @flow
+
 export const OPEN_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_OPEN_MODAL'
 export const CLOSE_MODAL = 'IMPORT_KEYSTORE_ACCOUNT_CLOSE_MODAL'
 export const SET_DATA = 'IMPORT_KEYSTORE_ACCOUNT_SET_DATA'
@@ -19,7 +21,7 @@ export const STEPS = {
   SUCCESS: 3,
 }
 
-export function openImportKeystoreAccountModal(isOpenedFromKeystoreModal = false) {
+export function openImportKeystoreAccountModal(isOpenedFromKeystoreModal: boolean = false) {
   return {
     type: OPEN_MODAL,
     isOpenedFromKeystoreModal,
@@ -32,49 +34,49 @@ export function closeImportKeystoreAccountModal() {
   }
 }
 
-export function setImportKeystoreAccountData(data) {
+export function setImportKeystoreAccountData(data: any) {
   return {
     type: SET_DATA,
     data,
   }
 }
 
-export function setImportKeystoreAccountPassword(password) {
+export function setImportKeystoreAccountPassword(password: string) {
   return {
     type: SET_PASSWORD,
     password,
   }
 }
 
-export function setImportKeystoreAccountPasswordConfirm(passwordConfirm) {
+export function setImportKeystoreAccountPasswordConfirm(passwordConfirm: string) {
   return {
     type: SET_PASSWORD_CONFIRM,
     passwordConfirm,
   }
 }
 
-export function setImportKeystoreAccountKnownDerivationPath(knownDerivationPath) {
+export function setImportKeystoreAccountKnownDerivationPath(knownDerivationPath: string) {
   return {
     type: SET_KNOWN_DERIVATION_PATH,
     knownDerivationPath,
   }
 }
 
-export function setImportKeystoreAccountCustomDerivationPath(customDerivationPath) {
+export function setImportKeystoreAccountCustomDerivationPath(customDerivationPath: string) {
   return {
     type: SET_CUSTOM_DERIVATION_PATH,
     customDerivationPath,
   }
 }
 
-export function setImportKeystoreAccountCurrentStep(currentStep) {
+export function setImportKeystoreAccountCurrentStep(currentStep: number) {
   return {
     type: SET_CURRENT_STEP,
     currentStep,
   }
 }
 
-export function setImportKeystoreAccountInvalidField(fieldName, message) {
+export function setImportKeystoreAccountInvalidField(fieldName: string, message: string) {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -182,7 +184,7 @@ const initialState = {
   isOpenedFromKeystoreModal: false,
 }
 
-export default function importKeystoreAccountModal(state = initialState, action) {
+export default function importKeystoreAccountModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

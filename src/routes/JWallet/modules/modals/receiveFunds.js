@@ -1,8 +1,10 @@
+// @flow
+
 export const RECEIVE_FUNDS_OPEN_MODAL = 'RECEIVE_FUNDS_OPEN_MODAL'
 export const RECEIVE_FUNDS_CLOSE_MODAL = 'RECEIVE_FUNDS_CLOSE_MODAL'
 export const RECEIVE_FUNDS_SET_AMOUNT = 'RECEIVE_FUNDS_SET_AMOUNT'
 
-export function openReceiveFundsModal(accountId, onClose) {
+export function openReceiveFundsModal(accountId: AccountId, onClose: any) {
   return {
     type: RECEIVE_FUNDS_OPEN_MODAL,
     accountId,
@@ -16,7 +18,7 @@ export function closeReceiveFundsModal() {
   }
 }
 
-export function setReceiveFundsAmount(amount) {
+export function setReceiveFundsAmount(amount: string) {
   return {
     type: RECEIVE_FUNDS_SET_AMOUNT,
     amount,
@@ -44,7 +46,7 @@ const initialState = {
   isOpen: false,
 }
 
-export default function receiveFundsModal(state = initialState, action) {
+export default function receiveFundsModal(state: any = initialState, action: any) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
