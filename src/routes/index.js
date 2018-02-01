@@ -1,6 +1,7 @@
 import CoreLayout from 'layouts/CoreLayout'
 import JWalletRoute from './JWallet'
 import KeysRoute from './Keys'
+import StartRoute from './Start'
 
 const createRoutes = store => ({
   path: '/',
@@ -8,6 +9,7 @@ const createRoutes = store => ({
   indexRoute: JWalletRoute(store),
   childRoutes: [
     KeysRoute(store),
+    StartRoute(store),
   ],
 })
 
