@@ -10,6 +10,7 @@ import ReceiveFundsRoute from './ReceiveFunds'
 import EditKeyRoute from './EditKey'
 import ChangePasswordRoute from './ChangePassword'
 import BackupKeysRoute from './BackupKeys'
+import ClearKeysRoute from './ClearKeys'
 
 const createRoutes = store => ({
   path: '/',
@@ -26,6 +27,7 @@ const createRoutes = store => ({
     EditKeyRoute(store),
     ChangePasswordRoute(store),
     BackupKeysRoute(store),
+    ClearKeysRoute(store),
   ],
 })
 
