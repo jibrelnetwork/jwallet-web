@@ -137,7 +137,7 @@ function* onImportSuccess(
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.SUCCESS, isInitialized)
 }
 
-function* onImportFail(errMessage: string) {
+function onImportFail(errMessage: string) {
   throw new InvalidFieldError('password', errMessage)
 }
 
