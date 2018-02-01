@@ -4,6 +4,7 @@ import KeysRoute from './Keys'
 import StartRoute from './Start'
 import DigitalAssetsRoute from './DigitalAssets'
 import CreateKeyRoute from './CreateKey'
+import ImportKeyRoute from './ImportKey'
 
 const createRoutes = store => ({
   path: '/',
@@ -14,6 +15,7 @@ const createRoutes = store => ({
     StartRoute(store),
     DigitalAssetsRoute(store),
     CreateKeyRoute(store),
+    ImportKeyRoute(store),
   ],
 })
 
