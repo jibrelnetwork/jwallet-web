@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export class InvalidFieldError {
   constructor(fieldName, message) {
     this.fieldName = fieldName

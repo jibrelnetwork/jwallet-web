@@ -15,7 +15,6 @@ function onSetLanguage(action: { languageCode: string }) {
   window.location.href = `${origin}${pathname}?lang=${languageCode}`
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export function* watchSetLanguage(): Saga<void> {
   yield takeEvery(LANGUAGE_SET, onSetLanguage)
 }

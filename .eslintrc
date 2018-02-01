@@ -136,6 +136,7 @@
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "arrow-body-style": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "import/prefer-default-export": "off"
   }
 }
