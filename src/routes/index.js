@@ -6,6 +6,7 @@ import DigitalAssetsRoute from './DigitalAssets'
 import CreateKeyRoute from './CreateKey'
 import ImportKeyRoute from './ImportKey'
 import SendFundsRoute from './SendFunds'
+import ReceiveFundsRoute from './ReceiveFunds'
 
 const createRoutes = store => ({
   path: '/',
@@ -18,6 +19,7 @@ const createRoutes = store => ({
     CreateKeyRoute(store),
     ImportKeyRoute(store),
     SendFundsRoute(store),
+    ReceiveFundsRoute(store),
   ],
 })
 
