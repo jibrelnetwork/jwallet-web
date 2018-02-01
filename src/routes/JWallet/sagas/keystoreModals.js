@@ -49,7 +49,7 @@ function* onSetImportStep(action: { currentStep: number }) {
 }
 
 function* goToImportDataStep(isInitialized: boolean) {
-  gtm.pushImportAccount('Start', null, isInitialized)
+  gtm.pushImportAccount('Start', undefined, isInitialized)
   yield updateImportStep(IMPORT_KEYSTORE_ACCOUNT.STEPS.DATA, isInitialized)
 }
 

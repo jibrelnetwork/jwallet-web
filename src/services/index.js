@@ -1,7 +1,19 @@
-export etherscan from './etherscan'
-export fileSaver from './fileSaver'
-export gtm from './gtm'
-export keystore from './keystore'
-export qrCode from './qrCode'
-export storage from './storage'
-export web3 from './web3'
+// @flow
+
+import etherscan from './etherscan'
+import fileSaver from './fileSaver'
+import gtm from './gtm'
+import keystore from './keystore'
+import qrCode from './qrCode'
+import storage from './storage'
+import web3 from './web3'
+
+export {
+  etherscan,
+  fileSaver,
+  gtm,
+  keystore,
+  qrCode,
+  storage,
+  web3,
+}

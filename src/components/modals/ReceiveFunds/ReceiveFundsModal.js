@@ -57,6 +57,8 @@ class ReceiveFundsModal extends SubmitModal {
         to: currentAddress,
         value: new BigNumber(amountWei.toFixed(0), 10),
       },
+      appearance: {},
+      selector: '#qr-code',
     })
   }
 

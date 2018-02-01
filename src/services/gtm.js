@@ -1,4 +1,6 @@
-function push(data) {
+// @flow
+
+function push(data: any) {
   const dataLayer = window.dataLayer || []
   dataLayer.push(data)
 }
@@ -7,7 +9,7 @@ function push(data) {
  * eventAction value is one of:
  * Start/GenerateMnemonic/SaveMnemonic/ConfirmMnemonic/EnterPassword/CreateSuccess
  */
-function pushCreateAccount(eventLabel, isInitialised = false) {
+function pushCreateAccount(eventLabel: string, isInitialised: boolean = false) {
   push({
     event: 'RegistrationProcess',
     eventCategory: 'CreateNewAccount',
@@ -20,7 +22,11 @@ function pushCreateAccount(eventLabel, isInitialised = false) {
  * eventLabel value is one of Start/SetData/ChangeDerivationPath/EnterPassword/Success
  * accountType value is one of null/address/privateKey/bip32Xpub/mnemonic
  */
-function pushImportAccount(eventLabel, accountType, isInitialised = false) {
+function pushImportAccount(
+  eventLabel: string,
+  accountType: string | void,
+  isInitialised: boolean = false,
+) {
   push({
     event: 'RegistrationProcess',
     eventCategory: 'CreateNewAccount',
@@ -42,7 +48,7 @@ function pushSetDerivationPathSuccess() {
 /**
  * accountType value is one of address/privateKey/bip32Xpub/mnemonic
  */
-function pushRemoveAccountSuccess(accountType) {
+function pushRemoveAccountSuccess(accountType: string) {
   push({
     event: 'RemoveAccountSuccess',
     eventCategory: 'ProfileSettings',
@@ -56,7 +62,7 @@ function pushRemoveAccountSuccess(accountType) {
  * eventLabel value is code of digital asset (e.g. ETH, JNT)
  * accountType value is one of privateKey/mnemonic
  */
-function pushSendFundsSuccess(eventLabel, accountType) {
+function pushSendFundsSuccess(eventLabel: string, accountType: string) {
   push({
     event: 'Transaction',
     eventCategory: 'TransactionInWallet',
@@ -70,7 +76,7 @@ function pushSendFundsSuccess(eventLabel, accountType) {
  * eventCategory value is one of ReceiveFunds/QRCodeGenerate
  * accountType value is one of address/privateKey/bip32Xpub/mnemonic
  */
-function pushReceiveFunds(eventCategory, accountType) {
+function pushReceiveFunds(eventCategory: string, accountType: string) {
   push({
     event: 'ReceiveFundsProcess',
     eventCategory,
@@ -91,7 +97,7 @@ function pushAddCustomToken() {
 /**
  * eventLabel value is one of Open/Success
  */
-function pushBackupKeystore(eventLabel) {
+function pushBackupKeystore(eventLabel: string) {
   push({
     event: 'BackupKeystore',
     eventCategory: 'ProfileSettings',
@@ -130,7 +136,7 @@ function pushAddCustomNetwork() {
 /**
  * eventLabel value is a current language
  */
-function pushChangeLanguage(eventLabel) {
+function pushChangeLanguage(eventLabel: string) {
   push({
     event: 'ChangeLanguage',
     eventCategory: 'ProfileSettings',
