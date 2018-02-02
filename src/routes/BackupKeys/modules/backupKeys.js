@@ -20,6 +20,13 @@ export function setInvalidField(fieldName: string, message: string) {
   }
 }
 
+export function backup(password: Password) {
+  return {
+    type: BACKUP,
+    password,
+  }
+}
+
 const ACTION_HANDLERS = {
   [SET_PASSWORD]: (state, action) => ({
     ...state,
