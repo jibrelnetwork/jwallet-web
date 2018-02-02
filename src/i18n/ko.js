@@ -231,6 +231,7 @@ module.exports = {
       placeholder: {
         password: '현재 비밀번호',
         newPassword: '새 비밀번호',
+        confirmPassword: 'Confirm password',
       },
       error: {
         password: {

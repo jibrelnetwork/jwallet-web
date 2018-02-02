@@ -231,6 +231,7 @@ module.exports = {
       placeholder: {
         password: '当前密码',
         newPassword: '新密码',
+        confirmPassword: 'Confirm password',
       },
       error: {
         password: {
