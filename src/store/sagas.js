@@ -10,6 +10,7 @@ import * as transactionsSagas from 'routes/JWallet/sagas/transactions'
 import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset'
 import * as backupKeysSagas from 'routes/BackupKeys/sagas/backupKeys'
 import * as changePasswordSagas from 'routes/ChangePassword/sagas/changePassword'
+import * as clearKeysSagas from 'routes/ClearKeys/sagas/clearKeys'
 
 export default {
   ...alphaWarningModalSagas,
@@ -24,4 +25,5 @@ export default {
   ...addCustomAssetSagas,
   ...backupKeysSagas,
   ...changePasswordSagas,
+  ...clearKeysSagas,
 }
