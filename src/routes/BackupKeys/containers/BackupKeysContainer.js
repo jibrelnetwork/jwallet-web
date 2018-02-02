@@ -1,3 +1,17 @@
+import { connect } from 'react-redux'
+
+import {
+  setPassword,
+  // backup,
+} from '../modules/backupKeys'
+
 import BackupKeys from '../components/BackupKeys'
 
-export default BackupKeys
+const mapStateToProps = ({ backupKeys }) => backupKeys
+
+const mapDispatchToProps = {
+  setPassword,
+  // backup,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BackupKeys)
