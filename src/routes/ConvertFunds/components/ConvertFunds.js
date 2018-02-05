@@ -16,7 +16,7 @@ const ConvertFunds = ({
 }) => {
   const fields = [
     { key: 'fromAsset', value: fromAsset, placeholder: 'Asset', handler: setFromAsset },
-    { key: 'fromAmount', value: fromAmount, placeholder: 'Amount',  handler: setFromAmount },
+    { key: 'fromAmount', value: fromAmount, placeholder: 'Amount', handler: setFromAmount },
     { key: 'toAsset', value: toAsset, placeholder: 'Convert to', handler: setToAsset },
     { key: 'toAmount', value: toAmount, placeholder: 'You will receive', handler: null },
   ]

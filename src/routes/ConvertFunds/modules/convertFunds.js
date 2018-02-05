@@ -14,7 +14,7 @@ export function setFromAsset(address: Address) {
   }
 }
 
-export function setFromAmount(amount) {
+export function setFromAmount(amount: string) {
   return {
     type: SET_FROM_AMOUNT,
     amount,
@@ -28,7 +28,7 @@ export function setToAsset(address: Address) {
   }
 }
 
-export function convertFunds() {
+export function convert() {
   return {
     type: CONVERT,
   }
