@@ -28,13 +28,6 @@ export function setToAsset(address: Address) {
   }
 }
 
-export function setToAmount(amount: string) {
-  return {
-    type: SET_TO_AMOUNT,
-    amount,
-  }
-}
-
 export function convertFunds() {
   return {
     type: CONVERT,
