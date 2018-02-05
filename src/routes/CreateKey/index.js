@@ -5,7 +5,8 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       const CreateKey = require('./containers/CreateKeyContainer').default
-
+      const createKey = require('./modules/createKey').default
+      injectReducer(store, { key: 'createKey', reducer: createKey })
       cb(null, CreateKey)
     }, 'create-key')
   },
