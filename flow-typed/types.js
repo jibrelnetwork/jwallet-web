@@ -110,16 +110,11 @@ declare type Transactions = Array<Transaction>
  */
 
 declare type SendFundsData = {
-  currency: {
-    contractAddress: Address,
-    symbol: string,
-    balance: number,
-    decimals: number,
-  },
   recipient: Address,
   password: string,
   amount: string,
   symbol: string,
   gas?: string,
   gasPrice?: string,
+  nonce?: string,
 }
