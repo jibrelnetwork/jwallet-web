@@ -168,7 +168,9 @@ function parseTransactions(list, decimals) {
 
 function parseTransaction(item, decimals) {
   const { timestamp, address, from, to, value, gas, gasPrice, isRejected, removed } = item
-  const isSender = (address === from)
+
+  // case-insensitive comparison
+  const isSender = (address.toLowerCase() === from.toLowerCase())
 
   return {
     ...item,
@@ -201,11 +203,18 @@ function getContractTransactions(contractAddress, owner, decimals) {
     return []
   }
 
-  if (isJNTContract(contractAddress)) {
-    return getJNTTransactions(contractAddress, owner, decimals)
+  const transferTransactions = getERC20Transactions(contractAddress, owner, decimals)
+
+  if (!isJNTContract(contractAddress)) {
+    return transferTransactions
   }
 
-  return getERC20Transactions(contractAddress, owner, decimals)
+  const mintableTransactions = getJNTTransactions(contractAddress, owner, decimals)
+
+  return Promise
+    .all([transferTransactions, mintableTransactions])
+    .then(([transfer, mintable]) => transfer.concat(mintable))
+    .then(sortTransactions)
 }
 
 function getJNTTransactions(contractAddress, owner, decimals) {
@@ -220,7 +229,6 @@ function getJNTTransactions(contractAddress, owner, decimals) {
     .then(getLast50)
     .then(list => getTransactionsInfo(list, true))
     .then(list => parseTransactions(list, decimals))
-    .then(sortTransactions)
     .then(addJNTFlag)
     .catch(handleTransactionsError)
 }
@@ -242,11 +250,12 @@ function getERC20Transactions(contractAddress, owner, decimals) {
 
 function filterJNTEvents(events, owner) {
   return events
-    .filter(event => (event.owner === owner))
+    // case-insensitive comparison
+    .filter(event => (event.owner.toLowerCase() === owner.toLowerCase()))
     .map(event => ({
       ...event,
-      from: isMintEvent(event) ? null : owner,
-      to: isMintEvent(event) ? owner : null,
+      from: isMintEvent(event) ? '' : owner,
+      to: isMintEvent(event) ? owner : '',
     }))
 }
 
