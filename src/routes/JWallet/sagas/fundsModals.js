@@ -124,7 +124,7 @@ function getTransactionData(props) {
   const { symbol, contractAddress, decimals, balance } = currency
   const value = getTransactionValue(amount, decimals)
 
-  validateTransactionValue(value, balance)
+  validateTransactionValue(value, balance, decimals)
 
   const data = {
     value,
