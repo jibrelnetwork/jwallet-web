@@ -9,8 +9,9 @@ import { InvalidFieldError, getDefaultDigitalAssets, searchItems, sortItems } fr
 
 import {
   selectDigitalAssets,
-  selectCurrentKeystoreAddress,
+  selectCurrentNetwork,
   selectCurrentNetworkId,
+  selectCurrentKeystoreAddress,
 } from './stateSelectors'
 
 import {
@@ -329,9 +330,13 @@ function getTokensBalances(items, owner) {
 }
 
 function* setBalancesToStorage(action) {
-  const networkId = yield select(selectCurrentNetworkId)
+  const network = yield select(selectCurrentNetwork)
 
-  storage.setDigitalAssetsBalances(JSON.stringify(action.balances || {}), networkId)
+  if (!network) {
+    return
+  }
+
+  storage.setDigitalAssetsBalances(JSON.stringify(action.balances || {}), network.id)
 }
 
 function* setBalances(balances) {
