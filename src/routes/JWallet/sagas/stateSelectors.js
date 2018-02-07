@@ -38,6 +38,10 @@ export function selectNetworks({ networks }) {
   return networks
 }
 
+export function selectCurrentNetwork({ networks }) {
+  return `${networks.items[networks.currentNetworkIndex]}`
+}
+
 export function selectCurrentNetworkId({ networks }) {
   return `${networks.items[networks.currentNetworkIndex].id}`
 }
