@@ -39,7 +39,7 @@ export function selectNetworks({ networks }) {
 }
 
 export function selectCurrentNetwork({ networks }) {
-  return `${networks.items[networks.currentNetworkIndex]}`
+  return networks.items[networks.currentNetworkIndex]
 }
 
 export function selectCurrentNetworkId({ networks }) {
