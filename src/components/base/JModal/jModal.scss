@@ -49,6 +49,10 @@
     }
   }
 
+  &--keystore {
+    overflow: hidden;
+  }
+
   &--opening,
   &--closing {
     animation-duration: 0.3s;
