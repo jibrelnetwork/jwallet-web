@@ -33,8 +33,8 @@ import {
 } from '../modules/keystore'
 
 import { TRANSACTIONS_GET } from '../modules/transactions'
-import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { CLEAR_KEYSTORE_CLOSE_MODAL } from '../modules/modals/clearKeystore'
+import { CURRENCIES_SET_BALANCES, CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import * as NEW_DERIVATION_PATH from '../modules/modals/newDerivationPath'
 
 const { addressesPerIteration } = config
@@ -78,7 +78,11 @@ function* setAccounts() {
 
   setKeystoreToStorage()
 
-  return yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
+  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
+
+  if (isEmpty(accounts)) {
+    yield put({ type: CURRENCIES_SET_BALANCES, balances: {} })
+  }
 }
 
 function getAccountData(accountId) {
