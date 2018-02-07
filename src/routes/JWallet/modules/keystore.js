@@ -53,10 +53,9 @@ export function removeKeystoreAccount(accountId) {
   }
 }
 
-export function removeKeystoreAccounts(password) {
+export function removeKeystoreAccounts() {
   return {
     type: KEYSTORE_REMOVE_ACCOUNTS,
-    password,
   }
 }
 

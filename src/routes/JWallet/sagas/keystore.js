@@ -32,15 +32,10 @@ import {
   KEYSTORE_CLOSE_MODAL,
 } from '../modules/keystore'
 
-import {
-  CLEAR_KEYSTORE_CLOSE_MODAL,
-  CLEAR_KEYSTORE_SET_INVALID_FIELD,
-} from '../modules/modals/clearKeystore'
-
-import * as NEW_DERIVATION_PATH from '../modules/modals/newDerivationPath'
-
-import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
 import { TRANSACTIONS_GET } from '../modules/transactions'
+import { CURRENCIES_GET_BALANCES } from '../modules/currencies'
+import { CLEAR_KEYSTORE_CLOSE_MODAL } from '../modules/modals/clearKeystore'
+import * as NEW_DERIVATION_PATH from '../modules/modals/newDerivationPath'
 
 const { addressesPerIteration } = config
 
@@ -179,14 +174,14 @@ function* closeKeystoreModal() {
   }
 }
 
-function* onRemoveAccounts(action) {
+function* onRemoveAccounts() {
   try {
-    keystore.removeAccounts(action.password)
+    keystore.removeAccounts()
     gtm.pushClearKeystore()
 
     yield onRemoveAccountsSuccess()
   } catch (err) {
-    yield onRemoveAccountsError()
+    onRemoveAccountsError(err)
   }
 }
 
@@ -197,12 +192,8 @@ function* onRemoveAccountsSuccess() {
   yield put({ type: CLEAR_KEYSTORE_CLOSE_MODAL })
 }
 
-function* onRemoveAccountsError() {
-  yield put({
-    type: CLEAR_KEYSTORE_SET_INVALID_FIELD,
-    fieldName: 'password',
-    message: i18n('modals.general.error.password.invalid'),
-  })
+function onRemoveAccountsError({ message }) {
+  console.error(message)
 }
 
 function* setAccountName(action) {
