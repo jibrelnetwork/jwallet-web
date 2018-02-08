@@ -32,6 +32,14 @@
   &:last-child {
     margin-right: 0;
   }
+
+  &--disabled {
+    &,
+    &:hover {
+      opacity: 0.3;
+      cursor: default;
+    }
+  }
 }
 
 .header-menu__title {

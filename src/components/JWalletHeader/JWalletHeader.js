@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { JHeader } from 'components/base'
 import { KeysManager, NetworksManager, CurrenciesManager, LanguageManager } from 'components'
 
-import HeaderMenu from './HeaderMenu'
+import JWalletHeaderMenu from './Menu'
 
 function JWalletHeader({
   openSendFundsModal,
@@ -19,14 +19,16 @@ function JWalletHeader({
   setLanguage,
   accountName,
   networks,
+  accountType,
 }) {
   return (
     <JHeader>
       <div className='clear'>
-        <HeaderMenu
+        <JWalletHeaderMenu
           openSendFundsModal={openSendFundsModal}
           openReceiveFundsModal={openReceiveFundsModal}
           openConvertFundsModal={openConvertFundsModal}
+          accountType={accountType}
         />
         <LanguageManager setLanguage={setLanguage} />
         <NetworksManager
@@ -71,6 +73,7 @@ JWalletHeader.propTypes = {
     isLoading: PropTypes.bool.isRequired,
   }).isRequired,
   accountName: PropTypes.string.isRequired,
+  accountType: PropTypes.string.isRequired,
 }
 
 export default JWalletHeader

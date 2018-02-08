@@ -82,6 +82,7 @@ class CoreLayout extends Component {
       openKeystoreModal,
       keystore,
       networks,
+      accountType,
     } = this.props
 
     return (
@@ -100,6 +101,7 @@ class CoreLayout extends Component {
         setLanguage={this.setLanguage}
         accountName={keystore.currentAccount.accountName}
         networks={networks}
+        accountType={accountType}
       />
     )
   }
@@ -225,11 +227,14 @@ CoreLayout.propTypes = {
   isNewKeystorePasswordModalOpen: PropTypes.bool.isRequired,
   isReceiveFundsModalOpen: PropTypes.bool.isRequired,
   isSendFundsModalOpen: PropTypes.bool.isRequired,
+  /* optional */
   children: PropTypes.element,
+  accountType: PropTypes.string,
 }
 
 CoreLayout.defaultProps = {
   children: null,
+  accountType: null,
 }
 
 export default CoreLayout
