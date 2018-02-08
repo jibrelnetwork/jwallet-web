@@ -37,6 +37,10 @@ export function selectKeystoreData({ keystore }) {
   return keystore
 }
 
+export function selectCurrentAccount({ keystore }) {
+  return keystore.currentAccount
+}
+
 export function selectCurrentAccountId({ keystore }) {
   return keystore.currentAccount.id
 }
