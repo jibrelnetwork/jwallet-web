@@ -180,6 +180,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   currentAccount: {
     id: '',
+    address: '',
     accountName: '',
     addressIndex: 0,
   },
