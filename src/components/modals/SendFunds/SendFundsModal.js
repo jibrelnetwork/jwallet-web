@@ -18,12 +18,14 @@ class SendFundsModal extends SubmitModal {
 
   renderSender = () => {
     const { sender, accountName } = this.props
+    const name = (accountName.length > 20) ? `${accountName.substr(0, 20)}...` : accountName
+    const addr = `${sender.substr(0, 6)}...${sender.substr(-2)}`
 
     return (
       <JTextInput
         name='send-funds-sender'
         placeholder={i18n('modals.sendFunds.placeholder.sender')}
-        value={`${accountName}   ${sender.substr(0, 6)}...${sender.substr(-2)}`}
+        value={`${name}   ${addr}`}
       />
     )
   }
