@@ -132,13 +132,15 @@ function* setCurrentAccount(action) {
   const { accountId } = action
 
   if (currentAccountId === accountId) {
-    return null
+    return
   }
 
   const accountData = accountId ? getAccountData(accountId) : null
 
   if (!accountData) {
-    return yield setFirstAccountAsCurrent()
+    yield setFirstAccountAsCurrent()
+
+    return
   }
 
   const { type, addressIndex } = accountData
@@ -149,10 +151,14 @@ function* setCurrentAccount(action) {
     yield refreshAddressesFromMnemonic(accountId, addressIndex)
   }
 
+  yield onCurrentAddressChange()
+
+  setCurrentAccountToStorage(accountId)
+}
+
+function* onCurrentAddressChange() {
   yield getBalances()
   yield getTransactions()
-
-  return setCurrentAccountToStorage(accountId)
 }
 
 function* onRemoveAccount({ accountId }) {
@@ -271,7 +277,7 @@ function* setAddressIndex(action) {
 
   yield setAccounts()
   yield updateCurrentAccountData()
-  yield getBalances()
+  yield onCurrentAddressChange()
 }
 
 function* refreshAddressesFromMnemonic(accountId, addressIndex) {
