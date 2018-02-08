@@ -36,8 +36,8 @@ module.exports = {
         internalError: '거래 실패. 다시 시도해주세요',
       },
       placeholder: {
-        address: '입금 주소',
-        account: '계정',
+        sender: 'Sender',
+        recipient: '입금 주소',
         amount: '금액',
         gas: '가스',
         gasPrice: '가스 가격 (wei)',

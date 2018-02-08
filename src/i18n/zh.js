@@ -36,8 +36,8 @@ module.exports = {
         internalError: '交易失败，请再试一遍。',
       },
       placeholder: {
-        address: '接收地址',
-        account: '账号',
+        sender: 'Sender',
+        recipient: '接收地址',
         amount: '数量',
         gas: '限制 (21,000 Gas)',
         gasPrice: '价格 (1 Gwei)',

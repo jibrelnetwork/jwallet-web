@@ -8,45 +8,38 @@ class SendFundsModal extends SubmitModal {
   renderModalBody = () => {
     return (
       <div>
-        {this.renderRecipientAddress()}
-        {this.renderAccount()}
+        {this.renderSender()}
         {this.renderAmmountAndSymbol()}
+        {this.renderRecipient()}
         {this.renderCustomOptions()}
       </div>
     )
   }
 
-  renderRecipientAddress = () => {
+  renderSender = () => {
+    const { sender, accountName } = this.props
+
+    return (
+      <JTextInput
+        name='send-funds-sender'
+        placeholder={i18n('modals.sendFunds.placeholder.sender')}
+        value={`${accountName}   ${sender.substr(0, 6)}...${sender.substr(-2)}`}
+      />
+    )
+  }
+
+  renderRecipient = () => {
     const { setSendFundsAddress, invalidFields, address } = this.props
 
     return (
       <JTextInput
         onValueChange={setSendFundsAddress}
-        name='recipient-address'
-        placeholder={i18n('modals.sendFunds.placeholder.address')}
+        name='send-funds-recipient'
+        placeholder={i18n('modals.sendFunds.placeholder.recipient')}
         value={address}
         errorMessage={invalidFields.address}
         editable
       />
-    )
-  }
-
-  renderAccount = () => {
-    const { accounts, invalidFields, currentAccount } = this.props
-
-    return (
-      <JPicker
-        onValueChange={this.setSendFundsAccountId}
-        name='account-id'
-        placeholder={i18n('modals.sendFunds.placeholder.account')}
-        selectedValue={currentAccount.accountName}
-        errorMessage={invalidFields.account}
-        enabled={!!accounts.length}
-      >
-        {accounts.filter(account => !account.isReadOnly).map((account) => {
-          return <JPicker.Item key={account.id} label={account.accountName} value={account.id} />
-        })}
-      </JPicker>
     )
   }
 
@@ -129,9 +122,9 @@ class SendFundsModal extends SubmitModal {
   }
 
   isModalButtonDisabled = () => {
-    const { currentAccount, address, amount } = this.props
+    const { address, amount } = this.props
 
-    return !(currentAccount.id.length && address.length && amount.length)
+    return !(address.length && amount.length)
   }
 
   closeModal = () => this.props.closeSendFundsModal()
@@ -150,11 +143,6 @@ SendFundsModal.propTypes = {
   setSendFundsGasPrice: PropTypes.func.isRequired,
   setSendFundsPassword: PropTypes.func.isRequired,
   sendFunds: PropTypes.func.isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    accountName: PropTypes.string.isRequired,
-    isReadOnly: PropTypes.bool.isRequired,
-  })).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.shape({
     symbol: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
@@ -167,6 +155,7 @@ SendFundsModal.propTypes = {
     addressIndex: PropTypes.number,
   }).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
+  accountName: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
