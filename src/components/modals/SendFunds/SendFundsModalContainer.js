@@ -4,10 +4,9 @@ import isMnemonicType from 'utils/isMnemonicType'
 
 import {
   closeSendFundsModal,
-  setSendFundsAddress,
+  setSendFundsRecipient,
   setSendFundsAmount,
   setSendFundsSymbol,
-  setSendFundsAccountId,
   setSendFundsGas,
   setSendFundsGasPrice,
   setSendFundsPassword,
@@ -42,10 +41,9 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = {
   closeSendFundsModal,
-  setSendFundsAddress,
+  setSendFundsRecipient,
   setSendFundsAmount,
   setSendFundsSymbol,
-  setSendFundsAccountId,
   setSendFundsGas,
   setSendFundsGasPrice,
   setSendFundsPassword,
