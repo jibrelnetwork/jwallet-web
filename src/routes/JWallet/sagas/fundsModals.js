@@ -3,7 +3,6 @@ import isEmpty from 'lodash/isEmpty'
 import Keystore from 'jwallet-web-keystore'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import { keystore, gtm, web3 } from 'services'
 import { getKeystoreAccountType, InvalidFieldError } from 'utils'
 
@@ -30,32 +29,32 @@ import {
 } from '../modules/modals/convertFunds'
 
 function* onSendFundsSetAccountId(action) {
-  const { accountId, accounts } = action
+  const { accountId } = action
 
-  yield setAccount(accountId, accounts, SEND_FUNDS_SET_ACCOUNT)
+  yield setAccount(accountId, SEND_FUNDS_SET_ACCOUNT)
 }
 
 function* onConvertFundsSetFromAccountId(action) {
-  const { accountId, accounts } = action
+  const { accountId } = action
 
-  yield setAccount(accountId, accounts, CONVERT_FUNDS_SET_FROM_ACCOUNT)
+  yield setAccount(accountId, CONVERT_FUNDS_SET_FROM_ACCOUNT)
 }
 
 function* onConvertFundsSetToAccountId(action) {
-  const { accountId, accounts } = action
+  const { accountId } = action
 
-  yield setAccount(accountId, accounts, CONVERT_FUNDS_SET_TO_ACCOUNT)
+  yield setAccount(accountId, CONVERT_FUNDS_SET_TO_ACCOUNT)
 }
 
 function* onSendFunds() {
   try {
     const sendFundsData = yield select(selectSendFundsModal)
-    const { symbol } = sendFundsData
-    const currency = yield getCurrencyBySymbol(symbol)
+    validateSendFundsData(sendFundsData)
 
-    const transactionHandler = getTransactionHandler(symbol)
-    const transactionData = getTransactionData({ ...sendFundsData, currency })
+    const transactionHandler = getTransactionHandler(sendFundsData.symbol)
+    const transactionData = yield getTransactionData(sendFundsData)
 
+    yield validateTransactionValue(sendFundsData, transactionData.value)
     yield call(transactionHandler, transactionData)
     yield sendFundsSuccess(sendFundsData)
   } catch (err) {
@@ -69,23 +68,28 @@ function* onSendFunds() {
   }
 }
 
-function* setAccount(accountId, accounts, type) {
+function* setAccount(accountId, type) {
+  const { address, addressIndex, accountName } = keystore.getAccount({ id: accountId })
+
   yield put({
     type,
-    currentAccount: accounts.filter(account => (account.id === accountId)).shift(),
+    currentAccount: {
+      accountName,
+      addressIndex,
+      id: accountId,
+      address: address || keystore.getAddressFromMnemonic(accountId, addressIndex),
+    },
   })
 }
 
-function* sendFundsSuccess({ onClose, accountId, symbol }) {
-  const accountData = keystore.getAccount({ id: accountId })
+function* sendFundsSuccess({ currentAccount, symbol }) {
+  const accountData = keystore.getAccount({ id: currentAccount.id })
   const accountType = getKeystoreAccountType(accountData)
 
   gtm.pushSendFundsSuccess(symbol, accountType)
 
   yield put({ type: SEND_FUNDS_CLOSE_MODAL })
   yield put({ type: SEND_FUNDS_CLEAR })
-
-  return onClose ? onClose() : null
 }
 
 function* sendFundsFail(err) {
@@ -114,45 +118,41 @@ function* cleanPassword() {
 }
 
 function getTransactionHandler(symbol) {
-  return (symbol === 'ETH') ? web3.sendETHTransaction : web3.sendContractTransaction
+  return isETH(symbol) ? web3.sendETHTransaction : web3.sendContractTransaction
 }
 
-function getTransactionData(props) {
-  validateTransactionData(props)
+function* getTransactionData(data) {
+  const { currentAccount, password, address, amount, symbol, gas, gasPrice } = data
+  const { id, addressIndex } = currentAccount
+  const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
 
-  const { currency, accountId, password, address, amount, addressIndex, gas, gasPrice } = props
-  const { symbol, contractAddress, decimals, balance } = currency
-  const value = getTransactionValue(amount, decimals)
-
-  validateTransactionValue(value, balance, decimals)
-
-  const data = {
-    value,
+  const txData = {
     to: address,
-    privateKey: keystore.getPrivateKey(password, accountId, addressIndex).replace('0x', ''),
+    value: getTransactionValue(amount, decimals),
+    privateKey: keystore.getPrivateKey(password, id, addressIndex).replace('0x', ''),
   }
 
-  if (symbol !== 'ETH') {
-    data.contractAddress = contractAddress
+  if (!isETH(symbol)) {
+    txData.contractAddress = contractAddress
   }
 
   if (gasPrice && gasPrice.length) {
-    data.gasPrice = new BigNumber(parseInt(gasPrice, 10) || 0, 10)
-    validateTransactionGasPrice(data.gasPrice)
+    txData.gasPrice = new BigNumber(parseInt(gasPrice, 10) || 0, 10)
+    validateTransactionGasPrice(txData.gasPrice)
   }
 
   if (gas && gas.length) {
-    data.gasLimit = new BigNumber(parseInt(gas, 10) || 0, 10)
-    validateTransactionGas(data.gasLimit)
+    txData.gasLimit = new BigNumber(parseInt(gas, 10) || 0, 10)
+    validateTransactionGas(txData.gasLimit)
   }
 
-  return data
+  return txData
 }
 
-function validateTransactionData(props) {
-  const { accountId, address, amount, gas, gasPrice } = props
+function validateSendFundsData(data) {
+  const { currentAccount, address, amount, gas, gasPrice } = data
 
-  validateAccountId(accountId)
+  validateAccountId(currentAccount.id)
   validateAddress(address)
   validateAmount(amount)
   validateGas(gas)
@@ -189,12 +189,23 @@ function validateGasPrice(gasPrice) {
   }
 }
 
-function validateTransactionValue(value, balance, decimals) {
+function* validateTransactionValue(data, value) {
   if (value.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.lessThan0')))
   }
 
-  const balanceUnits = balance * (10 ** decimals)
+  /**
+   * Get balance of selected account
+   */
+  const { currentAccount, symbol } = data
+  const { address } = currentAccount
+  const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
+
+  const currentAccountBalance = isETH(symbol)
+    ? yield web3.getETHBalance(address)
+    : yield web3.getTokenBalance(contractAddress, address, decimals)
+
+  const balanceUnits = currentAccountBalance * (10 ** decimals)
 
   if (value.greaterThan(balanceUnits)) {
     throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.exceedsBalance')))
@@ -214,22 +225,21 @@ function validateTransactionGasPrice(gasPrice) {
 }
 
 function getTransactionValue(amount, decimals) {
-  const parsedAmount = parseFloat(amount, 10) || 0
-  const fixedAmount = parsedAmount.toFixed(18)
-  const unitsAmount = fixedAmount * (10 ** decimals)
+  const value = new BigNumber(amount, 10)
+  const units = new BigNumber(10, 10)
+  const decimalsPower = units.pow(decimals)
+  const fixedValue = value.times(decimalsPower).toFixed()
 
-  return new BigNumber(unitsAmount, 10)
+  return new BigNumber(fixedValue, 10)
 }
 
 function* getCurrencyBySymbol(symbol) {
-  const { items, balances } = yield select(selectDigitalAssets)
-  const currency = items.filter(c => (c.symbol === symbol))[0] || {}
+  const { items } = yield select(selectDigitalAssets)
+  const currency = items.filter(c => (c.symbol === symbol))[0]
 
   return {
-    symbol,
-    balance: balances[symbol] || 0,
-    contractAddress: currency.address || '',
-    decimals: currency.decimals || config.defaultDecimals,
+    contractAddress: currency.address,
+    decimals: currency.decimals,
   }
 }
 
@@ -244,6 +254,10 @@ function* onReceiveOpenModal() {
   const accountType = getKeystoreAccountType(accountData)
 
   gtm.pushReceiveFunds('ReceiveFunds', accountType)
+}
+
+function isETH(symbol) {
+  return (symbol === 'ETH')
 }
 
 export function* watchSendFundsAccountId() {

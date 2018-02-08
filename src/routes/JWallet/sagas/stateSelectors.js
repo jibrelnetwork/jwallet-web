@@ -11,20 +11,7 @@ export function selectCurrentDigitalAsset({ currencies }) {
 }
 
 export function selectSendFundsModal({ sendFundsModal }) {
-  const {
-    onClose,
-    currentAccount,
-    password,
-    address,
-    amount,
-    symbol,
-    gas,
-    gasPrice,
-  } = sendFundsModal
-
-  const accountId = currentAccount.id
-
-  return { onClose, password, address, accountId, amount, symbol, gas, gasPrice }
+  return sendFundsModal
 }
 
 export function selectCurrentKeystoreAddress({ keystore }) {
