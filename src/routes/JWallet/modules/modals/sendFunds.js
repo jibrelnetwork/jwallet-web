@@ -101,6 +101,7 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
+    invalidFields: {},
   }),
   [SEND_FUNDS_SET_ALERT]: (state, action) => ({
     ...state,
