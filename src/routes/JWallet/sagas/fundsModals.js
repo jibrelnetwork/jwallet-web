@@ -9,6 +9,7 @@ import { getKeystoreAccountType, InvalidFieldError } from 'utils'
 import { selectDigitalAssets, selectSendFundsModal, selectCurrentAccountId } from './stateSelectors'
 
 import {
+  SEND_FUNDS_OPEN_MODAL,
   SEND_FUNDS_CLOSE_MODAL,
   SEND_FUNDS_SET_ALERT,
   SEND_FUNDS_SET_ACCOUNT_ID,
@@ -243,6 +244,14 @@ function* getCurrencyBySymbol(symbol) {
   }
 }
 
+function* onSendFundsOpenModal() {
+  const { currentAccount } = yield select(selectSendFundsModal)
+
+  if (currentAccount.id) {
+    yield setAccount(currentAccount.id, SEND_FUNDS_SET_ACCOUNT)
+  }
+}
+
 function* onReceiveOpenModal() {
   const currentAccountId = yield select(selectCurrentAccountId)
 
@@ -274,6 +283,10 @@ export function* watchConvertFundsToAccountId() {
 
 export function* watchSendFunds() {
   yield takeEvery(SEND_FUNDS, onSendFunds)
+}
+
+export function* watchSendFundsOpenModal() {
+  yield takeEvery(SEND_FUNDS_OPEN_MODAL, onSendFundsOpenModal)
 }
 
 export function* watchReceiveOpenModal() {
