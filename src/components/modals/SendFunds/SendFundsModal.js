@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import JTextInput from 'components/base/JTextInput'
 import { Expandable, SubmitModal, SymbolPicker } from 'components'
-import { JPicker, JTextInput } from 'components/base'
 
 class SendFundsModal extends SubmitModal {
   renderModalBody = () => {
@@ -29,15 +29,15 @@ class SendFundsModal extends SubmitModal {
   }
 
   renderRecipient = () => {
-    const { setSendFundsAddress, invalidFields, address } = this.props
+    const { setSendFundsRecipient, invalidFields, recipient } = this.props
 
     return (
       <JTextInput
-        onValueChange={setSendFundsAddress}
+        onValueChange={setSendFundsRecipient}
         name='send-funds-recipient'
         placeholder={i18n('modals.sendFunds.placeholder.recipient')}
-        value={address}
-        errorMessage={invalidFields.address}
+        value={recipient}
+        errorMessage={invalidFields.recipient}
         editable
       />
     )
@@ -122,23 +122,21 @@ class SendFundsModal extends SubmitModal {
   }
 
   isModalButtonDisabled = () => {
-    const { address, amount } = this.props
+    const { recipient, amount } = this.props
 
-    return !(address.length && amount.length)
+    return !(recipient && amount)
   }
 
   closeModal = () => this.props.closeSendFundsModal()
   submitModal = () => (this.props.password.length ? this.props.sendFunds() : null)
   setPassword = password => this.props.setSendFundsPassword(password)
-  setSendFundsAccountId = id => this.props.setSendFundsAccountId(id, this.props.accounts)
 }
 
 SendFundsModal.propTypes = {
   closeSendFundsModal: PropTypes.func.isRequired,
-  setSendFundsAddress: PropTypes.func.isRequired,
+  setSendFundsRecipient: PropTypes.func.isRequired,
   setSendFundsAmount: PropTypes.func.isRequired,
   setSendFundsSymbol: PropTypes.func.isRequired,
-  setSendFundsAccountId: PropTypes.func.isRequired,
   setSendFundsGas: PropTypes.func.isRequired,
   setSendFundsGasPrice: PropTypes.func.isRequired,
   setSendFundsPassword: PropTypes.func.isRequired,
@@ -148,15 +146,9 @@ SendFundsModal.propTypes = {
     address: PropTypes.string.isRequired,
     decimals: PropTypes.number.isRequired,
   })).isRequired,
-  currentAccount: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    accountName: PropTypes.string.isRequired,
-    /* optional */
-    addressIndex: PropTypes.number,
-  }).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   accountName: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
+  recipient: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   gas: PropTypes.string.isRequired,
@@ -168,13 +160,6 @@ SendFundsModal.propTypes = {
   buttonType: PropTypes.string.isRequired,
   iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  /* optional */
-  onClose: PropTypes.func,
-}
-
-SendFundsModal.defaultProps = {
-  ...SubmitModal.defaultProps,
-  onClose: () => {},
 }
 
 export default SendFundsModal

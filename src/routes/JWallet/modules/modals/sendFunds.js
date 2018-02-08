@@ -1,24 +1,19 @@
 export const SEND_FUNDS_OPEN_MODAL = 'SEND_FUNDS_OPEN_MODAL'
 export const SEND_FUNDS_CLOSE_MODAL = 'SEND_FUNDS_CLOSE_MODAL'
 export const SEND_FUNDS_SET_ALERT = 'SEND_FUNDS_SET_ALERT'
-export const SEND_FUNDS_SET_ADDRESS = 'SEND_FUNDS_SET_ADDRESS'
+export const SEND_FUNDS_SET_RECIPIENT = 'SEND_FUNDS_SET_RECIPIENT'
 export const SEND_FUNDS_SET_AMOUNT = 'SEND_FUNDS_SET_AMOUNT'
 export const SEND_FUNDS_SET_SYMBOL = 'SEND_FUNDS_SET_SYMBOL'
-export const SEND_FUNDS_SET_ACCOUNT_ID = 'SEND_FUNDS_SET_ACCOUNT_ID'
-export const SEND_FUNDS_SET_ACCOUNT = 'SEND_FUNDS_SET_ACCOUNT'
 export const SEND_FUNDS_SET_GAS = 'SEND_FUNDS_SET_GAS'
 export const SEND_FUNDS_SET_GAS_PRICE = 'SEND_FUNDS_SET_GAS_PRICE'
 export const SEND_FUNDS_SET_PASSWORD = 'SEND_FUNDS_SET_PASSWORD'
 export const SEND_FUNDS_SET_INVALID_FIELD = 'SEND_FUNDS_SET_INVALID_FIELD'
-export const SEND_FUNDS_CLEAR = 'SEND_FUNDS_CLEAR'
+export const SEND_FUNDS_CLEAN = 'SEND_FUNDS_CLEAN'
 export const SEND_FUNDS = 'SEND_FUNDS'
 
-export function openSendFundsModal(accounts = [], accountId = '', onClose = null) {
+export function openSendFundsModal() {
   return {
     type: SEND_FUNDS_OPEN_MODAL,
-    accounts,
-    accountId,
-    onClose,
   }
 }
 
@@ -28,10 +23,10 @@ export function closeSendFundsModal() {
   }
 }
 
-export function setSendFundsAddress(address = '') {
+export function setSendFundsRecipient(recipient = '') {
   return {
-    type: SEND_FUNDS_SET_ADDRESS,
-    address,
+    type: SEND_FUNDS_SET_RECIPIENT,
+    recipient,
   }
 }
 
@@ -46,21 +41,6 @@ export function setSendFundsSymbol(symbol = '') {
   return {
     type: SEND_FUNDS_SET_SYMBOL,
     symbol,
-  }
-}
-
-export function setSendFundsAccountId(accountId = '', accounts = []) {
-  return {
-    type: SEND_FUNDS_SET_ACCOUNT_ID,
-    accountId,
-    accounts,
-  }
-}
-
-export function setSendFundsAccount(currentAccount = {}) {
-  return {
-    type: SEND_FUNDS_SET_ACCOUNT,
-    currentAccount,
   }
 }
 
@@ -85,33 +65,32 @@ export function setSendFundsPassword(password = '') {
   }
 }
 
-export function sendFunds(props = {}) {
+export function sendFunds() {
   return {
     type: SEND_FUNDS,
-    props,
   }
 }
 
 const ACTION_HANDLERS = {
-  [SEND_FUNDS_OPEN_MODAL]: (state, action) => ({
+  [SEND_FUNDS_OPEN_MODAL]: state => ({
     ...state,
     isOpen: true,
-    onClose: action.onClose,
   }),
   [SEND_FUNDS_CLOSE_MODAL]: state => ({
     ...state,
     isOpen: false,
+    invalidFields: {},
   }),
   [SEND_FUNDS_SET_ALERT]: (state, action) => ({
     ...state,
     alert: action.alert || '',
   }),
-  [SEND_FUNDS_SET_ADDRESS]: (state, action) => ({
+  [SEND_FUNDS_SET_RECIPIENT]: (state, action) => ({
     ...state,
-    address: action.address,
+    recipient: action.recipient,
     invalidFields: {
       ...state.invalidFields,
-      address: '',
+      recipient: '',
     },
   }),
   [SEND_FUNDS_SET_AMOUNT]: (state, action) => ({
@@ -125,14 +104,6 @@ const ACTION_HANDLERS = {
   [SEND_FUNDS_SET_SYMBOL]: (state, action) => ({
     ...state,
     symbol: action.symbol,
-  }),
-  [SEND_FUNDS_SET_ACCOUNT]: (state, action) => ({
-    ...state,
-    currentAccount: action.currentAccount || initialState.currentAccount,
-    invalidFields: {
-      ...state.invalidFields,
-      account: '',
-    },
   }),
   [SEND_FUNDS_SET_GAS]: (state, action) => ({
     ...state,
@@ -165,28 +136,13 @@ const ACTION_HANDLERS = {
       [action.fieldName]: action.message,
     },
   }),
-  [SEND_FUNDS_CLEAR]: state => ({
-    ...state,
-    currentAccount: initialState.currentAccount,
-    invalidFields: initialState.invalidFields,
-    address: initialState.address,
-    amount: initialState.amount,
-    gas: initialState.gas,
-    gasPrice: initialState.gasPrice,
-    password: initialState.password,
-  }),
+  [SEND_FUNDS_CLEAN]: () => initialState,
 }
 
 const initialState = {
-  currentAccount: {
-    id: '',
-    address: '',
-    accountName: '',
-    addressIndex: 0,
-  },
   invalidFields: {},
   alert: '',
-  address: '',
+  recipient: '',
   amount: '',
   symbol: 'ETH',
   gas: '',

@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import isEmpty from 'lodash/isEmpty'
 import Keystore from 'jwallet-web-keystore'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
@@ -14,14 +13,11 @@ import {
 } from './stateSelectors'
 
 import {
-  SEND_FUNDS_OPEN_MODAL,
   SEND_FUNDS_CLOSE_MODAL,
   SEND_FUNDS_SET_ALERT,
-  SEND_FUNDS_SET_ACCOUNT_ID,
-  SEND_FUNDS_SET_ACCOUNT,
   SEND_FUNDS_SET_PASSWORD,
   SEND_FUNDS_SET_INVALID_FIELD,
-  SEND_FUNDS_CLEAR,
+  SEND_FUNDS_CLEAN,
   SEND_FUNDS,
 } from '../modules/modals/sendFunds'
 
@@ -33,12 +29,6 @@ import {
   CONVERT_FUNDS_SET_TO_ACCOUNT,
   CONVERT_FUNDS_SET_TO_ACCOUNT_ID,
 } from '../modules/modals/convertFunds'
-
-function* onSendFundsSetAccountId(action) {
-  const { accountId } = action
-
-  yield setAccount(accountId, SEND_FUNDS_SET_ACCOUNT)
-}
 
 function* onConvertFundsSetFromAccountId(action) {
   const { accountId } = action
@@ -96,7 +86,7 @@ function* sendFundsSuccess(symbol) {
   gtm.pushSendFundsSuccess(symbol, accountType)
 
   yield put({ type: SEND_FUNDS_CLOSE_MODAL })
-  yield put({ type: SEND_FUNDS_CLEAR })
+  yield put({ type: SEND_FUNDS_CLEAN })
 }
 
 function* sendFundsFail(err) {
@@ -130,11 +120,11 @@ function getTransactionHandler(symbol) {
 
 function* getTransactionData(data) {
   const { id, addressIndex } = yield select(selectCurrentAccount)
-  const { password, address, amount, symbol, gas, gasPrice } = data
+  const { password, recipient, amount, symbol, gas, gasPrice } = data
   const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
 
   const txData = {
-    to: address,
+    to: recipient,
     value: getTransactionValue(amount, decimals),
     privateKey: keystore.getPrivateKey(password, id, addressIndex).replace('0x', ''),
   }
@@ -157,18 +147,12 @@ function* getTransactionData(data) {
 }
 
 function validateSendFundsData(data) {
-  const { address, amount, gas, gasPrice } = data
+  const { recipient, amount, gas, gasPrice } = data
 
-  validateAddress(address)
+  validateAddress(recipient)
   validateAmount(amount)
   validateGas(gas)
   validateGasPrice(gasPrice)
-}
-
-function validateAccountId(accountId) {
-  if (isEmpty(accountId)) {
-    throw (new InvalidFieldError('account', i18n('modals.sendFunds.error.account.notSelected')))
-  }
 }
 
 function validateAddress(address) {
@@ -240,14 +224,6 @@ function* getCurrencyBySymbol(symbol) {
   }
 }
 
-function* onSendFundsOpenModal() {
-  const { currentAccount } = yield select(selectSendFundsModal)
-
-  if (currentAccount.id) {
-    yield setAccount(currentAccount.id, SEND_FUNDS_SET_ACCOUNT)
-  }
-}
-
 function* onReceiveOpenModal() {
   const currentAccountId = yield select(selectCurrentAccountId)
 
@@ -265,10 +241,6 @@ function isETH(symbol) {
   return (symbol === 'ETH')
 }
 
-export function* watchSendFundsAccountId() {
-  yield takeEvery(SEND_FUNDS_SET_ACCOUNT_ID, onSendFundsSetAccountId)
-}
-
 export function* watchConvertFundsFromAccountId() {
   yield takeEvery(CONVERT_FUNDS_SET_FROM_ACCOUNT_ID, onConvertFundsSetFromAccountId)
 }
@@ -279,10 +251,6 @@ export function* watchConvertFundsToAccountId() {
 
 export function* watchSendFunds() {
   yield takeEvery(SEND_FUNDS, onSendFunds)
-}
-
-export function* watchSendFundsOpenModal() {
-  yield takeEvery(SEND_FUNDS_OPEN_MODAL, onSendFundsOpenModal)
 }
 
 export function* watchReceiveOpenModal() {
