@@ -36,8 +36,8 @@ module.exports = {
         internalError: 'トランザクションに失敗しました。もう一度やり直してください',
       },
       placeholder: {
-        address: '受信者アドレス',
-        account: 'アカウント',
+        sender: 'Sender',
+        recipient: '受信者アドレス',
         amount: '量',
         gas: '制限(21,000ガス)',
         gasPrice: '価格(1 Gwei)',

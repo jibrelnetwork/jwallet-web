@@ -36,8 +36,8 @@ module.exports = {
         internalError: 'Transaction failed. Please try again',
       },
       placeholder: {
-        address: 'Recipient address',
-        account: 'Account',
+        sender: 'Sender',
+        recipient: 'Recipient address',
         amount: 'Amount',
         gas: 'Limit (21,000 Gas)',
         gasPrice: 'Price (1 Gwei)',

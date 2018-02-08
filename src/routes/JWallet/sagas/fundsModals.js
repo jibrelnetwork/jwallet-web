@@ -6,7 +6,12 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { keystore, gtm, web3 } from 'services'
 import { getKeystoreAccountType, InvalidFieldError } from 'utils'
 
-import { selectDigitalAssets, selectSendFundsModal, selectCurrentAccountId } from './stateSelectors'
+import {
+  selectDigitalAssets,
+  selectSendFundsModal,
+  selectCurrentAccount,
+  selectCurrentAccountId,
+} from './stateSelectors'
 
 import {
   SEND_FUNDS_OPEN_MODAL,
@@ -55,9 +60,9 @@ function* onSendFunds() {
     const transactionHandler = getTransactionHandler(sendFundsData.symbol)
     const transactionData = yield getTransactionData(sendFundsData)
 
-    yield validateTransactionValue(sendFundsData, transactionData.value)
+    yield validateTransactionValue(sendFundsData.symbol, transactionData.value)
     yield call(transactionHandler, transactionData)
-    yield sendFundsSuccess(sendFundsData)
+    yield sendFundsSuccess(sendFundsData.symbol)
   } catch (err) {
     if (err instanceof InvalidFieldError) {
       yield setInvalidField(err.fieldName, err.message)
@@ -83,8 +88,9 @@ function* setAccount(accountId, type) {
   })
 }
 
-function* sendFundsSuccess({ currentAccount, symbol }) {
-  const accountData = keystore.getAccount({ id: currentAccount.id })
+function* sendFundsSuccess(symbol) {
+  const currentAccountId = yield select(selectCurrentAccountId)
+  const accountData = keystore.getAccount({ id: currentAccountId })
   const accountType = getKeystoreAccountType(accountData)
 
   gtm.pushSendFundsSuccess(symbol, accountType)
@@ -123,8 +129,8 @@ function getTransactionHandler(symbol) {
 }
 
 function* getTransactionData(data) {
-  const { currentAccount, password, address, amount, symbol, gas, gasPrice } = data
-  const { id, addressIndex } = currentAccount
+  const { id, addressIndex } = yield select(selectCurrentAccount)
+  const { password, address, amount, symbol, gas, gasPrice } = data
   const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
 
   const txData = {
@@ -151,9 +157,8 @@ function* getTransactionData(data) {
 }
 
 function validateSendFundsData(data) {
-  const { currentAccount, address, amount, gas, gasPrice } = data
+  const { address, amount, gas, gasPrice } = data
 
-  validateAccountId(currentAccount.id)
   validateAddress(address)
   validateAmount(amount)
   validateGas(gas)
@@ -190,25 +195,15 @@ function validateGasPrice(gasPrice) {
   }
 }
 
-function* validateTransactionValue(data, value) {
+function* validateTransactionValue(symbol, value) {
   if (value.lessThanOrEqualTo(0)) {
     throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.lessThan0')))
   }
 
-  /**
-   * Get balance of selected account
-   */
-  const { currentAccount, symbol } = data
-  const { address } = currentAccount
-  const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
+  const { decimals, balance } = yield getCurrencyBySymbol(symbol)
+  const balanceValue = getTransactionValue(balance, decimals)
 
-  const currentAccountBalance = isETH(symbol)
-    ? yield web3.getETHBalance(address)
-    : yield web3.getTokenBalance(contractAddress, address, decimals)
-
-  const balanceUnits = currentAccountBalance * (10 ** decimals)
-
-  if (value.greaterThan(balanceUnits)) {
+  if (value.greaterThan(balanceValue)) {
     throw (new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.exceedsBalance')))
   }
 }
@@ -235,12 +230,13 @@ function getTransactionValue(amount, decimals) {
 }
 
 function* getCurrencyBySymbol(symbol) {
-  const { items } = yield select(selectDigitalAssets)
+  const { items, balances } = yield select(selectDigitalAssets)
   const currency = items.filter(c => (c.symbol === symbol))[0]
 
   return {
-    contractAddress: currency.address,
+    balance: balances[symbol],
     decimals: currency.decimals,
+    contractAddress: currency.address,
   }
 }
 
