@@ -5,38 +5,42 @@ export const SET_NAME = '@@addCustomAsset/SET_NAME'
 export const SET_SYMBOL = '@@addCustomAsset/SET_SYMBOL'
 export const SET_DECIMALS = '@@addCustomAsset/SET_DECIMALS'
 export const SET_INVALID_FIELD = '@@addCustomAsset/SET_INVALID_FIELD'
-export const CLEAR = '@@addCustomAsset/CLEAR'
+export const CLEAN = '@@addCustomAsset/CLEAN'
 export const ADD = '@@addCustomAsset/ADD'
 
-export function setAddress(address: string) {
+export function setAddress(address: Address): { type: string, address: Address } {
   return {
     type: SET_ADDRESS,
     address,
   }
 }
 
-export function setName(name: string) {
+export function setName(name: string): { type: string, name: string } {
   return {
     type: SET_NAME,
     name,
   }
 }
 
-export function setSymbol(symbol: string) {
+export function setSymbol(symbol: string): { type: string, symbol: string } {
   return {
     type: SET_SYMBOL,
     symbol,
   }
 }
 
-export function setDecimals(decimals: string) {
+export function setDecimals(decimals: string): { type: string, decimals: string } {
   return {
     type: SET_DECIMALS,
     decimals,
   }
 }
 
-export function setInvalidField(fieldName: string, message: string) {
+export function setInvalidField(fieldName: string, message: string): {
+  type: string,
+  fieldName: string,
+  message: string,
+} {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -44,7 +48,10 @@ export function setInvalidField(fieldName: string, message: string) {
   }
 }
 
-export function add(customAssetData: CustomAssetData) {
+export function add(customAssetData: CustomAssetData): {
+  type: string,
+  customAssetData: CustomAssetData,
+} {
   return {
     type: ADD,
     customAssetData,
@@ -91,7 +98,7 @@ const ACTION_HANDLERS = {
       [action.fieldName]: action.message,
     },
   }),
-  [CLEAR]: () => initialState,
+  [CLEAN]: () => initialState,
 }
 
 const initialState = {
