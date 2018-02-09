@@ -14,10 +14,14 @@ function selectDigitalAssetsItems(state: { currencies: { items: DigitalAssets } 
   return state.currencies.items
 }
 
-function* onAddCustomAsset(action: { customAssetData: CustomAssetData }): Saga<void> {
+function selectCustomAssetData(state: { addCustomAsset: CustomAssetData }): CustomAssetData {
+  return state.addCustomAsset
+}
+
+function* onAddCustomAsset(): Saga<void> {
   try {
-    const { customAssetData }: { customAssetData: CustomAssetData } = action
     const digitalAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
+    const customAssetData: CustomAssetData = yield select(selectCustomAssetData)
 
     validateCustomAssetData(customAssetData, digitalAssets)
 
@@ -117,11 +121,10 @@ function getCustomAssetData(customAssetData: CustomAssetData): DigitalAsset {
   return {
     name,
     symbol,
-    address: toLower(address),
+    address,
     decimals: parseInt(decimals, 10) || 0,
     isActive: true,
     isCustom: true,
-    isCurrent: true,
     isLicensed: false,
     isAuthRequired: false,
   }

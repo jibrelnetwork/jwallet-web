@@ -106,7 +106,7 @@ class CurrenciesBody extends Component {
       const currencyItem = (
         <CurrencyItem
           key={i}
-          isCurrent={address === currentAddress}
+          isCurrent={address.toLowerCase() === currentAddress.toLowerCase()}
           setCurrentAddress={setCurrentAddress(address)}
           balanceFixed={(balances[symbol] || 0).toFixed(3)}
           {...currencyProps}
