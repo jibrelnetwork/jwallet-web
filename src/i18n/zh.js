@@ -55,6 +55,18 @@ module.exports = {
         },
       },
     },
+    backupKeys: {
+      title: 'Backup Keys',
+      buttonTitle: 'Backup keys',
+      placeholder: {
+        password: 'Keystore密码',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -240,18 +252,6 @@ module.exports = {
         },
       },
       buttonTitle: '设置派生路径',
-    },
-    backupKeystore: {
-      title: '备份Keystore',
-      buttonTitle: '保存TXT文本',
-      placeholder: {
-        password: 'Keystore密码',
-      },
-      error: {
-        password: {
-          invalid: '密码错误',
-        },
-      },
     },
     changePassword: {
       title: '新Keystore密码',

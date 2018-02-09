@@ -55,6 +55,18 @@ module.exports = {
         },
       },
     },
+    backupKeys: {
+      title: 'Backup Keys',
+      buttonTitle: 'Backup keys',
+      placeholder: {
+        password: 'Password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -240,18 +252,6 @@ module.exports = {
         },
       },
       buttonTitle: 'Set derivation path',
-    },
-    backupKeystore: {
-      title: 'Backup Keystore',
-      buttonTitle: 'Save as TXT',
-      placeholder: {
-        password: 'Keystore password',
-      },
-      error: {
-        password: {
-          invalid: 'Incorrect Password',
-        },
-      },
     },
     changePassword: {
       title: 'New Keystore Password',

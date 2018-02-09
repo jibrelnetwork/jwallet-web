@@ -5,14 +5,18 @@ export const SET_INVALID_FIELD = '@@backupKeys/SET_INVALID_FIELD'
 export const CLEAN = '@@backupKeys/CLEAN'
 export const BACKUP = '@@backupKeys/BACKUP'
 
-export function setPassword(password: string = '') {
+export function setPassword(password: string): { type: string, password: string } {
   return {
     type: SET_PASSWORD,
     password,
   }
 }
 
-export function setInvalidField(fieldName: string, message: string) {
+export function setInvalidField(fieldName: string, message: string): {
+  type: string,
+  fieldName: string,
+  message: string,
+} {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -20,10 +24,9 @@ export function setInvalidField(fieldName: string, message: string) {
   }
 }
 
-export function backup(password: Password) {
+export function backup(): { type: string } {
   return {
     type: BACKUP,
-    password,
   }
 }
 

@@ -55,6 +55,18 @@ module.exports = {
         },
       },
     },
+    backupKeys: {
+      title: 'Backup Keys',
+      buttonTitle: 'Backup keys',
+      placeholder: {
+        password: '키스토어 비밀번호',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -240,18 +252,6 @@ module.exports = {
         },
       },
       buttonTitle: 'Derivation Path 설정',
-    },
-    backupKeystore: {
-      title: '키스토어 백업',
-      buttonTitle: 'TXT파일로 저장하기',
-      placeholder: {
-        password: '키스토어 비밀번호',
-      },
-      error: {
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-      },
     },
     changePassword: {
       title: '새 키스토어 비밀번호',

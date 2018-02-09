@@ -24,7 +24,7 @@ function* onChangePasswordFail(/* err */) {
   yield put({
     type: SET_INVALID_FIELD,
     fieldName: 'oldPassword',
-    message: i18n('modals.backupKeystore.error.password.invalid'),
+    message: i18n('routes.backupKeys.error.password.invalid'),
   })
 }
 
