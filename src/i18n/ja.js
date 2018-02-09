@@ -55,6 +55,18 @@ module.exports = {
         },
       },
     },
+    backupKeys: {
+      title: 'Backup Keys',
+      buttonTitle: 'Backup keys',
+      placeholder: {
+        password: 'キーは、パスワードを保存',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -240,18 +252,6 @@ module.exports = {
         },
       },
       buttonTitle: 'セット派生パス',
-    },
-    backupKeystore: {
-      title: 'バックアップ キー ストア',
-      buttonTitle: 'テキストとして保存',
-      placeholder: {
-        password: 'キーは、パスワードを保存',
-      },
-      error: {
-        password: {
-          invalid: 'パスワードが正しくありません',
-        },
-      },
     },
     changePassword: {
       title: '新しいキーストア パスワード',

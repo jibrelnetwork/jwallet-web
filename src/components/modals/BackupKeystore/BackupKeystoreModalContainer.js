@@ -11,8 +11,8 @@ const mapStateToProps = ({ backupKeystoreModal }) => ({
   buttonType: 'password',
   imageName: 'keys-ok',
   iconName: 'txt',
-  modalTitle: i18n('modals.backupKeystore.title'),
-  buttonTitle: i18n('modals.backupKeystore.buttonTitle'),
+  modalTitle: i18n('routes.backupKeys.title'),
+  buttonTitle: i18n('routes.backupKeys.buttonTitle'),
 })
 
 const mapDispatchToProps = {

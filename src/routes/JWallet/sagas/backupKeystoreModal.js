@@ -30,7 +30,7 @@ function* onBackupKeystoreFail() {
   yield put({
     type: BACKUP_KEYSTORE.SET_INVALID_FIELD,
     fieldName: 'password',
-    message: i18n('modals.backupKeystore.error.password.invalid'),
+    message: i18n('routes.backupKeys.error.password.invalid'),
   })
 }
 
