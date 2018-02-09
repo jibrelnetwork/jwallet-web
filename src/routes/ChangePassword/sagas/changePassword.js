@@ -39,7 +39,7 @@ function* onChangePasswordError(/* err */): Saga<void> {
   yield put({
     type: SET_INVALID_FIELD,
     fieldName: 'password',
-    message: i18n('modals.changePassword.error.password.invalid'),
+    message: i18n('routes.changePassword.error.password.invalid'),
   })
 }
 
@@ -47,7 +47,7 @@ function* onPasswordConfirmationError(): Saga<void> {
   yield put({
     type: SET_INVALID_FIELD,
     fieldName: 'confirmPassword',
-    message: i18n('modals.changePassword.error.confirmPassword.notMatched'),
+    message: i18n('routes.changePassword.error.confirmPassword.notMatched'),
   })
 }
 

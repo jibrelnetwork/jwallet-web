@@ -28,7 +28,7 @@ const ChangePassword = ({
           value={value}
           name={`change-password-${key}`}
           errorMessage={invalidFields[key]}
-          placeholder={i18n(`modals.changePassword.placeholder.${key}`)}
+          placeholder={i18n(`routes.changePassword.placeholder.${key}`)}
           editable
           secureTextEntry
         />

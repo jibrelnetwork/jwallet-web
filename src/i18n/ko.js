@@ -67,6 +67,23 @@ module.exports = {
         },
       },
     },
+    changePassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: '새 비밀번호',
+        confirmPassword: 'Confirm password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -252,23 +269,6 @@ module.exports = {
         },
       },
       buttonTitle: 'Derivation Path 설정',
-    },
-    changePassword: {
-      title: '새 키스토어 비밀번호',
-      buttonTitle: '확인',
-      placeholder: {
-        password: '현재 비밀번호',
-        newPassword: '새 비밀번호',
-        confirmPassword: 'Confirm password',
-      },
-      error: {
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-        newPassword: {
-          weak: '비밀번호가 취약합니다',
-        },
-      },
     },
     removeAccounts: {
       title: '키스토어 초기화',

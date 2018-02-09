@@ -67,6 +67,23 @@ module.exports = {
         },
       },
     },
+    changePassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: '新しいパスワード',
+        confirmPassword: 'Confirm password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -252,23 +269,6 @@ module.exports = {
         },
       },
       buttonTitle: 'セット派生パス',
-    },
-    changePassword: {
-      title: '新しいキーストア パスワード',
-      buttonTitle: '確認します',
-      placeholder: {
-        password: '現在のパスワード',
-        newPassword: '新しいパスワード',
-        confirmPassword: 'Confirm password',
-      },
-      error: {
-        password: {
-          invalid: 'パスワードが正しくありません',
-        },
-        newPassword: {
-          weak: 'パスワードが弱すぎます',
-        },
-      },
     },
     removeAccounts: {
       title: 'キーストアをクリア',

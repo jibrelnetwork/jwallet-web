@@ -67,6 +67,23 @@ module.exports = {
         },
       },
     },
+    changePassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: '新密码',
+        confirmPassword: 'Confirm password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -252,23 +269,6 @@ module.exports = {
         },
       },
       buttonTitle: '设置派生路径',
-    },
-    changePassword: {
-      title: '新Keystore密码',
-      buttonTitle: '确认',
-      placeholder: {
-        password: '当前密码',
-        newPassword: '新密码',
-        confirmPassword: 'Confirm password',
-      },
-      error: {
-        password: {
-          invalid: '密码错误',
-        },
-        newPassword: {
-          weak: '密码太弱',
-        },
-      },
     },
     removeAccounts: {
       title: '清除Keystore',
