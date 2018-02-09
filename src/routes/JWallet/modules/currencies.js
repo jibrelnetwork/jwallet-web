@@ -87,7 +87,7 @@ export function setSortCurrenciesOptions(sortField: string, sortDirection: strin
   }
 }
 
-export function addCustomToken(customTokenData: TokenData) {
+export function addCustomToken(customTokenData: CustomAssetData) {
   return {
     type: CURRENCIES_ADD_CUSTOM,
     customTokenData,

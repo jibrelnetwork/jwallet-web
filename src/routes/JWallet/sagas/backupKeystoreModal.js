@@ -8,7 +8,7 @@ import * as BACKUP_KEYSTORE from '../modules/modals/backupKeystore'
 import { selectBackupKeystoreModalData } from './stateSelectors'
 import { KEYSTORE_OPEN_MODAL, KEYSTORE_BACKUP } from '../modules/keystore'
 
-function* onBackupKeystore(action: { password: Password }) {
+function* onBackupKeystore(action: { password: Password }): Saga<void> {
   if (!action.password) {
     return
   }
@@ -34,11 +34,11 @@ function* onBackupKeystoreFail() {
   })
 }
 
-function onOpenBackupKeystoreModal() {
+function onOpenBackupKeystoreModal(): Saga<void> {
   gtm.pushBackupKeystore('Open')
 }
 
-function* onCloseBackupKeystoreModal() {
+function* onCloseBackupKeystoreModal(): Saga<void> {
   const { isOpenedFromKeystoreModal } = yield select(selectBackupKeystoreModalData)
 
   if (isOpenedFromKeystoreModal) {

@@ -41,7 +41,7 @@ import { TRANSACTIONS_GET } from '../modules/transactions'
 const digitalAssetsSearchFields = ['symbol', 'name']
 let isGetBalancesLoopLaunched = 0
 
-function* onGetDigitalAssets() {
+function* onGetDigitalAssets(): Saga<void> {
   const networkId = yield select(selectCurrentNetworkId)
   const defaultDigitalAssets = getDefaultDigitalAssets(networkId)
 
@@ -78,13 +78,13 @@ function* onGetDigitalAssets() {
   yield getBalancesLoop()
 }
 
-function* onSetDigitalAssets(action: { items: DigitalAssets }) {
+function* onSetDigitalAssets(action: { items: DigitalAssets }): Saga<void> {
   const networkId = yield select(selectCurrentNetworkId)
 
   storage.setDigitalAssets(JSON.stringify(action.items), networkId)
 }
 
-function* onToggleDigitalAsset(action: { address: Address | null }) {
+function* onToggleDigitalAsset(action: { address: Address | null }): Saga<void> {
   const { items, currentAddress, isActiveAll } = yield select(selectDigitalAssets)
 
   if (action.address === null) {
@@ -111,7 +111,7 @@ function* onToggleDigitalAsset(action: { address: Address | null }) {
   yield setActiveAllFlag(newIsActiveAll)
 }
 
-function* onSetCurrentDigitalAsset(action: { currentAddress: Address }) {
+function* onSetCurrentDigitalAsset(action: { currentAddress: Address }): Saga<void> {
   const networkId = yield select(selectCurrentNetworkId)
 
   storage.setDigitalAssetsCurrent(action.currentAddress, networkId)
@@ -119,7 +119,7 @@ function* onSetCurrentDigitalAsset(action: { currentAddress: Address }) {
   yield getTransactions()
 }
 
-function* onSearchDigitalAssets(action: { searchQuery: string }) {
+function* onSearchDigitalAssets(action: { searchQuery: string }): Saga<void> {
   const { items } = yield select(selectDigitalAssets)
 
   const foundItems = searchItems(items, action.searchQuery, digitalAssetsSearchFields)
@@ -128,7 +128,7 @@ function* onSearchDigitalAssets(action: { searchQuery: string }) {
   yield setSearchOptions(foundItemsSymbols, action.searchQuery)
 }
 
-function* onSortDigitalAssets(action: { sortField: string }) {
+function* onSortDigitalAssets(action: { sortField: string }): Saga<void> {
   const { items, currentAddress, sortField, sortDirection } = yield select(selectDigitalAssets)
   const newSortField = action.sortField || sortField
 
@@ -139,7 +139,7 @@ function* onSortDigitalAssets(action: { sortField: string }) {
   yield setSortOptions(result.sortField, result.sortDirection)
 }
 
-function* onAddCustomToken(action: { customTokenData: TokenData }) {
+function* onAddCustomToken(action: { customTokenData: CustomAssetData }): Saga<void> {
   try {
     const { items } = yield select(selectDigitalAssets)
 
@@ -154,7 +154,7 @@ function* onAddCustomToken(action: { customTokenData: TokenData }) {
   }
 }
 
-function checkCustomTokenData(tokenData: TokenData, items: DigitalAssets) {
+function checkCustomTokenData(tokenData: CustomAssetData, items: DigitalAssets) {
   checkCustomTokenAddress(tokenData.address, items)
   checkCustomTokenName(tokenData.name)
   checkCustomTokenSymbol(tokenData.symbol, items)
@@ -207,7 +207,7 @@ function checkCustomTokenDecimals(decimals: string) {
   }
 }
 
-function getCustomTokenData(tokenData: TokenData): DigitalAsset {
+function getCustomTokenData(tokenData: CustomAssetData): DigitalAsset {
   return {
     name: tokenData.name,
     symbol: tokenData.symbol,
@@ -294,7 +294,7 @@ function* getTransactions() {
   yield put({ type: TRANSACTIONS_GET })
 }
 
-function* getBalances() {
+function* getBalances(): Saga<void> {
   const { items, isLoading } = yield select(selectDigitalAssets)
   const address = yield select(selectCurrentKeystoreAddress)
 
@@ -335,7 +335,7 @@ function getTokensBalances(items: DigitalAssets, owner: Address) {
   return result
 }
 
-function* setBalancesToStorage(action) {
+function* setBalancesToStorage(action): Saga<void> {
   const network = yield select(selectCurrentNetwork)
 
   if (!network) {

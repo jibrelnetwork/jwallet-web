@@ -18,7 +18,7 @@ import {
   selectCurrentAccountId,
 } from './stateSelectors'
 
-function* onSetImportStep(action: { currentStep: number }) {
+function* onSetImportStep(action: { currentStep: number }): Saga<void> {
   const data = yield select(selectImportAccountModalData)
   const isInitialized = !!(yield select(selectCurrentAccountId))
 
@@ -130,7 +130,7 @@ function* onImportSuccess(
   accountId: AccountId,
   accountData: NewAccountData,
   isInitialized: boolean,
-) {
+): Saga<void> {
   gtm.pushImportAccount('ImportSuccess', getKeystoreAccountType(accountData), isInitialized)
 
   yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
@@ -346,11 +346,11 @@ function getNewIconName(nextStep: number) {
  * On open keystore modals
  */
 
-function* onOpenImportAccountModal() {
+function* onOpenImportAccountModal(): Saga<void> {
   yield onSetImportStep({ currentStep: IMPORT_KEYSTORE_ACCOUNT.STEPS.BEFORE })
 }
 
-function* onOpenNewAccountModal() {
+function* onOpenNewAccountModal(): Saga<void> {
   const isInitialized = !!(yield select(selectCurrentAccountId))
 
   // start from mnemonic step if keystore already initialized
@@ -365,7 +365,7 @@ function* onOpenNewAccountModal() {
  * On close keystore modals
  */
 
-function* onCloseImportAccountModal() {
+function* onCloseImportAccountModal(): Saga<void> {
   const { isOpenedFromKeystoreModal } = yield select(selectImportAccountModalData)
 
   if (isOpenedFromKeystoreModal) {
@@ -373,7 +373,7 @@ function* onCloseImportAccountModal() {
   }
 }
 
-function* onCloseNewAccountModal() {
+function* onCloseNewAccountModal(): Saga<void> {
   const { isOpenedFromKeystoreModal } = yield select(selectNewAccountModalData)
 
   if (isOpenedFromKeystoreModal) {
