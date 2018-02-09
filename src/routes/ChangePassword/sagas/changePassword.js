@@ -1,30 +1,53 @@
-import { put, takeEvery } from 'redux-saga/effects'
+// @flow
+
+import { pick } from 'ramda'
+import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { gtm, storage, keystore } from 'services'
 
 import { SET_INVALID_FIELD, CHANGE } from '../modules/changePassword'
 
-function* onChangePassword(action: { oldPassword: Password, newPassword: Password }) {
-  const { oldPassword, newPassword } = action
+declare type Passwords = { password: string, newPassword: string, confirmPassword: string }
+
+function selectChangePassword(state: { changePassword: Passwords }): Passwords {
+  return pick(['password', 'newPassword', 'confirmPassword'], state.changePassword)
+}
+
+function* onChangePassword(): Saga<void> {
+  const { password, newPassword, confirmPassword }: Passwords = yield select(selectChangePassword)
+
+  if (newPassword !== confirmPassword) {
+    yield onPasswordConfirmationError()
+
+    return
+  }
 
   try {
-    keystore.setPassword(oldPassword, newPassword)
+    keystore.setPassword(password, newPassword)
     onChangePasswordSuccess()
   } catch (err) {
-    yield onChangePasswordFail(err)
+    yield onChangePasswordError()
   }
 }
 
-function onChangePasswordSuccess() {
+function onChangePasswordSuccess(): void {
   gtm.pushChangePassword()
   storage.setKeystore(keystore.serialize())
 }
 
-function* onChangePasswordFail(/* err */) {
+function* onChangePasswordError(/* err */): Saga<void> {
   yield put({
     type: SET_INVALID_FIELD,
-    fieldName: 'oldPassword',
-    message: i18n('routes.backupKeys.error.password.invalid'),
+    fieldName: 'password',
+    message: i18n('modals.changePassword.error.password.invalid'),
+  })
+}
+
+function* onPasswordConfirmationError(): Saga<void> {
+  yield put({
+    type: SET_INVALID_FIELD,
+    fieldName: 'confirmPassword',
+    message: i18n('modals.changePassword.error.confirmPassword.notMatched'),
   })
 }
 

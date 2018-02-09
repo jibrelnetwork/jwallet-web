@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 
 import {
-  setOldPassword,
+  setPassword,
   setNewPassword,
   setConfirmPassword,
-  // change,
+  change,
 } from '../modules/changePassword'
 
 import ChangePassword from '../components/ChangePassword'
@@ -12,10 +12,10 @@ import ChangePassword from '../components/ChangePassword'
 const mapStateToProps = ({ changePassword }) => changePassword
 
 const mapDispatchToProps = {
-  setOldPassword,
+  setPassword,
   setNewPassword,
   setConfirmPassword,
-  // change,
+  change,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword)
