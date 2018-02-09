@@ -268,6 +268,9 @@ module.exports = {
         newPassword: {
           weak: 'Password is too weak',
         },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
       },
     },
     removeAccounts: {

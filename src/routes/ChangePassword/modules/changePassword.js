@@ -1,34 +1,41 @@
 // @flow
 
-export const SET_OLD = '@@changePassword/SET_OLD'
+export const SET_CURRENT = '@@changePassword/SET_CURRENT'
 export const SET_NEW = '@@changePassword/SET_NEW'
 export const SET_CONFIRM = '@@changePassword/SET_CONFIRM'
 export const SET_INVALID_FIELD = '@@changePassword/SET_INVALID_FIELD'
 export const CLEAN = '@@changePassword/CLEAN'
 export const CHANGE = '@@changePassword/CHANGE'
 
-export function setOldPassword(oldPassword: Password) {
+export function setPassword(password: string): { type: string, password: string } {
   return {
-    type: SET_OLD,
-    oldPassword,
+    type: SET_CURRENT,
+    password,
   }
 }
 
-export function setNewPassword(newPassword: Password) {
+export function setNewPassword(newPassword: string): { type: string, newPassword: string } {
   return {
     type: SET_NEW,
     newPassword,
   }
 }
 
-export function setConfirmPassword(confirmPassword: Password) {
+export function setConfirmPassword(confirmPassword: string): {
+  type: string,
+  confirmPassword: string,
+} {
   return {
     type: SET_CONFIRM,
     confirmPassword,
   }
 }
 
-export function setInvalidField(fieldName: string, message: string) {
+export function setInvalidField(fieldName: string, message: string): {
+  type: string,
+  fieldName: string,
+  message: string,
+} {
   return {
     type: SET_INVALID_FIELD,
     fieldName,
@@ -36,21 +43,19 @@ export function setInvalidField(fieldName: string, message: string) {
   }
 }
 
-export function change(oldPassword: Password, newPassword: Password) {
+export function change(): { type: string } {
   return {
     type: CHANGE,
-    oldPassword,
-    newPassword,
   }
 }
 
 const ACTION_HANDLERS = {
-  [SET_OLD]: (state, action) => ({
+  [SET_CURRENT]: (state, action) => ({
     ...state,
-    oldPassword: action.oldPassword,
+    password: action.password,
     invalidFields: {
       ...state.invalidFields,
-      oldPassword: '',
+      password: '',
     },
   }),
   [SET_NEW]: (state, action) => ({
@@ -81,7 +86,7 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   invalidFields: {},
-  oldPassword: '',
+  password: '',
   newPassword: '',
   confirmPassword: '',
 }
