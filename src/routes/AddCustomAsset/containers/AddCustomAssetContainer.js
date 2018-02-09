@@ -5,7 +5,7 @@ import {
   setName,
   setSymbol,
   setDecimals,
-  // add,
+  add,
 } from '../modules/addCustomAsset'
 
 import AddCustomAsset from '../components/AddCustomAsset'
@@ -17,7 +17,7 @@ const mapDispatchToProps = {
   setName,
   setSymbol,
   setDecimals,
-  // add,
+  add,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCustomAsset)

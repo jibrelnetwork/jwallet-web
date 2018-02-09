@@ -20,9 +20,9 @@ declare type DigitalAsset = {
   decimals: number,
   isAuthRequired: boolean,
   isLicensed: boolean,
-  isCurrent: boolean,
   isCustom: boolean,
   isActive: boolean,
+  isCurrent?: boolean,
 }
 
 declare type DigitalAssets = Array<DigitalAsset>

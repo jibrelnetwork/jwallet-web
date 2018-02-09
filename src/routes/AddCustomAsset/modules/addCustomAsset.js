@@ -48,13 +48,9 @@ export function setInvalidField(fieldName: string, message: string): {
   }
 }
 
-export function add(customAssetData: CustomAssetData): {
-  type: string,
-  customAssetData: CustomAssetData,
-} {
+export function add(): { type: string } {
   return {
     type: ADD,
-    customAssetData,
   }
 }
 

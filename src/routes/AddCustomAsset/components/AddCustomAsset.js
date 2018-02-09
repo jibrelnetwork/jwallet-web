@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JTextInput from 'components/base/JTextInput'
+import { JButton, JTextInput } from 'components/base'
 
 const AddCustomAsset = ({
   setAddress,
   setName,
   setSymbol,
   setDecimals,
+  add,
   invalidFields,
   address,
   name,
@@ -34,6 +35,7 @@ const AddCustomAsset = ({
           editable
         />
       ))}
+      <JButton onClick={add} label='Add asset' blue />
     </div>
   )
 }
@@ -43,7 +45,7 @@ AddCustomAsset.propTypes = {
   setName: PropTypes.func.isRequired,
   setSymbol: PropTypes.func.isRequired,
   setDecimals: PropTypes.func.isRequired,
-  // add: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   address: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
