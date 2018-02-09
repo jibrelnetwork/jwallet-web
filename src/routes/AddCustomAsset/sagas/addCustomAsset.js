@@ -57,7 +57,7 @@ function validateCustomAssetData(customAssetData: CustomAssetData, digitalAssets
 
 function validateCustomAssetAddress(address: Address, digitalAssets: DigitalAssets) {
   if (!Keystore.isValidAddress(address)) {
-    throw new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.invalid'))
+    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.invalid'))
   }
 
   validateCustomAssetAddressUniq(address, digitalAssets)
@@ -68,7 +68,7 @@ function validateCustomAssetAddressUniq(address: Address, digitalAssets: Digital
     const isEqual: boolean = equals(toLower(address), toLower(digitalAsset.address))
 
     if (isEqual) {
-      throw new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.exists'))
+      throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.exists'))
     }
   })
 }
@@ -79,7 +79,7 @@ function validateCustomAssetName(name: string) {
   const isLong: boolean = gt(name.length, 100)
 
   if (isInvalid || isShort || isLong) {
-    throw new InvalidFieldError('name', i18n('modals.addCustomToken.error.name.invalid'))
+    throw new InvalidFieldError('name', i18n('routes.addCustomAsset.error.name.invalid'))
   }
 }
 
@@ -89,7 +89,7 @@ function validateCustomAssetSymbol(symbol: string, digitalAssets: DigitalAssets)
   const isLong: boolean = gt(symbol.length, 5)
 
   if (isInvalid || isShort || isLong) {
-    throw new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.invalid'))
+    throw new InvalidFieldError('symbol', i18n('routes.addCustomAsset.error.symbol.invalid'))
   }
 
   validateCustomAssetSymbolUniq(symbol, digitalAssets)
@@ -100,7 +100,7 @@ function validateCustomAssetSymbolUniq(symbol: string, digitalAssets: DigitalAss
     const isEqual: boolean = equals(toLower(symbol), toLower(digitalAsset.symbol))
 
     if (isEqual) {
-      throw new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.exists'))
+      throw new InvalidFieldError('symbol', i18n('routes.addCustomAsset.error.symbol.exists'))
     }
   })
 }
@@ -111,7 +111,7 @@ function validateCustomAssetDecimals(decimals: string) {
   const isGreater: boolean =  gt(decimalsInt, 18)
 
   if (isLess || isGreater) {
-    throw new InvalidFieldError('decimals', i18n('modals.addCustomToken.error.decimals.invalid'))
+    throw new InvalidFieldError('decimals', i18n('routes.addCustomAsset.error.decimals.invalid'))
   }
 }
 

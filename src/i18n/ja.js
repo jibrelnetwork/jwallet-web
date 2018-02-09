@@ -28,6 +28,34 @@ module.exports = {
     ko: 'Korean',
     ja: 'Japanese',
   },
+  routes: {
+    addCustomAsset: {
+      title: 'Add Custom Asset',
+      buttonTitle: 'Add asset',
+      placeholder: {
+        address: 'アドレス',
+        name: '名',
+        symbol: 'シンボル',
+        decimals: '小数点以下の桁数',
+      },
+      error: {
+        address: {
+          invalid: 'アドレスが有効な契約のアドレスをする必要があります',
+          exists: 'Asset with this address already exists',
+        },
+        name: {
+          invalid: '有効な契約名である必要があります',
+        },
+        symbol: {
+          invalid: '記号は、有効な契約記号をする必要があります',
+          exists: 'Asset with this symbol already exists',
+        },
+        decimals: {
+          invalid: '小数点以下は小数点以下の有効な契約をする必要があります',
+        },
+      },
+    },
+  },
   modals: {
     sendFunds: {
       title: '送金',
@@ -267,32 +295,6 @@ module.exports = {
         },
       },
       addCustomTokenTitle: 'カスタム トークンを追加',
-    },
-    addCustomToken: {
-      title: 'カスタム トークンを追加',
-      buttonTitle: '保存',
-      placeholder: {
-        address: 'アドレス',
-        name: '名',
-        symbol: 'シンボル',
-        decimals: '小数点以下の桁数',
-      },
-      error: {
-        address: {
-          invalid: 'アドレスが有効な契約のアドレスをする必要があります',
-          exists: 'このアドレスのトークンが既に存在します。',
-        },
-        name: {
-          invalid: '有効な契約名である必要があります',
-        },
-        symbol: {
-          invalid: '記号は、有効な契約記号をする必要があります',
-          exists: 'Token with this symbol already exists',
-        },
-        decimals: {
-          invalid: '小数点以下は小数点以下の有効な契約をする必要があります',
-        },
-      },
     },
     alphaWarning: {
       buttonTitle: 'それを得た!',

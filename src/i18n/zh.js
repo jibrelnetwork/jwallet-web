@@ -28,6 +28,34 @@ module.exports = {
     ko: 'Korean',
     ja: 'Japanese',
   },
+  routes: {
+    addCustomAsset: {
+      title: 'Add Custom Asset',
+      buttonTitle: 'Add asset',
+      placeholder: {
+        address: '地址',
+        name: '名称',
+        symbol: '标志',
+        decimals: '精度',
+      },
+      error: {
+        address: {
+          invalid: '地址需为有效的合约地址',
+          exists: 'Asset with this address already exists',
+        },
+        name: {
+          invalid: '名称需为有效的合约名称',
+        },
+        symbol: {
+          invalid: '名称需为有效的合约名称',
+          exists: 'Asset with this symbol already exists',
+        },
+        decimals: {
+          invalid: '精度需为有效的合约精度',
+        },
+      },
+    },
+  },
   modals: {
     sendFunds: {
       title: '发送资产',
@@ -267,32 +295,6 @@ module.exports = {
         },
       },
       addCustomTokenTitle: '添加自定义代币',
-    },
-    addCustomToken: {
-      title: '添加自定义代币',
-      buttonTitle: '保存',
-      placeholder: {
-        address: '地址',
-        name: '名称',
-        symbol: '标志',
-        decimals: '精度',
-      },
-      error: {
-        address: {
-          invalid: '地址需为有效的合约地址',
-          exists: '该代币地址已存在',
-        },
-        name: {
-          invalid: '名称需为有效的合约名称',
-        },
-        symbol: {
-          invalid: '名称需为有效的合约名称',
-          exists: 'Token with this symbol already exists',
-        },
-        decimals: {
-          invalid: '精度需为有效的合约精度',
-        },
-      },
     },
     alphaWarning: {
       buttonTitle: '明白！',

@@ -163,7 +163,7 @@ function checkCustomTokenData(tokenData: CustomAssetData, items: DigitalAssets) 
 
 function checkCustomTokenAddress(address: Address, items: DigitalAssets) {
   if (!Keystore.isValidAddress(address)) {
-    throw (new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.invalid')))
+    throw (new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.invalid')))
   }
 
   checkContractAddressUniq(address, items)
@@ -172,20 +172,20 @@ function checkCustomTokenAddress(address: Address, items: DigitalAssets) {
 function checkContractAddressUniq(address: Address, items: DigitalAssets) {
   items.forEach((token) => {
     if (address.toLowerCase() === token.address.toLowerCase()) {
-      throw (new InvalidFieldError('address', i18n('modals.addCustomToken.error.address.exists')))
+      throw (new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.exists')))
     }
   })
 }
 
 function checkCustomTokenName(name: string) {
   if (/[^a-zA-Z ]/.test(name) || (name.length < 3) || (name.length > 100)) {
-    throw (new InvalidFieldError('name', i18n('modals.addCustomToken.error.name.invalid')))
+    throw (new InvalidFieldError('name', i18n('routes.addCustomAsset.error.name.invalid')))
   }
 }
 
 function checkCustomTokenSymbol(symbol: string, items: DigitalAssets) {
   if (/[^a-zA-Z]/.test(symbol) || (symbol.length < 3) || (symbol.length > 5)) {
-    throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.invalid')))
+    throw (new InvalidFieldError('symbol', i18n('routes.addCustomAsset.error.symbol.invalid')))
   }
 
   checkContractSymbolUniq(symbol, items)
@@ -194,7 +194,7 @@ function checkCustomTokenSymbol(symbol: string, items: DigitalAssets) {
 function checkContractSymbolUniq(symbol: string, items: DigitalAssets) {
   items.forEach((token) => {
     if (symbol.toLowerCase() === token.symbol.toLowerCase()) {
-      throw (new InvalidFieldError('symbol', i18n('modals.addCustomToken.error.symbol.exists')))
+      throw (new InvalidFieldError('symbol', i18n('routes.addCustomAsset.error.symbol.exists')))
     }
   })
 }
@@ -203,7 +203,7 @@ function checkCustomTokenDecimals(decimals: string) {
   const decimalsInt = parseInt(decimals, 10) || 0
 
   if ((decimalsInt <= 0) || (decimalsInt > 18)) {
-    throw (new InvalidFieldError('decimals', i18n('modals.addCustomToken.error.decimals.invalid')))
+    throw (new InvalidFieldError('decimals', i18n('routes.addCustomAsset.error.decimals.invalid')))
   }
 }
 

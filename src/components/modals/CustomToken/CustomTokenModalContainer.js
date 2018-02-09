@@ -15,8 +15,8 @@ import CustomTokenModal from './CustomTokenModal'
 const mapStateToProps = ({ customTokenModal }) => ({
   ...customTokenModal,
   modalName: 'custom-token',
-  modalTitle: i18n('modals.addCustomToken.title'),
-  buttonTitle: i18n('modals.addCustomToken.buttonTitle'),
+  modalTitle: i18n('routes.addCustomAsset.title'),
+  buttonTitle: i18n('routes.addCustomAsset.buttonTitle'),
 })
 
 const mapDispatchToProps = {
