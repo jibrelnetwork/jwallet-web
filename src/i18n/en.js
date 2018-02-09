@@ -67,6 +67,23 @@ module.exports = {
         },
       },
     },
+    changePassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -252,26 +269,6 @@ module.exports = {
         },
       },
       buttonTitle: 'Set derivation path',
-    },
-    changePassword: {
-      title: 'New Keystore Password',
-      buttonTitle: 'Confirm',
-      placeholder: {
-        password: 'Current password',
-        newPassword: 'New password',
-        confirmPassword: 'Confirm password',
-      },
-      error: {
-        password: {
-          invalid: 'Incorrect Password',
-        },
-        newPassword: {
-          weak: 'Password is too weak',
-        },
-        confirmPassword: {
-          notMatched: 'Password should match',
-        },
-      },
     },
     removeAccounts: {
       title: 'Clear Keystore',

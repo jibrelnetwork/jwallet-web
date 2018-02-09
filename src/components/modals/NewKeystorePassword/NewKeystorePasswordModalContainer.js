@@ -15,8 +15,8 @@ const mapStateToProps = ({ newKeystorePasswordModal }) => ({
   ...newKeystorePasswordModal,
   iconName: '',
   modalName: 'new-keystore-password',
-  modalTitle: i18n('modals.changePassword.title'),
-  buttonTitle: i18n('modals.changePassword.buttonTitle'),
+  modalTitle: i18n('routes.changePassword.title'),
+  buttonTitle: i18n('routes.changePassword.buttonTitle'),
 })
 
 const mapDispatchToProps = {
