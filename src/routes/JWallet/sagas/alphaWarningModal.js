@@ -8,7 +8,7 @@ import { selectAlphaWarningModalData } from './stateSelectors'
 
 const ONE_SECOND = 1000 // in ms
 
-function* onStartTimer() {
+function* onStartTimer(): Saga<void> {
   yield onTick()
 }
 

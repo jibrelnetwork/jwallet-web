@@ -28,14 +28,14 @@ function getDigitalAssets(state: { currencies: any }) {
   return state.currencies
 }
 
-function* onSendFunds() {
+function* onSendFunds(): Saga<void> {
   try {
     const sendFundsData = yield select(getSendFundsData)
     const { assetAddress } = sendFundsData
     const currency = yield getCurrency(assetAddress)
 
     const transactionHandler = getTransactionHandler(currency.symbol)
-    const transactionData = getTransactionData({ ...sendFundsData, currency })
+    const transactionData = getTransactionData(sendFundsData, currency)
 
     yield call(transactionHandler, transactionData)
     yield onSendFundsSuccess(currency.symbol)
@@ -89,12 +89,12 @@ function getTransactionHandler(symbol: string) {
   return (symbol === 'ETH') ? web3.sendETHTransaction : web3.sendContractTransaction
 }
 
-function getTransactionData(props: SendFundsData) {
+function getTransactionData(props: SendFundsData, currency: any) {
   validateTransactionData(props)
 
   const currentAccountId = select(getCurrentAccountId)
 
-  const { currency, password, amount, recipient, gas, gasPrice, nonce } = props
+  const { password, amount, recipient, gas, gasPrice, nonce } = props
   const { symbol, contractAddress, decimals, balance } = currency
   const value = getTransactionValue(amount, decimals)
 

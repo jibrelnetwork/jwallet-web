@@ -27,7 +27,7 @@ import {
 const transactionsSearchFields = ['status', 'address', 'transactionHash', 'fee', 'amount', 'date']
 let isGetTransactionsLoopLaunched = 0
 
-function* onGetTransactions() {
+function* onGetTransactions(): Saga<void> {
   yield getTransactions()
 
   // ignore if getTransactionsLoop was already launched
@@ -41,7 +41,7 @@ function* onGetTransactions() {
   yield getTransactionsLoop()
 }
 
-function* onSearchTransactions(action: { searchQuery: string }) {
+function* onSearchTransactions(action: { searchQuery: string }): Saga<void> {
   const { searchQuery } = action
   const transactions = yield select(selectTransactions)
 
@@ -51,7 +51,7 @@ function* onSearchTransactions(action: { searchQuery: string }) {
   yield setSearchOptions(foundItemsHashes, searchQuery)
 }
 
-function* onSortTransactions(action: { sortField: string }) {
+function* onSortTransactions(action: { sortField: string }): Saga<void> {
   const transactions = yield select(selectTransactions)
 
   const oldSortField = transactions.sortField

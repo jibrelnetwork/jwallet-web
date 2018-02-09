@@ -21,7 +21,7 @@ import { selectNetworks } from './stateSelectors'
 
 const ETHEREUM_MAINNET_CHAIN_ID = 1
 
-function* onGetNetworks() {
+function* onGetNetworks(): Saga<void> {
   const defaultNetworks = getDefaultNetworks()
 
   let customNetworks = []
@@ -43,7 +43,7 @@ function* onGetNetworks() {
   yield setNetworks(mergedNetworks, currentNetworkIndex)
 }
 
-function onSetNetworks(action: { items: Networks }) {
+function onSetNetworks(action: { items: Networks }): Saga<void> {
   const customNetworks = action.items.filter(({ isCustom }) => isCustom)
 
   storage.setNetworks(JSON.stringify(customNetworks))
@@ -53,7 +53,7 @@ function* getCurrencies() {
   yield put({ type: CURRENCIES_GET })
 }
 
-function* onSetCurrentNetwork(action: { currentNetworkIndex: Index }) {
+function* onSetCurrentNetwork(action: { currentNetworkIndex: Index }): Saga<void> {
   const { items } = yield select(selectNetworks)
   const { currentNetworkIndex } = action
 
@@ -65,7 +65,7 @@ function* onSetCurrentNetwork(action: { currentNetworkIndex: Index }) {
   yield getCurrencies()
 }
 
-function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }) {
+function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }): Saga<void> {
   const { items } = yield select(selectNetworks)
 
   try {
@@ -85,7 +85,7 @@ function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }) {
   }
 }
 
-function* onRemoveCustomNetwork(action: { networkIndex: Index }) {
+function* onRemoveCustomNetwork(action: { networkIndex: Index }): Saga<void> {
   const { items, currentNetworkIndex } = yield select(selectNetworks)
   const { networkIndex } = action
 

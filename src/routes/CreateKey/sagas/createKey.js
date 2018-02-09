@@ -27,7 +27,7 @@ function selectCreateKeyData(state: { createKey: any }): any {
   return state.createKey
 }
 
-function* onNextStep() {
+function* onNextStep(): Saga<void> {
   const data = yield select(selectCreateKeyData)
   const isInitialized = yield select(isCurrentAccountExists)
 
@@ -57,7 +57,7 @@ function* onNextStep() {
   }
 }
 
-function* onPrevStep() {
+function* onPrevStep(): Saga<void> {
   const data = yield select(selectCreateKeyData)
   const isInitialized = yield select(isCurrentAccountExists)
 

@@ -41,7 +41,7 @@ import * as NEW_DERIVATION_PATH from '../modules/modals/newDerivationPath'
 
 const { addressesPerIteration } = config
 
-function* getKeystoreFromStorage() {
+function* getKeystoreFromStorage(): Saga<void> {
   try {
     const keystoreData = storage.getKeystore()
     const currentAccountId = storage.getKeystoreCurrentAccount()
@@ -58,7 +58,7 @@ function* getKeystoreFromStorage() {
   yield setAccounts()
 }
 
-function* onCreateAccount(action: { accountId: AccountId, isInitialised: boolean }) {
+function* onCreateAccount(action: { accountId: AccountId, isInitialised: boolean }): Saga<void> {
   yield setAccounts()
 
   if (!action.isInitialised) {
@@ -129,7 +129,7 @@ function* clearCurrentAccount() {
   yield put({ type: KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC, items: [], currentIteration: 0 })
 }
 
-function* setCurrentAccount(action: { accountId: AccountId }) {
+function* setCurrentAccount(action: { accountId: AccountId }): Saga<void> {
   const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
 
@@ -163,7 +163,7 @@ function* onCurrentAddressChange() {
   yield getTransactions()
 }
 
-function* onRemoveAccount(action: { accountId: AccountId }) {
+function* onRemoveAccount(action: { accountId: AccountId }): Saga<void> {
   const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
   const accountData = getAccountData(accountId)
@@ -187,7 +187,7 @@ function* closeKeystoreModal() {
   }
 }
 
-function* onRemoveAccounts() {
+function* onRemoveAccounts(): Saga<void> {
   try {
     keystore.removeAccounts()
     gtm.pushClearKeystore()
@@ -209,7 +209,7 @@ function onRemoveAccountsError({ message }) {
   console.error(message)
 }
 
-function* setAccountName(action) {
+function* setAccountName(action): Saga<void> {
   const { accountId, newName, onSuccess, onError } = action
 
   try {
@@ -224,7 +224,7 @@ function* setAccountName(action) {
   }
 }
 
-function* onSetDerivationPath() {
+function* onSetDerivationPath(): Saga<void> {
   const derivationPathData = yield select(selectNewDerivationPathModalData)
   const { password, accountId, customDerivationPath, knownDerivationPath } = derivationPathData
   const newDerivationPath = customDerivationPath || knownDerivationPath
@@ -259,7 +259,7 @@ function* onSetDerivationPathError(errMessage: string) {
   })
 }
 
-function* onCloseDerivationPathModal() {
+function* onCloseDerivationPathModal(): Saga<void> {
   const data = yield select(selectNewDerivationPathModalData)
 
   if (data.isOpenedFromKeystoreModal) {
@@ -273,7 +273,7 @@ function getDerivationPathError(message: string) {
     : i18n('modals.derivationPath.error.customDerivationPath.invalid')
 }
 
-function* setAddressIndex(action: { accountId: AccountId, addressIndex: Index }) {
+function* setAddressIndex(action: { accountId: AccountId, addressIndex: Index }): Saga<void> {
   const { accountId, addressIndex } = action
 
   keystore.setAddressIndex(accountId, addressIndex)
@@ -307,7 +307,7 @@ function* getAddressesFromMnemonic(action: {
   accountId: AccountId,
   iteration: number,
   limit: number,
-}) {
+}): Saga<void> {
   const { addressesFromMnemonic } = yield select(selectKeystoreData)
   const { accountId, iteration, limit } = action
   const existedItems = addressesFromMnemonic.items
@@ -376,7 +376,7 @@ function setAddressesToStorage(newItems: Addresses) {
   storage.setKeystoreAddressesFromMnemonic(JSON.stringify(newAddresses))
 }
 
-function onSetPassword({ password, newPassword, onSuccess, onError }) {
+function onSetPassword({ password, newPassword, onSuccess, onError }): Saga<void> {
   try {
     keystore.setPassword(password, newPassword)
     gtm.pushChangePassword()
@@ -388,7 +388,7 @@ function onSetPassword({ password, newPassword, onSuccess, onError }) {
   }
 }
 
-function* sortAccounts(action: { sortField: string }) {
+function* sortAccounts(action: { sortField: string }): Saga<void> {
   const keystoreData = yield select(selectKeystoreData)
 
   const oldSortField = keystoreData.sortField
