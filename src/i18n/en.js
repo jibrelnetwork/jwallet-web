@@ -28,6 +28,34 @@ module.exports = {
     ko: 'Korean',
     ja: 'Japanese',
   },
+  routes: {
+    addCustomAsset: {
+      title: 'Add Custom Asset',
+      buttonTitle: 'Add asset',
+      placeholder: {
+        address: 'Address',
+        name: 'Name',
+        symbol: 'Symbol',
+        decimals: 'Decimals',
+      },
+      error: {
+        address: {
+          invalid: 'Address should be a valid contract address',
+          exists: 'Asset with this address already exists',
+        },
+        name: {
+          invalid: 'Name should be a valid contract name',
+        },
+        symbol: {
+          invalid: 'Symbol should be a valid contract symbol',
+          exists: 'Asset with this symbol already exists',
+        },
+        decimals: {
+          invalid: 'Decimals should be valid contract decimals',
+        },
+      },
+    },
+  },
   modals: {
     sendFunds: {
       title: 'Send Funds',
@@ -267,32 +295,6 @@ module.exports = {
         },
       },
       addCustomTokenTitle: 'Add custom token',
-    },
-    addCustomToken: {
-      title: 'Add Custom Token',
-      buttonTitle: 'Save',
-      placeholder: {
-        address: 'Address',
-        name: 'Name',
-        symbol: 'Symbol',
-        decimals: 'Decimals',
-      },
-      error: {
-        address: {
-          invalid: 'Address should be a valid contract address',
-          exists: 'Token with this address already exists',
-        },
-        name: {
-          invalid: 'Name should be a valid contract name',
-        },
-        symbol: {
-          invalid: 'Symbol should be a valid contract symbol',
-          exists: 'Token with this symbol already exists',
-        },
-        decimals: {
-          invalid: 'Decimals should be valid contract decimals',
-        },
-      },
     },
     alphaWarning: {
       buttonTitle: 'Got it!',

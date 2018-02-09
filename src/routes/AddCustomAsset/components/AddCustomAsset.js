@@ -29,13 +29,13 @@ const AddCustomAsset = ({
           key={key}
           onValueChange={handler}
           name={`add-custom-asset-${key}`}
-          placeholder={i18n(`modals.addCustomToken.placeholder.${key}`)}
+          placeholder={i18n(`routes.addCustomAsset.placeholder.${key}`)}
           value={value}
           errorMessage={invalidFields[key]}
           editable
         />
       ))}
-      <JButton onClick={add} label='Add asset' blue />
+      <JButton onClick={add} label={i18n('routes.addCustomAsset.buttonTitle')} blue />
     </div>
   )
 }

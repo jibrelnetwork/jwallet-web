@@ -28,7 +28,7 @@ class CustomTokenModal extends SubmitModal {
             key={field}
             onValueChange={customTokenFieldsMap[field]}
             name={`custom-token-${field}`}
-            placeholder={i18n(`modals.addCustomToken.placeholder.${field}`)}
+            placeholder={i18n(`routes.addCustomAsset.placeholder.${field}`)}
             value={this.props[field]}
             errorMessage={invalidFields[field]}
             editable

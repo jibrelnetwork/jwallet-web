@@ -28,6 +28,34 @@ module.exports = {
     ko: 'Korean',
     ja: 'Japanese',
   },
+  routes: {
+    addCustomAsset: {
+      title: 'Add Custom Asset',
+      buttonTitle: 'Add asset',
+      placeholder: {
+        address: '주소',
+        name: '이름',
+        symbol: '심볼',
+        decimals: 'decimals',
+      },
+      error: {
+        address: {
+          invalid: '유효한 컨트랙트 주소를 입력해주세요',
+          exists: 'Asset with this address already exists',
+        },
+        name: {
+          invalid: '유효한 컨트랙트 이름을 입력해주세요',
+        },
+        symbol: {
+          invalid: '유효한 컨트랙트 심볼을 입력해주세요',
+          exists: 'Asset with this symbol already exists',
+        },
+        decimals: {
+          invalid: '유효한 컨트랙트 소수점을 입력해주세요',
+        },
+      },
+    },
+  },
   modals: {
     sendFunds: {
       title: '출금',
@@ -267,32 +295,6 @@ module.exports = {
         },
       },
       addCustomTokenTitle: '커스텀 토큰 추가',
-    },
-    addCustomToken: {
-      title: '커스텀 토큰 추가',
-      buttonTitle: '저장하기',
-      placeholder: {
-        address: '주소',
-        name: '이름',
-        symbol: '심볼',
-        decimals: 'decimals',
-      },
-      error: {
-        address: {
-          invalid: '유효한 컨트랙트 주소를 입력해주세요',
-          exists: 'Token with this address already exists',
-        },
-        name: {
-          invalid: '유효한 컨트랙트 이름을 입력해주세요',
-        },
-        symbol: {
-          invalid: '유효한 컨트랙트 심볼을 입력해주세요',
-          exists: 'Token with this symbol already exists',
-        },
-        decimals: {
-          invalid: '유효한 컨트랙트 소수점을 입력해주세요',
-        },
-      },
     },
     alphaWarning: {
       buttonTitle: '알겠습니다',
