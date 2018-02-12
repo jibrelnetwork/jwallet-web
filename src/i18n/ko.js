@@ -34,6 +34,7 @@ module.exports = {
       customGasTitle: '사용자 정의 옵션',
       alert: {
         internalError: '거래 실패. 다시 시도해주세요',
+        emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
       },
       placeholder: {
         sender: 'Sender',

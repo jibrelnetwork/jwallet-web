@@ -80,6 +80,7 @@ const ACTION_HANDLERS = {
     ...state,
     isOpen: false,
     invalidFields: {},
+    alert: '',
   }),
   [SEND_FUNDS_SET_ALERT]: (state, action) => ({
     ...state,

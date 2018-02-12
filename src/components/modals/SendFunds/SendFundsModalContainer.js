@@ -35,6 +35,7 @@ const mapStateToProps = ({
   iconName: 'send-funds',
   modalTitle: i18n('modals.sendFunds.title'),
   buttonTitle: i18n('modals.sendFunds.buttonTitle'),
+  isETHBalanceEmpty: !currencies.balances.ETH,
   currencies: currencies.items.filter(currency => currency.isActive),
   sender: isMnemonicType(type) ? addressesFromMnemonic.items[addressIndex] : address,
 })

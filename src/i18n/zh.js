@@ -34,6 +34,7 @@ module.exports = {
       customGasTitle: '自定义Gas',
       alert: {
         internalError: '交易失败，请再试一遍。',
+        emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
       },
       placeholder: {
         sender: 'Sender',
