@@ -1,6 +1,6 @@
 import tokens from './tokens'
 
-const ethereum = {
+export const ethereum = {
   name: 'Ethereum',
   symbol: 'ETH',
   decimals: 18,

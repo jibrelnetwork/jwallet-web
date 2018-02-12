@@ -9,55 +9,71 @@ export const SET_GAS_PRICE = '@@sendFunds/SET_GAS_PRICE'
 export const SET_NONCE = '@@sendFunds/SET_NONCE'
 export const SET_PASSWORD = '@@sendFunds/SET_PASSWORD'
 export const SET_INVALID_FIELD = '@@sendFunds/SET_INVALID_FIELD'
+export const SET_CURRENT_STEP = '@@sendFunds/SET_CURRENT_STEP'
+export const GO_TO_PASSWORD_STEP = '@@sendFunds/GO_TO_PASSWORD_STEP'
 export const CLEAN = '@@sendFunds/CLEAN'
 export const SEND = '@@sendFunds/SEND'
 
-export function setAsset(assetAddress: Address) {
+export const STEPS = {
+  FORM: 0,
+  PASSWORD: 1,
+}
+
+export function setAsset(symbol: string): { type: string, symbol: string } {
   return {
     type: SET_ASSET,
-    assetAddress,
+    symbol,
   }
 }
 
-export function setAmount(amount: string) {
+export function setAmount(amount: string): { type: string, amount: string } {
   return {
     type: SET_AMOUNT,
     amount,
   }
 }
 
-export function setRecipient(recipientAddress: Address) {
+export function setRecipient(recipient: Address): {
+  type: string,
+  recipient: Address,
+} {
   return {
     type: SET_RECIPIENT,
-    recipientAddress,
+    recipient,
   }
 }
 
-export function setGas(gas: any) {
+export function setGas(gas: string): { type: string, gas: string } {
   return {
     type: SET_GAS,
     gas,
   }
 }
 
-export function setGasPrice(gasPrice: any) {
+export function setGasPrice(gasPrice: string): { type: string, gasPrice: string } {
   return {
     type: SET_GAS_PRICE,
     gasPrice,
   }
 }
 
-export function setNonce(nonce: any) {
+export function setNonce(nonce: string): { type: string, nonce: string } {
   return {
     type: SET_NONCE,
     nonce,
   }
 }
 
-export function setPassword(password: any) {
+export function setPassword(password: string): { type: string, password: string } {
   return {
     type: SET_PASSWORD,
     password,
+  }
+}
+
+export function goToPasswordStep(): { type: string } {
+  return {
+    type: GO_TO_PASSWORD_STEP,
   }
 }
 
@@ -74,10 +90,10 @@ const ACTION_HANDLERS = {
   }),
   [SET_ASSET]: (state, action) => ({
     ...state,
-    assetAddress: action.assetAddress,
+    symbol: action.symbol,
     invalidFields: {
       ...state.invalidFields,
-      assetAddress: '',
+      symbol: '',
     },
   }),
   [SET_AMOUNT]: (state, action) => ({
@@ -90,10 +106,10 @@ const ACTION_HANDLERS = {
   }),
   [SET_RECIPIENT]: (state, action) => ({
     ...state,
-    recipientAddress: action.recipientAddress,
+    recipient: action.recipient,
     invalidFields: {
       ...state.invalidFields,
-      recipientAddress: '',
+      recipient: '',
     },
   }),
   [SET_GAS]: (state, action) => ({
@@ -122,7 +138,7 @@ const ACTION_HANDLERS = {
   }),
   [SET_PASSWORD]: (state, action) => ({
     ...state,
-    password: action.password || '',
+    password: action.password,
     invalidFields: {
       ...state.invalidFields,
       password: '',
@@ -135,19 +151,24 @@ const ACTION_HANDLERS = {
       [action.fieldName]: action.message,
     },
   }),
+  [SET_CURRENT_STEP]: (state, action) => ({
+    ...state,
+    currentStep: action.currentStep,
+  }),
   [CLEAN]: () => initialState,
 }
 
 const initialState = {
   invalidFields: {},
   alert: '',
-  assetAddress: '',
+  symbol: 'ETH',
   amount: '',
-  recipientAddress: '',
+  recipient: '',
   gas: '',
   gasPrice: '',
   nonce: '',
   password: '',
+  currentStep: STEPS.FORM,
 }
 
 export default function sendFunds(state: any = initialState, action: any) {

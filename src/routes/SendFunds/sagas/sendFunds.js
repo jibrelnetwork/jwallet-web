@@ -2,75 +2,84 @@
 
 import BigNumber from 'bignumber.js'
 import Keystore from 'jwallet-web-keystore'
+import { find, propEq } from 'ramda'
+import { push } from 'react-router-redux'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import { keystore, gtm, web3 } from 'services'
+import { ethereum } from 'utils/getDefaultDigitalAssets'
 import { getKeystoreAccountType, InvalidFieldError } from 'utils'
+import { selectDigitalAssets, selectKeystore, selectSendFunds } from 'store/stateSelectors'
 
 import {
   SET_ALERT,
   SET_PASSWORD,
   SET_INVALID_FIELD,
+  SET_CURRENT_STEP,
+  GO_TO_PASSWORD_STEP,
   CLEAN,
   SEND,
+  STEPS,
 } from '../modules/sendFunds'
 
-function getSendFundsData(state: { sendFunds: any }): any {
-  return state.sendFunds
+declare type AssetData = {
+  balance: number,
+  decimals: number,
+  contractAddress: Address,
 }
 
-function getCurrentAccountId(state: { keystore: any }): AccountId {
-  return state.keystore.currentAccount.id
-}
-
-function getDigitalAssets(state: { currencies: any }) {
-  return state.currencies
+declare type TXData = {
+  to: Address,
+  value: BigNumber,
+  privateKey: string,
+  contractAddress?: Address,
+  gasPrice?: BigNumber,
+  gasLimit?: BigNumber,
+  nonce?: BigNumber,
 }
 
 function* onSendFunds(): Saga<void> {
   try {
-    const sendFundsData = yield select(getSendFundsData)
-    const { assetAddress } = sendFundsData
-    const currency = yield getCurrency(assetAddress)
-
-    const transactionHandler = getTransactionHandler(currency.symbol)
-    const transactionData = getTransactionData(sendFundsData, currency)
+    const sendFundsData: SendFundsData = yield select(selectSendFunds)
+    const { symbol }: { symbol: string } = sendFundsData
+    const transactionHandler = getTransactionHandler(symbol)
+    const transactionData: TXData = yield getTransactionData(sendFundsData)
 
     yield call(transactionHandler, transactionData)
-    yield onSendFundsSuccess(currency.symbol)
+    yield onSendFundsSuccess(symbol)
   } catch (err) {
-    if (err instanceof InvalidFieldError) {
-      yield setInvalidField(err.fieldName, err.message)
-
-      return
-    }
-
     yield onSendFundsError(err)
   }
 }
 
 function* onSendFundsSuccess(symbol: string) {
-  const currentAccountId = select(getCurrentAccountId)
-  const accountData = keystore.getAccount({ id: currentAccountId })
-  const accountType = getKeystoreAccountType(accountData)
+  const keystoreData: KeystoreData = yield select(selectKeystore)
+  const currentAccountId: AccountId = keystoreData.currentAccount.id
+  const accountData: Account = keystore.getAccount({ id: currentAccountId })
+  const accountType: string = getKeystoreAccountType(accountData)
 
   gtm.pushSendFundsSuccess(symbol, accountType)
 
+  yield put(push('/'))
   yield put({ type: CLEAN })
+
+  // TODO: show notification about successful transaction
 }
 
 function* onSendFundsError(err: { message: string }) {
-  const isPasswordError = /password/i.test(err.message)
+  const isPasswordError: boolean = /password/i.test(err.message)
 
   if (isPasswordError) {
-    yield setInvalidField('password', i18n('modals.sendFunds.error.password.invalid'))
+    yield setInvalidField('password', i18n('routes.sendFunds.error.password.invalid'))
   } else {
+    yield setAlert(i18n('routes.sendFunds.alert.internalError'))
+    yield setCurrentStep(STEPS.FORM)
     yield cleanPassword()
-    yield setAlert(i18n('modals.sendFunds.alert.internalError'))
+
+    // TODO: show notification about failed transaction
   }
 
-  console.error(err)
+  // console.error(err)
 }
 
 function* setInvalidField(fieldName: string, message: string) {
@@ -86,142 +95,167 @@ function* cleanPassword() {
 }
 
 function getTransactionHandler(symbol: string) {
-  return (symbol === 'ETH') ? web3.sendETHTransaction : web3.sendContractTransaction
+  return isETH(symbol) ? web3.sendETHTransaction : web3.sendContractTransaction
 }
 
-function getTransactionData(props: SendFundsData, currency: any) {
-  validateTransactionData(props)
+function* getTransactionData(data: SendFundsData) {
+  const keystoreData: KeystoreData = yield select(selectKeystore)
+  const { id, addressIndex }: Account = keystoreData.currentAccount
+  const { symbol, amount, recipient, gas, gasPrice, nonce, password }: SendFundsData = data
+  const { contractAddress, decimals }: AssetData = yield getAsset(symbol)
 
-  const currentAccountId = select(getCurrentAccountId)
-
-  const { password, amount, recipient, gas, gasPrice, nonce } = props
-  const { symbol, contractAddress, decimals, balance } = currency
-  const value = getTransactionValue(amount, decimals)
-
-  validateTransactionValue(value, balance, decimals)
-
-  const data = {
-    value,
+  const txData: TXData = {
     to: recipient,
-    privateKey: keystore.getPrivateKey(password, currentAccountId).replace('0x', ''),
-    contractAddress: undefined,
-    gasPrice: undefined,
-    gasLimit: undefined,
-    nonce: undefined,
+    value: getTransactionValue(amount, decimals),
+    privateKey: keystore.getPrivateKey(password, id, addressIndex).replace('0x', ''),
   }
 
-  if (symbol !== 'ETH') {
-    data.contractAddress = contractAddress
+  if (!isETH(symbol)) {
+    txData.contractAddress = contractAddress
   }
 
-  if (gasPrice && gasPrice.length) {
-    data.gasPrice = new BigNumber(parseInt(gasPrice, 10) || 0, 10)
-    validateTransactionGasPrice(data.gasPrice)
+  if (gasPrice) {
+    txData.gasPrice = toBigNumber(gasPrice)
   }
 
-  if (gas && gas.length) {
-    data.gasLimit = new BigNumber(parseInt(gas, 10) || 0, 10)
-    validateTransactionGas(data.gasLimit)
+  if (gas) {
+    txData.gasLimit = toBigNumber(gas)
   }
 
-  if (nonce && nonce.length) {
-    data.nonce = parseInt(nonce, 10) || 0
-    validateTransactionNonce(data.nonce)
+  if (nonce) {
+    txData.nonce = toBigNumber(nonce)
   }
 
-  return data
+  return txData
 }
 
-function validateTransactionData(props: SendFundsData) {
-  const { recipient, amount, gas, gasPrice, nonce } = props
+function isETH(symbol: string): boolean {
+  return (symbol === 'ETH')
+}
+
+function getTransactionValue(amount: string | number, decimals: number): Bignumber {
+  const value: Bignumber = toBigNumber(amount)
+  const units: Bignumber = toBigNumber(10)
+
+  const decimalsPower: Bignumber = units.pow(decimals)
+  const fixedValue: string = value.times(decimalsPower).toFixed()
+
+  return toBigNumber(fixedValue)
+}
+
+function toBigNumber(value: string | number): Bignumber {
+  return new BigNumber((parseFloat(value) || 0), 10)
+}
+
+function* getAsset(symbol: string) {
+  const { items, balances }: DigitalAssetsData = yield select(selectDigitalAssets)
+  const asset: DigitalAsset = find(propEq('symbol', symbol))(items) || ethereum
+
+  return {
+    balance: balances[symbol],
+    decimals: asset.decimals,
+    contractAddress: asset.address,
+  }
+}
+
+function* onGoToPasswordStep(): Saga<void> {
+  try {
+    yield validateData()
+    yield setCurrentStep(STEPS.PASSWORD)
+  } catch (err) {
+    const { fieldName, message }: { fieldName: string, message: string } = err
+    yield setInvalidField(fieldName, message)
+  }
+}
+
+function* setCurrentStep(currentStep: Index) {
+  yield put({ type: SET_CURRENT_STEP, currentStep })
+}
+
+function* validateData() {
+  const sendFundsData: SendFundsData = yield select(selectSendFunds)
+  const { symbol, amount, recipient, gas, gasPrice, nonce }: SendFundsData = sendFundsData
+
+  yield validateETHBalance()
+  yield validateAmount(amount, symbol)
 
   validateAddress(recipient)
-  validateAmount(amount)
   validateGas(gas)
   validateGasPrice(gasPrice)
   validateNonce(nonce)
 }
 
-function validateAddress(address: Address) {
-  if (!Keystore.isValidAddress(address)) {
-    throw new InvalidFieldError('recipient', i18n('modals.sendFunds.error.address.invalid'))
+function* validateETHBalance() {
+  const { balances }: DigitalAssetsData = yield select(selectDigitalAssets)
+  const ethBalance: number = balances.ETH
+
+  if (!ethBalance) {
+    throw new InvalidFieldError('amount', i18n('routes.sendFunds.error.amount.emptyETHBalance'))
   }
 }
 
-function validateAmount(amount: string) {
+function* validateAmount(amount: string, symbol: string) {
   if (/[^\d.]/.test(amount)) {
-    throw new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.invalid'))
+    throw new InvalidFieldError('amount', i18n('routes.sendFunds.error.amount.invalid'))
+  }
+
+  const { balance, decimals }: AssetData = yield getAsset(symbol)
+  const value: BigNumber = getTransactionValue(amount, decimals)
+
+  if (value.lessThanOrEqualTo(0)) {
+    throw new InvalidFieldError('amount', i18n('routes.sendFunds.error.amount.lessThan0'))
+  }
+
+  const balanceValue: BigNumber = getTransactionValue(balance, decimals)
+
+  if (value.greaterThan(balanceValue)) {
+    throw new InvalidFieldError('amount', i18n('routes.sendFunds.error.amount.exceedsBalance'))
+  }
+}
+
+function validateAddress(address: Address) {
+  if (!Keystore.isValidAddress(address)) {
+    throw new InvalidFieldError(
+      'recipient',
+      i18n('routes.sendFunds.error.recipient.invalid'),
+    )
   }
 }
 
 function validateGas(gas: string | void) {
   if (gas && /\D/.test(gas)) {
-    throw new InvalidFieldError('gas', i18n('modals.sendFunds.error.gas.invalid'))
+    throw new InvalidFieldError('gas', i18n('routes.sendFunds.error.gas.invalid'))
+  }
+
+  if (gas && toBigNumber(gas).lessThanOrEqualTo(0)) {
+    throw new InvalidFieldError('gas', i18n('routes.sendFunds.error.gas.lessThan0'))
   }
 }
 
 function validateGasPrice(gasPrice: string | void) {
   if (gasPrice && /\D/.test(gasPrice)) {
-    throw new InvalidFieldError('gasPrice', i18n('modals.sendFunds.error.gasPrice.invalid'))
+    throw new InvalidFieldError('gasPrice', i18n('routes.sendFunds.error.gasPrice.invalid'))
+  }
+
+  if (gasPrice && toBigNumber(gasPrice).lessThanOrEqualTo(0)) {
+    throw new InvalidFieldError('gasPrice', i18n('routes.sendFunds.error.gasPrice.lessThan0'))
   }
 }
 
 function validateNonce(nonce: string | void) {
   if (nonce && /\D/.test(nonce)) {
-    throw new InvalidFieldError('nonce', i18n('modals.sendFunds.error.gasPrice.invalid'))
-  }
-}
-
-function validateTransactionValue(value: Bignumber, balance: number, decimals: number) {
-  if (value.lessThanOrEqualTo(0)) {
-    throw new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.lessThan0'))
+    throw new InvalidFieldError('nonce', i18n('routes.sendFunds.error.nonce.invalid'))
   }
 
-  const balanceUnits = balance * (10 ** decimals)
-
-  if (value.greaterThan(balanceUnits)) {
-    throw new InvalidFieldError('amount', i18n('modals.sendFunds.error.amount.exceedsBalance'))
-  }
-}
-
-function validateTransactionGas(gas: Bignumber) {
-  if (gas.lessThanOrEqualTo(0)) {
-    throw new InvalidFieldError('gas', i18n('modals.sendFunds.error.gas.lessThan0'))
-  }
-}
-
-function validateTransactionGasPrice(gasPrice: Bignumber) {
-  if (gasPrice.lessThanOrEqualTo(0)) {
-    throw new InvalidFieldError('gasPrice', i18n('modals.sendFunds.error.gasPrice.lessThan0'))
-  }
-}
-
-function validateTransactionNonce(nonce: number) {
-  if (nonce < 0) {
-    throw new InvalidFieldError('nonce', i18n('modals.sendFunds.error.gasPrice.lessThan0'))
-  }
-}
-
-function getTransactionValue(amount: string, decimals: number) {
-  const parsedAmount = parseFloat(amount) || 0
-  const fixedAmount = parseInt(parsedAmount.toFixed(18), 10)
-  const unitsAmount = fixedAmount * (10 ** decimals)
-
-  return new BigNumber(unitsAmount, 10)
-}
-
-function* getCurrency(address: Address) {
-  const { items, balances } = yield select(getDigitalAssets)
-  const currency = items.filter(c => (c.address === address))[0] || {}
-
-  return {
-    symbol: currency.symbol,
-    contractAddress: address,
-    balance: balances[currency.symbol] || 0,
-    decimals: currency.decimals || config.defaultDecimals,
+  if (nonce && toBigNumber(nonce).lessThan(0)) {
+    throw new InvalidFieldError('nonce', i18n('routes.sendFunds.error.nonce.lessThan0'))
   }
 }
 
 export function* watchSendFunds(): Saga<void> {
   yield takeEvery(SEND, onSendFunds)
+}
+
+export function* watchGoToPasswordStep(): Saga<void> {
+  yield takeEvery(GO_TO_PASSWORD_STEP, onGoToPasswordStep)
 }
