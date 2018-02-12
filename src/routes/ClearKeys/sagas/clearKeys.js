@@ -1,3 +1,5 @@
+// @flow
+
 import { put, takeEvery } from 'redux-saga/effects'
 
 import { gtm, keystore, storage } from 'services'
@@ -8,38 +10,37 @@ import {
   KEYSTORE_SET_ADDRESSES_FROM_MNEMONIC,
 } from 'routes/JWallet/modules/keystore'
 
-import { SET_INVALID_FIELD, CLEAR } from '../modules/clearKeys'
+import { CLEAR } from '../modules/clearKeys'
 
-function* onClearKeys(action: { password: Password }) {
+function* onClearKeys(): Saga<void> {
   try {
-    keystore.removeAccounts(action.password)
+    keystore.removeAccounts()
     yield onClearKeysSuccess()
   } catch (err) {
-    yield onClearKeysFail(err)
+    yield onClearKeysError()
   }
 }
 
-function* onClearKeysSuccess() {
+function* onClearKeysSuccess(): Saga<void> {
   gtm.pushClearKeystore()
 
-  yield clearKeys()
+  yield setEmptyKeys()
   yield clearCurrentKey()
+
+  // It is necessary to reload page
+  window.location.href = '/'
 }
 
-function* onClearKeysFail() {
-  yield put({
-    type: SET_INVALID_FIELD,
-    fieldName: 'password',
-    message: i18n('modals.general.error.password.invalid'),
-  })
+function* onClearKeysError(/* err */): Saga<void> {
+  // console.error(err)
 }
 
-function* clearKeys() {
+function* setEmptyKeys(): Saga<void> {
   storage.setKeystore(keystore.serialize())
   yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts: [] })
 }
 
-function* clearCurrentKey() {
+function* clearCurrentKey(): Saga<void> {
   storage.removeKeystoreCurrentAccount()
   storage.removeKeystoreAddressesFromMnemonic()
 

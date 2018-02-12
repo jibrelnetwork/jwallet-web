@@ -84,6 +84,17 @@ module.exports = {
         },
       },
     },
+    clearKeys: {
+      title: 'Clear keys',
+      buttonTitle: 'Yes, clear keys',
+      info: {
+        title: 'Clear all keys',
+        text: [
+          'All user data, including imported or generated',
+          'private keys are stored locally, meaning your private',
+        ],
+      },
+    },
   },
   modals: {
     sendFunds: {
