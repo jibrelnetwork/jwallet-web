@@ -34,6 +34,18 @@ declare type CustomAssetData = {
   decimals: string,
 }
 
+declare type DigitalAssetsData = {
+  items: DigitalAssets,
+  foundItemsSymbols: Array<string>,
+  balances: any,
+  sortField: string,
+  sortDirection: string,
+  searchQuery: string,
+  currentAddress: Address,
+  isLoading: boolean,
+  isActiveAll: boolean,
+}
+
 /**
  * Keystore
  */
@@ -65,6 +77,24 @@ declare type NewAccountData = {
   bip32XPublicKey?: string,
   privateKey?: string,
   address?: string,
+}
+
+declare type KeystoreData = {
+  currentAccount: Account,
+  newAccountNameData: {
+    accountId: AccountId,
+    newAccountName: string,
+  },
+  addressesFromMnemonic: {
+    items: Addresses,
+    currentIteration: number,
+  },
+  accounts: Accounts,
+  sortField: string,
+  sortDirection: string,
+  isLoading: boolean,
+  isCreating: boolean,
+  isOpen: boolean,
 }
 
 /**
@@ -110,11 +140,27 @@ declare type Transactions = Array<Transaction>
  */
 
 declare type SendFundsData = {
-  recipient: Address,
-  password: string,
+  invalidFields: any,
+  alert: string,
   amount: string,
-  symbol: string,
+  password: string,
+  currentStep: number,
   gas?: string,
   gasPrice?: string,
   nonce?: string,
+  /**
+   * symbol & recipient should be replaced by assetAddress & recipientAdress
+   */
+  symbol: string,
+  recipient: Address,
+}
+
+/**
+ * Entire state
+ */
+
+declare type State = {
+  currencies: DigitalAssetsData,
+  keystore: KeystoreData,
+  sendFunds: SendFundsData,
 }
