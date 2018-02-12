@@ -13,6 +13,7 @@ import {
 } from './stateSelectors'
 
 import {
+  SEND_FUNDS_OPEN_MODAL,
   SEND_FUNDS_CLOSE_MODAL,
   SEND_FUNDS_SET_ALERT,
   SEND_FUNDS_SET_PASSWORD,
@@ -224,6 +225,15 @@ function* getCurrencyBySymbol(symbol) {
   }
 }
 
+function* onSendOpenModal() {
+  const { balances } = yield select(selectDigitalAssets)
+  const ethBalance = balances.ETH
+
+  if (!ethBalance) {
+    yield setAlert(i18n('modals.sendFunds.alert.emptyETHBalance'))
+  }
+}
+
 function* onReceiveOpenModal() {
   const currentAccountId = yield select(selectCurrentAccountId)
 
@@ -251,6 +261,10 @@ export function* watchConvertFundsToAccountId() {
 
 export function* watchSendFunds() {
   yield takeEvery(SEND_FUNDS, onSendFunds)
+}
+
+export function* watchSendOpenModal() {
+  yield takeEvery(SEND_FUNDS_OPEN_MODAL, onSendOpenModal)
 }
 
 export function* watchReceiveOpenModal() {

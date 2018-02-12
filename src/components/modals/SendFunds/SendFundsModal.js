@@ -124,9 +124,9 @@ class SendFundsModal extends SubmitModal {
   }
 
   isModalButtonDisabled = () => {
-    const { recipient, amount } = this.props
+    const { recipient, amount, isETHBalanceEmpty } = this.props
 
-    return !(recipient && amount)
+    return (isETHBalanceEmpty || !(recipient && amount))
   }
 
   closeModal = () => this.props.closeSendFundsModal()
@@ -162,6 +162,7 @@ SendFundsModal.propTypes = {
   buttonType: PropTypes.string.isRequired,
   iconName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  isETHBalanceEmpty: PropTypes.bool.isRequired,
 }
 
 export default SendFundsModal

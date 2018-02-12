@@ -34,6 +34,7 @@ module.exports = {
       customGasTitle: 'カスタム ガス',
       alert: {
         internalError: 'トランザクションに失敗しました。もう一度やり直してください',
+        emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
       },
       placeholder: {
         sender: 'Sender',
