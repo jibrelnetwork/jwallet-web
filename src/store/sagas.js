@@ -11,6 +11,7 @@ import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset
 import * as backupKeysSagas from 'routes/BackupKeys/sagas/backupKeys'
 import * as changePasswordSagas from 'routes/ChangePassword/sagas/changePassword'
 import * as clearKeysSagas from 'routes/ClearKeys/sagas/clearKeys'
+import * as receiveFundsSagas from 'routes/ReceiveFunds/sagas/receiveFunds'
 import * as sendFundsSagas from 'routes/SendFunds/sagas/sendFunds'
 
 export default {
@@ -27,5 +28,6 @@ export default {
   ...backupKeysSagas,
   ...changePasswordSagas,
   ...clearKeysSagas,
+  ...receiveFundsSagas,
   ...sendFundsSagas,
 }
