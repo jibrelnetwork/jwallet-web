@@ -1,0 +1,29 @@
+// @flow
+
+import { find, propEq } from 'ramda'
+
+import { ethereum } from 'utils/getDefaultDigitalAssets'
+
+export function selectDigitalAssets(state: State): DigitalAssetsData {
+  return state.currencies
+}
+
+export function selectDigitalAssetsItems(state: State): DigitalAssets {
+  return state.currencies.items
+}
+
+export function selectDigitalAssetItem(state: State, symbol: string): DigitalAsset {
+  return find(propEq('symbol', symbol))(state.currencies.items) || ethereum
+}
+
+export function selectKeystore(state: State): KeystoreData {
+  return state.keystore
+}
+
+export function selectReceiveFunds(state: State): ReceiveFundsData {
+  return state.receiveFunds
+}
+
+export function selectSendFunds(state: State): SendFundsData {
+  return state.sendFunds
+}
