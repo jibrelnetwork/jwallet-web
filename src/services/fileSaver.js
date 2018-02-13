@@ -7,15 +7,19 @@ import config from 'config'
 import isSafari from 'utils/isSafari'
 
 function saveTXT(data: any, name: string) {
-  return saveAs(data, getFileName(name, 'txt'))
+  saveAs(data, getFileName(name, 'txt'))
 }
 
 function saveJSON(data: any, name: string) {
-  return saveAs(jsonFormat(data, config.jsonFormat), getFileName(name, 'json'))
+  saveAs(jsonFormat(data, config.jsonFormat), getFileName(name, 'json'))
+}
+
+function saveCanvas(canvas: any, name: string) {
+  canvas.toBlob(blob => fileSaver.saveAs(blob, getFileName(name, 'png')))
 }
 
 function saveAs(data: any, fileName: string) {
-  return fileSaver.saveAs(getBlob(data), fileName)
+  fileSaver.saveAs(getBlob(data), fileName)
 }
 
 function getBlob(data: any) {
@@ -30,4 +34,4 @@ function getTimestamp() {
   return (new Date()).toString()
 }
 
-export default { saveTXT, saveJSON }
+export default { saveTXT, saveJSON, saveCanvas }
