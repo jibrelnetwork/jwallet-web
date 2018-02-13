@@ -95,6 +95,21 @@ module.exports = {
         ],
       },
     },
+    receiveFunds: {
+      title: 'Receive Funds',
+      buttonTitleCopy: 'Copy address',
+      buttonTitleCopied: 'Copied!',
+      placeholder: {
+        symbol: 'Asset',
+        amount: 'Amount',
+        recipient: 'Address',
+      },
+      error: {
+        amount: {
+          invalid: 'Please enter a valid transfer amount',
+        },
+      },
+    },
     sendFunds: {
       title: 'Send Funds',
       optionalTitle: 'Optional',
