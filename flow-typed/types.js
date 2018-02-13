@@ -155,6 +155,15 @@ declare type SendFundsData = {
   recipient: Address,
 }
 
+declare type ReceiveFundsData = {
+  invalidFields: any,
+  amount: string,
+  /**
+   * symbol should be replaced by assetAddress
+   */
+  symbol: string,
+}
+
 /**
  * Entire state
  */
@@ -162,5 +171,15 @@ declare type SendFundsData = {
 declare type State = {
   currencies: DigitalAssetsData,
   keystore: KeystoreData,
+  receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
+}
+
+/**
+ * Errors
+ */
+
+declare type InvalidFieldError = {
+  fieldName: string,
+  message: string,
 }
