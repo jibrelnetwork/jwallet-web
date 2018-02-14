@@ -98,6 +98,22 @@ declare type KeystoreData = {
 }
 
 /**
+ * Create key
+ */
+
+declare type CreateKeyData = {
+  validFields: Object,
+  invalidFields: Object,
+  mnemonic: string,
+  mnemonicConfirm: string,
+  name: string,
+  password: Password,
+  passwordConfirm: Password,
+  currentStep: Index,
+  totalSteps: Index,
+}
+
+/**
  * Networks
  */
 
@@ -170,6 +186,7 @@ declare type ReceiveFundsData = {
 
 declare type State = {
   currencies: DigitalAssetsData,
+  createKey: CreateKeyData,
   keystore: KeystoreData,
   receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
