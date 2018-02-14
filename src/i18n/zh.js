@@ -95,6 +95,43 @@ module.exports = {
         ],
       },
     },
+    createKey: {
+      title: 'Create New Key',
+      alert: {
+        mnemonic: 'Your mnemonic provides access to your assets!',
+        mnemonicConfirm: 'Confirm your mnemonic by re-entering it below.',
+        name: 'Some text, some text.',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        mnemonic: 'Your mnemonic',
+        mnemonicConfirm: 'Confirm mnemonic',
+        name: 'Key name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      error: {
+        mnemonicConfirm: {
+          notMatched: 'Mnemonic should match',
+        },
+        name: {
+          empty: 'Key name shouldn\'t be empty',
+          invalid: 'Please input valid key name',
+          exists: 'Key with this name already exists',
+        },
+        password: {},
+        passwordConfirm: {
+          notMatched: 'Password should match',
+        },
+      },
+      buttonTitle: {
+        save: 'Save as TXT',
+        confirm: 'Confirm',
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
     receiveFunds: {
       title: 'Receive Funds',
       buttonTitleCopy: 'Copy address',
