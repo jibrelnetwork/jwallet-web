@@ -20,10 +20,22 @@ export function selectKeystore(state: State): KeystoreData {
   return state.keystore
 }
 
+export function selectKeystoreKeys(state: State): Accounts {
+  return state.keystore.accounts
+}
+
 export function selectReceiveFunds(state: State): ReceiveFundsData {
   return state.receiveFunds
 }
 
 export function selectSendFunds(state: State): SendFundsData {
   return state.sendFunds
+}
+
+export function selectCurrentKeyId(state: State): AccountId {
+  return state.keystore.currentAccount.id
+}
+
+export function selectCreateKey(state: State): CreateKeyData {
+  return state.createKey
 }
