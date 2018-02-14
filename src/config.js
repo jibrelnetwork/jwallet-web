@@ -74,4 +74,7 @@ export default {
 
   // max password length
   maxPasswordLength: 40,
+
+  // delay before form will be cleaned
+  delayBeforeFormClean: 1000,
 }
