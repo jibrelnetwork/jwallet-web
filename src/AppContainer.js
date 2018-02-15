@@ -1,6 +1,7 @@
 import React from 'react'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 import PropTypes from 'prop-types'
 
 function AppContainer({ history, routes, store }) {
@@ -8,6 +9,7 @@ function AppContainer({ history, routes, store }) {
     <Provider store={store}>
       <div style={{ height: '100%' }}>
         <Router history={history} children={routes} />
+        <ToastContainer />
       </div>
     </Provider>
   )
