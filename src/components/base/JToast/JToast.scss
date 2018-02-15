@@ -1,0 +1,25 @@
+.JToast {
+  display: flex;
+  flex-direction: row;
+
+  &.-info {
+    background-color: blue;
+  }
+
+  &.-error {
+    background-color: red;
+  }
+
+  > .icon {
+    //
+  }
+
+  > .text {
+    //
+  }
+
+  > .close {
+    //
+  }
+}
+
