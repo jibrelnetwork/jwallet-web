@@ -1,7 +1,9 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
 import createSagaMiddleware from 'redux-saga'
+
 import { makeRootReducer } from './reducers'
+import middlewares from '../middlewares'
 import sagas from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -10,7 +12,7 @@ export default (initialState = {}, history) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware, routerMiddleware(history)]
+  const middleware = [sagaMiddleware, routerMiddleware(history), ...middlewares]
 
   if (__DEV__) {
     const { logger } = require('redux-logger')
