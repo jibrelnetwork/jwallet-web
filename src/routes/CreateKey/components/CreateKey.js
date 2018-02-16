@@ -12,7 +12,7 @@ import CreateKeyAssets from './Assets'
 const CreateKey = props => (
   <div className='create-key-view'>
     {(props.currentStep === STEPS.MNEMONIC) && <CreateKeyMnemonic {...props} />}
-    {(props.currentStep === STEPS.MNEMONIC_CONFIRM) && <CreateKeyMnemonicConfirm {...props} />}
+    {(props.currentStep === STEPS.CONFIRM) && <CreateKeyMnemonicConfirm {...props} />}
     {(props.currentStep === STEPS.NAME) && <CreateKeyName {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <CreateKeyPassword {...props} />}
     {(props.currentStep === STEPS.ASSETS) && <CreateKeyAssets {...props} />}
