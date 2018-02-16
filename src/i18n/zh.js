@@ -102,17 +102,6 @@ module.exports = {
         name: 'Key name',
         password: 'Password',
       },
-      error: {
-        derivationPath: {
-          invalid: 'Please input valid custom derivation path',
-        },
-        name: {
-          empty: 'Key name shouldn\'t be empty',
-          invalid: 'Please input valid key name',
-          exists: 'Key with this name already exists',
-        },
-        password: {},
-      },
       buttonTitle: {
         form: 'Save',
         password: 'Confirm',
@@ -522,6 +511,18 @@ module.exports = {
       remove: '移除',
     },
     filterTitle: '日期',
+  },
+  general: {
+    error: {
+      name: {
+        empty: 'Key name shouldn\'t be empty',
+        invalid: 'Please input valid key name',
+        exists: 'Key with this name already exists',
+      },
+      derivationPath: {
+        invalid: 'Please input valid custom derivation path',
+      },
+    },
   },
 }
 
