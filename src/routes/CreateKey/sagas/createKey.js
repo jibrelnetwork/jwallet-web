@@ -48,7 +48,7 @@ function* onNextStep(): Saga<void> {
     switch (currentStep) {
       case STEPS.MNEMONIC:
         return yield saveMnemonicToFile()
-      case STEPS.MNEMONIC_CONFIRM:
+      case STEPS.CONFIRM:
         return yield checkMnemonic()
       case STEPS.NAME:
         return yield checkName()
@@ -77,10 +77,10 @@ function* onPrevStep(): Saga<void> {
     switch (currentStep) {
       case STEPS.MNEMONIC:
         return null
-      case STEPS.MNEMONIC_CONFIRM:
+      case STEPS.CONFIRM:
         return yield onOpen()
       case STEPS.NAME:
-        return yield setCurrentStep(STEPS.MNEMONIC_CONFIRM)
+        return yield setCurrentStep(STEPS.CONFIRM)
       case STEPS.PASSWORD:
         return yield setCurrentStep(STEPS.NAME)
       case STEPS.ASSETS:
@@ -129,7 +129,7 @@ function* saveMnemonicToFile() {
   const { mnemonic }: CreateKeyData = yield select(selectCreateKey)
   fileSaver.saveTXT(mnemonic, 'jwallet-keystore-mnemonic')
 
-  yield setCurrentStep(STEPS.MNEMONIC_CONFIRM)
+  yield setCurrentStep(STEPS.CONFIRM)
 
   const isInitialized: boolean = yield isKeyExists()
   gtm.pushCreateAccount('SaveMnemonic', isInitialized)
@@ -204,16 +204,17 @@ function* createKey() {
   } catch (err) {
     createKeyError(err)
   }
+}
+
+function* createKeySuccess(accountId: AccountId, isInitialized: boolean) {
+  yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
 
   if (isInitialized) {
     yield onClose()
   } else {
     yield setCurrentStep(STEPS.ASSETS)
   }
-}
 
-function* createKeySuccess(accountId: AccountId, isInitialized: boolean) {
-  yield put({ type: KEYSTORE_CREATE_ACCOUNT, accountId, isInitialized })
   gtm.pushCreateAccount('CreateSuccess', isInitialized)
 }
 

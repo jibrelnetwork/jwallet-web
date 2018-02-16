@@ -17,7 +17,7 @@ export const CLEAN = '@@createKey/CLEAN'
 
 export const STEPS = {
   MNEMONIC: 0,
-  MNEMONIC_CONFIRM: 1,
+  CONFIRM: 1,
   NAME: 2,
   PASSWORD: 3,
   ASSETS: 4,
