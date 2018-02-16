@@ -168,6 +168,30 @@ module.exports = {
         finish: 'Finish',
       },
     },
+    editKey: {
+      title: 'Edit Key',
+      placeholder: {
+        address: 'Address',
+        name: 'Key name',
+        password: 'Password',
+      },
+      error: {
+        derivationPath: {
+          invalid: 'Please input valid custom derivation path',
+        },
+        name: {
+          empty: 'Key name shouldn\'t be empty',
+          invalid: 'Please input valid key name',
+          exists: 'Key with this name already exists',
+        },
+        password: {},
+      },
+      buttonTitle: {
+        form: 'Save',
+        password: 'Confirm',
+        remove: 'Remove key',
+      },
+    },
     receiveFunds: {
       title: 'Receive Funds',
       buttonTitleCopy: 'Copy address',
