@@ -39,3 +39,7 @@ export function selectCurrentKeyId(state: State): AccountId {
 export function selectCreateKey(state: State): CreateKeyData {
   return state.createKey
 }
+
+export function selectImportKey(state: State): ImportKeyData {
+  return state.importKey
+}
