@@ -114,6 +114,24 @@ declare type CreateKeyData = {
 }
 
 /**
+ * Import key
+ */
+
+declare type ImportKeyData = {
+  validFields: Object,
+  invalidFields: Object,
+  data: string,
+  name: string,
+  password: Password,
+  passwordConfirm: Password,
+  knownDerivationPath: string,
+  customDerivationPath: string,
+  currentStep: Index,
+  totalSteps: Index,
+  isMnemonic: boolean,
+}
+
+/**
  * Networks
  */
 
@@ -187,6 +205,7 @@ declare type ReceiveFundsData = {
 declare type State = {
   currencies: DigitalAssetsData,
   createKey: CreateKeyData,
+  importKey: ImportKeyData,
   keystore: KeystoreData,
   receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
