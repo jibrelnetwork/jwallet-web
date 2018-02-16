@@ -1,13 +1,19 @@
 // @flow
 
-import Keystore from 'jwallet-web-keystore'
 import { push } from 'react-router-redux'
+import { clone, compose, head } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
-import { clone, compose, equals, head, toLower } from 'ramda'
 
 import { keystore, storage } from 'services'
-import { getKeystoreAccountType, InvalidFieldError, isMnemonicType } from 'utils'
 import { selectKeystoreKeys, selectEditKey, selectCurrentKeyId } from 'store/stateSelectors'
+
+import {
+  getKeystoreAccountType,
+  isMnemonicType,
+  validateKeyName,
+  validateDerivationPath,
+  InvalidFieldError,
+} from 'utils'
 
 import {
   KEYSTORE_SET_ACCOUNTS,
@@ -39,10 +45,7 @@ function* onOpen(action: { keyId: AccountId }): Saga<void> {
     yield setKeyId(action.keyId)
   } catch (err) {
     // console.error(err)
-
-    const currentKeyId = yield select(selectCurrentKeyId)
-    yield put(push(`/edit-key/${currentKeyId}`))
-    yield setKeyId(currentKeyId)
+    yield openEditCurrentKey()
   }
 }
 
@@ -58,6 +61,8 @@ function* onGoToPasswordStep(): Saga<void> {
      * otherwise we should check name & derivationPath and then ask for password
      */
     if (!isMnemonicType(keyType)) {
+      const keys: Accounts = yield select(selectKeystoreKeys)
+      validateKeyName(editKeyData.name, keys)
       setKeyName(keyId, name)
       yield onSaveSuccess(keyId)
     } else {
@@ -78,9 +83,9 @@ function* onGoToPasswordStepError(err: InvalidFieldError) {
 
 function* onSave(): Saga<void> {
   try {
-    const editKeyData: EditKeyData = yield select(selectEditKey)
-    const { keyId, name, password }: EditKeyData = editKeyData
-    const derivationPath: string = getDerivationPath(editKeyData)
+    const data: EditKeyData = yield select(selectEditKey)
+    const { keyId, name, password }: EditKeyData = data
+    const derivationPath: string = data.customDerivationPath || data.knownDerivationPath
 
     setKeyName(keyId, name)
     setDerivationPath(password, keyId, derivationPath)
@@ -123,6 +128,12 @@ function* onRemoveSuccess(keyId: AccountId) {
   // TODO: show notification about successful key remove
 }
 
+function* openEditCurrentKey() {
+  const currentKeyId = yield select(selectCurrentKeyId)
+  yield put(push(`/edit-key/${currentKeyId}`))
+  yield setKeyId(currentKeyId)
+}
+
 function* updateKeystoreKeys() {
   const keys = clone(keystore.getAccounts())
   yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts: keys })
@@ -146,6 +157,10 @@ function* updateKeystoreCurrentKey(keyId: AccountId) {
     return
   }
 
+  yield goToStart()
+}
+
+function* goToStart() {
   yield put({ type: KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA })
   yield put(push('/start'))
   storage.removeKeystoreCurrentAccount()
@@ -185,54 +200,12 @@ function* setIsMnemonic(keyId: AccountId) {
 }
 
 function* checkEditData(editKeyData: EditKeyData) {
-  yield checkName(editKeyData.name)
-
-  const derivationPath: string = getDerivationPath(editKeyData)
-  checkDerivationPath(derivationPath)
-
-  yield setCurrentStep(STEPS.PASSWORD)
-}
-
-function* checkName(name: string) {
-  if (!name) {
-    throw new InvalidFieldError('name', i18n('routes.editKey.error.name.empty'))
-  }
-
-  if (/[^a-z0-9 ]/ig.test(name)) {
-    throw new InvalidFieldError('name', i18n('routes.editKey.error.name.invalid'))
-  }
-
-  yield checkNameUniq(name)
-}
-
-function* checkNameUniq(name: string) {
   const keys: Accounts = yield select(selectKeystoreKeys)
 
-  keys.forEach((key: Account) => {
-    const newKeyName: string = toLower(name.trim())
-    const isEqual: boolean = equals(newKeyName, toLower(key.accountName))
+  validateKeyName(editKeyData.name, keys)
+  validateDerivationPath(editKeyData)
 
-    if (isEqual) {
-      throw new InvalidFieldError('name', i18n('routes.editKey.error.name.exists'))
-    }
-  })
-}
-
-function checkDerivationPath(derivationPath: string) {
-  if (!Keystore.isDerivationPathValid(derivationPath)) {
-    throw new InvalidFieldError(
-      'customDerivationPath',
-      i18n('routes.editKey.error.derivationPath.invalid'),
-    )
-  }
-}
-
-function getDerivationPath(data: EditKeyData): string {
-  return data.customDerivationPath || data.knownDerivationPath
-}
-
-function* setCurrentStep(currentStep: Index) {
-  yield put({ type: SET_CURRENT_STEP, currentStep })
+  yield put({ type: SET_CURRENT_STEP, currentStep: STEPS.PASSWORD })
 }
 
 function* setInvalidField(fieldName: string, message: string) {
