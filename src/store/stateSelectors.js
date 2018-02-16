@@ -43,3 +43,7 @@ export function selectCreateKey(state: State): CreateKeyData {
 export function selectImportKey(state: State): ImportKeyData {
   return state.importKey
 }
+
+export function selectEditKey(state: State): EditKeyData {
+  return state.editKey
+}
