@@ -132,6 +132,42 @@ module.exports = {
         finish: 'Finish',
       },
     },
+    importKey: {
+      title: 'Import New Key',
+      alert: {
+        data: 'Please enter your key data',
+        name: 'Some text, some text.',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        data: 'Address, private key, mnemonic, BIP32 xpub',
+        name: 'Key name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      error: {
+        data: {
+          invalid: 'Please input valid data to import',
+        },
+        derivationPath: {
+          invalid: 'Please input valid custom derivation path',
+        },
+        name: {
+          empty: 'Key name shouldn\'t be empty',
+          invalid: 'Please input valid key name',
+          exists: 'Key with this name already exists',
+        },
+        password: {},
+        passwordConfirm: {
+          notMatched: 'Password should match',
+        },
+      },
+      buttonTitle: {
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
     receiveFunds: {
       title: 'Receive Funds',
       buttonTitleCopy: 'Copy address',
