@@ -77,4 +77,7 @@ export default {
 
   // delay before form will be cleaned
   delayBeforeFormClean: 1000,
+
+  // defaul derivation path for mnemonic
+  defaultDerivationPath: 'm/44\'/60\'/0\'/0',
 }
