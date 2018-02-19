@@ -1,5 +1,7 @@
 import React from 'react'
 import { toast } from 'react-toastify'
+import { pure } from 'recompose'
+
 import JText from '../JText'
 import JIcon from '../JIcon'
 import './JToast.scss'
@@ -11,7 +13,7 @@ type Props = {
 }
 
 const JToast = ({ type, icon, text }: Props) => (
-  <div className={`Toast -${type}`}>
+  <div className={`JToast -${type}`}>
     <div className='icon'>
       <JIcon name={icon} small />
     </div>
@@ -32,4 +34,4 @@ export const options = {
   // transition: CustomTransition
 }
 
-export default JToast
+export default pure(JToast)
