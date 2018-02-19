@@ -1,3 +1,6 @@
+/**
+ * Deprecated
+ */
 import * as alphaWarningModalSagas from 'routes/JWallet/sagas/alphaWarningModal'
 import * as backupKeystoreModalSagas from 'routes/JWallet/sagas/backupKeystoreModal'
 import * as currenciesSagas from 'routes/JWallet/sagas/currencies'
@@ -7,17 +10,21 @@ import * as keystoreSagas from 'routes/JWallet/sagas/keystore'
 import * as keystoreModalsSagas from 'routes/JWallet/sagas/keystoreModals'
 import * as networksSagas from 'routes/JWallet/sagas/networks'
 import * as transactionsSagas from 'routes/JWallet/sagas/transactions'
-import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset'
-import * as backupKeysSagas from 'routes/BackupKeys/sagas/backupKeys'
-import * as changePasswordSagas from 'routes/ChangePassword/sagas/changePassword'
-import * as clearKeysSagas from 'routes/ClearKeys/sagas/clearKeys'
-import * as createKeySagas from 'routes/CreateKey/sagas/createKey'
-import * as editKeySagas from 'routes/EditKey/sagas/editKey'
-import * as importKeySagas from 'routes/ImportKey/sagas/importKey'
-import * as receiveFundsSagas from 'routes/ReceiveFunds/sagas/receiveFunds'
+
+/**
+ * Assets
+ */
 import * as sendFundsSagas from 'routes/SendFunds/sagas/sendFunds'
+import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset'
+import * as receiveFundsSagas from 'routes/ReceiveFunds/sagas/receiveFunds'
+
+/**
+ * Keys
+ */
+import keysSagas from 'routes/Keys/sagas'
 
 export default {
+  // deprecated
   ...alphaWarningModalSagas,
   ...backupKeystoreModalSagas,
   ...currenciesSagas,
@@ -27,13 +34,10 @@ export default {
   ...keystoreModalsSagas,
   ...networksSagas,
   ...transactionsSagas,
-  ...addCustomAssetSagas,
-  ...backupKeysSagas,
-  ...changePasswordSagas,
-  ...clearKeysSagas,
-  ...createKeySagas,
-  ...editKeySagas,
-  ...importKeySagas,
-  ...receiveFundsSagas,
+  // assets
   ...sendFundsSagas,
+  ...receiveFundsSagas,
+  ...addCustomAssetSagas,
+  // keys
+  ...keysSagas,
 }

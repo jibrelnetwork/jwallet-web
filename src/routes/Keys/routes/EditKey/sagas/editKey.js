@@ -130,7 +130,7 @@ function* onRemoveSuccess(keyId: AccountId) {
 
 function* openEditCurrentKey() {
   const currentKeyId = yield select(selectCurrentKeyId)
-  yield put(push(`/edit-key/${currentKeyId}`))
+  yield put(push(`/keys/edit/${currentKeyId}`))
   yield setKeyId(currentKeyId)
 }
 
@@ -162,7 +162,7 @@ function* updateKeystoreCurrentKey(keyId: AccountId) {
 
 function* goToStart() {
   yield put({ type: KEYSTORE_CLEAR_CURRENT_ACCOUNT_DATA })
-  yield put(push('/start'))
+  yield put(push('/keys/start'))
   storage.removeKeystoreCurrentAccount()
 }
 
