@@ -1,3 +1,15 @@
 .JSelect {
   cursor: pointer;
+
+  &.-open {
+    //
+  }
+
+  > .selected-item {
+    //
+  }
+
+  > .selection-list {
+    //
+  }
 }

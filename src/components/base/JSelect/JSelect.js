@@ -17,17 +17,32 @@ type Props = {
   selectedItemId: number,
   open: () => void,
   close: () => void,
-  onItemSelect: (itemIndex: number) => void,
-  renderSelectionList: () => React.Node
+  onItemSelect: (itemId: number) => void,
 }
+
+const renderSelectionList = (
+  items,
+  onItemSelect,
+  selectedItemId,
+) => compose(
+  map(item => (
+    <Item
+      key={item.id}
+      onClick={onItemSelect}
+      {...item}
+    />
+  )),
+  values,
+  dissoc(selectedItemId)
+)(items)
 
 const JSelect = ({
   open,
   close,
   items,
   isOpen,
+  onItemSelect,
   selectedItemId,
-  renderSelectionList,
 }: Props) => (
   <div className={classNames('JSelect', { '-open': isOpen })}>
     <div className='selected-item'>
@@ -39,13 +54,12 @@ const JSelect = ({
     </div>
     {isOpen && (
       <div className='selection-list'>
-        {renderSelectionList()}
+        {renderSelectionList(items, onItemSelect, selectedItemId)}
       </div>
     )}
   </div>
 )
 
-// withState to redux-ui?
 export default compose(
   withState('isOpen', 'toggle', false),
   withHandlers({
@@ -59,18 +73,4 @@ export default compose(
         onItemSelect(itemId)
       },
   }),
-  withHandlers({
-    renderSelectionList: ({ items, onItemSelect, selectedItemId }) => () =>
-      compose(
-        map(item => (
-          <Item
-            key={item.id}
-            onClick={onItemSelect}
-            {...item}
-          />
-        )),
-        values,
-        dissoc(selectedItemId)
-      )(items),
-  })
 )(JSelect)
