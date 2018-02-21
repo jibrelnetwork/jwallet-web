@@ -193,14 +193,14 @@ function* createKey() {
   gtm.pushCreateAccount('EnterPassword', isInitialized)
 
   try {
-    const accountId = keystore.createAccount({
+    const walletId = keystore.createWallet({
       password,
       mnemonic,
       type: 'mnemonic',
-      accountName: name.trim(),
+      name: name.trim(),
     })
 
-    yield createKeySuccess(accountId, isInitialized)
+    yield createKeySuccess(walletId, isInitialized)
   } catch (err) {
     createKeyError(err)
   }

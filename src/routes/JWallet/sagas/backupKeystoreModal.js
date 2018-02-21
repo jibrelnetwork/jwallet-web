@@ -5,16 +5,19 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import { fileSaver, gtm, keystore } from 'services'
 
 import * as BACKUP_KEYSTORE from '../modules/modals/backupKeystore'
-import { selectBackupKeystoreModalData } from './stateSelectors'
 import { KEYSTORE_OPEN_MODAL, KEYSTORE_BACKUP } from '../modules/keystore'
+import { selectBackupKeystoreModalData, selectCurrentAccountId } from './stateSelectors'
 
 function* onBackupKeystore(action: { password: Password }): Saga<void> {
   if (!action.password) {
     return
   }
 
+  const walletId = yield select(selectCurrentAccountId)
+
   try {
-    fileSaver.saveJSON(keystore.getDecryptedAccounts(action.password), 'jwallet-keystore-backup')
+    const walletData = keystore.getDecryptedWallet(action.password, walletId)
+    fileSaver.saveJSON(walletData, 'jwallet-keystore-backup')
     yield onBackupKeystoreSuccess()
   } catch (err) {
     yield onBackupKeystoreFail()

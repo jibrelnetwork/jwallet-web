@@ -7,8 +7,8 @@ import { push } from 'react-router-redux'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { keystore, gtm, web3 } from 'services'
+import { InvalidFieldError } from 'utils/errors'
 import { ethereum } from 'utils/getDefaultDigitalAssets'
-import { getKeystoreAccountType, InvalidFieldError } from 'utils'
 import { selectDigitalAssets, selectKeystore, selectSendFunds } from 'store/stateSelectors'
 
 import {
@@ -54,11 +54,10 @@ function* onSendFunds(): Saga<void> {
 
 function* onSendFundsSuccess(symbol: string) {
   const keystoreData: KeystoreData = yield select(selectKeystore)
-  const currentAccountId: AccountId = keystoreData.currentAccount.id
-  const accountData: Account = keystore.getAccount({ id: currentAccountId })
-  const accountType: string = getKeystoreAccountType(accountData)
+  const walletId: AccountId = keystoreData.currentAccount.id
+  const { customType }: Account = keystore.getWallet(walletId)
 
-  gtm.pushSendFundsSuccess(symbol, accountType)
+  gtm.pushSendFundsSuccess(symbol, customType)
 
   yield put(push('/'))
   yield put({ type: CLEAN })
@@ -100,14 +99,14 @@ function getTransactionHandler(symbol: string) {
 
 function* getTransactionData(data: SendFundsData) {
   const keystoreData: KeystoreData = yield select(selectKeystore)
-  const { id, addressIndex }: Account = keystoreData.currentAccount
+  const { id }: Account = keystoreData.currentAccount
   const { symbol, amount, recipient, gas, gasPrice, nonce, password }: SendFundsData = data
   const { contractAddress, decimals }: AssetData = yield getAsset(symbol)
 
   const txData: TXData = {
     to: recipient,
     value: getTransactionValue(amount, decimals),
-    privateKey: keystore.getPrivateKey(password, id, addressIndex).replace('0x', ''),
+    privateKey: keystore.getPrivateKey(password, id).replace('0x', ''),
   }
 
   if (!isETH(symbol)) {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import lifecycle from 'recompose/lifecycle'
 
 import keystore from 'services/keystore'
-import isMnemonicType from 'utils/isMnemonicType'
 
 import {
   open,
@@ -19,21 +18,9 @@ import {
 
 import EditKey from '../components/EditKey'
 
-const getKeyAddress = (id) => {
-  if (!id) {
-    return ''
-  }
-
-  const { address, addressIndex, type } = keystore.getAccount({ id })
-
-  return isMnemonicType(type)
-    ? keystore.getAddressesFromMnemonic(id, addressIndex, 1).shift()
-    : address
-}
-
 const mapStateToProps = ({ editKey }) => ({
   ...editKey,
-  address: getKeyAddress(editKey.keyId),
+  address: editKey.keyId ? keystore.getAddress(editKey.keyId) : '',
 })
 
 const mapDispatchToProps = {

@@ -4,7 +4,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import isEmpty from 'lodash/isEmpty'
 
 import config from 'config'
-import { getKeystoreAccountType, sortItems, isMnemonicType } from 'utils'
+import { sortItems, isMnemonicType } from 'utils'
 import { gtm, keystore, storage } from 'services'
 
 import {
@@ -52,7 +52,7 @@ function* getKeystoreFromStorage(): Saga<void> {
 
     yield setCurrentAccount({ accountId: currentAccountId })
   } catch (err) {
-    console.error('Cannot parse keystore data from storage')
+    // console.error(err)
   }
 
   yield setAccounts()
@@ -75,20 +75,15 @@ function setCurrentAccountToStorage(accountId: AccountId) {
 }
 
 function* setAccounts() {
-  // Need to clone keystore accounts array to re-render if it was changed
-  const accounts = [...keystore.getAccounts()]
+  const wallets = keystore.getWallets()
 
   setKeystoreToStorage()
 
-  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts })
+  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts: wallets })
 
-  if (isEmpty(accounts)) {
+  if (isEmpty(wallets)) {
     yield put({ type: CURRENCIES_SET_BALANCES, balances: {} })
   }
-}
-
-function getAccountData(accountId: AccountId) {
-  return keystore.getAccount({ id: accountId })
 }
 
 function* setCurrentAccountData(currentAccount: Account) {
@@ -104,21 +99,24 @@ function* getTransactions() {
 }
 
 function* updateCurrentAccountData() {
-  const currentAccountId = yield select(selectCurrentAccountId)
-  const accountData = getAccountData(currentAccountId)
-
-  yield setCurrentAccountData(accountData)
+  try {
+    const walletId = yield select(selectCurrentAccountId)
+    const wallet = keystore.getWallet(walletId)
+    yield setCurrentAccountData(wallet)
+  } catch (err) {
+    // console.error(err)
+  }
 }
 
 function* setFirstAccountAsCurrent() {
-  const accounts = keystore.getAccounts()
-  const firstAccountId = (isEmpty(accounts) || isEmpty(accounts[0])) ? null : accounts[0].id
+  const wallets = keystore.getWallets()
+  const firstWalletId = (isEmpty(wallets) || isEmpty(wallets[0])) ? null : wallets[0].id
 
-  if (!firstAccountId) {
+  if (!firstWalletId) {
     return yield clearCurrentAccount()
   }
 
-  return yield setCurrentAccount({ accountId: firstAccountId })
+  return yield setCurrentAccount({ accountId: firstWalletId })
 }
 
 function* clearCurrentAccount() {
@@ -130,32 +128,30 @@ function* clearCurrentAccount() {
 }
 
 function* setCurrentAccount(action: { accountId: AccountId }): Saga<void> {
-  const currentAccountId = yield select(selectCurrentAccountId)
+  const walletId = yield select(selectCurrentAccountId)
   const { accountId } = action
 
-  if (currentAccountId === accountId) {
+  if (walletId === accountId) {
     return
   }
 
-  const accountData = accountId ? getAccountData(accountId) : null
+  try {
+    const wallet = keystore.getWallet(accountId)
+    const { type, addressIndex } = wallet
 
-  if (!accountData) {
+    yield setCurrentAccountData(wallet)
+
+    if (isMnemonicType(type)) {
+      yield refreshAddressesFromMnemonic(accountId, addressIndex)
+    }
+
+    yield onCurrentAddressChange()
+
+    setCurrentAccountToStorage(accountId)
+  } catch (err) {
+    // console.error(err)
     yield setFirstAccountAsCurrent()
-
-    return
   }
-
-  const { type, addressIndex } = accountData
-
-  yield setCurrentAccountData(accountData)
-
-  if (isMnemonicType(type)) {
-    yield refreshAddressesFromMnemonic(accountId, addressIndex)
-  }
-
-  yield onCurrentAddressChange()
-
-  setCurrentAccountToStorage(accountId)
 }
 
 function* onCurrentAddressChange() {
@@ -166,11 +162,13 @@ function* onCurrentAddressChange() {
 function* onRemoveAccount(action: { accountId: AccountId }): Saga<void> {
   const currentAccountId = yield select(selectCurrentAccountId)
   const { accountId } = action
-  const accountData = getAccountData(accountId)
-  const accountType = getKeystoreAccountType(accountData)
 
-  keystore.removeAccount(accountId)
-  gtm.pushRemoveAccountSuccess(accountType)
+  try {
+    const { customType } = keystore.removeWallet(accountId)
+    gtm.pushRemoveAccountSuccess(customType)
+  } catch (err) {
+    // console.error(err)
+  }
 
   yield closeKeystoreModal()
 
@@ -182,19 +180,19 @@ function* onRemoveAccount(action: { accountId: AccountId }): Saga<void> {
 }
 
 function* closeKeystoreModal() {
-  if (!keystore.getAccounts().length) {
+  if (!keystore.getWallets().length) {
     yield put({ type: KEYSTORE_CLOSE_MODAL })
   }
 }
 
 function* onRemoveAccounts(): Saga<void> {
   try {
-    keystore.removeAccounts()
+    keystore.removeWallets()
     gtm.pushClearKeystore()
 
     yield onRemoveAccountsSuccess()
   } catch (err) {
-    onRemoveAccountsError(err)
+    // console.error(err)
   }
 }
 
@@ -205,15 +203,11 @@ function* onRemoveAccountsSuccess() {
   yield put({ type: CLEAR_KEYSTORE_CLOSE_MODAL })
 }
 
-function onRemoveAccountsError({ message }) {
-  console.error(message)
-}
-
 function* setAccountName(action): Saga<void> {
   const { accountId, newName, onSuccess, onError } = action
 
   try {
-    keystore.setAccountName(accountId, newName)
+    keystore.setWalletName(accountId, newName)
 
     yield setAccounts()
     yield updateCurrentAccountData()
@@ -231,13 +225,14 @@ function* onSetDerivationPath(): Saga<void> {
 
   try {
     keystore.setDerivationPath(password, accountId, newDerivationPath)
-    const accountData = getAccountData(accountId)
+    const { addressIndex } = keystore.getWallet(accountId)
 
     yield setAccounts()
-    yield refreshAddressesFromMnemonic(accountId, accountData.addressIndex)
+    yield refreshAddressesFromMnemonic(accountId, addressIndex)
 
     yield onSetDerivationPathSuccess()
   } catch (err) {
+    // console.error(err)
     yield onSetDerivationPathError(err.message)
   }
 }
@@ -376,9 +371,10 @@ function setAddressesToStorage(newItems: Addresses) {
   storage.setKeystoreAddressesFromMnemonic(JSON.stringify(newAddresses))
 }
 
-function onSetPassword({ password, newPassword, onSuccess, onError }): Saga<void> {
+function* onSetPassword({ password, newPassword, onSuccess, onError }): Saga<void> {
   try {
-    keystore.setPassword(password, newPassword)
+    const walletId = yield select(selectCurrentAccountId)
+    keystore.setPassword(password, newPassword, walletId)
     gtm.pushChangePassword()
     setKeystoreToStorage()
 

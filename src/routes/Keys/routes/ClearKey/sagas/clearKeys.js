@@ -1,8 +1,9 @@
 // @flow
 
-import { put, takeEvery } from 'redux-saga/effects'
+import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { gtm, keystore, storage } from 'services'
+import { selectCurrentKeyId } from 'store/stateSelectors'
 
 import {
   KEYSTORE_SET_ACCOUNTS,
@@ -14,7 +15,8 @@ import { CLEAR } from '../modules/clearKeys'
 
 function* onClearKeys(): Saga<void> {
   try {
-    keystore.removeAccounts()
+    const walletId = yield select(selectCurrentKeyId)
+    keystore.removeWallet(walletId)
     yield onClearKeysSuccess()
   } catch (err) {
     yield onClearKeysError()

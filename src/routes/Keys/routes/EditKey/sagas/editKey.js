@@ -1,14 +1,13 @@
 // @flow
 
+import { head } from 'ramda'
 import { push } from 'react-router-redux'
-import { clone, compose, head } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { keystore, storage } from 'services'
 import { selectKeystoreKeys, selectEditKey, selectCurrentKeyId } from 'store/stateSelectors'
 
 import {
-  getKeystoreAccountType,
   isMnemonicType,
   validateKeyName,
   validateDerivationPath,
@@ -36,13 +35,8 @@ import {
 
 function* onOpen(action: { keyId: AccountId }): Saga<void> {
   try {
-    const key: Account = keystore.getAccount({ id: action.keyId })
-
-    if (!key) {
-      throw new Error(`Key with id ${action.keyId} not found`)
-    }
-
-    yield setKeyId(action.keyId)
+    const { id }: Account = keystore.getWallet(action.keyId)
+    yield setKeyId(id)
   } catch (err) {
     // console.error(err)
     yield openEditCurrentKey()
@@ -53,14 +47,13 @@ function* onGoToPasswordStep(): Saga<void> {
   try {
     const editKeyData: EditKeyData = yield select(selectEditKey)
     const { keyId, name }: EditKeyData = editKeyData
-    const key: Account = keystore.getAccount({ id: keyId })
-    const keyType: string = getKeystoreAccountType(key)
+    const { customType }: Account = keystore.getWallet(keyId)
 
     /**
-     * If key type is not full mnemonic we should just update its name,
+     * If wallet type is not full mnemonic we should just update its name,
      * otherwise we should check name & derivationPath and then ask for password
      */
-    if (!isMnemonicType(keyType)) {
+    if (!isMnemonicType(customType)) {
       const keys: Accounts = yield select(selectKeystoreKeys)
       validateKeyName(editKeyData.name, keys)
       setKeyName(keyId, name)
@@ -112,7 +105,7 @@ function* onSaveError(err: InvalidFieldError) {
 function* onRemove(): Saga<void> {
   try {
     const { keyId }: EditKeyData = yield select(selectEditKey)
-    keystore.removeAccount(keyId)
+    keystore.removeWallet(keyId)
     yield onRemoveSuccess(keyId)
   } catch (err) {
     // console.error(err)
@@ -135,29 +128,26 @@ function* openEditCurrentKey() {
 }
 
 function* updateKeystoreKeys() {
-  const keys = clone(keystore.getAccounts())
-  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts: keys })
+  const wallets = keystore.getWallets()
+  yield put({ type: KEYSTORE_SET_ACCOUNTS, accounts: wallets })
   storage.setKeystore(keystore.serialize())
 }
 
-function* updateKeystoreCurrentKey(keyId: AccountId) {
-  const currentKey = keystore.getAccount({ id: keyId })
+function* updateKeystoreCurrentKey(walletId: AccountId) {
+  try {
+    const wallet = keystore.getWallet(walletId)
+    yield setKeystoreCurrentKeyData(wallet)
+  } catch (err) {
+    const firstWallet = head(keystore.getWallets())
 
-  if (currentKey) {
-    yield setKeystoreCurrentKeyData(currentKey)
+    if (firstWallet) {
+      yield setKeystoreCurrentKeyData(firstWallet)
 
-    return
+      return
+    }
+
+    yield goToStart()
   }
-
-  const firstKey = head(keystore.getAccounts())
-
-  if (firstKey) {
-    yield setKeystoreCurrentKeyData(firstKey)
-
-    return
-  }
-
-  yield goToStart()
 }
 
 function* goToStart() {
@@ -171,17 +161,17 @@ function* setKeystoreCurrentKeyData(key: Account) {
   storage.setKeystoreCurrentAccount(key.id)
 }
 
-function setKeyName(keyId: AccountId, name: string) {
+function setKeyName(walletId: AccountId, name: string) {
   try {
-    keystore.setAccountName(keyId, name)
+    keystore.setWalletName(walletId, name)
   } catch (err) {
     throw new InvalidFieldError('name', err.message)
   }
 }
 
-function setDerivationPath(password: Password, keyId: AccountId, derivationPath: string) {
+function setDerivationPath(password: Password, walletId: AccountId, derivationPath: string) {
   try {
-    keystore.setDerivationPath(password, keyId, derivationPath)
+    keystore.setDerivationPath(password, walletId, derivationPath)
   } catch (err) {
     throw new InvalidFieldError('derivationPath', err.message)
   }
@@ -192,11 +182,9 @@ function* setKeyId(keyId: AccountId) {
   yield put({ type: SET_KEY_ID, keyId })
 }
 
-function* setIsMnemonic(keyId: AccountId) {
-  const key: Account = keystore.getAccount({ id: keyId })
-  const isMnemonic: boolean = compose(isMnemonicType, getKeystoreAccountType)(key)
-
-  yield put({ type: SET_IS_MNEMONIC, isMnemonic })
+function* setIsMnemonic(walletId: AccountId) {
+  const { customType }: Account = keystore.getWallet(walletId)
+  yield put({ type: SET_IS_MNEMONIC, isMnemonic: isMnemonicType(customType) })
 }
 
 function* checkEditData(editKeyData: EditKeyData) {

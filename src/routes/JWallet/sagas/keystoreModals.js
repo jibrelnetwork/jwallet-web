@@ -119,7 +119,7 @@ function* importKeystoreAccount(
   gtm.pushImportAccount('EnterPassword', getKeystoreAccountType(accountData), isInitialized)
 
   try {
-    const accountId = keystore.createAccount({ ...accountData, password, derivationPath })
+    const accountId = keystore.createWallet({ ...accountData, password, derivationPath })
     yield onImportSuccess(accountId, accountData, isInitialized)
   } catch (err) {
     yield onImportFail(err.message)
@@ -272,7 +272,7 @@ function* createKeystoreAccount(
   gtm.pushCreateAccount('EnterPassword', isInitialized)
 
   try {
-    const accountId = keystore.createAccount({ type: 'mnemonic', password, mnemonic })
+    const accountId = keystore.createWallet({ type: 'mnemonic', password, mnemonic })
     yield onCreateSuccess(accountId, isInitialized)
   } catch (err) {
     onCreateFail(err.message)

@@ -19,7 +19,7 @@ export default store => ({
       }, 'keys')
     },
   },
-  childs: [
+  childRoutes: [
     Start(store),
     CreateKey(store),
     ImportKey(store),
