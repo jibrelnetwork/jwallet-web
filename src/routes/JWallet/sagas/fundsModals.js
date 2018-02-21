@@ -5,7 +5,7 @@ import Keystore from 'jwallet-web-keystore'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import { keystore, gtm, web3 } from 'services'
-import { getKeystoreAccountType, InvalidFieldError } from 'utils'
+import { InvalidFieldError } from 'utils/errors'
 
 import {
   selectDigitalAssets,
@@ -67,26 +67,25 @@ function* onSendFunds(): Saga<void> {
   }
 }
 
-function* setAccount(accountId: AccountId, type: string) {
-  const { address, addressIndex, accountName } = keystore.getAccount({ id: accountId })
+function* setAccount(walletId: AccountId, type: string) {
+  const { name, addressIndex } = keystore.getWallet(walletId)
 
   yield put({
     type,
     currentAccount: {
-      accountName,
       addressIndex,
-      id: accountId,
-      address: address || keystore.getAddressFromMnemonic(accountId, addressIndex),
+      id: walletId,
+      accountName: name,
+      address: keystore.getAddress(walletId),
     },
   })
 }
 
 function* sendFundsSuccess(symbol: string) {
-  const currentAccountId = yield select(selectCurrentAccountId)
-  const accountData = keystore.getAccount({ id: currentAccountId })
-  const accountType = getKeystoreAccountType(accountData)
+  const currentWalletId = yield select(selectCurrentAccountId)
+  const { customType } = keystore.getWallet(currentWalletId)
 
-  gtm.pushSendFundsSuccess(symbol, accountType)
+  gtm.pushSendFundsSuccess(symbol, customType)
 
   yield put({ type: SEND_FUNDS_CLOSE_MODAL })
   yield put({ type: SEND_FUNDS_CLEAN })
@@ -102,7 +101,7 @@ function* sendFundsFail(err: { message: string }) {
     yield setAlert(i18n('modals.sendFunds.alert.internalError'))
   }
 
-  console.error(err)
+  // console.error(err)
 }
 
 function* setInvalidField(fieldName: string, message: string) {
@@ -122,7 +121,7 @@ function getTransactionHandler(symbol: string) {
 }
 
 function* getTransactionData(data: SendFundsData) {
-  const { id, addressIndex } = yield select(selectCurrentAccount)
+  const { id } = yield select(selectCurrentAccount)
   const { password, recipient, amount, symbol, gas, gasPrice } = data
   const { contractAddress, decimals } = yield getCurrencyBySymbol(symbol)
 
@@ -136,7 +135,7 @@ function* getTransactionData(data: SendFundsData) {
   } = {
     to: recipient,
     value: getTransactionValue(amount, decimals),
-    privateKey: keystore.getPrivateKey(password, id, addressIndex).replace('0x', ''),
+    privateKey: keystore.getPrivateKey(password, id).replace('0x', ''),
   }
 
   if (!isETH(symbol)) {
@@ -244,16 +243,15 @@ function* onSendOpenModal(): Saga<void> {
 }
 
 function* onReceiveOpenModal(): Saga<void> {
-  const currentAccountId = yield select(selectCurrentAccountId)
+  const currentWalletId = yield select(selectCurrentAccountId)
 
-  if (!currentAccountId) {
+  if (!currentWalletId) {
     return
   }
 
-  const accountData = keystore.getAccount({ id: currentAccountId })
-  const accountType = getKeystoreAccountType(accountData)
+  const { customType } = keystore.getWallet(currentWalletId)
 
-  gtm.pushReceiveFunds('ReceiveFunds', accountType)
+  gtm.pushReceiveFunds('ReceiveFunds', customType)
 }
 
 function isETH(symbol: string) {

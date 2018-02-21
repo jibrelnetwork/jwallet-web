@@ -214,7 +214,7 @@ function* checkNameUniq(name: string) {
 
   keys.forEach((key: Account) => {
     const newKeyName: string = toLower(name.trim())
-    const isEqual: boolean = equals(newKeyName, toLower(key.accountName))
+    const isEqual: boolean = equals(newKeyName, toLower(key.name))
 
     if (isEqual) {
       throw new InvalidFieldError('name', i18n('routes.createKey.error.name.exists'))
@@ -238,14 +238,14 @@ function* importKey() {
   gtm.pushImportAccount('EnterPassword', keyType, isInitialized)
 
   try {
-    const keyId: AccountId = keystore.createAccount({
+    const walletId: AccountId = keystore.createWallet({
       ...keyData,
+      name,
       password,
       derivationPath,
-      accountName: name,
     })
 
-    yield importKeySuccess(keyId, keyType, isInitialized)
+    yield importKeySuccess(walletId, keyType, isInitialized)
   } catch (err) {
     yield importKeyError(err)
   }

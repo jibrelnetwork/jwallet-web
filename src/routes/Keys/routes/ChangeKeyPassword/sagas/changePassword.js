@@ -4,6 +4,7 @@ import { pick } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { gtm, storage, keystore } from 'services'
+import { selectCurrentKeyId } from 'store/stateSelectors'
 
 import { SET_INVALID_FIELD, CHANGE } from '../modules/changePassword'
 
@@ -14,6 +15,7 @@ function selectChangePassword(state: { changePassword: Passwords }): Passwords {
 }
 
 function* onChangePassword(): Saga<void> {
+  const walletId = yield select(selectCurrentKeyId)
   const { password, newPassword, confirmPassword }: Passwords = yield select(selectChangePassword)
 
   if (newPassword !== confirmPassword) {
@@ -23,7 +25,7 @@ function* onChangePassword(): Saga<void> {
   }
 
   try {
-    keystore.setPassword(password, newPassword)
+    keystore.setPassword(password, newPassword, walletId)
     onChangePasswordSuccess()
   } catch (err) {
     yield onChangePasswordError()

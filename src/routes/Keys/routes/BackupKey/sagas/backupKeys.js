@@ -3,6 +3,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { fileSaver, gtm, keystore } from 'services'
+import { selectCurrentKeyId } from 'store/stateSelectors'
 
 import { SET_INVALID_FIELD, BACKUP } from '../modules/backupKeys'
 
@@ -18,7 +19,8 @@ function* onBackupKeys(): Saga<void> {
   }
 
   try {
-    fileSaver.saveJSON(keystore.getDecryptedAccounts(password), 'jwallet-keystore-backup')
+    const walletId = yield select(selectCurrentKeyId)
+    fileSaver.saveJSON(keystore.getDecryptedWallet(password, walletId), 'jwallet-keystore-backup')
     onBackupKeysSuccess()
   } catch (err) {
     yield onBackupKeysError()
