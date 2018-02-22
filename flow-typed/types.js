@@ -201,6 +201,18 @@ declare type BackupWalletData = {
 }
 
 /**
+ * Change wallet password
+ */
+
+declare type ChangeWalletPasswordData = {
+  validFields: Object,
+  invalidFields: Object,
+  password: Password,
+  newPassword: Password,
+  confirmPassword: Password,
+}
+
+/**
  * Networks
  */
 
@@ -280,6 +292,7 @@ declare type State = {
   receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
   backupWallet: BackupWalletData,
+  changeWalletPassword: ChangeWalletPasswordData,
 }
 
 /**
