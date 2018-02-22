@@ -154,6 +154,15 @@ function pushBackupWallet(walletType: WalletType) {
   })
 }
 
+function pushChangeWalletPassword(walletType: WalletType) {
+  push({
+    event: 'ChangePassword',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'ChangePassword',
+    eventLabel: walletType,
+  })
+}
+
 export default {
   pushCreateAccount,
   pushImportAccount,
@@ -167,5 +176,7 @@ export default {
   pushClearKeystore,
   pushAddCustomNetwork,
   pushChangeLanguage,
+  // wallets
   pushBackupWallet,
+  pushChangeWalletPassword,
 }
