@@ -2,7 +2,7 @@ import createKey from '../routes/CreateKey/sagas'
 import importKey from '../routes/ImportKey/sagas'
 import editKey from '../routes/EditKey/sagas'
 import backupWallet from '../routes/BackupWallet/sagas'
-import changeKeyPassword from '../routes/ChangeKeyPassword/sagas'
+import changeWalletPassword from '../routes/ChangeWalletPassword/sagas'
 import clearKey from '../routes/ClearKey/sagas'
 
 export default {
@@ -10,6 +10,6 @@ export default {
   ...importKey,
   ...editKey,
   ...backupWallet,
-  ...changeKeyPassword,
+  ...changeWalletPassword,
   ...clearKey,
 }
