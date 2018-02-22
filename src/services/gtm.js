@@ -145,6 +145,15 @@ function pushChangeLanguage(eventLabel: string) {
   })
 }
 
+function pushBackupWallet(walletType: WalletType) {
+  push({
+    event: 'BackupWallet',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'BackupWallet',
+    eventLabel: walletType,
+  })
+}
+
 export default {
   pushCreateAccount,
   pushImportAccount,
@@ -158,4 +167,5 @@ export default {
   pushClearKeystore,
   pushAddCustomNetwork,
   pushChangeLanguage,
+  pushBackupWallet,
 }
