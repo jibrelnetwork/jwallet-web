@@ -514,6 +514,9 @@ module.exports = {
   },
   general: {
     error: {
+      password: {
+        invalid: 'Invalid Password',
+      },
       name: {
         empty: 'Key name shouldn\'t be empty',
         invalid: 'Please input valid key name',
