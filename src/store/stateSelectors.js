@@ -47,3 +47,11 @@ export function selectImportKey(state: State): ImportKeyData {
 export function selectEditKey(state: State): EditKeyData {
   return state.editKey
 }
+
+export function selectWalletId(state: State): WalletId {
+  return state.keystore.currentAccount.id
+}
+
+export function selectBackupWallet(state: State): BackupWalletData {
+  return state.backupWallet
+}

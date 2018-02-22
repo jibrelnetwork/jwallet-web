@@ -1,23 +1,23 @@
 import CoreLayout from 'layouts/CoreLayout'
-import JWalletRoute from './JWallet'
-import KeysRoute from './Keys'
-import DigitalAssetsRoute from './DigitalAssets'
-import SendFundsRoute from './SendFunds'
-import ReceiveFundsRoute from './ReceiveFunds'
-// import ConvertFundsRoute from './ConvertFunds'
-import AddCustomAssetRoute from './AddCustomAsset'
+import JWallet from './JWallet'
+import Wallets from './Wallets'
+import DigitalAssets from './DigitalAssets'
+import SendFunds from './SendFunds'
+import ReceiveFunds from './ReceiveFunds'
+// import ConvertFunds from './ConvertFunds'
+import AddCustomAsset from './AddCustomAsset'
 
 const createRoutes = store => ({
   path: '/',
   component: CoreLayout,
-  indexRoute: JWalletRoute(store),
+  indexRoute: JWallet(store),
   childRoutes: [
-    KeysRoute(store),
-    DigitalAssetsRoute(store),
-    SendFundsRoute(store),
-    ReceiveFundsRoute(store),
-    // ConvertFundsRoute(store),
-    AddCustomAssetRoute(store),
+    Wallets(store),
+    DigitalAssets(store),
+    SendFunds(store),
+    ReceiveFunds(store),
+    // ConvertFunds(store),
+    AddCustomAsset(store),
   ],
 })
 

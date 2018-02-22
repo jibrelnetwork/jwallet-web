@@ -1,14 +1,15 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { JButton, JTextInput } from 'components/base'
 
-const BackupKeys = ({ setPassword, backup, invalidFields, password }) => (
-  <div className='backup-keys-view'>
+const BackupWallet = ({ setPassword, backup, invalidFields, password }: Props) => (
+  <div className='backup-wallet-view'>
     <JTextInput
       onValueChange={setPassword}
       value={password}
-      name='backup-keys-password'
+      name='backup-wallet-password'
       errorMessage={invalidFields.password}
       placeholder={i18n('routes.backupKeys.placeholder.password')}
       editable
@@ -18,11 +19,11 @@ const BackupKeys = ({ setPassword, backup, invalidFields, password }) => (
   </div>
 )
 
-BackupKeys.propTypes = {
-  setPassword: PropTypes.func.isRequired,
-  backup: PropTypes.func.isRequired,
-  invalidFields: PropTypes.shape({}).isRequired,
-  password: PropTypes.string.isRequired,
+type Props = {
+  setPassword: (password: Password) => Dispatch,
+  backup: () => Dispatch,
+  invalidFields: Object,
+  password: Password,
 }
 
-export default BackupKeys
+export default BackupWallet

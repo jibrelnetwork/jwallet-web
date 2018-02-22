@@ -4,19 +4,19 @@ import Start from './routes/Start'
 import CreateKey from './routes/CreateKey'
 import ImportKey from './routes/ImportKey'
 import EditKey from './routes/EditKey'
-import BackupKey from './routes/BackupKey'
+import BackupWallet from './routes/BackupWallet'
 import ChangeKeyPassword from './routes/ChangeKeyPassword'
 import ClearKey from './routes/ClearKey'
 
 export default store => ({
-  path: 'keys',
+  path: 'wallets',
   component: KeysLayout,
   indexRoute: {
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        const Keys = require('./containers/KeysContainer').default
-        cb(null, Keys)
-      }, 'keys')
+        const Wallets = require('./containers/WalletsContainer').default
+        cb(null, Wallets)
+      }, 'wallets')
     },
   },
   childRoutes: [
@@ -24,7 +24,7 @@ export default store => ({
     CreateKey(store),
     ImportKey(store),
     EditKey(store),
-    BackupKey(store),
+    BackupWallet(store),
     ChangeKeyPassword(store),
     ClearKey(store),
   ],
