@@ -55,3 +55,7 @@ export function selectWalletId(state: State): WalletId {
 export function selectBackupWallet(state: State): BackupWalletData {
   return state.backupWallet
 }
+
+export function selectChangeWalletPassword(state: State): ChangeWalletPasswordData {
+  return state.changeWalletPassword
+}
