@@ -67,6 +67,15 @@ module.exports = {
         },
       },
     },
+    changeWalletPassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+    },
     changePassword: {
       title: 'Set new password',
       buttonTitle: 'Save',
@@ -516,6 +525,9 @@ module.exports = {
     error: {
       password: {
         invalid: 'Invalid Password',
+      },
+      confirmPassword: {
+        notMatched: 'Password should match',
       },
       name: {
         empty: 'Key name shouldn\'t be empty',
