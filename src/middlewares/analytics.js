@@ -1,13 +1,19 @@
 // @flow
-// Send data to analytics
 
-// import { SOME_ACTION } from '..'
-// import { gtm } from 'services'
+import gtm from 'services/gtm'
+import * as backupWallet from 'routes/Wallets/routes/BackupWallet/modules/backupWallet'
 
-/* eslint-disable */
-export const send = () => (next: any) => (action: any) => {
-  // if (action.type === SOME_ACTION) {
-  //   gtm.someEvent()
-  // }
+export const pushEvent = () => (next: Next) => (action: FSA) => {
+  const { type, payload }: FSA = action
+
+  switch (type) {
+    case backupWallet.BACKUP_SUCCESS: {
+      gtm.pushBackupWallet(payload && payload.walletType)
+      break
+    }
+
+    default: break
+  }
+
   return next(action)
 }
