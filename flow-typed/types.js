@@ -9,6 +9,16 @@ declare type Address = string
 declare type Addresses = Array<Address>
 declare type Bignumber = any
 
+declare type FSA = {
+  type: string,
+  payload: Object,
+  meta: Object,
+  error: boolean,
+}
+
+declare type Dispatch = Object => Next
+declare type Next = FSA => FSA
+
 /**
  * Digital Assets
  */
@@ -50,6 +60,8 @@ declare type DigitalAssetsData = {
  * Keystore
  */
 
+declare type WalletType = 'mnemonic' | 'bip32Xpub' | 'privateKey' | 'address'
+declare type WalletId = string
 declare type AccountId = string
 declare type Password = string
 
@@ -70,7 +82,36 @@ declare type Account = {
   addressIndex?: Index,
 }
 
+declare type Wallet = {
+  id: WalletId,
+  type: WalletType,
+  name: string,
+  customType: WalletType,
+  isReadOnly: boolean,
+  salt?: string,
+  address?: Address,
+  derivationPath?: string,
+  bip32XPublicKey?: string,
+  addressIndex?: Index,
+  encrypted?: {
+    privateKey?: string,
+    mnemonic?: string,
+  },
+}
+
+declare type Wallets = Array<Wallet>
 declare type Accounts = Array<Account>
+
+declare type DecryptedWalletData = {
+  id: WalletId,
+  type: WalletType,
+  name: string,
+  readOnly: 'yes' | 'no',
+  address?: Address,
+  bip32XPublicKey?: string,
+  privateKey?: string,
+  mnemonic?: string,
+}
 
 declare type NewAccountData = {
   type: string,
@@ -147,6 +188,16 @@ declare type EditKeyData = {
   customDerivationPath: string,
   currentStep: Index,
   isMnemonic: boolean,
+}
+
+/**
+ * Backup wallet
+ */
+
+declare type BackupWalletData = {
+  validFields: Object,
+  invalidFields: Object,
+  password: Password,
 }
 
 /**
@@ -228,6 +279,7 @@ declare type State = {
   keystore: KeystoreData,
   receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
+  backupWallet: BackupWalletData,
 }
 
 /**
