@@ -2,8 +2,11 @@
 
 import * as backupWallet from 'routes/Wallets/routes/BackupWallet/modules/backupWallet'
 
+// eslint-disable-next-line max-len
+import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPassword/modules/changeWalletPassword'
+
 export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) => (action: FSA) => {
-  const { type }: FSA = action
+  const { type, payload }: FSA = action
 
   switch (type) {
     case backupWallet.BACKUP_ERROR: {
@@ -11,6 +14,11 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
         backupWallet.setInvalidField('password', i18n('general.error.password.invalid')),
       )
 
+      break
+    }
+
+    case changeWalletPassword.CHANGE_PASSWORD_ERROR: {
+      store.dispatch(changeWalletPassword.setInvalidField(payload.fieldName, payload.message))
       break
     }
 
