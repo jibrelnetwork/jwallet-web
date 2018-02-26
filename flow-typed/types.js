@@ -73,7 +73,7 @@ declare type Account = {
   id: string,
   type: string,
   name: string,
-  customType: string,
+  customType: WalletType,
   accountName: string,
   isActive: boolean,
   isReadOnly: boolean,
@@ -132,7 +132,7 @@ declare type KeystoreData = {
     items: Addresses,
     currentIteration: number,
   },
-  accounts: Accounts,
+  accounts: Wallets,
   sortField: string,
   sortDirection: string,
   isLoading: boolean,
@@ -141,19 +141,18 @@ declare type KeystoreData = {
 }
 
 /**
- * Create key
+ * Create wallet
  */
 
-declare type CreateKeyData = {
+declare type CreateWalletData = {
   validFields: Object,
   invalidFields: Object,
+  name: string,
   mnemonic: string,
   mnemonicConfirm: string,
-  name: string,
   password: Password,
   passwordConfirm: Password,
   currentStep: Index,
-  totalSteps: Index,
 }
 
 /**
@@ -291,12 +290,12 @@ declare type ReceiveFundsData = {
 
 declare type State = {
   currencies: DigitalAssetsData,
-  createKey: CreateKeyData,
   editKey: EditKeyData,
   importKey: ImportKeyData,
   keystore: KeystoreData,
   receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
+  createWallet: CreateWalletData,
   backupWallet: BackupWalletData,
   changeWalletPassword: ChangeWalletPasswordData,
   removeWallet: RemoveWalletData,
