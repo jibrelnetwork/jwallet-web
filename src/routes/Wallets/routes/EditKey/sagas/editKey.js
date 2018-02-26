@@ -9,7 +9,7 @@ import { selectKeystoreKeys, selectEditKey, selectCurrentKeyId } from 'store/sta
 
 import {
   isMnemonicType,
-  validateKeyName,
+  validateWalletName,
   validateDerivationPath,
   InvalidFieldError,
 } from 'utils'
@@ -55,7 +55,7 @@ function* onGoToPasswordStep(): Saga<void> {
      */
     if (!isMnemonicType(customType)) {
       const keys: Accounts = yield select(selectKeystoreKeys)
-      validateKeyName(editKeyData.name, keys)
+      validateWalletName(editKeyData.name, keys)
       setKeyName(keyId, name)
       yield onSaveSuccess(keyId)
     } else {
@@ -190,7 +190,7 @@ function* setIsMnemonic(walletId: AccountId) {
 function* checkEditData(editKeyData: EditKeyData) {
   const keys: Accounts = yield select(selectKeystoreKeys)
 
-  validateKeyName(editKeyData.name, keys)
+  validateWalletName(editKeyData.name, keys)
   validateDerivationPath(editKeyData)
 
   yield put({ type: SET_CURRENT_STEP, currentStep: STEPS.PASSWORD })
