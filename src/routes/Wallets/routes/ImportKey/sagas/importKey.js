@@ -185,9 +185,9 @@ function getKeyData(data: string) {
     return { type: 'mnemonic', isReadOnly: false, mnemonic: data }
   } else if (Keystore.isBip32XPublicKeyValid(data)) {
     return { type: 'mnemonic', isReadOnly: true, bip32XPublicKey: data }
-  } else if (Keystore.isValidPrivateKey(data)) {
+  } else if (Keystore.isPrivateKeyValid(data)) {
     return { type: 'address', isReadOnly: false, privateKey: data }
-  } else if (Keystore.isValidAddress(data)) {
+  } else if (Keystore.isAddressValid(data)) {
     return { type: 'address', isReadOnly: true, address: data }
   }
 
