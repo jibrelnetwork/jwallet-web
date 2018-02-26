@@ -1,9 +1,10 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { JButton, JText } from 'components/base'
 
-const RemoveWallet = ({ remove }) => (
+const RemoveWallet = ({ remove }: Props) => (
   <div className='remove-wallet-view'>
     <div className='remove-wallet-info'>
       <JText value='routes.removeWallet.info.title' />
@@ -16,8 +17,8 @@ const RemoveWallet = ({ remove }) => (
   </div>
 )
 
-RemoveWallet.propTypes = {
-  remove: PropTypes.func.isRequired,
+type Props = {
+  remove: () => Dispatch,
 }
 
 export default RemoveWallet
