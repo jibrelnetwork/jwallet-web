@@ -213,6 +213,12 @@ declare type ChangeWalletPasswordData = {
 }
 
 /**
+ * Remove wallet
+ */
+
+declare type RemoveWalletData = {}
+
+/**
  * Networks
  */
 
@@ -293,6 +299,7 @@ declare type State = {
   sendFunds: SendFundsData,
   backupWallet: BackupWalletData,
   changeWalletPassword: ChangeWalletPasswordData,
+  removeWallet: RemoveWalletData,
 }
 
 /**
