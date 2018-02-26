@@ -1,13 +1,25 @@
 // @flow
-// Redirects
 
-// import { SOME_ACTION } from '..'
-// import * as router from 'react-router-redux'
+import { push } from 'react-router-redux'
 
-/* eslint-disable */
-export const redirect = () => (next: any) => (action: any) => {
-  // if (action.type === SOME_ACTION) {
-  //   router.push('/some_path')
-  // }
+import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/removeWallet'
+
+export const redirect = (store: { dispatch: Dispatch }) => (next: Next) => (action: FSA) => {
+  const { type }: FSA = action
+
+  switch (type) {
+    case removeWallet.CLOSE: {
+      store.dispatch(push('/'))
+      break
+    }
+
+    case removeWallet.REMOVE_SUCCESS: {
+      store.dispatch(push('/wallets/start'))
+      break
+    }
+
+    default: break
+  }
+
   return next(action)
 }
