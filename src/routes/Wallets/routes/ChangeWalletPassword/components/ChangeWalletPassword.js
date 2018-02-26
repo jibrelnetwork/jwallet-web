@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { JButton, JTextInput } from 'components/base'
 
@@ -12,7 +13,7 @@ const ChangeWalletPassword = ({
   password,
   newPassword,
   confirmPassword,
-}) => {
+}: Props) => {
   const fields = [
     { key: 'password', value: password, handler: setCurrent },
     { key: 'newPassword', value: newPassword, handler: setNew },
@@ -42,15 +43,15 @@ const ChangeWalletPassword = ({
   )
 }
 
-ChangeWalletPassword.propTypes = {
-  setCurrent: PropTypes.func.isRequired,
-  setNew: PropTypes.func.isRequired,
-  setConfirm: PropTypes.func.isRequired,
-  changePassword: PropTypes.func.isRequired,
-  invalidFields: PropTypes.shape({}).isRequired,
-  password: PropTypes.string.isRequired,
-  newPassword: PropTypes.string.isRequired,
-  confirmPassword: PropTypes.string.isRequired,
+type Props = {
+  setCurrent: (password: Password) => Dispatch,
+  setNew: (newPassword: Password) => Dispatch,
+  setConfirm: (confirmPassword: Password) => Dispatch,
+  changePassword: () => Dispatch,
+  invalidFields: Object,
+  password: Password,
+  newPassword: Password,
+  confirmPassword: Password,
 }
 
 export default ChangeWalletPassword
