@@ -163,6 +163,15 @@ function pushChangeWalletPassword(walletType: WalletType) {
   })
 }
 
+function pushRemoveWallet(walletType: WalletType) {
+  push({
+    event: 'Remove',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'Remove',
+    eventLabel: walletType,
+  })
+}
+
 export default {
   pushCreateAccount,
   pushImportAccount,
@@ -179,4 +188,5 @@ export default {
   // wallets
   pushBackupWallet,
   pushChangeWalletPassword,
+  pushRemoveWallet,
 }
