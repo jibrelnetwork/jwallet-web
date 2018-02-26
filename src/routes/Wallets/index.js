@@ -6,7 +6,7 @@ import ImportKey from './routes/ImportKey'
 import EditKey from './routes/EditKey'
 import BackupWallet from './routes/BackupWallet'
 import ChangeWalletPassword from './routes/ChangeWalletPassword'
-import ClearKey from './routes/ClearKey'
+import RemoveWallet from './routes/RemoveWallet'
 
 export default store => ({
   path: 'wallets',
@@ -26,6 +26,6 @@ export default store => ({
     EditKey(store),
     BackupWallet(store),
     ChangeWalletPassword(store),
-    ClearKey(store),
+    RemoveWallet(store),
   ],
 })
