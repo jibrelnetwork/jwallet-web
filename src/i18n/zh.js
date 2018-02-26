@@ -76,6 +76,17 @@ module.exports = {
         confirmPassword: 'Confirm password',
       },
     },
+    removeWallet: {
+      title: 'Remove wallet',
+      buttonTitle: 'Yes, remove wallet',
+      info: {
+        title: 'Remove current wallet',
+        text: [
+          'All user data, including imported or generated',
+          'private keys are stored locally, meaning your private',
+        ],
+      },
+    },
     changePassword: {
       title: 'Set new password',
       buttonTitle: 'Save',
