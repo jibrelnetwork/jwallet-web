@@ -1,8 +1,8 @@
+// @flow
+
+import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
-import lifecycle from 'recompose/lifecycle'
-
-import isKeystoreInitialised from 'utils/isKeystoreInitialised'
 
 import {
   open,
@@ -13,14 +13,11 @@ import {
   setPasswordConfirm,
   setNextStep,
   setPrevStep,
-} from '../modules/createKey'
+} from '../modules/createWallet'
 
-import CreateKey from '../components/CreateKey'
+import CreateWallet from '../components/CreateWallet'
 
-const mapStateToProps = ({ createKey, keystore }) => ({
-  ...createKey,
-  isInitialized: isKeystoreInitialised(keystore),
-})
+const mapStateToProps = ({ createWallet }: State): CreateWalletData => createWallet
 
 const mapDispatchToProps = {
   open,
@@ -39,4 +36,4 @@ export default compose(
     componentDidMount() { this.props.open() },
     componentWillUnmount() { this.props.close() },
   }),
-)(CreateKey)
+)(CreateWallet)
