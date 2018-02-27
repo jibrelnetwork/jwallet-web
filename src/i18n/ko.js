@@ -67,32 +67,12 @@ module.exports = {
         },
       },
     },
-    changeWalletPassword: {
-      title: 'Set new password',
-      buttonTitle: 'Save',
-      placeholder: {
-        password: 'Old password',
-        newPassword: 'New password',
-        confirmPassword: 'Confirm password',
-      },
-    },
-    removeWallet: {
-      title: 'Remove wallet',
-      buttonTitle: 'Yes, remove wallet',
-      info: {
-        title: 'Remove current wallet',
-        text: [
-          'All user data, including imported or generated',
-          'private keys are stored locally, meaning your private',
-        ],
-      },
-    },
     changePassword: {
       title: 'Set new password',
       buttonTitle: 'Save',
       placeholder: {
         password: 'Old password',
-        newPassword: '새 비밀번호',
+        newPassword: 'New password',
         confirmPassword: 'Confirm password',
       },
       error: {
@@ -102,17 +82,6 @@ module.exports = {
         confirmPassword: {
           notMatched: 'Password should match',
         },
-      },
-    },
-    clearKeys: {
-      title: 'Clear keys',
-      buttonTitle: 'Yes, clear keys',
-      info: {
-        title: 'Clear all keys',
-        text: [
-          'All user data, including imported or generated',
-          'private keys are stored locally, meaning your private',
-        ],
       },
     },
     createWallet: {
@@ -160,17 +129,36 @@ module.exports = {
         finish: 'Finish',
       },
     },
-    editKey: {
-      title: 'Edit Key',
+    editWallet: {
+      title: 'Edit Wallet',
       placeholder: {
         address: 'Address',
-        name: 'Key name',
+        name: 'Wallet name',
         password: 'Password',
       },
       buttonTitle: {
-        form: 'Save',
-        password: 'Confirm',
-        remove: 'Remove key',
+        save: 'Save',
+        confirm: 'Confirm',
+      },
+    },
+    changeWalletPassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+    },
+    removeWallet: {
+      title: 'Remove wallet',
+      buttonTitle: 'Yes, remove wallet',
+      info: {
+        title: 'Remove current wallet',
+        text: [
+          'All user data, including imported or generated',
+          'private keys are stored locally, meaning your private',
+        ],
       },
     },
     receiveFunds: {
