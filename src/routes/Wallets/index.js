@@ -3,7 +3,7 @@ import KeysLayout from 'layouts/KeysLayout'
 import Start from './routes/Start'
 import CreateWallet from './routes/CreateWallet'
 import ImportWallet from './routes/ImportWallet'
-import EditKey from './routes/EditKey'
+import EditWallet from './routes/EditWallet'
 import BackupWallet from './routes/BackupWallet'
 import ChangeWalletPassword from './routes/ChangeWalletPassword'
 import RemoveWallet from './routes/RemoveWallet'
@@ -23,7 +23,7 @@ export default store => ({
     Start(store),
     CreateWallet(store),
     ImportWallet(store),
-    EditKey(store),
+    EditWallet(store),
     BackupWallet(store),
     ChangeWalletPassword(store),
     RemoveWallet(store),

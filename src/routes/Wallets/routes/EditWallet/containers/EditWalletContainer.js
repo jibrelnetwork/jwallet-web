@@ -1,38 +1,31 @@
+// @flow
+
+import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
-import lifecycle from 'recompose/lifecycle'
-
-import keystore from 'services/keystore'
 
 import {
   open,
   close,
+  setName,
   setKnownDerivationPath,
   setCustomDerivationPath,
-  setName,
   setPassword,
-  goToPasswordStep,
-  save,
-  remove,
-} from '../modules/editKey'
+  setNextStep,
+} from '../modules/editWallet'
 
-import EditKey from '../components/EditKey'
+import EditWallet from '../components/EditWallet'
 
-const mapStateToProps = ({ editKey }) => ({
-  ...editKey,
-  address: editKey.keyId ? keystore.getAddress(editKey.keyId) : '',
-})
+const mapStateToProps = ({ editWallet }: State): EditWalletData => editWallet
 
 const mapDispatchToProps = {
   open,
   close,
+  setName,
   setKnownDerivationPath,
   setCustomDerivationPath,
-  setName,
   setPassword,
-  goToPasswordStep,
-  save,
-  remove,
+  setNextStep,
 }
 
 export default compose(
@@ -41,4 +34,4 @@ export default compose(
     componentDidMount() { this.props.open(this.props.params.keyId) },
     componentWillUnmount() { this.props.close() },
   }),
-)(EditKey)
+)(EditWallet)
