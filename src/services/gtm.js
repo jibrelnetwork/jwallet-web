@@ -145,6 +145,42 @@ function pushChangeLanguage(eventLabel: string) {
   })
 }
 
+function pushBackupWallet(walletType: WalletType) {
+  push({
+    event: 'BackupWallet',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'BackupWallet',
+    eventLabel: walletType,
+  })
+}
+
+function pushChangeWalletPassword(walletType: WalletType) {
+  push({
+    event: 'ChangePassword',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'ChangePassword',
+    eventLabel: walletType,
+  })
+}
+
+function pushRemoveWallet(walletType: WalletType) {
+  push({
+    event: 'Remove',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'Remove',
+    eventLabel: walletType,
+  })
+}
+
+function pushCreateWallet(step: string) {
+  push({
+    event: 'CreateWallet',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'CreateWallet',
+    eventLabel: step,
+  })
+}
+
 export default {
   pushCreateAccount,
   pushImportAccount,
@@ -158,4 +194,9 @@ export default {
   pushClearKeystore,
   pushAddCustomNetwork,
   pushChangeLanguage,
+  // wallets
+  pushBackupWallet,
+  pushChangeWalletPassword,
+  pushRemoveWallet,
+  pushCreateWallet,
 }

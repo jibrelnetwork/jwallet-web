@@ -67,6 +67,26 @@ module.exports = {
         },
       },
     },
+    changeWalletPassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+    },
+    removeWallet: {
+      title: 'Remove wallet',
+      buttonTitle: 'Yes, remove wallet',
+      info: {
+        title: 'Remove current wallet',
+        text: [
+          'All user data, including imported or generated',
+          'private keys are stored locally, meaning your private',
+        ],
+      },
+    },
     changePassword: {
       title: 'Set new password',
       buttonTitle: 'Save',
@@ -95,12 +115,11 @@ module.exports = {
         ],
       },
     },
-    createKey: {
-      title: 'Create New Key',
+    createWallet: {
+      title: 'Create New Mnemonic Wallet',
       alert: {
         mnemonic: 'Your mnemonic provides access to your assets!',
         mnemonicConfirm: 'Confirm your mnemonic by re-entering it below.',
-        name: 'Some text, some text.',
         password: 'Please provide a secure password for your wallet.',
       },
       placeholder: {
@@ -109,20 +128,6 @@ module.exports = {
         name: 'Key name',
         password: 'Password',
         passwordConfirm: 'Confirm password',
-      },
-      error: {
-        mnemonicConfirm: {
-          notMatched: 'Mnemonic should match',
-        },
-        name: {
-          empty: 'Key name shouldn\'t be empty',
-          invalid: 'Please input valid key name',
-          exists: 'Key with this name already exists',
-        },
-        password: {},
-        passwordConfirm: {
-          notMatched: 'Password should match',
-        },
       },
       buttonTitle: {
         save: 'Save as TXT',
@@ -514,6 +519,15 @@ module.exports = {
   },
   general: {
     error: {
+      password: {
+        invalid: 'Invalid Password',
+      },
+      confirmPassword: {
+        notMatched: 'Password should match',
+      },
+      mnemonicConfirm: {
+        notMatched: 'Mnemonic should match',
+      },
       name: {
         empty: 'Key name shouldn\'t be empty',
         invalid: 'Please input valid key name',

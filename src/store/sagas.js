@@ -19,9 +19,9 @@ import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset
 import * as receiveFundsSagas from 'routes/ReceiveFunds/sagas/receiveFunds'
 
 /**
- * Keys
+ * Wallets
  */
-import keysSagas from 'routes/Keys/sagas'
+import walletsSagas from 'routes/Wallets/sagas'
 
 export default {
   // deprecated
@@ -39,5 +39,5 @@ export default {
   ...receiveFundsSagas,
   ...addCustomAssetSagas,
   // keys
-  ...keysSagas,
+  ...walletsSagas,
 }
