@@ -36,10 +36,6 @@ export function selectCurrentKeyId(state: State): AccountId {
   return state.keystore.currentAccount.id
 }
 
-export function selectEditKey(state: State): EditKeyData {
-  return state.editKey
-}
-
 export function selectWallets(state: State): Wallets {
   return state.keystore.accounts
 }
@@ -54,6 +50,10 @@ export function selectCreateWallet(state: State): CreateWalletData {
 
 export function selectImportWallet(state: State): ImportWalletData {
   return state.importWallet
+}
+
+export function selectEditWallet(state: State): EditWalletData {
+  return state.editWallet
 }
 
 export function selectBackupWallet(state: State): BackupWalletData {

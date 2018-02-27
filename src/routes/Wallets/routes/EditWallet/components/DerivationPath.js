@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import handle from 'utils/handle'
 import { DerivationPath, Expandable } from 'components'
@@ -11,8 +12,8 @@ const ExpandableDerivationPath = ({
   invalidFields,
   knownDerivationPath,
   customDerivationPath,
-}) => (
-  <Expandable title={i18n('routes.editKey.derivationPathTitle')} >
+}: Props) => (
+  <Expandable title={i18n('routes.editWallet.derivationPathTitle')} >
     <DerivationPath
       setKnownDerivationPath={handle(setKnownDerivationPath)}
       setCustomDerivationPath={setCustomDerivationPath}
@@ -24,13 +25,13 @@ const ExpandableDerivationPath = ({
   </Expandable>
 )
 
-ExpandableDerivationPath.propTypes = {
-  setKnownDerivationPath: PropTypes.func.isRequired,
-  setCustomDerivationPath: PropTypes.func.isRequired,
-  validFields: PropTypes.shape({}).isRequired,
-  invalidFields: PropTypes.shape({}).isRequired,
-  knownDerivationPath: PropTypes.string.isRequired,
-  customDerivationPath: PropTypes.string.isRequired,
+type Props = {
+  setKnownDerivationPath: (knownDerivationPath: string) => Dispatch,
+  setCustomDerivationPath: (customDerivationPath: string) => Dispatch,
+  validFields: Object,
+  invalidFields: Object,
+  knownDerivationPath: string,
+  customDerivationPath: string,
 }
 
 export default ExpandableDerivationPath
