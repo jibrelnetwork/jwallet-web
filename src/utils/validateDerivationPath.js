@@ -12,12 +12,11 @@ type DerivationPathData = {
 const validateDerivationPath = (data: DerivationPathData): void => {
   const derivationPath: string = data.customDerivationPath || data.knownDerivationPath
 
-  if (!Keystore.isDerivationPathValid(derivationPath)) {
-    throw new InvalidFieldError(
-      'customDerivationPath',
-      i18n('general.error.derivationPath.invalid'),
-    )
+  if (Keystore.isDerivationPathValid(derivationPath)) {
+    return
   }
+
+  throw new InvalidFieldError('customDerivationPath', i18n('general.error.derivationPath.invalid'))
 }
 
 export default validateDerivationPath
