@@ -154,11 +154,21 @@ function pushCreateWallet(step: string) {
   })
 }
 
-function pushImportWallet(step: string, walletType?: string) {
+function pushImportWallet(step: string, walletType: string) {
   push({
     event: 'ImportWallet',
     eventCategory: 'ProfileSettings',
     eventAction: 'ImportWallet',
+    eventLabel: step,
+    walletType,
+  })
+}
+
+function pushEditWallet(step: string, walletType: string) {
+  push({
+    event: 'EditWallet',
+    eventCategory: 'ProfileSettings',
+    eventAction: 'EditWallet',
     eventLabel: step,
     walletType,
   })
@@ -169,7 +179,7 @@ function pushBackupWallet(walletType: WalletType) {
     event: 'BackupWallet',
     eventCategory: 'ProfileSettings',
     eventAction: 'BackupWallet',
-    eventLabel: walletType,
+    walletType,
   })
 }
 
@@ -178,7 +188,7 @@ function pushChangeWalletPassword(walletType: WalletType) {
     event: 'ChangeWalletPassword',
     eventCategory: 'ProfileSettings',
     eventAction: 'ChangeWalletPassword',
-    eventLabel: walletType,
+    walletType,
   })
 }
 
@@ -187,7 +197,7 @@ function pushRemoveWallet(walletType: WalletType) {
     event: 'RemoveWallet',
     eventCategory: 'ProfileSettings',
     eventAction: 'RemoveWallet',
-    eventLabel: walletType,
+    walletType,
   })
 }
 
@@ -207,6 +217,7 @@ export default {
   // wallets
   pushCreateWallet,
   pushImportWallet,
+  pushEditWallet,
   pushBackupWallet,
   pushChangeWalletPassword,
   pushRemoveWallet,
