@@ -1,7 +1,6 @@
 // @flow
 
 import { delay } from 'redux-saga'
-import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
@@ -37,7 +36,6 @@ function* openChangeWalletPassword(): Saga<void> {
 }
 
 function* closeChangeWalletPassword(): Saga<void> {
-  yield put(push('/'))
   yield delay(config.delayBeforeFormClean)
   yield put(clean())
 }
