@@ -156,21 +156,21 @@ declare type CreateWalletData = {
 }
 
 /**
- * Import key
+ * Import wallet
  */
 
-declare type ImportKeyData = {
+declare type ImportWalletData = {
   validFields: Object,
   invalidFields: Object,
-  data: string,
   name: string,
+  data: string,
   password: Password,
   passwordConfirm: Password,
   knownDerivationPath: string,
   customDerivationPath: string,
   currentStep: Index,
   totalSteps: Index,
-  isMnemonic: boolean,
+  walletType?: WalletType,
 }
 
 /**
@@ -291,11 +291,11 @@ declare type ReceiveFundsData = {
 declare type State = {
   currencies: DigitalAssetsData,
   editKey: EditKeyData,
-  importKey: ImportKeyData,
   keystore: KeystoreData,
   receiveFunds: ReceiveFundsData,
   sendFunds: SendFundsData,
   createWallet: CreateWalletData,
+  importWallet: ImportWalletData,
   backupWallet: BackupWalletData,
   changeWalletPassword: ChangeWalletPasswordData,
   removeWallet: RemoveWalletData,

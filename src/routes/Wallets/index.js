@@ -2,7 +2,7 @@ import KeysLayout from 'layouts/KeysLayout'
 
 import Start from './routes/Start'
 import CreateWallet from './routes/CreateWallet'
-import ImportKey from './routes/ImportKey'
+import ImportWallet from './routes/ImportWallet'
 import EditKey from './routes/EditKey'
 import BackupWallet from './routes/BackupWallet'
 import ChangeWalletPassword from './routes/ChangeWalletPassword'
@@ -22,7 +22,7 @@ export default store => ({
   childRoutes: [
     Start(store),
     CreateWallet(store),
-    ImportKey(store),
+    ImportWallet(store),
     EditKey(store),
     BackupWallet(store),
     ChangeWalletPassword(store),

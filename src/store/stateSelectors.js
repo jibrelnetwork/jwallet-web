@@ -36,10 +36,6 @@ export function selectCurrentKeyId(state: State): AccountId {
   return state.keystore.currentAccount.id
 }
 
-export function selectImportKey(state: State): ImportKeyData {
-  return state.importKey
-}
-
 export function selectEditKey(state: State): EditKeyData {
   return state.editKey
 }
@@ -52,14 +48,18 @@ export function selectWalletId(state: State): WalletId {
   return state.keystore.currentAccount.id
 }
 
+export function selectCreateWallet(state: State): CreateWalletData {
+  return state.createWallet
+}
+
+export function selectImportWallet(state: State): ImportWalletData {
+  return state.importWallet
+}
+
 export function selectBackupWallet(state: State): BackupWalletData {
   return state.backupWallet
 }
 
 export function selectChangeWalletPassword(state: State): ChangeWalletPasswordData {
   return state.changeWalletPassword
-}
-
-export function selectCreateWallet(state: State): CreateWalletData {
-  return state.createWallet
 }

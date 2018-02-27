@@ -115,6 +115,51 @@ module.exports = {
         ],
       },
     },
+    createWallet: {
+      title: 'Create New Mnemonic Wallet',
+      alert: {
+        mnemonic: 'Your mnemonic provides access to your assets!',
+        mnemonicConfirm: 'Confirm your mnemonic by re-entering it below.',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        mnemonic: 'Your mnemonic',
+        mnemonicConfirm: 'Confirm mnemonic',
+        name: 'Wallet name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      buttonTitle: {
+        save: 'Save as TXT',
+        confirm: 'Confirm',
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
+    importWallet: {
+      title: 'Import Wallet',
+      alert: {
+        data: 'Please enter your wallet data',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        data: 'Address, private key, mnemonic, BIP32 xpub',
+        name: 'Wallet name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      error: {
+        data: {
+          invalid: 'Please input valid data to import',
+        },
+      },
+      buttonTitle: {
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
     editKey: {
       title: 'Edit Key',
       placeholder: {
@@ -126,64 +171,6 @@ module.exports = {
         form: 'Save',
         password: 'Confirm',
         remove: 'Remove key',
-      },
-    },
-    importKey: {
-      title: 'Import New Key',
-      alert: {
-        data: 'Please enter your key data',
-        name: 'Some text, some text.',
-        password: 'Please provide a secure password for your wallet.',
-      },
-      placeholder: {
-        data: 'Address, private key, mnemonic, BIP32 xpub',
-        name: 'Key name',
-        password: 'Password',
-        passwordConfirm: 'Confirm password',
-      },
-      error: {
-        data: {
-          invalid: 'Please input valid data to import',
-        },
-        derivationPath: {
-          invalid: 'Please input valid custom derivation path',
-        },
-        name: {
-          empty: 'Key name shouldn\'t be empty',
-          invalid: 'Please input valid key name',
-          exists: 'Key with this name already exists',
-        },
-        password: {},
-        passwordConfirm: {
-          notMatched: 'Password should match',
-        },
-      },
-      buttonTitle: {
-        prevStep: 'Previous step',
-        nextStep: 'Next step',
-        finish: 'Finish',
-      },
-    },
-    createKey: {
-      title: 'Create New Key',
-      alert: {
-        mnemonic: 'Your mnemonic provides access to your assets!',
-        mnemonicConfirm: 'Confirm your mnemonic by re-entering it below.',
-        password: 'Please provide a secure password for your wallet.',
-      },
-      placeholder: {
-        mnemonic: 'Your mnemonic',
-        mnemonicConfirm: 'Confirm mnemonic',
-        name: 'Key name',
-        password: 'Password',
-        passwordConfirm: 'Confirm password',
-      },
-      buttonTitle: {
-        save: 'Save as TXT',
-        confirm: 'Confirm',
-        prevStep: 'Previous step',
-        nextStep: 'Next step',
-        finish: 'Finish',
       },
     },
     receiveFunds: {
@@ -529,9 +516,9 @@ module.exports = {
         notMatched: 'Mnemonic should match',
       },
       name: {
-        empty: 'Key name shouldn\'t be empty',
+        empty: 'Wallet name shouldn\'t be empty',
         invalid: 'Please input valid key name',
-        exists: 'Key with this name already exists',
+        exists: 'Wallet with this name already exists',
       },
       derivationPath: {
         invalid: 'Please input valid custom derivation path',
