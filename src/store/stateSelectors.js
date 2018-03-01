@@ -36,12 +36,16 @@ export function selectCurrentKeyId(state: State): AccountId {
   return state.keystore.currentAccount.id
 }
 
-export function selectWallets(state: State): Wallets {
-  return state.keystore.accounts
+export function selectWallets(state: State): WalletsData {
+  return state.wallets
 }
 
-export function selectWalletId(state: State): WalletId {
-  return state.keystore.currentAccount.id
+export function selectWalletsItems(state: State): Wallets {
+  return state.wallets.items
+}
+
+export function selectWalletId(state: State): ?WalletId {
+  return state.wallets.activeWalletId
 }
 
 export function selectCreateWallet(state: State): CreateWalletData {

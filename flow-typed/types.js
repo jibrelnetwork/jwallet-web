@@ -60,10 +60,7 @@ declare type DigitalAssetsData = {
  * Keystore
  */
 
-declare type WalletType = 'mnemonic' | 'bip32Xpub' | 'privateKey' | 'address'
-declare type WalletId = string
 declare type AccountId = string
-declare type Password = string
 
 declare type Account = {
   encrypted: {
@@ -82,36 +79,7 @@ declare type Account = {
   addressIndex?: Index,
 }
 
-declare type Wallet = {
-  id: WalletId,
-  type: WalletType,
-  name: string,
-  customType: WalletType,
-  isReadOnly: boolean,
-  salt?: string,
-  address?: Address,
-  derivationPath?: string,
-  bip32XPublicKey?: string,
-  addressIndex?: Index,
-  encrypted?: {
-    privateKey?: string,
-    mnemonic?: string,
-  },
-}
-
-declare type Wallets = Array<Wallet>
 declare type Accounts = Array<Account>
-
-declare type DecryptedWalletData = {
-  id: WalletId,
-  type: WalletType,
-  name: string,
-  readOnly: 'yes' | 'no',
-  address?: Address,
-  bip32XPublicKey?: string,
-  privateKey?: string,
-  mnemonic?: string,
-}
 
 declare type NewAccountData = {
   type: string,
@@ -141,18 +109,67 @@ declare type KeystoreData = {
 }
 
 /**
+ * Wallets
+ */
+
+declare type WalletId = string
+declare type WalletAction = 'edit' | 'backup' | 'change-password' | 'remove'
+declare type WalletType = 'mnemonic' | 'bip32Xpub' | 'privateKey' | 'address'
+declare type Password = string
+
+declare type Wallet = {
+  +id: WalletId,
+  +type: WalletType,
+  +name: string,
+  +customType: WalletType,
+  +isReadOnly: boolean,
+  +salt: ?string,
+  +address: ?Address,
+  +derivationPath: ?string,
+  +bip32XPublicKey: ?string,
+  +addressIndex: ?Index,
+  +encrypted: ?{
+    +privateKey: ?string,
+    +mnemonic: ?string,
+  +},
+}
+
+declare type Wallets = Array<Wallet>
+
+declare type WalletsData = {
+  +invalidFields: Object,
+  +items: Wallets,
+  +password: Password,
+  +toggledWalletId: ?WalletId,
+  +showActionsWalletId: ?WalletId,
+  +activeWalletId: ?WalletId,
+  +walletAction: ?WalletAction,
+}
+
+declare type DecryptedWalletData = {
+  +id: WalletId,
+  +type: WalletType,
+  +name: string,
+  +readOnly: 'yes' | 'no',
+  +address?: Address,
+  +bip32XPublicKey?: string,
+  +privateKey?: string,
+  +mnemonic?: string,
+}
+
+/**
  * Create wallet
  */
 
 declare type CreateWalletData = {
-  validFields: Object,
-  invalidFields: Object,
-  name: string,
-  mnemonic: string,
-  mnemonicConfirm: string,
-  password: Password,
-  passwordConfirm: Password,
-  currentStep: Index,
+  +validFields: Object,
+  +invalidFields: Object,
+  +name: string,
+  +mnemonic: string,
+  +mnemonicConfirm: string,
+  +password: Password,
+  +passwordConfirm: Password,
+  +currentStep: Index,
 }
 
 /**
@@ -160,17 +177,17 @@ declare type CreateWalletData = {
  */
 
 declare type ImportWalletData = {
-  validFields: Object,
-  invalidFields: Object,
-  name: string,
-  data: string,
-  password: Password,
-  passwordConfirm: Password,
-  knownDerivationPath: string,
-  customDerivationPath: string,
-  currentStep: Index,
-  totalSteps: Index,
-  walletType?: WalletType,
+  +validFields: Object,
+  +invalidFields: Object,
+  +name: string,
+  +data: string,
+  +password: Password,
+  +passwordConfirm: Password,
+  +knownDerivationPath: string,
+  +customDerivationPath: string,
+  +currentStep: Index,
+  +totalSteps: Index,
+  +walletType?: WalletType,
 }
 
 /**
@@ -178,14 +195,14 @@ declare type ImportWalletData = {
  */
 
 declare type EditWalletData = {
-  validFields: Object,
-  invalidFields: Object,
-  name: string,
-  password: Password,
-  knownDerivationPath: string,
-  customDerivationPath: string,
-  currentStep: Index,
-  walletType?: WalletType,
+  +validFields: Object,
+  +invalidFields: Object,
+  +name: string,
+  +password: Password,
+  +knownDerivationPath: string,
+  +customDerivationPath: string,
+  +currentStep: Index,
+  +walletType?: WalletType,
 }
 
 /**
@@ -193,9 +210,9 @@ declare type EditWalletData = {
  */
 
 declare type BackupWalletData = {
-  validFields: Object,
-  invalidFields: Object,
-  password: Password,
+  +validFields: Object,
+  +invalidFields: Object,
+  +password: Password,
 }
 
 /**
@@ -203,11 +220,11 @@ declare type BackupWalletData = {
  */
 
 declare type ChangeWalletPasswordData = {
-  validFields: Object,
-  invalidFields: Object,
-  password: Password,
-  newPassword: Password,
-  confirmPassword: Password,
+  +validFields: Object,
+  +invalidFields: Object,
+  +password: Password,
+  +newPassword: Password,
+  +confirmPassword: Password,
 }
 
 /**
@@ -288,16 +305,17 @@ declare type ReceiveFundsData = {
  */
 
 declare type State = {
-  currencies: DigitalAssetsData,
-  keystore: KeystoreData,
-  receiveFunds: ReceiveFundsData,
-  sendFunds: SendFundsData,
-  createWallet: CreateWalletData,
-  importWallet: ImportWalletData,
-  editWallet: EditWalletData,
-  backupWallet: BackupWalletData,
-  changeWalletPassword: ChangeWalletPasswordData,
-  removeWallet: RemoveWalletData,
+  +currencies: DigitalAssetsData,
+  +keystore: KeystoreData,
+  +receiveFunds: ReceiveFundsData,
+  +sendFunds: SendFundsData,
+  +wallets: WalletsData,
+  +createWallet: CreateWalletData,
+  +importWallet: ImportWalletData,
+  +editWallet: EditWalletData,
+  +backupWallet: BackupWalletData,
+  +changeWalletPassword: ChangeWalletPasswordData,
+  +removeWallet: RemoveWalletData,
 }
 
 /**

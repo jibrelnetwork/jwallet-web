@@ -7,7 +7,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import config from 'config'
 import { fileSaver, keystore } from 'services'
 import { InvalidFieldError, validateWalletName } from 'utils'
-import { selectWallets, selectCreateWallet } from 'store/stateSelectors'
+import { selectWalletsItems, selectCreateWallet } from 'store/stateSelectors'
 
 import {
   OPEN,
@@ -92,7 +92,7 @@ function* generateMnemonic() {
 }
 
 function* saveMnemonicToFile() {
-  const wallets: Wallets = yield select(selectWallets)
+  const wallets: Wallets = yield select(selectWalletsItems)
   const { name, mnemonic }: CreateWalletData = yield select(selectCreateWallet)
 
   validateWalletName(name, wallets)
