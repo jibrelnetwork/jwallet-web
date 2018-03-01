@@ -1,3 +1,5 @@
-export default function isMnemonicType(type) {
-  return (type === 'mnemonic')
-}
+// @flow
+
+const isMnemonicType = (walletType: ?WalletType): boolean => (walletType === 'mnemonic')
+
+export default isMnemonicType

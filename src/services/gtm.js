@@ -145,29 +145,42 @@ function pushChangeLanguage(eventLabel: string) {
   })
 }
 
+/**
+ * Wallets
+ */
+
+function pushSetActiveWallet(walletType: ?WalletType) {
+  push({
+    event: 'SetActiveWallet',
+    eventCategory: 'Wallet',
+    eventAction: 'SetActiveWallet',
+    walletType,
+  })
+}
+
 function pushCreateWallet(step: string) {
   push({
     event: 'CreateWallet',
-    eventCategory: 'ProfileSettings',
+    eventCategory: 'Wallet',
     eventAction: 'CreateWallet',
     eventLabel: step,
   })
 }
 
-function pushImportWallet(step: string, walletType: string) {
+function pushImportWallet(step: string, walletType: WalletType) {
   push({
     event: 'ImportWallet',
-    eventCategory: 'ProfileSettings',
+    eventCategory: 'Wallet',
     eventAction: 'ImportWallet',
     eventLabel: step,
     walletType,
   })
 }
 
-function pushEditWallet(step: string, walletType: string) {
+function pushEditWallet(step: string, walletType: WalletType) {
   push({
     event: 'EditWallet',
-    eventCategory: 'ProfileSettings',
+    eventCategory: 'Wallet',
     eventAction: 'EditWallet',
     eventLabel: step,
     walletType,
@@ -177,7 +190,7 @@ function pushEditWallet(step: string, walletType: string) {
 function pushBackupWallet(walletType: WalletType) {
   push({
     event: 'BackupWallet',
-    eventCategory: 'ProfileSettings',
+    eventCategory: 'Wallet',
     eventAction: 'BackupWallet',
     walletType,
   })
@@ -186,7 +199,7 @@ function pushBackupWallet(walletType: WalletType) {
 function pushChangeWalletPassword(walletType: WalletType) {
   push({
     event: 'ChangeWalletPassword',
-    eventCategory: 'ProfileSettings',
+    eventCategory: 'Wallet',
     eventAction: 'ChangeWalletPassword',
     walletType,
   })
@@ -195,7 +208,7 @@ function pushChangeWalletPassword(walletType: WalletType) {
 function pushRemoveWallet(walletType: WalletType) {
   push({
     event: 'RemoveWallet',
-    eventCategory: 'ProfileSettings',
+    eventCategory: 'Wallet',
     eventAction: 'RemoveWallet',
     walletType,
   })
@@ -215,6 +228,7 @@ export default {
   pushAddCustomNetwork,
   pushChangeLanguage,
   // wallets
+  pushSetActiveWallet,
   pushCreateWallet,
   pushImportWallet,
   pushEditWallet,

@@ -1,5 +1,6 @@
 // @flow
 
+import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
 import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
@@ -10,6 +11,11 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
   const { type, payload }: FSA = action
 
   switch (type) {
+    case wallets.SET_ACTIVE_ERROR: {
+      store.dispatch(wallets.setInvalidField(payload.fieldName, payload.message))
+      break
+    }
+
     case createWallet.CREATE_ERROR: {
       store.dispatch(createWallet.setInvalidField(payload.fieldName, payload.message))
       break

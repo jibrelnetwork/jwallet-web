@@ -1,4 +1,4 @@
-import KeysLayout from 'layouts/KeysLayout'
+import WalletsLayout from 'layouts/WalletsLayout'
 
 import Start from './routes/Start'
 import CreateWallet from './routes/CreateWallet'
@@ -10,7 +10,7 @@ import RemoveWallet from './routes/RemoveWallet'
 
 export default store => ({
   path: 'wallets',
-  component: KeysLayout,
+  component: WalletsLayout,
   indexRoute: {
     getComponent(nextState, cb) {
       require.ensure([], (require) => {

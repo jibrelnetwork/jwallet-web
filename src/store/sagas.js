@@ -38,6 +38,6 @@ export default {
   ...sendFundsSagas,
   ...receiveFundsSagas,
   ...addCustomAssetSagas,
-  // keys
+  // Wallets
   ...walletsSagas,
 }
