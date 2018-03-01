@@ -24,18 +24,9 @@ function getRpcProps() {
 }
 
 function getETHBalance(address: Address) {
-  if (!(address && address.length)) {
-    return 0
-  }
-
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
     .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
-    .catch((err) => {
-      console.error(err.message)
-
-      return 0
-    })
 }
 
 function getTokenBalance(
@@ -50,8 +41,8 @@ function getTokenBalance(
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
-    .catch((err) => {
-      console.error(err.message)
+    .catch((/* err */) => {
+      // console.error(err.message)
 
       return 0
     })
@@ -198,8 +189,8 @@ function sortTransactions(list: any) {
   return sortBy(list, ['timestamp']).reverse()
 }
 
-function handleTransactionsError(err: any) {
-  console.error(err)
+function handleTransactionsError(/* err: any */) {
+  // console.error(err)
 
   return []
 }
