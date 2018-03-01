@@ -48,6 +48,10 @@ export function selectWalletId(state: State): ?WalletId {
   return state.wallets.activeWalletId
 }
 
+export function selectMnemonicAddresses(state: State): MnemonicAddressesData {
+  return state.mnemonicAddresses
+}
+
 export function selectCreateWallet(state: State): CreateWalletData {
   return state.createWallet
 }
