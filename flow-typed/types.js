@@ -8,6 +8,7 @@ declare type Index = number
 declare type Address = string
 declare type Addresses = Array<Address>
 declare type Bignumber = any
+declare type Balances = { [Address]: number }
 
 declare type FSA = {
   type: string,
@@ -155,6 +156,16 @@ declare type DecryptedWalletData = {
   +bip32XPublicKey?: string,
   +privateKey?: string,
   +mnemonic?: string,
+}
+
+/**
+ * Mnemonic addresses
+ */
+
+declare type MnemonicAddressesData = {
+  +addresses: Addresses,
+  +balances: Balances,
+  +iteration: Index,
 }
 
 /**
@@ -310,6 +321,7 @@ declare type State = {
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
   +wallets: WalletsData,
+  +mnemonicAddresses: MnemonicAddressesData,
   +createWallet: CreateWalletData,
   +importWallet: ImportWalletData,
   +editWallet: EditWalletData,
