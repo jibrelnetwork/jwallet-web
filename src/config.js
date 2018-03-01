@@ -80,4 +80,10 @@ export default {
 
   // defaul derivation path for mnemonic
   defaultDerivationPath: 'm/44\'/60\'/0\'/0',
+
+  /**
+   * minimum balance loading timeout (ms)
+   * to prevent blinking of loader for fast response
+   */
+  balanceLoadingTimeout: 300,
 }
