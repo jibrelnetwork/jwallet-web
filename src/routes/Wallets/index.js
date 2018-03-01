@@ -1,6 +1,7 @@
 import WalletsLayout from 'layouts/WalletsLayout'
 
 import Start from './routes/Start'
+import Addresses from './routes/Addresses'
 import CreateWallet from './routes/CreateWallet'
 import ImportWallet from './routes/ImportWallet'
 import EditWallet from './routes/EditWallet'
@@ -21,6 +22,7 @@ export default store => ({
   },
   childRoutes: [
     Start(store),
+    Addresses(store),
     CreateWallet(store),
     ImportWallet(store),
     EditWallet(store),
