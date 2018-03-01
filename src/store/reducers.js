@@ -18,27 +18,28 @@ import newKeystorePasswordModal from 'routes/JWallet/modules/modals/newKeystoreP
 import receiveFundsModal from 'routes/JWallet/modules/modals/receiveFunds'
 import sendFundsModal from 'routes/JWallet/modules/modals/sendFunds'
 
-export const makeRootReducer = (asyncReducers) => {
-  return combineReducers({
-    currencies,
-    keystore,
-    networks,
-    transactions,
-    alphaWarningModal,
-    backupKeystoreModal,
-    clearKeystoreModal,
-    convertFundsModal,
-    customTokenModal,
-    importKeystoreAccountModal,
-    newDerivationPathModal,
-    newKeystoreAccountModal,
-    newKeystorePasswordModal,
-    receiveFundsModal,
-    sendFundsModal,
-    router,
-    ...asyncReducers,
-  })
-}
+import wallets from 'routes/Wallets/modules/wallets'
+
+export const makeRootReducer = (asyncReducers: Object) => combineReducers({
+  currencies,
+  keystore,
+  networks,
+  transactions,
+  alphaWarningModal,
+  backupKeystoreModal,
+  clearKeystoreModal,
+  convertFundsModal,
+  customTokenModal,
+  importKeystoreAccountModal,
+  newDerivationPathModal,
+  newKeystoreAccountModal,
+  newKeystorePasswordModal,
+  receiveFundsModal,
+  sendFundsModal,
+  wallets,
+  router,
+  ...asyncReducers,
+})
 
 /* eslint-disable no-param-reassign */
 export const injectReducer = (store, { key, reducer }) => {

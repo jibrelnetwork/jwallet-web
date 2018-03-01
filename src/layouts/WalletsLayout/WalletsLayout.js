@@ -1,7 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const KeysLayout = ({ children }) => (
+const WalletsLayout = ({ children }: Props) => (
   <div>
     {
     /*
@@ -14,13 +13,12 @@ const KeysLayout = ({ children }) => (
   </div>
 )
 
-KeysLayout.propTypes = {
-  /* optional */
-  children: PropTypes.element,
+type Props = {
+  children?: React.Node,
 }
 
-KeysLayout.defaultProps = {
+WalletsLayout.defaultProps = {
   children: null,
 }
 
-export default KeysLayout
+export default WalletsLayout

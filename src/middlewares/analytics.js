@@ -1,6 +1,7 @@
 // @flow
 
 import gtm from 'services/gtm'
+import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
 import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
@@ -12,6 +13,11 @@ export const pushEvent = () => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
 
   switch (type) {
+    case wallets.SET_ACTIVE_SUCCESS: {
+      gtm.pushSetActiveWallet(payload.walletType)
+      break
+    }
+
     case createWallet.SET_CURRENT_STEP: {
       switch (payload.currentStep) {
         case createWallet.STEPS.CONFIRM: {
