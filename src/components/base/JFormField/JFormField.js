@@ -17,15 +17,13 @@ class JFormField extends Component {
   renderPlaceholder = (value) => {
     const { name, placeholder } = this.props
 
-    if (!placeholder.length) {
+    if (!placeholder) {
       return null
     }
 
-    const isValuePresent = value && value.length
-
     return (
       <label
-        className={`field__placeholder ${isValuePresent ? 'field__placeholder--top' : ''}`}
+        className={`field__placeholder ${value ? 'field__placeholder--top' : ''}`}
         htmlFor={name}
       >
         {placeholder}
@@ -51,8 +49,8 @@ class JFormField extends Component {
     event.stopPropagation()
   }
 
-  isError = (/* event */) => (this.props.errorMessage.length > 0)
-  isSuccess = (/* event */) => (this.props.successMessage.length > 0)
+  isError = (/* event */) => !!this.props.errorMessage
+  isSuccess = (/* event */) => !!this.props.successMessage
   onValueChange = event => this.props.onValueChange(event.target.value)
   setFocused = (focused = true) => (/* event */) => this.setState({ focused })
 }
