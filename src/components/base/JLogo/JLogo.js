@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 function JLogo({ className }) {
   return (
-    <a href='/jwallet' className={`logo pull-left ${className}`}>
+    <a href='/' className={`logo pull-left ${className}`}>
       <div className='logo__image' />
     </a>
   )
