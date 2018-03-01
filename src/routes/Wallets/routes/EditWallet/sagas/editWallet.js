@@ -7,7 +7,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import config from 'config'
 import keystore from 'services/keystore'
 import { isKnownPath } from 'utils/knownDerivationPaths'
-import { selectWallets, selectWalletId, selectEditWallet } from 'store/stateSelectors'
+import { selectWalletsItems, selectWalletId, selectEditWallet } from 'store/stateSelectors'
 
 import {
   isMnemonicType,
@@ -33,8 +33,15 @@ import {
 } from '../modules/editWallet'
 
 function* openEditWallet(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
   try {
-    const walletId: WalletId = yield select(selectWalletId)
     const { name, customType, derivationPath }: Wallet = keystore.getWallet(walletId)
 
     yield put(setName(name))
@@ -80,8 +87,15 @@ function* setNextStep(): Saga<void> {
 }
 
 function* checkData() {
-  const wallets: Wallets = yield select(selectWallets)
-  const walletId: WalletId = yield select(selectWalletId)
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
+  const wallets: Wallets = yield select(selectWalletsItems)
   const { walletType, name }: EditWalletData = yield select(selectEditWallet)
   const wallet: Wallet = keystore.getWallet(walletId)
 
@@ -141,9 +155,15 @@ function* checkEditData(wallets: Wallets, walletId: WalletId) {
 }
 
 function* saveWallet(): Saga<void> {
-  try {
-    const walletId: WalletId = yield select(selectWalletId)
+  const walletId: ?WalletId = yield select(selectWalletId)
 
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
+  try {
     const {
       name,
       password,
@@ -177,7 +197,7 @@ function setDerivationPath(password: Password, walletId: WalletId, derivationPat
   }
 }
 
-function isEqual(a: string | void, b: string) {
+function isEqual(a: ?string, b: string) {
   return a && equals(toLower(a), toLower(b))
 }
 

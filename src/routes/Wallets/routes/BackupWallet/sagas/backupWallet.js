@@ -19,7 +19,13 @@ import {
 } from '../modules/backupWallet'
 
 function* openBackupWallet(): Saga<void> {
-  const walletId: WalletId = yield select(selectWalletId)
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
 
   try {
     const { isReadOnly }: Wallet = keystore.getWallet(walletId)
@@ -43,10 +49,16 @@ function* closeBackupWallet(): Saga<void> {
 }
 
 function* backupWallet(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
   const { password }: BackupWalletData = yield select(selectBackupWallet)
 
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
   try {
-    const walletId: WalletId = yield select(selectWalletId)
     yield saveBackupWalletToFile(password, walletId)
   } catch (err) {
     yield put(backupError(err))

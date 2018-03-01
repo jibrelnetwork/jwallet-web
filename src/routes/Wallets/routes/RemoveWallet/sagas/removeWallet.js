@@ -2,7 +2,7 @@
 
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { keystore } from 'services'
+import keystore from 'services/keystore'
 import { selectWalletId } from 'store/stateSelectors'
 
 import {
@@ -14,8 +14,15 @@ import {
 } from '../modules/removeWallet'
 
 function* openRemoveWallet(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
   try {
-    const walletId: WalletId = yield select(selectWalletId)
     keystore.getWallet(walletId)
   } catch (err) {
     // TODO: handle this case in appropriate way
@@ -25,8 +32,15 @@ function* openRemoveWallet(): Saga<void> {
 }
 
 function* removeWallet(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
   try {
-    const walletId = yield select(selectWalletId)
     const { customType }: Wallet = keystore.removeWallet(walletId)
     yield put(removeSuccess(customType))
   } catch (err) {

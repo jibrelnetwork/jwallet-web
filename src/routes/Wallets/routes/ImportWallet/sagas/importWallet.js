@@ -6,7 +6,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import keystore from 'services/keystore'
-import { selectImportWallet, selectWallets } from 'store/stateSelectors'
+import { selectWalletsItems, selectImportWallet } from 'store/stateSelectors'
 
 import {
   isMnemonicType,
@@ -101,7 +101,7 @@ function* setImportWalletType(action: { payload: { data: string } }): Saga<void>
 }
 
 function* checkData() {
-  const wallets: Wallets = yield select(selectWallets)
+  const wallets: Wallets = yield select(selectWalletsItems)
   const importWalletData: ImportWalletData = yield select(selectImportWallet)
   const { name, walletType }: ImportWalletData = importWalletData
 

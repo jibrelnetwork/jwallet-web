@@ -19,8 +19,15 @@ import {
 } from '../modules/changeWalletPassword'
 
 function* openChangeWalletPassword(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
   try {
-    const walletId: WalletId = yield select(selectWalletId)
     const { isReadOnly }: Wallet = keystore.getWallet(walletId)
 
     if (!isReadOnly) {
@@ -41,8 +48,15 @@ function* closeChangeWalletPassword(): Saga<void> {
 }
 
 function* changeWalletPassword(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    yield put(close())
+
+    return
+  }
+
   try {
-    const walletId: WalletId = yield select(selectWalletId)
     const data: ChangeWalletPasswordData = yield select(selectChangeWalletPassword)
     const { customType }: Wallet = keystore.getWallet(walletId)
 
