@@ -1,5 +1,15 @@
 // @flow
 
+/**
+ * Digital Assets
+ */
+
+import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+
+/**
+ * Wallets
+ */
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
@@ -11,6 +21,19 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
   const { type, payload }: FSA = action
 
   switch (type) {
+    /**
+     * Digital Assets
+     */
+
+    case digitalAssets.SEARCH_ERROR: {
+      store.dispatch(digitalAssets.setInvalidField(payload.fieldName, payload.message))
+      break
+    }
+
+    /**
+     * Wallets
+     */
+
     case wallets.SET_ACTIVE_ERROR: {
       store.dispatch(wallets.setInvalidField(payload.fieldName, payload.message))
       break

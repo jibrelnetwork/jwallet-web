@@ -38,22 +38,6 @@ module.exports = {
         symbol: '심볼',
         decimals: 'decimals',
       },
-      error: {
-        address: {
-          invalid: '유효한 컨트랙트 주소를 입력해주세요',
-          exists: 'Asset with this address already exists',
-        },
-        name: {
-          invalid: '유효한 컨트랙트 이름을 입력해주세요',
-        },
-        symbol: {
-          invalid: '유효한 컨트랙트 심볼을 입력해주세요',
-          exists: 'Asset with this symbol already exists',
-        },
-        decimals: {
-          invalid: '유효한 컨트랙트 소수점을 입력해주세요',
-        },
-      },
     },
     backupKeys: {
       title: 'Backup Keys',
@@ -503,13 +487,31 @@ module.exports = {
       mnemonicConfirm: {
         notMatched: 'Mnemonic should match',
       },
-      name: {
+      walletName: {
         empty: 'Key name shouldn\'t be empty',
         invalid: 'Please input valid key name',
         exists: 'Key with this name already exists',
       },
       derivationPath: {
         invalid: 'Please input valid custom derivation path',
+      },
+      searchQuery: {
+        invalid: 'Search query is invalid',
+      },
+      address: {
+        invalid: 'Address should be a valid contract address',
+        exists: 'Asset with this address already exists',
+      },
+      name: {
+        invalid: 'Name should be a valid contract name',
+        exists: 'Asset with this name already exists',
+      },
+      symbol: {
+        invalid: 'Symbol should be a valid contract symbol',
+        exists: 'Asset with this symbol already exists',
+      },
+      decimals: {
+        invalid: 'Decimals should be valid contract decimals',
       },
     },
   },

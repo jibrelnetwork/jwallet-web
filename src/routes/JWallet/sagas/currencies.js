@@ -364,9 +364,9 @@ function* setCurrentDigitalAssetAddress(items: DigitalAssets, currentAddress: Ad
 
 function getNextAvailableActiveAddress(items: DigitalAssets): Address | null {
   for (let i = 0; i < items.length; i += 1) {
-    const { address, isActive, isAuthRequired } = items[i]
+    const { address, isActive } = items[i]
 
-    if (isActive && !isAuthRequired) {
+    if (isActive) {
       return address
     }
   }

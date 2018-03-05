@@ -38,22 +38,6 @@ module.exports = {
         symbol: '标志',
         decimals: '精度',
       },
-      error: {
-        address: {
-          invalid: '地址需为有效的合约地址',
-          exists: 'Asset with this address already exists',
-        },
-        name: {
-          invalid: '名称需为有效的合约名称',
-        },
-        symbol: {
-          invalid: '名称需为有效的合约名称',
-          exists: 'Asset with this symbol already exists',
-        },
-        decimals: {
-          invalid: '精度需为有效的合约精度',
-        },
-      },
     },
     backupKeys: {
       title: 'Backup Keys',
@@ -503,13 +487,31 @@ module.exports = {
       mnemonicConfirm: {
         notMatched: 'Mnemonic should match',
       },
-      name: {
+      walletName: {
         empty: 'Key name shouldn\'t be empty',
         invalid: 'Please input valid key name',
         exists: 'Key with this name already exists',
       },
       derivationPath: {
         invalid: 'Please input valid custom derivation path',
+      },
+      searchQuery: {
+        invalid: 'Search query is invalid',
+      },
+      address: {
+        invalid: 'Address should be a valid contract address',
+        exists: 'Asset with this address already exists',
+      },
+      name: {
+        invalid: 'Name should be a valid contract name',
+        exists: 'Asset with this name already exists',
+      },
+      symbol: {
+        invalid: 'Symbol should be a valid contract symbol',
+        exists: 'Asset with this symbol already exists',
+      },
+      decimals: {
+        invalid: 'Decimals should be valid contract decimals',
       },
     },
   },

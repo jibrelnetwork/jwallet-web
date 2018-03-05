@@ -18,6 +18,7 @@ import newKeystorePasswordModal from 'routes/JWallet/modules/modals/newKeystoreP
 import receiveFundsModal from 'routes/JWallet/modules/modals/receiveFunds'
 import sendFundsModal from 'routes/JWallet/modules/modals/sendFunds'
 
+import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import wallets from 'routes/Wallets/modules/wallets'
 
 export const makeRootReducer = (asyncReducers: Object) => combineReducers({
@@ -36,6 +37,7 @@ export const makeRootReducer = (asyncReducers: Object) => combineReducers({
   newKeystorePasswordModal,
   receiveFundsModal,
   sendFundsModal,
+  digitalAssets,
   wallets,
   router,
   ...asyncReducers,

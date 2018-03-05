@@ -38,22 +38,6 @@ module.exports = {
         symbol: 'シンボル',
         decimals: '小数点以下の桁数',
       },
-      error: {
-        address: {
-          invalid: 'アドレスが有効な契約のアドレスをする必要があります',
-          exists: 'Asset with this address already exists',
-        },
-        name: {
-          invalid: '有効な契約名である必要があります',
-        },
-        symbol: {
-          invalid: '記号は、有効な契約記号をする必要があります',
-          exists: 'Asset with this symbol already exists',
-        },
-        decimals: {
-          invalid: '小数点以下は小数点以下の有効な契約をする必要があります',
-        },
-      },
     },
     backupKeys: {
       title: 'Backup Keys',
@@ -503,13 +487,31 @@ module.exports = {
       mnemonicConfirm: {
         notMatched: 'Mnemonic should match',
       },
-      name: {
+      walletName: {
         empty: 'Wallet name shouldn\'t be empty',
         invalid: 'Please input valid key name',
         exists: 'Wallet with this name already exists',
       },
       derivationPath: {
         invalid: 'Please input valid custom derivation path',
+      },
+      searchQuery: {
+        invalid: 'Search query is invalid',
+      },
+      address: {
+        invalid: 'Address should be a valid contract address',
+        exists: 'Asset with this address already exists',
+      },
+      name: {
+        invalid: 'Name should be a valid contract name',
+        exists: 'Asset with this name already exists',
+      },
+      symbol: {
+        invalid: 'Symbol should be a valid contract symbol',
+        exists: 'Asset with this symbol already exists',
+      },
+      decimals: {
+        invalid: 'Decimals should be valid contract decimals',
       },
     },
   },

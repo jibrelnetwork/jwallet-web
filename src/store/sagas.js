@@ -19,6 +19,11 @@ import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset
 import * as receiveFundsSagas from 'routes/ReceiveFunds/sagas/receiveFunds'
 
 /**
+ * Digital Assets
+ */
+import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
+
+/**
  * Wallets
  */
 import walletsSagas from 'routes/Wallets/sagas'
@@ -38,6 +43,8 @@ export default {
   ...sendFundsSagas,
   ...receiveFundsSagas,
   ...addCustomAssetSagas,
+  // Digital Assets
+  ...digitalAssetsSagas,
   // Wallets
   ...walletsSagas,
 }

@@ -4,6 +4,7 @@ const storageKeys = {
   digitalAssets: 'JWALLET-DIGITAL-ASSETS',
   digitalAssetsBalances: 'JWALLET-DIGITAL-ASSETS-BALANCES',
   digitalAssetsCurrent: 'JWALLET-DIGITAL-ASSETS-CURRENT',
+  currentDigitalAsset: 'JWALLET-CURRENT-DIGITAL-ASSET',
   i18n: 'JWALLET-I18N',
   keystore: 'JWALLET-KEYSTORE',
   keystoreActiveWalletId: 'JWALLET-KEYSTORE-ACTIVE-WALLET-ID',
