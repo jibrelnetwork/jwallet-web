@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 
 const WalletsLayout = ({ children }: Props) => (
@@ -14,7 +16,7 @@ const WalletsLayout = ({ children }: Props) => (
 )
 
 type Props = {
-  children?: React.Node,
+  children?: Object,
 }
 
 WalletsLayout.defaultProps = {
