@@ -48,6 +48,16 @@ function getTokenBalance(
     })
 }
 
+function getAssetBalance(
+  contractAddress: Address,
+  owner: Address,
+  decimals: number,
+) {
+  return jibrelContractsApi.contracts.erc20
+    .balanceOf({ ...rpcProps, contractAddress, owner })
+    .then(balance => (balance.toNumber() / (10 ** decimals)))
+}
+
 function getETHTransactions(address: Address) {
   if (!(address && address.length)) {
     return []
@@ -297,6 +307,7 @@ export default {
   getRpcProps,
   getETHBalance,
   getTokenBalance,
+  getAssetBalance,
   getETHTransactions,
   getContractTransactions,
   sendETHTransaction,

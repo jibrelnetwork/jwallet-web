@@ -27,8 +27,6 @@ import {
   clean,
 } from '../modules/mnemonicAddresses'
 
-type AddressBalancePairs = Array<[Address, number]>
-
 function* openMnemonicAddresses(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 

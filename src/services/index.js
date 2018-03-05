@@ -6,6 +6,7 @@ import gtm from './gtm'
 import keystore from './keystore'
 import qrCode from './qrCode'
 import storage from './storage'
+import validate from './validate'
 import web3 from './web3'
 
 export {
@@ -15,5 +16,6 @@ export {
   keystore,
   qrCode,
   storage,
+  validate,
   web3,
 }

@@ -5,16 +5,19 @@ import type { Saga } from 'redux-saga'
  */
 
 declare type Index = number
-declare type Address = string
+declare type EthereumAddress = 'Ethereum'
+declare type Address = string | EthereumAddress
 declare type Addresses = Array<Address>
 declare type Bignumber = any
+declare type Decimals = number
 declare type Balances = { [Address]: number }
+declare type AddressBalancePairs = Array<[Address, number]>
 
 declare type FSA = {
-  type: string,
-  payload: Object,
-  meta: Object,
-  error: boolean,
+  +type: string,
+  +payload: Object,
+  +meta: Object,
+  +error: boolean,
 }
 
 declare type Dispatch = Object => Next
@@ -25,88 +28,31 @@ declare type Next = FSA => FSA
  */
 
 declare type DigitalAsset = {
-  address: Address,
-  symbol: string,
-  name: string,
-  decimals: number,
-  isAuthRequired: boolean,
-  isLicensed: boolean,
-  isCustom: boolean,
-  isActive: boolean,
-  isCurrent?: boolean,
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +decimals: Decimals,
+  +isCustom: boolean,
+  +isActive: boolean,
 }
 
 declare type DigitalAssets = Array<DigitalAsset>
 
 declare type CustomAssetData = {
-  address: Address,
-  symbol: string,
-  name: string,
-  decimals: string,
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +decimals: string,
 }
 
 declare type DigitalAssetsData = {
-  items: DigitalAssets,
-  foundItemsSymbols: Array<string>,
-  balances: any,
-  sortField: string,
-  sortDirection: string,
-  searchQuery: string,
-  currentAddress: Address,
-  isLoading: boolean,
-  isActiveAll: boolean,
-}
-
-/**
- * Keystore
- */
-
-declare type AccountId = string
-
-declare type Account = {
-  encrypted: {
-    privateKey: string,
-    mnemonic: string,
-  },
-  id: string,
-  type: string,
-  name: string,
-  customType: WalletType,
-  accountName: string,
-  isActive: boolean,
-  isReadOnly: boolean,
-  derivationPath?: string,
-  bip32XPublicKey?: string,
-  addressIndex?: Index,
-}
-
-declare type Accounts = Array<Account>
-
-declare type NewAccountData = {
-  type: string,
-  isReadOnly: boolean,
-  mnemonic?: string,
-  bip32XPublicKey?: string,
-  privateKey?: string,
-  address?: string,
-}
-
-declare type KeystoreData = {
-  currentAccount: Account,
-  newAccountNameData: {
-    accountId: AccountId,
-    newAccountName: string,
-  },
-  addressesFromMnemonic: {
-    items: Addresses,
-    currentIteration: number,
-  },
-  accounts: Wallets,
-  sortField: string,
-  sortDirection: string,
-  isLoading: boolean,
-  isCreating: boolean,
-  isOpen: boolean,
+  +invalidFields: Object,
+  +items: DigitalAssets,
+  +foundAssets: Addresses,
+  +balances: Balances,
+  +searchQuery: string,
+  +currentAddress: ?Address,
+  +isBalancesLoading: boolean,
 }
 
 /**
@@ -248,16 +194,25 @@ declare type RemoveWalletData = {}
  * Networks
  */
 
+declare type NetworkId = number
+
 declare type Network = {
   title: string,
   rpcaddr: string,
   rpcport: string,
-  id: Index,
+  id: NetworkId,
   ssl: boolean,
   isCustom: boolean,
 }
 
 declare type Networks = Array<Network>
+
+declare type NetworksData = {
+  +items: Networks,
+  +customNetworkRpc: string,
+  +currentNetworkIndex: Index,
+  +isLoading: boolean,
+}
 
 /**
  * Transactions
@@ -316,10 +271,12 @@ declare type ReceiveFundsData = {
  */
 
 declare type State = {
+  +networks: NetworksData,
   +currencies: DigitalAssetsData,
   +keystore: KeystoreData,
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
+  +digitalAssets: DigitalAssetsData,
   +wallets: WalletsData,
   +mnemonicAddresses: MnemonicAddressesData,
   +createWallet: CreateWalletData,
@@ -337,4 +294,61 @@ declare type State = {
 declare type InvalidFieldError = {
   fieldName: string,
   message: string,
+}
+
+/**
+ * Deprecated
+ * TODO: remove types below
+ */
+
+/**
+ * Keystore
+ */
+
+declare type AccountId = string
+
+declare type Account = {
+  encrypted: {
+    privateKey: string,
+    mnemonic: string,
+  },
+  id: string,
+  type: string,
+  name: string,
+  customType: WalletType,
+  accountName: string,
+  isActive: boolean,
+  isReadOnly: boolean,
+  derivationPath?: string,
+  bip32XPublicKey?: string,
+  addressIndex?: Index,
+}
+
+declare type Accounts = Array<Account>
+
+declare type NewAccountData = {
+  type: string,
+  isReadOnly: boolean,
+  mnemonic?: string,
+  bip32XPublicKey?: string,
+  privateKey?: string,
+  address?: string,
+}
+
+declare type KeystoreData = {
+  currentAccount: Account,
+  newAccountNameData: {
+    accountId: AccountId,
+    newAccountName: string,
+  },
+  addressesFromMnemonic: {
+    items: Addresses,
+    currentIteration: number,
+  },
+  accounts: Wallets,
+  sortField: string,
+  sortDirection: string,
+  isLoading: boolean,
+  isCreating: boolean,
+  isOpen: boolean,
 }
