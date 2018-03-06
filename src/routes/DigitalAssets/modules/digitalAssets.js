@@ -2,6 +2,7 @@
 
 import { assoc, assocPath, compose } from 'ramda'
 
+export const INIT = '@@digitalAssets/INIT'
 export const OPEN = '@@digitalAssets/OPEN'
 export const CLOSE = '@@digitalAssets/CLOSE'
 export const SET_ASSETS = '@@digitalAssets/SET_ASSETS'
@@ -16,6 +17,10 @@ export const SEARCH_SUCCESS = '@@digitalAssets/SEARCH_SUCCESS'
 export const SEARCH_ERROR = '@@digitalAssets/SEARCH_ERROR'
 export const SET_INVALID_FIELD = '@@digitalAssets/SET_INVALID_FIELD'
 export const CLEAN = '@@digitalAssets/CLEAN'
+
+export const init = (): { type: string } => ({
+  type: INIT,
+})
 
 export const open = (): { type: string } => ({
   type: OPEN,
