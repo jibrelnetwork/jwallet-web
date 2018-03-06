@@ -214,6 +214,15 @@ function pushRemoveWallet(walletType: WalletType) {
   })
 }
 
+function pushAddCustomAsset() {
+  push({
+    event: 'AddCustom',
+    eventCategory: 'DigitalAsset',
+    eventAction: 'AddCustomAsset',
+    eventLabel: 'Success',
+  })
+}
+
 export default {
   pushCreateAccount,
   pushImportAccount,
@@ -228,6 +237,7 @@ export default {
   pushAddCustomNetwork,
   pushChangeLanguage,
   // wallets
+  pushAddCustomAsset,
   pushSetActiveWallet,
   pushCreateWallet,
   pushImportWallet,

@@ -38,13 +38,6 @@ declare type DigitalAsset = {
 
 declare type DigitalAssets = Array<DigitalAsset>
 
-declare type CustomAssetData = {
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +decimals: string,
-}
-
 declare type DigitalAssetsData = {
   +invalidFields: Object,
   +items: DigitalAssets,
@@ -53,6 +46,25 @@ declare type DigitalAssetsData = {
   +searchQuery: string,
   +currentAddress: ?Address,
   +isBalancesLoading: boolean,
+}
+
+/**
+ * Custom digital asset
+ */
+
+declare type CustomAssetData = {
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +decimals: string,
+}
+
+declare type AddCustomAssetData = {
+  +invalidFields: Object,
+  +address: Address,
+  +name: string,
+  +symbol: string,
+  +decimals: string,
 }
 
 /**
@@ -277,6 +289,7 @@ declare type State = {
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
   +digitalAssets: DigitalAssetsData,
+  +addCustomAsset: AddCustomAssetData,
   +wallets: WalletsData,
   +mnemonicAddresses: MnemonicAddressesData,
   +createWallet: CreateWalletData,

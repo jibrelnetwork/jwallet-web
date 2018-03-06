@@ -1,6 +1,17 @@
 // @flow
 
 import gtm from 'services/gtm'
+
+/**
+ * Digital Assets
+ */
+
+import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+
+/**
+ * Wallets
+ */
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
@@ -13,6 +24,11 @@ export const pushEvent = () => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
 
   switch (type) {
+    case addCustomAsset.ADD_SUCCESS: {
+      gtm.pushAddCustomAsset()
+      break
+    }
+
     case wallets.SET_ACTIVE_SUCCESS: {
       gtm.pushSetActiveWallet(payload.walletType)
       break

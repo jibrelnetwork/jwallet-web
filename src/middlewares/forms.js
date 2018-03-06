@@ -5,6 +5,7 @@
  */
 
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
 
 /**
  * Wallets
@@ -27,6 +28,11 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
 
     case digitalAssets.SEARCH_ERROR: {
       store.dispatch(digitalAssets.setInvalidField(payload.fieldName, payload.message))
+      break
+    }
+
+    case addCustomAsset.ADD_ERROR: {
+      store.dispatch(addCustomAsset.setInvalidField(payload.fieldName, payload.message))
       break
     }
 

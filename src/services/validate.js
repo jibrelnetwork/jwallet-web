@@ -66,12 +66,12 @@ function customAssetData(assetData: CustomAssetData, digitalAssets: DigitalAsset
   const { address, name, symbol, decimals }: CustomAssetData = assetData
 
   customAssetAddress(address)
-  customAssetName(name)
-  customAssetSymbol(symbol)
-  customAssetDecimals(decimals)
   customAssetPropUniq('address', address, digitalAssets)
+  customAssetName(name)
   customAssetPropUniq('name', name, digitalAssets)
+  customAssetSymbol(symbol)
   customAssetPropUniq('symbol', symbol, digitalAssets)
+  customAssetDecimals(decimals)
 }
 
 function customAssetAddress(address: Address) {
