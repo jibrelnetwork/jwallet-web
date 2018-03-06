@@ -1,47 +1,38 @@
 // @flow
 
 import { append } from 'ramda'
+import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { gtm, validate } from 'services'
+import config from 'config'
+import validate from 'services/validate'
+import { selectDigitalAssetsItems, selectAddCustomAsset } from 'store/stateSelectors'
 
-import { CURRENCIES_SET } from 'routes/JWallet/modules/currencies'
-import { SET_INVALID_FIELD, CLEAN, ADD } from '../modules/addCustomAsset'
+import {
+  ADD,
+  CLOSE,
+  addSuccess,
+  addError,
+  clean,
+} from '../modules/addCustomAsset'
 
-function selectDigitalAssetsItems(state: { currencies: { items: DigitalAssets } }): DigitalAssets {
-  return state.currencies.items
+function* closeAddCustomAsset(): Saga<void> {
+  yield delay(config.delayBeforeFormClean)
+  yield put(clean())
 }
 
-function selectCustomAssetData(state: { addCustomAsset: CustomAssetData }): CustomAssetData {
-  return state.addCustomAsset
-}
-
-function* onAddCustomAsset(): Saga<void> {
+function* addCustomAsset(): Saga<void> {
   try {
     const digitalAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
-    const customAssetData: CustomAssetData = yield select(selectCustomAssetData)
+    const customAssetData: CustomAssetData = yield select(selectAddCustomAsset)
 
     validate.customAssetData(customAssetData, digitalAssets)
+    const updatedAssets: DigitalAssets = append(getCustomAssetData(customAssetData), digitalAssets)
 
-    yield put({
-      type: CURRENCIES_SET,
-      items: append(getCustomAssetData(customAssetData), digitalAssets),
-    })
-
-    yield onAddCustomAssetSuccess()
+    yield put(addSuccess(updatedAssets))
   } catch (err) {
-    yield onAddCustomAssetError(err)
+    yield put(addError(err))
   }
-}
-
-function* onAddCustomAssetSuccess() {
-  gtm.pushAddCustomToken()
-  yield put({ type: CLEAN })
-}
-
-function* onAddCustomAssetError(err: { fieldName: string, message: string }) {
-  const { fieldName, message }: { fieldName: string, message: string } = err
-  yield put({ type: SET_INVALID_FIELD, fieldName, message })
 }
 
 function getCustomAssetData(customAssetData: CustomAssetData): DigitalAsset {
@@ -54,11 +45,13 @@ function getCustomAssetData(customAssetData: CustomAssetData): DigitalAsset {
     decimals: parseInt(decimals, 10) || 0,
     isActive: true,
     isCustom: true,
-    isLicensed: false,
-    isAuthRequired: false,
   }
 }
 
-export function* watchAddCustomAsset(): Saga<void> {
-  yield takeEvery(ADD, onAddCustomAsset)
+export function* watchAddCustomAssetClose(): Saga<void> {
+  yield takeEvery(CLOSE, closeAddCustomAsset)
+}
+
+export function* watchAddCustomAssetAdd(): Saga<void> {
+  yield takeEvery(ADD, addCustomAsset)
 }

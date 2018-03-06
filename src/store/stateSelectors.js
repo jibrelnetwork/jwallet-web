@@ -16,6 +16,10 @@ export function selectDigitalAssetsItems(state: State): DigitalAssets {
   return state.digitalAssets.items
 }
 
+export function selectAddCustomAsset(state: State): AddCustomAssetData {
+  return state.addCustomAsset
+}
+
 export function selectReceiveFunds(state: State): ReceiveFundsData {
   return state.receiveFunds
 }

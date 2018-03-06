@@ -3,6 +3,17 @@
 import { push } from 'react-router-redux'
 
 import isMnemonicType from 'utils/isMnemonicType'
+
+/**
+ * Digital Assets
+ */
+
+import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+
+/**
+ * Wallets
+ */
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
@@ -14,6 +25,19 @@ export const redirect = (store: { dispatch: Dispatch }) => (next: Next) => (acti
   const { type, payload }: FSA = action
 
   switch (type) {
+    /**
+     * Digital Assets
+     */
+
+    case addCustomAsset.ADD_SUCCESS: {
+      store.dispatch(push('/'))
+      break
+    }
+
+    /**
+     * Wallets
+     */
+
     case createWallet.CLOSE:
     case importWallet.CLOSE:
     case editWallet.CLOSE:

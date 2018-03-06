@@ -1,7 +1,7 @@
 import { injectReducer } from 'store/reducers'
 
 export default store => ({
-  path: 'add-custom-asset',
+  path: 'digital-assets/add',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       const AddCustomAsset = require('./containers/AddCustomAssetContainer').default

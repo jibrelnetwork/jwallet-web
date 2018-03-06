@@ -1,103 +1,120 @@
 // @flow
 
+import { assoc, assocPath, compose } from 'ramda'
+
+export const OPEN = '@@addCustomAsset/OPEN'
+export const CLOSE = '@@addCustomAsset/CLOSE'
 export const SET_ADDRESS = '@@addCustomAsset/SET_ADDRESS'
 export const SET_NAME = '@@addCustomAsset/SET_NAME'
 export const SET_SYMBOL = '@@addCustomAsset/SET_SYMBOL'
 export const SET_DECIMALS = '@@addCustomAsset/SET_DECIMALS'
+export const ADD = '@@addCustomAsset/ADD'
+export const ADD_SUCCESS = '@@addCustomAsset/ADD_SUCCESS'
+export const ADD_ERROR = '@@addCustomAsset/ADD_ERROR'
 export const SET_INVALID_FIELD = '@@addCustomAsset/SET_INVALID_FIELD'
 export const CLEAN = '@@addCustomAsset/CLEAN'
-export const ADD = '@@addCustomAsset/ADD'
 
-export function setAddress(address: Address): { type: string, address: Address } {
-  return {
-    type: SET_ADDRESS,
-    address,
-  }
-}
+export const open = (): { type: string } => ({
+  type: OPEN,
+})
 
-export function setName(name: string): { type: string, name: string } {
-  return {
-    type: SET_NAME,
-    name,
-  }
-}
+export const close = (): { type: string } => ({
+  type: CLOSE,
+})
 
-export function setSymbol(symbol: string): { type: string, symbol: string } {
-  return {
-    type: SET_SYMBOL,
-    symbol,
-  }
-}
-
-export function setDecimals(decimals: string): { type: string, decimals: string } {
-  return {
-    type: SET_DECIMALS,
-    decimals,
-  }
-}
-
-export function setInvalidField(fieldName: string, message: string): {
+export const setAddress = (address: Address): {
   type: string,
-  fieldName: string,
-  message: string,
-} {
-  return {
-    type: SET_INVALID_FIELD,
+  payload: {
+    address: Address,
+  },
+} => ({
+  type: SET_ADDRESS,
+  payload: {
+    address,
+  },
+})
+
+export const setName = (name: string): {
+  type: string,
+  payload: {
+    name: string,
+  },
+} => ({
+  type: SET_NAME,
+  payload: {
+    name,
+  },
+})
+
+export const setSymbol = (symbol: string): {
+  type: string,
+  payload: {
+    symbol: string,
+  },
+} => ({
+  type: SET_SYMBOL,
+  payload: {
+    symbol,
+  },
+})
+
+export const setDecimals = (decimals: string): {
+  type: string,
+  payload: {
+    decimals: string,
+  },
+} => ({
+  type: SET_DECIMALS,
+  payload: {
+    decimals,
+  },
+})
+
+export const add = (): { type: string } => ({
+  type: ADD,
+})
+
+export const addSuccess = (newDigitalAssets: DigitalAssets): {
+  type: string,
+  payload: {
+    newDigitalAssets: DigitalAssets,
+  },
+} => ({
+  type: ADD_SUCCESS,
+  payload: {
+    newDigitalAssets,
+  },
+})
+
+export const addError = (err: Object): {
+  type: string,
+  payload: Object,
+  error: boolean,
+} => ({
+  type: ADD_ERROR,
+  payload: err,
+  error: true,
+})
+
+export const setInvalidField = (fieldName: string, message: string): {
+  type: string,
+  payload: {
+    fieldName: string,
+    message: string,
+  },
+} => ({
+  type: SET_INVALID_FIELD,
+  payload: {
     fieldName,
     message,
-  }
-}
+  },
+})
 
-export function add(): { type: string } {
-  return {
-    type: ADD,
-  }
-}
+export const clean = (): { type: string } => ({
+  type: CLEAN,
+})
 
-const ACTION_HANDLERS = {
-  [SET_ADDRESS]: (state, action) => ({
-    ...state,
-    address: action.address,
-    invalidFields: {
-      ...state.invalidFields,
-      address: '',
-    },
-  }),
-  [SET_NAME]: (state, action) => ({
-    ...state,
-    name: action.name,
-    invalidFields: {
-      ...state.invalidFields,
-      name: '',
-    },
-  }),
-  [SET_SYMBOL]: (state, action) => ({
-    ...state,
-    symbol: action.symbol,
-    invalidFields: {
-      ...state.invalidFields,
-      symbol: '',
-    },
-  }),
-  [SET_DECIMALS]: (state, action) => ({
-    ...state,
-    decimals: action.decimals,
-    invalidFields: {
-      ...state.invalidFields,
-      decimals: '',
-    },
-  }),
-  [SET_INVALID_FIELD]: (state, action) => ({
-    ...state,
-    invalidFields: {
-      ...state.invalidFields,
-      [action.fieldName]: action.message,
-    },
-  }),
-  [CLEAN]: () => initialState,
-}
-
-const initialState = {
+const initialState: AddCustomAssetData = {
   invalidFields: {},
   address: '',
   name: '',
@@ -105,8 +122,49 @@ const initialState = {
   decimals: '',
 }
 
-export default function addCustomAsset(state: any = initialState, action: any) {
-  const handler = ACTION_HANDLERS[action.type]
+const addCustomAsset = (
+  state: AddCustomAssetData = initialState,
+  action: FSA,
+): Object => {
+  const { type, payload }: FSA = action
 
-  return handler ? handler(state, action) : state
+  switch (type) {
+    case SET_ADDRESS: {
+      return compose(
+        assoc('address', payload.address),
+        assocPath(['invalidFields', 'address'], ''),
+      )(state)
+    }
+
+    case SET_NAME: {
+      return compose(
+        assoc('name', payload.name),
+        assocPath(['invalidFields', 'name'], ''),
+      )(state)
+    }
+
+    case SET_SYMBOL: {
+      return compose(
+        assoc('symbol', payload.symbol),
+        assocPath(['invalidFields', 'symbol'], ''),
+      )(state)
+    }
+
+    case SET_DECIMALS: {
+      return compose(
+        assoc('decimals', payload.decimals),
+        assocPath(['invalidFields', 'decimals'], ''),
+      )(state)
+    }
+
+    case SET_INVALID_FIELD: {
+      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
+    }
+
+    case CLEAN: return initialState
+
+    default: return state
+  }
 }
+
+export default addCustomAsset
