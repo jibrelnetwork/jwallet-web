@@ -7,6 +7,11 @@ import JButton from './JButton'
 
 describe('COMPONENT: JButton', () => {
   test('Blue', () => {
-    expect(renderer.create(<JButton color={'blue'}/>).toJSON()).toMatchSnapshot()
+    expect(renderer.create(
+      <JButton
+        size='big'
+        color='blue'
+      />
+    ).toJSON()).toMatchSnapshot()
   })
 })

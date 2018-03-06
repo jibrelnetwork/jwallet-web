@@ -3,11 +3,13 @@ import React from 'react'
 import classnames from 'classnames'
 import { empty, prop } from 'ramda'
 
+import './JButton.scss'
 import JText from '../JText'
 import JIcon from '../JIcon'
 
 type Props = {
  text?: string,
+ size: 'big' | 'small',
  color: 'white' | 'blue',
  onClick?: Function,
  iconName?: string,
@@ -18,6 +20,7 @@ type Props = {
 
 const JButton = ({
   text,
+  size,
   color,
   onClick,
   iconName,
@@ -27,12 +30,15 @@ const JButton = ({
 }: Props) => (
   <div
     onClick={disabled || onClick}
-    className={classnames('Button', {
+    className={classnames('JButton', {
       '-loading': isLoading,
       '-bordered': withBorder,
     }, prop(color, {
       blue: '-blue',
       white: '-white',
+    }), prop(size, {
+      big: '-big',
+      small: '-small',
     }))}
   >
     {iconName && (
