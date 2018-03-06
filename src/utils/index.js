@@ -1,4 +1,5 @@
 export * from './errors'
+export copyToBuffer from './copyToBuffer'
 export getCurrentAddress from './getCurrentAddress'
 export getDefaultNetworks from './getDefaultNetworks'
 export getDigitalAssetSymbols from './getDigitalAssetSymbols'
