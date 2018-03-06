@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`COMPONENT: JButton Blue 1`] = `
+<div
+  className="Button -blue"
+  onClick={[Function]}
+/>
+`;
