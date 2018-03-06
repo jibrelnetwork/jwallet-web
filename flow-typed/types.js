@@ -278,6 +278,14 @@ declare type ReceiveFundsData = {
   symbol: string,
 }
 
+declare type ConvertFundsData = {
+  +invalidFields: Object,
+  +fromAsset: string,
+  +fromAmount: string,
+  +toAsset: string,
+  +toAmount: string,
+}
+
 /**
  * Entire state
  */
