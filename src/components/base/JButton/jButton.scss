@@ -1,31 +1,68 @@
-.Button {
+.JButton {
+  cursor: pointer;
+  border: 1px solid rgba(0, 80, 220, 0.25);
+  display: inline-block;
+  padding: 0 24px;
+  font-size: 13px;
+  text-align: center;
+  transition: all 0.3s ease 0s;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 600;  
+  // Variants
 
-  &.-loading {
-
+  &.-big {
+    width: 156px;
+    height: 48px;
+    line-height: 46px;
+    border-radius: 24px;
   }
 
-  &.-bordered {
-
+  &.-small {
+    height: 40px;
+    line-height: 38px;
+    border-radius: 20px;
+    align-items: flex-start;
   }
 
-  &.-disabled {
+  // &.-loading {
+  // 
+  // }
 
-  }
+  // &.-disabled {
+  // 
+  // }
 
   &.-blue {
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    background-color: #0058D2;
 
+    &:hover {
+      border: none;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      background-color: #00c1ff;
+    }
   }
 
   &.-white {
-    
+    color: #0050db;
+    background-color: #ffffff;
+
+    &:hover {
+      border: 1px solid rgba(0, 80, 220, 0.5);
+      background-color: #f6fcff;
+    }
   }
 
-  > .text {
+  // Elements 
 
-  }
+  // > .text {
+  //
+  // }
 
-  > .icon {
-
-  }
+  // > .icon {
+  //
+  // }
 
 }
