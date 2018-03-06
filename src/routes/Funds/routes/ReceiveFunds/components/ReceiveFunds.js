@@ -11,7 +11,7 @@ const ReceiveFunds = ({
   copyAddress,
   digitalAssets,
   invalidFields,
-  symbol,
+  assetAddress,
   recipient,
   amount,
 }) => (
@@ -23,12 +23,14 @@ const ReceiveFunds = ({
     />
     <JPicker
       onValueChange={setAsset}
-      selectedValue={symbol}
+      selectedValue={assetAddress}
       name='receive-funds-asset'
       placeholder={i18n('routes.receiveFunds.placeholder.symbol')}
       enabled
     >
-      {digitalAssets.map(item => <JPicker.Item key={item} label={item} value={item} />)}
+      {digitalAssets.map(({ address, symbol }) => (
+        <JPicker.Item key={address} label={symbol} value={address} />
+      ))}
     </JPicker>
     <JTextInput
       name='receive-funds-recipient'
@@ -52,9 +54,9 @@ ReceiveFunds.propTypes = {
   setAmount: PropTypes.func.isRequired,
   saveQRCode: PropTypes.func.isRequired,
   copyAddress: PropTypes.func.isRequired,
-  digitalAssets: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  digitalAssets: PropTypes.arrayOf(PropTypes.object).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
-  symbol: PropTypes.string.isRequired,
+  assetAddress: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   recipient: PropTypes.string.isRequired,
 }

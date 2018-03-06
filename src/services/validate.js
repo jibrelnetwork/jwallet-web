@@ -130,6 +130,12 @@ function searchQuery(query: string) {
   }
 }
 
+function fundsValue(value: Bignumber): void {
+  if (value.lte(0)) {
+    throw new InvalidFieldError('amount', i18n('general.error.amount.invalid'))
+  }
+}
+
 export default {
   derivationPath,
   walletName,
@@ -143,4 +149,5 @@ export default {
   customAssetDecimals,
   customAssetPropUniq,
   searchQuery,
+  fundsValue,
 }

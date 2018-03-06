@@ -1,11 +1,14 @@
+// @flow
+
+import lifecycle from 'recompose/lifecycle'
+import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import {
-  getCurrentAddress,
-  getDigitalAssetSymbols,
-} from 'utils'
+import { getActiveDigitalAssetsData, getWalletNameAndAddress } from 'utils'
 
 import {
+  open,
+  close,
   setAsset,
   setAmount,
   saveQRCode,
@@ -14,26 +17,25 @@ import {
 
 import ReceiveFunds from '../components/ReceiveFunds'
 
-const getRecipient = (keystore) => {
-  const { accountName } = keystore.currentAccount
-  const currentAddress = getCurrentAddress(keystore)
-  const name = (accountName.length > 20) ? `${accountName.substr(0, 20)}...` : accountName
-  const addr = `${currentAddress.substr(0, 6)}...${currentAddress.substr(-2)}`
-
-  return `${name}   ${addr}`
-}
-
-const mapStateToProps = ({ currencies, keystore, receiveFunds }) => ({
+const mapStateToProps = ({ digitalAssets, wallets, receiveFunds }: State) => ({
   ...receiveFunds,
-  recipient: getRecipient(keystore),
-  digitalAssets: getDigitalAssetSymbols(currencies),
+  digitalAssets: getActiveDigitalAssetsData(digitalAssets),
+  recipient: getWalletNameAndAddress(wallets.activeWalletId),
 })
 
 const mapDispatchToProps = {
+  open,
+  close,
   setAsset,
   setAmount,
   saveQRCode,
   copyAddress,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReceiveFunds)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentDidMount() { this.props.open() },
+    componentWillUnmount() { this.props.close() },
+  }),
+)(ReceiveFunds)

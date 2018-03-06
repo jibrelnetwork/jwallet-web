@@ -154,11 +154,6 @@ module.exports = {
         amount: 'Amount',
         recipient: 'Address',
       },
-      error: {
-        amount: {
-          invalid: 'Please enter a valid transfer amount',
-        },
-      },
     },
     sendFunds: {
       title: 'Send Funds',
@@ -512,6 +507,9 @@ module.exports = {
       },
       decimals: {
         invalid: 'Decimals should be valid contract decimals',
+      },
+      amount: {
+        invalid: 'Please enter a valid transfer amount',
       },
     },
   },

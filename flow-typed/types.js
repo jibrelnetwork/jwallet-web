@@ -270,12 +270,9 @@ declare type SendFundsData = {
 }
 
 declare type ReceiveFundsData = {
-  invalidFields: any,
+  invalidFields: Object,
+  assetAddress: Address,
   amount: string,
-  /**
-   * symbol should be replaced by assetAddress
-   */
-  symbol: string,
 }
 
 declare type ConvertFundsData = {
