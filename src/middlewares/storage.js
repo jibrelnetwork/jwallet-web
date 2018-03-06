@@ -7,6 +7,7 @@ import { keystore, storage } from 'services'
  */
 
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
 
 /**
  * Wallets
@@ -27,7 +28,7 @@ export const set = (store: { dispatch: Dispatch }) => (next: Next) => (action: F
      * Digital Assets
      */
 
-    case digitalAssets.OPEN: {
+    case digitalAssets.INIT: {
       try {
         const customDigitalAssets: DigitalAssets = JSON.parse(storage.getDigitalAssets())
         store.dispatch(digitalAssets.setAssets(customDigitalAssets))
@@ -60,6 +61,11 @@ export const set = (store: { dispatch: Dispatch }) => (next: Next) => (action: F
       }
 
       storage.setCurrentDigitalAsset(currentAddress)
+      break
+    }
+
+    case addCustomAsset.ADD_SUCCESS: {
+      storage.setDigitalAssets(JSON.stringify(payload.newDigitalAssets))
       break
     }
 
