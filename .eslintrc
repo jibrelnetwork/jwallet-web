@@ -2,12 +2,15 @@
   "parser": "babel-eslint",
   "extends": [
     "react-app",
-    "airbnb-base"
+    "airbnb-base",
+    "plugin:jest/recommended"
   ],
+  "plugins": ["jest"],
   "env": {
-    "node": true,
     "es6": true,
-    "browser": true
+    "node": true,
+    "browser": true,
+    "jest/globals": true
   },
   "globals": {
     "__DEV__": false,
