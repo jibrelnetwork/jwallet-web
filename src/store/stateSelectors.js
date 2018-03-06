@@ -8,6 +8,14 @@ export function selectNetworkId(state: State): NetworkId {
   return state.networks.items[state.networks.currentNetworkIndex].id
 }
 
+export function selectReceiveFunds(state: State): ReceiveFundsData {
+  return state.receiveFunds
+}
+
+export function selectSendFunds(state: State): SendFundsData {
+  return state.sendFunds
+}
+
 export function selectDigitalAssets(state: State): DigitalAssetsData {
   return state.digitalAssets
 }
@@ -18,14 +26,6 @@ export function selectDigitalAssetsItems(state: State): DigitalAssets {
 
 export function selectAddCustomAsset(state: State): AddCustomAssetData {
   return state.addCustomAsset
-}
-
-export function selectReceiveFunds(state: State): ReceiveFundsData {
-  return state.receiveFunds
-}
-
-export function selectSendFunds(state: State): SendFundsData {
-  return state.sendFunds
 }
 
 export function selectWallets(state: State): WalletsData {

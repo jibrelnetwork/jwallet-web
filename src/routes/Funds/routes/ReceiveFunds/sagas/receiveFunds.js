@@ -1,129 +1,101 @@
 // @flow
 
+import { delay } from 'redux-saga'
+import { compose, equals, filter, head, toLower } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { fileSaver, gtm, qrCode } from 'services'
+import config from 'config'
+import ethereum from 'data/assets/ethereum'
+import { fileSaver, keystore, qrCode, validate } from 'services'
+import { copyToBuffer, getTransactionValue, isETH } from 'utils'
 
 import {
-  getCurrentAddress,
-  getKeystoreAccountType,
-  getTransactionValue,
-  InvalidFieldError,
-} from 'utils'
-
-import {
-  selectDigitalAssetItem,
-  selectKeystore,
   selectReceiveFunds,
+  selectDigitalAssetsItems,
+  selectWalletId,
 } from 'store/stateSelectors'
 
 import {
+  CLOSE,
   SET_ASSET,
   SET_AMOUNT,
-  SET_INVALID_FIELD,
   COPY_ADDRESS,
   SAVE_QR_CODE,
+  generateSuccess,
+  generateError,
+  clean,
 } from '../modules/receiveFunds'
 
-function* onCopyAddress(): Saga<void> {
-  const keystoreData: KeystoreData = yield select(selectKeystore)
-  const address = getCurrentAddress(keystoreData)
-  const addressEl = createAddressEl(address)
-  selectAddress(addressEl)
-  copyAddress()
-  cleanSelection(addressEl)
+function* closeReceiveFunds(): Saga<void> {
+  yield delay(config.delayBeforeFormClean)
+  yield put(clean())
 }
 
-function copyAddress() {
+function* copyAddress(): Saga<void> {
+  const walletId: WalletId = yield select(selectWalletId)
+  const address: Address = keystore.getAddress(walletId)
+  copyToBuffer(address)
+}
+
+function* generateQRCode(): Saga<void> {
   try {
-    window.document.execCommand('copy')
-  } catch (err) {
-    // console.error(err)
-  }
-}
-
-function createAddressEl(address) {
-  const addressEl = window.document.createElement('div')
-  addressEl.style.position = 'absolute'
-  addressEl.style.top = '-5000px'
-  addressEl.innerHTML = address
-
-  if (window.document.body) {
-    window.document.body.appendChild(addressEl)
-  }
-
-  return addressEl
-}
-
-function selectAddress(el) {
-  const range = window.document.createRange()
-  range.selectNodeContents(el)
-
-  const selection = window.getSelection()
-  selection.removeAllRanges()
-  selection.addRange(range)
-}
-
-function cleanSelection(el) {
-  const selection = window.getSelection()
-  selection.removeAllRanges()
-  el.remove()
-}
-
-function* onGenerateQRCode(): Saga<void> {
-  try {
-    const keystoreData: KeystoreData = yield select(selectKeystore)
-    const { amount, symbol }: ReceiveFundsData = yield select(selectReceiveFunds)
+    const walletId: WalletId = yield select(selectWalletId)
+    const { amount, assetAddress }: ReceiveFundsData = yield select(selectReceiveFunds)
 
     if (!amount) {
       return
     }
 
-    const to: Address = getCurrentAddress(keystoreData)
-    const value: Bignumber = yield getValue(amount, symbol)
-
-    validateValue(value)
+    const to: Address = keystore.getAddress(walletId)
+    const requisites = yield getRequisites(to, amount, assetAddress)
 
     qrCode.generate({
-      requisites: { to, value },
+      requisites,
       appearance: {},
       selector: '#qr-code',
     })
 
-    yield onGenerateQRCodeSuccess()
+    const { customType }: Wallet = keystore.getWallet(walletId)
+
+    yield put(generateSuccess(customType))
   } catch (err) {
-    yield onGenerateQRCodeError(err)
+    yield put(generateError(err))
   }
 }
 
-function* onGenerateQRCodeSuccess() {
-  const { currentAccount }: KeystoreData = yield select(selectKeystore)
-  const accountType: string = getKeystoreAccountType(currentAccount)
+function* getRequisites(to: Address, amount: string, assetAddress: Address) {
+  const decimals: Decimals = yield getAssetDecimals(assetAddress)
 
-  gtm.pushReceiveFunds('QRCodeGenerate', accountType)
-}
+  validate.txAmount(amount)
+  validate.txValueGreaterThan0(amount, decimals)
 
-function* onGenerateQRCodeError(err: InvalidFieldError) {
-  // console.error(err)
+  const value: Bignumber = getTransactionValue(amount, decimals)
 
-  const { fieldName, message }: InvalidFieldError = err
-
-  yield put({ type: SET_INVALID_FIELD, fieldName, message })
-}
-
-function* getValue(amount: string, symbol: string) {
-  const { decimals }: DigitalAsset = yield select(selectDigitalAssetItem, symbol)
-
-  return getTransactionValue(amount, decimals)
-}
-
-function validateValue(value: Bignumber) {
-  if (value.lte(0)) {
-    throw new InvalidFieldError('amount', i18n('routes.receiveFunds.error.amount.invalid'))
+  return isETH(assetAddress) ? { to, value } : {
+    to: assetAddress,
+    mode: 'erc20__transfer',
+    argsDefaults: [{
+      value: to,
+      name: 'to',
+    }, {
+      value,
+      name: 'value',
+    }],
   }
 }
 
-function onSaveQRCode(): Saga<void> {
+function* getAssetDecimals(assetAddress: Address) {
+  const digitalAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
+
+  const digitalAsset: DigitalAsset = compose(
+    head,
+    filter(({ address }: DigitalAsset): boolean => equals(toLower(assetAddress), toLower(address))),
+  )(digitalAssets) || ethereum
+
+  return digitalAsset.decimals
+}
+
+function saveQRCode(): Saga<void> {
   const canvas = document.querySelector('#qr-code canvas')
 
   if (!canvas) {
@@ -133,15 +105,22 @@ function onSaveQRCode(): Saga<void> {
   fileSaver.saveCanvas(canvas, 'jwallet-qrcode')
 }
 
-export function* watchCopyAddress(): Saga<void> {
-  yield takeEvery(COPY_ADDRESS, onCopyAddress)
+export function* watchReceiveFundsClose(): Saga<void> {
+  yield takeEvery(CLOSE, closeReceiveFunds)
 }
 
-export function* watchGenerateCode(): Saga<void> {
-  yield takeEvery(SET_ASSET, onGenerateQRCode)
-  yield takeEvery(SET_AMOUNT, onGenerateQRCode)
+export function* watchReceiveFundsCopyAddress(): Saga<void> {
+  yield takeEvery(COPY_ADDRESS, copyAddress)
 }
 
-export function* watchSaveQRCode(): Saga<void> {
-  yield takeEvery(SAVE_QR_CODE, onSaveQRCode)
+export function* watchReceiveFundsSetAsset(): Saga<void> {
+  yield takeEvery(SET_ASSET, generateQRCode)
+}
+
+export function* watchReceiveFundsSetAmount(): Saga<void> {
+  yield takeEvery(SET_AMOUNT, generateQRCode)
+}
+
+export function* watchReceiveFundsSaveQRCode(): Saga<void> {
+  yield takeEvery(SAVE_QR_CODE, saveQRCode)
 }

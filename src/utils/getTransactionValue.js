@@ -4,7 +4,7 @@ import toBigNumber from './toBigNumber'
 
 const getTransactionValue = (
   amount: string | number,
-  decimals: number
+  decimals: Decimals,
 ): Bignumber => {
   const value: Bignumber = toBigNumber(amount)
   const units: Bignumber = toBigNumber(10)
