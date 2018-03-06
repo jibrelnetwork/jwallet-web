@@ -1,46 +1,60 @@
+/* @flow */
 import React from 'react'
-import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { empty, prop } from 'ramda'
 
-import JIcon from 'components/base/JIcon'
+import JText from '../JText'
+import JIcon from '../JIcon'
 
-function JButton(props) {
-  const { onClick, label, className, iconName, disabled, white, blue, fullWidth, ...other } = props
-  let buttonClassName = fullWidth ? 'button button--full-width' : 'button'
-
-  if (disabled) {
-    buttonClassName = `${buttonClassName} button--disabled`
-  } else if (white) {
-    buttonClassName = `${buttonClassName} button--white`
-  } else if (blue) {
-    buttonClassName = `${buttonClassName} button--blue`
-  }
-
-  return (
-    <div onClick={disabled ? null : onClick} className={buttonClassName} {...other}>
-      <JIcon name={iconName} className='button__icon' small />{label}
-    </div>
-  )
+type Props = {
+ text?: string,
+ color: 'white' | 'blue',
+ onClick?: Function,
+ iconName?: string,
+ disabled?: boolean,
+ isLoading?: boolean,
+ withBorder?: boolean,
 }
 
-JButton.propTypes = {
-  label: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  className: PropTypes.string,
-  iconName: PropTypes.string,
-  disabled: PropTypes.bool,
-  white: PropTypes.bool,
-  blue: PropTypes.bool,
-  fullWidth: PropTypes.bool,
-}
+const JButton = ({
+  text,
+  color,
+  onClick,
+  iconName,
+  disabled,
+  isLoading,
+  withBorder,
+}: Props) => (
+  <div
+    onClick={disabled || onClick}
+    className={classnames('Button', {
+      '-loading': isLoading,
+      '-bordered': withBorder,
+    }, prop(color, {
+      blue: '-blue',
+      white: '-white',
+    }))}
+  >
+    {iconName && (
+      <div className='icon'>
+        <JIcon name={iconName} small />
+      </div>
+    )}
+    {text && (
+      <div className='icon'>
+        <JText value={text} />
+      </div>
+    )}
+  </div>
+)
 
 JButton.defaultProps = {
-  onClick: () => {},
-  className: '',
-  iconName: '',
+  text: undefined,
+  onClick: empty,
+  iconName: undefined,
   disabled: false,
-  white: false,
-  blue: true,
-  fullWidth: false,
+  isLoading: false,
+  withBorder: false,
 }
 
 export default JButton
