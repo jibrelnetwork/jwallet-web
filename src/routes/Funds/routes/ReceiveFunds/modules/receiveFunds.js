@@ -12,6 +12,7 @@ export const GENERATE = '@@receiveFunds/GENERATE'
 export const GENERATE_SUCCESS = '@@receiveFunds/GENERATE_SUCCESS'
 export const GENERATE_ERROR = '@@receiveFunds/GENERATE_ERROR'
 export const COPY_ADDRESS = '@@receiveFunds/COPY_ADDRESS'
+export const SET_IS_COPIED = '@@receiveFunds/SET_IS_COPIED'
 export const SAVE_QR_CODE = '@@receiveFunds/SAVE_QR_CODE'
 export const SET_INVALID_FIELD = '@@receiveFunds/SET_INVALID_FIELD'
 export const CLEAN = '@@receiveFunds/CLEAN'
@@ -50,6 +51,18 @@ export const setAmount = (amount: string): {
 
 export const copyAddress = (): { type: string } => ({
   type: COPY_ADDRESS,
+})
+
+export const setIsCopied = (isCopied: boolean): {
+  type: string,
+  payload: {
+    isCopied: boolean,
+  },
+} => ({
+  type: SET_IS_COPIED,
+  payload: {
+    isCopied,
+  },
 })
 
 export const saveQRCode = (): { type: string } => ({
@@ -100,6 +113,7 @@ const initialState: ReceiveFundsData = {
   invalidFields: {},
   assetAddress: ethereum.address,
   amount: '',
+  isCopied: false,
 }
 
 const receiveFunds = (
@@ -116,8 +130,12 @@ const receiveFunds = (
     case SET_AMOUNT: {
       return compose(
         assoc('amount', payload.amount),
-        assocPath(['invalidFields', 'amount'], ''),
+        assocPath(['invalidFields', 'amount'], null),
       )(state)
+    }
+
+    case SET_IS_COPIED: {
+      return assoc('isCopied', payload.isCopied)(state)
     }
 
     case SET_INVALID_FIELD: {

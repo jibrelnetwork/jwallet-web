@@ -23,6 +23,7 @@ import {
   SAVE_QR_CODE,
   generateSuccess,
   generateError,
+  setIsCopied,
   clean,
 } from '../modules/receiveFunds'
 
@@ -32,9 +33,17 @@ function* closeReceiveFunds(): Saga<void> {
 }
 
 function* copyAddress(): Saga<void> {
-  const walletId: WalletId = yield select(selectWalletId)
-  const address: Address = keystore.getAddress(walletId)
-  copyToBuffer(address)
+  try {
+    const walletId: ?WalletId = yield select(selectWalletId)
+    const address: Address = keystore.getAddress(walletId)
+    copyToBuffer(address)
+    yield put(setIsCopied(true))
+    yield delay(config.copyToBufferTimeout)
+  } catch (err) {
+    // console.error(err)
+  }
+
+  yield put(setIsCopied(false))
 }
 
 function* generateQRCode(): Saga<void> {

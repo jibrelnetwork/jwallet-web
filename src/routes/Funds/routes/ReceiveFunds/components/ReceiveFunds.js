@@ -14,6 +14,7 @@ const ReceiveFunds = ({
   assetAddress,
   recipient,
   amount,
+  isCopied,
 }) => (
   <div className='receive-funds-view'>
     <div
@@ -45,7 +46,7 @@ const ReceiveFunds = ({
       errorMessage={invalidFields.amount}
       editable
     />
-    <JButton onClick={copyAddress} label={i18n('routes.receiveFunds.buttonTitleCopy')} blue />
+    <JButton onClick={copyAddress} label={isCopied ? 'copied' : 'copy'} blue />
   </div>
 )
 
@@ -59,6 +60,7 @@ ReceiveFunds.propTypes = {
   assetAddress: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   recipient: PropTypes.string.isRequired,
+  isCopied: PropTypes.bool.isRequired,
 }
 
 export default ReceiveFunds
