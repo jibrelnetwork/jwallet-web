@@ -20,7 +20,6 @@ import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
  */
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
-import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
 import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
 import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPassword/modules/changeWalletPassword' // eslint-disable-line max-len
 import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/removeWallet'
@@ -51,7 +50,6 @@ export const redirect = (store: { dispatch: Dispatch }) => (next: Next) => (acti
      * Wallets
      */
     case createWallet.CLOSE:
-    case importWallet.CLOSE:
     case editWallet.CLOSE:
     case editWallet.EDIT_SUCCESS:
     case changeWalletPassword.CLOSE:

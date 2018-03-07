@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { Link } from 'react-router'
 
 import { handle, isMnemonicType } from 'utils'
 import { DerivationPath, Expandable } from 'components'
@@ -52,6 +53,7 @@ const Data = ({
         />
       </Expandable>
     )}
+    <Link to='/wallets'>{i18n('routes.importWallet.buttonTitle.prevStep')}</Link>
     <JButton onClick={setNextStep} label={i18n('routes.importWallet.buttonTitle.nextStep')} blue />
   </div>
 )

@@ -6,11 +6,8 @@ import { equals, isEmpty, gt, lt, toLower } from 'ramda'
 import ethereum from 'data/assets/ethereum'
 import { getTransactionValue, toBigNumber, InvalidFieldError } from 'utils'
 
-const derivationPath = (data: {
-  customDerivationPath: string,
-  knownDerivationPath: string,
-}): void => {
-  const path: string = data.customDerivationPath || data.knownDerivationPath
+const derivationPath = (knownDerivationPath: string, customDerivationPath: string): void => {
+  const path: string = customDerivationPath || knownDerivationPath
 
   if (Keystore.isDerivationPathValid(path)) {
     return
