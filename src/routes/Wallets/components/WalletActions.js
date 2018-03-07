@@ -16,7 +16,7 @@ const WalletActions = ({
       {'Edit'}
     </div>
     <div
-      onClick={handle(setWalletAction)('edit')}
+      onClick={handle(setWalletAction)('backup')}
       style={{ marginRight: '20px' }}
     >
       {'Backup'}
@@ -30,7 +30,7 @@ const WalletActions = ({
       </div>
     )}
     <div
-      onClick={handle(setWalletAction)('edit')}
+      onClick={handle(setWalletAction)('remove')}
       style={{ marginRight: '20px', opacity: '0.5' }}
     >
       {'Delete'}
