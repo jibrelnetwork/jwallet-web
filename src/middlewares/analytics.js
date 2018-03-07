@@ -6,6 +6,7 @@ import gtm from 'services/gtm'
  * Funds
  */
 import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
+import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
 
 /**
  * Digital Assets
@@ -27,6 +28,11 @@ export const pushEvent = () => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
 
   switch (type) {
+    case sendFunds.SEND_SUCCESS: {
+      gtm.pushSendFunds()
+      break
+    }
+
     case receiveFunds.GENERATE_SUCCESS: {
       gtm.pushReceiveFunds('QRCodeGenerate', payload.walletType)
       break

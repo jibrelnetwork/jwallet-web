@@ -257,16 +257,13 @@ declare type SendFundsData = {
   invalidFields: any,
   alert: string,
   amount: string,
+  assetAddress: string,
+  recipient: Address,
   password: string,
   currentStep: number,
   gas?: string,
   gasPrice?: string,
   nonce?: string,
-  /**
-   * symbol & recipient should be replaced by assetAddress & recipientAdress
-   */
-  symbol: string,
-  recipient: Address,
 }
 
 declare type ReceiveFundsData = {
@@ -281,6 +278,16 @@ declare type ConvertFundsData = {
   +fromAmount: string,
   +toAsset: string,
   +toAmount: string,
+}
+
+declare type TXData = {
+  to: Address,
+  value: Bignumber,
+  privateKey: string,
+  contractAddress?: Address,
+  gasPrice?: Bignumber,
+  gasLimit?: Bignumber,
+  nonce?: Bignumber,
 }
 
 /**

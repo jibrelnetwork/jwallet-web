@@ -173,32 +173,6 @@ module.exports = {
         nonce: 'Nonce',
         password: 'Password',
       },
-      error: {
-        amount: {
-          invalid: 'Please enter a valid transfer amount',
-          lessThan0: 'Amount should be greater than 0',
-          exceedsBalance: 'Amount specified exceeds current balance. Please enter a valid amount.',
-          emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
-        },
-        recipient: {
-          invalid: 'Please enter a valid account address',
-        },
-        gas: {
-          invalid: 'Please enter a valid gas limit value',
-          lessThan0: 'Gas limit should be greater than 0',
-        },
-        gasPrice: {
-          invalid: 'Please input a valid gas price value',
-          lessThan0: 'Gas price should be greater than 0',
-        },
-        nonce: {
-          invalid: 'Please input a valid transaction nonce',
-          lessThan0: 'Nonce should be greater than or equal to 0',
-        },
-        password: {
-          invalid: 'Invalid Password',
-        },
-      },
     },
   },
   modals: {
@@ -510,6 +484,24 @@ module.exports = {
       },
       amount: {
         invalid: 'Please enter a valid transfer amount',
+        lessThan0: 'Amount should be greater than 0',
+        exceedsBalance: 'Amount specified exceeds current balance. Please enter a valid amount.',
+        emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
+      },
+      recipient: {
+        invalid: 'Please enter a valid wallet address',
+      },
+      gas: {
+        invalid: 'Please enter a valid gas limit value',
+        lessThan0: 'Gas limit should be greater than 0',
+      },
+      gasPrice: {
+        invalid: 'Please input a valid gas price value',
+        lessThan0: 'Gas price should be greater than 0',
+      },
+      nonce: {
+        invalid: 'Please input a valid transaction nonce',
+        lessThan0: 'Nonce should be greater than or equal 0 to',
       },
     },
   },

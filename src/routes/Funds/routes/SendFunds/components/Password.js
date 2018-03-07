@@ -5,7 +5,7 @@ import { JButton, JTextInput } from 'components/base'
 
 const Password = ({
   setPassword,
-  send,
+  setNextStep,
   invalidFields,
   password,
 }) => (
@@ -19,13 +19,13 @@ const Password = ({
       editable
       secureTextEntry
     />
-    <JButton onClick={send} label={i18n('routes.sendFunds.buttonTitlePassword')} blue />
+    <JButton onClick={setNextStep} label={i18n('routes.sendFunds.buttonTitlePassword')} blue />
   </div>
 )
 
 Password.propTypes = {
   setPassword: PropTypes.func.isRequired,
-  send: PropTypes.func.isRequired,
+  setNextStep: PropTypes.func.isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   password: PropTypes.string.isRequired,
 }
