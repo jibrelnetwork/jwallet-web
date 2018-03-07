@@ -86,4 +86,9 @@ export default {
    * to prevent blinking of loader for fast response
    */
   balanceLoadingTimeout: 300,
+
+  /**
+   * timeout for showing a message, that some content was copied to buffer (ms)
+   */
+  copyToBufferTimeout: 5 * 1000,
 }
