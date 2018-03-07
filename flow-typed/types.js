@@ -3,7 +3,6 @@ import type { Saga } from 'redux-saga'
 /**
  * General
  */
-
 declare type Index = number
 declare type EthereumAddress = 'Ethereum'
 declare type Address = string | EthereumAddress
@@ -12,6 +11,8 @@ declare type Bignumber = any
 declare type Decimals = number
 declare type Balances = { [Address]: number }
 declare type AddressBalancePairs = Array<[Address, number]>
+
+declare type FormFields = { [string]: ?string }
 
 declare type FSA = {
   +type: string,
@@ -24,9 +25,8 @@ declare type Dispatch = Object => Next
 declare type Next = FSA => FSA
 
 /**
- * Digital Assets
+ * Digital assets
  */
-
 declare type DigitalAsset = {
   +address: Address,
   +symbol: string,
@@ -39,7 +39,7 @@ declare type DigitalAsset = {
 declare type DigitalAssets = Array<DigitalAsset>
 
 declare type DigitalAssetsData = {
-  +invalidFields: Object,
+  +invalidFields: FormFields,
   +items: DigitalAssets,
   +foundAssets: Addresses,
   +balances: Balances,
@@ -51,7 +51,6 @@ declare type DigitalAssetsData = {
 /**
  * Custom digital asset
  */
-
 declare type CustomAssetData = {
   +address: Address,
   +symbol: string,
@@ -60,7 +59,7 @@ declare type CustomAssetData = {
 }
 
 declare type AddCustomAssetData = {
-  +invalidFields: Object,
+  +invalidFields: FormFields,
   +address: Address,
   +name: string,
   +symbol: string,
@@ -70,7 +69,6 @@ declare type AddCustomAssetData = {
 /**
  * Wallets
  */
-
 declare type WalletId = string
 declare type WalletAction = 'edit' | 'backup' | 'change-password' | 'remove'
 declare type WalletType = 'mnemonic' | 'bip32Xpub' | 'privateKey' | 'address'
@@ -96,7 +94,7 @@ declare type Wallet = {
 declare type Wallets = Array<Wallet>
 
 declare type WalletsData = {
-  +invalidFields: Object,
+  +invalidFields: FormFields,
   +items: Wallets,
   +password: Password,
   +toggledWalletId: ?WalletId,
@@ -119,7 +117,6 @@ declare type DecryptedWalletData = {
 /**
  * Mnemonic addresses
  */
-
 declare type MnemonicAddressesData = {
   +addresses: Addresses,
   +balances: Balances,
@@ -129,10 +126,9 @@ declare type MnemonicAddressesData = {
 /**
  * Create wallet
  */
-
 declare type CreateWalletData = {
-  +validFields: Object,
-  +invalidFields: Object,
+  +validFields: FormFields,
+  +invalidFields: FormFields,
   +name: string,
   +mnemonic: string,
   +mnemonicConfirm: string,
@@ -144,10 +140,9 @@ declare type CreateWalletData = {
 /**
  * Import wallet
  */
-
 declare type ImportWalletData = {
-  +validFields: Object,
-  +invalidFields: Object,
+  +validFields: FormFields,
+  +invalidFields: FormFields,
   +name: string,
   +data: string,
   +password: Password,
@@ -162,10 +157,9 @@ declare type ImportWalletData = {
 /**
  * Edit wallet
  */
-
 declare type EditWalletData = {
-  +validFields: Object,
-  +invalidFields: Object,
+  +validFields: FormFields,
+  +invalidFields: FormFields,
   +name: string,
   +password: Password,
   +knownDerivationPath: string,
@@ -177,20 +171,18 @@ declare type EditWalletData = {
 /**
  * Backup wallet
  */
-
 declare type BackupWalletData = {
-  +validFields: Object,
-  +invalidFields: Object,
+  +validFields: FormFields,
+  +invalidFields: FormFields,
   +password: Password,
 }
 
 /**
  * Change wallet password
  */
-
 declare type ChangeWalletPasswordData = {
-  +validFields: Object,
-  +invalidFields: Object,
+  +validFields: FormFields,
+  +invalidFields: FormFields,
   +password: Password,
   +newPassword: Password,
   +confirmPassword: Password,
@@ -199,13 +191,11 @@ declare type ChangeWalletPasswordData = {
 /**
  * Remove wallet
  */
-
 declare type RemoveWalletData = {}
 
 /**
  * Networks
  */
-
 declare type NetworkId = number
 
 declare type Network = {
@@ -229,7 +219,6 @@ declare type NetworksData = {
 /**
  * Transactions
  */
-
 declare type Hash = string
 
 declare type Transaction = {
@@ -252,28 +241,28 @@ declare type Transactions = Array<Transaction>
 /**
  * Funds
  */
-
 declare type SendFundsData = {
-  invalidFields: any,
-  alert: string,
-  amount: string,
-  assetAddress: string,
-  recipient: Address,
-  password: string,
-  currentStep: number,
-  gas?: string,
-  gasPrice?: string,
-  nonce?: string,
+  +invalidFields: FormFields,
+  +alert: string,
+  +amount: string,
+  +assetAddress: string,
+  +recipient: Address,
+  +password: string,
+  +currentStep: number,
+  +gas?: string,
+  +gasPrice?: string,
+  +nonce?: string,
 }
 
 declare type ReceiveFundsData = {
-  invalidFields: Object,
-  assetAddress: Address,
-  amount: string,
+  +invalidFields: FormFields,
+  +assetAddress: Address,
+  +amount: string,
+  +isCopied: boolean,
 }
 
 declare type ConvertFundsData = {
-  +invalidFields: Object,
+  +invalidFields: FormFields,
   +fromAsset: string,
   +fromAmount: string,
   +toAsset: string,
@@ -293,7 +282,6 @@ declare type TXData = {
 /**
  * Entire state
  */
-
 declare type State = {
   +networks: NetworksData,
   +currencies: DigitalAssetsData,
@@ -315,7 +303,6 @@ declare type State = {
 /**
  * Errors
  */
-
 declare type InvalidFieldError = {
   fieldName: string,
   message: string,
@@ -329,7 +316,6 @@ declare type InvalidFieldError = {
 /**
  * Keystore
  */
-
 declare type AccountId = string
 
 declare type Account = {
