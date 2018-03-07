@@ -1,11 +1,14 @@
+// @flow
+
+import lifecycle from 'recompose/lifecycle'
+import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import {
-  getCurrentAddress,
-  getDigitalAssetSymbols,
-} from 'utils'
+import { getActiveDigitalAssetsData, getWalletNameAndAddress } from 'utils'
 
 import {
+  open,
+  close,
   setAsset,
   setAmount,
   setRecipient,
@@ -13,28 +16,20 @@ import {
   setGasPrice,
   setNonce,
   setPassword,
-  goToPasswordStep,
-  send,
+  setNextStep,
 } from '../modules/sendFunds'
 
 import SendFunds from '../components/SendFunds'
 
-const getSender = (keystore) => {
-  const { accountName } = keystore.currentAccount
-  const currentAddress = getCurrentAddress(keystore)
-  const name = (accountName.length > 20) ? `${accountName.substr(0, 20)}...` : accountName
-  const addr = `${currentAddress.substr(0, 6)}...${currentAddress.substr(-2)}`
-
-  return `${name}   ${addr}`
-}
-
-const mapStateToProps = ({ currencies, keystore, sendFunds }) => ({
+const mapStateToProps = ({ digitalAssets, wallets, sendFunds }: State) => ({
   ...sendFunds,
-  sender: getSender(keystore),
-  digitalAssets: getDigitalAssetSymbols(currencies),
+  sender: getWalletNameAndAddress(wallets.activeWalletId),
+  digitalAssets: getActiveDigitalAssetsData(digitalAssets),
 })
 
 const mapDispatchToProps = {
+  open,
+  close,
   setAsset,
   setAmount,
   setRecipient,
@@ -42,8 +37,13 @@ const mapDispatchToProps = {
   setGasPrice,
   setNonce,
   setPassword,
-  goToPasswordStep,
-  send,
+  setNextStep,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendFunds)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentDidMount() { this.props.open() },
+    componentWillUnmount() { this.props.close() },
+  }),
+)(SendFunds)

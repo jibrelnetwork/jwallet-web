@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import SendFundsForm from './Form'
-import SendFundsPassword from './Password'
+import Form from './Form'
+import Password from './Password'
 
 import { STEPS } from '../modules/sendFunds'
 
 const SendFunds = props => (
   <div className='send-funds-view'>
-    {(props.currentStep === STEPS.FORM) && <SendFundsForm {...props} />}
-    {(props.currentStep === STEPS.PASSWORD) && <SendFundsPassword {...props} />}
+    {(props.currentStep === STEPS.FORM) && <Form {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <Password {...props} />}
   </div>
 )
 
@@ -22,11 +22,11 @@ SendFunds.propTypes = {
   setNonce: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
   send: PropTypes.func.isRequired,
-  goToPasswordStep: PropTypes.func.isRequired,
-  digitalAssets: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  setNextStep: PropTypes.func.isRequired,
+  digitalAssets: PropTypes.arrayOf(PropTypes.object).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   alert: PropTypes.string.isRequired,
-  symbol: PropTypes.string.isRequired,
+  assetAddress: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   recipient: PropTypes.string.isRequired,
   gas: PropTypes.string.isRequired,

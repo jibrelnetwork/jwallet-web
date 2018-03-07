@@ -4,6 +4,7 @@
  * Funds
  */
 import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
+import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
 
 /**
  * Digital Assets
@@ -30,6 +31,11 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
      */
     case receiveFunds.GENERATE_ERROR: {
       store.dispatch(receiveFunds.setInvalidField(payload.fieldName, payload.message))
+      break
+    }
+
+    case sendFunds.SEND_ERROR: {
+      store.dispatch(sendFunds.setInvalidField(payload.fieldName, payload.message))
       break
     }
 

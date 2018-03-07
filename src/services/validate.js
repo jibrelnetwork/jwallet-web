@@ -4,7 +4,7 @@ import Keystore from 'jwallet-web-keystore'
 import { equals, isEmpty, gt, lt, toLower } from 'ramda'
 
 import ethereum from 'data/assets/ethereum'
-import { InvalidFieldError } from 'utils/errors'
+import { getTransactionValue, toBigNumber, InvalidFieldError } from 'utils'
 
 const derivationPath = (data: {
   customDerivationPath: string,
@@ -130,9 +130,88 @@ function searchQuery(query: string) {
   }
 }
 
-function fundsValue(value: Bignumber): void {
-  if (value.lte(0)) {
+function txData(
+  sendFundsData: SendFundsData,
+  ethBal: number,
+  assetBal: number,
+  decimals: Decimals,
+): void {
+  const { amount, recipient, gas, gasPrice, nonce }: SendFundsData = sendFundsData
+
+  ethBalance(ethBal)
+
+  txAmount(amount)
+  txValueGreaterThan0(amount, decimals)
+  txValueLessThanAssetBalance(amount, decimals, assetBal)
+
+  txRecipient(recipient)
+  txGas(gas)
+  txGasPrice(gasPrice)
+  txNonce(nonce)
+}
+
+function ethBalance(ethBal: number): void {
+  if (!ethBal) {
+    throw new InvalidFieldError('amount', i18n('general.error.amount.emptyETHBalance'))
+  }
+}
+
+function txAmount(amount: string): void {
+  if (/[^\d.]/.test(amount)) {
     throw new InvalidFieldError('amount', i18n('general.error.amount.invalid'))
+  }
+}
+
+function txValueGreaterThan0(amount: string, decimals: Decimals): void {
+  const value: Bignumber = getTransactionValue(amount, decimals)
+
+  if (value.lt(0)) {
+    throw new InvalidFieldError('amount', i18n('general.error.amount.lessThan0'))
+  }
+}
+
+function txValueLessThanAssetBalance(amount: string, decimals: Decimals, assetBal: number): void {
+  const value: Bignumber = getTransactionValue(amount, decimals)
+  const balance: Bignumber = getTransactionValue(assetBal, decimals)
+
+  if (value.gt(balance)) {
+    throw new InvalidFieldError('amount', i18n('general.error.amount.exceedsBalance'))
+  }
+}
+
+function txRecipient(address: Address): void {
+  if (!Keystore.isAddressValid(address)) {
+    throw new InvalidFieldError('recipient', i18n('general.error.recipient.invalid'))
+  }
+}
+
+function txGas(gas: ?string): void {
+  if (gas && /\D/.test(gas)) {
+    throw new InvalidFieldError('gas', i18n('general.error.gas.invalid'))
+  }
+
+  if (gas && toBigNumber(gas).lte(0)) {
+    throw new InvalidFieldError('gas', i18n('general.error.gas.lessThan0'))
+  }
+}
+
+function txGasPrice(gasPrice: ?string): void {
+  if (gasPrice && /\D/.test(gasPrice)) {
+    throw new InvalidFieldError('gasPrice', i18n('general.error.gasPrice.invalid'))
+  }
+
+  if (gasPrice && toBigNumber(gasPrice).lessThanOrEqualTo(0)) {
+    throw new InvalidFieldError('gasPrice', i18n('general.error.gasPrice.lessThan0'))
+  }
+}
+
+function txNonce(nonce: ?string): void {
+  if (nonce && /\D/.test(nonce)) {
+    throw new InvalidFieldError('nonce', i18n('general.error.nonce.invalid'))
+  }
+
+  if (nonce && toBigNumber(nonce).lessThan(0)) {
+    throw new InvalidFieldError('nonce', i18n('general.error.nonce.lessThan0'))
   }
 }
 
@@ -149,5 +228,12 @@ export default {
   customAssetDecimals,
   customAssetPropUniq,
   searchQuery,
-  fundsValue,
+  txData,
+  txAmount,
+  txValueGreaterThan0,
+  txValueLessThanAssetBalance,
+  txRecipient,
+  txGas,
+  txGasPrice,
+  txNonce,
 }

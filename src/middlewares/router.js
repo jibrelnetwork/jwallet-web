@@ -5,15 +5,19 @@ import { push } from 'react-router-redux'
 import isMnemonicType from 'utils/isMnemonicType'
 
 /**
+ * Funds
+ */
+import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
+import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
+
+/**
  * Digital Assets
  */
-
 import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
 
 /**
  * Wallets
  */
-
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
@@ -26,9 +30,18 @@ export const redirect = (store: { dispatch: Dispatch }) => (next: Next) => (acti
 
   switch (type) {
     /**
+     * Funds
+     */
+    case receiveFunds.CLOSE:
+    case sendFunds.CLOSE:
+    case sendFunds.SEND_SUCCESS: {
+      store.dispatch(push('/'))
+      break
+    }
+
+    /**
      * Digital Assets
      */
-
     case addCustomAsset.ADD_SUCCESS: {
       store.dispatch(push('/'))
       break
@@ -37,7 +50,6 @@ export const redirect = (store: { dispatch: Dispatch }) => (next: Next) => (acti
     /**
      * Wallets
      */
-
     case createWallet.CLOSE:
     case importWallet.CLOSE:
     case editWallet.CLOSE:

@@ -1,5 +1,11 @@
 // @flow
 
+import { assoc, assocPath, compose } from 'ramda'
+
+import ethereum from 'data/assets/ethereum'
+
+export const OPEN = '@@sendFunds/OPEN'
+export const CLOSE = '@@sendFunds/CLOSE'
 export const SET_ALERT = '@@sendFunds/SET_ALERT'
 export const SET_ASSET = '@@sendFunds/SET_ASSET'
 export const SET_AMOUNT = '@@sendFunds/SET_AMOUNT'
@@ -10,158 +16,185 @@ export const SET_NONCE = '@@sendFunds/SET_NONCE'
 export const SET_PASSWORD = '@@sendFunds/SET_PASSWORD'
 export const SET_INVALID_FIELD = '@@sendFunds/SET_INVALID_FIELD'
 export const SET_CURRENT_STEP = '@@sendFunds/SET_CURRENT_STEP'
-export const GO_TO_PASSWORD_STEP = '@@sendFunds/GO_TO_PASSWORD_STEP'
-export const CLEAN = '@@sendFunds/CLEAN'
+export const SET_NEXT_STEP = '@@sendFunds/SET_NEXT_STEP'
 export const SEND = '@@sendFunds/SEND'
+export const SEND_SUCCESS = '@@sendFunds/SEND_SUCCESS'
+export const SEND_ERROR = '@@sendFunds/SEND_ERROR'
+export const CLEAN = '@@sendFunds/CLEAN'
 
 export const STEPS = {
   FORM: 0,
   PASSWORD: 1,
 }
 
-export function setAsset(symbol: string): { type: string, symbol: string } {
-  return {
-    type: SET_ASSET,
-    symbol,
-  }
-}
+export const open = (): { type: string } => ({
+  type: OPEN,
+})
 
-export function setAmount(amount: string): { type: string, amount: string } {
-  return {
-    type: SET_AMOUNT,
-    amount,
-  }
-}
+export const close = (): { type: string } => ({
+  type: CLOSE,
+})
 
-export function setRecipient(recipient: Address): {
+export const setAlert = (alert: string): {
   type: string,
-  recipient: Address,
-} {
-  return {
-    type: SET_RECIPIENT,
+  payload: {
+    alert: string,
+  },
+} => ({
+  type: SET_ALERT,
+  payload: {
+    alert,
+  },
+})
+
+export const setAsset = (assetAddress: Address): {
+  type: string,
+  payload: {
+    assetAddress: Address,
+  },
+} => ({
+  type: SET_ASSET,
+  payload: {
+    assetAddress,
+  },
+})
+
+export const setAmount = (amount: string): {
+  type: string,
+  payload: {
+    amount: string,
+  },
+} => ({
+  type: SET_AMOUNT,
+  payload: {
+    amount,
+  },
+})
+
+export const setRecipient = (recipient: Address): {
+  type: string,
+  payload: {
+    recipient: Address,
+  },
+} => ({
+  type: SET_RECIPIENT,
+  payload: {
     recipient,
-  }
-}
+  },
+})
 
-export function setGas(gas: string): { type: string, gas: string } {
-  return {
-    type: SET_GAS,
+export const setGas = (gas: string): {
+  type: string,
+  payload: {
+    gas: string,
+  },
+} => ({
+  type: SET_GAS,
+  payload: {
     gas,
-  }
-}
+  },
+})
 
-export function setGasPrice(gasPrice: string): { type: string, gasPrice: string } {
-  return {
-    type: SET_GAS_PRICE,
+export const setGasPrice = (gasPrice: string): {
+  type: string,
+  payload: {
+    gasPrice: string,
+  },
+} => ({
+  type: SET_GAS_PRICE,
+  payload: {
     gasPrice,
-  }
-}
+  },
+})
 
-export function setNonce(nonce: string): { type: string, nonce: string } {
-  return {
-    type: SET_NONCE,
+export const setNonce = (nonce: string): {
+  type: string,
+  payload: {
+    nonce: string,
+  },
+} => ({
+  type: SET_NONCE,
+  payload: {
     nonce,
-  }
-}
+  },
+})
 
-export function setPassword(password: string): { type: string, password: string } {
-  return {
-    type: SET_PASSWORD,
+export const setPassword = (password: string): {
+  type: string,
+  payload: {
+    password: string,
+  },
+} => ({
+  type: SET_PASSWORD,
+  payload: {
     password,
-  }
-}
+  },
+})
 
-export function goToPasswordStep(): { type: string } {
-  return {
-    type: GO_TO_PASSWORD_STEP,
-  }
-}
+export const setNextStep = (): { type: string } => ({
+  type: SET_NEXT_STEP,
+})
 
-export function send() {
-  return {
-    type: SEND,
-  }
-}
+export const setCurrentStep = (currentStep: Index): {
+  type: string,
+  payload: {
+    currentStep: Index,
+  },
+} => ({
+  type: SET_CURRENT_STEP,
+  payload: {
+    currentStep,
+  },
+})
 
-const ACTION_HANDLERS = {
-  [SET_ALERT]: (state, action) => ({
-    ...state,
-    alert: action.alert,
-  }),
-  [SET_ASSET]: (state, action) => ({
-    ...state,
-    symbol: action.symbol,
-    invalidFields: {
-      ...state.invalidFields,
-      symbol: '',
-    },
-  }),
-  [SET_AMOUNT]: (state, action) => ({
-    ...state,
-    amount: action.amount,
-    invalidFields: {
-      ...state.invalidFields,
-      amount: '',
-    },
-  }),
-  [SET_RECIPIENT]: (state, action) => ({
-    ...state,
-    recipient: action.recipient,
-    invalidFields: {
-      ...state.invalidFields,
-      recipient: '',
-    },
-  }),
-  [SET_GAS]: (state, action) => ({
-    ...state,
-    gas: action.gas,
-    invalidFields: {
-      ...state.invalidFields,
-      gas: '',
-    },
-  }),
-  [SET_GAS_PRICE]: (state, action) => ({
-    ...state,
-    gasPrice: action.gasPrice,
-    invalidFields: {
-      ...state.invalidFields,
-      gasPrice: '',
-    },
-  }),
-  [SET_NONCE]: (state, action) => ({
-    ...state,
-    nonce: action.nonce,
-    invalidFields: {
-      ...state.invalidFields,
-      nonce: '',
-    },
-  }),
-  [SET_PASSWORD]: (state, action) => ({
-    ...state,
-    password: action.password,
-    invalidFields: {
-      ...state.invalidFields,
-      password: '',
-    },
-  }),
-  [SET_INVALID_FIELD]: (state, action) => ({
-    ...state,
-    invalidFields: {
-      ...state.invalidFields,
-      [action.fieldName]: action.message,
-    },
-  }),
-  [SET_CURRENT_STEP]: (state, action) => ({
-    ...state,
-    currentStep: action.currentStep,
-  }),
-  [CLEAN]: () => initialState,
-}
+export const setInvalidField = (fieldName: string, message: string): {
+  type: string,
+  payload: {
+    fieldName: string,
+    message: string,
+  },
+} => ({
+  type: SET_INVALID_FIELD,
+  payload: {
+    fieldName,
+    message,
+  },
+})
 
-const initialState = {
+export const send = (): { type: string } => ({
+  type: SEND,
+})
+
+export const sendSuccess = (assetAddress: Address): {
+  type: string,
+  payload: {
+    assetAddress: Address,
+  },
+} => ({
+  type: SEND_SUCCESS,
+  payload: {
+    assetAddress,
+  },
+})
+
+export const sendError = (err: Object): {
+  type: string,
+  payload: Object,
+  error: boolean,
+} => ({
+  type: SEND_ERROR,
+  payload: err,
+  error: true,
+})
+
+export const clean = (): { type: string } => ({
+  type: CLEAN,
+})
+
+const initialState: SendFundsData = {
   invalidFields: {},
   alert: '',
-  symbol: 'ETH',
+  assetAddress: ethereum.address,
   amount: '',
   recipient: '',
   gas: '',
@@ -171,8 +204,78 @@ const initialState = {
   currentStep: STEPS.FORM,
 }
 
-export default function sendFunds(state: any = initialState, action: any) {
-  const handler = ACTION_HANDLERS[action.type]
+const sendFunds = (
+  state: SendFundsData = initialState,
+  action: FSA,
+): Object => {
+  const { type, payload }: FSA = action
 
-  return handler ? handler(state, action) : state
+  switch (type) {
+    case SET_ALERT: {
+      return assoc('alert', payload.alert)(state)
+    }
+
+    case SET_ASSET: {
+      return assoc('assetAddress', payload.assetAddress)(state)
+    }
+
+    case SET_AMOUNT: {
+      return compose(
+        assoc('amount', payload.amount),
+        assocPath(['invalidFields', 'amount'], ''),
+      )(state)
+    }
+
+    case SET_RECIPIENT: {
+      return compose(
+        assoc('recipient', payload.recipient),
+        assocPath(['invalidFields', 'recipient'], ''),
+      )(state)
+    }
+
+    case SET_GAS: {
+      return compose(
+        assoc('gas', payload.gas),
+        assocPath(['invalidFields', 'gas'], ''),
+      )(state)
+    }
+
+    case SET_GAS_PRICE: {
+      return compose(
+        assoc('gasPrice', payload.gasPrice),
+        assocPath(['invalidFields', 'gasPrice'], ''),
+      )(state)
+    }
+
+    case SET_NONCE: {
+      return compose(
+        assoc('nonce', payload.nonce),
+        assocPath(['invalidFields', 'nonce'], ''),
+      )(state)
+    }
+
+    case SET_PASSWORD: {
+      return compose(
+        assoc('password', payload.password),
+        assocPath(['invalidFields', 'password'], ''),
+      )(state)
+    }
+
+    case SET_CURRENT_STEP: {
+      return compose(
+        assoc('password', ''),
+        assoc('currentStep', payload.currentStep),
+      )(state)
+    }
+
+    case SET_INVALID_FIELD: {
+      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
+    }
+
+    case CLEAN: return initialState
+
+    default: return state
+  }
 }
+
+export default sendFunds

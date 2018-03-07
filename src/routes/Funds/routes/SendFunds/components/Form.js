@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { JButton, JPicker, JTextInput } from 'components/base'
 
-import FormOptional from './Optional'
+import Optional from './Optional'
 
 const Form = ({
   setAsset,
@@ -12,12 +12,12 @@ const Form = ({
   setGas,
   setGasPrice,
   setNonce,
-  goToPasswordStep,
+  setNextStep,
   digitalAssets,
   invalidFields,
   alert,
   sender,
-  symbol,
+  assetAddress,
   amount,
   recipient,
   gas,
@@ -33,12 +33,14 @@ const Form = ({
     />
     <JPicker
       onValueChange={setAsset}
-      selectedValue={symbol}
+      selectedValue={assetAddress}
       name='send-funds-asset'
       placeholder={i18n('routes.sendFunds.placeholder.symbol')}
       enabled
     >
-      {digitalAssets.map(item => <JPicker.Item key={item} label={item} value={item} />)}
+      {digitalAssets.map(({ address, symbol }) => (
+        <JPicker.Item key={address} label={symbol} value={address} />
+      ))}
     </JPicker>
     <JTextInput
       onValueChange={setAmount}
@@ -56,7 +58,7 @@ const Form = ({
       errorMessage={invalidFields.recipient}
       editable
     />
-    <FormOptional
+    <Optional
       setGas={setGas}
       setGasPrice={setGasPrice}
       setNonce={setNonce}
@@ -65,7 +67,7 @@ const Form = ({
       gasPrice={gasPrice}
       nonce={nonce}
     />
-    <JButton onClick={goToPasswordStep} label={i18n('routes.sendFunds.buttonTitleForm')} blue />
+    <JButton onClick={setNextStep} label={i18n('routes.sendFunds.buttonTitleForm')} blue />
   </div>
 )
 
@@ -76,12 +78,12 @@ Form.propTypes = {
   setGas: PropTypes.func.isRequired,
   setGasPrice: PropTypes.func.isRequired,
   setNonce: PropTypes.func.isRequired,
-  goToPasswordStep: PropTypes.func.isRequired,
+  setNextStep: PropTypes.func.isRequired,
   digitalAssets: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   alert: PropTypes.string.isRequired,
   sender: PropTypes.string.isRequired,
-  symbol: PropTypes.string.isRequired,
+  assetAddress: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   recipient: PropTypes.string.isRequired,
   gas: PropTypes.string.isRequired,
