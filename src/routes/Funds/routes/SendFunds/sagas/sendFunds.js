@@ -8,17 +8,17 @@ import ethereum from 'data/assets/ethereum'
 import { keystore, validate, web3 } from 'services'
 
 import {
-  selectDigitalAssetsItems,
-  selectDigitalAssetsBalances,
   selectWalletId,
   selectSendFunds,
+  selectDigitalAssetsItems,
+  selectDigitalAssetsBalances,
 } from 'store/stateSelectors'
 
 import {
-  getDigitalAssetByAddress,
-  getTransactionValue,
   isETH,
   toBigNumber,
+  getTransactionValue,
+  getDigitalAssetByAddress,
   InvalidFieldError,
 } from 'utils'
 

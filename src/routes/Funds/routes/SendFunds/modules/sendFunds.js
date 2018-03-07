@@ -17,7 +17,6 @@ export const SET_PASSWORD = '@@sendFunds/SET_PASSWORD'
 export const SET_INVALID_FIELD = '@@sendFunds/SET_INVALID_FIELD'
 export const SET_CURRENT_STEP = '@@sendFunds/SET_CURRENT_STEP'
 export const SET_NEXT_STEP = '@@sendFunds/SET_NEXT_STEP'
-export const SEND = '@@sendFunds/SEND'
 export const SEND_SUCCESS = '@@sendFunds/SEND_SUCCESS'
 export const SEND_ERROR = '@@sendFunds/SEND_ERROR'
 export const CLEAN = '@@sendFunds/CLEAN'
@@ -161,10 +160,6 @@ export const setInvalidField = (fieldName: string, message: string): {
   },
 })
 
-export const send = (): { type: string } => ({
-  type: SEND,
-})
-
 export const sendSuccess = (assetAddress: Address): {
   type: string,
   payload: {
@@ -222,42 +217,42 @@ const sendFunds = (
     case SET_AMOUNT: {
       return compose(
         assoc('amount', payload.amount),
-        assocPath(['invalidFields', 'amount'], ''),
+        assocPath(['invalidFields', 'amount'], null),
       )(state)
     }
 
     case SET_RECIPIENT: {
       return compose(
         assoc('recipient', payload.recipient),
-        assocPath(['invalidFields', 'recipient'], ''),
+        assocPath(['invalidFields', 'recipient'], null),
       )(state)
     }
 
     case SET_GAS: {
       return compose(
         assoc('gas', payload.gas),
-        assocPath(['invalidFields', 'gas'], ''),
+        assocPath(['invalidFields', 'gas'], null),
       )(state)
     }
 
     case SET_GAS_PRICE: {
       return compose(
         assoc('gasPrice', payload.gasPrice),
-        assocPath(['invalidFields', 'gasPrice'], ''),
+        assocPath(['invalidFields', 'gasPrice'], null),
       )(state)
     }
 
     case SET_NONCE: {
       return compose(
         assoc('nonce', payload.nonce),
-        assocPath(['invalidFields', 'nonce'], ''),
+        assocPath(['invalidFields', 'nonce'], null),
       )(state)
     }
 
     case SET_PASSWORD: {
       return compose(
         assoc('password', payload.password),
-        assocPath(['invalidFields', 'password'], ''),
+        assocPath(['invalidFields', 'password'], null),
       )(state)
     }
 
