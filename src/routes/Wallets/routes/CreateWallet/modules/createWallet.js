@@ -181,40 +181,40 @@ const createWallet = (
     case SET_NAME: {
       return compose(
         assoc('name', payload.name),
-        assocPath(['validFields', 'name'], ''),
-        assocPath(['invalidFields', 'name'], ''),
+        assocPath(['validFields', 'name'], null),
+        assocPath(['invalidFields', 'name'], null),
       )(state)
     }
 
     case SET_MNEMONIC: {
       return compose(
         assoc('mnemonic', payload.mnemonic),
-        assocPath(['validFields', 'mnemonic'], ''),
-        assocPath(['invalidFields', 'mnemonic'], ''),
+        assocPath(['validFields', 'mnemonic'], null),
+        assocPath(['invalidFields', 'mnemonic'], null),
       )(state)
     }
 
     case SET_MNEMONIC_CONFIRM: {
       return compose(
         assoc('mnemonicConfirm', payload.mnemonicConfirm),
-        assocPath(['validFields', 'mnemonicConfirm'], ''),
-        assocPath(['invalidFields', 'mnemonicConfirm'], ''),
+        assocPath(['validFields', 'mnemonicConfirm'], null),
+        assocPath(['invalidFields', 'mnemonicConfirm'], null),
       )(state)
     }
 
     case SET_PASSWORD: {
       return compose(
         assoc('password', payload.password),
-        assocPath(['validFields', 'password'], ''),
-        assocPath(['invalidFields', 'password'], ''),
+        assocPath(['validFields', 'password'], null),
+        assocPath(['invalidFields', 'password'], null),
       )(state)
     }
 
     case SET_PASSWORD_CONFIRM: {
       return compose(
         assoc('passwordConfirm', payload.passwordConfirm),
-        assocPath(['validFields', 'passwordConfirm'], ''),
-        assocPath(['invalidFields', 'passwordConfirm'], ''),
+        assocPath(['validFields', 'passwordConfirm'], null),
+        assocPath(['invalidFields', 'passwordConfirm'], null),
       )(state)
     }
 
@@ -231,7 +231,7 @@ const createWallet = (
     }
 
     case CREATE_SUCCESS: {
-      return assocPath(['validFields', 'passwordConfirm'], '')(state)
+      return assocPath(['validFields', 'passwordConfirm'], null)(state)
     }
 
     case CLEAN: {

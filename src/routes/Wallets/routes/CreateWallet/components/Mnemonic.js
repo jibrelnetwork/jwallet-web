@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { Link } from 'react-router'
 
 import { JButton, JCallout, JTextInput } from 'components/base'
 
@@ -31,6 +32,7 @@ const MnemonicStep = ({
       preventCopy
       unselectable
     />
+    <Link to='/wallets'>{i18n('routes.createWallet.buttonTitle.prevStep')}</Link>
     <JButton onClick={setNextStep} label={i18n('routes.createWallet.buttonTitle.save')} blue />
   </div>
 )
