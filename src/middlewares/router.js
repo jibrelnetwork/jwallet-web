@@ -64,9 +64,8 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case editWallet.CLOSE:
-    case backupWallet.BACKUP_SUCCESS:
     case editWallet.EDIT_SUCCESS:
+    case backupWallet.BACKUP_SUCCESS:
     case changeWalletPassword.CLOSE:
     case removeWallet.CLOSE: {
       store.dispatch(push('/'))
