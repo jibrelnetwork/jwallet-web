@@ -5,7 +5,7 @@ import React from 'react'
 import isMnemonicType from 'utils/isMnemonicType'
 import { JButton, JTextInput } from 'components/base'
 
-import FormDerivationPath from './DerivationPath'
+import ExpandableDerivationPath from './ExpandableDerivationPath'
 
 const FormStep = ({
   setName,
@@ -19,7 +19,7 @@ const FormStep = ({
   customDerivationPath,
   walletType,
 }: Props) => (
-  <div className='edit-wallet-step-form'>
+  <div className='edit-wallet-form-step'>
     <JTextInput
       onValueChange={setName}
       name='edit-wallet-name'
@@ -30,7 +30,7 @@ const FormStep = ({
       editable
     />
     {isMnemonicType(walletType) && (
-      <FormDerivationPath
+      <ExpandableDerivationPath
         setKnownDerivationPath={setKnownDerivationPath}
         setCustomDerivationPath={setCustomDerivationPath}
         validFields={validFields}
