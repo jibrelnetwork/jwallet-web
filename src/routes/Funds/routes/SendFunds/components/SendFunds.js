@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Form from './Form'
-import Password from './Password'
+import FormStep from './FormStep'
+import PasswordStep from './PasswordStep'
 
 import { STEPS } from '../modules/sendFunds'
 
 const SendFunds = props => (
   <div className='send-funds-view'>
-    {(props.currentStep === STEPS.FORM) && <Form {...props} />}
-    {(props.currentStep === STEPS.PASSWORD) && <Password {...props} />}
+    {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
   </div>
 )
 
@@ -21,7 +21,6 @@ SendFunds.propTypes = {
   setGasPrice: PropTypes.func.isRequired,
   setNonce: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
-  send: PropTypes.func.isRequired,
   setNextStep: PropTypes.func.isRequired,
   digitalAssets: PropTypes.arrayOf(PropTypes.object).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,

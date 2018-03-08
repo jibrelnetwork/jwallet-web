@@ -23,31 +23,15 @@ import {
 } from 'utils'
 
 import {
-  OPEN,
   CLOSE,
   SET_NEXT_STEP,
   STEPS,
-  close,
   setAlert,
   setCurrentStep,
   sendSuccess,
   sendError,
   clean,
 } from '../modules/sendFunds'
-
-function* openSendFunds(): Saga<void> {
-  try {
-    const walletId: ?WalletId = yield select(selectWalletId)
-    const { isReadOnly }: Wallet = keystore.getWallet(walletId)
-
-    // sending of funds is not available for read-only wallets
-    if (isReadOnly) {
-      yield put(close())
-    }
-  } catch (err) {
-    yield put(close())
-  }
-}
 
 function* closeSendFunds(): Saga<void> {
   yield delay(config.delayBeforeFormClean)
@@ -84,7 +68,7 @@ function* checkData() {
 function* sendFunds() {
   try {
     const sendFundsData: SendFundsData = yield select(selectSendFunds)
-    const { assetAddress }: { assetAddress: Address } = sendFundsData
+    const { assetAddress }: SendFundsData = sendFundsData
     const transactionHandler = getTransactionHandler(assetAddress)
     const transactionData: TXData = yield getTransactionData(sendFundsData)
 
@@ -169,10 +153,6 @@ function* getAssetBalance(assetAddress: Address) {
 
 function* getETHBalance() {
   return yield getAssetBalance(ethereum.address)
-}
-
-export function* watchSendFundsOpen(): Saga<void> {
-  yield takeEvery(OPEN, openSendFunds)
 }
 
 export function* watchSendFundsClose(): Saga<void> {
