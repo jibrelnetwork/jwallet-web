@@ -21,8 +21,14 @@ declare type FSA = {
   +error: boolean,
 }
 
-declare type Dispatch = Object => Next
 declare type Next = FSA => FSA
+declare type Dispatch = Object => Next
+declare type GetState = () => State
+
+declare type Store = {
+  dispatch: Dispatch,
+  getState: GetState,
+}
 
 /**
  * Digital assets
@@ -175,6 +181,7 @@ declare type BackupWalletData = {
   +validFields: FormFields,
   +invalidFields: FormFields,
   +password: Password,
+  +currentStep: Index,
 }
 
 /**
