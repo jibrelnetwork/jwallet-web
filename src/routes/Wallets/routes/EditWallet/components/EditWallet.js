@@ -2,15 +2,15 @@
 
 import React from 'react'
 
-import EditWalletForm from './Form'
-import EditWalletPassword from './Password'
+import FormStep from './FormStep'
+import PasswordStep from './PasswordStep'
 
 import { STEPS } from '../modules/editWallet'
 
 const EditWallet = (props: Props) => (
   <div className='edit-wallet-view'>
-    {(props.currentStep === STEPS.FORM) && <EditWalletForm {...props} />}
-    {(props.currentStep === STEPS.PASSWORD) && <EditWalletPassword {...props} />}
+    {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
   </div>
 )
 

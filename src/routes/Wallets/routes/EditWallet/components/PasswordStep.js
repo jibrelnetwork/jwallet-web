@@ -10,7 +10,7 @@ const PasswordStep = ({
   invalidFields,
   password,
 }: Props) => (
-  <div className='edit-wallet-step-password'>
+  <div className='edit-wallet-password-step'>
     <JTextInput
       onValueChange={setPassword}
       value={password}
