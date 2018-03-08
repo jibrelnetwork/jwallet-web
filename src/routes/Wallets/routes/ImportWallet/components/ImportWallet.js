@@ -4,15 +4,15 @@ import React from 'react'
 
 import { STEPS } from '../modules/importWallet'
 
-import ImportWalletData from './Data'
-import ImportWalletPassword from './Password'
-import ImportWalletAssets from './Assets'
+import DataStep from './DataStep'
+import PasswordStep from './PasswordStep'
+import AssetsStep from './AssetsStep'
 
 const ImportWallet = (props: Props) => (
   <div className='import-wallet-view'>
-    {(props.currentStep === STEPS.DATA) && <ImportWalletData {...props} />}
-    {(props.currentStep === STEPS.PASSWORD) && <ImportWalletPassword {...props} />}
-    {(props.currentStep === STEPS.ASSETS) && <ImportWalletAssets {...props} />}
+    {(props.currentStep === STEPS.DATA) && <DataStep {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
+    {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
   </div>
 )
 

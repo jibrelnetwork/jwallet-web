@@ -5,7 +5,7 @@ import React from 'react'
 import PasswordField from 'components/PasswordField'
 import { JButton, JCallout } from 'components/base'
 
-const Password = ({
+const PasswordStep = ({
   setPassword,
   setPasswordConfirm,
   setPrevStep,
@@ -14,8 +14,8 @@ const Password = ({
   password,
   passwordConfirm,
 }: Props) => (
-  <div className='create-wallet-step-password'>
-    <JCallout text='routes.importWallet.alert.password' />
+  <div className='create-wallet-password-step'>
+    <JCallout text='routes.createWallet.alert.password' />
     <PasswordField
       onPasswordChange={setPassword}
       onPasswordConfirmChange={setPasswordConfirm}
@@ -25,19 +25,19 @@ const Password = ({
       passwordConfirmError={invalidFields.passwordConfirm}
       withConfirm
     />
-    <JButton onClick={setPrevStep} label={i18n('routes.importWallet.buttonTitle.prevStep')} blue />
-    <JButton onClick={setNextStep} label={i18n('routes.importWallet.buttonTitle.nextStep')} blue />
+    <JButton onClick={setPrevStep} label={i18n('routes.createWallet.buttonTitle.prevStep')} blue />
+    <JButton onClick={setNextStep} label={i18n('routes.createWallet.buttonTitle.finish')} blue />
   </div>
 )
 
 type Props = {
-  setPassword: (password: string) => Dispatch,
-  setPasswordConfirm: (passwordConfirm: string) => Dispatch,
+  setPassword: (password: Password) => Dispatch,
+  setPasswordConfirm: (passwordConfirm: Password) => Dispatch,
   setNextStep: () => Dispatch,
   setPrevStep: () => Dispatch,
   invalidFields: Object,
-  password: string,
-  passwordConfirm: string,
+  password: Password,
+  passwordConfirm: Password,
 }
 
-export default Password
+export default PasswordStep

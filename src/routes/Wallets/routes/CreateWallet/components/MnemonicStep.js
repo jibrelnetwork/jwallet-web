@@ -12,7 +12,7 @@ const MnemonicStep = ({
   mnemonic,
   name,
 }: Props) => (
-  <div className='create-wallet-step-mnemonic'>
+  <div className='create-wallet-mnemonic-step'>
     <JCallout text='routes.createWallet.alert.mnemonic' />
     <JTextInput
       onValueChange={setName}

@@ -5,7 +5,6 @@ import { concat, fromPairs, merge } from 'ramda'
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import isMnemonicType from 'utils/isMnemonicType'
 import { keystore, web3 } from 'services'
 import { selectWalletId, selectMnemonicAddresses } from 'store/stateSelectors'
 
@@ -15,7 +14,6 @@ import {
   SET_ACTIVE,
   GET_MORE,
   GET_ETH_BALANCES,
-  close,
   setActiveSuccess,
   setActiveError,
   getMore,
@@ -31,22 +29,10 @@ function* openMnemonicAddresses(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 
-  try {
-    const { type }: Wallet = keystore.getWallet(walletId)
-
-    if (isMnemonicType(type)) {
-      yield put(getMore())
-    } else {
-      yield put(close())
-    }
-  } catch (err) {
-    yield put(close())
-  }
+  yield put(getMore())
 }
 
 function* closeMnemonicAddresses(): Saga<void> {
@@ -58,8 +44,6 @@ function* setAddressIndex(action: { payload: { addressIndex: Index } }): Saga<vo
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 
@@ -73,13 +57,12 @@ function* setAddressIndex(action: { payload: { addressIndex: Index } }): Saga<vo
 
 function* getMoreAddresses(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
-  const { addresses, iteration }: MnemonicAddressesData = yield select(selectMnemonicAddresses)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
+
+  const { addresses, iteration }: MnemonicAddressesData = yield select(selectMnemonicAddresses)
 
   try {
     const addressesFromMnemonic: Addresses = keystore.getAddressesFromMnemonic(walletId, iteration)
@@ -93,14 +76,13 @@ function* getMoreAddresses(): Saga<void> {
 
 function* getETHBalances(action: { payload: { addresses: Addresses } }): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
-  const { balances }: MnemonicAddressesData = yield select(selectMnemonicAddresses)
-  const { addresses }: { addresses: Addresses } = action.payload
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
+
+  const { balances }: MnemonicAddressesData = yield select(selectMnemonicAddresses)
+  const { addresses }: { addresses: Addresses } = action.payload
 
   try {
     const balancesByAddresses: Balances = yield getBalanceByAddresses(addresses)

@@ -10,37 +10,11 @@ import { selectWalletId, selectChangeWalletPassword } from 'store/stateSelectors
 
 import {
   CHANGE_PASSWORD,
-  OPEN,
   CLOSE,
-  close,
   changePasswordSuccess,
   changePasswordError,
   clean,
 } from '../modules/changeWalletPassword'
-
-function* openChangeWalletPassword(): Saga<void> {
-  const walletId: ?WalletId = yield select(selectWalletId)
-
-  if (!walletId) {
-    yield put(close())
-
-    return
-  }
-
-  try {
-    const { isReadOnly }: Wallet = keystore.getWallet(walletId)
-
-    if (!isReadOnly) {
-      return
-    }
-
-    yield put(close())
-  } catch (err) {
-    // TODO: handle this case in appropriate way
-    // console.error(err)
-    yield put(close())
-  }
-}
 
 function* closeChangeWalletPassword(): Saga<void> {
   yield delay(config.delayBeforeFormClean)
@@ -51,8 +25,6 @@ function* changeWalletPassword(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 
@@ -84,11 +56,7 @@ function setPassword(data: ChangeWalletPasswordData, walletId: WalletId) {
   }
 }
 
-export function* watchOpenChangeWalletPassword(): Saga<void> {
-  yield takeEvery(OPEN, openChangeWalletPassword)
-}
-
-export function* watchCloseChangeWalletPassword(): Saga<void> {
+export function* watchChangeWalletPasswordClose(): Saga<void> {
   yield takeEvery(CLOSE, closeChangeWalletPassword)
 }
 
