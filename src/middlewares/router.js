@@ -9,7 +9,6 @@ import isMnemonicType from 'utils/isMnemonicType'
 /**
  * Funds
  */
-import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
 import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
 
 /**
@@ -35,8 +34,26 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     /**
      * Funds
      */
-    case receiveFunds.CLOSE:
-    case sendFunds.CLOSE:
+    case sendFunds.OPEN: {
+      try {
+        const walletId: ?WalletId = store.getState().wallets.activeWalletId
+
+        if (!walletId) {
+          goToLocation('/wallets')
+        } else {
+          const { isReadOnly }: Wallet = keystore.getWallet(walletId)
+
+          if (isReadOnly) {
+            goToLocation('/')
+          }
+        }
+      } catch (err) {
+        goToLocation('/')
+      }
+
+      break
+    }
+
     case sendFunds.SEND_SUCCESS: {
       goToLocation('/')
       break

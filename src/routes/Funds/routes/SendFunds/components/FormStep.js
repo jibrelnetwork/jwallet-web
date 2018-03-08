@@ -5,7 +5,7 @@ import { JButton, JPicker, JTextInput } from 'components/base'
 
 import Optional from './Optional'
 
-const Form = ({
+const FormStep = ({
   setAsset,
   setAmount,
   setRecipient,
@@ -24,7 +24,7 @@ const Form = ({
   gasPrice,
   nonce,
 }) => (
-  <div className='send-funds-data-form'>
+  <div className='send-funds-form-step'>
     <div>{alert}</div>
     <JTextInput
       name='send-funds-sender'
@@ -71,7 +71,7 @@ const Form = ({
   </div>
 )
 
-Form.propTypes = {
+FormStep.propTypes = {
   setAsset: PropTypes.func.isRequired,
   setAmount: PropTypes.func.isRequired,
   setRecipient: PropTypes.func.isRequired,
@@ -79,7 +79,7 @@ Form.propTypes = {
   setGasPrice: PropTypes.func.isRequired,
   setNonce: PropTypes.func.isRequired,
   setNextStep: PropTypes.func.isRequired,
-  digitalAssets: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  digitalAssets: PropTypes.arrayOf(PropTypes.object).isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
   alert: PropTypes.string.isRequired,
   sender: PropTypes.string.isRequired,
@@ -91,4 +91,4 @@ Form.propTypes = {
   nonce: PropTypes.string.isRequired,
 }
 
-export default Form
+export default FormStep
