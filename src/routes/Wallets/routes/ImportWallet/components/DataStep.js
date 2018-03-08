@@ -7,7 +7,7 @@ import { handle, isMnemonicType } from 'utils'
 import { DerivationPath, Expandable } from 'components'
 import { JButton, JCallout, JTextInput } from 'components/base'
 
-const Data = ({
+const DataStep = ({
   setName,
   setData,
   setKnownDerivationPath,
@@ -21,7 +21,7 @@ const Data = ({
   customDerivationPath,
   walletType,
 }: Props) => (
-  <div className='import-wallet-step-data'>
+  <div className='import-wallet-data-step'>
     <JCallout text='routes.importWallet.alert.data' />
     <JTextInput
       onValueChange={setName}
@@ -73,8 +73,8 @@ type Props = {
   walletType?: WalletType,
 }
 
-Data.defaultProps = {
+DataStep.defaultProps = {
   walletType: undefined,
 }
 
-export default Data
+export default DataStep

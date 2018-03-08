@@ -3,11 +3,11 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-const Assets = () => (
-  <div className='import-wallet-step-assets'>
+const AssetsStep = () => (
+  <div className='import-wallet-assets-step'>
     <div>{'Popular assets'}</div>
     <Link to='/'>{i18n('routes.importWallet.buttonTitle.finish')}</Link>
   </div>
 )
 
-export default Assets
+export default AssetsStep

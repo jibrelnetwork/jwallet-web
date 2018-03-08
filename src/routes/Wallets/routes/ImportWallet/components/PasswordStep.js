@@ -14,8 +14,8 @@ const PasswordStep = ({
   password,
   passwordConfirm,
 }: Props) => (
-  <div className='create-wallet-step-password'>
-    <JCallout text='routes.createWallet.alert.password' />
+  <div className='import-wallet-password-step'>
+    <JCallout text='routes.importWallet.alert.password' />
     <PasswordField
       onPasswordChange={setPassword}
       onPasswordConfirmChange={setPasswordConfirm}
@@ -25,19 +25,19 @@ const PasswordStep = ({
       passwordConfirmError={invalidFields.passwordConfirm}
       withConfirm
     />
-    <JButton onClick={setPrevStep} label={i18n('routes.createWallet.buttonTitle.prevStep')} blue />
-    <JButton onClick={setNextStep} label={i18n('routes.createWallet.buttonTitle.finish')} blue />
+    <JButton onClick={setPrevStep} label={i18n('routes.importWallet.buttonTitle.prevStep')} blue />
+    <JButton onClick={setNextStep} label={i18n('routes.importWallet.buttonTitle.nextStep')} blue />
   </div>
 )
 
 type Props = {
-  setPassword: (password: Password) => Dispatch,
-  setPasswordConfirm: (passwordConfirm: Password) => Dispatch,
+  setPassword: (password: string) => Dispatch,
+  setPasswordConfirm: (passwordConfirm: string) => Dispatch,
   setNextStep: () => Dispatch,
   setPrevStep: () => Dispatch,
   invalidFields: Object,
-  password: Password,
-  passwordConfirm: Password,
+  password: string,
+  passwordConfirm: string,
 }
 
 export default PasswordStep

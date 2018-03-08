@@ -4,17 +4,17 @@ import React from 'react'
 
 import { STEPS } from '../modules/createWallet'
 
-import CreateWalletMnemonic from './Mnemonic'
-import CreateWalletMnemonicConfirm from './MnemonicConfirm'
-import CreateWalletPassword from './Password'
-import CreateWalletAssets from './Assets'
+import MnemonicStep from './MnemonicStep'
+import MnemonicConfirmStep from './MnemonicConfirmStep'
+import PasswordStep from './PasswordStep'
+import AssetsStep from './AssetsStep'
 
 const CreateWallet = (props: Props) => (
   <div className='create-wallet-view'>
-    {(props.currentStep === STEPS.MNEMONIC) && <CreateWalletMnemonic {...props} />}
-    {(props.currentStep === STEPS.CONFIRM) && <CreateWalletMnemonicConfirm {...props} />}
-    {(props.currentStep === STEPS.PASSWORD) && <CreateWalletPassword {...props} />}
-    {(props.currentStep === STEPS.ASSETS) && <CreateWalletAssets {...props} />}
+    {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
+    {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
+    {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
   </div>
 )
 

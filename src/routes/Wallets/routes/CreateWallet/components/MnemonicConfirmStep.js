@@ -12,7 +12,7 @@ const MnemonicConfirmStep = ({
   invalidFields,
   mnemonicConfirm,
 }: Props) => (
-  <div className='create-wallet-step-mnemonic-confirm'>
+  <div className='create-wallet-mnemonic-confirm-step'>
     <JCallout text='routes.createWallet.alert.mnemonicConfirm' />
     <JTextInput
       onValueChange={setMnemonicConfirm}

@@ -127,7 +127,6 @@ const backupWallet = (
     }
 
     case SET_CURRENT_STEP: {
-      console.log(SET_CURRENT_STEP, payload)
       return assoc('currentStep', payload.currentStep)(state)
     }
 

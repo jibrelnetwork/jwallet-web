@@ -29,7 +29,7 @@ import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/remove
 
 export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
-  const goToLocation = (location: string): void => store.dispatch(push(location))
+  const goToLocation = (location: string): Next => store.dispatch(push(location))
 
   switch (type) {
     /**
@@ -55,9 +55,9 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
      */
     case wallets.OPEN: {
       try {
-        const wallets: Wallets = store.getState().wallets.items
+        const walletsItems: Wallets = store.getState().wallets.items
 
-        if (isEmpty(wallets)) {
+        if (isEmpty(walletsItems)) {
           goToLocation('/wallets/start')
         }
       } catch (err) {
@@ -74,9 +74,9 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
         if (!walletId) {
           goToLocation('/wallets')
         } else {
-          const { type }: Wallet = keystore.getWallet(walletId)
+          const walletType: WalletType = keystore.getWallet(walletId).type
 
-          if (!isMnemonicType(type)) {
+          if (!isMnemonicType(walletType)) {
             goToLocation('/wallets')
           }
         }

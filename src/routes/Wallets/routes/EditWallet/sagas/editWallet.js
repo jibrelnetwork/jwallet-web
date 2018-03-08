@@ -14,7 +14,6 @@ import {
   CLOSE,
   SET_NEXT_STEP,
   STEPS,
-  close,
   setWalletType,
   setName,
   setKnownDerivationPath,
@@ -45,7 +44,8 @@ function* openEditWallet(): Saga<void> {
       )
     }
   } catch (err) {
-    yield put(close())
+    // TODO: handle this case in appropriate way
+    yield put(editError(err))
   }
 }
 
