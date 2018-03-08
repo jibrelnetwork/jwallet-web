@@ -2,28 +2,24 @@
 
 import React from 'react'
 
-import { JButton, JTextInput } from 'components/base'
+import FormStep from './FormStep'
+import PasswordStep from './PasswordStep'
 
-const BackupWallet = ({ setPassword, backup, invalidFields, password }: Props) => (
+import { STEPS } from '../modules/backupWallet'
+
+const BackupWallet = (props: Props) => (
   <div className='backup-wallet-view'>
-    <JTextInput
-      onValueChange={setPassword}
-      value={password}
-      name='backup-wallet-password'
-      errorMessage={invalidFields.password}
-      placeholder={i18n('routes.backupKeys.placeholder.password')}
-      editable
-      secureTextEntry
-    />
-    <JButton onClick={backup} label={i18n('routes.backupKeys.buttonTitle')} blue />
+    {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
   </div>
 )
 
 type Props = {
   setPassword: (password: Password) => Dispatch,
-  backup: () => Dispatch,
+  setNextStep: () => Dispatch,
   invalidFields: Object,
   password: Password,
+  currentStep: Index,
 }
 
 export default BackupWallet

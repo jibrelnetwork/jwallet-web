@@ -8,7 +8,7 @@ import {
   open,
   close,
   setPassword,
-  backup,
+  setNextStep,
 } from '../modules/backupWallet'
 
 import BackupWallet from '../components/BackupWallet'
@@ -19,7 +19,7 @@ const mapDispatchToProps = {
   open,
   close,
   setPassword,
-  backup,
+  setNextStep,
 }
 
 export default compose(

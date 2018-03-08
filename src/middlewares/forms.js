@@ -76,9 +76,7 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
     }
 
     case backupWallet.BACKUP_ERROR: {
-      store.dispatch(
-        backupWallet.setInvalidField('password', i18n('general.error.password.invalid')),
-      )
+      store.dispatch(backupWallet.setInvalidField(payload.fieldName, payload.message))
 
       break
     }
