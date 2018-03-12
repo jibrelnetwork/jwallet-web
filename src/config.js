@@ -91,4 +91,9 @@ export default {
    * timeout for showing a message, that some content was copied to buffer (ms)
    */
   copyToBufferTimeout: 5 * 1000,
+
+  /**
+   * timeout for waiting of current wallet ID initialisation
+   */
+  walletIdInitTimeout: 100,
 }

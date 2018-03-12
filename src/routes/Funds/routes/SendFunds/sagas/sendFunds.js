@@ -17,8 +17,8 @@ import {
 import {
   isETH,
   toBigNumber,
+  getAssetDecimals,
   getTransactionValue,
-  getDigitalAssetByAddress,
   InvalidFieldError,
 } from 'utils'
 
@@ -101,7 +101,8 @@ function getTransactionHandler(assetAddress: Address) {
 function* getTransactionData(data: SendFundsData) {
   const { assetAddress, amount, recipient, gas, gasPrice, nonce, password }: SendFundsData = data
   const walletId: WalletId = yield select(selectWalletId)
-  const decimals: Decimals = yield getAssetDecimals(assetAddress)
+  const items: DigitalAssets = yield select(selectDigitalAssetsItems)
+  const decimals: Decimals = getAssetDecimals(assetAddress, items)
 
   const txData: TXData = {
     to: recipient,
@@ -128,19 +129,13 @@ function* getTransactionData(data: SendFundsData) {
   return txData
 }
 
-function* getAssetDecimals(assetAddress: Address) {
-  const items: DigitalAssets = yield select(selectDigitalAssetsItems)
-  const asset: ?DigitalAsset = getDigitalAssetByAddress(assetAddress, items)
-
-  return (asset && asset.decimals) ? asset.decimals : config.defaultDecimals
-}
-
 function* validateData() {
   const sendFundsData: SendFundsData = yield select(selectSendFunds)
   const { assetAddress }: SendFundsData = sendFundsData
   const ethereumBalance: number = yield getETHBalance()
   const assetBalance: number = yield getAssetBalance(assetAddress)
-  const decimals: Decimals = yield getAssetDecimals(assetAddress)
+  const items: DigitalAssets = yield select(selectDigitalAssetsItems)
+  const decimals: Decimals = getAssetDecimals(assetAddress, items)
 
   validate.txData(sendFundsData, ethereumBalance, assetBalance, decimals)
 }

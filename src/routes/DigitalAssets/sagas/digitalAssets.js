@@ -19,10 +19,15 @@ import {
 } from 'ramda'
 
 import config from 'config'
-import ethereum from 'data/assets/ethereum'
-import getPopularDigitalAssets from 'utils/getPopularDigitalAssets'
 import { keystore, validate, web3 } from 'services'
-import { selectNetworkId, selectWalletId, selectDigitalAssetsItems } from 'store/stateSelectors'
+import { getPopularDigitalAssets, isETH } from 'utils'
+
+import {
+  selectNetworkId,
+  selectWalletId,
+  selectDigitalAssetsItems,
+  selectDigitalAssetsBalances,
+} from 'store/stateSelectors'
 
 import {
   OPEN,
@@ -31,6 +36,7 @@ import {
   SET_ASSETS_SUCCESS,
   SET_ACTIVE,
   GET_BALANCES,
+  SET_BALANCE_BY_ADDRESS,
   SEARCH,
   close,
   setAssetsSuccess,
@@ -38,6 +44,7 @@ import {
   getBalances,
   getBalancesSuccess,
   getBalancesError,
+  setBalanceByAddressSuccess,
   searchSuccess,
   searchError,
   clean,
@@ -116,11 +123,19 @@ function* getBalancesByOwner(owner: Address): Balances {
 
 function getBalanceByOwner(digitalAsset: DigitalAsset, owner: Address) {
   const { address, decimals }: DigitalAsset = digitalAsset
-  const isETH: boolean = (address === ethereum.address)
 
-  return isETH
+  return isETH(address)
     ? call(web3.getETHBalance, owner)
     : call(web3.getAssetBalance, address, owner, decimals)
+}
+
+function* setBalanceByDigitalAssetAddress(action: {
+  payload: { address: Address, balance: number },
+}): Saga<void> {
+  const balances: Balances = yield select(selectDigitalAssetsBalances)
+  const newBalances = assoc(action.payload.address, action.payload.balance)(balances)
+
+  yield put(setBalanceByAddressSuccess(newBalances))
 }
 
 function* searchDigitalAssets(action: { payload: { searchQuery: string } }) {
@@ -260,6 +275,10 @@ export function* watchDigitalAssetsSetActive(): Saga<void> {
 
 export function* watchDigitalAssetsGetBalances(): Saga<void> {
   yield takeEvery(GET_BALANCES, getDigitalAssetsBalances)
+}
+
+export function* watchDigitalAssetsSetBalanceByAddress(): Saga<void> {
+  yield takeEvery(SET_BALANCE_BY_ADDRESS, setBalanceByDigitalAssetAddress)
 }
 
 export function* watchDigitalAssetsSearch(): Saga<void> {

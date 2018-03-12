@@ -28,8 +28,20 @@ export function selectDigitalAssetsBalances(state: State): Balances {
   return state.digitalAssets.balances
 }
 
+export function selectCurrentDigitalAsset(state: State): ?Address {
+  return state.digitalAssets.currentAddress
+}
+
 export function selectAddCustomAsset(state: State): AddCustomAssetData {
   return state.addCustomAsset
+}
+
+export function selectTransactions(state: State): TransactionsData {
+  return state.transactions
+}
+
+export function selectTransactionsItems(state: State): Transactions {
+  return state.transactions.items
 }
 
 export function selectWallets(state: State): WalletsData {
