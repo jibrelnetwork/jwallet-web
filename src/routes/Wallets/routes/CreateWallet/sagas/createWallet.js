@@ -5,8 +5,8 @@ import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { fileSaver, keystore } from 'services'
-import { InvalidFieldError, validateWalletName } from 'utils'
+import { InvalidFieldError } from 'utils/errors'
+import { fileSaver, keystore, validate } from 'services'
 import { selectWalletsItems, selectCreateWallet } from 'store/stateSelectors'
 
 import {
@@ -15,7 +15,6 @@ import {
   SET_NEXT_STEP,
   SET_PREV_STEP,
   STEPS,
-  close,
   setMnemonic,
   setCurrentStep,
   clean,
@@ -50,11 +49,6 @@ function* setNextStep(): Saga<void> {
 
       case STEPS.PASSWORD: {
         yield createWallet()
-        break
-      }
-
-      case STEPS.ASSETS: {
-        yield put(close())
         break
       }
 
@@ -95,7 +89,7 @@ function* saveMnemonicToFile() {
   const wallets: Wallets = yield select(selectWalletsItems)
   const { name, mnemonic }: CreateWalletData = yield select(selectCreateWallet)
 
-  validateWalletName(name, wallets)
+  validate.walletName(name, wallets)
   fileSaver.saveTXT(mnemonic, `jwallet ${name}`)
 
   yield put(setCurrentStep(STEPS.CONFIRM))
@@ -115,7 +109,7 @@ function* createWallet() {
   const createWalletData: CreateWalletData = yield select(selectCreateWallet)
   const { mnemonic, name, password, passwordConfirm }: CreateWalletData = createWalletData
 
-  yield checkPassword(password, passwordConfirm)
+  validate.walletPassword(password, passwordConfirm)
 
   try {
     keystore.createWallet({
@@ -129,22 +123,6 @@ function* createWallet() {
     yield put(createSuccess())
   } catch (err) {
     throw new InvalidFieldError('password', err.message)
-  }
-}
-
-function checkPassword(password: Password, passwordConfirm: Password) {
-  testKeystorePassword(password)
-
-  if (password !== passwordConfirm) {
-    throw new InvalidFieldError('passwordConfirm', i18n('general.error.passwordConfirm.notMatched'))
-  }
-}
-
-function testKeystorePassword(password: Password) {
-  const error = Keystore.testPassword(password).errors[0]
-
-  if (error) {
-    throw new InvalidFieldError('password', error)
   }
 }
 

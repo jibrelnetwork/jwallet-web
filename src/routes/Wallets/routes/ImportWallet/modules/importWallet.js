@@ -212,16 +212,16 @@ const importWallet = (
     case SET_NAME: {
       return compose(
         assoc('name', payload.name),
-        assocPath(['validFields', 'name'], ''),
-        assocPath(['invalidFields', 'name'], ''),
+        assocPath(['validFields', 'name'], null),
+        assocPath(['invalidFields', 'name'], null),
       )(state)
     }
 
     case SET_DATA: {
       return compose(
         assoc('data', payload.data),
-        assocPath(['validFields', 'data'], ''),
-        assocPath(['invalidFields', 'data'], ''),
+        assocPath(['validFields', 'data'], null),
+        assocPath(['invalidFields', 'data'], null),
       )(state)
     }
 
@@ -232,32 +232,32 @@ const importWallet = (
     case SET_KNOWN_DERIVATION_PATH: {
       return compose(
         assoc('knownDerivationPath', payload.knownDerivationPath),
-        assocPath(['validFields', 'knownDerivationPath'], ''),
-        assocPath(['invalidFields', 'knownDerivationPath'], ''),
+        assocPath(['validFields', 'knownDerivationPath'], null),
+        assocPath(['invalidFields', 'knownDerivationPath'], null),
       )(state)
     }
 
     case SET_CUSTOM_DERIVATION_PATH: {
       return compose(
         assoc('customDerivationPath', payload.customDerivationPath),
-        assocPath(['validFields', 'customDerivationPath'], ''),
-        assocPath(['invalidFields', 'customDerivationPath'], ''),
+        assocPath(['validFields', 'customDerivationPath'], null),
+        assocPath(['invalidFields', 'customDerivationPath'], null),
       )(state)
     }
 
     case SET_PASSWORD: {
       return compose(
         assoc('password', payload.password),
-        assocPath(['validFields', 'password'], ''),
-        assocPath(['invalidFields', 'password'], ''),
+        assocPath(['validFields', 'password'], null),
+        assocPath(['invalidFields', 'password'], null),
       )(state)
     }
 
     case SET_PASSWORD_CONFIRM: {
       return compose(
         assoc('passwordConfirm', payload.passwordConfirm),
-        assocPath(['validFields', 'passwordConfirm'], ''),
-        assocPath(['invalidFields', 'passwordConfirm'], ''),
+        assocPath(['validFields', 'passwordConfirm'], null),
+        assocPath(['invalidFields', 'passwordConfirm'], null),
       )(state)
     }
 
@@ -274,7 +274,7 @@ const importWallet = (
     }
 
     case IMPORT_SUCCESS: {
-      return assocPath(['validFields', 'passwordConfirm'], '')(state)
+      return assocPath(['validFields', 'passwordConfirm'], null)(state)
     }
 
     case CLEAN: {

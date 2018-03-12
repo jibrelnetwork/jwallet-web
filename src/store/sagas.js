@@ -12,11 +12,15 @@ import * as networksSagas from 'routes/JWallet/sagas/networks'
 import * as transactionsSagas from 'routes/JWallet/sagas/transactions'
 
 /**
- * Assets
+ * Funds
  */
-import * as sendFundsSagas from 'routes/SendFunds/sagas/sendFunds'
+import fundsSagas from 'routes/Funds/sagas'
+
+/**
+ * Digital Assets
+ */
+import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
 import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset'
-import * as receiveFundsSagas from 'routes/ReceiveFunds/sagas/receiveFunds'
 
 /**
  * Wallets
@@ -34,9 +38,10 @@ export default {
   ...keystoreModalsSagas,
   ...networksSagas,
   ...transactionsSagas,
-  // assets
-  ...sendFundsSagas,
-  ...receiveFundsSagas,
+  // Funds
+  ...fundsSagas,
+  // Digital Assets
+  ...digitalAssetsSagas,
   ...addCustomAssetSagas,
   // Wallets
   ...walletsSagas,

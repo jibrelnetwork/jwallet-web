@@ -2,26 +2,10 @@
 
 import { find, propEq } from 'ramda'
 
-import { ethereum } from 'utils/getDefaultDigitalAssets'
+import ethereum from 'data/assets/ethereum'
 
-export function selectDigitalAssets(state: State): DigitalAssetsData {
-  return state.currencies
-}
-
-export function selectDigitalAssetsItems(state: State): DigitalAssets {
-  return state.currencies.items
-}
-
-export function selectDigitalAssetItem(state: State, symbol: string): DigitalAsset {
-  return find(propEq('symbol', symbol))(state.currencies.items) || ethereum
-}
-
-export function selectKeystore(state: State): KeystoreData {
-  return state.keystore
-}
-
-export function selectKeystoreKeys(state: State): Wallets {
-  return state.keystore.accounts
+export function selectNetworkId(state: State): NetworkId {
+  return state.networks.items[state.networks.currentNetworkIndex].id
 }
 
 export function selectReceiveFunds(state: State): ReceiveFundsData {
@@ -32,8 +16,20 @@ export function selectSendFunds(state: State): SendFundsData {
   return state.sendFunds
 }
 
-export function selectCurrentKeyId(state: State): AccountId {
-  return state.keystore.currentAccount.id
+export function selectDigitalAssets(state: State): DigitalAssetsData {
+  return state.digitalAssets
+}
+
+export function selectDigitalAssetsItems(state: State): DigitalAssets {
+  return state.digitalAssets.items
+}
+
+export function selectDigitalAssetsBalances(state: State): Balances {
+  return state.digitalAssets.balances
+}
+
+export function selectAddCustomAsset(state: State): AddCustomAssetData {
+  return state.addCustomAsset
 }
 
 export function selectWallets(state: State): WalletsData {
@@ -70,4 +66,24 @@ export function selectBackupWallet(state: State): BackupWalletData {
 
 export function selectChangeWalletPassword(state: State): ChangeWalletPasswordData {
   return state.changeWalletPassword
+}
+
+/**
+ * Deprecated
+ */
+
+export function selectDigitalAssetItem(state: State, symbol: string): DigitalAsset {
+  return find(propEq('symbol', symbol))(state.currencies.items) || ethereum
+}
+
+export function selectKeystore(state: State): KeystoreData {
+  return state.keystore
+}
+
+export function selectKeystoreKeys(state: State): Wallets {
+  return state.keystore.accounts
+}
+
+export function selectCurrentKeyId(state: State): AccountId {
+  return state.keystore.currentAccount.id
 }

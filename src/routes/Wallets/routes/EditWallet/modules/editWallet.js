@@ -194,32 +194,32 @@ const editWallet = (
     case SET_NAME: {
       return compose(
         assoc('name', payload.name),
-        assocPath(['validFields', 'name'], ''),
-        assocPath(['invalidFields', 'name'], ''),
+        assocPath(['validFields', 'name'], null),
+        assocPath(['invalidFields', 'name'], null),
       )(state)
     }
 
     case SET_KNOWN_DERIVATION_PATH: {
       return compose(
         assoc('knownDerivationPath', payload.knownDerivationPath),
-        assocPath(['validFields', 'knownDerivationPath'], ''),
-        assocPath(['invalidFields', 'knownDerivationPath'], ''),
+        assocPath(['validFields', 'knownDerivationPath'], null),
+        assocPath(['invalidFields', 'knownDerivationPath'], null),
       )(state)
     }
 
     case SET_CUSTOM_DERIVATION_PATH: {
       return compose(
         assoc('customDerivationPath', payload.customDerivationPath),
-        assocPath(['validFields', 'customDerivationPath'], ''),
-        assocPath(['invalidFields', 'customDerivationPath'], ''),
+        assocPath(['validFields', 'customDerivationPath'], null),
+        assocPath(['invalidFields', 'customDerivationPath'], null),
       )(state)
     }
 
     case SET_PASSWORD: {
       return compose(
         assoc('password', payload.password),
-        assocPath(['validFields', 'password'], ''),
-        assocPath(['invalidFields', 'password'], ''),
+        assocPath(['validFields', 'password'], null),
+        assocPath(['invalidFields', 'password'], null),
       )(state)
     }
 
@@ -236,7 +236,7 @@ const editWallet = (
     }
 
     case EDIT_SUCCESS: {
-      return assocPath(['validFields', 'passwordConfirm'], '')(state)
+      return assocPath(['validFields', 'passwordConfirm'], null)(state)
     }
 
     case CLEAN: {

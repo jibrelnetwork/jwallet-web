@@ -5,16 +5,9 @@ import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import keystore from 'services/keystore'
+import { keystore, validate } from 'services'
+import { isMnemonicType, InvalidFieldError } from 'utils'
 import { selectWalletsItems, selectImportWallet } from 'store/stateSelectors'
-
-import {
-  isMnemonicType,
-  validateDerivationPath,
-  validateWalletName,
-  validateWalletPassword,
-  InvalidFieldError,
-} from 'utils'
 
 import {
   OPEN,
@@ -23,7 +16,6 @@ import {
   SET_PREV_STEP,
   SET_DATA,
   STEPS,
-  close,
   setWalletType,
   setCurrentStep,
   importSuccess,
@@ -66,11 +58,6 @@ function* setNextStep(): Saga<void> {
         break
       }
 
-      case STEPS.ASSETS: {
-        yield put(close())
-        break
-      }
-
       default: break
     }
   } catch (err) {
@@ -102,13 +89,18 @@ function* setImportWalletType(action: { payload: { data: string } }): Saga<void>
 
 function* checkData() {
   const wallets: Wallets = yield select(selectWalletsItems)
-  const importWalletData: ImportWalletData = yield select(selectImportWallet)
-  const { name, walletType }: ImportWalletData = importWalletData
 
-  validateWalletName(name, wallets)
+  const {
+    name,
+    walletType,
+    knownDerivationPath,
+    customDerivationPath,
+  }: ImportWalletData = yield select(selectImportWallet)
+
+  validate.walletName(name, wallets)
 
   if (isMnemonicType(walletType)) {
-    validateDerivationPath(importWalletData)
+    validate.derivationPath(knownDerivationPath, customDerivationPath)
   }
 
   yield put(setCurrentStep(STEPS.PASSWORD, walletType))
@@ -138,7 +130,7 @@ function* importWallet() {
     customDerivationPath,
   }: ImportWalletData = yield select(selectImportWallet)
 
-  validateWalletPassword(password, passwordConfirm)
+  validate.walletPassword(password, passwordConfirm)
   const newWalletData: NewWalletData = getNewWalletData(data)
 
   try {
@@ -162,6 +154,14 @@ function* importWallet() {
   }
 }
 
+export function* watchImportWalletOpen(): Saga<void> {
+  yield takeEvery(OPEN, openImportWallet)
+}
+
+export function* watchImportWalletClose(): Saga<void> {
+  yield takeEvery(CLOSE, closeImportWallet)
+}
+
 export function* watchImportWalletSetNextStep(): Saga<void> {
   yield takeEvery(SET_NEXT_STEP, setNextStep)
 }
@@ -172,12 +172,4 @@ export function* watchImportWalletSetPrevStep(): Saga<void> {
 
 export function* watchImportWalletSetData(): Saga<void> {
   yield takeEvery(SET_DATA, setImportWalletType)
-}
-
-export function* watchImportWalletOpen(): Saga<void> {
-  yield takeEvery(OPEN, openImportWallet)
-}
-
-export function* watchImportWalletClose(): Saga<void> {
-  yield takeEvery(CLOSE, closeImportWallet)
 }

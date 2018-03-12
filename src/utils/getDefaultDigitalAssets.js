@@ -1,19 +1,16 @@
-import tokens from './tokens'
+import tokens from 'data/assets'
 
 export const ethereum = {
   name: 'Ethereum',
   symbol: 'ETH',
   decimals: 18,
-  address: '',
-  isLicensed: false,
-  isAuthRequired: false,
+  address: 'Ethereum',
   isActive: true,
   isCustom: false,
 }
 
 const networksTokensMap = {
   1: 'main',
-  3: 'ropsten',
 }
 
 export default function getDefaultDigitalAssets(networkId) {

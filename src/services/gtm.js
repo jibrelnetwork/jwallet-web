@@ -148,7 +148,6 @@ function pushChangeLanguage(eventLabel: string) {
 /**
  * Wallets
  */
-
 function pushSetActiveWallet(walletType: ?WalletType) {
   push({
     event: 'SetActiveWallet',
@@ -214,6 +213,29 @@ function pushRemoveWallet(walletType: WalletType) {
   })
 }
 
+/**
+ * Digital Assets
+ */
+function pushAddCustomAsset() {
+  push({
+    event: 'AddCustom',
+    eventCategory: 'DigitalAsset',
+    eventAction: 'AddCustomAsset',
+    eventLabel: 'Success',
+  })
+}
+
+/**
+ * Funds
+ */
+function pushSendFunds() {
+  push({
+    event: 'SendFunds',
+    eventCategory: 'Transaction',
+    eventAction: 'SendFundsSuccess',
+  })
+}
+
 export default {
   pushCreateAccount,
   pushImportAccount,
@@ -235,4 +257,8 @@ export default {
   pushBackupWallet,
   pushChangeWalletPassword,
   pushRemoveWallet,
+  // digital assets
+  pushAddCustomAsset,
+  // funds
+  pushSendFunds,
 }

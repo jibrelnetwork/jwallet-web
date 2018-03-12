@@ -1,85 +1,88 @@
 // @flow
 
 import { delay } from 'redux-saga'
-import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import { fileSaver, keystore } from 'services'
+import { InvalidFieldError } from 'utils/errors'
 import { selectWalletId, selectBackupWallet } from 'store/stateSelectors'
 
 import {
-  OPEN,
   CLOSE,
-  BACKUP,
-  close,
+  SET_NEXT_STEP,
+  STEPS,
+  setCurrentStep,
   backupSuccess,
   backupError,
   clean,
 } from '../modules/backupWallet'
 
-function* openBackupWallet(): Saga<void> {
-  const walletId: ?WalletId = yield select(selectWalletId)
-
-  if (!walletId) {
-    yield put(close())
-
-    return
-  }
-
-  try {
-    const { isReadOnly }: Wallet = keystore.getWallet(walletId)
-
-    if (!isReadOnly) {
-      return
-    }
-
-    yield saveBackupWalletToFile('', walletId)
-  } catch (err) {
-    // TODO: handle this case in appropriate way
-    // console.error(err)
-    yield put(close())
-  }
-}
-
 function* closeBackupWallet(): Saga<void> {
-  yield put(push('/'))
   yield delay(config.delayBeforeFormClean)
   yield put(clean())
 }
 
-function* backupWallet(): Saga<void> {
-  const walletId: ?WalletId = yield select(selectWalletId)
-  const { password }: BackupWalletData = yield select(selectBackupWallet)
-
-  if (!walletId) {
-    yield put(close())
-
-    return
-  }
+function* setNextStep(): Saga<void> {
+  const { currentStep }: BackupWalletData = yield select(selectBackupWallet)
 
   try {
-    yield saveBackupWalletToFile(password, walletId)
+    switch (currentStep) {
+      case STEPS.FORM: {
+        yield saveIfReadOnly()
+        break
+      }
+
+      case STEPS.PASSWORD: {
+        yield saveBackupWalletToFile()
+        break
+      }
+
+      default: break
+    }
   } catch (err) {
     yield put(backupError(err))
   }
 }
 
-function* saveBackupWalletToFile(password: Password, walletId: WalletId) {
-  const walletData: DecryptedWalletData = keystore.getDecryptedWallet(password, walletId)
-  fileSaver.saveJSON(walletData, `jwallet-backup ${walletData.name}`)
-  yield put(backupSuccess(walletData.type))
-  yield put(close())
+function* saveIfReadOnly() {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    return
+  }
+
+  const { isReadOnly }: Wallet = keystore.getWallet(walletId)
+
+  if (isReadOnly) {
+    yield saveBackupWalletToFile()
+  } else {
+    yield put(setCurrentStep(STEPS.PASSWORD))
+  }
 }
 
-export function* watchOpenBackupWallet(): Saga<void> {
-  yield takeEvery(OPEN, openBackupWallet)
+function* saveBackupWalletToFile() {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    return
+  }
+
+  const { password }: BackupWalletData = yield select(selectBackupWallet)
+
+  try {
+    const walletData: DecryptedWalletData = keystore.getDecryptedWallet(password, walletId)
+    fileSaver.saveJSON(walletData, `jwallet-backup ${walletData.name}`)
+    yield put(backupSuccess(walletData.type))
+  } catch (err) {
+    throw new InvalidFieldError('password', err.message)
+  }
 }
 
-export function* watchCloseBackupWallet(): Saga<void> {
+export function* watchBackupWalletClose(): Saga<void> {
   yield takeEvery(CLOSE, closeBackupWallet)
 }
 
-export function* watchBackupWallet(): Saga<void> {
-  yield takeEvery(BACKUP, backupWallet)
+export function* watchBackupWalletSetNextStep(): Saga<void> {
+  yield takeEvery(SET_NEXT_STEP, setNextStep)
 }

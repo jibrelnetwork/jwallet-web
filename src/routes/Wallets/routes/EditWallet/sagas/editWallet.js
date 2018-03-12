@@ -5,23 +5,15 @@ import { equals, toLower } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import keystore from 'services/keystore'
-import { isKnownPath } from 'utils/knownDerivationPaths'
+import { keystore, validate } from 'services'
+import { isMnemonicType, isKnownPath, InvalidFieldError } from 'utils'
 import { selectWalletsItems, selectWalletId, selectEditWallet } from 'store/stateSelectors'
-
-import {
-  isMnemonicType,
-  validateWalletName,
-  validateDerivationPath,
-  InvalidFieldError,
-} from 'utils'
 
 import {
   OPEN,
   CLOSE,
   SET_NEXT_STEP,
   STEPS,
-  close,
   setWalletType,
   setName,
   setKnownDerivationPath,
@@ -36,8 +28,6 @@ function* openEditWallet(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 
@@ -54,8 +44,8 @@ function* openEditWallet(): Saga<void> {
       )
     }
   } catch (err) {
-    // console.error(err)
-    yield put(close())
+    // TODO: handle this case in appropriate way
+    yield put(editError(err))
   }
 }
 
@@ -90,8 +80,6 @@ function* checkData() {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 
@@ -105,7 +93,7 @@ function* checkData() {
    */
   if (!isMnemonicType(walletType)) {
     if (!isEqual(wallet.name, name)) {
-      validateWalletName(name, wallets)
+      validate.walletName(name, wallets)
     }
 
     setWalletName(walletId, name)
@@ -131,24 +119,23 @@ function setWalletName(walletId: WalletId, name: string) {
 }
 
 function* checkEditData(wallets: Wallets, walletId: WalletId) {
-  const editWalletData: EditWalletData = yield select(selectEditWallet)
-  const wallet: Wallet = keystore.getWallet(walletId)
-
   const {
     name,
     walletType,
     customDerivationPath,
     knownDerivationPath,
-  }: EditWalletData = editWalletData
+  }: EditWalletData = yield select(selectEditWallet)
+
+  const wallet: Wallet = keystore.getWallet(walletId)
 
   if (!isEqual(wallet.name, name)) {
-    validateWalletName(name, wallets)
+    validate.walletName(name, wallets)
   }
 
   const derivationPath = customDerivationPath || knownDerivationPath
 
   if (!isEqual(wallet.derivationPath, derivationPath)) {
-    validateDerivationPath(editWalletData)
+    validate.derivationPath(knownDerivationPath, customDerivationPath)
   }
 
   yield put(setCurrentStep(STEPS.PASSWORD, walletType))
@@ -158,8 +145,6 @@ function* saveWallet(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 

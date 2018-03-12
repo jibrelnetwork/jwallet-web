@@ -1,12 +1,14 @@
-import { injectReducer } from 'store/reducers'
+import DigitalAssetsLayout from 'layouts/DigitalAssetsLayout'
+
+import WithBalance from './routes/WithBalance'
+import Popular from './routes/Popular'
 
 export default store => ({
   path: 'digital-assets',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const DigitalAssets = require('./containers/DigitalAssetsContainer').default
-
-      cb(null, DigitalAssets)
-    }, 'digital-assets')
-  },
+  component: DigitalAssetsLayout,
+  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/with-balance') },
+  childRoutes: [
+    WithBalance(store),
+    Popular(store),
+  ],
 })

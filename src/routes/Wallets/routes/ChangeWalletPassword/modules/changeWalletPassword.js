@@ -9,10 +9,10 @@ export const SET_NEW = '@@changeWalletPassword/SET_NEW'
 export const SET_CONFIRM = '@@changeWalletPassword/SET_CONFIRM'
 export const SET_VALID_FIELD = '@@changeWalletPassword/SET_VALID_FIELD'
 export const SET_INVALID_FIELD = '@@changeWalletPassword/SET_INVALID_FIELD'
-export const CLEAN = '@@changeWalletPassword/CLEAN'
 export const CHANGE_PASSWORD = '@@changeWalletPassword/CHANGE_PASSWORD'
 export const CHANGE_PASSWORD_SUCCESS = '@@changeWalletPassword/CHANGE_PASSWORD_SUCCESS'
 export const CHANGE_PASSWORD_ERROR = '@@changeWalletPassword/CHANGE_PASSWORD_ERROR'
+export const CLEAN = '@@changeWalletPassword/CLEAN'
 
 export const open = (): { type: string } => ({
   type: OPEN,
@@ -134,24 +134,24 @@ const changeWalletPassword = (
     case SET_CURRENT: {
       return compose(
         assoc('password', payload.password),
-        assocPath(['validFields', 'password'], ''),
-        assocPath(['invalidFields', 'password'], ''),
+        assocPath(['validFields', 'password'], null),
+        assocPath(['invalidFields', 'password'], null),
       )(state)
     }
 
     case SET_NEW: {
       return compose(
         assoc('newPassword', payload.newPassword),
-        assocPath(['validFields', 'newPassword'], ''),
-        assocPath(['invalidFields', 'newPassword'], ''),
+        assocPath(['validFields', 'newPassword'], null),
+        assocPath(['invalidFields', 'newPassword'], null),
       )(state)
     }
 
     case SET_CONFIRM: {
       return compose(
         assoc('confirmPassword', payload.confirmPassword),
-        assocPath(['validFields', 'confirmPassword'], ''),
-        assocPath(['invalidFields', 'confirmPassword'], ''),
+        assocPath(['validFields', 'confirmPassword'], null),
+        assocPath(['invalidFields', 'confirmPassword'], null),
       )(state)
     }
 
