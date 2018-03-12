@@ -6,32 +6,71 @@ import { storiesOf } from '@storybook/react'
 
 import JButton from './JButton'
 
-storiesOf('Button', module)
-  .add('Big blue', () => (
+storiesOf('JButton', module)
+  .add('Large blue', () => (
     <JButton
-      text='Button'
-      size='big'
+      text='Some text'
+      color='blue'
+      large
+    />
+  ))
+  .add('Large white', () => (
+    <JButton
+      text='Some text'
+      color='white'
+      large
+    />
+  ))
+  .add('Regular blue', () => (
+    <JButton
+      text='Some text'
       color='blue'
     />
   ))
-  .add('Big white', () => (
+  .add('Regular white', () => (
     <JButton
-      text='Button'
-      size='big'
+      text='Some text'
       color='white'
     />
   ))
-  .add('Small blue', () => (
+  .add('Small white with icon', () => (
     <JButton
-      text='Button'
-      size='small'
+      text='Some text'
+      color='white'
+      iconName='repeat'
+    />
+  ))
+  .add('Minimal white', () => (
+    <div style={{ backgroundColor: '#0050db' }}>
+      <JButton
+        text='Some text'
+        color='white'
+        minimal
+      />
+    </div>
+  ))
+  .add('Minimal blue', () => (
+    <JButton
+      text='Some text'
       color='blue'
+      minimal
     />
   ))
-  .add('Small white', () => (
+  .add('Minimal white with icon', () => (
+    <div style={{ backgroundColor: '#0050db' }}>
+      <JButton
+        text='Some text'
+        color='white'
+        minimal
+        iconName='arrow-back'
+      />
+    </div>
+  ))
+  .add('Minimal white without text', () => (
     <JButton
-      text='Button'
-      size='small'
       color='white'
+      minimal
+      iconName='search'
+      iconSize='medium'
     />
   ))

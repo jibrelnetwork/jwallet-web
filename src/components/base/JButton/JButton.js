@@ -15,6 +15,7 @@ type Props = {
  minimal?: boolean,
  onClick?: Function,
  iconName?: string,
+ iconSize?: 'small' | 'medium',
  disabled?: boolean,
  isLoading?: boolean,
 }
@@ -26,21 +27,29 @@ const JButton = ({
   onClick,
   minimal,
   iconName,
+  iconSize,
   disabled,
   isLoading,
 }: Props) => (
   <div
     onClick={disabled || onClick}
-    className={classnames('JButton', {
-      '-loading': isLoading,
-    }, prop(color, {
-      blue: '-blue',
-      white: '-white',
-    }), large ? '-large' : '-regular', minimal && '-minimal')}
+    className={
+      classnames(
+        'JButton', {
+          '-loading': isLoading,
+          '-with-text': text,
+        }, prop(color, {
+          blue: '-blue',
+          white: '-white',
+        }),
+        large ? '-large' : '-regular',
+        minimal && '-minimal'
+      )
+    }
   >
     {iconName && (
       <div className='icon'>
-        <JIcon name={iconName} size='small' />
+        <JIcon name={iconName} size={iconSize} />
       </div>
     )}
     {text && (
@@ -58,8 +67,8 @@ JButton.defaultProps = {
   minimal: false,
   iconName: undefined,
   disabled: false,
+  iconSize: 'small',
   isLoading: false,
-  withBorder: false,
 }
 
 export default JButton

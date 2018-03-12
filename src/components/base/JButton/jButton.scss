@@ -1,7 +1,6 @@
 .JButton {
   cursor: pointer;
   border: 1px solid rgba(0, 80, 220, 0.25);
-  padding: 0 24px;
   display: inline-flex;
   font-size: 13px;
   text-align: center;
@@ -14,18 +13,23 @@
 
   // Variants
 
-  &.-large {
-    width: 156px;
-    height: 48px;
-    line-height: 46px;
-    border-radius: 24px;
+  &.-with-text {
+    padding: 0 24px;
+   
+    &.-large {
+      width: 156px;
+      height: 48px;
+      line-height: 46px;
+      border-radius: 24px;
+    }
+  
+    &.-regular {
+      height: 40px;
+      line-height: 36px;
+      border-radius: 20px;
+    }
   }
 
-  &.-regular {
-    height: 40px;
-    line-height: 36px;
-    border-radius: 20px;
-  }
 
   &.-loading {
   
@@ -85,15 +89,17 @@
       background-color: unset;
     }
   }
-
-  // Elements 
-
-  > .text {
   
+  // Elements 
+  
+  > .text {
+    
   }
-
-  > .icon {
-    margin-right: 8px;
+  
+  &.-with-text {
+    > .icon {
+      margin-right: 8px;
+    }
   }
 
 }
