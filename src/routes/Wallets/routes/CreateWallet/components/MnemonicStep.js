@@ -3,7 +3,8 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-import { JButton, JCallout, JTextInput } from 'components/base'
+import { JButton, JTextInput } from 'components/base'
+import { JCallout } from 'components/base/__new__'
 
 const MnemonicStep = ({
   setName,

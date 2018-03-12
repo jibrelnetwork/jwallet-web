@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { JButton, JCallout, JTextInput } from 'components/base'
+import { JButton, JTextInput } from 'components/base'
+import { JCallout } from 'components/base/__new__'
 
 const MnemonicConfirmStep = ({
   setMnemonicConfirm,

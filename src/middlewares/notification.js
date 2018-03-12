@@ -4,7 +4,7 @@
 import React from 'react'
 import { toast } from 'react-toastify'
 
-import JToast, { options } from 'components/base/JToast'
+import JToast, { options } from 'components/base/__new__/JToast'
 import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
 
 const showToast = (

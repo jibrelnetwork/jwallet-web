@@ -7,5 +7,4 @@
 [lints]
 
 [options]
-# webpack resolve root
-module.name_mapper='^\([^.].*\)' -> '<PROJECT_ROOT>/src/\1'
+module.name_mapper.extension='scss' -> 'identity-obj-proxy'
