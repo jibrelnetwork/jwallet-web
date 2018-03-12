@@ -1,142 +1,226 @@
-.JIcon {
-  display: block;
+.icon {
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  background-size: $icon-size $icon-size;
   background-repeat: no-repeat;
   background-position: left center;
+  vertical-align: middle;
+}
 
-  // Sizes
+.icon--small {
+  width: $icon-small-size;
+  height: $icon-small-size;
+  background-size: $icon-small-size $icon-small-size;
+}
 
-  &.-small {
-    width: 12px;
-    height: 12px;
-    background-size: 12px 12px;
+.icon--send {
+  background-image: $icon-send;
+  background-position: left 0;
+}
+
+.icon--receive {
+  background-image: $icon-receive;
+  background-position: left 0;
+}
+
+.icon--convert {
+  background-image: $icon-convert;
+}
+
+.icon--currencies {
+  background-image: $icon-currencies;
+}
+
+.icon--keys {
+  background-image: $icon-keys-blue;
+}
+
+.icon--dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: $icon-dots;
+  background-size: 18px 4px;
+}
+
+.icon--dots-wrapper {
+  position: relative;
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  vertical-align: middle;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity .3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.icon--close {
+  background-image: $icon-close;
+}
+
+.icon--close-white {
+  background-image: $icon-close-white;
+}
+
+.icon--send-funds {
+  background-image: $icon-send-funds;
+}
+
+.icon--convert-funds {
+  background-image: $icon-convert-funds;
+}
+
+.icon--qr-code {
+  background-image: $icon-qr-code;
+}
+
+.icon--copy {
+  background-image: $icon-copy;
+}
+
+.icon--import-keys {
+  background-image: $icon-import-keys;
+}
+
+.icon--txt {
+  background-image: $icon-txt;
+}
+
+.icon--alert {
+  background-image: $icon-alert;
+}
+
+.icon--licensed {
+  background-image: $icon-licensed;
+}
+
+.icon--search {
+  background-image: $icon-search;
+}
+
+.icon--pin {
+  background-image: $icon-pin;
+}
+
+.icon--switch {
+  background-image: $icon-switch;
+}
+
+.icon--networks {
+  background-image: $icon-networks-blue;
+}
+
+.icon--networks-checkbox {
+  background-image: $icon-networks-checkbox;
+}
+
+.icon--date {
+  background-image: $icon-date;
+}
+
+.icon--edit {
+  background-image: $icon-edit;
+}
+
+.icon--gear {
+  background-image: $icon-gear;
+}
+
+.icon--small-add {
+  background-image: $icon-small-add;
+}
+
+.icon--small-add-white {
+  background-image: $icon-small-addWhite;
+}
+
+.icon--small-minus {
+  background-image: $icon-small-minus;
+}
+
+.icon--small-import {
+  background-image: $icon-small-import;
+}
+
+.icon--small-backup {
+  background-image: $icon-small-backup;
+}
+
+.icon--small-clear {
+  background-image: $icon-small-clear;
+}
+
+.icon--small-arrow {
+  background-image: $icon-small-arrow-gray;
+}
+
+.icon--small-arrow-up {
+  background-image: $icon-small-arrow-gray;
+  transform: rotate(-180deg);
+}
+
+.icon--small-arrow-popover {
+  background-image: $icon-small-arrow-blue;
+}
+
+.icon--small-send {
+  background-image: $icon-small-send;
+
+  &.jnt {
+    background-image: $icon-small-jnt-burn;
+  }
+}
+
+.icon--small-receive {
+  background-image: $icon-small-receive;
+
+  &.jnt {
+    background-image: $icon-small-jnt-mint;
+  }
+}
+
+.icon--small-send,
+.icon--small-receive {
+  &.rejected {
+    background-image: $icon-small-convert;
+  }
+}
+
+.icon--small-convert {
+  background-image: $icon-small-convert;
+}
+
+.icon--small-eye {
+  background-image: $icon-eye;
+}
+
+@media only screen and (max-width: 1024px) {
+  .icon--send {
+    background-image: $icon-send-w;
   }
 
-  &.-medium {
-    width: 24px;
-    height: 24px;
-    background-size: 24px 24px;
+  .icon--receive {
+    background-image: $icon-receive-w;
   }
 
-  &.-large {
-    width: 36px;
-    height: 36px;
-    background-size: 36px 36px;
+  .icon--convert {
+    background-image: $icon-convert-w;
   }
 
-  &.-extra-large {
-    width: 48px;
-    height: 48px;
-    background-size: 48px 48px;
+  .icon--keys {
+    background-image: $icon-keys-white;
   }
 
-  // SVG
-
-  &.-plus {
-    background-image: url("../../../public/icons/small/plus-blue.svg");
+  .icon--networks {
+    background-image: $icon-networks-white;
   }
 
-  &.-menu-send {
-    background-image: url("../../../public/icons/small/menu-send-white.svg");
-  }
-
-  &.-menu-receive {
-    background-image: url("../../../public/icons/small/menu-receive-white.svg");
-  }
-
-  &.-menu-favorite {
-    background-image: url("../../../public/icons/small/menu-favorite-white.svg");
-  }
-
-  &.-template {
-    background-image: url("../../../public/icons/small/star-blue.svg");
-  }
-
-  &.-repeat {
-    background-image: url("../../../public/icons/small/repeat-blue.svg");
-  }
-
-  &.-arrow-down {
-    background-image: url("../../../public/icons/small/arrow-blue.svg");
-    transform: rotate(90deg);
-  }
-
-  &.-arrow-back {
-    background-image: url("../../../public/icons/small/arrow-white.svg");
-  }
-
-  &.-close {
-    background-image: url("../../../public/icons/small/close-gray.svg");
-  }
-
-  &.-menu-bg {
-    background-image: url("../../../public/icons/medium/menu-bg-white.svg");
-  }
-
-  &.-logout {
-    background-image: url("../../../public/icons/medium/logout.svg");
-  }
-
-  &.-search {
-    background-image: url("../../../public/icons/medium/search-gray.svg");
-  }
-
-  &.-close-popup {
-    background-image: url("../../../public/icons/medium/close-popup-gray.svg");
-  }
-
-  &.-login-back {
-    background-image: url("../../../public/icons/medium/arrow-popup-white.svg");
-  }
-
-  &.-key-new {
-    background-image: url("../../../public/icons/medium/key-new-white.svg");
-  }
-
-  &.-key-import {
-    background-image: url("../../../public/icons/medium/key-import-white.svg");
-  }
-
-  &.-private-key {
-    background-image: url("../../../public/icons/medium/private-key.svg");
-  }
-
-  &.-private-key-read {
-    background-image: url("../../../public/icons/medium/private-key-read.svg");
-  }
-
-  &.-mnemonic {
-    background-image: url("../../../public/icons/medium/mnemonic.svg");
-  }
-
-  &.-mnemonic-read {
-    background-image: url("../../../public/icons/medium/mnemonic-read.svg");
-  }
-
-  &.-dots-white {
-    background-image: url("../../../public/icons/medium/dots-white.svg");
-  }
-
-  &.-arrow-forward {
-    background-image: url("../../../public/icons/medium/arrow-white.svg");
-  }
-
-  &.-ant-token {
-    background-image: url("../../../public/icons/large/tokens/ant.svg");
-  }
-
-  &.-transaction-send {
-    background-image: url("../../../public/icons/extra-large/transaction-send.svg");
-  }
-
-  &.-transaction-send-time {
-    background-image: url("../../../public/icons/extra-large/transaction-send-time.svg");
-  }
-
-  &.-transaction-receive {
-    background-image: url("../../../public/icons/extra-large/transaction-receive.svg");
-  }
-  
-  &.-transaction-receive-time {
-    background-image: url("../../../public/icons/extra-large/transaction-receive-time.svg");
+  .icon--small-arrow-popover {
+    background-image: $icon-small-arrow-white;
   }
 }

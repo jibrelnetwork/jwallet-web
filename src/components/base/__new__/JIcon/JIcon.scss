@@ -1,0 +1,142 @@
+.JIcon {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: left center;
+
+  // Sizes
+
+  &.-small {
+    width: 12px;
+    height: 12px;
+    background-size: 12px 12px;
+  }
+
+  &.-medium {
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px;
+  }
+
+  &.-large {
+    width: 36px;
+    height: 36px;
+    background-size: 36px 36px;
+  }
+
+  &.-extra-large {
+    width: 48px;
+    height: 48px;
+    background-size: 48px 48px;
+  }
+
+  // SVG
+
+  &.-plus {
+    background-image: url("../../../../public/icons/small/plus-blue.svg");
+  }
+
+  &.-menu-send {
+    background-image: url("../../../../public/icons/small/menu-send-white.svg");
+  }
+
+  &.-menu-receive {
+    background-image: url("../../../../public/icons/small/menu-receive-white.svg");
+  }
+
+  &.-menu-favorite {
+    background-image: url("../../../../public/icons/small/menu-favorite-white.svg");
+  }
+
+  &.-template {
+    background-image: url("../../../../public/icons/small/star-blue.svg");
+  }
+
+  &.-repeat {
+    background-image: url("../../../../public/icons/small/repeat-blue.svg");
+  }
+
+  &.-arrow-down {
+    background-image: url("../../../../public/icons/small/arrow-blue.svg");
+    transform: rotate(90deg);
+  }
+
+  &.-arrow-back {
+    background-image: url("../../../../public/icons/small/arrow-white.svg");
+  }
+
+  &.-close {
+    background-image: url("../../../../public/icons/small/close-gray.svg");
+  }
+
+  &.-menu-bg {
+    background-image: url("../../../../public/icons/medium/menu-bg-white.svg");
+  }
+
+  &.-logout {
+    background-image: url("../../../../public/icons/medium/logout.svg");
+  }
+
+  &.-search {
+    background-image: url("../../../../public/icons/medium/search-gray.svg");
+  }
+
+  &.-close-popup {
+    background-image: url("../../../../public/icons/medium/close-popup-gray.svg");
+  }
+
+  &.-login-back {
+    background-image: url("../../../../public/icons/medium/arrow-popup-white.svg");
+  }
+
+  &.-key-new {
+    background-image: url("../../../../public/icons/medium/key-new-white.svg");
+  }
+
+  &.-key-import {
+    background-image: url("../../../../public/icons/medium/key-import-white.svg");
+  }
+
+  &.-private-key {
+    background-image: url("../../../../public/icons/medium/private-key.svg");
+  }
+
+  &.-private-key-read {
+    background-image: url("../../../../public/icons/medium/private-key-read.svg");
+  }
+
+  &.-mnemonic {
+    background-image: url("../../../../public/icons/medium/mnemonic.svg");
+  }
+
+  &.-mnemonic-read {
+    background-image: url("../../../../public/icons/medium/mnemonic-read.svg");
+  }
+
+  &.-dots-white {
+    background-image: url("../../../../public/icons/medium/dots-white.svg");
+  }
+
+  &.-arrow-forward {
+    background-image: url("../../../../public/icons/medium/arrow-white.svg");
+  }
+
+  &.-ant-token {
+    background-image: url("../../../../public/icons/large/tokens/ant.svg");
+  }
+
+  &.-transaction-send {
+    background-image: url("../../../../public/icons/extra-large/transaction-send.svg");
+  }
+
+  &.-transaction-send-time {
+    background-image: url("../../../../public/icons/extra-large/transaction-send-time.svg");
+  }
+
+  &.-transaction-receive {
+    background-image: url("../../../../public/icons/extra-large/transaction-receive.svg");
+  }
+  
+  &.-transaction-receive-time {
+    background-image: url("../../../../public/icons/extra-large/transaction-receive-time.svg");
+  }
+}

@@ -1,1 +1,3 @@
-export { JButton } from './JButton'
+import JButton from './JButton'
+
+export default JButton

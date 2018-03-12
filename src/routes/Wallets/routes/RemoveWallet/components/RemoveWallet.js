@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { JButton, JText } from 'components/base'
+import { JButton } from 'components/base'
+import { JText } from 'components/base/__new__'
 
 const RemoveWallet = ({ remove }: Props) => (
   <div className='remove-wallet-view'>

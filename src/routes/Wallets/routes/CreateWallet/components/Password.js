@@ -3,7 +3,8 @@
 import React from 'react'
 
 import PasswordField from 'components/PasswordField'
-import { JButton, JCallout } from 'components/base'
+import { JButton } from 'components/base'
+import { JCallout } from 'components/base/__new__'
 
 const PasswordStep = ({
   setPassword,

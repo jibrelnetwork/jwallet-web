@@ -1,74 +1,46 @@
-/* @flow */
-
 import React from 'react'
-import classnames from 'classnames'
-import { empty, prop } from 'ramda'
+import PropTypes from 'prop-types'
 
-import JText from '../JText'
-import JIcon from '../JIcon'
-import './JButton.scss'
+import JIcon from 'components/base/JIcon'
 
-type Props = {
- text?: string,
- color: 'white' | 'blue',
- large?: boolean,
- minimal?: boolean,
- onClick?: Function,
- iconName?: string,
- iconSize?: 'small' | 'medium',
- disabled?: boolean,
- isLoading?: boolean,
+function JButton(props) {
+  const { onClick, label, className, iconName, disabled, white, blue, fullWidth, ...other } = props
+  let buttonClassName = fullWidth ? 'button button--full-width' : 'button'
+
+  if (disabled) {
+    buttonClassName = `${buttonClassName} button--disabled`
+  } else if (white) {
+    buttonClassName = `${buttonClassName} button--white`
+  } else if (blue) {
+    buttonClassName = `${buttonClassName} button--blue`
+  }
+
+  return (
+    <div onClick={disabled ? null : onClick} className={buttonClassName} {...other}>
+      <JIcon name={iconName} className='button__icon' small />{label}
+    </div>
+  )
 }
 
-const JButton = ({
-  text,
-  color,
-  large,
-  onClick,
-  minimal,
-  iconName,
-  iconSize,
-  disabled,
-  isLoading,
-}: Props) => (
-  <div
-    onClick={disabled || onClick}
-    className={
-      classnames(
-        'JButton', {
-          '-loading': isLoading,
-          '-with-text': text,
-        }, prop(color, {
-          blue: '-blue',
-          white: '-white',
-        }),
-        large ? '-large' : '-regular',
-        minimal && '-minimal'
-      )
-    }
-  >
-    {iconName && (
-      <div className='icon'>
-        <JIcon name={iconName} size={iconSize} />
-      </div>
-    )}
-    {text && (
-      <div className='text'>
-        <JText value={text} />
-      </div>
-    )}
-  </div>
-)
+JButton.propTypes = {
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  iconName: PropTypes.string,
+  disabled: PropTypes.bool,
+  white: PropTypes.bool,
+  blue: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+}
 
 JButton.defaultProps = {
-  text: undefined,
-  large: false,
-  onClick: empty,
-  minimal: false,
-  iconName: undefined,
+  onClick: () => {},
+  className: '',
+  iconName: '',
   disabled: false,
-  iconSize: 'small',
-  isLoading: false,
+  white: false,
+  blue: true,
+  fullWidth: false,
 }
 
 export default JButton

@@ -1,105 +1,63 @@
-.JButton {
-  cursor: pointer;
-  border: 1px solid rgba(0, 80, 220, 0.25);
-  display: inline-flex;
-  font-size: 13px;
+.button {
+  position: relative;
+  display: inline-block;
+  min-width: 260px;
+  line-height: 16px;
+  margin-left: 0;
+  padding: 15px 20px;
+  border: 2px solid;
+  border-radius: 25px;
   text-align: center;
-  transition: all 0.3s ease 0s;
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-weight: 600;  
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .3s ease;
+}
 
-  // Variants
-
-  &.-with-text {
-    padding: 0 24px;
-   
-    &.-large {
-      width: 156px;
-      height: 48px;
-      line-height: 46px;
-      border-radius: 24px;
-    }
-  
-    &.-regular {
-      height: 40px;
-      line-height: 36px;
-      border-radius: 20px;
-    }
+.button--disabled {
+  &,
+  &:hover,
+  &:active {
+    background: $gray3;
+    color: $white;
+    border-color: $gray3;
+    cursor: default;
   }
+}
 
+.button--full-width {
+  width: 100%;
+  border-radius: 0 0 5px 5px;
+}
 
-  &.-loading {
-  
+.button--white {
+  background-color: $white;
+  color: $blue;
+  border-color: $blue;
+
+  &:hover {
+    color: $blue2;
+    border-color: $blue2;
   }
+}
 
-  &.-disabled {
-  
+.button--blue {
+  background-color: $blue;
+  color: $white;
+  border-color: $blue;
+
+  &:hover {
+    background-color: $blue2;
+    color: $white;
+    border-color: $blue2;
   }
+}
 
-  &.-blue {
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-    background-color: #0058D2;
-
-    &:hover {
-      border: none;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      background-color: #00c1ff;
-    }
-  }
-
-  &.-white {
-    color: #0050db;
-    background-color: #ffffff;
-
-    &:hover {
-      border: 1px solid rgba(0, 80, 220, 0.5);
-      background-color: #f6fcff;
-    }
-  }
-
-  &.-minimal {
-    border: unset;
-    box-shadow: unset;
-    background-color: unset;
-
-    &.-white {
-      color: white;
-      opacity: 0.5;
-      background-color: unset;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-    &.-blue {
-      color: #0058D2;
-      background-color: unset;
-    }
-
-    &:hover {
-      border: unset;
-      opacity: 0.7;
-      box-shadow: unset;
-      background-color: unset;
-    }
-  }
-  
-  // Elements 
-  
-  > .text {
-    
-  }
-  
-  &.-with-text {
-    > .icon {
-      margin-right: 8px;
-    }
-  }
-
+.button__icon {
+  position: absolute;
+  top: 14px;
+  left: 24px;
 }
