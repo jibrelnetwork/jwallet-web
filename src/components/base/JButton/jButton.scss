@@ -1,36 +1,39 @@
 .JButton {
   cursor: pointer;
   border: 1px solid rgba(0, 80, 220, 0.25);
-  display: inline-block;
   padding: 0 24px;
+  display: inline-flex;
   font-size: 13px;
   text-align: center;
   transition: all 0.3s ease 0s;
   font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 600;  
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+
   // Variants
 
-  &.-big {
+  &.-large {
     width: 156px;
     height: 48px;
     line-height: 46px;
     border-radius: 24px;
   }
 
-  &.-small {
+  &.-regular {
     height: 40px;
-    line-height: 38px;
+    line-height: 36px;
     border-radius: 20px;
-    align-items: flex-start;
   }
 
-  // &.-loading {
-  // 
-  // }
+  &.-loading {
+  
+  }
 
-  // &.-disabled {
-  // 
-  // }
+  &.-disabled {
+  
+  }
 
   &.-blue {
     color: #ffffff;
@@ -55,14 +58,42 @@
     }
   }
 
+  &.-minimal {
+    border: unset;
+    box-shadow: unset;
+    background-color: unset;
+
+    &.-white {
+      color: white;
+      opacity: 0.5;
+      background-color: unset;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &.-blue {
+      color: #0058D2;
+      background-color: unset;
+    }
+
+    &:hover {
+      border: unset;
+      opacity: 0.7;
+      box-shadow: unset;
+      background-color: unset;
+    }
+  }
+
   // Elements 
 
-  // > .text {
-  //
-  // }
+  > .text {
+  
+  }
 
-  // > .icon {
-  //
-  // }
+  > .icon {
+    margin-right: 8px;
+  }
 
 }

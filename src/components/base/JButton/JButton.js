@@ -1,53 +1,50 @@
 /* @flow */
+
 import React from 'react'
 import classnames from 'classnames'
 import { empty, prop } from 'ramda'
 
-import './JButton.scss'
 import JText from '../JText'
 import JIcon from '../JIcon'
+import './JButton.scss'
 
 type Props = {
  text?: string,
- size: 'big' | 'small',
  color: 'white' | 'blue',
+ large?: boolean,
+ minimal?: boolean,
  onClick?: Function,
  iconName?: string,
  disabled?: boolean,
  isLoading?: boolean,
- withBorder?: boolean,
 }
 
 const JButton = ({
   text,
-  size,
   color,
+  large,
   onClick,
+  minimal,
   iconName,
   disabled,
   isLoading,
-  withBorder,
 }: Props) => (
   <div
     onClick={disabled || onClick}
     className={classnames('JButton', {
       '-loading': isLoading,
-      '-bordered': withBorder,
     }, prop(color, {
       blue: '-blue',
       white: '-white',
-    }), prop(size, {
-      big: '-big',
-      small: '-small',
-    }))}
+    }), large ? '-large' : '-regular', minimal && '-minimal')}
   >
     {iconName && (
       <div className='icon'>
-        <JIcon name={iconName} small />
+        <JIcon name={iconName} size='small' />
       </div>
     )}
     {text && (
-      <div className='icon'>
+      <div className='text'>
         <JText value={text} />
       </div>
     )}
@@ -56,7 +53,9 @@ const JButton = ({
 
 JButton.defaultProps = {
   text: undefined,
+  large: false,
   onClick: empty,
+  minimal: false,
   iconName: undefined,
   disabled: false,
   isLoading: false,

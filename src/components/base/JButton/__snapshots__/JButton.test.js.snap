@@ -2,7 +2,7 @@
 
 exports[`COMPONENT: JButton Blue 1`] = `
 <div
-  className="JButton -blue -big"
+  className="JButton -blue -regular"
   onClick={[Function]}
 />
 `;
