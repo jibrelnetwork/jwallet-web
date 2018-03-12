@@ -12,6 +12,8 @@ export const SET_CURRENT = '@@digitalAssets/SET_CURRENT'
 export const GET_BALANCES = '@@digitalAssets/GET_BALANCES'
 export const GET_BALANCES_SUCCESS = '@@digitalAssets/GET_BALANCES_SUCCESS'
 export const GET_BALANCES_ERROR = '@@digitalAssets/GET_BALANCES_ERROR'
+export const SET_BALANCE_BY_ADDRESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS'
+export const SET_BALANCE_BY_ADDRESS_SUCCESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS_SUCCESS'
 export const SEARCH = '@@digitalAssets/SEARCH'
 export const SEARCH_SUCCESS = '@@digitalAssets/SEARCH_SUCCESS'
 export const SEARCH_ERROR = '@@digitalAssets/SEARCH_ERROR'
@@ -102,6 +104,32 @@ export const getBalancesError = (err: Object): {
   type: GET_BALANCES_ERROR,
   payload: err,
   error: true,
+})
+
+export const setBalanceByAddress = (address: Address, balance: number): {
+  type: string,
+  payload: {
+    address: Address,
+    balance: number,
+  },
+} => ({
+  type: SET_BALANCE_BY_ADDRESS,
+  payload: {
+    address,
+    balance,
+  },
+})
+
+export const setBalanceByAddressSuccess = (balances: Balances): {
+  type: string,
+  payload: {
+    balances: Balances,
+  },
+} => ({
+  type: SET_BALANCE_BY_ADDRESS_SUCCESS,
+  payload: {
+    balances,
+  },
 })
 
 export const search = (searchQuery: string): {
@@ -200,6 +228,10 @@ const digitalAssets = (
         assoc('balances', {}),
         assoc('isBalancesLoading', false),
       )(state)
+    }
+
+    case SET_BALANCE_BY_ADDRESS_SUCCESS: {
+      return assoc('balances', payload.balances)(state)
     }
 
     case SEARCH: {

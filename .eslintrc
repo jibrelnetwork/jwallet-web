@@ -142,6 +142,7 @@
     "global-require": "off",
     "import/prefer-default-export": "off",
     "quote-props": "off",
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "no-continue": "off"
   }
 }
