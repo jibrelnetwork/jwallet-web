@@ -1,19 +1,48 @@
 .Item {
+  cursor: pointer;
+  display: flex;
+  padding: 15px 0;
+  flex-direction: row;
+  justify-content: space-between;
 
-  &.-active {
-    color: blue;
+  /* RSCSS exception */
+  &:not(.-selected):hover {
+    > .info {
+      > .title {
+        > .JText {
+          color: #0050db;
+        }
+      }
+
+      > .description {
+        > .JText {
+          color: #0050db;
+        }
+      }
+    }
+
+    > .icon {
+      > .JIcon {
+        filter: hue-rotate(20deg) saturate(5);
+        opacity: 1;
+        transition: all 0.3 ease 0s;
+      }
+    }
   }
+  /* RSCSS exception */
 
-  > .title {
-
-  }
-
-  > .description {
-
-  }
-
-  > .icon {
+  // > .info {
+  //   > .title {
+  //   }
     
+  //   > .description {
+  //   }
+  // }
+  
+  > .icons {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
   }
 
 }
