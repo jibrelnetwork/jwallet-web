@@ -1,3 +1,26 @@
 .JText {
-  //
+  color: #3d4f6c;
+  font-family: 'Open Sans', Arial, sans-serif;
+
+  &.-large-bold {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  &.-regular-bold {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &.-small-uppercase {
+    opacity: 0.5;
+    font-size: 11px;
+    text-transform: uppercase,
+  }
+
+  &.-regular-uppercase {
+    opacity: 0.7;
+    font-size: 13px;
+    text-transform: uppercase,
+  }
 }
