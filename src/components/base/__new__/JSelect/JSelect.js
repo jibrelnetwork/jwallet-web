@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-import { withState, withHandlers } from 'recompose'
 import { compose, values, map, dissoc } from 'ramda'
 
 import Item from './Item'
@@ -13,6 +12,7 @@ type Props = {
     title: string,
     description: string,
   }>,
+  title: string,
   isOpen: bool,
   selectedItemId: number,
   open: () => void,
@@ -40,6 +40,7 @@ const JSelect = ({
   open,
   close,
   items,
+  title,
   isOpen,
   onItemSelect,
   selectedItemId,
@@ -47,30 +48,16 @@ const JSelect = ({
   <div className={classNames('JSelect', { '-open': isOpen })}>
     <div className='selected-item'>
       <Item
-        active={isOpen}
+        header={title}
         onClick={isOpen ? close : open}
+        selected
         {...items[selectedItemId]}
       />
     </div>
-    {isOpen && (
-      <div className='selection-list'>
-        {renderSelectionList(items, onItemSelect, selectedItemId)}
-      </div>
-    )}
+    <div className='selection-list'>
+      {renderSelectionList(items, onItemSelect, selectedItemId)}
+    </div>
   </div>
 )
 
-export default compose(
-  withState('isOpen', 'toggle', false),
-  withHandlers({
-    open: ({ toggle }) => () => toggle(true),
-    close: ({ toggle }) => () => toggle(false),
-  }),
-  withHandlers({
-    onItemSelect: ({ onItemSelect, close }) =>
-      (itemId) => {
-        close()
-        onItemSelect(itemId)
-      },
-  }),
-)(JSelect)
+export default JSelect
