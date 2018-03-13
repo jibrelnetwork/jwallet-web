@@ -3,6 +3,12 @@
   background-repeat: no-repeat;
   background-position: left center;
 
+  // Variants
+
+  &.-transparent {
+    opacity: 0.2;
+  }
+
   // Sizes
 
   &.-small {
