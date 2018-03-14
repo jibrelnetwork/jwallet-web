@@ -6,23 +6,38 @@ import JIcon from '../JIcon'
 import './JThumbnail.scss'
 
 type Props = {
-  icon: string,
+  color: 'white' | 'gray',
   title: ?string,
+  image: string,
   description: string,
 }
 
-const JThumbnail = ({ icon, title, description }: Props) => (
+const JThumbnail = ({
+  image,
+  color,
+  title,
+  description,
+}: Props) => (
   <div className='JThumbnail' >
-    <div className='icon'>
-      <JIcon name={icon} />
+    <div className='image'>
+      <JIcon
+        name={image}
+        size='huge'
+      />
     </div>
     {title &&
       <div className='title'>
-        <JText value={title} />
+        <JText
+          value={title}
+          variants={['header', 'center', color]}
+        />
       </div>
     }
     <div className='description'>
-      <JText value={description} />
+      <JText
+        value={description}
+        variants={['normal', 'transparent', 'center', color]}
+      />
     </div>
   </div>
 )
