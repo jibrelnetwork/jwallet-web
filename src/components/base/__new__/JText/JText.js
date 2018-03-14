@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 const JText = ({ value, variant }: Props) => (
-  <div className={classNames('j-text', `-${variant}`)}>
+  <div className={classNames('j-text', `-${variant || ''}`)}>
     {i18n(value) || value}
   </div>
 )
@@ -15,7 +15,7 @@ type Props = {
 }
 
 JText.defaultProps = {
-  variant: '',
+  variant: undefined,
 }
 
 export default JText
