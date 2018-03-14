@@ -145,7 +145,7 @@ function isTransactionFound(
   fieldName: string,
   compareValue: string,
 ): boolean {
-  const fieldValue: string = transaction[fieldName].toLowerCase()
+  const fieldValue: string = `${transaction[fieldName]}`.toLowerCase()
   const foundIndex: number = fieldValue.indexOf(compareValue.toLowerCase())
 
   return (foundIndex > -1)
