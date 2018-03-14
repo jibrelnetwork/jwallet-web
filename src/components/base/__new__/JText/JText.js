@@ -6,17 +6,22 @@ import './JText.scss'
 
 type Props = {
   value: string,
-  variant?: string,
+  variants?: array,
 }
 
-const JText = ({ value, variant }: Props) => (
-  <div className={classNames('JText', `-${variant}`)}>
+const JText = ({ value, variants }: Props) => (
+  <div
+    className={classNames(
+      'JText',
+      variants.map(variant => `-${variant}`).join(' ')
+    )}
+  >
     {i18n(value) || value}
   </div>
 )
 
 JText.defaultProps = {
-  variant: undefined,
+  variants: [],
 }
 
 export default pure(JText)

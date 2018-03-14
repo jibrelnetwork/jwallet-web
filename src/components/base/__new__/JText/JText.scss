@@ -1,26 +1,65 @@
 .JText {
-  color: #3d4f6c;
+  all: initial;
+  white-space: pre-line;
   font-family: 'Open Sans', Arial, sans-serif;
 
-  &.-large-bold {
-    font-size: 15px;
-    font-weight: 600;
+  // Colors
+
+  &.-gray {
+    color: #3d4f6c;
   }
 
-  &.-regular-bold {
-    font-size: 14px;
-    font-weight: 600;
+  &.-blue {
+    color: #0050db;
   }
 
-  &.-small-uppercase {
-    opacity: 0.5;
-    font-size: 11px;
-    text-transform: uppercase,
+  &.-white {
+    color: white;
   }
 
-  &.-regular-uppercase {
+  &.-transparent {
     opacity: 0.7;
+  }
+
+  // Sizes
+
+  &.-small {
+    font-size: 11px;
+  }
+  
+  &.-normal {
     font-size: 13px;
+  }
+  
+  &.-regular {
+    font-size: 14px;
+  }
+  
+  &.-large {
+    font-size: 15px;
+  }
+
+  &.-header {
+    font-size: 18px;
+  }
+
+  // Align 
+
+  &.-center {
+    display: flex;
+    text-align: center;
+  }
+
+  // Weight
+
+  &.-bold {
+    font-weight: 600;
+  }
+
+  // Case
+
+  &.-uppercase {
     text-transform: uppercase,
   }
+
 }
