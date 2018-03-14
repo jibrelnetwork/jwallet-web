@@ -9,7 +9,7 @@ const TransactionsActions = ({ search, searchQuery }: Props) => (
     <JSearch
       onChange={search}
       value={searchQuery}
-      placeholder='Type date, template etc'
+      placeholder='search...'
     />
   </div>
 )

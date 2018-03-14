@@ -24,7 +24,7 @@
     transition: width 0.3s ease 0s;
 
     &.-active {
-      width: 260px;
+      width: 200px;
       margin-left: 20px;
     }
 
@@ -63,7 +63,7 @@
 
   @media only screen and (max-width: 1366px) {
     > .field.-active {
-      width: 180px;
+      width: 100px;
     }
   }
 }

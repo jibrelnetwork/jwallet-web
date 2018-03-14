@@ -15,6 +15,17 @@
     margin-right: 40px;
   }
 
+  > .actions > .link > .j-icon,
+  > .actions > .link > .j-text {
+    display: inline-block;
+  }
+
+  > .actions > .link > .j-icon {
+    position: relative;
+    top: 1px;
+    margin-right: 8px;
+  }
+
   @media only screen and (max-width: 1680px) {
     padding: 0 160px;
   }
