@@ -2,10 +2,10 @@
 
 import React from 'react'
 
-import AsideLayout from '../AsideLayout'
+import MenuLayout from 'layouts/MenuLayout'
 
 const DigitalAssetsLayout = ({ children }: Props) => (
-  <AsideLayout>
+  <MenuLayout>
     <div>
       {
       /*
@@ -16,7 +16,7 @@ const DigitalAssetsLayout = ({ children }: Props) => (
       }
       <div>{children}</div>
     </div>
-  </AsideLayout>
+  </MenuLayout>
 )
 
 type Props = {

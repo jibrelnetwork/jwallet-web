@@ -1,3 +1,5 @@
+// @flow
+
 const getActiveDigitalAssetsData = ({ items, balances }: DigitalAssetsData): Array<Object> => {
   const activeAssets: DigitalAssets = items.filter((item: DigitalAsset): boolean => item.isActive)
 

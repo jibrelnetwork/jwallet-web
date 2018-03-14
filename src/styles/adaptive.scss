@@ -13,7 +13,7 @@
 
   body {
     .container-wrap {
-      .header,
+      /* .header, */
       .currencies {
         background: $black-background;
       }
@@ -27,9 +27,11 @@
       padding: 0;
     }
 
+    /*
     .header {
       padding: $tablet-header-v-padding $tablet-header-h-padding;
     }
+    */
 
     .header-menu {
       padding-left: 0;
@@ -237,9 +239,11 @@
 
 @media only screen and (max-width: 600px) {
   body {
+    /*
     .header {
       padding: $mobile-header-padding;
     }
+    */
 
     .header-menu {
       z-index: 10;

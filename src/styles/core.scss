@@ -3,6 +3,7 @@
   @import 'adaptive';
   @import 'colors';
   @import 'grid';
+  @import 'header';
   @import 'loading';
   @import 'shake';
   @import 'slider';
@@ -20,11 +21,11 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    background: $line;
-    font-family: $font;
+    background-color: #f5f6fa;
+    font-family: 'Open Sans', Arial, sans-serif;
     font-size: 13px;
     line-height: 1;
-    color: $gray;
+    color: #3d4f6c;
   }
 
   .clear:after {
@@ -67,28 +68,8 @@
     width: 100%;
   }
 
-  .container-wrap {
-    width: 100%;
-    height: 100%;
-  }
-
-  .container {
-    position: relative;
-    max-width: 1200px;
-    height: 100%;
-    margin: 0 auto;
-    transition: filter .1s ease;
-    will-change: filter;
-
-    &--modal-open {
-      filter: blur(3px);
-    }
-  }
-
   .content {
-    position: relative;
-    width: 100%;
-    min-height: calc(100vh - #{$header-and-footer-height});
+    padding-left: 520px;
   }
 
   .unselectable {
@@ -108,6 +89,21 @@
     justify-content: center;
   }
 
+  // Base components
+  @import '../components/base/__new__/JButton/jButton';
+  @import '../components/base/__new__/JIcon/jIcon';
+  @import '../components/base/__new__/JLogo/jLogo';
+  @import '../components/base/__new__/JTabs/jTabs';
+
+  // Components
+  @import '../components/__new__/ActiveAsset/activeAsset';
+  @import '../components/__new__/ActiveAssetsPanel/activeAssetsPanel';
+  @import '../components/__new__/ESCButton/escButton';
+  @import '../components/__new__/Menu/menu';
+  @import '../components/__new__/MenuLink/menuLink';
+  @import '../components/__new__/MenuSelect/menuSelect';
+
+  // Deprecated
   @import '../components/base/JFormField/jFormField';
   @import '../components/base/JButton/jButton';
   @import '../components/base/JCheckbox/jCheckbox';

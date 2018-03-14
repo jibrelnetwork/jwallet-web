@@ -1,49 +1,103 @@
-$icon-send: url("../public/img/icons/send.svg");
-$icon-receive: url("../public/img/icons/receive.svg");
-$icon-convert: url("../public/img/icons/convert.svg");
-$icon-currencies: url("../public/img/icons/currencies.svg");
-$icon-keys-blue: url("../public/img/icons/keys-blue.svg");
-$icon-keys-white: url("../public/img/icons/keys-white.svg");
-$icon-date: url("../public/img/icons/date.svg");
-$icon-dots: url("../public/img/icons/dots.svg");
-$icon-close: url("../public/img/icons/close.svg");
-$icon-close-white: url("../public/img/icons/close-white.svg");
-$icon-edit: url("../public/img/icons/edit.svg");
-$icon-gear: url("../public/img/icons/gear.svg");
-$icon-send-funds: url("../public/img/icons/send-funds.svg");
-$icon-convert-funds: url("../public/img/icons/convert-funds.svg");
-$icon-qr-code: url("../public/img/icons/qr-code.svg");
-$icon-copy: url("../public/img/icons/copy.svg");
-$icon-import-keys: url("../public/img/icons/import-keys.svg");
-$icon-txt: url("../public/img/icons/txt.svg");
-$icon-alert: url("../public/img/icons/alert.svg");
-$icon-send-w: url("../public/img/icons/send-w.svg");
-$icon-receive-w: url("../public/img/icons/receive-w.svg");
-$icon-convert-w: url("../public/img/icons/convert-w.svg");
-$icon-licensed: url("../public/img/icons/licensed.svg");
-$icon-search: url("../public/img/icons/search.svg");
-$icon-checkbox: url("../public/img/icons/checkbox.svg");
-$icon-pin: url("../public/img/icons/pin.svg");
-$icon-switch: url("../public/img/icons/switch.svg");
-$icon-networks-blue: url("../public/img/icons/networks-blue.svg");
-$icon-networks-white: url("../public/img/icons/networks-white.svg");
-$icon-networks-checkbox: url("../public/img/icons/networks-checkbox.svg");
-$icon-eye: url("../public/img/icons/eye.svg");
+/**
+ * Sizes
+ */
+$icon-small-size: 12px;
+$icon-medium-size: 24px;
+$icon-large-size: 36px;
+$icon-extra-large-size: 48px;
 
-$icon-small-add: url("../public/img/icons/small-add.svg");
-$icon-small-addWhite: url("../public/img/icons/small-add-white.svg");
-$icon-small-minus: url("../public/img/icons/small-minus.svg");
-$icon-small-import: url("../public/img/icons/small-import.svg");
-$icon-small-backup: url("../public/img/icons/small-backup.svg");
-$icon-small-clear: url("../public/img/icons/small-clear.svg");
-$icon-small-arrow-blue: url("../public/img/icons/small-arrow-blue.svg");
-$icon-small-arrow-gray: url("../public/img/icons/small-arrow-gray.svg");
-$icon-small-arrow-white: url("../public/img/icons/small-arrow-white.svg");
-$icon-small-send: url("../public/img/icons/small-send.svg");
-$icon-small-receive: url("../public/img/icons/small-receive.svg");
-$icon-small-convert: url("../public/img/icons/small-convert.svg");
-$icon-small-jnt-mint: url("../public/img/icons/small-token.svg");
-$icon-small-jnt-burn: url("../public/img/icons/small-token-gray.svg");
+/**
+ * Small
+ */
+$plus-blue: url('../public/icons/small/plus-blue.svg');
+$menu-send-white: url('../public/icons/small/menu-send-white.svg');
+$menu-receive-white: url('../public/icons/small/menu-receive-white.svg');
+$menu-favorite-white: url('../public/icons/small/menu-favorite-white.svg');
+$star-blue: url('../public/icons/small/star-blue.svg');
+$repeat-blue: url('../public/icons/small/repeat-blue.svg');
+$arrow-blue: url('../public/icons/small/arrow-blue.svg');
+$arrow-white: url('../public/icons/small/arrow-white.svg');
+$checkbox-white: url('../public/icons/small/checkbox-white.svg');
+$close-gray: url('../public/icons/small/close-gray.svg');
+
+/**
+ * Medium
+ */
+$menu-bg-white: url('../public/icons/medium/menu-bg-white.svg');
+$logout: url('../public/icons/medium/logout.svg');
+$search-gray: url('../public/icons/medium/search-gray.svg');
+$close-popup-gray: url('../public/icons/medium/close-popup-gray.svg');
+$arrow-popup-white: url('../public/icons/medium/arrow-popup-white.svg');
+$key-new-white: url('../public/icons/medium/key-new-white.svg');
+$key-import-white: url('../public/icons/medium/key-import-white.svg');
+$private-key: url('../public/icons/medium/private-key.svg');
+$private-key-read: url('../public/icons/medium/private-key-read.svg');
+$mnemonic: url('../public/icons/medium/mnemonic.svg');
+$mnemonic-read: url('../public/icons/medium/mnemonic-read.svg');
+$dots-white: url('../public/icons/medium/dots-white.svg');
+$arrow-white: url('../public/icons/medium/arrow-white.svg');
+
+/**
+ * Large
+ */
+$transaction-send: url('../public/icons/extra-large/transaction-send.svg');
+$transaction-send-time: url('../public/icons/extra-large/transaction-send-time.svg');
+$transaction-receive: url('../public/icons/extra-large/transaction-receive.svg');
+$transaction-receive-time: url('../public/icons/extra-large/transaction-receive-time.svg');
+
+/**
+ * Tokens
+ */
+$token-ant: url('../public/icons/large/tokens/ant.svg');
+
+/**
+ * Deprecated
+ */
+$icon-send: url('../public/img/icons/send.svg');
+$icon-receive: url('../public/img/icons/receive.svg');
+$icon-convert: url('../public/img/icons/convert.svg');
+$icon-currencies: url('../public/img/icons/currencies.svg');
+$icon-keys-blue: url('../public/img/icons/keys-blue.svg');
+$icon-keys-white: url('../public/img/icons/keys-white.svg');
+$icon-date: url('../public/img/icons/date.svg');
+$icon-dots: url('../public/img/icons/dots.svg');
+$icon-close: url('../public/img/icons/close.svg');
+$icon-close-white: url('../public/img/icons/close-white.svg');
+$icon-edit: url('../public/img/icons/edit.svg');
+$icon-gear: url('../public/img/icons/gear.svg');
+$icon-send-funds: url('../public/img/icons/send-funds.svg');
+$icon-convert-funds: url('../public/img/icons/convert-funds.svg');
+$icon-qr-code: url('../public/img/icons/qr-code.svg');
+$icon-copy: url('../public/img/icons/copy.svg');
+$icon-import-keys: url('../public/img/icons/import-keys.svg');
+$icon-txt: url('../public/img/icons/txt.svg');
+$icon-alert: url('../public/img/icons/alert.svg');
+$icon-send-w: url('../public/img/icons/send-w.svg');
+$icon-receive-w: url('../public/img/icons/receive-w.svg');
+$icon-convert-w: url('../public/img/icons/convert-w.svg');
+$icon-licensed: url('../public/img/icons/licensed.svg');
+$icon-search: url('../public/img/icons/search.svg');
+$icon-checkbox: url('../public/img/icons/checkbox.svg');
+$icon-pin: url('../public/img/icons/pin.svg');
+$icon-switch: url('../public/img/icons/switch.svg');
+$icon-networks-blue: url('../public/img/icons/networks-blue.svg');
+$icon-networks-white: url('../public/img/icons/networks-white.svg');
+$icon-networks-checkbox: url('../public/img/icons/networks-checkbox.svg');
+$icon-eye: url('../public/img/icons/eye.svg');
+
+$icon-small-add: url('../public/img/icons/small-add.svg');
+$icon-small-addWhite: url('../public/img/icons/small-add-white.svg');
+$icon-small-minus: url('../public/img/icons/small-minus.svg');
+$icon-small-import: url('../public/img/icons/small-import.svg');
+$icon-small-backup: url('../public/img/icons/small-backup.svg');
+$icon-small-clear: url('../public/img/icons/small-clear.svg');
+$icon-small-arrow-blue: url('../public/img/icons/small-arrow-blue.svg');
+$icon-small-arrow-gray: url('../public/img/icons/small-arrow-gray.svg');
+$icon-small-arrow-white: url('../public/img/icons/small-arrow-white.svg');
+$icon-small-send: url('../public/img/icons/small-send.svg');
+$icon-small-receive: url('../public/img/icons/small-receive.svg');
+$icon-small-convert: url('../public/img/icons/small-convert.svg');
+$icon-small-jnt-mint: url('../public/img/icons/small-token.svg');
+$icon-small-jnt-burn: url('../public/img/icons/small-token-gray.svg');
 
 $icon-size: 24px;
-$icon-small-size: 16px;
