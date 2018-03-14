@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AsideLayout from 'layouts/AsideLayout'
+import MenuLayout from 'layouts/MenuLayout'
 import { JButton, JTextInput } from 'components/base'
 
 const AddCustomAsset = ({
@@ -24,7 +24,7 @@ const AddCustomAsset = ({
   ]
 
   return (
-    <AsideLayout>
+    <MenuLayout>
       <div className='add-custom-asset-view'>
         {fields.map(({ key, value, handler }) => (
           <JTextInput
@@ -39,7 +39,7 @@ const AddCustomAsset = ({
         ))}
         <JButton onClick={add} label={i18n('routes.addCustomAsset.buttonTitle')} blue />
       </div>
-    </AsideLayout>
+    </MenuLayout>
   )
 }
 
