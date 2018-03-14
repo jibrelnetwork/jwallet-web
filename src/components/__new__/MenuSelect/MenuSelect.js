@@ -2,11 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { Link } from 'react-router'
 
 import handle from 'utils/handle'
-
-import { JIcon, JText } from 'components/base/__new__'
 
 const MenuSelect = ({ toggle, setActive, options, active, isOpen }: Props) => (
   <div onClick={handle(toggle)(!isOpen)} className='menu-select'>
