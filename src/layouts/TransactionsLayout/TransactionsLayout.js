@@ -4,6 +4,7 @@ import React from 'react'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
 import JTabs from 'components/base/__new__/JTabs'
+import TransactionsActions from 'routes/Transactions/containers/TransactionsActionsContainer'
 
 const TRANSACTIONS_TABS = {
   '/transactions/all': 'All Transactions',
@@ -15,13 +16,7 @@ const TransactionsLayout = ({ children }: Props) => (
   <ActiveAssetsLayout>
     <div className='header'>
       <JTabs tabs={TRANSACTIONS_TABS} />
-      {
-      /*
-        <div>{'Tabs'}</div>
-        <div>{'Add button'}</div>
-        <div>{'Search'}</div>
-      */
-      }
+      <TransactionsActions />
     </div>
     <div className='wrapper'>{children}</div>
   </ActiveAssetsLayout>
