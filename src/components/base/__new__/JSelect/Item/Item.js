@@ -51,12 +51,6 @@ const Item = ({
         transparent
       />
     </div>
-    {/* {selected && (
-      <JIcon
-        name={icon}
-        size='small'
-      />
-    )} */}
   </div>
 )
 

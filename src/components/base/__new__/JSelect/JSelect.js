@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { compose, values, map, dissoc } from 'ramda'
 
 import Item from './Item'
+import JIcon from '../JIcon'
 import './JSelect.scss'
 
 type Props = {
@@ -47,12 +48,20 @@ const JSelect = ({
 }: Props) => (
   <div className={classNames('JSelect', { '-open': isOpen })}>
     <div className='selected-item'>
-      <Item
-        header={title}
-        onClick={isOpen ? close : open}
-        selected
-        {...items[selectedItemId]}
-      />
+      <div className='item'>
+        <Item
+          header={title}
+          onClick={isOpen ? close : open}
+          selected
+          {...items[selectedItemId]}
+        />
+      </div>
+      <div className='expand'>
+        <JIcon
+          name='expand-gray'
+          size='small'
+        />
+      </div>
     </div>
     <div className='selection-list'>
       {renderSelectionList(items, onItemSelect, selectedItemId)}

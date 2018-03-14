@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import JSelect from '.';
+import JSelect from '.'
 
 storiesOf('JSelect', module)
   .add('Standard', () => (
