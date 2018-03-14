@@ -18,10 +18,10 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
-      const { getNetworksFromStorage, networks } = this.props
+      const { networks } = this.props
 
       if (!networks || !networks.items || networks.items.length) {
-        getNetworksFromStorage()
+        this.props.getNetworksFromStorage()
       }
     },
   }),

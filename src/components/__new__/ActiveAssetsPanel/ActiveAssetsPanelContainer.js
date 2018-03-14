@@ -7,7 +7,10 @@ import { setCurrent } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import ActiveAssetsPanel from './ActiveAssetsPanel'
 
-const mapStateToProps = ({ digitalAssets }: State): Array<Object> => ({
+const mapStateToProps = ({ digitalAssets }: State): {
+  currentAddress: ?Address,
+  digitalAssets: Array<Object>,
+} => ({
   currentAddress: digitalAssets.currentAddress,
   digitalAssets: getActiveDigitalAssetsData(digitalAssets),
 })

@@ -19,19 +19,17 @@ const JButton = ({
 }: Props) => (
   <div
     onClick={disabled || onClick}
-    className={
-      classNames(
-        'j-button', {
-          '-loading': isLoading,
-          '-with-text': text,
-        }, prop(color, {
-          blue: '-blue',
-          white: '-white',
-        }),
-        large ? '-large' : '-regular',
-        minimal && '-minimal'
-      )
-    }
+    className={classNames(
+      'j-button', {
+        '-loading': isLoading,
+        '-with-text': text,
+      }, prop(color, {
+        blue: '-blue',
+        white: '-white',
+      }),
+      large ? '-large' : '-regular',
+      minimal && '-minimal'
+    )}
   >
     {iconName && (
       <div className='icon'>

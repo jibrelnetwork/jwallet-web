@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 
 import { init as initWallets } from 'routes/Wallets/modules/wallets'
 
-import CoreLayout from './CoreLayout'
-
 import 'styles/core.scss'
+
+import CoreLayout from './CoreLayout'
 
 const mapStateToProps = ({ networks }) => networks
 
