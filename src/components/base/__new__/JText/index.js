@@ -1,1 +1,3 @@
-export { default } from './JText'
+import JText from './JTextContainer'
+
+export default JText

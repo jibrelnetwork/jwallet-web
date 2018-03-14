@@ -1,22 +1,21 @@
+// @flow
+
 import React from 'react'
 import classNames from 'classnames'
-import { pure } from 'recompose'
 
-import './JText.scss'
+const JText = ({ value, variant }: Props) => (
+  <div className={classNames('j-text', `-${variant}`)}>
+    {i18n(value) || value}
+  </div>
+)
 
 type Props = {
   value: string,
   variant?: string,
 }
 
-const JText = ({ value, variant }: Props) => (
-  <div className={classNames('JText', `-${variant}`)}>
-    {i18n(value) || value}
-  </div>
-)
-
 JText.defaultProps = {
-  variant: undefined,
+  variant: '',
 }
 
-export default pure(JText)
+export default JText
