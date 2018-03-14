@@ -18,6 +18,9 @@ module.exports = {
     receiveTitle: 'Receive',
     convertTitle: 'Convert',
     keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
   networkManager: {
     knownNetworkTitle: {
