@@ -1,6 +1,7 @@
 export JText from './JText'
 export JCard from './JCard'
 export JIcon from './JIcon'
+export JLogo from './JLogo'
 export JToast from './JToast'
 export JButton from './JButton'
 export JSelect from './JSelect'
