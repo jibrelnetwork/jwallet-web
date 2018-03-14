@@ -1,15 +1,16 @@
-FROM node:8-alpine
+FROM node:8-onbuild AS build
 
-#Git for retrieving of packages specified by git repository
-RUN apk update
-RUN apk add --no-cache make gcc g++ python git
+ENV MAIN_RPC_ADDR=main.node.jwallet.network \
+    ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network
 
-COPY ./ /app
-WORKDIR /app
-
-RUN npm install
 RUN npm run compile:prod
 
-CMD [ "npm", "run", "prod" ]
+FROM nginx:alpine
 
-EXPOSE 3000
+COPY --from=build /usr/src/app/build/. /app/
+COPY version.txt /
+COPY nginx.conf /etc/nginx/
+COPY run.sh /bin/run.sh
+
+RUN ["run.sh", "check"]
+CMD ["run.sh", "start"]
