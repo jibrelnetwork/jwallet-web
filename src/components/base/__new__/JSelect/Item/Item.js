@@ -4,13 +4,15 @@ import classNames from 'classnames'
 
 import JText from '../../JText'
 import JIcon from '../../JIcon'
+import './Item.scss'
 
 type Props = {
   id: number | string,
   icon: string,
   title: string,
   index: number,
-  active: ?bool,
+  header?: string,
+  selected?: boolean,
   description: string,
   onClick: (itemId) => void,
 }
@@ -19,24 +21,42 @@ const Item = ({
   id,
   icon,
   title,
-  active,
+  header,
   onClick,
+  selected,
   description,
 }: Props) => (
   <div
     onClick={() => onClick(id)}
-    className={classNames('Item', { '-active': active })}
+    className={classNames('Item', { '-selected': selected })}
   >
-    <div className='title'>
-      <JText value={title} />
-    </div>
-    <div className='description'>
-      <JText value={description} />
+    <div className='info'>
+      <div className='title'>
+        <JText
+          value={selected ? header : title}
+          variant={selected ? 'small-uppercase' : 'regular-bold'}
+        />
+      </div>
+      <div className='description'>
+        <JText
+          value={selected ? `${title}: ${description}` : description}
+          variant={selected ? 'large-bold' : 'regular-uppercase'}
+        />
+      </div>
     </div>
     <div className='icon'>
-      <JIcon name={icon} />
+      <JIcon
+        name={icon}
+        size='large'
+        transparent
+      />
     </div>
   </div>
 )
+
+Item.defaultProps = {
+  header: undefined,
+  selected: false,
+}
 
 export default pure(Item)

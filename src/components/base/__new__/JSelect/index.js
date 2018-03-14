@@ -1,1 +1,1 @@
-export { default } from './JSelect'
+export { default } from './JSelectContainer'

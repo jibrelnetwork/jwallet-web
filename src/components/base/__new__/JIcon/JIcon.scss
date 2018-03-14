@@ -3,6 +3,12 @@
   background-repeat: no-repeat;
   background-position: left center;
 
+  // Variants
+
+  &.-transparent {
+    opacity: 0.2;
+  }
+
   // Sizes
 
   &.-small {
@@ -62,6 +68,10 @@
 
   &.-arrow-back {
     background-image: url("../../../../public/icons/small/arrow-white.svg");
+  }
+
+  &.-expand-gray {
+    background-image: url("../../../../public/icons/small/expand-gray.svg");
   }
 
   &.-close {
