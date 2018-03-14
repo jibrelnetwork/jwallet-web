@@ -34,13 +34,17 @@ const Item = ({
       <div className='title'>
         <JText
           value={selected ? header : title}
-          variant={selected ? 'small-uppercase' : 'regular-bold'}
+          variants={selected
+            ? ['small', 'uppercase', 'gray', 'transparent']
+            : ['regular', 'bold', 'gray']}
         />
       </div>
       <div className='description'>
         <JText
           value={selected ? `${title}: ${description}` : description}
-          variant={selected ? 'large-bold' : 'regular-uppercase'}
+          variants={selected
+            ? ['large', 'bold', 'gray']
+            : ['regular', 'uppercase', 'gray', 'transparent']}
         />
       </div>
     </div>
