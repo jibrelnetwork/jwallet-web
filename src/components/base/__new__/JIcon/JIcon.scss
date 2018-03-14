@@ -1,4 +1,5 @@
 .JIcon {
+  all: initial;
   display: block;
   background-repeat: no-repeat;
   background-position: left center;
@@ -34,6 +35,13 @@
     height: 48px;
     background-size: 48px 48px;
   }
+
+  &.-huge {
+    width: 200px;
+    height: 200px;
+    background-size: 200px 200px;
+  }
+
 
   // SVG
 
@@ -148,5 +156,9 @@
   
   &.-transaction-receive-time {
     background-image: url("../../../../public/icons/extra-large/transaction-receive-time.svg");
+  }
+
+  &.-key {
+    background-image: url("../../../../public/icons/huge/key.svg");
   }
 }
