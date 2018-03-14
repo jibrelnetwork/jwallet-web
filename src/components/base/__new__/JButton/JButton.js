@@ -55,7 +55,16 @@ const JButton = ({
     )}
     {text && (
       <div className='text'>
-        <JText value={text} />
+        <JText
+          value={text}
+          variants={[
+            minimal
+              ? { white: 'white', blue: 'blue' }[color]
+              : { white: 'blue', blue: 'white' }[color],
+            'bold',
+            'normal',
+          ]}
+        />
       </div>
     )}
   </div>

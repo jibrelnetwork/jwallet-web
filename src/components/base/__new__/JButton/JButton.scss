@@ -1,12 +1,10 @@
 .JButton {
+  all: initial;
   cursor: pointer;
   border: 1px solid rgba(0, 80, 220, 0.25);
   display: inline-flex;
-  font-size: 13px;
   text-align: center;
   transition: all 0.3s ease 0s;
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-weight: 600;  
   align-items: center;
   flex-direction: row;
   justify-content: center;
@@ -40,7 +38,6 @@
   }
 
   &.-blue {
-    color: #ffffff;
     border: none;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     background-color: #0058D2;
@@ -53,7 +50,6 @@
   }
 
   &.-white {
-    color: #0050db;
     background-color: #ffffff;
 
     &:hover {
@@ -68,7 +64,6 @@
     background-color: unset;
 
     &.-white {
-      color: white;
       opacity: 0.5;
       background-color: unset;
 
@@ -78,7 +73,6 @@
     }
 
     &.-blue {
-      color: #0058D2;
       background-color: unset;
     }
 
