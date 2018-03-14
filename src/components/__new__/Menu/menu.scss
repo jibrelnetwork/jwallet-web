@@ -1,0 +1,26 @@
+.menu {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #002bb3;
+  color: #ffffff;
+
+  > .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding-bottom: 40px;
+  }
+
+  > .selects {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+  }
+}

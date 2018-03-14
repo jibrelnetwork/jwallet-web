@@ -1,0 +1,34 @@
+.menu-link {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 11px;
+  display: block;
+  position: relative;
+  height: 110px;
+  padding-top: 36px;
+  font-weight: 600;
+
+  &:hover > .j-icon.-medium {
+    opacity: 1;
+  }
+
+  > .j-icon.-medium {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -12px;
+    opacity: 0.5;
+  }
+
+  > .j-icon.-small {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: 1px;
+    margin-top: -1px;
+  }
+
+  > .j-text {
+    color: #ffffff;
+  }
+}
