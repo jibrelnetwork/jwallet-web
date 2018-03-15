@@ -1,5 +1,3 @@
-// @flow
-
 import BigNumber from 'bignumber.js'
 import Keystore from 'jwallet-web-keystore'
 import { call, put, select, takeEvery } from 'redux-saga/effects'

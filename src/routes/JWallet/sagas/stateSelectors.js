@@ -1,5 +1,3 @@
-// @flow
-
 import find from 'lodash/find'
 
 import isMnemonicType from 'utils/isMnemonicType'

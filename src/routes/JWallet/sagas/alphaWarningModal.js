@@ -1,5 +1,3 @@
-// @flow
-
 import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 

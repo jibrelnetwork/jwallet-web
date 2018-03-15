@@ -1,5 +1,3 @@
-// @flow
-
 import config from 'config'
 
 const { addressesPerIteration } = config
