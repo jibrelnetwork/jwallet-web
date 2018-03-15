@@ -4,7 +4,6 @@ import { pure } from 'recompose'
 
 import JText from '../JText'
 import JIcon from '../JIcon'
-import './JToast.scss'
 
 type Props = {
   type: 'info' | 'error',

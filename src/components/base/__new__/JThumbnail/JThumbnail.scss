@@ -1,14 +1,19 @@
-.JCard {
+.jThumbnail {
+  all: initial;
+  width: 480px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   
-  > .icon {
-    //
+  > .image {
+    margin-bottom: 5px;
   }
 
   > .title {
-    //
+    margin-bottom: 25px;
   }
 
-  > .desription {
-    //
+  > .description {
+    margin-bottom: 30px;
   }
 }

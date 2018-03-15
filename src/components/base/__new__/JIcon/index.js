@@ -1,3 +1,1 @@
-import JIcon from './JIconContainer'
-
-export default JIcon
+export { default } from './JIconContainer'

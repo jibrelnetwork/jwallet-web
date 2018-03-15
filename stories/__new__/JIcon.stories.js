@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JIcon from './JIcon'
+import JIcon from '../../src/components/base/__new__/JIcon'
 
 storiesOf('JIcon', module)
   .add('Small close', () => (
@@ -22,7 +22,7 @@ storiesOf('JIcon', module)
   .add('Large Ant token', () => (
     <JIcon
       size='large'
-      name='ant-token'
+      name='token-ant'
     />
   ))
   .add('Extra large received transaction', () => (

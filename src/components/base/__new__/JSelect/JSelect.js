@@ -1,10 +1,11 @@
+/* @flow */
+
 import React from 'react'
 import classNames from 'classnames'
 import { compose, values, map, dissoc } from 'ramda'
 
 import Item from './Item'
 import JIcon from '../JIcon'
-import './JSelect.scss'
 
 type Props = {
   items: Array<{

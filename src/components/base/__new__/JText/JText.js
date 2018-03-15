@@ -3,19 +3,24 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const JText = ({ value, variant }: Props) => (
-  <div className={classNames('j-text', `-${variant || ''}`)}>
+type Props = {
+  value: string,
+  variants?: Array<string>,
+}
+
+const JText = ({ value, variants }: Props) => (
+  <div
+    className={classNames(
+      'j-text',
+      variants.map(variant => `-${variant}`).join(' ')
+    )}
+  >
     {i18n(value) || value}
   </div>
 )
 
-type Props = {
-  value: string,
-  variant?: string,
-}
-
 JText.defaultProps = {
-  variant: undefined,
+  variants: [],
 }
 
 export default JText

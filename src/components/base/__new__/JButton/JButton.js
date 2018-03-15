@@ -7,13 +7,13 @@ import { empty, prop } from 'ramda'
 import { JIcon, JText } from 'components/base/__new__'
 
 const JButton = ({
-  onClick,
   text,
-  iconName,
-  iconSize,
   color,
   large,
   minimal,
+  onClick,
+  iconName,
+  iconSize,
   disabled,
   isLoading,
 }: Props) => (
@@ -38,7 +38,16 @@ const JButton = ({
     )}
     {text && (
       <div className='text'>
-        <JText value={text} />
+        <JText
+          value={text}
+          variants={[
+            minimal
+              ? { white: 'white', blue: 'blue' }[color]
+              : { white: 'blue', blue: 'white' }[color],
+            'bold',
+            'normal',
+          ]}
+        />
       </div>
     )}
   </div>

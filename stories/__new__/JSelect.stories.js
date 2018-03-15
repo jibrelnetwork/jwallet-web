@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import JSelect from '.'
+import JSelect from '../../src/components/base/__new__/JSelect'
 
 storiesOf('JSelect', module)
   .add('Standard', () => (
@@ -13,27 +13,27 @@ storiesOf('JSelect', module)
         title='asset'
         items={[{
           id: 1,
-          icon: 'ant-token',
+          icon: 'token-ant',
           title: 'Token 1',
           description: '1 ETH',
         }, {
           id: 2,
-          icon: 'ant-token',
+          icon: 'token-ant',
           title: 'Token 2',
           description: '2 ETH',
         }, {
           id: 3,
-          icon: 'ant-token',
+          icon: 'token-ant',
           title: 'Token 3',
           description: '3 ETH',
         }, {
           id: 4,
-          icon: 'ant-token',
+          icon: 'token-ant',
           title: 'Token 4',
           description: '4 ETH',
         }, {
           id: 5,
-          icon: 'ant-token',
+          icon: 'token-ant',
           title: 'Token 5',
           description: '5 ETH',
         }]}

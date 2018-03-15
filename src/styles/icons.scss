@@ -5,6 +5,7 @@ $icon-small-size: 12px;
 $icon-medium-size: 24px;
 $icon-large-size: 36px;
 $icon-extra-large-size: 48px;
+$icon-huge-size: 200px;
 
 /**
  * Small
@@ -47,9 +48,14 @@ $transaction-receive: url('../public/icons/extra-large/transaction-receive.svg')
 $transaction-receive-time: url('../public/icons/extra-large/transaction-receive-time.svg');
 
 /**
- * Tokens
+ * Large
  */
 $token-ant: url('../public/icons/large/tokens/ant.svg');
+
+/**
+ * Huge
+ */
+$key: url('../public/icons/huge/key.svg');
 
 /**
  * Deprecated

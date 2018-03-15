@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JButton from './JButton'
+import JButton from '../../src/components/base/__new__/JButton'
 
 storiesOf('JButton', module)
   .add('Large blue', () => (
@@ -37,7 +37,7 @@ storiesOf('JButton', module)
     <JButton
       text='Some text'
       color='white'
-      iconName='repeat'
+      iconName='repeat-blue'
     />
   ))
   .add('Minimal white', () => (
@@ -62,7 +62,7 @@ storiesOf('JButton', module)
         text='Some text'
         color='white'
         minimal
-        iconName='arrow-back'
+        iconName='key-import-white'
       />
     </div>
   ))

@@ -1,4 +1,6 @@
 .j-icon {
+  all: initial;
+  cursor: inherit;
   display: block;
   background-repeat: no-repeat;
   background-position: left center;
@@ -31,6 +33,12 @@
     width: $icon-extra-large-size;
     height: $icon-extra-large-size;
     background-size: $icon-extra-large-size $icon-extra-large-size;
+  }
+
+  &.-huge {
+    width: $icon-huge-size;
+    height: $icon-huge-size;
+    background-size: $icon-huge-size $icon-huge-size;
   }
 
   // SVG
@@ -154,5 +162,11 @@
 
   &.-token-ant {
     background-image: $token-ant;
+  }
+
+  // Huge
+
+  &.-key {
+    background-image: $key;
   }
 }
