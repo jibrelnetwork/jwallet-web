@@ -2,41 +2,37 @@
 
 import React from 'react'
 
-import handle from 'utils/handle'
+import TransactionsByPeriod from 'components/__new__/TransactionsByPeriod'
 
 const AllTransactions = ({
   setActive,
-  items,
+  // items,
+  transactionsByPeriod,
+  currentAsset,
   // searchQuery,
   // isLoading,
   // isBlockExplorerError,
-  // activeTxHash,
+  activeTxHash,
 }: Props) => (
   <div className='all-transactions-view'>
-    <div>
-      <div>
-        {items.map((transaction: Transaction) => {
-          return (
-            <div
-              onClick={handle(setActive)(transaction.transactionHash)}
-              key={transaction.transactionHash}
-            >
-              <div>{transaction.type}</div>
-              <div>{transaction.date}</div>
-              <div>{transaction.fee}</div>
-              <div>{transaction.amount}</div>
-              <div>{transaction.address}</div>
-            </div>
-          )
-        })}
-      </div>
-    </div>
+    {currentAsset ? (
+      <TransactionsByPeriod
+        setActive={setActive}
+        transactionsByPeriod={transactionsByPeriod}
+        assetSymbol={currentAsset.symbol}
+        activeTxHash={activeTxHash}
+      />
+    ) : (
+      <div>{'There are no active assets'}</div>
+    )}
   </div>
 )
 
 type Props = {
   setActive: (txHash: Hash) => Dispatch,
   items: Transactions,
+  transactionsByPeriod: Object,
+  currentAsset: DigitalAsset,
   searchQuery: string,
   isLoading: boolean,
   isBlockExplorerError: boolean,
