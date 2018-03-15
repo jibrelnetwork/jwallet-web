@@ -23,10 +23,10 @@ const JButton = ({
       'j-button', {
         '-loading': isLoading,
         '-with-text': text,
-      }, prop(color, {
+      }, color ? prop(color, {
         blue: '-blue',
         white: '-white',
-      }),
+      }) : null,
       large ? '-large' : '-regular',
       minimal && '-minimal'
     )}
@@ -54,11 +54,11 @@ const JButton = ({
 )
 
 type Props = {
- color: 'white' | 'blue',
  onClick?: Function,
  text?: string,
- iconName?: string,
+ color?: 'white' | 'blue',
  iconSize?: 'small' | 'medium',
+ iconName?: string,
  large?: boolean,
  minimal?: boolean,
  disabled?: boolean,
@@ -68,8 +68,9 @@ type Props = {
 JButton.defaultProps = {
   onClick: empty,
   text: undefined,
-  iconName: undefined,
+  color: 'white',
   iconSize: 'small',
+  iconName: undefined,
   large: false,
   minimal: false,
   disabled: false,

@@ -13,14 +13,14 @@
 
   &.-with-text {
     padding: 0 24px;
-   
+
     &.-large {
       width: 156px;
       height: 48px;
       line-height: 46px;
       border-radius: 24px;
     }
-  
+
     &.-regular {
       height: 40px;
       line-height: 36px;
@@ -30,11 +30,11 @@
 
 
   &.-loading {
-  
+
   }
 
   &.-disabled {
-  
+
   }
 
   &.-blue {
@@ -83,13 +83,13 @@
       background-color: unset;
     }
   }
-  
+
   // Elements 
-  
+
   > .text {
     
   }
-  
+
   &.-with-text {
     > .icon {
       all: unset;
