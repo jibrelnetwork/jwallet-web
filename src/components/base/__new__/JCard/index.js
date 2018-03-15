@@ -1,1 +1,3 @@
-export { default } from './JCard'
+import JCard from './JCardContainer'
+
+export default JCard
