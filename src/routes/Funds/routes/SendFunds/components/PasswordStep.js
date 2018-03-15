@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { JButton, JTextInput } from 'components/base'
+import JTextInput from 'components/base/JTextInput'
+import JButton from 'components/base/__new__/JButton'
 
 const PasswordStep = ({
   setPassword,
@@ -19,7 +20,7 @@ const PasswordStep = ({
       editable
       secureTextEntry
     />
-    <JButton onClick={setNextStep} label={i18n('routes.sendFunds.buttonTitlePassword')} blue />
+    <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitlePassword' color='white' />
   </div>
 )
 
