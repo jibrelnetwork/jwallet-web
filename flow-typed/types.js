@@ -31,45 +31,27 @@ declare type Store = {
 }
 
 /**
- * Digital assets
+ * Networks
  */
-declare type DigitalAsset = {
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +decimals: Decimals,
-  +isCustom: boolean,
-  +isActive: boolean,
+declare type NetworkId = string
+
+declare type Network = {
+  id: NetworkId,
+  title: string,
+  rpcaddr: string,
+  rpcport: string,
+  ssl: boolean,
+  isCustom: boolean,
 }
 
-declare type DigitalAssets = Array<DigitalAsset>
+declare type Networks = Array<Network>
 
-declare type DigitalAssetsData = {
+declare type NetworksData = {
+  +items: Networks,
   +invalidFields: FormFields,
-  +items: DigitalAssets,
-  +foundAssets: Addresses,
-  +balances: Balances,
-  +searchQuery: string,
-  +currentAddress: ?Address,
-  +isBalancesLoading: boolean,
-}
-
-/**
- * Custom digital asset
- */
-declare type CustomAssetData = {
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +decimals: string,
-}
-
-declare type AddCustomAssetData = {
-  +invalidFields: FormFields,
-  +address: Address,
-  +name: string,
-  +symbol: string,
-  +decimals: string,
+  +customNetworkRPC: string,
+  +currentNetwork: ?NetworkId,
+  +isLoading: boolean,
 }
 
 /**
@@ -201,26 +183,45 @@ declare type ChangeWalletPasswordData = {
 declare type RemoveWalletData = {}
 
 /**
- * Networks
+ * Digital assets
  */
-declare type NetworkId = number
-
-declare type Network = {
-  title: string,
-  rpcaddr: string,
-  rpcport: string,
-  id: NetworkId,
-  ssl: boolean,
-  isCustom: boolean,
+declare type DigitalAsset = {
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +decimals: Decimals,
+  +isCustom: boolean,
+  +isActive: boolean,
 }
 
-declare type Networks = Array<Network>
+declare type DigitalAssets = Array<DigitalAsset>
 
-declare type NetworksData = {
-  +items: Networks,
-  +customNetworkRpc: string,
-  +currentNetworkIndex: Index,
-  +isLoading: boolean,
+declare type DigitalAssetsData = {
+  +invalidFields: FormFields,
+  +items: DigitalAssets,
+  +foundAssets: Addresses,
+  +balances: Balances,
+  +searchQuery: string,
+  +currentAddress: ?Address,
+  +isBalancesLoading: boolean,
+}
+
+/**
+ * Custom digital asset
+ */
+declare type CustomAssetData = {
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +decimals: string,
+}
+
+declare type AddCustomAssetData = {
+  +invalidFields: FormFields,
+  +address: Address,
+  +name: string,
+  +symbol: string,
+  +decimals: string,
 }
 
 /**
@@ -302,13 +303,6 @@ declare type TXData = {
  */
 declare type State = {
   +networks: NetworksData,
-  +currencies: DigitalAssetsData,
-  +keystore: KeystoreData,
-  +receiveFunds: ReceiveFundsData,
-  +sendFunds: SendFundsData,
-  +digitalAssets: DigitalAssetsData,
-  +addCustomAsset: AddCustomAssetData,
-  +transactions: TransactionsData,
   +wallets: WalletsData,
   +mnemonicAddresses: MnemonicAddressesData,
   +createWallet: CreateWalletData,
@@ -317,68 +311,17 @@ declare type State = {
   +backupWallet: BackupWalletData,
   +changeWalletPassword: ChangeWalletPasswordData,
   +removeWallet: RemoveWalletData,
+  +digitalAssets: DigitalAssetsData,
+  +addCustomAsset: AddCustomAssetData,
+  +transactions: TransactionsData,
+  +receiveFunds: ReceiveFundsData,
+  +sendFunds: SendFundsData,
 }
 
 /**
  * Errors
  */
 declare type InvalidFieldError = {
-  fieldName: string,
-  message: string,
-}
-
-/**
- * Deprecated
- * TODO: remove types below
- */
-
-/**
- * Keystore
- */
-declare type AccountId = string
-
-declare type Account = {
-  encrypted: {
-    privateKey: string,
-    mnemonic: string,
-  },
-  id: string,
-  type: string,
-  name: string,
-  customType: WalletType,
-  accountName: string,
-  isActive: boolean,
-  isReadOnly: boolean,
-  derivationPath?: string,
-  bip32XPublicKey?: string,
-  addressIndex?: Index,
-}
-
-declare type Accounts = Array<Account>
-
-declare type NewAccountData = {
-  type: string,
-  isReadOnly: boolean,
-  mnemonic?: string,
-  bip32XPublicKey?: string,
-  privateKey?: string,
-  address?: string,
-}
-
-declare type KeystoreData = {
-  currentAccount: Account,
-  newAccountNameData: {
-    accountId: AccountId,
-    newAccountName: string,
-  },
-  addressesFromMnemonic: {
-    items: Addresses,
-    currentIteration: number,
-  },
-  accounts: Wallets,
-  sortField: string,
-  sortDirection: string,
-  isLoading: boolean,
-  isCreating: boolean,
-  isOpen: boolean,
+  +fieldName: string,
+  +message: string,
 }
