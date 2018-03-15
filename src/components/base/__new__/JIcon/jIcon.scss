@@ -1,0 +1,172 @@
+.j-icon {
+  all: initial;
+  cursor: inherit;
+  display: block;
+  background-repeat: no-repeat;
+  background-position: left center;
+
+  &.-transparent {
+    opacity: 0.2;
+  }
+
+  // Sizes
+
+  &.-small {
+    width: $icon-small-size;
+    height: $icon-small-size;
+    background-size: $icon-small-size $icon-small-size;
+  }
+
+  &.-medium {
+    width: $icon-medium-size;
+    height: $icon-medium-size;
+    background-size: $icon-medium-size $icon-medium-size;
+  }
+
+  &.-large {
+    width: $icon-large-size;
+    height: $icon-large-size;
+    background-size: $icon-large-size $icon-large-size;
+  }
+
+  &.-extra-large {
+    width: $icon-extra-large-size;
+    height: $icon-extra-large-size;
+    background-size: $icon-extra-large-size $icon-extra-large-size;
+  }
+
+  &.-huge {
+    width: $icon-huge-size;
+    height: $icon-huge-size;
+    background-size: $icon-huge-size $icon-huge-size;
+  }
+
+  // SVG
+
+  // Small icons
+
+  &.-plus {
+    background-image: $plus-blue;
+  }
+
+  &.-menu-send {
+    background-image: $menu-send-white;
+  }
+
+  &.-menu-receive {
+    background-image: $menu-receive-white;
+  }
+
+  &.-menu-favorite-white {
+    background-image: $menu-favorite-white;
+  }
+
+  &.-star-blue {
+    background-image: $star-blue;
+  }
+
+  &.-repeat-blue {
+    background-image: $repeat-blue;
+  }
+
+  &.-arrow-blue {
+    background-image: $arrow-blue;
+    transform: rotate(90deg);
+  }
+
+  &.-arrow-white {
+    background-image: $arrow-white;
+  }
+
+  &.-close {
+    background-image: $close-gray;
+  }
+
+  &.-expand-gray {
+    background-image: $expand-gray;
+  }
+
+  // Medium icons
+
+  &.-menu-bg {
+    background-image: $menu-bg-white;
+  }
+
+  &.-logout {
+    background-image: $logout;
+  }
+
+  &.-search {
+    background-image: $search-gray;
+  }
+
+  &.-close-popup-gray {
+    background-image: $close-popup-gray;
+  }
+
+  &.-arrow-popup-white {
+    background-image: $arrow-popup-white;
+  }
+
+  &.-key-new-white {
+    background-image: $key-new-white;
+  }
+
+  &.-key-import-white {
+    background-image: $key-import-white;
+  }
+
+  &.-private-key {
+    background-image: $private-key;
+  }
+
+  &.-private-key-read {
+    background-image: $private-key-read;
+  }
+
+  &.-mnemonic {
+    background-image: $mnemonic;
+  }
+
+  &.-mnemonic-read {
+    background-image: $mnemonic-read;
+  }
+
+  &.-dots-white {
+    background-image: $dots-white;
+  }
+
+  &.-arrow-white {
+    background-image: $arrow-white;
+  }
+
+  // Large icons
+
+  &.-transaction-send {
+    background-image: $transaction-send;
+  }
+
+  &.-transaction-send-time {
+    background-image: $transaction-send-time;
+  }
+
+  &.-transaction-receive {
+    background-image: $transaction-receive;
+  }
+  
+  &.-transaction-receive-time {
+    background-image: $transaction-receive-time;
+  }
+
+  // Token icons
+
+  &.-token-ant {
+    background-image: $token-ant;
+  }
+
+  // Huge
+
+  &.-key {
+    background-image: $key;
+  }
+}
