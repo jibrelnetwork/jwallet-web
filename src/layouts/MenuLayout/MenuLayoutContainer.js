@@ -4,14 +4,16 @@ import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import { getNetworksFromStorage } from 'routes/JWallet/modules/networks'
+import { init as initNetworks } from 'routes/modules/networks'
 
 import MenuLayout from './MenuLayout'
 
-const mapStateToProps = null
+const mapStateToProps = ({ networks }: State): { networks: Networks } => ({
+  networks: networks.items,
+})
 
 const mapDispatchToProps = {
-  getNetworksFromStorage,
+  initNetworks,
 }
 
 export default compose(
@@ -20,8 +22,8 @@ export default compose(
     componentDidMount() {
       const { networks } = this.props
 
-      if (!networks || !networks.items || networks.items.length) {
-        this.props.getNetworksFromStorage()
+      if (!networks.items || !networks.items.length) {
+        this.props.initNetworks()
       }
     },
   }),

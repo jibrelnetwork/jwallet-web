@@ -199,7 +199,7 @@ function isDigitalAssetFound(
 }
 
 function* mergeDigitalAssets(digitalAssetsFromStorage: ?DigitalAssets) {
-  const networkId: NetworkId = yield select(selectNetworkId)
+  const networkId: ?NetworkId = yield select(selectNetworkId)
   const popularAssets: DigitalAssets = getPopularDigitalAssets(networkId)
 
   if (!digitalAssetsFromStorage) {

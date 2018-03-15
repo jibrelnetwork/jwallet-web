@@ -11,7 +11,7 @@ const storageKeys = {
   keystoreCurrentAccount: 'JWALLET-KEYSTORE-CURRENT-ACCOUNT',
   keystoreAddressesFromMnemonic: 'JWALLET-KEYSTORE-ADDRESSES-FROM-MNEMONIC',
   networks: 'JWALLET-NETWORKS',
-  networksCurrent: 'JWALLET-NETWORKS-CURRENT',
+  currentNetwork: 'JWALLET-CURRENT-NETWORK',
 }
 
 const storageMethods = {}

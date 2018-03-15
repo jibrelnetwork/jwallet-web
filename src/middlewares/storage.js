@@ -1,18 +1,17 @@
 // @flow
 
+import { propEq } from 'ramda'
+
 import { keystore, storage } from 'services'
 
 /**
- * Digital Assets
+ * Networks
  */
-
-import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
-import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+import * as networks from 'routes/modules/networks'
 
 /**
  * Wallets
  */
-
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
 import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
@@ -20,59 +19,58 @@ import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet
 import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/removeWallet'
 import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPassword/modules/changeWalletPassword' // eslint-disable-line max-len
 
-export const set = (store: { dispatch: Dispatch }) => (next: Next) => (action: FSA) => {
+/**
+ * Digital Assets
+ */
+import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+
+export const set = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
+  const networkId: ?NetworkId = store.getState().networks.currentNetwork
 
   switch (type) {
     /**
-     * Digital Assets
+     * Networks
      */
-
-    case digitalAssets.INIT: {
+    case networks.INIT: {
       try {
-        const customDigitalAssets: DigitalAssets = JSON.parse(storage.getDigitalAssets())
-        store.dispatch(digitalAssets.setAssets(customDigitalAssets))
+        const storedNetworks: Networks = JSON.parse(storage.getNetworks())
+        store.dispatch(networks.setNetworks(storedNetworks))
       } catch (err) {
-        store.dispatch(digitalAssets.setAssets())
+        store.dispatch(networks.setNetworks())
       }
 
       try {
-        const currentDigitalAsset: Address = JSON.parse(storage.getCurrentDigitalAsset())
-        store.dispatch(digitalAssets.setCurrent(currentDigitalAsset))
+        const currentNetwork: NetworkId = storage.getCurrentNetwork()
+        store.dispatch(networks.setCurrentNetwork(currentNetwork))
       } catch (err) {
-        store.dispatch(digitalAssets.setCurrent())
+        store.dispatch(networks.setCurrentNetwork())
       }
 
       break
     }
 
-    case digitalAssets.SET_ASSETS_SUCCESS: {
-      storage.setDigitalAssets(JSON.stringify(payload.items))
-
+    case networks.SET_NETWORKS_SUCCESS: {
+      storage.setNetworks(JSON.stringify(payload.items.filter(propEq('isCustom', true))))
       break
     }
 
-    case digitalAssets.SET_CURRENT: {
-      const { currentAddress }: { currentAddress: ?Address } = payload
+    case networks.SET_CURRENT_SUCCESS: {
+      const { currentNetwork }: { currentNetwork: NetworkId } = payload
 
-      if (!currentAddress) {
-        storage.removeCurrentDigitalAsset()
-        break
-      }
-
-      storage.setCurrentDigitalAsset(currentAddress)
+      storage.setCurrentNetwork(currentNetwork)
       break
     }
 
-    case addCustomAsset.ADD_SUCCESS: {
-      storage.setDigitalAssets(JSON.stringify(payload.newDigitalAssets))
+    case networks.SAVE_CUSTOM_NETWORK_SUCCESS: {
+      storage.setNetworks(JSON.stringify(payload.items.filter(propEq('isCustom', true))))
       break
     }
 
     /**
      * Wallets
      */
-
     case createWallet.CREATE_SUCCESS:
     case importWallet.IMPORT_SUCCESS:
     case editWallet.EDIT_SUCCESS:
@@ -107,6 +105,49 @@ export const set = (store: { dispatch: Dispatch }) => (next: Next) => (action: F
         storage.removeKeystoreActiveWalletId()
       }
 
+      break
+    }
+
+    /**
+     * Digital Assets
+     */
+    case digitalAssets.INIT: {
+      try {
+        const storedDigitalAssets: DigitalAssets = JSON.parse(storage.getDigitalAssets(networkId))
+        store.dispatch(digitalAssets.setAssets(storedDigitalAssets))
+      } catch (err) {
+        store.dispatch(digitalAssets.setAssets())
+      }
+
+      try {
+        const currentDigitalAsset: Address = storage.getCurrentDigitalAsset(networkId)
+        store.dispatch(digitalAssets.setCurrent(currentDigitalAsset))
+      } catch (err) {
+        store.dispatch(digitalAssets.setCurrent())
+      }
+
+      break
+    }
+
+    case digitalAssets.SET_ASSETS_SUCCESS: {
+      storage.setDigitalAssets(JSON.stringify(payload.items), networkId)
+      break
+    }
+
+    case digitalAssets.SET_CURRENT: {
+      const { currentAddress }: { currentAddress: ?Address } = payload
+
+      if (!currentAddress) {
+        storage.removeCurrentDigitalAsset(networkId)
+        break
+      }
+
+      storage.setCurrentDigitalAsset(currentAddress, networkId)
+      break
+    }
+
+    case addCustomAsset.ADD_SUCCESS: {
+      storage.setDigitalAssets(JSON.stringify(payload.newDigitalAssets), networkId)
       break
     }
 

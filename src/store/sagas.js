@@ -1,13 +1,8 @@
 /**
- * Deprecated
+ * General
  */
-import * as alphaWarningModalSagas from 'routes/JWallet/sagas/alphaWarningModal'
-import * as backupKeystoreModalSagas from 'routes/JWallet/sagas/backupKeystoreModal'
-import * as fundsModalsSagas from 'routes/JWallet/sagas/fundsModals'
-import * as i18nSagas from 'routes/JWallet/sagas/i18n'
-import * as keystoreSagas from 'routes/JWallet/sagas/keystore'
-import * as keystoreModalsSagas from 'routes/JWallet/sagas/keystoreModals'
-import * as networksSagas from 'routes/JWallet/sagas/networks'
+import * as i18nSagas from 'routes/sagas/i18n'
+import * as networksSagas from 'routes/sagas/networks'
 
 /**
  * Funds
@@ -31,13 +26,8 @@ import transactionsSagas from 'routes/Transactions/sagas'
 import walletsSagas from 'routes/Wallets/sagas'
 
 export default {
-  // deprecated
-  ...alphaWarningModalSagas,
-  ...backupKeystoreModalSagas,
-  ...fundsModalsSagas,
+  // general
   ...i18nSagas,
-  ...keystoreSagas,
-  ...keystoreModalsSagas,
   ...networksSagas,
   // Funds
   ...fundsSagas,
