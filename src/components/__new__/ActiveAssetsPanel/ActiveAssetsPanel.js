@@ -24,7 +24,7 @@ const ActiveAssetsPanel = ({
     </div>
     <div className='manage'>
       <Link to='/digital-assets' className='link'>
-        <JIcon size='small' name='plus-blue' />
+        <JIcon size='small' name='plus' />
         <JText value='assetsPanel.button' />
       </Link>
     </div>
