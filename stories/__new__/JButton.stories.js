@@ -37,7 +37,7 @@ storiesOf('JButton', module)
     <JButton
       text='Some text'
       color='white'
-      iconName='repeat-blue'
+      iconName='repeat'
     />
   ))
   .add('Minimal white', () => (
