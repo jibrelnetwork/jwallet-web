@@ -1,47 +1,15 @@
 // @flow
 
-import { find, propEq } from 'ramda'
-
-import ethereum from 'data/assets/ethereum'
-
-export function selectNetworkId(state: State): NetworkId {
-  return state.networks.items[state.networks.currentNetworkIndex].id
+export function selectNetworks(state: State): NetworksData {
+  return state.networks
 }
 
-export function selectReceiveFunds(state: State): ReceiveFundsData {
-  return state.receiveFunds
+export function selectNetworksItems(state: State): Networks {
+  return state.networks.items
 }
 
-export function selectSendFunds(state: State): SendFundsData {
-  return state.sendFunds
-}
-
-export function selectDigitalAssets(state: State): DigitalAssetsData {
-  return state.digitalAssets
-}
-
-export function selectDigitalAssetsItems(state: State): DigitalAssets {
-  return state.digitalAssets.items
-}
-
-export function selectDigitalAssetsBalances(state: State): Balances {
-  return state.digitalAssets.balances
-}
-
-export function selectCurrentDigitalAsset(state: State): ?Address {
-  return state.digitalAssets.currentAddress
-}
-
-export function selectAddCustomAsset(state: State): AddCustomAssetData {
-  return state.addCustomAsset
-}
-
-export function selectTransactions(state: State): TransactionsData {
-  return state.transactions
-}
-
-export function selectTransactionsItems(state: State): Transactions {
-  return state.transactions.items
+export function selectNetworkId(state: State): ?NetworkId {
+  return state.networks.currentNetwork
 }
 
 export function selectWallets(state: State): WalletsData {
@@ -80,22 +48,38 @@ export function selectChangeWalletPassword(state: State): ChangeWalletPasswordDa
   return state.changeWalletPassword
 }
 
-/**
- * Deprecated
- */
-
-export function selectDigitalAssetItem(state: State, symbol: string): DigitalAsset {
-  return find(propEq('symbol', symbol))(state.currencies.items) || ethereum
+export function selectDigitalAssets(state: State): DigitalAssetsData {
+  return state.digitalAssets
 }
 
-export function selectKeystore(state: State): KeystoreData {
-  return state.keystore
+export function selectDigitalAssetsItems(state: State): DigitalAssets {
+  return state.digitalAssets.items
 }
 
-export function selectKeystoreKeys(state: State): Wallets {
-  return state.keystore.accounts
+export function selectDigitalAssetsBalances(state: State): Balances {
+  return state.digitalAssets.balances
 }
 
-export function selectCurrentKeyId(state: State): AccountId {
-  return state.keystore.currentAccount.id
+export function selectCurrentDigitalAsset(state: State): ?Address {
+  return state.digitalAssets.currentAddress
+}
+
+export function selectAddCustomAsset(state: State): AddCustomAssetData {
+  return state.addCustomAsset
+}
+
+export function selectTransactions(state: State): TransactionsData {
+  return state.transactions
+}
+
+export function selectTransactionsItems(state: State): Transactions {
+  return state.transactions.items
+}
+
+export function selectReceiveFunds(state: State): ReceiveFundsData {
+  return state.receiveFunds
+}
+
+export function selectSendFunds(state: State): SendFundsData {
+  return state.sendFunds
 }
