@@ -1,32 +1,24 @@
 // @flow
 
-import lifecycle from 'recompose/lifecycle'
 import { connect } from 'react-redux'
 import { assoc, compose, propEq } from 'ramda'
 
-import {
-  open,
-  close,
-  setActive,
-} from 'routes/Transactions/modules/transactions'
+import { getDigitalAssetByAddress, getTransactionsByPeriod } from 'utils'
+import { setActive } from 'routes/Transactions/modules/transactions'
 
 import OutgoingTransactions from '../components/OutgoingTransactions'
 
-const mapStateToProps = ({ transactions }: State): TransactionsData => assoc(
-  'items',
-  transactions.items.filter(propEq('type', 'send')),
+const mapStateToProps = ({ digitalAssets, transactions }: State): Object => compose(
+  assoc(
+    'transactionsByPeriod',
+    getTransactionsByPeriod(transactions.items.filter(propEq('type', 'send'))),
+  ),
+  assoc(
+    'currentAsset',
+    getDigitalAssetByAddress(digitalAssets.currentAddress, digitalAssets.items),
+  ),
 )(transactions)
 
-const mapDispatchToProps = {
-  open,
-  close,
-  setActive,
-}
+const mapDispatchToProps = { setActive }
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  lifecycle({
-    componentWillMount() { this.props.open() },
-    componentWillUnmount() { this.props.close() },
-  }),
-)(OutgoingTransactions)
+export default connect(mapStateToProps, mapDispatchToProps)(OutgoingTransactions)
