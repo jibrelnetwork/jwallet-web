@@ -4,8 +4,9 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import findIndex from 'lodash/findIndex'
 
 import config from 'config'
-import { gtm, etherscan, storage, web3 } from 'services'
 import getDefaultNetworks from 'utils/getDefaultNetworks'
+import { gtm, etherscan, storage, web3 } from 'services'
+import { init as initDigitalAssets } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import {
   NETWORKS_GET,
@@ -14,8 +15,6 @@ import {
   NETWORKS_SAVE_CUSTOM_NETWORK,
   NETWORKS_REMOVE_CUSTOM_NETWORK,
 } from '../modules/networks'
-
-import { CURRENCIES_GET } from '../modules/currencies'
 
 import { selectNetworks } from './stateSelectors'
 
@@ -49,10 +48,6 @@ function onSetNetworks(action: { items: Networks }): Saga<void> {
   storage.setNetworks(JSON.stringify(customNetworks))
 }
 
-function* getCurrencies() {
-  yield put({ type: CURRENCIES_GET })
-}
-
 function* onSetCurrentNetwork(action: { currentNetworkIndex: Index }): Saga<void> {
   const { items } = yield select(selectNetworks)
   const { currentNetworkIndex } = action
@@ -61,8 +56,8 @@ function* onSetCurrentNetwork(action: { currentNetworkIndex: Index }): Saga<void
 
   yield setNetworkRpcProps(currentNetworkIndex)
 
-  // need to change currencies if current network changed
-  yield getCurrencies()
+  // need to update digital assets if current network changed
+  yield put(initDigitalAssets())
 }
 
 function* onSaveCustomNetwork({ customNetworkRpc, onSuccess, onError }): Saga<void> {

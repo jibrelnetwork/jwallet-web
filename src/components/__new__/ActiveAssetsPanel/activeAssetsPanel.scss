@@ -1,0 +1,45 @@
+.active-assets-panel {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 200px;
+  width: 320px;
+  height: 100%;
+  padding-bottom: 66px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+
+  > .list {
+    position: relative;
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  > .manage {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #ebedf0;
+  }
+
+  > .manage > .link {
+    display: block;
+    line-height: 66px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  > .manage > .link > .j-icon,
+  > .manage > .link > .j-text {
+    display: inline-block;
+  }
+
+  > .manage > .link > .j-icon {
+    margin-right: 10px;
+  }
+
+  @media only screen and (max-width: 1280px) {
+    width: 290px;
+  }
+}

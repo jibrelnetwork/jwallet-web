@@ -3,8 +3,6 @@ import { pure } from 'recompose'
 import { range } from 'ramda'
 import classNames from 'classnames'
 
-import './JPaginator.scss'
-
 type Props = {
   stepsCount: number,
   currentStep: number,

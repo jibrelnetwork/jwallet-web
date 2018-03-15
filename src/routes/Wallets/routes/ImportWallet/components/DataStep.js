@@ -8,7 +8,6 @@ import { DerivationPath, Expandable } from 'components'
 import { JButton, JTextInput } from 'components/base'
 import { JCallout } from 'components/base/__new__'
 
-
 const DataStep = ({
   setName,
   setData,

@@ -2,21 +2,23 @@
 
 import React from 'react'
 
-import AsideLayout from '../AsideLayout'
+import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
+import JTabs from 'components/base/__new__/JTabs'
+import DigitalAssetsActions from 'routes/DigitalAssets/containers/DigitalAssetsActionsContainer'
+
+const DIGITAL_ASSETS_TABS = {
+  '/digital-assets/with-balance': 'My Digital Assets',
+  '/digital-assets/popular': 'Popular Assets',
+}
 
 const DigitalAssetsLayout = ({ children }: Props) => (
-  <AsideLayout>
-    <div>
-      {
-      /*
-        <div>{'Tabs'}</div>
-        <div>{'Add button'}</div>
-        <div>{'Search'}</div>
-      */
-      }
-      <div>{children}</div>
+  <ActiveAssetsLayout>
+    <div className='header'>
+      <JTabs tabs={DIGITAL_ASSETS_TABS} />
+      <DigitalAssetsActions />
     </div>
-  </AsideLayout>
+    <div className='wrapper'>{children}</div>
+  </ActiveAssetsLayout>
 )
 
 type Props = {

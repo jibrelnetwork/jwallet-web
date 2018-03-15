@@ -1,1 +1,1 @@
-export { JCallout } from './JCallout'
+export { default } from './JCallout'

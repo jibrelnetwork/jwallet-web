@@ -1,1 +1,1 @@
-export { JPaginator } from './JPaginator'
+export { default } from './JPaginator'

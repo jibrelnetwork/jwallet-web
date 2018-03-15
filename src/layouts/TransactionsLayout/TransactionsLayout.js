@@ -2,21 +2,24 @@
 
 import React from 'react'
 
-import AsideLayout from '../AsideLayout'
+import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
+import JTabs from 'components/base/__new__/JTabs'
+import TransactionsActions from 'routes/Transactions/containers/TransactionsActionsContainer'
+
+const TRANSACTIONS_TABS = {
+  '/transactions/all': 'All Transactions',
+  '/transactions/incoming': 'Incoming',
+  '/transactions/outgoing': 'Outgoing',
+}
 
 const TransactionsLayout = ({ children }: Props) => (
-  <AsideLayout>
-    <div>
-      {
-      /*
-        <div>{'Tabs'}</div>
-        <div>{'Add button'}</div>
-        <div>{'Search'}</div>
-      */
-      }
-      <div>{children}</div>
+  <ActiveAssetsLayout>
+    <div className='header'>
+      <JTabs tabs={TRANSACTIONS_TABS} />
+      <TransactionsActions />
     </div>
-  </AsideLayout>
+    <div className='wrapper'>{children}</div>
+  </ActiveAssetsLayout>
 )
 
 type Props = {

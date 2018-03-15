@@ -4,7 +4,6 @@ import { pure } from 'recompose'
 import 'rc-tooltip/assets/bootstrap.css'
 
 import JText from '../JText'
-import './JTooltip.scss'
 
 type Props = {
   text: string,

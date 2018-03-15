@@ -21,7 +21,7 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentWillMount() { this.props.open() },
+    componentDidMount() { this.props.open() },
     componentWillUnmount() { this.props.close() },
   }),
 )(TransactionsLayout)

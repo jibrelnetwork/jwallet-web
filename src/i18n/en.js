@@ -2,6 +2,14 @@
 
 module.exports = {
   language: 'en', // not translate
+  menu: {
+    send: 'Send funds',
+    receive: 'Receive funds',
+    favorite: 'Favorite',
+  },
+  assetsPanel: {
+    button: 'Add digital asset',
+  },
   warning: {
     memoryStorage: 'You are using Memory as storage. Please don\'t forget to backup your keys!',
   },
@@ -10,6 +18,9 @@ module.exports = {
     receiveTitle: 'Receive',
     convertTitle: 'Convert',
     keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
   networkManager: {
     knownNetworkTitle: {

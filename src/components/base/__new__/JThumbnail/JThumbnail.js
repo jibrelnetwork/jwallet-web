@@ -3,7 +3,6 @@ import { pure } from 'recompose'
 
 import JText from '../JText'
 import JIcon from '../JIcon'
-import './JThumbnail.scss'
 
 type Props = {
   color: 'white' | 'gray',
@@ -18,7 +17,7 @@ const JThumbnail = ({
   title,
   description,
 }: Props) => (
-  <div className='JThumbnail' >
+  <div className='jThumbnail' >
     <div className='image'>
       <JIcon
         name={image}

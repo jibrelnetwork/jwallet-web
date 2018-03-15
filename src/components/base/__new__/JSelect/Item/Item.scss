@@ -10,20 +10,20 @@
   &:not(.-selected):hover {
     > .info {
       > .title {
-        > .JText {
+        > .j-text {
           color: #0050db;
         }
       }
 
       > .description {
-        > .JText {
+        > .j-text {
           color: #0050db;
         }
       }
     }
 
     > .icon {
-      > .JIcon {
+      > .j-icon {
         filter: hue-rotate(20deg) saturate(5);
         opacity: 1;
         transition: all 0.3 ease 0s;

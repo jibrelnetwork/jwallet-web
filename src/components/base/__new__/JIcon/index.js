@@ -1,1 +1,1 @@
-export { default } from './JIcon'
+export { default } from './JIconContainer'

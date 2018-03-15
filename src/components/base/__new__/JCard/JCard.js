@@ -2,8 +2,6 @@ import React from 'react'
 import { pure } from 'recompose'
 import classNames from 'classnames'
 
-import './JCard.scss'
-
 type Props = {
   children: React.Node,
   withShadow: ?bool,

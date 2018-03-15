@@ -1,4 +1,4 @@
-.JButton {
+.j-button {
   all: initial;
   cursor: pointer;
   border: 1px solid rgba(0, 80, 220, 0.25);
@@ -92,6 +92,7 @@
   
   &.-with-text {
     > .icon {
+      all: unset;
       margin-right: 8px;
     }
   }

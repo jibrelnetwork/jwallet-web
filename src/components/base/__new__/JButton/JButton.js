@@ -1,32 +1,17 @@
-/* @flow */
+// @flow
 
 import React from 'react'
-import { pure } from 'recompose'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { empty, prop } from 'ramda'
 
-import JText from '../JText'
-import JIcon from '../JIcon'
-import './JButton.scss'
-
-type Props = {
- text?: string,
- color: 'white' | 'blue',
- large?: boolean,
- minimal?: boolean,
- onClick?: Function,
- iconName?: string,
- iconSize?: 'small' | 'medium',
- disabled?: boolean,
- isLoading?: boolean,
-}
+import { JIcon, JText } from 'components/base/__new__'
 
 const JButton = ({
   text,
   color,
   large,
-  onClick,
   minimal,
+  onClick,
   iconName,
   iconSize,
   disabled,
@@ -34,19 +19,17 @@ const JButton = ({
 }: Props) => (
   <div
     onClick={disabled || onClick}
-    className={
-      classnames(
-        'JButton', {
-          '-loading': isLoading,
-          '-with-text': text,
-        }, prop(color, {
-          blue: '-blue',
-          white: '-white',
-        }),
-        large ? '-large' : '-regular',
-        minimal && '-minimal'
-      )
-    }
+    className={classNames(
+      'j-button', {
+        '-loading': isLoading,
+        '-with-text': text,
+      }, prop(color, {
+        blue: '-blue',
+        white: '-white',
+      }),
+      large ? '-large' : '-regular',
+      minimal && '-minimal'
+    )}
   >
     {iconName && (
       <div className='icon'>
@@ -70,15 +53,27 @@ const JButton = ({
   </div>
 )
 
+type Props = {
+ color: 'white' | 'blue',
+ onClick?: Function,
+ text?: string,
+ iconName?: string,
+ iconSize?: 'small' | 'medium',
+ large?: boolean,
+ minimal?: boolean,
+ disabled?: boolean,
+ isLoading?: boolean,
+}
+
 JButton.defaultProps = {
-  text: undefined,
-  large: false,
   onClick: empty,
-  minimal: false,
+  text: undefined,
   iconName: undefined,
-  disabled: false,
   iconSize: 'small',
+  large: false,
+  minimal: false,
+  disabled: false,
   isLoading: false,
 }
 
-export default pure(JButton)
+export default JButton

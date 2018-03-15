@@ -2,7 +2,6 @@ import React from 'react'
 import { pure } from 'recompose'
 
 import JText from '../JText'
-import './JCallout.scss'
 
 type Props = {
   text: string,

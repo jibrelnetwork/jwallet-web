@@ -1,9 +1,8 @@
 import { configure } from '@storybook/react';
 
-const components = require.context('../src/components', true, /.stories.js$/);
-
-const loadStories = () => {
-  components.keys().forEach(filename => components(filename));
+function loadStories() {
+  require('../stories/index.js');
+  // You can require as many stories as you need.
 }
 
 configure(loadStories, module);

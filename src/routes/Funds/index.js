@@ -1,4 +1,4 @@
-import AsideLayout from 'layouts/AsideLayout'
+import MenuLayout from 'layouts/MenuLayout'
 
 // import ConvertFunds from './routes/ConvertFunds'
 import ReceiveFunds from './routes/ReceiveFunds'
@@ -6,7 +6,7 @@ import SendFunds from './routes/SendFunds'
 
 export default store => ({
   path: 'funds',
-  component: AsideLayout,
+  component: MenuLayout,
   indexRoute: { onEnter: (nextState, replace) => replace('/') },
   childRoutes: [
     // ConvertFunds(store),

@@ -3,7 +3,7 @@ import { compose } from 'ramda'
 import { lifecycle } from 'recompose'
 import { withRouter } from 'react-router-dom'
 
-import ESCButton from '.'
+import ESCButton from './ESCButton'
 
 const redirectOnESC = router => ({ keyCode }) => {
   if (keyCode === 27) { router.push('/') }

@@ -30,6 +30,7 @@ import {
 } from 'store/stateSelectors'
 
 import {
+  INIT,
   OPEN,
   CLOSE,
   SET_ASSETS,
@@ -51,6 +52,10 @@ import {
 } from '../modules/digitalAssets'
 
 const SEARCH_FIELDS: Array<string> = ['name', 'symbol', 'address']
+
+function* initDigitalAssets(): Saga<void> {
+  yield put(getBalances())
+}
 
 function* openDigitalAssets(): Saga<void> {
   // Opening of digital-assets/* page - means cleaning of current asset address
@@ -251,6 +256,10 @@ function isAssetEqual(a: DigitalAsset, b: DigitalAsset): boolean {
 
 function isEqual(a: string, b: string): boolean {
   return equals(toLower(a), toLower(b))
+}
+
+export function* watchDigitalAssetsInit(): Saga<void> {
+  yield takeEvery(INIT, initDigitalAssets)
 }
 
 export function* watchDigitalAssetsOpen(): Saga<void> {
