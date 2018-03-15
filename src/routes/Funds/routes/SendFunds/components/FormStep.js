@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { JButton, JPicker, JTextInput } from 'components/base'
+import JButton from 'components/base/__new__/JButton'
+import { JPicker, JTextInput } from 'components/base'
 
 import Optional from './Optional'
 
@@ -67,7 +68,7 @@ const FormStep = ({
       gasPrice={gasPrice}
       nonce={nonce}
     />
-    <JButton onClick={setNextStep} label={i18n('routes.sendFunds.buttonTitleForm')} blue />
+    <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitleForm' color='white' />
   </div>
 )
 

@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-import { JButton, JPicker, JTextInput } from 'components/base'
+import JButton from 'components/base/__new__/JButton'
+import { JPicker, JTextInput } from 'components/base'
 
 const ReceiveFunds = ({
   setAsset,
@@ -46,7 +47,7 @@ const ReceiveFunds = ({
       errorMessage={invalidFields.amount}
       editable
     />
-    <JButton onClick={copyAddress} label={isCopied ? 'copied' : 'copy'} blue />
+    <JButton onClick={copyAddress} text={isCopied ? 'copied' : 'copy'} color='white' />
   </div>
 )
 
