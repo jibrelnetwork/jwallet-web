@@ -1,0 +1,117 @@
+.transaction {
+  position: relative;
+  padding: 25px 25px 28px 90px;
+  border-bottom: 1px solid #f5f6fa;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover > .main-info > .amount > .j-button {
+    opacity: 1;
+  }
+
+  &:hover > .main-info > .amount > .value {
+    opacity: 0;
+  }
+
+  &.-send > .main-info > .amount {
+    color: #3d4f6c;
+  }
+
+  &.-receive > .main-info > .amount {
+    color: #0050db;
+  }
+
+  &.-active > .main-info > .amount > .j-button {
+    display: none;
+  }
+
+  &.-active > .main-info > .amount > .value {
+    opacity: 1 !important;
+  }
+
+  &.-active > .additional-info {
+    display: block;
+  }
+
+  > .main-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  > .main-info > .j-icon {
+    position: absolute;
+    top: 19px;
+    left: 22px;
+  }
+
+  > .main-info > .date {
+    min-width: 150px;
+  }
+
+  > .main-info > .amount {
+    position: relative;
+    min-width: 120px;
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: right;
+  }
+
+  > .main-info > .amount > .j-button {
+    position: absolute;
+    top: -12px;
+    right: 0;
+    font-size: 13px;
+    opacity: 0;
+  }
+
+  > .additional-info {
+    position: relative;
+    display: none;
+
+    &:hover {
+      cursor: default;
+    }
+  }
+
+  > .additional-info > .item {
+    margin-top: 30px;
+  }
+
+  > .additional-info > .actions {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  > .additional-info > .actions > .j-button {
+    margin-left: 6px;
+  }
+
+  .label {
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+
+  .value {
+    font-size: 14px;
+  }
+
+  @media only screen and (max-width: 1366px) {
+    > .main-info > .address > .value {
+      width: 240px;
+      overflow: hidden;
+    }
+  }
+
+  @media only screen and (max-width: 1200px) {
+    > .main-info > .address > .value {
+      width: 200px;
+      overflow: hidden;
+    }
+  }
+}

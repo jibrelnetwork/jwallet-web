@@ -96,4 +96,9 @@ export default {
    * timeout for waiting of current wallet ID initialisation
    */
   walletIdInitTimeout: 100,
+
+  /**
+   * blockexplorer url
+   */
+  blockExplorerLink: 'https://etherscan.io',
 }

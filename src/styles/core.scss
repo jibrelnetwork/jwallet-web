@@ -7,6 +7,7 @@
   @import 'loading';
   @import 'shake';
   @import 'slider';
+  @import 'wrapper';
 
   * {
     margin: 0;
@@ -91,6 +92,7 @@
 
   // Base components
   @import '../components/base/__new__/JButton/jButton';
+  @import '../components/base/__new__/JCard/jCard';
   @import '../components/base/__new__/JIcon/jIcon';
   @import '../components/base/__new__/JLogo/jLogo';
   @import '../components/base/__new__/JSearch/jSearch';
@@ -112,16 +114,14 @@
   @import '../components/__new__/Menu/menu';
   @import '../components/__new__/MenuLink/menuLink';
   @import '../components/__new__/MenuSelect/menuSelect';
+  @import '../components/__new__/Transaction/transaction';
+  @import '../components/__new__/TransactionsByPeriod/transactionsByPeriod';
 
   // Deprecated
   @import '../components/base/JFormField/jFormField';
-  @import '../components/base/JButton/jButton';
   @import '../components/base/JCheckbox/jCheckbox';
   @import '../components/base/JFooter/jFooter';
-  @import '../components/base/JHeader/jHeader';
-  @import '../components/base/JIcon/jIcon';
   @import '../components/base/JLoader/jLoader';
-  @import '../components/base/JLogo/jLogo';
   @import '../components/base/JModal/jModal';
   @import '../components/base/JPicker/jPicker';
   @import '../components/base/JPopover/jPopover';
@@ -147,9 +147,7 @@
   @import '../components/LanguageManager/languageManager';
   @import '../components/NetworksManager/networksManager';
   @import '../components/PasswordField/passwordField';
-  @import '../components/Search/search';
   @import '../components/SubmitModal/submitModal';
-  @import '../components/Transactions/transactions';
   @import '../components/Warning/warning';
 
   @import '../routes/JWallet/styles/jWallet';
