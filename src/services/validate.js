@@ -3,8 +3,23 @@
 import Keystore from 'jwallet-web-keystore'
 import { equals, isEmpty, gt, lt, toLower } from 'ramda'
 
+import config from 'config'
 import ethereum from 'data/assets/ethereum'
 import { getTransactionValue, toBigNumber, InvalidFieldError } from 'utils'
+
+function customNetworkRPC(customRPC: string, items: Networks) {
+  // check validity
+  if (!config.urlRe.test(customRPC)) {
+    throw new Error('Invalid RPC address')
+  }
+
+  // check uniqueness
+  items.forEach(({ title }) => {
+    if (title.toLowerCase() === customRPC.toLowerCase()) {
+      throw new Error('This RPC address already exists')
+    }
+  })
+}
 
 const derivationPath = (knownDerivationPath: string, customDerivationPath: string): void => {
   const path: string = customDerivationPath || knownDerivationPath
@@ -213,6 +228,7 @@ function txNonce(nonce: ?string): void {
 }
 
 export default {
+  customNetworkRPC,
   derivationPath,
   walletName,
   walletNameUniq,
