@@ -1,30 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import MenuLayout from 'layouts/MenuLayout'
-import { JButton, JTextInput } from 'components/base'
+import ModalLayout from 'layouts/ModalLayout'
+import JTextInput from 'components/base/JTextInput'
+import JButton from 'components/base/__new__/JButton'
 
 const AddCustomAsset = ({
-  setAddress,
   setName,
+  setAddress,
   setSymbol,
   setDecimals,
   add,
   invalidFields,
-  address,
   name,
+  address,
   symbol,
   decimals,
 }) => {
   const fields = [
-    { key: 'address', value: address, handler: setAddress },
     { key: 'name', value: name, handler: setName },
+    { key: 'address', value: address, handler: setAddress },
     { key: 'symbol', value: symbol, handler: setSymbol },
     { key: 'decimals', value: decimals, handler: setDecimals },
   ]
 
   return (
-    <MenuLayout>
+    <ModalLayout>
       <div className='add-custom-asset-view'>
         {fields.map(({ key, value, handler }) => (
           <JTextInput
@@ -37,21 +38,21 @@ const AddCustomAsset = ({
             editable
           />
         ))}
-        <JButton onClick={add} label={i18n('routes.addCustomAsset.buttonTitle')} blue />
+        <JButton onClick={add} text='routes.addCustomAsset.buttonTitle' color='white' />
       </div>
-    </MenuLayout>
+    </ModalLayout>
   )
 }
 
 AddCustomAsset.propTypes = {
-  setAddress: PropTypes.func.isRequired,
   setName: PropTypes.func.isRequired,
+  setAddress: PropTypes.func.isRequired,
   setSymbol: PropTypes.func.isRequired,
   setDecimals: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired,
   invalidFields: PropTypes.shape({}).isRequired,
-  address: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   decimals: PropTypes.string.isRequired,
 }
