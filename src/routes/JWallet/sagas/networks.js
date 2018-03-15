@@ -1,5 +1,3 @@
-// @flow
-
 import { put, select, takeEvery } from 'redux-saga/effects'
 import findIndex from 'lodash/findIndex'
 

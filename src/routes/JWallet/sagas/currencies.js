@@ -1,5 +1,3 @@
-// @flow
-
 import Keystore from 'jwallet-web-keystore'
 import { delay } from 'redux-saga'
 import { find, findIndex, findLastIndex, isEmpty } from 'lodash'

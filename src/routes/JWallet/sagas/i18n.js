@@ -1,5 +1,3 @@
-// @flow
-
 import { takeEvery } from 'redux-saga/effects'
 
 import { gtm, storage } from 'services'

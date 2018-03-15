@@ -1,5 +1,3 @@
-// @flow
-
 export const NETWORKS_GET = 'NETWORKS_GET'
 export const NETWORKS_SET = 'NETWORKS_SET'
 export const NETWORKS_SET_CURRENT = 'NETWORKS_SET_CURRENT'

@@ -1,5 +1,3 @@
-// @flow
-
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import isEmpty from 'lodash/isEmpty'

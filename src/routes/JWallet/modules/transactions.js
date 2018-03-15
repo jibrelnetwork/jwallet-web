@@ -1,5 +1,3 @@
-// @flow
-
 export const TRANSACTIONS_GET = 'TRANSACTIONS_GET'
 export const TRANSACTIONS_SET = 'TRANSACTIONS_SET'
 

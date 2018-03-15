@@ -1,5 +1,3 @@
-// @flow
-
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { fileSaver, gtm, keystore } from 'services'
