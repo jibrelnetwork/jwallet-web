@@ -1,0 +1,109 @@
+.modal-layout {
+  background-color: #ffffff;
+  position: fixed;
+  left: 200px;
+  top: 0;
+  width: calc(100% - 200px);
+  height: 100%;
+  padding: 50px;
+  overflow: auto;
+}
+
+.modal-layout .modal-header,
+.login .modal-header,
+.modal-layout .login-header,
+.login .login-header {
+  display: flex;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  padding: 0 50px;
+  width: 100%;
+}
+.modal-layout .modal-header h2,
+.login .modal-header h2,
+.modal-layout .login-header h2,
+.login .login-header h2 {
+  font-size: 24px;
+  font-weight: normal;
+}
+.modal-layout .modal-header .close,
+.login .modal-header .close,
+.modal-layout .login-header .close,
+.login .login-header .close {
+  margin-left: auto;
+  color: #3d4f6c;
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(61, 79, 108, 0.2);
+  border-radius: 24px;
+  position: relative;
+  top: -10px;
+}
+.modal-layout .modal-header .close span,
+.login .modal-header .close span,
+.modal-layout .login-header .close span,
+.login .login-header .close span {
+  position: absolute;
+  left: -36px;
+  top: 16px;
+  opacity: 0.5;
+}
+.modal-layout .modal-header .close i,
+.login .modal-header .close i,
+.modal-layout .login-header .close i,
+.login .login-header .close i {
+  position: relative;
+  left: 11px;
+  top: 11px;
+  opacity: 0.5;
+}
+.modal-layout .modal-header .close:hover,
+.login .modal-header .close:hover,
+.modal-layout .login-header .close:hover,
+.login .login-header .close:hover {
+  border: 1px solid rgba(61, 79, 108, 0.5);
+}
+.modal-layout .modal-header .close:hover i,
+.login .modal-header .close:hover i,
+.modal-layout .login-header .close:hover i,
+.login .login-header .close:hover i {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+.modal-layout .modal-content,
+.login .modal-content,
+.modal-layout .login-content,
+.login .login-content {
+  width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  padding: 50px 0;
+}
+.modal-layout .modal-content .fields,
+.login .modal-content .fields,
+.modal-layout .login-content .fields,
+.login .login-content .fields {
+  margin-bottom: 30px;
+}
+.modal-layout .modal-content .actions,
+.login .modal-content .actions,
+.modal-layout .login-content .actions,
+.login .login-content .actions {
+  display: flex;
+  align-items: center;
+}
+.modal-layout .modal-header h2,
+.login .modal-header h2 {
+  padding-left: 200px;
+}
+.modal-layout .wrapper-assets,
+.login .wrapper-assets {
+  height: calc(100vh - 260px);
+  overflow-y: scroll;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
