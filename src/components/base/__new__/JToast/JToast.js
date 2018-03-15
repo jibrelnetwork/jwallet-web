@@ -59,7 +59,7 @@ const JToast = ({ color, icon, title, description }: Props) => (
 
 export const options = {
   position: toast.POSITION.BOTTOM_RIGHT,
-  autoClose: 5000000,
+  autoClose: 5000,
   pauseOnHover: true,
   hideProgressBar: true,
   closeButton: false,
