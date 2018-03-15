@@ -89,10 +89,14 @@
   > .text {
     
   }
+  
+  > .icon {
+    all: initial;
+    cursor: inherit;
+  }
 
   &.-with-text {
     > .icon {
-      all: unset;
       margin-right: 8px;
     }
   }

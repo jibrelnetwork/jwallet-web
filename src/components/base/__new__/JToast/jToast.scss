@@ -1,26 +1,64 @@
-.jToast {
+.j-toast {
   all: initial;
+  width: 334px;
+  height: 90px;
   display: flex;
+  box-shadow:rgba(0, 0, 0, 0.05) 0 0 6px;
   flex-direction: row;
 
-  &.-info {
-    background-color: blue;
+  // Colors
+
+  &.-blue {
+    background-color: #0050DB;
   }
 
-  &.-error {
-    background-color: red;
+  &.-red {
+    background-color: #E53935;
+  }
+
+  &.-gray {
+    background-color: #3D4F6C;
+  }
+
+  &.-white {
+    background-color: white;
   }
 
   > .icon {
-    //
+    all: unset;
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
   }
 
-  > .text {
-    //
+  > .data {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 25px;
+    flex-direction: column;
+    justify-content: center;
+
+    > .title {
+      
+    }
+
+    > .description {
+      margin-top: 3px;
+    }
   }
 
   > .close {
-    //
+    width: 27.5%;
+    height: 100%;
+    display: flex;
+    border-left: 1px solid #ffffff25;
+    justify-content: center;
+  }
+
+  &.-white {
+    > .close {
+      border-left: 1px solid rgba(0, 0, 0, 0.05);
+    }
   }
 }
 

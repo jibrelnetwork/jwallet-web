@@ -4,22 +4,55 @@ import { pure } from 'recompose'
 
 import JText from '../JText'
 import JIcon from '../JIcon'
+import JButton from '../JButton'
 
 type Props = {
-  type: 'info' | 'error',
+  color: 'blue' | 'red' | 'white' | 'gray',
   icon: string,
-  text: string,
+  title: string,
+  description: string,
 }
 
-const JToast = ({ type, icon, text }: Props) => (
-  <div className={`JToast -${type}`}>
+const JToast = ({ color, icon, title, description }: Props) => (
+  <div className={`j-toast -${color}`}>
     <div className='icon'>
-      <JIcon name={icon} small />
+      <JIcon
+        name={icon}
+        size='medium'
+      />
     </div>
-    <div className='text'>
-      <JText value={text} />
+    <div className='data'>
+      <div className='title'>
+        <JText
+          value={title}
+          variants={[
+            color === 'white'
+              ? 'gray'
+              : 'white',
+            'regular',
+            'bold',
+          ]}
+        />
+      </div>
+      <div className='description'>
+        <JText
+          value={description}
+          variants={[
+            color === 'white'
+              ? 'gray'
+              : 'white',
+            'normal',
+            'transparent',
+          ]}
+        />
+      </div>
     </div>
     <div className='close'>
+      <JButton
+        minimal
+        iconName={`close-popup-${color === 'white' ? 'gray' : 'white'}`}
+        iconSize='medium'
+      />
     </div>
   </div>
 )
@@ -29,7 +62,17 @@ export const options = {
   autoClose: 5000,
   pauseOnHover: true,
   hideProgressBar: true,
-  // closeButton: <Button />,
+  closeButton: false,
+  // closeButton: ({ closeToast }) => (
+  //   <div className='close'>
+  //     <JButton
+  //       minimal
+  //       onClick={closeToast}
+  //       iconName='close'
+  //       iconSize='medium'
+  //     />
+  //   </div>
+  // ),
   // transition: CustomTransition
 }
 

@@ -139,6 +139,18 @@
     background-image: $arrow-white;
   }
 
+  &.-close-gray {
+    background-image: $close-gray;
+  }
+
+  &.-close-popup-white {
+    background-image: $close-popup-white;
+  }
+
+  &.-link-blue {
+    background-image: $link-blue;
+  }
+
   // Large icons
 
   &.-transaction-send {
