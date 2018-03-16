@@ -34,6 +34,7 @@ declare type Store = {
  * Networks
  */
 declare type NetworkId = string
+declare type NetworkTitleById = { [NetworkId]: string }
 
 declare type Network = {
   id: NetworkId,

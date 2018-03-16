@@ -17,7 +17,7 @@ const networks: Networks = [{
   ssl: true,
   isCustom: false,
 }, {
-  id: '0',
+  id: 'private',
   title: 'localhost',
   rpcaddr: 'localhost',
   rpcport: '8545',

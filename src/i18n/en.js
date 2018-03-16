@@ -22,12 +22,13 @@ module.exports = {
       addCustomAsset: 'Add custom asset',
     },
   },
-  networkManager: {
-    knownNetworkTitle: {
-      main: 'Main Ethereum Network',
-      ropsten: 'Ropsten Test Network',
-      kovan: 'Kovan Test Network',
-      rinkeby: 'Rinkeby Test Network',
+  networks: {
+    default: {
+      main: 'Main Network',
+      ropsten: 'Ropsten',
+      kovan: 'Kovan',
+      rinkeby: 'Rinkeby',
+      localhost: 'Localhost 8545',
     },
     placeholder: {
       customNetwork: 'Custom RPC',

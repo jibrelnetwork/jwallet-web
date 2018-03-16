@@ -51,7 +51,7 @@ function* saveCustomNetwork(): Saga<void> {
     const { items, customNetworkRPC } = yield select(selectNetworks)
     validate.customNetworkRPC(customNetworkRPC, items)
 
-    const id = `0/${items.length}`
+    const id = `private/${items.length}`
     const newCustomNetwork: Network = parseCustomNetworkRPC(customNetworkRPC, id)
     const newNetworks = items.concat(newCustomNetwork)
 
