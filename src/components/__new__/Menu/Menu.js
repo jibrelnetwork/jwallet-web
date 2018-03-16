@@ -5,7 +5,11 @@ import React from 'react'
 import JLogo from 'components/base/__new__/JLogo'
 import { MenuLink, MenuSelect } from 'components/__new__'
 
-const Menu = () => (
+const Menu = ({
+  setNetwork,
+  networks,
+  currentNetwork,
+}: Props) => (
   <div className='menu'>
     <JLogo />
     <div className='links'>
@@ -19,12 +23,18 @@ const Menu = () => (
         active='en'
       />
       <MenuSelect
-        setActive={console.log}
-        options={{ '1': 'Main', '3': 'Ropsten', '*': 'Localhost 8545' }}
-        active='1'
+        setActive={setNetwork}
+        options={networks}
+        active={currentNetwork}
       />
     </div>
   </div>
 )
+
+type Props = {
+  setNetwork: Function,
+  networks: { [NetworkId]: string },
+  currentNetwork: ?NetworkId,
+}
 
 export default Menu

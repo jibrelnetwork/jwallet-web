@@ -17,7 +17,7 @@ const MenuSelect = ({ toggle, setActive, options, active, isOpen }: Props) => (
         return (
           <li
             key={key}
-            onClick={isActive && handle(setActive)(key)}
+            onClick={!isActive && handle(setActive)(key)}
             className={classNames('item', { '-active': isActive })}
           >
             <div className='value'>{options[key]}</div>
