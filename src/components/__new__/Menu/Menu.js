@@ -7,8 +7,10 @@ import { MenuLink, MenuSelect } from 'components/__new__'
 
 const Menu = ({
   setNetwork,
+  setLanguage,
   networks,
   currentNetwork,
+  currentLanguage,
 }: Props) => (
   <div className='menu'>
     <JLogo />
@@ -18,9 +20,9 @@ const Menu = ({
     </div>
     <div className='selects'>
       <MenuSelect
-        setActive={console.log}
+        setActive={setLanguage}
         options={{ en: 'English', ko: 'Korean', zh: 'Chinese', ja: 'Japanese' }}
-        active='en'
+        active={currentLanguage}
       />
       <MenuSelect
         setActive={setNetwork}
@@ -33,8 +35,10 @@ const Menu = ({
 
 type Props = {
   setNetwork: Function,
+  setLanguage: Function,
   networks: { [NetworkId]: string },
   currentNetwork: ?NetworkId,
+  currentLanguage: LanguageCode,
 }
 
 export default Menu

@@ -2,24 +2,36 @@
 
 module.exports = {
   language: 'zh', // not translate
+  menu: {
+    send: 'Send funds',
+    receive: 'Receive funds',
+    favorite: 'Favorite',
+  },
+  assetsPanel: {
+    button: 'Add digital asset',
+  },
   warning: {
     memoryStorage: '你正在使用记忆来存储，请别忘记备份你的密钥！',
   },
   header: {
-    sendTitle: '发送',
-    receiveTitle: '接收',
-    convertTitle: '兑换',
-    keyManagerTitle: '密钥管理',
+    sendTitle: 'Send',
+    receiveTitle: 'Receive',
+    convertTitle: 'Convert',
+    keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
-  networkManager: {
-    knownNetworkTitle: {
-      main: '以太坊主网络',
-      ropsten: 'Ropsten测试网络',
-      kovan: 'Kovan测试网络',
-      rinkeby: 'Rinkeby测试网络',
+  networks: {
+    default: {
+      main: 'Main Network',
+      ropsten: 'Ropsten',
+      kovan: 'Kovan',
+      rinkeby: 'Rinkeby',
+      localhost: 'Localhost 8545',
     },
     placeholder: {
-      customNetwork: '自定义RPC',
+      customNetwork: 'Custom RPC',
     },
   },
   languages: {

@@ -5,6 +5,11 @@ import { propEq } from 'ramda'
 import { keystore, storage } from 'services'
 
 /**
+ * i18n
+ */
+import * as i18n from 'routes/modules/i18n'
+
+/**
  * Networks
  */
 import * as networks from 'routes/modules/networks'
@@ -30,6 +35,19 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
   const networkId: ?NetworkId = store.getState().networks.currentNetwork
 
   switch (type) {
+    /**
+     * i18n
+     */
+    case i18n.SET_LANGUAGE: {
+      const { languageCode }: { languageCode: LanguageCode } = payload
+      storage.setI18n(languageCode)
+
+      const { origin, pathname } = window.location
+      window.location.href = `${origin}${pathname}?lang=${languageCode}`
+
+      break
+    }
+
     /**
      * Networks
      */
