@@ -8,7 +8,7 @@ RUN npm run compile:prod
 FROM nginx:alpine
 
 COPY --from=build /usr/src/app/build/. /app/
-COPY version.txt /
+COPY version.txt /app/
 COPY nginx.conf /etc/nginx/
 COPY run.sh /bin/run.sh
 
