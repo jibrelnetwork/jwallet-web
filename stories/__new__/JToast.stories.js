@@ -22,7 +22,6 @@ storiesOf('JToast', module)
       <JButton
         text='Show toast'
         color='blue'
-        minimal
         onClick={() => toast(
           <JToast
             icon='link-blue'
@@ -41,7 +40,6 @@ storiesOf('JToast', module)
       <JButton
         text='Show toast'
         color='blue'
-        minimal
         onClick={() => toast(
           <JToast
             icon='private-key'
@@ -60,7 +58,6 @@ storiesOf('JToast', module)
       <JButton
         text='Show toast'
         color='blue'
-        minimal
         onClick={() => toast(
           <JToast
             icon='private-key'
@@ -79,7 +76,6 @@ storiesOf('JToast', module)
       <JButton
         text='Show toast'
         color='blue'
-        minimal
         onClick={() => toast(
           <JToast
             icon='private-key'

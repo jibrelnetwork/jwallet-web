@@ -7,7 +7,7 @@ import { storiesOf, action } from '@storybook/react'
 import JSelect from '../../src/components/base/__new__/JSelect'
 
 storiesOf('JSelect', module)
-  .add('Standard', () => (
+  .add('Default', () => (
     <div style={{ width: 500 }}>
       <JSelect
         title='asset'
