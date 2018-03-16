@@ -1,19 +1,21 @@
-import at from 'lodash/at'
+// @flow
 
-import storage from 'services/storage'
+import { path } from 'ramda'
+
+import getCurrentLanguageCode from 'utils/getCurrentLanguageCode'
 
 import en from './en'
-import zh from './zh'
 import ko from './ko'
+import zh from './zh'
 import ja from './ja'
 
-const i18nMap = { en, zh, ko, ja }
+const i18nMap = { en, ko, zh, ja }
 
-export default function i18n() {
-  const i18nLanguageFromQuery = (/lang=([a-z]{2})/ig.exec(window.location.href) || [])[1]
-  const i18nLanguageFromStorage = storage.getI18n()
-  const i18nLanguage = i18nLanguageFromQuery || i18nLanguageFromStorage
-  const i18nLibrary = i18nMap[i18nLanguage] || en
+const i18n = () => {
+  const i18nLang: LanguageCode = getCurrentLanguageCode()
+  const i18nLibrary: Object = i18nMap[i18nLang] || en
 
-  return (path => at(i18nLibrary, path)[0])
+  return ((value: string) => path(value.split('.'))(i18nLibrary))
 }
+
+export default i18n

@@ -2,24 +2,36 @@
 
 module.exports = {
   language: 'ja', // not translate
+  menu: {
+    send: 'Send funds',
+    receive: 'Receive funds',
+    favorite: 'Favorite',
+  },
+  assetsPanel: {
+    button: 'Add digital asset',
+  },
   warning: {
     memoryStorage: 'メモリをストレージとして使用しています。キーをバックアップすることを忘れないでください!',
   },
   header: {
-    sendTitle: '送信',
-    receiveTitle: '受信',
-    convertTitle: '変換',
-    keyManagerTitle: 'キー マネージャー',
+    sendTitle: 'Send',
+    receiveTitle: 'Receive',
+    convertTitle: 'Convert',
+    keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
-  networkManager: {
-    knownNetworkTitle: {
-      main: 'メイン Ethereum ネットワーク',
-      ropsten: 'Ropstenテスト ネットワーク',
-      kovan: 'Kovanテスト ネットワーク',
-      rinkeby: 'Rinkebyテスト ネットワーク',
+  networks: {
+    default: {
+      main: 'Main Network',
+      ropsten: 'Ropsten',
+      kovan: 'Kovan',
+      rinkeby: 'Rinkeby',
+      localhost: 'Localhost 8545',
     },
     placeholder: {
-      customNetwork: 'カスタムRPC',
+      customNetwork: 'Custom RPC',
     },
   },
   languages: {

@@ -1,7 +1,6 @@
 /**
  * General
  */
-import * as i18nSagas from 'routes/sagas/i18n'
 import * as networksSagas from 'routes/sagas/networks'
 
 /**
@@ -27,7 +26,6 @@ import walletsSagas from 'routes/Wallets/sagas'
 
 export default {
   // general
-  ...i18nSagas,
   ...networksSagas,
   // Funds
   ...fundsSagas,

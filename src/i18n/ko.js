@@ -2,24 +2,36 @@
 
 module.exports = {
   language: 'ko', // not translate
+  menu: {
+    send: 'Send funds',
+    receive: 'Receive funds',
+    favorite: 'Favorite',
+  },
+  assetsPanel: {
+    button: 'Add digital asset',
+  },
   warning: {
     memoryStorage: '메모리를 스토리지로 사용 중입니다. 반드시 키를 백업하세요!',
   },
   header: {
-    sendTitle: '출금',
-    receiveTitle: '입금',
-    convertTitle: '전환',
-    keyManagerTitle: '키 관리',
+    sendTitle: 'Send',
+    receiveTitle: 'Receive',
+    convertTitle: 'Convert',
+    keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
-  networkManager: {
-    knownNetworkTitle: {
-      main: '메인 이더리움 네트워크',
-      ropsten: 'Ropsten 테스트 네트워크',
-      kovan: 'Kovan 테스트 네트워크',
-      rinkeby: 'Rinkeby 테스트 네트워크',
+  networks: {
+    default: {
+      main: 'Main Network',
+      ropsten: 'Ropsten',
+      kovan: 'Kovan',
+      rinkeby: 'Rinkeby',
+      localhost: 'Localhost 8545',
     },
     placeholder: {
-      customNetwork: '커스텀 RPC',
+      customNetwork: 'Custom RPC',
     },
   },
   languages: {

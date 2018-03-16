@@ -1,10 +1,15 @@
 // @flow
 
-export const LANGUAGE_SET = 'LANGUAGE_SET'
+export const SET_LANGUAGE = '@@i18n/SET_LANGUAGE'
 
-export function setLanguage(languageCode: string) {
-  return {
-    type: LANGUAGE_SET,
+export const setLanguage = (languageCode: LanguageCode): {
+  type: string,
+  payload: {
+    languageCode: LanguageCode,
+  },
+} => ({
+  type: SET_LANGUAGE,
+  payload: {
     languageCode,
-  }
-}
+  },
+})

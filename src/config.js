@@ -101,4 +101,9 @@ export default {
    * blockexplorer url
    */
   blockExplorerLink: 'https://etherscan.io',
+
+  /**
+   * supported languages
+   */
+  supportedLanguages: ['en', 'ko', 'zh', 'ja'],
 }

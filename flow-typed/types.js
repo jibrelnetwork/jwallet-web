@@ -11,6 +11,7 @@ declare type Bignumber = any
 declare type Decimals = number
 declare type Balances = { [Address]: number }
 declare type AddressBalancePairs = Array<[Address, number]>
+declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
 
