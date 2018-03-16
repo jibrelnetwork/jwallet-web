@@ -1,3 +1,29 @@
 .esc-button {
-  //
+  cursor: pointer;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  flex-direction: row;
+
+  &:hover {
+    > .icon {
+      transform: rotate(90deg);
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+  }
+
+  // > .text {
+  // }
+
+  > .icon {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    transition: all 0.3s ease 0s;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 24px;
+    justify-content: center;
+  }
 }
