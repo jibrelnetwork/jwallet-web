@@ -1,5 +1,17 @@
 # jwallet-web
 
+## Quick Start
+
+Download and start image:
+
+```bash
+docker run -it -p 8080:80 jibrelnetwork/jwallet-web
+```
+
+And check it running: [http://localhost:8080]()
+
+Visit our repository on Docker Hub: https://hub.docker.com/r/jibrelnetwork/jwallet-web/
+
 ## Development
 
 * `npm run compile` - compiles assets
