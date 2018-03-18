@@ -11,8 +11,8 @@ export default function getDefaultNetworks() {
   }, {
     id: 3,
     title: i18n('networkManager.knownNetworkTitle.ropsten'),
-    rpcaddr: 'ropsten.node.jwallet.network',
-    rpcport: '8545', // parity node
+    rpcaddr: 'ropsten-node.jwallet.network',
+    rpcport: '443', // parity node
     ssl: true,
     isCustom: false,
   }, /* {
