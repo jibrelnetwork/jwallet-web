@@ -1,5 +1,7 @@
 export ActiveAsset from './ActiveAsset'
 export ActiveAssetsPanel from './ActiveAssetsPanel'
+export AssetCard from './AssetCard'
+export DigitalAssets from './DigitalAssets'
 export ESCButton from './ESCButton'
 export Menu from './Menu'
 export MenuLink from './MenuLink'
