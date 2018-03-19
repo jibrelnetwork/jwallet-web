@@ -7,7 +7,7 @@ import { STEPS } from '../modules/createWallet'
 import MnemonicStep from './MnemonicStep'
 import MnemonicConfirmStep from './MnemonicConfirmStep'
 import PasswordStep from './PasswordStep'
-import AssetsStep from './AssetsStep'
+import AssetsStep from '../containers/AssetsStepContainer'
 
 const CreateWallet = (props: Props) => (
   <div className='create-wallet-view'>

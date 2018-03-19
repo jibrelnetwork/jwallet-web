@@ -6,7 +6,7 @@ import { STEPS } from '../modules/importWallet'
 
 import DataStep from './DataStep'
 import PasswordStep from './PasswordStep'
-import AssetsStep from './AssetsStep'
+import AssetsStep from '../containers/AssetsStepContainer'
 
 const ImportWallet = (props: Props) => (
   <div className='import-wallet-view'>

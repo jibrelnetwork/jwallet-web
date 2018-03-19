@@ -3,7 +3,7 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import handle from 'utils/handle'
+import DigitalAssets from 'components/__new__/DigitalAssets'
 
 const filterAssets = (
   items: DigitalAssets,
@@ -41,20 +41,12 @@ const WithBalance = ({
       {isEmpty(filteredAssets) ? (
         <div>{'Some message about empty list'}</div>
       ) : (
-        <div>
-          {filteredAssets.map(({ name, address, symbol, isActive }: DigitalAsset) => (
-            <div
-              key={symbol}
-              onClick={handle(setActive)(address)}
-              style={{ margin: '20px' }}
-            >
-              <div>{name}</div>
-              <div>{symbol}</div>
-              <div>{isActive ? 'Active' : 'Not active'}</div>
-              <div>{(balances[address] === undefined) ? 'Loading' : balances[address]}</div>
-            </div>
-          ))}
-        </div>
+        <DigitalAssets
+          setActive={setActive}
+          items={filteredAssets}
+          balances={balances}
+          isBalancesLoading={isBalancesLoading}
+        />
       )}
     </div>
   )
