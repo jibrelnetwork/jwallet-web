@@ -2,17 +2,28 @@
 
 import { connect } from 'react-redux'
 
+import keystore from 'services/keystore'
 import getActiveDigitalAssetsData from 'utils/getActiveDigitalAssetsData'
 import { setCurrent } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import ActiveAssetsPanel from './ActiveAssetsPanel'
 
-const mapStateToProps = ({ digitalAssets }: State): {
-  currentAddress: ?Address,
+const getWalletAddress = (id: ?WalletId): ?Address => {
+  try {
+    return id ? keystore.getAddress(id) : null
+  } catch (err) {
+    return null
+  }
+}
+
+const mapStateToProps = ({ digitalAssets, wallets }: State): {
   digitalAssets: Array<Object>,
+  currentAssetAddress: ?Address,
+  currentWalletAddress: ?Address,
 } => ({
-  currentAddress: digitalAssets.currentAddress,
   digitalAssets: getActiveDigitalAssetsData(digitalAssets),
+  currentAssetAddress: digitalAssets.currentAddress,
+  currentWalletAddress: getWalletAddress(wallets.activeWalletId),
 })
 
 const mapDispatchToProps = {
