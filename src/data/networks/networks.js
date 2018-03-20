@@ -12,8 +12,8 @@ const networks: Networks = [{
 }, {
   id: '3',
   title: 'ropsten',
-  rpcaddr: isValid(__ROPSTEN_RPC_ADDR__) ? __ROPSTEN_RPC_ADDR__ : 'ropsten.node.jwallet.network',
-  rpcport: isValid(__ROPSTEN_RPC_PORT__) ? __ROPSTEN_RPC_PORT__ : '8545',
+  rpcaddr: isValid(__ROPSTEN_RPC_ADDR__) ? __ROPSTEN_RPC_ADDR__ : 'ropsten-node.jwallet.network',
+  rpcport: isValid(__ROPSTEN_RPC_PORT__) ? __ROPSTEN_RPC_PORT__ : '443',
   ssl: true,
   isCustom: false,
 }, {
