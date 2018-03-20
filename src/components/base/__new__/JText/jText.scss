@@ -8,6 +8,10 @@
   &.-gray {
     color: #3d4f6c;
   }
+
+  &.-red {
+    color: $pinkish-tan;
+  }
  
   &.-blue {
     color: #0050db;
@@ -59,7 +63,7 @@
   // Case
  
   &.-uppercase {
-    text-transform: uppercase,
+    text-transform: uppercase;
   }
  
 }
