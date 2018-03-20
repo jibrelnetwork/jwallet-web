@@ -1,0 +1,89 @@
+// TODO: Add hover state
+// TODO: Replace hex colors to variables from Zeplin
+
+.j-input {
+  all: initial;
+  cursor: inherit;
+  display: flex;
+  position: relative;
+  border-bottom: 1px solid #ebedf0;
+  flex-direction: column;
+
+  &.-disabled {
+    > input {
+      opacity: 0.7;
+    }
+  }
+  
+  &.-gray {
+    border-bottom: 1px solid #ebedf0;
+    > input {
+      color: #3d4f6c;
+    }
+  }
+  
+  &.-white {
+    border-bottom: 1px solid white;
+    > input {
+      color: white;
+    }
+  }
+  
+  &.-with-error {
+    &.-gray {
+      border-bottom-color: red;
+      
+      > input {
+        color: red;
+      }
+    }
+    
+    &.-white {
+      border-bottom-color: $pinkish-tan;
+      
+      > input {
+        color: $pinkish-tan;
+      }
+    }
+    
+  }
+  
+  > .label {
+    top: 22px;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    font-size: 11px;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  
+  > input {
+    width: 100%;
+    border: none;
+    height: 80px;
+    display: block;
+    font-size: 15px;
+    background: inherit;
+    transition: all 0.3s ease 0s;
+    font-family: $font;
+    padding-top: 16px;
+    font-weight: 600;
+
+    &:placeholder-shown {
+      padding-top: 0;
+      font-weight: normal;
+
+      & + .label {
+        opacity: 0;
+        transition: all 0.3s ease 0s;
+      }
+    }
+  }
+
+  > .error-message {
+    right: 0;
+    bottom: 0;
+    position: absolute;
+  }
+}
