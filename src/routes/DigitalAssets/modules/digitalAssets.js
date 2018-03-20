@@ -3,6 +3,7 @@
 import { assoc, assocPath, compose } from 'ramda'
 
 export const INIT = '@@digitalAssets/INIT'
+export const INIT_FINISH = '@@digitalAssets/INIT_FINISH'
 export const OPEN = '@@digitalAssets/OPEN'
 export const CLOSE = '@@digitalAssets/CLOSE'
 export const SET_ASSETS = '@@digitalAssets/SET_ASSETS'
@@ -22,6 +23,10 @@ export const CLEAN = '@@digitalAssets/CLEAN'
 
 export const init = (): { type: string } => ({
   type: INIT,
+})
+
+export const initFinish = (): { type: string } => ({
+  type: INIT_FINISH,
 })
 
 export const open = (): { type: string } => ({
@@ -190,8 +195,9 @@ const initialState: DigitalAssetsData = {
   balances: {},
   invalidFields: {},
   searchQuery: '',
-  currentAddress: null,
+  isInitialised: false,
   isBalancesLoading: false,
+  currentAddress: null,
 }
 
 const digitalAssets = (
@@ -201,6 +207,10 @@ const digitalAssets = (
   const { type, payload }: FSA = action
 
   switch (type) {
+    case INIT_FINISH: {
+      return assoc('isInitialised', true)(state)
+    }
+
     case SET_ASSETS_SUCCESS: {
       return assoc('items', payload.items)(state)
     }
@@ -260,7 +270,6 @@ const digitalAssets = (
     case CLEAN: {
       return compose(
         assoc('foundAssets', []),
-        assoc('balances', {}),
         assoc('invalidFields', {}),
         assoc('searchQuery', ''),
         assoc('isBalancesLoading', false),

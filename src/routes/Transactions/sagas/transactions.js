@@ -13,9 +13,10 @@ import { selectDigitalAssets, selectTransactionsItems, selectWalletId } from 'st
 import {
   OPEN,
   CLOSE,
-  GET,
+  RESET,
   GET_CANCEL,
   SEARCH,
+  open,
   setLoading,
   getCancel,
   getSuccess,
@@ -28,6 +29,12 @@ import {
 const SEARCH_FIELDS: Array<string> = ['status', 'address', 'transactionHash', 'amount']
 
 function* openTransactions(): Saga<void> {
+  const { currentAddress }: DigitalAssetsData = yield select(selectDigitalAssets)
+
+  if (!currentAddress) {
+    return
+  }
+
   const getTransactionsTask = yield fork(getTransactions)
   yield take(GET_CANCEL)
   yield cancel(getTransactionsTask)
@@ -39,7 +46,13 @@ function* closeTransactions(): Saga<void> {
   yield put(clean())
 }
 
-function* getTransactions(): Saga<void> {
+function* resetTransactions(): Saga<void> {
+  yield put(getCancel())
+  yield put(clean())
+  yield put(open())
+}
+
+function* getTransactions() {
   try {
     while (true) {
       yield put(setLoading(true))
@@ -51,12 +64,19 @@ function* getTransactions(): Saga<void> {
         continue
       }
 
-      const { items, currentAddress } = yield select(selectDigitalAssets)
+      const { items, currentAddress }: DigitalAssetsData = yield select(selectDigitalAssets)
+
+      if (!currentAddress) {
+        yield closeTransactions()
+
+        return
+      }
+
       const owner: Address = keystore.getAddress(walletId)
       const decimals: Decimals = getAssetDecimals(currentAddress, items)
 
-      const txs: Transactions = yield getTransactionsByOwner(owner, 'Ethereum', decimals)
-      const balance: number = yield getBalanceByOwner(owner, 'Ethereum', decimals)
+      const txs: Transactions = yield getTransactionsByOwner(owner, currentAddress, decimals)
+      const balance: number = yield getBalanceByOwner(owner, currentAddress, decimals)
 
       yield put(getSuccess(txs))
       yield put(setBalanceByAddress(currentAddress, balance))
@@ -65,7 +85,6 @@ function* getTransactions(): Saga<void> {
       yield delay(config.getTransactionsIntervalTimeout)
     }
   } catch (err) {
-    // console.error(err)
     yield put(setLoading(false))
   }
 }
@@ -159,8 +178,8 @@ export function* watchTransactionsClose(): Saga<void> {
   yield takeEvery(CLOSE, closeTransactions)
 }
 
-export function* watchTransactionsGet(): Saga<void> {
-  yield takeEvery(GET, getTransactions)
+export function* watchTransactionsReset(): Saga<void> {
+  yield takeEvery(RESET, resetTransactions)
 }
 
 export function* watchTransactionsSearch(): Saga<void> {

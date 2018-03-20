@@ -73,8 +73,10 @@ function parseTransactions(list: any, address: Address) {
     const timestamp = timeStamp * 1000
     const status = blockNumber ? 'Accepted' : 'Pending'
     const isRejected = (parseInt(isError, 10) === 1)
-    const isSender = (address === from)
     const toOrContractAddress = isEmpty(to) ? contractAddress : to
+
+    // case-insensitive comparison
+    const isSender: boolean = (!!from && (address.toLowerCase() === from.toLowerCase()))
 
     return {
       to,

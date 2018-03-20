@@ -3,6 +3,7 @@
 import { assoc, assocPath, compose } from 'ramda'
 
 export const INIT = '@@wallets/INIT'
+export const INIT_FINISH = '@@wallets/INIT_FINISH'
 export const OPEN = '@@wallets/OPEN'
 export const CLOSE = '@@wallets/CLOSE'
 export const SET_WALLETS = '@@wallets/SET_WALLETS'
@@ -19,6 +20,10 @@ export const CLEAN = '@@wallets/CLEAN'
 
 export const init = (): { type: string } => ({
   type: INIT,
+})
+
+export const initFinish = (): { type: string } => ({
+  type: INIT_FINISH,
 })
 
 export const open = (): { type: string } => ({
@@ -161,6 +166,7 @@ const initialState: WalletsData = {
   showActionsWalletId: null,
   activeWalletId: null,
   walletAction: null,
+  isInitialised: false,
 }
 
 const wallets = (
@@ -170,6 +176,10 @@ const wallets = (
   const { type, payload }: FSA = action
 
   switch (type) {
+    case INIT_FINISH: {
+      return assoc('isInitialised', true)(state)
+    }
+
     case SET_WALLETS: {
       return assoc('items', payload.items)(state)
     }

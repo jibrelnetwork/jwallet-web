@@ -1,3 +1,3 @@
-import MenuLayout from './MenuLayoutContainer'
+import MenuLayout from './MenuLayout'
 
 export default MenuLayout

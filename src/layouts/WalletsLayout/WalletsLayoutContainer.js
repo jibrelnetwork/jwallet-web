@@ -4,19 +4,17 @@ import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import { init } from 'routes/Wallets/modules/wallets'
+import { open, close } from 'routes/Wallets/modules/wallets'
 
 import WalletsLayout from './WalletsLayout'
 
 const mapStateToProps = null
-
-const mapDispatchToProps = {
-  init,
-}
+const mapDispatchToProps = { open, close }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentWillMount() { this.props.init() },
+    componentDidMount() { this.props.open() },
+    componentWillUnmount() { this.props.close() },
   }),
 )(WalletsLayout)

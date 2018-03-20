@@ -7,6 +7,7 @@ import config from 'config'
 import keystore from 'services/keystore'
 import { InvalidFieldError } from 'utils/errors'
 import { selectWallets } from 'store/stateSelectors'
+import { getBalances } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import {
   OPEN,
@@ -15,7 +16,6 @@ import {
   SET_WALLET_ACTION,
   SET_ACTIVE,
   SET_ACTIVE_SUCCESS,
-  close,
   toggleWallet,
   setActiveSuccess,
   setActiveError,
@@ -43,7 +43,7 @@ function* setActiveIfReadOnly(): Saga<void> {
       yield put(setActiveSuccess(toggledWalletId, walletAction, type))
     }
   } catch (err) {
-    yield put(close())
+    // console.error(err)
   }
 }
 
@@ -73,6 +73,7 @@ function* setActiveWallet(): Saga<void> {
 
 function* setActiveId(action: { payload: { walletId: WalletId } }): Saga<void> {
   yield put(setActiveWalletId(action.payload.walletId))
+  yield put(getBalances())
 }
 
 function checkWalletPassword(password: Password, walletId: WalletId): void {

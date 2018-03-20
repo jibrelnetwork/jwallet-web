@@ -18,9 +18,11 @@ const getWalletAddress = (id: ?WalletId): ?Address => {
 
 const mapStateToProps = ({ digitalAssets, wallets }: State): {
   digitalAssets: Array<Object>,
+  isLoading: boolean,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
 } => ({
+  isLoading: digitalAssets.isBalancesLoading,
   digitalAssets: getActiveDigitalAssetsData(digitalAssets),
   currentAssetAddress: digitalAssets.currentAddress,
   currentWalletAddress: getWalletAddress(wallets.activeWalletId),

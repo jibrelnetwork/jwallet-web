@@ -21,6 +21,7 @@ import {
 import config from 'config'
 import { keystore, validate, web3 } from 'services'
 import { getPopularDigitalAssets, isETH } from 'utils'
+import { reset as resetTransactions } from 'routes/Transactions/modules/transactions'
 
 import {
   selectNetworkId,
@@ -36,10 +37,10 @@ import {
   SET_ASSETS,
   SET_ASSETS_SUCCESS,
   SET_ACTIVE,
+  SET_CURRENT,
   GET_BALANCES,
   SET_BALANCE_BY_ADDRESS,
   SEARCH,
-  close,
   setAssetsSuccess,
   setCurrent,
   getBalances,
@@ -95,14 +96,22 @@ function* setActiveAsset(action: { payload: { address: Address } }): Saga<void> 
   yield put(setAssetsSuccess(newItems))
 }
 
+function* setCurrentAsset(): Saga<void> {
+  const walletId: ?WalletId = yield select(selectWalletId)
+
+  if (!walletId) {
+    return
+  }
+
+  yield put(resetTransactions())
+}
+
 function* getDigitalAssetsBalances(): Saga<void> {
   yield delay(config.balanceLoadingTimeout)
 
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(close())
-
     return
   }
 
@@ -280,6 +289,10 @@ export function* watchDigitalAssetsSetDigitalAssets(): Saga<void> {
 
 export function* watchDigitalAssetsSetActive(): Saga<void> {
   yield takeEvery(SET_ACTIVE, setActiveAsset)
+}
+
+export function* watchDigitalAssetsSetCurrent(): Saga<void> {
+  yield takeEvery(SET_CURRENT, setCurrentAsset)
 }
 
 export function* watchDigitalAssetsGetBalances(): Saga<void> {
