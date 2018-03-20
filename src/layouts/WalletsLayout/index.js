@@ -1,3 +1,3 @@
-import WalletsLayout from './WalletsLayoutContainer'
+import WalletsLayout from './WalletsLayout'
 
 export default WalletsLayout

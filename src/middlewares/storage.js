@@ -66,6 +66,9 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
         store.dispatch(networks.setCurrentNetwork())
       }
 
+      store.dispatch(networks.initFinish())
+      store.dispatch(wallets.init())
+
       break
     }
 
@@ -113,6 +116,9 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
       const activeWalletId = storage.getKeystoreActiveWalletId()
       store.dispatch(wallets.setActiveWalletId(activeWalletId))
 
+      store.dispatch(wallets.initFinish())
+      store.dispatch(digitalAssets.init())
+
       break
     }
 
@@ -143,6 +149,8 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
       } catch (err) {
         store.dispatch(digitalAssets.setCurrent())
       }
+
+      store.dispatch(digitalAssets.initFinish())
 
       break
     }

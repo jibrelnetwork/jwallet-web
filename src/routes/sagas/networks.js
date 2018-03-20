@@ -5,7 +5,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import networks from 'data/networks'
 import { etherscan, validate, web3 } from 'services'
-import { selectNetworks, selectNetworksItems } from 'store/stateSelectors'
+import { selectNetworks, selectNetworksItems, selectDigitalAssets } from 'store/stateSelectors'
 import { init as initDigitalAssets } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import {
@@ -40,7 +40,11 @@ function* setCurrent(action: { payload: { currentNetwork: ?NetworkId } }): Saga<
     setNetworkRpcProps(foundNetwork)
 
     // need to update digital assets if current network changed
-    yield put(initDigitalAssets())
+    const { isInitialised }: DigitalAssetsData = yield select(selectDigitalAssets)
+
+    if (isInitialised) {
+      yield put(initDigitalAssets())
+    }
   } catch (err) {
     yield put(setCurrentNetworkError(err))
   }

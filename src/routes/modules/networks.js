@@ -3,6 +3,7 @@
 import { assoc, assocPath, compose } from 'ramda'
 
 export const INIT = '@@networks/INIT'
+export const INIT_FINISH = '@@networks/INIT_FINISH'
 export const SET_NETWORKS = '@@networks/SET_NETWORKS'
 export const SET_NETWORKS_SUCCESS = '@@networks/SET_NETWORKS_SUCCESS'
 export const SET_NETWORKS_ERROR = '@@networks/SET_NETWORKS_ERROR'
@@ -18,6 +19,10 @@ export const REMOVE_CUSTOM_NETWORK = '@@networks/REMOVE_CUSTOM_NETWORK'
 
 export const init = (): { type: string } => ({
   type: INIT,
+})
+
+export const initFinish = (): { type: string } => ({
+  type: INIT_FINISH,
 })
 
 export const setNetworks = (items: ?Networks): {
@@ -142,8 +147,9 @@ const initialState: NetworksData = {
   items: [],
   invalidFields: {},
   customNetworkRPC: '',
-  currentNetwork: null,
   isLoading: false,
+  isInitialised: false,
+  currentNetwork: null,
 }
 
 const networks = (
@@ -153,6 +159,10 @@ const networks = (
   const { type, payload }: FSA = action
 
   switch (type) {
+    case INIT_FINISH: {
+      return assoc('isInitialised', true)(state)
+    }
+
     case SET_NETWORKS: {
       return assoc('isLoading', true)(state)
     }

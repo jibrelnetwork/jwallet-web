@@ -166,7 +166,7 @@ function parseTransaction(item: any, decimals: Decimals) {
   const { timestamp, address, from, to, value, gas, gasPrice, isRejected, removed } = item
 
   // case-insensitive comparison
-  const isSender = (address.toLowerCase() === from.toLowerCase())
+  const isSender: boolean = (!!from && (address.toLowerCase() === from.toLowerCase()))
 
   return {
     ...item,

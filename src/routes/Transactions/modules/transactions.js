@@ -4,6 +4,7 @@ import { assoc, assocPath, compose } from 'ramda'
 
 export const OPEN = '@@transactions/OPEN'
 export const CLOSE = '@@transactions/CLOSE'
+export const RESET = '@@transactions/RESET'
 export const SET_LOADING = '@@transactions/SET_LOADING'
 export const GET = '@@transactions/GET'
 export const GET_CANCEL = '@@transactions/GET_CANCEL'
@@ -23,6 +24,10 @@ export const open = (): { type: string } => ({
 
 export const close = (): { type: string } => ({
   type: CLOSE,
+})
+
+export const reset = (): { type: string } => ({
+  type: RESET,
 })
 
 export const setLoading = (isLoading: boolean): {
@@ -201,6 +206,7 @@ const transactions = (
 
     case CLEAN: {
       return compose(
+        assoc('items', []),
         assoc('foundTransactions', []),
         assoc('invalidFields', {}),
         assoc('searchQuery', ''),

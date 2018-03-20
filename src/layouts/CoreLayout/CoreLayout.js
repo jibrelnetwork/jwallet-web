@@ -2,13 +2,21 @@
 
 import React from 'react'
 
-const CoreLayout = ({ children }: Props) => (
+const CoreLayout = ({
+  isNetworksInited,
+  isWalletsInited,
+  isDigitalAssetsInited,
+  children,
+}: Props) => (
   <div className='core-layout'>
-    {children}
+    {!(isNetworksInited && isWalletsInited && isDigitalAssetsInited) ? 'Loading' : children}
   </div>
 )
 
 type Props = {
+  isNetworksInited: boolean,
+  isWalletsInited: boolean,
+  isDigitalAssetsInited: boolean,
   children?: Object,
 }
 

@@ -9,6 +9,7 @@ import { ActiveAsset, CurrentAddress } from 'components/__new__'
 const ActiveAssetsPanel = ({
   setCurrent,
   digitalAssets,
+  isLoading,
   currentAssetAddress,
   currentWalletAddress,
 }: Props) => (
@@ -20,6 +21,7 @@ const ActiveAssetsPanel = ({
           {...data}
           key={index}
           setCurrent={setCurrent}
+          isLoading={isLoading}
           isCurrent={currentAssetAddress === data.address}
         />
       ))}
@@ -36,6 +38,7 @@ const ActiveAssetsPanel = ({
 type Props = {
   setCurrent: Function,
   digitalAssets: DigitalAssets,
+  isLoading: boolean,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
 }

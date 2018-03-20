@@ -52,8 +52,9 @@ declare type NetworksData = {
   +items: Networks,
   +invalidFields: FormFields,
   +customNetworkRPC: string,
-  +currentNetwork: ?NetworkId,
   +isLoading: boolean,
+  +isInitialised: boolean,
+  +currentNetwork: ?NetworkId,
 }
 
 /**
@@ -87,6 +88,7 @@ declare type WalletsData = {
   +invalidFields: FormFields,
   +items: Wallets,
   +password: Password,
+  +isInitialised: boolean,
   +toggledWalletId: ?WalletId,
   +showActionsWalletId: ?WalletId,
   +activeWalletId: ?WalletId,
@@ -204,8 +206,9 @@ declare type DigitalAssetsData = {
   +foundAssets: Addresses,
   +balances: Balances,
   +searchQuery: string,
-  +currentAddress: ?Address,
+  +isInitialised: boolean,
   +isBalancesLoading: boolean,
+  +currentAddress: ?Address,
 }
 
 /**
@@ -301,6 +304,15 @@ declare type TXData = {
 }
 
 /**
+ * Router
+ */
+declare type RouterData = {
+  +locationBeforeTransitions: {
+    +pathname: string,
+  },
+}
+
+/**
  * Entire state
  */
 declare type State = {
@@ -318,6 +330,7 @@ declare type State = {
   +transactions: TransactionsData,
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
+  +router: RouterData,
 }
 
 /**

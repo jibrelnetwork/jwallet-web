@@ -12,6 +12,7 @@ const ActiveAsset = ({
   name,
   symbol,
   balance,
+  isLoading,
   isCurrent,
 }: Props) => (
   <div
@@ -20,12 +21,14 @@ const ActiveAsset = ({
   >
     <JIcon size='large' name='token-ant' />
     <div className='name'>{name}</div>
-    <div className='balance'>
-      <div className='integer'>{Math.floor(balance).toFixed()}</div>
-      <div className='decimals'>
-        {`${(balance - Math.floor(balance)).toFixed(2).substr(1)} ${symbol}`}
+    {isLoading ? <div className='balance'>{'Loading'}</div> : (
+      <div className='balance'>
+        <div className='integer'>{Math.floor(balance).toFixed()}</div>
+        <div className='decimals'>
+          {`${(balance - Math.floor(balance)).toFixed(2).substr(1)} ${symbol}`}
+        </div>
       </div>
-    </div>
+    )}
   </div>
 )
 
@@ -35,6 +38,7 @@ type Props = {
   name: string,
   symbol: string,
   balance: number,
+  isLoading: boolean,
   isCurrent: boolean,
 }
 
