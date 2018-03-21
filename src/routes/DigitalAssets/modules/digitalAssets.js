@@ -13,6 +13,7 @@ export const SET_CURRENT = '@@digitalAssets/SET_CURRENT'
 export const GET_BALANCES = '@@digitalAssets/GET_BALANCES'
 export const GET_BALANCES_SUCCESS = '@@digitalAssets/GET_BALANCES_SUCCESS'
 export const GET_BALANCES_ERROR = '@@digitalAssets/GET_BALANCES_ERROR'
+export const SET_BALANCES_LOADING = '@@digitalAssets/SET_BALANCES_LOADING'
 export const SET_BALANCE_BY_ADDRESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS'
 export const SET_BALANCE_BY_ADDRESS_SUCCESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS_SUCCESS'
 export const SEARCH = '@@digitalAssets/SEARCH'
@@ -109,6 +110,18 @@ export const getBalancesError = (err: Object): {
   type: GET_BALANCES_ERROR,
   payload: err,
   error: true,
+})
+
+export const setBalancesLoading = (isBalancesLoading: boolean): {
+  type: string,
+  payload: {
+    isBalancesLoading: boolean,
+  },
+} => ({
+  type: SET_BALANCES_LOADING,
+  payload: {
+    isBalancesLoading,
+  },
 })
 
 export const setBalanceByAddress = (address: Address, balance: number): {
@@ -238,6 +251,10 @@ const digitalAssets = (
         assoc('balances', {}),
         assoc('isBalancesLoading', false),
       )(state)
+    }
+
+    case SET_BALANCES_LOADING: {
+      return assoc('isBalancesLoading', false)(state)
     }
 
     case SET_BALANCE_BY_ADDRESS_SUCCESS: {
