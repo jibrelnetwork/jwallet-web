@@ -1,1 +1,3 @@
-export { default } from './ModalHeader'
+import ModalHeader from './ModalHeaderContainer'
+
+export default ModalHeader
