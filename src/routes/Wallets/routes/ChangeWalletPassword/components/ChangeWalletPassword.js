@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JTextInput } from 'components/base'
+import { JButton, JInput } from 'components/base/__new__'
 
 const ChangeWalletPassword = ({
   setCurrent,
@@ -21,24 +21,28 @@ const ChangeWalletPassword = ({
   ]
 
   return (
-    <div className='change-wallet-password-view'>
-      {fields.map(({ key, value, handler }) => (
-        <JTextInput
-          key={key}
-          onValueChange={handler}
-          value={value}
-          name={`change-wallet-password-${key}`}
-          errorMessage={invalidFields[key]}
-          placeholder={i18n(`routes.changeWalletPassword.placeholder.${key}`)}
-          editable
-          secureTextEntry
-        />
-      ))}
-      <JButton
-        onClick={changePassword}
-        label={i18n('routes.changeWalletPassword.buttonTitle')}
-        blue
-      />
+    <div className='content'>
+      <div className='form'>
+        {fields.map(({ key, value, handler }) => (
+          <JInput
+            key={key}
+            onChange={handler}
+            value={value}
+            name={`change-wallet-password-${key}`}
+            errorMessage={invalidFields[key]}
+            placeholder={i18n(`routes.changeWalletPassword.placeholder.${key}`)}
+            type='password'
+          />
+        ))}
+        <div className='actions'>
+          <JButton
+            onClick={changePassword}
+            text={i18n('routes.changeWalletPassword.buttonTitle')}
+            color='blue'
+            large
+          />
+        </div>
+      </div>
     </div>
   )
 }
