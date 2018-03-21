@@ -2,20 +2,26 @@
 
 import React from 'react'
 
-import { JButton, JTextInput } from 'components/base'
+import { JButton, JInput } from 'components/base/__new__'
 
 const PasswordStep = ({ setPassword, setNextStep, invalidFields, password }: Props) => (
-  <div className='backup-wallet-view'>
-    <JTextInput
-      onValueChange={setPassword}
+  <div className='form'>
+    <JInput
+      onChange={setPassword}
       value={password}
       name='backup-wallet-password'
       errorMessage={invalidFields.password}
       placeholder='Password'
-      editable
-      secureTextEntry
+      type='password'
     />
-    <JButton onClick={setNextStep} label='Confirm' blue />
+    <div className='actions'>
+      <JButton
+        onClick={setNextStep}
+        text='Confirm'
+        color='blue'
+        large
+      />
+    </div>
   </div>
 )
 

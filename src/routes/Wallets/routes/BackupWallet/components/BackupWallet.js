@@ -8,7 +8,7 @@ import PasswordStep from './PasswordStep'
 import { STEPS } from '../modules/backupWallet'
 
 const BackupWallet = (props: Props) => (
-  <div className='backup-wallet-view'>
+  <div className='content'>
     {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
   </div>
