@@ -84,6 +84,23 @@
     }
   }
 
+  &.-trasparent {
+    width: auto;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &.-right {
+    margin-left: auto;
+  }
+
   // Elements 
 
   > .text {
