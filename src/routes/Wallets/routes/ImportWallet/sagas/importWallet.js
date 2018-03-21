@@ -84,8 +84,18 @@ function* setPrevStep(): Saga<void> {
 }
 
 function* setImportWalletType(action: { payload: { data: string } }): Saga<void> {
-  const { customType }: NewWalletData = getNewWalletData(action.payload.data)
-  yield put(setWalletType(customType))
+  try {
+    const { data }: { data: string } = action.payload
+
+    if (!data || (data.length < 20)) {
+      return
+    }
+
+    const { customType }: NewWalletData = getNewWalletData(action.payload.data)
+    yield put(setWalletType(customType))
+  } catch (err) {
+    yield put(importError(err))
+  }
 }
 
 function* checkData() {

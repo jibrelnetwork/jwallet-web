@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { isEmpty } from 'ramda'
-import { Link } from 'react-router'
 
+import JButton from 'components/base/__new__/JButton'
 import DigitalAssets from 'components/__new__/DigitalAssets'
 
 const filterAssets = (
@@ -20,6 +20,7 @@ const filterAssets = (
 
 const AssetsStep = ({
   setActive,
+  goToHome,
   items,
   balances,
   foundAssets,
@@ -27,13 +28,13 @@ const AssetsStep = ({
   isBalancesLoading,
 }: Props) => {
   if (isBalancesLoading) {
-    return <div className='import-wallet-assets-step'>{'Loading'}</div>
+    return <div className='form'>{'Loading'}</div>
   }
 
   const filteredAssets: DigitalAssets = filterAssets(items, foundAssets, searchQuery)
 
   return (
-    <div className='import-wallet-assets-step'>
+    <div className='form'>
       {isEmpty(filteredAssets) ? (
         <div>{'Some message about empty list'}</div>
       ) : (
@@ -45,13 +46,22 @@ const AssetsStep = ({
           isBalancesLoading={isBalancesLoading}
         />
       )}
-      <Link to='/'>{i18n('routes.importWallet.buttonTitle.finish')}</Link>
+      <div className='actions'>
+        <JButton
+          onClick={goToHome}
+          text={i18n('routes.importWallet.buttonTitle.finish')}
+          color='blue'
+          large
+          right
+        />
+      </div>
     </div>
   )
 }
 
 type Props = {
   setActive: (address: Address) => Dispatch,
+  goToHome: () => Dispatch,
   items: DigitalAssets,
   balances: Balances,
   foundAssets: Addresses,
