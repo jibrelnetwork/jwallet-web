@@ -33,19 +33,17 @@ const JInput = ({
       onChange={event => onChange(event.target.value)}
       placeholder={placeholder}
     />
-    {label && (
-      <div className='label'>
-        <JText
-          value={label}
-          variants={[
-            color,
-            'small',
-            'uppercase',
-            'transparent',
-          ]}
-        />
-      </div>
-    )}
+    <div className='label'>
+      <JText
+        value={label || placeholder}
+        variants={[
+          color,
+          'small',
+          'uppercase',
+          'transparent',
+        ]}
+      />
+    </div>
     {errorMessage && (
       <div className='error-message'>
         <JText
@@ -76,9 +74,9 @@ const JInput = ({
 )
 
 type Props = {
-  type: 'text' | 'password',
-  label: string,
-  color: 'white' | 'gray',
+  type?: 'text' | 'password',
+  label?: string,
+  color?: 'white' | 'gray',
   value?: string | number,
   checked?: boolean,
   onChange: Function,
@@ -90,6 +88,9 @@ type Props = {
 }
 
 JInput.defaultProps = {
+  type: 'text',
+  color: 'white',
+  label: undefined,
   value: undefined,
   checked: false,
   disabled: false,
