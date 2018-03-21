@@ -9,7 +9,11 @@
   overflow: auto;
   color: #ffffff;
 
-  > .content {
+  > .content-wrapper {
+    height: 100%;
+  }
+
+  .content {
     width: 480px;
     margin: 0 auto;
     display: flex;
@@ -34,13 +38,13 @@
   }
 
   @media only screen and (max-width: 1600px) {
-    > .content.-assets {
+    .content.-assets {
       width: 940px;
     }
   }
 
   @media only screen and (max-width: 1400px) {
-    > .content.-assets {
+    .content.-assets {
       width: 840px;
     }
   }
