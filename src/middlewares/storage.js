@@ -92,23 +92,14 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
     /**
      * Wallets
      */
-    case createWallet.CREATE_SUCCESS:
-    case importWallet.IMPORT_SUCCESS:
-    case editWallet.EDIT_SUCCESS:
-    case changeWalletPassword.CHANGE_PASSWORD_SUCCESS:
-    case removeWallet.REMOVE_SUCCESS: {
-      storage.setKeystore(keystore.serialize())
-      break
-    }
-
     case wallets.INIT: {
       try {
         keystore.deserialize(storage.getKeystore())
 
-        const items = keystore.getWallets()
+        const items: Wallets = keystore.getWallets()
         store.dispatch(wallets.setWallets(items))
 
-        const activeWalletId = storage.getKeystoreActiveWalletId()
+        const activeWalletId: WalletId = storage.getKeystoreActiveWalletId()
         store.dispatch(wallets.setActiveWalletId(activeWalletId))
       } catch (err) {
         store.dispatch(wallets.setWallets([]))
@@ -121,6 +112,17 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
+    case wallets.OPEN: {
+      try {
+        const items: Wallets = keystore.getWallets()
+        store.dispatch(wallets.setWallets(items))
+      } catch (err) {
+        store.dispatch(wallets.setWallets([]))
+      }
+
+      break
+    }
+
     case wallets.SET_ACTIVE_WALLET_ID: {
       if (payload.activeWalletId) {
         storage.setKeystoreActiveWalletId(payload.activeWalletId)
@@ -128,6 +130,15 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
         storage.removeKeystoreActiveWalletId()
       }
 
+      break
+    }
+
+    case createWallet.CREATE_SUCCESS:
+    case importWallet.IMPORT_SUCCESS:
+    case editWallet.EDIT_SUCCESS:
+    case changeWalletPassword.CHANGE_PASSWORD_SUCCESS:
+    case removeWallet.REMOVE_SUCCESS: {
+      storage.setKeystore(keystore.serialize())
       break
     }
 
