@@ -81,6 +81,10 @@ function* removeCustomNetwork(action: { payload: { networkId: NetworkId } }): Sa
 }
 
 function mergeNetworks(customNetworksFromStorage: Networks): Networks {
+  if (!(customNetworksFromStorage && customNetworksFromStorage.length)) {
+    return networks
+  }
+
   customNetworksFromStorage.forEach((networkFromStorage: Network): void => {
     validate.customNetworkRPC(networkFromStorage.title, networks)
   })
