@@ -4,15 +4,19 @@ import React from 'react'
 
 import { JText, JIcon } from 'components/base/__new__'
 
-const ESCButton = () => (
-  <div className='esc-button'>
+const ESCButton = ({ color }: Props) => (
+  <div className={`esc-button -${color}`}>
     <div className='text'>
-      <JText value='esc' variants={['normal', 'transparent', 'white']} />
+      <JText value='ESC' variants={['small', 'transparent', color]} />
     </div>
     <div className='icon'>
-      <JIcon name='close-popup-white' size='medium' />
+      <JIcon name={`close-popup-${color}`} size='medium' />
     </div>
   </div>
 )
+
+type Props = {
+  color: 'white' | 'gray'
+}
 
 export default ESCButton
