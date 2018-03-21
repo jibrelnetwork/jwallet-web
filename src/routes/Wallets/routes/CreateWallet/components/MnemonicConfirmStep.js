@@ -2,8 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JTextInput } from 'components/base'
-import { JCallout } from 'components/base/__new__'
+import { JButton, JInput } from 'components/base/__new__'
 
 const MnemonicConfirmStep = ({
   setMnemonicConfirm,
@@ -13,20 +12,31 @@ const MnemonicConfirmStep = ({
   invalidFields,
   mnemonicConfirm,
 }: Props) => (
-  <div className='create-wallet-mnemonic-confirm-step'>
-    <JCallout text='routes.createWallet.alert.mnemonicConfirm' />
-    <JTextInput
-      onValueChange={setMnemonicConfirm}
+  <div className='form'>
+    <JInput
+      onChange={setMnemonicConfirm}
       name='create-wallet-mnemonic-confirm'
       placeholder={i18n('routes.createWallet.placeholder.mnemonicConfirm')}
       value={mnemonicConfirm}
       errorMessage={invalidFields.mnemonicConfirm}
       successMessage={validFields.mnemonicConfirm}
-      editable
-      multiline
     />
-    <JButton onClick={setPrevStep} label={i18n('routes.createWallet.buttonTitle.prevStep')} blue />
-    <JButton onClick={setNextStep} label={i18n('routes.createWallet.buttonTitle.confirm')} blue />
+    <div className='actions'>
+      <JButton
+        onClick={setPrevStep}
+        text={i18n('routes.createWallet.buttonTitle.prevStep')}
+        iconName='arrow-back'
+        iconSize='small'
+        trasparent
+      />
+      <JButton
+        onClick={setNextStep}
+        text={i18n('routes.createWallet.buttonTitle.confirm')}
+        color='blue'
+        large
+        right
+      />
+    </div>
   </div>
 )
 
