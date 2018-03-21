@@ -104,17 +104,16 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
     case wallets.INIT: {
       try {
         keystore.deserialize(storage.getKeystore())
+
+        const items = keystore.getWallets()
+        store.dispatch(wallets.setWallets(items))
+
+        const activeWalletId = storage.getKeystoreActiveWalletId()
+        store.dispatch(wallets.setActiveWalletId(activeWalletId))
       } catch (err) {
         store.dispatch(wallets.setWallets([]))
         store.dispatch(wallets.setActiveWalletId())
-        break
       }
-
-      const items = keystore.getWallets()
-      store.dispatch(wallets.setWallets(items))
-
-      const activeWalletId = storage.getKeystoreActiveWalletId()
-      store.dispatch(wallets.setActiveWalletId(activeWalletId))
 
       store.dispatch(wallets.initFinish())
       store.dispatch(digitalAssets.init())
