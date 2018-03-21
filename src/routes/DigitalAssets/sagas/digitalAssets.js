@@ -112,6 +112,8 @@ function* getDigitalAssetsBalances(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
+    yield put(getBalancesError(new Error('Wallet ID is not setted')))
+
     return
   }
 
