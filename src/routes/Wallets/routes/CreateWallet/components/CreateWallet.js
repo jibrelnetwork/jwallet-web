@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import classNames from 'classnames'
 
 import { STEPS } from '../modules/createWallet'
 
@@ -10,7 +11,7 @@ import PasswordStep from './PasswordStep'
 import AssetsStep from '../containers/AssetsStepContainer'
 
 const CreateWallet = (props: Props) => (
-  <div className='create-wallet-view'>
+  <div className={classNames('content', { '-assets': (props.currentStep === STEPS.ASSETS) })}>
     {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
     {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
@@ -25,6 +26,8 @@ type Props = {
   setPasswordConfirm: (passwordConfirm: Password) => Dispatch,
   setNextStep: () => Dispatch,
   setPrevStep: () => Dispatch,
+  goToHome: () => Dispatch,
+  goToWallets: () => Dispatch,
   validFields: Object,
   invalidFields: Object,
   name: string,

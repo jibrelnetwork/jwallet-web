@@ -1,46 +1,54 @@
 // @flow
 
 import React from 'react'
-import { Link } from 'react-router'
 
-import { JButton, JTextInput } from 'components/base'
-import { JCallout } from 'components/base/__new__'
+import { JButton, JInput } from 'components/base/__new__'
 
 const MnemonicStep = ({
   setName,
   setNextStep,
+  goToWallets,
   invalidFields,
   mnemonic,
   name,
 }: Props) => (
-  <div className='create-wallet-mnemonic-step'>
-    <JCallout text='routes.createWallet.alert.mnemonic' />
-    <JTextInput
-      onValueChange={setName}
+  <div className='form'>
+    <JInput
+      onChange={setName}
       name='create-wallet-name'
       placeholder={i18n('routes.createWallet.placeholder.name')}
       value={name}
       errorMessage={invalidFields.name}
-      editable
     />
-    <JTextInput
+    <JInput
       name='create-wallet-mnemonic'
       placeholder={i18n('routes.createWallet.placeholder.mnemonic')}
       value={mnemonic}
-      editable
-      readOnly
-      multiline
-      preventCopy
-      unselectable
+      disabled
     />
-    <Link to='/wallets'>{i18n('routes.createWallet.buttonTitle.prevStep')}</Link>
-    <JButton onClick={setNextStep} label={i18n('routes.createWallet.buttonTitle.save')} blue />
+    <div className='actions'>
+      <JButton
+        onClick={goToWallets}
+        text={i18n('routes.createWallet.buttonTitle.prevStep')}
+        iconName='arrow-back'
+        iconSize='small'
+        trasparent
+      />
+      <JButton
+        onClick={setNextStep}
+        text={i18n('routes.createWallet.buttonTitle.save')}
+        color='blue'
+        large
+        right
+      />
+    </div>
   </div>
 )
 
 type Props = {
   setName: (name: string) => Dispatch,
   setNextStep: () => Dispatch,
+  goToWallets: () => Dispatch,
   invalidFields: Object,
   name: string,
   mnemonic: string,

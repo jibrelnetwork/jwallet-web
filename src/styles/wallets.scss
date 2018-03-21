@@ -17,15 +17,31 @@
     justify-content: center;
     min-height: 100%;
     padding: 50px 0;
+
+    &.-assets {
+      width: 1024px;
+    }
+
+    > .form > .actions {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+
+      &.-center {
+        justify-content: center;
+      }
+    }
   }
 
-  > .content > .form > .actions {
-    display: flex;
-    align-items: center;
-    margin-top: 30px;
+  @media only screen and (max-width: 1600px) {
+    > .content.-assets {
+      width: 940px;
+    }
   }
 
-  > .content > .form > .actions.-center {
-    justify-content: center;
+  @media only screen and (max-width: 1400px) {
+    > .content.-assets {
+      width: 840px;
+    }
   }
 }
