@@ -7,6 +7,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import config from 'config'
 import { keystore, validate } from 'services'
 import { isMnemonicType, InvalidFieldError } from 'utils'
+import { setActiveWalletId } from 'routes/Wallets/modules/wallets'
 import { selectWalletsItems, selectImportWallet } from 'store/stateSelectors'
 
 import {
@@ -134,7 +135,7 @@ function* importWallet() {
   const newWalletData: NewWalletData = getNewWalletData(data)
 
   try {
-    keystore.createWallet({
+    const id: WalletId = keystore.createWallet({
       ...newWalletData,
       name,
       password,
@@ -143,6 +144,7 @@ function* importWallet() {
 
     yield put(setCurrentStep(STEPS.ASSETS, newWalletData.customType))
     yield put(importSuccess())
+    yield put(setActiveWalletId(id))
   } catch (err) {
     const isPasswordError = /password/ig.test(err.message)
 
