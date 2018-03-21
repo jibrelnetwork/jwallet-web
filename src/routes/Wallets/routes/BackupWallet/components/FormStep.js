@@ -9,7 +9,7 @@ const FormStep = ({ setNextStep }: Props) => (
     <JThumbnail
       image='key'
       color='white'
-      title='Backup current key'
+      title='Backup current wallet'
       description={
         'All user data, including imported or generated ' +
         'private keys are stored locally, meaning your private'
