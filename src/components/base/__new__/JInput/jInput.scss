@@ -81,6 +81,19 @@
     }
   }
 
+  > .info-message, .check-mark {
+    right: 0;
+    height: 100%;
+    opacity: 0.5;
+    display: flex;
+    position: absolute;
+    align-items: center;
+  }
+
+  .check-mark {
+    opacity: 1;
+  }
+
   > .error-message {
     right: 0;
     bottom: 0;

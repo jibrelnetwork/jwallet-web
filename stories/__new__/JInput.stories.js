@@ -10,7 +10,7 @@ import JInput from '../../src/components/base/__new__/JInput'
 const StateHOC = withState('value', 'setValue', '')
 
 storiesOf('JInput', module)
-  .add('Gray', () => (
+  .add('Gray text', () => (
     <div>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
@@ -26,7 +26,7 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
-  .add('Gray disabled', () => (
+  .add('Gray text disabled', () => (
     <div>
       <JInput
         type='text'
@@ -38,7 +38,7 @@ storiesOf('JInput', module)
       />
     </div>
   ))
-  .add('Gray with validation error', () => (
+  .add('Gray text with validation error', () => (
     <div>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
@@ -55,7 +55,7 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
-  .add('White', () => (
+  .add('White text', () => (
     <div style={{ backgroundColor: '#0050DB' }}>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
@@ -71,7 +71,7 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
-  .add('White with validation error', () => (
+  .add('White text with validation error', () => (
     <div style={{ backgroundColor: '#0050DB' }}>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
@@ -83,6 +83,40 @@ storiesOf('JInput', module)
             onChange={setValue}
             placeholder='Enter some text'
             errorMessage='Some error'
+          />
+        )
+      ))}
+    </div>
+  ))
+  .add('White password with info message', () => (
+    <div style={{ backgroundColor: '#0050DB' }}>
+      {React.createElement(StateHOC(
+        ({ value, setValue }) => (
+          <JInput
+            type='password'
+            label='Some label'
+            color='white'
+            value={value}
+            onChange={setValue}
+            placeholder='Enter some text'
+            infoMessage='Some info'
+          />
+        )
+      ))}
+    </div>
+  ))
+  .add('White password checked', () => (
+    <div style={{ backgroundColor: '#0050DB' }}>
+      {React.createElement(StateHOC(
+        ({ value, setValue }) => (
+          <JInput
+            type='password'
+            label='Some label'
+            color='white'
+            value={value}
+            checked
+            onChange={setValue}
+            placeholder='Enter some text'
           />
         )
       ))}
