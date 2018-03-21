@@ -3,7 +3,7 @@
 import React from 'react'
 
 import isMnemonicType from 'utils/isMnemonicType'
-import { JButton, JTextInput } from 'components/base'
+import { JButton, JInput } from 'components/base/__new__'
 
 import ExpandableDerivationPath from './ExpandableDerivationPath'
 
@@ -19,15 +19,14 @@ const FormStep = ({
   customDerivationPath,
   walletType,
 }: Props) => (
-  <div className='edit-wallet-form-step'>
-    <JTextInput
-      onValueChange={setName}
-      name='edit-wallet-name'
-      placeholder={i18n('routes.editWallet.placeholder.name')}
+  <div className='form'>
+    <JInput
+      onChange={setName}
       value={name}
+      name='edit-wallet-name'
       errorMessage={invalidFields.name}
       successMessage={validFields.name}
-      editable
+      placeholder={i18n('routes.editWallet.placeholder.name')}
     />
     {isMnemonicType(walletType) && (
       <ExpandableDerivationPath
@@ -39,7 +38,14 @@ const FormStep = ({
         customDerivationPath={customDerivationPath}
       />
     )}
-    <JButton onClick={setNextStep} label={i18n('routes.editWallet.buttonTitle.save')} blue />
+    <div className='actions'>
+      <JButton
+        onClick={setNextStep}
+        text={'routes.editWallet.buttonTitle.save'}
+        color='blue'
+        large
+      />
+    </div>
   </div>
 )
 

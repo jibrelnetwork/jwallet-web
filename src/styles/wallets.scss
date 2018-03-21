@@ -8,4 +8,20 @@
   background: linear-gradient(to top left, #0050db, #002bb3);
   overflow: auto;
   color: #ffffff;
+
+  > .content {
+    width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+    padding: 50px 0;
+  }
+
+  > .content > .form > .actions {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+  }
 }
