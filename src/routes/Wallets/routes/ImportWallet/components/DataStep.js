@@ -1,12 +1,10 @@
 // @flow
 
 import React from 'react'
-import { Link } from 'react-router'
 
 import { handle, isMnemonicType } from 'utils'
 import { DerivationPath, Expandable } from 'components'
-import { JButton, JTextInput } from 'components/base'
-import { JCallout } from 'components/base/__new__'
+import { JButton, JInput } from 'components/base/__new__'
 
 const DataStep = ({
   setName,
@@ -14,6 +12,7 @@ const DataStep = ({
   setKnownDerivationPath,
   setCustomDerivationPath,
   setNextStep,
+  goToWallets,
   validFields,
   invalidFields,
   name,
@@ -22,26 +21,22 @@ const DataStep = ({
   customDerivationPath,
   walletType,
 }: Props) => (
-  <div className='import-wallet-data-step'>
-    <JCallout text='routes.importWallet.alert.data' />
-    <JTextInput
-      onValueChange={setName}
-      name='import-wallet-name'
-      placeholder={i18n('routes.importWallet.placeholder.name')}
+  <div className='form'>
+    <JInput
+      onChange={setName}
       value={name}
+      name='import-wallet-name'
       errorMessage={invalidFields.name}
       successMessage={validFields.name}
-      editable
+      placeholder={i18n('routes.importWallet.placeholder.name')}
     />
-    <JTextInput
-      onValueChange={setData}
-      name='import-wallet-data'
-      placeholder={i18n('routes.importWallet.placeholder.data')}
+    <JInput
+      onChange={setData}
       value={data}
+      name='import-wallet-data'
       errorMessage={invalidFields.data}
       successMessage={validFields.data}
-      editable
-      multiline
+      placeholder={i18n('routes.importWallet.placeholder.data')}
     />
     {isMnemonicType(walletType) && (
       <Expandable>
@@ -54,8 +49,22 @@ const DataStep = ({
         />
       </Expandable>
     )}
-    <Link to='/wallets'>{i18n('routes.importWallet.buttonTitle.prevStep')}</Link>
-    <JButton onClick={setNextStep} label={i18n('routes.importWallet.buttonTitle.nextStep')} blue />
+    <div className='actions'>
+      <JButton
+        onClick={goToWallets}
+        text={i18n('routes.importWallet.buttonTitle.prevStep')}
+        iconName='arrow-back'
+        iconSize='small'
+        trasparent
+      />
+      <JButton
+        onClick={setNextStep}
+        text={i18n('routes.importWallet.buttonTitle.nextStep')}
+        color='blue'
+        large
+        right
+      />
+    </div>
   </div>
 )
 
@@ -65,6 +74,7 @@ type Props = {
   setKnownDerivationPath: (knownDerivationPath: string) => Dispatch,
   setCustomDerivationPath: (customDerivationPath: string) => Dispatch,
   setNextStep: () => Dispatch,
+  goToWallets: () => Dispatch,
   validFields: Object,
   invalidFields: Object,
   name: string,

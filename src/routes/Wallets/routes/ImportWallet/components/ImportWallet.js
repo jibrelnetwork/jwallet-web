@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import classNames from 'classnames'
 
 import { STEPS } from '../modules/importWallet'
 
@@ -9,7 +10,7 @@ import PasswordStep from './PasswordStep'
 import AssetsStep from '../containers/AssetsStepContainer'
 
 const ImportWallet = (props: Props) => (
-  <div className='import-wallet-view'>
+  <div className={classNames('content', { '-assets': (props.currentStep === STEPS.ASSETS) })}>
     {(props.currentStep === STEPS.DATA) && <DataStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
     {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
@@ -25,6 +26,8 @@ type Props = {
   setPasswordConfirm: (passwordConfirm: string) => Dispatch,
   setNextStep: () => Dispatch,
   setPrevStep: () => Dispatch,
+  goToHome: () => Dispatch,
+  goToWallets: () => Dispatch,
   validFields: Object,
   invalidFields: Object,
   name: string,

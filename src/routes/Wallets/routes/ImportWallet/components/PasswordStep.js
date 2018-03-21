@@ -3,8 +3,7 @@
 import React from 'react'
 
 import PasswordField from 'components/PasswordField'
-import { JButton } from 'components/base'
-import { JCallout } from 'components/base/__new__'
+import JButton from 'components/base/__new__/JButton'
 
 const PasswordStep = ({
   setPassword,
@@ -15,8 +14,7 @@ const PasswordStep = ({
   password,
   passwordConfirm,
 }: Props) => (
-  <div className='import-wallet-password-step'>
-    <JCallout text='routes.importWallet.alert.password' />
+  <div className='form'>
     <PasswordField
       onPasswordChange={setPassword}
       onPasswordConfirmChange={setPasswordConfirm}
@@ -26,8 +24,22 @@ const PasswordStep = ({
       passwordConfirmError={invalidFields.passwordConfirm}
       withConfirm
     />
-    <JButton onClick={setPrevStep} label={i18n('routes.importWallet.buttonTitle.prevStep')} blue />
-    <JButton onClick={setNextStep} label={i18n('routes.importWallet.buttonTitle.nextStep')} blue />
+    <div className='actions'>
+      <JButton
+        onClick={setPrevStep}
+        text={i18n('routes.importWallet.buttonTitle.prevStep')}
+        iconName='arrow-back'
+        iconSize='small'
+        trasparent
+      />
+      <JButton
+        onClick={setNextStep}
+        text={i18n('routes.importWallet.buttonTitle.finish')}
+        color='blue'
+        large
+        right
+      />
+    </div>
   </div>
 )
 
