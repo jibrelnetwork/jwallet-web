@@ -2,12 +2,27 @@
 
 import React from 'react'
 
-import JButton from 'components/base/JButton'
+import { JButton, JThumbnail } from 'components/base/__new__'
 
 const FormStep = ({ setNextStep }: Props) => (
-  <div className='backup-wallet-form-step'>
-    {'Some text about backup'}
-    <JButton onClick={setNextStep} label='Backup' blue />
+  <div className='form'>
+    <JThumbnail
+      image='key'
+      color='white'
+      title='Backup current key'
+      description={
+        'All user data, including imported or generated ' +
+        'private keys are stored locally, meaning your private'
+      }
+    />
+    <div className='actions -center'>
+      <JButton
+        onClick={setNextStep}
+        text='Backup'
+        color='blue'
+        large
+      />
+    </div>
   </div>
 )
 
