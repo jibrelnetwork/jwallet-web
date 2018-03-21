@@ -46,6 +46,7 @@ import {
   getBalances,
   getBalancesSuccess,
   getBalancesError,
+  setBalancesLoading,
   setBalanceByAddressSuccess,
   searchSuccess,
   searchError,
@@ -112,7 +113,7 @@ function* getDigitalAssetsBalances(): Saga<void> {
   const walletId: ?WalletId = yield select(selectWalletId)
 
   if (!walletId) {
-    yield put(getBalancesError(new Error('Wallet ID is not setted')))
+    yield put(setBalancesLoading(false))
 
     return
   }
