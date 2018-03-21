@@ -74,8 +74,13 @@
     transform: rotate(90deg);
   }
 
-  &.-arrow-white {
+  &.-arrow {
     background-image: $arrow-white;
+  }
+
+  &.-arrow-back {
+    background-image: $arrow-white;
+    transform: rotate(180deg);
   }
 
   &.-close {
