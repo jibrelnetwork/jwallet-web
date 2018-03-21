@@ -153,12 +153,12 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case editWallet.EDIT_SUCCESS:
-    case backupWallet.BACKUP_SUCCESS:
-    case changeWalletPassword.CHANGE_PASSWORD_SUCCESS: {
+    case backupWallet.BACKUP_SUCCESS: {
       goToLocation('/')
       break
     }
 
+    case changeWalletPassword.CHANGE_PASSWORD_SUCCESS:
     case removeWallet.REMOVE_SUCCESS: {
       goToLocation('/wallets')
       break
@@ -169,9 +169,9 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
      */
     case digitalAssets.SET_CURRENT: {
       const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
-      const isTransactiosRoute = (locationPath.indexOf('/transactions/') !== 0)
+      const isAssetsRoute = (locationPath.indexOf('/digital-assets/') === 0)
 
-      if (payload.currentAddress && isTransactiosRoute) {
+      if (payload.currentAddress && isAssetsRoute) {
         goToLocation('/transactions/all')
       }
 
