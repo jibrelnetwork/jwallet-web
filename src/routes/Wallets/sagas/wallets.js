@@ -25,6 +25,7 @@ import {
 
 function* openWallets(): Saga<void> {
   // Opening of wallets page - means cleaning of current active wallet
+  yield put(clean())
   yield put(setActiveWalletId())
 }
 

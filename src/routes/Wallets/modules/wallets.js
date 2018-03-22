@@ -221,6 +221,7 @@ const wallets = (
     case CLEAN: {
       return compose(
         assoc('password', ''),
+        assoc('walletAction', null),
         assoc('toggledWalletId', null),
         assocPath(['validFields', 'password'], null),
         assocPath(['invalidFields', 'password'], null),
