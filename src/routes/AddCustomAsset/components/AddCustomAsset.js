@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ModalLayout from 'layouts/ModalLayout'
-import JTextInput from 'components/base/JTextInput'
-import JButton from 'components/base/__new__/JButton'
+import ModalHeader from 'components/__new__/ModalHeader'
+import { JButton, JInput } from 'components/base/__new__'
 
 const AddCustomAsset = ({
   setName,
@@ -26,19 +26,24 @@ const AddCustomAsset = ({
 
   return (
     <ModalLayout>
-      <div className='add-custom-asset-view'>
-        {fields.map(({ key, value, handler }) => (
-          <JTextInput
-            key={key}
-            onValueChange={handler}
-            name={`add-custom-asset-${key}`}
-            placeholder={i18n(`routes.addCustomAsset.placeholder.${key}`)}
-            value={value}
-            errorMessage={invalidFields[key]}
-            editable
-          />
-        ))}
-        <JButton onClick={add} text='routes.addCustomAsset.buttonTitle' color='white' />
+      <ModalHeader title='Add custom asset' color='gray' withMenu />
+      <div className='content'>
+        <div className='form'>
+          {fields.map(({ key, value, handler }) => (
+            <JInput
+              key={key}
+              onChange={handler}
+              value={value}
+              color='gray'
+              name={`add-custom-asset-${key}`}
+              placeholder={i18n(`routes.addCustomAsset.placeholder.${key}`)}
+              errorMessage={invalidFields[key]}
+            />
+          ))}
+          <div className='actions'>
+            <JButton onClick={add} text='routes.addCustomAsset.buttonTitle' color='white' />
+          </div>
+        </div>
       </div>
     </ModalLayout>
   )

@@ -1,6 +1,12 @@
+// @flow
+
+import lifecycle from 'recompose/lifecycle'
+import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
 import {
+  open,
+  close,
   setAddress,
   setName,
   setSymbol,
@@ -13,6 +19,8 @@ import AddCustomAsset from '../components/AddCustomAsset'
 const mapStateToProps = ({ addCustomAsset }) => addCustomAsset
 
 const mapDispatchToProps = {
+  open,
+  close,
   setAddress,
   setName,
   setSymbol,
@@ -20,4 +28,10 @@ const mapDispatchToProps = {
   add,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCustomAsset)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentDidMount() { this.props.open() },
+    componentWillUnmount() { this.props.close() },
+  }),
+)(AddCustomAsset)
