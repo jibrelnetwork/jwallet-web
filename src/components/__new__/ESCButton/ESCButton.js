@@ -1,12 +1,14 @@
+// TODO: move JICon with rounded border to separate component
+
 // @flow
 
 import React from 'react'
 
 import { JText, JIcon } from 'components/base/__new__'
 
-const ESCButton = ({ color, close }: Props) => (
+const ESCButton = ({ color, onClick }: Props) => (
   <div
-    onClick={close}
+    onClick={onClick}
     className={`esc-button -${color}`}
   >
     <div className='text'>
@@ -20,7 +22,7 @@ const ESCButton = ({ color, close }: Props) => (
 
 type Props = {
   color: 'white' | 'gray',
-  close: Function,
+  onClick: Function,
 }
 
 export default ESCButton

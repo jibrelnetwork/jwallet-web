@@ -1,3 +1,1 @@
-import ESCButton from './ESCButtonContainer'
-
-export default ESCButton
+export { default } from './ESCButtonContainer'
