@@ -32,6 +32,7 @@ import * as transactions from 'routes/Transactions/modules/transactions'
  * Funds
  */
 import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
+import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
 
 export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
@@ -167,6 +168,11 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     /**
      * Digital Assets
      */
+    case digitalAssets.OPEN: {
+      goToWalletsIfNoActive()
+      break
+    }
+
     case digitalAssets.SET_CURRENT: {
       const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
       const isAssetsRoute = (locationPath.indexOf('/digital-assets/') === 0)
@@ -175,6 +181,11 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
         goToLocation('/transactions/all')
       }
 
+      break
+    }
+
+    case addCustomAsset.OPEN: {
+      goToWalletsIfNoActive()
       break
     }
 
@@ -216,6 +227,11 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
 
     case sendFunds.SEND_SUCCESS: {
       goToLocation('/')
+      break
+    }
+
+    case receiveFunds.OPEN: {
+      goToWalletsIfNoActive()
       break
     }
 
