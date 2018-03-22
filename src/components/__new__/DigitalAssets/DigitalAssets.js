@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
 
 import AssetCard from 'components/__new__/AssetCard'
 
@@ -12,7 +11,7 @@ const DigitalAssets = ({
   color,
   isBalancesLoading,
 }: Props) => (
-  <div className={classNames('digital-assets', (color && `-${color}`))}>
+  <div className='digital-assets'>
     {items.map((data: DigitalAsset, index: Index) => (
       <AssetCard
         {...data}

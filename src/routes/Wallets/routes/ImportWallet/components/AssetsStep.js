@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { isEmpty } from 'ramda'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import JButton from 'components/base/__new__/JButton'
 import DigitalAssets from 'components/__new__/DigitalAssets'
@@ -38,13 +39,17 @@ const AssetsStep = ({
       {isEmpty(filteredAssets) ? (
         <div>{'Some message about empty list'}</div>
       ) : (
-        <DigitalAssets
-          setActive={setActive}
-          items={filteredAssets}
-          balances={balances}
-          color='blue'
-          isBalancesLoading={isBalancesLoading}
-        />
+        <div className='digital-assets-wrapper'>
+          <Scrollbars autoHide>
+            <DigitalAssets
+              setActive={setActive}
+              items={filteredAssets}
+              balances={balances}
+              color='blue'
+              isBalancesLoading={isBalancesLoading}
+            />
+          </Scrollbars>
+        </div>
       )}
       <div className='actions'>
         <JButton
