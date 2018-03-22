@@ -13,10 +13,8 @@ const RemoveWallet = ({ remove }: Props) => (
         image='key'
         color='white'
         title='Remove current wallet'
-        description={
-          'All user data, including imported or generated ' +
-          'private keys are stored locally, meaning your private'
-        }
+        description={'All user data, including imported or generated ' +
+          'private keys are stored locally, meaning your private'}
       />
       <div className='actions -center'>
         <JButton
