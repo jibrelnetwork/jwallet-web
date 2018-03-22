@@ -9,6 +9,7 @@
     }
 
     .expandable__content {
+      overflow: visible;
       max-height: 800px;
       padding-top: 25px;
       visibility: visible;
@@ -45,6 +46,7 @@
   width: 100%;
   text-align: left;
   visibility: hidden;
+  overflow: hidden;
   opacity: 0;
   transition: all .3s ease;
 }
