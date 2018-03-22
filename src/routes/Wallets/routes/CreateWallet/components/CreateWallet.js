@@ -3,15 +3,22 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { STEPS } from '../modules/createWallet'
+import ModalHeader from 'components/__new__/ModalHeader'
 
 import MnemonicStep from './MnemonicStep'
 import MnemonicConfirmStep from './MnemonicConfirmStep'
 import PasswordStep from './PasswordStep'
 import AssetsStep from '../containers/AssetsStepContainer'
+import { STEPS } from '../modules/createWallet'
 
 const CreateWallet = (props: Props) => (
   <div className={classNames('content', { '-assets': (props.currentStep === STEPS.ASSETS) })}>
+    <ModalHeader
+      title='Create wallet'
+      color='white'
+      currentStep={props.currentStep + 1}
+      totalSteps={Object.keys(STEPS).length}
+    />
     {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
     {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
