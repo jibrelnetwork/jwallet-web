@@ -1,0 +1,35 @@
+.active-assets-layout {
+  .wrapper {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    padding: 60px 200px;
+
+    > .load-more {
+      text-align: center;
+    }
+  }
+
+  @media only screen and (max-width: 1680px) {
+    .wrapper {
+      padding: 60px 160px;
+    }
+  }
+
+  @media only screen and (max-width: 1600px) {
+    .wrapper {
+      padding: 60px 160px;
+    }
+  }
+
+  @media only screen and (max-width: 1440px) {
+    .wrapper {
+      padding: 60px 80px;
+    }
+  }
+
+  @media only screen and (max-width: 1280px) {
+    .wrapper {
+      padding: 50px;
+    }
+  }
+}
