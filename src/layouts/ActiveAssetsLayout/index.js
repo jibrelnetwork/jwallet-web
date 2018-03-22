@@ -1,3 +1,3 @@
-import ActiveAssetsLayout from './ActiveAssetsLayout'
+import ActiveAssetsLayout from './ActiveAssetsLayoutContainer'
 
 export default ActiveAssetsLayout
