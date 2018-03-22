@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 
 import { JText } from '../../base/__new__'
@@ -8,14 +10,15 @@ const ModalHeader = ({
   title,
   totalSteps,
   currentStep,
+  withMenu,
 }: Props) => (
-  <div className='modalHeader' >
+  <div className='modal-header'>
     <div className='title'>
       <JText
         value={currentStep && totalSteps
           ? `${title} ${currentStep}/${totalSteps}`
           : title}
-        variants={['header-2', color]}
+        variants={[color, 'header-title', withMenu ? 'header-menu-title' : null]}
       />
     </div>
     <div className='button'>
@@ -29,11 +32,13 @@ type Props = {
   title: string,
   totalSteps?: number,
   currentStep?: number,
+  withMenu?: boolean,
 }
 
 ModalHeader.defaultProps = {
   totalSteps: undefined,
   currentStep: undefined,
+  withMenu: false,
 }
 
 export default ModalHeader
