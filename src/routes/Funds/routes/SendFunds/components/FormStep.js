@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JButton from 'components/base/__new__/JButton'
-import { JPicker, JTextInput } from 'components/base'
+import JPicker from 'components/base/JPicker'
+import { JButton, JInput, JSelect } from 'components/base/__new__'
 
 import Optional from './Optional'
 
@@ -25,39 +25,41 @@ const FormStep = ({
   gasPrice,
   nonce,
 }) => (
-  <div className='send-funds-form-step'>
+  <div className='form'>
     <div>{alert}</div>
-    <JTextInput
+    <JInput
       name='send-funds-sender'
       placeholder={i18n('routes.sendFunds.placeholder.sender')}
       value={sender}
+      color='gray'
+      disabled
     />
     <JPicker
       onValueChange={setAsset}
       selectedValue={assetAddress}
-      name='send-funds-asset'
       placeholder={i18n('routes.sendFunds.placeholder.symbol')}
+      name='send-funds-asset'
       enabled
     >
       {digitalAssets.map(({ address, symbol }) => (
         <JPicker.Item key={address} label={symbol} value={address} />
       ))}
     </JPicker>
-    <JTextInput
-      onValueChange={setAmount}
-      name='send-funds-amount'
-      placeholder={i18n('routes.sendFunds.placeholder.amount')}
+    <JInput
+      onChange={setAmount}
       value={amount}
       errorMessage={invalidFields.amount}
-      editable
+      placeholder={i18n('routes.sendFunds.placeholder.amount')}
+      color='gray'
+      name='send-funds-amount'
     />
-    <JTextInput
-      onValueChange={setRecipient}
-      name='send-funds-recipient'
-      placeholder={i18n('routes.sendFunds.placeholder.recipient')}
+    <JInput
+      onChange={setRecipient}
       value={recipient}
+      placeholder={i18n('routes.sendFunds.placeholder.recipient')}
       errorMessage={invalidFields.recipient}
-      editable
+      color='gray'
+      name='send-funds-recipient'
     />
     <Optional
       setGas={setGas}
@@ -68,7 +70,9 @@ const FormStep = ({
       gasPrice={gasPrice}
       nonce={nonce}
     />
-    <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitleForm' color='white' />
+    <div className='actions'>
+      <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitleForm' color='white' />
+    </div>
   </div>
 )
 
