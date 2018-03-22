@@ -2,9 +2,9 @@
   cursor: inherit;
   white-space: pre-line;
   font-family: 'Open Sans', Arial, sans-serif;
- 
+
   // Colors
- 
+
   &.-gray {
     color: #3d4f6c;
   }
@@ -47,10 +47,15 @@
     font-size: 18px;
   }
 
-  &.-header-2 {
+  &.-header-title {
+    margin-right: auto;
     font-size: 24px;
   }
- 
+
+  &.-header-menu-title {
+    padding-left: 200px;
+  }
+
   // Align 
  
   &.-center {
