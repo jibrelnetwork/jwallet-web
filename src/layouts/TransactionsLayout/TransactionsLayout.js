@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
 import JTabs from 'components/base/__new__/JTabs'
@@ -18,7 +19,11 @@ const TransactionsLayout = ({ children }: Props) => (
       <JTabs tabs={TRANSACTIONS_TABS} />
       <TransactionsActions />
     </div>
-    <div className='wrapper'>{children}</div>
+    <div className='wrapper'>
+      <Scrollbars autoHide>
+        {children}
+      </Scrollbars>
+    </div>
   </ActiveAssetsLayout>
 )
 

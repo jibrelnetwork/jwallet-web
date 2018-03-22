@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Link } from 'react-router'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JIcon, JText } from 'components/base/__new__'
 import { ActiveAsset, CurrentAddress } from 'components/__new__'
@@ -16,15 +17,17 @@ const ActiveAssetsPanel = ({
   <div className='active-assets-panel'>
     <CurrentAddress address={currentWalletAddress} />
     <div className='list'>
-      {digitalAssets.map((data, index) => (
-        <ActiveAsset
-          {...data}
-          key={index}
-          setCurrent={setCurrent}
-          isLoading={isLoading}
-          isCurrent={currentAssetAddress === data.address}
-        />
-      ))}
+      <Scrollbars autoHide>
+        {digitalAssets.map((data, index) => (
+          <ActiveAsset
+            {...data}
+            key={index}
+            setCurrent={setCurrent}
+            isLoading={isLoading}
+            isCurrent={currentAssetAddress === data.address}
+          />
+        ))}
+      </Scrollbars>
     </div>
     <div className='manage'>
       <Link to='/digital-assets' className='link'>

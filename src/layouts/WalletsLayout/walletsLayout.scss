@@ -24,6 +24,11 @@
 
     &.-assets {
       width: 1024px;
+
+      .digital-assets-wrapper {
+        height: calc(100vh - 260px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
     }
   }
 
