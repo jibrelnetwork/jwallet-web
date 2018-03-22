@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import ModalHeader from 'components/__new__/ModalHeader'
 import { JButton, JInput } from 'components/base/__new__'
 
 const ChangeWalletPassword = ({
@@ -22,6 +23,7 @@ const ChangeWalletPassword = ({
 
   return (
     <div className='content'>
+      <ModalHeader title='Change password' color='white' />
       <div className='form'>
         {fields.map(({ key, value, handler }) => (
           <JInput

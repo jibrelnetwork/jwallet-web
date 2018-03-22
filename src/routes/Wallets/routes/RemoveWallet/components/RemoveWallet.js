@@ -2,10 +2,12 @@
 
 import React from 'react'
 
+import ModalHeader from 'components/__new__/ModalHeader'
 import { JButton, JThumbnail } from 'components/base/__new__'
 
 const RemoveWallet = ({ remove }: Props) => (
   <div className='content'>
+    <ModalHeader title='Remove wallet' color='white' />
     <div className='form'>
       <JThumbnail
         image='key'

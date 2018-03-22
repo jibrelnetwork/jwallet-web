@@ -3,6 +3,7 @@
 import React from 'react'
 
 import JButton from 'components/base/__new__/JButton'
+import ModalHeader from 'components/__new__/ModalHeader'
 
 import MnemonicAddress from './MnemonicAddress'
 
@@ -13,6 +14,7 @@ const MnemonicAddresses = ({
   balances,
 }: Props) => (
   <div className='content'>
+    <ModalHeader title='Mnemonic addresses' color='white' />
     <div className='form'>
       {addresses.map((address, index) => (
         <MnemonicAddress
