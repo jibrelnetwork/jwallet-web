@@ -25,7 +25,10 @@ const ReceiveFunds = ({
       <div className='form'>
         <div
           onClick={saveQRCode}
-          className={classNames('qr-code', { 'qr-code--hidden': (!amount || invalidFields.amount) })}
+          className={classNames(
+            'qr-code',
+            { 'qr-code--hidden': (!amount || invalidFields.amount) },
+          )}
           id='qr-code'
         />
         <JPicker

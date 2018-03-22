@@ -31,7 +31,7 @@ const JInput = ({
       type={type}
       value={value}
       disabled={disabled}
-      onChange={onChange ? event => onChange(event.target.value) : identity}
+      onChange={event => (onChange ? onChange(event.target.value) : identity)}
       placeholder={placeholder}
     />
     <div className='label'>
