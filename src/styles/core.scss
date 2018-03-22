@@ -90,6 +90,12 @@
     justify-content: center;
   }
 
+  @mixin font {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1;
+  }
+
   // Base components
   @import '../components/base/__new__/JButton/jButton';
   @import '../components/base/__new__/JCard/jCard';
