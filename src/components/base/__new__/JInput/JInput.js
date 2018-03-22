@@ -2,6 +2,7 @@
 
 import React from 'react'
 import cx from 'classnames'
+import { identity } from 'ramda'
 
 import { JIcon, JText } from '..'
 
@@ -30,7 +31,7 @@ const JInput = ({
       type={type}
       value={value}
       disabled={disabled}
-      onChange={event => onChange(event.target.value)}
+      onChange={onChange ? event => onChange(event.target.value) : identity}
       placeholder={placeholder}
     />
     <div className='label'>
@@ -79,7 +80,7 @@ type Props = {
   color?: 'white' | 'gray',
   value?: string | number,
   checked?: boolean,
-  onChange: Function,
+  onChange?: Function,
   disabled?: boolean,
   isLoading?: boolean,
   placeholder?: string,
@@ -88,6 +89,7 @@ type Props = {
 }
 
 JInput.defaultProps = {
+  onChange: identity,
   type: 'text',
   color: 'white',
   label: undefined,
