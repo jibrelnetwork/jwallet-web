@@ -1,3 +1,1 @@
-import JLogo from './JLogo'
-
-export default JLogo
+export { default } from './JLogo'
