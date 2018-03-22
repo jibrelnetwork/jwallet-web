@@ -2,13 +2,11 @@
 /* @flow */
 
 import React from 'react'
-import StoryRouter from 'storybook-router'
 import { storiesOf } from '@storybook/react'
 
 import ModalHeader from '../../src/components/__new__/ModalHeader'
 
 storiesOf('ModalHeader', module)
-  .addDecorator(StoryRouter())
   .add('White with steps', () => (
     <div style={{ backgroundColor: '#0050db' }} >
       <ModalHeader

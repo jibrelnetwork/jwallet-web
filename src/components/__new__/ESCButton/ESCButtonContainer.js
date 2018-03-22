@@ -1,4 +1,5 @@
 /* @flow */
+
 import { compose } from 'ramda'
 import { lifecycle, withHandlers } from 'recompose'
 import { withRouter } from 'react-router'
@@ -28,6 +29,6 @@ export default compose(
     },
   }),
   withHandlers({
-    close: ({ router }) => router.push('/'),
+    onClick: ({ router }) => router.push('/'),
   })
 )(ESCButton)

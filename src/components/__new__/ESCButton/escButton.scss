@@ -6,19 +6,26 @@
   flex-direction: row;
 
   &:hover {
+    &.-white {
+      > .icon {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    &.-gray {
+      > .icon {
+        border: 1px solid rgba(61, 79, 108, 0.5);
+      }
+    }
+
     > .icon {
       transform: rotate(90deg);
-      border: 1px solid rgba(255, 255, 255, 1);
     }
   }
-
-  // > .text {
-  // }
 
   > .icon {
     width: 48px;
     height: 48px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     transition: all 0.3s ease 0s;
     align-items: center;
