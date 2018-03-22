@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Expandable from 'components/Expandable'
-import JTextInput from 'components/base/JTextInput'
+import JInput from 'components/base/__new__/JInput'
 
 const Optional = ({
   setGas,
@@ -20,19 +20,21 @@ const Optional = ({
   ]
 
   return (
-    <Expandable title={i18n('routes.sendFunds.optionalTitle')} >
-      {fields.map(({ key, value, handler }) => (
-        <JTextInput
-          key={key}
-          onValueChange={handler}
-          name={`send-funds-${key}`}
-          placeholder={i18n(`routes.sendFunds.placeholder.${key}`)}
-          value={value}
-          errorMessage={invalidFields[key]}
-          editable
-        />
-      ))}
-    </Expandable>
+    <div className='optional'>
+      <Expandable title={i18n('routes.sendFunds.optionalTitle')} >
+        {fields.map(({ key, value, handler }) => (
+          <JInput
+            key={key}
+            onChange={handler}
+            value={value}
+            name={`send-funds-${key}`}
+            errorMessage={invalidFields[key]}
+            placeholder={i18n(`routes.sendFunds.placeholder.${key}`)}
+            color='gray'
+          />
+        ))}
+      </Expandable>
+    </div>
   )
 }
 

@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import JTextInput from 'components/base/JTextInput'
-import JButton from 'components/base/__new__/JButton'
+import { JButton, JInput } from 'components/base/__new__'
 
 const PasswordStep = ({
   setPassword,
@@ -10,17 +9,18 @@ const PasswordStep = ({
   invalidFields,
   password,
 }) => (
-  <div className='send-funds-password-step'>
-    <JTextInput
-      onValueChange={setPassword}
+  <div className='form'>
+    <JInput
+      onChange={setPassword}
       value={password}
-      name='send-funds-password'
       errorMessage={invalidFields.password}
       placeholder={i18n('routes.sendFunds.placeholder.password')}
-      editable
-      secureTextEntry
+      type='password'
+      name='send-funds-password'
     />
-    <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitlePassword' color='white' />
+    <div className='actions'>
+      <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitlePassword' color='white' />
+    </div>
   </div>
 )
 
