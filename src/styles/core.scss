@@ -2,14 +2,12 @@
   @import 'base';
   @import 'adaptive';
   @import 'colors';
+  @import 'form';
   @import 'grid';
   @import 'header';
   @import 'loading';
-  @import 'modal';
   @import 'shake';
   @import 'slider';
-  @import 'wallets';
-  @import 'wrapper';
 
   * {
     margin: 0;
@@ -123,6 +121,11 @@
   @import '../components/__new__/MenuSelect/menuSelect';
   @import '../components/__new__/Transaction/transaction';
   @import '../components/__new__/TransactionsByPeriod/transactionsByPeriod';
+
+  // Components
+  @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
+  @import '../layouts/ModalLayout/modalLayout';
+  @import '../layouts/WalletsLayout/walletsLayout';
 
   // Deprecated
   @import '../components/base/JFormField/jFormField';
