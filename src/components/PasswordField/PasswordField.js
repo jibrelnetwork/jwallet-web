@@ -4,7 +4,7 @@ import Keystore from 'jwallet-web-keystore'
 
 import config from 'config'
 
-import { JIcon, JTextInput } from 'components/base'
+import { JIcon, JInput } from 'components/base/__new__'
 
 class PasswordField extends Component {
   constructor(props) {
@@ -48,15 +48,13 @@ class PasswordField extends Component {
     const placeholderPassword = i18n('modals.createAccount.placeholder.password')
 
     return (
-      <JTextInput
-        onValueChange={this.onPasswordChange}
+      <JInput
+        onChange={this.onPasswordChange}
         name='password'
-        placeholder={passwordPlaceholder || placeholderPassword}
+        type='password'
         value={password}
         errorMessage={passwordError}
-        editable
-        preventCopy
-        secureTextEntry
+        placeholder={passwordPlaceholder || placeholderPassword}
       />
     )
   }
@@ -66,15 +64,13 @@ class PasswordField extends Component {
     const placeholderPasswordConfirm = i18n('modals.createAccount.placeholder.passwordConfirm')
 
     return (
-      <JTextInput
-        onValueChange={this.onPasswordConfirmChange}
+      <JInput
+        onChange={this.onPasswordConfirmChange}
+        type='password'
         name='password-confirm'
         placeholder={passwordConfirmPlaceholder || placeholderPasswordConfirm}
         value={passwordConfirm}
         errorMessage={passwordConfirmError}
-        editable
-        preventCopy
-        secureTextEntry
       />
     )
   }
@@ -88,7 +84,7 @@ class PasswordField extends Component {
 
     return (
       <div className='password__message'>
-        {isApproved ? <JIcon name='networks-checkbox' small /> : message}
+        {isApproved ? <JIcon name='checkbox' size='small' /> : message}
       </div>
     )
   }
@@ -96,7 +92,7 @@ class PasswordField extends Component {
   renderPasswordConfirmIcon = () => {
     return !this.state.isConfirmed ? null : (
       <div className='password__message'>
-        <JIcon name='networks-checkbox' small />
+        <JIcon name='checkbox' size='small' />
       </div>
     )
   }
