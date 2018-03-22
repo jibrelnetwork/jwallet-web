@@ -1,7 +1,7 @@
 /* @flow */
 import { compose } from 'ramda'
-import { lifecycle } from 'recompose'
-import { withRouter } from 'react-router-dom'
+import { lifecycle, withHandlers } from 'recompose'
+import { withRouter } from 'react-router'
 
 import ESCButton from './ESCButton'
 
@@ -10,6 +10,7 @@ const redirectOnESC = router => ({ keyCode }) => {
 }
 
 export default compose(
+  withRouter,
   lifecycle({
     componentDidMount() {
       window.addEventListener(
@@ -26,5 +27,7 @@ export default compose(
       )
     },
   }),
-  withRouter,
+  withHandlers({
+    close: ({ router }) => router.push('/'),
+  })
 )(ESCButton)
