@@ -10,24 +10,26 @@
   border-bottom: 1px solid rgba(61, 79, 108, 0.1);
 
   > .actions {
-    display: flex;
+    @include flex-row-center;
+
     margin-left: auto;
-  }
 
-  > .actions > .link {
-    margin-right: 40px;
-    font-weight: 600;
-  }
+    > .link {
+      @include flex-row-center;
+      @include hover-animation;
 
-  > .actions > .link > .j-icon,
-  > .actions > .link > .j-text {
-    display: inline-block;
-  }
+      margin-right: 40px;
 
-  > .actions > .link > .j-icon {
-    position: relative;
-    top: 1px;
-    margin-right: 8px;
+      &:hover {
+        opacity: 0.7;
+      }
+
+      > .j-icon {
+        position: relative;
+        top: 1px;
+        margin-right: 10px;
+      }
+    }
   }
 
   @media only screen and (max-width: 1680px) {
