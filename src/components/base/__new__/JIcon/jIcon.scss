@@ -206,4 +206,16 @@
   &.-key {
     background-image: $key;
   }
+
+  &.-key-blue {
+    background-image: $key-blue;
+  }
+
+  &.-cloud {
+    background-image: $cloud;
+  }
+
+  &.-cloud-blue {
+    background-image: $cloud-blue;
+  }
 }
