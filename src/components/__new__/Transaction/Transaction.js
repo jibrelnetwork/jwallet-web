@@ -34,7 +34,14 @@ const TransactionItem = ({
         </div>
         <div className='amount'>
           <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>
-          <JButton onClick={ignoreEvent(console.log, data)} text='Repeat' iconName='repeat' />
+          <div className='repeat-button'>
+            <JButton
+              onClick={ignoreEvent(console.log, data)}
+              text='Repeat'
+              iconName='repeat'
+              color='white'
+            />
+          </div>
         </div>
       </div>
       <div className='additional-info' onClick={ignoreEvent()}>
@@ -59,8 +66,22 @@ const TransactionItem = ({
           <div className='value'>{`${data.fee} ETH`}</div>
         </div>
         <div className='actions'>
-          <JButton onClick={console.log} text='Save as template' iconName='star' />
-          <JButton onClick={console.log} text='Repeat' iconName='repeat' />
+          <div className='save-button'>
+            <JButton
+              onClick={console.log}
+              text='Save as template'
+              iconName='star'
+              color='white'
+            />
+          </div>
+          <div className='repeat-button'>
+            <JButton
+              onClick={console.log}
+              text='Repeat'
+              iconName='repeat'
+              color='white'
+            />
+          </div>
         </div>
       </div>
     </div>

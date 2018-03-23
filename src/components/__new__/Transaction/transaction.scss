@@ -1,5 +1,10 @@
 .transaction {
+  all: initial;
+
+  @include font;
+
   position: relative;
+  display: block;
   padding: 25px 25px 28px 90px;
   border-bottom: 1px solid #f5f6fa;
   cursor: pointer;
@@ -8,12 +13,18 @@
     border-bottom: 0;
   }
 
-  &:hover > .main-info > .amount > .j-button {
-    opacity: 1;
-  }
+  &:hover {
+    > .main-info > .amount {
+      > .repeat-button {
+        opacity: 1;
+        visibility: visible;
+      }
 
-  &:hover > .main-info > .amount > .value {
-    opacity: 0;
+      > .value {
+        visibility: hidden;
+        opacity: 0;
+      }
+    }
   }
 
   &.-send > .main-info > .amount {
@@ -24,81 +35,105 @@
     color: #0050db;
   }
 
-  &.-active > .main-info > .amount > .j-button {
-    display: none;
-  }
+  &.-active {
+    > .main-info > .amount {
+      > .repeat-button {
+        visibility: hidden;
+        opacity: 0;
+      }
 
-  &.-active > .main-info > .amount > .value {
-    opacity: 1 !important;
-  }
+      > .value {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
 
-  &.-active > .additional-info {
-    display: block;
+    > .additional-info {
+      max-height: 300px;
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   > .main-info {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-  }
 
-  > .main-info > .j-icon {
-    position: absolute;
-    top: 19px;
-    left: 22px;
-  }
+    > .j-icon {
+      position: absolute;
+      top: 19px;
+      left: 22px;
+    }
 
-  > .main-info > .date {
-    min-width: 150px;
-  }
+    > .date {
+      min-width: 150px;
+    }
 
-  > .main-info > .amount {
-    position: relative;
-    min-width: 120px;
-    margin-left: auto;
-    font-weight: bold;
-    font-size: 15px;
-    text-align: right;
-  }
+    > .amount {
+      position: relative;
+      min-width: 120px;
+      margin-left: auto;
+      font-weight: bold;
+      font-size: 15px;
+      text-align: right;
 
-  > .main-info > .amount > .j-button {
-    position: absolute;
-    top: -12px;
-    right: 0;
-    font-size: 13px;
-    opacity: 0;
+      > .repeat-button {
+        position: absolute;
+        top: -12px;
+        right: 0;
+        opacity: 0;
+      }
+
+      > .repeat-button,
+      > .value {
+        @include hover-animation;
+      }
+    }
   }
 
   > .additional-info {
+    @include hover-animation;
+
     position: relative;
-    display: none;
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
 
     &:hover {
       cursor: default;
     }
-  }
 
-  > .additional-info > .item {
-    margin-top: 30px;
-  }
+    > .item {
+      margin-top: 30px;
+    }
 
-  > .additional-info > .actions {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
+    > .actions {
+      @include flex-row;
 
-  > .additional-info > .actions > .j-button {
-    margin-left: 6px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+
+      > .repeat-button {
+        margin-left: 6px;
+      }
+    }
   }
 
   .label {
     margin-bottom: 8px;
+    color: #3d4f6c;
     opacity: 0.5;
   }
 
   .value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: no-wrap;
     font-size: 14px;
+    color: #3d4f6c;
   }
 
   @media only screen and (max-width: 1366px) {
