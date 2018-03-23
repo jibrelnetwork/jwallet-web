@@ -1,5 +1,8 @@
 .j-icon {
   all: initial;
+
+  @include hover-animation;
+
   cursor: inherit;
   display: block;
   background-repeat: no-repeat;
@@ -61,6 +64,16 @@
     background-image: $menu-favorite-white;
   }
 
+  &.-menu-send,
+  &.-menu-receive,
+  &.-menu-favorite-white {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: 1px;
+    margin-top: -1px;
+  }
+
   &.-star {
     background-image: $star-blue;
   }
@@ -114,7 +127,12 @@
   // Medium icons
 
   &.-menu-bg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -12px;
     background-image: $menu-bg-white;
+    opacity: 0.5;
   }
 
   &.-logout {
