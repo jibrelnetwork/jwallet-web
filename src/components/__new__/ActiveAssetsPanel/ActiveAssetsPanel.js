@@ -15,7 +15,9 @@ const ActiveAssetsPanel = ({
   currentWalletAddress,
 }: Props) => (
   <div className='active-assets-panel'>
-    <CurrentAddress address={currentWalletAddress} />
+    <div className='current-address-wrapper'>
+      <CurrentAddress address={currentWalletAddress} />
+    </div>
     <div className='list'>
       <Scrollbars autoHide>
         {digitalAssets.map((data, index) => (
@@ -32,7 +34,7 @@ const ActiveAssetsPanel = ({
     <div className='manage'>
       <Link to='/digital-assets' className='link'>
         <JIcon size='small' name='plus' />
-        <JText value='assetsPanel.button' />
+        <JText value='assetsPanel.button' variants={['bold', 'blue']} />
       </Link>
     </div>
   </div>
