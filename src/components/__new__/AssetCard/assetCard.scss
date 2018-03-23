@@ -1,10 +1,15 @@
 .asset-card {
+  all: initial;
+
+  @include font;
+
   padding: 30px;
   background-color: #ffffff;
   border: 1px solid transparent;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
   text-align: center;
   cursor: pointer;
+  transition: border 0.3s ease 0s, color 0.3s ease 0s;
 
   &:hover {
     color: #0050db;
@@ -14,30 +19,30 @@
     background-color: #0058D2;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     color: #ffffff;
-  }
 
-  &.-blue:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    color: #ffffff;
-  }
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      color: #ffffff;
 
-  &.-blue:hover > .j-icon {
-    background-image: $token-ant-white;
-  }
+      > .j-icon {
+        background-image: $token-ant-white;
+      }
+    }
 
-  &.-blue > .j-icon {
-    background-image: $token-ant-white;
-    opacity: 0.5;
-  }
+    &.-active {
+      background-image: $checkbox-white;
+      border-color: rgba(255, 255, 255, 0.7);
+      color: #ffffff;
 
-  &.-blue.-active {
-    background-image: $checkbox-white;
-    border-color: rgba(255, 255, 255, 0.7);
-    color: #ffffff;
-  }
+      > .j-icon {
+        background-image: $token-ant-white;
+      }
+    }
 
-  &.-blue.-active > .j-icon {
-    background-image: $token-ant-white;
+    > .j-icon {
+      background-image: $token-ant-white;
+      opacity: 0.5;
+    }
   }
 
   > .j-icon {
