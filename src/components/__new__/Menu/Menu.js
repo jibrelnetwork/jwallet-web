@@ -11,11 +11,14 @@ const Menu = ({
   networks,
   currentNetwork,
   currentLanguage,
+  isWalletReadOnly,
 }: Props) => (
   <div className='menu'>
-    <JLogo />
+    <div className='logo-wrapper'>
+      <JLogo />
+    </div>
     <div className='links'>
-      <MenuLink path='/funds/send' icon='send' />
+      <MenuLink path='/funds/send' icon='send' disabled={isWalletReadOnly} />
       <MenuLink path='/funds/receive' icon='receive' />
     </div>
     <div className='selects'>
@@ -39,6 +42,7 @@ type Props = {
   networks: { [NetworkId]: string },
   currentNetwork: ?NetworkId,
   currentLanguage: LanguageCode,
+  isWalletReadOnly: boolean,
 }
 
 export default Menu

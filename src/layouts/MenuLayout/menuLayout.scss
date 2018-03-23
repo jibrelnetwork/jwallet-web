@@ -1,0 +1,11 @@
+.menu-layout {
+  > .menu-wrapper {
+    z-index: $z-index-menu;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 200px;
+    height: 100%;
+  }
+}
