@@ -8,7 +8,7 @@ import { setActive } from 'routes/Transactions/modules/transactions'
 
 import IncomingTransactions from '../components/IncomingTransactions'
 
-const mapStateToProps = ({ digitalAssets, transactions }: State): Object => compose(
+const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
   assoc(
     'transactionsByPeriod',
     getTransactionsByPeriod(transactions.items.filter(propEq('type', 'receive'))),
@@ -16,6 +16,10 @@ const mapStateToProps = ({ digitalAssets, transactions }: State): Object => comp
   assoc(
     'currentAsset',
     getDigitalAssetByAddress(digitalAssets.currentAddress, digitalAssets.items),
+  ),
+  assoc(
+    'isCustomNetwork',
+    (networks.currentNetwork && (networks.currentNetwork.indexOf('private') === 0)),
   ),
 )(transactions)
 
