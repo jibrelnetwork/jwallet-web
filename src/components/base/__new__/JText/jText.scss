@@ -1,7 +1,10 @@
 .j-text {
+  all: initial;
+
+  @include font;
+
   cursor: inherit;
   white-space: pre-line;
-  font-family: 'Open Sans', Arial, sans-serif;
 
   // Colors
 
