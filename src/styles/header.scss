@@ -1,6 +1,9 @@
 .header {
-  display: flex;
-  flex-direction: row;
+  all: initial;
+
+  @include flex-row;
+  @include font;
+
   height: 80px;
   line-height: 80px;
   padding: 0 200px;
@@ -13,6 +16,7 @@
 
   > .actions > .link {
     margin-right: 40px;
+    font-weight: 600;
   }
 
   > .actions > .link > .j-icon,
