@@ -3,7 +3,7 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import DigitalAssets from 'components/__new__/DigitalAssets'
+import { DigitalAssets, DigitalAssetsEmpty } from 'components/__new__'
 
 const filterAssets = (
   items: DigitalAssets,
@@ -36,18 +36,18 @@ const WithBalance = ({
   const assetsWithBalance: DigitalAssets = getAssetsWithBalance(items, balances)
   const filteredAssets: DigitalAssets = filterAssets(assetsWithBalance, foundAssets, searchQuery)
 
+  if (isEmpty(filteredAssets)) {
+    return <DigitalAssetsEmpty />
+  }
+
   return (
     <div className='with-balance-view'>
-      {isEmpty(filteredAssets) ? (
-        <div>{'Some message about empty list'}</div>
-      ) : (
-        <DigitalAssets
-          setActive={setActive}
-          items={filteredAssets}
-          balances={balances}
-          isBalancesLoading={isBalancesLoading}
-        />
-      )}
+      <DigitalAssets
+        setActive={setActive}
+        items={filteredAssets}
+        balances={balances}
+        isBalancesLoading={isBalancesLoading}
+      />
     </div>
   )
 }
