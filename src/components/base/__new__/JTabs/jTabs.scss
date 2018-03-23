@@ -1,7 +1,17 @@
 .j-tabs {
+  all: initial;
+
+  @include flex-row-center;
+  @include font;
+
+  height: 100%;
+
   > .tab {
+    @include flex-row-center;
+    @include hover-animation;
+
     position: relative;
-    display: inline-block;
+    height: 100%;
     margin-right: 50px;
     text-transform: uppercase;
     font-weight: 600;
@@ -26,15 +36,17 @@
         opacity: 1;
       }
     }
-  }
 
-  > .tab > .link {
-    display: block;
-    color: #3d4f6c;
-    opacity: 0.5;
+    > .link {
+      @include hover-animation;
 
-    &:hover {
-      opacity: 1;
+      display: block;
+      color: #3d4f6c;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 
