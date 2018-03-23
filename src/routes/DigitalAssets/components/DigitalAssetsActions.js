@@ -9,7 +9,7 @@ const DigitalAssetsActions = ({ search, searchQuery }: Props) => (
   <div className='actions'>
     <Link to='/digital-assets/add' className='link' >
       <JIcon size='small' name='plus' />
-      <JText value='header.actions.addCustomAsset' />
+      <JText value='header.actions.addCustomAsset' variants={['bold', 'blue']} />
     </Link>
     <JSearch
       onChange={search}
