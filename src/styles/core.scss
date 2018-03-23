@@ -1,13 +1,5 @@
 :global {
   @import 'base';
-  @import 'adaptive';
-  @import 'colors';
-  @import 'form';
-  @import 'grid';
-  @import 'header';
-  @import 'loading';
-  @import 'shake';
-  @import 'slider';
 
   * {
     margin: 0;
@@ -83,6 +75,18 @@
     flex-direction: column;
   }
 
+  @mixin flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @mixin flex-row-center {
+    @include flex-row;
+
+    align-items: center;
+    justify-content: center;
+  }
+
   @mixin flex-column-center {
     @include flex-column;
 
@@ -95,6 +99,15 @@
     font-size: 13px;
     line-height: 1;
   }
+
+  // General
+  @import 'adaptive';
+  @import 'form';
+  @import 'grid';
+  @import 'header';
+  @import 'loading';
+  @import 'shake';
+  @import 'slider';
 
   // Base components
   @import '../components/base/__new__/JButton/jButton';
