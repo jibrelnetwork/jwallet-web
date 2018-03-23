@@ -6,7 +6,9 @@ import Menu from 'components/__new__/Menu'
 
 const MenuLayout = ({ children }: Props) => (
   <div className='menu-layout'>
-    <Menu />
+    <div className='menu-wrapper'>
+      <Menu />
+    </div>
     <div className='container'>{children}</div>
   </div>
 )

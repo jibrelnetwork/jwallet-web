@@ -3,6 +3,7 @@
 import { assoc } from 'ramda'
 import { connect } from 'react-redux'
 
+import keystore from 'services/keystore'
 import getCurrentLanguageCode from 'utils/getCurrentLanguageCode'
 import { setLanguage } from 'routes/modules/i18n'
 import { setCurrentNetwork as setNetwork } from 'routes/modules/networks'
@@ -17,7 +18,21 @@ const getNetworkTitleIdMap = (
   return assoc(id, i18nTitle)(res)
 }
 
-const mapStateToProps = ({ networks }: State): {
+const checkWalletReadOnly = (id: ?WalletId): boolean => {
+  if (!id) {
+    return false
+  }
+
+  try {
+    const wallet: Wallet = keystore.getWallet(id)
+
+    return wallet.isReadOnly
+  } catch (err) {
+    return false
+  }
+}
+
+const mapStateToProps = ({ networks, wallets }: State): {
   networks: NetworkTitleById,
   currentNetwork: ?NetworkId,
   currentLanguage: LanguageCode,
@@ -25,6 +40,7 @@ const mapStateToProps = ({ networks }: State): {
   currentNetwork: networks.currentNetwork,
   currentLanguage: getCurrentLanguageCode(),
   networks: networks.items.reduce(getNetworkTitleIdMap, {}),
+  isWalletReadOnly: checkWalletReadOnly(wallets.activeWalletId),
 })
 
 const mapDispatchToProps = { setLanguage, setNetwork }

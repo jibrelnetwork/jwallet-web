@@ -100,6 +100,10 @@
     line-height: 1;
   }
 
+  @mixin hover-animation {
+    transition: all 0.3s ease 0s;
+  }
+
   // General
   @import 'adaptive';
   @import 'form';
@@ -150,6 +154,7 @@
 
   // Components
   @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
+  @import '../layouts/MenuLayout/menuLayout';
   @import '../layouts/ModalLayout/modalLayout';
   @import '../layouts/WalletsLayout/walletsLayout';
 
