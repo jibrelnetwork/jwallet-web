@@ -3,7 +3,7 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import DigitalAssets from 'components/__new__/DigitalAssets'
+import { DigitalAssets, DigitalAssetsEmpty } from 'components/__new__'
 
 const filterAssets = (
   items: DigitalAssets,
@@ -36,16 +36,13 @@ const Popular = ({
   const assetsWithoutBalance: DigitalAssets = getAssetsWithoutBalance(items, balances)
   const filteredAssets: DigitalAssets = filterAssets(assetsWithoutBalance, foundAssets, searchQuery)
 
+  if (isEmpty(filteredAssets)) {
+    return <DigitalAssetsEmpty />
+  }
+
   return (
     <div className='popular-view'>
-      {isEmpty(filteredAssets) ? (
-        <div>{'Some message about empty list'}</div>
-      ) : (
-        <DigitalAssets
-          setActive={setActive}
-          items={filteredAssets}
-        />
-      )}
+      <DigitalAssets setActive={setActive} items={filteredAssets} />
     </div>
   )
 }
