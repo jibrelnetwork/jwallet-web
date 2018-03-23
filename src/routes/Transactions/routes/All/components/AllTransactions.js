@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import TransactionsByPeriod from 'components/__new__/TransactionsByPeriod'
+import getTransactionsEmptyEvent from 'utils/getTransactionsEmptyEvent'
+import { TransactionsByPeriod, TransactionsEmpty } from 'components/__new__'
 
 const AllTransactions = ({
   setActive,
@@ -11,25 +12,33 @@ const AllTransactions = ({
   currentAsset,
   // searchQuery,
   isLoading,
-  // isBlockExplorerError,
+  isBlockExplorerError,
+  isCustomNetwork,
   activeTxHash,
 }: Props) => {
   if (isLoading && !(items && items.length)) {
     return <div className='all-transactions-view'>{'Loading'}</div>
   }
 
+  const transactionsEmptyEvent = getTransactionsEmptyEvent(
+    items,
+    currentAsset,
+    isBlockExplorerError,
+    isCustomNetwork,
+  )
+
+  if (transactionsEmptyEvent) {
+    return <TransactionsEmpty event={transactionsEmptyEvent} />
+  }
+
   return (
     <div className='all-transactions-view'>
-      {currentAsset ? (
-        <TransactionsByPeriod
-          setActive={setActive}
-          transactionsByPeriod={transactionsByPeriod}
-          assetSymbol={currentAsset.symbol}
-          activeTxHash={activeTxHash}
-        />
-      ) : (
-        <div>{'There are no active assets'}</div>
-      )}
+      <TransactionsByPeriod
+        setActive={setActive}
+        transactionsByPeriod={transactionsByPeriod}
+        assetSymbol={currentAsset.symbol}
+        activeTxHash={activeTxHash}
+      />
     </div>
   )
 }
@@ -42,6 +51,7 @@ type Props = {
   searchQuery: string,
   isLoading: boolean,
   isBlockExplorerError: boolean,
+  isCustomNetwork: boolean,
   activeTxHash: ?Hash,
 }
 
