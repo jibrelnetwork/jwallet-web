@@ -8,7 +8,9 @@ import ActiveAssetsPanel from 'components/__new__/ActiveAssetsPanel'
 const ActiveAssetsLayout = ({ children }: Props) => (
   <MenuLayout>
     <div className='active-assets-layout'>
-      <ActiveAssetsPanel />
+      <div className='active-assets-panel-wrapper'>
+        <ActiveAssetsPanel />
+      </div>
       <div className='content'>{children}</div>
     </div>
   </MenuLayout>

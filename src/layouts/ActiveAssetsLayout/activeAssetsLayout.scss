@@ -1,4 +1,16 @@
 .active-assets-layout {
+  all: initial;
+
+  .active-assets-panel-wrapper {
+    z-index: $z-index-active-assets-panel;
+    position: fixed;
+    top: 0;
+    left: 200px;
+    display: block;
+    width: 320px;
+    height: 100%;
+  }
+
   .wrapper {
     position: relative;
     height: calc(100vh - 80px);

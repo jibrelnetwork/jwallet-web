@@ -1,6 +1,13 @@
 .active-asset {
+  all: initial;
+
+  @include font;
+  @include hover-animation;
+
   position: relative;
+  display: block;
   padding: 20px 30px 20px 80px;
+  color: #3d4f6c;
   cursor: pointer;
 
   &:first-child {

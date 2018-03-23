@@ -1,40 +1,44 @@
 .active-assets-panel {
-  z-index: 1;
-  position: fixed;
-  top: 0;
-  left: 200px;
-  width: 320px;
+  all: initial;
+
+  display: block;
+  width: 100%;
   height: 100%;
   padding: 80px 0 66px;
   background-color: #ffffff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 
+  > .current-address-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+  }
+
   > .list {
-    height: 100%;
+    height: calc(100% - (80px + 66px));
   }
 
   > .manage {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     border-top: 1px solid #ebedf0;
-  }
 
-  > .manage > .link {
-    display: block;
-    line-height: 66px;
-    text-align: center;
-    font-weight: 600;
-  }
+    > .link {
+      @include flex-row-center;
+      @include hover-animation;
 
-  > .manage > .link > .j-icon,
-  > .manage > .link > .j-text {
-    display: inline-block;
-  }
+      height: 66px;
+      background-color: #ffffff;
 
-  > .manage > .link > .j-icon {
-    margin-right: 10px;
+      &:hover {
+        opacity: 0.7;
+      }
+
+      > .j-icon {
+        margin-right: 10px;
+      }
+    }
   }
 
   @media only screen and (max-width: 1280px) {

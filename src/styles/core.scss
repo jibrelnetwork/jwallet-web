@@ -70,6 +70,16 @@
     cursor: default;
   }
 
+  @mixin box {
+    box-sizing: border-box;
+  }
+
+  @mixin font {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1;
+  }
+
   @mixin flex-column {
     display: flex;
     flex-direction: column;
@@ -92,12 +102,6 @@
 
     align-items: center;
     justify-content: center;
-  }
-
-  @mixin font {
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 13px;
-    line-height: 1;
   }
 
   @mixin hover-animation {
