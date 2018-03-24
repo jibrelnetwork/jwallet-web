@@ -5,6 +5,7 @@ import './JSelect.stories'
 import './JThumbnail.stories'
 import './JToast.stories'
 import './JInput.stories'
+import './JRadioGroup.stories'
 
 // complex
 import './ESCButton.stories'
