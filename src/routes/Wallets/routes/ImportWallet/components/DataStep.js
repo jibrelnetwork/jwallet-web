@@ -53,9 +53,11 @@ const DataStep = ({
       <JButton
         onClick={goToWallets}
         text={i18n('routes.importWallet.buttonTitle.prevStep')}
-        iconName='arrow-back'
+        color='white'
         iconSize='small'
-        trasparent
+        iconName='arrow-back'
+        minimal
+        transparent
       />
       <JButton
         onClick={setNextStep}
