@@ -1,0 +1,14 @@
+.JRadioGroup {
+  all: initial;
+  cursor: pointer;
+
+  > .radio:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  > .radio {
+    all: initial; // breaking of isolation
+    display: flex;
+  }
+  
+}
