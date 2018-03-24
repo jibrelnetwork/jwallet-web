@@ -25,9 +25,11 @@ const MnemonicConfirmStep = ({
       <JButton
         onClick={setPrevStep}
         text={i18n('routes.createWallet.buttonTitle.prevStep')}
-        iconName='arrow-back'
+        color='white'
         iconSize='small'
-        trasparent
+        iconName='arrow-back'
+        minimal
+        transparent
       />
       <JButton
         onClick={setNextStep}

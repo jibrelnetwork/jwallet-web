@@ -17,7 +17,7 @@ const JButton = ({
   iconSize,
   disabled,
   isLoading,
-  trasparent,
+  transparent,
 }: Props) => (
   <div
     onClick={disabled || onClick}
@@ -32,7 +32,7 @@ const JButton = ({
       large ? '-large' : '-regular',
       right && '-right',
       minimal && '-minimal',
-      trasparent && '-trasparent',
+      transparent && '-transparent',
     )}
   >
     {iconName && (
@@ -60,7 +60,7 @@ const JButton = ({
 type Props = {
  onClick?: Function,
  text?: string,
- color?: 'white' | 'blue' | undefined,
+ color?: 'white' | 'blue',
  iconSize?: 'small' | 'medium',
  iconName?: string,
  large?: boolean,
@@ -68,7 +68,7 @@ type Props = {
  minimal?: boolean,
  disabled?: boolean,
  isLoading?: boolean,
- trasparent?: boolean,
+ transparent?: boolean,
 }
 
 JButton.defaultProps = {
@@ -82,7 +82,7 @@ JButton.defaultProps = {
   minimal: false,
   disabled: false,
   isLoading: false,
-  trasparent: false,
+  transparent: false,
 }
 
 export default JButton
