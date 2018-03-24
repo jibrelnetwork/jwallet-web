@@ -1,0 +1,78 @@
+.Input {
+  all: initial;
+  height: 47.5px;
+  cursor: pointer;
+  display: flex;
+  opacity: 0.25;
+  flex-grow: 1;
+  border-bottom: solid 1px #ffffff;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &.-with-error {
+    border-color: $pinkish-tan;
+
+    > .content {
+      > .input {
+        > input {
+          color: $pinkish-tan;
+        }
+      }
+    }
+  }
+
+  &.-checked {
+    opacity: 1;
+
+    > .content {
+      > .input {
+        > input::placeholder {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  &:hover:not(.-checked) {
+    opacity: 0.75;
+  }
+
+  > .content {
+    all: initial; // breaking of isolation
+    display: flex;
+    flex-direction: row;
+
+    > .icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      justify-content: center;
+      background-color: white;
+    }
+  
+    > .input {
+      display: flex;
+      flex-grow: 1;
+      margin-left: 15px;
+  
+      > input {
+        color: white;
+        width: 100%;
+        border: none;
+        font-size: 13px;
+        background: inherit;
+        font-family: $font;
+  
+        &::placeholder {
+          color: white;
+        }
+      }
+    }
+  }
+
+  > .error-message {
+    align-self: flex-end;
+  }
+}
