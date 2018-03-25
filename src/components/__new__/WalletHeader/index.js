@@ -1,1 +1,3 @@
-export { default } from './WalletHeader'
+import WalletHeader from './WalletHeaderContainer'
+
+export default WalletHeader

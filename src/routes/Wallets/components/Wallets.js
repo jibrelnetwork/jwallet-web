@@ -1,12 +1,19 @@
 import React from 'react'
 
+import WalletHeader from 'components/__new__/WalletHeader'
+
 import Wallet from './Wallet'
 import NewWalletButtons from './NewWalletButtons'
 
 const WalletsView = (props: Props) => (
-  <div className='wallets-view'>
-    {props.items.map(item => <Wallet key={item.id} walletData={item} {...props} />)}
-    <NewWalletButtons />
+  <div className='content'>
+    <div className='wallet-header-wrapper'>
+      <WalletHeader />
+    </div>
+    <div>
+      {props.items.map(item => <Wallet key={item.id} walletData={item} {...props} />)}
+      <NewWalletButtons />
+    </div>
   </div>
 )
 
