@@ -7,7 +7,9 @@ import { JButton, JThumbnail } from 'components/base/__new__'
 
 const RemoveWallet = ({ remove }: Props) => (
   <div className='content'>
-    <ModalHeader title='Remove wallet' color='white' />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Remove wallet' color='white' />
+    </div>
     <div className='form'>
       <JThumbnail
         image='key'

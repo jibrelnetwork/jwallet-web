@@ -11,7 +11,9 @@ import { STEPS } from '../modules/editWallet'
 
 const EditWallet = (props: Props) => (
   <div className='content-wrapper'>
-    <ModalHeader title='Edit wallet' color='white' />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Edit wallet' color='white' />
+    </div>
     <div className='content'>
       {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
       {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}

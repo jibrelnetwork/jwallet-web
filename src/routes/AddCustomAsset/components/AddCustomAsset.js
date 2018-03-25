@@ -26,7 +26,9 @@ const AddCustomAsset = ({
 
   return (
     <ModalLayout>
-      <ModalHeader title='Add custom asset' color='gray' withMenu />
+      <div className='modal-header-wrapper'>
+        <ModalHeader title='Add custom asset' color='gray' withMenu />
+      </div>
       <div className='content'>
         <div className='form'>
           {fields.map(({ key, value, handler }) => (

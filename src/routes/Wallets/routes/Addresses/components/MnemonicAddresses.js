@@ -14,7 +14,9 @@ const MnemonicAddresses = ({
   balances,
 }: Props) => (
   <div className='content'>
-    <ModalHeader title='Mnemonic addresses' color='white' />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Mnemonic addresses' color='white' />
+    </div>
     <div className='form'>
       {addresses.map((address, index) => (
         <MnemonicAddress

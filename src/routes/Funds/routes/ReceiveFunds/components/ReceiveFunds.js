@@ -20,7 +20,9 @@ const ReceiveFunds = ({
   isCopied,
 }) => (
   <ModalLayout>
-    <ModalHeader title='Receive Funds' color='gray' withMenu />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Receive Funds' color='gray' withMenu />
+    </div>
     <div className='content'>
       <div className='form'>
         <div
