@@ -107,6 +107,10 @@
     background-image: $checkbox-blue;
   }
 
+  &.-private-key {
+    background-image: $private-key;
+  }
+
   // Medium icons
 
   &.-menu-bg {
