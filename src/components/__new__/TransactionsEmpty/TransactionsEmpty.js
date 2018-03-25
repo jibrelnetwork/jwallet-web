@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
 
 import { JThumbnail } from 'components/base/__new__'
 
