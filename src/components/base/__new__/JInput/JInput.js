@@ -57,7 +57,7 @@ const JInput = ({
       <div className='info-message'>
         <JText
           value={infoMessage}
-          variants={['normal', color, 'transparent']}
+          variants={[color, 'normal']}
         />
       </div>
     )}
@@ -77,7 +77,7 @@ const JInput = ({
 type Props = {
   type?: 'text' | 'password',
   label?: string,
-  color?: 'white' | 'gray',
+  color?: 'white' | 'gray' | 'red' | 'deep-orange' | 'orange' | 'lime' | 'light-green' | 'blue',
   value?: string | number,
   checked?: boolean,
   onChange?: Function,
