@@ -110,8 +110,9 @@
   @import '../components/base/__new__/JRadioGroup/JRadioGroup';
   @import '../components/base/__new__/JRadioGroup/Radio/Radio';
   @import '../components/base/__new__/JRadioGroup/Input/Input';
-
+  
   // Components
+  @import '../components/__new__/KeyManager/KeyManager';
   @import '../components/__new__/ActiveAsset/activeAsset';
   @import '../components/__new__/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/__new__/AssetCard/assetCard';
