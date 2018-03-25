@@ -9,52 +9,34 @@ import { JIcon, JInput } from 'components/base/__new__'
 class PasswordField extends Component {
   constructor(props) {
     super(props)
-    this.state = { status: 'default', message: '', isConfirmed: false, isApproved: false }
+    this.state = { status: 'white', message: '', isConfirmed: false, isApproved: false }
   }
 
   render() {
     return (
-      <div>
-        {this.renderPassword()}
-        {this.renderPasswordConfirm()}
-      </div>
-    )
-  }
-
-  renderPassword() {
-    return (
-      <div className={`password password--${this.state.status}`}>
+      <div className='password-field'>
         {this.renderPasswordInput()}
-        {this.renderPasswordMessage()}
-      </div>
-    )
-  }
-
-  renderPasswordConfirm = () => {
-    if (!this.props.withConfirm) {
-      return null
-    }
-
-    return (
-      <div className={`password ${this.state.isConfirmed ? 'password--blue' : ''}`}>
-        {this.renderPasswordConfirmInput()}
-        {this.renderPasswordConfirmIcon()}
+        {this.props.withConfirm && this.renderPasswordConfirmInput()}
       </div>
     )
   }
 
   renderPasswordInput = () => {
-    const { password, passwordPlaceholder, passwordError } = this.props
+    const { password, passwordPlaceholder, passwordError, withConfirm } = this.props
+    const { isApproved, message, status } = this.state
     const placeholderPassword = i18n('modals.createAccount.placeholder.password')
 
     return (
       <JInput
         onChange={this.onPasswordChange}
-        name='password'
-        type='password'
         value={password}
         errorMessage={passwordError}
+        infoMessage={withConfirm && message}
+        color={withConfirm ? status : 'white'}
         placeholder={passwordPlaceholder || placeholderPassword}
+        name='password'
+        type='password'
+        checked={withConfirm && isApproved}
       />
     )
   }
@@ -66,34 +48,13 @@ class PasswordField extends Component {
     return (
       <JInput
         onChange={this.onPasswordConfirmChange}
-        type='password'
-        name='password-confirm'
-        placeholder={passwordConfirmPlaceholder || placeholderPasswordConfirm}
         value={passwordConfirm}
         errorMessage={passwordConfirmError}
+        placeholder={passwordConfirmPlaceholder || placeholderPasswordConfirm}
+        type='password'
+        name='password-confirm'
+        checked={this.state.isConfirmed}
       />
-    )
-  }
-
-  renderPasswordMessage = () => {
-    if (!this.props.password.length) {
-      return null
-    }
-
-    const { isApproved, message } = this.state
-
-    return (
-      <div className='password__message'>
-        {isApproved ? <JIcon name='checkbox' size='small' /> : message}
-      </div>
-    )
-  }
-
-  renderPasswordConfirmIcon = () => {
-    return !this.state.isConfirmed ? null : (
-      <div className='password__message'>
-        <JIcon name='checkbox' size='small' />
-      </div>
     )
   }
 
@@ -132,7 +93,7 @@ class PasswordField extends Component {
     const failedTestsCount = failedTests.length
 
     if (isEmpty) {
-      return { status: 'default', message: '', isApproved: false }
+      return { status: 'white', message: '', isApproved: false }
     } else if (isShort) {
       return { status: 'red', message: 'Too short', isApproved: false }
     } else if (failedTestsCount > 3) {
@@ -145,7 +106,7 @@ class PasswordField extends Component {
       return { status: 'light-green', message: 'Pretty good', isApproved: false }
     }
 
-    return { status: 'blue', message: '', isApproved: true }
+    return { status: 'white', message: '', isApproved: true }
   }
 
   isConfirmed = (password, passwordConfirm, isApproved) => {

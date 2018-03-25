@@ -14,21 +14,69 @@
       opacity: 0.7;
     }
   }
-  
+
   &.-gray {
     border-bottom: 1px solid #ebedf0;
     > input {
       color: #3d4f6c;
     }
   }
-  
+
   &.-white {
     border-bottom: 1px solid white;
     > input {
       color: white;
     }
   }
-  
+
+  &.-red {
+    border-color: $pinkish-tan;
+
+    > input {
+      color: $pinkish-tan;
+    }
+  }
+
+  &.-deep-orange {
+    border-color: $deep-orange;
+
+    > input {
+      color: $deep-orange;
+    }
+  }
+
+  &.-orange {
+    border-color: $orange;
+
+    > input {
+      color: $orange;
+    }
+  }
+
+  &.-lime {
+    border-color: $lime;
+
+    > input {
+      color: $lime;
+    }
+  }
+
+  &.-light-green {
+    border-color: $light-green;
+
+    > input {
+      color: $light-green;
+    }
+  }
+
+  &.-blue {
+    border-color: $blue;
+
+    > input {
+      color: $blue;
+    }
+  }
+
   &.-with-error {
     &.-gray {
       border-bottom-color: red;
@@ -37,7 +85,7 @@
         color: red;
       }
     }
-    
+
     &.-white {
       border-bottom-color: $pinkish-tan;
       
@@ -47,7 +95,7 @@
     }
     
   }
-  
+
   > .label {
     top: 22px;
     left: 0;
@@ -57,7 +105,7 @@
     text-transform: uppercase;
     pointer-events: none;
   }
-  
+
   > input {
     width: 100%;
     border: none;
@@ -84,7 +132,6 @@
   > .info-message, .check-mark {
     right: 0;
     height: 100%;
-    opacity: 0.5;
     display: flex;
     position: absolute;
     align-items: center;

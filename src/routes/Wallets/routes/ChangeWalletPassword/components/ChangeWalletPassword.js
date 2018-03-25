@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import PasswordField from 'components/PasswordField'
 import ModalHeader from 'components/__new__/ModalHeader'
 import { JButton, JInput } from 'components/base/__new__'
 
@@ -14,40 +15,38 @@ const ChangeWalletPassword = ({
   password,
   newPassword,
   confirmPassword,
-}: Props) => {
-  const fields = [
-    { key: 'password', value: password, handler: setCurrent },
-    { key: 'newPassword', value: newPassword, handler: setNew },
-    { key: 'confirmPassword', value: confirmPassword, handler: setConfirm },
-  ]
-
-  return (
-    <div className='content'>
-      <ModalHeader title='Change password' color='white' />
-      <div className='form'>
-        {fields.map(({ key, value, handler }) => (
-          <JInput
-            key={key}
-            onChange={handler}
-            value={value}
-            name={`change-wallet-password-${key}`}
-            errorMessage={invalidFields[key]}
-            placeholder={i18n(`routes.changeWalletPassword.placeholder.${key}`)}
-            type='password'
-          />
-        ))}
-        <div className='actions'>
-          <JButton
-            onClick={changePassword}
-            text={i18n('routes.changeWalletPassword.buttonTitle')}
-            color='blue'
-            large
-          />
-        </div>
+}: Props) => (
+  <div className='content'>
+    <ModalHeader title='Change password' color='white' />
+    <div className='form'>
+      <JInput
+        onChange={setCurrent}
+        value={password}
+        errorMessage={invalidFields.password}
+        placeholder={i18n('routes.changeWalletPassword.placeholder.password')}
+        type='password'
+        name='current-password'
+      />
+      <PasswordField
+        onPasswordChange={setNew}
+        onPasswordConfirmChange={setConfirm}
+        password={newPassword}
+        passwordConfirm={confirmPassword}
+        passwordError={invalidFields.newPassword}
+        passwordConfirmError={invalidFields.confirmPassword}
+        withConfirm
+      />
+      <div className='actions'>
+        <JButton
+          onClick={changePassword}
+          text={i18n('routes.changeWalletPassword.buttonTitle')}
+          color='blue'
+          large
+        />
       </div>
     </div>
-  )
-}
+  </div>
+)
 
 type Props = {
   setCurrent: (password: Password) => Dispatch,
