@@ -9,5 +9,7 @@ import './JRadioGroup.stories'
 
 // complex
 import './ESCButton.stories'
+import './KeyButton.stories'
+import './KeyManager.stories'
 import './ModalHeader.stories'
 import './WalletHeader.stories'
