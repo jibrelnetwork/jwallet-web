@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import Keystore from 'jwallet-web-keystore'
 
 import config from 'config'
-
-import { JIcon, JInput } from 'components/base/__new__'
+import JInput from 'components/base/__new__/JInput'
 
 class PasswordField extends Component {
   constructor(props) {

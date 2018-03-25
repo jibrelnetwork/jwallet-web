@@ -12,7 +12,7 @@ const JText = ({ value, variants }: Props) => (
   <div
     className={classNames(
       'j-text',
-      variants.filter(i => !!i).map(variant => `-${variant}`).join(' ')
+      variants ? variants.filter(i => !!i).map(variant => `-${variant}`).join(' ') : null,
     )}
   >
     {i18n(value) || value}
