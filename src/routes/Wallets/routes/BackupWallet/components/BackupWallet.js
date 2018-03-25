@@ -10,7 +10,9 @@ import { STEPS } from '../modules/backupWallet'
 
 const BackupWallet = (props: Props) => (
   <div className='content'>
-    <ModalHeader title='Backup wallet' color='white' />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Backup wallet' color='white' />
+    </div>
     {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
   </div>

@@ -13,12 +13,14 @@ import { STEPS } from '../modules/createWallet'
 
 const CreateWallet = (props: Props) => (
   <div className={classNames('content', { '-assets': (props.currentStep === STEPS.ASSETS) })}>
-    <ModalHeader
-      title='Create wallet'
-      color='white'
-      currentStep={props.currentStep + 1}
-      totalSteps={Object.keys(STEPS).length}
-    />
+    <div className='modal-header-wrapper'>
+      <ModalHeader
+        title='Create wallet'
+        color='white'
+        currentStep={props.currentStep + 1}
+        totalSteps={Object.keys(STEPS).length}
+      />
+    </div>
     {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
     {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}

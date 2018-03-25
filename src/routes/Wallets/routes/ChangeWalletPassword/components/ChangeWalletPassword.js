@@ -17,7 +17,9 @@ const ChangeWalletPassword = ({
   confirmPassword,
 }: Props) => (
   <div className='content'>
-    <ModalHeader title='Change password' color='white' />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Change password' color='white' />
+    </div>
     <div className='form'>
       <JInput
         onChange={setCurrent}

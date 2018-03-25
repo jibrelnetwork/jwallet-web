@@ -10,7 +10,9 @@ import { STEPS } from '../modules/sendFunds'
 
 const SendFunds = props => (
   <ModalLayout>
-    <ModalHeader title='Send Funds' color='gray' withMenu />
+    <div className='modal-header-wrapper'>
+      <ModalHeader title='Send Funds' color='gray' withMenu />
+    </div>
     <div className='content'>
       {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
       {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
