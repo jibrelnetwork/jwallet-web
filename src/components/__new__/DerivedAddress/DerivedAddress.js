@@ -5,7 +5,6 @@ import React from 'react'
 import { JText } from 'components/base/__new__'
 
 const DerivedAddress = ({
-  index,
   address,
   balance,
   onClick,
@@ -30,7 +29,6 @@ const DerivedAddress = ({
 )
 
 type Props = {
-  index: number,
   address: Address,
   balance: number,
   onClick: Function,
