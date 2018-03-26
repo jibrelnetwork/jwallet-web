@@ -52,8 +52,8 @@ const baseCSSLoaders = [
     loader: require.resolve('css-loader'),
     options: {
       importLoaders: 1,
-      minimize: true,
-      sourceMap: shouldUseSourceMap,
+      // minimize: true,
+      // sourceMap: shouldUseSourceMap,
     },
   },
   {
