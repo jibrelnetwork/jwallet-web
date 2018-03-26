@@ -1,14 +1,15 @@
 // @flow
 
 import React from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
 
+import handle from 'utils/handle'
 import JButton from 'components/base/__new__/JButton'
-import ModalHeader from 'components/__new__/ModalHeader'
-
-import MnemonicAddress from './MnemonicAddress'
+import { DerivedAddress, ModalHeader } from 'components/__new__'
 
 const MnemonicAddresses = ({
   setActive,
+  goBack,
   getMore,
   addresses,
   balances,
@@ -18,20 +19,38 @@ const MnemonicAddresses = ({
       <ModalHeader title='Mnemonic addresses' color='white' />
     </div>
     <div className='form'>
-      {addresses.map((address, index) => (
-        <MnemonicAddress
-          key={index}
-          setActive={setActive}
-          address={address}
-          balance={balances[address]}
-          index={index}
-        />
-      ))}
+      <div className='addresses-list'>
+        <Scrollbars autoHide>
+          {addresses.map((address, index) => (
+            <DerivedAddress
+              key={index}
+              onClick={handle(setActive)(index)}
+              address={address}
+              balance={balances[address]}
+              index={index}
+            />
+          ))}
+        </Scrollbars>
+      </div>
       <div className='actions'>
         <JButton
+          onClick={goBack}
+          text='Back'
+          color='white'
+          iconSize='small'
+          iconName='arrow-back'
+          minimal
+          transparent
+        />
+        <JButton
           onClick={getMore}
+          color='white'
           text='Get more'
-          color='blue'
+          iconSize='small'
+          iconName='arrow'
+          right
+          minimal
+          transparent
         />
       </div>
     </div>
@@ -40,6 +59,7 @@ const MnemonicAddresses = ({
 
 type Props = {
   setActive: (addressIndex: Index) => Dispatch,
+  goBack: () => Dispatch,
   getMore: () => Dispatch,
   addresses: Addresses,
   balances: Balances,
