@@ -18,7 +18,10 @@ const WalletManagerInfo = ({
   icon,
 }: Props) => {
   const isMnemonic = isMnemonicType(type)
-  const text = isMnemonic ? 'Mnemonic' : `${address.substr(0, 15)}...${address.substr(-6)}`
+
+  const text = (!isMnemonic && address)
+    ? `${address.substr(0, 15)}...${address.substr(-6)}`
+    : 'Mnemonic'
 
   return (
     <div className='info'>
