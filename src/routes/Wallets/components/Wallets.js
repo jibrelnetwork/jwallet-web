@@ -1,6 +1,8 @@
 import React from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
 
-import WalletHeader from 'components/__new__/WalletHeader'
+import { handle, isMnemonicType } from 'utils'
+import { WalletHeader, WalletManager } from 'components/__new__'
 
 import Wallet from './Wallet'
 import NewWalletButtons from './NewWalletButtons'
@@ -10,9 +12,11 @@ const WalletsView = (props: Props) => (
     <div className='wallet-header-wrapper'>
       <WalletHeader />
     </div>
-    <div>
-      {props.items.map(item => <Wallet key={item.id} walletData={item} {...props} />)}
-      <NewWalletButtons />
+    <div className='wallets-list'>
+      <Scrollbars autoHide>
+        {props.items.map(item => <WalletManager key={item.id} walletData={item} {...props} />)}
+        <NewWalletButtons />
+      </Scrollbars>
     </div>
   </div>
 )
