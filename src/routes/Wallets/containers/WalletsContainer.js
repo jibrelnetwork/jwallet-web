@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 
 import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
@@ -22,8 +22,8 @@ const mapDispatchToProps = {
   toggleWallet,
   showActionsMenu,
   setWalletAction,
-  setPassword,
   setActive,
+  setPassword: event => setPassword(event.target.value),
 }
 
 export default compose(

@@ -32,6 +32,10 @@
     }
   }
 
+  .wallets-list {
+    height: calc(100vh - 200px);
+  }
+
   .wallet-header-wrapper {
     position: fixed;
     top: 30px;
