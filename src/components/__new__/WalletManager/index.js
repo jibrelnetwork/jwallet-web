@@ -1,3 +1,5 @@
 /* @flow */
 
-export { default } from './WalletManagerContainer'
+import WalletManager from './WalletManager'
+
+export default WalletManager
