@@ -139,7 +139,6 @@
   @import '../components/base/__new__/JRadioGroup/Input/Input';
   
   // Components
-  @import '../components/__new__/KeyManager/KeyManager';
   @import '../components/__new__/ActiveAsset/activeAsset';
   @import '../components/__new__/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/__new__/AssetCard/assetCard';
@@ -148,13 +147,14 @@
   @import '../components/__new__/DigitalAssetsEmpty/digitalAssetsEmpty';
   @import '../components/__new__/ESCButton/escButton';
   @import '../components/__new__/Menu/menu';
-  @import '../components/__new__/WalletHeader/walletHeader';
   @import '../components/__new__/ModalHeader/modalHeader';
   @import '../components/__new__/MenuLink/menuLink';
   @import '../components/__new__/MenuSelect/menuSelect';
   @import '../components/__new__/Transaction/transaction';
   @import '../components/__new__/TransactionsByPeriod/transactionsByPeriod';
   @import '../components/__new__/TransactionsEmpty/transactionsEmpty';
+  @import '../components/__new__/WalletHeader/walletHeader';
+  @import '../components/__new__/WalletManager/walletManager';
 
   // Components
   @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
