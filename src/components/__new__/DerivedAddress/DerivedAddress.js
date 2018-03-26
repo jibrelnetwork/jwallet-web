@@ -22,7 +22,7 @@ const DerivedAddress = ({
     </div>
     <div className='balance'>
       <JText
-        value={`${balance} ETH`}
+        value={(balance === undefined) ? 'Loading' : `${balance.toFixed(3)} ETH`}
         variants={['normal', 'bold', 'white']}
       />
     </div>
