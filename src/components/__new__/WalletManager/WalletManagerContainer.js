@@ -3,7 +3,7 @@
 import { compose } from 'ramda'
 import { withState, withHandlers } from 'recompose'
 
-import KeyManager from './KeyManager'
+import WalletManager from './WalletManager'
 
 export default compose(
   withState('mode', 'setMode', 'info'),
@@ -18,4 +18,4 @@ export default compose(
     onPasswordArrowClick: ({ onPasswordArrowClick, password }) =>
       () => onPasswordArrowClick(password),
   })
-)(KeyManager)
+)(WalletManager)

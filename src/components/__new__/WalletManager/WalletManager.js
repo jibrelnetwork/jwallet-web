@@ -6,7 +6,7 @@ import React from 'react'
 
 import { JText, JIcon, JButton } from '../../base/__new__'
 
-const KeyManager = ({
+const WalletManager = ({
   mode,
   icon,
   text,
@@ -20,7 +20,7 @@ const KeyManager = ({
   onPasswordArrowClick,
   onChangePasswordClick,
 }: Props) => (
-  <div className='KeyManager'>
+  <div className='WalletManager'>
     {{
       info: (
         <div className='info'>
@@ -146,4 +146,4 @@ type Props = {
   onChangePasswordClick: () => void, // TODO: Rename
 }
 
-export default KeyManager
+export default WalletManager
