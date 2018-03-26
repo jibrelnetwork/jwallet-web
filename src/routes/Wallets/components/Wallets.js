@@ -2,10 +2,7 @@ import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import { handle, isMnemonicType } from 'utils'
-import { WalletHeader, WalletManager } from 'components/__new__'
-
-import Wallet from './Wallet'
-import NewWalletButtons from './NewWalletButtons'
+import { NewWalletButtons, WalletHeader, WalletManager } from 'components/__new__'
 
 const WalletsView = (props: Props) => (
   <div className='content'>
@@ -15,7 +12,10 @@ const WalletsView = (props: Props) => (
     <div className='wallets-list'>
       <Scrollbars autoHide>
         {props.items.map(item => <WalletManager key={item.id} walletData={item} {...props} />)}
-        <NewWalletButtons />
+        <NewWalletButtons
+          createWallet={props.createWallet}
+          importWallet={props.importWallet}
+        />
       </Scrollbars>
     </div>
   </div>
@@ -27,6 +27,8 @@ type Props = {
   setWalletAction: (walletAction: WalletAction) => Dispatch,
   setPassword: (password: Password) => Dispatch,
   setActive: () => Dispatch,
+  createWallet: () => Dispatch,
+  importWallet: () => Dispatch,
   invalidFields: Object,
   items: Wallets,
   password: Password,
