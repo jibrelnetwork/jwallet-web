@@ -1,27 +1,45 @@
 // @flow
 
 import React from 'react'
-import { Link } from 'react-router'
 
-import WalletHeader from 'components/__new__/WalletHeader'
+import { KeyButton, WalletHeader } from 'components/__new__'
 
-const Start = () => (
+const Start = ({ createWallet, importWallet }: Props) => (
   <div className='content'>
     <div className='wallet-header-wrapper'>
       <WalletHeader />
     </div>
-    <div>
-      <div style={{ marginBottom: '40px' }}>
-        {'Create a new key pair or import anexisting one to get started'}
+    <div className='new-wallet-content'>
+      <div className='new-wallet-title'>
+        {'Create a new key pair or import an existing one to get started'}
       </div>
-      <Link to='/wallets/create' style={{ display: 'block', marginBottom: '10px' }}>
-        {'Create new wallet'}
-      </Link>
-      <Link to='/wallets/import'>
-        {'Import wallet'}
-      </Link>
+      <div className='new-wallet-separator' />
+      <div className='new-wallet-button-wrapper'>
+        <KeyButton
+          onClick={createWallet}
+          icon='key-new'
+          text='Some text about keys, mnemonic, address etc'
+          title='Create new wallet'
+        />
+      </div>
+      <div className='new-wallet-button-wrapper'>
+        <KeyButton
+          onClick={importWallet}
+          icon='key-import'
+          text='Some text about keys, mnemonic, address etc'
+          title='Import wallet'
+        />
+      </div>
+    </div>
+    <div className='new-wallet-terms'>
+      {'By clicking "Create new" or "Import" I agree to Jibrel\'s Terms of Service'}
     </div>
   </div>
 )
+
+type Props = {
+  createWallet: Function,
+  importWallet: Function,
+}
 
 export default Start
