@@ -10,7 +10,11 @@ const WalletsView = (props: Props) => (
     </div>
     <div className='wallets-list'>
       <Scrollbars autoHide>
-        {props.items.map(item => <WalletManager key={item.id} walletData={item} {...props} />)}
+        {props.items.map(item => (
+          <div key={item.id} className='wallet-manager-wrapper'>
+            <WalletManager walletData={item} {...props} />
+          </div>
+        ))}
         <NewWalletButtons
           createWallet={props.createWallet}
           importWallet={props.importWallet}

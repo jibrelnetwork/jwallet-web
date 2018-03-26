@@ -3,6 +3,7 @@
 import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import {
   open,
@@ -22,6 +23,7 @@ const mapDispatchToProps = {
   close,
   setActive,
   getMore,
+  goBack: () => push('/wallets'),
 }
 
 export default compose(
