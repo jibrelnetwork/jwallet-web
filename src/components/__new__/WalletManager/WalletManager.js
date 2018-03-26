@@ -4,11 +4,9 @@
 
 import React from 'react'
 
-import { JText, JIcon, JButton } from 'components/base/__new__'
-
-import Info from './WalletManagerInfo'
-import Actions from './WalletManagerActions'
-import Password from './WalletManagerPassword'
+import WalletManagerInfo from './WalletManagerInfo'
+import WalletManagerActions from './WalletManagerActions'
+import WalletManagerPassword from './WalletManagerPassword'
 
 const walletTypeIconMap = {
   'address': 'private-key-read',
@@ -37,7 +35,7 @@ const WalletManager = ({
   if (isToggled && !isReadOnly) {
     return (
       <div className='WalletManager'>
-        <Password
+        <WalletManagerPassword
           setPassword={setPassword}
           setActive={setActive}
           invalidFields={invalidFields}
@@ -51,14 +49,14 @@ const WalletManager = ({
   if (isActionsMenuShown) {
     return (
       <div className='WalletManager'>
-        <Actions setWalletAction={setWalletAction} isReadOnly={isReadOnly} />
+        <WalletManagerActions setWalletAction={setWalletAction} isReadOnly={isReadOnly} />
       </div>
     )
   }
 
   return (
     <div className='WalletManager'>
-      <Info
+      <WalletManagerInfo
         toggleWallet={toggleWallet}
         showActionsMenu={showActionsMenu}
         walletData={walletData}

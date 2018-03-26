@@ -1,7 +1,6 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { handle, isMnemonicType } from 'utils'
 import { NewWalletButtons, WalletHeader, WalletManager } from 'components/__new__'
 
 const WalletsView = (props: Props) => (
