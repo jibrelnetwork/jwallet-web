@@ -6,7 +6,7 @@
   position: relative;
   display: block;
   padding: 25px 25px 28px 90px;
-  border-bottom: 1px solid #f5f6fa;
+  border-bottom: 1px solid $pale-grey;
   cursor: pointer;
 
   &:last-child {
@@ -28,11 +28,11 @@
   }
 
   &.-send > .main-info > .amount {
-    color: #3d4f6c;
+    color: $dusk;
   }
 
   &.-receive > .main-info > .amount {
-    color: #0050db;
+    color: $blue;
   }
 
   &.-active {
@@ -124,7 +124,7 @@
 
   .label {
     margin-bottom: 8px;
-    color: #3d4f6c;
+    color: $dusk;
     opacity: 0.5;
   }
 
@@ -133,7 +133,7 @@
     text-overflow: ellipsis;
     white-space: no-wrap;
     font-size: 14px;
-    color: #3d4f6c;
+    color: $dusk;
   }
 
   @media only screen and (max-width: 1366px) {

@@ -28,11 +28,11 @@
         height: 1px;
         bottom: 0;
         left: 0;
-        background-color: #0050db;
+        background-color: $blue;
       }
 
       > .link {
-        color: #0050db;
+        color: $blue;
         opacity: 1;
       }
     }
@@ -41,7 +41,7 @@
       @include hover-animation;
 
       display: block;
-      color: #3d4f6c;
+      color: $dusk;
       opacity: 0.5;
 
       &:hover {

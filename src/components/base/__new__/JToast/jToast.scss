@@ -9,7 +9,7 @@
   // Colors
 
   &.-blue {
-    background-color: #0050DB;
+    background-color: $blue;
   }
 
   &.-red {
@@ -17,11 +17,11 @@
   }
 
   &.-gray {
-    background-color: #3D4F6C;
+    background-color: $dusk;
   }
 
   &.-white {
-    background-color: white;
+    background-color: $white;
   }
 
   > .icon {

@@ -40,7 +40,7 @@
   &.-blue {
     border: none;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-    background-color: #0058D2;
+    background-color: $blue-two;
 
     &:hover {
       border: none;
@@ -50,7 +50,7 @@
   }
 
   &.-white {
-    background-color: #ffffff;
+    background-color: $white;
 
     &:hover {
       border: 1px solid rgba(0, 80, 220, 0.5);
@@ -90,7 +90,7 @@
     padding: 0;
     background-color: transparent;
     box-shadow: none;
-    color: #ffffff;
+    color: $white;
     opacity: 0.5;
 
     &:hover {
