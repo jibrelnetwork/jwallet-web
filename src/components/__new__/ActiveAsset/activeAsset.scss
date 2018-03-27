@@ -7,7 +7,7 @@
   position: relative;
   display: block;
   padding: 20px 30px 20px 80px;
-  color: #3d4f6c;
+  color: $dusk;
   cursor: pointer;
 
   &:first-child {
@@ -19,12 +19,12 @@
   }
 
   &:hover {
-    color: #0050db;
+    color: $blue;
   }
 
   &.-current {
-    background: linear-gradient(to right, #f1f5fd, #ffffff);
-    color: #0050db;
+    background: linear-gradient(to right, #f1f5fd, $white);
+    color: $blue;
   }
 
   &.-current > .j-icon {

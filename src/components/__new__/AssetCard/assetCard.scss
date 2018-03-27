@@ -4,26 +4,26 @@
   @include font;
 
   padding: 30px;
-  background-color: #ffffff;
+  background-color: $white;
   border: 1px solid transparent;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
   text-align: center;
-  color: #3d4f6c;
+  color: $dusk;
   cursor: pointer;
   transition: border 0.3s ease 0s, color 0.3s ease 0s;
 
   &:hover {
-    color: #0050db;
+    color: $blue;
   }
 
   &.-blue {
-    background-color: #0058D2;
+    background-color: $blue;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-    color: #ffffff;
+    color: $white;
 
     &:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      color: #ffffff;
+      color: $white;
 
       > .j-icon {
         background-image: $token-ant-white;
@@ -33,7 +33,7 @@
     &.-active {
       background-image: $checkbox-white;
       border-color: rgba(255, 255, 255, 0.7);
-      color: #ffffff;
+      color: $white;
 
       > .j-icon {
         background-image: $token-ant-white;
@@ -67,8 +67,8 @@
     background-size: 12px 12px;
     background-repeat: no-repeat;
     background-position: 20px 20px;
-    border: 1px solid #0050db;
-    color: #0050db;
+    border: 1px solid $blue;
+    color: $blue;
   }
 
   &:hover > .j-icon,

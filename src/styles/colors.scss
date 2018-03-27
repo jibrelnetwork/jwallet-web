@@ -1,10 +1,19 @@
-$white: #FFFFFF;
+// Colors from Zeplin Styleguide
+
+$pale-grey: #f5f6fa;
+$pinkish-tan: #db8f8f;
+$blue: #0050db;
+$blue-two: #0058d2;
+$dusk: #3d4f6c;
+$white: #ffffff;
+
+// Deprecated
+
 $black: #2D2C3E;
 $black2: #3C3C58;
 $black3: rgba($black, 0.4);
 $black4: rgba($black, 0.2);
 $black-background: #2F2F4B;
-$blue: #1155CC;
 $blue2: #1C6AF3;
 $blue3: #5E97FB;
 $blue4: #CEDCF4;
@@ -31,9 +40,3 @@ $yellow: #FEA000;
 $light-green: #8BC34A;
 $lime: #CDDC39;
 $green: #4CAF50;
-$font: 'Open Sans', Arial, sans-serif;
-
-// Colors from Zeplin Styleguide
-
-$pale-grey: #f5f6fa;
-$pinkish-tan: #db8f8f;

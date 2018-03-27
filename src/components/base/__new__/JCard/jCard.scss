@@ -4,9 +4,9 @@
   @include font;
 
   display: block;
-  background-color: #ffffff;
+  background-color: $white;
   border: 1px solid transparent;
-  color: #3d4f6c;
+  color: $dusk;
 
   &.-with-shadow {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
