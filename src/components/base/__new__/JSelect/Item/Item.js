@@ -4,7 +4,6 @@ import classNames from 'classnames'
 
 import JText from '../../JText'
 import JIcon from '../../JIcon'
-import './Item.scss'
 
 type Props = {
   id: number | string,
