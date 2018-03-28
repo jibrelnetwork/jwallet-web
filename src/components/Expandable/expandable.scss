@@ -20,14 +20,8 @@
     }
 
     &.-white {
-      border-bottom: 1px solid #ebedf0;
-
       > .title {
         border-bottom: none;
-      }
-
-      > .content {
-        padding-bottom: 30px;
       }
     }
   }
