@@ -16,6 +16,7 @@ export const SEARCH_SUCCESS = '@@transactions/SEARCH_SUCCESS'
 export const SEARCH_ERROR = '@@transactions/SEARCH_ERROR'
 export const SET_INVALID_FIELD = '@@transactions/SET_INVALID_FIELD'
 export const SET_BLOCK_EXPLORER_ERROR = '@@transactions/SET_BLOCK_EXPLORER_ERROR'
+export const REPEAT = '@@transactions/REPEAT'
 export const CLEAN = '@@transactions/CLEAN'
 
 export const open = (): { type: string } => ({
@@ -141,6 +142,18 @@ export const setBlockExporerError = (isBlockExplorerError: boolean): {
   type: SET_BLOCK_EXPLORER_ERROR,
   payload: {
     isBlockExplorerError,
+  },
+})
+
+export const repeat = (txData: Transaction): {
+  type: string,
+  payload: {
+    txData: Transaction,
+  },
+} => ({
+  type: REPEAT,
+  payload: {
+    txData,
   },
 })
 

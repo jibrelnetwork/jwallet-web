@@ -1,6 +1,6 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
+import { assoc, assocPath, compose, identity } from 'ramda'
 
 import ethereum from 'data/assets/ethereum'
 
@@ -26,8 +26,20 @@ export const STEPS = {
   PASSWORD: 1,
 }
 
-export const open = (): { type: string } => ({
+export const open = (recipient: ?Address, amount: number, assetAddress: ?Address): {
+  type: string,
+  payload: {
+    recipient: ?Address,
+    amount: number,
+    assetAddress: ?Address,
+  },
+} => ({
   type: OPEN,
+  payload: {
+    recipient,
+    amount,
+    assetAddress,
+  },
 })
 
 export const close = (): { type: string } => ({
@@ -206,6 +218,14 @@ const sendFunds = (
   const { type, payload }: FSA = action
 
   switch (type) {
+    case OPEN: {
+      return compose(
+        payload.assetAddress ? assoc('assetAddress', payload.assetAddress) : identity,
+        payload.amount ? assoc('amount', payload.amount.toString()) : identity,
+        payload.recipient ? assoc('recipient', payload.recipient) : identity,
+      )(state)
+    }
+
     case SET_ALERT: {
       return assoc('alert', payload.alert)(state)
     }

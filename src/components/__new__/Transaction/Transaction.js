@@ -2,6 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { assoc } from 'ramda'
 
 import config from 'config'
 import { handle, ignoreEvent } from 'utils'
@@ -9,6 +10,7 @@ import { JButton, JIcon } from 'components/base/__new__'
 
 const TransactionItem = ({
   setActive,
+  repeat,
   data,
   assetSymbol,
   activeTxHash,
@@ -36,7 +38,7 @@ const TransactionItem = ({
           <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>
           <div className='repeat-button'>
             <JButton
-              onClick={ignoreEvent(console.log, data)}
+              onClick={ignoreEvent(repeat, assoc('symbol', assetSymbol)(data))}
               text='Repeat'
               iconName='repeat'
               color='white'
@@ -57,26 +59,30 @@ const TransactionItem = ({
             </a>
           </div>
         </div>
+        {/*
         <div className='item'>
           <div className='label'>{'Comment'}</div>
           <div className='value'>{'Some comment'}</div>
         </div>
+        */}
         <div className='item'>
           <div className='label'>{'Fee'}</div>
           <div className='value'>{`${data.fee} ETH`}</div>
         </div>
         <div className='actions'>
           <div className='save-button'>
+            {/*
             <JButton
               onClick={console.log}
               text='Save as template'
               iconName='star'
               color='white'
             />
+            */}
           </div>
           <div className='repeat-button'>
             <JButton
-              onClick={console.log}
+              onClick={ignoreEvent(repeat, assoc('symbol', assetSymbol)(data))}
               text='Repeat'
               iconName='repeat'
               color='white'
@@ -92,6 +98,7 @@ const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
 
 type Props = {
   setActive: (txHash: Hash) => Dispatch,
+  repeat: Function,
   data: Transaction,
   assetSymbol: string,
   activeTxHash: ?Hash,

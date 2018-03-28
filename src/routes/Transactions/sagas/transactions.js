@@ -8,7 +8,15 @@ import config from 'config'
 import { getAssetDecimals, isETH } from 'utils'
 import { etherscan, keystore, validate, web3 } from 'services'
 import { setBalanceByAddress } from 'routes/DigitalAssets/modules/digitalAssets'
-import { selectDigitalAssets, selectTransactionsItems, selectWalletId } from 'store/stateSelectors'
+import { open as openSendFunds } from 'routes/Funds/routes/SendFunds/modules/sendFunds'
+import { open as openReceiveFunds } from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
+
+import {
+  selectDigitalAssets,
+  selectCurrentDigitalAsset,
+  selectTransactionsItems,
+  selectWalletId,
+} from 'store/stateSelectors'
 
 import {
   OPEN,
@@ -16,6 +24,7 @@ import {
   RESET,
   GET_CANCEL,
   SEARCH,
+  REPEAT,
   open,
   setLoading,
   getCancel,
@@ -50,6 +59,16 @@ function* resetTransactions(): Saga<void> {
   yield put(getCancel())
   yield put(clean())
   yield put(open())
+}
+
+function* repeatTransaction(action: { payload: { txData: Transaction } }): Saga<void> {
+  const asset: ?Address = yield select(selectCurrentDigitalAsset)
+  const { address, type, amount }: Transaction = action.payload.txData
+
+  yield put((type === 'send')
+    ? openSendFunds(address, amount, asset)
+    : openReceiveFunds(amount, asset)
+  )
 }
 
 function* getTransactions() {
@@ -184,4 +203,8 @@ export function* watchTransactionsReset(): Saga<void> {
 
 export function* watchTransactionsSearch(): Saga<void> {
   yield takeEvery(SEARCH, searchTransactions)
+}
+
+export function* watchTransactionsRepeat(): Saga<void> {
+  yield takeEvery(REPEAT, repeatTransaction)
 }

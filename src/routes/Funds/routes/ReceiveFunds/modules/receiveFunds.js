@@ -1,6 +1,6 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
+import { assoc, assocPath, compose, identity } from 'ramda'
 
 import ethereum from 'data/assets/ethereum'
 
@@ -17,8 +17,18 @@ export const SAVE_QR_CODE = '@@receiveFunds/SAVE_QR_CODE'
 export const SET_INVALID_FIELD = '@@receiveFunds/SET_INVALID_FIELD'
 export const CLEAN = '@@receiveFunds/CLEAN'
 
-export const open = (): { type: string } => ({
+export const open = (amount: number, assetAddress: ?Address): {
+  type: string,
+  payload: {
+    amount: number,
+    assetAddress: ?Address,
+  },
+} => ({
   type: OPEN,
+  payload: {
+    amount,
+    assetAddress,
+  },
 })
 
 export const close = (): { type: string } => ({
@@ -123,6 +133,13 @@ const receiveFunds = (
   const { type, payload }: FSA = action
 
   switch (type) {
+    case OPEN: {
+      return compose(
+        payload.assetAddress ? assoc('assetAddress', payload.assetAddress) : identity,
+        payload.amount ? assoc('amount', payload.amount.toString()) : identity,
+      )(state)
+    }
+
     case SET_ASSET: {
       return assoc('assetAddress', payload.assetAddress)(state)
     }

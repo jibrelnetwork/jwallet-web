@@ -16,6 +16,7 @@ import {
 } from 'store/stateSelectors'
 
 import {
+  OPEN,
   CLOSE,
   SET_ASSET,
   SET_AMOUNT,
@@ -26,6 +27,17 @@ import {
   setIsCopied,
   clean,
 } from '../modules/receiveFunds'
+
+function* openReceiveFunds(action: {
+  payload: { amount: number, assetAddress: ?Address },
+}): Saga<void> {
+  const { amount, assetAddress } = action.payload
+
+  if (amount && assetAddress) {
+    yield delay(config.delayBeforeFormClean)
+    yield generateQRCode()
+  }
+}
 
 function* closeReceiveFunds(): Saga<void> {
   yield delay(config.delayBeforeFormClean)
@@ -112,6 +124,10 @@ function saveQRCode(): Saga<void> {
   }
 
   fileSaver.saveCanvas(canvas, 'jwallet-qrcode')
+}
+
+export function* watchReceiveFundsOpen(): Saga<void> {
+  yield takeEvery(OPEN, openReceiveFunds)
 }
 
 export function* watchReceiveFundsClose(): Saga<void> {
