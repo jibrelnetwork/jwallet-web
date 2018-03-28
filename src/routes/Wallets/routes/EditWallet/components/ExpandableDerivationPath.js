@@ -3,7 +3,8 @@
 import React from 'react'
 
 import handle from 'utils/handle'
-import { DerivationPath, Expandable } from 'components'
+import { Expandable } from 'components'
+import { DerivationPath } from 'components/__new__'
 
 const ExpandableDerivationPath = ({
   setKnownDerivationPath,
