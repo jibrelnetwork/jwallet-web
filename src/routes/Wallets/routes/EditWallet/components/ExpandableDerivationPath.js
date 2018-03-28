@@ -15,7 +15,7 @@ const ExpandableDerivationPath = ({
   customDerivationPath,
   selectedDerivationPathType,
 }: Props) => (
-  <Expandable title={i18n('routes.editWallet.derivationPathTitle')} >
+  <Expandable title='Advanced' color='white'>
     <DerivationPath
       setKnownDerivationPath={handle(setKnownDerivationPath)}
       setCustomDerivationPath={setCustomDerivationPath}

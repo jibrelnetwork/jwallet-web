@@ -49,10 +49,10 @@
   // Small icons
 
   &.-plus {
-    background-image: $plus-blue;
+    background-image: $plus-white;
 
-    &.-white {
-      background-image: $plus-white;
+    &.-blue {
+      background-image: $plus-blue;
     }
   }
 
@@ -87,18 +87,28 @@
   }
 
   &.-arrow {
-    background-image: $arrow-blue;
+    background-image: $arrow-white;
 
-    &.-white {
-      background-image: $arrow-white;
+    &.-blue {
+      background-image: $arrow-blue;
     }
+  }
 
-    &.-down {
-      transform: rotate(90deg);
+  &.-arrow-down {
+    background-image: $arrow-white;
+    transform: rotate(90deg);
+
+    &.-blue {
+      background-image: $arrow-blue;
     }
+  }
 
-    &.-back {
-      transform: rotate(180deg);
+  &.-arrow-back {
+    background-image: $arrow-white;
+    transform: rotate(180deg);
+
+    &.-blue {
+      background-image: $arrow-blue;
     }
   }
 
@@ -163,10 +173,10 @@
   }
 
   &.-arrow-popup {
-    background-image: $arrow-popup-blue;
+    background-image: $arrow-popup-white;
 
-    &.-white {
-      background-image: $arrow-popup-white;
+    &.-blue {
+      background-image: $arrow-popup-blue;
     }
   }
 

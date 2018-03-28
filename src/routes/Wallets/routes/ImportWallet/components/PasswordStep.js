@@ -30,7 +30,7 @@ const PasswordStep = ({
         text={i18n('routes.importWallet.buttonTitle.prevStep')}
         color='white'
         iconSize='small'
-        iconName='arrow-back'
+        iconName='arrow -back'
         minimal
         transparent
       />

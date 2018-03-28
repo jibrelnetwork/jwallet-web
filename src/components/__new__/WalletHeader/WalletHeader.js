@@ -16,7 +16,7 @@ const WalletHeader = ({ onButtonClick }: Props) => (
       onClick={onButtonClick}
     >
       <JIcon
-        name='arrow-popup-white'
+        name='arrow-popup'
         size='medium'
       />
     </div>
