@@ -50,6 +50,10 @@
 
   &.-plus {
     background-image: $plus-blue;
+
+    &.-white {
+      background-image: $plus-white;
+    }
   }
 
   &.-menu-send {
@@ -82,18 +86,20 @@
     background-image: $repeat-blue;
   }
 
-  &.-arrow-blue {
-    background-image: $arrow-blue;
-    transform: rotate(90deg);
-  }
-
   &.-arrow {
-    background-image: $arrow-white;
-  }
+    background-image: $arrow-blue;
 
-  &.-arrow-back {
-    background-image: $arrow-white;
-    transform: rotate(180deg);
+    &.-white {
+      background-image: $arrow-white;
+    }
+
+    &.-down {
+      transform: rotate(90deg);
+    }
+
+    &.-back {
+      transform: rotate(180deg);
+    }
   }
 
   &.-close {
@@ -156,8 +162,12 @@
     background-image: $close-popup-gray;
   }
 
-  &.-arrow-popup-white {
-    background-image: $arrow-popup-white;
+  &.-arrow-popup {
+    background-image: $arrow-popup-blue;
+
+    &.-white {
+      background-image: $arrow-popup-white;
+    }
   }
 
   &.-key-new {
@@ -186,10 +196,6 @@
 
   &.-dots-white {
     background-image: $dots-white;
-  }
-
-  &.-arrow-white {
-    background-image: $arrow-white;
   }
 
   &.-close-gray {
