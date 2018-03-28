@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { prop } from 'ramda'
 
-const JIcon = ({ name, size, transparent }: Props) => (
+const JIcon = ({ name, size, color, transparent }: Props) => (
   <div className={classNames(
     'j-icon',
     prop(size, {
@@ -15,6 +15,7 @@ const JIcon = ({ name, size, transparent }: Props) => (
       'extra-large': '-extra-large',
     }),
     `-${name}`,
+    color && `-${color}`,
     transparent && '-transparent',
   )}
   />
@@ -23,10 +24,12 @@ const JIcon = ({ name, size, transparent }: Props) => (
 type Props = {
   name: string,
   size: 'small' | 'medium' | 'large' | 'extra-large' | 'huge',
+  color?: string,
   transparent?: boolean,
 }
 
 JIcon.defaultProps = {
+  color: undefined,
   transparent: false,
 }
 

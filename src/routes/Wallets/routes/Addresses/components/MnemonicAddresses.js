@@ -47,7 +47,7 @@ const MnemonicAddresses = ({
           color='white'
           text='Get more'
           iconSize='small'
-          iconName='arrow'
+          iconName='plus -white'
           right
           minimal
           transparent

@@ -16,7 +16,7 @@ const Expandable = ({
 }: Props) => (
   <div className={classNames('expandable', `-${color}`, { '-open': isOpen })}>
     <div className='title' onClick={handle(toggle)(!isOpen)}>
-      <JIcon size='small' name={isOpen ? `arrow -down -${color}` : `${iconName} -${color}`} />
+      <JIcon size='small' color={color} name={isOpen ? 'arrow-down' : iconName} />
       <div className='label'>
         <JText
           variants={['bold', color]}

@@ -41,7 +41,7 @@ const DataStep = ({
       placeholder={i18n('routes.importWallet.placeholder.data')}
     />
     {isMnemonicType(walletType) && (
-      <Expandable>
+      <Expandable title='Advanced' color='white'>
         <DerivationPath
           setKnownDerivationPath={handle(setKnownDerivationPath)}
           setCustomDerivationPath={setCustomDerivationPath}

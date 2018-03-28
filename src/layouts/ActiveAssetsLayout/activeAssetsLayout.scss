@@ -21,6 +21,10 @@
     }
   }
 
+  > .content {
+    padding-left: 520px;
+  }
+
   @media only screen and (max-width: 1680px) {
     .wrapper {
       padding: 60px 0 60px 160px;
