@@ -57,7 +57,7 @@ const JInput = ({
       <div className='info-message'>
         <JText
           value={infoMessage}
-          variants={[color, 'normal']}
+          variants={[color, 'normal', 'transparent']}
         />
       </div>
     )}

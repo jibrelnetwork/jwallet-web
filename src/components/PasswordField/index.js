@@ -1,3 +1,3 @@
-import PasswordField from './PasswordField'
+import PasswordField from './PasswordFieldContainer'
 
 export default PasswordField
