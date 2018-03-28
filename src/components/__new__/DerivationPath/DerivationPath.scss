@@ -1,0 +1,13 @@
+.DerivationPath {
+  all: initial;
+  cursor: pointer;
+
+  > .known-derivation-path:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  > .known-derivation-path {
+    all: initial; // breaking of isolation
+    display: flex;
+  }
+}
