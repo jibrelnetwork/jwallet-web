@@ -1,131 +1,64 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import Keystore from 'jwallet-web-keystore'
+// @flow
 
-import config from 'config'
+import React from 'react'
+
 import JInput from 'components/base/__new__/JInput'
 
-class PasswordField extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { status: 'white', message: '', isConfirmed: false, isApproved: false }
-  }
-
-  render() {
-    return (
-      <div className='password-field'>
-        {this.renderPasswordInput()}
-        {this.props.withConfirm && this.renderPasswordConfirmInput()}
-      </div>
-    )
-  }
-
-  renderPasswordInput = () => {
-    const { password, passwordPlaceholder, passwordError, withConfirm } = this.props
-    const { isApproved, message, status } = this.state
-    const placeholderPassword = i18n('modals.createAccount.placeholder.password')
-
-    return (
+const PasswordField = ({
+  onChange,
+  onConfirmChange,
+  message,
+  isConfirmed,
+  isApproved,
+  password,
+  passwordPlaceholder,
+  passwordError,
+  passwordConfirm,
+  passwordConfirmPlaceholder,
+  passwordConfirmError,
+  withConfirm,
+}: Props) => (
+  <div className='password-field'>
+    <JInput
+      onChange={onChange}
+      value={password}
+      errorMessage={passwordError}
+      infoMessage={withConfirm && message}
+      placeholder={passwordPlaceholder || i18n('modals.createAccount.placeholder.password')}
+      color='white'
+      type='password'
+      name='password-field-password'
+      checked={withConfirm && isApproved}
+    />
+    {withConfirm && (
       <JInput
-        onChange={this.onPasswordChange}
-        value={password}
-        errorMessage={passwordError}
-        infoMessage={withConfirm && message}
-        color={withConfirm ? status : 'white'}
-        placeholder={passwordPlaceholder || placeholderPassword}
-        name='password'
-        type='password'
-        checked={withConfirm && isApproved}
-      />
-    )
-  }
-
-  renderPasswordConfirmInput = () => {
-    const { passwordConfirm, passwordConfirmPlaceholder, passwordConfirmError } = this.props
-    const placeholderPasswordConfirm = i18n('modals.createAccount.placeholder.passwordConfirm')
-
-    return (
-      <JInput
-        onChange={this.onPasswordConfirmChange}
+        onChange={onConfirmChange}
         value={passwordConfirm}
         errorMessage={passwordConfirmError}
-        placeholder={passwordConfirmPlaceholder || placeholderPasswordConfirm}
+        placeholder={passwordConfirmPlaceholder ||
+          i18n('modals.createAccount.placeholder.passwordConfirm')}
         type='password'
-        name='password-confirm'
-        checked={this.state.isConfirmed}
+        name='password-field-password-confirm'
+        checked={isConfirmed}
       />
-    )
-  }
+    )}
+  </div>
+)
 
-  onPasswordChange = (password) => {
-    if (password.length > config.maxPasswordLength) {
-      return
-    }
-
-    const { onPasswordChange, passwordConfirm } = this.props
-
-    onPasswordChange(password)
-
-    const { status, message, isApproved } = this.getStatus(password)
-    const isConfirmed = this.isConfirmed(password, passwordConfirm, isApproved)
-
-    this.setState({ status, message, isApproved, isConfirmed })
-  }
-
-  onPasswordConfirmChange = (passwordConfirm) => {
-    if (passwordConfirm.length > config.maxPasswordLength) {
-      return
-    }
-
-    const { onPasswordConfirmChange, password } = this.props
-
-    onPasswordConfirmChange(passwordConfirm)
-
-    const isConfirmed = this.isConfirmed(password, passwordConfirm, this.state.isApproved)
-    this.setState({ isConfirmed })
-  }
-
-  getStatus = (password) => {
-    const { failedTests } = Keystore.testPassword(password)
-    const isEmpty = !password.length
-    const isShort = (password.length < 6)
-    const failedTestsCount = failedTests.length
-
-    if (isEmpty) {
-      return { status: 'white', message: '', isApproved: false }
-    } else if (isShort) {
-      return { status: 'red', message: 'Too short', isApproved: false }
-    } else if (failedTestsCount > 3) {
-      return { status: 'deep-orange', message: 'Easily cracked', isApproved: false }
-    } else if (failedTestsCount > 2) {
-      return { status: 'orange', message: 'Bit weak', isApproved: false }
-    } else if (failedTestsCount > 1) {
-      return { status: 'lime', message: 'Not bad', isApproved: false }
-    } else if (failedTestsCount > 0) {
-      return { status: 'light-green', message: 'Pretty good', isApproved: false }
-    }
-
-    return { status: 'white', message: '', isApproved: true }
-  }
-
-  isConfirmed = (password, passwordConfirm, isApproved) => {
-    const isMatch = (passwordConfirm === password)
-
-    return (isApproved && isMatch)
-  }
-}
-
-PasswordField.propTypes = {
-  onPasswordChange: PropTypes.func.isRequired,
-  password: PropTypes.string.isRequired,
+type Props = {
+  onChange: Function,
+  onConfirmChange: Function,
+  password: string,
+  message: string,
+  isConfirmed: boolean,
+  isApproved: boolean,
   /* optional */
-  onPasswordConfirmChange: PropTypes.func,
-  passwordPlaceholder: PropTypes.string,
-  passwordConfirmPlaceholder: PropTypes.string,
-  passwordConfirm: PropTypes.string,
-  passwordError: PropTypes.string,
-  passwordConfirmError: PropTypes.string,
-  withConfirm: PropTypes.bool,
+  passwordPlaceholder?: string,
+  passwordConfirmPlaceholder?: string,
+  passwordConfirm?: string,
+  passwordError?: string,
+  passwordConfirmError?: string,
+  withConfirm?: boolean,
 }
 
 PasswordField.defaultProps = {
