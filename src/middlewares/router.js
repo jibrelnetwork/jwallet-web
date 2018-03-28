@@ -202,6 +202,11 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
+    case transactions.REPEAT: {
+      goToLocation(`/funds/${payload.txData.type}`)
+      break
+    }
+
     /**
      * Funds
      */

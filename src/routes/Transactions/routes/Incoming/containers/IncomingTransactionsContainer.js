@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { assoc, compose, propEq } from 'ramda'
 
 import { getDigitalAssetByAddress, getTransactionsByPeriod } from 'utils'
-import { setActive } from 'routes/Transactions/modules/transactions'
+import { setActive, repeat } from 'routes/Transactions/modules/transactions'
 
 import IncomingTransactions from '../components/IncomingTransactions'
 
@@ -23,6 +23,6 @@ const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Obje
   ),
 )(transactions)
 
-const mapDispatchToProps = { setActive }
+const mapDispatchToProps = { setActive, repeat }
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncomingTransactions)

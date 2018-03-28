@@ -7,6 +7,7 @@ import { TransactionsByPeriod, TransactionsEmpty } from 'components/__new__'
 
 const OutgoingTransactions = ({
   setActive,
+  repeat,
   items,
   transactionsByPeriod,
   currentAsset,
@@ -35,6 +36,7 @@ const OutgoingTransactions = ({
     <div className='outgoing-transactions-view'>
       <TransactionsByPeriod
         setActive={setActive}
+        repeat={repeat}
         transactionsByPeriod={transactionsByPeriod}
         assetSymbol={currentAsset.symbol}
         activeTxHash={activeTxHash}
@@ -45,6 +47,7 @@ const OutgoingTransactions = ({
 
 type Props = {
   setActive: (txHash: Hash) => Dispatch,
+  repeat: Function,
   items: Transactions,
   transactionsByPeriod: Object,
   currentAsset: DigitalAsset,

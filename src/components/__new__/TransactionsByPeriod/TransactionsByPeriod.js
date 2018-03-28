@@ -7,6 +7,7 @@ import JCard from 'components/base/__new__/JCard'
 
 const TransactionsByPeriod = ({
   setActive,
+  repeat,
   transactionsByPeriod,
   assetSymbol,
   activeTxHash,
@@ -20,6 +21,7 @@ const TransactionsByPeriod = ({
             <Transaction
               key={transaction.transactionHash}
               setActive={setActive}
+              repeat={repeat}
               data={transaction}
               assetSymbol={assetSymbol}
               activeTxHash={activeTxHash}
@@ -33,6 +35,7 @@ const TransactionsByPeriod = ({
 
 type Props = {
   setActive: (txHash: Hash) => Dispatch,
+  repeat: Function,
   transactionsByPeriod: Object,
   assetSymbol: string,
   activeTxHash: ?Hash,

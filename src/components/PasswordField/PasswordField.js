@@ -62,7 +62,6 @@ type Props = {
 }
 
 PasswordField.defaultProps = {
-  onPasswordConfirmChange: () => {},
   passwordConfirm: '',
   passwordError: '',
   passwordConfirmError: '',
