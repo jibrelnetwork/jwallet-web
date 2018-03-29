@@ -48,6 +48,7 @@ type Props = {
   currentStep: Index,
   totalSteps: Index,
   walletType?: WalletType,
+  selectedDerivationPathType: 'known' | 'custom',
 }
 
 ImportWallet.defaultProps = {

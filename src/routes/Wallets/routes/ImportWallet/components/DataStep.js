@@ -3,7 +3,8 @@
 import React from 'react'
 
 import { handle, isMnemonicType } from 'utils'
-import { DerivationPath, Expandable } from 'components'
+import { Expandable } from 'components'
+import { DerivationPath } from 'components/__new__'
 import { JButton, JInput } from 'components/base/__new__'
 
 const DataStep = ({
@@ -20,6 +21,7 @@ const DataStep = ({
   knownDerivationPath,
   customDerivationPath,
   walletType,
+  selectedDerivationPathType,
 }: Props) => (
   <div className='form'>
     <JInput
@@ -46,6 +48,7 @@ const DataStep = ({
           knownDerivationPath={knownDerivationPath}
           customDerivationPath={customDerivationPath}
           errorMessage={invalidFields.customDerivationPath}
+          selectedDerivationPathType={selectedDerivationPathType}
         />
       </Expandable>
     )}
@@ -84,6 +87,7 @@ type Props = {
   knownDerivationPath: string,
   customDerivationPath: string,
   walletType?: WalletType,
+  selectedDerivationPathType: 'known' | 'custom'
 }
 
 DataStep.defaultProps = {
