@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 
 import ModalLayout from 'layouts/ModalLayout'
 import JPicker from 'components/base/JPicker'
-import ModalHeader from 'components/__new__/ModalHeader'
+import { ModalHeader, QRCode } from 'components/__new__'
 import { JButton, JInput } from 'components/base/__new__'
 
 const ReceiveFunds = ({
@@ -25,13 +24,9 @@ const ReceiveFunds = ({
     </div>
     <div className='content'>
       <div className='form'>
-        <div
-          onClick={saveQRCode}
-          className={classNames(
-            'qr-code',
-            { 'qr-code--hidden': (!amount || invalidFields.amount) },
-          )}
-          id='qr-code'
+        <QRCode
+          saveQRCode={saveQRCode}
+          isActive={amount && !invalidFields.amount}
         />
         <JPicker
           onValueChange={setAsset}
@@ -60,7 +55,11 @@ const ReceiveFunds = ({
           name='receive-funds-amount'
         />
         <div className='actions'>
-          <JButton onClick={copyAddress} text={isCopied ? 'copied' : 'copy'} color='white' />
+          <JButton
+            onClick={copyAddress}
+            text={isCopied ? 'Copied!' : 'Copy address'}
+            color='white'
+          />
         </div>
       </div>
     </div>

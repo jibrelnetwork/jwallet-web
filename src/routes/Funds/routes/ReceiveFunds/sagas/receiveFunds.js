@@ -72,8 +72,8 @@ function* generateQRCode(): Saga<void> {
 
     qrCode.generate({
       requisites,
-      appearance: {},
-      selector: '#qr-code',
+      selector: '#qrcode',
+      appearance: { size: 200 },
     })
 
     const { customType }: Wallet = keystore.getWallet(walletId)
@@ -117,7 +117,7 @@ function* getAssetDecimals(assetAddress: Address) {
 }
 
 function saveQRCode(): Saga<void> {
-  const canvas = document.querySelector('#qr-code canvas')
+  const canvas = document.querySelector('#qrcode canvas')
 
   if (!canvas) {
     return
