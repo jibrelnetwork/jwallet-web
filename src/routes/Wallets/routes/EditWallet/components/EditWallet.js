@@ -35,6 +35,7 @@ type Props = {
   password: Password,
   currentStep: Index,
   walletType?: WalletType,
+  selectedDerivationPathType: 'custom' | 'known'
 }
 
 EditWallet.defaultProps = {

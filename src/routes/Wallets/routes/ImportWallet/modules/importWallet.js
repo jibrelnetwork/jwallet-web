@@ -234,6 +234,7 @@ const importWallet = (
         assoc('knownDerivationPath', payload.knownDerivationPath),
         assocPath(['validFields', 'knownDerivationPath'], null),
         assocPath(['invalidFields', 'knownDerivationPath'], null),
+        assoc('selectedDerivationPathType', 'known'),
       )(state)
     }
 
@@ -242,6 +243,7 @@ const importWallet = (
         assoc('customDerivationPath', payload.customDerivationPath),
         assocPath(['validFields', 'customDerivationPath'], null),
         assocPath(['invalidFields', 'customDerivationPath'], null),
+        assoc('selectedDerivationPathType', 'custom'),
       )(state)
     }
 

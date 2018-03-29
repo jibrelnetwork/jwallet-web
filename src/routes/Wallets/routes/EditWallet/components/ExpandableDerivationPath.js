@@ -13,6 +13,7 @@ const ExpandableDerivationPath = ({
   invalidFields,
   knownDerivationPath,
   customDerivationPath,
+  selectedDerivationPathType,
 }: Props) => (
   <Expandable title={i18n('routes.editWallet.derivationPathTitle')} >
     <DerivationPath
@@ -22,6 +23,7 @@ const ExpandableDerivationPath = ({
       customDerivationPath={customDerivationPath}
       errorMessage={invalidFields.customDerivationPath}
       successMessage={validFields.customDerivationPath}
+      selectedDerivationPathType={selectedDerivationPathType}
     />
   </Expandable>
 )
@@ -33,6 +35,7 @@ type Props = {
   invalidFields: Object,
   knownDerivationPath: string,
   customDerivationPath: string,
+  selectedDerivationPathType: 'custom' | 'known'
 }
 
 export default ExpandableDerivationPath
