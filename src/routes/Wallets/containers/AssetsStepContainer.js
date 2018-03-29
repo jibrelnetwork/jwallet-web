@@ -2,9 +2,8 @@
 
 import { connect } from 'react-redux'
 
-import { setActive } from 'routes/DigitalAssets/modules/digitalAssets'
-
 import AssetsStep from '../components/AssetsStep'
+import { setActive } from '../../DigitalAssets/modules/digitalAssets'
 
 const mapStateToProps = ({ digitalAssets }: State): DigitalAssetsData => digitalAssets
 const mapDispatchToProps = { setActive }
