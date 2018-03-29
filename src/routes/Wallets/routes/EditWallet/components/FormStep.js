@@ -2,10 +2,10 @@
 
 import React from 'react'
 
-import isMnemonicType from 'utils/isMnemonicType'
+import Expandable from 'components/Expandable'
+import DerivationPath from 'components/__new__/DerivationPath'
+import { handle, isMnemonicType } from 'utils'
 import { JButton, JInput } from 'components/base/__new__'
-
-import ExpandableDerivationPath from './ExpandableDerivationPath'
 
 const FormStep = ({
   setName,
@@ -30,15 +30,16 @@ const FormStep = ({
       placeholder={i18n('routes.editWallet.placeholder.name')}
     />
     {isMnemonicType(walletType) && (
-      <ExpandableDerivationPath
-        setKnownDerivationPath={setKnownDerivationPath}
-        setCustomDerivationPath={setCustomDerivationPath}
-        validFields={validFields}
-        invalidFields={invalidFields}
-        knownDerivationPath={knownDerivationPath}
-        customDerivationPath={customDerivationPath}
-        selectedDerivationPathType={selectedDerivationPathType}
-      />
+      <Expandable title='Advanced' color='white'>
+        <DerivationPath
+          setKnownDerivationPath={handle(setKnownDerivationPath)}
+          setCustomDerivationPath={setCustomDerivationPath}
+          knownDerivationPath={knownDerivationPath}
+          customDerivationPath={customDerivationPath}
+          errorMessage={invalidFields.customDerivationPath}
+          selectedDerivationPathType={selectedDerivationPathType}
+        />
+      </Expandable>
     )}
     <div className='actions'>
       <JButton

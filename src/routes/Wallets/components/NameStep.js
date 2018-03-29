@@ -15,9 +15,9 @@ const NameStep = ({
     <JInput
       onChange={setName}
       name='wallet-name'
-      placeholder={i18n('routes.createWallet.placeholder.name')}
       value={name}
       errorMessage={invalidFields.name}
+      placeholder={i18n('routes.createWallet.placeholder.name')}
     />
     <div className='actions'>
       <JButton

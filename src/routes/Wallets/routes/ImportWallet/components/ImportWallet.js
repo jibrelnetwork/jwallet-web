@@ -5,9 +5,9 @@ import classNames from 'classnames'
 
 import { ModalHeader, PasswordStep } from 'components/__new__'
 
-import NameStep from './NameStep'
 import DataStep from './DataStep'
-import AssetsStep from '../containers/AssetsStepContainer'
+import NameStep from '../../../components/NameStep'
+import AssetsStep from '../../../containers/AssetsStepContainer'
 import { STEPS } from '../modules/importWallet'
 
 const ImportWallet = (props: Props) => (

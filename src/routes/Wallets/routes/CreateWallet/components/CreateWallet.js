@@ -5,10 +5,10 @@ import classNames from 'classnames'
 
 import { ModalHeader, PasswordStep } from 'components/__new__'
 
-import NameStep from './NameStep'
 import MnemonicStep from './MnemonicStep'
+import NameStep from '../../../components/NameStep'
 import MnemonicConfirmStep from './MnemonicConfirmStep'
-import AssetsStep from '../containers/AssetsStepContainer'
+import AssetsStep from '../../../containers/AssetsStepContainer'
 import { STEPS } from '../modules/createWallet'
 
 const CreateWallet = (props: Props) => (
