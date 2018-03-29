@@ -2,10 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ModalLayout from 'layouts/ModalLayout'
-import ModalHeader from 'components/__new__/ModalHeader'
+import { ModalHeader, PasswordStep } from 'components/__new__'
 
 import FormStep from './FormStep'
-import PasswordStep from './PasswordStep'
 import { STEPS } from '../modules/sendFunds'
 
 const SendFunds = props => (
