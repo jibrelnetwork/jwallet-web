@@ -16,16 +16,17 @@ const PasswordField = ({
   passwordConfirm,
   passwordConfirmPlaceholder,
   passwordConfirmError,
+  color,
   withConfirm,
 }: Props) => (
   <div className='password-field'>
     <JInput
       onChange={onChange}
+      color={color}
       value={password}
       errorMessage={passwordError}
       infoMessage={withConfirm && message}
       placeholder={passwordPlaceholder || i18n('modals.createAccount.placeholder.password')}
-      color='white'
       type='password'
       name='password-field-password'
       checked={withConfirm && isApproved}
@@ -33,6 +34,7 @@ const PasswordField = ({
     {withConfirm && (
       <JInput
         onChange={onConfirmChange}
+        color={color}
         value={passwordConfirm}
         errorMessage={passwordConfirmError}
         placeholder={passwordConfirmPlaceholder ||
@@ -53,6 +55,7 @@ type Props = {
   isConfirmed: boolean,
   isApproved: boolean,
   /* optional */
+  color?: string,
   passwordPlaceholder?: string,
   passwordConfirmPlaceholder?: string,
   passwordConfirm?: string,
@@ -62,6 +65,7 @@ type Props = {
 }
 
 PasswordField.defaultProps = {
+  color: 'white',
   passwordConfirm: '',
   passwordError: '',
   passwordConfirmError: '',
