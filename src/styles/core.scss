@@ -151,9 +151,6 @@
   @import '../components/SubmitModal/submitModal';
   @import '../components/Warning/warning';
 
-  @import '../routes/JWallet/styles/jWallet';
-  @import '../routes/Funds/routes/ReceiveFunds/styles/receiveFunds';
-
   // Base components
   @import '../components/base/__new__/JButton/jButton';
   @import '../components/base/__new__/JCard/jCard';
@@ -193,6 +190,7 @@
   @import '../components/__new__/MenuSelect/menuSelect';
   @import '../components/__new__/ModalHeader/modalHeader';
   @import '../components/__new__/NewWalletButtons/newWalletButtons';
+  @import '../components/__new__/QRCode/qrCode';
   @import '../components/__new__/Transaction/transaction';
   @import '../components/__new__/TransactionsByPeriod/transactionsByPeriod';
   @import '../components/__new__/TransactionsEmpty/transactionsEmpty';

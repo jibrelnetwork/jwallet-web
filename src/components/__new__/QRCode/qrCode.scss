@@ -1,0 +1,41 @@
+.qr-code {
+  all: initial;
+
+  @include box;
+  @include flex-row-center;
+
+  position: relative;
+  max-height: 0;
+  height: 220px;
+  margin-bottom: 30px;
+  border: solid 1px transparent;
+  visibility: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease 0s, opacity 0.5s ease 0s;
+
+  &:hover {
+    > .overlay {
+      opacity: 1;
+    }
+  }
+
+  &.-active {
+    max-height: 220px;
+    border: solid 1px $pale-grey-two;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  > .overlay {
+    @include flex-row-center;
+    @include hover-animation;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $white;
+    opacity: 0;
+  }
+}
