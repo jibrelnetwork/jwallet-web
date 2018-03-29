@@ -106,12 +106,18 @@ function* checkData() {
     walletType,
     knownDerivationPath,
     customDerivationPath,
+    selectedDerivationPathType,
   }: ImportWalletData = yield select(selectImportWallet)
 
   validate.walletName(name, wallets)
 
+  const derivationPath: string = {
+    custom: customDerivationPath,
+    known: knownDerivationPath,
+  }[selectedDerivationPathType]
+
   if (isMnemonicType(walletType)) {
-    validate.derivationPath(knownDerivationPath, customDerivationPath)
+    validate.derivationPath(derivationPath)
   }
 
   yield put(setCurrentStep(STEPS.PASSWORD, walletType))
@@ -139,6 +145,7 @@ function* importWallet() {
     passwordConfirm,
     knownDerivationPath,
     customDerivationPath,
+    selectedDerivationPathType,
   }: ImportWalletData = yield select(selectImportWallet)
 
   validate.walletPassword(password, passwordConfirm)
@@ -149,7 +156,10 @@ function* importWallet() {
       ...newWalletData,
       name,
       password,
-      derivationPath: customDerivationPath || knownDerivationPath,
+      derivationPath: {
+        custom: customDerivationPath,
+        known: knownDerivationPath,
+      }[selectedDerivationPathType],
     })
 
     yield put(setCurrentStep(STEPS.ASSETS, newWalletData.customType))
