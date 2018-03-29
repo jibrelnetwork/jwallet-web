@@ -124,6 +124,7 @@ function* checkEditData(wallets: Wallets, walletId: WalletId) {
     walletType,
     customDerivationPath,
     knownDerivationPath,
+    selectedDerivationPathType,
   }: EditWalletData = yield select(selectEditWallet)
 
   const wallet: Wallet = keystore.getWallet(walletId)
@@ -132,10 +133,16 @@ function* checkEditData(wallets: Wallets, walletId: WalletId) {
     validate.walletName(name, wallets)
   }
 
-  const derivationPath = customDerivationPath || knownDerivationPath
+  const derivationPath: string = {
+    custom: customDerivationPath,
+    known: knownDerivationPath,
+  }[selectedDerivationPathType]
 
-  if (!isEqual(wallet.derivationPath, derivationPath)) {
-    validate.derivationPath(knownDerivationPath, customDerivationPath)
+  if (
+    !isEqual(wallet.derivationPath, derivationPath) &&
+    selectedDerivationPathType === 'custom'
+  ) {
+    validate.derivationPath(derivationPath)
   }
 
   yield put(setCurrentStep(STEPS.PASSWORD, walletType))
@@ -155,9 +162,13 @@ function* saveWallet(): Saga<void> {
       walletType,
       knownDerivationPath,
       customDerivationPath,
+      selectedDerivationPathType,
     }: EditWalletData = yield select(selectEditWallet)
 
-    const derivationPath: string = customDerivationPath || knownDerivationPath
+    const derivationPath: string = {
+      custom: customDerivationPath,
+      known: knownDerivationPath,
+    }[selectedDerivationPathType]
 
     setWalletName(walletId, name)
     setDerivationPath(password, walletId, derivationPath)
