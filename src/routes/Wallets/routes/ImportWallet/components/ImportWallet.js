@@ -3,11 +3,10 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import ModalHeader from 'components/__new__/ModalHeader'
+import { ModalHeader, PasswordStep } from 'components/__new__'
 
 import NameStep from './NameStep'
 import DataStep from './DataStep'
-import PasswordStep from './PasswordStep'
 import AssetsStep from '../containers/AssetsStepContainer'
 import { STEPS } from '../modules/importWallet'
 
@@ -23,7 +22,7 @@ const ImportWallet = (props: Props) => (
     </div>
     {(props.currentStep === STEPS.NAME) && <NameStep {...props} />}
     {(props.currentStep === STEPS.DATA) && <DataStep {...props} />}
-    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
+    {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
     {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
   </div>
 )
