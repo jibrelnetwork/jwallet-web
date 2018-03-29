@@ -21,14 +21,13 @@ function customNetworkRPC(customRPC: string, items: Networks) {
   })
 }
 
-const derivationPath = (knownDerivationPath: string, customDerivationPath: string): void => {
-  const path: string = customDerivationPath || knownDerivationPath
-
-  if (Keystore.isDerivationPathValid(path)) {
-    return
+const derivationPath = (path: string): void => {
+  if (isEmpty(path) || !Keystore.isDerivationPathValid(path)) {
+    throw new InvalidFieldError(
+      'customDerivationPath',
+      i18n('general.error.derivationPath.invalid')
+    )
   }
-
-  throw new InvalidFieldError('customDerivationPath', i18n('general.error.derivationPath.invalid'))
 }
 
 const walletName = (name: string, wallets: Wallets) => {
