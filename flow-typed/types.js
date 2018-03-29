@@ -79,7 +79,7 @@ declare type Wallet = {
   +encrypted: ?{
     +privateKey: ?string,
     +mnemonic: ?string,
-  +},
+  }
 }
 
 declare type Wallets = Array<Wallet>
@@ -144,6 +144,7 @@ declare type ImportWalletData = {
   +currentStep: Index,
   +totalSteps: Index,
   +walletType?: WalletType,
+  +selectedDerivationPathType: 'known' | 'custom',
 }
 
 /**
@@ -158,6 +159,7 @@ declare type EditWalletData = {
   +customDerivationPath: string,
   +currentStep: Index,
   +walletType?: WalletType,
+  +selectedDerivationPathType: 'known' | 'custom',
 }
 
 /**
