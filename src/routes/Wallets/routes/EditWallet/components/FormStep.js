@@ -17,6 +17,7 @@ const FormStep = ({
   name,
   knownDerivationPath,
   customDerivationPath,
+  selectedDerivationPathType,
   walletType,
 }: Props) => (
   <div className='form'>
@@ -36,6 +37,7 @@ const FormStep = ({
         invalidFields={invalidFields}
         knownDerivationPath={knownDerivationPath}
         customDerivationPath={customDerivationPath}
+        selectedDerivationPathType={selectedDerivationPathType}
       />
     )}
     <div className='actions'>
@@ -60,6 +62,7 @@ type Props = {
   knownDerivationPath: string,
   customDerivationPath: string,
   walletType?: WalletType,
+  selectedDerivationPathType: 'custom' | 'known'
 }
 
 FormStep.defaultProps = {
