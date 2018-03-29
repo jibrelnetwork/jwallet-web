@@ -2,21 +2,19 @@
 
 import React from 'react'
 
+import Expandable from 'components/Expandable'
+import DerivationPath from 'components/__new__/DerivationPath'
 import { handle, isMnemonicType } from 'utils'
-import { Expandable } from 'components'
-import { DerivationPath } from 'components/__new__'
 import { JButton, JInput } from 'components/base/__new__'
 
 const DataStep = ({
-  setName,
   setData,
   setKnownDerivationPath,
   setCustomDerivationPath,
+  setPrevStep,
   setNextStep,
-  goToWallets,
   validFields,
   invalidFields,
-  name,
   data,
   knownDerivationPath,
   customDerivationPath,
@@ -24,14 +22,6 @@ const DataStep = ({
   selectedDerivationPathType,
 }: Props) => (
   <div className='form'>
-    <JInput
-      onChange={setName}
-      value={name}
-      name='import-wallet-name'
-      errorMessage={invalidFields.name}
-      successMessage={validFields.name}
-      placeholder={i18n('routes.importWallet.placeholder.name')}
-    />
     <JInput
       onChange={setData}
       value={data}
@@ -54,7 +44,7 @@ const DataStep = ({
     )}
     <div className='actions'>
       <JButton
-        onClick={goToWallets}
+        onClick={setPrevStep}
         text={i18n('routes.importWallet.buttonTitle.prevStep')}
         color='white'
         iconSize='small'
@@ -74,15 +64,13 @@ const DataStep = ({
 )
 
 type Props = {
-  setName: (name: string) => Dispatch,
   setData: (data: string) => Dispatch,
   setKnownDerivationPath: (knownDerivationPath: string) => Dispatch,
   setCustomDerivationPath: (customDerivationPath: string) => Dispatch,
+  setPrevStep: () => Dispatch,
   setNextStep: () => Dispatch,
-  goToWallets: () => Dispatch,
   validFields: Object,
   invalidFields: Object,
-  name: string,
   data: string,
   knownDerivationPath: string,
   customDerivationPath: string,

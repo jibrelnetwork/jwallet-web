@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import ModalHeader from 'components/__new__/ModalHeader'
 
+import NameStep from './NameStep'
 import MnemonicStep from './MnemonicStep'
 import MnemonicConfirmStep from './MnemonicConfirmStep'
 import PasswordStep from './PasswordStep'
@@ -21,6 +22,7 @@ const CreateWallet = (props: Props) => (
         totalSteps={Object.keys(STEPS).length}
       />
     </div>
+    {(props.currentStep === STEPS.NAME) && <NameStep {...props} />}
     {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
     {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}

@@ -24,8 +24,7 @@ import {
 } from '../modules/createWallet'
 
 function* openCreateWallet(): Saga<void> {
-  yield generateMnemonic()
-  yield put(setCurrentStep(STEPS.MNEMONIC))
+  yield put(setCurrentStep(STEPS.NAME))
 }
 
 function* closeCreateWallet(): Saga<void> {
@@ -38,6 +37,11 @@ function* setNextStep(): Saga<void> {
 
   try {
     switch (currentStep) {
+      case STEPS.NAME: {
+        yield generateMnemonic()
+        break
+      }
+
       case STEPS.MNEMONIC: {
         yield saveMnemonicToFile()
         break
@@ -65,8 +69,14 @@ function* setPrevStep(): Saga<void> {
 
   try {
     switch (currentStep) {
-      case STEPS.CONFIRM: {
+      case STEPS.MNEMONIC: {
         yield openCreateWallet()
+        break
+      }
+
+      case STEPS.CONFIRM: {
+        yield generateMnemonic()
+        yield put(setCurrentStep(STEPS.MNEMONIC))
         break
       }
 
@@ -83,14 +93,18 @@ function* setPrevStep(): Saga<void> {
 }
 
 function* generateMnemonic() {
+  const wallets: Wallets = yield select(selectWalletsItems)
+  const { name }: CreateWalletData = yield select(selectCreateWallet)
+
+  validate.walletName(name, wallets)
+
   yield put(setMnemonic(Keystore.generateMnemonic().toString()))
+  yield put(setCurrentStep(STEPS.MNEMONIC))
 }
 
 function* saveMnemonicToFile() {
-  const wallets: Wallets = yield select(selectWalletsItems)
   const { name, mnemonic }: CreateWalletData = yield select(selectCreateWallet)
 
-  validate.walletName(name, wallets)
   fileSaver.saveTXT(mnemonic, `jwallet ${name}`)
 
   yield put(setCurrentStep(STEPS.CONFIRM))
