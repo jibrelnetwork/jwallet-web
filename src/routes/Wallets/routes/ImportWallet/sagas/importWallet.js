@@ -36,7 +36,7 @@ type NewWalletData = {
 }
 
 function* openImportWallet(): Saga<void> {
-  yield put(setCurrentStep(STEPS.DATA))
+  yield put(setCurrentStep(STEPS.NAME))
 }
 
 function* closeImportWallet(): Saga<void> {
@@ -49,6 +49,11 @@ function* setNextStep(): Saga<void> {
 
   try {
     switch (currentStep) {
+      case STEPS.NAME: {
+        yield checkName()
+        break
+      }
+
       case STEPS.DATA: {
         yield checkData()
         break
@@ -71,6 +76,11 @@ function* setPrevStep(): Saga<void> {
 
   try {
     switch (currentStep) {
+      case STEPS.DATA: {
+        yield put(setCurrentStep(STEPS.NAME, walletType))
+        break
+      }
+
       case STEPS.PASSWORD: {
         yield put(setCurrentStep(STEPS.DATA, walletType))
         break
@@ -98,18 +108,22 @@ function* setImportWalletType(action: { payload: { data: string } }): Saga<void>
   }
 }
 
-function* checkData() {
+function* checkName() {
   const wallets: Wallets = yield select(selectWalletsItems)
+  const { name }: ImportWalletData = yield select(selectImportWallet)
 
+  validate.walletName(name, wallets)
+
+  yield put(setCurrentStep(STEPS.DATA))
+}
+
+function* checkData() {
   const {
-    name,
     walletType,
     knownDerivationPath,
     customDerivationPath,
     selectedDerivationPathType,
   }: ImportWalletData = yield select(selectImportWallet)
-
-  validate.walletName(name, wallets)
 
   const derivationPath: string = {
     custom: customDerivationPath,

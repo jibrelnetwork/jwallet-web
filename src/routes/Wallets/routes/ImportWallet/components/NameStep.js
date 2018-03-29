@@ -4,21 +4,24 @@ import React from 'react'
 
 import { JButton, JInput } from 'components/base/__new__'
 
-const MnemonicStep = ({
-  setPrevStep,
+const NameStep = ({
+  setName,
   setNextStep,
-  mnemonic,
+  goToWallets,
+  invalidFields,
+  name,
 }: Props) => (
   <div className='form'>
     <JInput
-      name='create-wallet-mnemonic'
-      placeholder={i18n('routes.createWallet.placeholder.mnemonic')}
-      value={mnemonic}
-      disabled
+      onChange={setName}
+      name='wallet-name'
+      placeholder={i18n('routes.createWallet.placeholder.name')}
+      value={name}
+      errorMessage={invalidFields.name}
     />
     <div className='actions'>
       <JButton
-        onClick={setPrevStep}
+        onClick={goToWallets}
         text={i18n('routes.createWallet.buttonTitle.prevStep')}
         color='white'
         iconSize='small'
@@ -28,7 +31,7 @@ const MnemonicStep = ({
       />
       <JButton
         onClick={setNextStep}
-        text={i18n('routes.createWallet.buttonTitle.save')}
+        text={i18n('routes.createWallet.buttonTitle.nextStep')}
         color='blue'
         large
         right
@@ -38,9 +41,11 @@ const MnemonicStep = ({
 )
 
 type Props = {
+  setName: (name: string) => Dispatch,
   setNextStep: () => Dispatch,
-  setPrevStep: () => Dispatch,
-  mnemonic: string,
+  goToWallets: () => Dispatch,
+  invalidFields: Object,
+  name: string,
 }
 
-export default MnemonicStep
+export default NameStep

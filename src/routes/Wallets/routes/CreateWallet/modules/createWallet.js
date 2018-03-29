@@ -19,10 +19,11 @@ export const CREATE_ERROR = '@@createWallet/CREATE_ERROR'
 export const CLEAN = '@@createWallet/CLEAN'
 
 export const STEPS = {
-  MNEMONIC: 0,
-  CONFIRM: 1,
-  PASSWORD: 2,
-  ASSETS: 3,
+  NAME: 0,
+  MNEMONIC: 1,
+  CONFIRM: 2,
+  PASSWORD: 3,
+  ASSETS: 4,
 }
 
 export const open = (): { type: string } => ({

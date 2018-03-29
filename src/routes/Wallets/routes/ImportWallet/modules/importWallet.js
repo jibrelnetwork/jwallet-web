@@ -23,9 +23,10 @@ export const IMPORT_ERROR = '@@importWallet/IMPORT_ERROR'
 export const CLEAN = '@@importWallet/CLEAN'
 
 export const STEPS = {
-  DATA: 0,
-  PASSWORD: 1,
-  ASSETS: 2,
+  NAME: 0,
+  DATA: 1,
+  PASSWORD: 2,
+  ASSETS: 3,
 }
 
 export const open = (): { type: string } => ({

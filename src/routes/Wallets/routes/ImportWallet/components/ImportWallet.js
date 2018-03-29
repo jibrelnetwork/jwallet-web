@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import ModalHeader from 'components/__new__/ModalHeader'
 
+import NameStep from './NameStep'
 import DataStep from './DataStep'
 import PasswordStep from './PasswordStep'
 import AssetsStep from '../containers/AssetsStepContainer'
@@ -20,6 +21,7 @@ const ImportWallet = (props: Props) => (
         totalSteps={Object.keys(STEPS).length}
       />
     </div>
+    {(props.currentStep === STEPS.NAME) && <NameStep {...props} />}
     {(props.currentStep === STEPS.DATA) && <DataStep {...props} />}
     {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
     {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
