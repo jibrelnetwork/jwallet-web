@@ -31,13 +31,6 @@
     }
   }
 
-  .addresses-list {
-    @include flex-column-center;
-
-    height: calc(100vh - 250px);
-    margin-top: 50px;
-  }
-
   .wallet-header-wrapper {
     position: fixed;
     top: 30px;

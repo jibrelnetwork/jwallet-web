@@ -1,11 +1,11 @@
-.wallets-with-new-buttons {
+.mnemonic-addresses-list {
   all: initial;
 
   @include flex-column-center;
 
-  min-height: $wallets-list-height;
+  min-height: $mnemonic-addresses-list-height;
 
-  > .wallet {
+  > .address {
     all: initial;
 
     display: block;
