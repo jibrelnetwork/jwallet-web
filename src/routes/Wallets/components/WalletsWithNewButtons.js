@@ -1,22 +1,20 @@
 /* @flow */
 
 import React from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
 
-import { NewWalletButtons, WalletHeader, WalletManager } from 'components/__new__'
+import { NewWalletButtons, WalletManager } from 'components/__new__'
 
-import WalletsWithNewButtons from './WalletsWithNewButtons'
-
-const WalletsView = (props: Props) => (
-  <div className='wallets-view'>
-    <div className='header'>
-      <WalletHeader />
-    </div>
-    <div className='list'>
-      <Scrollbars autoHide>
-        <WalletsWithNewButtons {...props} />
-      </Scrollbars>
-    </div>
+const WalletsWithNewButtons = (props: Props) => (
+  <div className='wallets-with-new-buttons'>
+    {props.items.map(item => (
+      <div key={item.id} className='wallet'>
+        <WalletManager walletData={item} {...props} />
+      </div>
+    ))}
+    <NewWalletButtons
+      createWallet={props.createWallet}
+      importWallet={props.importWallet}
+    />
   </div>
 )
 
@@ -35,4 +33,4 @@ type Props = {
   showActionsWalletId: ?WalletId,
 }
 
-export default WalletsView
+export default WalletsWithNewButtons
