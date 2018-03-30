@@ -1,0 +1,17 @@
+.wallets-with-new-buttons {
+  all: initial;
+
+  @include box;
+  @include flex-column-center;
+
+  min-height: $wallets-list-height;
+
+  > .wallet {
+    all: initial;
+
+    @include box;
+
+    display: block;
+    margin-bottom: 1px;
+  }
+}

@@ -113,43 +113,14 @@
   @import 'shake';
   @import 'slider';
 
-  // Components
+  // Layouts
   @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
   @import '../layouts/MenuLayout/menuLayout';
   @import '../layouts/ModalLayout/modalLayout';
   @import '../layouts/WalletsLayout/walletsLayout';
 
-  // Deprecated
-  @import '../components/base/JFormField/jFormField';
-  @import '../components/base/JCheckbox/jCheckbox';
-  @import '../components/base/JFooter/jFooter';
-  @import '../components/base/JLoader/jLoader';
-  @import '../components/base/JPicker/jPicker';
-  @import '../components/base/JPopover/jPopover';
-  @import '../components/base/JRadio/jRadio';
-  @import '../components/base/JTable/jTable';
-  @import '../components/base/JTextInput/jTextInput';
-
-  @import '../components/modals/AlphaWarning/alphaWarning';
-  @import '../components/modals/Keystore/keystoreModal';
-  @import '../components/modals/Currencies/currenciesModal';
-
-  @import '../components/AccountsTable/accountsTable';
-  @import '../components/CopyableField/copyableField';
-  @import '../components/Currencies/currencies';
-  @import '../components/CurrenciesTable/currenciesTable';
-  @import '../components/CurrencyItem/currencyItem';
-  @import '../components/DerivationPath/derivationPath';
-  @import '../components/DatePicker/datePicker';
-  @import '../components/Expandable/expandable';
-  @import '../components/JWalletHeader/jWalletHeader';
-  @import '../components/KeysManager/keysManager';
-  @import '../components/KeystoreButtons/keystoreButtons';
-  @import '../components/LanguageManager/languageManager';
-  @import '../components/NetworksManager/networksManager';
-  @import '../components/PasswordField/passwordField';
-  @import '../components/SubmitModal/submitModal';
-  @import '../components/Warning/warning';
+  // Views
+  @import '../routes/Wallets/styles/wallets';
 
   // Base components
   @import '../components/base/__new__/JButton/jButton';
@@ -197,4 +168,36 @@
   @import '../components/__new__/WalletHeader/walletHeader';
   @import '../components/__new__/WalletManager/walletManager';
   @import '../components/__new__/DerivationPath/DerivationPath';
+
+  // Deprecated
+  @import '../components/base/JFormField/jFormField';
+  @import '../components/base/JCheckbox/jCheckbox';
+  @import '../components/base/JFooter/jFooter';
+  @import '../components/base/JLoader/jLoader';
+  @import '../components/base/JPicker/jPicker';
+  @import '../components/base/JPopover/jPopover';
+  @import '../components/base/JRadio/jRadio';
+  @import '../components/base/JTable/jTable';
+  @import '../components/base/JTextInput/jTextInput';
+
+  @import '../components/modals/AlphaWarning/alphaWarning';
+  @import '../components/modals/Keystore/keystoreModal';
+  @import '../components/modals/Currencies/currenciesModal';
+
+  @import '../components/AccountsTable/accountsTable';
+  @import '../components/CopyableField/copyableField';
+  @import '../components/Currencies/currencies';
+  @import '../components/CurrenciesTable/currenciesTable';
+  @import '../components/CurrencyItem/currencyItem';
+  @import '../components/DerivationPath/derivationPath';
+  @import '../components/DatePicker/datePicker';
+  @import '../components/Expandable/expandable';
+  @import '../components/JWalletHeader/jWalletHeader';
+  @import '../components/KeysManager/keysManager';
+  @import '../components/KeystoreButtons/keystoreButtons';
+  @import '../components/LanguageManager/languageManager';
+  @import '../components/NetworksManager/networksManager';
+  @import '../components/PasswordField/passwordField';
+  @import '../components/SubmitModal/submitModal';
+  @import '../components/Warning/warning';
 }
