@@ -121,6 +121,7 @@
 
   // Views
   @import '../routes/Wallets/styles/wallets';
+  @import '../routes/Wallets/routes/Addresses/styles/mnemonicAddresses';
 
   // Base components
   @import '../components/base/__new__/JButton/jButton';
