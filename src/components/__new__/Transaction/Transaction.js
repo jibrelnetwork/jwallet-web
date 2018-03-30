@@ -8,6 +8,14 @@ import config from 'config'
 import { handle, ignoreEvent } from 'utils'
 import { JButton, JIcon } from 'components/base/__new__'
 
+const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' => {
+  if (!isJNT) {
+    return '—'
+  }
+
+  return (type === 'send') ? 'burn' : 'mint'
+}
+
 const TransactionItem = ({
   setActive,
   repeat,
@@ -32,7 +40,7 @@ const TransactionItem = ({
         </div>
         <div className='address'>
           <div className='label'>{'Address'}</div>
-          <div className='value'>{data.address}</div>
+          <div className='value'>{data.address || getJNTEventType(data)}</div>
         </div>
         <div className='amount'>
           <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>

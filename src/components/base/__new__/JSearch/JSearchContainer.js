@@ -17,13 +17,34 @@ type ComponentProps = {
   onChange: Function,
   setQuery: Function,
   setTimerId: Function,
+  toggle: Function,
   value: string,
   query: string,
   timerId: Index,
 }
 
 export default compose(
+  withStateHandlers(
+    ({ value }: { value: string }): ComponentState => ({
+      query: value,
+      timerId: 0,
+      isActive: false,
+    }),
+    {
+      setQuery: () => (query: string) => ({ query }),
+      setTimerId: () => (timerId: Index) => ({ timerId }),
+      toggle: () => (isActive: boolean) => ({ isActive }),
+    },
+  ),
   withHandlers({
+    onToggle: ({ onChange, setQuery, toggle }: ComponentProps) => (isActive: boolean) => {
+      if (!isActive) {
+        setQuery('')
+        onChange('')
+      }
+
+      toggle(isActive)
+    },
     onQueryChange: ({ onChange, setQuery, setTimerId, timerId }: ComponentProps) => (e: Object) => {
       if (timerId) {
         clearTimeout(timerId)
@@ -37,16 +58,4 @@ export default compose(
       setTimerId(newTimerId)
     },
   }),
-  withStateHandlers(
-    ({ value }: { value: string }): ComponentState => ({
-      query: value,
-      timerId: 0,
-      isActive: false,
-    }),
-    {
-      setQuery: () => (query: string) => ({ query }),
-      setTimerId: () => (timerId: Index) => ({ timerId }),
-      toggle: () => (isActive: boolean) => ({ isActive }),
-    },
-  ),
 )(JSearch)

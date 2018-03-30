@@ -3,15 +3,18 @@
 import { connect } from 'react-redux'
 import { assoc, compose } from 'ramda'
 
-import { getDigitalAssetByAddress, getTransactionsByPeriod } from 'utils'
 import { setActive, repeat } from 'routes/Transactions/modules/transactions'
+import { getDigitalAssetByAddress, getTransactionsByPeriod, searchTransactions } from 'utils'
 
 import AllTransactions from '../components/AllTransactions'
 
 const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
   assoc(
     'transactionsByPeriod',
-    getTransactionsByPeriod(transactions.items),
+    compose(
+      getTransactionsByPeriod,
+      searchTransactions,
+    )(transactions),
   ),
   assoc(
     'currentAsset',

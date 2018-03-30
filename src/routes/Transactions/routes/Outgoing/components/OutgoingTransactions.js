@@ -11,7 +11,6 @@ const OutgoingTransactions = ({
   items,
   transactionsByPeriod,
   currentAsset,
-  // searchQuery,
   isLoading,
   isBlockExplorerError,
   isCustomNetwork,

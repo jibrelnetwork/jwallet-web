@@ -11,7 +11,6 @@ const AllTransactions = ({
   items,
   transactionsByPeriod,
   currentAsset,
-  // searchQuery,
   isLoading,
   isBlockExplorerError,
   isCustomNetwork,
