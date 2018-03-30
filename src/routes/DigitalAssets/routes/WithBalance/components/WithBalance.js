@@ -3,19 +3,8 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import { DigitalAssets, DigitalAssetsEmpty } from 'components/__new__'
-
-const filterAssets = (
-  items: DigitalAssets,
-  foundAssets: Addresses,
-  searchQuery: string,
-): DigitalAssets => {
-  if (!searchQuery) {
-    return items
-  }
-
-  return items.filter(({ address }: DigitalAsset): boolean => foundAssets.includes(address))
-}
+import searchDigitalAssets from '../../../../../utils/searchDigitalAssets'
+import { DigitalAssets, DigitalAssetsEmpty } from '../../../../../components/__new__'
 
 const getAssetsWithBalance = (items: DigitalAssets, balances: Balances): DigitalAssets => {
   return items.filter(({ address }: DigitalAsset): boolean => (balances[address] > 0))
@@ -33,10 +22,10 @@ const WithBalance = ({
     return <div className='with-balance-view'>{'Loading'}</div>
   }
 
-  const assetsWithBalance: DigitalAssets = getAssetsWithBalance(items, balances)
-  const filteredAssets: DigitalAssets = filterAssets(assetsWithBalance, foundAssets, searchQuery)
+  const withBalance: DigitalAssets = getAssetsWithBalance(items, balances)
+  const foundItems: DigitalAssets = searchDigitalAssets(withBalance, foundAssets, searchQuery)
 
-  if (isEmpty(filteredAssets)) {
+  if (isEmpty(foundItems)) {
     return <DigitalAssetsEmpty />
   }
 
@@ -44,7 +33,7 @@ const WithBalance = ({
     <div className='with-balance-view'>
       <DigitalAssets
         setActive={setActive}
-        items={filteredAssets}
+        items={foundItems}
         balances={balances}
         isBalancesLoading={isBalancesLoading}
       />

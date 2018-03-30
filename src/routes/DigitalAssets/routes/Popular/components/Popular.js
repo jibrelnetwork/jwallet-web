@@ -3,19 +3,8 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import { DigitalAssets, DigitalAssetsEmpty } from 'components/__new__'
-
-const filterAssets = (
-  items: DigitalAssets,
-  foundAssets: Addresses,
-  searchQuery: string,
-): DigitalAssets => {
-  if (!searchQuery) {
-    return items
-  }
-
-  return items.filter(({ address }: DigitalAsset): boolean => foundAssets.includes(address))
-}
+import searchDigitalAssets from '../../../../../utils/searchDigitalAssets'
+import { DigitalAssets, DigitalAssetsEmpty } from '../../../../../components/__new__'
 
 const getAssetsWithoutBalance = (items: DigitalAssets, balances: Balances): DigitalAssets => {
   return items.filter(({ address }: DigitalAsset): boolean => (balances[address] === 0))
@@ -33,16 +22,16 @@ const Popular = ({
     return <div className='popular-view'>{'Loading'}</div>
   }
 
-  const assetsWithoutBalance: DigitalAssets = getAssetsWithoutBalance(items, balances)
-  const filteredAssets: DigitalAssets = filterAssets(assetsWithoutBalance, foundAssets, searchQuery)
+  const withoutBalance: DigitalAssets = getAssetsWithoutBalance(items, balances)
+  const foundItems: DigitalAssets = searchDigitalAssets(withoutBalance, foundAssets, searchQuery)
 
-  if (isEmpty(filteredAssets)) {
+  if (isEmpty(foundItems)) {
     return <DigitalAssetsEmpty />
   }
 
   return (
     <div className='popular-view'>
-      <DigitalAssets setActive={setActive} items={filteredAssets} />
+      <DigitalAssets setActive={setActive} items={foundItems} />
     </div>
   )
 }
