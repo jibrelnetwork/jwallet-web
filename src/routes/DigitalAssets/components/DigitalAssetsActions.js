@@ -8,7 +8,7 @@ import { JIcon, JSearch, JText } from 'components/base/__new__'
 const DigitalAssetsActions = ({ search, searchQuery }: Props) => (
   <div className='actions'>
     <Link to='/digital-assets/add' className='link' >
-      <JIcon size='small' name='plus' />
+      <JIcon size='small' name='plus' color='blue' />
       <JText value='header.actions.addCustomAsset' variants={['bold', 'blue']} />
     </Link>
     <JSearch

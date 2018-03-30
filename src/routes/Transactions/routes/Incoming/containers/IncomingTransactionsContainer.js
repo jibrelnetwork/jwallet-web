@@ -1,17 +1,21 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { assoc, compose, propEq } from 'ramda'
+import { assoc, compose, filter, propEq } from 'ramda'
 
-import { getDigitalAssetByAddress, getTransactionsByPeriod } from 'utils'
 import { setActive, repeat } from 'routes/Transactions/modules/transactions'
+import { getDigitalAssetByAddress, getTransactionsByPeriod, searchTransactions } from 'utils'
 
 import IncomingTransactions from '../components/IncomingTransactions'
 
 const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
   assoc(
     'transactionsByPeriod',
-    getTransactionsByPeriod(transactions.items.filter(propEq('type', 'receive'))),
+    compose(
+      getTransactionsByPeriod,
+      filter(propEq('type', 'receive')),
+      searchTransactions,
+    )(transactions),
   ),
   assoc(
     'currentAsset',

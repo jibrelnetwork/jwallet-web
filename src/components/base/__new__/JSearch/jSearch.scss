@@ -1,17 +1,12 @@
 .j-search {
-  position: relative;
-  display: flex;
+  all: initial;
 
-  > .icon-wrap {
-    display: inline-block;
-  }
+  @include flex-row-center;
 
-  > .icon-wrap > .j-icon {
-    position: relative;
-    top: 8px;
-    display: inline-block;
+  > .search {
     opacity: 0.4;
     cursor: pointer;
+    transition: opacity 0.3s ease 0s;
 
     &:hover {
       opacity: 0.8;
@@ -19,6 +14,8 @@
   }
 
   > .field {
+    @include flex-row-center;
+
     width: 0;
     overflow: hidden;
     transition: width 0.3s ease 0s;
@@ -26,38 +23,33 @@
     &.-active {
       width: 200px;
       margin-left: 20px;
+
+      > .close {
+        display: block;
+      }
     }
 
-    &.-active > .icon-wrap {
-      display: inline-block;
+    > .input {
+      @include font;
+
+      width: 100%;
+      padding: 5px 20px;
+      background-color: transparent;
+      border: none;
+      border-left: 1px solid rgba(61, 79, 108, 0.1);
+      color: $dusk;
     }
-  }
 
-  > .field > .input {
-    width: 100%;
-    padding: 5px 20px;
-    background-color: transparent;
-    border: none;
-    border-left: 1px solid rgba(61, 79, 108, 0.1);
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 13px;
-    color: $dusk;
-  }
+    > .close {
+      @include hover-animation;
 
-  > .field > .icon-wrap {
-    display: none;
-  }
+      display: none;
+      opacity: 0.3;
+      cursor: pointer;
 
-  > .field > .icon-wrap > .j-icon {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-top: -6px;
-    opacity: 0.3;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.7;
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 
