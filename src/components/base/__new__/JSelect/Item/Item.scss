@@ -6,44 +6,50 @@
   flex-direction: row;
   justify-content: space-between;
 
-  /* RSCSS exception */
-  &:not(.-selected):hover {
-    > .info {
-      > .title {
-        > .j-text {
-          color: #0050db;
-        }
-      }
-
-      > .description {
-        > .j-text {
-          color: #0050db;
-        }
+  &.-token {
+    &.-selected {
+      > .icon {
+        margin-right: 0;
       }
     }
-
-    > .icon {
-      > .j-icon {
-        filter: hue-rotate(20deg) saturate(5);
-        opacity: 1;
-        transition: all 0.3 ease 0s;
-      }
-    }
-  }
-  /* RSCSS exception */
-
-  // > .info {
-  //   > .title {
-  //   }
-    
-  //   > .description {
-  //   }
-  // }
   
-  > .icons {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+    > .icon {
+      margin-right: 30px;
+    }
+  
+    /* RSCSS exception */
+    &:not(.-selected):hover {
+      > .data {
+        > .title {
+          > .j-text {
+            color: #0050db;
+          }
+        }
+  
+        > .description {
+          > .j-text {
+            color: #0050db;
+          }
+        }
+      }
+  
+      > .icon {
+        > .j-icon {
+          filter: hue-rotate(20deg) saturate(5);
+          opacity: 1;
+          transition: all 0.3 ease 0s;
+        }
+      }
+    }
+    /* RSCSS exception */
+    
+    > .icons {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+    }
   }
+
+  
 
 }
