@@ -2,20 +2,26 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { Scrollbars } from 'react-custom-scrollbars'
 import { compose, values, map, dissoc } from 'ramda'
 
 import Item from './Item'
 import JIcon from '../JIcon'
 
-type Props = {
+type Token = {
+  type: 'token',
   items: Array<{
     id: string | number,
     icon: string,
     title: string,
     description: string,
-  }>,
+  }>
+}
+
+type Props = {
   title: string,
   isOpen: bool,
+  content: Token,
   selectedItemId: number,
   open: () => void,
   close: () => void,
@@ -23,6 +29,7 @@ type Props = {
 }
 
 const renderSelectionList = (
+  type,
   items,
   onItemSelect,
   selectedItemId,
@@ -30,6 +37,7 @@ const renderSelectionList = (
   map(item => (
     <Item
       key={item.id}
+      type={type}
       onClick={onItemSelect}
       {...item}
     />
@@ -41,9 +49,9 @@ const renderSelectionList = (
 const JSelect = ({
   open,
   close,
-  items,
   title,
   isOpen,
+  content,
   onItemSelect,
   selectedItemId,
 }: Props) => (
@@ -51,10 +59,12 @@ const JSelect = ({
     <div className='selected-item'>
       <div className='item'>
         <Item
+          type={content.type}
           header={title}
+          active={isOpen}
           onClick={isOpen ? close : open}
           selected
-          {...items[selectedItemId]}
+          {...content.items[selectedItemId]}
         />
       </div>
       <div className='expand'>
@@ -65,7 +75,14 @@ const JSelect = ({
       </div>
     </div>
     <div className='selection-list'>
-      {renderSelectionList(items, onItemSelect, selectedItemId)}
+      <Scrollbars autoHide>
+        {renderSelectionList(
+          content.type,
+          content.items,
+          onItemSelect,
+          selectedItemId
+        )}
+      </Scrollbars>
     </div>
   </div>
 )
