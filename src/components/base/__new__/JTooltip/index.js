@@ -1,1 +1,1 @@
-export { default } from './JTooltip'
+export { default } from './JTooltipContainer'

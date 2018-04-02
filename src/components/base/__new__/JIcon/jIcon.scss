@@ -68,6 +68,10 @@
     background-image: $menu-favorite-white;
   }
 
+  &.-info-gray {
+    background-image: $info-gray;
+  }
+
   &.-menu-send,
   &.-menu-receive,
   &.-menu-favorite-white {

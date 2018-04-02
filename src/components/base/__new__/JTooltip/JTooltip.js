@@ -1,6 +1,5 @@
 import React from 'react'
 import Tooltip from 'rc-tooltip'
-import { pure } from 'recompose'
 import 'rc-tooltip/assets/bootstrap.css'
 
 import JText from '../JText'
@@ -11,14 +10,19 @@ type Props = {
 }
 
 const JTooltip = ({ text, children }: Props) => (
-  <div className='JTooltip'>
+  <div className='jTooltip'>
     <Tooltip
-      placement='top'
-      overlay={<JText value={text}/>}
+      overlay={(
+        <JText
+          value={text}
+          variants={['white', 'mini']}
+        />
+      )}
+      placement='right'
     >
-      {children}
+      <div>{children}</div>
     </Tooltip>
   </div>
 )
 
-export default pure(JTooltip)
+export default JTooltip
