@@ -1,16 +1,18 @@
+const isValid = (v: string): boolean => !/\[|\]/.test(v)
+
 export default function getDefaultNetworks() {
   return [{
     id: 1,
     title: i18n('networkManager.knownNetworkTitle.main'),
-    rpcaddr: 'main-node.jwallet.network',
-    rpcport: '443',
+    rpcaddr: isValid(__MAIN_RPC_ADDR__) ? __MAIN_RPC_ADDR__ : 'main-node.jwallet.network',
+    rpcport: isValid(__MAIN_RPC_PORT__) ? __MAIN_RPC_PORT__ : '443',
     ssl: true,
     isCustom: false,
   }, {
     id: 3,
     title: i18n('networkManager.knownNetworkTitle.ropsten'),
-    rpcaddr: 'ropsten-node.jwallet.network',
-    rpcport: '443',
+    rpcaddr: isValid(__ROPSTEN_RPC_ADDR__) ? __ROPSTEN_RPC_ADDR__ : 'ropsten.node.jwallet.network',
+    rpcport: isValid(__ROPSTEN_RPC_PORT__) ? __ROPSTEN_RPC_PORT__ : '443',
     ssl: true,
     isCustom: false,
   }, {
