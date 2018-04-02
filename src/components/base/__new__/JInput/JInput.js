@@ -14,6 +14,7 @@ const JInput = ({
   checked,
   disabled,
   onChange,
+  multiline,
   isLoading,
   placeholder,
   infoMessage,
@@ -21,19 +22,29 @@ const JInput = ({
 }: Props) => (
   <div className={cx(
     'j-input',
-    `-${type}`,
-    `-${color}`,
+    type && `-${type}`,
+    color && `-${color}`,
     disabled && '-disabled',
     errorMessage && '-with-error',
   )}
   >
-    <input
-      type={type}
-      value={value}
-      disabled={disabled}
-      onChange={event => (onChange ? onChange(event.target.value) : identity)}
-      placeholder={placeholder}
-    />
+    {multiline ? (
+      <textarea
+        rows={2}
+        value={value}
+        onChange={onChange && (event => onChange(event.target.value))}
+        disabled={disabled}
+        placeholder={placeholder}
+      />
+    ) : (
+      <input
+        type={type}
+        value={value}
+        disabled={disabled}
+        onChange={event => (onChange ? onChange(event.target.value) : identity)}
+        placeholder={placeholder}
+      />
+    )}
     <div className='label'>
       <JText
         value={label || placeholder}
@@ -82,6 +93,7 @@ type Props = {
   checked?: boolean,
   onChange?: Function,
   disabled?: boolean,
+  multiline?: boolean,
   isLoading?: boolean,
   placeholder?: string,
   infoMessage?: string,
@@ -96,6 +108,7 @@ JInput.defaultProps = {
   value: undefined,
   checked: false,
   disabled: false,
+  multiline: false,
   isLoading: false,
   placeholder: undefined,
   infoMessage: undefined,

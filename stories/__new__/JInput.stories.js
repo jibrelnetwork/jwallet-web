@@ -122,3 +122,20 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
+  .add('White multiline', () => (
+    <div style={{ backgroundColor: '#0050DB' }}>
+      {React.createElement(StateHOC(
+        ({ value, setValue }) => (
+          <JInput
+            type='text'
+            label='Some label'
+            color='white'
+            value={value}
+            onChange={setValue}
+            multiline
+            placeholder='Enter some text'
+          />
+        )
+      ))}
+    </div>
+  ))
