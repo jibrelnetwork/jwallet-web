@@ -31,12 +31,11 @@ const JInput = ({
     {multiline ? (
       <textarea
         rows={2}
+        value={value}
         onChange={onChange && (event => onChange(event.target.value))}
         disabled={disabled}
         placeholder={placeholder}
-      >
-        {value}
-      </textarea>
+      />
     ) : (
       <input
         type={type}
