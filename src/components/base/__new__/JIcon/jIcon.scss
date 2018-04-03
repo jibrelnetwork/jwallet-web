@@ -39,9 +39,9 @@
   }
 
   &.-huge {
-    width: $icon-huge-size;
-    height: $icon-huge-size;
-    background-size: $icon-huge-size $icon-huge-size;
+    width: $icon-huge-width;
+    height: $icon-huge-height;
+    background-size: $icon-huge-width $icon-huge-height;
   }
 
   // SVG
@@ -427,19 +427,19 @@
 
   // Huge
 
-  &.-key {
-    background-image: $key;
-  }
-
   &.-key-blue {
     background-image: $key-blue;
   }
 
-  &.-cloud {
-    background-image: $cloud;
+  &.-cloud-white {
+    background-image: $cloud-white;
   }
 
   &.-cloud-blue {
     background-image: $cloud-blue;
+  }
+
+  &.-man-blue {
+    background-image: $man-blue;
   }
 }

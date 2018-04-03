@@ -10,7 +10,7 @@ storiesOf('JThumbnail', module)
   .add('White', () => (
     <div style={{ backgroundColor: '#0050db' }}>
       <JThumbnail
-        image='key'
+        image='cloud-blue'
         color='white'
         title='Backup current key'
         description={`All user data, including imported or generated \n private keys are stored locally, meaning your private`}
@@ -19,7 +19,7 @@ storiesOf('JThumbnail', module)
   ))
   .add('Gray', () => (
     <JThumbnail
-      image='key'
+      image='cloud-white'
       color='gray'
       title='Backup current key'
       description={"All user data, including imported or generated \n private keys are stored locally, meaning your private"}

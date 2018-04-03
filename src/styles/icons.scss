@@ -5,7 +5,8 @@ $icon-small-size: 12px;
 $icon-medium-size: 24px;
 $icon-large-size: 36px;
 $icon-extra-large-size: 48px;
-$icon-huge-size: 200px;
+$icon-huge-width: 200px;
+$icon-huge-height: 165px;
 
 /**
  * Small
@@ -246,9 +247,9 @@ $token-zrx-gray: url('../public/icons/large/tokens/gray/zrx.svg');
  * Huge
  */
 
-$key: url('../public/icons/huge/key.svg');
+$man-blue: url('../public/icons/huge/man-blue.svg');
 $key-blue: url('../public/icons/huge/key-blue.svg');
-$cloud: url('../public/icons/huge/cloud.svg');
+$cloud-white: url('../public/icons/huge/cloud-white.svg');
 $cloud-blue: url('../public/icons/huge/cloud-blue.svg');
 
 /**

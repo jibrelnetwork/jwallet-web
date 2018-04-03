@@ -11,7 +11,7 @@ storiesOf('DerivedAddress', module)
     <div style={{ padding: 15, backgroundColor: '#0050db' }} >
       <DerivedAddress
         address='0x6db472d2f86cba8cac6c0f4e03dce4f89b061af0'
-        balance='10'
+        balance={10}
         onClick={action('onClick')}
       />
     </div>

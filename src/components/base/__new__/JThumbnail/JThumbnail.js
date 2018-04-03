@@ -35,7 +35,7 @@ const JThumbnail = ({
     <div className='description'>
       <JText
         value={description}
-        variants={['normal', 'transparent', 'center', color]}
+        variants={['normal', 'transparent', 'center', 'tall', color]}
       />
     </div>
   </div>

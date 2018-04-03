@@ -133,7 +133,6 @@
   @import '../components/base/__new__/JLogo/jLogo';
   @import '../components/base/__new__/JCallout/jCallout';
   @import '../components/base/__new__/JCard/jCard';
-  @import '../components/base/__new__/JPaginator/jPaginator';
   @import '../components/base/__new__/JSelect/jSelect';
   @import '../components/base/__new__/JText/jText';
   @import '../components/base/__new__/JThumbnail/jThumbnail';
@@ -169,6 +168,7 @@
   @import '../components/__new__/WalletHeader/walletHeader';
   @import '../components/__new__/WalletManager/walletManager';
   @import '../components/__new__/DerivationPath/DerivationPath';
+  @import '../routes/NotFound/NotFound';
 
   // Deprecated
   @import '../components/base/JFormField/jFormField';
