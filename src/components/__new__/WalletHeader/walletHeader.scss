@@ -1,6 +1,7 @@
 .walletHeader {
   all: initial;
   display: flex;
+  flex-grow: 1;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
