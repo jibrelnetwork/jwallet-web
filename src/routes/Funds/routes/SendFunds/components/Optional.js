@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Expandable from 'components/Expandable'
-import JInput from 'components/base/__new__/JInput'
+import JInput from 'components/base/JInput'
 
 const Optional = ({
   setGas,

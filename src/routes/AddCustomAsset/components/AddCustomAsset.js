@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ModalLayout from 'layouts/ModalLayout'
-import ModalHeader from 'components/__new__/ModalHeader'
-import { JButton, JInput } from 'components/base/__new__'
+import ModalHeader from 'components/ModalHeader'
+import { JButton, JInput } from 'components/base'
 
 const AddCustomAsset = ({
   setName,

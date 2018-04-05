@@ -4,8 +4,8 @@
 
 import React from 'react'
 
-import { WalletHeader } from '../../components/__new__'
-import { JButton, JThumbnail } from '../../components/base/__new__'
+import { WalletHeader } from '../../components'
+import { JButton, JThumbnail } from '../../components/base'
 
 const NotFound = () => (
   <div className='NotFound'>

@@ -3,8 +3,8 @@
 import React from 'react'
 
 import PasswordField from 'components/PasswordField'
-import ModalHeader from 'components/__new__/ModalHeader'
-import { JButton, JInput } from 'components/base/__new__'
+import ModalHeader from 'components/ModalHeader'
+import { JButton, JInput } from 'components/base'
 
 const ChangeWalletPassword = ({
   setCurrent,

@@ -4,7 +4,7 @@ import React from 'react'
 import { isEmpty } from 'ramda'
 
 import searchDigitalAssets from '../../../../../utils/searchDigitalAssets'
-import { DigitalAssets, DigitalAssetsEmpty } from '../../../../../components/__new__'
+import { DigitalAssets, DigitalAssetsEmpty } from '../../../../../components'
 
 const getAssetsWithoutBalance = (items: DigitalAssets, balances: Balances): DigitalAssets => {
   return items.filter(({ address }: DigitalAsset): boolean => (balances[address] === 0))

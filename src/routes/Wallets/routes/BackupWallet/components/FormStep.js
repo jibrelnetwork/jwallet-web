@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JThumbnail } from 'components/base/__new__'
+import { JButton, JThumbnail } from 'components/base'
 
 const FormStep = ({ setNextStep }: Props) => (
   <div className='form'>

@@ -4,8 +4,8 @@ import React from 'react'
 import { isEmpty } from 'ramda'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import JButton from 'components/base/__new__/JButton'
-import DigitalAssets from 'components/__new__/DigitalAssets'
+import JButton from 'components/base/JButton'
+import DigitalAssets from 'components/DigitalAssets'
 
 const filterAssets = (
   items: DigitalAssets,

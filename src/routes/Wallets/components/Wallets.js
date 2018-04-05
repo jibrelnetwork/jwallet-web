@@ -3,7 +3,7 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import WalletHeader from 'components/__new__/WalletHeader'
+import WalletHeader from 'components/WalletHeader'
 
 import WalletsWithNewButtons from './WalletsWithNewButtons'
 

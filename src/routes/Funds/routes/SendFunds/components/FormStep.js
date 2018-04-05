@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import JPicker from 'components/base/JPicker'
-import { JButton, JInput } from 'components/base/__new__'
+import { JButton, JInput } from 'components/base'
 
 import Optional from './Optional'
 

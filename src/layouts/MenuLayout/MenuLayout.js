@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import Menu from 'components/__new__/Menu'
+import Menu from 'components/Menu'
 
 const MenuLayout = ({ children }: Props) => (
   <div className='menu-layout'>

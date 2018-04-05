@@ -3,7 +3,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-import { JIcon, JSearch, JText } from 'components/base/__new__'
+import { JIcon, JSearch, JText } from 'components/base'
 
 const DigitalAssetsActions = ({ search, searchQuery }: Props) => (
   <div className='actions'>

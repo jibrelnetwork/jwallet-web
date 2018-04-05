@@ -3,9 +3,9 @@
 import React from 'react'
 
 import Expandable from 'components/Expandable'
-import DerivationPath from 'components/__new__/DerivationPath'
+import DerivationPath from 'components/DerivationPath'
 import { handle, isMnemonicType } from 'utils'
-import { JButton, JInput } from 'components/base/__new__'
+import { JButton, JInput } from 'components/base'
 
 const DataStep = ({
   setData,

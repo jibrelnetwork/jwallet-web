@@ -3,7 +3,7 @@
 import React from 'react'
 
 import handle from 'utils/handle'
-import DerivedAddress from 'components/__new__/DerivedAddress'
+import DerivedAddress from 'components/DerivedAddress'
 
 const MnemonicAddressesList = ({
   setActive,

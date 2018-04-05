@@ -3,7 +3,7 @@
 import React from 'react'
 
 import MenuLayout from 'layouts/MenuLayout'
-import ActiveAssetsPanel from 'components/__new__/ActiveAssetsPanel'
+import ActiveAssetsPanel from 'components/ActiveAssetsPanel'
 
 const ActiveAssetsLayout = ({ children }: Props) => (
   <MenuLayout>

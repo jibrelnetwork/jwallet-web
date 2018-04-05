@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { NewWalletButtons, WalletHeader } from 'components/__new__'
+import { NewWalletButtons, WalletHeader } from 'components'
 
 const Start = ({ createWallet, importWallet }: Props) => (
   <div className='content'>

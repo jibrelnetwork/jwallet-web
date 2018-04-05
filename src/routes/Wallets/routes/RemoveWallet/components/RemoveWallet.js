@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import ModalHeader from 'components/__new__/ModalHeader'
-import { JButton, JThumbnail } from 'components/base/__new__'
+import ModalHeader from 'components/ModalHeader'
+import { JButton, JThumbnail } from 'components/base'
 
 const RemoveWallet = ({ remove }: Props) => (
   <div className='content'>

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import ModalLayout from 'layouts/ModalLayout'
 import JPicker from 'components/base/JPicker'
-import { ModalHeader, QRCode } from 'components/__new__'
-import { JButton, JInput } from 'components/base/__new__'
+import { ModalHeader, QRCode } from 'components'
+import { JButton, JInput } from 'components/base'
 
 const ReceiveFunds = ({
   setAsset,
