@@ -4,7 +4,7 @@ import React from 'react'
 
 import handle from 'utils/handle'
 import { Expandable } from 'components'
-import { DerivationPath } from 'components/__new__'
+import { DerivationPath } from 'components'
 
 const ExpandableDerivationPath = ({
   setKnownDerivationPath,

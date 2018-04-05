@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { ModalHeader, PasswordStep } from 'components/__new__'
+import { ModalHeader, PasswordStep } from 'components'
 
 import MnemonicStep from './MnemonicStep'
 import NameStep from '../../../components/NameStep'

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JInput } from 'components/base/__new__'
+import { JButton, JInput } from 'components/base'
 
 const MnemonicConfirmStep = ({
   setMnemonicConfirm,

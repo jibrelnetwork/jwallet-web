@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import JSearch from 'components/base/__new__/JSearch'
+import JSearch from 'components/base/JSearch'
 
 const TransactionsActions = ({ search, searchQuery }: Props) => (
   <div className='actions'>

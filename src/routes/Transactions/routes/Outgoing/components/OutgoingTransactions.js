@@ -3,7 +3,7 @@
 import React from 'react'
 
 import getTransactionsEmptyEvent from 'utils/getTransactionsEmptyEvent'
-import { TransactionsByPeriod, TransactionsEmpty } from 'components/__new__'
+import { TransactionsByPeriod, TransactionsEmpty } from 'components'
 
 const OutgoingTransactions = ({
   setActive,

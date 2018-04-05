@@ -3,8 +3,8 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import JButton from 'components/base/__new__/JButton'
-import ModalHeader from 'components/__new__/ModalHeader'
+import JButton from 'components/base/JButton'
+import ModalHeader from 'components/ModalHeader'
 
 import MnemonicAddressesList from './MnemonicAddressesList'
 

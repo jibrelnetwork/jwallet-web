@@ -4,7 +4,7 @@ import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
-import JTabs from 'components/base/__new__/JTabs'
+import JTabs from 'components/base/JTabs'
 import TransactionsActions from 'routes/Transactions/containers/TransactionsActionsContainer'
 
 const TRANSACTIONS_TABS = {

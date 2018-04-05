@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { NewWalletButtons, WalletManager } from 'components/__new__'
+import { NewWalletButtons, WalletManager } from 'components'
 
 const WalletsWithNewButtons = (props: Props) => (
   <div className='wallets-with-new-buttons'>

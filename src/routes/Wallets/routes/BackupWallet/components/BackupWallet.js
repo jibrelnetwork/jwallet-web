@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { ModalHeader, PasswordStep } from 'components/__new__'
+import { ModalHeader, PasswordStep } from 'components'
 
 import FormStep from './FormStep'
 import { STEPS } from '../modules/backupWallet'
