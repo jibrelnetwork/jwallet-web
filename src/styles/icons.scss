@@ -54,8 +54,9 @@ $transaction-send-time: url('../public/icons/extra-large/transaction-send-time.s
 $transaction-receive: url('../public/icons/extra-large/transaction-receive.svg');
 $transaction-receive-time: url('../public/icons/extra-large/transaction-receive-time.svg');
 
-
-// Tokens
+/**
+ * Tokens
+ */
 
 // white
 
@@ -246,65 +247,7 @@ $token-zrx-gray: url('../public/icons/large/tokens/gray/zrx.svg');
 /**
  * Huge
  */
-
 $man-blue: url('../public/icons/huge/man-blue.svg');
 $key-blue: url('../public/icons/huge/key-blue.svg');
 $cloud-white: url('../public/icons/huge/cloud-white.svg');
 $cloud-blue: url('../public/icons/huge/cloud-blue.svg');
-
-/**
- * Logo
- */
-$logo-new: url('../public/icons/logo.svg');
-
-/**
- * Deprecated
- */
-$icon-send: url('../public/img/icons/send.svg');
-$icon-receive: url('../public/img/icons/receive.svg');
-$icon-convert: url('../public/img/icons/convert.svg');
-$icon-currencies: url('../public/img/icons/currencies.svg');
-$icon-keys-blue: url('../public/img/icons/keys-blue.svg');
-$icon-keys-white: url('../public/img/icons/keys-white.svg');
-$icon-date: url('../public/img/icons/date.svg');
-$icon-dots: url('../public/img/icons/dots.svg');
-$icon-close: url('../public/img/icons/close.svg');
-$icon-close-white: url('../public/img/icons/close-white.svg');
-$icon-edit: url('../public/img/icons/edit.svg');
-$icon-gear: url('../public/img/icons/gear.svg');
-$icon-send-funds: url('../public/img/icons/send-funds.svg');
-$icon-convert-funds: url('../public/img/icons/convert-funds.svg');
-$icon-qr-code: url('../public/img/icons/qr-code.svg');
-$icon-copy: url('../public/img/icons/copy.svg');
-$icon-import-keys: url('../public/img/icons/import-keys.svg');
-$icon-txt: url('../public/img/icons/txt.svg');
-$icon-alert: url('../public/img/icons/alert.svg');
-$icon-send-w: url('../public/img/icons/send-w.svg');
-$icon-receive-w: url('../public/img/icons/receive-w.svg');
-$icon-convert-w: url('../public/img/icons/convert-w.svg');
-$icon-licensed: url('../public/img/icons/licensed.svg');
-$icon-search: url('../public/img/icons/search.svg');
-$icon-checkbox: url('../public/img/icons/checkbox.svg');
-$icon-pin: url('../public/img/icons/pin.svg');
-$icon-switch: url('../public/img/icons/switch.svg');
-$icon-networks-blue: url('../public/img/icons/networks-blue.svg');
-$icon-networks-white: url('../public/img/icons/networks-white.svg');
-$icon-networks-checkbox: url('../public/img/icons/networks-checkbox.svg');
-$icon-eye: url('../public/img/icons/eye.svg');
-
-$icon-small-add: url('../public/img/icons/small-add.svg');
-$icon-small-addWhite: url('../public/img/icons/small-add-white.svg');
-$icon-small-minus: url('../public/img/icons/small-minus.svg');
-$icon-small-import: url('../public/img/icons/small-import.svg');
-$icon-small-backup: url('../public/img/icons/small-backup.svg');
-$icon-small-clear: url('../public/img/icons/small-clear.svg');
-$icon-small-arrow-blue: url('../public/img/icons/small-arrow-blue.svg');
-$icon-small-arrow-gray: url('../public/img/icons/small-arrow-gray.svg');
-$icon-small-arrow-white: url('../public/img/icons/small-arrow-white.svg');
-$icon-small-send: url('../public/img/icons/small-send.svg');
-$icon-small-receive: url('../public/img/icons/small-receive.svg');
-$icon-small-convert: url('../public/img/icons/small-convert.svg');
-$icon-small-jnt-mint: url('../public/img/icons/small-token.svg');
-$icon-small-jnt-burn: url('../public/img/icons/small-token-gray.svg');
-
-$icon-size: 24px;

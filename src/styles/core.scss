@@ -59,19 +59,12 @@
     color: $dusk;
   }
 
-  .clear:after {
-    clear: both;
-    display: block;
-    height: 0;
-    content: "";
-  }
-
   a {
     text-decoration: none;
     color: $blue;
 
     &:hover {
-      color: $blue2;
+      color: $blue-two;
     }
   }
 
@@ -86,14 +79,6 @@
     font-weight: 600;
   }
 
-  .pull-left {
-    float: left;
-  }
-
-  .pull-right {
-    float: right;
-  }
-
   #root {
     height: 100%;
     width: 100%;
@@ -105,13 +90,8 @@
   }
 
   // General
-  @import 'adaptive';
   @import 'form';
-  @import 'grid';
   @import 'header';
-  @import 'loading';
-  @import 'shake';
-  @import 'slider';
 
   // Layouts
   @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
@@ -120,85 +100,58 @@
   @import '../layouts/WalletsLayout/walletsLayout';
 
   // Views
+  @import '../routes/NotFound/NotFound';
   @import '../routes/Wallets/styles/wallets';
   @import '../routes/Wallets/routes/Addresses/styles/mnemonicAddresses';
 
   // Base components
-  @import '../components/base/__new__/JButton/jButton';
-  @import '../components/base/__new__/JCard/jCard';
-  @import '../components/base/__new__/JIcon/jIcon';
-  @import '../components/base/__new__/JLogo/jLogo';
-  @import '../components/base/__new__/JSearch/jSearch';
-  @import '../components/base/__new__/JTabs/jTabs';
-  @import '../components/base/__new__/JLogo/jLogo';
-  @import '../components/base/__new__/JCallout/jCallout';
-  @import '../components/base/__new__/JCard/jCard';
-  @import '../components/base/__new__/JSelect/jSelect';
-  @import '../components/base/__new__/JText/jText';
-  @import '../components/base/__new__/JThumbnail/jThumbnail';
-  @import '../components/base/__new__/JToast/jToast';
-  @import '../components/base/__new__/JTooltip/jTooltip';
-  @import '../components/base/__new__/JInput/jInput';
-  @import '../components/base/__new__/JRadioGroup/JRadioGroup';
-  @import '../components/base/__new__/JRadioGroup/Radio/Radio';
-  @import '../components/base/__new__/JRadioGroup/Input/Input';
-  @import '../components/base/__new__/JRadioButton/JRadioButton';
-  @import '../components/base/__new__/JRadioInput/JRadioInput';
-
-  // Components
-  @import '../components/__new__/ActiveAsset/activeAsset';
-  @import '../components/__new__/ActiveAssetsPanel/activeAssetsPanel';
-  @import '../components/__new__/AssetCard/assetCard';
-  @import '../components/__new__/CurrentAddress/currentAddress';
-  @import '../components/__new__/DigitalAssets/digitalAssets';
-  @import '../components/__new__/DigitalAssetsEmpty/digitalAssetsEmpty';
-  @import '../components/__new__/ESCButton/escButton';
-  @import '../components/__new__/Menu/menu';
-  @import '../components/__new__/DerivedAddress/DerivedAddress';
-  @import '../components/__new__/WalletHeader/walletHeader';
-  @import '../components/__new__/ModalHeader/modalHeader';
-  @import '../components/__new__/MenuLink/menuLink';
-  @import '../components/__new__/MenuSelect/menuSelect';
-  @import '../components/__new__/ModalHeader/modalHeader';
-  @import '../components/__new__/NewWalletButtons/newWalletButtons';
-  @import '../components/__new__/QRCode/qrCode';
-  @import '../components/__new__/Transaction/transaction';
-  @import '../components/__new__/TransactionsByPeriod/transactionsByPeriod';
-  @import '../components/__new__/TransactionsEmpty/transactionsEmpty';
-  @import '../components/__new__/WalletHeader/walletHeader';
-  @import '../components/__new__/WalletManager/walletManager';
-  @import '../components/__new__/DerivationPath/DerivationPath';
-  @import '../routes/NotFound/NotFound';
-
-  // Deprecated
-  @import '../components/base/JFormField/jFormField';
-  @import '../components/base/JCheckbox/jCheckbox';
-  @import '../components/base/JFooter/jFooter';
+  @import '../components/base/JButton/jButton';
+  @import '../components/base/JCard/jCard';
+  @import '../components/base/JIcon/jIcon';
+  @import '../components/base/JLogo/jLogo';
+  @import '../components/base/JSearch/jSearch';
+  @import '../components/base/JTabs/jTabs';
+  @import '../components/base/JLogo/jLogo';
+  @import '../components/base/JCallout/jCallout';
+  @import '../components/base/JCard/jCard';
+  @import '../components/base/JSelect/jSelect';
+  @import '../components/base/JText/jText';
+  @import '../components/base/JThumbnail/jThumbnail';
+  @import '../components/base/JToast/jToast';
+  @import '../components/base/JTooltip/jTooltip';
+  @import '../components/base/JInput/jInput';
+  @import '../components/base/JRadioGroup/JRadioGroup';
+  @import '../components/base/JRadioGroup/Radio/Radio';
+  @import '../components/base/JRadioGroup/Input/Input';
+  @import '../components/base/JRadioButton/JRadioButton';
+  @import '../components/base/JRadioInput/JRadioInput';
   @import '../components/base/JLoader/jLoader';
   @import '../components/base/JPicker/jPicker';
   @import '../components/base/JPopover/jPopover';
-  @import '../components/base/JRadio/jRadio';
-  @import '../components/base/JTable/jTable';
-  @import '../components/base/JTextInput/jTextInput';
 
-  @import '../components/modals/AlphaWarning/alphaWarning';
-  @import '../components/modals/Keystore/keystoreModal';
-  @import '../components/modals/Currencies/currenciesModal';
-
-  @import '../components/AccountsTable/accountsTable';
-  @import '../components/CopyableField/copyableField';
-  @import '../components/Currencies/currencies';
-  @import '../components/CurrenciesTable/currenciesTable';
-  @import '../components/CurrencyItem/currencyItem';
-  @import '../components/DerivationPath/derivationPath';
-  @import '../components/DatePicker/datePicker';
-  @import '../components/Expandable/expandable';
-  @import '../components/JWalletHeader/jWalletHeader';
-  @import '../components/KeysManager/keysManager';
-  @import '../components/KeystoreButtons/keystoreButtons';
-  @import '../components/LanguageManager/languageManager';
-  @import '../components/NetworksManager/networksManager';
+  // Components
+  @import '../components/ActiveAsset/activeAsset';
+  @import '../components/ActiveAssetsPanel/activeAssetsPanel';
+  @import '../components/AssetCard/assetCard';
+  @import '../components/CurrentAddress/currentAddress';
+  @import '../components/DigitalAssets/digitalAssets';
+  @import '../components/DigitalAssetsEmpty/digitalAssetsEmpty';
+  @import '../components/ESCButton/escButton';
+  @import '../components/Menu/menu';
+  @import '../components/DerivedAddress/DerivedAddress';
+  @import '../components/WalletHeader/walletHeader';
+  @import '../components/ModalHeader/modalHeader';
+  @import '../components/MenuLink/menuLink';
+  @import '../components/MenuSelect/menuSelect';
+  @import '../components/ModalHeader/modalHeader';
+  @import '../components/NewWalletButtons/newWalletButtons';
+  @import '../components/QRCode/qrCode';
+  @import '../components/Transaction/transaction';
+  @import '../components/TransactionsByPeriod/transactionsByPeriod';
+  @import '../components/TransactionsEmpty/transactionsEmpty';
+  @import '../components/WalletHeader/walletHeader';
+  @import '../components/WalletManager/walletManager';
+  @import '../components/DerivationPath/DerivationPath';
   @import '../components/PasswordField/passwordField';
-  @import '../components/SubmitModal/submitModal';
-  @import '../components/Warning/warning';
+  @import '../components/Expandable/expandable';
 }
