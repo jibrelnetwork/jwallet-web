@@ -4,8 +4,8 @@ import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { keystore } from 'services'
-import { InvalidFieldError } from 'utils/errors'
 import { selectWalletId, selectChangeWalletPassword } from 'store/stateSelectors'
 
 import {

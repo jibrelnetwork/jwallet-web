@@ -2,7 +2,7 @@
 
 import { path } from 'ramda'
 
-import getCurrentLanguageCode from 'utils/getCurrentLanguageCode'
+import getCurrentLanguageCode from 'utils/i18n/getCurrentLanguageCode'
 
 import en from './en'
 import ko from './ko'

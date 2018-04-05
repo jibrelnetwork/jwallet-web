@@ -2,7 +2,7 @@
 
 import Keystore from 'jwallet-web-keystore'
 
-import { InvalidFieldError } from './errors'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 
 const testKeystorePassword = (password: Password) => {
   const error = Keystore.testPassword(password).errors[0]

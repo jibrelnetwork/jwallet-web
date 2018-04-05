@@ -5,7 +5,8 @@ import { equals, isEmpty, gt, lt, toLower } from 'ramda'
 
 import config from 'config'
 import ethereum from 'data/assets/ethereum'
-import { getTransactionValue, toBigNumber, InvalidFieldError } from 'utils'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
+import { getTransactionValue, toBigNumber } from 'utils/transactions'
 
 function customNetworkRPC(customRPC: string, items: Networks) {
   // check validity

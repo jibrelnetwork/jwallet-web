@@ -1,13 +1,15 @@
 // @flow
 
 import { delay } from 'redux-saga'
-import { compose, equals, filter, head, toLower } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
+import { compose, equals, filter, head, toLower } from 'ramda'
 
 import config from 'config'
 import ethereum from 'data/assets/ethereum'
+import isETH from 'utils/digitalAssets/isETH'
+import copyToBuffer from 'utils/browser/copyToBuffer'
+import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { fileSaver, keystore, qrCode, validate } from 'services'
-import { copyToBuffer, getTransactionValue, isETH } from 'utils'
 
 import {
   selectReceiveFunds,

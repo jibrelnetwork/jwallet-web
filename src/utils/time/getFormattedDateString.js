@@ -1,3 +1,5 @@
+// @flow
+
 export default function getFormattedDateString(dateObj, format = 'hh:mm MM/DD/YYYY') {
   const date = (dateObj instanceof Date) ? dateObj : new Date(dateObj)
 

@@ -5,8 +5,9 @@ import { equals, toLower } from 'ramda'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { keystore, validate } from 'services'
-import { isMnemonicType, isKnownPath, InvalidFieldError } from 'utils'
+import { isMnemonicType, isKnownPath } from 'utils/keystore'
 import { selectWalletsItems, selectWalletId, selectEditWallet } from 'store/stateSelectors'
 
 import {

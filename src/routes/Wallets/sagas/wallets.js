@@ -5,7 +5,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import keystore from 'services/keystore'
-import { InvalidFieldError } from 'utils/errors'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { selectWallets } from 'store/stateSelectors'
 import { getBalances } from 'routes/DigitalAssets/modules/digitalAssets'
 

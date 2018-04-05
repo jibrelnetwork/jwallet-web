@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import handle from 'utils/handle'
+import handle from 'utils/eventHandlers/handle'
 import DerivedAddress from 'components/DerivedAddress'
 
 const MnemonicAddressesList = ({

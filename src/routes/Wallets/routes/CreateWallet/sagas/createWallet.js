@@ -5,7 +5,7 @@ import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { InvalidFieldError } from 'utils/errors'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { fileSaver, keystore, validate } from 'services'
 import { setActiveWalletId } from 'routes/Wallets/modules/wallets'
 import { selectWalletsItems, selectCreateWallet } from 'store/stateSelectors'

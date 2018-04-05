@@ -3,8 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import handle from 'utils/handle'
 import JIcon from 'components/base/JIcon'
+import handle from 'utils/eventHandlers/handle'
 
 const JSearch = ({ onQueryChange, onToggle, query, placeholder, isActive }: Props) => (
   <div className='j-search'>

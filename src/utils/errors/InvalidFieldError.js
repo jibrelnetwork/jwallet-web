@@ -1,4 +1,4 @@
-export class InvalidFieldError {
+export default class InvalidFieldError {
   constructor(fieldName, message) {
     this.fieldName = fieldName
     this.message = message

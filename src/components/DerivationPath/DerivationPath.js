@@ -3,7 +3,8 @@
 // new inner JRadioButton and JRadioInput components
 
 import React from 'react'
-import { getKnownDerivationPaths } from 'utils/knownDerivationPaths'
+
+import getKnownDerivationPaths from 'utils/keystore/getKnownDerivationPaths'
 import { JRadioButton, JRadioInput } from 'components/base'
 
 const DerivationPath = ({

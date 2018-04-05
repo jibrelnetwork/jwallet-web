@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import handle from 'utils/handle'
 import JButton from 'components/base/JButton'
+import handle from 'utils/eventHandlers/handle'
 
 const WalletManagerActions = ({
   setWalletAction,

@@ -1,18 +1,5 @@
 // @flow
 
-function copyToBuffer(content: string): boolean {
-  try {
-    const elementToCopy: Object = createElementToCopy(content)
-    selectContent(elementToCopy)
-    copyContent()
-    cleanSelection(elementToCopy)
-  } catch (err) {
-    return false
-  }
-
-  return true
-}
-
 function copyContent(): void {
   window.document.execCommand('copy')
 }
@@ -43,6 +30,19 @@ function cleanSelection(elementToCopy: Object): void {
   const selection = window.getSelection()
   selection.removeAllRanges()
   elementToCopy.remove()
+}
+
+function copyToBuffer(content: string): boolean {
+  try {
+    const elementToCopy: Object = createElementToCopy(content)
+    selectContent(elementToCopy)
+    copyContent()
+    cleanSelection(elementToCopy)
+  } catch (err) {
+    return false
+  }
+
+  return true
 }
 
 export default copyToBuffer

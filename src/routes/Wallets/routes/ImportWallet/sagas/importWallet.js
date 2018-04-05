@@ -5,8 +5,9 @@ import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
+import isMnemonicType from 'utils/keystore/isMnemonicType'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { keystore, validate } from 'services'
-import { isMnemonicType, InvalidFieldError } from 'utils'
 import { setActiveWalletId } from 'routes/Wallets/modules/wallets'
 import { selectWalletsItems, selectImportWallet } from 'store/stateSelectors'
 

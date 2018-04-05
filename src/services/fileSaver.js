@@ -4,7 +4,7 @@ import fileSaver from 'file-saver'
 import jsonFormat from 'json-format'
 
 import config from 'config'
-import isSafari from 'utils/isSafari'
+import isSafari from 'utils/browser/isSafari'
 
 function saveTXT(data: any, name: string) {
   saveAs(data, getFileName(name, 'txt'))

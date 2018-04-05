@@ -5,7 +5,8 @@ import jibrelContractsApi from 'jibrel-contracts-jsapi'
 import { flatten, prop, sortBy } from 'ramda'
 
 import config from 'config'
-import { getFormattedDateString, isJNT } from 'utils'
+import isJNT from 'utils/digitalAssets/isJNT'
+import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const { defaultDecimals } = config
 

@@ -3,7 +3,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import keystore from 'services/keystore'
-import { InvalidFieldError } from 'utils/errors'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { selectWalletId } from 'store/stateSelectors'
 
 import {

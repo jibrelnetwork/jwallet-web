@@ -3,8 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import handle from 'utils/handle'
 import JLoader from 'components/base/JLoader'
+import handle from 'utils/eventHandlers/handle'
 
 const MenuSelect = ({ toggle, setActive, options, active, isOpen }: Props) => (
   <div onClick={handle(toggle)(!isOpen)} className='menu-select'>
