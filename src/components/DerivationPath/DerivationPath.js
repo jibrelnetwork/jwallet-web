@@ -1,41 +1,50 @@
+// INFO
+// Modified version of old DerivationPath component with
+// new inner JRadioButton and JRadioInput components
+
 import React from 'react'
-import PropTypes from 'prop-types'
+import { getKnownDerivationPaths } from 'utils/knownDerivationPaths'
+import { JRadioButton, JRadioInput } from 'components/base'
 
-import DerivationPathKnown from './Known'
-import DerivationPathCustom from './Custom'
-
-function DerivationPath(props) {
-  const {
-    setKnownDerivationPath,
-    setCustomDerivationPath,
-    knownDerivationPath,
-    customDerivationPath,
-    errorMessage,
-  } = props
-
-  return (
-    <div className='derivation-path'>
-      <DerivationPathKnown
-        setKnownDerivationPath={setKnownDerivationPath}
-        knownDerivationPath={knownDerivationPath}
-        disabled={!!customDerivationPath.length}
-      />
-      <DerivationPathCustom
-        setCustomDerivationPath={setCustomDerivationPath}
-        customDerivationPath={customDerivationPath}
+const DerivationPath = ({
+  errorMessage,
+  knownDerivationPath,
+  customDerivationPath,
+  setKnownDerivationPath,
+  setCustomDerivationPath,
+  selectedDerivationPathType,
+}: Props) => (
+  <div className='DerivationPath'>
+    {getKnownDerivationPaths().map(({ path, description }, index) => (
+      <div className='known-derivation-path' key={index}>
+        <JRadioButton
+          text={path}
+          checked={knownDerivationPath === path && selectedDerivationPathType === 'known'}
+          onCheck={setKnownDerivationPath(path)}
+          description={description}
+        />
+      </div>
+    ))}
+    <div className='custom-derivation-path'>
+      <JRadioInput
+        value={customDerivationPath}
+        checked={selectedDerivationPathType === 'custom'}
+        onCheck={() => setCustomDerivationPath(customDerivationPath)}
+        onChange={setCustomDerivationPath}
+        placeholder={i18n('modals.derivationPath.placeholder.customDerivationPath')}
         errorMessage={errorMessage}
       />
     </div>
-  )
-}
+  </div>
+)
 
-DerivationPath.propTypes = {
-  setKnownDerivationPath: PropTypes.func.isRequired,
-  setCustomDerivationPath: PropTypes.func.isRequired,
-  knownDerivationPath: PropTypes.string.isRequired,
-  customDerivationPath: PropTypes.string.isRequired,
-  /* optional */
-  errorMessage: PropTypes.string,
+type Props = {
+  errorMessage?: string,
+  knownDerivationPath: string,
+  customDerivationPath: string,
+  setKnownDerivationPath: Function,
+  setCustomDerivationPath: Function,
+  selectedDerivationPathType: 'custom' | 'known'
 }
 
 DerivationPath.defaultProps = {

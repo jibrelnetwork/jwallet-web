@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import handle from 'utils/handle'
-import { JIcon, JText } from 'components/base/__new__'
+import { JIcon, JText } from 'components/base'
 
 const Expandable = ({
   toggle,

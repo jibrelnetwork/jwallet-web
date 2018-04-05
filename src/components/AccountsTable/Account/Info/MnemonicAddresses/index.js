@@ -1,3 +1,0 @@
-import AccountInfoMnemonicAddresses from './AccountInfoMnemonicAddresses'
-
-export default AccountInfoMnemonicAddresses
