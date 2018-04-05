@@ -3,8 +3,9 @@
 import { connect } from 'react-redux'
 import { assoc, compose, filter, propEq } from 'ramda'
 
+import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import { setActive, repeat } from 'routes/Transactions/modules/transactions'
-import { getDigitalAssetByAddress, getTransactionsByPeriod, searchTransactions } from 'utils'
+import { getTransactionsByPeriod, searchTransactions } from 'utils/transactions'
 
 import IncomingTransactions from '../components/IncomingTransactions'
 

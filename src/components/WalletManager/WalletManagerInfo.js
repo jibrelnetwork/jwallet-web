@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { handle, isMnemonicType } from 'utils'
+import handle from 'utils/eventHandlers/handle'
+import isMnemonicType from 'utils/keystore/isMnemonicType'
 import { JText, JIcon, JButton } from 'components/base'
 
 const WalletManagerInfo = ({

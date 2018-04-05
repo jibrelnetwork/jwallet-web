@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import handle from 'utils/handle'
+import handle from 'utils/eventHandlers/handle'
 import { JIcon, JText } from 'components/base'
 
 const Expandable = ({

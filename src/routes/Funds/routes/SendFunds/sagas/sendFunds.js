@@ -5,7 +5,10 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import ethereum from 'data/assets/ethereum'
+import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { keystore, validate, web3 } from 'services'
+import { getAssetDecimals, isETH } from 'utils/digitalAssets'
+import { getTransactionValue, toBigNumber } from 'utils/transactions'
 
 import {
   selectWalletId,
@@ -13,14 +16,6 @@ import {
   selectDigitalAssetsItems,
   selectDigitalAssetsBalances,
 } from 'store/stateSelectors'
-
-import {
-  isETH,
-  toBigNumber,
-  getAssetDecimals,
-  getTransactionValue,
-  InvalidFieldError,
-} from 'utils'
 
 import {
   CLOSE,

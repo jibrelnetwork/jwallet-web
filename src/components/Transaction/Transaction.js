@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import { assoc } from 'ramda'
 
 import config from 'config'
-import { handle, ignoreEvent } from 'utils'
 import { JButton, JIcon } from 'components/base'
+import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' => {
   if (!isJNT) {

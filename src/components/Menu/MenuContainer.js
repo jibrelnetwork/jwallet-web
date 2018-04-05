@@ -4,7 +4,7 @@ import { assoc } from 'ramda'
 import { connect } from 'react-redux'
 
 import keystore from 'services/keystore'
-import getCurrentLanguageCode from 'utils/getCurrentLanguageCode'
+import getCurrentLanguageCode from 'utils/i18n/getCurrentLanguageCode'
 import { setLanguage } from 'routes/modules/i18n'
 import { setCurrentNetwork as setNetwork } from 'routes/modules/networks'
 

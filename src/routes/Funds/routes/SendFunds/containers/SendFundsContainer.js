@@ -4,7 +4,8 @@ import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import { getActiveDigitalAssetsData, getWalletNameAndAddress } from 'utils'
+import getWalletNameAndAddress from 'utils/keystore/getWalletNameAndAddress'
+import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
 
 import {
   open,

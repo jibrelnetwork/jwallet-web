@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import getTransactionsEmptyEvent from 'utils/getTransactionsEmptyEvent'
+import getTransactionsEmptyEvent from 'utils/transactions/getTransactionsEmptyEvent'
 import { TransactionsByPeriod, TransactionsEmpty } from 'components'
 
 const OutgoingTransactions = ({

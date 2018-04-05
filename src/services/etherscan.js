@@ -1,9 +1,9 @@
 // @flow
 
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty } from 'ramda'
 
 import config from 'config'
-import getFormattedDateString from 'utils/getFormattedDateString'
+import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const { etherscanApiOptions, defaultDecimals } = config
 let endpoint = 'api'
@@ -73,7 +73,7 @@ function parseTransactions(list: any, address: Address) {
     const timestamp = timeStamp * 1000
     const status = blockNumber ? 'Accepted' : 'Pending'
     const isRejected = (parseInt(isError, 10) === 1)
-    const toOrContractAddress = isEmpty(to) ? contractAddress : to
+    const toOrContractAddress = to || contractAddress
 
     // case-insensitive comparison
     const isSender: boolean = (!!from && (address.toLowerCase() === from.toLowerCase()))
@@ -111,7 +111,7 @@ function callApi(params: any) {
 }
 
 function getQueryParams(params: any) {
-  if (isEmpty(params)) {
+  if (!params || isEmpty(params)) {
     return ''
   }
 

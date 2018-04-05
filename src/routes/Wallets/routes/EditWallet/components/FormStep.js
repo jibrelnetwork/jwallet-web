@@ -3,8 +3,9 @@
 import React from 'react'
 
 import Expandable from 'components/Expandable'
+import handle from 'utils/eventHandlers/handle'
 import DerivationPath from 'components/DerivationPath'
-import { handle, isMnemonicType } from 'utils'
+import isMnemonicType from 'utils/keystore/isMnemonicType'
 import { JButton, JInput } from 'components/base'
 
 const FormStep = ({

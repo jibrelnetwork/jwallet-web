@@ -20,7 +20,7 @@ import {
 
 import config from 'config'
 import { keystore, validate, web3 } from 'services'
-import { getPopularDigitalAssets, isETH } from 'utils'
+import { getPopularDigitalAssets, isETH } from 'utils/digitalAssets'
 import { reset as resetTransactions } from 'routes/Transactions/modules/transactions'
 
 import {

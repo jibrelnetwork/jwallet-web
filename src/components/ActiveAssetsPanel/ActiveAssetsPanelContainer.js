@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 
 import keystore from 'services/keystore'
-import getActiveDigitalAssetsData from 'utils/getActiveDigitalAssetsData'
+import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
 import { setCurrent } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import ActiveAssetsPanel from './ActiveAssetsPanel'

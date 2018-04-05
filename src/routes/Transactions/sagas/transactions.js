@@ -5,7 +5,7 @@ import { concat, compose, filter, uniq } from 'ramda'
 import { call, cancel, fork, put, select, take, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { getAssetDecimals, isETH } from 'utils'
+import { getAssetDecimals, isETH } from 'utils/digitalAssets'
 import { etherscan, keystore, validate, web3 } from 'services'
 import { setBalanceByAddress } from 'routes/DigitalAssets/modules/digitalAssets'
 import { open as openSendFunds } from 'routes/Funds/routes/SendFunds/modules/sendFunds'

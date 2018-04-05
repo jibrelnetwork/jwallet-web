@@ -4,7 +4,7 @@ import { isEmpty } from 'ramda'
 import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
-import isMnemonicType from 'utils/isMnemonicType'
+import isMnemonicType from 'utils/keystore/isMnemonicType'
 
 /**
  * Wallets
