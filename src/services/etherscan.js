@@ -8,9 +8,9 @@ let endpoint = 'api'
 
 const enpointNames = {
   1: 'api',
-  3: 'ropsten',
-  42: 'kovan',
-  4: 'rinkeby',
+  3: 'api-ropsten',
+  42: 'api-kovan',
+  4: 'api-rinkeby',
 }
 
 function setEndpoint(networkId) {
