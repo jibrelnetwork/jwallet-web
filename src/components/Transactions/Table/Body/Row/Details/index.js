@@ -1,3 +1,0 @@
-import TransactionsTableBodyRowDetails from './TransactionsTableBodyRowDetails'
-
-export default TransactionsTableBodyRowDetails

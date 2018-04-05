@@ -1,3 +1,1 @@
-import DerivationPath from './DerivationPath'
-
-export default DerivationPath
+export { default } from './DerivationPath'

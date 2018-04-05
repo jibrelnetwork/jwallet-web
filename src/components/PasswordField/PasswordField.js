@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import JInput from 'components/base/__new__/JInput'
+import JInput from 'components/base/JInput'
 
 const PasswordField = ({
   onChange,
