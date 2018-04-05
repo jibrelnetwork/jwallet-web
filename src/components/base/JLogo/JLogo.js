@@ -1,20 +1,12 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'react-router'
 
-function JLogo({ className }) {
-  return (
-    <a href='/' className={`logo pull-left ${className}`}>
-      <div className='logo__image' />
-    </a>
-  )
-}
-
-JLogo.propTypes = {
-  className: PropTypes.string,
-}
-
-JLogo.defaultProps = {
-  className: '',
-}
+const JLogo = () => (
+  <Link to='/' className='j-logo'>
+    <div className='image'/>
+  </Link>
+)
 
 export default JLogo

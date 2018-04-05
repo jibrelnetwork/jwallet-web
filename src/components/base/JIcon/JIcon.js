@@ -1,24 +1,36 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import { prop } from 'ramda'
 
-function JIcon({ name, small, className, ...otherProps }) {
-  return (
-    <span
-      className={`icon icon--${name} ${small ? 'icon--small' : ''} ${className}`}
-      {...otherProps}
-    />
-  )
-}
+const JIcon = ({ name, size, color, transparent }: Props) => (
+  <div className={classNames(
+    'j-icon',
+    prop(size, {
+      huge: '-huge',
+      large: '-large',
+      small: '-small',
+      medium: '-medium',
+      'extra-large': '-extra-large',
+    }),
+    `-${name}`,
+    color && `-${color}`,
+    transparent && '-transparent',
+  )}
+  />
+)
 
-JIcon.propTypes = {
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  small: PropTypes.bool,
+type Props = {
+  name: string,
+  size: 'small' | 'medium' | 'large' | 'extra-large' | 'huge',
+  color?: string,
+  transparent?: boolean,
 }
 
 JIcon.defaultProps = {
-  className: '',
-  small: false,
+  color: undefined,
+  transparent: false,
 }
 
 export default JIcon

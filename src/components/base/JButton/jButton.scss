@@ -1,63 +1,122 @@
-.button {
-  position: relative;
-  display: inline-block;
-  min-width: 260px;
-  line-height: 16px;
-  margin-left: 0;
-  padding: 15px 20px;
-  border: 2px solid;
-  border-radius: 25px;
+.j-button {
+  all: initial;
+
+  @include font;
+  @include hover-animation;
+  @include flex-row-center;
+
+  border: 1px solid rgba(0, 80, 220, 0.25);
   text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   cursor: pointer;
-  transition: all .3s ease;
-}
 
-.button--disabled {
-  &,
-  &:hover,
-  &:active {
-    background: $gray3;
+  // Variants
+
+  &.-with-text {
+    padding: 0 24px;
+
+    &.-large {
+      width: 156px;
+      height: 48px;
+      padding: 0;
+      line-height: 46px;
+      border-radius: 24px;
+    }
+
+    &.-regular {
+      height: 40px;
+      line-height: 36px;
+      border-radius: 20px;
+    }
+  }
+
+  &.-loading {
+
+  }
+
+  &.-disabled {
+
+  }
+
+  &.-blue {
+    border: none;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    background-color: $blue-two;
+
+    &:hover {
+      border: none;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      background-color: #00c1ff;
+    }
+  }
+
+  &.-white {
+    background-color: $white;
+
+    &:hover {
+      border: 1px solid rgba(0, 80, 220, 0.5);
+      background-color: #f6fcff;
+      opacity: 0.7;
+    }
+  }
+
+  &.-minimal {
+    border: unset;
+    box-shadow: unset;
+    background-color: unset;
+
+    &.-white {
+      opacity: 0.5;
+      background-color: unset;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &.-blue {
+      background-color: unset;
+    }
+
+    &:hover {
+      border: unset;
+      opacity: 0.7;
+      box-shadow: unset;
+      background-color: unset;
+    }
+  }
+
+  &.-transparent {
+    width: auto;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
     color: $white;
-    border-color: $gray3;
-    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
   }
-}
 
-.button--full-width {
-  width: 100%;
-  border-radius: 0 0 5px 5px;
-}
-
-.button--white {
-  background-color: $white;
-  color: $blue;
-  border-color: $blue;
-
-  &:hover {
-    color: $blue2;
-    border-color: $blue2;
+  &.-right {
+    margin-left: auto;
   }
-}
 
-.button--blue {
-  background-color: $blue;
-  color: $white;
-  border-color: $blue;
+  // Elements 
 
-  &:hover {
-    background-color: $blue2;
-    color: $white;
-    border-color: $blue2;
+  > .text {
+    
   }
-}
+  
+  > .icon {
+    all: initial;
+    cursor: inherit;
+  }
 
-.button__icon {
-  position: absolute;
-  top: 14px;
-  left: 24px;
+  &.-with-text {
+    > .icon {
+      margin-right: 8px;
+    }
+  }
+
 }
