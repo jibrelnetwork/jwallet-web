@@ -1,14 +1,14 @@
 // TODO: Replace button styles, add title and description
 
-/* @flow */
+// @flow
 
 import React from 'react'
 
-import { WalletHeader } from '../../components'
-import { JButton, JThumbnail } from '../../components/base'
+import WalletHeader from 'components/WalletHeader'
+import { JButton, JThumbnail } from 'components/base'
 
 const NotFound = () => (
-  <div className='NotFound'>
+  <div className='not-found'>
     <div className='header'>
       <WalletHeader />
     </div>
@@ -17,8 +17,8 @@ const NotFound = () => (
         color='white'
         image='man-blue'
         title='404. Page not found'
-        description={`All user data, including imported or generated 
-private keys are stored locally, meaning your private`}
+        description={'All user data, including imported or generated ' +
+          'private keys are stored locally, meaning your private'}
       />
     </div>
     <div className='button'>
