@@ -1,26 +1,27 @@
-/* @flow */
+// @flow
 
 import React from 'react'
-import cx from 'classnames'
+import classNames from 'classnames'
 import { identity } from 'ramda'
 
-import { JIcon, JText } from '..'
+import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
+import { JIcon, JText } from 'components/base'
 
 const JInput = ({
-  type,
-  value,
-  label,
-  color,
-  checked,
-  disabled,
   onChange,
-  multiline,
-  isLoading,
+  label,
   placeholder,
   infoMessage,
   errorMessage,
+  value,
+  color,
+  type,
+  checked,
+  disabled,
+  multiline,
+  isLoading,
 }: Props) => (
-  <div className={cx(
+  <div className={classNames(
     'j-input',
     type && `-${type}`,
     color && `-${color}`,
@@ -32,7 +33,7 @@ const JInput = ({
       <textarea
         rows={2}
         value={value}
-        onChange={onChange && (event => onChange(event.target.value))}
+        onChange={handleTargetValue(onChange)}
         disabled={disabled}
         placeholder={placeholder}
       />
@@ -41,7 +42,7 @@ const JInput = ({
         type={type}
         value={value}
         disabled={disabled}
-        onChange={event => (onChange ? onChange(event.target.value) : identity)}
+        onChange={handleTargetValue(onChange)}
         placeholder={placeholder}
       />
     )}
@@ -86,30 +87,30 @@ const JInput = ({
 )
 
 type Props = {
-  type?: 'text' | 'password',
-  label?: string,
-  color?: 'white' | 'gray' | 'red' | 'deep-orange' | 'orange' | 'lime' | 'light-green' | 'blue',
-  value?: string | number,
-  checked?: boolean,
-  onChange?: Function,
-  disabled?: boolean,
-  multiline?: boolean,
-  isLoading?: boolean,
-  placeholder?: string,
-  infoMessage?: string,
-  errorMessage?: string,
+  onChange: Function,
+  label: string,
+  placeholder: string,
+  infoMessage: string,
+  errorMessage: string,
+  value: string | number,
+  color: 'white' | 'gray',
+  type: 'text' | 'password',
+  checked: boolean,
+  disabled: boolean,
+  multiline: boolean,
+  isLoading: boolean,
 }
 
 JInput.defaultProps = {
   onChange: identity,
   type: 'text',
   color: 'white',
-  label: undefined,
-  value: undefined,
   checked: false,
   disabled: false,
   multiline: false,
   isLoading: false,
+  label: undefined,
+  value: undefined,
   placeholder: undefined,
   infoMessage: undefined,
   errorMessage: undefined,
