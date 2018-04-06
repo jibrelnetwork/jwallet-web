@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import WalletHeader from '../../src/components/__new__/WalletHeader'
+import WalletHeader from '../../src/components/WalletHeader'
 
 storiesOf('WalletHeader', module)
   .add('Default', () => (

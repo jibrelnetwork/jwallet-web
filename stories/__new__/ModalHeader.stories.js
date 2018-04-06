@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import ModalHeader from '../../src/components/__new__/ModalHeader'
+import ModalHeader from '../../src/components/ModalHeader'
 
 storiesOf('ModalHeader', module)
   .add('White with steps', () => (

@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { JIcon, JTooltip } from '../../src/components/base/__new__'
+import { JIcon, JTooltip } from '../../src/components/base'
 
 storiesOf('JTooltip', module)
   .add('Default', () => (

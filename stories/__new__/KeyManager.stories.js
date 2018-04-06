@@ -4,7 +4,7 @@
 // import React from 'react'
 // import { storiesOf, action } from '@storybook/react'
 
-// import KeyManager from '../../src/components/__new__/KeyManager'
+// import KeyManager from '../../src/components/KeyManager'
 
 // storiesOf('KeyManager', module)
 //   .add('Default', () => (

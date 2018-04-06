@@ -4,4 +4,4 @@ import '../src/styles/core.scss'
 
 // import './baseComponents'
 // import './components'
-import './__new__'
+import '.'

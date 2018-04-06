@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import KeyButton from '../../src/components/__new__/KeyButton'
+import KeyButton from '../../src/components/KeyButton'
 
 storiesOf('KeyButton', module)
   .add('Default', () => (

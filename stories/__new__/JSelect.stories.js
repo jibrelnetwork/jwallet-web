@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import JSelect from '../../src/components/base/__new__/JSelect'
+import JSelect from '../../src/components/base/JSelect'
 
 storiesOf('JSelect', module)
   .add('For token', () => (

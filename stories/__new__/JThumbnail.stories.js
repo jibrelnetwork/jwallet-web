@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JThumbnail from '../../src/components/base/__new__/JThumbnail'
+import JThumbnail from '../../src/components/base/JThumbnail'
 
 storiesOf('JThumbnail', module)
   .add('White', () => (
