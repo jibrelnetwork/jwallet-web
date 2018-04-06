@@ -1,59 +1,20 @@
-/* @flow */
+// @flow
 
 import React from 'react'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { compose, values, map, dissoc } from 'ramda'
+
+import JIcon from 'components/base//JIcon'
 
 import Item from './Item'
-import JIcon from '../JIcon'
-
-type Token = {
-  type: 'token',
-  items: Array<{
-    id: string | number,
-    icon: string,
-    title: string,
-    description: string,
-  }>
-}
-
-type Props = {
-  title: string,
-  isOpen: bool,
-  content: Token,
-  selectedItemId: number,
-  open: () => void,
-  close: () => void,
-  onItemSelect: (itemId: number) => void,
-}
-
-const renderSelectionList = (
-  type,
-  items,
-  onItemSelect,
-  selectedItemId,
-) => compose(
-  map(item => (
-    <Item
-      key={item.id}
-      type={type}
-      onClick={onItemSelect}
-      {...item}
-    />
-  )),
-  values,
-  dissoc(selectedItemId)
-)(items)
 
 const JSelect = ({
   open,
   close,
-  title,
-  isOpen,
   content,
-  onItemSelect,
+  title,
   selectedItemId,
+  isOpen,
 }: Props) => (
   <div className={classNames('JSelect', { '-open': isOpen })}>
     <div className='selected-item'>
@@ -76,15 +37,29 @@ const JSelect = ({
     </div>
     <div className='selection-list'>
       <Scrollbars autoHide>
-        {renderSelectionList(
-          content.type,
-          content.items,
-          onItemSelect,
-          selectedItemId
-        )}
       </Scrollbars>
     </div>
   </div>
 )
+
+type Token = {
+  items: Array<{
+    id: string | number,
+    icon: string,
+    title: string,
+    description: string,
+  }>,
+  type: 'token',
+}
+
+type Props = {
+  open: () => void,
+  close: () => void,
+  onItemSelect: (itemId: number) => void,
+  content: Token,
+  title: string,
+  selectedItemId: number,
+  isOpen: bool,
+}
 
 export default JSelect

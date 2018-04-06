@@ -198,6 +198,7 @@ const initialState: ImportWalletData = {
   passwordConfirm: '',
   knownDerivationPath: config.defaultDerivationPath,
   customDerivationPath: '',
+  selectedDerivationPathType: 'known',
   currentStep: STEPS.DATA,
   totalSteps: 3,
   walletType: undefined,

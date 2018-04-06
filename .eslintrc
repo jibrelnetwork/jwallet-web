@@ -90,9 +90,6 @@
         "skipUndeclared": true
       }
     ],
-    "react/default-props-match-prop-types": [
-      "error"
-    ],
     "react/forbid-prop-types": [
       "error"
     ],
@@ -130,6 +127,7 @@
     ],
     "react/jsx-key": "error",
     "react/jsx-closing-bracket-location": "error",
+    "react/default-props-match-prop-types": "off",
     "react/require-default-props": "error",
     "max-len": ["error", 100],
     "newline-per-chained-call": "off",

@@ -1,32 +1,22 @@
-/* @flow */
+// @flow
 
-import cx from 'classnames'
 import React from 'react'
+import classNames from 'classnames'
 
-import { JIcon, JText } from '../..'
-
-type Props = {
-  value: string,
-  checked?: boolean,
-  withError?: boolean,
-  placeholder: string,
-  errorMessage?: string,
-  onCheck: Function,
-  onChange: Function,
-}
+import { JIcon, JText } from 'components/base'
 
 const Input = ({
-  value,
-  checked,
   onCheck,
   onChange,
-  withError,
+  value,
   placeholder,
   errorMessage,
+  checked,
+  withError,
 }: Props) => (
   <div
     onClick={onCheck}
-    className={cx('Input', {
+    className={classNames('Input', {
       '-checked': checked,
       '-with-error': withError,
     })}
@@ -58,6 +48,16 @@ const Input = ({
     )}
   </div>
 )
+
+type Props = {
+  onCheck: Function,
+  onChange: Function,
+  value: string,
+  placeholder: string,
+  errorMessage: string,
+  checked: boolean,
+  withError: boolean,
+}
 
 Input.defaultProps = {
   checked: false,

@@ -79,7 +79,7 @@ declare type Wallet = {
   +encrypted: ?{
     +privateKey: ?string,
     +mnemonic: ?string,
-  }
+  },
 }
 
 declare type Wallets = Array<Wallet>

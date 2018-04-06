@@ -175,6 +175,7 @@ const initialState: EditWalletData = {
   name: '',
   knownDerivationPath: config.defaultDerivationPath,
   customDerivationPath: '',
+  selectedDerivationPathType: 'known',
   password: '',
   currentStep: STEPS.FORM,
   walletType: undefined,

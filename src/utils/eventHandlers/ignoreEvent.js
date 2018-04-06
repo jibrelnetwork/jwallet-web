@@ -1,6 +1,6 @@
 // @flow
 
-const ignoreEvent = (handler: Function, ...args: Array<any>): Function => (e: Object): void => {
+const ignoreEvent = (handler: ?Function, ...args: Array<any>): Function => (e: Object): void => {
   e.preventDefault()
 
   if (handler) {

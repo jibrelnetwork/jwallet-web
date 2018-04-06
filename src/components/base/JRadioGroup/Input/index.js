@@ -1,3 +1,5 @@
-/* @flow */
+// @flow
 
-export { default } from './InputContainer'
+import Input from './InputContainer'
+
+export default Input

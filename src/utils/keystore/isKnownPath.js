@@ -2,6 +2,6 @@
 
 import knownPaths from '../../data/derivationPaths'
 
-const isKnownPath = p => (knownPaths.filter(({ path }) => (path === p)).length > 0)
-
-export default isKnownPath
+export default function isKnownPath(p: string): boolean {
+  return (knownPaths.filter(({ path }: { path: string }): boolean => (path === p)).length > 0)
+}

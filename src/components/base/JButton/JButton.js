@@ -7,14 +7,14 @@ import { empty, prop } from 'ramda'
 import { JIcon, JText } from 'components/base'
 
 const JButton = ({
+  onClick,
   text,
+  iconName,
   color,
+  iconSize,
   large,
   right,
   minimal,
-  onClick,
-  iconName,
-  iconSize,
   disabled,
   isLoading,
   transparent,
@@ -58,31 +58,31 @@ const JButton = ({
 )
 
 type Props = {
- onClick?: Function,
- text?: string,
- color?: 'white' | 'blue',
- iconSize?: 'small' | 'medium',
- iconName?: string,
- large?: boolean,
- right?: boolean,
- minimal?: boolean,
- disabled?: boolean,
- isLoading?: boolean,
- transparent?: boolean,
+ onClick: Function,
+ text: string,
+ iconName: string,
+ color: 'white' | 'blue',
+ iconSize: 'small' | 'medium',
+ large: boolean,
+ right: boolean,
+ minimal: boolean,
+ disabled: boolean,
+ isLoading: boolean,
+ transparent: boolean,
 }
 
 JButton.defaultProps = {
   onClick: empty,
-  text: undefined,
-  color: undefined,
   iconSize: 'small',
-  iconName: undefined,
   large: false,
   right: false,
   minimal: false,
   disabled: false,
   isLoading: false,
   transparent: false,
+  text: undefined,
+  color: undefined,
+  iconName: undefined,
 }
 
 export default JButton
