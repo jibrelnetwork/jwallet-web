@@ -1,7 +1,8 @@
 .j-text {
+  all: initial;
+
   @include font;
 
-  all: initial;
   cursor: inherit;
   white-space: pre-line;
 
@@ -14,41 +15,25 @@
   &.-red {
     color: $pinkish-tan;
   }
- 
+
   &.-blue {
     color: $blue;
   }
- 
+
   &.-white {
     color: white;
   }
 
-  &.-deep-orange {
-    color: $deep-orange;
-  }
-
-  &.-orange {
-    color: $orange;
-  }
-
-  &.-lime {
-    color: $lime;
-  }
-
-  &.-light-green {
-    color: $light-green;
-  }
- 
   &.-transparent {
     opacity: 0.7;
   }
- 
+
   // Sizes
- 
+
   &.-small {
     font-size: 11px;
   }
-  
+
   &.-mini {
     font-size: 12px;
   }
@@ -60,11 +45,11 @@
   &.-regular {
     font-size: 14px;
   }
-  
+
   &.-large {
     font-size: 15px;
   }
- 
+
   &.-header {
     font-size: 18px;
   }
@@ -83,22 +68,22 @@
   }
 
   // Align 
- 
+
   &.-center {
     display: flex;
     text-align: center;
   }
- 
+
   // Weight
- 
+
   &.-bold {
     font-weight: 600;
   }
- 
+
   // Case
- 
+
   &.-uppercase {
     text-transform: uppercase;
   }
- 
+
 }
