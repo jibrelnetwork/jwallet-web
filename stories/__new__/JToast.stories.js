@@ -6,8 +6,8 @@ import { css } from 'glamor'
 import { storiesOf } from '@storybook/react'
 import { toast, ToastContainer } from 'react-toastify'
 
-import JButton from '../../src/components/base/__new__/JButton'
-import JToast, { options } from '../../src/components/base/__new__/JToast'
+import JButton from '../../src/components/base/JButton'
+import JToast, { options } from '../../src/components/base/JToast'
 
 const styles = css({
   right: '45px',

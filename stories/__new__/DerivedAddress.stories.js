@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import DerivedAddress from '../../src/components/__new__/DerivedAddress'
+import DerivedAddress from '../../src/components/DerivedAddress'
 
 storiesOf('DerivedAddress', module)
   .add('Default', () => (

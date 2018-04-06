@@ -5,7 +5,7 @@ import React from 'react'
 import { withState } from 'recompose'
 import { storiesOf } from '@storybook/react'
 
-import JInput from '../../src/components/base/__new__/JInput'
+import JInput from '../../src/components/base/JInput'
 
 const StateHOC = withState('value', 'setValue', '')
 

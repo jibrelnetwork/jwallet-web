@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import ESCButton from '../../src/components/__new__/ESCButton'
+import ESCButton from '../../src/components/ESCButton'
 
 storiesOf('ESCButton', module)
   .add('White', () => (

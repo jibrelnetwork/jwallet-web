@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import JRadioGroup from '../../src/components/base/__new__/JRadioGroup'
+import JRadioGroup from '../../src/components/base/JRadioGroup'
 
 storiesOf('JRadioGroup', module)
   .add('Default', () => (

@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JIcon from '../../src/components/base/__new__/JIcon'
+import JIcon from '../../src/components/base/JIcon'
 
 storiesOf('JIcon', module)
   .add('Small close', () => (
