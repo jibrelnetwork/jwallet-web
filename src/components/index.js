@@ -5,6 +5,7 @@ import CurrentAddress from './CurrentAddress'
 import DigitalAssets from './DigitalAssets'
 import DigitalAssetsEmpty from './DigitalAssetsEmpty'
 import ESCButton from './ESCButton'
+import Expandable from './Expandable'
 import KeyButton from './KeyButton'
 import Menu from './Menu'
 import MenuLink from './MenuLink'
@@ -29,6 +30,7 @@ export {
   DigitalAssets,
   DigitalAssetsEmpty,
   ESCButton,
+  Expandable,
   KeyButton,
   Menu,
   MenuLink,

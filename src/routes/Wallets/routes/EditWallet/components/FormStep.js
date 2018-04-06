@@ -2,11 +2,10 @@
 
 import React from 'react'
 
-import Expandable from 'components/Expandable'
 import handle from 'utils/eventHandlers/handle'
-import DerivationPath from 'components/DerivationPath'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
 import { JButton, JInput } from 'components/base'
+import { DerivationPath, Expandable } from 'components'
 
 const FormStep = ({
   setName,

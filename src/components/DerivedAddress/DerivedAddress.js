@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JText } from 'components/base'
+import JText from 'components/base/JText'
 
 const DerivedAddress = ({
   address,
@@ -21,7 +21,7 @@ const DerivedAddress = ({
     </div>
     <div className='balance'>
       <JText
-        value={balance ? `${balance.toFixed(3)} ETH` : 'Loading' }
+        value={balance ? `${balance.toFixed(3)} ETH` : 'Loading'}
         variants={['normal', 'bold', 'white']}
       />
     </div>
