@@ -1,3 +1,5 @@
-import DigitalAssets from './DigitalAssets'
+// @flow
+
+import DigitalAssets from './DigitalAssetsContainer'
 
 export default DigitalAssets
