@@ -1,7 +1,7 @@
 .active-assets-layout {
   all: initial;
 
-  .active-assets-panel-wrapper {
+  > .panel {
     z-index: $z-index-active-assets-panel;
     position: fixed;
     top: 0;
@@ -23,11 +23,45 @@
 
   > .content {
     padding-left: 520px;
+
+    > .header {
+      @include flex-row;
+
+      position: relative;
+      height: 80px;
+      line-height: 80px;
+      padding: 0 200px;
+      border-bottom: 1px solid rgba(61, 79, 108, 0.1);
+
+      > .actions {
+        @include box;
+        @include flex-row-center;
+
+        position: absolute;
+        top: 0;
+        right: 200px;
+        height: 100%;
+        padding-left: 30px;
+        background-color: $pale-grey;
+
+        > .search {
+          margin-left: 40px;
+        }
+      }
+    }
   }
 
   @media only screen and (max-width: 1680px) {
     .wrapper {
       padding: 60px 0 60px 160px;
+    }
+
+    > .content > .header {
+      padding: 0 160px;
+
+      > .actions {
+        right: 160px;
+      }
     }
   }
 
@@ -35,17 +69,41 @@
     .wrapper {
       padding: 60px 0 60px 160px;
     }
+
+    > .content > .header {
+      padding: 0 160px;
+
+      > .actions {
+        right: 160px;
+      }
+    }
   }
 
   @media only screen and (max-width: 1440px) {
     .wrapper {
       padding: 60px 80px 60px 80px;
     }
+
+    > .content > .header {
+      padding: 0 80px;
+
+      > .actions {
+        right: 80px;
+      }
+    }
   }
 
   @media only screen and (max-width: 1280px) {
     .wrapper {
       padding: 60px 0 60px 50px;
+    }
+
+    > .content > .header {
+      padding: 0 50px;
+
+      > .actions {
+        right: 50px;
+      }
     }
   }
 }
