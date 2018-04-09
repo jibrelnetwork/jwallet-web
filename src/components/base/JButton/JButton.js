@@ -37,7 +37,7 @@ const JButton = ({
   >
     {iconName && (
       <div className='icon'>
-        <JIcon name={iconName} size={iconSize} />
+        <JIcon name={iconName} size={iconSize} color={color} />
       </div>
     )}
     {text && (
