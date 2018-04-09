@@ -1,5 +1,6 @@
 // @flow
 
+import filterDigitalAssets from './filterDigitalAssets'
 import getActiveDigitalAssetsData from './getActiveDigitalAssetsData'
 import getAssetDecimals from './getAssetDecimals'
 import getDigitalAssetByAddress from './getDigitalAssetByAddress'
@@ -10,6 +11,7 @@ import isJNT from './isJNT'
 import searchDigitalAssets from './searchDigitalAssets'
 
 export {
+  filterDigitalAssets,
   getActiveDigitalAssetsData,
   getAssetDecimals,
   getDigitalAssetByAddress,

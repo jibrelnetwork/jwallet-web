@@ -1,6 +1,6 @@
-/* @flow */
+// @flow
 
-const searchDigitalAssets = (
+const searchDigitalAssets: Function = (
   items: DigitalAssets,
   foundAssets: Addresses,
   searchQuery: string,
