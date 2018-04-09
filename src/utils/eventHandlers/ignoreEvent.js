@@ -1,13 +1,13 @@
 // @flow
 
-const ignoreEvent = (handler: ?Function, ...args: Array<any>): Function => (e: Object): void => {
-  e.preventDefault()
+const ignoreEvent = (handler: ?Function) => (...args: Array<any>) => (event: Object): void => {
+  event.preventDefault()
 
   if (handler) {
     handler(...args)
   }
 
-  e.stopPropagation()
+  event.stopPropagation()
 }
 
 export default ignoreEvent
