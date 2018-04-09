@@ -191,6 +191,8 @@ declare type RemoveWalletData = {}
 /**
  * Digital assets
  */
+declare type DigitalAssetsListType = 'balance' | 'popular' | 'custom'
+
 declare type DigitalAsset = {
   +address: Address,
   +symbol: string,
@@ -217,13 +219,6 @@ declare type DigitalAssetsData = {
  * Custom digital asset
  */
 declare type CustomAssetData = {
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +decimals: string,
-}
-
-declare type AddCustomAssetData = {
   +invalidFields: FormFields,
   +address: Address,
   +name: string,
@@ -328,7 +323,7 @@ declare type State = {
   +changeWalletPassword: ChangeWalletPasswordData,
   +removeWallet: RemoveWalletData,
   +digitalAssets: DigitalAssetsData,
-  +addCustomAsset: AddCustomAssetData,
+  +customAsset: CustomAssetData,
   +transactions: TransactionsData,
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
