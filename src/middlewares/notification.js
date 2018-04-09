@@ -1,12 +1,13 @@
 // @flow
 // Show notifications
 
-import React from 'react'
-import { toast } from 'react-toastify'
+// import React from 'react'
+// import { toast } from 'react-toastify'
 
-import JToast, { options } from 'components/base/JToast'
+// import JToast, { options } from 'components/base/JToast'
 import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
 
+/*
 const showToast = (
   color: 'white' | 'red' | 'blue' | 'gray',
   icon: string,
@@ -21,13 +22,14 @@ const showToast = (
   />,
   options
 )
+*/
 
 export const show = () => (next: Next) => (action: FSA) => {
   const { type }: FSA = action
 
   switch (type) {
     case editWallet.EDIT_SUCCESS: {
-      showToast('blue', 'some_icon', 'some_title', 'some_description')
+      // showToast('blue', 'some_icon', 'some_title', 'some_description')
       break
     }
 

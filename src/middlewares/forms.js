@@ -10,7 +10,11 @@ import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
  * Digital Assets
  */
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
-import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+
+/**
+ * Custom Asset
+ */
+import * as customAsset from 'routes/CustomAsset/modules/customAsset'
 
 /**
  * Wallets
@@ -47,8 +51,13 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
       break
     }
 
-    case addCustomAsset.ADD_ERROR: {
-      store.dispatch(addCustomAsset.setInvalidField(payload.fieldName, payload.message))
+    /**
+     * Custom Asset
+     */
+    case customAsset.ADD_ERROR:
+    case customAsset.EDIT_ERROR:
+    case customAsset.REMOVE_ERROR: {
+      store.dispatch(customAsset.setInvalidField(payload.fieldName, payload.message))
       break
     }
 
