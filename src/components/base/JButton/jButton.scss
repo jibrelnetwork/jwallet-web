@@ -60,13 +60,21 @@
   }
 
   &.-minimal {
-    border: unset;
-    box-shadow: unset;
-    background-color: unset;
+    padding: 0;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      opacity: 0.7;
+    }
 
     &.-white {
       opacity: 0.5;
-      background-color: unset;
+      background-color: transparent;
 
       &:hover {
         opacity: 1;
@@ -74,20 +82,12 @@
     }
 
     &.-blue {
-      background-color: unset;
-    }
-
-    &:hover {
-      border: unset;
-      opacity: 0.7;
-      box-shadow: unset;
-      background-color: unset;
+      background-color: transparent;
     }
   }
 
   &.-transparent {
     width: auto;
-    padding: 0;
     background-color: transparent;
     box-shadow: none;
     color: $white;
