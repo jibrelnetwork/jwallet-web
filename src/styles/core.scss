@@ -91,18 +91,6 @@
 
   // General
   @import 'form';
-  @import 'header';
-
-  // Layouts
-  @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
-  @import '../layouts/MenuLayout/menuLayout';
-  @import '../layouts/ModalLayout/modalLayout';
-  @import '../layouts/WalletsLayout/walletsLayout';
-
-  // Views
-  @import '../routes/NotFound/NotFound';
-  @import '../routes/Wallets/styles/wallets';
-  @import '../routes/Wallets/routes/Addresses/styles/mnemonicAddresses';
 
   // Base components
   @import '../components/base/JButton/jButton';
@@ -133,9 +121,9 @@
   @import '../components/ActiveAsset/activeAsset';
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/AssetCard/assetCard';
+  @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/CurrentAddress/currentAddress';
   @import '../components/DigitalAssets/digitalAssets';
-  @import '../components/DigitalAssetsEmpty/digitalAssetsEmpty';
   @import '../components/ESCButton/escButton';
   @import '../components/Menu/menu';
   @import '../components/DerivedAddress/DerivedAddress';
@@ -154,4 +142,16 @@
   @import '../components/DerivationPath/DerivationPath';
   @import '../components/PasswordField/passwordField';
   @import '../components/Expandable/expandable';
+
+  // Views
+  @import '../routes/CustomAsset/styles/customAsset';
+  @import '../routes/NotFound/NotFound';
+  @import '../routes/Wallets/styles/wallets';
+  @import '../routes/Wallets/routes/Addresses/styles/mnemonicAddresses';
+
+  // Layouts
+  @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
+  @import '../layouts/MenuLayout/menuLayout';
+  @import '../layouts/ModalLayout/modalLayout';
+  @import '../layouts/WalletsLayout/walletsLayout';
 }
