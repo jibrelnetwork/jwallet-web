@@ -1,37 +1,30 @@
-/**
- * General
- */
+// Networks
 import * as networksSagas from 'routes/sagas/networks'
 
-/**
- * Funds
- */
+// Funds
 import fundsSagas from 'routes/Funds/sagas'
 
-/**
- * Digital Assets
- */
+// Digital Assets
 import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
-import * as addCustomAssetSagas from 'routes/AddCustomAsset/sagas/addCustomAsset'
 
-/**
- * Transactions
- */
+// Custom Asset
+import customAssetSagas from 'routes/CustomAsset/sagas'
+
+// Transactions
 import transactionsSagas from 'routes/Transactions/sagas'
 
-/**
- * Wallets
- */
+// Wallets
 import walletsSagas from 'routes/Wallets/sagas'
 
 export default {
-  // general
+  // Networks
   ...networksSagas,
   // Funds
   ...fundsSagas,
   // Digital Assets
   ...digitalAssetsSagas,
-  ...addCustomAssetSagas,
+  // Custom Asset
+  ...customAssetSagas,
   // Transactions
   ...transactionsSagas,
   // Wallets

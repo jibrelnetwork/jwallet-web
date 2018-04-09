@@ -12,6 +12,7 @@ export JRadioButton from './JRadioButton'
 export JRadioInput from './JRadioInput'
 export JSearch from './JSearch'
 export JSelect from './JSelect'
+export JTabs from './JTabs'
 export JText from './JText'
 export JThumbnail from './JThumbnail'
 export JToast from './JToast'
@@ -33,6 +34,7 @@ export {
   JRadioInput,
   JSearch,
   JSelect,
+  JTabs,
   JText,
   JThumbnail,
   JToast,
