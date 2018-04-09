@@ -1,0 +1,39 @@
+.custom-asset {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+
+  position: relative;
+  height: 100%;
+  padding: 50px;
+
+  > .header {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    padding: 0 50px;
+  }
+
+  > .form {
+    @include flex-column;
+
+    justify-content: center;
+    height: 100%;
+    width: 480px;
+    margin: 0 auto;
+    min-height: 100%;
+    padding: 50px 0;
+
+    > .actions {
+      @include flex-row;
+
+      margin-top: 30px;
+
+      > .remove {
+        margin-left: auto;
+      }
+    }
+  }
+}
