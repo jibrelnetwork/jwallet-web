@@ -2,7 +2,9 @@
   all: initial;
 
   @include font;
+  @include flex-column;
 
+  position: relative;
   padding: 30px;
   background-color: $white;
   border: 1px solid transparent;
@@ -16,6 +18,23 @@
     color: $blue;
   }
 
+  &.-active {
+    background-image: $checkbox-blue;
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    background-position: 20px 20px;
+    border: 1px solid $blue;
+    color: $blue;
+  }
+
+  &:hover,
+  &.-active {
+    > .icon {
+      background-image: $token-ant-blue;
+      opacity: 1;
+    }
+  }
+
   &.-blue {
     background-color: $blue;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
@@ -25,7 +44,7 @@
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       color: $white;
 
-      > .j-icon {
+      > .icon {
         background-image: $token-ant-white;
       }
     }
@@ -35,18 +54,18 @@
       border-color: rgba(255, 255, 255, 0.7);
       color: $white;
 
-      > .j-icon {
+      > .icon {
         background-image: $token-ant-white;
       }
     }
 
-    > .j-icon {
+    > .icon {
       background-image: $token-ant-white;
       opacity: 0.5;
     }
   }
 
-  > .j-icon {
+  > .icon {
     margin: 0 auto;
     opacity: 0.2;
   }
@@ -62,18 +81,9 @@
     opacity: 0.7;
   }
 
-  &.-active {
-    background-image: $checkbox-blue;
-    background-size: 12px 12px;
-    background-repeat: no-repeat;
-    background-position: 20px 20px;
-    border: 1px solid $blue;
-    color: $blue;
-  }
-
-  &:hover > .j-icon,
-  &.-active > .j-icon {
-    background-image: $token-ant-blue;
-    opacity: 1;
+  > .edit {
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 }
