@@ -77,10 +77,10 @@ const testKeystorePassword = (password: Password) => {
 function customAssetData(assetData: CustomAssetData, digitalAssets: DigitalAssets) {
   const { address, name, symbol, decimals }: CustomAssetData = assetData
 
-  customAssetName(name)
-  customAssetPropUniq('name', name, digitalAssets)
   customAssetAddress(address)
   customAssetPropUniq('address', address, digitalAssets)
+  customAssetName(name)
+  customAssetPropUniq('name', name, digitalAssets)
   customAssetSymbol(symbol)
   customAssetPropUniq('symbol', symbol, digitalAssets)
   customAssetDecimals(decimals)

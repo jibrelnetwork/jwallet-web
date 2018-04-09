@@ -1,9 +1,9 @@
 import ActiveAsset from './ActiveAsset'
 import ActiveAssetsPanel from './ActiveAssetsPanel'
 import AssetCard from './AssetCard'
+import ButtonWithConfirm from './ButtonWithConfirm'
 import CurrentAddress from './CurrentAddress'
 import DigitalAssets from './DigitalAssets'
-import DigitalAssetsEmpty from './DigitalAssetsEmpty'
 import ESCButton from './ESCButton'
 import Expandable from './Expandable'
 import KeyButton from './KeyButton'
@@ -26,9 +26,9 @@ export {
   ActiveAsset,
   ActiveAssetsPanel,
   AssetCard,
+  ButtonWithConfirm,
   CurrentAddress,
   DigitalAssets,
-  DigitalAssetsEmpty,
   ESCButton,
   Expandable,
   KeyButton,
