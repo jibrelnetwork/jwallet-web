@@ -46,7 +46,7 @@ const TransactionItem = ({
           <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>
           <div className='repeat-button'>
             <JButton
-              onClick={ignoreEvent(repeat, assoc('symbol', assetSymbol)(data))}
+              onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
               text='Repeat'
               iconName='repeat'
               color='white'
@@ -54,7 +54,7 @@ const TransactionItem = ({
           </div>
         </div>
       </div>
-      <div className='additional-info' onClick={ignoreEvent()}>
+      <div className='additional-info' onClick={ignoreEvent(/* handler */)(/* args */)}>
         <div className='item'>
           <div className='label'>{'Tx hash'}</div>
           <div className='value'>
@@ -90,7 +90,7 @@ const TransactionItem = ({
           </div>
           <div className='repeat-button'>
             <JButton
-              onClick={ignoreEvent(repeat, assoc('symbol', assetSymbol)(data))}
+              onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
               text='Repeat'
               iconName='repeat'
               color='white'
