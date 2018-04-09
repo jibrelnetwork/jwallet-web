@@ -15,7 +15,7 @@ const ActiveAssetsPanel = ({
   currentWalletAddress,
 }: Props) => (
   <div className='active-assets-panel'>
-    <div className='current-address-wrapper'>
+    <div className='address'>
       <CurrentAddress address={currentWalletAddress} />
     </div>
     <div className='list'>
@@ -33,7 +33,7 @@ const ActiveAssetsPanel = ({
     </div>
     <div className='manage'>
       <Link to='/digital-assets' className='link'>
-        <JIcon size='small' name='plus' />
+        <JIcon size='small' name='plus' color='blue' />
         <JText value='assetsPanel.button' variants={['bold', 'blue']} />
       </Link>
     </div>
