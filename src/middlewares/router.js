@@ -20,8 +20,12 @@ import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/remove
 /**
  * Digital Assets
  */
-import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+
+/**
+ * Custom Asset
+ */
+import * as customAsset from 'routes/CustomAsset/modules/customAsset'
 
 /**
  * Transactions
@@ -175,7 +179,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
 
     case digitalAssets.SET_CURRENT: {
       const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
-      const isAssetsRoute = (locationPath.indexOf('/digital-assets/') === 0)
+      const isAssetsRoute: boolean = (locationPath.indexOf('/digital-assets/') === 0)
 
       if (payload.currentAddress && isAssetsRoute) {
         goToLocation('/transactions/all')
@@ -184,13 +188,35 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case addCustomAsset.OPEN: {
+    /**
+     * Custom Assets
+     */
+    case customAsset.OPEN: {
       goToWalletsIfNoActive()
+
+      const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
+      const isEditRoute: boolean = (locationPath.indexOf('/custom-asset/edit') === 0)
+
+      if (isEditRoute) {
+        const { address }: CustomAssetData = store.getState().customAsset
+
+        if (!address) {
+          goToLocation('/custom-asset/add')
+        }
+      }
+
       break
     }
 
-    case addCustomAsset.ADD_SUCCESS: {
-      goToLocation('/')
+    case customAsset.SET_EDIT_ADDRESS_SUCCESS: {
+      goToLocation('/custom-asset/edit')
+      break
+    }
+
+    case customAsset.ADD_SUCCESS:
+    case customAsset.EDIT_SUCCESS:
+    case customAsset.REMOVE_SUCCESS: {
+      goToLocation('/digital-assets')
       break
     }
 

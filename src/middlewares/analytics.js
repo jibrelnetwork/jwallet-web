@@ -9,9 +9,9 @@ import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveF
 import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
 
 /**
- * Digital Assets
+ * Custom Assets
  */
-import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+import * as customAsset from 'routes/CustomAsset/modules/customAsset'
 
 /**
  * Wallets
@@ -38,7 +38,7 @@ export const pushEvent = () => (next: Next) => (action: FSA) => {
       break
     }
 
-    case addCustomAsset.ADD_SUCCESS: {
+    case customAsset.ADD_SUCCESS: {
       gtm.pushAddCustomAsset()
       break
     }

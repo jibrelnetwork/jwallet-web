@@ -28,7 +28,11 @@ import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPasswor
  * Digital Assets
  */
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
-import * as addCustomAsset from 'routes/AddCustomAsset/modules/addCustomAsset'
+
+/**
+ * Custom Asset
+ */
+import * as customAsset from 'routes/CustomAsset/modules/customAsset'
 
 export const set = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
@@ -165,6 +169,17 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
+    case digitalAssets.OPEN: {
+      try {
+        const storedDigitalAssets: DigitalAssets = JSON.parse(storage.getDigitalAssets(networkId))
+        store.dispatch(digitalAssets.setAssets(storedDigitalAssets))
+      } catch (err) {
+        store.dispatch(digitalAssets.setAssets())
+      }
+
+      break
+    }
+
     case digitalAssets.SET_ASSETS_SUCCESS: {
       storage.setDigitalAssets(JSON.stringify(payload.items), networkId)
       break
@@ -182,7 +197,12 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case addCustomAsset.ADD_SUCCESS: {
+    /**
+     * Custom Assets
+     */
+    case customAsset.ADD_SUCCESS:
+    case customAsset.EDIT_SUCCESS:
+    case customAsset.REMOVE_SUCCESS: {
       storage.setDigitalAssets(JSON.stringify(payload.newDigitalAssets), networkId)
       break
     }
