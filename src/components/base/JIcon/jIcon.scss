@@ -3,10 +3,10 @@
 
   @include hover-animation;
 
-  cursor: inherit;
   display: block;
   background-repeat: no-repeat;
   background-position: left center;
+  cursor: inherit;
 
   &.-transparent {
     opacity: 0.2;
@@ -142,6 +142,18 @@
 
   &.-private-key {
     background-image: $private-key;
+  }
+
+  &.-settings {
+    background-image: $settings-white;
+
+    &.-gray {
+      background-image: $settings-gray;
+    }
+
+    &.-blue {
+      background-image: $settings-blue;
+    }
   }
 
   // Medium icons
