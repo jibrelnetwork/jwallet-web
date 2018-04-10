@@ -3,9 +3,10 @@
 
   @include hover-animation;
 
+  position: relative;
   display: flex;
-  width: 100%;
-  height: 100%;
+  width: 102px;
+  height: 24px;
   cursor: pointer;
 
   &:hover {
@@ -13,8 +14,8 @@
   }
 
   > .image {
-    width: 102px;
-    height: 24px;
+    width: 100%;
+    height: 100%;
     background-image: $logo;
   }
 }
