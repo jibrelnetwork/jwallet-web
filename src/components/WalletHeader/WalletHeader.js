@@ -1,32 +1,23 @@
-// TODO: move JICon with rounded border to separate component
-
-/* @flow */
+// @flow
 
 import React from 'react'
 
-import { JLogo, JIcon } from '../base'
+import JLogo from 'components/base/JLogo'
+import RoundIconButton from 'components/RoundIconButton'
 
-const WalletHeader = ({ onButtonClick }: Props) => (
-  <div className='walletHeader' >
-    <div className='logo'>
-      <JLogo />
-    </div>
-    <div
-      className='icon'
-      onClick={onButtonClick}
-    >
-      <JIcon
-        name='arrow-popup'
-        size='medium'
-      />
-    </div>
+const WalletHeader = ({ goToLanding }: Props) => (
+  <div className='wallet-header' >
+    <JLogo />
+    <RoundIconButton onClick={goToLanding} iconName='arrow-popup' />
   </div>
 )
 
 type Props = {
-  color: 'white' | 'gray',
-  onLogoClick: Function,
-  onButtonClick: Function,
+  goToLanding: Function,
+}
+
+WalletHeader.defaultProps = {
+  goToLanding: null,
 }
 
 export default WalletHeader

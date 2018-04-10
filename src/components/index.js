@@ -1,3 +1,5 @@
+// @flow
+
 import ActiveAsset from './ActiveAsset'
 import ActiveAssetsPanel from './ActiveAssetsPanel'
 import AssetCard from './AssetCard'
@@ -14,6 +16,7 @@ import ModalHeader from './ModalHeader'
 import NewWalletButtons from './NewWalletButtons'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
+import RoundIconButton from './RoundIconButton'
 import Transaction from './Transaction'
 import TransactionsByPeriod from './TransactionsByPeriod'
 import TransactionsEmpty from './TransactionsEmpty'
@@ -39,6 +42,7 @@ export {
   NewWalletButtons,
   PasswordStep,
   QRCode,
+  RoundIconButton,
   Transaction,
   TransactionsByPeriod,
   TransactionsEmpty,
