@@ -134,6 +134,7 @@
   @import '../components/ModalHeader/modalHeader';
   @import '../components/NewWalletButtons/newWalletButtons';
   @import '../components/QRCode/qrCode';
+  @import '../components/RoundIconButton/roundIconButton';
   @import '../components/Transaction/transaction';
   @import '../components/TransactionsByPeriod/transactionsByPeriod';
   @import '../components/TransactionsEmpty/transactionsEmpty';
@@ -145,7 +146,6 @@
 
   // Views
   @import '../routes/CustomAsset/styles/customAsset';
-  @import '../routes/NotFound/NotFound';
   @import '../routes/Wallets/styles/wallets';
   @import '../routes/Wallets/routes/Addresses/styles/mnemonicAddresses';
 
