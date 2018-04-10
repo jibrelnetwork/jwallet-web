@@ -1,0 +1,37 @@
+.round-icon-button {
+  all: initial;
+
+  @include flex-row;
+
+  cursor: pointer;
+
+  &:hover {
+    > .label {
+      opacity: 1;
+    }
+
+    > .icon {
+      border: 1px solid rgba($white, 0.4);
+    }
+  }
+
+  > .label,
+  > .icon {
+    @include flex-row-center;
+    @include hover-animation;
+  }
+
+  > .label {
+    margin-right: 15px;
+    opacity: 0.5;
+  }
+
+  > .icon {
+    @include box;
+
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba($white, 0.2);
+    border-radius: 50%;
+  }
+}
