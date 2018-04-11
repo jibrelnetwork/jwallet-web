@@ -16,6 +16,8 @@ const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' 
   return (type === 'send') ? 'burn' : 'mint'
 }
 
+const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
+
 const TransactionItem = ({
   setActive,
   repeat,
@@ -27,13 +29,13 @@ const TransactionItem = ({
     <div
       onClick={handle(setActive)(data.transactionHash)}
       className={classNames(
-        'transaction',
+        'transaction-item',
         `-${data.type}`,
         { '-active': (data.transactionHash === activeTxHash) },
       )}
     >
-      <div className='main-info'>
-        <JIcon size='extra-large' name={`transaction-${data.type}`} />
+      <div className='main'>
+        <JIcon size='large' name={`transaction-${data.type}`} />
         <div className='date'>
           <div className='label'>{'Date'}</div>
           <div className='value'>{data.date}</div>
@@ -44,7 +46,7 @@ const TransactionItem = ({
         </div>
         <div className='amount'>
           <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>
-          <div className='repeat-button'>
+          <div className='repeat'>
             <JButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
               text='Repeat'
@@ -54,7 +56,7 @@ const TransactionItem = ({
           </div>
         </div>
       </div>
-      <div className='additional-info' onClick={ignoreEvent(/* handler */)(/* args */)}>
+      <div className='additional' onClick={ignoreEvent(/* handler */)(/* args */)}>
         <div className='item'>
           <div className='label'>{'Tx hash'}</div>
           <div className='value'>
@@ -78,7 +80,7 @@ const TransactionItem = ({
           <div className='value'>{`${data.fee} ETH`}</div>
         </div>
         <div className='actions'>
-          <div className='save-button'>
+          <div className='save'>
             {/*
             <JButton
               onClick={console.log}
@@ -88,7 +90,7 @@ const TransactionItem = ({
             />
             */}
           </div>
-          <div className='repeat-button'>
+          <div className='repeat'>
             <JButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
               text='Repeat'
@@ -102,14 +104,20 @@ const TransactionItem = ({
   )
 }
 
-const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
-
 type Props = {
   setActive: (txHash: Hash) => Dispatch,
   repeat: Function,
   data: Transaction,
   assetSymbol: string,
   activeTxHash: ?Hash,
+}
+
+TransactionItem.defaultProps = {
+  setActive: () => {},
+  repeat: () => {},
+  data: {},
+  assetSymbol: 'ETH',
+  activeTxHash: null,
 }
 
 export default TransactionItem

@@ -4,8 +4,7 @@ import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
-import JTabs from 'components/base/JTabs'
-import TransactionsActions from 'routes/Transactions/containers/TransactionsActionsContainer'
+import { JSearch, JTabs } from 'components/base'
 
 const TRANSACTIONS_TABS = {
   '/transactions/all': 'All Transactions',
@@ -13,26 +12,38 @@ const TRANSACTIONS_TABS = {
   '/transactions/outgoing': 'Outgoing',
 }
 
-const TransactionsLayout = ({ children }: Props) => (
+const TransactionsLayout = ({ search, children, searchQuery }: Props) => (
   <ActiveAssetsLayout>
-    <div className='header'>
-      <JTabs tabs={TRANSACTIONS_TABS} />
-      <TransactionsActions />
-    </div>
-    <div className='wrapper'>
-      <Scrollbars autoHide>
-        {children}
-      </Scrollbars>
+    <div className='transactions-layout'>
+      <div className='header'>
+        <JTabs tabs={TRANSACTIONS_TABS} />
+        <div className='actions'>
+          <JSearch
+            onChange={search}
+            value={searchQuery}
+            placeholder='search...'
+          />
+        </div>
+      </div>
+      <div className='content'>
+        <Scrollbars autoHide>
+          {children}
+        </Scrollbars>
+      </div>
     </div>
   </ActiveAssetsLayout>
 )
 
 type Props = {
-  children?: Object,
+  search: Function,
+  children: Object,
+  searchQuery: string,
 }
 
 TransactionsLayout.defaultProps = {
+  search: null,
   children: null,
+  searchQuery: '',
 }
 
 export default TransactionsLayout

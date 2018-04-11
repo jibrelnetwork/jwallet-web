@@ -4,12 +4,17 @@ import lifecycle from 'recompose/lifecycle'
 import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import { open, close } from 'routes/Transactions/modules/transactions'
+import { open, close, search } from 'routes/Transactions/modules/transactions'
 
 import TransactionsLayout from './TransactionsLayout'
 
-const mapStateToProps = null
-const mapDispatchToProps = { open, close }
+const mapStateToProps: Function = ({ transactions }: State): {
+  searchQuery: string,
+} => ({
+  searchQuery: transactions.searchQuery,
+})
+
+const mapDispatchToProps = { open, close, search }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
