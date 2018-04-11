@@ -23,7 +23,7 @@ const JIcon = ({ name, size, color, transparent }: Props) => (
 
 type Props = {
   name: string,
-  size: 'small' | 'medium' | 'large' | 'extra-large' | 'huge',
+  size: 'small' | 'medium' | 'large' | 'extra-large',
   color?: string,
   transparent?: boolean,
 }

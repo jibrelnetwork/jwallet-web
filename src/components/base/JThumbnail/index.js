@@ -1,1 +1,5 @@
-export { default } from './JThumbnail'
+// @flow
+
+import JThumbnail from './JThumbnailContainer'
+
+export default JThumbnail
