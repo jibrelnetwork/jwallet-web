@@ -1,28 +1,29 @@
-// TODO: move JICon with rounded border to separate component
-
 // @flow
 
 import React from 'react'
 
-import { JText, JIcon } from 'components/base'
+import RoundIconButton from 'components/RoundIconButton'
 
 const ESCButton = ({ color, onClick }: Props) => (
-  <div
-    onClick={onClick}
-    className={`esc-button -${color}`}
-  >
-    <div className='text'>
-      <JText value='ESC' variants={['small', 'transparent', color]} />
-    </div>
-    <div className='icon'>
-      <JIcon name={`close-popup-${color}`} size='medium' />
-    </div>
+  <div className='esc-button'>
+    <RoundIconButton
+      onClick={onClick}
+      iconName='close-header'
+      color={color}
+      label='ESC'
+      spinOnHover
+    />
   </div>
 )
 
 type Props = {
-  color: 'white' | 'gray',
   onClick: Function,
+  color: 'white' | 'gray',
+}
+
+ESCButton.defaultProps = {
+  onClick: () => {},
+  color: 'white',
 }
 
 export default ESCButton

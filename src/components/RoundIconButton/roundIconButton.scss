@@ -12,6 +12,14 @@
 
     > .icon {
       border: 1px solid rgba($white, 0.4);
+
+      &.-gray {
+        border: 1px solid rgba($gray, 0.4);
+      }
+
+      &.-spin {
+        transform: rotate(90deg);
+      }
     }
   }
 
@@ -33,5 +41,10 @@
     height: 48px;
     border: 1px solid rgba($white, 0.2);
     border-radius: 50%;
+    transition: transform 0.3s ease 0s;
+
+    &.-gray {
+      border: 1px solid rgba($gray, 0.2);
+    }
   }
 }
