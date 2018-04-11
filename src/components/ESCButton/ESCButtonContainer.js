@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import { compose } from 'ramda'
 import { lifecycle, withHandlers } from 'recompose'

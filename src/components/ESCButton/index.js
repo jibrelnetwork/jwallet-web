@@ -1,1 +1,5 @@
-export { default } from './ESCButtonContainer'
+// @flow
+
+import ESCButton from './ESCButtonContainer'
+
+export default ESCButton
