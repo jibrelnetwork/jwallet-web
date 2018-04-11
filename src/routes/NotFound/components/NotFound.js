@@ -1,5 +1,3 @@
-// TODO: Replace button styles, add title and description
-
 // @flow
 
 import React from 'react'
@@ -7,28 +5,24 @@ import React from 'react'
 import WalletHeader from 'components/WalletHeader'
 import { JButton, JThumbnail } from 'components/base'
 
-const NotFound = () => (
-  <div className='not-found'>
-    <div className='header'>
-      <WalletHeader />
-    </div>
+const NotFound = ({ goToIndex }: Props) => (
+  <div className='not-found-view'>
+    <WalletHeader />
     <div className='content'>
       <JThumbnail
         color='white'
-        image='man-blue'
+        image='man'
         title='404. Page not found'
         description={'All user data, including imported or generated ' +
           'private keys are stored locally, meaning your private'}
       />
-    </div>
-    <div className='button'>
-      <JButton
-        text='Go to the front'
-        color='blue'
-        large
-      />
+      <JButton onClick={goToIndex} text='Go to the front' color='blue' large />
     </div>
   </div>
 )
+
+type Props = {
+  goToIndex: Function,
+}
 
 export default NotFound
