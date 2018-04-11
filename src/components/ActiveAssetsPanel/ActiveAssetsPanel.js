@@ -5,7 +5,9 @@ import { Link } from 'react-router'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JIcon, JText } from 'components/base'
-import { ActiveAsset, CurrentAddress } from 'components'
+
+import AssetItem from './AssetItem'
+import CurrentAddress from './CurrentAddress'
 
 const ActiveAssetsPanel = ({
   setCurrent,
@@ -21,7 +23,7 @@ const ActiveAssetsPanel = ({
     <div className='list'>
       <Scrollbars autoHide>
         {digitalAssets.map((data, index) => (
-          <ActiveAsset
+          <AssetItem
             {...data}
             key={index}
             setCurrent={setCurrent}
@@ -33,7 +35,9 @@ const ActiveAssetsPanel = ({
     </div>
     <div className='manage'>
       <Link to='/digital-assets' className='link'>
-        <JIcon size='small' name='plus' color='blue' />
+        <div className='icon'>
+          <JIcon size='small' name='plus' color='blue' />
+        </div>
         <JText value='assetsPanel.button' variants={['bold', 'blue']} />
       </Link>
     </div>

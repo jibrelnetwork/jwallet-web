@@ -1,47 +1,52 @@
+@import './AssetItem/assetItem';
+@import './CurrentAddress/currentAddress';
+
+$manage-assets-link-height: 65px;
+
 .active-assets-panel {
   all: initial;
 
-  display: block;
+  @include box;
+  @include flex-column;
+
+  position: relative;
   width: 100%;
   height: 100%;
-  padding: 80px 0 66px;
   background-color: $white;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 6px rgba($black, 0.05);
 
   > .address {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 80px;
+    height: $page-header-height; /* equals page header height */
+    border-bottom: 1px solid rgba($dusk, 0.1);
   }
 
   > .list {
-    height: calc(100% - (80px + 66px));
+    @include box;
+
+    height: calc(100% - #{$page-header-height} - #{$manage-assets-link-height});
+    width: 100%;
+    border-bottom: 1px solid rgba($dusk, 0.1);
   }
 
   > .manage {
     width: 100%;
-    border-top: 1px solid #ebedf0;
 
     > .link {
+      @include box;
       @include flex-row-center;
       @include hover-animation;
 
-      height: 66px;
+      height: $manage-assets-link-height;
       background-color: $white;
 
       &:hover {
         opacity: 0.7;
       }
 
-      > .j-icon {
+      > .icon {
         margin-right: 10px;
       }
     }
-  }
-
-  @media only screen and (max-width: 1280px) {
-    width: 290px;
   }
 }

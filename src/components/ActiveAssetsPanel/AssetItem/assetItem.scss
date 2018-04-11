@@ -1,4 +1,4 @@
-.active-asset {
+.asset-item {
   all: initial;
 
   @include font;
@@ -25,13 +25,13 @@
   &.-current {
     background: linear-gradient(to right, #f1f5fd, $white);
     color: $blue;
+
+    > .icon {
+      opacity: 1;
+    }
   }
 
-  &.-current > .j-icon {
-    opacity: 1;
-  }
-
-  > .j-icon {
+  > .icon {
     position: absolute;
     left: 30px;
     top: 50%;
@@ -47,14 +47,14 @@
   > .balance {
     font-size: 15px;
     font-weight: bold;
-  }
 
-  > .balance > .integer,
-  > .balance > .decimals {
-    display: inline-block;
-  }
+    > .integer,
+    > .decimals {
+      display: inline-block;
+    }
 
-  > .balance > .decimals {
-    opacity: 0.5;
+    > .decimals {
+      opacity: 0.5;
+    }
   }
 }
