@@ -1,6 +1,17 @@
 @import 'colors';
 @import 'icons';
 @import 'images';
+@import 'tokens';
 @import 'zindex';
 
 $font: 'Open Sans', Arial, sans-serif;
+
+/**
+ * Page Header
+ */
+$page-header-height: 80px;
+
+/**
+ * Menu Panel
+ */
+$menu-panel-width: 200px;

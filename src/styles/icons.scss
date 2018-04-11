@@ -3,244 +3,88 @@
  */
 $icon-small-size: 12px;
 $icon-medium-size: 24px;
-$icon-large-size: 36px;
-$icon-extra-large-size: 48px;
+$icon-large-size: 48px;
 
 /**
  * Small
  */
-$plus-white: url('../public/assets/icons/small/plus-white.svg');
-$plus-blue: url('../public/assets/icons/small/plus-blue.svg');
-$menu-send-white: url('../public/assets/icons/small/menu-send-white.svg');
-$menu-receive-white: url('../public/assets/icons/small/menu-receive-white.svg');
-$menu-favorite-white: url('../public/assets/icons/small/menu-favorite-white.svg');
-$star-blue: url('../public/assets/icons/small/star-blue.svg');
-$repeat-blue: url('../public/assets/icons/small/repeat-blue.svg');
-$arrow-white: url('../public/assets/icons/small/arrow-white.svg');
-$arrow-blue: url('../public/assets/icons/small/arrow-blue.svg');
-$checkbox-white: url('../public/assets/icons/small/checkbox-white.svg');
-$checkbox-blue: url('../public/assets/icons/small/checkbox-blue.svg');
-$close-gray: url('../public/assets/icons/small/close-gray.svg');
-$expand-gray: url('../public/assets/icons/small/expand-gray.svg');
-$info-gray: url('../public/assets/icons/small/info-gray.svg');
-$settings-white: url('../public/assets/icons/small/settings-white.svg');
-$settings-gray: url('../public/assets/icons/small/settings-gray.svg');
-$settings-blue: url('../public/assets/icons/small/settings-blue.svg');
+$icon-small-arrow-white: url('../public/assets/icons/small/arrow-white.svg');
+$icon-small-arrow-blue: url('../public/assets/icons/small/arrow-blue.svg');
+
+$icon-small-checkbox-white: url('../public/assets/icons/small/checkbox-white.svg');
+$icon-small-checkbox-blue: url('../public/assets/icons/small/checkbox-blue.svg');
+
+$icon-small-close-white: url('../public/assets/icons/small/close-gray.svg');
+$icon-small-close-gray: url('../public/assets/icons/small/close-gray.svg');
+
+$icon-small-expand-white: url('../public/assets/icons/small/expand-gray.svg');
+$icon-small-expand-blue: url('../public/assets/icons/small/expand-blue.svg');
+$icon-small-expand-gray: url('../public/assets/icons/small/expand-gray.svg');
+
+$icon-small-info-white: url('../public/assets/icons/small/info-gray.svg');
+$icon-small-info-blue: url('../public/assets/icons/small/info-blue.svg');
+$icon-small-info-gray: url('../public/assets/icons/small/info-gray.svg');
+
+$icon-small-menu-send-white: url('../public/assets/icons/small/menu-send-white.svg');
+$icon-small-menu-receive-white: url('../public/assets/icons/small/menu-receive-white.svg');
+$icon-small-menu-favorite-white: url('../public/assets/icons/small/menu-favorite-white.svg');
+
+$icon-small-plus-white: url('../public/assets/icons/small/plus-white.svg');
+$icon-small-plus-blue: url('../public/assets/icons/small/plus-blue.svg');
+
+$icon-small-repeat-white: url('../public/assets/icons/small/repeat-blue.svg');
+$icon-small-repeat-blue: url('../public/assets/icons/small/repeat-blue.svg');
+
+$icon-small-settings-white: url('../public/assets/icons/small/settings-white.svg');
+$icon-small-settings-gray: url('../public/assets/icons/small/settings-gray.svg');
+$icon-small-settings-blue: url('../public/assets/icons/small/settings-blue.svg');
+
+$icon-small-star-white: url('../public/assets/icons/small/star-blue.svg');
+$icon-small-star-blue: url('../public/assets/icons/small/star-blue.svg');
 
 /**
  * Medium
  */
-$menu-bg-white: url('../public/assets/icons/medium/menu-bg-white.svg');
-$logout: url('../public/assets/icons/medium/logout.svg');
-$search-gray: url('../public/assets/icons/medium/search-gray.svg');
-$close-popup-gray: url('../public/assets/icons/medium/close-popup-gray.svg');
-$close-popup-white: url('../public/assets/icons/medium/close-popup-white.svg');
-$arrow-popup-white: url('../public/assets/icons/medium/arrow-popup-white.svg');
-$arrow-popup-blue: url('../public/assets/icons/medium/arrow-popup-blue.svg');
-$key-new-white: url('../public/assets/icons/medium/key-new-white.svg');
-$key-import-white: url('../public/assets/icons/medium/key-import-white.svg');
-$private-key: url('../public/assets/icons/medium/private-key.svg');
-$private-key-read: url('../public/assets/icons/medium/private-key-read.svg');
-$mnemonic: url('../public/assets/icons/medium/mnemonic.svg');
-$mnemonic-read: url('../public/assets/icons/medium/mnemonic-read.svg');
-$dots-white: url('../public/assets/icons/medium/dots-white.svg');
-$arrow-white: url('../public/assets/icons/medium/arrow-white.svg');
-$link-blue: url('../public/assets/icons/medium/link-blue.svg');
+$icon-medium-arrow-white: url('../public/assets/icons/medium/arrow-white.svg');
+$icon-medium-arrow-blue: url('../public/assets/icons/medium/arrow-blue.svg');
+
+$icon-medium-arrow-header-white: url('../public/assets/icons/medium/arrow-popup-white.svg');
+$icon-medium-arrow-header-blue: url('../public/assets/icons/medium/arrow-popup-blue.svg');
+$icon-medium-arrow-header-gray: url('../public/assets/icons/medium/arrow-popup-gray.svg');
+
+$icon-medium-close-header-white: url('../public/assets/icons/medium/close-popup-white.svg');
+$icon-medium-close-header-gray: url('../public/assets/icons/medium/close-popup-gray.svg');
+
+$icon-medium-dots-white: url('../public/assets/icons/medium/dots-white.svg');
+
+$icon-medium-key-import-white: url('../public/assets/icons/medium/key-import-white.svg');
+$icon-medium-key-import-blue: url('../public/assets/icons/medium/key-import-blue.svg');
+$icon-medium-key-import-gray: url('../public/assets/icons/medium/key-import-gray.svg');
+
+$icon-medium-key-new-white: url('../public/assets/icons/medium/key-new-white.svg');
+$icon-medium-key-new-blue: url('../public/assets/icons/medium/key-new-blue.svg');
+$icon-medium-key-new-gray: url('../public/assets/icons/medium/key-new-gray.svg');
+
+$icon-medium-link-white: url('../public/assets/icons/medium/link-blue.svg');
+$icon-medium-link-blue: url('../public/assets/icons/medium/link-blue.svg');
+
+$icon-medium-logout: url('../public/assets/icons/medium/logout.svg');
+
+$icon-medium-menu-bg-white: url('../public/assets/icons/medium/menu-bg-white.svg');
+
+$icon-medium-mnemonic: url('../public/assets/icons/medium/mnemonic.svg');
+$icon-medium-mnemonic-read: url('../public/assets/icons/medium/mnemonic-read.svg');
+
+$icon-medium-private-key: url('../public/assets/icons/medium/private-key.svg');
+$icon-medium-private-key-read: url('../public/assets/icons/medium/private-key-read.svg');
+
+$icon-medium-search-white: url('../public/assets/icons/medium/search-gray.svg');
+$icon-medium-search-gray: url('../public/assets/icons/medium/search-gray.svg');
 
 /**
  * Large
  */
-$transaction-send: url('../public/assets/icons/extra-large/transaction-send.svg');
-$transaction-send-time: url('../public/assets/icons/extra-large/transaction-send-time.svg');
-$transaction-receive: url('../public/assets/icons/extra-large/transaction-receive.svg');
-$transaction-receive-time: url('../public/assets/icons/extra-large/transaction-receive-time.svg');
-
-/**
- * Tokens
- */
-
-// white
-
-$token-1st-white: url('../public/assets/icons/large/tokens/white/1st.svg');
-$token-adt-white: url('../public/assets/icons/large/tokens/white/adt.svg');
-$token-ant-white: url('../public/assets/icons/large/tokens/white/ant.svg');
-$token-ast-white: url('../public/assets/icons/large/tokens/white/ast.svg');
-$token-bat-white: url('../public/assets/icons/large/tokens/white/bat.svg');
-$token-bcap-white: url('../public/assets/icons/large/tokens/white/bcap.svg');
-$token-bnt-white: url('../public/assets/icons/large/tokens/white/bnt.svg');
-$token-bqx-white: url('../public/assets/icons/large/tokens/white/bqx.svg');
-$token-cfi-white: url('../public/assets/icons/large/tokens/white/cfi.svg');
-$token-cvc-white: url('../public/assets/icons/large/tokens/white/cvc.svg');
-$token-dgd-white: url('../public/assets/icons/large/tokens/white/dgd.svg');
-$token-dice-white: url('../public/assets/icons/large/tokens/white/dice.svg');
-$token-dnt-white: url('../public/assets/icons/large/tokens/white/dnt.svg');
-$token-edg-white: url('../public/assets/icons/large/tokens/white/edg.svg');
-$token-eos-white: url('../public/assets/icons/large/tokens/white/eos.svg');
-$token-eth-white: url('../public/assets/icons/large/tokens/white/eth.svg');
-$token-fun-white: url('../public/assets/icons/large/tokens/white/fun.svg');
-$token-gno-white: url('../public/assets/icons/large/tokens/white/gno.svg');
-$token-gnt-white: url('../public/assets/icons/large/tokens/white/gnt.svg');
-$token-guppy-white: url('../public/assets/icons/large/tokens/white/guppy.svg');
-$token-hmq-white: url('../public/assets/icons/large/tokens/white/hmq.svg');
-$token-icn-white: url('../public/assets/icons/large/tokens/white/icn.svg');
-$token-jaed-white: url('../public/assets/icons/large/tokens/white/jaed.svg');
-$token-jcny-white: url('../public/assets/icons/large/tokens/white/jcny.svg');
-$token-jeur-white: url('../public/assets/icons/large/tokens/white/jeur.svg');
-$token-jgbp-white: url('../public/assets/icons/large/tokens/white/jgbp.svg');
-$token-jnt-white: url('../public/assets/icons/large/tokens/white/jnt.svg');
-$token-jrub-white: url('../public/assets/icons/large/tokens/white/jrub.svg');
-$token-jusd-white: url('../public/assets/icons/large/tokens/white/jusd.svg');
-$token-just-white: url('../public/assets/icons/large/tokens/white/just.svg');
-$token-knc-white: url('../public/assets/icons/large/tokens/white/knc.svg');
-$token-lun-white: url('../public/assets/icons/large/tokens/white/lun.svg');
-$token-mana-white: url('../public/assets/icons/large/tokens/white/mana.svg');
-$token-mco-white: url('../public/assets/icons/large/tokens/white/mco.svg');
-$token-mkr-white: url('../public/assets/icons/large/tokens/white/mkr.svg');
-$token-mln-white: url('../public/assets/icons/large/tokens/white/mln.svg');
-$token-mtl-white: url('../public/assets/icons/large/tokens/white/mtl.svg');
-$token-net-white: url('../public/assets/icons/large/tokens/white/net.svg');
-$token-nmr-white: url('../public/assets/icons/large/tokens/white/nmr.svg');
-$token-null-white: url('../public/assets/icons/large/tokens/white/null.svg');
-$token-omg-white: url('../public/assets/icons/large/tokens/white/omg.svg');
-$token-pay-white: url('../public/assets/icons/large/tokens/white/pay.svg');
-$token-plu-white: url('../public/assets/icons/large/tokens/white/plu.svg');
-$token-qtum-white: url('../public/assets/icons/large/tokens/white/qtum.svg');
-$token-rep-white: url('../public/assets/icons/large/tokens/white/rep.svg');
-$token-rlc-white: url('../public/assets/icons/large/tokens/white/rlc.svg');
-$token-san-white: url('../public/assets/icons/large/tokens/white/san.svg');
-$token-sngls-white: url('../public/assets/icons/large/tokens/white/sngls.svg');
-$token-snt-white: url('../public/assets/icons/large/tokens/white/snt.svg');
-$token-storj-white: url('../public/assets/icons/large/tokens/white/storj.svg');
-$token-swt-white: url('../public/assets/icons/large/tokens/white/swt.svg');
-$token-taas-white: url('../public/assets/icons/large/tokens/white/taas.svg');
-$token-time-white: url('../public/assets/icons/large/tokens/white/time.svg');
-$token-tkn-white: url('../public/assets/icons/large/tokens/white/tkn.svg');
-$token-trst-white: url('../public/assets/icons/large/tokens/white/trst.svg');
-$token-vsl-white: url('../public/assets/icons/large/tokens/white/vsl.svg');
-$token-wings-white: url('../public/assets/icons/large/tokens/white/wings.svg');
-$token-xaur-white: url('../public/assets/icons/large/tokens/white/xaur.svg');
-$token-zrx-white: url('../public/assets/icons/large/tokens/white/zrx.svg');
-
-// blue
-
-$token-1st-blue: url('../public/assets/icons/large/tokens/blue/1st.svg');
-$token-adt-blue: url('../public/assets/icons/large/tokens/blue/adt.svg');
-$token-ant-blue: url('../public/assets/icons/large/tokens/blue/ant.svg');
-$token-ast-blue: url('../public/assets/icons/large/tokens/blue/ast.svg');
-$token-bat-blue: url('../public/assets/icons/large/tokens/blue/bat.svg');
-$token-bcap-blue: url('../public/assets/icons/large/tokens/blue/bcap.svg');
-$token-bnt-blue: url('../public/assets/icons/large/tokens/blue/bnt.svg');
-$token-bqx-blue: url('../public/assets/icons/large/tokens/blue/bqx.svg');
-$token-cfi-blue: url('../public/assets/icons/large/tokens/blue/cfi.svg');
-$token-cvc-blue: url('../public/assets/icons/large/tokens/blue/cvc.svg');
-$token-dgd-blue: url('../public/assets/icons/large/tokens/blue/dgd.svg');
-$token-dice-blue: url('../public/assets/icons/large/tokens/blue/dice.svg');
-$token-dnt-blue: url('../public/assets/icons/large/tokens/blue/dnt.svg');
-$token-edg-blue: url('../public/assets/icons/large/tokens/blue/edg.svg');
-$token-eos-blue: url('../public/assets/icons/large/tokens/blue/eos.svg');
-$token-eth-blue: url('../public/assets/icons/large/tokens/blue/eth.svg');
-$token-fun-blue: url('../public/assets/icons/large/tokens/blue/fun.svg');
-$token-gno-blue: url('../public/assets/icons/large/tokens/blue/gno.svg');
-$token-gnt-blue: url('../public/assets/icons/large/tokens/blue/gnt.svg');
-$token-guppy-blue: url('../public/assets/icons/large/tokens/blue/guppy.svg');
-$token-hmq-blue: url('../public/assets/icons/large/tokens/blue/hmq.svg');
-$token-icn-blue: url('../public/assets/icons/large/tokens/blue/icn.svg');
-$token-jaed-blue: url('../public/assets/icons/large/tokens/blue/jaed.svg');
-$token-jcny-blue: url('../public/assets/icons/large/tokens/blue/jcny.svg');
-$token-jeur-blue: url('../public/assets/icons/large/tokens/blue/jeur.svg');
-$token-jgbp-blue: url('../public/assets/icons/large/tokens/blue/jgbp.svg');
-$token-jnt-blue: url('../public/assets/icons/large/tokens/blue/jnt.svg');
-$token-jrub-blue: url('../public/assets/icons/large/tokens/blue/jrub.svg');
-$token-jusd-blue: url('../public/assets/icons/large/tokens/blue/jusd.svg');
-$token-just-blue: url('../public/assets/icons/large/tokens/blue/just.svg');
-$token-knc-blue: url('../public/assets/icons/large/tokens/blue/knc.svg');
-$token-lun-blue: url('../public/assets/icons/large/tokens/blue/lun.svg');
-$token-mana-blue: url('../public/assets/icons/large/tokens/blue/mana.svg');
-$token-mco-blue: url('../public/assets/icons/large/tokens/blue/mco.svg');
-$token-mkr-blue: url('../public/assets/icons/large/tokens/blue/mkr.svg');
-$token-mln-blue: url('../public/assets/icons/large/tokens/blue/mln.svg');
-$token-mtl-blue: url('../public/assets/icons/large/tokens/blue/mtl.svg');
-$token-net-blue: url('../public/assets/icons/large/tokens/blue/net.svg');
-$token-nmr-blue: url('../public/assets/icons/large/tokens/blue/nmr.svg');
-$token-null-blue: url('../public/assets/icons/large/tokens/blue/null.svg');
-$token-omg-blue: url('../public/assets/icons/large/tokens/blue/omg.svg');
-$token-pay-blue: url('../public/assets/icons/large/tokens/blue/pay.svg');
-$token-plu-blue: url('../public/assets/icons/large/tokens/blue/plu.svg');
-$token-qtum-blue: url('../public/assets/icons/large/tokens/blue/qtum.svg');
-$token-rep-blue: url('../public/assets/icons/large/tokens/blue/rep.svg');
-$token-rlc-blue: url('../public/assets/icons/large/tokens/blue/rlc.svg');
-$token-san-blue: url('../public/assets/icons/large/tokens/blue/san.svg');
-$token-sngls-blue: url('../public/assets/icons/large/tokens/blue/sngls.svg');
-$token-snt-blue: url('../public/assets/icons/large/tokens/blue/snt.svg');
-$token-storj-blue: url('../public/assets/icons/large/tokens/blue/storj.svg');
-$token-swt-blue: url('../public/assets/icons/large/tokens/blue/swt.svg');
-$token-taas-blue: url('../public/assets/icons/large/tokens/blue/taas.svg');
-$token-time-blue: url('../public/assets/icons/large/tokens/blue/time.svg');
-$token-tkn-blue: url('../public/assets/icons/large/tokens/blue/tkn.svg');
-$token-trst-blue: url('../public/assets/icons/large/tokens/blue/trst.svg');
-$token-vsl-blue: url('../public/assets/icons/large/tokens/blue/vsl.svg');
-$token-wings-blue: url('../public/assets/icons/large/tokens/blue/wings.svg');
-$token-xaur-blue: url('../public/assets/icons/large/tokens/blue/xaur.svg');
-$token-zrx-blue: url('../public/assets/icons/large/tokens/blue/zrx.svg');
-
-// gray
-
-$token-1st-gray: url('../public/assets/icons/large/tokens/gray/1st.svg');
-$token-adt-gray: url('../public/assets/icons/large/tokens/gray/adt.svg');
-$token-ant-gray: url('../public/assets/icons/large/tokens/gray/ant.svg');
-$token-ast-gray: url('../public/assets/icons/large/tokens/gray/ast.svg');
-$token-bat-gray: url('../public/assets/icons/large/tokens/gray/bat.svg');
-$token-bcap-gray: url('../public/assets/icons/large/tokens/gray/bcap.svg');
-$token-bnt-gray: url('../public/assets/icons/large/tokens/gray/bnt.svg');
-$token-bqx-gray: url('../public/assets/icons/large/tokens/gray/bqx.svg');
-$token-cfi-gray: url('../public/assets/icons/large/tokens/gray/cfi.svg');
-$token-cvc-gray: url('../public/assets/icons/large/tokens/gray/cvc.svg');
-$token-dgd-gray: url('../public/assets/icons/large/tokens/gray/dgd.svg');
-$token-dice-gray: url('../public/assets/icons/large/tokens/gray/dice.svg');
-$token-dnt-gray: url('../public/assets/icons/large/tokens/gray/dnt.svg');
-$token-edg-gray: url('../public/assets/icons/large/tokens/gray/edg.svg');
-$token-eos-gray: url('../public/assets/icons/large/tokens/gray/eos.svg');
-$token-eth-gray: url('../public/assets/icons/large/tokens/gray/eth.svg');
-$token-fun-gray: url('../public/assets/icons/large/tokens/gray/fun.svg');
-$token-gno-gray: url('../public/assets/icons/large/tokens/gray/gno.svg');
-$token-gnt-gray: url('../public/assets/icons/large/tokens/gray/gnt.svg');
-$token-guppy-gray: url('../public/assets/icons/large/tokens/gray/guppy.svg');
-$token-hmq-gray: url('../public/assets/icons/large/tokens/gray/hmq.svg');
-$token-icn-gray: url('../public/assets/icons/large/tokens/gray/icn.svg');
-$token-jaed-gray: url('../public/assets/icons/large/tokens/gray/jaed.svg');
-$token-jcny-gray: url('../public/assets/icons/large/tokens/gray/jcny.svg');
-$token-jeur-gray: url('../public/assets/icons/large/tokens/gray/jeur.svg');
-$token-jgbp-gray: url('../public/assets/icons/large/tokens/gray/jgbp.svg');
-$token-jnt-gray: url('../public/assets/icons/large/tokens/gray/jnt.svg');
-$token-jrub-gray: url('../public/assets/icons/large/tokens/gray/jrub.svg');
-$token-jusd-gray: url('../public/assets/icons/large/tokens/gray/jusd.svg');
-$token-just-gray: url('../public/assets/icons/large/tokens/gray/just.svg');
-$token-knc-gray: url('../public/assets/icons/large/tokens/gray/knc.svg');
-$token-lun-gray: url('../public/assets/icons/large/tokens/gray/lun.svg');
-$token-mana-gray: url('../public/assets/icons/large/tokens/gray/mana.svg');
-$token-mco-gray: url('../public/assets/icons/large/tokens/gray/mco.svg');
-$token-mkr-gray: url('../public/assets/icons/large/tokens/gray/mkr.svg');
-$token-mln-gray: url('../public/assets/icons/large/tokens/gray/mln.svg');
-$token-mtl-gray: url('../public/assets/icons/large/tokens/gray/mtl.svg');
-$token-net-gray: url('../public/assets/icons/large/tokens/gray/net.svg');
-$token-nmr-gray: url('../public/assets/icons/large/tokens/gray/nmr.svg');
-$token-null-gray: url('../public/assets/icons/large/tokens/gray/null.svg');
-$token-omg-gray: url('../public/assets/icons/large/tokens/gray/omg.svg');
-$token-pay-gray: url('../public/assets/icons/large/tokens/gray/pay.svg');
-$token-plu-gray: url('../public/assets/icons/large/tokens/gray/plu.svg');
-$token-qtum-gray: url('../public/assets/icons/large/tokens/gray/qtum.svg');
-$token-rep-gray: url('../public/assets/icons/large/tokens/gray/rep.svg');
-$token-rlc-gray: url('../public/assets/icons/large/tokens/gray/rlc.svg');
-$token-san-gray: url('../public/assets/icons/large/tokens/gray/san.svg');
-$token-sngls-gray: url('../public/assets/icons/large/tokens/gray/sngls.svg');
-$token-snt-gray: url('../public/assets/icons/large/tokens/gray/snt.svg');
-$token-storj-gray: url('../public/assets/icons/large/tokens/gray/storj.svg');
-$token-swt-gray: url('../public/assets/icons/large/tokens/gray/swt.svg');
-$token-taas-gray: url('../public/assets/icons/large/tokens/gray/taas.svg');
-$token-time-gray: url('../public/assets/icons/large/tokens/gray/time.svg');
-$token-tkn-gray: url('../public/assets/icons/large/tokens/gray/tkn.svg');
-$token-trst-gray: url('../public/assets/icons/large/tokens/gray/trst.svg');
-$token-vsl-gray: url('../public/assets/icons/large/tokens/gray/vsl.svg');
-$token-wings-gray: url('../public/assets/icons/large/tokens/gray/wings.svg');
-$token-xaur-gray: url('../public/assets/icons/large/tokens/gray/xaur.svg');
-$token-zrx-gray: url('../public/assets/icons/large/tokens/gray/zrx.svg');
+$icon-large-transaction-receive: url('../public/assets/icons/large/transaction-receive.svg');
+$icon-large-transaction-receive-time: url('../public/assets/icons/large/transaction-receive-time.svg');
+$icon-large-transaction-send: url('../public/assets/icons/large/transaction-send.svg');
+$icon-large-transaction-send-time: url('../public/assets/icons/large/transaction-send-time.svg');
