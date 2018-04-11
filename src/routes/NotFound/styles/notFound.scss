@@ -1,0 +1,11 @@
+.not-found-view {
+  all: initial;
+
+  @include flex-column-center;
+
+  height: 100%;
+
+  > .content {
+    @include flex-column-center;
+  }
+}

@@ -1,6 +1,13 @@
-import NotFound from './NotFound'
+// @flow
 
-export default {
+import WalletsLayout from 'layouts/WalletsLayout'
+
+import NotFound from './containers/NotFoundContainer'
+
+export default () => ({
   path: '*',
-  indexRoute: { component: NotFound },
-}
+  component: WalletsLayout,
+  indexRoute: {
+    component: NotFound,
+  },
+})

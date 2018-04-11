@@ -17,7 +17,7 @@ const createRoutes = store => ({
     Funds(store),
     Transactions(store),
     Wallets(store),
-    NotFound,
+    NotFound(),
   ],
 })
 
