@@ -11,7 +11,9 @@ const ActiveAssetsLayout = ({ children }: Props) => (
       <div className='panel'>
         <ActiveAssetsPanel />
       </div>
-      <div className='content'>{children}</div>
+      <div className='content'>
+        {children}
+      </div>
     </div>
   </MenuLayout>
 )

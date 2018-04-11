@@ -4,9 +4,10 @@ import React from 'react'
 import classNames from 'classnames'
 
 import JIcon from 'components/base/JIcon'
+import ethereum from 'data/assets/ethereum'
 import handle from 'utils/eventHandlers/handle'
 
-const ActiveAsset = ({
+const AssetItem = ({
   setCurrent,
   address,
   name,
@@ -17,9 +18,11 @@ const ActiveAsset = ({
 }: Props) => (
   <div
     onClick={handle(setCurrent)(address)}
-    className={classNames('active-asset', { '-current': isCurrent })}
+    className={classNames('asset-item', { '-current': isCurrent })}
   >
-    <JIcon size='large' name='token-ant' />
+    <div className='icon'>
+      <JIcon size='large' name='token-ant' />
+    </div>
     <div className='name'>{name}</div>
     {isLoading ? <div className='balance'>{'Loading'}</div> : (
       <div className='balance'>
@@ -42,4 +45,14 @@ type Props = {
   isCurrent: boolean,
 }
 
-export default ActiveAsset
+AssetItem.defaultProps = {
+  setCurrent: () => {},
+  address: ethereum.address,
+  name: ethereum.name,
+  symbol: ethereum.symbol,
+  balance: 0,
+  isLoading: false,
+  isCurrent: false,
+}
+
+export default AssetItem

@@ -1,10 +1,8 @@
 // @flow
 
-import ActiveAsset from './ActiveAsset'
 import ActiveAssetsPanel from './ActiveAssetsPanel'
 import AssetCard from './AssetCard'
 import ButtonWithConfirm from './ButtonWithConfirm'
-import CurrentAddress from './CurrentAddress'
 import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
 import Expandable from './Expandable'
