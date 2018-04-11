@@ -1,2 +1,23 @@
-$logo: url('../public/assets/logo.svg');
-$loader-image: url('../public/assets/logo-loading.svg');
+/**
+ * Logo
+ */
+$logo-width: 102px;
+$logo-height: 24px;
+
+$logo: url('../public/assets/logo/logo.svg');
+
+/**
+ * Loader
+ */
+$loader-image: url('../public/assets/loader/logo-loading.svg');
+
+/**
+ * Thumbnail
+ */
+$thumbnail-width: 200px;
+$thumbnail-height: 165px;
+
+$man-blue: url('../public/assets/thumbnail/man-blue.svg');
+$key-blue: url('../public/assets/thumbnail/key-blue.svg');
+$cloud-white: url('../public/assets/thumbnail/cloud-white.svg');
+$cloud-blue: url('../public/assets/thumbnail/cloud-blue.svg');

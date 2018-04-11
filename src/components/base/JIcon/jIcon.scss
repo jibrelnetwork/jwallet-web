@@ -38,12 +38,6 @@
     background-size: $icon-extra-large-size $icon-extra-large-size;
   }
 
-  &.-huge {
-    width: $icon-huge-width;
-    height: $icon-huge-height;
-    background-size: $icon-huge-width $icon-huge-height;
-  }
-
   // SVG
 
   // Small icons
@@ -435,23 +429,4 @@
   &.-token-wings-gray { background-image: $token-wings-gray }
   &.-token-xaur-gray { background-image: $token-xaur-gray }
   &.-token-zrx-gray { background-image: $token-zrx-gray }
-
-
-  // Huge
-
-  &.-key-blue {
-    background-image: $key-blue;
-  }
-
-  &.-cloud-white {
-    background-image: $cloud-white;
-  }
-
-  &.-cloud-blue {
-    background-image: $cloud-blue;
-  }
-
-  &.-man-blue {
-    background-image: $man-blue;
-  }
 }

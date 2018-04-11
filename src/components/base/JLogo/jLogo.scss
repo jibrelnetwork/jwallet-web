@@ -5,8 +5,8 @@
 
   position: relative;
   display: flex;
-  width: 102px;
-  height: 24px;
+  width: $logo-width;
+  height: $logo-height;
   cursor: pointer;
 
   &:hover {

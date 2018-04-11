@@ -1,15 +1,9 @@
+// @flow
+
 import React from 'react'
-import { pure } from 'recompose'
+import classNames from 'classnames'
 
-import JText from '../JText'
-import JIcon from '../JIcon'
-
-type Props = {
-  color: 'white' | 'gray',
-  title: ?string,
-  image: string,
-  description: string,
-}
+import { JIcon, JText } from 'components/base'
 
 const JThumbnail = ({
   image,
@@ -17,28 +11,31 @@ const JThumbnail = ({
   title,
   description,
 }: Props) => (
-  <div className='jThumbnail' >
-    <div className='image'>
-      <JIcon
-        name={image}
-        size='huge'
-      />
-    </div>
-    {title &&
+  <div className='j-thumbnail' >
+    <div className={classNames('image', `-${image}`, `-${color}`)} />
+    {title && (
       <div className='title'>
-        <JText
-          value={title}
-          variants={['header', 'center', color]}
-        />
+        <JText value={title} variants={['header', 'center', color]} />
       </div>
-    }
+    )}
     <div className='description'>
-      <JText
-        value={description}
-        variants={['normal', 'transparent', 'center', 'tall', color]}
-      />
+      <JText value={description} variants={['normal', 'transparent', 'center', 'tall', color]} />
     </div>
   </div>
 )
 
-export default pure(JThumbnail)
+type Props = {
+  title: string,
+  image: string,
+  description: string,
+  color: 'white' | 'gray',
+}
+
+JThumbnail.defaultProps = {
+  image: 'cloud',
+  title: '',
+  description: '',
+  color: 'white',
+}
+
+export default JThumbnail

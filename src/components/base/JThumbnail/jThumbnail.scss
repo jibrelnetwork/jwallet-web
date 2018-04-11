@@ -1,19 +1,40 @@
-.jThumbnail {
+.j-thumbnail {
   all: initial;
-  width: 480px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  
+
+  @include flex-column-center;
+
+  width: 320px;
+  padding-bottom: 30px;
+
   > .image {
-    margin-bottom: 25px;
+    width: $thumbnail-width;
+    height: $thumbnail-height;
+    background-size: $thumbnail-width $thumbnail-height;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.-key {
+      background-image: $key-blue;
+    }
+
+    &.-man {
+      background-image: $man-blue;
+    }
+
+    &.-cloud {
+      background-image: $cloud-white;
+
+      &.-blue {
+        background-image: $cloud-blue;
+      }
+    }
   }
 
   > .title {
-    margin-bottom: 25px;
+    margin-top: 25px;
   }
 
   > .description {
-    margin-bottom: 30px;
+    margin-top: 25px;
   }
 }
