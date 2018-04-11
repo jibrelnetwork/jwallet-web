@@ -124,13 +124,10 @@
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/CurrentAddress/currentAddress';
   @import '../components/DigitalAssets/digitalAssets';
-  @import '../components/ESCButton/escButton';
-  @import '../components/Menu/menu';
   @import '../components/DerivedAddress/DerivedAddress';
   @import '../components/WalletHeader/walletHeader';
   @import '../components/ModalHeader/modalHeader';
-  @import '../components/MenuLink/menuLink';
-  @import '../components/MenuSelect/menuSelect';
+  @import '../components/MenuPanel/menuPanel';
   @import '../components/ModalHeader/modalHeader';
   @import '../components/NewWalletButtons/newWalletButtons';
   @import '../components/QRCode/qrCode';
@@ -155,5 +152,6 @@
   @import '../layouts/CoreLayout/coreLayout';
   @import '../layouts/MenuLayout/menuLayout';
   @import '../layouts/ModalLayout/modalLayout';
+  @import '../layouts/TransactionsLayout/transactionsLayout';
   @import '../layouts/WalletsLayout/walletsLayout';
 }

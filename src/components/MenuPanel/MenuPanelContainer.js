@@ -1,14 +1,15 @@
 // @flow
 
-import { assoc } from 'ramda'
 import { connect } from 'react-redux'
+import { withState } from 'recompose'
+import { assoc, compose } from 'ramda'
 
 import keystore from 'services/keystore'
 import getCurrentLanguageCode from 'utils/i18n/getCurrentLanguageCode'
 import { setLanguage } from 'routes/modules/i18n'
 import { setCurrentNetwork as setNetwork } from 'routes/modules/networks'
 
-import Menu from './Menu'
+import MenuPanel from './MenuPanel'
 
 const getNetworkTitleIdMap = (
   res: NetworkTitleById,
@@ -45,4 +46,7 @@ const mapStateToProps = ({ networks, wallets }: State): {
 
 const mapDispatchToProps = { setLanguage, setNetwork }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withState('activeSelect', 'toggleSelect', null),
+)(MenuPanel)
