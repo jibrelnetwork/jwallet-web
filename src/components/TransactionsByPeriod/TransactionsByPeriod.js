@@ -2,8 +2,9 @@
 
 import React from 'react'
 
-import Transaction from 'components/Transaction'
 import JCard from 'components/base/JCard'
+
+import TransactionItem from './TransactionItem'
 
 const TransactionsByPeriod = ({
   setActive,
@@ -13,12 +14,12 @@ const TransactionsByPeriod = ({
   activeTxHash,
 }: Props) => (
   <div className='transactions-by-period'>
-    {Object.keys(transactionsByPeriod).map((period: string) => {
-      return (
-        <JCard key={period} withShadow>
+    {Object.keys(transactionsByPeriod).map((period: string) => (
+      <div key={period} className='card'>
+        <JCard withShadow>
           <div className='period'>{period}</div>
           {transactionsByPeriod[period].map((transaction: Transaction) => (
-            <Transaction
+            <TransactionItem
               key={transaction.transactionHash}
               setActive={setActive}
               repeat={repeat}
@@ -28,8 +29,8 @@ const TransactionsByPeriod = ({
             />
           ))}
         </JCard>
-      )
-    })}
+      </div>
+    ))}
   </div>
 )
 
@@ -39,6 +40,14 @@ type Props = {
   transactionsByPeriod: Object,
   assetSymbol: string,
   activeTxHash: ?Hash,
+}
+
+TransactionsByPeriod.defaultProps = {
+  setActive: () => {},
+  repeat: () => {},
+  transactionsByPeriod: {},
+  assetSymbol: 'ETH',
+  activeTxHash: null,
 }
 
 export default TransactionsByPeriod

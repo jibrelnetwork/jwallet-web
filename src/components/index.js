@@ -15,7 +15,6 @@ import NewWalletButtons from './NewWalletButtons'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
 import RoundIconButton from './RoundIconButton'
-import Transaction from './Transaction'
 import TransactionsByPeriod from './TransactionsByPeriod'
 import TransactionsEmpty from './TransactionsEmpty'
 import WalletHeader from './WalletHeader'
@@ -39,7 +38,6 @@ export {
   PasswordStep,
   QRCode,
   RoundIconButton,
-  Transaction,
   TransactionsByPeriod,
   TransactionsEmpty,
   WalletHeader,

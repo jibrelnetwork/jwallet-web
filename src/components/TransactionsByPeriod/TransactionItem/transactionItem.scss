@@ -1,4 +1,4 @@
-.transaction {
+.transaction-item {
   all: initial;
 
   @include font;
@@ -14,8 +14,8 @@
   }
 
   &:hover {
-    > .main-info > .amount {
-      > .repeat-button {
+    > .main > .amount {
+      > .repeat {
         opacity: 1;
         visibility: visible;
       }
@@ -27,17 +27,17 @@
     }
   }
 
-  &.-send > .main-info > .amount {
+  &.-send > .main > .amount {
     color: $dusk;
   }
 
-  &.-receive > .main-info > .amount {
+  &.-receive > .main > .amount {
     color: $blue;
   }
 
   &.-active {
-    > .main-info > .amount {
-      > .repeat-button {
+    > .main > .amount {
+      > .repeat {
         visibility: hidden;
         opacity: 0;
       }
@@ -48,14 +48,14 @@
       }
     }
 
-    > .additional-info {
+    > .additional {
       max-height: 300px;
       visibility: visible;
       opacity: 1;
     }
   }
 
-  > .main-info {
+  > .main {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -78,21 +78,21 @@
       font-size: 15px;
       text-align: right;
 
-      > .repeat-button {
+      > .repeat {
         position: absolute;
         top: -12px;
         right: 0;
         opacity: 0;
       }
 
-      > .repeat-button,
+      > .repeat,
       > .value {
         @include hover-animation;
       }
     }
   }
 
-  > .additional-info {
+  > .additional {
     @include hover-animation;
 
     position: relative;
@@ -116,7 +116,7 @@
       right: 0;
       bottom: 0;
 
-      > .repeat-button {
+      > .repeat {
         margin-left: 6px;
       }
     }
@@ -137,14 +137,14 @@
   }
 
   @media only screen and (max-width: 1366px) {
-    > .main-info > .address > .value {
+    > .main > .address > .value {
       width: 240px;
       overflow: hidden;
     }
   }
 
   @media only screen and (max-width: 1200px) {
-    > .main-info > .address > .value {
+    > .main > .address > .value {
       width: 200px;
       overflow: hidden;
     }
