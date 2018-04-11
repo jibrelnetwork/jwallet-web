@@ -9,9 +9,7 @@ import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
 import Expandable from './Expandable'
 import KeyButton from './KeyButton'
-import Menu from './Menu'
-import MenuLink from './MenuLink'
-import MenuSelect from './MenuSelect'
+import MenuPanel from './MenuPanel'
 import ModalHeader from './ModalHeader'
 import NewWalletButtons from './NewWalletButtons'
 import PasswordStep from './PasswordStep'
@@ -35,9 +33,7 @@ export {
   ESCButton,
   Expandable,
   KeyButton,
-  Menu,
-  MenuLink,
-  MenuSelect,
+  MenuPanel,
   ModalHeader,
   NewWalletButtons,
   PasswordStep,

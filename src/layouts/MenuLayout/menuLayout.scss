@@ -1,11 +1,19 @@
 .menu-layout {
-  > .menu-wrapper {
-    z-index: $z-index-menu;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: block;
+  all: initial;
+
+  @include flex-row-center;
+
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  > .aside {
     width: 200px;
+    height: 100%;
+  }
+
+  > .content {
+    flex-grow: 1;
     height: 100%;
   }
 }

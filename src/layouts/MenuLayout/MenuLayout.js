@@ -2,14 +2,16 @@
 
 import React from 'react'
 
-import Menu from 'components/Menu'
+import MenuPanel from 'components/MenuPanel'
 
 const MenuLayout = ({ children }: Props) => (
   <div className='menu-layout'>
-    <div className='menu-wrapper'>
-      <Menu />
+    <div className='aside'>
+      <MenuPanel />
     </div>
-    <div className='container'>{children}</div>
+    <div className='content'>
+      {children}
+    </div>
   </div>
 )
 

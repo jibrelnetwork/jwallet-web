@@ -1,0 +1,26 @@
+@import './MenuLink/menuLink';
+@import './MenuSelect/menuSelect';
+
+.menu-panel {
+  all: initial;
+
+  @include box;
+  @include font;
+  @include flex-column-center;
+
+  position: relative;
+  width: $menu-panel-width;
+  height: 100vh;
+  padding: 30px 20px 20px 20px;
+  background-color: #002bb3;
+
+  > .links {
+    @include flex-column-center;
+
+    flex-grow: 1;
+  }
+
+  > .selects {
+    width: 100%;
+  }
+}
