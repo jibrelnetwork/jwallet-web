@@ -1,13 +1,13 @@
-// import ConvertFunds from './routes/ConvertFunds'
-import ReceiveFunds from './routes/ReceiveFunds'
-import SendFunds from './routes/SendFunds'
+// import Convert from './routes/Convert'
+import Receive from './routes/Receive'
+import Send from './routes/Send'
 
 export default store => ({
   path: 'funds',
   indexRoute: { onEnter: (nextState, replace) => replace('/') },
   childRoutes: [
-    // ConvertFunds(store),
-    ReceiveFunds(store),
-    SendFunds(store),
+    // Convert(store),
+    Receive(store),
+    Send(store),
   ],
 })

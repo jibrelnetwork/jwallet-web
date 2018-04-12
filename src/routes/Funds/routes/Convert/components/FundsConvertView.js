@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import JTextInput from 'components/base/JTextInput'
 
-const ConvertFunds = ({
+const FundsConvertView = ({
   setFromAsset,
   setFromAmount,
   setToAsset,
@@ -38,7 +38,7 @@ const ConvertFunds = ({
   )
 }
 
-ConvertFunds.propTypes = {
+FundsConvertView.propTypes = {
   setFromAsset: PropTypes.func.isRequired,
   setFromAmount: PropTypes.func.isRequired,
   setToAsset: PropTypes.func.isRequired,
@@ -50,4 +50,4 @@ ConvertFunds.propTypes = {
   toAmount: PropTypes.string.isRequired,
 }
 
-export default ConvertFunds
+export default FundsConvertView

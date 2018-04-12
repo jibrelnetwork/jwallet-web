@@ -4,6 +4,9 @@
 @import 'tokens';
 @import 'zindex';
 
+/**
+ * Base Font
+ */
 $font: 'Open Sans', Arial, sans-serif;
 
 /**
@@ -15,3 +18,13 @@ $page-header-height: 80px;
  * Menu Panel
  */
 $menu-panel-width: 200px;
+
+/**
+ * Form
+ */
+$form-width: 480px;
+
+/**
+ * Modal Header
+ */
+$modal-header-height: 110px;
