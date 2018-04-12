@@ -12,20 +12,16 @@ import {
   close,
   setAsset,
   setAmount,
-  setRecipient,
-  setGas,
-  setGasPrice,
-  setNonce,
-  setPassword,
-  setNextStep,
-} from '../modules/sendFunds'
+  saveQRCode,
+  copyAddress,
+} from '../modules/receiveFunds'
 
-import SendFunds from '../components/SendFunds'
+import FundsReceiveView from '../components/FundsReceiveView'
 
-const mapStateToProps = ({ digitalAssets, wallets, sendFunds }: State) => ({
-  ...sendFunds,
-  sender: getWalletNameAndAddress(wallets.activeWalletId),
+const mapStateToProps = ({ digitalAssets, wallets, receiveFunds }: State) => ({
+  ...receiveFunds,
   digitalAssets: getActiveDigitalAssetsData(digitalAssets),
+  recipient: getWalletNameAndAddress(wallets.activeWalletId),
 })
 
 const mapDispatchToProps = {
@@ -33,12 +29,8 @@ const mapDispatchToProps = {
   close,
   setAsset,
   setAmount,
-  setRecipient,
-  setGas,
-  setGasPrice,
-  setNonce,
-  setPassword,
-  setNextStep,
+  saveQRCode,
+  copyAddress,
 }
 
 export default compose(
@@ -47,4 +39,4 @@ export default compose(
     componentDidMount() { this.props.open() },
     componentWillUnmount() { this.props.close() },
   }),
-)(SendFunds)
+)(FundsReceiveView)

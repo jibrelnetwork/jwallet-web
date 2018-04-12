@@ -7,7 +7,7 @@ import {
   // convert,
 } from '../modules/convertFunds'
 
-import ConvertFunds from '../components/ConvertFunds'
+import FundsConvertView from '../components/FundsConvertView'
 
 const mapStateToProps = ({ convertFunds }) => convertFunds
 
@@ -18,4 +18,4 @@ const mapDispatchToProps = {
   // convert,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConvertFunds)
+export default connect(mapStateToProps, mapDispatchToProps)(FundsConvertView)

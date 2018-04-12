@@ -4,10 +4,10 @@ export default store => ({
   path: 'receive',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      const ReceiveFunds = require('./containers/ReceiveFundsContainer').default
+      const FundsReceiveView = require('./containers/FundsReceiveViewContainer').default
       const receiveFunds = require('./modules/receiveFunds').default
       injectReducer(store, { key: 'receiveFunds', reducer: receiveFunds })
-      cb(null, ReceiveFunds)
+      cb(null, FundsReceiveView)
     }, 'receive')
   },
 })
