@@ -8,7 +8,7 @@ import RoundIconButton from 'components/RoundIconButton'
 const WalletHeader = ({ goToLanding }: Props) => (
   <div className='wallet-header' >
     <JLogo />
-    <RoundIconButton onClick={goToLanding} iconName='arrow-popup' />
+    <RoundIconButton onClick={goToLanding} iconName='arrow-header' />
   </div>
 )
 
