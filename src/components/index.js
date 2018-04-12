@@ -1,7 +1,6 @@
 // @flow
 
 import ActiveAssetsPanel from './ActiveAssetsPanel'
-import AssetCard from './AssetCard'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
@@ -21,11 +20,8 @@ import DerivedAddress from './DerivedAddress'
 import DerivationPath from './DerivationPath'
 
 export {
-  ActiveAsset,
   ActiveAssetsPanel,
-  AssetCard,
   ButtonWithConfirm,
-  CurrentAddress,
   DigitalAssets,
   ESCButton,
   Expandable,
