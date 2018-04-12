@@ -3,9 +3,9 @@
 import React from 'react'
 import { identity, isEmpty } from 'ramda'
 
-import AssetCard from 'components/AssetCard'
 import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
 
+import Asset from './Asset'
 import Empty from './Empty'
 import Loading from './Loading'
 
@@ -34,7 +34,7 @@ const DigitalAssets = ({
   return (
     <div className='digital-assets'>
       {foundItems.map((data: DigitalAsset, index: Index) => (
-        <AssetCard
+        <Asset
           {...data}
           key={index}
           setActive={setActive}

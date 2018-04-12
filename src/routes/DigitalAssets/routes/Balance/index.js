@@ -4,10 +4,10 @@ export default store => ({
   path: 'balance',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      const WithBalance = require('./containers/WithBalanceContainer').default
+      const Balance = require('./containers/BalanceContainer').default
       const customAsset = require('../../../CustomAsset/modules/customAsset').default
       injectReducer(store, { key: 'customAsset', reducer: customAsset })
-      cb(null, WithBalance)
+      cb(null, Balance)
     }, 'balance')
   },
 })

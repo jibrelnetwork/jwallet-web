@@ -1,0 +1,20 @@
+// TODO: avoid styles duplication (balance.scss & custom.scss)
+
+.digital-assets-popular-view {
+  all: initial;
+
+  display: block;
+  padding: 60px 200px;
+
+  @media only screen and (max-width: 1600px) {
+    padding: 60px 160px;
+  }
+
+  @media only screen and (max-width: 1440px) {
+    padding: 60px 80px;
+  }
+
+  @media only screen and (max-width: 1280px) {
+    padding: 60px 50px;
+  }
+}

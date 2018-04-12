@@ -1,8 +1,8 @@
 import DigitalAssetsLayout from 'layouts/DigitalAssetsLayout'
 
+import Balance from './routes/Balance'
 import Custom from './routes/Custom'
 import Popular from './routes/Popular'
-import WithBalance from './routes/WithBalance'
 
 export default store => ({
   path: 'digital-assets',
@@ -11,6 +11,6 @@ export default store => ({
   childRoutes: [
     Custom(store),
     Popular(store),
-    WithBalance(store),
+    Balance(store),
   ],
 })
