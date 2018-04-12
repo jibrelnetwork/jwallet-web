@@ -3,6 +3,7 @@
 
   @include hover-animation;
 
+  z-index: $z-index-menu-logo;
   position: relative;
   display: flex;
   width: $logo-width;

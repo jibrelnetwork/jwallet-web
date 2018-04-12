@@ -1,9 +1,10 @@
 // @flow
 
 import React from 'react'
+import classNames from 'classnames'
 
-import JText from '../base/JText'
-import ESCButton from '../ESCButton'
+import ESCButton from 'components/ESCButton'
+import JText from 'components/base/JText'
 
 const ModalHeader = ({
   color,
@@ -12,17 +13,19 @@ const ModalHeader = ({
   currentStep,
   withMenu,
 }: Props) => (
-  <div className='modal-header'>
-    <div className='title'>
-      <JText
-        value={currentStep && totalSteps
-          ? `${title} ${currentStep}/${totalSteps}`
-          : title}
-        variants={[color, 'header-title', withMenu ? 'header-menu-title' : null]}
-      />
-    </div>
-    <div className='button'>
-      <ESCButton color={color} />
+  <div className={classNames('modal-header', `-${color}`, withMenu && '-menu')}>
+    <div className='content'>
+      <div className='title'>
+        <JText
+          value={currentStep && totalSteps
+            ? `${title} ${currentStep}/${totalSteps}`
+            : title}
+          variants={[color, 'header-title']}
+        />
+      </div>
+      <div className='button'>
+        <ESCButton color={color} />
+      </div>
     </div>
   </div>
 )
@@ -30,12 +33,14 @@ const ModalHeader = ({
 type Props = {
   color: 'white' | 'gray',
   title: string,
-  totalSteps?: number,
-  currentStep?: number,
-  withMenu?: boolean,
+  totalSteps: number,
+  currentStep: number,
+  withMenu: boolean,
 }
 
 ModalHeader.defaultProps = {
+  color: 'white',
+  title: '',
   totalSteps: undefined,
   currentStep: undefined,
   withMenu: false,
