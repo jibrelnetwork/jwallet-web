@@ -8,8 +8,8 @@ import config from 'config'
 import { getAssetDecimals, isETH } from 'utils/digitalAssets'
 import { etherscan, keystore, validate, web3 } from 'services'
 import { setBalanceByAddress } from 'routes/DigitalAssets/modules/digitalAssets'
-import { open as openSendFunds } from 'routes/Funds/routes/SendFunds/modules/sendFunds'
-import { open as openReceiveFunds } from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
+import { open as openSendFunds } from 'routes/Funds/routes/Send/modules/sendFunds'
+import { open as openReceiveFunds } from 'routes/Funds/routes/Receive/modules/receiveFunds'
 
 import {
   selectDigitalAssets,

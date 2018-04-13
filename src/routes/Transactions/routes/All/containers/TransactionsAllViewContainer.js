@@ -1,20 +1,19 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { assoc, compose, filter, propEq } from 'ramda'
+import { assoc, compose } from 'ramda'
 
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import { setActive, repeat } from 'routes/Transactions/modules/transactions'
 import { getTransactionsByPeriod, searchTransactions } from 'utils/transactions'
 
-import IncomingTransactions from '../components/IncomingTransactions'
+import TransactionsAllView from '../components/TransactionsAllView'
 
 const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
   assoc(
     'transactionsByPeriod',
     compose(
       getTransactionsByPeriod,
-      filter(propEq('type', 'receive')),
       searchTransactions,
     )(transactions),
   ),
@@ -30,4 +29,4 @@ const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Obje
 
 const mapDispatchToProps = { setActive, repeat }
 
-export default connect(mapStateToProps, mapDispatchToProps)(IncomingTransactions)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionsAllView)
