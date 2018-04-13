@@ -9,6 +9,7 @@ import JText from 'components/base/JText'
 const ModalHeader = ({
   color,
   title,
+  location,
   totalSteps,
   currentStep,
   withMenu,
@@ -24,7 +25,7 @@ const ModalHeader = ({
         />
       </div>
       <div className='button'>
-        <ESCButton color={color} />
+        <ESCButton color={color} locationAfterClose={location} />
       </div>
     </div>
   </div>
@@ -33,6 +34,7 @@ const ModalHeader = ({
 type Props = {
   color: 'white' | 'gray',
   title: string,
+  location: string,
   totalSteps: number,
   currentStep: number,
   withMenu: boolean,
@@ -41,6 +43,7 @@ type Props = {
 ModalHeader.defaultProps = {
   color: 'white',
   title: '',
+  location: '/',
   totalSteps: undefined,
   currentStep: undefined,
   withMenu: false,
