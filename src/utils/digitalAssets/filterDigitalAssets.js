@@ -11,7 +11,11 @@ const filterDigitalAssets: Function = (
     }
 
     case 'popular': {
-      return items.filter(({ address }: DigitalAsset): boolean => (balances[address] === 0))
+      return items.filter(({ address, isCustom }: DigitalAsset): boolean => {
+        const isZero: boolean = (balances[address] === 0)
+
+        return (isZero && !isCustom)
+      })
     }
 
     case 'custom': {
