@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { JIcon, JText } from 'components/base'
+import JText from 'components/base/JText'
 
 const JThumbnail = ({
   image,
