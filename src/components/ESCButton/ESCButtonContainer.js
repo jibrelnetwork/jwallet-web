@@ -6,8 +6,10 @@ import { withRouter } from 'react-router'
 
 import ESCButton from './ESCButton'
 
-const redirectOnESC = router => ({ keyCode }) => {
-  if (keyCode === 27) { router.push('/') }
+const redirectOnESC = ({ router, locationAfterClose }) => ({ keyCode }) => {
+  if (keyCode === 27) {
+    router.push(locationAfterClose)
+  }
 }
 
 export default compose(
@@ -16,19 +18,19 @@ export default compose(
     componentDidMount() {
       window.addEventListener(
         'keydown',
-        redirectOnESC(this.props.router),
+        redirectOnESC(this.props),
         true
       )
     },
     componentWillUnmount() {
       window.removeEventListener(
         'keydown',
-        redirectOnESC(this.props.router),
+        redirectOnESC(this.props),
         true
       )
     },
   }),
   withHandlers({
-    onClick: ({ router }) => router.push('/'),
+    onClick: ({ router, locationAfterClose }) => router.push(locationAfterClose),
   })
 )(ESCButton)
