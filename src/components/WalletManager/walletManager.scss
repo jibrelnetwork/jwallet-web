@@ -14,7 +14,6 @@
   > .actions {
     display: flex;
     flex-grow: 1;
-    transition: unset;
     justify-content: space-around;
   }
 
@@ -43,9 +42,6 @@
         > .title {
           margin-bottom: 5px;
         }
-
-        // > .text {
-        // }
       }
 
       &:hover {
@@ -59,14 +55,18 @@
 
     > .actions {
       padding: 30px;
-      opacity: 0.8;
 
-      &:hover {
-        opacity: 1;
+      > .button {
+        opacity: 0.8;
+        transition: opacity 0.3s ease 0s;
+
+        &:hover {
+          opacity: 1;
+        }
       }
     }
   }
-  
+
   > .password {
     all: initial; // breaking of isolation
     display: flex;

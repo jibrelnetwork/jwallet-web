@@ -46,11 +46,9 @@ const WalletManagerInfo = ({
         </div>
       </div>
       <div className='actions'>
-        <JButton
-          iconName='dots-white'
-          iconSize='medium'
-          onClick={handle(showActionsMenu)(id)}
-        />
+        <div className='button'>
+          <JButton onClick={handle(showActionsMenu)(id)} iconName='dots' iconSize='medium' />
+        </div>
       </div>
     </div>
   )
