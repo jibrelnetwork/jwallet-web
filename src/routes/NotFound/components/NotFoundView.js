@@ -5,7 +5,7 @@ import React from 'react'
 import WalletHeader from 'components/WalletHeader'
 import { JButton, JThumbnail } from 'components/base'
 
-const NotFound = ({ goToIndex }: Props) => (
+const NotFoundView = ({ goToIndex }: Props) => (
   <div className='not-found-view'>
     <WalletHeader />
     <div className='content'>
@@ -25,4 +25,8 @@ type Props = {
   goToIndex: Function,
 }
 
-export default NotFound
+NotFoundView.defaultProps = {
+  goToIndex: '/',
+}
+
+export default NotFoundView
