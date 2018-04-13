@@ -6,9 +6,13 @@ import JLogo from 'components/base/JLogo'
 import RoundIconButton from 'components/RoundIconButton'
 
 const WalletHeader = ({ goToLanding }: Props) => (
-  <div className='wallet-header' >
-    <JLogo />
-    <RoundIconButton onClick={goToLanding} iconName='arrow-header' />
+  <div className='wallet-header'>
+    <div className='content'>
+      <JLogo />
+      <div className='button'>
+        <RoundIconButton onClick={goToLanding} iconName='arrow-header' />
+      </div>
+    </div>
   </div>
 )
 
@@ -17,7 +21,7 @@ type Props = {
 }
 
 WalletHeader.defaultProps = {
-  goToLanding: null,
+  goToLanding: () => {},
 }
 
 export default WalletHeader
