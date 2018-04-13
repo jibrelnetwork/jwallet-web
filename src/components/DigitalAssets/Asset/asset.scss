@@ -3,16 +3,16 @@
 
   @include font;
   @include flex-column;
+  @include hover-animation;
 
   position: relative;
   padding: 30px;
   background-color: $white;
   border: 1px solid transparent;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 6px rgba($black, 0.05);
   text-align: center;
   color: $dusk;
   cursor: pointer;
-  transition: border 0.3s ease 0s, color 0.3s ease 0s;
 
   &:hover {
     color: $blue;
@@ -36,12 +36,12 @@
   }
 
   &.-blue {
-    background-color: $blue;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    background-color: $blue-two;
+    box-shadow: 0 3px 6px rgba($black, 0.05);
     color: $white;
 
     &:hover {
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 12px rgba($black, 0.1);
       color: $white;
 
       > .icon {
@@ -51,7 +51,7 @@
 
     &.-active {
       background-image: $icon-small-checkbox-white;
-      border-color: rgba(255, 255, 255, 0.7);
+      border-color: rgba($white, 0.7);
       color: $white;
 
       > .icon {

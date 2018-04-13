@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { identity, isEmpty } from 'ramda'
+import { isEmpty } from 'ramda'
 
 import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
 
@@ -28,11 +28,11 @@ const DigitalAssets = ({
   const foundItems: DigitalAssets = searchDigitalAssets(filteredItems, foundAssets, searchQuery)
 
   if (isEmpty(foundItems)) {
-    return <Empty />
+    return <Empty color={color} />
   }
 
   return (
-    <div className='digital-assets'>
+    <div className={`digital-assets -${color}`}>
       {foundItems.map((data: DigitalAsset, index: Index) => (
         <Asset
           {...data}
@@ -60,8 +60,8 @@ type Props = {
 }
 
 DigitalAssets.defaultProps = {
-  setActive: identity,
-  editCustomAsset: identity,
+  setActive: () => {},
+  editCustomAsset: () => {},
   items: [],
   balances: {},
   foundAssets: [],
