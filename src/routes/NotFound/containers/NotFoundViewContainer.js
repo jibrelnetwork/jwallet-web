@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import NotFound from '../components/NotFound'
+import NotFoundView from '../components/NotFoundView'
 
 const mapDispatchToProps: {
   goToIndex: Function,
@@ -11,5 +11,5 @@ const mapDispatchToProps: {
   goToIndex: () => push('/'),
 }
 
-export default connect(null, mapDispatchToProps)(NotFound)
+export default connect(null, mapDispatchToProps)(NotFoundView)
 

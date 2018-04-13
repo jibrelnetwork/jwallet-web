@@ -2,12 +2,12 @@
 
 import WalletsLayout from 'layouts/WalletsLayout'
 
-import NotFound from './containers/NotFoundContainer'
+import NotFoundView from './containers/NotFoundViewContainer'
 
 export default () => ({
   path: '*',
   component: WalletsLayout,
   indexRoute: {
-    component: NotFound,
+    component: NotFoundView,
   },
 })
