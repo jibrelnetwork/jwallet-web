@@ -4,7 +4,7 @@ import React from 'react'
 
 import RoundIconButton from 'components/RoundIconButton'
 
-const ESCButton = ({ color, onClick }: Props) => (
+const ESCButton = ({ onClick, color }: Props) => (
   <div className='esc-button'>
     <RoundIconButton
       onClick={onClick}
