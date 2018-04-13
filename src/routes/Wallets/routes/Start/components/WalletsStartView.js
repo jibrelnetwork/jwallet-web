@@ -1,0 +1,41 @@
+// @flow
+
+import React from 'react'
+
+import JText from 'components/base/JText'
+import { NewWalletButtons, WalletHeader } from 'components'
+
+const WalletsStartView = ({ createWallet, importWallet }: Props) => (
+  <div className='wallets-start-view'>
+    <WalletHeader />
+    <div className='content'>
+      <div className='title'>
+        <JText
+          value='Create a new key pair or import an existing one to get started'
+          variants={['white', 'header-title', 'center']}
+        />
+      </div>
+      <div className='buttons'>
+        <NewWalletButtons createWallet={createWallet} importWallet={importWallet} />
+      </div>
+      <div className='terms'>
+        <JText
+          value={'By clicking "Create new" or "Import" I agree to Jibrel\'s Terms of Service'}
+          variants={['white', 'center']}
+        />
+      </div>
+    </div>
+  </div>
+)
+
+type Props = {
+  createWallet: Function,
+  importWallet: Function,
+}
+
+WalletsStartView.defaultProps = {
+  createWallet: () => {},
+  importWallet: () => {},
+}
+
+export default WalletsStartView

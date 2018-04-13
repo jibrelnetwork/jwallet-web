@@ -30,4 +30,10 @@ type Props = {
   balances: Balances,
 }
 
+MnemonicAddressesList.defaultProps = {
+  setActive: () => {},
+  addresses: [],
+  balances: {},
+}
+
 export default MnemonicAddressesList
