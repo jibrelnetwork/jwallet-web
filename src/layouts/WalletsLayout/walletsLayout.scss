@@ -1,74 +1,9 @@
 .wallets-layout {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  all: initial;
+
+  @include flex-column;
+
+  height: 100vh;
+  width: 100vw;
   background: linear-gradient(to top left, $blue, #002bb3);
-  overflow: auto;
-  color: $white;
-
-  > .content-wrapper {
-    height: 100%;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100%;
-    width: 480px;
-    margin: 0 auto;
-    padding: 50px 0;
-
-    &.-assets {
-      width: 1024px;
-
-      .digital-assets-wrapper {
-        height: calc(100vh - 260px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      }
-    }
-  }
-
-  .wallet-header-wrapper {
-    position: fixed;
-    top: 30px;
-    left: 0;
-    width: 100%;
-    padding: 0 50px;
-  }
-
-  .new-wallet-content {
-    @include flex-column-center;
-  }
-
-  .new-wallet-title {
-    margin-top: -60px;
-    line-height: 32px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: normal;
-  }
-
-  .new-wallet-terms {
-    position: fixed;
-    bottom: 50px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    opacity: 0.5;
-  }
-
-  @media only screen and (max-width: 1600px) {
-    .content.-assets {
-      width: 940px;
-    }
-  }
-
-  @media only screen and (max-width: 1400px) {
-    .content.-assets {
-      width: 840px;
-    }
-  }
 }
