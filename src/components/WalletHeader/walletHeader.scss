@@ -1,12 +1,25 @@
 .wallet-header {
   all: initial;
 
+  @include box;
   @include flex-row;
 
   position: fixed;
-  top: 50px;
-  left: 50px;
-  align-items: center;
-  justify-content: space-between;
-  width: calc(100vw - 100px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $modal-header-height;
+  padding: 0 50px;
+  background: linear-gradient(to top right, rgba(#002bb3, 0.5), rgba($blue, 0.5));
+
+  > .content {
+    @include flex-row-center;
+
+    width: 100%;
+    height: 100%;
+
+    > .button {
+      margin-left: auto;
+    }
+  }
 }
