@@ -4,10 +4,10 @@ import React from 'react'
 
 import DigitalAssets from 'components/DigitalAssets'
 
-const Popular = () => (
+const DigitalAssetsPopularView = () => (
   <div className='digital-assets-popular-view'>
     <DigitalAssets type='popular' />
   </div>
 )
 
-export default Popular
+export default DigitalAssetsPopularView

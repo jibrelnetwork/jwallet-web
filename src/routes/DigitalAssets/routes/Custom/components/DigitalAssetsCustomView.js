@@ -4,10 +4,10 @@ import React from 'react'
 
 import DigitalAssets from 'components/DigitalAssets'
 
-const Custom = () => (
+const DigitalAssetsCustomView = () => (
   <div className='digital-assets-custom-view'>
     <DigitalAssets type='custom' />
   </div>
 )
 
-export default Custom
+export default DigitalAssetsCustomView
