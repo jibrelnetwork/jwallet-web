@@ -22,15 +22,6 @@
       }
     }
 
-    &.-arrow-back {
-      background-image: $icon-small-arrow-white;
-      transform: rotate(180deg);
-
-      &.-blue {
-        background-image: $icon-small-arrow-blue;
-      }
-    }
-
     &.-arrow-down {
       background-image: $icon-small-arrow-white;
       transform: rotate(90deg);
