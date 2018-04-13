@@ -5,7 +5,7 @@ import React from 'react'
 import getTransactionsEmptyEvent from 'utils/transactions/getTransactionsEmptyEvent'
 import { TransactionsByPeriod, TransactionsEmpty } from 'components'
 
-const OutgoingTransactions = ({
+const TransactionsOutgoingView = ({
   setActive,
   repeat,
   items,
@@ -32,7 +32,7 @@ const OutgoingTransactions = ({
   }
 
   return (
-    <div className='outgoing-transactions-view'>
+    <div className='transactions-outgoing-view'>
       <TransactionsByPeriod
         setActive={setActive}
         repeat={repeat}
@@ -57,4 +57,17 @@ type Props = {
   activeTxHash: ?Hash,
 }
 
-export default OutgoingTransactions
+TransactionsOutgoingView.defaultProps = {
+  setActive: () => {},
+  repeat: () => {},
+  items: [],
+  transactionsByPeriod: {},
+  currentAsset: {},
+  searchQuery: '',
+  isLoading: false,
+  isBlockExplorerError: false,
+  isCustomNetwork: false,
+  activeTxHash: null,
+}
+
+export default TransactionsOutgoingView

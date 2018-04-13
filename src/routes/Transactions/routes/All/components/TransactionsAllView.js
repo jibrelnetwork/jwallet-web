@@ -5,7 +5,7 @@ import React from 'react'
 import getTransactionsEmptyEvent from 'utils/transactions/getTransactionsEmptyEvent'
 import { TransactionsByPeriod, TransactionsEmpty } from 'components'
 
-const AllTransactions = ({
+const TransactionsAllView = ({
   setActive,
   repeat,
   items,
@@ -32,7 +32,7 @@ const AllTransactions = ({
   }
 
   return (
-    <div className='all-transactions-view'>
+    <div className='transactions-all-view'>
       <TransactionsByPeriod
         setActive={setActive}
         repeat={repeat}
@@ -57,4 +57,17 @@ type Props = {
   activeTxHash: ?Hash,
 }
 
-export default AllTransactions
+TransactionsAllView.defaultProps = {
+  setActive: () => {},
+  repeat: () => {},
+  items: [],
+  transactionsByPeriod: {},
+  currentAsset: {},
+  searchQuery: '',
+  isLoading: false,
+  isBlockExplorerError: false,
+  isCustomNetwork: false,
+  activeTxHash: null,
+}
+
+export default TransactionsAllView
