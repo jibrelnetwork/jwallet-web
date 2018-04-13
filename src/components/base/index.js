@@ -1,6 +1,7 @@
 export JButton from './JButton'
 export JCallout from './JCallout'
 export JCard from './JCard'
+export JFlatButton from './JFlatButton'
 export JFormField from './JFormField'
 export JIcon from './JIcon'
 export JInput from './JInput'

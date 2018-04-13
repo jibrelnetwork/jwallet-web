@@ -1,0 +1,43 @@
+.j-flat-button {
+  all: initial;
+
+  @include flex-row-center;
+
+  opacity: 0.5;
+  transition: opacity 0.3s ease 0s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    > .icon {
+      left: -5px;
+    }
+  }
+
+  &.-loading {
+    //
+  }
+
+  &.-disabled {
+    &,
+    &:hover {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    &:active > .icon {
+      left: 0;
+    }
+  }
+
+  > .icon {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-right: 10px;
+    transition: left 0.3s ease 0s;
+  }
+}
