@@ -3,11 +3,7 @@
 
   @include flex-column-center;
 
-  min-height: $mnemonic-addresses-list-height;
-
   > .address {
-    all: initial;
-
     display: block;
     margin-bottom: 1px;
   }

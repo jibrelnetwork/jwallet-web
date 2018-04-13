@@ -1,0 +1,23 @@
+@import './mnemonicAddressesList';
+
+.wallets-mnemonic-addresses-view {
+  all: initial;
+
+  @include flex-column-center;
+
+  min-height: 100%;
+
+  > .content {
+    min-height: 100%;
+    width: $form-width;
+    margin: 0 auto;
+    padding: 150px 0 50px 0;
+
+    > .actions {
+      @include flex-row-center;
+
+      width: 100%;
+      margin-top: 30px;
+    }
+  }
+}

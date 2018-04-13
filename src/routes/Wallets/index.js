@@ -2,12 +2,12 @@ import WalletsLayout from 'layouts/WalletsLayout'
 
 import Start from './routes/Start'
 import Addresses from './routes/Addresses'
-import CreateWallet from './routes/CreateWallet'
-import ImportWallet from './routes/ImportWallet'
-import EditWallet from './routes/EditWallet'
-import BackupWallet from './routes/BackupWallet'
-import ChangeWalletPassword from './routes/ChangeWalletPassword'
-import RemoveWallet from './routes/RemoveWallet'
+import Create from './routes/Create'
+import Import from './routes/Import'
+import Edit from './routes/Edit'
+import Backup from './routes/Backup'
+import ChangePassword from './routes/ChangePassword'
+import Remove from './routes/Remove'
 
 export default store => ({
   path: 'wallets',
@@ -15,19 +15,19 @@ export default store => ({
   indexRoute: {
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        const Wallets = require('./containers/WalletsContainer').default
-        cb(null, Wallets)
+        const View = require('./containers/WalletsViewContainer').default
+        cb(null, View)
       }, 'wallets')
     },
   },
   childRoutes: [
     Start(store),
     Addresses(store),
-    CreateWallet(store),
-    ImportWallet(store),
-    EditWallet(store),
-    BackupWallet(store),
-    ChangeWalletPassword(store),
-    RemoveWallet(store),
+    Create(store),
+    Import(store),
+    Edit(store),
+    Backup(store),
+    ChangePassword(store),
+    Remove(store),
   ],
 })
