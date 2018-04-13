@@ -3,10 +3,9 @@
 import React from 'react'
 
 import JLogo from 'components/base/JLogo'
-import handle from 'utils/eventHandlers/handle'
 
-import MenuLink from './MenuLink'
-import MenuSelect from './MenuSelect'
+import MenuLink from './Link'
+import MenuSelect from './Select'
 
 const MenuPanel = ({
   setNetwork,
