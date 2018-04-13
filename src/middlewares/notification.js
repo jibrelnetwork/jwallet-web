@@ -5,7 +5,7 @@
 // import { toast } from 'react-toastify'
 
 // import JToast, { options } from 'components/base/JToast'
-import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
+import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
 
 /*
 const showToast = (

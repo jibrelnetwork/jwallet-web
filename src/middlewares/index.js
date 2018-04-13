@@ -1,3 +1,5 @@
+// @flow
+
 import * as forms from './forms'
 import * as router from './router'
 import * as storage from './storage'
