@@ -17,38 +17,36 @@ const PasswordStep = ({
   buttonPrevText,
   buttonNextText,
 }: Props) => (
-  <div className='password-step'>
-    <div className='form'>
-      <PasswordField
-        onPasswordChange={setPassword}
-        onPasswordConfirmChange={setPasswordConfirm}
-        password={password}
-        passwordConfirm={passwordConfirm}
-        passwordError={invalidFields.password}
-        passwordConfirmError={invalidFields.passwordConfirm}
-        color={(color !== 'white') ? 'white' : 'gray'}
-        withConfirm={!!setPasswordConfirm}
-      />
-      <div className='actions'>
-        {setPrevStep && (
-          <JButton
-            onClick={setPrevStep}
-            text={buttonPrevText}
-            color='white'
-            iconSize='small'
-            iconName='arrow-back'
-            minimal
-            transparent
-          />
-        )}
+  <div className='form'>
+    <PasswordField
+      onPasswordChange={setPassword}
+      onPasswordConfirmChange={setPasswordConfirm}
+      password={password}
+      passwordConfirm={passwordConfirm}
+      passwordError={invalidFields.password}
+      passwordConfirmError={invalidFields.passwordConfirm}
+      color={(color !== 'white') ? 'white' : 'gray'}
+      withConfirm={!!setPasswordConfirm}
+    />
+    <div className='actions'>
+      {setPrevStep && (
         <JButton
-          onClick={setNextStep}
-          text={buttonNextText}
-          color={color}
-          right={!!setPrevStep}
-          large
+          onClick={setPrevStep}
+          text={buttonPrevText}
+          color='white'
+          iconSize='small'
+          iconName='arrow'
+          minimal
+          transparent
         />
-      </div>
+      )}
+      <JButton
+        onClick={setNextStep}
+        text={buttonNextText}
+        color={color}
+        right={!!setPrevStep}
+        large
+      />
     </div>
   </div>
 )
