@@ -22,9 +22,7 @@ const FundsReceiveView = ({
 }: Props) => (
   <ModalLayout>
     <div className='funds-receive-view'>
-      <div className='header'>
-        <ModalHeader title='Receive Funds' color='gray' withMenu />
-      </div>
+      <ModalHeader title='Receive Funds' color='gray' withMenu />
       <div className='content'>
         <div className='form'>
           <QRCode

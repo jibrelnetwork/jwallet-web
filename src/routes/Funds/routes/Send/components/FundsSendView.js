@@ -12,9 +12,7 @@ import { STEPS } from '../modules/sendFunds'
 const FundsSendView = (props: Props) => (
   <ModalLayout>
     <div className='funds-send-view'>
-      <div className='header'>
-        <ModalHeader title='Send Funds' color='gray' withMenu />
-      </div>
+      <ModalHeader title='Send Funds' color='gray' withMenu />
       <div className='content'>
         {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
         {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
@@ -45,7 +43,7 @@ type Props = {
   currentStep: Index,
 }
 
-FundsSendView.propTypes = {
+FundsSendView.defaultProps = {
   setAsset: () => {},
   setAmount: () => {},
   setRecipient: () => {},
