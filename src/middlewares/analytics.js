@@ -5,8 +5,8 @@ import gtm from 'services/gtm'
 /**
  * Funds
  */
-import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
-import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
+import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
+import * as sendFunds from 'routes/Funds/routes/Send/modules/sendFunds'
 
 /**
  * Custom Assets
@@ -17,12 +17,12 @@ import * as customAsset from 'routes/CustomAsset/modules/customAsset'
  * Wallets
  */
 import * as wallets from 'routes/Wallets/modules/wallets'
-import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
-import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
-import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
-import * as backupWallet from 'routes/Wallets/routes/BackupWallet/modules/backupWallet'
-import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPassword/modules/changeWalletPassword' // eslint-disable-line max-len
-import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/removeWallet'
+import * as createWallet from 'routes/Wallets/routes/Create/modules/createWallet'
+import * as importWallet from 'routes/Wallets/routes/Import/modules/importWallet'
+import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
+import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
+import * as changeWalletPassword from 'routes/Wallets/routes/ChangePassword/modules/changeWalletPassword' // eslint-disable-line max-len
+import * as removeWallet from 'routes/Wallets/routes/Remove/modules/removeWallet'
 
 export const pushEvent = () => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action

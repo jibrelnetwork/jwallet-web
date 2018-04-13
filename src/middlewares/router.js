@@ -12,10 +12,10 @@ import isMnemonicType from 'utils/keystore/isMnemonicType'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as start from 'routes/Wallets/routes/Start/modules/start'
 import * as mnemonicAddresses from 'routes/Wallets/routes/Addresses/modules/mnemonicAddresses'
-import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
-import * as backupWallet from 'routes/Wallets/routes/BackupWallet/modules/backupWallet'
-import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPassword/modules/changeWalletPassword' // eslint-disable-line max-len
-import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/removeWallet'
+import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
+import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
+import * as changeWalletPassword from 'routes/Wallets/routes/ChangePassword/modules/changeWalletPassword' // eslint-disable-line max-len
+import * as removeWallet from 'routes/Wallets/routes/Remove/modules/removeWallet'
 
 /**
  * Digital Assets
@@ -35,8 +35,8 @@ import * as transactions from 'routes/Transactions/modules/transactions'
 /**
  * Funds
  */
-import * as sendFunds from 'routes/Funds/routes/SendFunds/modules/sendFunds'
-import * as receiveFunds from 'routes/Funds/routes/ReceiveFunds/modules/receiveFunds'
+import * as sendFunds from 'routes/Funds/routes/Send/modules/sendFunds'
+import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
 
 export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
@@ -135,12 +135,17 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
 
     case wallets.SET_ACTIVE_SUCCESS: {
       if (isMnemonicType(payload.walletType)) {
+        // if mnemonic - set some address
         goToLocation('/wallets/addresses')
       } else if (payload.walletAction) {
+        // if wallet action - go to appropriate page
         goToLocation(`/wallets/${payload.walletAction}`)
-      } else {
+      } else if (payload.walletType) {
+        // if another type of wallet - go to index
         goToLocation('/')
       }
+
+      // otherwise - stay still
 
       break
     }

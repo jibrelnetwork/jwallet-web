@@ -18,11 +18,11 @@ import * as networks from 'routes/modules/networks'
  * Wallets
  */
 import * as wallets from 'routes/Wallets/modules/wallets'
-import * as createWallet from 'routes/Wallets/routes/CreateWallet/modules/createWallet'
-import * as importWallet from 'routes/Wallets/routes/ImportWallet/modules/importWallet'
-import * as editWallet from 'routes/Wallets/routes/EditWallet/modules/editWallet'
-import * as removeWallet from 'routes/Wallets/routes/RemoveWallet/modules/removeWallet'
-import * as changeWalletPassword from 'routes/Wallets/routes/ChangeWalletPassword/modules/changeWalletPassword' // eslint-disable-line max-len
+import * as createWallet from 'routes/Wallets/routes/Create/modules/createWallet'
+import * as importWallet from 'routes/Wallets/routes/Import/modules/importWallet'
+import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
+import * as removeWallet from 'routes/Wallets/routes/Remove/modules/removeWallet'
+import * as changeWalletPassword from 'routes/Wallets/routes/ChangePassword/modules/changeWalletPassword' // eslint-disable-line max-len
 
 /**
  * Digital Assets
