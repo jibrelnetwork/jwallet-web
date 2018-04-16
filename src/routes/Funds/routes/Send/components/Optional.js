@@ -21,7 +21,7 @@ const Optional = ({
 
   return (
     <div className='optional'>
-      <Expandable title={i18n('routes.sendFunds.optionalTitle')} >
+      <Expandable title='routes.sendFunds.optionalTitle' color='blue' >
         {fields.map(({ key, value, handler }) => (
           <JInput
             key={key}

@@ -40,9 +40,8 @@ const WalletsChangePasswordView = ({
         <div className='actions'>
           <JButton
             onClick={changePassword}
-            text={i18n('routes.changeWalletPassword.buttonTitle')}
             color='blue'
-            large
+            text='routes.changeWalletPassword.buttonTitle'
           />
         </div>
       </div>

@@ -4,7 +4,7 @@ import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
-import { JText, JIcon, JButton } from 'components/base'
+import { JFlatButton, JIcon, JText } from 'components/base'
 
 const WalletManagerInfo = ({
   toggleWallet,
@@ -47,7 +47,7 @@ const WalletManagerInfo = ({
       </div>
       <div className='actions'>
         <div className='button'>
-          <JButton onClick={handle(showActionsMenu)(id)} iconName='dots' iconSize='medium' />
+          <JFlatButton onClick={handle(showActionsMenu)(id)} iconName='dots' iconSize='medium' />
         </div>
       </div>
     </div>

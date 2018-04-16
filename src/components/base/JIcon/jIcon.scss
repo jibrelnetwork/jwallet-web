@@ -1,6 +1,8 @@
 .j-icon {
   all: initial;
 
+  @include hover-animation;
+
   display: flex;
   background-repeat: no-repeat;
   background-position: center;

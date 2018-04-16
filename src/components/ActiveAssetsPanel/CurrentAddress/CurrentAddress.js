@@ -1,11 +1,10 @@
 // @flow
 
 import React from 'react'
-import { Link } from 'react-router'
 
-import JIcon from 'components/base/JIcon'
+import JFlatButton from 'components/base/JFlatButton'
 
-const CurrentAddress = ({ address }: Props) => (
+const CurrentAddress = ({ goToWallets, address }: Props) => (
   <div className='current-address'>
     {address && (
       <div className='address'>
@@ -13,14 +12,26 @@ const CurrentAddress = ({ address }: Props) => (
         <div className='value'>{address}</div>
       </div>
     )}
-    <Link className='link' to='/wallets'>
-      <JIcon size='medium' name='logout' />
-    </Link>
+    <div className='logout'>
+      <JFlatButton
+        onClick={goToWallets}
+        iconName='logout'
+        iconSize='medium'
+        iconColor='gray'
+        transparent
+      />
+    </div>
   </div>
 )
 
 type Props = {
+  goToWallets: Function,
   address: ?Address,
+}
+
+CurrentAddress.defaultProps = {
+  goToWallets: () => {},
+  address: null,
 }
 
 export default CurrentAddress

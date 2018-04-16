@@ -1,7 +1,7 @@
 @import './AssetItem/assetItem';
 @import './CurrentAddress/currentAddress';
 
-$manage-assets-link-height: 65px;
+$manage-assets-button-height: 65px;
 
 .active-assets-panel {
   all: initial;
@@ -24,29 +24,15 @@ $manage-assets-link-height: 65px;
   > .list {
     @include box;
 
-    height: calc(100% - #{$page-header-height} - #{$manage-assets-link-height});
+    height: calc(100% - #{$page-header-height} - #{$manage-assets-button-height});
     width: 100%;
     border-bottom: 1px solid rgba($dusk, 0.1);
   }
 
   > .manage {
+    @include flex-row-center;
+
     width: 100%;
-
-    > .link {
-      @include box;
-      @include flex-row-center;
-      @include hover-animation;
-
-      height: $manage-assets-link-height;
-      background-color: $white;
-
-      &:hover {
-        opacity: 0.7;
-      }
-
-      > .icon {
-        margin-right: 10px;
-      }
-    }
+    height: $manage-assets-button-height;
   }
 }

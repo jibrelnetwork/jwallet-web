@@ -42,12 +42,7 @@ const FormStep = ({
       </Expandable>
     )}
     <div className='actions'>
-      <JButton
-        onClick={setNextStep}
-        text={'routes.editWallet.buttonTitle.save'}
-        color='blue'
-        large
-      />
+      <JButton onClick={setNextStep} text='routes.editWallet.buttonTitle.save' color='blue' />
     </div>
   </div>
 )

@@ -1,16 +1,17 @@
 // @flow
 
 import React from 'react'
-import { Link } from 'react-router'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JIcon, JText } from 'components/base'
+import JFlatButton from 'components/base/JFlatButton'
 
 import AssetItem from './AssetItem'
 import CurrentAddress from './CurrentAddress'
 
 const ActiveAssetsPanel = ({
   setCurrent,
+  goToWallets,
+  goToDigitalAssets,
   digitalAssets,
   isLoading,
   currentAssetAddress,
@@ -18,7 +19,7 @@ const ActiveAssetsPanel = ({
 }: Props) => (
   <div className='active-assets-panel'>
     <div className='address'>
-      <CurrentAddress address={currentWalletAddress} />
+      <CurrentAddress goToWallets={goToWallets} address={currentWalletAddress} />
     </div>
     <div className='list'>
       <Scrollbars autoHide>
@@ -34,22 +35,34 @@ const ActiveAssetsPanel = ({
       </Scrollbars>
     </div>
     <div className='manage'>
-      <Link to='/digital-assets' className='link'>
-        <div className='icon'>
-          <JIcon size='small' name='plus' color='blue' />
-        </div>
-        <JText value='assetsPanel.button' variants={['bold', 'blue']} />
-      </Link>
+      <JFlatButton
+        onClick={goToDigitalAssets}
+        color='blue'
+        iconName='plus'
+        text='assetsPanel.button'
+      />
     </div>
   </div>
 )
 
 type Props = {
   setCurrent: Function,
+  goToWallets: Function,
+  goToDigitalAssets: Function,
   digitalAssets: DigitalAssets,
   isLoading: boolean,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
+}
+
+ActiveAssetsPanel.defaultProps = {
+  setCurrent: () => {},
+  goToWallets: () => {},
+  goToDigitalAssets: () => {},
+  digitalAssets: [],
+  isLoading: false,
+  currentAssetAddress: null,
+  currentWalletAddress: null,
 }
 
 export default ActiveAssetsPanel
