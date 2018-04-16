@@ -18,12 +18,7 @@ const WalletsRemoveView = ({ remove }: Props) => (
             'private keys are stored locally, meaning your private'}
         />
         <div className='actions'>
-          <JButton
-            onClick={remove}
-            text='Yes, remove wallet'
-            color='blue'
-            large
-          />
+          <JButton onClick={remove} text='Yes, remove wallet' color='blue' />
         </div>
       </div>
     </div>

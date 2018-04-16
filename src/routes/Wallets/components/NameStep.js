@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JInput } from 'components/base'
+import { JButton, JFlatButton, JInput } from 'components/base'
 
 const NameStep = ({
   setName,
@@ -20,22 +20,19 @@ const NameStep = ({
       placeholder={i18n('routes.createWallet.placeholder.name')}
     />
     <div className='actions'>
-      <JButton
+      <JFlatButton
         onClick={goToWallets}
-        text={i18n('routes.createWallet.buttonTitle.prevStep')}
-        color='white'
-        iconSize='small'
         iconName='arrow'
-        minimal
+        text='routes.createWallet.buttonTitle.prevStep'
         transparent
       />
-      <JButton
-        onClick={setNextStep}
-        text={i18n('routes.createWallet.buttonTitle.nextStep')}
-        color='blue'
-        large
-        right
-      />
+      <div className='next'>
+        <JButton
+          onClick={setNextStep}
+          color='blue'
+          text='routes.createWallet.buttonTitle.nextStep'
+        />
+      </div>
     </div>
   </div>
 )

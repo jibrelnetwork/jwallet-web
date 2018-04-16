@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JInput } from 'components/base'
+import { JButton, JFlatButton, JInput } from 'components/base'
 
 const MnemonicConfirmStep = ({
   setMnemonicConfirm,
@@ -22,22 +22,19 @@ const MnemonicConfirmStep = ({
       successMessage={validFields.mnemonicConfirm}
     />
     <div className='actions'>
-      <JButton
+      <JFlatButton
         onClick={setPrevStep}
-        text={i18n('routes.createWallet.buttonTitle.prevStep')}
-        color='white'
-        iconSize='small'
+        text={'routes.createWallet.buttonTitle.prevStep'}
         iconName='arrow'
-        minimal
         transparent
       />
-      <JButton
-        onClick={setNextStep}
-        text={i18n('routes.createWallet.buttonTitle.confirm')}
-        color='blue'
-        large
-        right
-      />
+      <div className='next'>
+        <JButton
+          onClick={setNextStep}
+          text={i18n('routes.createWallet.buttonTitle.confirm')}
+          color='blue'
+        />
+      </div>
     </div>
   </div>
 )

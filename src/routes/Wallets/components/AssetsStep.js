@@ -14,13 +14,13 @@ const AssetsStep = ({ goToHome }: Props) => (
       </Scrollbars>
     </div>
     <div className='actions'>
-      <JButton
-        onClick={goToHome}
-        text={i18n('routes.createWallet.buttonTitle.finish')}
-        color='blue'
-        large
-        right
-      />
+      <div className='next'>
+        <JButton
+          onClick={goToHome}
+          color='blue'
+          text='routes.createWallet.buttonTitle.finish'
+        />
+      </div>
     </div>
   </div>
 )

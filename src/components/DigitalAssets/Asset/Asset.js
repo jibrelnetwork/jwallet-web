@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { identity } from 'ramda'
 
 import ethereum from 'data/assets/ethereum'
-import { JButton, JIcon } from 'components/base'
+import { JFlatButton, JIcon } from 'components/base'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 const AssetCard = ({
@@ -39,12 +39,10 @@ const AssetCard = ({
       )}
       {isCustom && (
         <div className='edit'>
-          <JButton
+          <JFlatButton
             onClick={ignoreEvent(edit)(address)}
             iconName='settings'
-            iconSize='small'
-            color='gray'
-            minimal
+            iconColor='gray'
             transparent
           />
         </div>

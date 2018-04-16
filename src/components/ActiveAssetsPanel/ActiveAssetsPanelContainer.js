@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
 import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
@@ -16,7 +17,7 @@ const getWalletAddress = (id: ?WalletId): ?Address => {
   }
 }
 
-const mapStateToProps = ({ digitalAssets, wallets }: State): {
+const mapStateToProps: Function = ({ digitalAssets, wallets }: State): {
   digitalAssets: Array<Object>,
   isLoading: boolean,
   currentAssetAddress: ?Address,
@@ -28,8 +29,14 @@ const mapStateToProps = ({ digitalAssets, wallets }: State): {
   currentWalletAddress: getWalletAddress(wallets.activeWalletId),
 })
 
-const mapDispatchToProps = {
+const mapDispatchToProps: {
+  setCurrent: Function,
+  goToWallets: Function,
+  goToDigitalAssets: Function,
+} = {
   setCurrent,
+  goToWallets: () => push('/wallets'),
+  goToDigitalAssets: () => push('/digital-assets'),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActiveAssetsPanel)

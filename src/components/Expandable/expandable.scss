@@ -1,14 +1,9 @@
 .expandable {
   all: initial;
 
-  @include font;
   @include flex-column;
 
   &.-open {
-    > .title {
-      opacity: 0.5;
-    }
-
     > .content {
       @include flex-column;
 
@@ -32,8 +27,7 @@
     align-items: center;
     width: 100%;
     height: 80px;
-    border-bottom: 1px solid #ebedf0;
-    cursor: pointer;
+    border-bottom: 1px solid $pale-grey-two;
 
     > .label {
       padding-left: 10px;

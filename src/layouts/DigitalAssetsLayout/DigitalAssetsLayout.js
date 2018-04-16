@@ -4,7 +4,7 @@ import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
-import { JButton, JSearch, JTabs } from 'components/base'
+import { JFlatButton, JSearch, JTabs } from 'components/base'
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets/balance': 'My Digital Assets',
@@ -18,13 +18,11 @@ const DigitalAssetsLayout = ({ goToCustomAssetAdd, search, searchQuery, children
       <div className='header'>
         <JTabs tabs={DIGITAL_ASSETS_TABS} />
         <div className='actions'>
-          <JButton
+          <JFlatButton
             onClick={goToCustomAssetAdd}
             color='blue'
             iconName='plus'
-            iconSize='small'
             text='header.actions.addCustomAsset'
-            minimal
           />
           <div className='search'>
             <JSearch

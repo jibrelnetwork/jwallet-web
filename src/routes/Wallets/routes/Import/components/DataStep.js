@@ -4,7 +4,7 @@ import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
-import { JButton, JInput } from 'components/base'
+import { JButton, JFlatButton, JInput } from 'components/base'
 import { DerivationPath, Expandable } from 'components'
 
 const DataStep = ({
@@ -43,22 +43,19 @@ const DataStep = ({
       </Expandable>
     )}
     <div className='actions'>
-      <JButton
+      <JFlatButton
         onClick={setPrevStep}
-        text={i18n('routes.importWallet.buttonTitle.prevStep')}
-        color='white'
-        iconSize='small'
+        text={'routes.createWallet.buttonTitle.prevStep'}
         iconName='arrow'
-        minimal
         transparent
       />
-      <JButton
-        onClick={setNextStep}
-        text={i18n('routes.importWallet.buttonTitle.nextStep')}
-        color='blue'
-        large
-        right
-      />
+      <div className='next'>
+        <JButton
+          onClick={setNextStep}
+          color='blue'
+          text='routes.importWallet.buttonTitle.nextStep'
+        />
+      </div>
     </div>
   </div>
 )

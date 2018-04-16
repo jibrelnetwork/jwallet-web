@@ -4,25 +4,17 @@ import React from 'react'
 import classNames from 'classnames'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText } from 'components/base'
+import JFlatButton from 'components/base/JFlatButton'
 
-const Expandable = ({
-  toggle,
-  children,
-  title,
-  isOpen,
-  color = 'blue',
-  iconName = 'plus',
-}: Props) => (
+const Expandable = ({ toggle, children, title, isOpen, color, iconName }: Props) => (
   <div className={classNames('expandable', `-${color}`, { '-open': isOpen })}>
-    <div className='title' onClick={handle(toggle)(!isOpen)}>
-      <JIcon size='small' color={color} name={isOpen ? 'arrow-down' : iconName} />
-      <div className='label'>
-        <JText
-          variants={['bold', color]}
-          value={title || 'modals.customOptionsTitle'}
-        />
-      </div>
+    <div className='title'>
+      <JFlatButton
+        onClick={handle(toggle)(!isOpen)}
+        text={title || 'modals.customOptionsTitle'}
+        color={color}
+        iconName={isOpen ? 'arrow-down' : iconName}
+      />
     </div>
     <div className='content'>{children}</div>
   </div>
@@ -30,17 +22,20 @@ const Expandable = ({
 
 type Props = {
   toggle: Function,
-  children: Object,
+  children: ?Object,
+  color: 'blue' | 'white',
+  title: ?string,
+  iconName: string,
   isOpen: boolean,
-  title?: string,
-  color?: string,
-  iconName?: string,
 }
 
 Expandable.defaultProps = {
+  toggle: () => {},
+  children: null,
+  color: 'white',
   title: null,
-  color: 'blue',
   iconName: 'plus',
+  isOpen: false,
 }
 
 export default Expandable

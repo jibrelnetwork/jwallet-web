@@ -16,9 +16,8 @@ const FormStep = ({ setNextStep }: Props) => (
     <div className='actions'>
       <JButton
         onClick={setNextStep}
-        text='Backup'
         color='blue'
-        large
+        text='Backup'
       />
     </div>
   </div>

@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import JButton from 'components/base/JButton'
 import ModalHeader from 'components/ModalHeader'
+import JFlatButton from 'components/base/JFlatButton'
 
 import MnemonicAddressesList from './MnemonicAddressesList'
 
@@ -19,25 +19,12 @@ const WalletsMnemonicAddressesView = ({
     <div className='content'>
       <MnemonicAddressesList setActive={setActive} addresses={addresses} balances={balances} />
       <div className='actions'>
-        <JButton
-          onClick={goBack}
-          text='Back'
-          color='white'
-          iconSize='small'
-          iconName='arrow'
-          minimal
-          transparent
-        />
-        <JButton
-          onClick={getMore}
-          color='white'
-          text='Get more'
-          iconSize='small'
-          iconName='plus -white'
-          right
-          minimal
-          transparent
-        />
+        <div className='back'>
+          <JFlatButton onClick={goBack} text='Back' iconName='arrow' transparent />
+        </div>
+        <div className='forward'>
+          <JFlatButton onClick={getMore} text='Get more' iconName='plus' transparent />
+        </div>
       </div>
     </div>
   </div>

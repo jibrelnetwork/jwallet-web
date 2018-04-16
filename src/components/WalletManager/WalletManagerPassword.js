@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JIcon, JButton } from 'components/base'
+import { JFlatButton, JIcon } from 'components/base'
 
 const WalletManagerPassword = ({
   setPassword,
@@ -26,7 +26,7 @@ const WalletManagerPassword = ({
       </div>
     </div>
     <div className='arrow'>
-      <JButton onClick={setActive} iconName='arrow' iconSize='medium' minimal />
+      <JFlatButton onClick={setActive} iconName='arrow' iconSize='medium' />
     </div>
   </div>
 )

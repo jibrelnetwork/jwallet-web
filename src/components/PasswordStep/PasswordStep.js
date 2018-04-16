@@ -3,7 +3,7 @@
 import React from 'react'
 
 import PasswordField from 'components/PasswordField'
-import JButton from 'components/base/JButton'
+import { JButton, JFlatButton } from 'components/base'
 
 const PasswordStep = ({
   setPassword,
@@ -30,23 +30,16 @@ const PasswordStep = ({
     />
     <div className='actions'>
       {setPrevStep && (
-        <JButton
+        <JFlatButton
           onClick={setPrevStep}
           text={buttonPrevText}
-          color='white'
-          iconSize='small'
           iconName='arrow'
-          minimal
           transparent
         />
       )}
-      <JButton
-        onClick={setNextStep}
-        text={buttonNextText}
-        color={color}
-        right={!!setPrevStep}
-        large
-      />
+      <div className='next'>
+        <JButton onClick={setNextStep} text={buttonNextText} color={color} />
+      </div>
     </div>
   </div>
 )
