@@ -1,122 +1,53 @@
+$button-height: 40px;
+
 .j-button {
   all: initial;
 
-  @include font;
+  @include box;
   @include hover-animation;
   @include flex-row-center;
 
-  border: 1px solid rgba(0, 80, 220, 0.25);
-  text-align: center;
+  width: 160px;
+  height: 48px;
+  border-radius: 30px;
   cursor: pointer;
 
-  // Variants
-
-  &.-with-text {
-    padding: 0 24px;
-
-    &.-large {
-      width: 156px;
-      height: 48px;
-      padding: 0;
-      line-height: 46px;
-      border-radius: 24px;
-    }
-
-    &.-regular {
-      height: 40px;
-      line-height: 36px;
-      border-radius: 20px;
-    }
-  }
-
-  &.-loading {
-
-  }
-
   &.-disabled {
-
+    opacity: 0.3;
+    cursor: default;
   }
 
   &.-blue {
-    border: none;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 3px 6px rgba($black, 0.05);
     background-color: $blue-two;
 
     &:hover {
-      border: none;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      background-color: #00c1ff;
+      background-color: $bright-sky-blue;
+    }
+
+    &.-disabled:hover {
+      background-color: $blue-two;
     }
   }
 
   &.-white {
     background-color: $white;
+    border: 1px solid rgba($blue, 0.5);
 
     &:hover {
-      border: 1px solid rgba(0, 80, 220, 0.5);
-      background-color: #f6fcff;
-      opacity: 0.7;
+      background-color: rgba($blue, 0.1);
+    }
+
+    &.-disabled:hover {
+      background-color: $white;
     }
   }
 
-  &.-minimal {
-    padding: 0;
-    background-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
-
-    &:hover {
-      background-color: transparent;
-      border-color: transparent;
-      box-shadow: none;
-      opacity: 0.7;
-    }
-
-    &.-white {
-      opacity: 0.5;
-      background-color: transparent;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-    &.-blue {
-      background-color: transparent;
-    }
+  &.-loading {
+    //
   }
 
-  &.-transparent {
-    width: auto;
-    background-color: transparent;
-    box-shadow: none;
-    color: $white;
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &.-right {
-    margin-left: auto;
-  }
-
-  // Elements 
-
-  > .text {
-    
-  }
-  
   > .icon {
-    all: initial;
-    cursor: inherit;
+    margin-right: 10px;
   }
-
-  &.-with-text {
-    > .icon {
-      margin-right: 8px;
-    }
-  }
-
 }
