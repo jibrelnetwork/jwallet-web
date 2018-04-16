@@ -14,6 +14,7 @@ const JFlatButton = ({
   iconColor,
   disabled,
   isLoading,
+  transparent,
 }: Props) => {
   if (isLoading) {
     return <div className='j-flat-button -loading' />
@@ -22,11 +23,16 @@ const JFlatButton = ({
   return (
     <div
       onClick={disabled ? null : onClick}
-      className={classNames('j-flat-button', disabled && '-disabled')}
+      className={classNames(
+        'j-flat-button',
+        text && '-text',
+        disabled && '-disabled',
+        transparent && '-transparent',
+      )}
     >
       {iconName && (
         <div className='icon'>
-          <JIcon name={iconName} size={iconSize} color={iconColor} />
+          <JIcon name={iconName} size={iconSize} color={iconColor || color} />
         </div>
       )}
       {text && (
@@ -39,23 +45,25 @@ const JFlatButton = ({
 type Props = {
  onClick: Function,
  text: ?string,
- color: 'white' | 'blue',
+ color: 'blue' | 'gray' | 'white',
  iconName: ?string,
  iconSize: 'small' | 'medium',
- iconColor: 'white' | 'blue',
+ iconColor: 'blue' | 'gray' | 'white' | null,
  disabled: boolean,
  isLoading: boolean,
+ transparent: boolean,
 }
 
 JFlatButton.defaultProps = {
   onClick: () => {},
-  disabled: false,
-  isLoading: false,
   text: null,
   color: 'white',
   iconName: null,
+  iconColor: null,
   iconSize: 'small',
-  iconColor: 'white',
+  disabled: false,
+  isLoading: false,
+  transparent: false,
 }
 
 export default JFlatButton
