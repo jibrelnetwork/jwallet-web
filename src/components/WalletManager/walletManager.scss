@@ -1,122 +1,14 @@
-// TODO: inject KeyButton styles
+@import './Info/walletManagerInfo';
+@import './Actions/walletManagerActions';
+@import './Password/walletManagerPassword';
 
-.WalletManager, .KeyButton {
+.wallet-manager {
   all: initial;
-  width: 454px;
+
+  @include flex-row;
+
+  position: relative;
+  width: 480px;
   height: 90px;
-  cursor: pointer;
-  display: flex;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.05);
-  align-items: center;
-  flex-direction: row;
-  background-color: rgb(0, 88, 210);
-
-  > .actions {
-    display: flex;
-    flex-grow: 1;
-    justify-content: space-around;
-  }
-
-  > .info {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: row;
-    justify-content: space-between;
-
-    > .content {
-      all: initial; // breaking of isolation
-      cursor: pointer;
-      display: flex;
-      opacity: 0.8;
-      transition: opacity 0.3s ease 0s;
-      align-items: center;
-      flex-direction: row;
-
-      > .icon {
-        padding: 30px;
-        opacity: 0.5;
-        transition: opacity 0.3s ease 0s;
-      }
-
-      > .data {
-        > .title {
-          margin-bottom: 5px;
-        }
-      }
-
-      &:hover {
-        opacity: 1;
-  
-        > .icon {
-          opacity: 1;
-        }
-      }
-    }
-
-    > .actions {
-      padding: 30px;
-
-      > .button {
-        opacity: 0.8;
-        transition: opacity 0.3s ease 0s;
-
-        &:hover {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  > .password {
-    all: initial; // breaking of isolation
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    
-    > .content {
-      all: initial; // breaking of isolation
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-
-      > .icon {
-        padding: 30px;
-        opacity: 0.5;
-        cursor: initial;
-      }
-
-      > .input {
-        > input {
-          color: white;
-          border: none;
-          opacity: 0.5;
-          font-size: 13px;
-          background: inherit;
-          transition: opacity 0.3s ease 0s;
-          font-family: $font;
-
-          &:hover {
-            opacity: 1;
-          }
-
-          &::placeholder {
-            color: white;
-            opacity: 0.5;
-
-            &:hover {
-              opacity: 1
-            }
-          }
-        }
-      }
-
-    }
-
-    > .arrow {
-      padding: 30px;
-    }
-  }
+  box-shadow: 0 3px 6px 0 rgba($black, 0.05);
 }
