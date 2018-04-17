@@ -1,12 +1,10 @@
-// TODO: Replace info view with KeyButton component
-
-/* @flow */
+// @flow
 
 import React from 'react'
 
-import WalletManagerInfo from './WalletManagerInfo'
-import WalletManagerActions from './WalletManagerActions'
-import WalletManagerPassword from './WalletManagerPassword'
+import Info from './Info'
+import Actions from './Actions'
+import Password from './Password'
 
 const walletTypeIconMap = {
   'address': 'private-key-read',
@@ -34,8 +32,8 @@ const WalletManager = ({
 
   if (isToggled && !isReadOnly) {
     return (
-      <div className='WalletManager'>
-        <WalletManagerPassword
+      <div className='wallet-manager'>
+        <Password
           setPassword={setPassword}
           setActive={setActive}
           invalidFields={invalidFields}
@@ -48,15 +46,15 @@ const WalletManager = ({
 
   if (isActionsMenuShown) {
     return (
-      <div className='WalletManager'>
-        <WalletManagerActions setWalletAction={setWalletAction} isReadOnly={isReadOnly} />
+      <div className='wallet-manager'>
+        <Actions setWalletAction={setWalletAction} isReadOnly={isReadOnly} />
       </div>
     )
   }
 
   return (
-    <div className='WalletManager'>
-      <WalletManagerInfo
+    <div className='wallet-manager'>
+      <Info
         toggleWallet={toggleWallet}
         showActionsMenu={showActionsMenu}
         walletData={walletData}
@@ -70,11 +68,11 @@ type Props = {
   toggleWallet: (walletId: WalletId) => Dispatch,
   showActionsMenu: (walletId: WalletId) => Dispatch,
   setWalletAction: (walletAction: WalletAction) => Dispatch,
-  setPassword: (password: Password) => Dispatch,
+  setPassword: (password: string) => Dispatch,
   setActive: () => Dispatch,
   walletData: Wallet,
   invalidFields: Object,
-  password: Password,
+  password: string,
   toggledWalletId: ?WalletId,
   showActionsWalletId: ?WalletId,
 }

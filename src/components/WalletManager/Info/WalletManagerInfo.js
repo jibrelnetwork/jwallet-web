@@ -25,29 +25,28 @@ const WalletManagerInfo = ({
     : 'Mnemonic'
 
   return (
-    <div className='info'>
+    <div className='wallet-manager-info'>
       <div onClick={handle(toggleWallet)(id)} className='content'>
         <div className='icon'>
-          <JIcon name={icon} size='medium' />
+          <JIcon name={icon} size='medium' transparent />
         </div>
         <div className='data'>
           <div className='title'>
-            <JText
-              value={name}
-              variants={['white', 'large', 'bold']}
-            />
+            <JText value={name} size='large' weight='bold' />
           </div>
           <div className='text'>
-            <JText
-              value={isReadOnly ? `${text}, read only` : text}
-              variants={['white', 'normal', 'transparent']}
-            />
+            <JText value={isReadOnly ? `${text}, read only` : text} />
           </div>
         </div>
       </div>
       <div className='actions'>
         <div className='button'>
-          <JFlatButton onClick={handle(showActionsMenu)(id)} iconName='dots' iconSize='medium' />
+          <JFlatButton
+            onClick={handle(showActionsMenu)(id)}
+            iconName='dots'
+            iconSize='medium'
+            transparent
+          />
         </div>
       </div>
     </div>
@@ -59,6 +58,13 @@ type Props = {
   showActionsMenu: (walletId: WalletId) => Dispatch,
   walletData: Wallet,
   icon: string,
+}
+
+WalletManagerInfo.defaultProps = {
+  toggleWallet: () => {},
+  showActionsMenu: () => {},
+  walletData: {},
+  icon: '',
 }
 
 export default WalletManagerInfo

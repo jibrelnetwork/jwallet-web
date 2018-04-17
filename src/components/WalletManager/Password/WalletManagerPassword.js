@@ -1,28 +1,34 @@
 // @flow
 
 import React from 'react'
+import classNames from 'classnames'
 
-import { JFlatButton, JIcon } from 'components/base'
+import { JFlatButton, JIcon, JText } from 'components/base'
 
 const WalletManagerPassword = ({
   setPassword,
   setActive,
-  // invalidFields,
+  invalidFields,
   password,
   icon,
 }: Props) => (
-  <div className='password'>
+  <div className='wallet-manager-password'>
     <div className='content'>
       <div className='icon'>
         <JIcon name={icon} size='medium' />
       </div>
-      <div className='input'>
+      <div className={classNames('input', invalidFields.password && '-error')}>
         <input
           type='password'
           value={password}
           onChange={setPassword}
           placeholder='Type your password'
         />
+        {invalidFields.password && (
+          <div className='error'>
+            <JText value={invalidFields.password} color='red' size='small' />
+          </div>
+        )}
       </div>
     </div>
     <div className='arrow'>
@@ -32,11 +38,19 @@ const WalletManagerPassword = ({
 )
 
 type Props = {
-  setPassword: (password: Password) => Dispatch,
+  setPassword: (password: string) => Dispatch,
   setActive: () => Dispatch,
   invalidFields: Object,
-  password: Password,
+  password: string,
   icon: string,
+}
+
+WalletManagerPassword.defaultProps = {
+  setPassword: () => {},
+  setActive: () => {},
+  invalidFields: {},
+  password: '',
+  icon: '',
 }
 
 export default WalletManagerPassword
