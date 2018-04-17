@@ -10,8 +10,8 @@ import './JTooltip.stories'
 
 // complex
 import './ESCButton.stories'
-import './KeyButton.stories'
+import './NewWalletButton.stories'
 import './KeyManager.stories'
 import './ModalHeader.stories'
 import './WalletHeader.stories'
-import './DerivedAddress.stories'
+import './MnemonicAddress.stories'
