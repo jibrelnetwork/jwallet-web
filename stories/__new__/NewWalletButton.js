@@ -1,15 +1,14 @@
-
-/* @flow */
+// @flow
 
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import KeyButton from '../../src/components/KeyButton'
+import NewWalletButton from '../../src/components/NewWalletButtons/Button'
 
-storiesOf('KeyButton', module)
+storiesOf('NewWalletButton', module)
   .add('Default', () => (
     <div style={{ padding: 25, backgroundColor: '#0050DB' }}>
-      <KeyButton
+      <NewWalletButton
         icon='private-key'
         text='0xceceaa8edc083...d55a32'
         title='Private Key'
