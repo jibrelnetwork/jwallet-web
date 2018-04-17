@@ -9,7 +9,7 @@ const RoundIconButton = ({ onClick, iconName, color, label, spinOnHover }: Props
   <div onClick={onClick} className='round-icon-button'>
     {label && (
       <div className='label'>
-        <JText value={label} variants={['uppercase', color]} />
+        <JText value={label} color={color} fontCase='upper' />
       </div>
     )}
     <div className={classNames(`icon -${color}`, spinOnHover && '-spin')}>
