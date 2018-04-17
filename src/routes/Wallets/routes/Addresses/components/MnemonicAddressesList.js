@@ -3,7 +3,8 @@
 import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import DerivedAddress from 'components/DerivedAddress'
+
+import MnemonicAddress from './MnemonicAddress'
 
 const MnemonicAddressesList = ({
   setActive,
@@ -13,7 +14,7 @@ const MnemonicAddressesList = ({
   <div className='mnemonic-addresses-list'>
     {addresses.map((address, index) => (
       <div key={index} className='address'>
-        <DerivedAddress
+        <MnemonicAddress
           onClick={handle(setActive)(index)}
           address={address}
           balance={balances[address]}

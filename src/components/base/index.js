@@ -1,3 +1,4 @@
+export JAssetSymbol from './JAssetSymbol'
 export JButton from './JButton'
 export JCallout from './JCallout'
 export JCard from './JCard'
@@ -21,6 +22,7 @@ export JTooltip from './JTooltip'
 
 /*
 export {
+  JAssetSymbol,
   JButton,
   JCallout,
   JCard,

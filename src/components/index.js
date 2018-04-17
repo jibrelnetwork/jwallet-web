@@ -5,7 +5,6 @@ import ButtonWithConfirm from './ButtonWithConfirm'
 import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
 import Expandable from './Expandable'
-import KeyButton from './KeyButton'
 import MenuPanel from './MenuPanel'
 import ModalHeader from './ModalHeader'
 import NewWalletButtons from './NewWalletButtons'
@@ -16,7 +15,6 @@ import TransactionsByPeriod from './TransactionsByPeriod'
 import TransactionsEmpty from './TransactionsEmpty'
 import WalletHeader from './WalletHeader'
 import WalletManager from './WalletManager'
-import DerivedAddress from './DerivedAddress'
 import DerivationPath from './DerivationPath'
 
 export {
@@ -25,7 +23,6 @@ export {
   DigitalAssets,
   ESCButton,
   Expandable,
-  KeyButton,
   MenuPanel,
   ModalHeader,
   NewWalletButtons,
@@ -36,6 +33,5 @@ export {
   TransactionsEmpty,
   WalletHeader,
   WalletManager,
-  DerivedAddress,
   DerivationPath,
 }

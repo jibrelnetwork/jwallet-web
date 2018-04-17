@@ -90,6 +90,7 @@
   }
 
   // Base components
+  @import '../components/base/JAssetSymbol/jAssetSymbol';
   @import '../components/base/JButton/jButton';
   @import '../components/base/JCard/jCard';
   @import '../components/base/JIcon/jIcon';
@@ -119,7 +120,6 @@
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/DigitalAssets/digitalAssets';
-  @import '../components/DerivedAddress/DerivedAddress';
   @import '../components/WalletHeader/walletHeader';
   @import '../components/ModalHeader/modalHeader';
   @import '../components/MenuPanel/menuPanel';
