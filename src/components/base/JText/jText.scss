@@ -4,9 +4,12 @@
   @include font;
 
   cursor: inherit;
-  white-space: pre-line;
 
   // Colors
+
+  &.-blue {
+    color: $blue;
+  }
 
   &.-gray {
     color: $dusk;
@@ -16,16 +19,8 @@
     color: $pinkish-tan;
   }
 
-  &.-blue {
-    color: $blue;
-  }
-
   &.-white {
-    color: white;
-  }
-
-  &.-transparent {
-    opacity: 0.7;
+    color: $white;
   }
 
   // Sizes
@@ -34,16 +29,8 @@
     font-size: 11px;
   }
 
-  &.-mini {
-    font-size: 12px;
-  }
-
   &.-normal {
     font-size: 13px;
-  }
-
-  &.-regular {
-    font-size: 14px;
   }
 
   &.-large {
@@ -51,23 +38,11 @@
   }
 
   &.-header {
-    font-size: 18px;
+    font-size: 17px;
   }
 
-  &.-header-title {
-    margin-right: auto;
-    font-size: 24px;
-  }
-
-  &.-tall {
-    line-height: 1.62;
-  }
-
-  // Align 
-
-  &.-center {
-    display: flex;
-    text-align: center;
+  &.-title {
+    font-size: 25px;
   }
 
   // Weight
@@ -76,10 +51,13 @@
     font-weight: 600;
   }
 
-  // Case
-
-  &.-uppercase {
-    text-transform: uppercase;
+  &.-bolder {
+    font-weight: 900;
   }
 
+  // Case
+
+  &.-upper {
+    text-transform: uppercase;
+  }
 }
