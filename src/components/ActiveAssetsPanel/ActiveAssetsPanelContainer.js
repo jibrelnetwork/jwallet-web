@@ -1,6 +1,8 @@
 // @flow
 
+import { compose } from 'ramda'
 import { connect } from 'react-redux'
+import { withState } from 'recompose'
 import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
@@ -39,4 +41,7 @@ const mapDispatchToProps: {
   goToDigitalAssets: () => push('/digital-assets'),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActiveAssetsPanel)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withState('hoveredAsset', 'hover', null),
+)(ActiveAssetsPanel)

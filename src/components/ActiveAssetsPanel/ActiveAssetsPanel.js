@@ -9,13 +9,15 @@ import AssetItem from './AssetItem'
 import CurrentAddress from './CurrentAddress'
 
 const ActiveAssetsPanel = ({
+  hover,
   setCurrent,
   goToWallets,
   goToDigitalAssets,
   digitalAssets,
-  isLoading,
+  hoveredAsset,
   currentAssetAddress,
   currentWalletAddress,
+  isLoading,
 }: Props) => (
   <div className='active-assets-panel'>
     <div className='address'>
@@ -27,9 +29,11 @@ const ActiveAssetsPanel = ({
           <AssetItem
             {...data}
             key={index}
+            hover={hover}
             setCurrent={setCurrent}
-            isLoading={isLoading}
+            isHovered={hoveredAsset === data.address}
             isCurrent={currentAssetAddress === data.address}
+            isLoading={isLoading}
           />
         ))}
       </Scrollbars>
@@ -46,23 +50,27 @@ const ActiveAssetsPanel = ({
 )
 
 type Props = {
+  hover: Function,
   setCurrent: Function,
   goToWallets: Function,
   goToDigitalAssets: Function,
   digitalAssets: DigitalAssets,
-  isLoading: boolean,
+  hoveredAsset: ?Address,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
+  isLoading: boolean,
 }
 
 ActiveAssetsPanel.defaultProps = {
+  hover: () => {},
   setCurrent: () => {},
   goToWallets: () => {},
   goToDigitalAssets: () => {},
   digitalAssets: [],
-  isLoading: false,
+  hoveredAsset: null,
   currentAssetAddress: null,
   currentWalletAddress: null,
+  isLoading: false,
 }
 
 export default ActiveAssetsPanel
