@@ -10,7 +10,7 @@ const QRCode = ({ saveQRCode, isActive }: Props) => (
     <div id='qrcode' />
     <div className='overlay'>
       <div className='button'>
-        <JButton onClick={saveQRCode} text='Download' color='white' large />
+        <JButton onClick={saveQRCode} text='Download' wide />
       </div>
     </div>
   </div>

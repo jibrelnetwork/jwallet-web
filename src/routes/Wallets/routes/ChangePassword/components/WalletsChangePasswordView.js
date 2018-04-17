@@ -42,6 +42,7 @@ const WalletsChangePasswordView = ({
             onClick={changePassword}
             color='blue'
             text='routes.changeWalletPassword.buttonTitle'
+            wide
           />
         </div>
       </div>

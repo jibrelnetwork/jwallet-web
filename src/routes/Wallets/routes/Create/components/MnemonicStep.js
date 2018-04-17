@@ -26,8 +26,9 @@ const MnemonicStep = ({
       <div className='next'>
         <JButton
           onClick={setNextStep}
-          text={i18n('routes.createWallet.buttonTitle.save')}
           color='blue'
+          text='routes.createWallet.buttonTitle.save'
+          wide
         />
       </div>
     </div>

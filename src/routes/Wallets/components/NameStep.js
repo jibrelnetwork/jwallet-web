@@ -31,6 +31,7 @@ const NameStep = ({
           onClick={setNextStep}
           color='blue'
           text='routes.createWallet.buttonTitle.nextStep'
+          wide
         />
       </div>
     </div>

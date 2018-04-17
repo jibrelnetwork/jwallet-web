@@ -19,6 +19,7 @@ const AssetsStep = ({ goToHome }: Props) => (
           onClick={goToHome}
           color='blue'
           text='routes.createWallet.buttonTitle.finish'
+          wide
         />
       </div>
     </div>

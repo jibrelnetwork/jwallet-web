@@ -12,6 +12,7 @@ const JButton = ({
   iconName,
   iconSize,
   iconColor,
+  wide,
   disabled,
   isLoading,
 }: Props) => {
@@ -22,7 +23,7 @@ const JButton = ({
   return (
     <div
       onClick={disabled ? null : onClick}
-      className={classNames(`j-button -${color}`, disabled && '-disabled')}
+      className={classNames(`j-button -${color}`, disabled && '-disabled', wide && '-wide')}
     >
       {iconName && (
         <div className='icon'>
@@ -45,6 +46,7 @@ type Props = {
  iconName: string,
  iconSize: 'small' | 'medium',
  iconColor: 'blue' | 'white' | null,
+ wide: boolean,
  disabled: boolean,
  isLoading: boolean,
 }
@@ -56,6 +58,7 @@ JButton.defaultProps = {
   iconName: null,
   iconSize: 'small',
   iconColor: null,
+  wide: false,
   disabled: false,
   isLoading: false,
 }

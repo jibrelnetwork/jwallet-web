@@ -54,6 +54,7 @@ const DataStep = ({
           onClick={setNextStep}
           color='blue'
           text='routes.importWallet.buttonTitle.nextStep'
+          wide
         />
       </div>
     </div>

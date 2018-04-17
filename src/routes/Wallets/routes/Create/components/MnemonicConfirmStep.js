@@ -31,8 +31,9 @@ const MnemonicConfirmStep = ({
       <div className='next'>
         <JButton
           onClick={setNextStep}
-          text={i18n('routes.createWallet.buttonTitle.confirm')}
           color='blue'
+          text='routes.createWallet.buttonTitle.confirm'
+          wide
         />
       </div>
     </div>

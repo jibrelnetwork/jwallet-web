@@ -60,6 +60,7 @@ const FundsReceiveView = ({
               onClick={copyAddress}
               text={isCopied ? 'Copied!' : 'Copy address'}
               color='white'
+              wide
             />
           </div>
         </div>

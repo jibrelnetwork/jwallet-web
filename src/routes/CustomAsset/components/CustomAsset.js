@@ -65,7 +65,7 @@ const CustomAsset = ({
             <JButton
               onClick={isAdd ? add : edit}
               text={`${isAdd ? 'Add' : 'Save'} Asset`}
-              color='white'
+              wide
             />
           </div>
           {!isAdd && (
