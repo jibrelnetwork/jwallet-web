@@ -13,7 +13,7 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
   >
     {active && options[active] ? (
       <div className='current'>
-        <JText value={options[active]} variants={['white']} />
+        <JText value={options[active]} />
       </div>
     ) : (
       <div className='current -loading'>
@@ -32,7 +32,7 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
             className={classNames('item', { '-active': isActive })}
           >
             <div className='value'>
-              <JText value={options[key]} variants={['white']} />
+              <JText value={options[key]} />
             </div>
             {isActive && (
               <div className='icon'>

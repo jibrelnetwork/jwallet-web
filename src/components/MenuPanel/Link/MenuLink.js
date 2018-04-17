@@ -17,7 +17,7 @@ const MenuLink = ({ path, icon, disabled }: Props) => (
       </div>
     </div>
     <div className='text'>
-      <JText value={`menu.${icon}`} variants={['white', 'small', 'bold', 'uppercase']} />
+      <JText value={`menu.${icon}`} size='small' weight='bold' fontCase='upper' />
     </div>
   </Link>
 )
