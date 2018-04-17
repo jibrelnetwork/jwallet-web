@@ -3,6 +3,7 @@
 
   @include font;
 
+  transition: color 0.3s ease 0s, opacity 0.3s ease 0s;
   cursor: inherit;
 
   // Colors
