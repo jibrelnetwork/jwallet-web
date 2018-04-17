@@ -2,39 +2,53 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { identity } from 'ramda'
 
 import ethereum from 'data/assets/ethereum'
-import { JFlatButton, JIcon } from 'components/base'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
+import { JAssetSymbol, JFlatButton, JIcon, JText } from 'components/base'
 
 const AssetCard = ({
   edit,
+  hover,
   setActive,
   address,
   name,
   symbol,
+  color,
   balance,
   isCustom,
   isActive,
   isLoading,
-  color,
+  isHovered,
 }: Props) => {
   const integer = balance ? Math.floor(balance) : 0
   const decimals = balance ? (balance - integer).toFixed(2).substr(1) : 0
+  const hoveredColor = (isHovered || isActive) ? 'blue' : 'gray'
+  const assetColor = (color === 'white') ? hoveredColor : 'white'
 
   return (
     <div
       onClick={handle(setActive)(address)}
-      className={classNames('asset-card', color && `-${color}`, { '-active': isActive })}
+      onMouseEnter={handle(hover)(address)}
+      onMouseLeave={handle(hover)(null)}
+      className={classNames('asset-card', color && `-${color}`, isActive && '-active')}
     >
-      <div className='icon'>
-        <JIcon size='large' name='token-ant' color={color} />
+      <div className='tick'>
+        <JIcon name='checkbox' color={(color === 'white') ? 'blue' : 'white'} />
       </div>
-      <div className='name'>{name}</div>
+      <div className='symbol'>
+        <JAssetSymbol symbol={symbol} color={assetColor} />
+      </div>
+      <div className='name'>
+        <JText value={name} color={assetColor} weight='bold' />
+      </div>
       {(balance !== undefined) && (
         <div className='balance'>
-          {isLoading ? 'Loading' : `${integer.toFixed()} ${decimals} ${symbol}`}
+          <JText
+            value={isLoading ? 'Loading' : `${integer.toFixed()}${decimals} ${symbol}`}
+            weight='bold'
+            color={assetColor}
+          />
         </div>
       )}
       {isCustom && (
@@ -53,6 +67,7 @@ const AssetCard = ({
 
 type Props = {
   edit: Function,
+  hover: Function,
   setActive: Function,
   address: Address,
   name: string,
@@ -62,11 +77,13 @@ type Props = {
   isCustom: boolean,
   isActive: boolean,
   isLoading: boolean,
+  isHovered: boolean,
 }
 
 AssetCard.defaultProps = {
-  edit: identity,
-  setActive: identity,
+  edit: () => {},
+  hover: () => {},
+  setActive: () => {},
   address: ethereum.address,
   name: ethereum.name,
   symbol: ethereum.symbol,
@@ -75,6 +92,7 @@ AssetCard.defaultProps = {
   isCustom: false,
   isActive: false,
   isLoading: false,
+  isHovered: false,
 }
 
 export default AssetCard

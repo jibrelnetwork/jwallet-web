@@ -3,6 +3,7 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
+import JCard from 'components/base/JCard'
 import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
@@ -10,11 +11,13 @@ import Empty from './Empty'
 import Loading from './Loading'
 
 const DigitalAssets = ({
+  hover,
   setActive,
   editCustomAsset,
   items,
   balances,
   foundAssets,
+  hoveredAsset,
   searchQuery,
   color,
   type,
@@ -34,25 +37,30 @@ const DigitalAssets = ({
   return (
     <div className={`digital-assets -${color}`}>
       {foundItems.map((data: DigitalAsset, index: Index) => (
-        <Asset
-          {...data}
-          key={index}
-          setActive={setActive}
-          edit={editCustomAsset}
-          balance={(type !== 'popular') ? balances[data.address] : undefined}
-          color={color}
-        />
+        <JCard key={index} withShadow>
+          <Asset
+            {...data}
+            hover={hover}
+            setActive={setActive}
+            edit={editCustomAsset}
+            balance={(type !== 'popular') ? balances[data.address] : undefined}
+            color={color}
+            isHovered={hoveredAsset === data.address}
+          />
+        </JCard>
       ))}
     </div>
   )
 }
 
 type Props = {
+  hover: Function,
   setActive: Function,
   editCustomAsset: Function,
   items: Array<DigitalAsset>,
   balances: Balances,
   foundAssets: Addresses,
+  hoveredAsset: ?Address,
   searchQuery: string,
   type: DigitalAssetsListType,
   color: 'blue' | 'white',
@@ -60,11 +68,13 @@ type Props = {
 }
 
 DigitalAssets.defaultProps = {
+  hover: () => {},
   setActive: () => {},
   editCustomAsset: () => {},
   items: [],
   balances: {},
   foundAssets: [],
+  hoveredAsset: null,
   searchQuery: '',
   color: 'white',
   type: 'balance',

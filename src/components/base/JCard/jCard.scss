@@ -1,14 +1,11 @@
 .j-card {
   all: initial;
 
-  @include font;
+  @include flex-column;
 
-  display: block;
   background-color: $white;
-  border: 1px solid transparent;
-  color: $dusk;
 
   &.-with-shadow {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 3px 6px rgba($black, 0.05);
   }
 }

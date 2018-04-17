@@ -1,6 +1,8 @@
 // @flow
 
+import { compose } from 'ramda'
 import { connect } from 'react-redux'
+import { withState } from 'recompose'
 
 import { setActive } from 'routes/DigitalAssets/modules/digitalAssets'
 import { setEditAddress } from 'routes/CustomAsset/modules/customAsset'
@@ -17,4 +19,7 @@ const mapDispatchToProps: {
   editCustomAsset: setEditAddress,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DigitalAssets)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withState('hoveredAsset', 'hover', null),
+)(DigitalAssets)
