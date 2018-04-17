@@ -23,15 +23,24 @@
   }
 
   &.-current {
-    background: linear-gradient(to right, #f1f5fd, $white);
+    background-image: linear-gradient(130deg, rgba($blue-two, 0.2), $white);
     color: $blue;
 
-    > .icon {
-      opacity: 1;
+    &,
+    &.-hovered {
+      > .icon {
+        opacity: 1;
+      }
     }
   }
 
+  &.-hovered > .icon {
+    opacity: 0.3;
+  }
+
   > .icon {
+    @include hover-animation;
+
     position: absolute;
     left: 30px;
     top: 50%;

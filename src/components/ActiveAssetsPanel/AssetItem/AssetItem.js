@@ -3,11 +3,12 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import JIcon from 'components/base/JIcon'
 import ethereum from 'data/assets/ethereum'
 import handle from 'utils/eventHandlers/handle'
+import { JAssetSymbol, JText } from 'components/base'
 
 const AssetItem = ({
+  hover,
   setCurrent,
   address,
   name,
@@ -15,20 +16,37 @@ const AssetItem = ({
   balance,
   isLoading,
   isCurrent,
+  isHovered,
 }: Props) => (
   <div
     onClick={handle(setCurrent)(address)}
-    className={classNames('asset-item', { '-current': isCurrent })}
+    onMouseEnter={handle(hover)(address)}
+    onMouseLeave={handle(hover)(null)}
+    className={classNames('asset-item', isCurrent && '-current', isHovered && '-hovered')}
   >
     <div className='icon'>
-      <JIcon size='large' name='token-ant' />
+      <JAssetSymbol symbol={symbol} color={(isCurrent || isHovered) ? 'blue' : 'gray'} />
     </div>
-    <div className='name'>{name}</div>
+    <div className='name'>
+      <JText value={name} color={isCurrent ? 'blue' : 'gray'} />
+    </div>
     {isLoading ? <div className='balance'>{'Loading'}</div> : (
       <div className='balance'>
-        <div className='integer'>{Math.floor(balance).toFixed()}</div>
+        <div className='integer'>
+          <JText
+            value={Math.floor(balance).toFixed()}
+            size='large'
+            weight='bolder'
+            color={isCurrent ? 'blue' : 'gray'}
+          />
+        </div>
         <div className='decimals'>
-          {`${(balance - Math.floor(balance)).toFixed(2).substr(1)} ${symbol}`}
+          <JText
+            value={`${(balance - Math.floor(balance)).toFixed(2).substr(1)} ${symbol}`}
+            size='large'
+            weight='bolder'
+            color={isCurrent ? 'blue' : 'gray'}
+          />
         </div>
       </div>
     )}
@@ -36,6 +54,7 @@ const AssetItem = ({
 )
 
 type Props = {
+  hover: Function,
   setCurrent: Function,
   address: Address,
   name: string,
@@ -43,9 +62,11 @@ type Props = {
   balance: number,
   isLoading: boolean,
   isCurrent: boolean,
+  isHovered: boolean,
 }
 
 AssetItem.defaultProps = {
+  hover: () => {},
   setCurrent: () => {},
   address: ethereum.address,
   name: ethereum.name,
@@ -53,6 +74,7 @@ AssetItem.defaultProps = {
   balance: 0,
   isLoading: false,
   isCurrent: false,
+  isHovered: false,
 }
 
 export default AssetItem
