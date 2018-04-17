@@ -21,7 +21,8 @@ const ModalHeader = ({
           value={currentStep && totalSteps
             ? `${title} ${currentStep}/${totalSteps}`
             : title}
-          variants={[color, 'header-title']}
+          color={color}
+          size='title'
         />
       </div>
       <div className='button'>
