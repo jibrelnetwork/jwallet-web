@@ -71,7 +71,7 @@ const FormStep = ({
       nonce={nonce}
     />
     <div className='actions'>
-      <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitleForm' color='white' />
+      <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitleForm' wide />
     </div>
   </div>
 )

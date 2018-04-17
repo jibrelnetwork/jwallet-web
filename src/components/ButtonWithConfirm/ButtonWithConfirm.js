@@ -2,10 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { identity } from 'ramda'
 
 import handle from 'utils/eventHandlers/handle'
-import JButton from 'components/base/JButton'
+import JFlatButton from 'components/base/JFlatButton'
 
 const ButtonWithConfirm = ({
   onClick,
@@ -17,14 +16,14 @@ const ButtonWithConfirm = ({
 }: Props) => (
   <div className='button-with-confirm'>
     <div className={classNames('front', { '-active': !isActive })}>
-      <JButton onClick={handle(toggle)(true)} text={label} color='gray' transparent minimal />
+      <JFlatButton onClick={handle(toggle)(true)} text={label} color='gray' transparent />
     </div>
     <div className={classNames('back', { '-active': isActive })}>
       <div className='button'>
-        <JButton onClick={onClick} text={labelConfirm} color='gray' transparent minimal />
+        <JFlatButton onClick={onClick} text={labelConfirm} color='gray' transparent />
       </div>
       <div className='button -right'>
-        <JButton onClick={handle(toggle)(false)} text={labelCancel} color='blue' minimal />
+        <JFlatButton onClick={handle(toggle)(false)} text={labelCancel} color='blue' />
       </div>
     </div>
   </div>
@@ -40,9 +39,9 @@ type Props = {
 }
 
 ButtonWithConfirm.defaultProps = {
-  onClick: identity,
-  toggle: identity,
-  label: 'Do smth.',
+  onClick: () => {},
+  toggle: () => {},
+  label: '',
   labelConfirm: 'Ok',
   labelCancel: 'Nope!',
   isActive: false,

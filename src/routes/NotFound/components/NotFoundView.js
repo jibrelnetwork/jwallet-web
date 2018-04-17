@@ -16,7 +16,7 @@ const NotFoundView = ({ goToIndex }: Props) => (
         description={'All user data, including imported or generated ' +
           'private keys are stored locally, meaning your private'}
       />
-      <JButton onClick={goToIndex} text='Go to the front' color='blue' large />
+      <JButton onClick={goToIndex} text='Go to the front' color='blue' wide />
     </div>
   </div>
 )

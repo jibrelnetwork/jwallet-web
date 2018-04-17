@@ -38,7 +38,7 @@ const PasswordStep = ({
         />
       )}
       <div className='next'>
-        <JButton onClick={setNextStep} text={buttonNextText} color={color} />
+        <JButton onClick={setNextStep} text={buttonNextText} color={color} wide />
       </div>
     </div>
   </div>
