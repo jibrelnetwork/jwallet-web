@@ -2,25 +2,25 @@
 
 import React from 'react'
 
-import KeyButton from 'components/KeyButton'
+import NewWalletButton from './Button'
 
 const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
     <div className='button'>
-      <KeyButton
+      <NewWalletButton
         onClick={createWallet}
-        icon='key-new'
-        text='Some text about keys, mnemonic, address etc'
+        type='new'
         title='Create new wallet'
+        text='Some text about keys, mnemonic, address etc'
       />
     </div>
     <div className='button'>
-      <KeyButton
+      <NewWalletButton
         onClick={importWallet}
-        icon='key-import'
-        text='Some text about keys, mnemonic, address etc'
+        type='import'
         title='Import wallet'
+        text='Some text about keys, mnemonic, address etc'
       />
     </div>
   </div>
@@ -29,6 +29,11 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
 type Props = {
   createWallet: Function,
   importWallet: Function,
+}
+
+NewWalletButtons.defaultProps = {
+  createWallet: () => {},
+  importWallet: () => {},
 }
 
 export default NewWalletButtons
