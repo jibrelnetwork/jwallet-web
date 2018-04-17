@@ -16,34 +16,19 @@ const Input = ({
 }: Props) => (
   <div
     onClick={onCheck}
-    className={classNames('Input', {
-      '-checked': checked,
-      '-with-error': withError,
-    })}
+    className={classNames('Input', { '-checked': checked, '-with-error': withError })}
   >
     <div className='content'>
       <div className='icon'>
-        {checked && (
-          <JIcon
-            name='checkbox-blue'
-            size='small'
-          />
-        )}
+        {checked && <JIcon name='checkbox-blue' size='small' />}
       </div>
       <div className='input'>
-        <input
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-        />
+        <input value={value} onChange={onChange} placeholder={placeholder} />
       </div>
     </div>
     {withError && (
       <div className='error-message'>
-        <JText
-          value={errorMessage}
-          variants={['small', 'red']}
-        />
+        <JText value={errorMessage} size='small' color='red' />
       </div>
     )}
   </div>

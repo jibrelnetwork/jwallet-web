@@ -36,7 +36,7 @@ const JFlatButton = ({
         </div>
       )}
       {text && (
-        <JText value={text} variants={[color, 'bold', 'normal']} />
+        <JText value={text} color={color} weight='bold' />
       )}
     </div>
   )

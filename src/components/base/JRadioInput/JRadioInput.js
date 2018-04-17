@@ -1,9 +1,9 @@
-/* @flow */
+// @flow
 
 import cx from 'classnames'
 import React from 'react'
 
-import { JIcon, JText } from '../.'
+import { JIcon, JText } from 'components/base'
 
 const JRadioInput = ({
   value,
@@ -15,19 +15,11 @@ const JRadioInput = ({
 }: Props) => (
   <div
     onClick={onCheck}
-    className={cx('JRadioInput', {
-      '-checked': checked,
-      '-with-error': Boolean(errorMessage),
-    })}
+    className={cx('JRadioInput', { '-checked': checked, '-with-error': !!errorMessage })}
   >
     <div className='content'>
       <div className='icon'>
-        {checked && (
-          <JIcon
-            name='checkbox-blue'
-            size='small'
-          />
-        )}
+        {checked && <JIcon name='checkbox-blue' size='small' />}
       </div>
       <div className='input'>
         <input
@@ -37,12 +29,9 @@ const JRadioInput = ({
         />
       </div>
     </div>
-    {Boolean(errorMessage) && (
+    {errorMessage && (
       <div className='error-message'>
-        <JText
-          value={errorMessage}
-          variants={['small', 'red']}
-        />
+        <JText value={errorMessage} size='small' color='red' />
       </div>
     )}
   </div>

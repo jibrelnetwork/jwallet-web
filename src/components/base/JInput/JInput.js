@@ -2,7 +2,6 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { identity } from 'ramda'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 import { JIcon, JText } from 'components/base'
@@ -21,13 +20,14 @@ const JInput = ({
   multiline,
   isLoading,
 }: Props) => (
-  <div className={classNames(
-    'j-input',
-    type && `-${type}`,
-    color && `-${color}`,
-    disabled && '-disabled',
-    errorMessage && '-with-error',
-  )}
+  <div
+    className={classNames(
+      'j-input',
+      type && `-${type}`,
+      color && `-${color}`,
+      disabled && '-disabled',
+      errorMessage && '-with-error',
+    )}
   >
     {multiline ? (
       <textarea
@@ -47,30 +47,16 @@ const JInput = ({
       />
     )}
     <div className='label'>
-      <JText
-        value={label || placeholder}
-        variants={[
-          color,
-          'small',
-          'uppercase',
-          'transparent',
-        ]}
-      />
+      <JText value={label || placeholder} color={color} size='small' fontCase='upper' />
     </div>
     {errorMessage && (
       <div className='error-message'>
-        <JText
-          value={errorMessage}
-          variants={['small', 'red']}
-        />
+        <JText value={errorMessage} size='small' color='red' />
       </div>
     )}
     {infoMessage && (
       <div className='info-message'>
-        <JText
-          value={infoMessage}
-          variants={[color, 'normal', 'transparent']}
-        />
+        <JText value={infoMessage} color={color} />
       </div>
     )}
     {isLoading && (
@@ -102,7 +88,7 @@ type Props = {
 }
 
 JInput.defaultProps = {
-  onChange: identity,
+  onChange: () => {},
   type: 'text',
   color: 'white',
   checked: false,
