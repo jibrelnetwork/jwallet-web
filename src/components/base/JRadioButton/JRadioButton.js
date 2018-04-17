@@ -1,9 +1,9 @@
-/* @flow */
+// @flow
 
 import cx from 'classnames'
 import React from 'react'
 
-import { JIcon, JText } from '../.'
+import { JIcon, JText } from 'components/base'
 
 const JRadioButton = ({
   text,
@@ -20,30 +20,28 @@ const JRadioButton = ({
     </div>
     <div className='content'>
       <div className='text'>
-        <JText
-          value={text}
-          variants={['normal', 'white', 'bold']}
-        />
+        <JText value={text} weight='bold' />
       </div>
       <div className='description'>
-        <JText
-          value={description}
-          variants={['normal', 'white', 'bold']}
-        />
+        <JText value={description} weight='bold' />
       </div>
     </div>
   </div>
 )
 
 type Props = {
-  text: string,
-  index: number,
-  checked?: boolean,
-  description: string,
   onCheck: Function,
+  text: string,
+  description: string,
+  index: number,
+  checked: boolean,
 }
 
 JRadioButton.defaultProps = {
+  onCheck: () => {},
+  text: '',
+  description: '',
+  index: 0,
   checked: false,
 }
 

@@ -15,11 +15,11 @@ const JThumbnail = ({
     <div className={classNames('image', `-${image}`, `-${color}`)} />
     {title && (
       <div className='title'>
-        <JText value={title} variants={['header', 'center', color]} />
+        <JText value={title} color={color} size='header' />
       </div>
     )}
     <div className='description'>
-      <JText value={description} variants={['normal', 'transparent', 'center', 'tall', color]} />
+      <JText value={description} color={color} />
     </div>
   </div>
 )

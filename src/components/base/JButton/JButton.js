@@ -31,7 +31,8 @@ const JButton = ({
       )}
       <JText
         value={text}
-        variants={['bold', 'normal', (color === 'white') ? 'blue' : 'white']}
+        weight='bold'
+        color={(color === 'white') ? 'blue' : 'white'}
       />
     </div>
   )

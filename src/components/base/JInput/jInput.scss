@@ -15,17 +15,18 @@
     }
   }
 
+  &.-blue {
+    border-color: $blue;
+
+    > input, textarea {
+      color: $blue;
+    }
+  }
+
   &.-gray {
     border-bottom: 1px solid #ebedf0;
     > input, textarea {
       color: $dusk;
-    }
-  }
-
-  &.-white {
-    border-bottom: 1px solid white;
-    > input, textarea {
-      color: white;
     }
   }
 
@@ -37,43 +38,10 @@
     }
   }
 
-  &.-deep-orange {
-    border-color: $deep-orange;
-
+  &.-white {
+    border-bottom: 1px solid white;
     > input, textarea {
-      color: $deep-orange;
-    }
-  }
-
-  &.-orange {
-    border-color: $orange;
-
-    > input, textarea {
-      color: $orange;
-    }
-  }
-
-  &.-lime {
-    border-color: $lime;
-
-    > input, textarea {
-      color: $lime;
-    }
-  }
-
-  &.-light-green {
-    border-color: $light-green;
-
-    > input, textarea {
-      color: $light-green;
-    }
-  }
-
-  &.-blue {
-    border-color: $blue;
-
-    > input, textarea {
-      color: $blue;
+      color: white;
     }
   }
 
@@ -145,6 +113,10 @@
     display: flex;
     position: absolute;
     align-items: center;
+  }
+
+  > .info-message {
+    opacity: 0.7;
   }
 
   .check-mark {
