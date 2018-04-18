@@ -23,8 +23,15 @@ $menu-panel-width: 200px;
  * Form
  */
 $form-width: 480px;
+$form-field-height: 80px;
+$form-field-padding-top: 16px;
 
 /**
  * Modal Header
  */
 $modal-header-height: 110px;
+
+/**
+ * Select
+ */
+$select-height: ($form-field-height * 4);

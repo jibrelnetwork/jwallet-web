@@ -1,7 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-import JPicker from 'components/base/JPicker'
+import React from 'react'
+
+import ethereum from 'data/assets/ethereum'
+import AssetPicker from 'components/AssetPicker'
 import { JButton, JInput } from 'components/base'
 
 import Optional from './Optional'
@@ -14,7 +16,6 @@ const FormStep = ({
   setGasPrice,
   setNonce,
   setNextStep,
-  digitalAssets,
   invalidFields,
   alert,
   sender,
@@ -24,7 +25,7 @@ const FormStep = ({
   gas,
   gasPrice,
   nonce,
-}) => (
+}: Props) => (
   <div className='form'>
     <div>{alert}</div>
     <JInput
@@ -34,17 +35,7 @@ const FormStep = ({
       color='gray'
       disabled
     />
-    <JPicker
-      onValueChange={setAsset}
-      selectedValue={assetAddress}
-      placeholder={i18n('routes.sendFunds.placeholder.symbol')}
-      name='send-funds-asset'
-      enabled
-    >
-      {digitalAssets.map(({ address, symbol }) => (
-        <JPicker.Item key={address} label={symbol} value={address} />
-      ))}
-    </JPicker>
+    <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
     <JInput
       onChange={setAmount}
       value={amount}
@@ -76,24 +67,42 @@ const FormStep = ({
   </div>
 )
 
-FormStep.propTypes = {
-  setAsset: PropTypes.func.isRequired,
-  setAmount: PropTypes.func.isRequired,
-  setRecipient: PropTypes.func.isRequired,
-  setGas: PropTypes.func.isRequired,
-  setGasPrice: PropTypes.func.isRequired,
-  setNonce: PropTypes.func.isRequired,
-  setNextStep: PropTypes.func.isRequired,
-  digitalAssets: PropTypes.arrayOf(PropTypes.object).isRequired,
-  invalidFields: PropTypes.shape({}).isRequired,
-  alert: PropTypes.string.isRequired,
-  sender: PropTypes.string.isRequired,
-  assetAddress: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
-  recipient: PropTypes.string.isRequired,
-  gas: PropTypes.string.isRequired,
-  gasPrice: PropTypes.string.isRequired,
-  nonce: PropTypes.string.isRequired,
+type Props = {
+  setAsset: Function,
+  setAmount: Function,
+  setRecipient: Function,
+  setGas: Function,
+  setGasPrice: Function,
+  setNonce: Function,
+  setNextStep: Function,
+  invalidFields: FormFields,
+  alert: ?string,
+  sender: string,
+  assetAddress: string,
+  amount: string,
+  recipient: string,
+  gas: string,
+  gasPrice: string,
+  nonce: string,
+}
+
+FormStep.defaultProps = {
+  setAsset: () => {},
+  setAmount: () => {},
+  setRecipient: () => {},
+  setGas: () => {},
+  setGasPrice: () => {},
+  setNonce: () => {},
+  setNextStep: () => {},
+  invalidFields: {},
+  alert: null,
+  sender: '',
+  assetAddress: ethereum.address,
+  amount: '',
+  recipient: '',
+  gas: '',
+  gasPrice: '',
+  nonce: '',
 }
 
 export default FormStep

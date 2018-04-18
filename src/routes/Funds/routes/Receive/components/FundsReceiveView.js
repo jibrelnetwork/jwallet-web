@@ -4,16 +4,14 @@ import React from 'react'
 
 import ethereum from 'data/assets/ethereum'
 import ModalLayout from 'layouts/ModalLayout'
-import JPicker from 'components/base/JPicker'
-import { ModalHeader, QRCode } from 'components'
 import { JButton, JInput } from 'components/base'
+import { AssetPicker, ModalHeader, QRCode } from 'components'
 
 const FundsReceiveView = ({
   setAsset,
   setAmount,
   saveQRCode,
   copyAddress,
-  digitalAssets,
   invalidFields,
   assetAddress,
   recipient,
@@ -29,17 +27,7 @@ const FundsReceiveView = ({
             saveQRCode={saveQRCode}
             isActive={amount && !invalidFields.amount}
           />
-          <JPicker
-            onValueChange={setAsset}
-            selectedValue={assetAddress}
-            name='receive-funds-asset'
-            placeholder={i18n('routes.receiveFunds.placeholder.symbol')}
-            enabled
-          >
-            {digitalAssets.map(({ address, symbol }) => (
-              <JPicker.Item key={address} label={symbol} value={address} />
-            ))}
-          </JPicker>
+          <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
           <JInput
             placeholder={i18n('routes.receiveFunds.placeholder.recipient')}
             value={recipient}
@@ -74,7 +62,6 @@ type Props = {
   setAmount: Function,
   saveQRCode: Function,
   copyAddress: Function,
-  digitalAssets: DigitalAssets,
   invalidFields: FormFields,
   assetAddress: Address,
   amount: string,
@@ -87,7 +74,6 @@ FundsReceiveView.defaultProps = {
   setAmount: () => {},
   saveQRCode: () => {},
   copyAddress: () => {},
-  digitalAssets: [],
   invalidFields: {},
   assetAddress: ethereum.address,
   amount: '',

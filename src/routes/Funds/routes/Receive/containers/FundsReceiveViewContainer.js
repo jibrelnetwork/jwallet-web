@@ -5,7 +5,8 @@ import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
 import getWalletNameAndAddress from 'utils/keystore/getWalletNameAndAddress'
-import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
+
+import FundsReceiveView from '../components/FundsReceiveView'
 
 import {
   open,
@@ -16,15 +17,19 @@ import {
   copyAddress,
 } from '../modules/receiveFunds'
 
-import FundsReceiveView from '../components/FundsReceiveView'
-
-const mapStateToProps = ({ digitalAssets, wallets, receiveFunds }: State) => ({
+const mapStateToProps: Function = ({ wallets, receiveFunds }: State) => ({
   ...receiveFunds,
-  digitalAssets: getActiveDigitalAssetsData(digitalAssets),
   recipient: getWalletNameAndAddress(wallets.activeWalletId),
 })
 
-const mapDispatchToProps = {
+const mapDispatchToProps: {
+  open: Function,
+  close: Function,
+  setAsset: Function,
+  setAmount: Function,
+  saveQRCode: Function,
+  copyAddress: Function,
+} = {
   open,
   close,
   setAsset,
