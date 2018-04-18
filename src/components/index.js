@@ -1,6 +1,7 @@
 // @flow
 
 import ActiveAssetsPanel from './ActiveAssetsPanel'
+import AssetPicker from './AssetPicker'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
@@ -19,6 +20,7 @@ import DerivationPath from './DerivationPath'
 
 export {
   ActiveAssetsPanel,
+  AssetPicker,
   ButtonWithConfirm,
   DigitalAssets,
   ESCButton,

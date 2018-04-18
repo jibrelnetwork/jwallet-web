@@ -5,7 +5,8 @@ import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
 import getWalletNameAndAddress from 'utils/keystore/getWalletNameAndAddress'
-import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
+
+import FundsSendView from '../components/FundsSendView'
 
 import {
   open,
@@ -20,15 +21,23 @@ import {
   setNextStep,
 } from '../modules/sendFunds'
 
-import FundsSendView from '../components/FundsSendView'
-
-const mapStateToProps = ({ digitalAssets, wallets, sendFunds }: State) => ({
+const mapStateToProps: Function = ({ wallets, sendFunds }: State) => ({
   ...sendFunds,
   sender: getWalletNameAndAddress(wallets.activeWalletId),
-  digitalAssets: getActiveDigitalAssetsData(digitalAssets),
 })
 
-const mapDispatchToProps = {
+const mapDispatchToProps: {
+  open: Function,
+  close: Function,
+  setAsset: Function,
+  setAmount: Function,
+  setRecipient: Function,
+  setGas: Function,
+  setGasPrice: Function,
+  setNonce: Function,
+  setPassword: Function,
+  setNextStep: Function,
+} = {
   open,
   close,
   setAsset,
