@@ -1,21 +1,9 @@
-/* @flow */
+// @flow
 
-import { compose } from 'ramda'
-import { withState, withHandlers } from 'recompose'
+import { withState } from 'recompose'
 
 import JSelect from './JSelect'
 
-export default compose(
-  withState('isOpen', 'toggle', false),
-  withHandlers({
-    open: ({ toggle }) => () => toggle(true),
-    close: ({ toggle }) => () => toggle(false),
-  }),
-  withHandlers({
-    onItemSelect: ({ onItemSelect, close }) =>
-      (itemId) => {
-        close()
-        onItemSelect(itemId)
-      },
-  }),
-)(JSelect)
+const JSelectContainer = withState('isOpen', 'toggle', false)(JSelect)
+
+export default JSelectContainer

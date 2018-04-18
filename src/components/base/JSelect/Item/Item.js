@@ -1,81 +1,31 @@
+// @flow
+
 import React from 'react'
 import classNames from 'classnames'
 
-import JText from '../../JText'
-import JIcon from '../../JIcon'
+import handle from 'utils/eventHandlers/handle'
 
-const Item = ({
-  id,
-  type,
-  icon,
-  title,
-  header,
-  active,
-  onClick,
-  selected,
-  description,
-}: Props) => (
+const Item = ({ onSelect, children, value, disabled }: Props) => (
   <div
-    onClick={() => onClick(id)}
-    className={classNames(
-      'Item',
-      `-${type}`, {
-        '-active': active,
-        '-selected': selected,
-      }
-    )}
+    onClick={disabled ? null : handle(onSelect)(value)}
+    className={classNames('j-select-item', disabled && '-disabled')}
   >
-    {{
-      token: [
-        <div className='data' key='data'>
-          <div className='title'>
-            <JText
-              value={selected ? header : title}
-              fontCase={selected ? 'upper' : null}
-              color={(selected && active) ? 'blue' : 'gray'}
-              size={selected ? 'small' : null}
-              weight={selected ? 'bold' : null}
-            />
-          </div>
-          <div className='description'>
-            <JText
-              value={selected ? `${title}: ${description}` : description}
-              fontCase={selected ? null : 'upper'}
-              color={(selected && active) ? 'blue' : 'gray'}
-              size={selected ? 'large' : null}
-              weight={selected ? 'bold' : null}
-            />
-          </div>
-        </div>,
-        <div className='icon' key='icon'>
-          <JIcon
-            name={`${icon}-${active ? 'blue' : 'gray'}`}
-            size='large'
-            transparent={!active}
-          />
-        </div>,
-      ],
-    }[type]}
+    {children}
   </div>
 )
 
 type Props = {
-  id: number | string,
-  icon: string,
-  type: 'token',
-  title: string,
-  index: number,
-  active?: boolean,
-  header?: string,
-  selected?: boolean,
-  description: string,
-  onClick: (itemId) => void,
+  onSelect: Function,
+  children: Object,
+  value: number | string | Object,
+  disabled: boolean,
 }
 
 Item.defaultProps = {
-  header: undefined,
-  active: false,
-  selected: false,
+  onSelect: () => {},
+  children: {},
+  value: 0,
+  disabled: false,
 }
 
 export default Item
