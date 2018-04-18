@@ -202,6 +202,13 @@ declare type DigitalAsset = {
   +isActive: boolean,
 }
 
+declare type DigitalAssetMainDataWithBalance = {
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +balance: number,
+}
+
 declare type DigitalAssets = Array<DigitalAsset>
 
 declare type DigitalAssetsData = {
