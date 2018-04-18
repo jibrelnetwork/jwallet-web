@@ -4,6 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import ethereum from 'data/assets/ethereum'
+import balanceToString from 'utils/digitalAssets/balanceToString'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 import { JAssetSymbol, JFlatButton, JIcon, JText } from 'components/base'
 
@@ -21,8 +22,6 @@ const AssetCard = ({
   isLoading,
   isHovered,
 }: Props) => {
-  const integer = balance ? Math.floor(balance) : 0
-  const decimals = balance ? (balance - integer).toFixed(2).substr(1) : 0
   const hoveredColor = (isHovered || isActive) ? 'blue' : 'gray'
   const assetColor = (color === 'white') ? hoveredColor : 'white'
 
@@ -45,7 +44,7 @@ const AssetCard = ({
       {(balance !== undefined) && (
         <div className='balance'>
           <JText
-            value={isLoading ? 'Loading' : `${integer.toFixed()}${decimals} ${symbol}`}
+            value={isLoading ? 'Loading' : `${balanceToString(balance)} ${symbol}`}
             weight='bold'
             color={assetColor}
           />
