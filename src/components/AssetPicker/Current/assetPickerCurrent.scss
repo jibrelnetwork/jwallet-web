@@ -3,8 +3,10 @@
 
   @include flex-row;
 
+  position: relative;
   align-items: center;
   flex-grow: 1;
+  max-width: 100%;
   cursor: pointer;
 
   &.-disabled {
@@ -22,8 +24,11 @@
     }
   }
 
-  > .info {
-    @include flex-row-center;
+  > .name {
+    @include box;
+
+    max-width: calc(100% - #{$token-icon-size});
+    padding-right: 30px;
   }
 
   > .symbol {

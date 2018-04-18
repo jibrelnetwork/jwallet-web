@@ -1,36 +1,40 @@
 // @flow
 
 import React from 'react'
+import { compose, filter, head, propEq } from 'ramda'
 
-import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import JSelect, { JSelectItem } from 'components/base/JSelect'
 
 import Current from './Current'
 import Item from './Item'
 
-const AssetPicker = ({ onSelect, items, balances, currentAsset, label, disabled }: Props) => {
-  const foundAsset: ?DigitalAsset = getDigitalAssetByAddress(currentAsset, items)
+const getAssetByAddress = (
+  address: ?Address,
+  assets: Array<DigitalAssetMainDataWithBalance>,
+): ?DigitalAssetMainDataWithBalance => {
+  return !address ? null : compose(
+    head,
+    filter(propEq('address', address)),
+  )(assets)
+}
+
+const AssetPicker = ({ onSelect, activeAssets, currentAsset, label, disabled }: Props) => {
+  const foundAsset: ?DigitalAssetMainDataWithBalance = getAssetByAddress(currentAsset, activeAssets)
 
   return (
     <div className='asset-picker'>
       <JSelect
-        label={label}
         color='gray'
+        label={label}
         disabled={disabled}
-        current={!foundAsset ? null : (
-          <Current
-            name={foundAsset.name}
-            symbol={foundAsset.symbol}
-            balance={currentAsset ? balances[currentAsset] : 0}
-          />
-        )}
+        current={foundAsset ? <Current {...foundAsset} /> : null}
       >
-        {items.map(({ address, symbol, name }: DigitalAsset) => (
+        {activeAssets.map(({ address, symbol, name, balance }: DigitalAssetMainDataWithBalance) => (
           <JSelectItem key={address} onSelect={onSelect} value={address}>
             <Item
               name={name}
               symbol={symbol}
-              balance={balances[address]}
+              balance={balance}
               active={address === currentAsset}
             />
           </JSelectItem>
@@ -42,8 +46,7 @@ const AssetPicker = ({ onSelect, items, balances, currentAsset, label, disabled 
 
 type Props = {
   onSelect: Function,
-  items: DigitalAssets,
-  balances: Balances,
+  activeAssets: Array<DigitalAssetMainDataWithBalance>,
   currentAsset: ?Address,
   label: string,
   disabled: boolean,
@@ -51,8 +54,7 @@ type Props = {
 
 AssetPicker.defaultProps = {
   onSelect: () => {},
-  items: [],
-  balances: {},
+  activeAssets: [],
   currentAsset: null,
   label: 'Asset',
   disabled: false,
