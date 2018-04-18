@@ -1,1 +1,5 @@
-export { default } from './AssetPickerContainer'
+// @flow
+
+import AssetPicker from './AssetPickerContainer'
+
+export default AssetPicker

@@ -1,0 +1,34 @@
+.asset-picker-current {
+  all: initial;
+
+  @include flex-row;
+
+  align-items: center;
+  flex-grow: 1;
+  cursor: pointer;
+
+  &.-disabled {
+    cursor: default;
+
+    &:hover > .symbol {
+      opacity: 0.2;
+    }
+  }
+
+  &:hover,
+  &.-active {
+    > .symbol {
+      opacity: 0.5;
+    }
+  }
+
+  > .info {
+    @include flex-row-center;
+  }
+
+  > .symbol {
+    margin-left: auto;
+    opacity: 0.2;
+    transition: opacity 0.3s ease 0s;
+  }
+}
