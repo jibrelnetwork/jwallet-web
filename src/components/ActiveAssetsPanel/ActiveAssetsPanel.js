@@ -54,7 +54,7 @@ type Props = {
   setCurrent: Function,
   goToWallets: Function,
   goToDigitalAssets: Function,
-  digitalAssets: DigitalAssets,
+  digitalAssets: Array<DigitalAssetMainDataWithBalance>,
   hoveredAsset: ?Address,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
