@@ -1,1 +1,5 @@
-export { default } from './ItemContainer'
+// @flow
+
+import Item from './Item'
+
+export default Item

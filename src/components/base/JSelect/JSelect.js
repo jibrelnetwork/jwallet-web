@@ -4,62 +4,66 @@ import React from 'react'
 import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import JIcon from 'components/base//JIcon'
-
-import Item from './Item'
+import handle from 'utils/eventHandlers/handle'
+import { JIcon, JText } from 'components/base'
 
 const JSelect = ({
-  open,
-  close,
-  content,
-  title,
-  selectedItemId,
+  toggle,
+  children,
+  current,
+  color,
+  label,
   isOpen,
+  disabled,
 }: Props) => (
-  <div className={classNames('JSelect', { '-open': isOpen })}>
-    <div className='selected-item'>
-      <div className='item'>
-        <Item
-          type={content.type}
-          header={title}
-          active={isOpen}
-          onClick={isOpen ? close : open}
-          selected
-          {...content.items[selectedItemId]}
-        />
+  <div
+    className={classNames(
+      'j-select',
+      isOpen && '-active',
+      current && '-value',
+      disabled && '-disabled',
+    )}
+  >
+    <div className='current' onClick={disabled ? null : handle(toggle)(!isOpen)}>
+      <div className='label'>
+        <JText value={label} color={color} size='small' fontCase='upper' />
       </div>
-      <div className='expand'>
-        <JIcon
-          name='expand-gray'
-          size='small'
-        />
+      <div className='placeholder'>
+        <JText value={label} color={color} size='large' />
+      </div>
+      <div className='content'>
+        {current && React.cloneElement(current, { isOpen, disabled })}
+      </div>
+      <div className='chevron'>
+        <JIcon name='expand' color={color} />
       </div>
     </div>
-    <div className='selection-list'>
-      <Scrollbars autoHide>
+    <div className='options' onClick={handle(toggle)(false)}>
+      <Scrollbars>
+        {children}
       </Scrollbars>
     </div>
   </div>
 )
 
-type Token = {
-  items: Array<{
-    id: string | number,
-    icon: string,
-    title: string,
-    description: string,
-  }>,
-  type: 'token',
+type Props = {
+  toggle: Function,
+  children: ?Object,
+  current: ?Object,
+  color: 'blue' | 'gray' | 'white',
+  label: string,
+  isOpen: bool,
+  disabled: bool,
 }
 
-type Props = {
-  open: () => void,
-  close: () => void,
-  onItemSelect: (itemId: number) => void,
-  content: Token,
-  title: string,
-  selectedItemId: number,
-  isOpen: bool,
+JSelect.defaultProps = {
+  toggle: () => {},
+  children: null,
+  current: null,
+  color: 'white',
+  label: '',
+  isOpen: false,
+  disabled: false,
 }
 
 export default JSelect

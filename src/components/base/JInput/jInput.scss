@@ -65,12 +65,10 @@
   }
 
   > .label {
+    position: absolute;
     top: 22px;
     left: 0;
     opacity: 0.5;
-    position: absolute;
-    font-size: 11px;
-    text-transform: uppercase;
     pointer-events: none;
   }
 
