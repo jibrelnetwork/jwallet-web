@@ -1,5 +1,6 @@
 // @flow
 
+import balanceToString from './balanceToString'
 import filterDigitalAssets from './filterDigitalAssets'
 import getActiveDigitalAssetsData from './getActiveDigitalAssetsData'
 import getAssetDecimals from './getAssetDecimals'
@@ -11,6 +12,7 @@ import isJNT from './isJNT'
 import searchDigitalAssets from './searchDigitalAssets'
 
 export {
+  balanceToString,
   filterDigitalAssets,
   getActiveDigitalAssetsData,
   getAssetDecimals,
