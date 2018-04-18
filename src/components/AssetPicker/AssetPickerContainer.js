@@ -2,14 +2,14 @@
 
 import { connect } from 'react-redux'
 
+import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
+
 import AssetPicker from './AssetPicker'
 
 const mapStateToProps: Function = ({ digitalAssets }: State): {
-  items: DigitalAssets,
-  balances: Balances,
+  activeAssets: Array<DigitalAssetMainDataWithBalance>,
 } => ({
-  items: digitalAssets.items,
-  balances: digitalAssets.balances,
+  activeAssets: getActiveDigitalAssetsData(digitalAssets),
 })
 
 export default connect(mapStateToProps)(AssetPicker)
