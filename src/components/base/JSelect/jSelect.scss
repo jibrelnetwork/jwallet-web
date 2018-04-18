@@ -4,11 +4,12 @@
   all: initial;
 
   @include box;
-  @include flex-column-center;
+  @include flex-column;
 
   position: relative;
-  width: 480px;
+  width: $form-width;
   border-bottom: 1px solid rgba($dusk, 0.1);
+  transition: padding 0.3s ease 0s;
 
   &.-disabled {
     opacity: 0.7;
@@ -24,14 +25,14 @@
 
   &.-active {
     > .options {
-      max-height: 320px;
+      max-height: $select-height;
       visibility: visible;
       opacity: 1;
     }
   }
 
   &.-value {
-    padding-top: 16px;
+    padding-top: $form-field-padding-top;
 
     > .current {
       > .label {
@@ -49,11 +50,11 @@
   }
 
   > .current {
-    @include flex-row-center;
+    @include flex-row;
 
-    height: 80px;
+    align-items: center;
+    height: $form-field-height;
     width: 100%;
-    transition: padding 0.3s ease 0s;
     cursor: pointer;
 
     > .label {
@@ -63,8 +64,6 @@
       width: 0;
       overflow: hidden;
       visibility: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       opacity: 0;
       transition: opacity 0.3s ease 0s;
       pointer-events: none;
@@ -74,16 +73,16 @@
       width: auto;
       overflow: hidden;
       visibility: visible;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       opacity: 0.7;
       transition: opacity 0.3s ease 0s;
     }
 
     > .content {
+      @include box;
       @include flex-row;
 
       flex-grow: 1;
+      max-width: $form-width - $icon-small-size;
       padding-right: 20px;
     }
 
@@ -99,7 +98,7 @@
 
   > .options {
     max-height: 0;
-    height: 320px;
+    height: $select-height;
     width: 100%;
     visibility: hidden;
     overflow: hidden;

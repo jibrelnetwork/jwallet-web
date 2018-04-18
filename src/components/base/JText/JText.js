@@ -3,10 +3,14 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const JText = ({ value, size, color, weight, fontCase }: Props) => (
+const JText = ({ value, size, color, weight, fontCase, whiteSpace, align }: Props) => (
   <div
     className={classNames(
-      `j-text -${size} -${color}`, weight && `-${weight}`, fontCase && `-${fontCase}`,
+      `j-text -${size} -${color}`,
+      align && `-${align}`,
+      weight && `-${weight}`,
+      fontCase && `-${fontCase}`,
+      whiteSpace && `-${whiteSpace}`,
     )}
   >
     {i18n(value) || value}
@@ -15,18 +19,22 @@ const JText = ({ value, size, color, weight, fontCase }: Props) => (
 
 type Props = {
   value: string,
-  size: 'small' | 'normal' | 'large' | 'header' | 'title',
-  color: 'blue' | 'gray' | 'red' | 'white',
-  weight: 'bold' | 'bolder' | null,
+  align: 'center' | null,
   fontCase: 'upper' | null,
+  whiteSpace: 'nowrap' | 'wrap',
+  weight: 'bold' | 'bolder' | null,
+  color: 'blue' | 'gray' | 'red' | 'white',
+  size: 'small' | 'normal' | 'large' | 'header' | 'title',
 }
 
 JText.defaultProps = {
   value: '',
+  align: null,
+  weight: null,
   size: 'normal',
   color: 'white',
-  weight: null,
   fontCase: null,
+  whiteSpace: 'nowrap',
 }
 
 export default JText

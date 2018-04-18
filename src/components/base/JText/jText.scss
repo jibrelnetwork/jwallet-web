@@ -3,10 +3,13 @@
 
   @include font;
 
+  display: inline-block;
+  max-width: 100%;
+  line-height: inherit;
   transition: color 0.3s ease 0s, opacity 0.3s ease 0s;
   cursor: inherit;
 
-  // Colors
+  // Color
 
   &.-blue {
     color: $blue;
@@ -24,7 +27,7 @@
     color: $white;
   }
 
-  // Sizes
+  // Size
 
   &.-small {
     font-size: 11px;
@@ -60,5 +63,23 @@
 
   &.-upper {
     text-transform: uppercase;
+  }
+
+  // White-space
+
+  &.-wrap {
+    White-space: normal;
+  }
+
+  &.-nowrap {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // Align
+
+  &.-center {
+    text-align: center;
   }
 }

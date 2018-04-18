@@ -19,7 +19,7 @@ const JThumbnail = ({
       </div>
     )}
     <div className='description'>
-      <JText value={description} color={color} />
+      <JText value={description} color={color} whiteSpace='wrap' align='center' />
     </div>
   </div>
 )
