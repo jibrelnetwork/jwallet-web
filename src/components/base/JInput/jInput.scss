@@ -3,11 +3,13 @@
 
 .j-input {
   all: initial;
-  cursor: inherit;
-  display: flex;
+
+  @include flex-column;
+
   position: relative;
-  border-bottom: 1px solid #ebedf0;
-  flex-direction: column;
+  height: $form-field-height;
+  border-bottom: 1px solid rgba($dusk, 0.1);
+  cursor: inherit;
 
   &.-disabled {
     > input, textarea {

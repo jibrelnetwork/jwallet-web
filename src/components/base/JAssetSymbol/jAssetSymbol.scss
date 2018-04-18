@@ -9,11 +9,12 @@
   background-size: $token-icon-size $token-icon-size;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: linear-gradient(to top, $dusk, $dusk);
   border-radius: 50%;
   cursor: inherit;
 
   &.-blue {
+    background-image: linear-gradient(to top, $blue, $blue);
+
     &.-symbol-1st { background-image: $token-1st-blue }
     &.-symbol-adt { background-image: $token-adt-blue }
     &.-symbol-ant { background-image: $token-ant-blue }
@@ -76,6 +77,8 @@
   }
 
   &.-gray {
+    background-image: linear-gradient(to top, $dusk, $dusk);
+
     &.-symbol-1st { background-image: $token-1st-gray }
     &.-symbol-adt { background-image: $token-adt-gray }
     &.-symbol-ant { background-image: $token-ant-gray }
@@ -138,6 +141,8 @@
   }
 
   &.-white {
+    background-image: linear-gradient(to top, $white, $white);
+
     &.-symbol-1st { background-image: $token-1st-white }
     &.-symbol-adt { background-image: $token-adt-white }
     &.-symbol-ant { background-image: $token-ant-white }
