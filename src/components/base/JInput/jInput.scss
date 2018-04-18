@@ -23,12 +23,23 @@
     > input, textarea {
       color: $blue;
     }
+
+    > input:-webkit-autofill {
+      box-shadow: 0 0 0 60px $blue-two inset;
+      -webkit-text-fill-color: $blue !important;
+    }
   }
 
   &.-gray {
     border-bottom: 1px solid #ebedf0;
+
     > input, textarea {
       color: $dusk;
+    }
+
+    > input:-webkit-autofill {
+      box-shadow: 0 0 0 60px $white inset;
+      -webkit-text-fill-color: $dusk !important;
     }
   }
 
@@ -41,9 +52,15 @@
   }
 
   &.-white {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid $white;
+
     > input, textarea {
-      color: white;
+      color: $white;
+    }
+
+    > input:-webkit-autofill {
+      box-shadow: 0 0 0 60px $blue inset;
+      -webkit-text-fill-color: $white !important;
     }
   }
 
@@ -63,7 +80,10 @@
         color: $pinkish-tan;
       }
     }
-    
+
+    > input:-webkit-autofill {
+      -webkit-text-fill-color: $pinkish-tan !important;
+    }
   }
 
   > .label {
