@@ -1,0 +1,55 @@
+.j-radio {
+  all: initial;
+
+  @include flex-row;
+
+  align-items: center;
+  margin-bottom: 20px;
+  opacity: 0.5;
+  transition: opacity 0.3s ease 0s;
+  cursor: pointer;
+
+  &:hover,
+  &.-active {
+    opacity: 1;
+  }
+
+  &.-active > .input > .label {
+    background-image: $icon-small-checkbox-blue;
+  }
+
+  > .input {
+    @include flex-row;
+
+    > .radio {
+      width: 0;
+      visibility: hidden;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    > .label {
+      @include hover-animation;
+      @include flex-row-center;
+
+      display: flex;
+      width: 16px;
+      height: 16px;
+      margin-right: 15px;
+      background-color: $white;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: $icon-small-checkbox-white;
+      background-size: $icon-small-size $icon-small-size;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+
+  > .content {
+    @include flex-row;
+
+    flex-grow: 1;
+    align-items: center;
+  }
+}
