@@ -1,55 +1,65 @@
-// INFO
-// Modified version of old DerivationPath component with
-// new inner JRadioButton and JRadioInput components
+// @flow
 
 import React from 'react'
 
+import JRadio from 'components/base/JRadio'
+import handle from 'utils/eventHandlers/handle'
 import getKnownDerivationPaths from 'utils/keystore/getKnownDerivationPaths'
-import { JRadioButton, JRadioInput } from 'components/base'
+
+import Known from './Known'
+import Custom from './Custom'
 
 const DerivationPath = ({
+  setKnownDerivationPath,
+  setCustomDerivationPath,
   errorMessage,
   knownDerivationPath,
   customDerivationPath,
-  setKnownDerivationPath,
-  setCustomDerivationPath,
   selectedDerivationPathType,
 }: Props) => (
-  <div className='DerivationPath'>
+  <div className='derivation-path'>
     {getKnownDerivationPaths().map(({ path, description }, index) => (
-      <div className='known-derivation-path' key={index}>
-        <JRadioButton
-          text={path}
-          checked={knownDerivationPath === path && selectedDerivationPathType === 'known'}
-          onCheck={setKnownDerivationPath(path)}
-          description={description}
-        />
-      </div>
+      <JRadio
+        key={index}
+        toggle={setKnownDerivationPath(path)}
+        name={index}
+        isActive={(knownDerivationPath === path) && (selectedDerivationPathType === 'known')}
+      >
+        <Known path={path} description={description} />
+      </JRadio>
     ))}
-    <div className='custom-derivation-path'>
-      <JRadioInput
-        value={customDerivationPath}
-        checked={selectedDerivationPathType === 'custom'}
-        onCheck={() => setCustomDerivationPath(customDerivationPath)}
-        onChange={setCustomDerivationPath}
-        placeholder={i18n('modals.derivationPath.placeholder.customDerivationPath')}
-        errorMessage={errorMessage}
-      />
+    <div className='custom'>
+      <JRadio
+        toggle={handle(setCustomDerivationPath)(customDerivationPath)}
+        name={'custom-path'}
+        isActive={selectedDerivationPathType === 'custom'}
+      >
+        <Custom
+          onChange={setCustomDerivationPath}
+          value={customDerivationPath}
+          error={errorMessage}
+        />
+      </JRadio>
     </div>
   </div>
 )
 
 type Props = {
-  errorMessage?: string,
-  knownDerivationPath: string,
-  customDerivationPath: string,
   setKnownDerivationPath: Function,
   setCustomDerivationPath: Function,
+  errorMessage: string,
+  knownDerivationPath: string,
+  customDerivationPath: string,
   selectedDerivationPathType: 'custom' | 'known'
 }
 
 DerivationPath.defaultProps = {
+  setKnownDerivationPath: () => {},
+  setCustomDerivationPath: () => {},
   errorMessage: '',
+  knownDerivationPath: '',
+  customDerivationPath: '',
+  selectedDerivationPathType: 'custom',
 }
 
 export default DerivationPath
