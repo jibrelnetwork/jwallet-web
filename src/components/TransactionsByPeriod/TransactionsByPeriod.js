@@ -16,8 +16,7 @@ const TransactionsByPeriod = ({
   <div className='transactions-by-period'>
     {Object.keys(transactionsByPeriod).map((period: string) => (
       <div key={period} className='card'>
-        <JCard withShadow>
-          <div className='period'>{period}</div>
+        <JCard title={period} withShadow>
           {transactionsByPeriod[period].map((transaction: Transaction) => (
             <TransactionItem
               key={transaction.transactionHash}
