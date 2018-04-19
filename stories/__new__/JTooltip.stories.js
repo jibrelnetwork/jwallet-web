@@ -1,10 +1,10 @@
-
-/* @flow */
+// @flow
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { JIcon, JTooltip } from '../../src/components/base'
+import JIcon from '../../src/components/base/JIcon'
+import JTooltip from '../../src/components/base/JTooltip'
 
 storiesOf('JTooltip', module)
   .add('Default', () => (
