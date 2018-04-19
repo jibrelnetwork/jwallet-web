@@ -30,12 +30,12 @@ const CustomAsset = ({
     handler: Function,
     key: string,
     value: string,
-    disabled: boolean,
+    isDisabled: boolean,
   }> = [
-    { handler: setAddress, key: 'address', value: address, disabled: !isAdd },
-    { handler: setName, key: 'name', value: name, disabled: false },
-    { handler: setSymbol, key: 'symbol', value: symbol, disabled: false },
-    { handler: setDecimals, key: 'decimals', value: decimals, disabled: false },
+    { handler: setAddress, key: 'address', value: address, isDisabled: !isAdd },
+    { handler: setName, key: 'name', value: name, isDisabled: false },
+    { handler: setSymbol, key: 'symbol', value: symbol, isDisabled: false },
+    { handler: setDecimals, key: 'decimals', value: decimals, isDisabled: false },
   ]
 
   return (
@@ -48,16 +48,16 @@ const CustomAsset = ({
         />
       </div>
       <div className='form'>
-        {fields.map(({ key, value, handler, disabled }) => (
+        {fields.map(({ key, value, handler, isDisabled }) => (
           <JInput
             key={key}
             onChange={handler}
+            color='white'
             value={value}
-            color='gray'
             name={`custom-asset-${key}`}
-            placeholder={i18n(`routes.addCustomAsset.placeholder.${key}`)}
             errorMessage={invalidFields[key]}
-            disabled={disabled}
+            placeholder={`routes.addCustomAsset.placeholder.${key}`}
+            isDisabled={isDisabled}
           />
         ))}
         <div className='actions'>

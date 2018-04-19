@@ -29,8 +29,8 @@ const Optional = ({
             value={value}
             name={`send-funds-${key}`}
             errorMessage={invalidFields[key]}
-            placeholder={i18n(`routes.sendFunds.placeholder.${key}`)}
-            color='gray'
+            placeholder={`routes.sendFunds.placeholder.${key}`}
+            color='white'
           />
         ))}
       </Expandable>

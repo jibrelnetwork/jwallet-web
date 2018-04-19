@@ -14,7 +14,7 @@
       border: 1px solid rgba($white, 0.4);
 
       &.-gray {
-        border: 1px solid rgba($gray, 0.4);
+        border: 1px solid rgba($dusk, 0.4);
       }
 
       &.-spin {
@@ -43,7 +43,7 @@
     border-radius: 50%;
 
     &.-gray {
-      border: 1px solid rgba($gray, 0.2);
+      border: 1px solid rgba($dusk, 0.2);
     }
   }
 }

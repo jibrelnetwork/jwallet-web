@@ -24,10 +24,11 @@ const FormStep = ({
     <JInput
       onChange={setName}
       value={name}
-      name='edit-wallet-name'
       errorMessage={invalidFields.name}
       successMessage={validFields.name}
-      placeholder={i18n('routes.editWallet.placeholder.name')}
+      color='blue'
+      name='edit-wallet-name'
+      placeholder='routes.editWallet.placeholder.name'
     />
     {isMnemonicType(walletType) && (
       <Expandable title='Advanced' color='white'>

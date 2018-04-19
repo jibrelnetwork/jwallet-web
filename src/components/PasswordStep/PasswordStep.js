@@ -21,11 +21,11 @@ const PasswordStep = ({
     <PasswordField
       onPasswordChange={setPassword}
       onPasswordConfirmChange={setPasswordConfirm}
+      color={color}
       password={password}
       passwordConfirm={passwordConfirm}
       passwordError={invalidFields.password}
       passwordConfirmError={invalidFields.passwordConfirm}
-      color={(color !== 'white') ? 'white' : 'gray'}
       withConfirm={!!setPasswordConfirm}
     />
     <div className='actions'>
@@ -47,19 +47,23 @@ const PasswordStep = ({
 type Props = {
   setPassword: (password: Password) => Dispatch,
   setNextStep: () => Dispatch,
-  invalidFields: Object,
+  invalidFields: FormFields,
   password: Password,
-  setPasswordConfirm?: (passwordConfirm: Password) => Dispatch,
-  setPrevStep?: () => Dispatch,
-  color?: string,
-  buttonPrevText?: string,
-  buttonNextText?: string,
-  passwordConfirm?: Password,
+  setPasswordConfirm: (passwordConfirm: Password) => Dispatch,
+  setPrevStep: () => Dispatch,
+  color: string,
+  buttonPrevText: string,
+  buttonNextText: string,
+  passwordConfirm: Password,
 }
 
 PasswordStep.defaultProps = {
-  setPasswordConfirm: undefined,
-  setPrevStep: undefined,
+  setPassword: () => {},
+  setNextStep: () => {},
+  invalidFields: {},
+  password: '',
+  setPasswordConfirm: null,
+  setPrevStep: null,
   color: 'white',
   buttonPrevText: 'Previous step',
   buttonNextText: 'Confirm',
