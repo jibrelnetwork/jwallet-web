@@ -1,3 +1,5 @@
+// @flow
+
 import keystore from 'services/keystore'
 
 const getWalletNameAndAddress = (walletId: ?WalletId): string => {

@@ -1,6 +1,6 @@
 // @flow
 
-import knownPaths from '../../data/derivationPaths'
+import knownPaths from 'data/derivationPaths'
 
 const getKnownDerivationPaths = () => {
   return knownPaths.map(({ path }, index) => ({
