@@ -25,6 +25,7 @@ $menu-panel-width: 200px;
 $form-width: 480px;
 $form-field-height: 80px;
 $form-field-padding-top: 16px;
+$form-field-full-height: ($form-field-height + $form-field-padding-top);
 
 /**
  * Modal Header

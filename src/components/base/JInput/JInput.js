@@ -4,102 +4,93 @@ import React from 'react'
 import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
-import { JIcon, JText } from 'components/base'
 
 const JInput = ({
   onChange,
+  type,
+  value,
+  color,
   label,
   placeholder,
   infoMessage,
   errorMessage,
-  value,
-  color,
-  type,
-  checked,
-  disabled,
-  multiline,
   isLoading,
-}: Props) => (
-  <div
-    className={classNames(
-      'j-input',
-      type && `-${type}`,
-      color && `-${color}`,
-      disabled && '-disabled',
-      errorMessage && '-with-error',
-    )}
-  >
-    {multiline ? (
-      <textarea
-        rows={2}
-        value={value}
-        onChange={handleTargetValue(onChange)}
-        disabled={disabled}
-        placeholder={placeholder}
-      />
-    ) : (
-      <input
-        type={type}
-        value={value}
-        disabled={disabled}
-        onChange={handleTargetValue(onChange)}
-        placeholder={placeholder}
-      />
-    )}
-    <div className='label'>
-      <JText value={label || placeholder} color={color} size='small' fontCase='upper' />
+  isChecked,
+  isDisabled,
+  isMultiline,
+}: Props) => {
+  const labelOrPlaceholder = label || placeholder
+
+  return (
+    <div
+      className={classNames(
+        'j-input',
+        type && `-${type}`,
+        !!value && '-value',
+        color && `-${color}`,
+        infoMessage && '-info',
+        isLoading && '-loading',
+        isChecked && '-checked',
+        errorMessage && '-error',
+        isDisabled && '-disabled',
+      )}
+    >
+      {isMultiline ? (
+        <textarea
+          onChange={handleTargetValue(onChange)}
+          className='textarea'
+          rows={2}
+          value={value}
+          disabled={isDisabled}
+          placeholder={i18n(placeholder) || placeholder}
+        />
+      ) : (
+        <input
+          onChange={handleTargetValue(onChange)}
+          className='input'
+          type={type}
+          value={value}
+          disabled={isDisabled}
+          placeholder={i18n(placeholder) || placeholder}
+        />
+      )}
+      <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>
+      {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
+      {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
+      <div className='tick' />
+      <div className='loader' />
     </div>
-    {errorMessage && (
-      <div className='error-message'>
-        <JText value={errorMessage} size='small' color='red' />
-      </div>
-    )}
-    {infoMessage && (
-      <div className='info-message'>
-        <JText value={infoMessage} color={color} />
-      </div>
-    )}
-    {isLoading && (
-      <div className='loader'>
-        <JIcon name='loader' size='medium' />
-      </div>
-    )}
-    {checked && (
-      <div className='check-mark'>
-        <JIcon name='checkbox-white' size='small' />
-      </div>
-    )}
-  </div>
-)
+  )
+}
 
 type Props = {
   onChange: Function,
   label: string,
   placeholder: string,
-  infoMessage: string,
-  errorMessage: string,
+  infoMessage: ?string,
+  errorMessage: ?string,
   value: string | number,
-  color: 'white' | 'gray',
+  color: 'blue' | 'white',
   type: 'text' | 'password',
-  checked: boolean,
-  disabled: boolean,
-  multiline: boolean,
   isLoading: boolean,
+  isChecked: boolean,
+  isDisabled: boolean,
+  isMultiline: boolean,
 }
 
 JInput.defaultProps = {
   onChange: () => {},
+  label: '',
+  value: '',
   type: 'text',
   color: 'white',
-  checked: false,
-  disabled: false,
-  multiline: false,
+  placeholder: '',
+  infoMessage: null,
+  errorMessage: null,
   isLoading: false,
-  label: undefined,
-  value: undefined,
-  placeholder: undefined,
-  infoMessage: undefined,
-  errorMessage: undefined,
+  isChecked: false,
+  isDisabled: false,
+  isMultiline: false,
 }
 
 export default JInput

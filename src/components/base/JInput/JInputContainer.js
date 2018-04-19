@@ -1,3 +1,5 @@
+// @flow
+
 import { pure } from 'recompose'
 
 import JInput from './JInput'
