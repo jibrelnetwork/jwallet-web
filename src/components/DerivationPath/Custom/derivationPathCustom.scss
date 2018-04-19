@@ -1,0 +1,44 @@
+.derivation-path-custom {
+  all: initial;
+
+  @include flex-row;
+
+  position: relative;
+  align-items: center;
+  height: 100%;
+  flex-grow: 1;
+
+  &.-error {
+    &:after {
+      position: absolute;
+      right: 0;
+      bottom: -20px;
+      display: block;
+      height: 1px;
+      width: 100%;
+      background-color: $pinkish-tan;
+      content: '';
+    }
+
+    > .input {
+      color: $pinkish-tan;
+    }
+  }
+
+  > .input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: $white;
+
+    &::placeholder {
+      color: $white;
+    }
+  }
+
+  > .error {
+    position: absolute;
+    right: 0;
+    bottom: -20px;
+  }
+}

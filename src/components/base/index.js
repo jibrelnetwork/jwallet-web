@@ -9,6 +9,7 @@ import JIcon from './JIcon'
 import JInput from './JInput'
 import JLoader from './JLoader'
 import JLogo from './JLogo'
+import JRadio from './JRadio'
 import JRadioButton from './JRadioButton'
 import JRadioInput from './JRadioInput'
 import JSearch from './JSearch'
@@ -29,6 +30,7 @@ export {
   JInput,
   JLoader,
   JLogo,
+  JRadio,
   JRadioButton,
   JRadioInput,
   JSearch,

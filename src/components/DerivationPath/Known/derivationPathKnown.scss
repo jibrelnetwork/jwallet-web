@@ -1,0 +1,18 @@
+.derivation-path-known {
+  all: initial;
+
+  @include flex-row;
+
+  align-items: center;
+  flex-grow: 1;
+  cursor: pointer;
+
+  > .path,
+  > .description {
+    @include flex-row-center;
+  }
+
+  > .description {
+    margin-left: auto;
+  }
+}
