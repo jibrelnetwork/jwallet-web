@@ -101,19 +101,12 @@
   @import '../components/base/JLogo/jLogo';
   @import '../components/base/JRadio/jRadio';
   @import '../components/base/JSearch/jSearch';
-  @import '../components/base/JTabs/jTabs';
-  @import '../components/base/JLogo/jLogo';
-  @import '../components/base/JCard/jCard';
   @import '../components/base/JSelect/jSelect';
+  @import '../components/base/JTabs/jTabs';
   @import '../components/base/JText/jText';
   @import '../components/base/JThumbnail/jThumbnail';
-  @import '../components/base/JToast/jToast';
-  @import '../components/base/JTooltip/jTooltip';
-  @import '../components/base/JRadioGroup/JRadioGroup';
-  @import '../components/base/JRadioGroup/Radio/Radio';
-  @import '../components/base/JRadioGroup/Input/Input';
-  @import '../components/base/JRadioButton/JRadioButton';
-  @import '../components/base/JRadioInput/JRadioInput';
+  // @import '../components/base/JToast/jToast';
+  // @import '../components/base/JTooltip/jTooltip';
 
   // Components
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
@@ -121,19 +114,17 @@
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/DerivationPath/derivationPath';
   @import '../components/DigitalAssets/digitalAssets';
-  @import '../components/WalletHeader/walletHeader';
-  @import '../components/ModalHeader/modalHeader';
+  @import '../components/Expandable/expandable';
   @import '../components/MenuPanel/menuPanel';
   @import '../components/ModalHeader/modalHeader';
   @import '../components/NewWalletButtons/newWalletButtons';
+  @import '../components/PasswordField/passwordField';
   @import '../components/QRCode/qrCode';
   @import '../components/RoundIconButton/roundIconButton';
   @import '../components/TransactionsByPeriod/transactionsByPeriod';
   @import '../components/TransactionsEmpty/transactionsEmpty';
   @import '../components/WalletHeader/walletHeader';
   @import '../components/WalletManager/walletManager';
-  @import '../components/PasswordField/passwordField';
-  @import '../components/Expandable/expandable';
 
   // Views
   @import '../routes/CustomAsset/styles/customAsset';

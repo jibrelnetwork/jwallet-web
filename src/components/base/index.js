@@ -10,15 +10,13 @@ import JInput from './JInput'
 import JLoader from './JLoader'
 import JLogo from './JLogo'
 import JRadio from './JRadio'
-import JRadioButton from './JRadioButton'
-import JRadioInput from './JRadioInput'
 import JSearch from './JSearch'
 import JSelect from './JSelect'
 import JTabs from './JTabs'
 import JText from './JText'
 import JThumbnail from './JThumbnail'
-import JToast from './JToast'
-import JTooltip from './JTooltip'
+// import JToast from './JToast'
+// import JTooltip from './JTooltip'
 
 export {
   JAssetSymbol,
@@ -31,13 +29,11 @@ export {
   JLoader,
   JLogo,
   JRadio,
-  JRadioButton,
-  JRadioInput,
   JSearch,
   JSelect,
   JTabs,
   JText,
   JThumbnail,
-  JToast,
-  JTooltip,
+  // JToast,
+  // JTooltip,
 }

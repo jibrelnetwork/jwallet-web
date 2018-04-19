@@ -1,1 +1,5 @@
-export { default } from './DerivationPath'
+// @flow
+
+import DerivationPath from './DerivationPath'
+
+export default DerivationPath
