@@ -25,10 +25,11 @@ const DataStep = ({
     <JInput
       onChange={setData}
       value={data}
-      name='import-wallet-data'
       errorMessage={invalidFields.data}
       successMessage={validFields.data}
-      placeholder={i18n('routes.importWallet.placeholder.data')}
+      color='blue'
+      name='import-wallet-data'
+      placeholder='routes.importWallet.placeholder.data'
     />
     {isMnemonicType(walletType) && (
       <Expandable title='Advanced' color='white'>
@@ -45,8 +46,8 @@ const DataStep = ({
     <div className='actions'>
       <JFlatButton
         onClick={setPrevStep}
-        text={'routes.createWallet.buttonTitle.prevStep'}
         iconName='arrow'
+        text='routes.createWallet.buttonTitle.prevStep'
         transparent
       />
       <div className='next'>

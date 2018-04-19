@@ -29,19 +29,19 @@ const FundsReceiveView = ({
           />
           <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
           <JInput
-            placeholder={i18n('routes.receiveFunds.placeholder.recipient')}
             value={recipient}
-            color='gray'
+            color='white'
             name='receive-funds-recipient'
-            disabled
+            placeholder='routes.receiveFunds.placeholder.recipient'
+            isDisabled
           />
           <JInput
             onChange={setAmount}
             value={amount}
-            placeholder={i18n('routes.receiveFunds.placeholder.amount')}
             errorMessage={invalidFields.amount}
-            color='gray'
+            color='white'
             name='receive-funds-amount'
+            placeholder='routes.receiveFunds.placeholder.amount'
           />
           <div className='actions'>
             <JButton

@@ -29,28 +29,28 @@ const FormStep = ({
   <div className='form'>
     <div>{alert}</div>
     <JInput
-      name='send-funds-sender'
-      placeholder={i18n('routes.sendFunds.placeholder.sender')}
       value={sender}
-      color='gray'
-      disabled
+      color='white'
+      name='send-funds-sender'
+      placeholder='routes.sendFunds.placeholder.sender'
+      isDisabled
     />
     <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
     <JInput
       onChange={setAmount}
       value={amount}
       errorMessage={invalidFields.amount}
-      placeholder={i18n('routes.sendFunds.placeholder.amount')}
-      color='gray'
+      color='white'
       name='send-funds-amount'
+      placeholder='routes.sendFunds.placeholder.amount'
     />
     <JInput
       onChange={setRecipient}
       value={recipient}
-      placeholder={i18n('routes.sendFunds.placeholder.recipient')}
       errorMessage={invalidFields.recipient}
-      color='gray'
+      color='white'
       name='send-funds-recipient'
+      placeholder='routes.sendFunds.placeholder.recipient'
     />
     <Optional
       setGas={setGas}

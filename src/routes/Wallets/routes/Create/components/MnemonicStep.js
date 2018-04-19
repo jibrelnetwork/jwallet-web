@@ -11,16 +11,17 @@ const MnemonicStep = ({
 }: Props) => (
   <div className='form'>
     <JInput
-      name='create-wallet-mnemonic'
-      placeholder={i18n('routes.createWallet.placeholder.mnemonic')}
       value={mnemonic}
+      color='blue'
+      name='create-wallet-mnemonic'
+      placeholder='routes.createWallet.placeholder.mnemonic'
       disabled
     />
     <div className='actions'>
       <JFlatButton
         onClick={setPrevStep}
-        text={'routes.createWallet.buttonTitle.prevStep'}
         iconName='arrow'
+        text='routes.createWallet.buttonTitle.prevStep'
         transparent
       />
       <div className='next'>

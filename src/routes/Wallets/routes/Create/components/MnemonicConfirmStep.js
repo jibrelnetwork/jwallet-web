@@ -15,17 +15,18 @@ const MnemonicConfirmStep = ({
   <div className='form'>
     <JInput
       onChange={setMnemonicConfirm}
-      name='create-wallet-mnemonic-confirm'
-      placeholder={i18n('routes.createWallet.placeholder.mnemonicConfirm')}
       value={mnemonicConfirm}
       errorMessage={invalidFields.mnemonicConfirm}
       successMessage={validFields.mnemonicConfirm}
+      color='blue'
+      name='create-wallet-mnemonic-confirm'
+      placeholder='routes.createWallet.placeholder.mnemonicConfirm'
     />
     <div className='actions'>
       <JFlatButton
         onClick={setPrevStep}
-        text={'routes.createWallet.buttonTitle.prevStep'}
         iconName='arrow'
+        text='routes.createWallet.buttonTitle.prevStep'
         transparent
       />
       <div className='next'>

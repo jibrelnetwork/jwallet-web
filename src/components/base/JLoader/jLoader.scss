@@ -26,7 +26,7 @@
     margin: -25px 0 0 -25px;
     pointer-events: none;
     border-radius: 50%;
-    background-color: $gray2;
+    background-color: #A3A2B3;
     opacity: 0.5;
     animation: loaderAnimation 0.8s ease-out infinite alternate forwards;
     content: '';
@@ -36,7 +36,7 @@
 .loader--fixed {
   &:before {
     position: fixed;
-    background: $line;
+    background: #EBEEF3;
   }
 
   &:after {

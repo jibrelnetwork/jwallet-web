@@ -14,10 +14,11 @@ const NameStep = ({
   <div className='form'>
     <JInput
       onChange={setName}
-      name='wallet-name'
       value={name}
       errorMessage={invalidFields.name}
-      placeholder={i18n('routes.createWallet.placeholder.name')}
+      color='blue'
+      name='wallet-name'
+      placeholder='routes.createWallet.placeholder.name'
     />
     <div className='actions'>
       <JFlatButton
