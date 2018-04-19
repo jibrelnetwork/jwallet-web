@@ -1,88 +1,156 @@
-// TODO: Add hover state
-// TODO: Replace hex colors to variables from Zeplin
-
 .j-input {
   all: initial;
 
+  @include font;
   @include flex-column;
 
   position: relative;
-  height: $form-field-height;
-  border-bottom: 1px solid rgba($dusk, 0.1);
+  align-items: center;
+  min-height: $form-field-full-height;
   cursor: inherit;
 
-  &.-disabled {
-    > input, textarea {
-      opacity: 0.7;
+  &.-value {
+    > .label {
+      visibility: visible;
+      opacity: 0.5;
     }
+
+    > .input,
+    > .textarea {
+      padding-top: $form-field-padding-top;
+      font-weight: 600;
+    }
+  }
+
+  &.-disabled {
+    opacity: 0.3;
+    cursor: default;
   }
 
   &.-blue {
-    border-color: $blue;
+    color: $white;
 
-    > input, textarea {
-      color: $blue;
+    > .input,
+    > .textarea {
+      border-bottom: 1px solid rgba($white, 0.2);
+      color: $white;
+      opacity: 1;
+
+      &::placeholder {
+        color: $white;
+        opacity: 0.7;
+      }
+
+      &:hover {
+        border-bottom: 1px solid rgba($white, 0.4);
+      }
+
+      &:focus {
+        border-bottom: 1px solid rgba($white, 0.6);
+      }
     }
 
-    > input:-webkit-autofill {
-      box-shadow: 0 0 0 60px $blue-two inset;
-      -webkit-text-fill-color: $blue !important;
-    }
-  }
-
-  &.-gray {
-    border-bottom: 1px solid #ebedf0;
-
-    > input, textarea {
-      color: $dusk;
-    }
-
-    > input:-webkit-autofill {
-      box-shadow: 0 0 0 60px $white inset;
-      -webkit-text-fill-color: $dusk !important;
-    }
-  }
-
-  &.-red {
-    border-color: $pinkish-tan;
-
-    > input, textarea {
-      color: $pinkish-tan;
+    > .input{
+      &:-webkit-autofill {
+        box-shadow: 0 0 0 #{$form-field-full-height / 2} $blue inset;
+        -webkit-text-fill-color: $white !important;
+      }
     }
   }
 
   &.-white {
-    border-bottom: 1px solid $white;
+    color: $dusk;
 
-    > input, textarea {
-      color: $white;
-    }
+    > .input,
+    > .textarea {
+      border-bottom: 1px solid rgba($dusk, 0.1);
+      color: $dusk;
+      opacity: 1;
 
-    > input:-webkit-autofill {
-      box-shadow: 0 0 0 60px $blue inset;
-      -webkit-text-fill-color: $white !important;
-    }
-  }
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.7;
+      }
 
-  &.-with-error {
-    &.-gray {
-      border-bottom-color: red;
-      
-      > input, textarea {
-        color: red;
+      &:hover {
+        border-bottom: 1px solid rgba($dusk, 0.3);
+      }
+
+      &:focus {
+        border-bottom: 1px solid rgba($dusk, 0.5);
       }
     }
 
-    &.-white {
-      border-bottom-color: $pinkish-tan;
-      
-      > input, textarea {
+    > .input {
+      &:-webkit-autofill {
+        box-shadow: 0 0 0 #{$form-field-full-height / 2} $white inset;
+        -webkit-text-fill-color: $dusk !important;
+      }
+    }
+  }
+
+  &.-error {
+    &.-blue {
+      > .input,
+      > .textarea {
+        border-bottom-color: $pinkish-tan;
+        color: $pinkish-tan;
+      }
+
+      > .input{
+        &:-webkit-autofill {
+          -webkit-text-fill-color: $pinkish-tan !important;
+        }
+      }
+
+      > .error {
         color: $pinkish-tan;
       }
     }
 
-    > input:-webkit-autofill {
-      -webkit-text-fill-color: $pinkish-tan !important;
+    &.-white {
+      > .input,
+      > .textarea {
+        border-bottom-color: $tomato;
+        color: $tomato;
+      }
+
+      > .input{
+        &:-webkit-autofill {
+          -webkit-text-fill-color: $tomato !important;
+        }
+      }
+
+      > .error {
+        color: $tomato;
+      }
+    }
+  }
+
+  &.-checked {
+    > .tick {
+      width: $icon-small-size;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $icon-small-size $icon-small-size;
+    }
+
+    &.-blue > .tick {
+      background-image: $icon-small-checkbox-white;
+    }
+
+    &.-white > .tick {
+      background-image: $icon-small-checkbox-blue;
+    }
+  }
+
+  &.-password {
+    &.-value > .input {
+      font-size: 21px;
+    }
+
+    > .input {
+      transition: none;
     }
   }
 
@@ -90,62 +158,61 @@
     position: absolute;
     top: 22px;
     left: 0;
-    opacity: 0.5;
-    pointer-events: none;
+    text-transform: uppercase;
+    font-size: 11px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease 0s;
   }
 
-  > input, textarea {
-    all: initial;
+  > .input,
+  > .textarea {
+    @include box;
+    @include flex-row;
+    @include hover-animation;
+
     width: 100%;
-    border: none;
-    height: 80px;
-    display: block;
-    font-size: 15px;
+    height: $form-field-full-height;
+    padding-top: 0;
     background: inherit;
-    transition: all 0.3s ease 0s;
-    font-family: $font;
-    padding-top: 16px;
-    font-weight: 600;
-
-    &:placeholder-shown {
-      padding-top: 0;
-      font-weight: normal;
-
-      & + .label {
-        opacity: 0;
-        transition: all 0.3s ease 0s;
-      }
-    }
-  }
-
-  > textarea {
-    height: 50px;
-    padding-top: 45px;
-
-    &:placeholder-shown {
-      padding-top: 30px;
-    }
-  }
-
-  > .info-message, .check-mark {
-    right: 0;
-    height: 100%;
-    display: flex;
-    position: absolute;
-    align-items: center;
-  }
-
-  > .info-message {
+    border: none;
+    font-size: 15px;
+    font-weight: normal;
     opacity: 0.7;
   }
 
-  .check-mark {
+  > .error,
+  > .info,
+  > .tick {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 11px;
+  }
+
+  > .info,
+  > .tick {
+    @include box;
+    @include flex-row-center;
+
+    height: $form-field-height;
+    margin-top: $form-field-padding-top;
+  }
+
+  > .info {
+    opacity: 0.7;
+  }
+
+  > .tick {
     opacity: 1;
   }
 
-  > .error-message {
-    right: 0;
-    bottom: 0;
-    position: absolute;
+  > .error {
+    line-height: 30px;
+    opacity: 1;
+  }
+
+  > .loader {
+    display: none;
   }
 }
