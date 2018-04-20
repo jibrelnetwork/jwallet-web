@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import ethereum from 'data/assets/ethereum'
 import { JCard, JLoader } from 'components/base'
 
 import TransactionItem from './TransactionItem'
@@ -54,7 +55,7 @@ type Props = {
   repeat: Function,
   setActive: (txHash: Hash) => Dispatch,
   transactionsByPeriod: Object,
-  assetSymbol: string,
+  assetSymbol: ?string,
   activeTxHash: ?Hash,
   isEmpty: boolean,
   isLoading: boolean,
@@ -64,7 +65,7 @@ TransactionsByPeriod.defaultProps = {
   repeat: () => {},
   setActive: () => {},
   transactionsByPeriod: {},
-  assetSymbol: 'ETH',
+  assetSymbol: ethereum.symbol,
   activeTxHash: null,
   isEmpty: false,
   isLoading: false,

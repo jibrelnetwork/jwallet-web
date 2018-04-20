@@ -19,8 +19,8 @@ const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' 
 const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
 
 const TransactionItem = ({
-  setActive,
   repeat,
+  setActive,
   data,
   assetSymbol,
   activeTxHash,
@@ -29,9 +29,8 @@ const TransactionItem = ({
     <div
       onClick={handle(setActive)(data.transactionHash)}
       className={classNames(
-        'transaction-item',
-        `-${data.type}`,
-        { '-active': (data.transactionHash === activeTxHash) },
+        `transaction-item -${data.type}`,
+        (data.transactionHash === activeTxHash) && '-active',
       )}
     >
       <div className='main'>
@@ -45,7 +44,7 @@ const TransactionItem = ({
           <div className='value'>{data.address || getJNTEventType(data)}</div>
         </div>
         <div className='amount'>
-          <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>
+          <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol || ''}`}</div>
           <div className='repeat'>
             <JButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
@@ -105,18 +104,18 @@ const TransactionItem = ({
 }
 
 type Props = {
-  setActive: (txHash: Hash) => Dispatch,
   repeat: Function,
+  setActive: (txHash: Hash) => Dispatch,
   data: Transaction,
-  assetSymbol: string,
   activeTxHash: ?Hash,
+  assetSymbol: ?string,
 }
 
 TransactionItem.defaultProps = {
-  setActive: () => {},
   repeat: () => {},
+  setActive: () => {},
   data: {},
-  assetSymbol: 'ETH',
+  assetSymbol: null,
   activeTxHash: null,
 }
 

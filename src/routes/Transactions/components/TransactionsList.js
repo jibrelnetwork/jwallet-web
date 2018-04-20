@@ -18,7 +18,7 @@ const TransactionsList = ({
   isCustomNetwork,
   isBlockExplorerError,
 }: Props) => {
-  if (isCustomNetwork && isETH(currentAsset.address)) {
+  if (isCustomNetwork && currentAsset && isETH(currentAsset.address)) {
     return <TransactionsEmpty event='private-node' />
   }
 
@@ -37,7 +37,7 @@ const TransactionsList = ({
         setActive={setActive}
         transactionsByPeriod={transactionsByPeriod}
         activeTxHash={activeTxHash}
-        assetSymbol={currentAsset.symbol}
+        assetSymbol={currentAsset ? currentAsset.symbol : null}
         isLoading={isLoading}
         isEmpty={!(items && items.length)}
       />
@@ -49,7 +49,7 @@ type Props = {
   repeat: Function,
   setActive: (txHash: Hash) => Dispatch,
   items: Transactions,
-  currentAsset: DigitalAsset,
+  currentAsset: ?DigitalAsset,
   transactionsByPeriod: Object,
   activeTxHash: ?Hash,
   isLoading: boolean,
@@ -61,7 +61,7 @@ TransactionsList.defaultProps = {
   repeat: () => {},
   setActive: () => {},
   items: [],
-  currentAsset: {},
+  currentAsset: null,
   transactionsByPeriod: {},
   activeTxHash: null,
   isLoading: false,
