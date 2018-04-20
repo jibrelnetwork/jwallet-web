@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JThumbnail } from 'components/base'
+import JThumbnail from 'components/base/JThumbnail'
 
 const eventDescriptionMap = {
   'empty-list': 'Look like there isn\'t any transactions in your account yet',
@@ -14,8 +14,8 @@ const eventDescriptionMap = {
 const TransactionsEmpty = ({ event }: Props) => (
   <div className='transactions-empty'>
     <JThumbnail
-      image='cloud'
       color='gray'
+      image='cloud'
       description={eventDescriptionMap[event]}
     />
   </div>

@@ -7,7 +7,7 @@ import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddre
 import { setActive, repeat } from 'routes/Transactions/modules/transactions'
 import { getTransactionsByPeriod, searchTransactions } from 'utils/transactions'
 
-import TransactionsIncomingView from '../components/TransactionsIncomingView'
+import TransactionsList from '../../../components/TransactionsList'
 
 const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
   assoc(
@@ -30,4 +30,4 @@ const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Obje
 
 const mapDispatchToProps = { setActive, repeat }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionsIncomingView)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionsList)

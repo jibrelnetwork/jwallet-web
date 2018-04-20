@@ -1,0 +1,10 @@
+.transactions-list {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+}
