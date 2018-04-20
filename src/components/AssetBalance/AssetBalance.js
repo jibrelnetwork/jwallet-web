@@ -5,23 +5,37 @@ import classNames from 'classnames'
 
 import { JLoader, JText } from 'components/base'
 
-const AssetBalance = ({ symbol, color, size, balance, isLoading }: Props) => (
-  <div className={classNames(`asset-balance -${size}`, isLoading && '-loading')} >
+const AssetBalance = ({
+  symbol,
+  size,
+  color,
+  weight,
+  balance,
+  isLoading,
+  isTransparent,
+}: Props) => (
+  <div
+    className={classNames(
+      'asset-balance',
+      isLoading && '-loading',
+      isTransparent && '-transparent',
+    )}
+  >
     {isLoading ? <JLoader color={color} /> : (
       <div className='balance'>
         <div className='integer'>
           <JText
             size={size}
             color={color}
+            weight={weight}
             value={Math.floor(balance).toFixed()}
-            weight={(size === 'large') ? 'bolder' : null}
           />
         </div>
         <div className='decimals'>
           <JText
             size={size}
             color={color}
-            weight={(size === 'large') ? 'bolder' : null}
+            weight={weight}
             value={`${(balance - Math.floor(balance)).toFixed(2).substr(1)}`}
           />
         </div>
@@ -32,7 +46,7 @@ const AssetBalance = ({ symbol, color, size, balance, isLoading }: Props) => (
         size={size}
         color={color}
         value={symbol}
-        weight={(size === 'large') ? 'bolder' : null}
+        weight={weight}
         fontCase='upper'
       />
     </div>
@@ -41,19 +55,22 @@ const AssetBalance = ({ symbol, color, size, balance, isLoading }: Props) => (
 
 type Props = {
   symbol: string,
+  weight: null | 'bold' | 'bolder',
   color: 'blue' | 'gray' | 'white',
   size: 'small' | 'normal' | 'large',
   balance: number,
   isLoading: boolean,
+  isTransparent: boolean,
 }
 
 AssetBalance.defaultProps = {
   symbol: '',
-  align: null,
+  weight: null,
   color: 'white',
   size: 'normal',
   balance: 0,
   isLoading: false,
+  isTransparent: false,
 }
 
 export default AssetBalance
