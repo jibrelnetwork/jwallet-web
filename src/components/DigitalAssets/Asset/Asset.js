@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import ethereum from 'data/assets/ethereum'
-import balanceToString from 'utils/digitalAssets/balanceToString'
+import AssetBalance from 'components/AssetBalance'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 import { JAssetSymbol, JFlatButton, JIcon, JText } from 'components/base'
 
@@ -41,15 +41,14 @@ const AssetCard = ({
       <div className='name'>
         <JText value={name} color={assetColor} weight='bold' />
       </div>
-      {(balance !== undefined) && (
-        <div className='balance'>
-          <JText
-            value={isLoading ? 'Loading' : `${balanceToString(balance)} ${symbol}`}
-            weight='bold'
-            color={assetColor}
-          />
-        </div>
-      )}
+      <div className='balance'>
+        <AssetBalance
+          symbol={symbol}
+          color={assetColor}
+          balance={balance}
+          isLoading={isLoading}
+        />
+      </div>
       {isCustom && (
         <div className='edit'>
           <JFlatButton
@@ -72,7 +71,7 @@ type Props = {
   name: string,
   symbol: string,
   color: 'blue' | 'white',
-  balance: ?number,
+  balance: number,
   isCustom: boolean,
   isActive: boolean,
   isLoading: boolean,
@@ -87,7 +86,7 @@ AssetCard.defaultProps = {
   name: ethereum.name,
   symbol: ethereum.symbol,
   color: 'white',
-  balance: undefined,
+  balance: 0,
   isCustom: false,
   isActive: false,
   isLoading: false,

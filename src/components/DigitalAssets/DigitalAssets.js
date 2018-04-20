@@ -3,12 +3,11 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import JCard from 'components/base/JCard'
+import { JCard, JLoader } from 'components/base'
 import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
 import Empty from './Empty'
-import Loading from './Loading'
 
 const DigitalAssets = ({
   hover,
@@ -24,7 +23,11 @@ const DigitalAssets = ({
   isBalancesLoading,
 }: Props) => {
   if (isBalancesLoading) {
-    return <Loading />
+    return (
+      <div className='digital-assets -loading'>
+        <JLoader color='blue' />
+      </div>
+    )
   }
 
   const filteredItems: DigitalAssets = filterDigitalAssets(items, balances, type)
