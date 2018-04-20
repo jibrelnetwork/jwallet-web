@@ -1,0 +1,27 @@
+.asset-balance {
+  all: initial;
+
+  display: inline-flex;
+  align-items: center;
+  cursor: inherit;
+
+  &.-large {
+    > .balance > .decimals,
+    > .symbol {
+      opacity: 0.5;
+    }
+  }
+
+  > .balance,
+  > .balance > .integer,
+  > .balance > .decimals,
+  > .symbol {
+    @include flex-row;
+
+    align-items: center;
+  }
+
+  > .symbol {
+    margin-left: 6px;
+  }
+}
