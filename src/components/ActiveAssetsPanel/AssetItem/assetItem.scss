@@ -46,18 +46,4 @@
     margin-bottom: 10px;
     opacity: 0.7;
   }
-
-  > .balance {
-    font-size: 15px;
-    font-weight: bold;
-
-    > .integer,
-    > .decimals {
-      display: inline-block;
-    }
-
-    > .decimals {
-      opacity: 0.5;
-    }
-  }
 }
