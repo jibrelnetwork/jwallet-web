@@ -1,9 +1,10 @@
-// TODO: avoid styles duplication (balance.scss & custom.scss)
-
-.digital-assets-popular-view {
+.digital-assets-list {
   all: initial;
 
-  display: block;
+  @include box;
+  @include flex-column;
+
+  height: 100%;
   padding: 60px 200px;
 
   @media only screen and (max-width: 1600px) {

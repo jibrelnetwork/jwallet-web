@@ -1,7 +1,9 @@
 // @flow
 
-import { pure } from 'recompose'
+import { connect } from 'react-redux'
 
-import DigitalAssetsCustomView from '../components/DigitalAssetsCustomView'
+import DigitalAssetsList from '../../../components/DigitalAssetsList'
 
-export default pure(DigitalAssetsCustomView)
+const mapStateToProps: Function = (): { type: 'custom' } => ({ type: 'custom' })
+
+export default connect(mapStateToProps)(DigitalAssetsList)
