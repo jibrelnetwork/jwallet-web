@@ -38,8 +38,10 @@ const AssetItem = ({
         symbol={symbol}
         color={assetColor}
         size='large'
+        weight='bolder'
         balance={balance}
         isLoading={isLoading}
+        isTransparent
       />
     </div>
   )
