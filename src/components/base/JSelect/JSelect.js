@@ -14,17 +14,18 @@ const JSelect = ({
   color,
   label,
   isOpen,
-  disabled,
+  isLoading,
+  isDisabled,
 }: Props) => (
   <div
     className={classNames(
       'j-select',
       isOpen && '-active',
       current && '-value',
-      disabled && '-disabled',
+      isDisabled && '-disabled',
     )}
   >
-    <div className='current' onClick={disabled ? null : handle(toggle)(!isOpen)}>
+    <div onClick={isDisabled ? null : handle(toggle)(!isOpen)} className='current'>
       <div className='label'>
         <JText value={label} color={color} size='small' fontCase='upper' />
       </div>
@@ -32,13 +33,13 @@ const JSelect = ({
         <JText value={label} color={color} size='large' />
       </div>
       <div className='content'>
-        {current && React.cloneElement(current, { isOpen, disabled })}
+        {current && React.cloneElement(current, { isOpen, isLoading, isDisabled })}
       </div>
       <div className='chevron'>
         <JIcon name='expand' color={color} />
       </div>
     </div>
-    <div className='options' onClick={handle(toggle)(false)}>
+    <div onClick={handle(toggle)(false)} className='options'>
       <Scrollbars>
         {children}
       </Scrollbars>
@@ -52,8 +53,9 @@ type Props = {
   current: ?Object,
   color: 'blue' | 'gray' | 'white',
   label: string,
-  isOpen: bool,
-  disabled: bool,
+  isOpen: boolean,
+  isLoading: boolean,
+  isDisabled: boolean,
 }
 
 JSelect.defaultProps = {
@@ -63,7 +65,8 @@ JSelect.defaultProps = {
   color: 'white',
   label: '',
   isOpen: false,
-  disabled: false,
+  isLoading: false,
+  isDisabled: false,
 }
 
 export default JSelect
