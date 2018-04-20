@@ -16,9 +16,13 @@ $button-height: 40px;
     width: 156px;
   }
 
+  &.-loading,
+  &.-disabled {
+    cursor: default;
+  }
+
   &.-disabled {
     opacity: 0.3;
-    cursor: default;
   }
 
   &.-blue {
@@ -45,10 +49,6 @@ $button-height: 40px;
     &.-disabled:hover {
       background-color: $white;
     }
-  }
-
-  &.-loading {
-    //
   }
 
   > .icon {

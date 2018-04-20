@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { JIcon, JText } from 'components/base'
+import { JIcon, JText, JLoader } from 'components/base'
 
 const JButton = ({
   onClick,
@@ -16,15 +16,18 @@ const JButton = ({
   disabled,
   isLoading,
 }: Props) => {
+  const buttonClassName = classNames(`j-button -${color}`, disabled && '-disabled', wide && '-wide')
+
   if (isLoading) {
-    return <div className='j-button -loading' />
+    return (
+      <div className={`${buttonClassName} -loading`}>
+        <JLoader />
+      </div>
+    )
   }
 
   return (
-    <div
-      onClick={disabled ? null : onClick}
-      className={classNames(`j-button -${color}`, disabled && '-disabled', wide && '-wide')}
-    >
+    <div onClick={disabled ? null : onClick} className={buttonClassName}>
       {iconName && (
         <div className='icon'>
           <JIcon name={iconName} size={iconSize} color={iconColor || color} />
