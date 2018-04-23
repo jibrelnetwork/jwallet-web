@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JFlatButton, JInput } from 'components/base'
+import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const NameStep = ({
   setName,
@@ -28,11 +28,11 @@ const NameStep = ({
         transparent
       />
       <div className='next'>
-        <JButton
+        <JRaisedButton
           onClick={setNextStep}
           color='blue'
-          text='routes.createWallet.buttonTitle.nextStep'
-          wide
+          label='routes.createWallet.buttonTitle.nextStep'
+          isWide
         />
       </div>
     </div>
@@ -40,10 +40,10 @@ const NameStep = ({
 )
 
 type Props = {
-  setName: (name: string) => Dispatch,
-  setNextStep: () => Dispatch,
-  goToWallets: () => Dispatch,
-  invalidFields: Object,
+  setName: Function,
+  setNextStep: Function,
+  goToWallets: Function,
+  invalidFields: FormFields,
   name: string,
 }
 

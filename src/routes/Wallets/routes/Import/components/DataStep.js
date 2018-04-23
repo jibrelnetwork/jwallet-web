@@ -4,8 +4,8 @@ import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
-import { JButton, JFlatButton, JInput } from 'components/base'
 import { DerivationPath, Expandable } from 'components'
+import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const DataStep = ({
   setData,
@@ -51,11 +51,11 @@ const DataStep = ({
         transparent
       />
       <div className='next'>
-        <JButton
+        <JRaisedButton
           onClick={setNextStep}
           color='blue'
-          text='routes.importWallet.buttonTitle.nextStep'
-          wide
+          label='routes.importWallet.buttonTitle.nextStep'
+          isWide
         />
       </div>
     </div>
@@ -63,33 +63,22 @@ const DataStep = ({
 )
 
 type Props = {
-  setData: (data: string) => Dispatch,
-  setKnownDerivationPath: (knownDerivationPath: string) => Dispatch,
-  setCustomDerivationPath: (customDerivationPath: string) => Dispatch,
-  setPrevStep: () => Dispatch,
-  setNextStep: () => Dispatch,
-  validFields: Object,
-  invalidFields: Object,
+  setData: Function,
+  setKnownDerivationPath: Function,
+  setCustomDerivationPath: Function,
+  setPrevStep: Function,
+  setNextStep: Function,
+  validFields: FormFields,
+  invalidFields: FormFields,
   data: string,
+  walletType: ?WalletType,
   knownDerivationPath: string,
   customDerivationPath: string,
-  walletType: ?WalletType,
   selectedDerivationPathType: 'known' | 'custom'
 }
 
 DataStep.defaultProps = {
-  setData: () => {},
-  setKnownDerivationPath: () => {},
-  setCustomDerivationPath: () => {},
-  setPrevStep: () => {},
-  setNextStep: () => {},
-  validFields: {},
-  invalidFields: {},
-  data: '',
-  knownDerivationPath: '',
-  customDerivationPath: '',
-  walletType: undefined,
-  selectedDerivationPathType: 'custom',
+  walletType: null,
 }
 
 export default DataStep

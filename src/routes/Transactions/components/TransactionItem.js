@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { assoc } from 'ramda'
 
 import config from 'config'
-import { JButton, JIcon } from 'components/base'
+import { JIcon, JRaisedButton } from 'components/base'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' => {
@@ -46,11 +46,13 @@ const TransactionItem = ({
         <div className='amount'>
           <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol || ''}`}</div>
           <div className='repeat'>
-            <JButton
+            <JRaisedButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
-              text='Repeat'
-              iconName='repeat'
               color='white'
+              label='Repeat'
+              iconColor='blue'
+              iconName='repeat'
+              labelColor='blue'
             />
           </div>
         </div>
@@ -90,11 +92,13 @@ const TransactionItem = ({
             */}
           </div>
           <div className='repeat'>
-            <JButton
+            <JRaisedButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
-              text='Repeat'
-              iconName='repeat'
               color='white'
+              label='Repeat'
+              iconColor='blue'
+              iconName='repeat'
+              labelColor='blue'
             />
           </div>
         </div>
@@ -105,16 +109,13 @@ const TransactionItem = ({
 
 type Props = {
   repeat: Function,
-  setActive: (txHash: Hash) => Dispatch,
+  setActive: Function,
   data: Transaction,
   activeTxHash: ?Hash,
   assetSymbol: ?string,
 }
 
 TransactionItem.defaultProps = {
-  repeat: () => {},
-  setActive: () => {},
-  data: {},
   assetSymbol: null,
   activeTxHash: null,
 }

@@ -3,8 +3,8 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import JButton from 'components/base/JButton'
 import DigitalAssets from 'components/DigitalAssets'
+import JRaisedButton from 'components/base/JRaisedButton'
 
 const AssetsStep = ({ goToHome }: Props) => (
   <div className='form'>
@@ -15,11 +15,11 @@ const AssetsStep = ({ goToHome }: Props) => (
     </div>
     <div className='actions'>
       <div className='next'>
-        <JButton
+        <JRaisedButton
           onClick={goToHome}
           color='blue'
-          text='routes.createWallet.buttonTitle.finish'
-          wide
+          label='routes.createWallet.buttonTitle.finish'
+          isWide
         />
       </div>
     </div>
@@ -27,11 +27,7 @@ const AssetsStep = ({ goToHome }: Props) => (
 )
 
 type Props = {
-  goToHome: () => Dispatch,
-}
-
-AssetsStep.defaultProps = {
-  goToHome: () => {},
+  goToHome: Function,
 }
 
 export default AssetsStep

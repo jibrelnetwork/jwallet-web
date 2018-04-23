@@ -4,7 +4,7 @@ import React from 'react'
 
 import ethereum from 'data/assets/ethereum'
 import ModalLayout from 'layouts/ModalLayout'
-import { JButton, JInput } from 'components/base'
+import { JInput, JRaisedButton } from 'components/base'
 import { AssetPicker, ModalHeader, QRCode } from 'components'
 
 const FundsReceiveView = ({
@@ -25,7 +25,7 @@ const FundsReceiveView = ({
         <div className='form'>
           <QRCode
             saveQRCode={saveQRCode}
-            isActive={amount && !invalidFields.amount}
+            isActive={!!amount && !invalidFields.amount}
           />
           <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
           <JInput
@@ -44,11 +44,12 @@ const FundsReceiveView = ({
             placeholder='routes.receiveFunds.placeholder.amount'
           />
           <div className='actions'>
-            <JButton
+            <JRaisedButton
               onClick={copyAddress}
-              text={isCopied ? 'Copied!' : 'Copy address'}
+              label={isCopied ? 'Copied!' : 'Copy address'}
               color='white'
-              wide
+              labelColor='blue'
+              isWide
             />
           </div>
         </div>
@@ -63,9 +64,9 @@ type Props = {
   saveQRCode: Function,
   copyAddress: Function,
   invalidFields: FormFields,
-  assetAddress: Address,
   amount: string,
   recipient: string,
+  assetAddress: Address,
   isCopied: boolean,
 }
 
@@ -75,9 +76,9 @@ FundsReceiveView.defaultProps = {
   saveQRCode: () => {},
   copyAddress: () => {},
   invalidFields: {},
-  assetAddress: ethereum.address,
   amount: '',
   recipient: '',
+  assetAddress: ethereum.address,
   isCopied: false,
 }
 
