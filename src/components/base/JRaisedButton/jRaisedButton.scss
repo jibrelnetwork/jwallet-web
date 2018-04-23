@@ -1,19 +1,17 @@
-$button-height: 40px;
-
-.j-button {
+.j-raised-button {
   all: initial;
 
   @include box;
   @include hover-animation;
   @include flex-row-center;
 
-  height: 48px;
+  height: $raised-button-height;
   padding: 0 25px;
   border-radius: 30px;
   cursor: pointer;
 
   &.-wide {
-    width: 156px;
+    width: $wide-button-width;
   }
 
   &.-loading,

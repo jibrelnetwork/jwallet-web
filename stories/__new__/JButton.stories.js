@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JButton from '../../src/components/base/JButton'
+import JButton from '../../src/components/base/JRaisedButton'
 
 storiesOf('JButton', module)
   .add('Large blue', () => (

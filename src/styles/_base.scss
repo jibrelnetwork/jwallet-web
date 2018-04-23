@@ -28,11 +28,22 @@ $form-field-padding-top: 16px;
 $form-field-full-height: ($form-field-height + $form-field-padding-top);
 
 /**
+ * Select
+ */
+$select-height: ($form-field-height * 4);
+
+/**
+ * Button
+ */
+$raised-button-height: 48px;
+$wide-button-width: 156px;
+
+/**
  * Modal Header
  */
 $modal-header-height: 110px;
 
 /**
- * Select
+ * QR code
  */
-$select-height: ($form-field-height * 4);
+$qr-code-height: 220px;
