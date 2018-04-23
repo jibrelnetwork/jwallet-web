@@ -177,7 +177,7 @@ function txAmount(amount: string): void {
 function txValueGreaterThan0(amount: string, decimals: Decimals): void {
   const value: Bignumber = getTransactionValue(amount, decimals)
 
-  if (value.lt(0)) {
+  if (value.lte(0)) {
     throw new InvalidFieldError('amount', i18n('general.error.amount.lessThan0'))
   }
 }
