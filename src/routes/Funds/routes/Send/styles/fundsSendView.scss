@@ -7,14 +7,14 @@
   min-height: 100%;
 
   > .content {
+    padding: 150px 0 50px 0;
+
     > .form {
-      @include box;
       @include flex-column;
 
       min-height: 100%;
       width: $form-width;
       margin: 0 auto;
-      padding: 150px 0 50px 0;
 
       > .actions {
         @include flex-row;

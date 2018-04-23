@@ -17,6 +17,7 @@ export const SET_PASSWORD = '@@sendFunds/SET_PASSWORD'
 export const SET_INVALID_FIELD = '@@sendFunds/SET_INVALID_FIELD'
 export const SET_CURRENT_STEP = '@@sendFunds/SET_CURRENT_STEP'
 export const SET_NEXT_STEP = '@@sendFunds/SET_NEXT_STEP'
+export const SET_IS_SENDING = '@@sendFunds/SET_IS_SENDING'
 export const SEND_SUCCESS = '@@sendFunds/SEND_SUCCESS'
 export const SEND_ERROR = '@@sendFunds/SEND_ERROR'
 export const CLEAN = '@@sendFunds/CLEAN'
@@ -172,6 +173,18 @@ export const setInvalidField = (fieldName: string, message: string): {
   },
 })
 
+export const setIsSending = (isSending: boolean): {
+  type: string,
+  payload: {
+    isSending: boolean,
+  },
+} => ({
+  type: SET_IS_SENDING,
+  payload: {
+    isSending,
+  },
+})
+
 export const sendSuccess = (assetAddress: Address): {
   type: string,
   payload: {
@@ -209,6 +222,7 @@ const initialState: SendFundsData = {
   nonce: '',
   password: '',
   currentStep: STEPS.FORM,
+  isSending: false,
 }
 
 const sendFunds = (
@@ -285,6 +299,10 @@ const sendFunds = (
 
     case SET_INVALID_FIELD: {
       return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
+    }
+
+    case SET_IS_SENDING: {
+      return assoc('isSending', payload.isSending)(state)
     }
 
     case CLEAN: return initialState

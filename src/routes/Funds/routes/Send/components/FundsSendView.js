@@ -2,7 +2,6 @@
 
 import React from 'react'
 
-import ethereum from 'data/assets/ethereum'
 import ModalLayout from 'layouts/ModalLayout'
 import { ModalHeader, PasswordStep } from 'components'
 
@@ -15,7 +14,16 @@ const FundsSendView = (props: Props) => (
       <ModalHeader title='Send Funds' color='gray' withMenu />
       <div className='content'>
         {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
-        {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} />}
+        {(props.currentStep === STEPS.PASSWORD) && (
+          <PasswordStep
+            {...props}
+            inputColor='gray'
+            labelColor='blue'
+            loaderColor='blue'
+            buttonColor='white'
+            isLoading={props.isSending}
+          />
+        )}
       </div>
     </div>
   </ModalLayout>
@@ -32,7 +40,7 @@ type Props = {
   setNextStep: Function,
   invalidFields: FormFields,
   assetAddress: Address,
-  alert: ?string,
+  sender: string,
   amount: string,
   recipient: string,
   gas: string,
@@ -40,27 +48,7 @@ type Props = {
   nonce: string,
   password: string,
   currentStep: Index,
-}
-
-FundsSendView.defaultProps = {
-  setAsset: () => {},
-  setAmount: () => {},
-  setRecipient: () => {},
-  setGas: () => {},
-  setGasPrice: () => {},
-  setNonce: () => {},
-  setPassword: () => {},
-  setNextStep: () => {},
-  invalidFields: {},
-  alert: null,
-  assetAddress: ethereum.address,
-  amount: '',
-  recipient: '',
-  gas: '',
-  gasPrice: '',
-  nonce: '',
-  password: '',
-  currentStep: 0,
+  isSending: boolean,
 }
 
 export default FundsSendView
