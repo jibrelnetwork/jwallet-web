@@ -158,8 +158,40 @@
       }
     }
 
+    &.-copy {
+      &.-blue {
+        background-image: $icon-medium-copy-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-medium-copy-sky;
+      }
+    }
+
     &.-dots {
       background-image: $icon-medium-dots-white;
+    }
+
+    &.-download {
+      &.-blue {
+        background-image: $icon-medium-download-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-medium-download-sky;
+      }
+    }
+
+    &.-info {
+      background-image: $icon-medium-info-white;
+
+      &.-blue {
+        background-image: $icon-medium-info-blue;
+      }
+
+      &.-gray {
+        background-image: $icon-medium-info-gray;
+      }
     }
 
     &.-key-import {
@@ -191,6 +223,18 @@
 
       &.-blue {
         background-image: $icon-medium-link-blue;
+      }
+    }
+
+    &.-lock {
+      background-image: $icon-medium-lock-white;
+
+      &.-blue {
+        background-image: $icon-medium-lock-blue;
+      }
+
+      &.-gray {
+        background-image: $icon-medium-lock-gray;
       }
     }
 
