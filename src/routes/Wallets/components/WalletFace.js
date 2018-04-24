@@ -43,4 +43,8 @@ type Props = {
   description: string,
 }
 
+WalletFace.defaultProps = {
+  showActions: null,
+}
+
 export default WalletFace

@@ -3,7 +3,7 @@
 import React from 'react'
 
 import MnemonicPhrase from 'components/MnemonicPhrase'
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
+import { JFlatButton, JRaisedButton } from 'components/base'
 
 const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
   <div className='form'>

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { withState } from 'recompose'
 import { assoc, compose } from 'ramda'
 
-import keystore from 'services/keystore'
 import checkWalletReadOnly from 'utils/keystore/checkWalletReadOnly'
 import getCurrentLanguageCode from 'utils/i18n/getCurrentLanguageCode'
 import { setLanguage } from 'routes/modules/i18n'

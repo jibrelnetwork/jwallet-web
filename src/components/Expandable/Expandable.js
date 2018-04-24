@@ -35,7 +35,8 @@ type Props = {
   children: ?Object,
   color: 'blue' | 'white',
   title: string,
-  iconName: string,
+  iconNameOpened: string,
+  iconNameClosed: string,
   isOpen: boolean,
 }
 
