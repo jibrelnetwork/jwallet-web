@@ -15,10 +15,10 @@ const CurrentAddress = ({ goToWallets, address }: Props) => (
     <div className='logout'>
       <JFlatButton
         onClick={goToWallets}
+        iconColor='gray'
         iconName='logout'
         iconSize='medium'
-        iconColor='gray'
-        transparent
+        isTransparent
       />
     </div>
   </div>

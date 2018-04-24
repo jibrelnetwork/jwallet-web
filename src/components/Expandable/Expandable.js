@@ -6,14 +6,24 @@ import classNames from 'classnames'
 import handle from 'utils/eventHandlers/handle'
 import JFlatButton from 'components/base/JFlatButton'
 
-const Expandable = ({ toggle, children, title, isOpen, color, iconName }: Props) => (
-  <div className={classNames('expandable', `-${color}`, { '-open': isOpen })}>
+const Expandable = ({
+  toggle,
+  children,
+  title,
+  color,
+  iconNameOpened,
+  iconNameClosed,
+  isOpen,
+}: Props) => (
+  <div className={classNames('expandable', `-${color}`, isOpen && '-open')}>
     <div className='title'>
       <JFlatButton
         onClick={handle(toggle)(!isOpen)}
-        text={title || 'modals.customOptionsTitle'}
+        label={title}
         color={color}
-        iconName={isOpen ? 'arrow-down' : iconName}
+        iconColor={color}
+        iconName={isOpen ? iconNameOpened : iconNameClosed}
+        iconSize='small'
       />
     </div>
     <div className='content'>{children}</div>
@@ -24,17 +34,17 @@ type Props = {
   toggle: Function,
   children: ?Object,
   color: 'blue' | 'white',
-  title: ?string,
+  title: string,
   iconName: string,
   isOpen: boolean,
 }
 
 Expandable.defaultProps = {
-  toggle: () => {},
   children: null,
   color: 'white',
-  title: null,
-  iconName: 'plus',
+  iconNameOpened: 'plus',
+  iconNameClosed: 'arrow-down',
+  title: 'modals.customOptionsTitle',
   isOpen: false,
 }
 

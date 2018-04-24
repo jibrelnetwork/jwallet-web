@@ -22,7 +22,9 @@ const DigitalAssetsLayout = ({ goToCustomAssetAdd, search, searchQuery, children
             onClick={goToCustomAssetAdd}
             color='blue'
             iconName='plus'
-            text='header.actions.addCustomAsset'
+            iconSize='small'
+            iconColor='white'
+            label='header.actions.addCustomAsset'
           />
           <div className='search'>
             <JSearch

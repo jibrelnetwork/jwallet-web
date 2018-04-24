@@ -43,7 +43,9 @@ const ActiveAssetsPanel = ({
         onClick={goToDigitalAssets}
         color='blue'
         iconName='plus'
-        text='assetsPanel.button'
+        iconSize='small'
+        iconColor='white'
+        label='assetsPanel.button'
       />
     </div>
   </div>

@@ -71,7 +71,12 @@ const CustomAsset = ({
           </div>
           {!isAdd && (
             <div className='remove'>
-              <ButtonWithConfirm onClick={remove} label='Remove' labelConfirm='Confirm' />
+              <ButtonWithConfirm
+                onClick={remove}
+                label='Remove'
+                labelCancel='Nope!'
+                labelConfirm='Confirm'
+              />
             </div>
           )}
         </div>

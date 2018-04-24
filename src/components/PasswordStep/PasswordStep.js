@@ -36,9 +36,11 @@ const PasswordStep = ({
       {setPrevStep && (
         <JFlatButton
           onClick={setPrevStep}
-          text={buttonPrevLabel}
+          label={buttonPrevLabel}
+          iconSize='small'
           iconName='arrow'
-          transparent
+          iconColor='white'
+          isTransparent
         />
       )}
       <div className='next'>
