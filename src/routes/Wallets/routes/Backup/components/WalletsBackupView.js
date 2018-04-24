@@ -12,7 +12,14 @@ const WalletsBackupView = (props: Props) => (
     <ModalHeader title='Backup wallet' color='white' location='/wallets' />
     <div className='content'>
       {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
-      {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
+      {(props.currentStep === STEPS.PASSWORD) && (
+        <PasswordStep
+          {...props}
+          inputColor='blue'
+          buttonColor='blue'
+          labelColor='white'
+        />
+      )}
     </div>
   </div>
 )

@@ -17,8 +17,10 @@ const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
       <JFlatButton
         onClick={setPrevStep}
         iconName='arrow'
-        text='routes.createWallet.buttonTitle.prevStep'
-        transparent
+        iconSize='small'
+        iconColor='white'
+        label='routes.createWallet.buttonTitle.prevStep'
+        isTransparent
       />
       <div className='next'>
         <JRaisedButton

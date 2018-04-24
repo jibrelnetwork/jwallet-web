@@ -47,8 +47,10 @@ const DataStep = ({
       <JFlatButton
         onClick={setPrevStep}
         iconName='arrow'
-        text='routes.createWallet.buttonTitle.prevStep'
-        transparent
+        iconSize='small'
+        iconColor='white'
+        label='routes.createWallet.buttonTitle.prevStep'
+        isTransparent
       />
       <div className='next'>
         <JRaisedButton

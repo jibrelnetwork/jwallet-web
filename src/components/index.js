@@ -10,12 +10,10 @@ import ESCButton from './ESCButton'
 import Expandable from './Expandable'
 import MenuPanel from './MenuPanel'
 import ModalHeader from './ModalHeader'
-import NewWalletButtons from './NewWalletButtons'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
 import RoundIconButton from './RoundIconButton'
 import WalletHeader from './WalletHeader'
-import WalletManager from './WalletManager'
 
 export {
   ActiveAssetsPanel,
@@ -28,10 +26,8 @@ export {
   Expandable,
   MenuPanel,
   ModalHeader,
-  NewWalletButtons,
   PasswordStep,
   QRCode,
   RoundIconButton,
   WalletHeader,
-  WalletManager,
 }

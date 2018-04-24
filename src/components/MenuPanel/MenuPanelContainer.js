@@ -5,6 +5,7 @@ import { withState } from 'recompose'
 import { assoc, compose } from 'ramda'
 
 import keystore from 'services/keystore'
+import checkWalletReadOnly from 'utils/keystore/checkWalletReadOnly'
 import getCurrentLanguageCode from 'utils/i18n/getCurrentLanguageCode'
 import { setLanguage } from 'routes/modules/i18n'
 import { setCurrentNetwork as setNetwork } from 'routes/modules/networks'
@@ -17,20 +18,6 @@ const getNetworkTitleIdMap = (
 ): NetworkTitleById => {
   const i18nTitle = isCustom ? title : i18n(`networks.default.${title}`)
   return assoc(id, i18nTitle)(res)
-}
-
-const checkWalletReadOnly = (id: ?WalletId): boolean => {
-  if (!id) {
-    return false
-  }
-
-  try {
-    const wallet: Wallet = keystore.getWallet(id)
-
-    return wallet.isReadOnly
-  } catch (err) {
-    return false
-  }
 }
 
 const mapStateToProps = ({ networks, wallets }: State): {

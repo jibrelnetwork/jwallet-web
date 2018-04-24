@@ -2,25 +2,25 @@
 
 import React from 'react'
 
-import NewWalletButton from './Button'
+import WalletFace from './WalletFace'
 
 const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
     <div className='button'>
-      <NewWalletButton
+      <WalletFace
         onClick={createWallet}
-        type='new'
+        iconName='key-new'
         title='Create new wallet'
-        text='Some text about keys, mnemonic, address etc'
+        description='Some text about keys, mnemonic, address etc'
       />
     </div>
     <div className='button'>
-      <NewWalletButton
+      <WalletFace
         onClick={importWallet}
-        type='import'
+        iconName='key-import'
         title='Import wallet'
-        text='Some text about keys, mnemonic, address etc'
+        description='Some text about keys, mnemonic, address etc'
       />
     </div>
   </div>
@@ -29,11 +29,6 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
 type Props = {
   createWallet: Function,
   importWallet: Function,
-}
-
-NewWalletButtons.defaultProps = {
-  createWallet: () => {},
-  importWallet: () => {},
 }
 
 export default NewWalletButtons

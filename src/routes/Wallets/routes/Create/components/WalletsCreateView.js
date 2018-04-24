@@ -26,7 +26,14 @@ const WalletsCreateView = (props: Props) => (
       {(props.currentStep === STEPS.NAME) && <NameStep {...props} />}
       {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
       {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
-      {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
+      {(props.currentStep === STEPS.PASSWORD) && (
+        <PasswordStep
+          {...props}
+          inputColor='blue'
+          buttonColor='blue'
+          labelColor='white'
+        />
+      )}
       {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
     </div>
   </div>
