@@ -8,7 +8,9 @@ import DerivationPath from './DerivationPath'
 import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
 import Expandable from './Expandable'
+import HelpText from './HelpText'
 import MenuPanel from './MenuPanel'
+import MnemonicPhrase from './MnemonicPhrase'
 import ModalHeader from './ModalHeader'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
@@ -24,7 +26,9 @@ export {
   DigitalAssets,
   ESCButton,
   Expandable,
+  HelpText,
   MenuPanel,
+  MnemonicPhrase,
   ModalHeader,
   PasswordStep,
   QRCode,

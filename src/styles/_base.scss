@@ -53,3 +53,21 @@ $qr-code-height: 220px;
  */
 $wallet-button-width: 480px;
 $wallet-button-height: 90px;
+
+/**
+ * Help text
+ */
+$help-text-width: 480px;
+$help-text-padding: 25px;
+$help-text-line-height: 20px;
+$help-text-text-width: 385px;
+
+/**
+ * Mnemonic phrase
+ */
+$mnemonic-phrase-width: 480px;
+$mnemonic-phrase-height: 115px;
+$mnemonic-separator-width: 2px;
+$mnemonic-separator-height: 75px;
+$mnemonic-separator-top: ($mnemonic-phrase-height - $mnemonic-separator-height) / 2;
+$mnemonic-separator-left: ($mnemonic-phrase-width - $mnemonic-separator-width) / 2;

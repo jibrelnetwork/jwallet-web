@@ -2,16 +2,15 @@
 
 import React from 'react'
 
+import MnemonicPhrase from 'components/MnemonicPhrase'
 import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
   <div className='form'>
-    <JInput
-      value={mnemonic}
-      color='blue'
-      name='create-wallet-mnemonic'
-      placeholder='routes.createWallet.placeholder.mnemonic'
-      disabled
+    <MnemonicPhrase
+      copy={console.log}
+      download={console.log}
+      mnemonic={mnemonic}
     />
     <div className='actions'>
       <JFlatButton

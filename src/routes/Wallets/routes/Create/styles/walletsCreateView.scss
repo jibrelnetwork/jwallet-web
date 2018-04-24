@@ -50,6 +50,10 @@
       width: $form-width;
       margin: 0 auto;
 
+      > .help {
+        margin-bottom: 30px;
+      }
+
       > .actions {
         @include flex-row-center;
 

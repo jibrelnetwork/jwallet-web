@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import HelpText from 'components/HelpText'
 import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const NameStep = ({
@@ -12,6 +13,9 @@ const NameStep = ({
   name,
 }: Props) => (
   <div className='form'>
+    <div className='help'>
+      <HelpText text='Set name of the wallet' />
+    </div>
     <JInput
       onChange={setName}
       value={name}
