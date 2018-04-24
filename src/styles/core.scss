@@ -79,16 +79,6 @@
     font-weight: 600;
   }
 
-  #root {
-    height: 100%;
-    width: 100%;
-  }
-
-  .unselectable {
-    user-select: none;
-    cursor: default;
-  }
-
   // Base components
   @import '../components/base/JAssetSymbol/jAssetSymbol';
   @import '../components/base/JCallout/jCallout';

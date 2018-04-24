@@ -94,18 +94,18 @@
     &.-blue {
       > .input,
       > .textarea {
-        border-bottom-color: $pinkish-tan;
-        color: $pinkish-tan;
+        border-bottom-color: $blush;
+        color: $blush;
       }
 
       > .input{
         &:-webkit-autofill {
-          -webkit-text-fill-color: $pinkish-tan !important;
+          -webkit-text-fill-color: $blush !important;
         }
       }
 
       > .error {
-        color: $pinkish-tan;
+        color: $blush;
       }
     }
 
@@ -151,7 +151,7 @@
     }
 
     > .input {
-      transition: none;
+      transition: border-color 0.3s ease 0s;
     }
   }
 
@@ -194,7 +194,11 @@
     font-size: 11px;
   }
 
-  > .info,
+  > .error,
+  > .info {
+    line-height: 30px;
+  }
+
   > .tick {
     @include flex-row-center;
 
@@ -206,12 +210,8 @@
     opacity: 0.7;
   }
 
-  > .tick {
-    opacity: 1;
-  }
-
+  > .tick,
   > .error {
-    line-height: 30px;
     opacity: 1;
   }
 
