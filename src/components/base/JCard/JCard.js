@@ -3,8 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const JCard = ({ children, title, withShadow }: Props) => (
-  <div className={classNames('j-card', { '-with-shadow': withShadow })}>
+const JCard = ({ children, title, color, withShadow }: Props) => (
+  <div className={classNames(`j-card -${color}`, withShadow && '-shadow')}>
     {title && (
       <div className='title'>
         {title}
@@ -21,12 +21,12 @@ const JCard = ({ children, title, withShadow }: Props) => (
 type Props = {
   children: ?Object,
   title: ?string,
-  withShadow: ?bool,
+  color: 'blue' | 'white',
+  withShadow: boolean,
 }
 
 JCard.defaultProps = {
-  children: null,
-  title: null,
+  color: 'white',
   withShadow: false,
 }
 
