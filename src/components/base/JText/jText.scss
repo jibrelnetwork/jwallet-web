@@ -23,6 +23,10 @@
     color: $pinkish-tan;
   }
 
+  &.-sky {
+    color: $bright-sky-blue;
+  }
+
   &.-white {
     color: $white;
   }
@@ -43,6 +47,10 @@
 
   &.-header {
     font-size: 17px;
+  }
+
+  &.-mnemonic {
+    font-size: 20px;
   }
 
   &.-title {
