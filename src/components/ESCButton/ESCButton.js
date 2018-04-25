@@ -21,9 +21,4 @@ type Props = {
   color: 'white' | 'gray',
 }
 
-ESCButton.defaultProps = {
-  onClick: () => {},
-  color: 'white',
-}
-
 export default ESCButton

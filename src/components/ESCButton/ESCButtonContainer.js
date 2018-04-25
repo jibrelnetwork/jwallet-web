@@ -31,6 +31,6 @@ export default compose(
     },
   }),
   withHandlers({
-    onClick: ({ router, locationAfterClose }) => router.push(locationAfterClose),
+    onClick: ({ router, locationAfterClose }) => () => router.push(locationAfterClose),
   })
 )(ESCButton)
