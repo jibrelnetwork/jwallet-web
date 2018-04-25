@@ -2,7 +2,6 @@
 
 import React from 'react'
 
-import ethereum from 'data/assets/ethereum'
 import ModalLayout from 'layouts/ModalLayout'
 import { JInput, JRaisedButton } from 'components/base'
 import { AssetPicker, ModalHeader, QRCode } from 'components'
@@ -30,7 +29,8 @@ const FundsReceiveView = ({
           <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
           <JInput
             value={recipient}
-            color='white'
+            type='text'
+            color='gray'
             name='receive-funds-recipient'
             placeholder='routes.receiveFunds.placeholder.recipient'
             isDisabled
@@ -39,7 +39,8 @@ const FundsReceiveView = ({
             onChange={setAmount}
             value={amount}
             errorMessage={invalidFields.amount}
-            color='white'
+            type='text'
+            color='gray'
             name='receive-funds-amount'
             placeholder='routes.receiveFunds.placeholder.amount'
           />
@@ -71,14 +72,6 @@ type Props = {
 }
 
 FundsReceiveView.defaultProps = {
-  setAsset: () => {},
-  setAmount: () => {},
-  saveQRCode: () => {},
-  copyAddress: () => {},
-  invalidFields: {},
-  amount: '',
-  recipient: '',
-  assetAddress: ethereum.address,
   isCopied: false,
 }
 

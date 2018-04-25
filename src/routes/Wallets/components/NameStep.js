@@ -20,7 +20,8 @@ const NameStep = ({
       onChange={setName}
       value={name}
       errorMessage={invalidFields.name}
-      color='blue'
+      type='text'
+      color='white'
       name='wallet-name'
       placeholder='routes.createWallet.placeholder.name'
     />

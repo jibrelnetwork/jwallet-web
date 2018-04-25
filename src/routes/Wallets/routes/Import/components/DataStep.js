@@ -9,16 +9,16 @@ import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const DataStep = ({
   setData,
-  setKnownDerivationPath,
-  setCustomDerivationPath,
   setPrevStep,
   setNextStep,
+  setKnownDerivationPath,
+  setCustomDerivationPath,
   validFields,
   invalidFields,
   data,
+  walletType,
   knownDerivationPath,
   customDerivationPath,
-  walletType,
   selectedDerivationPathType,
 }: Props) => (
   <div className='form'>
@@ -27,7 +27,8 @@ const DataStep = ({
       value={data}
       errorMessage={invalidFields.data}
       successMessage={validFields.data}
-      color='blue'
+      type='text'
+      color='white'
       name='import-wallet-data'
       placeholder='routes.importWallet.placeholder.data'
     />
@@ -66,10 +67,10 @@ const DataStep = ({
 
 type Props = {
   setData: Function,
-  setKnownDerivationPath: Function,
-  setCustomDerivationPath: Function,
   setPrevStep: Function,
   setNextStep: Function,
+  setKnownDerivationPath: Function,
+  setCustomDerivationPath: Function,
   validFields: FormFields,
   invalidFields: FormFields,
   data: string,
@@ -77,10 +78,6 @@ type Props = {
   knownDerivationPath: string,
   customDerivationPath: string,
   selectedDerivationPathType: 'known' | 'custom'
-}
-
-DataStep.defaultProps = {
-  walletType: null,
 }
 
 export default DataStep

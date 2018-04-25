@@ -52,11 +52,12 @@ const CustomAsset = ({
           <JInput
             key={key}
             onChange={handler}
-            color='white'
             value={value}
             name={`custom-asset-${key}`}
             errorMessage={invalidFields[key]}
             placeholder={`routes.addCustomAsset.placeholder.${key}`}
+            type='text'
+            color='gray'
             isDisabled={isDisabled}
           />
         ))}
@@ -94,27 +95,17 @@ type Props = {
   setAddress: Function,
   setDecimals: Function,
   invalidFields: FormFields,
-  type: string,
   name: string,
   symbol: string,
   address: string,
   decimals: string,
+  type: 'add' | 'edit',
 }
 
 CustomAsset.defaultProps = {
   add: null,
   edit: null,
-  remove: () => {},
-  setName: () => {},
-  setSymbol: () => {},
-  setAddress: () => {},
-  setDecimals: () => {},
-  invalidFields: {},
   type: 'add',
-  name: '',
-  symbol: '',
-  address: '',
-  decimals: '',
 }
 
 export default CustomAsset

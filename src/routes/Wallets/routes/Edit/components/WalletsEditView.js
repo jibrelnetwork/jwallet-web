@@ -12,43 +12,33 @@ const WalletsEditView = (props: Props) => (
     <ModalHeader title='Edit wallet' color='white' location='/wallets' />
     <div className='content'>
       {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
-      {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
+      {(props.currentStep === STEPS.PASSWORD) && (
+        <PasswordStep
+          {...props}
+          inputColor='white'
+          labelColor='white'
+          buttonColor='blue'
+        />
+      )}
     </div>
   </div>
 )
 
 type Props = {
-  setName: (name: string) => Dispatch,
-  setKnownDerivationPath: (knownDerivationPath: string) => Dispatch,
-  setCustomDerivationPath: (customDerivationPath: string) => Dispatch,
-  setPassword: (password: Password) => Dispatch,
-  setNextStep: () => Dispatch,
+  setName: Function,
+  setPassword: Function,
+  setNextStep: Function,
+  setKnownDerivationPath: Function,
+  setCustomDerivationPath: Function,
   validFields: FormFields,
   invalidFields: FormFields,
   name: string,
+  password: string,
+  walletType: ?WalletType,
   knownDerivationPath: string,
   customDerivationPath: string,
-  password: Password,
+  selectedDerivationPathType: 'custom' | 'known',
   currentStep: Index,
-  walletType: ?WalletType,
-  selectedDerivationPathType: 'custom' | 'known'
-}
-
-WalletsEditView.defaultProps = {
-  setName: () => {},
-  setKnownDerivationPath: () => {},
-  setCustomDerivationPath: () => {},
-  setPassword: () => {},
-  setNextStep: () => {},
-  validFields: {},
-  invalidFields: {},
-  name: '',
-  knownDerivationPath: '',
-  customDerivationPath: '',
-  password: '',
-  currentStep: 0,
-  walletType: undefined,
-  selectedDerivationPathType: 'custom',
 }
 
 export default WalletsEditView

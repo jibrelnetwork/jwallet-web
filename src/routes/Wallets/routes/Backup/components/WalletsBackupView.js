@@ -15,9 +15,9 @@ const WalletsBackupView = (props: Props) => (
       {(props.currentStep === STEPS.PASSWORD) && (
         <PasswordStep
           {...props}
-          inputColor='blue'
-          buttonColor='blue'
+          inputColor='white'
           labelColor='white'
+          buttonColor='blue'
         />
       )}
     </div>
@@ -25,19 +25,11 @@ const WalletsBackupView = (props: Props) => (
 )
 
 type Props = {
-  setPassword: (password: Password) => Dispatch,
-  setNextStep: () => Dispatch,
+  setPassword: Function,
+  setNextStep: Function,
   invalidFields: FormFields,
-  password: Password,
+  password: string,
   currentStep: Index,
-}
-
-WalletsBackupView.defaultProps = {
-  setPassword: () => {},
-  setNextStep: () => {},
-  invalidFields: {},
-  password: '',
-  currentStep: 0,
 }
 
 export default WalletsBackupView

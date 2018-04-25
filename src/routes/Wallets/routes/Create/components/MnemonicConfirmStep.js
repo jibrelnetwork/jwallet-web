@@ -18,7 +18,8 @@ const MnemonicConfirmStep = ({
       value={mnemonicConfirm}
       errorMessage={invalidFields.mnemonicConfirm}
       successMessage={validFields.mnemonicConfirm}
-      color='blue'
+      type='text'
+      color='white'
       name='create-wallet-mnemonic-confirm'
       placeholder='routes.createWallet.placeholder.mnemonicConfirm'
     />
