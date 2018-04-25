@@ -34,6 +34,14 @@
     }
   }
 
+  &.-opaque {
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   &.-transparent {
     opacity: 0.5;
 

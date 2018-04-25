@@ -61,6 +61,12 @@
       }
     }
 
+    &.-eye {
+      &.-gray {
+        background-image: $icon-small-eye-gray;
+      }
+    }
+
     &.-info {
       background-image: $icon-small-info-white;
 
@@ -86,10 +92,16 @@
     }
 
     &.-plus {
-      background-image: $icon-small-plus-white;
-
       &.-blue {
         background-image: $icon-small-plus-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-small-plus-sky;
+      }
+
+      &.-white {
+        background-image: $icon-small-plus-white;
       }
     }
 

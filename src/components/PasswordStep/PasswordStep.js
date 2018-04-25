@@ -78,10 +78,6 @@ type Props = {
 PasswordStep.defaultProps = {
   setPrevStep: null,
   setPasswordConfirm: null,
-  inputColor: 'white',
-  labelColor: 'white',
-  buttonColor: 'white',
-  loaderColor: 'white',
   buttonNextLabel: 'Confirm',
   buttonPrevLabel: 'Previous step',
   isLoading: false,
