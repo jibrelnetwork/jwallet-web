@@ -8,6 +8,7 @@ import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 const JInput = ({
   onChange,
   type,
+  name,
   value,
   color,
   label,
@@ -24,10 +25,8 @@ const JInput = ({
   return (
     <div
       className={classNames(
-        'j-input',
-        type && `-${type}`,
+        `j-input -${type} -${color}`,
         !!value && '-value',
-        color && `-${color}`,
         infoMessage && '-info',
         isLoading && '-loading',
         isChecked && '-checked',
@@ -49,6 +48,7 @@ const JInput = ({
           onChange={handleTargetValue(onChange)}
           className='input'
           type={type}
+          name={name}
           value={value}
           disabled={isDisabled}
           placeholder={i18n(placeholder) || placeholder}
@@ -65,12 +65,13 @@ const JInput = ({
 
 type Props = {
   onChange: Function,
+  name: ?string,
   label: string,
   placeholder: string,
   infoMessage: ?string,
   errorMessage: ?string,
   value: string | number,
-  color: 'blue' | 'white',
+  color: 'gray' | 'white',
   type: 'text' | 'password',
   isLoading: boolean,
   isChecked: boolean,
@@ -79,12 +80,9 @@ type Props = {
 }
 
 JInput.defaultProps = {
-  onChange: () => {},
-  label: '',
-  value: '',
+  name: '',
   type: 'text',
   color: 'white',
-  placeholder: '',
   infoMessage: null,
   errorMessage: null,
   isLoading: false,

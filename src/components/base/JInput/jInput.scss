@@ -28,7 +28,7 @@
     cursor: default;
   }
 
-  &.-blue {
+  &.-white {
     color: $white;
 
     > .input,
@@ -59,7 +59,7 @@
     }
   }
 
-  &.-white {
+  &.-gray {
     color: $dusk;
 
     > .input,
@@ -91,7 +91,7 @@
   }
 
   &.-error {
-    &.-blue {
+    &.-white {
       > .input,
       > .textarea {
         border-bottom-color: $blush;
@@ -109,7 +109,7 @@
       }
     }
 
-    &.-white {
+    &.-gray {
       > .input,
       > .textarea {
         border-bottom-color: $tomato;
@@ -136,11 +136,11 @@
       background-size: $icon-small-size $icon-small-size;
     }
 
-    &.-blue > .tick {
+    &.-white > .tick {
       background-image: $icon-small-checkbox-white;
     }
 
-    &.-white > .tick {
+    &.-gray > .tick {
       background-image: $icon-small-checkbox-blue;
     }
   }
