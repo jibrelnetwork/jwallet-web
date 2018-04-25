@@ -4,7 +4,7 @@
   @include flex-row;
 
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: $radio-item-margin-bottom;
   opacity: 0.5;
   transition: opacity 0.3s ease 0s;
   cursor: pointer;
@@ -16,6 +16,10 @@
 
   &.-active > .input > .label {
     background-image: $icon-small-checkbox-blue;
+  }
+
+  &.-top {
+    align-items: flex-start;
   }
 
   > .input {
@@ -33,9 +37,9 @@
       @include flex-row-center;
 
       display: flex;
-      width: 16px;
-      height: 16px;
-      margin-right: 15px;
+      width: $radio-dot-size;
+      height: $radio-dot-size;
+      margin-right: $radio-dot-margin-right;
       background-color: $white;
       background-position: center;
       background-repeat: no-repeat;

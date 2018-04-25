@@ -5,9 +5,9 @@ import classNames from 'classnames'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
-const JRadio = ({ toggle, children, name, isActive }: Props) => (
+const JRadio = ({ toggle, children, name, isActive, isTopAligned }: Props) => (
   <div
-    className={classNames('j-radio', isActive && '-active')}
+    className={classNames('j-radio', isActive && '-active', isTopAligned && '-top')}
     onClick={ignoreEvent(toggle)(isActive)}
   >
     <div className='input'>
@@ -25,13 +25,13 @@ type Props = {
   children: ?Object,
   name: number | string,
   isActive: boolean,
+  isTopAligned: boolean,
 }
 
 JRadio.defaultProps = {
-  toggle: () => {},
   children: null,
-  name: 0,
   isActive: false,
+  isTopAligned: false,
 }
 
 export default JRadio
