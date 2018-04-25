@@ -5,7 +5,7 @@
 
   position: relative;
   height: 100%;
-  margin-left: -($radio-dot-size + $radio-dot-margin-right);
+  margin-left: -($checkbox-dot-size + $checkbox-dot-margin-right);
   flex-grow: 1;
   align-items: center;
 
@@ -16,7 +16,7 @@
 
   > .input {
     width: 100%;
-    padding: 0 0 30px ($radio-dot-size + $radio-dot-margin-right);
+    padding: 0 0 30px ($checkbox-dot-size + $checkbox-dot-margin-right);
     background: transparent;
     border: none;
     border-bottom: 1px solid rgba($white, 0.2);

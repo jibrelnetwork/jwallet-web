@@ -1,4 +1,4 @@
-.j-radio {
+.j-checkbox {
   all: initial;
 
   @include flex-row;
@@ -28,7 +28,7 @@
   > .input {
     @include flex-row;
 
-    > .radio {
+    > .checkbox {
       width: 0;
       visibility: hidden;
       overflow: hidden;
