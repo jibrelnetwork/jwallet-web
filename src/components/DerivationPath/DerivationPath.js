@@ -33,6 +33,7 @@ const DerivationPath = ({
         toggle={handle(setCustomDerivationPath)(customDerivationPath)}
         name={'custom-path'}
         isActive={selectedDerivationPathType === 'custom'}
+        isTopAligned
       >
         <Custom
           onChange={setCustomDerivationPath}

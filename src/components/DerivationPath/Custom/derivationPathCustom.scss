@@ -4,32 +4,32 @@
   @include flex-row;
 
   position: relative;
-  align-items: center;
   height: 100%;
+  margin-left: -($radio-dot-size + $radio-dot-margin-right);
   flex-grow: 1;
+  align-items: center;
 
-  &.-error {
-    &:after {
-      position: absolute;
-      right: 0;
-      bottom: -20px;
-      display: block;
-      height: 1px;
-      width: 100%;
-      background-color: $blush;
-      content: '';
-    }
-
-    > .input {
-      color: $blush;
-    }
+  &.-error > .input {
+    color: $blush;
+    border-bottom: 1px solid $blush;
   }
 
   > .input {
     width: 100%;
+    padding: 0 0 30px ($radio-dot-size + $radio-dot-margin-right);
     background: transparent;
     border: none;
+    border-bottom: 1px solid rgba($white, 0.2);
     color: $white;
+    transition: border-color 0.3s ease 0s;
+
+    &:hover {
+      border-bottom: 1px solid rgba($white, 0.4);
+    }
+
+    &:focus {
+      border-bottom: 1px solid rgba($white, 0.6);
+    }
 
     &::placeholder {
       color: $white;
@@ -39,6 +39,6 @@
   > .error {
     position: absolute;
     right: 0;
-    bottom: -20px;
+    bottom: 0px;
   }
 }
