@@ -23,7 +23,7 @@ const DigitalAssetsLayout = ({ goToCustomAssetAdd, search, searchQuery, children
             color='blue'
             iconName='plus'
             iconSize='small'
-            iconColor='white'
+            iconColor='blue'
             label='header.actions.addCustomAsset'
           />
           <div className='search'>
@@ -49,13 +49,6 @@ type Props = {
   goToCustomAssetAdd: Function,
   searchQuery: string,
   children: ?Object,
-}
-
-DigitalAssetsLayout.defaultProps = {
-  search: () => {},
-  goToCustomAssetAdd: () => {},
-  searchQuery: '',
-  children: null,
 }
 
 export default DigitalAssetsLayout
