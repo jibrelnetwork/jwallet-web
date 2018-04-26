@@ -33,38 +33,16 @@
     height: 100%;
     padding: 30px;
     overflow: hidden;
-    transition: opacity 0.3s ease 0s;
+    transition: opacity 0.6s ease 0s;
   }
 
   > .overlay {
-    @include flex-row-center;
-
+    position: relative;
     width: 0;
     height: 0;
     overflow: hidden;
     visibility: hidden;
     opacity: 0;
-    transition: opacity 0.3s ease 0s;
-    cursor: pointer;
-
-    > .item {
-      @include flex-column-center;
-
-      width: 50%;
-      height: 100%;
-
-      > .icon {
-        margin-bottom: 10px;
-      }
-    }
-
-    > .separator {
-      position: absolute;
-      top: $mnemonic-separator-top;
-      left: $mnemonic-separator-left;
-      width: $mnemonic-separator-width;
-      height: $mnemonic-separator-height;
-      background-color: rgba($blue, 0.05);
-    }
+    transition: opacity 0.6s ease 0s;
   }
 }

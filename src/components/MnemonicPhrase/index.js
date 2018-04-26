@@ -1,5 +1,5 @@
 // @flow
 
-import MnemonicPhrase from './MnemonicPhraseContainer'
+import MnemonicPhrase from './MnemonicPhrase'
 
 export default MnemonicPhrase
