@@ -74,7 +74,9 @@ $help-text-text-width: 385px;
  */
 $mnemonic-phrase-width: 480px;
 $mnemonic-phrase-height: 115px;
-$mnemonic-separator-width: 2px;
-$mnemonic-separator-height: 75px;
-$mnemonic-separator-top: ($mnemonic-phrase-height - $mnemonic-separator-height) / 2;
-$mnemonic-separator-left: ($mnemonic-phrase-width - $mnemonic-separator-width) / 2;
+
+/**
+ * Overlay actions
+ */
+$overlay-separator-width: 1px;
+$overlay-separator-height: 75px;

@@ -12,6 +12,7 @@ import HelpText from './HelpText'
 import MenuPanel from './MenuPanel'
 import MnemonicPhrase from './MnemonicPhrase'
 import ModalHeader from './ModalHeader'
+import OverlayActions from './OverlayActions'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
 import RoundIconButton from './RoundIconButton'
@@ -30,6 +31,7 @@ export {
   MenuPanel,
   MnemonicPhrase,
   ModalHeader,
+  OverlayActions,
   PasswordStep,
   QRCode,
   RoundIconButton,
