@@ -10,10 +10,21 @@
   border: solid 1px transparent;
   visibility: hidden;
   opacity: 0;
-  transition: max-height 0.5s ease 0s, opacity 0.5s ease 0s;
+  transition: max-height 0.6s ease 0s, opacity 0.6s ease 0s;
 
   &:hover {
+    > .qr {
+      width: 0;
+      height: 0;
+      padding: 0;
+      visibility: hidden;
+      opacity: 0;
+    }
+
     > .overlay {
+      width: 100%;
+      height: 100%;
+      visibility: visible;
       opacity: 1;
     }
   }
@@ -25,16 +36,22 @@
     opacity: 1;
   }
 
-  > .overlay {
+  > .qr {
     @include flex-row-center;
-    @include hover-animation;
 
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background-color: $white;
+    overflow: hidden;
+    transition: opacity 0.6s ease 0s;
+  }
+
+  > .overlay {
+    position: relative;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
     opacity: 0;
+    transition: opacity 0.6s ease 0s;
   }
 }
