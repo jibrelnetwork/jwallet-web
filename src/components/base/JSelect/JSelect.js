@@ -44,6 +44,7 @@ const JSelect = ({
         {children}
       </Scrollbars>
     </div>
+    {isOpen && <div onClick={handle(toggle)(false)} className='overlay' />}
   </div>
 )
 
