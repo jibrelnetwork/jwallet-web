@@ -9,6 +9,7 @@ import { AssetPicker, ModalHeader, QRCode } from 'components'
 const FundsReceiveView = ({
   setAsset,
   setAmount,
+  copyQRCode,
   saveQRCode,
   copyAddress,
   invalidFields,
@@ -23,7 +24,8 @@ const FundsReceiveView = ({
       <div className='content'>
         <div className='form'>
           <QRCode
-            saveQRCode={saveQRCode}
+            copy={copyQRCode}
+            download={saveQRCode}
             isActive={!!amount && !invalidFields.amount}
           />
           <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
@@ -62,6 +64,7 @@ const FundsReceiveView = ({
 type Props = {
   setAsset: Function,
   setAmount: Function,
+  copyQRCode: Function,
   saveQRCode: Function,
   copyAddress: Function,
   invalidFields: FormFields,

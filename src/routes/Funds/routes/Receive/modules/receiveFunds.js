@@ -13,6 +13,7 @@ export const GENERATE_SUCCESS = '@@receiveFunds/GENERATE_SUCCESS'
 export const GENERATE_ERROR = '@@receiveFunds/GENERATE_ERROR'
 export const COPY_ADDRESS = '@@receiveFunds/COPY_ADDRESS'
 export const SET_IS_COPIED = '@@receiveFunds/SET_IS_COPIED'
+export const COPY_QR_CODE = '@@receiveFunds/COPY_QR_CODE'
 export const SAVE_QR_CODE = '@@receiveFunds/SAVE_QR_CODE'
 export const SET_INVALID_FIELD = '@@receiveFunds/SET_INVALID_FIELD'
 export const CLEAN = '@@receiveFunds/CLEAN'
@@ -73,6 +74,10 @@ export const setIsCopied = (isCopied: boolean): {
   payload: {
     isCopied,
   },
+})
+
+export const copyQRCode = (): { type: string } => ({
+  type: COPY_QR_CODE,
 })
 
 export const saveQRCode = (): { type: string } => ({
