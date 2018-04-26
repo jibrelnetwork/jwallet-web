@@ -46,6 +46,8 @@ type Props = {
   setNextStep: Function,
   setPrevStep: Function,
   setPassword: Function,
+  copyMnemonic: Function,
+  saveMnemonic: Function,
   setPasswordConfirm: Function,
   setMnemonicConfirm: Function,
   validFields: FormFields,

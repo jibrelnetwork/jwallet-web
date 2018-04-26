@@ -6,13 +6,15 @@ import classNames from 'classnames'
 import MnemonicPhrase from 'components/MnemonicPhrase'
 import { JCheckbox, JFlatButton, JRaisedButton, JText } from 'components/base'
 
-const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
+const MnemonicStep = ({
+  setPrevStep,
+  setNextStep,
+  copyMnemonic,
+  saveMnemonic,
+  mnemonic,
+}: Props) => (
   <div className='form'>
-    <MnemonicPhrase
-      copy={console.log}
-      download={console.log}
-      mnemonic={mnemonic}
-    />
+    <MnemonicPhrase copy={copyMnemonic} download={saveMnemonic} mnemonic={mnemonic} />
     <div className={classNames('conditions', /* isActive &&  */ '-active')}>
       <JCheckbox toggle={console.log} name='warning-one' isActive>
         <JText
@@ -55,6 +57,8 @@ const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
 type Props = {
   setNextStep: Function,
   setPrevStep: Function,
+  copyMnemonic: Function,
+  saveMnemonic: Function,
   mnemonic: string,
 }
 
