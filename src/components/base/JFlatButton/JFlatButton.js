@@ -51,10 +51,10 @@ const JFlatButton = ({
 type Props = {
  onClick: Function,
  label: ?string,
- color: 'blue' | 'gray' | 'white',
+ color: 'blue' | 'gray' | 'sky' | 'white',
  iconName: ?string,
  iconSize: 'small' | 'medium',
- iconColor: 'blue' | 'gray' | 'white',
+ iconColor: 'blue' | 'gray' | 'sky' | 'white',
  isOpaque: boolean,
  isLoading: boolean,
  isDisabled: boolean,
