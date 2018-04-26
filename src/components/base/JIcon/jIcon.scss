@@ -17,19 +17,28 @@
     background-size: $icon-small-size $icon-small-size;
 
     &.-arrow {
-      background-image: $icon-small-arrow-white;
-
       &.-blue {
         background-image: $icon-small-arrow-blue;
+      }
+
+      &.-white {
+        background-image: $icon-small-arrow-white;
       }
     }
 
     &.-arrow-down {
-      background-image: $icon-small-arrow-white;
       transform: rotate(90deg);
 
       &.-blue {
         background-image: $icon-small-arrow-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-small-arrow-sky;
+      }
+
+      &.-white {
+        background-image: $icon-small-arrow-white;
       }
     }
 

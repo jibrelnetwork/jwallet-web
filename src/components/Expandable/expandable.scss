@@ -3,9 +3,15 @@
 
   @include flex-column;
 
-  &.-open > .content {
+  &.-column > .content {
     @include flex-column;
+  }
 
+  &.-row > .content {
+    @include flex-row;
+  }
+
+  &.-open > .content {
     max-height: 500px;
     overflow: visible;
     visibility: visible;
@@ -22,7 +28,7 @@
     }
 
     &.-open > .title {
-      border-bottom: 1px solid rgba($dusk, 0.5);
+      border-bottom: 1px solid transparent;
     }
   }
 
@@ -36,7 +42,7 @@
     }
 
     &.-open > .title {
-      border-bottom: none;
+      border-bottom: 1px solid transparent;
     }
   }
 
@@ -48,9 +54,15 @@
     height: $form-field-height;
     align-items: center;
     transition: border-color 0.3s ease 0s;
+    cursor: pointer;
 
-    > .label {
-      padding-left: 10px;
+    > .icon,
+    > .text {
+      @include flex-row-center;
+    }
+
+    > .icon {
+      margin-right: 10px;
     }
   }
 

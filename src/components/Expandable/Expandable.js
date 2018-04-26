@@ -4,49 +4,69 @@ import React from 'react'
 import classNames from 'classnames'
 
 import handle from 'utils/eventHandlers/handle'
-import JFlatButton from 'components/base/JFlatButton'
+import { JIcon, JText } from 'components/base'
 
 const Expandable = ({
   toggle,
+  setHovered,
   children,
   title,
   color,
+  orientation,
   iconNameOpened,
   iconNameClosed,
   isOpen,
-}: Props) => (
-  <div className={classNames('expandable', `-${color}`, isOpen && '-open')}>
-    <div className='title'>
-      <JFlatButton
+  isHovered,
+}: Props) => {
+  const hoverColor = (color === 'blue') ? 'sky' : 'white'
+
+  return (
+    <div className={classNames(`expandable -${color} -${orientation}`, isOpen && '-open')}>
+      <div
+        className='title'
         onClick={handle(toggle)(!isOpen)}
-        label={title}
-        color={color}
-        iconColor={color}
-        iconName={isOpen ? iconNameOpened : iconNameClosed}
-        iconSize='small'
-      />
+        onMouseEnter={handle(setHovered)(true)}
+        onMouseLeave={handle(setHovered)(false)}
+      >
+        <div className='icon'>
+          <JIcon
+            color={isHovered ? hoverColor : color}
+            name={isOpen ? iconNameOpened : iconNameClosed}
+            Size='small'
+          />
+        </div>
+        <div className='text'>
+          <JText
+            value={title}
+            color={isHovered ? hoverColor : color}
+            weight='bold'
+          />
+        </div>
+      </div>
+      <div className='content'>{children}</div>
     </div>
-    <div className='content'>{children}</div>
-  </div>
-)
+  )
+}
 
 type Props = {
   toggle: Function,
+  setHovered: Function,
   children: ?Object,
-  color: 'blue' | 'white',
   title: string,
   iconNameOpened: string,
   iconNameClosed: string,
+  color: 'blue' | 'white',
+  orientation: 'row' | 'column',
   isOpen: boolean,
+  isHovered: boolean,
 }
 
 Expandable.defaultProps = {
-  children: null,
   color: 'white',
-  iconNameOpened: 'plus',
-  iconNameClosed: 'arrow-down',
+  orientation: 'column',
+  iconNameOpened: 'arrow-down',
+  iconNameClosed: 'plus',
   title: 'modals.customOptionsTitle',
-  isOpen: false,
 }
 
 export default Expandable
