@@ -79,6 +79,18 @@
       }
     }
 
+    &.-info-clear {
+      &.-gray {
+        background-image: $icon-small-info-clear-gray;
+      }
+    }
+
+    &.-lock {
+      &.-gray {
+        background-image: $icon-small-lock-gray;
+      }
+    }
+
     &.-menu-favorite {
       background-image: $icon-small-menu-favorite-white;
     }

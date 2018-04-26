@@ -16,23 +16,42 @@
       opacity: 0.5;
     }
 
-    > .input,
-    > .textarea {
+    > .input {
       padding-top: $form-field-padding-top;
       font-weight: 600;
     }
   }
 
   &.-disabled {
-    opacity: 0.3;
     cursor: default;
+
+    &.-gray > .input {
+      opacity: 0.3;
+
+      &:hover,
+      &:focus {
+        border-bottom: 1px solid rgba($dusk, 0.1);
+      }
+    }
+
+    &.-white > .input {
+      opacity: 0.3;
+
+      &:hover,
+      &:focus {
+        border-bottom: 1px solid rgba($white, 0.2);
+      }
+    }
+
+    > .lock {
+      display: block;
+    }
   }
 
   &.-white {
     color: $white;
 
-    > .input,
-    > .textarea {
+    > .input {
       border-bottom: 1px solid rgba($white, 0.2);
       color: $white;
       opacity: 1;
@@ -62,8 +81,7 @@
   &.-gray {
     color: $dusk;
 
-    > .input,
-    > .textarea {
+    > .input {
       border-bottom: 1px solid rgba($dusk, 0.1);
       color: $dusk;
       opacity: 1;
@@ -92,8 +110,7 @@
 
   &.-error {
     &.-white {
-      > .input,
-      > .textarea {
+      > .input {
         border-bottom-color: $blush;
         color: $blush;
       }
@@ -110,8 +127,7 @@
     }
 
     &.-gray {
-      > .input,
-      > .textarea {
+      > .input {
         border-bottom-color: $tomato;
         color: $tomato;
       }
@@ -155,6 +171,12 @@
     }
   }
 
+  &.-help {
+    > .help {
+      display: block;
+    }
+  }
+
   > .label {
     position: absolute;
     top: 50px;
@@ -166,8 +188,7 @@
     transition: opacity 0.3s ease 0s, top 0.3s ease 0s;
   }
 
-  > .input,
-  > .textarea {
+  > .input {
     @include flex-row;
 
     width: 100%;
@@ -213,6 +234,50 @@
   > .tick,
   > .error {
     opacity: 1;
+  }
+
+  > .help,
+  > .lock {
+    /**
+     * Just believe me
+     */
+    $input-icon-padding: 10px;
+    $input-icon-size: ($icon-small-size + ($input-icon-padding * 2));
+    $input-icon-margin-top: ($form-field-padding-top / 2) - ($input-icon-size / 2);
+
+    @include flex-row-center;
+
+    position: absolute;
+    right: 0;
+    top: 50%;
+    display: none;
+    width: $input-icon-size;
+    height: $input-icon-size;
+    padding: $input-icon-padding;
+    margin-top: $input-icon-margin-top;
+    opacity: 0.3;
+    transition: opacity 0.3s ease 0s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    > .icon {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $icon-small-size $icon-small-size;
+    }
+  }
+
+  > .help > .icon {
+    background-image: $icon-small-info-clear-gray;
+  }
+
+  > .lock > .icon {
+    background-image: $icon-small-lock-gray;
   }
 
   > .loader {
