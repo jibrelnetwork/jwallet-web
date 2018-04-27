@@ -1,0 +1,3 @@
+// @flow
+
+import './JIcon.stories'

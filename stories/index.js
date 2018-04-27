@@ -1,7 +1,6 @@
-// import React from 'react'
+// @flow
 
 import '../src/styles/core.scss'
 
-// import './baseComponents'
-// import './components'
-import '.'
+import './components'
+import './components/base'
