@@ -59,14 +59,16 @@
     }
 
     &.-expand {
-      background-image: $icon-small-expand-white;
-
       &.blue {
         background-image: $icon-small-expand-blue;
       }
 
       &.-gray {
         background-image: $icon-small-expand-gray;
+      }
+
+      &.-white {
+        background-image: $icon-small-expand-white;
       }
     }
 
@@ -110,6 +112,22 @@
 
     &.-menu-send {
       background-image: $icon-small-menu-send-white;
+    }
+
+    &.-narrow {
+      transform: rotate(180deg);
+
+      &.blue {
+        background-image: $icon-small-expand-blue;
+      }
+
+      &.-gray {
+        background-image: $icon-small-expand-gray;
+      }
+
+      &.-white {
+        background-image: $icon-small-expand-white;
+      }
     }
 
     &.-plus {
