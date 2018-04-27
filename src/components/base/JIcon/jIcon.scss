@@ -1,9 +1,10 @@
 .j-icon {
   all: initial;
 
+  @include box;
+  @include flex-row;
   @include hover-animation;
 
-  display: flex;
   background-repeat: no-repeat;
   background-position: center;
   cursor: inherit;
@@ -43,50 +44,30 @@
     }
 
     &.-checkbox {
-      background-image: $icon-small-checkbox-white;
-
       &.-blue {
         background-image: $icon-small-checkbox-blue;
+      }
+
+      &.-white {
+        background-image: $icon-small-checkbox-white;
       }
     }
 
     &.-close {
-      background-image: $icon-small-close-white;
-
-      &.gray {
+      &.-gray {
         background-image: $icon-small-close-gray;
       }
     }
 
     &.-expand {
-      &.blue {
-        background-image: $icon-small-expand-blue;
-      }
-
       &.-gray {
         background-image: $icon-small-expand-gray;
-      }
-
-      &.-white {
-        background-image: $icon-small-expand-white;
       }
     }
 
     &.-eye {
       &.-gray {
         background-image: $icon-small-eye-gray;
-      }
-    }
-
-    &.-info {
-      background-image: $icon-small-info-white;
-
-      &.-blue {
-        background-image: $icon-small-info-blue;
-      }
-
-      &.-gray {
-        background-image: $icon-small-info-gray;
       }
     }
 
@@ -103,30 +84,28 @@
     }
 
     &.-menu-favorite {
-      background-image: $icon-small-menu-favorite-white;
+      &.-white {
+        background-image: $icon-small-menu-favorite-white;
+      }
     }
 
     &.-menu-receive {
-      background-image: $icon-small-menu-receive-white;
+      &.-white {
+        background-image: $icon-small-menu-receive-white;
+      }
     }
 
     &.-menu-send {
-      background-image: $icon-small-menu-send-white;
+      &.-white {
+        background-image: $icon-small-menu-send-white;
+      }
     }
 
     &.-narrow {
       transform: rotate(180deg);
 
-      &.blue {
-        background-image: $icon-small-expand-blue;
-      }
-
       &.-gray {
         background-image: $icon-small-expand-gray;
-      }
-
-      &.-white {
-        background-image: $icon-small-expand-white;
       }
     }
 
@@ -145,28 +124,18 @@
     }
 
     &.-repeat {
-      background-image: $icon-small-repeat-white;
-
       &.-blue {
         background-image: $icon-small-repeat-blue;
       }
     }
 
     &.-settings {
-      background-image: $icon-small-settings-white;
-
-      &.-blue {
-        background-image: $icon-small-settings-blue;
-      }
-
       &.-gray {
         background-image: $icon-small-settings-gray;
       }
     }
 
     &.-star {
-      background-image: $icon-small-star-white;
-
       &.-blue {
         background-image: $icon-small-star-blue;
       }
@@ -182,30 +151,24 @@
     background-size: $icon-medium-size $icon-medium-size;
 
     &.-arrow {
-      background-image: $icon-medium-arrow-white;
-
-      &.-blue {
-        background-image: $icon-medium-arrow-blue;
+      &.-white {
+        background-image: $icon-medium-arrow-white;
       }
     }
 
     &.-arrow-header {
-      background-image: $icon-medium-arrow-header-white;
-
-      &.-blue {
-        background-image: $icon-medium-arrow-header-blue;
-      }
-
-      &.-gray {
-        background-image: $icon-medium-arrow-header-gray;
+      &.-white {
+        background-image: $icon-medium-arrow-header-white;
       }
     }
 
     &.-close-header {
-      background-image: $icon-medium-close-header-white;
-
       &.-gray {
         background-image: $icon-medium-close-header-gray;
+      }
+
+      &.-white {
+        background-image: $icon-medium-close-header-white;
       }
     }
 
@@ -234,88 +197,66 @@
     }
 
     &.-info {
-      background-image: $icon-medium-info-white;
-
-      &.-blue {
-        background-image: $icon-medium-info-blue;
-      }
-
-      &.-gray {
-        background-image: $icon-medium-info-gray;
+      &.-white {
+        background-image: $icon-medium-info-white;
       }
     }
 
     &.-key-import {
-      background-image: $icon-medium-key-import-white;
-
-      &.-blue {
-        background-image: $icon-medium-key-import-blue;
-      }
-
-      &.-gray {
-        background-image: $icon-medium-key-import-gray;
+      &.-white {
+        background-image: $icon-medium-key-import-white;
       }
     }
 
     &.-key-new {
-      background-image: $icon-medium-key-new-white;
-
-      &.-blue {
-        background-image: $icon-medium-key-new-blue;
-      }
-
-      &.-gray {
-        background-image: $icon-medium-key-new-gray;
-      }
-    }
-
-    &.-link {
-      background-image: $icon-medium-link-white;
-
-      &.-blue {
-        background-image: $icon-medium-link-blue;
+      &.-white {
+        background-image: $icon-medium-key-new-white;
       }
     }
 
     &.-lock {
-      background-image: $icon-medium-lock-white;
-
-      &.-blue {
-        background-image: $icon-medium-lock-blue;
-      }
-
-      &.-gray {
-        background-image: $icon-medium-lock-gray;
+      &.-white {
+        background-image: $icon-medium-lock-white;
       }
     }
 
     &.-logout {
-      background-image: $icon-medium-logout;
+      &.-gray {
+        background-image: $icon-medium-logout-gray;
+      }
     }
 
     &.-menu-bg {
-      background-image: $icon-medium-menu-bg-white;
+      &.-white {
+        background-image: $icon-medium-menu-bg-white;
+      }
     }
 
     &.-mnemonic {
-      background-image: $icon-medium-mnemonic;
+      &.-white {
+        background-image: $icon-medium-mnemonic-white;
+      }
     }
 
     &.-mnemonic-read {
-      background-image: $icon-medium-mnemonic-read;
+      &.-white {
+        background-image: $icon-medium-mnemonic-read-white;
+      }
     }
 
     &.-private-key {
-      background-image: $icon-medium-private-key;
+      &.-white {
+        background-image: $icon-medium-private-key-white;
+      }
     }
 
     &.-private-key-read {
-      background-image: $icon-medium-private-key-read;
+      &.-white {
+        background-image: $icon-medium-private-key-read-white;
+      }
     }
 
     &.-search {
-      background-image: $icon-medium-search-white;
-
       &.-gray {
         background-image: $icon-medium-search-gray;
       }
@@ -331,19 +272,15 @@
     background-size: $icon-large-size $icon-large-size;
 
     &.-transaction-receive {
-      background-image: $icon-large-transaction-receive;
-    }
-
-    &.-transaction-receive-time {
-      background-image: $icon-large-transaction-receive-time;
+      &.-blue {
+        background-image: $icon-large-transaction-receive-blue;
+      }
     }
 
     &.-transaction-send {
-      background-image: $icon-large-transaction-send;
-    }
-
-    &.-transaction-send-time {
-      background-image: $icon-large-transaction-send-time;
+      &.-gray {
+        background-image: $icon-large-transaction-send-gray;
+      }
     }
   }
 }
