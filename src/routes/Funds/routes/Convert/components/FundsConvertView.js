@@ -1,19 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-import JTextInput from 'components/base/JTextInput'
+import React from 'react'
+
+import JInput from 'components/base/JInput'
 
 const FundsConvertView = ({
+  setToAsset,
   setFromAsset,
   setFromAmount,
-  setToAsset,
-  // convert,
   invalidFields,
-  fromAsset,
-  fromAmount,
   toAsset,
   toAmount,
-}) => {
+  fromAsset,
+  fromAmount,
+}: Props) => {
   const fields = [
     { key: 'fromAsset', value: fromAsset, placeholder: 'Asset', handler: setFromAsset },
     { key: 'fromAmount', value: fromAmount, placeholder: 'Amount', handler: setFromAmount },
@@ -24,30 +24,28 @@ const FundsConvertView = ({
   return (
     <div className='convert-funds-view'>
       {fields.map(({ key, value, placeholder, handler }) => (
-        <JTextInput
+        <JInput
           key={key}
-          onValueChange={handler}
+          onChange={handler}
           name={`convert-funds-${key}`}
           placeholder={placeholder}
           value={value}
           errorMessage={invalidFields[key]}
-          editable={!!handler}
         />
       ))}
     </div>
   )
 }
 
-FundsConvertView.propTypes = {
-  setFromAsset: PropTypes.func.isRequired,
-  setFromAmount: PropTypes.func.isRequired,
-  setToAsset: PropTypes.func.isRequired,
-  // convert: PropTypes.func.isRequired,
-  invalidFields: PropTypes.shape({}).isRequired,
-  fromAsset: PropTypes.string.isRequired,
-  fromAmount: PropTypes.string.isRequired,
-  toAsset: PropTypes.string.isRequired,
-  toAmount: PropTypes.string.isRequired,
+type Props = {
+  setToAsset: Function,
+  setFromAsset: Function,
+  setFromAmount: Function,
+  invalidFields: FormFields,
+  toAsset: Address,
+  toAmount: string,
+  fromAsset: Address,
+  fromAmount: string,
 }
 
 export default FundsConvertView
