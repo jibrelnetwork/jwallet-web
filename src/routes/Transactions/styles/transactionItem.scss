@@ -1,163 +1,16 @@
+@import './transactionItemAdditional';
+@import './transactionItemMain';
+
 .transaction-item {
   all: initial;
 
-  @include font;
+  @include box;
+  @include flex-column;
 
   position: relative;
-  display: block;
-  padding: 25px 25px 28px 90px;
-  border-bottom: 1px solid $pale-grey;
-  cursor: pointer;
+  border-bottom: $transaction-item-border-size solid $pale-grey;
 
   &:last-child {
     border-bottom: 0;
-  }
-
-  &:hover {
-    > .main > .amount {
-      > .repeat {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      > .value {
-        visibility: hidden;
-        opacity: 0;
-      }
-    }
-  }
-
-  &.-send > .main > .amount {
-    color: $dusk;
-  }
-
-  &.-receive > .main > .amount {
-    color: $blue;
-  }
-
-  &.-active {
-    > .main > .amount {
-      > .repeat {
-        visibility: hidden;
-        opacity: 0;
-      }
-
-      > .value {
-        visibility: visible;
-        opacity: 1;
-      }
-    }
-
-    > .additional {
-      max-height: 300px;
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  > .main {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    > .j-icon {
-      position: absolute;
-      top: 19px;
-      left: 22px;
-    }
-
-    > .date {
-      min-width: 150px;
-    }
-
-    > .amount {
-      position: relative;
-      min-width: 120px;
-      margin-left: auto;
-      font-weight: bold;
-      font-size: 15px;
-      text-align: right;
-
-      > .repeat {
-        position: absolute;
-        top: -12px;
-        right: 0;
-        opacity: 0;
-
-        &:before {
-          position: absolute;
-          top: 0;
-          left: -80px;
-          display: block;
-          height: 100%;
-          width: 80px;
-          background: linear-gradient(to right, transparent, $white);
-          content: '';
-        }
-      }
-
-      > .repeat,
-      > .value {
-        @include hover-animation;
-      }
-    }
-  }
-
-  > .additional {
-    @include hover-animation;
-
-    position: relative;
-    max-height: 0;
-    overflow: hidden;
-    visibility: hidden;
-    opacity: 0;
-
-    &:hover {
-      cursor: default;
-    }
-
-    > .item {
-      margin-top: 30px;
-    }
-
-    > .actions {
-      @include flex-row;
-
-      position: absolute;
-      right: 0;
-      bottom: 0;
-
-      > .repeat {
-        margin-left: 6px;
-      }
-    }
-  }
-
-  .label {
-    margin-bottom: 8px;
-    color: $dusk;
-    opacity: 0.5;
-  }
-
-  .value {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: no-wrap;
-    font-size: 14px;
-    color: $dusk;
-  }
-
-  @media only screen and (max-width: 1366px) {
-    > .main > .address > .value {
-      width: 240px;
-      overflow: hidden;
-    }
-  }
-
-  @media only screen and (max-width: 1200px) {
-    > .main > .address > .value {
-      width: 200px;
-      overflow: hidden;
-    }
   }
 }
