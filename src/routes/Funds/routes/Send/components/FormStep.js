@@ -2,9 +2,8 @@
 
 import React from 'react'
 
-import ethereum from 'data/assets/ethereum'
 import AssetPicker from 'components/AssetPicker'
-import { JButton, JInput } from 'components/base'
+import { JInput, JRaisedButton } from 'components/base'
 
 import Optional from './Optional'
 
@@ -17,7 +16,6 @@ const FormStep = ({
   setNonce,
   setNextStep,
   invalidFields,
-  alert,
   sender,
   assetAddress,
   amount,
@@ -27,7 +25,6 @@ const FormStep = ({
   nonce,
 }: Props) => (
   <div className='form'>
-    <div>{alert}</div>
     <JInput
       value={sender}
       color='white'
@@ -62,7 +59,14 @@ const FormStep = ({
       nonce={nonce}
     />
     <div className='actions'>
-      <JButton onClick={setNextStep} text='routes.sendFunds.buttonTitleForm' wide />
+      <JRaisedButton
+        onClick={setNextStep}
+        color='white'
+        labelColor='blue'
+        loaderColor='blue'
+        label='routes.sendFunds.buttonTitleForm'
+        isWide
+      />
     </div>
   </div>
 )
@@ -76,7 +80,6 @@ type Props = {
   setNonce: Function,
   setNextStep: Function,
   invalidFields: FormFields,
-  alert: ?string,
   sender: string,
   assetAddress: string,
   amount: string,
@@ -84,25 +87,6 @@ type Props = {
   gas: string,
   gasPrice: string,
   nonce: string,
-}
-
-FormStep.defaultProps = {
-  setAsset: () => {},
-  setAmount: () => {},
-  setRecipient: () => {},
-  setGas: () => {},
-  setGasPrice: () => {},
-  setNonce: () => {},
-  setNextStep: () => {},
-  invalidFields: {},
-  alert: null,
-  sender: '',
-  assetAddress: ethereum.address,
-  amount: '',
-  recipient: '',
-  gas: '',
-  gasPrice: '',
-  nonce: '',
 }
 
 export default FormStep

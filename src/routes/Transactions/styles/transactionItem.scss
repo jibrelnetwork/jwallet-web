@@ -83,6 +83,17 @@
         top: -12px;
         right: 0;
         opacity: 0;
+
+        &:before {
+          position: absolute;
+          top: 0;
+          left: -80px;
+          display: block;
+          height: 100%;
+          width: 80px;
+          background: linear-gradient(to right, transparent, $white);
+          content: '';
+        }
       }
 
       > .repeat,

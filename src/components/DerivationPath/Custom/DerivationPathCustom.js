@@ -28,13 +28,7 @@ const DerivationPathCustom = ({ onChange, value, error }: Props) => (
 type Props = {
   onChange: Function,
   value: string,
-  error: string,
-}
-
-DerivationPathCustom.defaultProps = {
-  onChange: () => {},
-  value: '',
-  error: '',
+  error: ?string,
 }
 
 export default DerivationPathCustom

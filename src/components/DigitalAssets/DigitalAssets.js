@@ -3,28 +3,31 @@
 import React from 'react'
 import { isEmpty } from 'ramda'
 
-import JCard from 'components/base/JCard'
+import { JCard, JLoader } from 'components/base'
 import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
 import Empty from './Empty'
-import Loading from './Loading'
 
 const DigitalAssets = ({
   hover,
   setActive,
   editCustomAsset,
   items,
-  balances,
   foundAssets,
-  hoveredAsset,
-  searchQuery,
-  color,
+  balances,
   type,
+  color,
+  searchQuery,
+  hoveredAsset,
   isBalancesLoading,
 }: Props) => {
   if (isBalancesLoading) {
-    return <Loading />
+    return (
+      <div className='digital-assets -loading'>
+        <JLoader color='blue' />
+      </div>
+    )
   }
 
   const filteredItems: DigitalAssets = filterDigitalAssets(items, balances, type)
@@ -43,8 +46,9 @@ const DigitalAssets = ({
             hover={hover}
             setActive={setActive}
             edit={editCustomAsset}
-            balance={(type !== 'popular') ? balances[data.address] : undefined}
             color={color}
+            balance={balances[data.address]}
+            isPopular={type === 'popular'}
             isHovered={hoveredAsset === data.address}
           />
         </JCard>
@@ -57,13 +61,13 @@ type Props = {
   hover: Function,
   setActive: Function,
   editCustomAsset: Function,
+  foundAssets: Addresses,
   items: Array<DigitalAsset>,
   balances: Balances,
-  foundAssets: Addresses,
-  hoveredAsset: ?Address,
   searchQuery: string,
-  type: DigitalAssetsListType,
+  hoveredAsset: ?Address,
   color: 'blue' | 'white',
+  type: DigitalAssetsListType,
   isBalancesLoading: boolean,
 }
 
@@ -72,12 +76,12 @@ DigitalAssets.defaultProps = {
   setActive: () => {},
   editCustomAsset: () => {},
   items: [],
-  balances: {},
   foundAssets: [],
-  hoveredAsset: null,
-  searchQuery: '',
+  balances: {},
   color: 'white',
   type: 'balance',
+  searchQuery: '',
+  hoveredAsset: null,
   isBalancesLoading: false,
 }
 

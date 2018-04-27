@@ -3,22 +3,33 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import balanceToString from 'utils/digitalAssets/balanceToString'
+import AssetBalance from 'components/AssetBalance'
 import { JAssetSymbol, JText } from 'components/base'
 
 /**
- * isOpen & disabled props are proxied from JSelect (via React.cloneElement)
+ * isOpen & isDisabled & isLoading props are proxied from JSelect
+ * (via React.cloneElement)
+ *
  * please refer to components/JSelect/JSelect.js
  */
-const AssetPickerCurrent = ({ name, symbol, balance, isOpen, disabled }: Props) => (
-  <div className={classNames('asset-picker-current', isOpen && '-active', disabled && '-disabled')}>
-    <div className='name'>
-      <JText
-        value={`${name}: ${balanceToString(balance)} ${symbol}`}
-        color='gray'
-        size='large'
-        weight='bold'
-      />
+const AssetPickerCurrent = ({ name, symbol, balance, isOpen, isLoading, isDisabled }: Props) => (
+  <div
+    className={classNames('asset-picker-current', isOpen && '-active', isDisabled && '-disabled')}
+  >
+    <div className='info'>
+      <div className='name'>
+        <JText value={`${name}:`} color='gray' size='large' weight='bold' />
+      </div>
+      <div className='balance'>
+        <AssetBalance
+          symbol={symbol}
+          size='large'
+          color='gray'
+          weight='bold'
+          balance={balance}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
     <div className='symbol'>
       <JAssetSymbol symbol={symbol} color='gray' />
@@ -31,7 +42,8 @@ type Props = {
   symbol: string,
   balance: number,
   isOpen: boolean,
-  disabled: boolean,
+  isLoading: boolean,
+  isDisabled: boolean,
 }
 
 AssetPickerCurrent.defaultProps = {
@@ -39,7 +51,8 @@ AssetPickerCurrent.defaultProps = {
   symbol: '',
   balance: 0,
   isOpen: false,
-  disabled: false,
+  isLoading: false,
+  isDisabled: false,
 }
 
 export default AssetPickerCurrent

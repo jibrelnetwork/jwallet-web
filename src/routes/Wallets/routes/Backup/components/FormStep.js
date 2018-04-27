@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JThumbnail } from 'components/base'
+import { JThumbnail, JRaisedButton } from 'components/base'
 
 const FormStep = ({ setNextStep }: Props) => (
   <div className='form'>
@@ -14,17 +14,18 @@ const FormStep = ({ setNextStep }: Props) => (
         'private keys are stored locally, meaning your private'}
     />
     <div className='actions'>
-      <JButton
+      <JRaisedButton
         onClick={setNextStep}
         color='blue'
-        text='Backup'
+        label='Backup'
+        isWide
       />
     </div>
   </div>
 )
 
 type Props = {
-  setNextStep: () => Dispatch,
+  setNextStep: Function,
 }
 
 export default FormStep

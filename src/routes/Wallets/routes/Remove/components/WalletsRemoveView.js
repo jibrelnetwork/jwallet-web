@@ -3,7 +3,7 @@
 import React from 'react'
 
 import ModalHeader from 'components/ModalHeader'
-import { JButton, JThumbnail } from 'components/base'
+import { JThumbnail, JRaisedButton } from 'components/base'
 
 const WalletsRemoveView = ({ remove }: Props) => (
   <div className='wallets-remove-view'>
@@ -18,7 +18,12 @@ const WalletsRemoveView = ({ remove }: Props) => (
             'private keys are stored locally, meaning your private'}
         />
         <div className='actions'>
-          <JButton onClick={remove} text='Yes, remove wallet' color='blue' wide />
+          <JRaisedButton
+            onClick={remove}
+            label='Yes, remove wallet'
+            color='blue'
+            isWide
+          />
         </div>
       </div>
     </div>
@@ -26,11 +31,7 @@ const WalletsRemoveView = ({ remove }: Props) => (
 )
 
 type Props = {
-  remove: () => Dispatch,
-}
-
-WalletsRemoveView.defaultProps = {
-  remove: () => {},
+  remove: Function,
 }
 
 export default WalletsRemoveView

@@ -1,51 +1,98 @@
-.loader {
-  overflow: hidden;
-  touch-action: none;
+.j-loader {
+  all: initial;
 
-  &:before {
-    z-index: 1000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    content: '';
+  @include flex-row;
+
+  position: relative;
+  align-items: center;
+  height: 100%;
+
+  &.-blue > .dot {
+    background-color: $blue;
   }
 
-  &:after {
-    z-index: 1001;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 50px;
-    height: 50px;
-    background-image: $loader-image;
-    background-size: 24px 16px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    margin: -25px 0 0 -25px;
-    pointer-events: none;
+  &.-gray > .dot {
+    background-color: $dusk;
+  }
+
+  &.-white > .dot {
+    background-color: $white;
+  }
+
+  > .dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background-color: #A3A2B3;
-    opacity: 0.5;
-    animation: loaderAnimation 0.8s ease-out infinite alternate forwards;
-    content: '';
+    transition: opacity 0.2s ease 0s;
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+
+    &.-first {
+      animation: firstDotAnimation 0.6s linear infinite;
+    }
+
+    &.-second {
+      animation: secondDotAnimation 0.6s linear infinite;
+    }
+
+    &.-third {
+      animation: thirdDotAnimation 0.6s linear infinite;
+    }
   }
 }
 
-.loader--fixed {
-  &:before {
-    position: fixed;
-    background: #EBEEF3;
+@keyframes firstDotAnimation {
+  0% {
+    opacity: 0.6;
   }
 
-  &:after {
-    position: fixed;
+  33% {
+    opacity: 0.4;
+  }
+
+  67% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 0.6;
   }
 }
 
-@keyframes loaderAnimation {
-  to {
-    transform: scale3d(0.5, 0.5, 1);
+@keyframes secondDotAnimation {
+  0% {
+    opacity: 0.2;
+  }
+
+  33% {
+    opacity: 0.6;
+  }
+
+  67% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes thirdDotAnimation {
+  0% {
+    opacity: 0.4;
+  }
+
+  33% {
+    opacity: 0.2;
+  }
+
+  67% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0.4;
   }
 }

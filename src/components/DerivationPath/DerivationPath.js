@@ -47,19 +47,10 @@ const DerivationPath = ({
 type Props = {
   setKnownDerivationPath: Function,
   setCustomDerivationPath: Function,
-  errorMessage: string,
+  errorMessage: ?string,
   knownDerivationPath: string,
   customDerivationPath: string,
   selectedDerivationPathType: 'custom' | 'known'
-}
-
-DerivationPath.defaultProps = {
-  setKnownDerivationPath: () => {},
-  setCustomDerivationPath: () => {},
-  errorMessage: '',
-  knownDerivationPath: '',
-  customDerivationPath: '',
-  selectedDerivationPathType: 'custom',
 }
 
 export default DerivationPath

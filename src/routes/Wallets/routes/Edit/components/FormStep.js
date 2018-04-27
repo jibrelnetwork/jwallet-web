@@ -4,21 +4,21 @@ import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
-import { JButton, JInput } from 'components/base'
+import { JInput, JRaisedButton } from 'components/base'
 import { DerivationPath, Expandable } from 'components'
 
 const FormStep = ({
   setName,
+  setNextStep,
   setKnownDerivationPath,
   setCustomDerivationPath,
-  setNextStep,
   validFields,
   invalidFields,
   name,
+  walletType,
   knownDerivationPath,
   customDerivationPath,
   selectedDerivationPathType,
-  walletType,
 }: Props) => (
   <div className='form'>
     <JInput
@@ -43,37 +43,32 @@ const FormStep = ({
       </Expandable>
     )}
     <div className='actions'>
-      <JButton onClick={setNextStep} text='routes.editWallet.buttonTitle.save' color='blue' wide />
+      <JRaisedButton
+        onClick={setNextStep}
+        color='blue'
+        label='routes.editWallet.buttonTitle.save'
+        isWide
+      />
     </div>
   </div>
 )
 
 type Props = {
-  setName: (name: string) => Dispatch,
-  setKnownDerivationPath: (knownDerivationPath: string) => Dispatch,
-  setCustomDerivationPath: (customDerivationPath: string) => Dispatch,
-  setNextStep: () => Dispatch,
-  validFields: Object,
-  invalidFields: Object,
+  setName: Function,
+  setNextStep: Function,
+  setKnownDerivationPath: Function,
+  setCustomDerivationPath: Function,
+  validFields: FormFields,
+  invalidFields: FormFields,
   name: string,
+  walletType: ?WalletType,
   knownDerivationPath: string,
   customDerivationPath: string,
-  walletType: ?WalletType,
   selectedDerivationPathType: 'custom' | 'known'
 }
 
 FormStep.defaultProps = {
-  setName: () => {},
-  setKnownDerivationPath: () => {},
-  setCustomDerivationPath: () => {},
-  setNextStep: () => {},
-  validFields: {},
-  invalidFields: {},
-  name: '',
-  knownDerivationPath: '',
-  customDerivationPath: '',
-  walletType: undefined,
-  selectedDerivationPathType: 'custom',
+  walletType: null,
 }
 
 export default FormStep

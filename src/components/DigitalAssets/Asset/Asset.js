@@ -4,7 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import ethereum from 'data/assets/ethereum'
-import balanceToString from 'utils/digitalAssets/balanceToString'
+import AssetBalance from 'components/AssetBalance'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 import { JAssetSymbol, JFlatButton, JIcon, JText } from 'components/base'
 
@@ -12,15 +12,16 @@ const AssetCard = ({
   edit,
   hover,
   setActive,
-  address,
   name,
   symbol,
+  address,
   color,
   balance,
   isCustom,
   isActive,
   isLoading,
   isHovered,
+  isPopular,
 }: Props) => {
   const hoveredColor = (isHovered || isActive) ? 'blue' : 'gray'
   const assetColor = (color === 'white') ? hoveredColor : 'white'
@@ -41,12 +42,13 @@ const AssetCard = ({
       <div className='name'>
         <JText value={name} color={assetColor} weight='bold' />
       </div>
-      {(balance !== undefined) && (
+      {!isPopular && (
         <div className='balance'>
-          <JText
-            value={isLoading ? 'Loading' : `${balanceToString(balance)} ${symbol}`}
-            weight='bold'
+          <AssetBalance
+            symbol={symbol}
             color={assetColor}
+            balance={balance}
+            isLoading={isLoading}
           />
         </div>
       )}
@@ -68,30 +70,32 @@ type Props = {
   edit: Function,
   hover: Function,
   setActive: Function,
-  address: Address,
   name: string,
   symbol: string,
+  address: Address,
   color: 'blue' | 'white',
-  balance: ?number,
+  balance: number,
   isCustom: boolean,
   isActive: boolean,
   isLoading: boolean,
   isHovered: boolean,
+  isPopular: boolean,
 }
 
 AssetCard.defaultProps = {
   edit: () => {},
   hover: () => {},
   setActive: () => {},
-  address: ethereum.address,
   name: ethereum.name,
   symbol: ethereum.symbol,
+  address: ethereum.address,
   color: 'white',
-  balance: undefined,
+  balance: 0,
   isCustom: false,
   isActive: false,
   isLoading: false,
   isHovered: false,
+  isPopular: false,
 }
 
 export default AssetCard

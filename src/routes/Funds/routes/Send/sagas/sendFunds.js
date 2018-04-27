@@ -23,6 +23,7 @@ import {
   STEPS,
   setAlert,
   setCurrentStep,
+  setIsSending,
   sendSuccess,
   sendError,
   clean,
@@ -67,6 +68,7 @@ function* sendFunds() {
     const transactionHandler = getTransactionHandler(assetAddress)
     const transactionData: TXData = yield getTransactionData(sendFundsData)
 
+    yield put(setIsSending(true))
     yield call(transactionHandler, transactionData)
     yield put(sendSuccess(assetAddress))
 
@@ -74,6 +76,8 @@ function* sendFunds() {
   } catch (err) {
     yield handleSendError(err)
   }
+
+  yield put(setIsSending(false))
 }
 
 function* handleSendError({ message }: InvalidFieldError) {

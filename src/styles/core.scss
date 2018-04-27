@@ -91,7 +91,6 @@
 
   // Base components
   @import '../components/base/JAssetSymbol/jAssetSymbol';
-  @import '../components/base/JButton/jButton';
   @import '../components/base/JCallout/jCallout';
   @import '../components/base/JCard/jCard';
   @import '../components/base/JFlatButton/jFlatButton';
@@ -100,6 +99,7 @@
   @import '../components/base/JLoader/jLoader';
   @import '../components/base/JLogo/jLogo';
   @import '../components/base/JRadio/jRadio';
+  @import '../components/base/JRaisedButton/jRaisedButton';
   @import '../components/base/JSearch/jSearch';
   @import '../components/base/JSelect/jSelect';
   @import '../components/base/JTabs/jTabs';
@@ -110,6 +110,7 @@
 
   // Components
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
+  @import '../components/AssetBalance/assetBalance';
   @import '../components/AssetPicker/assetPicker';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/DerivationPath/derivationPath';
@@ -121,8 +122,6 @@
   @import '../components/PasswordField/passwordField';
   @import '../components/QRCode/qrCode';
   @import '../components/RoundIconButton/roundIconButton';
-  @import '../components/TransactionsByPeriod/transactionsByPeriod';
-  @import '../components/TransactionsEmpty/transactionsEmpty';
   @import '../components/WalletHeader/walletHeader';
   @import '../components/WalletManager/walletManager';
 
@@ -131,6 +130,7 @@
   @import '../routes/DigitalAssets/styles/digitalAssets';
   @import '../routes/Funds/styles/funds';
   @import '../routes/NotFound/styles/notFound';
+  @import '../routes/Transactions/styles/transactions';
   @import '../routes/Wallets/styles/wallets';
 
   // Layouts

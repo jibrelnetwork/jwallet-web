@@ -24,11 +24,22 @@
     }
   }
 
-  > .name {
+  > .info {
     @include box;
+    @include flex-row;
 
+    align-items: center;
     max-width: calc(100% - #{$token-icon-size});
     padding-right: 30px;
+
+    > .name,
+    > .balance {
+      display: inline-flex;
+    }
+
+    > .balance {
+      margin-left: 5px;
+    }
   }
 
   > .symbol {

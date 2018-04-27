@@ -6,7 +6,7 @@ import { css } from 'glamor'
 import { storiesOf } from '@storybook/react'
 import { toast, ToastContainer } from 'react-toastify'
 
-import JButton from '../../src/components/base/JButton'
+import JButton from '../../src/components/base/JRaisedButton'
 import JToast, { options } from '../../src/components/base/JToast'
 
 const styles = css({

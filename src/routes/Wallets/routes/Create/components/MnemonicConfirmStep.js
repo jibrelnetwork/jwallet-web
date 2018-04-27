@@ -2,12 +2,12 @@
 
 import React from 'react'
 
-import { JButton, JFlatButton, JInput } from 'components/base'
+import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const MnemonicConfirmStep = ({
-  setMnemonicConfirm,
   setPrevStep,
   setNextStep,
+  setMnemonicConfirm,
   validFields,
   invalidFields,
   mnemonicConfirm,
@@ -30,11 +30,11 @@ const MnemonicConfirmStep = ({
         transparent
       />
       <div className='next'>
-        <JButton
+        <JRaisedButton
           onClick={setNextStep}
           color='blue'
-          text='routes.createWallet.buttonTitle.confirm'
-          wide
+          label='routes.createWallet.buttonTitle.confirm'
+          isWide
         />
       </div>
     </div>
@@ -42,11 +42,11 @@ const MnemonicConfirmStep = ({
 )
 
 type Props = {
-  setMnemonicConfirm: (mnemonicConfirm: string) => Dispatch,
-  setNextStep: () => Dispatch,
-  setPrevStep: () => Dispatch,
-  validFields: Object,
-  invalidFields: Object,
+  setNextStep: Function,
+  setPrevStep: Function,
+  setMnemonicConfirm: Function,
+  validFields: FormFields,
+  invalidFields: FormFields,
   mnemonicConfirm: string,
 }
 

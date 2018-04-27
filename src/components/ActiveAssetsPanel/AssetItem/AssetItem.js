@@ -5,6 +5,7 @@ import classNames from 'classnames'
 
 import ethereum from 'data/assets/ethereum'
 import handle from 'utils/eventHandlers/handle'
+import AssetBalance from 'components/AssetBalance'
 import { JAssetSymbol, JText } from 'components/base'
 
 const AssetItem = ({
@@ -33,26 +34,15 @@ const AssetItem = ({
       <div className='name'>
         <JText value={name} color={assetColor} />
       </div>
-      {isLoading ? <div className='balance'>{'Loading'}</div> : (
-        <div className='balance'>
-          <div className='integer'>
-            <JText
-              value={Math.floor(balance).toFixed()}
-              size='large'
-              weight='bolder'
-              color={assetColor}
-            />
-          </div>
-          <div className='decimals'>
-            <JText
-              value={`${(balance - Math.floor(balance)).toFixed(2).substr(1)} ${symbol}`}
-              size='large'
-              weight='bolder'
-              color={assetColor}
-            />
-          </div>
-        </div>
-      )}
+      <AssetBalance
+        symbol={symbol}
+        color={assetColor}
+        size='large'
+        weight='bolder'
+        balance={balance}
+        isLoading={isLoading}
+        isTransparent
+      />
     </div>
   )
 }

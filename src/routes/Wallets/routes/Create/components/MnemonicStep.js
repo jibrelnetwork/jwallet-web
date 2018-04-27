@@ -2,13 +2,9 @@
 
 import React from 'react'
 
-import { JButton, JFlatButton, JInput } from 'components/base'
+import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
-const MnemonicStep = ({
-  setPrevStep,
-  setNextStep,
-  mnemonic,
-}: Props) => (
+const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
   <div className='form'>
     <JInput
       value={mnemonic}
@@ -25,11 +21,11 @@ const MnemonicStep = ({
         transparent
       />
       <div className='next'>
-        <JButton
+        <JRaisedButton
           onClick={setNextStep}
           color='blue'
-          text='routes.createWallet.buttonTitle.save'
-          wide
+          label='routes.createWallet.buttonTitle.save'
+          isWide
         />
       </div>
     </div>
@@ -37,8 +33,8 @@ const MnemonicStep = ({
 )
 
 type Props = {
-  setNextStep: () => Dispatch,
-  setPrevStep: () => Dispatch,
+  setNextStep: Function,
+  setPrevStep: Function,
   mnemonic: string,
 }
 

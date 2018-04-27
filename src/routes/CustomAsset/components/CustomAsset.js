@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JButton, JInput } from 'components/base'
+import { JInput, JRaisedButton } from 'components/base'
 import { ButtonWithConfirm, ModalHeader } from 'components'
 
 const CustomAsset = ({
@@ -62,10 +62,11 @@ const CustomAsset = ({
         ))}
         <div className='actions'>
           <div className='confirm'>
-            <JButton
+            <JRaisedButton
               onClick={isAdd ? add : edit}
-              text={`${isAdd ? 'Add' : 'Save'} Asset`}
-              wide
+              label={`${isAdd ? 'Add' : 'Save'} Asset`}
+              labelColor='blue'
+              isWide
             />
           </div>
           {!isAdd && (
@@ -80,19 +81,35 @@ const CustomAsset = ({
 }
 
 type Props = {
-  add: Function,
-  edit: Function,
+  add: ?Function,
+  edit: ?Function,
   remove: Function,
   setName: Function,
   setSymbol: Function,
   setAddress: Function,
   setDecimals: Function,
-  invalidFields: Object,
+  invalidFields: FormFields,
+  type: string,
   name: string,
   symbol: string,
   address: string,
   decimals: string,
-  type: string,
+}
+
+CustomAsset.defaultProps = {
+  add: null,
+  edit: null,
+  remove: () => {},
+  setName: () => {},
+  setSymbol: () => {},
+  setAddress: () => {},
+  setDecimals: () => {},
+  invalidFields: {},
+  type: 'add',
+  name: '',
+  symbol: '',
+  address: '',
+  decimals: '',
 }
 
 export default CustomAsset

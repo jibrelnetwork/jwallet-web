@@ -18,7 +18,14 @@ const getAssetByAddress = (
   )(assets)
 }
 
-const AssetPicker = ({ onSelect, activeAssets, currentAsset, label, disabled }: Props) => {
+const AssetPicker = ({
+  onSelect,
+  activeAssets,
+  currentAsset,
+  label,
+  isLoading,
+  isDisabled,
+}: Props) => {
   const foundAsset: ?DigitalAssetMainDataWithBalance = getAssetByAddress(currentAsset, activeAssets)
 
   return (
@@ -26,7 +33,8 @@ const AssetPicker = ({ onSelect, activeAssets, currentAsset, label, disabled }: 
       <JSelect
         color='gray'
         label={label}
-        disabled={disabled}
+        isLoading={isLoading}
+        isDisabled={isDisabled}
         current={foundAsset ? <Current {...foundAsset} /> : null}
       >
         {activeAssets.map(({ address, symbol, name, balance }: DigitalAssetMainDataWithBalance) => (
@@ -35,7 +43,8 @@ const AssetPicker = ({ onSelect, activeAssets, currentAsset, label, disabled }: 
               name={name}
               symbol={symbol}
               balance={balance}
-              active={address === currentAsset}
+              isLoading={isLoading}
+              isActive={address === currentAsset}
             />
           </JSelectItem>
         ))}
@@ -49,7 +58,8 @@ type Props = {
   activeAssets: Array<DigitalAssetMainDataWithBalance>,
   currentAsset: ?Address,
   label: string,
-  disabled: boolean,
+  isLoading: boolean,
+  isDisabled: boolean,
 }
 
 AssetPicker.defaultProps = {
@@ -57,7 +67,8 @@ AssetPicker.defaultProps = {
   activeAssets: [],
   currentAsset: null,
   label: 'Asset',
-  disabled: false,
+  isLoading: false,
+  isDisabled: false,
 }
 
 export default AssetPicker

@@ -1,7 +1,6 @@
 // @flow
 
 import JAssetSymbol from './JAssetSymbol'
-import JButton from './JButton'
 import JCallout from './JCallout'
 import JCard from './JCard'
 import JFlatButton from './JFlatButton'
@@ -10,6 +9,7 @@ import JInput from './JInput'
 import JLoader from './JLoader'
 import JLogo from './JLogo'
 import JRadio from './JRadio'
+import JRaisedButton from './JRaisedButton'
 import JSearch from './JSearch'
 import JSelect from './JSelect'
 import JTabs from './JTabs'
@@ -20,7 +20,6 @@ import JThumbnail from './JThumbnail'
 
 export {
   JAssetSymbol,
-  JButton,
   JCallout,
   JCard,
   JFlatButton,
@@ -29,6 +28,7 @@ export {
   JLoader,
   JLogo,
   JRadio,
+  JRaisedButton,
   JSearch,
   JSelect,
   JTabs,

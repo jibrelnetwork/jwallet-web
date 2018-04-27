@@ -1,8 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-import Expandable from 'components/Expandable'
+import React from 'react'
+
 import JInput from 'components/base/JInput'
+import Expandable from 'components/Expandable'
 
 const Optional = ({
   setGas,
@@ -12,7 +13,7 @@ const Optional = ({
   gas,
   gasPrice,
   nonce,
-}) => {
+}: Props) => {
   const fields = [
     { key: 'gas', value: gas, handler: setGas },
     { key: 'gasPrice', value: gasPrice, handler: setGasPrice },
@@ -38,14 +39,14 @@ const Optional = ({
   )
 }
 
-Optional.propTypes = {
-  setGas: PropTypes.func.isRequired,
-  setGasPrice: PropTypes.func.isRequired,
-  setNonce: PropTypes.func.isRequired,
-  invalidFields: PropTypes.shape({}).isRequired,
-  gas: PropTypes.string.isRequired,
-  gasPrice: PropTypes.string.isRequired,
-  nonce: PropTypes.string.isRequired,
+type Props = {
+  setGas: Function,
+  setGasPrice: Function,
+  setNonce: Function,
+  invalidFields: FormFields,
+  gas: string,
+  gasPrice: string,
+  nonce: string,
 }
 
 export default Optional

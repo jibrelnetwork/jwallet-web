@@ -9,6 +9,13 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
 
+  &.-loading {
+    @include flex-row-center;
+
+    height: 100%;
+    width: 100%;
+  }
+
   &.-blue {
     padding: 0 20px 30px 20px;
 

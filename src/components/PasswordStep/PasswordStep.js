@@ -3,25 +3,29 @@
 import React from 'react'
 
 import PasswordField from 'components/PasswordField'
-import { JButton, JFlatButton } from 'components/base'
+import { JFlatButton, JRaisedButton } from 'components/base'
 
 const PasswordStep = ({
   setPassword,
-  setPasswordConfirm,
   setPrevStep,
   setNextStep,
+  setPasswordConfirm,
   invalidFields,
   password,
+  inputColor,
+  labelColor,
+  buttonColor,
+  loaderColor,
   passwordConfirm,
-  color,
-  buttonPrevText,
-  buttonNextText,
+  buttonPrevLabel,
+  buttonNextLabel,
+  isLoading,
 }: Props) => (
   <div className='form'>
     <PasswordField
       onPasswordChange={setPassword}
       onPasswordConfirmChange={setPasswordConfirm}
-      color={color}
+      color={inputColor}
       password={password}
       passwordConfirm={passwordConfirm}
       passwordError={invalidFields.password}
@@ -32,42 +36,53 @@ const PasswordStep = ({
       {setPrevStep && (
         <JFlatButton
           onClick={setPrevStep}
-          text={buttonPrevText}
+          text={buttonPrevLabel}
           iconName='arrow'
           transparent
         />
       )}
       <div className='next'>
-        <JButton onClick={setNextStep} text={buttonNextText} color={color} wide />
+        <JRaisedButton
+          onClick={setNextStep}
+          color={buttonColor}
+          label={buttonNextLabel}
+          labelColor={labelColor}
+          loaderColor={loaderColor}
+          isLoading={isLoading}
+          isWide
+        />
       </div>
     </div>
   </div>
 )
 
 type Props = {
-  setPassword: (password: Password) => Dispatch,
-  setNextStep: () => Dispatch,
+  setPassword: Function,
+  setNextStep: Function,
+  setPrevStep: ?Function,
+  setPasswordConfirm: ?Function,
   invalidFields: FormFields,
-  password: Password,
-  setPasswordConfirm: (passwordConfirm: Password) => Dispatch,
-  setPrevStep: () => Dispatch,
-  color: string,
-  buttonPrevText: string,
-  buttonNextText: string,
-  passwordConfirm: Password,
+  inputColor: 'gray' | 'white',
+  labelColor: 'blue' | 'white',
+  buttonColor: 'blue' | 'white',
+  loaderColor: 'blue' | 'white',
+  password: string,
+  buttonPrevLabel: string,
+  buttonNextLabel: string,
+  passwordConfirm: string,
+  isLoading: boolean,
 }
 
 PasswordStep.defaultProps = {
-  setPassword: () => {},
-  setNextStep: () => {},
-  invalidFields: {},
-  password: '',
-  setPasswordConfirm: null,
   setPrevStep: null,
-  color: 'white',
-  buttonPrevText: 'Previous step',
-  buttonNextText: 'Confirm',
-  passwordConfirm: '',
+  setPasswordConfirm: null,
+  inputColor: 'white',
+  labelColor: 'white',
+  buttonColor: 'white',
+  loaderColor: 'white',
+  buttonNextLabel: 'Confirm',
+  buttonPrevLabel: 'Previous step',
+  isLoading: false,
 }
 
 export default PasswordStep

@@ -1,7 +1,9 @@
 // @flow
 
-import { pure } from 'recompose'
+import { connect } from 'react-redux'
 
-import DigitalAssetsBalanceView from '../components/DigitalAssetsBalanceView'
+import DigitalAssetsList from '../../../components/DigitalAssetsList'
 
-export default pure(DigitalAssetsBalanceView)
+const mapStateToProps: Function = (): { type: 'balance' } => ({ type: 'balance' })
+
+export default connect(mapStateToProps)(DigitalAssetsList)

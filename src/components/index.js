@@ -1,6 +1,7 @@
 // @flow
 
 import ActiveAssetsPanel from './ActiveAssetsPanel'
+import AssetBalance from './AssetBalance'
 import AssetPicker from './AssetPicker'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import DerivationPath from './DerivationPath'
@@ -13,13 +14,12 @@ import NewWalletButtons from './NewWalletButtons'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
 import RoundIconButton from './RoundIconButton'
-import TransactionsByPeriod from './TransactionsByPeriod'
-import TransactionsEmpty from './TransactionsEmpty'
 import WalletHeader from './WalletHeader'
 import WalletManager from './WalletManager'
 
 export {
   ActiveAssetsPanel,
+  AssetBalance,
   AssetPicker,
   ButtonWithConfirm,
   DerivationPath,
@@ -32,8 +32,6 @@ export {
   PasswordStep,
   QRCode,
   RoundIconButton,
-  TransactionsByPeriod,
-  TransactionsEmpty,
   WalletHeader,
   WalletManager,
 }

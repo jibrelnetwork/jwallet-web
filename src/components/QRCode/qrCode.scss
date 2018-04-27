@@ -6,8 +6,7 @@
 
   position: relative;
   max-height: 0;
-  height: 220px;
-  margin-bottom: 30px;
+  height: $qr-code-height;
   border: solid 1px transparent;
   visibility: hidden;
   opacity: 0;
@@ -20,7 +19,7 @@
   }
 
   &.-active {
-    max-height: 220px;
+    max-height: $qr-code-height;
     border: solid 1px $pale-grey-two;
     visibility: visible;
     opacity: 1;

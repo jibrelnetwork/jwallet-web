@@ -20,9 +20,4 @@ type Props = {
   description: string,
 }
 
-DerivationPathKnown.defaultProps = {
-  path: '',
-  description: '',
-}
-
 export default DerivationPathKnown

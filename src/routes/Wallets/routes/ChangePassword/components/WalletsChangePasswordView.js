@@ -4,12 +4,12 @@ import React from 'react'
 
 import PasswordField from 'components/PasswordField'
 import ModalHeader from 'components/ModalHeader'
-import { JButton, JInput } from 'components/base'
+import { JInput, JRaisedButton } from 'components/base'
 
 const WalletsChangePasswordView = ({
-  setCurrent,
   setNew,
   setConfirm,
+  setCurrent,
   changePassword,
   invalidFields,
   password,
@@ -40,11 +40,11 @@ const WalletsChangePasswordView = ({
           withConfirm
         />
         <div className='actions'>
-          <JButton
+          <JRaisedButton
             onClick={changePassword}
             color='blue'
-            text='routes.changeWalletPassword.buttonTitle'
-            wide
+            label='routes.changeWalletPassword.buttonTitle'
+            isWide
           />
         </div>
       </div>
@@ -53,14 +53,14 @@ const WalletsChangePasswordView = ({
 )
 
 type Props = {
-  setCurrent: (password: Password) => Dispatch,
-  setNew: (newPassword: Password) => Dispatch,
-  setConfirm: (confirmPassword: Password) => Dispatch,
-  changePassword: () => Dispatch,
-  invalidFields: Object,
-  password: Password,
-  newPassword: Password,
-  confirmPassword: Password,
+  setNew: Function,
+  setConfirm: Function,
+  setCurrent: Function,
+  changePassword: Function,
+  invalidFields: FormFields,
+  password: string,
+  newPassword: string,
+  confirmPassword: string,
 }
 
 export default WalletsChangePasswordView

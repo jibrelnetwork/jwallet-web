@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { assoc } from 'ramda'
 
 import config from 'config'
-import { JButton, JIcon } from 'components/base'
+import { JIcon, JRaisedButton } from 'components/base'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' => {
@@ -19,8 +19,8 @@ const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' 
 const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
 
 const TransactionItem = ({
-  setActive,
   repeat,
+  setActive,
   data,
   assetSymbol,
   activeTxHash,
@@ -29,9 +29,8 @@ const TransactionItem = ({
     <div
       onClick={handle(setActive)(data.transactionHash)}
       className={classNames(
-        'transaction-item',
-        `-${data.type}`,
-        { '-active': (data.transactionHash === activeTxHash) },
+        `transaction-item -${data.type}`,
+        (data.transactionHash === activeTxHash) && '-active',
       )}
     >
       <div className='main'>
@@ -45,13 +44,15 @@ const TransactionItem = ({
           <div className='value'>{data.address || getJNTEventType(data)}</div>
         </div>
         <div className='amount'>
-          <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol}`}</div>
+          <div className='value'>{` + ${data.amount.toFixed(3)} ${assetSymbol || ''}`}</div>
           <div className='repeat'>
-            <JButton
+            <JRaisedButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
-              text='Repeat'
-              iconName='repeat'
               color='white'
+              label='Repeat'
+              iconColor='blue'
+              iconName='repeat'
+              labelColor='blue'
             />
           </div>
         </div>
@@ -91,11 +92,13 @@ const TransactionItem = ({
             */}
           </div>
           <div className='repeat'>
-            <JButton
+            <JRaisedButton
               onClick={ignoreEvent(repeat)(assoc('symbol', assetSymbol)(data))}
-              text='Repeat'
-              iconName='repeat'
               color='white'
+              label='Repeat'
+              iconColor='blue'
+              iconName='repeat'
+              labelColor='blue'
             />
           </div>
         </div>
@@ -105,18 +108,15 @@ const TransactionItem = ({
 }
 
 type Props = {
-  setActive: (txHash: Hash) => Dispatch,
   repeat: Function,
+  setActive: Function,
   data: Transaction,
-  assetSymbol: string,
   activeTxHash: ?Hash,
+  assetSymbol: ?string,
 }
 
 TransactionItem.defaultProps = {
-  setActive: () => {},
-  repeat: () => {},
-  data: {},
-  assetSymbol: 'ETH',
+  assetSymbol: null,
   activeTxHash: null,
 }
 
