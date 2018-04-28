@@ -1,7 +1,8 @@
 FROM node:8-onbuild AS build
 
 ENV MAIN_RPC_ADDR=main.node.jwallet.network \
-    ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network
+    ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network \
+    PUBLIC_URL=/jwallet
 
 RUN npm run compile:prod
 
