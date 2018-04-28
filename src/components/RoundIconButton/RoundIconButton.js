@@ -27,6 +27,7 @@ type Props = {
 }
 
 RoundIconButton.defaultProps = {
+  label: null,
   spinOnHover: false,
 }
 
