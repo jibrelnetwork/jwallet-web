@@ -1,4 +1,13 @@
-@import './walletsView';
+// components
+@import './newWalletButtons';
+@import './walletActions';
+@import './walletFace';
+@import './walletPassword';
+
+// index route
+@import './walletsIndexView';
+
+// children routes
 @import '../routes/Addresses/styles/walletsMnemonicAddressesView';
 @import '../routes/Backup/styles/walletsBackupView';
 @import '../routes/ChangePassword/styles/walletsChangePasswordView';

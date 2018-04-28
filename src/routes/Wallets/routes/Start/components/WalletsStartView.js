@@ -3,7 +3,8 @@
 import React from 'react'
 
 import JText from 'components/base/JText'
-import { NewWalletButtons, WalletHeader } from 'components'
+import WalletHeader from 'components/WalletHeader'
+import NewWalletButtons from '../../../components/NewWalletButtons'
 
 const WalletsStartView = ({ createWallet, importWallet }: Props) => (
   <div className='wallets-start-view'>
@@ -30,11 +31,6 @@ const WalletsStartView = ({ createWallet, importWallet }: Props) => (
 type Props = {
   createWallet: Function,
   importWallet: Function,
-}
-
-WalletsStartView.defaultProps = {
-  createWallet: () => {},
-  importWallet: () => {},
 }
 
 export default WalletsStartView

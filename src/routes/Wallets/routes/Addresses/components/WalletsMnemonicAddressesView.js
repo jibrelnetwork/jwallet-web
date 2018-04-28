@@ -8,22 +8,36 @@ import JFlatButton from 'components/base/JFlatButton'
 import MnemonicAddressesList from './MnemonicAddressesList'
 
 const WalletsMnemonicAddressesView = ({
-  setActive,
   goBack,
   getMore,
+  setActive,
   addresses,
-  balances,
+  isReadOnly,
 }: Props) => (
   <div className='wallets-mnemonic-addresses-view'>
     <ModalHeader title='Mnemonic addresses' color='white' location='/wallets' />
     <div className='content'>
-      <MnemonicAddressesList setActive={setActive} addresses={addresses} balances={balances} />
+      <MnemonicAddressesList setActive={setActive} addresses={addresses} isReadOnly={isReadOnly} />
       <div className='actions'>
         <div className='back'>
-          <JFlatButton onClick={goBack} text='Back' iconName='arrow' transparent />
+          <JFlatButton
+            onClick={goBack}
+            label='Back'
+            iconName='arrow'
+            iconSize='small'
+            iconColor='white'
+            isTransparent
+          />
         </div>
         <div className='forward'>
-          <JFlatButton onClick={getMore} text='Get more' iconName='plus' transparent />
+          <JFlatButton
+            onClick={getMore}
+            label='Get more'
+            iconName='plus'
+            iconSize='small'
+            iconColor='white'
+            isTransparent
+          />
         </div>
       </div>
     </div>
@@ -31,19 +45,11 @@ const WalletsMnemonicAddressesView = ({
 )
 
 type Props = {
-  setActive: (addressIndex: Index) => Dispatch,
-  goBack: () => Dispatch,
-  getMore: () => Dispatch,
+  goBack: Function,
+  getMore: Function,
+  setActive: Function,
   addresses: Addresses,
-  balances: Balances,
-}
-
-WalletsMnemonicAddressesView.defaultProps = {
-  setActive: () => {},
-  goBack: () => {},
-  getMore: () => {},
-  addresses: [],
-  balances: {},
+  isReadOnly: boolean,
 }
 
 export default WalletsMnemonicAddressesView

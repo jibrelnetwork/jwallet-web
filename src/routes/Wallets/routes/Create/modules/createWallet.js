@@ -7,6 +7,8 @@ export const CLOSE = '@@createWallet/CLOSE'
 export const SET_NAME = '@@createWallet/SET_NAME'
 export const SET_MNEMONIC = '@@createWallet/SET_MNEMONIC'
 export const SET_MNEMONIC_CONFIRM = '@@createWallet/SET_MNEMONIC_CONFIRM'
+export const COPY_MNEMONIC = '@@createWallet/COPY_MNEMONIC'
+export const SAVE_MNEMONIC = '@@createWallet/SAVE_MNEMONIC'
 export const SET_PASSWORD = '@@createWallet/SET_PASSWORD'
 export const SET_PASSWORD_CONFIRM = '@@createWallet/SET_PASSWORD_CONFIRM'
 export const SET_NEXT_STEP = '@@createWallet/SET_NEXT_STEP'
@@ -68,6 +70,14 @@ export const setMnemonicConfirm = (mnemonicConfirm: string): {
   payload: {
     mnemonicConfirm,
   },
+})
+
+export const copyMnemonic = (): { type: string } => ({
+  type: COPY_MNEMONIC,
+})
+
+export const saveMnemonic = (): { type: string } => ({
+  type: SAVE_MNEMONIC,
 })
 
 export const setPassword = (password: Password): {

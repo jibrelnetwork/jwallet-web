@@ -8,14 +8,15 @@ import DerivationPath from './DerivationPath'
 import DigitalAssets from './DigitalAssets'
 import ESCButton from './ESCButton'
 import Expandable from './Expandable'
+import HelpText from './HelpText'
 import MenuPanel from './MenuPanel'
+import MnemonicPhrase from './MnemonicPhrase'
 import ModalHeader from './ModalHeader'
-import NewWalletButtons from './NewWalletButtons'
+import OverlayActions from './OverlayActions'
 import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
 import RoundIconButton from './RoundIconButton'
 import WalletHeader from './WalletHeader'
-import WalletManager from './WalletManager'
 
 export {
   ActiveAssetsPanel,
@@ -26,12 +27,13 @@ export {
   DigitalAssets,
   ESCButton,
   Expandable,
+  HelpText,
   MenuPanel,
+  MnemonicPhrase,
   ModalHeader,
-  NewWalletButtons,
+  OverlayActions,
   PasswordStep,
   QRCode,
   RoundIconButton,
   WalletHeader,
-  WalletManager,
 }

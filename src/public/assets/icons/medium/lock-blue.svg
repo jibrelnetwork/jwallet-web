@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="icon-lock" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1{fill:none}.cls-2{fill:#fff}
+        </style>
+    </defs>
+    <g id="Frame-24px">
+        <path id="Rectangle_9695" d="M0 0h24v24H0z" class="cls-1" data-name="Rectangle 9695"/>
+    </g>
+    <g id="Line_Icons">
+        <g id="Group_6801" data-name="Group 6801">
+            <circle id="Ellipse_1022" cx="1.5" cy="1.5" r="1.5" class="cls-2" data-name="Ellipse 1022" transform="translate(10.5 15)"/>
+            <path id="Path_16431" d="M17 11V7A5 5 0 0 0 7 7v4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM9 7a3 3 0 0 1 6 0v4H9zM7 20v-7h10v7z" class="cls-2" data-name="Path 16431"/>
+        </g>
+    </g>
+</svg>

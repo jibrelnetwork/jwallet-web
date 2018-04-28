@@ -26,48 +26,38 @@ const WalletsCreateView = (props: Props) => (
       {(props.currentStep === STEPS.NAME) && <NameStep {...props} />}
       {(props.currentStep === STEPS.MNEMONIC) && <MnemonicStep {...props} />}
       {(props.currentStep === STEPS.CONFIRM) && <MnemonicConfirmStep {...props} />}
-      {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
+      {(props.currentStep === STEPS.PASSWORD) && (
+        <PasswordStep
+          {...props}
+          inputColor='white'
+          labelColor='white'
+          buttonColor='blue'
+        />
+      )}
       {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
     </div>
   </div>
 )
 
 type Props = {
-  setMnemonicConfirm: (mnemonicConfirm: string) => Dispatch,
-  setName: (name: string) => Dispatch,
-  setPassword: (password: Password) => Dispatch,
-  setPasswordConfirm: (passwordConfirm: Password) => Dispatch,
-  setNextStep: () => Dispatch,
-  setPrevStep: () => Dispatch,
-  goToHome: () => Dispatch,
-  goToWallets: () => Dispatch,
+  setName: Function,
+  goToHome: Function,
+  goToWallets: Function,
+  setNextStep: Function,
+  setPrevStep: Function,
+  setPassword: Function,
+  copyMnemonic: Function,
+  saveMnemonic: Function,
+  setPasswordConfirm: Function,
+  setMnemonicConfirm: Function,
   validFields: FormFields,
   invalidFields: FormFields,
   name: string,
   mnemonic: string,
+  password: string,
+  passwordConfirm: string,
   mnemonicConfirm: string,
-  password: Password,
-  passwordConfirm: Password,
   currentStep: Index,
-}
-
-WalletsCreateView.defaultProps = {
-  setMnemonicConfirm: () => {},
-  setName: () => {},
-  setPassword: () => {},
-  setPasswordConfirm: () => {},
-  setNextStep: () => {},
-  setPrevStep: () => {},
-  goToHome: () => {},
-  goToWallets: () => {},
-  validFields: {},
-  invalidFields: {},
-  name: '',
-  mnemonic: '',
-  mnemonicConfirm: '',
-  password: '',
-  passwordConfirm: '',
-  currentStep: 0,
 }
 
 export default WalletsCreateView

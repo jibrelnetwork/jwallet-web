@@ -6,7 +6,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
-import { fileSaver, keystore, validate } from 'services'
+import { clipboard, fileSaver, keystore, validate } from 'services'
 import { selectWalletsItems, selectCreateWallet } from 'store/stateSelectors'
 import { setActiveSuccess as setWalletId } from 'routes/Wallets/modules/wallets'
 
@@ -15,6 +15,8 @@ import {
   CLOSE,
   SET_NEXT_STEP,
   SET_PREV_STEP,
+  COPY_MNEMONIC,
+  SAVE_MNEMONIC,
   STEPS,
   setMnemonic,
   setCurrentStep,
@@ -92,6 +94,12 @@ function* setPrevStep(): Saga<void> {
   }
 }
 
+function* copyMnemonicToClipboard(): Saga<void> {
+  const { mnemonic }: CreateWalletData = yield select(selectCreateWallet)
+
+  clipboard.copyText(mnemonic)
+}
+
 function* generateMnemonic() {
   const wallets: Wallets = yield select(selectWalletsItems)
   const { name }: CreateWalletData = yield select(selectCreateWallet)
@@ -102,7 +110,7 @@ function* generateMnemonic() {
   yield put(setCurrentStep(STEPS.MNEMONIC))
 }
 
-function* saveMnemonicToFile() {
+function* saveMnemonicToFile(): Saga<void> {
   const { name, mnemonic }: CreateWalletData = yield select(selectCreateWallet)
 
   fileSaver.saveTXT(mnemonic, `jwallet ${name}`)
@@ -156,4 +164,12 @@ export function* watchCreateWalletSetNextStep(): Saga<void> {
 
 export function* watchCreateWalletSetPrevStep(): Saga<void> {
   yield takeEvery(SET_PREV_STEP, setPrevStep)
+}
+
+export function* watchCreateWalletCopyMnemonic(): Saga<void> {
+  yield takeEvery(COPY_MNEMONIC, copyMnemonicToClipboard)
+}
+
+export function* watchCreateWalletSaveMnemonic(): Saga<void> {
+  yield takeEvery(SAVE_MNEMONIC, saveMnemonicToFile)
 }

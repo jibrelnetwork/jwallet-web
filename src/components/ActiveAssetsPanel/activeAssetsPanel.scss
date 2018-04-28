@@ -1,7 +1,8 @@
+$manage-assets-button-height: 65px;
+
 @import './AssetItem/assetItem';
 @import './CurrentAddress/currentAddress';
-
-$manage-assets-button-height: 65px;
+@import './ManageAssets/manageAssets';
 
 .active-assets-panel {
   all: initial;
@@ -15,24 +16,9 @@ $manage-assets-button-height: 65px;
   background-color: $white;
   box-shadow: 0 3px 6px rgba($black, 0.05);
 
-  > .address {
-    width: 100%;
-    height: $page-header-height; /* equals page header height */
-    border-bottom: 1px solid rgba($dusk, 0.1);
-  }
-
   > .list {
-    @include box;
-
+    width: 100%;
     height: calc(100% - #{$page-header-height} - #{$manage-assets-button-height});
-    width: 100%;
     border-bottom: 1px solid rgba($dusk, 0.1);
-  }
-
-  > .manage {
-    @include flex-row-center;
-
-    width: 100%;
-    height: $manage-assets-button-height;
   }
 }

@@ -12,9 +12,9 @@ const DerivationPathCustom = ({ onChange, value, error }: Props) => (
       onChange={handleTargetValue(onChange)}
       type='text'
       className='input'
+      autoComplete='off'
       name='derivation-path-custom'
       placeholder='Use custom path'
-      autoComplete='off'
       value={value}
     />
     {error && (

@@ -1,0 +1,34 @@
+.overlay-actions {
+  @include flex-row-center;
+
+  width: 100%;
+  height: 100%;
+
+  > .item {
+    @include flex-column-center;
+
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+
+    > .icon,
+    > .text {
+      display: inline-flex;
+    }
+
+    > .icon {
+      margin-bottom: 10px;
+    }
+  }
+
+  > .separator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $overlay-separator-width;
+    height: $overlay-separator-height;
+    margin-top: -($overlay-separator-height / 2);
+    margin-left: -($overlay-separator-width / 2);
+    background-color: rgba($blue, 0.05);
+  }
+}

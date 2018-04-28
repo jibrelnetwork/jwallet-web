@@ -4,21 +4,17 @@ import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 
-import MnemonicAddress from './MnemonicAddress'
+import WalletFace from '../../../components/WalletFace'
 
-const MnemonicAddressesList = ({
-  setActive,
-  addresses,
-  balances,
-}: Props) => (
+const MnemonicAddressesList = ({ setActive, addresses, isReadOnly }: Props) => (
   <div className='mnemonic-addresses-list'>
     {addresses.map((address, index) => (
       <div key={index} className='address'>
-        <MnemonicAddress
+        <WalletFace
           onClick={handle(setActive)(index)}
-          address={address}
-          balance={balances[address]}
-          index={index}
+          description={address}
+          title={`Address #${index + 1}`}
+          iconName={`private-key${isReadOnly ? '-read' : ''}`}
         />
       </div>
     ))}
@@ -26,15 +22,9 @@ const MnemonicAddressesList = ({
 )
 
 type Props = {
-  setActive: (addressIndex: Index) => Dispatch,
+  setActive: Function,
   addresses: Addresses,
-  balances: Balances,
-}
-
-MnemonicAddressesList.defaultProps = {
-  setActive: () => {},
-  addresses: [],
-  balances: {},
+  isReadOnly: boolean,
 }
 
 export default MnemonicAddressesList

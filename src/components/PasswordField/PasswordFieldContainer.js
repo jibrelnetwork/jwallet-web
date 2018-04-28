@@ -14,25 +14,28 @@ const checkConfirmed = (
   isApproved: boolean,
 ): boolean => (isApproved && (passwordConfirm === password))
 
-const getStatus = (password: Password): { message: string, isApproved: boolean } => {
-  const { failedTests } = Keystore.testPassword(password)
-  const isEmpty = !password.length
-  const isShort = (password.length < 6)
-  const failedTestsCount = failedTests.length
+const getStatus = (password: Password): {
+  status: string,
+  failedTest: string,
+  isApproved: boolean,
+} => {
+  const { errors }: Object = Keystore.testPassword(password)
+  const isEmpty: boolean = !password.length
+  const failedTestsCount: number = errors.length
 
   if (isEmpty) {
-    return { message: '', isApproved: false }
-  } else if (isShort) {
-    return { message: 'Too short', isApproved: false }
+    return { status: '', failedTest: '', isApproved: false }
+  } else if (failedTestsCount > 3) {
+    return { status: 'red', failedTest: errors[0], isApproved: false }
   } else if (failedTestsCount > 2) {
-    return { message: 'Easily cracked', isApproved: false }
+    return { status: 'orange', failedTest: errors[0], isApproved: false }
   } else if (failedTestsCount > 1) {
-    return { message: 'Bit weak', isApproved: false }
+    return { status: 'yellow', failedTest: errors[0], isApproved: false }
   } else if (failedTestsCount > 0) {
-    return { message: 'Not bad', isApproved: false }
+    return { status: 'green', failedTest: errors[0], isApproved: false }
   }
 
-  return { message: '', isApproved: true }
+  return { status: '', failedTest: '', isApproved: true }
 }
 
 type Props = {
@@ -40,10 +43,11 @@ type Props = {
   onPasswordConfirmChange: Function,
   onChange: Function,
   onConfirmChange: Function,
-  setMessage: Function,
+  setStatus: Function,
+  setFailedTest: Function,
   setApproved: Function,
   setConfirmed: Function,
-  message: string,
+  status: string,
   password: string,
   passwordPlaceholder: string,
   passwordError: string,
@@ -58,12 +62,14 @@ type Props = {
 export default compose(
   withStateHandlers(
     () => ({
-      message: '',
+      status: '',
+      failedTest: '',
       isApproved: false,
       isConfirmed: false,
     }),
     {
-      setMessage: () => (message: string) => ({ message }),
+      setStatus: () => (status: string) => ({ status }),
+      setFailedTest: () => (failedTest: string) => ({ failedTest }),
       setApproved: () => (isApproved: boolean) => ({ isApproved }),
       setConfirmed: () => (isConfirmed: boolean) => ({ isConfirmed }),
     },
@@ -71,7 +77,8 @@ export default compose(
   withHandlers({
     onChange: ({
       onPasswordChange,
-      setMessage,
+      setStatus,
+      setFailedTest,
       setApproved,
       setConfirmed,
       passwordConfirm,
@@ -82,10 +89,11 @@ export default compose(
 
       onPasswordChange(password)
 
-      const { message, isApproved } = getStatus(password)
+      const { status, failedTest, isApproved } = getStatus(password)
       const isConfirmed: boolean = checkConfirmed(password, passwordConfirm, isApproved)
 
-      setMessage(message)
+      setStatus(status)
+      setFailedTest(failedTest)
       setApproved(isApproved)
       setConfirmed(isConfirmed)
     },

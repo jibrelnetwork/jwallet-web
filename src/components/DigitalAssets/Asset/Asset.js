@@ -56,9 +56,10 @@ const AssetCard = ({
         <div className='edit'>
           <JFlatButton
             onClick={ignoreEvent(edit)(address)}
-            iconName='settings'
+            iconSize='small'
             iconColor='gray'
-            transparent
+            iconName='settings'
+            isTransparent
           />
         </div>
       )}

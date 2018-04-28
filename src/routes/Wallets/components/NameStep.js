@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import HelpText from 'components/HelpText'
 import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const NameStep = ({
@@ -12,11 +13,15 @@ const NameStep = ({
   name,
 }: Props) => (
   <div className='form'>
+    <div className='help'>
+      <HelpText text='Set name of the wallet' />
+    </div>
     <JInput
       onChange={setName}
       value={name}
       errorMessage={invalidFields.name}
-      color='blue'
+      type='text'
+      color='white'
       name='wallet-name'
       placeholder='routes.createWallet.placeholder.name'
     />
@@ -24,8 +29,10 @@ const NameStep = ({
       <JFlatButton
         onClick={goToWallets}
         iconName='arrow'
-        text='routes.createWallet.buttonTitle.prevStep'
-        transparent
+        iconSize='small'
+        iconColor='white'
+        label='routes.createWallet.buttonTitle.prevStep'
+        isTransparent
       />
       <div className='next'>
         <JRaisedButton

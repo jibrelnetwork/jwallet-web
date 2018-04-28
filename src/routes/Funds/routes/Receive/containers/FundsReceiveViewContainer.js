@@ -13,6 +13,7 @@ import {
   close,
   setAsset,
   setAmount,
+  copyQRCode,
   saveQRCode,
   copyAddress,
 } from '../modules/receiveFunds'
@@ -27,6 +28,7 @@ const mapDispatchToProps: {
   close: Function,
   setAsset: Function,
   setAmount: Function,
+  copyQRCode: Function,
   saveQRCode: Function,
   copyAddress: Function,
 } = {
@@ -34,6 +36,7 @@ const mapDispatchToProps: {
   close,
   setAsset,
   setAmount,
+  copyQRCode,
   saveQRCode,
   copyAddress,
 }

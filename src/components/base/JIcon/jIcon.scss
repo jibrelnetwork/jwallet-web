@@ -17,19 +17,28 @@
     background-size: $icon-small-size $icon-small-size;
 
     &.-arrow {
-      background-image: $icon-small-arrow-white;
-
       &.-blue {
         background-image: $icon-small-arrow-blue;
+      }
+
+      &.-white {
+        background-image: $icon-small-arrow-white;
       }
     }
 
     &.-arrow-down {
-      background-image: $icon-small-arrow-white;
       transform: rotate(90deg);
 
       &.-blue {
         background-image: $icon-small-arrow-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-small-arrow-sky;
+      }
+
+      &.-white {
+        background-image: $icon-small-arrow-white;
       }
     }
 
@@ -50,14 +59,22 @@
     }
 
     &.-expand {
-      background-image: $icon-small-expand-white;
-
       &.blue {
         background-image: $icon-small-expand-blue;
       }
 
       &.-gray {
         background-image: $icon-small-expand-gray;
+      }
+
+      &.-white {
+        background-image: $icon-small-expand-white;
+      }
+    }
+
+    &.-eye {
+      &.-gray {
+        background-image: $icon-small-eye-gray;
       }
     }
 
@@ -73,6 +90,18 @@
       }
     }
 
+    &.-info-clear {
+      &.-gray {
+        background-image: $icon-small-info-clear-gray;
+      }
+    }
+
+    &.-lock {
+      &.-gray {
+        background-image: $icon-small-lock-gray;
+      }
+    }
+
     &.-menu-favorite {
       background-image: $icon-small-menu-favorite-white;
     }
@@ -85,11 +114,33 @@
       background-image: $icon-small-menu-send-white;
     }
 
-    &.-plus {
-      background-image: $icon-small-plus-white;
+    &.-narrow {
+      transform: rotate(180deg);
 
+      &.blue {
+        background-image: $icon-small-expand-blue;
+      }
+
+      &.-gray {
+        background-image: $icon-small-expand-gray;
+      }
+
+      &.-white {
+        background-image: $icon-small-expand-white;
+      }
+    }
+
+    &.-plus {
       &.-blue {
         background-image: $icon-small-plus-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-small-plus-sky;
+      }
+
+      &.-white {
+        background-image: $icon-small-plus-white;
       }
     }
 
@@ -158,8 +209,40 @@
       }
     }
 
+    &.-copy {
+      &.-blue {
+        background-image: $icon-medium-copy-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-medium-copy-sky;
+      }
+    }
+
     &.-dots {
       background-image: $icon-medium-dots-white;
+    }
+
+    &.-download {
+      &.-blue {
+        background-image: $icon-medium-download-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-medium-download-sky;
+      }
+    }
+
+    &.-info {
+      background-image: $icon-medium-info-white;
+
+      &.-blue {
+        background-image: $icon-medium-info-blue;
+      }
+
+      &.-gray {
+        background-image: $icon-medium-info-gray;
+      }
     }
 
     &.-key-import {
@@ -191,6 +274,18 @@
 
       &.-blue {
         background-image: $icon-medium-link-blue;
+      }
+    }
+
+    &.-lock {
+      background-image: $icon-medium-lock-white;
+
+      &.-blue {
+        background-image: $icon-medium-lock-blue;
+      }
+
+      &.-gray {
+        background-image: $icon-medium-lock-gray;
       }
     }
 

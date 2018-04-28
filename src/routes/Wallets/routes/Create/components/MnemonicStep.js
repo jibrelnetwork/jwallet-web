@@ -1,24 +1,46 @@
 // @flow
 
 import React from 'react'
+import classNames from 'classnames'
 
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
+import MnemonicPhrase from 'components/MnemonicPhrase'
+import { JCheckbox, JFlatButton, JRaisedButton, JText } from 'components/base'
 
-const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
+const MnemonicStep = ({
+  setPrevStep,
+  setNextStep,
+  copyMnemonic,
+  saveMnemonic,
+  mnemonic,
+}: Props) => (
   <div className='form'>
-    <JInput
-      value={mnemonic}
-      color='blue'
-      name='create-wallet-mnemonic'
-      placeholder='routes.createWallet.placeholder.mnemonic'
-      disabled
-    />
+    <MnemonicPhrase copy={copyMnemonic} download={saveMnemonic} mnemonic={mnemonic} />
+    <div className={classNames('conditions', /* isActive &&  */ '-active')}>
+      <JCheckbox toggle={console.log} name='warning-one' isActive>
+        <JText
+          color='white'
+          whiteSpace='wrap'
+          value={'I understand that if I lose the backup phrase - ' +
+            'I can not restore access to my funds'}
+        />
+      </JCheckbox>
+      <JCheckbox toggle={console.log} name='warning-two' isActive>
+        <JText
+          color='white'
+          whiteSpace='wrap'
+          value={'I understand that if anyone get access to my backup phrase - ' +
+            'my funds can be stolen'}
+        />
+      </JCheckbox>
+    </div>
     <div className='actions'>
       <JFlatButton
         onClick={setPrevStep}
         iconName='arrow'
-        text='routes.createWallet.buttonTitle.prevStep'
-        transparent
+        iconSize='small'
+        iconColor='white'
+        label='routes.createWallet.buttonTitle.prevStep'
+        isTransparent
       />
       <div className='next'>
         <JRaisedButton
@@ -35,6 +57,8 @@ const MnemonicStep = ({ setPrevStep, setNextStep, mnemonic }: Props) => (
 type Props = {
   setNextStep: Function,
   setPrevStep: Function,
+  copyMnemonic: Function,
+  saveMnemonic: Function,
   mnemonic: string,
 }
 

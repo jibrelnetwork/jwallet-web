@@ -2,10 +2,11 @@
 
 import React from 'react'
 
-import JInput from 'components/base/JInput'
 import Expandable from 'components/Expandable'
 
-const Optional = ({
+import Item from './OptionalItem'
+
+const SendOptional = ({
   setGas,
   setGasPrice,
   setNonce,
@@ -21,17 +22,16 @@ const Optional = ({
   ]
 
   return (
-    <div className='optional'>
-      <Expandable title='routes.sendFunds.optionalTitle' color='blue' >
+    <div className='send-optional'>
+      <Expandable title='routes.sendFunds.optionalTitle' color='blue' orientation='row' >
         {fields.map(({ key, value, handler }) => (
-          <JInput
+          <Item
             key={key}
-            onChange={handler}
             value={value}
+            handler={handler}
             name={`send-funds-${key}`}
             errorMessage={invalidFields[key]}
             placeholder={`routes.sendFunds.placeholder.${key}`}
-            color='white'
           />
         ))}
       </Expandable>
@@ -49,4 +49,4 @@ type Props = {
   nonce: string,
 }
 
-export default Optional
+export default SendOptional

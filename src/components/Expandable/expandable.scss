@@ -3,20 +3,46 @@
 
   @include flex-column;
 
-  &.-open {
-    > .content {
-      @include flex-column;
+  &.-column > .content {
+    @include flex-column;
+  }
 
-      max-height: 500px;
-      overflow: visible;
-      visibility: visible;
-      opacity: 1;
+  &.-row > .content {
+    @include flex-row;
+  }
+
+  &.-open > .content {
+    max-height: 500px;
+    overflow: visible;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.-blue {
+    > .title {
+      border-bottom: 1px solid rgba($dusk, 0.1);
     }
 
-    &.-white {
-      > .title {
-        border-bottom: none;
-      }
+    &:hover > .title {
+      border-bottom: 1px solid rgba($dusk, 0.3);
+    }
+
+    &.-open > .title {
+      border-bottom: 1px solid transparent;
+    }
+  }
+
+  &.-white {
+    > .title {
+      border-bottom: 1px solid rgba($white, 0.2);
+    }
+
+    &:hover > .title {
+      border-bottom: 1px solid rgba($white, 0.4);
+    }
+
+    &.-open > .title {
+      border-bottom: 1px solid transparent;
     }
   }
 
@@ -24,19 +50,23 @@
     @include flex-row;
 
     position: relative;
-    align-items: center;
     width: 100%;
-    height: 80px;
-    border-bottom: 1px solid $pale-grey-two;
+    height: $form-field-height;
+    align-items: center;
+    transition: border-color 0.3s ease 0s;
+    cursor: pointer;
 
-    > .label {
-      padding-left: 10px;
+    > .icon,
+    > .text {
+      @include flex-row-center;
+    }
+
+    > .icon {
+      margin-right: 10px;
     }
   }
 
   > .content {
-    @include hover-animation;
-
     max-height: 0;
     width: 100%;
     padding: 0;
@@ -44,5 +74,9 @@
     visibility: hidden;
     overflow: hidden;
     opacity: 0;
+    transition:
+      opacity 0.3s ease 0s,
+      max-height 0.3s ease 0s,
+      visibility 0.3s ease 0s;
   }
 }

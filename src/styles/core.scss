@@ -79,20 +79,10 @@
     font-weight: 600;
   }
 
-  #root {
-    height: 100%;
-    width: 100%;
-  }
-
-  .unselectable {
-    user-select: none;
-    cursor: default;
-  }
-
   // Base components
   @import '../components/base/JAssetSymbol/jAssetSymbol';
-  @import '../components/base/JCallout/jCallout';
   @import '../components/base/JCard/jCard';
+  @import '../components/base/JCheckbox/jCheckbox';
   @import '../components/base/JFlatButton/jFlatButton';
   @import '../components/base/JIcon/jIcon';
   @import '../components/base/JInput/jInput';
@@ -116,14 +106,15 @@
   @import '../components/DerivationPath/derivationPath';
   @import '../components/DigitalAssets/digitalAssets';
   @import '../components/Expandable/expandable';
+  @import '../components/HelpText/helpText';
   @import '../components/MenuPanel/menuPanel';
+  @import '../components/MnemonicPhrase/mnemonicPhrase';
   @import '../components/ModalHeader/modalHeader';
-  @import '../components/NewWalletButtons/newWalletButtons';
+  @import '../components/OverlayActions/overlayActions';
   @import '../components/PasswordField/passwordField';
   @import '../components/QRCode/qrCode';
   @import '../components/RoundIconButton/roundIconButton';
   @import '../components/WalletHeader/walletHeader';
-  @import '../components/WalletManager/walletManager';
 
   // Views
   @import '../routes/CustomAsset/styles/customAsset';

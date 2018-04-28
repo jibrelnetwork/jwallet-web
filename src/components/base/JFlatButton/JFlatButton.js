@@ -3,40 +3,46 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { JIcon, JText } from 'components/base'
+import { JIcon, JLoader, JText } from 'components/base'
 
 const JFlatButton = ({
   onClick,
-  text,
+  label,
   color,
   iconName,
   iconSize,
   iconColor,
-  disabled,
+  isOpaque,
   isLoading,
-  transparent,
+  isDisabled,
+  isTransparent,
 }: Props) => {
   if (isLoading) {
-    return <div className='j-flat-button -loading' />
+    return (
+      <div className='j-flat-button -loading'>
+        <JLoader />
+      </div>
+    )
   }
 
   return (
     <div
-      onClick={disabled ? null : onClick}
+      onClick={isDisabled ? null : onClick}
       className={classNames(
         'j-flat-button',
-        text && '-text',
-        disabled && '-disabled',
-        transparent && '-transparent',
+        label && '-label',
+        isOpaque && '-opaque',
+        isDisabled && '-disabled',
+        isTransparent && '-transparent',
       )}
     >
       {iconName && (
         <div className='icon'>
-          <JIcon name={iconName} size={iconSize} color={iconColor || color} />
+          <JIcon name={iconName} size={iconSize} color={iconColor} />
         </div>
       )}
-      {text && (
-        <JText value={text} color={color} weight='bold' />
+      {label && (
+        <JText value={label} color={color} weight='bold' />
       )}
     </div>
   )
@@ -44,26 +50,27 @@ const JFlatButton = ({
 
 type Props = {
  onClick: Function,
- text: ?string,
- color: 'blue' | 'gray' | 'white',
+ label: ?string,
+ color: 'blue' | 'gray' | 'sky' | 'white',
  iconName: ?string,
  iconSize: 'small' | 'medium',
- iconColor: 'blue' | 'gray' | 'white' | null,
- disabled: boolean,
+ iconColor: 'blue' | 'gray' | 'sky' | 'white',
+ isOpaque: boolean,
  isLoading: boolean,
- transparent: boolean,
+ isDisabled: boolean,
+ isTransparent: boolean,
 }
 
 JFlatButton.defaultProps = {
-  onClick: () => {},
   text: null,
   color: 'white',
   iconName: null,
-  iconColor: null,
   iconSize: 'small',
-  disabled: false,
+  iconColor: 'white',
+  isOpaque: false,
   isLoading: false,
-  transparent: false,
+  isDisabled: false,
+  isTransparent: false,
 }
 
 export default JFlatButton

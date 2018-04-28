@@ -1,8 +1,8 @@
 // @flow
 
 import JAssetSymbol from './JAssetSymbol'
-import JCallout from './JCallout'
 import JCard from './JCard'
+import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
 import JIcon from './JIcon'
 import JInput from './JInput'
@@ -20,8 +20,8 @@ import JThumbnail from './JThumbnail'
 
 export {
   JAssetSymbol,
-  JCallout,
   JCard,
+  JCheckbox,
   JFlatButton,
   JIcon,
   JInput,

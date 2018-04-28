@@ -4,19 +4,33 @@ import React from 'react'
 
 import JInput from 'components/base/JInput'
 
+import Indicator from './Indicator'
+
+const statusMessageMap: Object = {
+  'red': 'Too weak',
+  'orange': 'Easily cracked',
+  'yellow': 'Bit weak',
+  'green': 'Not bad',
+}
+
+const getInfoMessage: Function = (status: string, failedTest: string): string => {
+  return !(status && failedTest) ? '' : `${statusMessageMap[status]} (${failedTest})`
+}
+
 const PasswordField = ({
   onChange,
   onConfirmChange,
-  message,
-  isConfirmed,
-  isApproved,
+  color,
+  status,
   password,
-  passwordPlaceholder,
+  failedTest,
   passwordError,
   passwordConfirm,
-  passwordConfirmPlaceholder,
+  passwordPlaceholder,
   passwordConfirmError,
-  color,
+  passwordConfirmPlaceholder,
+  isApproved,
+  isConfirmed,
   withConfirm,
 }: Props) => (
   <div className='password-field'>
@@ -25,24 +39,26 @@ const PasswordField = ({
       color={color}
       value={password}
       errorMessage={passwordError}
-      infoMessage={withConfirm && message}
-      placeholder={passwordPlaceholder || 'modals.createAccount.placeholder.password'}
+      infoMessage={withConfirm && getInfoMessage(status, failedTest)}
+      placeholder={passwordPlaceholder}
       type='password'
       name='password-field-password'
       isChecked={withConfirm && isApproved}
     />
     {withConfirm && (
-      <JInput
-        onChange={onConfirmChange}
-        color={color}
-        value={passwordConfirm}
-        errorMessage={passwordConfirmError}
-        placeholder={passwordConfirmPlaceholder ||
-          'modals.createAccount.placeholder.passwordConfirm'}
-        type='password'
-        name='password-field-password-confirm'
-        isChecked={isConfirmed}
-      />
+      <div className='confirmation'>
+        <Indicator password={password} status={status} />
+        <JInput
+          onChange={onConfirmChange}
+          color={color}
+          value={passwordConfirm}
+          errorMessage={passwordConfirmError}
+          placeholder={passwordConfirmPlaceholder}
+          type='password'
+          name='password-field-password-confirm'
+          isChecked={isConfirmed}
+        />
+      </div>
     )}
   </div>
 )
@@ -50,33 +66,23 @@ const PasswordField = ({
 type Props = {
   onChange: Function,
   onConfirmChange: Function,
+  status: string,
   password: string,
-  message: string,
-  isConfirmed: boolean,
-  isApproved: boolean,
-  color: string,
-  passwordPlaceholder: string,
-  passwordConfirmPlaceholder: string,
-  passwordConfirm: string,
+  failedTest: string,
   passwordError: string,
+  passwordConfirm: string,
+  passwordPlaceholder: string,
   passwordConfirmError: string,
+  passwordConfirmPlaceholder: string,
+  color: 'gray' | 'white',
+  isApproved: boolean,
+  isConfirmed: boolean,
   withConfirm: boolean,
 }
 
 PasswordField.defaultProps = {
-  onChange: () => {},
-  onConfirmChange: () => {},
-  password: '',
-  message: '',
-  isConfirmed: false,
-  isApproved: false,
-  color: 'white',
-  passwordConfirm: '',
-  passwordError: '',
-  passwordConfirmError: '',
-  passwordPlaceholder: null,
-  passwordConfirmPlaceholder: null,
-  withConfirm: false,
+  passwordPlaceholder: 'modals.createAccount.placeholder.password',
+  passwordConfirmPlaceholder: 'modals.createAccount.placeholder.passwordConfirm',
 }
 
 export default PasswordField

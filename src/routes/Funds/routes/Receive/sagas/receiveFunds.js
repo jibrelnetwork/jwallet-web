@@ -7,9 +7,8 @@ import { compose, equals, filter, head, toLower } from 'ramda'
 import config from 'config'
 import ethereum from 'data/assets/ethereum'
 import isETH from 'utils/digitalAssets/isETH'
-import copyToBuffer from 'utils/browser/copyToBuffer'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
-import { fileSaver, keystore, qrCode, validate } from 'services'
+import { clipboard, fileSaver, keystore, qrCode, validate } from 'services'
 
 import {
   selectReceiveFunds,
@@ -23,6 +22,7 @@ import {
   SET_ASSET,
   SET_AMOUNT,
   COPY_ADDRESS,
+  COPY_QR_CODE,
   SAVE_QR_CODE,
   generateSuccess,
   generateError,
@@ -50,9 +50,11 @@ function* copyAddress(): Saga<void> {
   try {
     const walletId: ?WalletId = yield select(selectWalletId)
     const address: Address = keystore.getAddress(walletId)
-    copyToBuffer(address)
-    yield put(setIsCopied(true))
-    yield delay(config.copyToBufferTimeout)
+
+    if (clipboard.copyText(address)) {
+      yield put(setIsCopied(true))
+      yield delay(config.copyToBufferTimeout)
+    }
   } catch (err) {
     // console.error(err)
   }
@@ -118,6 +120,16 @@ function* getAssetDecimals(assetAddress: Address) {
   return digitalAsset.decimals
 }
 
+function copyQRCode(): Saga<void> {
+  const canvas = document.querySelector('#qrcode canvas')
+
+  if (!canvas) {
+    return
+  }
+
+  clipboard.copyCanvas(canvas)
+}
+
 function saveQRCode(): Saga<void> {
   const canvas = document.querySelector('#qrcode canvas')
 
@@ -146,6 +158,10 @@ export function* watchReceiveFundsSetAsset(): Saga<void> {
 
 export function* watchReceiveFundsSetAmount(): Saga<void> {
   yield takeEvery(SET_AMOUNT, generateQRCode)
+}
+
+export function* watchReceiveFundsCopyQRCode(): Saga<void> {
+  yield takeEvery(COPY_QR_CODE, copyQRCode)
 }
 
 export function* watchReceiveFundsSaveQRCode(): Saga<void> {

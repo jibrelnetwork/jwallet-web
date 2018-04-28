@@ -3,9 +3,15 @@
 
   @include flex-column;
 
-  background-color: $white;
+  &.-white {
+    background-color: $white;
+  }
 
-  &.-with-shadow {
+  &.-blue {
+    background-color: $blue-two;
+  }
+
+  &.-shadow {
     box-shadow: 0 3px 6px rgba($black, 0.05);
   }
 

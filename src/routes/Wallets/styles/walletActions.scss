@@ -1,0 +1,17 @@
+.wallet-actions {
+  all: initial;
+
+  @include flex-row;
+
+  width: $wallet-button-width;
+  height: $wallet-button-height;
+  align-items: center;
+  justify-content: space-around;
+  background-color: transparent;
+  transition: background-color 0.3s ease 0s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $bright-sky-blue;
+  }
+}

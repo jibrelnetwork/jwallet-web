@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+    <defs>
+        <style>
+            .cls-2{fill:#3d4f6c}
+        </style>
+    </defs>
+    <g id="icon-popover_50_" class="cls-1" data-name="icon-popover 50%" transform="translate(-9.998)">
+        <g id="Group_6605" data-name="Group 6605">
+            <path id="Path_16366" d="M17 14a7 7 0 1 1 7-7 7.008 7.008 0 0 1-7 7zm0-12a5 5 0 1 0 5 5 5.006 5.006 0 0 0-5-5z" class="cls-2" data-name="Path 16366"/>
+        </g>
+        <g id="Group_6608" data-name="Group 6608">
+            <g id="Group_6607" data-name="Group 6607">
+                <g id="Group_6606" data-name="Group 6606">
+                    <path id="Rectangle_9619" d="M0 0h2v4H0z" class="cls-2" data-name="Rectangle 9619" transform="translate(15.998 7)"/>
+                </g>
+            </g>
+        </g>
+        <g id="Group_6609" data-name="Group 6609">
+            <circle id="Ellipse_1015" cx="1" cy="1" r="1" class="cls-2" data-name="Ellipse 1015" transform="translate(15.998 4)"/>
+        </g>
+    </g>
+</svg>

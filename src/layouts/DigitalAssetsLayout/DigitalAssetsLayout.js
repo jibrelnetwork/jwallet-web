@@ -22,7 +22,9 @@ const DigitalAssetsLayout = ({ goToCustomAssetAdd, search, searchQuery, children
             onClick={goToCustomAssetAdd}
             color='blue'
             iconName='plus'
-            text='header.actions.addCustomAsset'
+            iconSize='small'
+            iconColor='blue'
+            label='header.actions.addCustomAsset'
           />
           <div className='search'>
             <JSearch
@@ -47,13 +49,6 @@ type Props = {
   goToCustomAssetAdd: Function,
   searchQuery: string,
   children: ?Object,
-}
-
-DigitalAssetsLayout.defaultProps = {
-  search: () => {},
-  goToCustomAssetAdd: () => {},
-  searchQuery: '',
-  children: null,
 }
 
 export default DigitalAssetsLayout

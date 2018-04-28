@@ -1,5 +1,6 @@
 // @flow
 
+import clipboard from './clipboard'
 import etherscan from './etherscan'
 import fileSaver from './fileSaver'
 import gtm from './gtm'
@@ -10,6 +11,7 @@ import validate from './validate'
 import web3 from './web3'
 
 export {
+  clipboard,
   etherscan,
   fileSaver,
   gtm,

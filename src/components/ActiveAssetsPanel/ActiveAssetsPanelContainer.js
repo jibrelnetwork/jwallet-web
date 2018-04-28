@@ -6,6 +6,7 @@ import { withState } from 'recompose'
 import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
+import checkWalletReadOnly from 'utils/keystore/checkWalletReadOnly'
 import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAssetsData'
 import { setCurrent } from 'routes/DigitalAssets/modules/digitalAssets'
 
@@ -21,13 +22,15 @@ const getWalletAddress = (id: ?WalletId): ?Address => {
 
 const mapStateToProps: Function = ({ digitalAssets, wallets }: State): {
   digitalAssets: Array<DigitalAssetMainDataWithBalance>,
-  isLoading: boolean,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
+  isLoading: boolean,
+  isWalletReadOnly: boolean,
 } => ({
   isLoading: digitalAssets.isBalancesLoading,
-  digitalAssets: getActiveDigitalAssetsData(digitalAssets),
   currentAssetAddress: digitalAssets.currentAddress,
+  digitalAssets: getActiveDigitalAssetsData(digitalAssets),
+  isWalletReadOnly: checkWalletReadOnly(wallets.activeWalletId),
   currentWalletAddress: getWalletAddress(wallets.activeWalletId),
 })
 
@@ -44,4 +47,5 @@ const mapDispatchToProps: {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withState('hoveredAsset', 'hover', null),
+  withState('isManageHovered', 'setManageHovered', false),
 )(ActiveAssetsPanel)

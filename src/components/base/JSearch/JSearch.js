@@ -7,11 +7,11 @@ import JIcon from 'components/base/JIcon'
 import handle from 'utils/eventHandlers/handle'
 
 const JSearch = ({ onQueryChange, onToggle, query, placeholder, isActive }: Props) => (
-  <div className='j-search'>
+  <div className={classNames('j-search', isActive && '-active', query && '-value')}>
     <div onClick={handle(onToggle)(!isActive)} className='search'>
       <JIcon size={'medium'} name={'search'} />
     </div>
-    <div className={classNames('field', { '-active': isActive })}>
+    <div className='field'>
       <input
         onChange={onQueryChange}
         value={query}

@@ -1,0 +1,15 @@
+.new-wallet-buttons {
+  @include flex-column-center;
+
+  > .separator {
+    width: 60px;
+    height: 1px;
+    margin: 40px auto;
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  > .button {
+    margin-bottom: 20px;
+  }
+}

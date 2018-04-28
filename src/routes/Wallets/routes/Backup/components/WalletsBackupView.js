@@ -12,25 +12,24 @@ const WalletsBackupView = (props: Props) => (
     <ModalHeader title='Backup wallet' color='white' location='/wallets' />
     <div className='content'>
       {(props.currentStep === STEPS.FORM) && <FormStep {...props} />}
-      {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
+      {(props.currentStep === STEPS.PASSWORD) && (
+        <PasswordStep
+          {...props}
+          inputColor='white'
+          labelColor='white'
+          buttonColor='blue'
+        />
+      )}
     </div>
   </div>
 )
 
 type Props = {
-  setPassword: (password: Password) => Dispatch,
-  setNextStep: () => Dispatch,
+  setPassword: Function,
+  setNextStep: Function,
   invalidFields: FormFields,
-  password: Password,
+  password: string,
   currentStep: Index,
-}
-
-WalletsBackupView.defaultProps = {
-  setPassword: () => {},
-  setNextStep: () => {},
-  invalidFields: {},
-  password: '',
-  currentStep: 0,
 }
 
 export default WalletsBackupView

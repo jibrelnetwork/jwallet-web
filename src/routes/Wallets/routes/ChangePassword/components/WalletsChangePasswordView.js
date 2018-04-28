@@ -24,7 +24,7 @@ const WalletsChangePasswordView = ({
           onChange={setCurrent}
           value={password}
           errorMessage={invalidFields.password}
-          color='blue'
+          color='white'
           type='password'
           name='current-password'
           placeholder='routes.changeWalletPassword.placeholder.password'
@@ -36,7 +36,7 @@ const WalletsChangePasswordView = ({
           passwordConfirm={confirmPassword}
           passwordError={invalidFields.newPassword}
           passwordConfirmError={invalidFields.confirmPassword}
-          color='blue'
+          color='white'
           withConfirm
         />
         <div className='actions'>

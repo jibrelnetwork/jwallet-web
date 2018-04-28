@@ -3,26 +3,30 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import JFlatButton from 'components/base/JFlatButton'
-
 import AssetItem from './AssetItem'
+import ManageAssets from './ManageAssets'
 import CurrentAddress from './CurrentAddress'
 
 const ActiveAssetsPanel = ({
   hover,
   setCurrent,
   goToWallets,
+  setManageHovered,
   goToDigitalAssets,
   digitalAssets,
   hoveredAsset,
   currentAssetAddress,
   currentWalletAddress,
   isLoading,
+  isManageHovered,
+  isWalletReadOnly,
 }: Props) => (
   <div className='active-assets-panel'>
-    <div className='address'>
-      <CurrentAddress goToWallets={goToWallets} address={currentWalletAddress} />
-    </div>
+    <CurrentAddress
+      goToWallets={goToWallets}
+      address={currentWalletAddress}
+      isReadOnly={isWalletReadOnly}
+    />
     <div className='list'>
       <Scrollbars autoHide>
         {digitalAssets.map((data, index) => (
@@ -38,14 +42,11 @@ const ActiveAssetsPanel = ({
         ))}
       </Scrollbars>
     </div>
-    <div className='manage'>
-      <JFlatButton
-        onClick={goToDigitalAssets}
-        color='blue'
-        iconName='plus'
-        text='assetsPanel.button'
-      />
-    </div>
+    <ManageAssets
+      setHovered={setManageHovered}
+      goToDigitalAssets={goToDigitalAssets}
+      isHovered={isManageHovered}
+    />
   </div>
 )
 
@@ -53,24 +54,15 @@ type Props = {
   hover: Function,
   setCurrent: Function,
   goToWallets: Function,
+  setManageHovered: Function,
   goToDigitalAssets: Function,
   digitalAssets: Array<DigitalAssetMainDataWithBalance>,
   hoveredAsset: ?Address,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
   isLoading: boolean,
-}
-
-ActiveAssetsPanel.defaultProps = {
-  hover: () => {},
-  setCurrent: () => {},
-  goToWallets: () => {},
-  goToDigitalAssets: () => {},
-  digitalAssets: [],
-  hoveredAsset: null,
-  currentAssetAddress: null,
-  currentWalletAddress: null,
-  isLoading: false,
+  isManageHovered: boolean,
+  isWalletReadOnly: boolean,
 }
 
 export default ActiveAssetsPanel

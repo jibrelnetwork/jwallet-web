@@ -20,7 +20,11 @@
   }
 
   &.-red {
-    color: $pinkish-tan;
+    color: $blush;
+  }
+
+  &.-sky {
+    color: $bright-sky-blue;
   }
 
   &.-white {
@@ -43,6 +47,10 @@
 
   &.-header {
     font-size: 17px;
+  }
+
+  &.-mnemonic {
+    font-size: 20px;
   }
 
   &.-title {

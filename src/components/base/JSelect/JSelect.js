@@ -36,7 +36,7 @@ const JSelect = ({
         {current && React.cloneElement(current, { isOpen, isLoading, isDisabled })}
       </div>
       <div className='chevron'>
-        <JIcon name='expand' color={color} />
+        <JIcon name={isOpen ? 'narrow' : 'expand'} color={color} />
       </div>
     </div>
     <div onClick={handle(toggle)(false)} className='options'>
@@ -44,6 +44,7 @@ const JSelect = ({
         {children}
       </Scrollbars>
     </div>
+    {isOpen && <div onClick={handle(toggle)(false)} className='overlay' />}
   </div>
 )
 
@@ -59,11 +60,7 @@ type Props = {
 }
 
 JSelect.defaultProps = {
-  toggle: () => {},
-  children: null,
-  current: null,
   color: 'white',
-  label: '',
   isOpen: false,
   isLoading: false,
   isDisabled: false,

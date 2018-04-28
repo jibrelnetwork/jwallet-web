@@ -27,7 +27,8 @@ const FormStep = ({
   <div className='form'>
     <JInput
       value={sender}
-      color='white'
+      type='text'
+      color='gray'
       name='send-funds-sender'
       placeholder='routes.sendFunds.placeholder.sender'
       isDisabled
@@ -37,7 +38,8 @@ const FormStep = ({
       onChange={setAmount}
       value={amount}
       errorMessage={invalidFields.amount}
-      color='white'
+      type='text'
+      color='gray'
       name='send-funds-amount'
       placeholder='routes.sendFunds.placeholder.amount'
     />
@@ -45,7 +47,8 @@ const FormStep = ({
       onChange={setRecipient}
       value={recipient}
       errorMessage={invalidFields.recipient}
-      color='white'
+      type='text'
+      color='gray'
       name='send-funds-recipient'
       placeholder='routes.sendFunds.placeholder.recipient'
     />

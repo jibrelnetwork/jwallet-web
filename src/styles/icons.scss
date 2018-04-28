@@ -8,8 +8,9 @@ $icon-large-size: 48px;
 /**
  * Small
  */
-$icon-small-arrow-white: url('../public/assets/icons/small/arrow-white.svg');
 $icon-small-arrow-blue: url('../public/assets/icons/small/arrow-blue.svg');
+$icon-small-arrow-sky: url('../public/assets/icons/small/arrow-sky.svg');
+$icon-small-arrow-white: url('../public/assets/icons/small/arrow-white.svg');
 
 $icon-small-checkbox-white: url('../public/assets/icons/small/checkbox-white.svg');
 $icon-small-checkbox-blue: url('../public/assets/icons/small/checkbox-blue.svg');
@@ -21,16 +22,23 @@ $icon-small-expand-white: url('../public/assets/icons/small/expand-gray.svg');
 $icon-small-expand-blue: url('../public/assets/icons/small/expand-blue.svg');
 $icon-small-expand-gray: url('../public/assets/icons/small/expand-gray.svg');
 
+$icon-small-eye-gray: url('../public/assets/icons/small/eye-gray.svg');
+
 $icon-small-info-white: url('../public/assets/icons/small/info-gray.svg');
 $icon-small-info-blue: url('../public/assets/icons/small/info-blue.svg');
 $icon-small-info-gray: url('../public/assets/icons/small/info-gray.svg');
+
+$icon-small-info-clear-gray: url('../public/assets/icons/small/info-clear-gray.svg');
+
+$icon-small-lock-gray: url('../public/assets/icons/small/lock-gray.svg');
 
 $icon-small-menu-send-white: url('../public/assets/icons/small/menu-send-white.svg');
 $icon-small-menu-receive-white: url('../public/assets/icons/small/menu-receive-white.svg');
 $icon-small-menu-favorite-white: url('../public/assets/icons/small/menu-favorite-white.svg');
 
-$icon-small-plus-white: url('../public/assets/icons/small/plus-white.svg');
 $icon-small-plus-blue: url('../public/assets/icons/small/plus-blue.svg');
+$icon-small-plus-sky: url('../public/assets/icons/small/plus-sky.svg');
+$icon-small-plus-white: url('../public/assets/icons/small/plus-white.svg');
 
 $icon-small-repeat-white: url('../public/assets/icons/small/repeat-blue.svg');
 $icon-small-repeat-blue: url('../public/assets/icons/small/repeat-blue.svg');
@@ -45,28 +53,42 @@ $icon-small-star-blue: url('../public/assets/icons/small/star-blue.svg');
 /**
  * Medium
  */
-$icon-medium-arrow-white: url('../public/assets/icons/medium/arrow-white.svg');
 $icon-medium-arrow-blue: url('../public/assets/icons/medium/arrow-blue.svg');
+$icon-medium-arrow-white: url('../public/assets/icons/medium/arrow-white.svg');
 
-$icon-medium-arrow-header-white: url('../public/assets/icons/medium/arrow-popup-white.svg');
 $icon-medium-arrow-header-blue: url('../public/assets/icons/medium/arrow-popup-blue.svg');
 $icon-medium-arrow-header-gray: url('../public/assets/icons/medium/arrow-popup-gray.svg');
+$icon-medium-arrow-header-white: url('../public/assets/icons/medium/arrow-popup-white.svg');
 
-$icon-medium-close-header-white: url('../public/assets/icons/medium/close-popup-white.svg');
 $icon-medium-close-header-gray: url('../public/assets/icons/medium/close-popup-gray.svg');
+$icon-medium-close-header-white: url('../public/assets/icons/medium/close-popup-white.svg');
+
+$icon-medium-copy-blue: url('../public/assets/icons/medium/copy-blue.svg');
+$icon-medium-copy-sky: url('../public/assets/icons/medium/copy-sky.svg');
 
 $icon-medium-dots-white: url('../public/assets/icons/medium/dots-white.svg');
 
-$icon-medium-key-import-white: url('../public/assets/icons/medium/key-import-white.svg');
+$icon-medium-download-blue: url('../public/assets/icons/medium/download-blue.svg');
+$icon-medium-download-sky: url('../public/assets/icons/medium/download-sky.svg');
+
+$icon-medium-info-blue: url('../public/assets/icons/medium/info-blue.svg');
+$icon-medium-info-gray: url('../public/assets/icons/medium/info-gray.svg');
+$icon-medium-info-white: url('../public/assets/icons/medium/info-white.svg');
+
 $icon-medium-key-import-blue: url('../public/assets/icons/medium/key-import-blue.svg');
 $icon-medium-key-import-gray: url('../public/assets/icons/medium/key-import-gray.svg');
+$icon-medium-key-import-white: url('../public/assets/icons/medium/key-import-white.svg');
 
 $icon-medium-key-new-white: url('../public/assets/icons/medium/key-new-white.svg');
 $icon-medium-key-new-blue: url('../public/assets/icons/medium/key-new-blue.svg');
 $icon-medium-key-new-gray: url('../public/assets/icons/medium/key-new-gray.svg');
 
-$icon-medium-link-white: url('../public/assets/icons/medium/link-blue.svg');
 $icon-medium-link-blue: url('../public/assets/icons/medium/link-blue.svg');
+$icon-medium-link-white: url('../public/assets/icons/medium/link-white.svg');
+
+$icon-medium-lock-blue: url('../public/assets/icons/medium/lock-blue.svg');
+$icon-medium-lock-gray: url('../public/assets/icons/medium/lock-gray.svg');
+$icon-medium-lock-white: url('../public/assets/icons/medium/lock-white.svg');
 
 $icon-medium-logout: url('../public/assets/icons/medium/logout.svg');
 

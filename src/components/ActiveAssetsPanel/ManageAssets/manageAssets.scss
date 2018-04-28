@@ -1,0 +1,18 @@
+.manage-assets {
+  all: initial;
+
+  @include box;
+  @include flex-row-center;
+
+  width: 100%;
+  height: $manage-assets-button-height;
+  cursor: pointer;
+
+  > .icon {
+    margin-right: 10px;
+  }
+
+  > .text {
+    @include flex-row;
+  }
+}

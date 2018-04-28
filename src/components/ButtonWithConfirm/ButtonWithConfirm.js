@@ -7,44 +7,48 @@ import handle from 'utils/eventHandlers/handle'
 import JFlatButton from 'components/base/JFlatButton'
 
 const ButtonWithConfirm = ({
-  onClick,
   toggle,
+  onClick,
+  setHovered,
   label,
-  labelConfirm,
   labelCancel,
+  labelConfirm,
   isActive,
+  isHovered,
 }: Props) => (
   <div className='button-with-confirm'>
     <div className={classNames('front', { '-active': !isActive })}>
-      <JFlatButton onClick={handle(toggle)(true)} text={label} color='gray' transparent />
+      <JFlatButton onClick={handle(toggle)(true)} label={label} color='gray' isTransparent />
     </div>
     <div className={classNames('back', { '-active': isActive })}>
       <div className='button'>
-        <JFlatButton onClick={onClick} text={labelConfirm} color='gray' transparent />
+        <JFlatButton onClick={onClick} label={labelConfirm} color='gray' isTransparent />
       </div>
-      <div className='button -right'>
-        <JFlatButton onClick={handle(toggle)(false)} text={labelCancel} color='blue' />
+      <div
+        onMouseEnter={handle(setHovered)(true)}
+        onMouseLeave={handle(setHovered)(false)}
+        className='button -right'
+      >
+        <JFlatButton
+          onClick={handle(toggle)(false)}
+          label={labelCancel}
+          color={isHovered ? 'sky' : 'blue'}
+          isOpaque
+        />
       </div>
     </div>
   </div>
 )
 
 type Props = {
-  onClick: Function,
   toggle: Function,
+  onClick: Function,
+  setHovered: Function,
   label: string,
-  labelConfirm: string,
   labelCancel: string,
+  labelConfirm: string,
   isActive: boolean,
-}
-
-ButtonWithConfirm.defaultProps = {
-  onClick: () => {},
-  toggle: () => {},
-  label: '',
-  labelConfirm: 'Ok',
-  labelCancel: 'Nope!',
-  isActive: false,
+  isHovered: boolean,
 }
 
 export default ButtonWithConfirm

@@ -50,6 +50,25 @@
       width: $form-width;
       margin: 0 auto;
 
+      > .conditions {
+        margin-top: 30px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba($white, 0.2);
+        transition: border-color 0.3s ease 0s;
+
+        &:hover {
+          border-bottom: 1px solid rgba($white, 0.4);
+        }
+
+        &.-active {
+          border-bottom: 1px solid rgba($white, 0.6);
+        }
+      }
+
+      > .help {
+        margin-bottom: 30px;
+      }
+
       > .actions {
         @include flex-row-center;
 

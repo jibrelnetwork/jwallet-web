@@ -24,7 +24,14 @@ const WalletsImportView = (props: Props) => (
     <div className='content'>
       {(props.currentStep === STEPS.NAME) && <NameStep {...props} />}
       {(props.currentStep === STEPS.DATA) && <DataStep {...props} />}
-      {(props.currentStep === STEPS.PASSWORD) && <PasswordStep {...props} color='blue' />}
+      {(props.currentStep === STEPS.PASSWORD) && (
+        <PasswordStep
+          {...props}
+          inputColor='white'
+          labelColor='white'
+          buttonColor='blue'
+        />
+      )}
       {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
     </div>
   </div>

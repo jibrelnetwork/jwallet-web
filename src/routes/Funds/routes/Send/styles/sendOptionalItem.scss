@@ -1,0 +1,10 @@
+.send-optional-item {
+  all: initial;
+
+  @include box;
+  @include flex-row-center;
+
+  &:not(:last-child) {
+    margin-right: 30px;
+  }
+}

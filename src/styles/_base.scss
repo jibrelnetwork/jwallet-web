@@ -30,7 +30,14 @@ $form-field-full-height: ($form-field-height + $form-field-padding-top);
 /**
  * Select
  */
-$select-height: ($form-field-height * 4);
+$select-height: ($form-field-height * 3);
+
+/**
+ * Checkbox & Radio
+ */
+$checkbox-item-margin-bottom: 20px;
+$checkbox-dot-size: 16px;
+$checkbox-dot-margin-right: 15px;
 
 /**
  * Button
@@ -47,3 +54,37 @@ $modal-header-height: 110px;
  * QR code
  */
 $qr-code-height: 220px;
+
+/**
+ * Wallet button
+ */
+$wallet-button-width: 480px;
+$wallet-button-height: 90px;
+
+/**
+ * Help text
+ */
+$help-text-width: 480px;
+$help-text-padding: 25px;
+$help-text-line-height: 20px;
+$help-text-text-width: 385px;
+
+/**
+ * Mnemonic phrase
+ */
+$mnemonic-phrase-width: 480px;
+$mnemonic-phrase-height: 115px;
+
+/**
+ * Overlay actions
+ */
+$overlay-separator-width: 1px;
+$overlay-separator-height: 75px;
+
+/**
+ * Transaction item
+ */
+$transaction-item-height: 90px;
+$transaction-item-v-padding: 30px;
+$transaction-item-h-padding: 25px;
+$transaction-item-border-size: 1px;

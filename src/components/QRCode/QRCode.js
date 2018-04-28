@@ -3,27 +3,28 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import JRaisedButton from 'components/base/JRaisedButton'
+import OverlayActions from 'components/OverlayActions'
 
-const QRCode = ({ saveQRCode, isActive }: Props) => (
+const QRCode = ({ copy, download, isActive }: Props) => (
   <div className={classNames('qr-code', isActive && '-active')}>
-    <div id='qrcode' />
+    <div className='qr'>
+      <div id='qrcode' />
+    </div>
     <div className='overlay'>
-      <div className='button'>
-        <JRaisedButton onClick={saveQRCode} label='Download' labelColor='blue' isWide />
-      </div>
+      <OverlayActions
+        copy={copy}
+        load={download}
+        copyLabel='Copy QR Code'
+        loadLabel='Download as PNG'
+      />
     </div>
   </div>
 )
 
 type Props = {
-  saveQRCode: Function,
+  copy: Function,
+  download: Function,
   isActive: boolean,
-}
-
-QRCode.defaultProps = {
-  saveQRCode: () => {},
-  isActive: false,
 }
 
 export default QRCode

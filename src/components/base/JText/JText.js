@@ -6,11 +6,10 @@ import classNames from 'classnames'
 const JText = ({ value, size, color, weight, fontCase, whiteSpace, align }: Props) => (
   <div
     className={classNames(
-      `j-text -${size} -${color}`,
+      `j-text -${size} -${color} -${whiteSpace}`,
       align && `-${align}`,
       weight && `-${weight}`,
       fontCase && `-${fontCase}`,
-      whiteSpace && `-${whiteSpace}`,
     )}
   >
     {i18n(value) || value}
@@ -19,16 +18,15 @@ const JText = ({ value, size, color, weight, fontCase, whiteSpace, align }: Prop
 
 type Props = {
   value: string,
-  align: 'center' | null,
-  fontCase: 'upper' | null,
+  align: null | 'center',
+  fontCase: null | 'upper',
   whiteSpace: 'nowrap' | 'wrap',
-  weight: 'bold' | 'bolder' | null,
-  color: 'blue' | 'gray' | 'red' | 'white',
-  size: 'small' | 'normal' | 'large' | 'header' | 'title',
+  weight: null | 'bold' | 'bolder',
+  color: 'blue' | 'gray' | 'red' | 'sky' | 'white',
+  size: 'small' | 'normal' | 'large' | 'header' | 'title' | 'mnemonic',
 }
 
 JText.defaultProps = {
-  value: '',
   align: null,
   weight: null,
   size: 'normal',

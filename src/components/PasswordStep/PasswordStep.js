@@ -36,9 +36,11 @@ const PasswordStep = ({
       {setPrevStep && (
         <JFlatButton
           onClick={setPrevStep}
-          text={buttonPrevLabel}
+          label={buttonPrevLabel}
+          iconSize='small'
           iconName='arrow'
-          transparent
+          iconColor='white'
+          isTransparent
         />
       )}
       <div className='next'>
@@ -76,10 +78,6 @@ type Props = {
 PasswordStep.defaultProps = {
   setPrevStep: null,
   setPasswordConfirm: null,
-  inputColor: 'white',
-  labelColor: 'white',
-  buttonColor: 'white',
-  loaderColor: 'white',
   buttonNextLabel: 'Confirm',
   buttonPrevLabel: 'Previous step',
   isLoading: false,

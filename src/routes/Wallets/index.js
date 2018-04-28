@@ -15,7 +15,7 @@ export default store => ({
   indexRoute: {
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        const View = require('./containers/WalletsViewContainer').default
+        const View = require('./containers/WalletsIndexViewContainer').default
         cb(null, View)
       }, 'wallets')
     },

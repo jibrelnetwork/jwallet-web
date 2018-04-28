@@ -2,23 +2,30 @@
 
 import React from 'react'
 
-import JFlatButton from 'components/base/JFlatButton'
+import { JFlatButton, JIcon, JText } from 'components/base'
 
-const CurrentAddress = ({ goToWallets, address }: Props) => (
+const CurrentAddress = ({ goToWallets, address, isReadOnly }: Props) => (
   <div className='current-address'>
     {address && (
       <div className='address'>
-        <div className='label'>{'Current address'}</div>
-        <div className='value'>{address}</div>
+        <div className='label'>
+          <div className='text'>
+            <JText value='Current address' color='gray' />
+          </div>
+          {isReadOnly && <JIcon name='eye' size='small' color='gray' />}
+        </div>
+        <div className='value'>
+          <JText value={address} color={isReadOnly ? 'gray' : 'blue'} weight='bold' />
+        </div>
       </div>
     )}
     <div className='logout'>
       <JFlatButton
         onClick={goToWallets}
+        iconColor='gray'
         iconName='logout'
         iconSize='medium'
-        iconColor='gray'
-        transparent
+        isOpaque
       />
     </div>
   </div>
@@ -27,11 +34,7 @@ const CurrentAddress = ({ goToWallets, address }: Props) => (
 type Props = {
   goToWallets: Function,
   address: ?Address,
-}
-
-CurrentAddress.defaultProps = {
-  goToWallets: () => {},
-  address: null,
+  isReadOnly: boolean,
 }
 
 export default CurrentAddress

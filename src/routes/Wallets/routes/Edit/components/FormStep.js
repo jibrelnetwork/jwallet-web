@@ -26,7 +26,8 @@ const FormStep = ({
       value={name}
       errorMessage={invalidFields.name}
       successMessage={validFields.name}
-      color='blue'
+      type='text'
+      color='white'
       name='edit-wallet-name'
       placeholder='routes.editWallet.placeholder.name'
     />
@@ -64,11 +65,7 @@ type Props = {
   walletType: ?WalletType,
   knownDerivationPath: string,
   customDerivationPath: string,
-  selectedDerivationPathType: 'custom' | 'known'
-}
-
-FormStep.defaultProps = {
-  walletType: null,
+  selectedDerivationPathType: 'custom' | 'known',
 }
 
 export default FormStep
