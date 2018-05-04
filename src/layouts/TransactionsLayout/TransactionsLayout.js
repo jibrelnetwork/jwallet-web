@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react'
+import { JSearch, JTabs } from 'react-components'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
-import { JSearch, JTabs } from 'components/base'
 
 const TRANSACTIONS_TABS = {
   '/transactions/all': 'All Transactions',

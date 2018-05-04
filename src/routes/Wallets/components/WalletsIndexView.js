@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react'
+import { JCard } from 'react-components'
 
-import JCard from 'components/base/JCard'
 import WalletHeader from 'components/WalletHeader'
 
 import WalletCard from './WalletCard'

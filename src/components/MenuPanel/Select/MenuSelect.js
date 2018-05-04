@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JIcon, JLoader, JText } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JLoader, JText } from 'components/base'
 
 const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props) => (
   <div

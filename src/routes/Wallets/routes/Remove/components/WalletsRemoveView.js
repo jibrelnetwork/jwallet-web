@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JThumbnail, JRaisedButton } from 'react-components'
 
 import ModalHeader from 'components/ModalHeader'
-import { JThumbnail, JRaisedButton } from 'components/base'
 
 const WalletsRemoveView = ({ remove }: Props) => (
   <div className='wallets-remove-view'>

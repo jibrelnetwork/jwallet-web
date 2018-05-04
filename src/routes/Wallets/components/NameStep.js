@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JFlatButton, JInput, JRaisedButton } from 'react-components'
 
 import HelpText from 'components/HelpText'
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const NameStep = ({
   setName,

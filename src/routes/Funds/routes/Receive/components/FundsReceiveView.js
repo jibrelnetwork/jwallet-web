@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JInput, JRaisedButton } from 'react-components'
 
 import ModalLayout from 'layouts/ModalLayout'
-import { JInput, JRaisedButton } from 'components/base'
 import { AssetPicker, ModalHeader, QRCode } from 'components'
 
 const FundsReceiveView = ({

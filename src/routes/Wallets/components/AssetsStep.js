@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react'
+import { JRaisedButton } from 'react-components'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import DigitalAssets from 'components/DigitalAssets'
-import JRaisedButton from 'components/base/JRaisedButton'
 
 const AssetsStep = ({ goToHome }: Props) => (
   <div className='form'>

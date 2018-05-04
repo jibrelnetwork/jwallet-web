@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JIcon, JText } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText } from 'components/base'
 
 const ManageAssets = ({ setHovered, goToDigitalAssets, isHovered }: Props) => (
   <div

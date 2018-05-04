@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import JLogo from 'components/base/JLogo'
+import { JLogo } from 'react-components'
 
 import MenuLink from './Link'
 import MenuSelect from './Select'

@@ -3,8 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { assoc } from 'ramda'
+import { JIcon, JRaisedButton, JText } from 'react-components'
 
-import { JIcon, JRaisedButton, JText } from 'components/base'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' => {

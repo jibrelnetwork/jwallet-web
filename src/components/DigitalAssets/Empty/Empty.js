@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import JThumbnail from 'components/base/JThumbnail'
+import { JThumbnail } from 'react-components'
 
 const DigitalAssetsEmpty = ({ color }: Props) => (
   <div className='digital-assets-empty'>

@@ -3,8 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router'
-
-import { JIcon, JText } from 'components/base'
+import { JIcon, JText } from 'react-components'
 
 const MenuLink = ({ path, icon, disabled }: Props) => (
   <Link to={path} className={classNames('menu-link', { '-disabled': disabled })}>

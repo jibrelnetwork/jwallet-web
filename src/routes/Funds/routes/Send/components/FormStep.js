@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JInput, JRaisedButton } from 'react-components'
 
 import AssetPicker from 'components/AssetPicker'
-import { JInput, JRaisedButton } from 'components/base'
 
 import Optional from './Optional'
 

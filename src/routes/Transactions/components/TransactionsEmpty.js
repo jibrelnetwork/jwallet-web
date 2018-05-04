@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import JThumbnail from 'components/base/JThumbnail'
+import { JThumbnail } from 'react-components'
 
 const eventDescriptionMap = {
   'empty-list': 'Look like there isn\'t any transactions in your account yet',

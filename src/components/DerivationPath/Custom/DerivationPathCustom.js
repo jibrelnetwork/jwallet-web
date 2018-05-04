@@ -2,8 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JText } from 'react-components'
 
-import JText from 'components/base/JText'
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
 const DerivationPathCustom = ({ onChange, value, error }: Props) => (

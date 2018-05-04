@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JFlatButton, JRaisedButton } from 'react-components'
 
 import PasswordField from 'components/PasswordField'
-import { JFlatButton, JRaisedButton } from 'components/base'
 
 const PasswordStep = ({
   setPassword,

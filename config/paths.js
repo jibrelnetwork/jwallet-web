@@ -42,6 +42,7 @@ function getServedPath(appPackageJson) {
 module.exports = {
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
+  appBuildAssets: resolveApp('build/assets'),
   appPublic: resolveApp('src/public'),
   appHtml: resolveApp('src/public/index.html'),
   appIndexJs: resolveApp('src/main.js'),
@@ -50,6 +51,8 @@ module.exports = {
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
+  reactComponents: resolveApp('node_modules/react-components/src'),
+  reactComponentsAssets: resolveApp('node_modules/react-components/src/assets'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 };

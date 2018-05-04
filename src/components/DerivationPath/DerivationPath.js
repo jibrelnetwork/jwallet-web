@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react'
+import { JRadio } from 'react-components'
 
-import JRadio from 'components/base/JRadio'
 import handle from 'utils/eventHandlers/handle'
 import getKnownDerivationPaths from 'utils/keystore/getKnownDerivationPaths'
 

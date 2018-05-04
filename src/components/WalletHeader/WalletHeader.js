@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react'
+import { JLogo } from 'react-components'
 
-import JLogo from 'components/base/JLogo'
 import RoundIconButton from 'components/RoundIconButton'
 
 const WalletHeader = ({ goToLanding }: Props) => (

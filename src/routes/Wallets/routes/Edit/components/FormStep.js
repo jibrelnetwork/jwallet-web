@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react'
+import { JInput, JRaisedButton } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
-import { JInput, JRaisedButton } from 'components/base'
 import { DerivationPath, Expandable } from 'components'
 
 const FormStep = ({

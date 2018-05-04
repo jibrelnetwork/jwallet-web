@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JFlatButton } from 'react-components'
 
 import ModalHeader from 'components/ModalHeader'
-import JFlatButton from 'components/base/JFlatButton'
 
 import MnemonicAddressesList from './MnemonicAddressesList'
 

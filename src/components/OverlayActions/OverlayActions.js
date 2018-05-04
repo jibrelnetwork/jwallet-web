@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JIcon, JText } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText } from 'components/base'
 
 const OverlayActions = ({ copy, load, setHovered, copyLabel, loadLabel, hoveredItem }: Props) => (
   <div className='overlay-actions'>

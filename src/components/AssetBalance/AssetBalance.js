@@ -2,8 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-
-import { JLoader, JText } from 'components/base'
+import { JLoader, JText } from 'react-components'
 
 const AssetBalance = ({
   symbol,

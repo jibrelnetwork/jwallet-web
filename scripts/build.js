@@ -49,8 +49,13 @@ measureFileSizesBeforeBuild(paths.appBuild)
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
+
     // Merge with the public folder
     copyPublicFolder();
+
+    // Merge with react-components assets
+    copyReactComponentsAssetsFolder();
+
     // Start the webpack build
     return build(previousFileSizes);
   })
@@ -149,4 +154,8 @@ function copyPublicFolder() {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });
+}
+
+function copyReactComponentsAssetsFolder() {
+  fs.copySync(paths.reactComponentsAssets, paths.appBuildAssets);
 }

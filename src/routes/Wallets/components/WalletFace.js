@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import { JCard, JFlatButton, JIcon, JText } from 'components/base'
+import { JCard, JFlatButton, JIcon, JText } from 'react-components'
 
 const WalletFace = ({ onClick, showActions, title, iconName, description }: Props) => (
   <JCard color='blue'>

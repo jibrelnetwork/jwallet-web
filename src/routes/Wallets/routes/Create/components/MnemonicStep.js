@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JCheckbox, JFlatButton, JRaisedButton, JText } from 'react-components'
 
 import MnemonicPhrase from 'components/MnemonicPhrase'
-import { JCheckbox, JFlatButton, JRaisedButton, JText } from 'components/base'
 
 const MnemonicStep = ({
   setPrevStep,

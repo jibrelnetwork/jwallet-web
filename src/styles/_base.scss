@@ -1,13 +1,4 @@
-@import 'colors';
-@import 'icons';
-@import 'images';
-@import 'tokens';
 @import 'zindex';
-
-/**
- * Base Font
- */
-$font: 'Open Sans', Arial, sans-serif;
 
 /**
  * Page Header
@@ -26,24 +17,6 @@ $form-width: 480px;
 $form-field-height: 80px;
 $form-field-padding-top: 16px;
 $form-field-full-height: ($form-field-height + $form-field-padding-top);
-
-/**
- * Select
- */
-$select-height: ($form-field-height * 3);
-
-/**
- * Checkbox & Radio
- */
-$checkbox-item-margin-bottom: 20px;
-$checkbox-dot-size: 16px;
-$checkbox-dot-margin-right: 15px;
-
-/**
- * Button
- */
-$raised-button-height: 48px;
-$wide-button-width: 156px;
 
 /**
  * Modal Header

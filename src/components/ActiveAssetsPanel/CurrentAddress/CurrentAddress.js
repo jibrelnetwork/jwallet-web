@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import { JFlatButton, JIcon, JText } from 'components/base'
+import { JFlatButton, JIcon, JText } from 'react-components'
 
 const CurrentAddress = ({ goToWallets, address, isReadOnly }: Props) => (
   <div className='current-address'>

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { JInput, JRaisedButton } from 'components/base'
+import { JInput, JRaisedButton } from 'react-components'
 import { ButtonWithConfirm, ModalHeader } from 'components'
 
 const CustomAsset = ({

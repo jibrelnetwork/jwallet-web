@@ -3,10 +3,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import { assoc } from 'ramda'
+import { JRaisedButton, JText } from 'react-components'
 
 import config from 'config'
 import handle from 'utils/eventHandlers/handle'
-import { JRaisedButton, JText } from 'components/base'
 
 const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
 

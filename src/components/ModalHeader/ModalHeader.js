@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JText } from 'react-components'
 
 import ESCButton from 'components/ESCButton'
-import JText from 'components/base/JText'
 
 const ModalHeader = ({
   color,

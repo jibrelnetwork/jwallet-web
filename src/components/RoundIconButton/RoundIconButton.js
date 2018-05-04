@@ -2,8 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-
-import { JIcon, JText } from 'components/base'
+import { JIcon, JText } from 'react-components'
 
 const RoundIconButton = ({ onClick, iconName, color, label, spinOnHover }: Props) => (
   <div onClick={onClick} className='round-icon-button'>

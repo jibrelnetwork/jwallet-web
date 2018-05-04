@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react'
+import { JInput, JRaisedButton } from 'react-components'
 
 import PasswordField from 'components/PasswordField'
 import ModalHeader from 'components/ModalHeader'
-import { JInput, JRaisedButton } from 'components/base'
 
 const WalletsChangePasswordView = ({
   setNew,

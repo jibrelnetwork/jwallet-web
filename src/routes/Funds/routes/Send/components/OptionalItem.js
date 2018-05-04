@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import JInput from 'components/base/JInput'
+import { JInput } from 'react-components'
 
 const SendOptionalItem = ({
   handler,

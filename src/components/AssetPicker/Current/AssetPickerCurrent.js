@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JAssetSymbol, JText } from 'react-components'
 
 import AssetBalance from 'components/AssetBalance'
-import { JAssetSymbol, JText } from 'components/base'
 
 /**
  * isOpen & isDisabled & isLoading props are proxied from JSelect

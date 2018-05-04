@@ -1,11 +1,11 @@
 // @flow
 
 import React from 'react'
+import { JFlatButton, JInput, JRaisedButton } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
 import isMnemonicType from 'utils/keystore/isMnemonicType'
 import { DerivationPath, Expandable } from 'components'
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const DataStep = ({
   setData,

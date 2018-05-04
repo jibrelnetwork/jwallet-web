@@ -2,11 +2,11 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JAssetSymbol, JText } from 'react-components'
 
 import ethereum from 'data/assets/ethereum'
 import handle from 'utils/eventHandlers/handle'
 import AssetBalance from 'components/AssetBalance'
-import { JAssetSymbol, JText } from 'components/base'
 
 const AssetItem = ({
   hover,

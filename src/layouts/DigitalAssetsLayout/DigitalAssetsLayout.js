@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { JFlatButton, JSearch, JTabs } from 'react-components'
 
 import ActiveAssetsLayout from 'layouts/ActiveAssetsLayout'
-import { JFlatButton, JSearch, JTabs } from 'components/base'
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets/balance': 'My Digital Assets',
