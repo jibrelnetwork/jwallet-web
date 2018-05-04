@@ -17,7 +17,7 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
       </div>
     ) : (
       <div className='current -loading'>
-        <JLoader />
+        <JLoader color='white' />
       </div>
     )}
     {isOpen && <div onClick={handle(toggle)(null)} className='overlay' />}

@@ -40,7 +40,7 @@ const DigitalAssets = ({
   return (
     <div className={`digital-assets -${color}`}>
       {foundItems.map((data: DigitalAsset, index: Index) => (
-        <JCard key={index} withShadow>
+        <JCard key={index}>
           <Asset
             {...data}
             hover={hover}

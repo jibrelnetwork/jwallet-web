@@ -14,7 +14,7 @@ const WalletsIndexView = (props: Props) => (
     <div className='content'>
       {props.items.map(item => (
         <div key={item.id} className='wallet'>
-          <JCard color='blue' withShadow>
+          <JCard color='blue'>
             <WalletCard walletData={item} {...props} />
           </JCard>
         </div>

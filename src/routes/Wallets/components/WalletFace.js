@@ -5,7 +5,7 @@ import React from 'react'
 import { JCard, JFlatButton, JIcon, JText } from 'components/base'
 
 const WalletFace = ({ onClick, showActions, title, iconName, description }: Props) => (
-  <JCard color='blue' withShadow>
+  <JCard color='blue'>
     <div onClick={onClick} className='wallet-face'>
       <div className='icon'>
         <JIcon name={iconName} size='medium' color='white' />

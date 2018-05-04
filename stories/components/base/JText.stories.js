@@ -49,19 +49,23 @@ storiesOf('JText')
   .add('Different colors', () => (
     <div>
       <h2>{'blue'}</h2>
-      <JText
-        color='blue'
-        size='small'
-        value='Lorem ipsum dolor sit amet'
-      />
+      <div style={{ padding: '10px' }}>
+        <JText
+          color='blue'
+          size='small'
+          value='Lorem ipsum dolor sit amet'
+        />
+      </div>
       <h2>{'red'}</h2>
-      <JText
-        color='red'
-        size='small'
-        value='Lorem ipsum dolor sit amet'
-      />
+      <div style={{ padding: '10px' }}>
+        <JText
+          color='red'
+          size='small'
+          value='Lorem ipsum dolor sit amet'
+        />
+      </div>
       <h2>{'white'}</h2>
-      <div style={{ backgroundColor: '#666' }}>
+      <div style={{ padding: '10px', backgroundColor: '#666' }}>
         <JText
           size='small'
           color='white'

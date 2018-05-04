@@ -1,3 +1,8 @@
+body {
+  width: auto;
+  height: auto;
+}
+
 h1 {
   margin: 30px 0;
 }
