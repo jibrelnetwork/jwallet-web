@@ -54,8 +54,8 @@ const CustomAsset = ({
             onChange={handler}
             value={value}
             name={`custom-asset-${key}`}
-            errorMessage={invalidFields[key]}
-            placeholder={`routes.addCustomAsset.placeholder.${key}`}
+            placeholder={i18n(`routes.addCustomAsset.placeholder.${key}`)}
+            errorMessage={invalidFields[key] ? i18n(invalidFields[key]) : null}
             type='text'
             color='gray'
             isDisabled={isDisabled}
@@ -105,7 +105,6 @@ type Props = {
 CustomAsset.defaultProps = {
   add: null,
   edit: null,
-  type: 'add',
 }
 
 export default CustomAsset

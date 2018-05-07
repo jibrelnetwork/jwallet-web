@@ -11,11 +11,18 @@ import ja from './ja'
 
 const i18nMap = { en, ko, zh, ja }
 
-const i18n = () => {
+const init: Function = (i18nLibrary: Object): Function => (value: string): string => {
+  const libraryValue: ?string = path(value.split('.'))(i18nLibrary)
+  const enValue: ?string = path(value.split('.'))(i18nLibrary)
+
+  return libraryValue || enValue || value
+}
+
+const i18n: Function = (): Function => {
   const i18nLang: LanguageCode = getCurrentLanguageCode()
   const i18nLibrary: Object = i18nMap[i18nLang] || en
 
-  return ((value: string) => path(value.split('.'))(i18nLibrary))
+  return init(i18nLibrary)
 }
 
 export default i18n

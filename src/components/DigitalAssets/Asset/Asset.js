@@ -4,7 +4,6 @@ import React from 'react'
 import classNames from 'classnames'
 import { JAssetSymbol, JFlatButton, JIcon, JText } from 'react-components'
 
-import ethereum from 'data/assets/ethereum'
 import AssetBalance from 'components/AssetBalance'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 
@@ -84,19 +83,7 @@ type Props = {
 }
 
 AssetCard.defaultProps = {
-  edit: () => {},
-  hover: () => {},
-  setActive: () => {},
-  name: ethereum.name,
-  symbol: ethereum.symbol,
-  address: ethereum.address,
-  color: 'white',
-  balance: 0,
-  isCustom: false,
-  isActive: false,
   isLoading: false,
-  isHovered: false,
-  isPopular: false,
 }
 
 export default AssetCard

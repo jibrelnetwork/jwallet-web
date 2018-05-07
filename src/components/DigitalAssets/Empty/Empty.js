@@ -17,8 +17,4 @@ type Props = {
   color: 'white' | 'blue',
 }
 
-DigitalAssetsEmpty.defaultProps = {
-  color: 'white',
-}
-
 export default DigitalAssetsEmpty

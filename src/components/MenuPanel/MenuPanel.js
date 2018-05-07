@@ -56,15 +56,4 @@ type Props = {
   isWalletReadOnly: boolean,
 }
 
-MenuPanel.defaultProps = {
-  setNetwork: () => {},
-  setLanguage: () => {},
-  toggleSelect: () => {},
-  networks: {},
-  activeSelect: null,
-  currentNetwork: null,
-  currentLanguage: 'en-US',
-  isWalletReadOnly: true,
-}
-
 export default MenuPanel

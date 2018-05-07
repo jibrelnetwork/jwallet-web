@@ -63,12 +63,9 @@ type Props = {
 }
 
 AssetBalance.defaultProps = {
-  symbol: '',
   weight: null,
-  color: 'white',
   size: 'normal',
   balance: 0,
-  isLoading: false,
   isTransparent: false,
 }
 

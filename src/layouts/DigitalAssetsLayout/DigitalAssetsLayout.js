@@ -24,7 +24,7 @@ const DigitalAssetsLayout = ({ goToCustomAssetAdd, search, searchQuery, children
             iconName='plus'
             iconSize='small'
             iconColor='blue'
-            label='header.actions.addCustomAsset'
+            label={i18n('header.actions.addCustomAsset')}
           />
           <div className='search'>
             <JSearch

@@ -62,11 +62,7 @@ type Props = {
 }
 
 AssetPicker.defaultProps = {
-  onSelect: () => {},
-  activeAssets: [],
-  currentAsset: null,
   label: 'Asset',
-  isLoading: false,
   isDisabled: false,
 }
 

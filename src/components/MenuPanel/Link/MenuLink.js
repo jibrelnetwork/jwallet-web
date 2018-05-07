@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import { Link } from 'react-router'
 import { JIcon, JText } from 'react-components'
 
-const MenuLink = ({ path, icon, disabled }: Props) => (
-  <Link to={path} className={classNames('menu-link', { '-disabled': disabled })}>
+const MenuLink = ({ path, icon, isDisabled }: Props) => (
+  <Link to={path} className={classNames('menu-link', isDisabled && '-disabled')}>
     <div className='icon'>
       <div className='bg'>
         <JIcon name='menu-bg' size='medium' color='white' />
@@ -16,7 +16,7 @@ const MenuLink = ({ path, icon, disabled }: Props) => (
       </div>
     </div>
     <div className='text'>
-      <JText value={`menu.${icon}`} size='small' weight='bold' fontCase='upper' />
+      <JText value={i18n(`menu.${icon}`)} size='small' weight='bold' fontCase='upper' />
     </div>
   </Link>
 )
@@ -24,13 +24,7 @@ const MenuLink = ({ path, icon, disabled }: Props) => (
 type Props = {
   path: string,
   icon: string,
-  disabled: boolean
-}
-
-MenuLink.defaultProps = {
-  path: '/',
-  icon: 'send',
-  disabled: false,
+  isDisabled: boolean
 }
 
 export default MenuLink

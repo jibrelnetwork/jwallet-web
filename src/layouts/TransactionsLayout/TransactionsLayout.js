@@ -41,9 +41,7 @@ type Props = {
 }
 
 TransactionsLayout.defaultProps = {
-  search: null,
   children: null,
-  searchQuery: '',
 }
 
 export default TransactionsLayout

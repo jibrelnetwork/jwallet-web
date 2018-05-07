@@ -47,7 +47,7 @@ const TransactionsList = ({
 
 type Props = {
   repeat: Function,
-  setActive: (txHash: Hash) => Dispatch,
+  setActive: Function,
   items: Transactions,
   currentAsset: ?DigitalAsset,
   transactionsByPeriod: Object,
@@ -55,18 +55,6 @@ type Props = {
   isLoading: boolean,
   isCustomNetwork: boolean,
   isBlockExplorerError: boolean,
-}
-
-TransactionsList.defaultProps = {
-  repeat: () => {},
-  setActive: () => {},
-  items: [],
-  currentAsset: null,
-  transactionsByPeriod: {},
-  activeTxHash: null,
-  isLoading: false,
-  isCustomNetwork: false,
-  isBlockExplorerError: false,
 }
 
 export default TransactionsList

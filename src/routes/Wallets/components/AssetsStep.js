@@ -17,8 +17,8 @@ const AssetsStep = ({ goToHome }: Props) => (
       <div className='next'>
         <JRaisedButton
           onClick={goToHome}
+          label={i18n('routes.createWallet.buttonTitle.finish')}
           color='blue'
-          label='routes.createWallet.buttonTitle.finish'
           isWide
         />
       </div>

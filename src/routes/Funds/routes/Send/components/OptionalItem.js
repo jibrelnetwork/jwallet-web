@@ -15,8 +15,8 @@ const SendOptionalItem = ({
       onChange={handler}
       name={name}
       value={value}
-      placeholder={placeholder}
-      errorMessage={errorMessage}
+      placeholder={i18n(placeholder)}
+      errorMessage={errorMessage ? i18n(errorMessage) : null}
       type='text'
       color='gray'
     />

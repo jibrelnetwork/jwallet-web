@@ -42,11 +42,6 @@ type Props = {
 }
 
 ModalHeader.defaultProps = {
-  color: 'white',
-  title: '',
-  location: '/',
-  totalSteps: undefined,
-  currentStep: undefined,
   withMenu: false,
 }
 

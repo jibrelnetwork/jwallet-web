@@ -71,18 +71,4 @@ type Props = {
   isBalancesLoading: boolean,
 }
 
-DigitalAssets.defaultProps = {
-  hover: () => {},
-  setActive: () => {},
-  editCustomAsset: () => {},
-  items: [],
-  foundAssets: [],
-  balances: {},
-  color: 'white',
-  type: 'balance',
-  searchQuery: '',
-  hoveredAsset: null,
-  isBalancesLoading: false,
-}
-
 export default DigitalAssets

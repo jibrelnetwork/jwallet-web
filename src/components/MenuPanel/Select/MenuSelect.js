@@ -9,7 +9,7 @@ import handle from 'utils/eventHandlers/handle'
 const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props) => (
   <div
     onClick={handle(toggle)(isOpen ? null : name)}
-    className={classNames('menu-select', { '-active': isOpen })}
+    className={classNames('menu-select', isOpen && '-active')}
   >
     {active && options[active] ? (
       <div className='current'>
@@ -29,7 +29,7 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
           <li
             key={key}
             onClick={!isActive && handle(setActive)(key)}
-            className={classNames('item', { '-active': isActive })}
+            className={classNames('item', isActive && '-active')}
           >
             <div className='value'>
               <JText value={options[key]} />
@@ -53,15 +53,6 @@ type Props = {
   name: ?string,
   active: ?string,
   isOpen: boolean,
-}
-
-MenuSelect.defaultProps = {
-  toggle: () => {},
-  setActive: () => {},
-  options: {},
-  name: null,
-  active: null,
-  isOpen: false,
 }
 
 export default MenuSelect

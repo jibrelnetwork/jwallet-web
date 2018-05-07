@@ -47,8 +47,6 @@ type Props = {
 }
 
 AssetPickerCurrent.defaultProps = {
-  name: '',
-  symbol: '',
   balance: 0,
   isOpen: false,
   isLoading: false,

@@ -20,8 +20,4 @@ type Props = {
   goToLanding: Function,
 }
 
-WalletHeader.defaultProps = {
-  goToLanding: () => {},
-}
-
 export default WalletHeader
