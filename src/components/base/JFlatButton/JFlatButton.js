@@ -20,7 +20,7 @@ const JFlatButton = ({
   if (isLoading) {
     return (
       <div className='j-flat-button -loading'>
-        <JLoader />
+        <JLoader color='white' />
       </div>
     )
   }

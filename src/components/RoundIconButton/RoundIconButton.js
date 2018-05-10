@@ -20,16 +20,13 @@ const RoundIconButton = ({ onClick, iconName, color, label, spinOnHover }: Props
 
 type Props = {
   onClick: Function,
-  iconName: string,
-  color: 'white' | 'gray',
   label: ?string,
+  iconName: string,
+  color: 'gray' | 'white',
   spinOnHover: boolean,
 }
 
 RoundIconButton.defaultProps = {
-  onClick: null,
-  iconName: 'arrow-popup',
-  color: 'white',
   label: null,
   spinOnHover: false,
 }

@@ -1,1 +1,5 @@
-export { default } from './JIconContainer'
+// @flow
+
+import JIcon from './JIconContainer'
+
+export default JIcon

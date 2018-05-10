@@ -11,9 +11,4 @@ type Props = {
   color: 'blue' | 'gray' | 'white',
 }
 
-JAssetSymbol.defaultProps = {
-  symbol: '',
-  color: 'white',
-}
-
 export default JAssetSymbol

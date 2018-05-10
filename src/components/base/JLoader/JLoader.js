@@ -14,8 +14,4 @@ type Props = {
   color: 'blue' | 'gray' | 'white',
 }
 
-JLoader.defaultProps = {
-  color: 'white',
-}
-
 export default JLoader

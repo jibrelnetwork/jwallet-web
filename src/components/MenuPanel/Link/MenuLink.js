@@ -10,10 +10,10 @@ const MenuLink = ({ path, icon, disabled }: Props) => (
   <Link to={path} className={classNames('menu-link', { '-disabled': disabled })}>
     <div className='icon'>
       <div className='bg'>
-        <JIcon name='menu-bg' size='medium' />
+        <JIcon name='menu-bg' size='medium' color='white' />
       </div>
       <div className='type'>
-        <JIcon name={`menu-${icon}`} size='small' />
+        <JIcon name={`menu-${icon}`} size='small' color='white' />
       </div>
     </div>
     <div className='text'>

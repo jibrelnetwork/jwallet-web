@@ -31,7 +31,6 @@
     "jwallet-web-storage": "0.2.1",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
-    "prop-types": "15.5.10",
     "ramda": "0.25.0",
     "rc-tooltip": "3.7.0",
     "react": "15.6.1",
