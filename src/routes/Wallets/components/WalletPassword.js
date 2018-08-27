@@ -2,8 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-
-import { JFlatButton, JIcon, JText } from 'components/base'
+import { JFlatButton, JIcon, JText } from 'react-components'
 
 const WalletPassword = ({ setActive, setPassword, errorMessage, iconName, password }: Props) => (
   <div className='wallet-password'>

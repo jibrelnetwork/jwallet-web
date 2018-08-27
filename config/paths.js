@@ -1,8 +1,8 @@
 'use strict';
 
-const path = require('path');
 const fs = require('fs');
 const url = require('url');
+const path = require('path');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -42,6 +42,7 @@ function getServedPath(appPackageJson) {
 module.exports = {
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
+  appBuildAssets: resolveApp('build/assets'),
   appPublic: resolveApp('src/public'),
   appHtml: resolveApp('src/public/index.html'),
   appIndexJs: resolveApp('src/main.js'),
@@ -50,6 +51,8 @@ module.exports = {
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
+  reactComponents: resolveApp('node_modules/react-components/src'),
+  reactComponentsAssets: resolveApp('node_modules/react-components/src/assets'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
 };

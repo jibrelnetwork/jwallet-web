@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { isEmpty } from 'ramda'
+import { JCard, JLoader } from 'react-components'
 
-import { JCard, JLoader } from 'components/base'
 import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
@@ -69,20 +69,6 @@ type Props = {
   color: 'blue' | 'white',
   type: DigitalAssetsListType,
   isBalancesLoading: boolean,
-}
-
-DigitalAssets.defaultProps = {
-  hover: () => {},
-  setActive: () => {},
-  editCustomAsset: () => {},
-  items: [],
-  foundAssets: [],
-  balances: {},
-  color: 'white',
-  type: 'balance',
-  searchQuery: '',
-  hoveredAsset: null,
-  isBalancesLoading: false,
 }
 
 export default DigitalAssets

@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
+import { JFlatButton, JInput, JRaisedButton } from 'react-components'
 
 const MnemonicConfirmStep = ({
   setPrevStep,

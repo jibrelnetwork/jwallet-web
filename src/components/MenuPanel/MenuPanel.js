@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import JLogo from 'components/base/JLogo'
+import { JLogo } from 'react-components'
 
 import MenuLink from './Link'
 import MenuSelect from './Select'
@@ -55,17 +54,6 @@ type Props = {
   currentNetwork: ?NetworkId,
   currentLanguage: LanguageCode,
   isWalletReadOnly: boolean,
-}
-
-MenuPanel.defaultProps = {
-  setNetwork: () => {},
-  setLanguage: () => {},
-  toggleSelect: () => {},
-  networks: {},
-  activeSelect: null,
-  currentNetwork: null,
-  currentLanguage: 'en-US',
-  isWalletReadOnly: true,
 }
 
 export default MenuPanel

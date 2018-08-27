@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react'
+import { JRaisedButton } from 'react-components'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import DigitalAssets from 'components/DigitalAssets'
-import JRaisedButton from 'components/base/JRaisedButton'
 
 const AssetsStep = ({ goToHome }: Props) => (
   <div className='form'>
@@ -17,8 +17,8 @@ const AssetsStep = ({ goToHome }: Props) => (
       <div className='next'>
         <JRaisedButton
           onClick={goToHome}
+          label={i18n('routes.createWallet.buttonTitle.finish')}
           color='blue'
-          label='routes.createWallet.buttonTitle.finish'
           isWide
         />
       </div>

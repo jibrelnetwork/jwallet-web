@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JInput, JRaisedButton } from 'react-components'
 
 import ModalLayout from 'layouts/ModalLayout'
-import { JInput, JRaisedButton } from 'components/base'
 import { AssetPicker, ModalHeader, QRCode } from 'components'
 
 const FundsReceiveView = ({
@@ -31,20 +31,20 @@ const FundsReceiveView = ({
           <AssetPicker onSelect={setAsset} currentAsset={assetAddress} />
           <JInput
             value={recipient}
+            placeholder={i18n('routes.receiveFunds.placeholder.recipient')}
             type='text'
             color='gray'
             name='receive-funds-recipient'
-            placeholder='routes.receiveFunds.placeholder.recipient'
             isDisabled
           />
           <JInput
             onChange={setAmount}
             value={amount}
-            errorMessage={invalidFields.amount}
+            placeholder={i18n('routes.receiveFunds.placeholder.amount')}
+            errorMessage={invalidFields.amount ? i18n(invalidFields.amount) : null}
             type='text'
             color='gray'
             name='receive-funds-amount'
-            placeholder='routes.receiveFunds.placeholder.amount'
           />
           <div className='actions'>
             <JRaisedButton
@@ -72,10 +72,6 @@ type Props = {
   recipient: string,
   assetAddress: Address,
   isCopied: boolean,
-}
-
-FundsReceiveView.defaultProps = {
-  isCopied: false,
 }
 
 export default FundsReceiveView

@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import { JThumbnail, JRaisedButton } from 'components/base'
+import { JThumbnail, JRaisedButton } from 'react-components'
 
 const FormStep = ({ setNextStep }: Props) => (
   <div className='form'>

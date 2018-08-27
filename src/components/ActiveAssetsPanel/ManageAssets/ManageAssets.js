@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JIcon, JText } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText } from 'components/base'
 
 const ManageAssets = ({ setHovered, goToDigitalAssets, isHovered }: Props) => (
   <div
@@ -16,7 +16,7 @@ const ManageAssets = ({ setHovered, goToDigitalAssets, isHovered }: Props) => (
       <JIcon name='plus' size='small' color={isHovered ? 'sky' : 'blue'} />
     </div>
     <div className='text'>
-      <JText value='assetsPanel.button' weight='bold' color={isHovered ? 'sky' : 'blue'} />
+      <JText value={i18n('assetsPanel.button')} weight='bold' color={isHovered ? 'sky' : 'blue'} />
     </div>
   </div>
 )

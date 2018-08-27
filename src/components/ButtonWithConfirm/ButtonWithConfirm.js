@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JFlatButton } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
-import JFlatButton from 'components/base/JFlatButton'
 
 const ButtonWithConfirm = ({
   toggle,

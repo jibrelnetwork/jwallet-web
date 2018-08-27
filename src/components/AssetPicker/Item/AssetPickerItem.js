@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JAssetSymbol, JText } from 'react-components'
 
 import AssetBalance from 'components/AssetBalance'
-import { JAssetSymbol, JText } from 'components/base'
 
 const AssetPickerItem = ({ name, symbol, balance, isActive, isLoading, isDisabled }: Props) => (
   <div

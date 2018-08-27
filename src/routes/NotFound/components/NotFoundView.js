@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JThumbnail, JRaisedButton } from 'react-components'
 
 import WalletHeader from 'components/WalletHeader'
-import { JThumbnail, JRaisedButton } from 'components/base'
 
 const NotFoundView = ({ goToIndex }: Props) => (
   <div className='not-found-view'>

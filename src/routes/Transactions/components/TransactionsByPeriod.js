@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import { JCard, JLoader } from 'components/base'
+import { JCard, JLoader } from 'react-components'
 
 import TransactionItem from './TransactionItem'
 import TransactionsEmpty from './TransactionsEmpty'

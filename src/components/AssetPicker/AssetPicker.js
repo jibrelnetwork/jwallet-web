@@ -2,8 +2,7 @@
 
 import React from 'react'
 import { compose, filter, head, propEq } from 'ramda'
-
-import JSelect, { JSelectItem } from 'components/base/JSelect'
+import JSelect, { JSelectItem } from 'react-components/src/components/JSelect'
 
 import Current from './Current'
 import Item from './Item'
@@ -63,11 +62,7 @@ type Props = {
 }
 
 AssetPicker.defaultProps = {
-  onSelect: () => {},
-  activeAssets: [],
-  currentAsset: null,
   label: 'Asset',
-  isLoading: false,
   isDisabled: false,
 }
 

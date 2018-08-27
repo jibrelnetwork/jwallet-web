@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JText } from 'react-components'
 
 import ESCButton from 'components/ESCButton'
-import JText from 'components/base/JText'
 
 const ModalHeader = ({
   color,
@@ -42,11 +42,6 @@ type Props = {
 }
 
 ModalHeader.defaultProps = {
-  color: 'white',
-  title: '',
-  location: '/',
-  totalSteps: undefined,
-  currentStep: undefined,
   withMenu: false,
 }
 

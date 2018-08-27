@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react'
+import { JText } from 'react-components'
 
-import JText from 'components/base/JText'
 import OverlayActions from 'components/OverlayActions'
 
 const MnemonicPhrase = ({ copy, download, mnemonic }: Props) => (

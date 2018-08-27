@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react'
+import { JLogo } from 'react-components'
 
-import JLogo from 'components/base/JLogo'
 import RoundIconButton from 'components/RoundIconButton'
 
 const WalletHeader = ({ goToLanding }: Props) => (
@@ -18,10 +18,6 @@ const WalletHeader = ({ goToLanding }: Props) => (
 
 type Props = {
   goToLanding: Function,
-}
-
-WalletHeader.defaultProps = {
-  goToLanding: () => {},
 }
 
 export default WalletHeader

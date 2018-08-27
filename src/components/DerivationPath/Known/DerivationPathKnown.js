@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import JText from 'components/base/JText'
+import { JText } from 'react-components'
 
 const DerivationPathKnown = ({ path, description }: Props) => (
   <div className='derivation-path-known'>

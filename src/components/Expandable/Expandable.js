@@ -2,9 +2,9 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { JIcon, JText } from 'react-components'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText } from 'components/base'
 
 const Expandable = ({
   toggle,
@@ -37,7 +37,7 @@ const Expandable = ({
         </div>
         <div className='text'>
           <JText
-            value={title}
+            value={i18n(title)}
             color={isHovered ? hoverColor : color}
             weight='bold'
           />
@@ -53,8 +53,8 @@ type Props = {
   setHovered: Function,
   children: ?Object,
   title: string,
-  iconNameOpened: string,
   iconNameClosed: string,
+  iconNameOpened: string,
   color: 'blue' | 'white',
   orientation: 'row' | 'column',
   isOpen: boolean,
@@ -62,10 +62,9 @@ type Props = {
 }
 
 Expandable.defaultProps = {
-  color: 'white',
   orientation: 'column',
-  iconNameOpened: 'arrow-down',
   iconNameClosed: 'plus',
+  iconNameOpened: 'arrow-down',
   title: 'modals.customOptionsTitle',
 }
 

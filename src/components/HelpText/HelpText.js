@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-import { JIcon, JText } from 'components/base'
+import { JIcon, JText } from 'react-components'
 
 const HelpText = ({ text }: Props) => (
   <div className='help-text'>

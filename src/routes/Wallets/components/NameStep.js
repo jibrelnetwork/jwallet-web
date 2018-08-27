@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react'
+import { JFlatButton, JInput, JRaisedButton } from 'react-components'
 
 import HelpText from 'components/HelpText'
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
 const NameStep = ({
   setName,
@@ -19,26 +19,26 @@ const NameStep = ({
     <JInput
       onChange={setName}
       value={name}
-      errorMessage={invalidFields.name}
+      placeholder={i18n('routes.createWallet.placeholder.name')}
+      errorMessage={invalidFields.name ? i18n(invalidFields.name) : null}
       type='text'
       color='white'
       name='wallet-name'
-      placeholder='routes.createWallet.placeholder.name'
     />
     <div className='actions'>
       <JFlatButton
         onClick={goToWallets}
+        label={i18n('routes.createWallet.buttonTitle.prevStep')}
         iconName='arrow'
         iconSize='small'
         iconColor='white'
-        label='routes.createWallet.buttonTitle.prevStep'
         isTransparent
       />
       <div className='next'>
         <JRaisedButton
           onClick={setNextStep}
+          label={i18n('routes.createWallet.buttonTitle.nextStep')}
           color='blue'
-          label='routes.createWallet.buttonTitle.nextStep'
           isWide
         />
       </div>
