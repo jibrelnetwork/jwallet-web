@@ -1,8 +1,13 @@
 // @flow
 
 import handle from './handle'
-import handleEnterKeyPress from './handleEnterKeyPress'
-import handleTargetValue from './handleTargetValue'
 import ignoreEvent from './ignoreEvent'
+import handleTargetValue from './handleTargetValue'
+import handleEnterKeyPress from './handleEnterKeyPress'
 
-export { handle, handleEnterKeyPress, handleTargetValue, ignoreEvent }
+export {
+  handle,
+  ignoreEvent,
+  handleTargetValue,
+  handleEnterKeyPress,
+}

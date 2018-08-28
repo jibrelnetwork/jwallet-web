@@ -31,6 +31,13 @@ declare type Store = {
   getState: GetState,
 }
 
+declare type DerivationPath = {
+  +path: string,
+  +description: string,
+}
+
+declare type DerivationPaths = Array<DerivationPath>
+
 /**
  * Networks
  */
@@ -38,12 +45,12 @@ declare type NetworkId = string
 declare type NetworkTitleById = { [NetworkId]: string }
 
 declare type Network = {
-  id: NetworkId,
-  title: string,
-  rpcaddr: string,
-  rpcport: string,
-  ssl: boolean,
-  isCustom: boolean,
+  +id: NetworkId,
+  +title: string,
+  +rpcaddr: string,
+  +rpcport: string,
+  +ssl: boolean,
+  +isCustom: boolean,
 }
 
 declare type Networks = Array<Network>
@@ -255,6 +262,7 @@ declare type Transaction = {
 }
 
 declare type Transactions = Array<Transaction>
+declare type TransactionsByPeriod = { [?string]: ?Transactions }
 
 declare type TransactionsData = {
   +items: Transactions,

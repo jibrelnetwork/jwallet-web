@@ -1,18 +1,25 @@
 // @flow
 
-import { prepend } from 'ramda'
-
 import assets from 'data/assets'
 
-const networksNamesMap: { [?string]: ?string } = {
-  '1': 'main',
+function getAssetsByNetworkId(networkId: ?NetworkId): DigitalAssets {
+  if (!networkId) {
+    return []
+  }
+
+  switch (networkId) {
+    case '1':
+      return assets.main
+
+    default:
+      return []
+  }
 }
 
-const getPopularDigitalAssets = (networkId: ?NetworkId): DigitalAssets => {
-  const networkName: ?string = networksNamesMap[networkId]
-  const popularAssets: DigitalAssets = assets[networkName] || []
+function getPopularDigitalAssets(networkId: ?NetworkId): DigitalAssets {
+  const popularAssets: DigitalAssets = getAssetsByNetworkId(networkId)
 
-  return prepend(assets.ethereum)(popularAssets)
+  return [assets.ethereum].concat(popularAssets)
 }
 
 export default getPopularDigitalAssets

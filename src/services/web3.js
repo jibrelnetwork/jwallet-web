@@ -5,7 +5,7 @@ import jibrelContractsApi from 'jibrel-contracts-jsapi'
 import { flatten, prop, sortBy, reverse } from 'ramda'
 
 import config from 'config'
-import isJNT from 'utils/digitalAssets/isJNT'
+import checkJNTAsset from 'utils/digitalAssets/checkJNTAsset'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const { defaultDecimals } = config
@@ -203,7 +203,7 @@ function sortTransactions(list: any) {
 function getContractTransactions(contractAddress: Address, owner: Address, decimals: Decimals) {
   const transferTransactions = getERC20Transactions(contractAddress, owner, decimals)
 
-  if (!isJNT(contractAddress)) {
+  if (!checkJNTAsset(contractAddress)) {
     return transferTransactions
   }
 

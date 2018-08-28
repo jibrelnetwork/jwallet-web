@@ -2,4 +2,6 @@
 
 import getFormattedDateString from './getFormattedDateString'
 
-export { getFormattedDateString }
+export {
+  getFormattedDateString,
+}

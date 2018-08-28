@@ -2,4 +2,6 @@
 
 import getCurrentLanguageCode from './getCurrentLanguageCode'
 
-export { getCurrentLanguageCode }
+export {
+  getCurrentLanguageCode,
+}

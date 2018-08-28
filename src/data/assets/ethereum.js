@@ -1,6 +1,6 @@
 // @flow
 
-const ethereum: DigitalAsset = {
+const ETHEREUM_ASSET: DigitalAsset = {
   name: 'Ethereum',
   symbol: 'ETH',
   decimals: 18,
@@ -9,4 +9,4 @@ const ethereum: DigitalAsset = {
   isCustom: false,
 }
 
-export default ethereum
+export default ETHEREUM_ASSET

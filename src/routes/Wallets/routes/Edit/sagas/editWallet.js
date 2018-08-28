@@ -7,7 +7,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import config from 'config'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { keystore, validate } from 'services'
-import { isMnemonicType, isKnownPath } from 'utils/keystore'
+import { checkKnownPath, checkMnemonicType } from 'utils/keystore'
 import { selectWalletsItems, selectWalletId, selectEditWallet } from 'store/stateSelectors'
 
 import {
@@ -39,7 +39,7 @@ function* openEditWallet(): Saga<void> {
     yield put(setWalletType(customType))
 
     if (derivationPath) {
-      yield put(isKnownPath(derivationPath)
+      yield put(checkKnownPath(derivationPath)
         ? setKnownDerivationPath(derivationPath)
         : setCustomDerivationPath(derivationPath),
       )
@@ -92,7 +92,7 @@ function* checkData() {
    * If wallet type is not full mnemonic we should just update its name,
    * otherwise we should check name & derivationPath and then ask for password
    */
-  if (!isMnemonicType(walletType)) {
+  if (!checkMnemonicType(walletType)) {
     if (!isEqual(wallet.name, name)) {
       validate.walletName(name, wallets)
     }

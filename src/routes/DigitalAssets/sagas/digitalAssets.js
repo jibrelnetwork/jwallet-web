@@ -20,7 +20,7 @@ import {
 
 import config from 'config'
 import { keystore, validate, web3 } from 'services'
-import { getPopularDigitalAssets, isETH } from 'utils/digitalAssets'
+import { getPopularDigitalAssets, checkEthereumAsset } from 'utils/digitalAssets'
 import { reset as resetTransactions } from 'routes/Transactions/modules/transactions'
 
 import {
@@ -140,7 +140,7 @@ function* getBalancesByOwner(owner: Address): Balances {
 function getBalanceByOwner(digitalAsset: DigitalAsset, owner: Address) {
   const { address, decimals }: DigitalAsset = digitalAsset
 
-  return isETH(address)
+  return checkEthereumAsset(address)
     ? call(web3.getETHBalance, owner)
     : call(web3.getAssetBalance, address, owner, decimals)
 }

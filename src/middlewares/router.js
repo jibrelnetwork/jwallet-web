@@ -4,7 +4,7 @@ import { isEmpty } from 'ramda'
 import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
-import isMnemonicType from 'utils/keystore/isMnemonicType'
+import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 
 /**
  * Wallets
@@ -102,7 +102,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
         } else {
           const walletType: WalletType = keystore.getWallet(walletId).type
 
-          if (!isMnemonicType(walletType)) {
+          if (!checkMnemonicType(walletType)) {
             goToLocation('/wallets')
           }
         }
@@ -141,7 +141,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case wallets.SET_ACTIVE_SUCCESS: {
-      if (isMnemonicType(payload.walletType)) {
+      if (checkMnemonicType(payload.walletType)) {
         // if mnemonic - set some address
         goToLocation('/wallets/addresses')
       } else if (payload.walletAction) {

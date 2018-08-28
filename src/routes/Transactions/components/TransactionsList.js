@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import isETH from 'utils/digitalAssets/isETH'
+import checkEthereumAsset from 'utils/digitalAssets/checkEthereumAsset'
 
 import TransactionsEmpty from './TransactionsEmpty'
 import TransactionsByPeriod from './TransactionsByPeriod'
@@ -18,7 +18,7 @@ const TransactionsList = ({
   isCustomNetwork,
   isBlockExplorerError,
 }: Props) => {
-  if (isCustomNetwork && currentAsset && isETH(currentAsset.address)) {
+  if (isCustomNetwork && currentAsset && checkEthereumAsset(currentAsset.address)) {
     return <TransactionsEmpty event='private-node' />
   }
 
@@ -45,18 +45,6 @@ const TransactionsList = ({
   )
 }
 
-type Props = {
-  repeat: Function,
-  setActive: (txHash: Hash) => Dispatch,
-  items: Transactions,
-  currentAsset: ?DigitalAsset,
-  transactionsByPeriod: Object,
-  activeTxHash: ?Hash,
-  isLoading: boolean,
-  isCustomNetwork: boolean,
-  isBlockExplorerError: boolean,
-}
-
 TransactionsList.defaultProps = {
   repeat: () => {},
   setActive: () => {},
@@ -67,6 +55,18 @@ TransactionsList.defaultProps = {
   isLoading: false,
   isCustomNetwork: false,
   isBlockExplorerError: false,
+}
+
+type Props = {
+  repeat: Function,
+  setActive: (txHash: Hash) => Dispatch,
+  items: Transactions,
+  currentAsset: ?DigitalAsset,
+  transactionsByPeriod: Object,
+  activeTxHash: ?Hash,
+  isLoading: boolean,
+  isCustomNetwork: boolean,
+  isBlockExplorerError: boolean,
 }
 
 export default TransactionsList

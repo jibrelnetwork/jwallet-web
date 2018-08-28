@@ -4,8 +4,8 @@ import Keystore from 'jwallet-web-keystore'
 
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 
-const testKeystorePassword = (password: Password) => {
-  const error = Keystore.testPassword(password).errors[0]
+function testKeystorePassword(password: string) {
+  const error: ?string = Keystore.testPassword(password).errors[0]
 
   if (error) {
     throw new InvalidFieldError('password', error)

@@ -3,7 +3,7 @@
 import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import isMnemonicType from 'utils/keystore/isMnemonicType'
+import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 import { DerivationPath, Expandable } from 'components'
 import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
@@ -32,7 +32,7 @@ const DataStep = ({
       name='import-wallet-data'
       placeholder='routes.importWallet.placeholder.data'
     />
-    {isMnemonicType(walletType) && (
+    {checkMnemonicType(walletType) && (
       <Expandable title='Advanced' color='white'>
         <DerivationPath
           setKnownDerivationPath={handle(setKnownDerivationPath)}

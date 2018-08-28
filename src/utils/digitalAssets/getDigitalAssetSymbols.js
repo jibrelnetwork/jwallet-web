@@ -1,7 +1,7 @@
 // @flow
 
-function getDigitalAssetSymbols(digitalAssets: DigitalAssetsData): Array<string> {
-  return digitalAssets.items.map(({ symbol }) => symbol)
+function getDigitalAssetSymbols(digitalAssets: DigitalAssets): Array<string> {
+  return digitalAssets.map(({ symbol }: DigitalAsset): string => symbol)
 }
 
 export default getDigitalAssetSymbols

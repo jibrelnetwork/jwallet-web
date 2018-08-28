@@ -2,7 +2,7 @@
 
 import keystore from 'services/keystore'
 
-const checkWalletReadOnly = (id: ?WalletId): boolean => {
+function checkWalletReadOnly(id: ?WalletId): boolean {
   if (!id) {
     return false
   }

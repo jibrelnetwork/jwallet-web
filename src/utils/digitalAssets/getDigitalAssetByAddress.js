@@ -1,21 +1,21 @@
 // @flow
 
-import { compose, equals, filter, head, toLower } from 'ramda'
+function checkAddressEqual(address: Address, comparable: Address): boolean {
+  return (address === comparable.toLowerCase())
+}
 
-const getDigitalAssetByAddress = (
+function getDigitalAssetByAddress(
   assetAddress: ?Address,
-  digitalAssets: DigitalAssets,
-): ?DigitalAsset => {
-  if (!(assetAddress && digitalAssets.length)) {
+  digitalAssets: ?DigitalAssets,
+): ?DigitalAsset {
+  if (!(assetAddress && digitalAssets)) {
     return null
   }
 
-  const lowerAssetAddress: Address = toLower(assetAddress)
+  const assetAddressLower: Address = assetAddress.toLowerCase()
 
-  return compose(
-    head,
-    filter(({ address }: DigitalAsset): boolean => equals(lowerAssetAddress, toLower(address))),
-  )(digitalAssets)
+  return digitalAssets
+    .find(({ address }: DigitalAsset): boolean => checkAddressEqual(assetAddressLower, address))
 }
 
 export default getDigitalAssetByAddress

@@ -7,8 +7,8 @@ import config from 'config'
 import ethereum from 'data/assets/ethereum'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { keystore, validate, web3 } from 'services'
-import { getAssetDecimals, isETH } from 'utils/digitalAssets'
 import { getTransactionValue, toBigNumber } from 'utils/transactions'
+import { getAssetDecimals, checkEthereumAsset } from 'utils/digitalAssets'
 
 import {
   selectWalletId,
@@ -94,7 +94,7 @@ function* handleSendError({ message }: InvalidFieldError) {
 }
 
 function getTransactionHandler(assetAddress: Address) {
-  return isETH(assetAddress) ? web3.sendETHTransaction : web3.sendContractTransaction
+  return checkEthereumAsset(assetAddress) ? web3.sendETHTransaction : web3.sendContractTransaction
 }
 
 function* getTransactionData(data: SendFundsData) {
@@ -110,7 +110,7 @@ function* getTransactionData(data: SendFundsData) {
   }
 
   /* eslint-disable fp/no-mutation */
-  if (!isETH(assetAddress)) {
+  if (!checkEthereumAsset(assetAddress)) {
     txData.contractAddress = assetAddress
   }
 

@@ -1,6 +1,6 @@
 // @flow
 
-export default function getActiveDigitalAssetsData({
+function getActiveDigitalAssetsData({
   items,
   balances,
 }: DigitalAssetsData): Array<DigitalAssetMainDataWithBalance> {
@@ -17,3 +17,5 @@ export default function getActiveDigitalAssetsData({
     balance: balances[address],
   }))
 }
+
+export default getActiveDigitalAssetsData

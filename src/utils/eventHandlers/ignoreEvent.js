@@ -1,8 +1,8 @@
 // @flow
 
 /* eslint-disable fp/no-rest-parameters */
-function ignoreEvent(handler: ?Function) {
-  return (...args: Array<any>) => (event: Object): void => {
+function ignoreEvent(handler: ?Function): Function {
+  return (...args: Array<any>): Function => (event: Object): void => {
     event.preventDefault()
 
     if (handler) {

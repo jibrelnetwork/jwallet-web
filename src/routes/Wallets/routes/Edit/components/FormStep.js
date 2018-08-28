@@ -3,7 +3,7 @@
 import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import isMnemonicType from 'utils/keystore/isMnemonicType'
+import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 import { JInput, JRaisedButton } from 'components/base'
 import { DerivationPath, Expandable } from 'components'
 
@@ -31,7 +31,7 @@ const FormStep = ({
       name='edit-wallet-name'
       placeholder='routes.editWallet.placeholder.name'
     />
-    {isMnemonicType(walletType) && (
+    {checkMnemonicType(walletType) && (
       <Expandable title='Advanced' color='white'>
         <DerivationPath
           setKnownDerivationPath={handle(setKnownDerivationPath)}

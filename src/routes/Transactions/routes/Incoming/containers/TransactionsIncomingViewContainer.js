@@ -1,33 +1,45 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { assoc, compose, filter, propEq } from 'ramda'
 
+import checkCustomNetwork from 'utils/networks/checkCustomNetwork'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
-import { setActive, repeat } from 'routes/Transactions/modules/transactions'
-import { getTransactionsByPeriod, searchTransactions } from 'utils/transactions'
+import { repeat, setActive } from 'routes/Transactions/modules/transactions'
+import { getTransactionsByPeriod, filterFoundTransactions } from 'utils/transactions'
 
 import TransactionsList from '../../../components/TransactionsList'
 
-const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
-  assoc(
-    'transactionsByPeriod',
-    compose(
-      getTransactionsByPeriod,
-      filter(propEq('type', 'receive')),
-      searchTransactions,
-    )(transactions),
-  ),
-  assoc(
-    'currentAsset',
-    getDigitalAssetByAddress(digitalAssets.currentAddress, digitalAssets.items),
-  ),
-  assoc(
-    'isCustomNetwork',
-    (networks.currentNetwork && (networks.currentNetwork.indexOf('private') === 0)),
-  ),
-)(transactions)
+function getIncomingTransactions(transactions: Transactions) {
+  return transactions.filter(({ type }: Transaction) => (type === 'receive'))
+}
 
-const mapDispatchToProps = { setActive, repeat }
+function mapStateToProps({ networks, digitalAssets, transactions }: State): {
+  items: Transactions,
+  currentAsset: ?DigitalAsset,
+  transactionsByPeriod: TransactionsByPeriod,
+  activeTxHash: ?Hash,
+  isLoading: boolean,
+  isCustomNetwork: boolean,
+  isBlockExplorerError: boolean,
+} {
+  const {
+    items: digitalAssetsItems,
+    currentAddress: assetAddress,
+  }: DigitalAssetsData = digitalAssets
+
+  const filteredTransactions: Transactions = filterFoundTransactions(transactions)
+  const incomingTransactions: Transactions = getIncomingTransactions(filteredTransactions)
+
+  return Object.assign({}, transactions, {
+    isCustomNetwork: checkCustomNetwork(networks.currentNetwork),
+    transactionsByPeriod: getTransactionsByPeriod(incomingTransactions),
+    currentAsset: getDigitalAssetByAddress(assetAddress, digitalAssetsItems),
+  })
+}
+
+const mapDispatchToProps = {
+  repeat,
+  setActive,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionsList)

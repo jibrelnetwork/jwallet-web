@@ -1,11 +1,13 @@
-export default function handleEnterKeyPress(handler, args = []) {
-  return (event) => {
-    const isEnterPressed = (event.key === 'Enter')
+// @flow
+
+function handleEnterKeyPress(handler: Function, args: Array<any> = []): Function {
+  return (event: Object): void => {
+    const isEnterPressed: boolean = (event.key === 'Enter')
 
     if (isEnterPressed && handler) {
-      return handler(...args)
+      handler(...args)
     }
-
-    return null
   }
 }
+
+export default handleEnterKeyPress

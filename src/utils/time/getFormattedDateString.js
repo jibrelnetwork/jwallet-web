@@ -6,11 +6,6 @@ const MONTHS = [
   'Septemner', 'October', 'November', 'December',
 ]
 
-type TokensData = {
-  usedTokens: Array<string>,
-  str: string,
-}
-
 function getFormattedDateString(
   dateObj: Date | string | number,
   format: string = 'hh:mm MM/DD/YYYY',
@@ -18,13 +13,13 @@ function getFormattedDateString(
 ): string {
   const date: Date = (dateObj instanceof Date) ? dateObj : new Date(dateObj)
 
-  const _year = isUTC ? date.getUTCFullYear() : date.getFullYear()
-  const _monthZero = isUTC ? date.getUTCMonth() : date.getMonth()
-  const _month = _monthZero + 1
-  const _date = isUTC ? date.getUTCDate() : date.getDate()
-  const _hour = isUTC ? date.getUTCHours() : date.getHours()
-  const _min = isUTC ? date.getUTCMinutes() : date.getMinutes()
-  const _sec = isUTC ? date.getUTCSeconds() : date.getSeconds()
+  const _year: number = isUTC ? date.getUTCFullYear() : date.getFullYear()
+  const _monthZero: number = isUTC ? date.getUTCMonth() : date.getMonth()
+  const _month: number = _monthZero + 1
+  const _date: number = isUTC ? date.getUTCDate() : date.getDate()
+  const _hour: number = isUTC ? date.getUTCHours() : date.getHours()
+  const _min: number = isUTC ? date.getUTCMinutes() : date.getMinutes()
+  const _sec: number = isUTC ? date.getUTCSeconds() : date.getSeconds()
 
   const tokens: { [string]: string } = {
     MMMM: MONTHS[_monthZero],
@@ -71,6 +66,11 @@ function getFormattedDateString(
      * usedTokens not needed now, so return just result str
      */
     .str
+}
+
+type TokensData = {
+  +usedTokens: Array<string>,
+  +str: string,
 }
 
 export default getFormattedDateString

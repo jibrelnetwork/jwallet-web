@@ -1,4 +1,6 @@
-const assets = [{
+// @flow
+
+const MAIN_ASSETS = [{
   name: 'Jibrel Network Token',
   symbol: 'JNT',
   decimals: 18,
@@ -350,4 +352,4 @@ const assets = [{
   isCustom: false,
 }]
 
-export default assets
+export default MAIN_ASSETS
