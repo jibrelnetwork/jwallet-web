@@ -1,17 +1,17 @@
 // @flow
 
+import checkKnownPath from './checkKnownPath'
+import checkMnemonicType from './checkMnemonicType'
 import checkWalletReadOnly from './checkWalletReadOnly'
+import testKeystorePassword from './testKeystorePassword'
 import getKnownDerivationPaths from './getKnownDerivationPaths'
 import getWalletNameAndAddress from './getWalletNameAndAddress'
-import isKnownPath from './isKnownPath'
-import isMnemonicType from './isMnemonicType'
-import testKeystorePassword from './testKeystorePassword'
 
 export {
+  checkKnownPath,
+  checkMnemonicType,
   checkWalletReadOnly,
+  testKeystorePassword,
   getKnownDerivationPaths,
   getWalletNameAndAddress,
-  isKnownPath,
-  isMnemonicType,
-  testKeystorePassword,
 }

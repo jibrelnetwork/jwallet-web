@@ -1,13 +1,13 @@
 // @flow
 
+import toBigNumber from './toBigNumber'
 import getTransactionValue from './getTransactionValue'
 import getTransactionsByPeriod from './getTransactionsByPeriod'
-import searchTransactions from './searchTransactions'
-import toBigNumber from './toBigNumber'
+import filterFoundTransactions from './filterFoundTransactions'
 
 export {
+  toBigNumber,
   getTransactionValue,
   getTransactionsByPeriod,
-  searchTransactions,
-  toBigNumber,
+  filterFoundTransactions,
 }

@@ -1,6 +1,8 @@
 // @flow
 
-export default [{
+const KNOWN_DERIVATION_PATHS: Array<{
+  +path: string,
+}> = [{
   path: 'm/44\'/60\'/0\'/0',
 }, {
   path: 'm/44\'/60\'/0\'',
@@ -13,3 +15,5 @@ export default [{
 }, {
   path: 'm/44\'/40\'/0\'/0',
 }]
+
+export default KNOWN_DERIVATION_PATHS

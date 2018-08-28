@@ -1,10 +1,10 @@
 // @flow
 
-const searchDigitalAssets: Function = (
+function filterFoundDigitalAssets(
   items: DigitalAssets,
   foundAssets: Addresses,
   searchQuery: string,
-): DigitalAssets => {
+): DigitalAssets {
   if (!searchQuery) {
     return items
   }
@@ -12,4 +12,4 @@ const searchDigitalAssets: Function = (
   return items.filter(({ address }: DigitalAsset): boolean => foundAssets.includes(address))
 }
 
-export default searchDigitalAssets
+export default filterFoundDigitalAssets

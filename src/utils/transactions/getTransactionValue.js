@@ -2,10 +2,10 @@
 
 import toBigNumber from './toBigNumber'
 
-const getTransactionValue = (
+function getTransactionValue(
   amount: string | number,
   decimals: Decimals,
-): Bignumber => {
+): Bignumber {
   const value: Bignumber = toBigNumber(amount)
   const units: Bignumber = toBigNumber(10)
 

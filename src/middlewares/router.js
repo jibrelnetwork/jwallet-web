@@ -4,7 +4,7 @@ import { isEmpty } from 'ramda'
 import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
-import isMnemonicType from 'utils/keystore/isMnemonicType'
+import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 
 /**
  * Wallets
@@ -40,9 +40,16 @@ import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
 
 export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
-  const goToLocation = (location: string): Next => store.dispatch(push(location))
 
-  const goToWalletsIfNoActive = () => {
+  function goToLocation(location: string) {
+    store.dispatch(push(location))
+  }
+
+  function getCurrentLocation(state: State): string {
+    return state.router.locationBeforeTransitions.pathname
+  }
+
+  function goToWalletsIfNoActive() {
     try {
       const walletId: ?WalletId = store.getState().wallets.activeWalletId
 
@@ -95,7 +102,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
         } else {
           const walletType: WalletType = keystore.getWallet(walletId).type
 
-          if (!isMnemonicType(walletType)) {
+          if (!checkMnemonicType(walletType)) {
             goToLocation('/wallets')
           }
         }
@@ -134,7 +141,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case wallets.SET_ACTIVE_SUCCESS: {
-      if (isMnemonicType(payload.walletType)) {
+      if (checkMnemonicType(payload.walletType)) {
         // if mnemonic - set some address
         goToLocation('/wallets/addresses')
       } else if (payload.walletAction) {
@@ -183,7 +190,8 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case digitalAssets.SET_CURRENT: {
-      const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
+      const state: State = store.getState()
+      const locationPath: string = getCurrentLocation(state)
       const isAssetsRoute: boolean = (locationPath.indexOf('/digital-assets/') === 0)
 
       if (payload.currentAddress && isAssetsRoute) {
@@ -199,7 +207,8 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     case customAsset.OPEN: {
       goToWalletsIfNoActive()
 
-      const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
+      const state: State = store.getState()
+      const locationPath: string = getCurrentLocation(state)
       const isEditRoute: boolean = (locationPath.indexOf('/custom-asset/edit') === 0)
 
       if (isEditRoute) {

@@ -5,8 +5,8 @@ import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import isMnemonicType from 'utils/keystore/isMnemonicType'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
+import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 import { keystore, validate } from 'services'
 import { selectWalletsItems, selectImportWallet } from 'store/stateSelectors'
 import { setActiveSuccess as setWalletId } from 'routes/Wallets/modules/wallets'
@@ -131,7 +131,7 @@ function* checkData() {
     known: knownDerivationPath,
   }[selectedDerivationPathType]
 
-  if (isMnemonicType(walletType)) {
+  if (checkMnemonicType(walletType)) {
     validate.derivationPath(derivationPath)
   }
 

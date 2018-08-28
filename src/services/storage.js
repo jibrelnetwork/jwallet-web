@@ -15,6 +15,8 @@ const storageKeys = {
 }
 
 const storageMethods = {}
+
+/* eslint-disable-next-line fp/no-let */
 let isStorageInited = false
 
 function getStorage() {
@@ -22,6 +24,7 @@ function getStorage() {
     return storageMethods
   }
 
+  /* eslint-disable-next-line fp/no-mutation */
   isStorageInited = true
 
   Object.keys(storageKeys).forEach((key) => {
@@ -34,6 +37,7 @@ function getStorage() {
 }
 
 function addStorageMethods(key, value) {
+  /* eslint-disable fp/no-mutation */
   storageMethods[`get${key}`] = function getItem(suffix = '') {
     return storage.getItem(getStorageKey(value, suffix))
   }
@@ -45,6 +49,7 @@ function addStorageMethods(key, value) {
   storageMethods[`remove${key}`] = function removeItem(suffix = '') {
     storage.removeItem(getStorageKey(value, suffix))
   }
+  /* eslint-enable fp/no-mutation */
 }
 
 function getStorageKey(key, suffix) {

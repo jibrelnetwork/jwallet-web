@@ -1,26 +1,27 @@
 // @flow
 
-const filterDigitalAssets: Function = (
+function checkBalance(address: Address, balances: Balances): boolean {
+  return (balances[address] > 0)
+}
+
+function checkPopular({ address, isCustom }: DigitalAsset, balances: Balances): boolean {
+  return (!checkBalance(address, balances) && !isCustom)
+}
+
+function filterDigitalAssets(
   items: DigitalAssets,
   balances: Balances,
   type: DigitalAssetsListType,
-): DigitalAssets => {
+): DigitalAssets {
   switch (type) {
-    case 'balance': {
-      return items.filter(({ address }: DigitalAsset): boolean => (balances[address] > 0))
-    }
+    case 'balance':
+      return items.filter(({ address }: DigitalAsset): boolean => checkBalance(address, balances))
 
-    case 'popular': {
-      return items.filter(({ address, isCustom }: DigitalAsset): boolean => {
-        const isZero: boolean = (balances[address] === 0)
+    case 'popular':
+      return items.filter((asset: DigitalAsset): boolean => checkPopular(asset, balances))
 
-        return (isZero && !isCustom)
-      })
-    }
-
-    case 'custom': {
+    case 'custom':
       return items.filter(({ isCustom }: DigitalAsset): boolean => isCustom)
-    }
 
     default:
       return items

@@ -1,0 +1,4 @@
+{
+  "src/**/*.js": "npm run lint:js",
+  "src/**/*.scss": "npm run lint:css"
+}

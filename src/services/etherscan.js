@@ -6,6 +6,8 @@ import config from 'config'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const { etherscanApiOptions, defaultDecimals } = config
+
+/* eslint-disable-next-line fp/no-let */
 let endpoint = 'api'
 
 const enpointNames = {
@@ -16,6 +18,7 @@ const enpointNames = {
 }
 
 function setEndpoint(networkId: string) {
+  /* eslint-disable-next-line fp/no-mutation */
   endpoint = enpointNames[networkId]
 }
 

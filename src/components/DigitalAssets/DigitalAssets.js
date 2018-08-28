@@ -4,12 +4,12 @@ import React from 'react'
 import { isEmpty } from 'ramda'
 
 import { JCard, JLoader } from 'components/base'
-import { filterDigitalAssets, searchDigitalAssets } from 'utils/digitalAssets'
+import { filterDigitalAssets, filterFoundDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
 import Empty from './Empty'
 
-const DigitalAssets = ({
+const DigitalAssetsList = ({
   hover,
   setActive,
   editCustomAsset,
@@ -30,8 +30,8 @@ const DigitalAssets = ({
     )
   }
 
-  const filteredItems: DigitalAssets = filterDigitalAssets(items, balances, type)
-  const foundItems: DigitalAssets = searchDigitalAssets(filteredItems, foundAssets, searchQuery)
+  const filtered: DigitalAssets = filterDigitalAssets(items, balances, type)
+  const foundItems: DigitalAssets = filterFoundDigitalAssets(filtered, foundAssets, searchQuery)
 
   if (isEmpty(foundItems)) {
     return <Empty color={color} />
@@ -39,8 +39,8 @@ const DigitalAssets = ({
 
   return (
     <div className={`digital-assets -${color}`}>
-      {foundItems.map((data: DigitalAsset, index: Index) => (
-        <JCard key={index}>
+      {foundItems.map((data: DigitalAsset) => (
+        <JCard key={data.address}>
           <Asset
             {...data}
             hover={hover}
@@ -57,6 +57,20 @@ const DigitalAssets = ({
   )
 }
 
+DigitalAssetsList.defaultProps = {
+  hover: () => {},
+  setActive: () => {},
+  editCustomAsset: () => {},
+  items: [],
+  foundAssets: [],
+  balances: {},
+  color: 'white',
+  type: 'balance',
+  searchQuery: '',
+  hoveredAsset: null,
+  isBalancesLoading: false,
+}
+
 type Props = {
   hover: Function,
   setActive: Function,
@@ -71,18 +85,4 @@ type Props = {
   isBalancesLoading: boolean,
 }
 
-DigitalAssets.defaultProps = {
-  hover: () => {},
-  setActive: () => {},
-  editCustomAsset: () => {},
-  items: [],
-  foundAssets: [],
-  balances: {},
-  color: 'white',
-  type: 'balance',
-  searchQuery: '',
-  hoveredAsset: null,
-  isBalancesLoading: false,
-}
-
-export default DigitalAssets
+export default DigitalAssetsList

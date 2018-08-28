@@ -95,11 +95,10 @@ function* getETHBalances(action: { payload: { addresses: Addresses } }): Saga<vo
 }
 
 function* getBalanceByAddresses(addresses: Addresses) {
-  const balances: Array<number> = yield all(addresses.map(getBalanceByAddress))
+  const balances: Array<number> = yield all(addresses.map(address => getBalanceByAddress(address)))
 
-  const addressBalancePairs: AddressBalancePairs = addresses.map((address: Address, i: Index) => {
-    return [address, balances[i]]
-  })
+  const addressBalancePairs: AddressBalancePairs = addresses
+    .map((address: Address, i: Index) => [address, balances[i]])
 
   return fromPairs(addressBalancePairs)
 }

@@ -1,8 +1,6 @@
 // @flow
 
-import { assoc } from 'ramda'
-
-const TIME_UNITS = {
+const TIME_UNITS: { [string]: string } = {
   TODAY: 'Today',
   YESTERDAY: 'Yesterday',
   LAST_WEEK: 'Last Week',
@@ -11,19 +9,19 @@ const TIME_UNITS = {
   LATER: 'Later',
 }
 
-const getTransactionsByPeriod = (transactions: Transactions): Object => {
-  return transactions
-    .reduce((result: Object, transaction: Transaction) => {
-      const key: string = getKey(transaction.timestamp)
-      const value: Transactions = result[key] || []
+function getUnits(timestamp: number): TimeUnits {
+  const date: Date = new Date(timestamp)
 
-      return assoc(key, value.concat(transaction))(result)
-    }, {})
+  return {
+    date: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  }
 }
 
-const getKey = (timestamp: number): string => {
-  const nowUnits: Object = getUnits(Date.now())
-  const txUnits: Object = getUnits(timestamp)
+function getKey(timestamp: number): string {
+  const nowUnits: TimeUnits = getUnits(Date.now())
+  const txUnits: TimeUnits = getUnits(timestamp)
 
   if ((nowUnits.year - txUnits.year) > 1) {
     return TIME_UNITS.LATER
@@ -56,14 +54,22 @@ const getKey = (timestamp: number): string => {
   return TIME_UNITS.TODAY
 }
 
-const getUnits = (timestamp: number): Object => {
-  const date = new Date(timestamp)
+function getTransactionsByPeriod(transactions: Transactions): TransactionsByPeriod {
+  return transactions
+    .reduce((result: TransactionsByPeriod, transaction: Transaction) => {
+      const key: string = getKey(transaction.timestamp)
+      const value: Transactions = result[key] || []
 
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    date: date.getDate(),
-  }
+      return Object.assign({}, result, {
+        [key]: value.concat(transaction),
+      })
+    }, {})
+}
+
+type TimeUnits = {
+  +date: number,
+  +year: number,
+  +month: number,
 }
 
 export default getTransactionsByPeriod

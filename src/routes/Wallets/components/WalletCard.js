@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import isMnemonicType from 'utils/keystore/isMnemonicType'
+import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 import WalletFace from './WalletFace'
@@ -29,7 +29,7 @@ const WalletCard = ({
   showActionsWalletId,
 }: Props) => {
   const { id, name, type, address, customType, isReadOnly }: Wallet = walletData
-  const isMnemonic: boolean = isMnemonicType(type)
+  const isMnemonic: boolean = checkMnemonicType(type)
   const isToggled: boolean = (id === toggledWalletId)
   const iconName: string = walletTypeIconMap[customType]
   const isActionsMenuShown: boolean = (id === showActionsWalletId)

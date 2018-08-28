@@ -1,9 +1,9 @@
 // @flow
 
-import knownPaths from 'data/derivationPaths'
+import knownPaths from 'data/derivationPaths/knownPaths'
 
-const getKnownDerivationPaths = () => {
-  return knownPaths.map(({ path }, index) => ({
+function getKnownDerivationPaths(): DerivationPaths {
+  return knownPaths.map(({ path }: { +path: string }, index: Index): DerivationPath => ({
     path,
     description: (i18n('modals.derivationPath.knownPathNames') || [])[index],
   }))

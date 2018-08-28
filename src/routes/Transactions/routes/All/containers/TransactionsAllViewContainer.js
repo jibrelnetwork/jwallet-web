@@ -1,32 +1,40 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { assoc, compose } from 'ramda'
 
+import checkCustomNetwork from 'utils/networks/checkCustomNetwork'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
-import { setActive, repeat } from 'routes/Transactions/modules/transactions'
-import { getTransactionsByPeriod, searchTransactions } from 'utils/transactions'
+import { repeat, setActive } from 'routes/Transactions/modules/transactions'
+import { getTransactionsByPeriod, filterFoundTransactions } from 'utils/transactions'
 
 import TransactionsList from '../../../components/TransactionsList'
 
-const mapStateToProps = ({ networks, digitalAssets, transactions }: State): Object => compose(
-  assoc(
-    'transactionsByPeriod',
-    compose(
-      getTransactionsByPeriod,
-      searchTransactions,
-    )(transactions),
-  ),
-  assoc(
-    'currentAsset',
-    getDigitalAssetByAddress(digitalAssets.currentAddress, digitalAssets.items),
-  ),
-  assoc(
-    'isCustomNetwork',
-    (networks.currentNetwork && (networks.currentNetwork.indexOf('private') === 0)),
-  ),
-)(transactions)
+function mapStateToProps({ networks, digitalAssets, transactions }: State): {
+  items: Transactions,
+  currentAsset: ?DigitalAsset,
+  transactionsByPeriod: TransactionsByPeriod,
+  activeTxHash: ?Hash,
+  isLoading: boolean,
+  isCustomNetwork: boolean,
+  isBlockExplorerError: boolean,
+} {
+  const {
+    items: digitalAssetsItems,
+    currentAddress: assetAddress,
+  }: DigitalAssetsData = digitalAssets
 
-const mapDispatchToProps = { setActive, repeat }
+  const filteredTransactions: Transactions = filterFoundTransactions(transactions)
+
+  return Object.assign({}, transactions, {
+    isCustomNetwork: checkCustomNetwork(networks.currentNetwork),
+    transactionsByPeriod: getTransactionsByPeriod(filteredTransactions),
+    currentAsset: getDigitalAssetByAddress(assetAddress, digitalAssetsItems),
+  })
+}
+
+const mapDispatchToProps = {
+  repeat,
+  setActive,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransactionsList)

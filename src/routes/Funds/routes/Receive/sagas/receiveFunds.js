@@ -6,7 +6,7 @@ import { compose, equals, filter, head, toLower } from 'ramda'
 
 import config from 'config'
 import ethereum from 'data/assets/ethereum'
-import isETH from 'utils/digitalAssets/isETH'
+import checkEthereumAsset from 'utils/digitalAssets/checkEthereumAsset'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { clipboard, fileSaver, keystore, qrCode, validate } from 'services'
 
@@ -96,7 +96,7 @@ function* getRequisites(to: Address, amount: string, assetAddress: Address) {
 
   const value: Bignumber = getTransactionValue(amount, decimals)
 
-  return isETH(assetAddress) ? { to, value } : {
+  return checkEthereumAsset(assetAddress) ? { to, value } : {
     to: assetAddress,
     mode: 'erc20__transfer',
     argsDefaults: [{

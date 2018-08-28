@@ -77,7 +77,7 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case networks.SET_NETWORKS_SUCCESS: {
-      storage.setNetworks(JSON.stringify(payload.items.filter(propEq('isCustom', true))))
+      storage.setNetworks(JSON.stringify(payload.items.filter(i => propEq('isCustom', true)(i))))
       break
     }
 
@@ -89,7 +89,7 @@ export const set = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case networks.SAVE_CUSTOM_NETWORK_SUCCESS: {
-      storage.setNetworks(JSON.stringify(payload.items.filter(propEq('isCustom', true))))
+      storage.setNetworks(JSON.stringify(payload.items.filter(i => propEq('isCustom', true)(i))))
       break
     }
 

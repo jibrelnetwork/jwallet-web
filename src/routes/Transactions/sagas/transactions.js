@@ -5,8 +5,8 @@ import { concat, compose, filter, uniq } from 'ramda'
 import { call, cancel, fork, put, select, take, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
-import { getAssetDecimals, isETH } from 'utils/digitalAssets'
 import { etherscan, keystore, validate, web3 } from 'services'
+import { getAssetDecimals, checkEthereumAsset } from 'utils/digitalAssets'
 import { setBalanceByAddress } from 'routes/DigitalAssets/modules/digitalAssets'
 import { open as openSendFunds } from 'routes/Funds/routes/Send/modules/sendFunds'
 import { open as openReceiveFunds } from 'routes/Funds/routes/Receive/modules/receiveFunds'
@@ -109,7 +109,7 @@ function* getTransactions() {
 }
 
 function* getTransactionsByOwner(owner: Address, contractAddress: Address, decimals: number) {
-  return isETH(contractAddress)
+  return checkEthereumAsset(contractAddress)
     ? yield getETHTransactions(owner)
     : yield getContractsTransactions(owner, contractAddress, decimals)
 }
@@ -129,7 +129,7 @@ function* getContractsTransactions(owner: Address, contractAddress: Address, dec
 }
 
 function* getBalanceByOwner(owner: Address, contractAddress: Address, decimals: number) {
-  return isETH(contractAddress)
+  return checkEthereumAsset(contractAddress)
     ? yield call(web3.getETHBalance, owner)
     : yield call(web3.getAssetBalance, contractAddress, owner, decimals)
 }
@@ -153,12 +153,11 @@ function* searchTransactions(action: { payload: { searchQuery: string } }): Saga
 
 function searchTransactionsByFields(items: Transactions, searchQuery: string): Hashes {
   const itemsByFields: Transactions = SEARCH_FIELDS
-    .map((field: string): Transactions => {
-      return searchTransactionsByField(items, field, searchQuery)
-    })
-    .reduce((result: Transactions, transactionsByField: Transactions): Transactions => {
-      return concat(result, transactionsByField)
-    }, [])
+    .map((field: string): Transactions => searchTransactionsByField(items, field, searchQuery))
+    .reduce((
+      result: Transactions,
+      transactionsByField: Transactions,
+    ): Transactions => concat(result, transactionsByField), [])
 
   return compose(
     uniq,

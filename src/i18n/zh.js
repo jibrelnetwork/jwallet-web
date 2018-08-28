@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-
+/* eslint-disable-next-line fp/no-mutation */
 module.exports = {
   language: 'zh', // not translate
   menu: {
@@ -518,5 +517,3 @@ module.exports = {
     },
   },
 }
-
-/* eslint-enable max-len */

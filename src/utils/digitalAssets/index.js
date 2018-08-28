@@ -1,25 +1,25 @@
 // @flow
 
+import checkJNTAsset from './checkJNTAsset'
 import balanceToString from './balanceToString'
-import filterDigitalAssets from './filterDigitalAssets'
-import getActiveDigitalAssetsData from './getActiveDigitalAssetsData'
 import getAssetDecimals from './getAssetDecimals'
-import getDigitalAssetByAddress from './getDigitalAssetByAddress'
+import checkEthereumAsset from './checkEthereumAsset'
+import filterDigitalAssets from './filterDigitalAssets'
 import getDigitalAssetSymbols from './getDigitalAssetSymbols'
 import getPopularDigitalAssets from './getPopularDigitalAssets'
-import isETH from './isETH'
-import isJNT from './isJNT'
-import searchDigitalAssets from './searchDigitalAssets'
+import getDigitalAssetByAddress from './getDigitalAssetByAddress'
+import filterFoundDigitalAssets from './filterFoundDigitalAssets'
+import getActiveDigitalAssetsData from './getActiveDigitalAssetsData'
 
 export {
+  checkJNTAsset,
   balanceToString,
-  filterDigitalAssets,
-  getActiveDigitalAssetsData,
   getAssetDecimals,
-  getDigitalAssetByAddress,
+  checkEthereumAsset,
+  filterDigitalAssets,
   getDigitalAssetSymbols,
   getPopularDigitalAssets,
-  isETH,
-  isJNT,
-  searchDigitalAssets,
+  getDigitalAssetByAddress,
+  filterFoundDigitalAssets,
+  getActiveDigitalAssetsData,
 }
