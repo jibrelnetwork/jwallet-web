@@ -29,10 +29,10 @@ const ActiveAssetsPanel = ({
     />
     <div className='list'>
       <Scrollbars autoHide>
-        {digitalAssets.map((data, index) => (
+        {digitalAssets.map(data => (
           <AssetItem
             {...data}
-            key={index}
+            key={data.address}
             hover={hover}
             setCurrent={setCurrent}
             isHovered={hoveredAsset === data.address}

@@ -131,9 +131,8 @@ function* getBalancesByOwner(owner: Address): Balances {
   const items: DigitalAssets = yield select(selectDigitalAssetsItems)
   const balances: Array<number> = yield all(items.map(i => getBalanceByOwner(i, owner)))
 
-  const addressBalancePairs: AddressBalancePairs = items.map((item: DigitalAsset, i: Index) => {
-    return [item.address, balances[i]]
-  })
+  const addressBalancePairs: AddressBalancePairs = items
+    .map((item: DigitalAsset, i: Index) => [item.address, balances[i]])
 
   return fromPairs(addressBalancePairs)
 }
@@ -174,12 +173,11 @@ function* searchDigitalAssets(action: { payload: { searchQuery: string } }) {
 
 function searchDigitalAssetsByFields(items: DigitalAssets, searchQuery: string): Addresses {
   const itemsByFields: DigitalAssets = SEARCH_FIELDS
-    .map((field: string): DigitalAssets => {
-      return searchDigitalAssetsByField(items, field, searchQuery)
-    })
-    .reduce((result: DigitalAssets, digitalAssetsByField: DigitalAssets): DigitalAssets => {
-      return concat(result, digitalAssetsByField)
-    }, [])
+    .map((field: string): DigitalAssets => searchDigitalAssetsByField(items, field, searchQuery))
+    .reduce((
+      result: DigitalAssets,
+      digitalAssetsByField: DigitalAssets,
+    ): DigitalAssets => concat(result, digitalAssetsByField), [])
 
   return compose(
     uniq,
@@ -225,9 +223,7 @@ function* mergeDigitalAssets(digitalAssetsFromStorage: ?DigitalAssets) {
 }
 
 function filterAssets(items: DigitalAssets): DigitalAssets {
-  return filter((digitalAsset: DigitalAsset): boolean => {
-    return filterAsset(digitalAsset)
-  })(items)
+  return filter((digitalAsset: DigitalAsset): boolean => filterAsset(digitalAsset))(items)
 }
 
 function filterAsset(digitalAsset: DigitalAsset): boolean {
@@ -253,11 +249,15 @@ function refreshPopularAssets(popularAssets: DigitalAssets, items: DigitalAssets
 }
 
 function findStoredAssetIndex(popularAsset: DigitalAsset, items: DigitalAssets): Index {
-  return items.map((digitalAsset: DigitalAsset, index: Index): Index => {
-    return isAssetEqual(popularAsset, digitalAsset) ? index : -1
-  }).reduce((result: Index, index: Index): Index => {
-    return (result > -1) ? result : index
-  }, -1)
+  return items
+    .map((
+      digitalAsset: DigitalAsset,
+      index: Index,
+    ): Index => isAssetEqual(popularAsset, digitalAsset) ? index : -1)
+    .reduce((
+      result: Index,
+      index: Index,
+    ): Index => (result > -1) ? result : index, -1)
 }
 
 function isAssetEqual(a: DigitalAsset, b: DigitalAsset): boolean {

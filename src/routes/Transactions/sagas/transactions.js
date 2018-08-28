@@ -153,12 +153,11 @@ function* searchTransactions(action: { payload: { searchQuery: string } }): Saga
 
 function searchTransactionsByFields(items: Transactions, searchQuery: string): Hashes {
   const itemsByFields: Transactions = SEARCH_FIELDS
-    .map((field: string): Transactions => {
-      return searchTransactionsByField(items, field, searchQuery)
-    })
-    .reduce((result: Transactions, transactionsByField: Transactions): Transactions => {
-      return concat(result, transactionsByField)
-    }, [])
+    .map((field: string): Transactions => searchTransactionsByField(items, field, searchQuery))
+    .reduce((
+      result: Transactions,
+      transactionsByField: Transactions,
+    ): Transactions => concat(result, transactionsByField), [])
 
   return compose(
     uniq,

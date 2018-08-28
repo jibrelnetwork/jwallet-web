@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import MnemonicPhrase from 'components/MnemonicPhrase'
 import { JCheckbox, JFlatButton, JRaisedButton, JText } from 'components/base'
 
+/* eslint-disable no-console */
 const MnemonicStep = ({
   setPrevStep,
   setNextStep,
@@ -53,6 +54,7 @@ const MnemonicStep = ({
     </div>
   </div>
 )
+/* eslint-enable no-console */
 
 type Props = {
   setNextStep: Function,

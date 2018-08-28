@@ -34,7 +34,7 @@ function* setCurrent(action: { payload: { currentNetwork: ?NetworkId } }): Saga<
   try {
     const items: Networks = yield select(selectNetworksItems)
     const { currentNetwork }: { currentNetwork: ?NetworkId } = action.payload
-    const foundNetwork: Network = items.find(propEq('id', currentNetwork)) || networks[0]
+    const foundNetwork: Network = items.find(i => propEq('id', currentNetwork)(i)) || networks[0]
 
     yield put(setCurrentNetworkSuccess(foundNetwork.id))
     setNetworkRpcProps(foundNetwork)
@@ -69,7 +69,7 @@ function* removeCustomNetwork(action: { payload: { networkId: NetworkId } }): Sa
   const { items, currentNetwork } = yield select(selectNetworks)
   const { networkId }: { networkId: NetworkId } = action.payload
   const newNetworks = items.filter(!propEq('id', networkId))
-  const currentNetworkIndex = items.findIndex(propEq('id', currentNetwork))
+  const currentNetworkIndex = items.findIndex(i => propEq('id', currentNetwork)(i))
 
   if (networkId === currentNetwork) {
     yield put(setCurrentNetworkSuccess(networks[0].id))

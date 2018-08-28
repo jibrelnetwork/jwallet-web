@@ -2,7 +2,7 @@
 
 import Promise from 'bluebird'
 import jibrelContractsApi from 'jibrel-contracts-jsapi'
-import { flatten, prop, sortBy } from 'ramda'
+import { flatten, prop, sortBy, reverse } from 'ramda'
 
 import config from 'config'
 import isJNT from 'utils/digitalAssets/isJNT'
@@ -10,6 +10,7 @@ import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const { defaultDecimals } = config
 
+/* eslint-disable-next-line fp/no-let */
 let rpcProps = {
   rpcaddr: '127.0.0.1',
   rpcport: 8545,
@@ -17,6 +18,7 @@ let rpcProps = {
 }
 
 function setRpcProps(props: any) {
+  /* eslint-disable-next-line fp/no-mutation */
   rpcProps = props
 }
 
@@ -70,20 +72,22 @@ function getTransactionsInfo(list: any, isContract: boolean) {
     getBlocks(list),
     getTransactions(list, isContract),
     getTransactionReceipts(list),
-  ]).then(([blocksData, transactionsData, transactionReceiptsData]) => {
-    return list.map(({ transactionHash, blockHash, address, from, to, value }, index) => ({
-      ...blocksData[index],
-      ...transactionsData[index],
-      ...transactionReceiptsData[index],
-      to,
-      from,
-      value,
-      address,
-      blockHash,
-      transactionHash,
-      status: getTransactionStatus(blockHash),
-    }))
-  })
+  ]).then(([
+    blocksData,
+    transactionsData,
+    transactionReceiptsData,
+  ]) => list.map(({ transactionHash, blockHash, address, from, to, value }, index) => ({
+    ...blocksData[index],
+    ...transactionsData[index],
+    ...transactionReceiptsData[index],
+    to,
+    from,
+    value,
+    address,
+    blockHash,
+    transactionHash,
+    status: getTransactionStatus(blockHash),
+  })))
 }
 
 function getLast50(list: any) {
@@ -97,7 +101,7 @@ function getTransactionStatus(blockHash: Hash) {
 }
 
 function getBlocks(list: any) {
-  return Promise.all(list.map(getBlock)).then(getBlocksData)
+  return Promise.all(list.map(item => getBlock(item))).then(getBlocksData)
 }
 
 function getBlock(item: { blockHash: Hash }) {
@@ -107,17 +111,19 @@ function getBlock(item: { blockHash: Hash }) {
 }
 
 function getBlocksData(blocksData: any = []) {
-  return blocksData.map((blockData = {}) => {
+  return blocksData.map((blockData = {}) => ({
     /**
      * web3 returns timestamp in unix format,
      * so for new Date it should be converted (mul by 1000)
      */
-    return { timestamp: (blockData.timestamp || 0) * 1000 }
-  })
+    timestamp: (blockData.timestamp || 0) * 1000,
+  }))
 }
 
 function getTransactions(list: any, isContract: boolean) {
-  return Promise.all(list.map(getTransaction)).then(data => getTransactionsData(data, isContract))
+  return Promise
+    .all(list.map(item => getTransaction(item)))
+    .then(data => getTransactionsData(data, isContract))
 }
 
 function getTransaction(item: any) {
@@ -136,7 +142,9 @@ function getTransactionsData(transactionsData: any = [], isContract: boolean = f
 }
 
 function getTransactionReceipts(list: any) {
-  return Promise.all(list.map(getTransactionReceipt)).then(getTransactionReceiptsData)
+  return Promise
+    .all(list.map(item => getTransactionReceipt(item)))
+    .then(getTransactionReceiptsData)
 }
 
 function getTransactionReceipt(item: any) {
@@ -186,7 +194,10 @@ function parseTransaction(item: any, decimals: Decimals) {
 }
 
 function sortTransactions(list: any) {
-  return sortBy(prop('timestamp'))(list).reverse()
+  const listSorted = sortBy(prop('timestamp'))(list)
+  const listReversed = reverse(listSorted)
+
+  return listReversed
 }
 
 function getContractTransactions(contractAddress: Address, owner: Address, decimals: Decimals) {

@@ -2,7 +2,7 @@
 
 import knownPaths from 'data/derivationPaths'
 
-const getKnownDerivationPaths = () => {
+function getKnownDerivationPaths() {
   return knownPaths.map(({ path }, index) => ({
     path,
     description: (i18n('modals.derivationPath.knownPathNames') || [])[index],

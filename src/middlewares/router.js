@@ -40,9 +40,16 @@ import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
 
 export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
   const { type, payload }: FSA = action
-  const goToLocation = (location: string): Next => store.dispatch(push(location))
 
-  const goToWalletsIfNoActive = () => {
+  function goToLocation(location: string) {
+    store.dispatch(push(location))
+  }
+
+  function getCurrentLocation(state: State): string {
+    return state.router.locationBeforeTransitions.pathname
+  }
+
+  function goToWalletsIfNoActive() {
     try {
       const walletId: ?WalletId = store.getState().wallets.activeWalletId
 
@@ -183,7 +190,8 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     }
 
     case digitalAssets.SET_CURRENT: {
-      const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
+      const state: State = store.getState()
+      const locationPath: string = getCurrentLocation(state)
       const isAssetsRoute: boolean = (locationPath.indexOf('/digital-assets/') === 0)
 
       if (payload.currentAddress && isAssetsRoute) {
@@ -199,7 +207,8 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     case customAsset.OPEN: {
       goToWalletsIfNoActive()
 
-      const locationPath: string = store.getState().router.locationBeforeTransitions.pathname
+      const state: State = store.getState()
+      const locationPath: string = getCurrentLocation(state)
       const isEditRoute: boolean = (locationPath.indexOf('/custom-asset/edit') === 0)
 
       if (isEditRoute) {

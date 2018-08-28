@@ -11,12 +11,10 @@ import Item from './Item'
 const getAssetByAddress = (
   address: ?Address,
   assets: Array<DigitalAssetMainDataWithBalance>,
-): ?DigitalAssetMainDataWithBalance => {
-  return !address ? null : compose(
-    head,
-    filter(propEq('address', address)),
-  )(assets)
-}
+): ?DigitalAssetMainDataWithBalance => !address ? null : compose(
+  head,
+  filter(propEq('address', address)),
+)(assets)
 
 const AssetPicker = ({
   onSelect,

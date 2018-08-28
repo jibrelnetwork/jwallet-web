@@ -16,7 +16,9 @@ const toastStyles = css({
 const AppContainer = ({ history, routes, store }: Props) => (
   <Provider store={store}>
     <div style={{ height: '100%' }}>
-      <Router history={history} children={routes} />
+      <Router history={history}>
+        {routes}
+      </Router>
       <ToastContainer toastClassName={toastStyles} />
     </div>
   </Provider>

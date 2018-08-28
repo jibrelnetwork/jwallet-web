@@ -34,6 +34,7 @@ const history = syncHistoryWithStore(browserHistory, store, {
 // ========================================================
 const MOUNT_NODE = document.getElementById('root')
 
+/* eslint-disable-next-line fp/no-let */
 let render = () => {
   const routes = router(store)
 
@@ -57,6 +58,7 @@ if (__DEV__) {
     }
 
     // Wrap render in try/catch
+    /* eslint-disable-next-line fp/no-mutation */
     render = () => {
       try {
         renderApp()

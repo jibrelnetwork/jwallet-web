@@ -15,23 +15,23 @@ import {
 
 import WalletsChangePasswordView from '../components/WalletsChangePasswordView'
 
-const mapStateToProps: Function = ({ changeWalletPassword }: State): ChangeWalletPasswordData => {
+function mapStateToProps({ changeWalletPassword }: State): ChangeWalletPasswordData {
   return changeWalletPassword
 }
 
 const mapDispatchToProps: {
   open: Function,
   close: Function,
-  setCurrent: Function,
   setNew: Function,
   setConfirm: Function,
+  setCurrent: Function,
   changePassword: Function,
 } = {
   open,
   close,
-  setCurrent,
   setNew,
   setConfirm,
+  setCurrent,
   changePassword,
 }
 

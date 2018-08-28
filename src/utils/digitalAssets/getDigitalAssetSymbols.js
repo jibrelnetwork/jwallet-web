@@ -1,6 +1,6 @@
 // @flow
 
-const getDigitalAssetSymbols = (digitalAssets: DigitalAssetsData): Array<string> => {
+function getDigitalAssetSymbols(digitalAssets: DigitalAssetsData): Array<string> {
   return digitalAssets.items.map(({ symbol }) => symbol)
 }
 

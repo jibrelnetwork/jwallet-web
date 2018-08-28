@@ -20,7 +20,7 @@ const DerivationPath = ({
   <div className='derivation-path'>
     {getKnownDerivationPaths().map(({ path, description }, index) => (
       <JRadio
-        key={index}
+        key={path}
         toggle={setKnownDerivationPath(path)}
         name={index}
         isActive={(knownDerivationPath === path) && (selectedDerivationPathType === 'known')}
@@ -31,7 +31,7 @@ const DerivationPath = ({
     <div className='custom'>
       <JRadio
         toggle={handle(setCustomDerivationPath)(customDerivationPath)}
-        name={'custom-path'}
+        name='custom-path'
         isActive={selectedDerivationPathType === 'custom'}
         isTopAligned
       >

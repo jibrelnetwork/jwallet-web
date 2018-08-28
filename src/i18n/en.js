@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 
+/* eslint-disable-next-line fp/no-mutation */
 module.exports = {
   language: 'en', // not translate
   menu: {

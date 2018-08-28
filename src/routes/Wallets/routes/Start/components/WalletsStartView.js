@@ -12,8 +12,8 @@ const WalletsStartView = ({ createWallet, importWallet }: Props) => (
     <div className='content'>
       <div className='title'>
         <JText
-          value='Create a new key pair or import an existing one to get started'
           size='title'
+          value='Create a new key pair or import an existing one to get started'
         />
       </div>
       <div className='buttons'>
@@ -21,7 +21,7 @@ const WalletsStartView = ({ createWallet, importWallet }: Props) => (
       </div>
       <div className='terms'>
         <JText
-          value={'By clicking "Create new" or "Import" I agree to Jibrel\'s Terms of Service'}
+          value='By clicking "Create new" or "Import" I agree to Jibrel’s Terms of Service'
         />
       </div>
     </div>

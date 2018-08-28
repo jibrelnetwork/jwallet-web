@@ -1,3 +1,5 @@
+// @flow
+
 const ethereum: DigitalAsset = {
   name: 'Ethereum',
   symbol: 'ETH',

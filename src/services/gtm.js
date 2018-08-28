@@ -2,7 +2,10 @@
 
 function push(data: any) {
   const dataLayer = window.dataLayer || []
+
+  /* eslint-disable fp/no-mutating-methods */
   dataLayer.push(data)
+  /* eslint-enable fp/no-mutating-methods */
 }
 
 /**

@@ -6,15 +6,15 @@ import JInput from 'components/base/JInput'
 
 import Indicator from './Indicator'
 
-const statusMessageMap: Object = {
+const STATUS_MESSAGE_MAP: Object = {
   'red': 'Too weak',
   'orange': 'Easily cracked',
   'yellow': 'Bit weak',
   'green': 'Not bad',
 }
 
-const getInfoMessage: Function = (status: string, failedTest: string): string => {
-  return !(status && failedTest) ? '' : `${statusMessageMap[status]} (${failedTest})`
+function getInfoMessage(status: string, failedTest: string): string {
+  return !(status && failedTest) ? '' : `${STATUS_MESSAGE_MAP[status]} (${failedTest})`
 }
 
 const PasswordField = ({

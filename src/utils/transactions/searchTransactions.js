@@ -1,17 +1,17 @@
-/* @flow */
+// @flow
 
-const searchTransactions = ({
+function searchTransactions({
   items,
   foundTransactions,
   searchQuery,
-}: TransactionsData): Transactions => {
+}: TransactionsData): Transactions {
   if (!searchQuery) {
     return items
   }
 
-  return items.filter(({ transactionHash }: Transaction): boolean => {
-    return foundTransactions.includes(transactionHash)
-  })
+  return items.filter(({
+    transactionHash,
+  }: Transaction): boolean => foundTransactions.includes(transactionHash))
 }
 
 export default searchTransactions

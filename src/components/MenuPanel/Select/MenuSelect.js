@@ -21,12 +21,12 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
       </div>
     )}
     {isOpen && <div onClick={handle(toggle)(null)} className='overlay' />}
-    <ul className='options'>
+    <div className='options'>
       {Object.keys(options).map((key: string) => {
         const isActive: boolean = (key === active)
 
         return (
-          <li
+          <div
             key={key}
             onClick={!isActive && handle(setActive)(key)}
             className={classNames('item', { '-active': isActive })}
@@ -39,10 +39,10 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
                 <JIcon name='checkbox' size='small' />
               </div>
             )}
-          </li>
+          </div>
         )
       })}
-    </ul>
+    </div>
   </div>
 )
 

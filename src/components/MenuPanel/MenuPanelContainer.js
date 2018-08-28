@@ -11,11 +11,12 @@ import { setCurrentNetwork as setNetwork } from 'routes/modules/networks'
 
 import MenuPanel from './MenuPanel'
 
-const getNetworkTitleIdMap = (
+function getNetworkTitleIdMap(
   res: NetworkTitleById,
   { id, title, isCustom }: Network,
-): NetworkTitleById => {
+): NetworkTitleById {
   const i18nTitle = isCustom ? title : i18n(`networks.default.${title}`)
+
   return assoc(id, i18nTitle)(res)
 }
 
@@ -26,7 +27,7 @@ const mapStateToProps = ({ networks, wallets }: State): {
 } => ({
   currentNetwork: networks.currentNetwork,
   currentLanguage: getCurrentLanguageCode(),
-  networks: networks.items.reduce(getNetworkTitleIdMap, {}),
+  networks: networks.items.reduce((res, item) => getNetworkTitleIdMap(res, item), {}),
   isWalletReadOnly: checkWalletReadOnly(wallets.activeWalletId),
 })
 

@@ -2,4 +2,6 @@
 
 import isSafari from './isSafari'
 
-export { isSafari }
+export {
+  isSafari,
+}

@@ -109,6 +109,7 @@ function* getTransactionData(data: SendFundsData) {
     privateKey: keystore.getPrivateKey(password, walletId).replace('0x', ''),
   }
 
+  /* eslint-disable fp/no-mutation */
   if (!isETH(assetAddress)) {
     txData.contractAddress = assetAddress
   }
@@ -124,6 +125,7 @@ function* getTransactionData(data: SendFundsData) {
   if (nonce) {
     txData.nonce = toBigNumber(nonce)
   }
+  /* eslint-enable fp/no-mutation */
 
   return txData
 }

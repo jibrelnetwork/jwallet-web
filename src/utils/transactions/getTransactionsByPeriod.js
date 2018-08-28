@@ -11,17 +11,17 @@ const TIME_UNITS = {
   LATER: 'Later',
 }
 
-const getTransactionsByPeriod = (transactions: Transactions): Object => {
-  return transactions
-    .reduce((result: Object, transaction: Transaction) => {
-      const key: string = getKey(transaction.timestamp)
-      const value: Transactions = result[key] || []
+function getUnits(timestamp: number): Object {
+  const date = new Date(timestamp)
 
-      return assoc(key, value.concat(transaction))(result)
-    }, {})
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    date: date.getDate(),
+  }
 }
 
-const getKey = (timestamp: number): string => {
+function getKey(timestamp: number): string {
   const nowUnits: Object = getUnits(Date.now())
   const txUnits: Object = getUnits(timestamp)
 
@@ -56,14 +56,14 @@ const getKey = (timestamp: number): string => {
   return TIME_UNITS.TODAY
 }
 
-const getUnits = (timestamp: number): Object => {
-  const date = new Date(timestamp)
+function getTransactionsByPeriod(transactions: Transactions): Object {
+  return transactions
+    .reduce((result: Object, transaction: Transaction) => {
+      const key: string = getKey(transaction.timestamp)
+      const value: Transactions = result[key] || []
 
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    date: date.getDate(),
-  }
+      return assoc(key, value.concat(transaction))(result)
+    }, {})
 }
 
 export default getTransactionsByPeriod

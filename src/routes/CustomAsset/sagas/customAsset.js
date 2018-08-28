@@ -76,9 +76,8 @@ function* editCustomAsset(): Saga<void> {
     const customAssetData: CustomAssetData = yield select(selectCustomAsset)
     const { address, name, symbol, decimals }: CustomAssetData = customAssetData
 
-    const digitalAssetsWithoutCurrent = digitalAssets.filter((item: DigitalAsset): boolean => {
-      return (item.address !== address)
-    })
+    const digitalAssetsWithoutCurrent = digitalAssets
+      .filter((item: DigitalAsset): boolean => (item.address !== address))
 
     validate.customAssetName(name)
     validate.customAssetPropUniq('name', name, digitalAssetsWithoutCurrent)
@@ -109,9 +108,8 @@ function* removeCustomAsset(): Saga<void> {
     const digitalAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
     const { address }: CustomAssetData = yield select(selectCustomAsset)
 
-    const updatedAssets: DigitalAssets = digitalAssets.filter((asset: DigitalAsset): boolean => {
-      return (asset.address !== address)
-    })
+    const updatedAssets: DigitalAssets = digitalAssets
+      .filter((asset: DigitalAsset): boolean => (asset.address !== address))
 
     yield put(removeSuccess(updatedAssets))
   } catch (err) {

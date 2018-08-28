@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 
 const JLogo = () => (
   <Link to='/' className='j-logo'>
-    <div className='image'/>
+    <div className='image' />
   </Link>
 )
 
