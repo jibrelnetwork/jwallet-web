@@ -131,7 +131,7 @@ function* onSortDigitalAssets(action) {
   const newSortField = action.sortField || sortField
 
   const result = sortItems(items, sortField, newSortField, sortDirection)
-  const newItems = placeETHAndJNTFirst(result.items)
+  const newItems = placeETHAndJibrelAssetsFirst(result.items)
 
   yield setDigitalAssets(newItems, currentAddress)
   yield setSortOptions(result.sortField, result.sortDirection)
@@ -230,13 +230,13 @@ function placeAssetFirst(items, symbol) {
   return newItems
 }
 
-function placeETHAndJNTFirst(items) {
+function placeETHAndJibrelAssetsFirst(items) {
   const itemsKRWFirst = placeAssetFirst(items, 'JKRW')
-  const itemsGBPFirst = placeAssetFirst(itemsGBPFirst, 'JGBP')
-  const itemsEURFirst = placeAssetFirst(itemsEURFirst, 'JEUR')
-  const itemsUSDFirst = placeAssetFirst(itemsUSDFirst, 'JUSD')
-  const itemsJNTFirst = placeAssetFirst(itemsJNTFirst, 'JNT')
-  const itemsETHFirst = placeAssetFirst(itemsETHFirst, 'ETH')
+  const itemsGBPFirst = placeAssetFirst(itemsKRWFirst, 'JGBP')
+  const itemsEURFirst = placeAssetFirst(itemsGBPFirst, 'JEUR')
+  const itemsUSDFirst = placeAssetFirst(itemsEURFirst, 'JUSD')
+  const itemsJNTFirst = placeAssetFirst(itemsUSDFirst, 'JNT')
+  const itemsETHFirst = placeAssetFirst(itemsJNTFirst, 'ETH')
 
   return itemsETHFirst
 }
