@@ -17,7 +17,8 @@ function CurrencyItem(props) {
     currencyItemClassName += ' currency-item--authorization'
   }
 
-  const backgroundImage = `url(/img/tokens/${isCustom ? 'null' : symbol.toLowerCase()}.svg)`
+  const symbolName = isCustom ? 'null' : symbol.toLowerCase()
+  const backgroundImage = `url(${__DEV__ ? '' : '/jwallet'}/img/tokens/${symbolName}.svg)`
 
   return (
     <div className={currencyItemClassName} onClick={setCurrentAddress}>
