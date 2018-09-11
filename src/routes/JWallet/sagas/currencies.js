@@ -131,7 +131,7 @@ function* onSortDigitalAssets(action) {
   const newSortField = action.sortField || sortField
 
   const result = sortItems(items, sortField, newSortField, sortDirection)
-  const newItems = placeETHAndJNTFirst(result.items)
+  const newItems = placeETHAndJibrelAssetsFirst(result.items)
 
   yield setDigitalAssets(newItems, currentAddress)
   yield setSortOptions(result.sortField, result.sortDirection)
@@ -218,26 +218,27 @@ function getCustomTokenData({ address, name, symbol, decimals }) {
   }
 }
 
-function placeETHAndJNTFirst(items) {
+function placeAssetFirst(items, symbol) {
   const newItems = [...items]
-  const symbolJNT = { symbol: 'JNT' }
-  const symbolETH = { symbol: 'ETH' }
+  const assetIndex = findIndex(items, { symbol })
 
-  const jntIndex = findIndex(items, symbolJNT)
-
-  if (jntIndex > -1) {
-    newItems.splice(jntIndex, 1)
-    newItems.unshift(items[jntIndex])
-  }
-
-  const ethIndex = findIndex(newItems, symbolETH)
-
-  if (ethIndex > -1) {
-    newItems.splice(ethIndex, 1)
-    newItems.unshift(items[findIndex(items, symbolETH)])
+  if (assetIndex > -1) {
+    newItems.splice(assetIndex, 1)
+    newItems.unshift(items[assetIndex])
   }
 
   return newItems
+}
+
+function placeETHAndJibrelAssetsFirst(items) {
+  const itemsKRWFirst = placeAssetFirst(items, 'JKRW')
+  const itemsGBPFirst = placeAssetFirst(itemsKRWFirst, 'JGBP')
+  const itemsEURFirst = placeAssetFirst(itemsGBPFirst, 'JEUR')
+  const itemsUSDFirst = placeAssetFirst(itemsEURFirst, 'JUSD')
+  const itemsJNTFirst = placeAssetFirst(itemsUSDFirst, 'JNT')
+  const itemsETHFirst = placeAssetFirst(itemsJNTFirst, 'ETH')
+
+  return itemsETHFirst
 }
 
 function* toggleAllDigitalAssets(items, isActiveAll) {
