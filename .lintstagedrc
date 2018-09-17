@@ -1,4 +1,4 @@
 {
-  "src/**/*.js": "npm run lint:js",
-  "src/**/*.scss": "npm run lint:css"
+  "*.js": "./node_modules/.bin/eslint",
+  "*.scss": "./node_modules/.bin/stylelint --syntax=scss"
 }
