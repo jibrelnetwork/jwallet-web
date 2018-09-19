@@ -8,7 +8,7 @@ import JIcon from '../../../src/components/base/JIcon'
 storiesOf('JIcon')
   .add('Different sizes', () => (
     <div>
-      <h2>{'small'}</h2>
+      <h2>small</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <JIcon
           color='gray'
@@ -26,7 +26,7 @@ storiesOf('JIcon')
           name='settings'
         />
       </div>
-      <h2>{'medium'}</h2>
+      <h2>medium</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <JIcon
           color='gray'
@@ -44,7 +44,7 @@ storiesOf('JIcon')
           name='search'
         />
       </div>
-      <h2>{'large'}</h2>
+      <h2>large</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <JIcon
           size='large'
@@ -58,7 +58,7 @@ storiesOf('JIcon')
         />
       </div>
 
-      <h2>{'s14'}</h2>
+      <h2>s14</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
@@ -83,7 +83,7 @@ storiesOf('JIcon')
         </div>
       </div>
 
-      <h2>{'s16'}</h2>
+      <h2>s16</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
@@ -122,7 +122,7 @@ storiesOf('JIcon')
         </div>
       </div>
 
-      <h2>{'s20'}</h2>
+      <h2>s20</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
@@ -217,7 +217,7 @@ storiesOf('JIcon')
         </div>
       </div>
 
-      <h2>{'s24'}</h2>
+      <h2>s24</h2>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
@@ -505,7 +505,7 @@ storiesOf('JIcon')
         </div>
       </div>
 
-      <h2>{'s48'}</h2>
+      <h2>s48</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
@@ -527,7 +527,7 @@ storiesOf('JIcon')
         </div>
       </div>
 
-      <h2>{'s90'}</h2>
+      <h2>s90</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
@@ -564,7 +564,7 @@ storiesOf('JIcon')
   ))
   .add('Different colors', () => (
     <div>
-      <h2>{'blue'}</h2>
+      <h2>blue</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <JIcon
           size='small'
@@ -620,7 +620,7 @@ storiesOf('JIcon')
           />
         </div>
       </div>
-      <h2>{'gray'}</h2>
+      <h2>gray</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <JIcon
           name='close'
@@ -755,7 +755,7 @@ storiesOf('JIcon')
           />
         </div>
       </div>
-      <h2>{'sky'}</h2>
+      <h2>sky</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
@@ -781,7 +781,7 @@ storiesOf('JIcon')
         </div>
       </div>
 
-      <h2>{'red'}</h2>
+      <h2>red</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
@@ -791,7 +791,7 @@ storiesOf('JIcon')
           />
         </div>
       </div>
-      <h2>{'white'}</h2>
+      <h2>white</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
