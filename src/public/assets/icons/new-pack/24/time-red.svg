@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #e53935;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="time-red" transform="translate(-191.5 -427.5)">
+    <rect id="Rectangle_12589" data-name="Rectangle 12589" class="cls-1" width="24" height="24" transform="translate(191.5 427.5)"/>
+    <g id="time-clock-circle" transform="translate(191 427)">
+      <circle id="Ellipse_1496" data-name="Ellipse 1496" class="cls-2" cx="11" cy="11" r="11" transform="translate(1.5 1.5)"/>
+      <line id="Line_5030" data-name="Line 5030" class="cls-2" y1="4.95" transform="translate(12.5 7.55)"/>
+      <line id="Line_5031" data-name="Line 5031" class="cls-2" x2="4.4" y2="4.4" transform="translate(12.5 12.5)"/>
+    </g>
+  </g>
+</svg>

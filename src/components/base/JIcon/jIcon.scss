@@ -283,4 +283,546 @@
       }
     }
   }
+
+  /**
+   * Size 14
+   */
+  &.-s14 {
+    width: $icon-size-14;
+    height: $icon-size-14;
+    background-size: $icon-size-14 $icon-size-14;
+
+    &.-eye {
+      &.-white {
+        background-image: $icon-14-eye-white;
+      }
+    }
+
+    &.-cross-white {
+      &.-white {
+        background-image: $icon-14-cross-white;
+      }
+    }
+
+    &.-chevon-down {
+      &.-white {
+        background-image: $icon-14-chevon-down-white;
+      }
+    }
+  }
+
+  /**
+   * Size 16
+   */
+  &.-s16 {
+    width: $icon-size-16;
+    height: $icon-size-16;
+    background-size: $icon-size-16 $icon-size-16;
+
+    &.-checked {
+      &.-blue {
+        background-image: $icon-16-checked-blue;
+      }
+    }
+
+    &.-chevon-down {
+      &.-blue {
+        background-image: $icon-16-chevon-down-blue;
+      }
+    }
+
+    &.-lock {
+      &.-gray {
+        background-image: $icon-16-lock-gray;
+      }
+    }
+
+    &.-plus {
+      &.-gray {
+        background-image: $icon-16-plus-gray;
+      }
+    }
+
+    &.-unchecked {
+      &.-gray {
+        background-image: $icon-16-unchecked-gray;
+      }
+    }
+  }
+
+  /**
+   * Size 20
+   */
+  &.-s20 {
+    width: $icon-size-20;
+    height: $icon-size-20;
+    background-size: $icon-size-20 $icon-size-20;
+
+    &.-back-up {
+      &.-white {
+        background-image: $icon-20-back-up-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-back-up-gray;
+      }
+    }
+
+    &.-binding {
+      &.-white {
+        background-image: $icon-20-binding-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-binding-gray;
+      }
+    }
+
+    &.-dotts-border {
+      &.-white {
+        background-image: $icon-20-dotts-border-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-dotts-border-gray;
+      }
+    }
+
+    &.-download {
+      &.-white {
+        background-image: $icon-20-download-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-download-gray;
+      }
+    }
+
+    &.-lock {
+      &.-white {
+        background-image: $icon-20-lock-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-lock-gray;
+      }
+    }
+
+    &.-message {
+      &.-white {
+        background-image: $icon-20-message-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-message-gray;
+      }
+    }
+
+    &.-multy {
+      &.-white {
+        background-image: $icon-20-multy-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-multy-gray;
+      }
+    }
+
+    &.-password {
+      &.-white {
+        background-image: $icon-20-password-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-password-gray;
+      }
+    }
+
+    &.-plus {
+      &.-white {
+        background-image: $icon-20-plus-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-plus-gray;
+      }
+    }
+
+    &.-protect {
+      &.-white {
+        background-image: $icon-20-protect-wgite;
+      }
+
+      &.-gray {
+        background-image: $icon-20-protect-gray;
+      }
+    }
+
+    &.-refresh {
+      &.-white {
+        background-image: $icon-20-refresh-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-refresh-gray;
+      }
+    }
+
+    &.-setting {
+      &.-white {
+        background-image: $icon-20-setting-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-setting-gray;
+      }
+    }
+
+    &.-star {
+      &.-white {
+        background-image: $icon-20-star-white;
+      }
+
+      &.-gray {
+        background-image: $icon-20-star-gray;
+      }
+    }
+  }
+
+  /**
+   * Size 24
+   */
+  &.-s24 {
+    width: $icon-size-24;
+    height: $icon-size-24;
+    background-size: $icon-size-24 $icon-size-24;
+
+    &.-arrow-left {
+      &.-white {
+        background-image: $icon-24-arrow-left-white;
+      }
+    }
+
+    &.-arrow-up {
+      &.-gray {
+        background-image: $icon-24-arrow-up-gray;
+      }
+    }
+
+    &.-add {
+      &.-white {
+        background-image: $icon-24-add-white;
+      }
+
+      &.-gray {
+        background-image: $icon-24-add-gray;
+      }
+    }
+
+    &.-multy {
+      &.-white {
+        background-image: $icon-24-multy-white;
+      }
+    }
+
+    &.-binding {
+      &.-white {
+        background-image: $icon-24-binding-white;
+      }
+    }
+
+    &.-cross {
+      &.-white {
+        background-image: $icon-24-cross-white;
+      }
+
+      &.-gray {
+        background-image: $icon-24-cross-gray;
+      }
+    }
+
+    &.-import {
+      &.-white {
+        background-image: $icon-24-import-white;
+      }
+
+      &.-gray {
+        background-image: $icon-24-import-gray;
+      }
+
+      &.-sky {
+        background-image: $icon-24-import-sky;
+      }
+
+      &.-blue {
+        background-image: $icon-24-import-blue;
+      }
+    }
+
+    &.-upload {
+      &.-blue {
+        background-image: $icon-24-upload-blue;
+      }
+    }
+
+    &.-network {
+      &.-gray {
+        background-image: $icon-24-network-gray;
+      }
+
+      &.-blue {
+        background-image: $icon-24-network-blue;
+      }
+    }
+
+    &.-list {
+      &.-blue {
+        background-image: $icon-24-list-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-24-list-sky;
+      }
+    }
+
+    &.-time {
+      &.-gray {
+        background-image: $icon-24-time-gray;
+      }
+
+      &.-red {
+        background-image: $icon-24-time-red;
+      }
+
+      &.-blue {
+        background-image: $icon-24-time-blue;
+      }
+    }
+
+    &.-edit {
+      &.-blue {
+        background-image: $icon-24-edit-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-24-edit-sky;
+      }
+    }
+
+    &.-dotts-full {
+      &.-gray {
+        background-image: $icon-24-dotts-full-gray;
+      }
+    }
+
+    &.-refresh {
+      &.-gray {
+        background-image: $icon-24-refresh-gray;
+      }
+    }
+
+    &.-star-add {
+      &.-gray {
+        background-image: $icon-24-star-add-gray;
+      }
+    }
+
+    &.-star-remove {
+      &.-gray {
+        background-image: $icon-24-star-remove-gray;
+      }
+    }
+
+    &.-message {
+      &.-gray {
+        background-image: $icon-24-message-gray;
+      }
+
+      &.-blue {
+        background-image: $icon-24-message-blue;
+      }
+    }
+
+    &.-message-add {
+      &.-gray {
+        background-image: $icon-24-message-add-gray;
+      }
+    }
+
+    &.-message-edit {
+      &.-gray {
+        background-image: $icon-24-message-edit-gray;
+      }
+    }
+
+    &.-local-currency {
+      &.-blue {
+        background-image: $icon-24-local-currency-blue;
+      }
+    }
+
+    &.-language {
+      &.-blue {
+        background-image: $icon-24-language-blue;
+      }
+    }
+
+    &.-lock-pin {
+      &.-blue {
+        background-image: $icon-24-lock-pin-blue;
+      }
+    }
+
+    &.-exchange-service {
+      &.-blue {
+        background-image: $icon-24-exchange-service-blue;
+      }
+    }
+
+    &.-protect {
+      &.-blue {
+        background-image: $icon-24-protect-blue;
+      }
+    }
+
+    &.-backup-wallet {
+      &.-blue {
+        background-image: $icon-24-backup-wallet-blue;
+      }
+    }
+
+    &.-cross-circle {
+      &.-red {
+        background-image: $icon-24-cross-circle-red;
+      }
+
+      &.-white {
+        background-image: $icon-24-cross-circle-white;
+      }
+    }
+
+    &.-setting {
+      &.-blue {
+        background-image: $icon-24-setting-blue;
+      }
+    }
+
+    &.-edit-pen {
+      &.-blue {
+        background-image: $icon-24-edit-pen-blue;
+      }
+    }
+
+    &.-search {
+      &.-gray {
+        background-image: $icon-24-search-gray;
+      }
+    }
+
+    &.-filter {
+      &.-gray {
+        background-image: $icon-24-filter-gray;
+      }
+    }
+
+    &.-filter-selected {
+      &.-gray {
+        background-image: $icon-24-filter-selected-gray;
+      }
+    }
+
+    &.-priority-high {
+      &.-gray {
+        background-image: $icon-24-priority-high-gray;
+      }
+    }
+
+    &.-priority-normal {
+      &.-gray {
+        background-image: $icon-24-priority-normal-gray;
+      }
+    }
+
+    &.-priority-low {
+      &.-gray {
+        background-image: $icon-24-priority-low-gray;
+      }
+    }
+
+    &.-priority-custom {
+      &.-gray {
+        background-image: $icon-24-priority-custom-gray;
+      }
+    }
+
+    &.-transaction-receive {
+      background-image: $icon-24-transaction-receive;
+    }
+
+    &.-transaction-send {
+      background-image: $icon-24-transaction-send;
+    }
+
+    &.-flag-us {
+      background-image: $icon-24-flag-us;
+    }
+
+    &.-flag-ru {
+      background-image: $icon-24-flag-ru;
+    }
+
+    &.-flag-kr {
+      background-image: $icon-24-flag-kr;
+    }
+  }
+
+  /**
+   * Size 48
+   */
+  &.-s48 {
+    width: $icon-size-48;
+    height: $icon-size-48;
+    background-size: $icon-size-48 $icon-size-48;
+
+    &.-screen-reload {
+      background-image: $icon-48-screen-reload;
+    }
+
+    &.-screen-error {
+      background-image: $icon-48-screen-error;
+    }
+
+    &.-screen-search {
+      background-image: $icon-48-screen-search;
+    }
+  }
+
+  /**
+   * Size 90
+   */
+  &.-s90 {
+    width: $icon-size-90;
+    height: $icon-size-90;
+    background-size: $icon-size-90 $icon-size-90;
+
+    &.-auth-arrow {
+      background-image: $icon-90-auth-arrow;
+    }
+
+    &.-auth-cross {
+      background-image: $icon-90-auth-cross;
+    }
+
+    &.-auth-lock {
+      background-image: $icon-90-auth-lock;
+    }
+
+    &.-auth-question {
+      background-image: $icon-90-auth-question;
+    }
+
+    &.-auth-warning {
+      background-image: $icon-90-auth-warning;
+    }
+  }
 }

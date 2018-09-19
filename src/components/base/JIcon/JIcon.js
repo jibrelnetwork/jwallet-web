@@ -9,7 +9,7 @@ const JIcon = ({ name, size, color }: Props) => (
 type Props = {
   name: string,
   color: 'white' | 'blue' | 'gray',
-  size: 'small' | 'medium' | 'large',
+  size: 'small' | 'medium' | 'large' | '14' | '16' | '20' | '24' | '48' | '90',
 }
 
 export default JIcon
