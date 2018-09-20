@@ -212,6 +212,13 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
+            name='padding-lock'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
             name='plus'
           />
         </div>
@@ -782,6 +789,13 @@ storiesOf('JIcon')
             size='medium'
             color='white'
             name='setting'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='padding-lock'
           />
         </div>
       </div>
