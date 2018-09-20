@@ -5,24 +5,6 @@
 
   cursor: pointer;
 
-  &:hover {
-    > .label {
-      opacity: 1;
-    }
-
-    > .icon {
-      opacity: 1;
-
-      &.-spin {
-        transform: rotate(90deg);
-      }
-
-      &.-bg-blue {
-        background-color: $bright-sky-blue;
-      }
-    }
-  }
-
   > .label,
   > .icon {
     @include flex-row-center;
@@ -53,6 +35,24 @@
     &.-bg-blue {
       background-color: $blue-two;
       opacity: 1;
+    }
+  }
+
+  &:hover {
+    > .label {
+      opacity: 1;
+    }
+
+    > .icon {
+      opacity: 1;
+
+      &.-spin {
+        transform: rotate(90deg);
+      }
+
+      &.-bg-blue {
+        background-color: $bright-sky-blue;
+      }
     }
   }
 }

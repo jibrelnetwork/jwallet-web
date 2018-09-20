@@ -2,7 +2,7 @@
 /* @flow */
 
 import React from 'react'
-import { storiesOf } from '@storybook/react'
+import { storiesOf, action } from '@storybook/react'
 
 import RoundIconButton from '../../src/components/RoundIconButton'
 
@@ -18,22 +18,25 @@ storiesOf('RoundIconButton', module)
       >
         <div style={{ padding: '3px' }}>
           <RoundIconButton
+            onClick={action('onClick')}
             color='white'
             iconName='padding-cross'
           />
         </div>
         <div style={{ padding: '3px' }}>
           <RoundIconButton
+            onClick={action('onClick')}
             color='white'
             iconName='padding-lock'
-            isBgColor='true'
+            isBgColor
           />
         </div>
         <div style={{ padding: '3px' }}>
           <RoundIconButton
+            onClick={action('onClick')}
             color='white'
             iconName='arrow-left'
-            isBorder='true'
+            isBorder
           />
         </div>
       </div>
