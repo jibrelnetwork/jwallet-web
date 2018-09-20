@@ -56,7 +56,7 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='white'
-            name='padding-cross-white'
+            name='padding-cross'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
@@ -775,6 +775,13 @@ storiesOf('JIcon')
             size='medium'
             color='white'
             name='cross-circle'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='setting'
           />
         </div>
       </div>

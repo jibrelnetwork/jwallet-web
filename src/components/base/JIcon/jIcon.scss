@@ -272,7 +272,7 @@
       }
     }
 
-    &.-padding-cross-white {
+    &.-padding-cross {
       &.-white {
         background-image: $icon-medium-padding-cross-white;
       }
@@ -421,6 +421,10 @@
     &.-setting {
       &.-white {
         background-image: $icon-medium-setting-white;
+      }
+
+      &.-blue {
+        background-image: $icon-medium-setting-blue;
       }
 
       &.-gray {
