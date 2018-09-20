@@ -27,7 +27,7 @@ storiesOf('JIcon')
         />
       </div>
       <h2>medium</h2>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
         <JIcon
           color='gray'
           size='medium'
@@ -44,6 +44,425 @@ storiesOf('JIcon')
           name='search'
         />
       </div>
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='eye'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='padding-cross-white'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='chevron-down'
+          />
+        </div>
+
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='back-up'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='binding'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='dotts-border'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='download'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='lock'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='message'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='padding-multy'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='password'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='plus'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='protect'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='refresh'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='setting'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='star'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='arrow-left'
+          />
+        </div>
+
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='add'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='multy'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='binding'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='cross'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
+          <JIcon
+            size='medium'
+            color='white'
+            name='import'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='lock'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='plus'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='unchecked'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='checked'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='upload'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='time'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='edit'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='dotts-full'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='refresh'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='star-add'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='star-remove'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='message'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='message-add'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='message-edit'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='search'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='filter'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='filter-selected'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='priority-high'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='priority-normal'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='priority-low'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='priority-custom'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            name='transaction-receive'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            name='transaction-send'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            name='flag-us'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            name='flag-ru'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            name='flag-kr'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='arrow-up'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
+            name='network'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='local-currency'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='language'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='lock-pin'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='exchange-service'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='protect'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='backup-wallet'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='network'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='red'
+            name='cross-circle'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='setting'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='edit-pen'
+          />
+        </div>
+      </div>
       <h2>large</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <JIcon
@@ -57,505 +476,56 @@ storiesOf('JIcon')
           name='transaction-receive'
         />
       </div>
-
-      <h2>s14</h2>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s14'
-            color='white'
-            name='eye'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s14'
-            color='white'
-            name='cross-white'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s14'
-            color='white'
-            name='chevon-down'
-          />
-        </div>
-      </div>
-
-      <h2>s16</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s16'
-            color='blue'
-            name='chevon-down'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s16'
-            color='gray'
-            name='lock'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s16'
-            color='gray'
-            name='plus'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s16'
-            color='gray'
-            name='unchecked'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s16'
-            color='blue'
-            name='checked'
-          />
-        </div>
-      </div>
-
-      <h2>s20</h2>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='back-up'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='binding'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='dotts-border'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='download'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='lock'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='message'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='multy'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='password'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='plus'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='protect'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='refresh'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='setting'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s20'
-            color='white'
-            name='star'
-          />
-        </div>
-      </div>
-
-      <h2>s24</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s24'
-            color='white'
-            name='arrow-left'
-          />
-        </div>
-
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s24'
-            color='white'
-            name='add'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s24'
-            color='white'
-            name='multy'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s24'
-            color='white'
-            name='binding'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s24'
-            color='white'
-            name='cross'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
-          <JIcon
-            size='s24'
-            color='white'
-            name='import'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='upload'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='time'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='edit'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='dotts-full'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='refresh'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='star-add'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='star-remove'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='message'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='message-add'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='message-edit'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='search'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='filter'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='filter-selected'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='priority-high'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='priority-normal'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='priority-low'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='priority-custom'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            name='transaction-receive'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            name='transaction-send'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            name='flag-us'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            name='flag-ru'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            name='flag-kr'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='arrow-up'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='network'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='gray'
-            name='list'
-          />
-        </div>
-
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='local-currency'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='language'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='lock-pin'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='exchange-service'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='protect'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='backup-wallet'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='network'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='red'
-            name='cross-circle'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='setting'
-          />
-        </div>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s24'
-            color='blue'
-            name='edit-pen'
-          />
-        </div>
-      </div>
-
-      <h2>s48</h2>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
-          <JIcon
-            size='s48'
+            size='large'
             name='screen-reload'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s48'
+            size='large'
             name='screen-error'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s48'
+            size='large'
             name='screen-search'
           />
         </div>
       </div>
 
-      <h2>s90</h2>
+      <h2>xlarge</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
-            size='s90'
+            size='xlarge'
             name='auth-arrow'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
-            size='s90'
+            size='xlarge'
             name='auth-cross'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
-            size='s90'
+            size='xlarge'
             name='auth-lock'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
-            size='s90'
+            size='xlarge'
             name='auth-question'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
-            size='s90'
+            size='xlarge'
             name='auth-warning'
           />
         </div>
@@ -591,30 +561,37 @@ storiesOf('JIcon')
           size='small'
           color='blue'
         />
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='chevron-down'
+          />
+        </div>
         <div style={{ padding: '3px', backgroundColor: '#transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='blue'
             name='import'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='blue'
             name='time'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='blue'
             name='message'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='blue'
             name='list'
           />
@@ -644,112 +621,112 @@ storiesOf('JIcon')
         />
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='back-up'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
-            name='binding'
+            name='padding-binding'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='dotts-border'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='download'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='lock'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='message'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
-            name='multy'
+            name='padding-multy'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='password'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='plus'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='protect'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='refresh'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='setting'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s20'
+            size='medium'
             color='gray'
             name='star'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='gray'
             name='import'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='gray'
             name='cross'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='gray'
             name='add'
           />
@@ -759,7 +736,7 @@ storiesOf('JIcon')
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='sky'
             name='edit'
           />
@@ -767,14 +744,14 @@ storiesOf('JIcon')
 
         <div style={{ padding: '3px', backgroundColor: '#transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='sky'
             name='import'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='sky'
             name='list'
           />
@@ -785,7 +762,7 @@ storiesOf('JIcon')
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='red'
             name='time'
           />
@@ -795,7 +772,7 @@ storiesOf('JIcon')
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
           <JIcon
-            size='s24'
+            size='medium'
             color='white'
             name='cross-circle'
           />
