@@ -5,24 +5,6 @@
 
   cursor: pointer;
 
-  &:hover {
-    > .label {
-      opacity: 1;
-    }
-
-    > .icon {
-      border: 1px solid rgba($white, 0.4);
-
-      &.-gray {
-        border: 1px solid rgba($dusk, 0.4);
-      }
-
-      &.-spin {
-        transform: rotate(90deg);
-      }
-    }
-  }
-
   > .label,
   > .icon {
     @include flex-row-center;
@@ -39,11 +21,38 @@
 
     width: 48px;
     height: 48px;
-    border: 1px solid rgba($white, 0.2);
     border-radius: 50%;
+    opacity: 0.5;
 
-    &.-gray {
-      border: 1px solid rgba($dusk, 0.2);
+    &.-border {
+      border: 1px solid $white;
+
+      &.-gray {
+        border: 1px solid $dusk;
+      }
+    }
+
+    &.-bg-blue {
+      background-color: $blue-two;
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    > .label {
+      opacity: 1;
+    }
+
+    > .icon {
+      opacity: 1;
+
+      &.-spin {
+        transform: rotate(90deg);
+      }
+
+      &.-bg-blue {
+        background-color: $bright-sky-blue;
+      }
     }
   }
 }
