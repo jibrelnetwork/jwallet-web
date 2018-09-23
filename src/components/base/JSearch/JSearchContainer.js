@@ -9,7 +9,7 @@ import JSearch from './JSearch'
 
 type ComponentState = {
   query: string,
-  timerId: Index,
+  timerId: TimeoutID,
   isActive: boolean,
 }
 
@@ -20,19 +20,20 @@ type ComponentProps = {
   toggle: Function,
   value: string,
   query: string,
-  timerId: Index,
+  timerId: TimeoutID,
 }
 
 export default compose(
   withStateHandlers(
     ({ value }: { value: string }): ComponentState => ({
       query: value,
+      // @TODO: flow fails here
       timerId: 0,
       isActive: false,
     }),
     {
       setQuery: () => (query: string) => ({ query }),
-      setTimerId: () => (timerId: Index) => ({ timerId }),
+      setTimerId: () => (timerId: TimeoutID) => ({ timerId }),
       toggle: () => (isActive: boolean) => ({ isActive }),
     },
   ),
@@ -46,9 +47,7 @@ export default compose(
       toggle(isActive)
     },
     onQueryChange: ({ onChange, setQuery, setTimerId, timerId }: ComponentProps) => (e: Object) => {
-      if (timerId) {
-        clearTimeout(timerId)
-      }
+      clearTimeout(timerId)
 
       const query: string = e.target.value
       setQuery(query)

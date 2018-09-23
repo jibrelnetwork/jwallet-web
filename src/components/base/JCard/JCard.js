@@ -18,9 +18,14 @@ const JCard = ({ children, title, color }: Props) => (
 )
 
 type Props = {
-  children: ?Object,
-  title: ?string,
-  color: 'blue' | 'white',
+  children?: ?React$Node,
+  title?: string,
+  color: 'blue' | 'white'
+}
+
+JCard.defaultProps = {
+  children: null,
+  title: null,
 }
 
 export default JCard

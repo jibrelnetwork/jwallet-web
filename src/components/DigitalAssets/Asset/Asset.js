@@ -34,6 +34,7 @@ const AssetCard = ({
       className={classNames('asset-card', color && `-${color}`, isActive && '-active')}
     >
       <div className='tick'>
+        {/* @TODO: no size prop in JIcon */}
         <JIcon name='checkbox' color={(color === 'white') ? 'blue' : 'white'} />
       </div>
       <div className='symbol'>

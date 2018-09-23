@@ -41,6 +41,7 @@ const DigitalAssetsList = ({
     <div className={`digital-assets -${color}`}>
       {foundItems.map((data: DigitalAsset) => (
         <JCard key={data.address}>
+          { /* @TODO: no color in JCard props */ }
           <Asset
             {...data}
             hover={hover}

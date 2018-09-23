@@ -24,12 +24,12 @@ const JThumbnail = ({
   </div>
 )
 
-type Props = {
+type Props = {|
   title: string,
   image: string,
   description: string,
   color: 'white' | 'gray',
-}
+|}
 
 JThumbnail.defaultProps = {
   image: 'cloud',

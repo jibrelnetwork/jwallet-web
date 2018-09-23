@@ -36,7 +36,7 @@ const JFlatButton = ({
         isTransparent && '-transparent',
       )}
     >
-      {iconName && (
+      {iconName && iconSize && iconColor && (
         <div className='icon'>
           <JIcon name={iconName} size={iconSize} color={iconColor} />
         </div>
@@ -49,20 +49,21 @@ const JFlatButton = ({
 }
 
 type Props = {
- onClick: Function,
- label: ?string,
- color: 'blue' | 'gray' | 'sky' | 'white',
- iconName: ?string,
- iconSize: 'small' | 'medium',
- iconColor: 'blue' | 'gray' | 'sky' | 'white',
- isOpaque: boolean,
- isLoading: boolean,
- isDisabled: boolean,
- isTransparent: boolean,
+ onClick: (SyntheticEvent<HTMLDivElement>) => void,
+ label?: ?string,
+ color?: 'blue' | 'gray' | 'sky' | 'white',
+ iconName?: ?string,
+ iconSize?: 'small' | 'medium',
+ iconColor?: 'blue' | 'gray' | 'sky' | 'white',
+ isOpaque?: boolean,
+ isLoading?: boolean,
+ isDisabled?: boolean,
+ isTransparent?: boolean
 }
 
 JFlatButton.defaultProps = {
   text: null,
+  label: null,
   color: 'white',
   iconName: null,
   iconSize: 'small',

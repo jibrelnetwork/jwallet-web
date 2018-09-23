@@ -36,6 +36,7 @@ const JSelect = ({
         {current && React.cloneElement(current, { isOpen, isLoading, isDisabled })}
       </div>
       <div className='chevron'>
+        {/* @TODO: need add size param to icon */}
         <JIcon name={isOpen ? 'narrow' : 'expand'} color={color} />
       </div>
     </div>

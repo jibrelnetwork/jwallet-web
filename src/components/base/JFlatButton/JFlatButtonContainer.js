@@ -1,7 +1,9 @@
 // @flow
 
-import { pure } from 'recompose'
+// import { pure } from 'recompose'
 
 import JFlatButton from './JFlatButton'
 
-export default pure(JFlatButton)
+export default JFlatButton
+
+// export default pure(JFlatButton)

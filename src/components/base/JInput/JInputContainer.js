@@ -1,7 +1,9 @@
 // @flow
 
-import { pure } from 'recompose'
+// import { pure } from 'recompose'
 
 import JInput from './JInput'
 
-export default pure(JInput)
+export default JInput
+
+// export default pure(JInput)

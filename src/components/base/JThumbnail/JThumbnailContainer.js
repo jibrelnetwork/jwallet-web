@@ -1,7 +1,9 @@
 // @flow
 
-import { pure } from 'recompose'
+// import { pure } from 'recompose'
 
 import JThumbnail from './JThumbnail'
 
-export default pure(JThumbnail)
+export default JThumbnail
+
+// export default pure(JThumbnail)
