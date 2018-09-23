@@ -1,62 +1,65 @@
 .j-flat-button {
   all: initial;
-
-  @include flex-row-center;
-
   opacity: 1;
-  transition: opacity 0.3s ease 0s;
+  transition: opacity 0.3s ease-in-out, border-color 0.3s ease-in-out;
   cursor: pointer;
 
-  &:hover {
-    opacity: 0.5;
-  }
+  &:not(.-link-style) {
+    height: 40px;
+    border-radius: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
 
-  &.-label {
-    &:active > .icon {
-      left: -5px;
+    @include flex-row-center;
+
+    &.-blue {
+      border: 1px solid rgba($blue, 0.2);
     }
 
-    > .icon {
-      margin-right: 10px;
-      transition: left 0.3s ease 0s;
+    &.-white {
+      border: 1px solid rgba($white, 0.2);
     }
-  }
-
-  &.-disabled {
-    &,
-    &:hover {
-      opacity: 0.3;
-      cursor: default;
-    }
-
-    &:active > .icon {
-      left: 0;
-    }
-  }
-
-  &.-opaque {
-    opacity: 1;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &.-transparent {
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &.-loading {
-    //
   }
 
   > .icon {
     position: relative;
     top: 0;
     left: 0;
+  }
+
+  &.-label {
+    > .icon {
+      margin-right: 12px;
+    }
+  }
+
+  &.-disabled:not(.-link-style) {
+    &.-white {
+      border: 1px solid $white;
+    }
+
+    &.-blue {
+      border: 1px solid $blue;
+    }
+
+    &,
+    &:hover {
+      opacity: 0.2;
+      cursor: default;
+    }
+  }
+
+  &.-loading {
+    cursor: default;
+  }
+
+  &:hover:not(.-loading):not(.-link-style) {
+    &.-white {
+      border-color: $white;
+    }
+
+    &.-blue {
+      border: 1px solid $blue;
+    }
   }
 }
