@@ -39,7 +39,7 @@ const JRaisedButton = ({
           <JIcon name={iconName} size={iconSize} color={iconColor} />
         </div>
       )}
-      <JText value={label} color={labelColor} weight='bold' />
+      <div className='label'><JText value={label} color={labelColor} weight='bold' /></div>
     </div>
   )
 }
