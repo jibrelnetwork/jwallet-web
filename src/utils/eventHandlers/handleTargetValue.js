@@ -1,7 +1,11 @@
 // @flow
 
-function handleTargetValue(handler: Function): Function {
-  return (event: Object): void => handler(event.target.value)
+type SyntheticInputEventElement<E> = {
+  target: E
+} & SyntheticEvent<EventTarget>;
+
+function handleTargetValue(handler: (string) => void) {
+  return (event: SyntheticInputEventElement<HTMLInputElement>): void => handler(event.target.value)
 }
 
 export default handleTargetValue
