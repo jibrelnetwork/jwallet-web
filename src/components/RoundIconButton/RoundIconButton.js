@@ -10,9 +10,8 @@ const RoundIconButton = ({
   iconName,
   color,
   label,
-  spinOnHover,
   isBorder,
-  isBgColor,
+  bgColor,
   isBoxShadow,
 }: Props) => (
   <div onClick={onClick} className='round-icon-button'>
@@ -23,10 +22,10 @@ const RoundIconButton = ({
     )}
     <div className={classNames(
       `icon -${color}`,
-      isBgColor && '-bg-blue',
-      spinOnHover && '-spin',
+      bgColor && `-bg-${bgColor}`,
       isBoxShadow && '-box-shadow',
-      isBorder && '-border')}
+      isBorder && '-border',
+    )}
     >
       <JIcon name={iconName} color={color} size='medium' />
     </div>
@@ -38,7 +37,7 @@ type Props = {
   label: ?string,
   iconName: string,
   color: 'gray' | 'white',
-  spinOnHover: boolean,
+  bgColor: 'blue' | null,
   isBorder: boolean,
   isBgColor: boolean,
   isBoxShadow: boolean,
@@ -47,7 +46,7 @@ type Props = {
 RoundIconButton.defaultProps = {
   color: 'white',
   label: null,
-  spinOnHover: false,
+  bgColor: null,
   isBorder: false,
   isBgColor: false,
   isBoxShadow: false,

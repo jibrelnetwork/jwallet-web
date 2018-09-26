@@ -1,4 +1,3 @@
-
 /* @flow */
 
 import React from 'react'
@@ -28,7 +27,7 @@ storiesOf('RoundIconButton', module)
             onClick={action('onClick')}
             color='white'
             iconName='padding-lock'
-            isBgColor
+            bgColor='blue'
           />
         </div>
         <div style={{ padding: '3px' }}>

@@ -50,10 +50,6 @@
     > .icon {
       opacity: 1;
 
-      &.-spin {
-        transform: rotate(90deg);
-      }
-
       &.-bg-blue {
         background-color: $bright-sky-blue;
       }
