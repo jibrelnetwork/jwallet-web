@@ -1,5 +1,5 @@
 // @flow
 
-import JIcon from './JIconContainer'
+import JIcon from './JIcon'
 
 export default JIcon

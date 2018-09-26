@@ -1,22 +1,27 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 
-const JIcon = ({ name, size, color }: Props) => (
-  <div className={`j-icon -${name} -${size} -${color}`} />
-)
-
-// @TODO: need to enumerate all icons
-// @TODO: in JFlatButton colors are: 'blue' | 'gray' | 'sky' | 'white'
 type Props = {
+  // @TODO: need to enumerate all icons
   name: string,
+  // @TODO: in JFlatButton colors are: 'blue' | 'gray' | 'sky' | 'white'
   color: 'white' | 'blue' | 'gray',
   size: 'small' | 'medium' | 'large' | 'xlarge',
 }
 
-JIcon.defaultProps = {
-  color: 'white',
-  size: 'medium',
+class JIcon extends PureComponent<Props, *> {
+  static defaultProps = {
+    size: 'medium',
+    color: 'white',
+  }
+
+  render() {
+    const { name, size, color } = this.props
+    return (
+      <div className={`j-icon -${name} -${size} -${color}`} />
+    )
+  }
 }
 
 export default JIcon
