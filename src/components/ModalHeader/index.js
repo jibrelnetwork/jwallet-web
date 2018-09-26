@@ -1,5 +1,5 @@
 // @flow
 
-import ModalHeader from './ModalHeaderContainer'
+import ModalHeader from './ModalHeader'
 
 export default ModalHeader
