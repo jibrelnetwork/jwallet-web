@@ -1,39 +1,43 @@
 // @flow
 
-import ActiveAssetsPanel from './ActiveAssetsPanel'
-import AssetBalance from './AssetBalance'
-import AssetPicker from './AssetPicker'
-import ButtonWithConfirm from './ButtonWithConfirm'
-import DerivationPath from './DerivationPath'
-import DigitalAssets from './DigitalAssets'
-import ESCButton from './ESCButton'
-import Expandable from './Expandable'
-import HelpText from './HelpText'
-import MenuPanel from './MenuPanel'
-import MnemonicPhrase from './MnemonicPhrase'
-import ModalHeader from './ModalHeader'
-import OverlayActions from './OverlayActions'
-import PasswordStep from './PasswordStep'
 import QRCode from './QRCode'
-import RoundIconButton from './RoundIconButton'
+import HelpText from './HelpText'
+import ESCButton from './ESCButton'
+import MenuPanel from './MenuPanel'
+import Expandable from './Expandable'
+import AssetPicker from './AssetPicker'
+import ModalHeader from './ModalHeader'
+import AssetBalance from './AssetBalance'
+import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
+import DigitalAssets from './DigitalAssets'
+import DerivationPath from './DerivationPath'
+import MnemonicPhrase from './MnemonicPhrase'
+import OverlayActions from './OverlayActions'
+import WalletNameStep from './WalletNameStep'
+import RoundIconButton from './RoundIconButton'
+import ButtonWithConfirm from './ButtonWithConfirm'
+import ActiveAssetsPanel from './ActiveAssetsPanel'
+import WalletPasswordStep from './WalletPasswordStep'
 
 export {
-  ActiveAssetsPanel,
-  AssetBalance,
-  AssetPicker,
-  ButtonWithConfirm,
-  DerivationPath,
-  DigitalAssets,
-  ESCButton,
-  Expandable,
-  HelpText,
-  MenuPanel,
-  MnemonicPhrase,
-  ModalHeader,
-  OverlayActions,
-  PasswordStep,
   QRCode,
-  RoundIconButton,
+  HelpText,
+  ESCButton,
+  MenuPanel,
+  Expandable,
+  AssetPicker,
+  ModalHeader,
+  AssetBalance,
+  PasswordStep,
   WalletHeader,
+  DigitalAssets,
+  DerivationPath,
+  MnemonicPhrase,
+  OverlayActions,
+  WalletNameStep,
+  RoundIconButton,
+  ActiveAssetsPanel,
+  ButtonWithConfirm,
+  WalletPasswordStep,
 }

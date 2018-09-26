@@ -19,8 +19,9 @@ import * as customAsset from 'routes/CustomAsset/modules/customAsset'
 /**
  * Wallets
  */
-import * as wallets from 'routes/Wallets/modules/wallets'
+/*
 import * as createWallet from 'routes/Wallets/routes/Create/modules/createWallet'
+*/
 import * as importWallet from 'routes/Wallets/routes/Import/modules/importWallet'
 import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
 import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
@@ -64,15 +65,12 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
     /**
      * Wallets
      */
-    case wallets.SET_ACTIVE_ERROR: {
-      store.dispatch(wallets.setInvalidField(payload.fieldName, payload.message))
-      break
-    }
-
+    /*
     case createWallet.CREATE_ERROR: {
       store.dispatch(createWallet.setInvalidField(payload.fieldName, payload.message))
       break
     }
+    */
 
     case importWallet.IMPORT_ERROR: {
       store.dispatch(importWallet.setInvalidField(payload.fieldName, payload.message))

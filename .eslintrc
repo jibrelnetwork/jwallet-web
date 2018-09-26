@@ -13,13 +13,16 @@
   },
   "rules": {
     "fp/no-mutation": [2, {
+      "commonjs": true,
       "allowThis": true,
       "exceptions": [
+        { "property": "onmessage" },
         { "property": "src" },
         { "property": "type" },
         { "property": "href" },
         { "property": "i18n" },
         { "property": "innerHTML" },
+        { "property": "postMessage" },
         { "property": "defaultProps" },
         { "property": "asyncReducers" },
         { "property": "childContextTypes" },
@@ -28,8 +31,8 @@
         { "property": "captchaExpiredCallback" }
       ]
     }],
-    "no-use-before-define": 0,
     "fp/no-class": 0,
+    "no-use-before-define": 0,
     "react/prefer-stateless-function": 0
   }
 }

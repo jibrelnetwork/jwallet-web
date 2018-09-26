@@ -6,7 +6,12 @@ import JText from 'components/base/JText'
 import WalletHeader from 'components/WalletHeader'
 import NewWalletButtons from '../../../components/NewWalletButtons'
 
-const WalletsStartView = ({ createWallet, importWallet }: Props) => (
+type Props = {|
+  +createWallet: Function,
+  // +importWallet: Function,
+|}
+
+const WalletsStartView = ({ createWallet }: Props) => (
   <div className='wallets-start-view'>
     <WalletHeader />
     <div className='content'>
@@ -17,7 +22,7 @@ const WalletsStartView = ({ createWallet, importWallet }: Props) => (
         />
       </div>
       <div className='buttons'>
-        <NewWalletButtons createWallet={createWallet} importWallet={importWallet} />
+        <NewWalletButtons createWallet={createWallet} />
       </div>
       <div className='terms'>
         <JText
@@ -27,10 +32,5 @@ const WalletsStartView = ({ createWallet, importWallet }: Props) => (
     </div>
   </div>
 )
-
-type Props = {
-  createWallet: Function,
-  importWallet: Function,
-}
 
 export default WalletsStartView
