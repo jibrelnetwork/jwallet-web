@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #00c1ff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="edit-sky" transform="translate(-289 -427)">
+    <rect id="Rectangle_12587" data-name="Rectangle 12587" class="cls-1" width="24" height="24" transform="translate(289 427)"/>
+    <g id="common-file-text-edit" transform="translate(289.25 427.25)">
+      <path id="Path_20919" data-name="Path 20919" class="cls-2" d="M22.377,14.79l-7.46,7.46-3.667.733.733-3.667,7.46-7.46a2.067,2.067,0,0,1,2.926,0l.008.008a2.067,2.067,0,0,1,0,2.926Z" transform="translate(-0.233 -0.233)"/>
+      <line id="Line_5614" data-name="Line 5614" class="cls-2" x2="10.267" transform="translate(3.683 6.617)"/>
+      <line id="Line_5615" data-name="Line 5615" class="cls-2" x2="10.267" transform="translate(3.683 11.017)"/>
+      <line id="Line_5616" data-name="Line 5616" class="cls-2" x2="5.133" transform="translate(3.683 15.417)"/>
+      <path id="Path_20920" data-name="Path 20920" class="cls-2" d="M7.35,19.817H2.217A1.467,1.467,0,0,1,.75,18.35V2.217A1.467,1.467,0,0,1,2.217.75H12.609a1.466,1.466,0,0,1,1.036.429l2.808,2.808a1.467,1.467,0,0,1,.429,1.036V8.083" transform="translate(0 0)"/>
+    </g>
+  </g>
+</svg>

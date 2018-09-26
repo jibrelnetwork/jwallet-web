@@ -4,9 +4,10 @@
 $icon-small-size: 12px;
 $icon-medium-size: 24px;
 $icon-large-size: 48px;
+$icon-xlarge-size: 90px;
 
 /**
- * Small
+ * Small old
  */
 $icon-small-arrow-blue: url('../public/assets/icons/small/arrow-blue.svg');
 $icon-small-arrow-sky: url('../public/assets/icons/small/arrow-sky.svg');
@@ -40,7 +41,7 @@ $icon-small-settings-gray: url('../public/assets/icons/small/settings-gray.svg')
 $icon-small-star-blue: url('../public/assets/icons/small/star-blue.svg');
 
 /**
- * Medium
+ * Medium old
  */
 $icon-medium-arrow-white: url('../public/assets/icons/medium/arrow-white.svg');
 
@@ -75,10 +76,135 @@ $icon-medium-mnemonic-read-white: url('../public/assets/icons/medium/mnemonic-re
 $icon-medium-private-key-white: url('../public/assets/icons/medium/private-key-white.svg');
 $icon-medium-private-key-read-white: url('../public/assets/icons/medium/private-key-read-white.svg');
 
-$icon-medium-search-gray: url('../public/assets/icons/medium/search-gray.svg');
-
 /**
- * Large
+ * Large old
  */
 $icon-large-transaction-receive-blue: url('../public/assets/icons/large/transaction-receive-blue.svg');
 $icon-large-transaction-send-gray: url('../public/assets/icons/large/transaction-send-gray.svg');
+
+/**
+ * Size medium
+ * Auth icons bar */
+$icon-medium-eye-white: url('../public/assets/icons/new-pack/medium/eye-white.svg');
+$icon-medium-padding-cross-white: url('../public/assets/icons/new-pack/medium/padding-cross-white.svg');
+$icon-medium-chevron-down-white: url('../public/assets/icons/new-pack/medium/chevron-down-white.svg');
+
+/* Component icons bar */
+$icon-medium-checked-blue: url('../public/assets/icons/new-pack/medium/checked-blue.svg');
+$icon-medium-chevon-down-blue: url('../public/assets/icons/new-pack/medium/chevon-down-blue.svg');
+$icon-medium-padding-lock-gray: url('../public/assets/icons/new-pack/medium/padding-lock-gray.svg');
+$icon-medium-padding-lock-white: url('../public/assets/icons/new-pack/medium/padding-lock-white.svg');
+$icon-medium-plus-gray: url('../public/assets/icons/new-pack/medium/plus-gray.svg');
+$icon-medium-unchecked-gray: url('../public/assets/icons/new-pack/medium/unchecked-gray.svg');
+
+/* Left menu icons bar */
+$icon-medium-back-up-white: url('../public/assets/icons/new-pack/medium/back-up-white.svg');
+$icon-medium-padding-binding-white: url('../public/assets/icons/new-pack/medium/padding-binding-white.svg');
+$icon-medium-dotts-border-white: url('../public/assets/icons/new-pack/medium/dotts-border-white.svg');
+$icon-medium-download-white: url('../public/assets/icons/new-pack/medium/download-white.svg');
+$icon-medium-lock-white: url('../public/assets/icons/new-pack/medium/lock-white.svg');
+$icon-medium-message-white: url('../public/assets/icons/new-pack/medium/message-white.svg');
+$icon-medium-padding-multy-white: url('../public/assets/icons/new-pack/medium/padding-multy-white.svg');
+$icon-medium-password-white: url('../public/assets/icons/new-pack/medium/password-white.svg');
+$icon-medium-plus-white: url('../public/assets/icons/new-pack/medium/plus-white.svg');
+$icon-medium-protect-wgite: url('../public/assets/icons/new-pack/medium/protect-wgite.svg');
+$icon-medium-refresh-white: url('../public/assets/icons/new-pack/medium/refresh-white.svg');
+$icon-medium-setting-white: url('../public/assets/icons/new-pack/medium/setting-white.svg');
+$icon-medium-star-white: url('../public/assets/icons/new-pack/medium/star-white.svg');
+
+$icon-medium-back-up-gray: url('../public/assets/icons/new-pack/medium/back-up-gray.svg');
+$icon-medium-padding-binding-gray: url('../public/assets/icons/new-pack/medium/padding-binding-gray.svg');
+$icon-medium-dotts-border-gray: url('../public/assets/icons/new-pack/medium/dotts-border-gray.svg');
+$icon-medium-download-gray: url('../public/assets/icons/new-pack/medium/download-gray.svg');
+$icon-medium-lock-gray: url('../public/assets/icons/new-pack/medium/lock-gray.svg');
+$icon-medium-message-gray: url('../public/assets/icons/new-pack/medium/message-gray.svg');
+$icon-medium-padding-multy-gray: url('../public/assets/icons/new-pack/medium/padding-multy-gray.svg');
+$icon-medium-password-gray: url('../public/assets/icons/new-pack/medium/password-gray.svg');
+$icon-medium-plus-gray: url('../public/assets/icons/new-pack/medium/plus-gray.svg');
+$icon-medium-protect-gray: url('../public/assets/icons/new-pack/medium/protect-gray.svg');
+$icon-medium-refresh-gray: url('../public/assets/icons/new-pack/medium/refresh-gray.svg');
+$icon-medium-setting-gray: url('../public/assets/icons/new-pack/medium/setting-gray.svg');
+$icon-medium-star-gray: url('../public/assets/icons/new-pack/medium/star-gray.svg');
+
+/* Auth icons bar */
+$icon-medium-arrow-left-white: url('../public/assets/icons/new-pack/medium/arrow-left-white.svg');
+$icon-medium-add-white: url('../public/assets/icons/new-pack/medium/add-white.svg');
+$icon-medium-multy-white: url('../public/assets/icons/new-pack/medium/multy-white.svg');
+$icon-medium-binding-white: url('../public/assets/icons/new-pack/medium/binding-white.svg');
+$icon-medium-cross-white: url('../public/assets/icons/new-pack/medium/cross-white.svg');
+$icon-medium-import-white: url('../public/assets/icons/new-pack/medium/import-white.svg');
+
+/* Transactions / favorites icons bar */
+$icon-medium-upload-blue: url('../public/assets/icons/new-pack/medium/upload-blue.svg');
+$icon-medium-transaction-receive: url('../public/assets/icons/new-pack/medium/transaction-receive.svg');
+$icon-medium-transaction-send: url('../public/assets/icons/new-pack/medium/transaction-send.svg');
+$icon-medium-time-gray: url('../public/assets/icons/new-pack/medium/time-gray.svg');
+$icon-medium-time-red: url('../public/assets/icons/new-pack/medium/time-red.svg');
+$icon-medium-edit-blue: url('../public/assets/icons/new-pack/medium/edit-blue.svg');
+$icon-medium-edit-sky: url('../public/assets/icons/new-pack/medium/edit-sky.svg');
+$icon-medium-dotts-full-gray: url('../public/assets/icons/new-pack/medium/dotts-full-gray.svg');
+$icon-medium-refresh-gray: url('../public/assets/icons/new-pack/medium/refresh-gray.svg');
+$icon-medium-star-add-gray: url('../public/assets/icons/new-pack/medium/star-add-gray.svg');
+$icon-medium-star-remove-gray: url('../public/assets/icons/new-pack/medium/star-remove-gray.svg');
+$icon-medium-message-gray: url('../public/assets/icons/new-pack/medium/message-gray.svg');
+$icon-medium-message-add-gray: url('../public/assets/icons/new-pack/medium/message-add-gray.svg');
+$icon-medium-message-edit-gray: url('../public/assets/icons/new-pack/medium/message-edit-gray.svg');
+
+/* Component icons bar */
+$icon-medium-arrow-up-gray: url('../public/assets/icons/new-pack/medium/arrow-up-gray.svg');
+$icon-medium-add-gray: url('../public/assets/icons/new-pack/medium/add-gray.svg');
+$icon-medium-import-gray: url('../public/assets/icons/new-pack/medium/import-gray.svg');
+$icon-medium-import-sky: url('../public/assets/icons/new-pack/medium/import-sky.svg');
+$icon-medium-import-blue: url('../public/assets/icons/new-pack/medium/import-blue.svg');
+$icon-medium-network-gray: url('../public/assets/icons/new-pack/medium/network-gray.svg');
+$icon-medium-list-blue: url('../public/assets/icons/new-pack/medium/list-blue.svg');
+$icon-medium-list-sky: url('../public/assets/icons/new-pack/medium/list-sky.svg');
+$icon-medium-cross-gray: url('../public/assets/icons/new-pack/medium/cross-gray.svg');
+
+/* Settings icons bar */
+$icon-medium-local-currency-blue: url('../public/assets/icons/new-pack/medium/local-currency-blue.svg');
+$icon-medium-time-blue: url('../public/assets/icons/new-pack/medium/time-blue.svg');
+$icon-medium-language-blue: url('../public/assets/icons/new-pack/medium/language-blue.svg');
+$icon-medium-lock-pin-blue: url('../public/assets/icons/new-pack/medium/lock-pin-blue.svg');
+$icon-medium-exchange-service-blue: url('../public/assets/icons/new-pack/medium/exchange-service-blue.svg');
+$icon-medium-message-blue: url('../public/assets/icons/new-pack/medium/message-blue.svg');
+$icon-medium-protect-blue: url('../public/assets/icons/new-pack/medium/protect-blue.svg');
+$icon-medium-backup-wallet-blue: url('../public/assets/icons/new-pack/medium/backup-wallet-blue.svg');
+$icon-medium-network-blue: url('../public/assets/icons/new-pack/medium/network-blue.svg');
+$icon-medium-cross-circle-red: url('../public/assets/icons/new-pack/medium/cross-circle-red.svg');
+$icon-medium-cross-circle-white: url('../public/assets/icons/new-pack/medium/cross-circle-white.svg');
+$icon-medium-setting-blue: url('../public/assets/icons/new-pack/medium/setting-blue.svg');
+$icon-medium-edit-pen-blue: url('../public/assets/icons/new-pack/medium/edit-pen-blue.svg');
+
+/* Top menu icons bar */
+$icon-medium-search-gray: url('../public/assets/icons/new-pack/medium/search-gray.svg');
+$icon-medium-filter-gray: url('../public/assets/icons/new-pack/medium/filter-gray.svg');
+$icon-medium-filter-selected-gray: url('../public/assets/icons/new-pack/medium/filter-selected-gray.svg');
+$icon-medium-upload-gray: url('../public/assets/icons/new-pack/medium/upload-gray.svg');
+
+/* Priority icons bar */
+$icon-medium-priority-high-gray: url('../public/assets/icons/new-pack/medium/priority-high-gray.svg');
+$icon-medium-priority-normal-gray: url('../public/assets/icons/new-pack/medium/priority-normal-gray.svg');
+$icon-medium-priority-low-gray: url('../public/assets/icons/new-pack/medium/priority-low-gray.svg');
+$icon-medium-priority-custom-gray: url('../public/assets/icons/new-pack/medium/priority-custom-gray.svg');
+
+/* Language icons bar */
+$icon-medium-flag-us: url('../public/assets/icons/new-pack/medium/flag-us.svg');
+$icon-medium-flag-ru: url('../public/assets/icons/new-pack/medium/flag-ru.svg');
+$icon-medium-flag-kr: url('../public/assets/icons/new-pack/medium/flag-kr.svg');
+
+/**
+ * Size large
+ * Screen icons bar */
+$icon-large-screen-reload: url('../public/assets/icons/new-pack/large/screen-reload.svg');
+$icon-large-screen-error: url('../public/assets/icons/new-pack/large/screen-error.svg');
+$icon-large-screen-search: url('../public/assets/icons/new-pack/large/screen-search.svg');
+
+/**
+ * Size xlarge
+ */
+$icon-xlarge-auth-arrow: url('../public/assets/icons/new-pack/xlarge/auth-arrow.svg');
+$icon-xlarge-auth-cross: url('../public/assets/icons/new-pack/xlarge/auth-cross.svg');
+$icon-xlarge-auth-lock: url('../public/assets/icons/new-pack/xlarge/auth-lock.svg');
+$icon-xlarge-auth-question: url('../public/assets/icons/new-pack/xlarge/auth-question.svg');
+$icon-xlarge-auth-warning: url('../public/assets/icons/new-pack/xlarge/auth-warning.svg');

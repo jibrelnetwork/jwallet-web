@@ -10,8 +10,13 @@ const JIcon = ({ name, size, color }: Props) => (
 // @TODO: in JFlatButton colors are: 'blue' | 'gray' | 'sky' | 'white'
 type Props = {
   name: string,
-  color: 'white' | 'blue' | 'gray' | 'sky',
-  size: 'small' | 'medium' | 'large',
+  color: 'white' | 'blue' | 'gray',
+  size: 'small' | 'medium' | 'large' | 'xlarge',
+}
+
+JIcon.defaultProps = {
+  color: 'white',
+  size: 'medium',
 }
 
 export default JIcon
