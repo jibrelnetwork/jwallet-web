@@ -3,22 +3,19 @@
 import config from 'config'
 import storage from 'services/storage'
 
-// declare function isSupportedLanguage(lang: string):
-//   boolean %checks(typeof lang === LanguageCode)
-
-function isSupportedLanguage(lang: mixed): boolean %checks {
-  return config.supportedLanguages.includes(lang)
-}
-
-function getCurrentLanguageCode(): LanguageCode {
+function getCurrentLanguageCode(): string {
   const i18nLangFromQuery: string = (/lang=([a-z]{2})/ig.exec(window.location.href) || [])[1]
   const i18nLangFromStorage: string = storage.getI18n()
 
-  if (isSupportedLanguage(i18nLangFromQuery)) {
+  const { supportedLanguages } = config
+  const isSupportedFromQuery = supportedLanguages.includes(i18nLangFromQuery)
+  const isSupportedFromStorage = supportedLanguages.includes(i18nLangFromStorage)
+
+  if (isSupportedFromQuery) {
     return i18nLangFromQuery
   }
 
-  if (isSupportedLanguage(i18nLangFromStorage)) {
+  if (isSupportedFromStorage) {
     return i18nLangFromStorage
   }
 
