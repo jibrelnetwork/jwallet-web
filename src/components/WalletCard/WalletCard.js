@@ -5,8 +5,8 @@ import React from 'react'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 
-import WalletFace from './WalletFace'
-import WalletActions from './WalletActions'
+import WalletFace from 'components/WalletFace'
+import WalletActions from 'components/WalletActions'
 
 const WALLET_TYPE_ICON_MAP = {
   'address': 'binding',

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import WalletFace from './WalletFace'
+import WalletFace from 'components/WalletFace'
 
 type Props = {|
   +createWallet: Function,
