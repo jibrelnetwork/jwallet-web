@@ -41,17 +41,14 @@
   &:hover {
     background-color: $bright-sky-blue;
 
-    /* stylelint-disable-next-line no-descending-specificity */
     > .icon {
       &.-transparent {
         opacity: 1;
       }
     }
 
-    > .data {
-      > .description {
-        opacity: 1;
-      }
+    > .data > .description {
+      opacity: 1;
     }
   }
 }
