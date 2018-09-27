@@ -62,7 +62,7 @@ class JRaisedButton extends PureComponent<Props, *> {
     }
 
     return (
-      <div onClick={isDisabled ? null : onClick} className={buttonClassName}>
+      <div onClick={isDisabled ? undefined : onClick} className={buttonClassName}>
         {iconName && (
           <div className='icon'>
             <JIcon name={iconName} size={iconSize} color={iconColor} />

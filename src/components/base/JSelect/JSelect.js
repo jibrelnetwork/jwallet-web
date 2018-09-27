@@ -25,7 +25,7 @@ const JSelect = ({
       isDisabled && '-disabled',
     )}
   >
-    <div onClick={isDisabled ? null : handle(toggle)(!isOpen)} className='current'>
+    <div onClick={isDisabled ? undefined : handle(toggle)(!isOpen)} className='current'>
       <div className='label'>
         <JText value={label} color={color} size='small' fontCase='upper' />
       </div>

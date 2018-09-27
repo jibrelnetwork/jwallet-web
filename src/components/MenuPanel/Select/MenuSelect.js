@@ -8,7 +8,7 @@ import { JIcon, JLoader, JText } from 'components/base'
 
 const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props) => (
   <div
-    onClick={handle(toggle)(isOpen ? null : name)}
+    onClick={handle(toggle)(isOpen ? undefined : name)}
     className={classNames('menu-select', { '-active': isOpen })}
   >
     {active && options[active] ? (
@@ -28,7 +28,7 @@ const MenuSelect = ({ toggle, setActive, options, name, active, isOpen }: Props)
         return (
           <div
             key={key}
-            onClick={!isActive && handle(setActive)(key)}
+            onClick={!isActive ? handle(setActive)(key) : undefined}
             className={classNames('item', { '-active': isActive })}
           >
             <div className='value'>
