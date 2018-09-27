@@ -9,10 +9,10 @@ import WalletFace from './WalletFace'
 import WalletActions from './WalletActions'
 
 const WALLET_TYPE_ICON_MAP = {
-  'address': 'private-key-read',
-  'privateKey': 'private-key',
-  'bip32Xpub': 'mnemonic-read',
-  'mnemonic': 'mnemonic',
+  'address': 'binding',
+  'privateKey': 'binding',
+  'bip32Xpub': 'multy',
+  'mnemonic': 'multy',
 }
 
 type Props = {|
@@ -46,7 +46,7 @@ const WalletCard = ({
 
   const description: string = (!isMnemonic && address)
     ? `${address.substr(0, 15)}...${address.substr(-6)}`
-    : 'Mnemonic'
+    : 'Mnemonic, many addresses'
 
   return (
     <WalletFace
@@ -55,6 +55,8 @@ const WalletCard = ({
       title={name}
       iconName={iconName}
       description={isReadOnly ? `${description}, read only` : description}
+      isTransparent={isReadOnly}
+      isEyeIcon={isReadOnly}
     />
   )
 }

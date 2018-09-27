@@ -7,11 +7,7 @@
   height: $wallet-button-height;
   align-items: center;
   justify-content: space-around;
-  background-color: transparent;
+  background-color: $bright-sky-blue;
   transition: background-color 0.3s ease 0s;
   cursor: pointer;
-
-  &:hover {
-    background-color: $bright-sky-blue;
-  }
 }
