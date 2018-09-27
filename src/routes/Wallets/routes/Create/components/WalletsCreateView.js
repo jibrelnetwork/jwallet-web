@@ -3,6 +3,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import NameStep from 'components/NameStep'
+<<<<<<< HEAD
+=======
+import AssetsStep from 'components/AssetsStep'
+>>>>>>> 41a43040... Updating components call path
 
 import { ModalHeader, PasswordStep } from 'components'
 
@@ -33,6 +37,10 @@ const WalletsCreateView = (props: Props) => (
           buttonColor='blue'
         />
       )}
+<<<<<<< HEAD
+=======
+      {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
+>>>>>>> 41a43040... Updating components call path
     </div>
   </div>
 )

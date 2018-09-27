@@ -2,6 +2,10 @@
 
 import React from 'react'
 import NameStep from 'components/NameStep'
+<<<<<<< HEAD
+=======
+import AssetsStep from 'components/AssetsStep'
+>>>>>>> 41a43040... Updating components call path
 
 import classNames from 'classnames'
 
