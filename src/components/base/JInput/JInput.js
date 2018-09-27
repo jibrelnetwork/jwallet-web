@@ -1,7 +1,6 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { identity } from 'ramda'
 import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
@@ -69,7 +68,7 @@ class JInput extends PureComponent<Props, *> {
         )}
       >
         <input
-          onChange={onChange ? handleTargetValue(onChange) : identity}
+          onChange={onChange ? handleTargetValue(onChange) : undefined}
           className='input'
           type={type}
           name={name}
