@@ -4,7 +4,7 @@ import React from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 
-import WalletFace from '../../../components/WalletFace'
+import WalletFace from 'components/WalletFace'
 
 const MnemonicAddressesList = ({ setActive, addresses, isReadOnly }: Props) => (
   <div className='mnemonic-addresses-list'>

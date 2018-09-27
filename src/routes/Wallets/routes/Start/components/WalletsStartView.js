@@ -4,7 +4,7 @@ import React from 'react'
 
 import JText from 'components/base/JText'
 import WalletHeader from 'components/WalletHeader'
-import NewWalletButtons from '../../../components/NewWalletButtons'
+import NewWalletButtons from 'components/NewWalletButtons'
 
 type Props = {|
   +createWallet: Function,
