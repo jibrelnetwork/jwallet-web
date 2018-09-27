@@ -1,12 +1,13 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { identity } from 'ramda'
 import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
 type Props = {
-  onChange: Function,
+  onChange: ?((string) => void),
   name: ?string,
   label: string,
   placeholder: string,
@@ -26,6 +27,8 @@ class JInput extends PureComponent<Props, *> {
     name: '',
     type: 'text',
     color: 'white',
+    label: '',
+    onChange: null,
     helpMessage: null,
     infoMessage: null,
     errorMessage: null,
@@ -66,7 +69,7 @@ class JInput extends PureComponent<Props, *> {
         )}
       >
         <input
-          onChange={handleTargetValue(onChange)}
+          onChange={onChange ? handleTargetValue(onChange) : identity}
           className='input'
           type={type}
           name={name}

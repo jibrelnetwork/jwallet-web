@@ -11,8 +11,8 @@ type Props = {
   title: string,
   location: string,
   withMenu: boolean,
-  totalSteps: number,
-  currentStep: number,
+  totalSteps: ?number,
+  currentStep: ?number,
 }
 
 class ModalHeader extends PureComponent<Props, *> {

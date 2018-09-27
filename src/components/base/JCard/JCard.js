@@ -4,12 +4,14 @@ import React, { PureComponent } from 'react'
 
 type Props = {
   color: 'blue' | 'white',
-  title?: string,
-  children?: ?React$Node,
+  title: ?string,
+  children: ?React$Node,
 }
 
 class JCard extends PureComponent<Props, *> {
   static defaultProps = {
+    // @TODO: check that the blue color is correct here
+    color: 'blue',
     title: null,
     children: null,
   }
