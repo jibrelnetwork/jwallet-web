@@ -2,33 +2,24 @@
 
 import React from 'react'
 
-import handle from 'utils/eventHandlers/handle'
 import JFlatButton from 'components/base/JFlatButton'
 
 type Props = {|
-  +setWalletAction: Function,
+  +isMnemonic: boolean,
 |}
 
-const WalletActions = ({ setWalletAction }: Props) => (
+const WalletActions = ({ isMnemonic }: Props) => (
   <div className='wallet-actions'>
-    <JFlatButton
-      onClick={handle(setWalletAction)('rename')}
-      label='Rename'
-      isHoverOpacity
-      color='white'
-    />
-    <JFlatButton
-      onClick={handle(setWalletAction)('backup')}
-      label='Backup'
-      isHoverOpacity
-      color='white'
-    />
-    <JFlatButton
-      onClick={handle(setWalletAction)('delete')}
-      label='Delete'
-      isHoverOpacity
-      color='white'
-    />
+    <JFlatButton onClick={console.log} label='Rename' color='white' />
+    <JFlatButton onClick={console.log} label='Backup' color='white' />
+    {!isMnemonic && (
+      <JFlatButton
+        onClick={console.log}
+        color='white'
+        label='Edit'
+      />
+    )}
+    <JFlatButton onClick={console.log} label='Delete' color='white' />
   </div>
 )
 
