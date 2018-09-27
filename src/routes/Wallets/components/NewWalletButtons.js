@@ -18,17 +18,17 @@ const NewWalletButtons = ({
     <div className='button'>
       <WalletFace
         onClick={createWallet}
-        iconName='key-new'
+        iconName='add'
         title='Create new wallet'
-        description='Some text about keys, mnemonic, address etc'
+        description='Create your own wallet to manage on-chain funds'
       />
     </div>
     <div className='button'>
       <WalletFace
         onClick={importWallet}
-        iconName='key-import'
+        iconName='import'
         title='Import wallet'
-        description='Some text about keys, mnemonic, address etc'
+        description='Import existing wallet to manage on-chain funds'
       />
     </div>
   </div>
