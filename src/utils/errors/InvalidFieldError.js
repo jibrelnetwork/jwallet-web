@@ -1,4 +1,3 @@
-/* eslint-disable fp/no-class */
 class InvalidFieldError {
   constructor(fieldName, message) {
     this.fieldName = fieldName
@@ -12,6 +11,5 @@ class InvalidFieldError {
     }
   }
 }
-/* eslint-enable fp/no-class */
 
 export default InvalidFieldError
