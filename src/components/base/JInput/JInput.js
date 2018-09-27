@@ -19,6 +19,7 @@ const JInput = ({
   isLoading,
   isChecked,
   isDisabled,
+  hasLabel,
 }: Props) => {
   const labelOrPlaceholder = label || placeholder
 
@@ -33,6 +34,7 @@ const JInput = ({
         isChecked && '-checked',
         errorMessage && '-error',
         isDisabled && '-disabled',
+        hasLabel && '-has-label',
       )}
     >
       <input
@@ -44,7 +46,7 @@ const JInput = ({
         disabled={isDisabled}
         placeholder={i18n(placeholder) || placeholder}
       />
-      <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>
+      {hasLabel && <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>}
       {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
       {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
       <div className='tick' />
@@ -69,6 +71,7 @@ type Props = {
   isLoading: boolean,
   isChecked: boolean,
   isDisabled: boolean,
+  hasLabel: boolean,
 }
 
 JInput.defaultProps = {
@@ -81,6 +84,7 @@ JInput.defaultProps = {
   isLoading: false,
   isChecked: false,
   isDisabled: false,
+  hasLabel: false,
 }
 
 export default JInput

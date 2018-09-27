@@ -1,181 +1,11 @@
 .j-input {
   all: initial;
 
-  @include font;
   @include flex-column;
 
   position: relative;
   align-items: center;
-  min-height: $form-field-full-height;
   cursor: inherit;
-
-  &.-value {
-    > .label {
-      top: 22px;
-      visibility: visible;
-      opacity: 0.5;
-    }
-
-    > .input {
-      padding-top: $form-field-padding-top;
-      font-weight: 600;
-    }
-  }
-
-  &.-disabled {
-    cursor: default;
-
-    &.-gray > .input {
-      opacity: 0.3;
-
-      &:hover,
-      &:focus {
-        border-bottom: 1px solid rgba($dusk, 0.1);
-      }
-    }
-
-    &.-white > .input {
-      opacity: 0.3;
-
-      &:hover,
-      &:focus {
-        border-bottom: 1px solid rgba($white, 0.2);
-      }
-    }
-
-    > .lock {
-      display: block;
-    }
-  }
-
-  &.-white {
-    color: $white;
-
-    > .input {
-      border-bottom: 1px solid rgba($white, 0.2);
-      color: $white;
-      opacity: 1;
-
-      &::placeholder {
-        color: $white;
-        opacity: 0.7;
-      }
-
-      &:hover {
-        border-bottom: 1px solid rgba($white, 0.4);
-      }
-
-      &:focus {
-        border-bottom: 1px solid rgba($white, 0.6);
-      }
-    }
-
-    > .input{
-      &:-webkit-autofill {
-        box-shadow: 0 0 0 #{$form-field-full-height / 2} $blue inset;
-        -webkit-text-fill-color: $white !important;
-      }
-    }
-  }
-
-  &.-gray {
-    color: $dusk;
-
-    > .input {
-      border-bottom: 1px solid rgba($dusk, 0.1);
-      color: $dusk;
-      opacity: 1;
-
-      &::placeholder {
-        color: $dusk;
-        opacity: 0.7;
-      }
-
-      &:hover {
-        border-bottom: 1px solid rgba($dusk, 0.3);
-      }
-
-      &:focus {
-        border-bottom: 1px solid rgba($dusk, 0.5);
-      }
-    }
-
-    > .input {
-      &:-webkit-autofill {
-        box-shadow: 0 0 0 #{$form-field-full-height / 2} $white inset;
-        -webkit-text-fill-color: $dusk !important;
-      }
-    }
-  }
-
-  &.-error {
-    &.-white {
-      > .input {
-        border-bottom-color: $blush;
-        color: $blush;
-      }
-
-      > .input{
-        &:-webkit-autofill {
-          -webkit-text-fill-color: $blush !important;
-        }
-      }
-
-      > .error {
-        color: $blush;
-      }
-    }
-
-    &.-gray {
-      > .input {
-        border-bottom-color: $tomato;
-        color: $tomato;
-      }
-
-      > .input{
-        &:-webkit-autofill {
-          -webkit-text-fill-color: $tomato !important;
-        }
-      }
-
-      > .error {
-        color: $tomato;
-      }
-    }
-  }
-
-  &.-checked {
-    > .tick {
-      width: $icon-small-size;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: $icon-small-size $icon-small-size;
-    }
-
-    &.-white > .tick {
-      background-image: $icon-small-checkbox-white;
-    }
-
-    &.-gray > .tick {
-      background-image: $icon-small-checkbox-blue;
-    }
-  }
-
-  &.-password {
-    &.-value > .input {
-      font-size: 21px;
-    }
-
-    > .input {
-      transition: border-color 0.3s ease 0s;
-    }
-  }
-
-  &.-help {
-    > .help {
-      display: block;
-    }
-  }
 
   > .label {
     position: absolute;
@@ -190,20 +20,14 @@
 
   > .input {
     @include flex-row;
+    @include font(1.15);
 
     width: 100%;
-    height: $form-field-full-height;
     padding-top: 0;
     background: inherit;
-    border: none;
-    font-size: 15px;
+    border-radius: $border-radius;
     font-weight: normal;
-    opacity: 0.7;
-    transition:
-      color 0.3s ease 0s,
-      border 0.3s ease 0s,
-      opacity 0.3s ease 0s,
-      background 0.3s ease 0s;
+    transition: color 0.3s ease 0s, border 0.3s ease 0s, opacity 0.3s ease 0s, background 0.3s ease 0s;
   }
 
   > .error,
@@ -282,5 +106,161 @@
 
   > .loader {
     display: none;
+  }
+
+  &.-value {
+    > .label {
+      top: 22px;
+      visibility: visible;
+    }
+
+    > .input {
+      font-weight: 600;
+    }
+  }
+
+  &.-has-label {
+    > .input {
+      padding-top: $form-field-padding-top;
+    }
+  }
+
+  &.-password {
+    > .input {
+      transition: border-color 0.3s ease 0s;
+    }
+  }
+
+  &.-gray {
+    color: $dusk;
+
+    > .input {
+      border: none;
+      color: $dusk;
+      opacity: 1;
+
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &.-white {
+    $inner-padding: 15px 20px;
+
+    color: $white;
+
+    > .input {
+      color: $white;
+      padding: $inner-padding;
+      border: 1px solid $blue-two;
+
+      &::placeholder {
+        color: $blue-bright;
+      }
+
+      &:hover {
+        border-color: $blue-bright;
+        color: $white;
+      }
+
+      &:active,
+      &:focus {
+        border-color: $blue-pale-bright;
+      }
+    }
+  }
+
+  &.-password.-value > .input {
+    font-size: 21px;
+  }
+
+  &.-error {
+    &.-white {
+      > .input {
+        border-bottom-color: $blush;
+        color: $blush;
+      }
+
+      > .error {
+        color: $blush;
+      }
+    }
+
+    &.-gray {
+      > .input {
+        border-bottom-color: $tomato;
+        color: $tomato;
+      }
+
+      > .error {
+        color: $tomato;
+      }
+    }
+  }
+
+  &.-white > .input:-webkit-autofill {
+    box-shadow: 0 0 0 #{$form-field-full-height / 2} $blue inset;
+    -webkit-text-fill-color: $white !important;
+  }
+
+  &.-gray > .input:-webkit-autofill {
+    box-shadow: 0 0 0 #{$form-field-full-height / 2} $white inset;
+    -webkit-text-fill-color: $dusk !important;
+  }
+
+  &.-disabled {
+    cursor: default;
+
+    &.-white > .input {
+      color: #1952d5;
+      background-color: #0037b5;
+      border: none;
+    }
+
+    &.-gray > .input {
+      opacity: 0.3;
+
+      &:hover,
+      &:focus {
+        border-bottom: 1px solid rgba($dusk, 0.1);
+      }
+    }
+
+    > .lock {
+      display: block;
+    }
+  }
+
+  &.-checked {
+    > .tick {
+      width: $icon-small-size;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: $icon-small-size $icon-small-size;
+    }
+
+    &.-white > .tick {
+      background-image: $icon-small-checkbox-white;
+    }
+
+    &.-gray > .tick {
+      background-image: $icon-small-checkbox-blue;
+    }
+  }
+
+  &.-help {
+    > .help {
+      display: block;
+    }
+  }
+
+  &.-error.-white > .input:-webkit-autofill {
+    -webkit-text-fill-color: $blush !important;
+  }
+
+  &.-error.-gray > .input:-webkit-autofill {
+    -webkit-text-fill-color: $tomato !important;
   }
 }

@@ -1,6 +1,11 @@
 body {
   width: auto;
-  height: auto;
+  height: 100%;
+}
+
+#root,
+html {
+  height: 100%;
 }
 
 h1 {
@@ -13,4 +18,18 @@ h2 {
 
 h3 {
   margin: 10px 0;
+}
+
+
+/**
+ * Stories
+ */
+
+.story {
+  padding: 20px;
+  height: 100%;
+}
+
+.story.-blue {
+  background-color: #0033a3;
 }

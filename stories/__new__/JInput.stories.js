@@ -24,6 +24,18 @@ storiesOf('JInput', module)
           />
         )
       ))}
+      {React.createElement(StateHOC(
+        ({ value, setValue }) => (
+          <JInput
+            type='text'
+            color='gray'
+            label='Some label'
+            value={value}
+            onChange={setValue}
+            placeholder='Enter some text'
+          />
+        )
+      ))}
     </div>
   ))
   .add('Gray text disabled', () => (
@@ -56,16 +68,16 @@ storiesOf('JInput', module)
     </div>
   ))
   .add('White text', () => (
-    <div style={{ backgroundColor: '#0050DB' }}>
+    <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
+            isDisabled
             type='text'
             color='white'
-            label='Some label'
             value={value}
             onChange={setValue}
-            placeholder='Enter some text'
+            placeholder='Wallet Name'
           />
         )
       ))}

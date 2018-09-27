@@ -5,10 +5,10 @@
     box-sizing: border-box;
   }
 
-  @mixin font {
+  @mixin font($line-height: 1, $font-size: 13px) {
     font-family: $font;
-    font-size: 13px;
-    line-height: 1;
+    font-size: $font-size;
+    line-height: $line-height;
   }
 
   @mixin flex-column {
@@ -39,6 +39,7 @@
     transition: all 0.3s ease 0s;
   }
 
+  /* stylelint-disable */
   * {
     @include box;
 
