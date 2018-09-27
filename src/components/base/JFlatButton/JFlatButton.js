@@ -30,7 +30,7 @@ const JFlatButton = ({
       className={classNames(
         'j-flat-button',
         `-${color}`,
-        isLink && '-link-style',
+        isLink && '-link',
         label && '-label',
         isDisabled && '-disabled',
       )}

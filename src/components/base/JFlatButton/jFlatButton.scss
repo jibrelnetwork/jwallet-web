@@ -1,24 +1,32 @@
 .j-flat-button {
   all: initial;
+
+  @include flex-row-center;
+
   opacity: 1;
-  transition: opacity 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
+  height: 40px;
+  border-radius: 3px;
+  padding-left: 20px;
+  padding-right: 20px;
 
-  &:not(.-link-style) {
-    height: 40px;
-    border-radius: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
+  &.-blue {
+    border: 1px solid rgba($blue, 0.2);
+  }
 
-    @include flex-row-center;
+  &.-white {
+    border: 1px solid rgba($white, 0.2);
+  }
 
-    &.-blue {
-      border: 1px solid rgba($blue, 0.2);
-    }
-
-    &.-white {
-      border: 1px solid rgba($white, 0.2);
-    }
+  &.-link {
+    height: auto;
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    display: inline-block;
+    text-align: left;
   }
 
   > .icon {
@@ -33,13 +41,17 @@
     }
   }
 
-  &.-disabled:not(.-link-style) {
+  &.-disabled {
     &.-white {
       border: 1px solid $white;
     }
 
     &.-blue {
       border: 1px solid $blue;
+    }
+
+    &.-link {
+      border-width: 0;
     }
 
     &,
@@ -53,13 +65,25 @@
     cursor: default;
   }
 
-  &:hover:not(.-loading):not(.-link-style) {
+  &:hover {
     &.-white {
       border-color: $white;
+
+      &.-loading {
+        border: 1px solid rgba($white, 0.2);
+      }
     }
 
     &.-blue {
       border: 1px solid $blue;
+
+      &.-loading {
+        border: 1px solid rgba($blue, 0.2);
+      }
+    }
+
+    &.-link {
+      border-width: 0;
     }
   }
 }
