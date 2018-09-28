@@ -4,59 +4,86 @@
   @include flex-row-center;
 
   opacity: 1;
-  transition: opacity 0.3s ease 0s;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
+  height: 40px;
+  border-radius: 3px;
+  padding-left: 20px;
+  padding-right: 20px;
 
-  &:hover {
-    opacity: 0.5;
+  &.-blue {
+    border: 1px solid rgba($blue, 0.2);
   }
 
-  &.-label {
-    &:active > .icon {
-      left: -5px;
-    }
-
-    > .icon {
-      margin-right: 10px;
-      transition: left 0.3s ease 0s;
-    }
+  &.-white {
+    border: 1px solid rgba($white, 0.2);
   }
 
-  &.-disabled {
-    &,
-    &:hover {
-      opacity: 0.3;
-      cursor: default;
-    }
-
-    &:active > .icon {
-      left: 0;
-    }
-  }
-
-  &.-opaque {
-    opacity: 1;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &.-transparent {
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &.-loading {
-    //
+  &.-link {
+    height: auto;
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    display: inline-block;
+    text-align: left;
   }
 
   > .icon {
     position: relative;
     top: 0;
     left: 0;
+  }
+
+  &.-label {
+    > .icon {
+      margin-right: 12px;
+    }
+  }
+
+  &.-disabled {
+    &.-white {
+      border: 1px solid $white;
+    }
+
+    &.-blue {
+      border: 1px solid $blue;
+    }
+
+    &.-link {
+      border-width: 0;
+    }
+
+    &,
+    &:hover {
+      opacity: 0.2;
+      cursor: default;
+    }
+  }
+
+  &.-loading {
+    cursor: default;
+  }
+
+  &:hover {
+    &.-white {
+      border-color: $white;
+
+      &.-loading {
+        border: 1px solid rgba($white, 0.2);
+      }
+    }
+
+    &.-blue {
+      border: 1px solid $blue;
+
+      &.-loading {
+        border: 1px solid rgba($blue, 0.2);
+      }
+    }
+
+    &.-link {
+      border-width: 0;
+    }
   }
 }

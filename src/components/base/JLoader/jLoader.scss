@@ -7,18 +7,6 @@
   align-items: center;
   height: 100%;
 
-  &.-blue > .dot {
-    background-color: $blue;
-  }
-
-  &.-gray > .dot {
-    background-color: $dusk;
-  }
-
-  &.-white > .dot {
-    background-color: $white;
-  }
-
   > .dot {
     width: 6px;
     height: 6px;
@@ -40,6 +28,22 @@
     &.-third {
       animation: thirdDotAnimation 0.6s linear infinite;
     }
+  }
+
+  &.-blue > .dot {
+    background-color: $blue;
+  }
+
+  &.-gray > .dot {
+    background-color: $dusk;
+  }
+
+  &.-white > .dot {
+    background-color: $white;
+  }
+
+  &.-sky > .dot {
+    background-color: $bright-sky-blue;
   }
 }
 
