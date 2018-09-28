@@ -4,7 +4,7 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
 
-import JRaisedButton from '../../../src/components/base/JRaisedButton'
+import JRaisedButton from 'components/base/JRaisedButton'
 
 storiesOf('JRaisedButton', module)
   .add('Different status', () => (

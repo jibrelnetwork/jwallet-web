@@ -27,13 +27,11 @@
 
   &.-blue {
     background-color: $blue-two;
-
-    &:not(.-disabled) {
-      box-shadow: 0 3px 6px rgba($blue, 0.33);
-    }
+    box-shadow: 0 3px 6px rgba($blue, 0.33);
 
     &.-disabled {
       background-color: $pale-grey;
+      box-shadow: none;
     }
   }
 
@@ -52,8 +50,25 @@
     }
   }
 
-  &:hover:not(.-disabled):not(.-loading) {
+  &:hover {
     background-color: $bright-sky-blue;
+
+    &.-blue {
+      &.-loading {
+        background-color: $blue-two;
+      }
+
+      &.-disabled {
+        background-color: $pale-grey;
+      }
+    }
+
+    &.-white {
+      &.-loading,
+      &.-disabled {
+        background-color: $blue-two;
+      }
+    }
   }
 
   > .icon {
