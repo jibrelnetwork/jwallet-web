@@ -13,6 +13,7 @@ const JInput = ({
   value,
   color,
   label,
+  rows,
   placeholder,
   helpMessage,
   infoMessage,
@@ -22,6 +23,7 @@ const JInput = ({
   isChecked,
   isDisabled,
   isPinCode,
+  isMultiline,
 }: Props) => {
   const labelOrPlaceholder = label || placeholder
   const hasTopLabel = color === 'gray' && labelOrPlaceholder
@@ -42,14 +44,16 @@ const JInput = ({
         isPinCode && '-pincode',
       )}
     >
-      <input
+      <InputElement
         onChange={handleTargetValue(onChange)}
         className='input'
         type={type}
         name={name}
         value={value}
         disabled={isDisabled}
-        placeholder={placeholder && i18n(placeholder)}
+        placeholder={i18n(labelOrPlaceholder) || labelOrPlaceholder}
+        isMultiline={isMultiline}
+        rows={rows}
       />
 
       {passwordStrength && <JStrengthBar strength={passwordStrength} className='status' />}
@@ -76,15 +80,18 @@ type Props = {
   value: string | number,
   color: 'gray' | 'white',
   type: 'text' | 'password',
+  rows: number,
   isLoading: boolean,
   isChecked: boolean,
   isDisabled: boolean,
   isPinCode: boolean,
+  isMultiline: boolean,
 }
 
 JInput.defaultProps = {
-  name: '',
+  name: null,
   type: 'text',
+  rows: 4,
   color: 'white',
   helpMessage: null,
   infoMessage: null,
@@ -94,6 +101,18 @@ JInput.defaultProps = {
   isChecked: false,
   isDisabled: false,
   isPinCode: false,
+  isMultiline: false,
 }
+
+function InputElement(props) {
+  const textareaProps = Object.assign({}, props)
+
+  /* eslint fp/no-delete: 0 */
+  delete textareaProps.type
+  delete textareaProps.isMultiline
+
+  return props.isMultiline ? <textarea {...textareaProps} /> : <input {...props} />
+}
+
 
 export default JInput

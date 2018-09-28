@@ -140,12 +140,10 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
-            type='text'
-            label='Some label'
             color='white'
             value={value}
             onChange={setValue}
-            multiline
+            isMultiline
             placeholder='Enter some text'
           />
         )
