@@ -40,7 +40,6 @@ const JInput = ({
         errorMessage && '-error',
         isDisabled && '-disabled',
         hasTopLabel && '-has-label',
-        !!passwordStrength && '-has-status-bar',
         isPinCode && '-pincode',
       )}
     >
