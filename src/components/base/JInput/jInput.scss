@@ -33,15 +33,17 @@
   > .error,
   > .info,
   > .tick {
+    @include font(2.91, 11px);
+
     position: absolute;
-    right: 0;
+    left: 0;
     bottom: 0;
-    font-size: 11px;
   }
 
   > .error,
   > .info {
-    line-height: 30px;
+    transform: translate(0, 100%);
+    padding: 0 $form-field-horizontal-padding;
   }
 
   > .tick {
@@ -49,10 +51,6 @@
 
     height: $form-field-height;
     margin-top: $form-field-padding-top;
-  }
-
-  > .info {
-    opacity: 0.7;
   }
 
   > .tick,
@@ -108,6 +106,14 @@
     display: none;
   }
 
+  > .status {
+    position: absolute;
+    right: $form-field-horizontal-padding;
+    width: 60px;
+    transform: translate(0, -50%);
+    top: 50%;
+  }
+
   &.-value {
     > .label {
       top: 22px;
@@ -125,9 +131,10 @@
     }
   }
 
-  &.-password {
+  &.-pincode {
     > .input {
-      transition: border-color 0.3s ease 0s;
+      font-size: 21px;
+      font-family: monospace;
     }
   }
 
@@ -147,7 +154,7 @@
   }
 
   &.-white {
-    $inner-padding: 15px 20px;
+    $inner-padding: 15px $form-field-horizontal-padding;
 
     color: $white;
 
@@ -172,14 +179,10 @@
     }
   }
 
-  &.-password.-value > .input {
-    font-size: 21px;
-  }
-
   &.-error {
     &.-white {
       > .input {
-        border-bottom-color: $blush;
+        border-color: $blush;
         color: $blush;
       }
 
@@ -212,11 +215,12 @@
 
   &.-disabled {
     cursor: default;
+    $disabled-white-color: #1952d5;
+    $disabled-white-background-color: #0037b5;
 
     &.-white > .input {
-      color: #1952d5;
-      background-color: #0037b5;
-      border: none;
+      color: $disabled-white-color;
+      background-color: $disabled-white-background-color;
     }
 
     &.-gray > .input {

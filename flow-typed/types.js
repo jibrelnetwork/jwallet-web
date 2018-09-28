@@ -1,3 +1,7 @@
+/* eslint no-undef: 0 */
+/* eslint no-unused-vars: 0 */
+/* eslint flowtype/no-types-missing-file-annotation: 0 */
+
 import type { Saga } from 'redux-saga'
 
 /**
@@ -38,6 +42,7 @@ declare type DerivationPath = {
 
 declare type DerivationPaths = Array<DerivationPath>
 
+declare type strengthBarLevels = 0 | 1 | 2 | 3;
 /**
  * Networks
  */

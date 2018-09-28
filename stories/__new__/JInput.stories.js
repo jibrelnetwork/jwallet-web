@@ -11,28 +11,15 @@ const StateHOC = withState('value', 'setValue', '')
 
 storiesOf('JInput', module)
   .add('Gray text', () => (
-    <div>
+    <div className='story'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
             type='text'
             color='gray'
-            label='Some label'
             value={value}
             onChange={setValue}
-            placeholder='Enter some text'
-          />
-        )
-      ))}
-      {React.createElement(StateHOC(
-        ({ value, setValue }) => (
-          <JInput
-            type='text'
-            color='gray'
-            label='Some label'
-            value={value}
-            onChange={setValue}
-            placeholder='Enter some text'
+            placeholder='Placeholder'
           />
         )
       ))}
@@ -72,7 +59,6 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
-            isDisabled
             type='text'
             color='white'
             value={value}
@@ -84,7 +70,7 @@ storiesOf('JInput', module)
     </div>
   ))
   .add('White text with validation error', () => (
-    <div style={{ backgroundColor: '#0050DB' }}>
+    <div className='story -blue' >
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
@@ -101,7 +87,7 @@ storiesOf('JInput', module)
     </div>
   ))
   .add('White password with info message', () => (
-    <div style={{ backgroundColor: '#0050DB' }}>
+    <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
@@ -117,8 +103,8 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
-  .add('White password checked', () => (
-    <div style={{ backgroundColor: '#0050DB' }}>
+  .add('White password with password status bar', () => (
+    <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
@@ -126,7 +112,7 @@ storiesOf('JInput', module)
             label='Some label'
             color='white'
             value={value}
-            checked
+            passwordStrength='0'
             onChange={setValue}
             placeholder='Enter some text'
           />
@@ -134,8 +120,23 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
+  .add('White pin code', () => (
+    <div className='story -blue'>
+      {React.createElement(StateHOC(
+        ({ value, setValue }) => (
+          <JInput
+            isPinCode
+            type='password'
+            color='white'
+            value={value}
+            onChange={setValue}
+          />
+        )
+      ))}
+    </div>
+  ))
   .add('White multiline', () => (
-    <div style={{ backgroundColor: '#0050DB' }}>
+    <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput

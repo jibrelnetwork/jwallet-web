@@ -20,14 +20,10 @@ h3 {
   margin: 10px 0;
 }
 
-
-/**
- * Stories
- */
-
 .story {
   padding: 20px;
   height: 100%;
+  background-color: #f5f6fa;
 }
 
 .story.-blue {

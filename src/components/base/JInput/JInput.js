@@ -4,6 +4,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
+import JStrengthBar from 'components/base/JStrengthBar'
 
 const JInput = ({
   onChange,
@@ -16,12 +17,14 @@ const JInput = ({
   helpMessage,
   infoMessage,
   errorMessage,
+  passwordStrength,
   isLoading,
   isChecked,
   isDisabled,
-  hasLabel,
+  isPinCode,
 }: Props) => {
   const labelOrPlaceholder = label || placeholder
+  const hasTopLabel = color === 'gray' && labelOrPlaceholder
 
   return (
     <div
@@ -34,7 +37,9 @@ const JInput = ({
         isChecked && '-checked',
         errorMessage && '-error',
         isDisabled && '-disabled',
-        hasLabel && '-has-label',
+        hasTopLabel && '-has-label',
+        !!passwordStrength && '-has-status-bar',
+        isPinCode && '-pincode',
       )}
     >
       <input
@@ -44,9 +49,11 @@ const JInput = ({
         name={name}
         value={value}
         disabled={isDisabled}
-        placeholder={i18n(placeholder) || placeholder}
+        placeholder={placeholder && i18n(placeholder)}
       />
-      {hasLabel && <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>}
+
+      {passwordStrength && <JStrengthBar strength={passwordStrength} className='status' />}
+      {hasTopLabel && <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>}
       {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
       {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
       <div className='tick' />
@@ -65,13 +72,14 @@ type Props = {
   helpMessage: ?string,
   infoMessage: ?string,
   errorMessage: ?string,
+  passwordStrength: strengthBarLevels,
   value: string | number,
   color: 'gray' | 'white',
   type: 'text' | 'password',
   isLoading: boolean,
   isChecked: boolean,
   isDisabled: boolean,
-  hasLabel: boolean,
+  isPinCode: boolean,
 }
 
 JInput.defaultProps = {
@@ -81,10 +89,11 @@ JInput.defaultProps = {
   helpMessage: null,
   infoMessage: null,
   errorMessage: null,
+  passwordStatus: null,
   isLoading: false,
   isChecked: false,
   isDisabled: false,
-  hasLabel: false,
+  isPinCode: false,
 }
 
 export default JInput

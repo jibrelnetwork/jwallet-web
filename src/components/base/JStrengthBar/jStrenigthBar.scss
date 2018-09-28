@@ -1,0 +1,42 @@
+$bar-height: 6px;
+$bar-steps: 4;
+$bar-full-width: 100%;
+
+.j-strength-bar {
+  height: $bar-height;
+  border-radius: 4px;
+  background-color: rgba($white, 0.2);
+  width: 100%;
+  position: relative;
+
+  &::after {
+    content: '';
+    height: $bar-height;
+    position: absolute;
+    border-radius: 4px;
+    left: 0;
+    right: 0;
+    width: 0;
+    transition: width 0.3s ease 0s, background 0.3s ease 0s;
+  }
+
+  &.-level-0::after {
+    background-color: $blush;
+    width: ($bar-full-width / $bar-steps) * 1;
+  }
+
+  &.-level-1::after {
+    background-color: $faded-orange;
+    width: ($bar-full-width / $bar-steps) * 2;
+  }
+
+  &.-level-2::after {
+    background-color: $yellowish;
+    width: ($bar-full-width / $bar-steps) * 3;
+  }
+
+  &.-level-3::after {
+    background-color: $soft-green;
+    width: ($bar-full-width / $bar-steps) * 4;
+  }
+}
