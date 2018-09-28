@@ -106,12 +106,14 @@ JInput.defaultProps = {
 
 function InputElement(props) {
   const textareaProps = Object.assign({}, props)
+  const inputProps = Object.assign({}, props)
 
   /* eslint fp/no-delete: 0 */
   delete textareaProps.type
   delete textareaProps.isMultiline
+  delete inputProps.isMultiline
 
-  return props.isMultiline ? <textarea {...textareaProps} /> : <input {...props} />
+  return props.isMultiline ? <textarea {...textareaProps} /> : <input {...inputProps} />
 }
 
 

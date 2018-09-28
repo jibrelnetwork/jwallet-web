@@ -8,26 +8,27 @@
   cursor: inherit;
 
   > .label {
+    @include font(1.36, 11px);
+
     position: absolute;
-    top: 50px;
-    left: 0;
-    text-transform: uppercase;
-    font-size: 11px;
+    top: 50%;
+    left: $form-field-horizontal-padding;
     visibility: hidden;
     opacity: 0;
+    transform: translate(0, -50%);
     transition: opacity 0.3s ease 0s, top 0.3s ease 0s;
   }
 
   > .input {
     @include flex-row;
-    @include font(1.15);
+    @include font(1.35, 14px);
 
     width: 100%;
     padding-top: 0;
     background: inherit;
     border-radius: $border-radius;
     font-weight: normal;
-    transition: color 0.3s ease 0s, border 0.3s ease 0s, opacity 0.3s ease 0s, background 0.3s ease 0s;
+    transition: color 0.3s ease 0s, border 0.3s ease 0s, opacity 0.3s ease 0s, background 0.3s ease 0s, box-shadow 0.3s ease 0s;
   }
 
   > .error,
@@ -108,16 +109,18 @@
 
   > .status {
     position: absolute;
-    right: $form-field-horizontal-padding;
     width: 60px;
     transform: translate(0, -50%);
+    right: $form-field-white-horizontal-padding;
     top: 50%;
   }
 
   &.-value {
     > .label {
-      top: 22px;
+      top: 14px;
       visibility: visible;
+      opacity: 0.5;
+      transform: translate(0, 0);
     }
 
     > .input {
@@ -140,42 +143,67 @@
 
   &.-gray {
     color: $dusk;
+    background-color: $white;
 
     > .input {
-      border: none;
+      border: solid 1px #e1e4e8;
+      border-radius: $border-radius;
       color: $dusk;
       opacity: 1;
-
-      &::placeholder {
-        color: $dusk;
-        opacity: 0.7;
-      }
+      padding: 22px $box-horizontal-padding 23px;
+      box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
     }
   }
 
   &.-white {
-    $inner-padding: 15px $form-field-horizontal-padding;
-
     color: $white;
 
-    > .input {
+    > .status {
+      right: $form-field-white-horizontal-padding;
+    }
+  }
+
+  &.-white > .input {
+    $inner-padding: 15px $form-field-white-horizontal-padding;
+
+    color: $white;
+    padding: $inner-padding;
+    border: 1px solid $blue-two;
+
+    &::placeholder {
+      color: $blue-bright;
+    }
+
+    &:hover {
+      border-color: $blue-bright;
       color: $white;
-      padding: $inner-padding;
-      border: 1px solid $blue-two;
+    }
 
-      &::placeholder {
-        color: $blue-bright;
-      }
+    &:active,
+    &:focus {
+      border-color: $blue-pale-bright;
+    }
+  }
+  /* stylelint-disable */
+  &.-gray > .input {
+    &::placeholder {
+      color: $dusk;
+      opacity: 0.6;
+    }
 
-      &:hover {
-        border-color: $blue-bright;
-        color: $white;
-      }
+    &:hover {
+      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+    }
 
-      &:active,
-      &:focus {
-        border-color: $blue-pale-bright;
-      }
+    &:active,
+    &:focus {
+      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+    }
+  }
+  /* stylelint-enable */
+  &.-gray.-value {
+    > .input {
+      padding: 31px $box-horizontal-padding 14px;
     }
   }
 

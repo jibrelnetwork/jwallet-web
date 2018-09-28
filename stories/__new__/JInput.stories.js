@@ -26,19 +26,19 @@ storiesOf('JInput', module)
     </div>
   ))
   .add('Gray text disabled', () => (
-    <div>
+    <div className='story'>
       <JInput
         type='text'
         color='gray'
         label='Some label'
         value='Some text'
-        disabled
+        isDisabled
         placeholder='Enter some text'
       />
     </div>
   ))
   .add('Gray text with validation error', () => (
-    <div>
+    <div className='story'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput

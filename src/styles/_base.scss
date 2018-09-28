@@ -8,6 +8,7 @@
  * Base
  */
 $border-radius: 3px;
+$box-horizontal-padding: 15px;
 
 /**
  * Font
@@ -30,7 +31,8 @@ $menu-panel-width: 200px;
 $form-width: 480px;
 $form-field-height: 80px;
 $form-field-padding-top: 16px;
-$form-field-horizontal-padding: 20px;
+$form-field-horizontal-padding: $box-horizontal-padding;
+$form-field-white-horizontal-padding: 20px;
 $form-field-full-height: ($form-field-height + $form-field-padding-top);
 
 /**
