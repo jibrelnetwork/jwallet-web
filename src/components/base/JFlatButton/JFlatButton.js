@@ -9,18 +9,17 @@ const JFlatButton = ({
   onClick,
   label,
   color,
+  isLink,
   iconName,
   iconSize,
   iconColor,
-  isOpaque,
   isLoading,
   isDisabled,
-  isTransparent,
 }: Props) => {
   if (isLoading) {
     return (
-      <div className='j-flat-button -loading'>
-        <JLoader color='white' />
+      <div className={classNames('j-flat-button -loading', `-${color}`)}>
+        <JLoader color={color} />
       </div>
     )
   }
@@ -30,10 +29,10 @@ const JFlatButton = ({
       onClick={isDisabled ? null : onClick}
       className={classNames(
         'j-flat-button',
+        `-${color}`,
+        isLink && '-link',
         label && '-label',
-        isOpaque && '-opaque',
         isDisabled && '-disabled',
-        isTransparent && '-transparent',
       )}
     >
       {iconName && (
@@ -55,10 +54,9 @@ type Props = {
  iconName: ?string,
  iconSize: 'small' | 'medium',
  iconColor: 'blue' | 'gray' | 'sky' | 'white',
- isOpaque: boolean,
+ isLink: boolean,
  isLoading: boolean,
  isDisabled: boolean,
- isTransparent: boolean,
 }
 
 JFlatButton.defaultProps = {
@@ -67,10 +65,9 @@ JFlatButton.defaultProps = {
   iconName: null,
   iconSize: 'small',
   iconColor: 'white',
-  isOpaque: false,
+  isLink: false,
   isLoading: false,
   isDisabled: false,
-  isTransparent: false,
 }
 
 export default JFlatButton
