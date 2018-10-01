@@ -26,6 +26,7 @@ class JFlatButton extends PureComponent<Props, *> {
     iconColor: 'white',
     isLoading: false,
     isDisabled: false,
+    isLink: false,
   }
 
   render() {
