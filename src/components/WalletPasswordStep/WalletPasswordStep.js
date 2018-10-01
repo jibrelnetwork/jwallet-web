@@ -63,6 +63,7 @@ const WalletPasswordStep = ({
       <JRaisedButton
         onClick={onSubmit}
         color='blue'
+        loaderColor='white'
         label='Create wallet'
         isLoading={isLoading}
         isWide

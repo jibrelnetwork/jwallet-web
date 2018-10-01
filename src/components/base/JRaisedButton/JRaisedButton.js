@@ -2,9 +2,25 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import handle from 'utils/eventHandlers/handle'
 
+import handle from 'utils/eventHandlers/handle'
 import { JIcon, JText, JLoader } from 'components/base'
+
+type Props = {
+  onClick: Function,
+  onHover: Function,
+  label: string,
+  iconName: ?string,
+  color: 'blue' | 'white',
+  iconColor: 'blue' | 'white',
+  iconSize: 'small' | 'medium',
+  labelColor: 'blue' | 'white',
+  loaderColor: 'blue' | 'white',
+  isWide: boolean,
+  isLoading: boolean,
+  isHovered: boolean,
+  isDisabled: boolean,
+}
 
 const JRaisedButton = ({
   onClick,
@@ -17,21 +33,20 @@ const JRaisedButton = ({
   labelColor,
   loaderColor,
   isWide,
-  isDisabled,
   isLoading,
   isHovered,
+  isDisabled,
 }: Props) => {
   const buttonClassName = classNames(
     `j-raised-button -${color}`,
     isWide && '-wide',
+    isLoading && '-loading',
     isDisabled && '-disabled',
   )
 
-  const labelColorHovered = labelColor === 'blue' ? 'white' : 'white'
-
   if (isLoading) {
     return (
-      <div className={`${buttonClassName} -loading`}>
+      <div className={buttonClassName}>
         <JLoader color={loaderColor} />
       </div>
     )
@@ -39,9 +54,9 @@ const JRaisedButton = ({
 
   return (
     <div
-      onClick={isDisabled ? null : onClick}
       onMouseEnter={handle(onHover)(true)}
       onMouseLeave={handle(onHover)(false)}
+      onClick={isDisabled ? undefined : onClick}
       className={buttonClassName}
     >
       {iconName && (
@@ -50,26 +65,10 @@ const JRaisedButton = ({
         </div>
       )}
       <div className='label'>
-        <JText value={label} color={isHovered ? labelColorHovered : labelColor} weight='bold' />
+        <JText value={label} color={isHovered ? 'white' : labelColor} weight='bold' />
       </div>
     </div>
   )
-}
-
-type Props = {
- onClick: Function,
- onHover: Function,
- label: string,
- iconName: ?string,
- color: 'blue' | 'white',
- iconColor: 'blue' | 'white',
- iconSize: 'small' | 'medium',
- labelColor: 'blue' | 'white',
- loaderColor: 'blue' | 'white',
- isWide: boolean,
- isDisabled: boolean,
- isLoading: boolean,
- isHovered: boolean,
 }
 
 export default JRaisedButton

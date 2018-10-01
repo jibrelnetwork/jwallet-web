@@ -34,6 +34,7 @@ const WalletNameStep = ({
         onClick={onSubmit}
         color='blue'
         label='Next step'
+        loaderColor='white'
         isLoading={isLoading}
         isWide
       />
