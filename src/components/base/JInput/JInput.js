@@ -1,62 +1,12 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
-const JInput = ({
-  onChange,
-  type,
-  name,
-  value,
-  color,
-  label,
-  placeholder,
-  helpMessage,
-  infoMessage,
-  errorMessage,
-  isLoading,
-  isChecked,
-  isDisabled,
-}: Props) => {
-  const labelOrPlaceholder = label || placeholder
-
-  return (
-    <div
-      className={classNames(
-        `j-input -${type} -${color}`,
-        !!value && '-value',
-        infoMessage && '-info',
-        helpMessage && '-help',
-        isLoading && '-loading',
-        isChecked && '-checked',
-        errorMessage && '-error',
-        isDisabled && '-disabled',
-      )}
-    >
-      <input
-        onChange={handleTargetValue(onChange)}
-        className='input'
-        type={type}
-        name={name}
-        value={value}
-        disabled={isDisabled}
-        placeholder={i18n(placeholder) || placeholder}
-      />
-      <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>
-      {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
-      {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
-      <div className='tick' />
-      <div className='loader' />
-      <div className='lock'><div className='icon' /></div>
-      <div className='help'><div className='icon' /></div>
-    </div>
-  )
-}
-
 type Props = {
-  onChange: Function,
+  onChange: ?((string) => void),
   name: ?string,
   label: string,
   placeholder: string,
@@ -71,16 +21,71 @@ type Props = {
   isDisabled: boolean,
 }
 
-JInput.defaultProps = {
-  name: '',
-  type: 'text',
-  color: 'white',
-  helpMessage: null,
-  infoMessage: null,
-  errorMessage: null,
-  isLoading: false,
-  isChecked: false,
-  isDisabled: false,
+class JInput extends PureComponent<Props, *> {
+  static defaultProps = {
+    name: '',
+    type: 'text',
+    color: 'white',
+    label: '',
+    onChange: null,
+    helpMessage: null,
+    infoMessage: null,
+    errorMessage: null,
+    isLoading: false,
+    isChecked: false,
+    isDisabled: false,
+  }
+
+  render() {
+    const {
+      onChange,
+      type,
+      name,
+      value,
+      color,
+      label,
+      placeholder,
+      helpMessage,
+      infoMessage,
+      errorMessage,
+      isLoading,
+      isChecked,
+      isDisabled,
+    } = this.props
+    const labelOrPlaceholder = label || placeholder
+
+    return (
+      <div
+        className={classNames(
+          `j-input -${type} -${color}`,
+          !!value && '-value',
+          infoMessage && '-info',
+          helpMessage && '-help',
+          isLoading && '-loading',
+          isChecked && '-checked',
+          errorMessage && '-error',
+          isDisabled && '-disabled',
+        )}
+      >
+        <input
+          onChange={onChange ? handleTargetValue(onChange) : undefined}
+          className='input'
+          type={type}
+          name={name}
+          value={value}
+          disabled={isDisabled}
+          placeholder={i18n(placeholder) || placeholder}
+        />
+        <div className='label'>{i18n(labelOrPlaceholder) || labelOrPlaceholder}</div>
+        {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
+        {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
+        <div className='tick' />
+        <div className='loader' />
+        <div className='lock'><div className='icon' /></div>
+        <div className='help'><div className='icon' /></div>
+      </div>
+    )
+  }
 }
 
 export default JInput

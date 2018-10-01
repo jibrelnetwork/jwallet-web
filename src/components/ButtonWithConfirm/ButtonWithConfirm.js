@@ -41,9 +41,9 @@ const ButtonWithConfirm = ({
 )
 
 type Props = {
-  toggle: Function,
-  onClick: Function,
-  setHovered: Function,
+  toggle: (boolean) => void,
+  onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  setHovered: (boolean) => void,
   label: string,
   labelCancel: string,
   labelConfirm: string,

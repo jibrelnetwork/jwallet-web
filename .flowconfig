@@ -1,4 +1,7 @@
 [ignore]
+.*/build/.*
+.*/src/static/.*
+.*/src/styles/.*
 
 [include]
 
@@ -7,5 +10,21 @@
 [lints]
 
 [options]
-module.name_mapper.extension='scss' -> 'identity-obj-proxy'
+esproposal.decorators=ignore
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+
+module.name_mapper='.*\(.s?css\)' -> 'CSSModule'
+module.name_mapper='.*\(.yaml\)' -> 'empty/object'
+module.name_mapper='.*\(.svg\)' -> 'empty/object'
 module.name_mapper='^\([^.].*\)' -> '<PROJECT_ROOT>/src/\1'
+
+module.file_ext=.js
+module.file_ext=.json
+module.file_ext=.jsx
+module.file_ext=.css
+module.file_ext=.scss
+module.file_ext=.yaml
+module.file_ext=.svg

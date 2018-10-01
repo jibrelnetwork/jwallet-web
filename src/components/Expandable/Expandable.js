@@ -32,7 +32,7 @@ const Expandable = ({
           <JIcon
             color={isHovered ? hoverColor : color}
             name={isOpen ? iconNameOpened : iconNameClosed}
-            Size='small'
+            size='small'
           />
         </div>
         <div className='text'>
@@ -51,7 +51,7 @@ const Expandable = ({
 type Props = {
   toggle: Function,
   setHovered: Function,
-  children: ?Object,
+  children: ?React$Node,
   title: string,
   iconNameOpened: string,
   iconNameClosed: string,

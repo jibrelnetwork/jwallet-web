@@ -72,16 +72,4 @@ type Props = {
  isHovered: boolean,
 }
 
-JRaisedButton.defaultProps = {
-  color: 'white',
-  iconName: null,
-  iconSize: 'small',
-  iconColor: 'white',
-  labelColor: 'white',
-  loaderColor: 'white',
-  isWide: false,
-  isDisabled: false,
-  isLoading: false,
-}
-
 export default JRaisedButton

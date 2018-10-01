@@ -3,18 +3,23 @@
 import config from 'config'
 import storage from 'services/storage'
 
-function getCurrentLanguageCode(): LanguageCode {
-  const i18nLangFromQuery: ?LanguageCode = (/lang=([a-z]{2})/ig.exec(window.location.href) || [])[1]
-  const i18nLangFromStorage: ?LanguageCode = storage.getI18n()
-  const i18nLang: ?LanguageCode = i18nLangFromQuery || i18nLangFromStorage
+function getCurrentLanguageCode(): string {
+  const i18nLangFromQuery: string = (/lang=([a-z]{2})/ig.exec(window.location.href) || [])[1]
+  const i18nLangFromStorage: string = storage.getI18n()
 
-  if (!i18nLang) {
-    return 'en'
+  const { supportedLanguages } = config
+  const isSupportedFromQuery = supportedLanguages.includes(i18nLangFromQuery)
+  const isSupportedFromStorage = supportedLanguages.includes(i18nLangFromStorage)
+
+  if (isSupportedFromQuery) {
+    return i18nLangFromQuery
   }
 
-  const isLangSupported: boolean = config.supportedLanguages.includes(i18nLang)
+  if (isSupportedFromStorage) {
+    return i18nLangFromStorage
+  }
 
-  return isLangSupported ? i18nLang : 'en'
+  return 'en'
 }
 
 export default getCurrentLanguageCode
