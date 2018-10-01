@@ -51,7 +51,7 @@ class JFlatButton extends PureComponent<Props, *> {
 
     return (
       <div
-        onClick={isDisabled ? null : onClick}
+        onClick={isDisabled ? undefined : onClick}
         className={classNames(
           'j-flat-button',
           `-${color}`,
