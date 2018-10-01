@@ -11,7 +11,7 @@ const JLoader = ({ color }: Props) => (
 )
 
 type Props = {
-  color: 'blue' | 'gray' | 'white',
+  color: 'blue' | 'gray' | 'white' | 'sky',
 }
 
 export default JLoader

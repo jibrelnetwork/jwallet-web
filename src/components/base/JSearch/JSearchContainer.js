@@ -28,7 +28,7 @@ export default compose(
     ({ value }: { value: string }): ComponentState => ({
       query: value,
       // @TODO: flow fails here
-      timerId: 0,
+      timerId: 0, // $FlowIssue
       isActive: false,
     }),
     {

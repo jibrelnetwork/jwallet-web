@@ -7,29 +7,25 @@ import { JIcon, JLoader, JText } from 'components/base'
 
 type Props = {
   onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  label?: ?string,
-  color?: 'blue' | 'gray' | 'sky' | 'white',
-  iconName?: ?string,
-  iconSize?: 'small' | 'medium',
-  iconColor?: 'blue' | 'gray' | 'sky' | 'white',
-  isOpaque?: boolean,
-  isLoading?: boolean,
-  isDisabled?: boolean,
-  isTransparent?: boolean
+  label: ?string,
+  color: 'blue' | 'gray' | 'sky' | 'white',
+  iconName: ?string,
+  iconSize: 'small' | 'medium',
+  iconColor: 'blue' | 'gray' | 'sky' | 'white',
+  isLink: boolean,
+  isLoading: boolean,
+  isDisabled: boolean,
 }
 
 class JFlatButton extends PureComponent<Props, *> {
   static defaultProps = {
     text: null,
-    label: null,
     color: 'white',
     iconName: null,
     iconSize: 'small',
     iconColor: 'white',
-    isOpaque: false,
     isLoading: false,
     isDisabled: false,
-    isTransparent: false,
   }
 
   render() {
@@ -37,35 +33,34 @@ class JFlatButton extends PureComponent<Props, *> {
       onClick,
       label,
       color,
+      isLink,
       iconName,
       iconSize,
       iconColor,
-      isOpaque,
       isLoading,
       isDisabled,
-      isTransparent,
     } = this.props
 
     if (isLoading) {
       return (
-        <div className='j-flat-button -loading'>
-          <JLoader color='white' />
+        <div className={classNames('j-flat-button -loading', `-${color}`)}>
+          <JLoader color={color} />
         </div>
       )
     }
 
     return (
       <div
-        onClick={isDisabled ? undefined : onClick}
+        onClick={isDisabled ? null : onClick}
         className={classNames(
           'j-flat-button',
+          `-${color}`,
+          isLink && '-link',
           label && '-label',
-          isOpaque && '-opaque',
           isDisabled && '-disabled',
-          isTransparent && '-transparent',
         )}
       >
-        {iconName && iconSize && iconColor && (
+        {iconName && (
           <div className='icon'>
             <JIcon name={iconName} size={iconSize} color={iconColor} />
           </div>
