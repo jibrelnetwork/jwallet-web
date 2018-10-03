@@ -50,7 +50,7 @@ function configureStore(initialState = {}, history) {
   // ======================================================
   // Start workers
   // ======================================================
-  workers.forEach(worker => worker.watch(store))
+  workers.forEach(worker => worker.run(store))
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

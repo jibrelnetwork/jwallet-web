@@ -45,7 +45,7 @@ export const createRequest = (
   }))
 }
 
-export const watch = (store: { dispatch: (WalletsCreateAction) => void }) => {
+export const run = (store: { dispatch: (WalletsCreateAction) => void }) => {
   walletsWorker.onmessage = function walletsWorkerOnMessage(msg: WalletsWorkerMessage) {
     store.dispatch(msg.data)
   }
