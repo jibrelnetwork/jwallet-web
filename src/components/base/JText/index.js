@@ -1,5 +1,5 @@
 // @flow
 
-import JText from './JTextContainer'
+import JText from './JText'
 
 export default JText

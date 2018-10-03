@@ -1,5 +1,5 @@
 // @flow
 
-import JInput from './JInputContainer'
+import JInput from './JInput'
 
 export default JInput

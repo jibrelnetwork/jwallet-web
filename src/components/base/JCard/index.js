@@ -1,5 +1,5 @@
 // @flow
 
-import JCard from './JCardContainer'
+import JCard from './JCard'
 
 export default JCard

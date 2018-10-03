@@ -28,6 +28,8 @@
         { "property": "captchaExpiredCallback" }
       ]
     }],
-    "no-use-before-define": 0
+    "no-use-before-define": 0,
+    "fp/no-class": 0,
+    "react/prefer-stateless-function": 0
   }
 }

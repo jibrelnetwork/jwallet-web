@@ -7,7 +7,7 @@
 
   height: $raised-button-height;
   padding: 0 25px;
-  border-radius: 30px;
+  border-radius: 3px;
   cursor: pointer;
 
   &.-wide {
@@ -19,33 +19,55 @@
     cursor: default;
   }
 
-  &.-disabled {
-    opacity: 0.3;
+  > .label {
+    display: inline-block;
+    line-height: 1;
+    margin-bottom: -2px;
   }
 
   &.-blue {
-    box-shadow: 0 3px 6px rgba($black, 0.05);
     background-color: $blue-two;
+    box-shadow: 0 3px 6px rgba($blue, 0.33);
 
-    &:hover {
-      background-color: $bright-sky-blue;
-    }
-
-    &.-disabled:hover {
-      background-color: $blue-two;
+    &.-disabled {
+      background-color: $pale-grey;
+      box-shadow: none;
     }
   }
 
   &.-white {
     background-color: $white;
-    border: 1px solid rgba($blue, 0.5);
 
-    &:hover {
-      background-color: rgba($blue, 0.1);
+    &.-loading,
+    &.-disabled {
+      background-color: $blue-two;
     }
 
-    &.-disabled:hover {
-      background-color: $white;
+    &.-disabled {
+      > .label {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: $bright-sky-blue;
+
+    &.-blue {
+      &.-loading {
+        background-color: $blue-two;
+      }
+
+      &.-disabled {
+        background-color: $pale-grey;
+      }
+    }
+
+    &.-white {
+      &.-loading,
+      &.-disabled {
+        background-color: $blue-two;
+      }
     }
   }
 

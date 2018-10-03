@@ -1,7 +1,7 @@
 // @flow
 
-import { pure } from 'recompose'
+import { withState } from 'recompose'
 
 import JRaisedButton from './JRaisedButton'
 
-export default pure(JRaisedButton)
+export default withState('isHovered', 'onHover', false)(JRaisedButton)

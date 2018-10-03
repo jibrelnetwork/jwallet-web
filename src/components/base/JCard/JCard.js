@@ -1,26 +1,39 @@
 // @flow
 
-import React from 'react'
-
-const JCard = ({ children, title, color }: Props) => (
-  <div className={`j-card -${color}`}>
-    {title && (
-      <div className='title'>
-        {title}
-      </div>
-    )}
-    {children && (
-      <div className='content'>
-        {children}
-      </div>
-    )}
-  </div>
-)
+import React, { PureComponent } from 'react'
 
 type Props = {
-  children: ?Object,
-  title: ?string,
   color: 'blue' | 'white',
+  title: ?string,
+  children: ?React$Node,
+}
+
+class JCard extends PureComponent<Props, *> {
+  static defaultProps = {
+    // @TODO: check that the blue color is correct here
+    color: 'blue',
+    title: null,
+    children: null,
+  }
+
+  render() {
+    const { title, color, children } = this.props
+
+    return (
+      <div className={`j-card -${color}`}>
+        {title && (
+          <div className='title'>
+            {title}
+          </div>
+        )}
+        {children && (
+          <div className='content'>
+            {children}
+          </div>
+        )}
+      </div>
+    )
+  }
 }
 
 export default JCard

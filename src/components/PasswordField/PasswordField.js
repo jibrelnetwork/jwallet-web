@@ -6,14 +6,16 @@ import JInput from 'components/base/JInput'
 
 import Indicator from './Indicator'
 
-const STATUS_MESSAGE_MAP: Object = {
+type PasswordStatus = 'red' | 'orange' | 'yellow' | 'green'
+
+const STATUS_MESSAGE_MAP = {
   'red': 'Too weak',
   'orange': 'Easily cracked',
   'yellow': 'Bit weak',
   'green': 'Not bad',
 }
 
-function getInfoMessage(status: string, failedTest: string): string {
+function getInfoMessage(status: PasswordStatus, failedTest: string): string {
   return !(status && failedTest) ? '' : `${STATUS_MESSAGE_MAP[status]} (${failedTest})`
 }
 
@@ -39,7 +41,7 @@ const PasswordField = ({
       color={color}
       value={password}
       errorMessage={passwordError}
-      infoMessage={withConfirm && getInfoMessage(status, failedTest)}
+      infoMessage={withConfirm ? getInfoMessage(status, failedTest) : null}
       placeholder={passwordPlaceholder}
       type='password'
       name='password-field-password'
@@ -64,9 +66,9 @@ const PasswordField = ({
 )
 
 type Props = {
-  onChange: Function,
-  onConfirmChange: Function,
-  status: string,
+  onChange: (string) => void,
+  onConfirmChange: (string) => void,
+  status: PasswordStatus,
   password: string,
   failedTest: string,
   passwordError: string,
