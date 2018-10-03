@@ -180,7 +180,7 @@ module.exports = {
             },
           },
 
-          // SASS loader
+          // SCSS loader
           {
             test: /\.scss$/,
             include: paths.appSrc,
