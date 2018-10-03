@@ -41,6 +41,7 @@ const JInput = ({
         isDisabled && '-disabled',
         hasTopLabel && '-has-label',
         isPinCode && '-pincode',
+        isMultiline && '-multiline',
       )}
     >
       <InputElement
@@ -75,7 +76,7 @@ type Props = {
   helpMessage: ?string,
   infoMessage: ?string,
   errorMessage: ?string,
-  passwordStrength: strengthBarLevels,
+  passwordStrength: StrengthBarLevels,
   value: string | number,
   color: 'gray' | 'white',
   type: 'text' | 'password',
@@ -103,7 +104,7 @@ JInput.defaultProps = {
   isMultiline: false,
 }
 
-function InputElement(props) {
+function InputElement(props): React$Element<any> {
   const textareaProps = Object.assign({}, props)
   const inputProps = Object.assign({}, props)
 

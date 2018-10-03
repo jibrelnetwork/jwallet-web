@@ -8,7 +8,7 @@
   cursor: inherit;
 
   > .label {
-    @include font(1.36, 11px);
+    @include font(11px);
 
     position: absolute;
     top: 50%;
@@ -21,12 +21,12 @@
 
   > .input {
     @include flex-row;
-    @include font(1.35, 14px);
+    @include font(14px);
 
     width: 100%;
     padding-top: 0;
     background: inherit;
-    border-radius: $border-radius;
+    border-radius: $form-border-radius;
     font-weight: normal;
     transition: color 0.3s ease 0s, border 0.3s ease 0s, opacity 0.3s ease 0s, background 0.3s ease 0s, box-shadow 0.3s ease 0s;
   }
@@ -34,7 +34,7 @@
   > .error,
   > .info,
   > .tick {
-    @include font(2.91, 11px);
+    @include font(11px);
 
     position: absolute;
     left: 0;
@@ -44,6 +44,7 @@
   > .error,
   > .info {
     transform: translate(0, 100%);
+    bottom: -8px;
     padding: 0 $form-field-horizontal-padding;
   }
 
@@ -115,6 +116,12 @@
     top: 50%;
   }
 
+  &.-multiline {
+    > .input {
+      line-height: 1.5;
+    }
+  }
+
   &.-value {
     > .label {
       top: 14px;
@@ -146,8 +153,9 @@
     background-color: $white;
 
     > .input {
-      border: solid 1px #e1e4e8;
-      border-radius: $border-radius;
+      border: none;
+      border-bottom: solid 1px #e1e4e8;
+      border-radius: $form-border-radius;
       color: $dusk;
       opacity: 1;
       padding: 22px $box-horizontal-padding 23px;
@@ -221,7 +229,6 @@
 
     &.-gray {
       > .input {
-        border-bottom-color: $tomato;
         color: $tomato;
       }
 

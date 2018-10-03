@@ -1,6 +1,7 @@
-/* eslint no-undef: 0 */
-/* eslint no-unused-vars: 0 */
-/* eslint flowtype/no-types-missing-file-annotation: 0 */
+/* @flow */
+
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 
 import type { Saga } from 'redux-saga'
 
@@ -42,7 +43,7 @@ declare type DerivationPath = {
 
 declare type DerivationPaths = Array<DerivationPath>
 
-declare type strengthBarLevels = 0 | 1 | 2 | 3;
+declare type StrengthBarLevels = 0 | 1 | 2 | 3;
 /**
  * Networks
  */
@@ -357,3 +358,6 @@ declare type InvalidFieldError = {
   +fieldName: string,
   +message: string,
 }
+
+/* eslint-enable no-undef */
+/* eslint-enable no-unused-vars */

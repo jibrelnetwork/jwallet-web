@@ -21,7 +21,7 @@ $bar-full-width: 100%;
   }
 
   &.-level-0::after {
-    background-color: $blush;
+    background-color: $pinkish;
     width: ($bar-full-width / $bar-steps) * 1;
   }
 

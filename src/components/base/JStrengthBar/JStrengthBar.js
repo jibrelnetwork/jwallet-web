@@ -7,7 +7,7 @@ const JStrengthBar = ({ strength, className }: Props) => (
 )
 
 type Props = {
-  strength: strengthBarLevels,
+  strength: StrengthBarLevels,
   className: string,
 }
 

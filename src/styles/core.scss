@@ -5,7 +5,7 @@
     box-sizing: border-box;
   }
 
-  @mixin font($line-height: 1, $font-size: 13px) {
+  @mixin font($font-size: 13px, $line-height: 1) {
     font-family: $font;
     font-size: $font-size;
     line-height: $line-height;
