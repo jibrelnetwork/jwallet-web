@@ -12,13 +12,15 @@ import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 
+type KeyReducer = { key: string, reducer: Reducer<any, any> }
+
 const persistConfig = {
   storage,
   key: 'jwallet-web',
   whitelist: ['wallets'],
 }
 
-export function makeRootReducer(asyncReducers) {
+export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
   const rootReducer = combineReducers({
     networks,
     wallets,
@@ -31,7 +33,7 @@ export function makeRootReducer(asyncReducers) {
   return persistReducer(persistConfig, rootReducer)
 }
 
-export function injectReducer(store, { key, reducer }) {
+export function injectReducer(store: Store, { key, reducer }: KeyReducer) {
   store.replaceReducer(makeRootReducer({
     ...store.asyncReducers,
     [key]: reducer,
