@@ -1,4 +1,7 @@
+// @flow
+
 import createSagaMiddleware from 'redux-saga'
+import { persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
 
@@ -60,7 +63,9 @@ function configureStore(initialState = {}, history) {
     })
   }
 
-  return store
+  const persistor = persistStore(store)
+
+  return { store, persistor }
 }
 
 export default configureStore

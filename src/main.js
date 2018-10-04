@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
@@ -23,7 +25,7 @@ const browserHistory = createBrowserHistory()
 // react-router-redux of its location.
 const initialState = window.___INITIAL_STATE__
 
-const store = configureStore(initialState, browserHistory)
+const { store, persistor } = configureStore(initialState, browserHistory)
 
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: state => state.router,
@@ -39,7 +41,7 @@ let render = () => {
   const routes = router(store)
 
   ReactDOM.render(
-    <AppContainer store={store} history={history} routes={routes} />,
+    <AppContainer store={store} history={history} routes={routes} persistor={persistor} />,
     MOUNT_NODE
   )
 }
