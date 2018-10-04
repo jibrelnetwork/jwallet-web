@@ -33,7 +33,7 @@ const getStatus = (password: Password): {
     return { status: 'yellow', failedTest: errors[0], isApproved: false }
   }
 
-  return { status: '', failedTest: '', isApproved: true }
+  return { status: 'green', failedTest: '', isApproved: true }
 }
 
 type Props = {
