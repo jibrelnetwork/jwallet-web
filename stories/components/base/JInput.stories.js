@@ -5,7 +5,7 @@ import React from 'react'
 import { withState } from 'recompose'
 import { storiesOf } from '@storybook/react'
 
-import JInput from '../../src/components/base/JInput'
+import JInput from 'components/base/JInput'
 
 const StateHOC = withState('value', 'setValue', '')
 
@@ -25,6 +25,25 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
+
+  .add('Gray multiline', () => (
+    <div className='story'>
+      {React.createElement(StateHOC(
+        ({ value, setValue }) => (
+          <JInput
+            type='text'
+            color='gray'
+            value={value}
+            isMultiline
+            onChange={setValue}
+            placeholder='Your Address'
+            render={inputProps => <textarea {...inputProps} rows='8' />}
+          />
+        )
+      ))}
+    </div>
+  ))
+
   .add('Gray text disabled', () => (
     <div className='story'>
       <JInput
@@ -103,24 +122,8 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
-  .add('White password with password status bar', () => (
-    <div className='story -blue'>
-      {React.createElement(StateHOC(
-        ({ value, setValue }) => (
-          <JInput
-            type='password'
-            label='Some label'
-            color='white'
-            value={value}
-            passwordStrength='0'
-            onChange={setValue}
-            placeholder='Enter some text'
-          />
-        )
-      ))}
-    </div>
-  ))
-  .add('White pin code', () => (
+
+  .add('White pin code style', () => (
     <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
@@ -135,6 +138,7 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
+
   .add('White multiline', () => (
     <div className='story -blue'>
       {React.createElement(StateHOC(
@@ -145,6 +149,7 @@ storiesOf('JInput', module)
             onChange={setValue}
             isMultiline
             placeholder='Enter some text'
+            render={inputProps => <textarea {...inputProps} rows='4' />}
           />
         )
       ))}

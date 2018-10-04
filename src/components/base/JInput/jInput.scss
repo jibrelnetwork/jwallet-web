@@ -6,9 +6,10 @@
   position: relative;
   align-items: center;
   cursor: inherit;
+  margin-bottom: $form-field-margin-bottom;
 
   > .label {
-    @include font(11px);
+    @include font($form-helpers-font-size);
 
     position: absolute;
     top: 50%;
@@ -21,7 +22,7 @@
 
   > .input {
     @include flex-row;
-    @include font(14px);
+    @include font($form-field-white-font-size);
 
     width: 100%;
     padding-top: 0;
@@ -32,30 +33,16 @@
   }
 
   > .error,
-  > .info,
-  > .tick {
-    @include font(11px);
+  > .info {
+    @include font($form-helpers-font-size);
 
     position: absolute;
     left: 0;
-    bottom: 0;
-  }
-
-  > .error,
-  > .info {
-    transform: translate(0, 100%);
     bottom: -8px;
+    transform: translate(0, 100%);
     padding: 0 $form-field-horizontal-padding;
   }
 
-  > .tick {
-    @include flex-row-center;
-
-    height: $form-field-height;
-    margin-top: $form-field-padding-top;
-  }
-
-  > .tick,
   > .error {
     opacity: 1;
   }
@@ -146,6 +133,11 @@
       font-size: 21px;
       font-family: monospace;
     }
+  }
+
+  &.-error,
+  &.-info {
+    margin-bottom: 34px;
   }
 
   &.-gray {
@@ -269,23 +261,6 @@
 
     > .lock {
       display: block;
-    }
-  }
-
-  &.-checked {
-    > .tick {
-      width: $icon-small-size;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: $icon-small-size $icon-small-size;
-    }
-
-    &.-white > .tick {
-      background-image: $icon-small-checkbox-white;
-    }
-
-    &.-gray > .tick {
-      background-image: $icon-small-checkbox-blue;
     }
   }
 
