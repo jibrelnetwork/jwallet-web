@@ -1,5 +1,5 @@
 // @flow
 
-import WalletPasswordStep from './WalletPasswordStepContainer'
+import WalletPasswordStep from './WalletPasswordStep'
 
 export default WalletPasswordStep

@@ -36,8 +36,8 @@ const WalletPasswordStep = ({
       value={valuePassword}
       errorMessage={invalidFields.password}
       color='white'
+      name='wallet-password'
       placeholder='Payment password'
-      name='wallets-create-password'
     />
     {!isPasswordExists && [
       <JInput
@@ -46,8 +46,8 @@ const WalletPasswordStep = ({
         value={valuePasswordConfirm}
         errorMessage={invalidFields.passwordConfirm}
         color='white'
+        name='wallet-password-confirm'
         placeholder='Confirm payment password'
-        name='wallets-create-password-confirm'
       />,
       <JInput
         key='hint'
@@ -55,8 +55,8 @@ const WalletPasswordStep = ({
         value={valuePasswordHint}
         errorMessage={invalidFields.passwordHint}
         color='white'
+        name='wallet-password-hint'
         placeholder='Password hint'
-        name='wallets-create-password-hint'
       />,
     ]}
     <div className='actions'>
