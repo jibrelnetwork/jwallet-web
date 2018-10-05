@@ -1,5 +1,11 @@
+// @flow
+
 // flow-typed signature: 06f0287d8d023a67f819b8ed40fa6408
 // flow-typed version: 3da7434fec/recompose_v0.x.x/flow_>=v0.57.x
+
+/* eslint-disable no-unused-vars, no-redeclare, eslint-comments/no-unused-disable,
+  eslint-comments/disable-enable-pair, flowtype/no-types-missing-file-annotation,
+  no-irregular-whitespace, quotes */
 
 /**
  * 1) Types give additional constraint on a language, recompose was written on the untyped language
@@ -71,10 +77,8 @@ declare module "recompose" {
 
   declare export type Component<A> = React$ComponentType<A>;
 
-  declare export type HOC<Base, Enhanced> = UnaryFn<
-    Component<Base>,
-    Component<Enhanced>
-  >;
+  declare export type HOC<Base, Enhanced> = UnaryFn<Component<Base>,
+    Component<Enhanced>>;
 
   declare export var compose: $Compose;
 
@@ -106,14 +110,12 @@ declare module "recompose" {
   >(
     initialState: ((props: Enhanced) => State) | State,
     stateUpdaters: StateHandlers
-  ): HOC<
-    {
+  ): HOC<{
       ...$Exact<Enhanced>,
       ...$Exact<State>,
       ...$ObjMap<StateHandlers, ExtractStateHandlersCodomain>
     },
-    Enhanced
-  >;
+    Enhanced>;
 
   declare export function withHandlers<
     Enhanced,
@@ -128,13 +130,11 @@ declare module "recompose" {
         }
   >(
     handlers: ((props: Enhanced) => Handlers) | Handlers
-  ): HOC<
-    {
+  ): HOC<{
       ...$Exact<Enhanced>,
       ...$ObjMap<Handlers, ExtractHandlersCodomain>
     },
-    Enhanced
-  >;
+    Enhanced>;
 
   declare export function pure<A>(a: Component<A>): Component<A>;
   declare export function onlyUpdateForPropTypes<A>(
@@ -183,8 +183,7 @@ declare module "recompose" {
   declare export function setDisplayName<A>(displayName: string): HOC<A, A>;
 
   declare export function withPropsOnChange<BaseAdd, Enhanced>(
-    shouldMapOrKeys:
-      | ((props: Enhanced, nextProps: Enhanced) => boolean)
+    shouldMapOrKeys: | ((props: Enhanced, nextProps: Enhanced) => boolean)
       | Array<$Keys<Enhanced>>,
     propsMapper: (ownerProps: Enhanced) => BaseAdd
   ): HOC<{ ...$Exact<Enhanced>, ...BaseAdd }, Enhanced>;
@@ -293,10 +292,8 @@ declare module "recompose/withProps" {
 }
 
 declare module "recompose/withStateHandlers" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "withStateHandlers"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "withStateHandlers">;
 }
 
 declare module "recompose/withHandlers" {
@@ -308,17 +305,13 @@ declare module "recompose/pure" {
 }
 
 declare module "recompose/onlyUpdateForPropTypes" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "onlyUpdateForPropTypes"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "onlyUpdateForPropTypes">;
 }
 
 declare module "recompose/onlyUpdateForKeys" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "onlyUpdateForKeys"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "onlyUpdateForKeys">;
 }
 
 declare module "recompose/shouldUpdate" {
@@ -342,10 +335,8 @@ declare module "recompose/renderNothing" {
 }
 
 declare module "recompose/renderComponent" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "renderComponent"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "renderComponent">;
 }
 
 declare module "recompose/branch" {
@@ -361,17 +352,13 @@ declare module "recompose/setPropTypes" {
 }
 
 declare module "recompose/setDisplayName" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "setDisplayName"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "setDisplayName">;
 }
 
 declare module "recompose/withPropsOnChange" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "withPropsOnChange"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "withPropsOnChange">;
 }
 
 declare module "recompose/flattenProp" {
@@ -399,24 +386,18 @@ declare module "recompose/lifecycle" {
 }
 
 declare module "recompose/mapPropsStream" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "mapPropsStream"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "mapPropsStream">;
 }
 
 declare module "recompose/getDisplayName" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "getDisplayName"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "getDisplayName">;
 }
 
 declare module "recompose/wrapDisplayName" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "wrapDisplayName"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "wrapDisplayName">;
 }
 
 declare module "recompose/shallowEqual" {
@@ -424,24 +405,18 @@ declare module "recompose/shallowEqual" {
 }
 
 declare module "recompose/isClassComponent" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "isClassComponent"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "isClassComponent">;
 }
 
 declare module "recompose/createEagerElement" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "createEagerElement"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "createEagerElement">;
 }
 
 declare module "recompose/createEagerFactory" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "createEagerFactory"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "createEagerFactory">;
 }
 
 declare module "recompose/createSink" {
@@ -449,10 +424,8 @@ declare module "recompose/createSink" {
 }
 
 declare module "recompose/componentFromProp" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "componentFromProp"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "componentFromProp">;
 }
 
 declare module "recompose/nest" {
@@ -464,17 +437,13 @@ declare module "recompose/hoistStatics" {
 }
 
 declare module "recompose/componentFromStream" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "componentFromStream"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "componentFromStream">;
 }
 
 declare module "recompose/createEventHandler" {
-  declare module.exports: $PropertyType<
-    $Exports<"recompose">,
-    "createEventHandler"
-  >;
+  declare module.exports: $PropertyType<$Exports<"recompose">,
+    "createEventHandler">;
 }
 
 declare module "recompose/compose" {
