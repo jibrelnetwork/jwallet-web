@@ -15,10 +15,7 @@ import {
 
 import WalletsCreateView from './WalletsCreateView'
 
-const mapStateToProps = ({
-  wallets,
-  walletsCreate,
-}: State): {|
+type StateProps = {|
   +invalidFields: FormFields,
   +name: string,
   +password: string,
@@ -27,21 +24,14 @@ const mapStateToProps = ({
   +currentStep: Index,
   +isLoading: boolean,
   +isPasswordExists: boolean,
-|} => ({
+|}
+
+const mapStateToProps = ({ wallets, walletsCreate }: State): StateProps => ({
   ...walletsCreate,
   isPasswordExists: !!wallets.testPasswordData,
 })
 
-const mapDispatchToProps: {|
-  +openView: Function,
-  +closeView: Function,
-  +goToNextStep: Function,
-  +goToPrevStep: Function,
-  +changeNameInput: Function,
-  +changePasswordInput: Function,
-  +changePasswordHintInput: Function,
-  +changePasswordConfirmInput: Function,
-|} = {
+const mapDispatchToProps = {
   openView,
   closeView,
   goToNextStep,

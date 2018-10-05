@@ -8,7 +8,6 @@ import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsCreate } from 'store/stateSelectors'
 
 import { setWallets, setActiveWallet } from 'routes/Wallets/modules/wallets'
-import type { WalletsSetWalletsAction } from 'routes/Wallets/modules/wallets'
 
 import {
   STEPS,
@@ -86,7 +85,7 @@ function* createError(action: { payload: Error }): Saga<void> {
   yield put(setInvalidField('password', action.payload.message))
 }
 
-function* createSuccess(action: WalletsSetWalletsAction): Saga<void> {
+function* createSuccess(action: ExtractReturn<typeof setWallets>): Saga<void> {
   const { payload } = action
 
   yield put(setWallets(payload))
@@ -97,26 +96,26 @@ function* createSuccess(action: WalletsSetWalletsAction): Saga<void> {
   yield put(setActiveWallet(createdWallet.id))
 }
 
-export function* openView(): Saga<void> {
+function* openView(): Saga<void> {
   yield put(clean())
 }
 
-export function* closeView(): Saga<void> {
+function* closeView(): Saga<void> {
   yield delay(config.delayBeforeFormClean)
   yield put(clean())
 }
 
-export function* setNextStep(): Saga<void> {
+function* setNextStep(): Saga<void> {
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case STEPS.NAME: {
-      yield checkName()
+      yield* checkName()
       break
     }
 
     case STEPS.PASSWORD: {
-      yield create()
+      yield* create()
       break
     }
 
@@ -133,17 +132,17 @@ function* goToWalletsCreateNameStep(): Saga<void> {
   yield put(setCurrentStep(STEPS.NAME))
 }
 
-export function* setPrevStep(): Saga<void> {
+function* setPrevStep(): Saga<void> {
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case STEPS.NAME: {
-      yield goToWalletsStartView()
+      yield* goToWalletsStartView()
       break
     }
 
     case STEPS.PASSWORD: {
-      yield goToWalletsCreateNameStep()
+      yield* goToWalletsCreateNameStep()
       break
     }
 
@@ -152,34 +151,13 @@ export function* setPrevStep(): Saga<void> {
   }
 }
 
-export function* watchWalletsCreateOpenView(): Saga<void> {
+export function* walletsCreateRootSaga(): Saga<void> {
   yield takeEvery(OPEN_VIEW, openView)
-}
-
-export function* watchWalletsCreateCloseView(): Saga<void> {
   yield takeEvery(CLOSE_VIEW, closeView)
-}
-
-export function* watchCreateWalletSetNextStep(): Saga<void> {
   yield takeEvery(GO_TO_NEXT_STEP, setNextStep)
-}
-
-export function* watchCreateWalletSetPrevStep(): Saga<void> {
   yield takeEvery(GO_TO_PREV_STEP, setPrevStep)
-}
-
-export function* watchCreateWalletCheckNameSuccess(): Saga<void> {
   yield takeEvery(CHECK_NAME_SUCCESS, checkNameSuccess)
-}
-
-export function* watchCreateWalletCheckNameError(): Saga<void> {
   yield takeEvery(CHECK_NAME_ERROR, checkNameError)
-}
-
-export function* watchCreateWalletCreateSuccess(): Saga<void> {
   yield takeEvery(CREATE_SUCCESS, createSuccess)
-}
-
-export function* watchCreateWalletCreateError(): Saga<void> {
   yield takeEvery(CREATE_ERROR, createError)
 }

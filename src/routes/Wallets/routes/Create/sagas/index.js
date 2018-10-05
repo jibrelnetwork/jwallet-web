@@ -1,23 +1,9 @@
 // @flow
 
 import {
-  watchWalletsCreateOpenView,
-  watchWalletsCreateCloseView,
-  watchCreateWalletSetNextStep,
-  watchCreateWalletSetPrevStep,
-  watchCreateWalletCreateError,
-  watchCreateWalletCreateSuccess,
-  watchCreateWalletCheckNameError,
-  watchCreateWalletCheckNameSuccess,
+  walletsCreateRootSaga,
 } from './walletsCreate'
 
 export default {
-  watchWalletsCreateOpenView,
-  watchWalletsCreateCloseView,
-  watchCreateWalletSetNextStep,
-  watchCreateWalletSetPrevStep,
-  watchCreateWalletCreateError,
-  watchCreateWalletCreateSuccess,
-  watchCreateWalletCheckNameError,
-  watchCreateWalletCheckNameSuccess,
+  walletsCreateRootSaga,
 }
