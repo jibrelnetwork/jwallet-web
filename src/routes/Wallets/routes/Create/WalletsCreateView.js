@@ -24,7 +24,7 @@ type Props = {|
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  +currentStep: number,
+  +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}

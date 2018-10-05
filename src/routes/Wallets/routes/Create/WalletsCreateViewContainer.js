@@ -21,7 +21,7 @@ type StateProps = {|
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  +currentStep: Index,
+  +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}
