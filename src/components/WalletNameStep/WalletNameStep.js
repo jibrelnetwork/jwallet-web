@@ -27,7 +27,7 @@ const WalletNameStep = ({
       errorMessage={invalidFields.name}
       color='white'
       placeholder='Wallet name'
-      name='wallets-create-name'
+      name='wallet-name'
     />
     <div className='actions'>
       <JRaisedButton
