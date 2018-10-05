@@ -14,6 +14,7 @@ import DigitalAssets from './DigitalAssets'
 import DerivationPath from './DerivationPath'
 import MnemonicPhrase from './MnemonicPhrase'
 import OverlayActions from './OverlayActions'
+import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
 import RoundIconButton from './RoundIconButton'
 import ButtonWithConfirm from './ButtonWithConfirm'
@@ -35,6 +36,7 @@ export {
   DerivationPath,
   MnemonicPhrase,
   OverlayActions,
+  WalletDataStep,
   WalletNameStep,
   RoundIconButton,
   ActiveAssetsPanel,
