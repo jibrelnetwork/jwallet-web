@@ -1,6 +1,9 @@
 // @flow
 
-import type { WalletsSetWalletsActionPayload } from 'routes/Wallets/modules/wallets'
+import type {
+  WalletsCreateRequestPayload,
+  WalletsSetWalletsActionPayload,
+} from 'routes/Wallets/modules/wallets'
 
 /* eslint-disable max-len */
 export const GO_TO_START_VIEW: '@@walletsCreate/GO_TO_START_VIEW' = '@@walletsCreate/GO_TO_START_VIEW'
@@ -38,7 +41,7 @@ export const SET_INVALID_FIELD: '@@walletsImport/SET_INVALID_FIELD' = '@@wallets
 export const CLEAN: '@@walletsImport/CLEAN' = '@@walletsImport/CLEAN'
 /* eslint-enable max-len */
 
-export const STEPS = {
+export const STEPS: WalletsImportSteps = {
   NAME: 0,
   DATA: 1,
   PASSWORD: 2,
@@ -137,7 +140,7 @@ export function goToPrevStep() {
   }
 }
 
-export function setCurrentStep(currentStep: WalletsCreateStepIndex) {
+export function setCurrentStep(currentStep: WalletsImportStepIndex) {
   return {
     type: SET_CURRENT_STEP,
     payload: {
@@ -172,19 +175,23 @@ export function checkNameRequest(wallets: Wallets, name: string) {
   }
 }
 
-export function checkDataError(message: string) {
+export function checkDataError(dataErrMessage: ?string, derivationPathErrMessage: ?string) {
   return {
     type: CHECK_DATA_ERROR,
     payload: {
-      message,
+      dataErrMessage,
+      derivationPathErrMessage,
     },
     error: true,
   }
 }
 
-export function checkDataSuccess() {
+export function checkDataSuccess(walletType: WalletCustomType) {
   return {
     type: CHECK_DATA_SUCCESS,
+    payload: {
+      walletType,
+    },
   }
 }
 
@@ -216,7 +223,7 @@ export function importSuccess(payload: WalletsSetWalletsActionPayload) {
   }
 }
 
-export function importRequest(payload: WalletsCreateCreateRequestPayload) {
+export function importRequest(payload: WalletsCreateRequestPayload) {
   return {
     type: IMPORT_REQUEST,
     payload,
@@ -273,12 +280,13 @@ const initialState: WalletsImportState = {
   passwordHint: '',
   derivationPath: '',
   passwordConfirm: '',
+  walletType: 'address',
   currentStep: STEPS.NAME,
   isLoading: false,
 }
 
 const walletsImport = (
-  state: ImportWalletData = initialState,
+  state: WalletsImportState = initialState,
   action: WalletsImportAction,
 ): WalletsImportAction => {
   switch (action.type) {
@@ -356,12 +364,27 @@ const walletsImport = (
 
     case IMPORT_ERROR:
     case IMPORT_SUCCESS:
-    case CHECK_DATA_ERROR:
-    case CHECK_DATA_SUCCESS:
     case CHECK_NAME_ERROR:
     case CHECK_NAME_SUCCESS:
       return {
         ...state,
+        isLoading: false,
+      }
+
+    case CHECK_DATA_ERROR:
+      return {
+        ...state,
+        invalidFields: {
+          ...state.invalidFields,
+          data: action.payload.dataErrMessage,
+          derivationPath: action.payload.derivationPathErrMessage,
+        },
+      }
+
+    case CHECK_DATA_SUCCESS:
+      return {
+        ...state,
+        walletType: action.payload.walletType,
         isLoading: false,
       }
 
