@@ -1,24 +1,21 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 
-const CoreLayout = ({
-  children,
-}: Props) => (
-  <div className='core-layout'>
-    {children}
-  </div>
-)
+import type { Node } from 'react'
 
-type Props = {
-  isNetworksInited: boolean,
-  isWalletsInited: boolean,
-  isDigitalAssetsInited: boolean,
-  children?: Object,
-}
+type Props = {|
+  +children: Node,
+|}
 
-CoreLayout.defaultProps = {
-  children: null,
+class CoreLayout extends PureComponent<Props> {
+  render() {
+    return (
+      <div className='core-layout'>
+        {this.props.children}
+      </div>
+    )
+  }
 }
 
 export default CoreLayout
