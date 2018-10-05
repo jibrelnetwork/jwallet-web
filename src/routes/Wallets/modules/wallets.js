@@ -1,20 +1,5 @@
 // @flow
 
-type WalletsOpenViewConstant = '@@wallets/OPEN_VIEW'
-type WalletsCloseViewConstant = '@@wallets/CLOSE_VIEW'
-type WalletsSetWalletsConstant = '@@wallets/SET_WALLETS'
-type WalletsToggleWalletConstant = '@@wallets/TOGGLE_WALLET'
-type WalletsSetActiveWalletConstant = '@@wallets/SET_ACTIVE_WALLET'
-type WalletsCleanConstant = '@@wallets/CLEAN'
-
-type WalletsOpenViewAction = {|
-  +type: WalletsOpenViewConstant,
-|}
-
-type WalletsCloseViewAction = {|
-  +type: WalletsCloseViewConstant,
-|}
-
 export type WalletsSetWalletsActionPayload = {|
   +items: Wallets,
   +testPasswordData: EncryptedData,
@@ -23,72 +8,62 @@ export type WalletsSetWalletsActionPayload = {|
   +passwordHint: string,
 |}
 
-export type WalletsSetWalletsAction = {|
-  +type: WalletsSetWalletsConstant,
-  +payload: WalletsSetWalletsActionPayload,
-|}
+export const OPEN_VIEW: '@@wallets/OPEN_VIEW' = '@@wallets/OPEN_VIEW'
+export const CLOSE_VIEW: '@@wallets/CLOSE_VIEW' = '@@wallets/CLOSE_VIEW'
+export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
+export const TOGGLE_WALLET: '@@wallets/TOGGLE_WALLET' = '@@wallets/TOGGLE_WALLET'
+export const SET_ACTIVE_WALLET: '@@wallets/SET_ACTIVE_WALLET' = '@@wallets/SET_ACTIVE_WALLET'
+export const CLEAN: '@@wallets/CLEAN' = '@@wallets/CLEAN'
 
-type WalletsToggleWalletAction = {|
-  +type: WalletsToggleWalletConstant,
-  +payload: {|
-    +toggledWalletId: WalletId,
-  |},
-|}
+export function openView() {
+  return {
+    type: OPEN_VIEW,
+  }
+}
 
-type WalletsSetActiveWalletAction = {|
-  +type: WalletsSetActiveWalletConstant,
-  +payload: {|
-    +activeWalletId: ?WalletId,
-  |},
-|}
+export function closeView() {
+  return {
+    type: CLOSE_VIEW,
+  }
+}
 
-type WalletsCleanAction = {|
-  +type: WalletsCleanConstant,
-|}
+export function setWallets(payload: WalletsSetWalletsActionPayload) {
+  return {
+    type: SET_WALLETS,
+    payload,
+  }
+}
+
+export function toggleWallet(toggledWalletId: WalletId) {
+  return {
+    type: TOGGLE_WALLET,
+    payload: {
+      toggledWalletId,
+    },
+  }
+}
+
+export function setActiveWallet(activeWalletId: ?WalletId) {
+  return {
+    type: SET_ACTIVE_WALLET,
+    payload: {
+      activeWalletId,
+    },
+  }
+}
+
+export function clean() {
+  return {
+    type: CLEAN,
+  }
+}
 
 type WalletsAction =
-  WalletsSetWalletsAction |
-  WalletsToggleWalletAction |
-  WalletsSetActiveWalletAction |
-  WalletsCleanAction
-
-export const OPEN_VIEW: WalletsOpenViewConstant = '@@wallets/OPEN_VIEW'
-export const CLOSE_VIEW: WalletsCloseViewConstant = '@@wallets/CLOSE_VIEW'
-export const SET_WALLETS: WalletsSetWalletsConstant = '@@wallets/SET_WALLETS'
-export const TOGGLE_WALLET: WalletsToggleWalletConstant = '@@wallets/TOGGLE_WALLET'
-export const SET_ACTIVE_WALLET: WalletsSetActiveWalletConstant = '@@wallets/SET_ACTIVE_WALLET'
-export const CLEAN: WalletsCleanConstant = '@@wallets/CLEAN'
-
-export const openView = (): WalletsOpenViewAction => ({
-  type: OPEN_VIEW,
-})
-
-export const closeView = (): WalletsCloseViewAction => ({
-  type: CLOSE_VIEW,
-})
-
-export const setWallets = (payload: WalletsSetWalletsActionPayload): WalletsSetWalletsAction => ({
-  type: SET_WALLETS,
-  payload,
-})
-
-export const toggleWallet = (toggledWalletId: WalletId): WalletsToggleWalletAction => ({
-  type: TOGGLE_WALLET,
-  payload: {
-    toggledWalletId,
-  },
-})
-
-export const setActiveWallet = (activeWalletId: ?WalletId): WalletsSetActiveWalletAction => ({
-  type: SET_ACTIVE_WALLET,
-  payload: {
-    activeWalletId,
-  },
-})
-
-export const clean = (): WalletsCleanAction => ({
-  type: CLEAN,
-})
+  ExtractReturn<typeof openView> |
+  ExtractReturn<typeof closeView> |
+  ExtractReturn<typeof toggleWallet> |
+  ExtractReturn<typeof setActiveWallet> |
+  ExtractReturn<typeof clean>
 
 const initialState: WalletsState = {
   items: [],
