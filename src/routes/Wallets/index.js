@@ -2,9 +2,9 @@ import WalletsLayout from 'layouts/WalletsLayout'
 
 import Start from './routes/Start'
 import Create from './routes/Create'
+import Import from './routes/Import'
 /*
 import Addresses from './routes/Addresses'
-import Import from './routes/Import'
 import Edit from './routes/Edit'
 import Backup from './routes/Backup'
 import ChangePassword from './routes/ChangePassword'
@@ -25,9 +25,9 @@ export default store => ({
   childRoutes: [
     Start(store),
     Create,
+    Import,
     /*
     Addresses(store),
-    Import(store),
     Edit(store),
     Backup(store),
     ChangePassword(store),
