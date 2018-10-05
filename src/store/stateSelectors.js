@@ -32,8 +32,8 @@ export function selectWalletsCreate(state: State): WalletsCreateState {
   return state.walletsCreate
 }
 
-export function selectImportWallet(state: State): ImportWalletData {
-  return state.importWallet
+export function selectWalletsImport(state: State): WalletsImportState {
+  return state.walletsImport
 }
 
 export function selectEditWallet(state: State): EditWalletData {
