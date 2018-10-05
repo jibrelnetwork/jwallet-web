@@ -1,16 +1,9 @@
 // @flow
 
-import type { WalletsSetWalletsActionPayload } from 'routes/Wallets/modules/wallets'
-
-type WalletsCreateCreateRequestPayload = {|
-  +wallets: Wallets,
-  +testPasswordData: ?EncryptedData,
-  +passwordOptions: ?PasswordOptionsUser | PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptionsUser | MnemonicOptions,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-|}
+import type {
+  WalletsCreateRequestPayload,
+  WalletsSetWalletsActionPayload,
+} from 'routes/Wallets/modules/wallets'
 
 /* eslint-disable max-len */
 export const GO_TO_START_VIEW: '@@walletsCreate/GO_TO_START_VIEW' = '@@walletsCreate/GO_TO_START_VIEW'
@@ -163,7 +156,7 @@ export function createSuccess(payload: WalletsSetWalletsActionPayload) {
   }
 }
 
-export function createRequest(payload: WalletsCreateCreateRequestPayload) {
+export function createRequest(payload: WalletsCreateRequestPayload) {
   return {
     type: CREATE_REQUEST,
     payload,

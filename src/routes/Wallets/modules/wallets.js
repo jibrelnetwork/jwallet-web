@@ -8,6 +8,16 @@ export type WalletsSetWalletsActionPayload = {|
   +passwordHint: string,
 |}
 
+export type WalletsCreateRequestPayload = {|
+  +wallets: Wallets,
+  +testPasswordData: ?EncryptedData,
+  +passwordOptions: ?PasswordOptionsUser | PasswordOptions,
+  +mnemonicOptions: ?MnemonicOptionsUser | MnemonicOptions,
+  +name: string,
+  +password: string,
+  +passwordHint: string,
+|}
+
 export const OPEN_VIEW: '@@wallets/OPEN_VIEW' = '@@wallets/OPEN_VIEW'
 export const CLOSE_VIEW: '@@wallets/CLOSE_VIEW' = '@@wallets/CLOSE_VIEW'
 export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
