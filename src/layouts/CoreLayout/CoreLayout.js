@@ -1,21 +1,21 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 
 import type { Node } from 'react'
+
+import 'styles/core.scss'
 
 type Props = {|
   +children: Node,
 |}
 
-class CoreLayout extends PureComponent<Props> {
-  render() {
-    return (
-      <div className='core-layout'>
-        {this.props.children}
-      </div>
-    )
-  }
+function CoreLayout({ children }: Props) {
+  return (
+    <div className='core-layout'>
+      {children}
+    </div>
+  )
 }
 
 export default CoreLayout
