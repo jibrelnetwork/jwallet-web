@@ -7,6 +7,7 @@ import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 
 import WalletFace from 'components/WalletFace'
 import WalletActions from 'components/WalletActions'
+import WalletLoading from 'components/WalletLoading'
 
 const WALLET_TYPE_ICON_MAP = {
   'address': 'binding',
@@ -20,12 +21,14 @@ type Props = {|
   // +setActiveWallet: Function,
   +walletData: Wallet,
   +toggledWalletId: ?WalletId,
+  +isLoading: boolean,
 |}
 
 const WalletCard = ({
   toggleWallet,
   walletData,
   toggledWalletId,
+  isLoading,
 }: Props) => {
   const {
     id,
@@ -41,7 +44,11 @@ const WalletCard = ({
   const iconName: string = WALLET_TYPE_ICON_MAP[customType]
 
   if (isToggled) {
-    return <WalletActions isMnemonic={isMnemonic} />
+    return <WalletActions setWalletAction={console.log} />
+  }
+
+  if (isLoading) {
+    return <WalletLoading />
   }
 
   const description: string = (!isMnemonic && address)
