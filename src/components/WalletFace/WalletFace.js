@@ -38,7 +38,8 @@ const WalletFace = ({
               iconName='dots'
               iconSize='medium'
               iconColor='white'
-              isTransparent
+              hasNotBorder
+              isHoverOpacity
             />
           </div>
         </div>
