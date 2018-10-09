@@ -16,8 +16,10 @@ import * as customAsset from 'routes/CustomAsset/modules/customAsset'
 /**
  * Wallets
  */
+/*
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as createWallet from 'routes/Wallets/routes/Create/modules/createWallet'
+*/
 import * as importWallet from 'routes/Wallets/routes/Import/modules/importWallet'
 import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
 import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
@@ -43,6 +45,7 @@ export const pushEvent = () => (next: Next) => (action: FSA) => {
       break
     }
 
+    /*
     case wallets.SET_ACTIVE_SUCCESS: {
       gtm.pushSetActiveWallet(payload.walletType)
       break
@@ -70,6 +73,7 @@ export const pushEvent = () => (next: Next) => (action: FSA) => {
 
       break
     }
+    */
 
     case importWallet.SET_CURRENT_STEP: {
       switch (payload.currentStep) {

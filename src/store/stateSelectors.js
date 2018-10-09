@@ -12,7 +12,7 @@ export function selectNetworkId(state: State): ?NetworkId {
   return state.networks.currentNetwork
 }
 
-export function selectWallets(state: State): WalletsData {
+export function selectWallets(state: State): WalletsState {
   return state.wallets
 }
 
@@ -28,8 +28,8 @@ export function selectMnemonicAddresses(state: State): MnemonicAddressesData {
   return state.mnemonicAddresses
 }
 
-export function selectCreateWallet(state: State): CreateWalletData {
-  return state.createWallet
+export function selectWalletsCreate(state: State): WalletsCreateState {
+  return state.walletsCreate
 }
 
 export function selectImportWallet(state: State): ImportWalletData {

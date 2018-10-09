@@ -1,6 +1,5 @@
 // @flow
 
-import { isEmpty } from 'ramda'
 import { push } from 'react-router-redux'
 
 import keystore from 'services/keystore'
@@ -65,11 +64,12 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
     /**
      * Wallets
      */
-    case wallets.OPEN: {
+    case wallets.OPEN_VIEW: {
       try {
-        const walletsItems: Wallets = store.getState().wallets.items
+        const walletsState: WalletsState = store.getState().wallets
+        const walletsItems: Wallets = walletsState.items
 
-        if (isEmpty(walletsItems)) {
+        if (!walletsItems.length) {
           goToLocation('/wallets/start')
         }
       } catch (err) {
@@ -81,9 +81,10 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
 
     case start.OPEN: {
       try {
-        const walletsItems: Wallets = store.getState().wallets.items
+        const walletsState: WalletsState = store.getState().wallets
+        const walletsItems: Wallets = walletsState.items
 
-        if (!isEmpty(walletsItems)) {
+        if (walletsItems.length) {
           goToLocation('/wallets')
         }
       } catch (err) {
@@ -140,19 +141,11 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case wallets.SET_ACTIVE_SUCCESS: {
-      if (checkMnemonicType(payload.walletType)) {
-        // if mnemonic - set some address
-        goToLocation('/wallets/addresses')
-      } else if (payload.walletAction) {
-        // if wallet action - go to appropriate page
-        goToLocation(`/wallets/${payload.walletAction}`)
-      } else if (payload.walletType) {
-        // if another type of wallet - go to index
-        goToLocation('/')
-      }
+    case wallets.SET_ACTIVE_WALLET: {
+      goToLocation('/wallets')
 
-      // otherwise - stay still
+      // TODO: remove prev line and uncomment next
+      // goToLocation('/digital-assets/popular')
 
       break
     }

@@ -2,52 +2,46 @@
 
 import React from 'react'
 
+import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import checkMnemonicType from 'utils/keystore/checkMnemonicType'
-import { handle, ignoreEvent } from 'utils/eventHandlers'
 
 import WalletFace from './WalletFace'
 import WalletActions from './WalletActions'
-import WalletPassword from './WalletPassword'
 
-const walletTypeIconMap = {
+const WALLET_TYPE_ICON_MAP = {
   'address': 'private-key-read',
   'privateKey': 'private-key',
   'bip32Xpub': 'mnemonic-read',
   'mnemonic': 'mnemonic',
 }
 
+type Props = {|
+  +toggleWallet: Function,
+  // +setActiveWallet: Function,
+  +walletData: Wallet,
+  +toggledWalletId: ?WalletId,
+|}
+
 const WalletCard = ({
-  setActive,
-  setPassword,
   toggleWallet,
-  showActionsMenu,
-  setWalletAction,
   walletData,
-  invalidFields,
-  password,
   toggledWalletId,
-  showActionsWalletId,
 }: Props) => {
-  const { id, name, type, address, customType, isReadOnly }: Wallet = walletData
+  const {
+    id,
+    name,
+    type,
+    address,
+    customType,
+    isReadOnly,
+  }: Wallet = walletData
+
   const isMnemonic: boolean = checkMnemonicType(type)
   const isToggled: boolean = (id === toggledWalletId)
-  const iconName: string = walletTypeIconMap[customType]
-  const isActionsMenuShown: boolean = (id === showActionsWalletId)
+  const iconName: string = WALLET_TYPE_ICON_MAP[customType]
 
-  if (isToggled && !isReadOnly) {
-    return (
-      <WalletPassword
-        setActive={setActive}
-        setPassword={setPassword}
-        iconName={iconName}
-        password={password}
-        errorMessage={invalidFields.password}
-      />
-    )
-  }
-
-  if (isActionsMenuShown) {
-    return <WalletActions setWalletAction={setWalletAction} isReadOnly={isReadOnly} />
+  if (isToggled) {
+    return <WalletActions isMnemonic={isMnemonic} />
   }
 
   const description: string = (!isMnemonic && address)
@@ -56,26 +50,13 @@ const WalletCard = ({
 
   return (
     <WalletFace
-      onClick={handle(toggleWallet)(id)}
-      showActions={ignoreEvent(showActionsMenu)(id)}
+      onClick={console.log/* handle(setActiveWallet)(id) */}
+      showActions={ignoreEvent(toggleWallet)(id)}
       title={name}
       iconName={iconName}
       description={isReadOnly ? `${description}, read only` : description}
     />
   )
-}
-
-type Props = {
-  setActive: Function,
-  setPassword: Function,
-  toggleWallet: Function,
-  showActionsMenu: Function,
-  setWalletAction: Function,
-  walletData: Wallet,
-  invalidFields: FormFields,
-  password: string,
-  toggledWalletId: ?WalletId,
-  showActionsWalletId: ?WalletId,
 }
 
 export default WalletCard
