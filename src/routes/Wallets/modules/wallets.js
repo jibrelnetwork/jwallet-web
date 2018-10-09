@@ -18,6 +18,17 @@ export type WalletsCreateRequestPayload = {|
   +passwordHint: string,
 |}
 
+export type WalletsImportRequestPayload = {|
+  +wallets: Wallets,
+  +testPasswordData: ?EncryptedData,
+  +passwordOptions: ?PasswordOptionsUser | PasswordOptions,
+  +mnemonicOptions: ?MnemonicOptionsUser | MnemonicOptions,
+  +data: string,
+  +name: string,
+  +password: string,
+  +passwordHint: string,
+|}
+
 export const OPEN_VIEW: '@@wallets/OPEN_VIEW' = '@@wallets/OPEN_VIEW'
 export const CLOSE_VIEW: '@@wallets/CLOSE_VIEW' = '@@wallets/CLOSE_VIEW'
 export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
@@ -71,6 +82,7 @@ export function clean() {
 type WalletsAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
+  ExtractReturn<typeof setWallets> |
   ExtractReturn<typeof toggleWallet> |
   ExtractReturn<typeof setActiveWallet> |
   ExtractReturn<typeof clean>
