@@ -275,15 +275,18 @@ function walletsCreate(
         isLoading: false,
       }
 
-    case SET_INVALID_FIELD:
+    case SET_INVALID_FIELD: {
+      const { message, fieldName } = action.payload
+
       return {
         ...state,
         invalidFields: {
           ...state.invalidFields,
-          [action.payload.fieldName]: action.payload.message,
+          [fieldName]: message,
         },
         isLoading: false,
       }
+    }
 
     case CLEAN:
       return initialState
