@@ -4,35 +4,37 @@ import utils from 'jwallet-web-keystore'
 
 import keystore from 'services/keystore'
 
+import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 
+import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 
-type WalletsAction = WalletsCreateAction | WalletsImportAction
+export type WalletsAnyAction = WalletsAction | WalletsCreateAction | WalletsImportAction
 
 export type WalletsWorkerMessage = {|
-  +data: WalletsAction,
+  +data: WalletsAnyAction,
 |}
 
 // eslint-disable-next-line fp/no-mutation
 onmessage = (msg: WalletsWorkerMessage): void => {
-  const action: WalletsAction = msg.data
+  const action: WalletsAnyAction = msg.data
 
   switch (action.type) {
-    case walletsCreate.CHECK_NAME_REQUEST: {
+    case wallets.CHECK_NAME_REQUEST: {
       try {
-        const { wallets, name } = action.payload
+        const { items, name, newWalletLocation } = action.payload
 
-        keystore.checkWalletUniqueness(wallets, name, 'name')
+        keystore.checkWalletUniqueness(items, name, 'name')
 
-        postMessage(walletsCreate.checkNameSuccess())
+        postMessage(wallets.checkNameSuccess(newWalletLocation))
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        postMessage(walletsCreate.checkNameError(err.message))
+        postMessage(wallets.checkNameError(err.message))
       }
 
       break
@@ -72,7 +74,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
     case walletsCreate.CREATE_REQUEST: {
       try {
         const {
-          wallets,
+          items,
           passwordOptions,
           mnemonicOptions,
           testPasswordData,
@@ -96,7 +98,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
           passwordOptions: passwordOpts,
           mnemonicOptions: mnemonicOpts,
           testPasswordData: testPasswordData || keystore.initPassword(password, passwordOpts),
-          items: keystore.createWallet(wallets, {
+          items: keystore.createWallet(items, {
             data: utils.generateMnemonic(),
             name,
             passwordOptions: passwordOpts,
@@ -116,7 +118,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
     case walletsImport.IMPORT_REQUEST: {
       try {
         const {
-          wallets,
+          items,
           passwordOptions,
           mnemonicOptions,
           testPasswordData,
@@ -141,7 +143,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
           passwordOptions: passwordOpts,
           mnemonicOptions: mnemonicOpts,
           testPasswordData: testPasswordData || keystore.initPassword(password, passwordOpts),
-          items: keystore.createWallet(wallets, {
+          items: keystore.createWallet(items, {
             data,
             name,
             passwordOptions: passwordOpts,

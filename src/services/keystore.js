@@ -186,7 +186,7 @@ const createAddressWallet = (
     customType: 'privateKey',
     encrypted: {
       mnemonic: null,
-      privateKey: utils.encryptPrivateKey(data, dKey, encryptionType),
+      privateKey: utils.encryptData(data, dKey, encryptionType, true),
     },
     /**
      * Another wallet data, necessary for consistency of types

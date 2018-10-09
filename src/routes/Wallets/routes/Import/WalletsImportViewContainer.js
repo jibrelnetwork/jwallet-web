@@ -3,17 +3,20 @@
 import { connect } from 'react-redux'
 
 import {
+  changeNameInput,
+  changePasswordInput,
+  changePasswordHintInput,
+  changePasswordConfirmInput,
+} from '../../modules/wallets'
+
+import {
   openView,
   closeView,
   goToNextStep,
   goToPrevStep,
   changeDataInput,
-  changeNameInput,
-  changePasswordInput,
   changePassphraseInput,
-  changePasswordHintInput,
   changeDerivationPathInput,
-  changePasswordConfirmInput,
 } from './modules/walletsImport'
 
 import WalletsCreateView from './WalletsImportView'
@@ -33,10 +36,31 @@ type StateProps = {|
   +isPasswordExists: boolean,
 |}
 
-const mapStateToProps = ({ wallets, walletsImport }: State): StateProps => ({
-  ...walletsImport,
-  isPasswordExists: !!wallets.testPasswordData,
-})
+function mapStateToProps({ wallets, walletsImport }: State): StateProps {
+  const {
+    name,
+    password,
+    isLoading,
+    passwordHint,
+    invalidFields,
+    passwordConfirm,
+    testPasswordData,
+  } = wallets
+
+  return {
+    ...walletsImport,
+    name,
+    password,
+    isLoading,
+    passwordHint,
+    passwordConfirm,
+    isPasswordExists: !!testPasswordData,
+    invalidFields: {
+      ...invalidFields,
+      ...walletsImport.invalidFields,
+    },
+  }
+}
 
 const mapDispatchToProps = {
   openView,

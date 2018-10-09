@@ -1,33 +1,14 @@
 // @flow
 
+import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
+import config from 'config'
 import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsImport } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsImport from '../modules/walletsImport'
-
-function* checkName(): Saga<void> {
-  const { items }: WalletsState = yield select(selectWallets)
-  const { name }: WalletsCreateState = yield select(selectWalletsImport)
-
-  if (!name) {
-    yield put(walletsImport.setInvalidField('name', 'Name should not be empty'))
-
-    return
-  }
-
-  walletsWorker.checkNameRequest(items, name)
-}
-
-function* checkNameError(action: { payload: Error }): Saga<void> {
-  yield put(walletsImport.setInvalidField('name', action.payload.message))
-}
-
-function* checkNameSuccess(): Saga<void> {
-  yield put(walletsImport.setCurrentStep(walletsImport.STEPS.DATA))
-}
 
 function* checkDerivationPath(): Saga<void> {
   const { derivationPath }: WalletsImportState = yield select(selectWalletsImport)
@@ -36,35 +17,50 @@ function* checkDerivationPath(): Saga<void> {
     yield put(walletsImport.checkDerivationPathSuccess())
   }
 
+  yield put(wallets.setIsLoading(true))
+
   walletsWorker.checkDerivationPathRequest(derivationPath)
 }
 
 function* checkDerivationPathError(
   action: ExtractReturn<typeof walletsImport.checkDerivationPathError>,
 ): Saga<void> {
-  yield put(walletsImport.setInvalidField('name', action.payload.message))
+  yield put(walletsImport.setInvalidField('derivationPath', action.payload.message))
+  yield put(wallets.setIsLoading(false))
 }
 
 function* checkDerivationPathSuccess(): Saga<void> {
   yield put(walletsImport.setCurrentStep(walletsImport.STEPS.PASSWORD))
+  yield put(wallets.setIsLoading(false))
 }
 
 function* importWallet(): Saga<void> {
   const walletsData: WalletsState = yield select(selectWallets)
 
   const {
-    data,
     name,
     password,
-    passphrase,
     passwordHint,
-    derivationPath,
     passwordConfirm,
+  } = walletsData
+
+  const {
+    data,
+    passphrase,
+    derivationPath,
   }: WalletsImportState = yield select(selectWalletsImport)
 
   const isPasswordExists: boolean = !!walletsData.testPasswordData
 
   if (!isPasswordExists) {
+    if (password === name) {
+      yield put(
+        wallets.setInvalidField('password', 'Password should not be equal with wallet name'),
+      )
+
+      return
+    }
+
     if (password !== passwordConfirm) {
       yield put(
         walletsImport.setInvalidField('passwordConfirm', 'Password does not match confirmation'),
@@ -92,22 +88,25 @@ function* importWallet(): Saga<void> {
 
   const importWalletData = {
     data,
-    name,
     passphrase,
     derivationPath,
   }
 
-  walletsWorker.importRequest(walletsData, importWalletData, password, passwordHint)
+  yield put(wallets.setIsLoading(true))
+
+  walletsWorker.importRequest(walletsData, importWalletData)
 }
 
 function* importError(action: { payload: Error }): Saga<void> {
   yield put(walletsImport.setInvalidField('password', action.payload.message))
+  yield put(wallets.setIsLoading(false))
 }
 
 function* importSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<void> {
   const { payload } = action
 
   yield put(wallets.setWallets(payload))
+  yield put(wallets.setIsLoading(false))
 
   const { items } = payload
   const importedWallet: Wallet = items[items.length - 1]
@@ -115,7 +114,8 @@ function* importSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
   yield put(wallets.setActiveWallet(importedWallet.id))
 }
 
-export function* openView(): Saga<void> {
+function* closeView(): Saga<void> {
+  yield delay(config.delayBeforeFormClean)
   yield put(walletsImport.clean())
 }
 
@@ -126,11 +126,12 @@ function checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataIn
 }
 
 export function* setNextStep(): Saga<void> {
+  const { items, name }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsImport)
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      yield* checkName()
+      yield put(wallets.checkNameRequest(items, name, 'import'))
       break
     }
 
@@ -149,10 +150,6 @@ export function* setNextStep(): Saga<void> {
   }
 }
 
-function* goToWalletsStartView(): Saga<void> {
-  yield put(walletsImport.goToStartView())
-}
-
 function* goToWalletsImportNameStep(): Saga<void> {
   yield put(walletsImport.setCurrentStep(walletsImport.STEPS.NAME))
 }
@@ -166,7 +163,7 @@ export function* setPrevStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      yield* goToWalletsStartView()
+      yield put(wallets.goToStartView())
       break
     }
 
@@ -185,15 +182,18 @@ export function* setPrevStep(): Saga<void> {
   }
 }
 
+function* clean(): Saga<void> {
+  yield put(wallets.clean())
+}
+
 export function* walletsImportRootSaga(): Saga<void> {
-  yield takeEvery(walletsImport.OPEN_VIEW, openView)
-  yield takeEvery(walletsImport.CHANGE_DATA_INPUT, checkWalletType)
+  yield takeEvery(walletsImport.CLEAN, clean)
+  yield takeEvery(walletsImport.CLOSE_VIEW, closeView)
   yield takeEvery(walletsImport.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsImport.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsImport.IMPORT_ERROR, importError)
   yield takeEvery(walletsImport.IMPORT_SUCCESS, importSuccess)
-  yield takeEvery(walletsImport.CHECK_NAME_ERROR, checkNameError)
-  yield takeEvery(walletsImport.CHECK_NAME_SUCCESS, checkNameSuccess)
+  yield takeEvery(walletsImport.CHANGE_DATA_INPUT, checkWalletType)
   yield takeEvery(walletsImport.CHECK_DERIVATION_PATH_ERROR, checkDerivationPathError)
   yield takeEvery(walletsImport.CHECK_DERIVATION_PATH_SUCCESS, checkDerivationPathSuccess)
 }

@@ -111,32 +111,35 @@ declare type ScryptParams = {|
 |}
 
 declare type PasswordOptionsUser = {|
-  scryptParams?: ScryptParams,
-  encryptionType?: string,
-  saltBytesCount?: number,
-  derivedKeyLength?: number,
+  +scryptParams?: ScryptParams,
+  +salt?: string,
+  +passwordHint?: string,
+  +encryptionType?: string,
+  +saltBytesCount?: number,
+  +derivedKeyLength?: number,
 |}
 
 declare type MnemonicOptionsUser = {|
-  network?: ?Network,
-  passphrase?: ?string,
-  derivationPath?: string,
-  paddedMnemonicLength?: number,
+  +network?: ?Network,
+  +passphrase?: ?string,
+  +derivationPath?: string,
+  +paddedMnemonicLength?: number,
 |}
 
 declare type PasswordOptions = {|
-  scryptParams: ScryptParams,
-  salt: string,
-  encryptionType: string,
-  saltBytesCount: number,
-  derivedKeyLength: number,
+  +scryptParams: ScryptParams,
+  +salt: string,
+  +passwordHint: string,
+  +encryptionType: string,
+  +saltBytesCount: number,
+  +derivedKeyLength: number,
 |}
 
 declare type MnemonicOptions = {|
-  network: Network,
-  passphrase: string,
-  derivationPath: string,
-  paddedMnemonicLength: number,
+  +network: Network,
+  +passphrase: string,
+  +derivationPath: string,
+  +paddedMnemonicLength: number,
 |}
 
 declare type Wallet = {|
@@ -202,12 +205,17 @@ declare type PasswordResult = {|
 
 declare type WalletsState = {|
   +items: Wallets,
+  +invalidFields: FormFields,
   +testPasswordData: ?EncryptedData,
   +passwordOptions: ?PasswordOptions,
   +mnemonicOptions: ?MnemonicOptions,
+  +name: string,
+  +password: string,
   +passwordHint: string,
+  +passwordConfirm: string,
   +activeWalletId: ?WalletId,
   +toggledWalletId: ?WalletId,
+  +isLoading: boolean,
 |}
 
 /**
@@ -235,13 +243,7 @@ declare type WalletsCreateSteps = {|
 |}
 
 declare type WalletsCreateState = {|
-  +invalidFields: FormFields,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-  +passwordConfirm: string,
   +currentStep: WalletsCreateStepIndex,
-  +isLoading: boolean,
 |}
 
 /**
@@ -265,15 +267,10 @@ declare type WalletsImportSteps = {|
 declare type WalletsImportState = {|
   +invalidFields: FormFields,
   +data: string,
-  +name: string,
-  +password: string,
   +passphrase: string,
-  +passwordHint: string,
   +derivationPath: string,
-  +passwordConfirm: string,
   +walletType: WalletCustomType,
   +currentStep: WalletsImportStepIndex,
-  +isLoading: boolean,
 |}
 
 /**

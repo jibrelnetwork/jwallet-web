@@ -1,5 +1,6 @@
 // @flow
 
+import { walletsRootSaga } from './wallets'
 import walletsCreateSagas from '../routes/Create/sagas'
 import walletsImportSagas from '../routes/Import/sagas'
 
@@ -12,6 +13,7 @@ import removeWallet from '../routes/Remove/sagas'
 */
 
 export default {
+  walletsRootSaga,
   ...walletsCreateSagas,
   ...walletsImportSagas,
   /*

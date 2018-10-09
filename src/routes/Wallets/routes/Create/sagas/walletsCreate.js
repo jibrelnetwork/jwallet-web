@@ -1,50 +1,40 @@
 // @flow
 
+import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
+import config from 'config'
 import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsCreate } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsCreate from '../modules/walletsCreate'
 
-function* checkName(): Saga<void> {
-  const { items }: WalletsState = yield select(selectWallets)
-  const { name }: WalletsCreateState = yield select(selectWalletsCreate)
-
-  if (!name) {
-    yield put(walletsCreate.setInvalidField('name', 'Name should not be empty'))
-
-    return
-  }
-
-  walletsWorker.checkNameRequest(items, name)
-}
-
-function* checkNameError(action: { payload: Error }): Saga<void> {
-  yield put(walletsCreate.setInvalidField('name', action.payload.message))
-}
-
-function* checkNameSuccess(): Saga<void> {
-  yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
-}
-
 function* createWallet(): Saga<void> {
-  const walletsData: WalletsState = yield select(selectWallets)
+  const walletsData = yield select(selectWallets)
 
   const {
     name,
     password,
     passwordHint,
     passwordConfirm,
-  }: WalletsCreateState = yield select(selectWalletsCreate)
+    testPasswordData,
+  }: WalletsState = walletsData
 
-  const isPasswordExists: boolean = !!walletsData.testPasswordData
+  const isPasswordExists: boolean = !!testPasswordData
 
   if (!isPasswordExists) {
+    if (password === name) {
+      yield put(
+        wallets.setInvalidField('password', 'Password should not be equal with wallet name'),
+      )
+
+      return
+    }
+
     if (password !== passwordConfirm) {
       yield put(
-        walletsCreate.setInvalidField('passwordConfirm', 'Password does not match confirmation'),
+        wallets.setInvalidField('passwordConfirm', 'Password does not match confirmation'),
       )
 
       return
@@ -52,7 +42,7 @@ function* createWallet(): Saga<void> {
 
     if (!passwordHint) {
       yield put(
-        walletsCreate.setInvalidField('passwordHint', 'Password hint is required'),
+        wallets.setInvalidField('passwordHint', 'Password hint is required'),
       )
 
       return
@@ -60,24 +50,28 @@ function* createWallet(): Saga<void> {
 
     if (password === passwordHint) {
       yield put(
-        walletsCreate.setInvalidField('passwordHint', 'Password and hint should not be equal'),
+        wallets.setInvalidField('passwordHint', 'Password and hint should not be equal'),
       )
 
       return
     }
   }
 
-  yield walletsWorker.createRequest(walletsData, name, password, passwordHint)
+  yield put(wallets.setIsLoading(true))
+
+  yield walletsWorker.createRequest(walletsData)
 }
 
 function* createError(action: { payload: Error }): Saga<void> {
-  yield put(walletsCreate.setInvalidField('password', action.payload.message))
+  yield put(wallets.setInvalidField('password', action.payload.message))
+  yield put(wallets.setIsLoading(false))
 }
 
 function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<void> {
   const { payload } = action
 
   yield put(wallets.setWallets(payload))
+  yield put(wallets.setIsLoading(false))
 
   const { items } = payload
   const createdWallet: Wallet = items[items.length - 1]
@@ -85,16 +79,18 @@ function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
   yield put(wallets.setActiveWallet(createdWallet.id))
 }
 
-function* openView(): Saga<void> {
+function* closeView(): Saga<void> {
+  yield delay(config.delayBeforeFormClean)
   yield put(walletsCreate.clean())
 }
 
 function* setNextStep(): Saga<void> {
+  const { items, name }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      yield* checkName()
+      yield put(wallets.checkNameRequest(items, name, 'create'))
       break
     }
 
@@ -108,10 +104,6 @@ function* setNextStep(): Saga<void> {
   }
 }
 
-function* goToWalletsStartView(): Saga<void> {
-  yield put(walletsCreate.goToStartView())
-}
-
 function* goToWalletsCreateNameStep(): Saga<void> {
   yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.NAME))
 }
@@ -121,7 +113,7 @@ function* setPrevStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      yield* goToWalletsStartView()
+      yield put(wallets.goToStartView())
       break
     }
 
@@ -135,12 +127,15 @@ function* setPrevStep(): Saga<void> {
   }
 }
 
+function* clean(): Saga<void> {
+  yield put(wallets.clean())
+}
+
 export function* walletsCreateRootSaga(): Saga<void> {
-  yield takeEvery(walletsCreate.OPEN_VIEW, openView)
+  yield takeEvery(walletsCreate.CLEAN, clean)
+  yield takeEvery(walletsCreate.CLOSE_VIEW, closeView)
   yield takeEvery(walletsCreate.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsCreate.GO_TO_PREV_STEP, setPrevStep)
-  yield takeEvery(walletsCreate.CHECK_NAME_SUCCESS, checkNameSuccess)
-  yield takeEvery(walletsCreate.CHECK_NAME_ERROR, checkNameError)
-  yield takeEvery(walletsCreate.CREATE_SUCCESS, createSuccess)
   yield takeEvery(walletsCreate.CREATE_ERROR, createError)
+  yield takeEvery(walletsCreate.CREATE_SUCCESS, createSuccess)
 }
