@@ -1,23 +1,21 @@
 // @flow
 
+import gtm from './gtm'
+import web3 from './web3'
+import qrCode from './qrCode'
+import keystore from './keystore'
+import validate from './validate'
 import clipboard from './clipboard'
 import etherscan from './etherscan'
 import fileSaver from './fileSaver'
-import gtm from './gtm'
-import keystore from './keystore'
-import qrCode from './qrCode'
-import storage from './storage'
-import validate from './validate'
-import web3 from './web3'
 
 export {
+  gtm,
+  web3,
+  qrCode,
+  keystore,
+  validate,
   clipboard,
   etherscan,
   fileSaver,
-  gtm,
-  keystore,
-  qrCode,
-  storage,
-  validate,
-  web3,
 }

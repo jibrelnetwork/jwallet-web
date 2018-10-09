@@ -1,3 +1,4 @@
+/*
 // Networks
 import * as networksSagas from 'routes/sagas/networks'
 
@@ -12,11 +13,13 @@ import customAssetSagas from 'routes/CustomAsset/sagas'
 
 // Transactions
 import transactionsSagas from 'routes/Transactions/sagas'
+*/
 
 // Wallets
 import walletsSagas from 'routes/Wallets/sagas'
 
 export default {
+  /*
   // Networks
   ...networksSagas,
   // Funds
@@ -27,6 +30,7 @@ export default {
   ...customAssetSagas,
   // Transactions
   ...transactionsSagas,
+  */
   // Wallets
   ...walletsSagas,
 }

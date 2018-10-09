@@ -6,33 +6,27 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
 import {
-  open,
-  setActive,
-  setPassword,
+  openView,
   toggleWallet,
-  showActionsMenu,
-  setWalletAction,
+  setActiveWallet,
 } from '../modules/wallets'
 
 import WalletsIndexView from '../components/WalletsIndexView'
 
-const mapStateToProps = ({ wallets }: State): WalletsData => wallets
+const mapStateToProps = ({ wallets }: State): WalletsState => wallets
 
 const mapDispatchToProps = {
-  open,
-  setActive,
+  openView,
   toggleWallet,
-  showActionsMenu,
-  setWalletAction,
+  setActiveWallet,
   createWallet: () => push('/wallets/create'),
   importWallet: () => push('/wallets/import'),
-  setPassword: event => setPassword(event.target.value),
 }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentDidMount() { this.props.open() },
+    componentDidMount() { this.props.openView() },
   }),
 )(WalletsIndexView)
 

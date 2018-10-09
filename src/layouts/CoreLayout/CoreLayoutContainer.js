@@ -21,6 +21,6 @@ const mapDispatchToProps = { init }
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
-    componentDidMount() { this.props.init() },
+    componentDidMount() { /* this.props.init() */ },
   }),
 )(CoreLayout)

@@ -1,5 +1,23 @@
-import * as createWallet from './createWallet'
+// @flow
+
+import {
+  watchWalletsCreateOpenView,
+  watchWalletsCreateCloseView,
+  watchCreateWalletSetNextStep,
+  watchCreateWalletSetPrevStep,
+  watchCreateWalletCreateError,
+  watchCreateWalletCreateSuccess,
+  watchCreateWalletCheckNameError,
+  watchCreateWalletCheckNameSuccess,
+} from './walletsCreate'
 
 export default {
-  ...createWallet,
+  watchWalletsCreateOpenView,
+  watchWalletsCreateCloseView,
+  watchCreateWalletSetNextStep,
+  watchCreateWalletSetPrevStep,
+  watchCreateWalletCreateError,
+  watchCreateWalletCreateSuccess,
+  watchCreateWalletCheckNameError,
+  watchCreateWalletCheckNameSuccess,
 }

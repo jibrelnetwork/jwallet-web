@@ -1,5 +1,5 @@
 // @flow
 
-import JRaisedButton from './JRaisedButton'
+import JRaisedButton from './JRaisedButtonContainer'
 
 export default JRaisedButton

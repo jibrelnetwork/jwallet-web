@@ -3,13 +3,10 @@
 import React from 'react'
 
 const CoreLayout = ({
-  isNetworksInited,
-  isWalletsInited,
-  isDigitalAssetsInited,
   children,
 }: Props) => (
   <div className='core-layout'>
-    {!(isNetworksInited && isWalletsInited && isDigitalAssetsInited) ? 'Loading' : children}
+    {children}
   </div>
 )
 
