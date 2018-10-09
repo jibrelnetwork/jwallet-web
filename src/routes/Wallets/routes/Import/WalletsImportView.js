@@ -77,7 +77,7 @@ class WalletsImportView extends Component<Props> {
           onBack={goToPrevStep}
           color='white'
           location='/wallets'
-          title='Create wallet'
+          title='Import wallet'
         />
         <div className='content'>
           {(currentStep === STEPS.NAME) && (
