@@ -209,10 +209,10 @@ const createReadOnlyAddressWallet = (wallets: Wallets, walletData: WalletData): 
   return appendWallet(wallets, {
     id,
     name,
-    address: data,
     isReadOnly: true,
     type: ADDRESS_TYPE,
     customType: 'address',
+    address: utils.getChecksum(data),
     encrypted: {
       mnemonic: null,
       privateKey: null,
