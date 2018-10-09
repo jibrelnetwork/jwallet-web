@@ -1,9 +1,8 @@
-export default () => ({
+// @flow
+
+import View from './WalletsStartViewContainer'
+
+export default {
   path: 'start',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const View = require('./containers/WalletsStartViewContainer').default
-      cb(null, View)
-    }, 'wallets-start')
-  },
-})
+  component: View,
+}
