@@ -9,7 +9,7 @@ type Props = {
   onChange: ?((string) => void),
   name: ?string,
   label?: string,
-  placeholder?: void | string,
+  placeholder?: string,
   helpMessage: ?string,
   infoMessage: ?string,
   errorMessage: ?string,
@@ -20,7 +20,7 @@ type Props = {
   isDisabled: boolean,
   isPinCode: boolean,
   isMultiline: boolean,
-  render?: void | Function
+  render?: Function
 }
 
 class JInput extends PureComponent<Props, *> {
@@ -29,6 +29,7 @@ class JInput extends PureComponent<Props, *> {
     type: 'text',
     color: 'white',
     label: '',
+    placeholder: null,
     rows: 4,
     onChange: null,
     helpMessage: null,
@@ -38,6 +39,7 @@ class JInput extends PureComponent<Props, *> {
     isDisabled: false,
     isPinCode: false,
     isMultiline: false,
+    render: null,
   }
 
   render() {
@@ -62,7 +64,7 @@ class JInput extends PureComponent<Props, *> {
     const labelOrPlaceholder = label || placeholder
     const hasTopLabel = (color === 'gray') && labelOrPlaceholder
     const placeholderFromI18n =
-            (labelOrPlaceholder && i18n(labelOrPlaceholder)) || labelOrPlaceholder
+      (labelOrPlaceholder && i18n(labelOrPlaceholder)) || labelOrPlaceholder
 
     const controlledProps = {
       onChange: onChange ? handleTargetValue(onChange) : undefined,
@@ -92,7 +94,6 @@ class JInput extends PureComponent<Props, *> {
         )}
       >
         {(render && render(controlledProps)) || input}
-
         {hasTopLabel && <div className='label'>{placeholderFromI18n}</div>}
         {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
         {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
