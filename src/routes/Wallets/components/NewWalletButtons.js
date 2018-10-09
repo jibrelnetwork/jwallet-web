@@ -4,7 +4,12 @@ import React from 'react'
 
 import WalletFace from './WalletFace'
 
-const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
+type Props = {|
+  +createWallet: Function,
+  // +importWallet: Function,
+|}
+
+const NewWalletButtons = ({ createWallet }: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
     <div className='button'>
@@ -17,7 +22,7 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
     </div>
     <div className='button'>
       <WalletFace
-        onClick={importWallet}
+        onClick={console.log}
         iconName='key-import'
         title='Import wallet'
         description='Some text about keys, mnemonic, address etc'
@@ -25,10 +30,5 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
     </div>
   </div>
 )
-
-type Props = {
-  createWallet: Function,
-  importWallet: Function,
-}
 
 export default NewWalletButtons

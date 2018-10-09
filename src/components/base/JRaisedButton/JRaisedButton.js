@@ -1,9 +1,10 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import cx from 'classnames'
+import classNames from 'classnames'
 import handle from 'utils/eventHandlers/handle'
 
+import handle from 'utils/eventHandlers/handle'
 import { JIcon, JText, JLoader } from 'components/base'
 
 type Props = {
@@ -69,7 +70,7 @@ class JRaisedButton extends PureComponent<Props, ButtonState> {
       isHovered,
     } = this.state
 
-    const buttonClassName = cx(
+    const buttonClassName = classNames(
       `j-raised-button -${color}`,
       isWide && '-wide',
       isDisabled && '-disabled',

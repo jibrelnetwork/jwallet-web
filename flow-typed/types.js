@@ -1,3 +1,7 @@
+// @flow
+
+/* eslint-disable no-undef, no-unused-vars */
+
 import type { Saga } from 'redux-saga'
 
 /**
@@ -15,21 +19,21 @@ declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
 
-declare type FSA = {
+declare type FSA = {|
   +type: string,
-  +payload: Object,
-  +meta: Object,
-  +error: boolean,
-}
+  +payload?: Object,
+  +meta?: Object,
+  +error?: boolean,
+|}
 
 declare type Next = FSA => FSA
 declare type Dispatch = Object => Next
 declare type GetState = () => State
 
-declare type Store = {
-  dispatch: Dispatch,
-  getState: GetState,
-}
+declare type Store = {|
+  +dispatch: Dispatch,
+  +getState: GetState,
+|}
 
 declare type DerivationPath = {
   +path: string,
@@ -37,6 +41,10 @@ declare type DerivationPath = {
 }
 
 declare type DerivationPaths = Array<DerivationPath>
+
+declare type WorkerError = {|
+  +message: string,
+|}
 
 /**
  * Networks
@@ -67,51 +75,127 @@ declare type NetworksData = {
 /**
  * Wallets
  */
-declare type WalletId = string
-declare type WalletAction = 'edit' | 'backup' | 'change-password' | 'remove'
-declare type WalletType = 'mnemonic' | 'bip32Xpub' | 'privateKey' | 'address'
 declare type Password = string
+declare type WalletId = string
+declare type WalletType = 'address' | 'mnemonic'
+declare type WalletCustomType = WalletType | 'bip32Xpub' | 'privateKey'
+declare type WalletAction = 'edit' | 'backup' | 'change-password' | 'remove'
 
-declare type Wallet = {
-  +id: WalletId,
-  +type: WalletType,
+type EncryptedData = {|
+  +data: string,
+  +nonce: string,
+|}
+
+declare type WalletEncryptedData = {|
+  +mnemonic: ?EncryptedData,
+  +privateKey: ?EncryptedData,
+|}
+
+declare type ScryptParams = {|
+  +N: number,
+  +r: number,
+  +p: number,
+|}
+
+declare type PasswordOptionsUser = {|
+  scryptParams?: ScryptParams,
+  encryptionType?: string,
+  saltBytesCount?: number,
+  derivedKeyLength?: number,
+|}
+
+declare type MnemonicOptionsUser = {|
+  network?: ?Network,
+  passphrase?: ?string,
+  derivationPath?: string,
+  paddedMnemonicLength?: number,
+|}
+
+declare type PasswordOptions = {|
+  scryptParams: ScryptParams,
+  salt: string,
+  encryptionType: string,
+  saltBytesCount: number,
+  derivedKeyLength: number,
+|}
+
+declare type MnemonicOptions = {|
+  network: Network,
+  passphrase: string,
+  derivationPath: string,
+  paddedMnemonicLength: number,
+|}
+
+declare type Wallet = {|
+  +passwordOptions: ?PasswordOptions,
+  +mnemonicOptions: ?MnemonicOptions,
+  +encrypted: WalletEncryptedData,
+  +id: string,
   +name: string,
-  +customType: WalletType,
-  +isReadOnly: boolean,
-  +salt: ?string,
-  +address: ?Address,
-  +derivationPath: ?string,
+  +type: WalletType,
+  +address: ?string,
   +bip32XPublicKey: ?string,
-  +addressIndex: ?Index,
-  +encrypted: ?{
-    +privateKey: ?string,
-    +mnemonic: ?string,
-  },
-}
+  +customType: WalletCustomType,
+  +addressIndex: ?number,
+  +isReadOnly: boolean,
+|}
+
+declare type WalletUpdatedData = {|
+  +passwordOptions?: PasswordOptions,
+  +mnemonicOptions?: MnemonicOptions,
+  +encrypted?: WalletEncryptedData,
+  +name?: string,
+  +bip32XPublicKey?: ?string,
+  +customType?: ?WalletCustomType,
+  +addressIndex?: ?number,
+  +isReadOnly?: ?boolean,
+|}
+
+declare type WalletNewData = {|
+  +passwordOptions: PasswordOptions,
+  +mnemonicOptions: MnemonicOptions,
+  +data: string,
+  +name?: string,
+|}
+
+declare type WalletData = {|
+  +passwordOptions: PasswordOptions,
+  +mnemonicOptions: MnemonicOptions,
+  +id: string,
+  +data: string,
+  +name: string,
+|}
+
+declare type WalletDecryptedData = {|
+  +id: string,
+  +name: string,
+  +address: string,
+  +mnemonic: string,
+  +privateKey: string,
+  +type: WalletCustomType,
+  +readOnly: 'yes' | 'no',
+  +bip32XPublicKey: string,
+|}
 
 declare type Wallets = Array<Wallet>
 
-declare type WalletsData = {
-  +invalidFields: FormFields,
-  +items: Wallets,
-  +password: Password,
-  +isInitialised: boolean,
-  +toggledWalletId: ?WalletId,
-  +showActionsWalletId: ?WalletId,
-  +activeWalletId: ?WalletId,
-  +walletAction: ?WalletAction,
-}
+declare type PasswordResult = {|
+  +score: number,
+  +feedback: {|
+    +warning: string,
+    +suggestions: Array<string>,
+  |},
+|}
 
-declare type DecryptedWalletData = {
-  +id: WalletId,
-  +type: WalletType,
-  +name: string,
-  +readOnly: 'yes' | 'no',
-  +address?: Address,
-  +bip32XPublicKey?: string,
-  +privateKey?: string,
-  +mnemonic?: string,
-}
+declare type WalletsState = {|
+  +items: Wallets,
+  +testPasswordData: ?EncryptedData,
+  +passwordOptions: ?PasswordOptions,
+  +mnemonicOptions: ?MnemonicOptions,
+  +passwordHint: string,
+  +activeWalletId: ?WalletId,
+  +toggledWalletId: ?WalletId,
+|}
 
 /**
  * Mnemonic addresses
@@ -123,18 +207,27 @@ declare type MnemonicAddressesData = {
 }
 
 /**
- * Create wallet
+ * Wallets Create
  */
-declare type CreateWalletData = {
-  +validFields: FormFields,
+declare type WalletsCreateNameStepIndex = 0
+declare type WalletsCreatePasswordStepIndex = 1
+
+declare type WalletsCreateStepIndex = WalletsCreateNameStepIndex | WalletsCreatePasswordStepIndex
+
+declare type WalletsCreateSteps = {|
+  +NAME: WalletsCreateNameStepIndex,
+  +PASSWORD: WalletsCreatePasswordStepIndex,
+|}
+
+declare type WalletsCreateState = {|
   +invalidFields: FormFields,
   +name: string,
-  +mnemonic: string,
-  +mnemonicConfirm: string,
-  +password: Password,
-  +passwordConfirm: Password,
+  +password: string,
+  +passwordHint: string,
+  +passwordConfirm: string,
   +currentStep: Index,
-}
+  +isLoading: boolean,
+|}
 
 /**
  * Import wallet
@@ -327,11 +420,11 @@ declare type RouterData = {
 /**
  * Entire state
  */
-declare type State = {
+declare type State = {|
+  +wallets: WalletsState,
   +networks: NetworksData,
-  +wallets: WalletsData,
   +mnemonicAddresses: MnemonicAddressesData,
-  +createWallet: CreateWalletData,
+  +walletsCreate: WalletsCreateState,
   +importWallet: ImportWalletData,
   +editWallet: EditWalletData,
   +backupWallet: BackupWalletData,
@@ -343,7 +436,7 @@ declare type State = {
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
   +router: RouterData,
-}
+|}
 
 /**
  * Errors
@@ -352,3 +445,5 @@ declare type InvalidFieldError = {
   +fieldName: string,
   +message: string,
 }
+
+/* eslint-enable no-undef, no-unused-vars */
