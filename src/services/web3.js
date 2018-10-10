@@ -329,4 +329,7 @@ export default {
   getContractTransactions,
   sendETHTransaction,
   sendContractTransaction,
+  getContractName,
+  getContractSymbol,
+  getContractDecimals,
 }
