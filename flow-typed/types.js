@@ -274,21 +274,6 @@ declare type WalletsImportState = {|
 |}
 
 /**
- * Edit wallet
- */
-declare type EditWalletData = {
-  +validFields: FormFields,
-  +invalidFields: FormFields,
-  +name: string,
-  +password: Password,
-  +knownDerivationPath: string,
-  +customDerivationPath: string,
-  +currentStep: Index,
-  +walletType?: WalletType,
-  +selectedDerivationPathType: 'known' | 'custom',
-}
-
-/**
  * Backup wallet
  */
 declare type BackupWalletData = {
@@ -452,7 +437,6 @@ declare type State = {|
   +mnemonicAddresses: MnemonicAddressesData,
   +walletsCreate: WalletsCreateState,
   +walletsImport: WalletsImportState,
-  +editWallet: EditWalletData,
   +backupWallet: BackupWalletData,
   +changeWalletPassword: ChangeWalletPasswordData,
   +removeWallet: RemoveWalletData,
@@ -470,7 +454,6 @@ declare type InitialState = {
   mnemonicAddresses?: MnemonicAddressesData,
   walletsCreate?: WalletsCreateState,
   walletsImport?: WalletsImportState,
-  editWallet?: EditWalletData,
   backupWallet?: BackupWalletData,
   changeWalletPassword?: ChangeWalletPasswordData,
   removeWallet?: RemoveWalletData,
