@@ -42,12 +42,12 @@ function addressFieldSimpleCheck(contractAddress: Address) {
 
   // 1. check length
   if (address.length < 42) {
-    throw new InvalidFieldError('address', i18n('routes.addCutomAsset.error.address.tooShort'))
+    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.tooShort'))
   }
 
   // 2. check address field checksum
-  if (!Keystore.isAddressValid(address)) {
-    throw new InvalidFieldError('address', i18n('routes.addCutomAsset.error.address.invalid'))
+  if (!Keystore.checkAddressValid(address)) {
+    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.invalid'))
   }
 }
 
@@ -88,7 +88,7 @@ function* requestAssetFieldsTask(contractAddress: Address): Saga<?RequestedAsset
     console.error(err)
     return null
   } finally {
-    // in future, here there will cancel web3 requests logic
+    // in future, here there will be cancel web3 requests logic
     // console.error('CANCEL request')
   }
 }
@@ -128,7 +128,7 @@ function* requestAssetFields(contractAddress: Address): Saga<?RequestedAssetFiel
     yield put(setAssetIsValid(true))
   } else {
     yield put(setAssetIsValid(false))
-    throw new InvalidFieldError('address', i18n('routes.addCutomAsset.error.address.notERC20'))
+    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.notERC20'))
   }
 
   return result
@@ -166,7 +166,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
         // 2. check if this asset already exists
         const foundAsset = yield* getDigitalAsset(contractAddress)
         if (foundAsset) {
-          throw new InvalidFieldError('address', i18n('routes.addCutomAsset.error.address.exists'))
+          throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.exists'))
         }
 
         // 4. Make requests to eth node, enshure, that token is ERC20 compatible
