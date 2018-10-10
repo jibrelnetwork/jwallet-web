@@ -325,12 +325,21 @@ declare type DigitalAssetsData = {
 /**
  * Custom digital asset
  */
-declare type CustomAssetData = {
-  +invalidFields: FormFields,
-  +address: Address,
+declare type CustomAssetFormFields = {|
+  +address: string,
   +name: string,
   +symbol: string,
   +decimals: string,
+|}
+
+declare type CustomAssetState = {
+  +invalidFields: CustomAssetFormFields,
+  +formFields: CustomAssetFormFields,
+
+  +isTokenValid: boolean,
+  +isTokenLoaded: boolean,
+  +isTokenLoading: boolean,
+  +requestedAddress: string,
 }
 
 /**

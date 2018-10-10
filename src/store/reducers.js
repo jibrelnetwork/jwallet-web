@@ -9,6 +9,7 @@ import wallets from 'routes/Wallets/modules/wallets'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import customAsset from 'routes/CustomAsset/modules/customAsset'
 
 export function makeRootReducer(asyncReducers: Object): Object {
   return combineReducers({
@@ -16,6 +17,7 @@ export function makeRootReducer(asyncReducers: Object): Object {
     wallets,
     walletsCreate,
     digitalAssets,
+    customAsset,
     router,
     ...asyncReducers,
   })
