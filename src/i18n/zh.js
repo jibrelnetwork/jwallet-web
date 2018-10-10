@@ -49,6 +49,24 @@ module.exports = {
         symbol: '标志',
         decimals: '精度',
       },
+      error: {
+        address: {
+          tooShort: 'Address is too short',
+          invalid: 'Address should be a valid contract address',
+          exists: 'Asset with this address already exists',
+          notERC20: 'This contract is not ERC-20 compatible',
+        }
+      }
+    },
+    editCutomAsset: {
+      title: 'Edit Custom Asset',
+      buttonTitle: 'Save',
+      placeholder: {
+        address: 'Address',
+        name: 'Name',
+        symbol: 'Symbol',
+        decimals: 'Decimals',
+      },
     },
     backupKeys: {
       title: 'Backup Keys',
