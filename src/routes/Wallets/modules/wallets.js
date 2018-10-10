@@ -45,6 +45,7 @@ export const CHECK_NAME_SUCCESS: '@@wallets/CHECK_NAME_SUCCESS' = '@@wallets/CHE
 export const CHECK_NAME_REQUEST: '@@wallets/CHECK_NAME_REQUEST' = '@@wallets/CHECK_NAME_REQUEST'
 
 export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
+export const SET_WALLETS_ITEMS: '@@wallets/SET_WALLETS_ITEMS' = '@@wallets/SET_WALLETS_ITEMS'
 export const TOGGLE_WALLET: '@@wallets/TOGGLE_WALLET' = '@@wallets/TOGGLE_WALLET'
 export const SET_ACTIVE_WALLET: '@@wallets/SET_ACTIVE_WALLET' = '@@wallets/SET_ACTIVE_WALLET'
 
@@ -149,6 +150,15 @@ export function setWallets(payload: WalletsSetWalletsActionPayload) {
   }
 }
 
+export function setWalletsItems(items: Wallets) {
+  return {
+    type: SET_WALLETS_ITEMS,
+    payload: {
+      items,
+    },
+  }
+}
+
 export function toggleWallet(toggledWalletId: WalletId) {
   return {
     type: TOGGLE_WALLET,
@@ -204,6 +214,7 @@ export type WalletsAction =
   ExtractReturn<typeof checkNameSuccess> |
   ExtractReturn<typeof checkNameRequest> |
   ExtractReturn<typeof setWallets> |
+  ExtractReturn<typeof setWalletsItems> |
   ExtractReturn<typeof toggleWallet> |
   ExtractReturn<typeof setActiveWallet> |
   ExtractReturn<typeof setIsLoading> |
@@ -276,6 +287,12 @@ const wallets = (
         ...action.payload,
       }
 
+    case SET_WALLETS_ITEMS:
+      return {
+        ...state,
+        items: action.payload.items,
+      }
+
     case TOGGLE_WALLET:
       return {
         ...state,
@@ -309,22 +326,24 @@ const wallets = (
 
     case CLEAN: {
       const {
+        invalidFields,
         name,
         password,
-        isLoading,
         passwordHint,
-        invalidFields,
         passwordConfirm,
+        toggledWalletId,
+        isLoading,
       } = initialState
 
       return {
         ...state,
+        invalidFields,
         name,
         password,
-        isLoading,
         passwordHint,
-        invalidFields,
         passwordConfirm,
+        toggledWalletId,
+        isLoading,
       }
     }
 
