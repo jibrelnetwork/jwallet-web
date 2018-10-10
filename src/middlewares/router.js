@@ -22,11 +22,6 @@ import * as removeWallet from 'routes/Wallets/routes/Remove/modules/removeWallet
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 
 /**
- * Custom Asset
- */
-import * as customAsset from 'routes/CustomAsset/modules/customAsset'
-
-/**
  * Transactions
  */
 import * as transactions from 'routes/Transactions/modules/transactions'
@@ -191,32 +186,6 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
         goToLocation('/transactions/all')
       }
 
-      break
-    }
-
-    /**
-     * Custom Assets
-     */
-    case customAsset.OPEN: {
-      goToWalletsIfNoActive()
-
-      const state: State = store.getState()
-      const locationPath: string = getCurrentLocation(state)
-      const isEditRoute: boolean = (locationPath.indexOf('/custom-asset/edit') === 0)
-
-      if (isEditRoute) {
-        const { address }: CustomAssetData = store.getState().customAsset
-
-        if (!address) {
-          goToLocation('/custom-asset/add')
-        }
-      }
-
-      break
-    }
-
-    case customAsset.SET_EDIT_ADDRESS_SUCCESS: {
-      goToLocation('/custom-asset/edit')
       break
     }
 

@@ -1,6 +1,6 @@
 // @flow
 
-/* eslint-disable no-undef, no-unused-vars */
+/* eslint-disable no-unused-vars */
 
 import type { Saga } from 'redux-saga'
 
@@ -336,9 +336,9 @@ declare type CustomAssetState = {
   +invalidFields: CustomAssetFormFields,
   +formFields: CustomAssetFormFields,
 
-  +isTokenValid: boolean,
-  +isTokenLoaded: boolean,
-  +isTokenLoading: boolean,
+  +isAssetValid: boolean,
+  +isAssetLoaded: boolean,
+  +isAssetLoading: boolean,
   +requestedAddress: string,
 }
 
@@ -440,7 +440,7 @@ declare type State = {|
   +changeWalletPassword: ChangeWalletPasswordData,
   +removeWallet: RemoveWalletData,
   +digitalAssets: DigitalAssetsData,
-  +customAsset: CustomAssetData,
+  +customAsset: CustomAssetState,
   +transactions: TransactionsData,
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
@@ -455,4 +455,4 @@ declare type InvalidFieldError = {
   +message: string,
 }
 
-/* eslint-enable no-undef, no-unused-vars */
+/* eslint-enable no-unused-vars */

@@ -20,7 +20,7 @@ type CustomAssetProps = {
 const CustomAsset = ({
   formFields,
   invalidFields,
-  addAsset,
+  submit,
   setField,
   type,
 }: CustomAssetProps) => {
@@ -28,7 +28,7 @@ const CustomAsset = ({
     (value: string) => setField(fieldName, value)
 
   const isAddressFieldDisabled = (type === 'edit')
-  const i18nKey = (type === 'add') ? 'addCutomAsset' : 'editCustomAsset'
+  const i18nKey = (type === 'add') ? 'addCustomAsset' : 'editCustomAsset'
 
   const fields: Array<{
     key: $Keys<CustomAssetFormFields>,

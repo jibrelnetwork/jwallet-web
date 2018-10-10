@@ -1,6 +1,10 @@
+// @flow
+
 import { CustomAssetAddContainer } from '../../containers'
 
-export default AddRoute = () => ({
+const Add = () => ({
   path: 'add',
   component: CustomAssetAddContainer,
 })
+
+export default Add
