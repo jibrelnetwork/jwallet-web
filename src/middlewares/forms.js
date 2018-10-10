@@ -53,16 +53,6 @@ export const setInvalidField = (store: { dispatch: Dispatch }) => (next: Next) =
     }
 
     /**
-     * Custom Asset
-     */
-    case customAsset.ADD_ERROR:
-    case customAsset.EDIT_ERROR:
-    case customAsset.REMOVE_ERROR: {
-      store.dispatch(customAsset.setInvalidField(payload.fieldName, payload.message))
-      break
-    }
-
-    /**
      * Wallets
      */
     /*

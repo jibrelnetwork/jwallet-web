@@ -220,13 +220,6 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case customAsset.ADD_SUCCESS:
-    case customAsset.EDIT_SUCCESS:
-    case customAsset.REMOVE_SUCCESS: {
-      goToLocation('/digital-assets')
-      break
-    }
-
     /**
      * Transactions
      */
