@@ -13,10 +13,10 @@ import {
 import web3 from 'services/web3'
 
 import {
-  OPEN,
   CLOSE,
   SET_FIELD,
   START_ASSET_LOADING,
+  OPEN_CUSTOM_ASSET_ADD,
   clean,
   setField,
   setFieldError,
@@ -61,8 +61,8 @@ function* getDigitalAsset(contractAddress: Address): Saga<DigitalAsset> {
 /**
  * Make requests to ETH node.
  * Returns asset details or null if asset not ERC-20 compatible
- * 
- * @param {string} contractAddress 
+ *
+ * @param {string} contractAddress
  * @returns {null | RequestedAssetFields}
  */
 function* requestAssetFieldsTask(contractAddress: Address): Saga<?RequestedAssetFields> {
@@ -97,7 +97,7 @@ function* requestAssetFieldsTask(contractAddress: Address): Saga<?RequestedAsset
  * Request asset fields from ETH node
  * Emit startAssetLoading, setAssetIsValid events on success/fail
  * Cencels previous request on page close, or when new request required
- * 
+ *
  * @param {string} contractAddress
  * @returns {RequestedAssetFields}
  * @throws {InvalidFieldError}
@@ -138,7 +138,7 @@ function* requestAssetFields(contractAddress: Address): Saga<?RequestedAssetFiel
  * Fires, when user changes fields on CustomAssetForm
  * Form validation here
  * Emit setField, setFieldError, clearFieldError, requestAssetFields events
- * 
+ *
  * @param action from setField method
  * @returns {undefined}
  */

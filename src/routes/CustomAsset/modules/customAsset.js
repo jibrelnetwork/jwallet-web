@@ -30,7 +30,7 @@ export function openCustomAssetEdit(assetAddress: Address) {
     type: OPEN_CUSTOM_ASSET_EDIT,
     payload: {
       address: assetAddress,
-    }
+    },
   }
 }
 

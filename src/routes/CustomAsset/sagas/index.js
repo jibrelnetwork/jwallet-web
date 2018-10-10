@@ -1,4 +1,4 @@
-import * as customAsset from './CustomAsset'
+import * as customAsset from './customAsset'
 
 export default {
   ...customAsset,
