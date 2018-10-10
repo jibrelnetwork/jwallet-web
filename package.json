@@ -30,7 +30,7 @@
     "jibrel-contracts-jsapi": "0.4.0",
     "json-format": "1.0.1",
     "jwallet-web-keystore": "jibrelnetwork/jwallet-web-keystore#2ef16aa",
-    "localforage": "jibrelnetwork/localForage",
+    "localforage": "1.7.2",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
     "ramda": "0.25.0",
