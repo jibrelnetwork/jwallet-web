@@ -10,23 +10,29 @@ import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const { defaultDecimals } = config
 
+type RPCProps = {
+  rpcaddr: string,
+  rpcport: number,
+  ssl: boolean,
+}
+
 /* eslint-disable-next-line fp/no-let */
-let rpcProps = {
+let rpcProps: RPCProps = {
   rpcaddr: '127.0.0.1',
   rpcport: 8545,
   ssl: false,
 }
 
-function setRpcProps(props: any) {
+function setRpcProps(props: RPCProps): void {
   /* eslint-disable-next-line fp/no-mutation */
   rpcProps = props
 }
 
-function getRpcProps() {
+function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-function getETHBalance(address: Address) {
+function getETHBalance(address: Address): Promise<number> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
     .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
@@ -36,7 +42,7 @@ function getTokenBalance(
   contractAddress: Address,
   owner: Address,
   decimals: Decimals = defaultDecimals,
-) {
+): Promise<number> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
@@ -46,10 +52,32 @@ function getAssetBalance(
   contractAddress: Address,
   owner: Address,
   decimals: Decimals,
-) {
+): Promise<number> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
+}
+
+function getContractDecimals(
+  contractAddress: Address
+): Promise<number> {
+  return jibrelContractsApi.contracts.erc20Named
+    .decimals({ ...rpcProps, contractAddress })
+    .then(decimals => decimals.c)
+}
+
+function getContractName(
+  contractAddress: Address
+): Promise<string> {
+  return jibrelContractsApi.contracts.erc20Named
+    .name({ ...rpcProps, contractAddress })
+}
+
+function getContractSymbol(
+  contractAddress: Address
+): Promise<string> {
+  return jibrelContractsApi.contracts.erc20Named
+    .symbol({ ...rpcProps, contractAddress })
 }
 
 function getETHTransactions(address: Address) {
