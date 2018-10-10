@@ -7,19 +7,32 @@ import keystore from 'services/keystore'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
+import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
+import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
 
-export type WalletsAnyAction = WalletsAction | WalletsCreateAction | WalletsImportAction
+export type WalletsAnyAction =
+  WalletsAction |
+  WalletsCreateAction |
+  WalletsImportAction |
+  WalletsRenameAction
 
-export type WalletsWorkerMessage = {|
+type WalletsWorkerMessage = {|
   +data: WalletsAnyAction,
 |}
 
-// eslint-disable-next-line fp/no-mutation
-onmessage = (msg: WalletsWorkerMessage): void => {
+export type WalletsWorkerInstance = {|
+  onmessage: (WalletsWorkerMessage) => void,
+  +postMessage: (WalletsAnyAction) => void,
+|}
+
+/* eslint-disable-next-line no-restricted-globals */
+const walletsWorker: WalletsWorkerInstance = self
+
+walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
   const action: WalletsAnyAction = msg.data
 
   switch (action.type) {
@@ -29,12 +42,12 @@ onmessage = (msg: WalletsWorkerMessage): void => {
 
         keystore.checkWalletUniqueness(items, name, 'name')
 
-        postMessage(wallets.checkNameSuccess(newWalletLocation))
+        walletsWorker.postMessage(wallets.checkNameSuccess(newWalletLocation))
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        postMessage(wallets.checkNameError(err.message))
+        walletsWorker.postMessage(wallets.checkNameError(err.message))
       }
 
       break
@@ -44,15 +57,17 @@ onmessage = (msg: WalletsWorkerMessage): void => {
       const { data } = action.payload
 
       if (utils.checkMnemonicValid(data)) {
-        postMessage(walletsImport.checkWalletTypeSuccess('mnemonic'))
+        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('mnemonic'))
       } else if (utils.checkBip32XPublicKeyValid(data)) {
-        postMessage(walletsImport.checkWalletTypeSuccess('bip32Xpub'))
+        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('bip32Xpub'))
       } else if (utils.checkPrivateKeyValid(data)) {
-        postMessage(walletsImport.checkWalletTypeSuccess('privateKey'))
+        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('privateKey'))
       } else if (utils.checkAddressValid(data)) {
-        postMessage(walletsImport.checkWalletTypeSuccess('address'))
+        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('address'))
       } else {
-        postMessage(walletsImport.checkWalletTypeError('Please input valid wallet data'))
+        walletsWorker.postMessage(
+          walletsImport.checkWalletTypeError('Please input valid wallet data'),
+        )
       }
 
       break
@@ -63,9 +78,11 @@ onmessage = (msg: WalletsWorkerMessage): void => {
       const isValid: boolean = utils.checkDerivationPathValid(derivationPath)
 
       if (isValid) {
-        postMessage(walletsImport.checkDerivationPathSuccess())
+        walletsWorker.postMessage(walletsImport.checkDerivationPathSuccess())
       } else {
-        postMessage(walletsImport.checkDerivationPathError('Derivation path is not valid'))
+        walletsWorker.postMessage(
+          walletsImport.checkDerivationPathError('Derivation path is not valid'),
+        )
       }
 
       break
@@ -93,7 +110,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
           keystore.checkPassword(testPasswordData, password, passwordOpts)
         }
 
-        postMessage(walletsCreate.createSuccess({
+        walletsWorker.postMessage(walletsCreate.createSuccess({
           passwordHint,
           passwordOptions: passwordOpts,
           mnemonicOptions: mnemonicOpts,
@@ -109,7 +126,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        postMessage(walletsCreate.createError(err.message))
+        walletsWorker.postMessage(walletsCreate.createError(err.message))
       }
 
       break
@@ -138,7 +155,7 @@ onmessage = (msg: WalletsWorkerMessage): void => {
           keystore.checkPassword(testPasswordData, password, passwordOpts)
         }
 
-        postMessage(walletsImport.importSuccess({
+        walletsWorker.postMessage(walletsImport.importSuccess({
           passwordHint,
           passwordOptions: passwordOpts,
           mnemonicOptions: mnemonicOpts,
@@ -154,7 +171,26 @@ onmessage = (msg: WalletsWorkerMessage): void => {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        postMessage(walletsImport.importError(err.message))
+        walletsWorker.postMessage(walletsImport.importError(err.message))
+      }
+
+      break
+    }
+
+    case walletsRename.RENAME_REQUEST: {
+      try {
+        const { items, name, walletId } = action.payload
+
+        keystore.checkWalletUniqueness(items, name, 'name')
+
+        const itemsNew = keystore.updateWallet(items, walletId, { name })
+
+        walletsWorker.postMessage(walletsRename.renameSuccess(itemsNew))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(walletsRename.renameError(err.message))
       }
 
       break

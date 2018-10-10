@@ -3,18 +3,14 @@
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
+import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 
 import type { NewWalletLocation } from 'routes/Wallets/modules/wallets'
 
-import type { WalletsAnyAction, WalletsWorkerMessage } from './worker'
+import type { WalletsAnyAction, WalletsWorkerInstance } from './worker'
 
 // eslint-disable-next-line import/default
 import WalletsWorker from './worker.js'
-
-type WalletsWorkerInstance = {|
-  onmessage: (WalletsWorkerMessage) => void,
-  +postMessage: (WalletsAnyAction) => void,
-|}
 
 type ImportWalletData = {|
   +data: string,
@@ -106,8 +102,12 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
   }))
 }
 
+export function renameRequest(items: Wallets, name: string, walletId: string) {
+  walletsWorker.postMessage(walletsRename.renameRequest(items, name, walletId))
+}
+
 export function run(store: { dispatch: (WalletsAnyAction) => void }) {
-  walletsWorker.onmessage = function walletsWorkerOnMessage(msg: WalletsWorkerMessage) {
+  walletsWorker.onmessage = function walletsWorkerOnMessage(msg) {
     store.dispatch(msg.data)
   }
 }
