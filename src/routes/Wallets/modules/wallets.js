@@ -1,234 +1,133 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
+type WalletsOpenViewConstant = '@@wallets/OPEN_VIEW'
+type WalletsCloseViewConstant = '@@wallets/CLOSE_VIEW'
+type WalletsSetWalletsConstant = '@@wallets/SET_WALLETS'
+type WalletsToggleWalletConstant = '@@wallets/TOGGLE_WALLET'
+type WalletsSetActiveWalletConstant = '@@wallets/SET_ACTIVE_WALLET'
+type WalletsCleanConstant = '@@wallets/CLEAN'
 
-export const INIT = '@@wallets/INIT'
-export const INIT_FINISH = '@@wallets/INIT_FINISH'
-export const OPEN = '@@wallets/OPEN'
-export const CLOSE = '@@wallets/CLOSE'
-export const SET_WALLETS = '@@wallets/SET_WALLETS'
-export const TOGGLE_WALLET = '@@wallets/TOGGLE_WALLET'
-export const SHOW_ACTIONS_MENU = '@@wallets/SHOW_ACTIONS_MENU'
-export const SET_WALLET_ACTION = '@@wallets/SET_WALLET_ACTION'
-export const SET_PASSWORD = '@@wallets/SET_PASSWORD'
-export const SET_ACTIVE = '@@wallets/SET_ACTIVE'
-export const SET_ACTIVE_SUCCESS = '@@wallets/SET_ACTIVE_SUCCESS'
-export const SET_ACTIVE_ERROR = '@@wallets/SET_ACTIVE_ERROR'
-export const SET_ACTIVE_WALLET_ID = '@@wallets/SET_ACTIVE_WALLET_ID'
-export const SET_INVALID_FIELD = '@@wallets/SET_INVALID_FIELD'
-export const CLEAN = '@@wallets/CLEAN'
+type WalletsOpenViewAction = {|
+  +type: WalletsOpenViewConstant,
+|}
 
-export const init = (): { type: string } => ({
-  type: INIT,
+type WalletsCloseViewAction = {|
+  +type: WalletsCloseViewConstant,
+|}
+
+export type WalletsSetWalletsActionPayload = {|
+  +items: Wallets,
+  +testPasswordData: EncryptedData,
+  +passwordOptions: PasswordOptions,
+  +mnemonicOptions: MnemonicOptions,
+  +passwordHint: string,
+|}
+
+export type WalletsSetWalletsAction = {|
+  +type: WalletsSetWalletsConstant,
+  +payload: WalletsSetWalletsActionPayload,
+|}
+
+type WalletsToggleWalletAction = {|
+  +type: WalletsToggleWalletConstant,
+  +payload: {|
+    +toggledWalletId: WalletId,
+  |},
+|}
+
+type WalletsSetActiveWalletAction = {|
+  +type: WalletsSetActiveWalletConstant,
+  +payload: {|
+    +activeWalletId: ?WalletId,
+  |},
+|}
+
+type WalletsCleanAction = {|
+  +type: WalletsCleanConstant,
+|}
+
+type WalletsAction =
+  WalletsSetWalletsAction |
+  WalletsToggleWalletAction |
+  WalletsSetActiveWalletAction |
+  WalletsCleanAction
+
+export const OPEN_VIEW: WalletsOpenViewConstant = '@@wallets/OPEN_VIEW'
+export const CLOSE_VIEW: WalletsCloseViewConstant = '@@wallets/CLOSE_VIEW'
+export const SET_WALLETS: WalletsSetWalletsConstant = '@@wallets/SET_WALLETS'
+export const TOGGLE_WALLET: WalletsToggleWalletConstant = '@@wallets/TOGGLE_WALLET'
+export const SET_ACTIVE_WALLET: WalletsSetActiveWalletConstant = '@@wallets/SET_ACTIVE_WALLET'
+export const CLEAN: WalletsCleanConstant = '@@wallets/CLEAN'
+
+export const openView = (): WalletsOpenViewAction => ({
+  type: OPEN_VIEW,
 })
 
-export const initFinish = (): { type: string } => ({
-  type: INIT_FINISH,
+export const closeView = (): WalletsCloseViewAction => ({
+  type: CLOSE_VIEW,
 })
 
-export const open = (): { type: string } => ({
-  type: OPEN,
-})
-
-export const close = (): { type: string } => ({
-  type: CLOSE,
-})
-
-export const setWallets = (items: Wallets): {
-  type: string,
-  payload: {
-    items: Wallets,
-  },
-} => ({
+export const setWallets = (payload: WalletsSetWalletsActionPayload): WalletsSetWalletsAction => ({
   type: SET_WALLETS,
-  payload: {
-    items,
-  },
+  payload,
 })
 
-export const toggleWallet = (toggledWalletId: WalletId): {
-  type: string,
-  payload: {
-    toggledWalletId: WalletId,
-  },
-} => ({
+export const toggleWallet = (toggledWalletId: WalletId): WalletsToggleWalletAction => ({
   type: TOGGLE_WALLET,
   payload: {
     toggledWalletId,
   },
 })
 
-export const showActionsMenu = (showActionsWalletId: WalletId): {
-  type: string,
-  payload: {
-    showActionsWalletId: WalletId,
-  },
-} => ({
-  type: SHOW_ACTIONS_MENU,
-  payload: {
-    showActionsWalletId,
-  },
-})
-
-export const setWalletAction = (walletAction: WalletAction): {
-  type: string,
-  payload: {
-    walletAction: WalletAction,
-  },
-} => ({
-  type: SET_WALLET_ACTION,
-  payload: {
-    walletAction,
-  },
-})
-
-export const setPassword = (password: Password): {
-  type: string,
-  payload: {
-    password: Password,
-  },
-} => ({
-  type: SET_PASSWORD,
-  payload: {
-    password,
-  },
-})
-
-export const setActive = (): { type: string } => ({
-  type: SET_ACTIVE,
-})
-
-export const setActiveSuccess = (
-  walletId: WalletId,
-  walletAction: ?WalletAction,
-  walletType: ?WalletType,
-): {
-  type: string,
-  payload: {
-    walletId: WalletId,
-    walletAction: ?WalletAction,
-    walletType: ?WalletType,
-  },
-} => ({
-  type: SET_ACTIVE_SUCCESS,
-  payload: {
-    walletId,
-    walletAction,
-    walletType,
-  },
-})
-
-export const setActiveError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SET_ACTIVE_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setActiveWalletId = (activeWalletId: ?WalletId): {
-  type: string,
-  payload: {
-    activeWalletId: ?WalletId,
-  },
-} => ({
-  type: SET_ACTIVE_WALLET_ID,
+export const setActiveWallet = (activeWalletId: ?WalletId): WalletsSetActiveWalletAction => ({
+  type: SET_ACTIVE_WALLET,
   payload: {
     activeWalletId,
   },
 })
 
-export const setInvalidField = (fieldName: string, message: string): {
-  type: string,
-  payload: {
-    fieldName: string,
-    message: string,
-  },
-} => ({
-  type: SET_INVALID_FIELD,
-  payload: {
-    fieldName,
-    message,
-  },
-})
-
-export const clean = (): { type: string } => ({
+export const clean = (): WalletsCleanAction => ({
   type: CLEAN,
 })
 
-const initialState: WalletsData = {
-  invalidFields: {},
+const initialState: WalletsState = {
   items: [],
-  password: '',
-  toggledWalletId: null,
-  showActionsWalletId: null,
+  passwordHint: '',
   activeWalletId: null,
-  walletAction: null,
-  isInitialised: false,
+  toggledWalletId: null,
+  passwordOptions: null,
+  mnemonicOptions: null,
+  testPasswordData: null,
 }
 
 const wallets = (
-  state: WalletsData = initialState,
-  action: FSA,
-): Object => {
-  const { type, payload }: FSA = action
+  state: WalletsState = initialState,
+  action: WalletsAction,
+): WalletsState => {
+  switch (action.type) {
+    case SET_WALLETS:
+      return {
+        ...state,
+        ...action.payload,
+      }
 
-  switch (type) {
-    case INIT_FINISH: {
-      return assoc('isInitialised', true)(state)
-    }
+    case TOGGLE_WALLET:
+      return {
+        ...state,
+        toggledWalletId: action.payload.toggledWalletId,
+      }
 
-    case SET_WALLETS: {
-      return assoc('items', payload.items)(state)
-    }
+    case SET_ACTIVE_WALLET:
+      return {
+        ...state,
+        activeWalletId: action.payload.activeWalletId,
+      }
 
-    case TOGGLE_WALLET: {
-      return compose(
-        assoc('toggledWalletId', payload.toggledWalletId),
-        assoc('showActionsWalletId', null),
-      )(state)
-    }
+    case CLEAN:
+      return initialState
 
-    case SHOW_ACTIONS_MENU: {
-      return compose(
-        assoc('toggledWalletId', null),
-        assoc('showActionsWalletId', payload.showActionsWalletId),
-      )(state)
-    }
-
-    case SET_WALLET_ACTION: {
-      return assoc('walletAction', payload.walletAction)(state)
-    }
-
-    case SET_PASSWORD: {
-      return compose(
-        assoc('password', payload.password),
-        assocPath(['validFields', 'password'], null),
-        assocPath(['invalidFields', 'password'], null),
-      )(state)
-    }
-
-    case SET_ACTIVE_WALLET_ID: {
-      return assoc('activeWalletId', payload.activeWalletId)(state)
-    }
-
-    case SET_INVALID_FIELD: {
-      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
-    }
-
-    case CLEAN: {
-      return compose(
-        assoc('password', ''),
-        assoc('walletAction', null),
-        assoc('toggledWalletId', null),
-        assocPath(['validFields', 'password'], null),
-        assocPath(['invalidFields', 'password'], null),
-      )(state)
-    }
-
-    default: return state
+    default:
+      return state
   }
 }
 

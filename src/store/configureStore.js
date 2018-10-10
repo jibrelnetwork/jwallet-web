@@ -3,6 +3,7 @@ import { routerMiddleware } from 'react-router-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
 
 import sagas from './sagas'
+import workers from '../workers'
 import middlewares from '../middlewares'
 import { makeRootReducer } from './reducers'
 
@@ -45,6 +46,11 @@ function configureStore(initialState = {}, history) {
   // Inject sagas
   // ======================================================
   Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
+
+  // ======================================================
+  // Start workers
+  // ======================================================
+  workers.forEach(worker => worker.run(store))
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {

@@ -8,38 +8,40 @@ import WalletHeader from 'components/WalletHeader'
 import WalletCard from './WalletCard'
 import NewWalletButtons from './NewWalletButtons'
 
-const WalletsIndexView = (props: Props) => (
+type Props = {|
+  +toggleWallet: Function,
+  +createWallet: Function,
+  // +importWallet: Function,
+  // +setActiveWallet: Function,
+  +items: Wallets,
+  +toggledWalletId: WalletId,
+|}
+
+const WalletsIndexView = ({
+  toggleWallet,
+  createWallet,
+  items,
+  toggledWalletId,
+}: Props) => (
   <div className='wallets-index-view'>
     <WalletHeader />
     <div className='content'>
-      {props.items.map(item => (
+      {items.map(item => (
         <div key={item.id} className='wallet'>
           <JCard color='blue'>
-            <WalletCard walletData={item} {...props} />
+            <WalletCard
+              toggleWallet={toggleWallet}
+              walletData={item}
+              toggledWalletId={toggledWalletId}
+            />
           </JCard>
         </div>
       ))}
       <NewWalletButtons
-        createWallet={props.createWallet}
-        importWallet={props.importWallet}
+        createWallet={createWallet}
       />
     </div>
   </div>
 )
-
-type Props = {
-  setActive: Function,
-  setPassword: Function,
-  toggleWallet: Function,
-  createWallet: Function,
-  importWallet: Function,
-  showActionsMenu: Function,
-  setWalletAction: Function,
-  items: Wallets,
-  invalidFields: FormFields,
-  password: string,
-  toggledWalletId: ?WalletId,
-  showActionsWalletId: ?WalletId,
-}
 
 export default WalletsIndexView
