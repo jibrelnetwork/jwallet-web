@@ -2,12 +2,14 @@
 
 import React from 'react'
 
-import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import checkMnemonicType from 'utils/keystore/checkMnemonicType'
+import { handle, ignoreEvent } from 'utils/eventHandlers'
 
-import WalletFace from 'components/WalletFace'
-import WalletActions from 'components/WalletActions'
-import WalletLoading from 'components/WalletLoading'
+import {
+  WalletFace,
+  WalletActions,
+  WalletLoading,
+} from 'components'
 
 const WALLET_TYPE_ICON_MAP = {
   'address': 'binding',
@@ -17,7 +19,8 @@ const WALLET_TYPE_ICON_MAP = {
 }
 
 type Props = {|
-  +toggleWallet: Function,
+  +toggleWallet: (WalletId) => void,
+  +renameWallet: (WalletId) => void,
   // +setActiveWallet: Function,
   +walletData: Wallet,
   +toggledWalletId: ?WalletId,
@@ -25,6 +28,7 @@ type Props = {|
 |}
 
 const WalletCard = ({
+  renameWallet,
   toggleWallet,
   walletData,
   toggledWalletId,
@@ -44,7 +48,7 @@ const WalletCard = ({
   const iconName: string = WALLET_TYPE_ICON_MAP[customType]
 
   if (isToggled) {
-    return <WalletActions setWalletAction={console.log} />
+    return <WalletActions renameWallet={handle(renameWallet)(toggledWalletId)} />
   }
 
   if (isLoading) {

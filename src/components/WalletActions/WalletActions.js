@@ -2,32 +2,31 @@
 
 import React from 'react'
 
-import handle from 'utils/eventHandlers/handle'
 import JFlatButton from 'components/base/JFlatButton'
 
 type Props = {|
-  +setWalletAction: Function,
+  +renameWallet: () => void,
 |}
 
-const WalletActions = ({ setWalletAction }: Props) => (
+const WalletActions = ({ renameWallet }: Props) => (
   <div className='wallet-actions'>
     <JFlatButton
-      onClick={handle(setWalletAction)('rename')}
+      onClick={renameWallet}
       label='Rename'
-      isHoverOpacity
       color='white'
+      isHoverOpacity
     />
     <JFlatButton
-      onClick={handle(setWalletAction)('backup')}
+      onClick={console.log}
       label='Backup'
-      isHoverOpacity
       color='white'
+      isHoverOpacity
     />
     <JFlatButton
-      onClick={handle(setWalletAction)('delete')}
+      onClick={console.log}
       label='Delete'
-      isHoverOpacity
       color='white'
+      isHoverOpacity
     />
   </div>
 )
