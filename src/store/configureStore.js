@@ -1,4 +1,7 @@
+// @flow
+
 import createSagaMiddleware from 'redux-saga'
+import { persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
 
@@ -9,7 +12,10 @@ import { makeRootReducer } from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
 
-function configureStore(initialState = {}, history) {
+function configureStore(initialState: InitialState = {}, history: Object): {|
+  +store: Store,
+  +persistor: Persistor,
+|} {
   // ======================================================
   // Middleware Configuration
   // ======================================================
@@ -31,14 +37,10 @@ function configureStore(initialState = {}, history) {
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
-  const store = createStore(
-    makeRootReducer(),
-    initialState,
-    compose(
-      applyMiddleware(...middleware),
-      ...enhancers
-    )
-  )
+  const rootReducer = makeRootReducer()
+  const enhancer = compose(applyMiddleware(...middleware), ...enhancers)
+  const store = createStore(rootReducer, initialState, enhancer)
+  const persistor = persistStore(store)
 
   store.asyncReducers = {}
 
@@ -52,15 +54,17 @@ function configureStore(initialState = {}, history) {
   // ======================================================
   workers.forEach(worker => worker.run(store))
 
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
+  const hmr: HMR = (module: any).hot
+
+  if (hmr) {
+    hmr.accept('./reducers', () => {
       const reducers = require('./reducers').makeRootReducer
 
       store.replaceReducer(reducers(store.asyncReducers))
     })
   }
 
-  return store
+  return { store, persistor }
 }
 
 export default configureStore
