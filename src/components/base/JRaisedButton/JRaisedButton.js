@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import handle from 'utils/eventHandlers/handle'
 
 import handle from 'utils/eventHandlers/handle'
 import { JIcon, JText, JLoader } from 'components/base'
