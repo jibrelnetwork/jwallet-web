@@ -1,7 +1,8 @@
 [ignore]
 .*/build/.*
 .*/src/static/.*
-.*/src/stories/.*
+.*/stories/.*
+*.old.js
 
 [include]
 
