@@ -14,3 +14,7 @@ export function closeView() {
     type: CLOSE_VIEW,
   }
 }
+
+export type WalletsStartAction =
+  ExtractReturn<typeof openView> |
+  ExtractReturn<typeof closeView>
