@@ -3,6 +3,9 @@
 import { walletsRootSaga } from './wallets'
 import walletsCreateSagas from '../routes/Create/sagas'
 import walletsImportSagas from '../routes/Import/sagas'
+import walletsRenameSagas from '../routes/Rename/sagas'
+
+const walletSagas = { walletsRootSaga }
 
 /*
 import addresses from '../routes/Addresses/sagas'
@@ -13,9 +16,10 @@ import removeWallet from '../routes/Remove/sagas'
 */
 
 export default {
-  walletsRootSaga,
+  ...walletSagas,
   ...walletsCreateSagas,
   ...walletsImportSagas,
+  ...walletsRenameSagas,
   /*
   ...addresses,
   ...importWallet,
