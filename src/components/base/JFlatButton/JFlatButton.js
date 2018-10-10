@@ -5,17 +5,19 @@ import classNames from 'classnames'
 
 import { JIcon, JLoader, JText } from 'components/base'
 
-type Props = {
-  onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  label: ?string,
-  color: 'blue' | 'gray' | 'sky' | 'white',
-  iconName: ?string,
-  iconSize: 'small' | 'medium',
-  iconColor: 'blue' | 'gray' | 'sky' | 'white',
-  isLink: boolean,
-  isLoading: boolean,
-  isDisabled: boolean,
-}
+type Props = {|
+  +onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  +label: ?string,
+  +color: 'blue' | 'gray' | 'sky' | 'white',
+  +iconName: ?string,
+  +iconSize: 'small' | 'medium',
+  +iconColor: 'blue' | 'gray' | 'sky' | 'white',
+  +isLink: boolean,
+  +isLoading: boolean,
+  +isDisabled: boolean,
+  +hasNotBorder: boolean,
+  +isHoverOpacity: boolean,
+|}
 
 class JFlatButton extends PureComponent<Props, *> {
   static defaultProps = {
@@ -24,9 +26,11 @@ class JFlatButton extends PureComponent<Props, *> {
     iconName: null,
     iconSize: 'small',
     iconColor: 'white',
+    isLink: false,
     isLoading: false,
     isDisabled: false,
-    isLink: false,
+    hasNotBorder: false,
+    isHoverOpacity: false,
   }
 
   render() {
@@ -40,6 +44,8 @@ class JFlatButton extends PureComponent<Props, *> {
       iconColor,
       isLoading,
       isDisabled,
+      isHoverOpacity,
+      hasNotBorder,
     } = this.props
 
     if (isLoading) {
@@ -52,13 +58,15 @@ class JFlatButton extends PureComponent<Props, *> {
 
     return (
       <div
-        onClick={isDisabled ? undefined : onClick}
+        onClick={isDisabled ? null : onClick}
         className={classNames(
           'j-flat-button',
           `-${color}`,
           isLink && '-link',
           label && '-label',
+          hasNotBorder && '-no-border',
           isDisabled && '-disabled',
+          isHoverOpacity && '-hover-opacity',
         )}
       >
         {iconName && (

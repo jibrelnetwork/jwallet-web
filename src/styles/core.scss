@@ -39,6 +39,7 @@
     transition: all 0.3s ease 0s;
   }
 
+  /* stylelint-disable selector-nested-pattern, rscss/no-descendant-combinator */
   * {
     @include box;
 
@@ -78,6 +79,7 @@
   h4 {
     font-weight: 600;
   }
+  /* stylelint-enable */
 
   // Base components
   @import '../components/base/JAssetSymbol/jAssetSymbol';
@@ -115,6 +117,13 @@
   @import '../components/QRCode/qrCode';
   @import '../components/RoundIconButton/roundIconButton';
   @import '../components/WalletHeader/walletHeader';
+
+  // components
+  @import '../components/NewWalletButtons/newWalletButtons';
+  @import '../components/WalletActions/walletActions';
+  @import '../components/WalletFace/walletFace';
+  @import '../components/WalletPassword/walletPassword';
+  @import '../components/WalletLoading/WalletLoading';
 
   // Views
   @import '../routes/CustomAsset/styles/customAsset';

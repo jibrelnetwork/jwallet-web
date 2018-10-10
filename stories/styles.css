@@ -14,3 +14,7 @@ h2 {
 h3 {
   margin: 10px 0;
 }
+
+.bg-blue {
+  background-color: #003dc6;
+}
