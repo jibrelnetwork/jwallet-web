@@ -12,6 +12,7 @@ import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as start from 'routes/Wallets/routes/Start/modules/start'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
+import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 /*
 import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
@@ -120,8 +121,15 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
       break
     }
 
-    case walletsRename.RENAME_SUCCESS: {
+    case walletsRename.RENAME_SUCCESS:
+    case walletsDelete.DELETE_SUCCESS: {
       goToLocation('/wallets')
+
+      break
+    }
+
+    case walletsDelete.DELETE_ERROR: {
+      goToLocation('/error')
 
       break
     }
