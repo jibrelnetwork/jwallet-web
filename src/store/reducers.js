@@ -1,6 +1,8 @@
 // @flow
 
+import storage from 'localforage'
 import { combineReducers } from 'redux'
+import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
 import networks from 'routes/modules/networks'
@@ -11,8 +13,16 @@ import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import customAsset from 'routes/CustomAsset/modules/customAsset'
 
-export function makeRootReducer(asyncReducers: Object): Object {
-  return combineReducers({
+type KeyReducer = { key: string, reducer: Reducer<any, any> }
+
+const persistConfig = {
+  storage,
+  key: 'jwallet-web',
+  whitelist: ['wallets'],
+}
+
+export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
+  const rootReducer = combineReducers({
     networks,
     wallets,
     walletsCreate,
@@ -21,11 +31,13 @@ export function makeRootReducer(asyncReducers: Object): Object {
     router,
     ...asyncReducers,
   })
+
+  return persistReducer(persistConfig, rootReducer)
 }
 
-/* eslint-disable no-param-reassign */
-export function injectReducer(store: Object, { key, reducer }: Object): void {
-  store.asyncReducers[key] = reducer
-  store.replaceReducer(makeRootReducer(store.asyncReducers))
+export function injectReducer(store: Store, { key, reducer }: KeyReducer) {
+  store.replaceReducer(makeRootReducer({
+    ...store.asyncReducers,
+    [key]: reducer,
+  }))
 }
-/* eslint-enable no-param-reassign */

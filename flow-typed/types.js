@@ -2,7 +2,9 @@
 
 /* eslint-disable no-unused-vars */
 
+import type { Reducer } from 'redux'
 import type { Saga } from 'redux-saga'
+import type { Persistor } from 'redux-persist/lib/types'
 
 /**
  * General
@@ -19,6 +21,8 @@ declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
 
+declare type Reducers = { [string]: Reducer<any, any> }
+
 declare type FSA = {|
   +type: string,
   +payload?: Object,
@@ -33,6 +37,8 @@ declare type GetState = () => State
 declare type Store = {|
   +dispatch: Dispatch,
   +getState: GetState,
+  +asyncReducers: Reducers,
+  +replaceReducer: (Reducers) => void,
 |}
 
 declare type DerivationPath = {
@@ -44,6 +50,10 @@ declare type DerivationPaths = Array<DerivationPath>
 
 declare type WorkerError = {|
   +message: string,
+|}
+
+declare type HMR = {|
+  +accept: (string, (void) => void) => void,
 |}
 
 /**
@@ -446,6 +456,23 @@ declare type State = {|
   +sendFunds: SendFundsData,
   +router: RouterData,
 |}
+
+declare type InitialState = {
+  wallets?: WalletsState,
+  networks?: NetworksData,
+  mnemonicAddresses?: MnemonicAddressesData,
+  walletsCreate?: WalletsCreateState,
+  importWallet?: ImportWalletData,
+  editWallet?: EditWalletData,
+  backupWallet?: BackupWalletData,
+  changeWalletPassword?: ChangeWalletPasswordData,
+  removeWallet?: RemoveWalletData,
+  digitalAssets?: DigitalAssetsData,
+  customAsset?: CustomAssetData,
+  transactions?: TransactionsData,
+  receiveFunds?: ReceiveFundsData,
+  sendFunds?: SendFundsData,
+}
 
 /**
  * Errors
