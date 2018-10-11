@@ -56,7 +56,7 @@ declare type Network = {
   +id: NetworkId,
   +title: string,
   +rpcaddr: string,
-  +rpcport: string,
+  +rpcport: number,
   +ssl: boolean,
   +isCustom: boolean,
 }

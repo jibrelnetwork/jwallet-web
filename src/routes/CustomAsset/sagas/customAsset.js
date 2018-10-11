@@ -23,6 +23,7 @@ import {
   clearFieldError,
   setAssetIsValid,
   startAssetLoading,
+  terminateAssetLoading,
 } from '../modules/customAsset'
 
 const {
@@ -42,12 +43,12 @@ function addressFieldSimpleCheck(contractAddress: Address) {
 
   // 1. check length
   if (address.length < 42) {
-    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.tooShort'))
+    throw new InvalidFieldError('address', i18n('general.error.address.tooShort'))
   }
 
   // 2. check address field checksum
   if (!Keystore.checkAddressValid(address)) {
-    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.invalid'))
+    throw new InvalidFieldError('address', i18n('general.error.address.invalid'))
   }
 }
 
@@ -75,21 +76,26 @@ function* requestAssetFieldsTask(contractAddress: Address): Saga<?RequestedAsset
     })
 
     if (name === '0x' || symbol === '0x') {
-      return null
+      throw new Error('Invalid token')
     }
 
     return {
       name,
       symbol,
-      decimals, // decimals is BigNumber, get c
+      decimals,
     }
   } catch (err) {
-    // catch Web3 errors here, user should not to see it
-    console.error(err)
-    return null
+    // catch Web3 network error
+    if (err.isOperational && err.cause.name !== 'BigNumber Error') {
+      yield put(terminateAssetLoading())
+      throw new InvalidFieldError('address', i18n('general.error.network.connection'))
+    }
+
+    // Invalid token error
+    yield put(setAssetIsValid(false))
+    throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
   } finally {
     // in future, here there will be cancel web3 requests logic
-    // console.error('CANCEL request')
   }
 }
 
@@ -118,7 +124,7 @@ function* requestAssetFields(contractAddress: Address): Saga<?RequestedAssetFiel
   // wait for result or cancel all
   const { result } = yield race({
     result: requestAssetFieldsTask(contractAddress),
-    // cancel on close Add asset screen
+    // cancel on close Add/Edit asset screen
     close: take(CLOSE),
     // cancel, when we are trying to request another contract
     restart: take(START_ASSET_LOADING),
@@ -126,9 +132,6 @@ function* requestAssetFields(contractAddress: Address): Saga<?RequestedAssetFiel
 
   if (result) {
     yield put(setAssetIsValid(true))
-  } else {
-    yield put(setAssetIsValid(false))
-    throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.notERC20'))
   }
 
   return result
@@ -166,14 +169,13 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
         // 2. check if this asset already exists
         const foundAsset = yield* getDigitalAsset(contractAddress)
         if (foundAsset) {
-          throw new InvalidFieldError('address', i18n('routes.addCustomAsset.error.address.exists'))
+          throw new InvalidFieldError('address', i18n('general.error.address.exists'))
         }
 
-        // 4. Make requests to eth node, enshure, that token is ERC20 compatible
-        //    Request name, symbol, decimals fields from contract
+        // 4. Request name, symbol, decimals fields from contract
         const assetFields = yield* requestAssetFields(contractAddress)
 
-        // update another fields
+        // update form fields
         if (assetFields) {
           yield put(setField('name', assetFields.name))
           yield put(setField('symbol', assetFields.symbol))

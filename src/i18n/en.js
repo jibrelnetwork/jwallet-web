@@ -51,14 +51,6 @@ module.exports = {
         symbol: 'Symbol',
         decimals: 'Decimals',
       },
-      error: {
-        address: {
-          tooShort: 'Address is too short',
-          invalid: 'Address should be a valid contract address',
-          exists: 'Asset with this address already exists',
-          notERC20: 'This contract is not ERC-20 compatible',
-        }
-      }
     },
     editCutomAsset: {
       title: 'Edit Custom Asset',
@@ -501,6 +493,8 @@ module.exports = {
       address: {
         invalid: 'Address should be a valid contract address',
         exists: 'Asset with this address already exists',
+        tooShort: 'Address is too short',
+        notERC20: 'This contract is not ERC-20 compatible',
       },
       name: {
         invalid: 'Name should be a valid contract name',
@@ -533,6 +527,9 @@ module.exports = {
       nonce: {
         invalid: 'Please input a valid transaction nonce',
         lessThan0: 'Nonce should be greater than or equal 0 to',
+      },
+      network: {
+        connection: 'Connection error',
       },
     },
   },
