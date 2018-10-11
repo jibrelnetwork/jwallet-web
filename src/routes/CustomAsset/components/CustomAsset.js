@@ -10,10 +10,11 @@ type CustomAssetFormType = 'add' | 'edit'
 type CustomAssetProps = {
   formFields: CustomAssetFormFields,
   invalidFields: CustomAssetFormFields,
-
   setField: SetFieldFunction<CustomAssetFormFields>,
   submit: () => void,
 
+  // optional
+  isAssetLoading: boolean,
   type: CustomAssetFormType,
 }
 
@@ -22,6 +23,7 @@ const CustomAsset = ({
   invalidFields,
   submit,
   setField,
+  isAssetLoading,
   type,
 }: CustomAssetProps) => {
   const setFieldHandler = (fieldName: $Keys<CustomAssetFormFields>) =>
@@ -33,11 +35,12 @@ const CustomAsset = ({
   const fields: Array<{
     key: $Keys<CustomAssetFormFields>,
     isDisabled: boolean,
+    isLoading: boolean,
   }> = [
-    { key: 'address', isDisabled: isAddressFieldDisabled },
-    { key: 'name', isDisabled: false },
-    { key: 'symbol', isDisabled: false },
-    { key: 'decimals', isDisabled: false },
+    { key: 'address', isDisabled: isAddressFieldDisabled, isLoading: isAssetLoading },
+    { key: 'name', isDisabled: false, isLoading: false },
+    { key: 'symbol', isDisabled: false, isLoading: false },
+    { key: 'decimals', isDisabled: false, isLoading: false },
   ]
 
   return (
@@ -50,7 +53,7 @@ const CustomAsset = ({
         />
       </div>
       <div className='form'>
-        {fields.map(({ key, isDisabled }) => (
+        {fields.map(({ key, isDisabled, isLoading }) => (
           <JInput
             key={key}
             onChange={setFieldHandler(key)}
@@ -61,6 +64,7 @@ const CustomAsset = ({
             type='text'
             color='gray'
             isDisabled={isDisabled}
+            isLoading={isLoading}
           />
         ))}
         <div className='actions'>
@@ -81,6 +85,7 @@ const CustomAsset = ({
 
 CustomAsset.defaultProps = {
   type: 'add',
+  isAssetLoading: false,
 }
 
 export default CustomAsset

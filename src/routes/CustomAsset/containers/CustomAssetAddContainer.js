@@ -49,11 +49,12 @@ const mapDispatchToProps = {
 }
 
 function mapStateToProps(state: State): StateProps {
-  const { formFields, invalidFields } = selectCustomAsset(state)
+  const { formFields, invalidFields, isAssetLoading } = selectCustomAsset(state)
 
   return {
     formFields,
     invalidFields,
+    isAssetLoading,
   }
 }
 
