@@ -8,6 +8,7 @@ import { routerReducer as router } from 'react-router-redux'
 import networks from 'routes/modules/networks'
 
 import wallets from 'routes/Wallets/modules/wallets'
+import transactions from 'routes/Transactions/modules/transactions'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
@@ -26,6 +27,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
     wallets,
     walletsCreate,
     digitalAssets,
+    transactions,
     router,
     ...asyncReducers,
   })
