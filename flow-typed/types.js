@@ -295,11 +295,6 @@ declare type ChangeWalletPasswordData = {
 }
 
 /**
- * Remove wallet
- */
-declare type RemoveWalletData = {}
-
-/**
  * Digital assets
  */
 declare type DigitalAssetsListType = 'balance' | 'popular' | 'custom'
@@ -433,13 +428,12 @@ declare type RouterData = {
  */
 declare type State = {|
   +wallets: WalletsState,
-  +networks: NetworksData,
-  +mnemonicAddresses: MnemonicAddressesData,
   +walletsCreate: WalletsCreateState,
   +walletsImport: WalletsImportState,
+  +networks: NetworksData,
+  +mnemonicAddresses: MnemonicAddressesData,
   +backupWallet: BackupWalletData,
   +changeWalletPassword: ChangeWalletPasswordData,
-  +removeWallet: RemoveWalletData,
   +digitalAssets: DigitalAssetsData,
   +customAsset: CustomAssetData,
   +transactions: TransactionsData,
@@ -450,13 +444,12 @@ declare type State = {|
 
 declare type InitialState = {
   wallets?: WalletsState,
-  networks?: NetworksData,
-  mnemonicAddresses?: MnemonicAddressesData,
   walletsCreate?: WalletsCreateState,
   walletsImport?: WalletsImportState,
+  networks?: NetworksData,
+  mnemonicAddresses?: MnemonicAddressesData,
   backupWallet?: BackupWalletData,
   changeWalletPassword?: ChangeWalletPasswordData,
-  removeWallet?: RemoveWalletData,
   digitalAssets?: DigitalAssetsData,
   customAsset?: CustomAssetData,
   transactions?: TransactionsData,
