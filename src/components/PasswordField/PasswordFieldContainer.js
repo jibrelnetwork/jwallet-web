@@ -29,13 +29,11 @@ const getStatus = (password: Password): {
     return { status: 'red', failedTest: errors[0], isApproved: false }
   } else if (failedTestsCount > 2) {
     return { status: 'orange', failedTest: errors[0], isApproved: false }
-  } else if (failedTestsCount > 1) {
-    return { status: 'yellow', failedTest: errors[0], isApproved: false }
   } else if (failedTestsCount > 0) {
-    return { status: 'green', failedTest: errors[0], isApproved: false }
+    return { status: 'yellow', failedTest: errors[0], isApproved: false }
   }
 
-  return { status: '', failedTest: '', isApproved: true }
+  return { status: 'green', failedTest: '', isApproved: true }
 }
 
 type Props = {
