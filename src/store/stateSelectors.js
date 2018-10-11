@@ -28,10 +28,6 @@ export function selectBackupWallet(state: State): BackupWalletData {
   return state.backupWallet
 }
 
-export function selectChangeWalletPassword(state: State): ChangeWalletPasswordData {
-  return state.changeWalletPassword
-}
-
 export function selectNetworks(state: State): NetworksData {
   return state.networks
 }
