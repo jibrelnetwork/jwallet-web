@@ -5,6 +5,7 @@ import { css } from 'glamor'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const toastStyles = css({
   right: '45px',
@@ -13,21 +14,24 @@ const toastStyles = css({
   boxShadow: 'none',
 })
 
-const AppContainer = ({ history, routes, store }: Props) => (
+type Props = {
+  store: Object,
+  routes: Object,
+  history: Object,
+  persistor: Object,
+}
+
+const AppContainer = ({ history, routes, store, persistor }: Props) => (
   <Provider store={store}>
     <div style={{ height: '100%' }}>
-      <Router history={history}>
-        {routes}
-      </Router>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router history={history}>
+          {routes}
+        </Router>
+      </PersistGate>
       <ToastContainer toastClassName={toastStyles} />
     </div>
   </Provider>
 )
-
-type Props = {
-  history: Object,
-  routes: Object,
-  store: Object,
-}
 
 export default AppContainer
