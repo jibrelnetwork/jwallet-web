@@ -1,12 +1,9 @@
 // @flow
 
+import i18n from '../src/i18n'
+
 import '../src/styles/core.scss'
 import './styles.css'
-
-import './components'
-import './components/base'
-
-import i18n from '../src/i18n'
 
 import './components/base'
 import './components'
