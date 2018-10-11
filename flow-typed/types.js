@@ -471,7 +471,7 @@ declare type InitialState = {
   changeWalletPassword?: ChangeWalletPasswordData,
   removeWallet?: RemoveWalletData,
   digitalAssets?: DigitalAssetsData,
-  customAsset?: CustomAssetData,
+  customAsset?: CustomAssetState,
   transactions?: TransactionsData,
   receiveFunds?: ReceiveFundsData,
   sendFunds?: SendFundsData,
