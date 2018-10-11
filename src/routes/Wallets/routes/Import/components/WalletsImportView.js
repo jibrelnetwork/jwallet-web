@@ -3,9 +3,12 @@
 import React from 'react'
 import NameStep from 'components/NameStep'
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import AssetsStep from 'components/AssetsStep'
 >>>>>>> 41a43040... Updating components call path
+=======
+>>>>>>> f0c98d74... Remove AssetsStep and WalletPassword components
 
 import classNames from 'classnames'
 

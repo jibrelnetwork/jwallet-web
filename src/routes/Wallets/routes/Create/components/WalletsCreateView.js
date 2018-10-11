@@ -4,9 +4,12 @@ import React from 'react'
 import classNames from 'classnames'
 import NameStep from 'components/NameStep'
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import AssetsStep from 'components/AssetsStep'
 >>>>>>> 41a43040... Updating components call path
+=======
+>>>>>>> f0c98d74... Remove AssetsStep and WalletPassword components
 
 import { ModalHeader, PasswordStep } from 'components'
 
@@ -38,9 +41,12 @@ const WalletsCreateView = (props: Props) => (
         />
       )}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
 >>>>>>> 41a43040... Updating components call path
+=======
+>>>>>>> f0c98d74... Remove AssetsStep and WalletPassword components
     </div>
   </div>
 )
