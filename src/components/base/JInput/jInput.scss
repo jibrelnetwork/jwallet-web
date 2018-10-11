@@ -1,237 +1,48 @@
 .j-input {
   all: initial;
 
-  @include font;
   @include flex-column;
 
   position: relative;
   align-items: center;
-  min-height: $form-field-full-height;
   cursor: inherit;
-
-  &.-value {
-    > .label {
-      top: 22px;
-      visibility: visible;
-      opacity: 0.5;
-    }
-
-    > .input {
-      padding-top: $form-field-padding-top;
-      font-weight: 600;
-    }
-  }
-
-  &.-disabled {
-    cursor: default;
-
-    &.-gray > .input {
-      opacity: 0.3;
-
-      &:hover,
-      &:focus {
-        border-bottom: 1px solid rgba($dusk, 0.1);
-      }
-    }
-
-    &.-white > .input {
-      opacity: 0.3;
-
-      &:hover,
-      &:focus {
-        border-bottom: 1px solid rgba($white, 0.2);
-      }
-    }
-
-    > .lock {
-      display: block;
-    }
-  }
-
-  &.-white {
-    color: $white;
-
-    > .input {
-      border-bottom: 1px solid rgba($white, 0.2);
-      color: $white;
-      opacity: 1;
-
-      &::placeholder {
-        color: $white;
-        opacity: 0.7;
-      }
-
-      &:hover {
-        border-bottom: 1px solid rgba($white, 0.4);
-      }
-
-      &:focus {
-        border-bottom: 1px solid rgba($white, 0.6);
-      }
-    }
-
-    > .input{
-      &:-webkit-autofill {
-        box-shadow: 0 0 0 #{$form-field-full-height / 2} $blue inset;
-        -webkit-text-fill-color: $white !important;
-      }
-    }
-  }
-
-  &.-gray {
-    color: $dusk;
-
-    > .input {
-      border-bottom: 1px solid rgba($dusk, 0.1);
-      color: $dusk;
-      opacity: 1;
-
-      &::placeholder {
-        color: $dusk;
-        opacity: 0.7;
-      }
-
-      &:hover {
-        border-bottom: 1px solid rgba($dusk, 0.3);
-      }
-
-      &:focus {
-        border-bottom: 1px solid rgba($dusk, 0.5);
-      }
-    }
-
-    > .input {
-      &:-webkit-autofill {
-        box-shadow: 0 0 0 #{$form-field-full-height / 2} $white inset;
-        -webkit-text-fill-color: $dusk !important;
-      }
-    }
-  }
-
-  &.-error {
-    &.-white {
-      > .input {
-        border-bottom-color: $blush;
-        color: $blush;
-      }
-
-      > .input{
-        &:-webkit-autofill {
-          -webkit-text-fill-color: $blush !important;
-        }
-      }
-
-      > .error {
-        color: $blush;
-      }
-    }
-
-    &.-gray {
-      > .input {
-        border-bottom-color: $tomato;
-        color: $tomato;
-      }
-
-      > .input{
-        &:-webkit-autofill {
-          -webkit-text-fill-color: $tomato !important;
-        }
-      }
-
-      > .error {
-        color: $tomato;
-      }
-    }
-  }
-
-  &.-checked {
-    > .tick {
-      width: $icon-small-size;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: $icon-small-size $icon-small-size;
-    }
-
-    &.-white > .tick {
-      background-image: $icon-small-checkbox-white;
-    }
-
-    &.-gray > .tick {
-      background-image: $icon-small-checkbox-blue;
-    }
-  }
-
-  &.-password {
-    &.-value > .input {
-      font-size: 21px;
-    }
-
-    > .input {
-      transition: border-color 0.3s ease 0s;
-    }
-  }
-
-  &.-help {
-    > .help {
-      display: block;
-    }
-  }
+  margin-bottom: $form-field-margin-bottom;
 
   > .label {
+    @include font($form-helpers-font-size);
+
     position: absolute;
-    top: 50px;
-    left: 0;
-    text-transform: uppercase;
-    font-size: 11px;
+    top: 50%;
+    left: $form-field-horizontal-padding;
     visibility: hidden;
     opacity: 0;
+    transform: translate(0, -50%);
     transition: opacity 0.3s ease 0s, top 0.3s ease 0s;
   }
 
   > .input {
     @include flex-row;
+    @include font($form-field-white-font-size);
 
     width: 100%;
-    height: $form-field-full-height;
     padding-top: 0;
     background: inherit;
-    border: none;
-    font-size: 15px;
+    border-radius: $form-border-radius;
     font-weight: normal;
-    opacity: 0.7;
-    transition:
-      color 0.3s ease 0s,
-      border 0.3s ease 0s,
-      opacity 0.3s ease 0s,
-      background 0.3s ease 0s;
+    transition: color 0.3s ease 0s, border 0.3s ease 0s, opacity 0.3s ease 0s, background 0.3s ease 0s, box-shadow 0.3s ease 0s;
   }
 
   > .error,
-  > .info,
-  > .tick {
+  > .info {
+    @include font($form-helpers-font-size);
+
     position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 11px;
+    left: 0;
+    bottom: -8px;
+    transform: translate(0, 100%);
+    padding: 0 $form-field-horizontal-padding;
   }
 
-  > .error,
-  > .info {
-    line-height: 30px;
-  }
-
-  > .tick {
-    @include flex-row-center;
-
-    height: $form-field-height;
-    margin-top: $form-field-padding-top;
-  }
-
-  > .info {
-    opacity: 0.7;
-  }
-
-  > .tick,
   > .error {
     opacity: 1;
   }
@@ -282,5 +93,188 @@
 
   > .loader {
     display: none;
+  }
+
+  > .status {
+    position: absolute;
+    width: 60px;
+    transform: translate(0, -50%);
+    right: $form-field-white-horizontal-padding;
+    top: 50%;
+  }
+
+  &.-multiline {
+    > .input {
+      line-height: 1.5;
+    }
+  }
+
+  &.-value {
+    > .label {
+      top: 14px;
+      visibility: visible;
+      opacity: 0.5;
+      transform: translate(0, 0);
+    }
+
+    > .input {
+      font-weight: 600;
+    }
+  }
+
+  &.-has-label {
+    > .input {
+      padding-top: $form-field-padding-top;
+    }
+  }
+
+  &.-pincode {
+    > .input {
+      font-size: 21px;
+      font-family: monospace;
+    }
+  }
+
+  &.-error,
+  &.-info {
+    margin-bottom: 34px;
+  }
+
+  &.-gray {
+    color: $dusk;
+    background-color: $white;
+
+    > .input {
+      border: none;
+      border-bottom: solid 1px #e1e4e8;
+      border-radius: $form-border-radius;
+      color: $dusk;
+      opacity: 1;
+      padding: 22px $box-horizontal-padding 23px;
+      box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
+    }
+  }
+
+  &.-white {
+    color: $white;
+
+    > .status {
+      right: $form-field-white-horizontal-padding;
+    }
+  }
+
+  &.-white > .input {
+    $inner-padding: 15px $form-field-white-horizontal-padding;
+
+    color: $white;
+    padding: $inner-padding;
+    border: 1px solid $blue-two;
+
+    &::placeholder {
+      color: $blue-bright;
+    }
+
+    &:hover {
+      border-color: $blue-bright;
+      color: $white;
+    }
+
+    &:active,
+    &:focus {
+      border-color: $blue-pale-bright;
+    }
+  }
+  /* stylelint-disable */
+  &.-gray > .input {
+    &::placeholder {
+      color: $dusk;
+      opacity: 0.6;
+    }
+
+    &:hover {
+      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+    }
+
+    &:active,
+    &:focus {
+      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+    }
+  }
+  /* stylelint-enable */
+  &.-gray.-value {
+    > .input {
+      padding: 31px $box-horizontal-padding 14px;
+    }
+  }
+
+  &.-error {
+    &.-white {
+      > .input {
+        border-color: $blush;
+        color: $blush;
+      }
+
+      > .error {
+        color: $blush;
+      }
+    }
+
+    &.-gray {
+      > .input {
+        color: $tomato;
+      }
+
+      > .error {
+        color: $tomato;
+      }
+    }
+  }
+
+  &.-white > .input:-webkit-autofill {
+    box-shadow: 0 0 0 #{$form-field-full-height / 2} $blue inset;
+    -webkit-text-fill-color: $white !important;
+  }
+
+  &.-gray > .input:-webkit-autofill {
+    box-shadow: 0 0 0 #{$form-field-full-height / 2} $white inset;
+    -webkit-text-fill-color: $dusk !important;
+  }
+
+  &.-disabled {
+    cursor: default;
+    $disabled-white-color: #1952d5;
+    $disabled-white-background-color: #0037b5;
+
+    &.-white > .input {
+      color: $disabled-white-color;
+      background-color: $disabled-white-background-color;
+    }
+
+    &.-gray > .input {
+      opacity: 0.3;
+
+      &:hover,
+      &:focus {
+        border-bottom: 1px solid rgba($dusk, 0.1);
+      }
+    }
+
+    > .lock {
+      display: block;
+    }
+  }
+
+  &.-help {
+    > .help {
+      display: block;
+    }
+  }
+
+  &.-error.-white > .input:-webkit-autofill {
+    -webkit-text-fill-color: $blush !important;
+  }
+
+  &.-error.-gray > .input:-webkit-autofill {
+    -webkit-text-fill-color: $tomato !important;
   }
 }
