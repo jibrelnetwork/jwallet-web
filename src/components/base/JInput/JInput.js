@@ -9,7 +9,7 @@ type Props = {
   onChange: ?((string) => void),
   name: ?string,
   label?: string,
-  placeholder?: string,
+  placeholder: ?string,
   helpMessage: ?string,
   infoMessage: ?string,
   errorMessage: ?string,
@@ -20,7 +20,7 @@ type Props = {
   isDisabled: boolean,
   isPinCode: boolean,
   isMultiline: boolean,
-  render?: Function
+  render: ?Function
 }
 
 class JInput extends PureComponent<Props, *> {
