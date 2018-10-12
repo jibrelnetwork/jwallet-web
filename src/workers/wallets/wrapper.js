@@ -1,51 +1,112 @@
 // @flow
 
+import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
+import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 
-import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
+import type { NewWalletLocation } from 'routes/Wallets/modules/wallets'
 
-import type { WalletsWorkerMessage } from './worker'
+import type { WalletsAnyAction, WalletsWorkerMessage } from './worker'
 
 // eslint-disable-next-line import/default
 import WalletsWorker from './worker.js'
 
 type WalletsWorkerInstance = {|
   onmessage: (WalletsWorkerMessage) => void,
-  +postMessage: (WalletsCreateAction) => void,
+  +postMessage: (WalletsAnyAction) => void,
+|}
+
+type ImportWalletData = {|
+  +data: string,
+  +passphrase: string,
+  +derivationPath: string,
 |}
 
 // $FlowFixMe
 const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
 
-export const checkNameRequest = (wallets: Wallets, name: string) => {
-  walletsWorker.postMessage(walletsCreate.checkNameRequest(wallets, name))
+export function checkNameRequest(
+  items: Wallets,
+  name: string,
+  newWalletLocation: NewWalletLocation,
+) {
+  walletsWorker.postMessage(wallets.checkNameRequest(items, name, newWalletLocation))
 }
 
-export const createRequest = (
-  walletsData: WalletsState,
-  name: string,
-  password: string,
-  passwordHint: ?string,
-) => {
+export function checkWalletTypeRequest(data: string) {
+  walletsWorker.postMessage(walletsImport.checkWalletTypeRequest(data))
+}
+
+export function checkDerivationPathRequest(derivationPath: string) {
+  walletsWorker.postMessage(walletsImport.checkDerivationPathRequest(derivationPath))
+}
+
+export function createRequest(walletsData: WalletsState) {
   const {
+    name,
     items,
+    password,
+    passwordHint,
     passwordOptions,
     mnemonicOptions,
     testPasswordData,
   }: WalletsState = walletsData
 
+  const passwordOptionsUser: PasswordOptionsUser = {
+    ...passwordOptions,
+    passwordHint,
+  }
+
   walletsWorker.postMessage(walletsCreate.createRequest({
     name,
+    items,
     password,
-    passwordOptions,
     mnemonicOptions,
     testPasswordData,
-    wallets: items,
-    passwordHint: passwordHint || walletsData.passwordHint,
+    passwordOptions: passwordOptionsUser,
   }))
 }
 
-export const run = (store: { dispatch: (WalletsCreateAction) => void }) => {
+export function importRequest(walletsData: WalletsState, importWalletData: ImportWalletData) {
+  const {
+    name,
+    items,
+    password,
+    passwordHint,
+    passwordOptions,
+    mnemonicOptions,
+    testPasswordData,
+  }: WalletsState = walletsData
+
+  const {
+    data,
+    passphrase,
+    derivationPath,
+  }: ImportWalletData = importWalletData
+
+  const passwordOptionsUser: PasswordOptionsUser = {
+    ...passwordOptions,
+    passwordHint,
+  }
+
+  const mnemonicOptionsUser: MnemonicOptionsUser = {
+    ...mnemonicOptions,
+    passphrase,
+    derivationPath,
+  }
+
+  walletsWorker.postMessage(walletsImport.importRequest({
+    data,
+    name,
+    items,
+    password,
+    testPasswordData,
+    passwordOptions: passwordOptionsUser,
+    mnemonicOptions: mnemonicOptionsUser,
+  }))
+}
+
+export function run(store: { dispatch: (WalletsAnyAction) => void }) {
   walletsWorker.onmessage = function walletsWorkerOnMessage(msg: WalletsWorkerMessage) {
     store.dispatch(msg.data)
   }

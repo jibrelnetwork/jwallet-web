@@ -14,22 +14,29 @@ import {
   closeView,
   goToNextStep,
   goToPrevStep,
-} from './modules/walletsCreate'
+  changeDataInput,
+  changePassphraseInput,
+  changeDerivationPathInput,
+} from './modules/walletsImport'
 
-import WalletsCreateView from './WalletsCreateView'
+import WalletsCreateView from './WalletsImportView'
 
 type StateProps = {|
   +invalidFields: FormFields,
+  +data: string,
   +name: string,
   +password: string,
+  +passphrase: string,
   +passwordHint: string,
+  +derivationPath: string,
   +passwordConfirm: string,
-  +currentStep: WalletsCreateStepIndex,
+  +walletType: WalletCustomType,
+  +currentStep: WalletsImportStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}
 
-function mapStateToProps({ wallets, walletsCreate }: State): StateProps {
+function mapStateToProps({ wallets, walletsImport }: State): StateProps {
   const {
     name,
     password,
@@ -41,14 +48,17 @@ function mapStateToProps({ wallets, walletsCreate }: State): StateProps {
   } = wallets
 
   return {
-    ...walletsCreate,
+    ...walletsImport,
     name,
     password,
     isLoading,
     passwordHint,
-    invalidFields,
     passwordConfirm,
     isPasswordExists: !!testPasswordData,
+    invalidFields: {
+      ...invalidFields,
+      ...walletsImport.invalidFields,
+    },
   }
 }
 
@@ -57,9 +67,12 @@ const mapDispatchToProps = {
   closeView,
   goToNextStep,
   goToPrevStep,
+  changeDataInput,
   changeNameInput,
   changePasswordInput,
+  changePassphraseInput,
   changePasswordHintInput,
+  changeDerivationPathInput,
   changePasswordConfirmInput,
 }
 

@@ -111,32 +111,35 @@ declare type ScryptParams = {|
 |}
 
 declare type PasswordOptionsUser = {|
-  scryptParams?: ScryptParams,
-  encryptionType?: string,
-  saltBytesCount?: number,
-  derivedKeyLength?: number,
+  +scryptParams?: ScryptParams,
+  +salt?: string,
+  +passwordHint?: string,
+  +encryptionType?: string,
+  +saltBytesCount?: number,
+  +derivedKeyLength?: number,
 |}
 
 declare type MnemonicOptionsUser = {|
-  network?: ?Network,
-  passphrase?: ?string,
-  derivationPath?: string,
-  paddedMnemonicLength?: number,
+  +network?: ?Network,
+  +passphrase?: ?string,
+  +derivationPath?: string,
+  +paddedMnemonicLength?: number,
 |}
 
 declare type PasswordOptions = {|
-  scryptParams: ScryptParams,
-  salt: string,
-  encryptionType: string,
-  saltBytesCount: number,
-  derivedKeyLength: number,
+  +scryptParams: ScryptParams,
+  +salt: string,
+  +passwordHint: string,
+  +encryptionType: string,
+  +saltBytesCount: number,
+  +derivedKeyLength: number,
 |}
 
 declare type MnemonicOptions = {|
-  network: Network,
-  passphrase: string,
-  derivationPath: string,
-  paddedMnemonicLength: number,
+  +network: Network,
+  +passphrase: string,
+  +derivationPath: string,
+  +paddedMnemonicLength: number,
 |}
 
 declare type Wallet = {|
@@ -202,12 +205,17 @@ declare type PasswordResult = {|
 
 declare type WalletsState = {|
   +items: Wallets,
+  +invalidFields: FormFields,
   +testPasswordData: ?EncryptedData,
   +passwordOptions: ?PasswordOptions,
   +mnemonicOptions: ?MnemonicOptions,
+  +name: string,
+  +password: string,
   +passwordHint: string,
+  +passwordConfirm: string,
   +activeWalletId: ?WalletId,
   +toggledWalletId: ?WalletId,
+  +isLoading: boolean,
 |}
 
 /**
@@ -225,7 +233,9 @@ declare type MnemonicAddressesData = {
 declare type WalletsCreateNameStepIndex = 0
 declare type WalletsCreatePasswordStepIndex = 1
 
-declare type WalletsCreateStepIndex = WalletsCreateNameStepIndex | WalletsCreatePasswordStepIndex
+declare type WalletsCreateStepIndex =
+  WalletsCreateNameStepIndex |
+  WalletsCreatePasswordStepIndex
 
 declare type WalletsCreateSteps = {|
   +NAME: WalletsCreateNameStepIndex,
@@ -233,32 +243,35 @@ declare type WalletsCreateSteps = {|
 |}
 
 declare type WalletsCreateState = {|
-  +invalidFields: FormFields,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-  +passwordConfirm: string,
-  +currentStep: Index,
-  +isLoading: boolean,
+  +currentStep: WalletsCreateStepIndex,
 |}
 
 /**
- * Import wallet
+ * Wallets Import
  */
-declare type ImportWalletData = {
-  +validFields: FormFields,
+declare type WalletsImportNameStepIndex = 0
+declare type WalletsImportDataStepIndex = 1
+declare type WalletsImportPasswordStepIndex = 2
+
+declare type WalletsImportStepIndex =
+  WalletsImportNameStepIndex |
+  WalletsImportDataStepIndex |
+  WalletsImportPasswordStepIndex
+
+declare type WalletsImportSteps = {|
+  +NAME: WalletsImportNameStepIndex,
+  +DATA: WalletsImportDataStepIndex,
+  +PASSWORD: WalletsImportPasswordStepIndex,
+|}
+
+declare type WalletsImportState = {|
   +invalidFields: FormFields,
-  +name: string,
   +data: string,
-  +password: Password,
-  +passwordConfirm: Password,
-  +knownDerivationPath: string,
-  +customDerivationPath: string,
-  +currentStep: Index,
-  +totalSteps: Index,
-  +walletType?: WalletType,
-  +selectedDerivationPathType: 'known' | 'custom',
-}
+  +passphrase: string,
+  +derivationPath: string,
+  +walletType: WalletCustomType,
+  +currentStep: WalletsImportStepIndex,
+|}
 
 /**
  * Edit wallet
@@ -438,7 +451,7 @@ declare type State = {|
   +networks: NetworksData,
   +mnemonicAddresses: MnemonicAddressesData,
   +walletsCreate: WalletsCreateState,
-  +importWallet: ImportWalletData,
+  +walletsImport: WalletsImportState,
   +editWallet: EditWalletData,
   +backupWallet: BackupWalletData,
   +changeWalletPassword: ChangeWalletPasswordData,
@@ -456,7 +469,7 @@ declare type InitialState = {
   networks?: NetworksData,
   mnemonicAddresses?: MnemonicAddressesData,
   walletsCreate?: WalletsCreateState,
-  importWallet?: ImportWalletData,
+  walletsImport?: WalletsImportState,
   editWallet?: EditWalletData,
   backupWallet?: BackupWalletData,
   changeWalletPassword?: ChangeWalletPasswordData,

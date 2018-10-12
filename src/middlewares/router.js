@@ -79,7 +79,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case start.OPEN: {
+    case start.OPEN_VIEW: {
       try {
         const walletsState: WalletsState = store.getState().wallets
         const walletsItems: Wallets = walletsState.items

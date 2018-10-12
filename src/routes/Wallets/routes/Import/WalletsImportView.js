@@ -4,32 +4,40 @@ import React, { Component } from 'react'
 
 import {
   ModalHeader,
+  WalletDataStep,
   WalletNameStep,
   WalletPasswordStep,
 } from 'components'
 
-import { STEPS } from './modules/walletsCreate'
+import { STEPS } from './modules/walletsImport'
 
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
+  +changeDataInput: (string) => void,
   +changeNameInput: (string) => void,
   +changePasswordInput: (string) => void,
+  +changePassphraseInput: (string) => void,
   +changePasswordHintInput: (string) => void,
+  +changeDerivationPathInput: (string) => void,
   +changePasswordConfirmInput: (string) => void,
   +invalidFields: FormFields,
+  +data: string,
   +name: string,
   +password: string,
+  +passphrase: string,
   +passwordHint: string,
+  +derivationPath: string,
   +passwordConfirm: string,
-  +currentStep: WalletsCreateStepIndex,
+  +walletType: WalletCustomType,
+  +currentStep: WalletsImportStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}
 
-class WalletsCreateView extends Component<Props> {
+class WalletsImportView extends Component<Props> {
   componentDidMount() {
     this.props.openView()
   }
@@ -42,14 +50,21 @@ class WalletsCreateView extends Component<Props> {
     const {
       goToNextStep,
       goToPrevStep,
+      changeDataInput,
       changeNameInput,
       changePasswordInput,
+      changePassphraseInput,
       changePasswordHintInput,
+      changeDerivationPathInput,
       changePasswordConfirmInput,
       invalidFields,
+      data,
       name,
       password,
+      passphrase,
+      walletType,
       passwordHint,
+      derivationPath,
       passwordConfirm,
       currentStep,
       isLoading,
@@ -62,7 +77,7 @@ class WalletsCreateView extends Component<Props> {
           onBack={goToPrevStep}
           color='white'
           location='/wallets'
-          title='Create wallet'
+          title='Import wallet'
         />
         <div className='content'>
           {(currentStep === STEPS.NAME) && (
@@ -72,6 +87,20 @@ class WalletsCreateView extends Component<Props> {
               invalidFields={invalidFields}
               valueName={name}
               isLoading={isLoading}
+            />
+          )}
+          {(currentStep === STEPS.DATA) && (
+            <WalletDataStep
+              onSubmit={goToNextStep}
+              onChangeData={changeDataInput}
+              onChangePassphrase={changePassphraseInput}
+              onChangeDerivationPath={changeDerivationPathInput}
+              invalidFields={invalidFields}
+              valueData={data}
+              valuePassphrase={passphrase}
+              valueDerivationPath={derivationPath}
+              isLoading={isLoading}
+              isMnemonic={walletType === 'mnemonic'}
             />
           )}
           {(currentStep === STEPS.PASSWORD) && (
@@ -94,4 +123,4 @@ class WalletsCreateView extends Component<Props> {
   }
 }
 
-export default WalletsCreateView
+export default WalletsImportView
