@@ -7,6 +7,12 @@ const ADDRESS_TYPE: 'address' = 'address'
 const MNEMONIC_TYPE: 'mnemonic' = 'mnemonic'
 const TEST_PASSWORD_DATA_LENGTH: number = 120
 
+function checkNotReadOnly(isReadOnly: boolean): void {
+  if (isReadOnly) {
+    throw new Error('Wallet is read only')
+  }
+}
+
 const checkWalletIsMnemonicType = (type: WalletType): void => {
   if (type !== MNEMONIC_TYPE) {
     throw new Error('Wallet type is not mnemonic')
@@ -78,16 +84,9 @@ const createMnemonicWallet = (
     salt,
     scryptParams,
     encryptionType,
-    derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = utils.deriveKeyFromPassword(
-    password,
-    salt,
-    scryptParams,
-    derivedKeyLength,
-  )
-
+  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
   const mnemonicPad: string = utils.leftPadString(mnemonic, ' ', paddedMnemonicLength)
   const mnemonicEnc: EncryptedData = utils.encryptData(mnemonicPad, dKey, encryptionType)
 
@@ -166,15 +165,9 @@ const createAddressWallet = (
     salt,
     scryptParams,
     encryptionType,
-    derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = utils.deriveKeyFromPassword(
-    password,
-    salt,
-    scryptParams,
-    derivedKeyLength,
-  )
+  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
 
   return appendWallet(wallets, {
     id,
@@ -352,7 +345,7 @@ function updateWallet(
     bip32XPublicKey,
     addressIndex,
     isReadOnly,
-  } = updatedData
+  }: WalletUpdatedData = updatedData
 
   const wallet: Wallet = getWallet(wallets, walletId)
 
@@ -371,6 +364,100 @@ function updateWallet(
   const newWallets: Wallets = removeWallet(wallets, walletId)
 
   return appendWallet(newWallets, newWallet)
+}
+
+function getPrivateKey(wallets: Wallets, walletId: string, password: string): string {
+  const wallet: Wallet = getWallet(wallets, walletId)
+
+  const {
+    encrypted,
+    passwordOptions,
+    type,
+    isReadOnly,
+  }: Wallet = wallet
+
+  checkNotReadOnly(isReadOnly)
+
+  if (!passwordOptions) {
+    throw new Error('Invalid wallet')
+  }
+
+  const {
+    salt,
+    scryptParams,
+    encryptionType,
+  }: PasswordOptions = passwordOptions
+
+  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
+
+  if (type === MNEMONIC_TYPE) {
+    if (!encrypted.mnemonic) {
+      throw new Error('Mnemonic to decrypt is not found')
+    }
+
+    const mnemonic: string = utils.decryptData(encrypted.mnemonic, dKey, encryptionType)
+
+    const {
+      mnemonicOptions,
+      addressIndex,
+    }: Wallet = wallet
+
+    const privateKey: string = utils.getPrivateKeyFromMnemonic(
+      mnemonic,
+      addressIndex,
+      mnemonicOptions,
+    )
+
+    return utils.add0x(privateKey)
+  } else {
+    if (!encrypted.privateKey) {
+      throw new Error('Private key to decrypt is not found')
+    }
+
+    const privateKey: string = utils.decryptData(encrypted.privateKey, dKey, encryptionType)
+
+    return utils.add0x(privateKey)
+  }
+}
+
+function getMnemonic(wallets: Wallets, walletId: string, password: string): string {
+  const {
+    encrypted,
+    passwordOptions,
+    type,
+    isReadOnly,
+  }: Wallet = getWallet(wallets, walletId)
+
+  checkWalletIsMnemonicType(type)
+  checkNotReadOnly(isReadOnly)
+
+  if (!passwordOptions) {
+    throw new Error('Invalid wallet')
+  }
+
+  if (!encrypted.mnemonic) {
+    throw new Error('Mnemonic to decrypt is not found')
+  }
+
+  const {
+    salt,
+    scryptParams,
+    encryptionType,
+  }: PasswordOptions = passwordOptions
+
+  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
+
+  return utils.decryptData(encrypted.mnemonic, dKey, encryptionType)
+}
+
+function getBackupData(wallets: Wallets, walletId: string, password: string): string {
+  const { type }: Wallet = getWallet(wallets, walletId)
+
+  if (type === MNEMONIC_TYPE) {
+    return getMnemonic(wallets, walletId, password)
+  } else {
+    return getPrivateKey(wallets, walletId, password)
+  }
 }
 
 /*
@@ -435,6 +522,7 @@ export default {
   initPassword,
   testPassword,
   checkPassword,
+  getBackupData,
   checkWalletUniqueness,
   checkWalletIsMnemonicType,
 }
