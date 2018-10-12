@@ -20,6 +20,7 @@ const mapDispatchToProps = {
   createWallet: () => push('/wallets/create'),
   importWallet: () => push('/wallets/import'),
   renameWallet: (walletId: WalletId) => push(`/wallets/rename/${walletId}`),
+  backupWallet: (walletId: WalletId) => push(`/wallets/backup/${walletId}`),
   deleteWallet: (walletId: WalletId) => push(`/wallets/delete/${walletId}`),
 }
 
