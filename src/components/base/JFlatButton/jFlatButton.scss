@@ -6,21 +6,21 @@
   opacity: 1;
   transition: opacity 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
-  height: 40px;
-  border-radius: 3px;
-  padding-left: 20px;
-  padding-right: 20px;
 
-  &.-blue {
-    border: 1px solid rgba($blue, 0.2);
-  }
+  &.-border {
+    border: 1px solid;
+    border-radius: 3px;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
 
-  &.-white {
-    border: 1px solid rgba($white, 0.2);
-  }
+    &.-blue {
+      border-color: rgba($blue, 0.2);
+    }
 
-  &.-no-border {
-    border-color: transparent
+    &.-white {
+      border-color: rgba($white, 0.2);
+    }
   }
 
   &.-link {
@@ -46,20 +46,14 @@
   }
 
   &.-disabled {
-    &.-white {
-      border: 1px solid $white;
-    }
+    &.-border {
+      &.-white {
+        border-color: $white;
+      }
 
-    &.-blue {
-      border: 1px solid $blue;
-    }
-
-    &.-link {
-      border-width: 0;
-    }
-
-    &.-no-border {
-      border-color: transparent
+      &.-blue {
+        border-color: $blue;
+      }
     }
 
     &,
@@ -73,33 +67,35 @@
     cursor: default;
   }
 
+  &.-transparent {
+    opacity: 0.7;
+  }
+
   &:hover {
-    &.-white {
-      border-color: $white;
+    &.-border {
+      &.-white {
+        border-color: $white;
 
-      &.-loading {
-        border: 1px solid rgba($white, 0.2);
+        &.-loading {
+          border-color: rgba($white, 0.2);
+        }
       }
-    }
 
-    &.-blue {
-      border: 1px solid $blue;
+      &.-blue {
+        border-color: $blue;
 
-      &.-loading {
-        border: 1px solid rgba($blue, 0.2);
+        &.-loading {
+          border-color: rgba($blue, 0.2);
+        }
       }
-    }
-
-    &.-link {
-      border-width: 0;
-    }
-
-    &.-no-border {
-      border-color: transparent
     }
 
     &.-hover-opacity {
       opacity: 0.7;
+
+      &.-transparent {
+        opacity: 1;
+      }
     }
   }
 }

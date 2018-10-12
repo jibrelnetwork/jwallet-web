@@ -16,6 +16,7 @@ type Props = {|
   +isLoading: boolean,
   +isDisabled: boolean,
   +isBordered: boolean,
+  +isTransparent: boolean,
   +isHoverOpacity: boolean,
 |}
 
@@ -29,7 +30,8 @@ class JFlatButton extends PureComponent<Props, *> {
     isLink: false,
     isLoading: false,
     isDisabled: false,
-    isBordered: true,
+    isBordered: false,
+    isTransparent: false,
     isHoverOpacity: false,
   }
 
@@ -45,12 +47,13 @@ class JFlatButton extends PureComponent<Props, *> {
       isLoading,
       isDisabled,
       isBordered,
+      isTransparent,
       isHoverOpacity,
     } = this.props
 
     if (isLoading) {
       return (
-        <div className={classNames('j-flat-button -loading', `-${color}`)}>
+        <div className={classNames('j-flat-button -loading', `-${color}`, isBordered && '-border')}>
           <JLoader color={color} />
         </div>
       )
@@ -64,8 +67,9 @@ class JFlatButton extends PureComponent<Props, *> {
           `-${color}`,
           isLink && '-link',
           label && '-label',
+          isBordered && '-border',
           isDisabled && '-disabled',
-          !isBordered && '-no-border',
+          isTransparent && '-transparent',
           isHoverOpacity && '-hover-opacity',
         )}
       >

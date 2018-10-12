@@ -62,8 +62,7 @@ const WalletCard = ({
       title={name}
       iconName={iconName}
       description={isReadOnly ? `${description}, read only` : description}
-      isTransparent={isReadOnly}
-      isEyeIcon={isReadOnly}
+      isReadOnly={isReadOnly}
     />
   )
 }

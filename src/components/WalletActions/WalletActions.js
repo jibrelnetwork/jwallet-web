@@ -14,21 +14,18 @@ const WalletActions = ({ setWalletAction }: Props) => (
     <JFlatButton
       onClick={handle(setWalletAction)('rename')}
       label='Rename'
-      hasNotBorder
       isHoverOpacity
       color='white'
     />
     <JFlatButton
       onClick={handle(setWalletAction)('backup')}
       label='Backup'
-      hasNotBorder
       isHoverOpacity
       color='white'
     />
     <JFlatButton
       onClick={handle(setWalletAction)('delete')}
       label='Delete'
-      hasNotBorder
       isHoverOpacity
       color='white'
     />
