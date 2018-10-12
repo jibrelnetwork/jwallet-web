@@ -8,12 +8,14 @@ import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
+import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
+import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 export type WalletsAnyAction =
@@ -21,6 +23,7 @@ export type WalletsAnyAction =
   WalletsCreateAction |
   WalletsImportAction |
   WalletsRenameAction |
+  WalletsBackupAction |
   WalletsDeleteAction
 
 type WalletsWorkerMessage = {|
@@ -30,10 +33,24 @@ type WalletsWorkerMessage = {|
 export type WalletsWorkerInstance = {|
   onmessage: (WalletsWorkerMessage) => void,
   +postMessage: (WalletsAnyAction) => void,
+  window: WalletsWorkerInstance,
 |}
 
 /* eslint-disable-next-line no-restricted-globals */
 const walletsWorker: WalletsWorkerInstance = self
+
+/**
+ * We are using bitcore-lib
+ * it is trying to access window.crypto
+ * but window is not allowed within worker context
+ * so we should use such hack: self.window = self
+ * to get access to self.crypto
+ *
+ * for the reference:
+ * https://github.com/bitpay/bitcore-lib/blob/master/lib/crypto/random.js#L21
+ */
+// eslint-disable-next-line fp/no-mutation
+walletsWorker.window = walletsWorker
 
 walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
   const action: WalletsAnyAction = msg.data
@@ -103,9 +120,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           passwordHint,
         } = action.payload
 
-        // eslint-disable-next-line fp/no-mutation, no-restricted-globals
-        self.window = self
-
         const passwordOpts: PasswordOptions = utils.getPasswordOptions(passwordOptions)
         const mnemonicOpts: MnemonicOptions = utils.getMnemonicOptions(mnemonicOptions)
 
@@ -147,9 +161,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           password,
           passwordHint,
         } = action.payload
-
-        // eslint-disable-next-line fp/no-mutation, no-restricted-globals
-        self.window = self
 
         const passwordOpts: PasswordOptions = utils.getPasswordOptions(passwordOptions)
         const mnemonicOpts: MnemonicOptions = utils.getMnemonicOptions(mnemonicOptions)
@@ -194,6 +205,23 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(walletsRename.renameError(err.message))
+      }
+
+      break
+    }
+
+    case walletsBackup.BACKUP_REQUEST: {
+      try {
+        const { items, walletId, password } = action.payload
+
+        const data: string = keystore.getBackupData(items, walletId, password)
+
+        walletsWorker.postMessage(walletsBackup.backupSuccess(data))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(walletsBackup.backupError(err.message))
       }
 
       break
