@@ -1,5 +1,5 @@
-import * as backupWallet from './backupWallet'
+// @flow
 
-export default {
-  ...backupWallet,
-}
+import { walletsBackupRootSaga } from './walletsBackup'
+
+export default { walletsBackupRootSaga }
