@@ -12,7 +12,9 @@ type Props = {|
   +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
+  +downloadToTxt: () => void,
   +openView: (string) => void,
+  +copyToClipboard: () => void,
   +changePasswordInput: (string) => void,
   +invalidFields: FormFields,
   +params: {|
@@ -42,6 +44,8 @@ class WalletsBackupView extends Component<Props> {
     const {
       goToNextStep,
       goToPrevStep,
+      downloadToTxt,
+      copyToClipboard,
       changePasswordInput,
       params,
       invalidFields,
@@ -72,15 +76,15 @@ class WalletsBackupView extends Component<Props> {
           )}
           {(currentStep === STEPS.PRIVATE) && (
             <div className='wallet-private-step'>
-              <form className='form' onSubmit={console.log}>
+              <form className='form' onSubmit={downloadToTxt}>
                 <MnemonicPhrase
-                  copy={console.log}
-                  download={console.log}
+                  copy={copyToClipboard}
+                  download={downloadToTxt}
                   mnemonic={data}
                 />
                 <div className='actions'>
                   <JRaisedButton
-                    onClick={console.log}
+                    onClick={downloadToTxt}
                     color='blue'
                     loaderColor='white'
                     label='Download as TXT'

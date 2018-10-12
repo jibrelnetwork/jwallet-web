@@ -9,6 +9,8 @@ import {
   closeView,
   goToNextStep,
   goToPrevStep,
+  downloadToTxt,
+  copyToClipboard,
 } from './modules/walletsBackup'
 
 import WalletsBackupView from './WalletsBackupView'
@@ -41,6 +43,8 @@ const mapDispatchToProps = {
   closeView,
   goToNextStep,
   goToPrevStep,
+  downloadToTxt,
+  copyToClipboard,
   changePasswordInput,
 }
 

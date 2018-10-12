@@ -34,4 +34,8 @@ function getTimestamp() {
   return (new Date()).toString()
 }
 
-export default { saveTXT, saveJSON, saveCanvas }
+export default {
+  saveTXT,
+  saveJSON,
+  saveCanvas,
+}

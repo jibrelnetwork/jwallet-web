@@ -12,6 +12,9 @@ export const BACKUP_ERROR: '@@walletsBackup/BACKUP_ERROR' = '@@walletsBackup/BAC
 export const BACKUP_SUCCESS: '@@walletsBackup/BACKUP_SUCCESS' = '@@walletsBackup/BACKUP_SUCCESS'
 export const BACKUP_REQUEST: '@@walletsBackup/BACKUP_REQUEST' = '@@walletsBackup/BACKUP_REQUEST'
 
+export const DOWNLOAD_TO_TXT: '@@walletsBackup/DOWNLOAD_TO_TXT' = '@@walletsBackup/DOWNLOAD_TO_TXT'
+export const COPY_TO_CLIPBOARD: '@@walletsBackup/COPY_TO_CLIPBOARD' = '@@walletsBackup/COPY_TO_CLIPBOARD'
+
 export const CLEAN: '@@walletsBackup/CLEAN' = '@@walletsBackup/CLEAN'
 /* eslint-enable max-len */
 
@@ -89,6 +92,18 @@ export function backupRequest(items: Wallets, walletId: string, password: string
   }
 }
 
+export function downloadToTxt() {
+  return {
+    type: DOWNLOAD_TO_TXT,
+  }
+}
+
+export function copyToClipboard() {
+  return {
+    type: COPY_TO_CLIPBOARD,
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -104,6 +119,8 @@ export type WalletsBackupAction =
   ExtractReturn<typeof backupError> |
   ExtractReturn<typeof backupSuccess> |
   ExtractReturn<typeof backupRequest> |
+  ExtractReturn<typeof downloadToTxt> |
+  ExtractReturn<typeof copyToClipboard> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsBackupState = {

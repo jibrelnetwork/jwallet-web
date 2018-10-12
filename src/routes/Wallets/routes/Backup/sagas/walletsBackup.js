@@ -5,6 +5,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import walletsWorker from 'workers/wallets'
+import { fileSaver, clipboard } from 'services'
 import { selectWallets, selectWalletsBackup } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
@@ -74,6 +75,16 @@ function* setPrevStep(): Saga<void> {
   }
 }
 
+function* downloadToTxt(): Saga<void> {
+  const { data }: WalletsBackupState = yield select(selectWalletsBackup)
+  fileSaver.saveTXT(data, 'jwallet-backup')
+}
+
+function* copyToClipboard(): Saga<void> {
+  const { data }: WalletsBackupState = yield select(selectWalletsBackup)
+  clipboard.copyText(data)
+}
+
 function* clean(): Saga<void> {
   yield put(wallets.clean())
 }
@@ -85,4 +96,6 @@ export function* walletsBackupRootSaga(): Saga<void> {
   yield takeEvery(walletsBackup.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsBackup.BACKUP_ERROR, backupError)
   yield takeEvery(walletsBackup.BACKUP_SUCCESS, backupSuccess)
+  yield takeEvery(walletsBackup.DOWNLOAD_TO_TXT, downloadToTxt)
+  yield takeEvery(walletsBackup.COPY_TO_CLIPBOARD, copyToClipboard)
 }
