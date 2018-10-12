@@ -20,6 +20,7 @@ const WALLET_TYPE_ICON_MAP = {
 
 type Props = {|
   +renameWallet: (WalletId) => void,
+  +backupWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
   +toggleWallet: (WalletId) => void,
   // +setActiveWallet: Function,
@@ -30,6 +31,7 @@ type Props = {|
 
 const WalletCard = ({
   renameWallet,
+  backupWallet,
   deleteWallet,
   toggleWallet,
   walletData,
@@ -53,6 +55,7 @@ const WalletCard = ({
     return (
       <WalletActions
         renameWallet={handle(renameWallet)(toggledWalletId)}
+        backupWallet={handle(backupWallet)(toggledWalletId)}
         deleteWallet={handle(deleteWallet)(toggledWalletId)}
       />
     )
