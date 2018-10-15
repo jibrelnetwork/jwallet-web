@@ -12,6 +12,7 @@ type Props = {|
   +iconName: string,
   +description: string,
   +isReadOnly: boolean,
+  +isTransparent: boolean,
 |}
 
 class WalletFace extends PureComponent<Props, *> {
@@ -19,6 +20,7 @@ class WalletFace extends PureComponent<Props, *> {
   static defaultProps = {
     showActions: null,
     isReadOnly: false,
+    isTransparent: false,
   }
 
   render() {
@@ -29,12 +31,13 @@ class WalletFace extends PureComponent<Props, *> {
       iconName,
       description,
       isReadOnly,
+      isTransparent,
     } = this.props
 
     return (
       <JCard color='blue'>
         <div onClick={onClick} className='wallet-face'>
-          <div className={classNames('icon', isReadOnly && '-transparent')}>
+          <div className={classNames('icon', (isTransparent || isReadOnly) && '-transparent')}>
             <JIcon name={iconName} size='medium' color='white' />
           </div>
           <div className='data'>
