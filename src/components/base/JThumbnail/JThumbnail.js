@@ -4,18 +4,19 @@ import React, { PureComponent } from 'react'
 
 import { JText, JIcon } from 'components/base'
 
-type Props = {
-  title: string,
-  description: string,
-  image: 'key' | 'man' | 'cloud',
-  color: 'white' | 'gray' | 'blue',
-}
+type JThumbnailImage = 'key' | 'man' | 'cloud' | 'auth-question'
+
+type Props = {|
+  +title: string,
+  +description: string | Array<string>,
+  +image: JThumbnailImage,
+  +color: 'white' | 'gray' | 'blue',
+|}
 
 class JThumbnail extends PureComponent<Props, *> {
   static defaultProps = {
     title: '',
     color: 'white',
-    image: 'cloud',
     description: '',
   }
 
@@ -29,18 +30,21 @@ class JThumbnail extends PureComponent<Props, *> {
 
     return (
       <div className='j-thumbnail' >
-        <JIcon
-          size='xlarge'
-          name={image}
-        />
+        <JIcon size='xlarge' name={image} />
         {title && (
           <div className='title'>
-            <JText value={title} color={color} size='thumbnail-title' weight='bold' />
+            <JText value={title} color={color} size='header' weight='bold' />
           </div>
         )}
         <div className='description'>
-          {description.map(str => (
-            <JText value={str} key={str} color={color} whiteSpace='wrap' align='center' />
+          {!Array.isArray(description) ? description : description.map(str => (
+            <JText
+              key={str}
+              value={str}
+              color={color}
+              align='center'
+              whiteSpace='wrap'
+            />
           ))}
         </div>
       </div>
