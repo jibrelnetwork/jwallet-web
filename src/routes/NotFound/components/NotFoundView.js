@@ -2,26 +2,32 @@
 
 import React from 'react'
 
-import WalletHeader from 'components/WalletHeader'
-import { JThumbnail, JRaisedButton } from 'components/base'
+import { JThumbnail, JFlatButton } from 'components/base'
+
+const NotFoundDescription = [
+  'The page you\'re looking for can\'t be found.',
+  'Check the URL and try again.',
+]
 
 const NotFoundView = ({ goToIndex }: Props) => (
   <div className='not-found-view'>
-    <WalletHeader />
     <div className='content'>
       <JThumbnail
         color='white'
-        image='man'
-        title='404. Page not found'
-        description={'All user data, including imported or generated ' +
-          'private keys are stored locally, meaning your private'}
+        image='auth-question'
+        title='404. Page Not Found.'
+        description={NotFoundDescription}
       />
-      <JRaisedButton
-        onClick={goToIndex}
-        color='blue'
-        label='Go to the front'
-        isWide
-      />
+      <div className='back'>
+        <div className='link'>
+          <JFlatButton
+            onClick={goToIndex}
+            label='Back to Home'
+            color='white'
+            isTransparent
+          />
+        </div>
+      </div>
     </div>
   </div>
 )

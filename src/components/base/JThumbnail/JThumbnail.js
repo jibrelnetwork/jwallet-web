@@ -1,9 +1,8 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
 
-import JText from 'components/base/JText'
+import { JText, JIcon } from 'components/base'
 
 type Props = {
   title: string,
@@ -30,14 +29,19 @@ class JThumbnail extends PureComponent<Props, *> {
 
     return (
       <div className='j-thumbnail' >
-        <div className={classNames('image', `-${image}`, `-${color}`)} />
+        <JIcon
+          size='xlarge'
+          name={image}
+        />
         {title && (
           <div className='title'>
-            <JText value={title} color={color} size='header' />
+            <JText value={title} color={color} size='thumbnail-title' weight='bold' />
           </div>
         )}
         <div className='description'>
-          <JText value={description} color={color} whiteSpace='wrap' align='center' />
+          {description.map(str => (
+            <JText value={str} key={str} color={color} whiteSpace='wrap' align='center' />
+          ))}
         </div>
       </div>
     )
