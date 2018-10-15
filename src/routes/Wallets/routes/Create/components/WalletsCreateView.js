@@ -3,7 +3,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import NameStep from 'components/NameStep'
-import AssetsStep from 'components/AssetsStep'
 
 import { ModalHeader, PasswordStep } from 'components'
 
@@ -34,7 +33,6 @@ const WalletsCreateView = (props: Props) => (
           buttonColor='blue'
         />
       )}
-      {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
     </div>
   </div>
 )

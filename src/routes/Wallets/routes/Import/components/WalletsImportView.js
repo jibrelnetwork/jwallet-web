@@ -2,7 +2,6 @@
 
 import React from 'react'
 import NameStep from 'components/NameStep'
-import AssetsStep from 'components/AssetsStep'
 
 import classNames from 'classnames'
 
@@ -32,7 +31,6 @@ const WalletsImportView = (props: Props) => (
           buttonColor='blue'
         />
       )}
-      {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
     </div>
   </div>
 )
