@@ -4,10 +4,14 @@ import React from 'react'
 
 import { JThumbnail, JFlatButton } from 'components/base'
 
-const NotFoundDescription = [
+const NOT_FOUND_DESCRIPTION = [
   'The page you\'re looking for can\'t be found.',
   'Check the URL and try again.',
 ]
+
+type Props = {|
+  +goToIndex: () => void,
+|}
 
 const NotFoundView = ({ goToIndex }: Props) => (
   <div className='not-found-view'>
@@ -16,24 +20,19 @@ const NotFoundView = ({ goToIndex }: Props) => (
         color='white'
         image='auth-question'
         title='404. Page Not Found.'
-        description={NotFoundDescription}
+        description={NOT_FOUND_DESCRIPTION}
       />
-      <div className='back'>
-        <div className='link'>
+      <div className='actions'>
+        <div className='back'>
           <JFlatButton
             onClick={goToIndex}
-            label='Back to Home'
             color='white'
-            isTransparent
+            label='Back to Home'
           />
         </div>
       </div>
     </div>
   </div>
 )
-
-type Props = {
-  goToIndex: Function,
-}
 
 export default NotFoundView
