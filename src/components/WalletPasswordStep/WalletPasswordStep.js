@@ -5,11 +5,6 @@ import React from 'react'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import { JInput, JRaisedButton, JText } from 'components/base'
 
-const InformationStrArr = [
-  'You will use this password to unlock and transfer your funds.',
-  'Keep it secure!',
-]
-
 type Props = {|
   +onSubmit: Function,
   +onChangePassword: Function,
@@ -19,6 +14,7 @@ type Props = {|
   +valuePassword: string,
   +valuePasswordHint: string,
   +valuePasswordConfirm: string,
+  +valueInformetionArr: array,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}
@@ -32,6 +28,7 @@ const WalletPasswordStep = ({
   valuePassword,
   valuePasswordHint,
   valuePasswordConfirm,
+  valueInformetionArr,
   isLoading,
   isPasswordExists,
 }: Props) => (
@@ -40,8 +37,10 @@ const WalletPasswordStep = ({
 
     {!isPasswordExists && (
       <div className='information'>
-        {InformationStrArr.map((str: string) => (
-          <div className='string' key={str}><JText size='large' color='white' value={str} /></div>
+        {valueInformetionArr.map((str: array) => (
+          <div className='string' key={str}>
+            <JText size='large' color='white' value={str} whiteSpace='wrap' align='center' />
+          </div>
         ))}
       </div>
     )}

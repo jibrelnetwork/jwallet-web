@@ -12,11 +12,11 @@ const WalletFace = ({
   iconName,
   description,
   isTransparent,
-  isEyeIcon,
+  isReadOnly,
 }: Props) => (
   <JCard color='blue'>
     <div onClick={onClick} className='wallet-face'>
-      <div className={classNames('icon', isTransparent && '-transparent')}>
+      <div className={classNames('icon', (isTransparent || isReadOnly) && '-transparent')}>
         <JIcon name={iconName} size='medium' color='white' />
       </div>
       <div className='data'>
@@ -24,7 +24,7 @@ const WalletFace = ({
           <JText value={title} size='large' color='white' />
         </div>
         <div className='description'>
-          {isEyeIcon && (
+          {isReadOnly && (
             <div className='icon'><JIcon name='eye' size='medium' color='white' /></div>
           )}
           <JText value={description} color='white' />
@@ -38,7 +38,7 @@ const WalletFace = ({
               iconName='dots'
               iconSize='medium'
               iconColor='white'
-              hasNotBorder
+              isTransparent
               isHoverOpacity
             />
           </div>

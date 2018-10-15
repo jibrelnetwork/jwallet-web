@@ -10,6 +10,12 @@ import {
 
 import { STEPS } from './modules/walletsCreate'
 
+const InformationStrArr = [
+  'You will use this password to unlock and transfer your funds.',
+  'Keep it secure!',
+]
+
+
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
@@ -84,6 +90,7 @@ class WalletsCreateView extends Component<Props> {
               valuePassword={password}
               valuePasswordHint={passwordHint}
               valuePasswordConfirm={passwordConfirm}
+              valueInformetionArr={InformationStrArr}
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

@@ -23,10 +23,6 @@
     }
   }
 
-  &.-no-border {
-    border-color: transparent
-  }
-
   &.-link {
     height: auto;
     border-radius: 0;
@@ -58,10 +54,6 @@
       &.-blue {
         border-color: $blue;
       }
-    }
-
-    &.-no-border {
-      border-color: transparent
     }
 
     &,

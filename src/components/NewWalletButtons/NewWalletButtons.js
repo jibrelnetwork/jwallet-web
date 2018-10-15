@@ -18,6 +18,7 @@ const NewWalletButtons = ({ createWallet }: Props) => (
         iconName='add'
         title='Create new wallet'
         description='Create your own wallet to manage on-chain funds'
+        isTransparent
       />
     </div>
     <div className='button'>
@@ -26,6 +27,7 @@ const NewWalletButtons = ({ createWallet }: Props) => (
         iconName='import'
         title='Import wallet'
         description='Import existing wallet to manage on-chain funds'
+        isTransparent
       />
     </div>
   </div>
