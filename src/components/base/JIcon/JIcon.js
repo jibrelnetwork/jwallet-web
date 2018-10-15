@@ -3,10 +3,8 @@
 import React, { PureComponent } from 'react'
 
 type Props = {
-  // @TODO: need to enumerate all icons
   name: string,
-  // @TODO: in JFlatButton colors are: 'blue' | 'gray' | 'sky' | 'white'
-  color: 'white' | 'blue' | 'gray',
+  color: 'white' | 'blue' | 'gray' | 'sky',
   size: 'small' | 'medium' | 'large' | 'xlarge',
 }
 

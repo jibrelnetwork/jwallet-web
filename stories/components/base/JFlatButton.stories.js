@@ -15,6 +15,7 @@ storiesOf('JFlatButton', module)
             onClick={action('onClick')}
             label='Yes, delete'
             color='white'
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '140px' }} >
@@ -23,6 +24,7 @@ storiesOf('JFlatButton', module)
             label='Yes, delete'
             color='white'
             isDisabled
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '140px' }} >
@@ -30,11 +32,12 @@ storiesOf('JFlatButton', module)
             onClick={action('onClick')}
             color='white'
             isLoading
+            isBordered
           />
         </div>
       </div>
       <h2>With icon</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+      <div className='story -blue' style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
           <JFlatButton
             onClick={action('onClick')}
@@ -43,6 +46,7 @@ storiesOf('JFlatButton', module)
             iconColor='white'
             color='white'
             iconName='plus'
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
@@ -54,6 +58,7 @@ storiesOf('JFlatButton', module)
             color='white'
             iconName='plus'
             isDisabled
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
@@ -61,18 +66,9 @@ storiesOf('JFlatButton', module)
             onClick={action('onClick')}
             color='white'
             isLoading
+            isBordered
           />
         </div>
-
-      </div>
-      <h2>Link theme</h2>
-      <div style={{ padding: '10px', backgroundColor: '#0033A3' }} >
-        <JFlatButton
-          onClick={action('onClick')}
-          label='Yes, delete'
-          color='white'
-          isLink
-        />
       </div>
     </div>
   ))
@@ -85,6 +81,7 @@ storiesOf('JFlatButton', module)
             onClick={action('onClick')}
             label='Yes, delete'
             color='blue'
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', width: '140px' }} >
@@ -93,6 +90,7 @@ storiesOf('JFlatButton', module)
             label='Yes, delete'
             color='blue'
             isDisabled
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', width: '140px' }} >
@@ -100,6 +98,7 @@ storiesOf('JFlatButton', module)
             onClick={action('onClick')}
             color='blue'
             isLoading
+            isBordered
           />
         </div>
         <div style={{ padding: '10px', width: '225px' }} >
@@ -110,29 +109,33 @@ storiesOf('JFlatButton', module)
             iconColor='blue'
             color='blue'
             iconName='plus'
-          />
-        </div>
-        <div style={{ padding: '10px' }} >
-          <JFlatButton
-            onClick={action('onClick')}
-            label='Yes, delete'
-            color='blue'
-            isLink
+            isBordered
           />
         </div>
       </div>
     </div>
   ))
-  .add('Event', () => (
+  .add('No border', () => (
     <div>
-      <h2>Hover</h2>
+      <h2>No border</h2>
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <div style={{ padding: '10px' }} >
+        <div style={{ padding: '10px', width: '140px' }} >
           <JFlatButton
             onClick={action('onClick')}
             label='Yes, delete'
-            color='sky'
-            isLink
+            color='blue'
+            isHoverOpacity
+          />
+        </div>
+        <div style={{ padding: '10px', width: '225px' }} >
+          <JFlatButton
+            onClick={action('onClick')}
+            iconSize='small'
+            label='Get more addresses'
+            iconColor='blue'
+            color='blue'
+            iconName='plus'
+            isHoverOpacity
           />
         </div>
       </div>

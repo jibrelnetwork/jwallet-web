@@ -5,17 +5,20 @@ import classNames from 'classnames'
 
 import { JIcon, JLoader, JText } from 'components/base'
 
-type Props = {
-  onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  label: ?string,
-  color: 'blue' | 'gray' | 'sky' | 'white',
-  iconName: ?string,
-  iconSize: 'small' | 'medium',
-  iconColor: 'blue' | 'gray' | 'sky' | 'white',
-  isLink: boolean,
-  isLoading: boolean,
-  isDisabled: boolean,
-}
+type Props = {|
+  +onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  +label: ?string,
+  +color: 'blue' | 'gray' | 'sky' | 'white',
+  +iconName: ?string,
+  +iconSize: 'small' | 'medium',
+  +iconColor: 'blue' | 'gray' | 'sky' | 'white',
+  +isLink: boolean,
+  +isLoading: boolean,
+  +isDisabled: boolean,
+  +isBordered: boolean,
+  +isTransparent: boolean,
+  +isHoverOpacity: boolean,
+|}
 
 class JFlatButton extends PureComponent<Props, *> {
   static defaultProps = {
@@ -24,9 +27,12 @@ class JFlatButton extends PureComponent<Props, *> {
     iconName: null,
     iconSize: 'small',
     iconColor: 'white',
+    isLink: false,
     isLoading: false,
     isDisabled: false,
-    isLink: false,
+    isBordered: false,
+    isTransparent: false,
+    isHoverOpacity: false,
   }
 
   render() {
@@ -40,11 +46,14 @@ class JFlatButton extends PureComponent<Props, *> {
       iconColor,
       isLoading,
       isDisabled,
+      isBordered,
+      isTransparent,
+      isHoverOpacity,
     } = this.props
 
     if (isLoading) {
       return (
-        <div className={classNames('j-flat-button -loading', `-${color}`)}>
+        <div className={classNames('j-flat-button -loading', `-${color}`, isBordered && '-border')}>
           <JLoader color={color} />
         </div>
       )
@@ -58,7 +67,10 @@ class JFlatButton extends PureComponent<Props, *> {
           `-${color}`,
           isLink && '-link',
           label && '-label',
+          isBordered && '-border',
           isDisabled && '-disabled',
+          isTransparent && '-transparent',
+          isHoverOpacity && '-hover-opacity',
         )}
       >
         {iconName && (

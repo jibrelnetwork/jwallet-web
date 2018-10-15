@@ -5,14 +5,15 @@ import React from 'react'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 
-import WalletFace from './WalletFace'
-import WalletActions from './WalletActions'
+import WalletFace from 'components/WalletFace'
+import WalletActions from 'components/WalletActions'
+import WalletLoading from 'components/WalletLoading'
 
 const WALLET_TYPE_ICON_MAP = {
-  'address': 'private-key-read',
-  'privateKey': 'private-key',
-  'bip32Xpub': 'mnemonic-read',
-  'mnemonic': 'mnemonic',
+  'address': 'binding',
+  'privateKey': 'binding',
+  'bip32Xpub': 'multy',
+  'mnemonic': 'multy',
 }
 
 type Props = {|
@@ -20,12 +21,14 @@ type Props = {|
   // +setActiveWallet: Function,
   +walletData: Wallet,
   +toggledWalletId: ?WalletId,
+  +isLoading: boolean,
 |}
 
 const WalletCard = ({
   toggleWallet,
   walletData,
   toggledWalletId,
+  isLoading,
 }: Props) => {
   const {
     id,
@@ -41,12 +44,16 @@ const WalletCard = ({
   const iconName: string = WALLET_TYPE_ICON_MAP[customType]
 
   if (isToggled) {
-    return <WalletActions isMnemonic={isMnemonic} />
+    return <WalletActions setWalletAction={console.log} />
+  }
+
+  if (isLoading) {
+    return <WalletLoading />
   }
 
   const description: string = (!isMnemonic && address)
     ? `${address.substr(0, 15)}...${address.substr(-6)}`
-    : 'Mnemonic'
+    : 'Mnemonic, many addresses'
 
   return (
     <WalletFace
@@ -55,6 +62,7 @@ const WalletCard = ({
       title={name}
       iconName={iconName}
       description={isReadOnly ? `${description}, read only` : description}
+      isReadOnly={isReadOnly}
     />
   )
 }
