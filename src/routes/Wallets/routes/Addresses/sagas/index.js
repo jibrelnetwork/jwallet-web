@@ -1,5 +1,5 @@
-import * as mnemonicAddresses from './mnemonicAddresses'
+// @flow
 
-export default {
-  ...mnemonicAddresses,
-}
+import { walletsAddressesRootSaga } from './walletsAddresses'
+
+export default { walletsAddressesRootSaga }
