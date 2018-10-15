@@ -5,8 +5,8 @@ import React, { Component } from 'react'
 import JCard from 'components/base/JCard'
 import WalletHeader from 'components/WalletHeader'
 
-import WalletCard from './components/WalletCard'
-import NewWalletButtons from './components/NewWalletButtons'
+import WalletCard from 'components/WalletCard'
+import NewWalletButtons from 'components/NewWalletButtons'
 
 type Props = {|
   +openView: () => void,
