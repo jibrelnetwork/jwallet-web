@@ -19,8 +19,9 @@ const WALLET_TYPE_ICON_MAP = {
 }
 
 type Props = {|
-  +toggleWallet: (WalletId) => void,
   +renameWallet: (WalletId) => void,
+  +deleteWallet: (WalletId) => void,
+  +toggleWallet: (WalletId) => void,
   // +setActiveWallet: Function,
   +walletData: Wallet,
   +toggledWalletId: ?WalletId,
@@ -29,6 +30,7 @@ type Props = {|
 
 const WalletCard = ({
   renameWallet,
+  deleteWallet,
   toggleWallet,
   walletData,
   toggledWalletId,
@@ -48,7 +50,12 @@ const WalletCard = ({
   const iconName: string = WALLET_TYPE_ICON_MAP[customType]
 
   if (isToggled) {
-    return <WalletActions renameWallet={handle(renameWallet)(toggledWalletId)} />
+    return (
+      <WalletActions
+        renameWallet={handle(renameWallet)(toggledWalletId)}
+        deleteWallet={handle(deleteWallet)(toggledWalletId)}
+      />
+    )
   }
 
   if (isLoading) {

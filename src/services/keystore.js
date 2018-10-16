@@ -431,6 +431,7 @@ const setPassword = (
 export default {
   createWallet,
   updateWallet,
+  removeWallet,
   initPassword,
   testPassword,
   checkPassword,
