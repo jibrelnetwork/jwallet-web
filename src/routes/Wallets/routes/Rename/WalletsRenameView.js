@@ -47,7 +47,7 @@ class WalletsRenameView extends Component<Props> {
 
     return (
       <div className='wallets-rename-view'>
-        <ModalHeader title='Edit wallet' color='white' location='/wallets' />
+        <ModalHeader title='Rename wallet' color='white' location='/wallets' />
         <div className='content'>
           <WalletNameStep
             onSubmit={handle(renameRequest)(items, name, params.walletId)}
