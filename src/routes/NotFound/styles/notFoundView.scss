@@ -7,5 +7,17 @@
 
   > .content {
     @include flex-column-center;
+
+    > .actions {
+      position: absolute;
+      left: 0;
+      bottom: 55px;
+      width: 100%;
+      text-align: center;
+
+      > .back {
+        display: inline-block;
+      }
+    }
   }
 }

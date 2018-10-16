@@ -11,7 +11,7 @@ import Transactions from './Transactions'
 import Wallets from './Wallets'
 import NotFound from './NotFound'
 
-const createRoutes = () => ({
+export default {
   path: '/',
   component: CoreLayout,
   indexRoute: {
@@ -25,8 +25,6 @@ const createRoutes = () => ({
     Transactions(store),
     */
     Wallets,
-    NotFound(),
+    NotFound,
   ],
-})
-
-export default createRoutes
+}

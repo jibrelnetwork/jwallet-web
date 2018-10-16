@@ -51,9 +51,9 @@ const renderApp = () => {
   const appContainer = (
     <AppContainer
       store={store}
+      routes={router}
       history={history}
       persistor={persistor}
-      routes={router(store)}
     />
   )
 

@@ -22,9 +22,9 @@ type Props = {|
 
 class JFlatButton extends PureComponent<Props, *> {
   static defaultProps = {
-    text: null,
-    color: 'white',
+    label: null,
     iconName: null,
+    color: 'white',
     iconSize: 'small',
     iconColor: 'white',
     isLink: false,
@@ -63,10 +63,9 @@ class JFlatButton extends PureComponent<Props, *> {
       <div
         onClick={isDisabled ? undefined : onClick}
         className={classNames(
-          'j-flat-button',
-          `-${color}`,
-          isLink && '-link',
+          `j-flat-button -${color}`,
           label && '-label',
+          isLink && '-link',
           isBordered && '-border',
           isDisabled && '-disabled',
           isTransparent && '-transparent',
