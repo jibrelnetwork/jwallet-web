@@ -284,17 +284,6 @@ declare type BackupWalletData = {
 }
 
 /**
- * Change wallet password
- */
-declare type ChangeWalletPasswordData = {
-  +validFields: FormFields,
-  +invalidFields: FormFields,
-  +password: Password,
-  +newPassword: Password,
-  +confirmPassword: Password,
-}
-
-/**
  * Digital assets
  */
 declare type DigitalAssetsListType = 'balance' | 'popular' | 'custom'
@@ -433,7 +422,6 @@ declare type State = {|
   +networks: NetworksData,
   +mnemonicAddresses: MnemonicAddressesData,
   +backupWallet: BackupWalletData,
-  +changeWalletPassword: ChangeWalletPasswordData,
   +digitalAssets: DigitalAssetsData,
   +customAsset: CustomAssetData,
   +transactions: TransactionsData,
@@ -449,7 +437,6 @@ declare type InitialState = {
   networks?: NetworksData,
   mnemonicAddresses?: MnemonicAddressesData,
   backupWallet?: BackupWalletData,
-  changeWalletPassword?: ChangeWalletPasswordData,
   digitalAssets?: DigitalAssetsData,
   customAsset?: CustomAssetData,
   transactions?: TransactionsData,

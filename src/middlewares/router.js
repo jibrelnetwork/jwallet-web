@@ -155,29 +155,8 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
       break
     }
 
-    case backupWallet.OPEN:
-    case removeWallet.OPEN: {
+    case backupWallet.OPEN: {
       goToWalletsIfNoActive()
-      break
-    }
-
-    case changeWalletPassword.OPEN: {
-      try {
-        const walletId: ?WalletId = store.getState().wallets.activeWalletId
-
-        if (!walletId) {
-          goToLocation('/wallets')
-        } else {
-          const { isReadOnly }: Wallet = keystore.getWallet(walletId)
-
-          if (isReadOnly) {
-            goToLocation('/wallets')
-          }
-        }
-      } catch (err) {
-        goToLocation('/wallets')
-      }
-
       break
     }
 
@@ -195,12 +174,6 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
 
     case backupWallet.BACKUP_SUCCESS: {
       goToLocation('/')
-      break
-    }
-
-    case changeWalletPassword.CHANGE_PASSWORD_SUCCESS:
-    case removeWallet.REMOVE_SUCCESS: {
-      goToLocation('/wallets')
       break
     }
     */
