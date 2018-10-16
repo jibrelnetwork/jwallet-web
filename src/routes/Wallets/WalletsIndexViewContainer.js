@@ -20,6 +20,7 @@ const mapDispatchToProps = {
   createWallet: () => push('/wallets/create'),
   importWallet: () => push('/wallets/import'),
   renameWallet: (walletId: WalletId) => push(`/wallets/rename/${walletId}`),
+  deleteWallet: (walletId: WalletId) => push(`/wallets/delete/${walletId}`),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletsIndexView)
