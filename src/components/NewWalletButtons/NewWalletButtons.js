@@ -5,14 +5,11 @@ import React from 'react'
 import WalletFace from 'components/WalletFace'
 
 type Props = {|
-  +createWallet: () => void,
-  +importWallet: () => void,
+  +createWallet: Function,
+  +importWallet: Function,
 |}
 
-const NewWalletButtons = ({
-  createWallet,
-  importWallet,
-}: Props) => (
+const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
     <div className='button'>

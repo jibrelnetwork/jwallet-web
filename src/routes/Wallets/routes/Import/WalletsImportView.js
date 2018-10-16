@@ -113,6 +113,10 @@ class WalletsImportView extends Component<Props> {
               valuePassword={password}
               valuePasswordHint={passwordHint}
               valuePasswordConfirm={passwordConfirm}
+              title={[
+                'You will use this password to unlock and transfer your funds.',
+                'Keep it secure!',
+              ]}
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

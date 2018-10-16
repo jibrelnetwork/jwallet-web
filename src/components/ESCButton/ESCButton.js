@@ -8,10 +8,8 @@ const ESCButton = ({ onClick, color }: Props) => (
   <div className='esc-button'>
     <RoundIconButton
       onClick={onClick}
-      iconName='close-header'
+      iconName='arrow-left'
       color={color}
-      label='ESC'
-      spinOnHover
     />
   </div>
 )

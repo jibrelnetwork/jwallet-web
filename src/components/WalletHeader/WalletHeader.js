@@ -10,7 +10,7 @@ const WalletHeader = ({ goToLanding }: Props) => (
     <div className='content'>
       <JLogo />
       <div className='button'>
-        <RoundIconButton onClick={goToLanding} iconName='arrow-header' color='white' />
+        <RoundIconButton onClick={goToLanding} iconName='padding-cross' color='white' />
       </div>
     </div>
   </div>

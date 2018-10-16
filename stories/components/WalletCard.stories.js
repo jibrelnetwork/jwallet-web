@@ -88,7 +88,7 @@ storiesOf('WalletCard')
   .add('NewWalletButtons', () => (
     <div>
       <h2>NewWalletButtons</h2>
-      <div className='bg-blue'>
+      <div className='story -blue'>
         <NewWalletButtons
           createWallet={props.createWallet}
           importWallet={props.importWallet}
