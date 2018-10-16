@@ -3,7 +3,7 @@
 import React, { Component, Fragment } from 'react'
 
 import ModalHeader from 'components/ModalHeader'
-import { JThumbnail, JRaisedButton } from 'components/base'
+import { JThumbnail, JFlatButton } from 'components/base'
 
 type Props = {|
   +closeView: () => void,
@@ -124,8 +124,8 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
         <div className='content'>
           <div className='form'>
             <JThumbnail
-              image='key'
               color='white'
+              image='auth-cross'
               title={`Delete ${name} wallet`}
               description={'All user data, including imported ' +
                 'or generated private keys, will be deleted.'}
@@ -133,23 +133,28 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
             <div className='actions'>
               {isDeleteInitialised ? (
                 <Fragment>
-                  <JRaisedButton
+                  <JFlatButton
                     onClick={this.cancelDelete}
-                    color='blue'
+                    color='white'
                     label='Nope, stop it'
+                    isBordered
                   />
-                  <JRaisedButton
-                    onClick={this.confirmDelete}
-                    label={(countdown > 0) ? `${countdown}` : 'Yes'}
-                    color='blue'
-                    isDisabled={countdown > 0}
-                  />
+                  <div className='confirm'>
+                    <JFlatButton
+                      onClick={this.confirmDelete}
+                      label={(countdown > 0) ? `Yes – ${countdown} sec` : 'Yes'}
+                      color='white'
+                      isDisabled={countdown > 0}
+                      isBordered
+                    />
+                  </div>
                 </Fragment>
               ) : (
-                <JRaisedButton
+                <JFlatButton
                   onClick={this.initDelete}
-                  color='blue'
+                  color='white'
                   label='Yes, delete'
+                  isBordered
                 />
               )}
             </div>
