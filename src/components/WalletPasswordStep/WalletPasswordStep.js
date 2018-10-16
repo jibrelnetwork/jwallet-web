@@ -51,6 +51,7 @@ const WalletPasswordStep = ({
         color='white'
         placeholder='Password'
         name='wallet-password'
+        type='password'
       />
       {!isPasswordExists && [
         <JInput
@@ -61,6 +62,7 @@ const WalletPasswordStep = ({
           color='white'
           placeholder='Confirm payment password'
           name='wallet-password-confirm'
+          type='password'
         />,
         <JInput
           key='hint'
