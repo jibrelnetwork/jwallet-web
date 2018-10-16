@@ -2,11 +2,11 @@
 @import './walletsIndexView';
 
 // children routes
+@import '../routes/Start/styles/walletsStartView';
+@import '../routes/Create/styles/walletsCreateView';
+@import '../routes/Import/styles/walletsImportView';
+@import '../routes/Rename/styles/walletsRenameView';
 @import '../routes/Addresses/styles/walletsMnemonicAddressesView';
 @import '../routes/Backup/styles/walletsBackupView';
 @import '../routes/ChangePassword/styles/walletsChangePasswordView';
-@import '../routes/Create/styles/walletsCreateView';
-@import '../routes/Edit/styles/walletsEditView';
-@import '../routes/Import/styles/walletsImportView';
 @import '../routes/Remove/styles/walletsRemoveView';
-@import '../routes/Start/styles/walletsStartView';

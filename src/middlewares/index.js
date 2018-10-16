@@ -4,14 +4,14 @@
 import * as forms from './forms'
 import * as storage from './storage'
 import * as analytics from './analytics'
+import * as notification from './notification'
 */
 import * as router from './router'
-import * as notification from './notification'
 
 export default [
   router.redirect,
-  notification.show,
   /*
+  notification.show,
   storage.set,
   analytics.pushEvent,
   forms.setInvalidField,

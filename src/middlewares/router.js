@@ -2,48 +2,59 @@
 
 import { push } from 'react-router-redux'
 
-import keystore from 'services/keystore'
+/*
 import checkMnemonicType from 'utils/keystore/checkMnemonicType'
+*/
 
 /**
  * Wallets
  */
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as start from 'routes/Wallets/routes/Start/modules/start'
-import * as mnemonicAddresses from 'routes/Wallets/routes/Addresses/modules/mnemonicAddresses'
-import * as editWallet from 'routes/Wallets/routes/Edit/modules/editWallet'
+import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
+
+/*
 import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
-import * as changeWalletPassword from 'routes/Wallets/routes/ChangePassword/modules/changeWalletPassword' // eslint-disable-line max-len
 import * as removeWallet from 'routes/Wallets/routes/Remove/modules/removeWallet'
+import * as mnemonicAddresses from 'routes/Wallets/routes/Addresses/modules/mnemonicAddresses'
+*/
 
 /**
  * Digital Assets
- */
 import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+ */
 
 /**
  * Custom Asset
- */
 import * as customAsset from 'routes/CustomAsset/modules/customAsset'
+ */
 
 /**
  * Transactions
- */
 import * as transactions from 'routes/Transactions/modules/transactions'
+ */
 
 /**
  * Funds
- */
 import * as sendFunds from 'routes/Funds/routes/Send/modules/sendFunds'
 import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
+ */
 
-export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
-  const { type, payload }: FSA = action
+import type { WalletsAction } from 'routes/Wallets/modules/wallets'
+import type { WalletsStartAction } from 'routes/Wallets/routes/Start/modules/start'
+import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
 
+type MiddlewareAction =
+  WalletsAction |
+  WalletsStartAction |
+  WalletsRenameAction
+
+export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAction) => {
   function goToLocation(location: string) {
     store.dispatch(push(location))
   }
 
+  /*
   function getCurrentLocation(state: State): string {
     return state.router.locationBeforeTransitions.pathname
   }
@@ -59,41 +70,63 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       goToLocation('/wallets')
     }
   }
+  */
 
-  switch (type) {
+  switch (action.type) {
     /**
      * Wallets
      */
     case wallets.OPEN_VIEW: {
-      try {
-        const walletsState: WalletsState = store.getState().wallets
-        const walletsItems: Wallets = walletsState.items
+      const walletsState: WalletsState = store.getState().wallets
+      const walletsItems: Wallets = walletsState.items
 
-        if (!walletsItems.length) {
-          goToLocation('/wallets/start')
-        }
-      } catch (err) {
+      if (!walletsItems.length) {
         goToLocation('/wallets/start')
       }
 
       break
     }
 
-    case start.OPEN_VIEW: {
-      try {
-        const walletsState: WalletsState = store.getState().wallets
-        const walletsItems: Wallets = walletsState.items
+    case wallets.SET_ACTIVE_WALLET: {
+      goToLocation('/wallets')
 
-        if (walletsItems.length) {
-          goToLocation('/wallets')
-        }
-      } catch (err) {
-        //
+      // TODO: remove prev line and uncomment next
+      // goToLocation('/digital-assets/popular')
+
+      break
+    }
+
+    case start.OPEN_VIEW: {
+      const walletsState: WalletsState = store.getState().wallets
+      const walletsItems: Wallets = walletsState.items
+
+      if (walletsItems.length) {
+        goToLocation('/wallets')
       }
 
       break
     }
 
+    case walletsRename.OPEN_VIEW: {
+      const { walletId } = action.payload
+      const walletsState: WalletsState = store.getState().wallets
+      const walletsItems: Wallets = walletsState.items
+      const isFound: boolean = !!walletsItems.find((w: Wallet): boolean => (w.id === walletId))
+
+      if (!isFound) {
+        goToLocation('/wallets')
+      }
+
+      break
+    }
+
+    case walletsRename.RENAME_SUCCESS: {
+      goToLocation('/wallets')
+
+      break
+    }
+
+    /*
     case mnemonicAddresses.OPEN: {
       try {
         const walletId: ?WalletId = store.getState().wallets.activeWalletId
@@ -114,7 +147,6 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case editWallet.OPEN:
     case backupWallet.OPEN:
     case removeWallet.OPEN: {
       goToWalletsIfNoActive()
@@ -141,15 +173,6 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case wallets.SET_ACTIVE_WALLET: {
-      goToLocation('/wallets')
-
-      // TODO: remove prev line and uncomment next
-      // goToLocation('/digital-assets/popular')
-
-      break
-    }
-
     case mnemonicAddresses.SET_ACTIVE_SUCCESS: {
       const { walletAction }: WalletsData = store.getState().wallets
 
@@ -162,7 +185,6 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       break
     }
 
-    case editWallet.EDIT_SUCCESS:
     case backupWallet.BACKUP_SUCCESS: {
       goToLocation('/')
       break
@@ -173,10 +195,12 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       goToLocation('/wallets')
       break
     }
+    */
 
     /**
      * Digital Assets
      */
+    /*
     case digitalAssets.OPEN: {
       goToWalletsIfNoActive()
       break
@@ -193,10 +217,12 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
 
       break
     }
+    */
 
     /**
      * Custom Assets
      */
+    /*
     case customAsset.OPEN: {
       goToWalletsIfNoActive()
 
@@ -226,10 +252,12 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       goToLocation('/digital-assets')
       break
     }
+    */
 
     /**
      * Transactions
      */
+    /*
     case transactions.OPEN: {
       goToWalletsIfNoActive()
       break
@@ -239,10 +267,12 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       goToLocation(`/funds/${payload.txData.type}`)
       break
     }
+    */
 
     /**
      * Funds
      */
+    /*
     case sendFunds.OPEN: {
       try {
         const walletId: ?WalletId = store.getState().wallets.activeWalletId
@@ -272,6 +302,7 @@ export const redirect = (store: Store) => (next: Next) => (action: FSA) => {
       goToWalletsIfNoActive()
       break
     }
+    */
 
     default: break
   }

@@ -1,19 +1,15 @@
 // @flow
 
-export function selectNetworks(state: State): NetworksData {
-  return state.networks
-}
-
-export function selectNetworksItems(state: State): Networks {
-  return state.networks.items
-}
-
-export function selectNetworkId(state: State): ?NetworkId {
-  return state.networks.currentNetwork
-}
-
 export function selectWallets(state: State): WalletsState {
   return state.wallets
+}
+
+export function selectWalletsCreate(state: State): WalletsCreateState {
+  return state.walletsCreate
+}
+
+export function selectWalletsImport(state: State): WalletsImportState {
+  return state.walletsImport
 }
 
 export function selectWalletsItems(state: State): Wallets {
@@ -28,24 +24,24 @@ export function selectMnemonicAddresses(state: State): MnemonicAddressesData {
   return state.mnemonicAddresses
 }
 
-export function selectWalletsCreate(state: State): WalletsCreateState {
-  return state.walletsCreate
-}
-
-export function selectWalletsImport(state: State): WalletsImportState {
-  return state.walletsImport
-}
-
-export function selectEditWallet(state: State): EditWalletData {
-  return state.editWallet
-}
-
 export function selectBackupWallet(state: State): BackupWalletData {
   return state.backupWallet
 }
 
 export function selectChangeWalletPassword(state: State): ChangeWalletPasswordData {
   return state.changeWalletPassword
+}
+
+export function selectNetworks(state: State): NetworksData {
+  return state.networks
+}
+
+export function selectNetworksItems(state: State): Networks {
+  return state.networks.items
+}
+
+export function selectNetworkId(state: State): ?NetworkId {
+  return state.networks.currentNetwork
 }
 
 export function selectDigitalAssets(state: State): DigitalAssetsData {
