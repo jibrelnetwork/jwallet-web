@@ -10,14 +10,14 @@ import JFlatButton from 'components/base/JFlatButton'
 import MnemonicAddressesList from './components/MnemonicAddressesList'
 
 type Props = {|
-  +getMore: () => void,
   +openView: () => void,
   +closeView: () => void,
-  +setActive: () => void,
+  +setActiveRequest: (Wallets, WalletId, Index) => void,
+  +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +wallets: Wallets,
   +addresses: Addresses,
   +iteration: Index,
-  +walletId: ?WalletId,
+  +walletId: WalletId,
   +isReadOnly: boolean,
 |}
 
@@ -30,10 +30,19 @@ class WalletsAddressesView extends Component<Props> {
     this.props.closeView()
   }
 
+  setActiveAddress = (addressIndex: Index) => {
+    const {
+      setActiveRequest,
+      wallets,
+      walletId,
+    } = this.props
+
+    return setActiveRequest(wallets, walletId, addressIndex)
+  }
+
   render() {
     const {
-      getMore,
-      setActive,
+      getMoreRequest,
       wallets,
       addresses,
       walletId,
@@ -42,21 +51,21 @@ class WalletsAddressesView extends Component<Props> {
     } = this.props
 
     const startIndex: Index = config.mnemonicAddressesCount * iteration
-    const endIndex: Index = startIndex + config.mnemonicAddressesCount
+    const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
 
     return (
       <div className='wallets-addresses-view'>
         <ModalHeader title='Mnemonic addresses' color='white' location='/wallets' />
         <div className='content'>
           <MnemonicAddressesList
-            setActive={setActive}
+            setActive={this.setActiveAddress}
             addresses={addresses}
             isReadOnly={isReadOnly}
           />
           <div className='actions'>
             <div className='forward'>
               <JFlatButton
-                onClick={handle(getMore)(wallets, walletId, startIndex, endIndex)}
+                onClick={handle(getMoreRequest)(wallets, walletId, startIndex, endIndex)}
                 label='Get more'
                 iconName='plus'
                 iconSize='small'

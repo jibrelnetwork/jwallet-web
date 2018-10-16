@@ -16,7 +16,7 @@ function* openView(): Saga<void> {
   const { iteration } = yield select(selectWalletsAddresses)
 
   const startIndex: Index = config.mnemonicAddressesCount * iteration
-  const endIndex: Index = startIndex + config.mnemonicAddressesCount
+  const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
 
   if (!activeWalletId) {
     return
