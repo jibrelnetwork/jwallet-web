@@ -171,50 +171,6 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
       break
     }
 
-    /*
-    case mnemonicAddresses.OPEN: {
-      try {
-        const walletId: ?WalletId = store.getState().wallets.activeWalletId
-
-        if (!walletId) {
-          goToLocation('/wallets')
-        } else {
-          const walletType: WalletType = keystore.getWallet(walletId).type
-
-          if (!checkMnemonicType(walletType)) {
-            goToLocation('/wallets')
-          }
-        }
-      } catch (err) {
-        goToLocation('/wallets')
-      }
-
-      break
-    }
-
-    case backupWallet.OPEN: {
-      goToWalletsIfNoActive()
-      break
-    }
-
-    case mnemonicAddresses.SET_ACTIVE_SUCCESS: {
-      const { walletAction }: WalletsData = store.getState().wallets
-
-      if (walletAction) {
-        goToLocation(`/wallets/${walletAction}`)
-      } else {
-        goToLocation('/')
-      }
-
-      break
-    }
-
-    case backupWallet.BACKUP_SUCCESS: {
-      goToLocation('/')
-      break
-    }
-    */
-
     /**
      * Digital Assets
      */
