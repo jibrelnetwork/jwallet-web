@@ -26,6 +26,7 @@ const NotFoundView = ({ goToIndex }: Props) => (
             onClick={goToIndex}
             color='white'
             label='Back to Home'
+            isHoverOpacity
           />
         </div>
       </div>

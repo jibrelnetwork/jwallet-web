@@ -11,7 +11,7 @@ import NewWalletButtons from 'components/NewWalletButtons'
 type Props = {|
   +toggleWallet: Function,
   +createWallet: Function,
-  // +importWallet: Function,
+  +importWallet: Function,
   // +setActiveWallet: Function,
   +items: Wallets,
   +toggledWalletId: WalletId,
@@ -20,6 +20,7 @@ type Props = {|
 const WalletsIndexView = ({
   toggleWallet,
   createWallet,
+  importWallet,
   items,
   toggledWalletId,
 }: Props) => (
@@ -39,6 +40,7 @@ const WalletsIndexView = ({
       ))}
       <NewWalletButtons
         createWallet={createWallet}
+        importWallet={importWallet}
       />
     </div>
   </div>

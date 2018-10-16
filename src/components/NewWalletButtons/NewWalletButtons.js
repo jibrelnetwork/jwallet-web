@@ -6,10 +6,10 @@ import WalletFace from 'components/WalletFace'
 
 type Props = {|
   +createWallet: Function,
-  // +importWallet: Function,
+  +importWallet: Function,
 |}
 
-const NewWalletButtons = ({ createWallet }: Props) => (
+const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
     <div className='button'>
@@ -23,7 +23,7 @@ const NewWalletButtons = ({ createWallet }: Props) => (
     </div>
     <div className='button'>
       <WalletFace
-        onClick={console.log}
+        onClick={importWallet}
         iconName='import'
         title='Import wallet'
         description='Import existing wallet to manage on-chain funds'

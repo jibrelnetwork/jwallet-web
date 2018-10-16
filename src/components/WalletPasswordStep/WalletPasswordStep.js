@@ -14,7 +14,7 @@ type Props = {|
   +valuePassword: string,
   +valuePasswordHint: string,
   +valuePasswordConfirm: string,
-  +valueInformetionArr: array,
+  +title: array,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}
@@ -28,31 +28,29 @@ const WalletPasswordStep = ({
   valuePassword,
   valuePasswordHint,
   valuePasswordConfirm,
-  valueInformetionArr,
+  title,
   isLoading,
   isPasswordExists,
 }: Props) => (
 
   <div className='wallet-password-step'>
-
     {!isPasswordExists && (
       <div className='information'>
-        {valueInformetionArr.map((str: array) => (
+        {title.map((str: array) => (
           <div className='string' key={str}>
             <JText size='large' color='white' value={str} whiteSpace='wrap' align='center' />
           </div>
         ))}
       </div>
     )}
-
     <form className='form' onSubmit={ignoreEvent(onSubmit)()}>
       <JInput
         onChange={onChangePassword}
         value={valuePassword}
         errorMessage={invalidFields.password}
         color='white'
-        placeholder='Payment password'
-        name='wallets-create-password'
+        placeholder='Password'
+        name='wallet-password'
       />
       {!isPasswordExists && [
         <JInput
@@ -62,7 +60,7 @@ const WalletPasswordStep = ({
           errorMessage={invalidFields.passwordConfirm}
           color='white'
           placeholder='Confirm payment password'
-          name='wallets-create-password-confirm'
+          name='wallet-password-confirm'
         />,
         <JInput
           key='hint'
@@ -71,7 +69,7 @@ const WalletPasswordStep = ({
           errorMessage={invalidFields.passwordHint}
           color='white'
           placeholder='Password hint'
-          name='wallets-create-password-hint'
+          name='wallet-password-hint'
         />,
       ]}
       <div className='actions'>
@@ -85,7 +83,6 @@ const WalletPasswordStep = ({
         />
       </div>
     </form>
-
   </div>
 )
 
