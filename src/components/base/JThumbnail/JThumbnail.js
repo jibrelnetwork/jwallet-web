@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 
 import { JText, JIcon } from 'components/base'
 
-type JThumbnailImage = 'key' | 'man' | 'cloud' | 'auth-question'
+type JThumbnailImage = 'key' | 'man' | 'cloud' | 'auth-question' | 'auth-cross'
 
 type Props = {|
   +title: string,
@@ -37,7 +37,7 @@ class JThumbnail extends PureComponent<Props, *> {
           </div>
         )}
         <div className='description'>
-          {!Array.isArray(description) ? description : description.map(str => (
+          {Array.isArray(description) ? description.map(str => (
             <JText
               key={str}
               value={str}
@@ -45,7 +45,14 @@ class JThumbnail extends PureComponent<Props, *> {
               align='center'
               whiteSpace='wrap'
             />
-          ))}
+          )) : (
+            <JText
+              color={color}
+              value={description}
+              align='center'
+              whiteSpace='wrap'
+            />
+          )}
         </div>
       </div>
     )
