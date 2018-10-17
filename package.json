@@ -21,6 +21,7 @@
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
+    "@jibrelnetwork/jwallet-web-keystore": "1.0.0",
     "bignumber.js": "4.0.4",
     "classnames": "2.2.5",
     "dotenv": "4.0.0",
@@ -29,7 +30,6 @@
     "history": "3.3.0",
     "jibrel-contracts-jsapi": "0.4.0",
     "json-format": "1.0.1",
-    "jwallet-web-keystore": "jibrelnetwork/jwallet-web-keystore#0eacfae",
     "localforage": "1.7.2",
     "object-assign": "4.1.1",
     "promise": "8.0.1",

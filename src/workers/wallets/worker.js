@@ -1,6 +1,6 @@
 // @flow
 
-import utils from 'jwallet-web-keystore'
+import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 import keystore from 'services/keystore'
 

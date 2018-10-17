@@ -1,6 +1,6 @@
 // @flow
 
-import Keystore from 'jwallet-web-keystore'
+import Keystore from '@jibrelnetwork/jwallet-web-keystore'
 
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 

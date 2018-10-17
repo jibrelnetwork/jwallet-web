@@ -1,7 +1,7 @@
 // @flow
 
 import uuidv4 from 'uuid/v4'
-import utils from 'jwallet-web-keystore'
+import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 const ADDRESS_TYPE: 'address' = 'address'
 const MNEMONIC_TYPE: 'mnemonic' = 'mnemonic'

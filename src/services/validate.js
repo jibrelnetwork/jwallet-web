@@ -1,6 +1,6 @@
 // @flow
 
-import Keystore from 'jwallet-web-keystore'
+import Keystore from '@jibrelnetwork/jwallet-web-keystore'
 import { equals, isEmpty, gt, lt, toLower } from 'ramda'
 
 import config from 'config'
