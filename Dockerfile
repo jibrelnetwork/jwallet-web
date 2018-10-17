@@ -3,6 +3,7 @@ FROM node:8-onbuild AS build
 ENV MAIN_RPC_ADDR=main.node.jwallet.network \
     ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network
 
+RUN npm r lint-staged
 RUN npm run compile:prod
 
 FROM nginx:alpine
