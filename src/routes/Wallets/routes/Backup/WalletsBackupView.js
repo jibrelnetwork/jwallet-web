@@ -27,6 +27,9 @@ type Props = {|
   +isLoading: boolean,
 |}
 
+const PRIVATE_KEY_LENGTH: number = 66
+const PRIVATE_KEY_HALF_LENGTH: number = PRIVATE_KEY_LENGTH / 2
+
 class WalletsBackupView extends Component<Props> {
   componentDidMount() {
     const {
@@ -49,8 +52,8 @@ class WalletsBackupView extends Component<Props> {
     }
 
     // we should split data on two lines if it is privateKey
-    const firstLine: string = data.substr(0, 33)
-    const secondLine: string = data.substr(33)
+    const firstLine: string = data.substr(0, PRIVATE_KEY_HALF_LENGTH)
+    const secondLine: string = data.substr(PRIVATE_KEY_HALF_LENGTH)
 
     return `${firstLine} ${secondLine}`
   }
