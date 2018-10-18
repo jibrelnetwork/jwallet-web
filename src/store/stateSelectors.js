@@ -7,6 +7,14 @@ export function selectWallets(state: State): WalletsState {
   return state.wallets
 }
 
+export function selectWalletsItems(state: State): Wallets {
+  return state.wallets.items
+}
+
+export function selectActiveWalletId(state: State): ?WalletId {
+  return state.wallets.activeWalletId
+}
+
 export function selectWalletsCreate(state: State): WalletsCreateState {
   return state.walletsCreate
 }
@@ -15,16 +23,12 @@ export function selectWalletsImport(state: State): WalletsImportState {
   return state.walletsImport
 }
 
-export function selectWalletsItems(state: State): Wallets {
-  return state.wallets.items
-}
-
 export function selectWalletsBackup(state: State): WalletsBackupState {
   return state.walletsBackup
 }
 
-export function selectMnemonicAddresses(state: State): MnemonicAddressesData {
-  return state.mnemonicAddresses
+export function selectWalletsAddresses(state: State): WalletsAddressesState {
+  return state.walletsAddresses
 }
 
 /**

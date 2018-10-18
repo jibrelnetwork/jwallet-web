@@ -108,4 +108,9 @@ export default {
    * supported languages
    */
   supportedLanguages: ['en', 'ko', 'zh', 'ja'],
+
+  /**
+   * number of addresses derived from bip32 extended public key
+   */
+  mnemonicAddressesCount: 4,
 }

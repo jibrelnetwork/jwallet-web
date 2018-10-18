@@ -4,12 +4,14 @@ import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 import keystore from 'services/keystore'
 
+/* eslint-disable max-len */
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
+import * as walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
@@ -17,6 +19,8 @@ import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/w
 import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
+import type { WalletsAddressesAction } from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
+/* eslint-enable max-len */
 
 export type WalletsAnyAction =
   WalletsAction |
@@ -24,7 +28,8 @@ export type WalletsAnyAction =
   WalletsImportAction |
   WalletsRenameAction |
   WalletsBackupAction |
-  WalletsDeleteAction
+  WalletsDeleteAction |
+  WalletsAddressesAction
 
 type WalletsWorkerMessage = {|
   +data: WalletsAnyAction,
@@ -239,6 +244,40 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(walletsDelete.deleteError(err.message))
+      }
+
+      break
+    }
+
+    case walletsAddresses.GET_MORE_REQUEST: {
+      try {
+        const { items, walletId, startIndex, endIndex } = action.payload
+
+        const addresses: Addresses = keystore.getAddresses(items, walletId, startIndex, endIndex)
+
+        walletsWorker.postMessage(walletsAddresses.getMoreSuccess(addresses))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(walletsAddresses.getMoreError(err.message))
+      }
+
+      break
+    }
+
+    case walletsAddresses.SET_ACTIVE_REQUEST: {
+      try {
+        const { items, walletId, addressIndex } = action.payload
+
+        const itemsNew = keystore.updateWallet(items, walletId, { addressIndex })
+
+        walletsWorker.postMessage(walletsAddresses.setActiveSuccess(itemsNew))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(walletsAddresses.setActiveError(err.message))
       }
 
       break
