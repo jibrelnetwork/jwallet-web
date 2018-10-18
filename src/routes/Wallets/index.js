@@ -6,11 +6,11 @@ import Start from './routes/Start'
 import Create from './routes/Create'
 import Import from './routes/Import'
 import Rename from './routes/Rename'
+import Backup from './routes/Backup'
 import Delete from './routes/Delete'
 import WalletsIndex from './WalletsIndexViewContainer'
 /*
 import Addresses from './routes/Addresses'
-import Backup from './routes/Backup'
 */
 
 export default {
@@ -24,10 +24,10 @@ export default {
     Create,
     Import,
     Rename,
+    Backup,
     Delete,
     /*
     Addresses(store),
-    Backup(store),
     */
   ],
 }

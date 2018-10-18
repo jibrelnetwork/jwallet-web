@@ -6,11 +6,13 @@ import JFlatButton from 'components/base/JFlatButton'
 
 type Props = {|
   +renameWallet: () => void,
+  +backupWallet: () => void,
   +deleteWallet: () => void,
 |}
 
 const WalletActions = ({
   renameWallet,
+  backupWallet,
   deleteWallet,
 }: Props) => (
   <div className='wallet-actions'>
@@ -21,7 +23,7 @@ const WalletActions = ({
       isHoverOpacity
     />
     <JFlatButton
-      onClick={console.log}
+      onClick={backupWallet}
       label='Backup'
       color='white'
       isHoverOpacity
