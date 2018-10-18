@@ -2,9 +2,7 @@
 
 import { push } from 'react-router-redux'
 
-/*
-import checkMnemonicType from 'utils/keystore/checkMnemonicType'
-*/
+import { getWallet, checkMnemonicType } from 'utils/wallets'
 
 /**
  * Wallets
@@ -14,6 +12,7 @@ import * as start from 'routes/Wallets/routes/Start/modules/start'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
+import * as walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 
 /*
 import * as backupWallet from 'routes/Wallets/routes/Backup/modules/backupWallet'
@@ -42,18 +41,22 @@ import * as sendFunds from 'routes/Funds/routes/Send/modules/sendFunds'
 import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
  */
 
+/* eslint-disable max-len */
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsStartAction } from 'routes/Wallets/routes/Start/modules/start'
 import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
+import type { WalletsAddressesAction } from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
+/* eslint-enable max-len */
 
 type MiddlewareAction =
   WalletsAction |
   WalletsStartAction |
   WalletsRenameAction |
   WalletsBackupAction |
-  WalletsDeleteAction
+  WalletsDeleteAction |
+  WalletsAddressesAction
 
 export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAction) => {
   function goToLocation(location: string) {
@@ -94,10 +97,19 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
     }
 
     case wallets.SET_ACTIVE_WALLET: {
-      goToLocation('/wallets')
+      const { activeWalletId }: { activeWalletId: ?WalletId } = action.payload
 
-      // TODO: remove prev line and uncomment next
-      // goToLocation('/digital-assets/popular')
+      const walletsState: WalletsState = store.getState().wallets
+      const walletsItems: Wallets = walletsState.items
+      const wallet: ?Wallet = getWallet(walletsItems, activeWalletId)
+
+      if (wallet && checkMnemonicType(wallet.type)) {
+        goToLocation('/wallets/addresses')
+
+        break
+      }
+
+      goToLocation('/wallets')
 
       break
     }
@@ -153,49 +165,11 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
       break
     }
 
-    /*
-    case mnemonicAddresses.OPEN: {
-      try {
-        const walletId: ?WalletId = store.getState().wallets.activeWalletId
-
-        if (!walletId) {
-          goToLocation('/wallets')
-        } else {
-          const walletType: WalletType = keystore.getWallet(walletId).type
-
-          if (!checkMnemonicType(walletType)) {
-            goToLocation('/wallets')
-          }
-        }
-      } catch (err) {
-        goToLocation('/wallets')
-      }
+    case walletsAddresses.SET_ACTIVE_SUCCESS: {
+      goToLocation('/wallets')
 
       break
     }
-
-    case backupWallet.OPEN: {
-      goToWalletsIfNoActive()
-      break
-    }
-
-    case mnemonicAddresses.SET_ACTIVE_SUCCESS: {
-      const { walletAction }: WalletsData = store.getState().wallets
-
-      if (walletAction) {
-        goToLocation(`/wallets/${walletAction}`)
-      } else {
-        goToLocation('/')
-      }
-
-      break
-    }
-
-    case backupWallet.BACKUP_SUCCESS: {
-      goToLocation('/')
-      break
-    }
-    */
 
     /**
      * Digital Assets

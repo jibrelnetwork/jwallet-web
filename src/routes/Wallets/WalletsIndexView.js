@@ -16,9 +16,7 @@ type Props = {|
   +backupWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
   +toggleWallet: (WalletId) => void,
-  /*
   +setActiveWallet: (WalletId) => void,
-  */
   +items: Wallets,
   +toggledWalletId: WalletId,
 |}
@@ -36,9 +34,7 @@ class WalletsIndexView extends Component<Props> {
       backupWallet,
       deleteWallet,
       toggleWallet,
-      /*
       setActiveWallet,
-      */
       items,
       toggledWalletId,
     }: Props = this.props
@@ -55,8 +51,9 @@ class WalletsIndexView extends Component<Props> {
                   backupWallet={backupWallet}
                   deleteWallet={deleteWallet}
                   toggleWallet={toggleWallet}
+                  setActiveWallet={setActiveWallet}
                   walletData={item}
-                  toggledWalletId={toggledWalletId}
+                  isToggled={toggledWalletId === item.id}
                 />
               </JCard>
             </div>

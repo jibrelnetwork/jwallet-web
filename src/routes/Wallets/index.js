@@ -8,10 +8,8 @@ import Import from './routes/Import'
 import Rename from './routes/Rename'
 import Backup from './routes/Backup'
 import Delete from './routes/Delete'
-import WalletsIndex from './WalletsIndexViewContainer'
-/*
 import Addresses from './routes/Addresses'
-*/
+import WalletsIndex from './WalletsIndexViewContainer'
 
 export default {
   path: 'wallets',
@@ -26,8 +24,6 @@ export default {
     Rename,
     Backup,
     Delete,
-    /*
-    Addresses(store),
-    */
+    Addresses,
   ],
 }
