@@ -348,7 +348,6 @@ declare type CustomAssetFormFields = {|
 declare type CustomAssetState = {
   +invalidFields: CustomAssetFormFields,
   +formFields: CustomAssetFormFields,
-
   +isAssetValid: boolean,
   +isAssetLoaded: boolean,
   +isAssetLoading: boolean,
