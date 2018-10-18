@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 import { JRaisedButton } from 'components/base'
-import { ModalHeader, MnemonicPhrase, WalletPasswordStep } from 'components'
+import { ModalHeader, CopyableField, WalletPasswordStep } from 'components'
 
 import { STEPS } from './modules/walletsBackup'
 
@@ -16,6 +16,7 @@ type Props = {|
   +openView: (string) => void,
   +copyToClipboard: () => void,
   +changePasswordInput: (string) => void,
+  +items: Wallets,
   +invalidFields: FormFields,
   +params: {|
     +walletId: string,
@@ -26,7 +27,19 @@ type Props = {|
   +isLoading: boolean,
 |}
 
-class WalletsBackupView extends Component<Props> {
+type ComponentState = {
+  type: WalletType,
+}
+
+class WalletsBackupView extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      type: 'mnemonic',
+    }
+  }
+
   componentDidMount() {
     const {
       openView,
@@ -34,6 +47,19 @@ class WalletsBackupView extends Component<Props> {
     } = this.props
 
     openView(params.walletId)
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    const {
+      items,
+      params,
+    }: Props = nextProps
+
+    const foundWallet: ?Wallet = items.find((w: Wallet): boolean => (w.id === params.walletId))
+
+    if (foundWallet && (foundWallet.type !== this.state.type)) {
+      this.setState({ type: foundWallet.type })
+    }
   }
 
   componentWillUnmount() {
@@ -54,6 +80,8 @@ class WalletsBackupView extends Component<Props> {
       currentStep,
       isLoading,
     } = this.props
+
+    const isMnemonic: boolean = (this.state.type === 'mnemonic')
 
     return (
       <div className='wallets-backup-view'>
@@ -77,10 +105,9 @@ class WalletsBackupView extends Component<Props> {
           {(currentStep === STEPS.PRIVATE) && (
             <div className='wallet-private-step'>
               <form className='form' onSubmit={downloadToTxt}>
-                <MnemonicPhrase
+                <CopyableField
                   copy={copyToClipboard}
-                  download={downloadToTxt}
-                  mnemonic={data}
+                  value={isMnemonic ? data : `${data.substr(0, 33)} ${data.substr(33)}`}
                 />
                 <div className='actions'>
                   <JRaisedButton

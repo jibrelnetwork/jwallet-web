@@ -16,6 +16,7 @@ import {
 import WalletsBackupView from './WalletsBackupView'
 
 type StateProps = {|
+  +items: Wallets,
   +invalidFields: FormFields,
   +data: string,
   +password: string,
@@ -25,6 +26,7 @@ type StateProps = {|
 
 function mapStateToProps({ wallets, walletsBackup }: State): StateProps {
   const {
+    items,
     password,
     isLoading,
     invalidFields,
@@ -32,6 +34,7 @@ function mapStateToProps({ wallets, walletsBackup }: State): StateProps {
 
   return {
     ...walletsBackup,
+    items,
     password,
     isLoading,
     invalidFields,
