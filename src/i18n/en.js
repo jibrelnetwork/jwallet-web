@@ -493,7 +493,6 @@ module.exports = {
       address: {
         invalid: 'Address should be a valid contract address',
         exists: 'Asset with this address already exists',
-        tooShort: 'Address is too short',
         notERC20: 'This contract is not ERC-20 compatible',
       },
       name: {
