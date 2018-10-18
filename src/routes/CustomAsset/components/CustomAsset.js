@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import { JInput, JRaisedButton } from '../../../components/base'
-import { ModalHeader } from '../../../components'
+import { ModalHeader } from 'components'
+import { JInput, JRaisedButton } from 'components/base'
 
 type CustomAssetFormType = 'add' | 'edit'
 
@@ -12,8 +12,6 @@ type CustomAssetProps = {
   invalidFields: CustomAssetFormFields,
   setField: SetFieldFunction<CustomAssetFormFields>,
   submit: () => void,
-
-  // optional
   isAssetLoading: boolean,
   type: CustomAssetFormType,
 }
@@ -88,4 +86,4 @@ CustomAsset.defaultProps = {
   isAssetLoading: false,
 }
 
-export default CustomAsset
+export { CustomAsset }

@@ -1,5 +1,3 @@
 // @flow
 
-import CustomAsset from './CustomAsset'
-
-export { CustomAsset }
+export { CustomAsset } from './CustomAsset'

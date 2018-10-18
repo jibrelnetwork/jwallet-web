@@ -2,14 +2,13 @@ import ModalLayout from 'layouts/ModalLayout'
 
 import Add from './routes/Add'
 
-export default () => ({
+export default {
   path: 'custom-asset',
   component: ModalLayout,
   childRoutes: [
-    Add(),
+    Add,
   ],
   indexRoute: {
     onEnter: (nextState, replace) => replace('/custom-asset/add'),
   },
-})
-
+}

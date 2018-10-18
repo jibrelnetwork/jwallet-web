@@ -6,12 +6,12 @@ import { connect } from 'react-redux'
 import {
   close,
   setField,
+  addAsset,
   openCustomAssetAdd,
-  addAsset, // <- should this be moved to DigitalAssets (?)
-} from '../modules/customAsset'
+} from '../../modules/customAsset'
 
-import { CustomAsset } from '../components'
-import { selectCustomAsset } from '../../../store/stateSelectors'
+import { CustomAsset } from '../../components'
+import { selectCustomAsset } from '../../../../store/stateSelectors'
 
 type StateProps = {
   formFields: CustomAssetFormFields,
@@ -42,10 +42,10 @@ class CustomAssetAddContainer extends Component<StateProps & DispatchProps, *> {
 }
 
 const mapDispatchToProps = {
-  close,
-  setField,
   open: openCustomAssetAdd,
+  close,
   submit: addAsset,
+  setField,
 }
 
 function mapStateToProps(state: State): StateProps {
