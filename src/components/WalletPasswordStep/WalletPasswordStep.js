@@ -10,7 +10,7 @@ type Props = {|
   +onChangePassword: Function,
   onChangePasswordHint?: Function,
   onChangePasswordConfirm?: Function,
-  +title: Array<string>,
+  +title: ?Array<string>,
   +invalidFields: FormFields,
   +valuePassword: string,
   valuePasswordHint?: string,
@@ -23,6 +23,7 @@ class WalletPasswordStep extends PureComponent<Props> {
   static defaultProps = {
     onChangePasswordHint: () => {},
     onChangePasswordConfirm: () => {},
+    title: null,
     valuePasswordHint: '',
     valuePasswordConfirm: '',
   }
@@ -44,7 +45,7 @@ class WalletPasswordStep extends PureComponent<Props> {
 
     return (
       <div className='wallet-password-step'>
-        {!isPasswordExists && (
+        {!isPasswordExists && !!title && (
           <div className='information'>
             {title.map((line: string) => (
               <div className='string' key={line}>
