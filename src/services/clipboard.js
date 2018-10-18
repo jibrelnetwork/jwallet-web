@@ -112,4 +112,8 @@ function copyCanvas(canvas: Object): boolean {
   return true
 }
 
-export default { copyCanvas, copyImage, copyText }
+export default {
+  copyText,
+  copyImage,
+  copyCanvas,
+}

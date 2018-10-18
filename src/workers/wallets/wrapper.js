@@ -4,6 +4,7 @@ import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
+import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 import type { NewWalletLocation } from 'routes/Wallets/modules/wallets'
@@ -105,6 +106,10 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
 
 export function renameRequest(items: Wallets, name: string, walletId: string) {
   walletsWorker.postMessage(walletsRename.renameRequest(items, name, walletId))
+}
+
+export function backupRequest(items: Wallets, walletId: string, password: string) {
+  walletsWorker.postMessage(walletsBackup.backupRequest(items, walletId, password))
 }
 
 export function deleteRequest(items: Wallets, walletId: string) {

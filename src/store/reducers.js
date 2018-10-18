@@ -5,13 +5,17 @@ import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
-import networks from 'routes/modules/networks'
-
+// wallets
 import wallets from 'routes/Wallets/modules/wallets'
 import transactions from 'routes/Transactions/modules/transactions'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
+import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
+// networks
+import networks from 'routes/modules/networks'
+
+// digitalAssets
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import customAsset from 'routes/CustomAsset/modules/customAsset'
 
@@ -25,14 +29,21 @@ const persistConfig = {
 
 export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
   const rootReducer = combineReducers({
-    networks,
+    // wallets
     wallets,
     walletsCreate,
     walletsImport,
+    walletsBackup,
+    // networks
+    networks,
+    // digitalAssets
     digitalAssets,
     customAsset,
+    // transactions
     transactions,
+    // router
     router,
+    // async
     ...asyncReducers,
   })
 

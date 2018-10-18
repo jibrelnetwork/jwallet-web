@@ -13,6 +13,7 @@ type Props = {|
   +createWallet: () => void,
   +importWallet: () => void,
   +renameWallet: (WalletId) => void,
+  +backupWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
   +toggleWallet: (WalletId) => void,
   /*
@@ -32,6 +33,7 @@ class WalletsIndexView extends Component<Props> {
       createWallet,
       importWallet,
       renameWallet,
+      backupWallet,
       deleteWallet,
       toggleWallet,
       /*
@@ -50,6 +52,7 @@ class WalletsIndexView extends Component<Props> {
               <JCard color='blue'>
                 <WalletCard
                   renameWallet={renameWallet}
+                  backupWallet={backupWallet}
                   deleteWallet={deleteWallet}
                   toggleWallet={toggleWallet}
                   walletData={item}

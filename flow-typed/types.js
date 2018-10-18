@@ -60,32 +60,6 @@ declare type HMR = {|
 |}
 
 /**
- * Networks
- */
-declare type NetworkId = string
-declare type NetworkTitleById = { [NetworkId]: string }
-
-declare type Network = {
-  +id: NetworkId,
-  +title: string,
-  +rpcaddr: string,
-  +rpcport: number,
-  +ssl: boolean,
-  +isCustom: boolean,
-}
-
-declare type Networks = Array<Network>
-
-declare type NetworksData = {
-  +items: Networks,
-  +invalidFields: FormFields,
-  +customNetworkRPC: string,
-  +isLoading: boolean,
-  +isInitialised: boolean,
-  +currentNetwork: ?NetworkId,
-}
-
-/**
  * Wallets
  */
 declare type Password = string
@@ -219,15 +193,6 @@ declare type WalletsState = {|
 |}
 
 /**
- * Mnemonic addresses
- */
-declare type MnemonicAddressesData = {
-  +addresses: Addresses,
-  +balances: Balances,
-  +iteration: Index,
-}
-
-/**
  * Wallets Create
  */
 declare type WalletsCreateNameStepIndex = 0
@@ -274,13 +239,58 @@ declare type WalletsImportState = {|
 |}
 
 /**
- * Backup wallet
+ * Wallets backup
  */
-declare type BackupWalletData = {
-  +validFields: FormFields,
+declare type WalletsBackupPasswordStepIndex = 0
+declare type WalletsBackupPrivateStepIndex = 1
+
+declare type WalletsBackupStepIndex =
+  WalletsBackupPasswordStepIndex |
+  WalletsBackupPrivateStepIndex
+
+declare type WalletsBackupSteps = {|
+  +PASSWORD: WalletsBackupPasswordStepIndex,
+  +PRIVATE: WalletsBackupPrivateStepIndex,
+|}
+
+declare type WalletsBackupState = {|
+  +data: string,
+  +currentStep: WalletsBackupStepIndex,
+|}
+
+/**
+ * Mnemonic addresses
+ */
+declare type MnemonicAddressesData = {
+  +addresses: Addresses,
+  +balances: Balances,
+  +iteration: Index,
+}
+
+/**
+ * Networks
+ */
+declare type NetworkId = string
+declare type NetworkTitleById = { [NetworkId]: string }
+
+declare type Network = {
+  +id: NetworkId,
+  +title: string,
+  +rpcaddr: string,
+  +rpcport: string,
+  +ssl: boolean,
+  +isCustom: boolean,
+}
+
+declare type Networks = Array<Network>
+
+declare type NetworksData = {
+  +items: Networks,
   +invalidFields: FormFields,
-  +password: Password,
-  +currentStep: Index,
+  +customNetworkRPC: string,
+  +isLoading: boolean,
+  +isInitialised: boolean,
+  +currentNetwork: ?NetworkId,
 }
 
 /**
@@ -424,30 +434,41 @@ declare type RouterData = {
  * Entire state
  */
 declare type State = {|
+  // wallets
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,
   +walletsImport: WalletsImportState,
-  +networks: NetworksData,
+  +walletsBackup: WalletsBackupState,
   +mnemonicAddresses: MnemonicAddressesData,
-  +backupWallet: BackupWalletData,
+  // networks
+  +networks: NetworksData,
+  // digitalAssets
   +digitalAssets: DigitalAssetsData,
   +customAsset: CustomAssetState,
+  // transactions
   +transactions: TransactionsData,
+  // funds
   +receiveFunds: ReceiveFundsData,
   +sendFunds: SendFundsData,
+  // router
   +router: RouterData,
 |}
 
 declare type InitialState = {
+  // wallets
   wallets?: WalletsState,
   walletsCreate?: WalletsCreateState,
   walletsImport?: WalletsImportState,
-  networks?: NetworksData,
+  walletsBackup?: WalletsBackupState,
   mnemonicAddresses?: MnemonicAddressesData,
-  backupWallet?: BackupWalletData,
+  // networks
+  networks?: NetworksData,
+  // digitalAssets
   digitalAssets?: DigitalAssetsData,
   customAsset?: CustomAssetState,
+  // transactions
   transactions?: TransactionsData,
+  // funds
   receiveFunds?: ReceiveFundsData,
   sendFunds?: SendFundsData,
 }

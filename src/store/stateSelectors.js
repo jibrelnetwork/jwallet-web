@@ -1,5 +1,8 @@
 // @flow
 
+/**
+ * Wallets
+ */
 export function selectWallets(state: State): WalletsState {
   return state.wallets
 }
@@ -16,18 +19,17 @@ export function selectWalletsItems(state: State): Wallets {
   return state.wallets.items
 }
 
-export function selectWalletId(state: State): ?WalletId {
-  return state.wallets.activeWalletId
+export function selectWalletsBackup(state: State): WalletsBackupState {
+  return state.walletsBackup
 }
 
 export function selectMnemonicAddresses(state: State): MnemonicAddressesData {
   return state.mnemonicAddresses
 }
 
-export function selectBackupWallet(state: State): BackupWalletData {
-  return state.backupWallet
-}
-
+/**
+ * Networks
+ */
 export function selectNetworks(state: State): NetworksData {
   return state.networks
 }
@@ -40,6 +42,9 @@ export function selectNetworkId(state: State): ?NetworkId {
   return state.networks.currentNetwork
 }
 
+/**
+ * Digital Assets
+ */
 export function selectDigitalAssets(state: State): DigitalAssetsData {
   return state.digitalAssets
 }
@@ -60,6 +65,9 @@ export function selectCustomAsset(state: State): CustomAssetState {
   return state.customAsset
 }
 
+/**
+ * Transactions
+ */
 export function selectTransactions(state: State): TransactionsData {
   return state.transactions
 }
@@ -68,6 +76,9 @@ export function selectTransactionsItems(state: State): Transactions {
   return state.transactions.items
 }
 
+/**
+ * Funds
+ */
 export function selectReceiveFunds(state: State): ReceiveFundsData {
   return state.receiveFunds
 }

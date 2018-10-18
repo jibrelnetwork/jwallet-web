@@ -12,6 +12,7 @@ import checkMnemonicType from 'utils/keystore/checkMnemonicType'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as start from 'routes/Wallets/routes/Start/modules/start'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
+import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 /*
@@ -39,11 +40,15 @@ import * as receiveFunds from 'routes/Funds/routes/Receive/modules/receiveFunds'
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsStartAction } from 'routes/Wallets/routes/Start/modules/start'
 import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
+import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
+import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 type MiddlewareAction =
   WalletsAction |
   WalletsStartAction |
-  WalletsRenameAction
+  WalletsRenameAction |
+  WalletsBackupAction |
+  WalletsDeleteAction
 
 export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAction) => {
   function goToLocation(location: string) {
@@ -103,13 +108,27 @@ export const redirect = (store: Store) => (next: Next) => (action: MiddlewareAct
       break
     }
 
-    case walletsRename.OPEN_VIEW: {
+    case walletsRename.OPEN_VIEW:
+    case walletsDelete.OPEN_VIEW: {
       const { walletId } = action.payload
       const walletsState: WalletsState = store.getState().wallets
       const walletsItems: Wallets = walletsState.items
       const isFound: boolean = !!walletsItems.find((w: Wallet): boolean => (w.id === walletId))
 
       if (!isFound) {
+        goToLocation('/wallets')
+      }
+
+      break
+    }
+
+    case walletsBackup.OPEN_VIEW: {
+      const { walletId } = action.payload
+      const walletsState: WalletsState = store.getState().wallets
+      const walletsItems: Wallets = walletsState.items
+      const foundWallet: ?Wallet = walletsItems.find((w: Wallet): boolean => (w.id === walletId))
+
+      if (!foundWallet || foundWallet.isReadOnly) {
         goToLocation('/wallets')
       }
 
