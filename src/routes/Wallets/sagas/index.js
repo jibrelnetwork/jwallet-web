@@ -6,12 +6,9 @@ import walletsImportSagas from '../routes/Import/sagas'
 import walletsRenameSagas from '../routes/Rename/sagas'
 import walletsBackupSagas from '../routes/Backup/sagas'
 import walletsDeleteSagas from '../routes/Delete/sagas'
+import walletsAddressesSagas from '../routes/Addresses/sagas'
 
 const walletSagas = { walletsRootSaga }
-
-/*
-import addresses from '../routes/Addresses/sagas'
-*/
 
 export default {
   ...walletSagas,
@@ -20,7 +17,5 @@ export default {
   ...walletsRenameSagas,
   ...walletsBackupSagas,
   ...walletsDeleteSagas,
-  /*
-  ...addresses,
-  */
+  ...walletsAddressesSagas,
 }
