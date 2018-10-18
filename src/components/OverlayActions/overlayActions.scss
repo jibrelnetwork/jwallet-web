@@ -7,9 +7,14 @@
   > .item {
     @include flex-column-center;
 
-    width: 50%;
+    width: 100%;
     height: 100%;
     cursor: pointer;
+    transition: opacity 0.3s ease 0s;
+
+    &:hover {
+      opacity: 0.5;
+    }
 
     > .icon,
     > .text {
@@ -30,5 +35,11 @@
     margin-top: -($overlay-separator-height / 2);
     margin-left: -($overlay-separator-width / 2);
     background-color: rgba($blue, 0.05);
+  }
+
+  &.-with-load {
+    > .item {
+      width: 50%;
+    }
   }
 }

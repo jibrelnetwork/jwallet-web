@@ -11,11 +11,11 @@ import ModalHeader from './ModalHeader'
 import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
+import CopyableField from './CopyableField'
 import DigitalAssets from './DigitalAssets'
 import WalletActions from './WalletActions'
 import WalletLoading from './WalletLoading'
 import DerivationPath from './DerivationPath'
-import MnemonicPhrase from './MnemonicPhrase'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
@@ -36,11 +36,11 @@ export {
   AssetBalance,
   PasswordStep,
   WalletHeader,
+  CopyableField,
   DigitalAssets,
   WalletActions,
   WalletLoading,
   DerivationPath,
-  MnemonicPhrase,
   OverlayActions,
   WalletDataStep,
   WalletNameStep,

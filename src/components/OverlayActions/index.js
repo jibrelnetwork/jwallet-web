@@ -1,5 +1,5 @@
 // @flow
 
-import OverlayActions from './OverlayActionsContainer'
+import OverlayActions from './OverlayActions'
 
 export default OverlayActions

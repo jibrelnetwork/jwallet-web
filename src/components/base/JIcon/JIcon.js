@@ -8,14 +8,15 @@ type Props = {
   size: 'small' | 'medium' | 'large' | 'xlarge',
 }
 
-class JIcon extends PureComponent<Props, *> {
+class JIcon extends PureComponent<Props> {
   static defaultProps = {
     size: 'medium',
     color: 'white',
   }
 
   render() {
-    const { name, size, color } = this.props
+    const { name, size, color }: Props = this.props
+
     return (
       <div className={`j-icon -${name} -${size} -${color}`} />
     )
