@@ -5,28 +5,34 @@ import classNames from 'classnames'
 
 import { JIcon, JLoader, JText } from 'components/base'
 
-type Props = {
-  onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  label: ?string,
-  color: 'blue' | 'gray' | 'sky' | 'white',
-  iconName: ?string,
-  iconSize: 'small' | 'medium',
-  iconColor: 'blue' | 'gray' | 'sky' | 'white',
-  isLink: boolean,
-  isLoading: boolean,
-  isDisabled: boolean,
-}
+type Props = {|
+  +onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  +label: ?string,
+  +color: 'blue' | 'gray' | 'sky' | 'white',
+  +iconName: ?string,
+  +iconSize: 'small' | 'medium',
+  +iconColor: 'blue' | 'gray' | 'sky' | 'white',
+  +isLink: boolean,
+  +isLoading: boolean,
+  +isDisabled: boolean,
+  +isBordered: boolean,
+  +isTransparent: boolean,
+  +isHoverOpacity: boolean,
+|}
 
 class JFlatButton extends PureComponent<Props, *> {
   static defaultProps = {
-    text: null,
-    color: 'white',
+    label: null,
     iconName: null,
+    color: 'white',
     iconSize: 'small',
     iconColor: 'white',
+    isLink: false,
     isLoading: false,
     isDisabled: false,
-    isLink: false,
+    isBordered: false,
+    isTransparent: false,
+    isHoverOpacity: false,
   }
 
   render() {
@@ -40,11 +46,14 @@ class JFlatButton extends PureComponent<Props, *> {
       iconColor,
       isLoading,
       isDisabled,
+      isBordered,
+      isTransparent,
+      isHoverOpacity,
     } = this.props
 
     if (isLoading) {
       return (
-        <div className={classNames('j-flat-button -loading', `-${color}`)}>
+        <div className={classNames('j-flat-button -loading', `-${color}`, isBordered && '-border')}>
           <JLoader color={color} />
         </div>
       )
@@ -52,13 +61,15 @@ class JFlatButton extends PureComponent<Props, *> {
 
     return (
       <div
-        onClick={isDisabled ? undefined : onClick}
+        onClick={isDisabled ? null : onClick}
         className={classNames(
-          'j-flat-button',
-          `-${color}`,
-          isLink && '-link',
+          `j-flat-button -${color}`,
           label && '-label',
+          isLink && '-link',
+          isBordered && '-border',
           isDisabled && '-disabled',
+          isTransparent && '-transparent',
+          isHoverOpacity && '-hover-opacity',
         )}
       >
         {iconName && (

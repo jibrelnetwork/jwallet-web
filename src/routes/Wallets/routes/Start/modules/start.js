@@ -1,12 +1,20 @@
 // @flow
 
-export const OPEN = '@@start/OPEN'
-export const CLOSE = '@@start/CLOSE'
+export const OPEN_VIEW: '@@walletsStart/OPEN_VIEW' = '@@walletsStart/OPEN_VIEW'
+export const CLOSE_VIEW: '@@walletsStart/CLOSE_VIEW' = '@@walletsStart/CLOSE_VIEW'
 
-export const open = (): { type: string } => ({
-  type: OPEN,
-})
+export function openView() {
+  return {
+    type: OPEN_VIEW,
+  }
+}
 
-export const close = (): { type: string } => ({
-  type: CLOSE,
-})
+export function closeView() {
+  return {
+    type: CLOSE_VIEW,
+  }
+}
+
+export type WalletsStartAction =
+  ExtractReturn<typeof openView> |
+  ExtractReturn<typeof closeView>

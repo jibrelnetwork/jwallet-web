@@ -10,6 +10,7 @@ import networks from 'routes/modules/networks'
 import wallets from 'routes/Wallets/modules/wallets'
 import transactions from 'routes/Transactions/modules/transactions'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
+import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import customAsset from 'routes/CustomAsset/modules/customAsset'
@@ -27,6 +28,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
     networks,
     wallets,
     walletsCreate,
+    walletsImport,
     digitalAssets,
     customAsset,
     transactions,

@@ -21,10 +21,10 @@
       background: linear-gradient(to top, transparent, $white);
     }
   }
-
-  &.-white {
-    background: linear-gradient(to top right, rgba(#002bb3, 0.5), rgba($blue, 0.5));
-  }
+  // 
+  // &.-white {
+  //   background: linear-gradient(to top right, rgba(#002bb3, 0.5), rgba($blue, 0.5));
+  // }
 
   > .content {
     @include flex-row-center;

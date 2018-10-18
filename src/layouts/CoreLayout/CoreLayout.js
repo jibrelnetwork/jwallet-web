@@ -2,23 +2,20 @@
 
 import React from 'react'
 
-const CoreLayout = ({
-  children,
-}: Props) => (
-  <div className='core-layout'>
-    {children}
-  </div>
-)
+import type { Node } from 'react'
 
-type Props = {
-  isNetworksInited: boolean,
-  isWalletsInited: boolean,
-  isDigitalAssetsInited: boolean,
-  children?: Object,
-}
+import 'styles/core.scss'
 
-CoreLayout.defaultProps = {
-  children: null,
+type Props = {|
+  +children: Node,
+|}
+
+function CoreLayout({ children }: Props) {
+  return (
+    <div className='core-layout'>
+      {children}
+    </div>
+  )
 }
 
 export default CoreLayout

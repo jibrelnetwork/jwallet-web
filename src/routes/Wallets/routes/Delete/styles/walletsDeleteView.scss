@@ -1,0 +1,23 @@
+.wallets-delete-view {
+  all: initial;
+
+  @include flex-column-center;
+
+  min-height: 100%;
+
+  > .content {
+    @include box;
+    @include flex-column-center;
+
+    min-height: 100%;
+    padding: 150px 0 50px 0;
+
+    > .form > .actions {
+      @include flex-row-center;
+
+      > .confirm {
+        margin-left: 15px;
+      }
+    }
+  }
+}

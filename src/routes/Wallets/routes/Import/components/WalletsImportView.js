@@ -1,13 +1,12 @@
 // @flow
 
 import React from 'react'
+import NameStep from 'components/NameStep'
+
 import classNames from 'classnames'
 
 import { ModalHeader, PasswordStep } from 'components'
-
 import DataStep from './DataStep'
-import NameStep from '../../../components/NameStep'
-import AssetsStep from '../../../components/AssetsStep'
 import { STEPS } from '../modules/importWallet'
 
 const WalletsImportView = (props: Props) => (
@@ -32,7 +31,6 @@ const WalletsImportView = (props: Props) => (
           buttonColor='blue'
         />
       )}
-      {(props.currentStep === STEPS.ASSETS) && <AssetsStep {...props} />}
     </div>
   </div>
 )

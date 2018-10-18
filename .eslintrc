@@ -12,6 +12,7 @@
     "i18n": false
   },
   "rules": {
+    "padded-blocks": [2, "never"],
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,

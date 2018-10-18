@@ -32,11 +32,13 @@
 
   > .title {
     margin-top: 25px;
+    margin-bottom: 12px;
+    text-align: center;
   }
 
   > .description {
-    margin-top: 25px;
-    line-height: 1.5;
-    opacity: 0.7;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0.5;
   }
 }

@@ -1,5 +1,5 @@
 // @flow
 
-import WalletNameStep from './WalletNameStepContainer'
+import WalletNameStep from './WalletNameStep'
 
 export default WalletNameStep

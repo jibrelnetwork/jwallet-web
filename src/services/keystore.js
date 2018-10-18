@@ -186,7 +186,7 @@ const createAddressWallet = (
     customType: 'privateKey',
     encrypted: {
       mnemonic: null,
-      privateKey: utils.encryptPrivateKey(data, dKey, encryptionType),
+      privateKey: utils.encryptData(data, dKey, encryptionType, true),
     },
     /**
      * Another wallet data, necessary for consistency of types
@@ -209,10 +209,10 @@ const createReadOnlyAddressWallet = (wallets: Wallets, walletData: WalletData): 
   return appendWallet(wallets, {
     id,
     name,
-    address: data,
     isReadOnly: true,
     type: ADDRESS_TYPE,
     customType: 'address',
+    address: utils.getChecksum(data),
     encrypted: {
       mnemonic: null,
       privateKey: null,
@@ -318,6 +318,61 @@ const checkPassword = (
   }
 }
 
+function getWallet(wallets: Wallets, walletId: string): Wallet {
+  if (!walletId) {
+    throw new Error('Wallet ID not provided')
+  }
+
+  const wallet: ?Wallet = wallets.find(({ id }: Wallet): boolean => (walletId === id))
+
+  if (!wallet) {
+    throw new Error(`Wallet with id ${walletId} not found`)
+  }
+
+  return { ...wallet }
+}
+
+function removeWallet(wallets: Wallets, walletId: string): Wallets {
+  const wallet: Wallet = getWallet(wallets, walletId)
+
+  return wallets.filter(({ id }: Wallet): boolean => (wallet.id !== id))
+}
+
+function updateWallet(
+  wallets: Wallets,
+  walletId: string,
+  updatedData: WalletUpdatedData,
+): Wallets {
+  const {
+    encrypted,
+    passwordOptions,
+    mnemonicOptions,
+    name,
+    customType,
+    bip32XPublicKey,
+    addressIndex,
+    isReadOnly,
+  } = updatedData
+
+  const wallet: Wallet = getWallet(wallets, walletId)
+
+  const newWallet: Wallet = {
+    ...wallet,
+    encrypted: encrypted || wallet.encrypted,
+    passwordOptions: passwordOptions || wallet.passwordOptions,
+    mnemonicOptions: mnemonicOptions || wallet.mnemonicOptions,
+    name: name || wallet.name,
+    customType: customType || wallet.customType,
+    bip32XPublicKey: bip32XPublicKey || wallet.bip32XPublicKey,
+    addressIndex: addressIndex || wallet.addressIndex,
+    isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
+  }
+
+  const newWallets: Wallets = removeWallet(wallets, walletId)
+
+  return appendWallet(newWallets, newWallet)
+}
+
 /*
 const setPassword = (
   keystore: Keystore,
@@ -375,6 +430,8 @@ const setPassword = (
 
 export default {
   createWallet,
+  updateWallet,
+  removeWallet,
   initPassword,
   testPassword,
   checkPassword,

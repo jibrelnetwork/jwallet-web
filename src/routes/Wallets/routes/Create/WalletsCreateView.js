@@ -11,20 +11,20 @@ import {
 import { STEPS } from './modules/walletsCreate'
 
 type Props = {|
-  +openView: Function,
-  +closeView: Function,
-  +goToNextStep: Function,
-  +goToPrevStep: Function,
-  +changeNameInput: Function,
-  +changePasswordInput: Function,
-  +changePasswordHintInput: Function,
-  +changePasswordConfirmInput: Function,
+  +openView: () => void,
+  +closeView: () => void,
+  +goToNextStep: () => void,
+  +goToPrevStep: () => void,
+  +changeNameInput: (string) => void,
+  +changePasswordInput: (string) => void,
+  +changePasswordHintInput: (string) => void,
+  +changePasswordConfirmInput: (string) => void,
   +invalidFields: FormFields,
   +name: string,
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  +currentStep: number,
+  +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
 |}
@@ -84,6 +84,10 @@ class WalletsCreateView extends Component<Props> {
               valuePassword={password}
               valuePasswordHint={passwordHint}
               valuePasswordConfirm={passwordConfirm}
+              title={[
+                'You will use this password to unlock and transfer your funds.',
+                'Keep it secure!',
+              ]}
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

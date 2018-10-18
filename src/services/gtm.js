@@ -198,15 +198,6 @@ function pushBackupWallet(walletType: WalletType) {
   })
 }
 
-function pushChangeWalletPassword(walletType: WalletType) {
-  push({
-    event: 'ChangeWalletPassword',
-    eventCategory: 'Wallet',
-    eventAction: 'ChangeWalletPassword',
-    walletType,
-  })
-}
-
 function pushRemoveWallet(walletType: WalletType) {
   push({
     event: 'RemoveWallet',
@@ -258,7 +249,6 @@ export default {
   pushImportWallet,
   pushEditWallet,
   pushBackupWallet,
-  pushChangeWalletPassword,
   pushRemoveWallet,
   // digital assets
   pushAddCustomAsset,

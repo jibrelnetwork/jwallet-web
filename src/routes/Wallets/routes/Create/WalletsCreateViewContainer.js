@@ -3,45 +3,56 @@
 import { connect } from 'react-redux'
 
 import {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
   changeNameInput,
   changePasswordInput,
   changePasswordHintInput,
   changePasswordConfirmInput,
+} from '../../modules/wallets'
+
+import {
+  openView,
+  closeView,
+  goToNextStep,
+  goToPrevStep,
 } from './modules/walletsCreate'
 
 import WalletsCreateView from './WalletsCreateView'
 
-const mapStateToProps = ({
-  wallets,
-  walletsCreate,
-}: State): {|
+type StateProps = {|
   +invalidFields: FormFields,
   +name: string,
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  +currentStep: Index,
+  +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
-|} => ({
-  ...walletsCreate,
-  isPasswordExists: !!wallets.testPasswordData,
-})
+|}
 
-const mapDispatchToProps: {|
-  +openView: Function,
-  +closeView: Function,
-  +goToNextStep: Function,
-  +goToPrevStep: Function,
-  +changeNameInput: Function,
-  +changePasswordInput: Function,
-  +changePasswordHintInput: Function,
-  +changePasswordConfirmInput: Function,
-|} = {
+function mapStateToProps({ wallets, walletsCreate }: State): StateProps {
+  const {
+    name,
+    password,
+    isLoading,
+    passwordHint,
+    invalidFields,
+    passwordConfirm,
+    testPasswordData,
+  } = wallets
+
+  return {
+    ...walletsCreate,
+    name,
+    password,
+    isLoading,
+    passwordHint,
+    invalidFields,
+    passwordConfirm,
+    isPasswordExists: !!testPasswordData,
+  }
+}
+
+const mapDispatchToProps = {
   openView,
   closeView,
   goToNextStep,
