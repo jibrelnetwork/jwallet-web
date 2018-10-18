@@ -4,7 +4,7 @@
 import walletsSagas from 'routes/Wallets/sagas'
 
 // Custom Asset
-import customAssetSagas from 'routes/CustomAsset/sagas'
+import customAssetSagas from 'routes/CustomAsset/sagas/customAsset'
 
 /*
 // Networks

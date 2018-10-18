@@ -1,10 +1,10 @@
 // @flow
 
-import { CustomAssetAddContainer } from '../../containers'
+import CustomAssetAddContainer from './CustomAssetAddContainer'
 
-const Add = () => ({
+const Add = {
   path: 'add',
   component: CustomAssetAddContainer,
-})
+}
 
 export default Add
