@@ -472,6 +472,12 @@ function getAddress(wallets: Wallets, walletId: string): ?Address {
     return address
   }
 
+  /**
+   * To get address with specific index
+   * we can derive addresses from addressIndex to (addressIndex + 1)
+   * range [n, n + 1) - including item with index n and excluding item with index (n + 1)
+   * to get list with one required address
+   */
   const indexEnd: number = (addressIndex || 0) + 1
 
   return bip32XPublicKey
