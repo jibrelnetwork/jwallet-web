@@ -21,7 +21,7 @@ import {
   setField,
   setFieldError,
   clearFieldError,
-  setAssetIsValid,
+  setIsAssetValid,
   startAssetLoading,
 } from '../modules/customAsset'
 
@@ -140,7 +140,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
         if (result && result.isERC20) {
           const { name, symbol, decimals }: RequestedAssetFields = result
 
-          yield put(setAssetIsValid(true))
+          yield put(setIsAssetValid(true))
           yield put(setField('name', name || ''))
           yield put(setField('symbol', symbol || ''))
           yield put(setField('decimals', decimals || ''))
@@ -148,7 +148,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
           throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
         }
       } catch (err) {
-        yield put(setAssetIsValid(false))
+        yield put(setIsAssetValid(false))
 
         if (err instanceof InvalidFieldError) {
           yield put(setFieldError(err.fieldName, err.message))

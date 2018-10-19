@@ -161,7 +161,7 @@ export function terminateAssetLoading() {
   }
 }
 
-export function setAssetIsValid(isAssetValid: boolean) {
+export function setIsAssetValid(isAssetValid: boolean) {
   return {
     type: SET_ASSET_IS_VALID,
     payload: {
