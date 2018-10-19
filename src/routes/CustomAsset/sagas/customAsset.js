@@ -124,7 +124,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
         yield put(startAssetLoading(contractAddress))
 
         // wait for result or cancel all
-        const { result, close, restart } = yield race({
+        const { result } = yield race({
           result: all({
             name: requestAssetField(getContractName, contractAddress),
             symbol: requestAssetField(getContractSymbol, contractAddress),
