@@ -166,6 +166,8 @@ declare type WalletDecryptedData = {|
 
 declare type Wallets = Array<Wallet>
 
+declare type PasswordStatus = 'red' | 'orange' | 'yellow' | 'green'
+
 declare type PasswordResult = {|
   +score: number,
   +feedback: {|
