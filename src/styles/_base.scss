@@ -7,7 +7,6 @@
 /**
  * Base
  */
-$border-radius: 3px;
 $box-horizontal-padding: 15px;
 
 /**
@@ -28,9 +27,9 @@ $menu-panel-width: 200px;
 /**
  * Form
  */
-$form-border-radius: $border-radius;
 $form-width: 480px;
 $form-field-height: 80px;
+$form-border-radius: 3px;
 $form-field-padding-top: 16px;
 $form-field-horizontal-padding: $box-horizontal-padding;
 $form-field-white-horizontal-padding: 20px;
