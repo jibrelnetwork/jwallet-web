@@ -42,7 +42,6 @@ export function close() {
 
 /**
  * Add asset events
- * - to be moved
  */
 
 export function add() {
@@ -70,7 +69,6 @@ export function addError(err: Object) {
 
 /**
  * Edit asset events
- * - to be moved
  */
 
 export function edit() {
@@ -98,7 +96,6 @@ export function editError(err: Object) {
 
 /**
  * Edit asset events
- * - to be moved
  */
 
 export function remove() {
