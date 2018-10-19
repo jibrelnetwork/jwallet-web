@@ -1,9 +1,9 @@
 // @flow
 
 /* eslint-disable max-len */
-export const OPEN_CUSTOM_ASSET_ADD: '@@customAsset/OPEN_CUSTOM_ASSET_ADD' = '@@customAsset/OPEN_CUSTOM_ASSET_ADD'
-export const OPEN_CUSTOM_ASSET_EDIT: '@@customAsset/OPEN_CUSTOM_ASSET_EDIT' = '@@customAsset/OPEN_CUSTOM_ASSET_EDIT'
-export const CLOSE: '@@customAsset/CLOSE' = '@@customAsset/CLOSE'
+export const OPEN_ADD_VIEW: '@@customAsset/OPEN_ADD_VIEW' = '@@customAsset/OPEN_ADD_VIEW'
+export const OPEN_EDIT_VIEW: '@@customAsset/OPEN_EDIT_VIEW' = '@@customAsset/OPEN_EDIT_VIEW'
+export const CLOSE_VIEW: '@@customAsset/CLOSE_VIEW' = '@@customAsset/CLOSE_VIEW'
 
 // -> to be moved to DigitalAssets
 export const ADD: '@@customAsset/ADD' = '@@customAsset/ADD'
@@ -21,13 +21,13 @@ export const CLEAN: '@@customAsset/CLEAN' = '@@customAsset/CLEAN'
 
 export function openCustomAssetAdd() {
   return {
-    type: OPEN_CUSTOM_ASSET_ADD,
+    type: OPEN_ADD_VIEW,
   }
 }
 
 export function openCustomAssetEdit(assetAddress: Address) {
   return {
-    type: OPEN_CUSTOM_ASSET_EDIT,
+    type: OPEN_EDIT_VIEW,
     payload: {
       address: assetAddress,
     },
@@ -36,7 +36,7 @@ export function openCustomAssetEdit(assetAddress: Address) {
 
 export function close() {
   return {
-    type: CLOSE,
+    type: CLOSE_VIEW,
   }
 }
 

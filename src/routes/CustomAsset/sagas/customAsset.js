@@ -13,10 +13,10 @@ import {
 import web3 from 'services/web3'
 
 import {
-  CLOSE,
+  CLOSE_VIEW,
   SET_FIELD,
   START_ASSET_LOADING,
-  OPEN_CUSTOM_ASSET_ADD,
+  OPEN_ADD_VIEW,
   clean,
   setField,
   setFieldError,
@@ -132,7 +132,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
             isERC20: checkAssetIsERC20Compatible(contractAddress),
           }),
           // cancel on close Add/Edit asset screen
-          close: take(CLOSE),
+          close: take(CLOSE_VIEW),
           // cancel, when we are trying to request another contract
           restart: take(START_ASSET_LOADING),
         })
@@ -165,7 +165,7 @@ function* customAssetAddOpen(): Saga<void> {
 }
 
 export function* customAssetRootSaga(): Saga<void> {
-  yield takeEvery(OPEN_CUSTOM_ASSET_ADD, customAssetAddOpen)
+  yield takeEvery(OPEN_ADD_VIEW, customAssetAddOpen)
   yield takeEvery(SET_FIELD, onFieldChange)
 }
 
