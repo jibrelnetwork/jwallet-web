@@ -1,3 +1,5 @@
-import PasswordField from './PasswordFieldContainer'
+// @flow
+
+import PasswordField from './PasswordField'
 
 export default PasswordField
