@@ -3,7 +3,7 @@
 import Promise from 'bluebird'
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { flatten, prop, sortBy, reverse } from 'ramda'
-import { sha3_256 as sha3 } from 'js-sha3'
+import { keccak256 } from 'js-sha3'
 
 import config from 'config'
 import checkJNTAsset from 'utils/digitalAssets/checkJNTAsset'
@@ -68,7 +68,7 @@ function getContractDecimals(
 ): Promise<number> {
   return jibrelContractsApi.contracts.erc20Named
     .decimals({ ...rpcProps, contractAddress })
-    .then(decimals => decimals.c)
+    .then(decimals => parseInt(decimals.c, 10))
 }
 
 function getContractName(
@@ -88,7 +88,6 @@ function getContractSymbol(
 function getContractCode(
   contractAddress: Address
 ): Promise<string> {
-  console.log(jibrelContractsApi)
   return jibrelContractsApi.eth.getCode({ ...rpcProps, address: contractAddress })
 }
 
@@ -107,24 +106,21 @@ function getContractCode(
  *    const signature = 'transferFrom(address,address,uint256)'
  *    console.log(checkSignature(code, signature))
  */
-function checkSignatureInContract(contractCode, signature) {
-  if (contractCode === EMPTY_CONTRACT_CODE) {
-    return false
-  }
-
+function checkSignatureInContract(contractCode: string, signature: string): boolean {
   return (contractCode
     .toLowerCase()
-    .indexOf(PUSH_INSTRUCTION + sha3(signature).substring(2, 10)) !== -1
+    .indexOf(PUSH_INSTRUCTION + keccak256(signature).substring(0, 8)) !== -1
   )
 }
 
 /**
- * Check that in contract with specified code has required ERC20 methods
+ * Check that contract code has all required ERC20 methods
+ *
  *
  * @param {string} contractCode
  * @returns {boolean}
  */
-function checkContractIsERC20(contractCode) {
+function checkContractCodeIsERC20(contractCode: string): boolean {
   const signatures = [
     'totalSupply()',
     'transferFrom(address,address,uint256)',
@@ -134,10 +130,13 @@ function checkContractIsERC20(contractCode) {
     'approve(address,uint256)',
   ]
 
-  console.log(signatures.map(sign => checkSignatureInContract(contractCode, sign)))
+  // run checkSignatureInContract and try to find False in result
+  // if at least one False in array- contract is not ERC20 compatible
+  const falseFound = signatures
+    .map(sign => checkSignatureInContract(contractCode, sign))
+    .find(isFound => !isFound)
 
-  const found = signatures.find(sign => checkSignatureInContract(contractCode, sign))
-  return (found !== null)
+  return (falseFound !== false)
 }
 
 function getETHTransactions(address: Address) {
@@ -394,6 +393,6 @@ export default {
   getContractSymbol,
   getContractDecimals,
   getContractCode,
-  checkContractIsERC20,
+  checkContractCodeIsERC20,
   checkSignatureInContract,
 }

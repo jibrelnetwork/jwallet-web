@@ -1,6 +1,6 @@
 // @flow
 
-import Keystore from 'jwallet-web-keystore'
+import Kaystore from '@jibrelnetwork/jwallet-web-keystore'
 import { put, select, takeEvery, take, race, call, all } from 'redux-saga/effects'
 
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
@@ -23,36 +23,25 @@ import {
   clearFieldError,
   setAssetIsValid,
   startAssetLoading,
-  terminateAssetLoading,
 } from '../modules/customAsset'
 
 const {
   getContractName,
   getContractSymbol,
   getContractDecimals,
+  getContractCode,
+  checkContractCodeIsERC20,
 } = web3
 
 type RequestedAssetFields = {|
-  decimals: number,
-  name: string,
-  symbol: string,
+  decimals: ?number,
+  name: ?string,
+  symbol: ?string,
+  isERC20: ?boolean,
 |}
 
-function addressFieldSimpleCheck(contractAddress: Address) {
-  const address = contractAddress.trim()
+const NODE_EMPTY_VALUE = '0x'
 
-  // 1. check length
-  if (address.length < 42) {
-    throw new InvalidFieldError('address', i18n('general.error.address.tooShort'))
-  }
-
-  // 2. check address field checksum
-  if (!Keystore.checkAddressValid(address)) {
-    throw new InvalidFieldError('address', i18n('general.error.address.invalid'))
-  }
-}
-
-// -> to be moved to DigitalAssets saga
 function* getDigitalAsset(contractAddress: Address): Saga<DigitalAsset> {
   const digitalAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
 
@@ -60,87 +49,48 @@ function* getDigitalAsset(contractAddress: Address): Saga<DigitalAsset> {
 }
 
 /**
- * Make requests to ETH node.
- * Returns asset details or null if asset not ERC-20 compatible
+ * Request not required field from contract
  *
- * @param {string} contractAddress
- * @returns {null | RequestedAssetFields}
+ * @param {Function} contractMethod
+ * @param {Address} contractAddress
  */
-function* requestAssetFieldsTask(contractAddress: Address): Saga<?RequestedAssetFields> {
+function* requestAssetField(
+  contractMethod: Function,
+  contractAddress: Address
+): Saga<string | number | void> {
   try {
-    // make three parallel requests
-    const { name, symbol, decimals } = yield all({
-      name: call(getContractName, contractAddress),
-      symbol: call(getContractSymbol, contractAddress),
-      decimals: call(getContractDecimals, contractAddress),
-    })
-
-    if (name === '0x' || symbol === '0x') {
-      throw new Error('Invalid token')
-    }
-
-    return {
-      name,
-      symbol,
-      decimals,
+    const result = yield call(contractMethod, contractAddress)
+    if (result === NODE_EMPTY_VALUE) {
+      return null
+    } else {
+      return result
     }
   } catch (err) {
     // catch Web3 network error
     if (err.isOperational && err.cause.name !== 'BigNumber Error') {
-      yield put(terminateAssetLoading())
-      throw new InvalidFieldError('address', i18n('general.error.network.connection'))
+      throw err
+    } else {
+      return null
     }
-
-    // Invalid token error
-    yield put(setAssetIsValid(false))
-    throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
-  } finally {
-    // in future, here there will be cancel web3 requests logic
   }
 }
 
-/**
- * Request asset fields from ETH node
- * Emit startAssetLoading, setAssetIsValid events on success/fail
- * Cencels previous request on page close, or when new request required
- *
- * @param {string} contractAddress
- * @returns {RequestedAssetFields}
- * @throws {InvalidFieldError}
- */
-function* requestAssetFields(contractAddress: Address): Saga<?RequestedAssetFields> {
-  // check if we are already requesting this address...
-  const { requestedAddress }: ExtractReturn<typeof selectCustomAsset>
-    = yield select(selectCustomAsset)
+function* checkAssetIsERC20Compatible(contractAddress: Address): Saga<boolean> {
+  const contractCode: string = yield call(getContractCode, contractAddress)
+  return checkContractCodeIsERC20(contractCode)
+}
 
-  if (requestedAddress === contractAddress) {
-    // ...do nothing
-    return null
-  }
-
-  // set loading, shows loader on address input, update requestedAddress
-  yield put(startAssetLoading(contractAddress))
-
-  // wait for result or cancel all
-  const { result } = yield race({
-    result: requestAssetFieldsTask(contractAddress),
-    // cancel on close Add/Edit asset screen
-    close: take(CLOSE),
-    // cancel, when we are trying to request another contract
-    restart: take(START_ASSET_LOADING),
-  })
-
-  if (result) {
-    yield put(setAssetIsValid(true))
-  }
-
-  return result
+function* clearFields(): Saga<void> {
+  yield put(setField('name', ''))
+  yield put(setField('symbol', ''))
+  yield put(setField('decimals', ''))
+  yield put(clearFieldError('name'))
+  yield put(clearFieldError('symbol'))
+  yield put(clearFieldError('decimals'))
 }
 
 /**
  * Fires, when user changes fields on CustomAssetForm
- * Form validation here
- * Emit setField, setFieldError, clearFieldError, requestAssetFields events
  *
  * @param action from setField method
  * @returns {undefined}
@@ -148,68 +98,64 @@ function* requestAssetFields(contractAddress: Address): Saga<?RequestedAssetFiel
 function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
   const { fieldName, value } = action.payload
 
-  try {
-    switch (fieldName) {
-      /**
-       * Address field validation
-       * This input is avalable only in add asset page, in edit asset is is disabled
-       */
-      case 'address': {
-        const contractAddress = value.trim()
+  /**
+   * Address field validation
+   * This input is avalable only in add asset page, in edit asset is is disabled
+   */
+  if (fieldName === 'address') {
+    const contractAddress = value.trim()
 
-        // 0. clear error when address is empty
-        if (contractAddress === '') {
-          yield put(clearFieldError('address'))
-          break
-        }
+    // check if we are already requesting this address...
+    const { requestedAddress }: ExtractReturn<typeof selectCustomAsset>
+      = yield select(selectCustomAsset)
 
-        // 1. simple checks
-        addressFieldSimpleCheck(contractAddress)
+    if (Kaystore.checkAddressValid(contractAddress) && requestedAddress !== contractAddress) {
+      yield* clearFields()
+      yield put(clearFieldError('address'))
 
-        // 2. check if this asset already exists
+      try {
+        // Check if this asset already exists
         const foundAsset = yield* getDigitalAsset(contractAddress)
         if (foundAsset) {
           throw new InvalidFieldError('address', i18n('general.error.address.exists'))
         }
 
-        // 4. Request name, symbol, decimals fields from contract
-        const assetFields = yield* requestAssetFields(contractAddress)
+        // set loading, shows loader on address input, update requestedAddress
+        yield put(startAssetLoading(contractAddress))
 
-        // update form fields
-        if (assetFields) {
-          yield put(setField('name', assetFields.name))
-          yield put(setField('symbol', assetFields.symbol))
-          yield put(setField('decimals', assetFields.decimals))
+        // wait for result or cancel all
+        const { result, close, restart } = yield race({
+          result: all({
+            name: requestAssetField(getContractName, contractAddress),
+            symbol: requestAssetField(getContractSymbol, contractAddress),
+            decimals: requestAssetField(getContractDecimals, contractAddress),
+            isERC20: checkAssetIsERC20Compatible(contractAddress),
+          }),
+          // cancel on close Add/Edit asset screen
+          close: take(CLOSE),
+          // cancel, when we are trying to request another contract
+          restart: take(START_ASSET_LOADING),
+        })
+
+        if (result && result.isERC20) {
+          const { name, symbol, decimals }: RequestedAssetFields = result
+
+          yield put(setAssetIsValid(true))
+          yield put(setField('name', name || ''))
+          yield put(setField('symbol', symbol || ''))
+          yield put(setField('decimals', decimals || ''))
+        } else if (result) {
+          throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
         }
+      } catch (err) {
+        yield put(setAssetIsValid(false))
 
-        break
+        if (err instanceof InvalidFieldError) {
+          yield put(setFieldError(err.fieldName, err.message))
+        } else {
+          yield put(setFieldError('address', i18n('general.error.network.connection')))
+        }
       }
-
-      // reserved for add, edit asset task
-      // don't touch!!!
-
-      // case 'name': {
-
-      // }
-
-      // case 'decimals': {
-
-      // }
-
-      // case 'symbol': {
-
-      // }
-
-      default:
-        break
-    }
-  } catch (err) {
-    if (err instanceof InvalidFieldError) {
-      yield put(setFieldError(err.fieldName, err.message))
-    } else {
-      // uncaught error, here we should log this error
-      // but now we just log this error under field
-      yield put(setFieldError(fieldName, err.message))
     }
   }
 }
@@ -221,4 +167,8 @@ function* customAssetAddOpen(): Saga<void> {
 export function* customAssetRootSaga(): Saga<void> {
   yield takeEvery(OPEN_CUSTOM_ASSET_ADD, customAssetAddOpen)
   yield takeEvery(SET_FIELD, onFieldChange)
+}
+
+export default {
+  customAssetRootSaga,
 }
