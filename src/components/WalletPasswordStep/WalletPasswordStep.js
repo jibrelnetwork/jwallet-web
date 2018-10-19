@@ -2,6 +2,7 @@
 
 import React, { Fragment, PureComponent } from 'react'
 
+import PasswordField from 'components/PasswordField'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import { JInput, JRaisedButton, JText } from 'components/base'
 
@@ -55,27 +56,30 @@ class WalletPasswordStep extends PureComponent<Props> {
           </div>
         )}
         <form className='form' onSubmit={ignoreEvent(onSubmit)()}>
-          <JInput
-            onChange={onChangePassword}
-            value={valuePassword}
-            errorMessage={invalidFields.password}
-            color='white'
-            placeholder='Password'
-            name='wallet-password'
-          />
-          {!isPasswordExists && (
+          {isPasswordExists ? (
+            <JInput
+              onChange={onChangePassword}
+              value={valuePassword}
+              errorMessage={invalidFields.password}
+              color='white'
+              name='password'
+              type='password'
+              placeholder='Password'
+            />
+          ) : (
             <Fragment>
-              <JInput
-                onChange={onChangePasswordConfirm}
-                value={valuePasswordConfirm || ''}
-                errorMessage={invalidFields.passwordConfirm}
-                color='white'
-                placeholder='Confirm payment password'
-                name='wallet-password-confirm'
+              <PasswordField
+                onChange={onChangePassword}
+                onChangeConfirm={onChangePasswordConfirm}
+                invalidFields={invalidFields}
+                value={valuePassword}
+                valueConfirm={valuePasswordConfirm}
+                placeholder='Password'
+                placeholderConfirm='Confirm password'
               />
               <JInput
                 onChange={onChangePasswordHint}
-                value={valuePasswordHint || ''}
+                value={valuePasswordHint}
                 errorMessage={invalidFields.passwordHint}
                 color='white'
                 placeholder='Password hint'
