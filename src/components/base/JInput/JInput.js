@@ -5,65 +5,68 @@ import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
-type Props = {
-  onChange: ?((string) => void),
-  name: ?string,
-  label?: string,
-  placeholder: ?string,
-  helpMessage: ?string,
-  infoMessage: ?string,
-  errorMessage: ?string,
-  value: string | number,
-  color: 'gray' | 'white',
-  type: 'text' | 'password',
-  isLoading: boolean,
-  isDisabled: boolean,
-  isPinCode: boolean,
-  isMultiline: boolean,
-  render: ?Function
-}
+type Props = {|
+  +render: ?Function,
+  +onChange: ?((string) => void),
+  +name: ?string,
+  +label: ?string,
+  +placeholder: ?string,
+  +helpMessage: ?string,
+  +infoMessage: ?string,
+  +errorMessage: ?string,
+  +color: 'gray' | 'white',
+  +type: 'text' | 'password',
+  +value: null | number | string,
+  +rows: ?number,
+  +isLoading: boolean,
+  +isPinCode: boolean,
+  +isDisabled: boolean,
+  +isMultiline: boolean,
+|}
 
-class JInput extends PureComponent<Props, *> {
+class JInput extends PureComponent<Props> {
   static defaultProps = {
+    render: null,
+    onChange: null,
     name: '',
+    label: '',
+    value: '',
     type: 'text',
     color: 'white',
-    label: '',
-    placeholder: null,
-    rows: 4,
-    onChange: null,
+    placeholder: '',
     helpMessage: null,
     infoMessage: null,
     errorMessage: null,
+    rows: 4,
     isLoading: false,
-    isDisabled: false,
     isPinCode: false,
+    isDisabled: false,
     isMultiline: false,
-    render: null,
   }
 
   render() {
     const {
+      render,
       onChange,
       type,
       name,
-      value,
       color,
       label,
+      value,
       placeholder,
       helpMessage,
       infoMessage,
       errorMessage,
       isLoading,
-      isDisabled,
       isPinCode,
+      isDisabled,
       isMultiline,
-      render,
     } = this.props
 
-    const labelOrPlaceholder = label || placeholder
-    const hasTopLabel = (color === 'gray') && labelOrPlaceholder
-    const placeholderFromI18n =
+    const labelOrPlaceholder: ?string = label || placeholder
+    const hasTopLabel: boolean = (color === 'gray') && !!labelOrPlaceholder
+
+    const placeholderFromI18n: ?string =
       (labelOrPlaceholder && i18n(labelOrPlaceholder)) || labelOrPlaceholder
 
     const controlledProps = {
@@ -86,10 +89,10 @@ class JInput extends PureComponent<Props, *> {
           infoMessage && '-info',
           helpMessage && '-help',
           isLoading && '-loading',
+          isPinCode && '-pincode',
           errorMessage && '-error',
           isDisabled && '-disabled',
           hasTopLabel && '-has-label',
-          isPinCode && '-pincode',
           isMultiline && '-multiline',
         )}
       >
