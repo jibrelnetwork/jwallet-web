@@ -11,6 +11,7 @@ import transactions from 'routes/Transactions/modules/transactions'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
+import walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 
 // networks
 import networks from 'routes/modules/networks'
@@ -34,6 +35,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
     walletsCreate,
     walletsImport,
     walletsBackup,
+    walletsAddresses,
     // networks
     networks,
     // digitalAssets

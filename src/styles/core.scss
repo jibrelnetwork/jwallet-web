@@ -101,27 +101,27 @@
   // @import '../components/base/JTooltip/jTooltip';
 
   // Components
-  @import '../components/ActiveAssetsPanel/activeAssetsPanel';
-  @import '../components/AssetBalance/assetBalance';
-  @import '../components/AssetPicker/assetPicker';
-  @import '../components/ButtonWithConfirm/buttonWithConfirm';
-  @import '../components/DerivationPath/derivationPath';
-  @import '../components/DigitalAssets/digitalAssets';
-  @import '../components/Expandable/expandable';
+  @import '../components/QRCode/qrCode';
   @import '../components/HelpText/helpText';
   @import '../components/MenuPanel/menuPanel';
-  @import '../components/MnemonicPhrase/mnemonicPhrase';
-  @import '../components/ModalHeader/modalHeader';
-  @import '../components/OverlayActions/overlayActions';
-  @import '../components/PasswordField/passwordField';
-  @import '../components/QRCode/qrCode';
-  @import '../components/RoundIconButton/roundIconButton';
-  @import '../components/WalletHeader/walletHeader';
-  @import '../components/NewWalletButtons/newWalletButtons';
-  @import '../components/WalletActions/walletActions';
+  @import '../components/Expandable/expandable';
   @import '../components/WalletFace/walletFace';
+  @import '../components/AssetPicker/assetPicker';
+  @import '../components/ModalHeader/modalHeader';
+  @import '../components/AssetBalance/assetBalance';
+  @import '../components/WalletHeader/walletHeader';
+  @import '../components/CopyableField/copyableField';
+  @import '../components/DigitalAssets/digitalAssets';
+  @import '../components/PasswordField/passwordField';
+  @import '../components/WalletActions/walletActions';
   @import '../components/WalletLoading/WalletLoading';
+  @import '../components/DerivationPath/derivationPath';
+  @import '../components/OverlayActions/overlayActions';
   @import '../components/WalletNameStep/walletNameStep';
+  @import '../components/RoundIconButton/roundIconButton';
+  @import '../components/NewWalletButtons/newWalletButtons';
+  @import '../components/ActiveAssetsPanel/activeAssetsPanel';
+  @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/WalletPasswordStep/walletPasswordStep';
 
   // Views

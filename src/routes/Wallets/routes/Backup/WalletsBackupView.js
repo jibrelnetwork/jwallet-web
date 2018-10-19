@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
 import { JRaisedButton } from 'components/base'
-import { ModalHeader, MnemonicPhrase, WalletPasswordStep } from 'components'
+import { ModalHeader, CopyableField, WalletPasswordStep } from 'components'
 
 import { STEPS } from './modules/walletsBackup'
 
@@ -16,6 +16,7 @@ type Props = {|
   +openView: (string) => void,
   +copyToClipboard: () => void,
   +changePasswordInput: (string) => void,
+  +items: Wallets,
   +invalidFields: FormFields,
   +params: {|
     +walletId: string,
@@ -25,6 +26,9 @@ type Props = {|
   +currentStep: WalletsBackupStepIndex,
   +isLoading: boolean,
 |}
+
+const PRIVATE_KEY_LENGTH: number = 66
+const PRIVATE_KEY_HALF_LENGTH: number = PRIVATE_KEY_LENGTH / 2
 
 class WalletsBackupView extends Component<Props> {
   componentDidMount() {
@@ -40,6 +44,20 @@ class WalletsBackupView extends Component<Props> {
     this.props.closeView()
   }
 
+  getData = (isMnemonic: boolean) => {
+    const { data } = this.props
+
+    if (isMnemonic) {
+      return data
+    }
+
+    // we should split data on two lines if it is privateKey
+    const firstLine: string = data.substr(0, PRIVATE_KEY_HALF_LENGTH)
+    const secondLine: string = data.substr(PRIVATE_KEY_HALF_LENGTH)
+
+    return `${firstLine} ${secondLine}`
+  }
+
   render() {
     const {
       goToNextStep,
@@ -47,13 +65,21 @@ class WalletsBackupView extends Component<Props> {
       downloadToTxt,
       copyToClipboard,
       changePasswordInput,
+      items,
       params,
       invalidFields,
-      data,
       password,
       currentStep,
       isLoading,
     } = this.props
+
+    const foundWallet: ?Wallet = items.find((w: Wallet): boolean => (w.id === params.walletId))
+
+    if (!foundWallet) {
+      return null
+    }
+
+    const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
 
     return (
       <div className='wallets-backup-view'>
@@ -77,11 +103,7 @@ class WalletsBackupView extends Component<Props> {
           {(currentStep === STEPS.PRIVATE) && (
             <div className='wallet-private-step'>
               <form className='form' onSubmit={downloadToTxt}>
-                <MnemonicPhrase
-                  copy={copyToClipboard}
-                  download={downloadToTxt}
-                  mnemonic={data}
-                />
+                <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />
                 <div className='actions'>
                   <JRaisedButton
                     onClick={downloadToTxt}

@@ -23,10 +23,10 @@ type Props = {|
   +backupWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
   +toggleWallet: (WalletId) => void,
-  // +setActiveWallet: Function,
+  +setActiveWallet: Function,
   +walletData: Wallet,
-  +toggledWalletId: ?WalletId,
   +isLoading: boolean,
+  +isToggled: boolean,
 |}
 
 const WalletCard = ({
@@ -34,9 +34,10 @@ const WalletCard = ({
   backupWallet,
   deleteWallet,
   toggleWallet,
+  setActiveWallet,
   walletData,
-  toggledWalletId,
   isLoading,
+  isToggled,
 }: Props) => {
   const {
     id,
@@ -48,15 +49,14 @@ const WalletCard = ({
   }: Wallet = walletData
 
   const isMnemonic: boolean = checkMnemonicType(type)
-  const isToggled: boolean = (id === toggledWalletId)
   const iconName: string = WALLET_TYPE_ICON_MAP[customType]
 
   if (isToggled) {
     return (
       <WalletActions
-        renameWallet={handle(renameWallet)(toggledWalletId)}
-        backupWallet={handle(backupWallet)(toggledWalletId)}
-        deleteWallet={handle(deleteWallet)(toggledWalletId)}
+        renameWallet={handle(renameWallet)(id)}
+        backupWallet={handle(backupWallet)(id)}
+        deleteWallet={handle(deleteWallet)(id)}
       />
     )
   }
@@ -71,7 +71,7 @@ const WalletCard = ({
 
   return (
     <WalletFace
-      onClick={console.log/* handle(setActiveWallet)(id) */}
+      onClick={handle(setActiveWallet)(id)}
       showActions={ignoreEvent(toggleWallet)(id)}
       title={name}
       iconName={iconName}

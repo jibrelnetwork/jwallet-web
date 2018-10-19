@@ -460,6 +460,44 @@ function getBackupData(wallets: Wallets, walletId: string, password: string): st
   }
 }
 
+function getAddress(wallets: Wallets, walletId: string): ?Address {
+  const {
+    type,
+    address,
+    bip32XPublicKey,
+    addressIndex,
+  }: Wallet = getWallet(wallets, walletId)
+
+  if (type === ADDRESS_TYPE) {
+    return address
+  }
+
+  /**
+   * To get address with specific index
+   * we can derive addresses from addressIndex to (addressIndex + 1)
+   * range [n, n + 1) - including item with index n and excluding item with index (n + 1)
+   * to get list with one required address
+   */
+  const indexEnd: number = (addressIndex || 0) + 1
+
+  return bip32XPublicKey
+    ? utils.generateAddresses(bip32XPublicKey, addressIndex, indexEnd)[0]
+    : null
+}
+
+function getAddresses(wallets: Wallets, walletId: string, start: number, end: number): ?Addresses {
+  const {
+    type,
+    bip32XPublicKey,
+  }: Wallet = getWallet(wallets, walletId)
+
+  if ((type !== MNEMONIC_TYPE) || !bip32XPublicKey) {
+    throw new Error('Invalid wallet type')
+  }
+
+  return utils.generateAddresses(bip32XPublicKey, start, end)
+}
+
 /*
 const setPassword = (
   keystore: Keystore,
@@ -516,6 +554,8 @@ const setPassword = (
 */
 
 export default {
+  getAddress,
+  getAddresses,
   createWallet,
   updateWallet,
   removeWallet,

@@ -259,13 +259,14 @@ declare type WalletsBackupState = {|
 |}
 
 /**
- * Mnemonic addresses
+ * Wallets addresses
  */
-declare type MnemonicAddressesData = {
+declare type WalletsAddressesState = {|
   +addresses: Addresses,
   +balances: Balances,
   +iteration: Index,
-}
+  +isLoading: boolean,
+|}
 
 /**
  * Networks
@@ -439,7 +440,7 @@ declare type State = {|
   +walletsCreate: WalletsCreateState,
   +walletsImport: WalletsImportState,
   +walletsBackup: WalletsBackupState,
-  +mnemonicAddresses: MnemonicAddressesData,
+  +walletsAddresses: WalletsAddressesState,
   // networks
   +networks: NetworksData,
   // digitalAssets
@@ -460,7 +461,7 @@ declare type InitialState = {
   walletsCreate?: WalletsCreateState,
   walletsImport?: WalletsImportState,
   walletsBackup?: WalletsBackupState,
-  mnemonicAddresses?: MnemonicAddressesData,
+  walletsAddresses?: WalletsAddressesState,
   // networks
   networks?: NetworksData,
   // digitalAssets

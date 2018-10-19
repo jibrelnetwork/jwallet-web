@@ -1,13 +1,8 @@
-import { injectReducer } from 'store/reducers'
+// @flow
 
-export default store => ({
+import View from './WalletsAddressesViewContainer'
+
+export default {
   path: 'addresses',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const View = require('./containers/WalletsMnemonicAddressesViewContainer').default
-      const mnemonicAddresses = require('./modules/mnemonicAddresses').default
-      injectReducer(store, { key: 'mnemonicAddresses', reducer: mnemonicAddresses })
-      cb(null, View)
-    }, 'wallets-addresses')
-  },
-})
+  component: View,
+}
