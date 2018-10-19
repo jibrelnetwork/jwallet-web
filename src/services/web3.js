@@ -1,12 +1,17 @@
 // @flow
 
 import Promise from 'bluebird'
-import jibrelContractsApi from 'jibrel-contracts-jsapi'
+import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { flatten, prop, sortBy, reverse } from 'ramda'
+import { sha3_256 as sha3 } from 'js-sha3'
 
 import config from 'config'
 import checkJNTAsset from 'utils/digitalAssets/checkJNTAsset'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
+
+const PUSH_INSTRUCTION = '63'
+
+export const EMPTY_CONTRACT_CODE = '0x'
 
 const { defaultDecimals } = config
 
@@ -78,6 +83,61 @@ function getContractSymbol(
 ): Promise<string> {
   return jibrelContractsApi.contracts.erc20Named
     .symbol({ ...rpcProps, contractAddress })
+}
+
+function getContractCode(
+  contractAddress: Address
+): Promise<string> {
+  console.log(jibrelContractsApi)
+  return jibrelContractsApi.eth.getCode({ ...rpcProps, address: contractAddress })
+}
+
+/**
+ * @function checkSignatureInContract
+ *
+ * @description Check existatce of function signature in contract
+ *
+ * @param {string} contractCode - code of contract, use eth.getCode to get it
+ * @param {string} signature - signature (function name) to check
+ *
+ * @returns {boolean}
+ *
+ * @example
+ *    const code = <some contract code> 0xABABABABABBDDSBBD....
+ *    const signature = 'transferFrom(address,address,uint256)'
+ *    console.log(checkSignature(code, signature))
+ */
+function checkSignatureInContract(contractCode, signature) {
+  if (contractCode === EMPTY_CONTRACT_CODE) {
+    return false
+  }
+
+  return (contractCode
+    .toLowerCase()
+    .indexOf(PUSH_INSTRUCTION + sha3(signature).substring(2, 10)) !== -1
+  )
+}
+
+/**
+ * Check that in contract with specified code has required ERC20 methods
+ *
+ * @param {string} contractCode
+ * @returns {boolean}
+ */
+function checkContractIsERC20(contractCode) {
+  const signatures = [
+    'totalSupply()',
+    'transferFrom(address,address,uint256)',
+    'balanceOf(address)',
+    'transfer(address,uint256)',
+    'allowance(address,address)',
+    'approve(address,uint256)',
+  ]
+
+  console.log(signatures.map(sign => checkSignatureInContract(contractCode, sign)))
+
+  const found = signatures.find(sign => checkSignatureInContract(contractCode, sign))
+  return (found !== null)
 }
 
 function getETHTransactions(address: Address) {
@@ -320,6 +380,7 @@ function addJNTFlag(list: any) {
 }
 
 export default {
+  EMPTY_CONTRACT_CODE,
   setRpcProps,
   getRpcProps,
   getETHBalance,
@@ -332,4 +393,7 @@ export default {
   getContractName,
   getContractSymbol,
   getContractDecimals,
+  getContractCode,
+  checkContractIsERC20,
+  checkSignatureInContract,
 }
