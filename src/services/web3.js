@@ -116,7 +116,6 @@ function checkSignatureInContract(contractCode: string, signature: string): bool
 /**
  * Check that contract code has all required ERC20 methods
  *
- *
  * @param {string} contractCode
  * @returns {boolean}
  */
