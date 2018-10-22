@@ -5,28 +5,37 @@ import classNames from 'classnames'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
+type JInputValue = string | number
+type JInputOnChangeHandler = (string) => void
+
 type Props = {|
-  +render: ?Function,
-  +onChange: ?((string) => void),
+  +onChange: ?JInputOnChangeHandler,
   +name: ?string,
   +label: ?string,
+  +value: ?JInputValue,
   +placeholder: ?string,
   +helpMessage: ?string,
   +infoMessage: ?string,
   +errorMessage: ?string,
   +color: 'gray' | 'white',
   +type: 'text' | 'password',
-  +value: null | number | string,
   +rows: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
   +isDisabled: boolean,
-  +isMultiline: boolean,
+|}
+
+type ChildrenProps = {|
+  +onChange: ?Function,
+  +name: ?string,
+  +className: string,
+  +value: ?JInputValue,
+  +disabled: boolean,
+  +placeholder: ?string,
 |}
 
 class JInput extends PureComponent<Props> {
   static defaultProps = {
-    render: null,
     onChange: null,
     name: '',
     label: '',
@@ -37,19 +46,18 @@ class JInput extends PureComponent<Props> {
     helpMessage: null,
     infoMessage: null,
     errorMessage: null,
-    rows: 4,
+    rows: 0,
     isLoading: false,
     isPinCode: false,
     isDisabled: false,
-    isMultiline: false,
   }
 
   render() {
     const {
-      render,
       onChange,
       type,
       name,
+      rows,
       color,
       label,
       value,
@@ -60,26 +68,24 @@ class JInput extends PureComponent<Props> {
       isLoading,
       isPinCode,
       isDisabled,
-      isMultiline,
     } = this.props
 
+    const isMultiline: boolean = !!rows
     const labelOrPlaceholder: ?string = label || placeholder
     const hasTopLabel: boolean = (color === 'gray') && !!labelOrPlaceholder
 
-    const placeholderFromI18n: ?string =
-      (labelOrPlaceholder && i18n(labelOrPlaceholder)) || labelOrPlaceholder
-
-    const controlledProps = {
-      onChange: onChange ? handleTargetValue(onChange) : undefined,
-      className: 'input',
-      type,
+    const baseProps: ChildrenProps = {
       name,
       value,
+      className: 'input',
       disabled: isDisabled,
-      placeholder: placeholderFromI18n,
+      placeholder: labelOrPlaceholder,
+      onChange: onChange ? handleTargetValue(onChange) : undefined,
     }
 
-    const input = (<input {...controlledProps} />)
+    const children = isMultiline
+      ? <textarea {...baseProps} />
+      : <input {...baseProps} type={type} />
 
     return (
       <div
@@ -96,10 +102,10 @@ class JInput extends PureComponent<Props> {
           isMultiline && '-multiline',
         )}
       >
-        {(render && render(controlledProps)) || input}
-        {hasTopLabel && <div className='label'>{placeholderFromI18n}</div>}
-        {infoMessage && <div className='info'>{i18n(infoMessage) || infoMessage}</div>}
-        {errorMessage && <div className='error'>{i18n(errorMessage) || errorMessage}</div>}
+        {children}
+        {hasTopLabel && <div className='label'>{labelOrPlaceholder}</div>}
+        {infoMessage && <div className='info'>{infoMessage}</div>}
+        {errorMessage && <div className='error'>{errorMessage}</div>}
         <div className='loader' />
         <div className='lock'><div className='icon' /></div>
         <div className='help'><div className='icon' /></div>
