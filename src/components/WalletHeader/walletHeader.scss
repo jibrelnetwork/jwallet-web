@@ -10,7 +10,6 @@
   width: 100%;
   height: $modal-header-height;
   padding: 0 50px;
-  background: linear-gradient(to top right, rgba(#002bb3, 0.5), rgba($blue, 0.5));
 
   > .content {
     @include flex-row-center;
