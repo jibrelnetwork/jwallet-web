@@ -1,9 +1,7 @@
 // @flow
 
-import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsCreate } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
@@ -79,11 +77,6 @@ function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
   yield put(wallets.setActiveWallet(createdWallet.id))
 }
 
-function* closeView(): Saga<void> {
-  yield delay(config.delayBeforeFormClean)
-  yield put(walletsCreate.clean())
-}
-
 function* setNextStep(): Saga<void> {
   const { items, name }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
@@ -129,11 +122,12 @@ function* setPrevStep(): Saga<void> {
 
 function* clean(): Saga<void> {
   yield put(wallets.clean())
+  yield put(walletsCreate.clean())
 }
 
 export function* walletsCreateRootSaga(): Saga<void> {
-  yield takeEvery(walletsCreate.CLEAN, clean)
-  yield takeEvery(walletsCreate.CLOSE_VIEW, closeView)
+  yield takeEvery(walletsCreate.OPEN_VIEW, clean)
+  yield takeEvery(walletsCreate.CLOSE_VIEW, clean)
   yield takeEvery(walletsCreate.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsCreate.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsCreate.CREATE_ERROR, createError)
