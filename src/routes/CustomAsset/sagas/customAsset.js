@@ -1,6 +1,7 @@
 // @flow
 
-import Kaystore from '@jibrelnetwork/jwallet-web-keystore'
+import Promise from 'bluebird'
+import keystore from '@jibrelnetwork/jwallet-web-keystore'
 import { put, select, takeEvery, take, race, call, all } from 'redux-saga/effects'
 
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
@@ -67,7 +68,8 @@ function* requestAssetField(
     }
   } catch (err) {
     // catch Web3 network error
-    if (err.isOperational && err.cause.name !== 'BigNumber Error') {
+    if (err instanceof Promise.TimeoutError ||
+      (err.isOperational && err.cause.name !== 'BigNumber Error')) {
       throw err
     } else {
       return null
@@ -109,7 +111,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
     const { requestedAddress }: ExtractReturn<typeof selectCustomAsset>
       = yield select(selectCustomAsset)
 
-    if (Kaystore.checkAddressValid(contractAddress) && requestedAddress !== contractAddress) {
+    if (keystore.checkAddressValid(contractAddress) && requestedAddress !== contractAddress) {
       yield* clearFields()
       yield put(clearFieldError('address'))
 
@@ -143,7 +145,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
           yield put(setIsAssetValid(true))
           yield put(setField('name', name || ''))
           yield put(setField('symbol', symbol || ''))
-          yield put(setField('decimals', decimals || ''))
+          yield put(setField('decimals', decimals ? decimals.toString() : ''))
         } else if (result) {
           throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
         }
