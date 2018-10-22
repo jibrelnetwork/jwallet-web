@@ -48,9 +48,6 @@ declare type DerivationPath = {
 
 declare type DerivationPaths = Array<DerivationPath>
 
-
-declare type StrengthBarLevels = 0 | 1 | 2 | 3;
-
 declare type WorkerError = {|
   +message: string,
 |}
@@ -168,6 +165,8 @@ declare type WalletDecryptedData = {|
 |}
 
 declare type Wallets = Array<Wallet>
+
+declare type PasswordStatus = 'red' | 'orange' | 'yellow' | 'green'
 
 declare type PasswordResult = {|
   +score: number,
