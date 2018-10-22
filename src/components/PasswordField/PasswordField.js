@@ -1,90 +1,130 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 
 import JInput from 'components/base/JInput'
+import keystore from 'services/keystore'
 
 import Indicator from './Indicator'
 
-type PasswordStatus = 'red' | 'orange' | 'yellow' | 'green'
+type InputChangeHandler = (string) => void
 
-const STATUS_MESSAGE_MAP = {
+type Props = {|
+  +onChange: InputChangeHandler,
+  +onChangeConfirm: ?InputChangeHandler,
+  +invalidFields: FormFields,
+  +value: string,
+  +placeholder: string,
+  +valueConfirm: ?string,
+  +placeholderConfirm: string,
+|}
+
+type StateProps = {
+  passwordResult: ?PasswordResult,
+}
+
+const STATUS_MESSAGE_MAP: { [PasswordStatus]: string } = {
   'red': 'Too weak',
-  'orange': 'Easily cracked',
-  'yellow': 'Bit weak',
   'green': 'Not bad',
+  'yellow': 'Bit weak',
+  'orange': 'Easily cracked',
 }
 
-function getInfoMessage(status: PasswordStatus, failedTest: string): string {
-  return !(status && failedTest) ? '' : `${STATUS_MESSAGE_MAP[status]} (${failedTest})`
+function getStatusByScore(score: number): ?PasswordStatus {
+  switch (score) {
+    case 0:
+      return 'red'
+    case 1:
+      return 'red'
+    case 2:
+      return 'orange'
+    case 3:
+      return 'yellow'
+    case 4:
+      return 'green'
+    default:
+      return null
+  }
 }
 
-const PasswordField = ({
-  onChange,
-  onConfirmChange,
-  color,
-  status,
-  password,
-  failedTest,
-  passwordError,
-  passwordConfirm,
-  passwordPlaceholder,
-  passwordConfirmError,
-  passwordConfirmPlaceholder,
-  isApproved,
-  isConfirmed,
-  withConfirm,
-}: Props) => (
-  <div className='password-field'>
-    <JInput
-      onChange={onChange}
-      color={color}
-      value={password}
-      errorMessage={passwordError}
-      infoMessage={withConfirm ? getInfoMessage(status, failedTest) : null}
-      placeholder={passwordPlaceholder}
-      type='password'
-      name='password-field-password'
-      isChecked={withConfirm && isApproved}
-    />
-    {withConfirm && (
-      <div className='confirmation'>
-        <Indicator password={password} status={status} />
+class PasswordField extends Component<Props, StateProps> {
+  constructor(props: Props) {
+    super(props)
+
+    const password: ?string = props.value
+
+    this.state = {
+      passwordResult: password ? keystore.getPasswordStrength(password) : null,
+    }
+  }
+
+  onChange = (password: string) => {
+    this.setState({
+      passwordResult: password ? keystore.getPasswordStrength(password) : null,
+    })
+
+    this.props.onChange(password)
+  }
+
+  getInfoMessage = (): ?string => {
+    const { passwordResult }: StateProps = this.state
+
+    if (!passwordResult) {
+      return null
+    }
+
+    /**
+     * For field descriptions please refer to https://github.com/dropbox/zxcvbn
+     */
+    const { score, feedback }: PasswordResult = passwordResult
+    const { warning, suggestions } = feedback
+    const status: ?PasswordStatus = getStatusByScore(score)
+    const statusMessage: ?string = status ? STATUS_MESSAGE_MAP[status] : null
+
+    return warning || suggestions[0] || statusMessage
+  }
+
+  getStatus = () => {
+    const { passwordResult }: StateProps = this.state
+
+    return passwordResult ? getStatusByScore(passwordResult.score) : null
+  }
+
+  render() {
+    const {
+      onChangeConfirm,
+      invalidFields,
+      value,
+      placeholder,
+      valueConfirm,
+      placeholderConfirm,
+    }: Props = this.props
+
+    return (
+      <div className='password-field'>
         <JInput
-          onChange={onConfirmChange}
-          color={color}
-          value={passwordConfirm}
-          errorMessage={passwordConfirmError}
-          placeholder={passwordConfirmPlaceholder}
+          onChange={this.onChange}
+          value={value}
+          placeholder={placeholder}
+          errorMessage={invalidFields.password}
+          infoMessage={this.getInfoMessage()}
           type='password'
-          name='password-field-password-confirm'
-          isChecked={isConfirmed}
+          name='password'
         />
+        <div className='confirmation'>
+          <Indicator status={this.getStatus()} />
+          <JInput
+            onChange={onChangeConfirm}
+            value={valueConfirm}
+            placeholder={placeholderConfirm}
+            errorMessage={invalidFields.passwordConfirm}
+            type='password'
+            name='password-confirm'
+          />
+        </div>
       </div>
-    )}
-  </div>
-)
-
-type Props = {
-  onChange: (string) => void,
-  onConfirmChange: (string) => void,
-  status: PasswordStatus,
-  password: string,
-  failedTest: string,
-  passwordError: string,
-  passwordConfirm: string,
-  passwordPlaceholder: string,
-  passwordConfirmError: string,
-  passwordConfirmPlaceholder: string,
-  color: 'gray' | 'white',
-  isApproved: boolean,
-  isConfirmed: boolean,
-  withConfirm: boolean,
-}
-
-PasswordField.defaultProps = {
-  passwordPlaceholder: 'modals.createAccount.placeholder.password',
-  passwordConfirmPlaceholder: 'modals.createAccount.placeholder.passwordConfirm',
+    )
+  }
 }
 
 export default PasswordField

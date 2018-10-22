@@ -565,4 +565,5 @@ export default {
   getBackupData,
   checkWalletUniqueness,
   checkWalletIsMnemonicType,
+  getPasswordStrength: utils.testPassword,
 }

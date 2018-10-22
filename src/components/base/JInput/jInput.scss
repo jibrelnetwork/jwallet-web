@@ -5,8 +5,8 @@
 
   position: relative;
   align-items: center;
-  cursor: inherit;
   margin-bottom: $form-field-margin-bottom;
+  cursor: inherit;
 
   > .label {
     @include font($form-helpers-font-size);
@@ -22,6 +22,7 @@
 
   > .input {
     @include flex-row;
+    @include hover-animation;
     @include font($form-field-white-font-size);
 
     width: 100%;
@@ -29,7 +30,6 @@
     background: inherit;
     border-radius: $form-border-radius;
     font-weight: normal;
-    transition: color 0.3s ease 0s, border 0.3s ease 0s, opacity 0.3s ease 0s, background 0.3s ease 0s, box-shadow 0.3s ease 0s;
   }
 
   > .error,
@@ -97,10 +97,10 @@
 
   > .status {
     position: absolute;
+    top: 50%;
+    right: $form-field-white-horizontal-padding;
     width: 60px;
     transform: translate(0, -50%);
-    right: $form-field-white-horizontal-padding;
-    top: 50%;
   }
 
   &.-multiline {
@@ -168,39 +168,40 @@
 
     color: $white;
     padding: $inner-padding;
-    border: 1px solid $blue-two;
-
-    &::placeholder {
-      color: $blue-bright;
-    }
-
-    &:hover {
-      border-color: $blue-bright;
-      color: $white;
-    }
-
-    &:active,
-    &:focus {
-      border-color: $blue-pale-bright;
-    }
+    border: 1px solid $blue;
   }
-  /* stylelint-disable */
-  &.-gray > .input {
-    &::placeholder {
-      color: $dusk;
-      opacity: 0.6;
-    }
 
-    &:hover {
-      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
-    }
-
-    &:active,
-    &:focus {
-      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
-    }
+  // placeholder
+  &.-gray > .input::placeholder {
+    color: $dusk;
+    opacity: 0.6;
   }
-  /* stylelint-enable */
+
+  &.-white > .input::placeholder {
+    color: $blue-bright;
+  }
+
+  // hover
+  &.-gray > .input:hover {
+    box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+  }
+
+  &.-white > .input:hover {
+    border-color: $blue-bright;
+    color: $white;
+  }
+
+  // active, focus
+  &.-gray > .input:active,
+  &.-gray > .input:focus {
+    box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+  }
+
+  &.-white > .input:active,
+  &.-white > .input:focus {
+    border-color: $blue-pale-bright;
+  }
+
   &.-gray.-value {
     > .input {
       padding: 31px $box-horizontal-padding 14px;
