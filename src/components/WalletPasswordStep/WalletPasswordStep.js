@@ -2,9 +2,8 @@
 
 import React, { Fragment, PureComponent } from 'react'
 
-import PasswordField from 'components/PasswordField'
-import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
-import { JInput, JRaisedButton, JText } from 'components/base'
+import { JInput } from 'components/base'
+import { WalletStep, PasswordField } from 'components'
 
 type Props = {|
   +onSubmit: Function,
@@ -13,6 +12,7 @@ type Props = {|
   onChangePasswordConfirm?: Function,
   +title: ?Array<string>,
   +invalidFields: FormFields,
+  +buttonLabel: string,
   +valuePassword: string,
   valuePasswordHint?: string,
   valuePasswordConfirm?: string,
@@ -37,6 +37,7 @@ class WalletPasswordStep extends PureComponent<Props> {
       onChangePasswordConfirm,
       title,
       invalidFields,
+      buttonLabel,
       valuePassword,
       valuePasswordHint,
       valuePasswordConfirm,
@@ -45,60 +46,44 @@ class WalletPasswordStep extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='wallet-password-step'>
-        {!isPasswordExists && !!title && (
-          <div className='information'>
-            {title.map((line: string) => (
-              <div className='string' key={line}>
-                <JText size='large' color='white' value={line} whiteSpace='wrap' align='center' />
-              </div>
-            ))}
-          </div>
-        )}
-        <form className='form' onSubmit={ignoreEvent(onSubmit)()}>
-          {isPasswordExists ? (
-            <JInput
+      <WalletStep
+        onSubmit={onSubmit}
+        title={isPasswordExists ? null : title}
+        buttonLabel={buttonLabel}
+        isLoading={isLoading}
+      >
+        {isPasswordExists ? (
+          <JInput
+            onChange={onChangePassword}
+            value={valuePassword}
+            errorMessage={invalidFields.password}
+            color='white'
+            name='password'
+            type='password'
+            placeholder='Password'
+          />
+        ) : (
+          <Fragment>
+            <PasswordField
               onChange={onChangePassword}
+              onChangeConfirm={onChangePasswordConfirm}
+              invalidFields={invalidFields}
               value={valuePassword}
-              errorMessage={invalidFields.password}
-              color='white'
-              name='password'
-              type='password'
+              valueConfirm={valuePasswordConfirm}
               placeholder='Password'
+              placeholderConfirm='Confirm password'
             />
-          ) : (
-            <Fragment>
-              <PasswordField
-                onChange={onChangePassword}
-                onChangeConfirm={onChangePasswordConfirm}
-                invalidFields={invalidFields}
-                value={valuePassword}
-                valueConfirm={valuePasswordConfirm}
-                placeholder='Password'
-                placeholderConfirm='Confirm password'
-              />
-              <JInput
-                onChange={onChangePasswordHint}
-                value={valuePasswordHint}
-                errorMessage={invalidFields.passwordHint}
-                color='white'
-                placeholder='Password hint'
-                name='wallet-password-hint'
-              />
-            </Fragment>
-          )}
-          <div className='actions'>
-            <JRaisedButton
-              onClick={onSubmit}
+            <JInput
+              onChange={onChangePasswordHint}
+              value={valuePasswordHint}
+              errorMessage={invalidFields.passwordHint}
               color='white'
-              labelColor='blue'
-              loaderColor='white'
-              label='Create wallet'
-              isLoading={isLoading}
+              name='password-hint'
+              placeholder='Password hint'
             />
-          </div>
-        </form>
-      </div>
+          </Fragment>
+        )}
+      </WalletStep>
     )
   }
 }
