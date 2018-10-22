@@ -7,73 +7,68 @@
   @include hover-animation;
 
   position: relative;
-  padding: 30px;
-  border: 1px solid transparent;
+  background-color: #fff;
+  box-shadow: 0 3px 6px 0 rgba($dusk, 0.05);
+  border-radius: 5px;
+  padding: 25px;
+  height: 220px;
   text-align: center;
   cursor: pointer;
 
-  &.-active {
-    border: 1px solid $blue;
-
-    > .tick {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    > .symbol {
-      opacity: 1;
-    }
-  }
-
-  &.-blue {
-    background-color: $blue-two;
-
-    &:hover,
-    &.-active {
-      background-color: $bright-sky-blue;
-
-      > .symbol {
-        opacity: 1;
-      }
-
-      > .balance {
-        opacity: 1;
-      }
-    }
-
-    > .symbol {
-      opacity: 0.5;
-    }
-  }
-
-  > .tick {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease 0s;
+  &:hover {
+    box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
   }
 
   > .symbol {
     margin: 0 auto;
     opacity: 0.2;
-    transition: opacity 0.3s ease 0s;
   }
 
   > .name {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 
   > .balance {
-    margin-top: 10px;
-    opacity: 0.7;
-    transition: opacity 0.3s ease 0s;
+    > .crypto {
+      margin-top: 5px;
+      opacity: 0.5;
+      line-height: 1.43;
+    }
+
+    > .fiat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      text-align: center;
+      margin-top: 28px;
+      height: 44px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        width: 190px;
+        height: 1px;
+        background-color: rgba($dusk, 0.1);
+      }
+
+      > .message {
+        &.-transparent {
+          opacity: 0.5;
+        }
+      }
+    }
   }
 
-  > .edit {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  > .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    height: 95px;
   }
 }

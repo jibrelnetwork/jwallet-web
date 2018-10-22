@@ -1,103 +1,165 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
 import ethereum from 'data/assets/ethereum'
 import AssetBalance from 'components/AssetBalance'
-import { handle, ignoreEvent } from 'utils/eventHandlers'
-import { JAssetSymbol, JFlatButton, JIcon, JText } from 'components/base'
+import { handle } from 'utils/eventHandlers'
+import { JAssetSymbol, JFlatButton, JText, JLoader } from 'components/base'
 
-const AssetCard = ({
-  edit,
-  hover,
-  setActive,
-  name,
-  symbol,
-  address,
-  color,
-  balance,
-  isCustom,
-  isActive,
-  isLoading,
-  isHovered,
-  isPopular,
-}: Props) => {
-  const hoveredColor = (isHovered || isActive) ? 'blue' : 'gray'
-  const assetColor = (color === 'white') ? hoveredColor : 'white'
+type Props = {|
+  +name: string,
+  +symbol: string,
+  +address: Address,
+  +fiatMoney: string,
+  +balance: number,
+  +fiatBalance: number,
+  +isLoading: boolean,
+  +isLongLoading: boolean,
+|}
 
-  return (
-    <div
-      onClick={handle(setActive)(address)}
-      onMouseEnter={handle(hover)(address)}
-      onMouseLeave={handle(hover)(null)}
-      className={classNames('asset-card', color && `-${color}`, isActive && '-active')}
-    >
-      <div className='tick'>
-        {/* @TODO: no size prop in JIcon */}
-        <JIcon name='checkbox' color={(color === 'white') ? 'blue' : 'white'} />
-      </div>
-      <div className='symbol'>
-        <JAssetSymbol symbol={symbol} color={assetColor} />
-      </div>
-      <div className='name'>
-        <JText value={name} color={assetColor} weight='bold' />
-      </div>
-      {!isPopular && (
-        <div className='balance'>
-          <AssetBalance
-            symbol={symbol}
-            color={assetColor}
-            balance={balance}
-            isLoading={isLoading}
-          />
-        </div>
-      )}
-      {isCustom && (
-        <div className='edit'>
-          <JFlatButton
-            onClick={ignoreEvent(edit)(address)}
-            iconSize='small'
-            iconColor='gray'
-            iconName='settings'
-            isTransparent
-          />
-        </div>
-      )}
-    </div>
-  )
-}
-
-type Props = {
-  edit: Function,
-  hover: Function,
-  setActive: Function,
-  name: string,
-  symbol: string,
-  address: Address,
-  color: 'blue' | 'white',
-  balance: number,
-  isCustom: boolean,
-  isActive: boolean,
-  isLoading: boolean,
+type AssetsState = {
   isHovered: boolean,
-  isPopular: boolean,
 }
 
-AssetCard.defaultProps = {
-  edit: () => {},
-  hover: () => {},
-  setActive: () => {},
-  name: ethereum.name,
-  symbol: ethereum.symbol,
-  address: ethereum.address,
-  color: 'white',
-  balance: 0,
-  isCustom: false,
-  isActive: false,
-  isLoading: false,
-  isHovered: false,
-  isPopular: false,
+class AssetCard extends PureComponent<Props, AssetsState> {
+  static defaultProps = {
+    name: ethereum.name,
+    symbol: ethereum.symbol,
+    address: ethereum.address,
+    fiatMoney: 'USD',
+    balance: 0,
+    fiatBalance: 0,
+    isLoading: false,
+    isLongLoading: false,
+    isHovered: false,
+  }
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isHovered: false,
+    }
+  }
+
+  onHover = (isHovered: boolean) => {
+    this.setState({ isHovered })
+  }
+
+  render() {
+    const {
+      name,
+      symbol,
+      address,
+      fiatMoney,
+      balance,
+      fiatBalance,
+      isLoading,
+      isLongLoading,
+    } = this.props
+
+    const {
+      isHovered,
+    } = this.state
+
+    const isLoadingContext = isLoading ? 'loading' : isLongLoading ? 'long-loading' : null
+
+    return (
+      <div
+        onMouseEnter={handle(this.onHover)(true)}
+        onMouseLeave={handle(this.onHover)(false)}
+        className={classNames('asset-card')}
+      >
+        <div className='symbol'>
+          <JAssetSymbol symbol={symbol} color='gray' />
+        </div>
+        <div className='name'>
+          {/*
+            @TODO: consultation with the programmer on the size of the text:
+            size 'header' has insufficient size
+          */}
+          <JText value={name} color='dark' weight='bold' size='header' />
+        </div>
+
+        {(() => {
+          switch (isLoadingContext) {
+            case 'long-loading':
+              return (
+                <div className='balance'>
+                  <div className='crypto'>
+                    <JText
+                      value='Balance loading error'
+                      color='gray'
+                      weight='bold'
+                      whiteSpace='wrap'
+                    />
+                  </div>
+                  <div className='fiat'>
+                    <JFlatButton label='Reload asset' color='blue' isHoverOpacity />
+                  </div>
+                </div>
+              )
+            case 'loading':
+              return (
+                <div className='loading'>
+                  <JLoader color='blue' />
+                </div>
+              )
+            default:
+              return (
+                <div className='balance'>
+                  <div className='crypto'>
+                    <AssetBalance
+                      color='gray'
+                      weight='bold'
+                      symbol={symbol}
+                      balance={balance}
+                    />
+                  </div>
+                  {!isHovered ? (
+                    <div className='fiat'>
+                      {/*
+                        @TODO: consultation with the programmer on the size of the text:
+                        size 'header' has insufficient size
+                      */}
+                      {fiatBalance !== '0' ? (
+                        <AssetBalance
+                          color='blue'
+                          weight='bold'
+                          size='header'
+                          symbol={fiatMoney}
+                          balance={fiatBalance}
+                        />
+                      ) : (
+                        <div className='message -transparent'>
+                          <JText
+                            value='No USD Exchange'
+                            color='gray'
+                            weight='bold'
+                            whiteSpace='wrap'
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className='fiat'>
+                      <JFlatButton
+                        onClick={console.log(address)}
+                        label='Show transactions'
+                        color='blue'
+                        isHoverOpacity
+                      />
+                    </div>
+                  )}
+                </div>
+              )
+          }
+        })()}
+      </div>
+    )
+  }
 }
 
 export default AssetCard

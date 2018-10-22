@@ -31,6 +31,10 @@
     color: $white;
   }
 
+  &.-dark {
+    color: $dark;
+  }
+
   // Size
 
   &.-small {
