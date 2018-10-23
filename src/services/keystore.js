@@ -486,7 +486,7 @@ function getAddress(wallets: Wallets, walletId: string): ?Address {
     : null
 }
 
-function getAddresses(wallets: Wallets, walletId: string, start: number, end: number): ?Addresses {
+function getAddresses(wallets: Wallets, walletId: string, start: number, end: number): Addresses {
   const {
     type,
     bip32XPublicKey,
