@@ -97,8 +97,8 @@ class WalletsImportView extends Component<Props> {
               onChangePassphrase={changePassphraseInput}
               onChangeDerivationPath={changeDerivationPathInput}
               title={[
-                'You will use this password to unlock and transfer your funds.',
-                'Keep it secure!',
+                'Insert the private key or backup phrase to import. Also, you can import',
+                'an address in the read-only mode.',
               ]}
               invalidFields={invalidFields}
               valueData={data}
