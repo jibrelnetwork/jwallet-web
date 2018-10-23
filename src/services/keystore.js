@@ -446,8 +446,9 @@ function getMnemonic(wallets: Wallets, walletId: string, password: string): stri
   }: PasswordOptions = passwordOptions
 
   const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
+  const mnemonic: string = utils.decryptData(encrypted.mnemonic, dKey, encryptionType)
 
-  return utils.decryptData(encrypted.mnemonic, dKey, encryptionType)
+  return mnemonic.trim()
 }
 
 function getBackupData(wallets: Wallets, walletId: string, password: string): string {
