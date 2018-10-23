@@ -127,8 +127,10 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
               color='white'
               image='auth-cross'
               title={`Delete ${name} wallet`}
-              description={'All user data, including imported ' +
-                'or generated private keys, will be deleted.'}
+              description={[
+                'All user data, including imported or generated private keys, will be deleted.',
+                'The only way to restore deleted wallet is to use the backup phrase.',
+              ]}
             />
             <div className='actions'>
               {isDeleteInitialised ? (
