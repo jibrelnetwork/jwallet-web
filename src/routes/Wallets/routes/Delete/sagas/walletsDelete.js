@@ -1,9 +1,7 @@
 // @flow
 
-import { delay } from 'redux-saga'
 import { put, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import walletsWorker from 'workers/wallets'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
@@ -26,18 +24,13 @@ function* deleteSuccess(action: ExtractReturn<typeof walletsDelete.deleteSuccess
   yield put(wallets.setIsLoading(false))
 }
 
-function* closeView(): Saga<void> {
-  yield delay(config.delayBeforeFormClean)
+function* clean(): Saga<void> {
+  yield put(wallets.clean())
   yield put(walletsDelete.clean())
 }
 
-function* clean(): Saga<void> {
-  yield put(wallets.clean())
-}
-
 export function* walletsDeleteRootSaga(): Saga<void> {
-  yield takeEvery(walletsDelete.CLEAN, clean)
-  yield takeEvery(walletsDelete.CLOSE_VIEW, closeView)
+  yield takeEvery(walletsDelete.OPEN_VIEW, clean)
   yield takeEvery(walletsDelete.DELETE_ERROR, deleteError)
   yield takeEvery(walletsDelete.DELETE_SUCCESS, deleteSuccess)
   yield takeEvery(walletsDelete.DELETE_REQUEST, deleteRequest)
