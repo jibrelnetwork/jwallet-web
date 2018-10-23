@@ -5,6 +5,7 @@ import { push } from 'react-router-redux'
 
 import {
   openView,
+  closeView,
   toggleWallet,
   setActiveWallet,
 } from './modules/wallets'
@@ -15,6 +16,7 @@ const mapStateToProps = ({ wallets }: State): WalletsState => wallets
 
 const mapDispatchToProps = {
   openView,
+  closeView,
   toggleWallet,
   setActiveWallet,
   createWallet: () => push('/wallets/create'),
