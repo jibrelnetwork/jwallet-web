@@ -54,6 +54,7 @@ class WalletsRenameView extends Component<Props> {
             onChangeName={changeNameInput}
             invalidFields={invalidFields}
             valueName={name}
+            buttonLabel='OK'
             isLoading={isLoading}
           />
         </div>
