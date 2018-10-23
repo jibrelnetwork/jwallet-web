@@ -1,5 +1,6 @@
 // @flow
 
+import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import walletsWorker from 'workers/wallets'
@@ -18,6 +19,8 @@ function* openView(action: ExtractReturn<typeof walletsRename.openView>): Saga<v
 
   if (foundWallet) {
     yield put(wallets.changeNameInput(foundWallet.name))
+  } else {
+    yield put(push('/wallets'))
   }
 }
 
@@ -55,6 +58,7 @@ function* renameError(action: { payload: Error }): Saga<void> {
 function* renameSuccess(action: ExtractReturn<typeof walletsRename.renameSuccess>): Saga<void> {
   yield put(wallets.setWalletsItems(action.payload.items))
   yield put(wallets.setIsLoading(false))
+  yield put(push('/wallets'))
 }
 
 function* clean(): Saga<void> {
