@@ -11,7 +11,8 @@ import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsRename from '../modules/walletsRename'
 
 function* openView(action: ExtractReturn<typeof walletsRename.openView>): Saga<void> {
-  yield* clean()
+  yield put(wallets.clean())
+  yield put(walletsRename.clean())
 
   const { walletId } = action.payload
   const { items } = yield select(selectWallets)
@@ -59,11 +60,6 @@ function* renameSuccess(action: ExtractReturn<typeof walletsRename.renameSuccess
   yield put(wallets.setWalletsItems(action.payload.items))
   yield put(wallets.setIsLoading(false))
   yield put(push('/wallets'))
-}
-
-function* clean(): Saga<void> {
-  yield put(wallets.clean())
-  yield put(walletsRename.clean())
 }
 
 export function* walletsRenameRootSaga(): Saga<void> {
