@@ -23,6 +23,7 @@ type Props = {|
   +isLoading: boolean,
   +isPinCode: boolean,
   +isDisabled: boolean,
+  +isAutoFocus: boolean,
 |}
 
 type ChildrenProps = {|
@@ -30,8 +31,9 @@ type ChildrenProps = {|
   +name: ?string,
   +className: string,
   +value: ?JInputValue,
-  +disabled: boolean,
   +placeholder: ?string,
+  +disabled: boolean,
+  +autoFocus: boolean,
 |}
 
 class JInput extends PureComponent<Props> {
@@ -50,6 +52,7 @@ class JInput extends PureComponent<Props> {
     isLoading: false,
     isPinCode: false,
     isDisabled: false,
+    isAutoFocus: false,
   }
 
   render() {
@@ -68,6 +71,7 @@ class JInput extends PureComponent<Props> {
       isLoading,
       isPinCode,
       isDisabled,
+      isAutoFocus,
     } = this.props
 
     const isMultiline: boolean = !!rows
@@ -79,6 +83,7 @@ class JInput extends PureComponent<Props> {
       value,
       className: 'input',
       disabled: isDisabled,
+      autoFocus: isAutoFocus,
       placeholder: labelOrPlaceholder,
       onChange: onChange ? handleTargetValue(onChange) : undefined,
     }

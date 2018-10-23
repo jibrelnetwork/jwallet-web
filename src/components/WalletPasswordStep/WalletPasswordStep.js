@@ -62,6 +62,7 @@ class WalletPasswordStep extends PureComponent<Props> {
             type='password'
             placeholder='Password'
             isDisabled={isLoading}
+            isAutoFocus
           />
         ) : (
           <Fragment>

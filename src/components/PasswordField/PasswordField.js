@@ -113,6 +113,7 @@ class PasswordField extends Component<Props, StateProps> {
           type='password'
           name='password'
           isDisabled={isDisabled}
+          isAutoFocus
         />
         <div className='confirmation'>
           <Indicator status={this.getStatus()} />

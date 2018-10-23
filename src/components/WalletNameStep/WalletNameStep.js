@@ -34,6 +34,7 @@ const WalletNameStep = ({
       color='white'
       name='wallets-name'
       placeholder='Wallet name'
+      isAutoFocus
     />
   </WalletStep>
 )
