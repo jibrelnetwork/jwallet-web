@@ -8,7 +8,7 @@ import WalletsStartView from './WalletsStartView'
 import {
   openView,
   closeView,
-} from './modules/start'
+} from './modules/walletsStart'
 
 const mapDispatchToProps = {
   openView,
