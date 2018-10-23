@@ -1,9 +1,7 @@
 // @flow
 
-import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import walletsWorker from 'workers/wallets'
 import { fileSaver, clipboard } from 'services'
 import { selectWallets, selectWalletsBackup } from 'store/stateSelectors'
@@ -34,11 +32,6 @@ function* backupError(action: { payload: Error }): Saga<void> {
 function* backupSuccess(): Saga<void> {
   yield put(wallets.setIsLoading(false))
   yield put(walletsBackup.setCurrentStep(walletsBackup.STEPS.PRIVATE))
-}
-
-function* closeView(): Saga<void> {
-  yield delay(config.delayBeforeFormClean)
-  yield put(walletsBackup.clean())
 }
 
 function* setNextStep(action: ExtractReturn<typeof walletsBackup.goToNextStep>): Saga<void> {
@@ -87,11 +80,11 @@ function* copyToClipboard(): Saga<void> {
 
 function* clean(): Saga<void> {
   yield put(wallets.clean())
+  yield put(walletsBackup.clean())
 }
 
 export function* walletsBackupRootSaga(): Saga<void> {
-  yield takeEvery(walletsBackup.CLEAN, clean)
-  yield takeEvery(walletsBackup.CLOSE_VIEW, closeView)
+  yield takeEvery(walletsBackup.OPEN_VIEW, clean)
   yield takeEvery(walletsBackup.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsBackup.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsBackup.BACKUP_ERROR, backupError)
