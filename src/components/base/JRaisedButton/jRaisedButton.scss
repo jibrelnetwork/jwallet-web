@@ -38,19 +38,20 @@
   &.-white {
     background-color: $white;
 
-    &.-loading,
-    &.-disabled {
-      background-color: $blue-two;
+    &.-loading {
+      background-color: $blue;
     }
 
     &.-disabled {
+      background-color: $blue-three;
+
       > .label {
         opacity: 0.3;
       }
     }
   }
 
-  &:hover {
+  &.-hovered {
     background-color: $bright-sky-blue;
 
     &.-blue {
@@ -64,9 +65,12 @@
     }
 
     &.-white {
-      &.-loading,
+      &.-loading {
+        background-color: $blue;
+      }
+
       &.-disabled {
-        background-color: $blue-two;
+        background-color: $blue-three;
       }
     }
   }
