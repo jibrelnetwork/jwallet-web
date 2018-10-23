@@ -1,9 +1,7 @@
 // @flow
 
-import { delay } from 'redux-saga'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsImport } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
@@ -114,11 +112,6 @@ function* importSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
   yield put(wallets.setActiveWallet(importedWallet.id))
 }
 
-function* closeView(): Saga<void> {
-  yield delay(config.delayBeforeFormClean)
-  yield put(walletsImport.clean())
-}
-
 function checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataInput>) {
   const { data } = action.payload
 
@@ -184,11 +177,12 @@ export function* setPrevStep(): Saga<void> {
 
 function* clean(): Saga<void> {
   yield put(wallets.clean())
+  yield put(walletsImport.clean())
 }
 
 export function* walletsImportRootSaga(): Saga<void> {
-  yield takeEvery(walletsImport.CLEAN, clean)
-  yield takeEvery(walletsImport.CLOSE_VIEW, closeView)
+  yield takeEvery(walletsImport.OPEN_VIEW, clean)
+  yield takeEvery(walletsImport.CLOSE_VIEW, clean)
   yield takeEvery(walletsImport.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsImport.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsImport.IMPORT_ERROR, importError)

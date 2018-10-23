@@ -71,6 +71,7 @@ class WalletsCreateView extends Component<Props> {
               onChangeName={changeNameInput}
               invalidFields={invalidFields}
               valueName={name}
+              buttonLabel='Next step'
               isLoading={isLoading}
             />
           )}
@@ -80,14 +81,15 @@ class WalletsCreateView extends Component<Props> {
               onChangePassword={changePasswordInput}
               onChangePasswordHint={changePasswordHintInput}
               onChangePasswordConfirm={changePasswordConfirmInput}
-              invalidFields={invalidFields}
-              valuePassword={password}
-              valuePasswordHint={passwordHint}
-              valuePasswordConfirm={passwordConfirm}
               title={[
                 'You will use this password to unlock and transfer your funds.',
                 'Keep it secure!',
               ]}
+              invalidFields={invalidFields}
+              valuePassword={password}
+              valuePasswordHint={passwordHint}
+              valuePasswordConfirm={passwordConfirm}
+              buttonLabel='Create wallet'
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

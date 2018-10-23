@@ -15,44 +15,41 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
+            onChange={setValue}
+            value={value}
             type='text'
             color='gray'
-            value={value}
-            onChange={setValue}
             placeholder='Placeholder'
           />
         )
       ))}
     </div>
   ))
-
   .add('Gray multiline', () => (
     <div className='story'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
+            onChange={setValue}
+            value={value}
             type='text'
             color='gray'
-            value={value}
-            isMultiline
-            onChange={setValue}
             placeholder='Your Address'
-            render={inputProps => <textarea {...inputProps} rows='8' />}
+            rows={8}
           />
         )
       ))}
     </div>
   ))
-
   .add('Gray text disabled', () => (
     <div className='story'>
       <JInput
         type='text'
         color='gray'
-        label='Some label'
         value='Some text'
-        isDisabled
+        label='Some label'
         placeholder='Enter some text'
+        isDisabled
       />
     </div>
   ))
@@ -61,13 +58,13 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
-            type='text'
-            label='Some label'
-            color='gray'
-            value={value}
             onChange={setValue}
-            placeholder='Enter some text'
+            value={value}
+            type='text'
+            color='gray'
+            label='Some label'
             errorMessage='Some error'
+            placeholder='Enter some text'
           />
         )
       ))}
@@ -78,10 +75,10 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
+            onChange={setValue}
+            value={value}
             type='text'
             color='white'
-            value={value}
-            onChange={setValue}
             placeholder='Wallet Name'
           />
         )
@@ -93,13 +90,13 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
-            type='text'
-            label='Some label'
-            color='white'
-            value={value}
             onChange={setValue}
-            placeholder='Enter some text'
+            value={value}
+            type='text'
+            color='white'
+            label='Some label'
             errorMessage='Some error'
+            placeholder='Enter some text'
           />
         )
       ))}
@@ -110,46 +107,43 @@ storiesOf('JInput', module)
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
+            onChange={setValue}
+            value={value}
+            color='white'
             type='password'
             label='Some label'
-            color='white'
-            value={value}
-            onChange={setValue}
-            placeholder='Enter some text'
             infoMessage='Some info'
+            placeholder='Enter some text'
           />
         )
       ))}
     </div>
   ))
-
   .add('White pin code style', () => (
     <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
-            isPinCode
-            type='password'
-            color='white'
-            value={value}
             onChange={setValue}
+            value={value}
+            color='white'
+            type='password'
+            isPinCode
           />
         )
       ))}
     </div>
   ))
-
   .add('White multiline', () => (
     <div className='story -blue'>
       {React.createElement(StateHOC(
         ({ value, setValue }) => (
           <JInput
-            color='white'
-            value={value}
             onChange={setValue}
-            isMultiline
+            value={value}
+            color='white'
             placeholder='Enter some text'
-            render={inputProps => <textarea {...inputProps} rows='4' />}
+            rows={8}
           />
         )
       ))}

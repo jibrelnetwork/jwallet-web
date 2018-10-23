@@ -1,20 +1,17 @@
 // @flow
 
-import lifecycle from 'recompose/lifecycle'
-import { compose } from 'ramda'
 import { connect } from 'react-redux'
 
-import { open, close } from 'routes/Wallets/modules/wallets'
+import {
+  openLayout,
+  closeLayout,
+} from 'routes/Wallets/modules/wallets'
 
 import WalletsLayout from './WalletsLayout'
 
-const mapStateToProps = null
-const mapDispatchToProps = { open, close }
+const mapDispatchToProps = {
+  openLayout,
+  closeLayout,
+}
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  lifecycle({
-    componentDidMount() { this.props.open() },
-    componentWillUnmount() { this.props.close() },
-  }),
-)(WalletsLayout)
+export default connect(null, mapDispatchToProps)(WalletsLayout)

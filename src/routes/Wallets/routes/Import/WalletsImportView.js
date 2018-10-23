@@ -86,6 +86,7 @@ class WalletsImportView extends Component<Props> {
               onChangeName={changeNameInput}
               invalidFields={invalidFields}
               valueName={name}
+              buttonLabel='Next step'
               isLoading={isLoading}
             />
           )}
@@ -95,10 +96,15 @@ class WalletsImportView extends Component<Props> {
               onChangeData={changeDataInput}
               onChangePassphrase={changePassphraseInput}
               onChangeDerivationPath={changeDerivationPathInput}
+              title={[
+                'You will use this password to unlock and transfer your funds.',
+                'Keep it secure!',
+              ]}
               invalidFields={invalidFields}
               valueData={data}
               valuePassphrase={passphrase}
               valueDerivationPath={derivationPath}
+              buttonLabel='Next step'
               isLoading={isLoading}
               isMnemonic={walletType === 'mnemonic'}
             />
@@ -109,14 +115,15 @@ class WalletsImportView extends Component<Props> {
               onChangePassword={changePasswordInput}
               onChangePasswordHint={changePasswordHintInput}
               onChangePasswordConfirm={changePasswordConfirmInput}
-              invalidFields={invalidFields}
-              valuePassword={password}
-              valuePasswordHint={passwordHint}
-              valuePasswordConfirm={passwordConfirm}
               title={[
                 'You will use this password to unlock and transfer your funds.',
                 'Keep it secure!',
               ]}
+              invalidFields={invalidFields}
+              valuePassword={password}
+              valuePasswordHint={passwordHint}
+              valuePasswordConfirm={passwordConfirm}
+              buttonLabel='Import wallet'
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

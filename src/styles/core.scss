@@ -106,6 +106,7 @@
   @import '../components/MenuPanel/menuPanel';
   @import '../components/Expandable/expandable';
   @import '../components/WalletFace/walletFace';
+  @import '../components/WalletStep/walletStep';
   @import '../components/AssetPicker/assetPicker';
   @import '../components/ModalHeader/modalHeader';
   @import '../components/AssetBalance/assetBalance';
@@ -117,12 +118,10 @@
   @import '../components/WalletLoading/WalletLoading';
   @import '../components/DerivationPath/derivationPath';
   @import '../components/OverlayActions/overlayActions';
-  @import '../components/WalletNameStep/walletNameStep';
   @import '../components/RoundIconButton/roundIconButton';
   @import '../components/NewWalletButtons/newWalletButtons';
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
-  @import '../components/WalletPasswordStep/walletPasswordStep';
 
   // Views
   @import '../routes/CustomAsset/styles/customAsset';

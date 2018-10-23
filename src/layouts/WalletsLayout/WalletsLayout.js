@@ -1,22 +1,32 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-const WalletsLayout = ({ children }: Props) => (
-  <div className='wallets-layout'>
-    <Scrollbars autoHide>
-      {children}
-    </Scrollbars>
-  </div>
-)
+type Props = {|
+  +openLayout: () => void,
+  +closeLayout: () => void,
+  +children: React$Node,
+|}
 
-type Props = {
-  children?: Object,
-}
+class WalletsLayout extends Component<Props> {
+  componentDidMount() {
+    this.props.openLayout()
+  }
 
-WalletsLayout.defaultProps = {
-  children: null,
+  componentWillUnmount() {
+    this.props.closeLayout()
+  }
+
+  render() {
+    return (
+      <div className='wallets-layout'>
+        <Scrollbars autoHide>
+          {this.props.children}
+        </Scrollbars>
+      </div>
+    )
+  }
 }
 
 export default WalletsLayout

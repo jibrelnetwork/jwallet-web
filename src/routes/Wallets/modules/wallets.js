@@ -32,6 +32,9 @@ export type NewWalletLocation = 'create' | 'import'
 /* eslint-disable max-len */
 export const GO_TO_START_VIEW: '@@wallets/GO_TO_START_VIEW' = '@@wallets/GO_TO_START_VIEW'
 
+export const OPEN_LAYOUT: '@@wallets/OPEN_LAYOUT' = '@@wallets/OPEN_LAYOUT'
+export const CLOSE_LAYOUT: '@@wallets/CLOSE_LAYOUT' = '@@wallets/CLOSE_LAYOUT'
+
 export const OPEN_VIEW: '@@wallets/OPEN_VIEW' = '@@wallets/OPEN_VIEW'
 export const CLOSE_VIEW: '@@wallets/CLOSE_VIEW' = '@@wallets/CLOSE_VIEW'
 
@@ -54,6 +57,18 @@ export const SET_INVALID_FIELD: '@@wallets/SET_INVALID_FIELD' = '@@wallets/SET_I
 
 export const CLEAN: '@@wallets/CLEAN' = '@@wallets/CLEAN'
 /* eslint-enable max-len */
+
+export function openLayout() {
+  return {
+    type: OPEN_LAYOUT,
+  }
+}
+
+export function closeLayout() {
+  return {
+    type: CLOSE_LAYOUT,
+  }
+}
 
 export function goToStartView() {
   return {
