@@ -4,30 +4,61 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import AssetCard from 'components/DigitalAssets/Asset'
+import ethereum from 'data/assets/ethereum'
 
 storiesOf('AssetCard')
 
   .add('Default', () => (
     <div className='story'>
       <h2>Default</h2>
-      <AssetCard balance='100325' fiatBalance='2020' />
+      <AssetCard
+        name={ethereum.name}
+        symbol={ethereum.symbol}
+        address={ethereum.address}
+        fiatMoney='USD'
+        balance={100325.578}
+        fiatBalance={2020.889}
+      />
     </div>
   ))
   .add('Loading', () => (
     <div className='story'>
       <h2>Loading</h2>
-      <AssetCard balance='100325' fiatBalance='2020' isLoading />
+      <AssetCard
+        name={ethereum.name}
+        symbol={ethereum.symbol}
+        address={ethereum.address}
+        fiatMoney='USD'
+        balance={100325}
+        fiatBalance={2020}
+        isLoading
+      />
     </div>
   ))
   .add('No USD', () => (
     <div className='story'>
       <h2>No USD</h2>
-      <AssetCard balance='100325' fiatBalance='0' />
+      <AssetCard
+        name={ethereum.name}
+        symbol={ethereum.symbol}
+        address={ethereum.address}
+        fiatMoney='USD'
+        balance={100325}
+        fiatBalance={0}
+      />
     </div>
   ))
-  .add('Long loading Error', () => (
+  .add('Error loading', () => (
     <div className='story'>
-      <h2>Long loading Error</h2>
-      <AssetCard balance='100325' fiatBalance='2020' isLongLoading />
+      <h2>Error loading</h2>
+      <AssetCard
+        name={ethereum.name}
+        symbol={ethereum.symbol}
+        address={ethereum.address}
+        fiatMoney='USD'
+        balance={100325}
+        fiatBalance={2020}
+        isLoadingError
+      />
     </div>
   ))

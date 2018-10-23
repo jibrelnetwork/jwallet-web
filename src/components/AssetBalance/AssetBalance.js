@@ -1,71 +1,48 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
 
 import { JText } from 'components/base'
 
 type Props = {|
   +symbol: string,
-  +weight: null | 'bold' | 'bolder',
-  +color: 'blue' | 'gray' | 'white',
-  +size: 'small' | 'normal' | 'large',
+  +color: 'blue' | 'gray',
+  +size: 'normal' | 'header',
   +balance: number,
-  +isTransparent: boolean,
 |}
-
 class AssetBalance extends PureComponent<Props> {
   static defaultProps = {
-    symbol: '',
     weight: null,
-    color: 'white',
+    color: 'gray',
     size: 'normal',
-    balance: 0,
-    isTransparent: false,
   }
-
   render() {
     const {
       symbol,
       size,
       color,
-      weight,
       balance,
-      isTransparent,
     } = this.props
-
+    const balanceValue = balance.toLocaleString('en-US', { maximumFractionDigits: 2 })
     return (
       <div
-        className={classNames(
-          'asset-balance',
-          isTransparent && '-transparent',
-        )}
+        className='asset-balance'
       >
         <div className='balance'>
-          <div className='integer'>
-            <JText
-              size={size}
-              color={color}
-              weight={weight}
-              value={Number(Math.floor(balance).toFixed()).toLocaleString('en-IN')}
-            />
-          </div>
-          <div className='decimals'>
-            <JText
-              size={size}
-              color={color}
-              weight={weight}
-              value={`${(balance - Math.floor(balance)).toFixed(2).substr(1)}`}
-            />
-          </div>
+          <JText
+            weight='bold'
+            size={size}
+            color={color}
+            value={balanceValue}
+          />
         </div>
         <div className='symbol'>
           <JText
+            weight='bold'
+            fontCase='upper'
             size={size}
             color={color}
             value={symbol}
-            weight={weight}
-            fontCase='upper'
           />
         </div>
       </div>

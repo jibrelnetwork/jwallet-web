@@ -1,9 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
 
-import ethereum from 'data/assets/ethereum'
 import AssetBalance from 'components/AssetBalance'
 import { handle } from 'utils/eventHandlers'
 import { JAssetSymbol, JFlatButton, JText, JLoader } from 'components/base'
@@ -16,7 +14,7 @@ type Props = {|
   +balance: number,
   +fiatBalance: number,
   +isLoading: boolean,
-  +isLongLoading: boolean,
+  +isLoadingError: boolean,
 |}
 
 type AssetsState = {
@@ -25,15 +23,8 @@ type AssetsState = {
 
 class AssetCard extends PureComponent<Props, AssetsState> {
   static defaultProps = {
-    name: ethereum.name,
-    symbol: ethereum.symbol,
-    address: ethereum.address,
-    fiatMoney: 'USD',
-    balance: 0,
-    fiatBalance: 0,
     isLoading: false,
-    isLongLoading: false,
-    isHovered: false,
+    isLoadingError: false,
   }
 
   constructor(props: Props) {
@@ -57,35 +48,30 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       balance,
       fiatBalance,
       isLoading,
-      isLongLoading,
+      isLoadingError,
     } = this.props
 
     const {
       isHovered,
     } = this.state
 
-    const isLoadingContext = isLoading ? 'loading' : isLongLoading ? 'long-loading' : null
+    const isLoadingContext = isLoading ? 'loading' : (isLoadingError ? 'error-loading' : null)
 
     return (
       <div
         onMouseEnter={handle(this.onHover)(true)}
         onMouseLeave={handle(this.onHover)(false)}
-        className={classNames('asset-card')}
+        className='asset-card'
       >
         <div className='symbol'>
           <JAssetSymbol symbol={symbol} color='gray' />
         </div>
         <div className='name'>
-          {/*
-            @TODO: consultation with the programmer on the size of the text:
-            size 'header' has insufficient size
-          */}
           <JText value={name} color='dark' weight='bold' size='header' />
         </div>
-
         {(() => {
           switch (isLoadingContext) {
-            case 'long-loading':
+            case 'error-loading':
               return (
                 <div className='balance'>
                   <div className='crypto'>
@@ -113,21 +99,15 @@ class AssetCard extends PureComponent<Props, AssetsState> {
                   <div className='crypto'>
                     <AssetBalance
                       color='gray'
-                      weight='bold'
                       symbol={symbol}
                       balance={balance}
                     />
                   </div>
                   {!isHovered ? (
                     <div className='fiat'>
-                      {/*
-                        @TODO: consultation with the programmer on the size of the text:
-                        size 'header' has insufficient size
-                      */}
-                      {fiatBalance !== '0' ? (
+                      {fiatBalance !== 0 ? (
                         <AssetBalance
                           color='blue'
-                          weight='bold'
                           size='header'
                           symbol={fiatMoney}
                           balance={fiatBalance}
