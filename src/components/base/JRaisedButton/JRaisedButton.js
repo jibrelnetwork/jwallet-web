@@ -6,36 +6,35 @@ import classNames from 'classnames'
 import handle from 'utils/eventHandlers/handle'
 import { JIcon, JText, JLoader } from 'components/base'
 
-type Props = {
-  onClick: ?Function,
-  label: string,
-  iconName: ?string,
-  color: 'blue' | 'white',
-  iconColor: 'blue' | 'white',
-  iconSize: 'small' | 'medium',
-  labelColor: 'blue' | 'white',
-  loaderColor: 'blue' | 'white',
-  isWide: boolean,
-  isDisabled: boolean,
-  isLoading: boolean,
-}
+type Props = {|
+  +onClick: ?Function,
+  +label: string,
+  +iconName: ?string,
+  +color: 'blue' | 'white',
+  +iconColor: 'blue' | 'white',
+  +iconSize: 'small' | 'medium',
+  +labelColor: 'blue' | 'white',
+  +loaderColor: 'blue' | 'white',
+  +isWide: boolean,
+  +isLoading: boolean,
+  +isDisabled: boolean,
+|}
 
-type ButtonState = {
+type StateProps = {|
   isHovered: boolean,
-}
+|}
 
-class JRaisedButton extends PureComponent<Props, ButtonState> {
+class JRaisedButton extends PureComponent<Props, StateProps> {
   static defaultProps = {
     iconName: null,
     color: 'blue',
-    iconColor: 'white',
     iconSize: 'medium',
+    iconColor: 'white',
     labelColor: 'white',
     loaderColor: 'white',
     isWide: false,
-    isDisabled: false,
     isLoading: false,
-    isHovered: false,
+    isDisabled: false,
   }
 
   constructor(props: Props) {
@@ -63,15 +62,16 @@ class JRaisedButton extends PureComponent<Props, ButtonState> {
       isWide,
       isDisabled,
       isLoading,
-    } = this.props
+    }: Props = this.props
 
     const {
       isHovered,
-    } = this.state
+    }: StateProps = this.state
 
     const buttonClassName = classNames(
       `j-raised-button -${color}`,
       isWide && '-wide',
+      isHovered && '-hovered',
       isDisabled && '-disabled',
     )
 
@@ -96,7 +96,11 @@ class JRaisedButton extends PureComponent<Props, ButtonState> {
           </div>
         )}
         <div className='label'>
-          <JText value={label} color={isHovered ? 'white' : labelColor} weight='bold' />
+          <JText
+            value={label}
+            color={(isHovered || isDisabled) ? 'white' : labelColor}
+            weight='bold'
+          />
         </div>
       </div>
     )
