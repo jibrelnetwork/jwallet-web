@@ -3,10 +3,10 @@
 import CoreLayout from 'layouts/CoreLayout'
 
 /*
-import DigitalAssets from './DigitalAssets'
 import Funds from './Funds'
 import Transactions from './Transactions'
 */
+import DigitalAssets from './DigitalAssets'
 import CustomAsset from './CustomAsset'
 import Wallets from './Wallets'
 import NotFound from './NotFound'
@@ -19,11 +19,11 @@ export default {
   },
   childRoutes: [
     /*
-    DigitalAssets(store),
     CustomAsset(store),
     Funds(store),
     Transactions(store),
     */
+    DigitalAssets,
     CustomAsset,
     Wallets,
     NotFound,

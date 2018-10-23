@@ -1,13 +1,8 @@
-import { injectReducer } from 'store/reducers'
+// @flow
 
-export default store => ({
+import DigitalAssetsCustomViewContainer from './DigitalAssetsCustomViewContainer'
+
+export default {
   path: 'custom',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const View = require('./containers/DigitalAssetsCustomViewContainer').default
-      const customAsset = require('../../../CustomAsset/modules/customAsset').default
-      injectReducer(store, { key: 'customAsset', reducer: customAsset })
-      cb(null, View)
-    }, 'digital-assets-custom')
-  },
-})
+  component: DigitalAssetsCustomViewContainer,
+}
