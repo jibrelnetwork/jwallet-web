@@ -18,6 +18,7 @@ import networks from 'routes/modules/networks'
 
 // digitalAssets
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import customAsset from 'routes/CustomAsset/modules/customAsset'
 
 type KeyReducer = { key: string, reducer: Reducer<any, any> }
 
@@ -39,6 +40,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
     networks,
     // digitalAssets
     digitalAssets,
+    customAsset,
     // transactions
     transactions,
     // router

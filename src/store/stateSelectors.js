@@ -65,7 +65,7 @@ export function selectCurrentDigitalAsset(state: State): ?Address {
   return state.digitalAssets.currentAddress
 }
 
-export function selectCustomAsset(state: State): CustomAssetData {
+export function selectCustomAsset(state: State): CustomAssetState {
   return state.customAsset
 }
 

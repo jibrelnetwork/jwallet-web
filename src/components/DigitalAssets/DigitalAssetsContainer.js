@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 import { withState } from 'recompose'
 
 import { setActive } from 'routes/DigitalAssets/modules/digitalAssets'
-import { setEditAddress } from 'routes/CustomAsset/modules/customAsset'
+
+// temporary disable this
+// import { setEditAddress } from 'routes/CustomAsset/modules/customAsset'
 
 import DigitalAssets from './DigitalAssets'
 
@@ -16,7 +18,8 @@ const mapDispatchToProps: {
   editCustomAsset: Function,
 } = {
   setActive,
-  editCustomAsset: setEditAddress,
+  // temporary disable this
+  editCustomAsset: () => null, // setEditAddress,
 }
 
 export default compose(

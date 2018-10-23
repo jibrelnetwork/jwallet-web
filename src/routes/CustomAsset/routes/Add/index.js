@@ -1,13 +1,10 @@
-import { injectReducer } from 'store/reducers'
+// @flow
 
-export default store => ({
+import CustomAssetAddContainer from './CustomAssetAddContainer'
+
+const Add = {
   path: 'add',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const CustomAsset = require('../../containers/CustomAssetContainer').default
-      const customAsset = require('../../modules/customAsset').default
-      injectReducer(store, { key: 'customAsset', reducer: customAsset })
-      cb(null, CustomAsset)
-    }, 'custom-asset-add')
-  },
-})
+  component: CustomAssetAddContainer,
+}
+
+export default Add

@@ -2,110 +2,88 @@
 
 import React from 'react'
 
+import { ModalHeader } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
-import { ButtonWithConfirm, ModalHeader } from 'components'
+
+type CustomAssetFormType = 'add' | 'edit'
+
+type CustomAssetProps = {
+  formFields: CustomAssetFormFields,
+  invalidFields: CustomAssetFormFields,
+  setField: SetFieldFunction<CustomAssetFormFields>,
+  submit: () => void,
+  isAssetLoading: boolean,
+  type: CustomAssetFormType,
+}
 
 const CustomAsset = ({
-  add,
-  edit,
-  remove,
-  setName,
-  setSymbol,
-  setAddress,
-  setDecimals,
+  formFields,
   invalidFields,
-  name,
-  symbol,
-  address,
-  decimals,
+  submit,
+  setField,
+  isAssetLoading,
   type,
-}: Props) => {
-  if (!['add', 'edit'].includes(type)) {
-    return null
-  }
+}: CustomAssetProps) => {
+  const setFieldHandler = (fieldName: $Keys<CustomAssetFormFields>) =>
+    (value: string) => setField(fieldName, value)
 
-  const isAdd: boolean = (type === 'add')
+  const isAddressFieldDisabled = (type === 'edit')
+  const i18nKey = (type === 'add') ? 'addCustomAsset' : 'editCustomAsset'
 
   const fields: Array<{
-    handler: Function,
-    key: string,
-    value: string,
+    key: $Keys<CustomAssetFormFields>,
     isDisabled: boolean,
+    isLoading: boolean,
   }> = [
-    { handler: setAddress, key: 'address', value: address, isDisabled: !isAdd },
-    { handler: setName, key: 'name', value: name, isDisabled: false },
-    { handler: setSymbol, key: 'symbol', value: symbol, isDisabled: false },
-    { handler: setDecimals, key: 'decimals', value: decimals, isDisabled: false },
+    { key: 'address', isDisabled: isAddressFieldDisabled, isLoading: isAssetLoading },
+    { key: 'name', isDisabled: false, isLoading: false },
+    { key: 'symbol', isDisabled: false, isLoading: false },
+    { key: 'decimals', isDisabled: false, isLoading: false },
   ]
 
   return (
     <div className='custom-asset'>
       <div className='header'>
         <ModalHeader
-          title={`${isAdd ? 'Add' : 'Edit'} Custom Asset`}
+          title={`routes.${i18nKey}.title`}
           color='gray'
           withMenu
         />
       </div>
       <div className='form'>
-        {fields.map(({ key, value, handler, isDisabled }) => (
+        {fields.map(({ key, isDisabled, isLoading }) => (
           <JInput
             key={key}
-            onChange={handler}
-            value={value}
+            onChange={setFieldHandler(key)}
+            value={formFields[key]}
             name={`custom-asset-${key}`}
             errorMessage={invalidFields[key]}
-            placeholder={`routes.addCustomAsset.placeholder.${key}`}
+            placeholder={`routes.${i18nKey}.placeholder.${key}`}
             type='text'
             color='gray'
             isDisabled={isDisabled}
+            isLoading={isLoading}
           />
         ))}
         <div className='actions'>
           <div className='confirm'>
             <JRaisedButton
-              onClick={isAdd ? add : edit}
-              label={`${isAdd ? 'Add' : 'Save'} Asset`}
-              labelColor='blue'
+              onClick={submit}
+              label={`routes.${i18nKey}.buttonTitle`}
+              color='blue'
+              labelColor='white'
               isWide
             />
           </div>
-          {!isAdd && (
-            <div className='remove'>
-              <ButtonWithConfirm
-                onClick={remove}
-                label='Remove'
-                labelCancel='Nope!'
-                labelConfirm='Confirm'
-              />
-            </div>
-          )}
         </div>
       </div>
     </div>
   )
 }
 
-type Props = {
-  add: ?Function,
-  edit: ?Function,
-  remove: Function,
-  setName: Function,
-  setSymbol: Function,
-  setAddress: Function,
-  setDecimals: Function,
-  invalidFields: FormFields,
-  name: string,
-  symbol: string,
-  address: string,
-  decimals: string,
-  type: 'add' | 'edit',
-}
-
 CustomAsset.defaultProps = {
-  add: null,
-  edit: null,
   type: 'add',
+  isAssetLoading: false,
 }
 
-export default CustomAsset
+export { CustomAsset }

@@ -330,12 +330,20 @@ declare type DigitalAssetsData = {
 /**
  * Custom digital asset
  */
-declare type CustomAssetData = {
-  +invalidFields: FormFields,
-  +address: Address,
+declare type CustomAssetFormFields = {|
+  +address: string,
   +name: string,
   +symbol: string,
   +decimals: string,
+|}
+
+declare type CustomAssetState = {
+  +invalidFields: CustomAssetFormFields,
+  +formFields: CustomAssetFormFields,
+  +isAssetValid: boolean,
+  +isAssetLoaded: boolean,
+  +isAssetLoading: boolean,
+  +requestedAddress: string,
 }
 
 /**
@@ -436,7 +444,7 @@ declare type State = {|
   +networks: NetworksData,
   // digitalAssets
   +digitalAssets: DigitalAssetsData,
-  +customAsset: CustomAssetData,
+  +customAsset: CustomAssetState,
   // transactions
   +transactions: TransactionsData,
   // funds
@@ -457,7 +465,7 @@ declare type InitialState = {
   networks?: NetworksData,
   // digitalAssets
   digitalAssets?: DigitalAssetsData,
-  customAsset?: CustomAssetData,
+  customAsset?: CustomAssetState,
   // transactions
   transactions?: TransactionsData,
   // funds

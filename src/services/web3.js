@@ -1,32 +1,43 @@
 // @flow
 
 import Promise from 'bluebird'
-import jibrelContractsApi from 'jibrel-contracts-jsapi'
+import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { flatten, prop, sortBy, reverse } from 'ramda'
+import { keccak256 } from 'js-sha3'
 
 import config from 'config'
 import checkJNTAsset from 'utils/digitalAssets/checkJNTAsset'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
 
+const PUSH_INSTRUCTION = '63'
+
+export const EMPTY_CONTRACT_CODE = '0x'
+
 const { defaultDecimals } = config
 
+type RPCProps = {
+  rpcaddr: string,
+  rpcport: number,
+  ssl: boolean,
+}
+
 /* eslint-disable-next-line fp/no-let */
-let rpcProps = {
+let rpcProps: RPCProps = {
   rpcaddr: '127.0.0.1',
   rpcport: 8545,
   ssl: false,
 }
 
-function setRpcProps(props: any) {
+function setRpcProps(props: RPCProps): void {
   /* eslint-disable-next-line fp/no-mutation */
   rpcProps = props
 }
 
-function getRpcProps() {
+function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-function getETHBalance(address: Address) {
+function getETHBalance(address: Address): Promise<number> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
     .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
@@ -36,7 +47,7 @@ function getTokenBalance(
   contractAddress: Address,
   owner: Address,
   decimals: Decimals = defaultDecimals,
-) {
+): Promise<number> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
@@ -46,10 +57,85 @@ function getAssetBalance(
   contractAddress: Address,
   owner: Address,
   decimals: Decimals,
-) {
+): Promise<number> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
     .then(balance => (balance.toNumber() / (10 ** decimals)))
+}
+
+function getContractDecimals(
+  contractAddress: Address
+): Promise<number> {
+  return jibrelContractsApi.contracts.erc20Named
+    .decimals({ ...rpcProps, contractAddress })
+    .then(decimals => parseInt(decimals.c, 10))
+}
+
+function getContractName(
+  contractAddress: Address
+): Promise<string> {
+  return jibrelContractsApi.contracts.erc20Named
+    .name({ ...rpcProps, contractAddress })
+}
+
+function getContractSymbol(
+  contractAddress: Address
+): Promise<string> {
+  return jibrelContractsApi.contracts.erc20Named
+    .symbol({ ...rpcProps, contractAddress })
+}
+
+function getContractCode(
+  contractAddress: Address
+): Promise<string> {
+  return jibrelContractsApi.eth.getCode({ ...rpcProps, address: contractAddress })
+}
+
+/**
+ * @function checkSignatureInContract
+ *
+ * @description Check existatce of function signature in contract
+ *
+ * @param {string} contractCode - code of contract, use eth.getCode to get it
+ * @param {string} signature - signature (function name) to check
+ *
+ * @returns {boolean}
+ *
+ * @example
+ *    const code = <some contract code> 0xABABABABABBDDSBBD....
+ *    const signature = 'transferFrom(address,address,uint256)'
+ *    console.log(checkSignature(code, signature))
+ */
+function checkSignatureInContract(contractCode: string, signature: string): boolean {
+  return (contractCode
+    .toLowerCase()
+    .indexOf(PUSH_INSTRUCTION + keccak256(signature).substring(0, 8)) !== -1
+  )
+}
+
+/**
+ * Check that contract code has all required ERC20 methods
+ *
+ * @param {string} contractCode
+ * @returns {boolean}
+ */
+function checkContractCodeIsERC20(contractCode: string): boolean {
+  const signatures = [
+    'totalSupply()',
+    'transferFrom(address,address,uint256)',
+    'balanceOf(address)',
+    'transfer(address,uint256)',
+    'allowance(address,address)',
+    'approve(address,uint256)',
+  ]
+
+  // run checkSignatureInContract and try to find False in result
+  // if at least one False in array- contract is not ERC20 compatible
+  const falseFound = signatures
+    .map(sign => checkSignatureInContract(contractCode, sign))
+    .find(isFound => !isFound)
+
+  return (falseFound !== false)
 }
 
 function getETHTransactions(address: Address) {
@@ -292,6 +378,7 @@ function addJNTFlag(list: any) {
 }
 
 export default {
+  EMPTY_CONTRACT_CODE,
   setRpcProps,
   getRpcProps,
   getETHBalance,
@@ -301,4 +388,10 @@ export default {
   getContractTransactions,
   sendETHTransaction,
   sendContractTransaction,
+  getContractName,
+  getContractSymbol,
+  getContractDecimals,
+  getContractCode,
+  checkContractCodeIsERC20,
+  checkSignatureInContract,
 }

@@ -1,274 +1,304 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
+/* eslint-disable max-len */
+export const OPEN_ADD_VIEW: '@@customAsset/OPEN_ADD_VIEW' = '@@customAsset/OPEN_ADD_VIEW'
+export const OPEN_EDIT_VIEW: '@@customAsset/OPEN_EDIT_VIEW' = '@@customAsset/OPEN_EDIT_VIEW'
+export const CLOSE_VIEW: '@@customAsset/CLOSE_VIEW' = '@@customAsset/CLOSE_VIEW'
 
-export const OPEN = '@@customAsset/OPEN'
-export const CLOSE = '@@customAsset/CLOSE'
-export const SET_ADDRESS = '@@customAsset/SET_ADDRESS'
-export const SET_NAME = '@@customAsset/SET_NAME'
-export const SET_SYMBOL = '@@customAsset/SET_SYMBOL'
-export const SET_DECIMALS = '@@customAsset/SET_DECIMALS'
-export const ADD = '@@customAsset/ADD'
-export const ADD_SUCCESS = '@@customAsset/ADD_SUCCESS'
-export const ADD_ERROR = '@@customAsset/ADD_ERROR'
-export const SET_EDIT_ADDRESS = '@@customAsset/SET_EDIT_ADDRESS'
-export const SET_EDIT_ADDRESS_SUCCESS = '@@customAsset/SET_EDIT_ADDRESS_SUCCESS'
-export const SET_EDIT_ADDRESS_ERROR = '@@customAsset/SET_EDIT_ADDRESS_ERROR'
-export const EDIT = '@@customAsset/EDIT'
-export const EDIT_SUCCESS = '@@customAsset/EDIT_SUCCESS'
-export const EDIT_ERROR = '@@customAsset/EDIT_ERROR'
-export const REMOVE = '@@customAsset/REMOVE'
-export const REMOVE_SUCCESS = '@@customAsset/REMOVE_SUCCESS'
-export const REMOVE_ERROR = '@@customAsset/REMOVE_ERROR'
-export const SET_INVALID_FIELD = '@@customAsset/SET_INVALID_FIELD'
-export const CLEAN = '@@customAsset/CLEAN'
+// -> to be moved to DigitalAssets
+export const ADD: '@@customAsset/ADD' = '@@customAsset/ADD'
+export const ADD_SUCCESS: '@@customAsset/ADD_SUCCESS' = '@@customAsset/ADD_SUCCESS'
+export const ADD_ERROR: '@@customAsset/ADD_ERROR' = '@@customAsset/ADD_ERROR'
+export const SET_ADDRESS_ERROR: '@@customAsset/SET_ADDRESS_ERROR' = '@@customAsset/SET_ADDRESS_ERROR'
+export const EDIT: '@@customAsset/EDIT' = '@@customAsset/EDIT'
+export const EDIT_SUCCESS: '@@customAsset/EDIT_SUCCESS' = '@@customAsset/EDIT_SUCCESS'
+export const EDIT_ERROR: '@@customAsset/EDIT_ERROR' = '@@customAsset/EDIT_ERROR'
+export const REMOVE: '@@customAsset/REMOVE' = '@@customAsset/REMOVE'
+export const REMOVE_SUCCESS: '@@customAsset/REMOVE_SUCCESS' = '@@customAsset/REMOVE_SUCCESS'
+export const REMOVE_ERROR: '@@customAsset/REMOVE_ERROR' = '@@customAsset/REMOVE_ERROR'
+export const CLEAN: '@@customAsset/CLEAN' = '@@customAsset/CLEAN'
+/* eslint-enable max-len */
 
-export const open = (): { type: string } => ({
-  type: OPEN,
-})
-
-export const close = (): { type: string } => ({
-  type: CLOSE,
-})
-
-export const setAddress = (address: Address): {
-  type: string,
-  payload: {
-    address: Address,
-  },
-} => ({
-  type: SET_ADDRESS,
-  payload: {
-    address,
-  },
-})
-
-export const setName = (name: string): {
-  type: string,
-  payload: {
-    name: string,
-  },
-} => ({
-  type: SET_NAME,
-  payload: {
-    name,
-  },
-})
-
-export const setSymbol = (symbol: string): {
-  type: string,
-  payload: {
-    symbol: string,
-  },
-} => ({
-  type: SET_SYMBOL,
-  payload: {
-    symbol,
-  },
-})
-
-export const setDecimals = (decimals: string): {
-  type: string,
-  payload: {
-    decimals: string,
-  },
-} => ({
-  type: SET_DECIMALS,
-  payload: {
-    decimals,
-  },
-})
-
-export const add = (): { type: string } => ({
-  type: ADD,
-})
-
-export const addSuccess = (newDigitalAssets: DigitalAssets): {
-  type: string,
-  payload: {
-    newDigitalAssets: DigitalAssets,
-  },
-} => ({
-  type: ADD_SUCCESS,
-  payload: {
-    newDigitalAssets,
-  },
-})
-
-export const addError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: ADD_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setEditAddress = (address: Address): {
-  type: string,
-  payload: {
-    address: Address,
-  },
-} => ({
-  type: SET_EDIT_ADDRESS,
-  payload: {
-    address,
-  },
-})
-
-export const setEditAddressSuccess = (digitalAsset: DigitalAsset): {
-  type: string,
-  payload: {
-    digitalAsset: DigitalAsset,
-  },
-} => ({
-  type: SET_EDIT_ADDRESS_SUCCESS,
-  payload: {
-    digitalAsset,
-  },
-})
-
-export const setEditAddressError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SET_EDIT_ADDRESS_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const edit = (): { type: string } => ({
-  type: EDIT,
-})
-
-export const editSuccess = (newDigitalAssets: DigitalAssets): {
-  type: string,
-  payload: {
-    newDigitalAssets: DigitalAssets,
-  },
-} => ({
-  type: EDIT_SUCCESS,
-  payload: {
-    newDigitalAssets,
-  },
-})
-
-export const editError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: EDIT_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const remove = (): { type: string } => ({
-  type: REMOVE,
-})
-
-export const removeSuccess = (newDigitalAssets: DigitalAssets): {
-  type: string,
-  payload: {
-    newDigitalAssets: DigitalAssets,
-  },
-} => ({
-  type: REMOVE_SUCCESS,
-  payload: {
-    newDigitalAssets,
-  },
-})
-
-export const removeError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: REMOVE_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setInvalidField = (fieldName: string, message: string): {
-  type: string,
-  payload: {
-    fieldName: string,
-    message: string,
-  },
-} => ({
-  type: SET_INVALID_FIELD,
-  payload: {
-    fieldName,
-    message,
-  },
-})
-
-export const clean = (): { type: string } => ({
-  type: CLEAN,
-})
-
-const initialState: CustomAssetData = {
-  invalidFields: {},
-  address: '',
-  name: '',
-  symbol: '',
-  decimals: '',
+export function openCustomAssetAdd() {
+  return {
+    type: OPEN_ADD_VIEW,
+  }
 }
 
-const customAsset = (
-  state: CustomAssetData = initialState,
-  action: FSA,
-): Object => {
-  const { type, payload }: FSA = action
+export function openCustomAssetEdit(assetAddress: Address) {
+  return {
+    type: OPEN_EDIT_VIEW,
+    payload: {
+      address: assetAddress,
+    },
+  }
+}
 
-  switch (type) {
-    case SET_ADDRESS:
-    case SET_EDIT_ADDRESS: {
-      return compose(
-        assoc('address', payload.address),
-        assocPath(['invalidFields', 'address'], ''),
-      )(state)
-    }
+export function close() {
+  return {
+    type: CLOSE_VIEW,
+  }
+}
 
-    case SET_EDIT_ADDRESS_SUCCESS: {
-      return compose(
-        assoc('name', payload.digitalAsset.name),
-        assoc('symbol', payload.digitalAsset.symbol),
-        assoc('decimals', payload.digitalAsset.decimals),
-        assocPath(['invalidFields', 'name'], ''),
-        assocPath(['invalidFields', 'symbol'], ''),
-        assocPath(['invalidFields', 'decimals'], ''),
-      )(state)
-    }
+/**
+ * Add asset events
+ */
 
-    case SET_NAME: {
-      return compose(
-        assoc('name', payload.name),
-        assocPath(['invalidFields', 'name'], ''),
-      )(state)
-    }
+export function add() {
+  return {
+    type: ADD,
+  }
+}
 
-    case SET_SYMBOL: {
-      return compose(
-        assoc('symbol', payload.symbol),
-        assocPath(['invalidFields', 'symbol'], ''),
-      )(state)
-    }
+export function addSuccess(newDigitalAssets: DigitalAssets) {
+  return {
+    type: ADD_SUCCESS,
+    payload: {
+      newDigitalAssets,
+    },
+  }
+}
 
-    case SET_DECIMALS: {
-      return compose(
-        assoc('decimals', payload.decimals),
-        assocPath(['invalidFields', 'decimals'], ''),
-      )(state)
+export function addError(err: Object) {
+  return {
+    type: ADD_ERROR,
+    payload: err,
+    error: true,
+  }
+}
+
+/**
+ * Edit asset events
+ */
+
+export function edit() {
+  return {
+    type: EDIT,
+  }
+}
+
+export function editSuccess(newDigitalAssets: DigitalAssets) {
+  return {
+    type: EDIT_SUCCESS,
+    payload: {
+      newDigitalAssets,
+    },
+  }
+}
+
+export function editError(err: Object) {
+  return {
+    type: EDIT_ERROR,
+    payload: err,
+    error: true,
+  }
+}
+
+/**
+ * Edit asset events
+ */
+
+export function remove() {
+  return {
+    type: REMOVE,
+  }
+}
+
+export function removeSuccess(newDigitalAssets: DigitalAssets) {
+  return {
+    type: REMOVE_SUCCESS,
+    payload: {
+      newDigitalAssets,
+    },
+  }
+}
+
+export function removeError(err: Object) {
+  return {
+    type: REMOVE_ERROR,
+    payload: err,
+    error: true,
+  }
+}
+
+/**
+ * Actions, that can affect application state
+ */
+
+/* eslint-disable max-len */
+export const ADD_ASSET: '@@customAsset/ADD_ASSET' = '@@customAsset/ADD_ASSET'
+
+export const SET_FIELD: '@@customAsset/SET_FIELD' = '@@customAsset/SET_FIELD'
+export const SET_INVALID_FIELD: '@@customAsset/SET_INVALID_FIELD' = '@@customAsset/SET_INVALID_FIELD'
+
+export const START_ASSET_LOADING: '@@customAsset/START_ASSET_LOADING' = '@@customAsset/START_ASSET_LOADING'
+export const TERM_ASSET_LOADING: '@@customAsset/TERM_ASSET_LOADING' = '@@customAsset/TERM_ASSET_LOADING'
+export const SET_ASSET_IS_VALID: '@@customAsset/SET_ASSET_IS_VALID' = '@@customAsset/SET_ASSET_IS_VALID'
+/* eslint-enable max-len */
+
+// -> to be moved to DigitalAssets module
+export function addAsset() {
+  return {
+    type: ADD_ASSET,
+  }
+}
+
+export function startAssetLoading(contractAddress: Address) {
+  return {
+    type: START_ASSET_LOADING,
+    payload: {
+      contractAddress,
+    },
+  }
+}
+
+/**
+ * Not used now, to be removed
+ */
+export function terminateAssetLoading() {
+  return {
+    type: TERM_ASSET_LOADING,
+  }
+}
+
+export function setIsAssetValid(isAssetValid: boolean) {
+  return {
+    type: SET_ASSET_IS_VALID,
+    payload: {
+      isAssetValid,
+    },
+  }
+}
+
+export function setField(fieldName: $Keys<CustomAssetFormFields>, value: string) {
+  return {
+    type: SET_FIELD,
+    payload: {
+      fieldName,
+      value,
+    },
+  }
+}
+
+export function setFieldError(fieldName: $Keys<CustomAssetFormFields>, message: string) {
+  return {
+    type: SET_INVALID_FIELD,
+    payload: {
+      fieldName,
+      message,
+    },
+  }
+}
+
+export function clearFieldError(fieldName: $Keys<CustomAssetFormFields>) {
+  return setFieldError(fieldName, '')
+}
+
+export function clean() {
+  return {
+    type: CLEAN,
+  }
+}
+
+type CustomAssetActions = ExtractReturn<typeof setField> |
+  ExtractReturn<typeof setFieldError> |
+  ExtractReturn<typeof startAssetLoading> |
+  ExtractReturn<typeof terminateAssetLoading> |
+  ExtractReturn<typeof setAssetIsValid> |
+  ExtractReturn<typeof clean>
+
+const initialState: CustomAssetState = {
+  invalidFields: {
+    address: '',
+    name: '',
+    symbol: '',
+    decimals: '',
+  },
+  formFields: {
+    address: '',
+    name: '',
+    symbol: '',
+    decimals: '',
+  },
+
+  isAssetValid: false,
+  isAssetLoaded: false,
+  isAssetLoading: false,
+  requestedAddress: '',
+}
+
+function customAsset(
+  state: CustomAssetState = initialState,
+  action: CustomAssetActions,
+): CustomAssetState {
+  switch (action.type) {
+    case SET_FIELD: {
+      const { fieldName, value } = action.payload
+
+      return {
+        ...state,
+        invalidFields: {
+          ...state.invalidFields,
+          [fieldName]: '',
+        },
+        formFields: {
+          ...state.formFields,
+          [fieldName]: value,
+        },
+      }
     }
 
     case SET_INVALID_FIELD: {
-      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
+      const { fieldName, message } = action.payload
+
+      return {
+        ...state,
+        invalidFields: {
+          ...state.invalidFields,
+          [fieldName]: message,
+        },
+      }
     }
 
-    case CLEAN: return initialState
+    case START_ASSET_LOADING: {
+      const { contractAddress } = action.payload
+
+      return {
+        ...state,
+        isAssetValid: false,
+        isAssetLoaded: false,
+        isAssetLoading: true,
+        requestedAddress: contractAddress,
+      }
+    }
+
+    /**
+     * Not used now, to be removed
+    */
+    case TERM_ASSET_LOADING: {
+      return {
+        ...state,
+        isAssetValid: false,
+        isAssetLoaded: false,
+        isAssetLoading: false,
+        requestedAddress: '',
+      }
+    }
+
+    case SET_ASSET_IS_VALID: {
+      const { isAssetValid } = action.payload
+
+      return {
+        ...state,
+        isAssetValid,
+        isAssetLoaded: true,
+        isAssetLoading: false,
+        requestedAddress: '',
+      }
+    }
+
+    case CLEAN:
+      return initialState
 
     default: return state
   }
