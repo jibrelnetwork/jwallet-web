@@ -113,6 +113,7 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
   }
 
   render() {
+    const { goToWallets } = this.props
     const { name, countdown, isDeleteInitialised } = this.state
 
     if (!name) {
@@ -122,7 +123,7 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
     return (
       <div className='wallets-delete-view'>
         <ModalHeader
-          onBack={this.props.goToWallets}
+          onBack={goToWallets}
           color='white'
           title='Delete wallet'
         />
@@ -131,7 +132,7 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
             <JThumbnail
               color='white'
               image='auth-cross'
-              title={`Delete ${name} wallet`}
+              title={`Delete ${name}?`}
               description={[
                 'All user data, including imported or generated private keys, will be deleted.',
                 'The only way to restore deleted wallet is to use the backup phrase.',
