@@ -8,11 +8,12 @@ import WalletsStartView from './WalletsStartView'
 import {
   openView,
   closeView,
-} from './modules/start'
+} from './modules/walletsStart'
 
 const mapDispatchToProps = {
   openView,
   closeView,
+  goToTerms: () => push('/terms'),
   createWallet: () => push('/wallets/create'),
   importWallet: () => push('/wallets/import'),
 }

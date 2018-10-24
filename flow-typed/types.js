@@ -233,7 +233,7 @@ declare type WalletsImportState = {|
   +data: string,
   +passphrase: string,
   +derivationPath: string,
-  +walletType: WalletCustomType,
+  +walletType: ?WalletCustomType,
   +currentStep: WalletsImportStepIndex,
 |}
 

@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import WalletsAddressesView from './WalletsAddressesView'
 
@@ -38,6 +39,7 @@ const mapDispatchToProps = {
   closeView,
   getMoreRequest,
   setActiveRequest,
+  goToWallets: () => push('/wallets'),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletsAddressesView)

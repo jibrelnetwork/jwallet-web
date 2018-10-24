@@ -7,6 +7,7 @@ import { JThumbnail, JFlatButton } from 'components/base'
 
 type Props = {|
   +closeView: () => void,
+  +goToWallets: () => void,
   +openView: (string) => void,
   +deleteRequest: (Wallets, string) => void,
   +items: Wallets,
@@ -112,6 +113,7 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
   }
 
   render() {
+    const { goToWallets } = this.props
     const { name, countdown, isDeleteInitialised } = this.state
 
     if (!name) {
@@ -119,16 +121,22 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
     }
 
     return (
-      <div className='wallets-delete-view'>
-        <ModalHeader title='Delete wallet' color='white' location='/wallets' />
+      <div className='wallets-view -delete'>
+        <ModalHeader
+          onBack={goToWallets}
+          color='white'
+          title='Delete wallet'
+        />
         <div className='content'>
           <div className='form'>
             <JThumbnail
               color='white'
               image='auth-cross'
-              title={`Delete ${name} wallet`}
-              description={'All user data, including imported ' +
-                'or generated private keys, will be deleted.'}
+              title={`Delete ${name}?`}
+              description={[
+                'All user data, including imported or generated private keys, will be deleted.',
+                'The only way to restore deleted wallet is to use the backup phrase.',
+              ]}
             />
             <div className='actions'>
               {isDeleteInitialised ? (

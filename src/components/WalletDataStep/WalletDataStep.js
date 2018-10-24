@@ -49,6 +49,7 @@ const WalletDataStep = ({
       name='wallet-data'
       placeholder='Address, Private key, BIP32 XPUB, Mnemonic'
       rows={2}
+      isAutoFocus
     />
     {isMnemonic && (
       <Fragment>

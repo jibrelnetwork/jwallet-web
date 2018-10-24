@@ -124,12 +124,12 @@
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
 
   // Views
-  @import '../routes/CustomAsset/styles/customAsset';
-  @import '../routes/DigitalAssets/styles/digitalAssets';
   @import '../routes/Funds/styles/funds';
   @import '../routes/NotFound/styles/notFound';
+  @import '../routes/Wallets/styles/walletsView';
+  @import '../routes/CustomAsset/styles/customAsset';
   @import '../routes/Transactions/styles/transactions';
-  @import '../routes/Wallets/styles/wallets';
+  @import '../routes/DigitalAssets/styles/digitalAssets';
 
   // Layouts
   @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';

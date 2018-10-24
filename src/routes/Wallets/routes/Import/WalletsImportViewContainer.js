@@ -30,7 +30,7 @@ type StateProps = {|
   +passwordHint: string,
   +derivationPath: string,
   +passwordConfirm: string,
-  +walletType: WalletCustomType,
+  +walletType: ?WalletCustomType,
   +currentStep: WalletsImportStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,

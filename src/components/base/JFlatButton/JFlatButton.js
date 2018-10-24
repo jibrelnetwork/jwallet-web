@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
+import handle from 'utils/eventHandlers/handle'
 import { JIcon, JLoader, JText } from 'components/base'
 
 type Props = {|
@@ -17,10 +18,15 @@ type Props = {|
   +isDisabled: boolean,
   +isBordered: boolean,
   +isTransparent: boolean,
+  +isUnderscored: boolean,
   +isHoverOpacity: boolean,
 |}
 
-class JFlatButton extends PureComponent<Props, *> {
+type StateProps = {|
+  isHovered: boolean,
+|}
+
+class JFlatButton extends PureComponent<Props, StateProps> {
   static defaultProps = {
     label: null,
     iconName: null,
@@ -32,7 +38,20 @@ class JFlatButton extends PureComponent<Props, *> {
     isDisabled: false,
     isBordered: false,
     isTransparent: false,
+    isUnderscored: false,
     isHoverOpacity: false,
+  }
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isHovered: false,
+    }
+  }
+
+  onHover = (isHovered: boolean) => {
+    this.setState({ isHovered })
   }
 
   render() {
@@ -48,8 +67,13 @@ class JFlatButton extends PureComponent<Props, *> {
       isDisabled,
       isBordered,
       isTransparent,
+      isUnderscored,
       isHoverOpacity,
     } = this.props
+
+    const {
+      isHovered,
+    }: StateProps = this.state
 
     if (isLoading) {
       return (
@@ -59,9 +83,13 @@ class JFlatButton extends PureComponent<Props, *> {
       )
     }
 
+    const isUnderscoredAndHovered: boolean = (isUnderscored && isHovered)
+
     return (
       <div
         onClick={isDisabled ? null : onClick}
+        onMouseEnter={handle(this.onHover)(true)}
+        onMouseLeave={handle(this.onHover)(false)}
         className={classNames(
           `j-flat-button -${color}`,
           label && '-label',
@@ -69,6 +97,7 @@ class JFlatButton extends PureComponent<Props, *> {
           isBordered && '-border',
           isDisabled && '-disabled',
           isTransparent && '-transparent',
+          isUnderscored && '-underscored',
           isHoverOpacity && '-hover-opacity',
         )}
       >
@@ -78,7 +107,12 @@ class JFlatButton extends PureComponent<Props, *> {
           </div>
         )}
         {label && (
-          <JText value={label} color={color} weight='bold' />
+          <JText
+            value={label}
+            weight={isUnderscored ? null : 'bold'}
+            color={isUnderscoredAndHovered ? 'sky' : color}
+            decoration={isUnderscored ? 'underline' : null}
+          />
         )}
       </div>
     )

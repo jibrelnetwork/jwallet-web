@@ -1,5 +1,6 @@
 // @flow
 
+import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
 import walletsWorker from 'workers/wallets'
@@ -102,11 +103,15 @@ function* goToWalletsCreateNameStep(): Saga<void> {
 }
 
 function* setPrevStep(): Saga<void> {
+  const { items }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      yield put(wallets.goToStartView())
+      const isEmptyWallets: boolean = !items.length
+
+      yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
+
       break
     }
 

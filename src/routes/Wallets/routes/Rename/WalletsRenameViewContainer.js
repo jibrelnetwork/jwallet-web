@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import { changeNameInput } from '../../modules/wallets'
 
@@ -40,6 +41,7 @@ const mapDispatchToProps = {
   closeView,
   renameRequest,
   changeNameInput,
+  goToWallets: () => push('/wallets'),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletsRenameView)

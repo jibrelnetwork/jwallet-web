@@ -1,15 +1,27 @@
 // @flow
 
-import { delay } from 'redux-saga'
+import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import config from 'config'
 import walletsWorker from 'workers/wallets'
+import getWallet from 'utils/wallets/getWallet'
 import { fileSaver, clipboard } from 'services'
 import { selectWallets, selectWalletsBackup } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsBackup from '../modules/walletsBackup'
+
+function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<void> {
+  yield put(wallets.clean())
+  yield put(walletsBackup.clean())
+
+  const { items }: WalletsState = yield select(selectWallets)
+  const foundWallet: ?Wallet = getWallet(items, action.payload.walletId)
+
+  if (!foundWallet || foundWallet.isReadOnly) {
+    yield put(push('/wallets'))
+  }
+}
 
 function* backupWallet(walletId: string): Saga<void> {
   const { items, password } = yield select(selectWallets)
@@ -36,11 +48,6 @@ function* backupSuccess(): Saga<void> {
   yield put(walletsBackup.setCurrentStep(walletsBackup.STEPS.PRIVATE))
 }
 
-function* closeView(): Saga<void> {
-  yield delay(config.delayBeforeFormClean)
-  yield put(walletsBackup.clean())
-}
-
 function* setNextStep(action: ExtractReturn<typeof walletsBackup.goToNextStep>): Saga<void> {
   const { walletId } = action.payload
   const { currentStep }: WalletsBackupState = yield select(selectWalletsBackup)
@@ -61,7 +68,7 @@ function* setPrevStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
-      yield put(wallets.goToStartView())
+      yield put(push('/wallets'))
       break
     }
 
@@ -85,13 +92,8 @@ function* copyToClipboard(): Saga<void> {
   clipboard.copyText(data)
 }
 
-function* clean(): Saga<void> {
-  yield put(wallets.clean())
-}
-
 export function* walletsBackupRootSaga(): Saga<void> {
-  yield takeEvery(walletsBackup.CLEAN, clean)
-  yield takeEvery(walletsBackup.CLOSE_VIEW, closeView)
+  yield takeEvery(walletsBackup.OPEN_VIEW, openView)
   yield takeEvery(walletsBackup.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsBackup.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsBackup.BACKUP_ERROR, backupError)

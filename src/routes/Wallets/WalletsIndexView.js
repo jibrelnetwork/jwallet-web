@@ -10,6 +10,7 @@ import NewWalletButtons from 'components/NewWalletButtons'
 
 type Props = {|
   +openView: () => void,
+  +closeView: () => void,
   +createWallet: () => void,
   +importWallet: () => void,
   +renameWallet: (WalletId) => void,
@@ -26,6 +27,10 @@ class WalletsIndexView extends Component<Props> {
     this.props.openView()
   }
 
+  componentWillUnmount() {
+    this.props.closeView()
+  }
+
   render() {
     const {
       createWallet,
@@ -40,7 +45,7 @@ class WalletsIndexView extends Component<Props> {
     }: Props = this.props
 
     return (
-      <div className='wallets-index-view'>
+      <div className='wallets-view -index'>
         <WalletHeader />
         <div className='content'>
           {items.map(item => (

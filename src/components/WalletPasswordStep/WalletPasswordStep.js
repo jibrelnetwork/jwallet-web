@@ -61,6 +61,8 @@ class WalletPasswordStep extends PureComponent<Props> {
             name='password'
             type='password'
             placeholder='Password'
+            isDisabled={isLoading}
+            isAutoFocus
           />
         ) : (
           <Fragment>
@@ -72,6 +74,7 @@ class WalletPasswordStep extends PureComponent<Props> {
               valueConfirm={valuePasswordConfirm}
               placeholder='Password'
               placeholderConfirm='Confirm password'
+              isDisabled={isLoading}
             />
             <JInput
               onChange={onChangePasswordHint}
@@ -80,6 +83,7 @@ class WalletPasswordStep extends PureComponent<Props> {
               color='white'
               name='password-hint'
               placeholder='Password hint'
+              isDisabled={isLoading}
             />
           </Fragment>
         )}

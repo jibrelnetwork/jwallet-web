@@ -17,6 +17,7 @@ type Props = {|
   +placeholder: string,
   +valueConfirm: ?string,
   +placeholderConfirm: string,
+  +isDisabled: boolean,
 |}
 
 type StateProps = {
@@ -98,6 +99,7 @@ class PasswordField extends Component<Props, StateProps> {
       placeholder,
       valueConfirm,
       placeholderConfirm,
+      isDisabled,
     }: Props = this.props
 
     return (
@@ -110,6 +112,8 @@ class PasswordField extends Component<Props, StateProps> {
           infoMessage={this.getInfoMessage()}
           type='password'
           name='password'
+          isDisabled={isDisabled}
+          isAutoFocus
         />
         <div className='confirmation'>
           <Indicator status={this.getStatus()} />
@@ -120,6 +124,7 @@ class PasswordField extends Component<Props, StateProps> {
             errorMessage={invalidFields.passwordConfirm}
             type='password'
             name='password-confirm'
+            isDisabled={isDisabled}
           />
         </div>
       </div>

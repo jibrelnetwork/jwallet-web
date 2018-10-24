@@ -8,6 +8,7 @@ import WalletNameStep from 'components/WalletNameStep'
 
 type Props = {|
   +closeView: () => void,
+  +goToWallets: () => void,
   +openView: (string) => void,
   +changeNameInput: (string) => void,
   +renameRequest: (Wallets, string, string) => void,
@@ -36,6 +37,7 @@ class WalletsRenameView extends Component<Props> {
 
   render() {
     const {
+      goToWallets,
       renameRequest,
       changeNameInput,
       items,
@@ -46,14 +48,19 @@ class WalletsRenameView extends Component<Props> {
     } = this.props
 
     return (
-      <div className='wallets-rename-view'>
-        <ModalHeader title='Rename wallet' color='white' location='/wallets' />
+      <div className='wallets-view -rename'>
+        <ModalHeader
+          onBack={goToWallets}
+          color='white'
+          title='Rename wallet'
+        />
         <div className='content'>
           <WalletNameStep
             onSubmit={handle(renameRequest)(items, name, params.walletId)}
             onChangeName={changeNameInput}
             invalidFields={invalidFields}
             valueName={name}
+            buttonLabel='OK'
             isLoading={isLoading}
           />
         </div>
