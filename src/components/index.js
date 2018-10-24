@@ -22,6 +22,7 @@ import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
 import RoundIconButton from './RoundIconButton'
+import NewWalletButtons from './NewWalletButtons'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import ActiveAssetsPanel from './ActiveAssetsPanel'
 import WalletPasswordStep from './WalletPasswordStep'
@@ -49,6 +50,7 @@ export {
   WalletDataStep,
   WalletNameStep,
   RoundIconButton,
+  NewWalletButtons,
   ActiveAssetsPanel,
   ButtonWithConfirm,
   WalletPasswordStep,
