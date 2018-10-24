@@ -1,35 +1,45 @@
 // @flow
 
+import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
+import keystore from 'services/keystore'
 import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsImport } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsImport from '../modules/walletsImport'
 
-function* checkDerivationPath(): Saga<void> {
-  const { derivationPath }: WalletsImportState = yield select(selectWalletsImport)
+function* checkData(): Saga<void> {
+  const {
+    data,
+    walletType,
+    derivationPath,
+  }: WalletsImportState = yield select(selectWalletsImport)
 
-  if (!derivationPath) {
-    yield put(walletsImport.checkDerivationPathSuccess())
+  if (!data) {
+    yield put(walletsImport.setInvalidField('data', 'Data is empty'))
+
+    return
   }
 
-  yield put(wallets.setIsLoading(true))
+  if (!walletType) {
+    yield put(walletsImport.setInvalidField('data', 'Data is invalid'))
 
-  walletsWorker.checkDerivationPathRequest(derivationPath)
-}
+    return
+  }
 
-function* checkDerivationPathError(
-  action: ExtractReturn<typeof walletsImport.checkDerivationPathError>,
-): Saga<void> {
-  yield put(walletsImport.setInvalidField('derivationPath', action.payload.message))
-  yield put(wallets.setIsLoading(false))
-}
+  if (derivationPath) {
+    try {
+      keystore.checkDerivationPath(derivationPath)
+    } catch (err) {
+      yield put(walletsImport.setInvalidField('derivationPath', 'Derivation path is not valid'))
 
-function* checkDerivationPathSuccess(): Saga<void> {
+      return
+    }
+  }
+
   yield put(walletsImport.setCurrentStep(walletsImport.STEPS.PASSWORD))
-  yield put(wallets.setIsLoading(false))
 }
 
 function* importWallet(): Saga<void> {
@@ -112,15 +122,14 @@ function* importSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
   yield put(wallets.setActiveWallet(importedWallet.id))
 }
 
-function checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataInput>) {
-  const { data } = action.payload
-
-  walletsWorker.checkWalletTypeRequest(data)
+function* checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataInput>) {
+  const walletType: ?WalletCustomType = keystore.getDataType(action.payload.data)
+  yield put(walletsImport.setWalletType(walletType))
 }
 
 export function* setNextStep(): Saga<void> {
   const { items, name }: WalletsState = yield select(selectWallets)
-  const { currentStep }: WalletsCreateState = yield select(selectWalletsImport)
+  const { currentStep }: WalletsImportState = yield select(selectWalletsImport)
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
@@ -129,7 +138,7 @@ export function* setNextStep(): Saga<void> {
     }
 
     case walletsImport.STEPS.DATA: {
-      yield* checkDerivationPath()
+      yield* checkData()
       break
     }
 
@@ -152,11 +161,15 @@ function* goToWalletsImportDataStep(): Saga<void> {
 }
 
 export function* setPrevStep(): Saga<void> {
-  const { currentStep }: WalletsCreateState = yield select(selectWalletsImport)
+  const { items }: WalletsState = yield select(selectWallets)
+  const { currentStep }: WalletsImportState = yield select(selectWalletsImport)
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      yield put(wallets.goToStartView())
+      const isEmptyWallets: boolean = !items.length
+
+      yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
+
       break
     }
 
@@ -188,6 +201,4 @@ export function* walletsImportRootSaga(): Saga<void> {
   yield takeEvery(walletsImport.IMPORT_ERROR, importError)
   yield takeEvery(walletsImport.IMPORT_SUCCESS, importSuccess)
   yield takeEvery(walletsImport.CHANGE_DATA_INPUT, checkWalletType)
-  yield takeEvery(walletsImport.CHECK_DERIVATION_PATH_ERROR, checkDerivationPathError)
-  yield takeEvery(walletsImport.CHECK_DERIVATION_PATH_SUCCESS, checkDerivationPathSuccess)
 }

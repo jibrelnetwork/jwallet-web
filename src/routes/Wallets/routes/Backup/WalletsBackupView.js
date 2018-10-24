@@ -3,8 +3,7 @@
 import React, { Component } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import { JRaisedButton } from 'components/base'
-import { ModalHeader, CopyableField, WalletPasswordStep } from 'components'
+import { ModalHeader, CopyableField, WalletPasswordStep, WalletStep } from 'components'
 
 import { STEPS } from './modules/walletsBackup'
 
@@ -86,7 +85,6 @@ class WalletsBackupView extends Component<Props> {
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          location='/wallets'
           title='Backup wallet'
         />
         <div className='content'>
@@ -96,26 +94,23 @@ class WalletsBackupView extends Component<Props> {
               onChangePassword={changePasswordInput}
               invalidFields={invalidFields}
               valuePassword={password}
+              buttonLabel='OK'
               isLoading={isLoading}
               isPasswordExists
             />
           )}
           {(currentStep === STEPS.PRIVATE) && (
-            <div className='wallet-private-step'>
-              <form className='form' onSubmit={downloadToTxt}>
-                <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />
-                <div className='actions'>
-                  <JRaisedButton
-                    onClick={downloadToTxt}
-                    color='blue'
-                    loaderColor='white'
-                    label='Download as TXT'
-                    isLoading={isLoading}
-                    isWide
-                  />
-                </div>
-              </form>
-            </div>
+            <WalletStep
+              onSubmit={downloadToTxt}
+              title={[
+                'This backup phrase is the only way to restore access to your',
+                'funds. Keep it secure!',
+              ]}
+              buttonLabel='Download as TXT'
+              isLoading={isLoading}
+            >
+              <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />
+            </WalletStep>
           )}
         </div>
       </div>

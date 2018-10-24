@@ -1,6 +1,7 @@
 // @flow
 
 import { delay } from 'redux-saga'
+import { push } from 'react-router-redux'
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
@@ -26,7 +27,6 @@ function* openView(): Saga<void> {
 }
 
 function* closeView(): Saga<void> {
-  yield delay(config.delayBeforeFormClean)
   yield put(walletsAddresses.clean())
 }
 
@@ -50,6 +50,7 @@ function* setActiveSuccess(
   action: ExtractReturn<typeof walletsAddresses.setActiveSuccess>,
 ): Saga<void> {
   yield put(wallets.setWallets(action.payload.items))
+  yield put(push('/wallets'))
 }
 
 function getMore(

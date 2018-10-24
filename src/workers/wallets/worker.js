@@ -78,41 +78,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
       break
     }
 
-    case walletsImport.CHECK_WALLET_TYPE_REQUEST: {
-      const { data } = action.payload
-
-      if (utils.checkMnemonicValid(data)) {
-        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('mnemonic'))
-      } else if (utils.checkBip32XPublicKeyValid(data)) {
-        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('bip32Xpub'))
-      } else if (utils.checkPrivateKeyValid(data)) {
-        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('privateKey'))
-      } else if (utils.checkAddressValid(data)) {
-        walletsWorker.postMessage(walletsImport.checkWalletTypeSuccess('address'))
-      } else {
-        walletsWorker.postMessage(
-          walletsImport.checkWalletTypeError('Please input valid wallet data'),
-        )
-      }
-
-      break
-    }
-
-    case walletsImport.CHECK_DERIVATION_PATH_REQUEST: {
-      const { derivationPath } = action.payload
-      const isValid: boolean = utils.checkDerivationPathValid(derivationPath)
-
-      if (isValid) {
-        walletsWorker.postMessage(walletsImport.checkDerivationPathSuccess())
-      } else {
-        walletsWorker.postMessage(
-          walletsImport.checkDerivationPathError('Derivation path is not valid'),
-        )
-      }
-
-      break
-    }
-
     case walletsCreate.CREATE_REQUEST: {
       try {
         const {

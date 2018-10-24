@@ -53,10 +53,6 @@
     font-size: 18px;
   }
 
-  &.-mnemonic {
-    font-size: 20px;
-  }
-
   &.-title {
     font-size: 25px;
   }
@@ -93,5 +89,11 @@
 
   &.-center {
     text-align: center;
+  }
+
+  // Decoration
+
+  &.-underline {
+    text-decoration: underline;
   }
 }

@@ -32,14 +32,6 @@ export function checkNameRequest(
   walletsWorker.postMessage(wallets.checkNameRequest(items, name, newWalletLocation))
 }
 
-export function checkWalletTypeRequest(data: string) {
-  walletsWorker.postMessage(walletsImport.checkWalletTypeRequest(data))
-}
-
-export function checkDerivationPathRequest(derivationPath: string) {
-  walletsWorker.postMessage(walletsImport.checkDerivationPathRequest(derivationPath))
-}
-
 export function createRequest(walletsData: WalletsState) {
   const {
     name,
