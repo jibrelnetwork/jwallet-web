@@ -76,8 +76,8 @@ class WalletsImportView extends Component<Props> {
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          location='/wallets'
           title='Import wallet'
+          isDisabled={isLoading}
         />
         <div className='content'>
           {(currentStep === STEPS.NAME) && (

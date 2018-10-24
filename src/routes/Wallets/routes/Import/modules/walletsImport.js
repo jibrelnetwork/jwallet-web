@@ -13,17 +13,11 @@ export const CHANGE_DATA_INPUT: '@@walletsImport/CHANGE_DATA_INPUT' = '@@wallets
 export const CHANGE_PASSPHRASE_INPUT: '@@walletsImport/CHANGE_PASSPHRASE_INPUT' = '@@walletsImport/CHANGE_PASSPHRASE_INPUT'
 export const CHANGE_DERIVATION_PATH_INPUT: '@@walletsImport/CHANGE_DERIVATION_PATH_INPUT' = '@@walletsImport/CHANGE_DERIVATION_PATH_INPUT'
 
-export const CHECK_WALLET_TYPE_ERROR: '@@walletsImport/CHECK_WALLET_TYPE_ERROR' = '@@walletsImport/CHECK_WALLET_TYPE_ERROR'
-export const CHECK_WALLET_TYPE_SUCCESS: '@@walletsImport/CHECK_WALLET_TYPE_SUCCESS' = '@@walletsImport/CHECK_WALLET_TYPE_SUCCESS'
-export const CHECK_WALLET_TYPE_REQUEST: '@@walletsImport/CHECK_WALLET_TYPE_REQUEST' = '@@walletsImport/CHECK_WALLET_TYPE_REQUEST'
+export const SET_WALLET_TYPE: '@@walletsImport/SET_WALLET_TYPE' = '@@walletsImport/SET_WALLET_TYPE'
 
 export const GO_TO_NEXT_STEP: '@@walletsImport/GO_TO_NEXT_STEP' = '@@walletsImport/GO_TO_NEXT_STEP'
 export const GO_TO_PREV_STEP: '@@walletsImport/GO_TO_PREV_STEP' = '@@walletsImport/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP: '@@walletsImport/SET_CURRENT_STEP' = '@@walletsImport/SET_CURRENT_STEP'
-
-export const CHECK_DERIVATION_PATH_ERROR: '@@walletsImport/CHECK_DERIVATION_PATH_ERROR' = '@@walletsImport/CHECK_DERIVATION_PATH_ERROR'
-export const CHECK_DERIVATION_PATH_SUCCESS: '@@walletsImport/CHECK_DERIVATION_PATH_SUCCESS' = '@@walletsImport/CHECK_DERIVATION_PATH_SUCCESS'
-export const CHECK_DERIVATION_PATH_REQUEST: '@@walletsImport/CHECK_DERIVATION_PATH_REQUEST' = '@@walletsImport/CHECK_DERIVATION_PATH_REQUEST'
 
 export const IMPORT_ERROR: '@@walletsImport/IMPORT_ERROR' = '@@walletsImport/IMPORT_ERROR'
 export const IMPORT_SUCCESS: '@@walletsImport/IMPORT_SUCCESS' = '@@walletsImport/IMPORT_SUCCESS'
@@ -79,30 +73,11 @@ export function changePassphraseInput(passphrase: string) {
   }
 }
 
-export function checkWalletTypeError(message: string) {
+export function setWalletType(walletType: ?WalletCustomType) {
   return {
-    type: CHECK_WALLET_TYPE_ERROR,
-    payload: {
-      message,
-    },
-    error: true,
-  }
-}
-
-export function checkWalletTypeSuccess(walletType: WalletCustomType) {
-  return {
-    type: CHECK_WALLET_TYPE_SUCCESS,
+    type: SET_WALLET_TYPE,
     payload: {
       walletType,
-    },
-  }
-}
-
-export function checkWalletTypeRequest(data: string) {
-  return {
-    type: CHECK_WALLET_TYPE_REQUEST,
-    payload: {
-      data,
     },
   }
 }
@@ -124,31 +99,6 @@ export function setCurrentStep(currentStep: WalletsImportStepIndex) {
     type: SET_CURRENT_STEP,
     payload: {
       currentStep,
-    },
-  }
-}
-
-export function checkDerivationPathError(message: string) {
-  return {
-    type: CHECK_DERIVATION_PATH_ERROR,
-    payload: {
-      message,
-    },
-    error: true,
-  }
-}
-
-export function checkDerivationPathSuccess() {
-  return {
-    type: CHECK_DERIVATION_PATH_SUCCESS,
-  }
-}
-
-export function checkDerivationPathRequest(derivationPath: string) {
-  return {
-    type: CHECK_DERIVATION_PATH_REQUEST,
-    payload: {
-      derivationPath,
     },
   }
 }
@@ -198,15 +148,10 @@ export type WalletsImportAction =
   ExtractReturn<typeof closeView> |
   ExtractReturn<typeof changePassphraseInput> |
   ExtractReturn<typeof changeDerivationPathInput> |
-  ExtractReturn<typeof checkWalletTypeError> |
-  ExtractReturn<typeof checkWalletTypeSuccess> |
-  ExtractReturn<typeof checkWalletTypeRequest> |
+  ExtractReturn<typeof setWalletType> |
   ExtractReturn<typeof goToNextStep> |
   ExtractReturn<typeof goToPrevStep> |
   ExtractReturn<typeof setCurrentStep> |
-  ExtractReturn<typeof checkDerivationPathError> |
-  ExtractReturn<typeof checkDerivationPathSuccess> |
-  ExtractReturn<typeof checkDerivationPathRequest> |
   ExtractReturn<typeof importError> |
   ExtractReturn<typeof importSuccess> |
   ExtractReturn<typeof importRequest> |
@@ -217,8 +162,8 @@ const initialState: WalletsImportState = {
   invalidFields: {},
   data: '',
   passphrase: '',
+  walletType: null,
   derivationPath: '',
-  walletType: 'address',
   currentStep: STEPS.NAME,
 }
 
@@ -257,7 +202,7 @@ const walletsImport = (
         },
       }
 
-    case CHECK_WALLET_TYPE_SUCCESS:
+    case SET_WALLET_TYPE:
       return {
         ...state,
         walletType: action.payload.walletType,
