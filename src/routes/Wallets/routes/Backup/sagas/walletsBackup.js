@@ -68,7 +68,7 @@ function* setPrevStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
-      yield put(wallets.goToStartView())
+      yield put(push('/wallets'))
       break
     }
 
