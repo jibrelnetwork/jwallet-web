@@ -1,16 +1,12 @@
 import DigitalAssetsLayout from 'layouts/DigitalAssets'
 
-import Balance from './routes/Balance'
-import Custom from './routes/Custom'
-import Popular from './routes/Popular'
+import List from './routes/List'
 
 export default {
   path: 'digital-assets',
   component: DigitalAssetsLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/balance') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/list') },
   childRoutes: [
-    Custom,
-    Popular,
-    Balance,
+    List,
   ],
 }

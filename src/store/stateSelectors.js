@@ -49,7 +49,7 @@ export function selectNetworkId(state: State): ?NetworkId {
 /**
  * Digital Assets
  */
-export function selectDigitalAssets(state: State): DigitalAssetsData {
+export function selectDigitalAssets(state: State): DigitalAssetsState {
   return state.digitalAssets
 }
 
@@ -57,8 +57,8 @@ export function selectDigitalAssetsItems(state: State): DigitalAssets {
   return state.digitalAssets.items
 }
 
-export function selectDigitalAssetsBalances(state: State): Balances {
-  return state.digitalAssets.balances
+export function selectDigitalAssetsBalances({ digitalAssets }: State): Balances {
+  return digitalAssets.balances
 }
 
 export function selectCurrentDigitalAsset(state: State): ?Address {

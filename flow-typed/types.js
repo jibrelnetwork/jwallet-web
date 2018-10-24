@@ -296,35 +296,51 @@ declare type NetworksData = {
 /**
  * Digital assets
  */
-declare type DigitalAssetsListType = 'balance' | 'popular' | 'custom'
+declare type DigitalAssetsFilter = {|
+  +searchQuery: string,
+  +hideZeroBalance: boolean,
+  +myAssetsFirst: boolean,
+  +sortByName: false | 'asc' | 'desc',
+  +sortByBalace: false | 'asc' | 'desc',
+|}
 
-declare type DigitalAsset = {
+declare type DigitalAssetBalances = {
+  [string]: {
+    balance: Bignumber,
+    lastUpdated: ?Date,
+    isLoading: boolean,
+    isError: boolean,
+  }
+}
+
+declare type DigitalAsset = {|
   +address: Address,
   +symbol: string,
   +name: string,
   +decimals: Decimals,
   +isCustom: boolean,
   +isActive: boolean,
-}
+|}
 
-declare type DigitalAssetMainDataWithBalance = {
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +balance: number,
-}
+// declare type DigitalAssetMainDataWithBalance = {
+//   +address: Address,
+//   +symbol: string,
+//   +name: string,
+//   +balance: number,
+// }
 
 declare type DigitalAssets = Array<DigitalAsset>
 
-declare type DigitalAssetsData = {
-  +invalidFields: FormFields,
+declare type DigitalAssetsState = {
   +items: DigitalAssets,
-  +foundAssets: Addresses,
-  +balances: Balances,
-  +searchQuery: string,
-  +isInitialised: boolean,
-  +isBalancesLoading: boolean,
-  +currentAddress: ?Address,
+  +filter: DigitalAssetsFilter,
+  +balances: DigitalAssetBalances,
+  // +foundAssets: Addresses,
+  // +balances: Balances,
+  // +searchQuery: string,
+  // +isInitialised: boolean,
+  // +isBalancesLoading: boolean,
+  // +currentAddress: ?Address,
 }
 
 /**
@@ -443,7 +459,7 @@ declare type State = {|
   // networks
   +networks: NetworksData,
   // digitalAssets
-  +digitalAssets: DigitalAssetsData,
+  +digitalAssets: DigitalAssetsState,
   +customAsset: CustomAssetState,
   // transactions
   +transactions: TransactionsData,
@@ -464,7 +480,7 @@ declare type InitialState = {
   // networks
   networks?: NetworksData,
   // digitalAssets
-  digitalAssets?: DigitalAssetsData,
+  digitalAssets?: DigitalAssetsState,
   customAsset?: CustomAssetState,
   // transactions
   transactions?: TransactionsData,

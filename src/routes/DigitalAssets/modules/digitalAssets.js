@@ -1,299 +1,154 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
+/* eslint-disable max-len */
+export const OPEN_VIEW: '@@digitalAssets/OPEN_VIEW' = '@@digitalAssets/OPEN_VIEW'
+export const CLOSE_VIEW: '@@digitalAssets/CLOSE_VIEW' = '@@digitalAssets/CLOSE_VIEW'
 
-export const INIT = '@@digitalAssets/INIT'
-export const INIT_FINISH = '@@digitalAssets/INIT_FINISH'
-export const OPEN = '@@digitalAssets/OPEN'
-export const CLOSE = '@@digitalAssets/CLOSE'
-export const SET_ASSETS = '@@digitalAssets/SET_ASSETS'
-export const SET_ASSETS_SUCCESS = '@@digitalAssets/SET_ASSETS_SUCCESS'
-export const SET_ACTIVE = '@@digitalAssets/SET_ACTIVE'
-export const SET_CURRENT = '@@digitalAssets/SET_CURRENT'
-export const GET_BALANCES = '@@digitalAssets/GET_BALANCES'
-export const GET_BALANCES_SUCCESS = '@@digitalAssets/GET_BALANCES_SUCCESS'
-export const GET_BALANCES_ERROR = '@@digitalAssets/GET_BALANCES_ERROR'
-export const SET_BALANCES_LOADING = '@@digitalAssets/SET_BALANCES_LOADING'
-export const SET_BALANCE_BY_ADDRESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS'
-export const SET_BALANCE_BY_ADDRESS_SUCCESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS_SUCCESS'
-export const SEARCH = '@@digitalAssets/SEARCH'
-export const SEARCH_SUCCESS = '@@digitalAssets/SEARCH_SUCCESS'
-export const SEARCH_ERROR = '@@digitalAssets/SEARCH_ERROR'
-export const SET_INVALID_FIELD = '@@digitalAssets/SET_INVALID_FIELD'
-export const CLEAN = '@@digitalAssets/CLEAN'
+export const SET_INITIAL_ITEMS: '@@digitalAssets/SET_INITIAL_ITEMS' = '@@digitalAssets/SET_INITIAL_ITEMS'
+export const ADD_ASSET: '@@digitalAssets/ADD_ASSET' = '@@digitalAssets/ADD_ASSET'
+export const REMOVE_ASSET: '@@digitalAssets/REMOVE_ASSET' = '@@digitalAssets/REMOVE_ASSET'
+export const UPDATE_ASSET: '@@digitalAssets/UPDATE_ASSET' = '@@digitalAssets/UPDATE_ASSET'
+export const SET_SEARCH_QUERY: '@@digitalAssets/SET_SEARCH_QUERY' = '@@digitalAssets/SET_SEARCH_QUERY'
+/* eslint-enable max-len */
 
-export const init = (): { type: string } => ({
-  type: INIT,
-})
+export function openView() {
+  return {
+    type: OPEN_VIEW,
+  }
+}
 
-export const initFinish = (): { type: string } => ({
-  type: INIT_FINISH,
-})
+export function closeView() {
+  return {
+    type: CLOSE_VIEW,
+  }
+}
 
-export const open = (): { type: string } => ({
-  type: OPEN,
-})
+export function setInitialItems(items: DigitalAssets) {
+  return {
+    type: SET_INITIAL_ITEMS,
+    payload: {
+      items,
+    },
+  }
+}
 
-export const close = (): { type: string } => ({
-  type: CLOSE,
-})
+export function addAsset(item: DigitalAsset) {
+  return {
+    type: ADD_ASSET,
+    payload: {
+      item,
+    },
+  }
+}
 
-export const setAssets = (items: ?DigitalAssets): {
-  type: string,
-  payload: {
-    items: ?DigitalAssets,
-  },
-} => ({
-  type: SET_ASSETS,
-  payload: {
-    items,
-  },
-})
+export function removeAsset(assetAddress: Address) {
+  return {
+    type: REMOVE_ASSET,
+    payload: {
+      address: assetAddress,
+    },
+  }
+}
 
-export const setAssetsSuccess = (items: DigitalAssets): {
-  type: string,
-  payload: {
-    items: DigitalAssets,
-  },
-} => ({
-  type: SET_ASSETS_SUCCESS,
-  payload: {
-    items,
-  },
-})
+export function updateAsset(item: DigitalAsset) {
+  return {
+    type: UPDATE_ASSET,
+    payload: {
+      item,
+    },
+  }
+}
 
-export const setActive = (address: Address): {
-  type: string,
-  payload: {
-    address: Address,
-  },
-} => ({
-  type: SET_ACTIVE,
-  payload: {
-    address,
-  },
-})
+export function setSearchQuery(query: string) {
+  return {
+    type: SET_SEARCH_QUERY,
+    payload: {
+      query,
+    },
+  }
+}
 
-export const setCurrent = (currentAddress: ?Address): {
-  type: string,
-  payload: {
-    currentAddress: ?Address,
-  },
-} => ({
-  type: SET_CURRENT,
-  payload: {
-    currentAddress,
-  },
-})
+type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
+  | ExtractReturn<typeof addAsset>
+  | ExtractReturn<typeof removeAsset>
+  | ExtractReturn<typeof updateAsset>
+  | ExtractReturn<typeof setSearchQuery>
 
-export const getBalances = (): { type: string } => ({
-  type: GET_BALANCES,
-})
-
-export const getBalancesSuccess = (balances: Balances): {
-  type: string,
-  payload: {
-    balances: Balances,
-  },
-} => ({
-  type: GET_BALANCES_SUCCESS,
-  payload: {
-    balances,
-  },
-})
-
-export const getBalancesError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: GET_BALANCES_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setBalancesLoading = (isBalancesLoading: boolean): {
-  type: string,
-  payload: {
-    isBalancesLoading: boolean,
-  },
-} => ({
-  type: SET_BALANCES_LOADING,
-  payload: {
-    isBalancesLoading,
-  },
-})
-
-export const setBalanceByAddress = (address: Address, balance: number): {
-  type: string,
-  payload: {
-    address: Address,
-    balance: number,
-  },
-} => ({
-  type: SET_BALANCE_BY_ADDRESS,
-  payload: {
-    address,
-    balance,
-  },
-})
-
-export const setBalanceByAddressSuccess = (balances: Balances): {
-  type: string,
-  payload: {
-    balances: Balances,
-  },
-} => ({
-  type: SET_BALANCE_BY_ADDRESS_SUCCESS,
-  payload: {
-    balances,
-  },
-})
-
-export const search = (searchQuery: string): {
-  type: string,
-  payload: {
-    searchQuery: string,
-  },
-} => ({
-  type: SEARCH,
-  payload: {
-    searchQuery,
-  },
-})
-
-export const searchSuccess = (foundAssets: Addresses): {
-  type: string,
-  payload: {
-    foundAssets: Addresses,
-  },
-} => ({
-  type: SEARCH_SUCCESS,
-  payload: {
-    foundAssets,
-  },
-})
-
-export const searchError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SEARCH_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setInvalidField = (fieldName: string, message: string): {
-  type: string,
-  payload: {
-    fieldName: string,
-    message: string,
-  },
-} => ({
-  type: SET_INVALID_FIELD,
-  payload: {
-    fieldName,
-    message,
-  },
-})
-
-export const clean = (): { type: string } => ({
-  type: CLEAN,
-})
-
-const initialState: DigitalAssetsData = {
+const initialState: DigitalAssetsState = {
   items: [],
-  foundAssets: [],
   balances: {},
-  invalidFields: {},
-  searchQuery: '',
-  isInitialised: false,
-  isBalancesLoading: false,
-  currentAddress: null,
+  filter: {
+    searchQuery: '',
+    hideZeroBalance: false,
+    myAssetsFirst: false,
+    sortByName: false,
+    sortByBalace: false,
+  },
 }
 
 const digitalAssets = (
-  state: DigitalAssetsData = initialState,
-  action: FSA,
-): Object => {
-  const { type, payload }: FSA = action
+  state: DigitalAssetsState = initialState,
+  action: DigitalAssetsActions,
+): DigitalAssetsState => {
+  switch (action.type) {
+    case SET_INITIAL_ITEMS: {
+      const { items } = action.payload
 
-  switch (type) {
-    case INIT_FINISH: {
-      return assoc('isInitialised', true)(state)
+      return {
+        ...state,
+        items,
+      }
     }
 
-    case SET_ASSETS_SUCCESS: {
-      return assoc('items', payload.items)(state)
+    case ADD_ASSET: {
+      const { item } = action.payload
+
+      return {
+        ...state,
+        items: [
+          ...state.items,
+          item,
+        ],
+      }
     }
 
-    case SET_CURRENT: {
-      return assoc('currentAddress', payload.currentAddress)(state)
+    case REMOVE_ASSET: {
+      const { address } = action.payload
+
+      return {
+        ...state,
+        items: state.items.filter(item => item.address !== address),
+      }
     }
 
-    case GET_BALANCES: {
-      return compose(
-        assoc('balances', {}),
-        assoc('isBalancesLoading', true),
-      )(state)
+    case UPDATE_ASSET: {
+      const { item: assetItem } = action.payload
+      const { address } = assetItem
+
+      return {
+        ...state,
+        items: state.items.map(
+          item => (item.address === address) ?
+            { ...item, ...assetItem }
+            : item
+        ),
+      }
     }
 
-    case GET_BALANCES_SUCCESS: {
-      return compose(
-        assoc('balances', payload.balances),
-        assoc('isBalancesLoading', false),
-      )(state)
+    case SET_SEARCH_QUERY: {
+      const { query } = action.payload
+
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          searchQuery: query,
+        },
+      }
     }
 
-    case GET_BALANCES_ERROR: {
-      return compose(
-        assoc('balances', {}),
-        assoc('isBalancesLoading', false),
-      )(state)
-    }
-
-    case SET_BALANCES_LOADING: {
-      return assoc('isBalancesLoading', false)(state)
-    }
-
-    case SET_BALANCE_BY_ADDRESS_SUCCESS: {
-      return assoc('balances', payload.balances)(state)
-    }
-
-    case SEARCH: {
-      return compose(
-        assoc('foundAssets', []),
-        assoc('searchQuery', payload.searchQuery),
-        assocPath(['invalidFields', 'searchQuery'], null),
-      )(state)
-    }
-
-    case SEARCH_SUCCESS: {
-      return assoc('foundAssets', payload.foundAssets)(state)
-    }
-
-    case SEARCH_ERROR: {
-      return compose(
-        assoc('foundAssets', []),
-        assoc('searchQuery', ''),
-      )(state)
-    }
-
-    case SET_INVALID_FIELD: {
-      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
-    }
-
-    case CLEAN: {
-      return compose(
-        assoc('foundAssets', []),
-        assoc('invalidFields', {}),
-        assoc('searchQuery', ''),
-        assoc('isBalancesLoading', false),
-      )(state)
-    }
-
-    default: return state
+    default:
+      return state
   }
 }
 

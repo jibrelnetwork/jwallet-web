@@ -1,4 +1,4 @@
-import * as digitalAssets from './digitalAssets'
+import * as digitalAssets from './digitalAssetsSaga'
 
 export default {
   ...digitalAssets,
