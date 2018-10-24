@@ -1,54 +1,44 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
 
-import ESCButton from 'components/ESCButton'
 import JText from 'components/base/JText'
+import ESCButton from 'components/ESCButton'
 
-type Props = {
-  color: 'white' | 'gray',
-  title: string,
-  location: string,
-  withMenu: boolean,
-  totalSteps: ?number,
-  currentStep: ?number,
-}
+type ModalHeaderColor = 'white' | 'gray'
 
-class ModalHeader extends PureComponent<Props, *> {
+type Props = {|
+  +onBack: () => void,
+  +color: ModalHeaderColor,
+  +title: string,
+  +isDisabled: boolean,
+|}
+
+class ModalHeader extends PureComponent<Props> {
   static defaultProps = {
-    color: 'white',
-    title: '',
-    location: '/',
-    withMenu: false,
-    totalSteps: undefined,
-    currentStep: undefined,
+    isDisabled: false,
   }
 
   render() {
     const {
+      onBack,
       color,
       title,
-      location,
-      withMenu,
-      totalSteps,
-      currentStep,
+      isDisabled,
     } = this.props
 
     return (
-      <div className={classNames('modal-header', `-${color}`, withMenu && '-menu')}>
+      <div className={`modal-header -${color}`}>
         <div className='content'>
           <div className='title'>
-            <JText
-              value={currentStep && totalSteps
-                ? `${title} ${currentStep}/${totalSteps}`
-                : title}
-              color={color}
-              size='title'
-            />
+            <JText value={title} color={color} size='title' />
           </div>
           <div className='button'>
-            <ESCButton color={color} locationAfterClose={location} />
+            <ESCButton
+              onESC={onBack}
+              color={color}
+              isDisabled={isDisabled}
+            />
           </div>
         </div>
       </div>
