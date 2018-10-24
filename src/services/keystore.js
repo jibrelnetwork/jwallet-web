@@ -35,13 +35,26 @@ const checkWalletUniqueness = (
   }
 }
 
+const getDataType = (data: ?string): ?WalletCustomType => {
+  if (utils.checkMnemonicValid(data)) {
+    return 'mnemonic'
+  } else if (utils.checkBip32XPublicKeyValid(data)) {
+    return 'bip32Xpub'
+  } else if (utils.checkPrivateKeyValid(data)) {
+    return 'privateKey'
+  } else if (utils.checkAddressValid(data)) {
+    return 'address'
+  }
+
+  return null
+}
+
 const testPassword = (password: string): void => {
   const testPasswordResult: PasswordResult = utils.testPassword(password)
 
   if (testPasswordResult.score < 3) {
     const { warning, suggestions } = testPasswordResult.feedback
 
-    // TODO: update password suggestions
     throw new Error(warning || suggestions[0] || 'Weak password')
   }
 }
@@ -473,16 +486,11 @@ function getAddress(wallets: Wallets, walletId: string): ?Address {
     return address
   }
 
-  /**
-   * To get address with specific index
-   * we can derive addresses from addressIndex to (addressIndex + 1)
-   * range [n, n + 1) - including item with index n and excluding item with index (n + 1)
-   * to get list with one required address
-   */
-  const indexEnd: number = (addressIndex || 0) + 1
+  const indexStart: number = addressIndex || 0
+  const indexEnd: number = indexStart + 1
 
   return bip32XPublicKey
-    ? utils.generateAddresses(bip32XPublicKey, addressIndex, indexEnd)[0]
+    ? utils.generateAddresses(bip32XPublicKey, indexStart, indexEnd)[0]
     : null
 }
 
@@ -556,6 +564,7 @@ const setPassword = (
 
 export default {
   getAddress,
+  getDataType,
   getAddresses,
   createWallet,
   updateWallet,
@@ -567,4 +576,5 @@ export default {
   checkWalletUniqueness,
   checkWalletIsMnemonicType,
   getPasswordStrength: utils.testPassword,
+  checkDerivationPath: utils.checkDerivationPath,
 }
