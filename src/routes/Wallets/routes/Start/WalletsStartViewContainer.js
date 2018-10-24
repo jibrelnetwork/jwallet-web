@@ -13,6 +13,7 @@ import {
 const mapDispatchToProps = {
   openView,
   closeView,
+  goToTerms: () => push('/terms'),
   createWallet: () => push('/wallets/create'),
   importWallet: () => push('/wallets/import'),
 }

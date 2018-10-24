@@ -10,20 +10,25 @@
     @include box;
     @include flex-column-center;
 
-    min-height: 100%;
-    padding: 150px 0 50px 0;
+    margin-bottom: -150px;
+    flex: 1;
 
     > .title {
+      @include flex-column-center;
+
       line-height: 32px;
     }
+  }
 
-    > .buttons {
-      margin-bottom: 50px;
-    }
+  > .terms {
+    @include flex-row-center;
 
-    > .terms {
-      margin-top: auto;
-      opacity: 0.5;
+    padding: 60px 0;
+    line-height: 30px;
+    opacity: 0.5;
+
+    > .link {
+      margin-left: 5px;
     }
   }
 }
