@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import WalletsDeleteView from './WalletsDeleteView'
 
@@ -24,6 +25,7 @@ const mapDispatchToProps = {
   openView,
   closeView,
   deleteRequest,
+  goToWallets: () => push('/wallets'),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletsDeleteView)

@@ -12,6 +12,7 @@ import MnemonicAddressesList from './components/MnemonicAddressesList'
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
+  +goToWallets: () => void,
   +setActiveRequest: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +wallets: Wallets,
@@ -42,6 +43,7 @@ class WalletsAddressesView extends Component<Props> {
 
   render() {
     const {
+      goToWallets,
       getMoreRequest,
       wallets,
       addresses,
@@ -55,7 +57,11 @@ class WalletsAddressesView extends Component<Props> {
 
     return (
       <div className='wallets-addresses-view'>
-        <ModalHeader title='Mnemonic addresses' color='white' location='/wallets' />
+        <ModalHeader
+          onBack={goToWallets}
+          color='white'
+          title='Mnemonic addresses'
+        />
         <div className='content'>
           <MnemonicAddressesList
             setActive={this.setActiveAddress}

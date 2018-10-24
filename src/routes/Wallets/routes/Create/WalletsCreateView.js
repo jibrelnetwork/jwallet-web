@@ -61,8 +61,8 @@ class WalletsCreateView extends Component<Props> {
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          location='/wallets'
           title='Create wallet'
+          isDisabled={isLoading}
         />
         <div className='content'>
           {(currentStep === STEPS.NAME) && (

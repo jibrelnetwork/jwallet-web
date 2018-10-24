@@ -7,6 +7,7 @@ import { JThumbnail, JFlatButton } from 'components/base'
 
 type Props = {|
   +closeView: () => void,
+  +goToWallets: () => void,
   +openView: (string) => void,
   +deleteRequest: (Wallets, string) => void,
   +items: Wallets,
@@ -120,7 +121,11 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
 
     return (
       <div className='wallets-delete-view'>
-        <ModalHeader title='Delete wallet' color='white' location='/wallets' />
+        <ModalHeader
+          onBack={this.props.goToWallets}
+          color='white'
+          title='Delete wallet'
+        />
         <div className='content'>
           <div className='form'>
             <JThumbnail

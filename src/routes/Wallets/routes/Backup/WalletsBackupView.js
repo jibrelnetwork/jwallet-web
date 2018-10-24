@@ -85,7 +85,6 @@ class WalletsBackupView extends Component<Props> {
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          location='/wallets'
           title='Backup wallet'
         />
         <div className='content'>
