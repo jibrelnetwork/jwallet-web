@@ -86,6 +86,7 @@ class WalletsBackupView extends Component<Props> {
           onBack={goToPrevStep}
           color='white'
           title='Backup wallet'
+          isDisabled={isLoading}
         />
         <div className='content'>
           {(currentStep === STEPS.PASSWORD) && (
