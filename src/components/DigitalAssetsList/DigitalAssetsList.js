@@ -39,6 +39,7 @@ class DigitalAssetsList extends PureComponent<Props> {
           const balance = balances[asset.address] || {
             isLoading: true,
           }
+
           return (
             <JCard key={asset.address}>
               { /* @TODO: add fiatCurrency, fiatBalance */ }
