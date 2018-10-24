@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 type Props = {
   size: 'small' | 'normal' | 'large' | 'header' | 'title' | 'mnemonic',
-  color: 'blue' | 'gray' | 'red' | 'sky' | 'white',
+  color: 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark',
   value: string,
   align: null | 'center',
   weight: null | 'bold' | 'bolder',
