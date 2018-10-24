@@ -1,76 +1,51 @@
 // @flow
 
-import React from 'react'
-import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
-import { JLoader, JText } from 'components/base'
+import { JText } from 'components/base'
 
-const AssetBalance = ({
-  symbol,
-  size,
-  color,
-  weight,
-  balance,
-  isLoading,
-  isTransparent,
-}: Props) => (
-  <div
-    className={classNames(
-      'asset-balance',
-      isLoading && '-loading',
-      isTransparent && '-transparent',
-    )}
-  >
-    {isLoading ? <JLoader color={color} /> : (
-      <div className='balance'>
-        <div className='integer'>
+type Props = {|
+  +symbol: string,
+  +color: 'blue' | 'gray',
+  +size: 'normal' | 'header',
+  +balance: number,
+|}
+class AssetBalance extends PureComponent<Props> {
+  static defaultProps = {
+    weight: null,
+    color: 'gray',
+    size: 'normal',
+  }
+  render() {
+    const {
+      symbol,
+      size,
+      color,
+      balance,
+    } = this.props
+    const balanceValue = balance.toLocaleString('en-US', { maximumFractionDigits: 2 })
+    return (
+      <div className='asset-balance'>
+        <div className='balance'>
           <JText
+            weight='bold'
             size={size}
             color={color}
-            weight={weight}
-            value={Math.floor(balance).toFixed()}
+            value={balanceValue}
           />
         </div>
-        <div className='decimals'>
+        <div className='symbol'>
           <JText
+            weight='bold'
+            fontCase='upper'
             size={size}
             color={color}
-            weight={weight}
-            value={`${(balance - Math.floor(balance)).toFixed(2).substr(1)}`}
+            value={symbol}
           />
         </div>
       </div>
-    )}
-    <div className='symbol'>
-      <JText
-        size={size}
-        color={color}
-        value={symbol}
-        weight={weight}
-        fontCase='upper'
-      />
-    </div>
-  </div>
-)
-
-type Props = {
-  symbol: string,
-  weight: null | 'bold' | 'bolder',
-  color: 'blue' | 'gray' | 'white',
-  size: 'small' | 'normal' | 'large',
-  balance: number,
-  isLoading: boolean,
-  isTransparent: boolean,
-}
-
-AssetBalance.defaultProps = {
-  symbol: '',
-  weight: null,
-  color: 'white',
-  size: 'normal',
-  balance: 0,
-  isLoading: false,
-  isTransparent: false,
+    )
+  }
 }
 
 export default AssetBalance

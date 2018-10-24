@@ -31,6 +31,10 @@
     color: $white;
   }
 
+  &.-dark {
+    color: $dark;
+  }
+
   // Size
 
   &.-small {
@@ -46,7 +50,7 @@
   }
 
   &.-header {
-    font-size: 17px;
+    font-size: 18px;
   }
 
   &.-mnemonic {
