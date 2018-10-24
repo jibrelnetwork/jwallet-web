@@ -10,9 +10,9 @@ type Props = {|
   +size: 'normal' | 'header',
   +balance: number,
 |}
+
 class AssetBalance extends PureComponent<Props> {
   static defaultProps = {
-    weight: null,
     color: 'gray',
     size: 'normal',
   }
@@ -23,7 +23,9 @@ class AssetBalance extends PureComponent<Props> {
       color,
       balance,
     } = this.props
+
     const balanceValue = balance.toLocaleString('en-US', { maximumFractionDigits: 2 })
+
     return (
       <div className='asset-balance'>
         <div className='balance'>
