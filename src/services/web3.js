@@ -23,9 +23,9 @@ type RPCProps = {
 
 /* eslint-disable-next-line fp/no-let */
 let rpcProps: RPCProps = {
-  rpcaddr: '127.0.0.1',
-  rpcport: 8545,
-  ssl: false,
+  rpcaddr: 'ropsten-node.jwallet.network',
+  rpcport: 443,
+  ssl: true,
 }
 
 function setRpcProps(props: RPCProps): void {
@@ -68,7 +68,7 @@ function getContractDecimals(
 ): Promise<number> {
   return jibrelContractsApi.contracts.erc20Named
     .decimals({ ...rpcProps, contractAddress })
-    .then(decimals => parseInt(decimals.c, 10))
+    .then(decimals => decimals.toNumber())
 }
 
 function getContractName(
