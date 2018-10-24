@@ -3,11 +3,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import AssetCard from 'components/DigitalAssets/Asset'
+import AssetCard from 'components/DigitalAssetsList/Asset'
 import ethereum from 'data/assets/ethereum'
 
 storiesOf('AssetCard')
-
   .add('Default', () => (
     <div className='story'>
       <h2>Default</h2>
