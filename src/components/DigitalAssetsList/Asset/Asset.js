@@ -7,7 +7,7 @@ import { JAssetSymbol, JText } from 'components/base'
 
 import AssetCardBody from './AssetCardBody'
 
-type Props = {|
+type Props = {
   +name: string,
   +symbol: string,
   +address: Address,
@@ -16,7 +16,7 @@ type Props = {|
   +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
-|}
+}
 
 type AssetsState = {
   isHovered: boolean,
@@ -26,6 +26,9 @@ class AssetCard extends PureComponent<Props, AssetsState> {
   static defaultProps = {
     isError: false,
     isLoading: false,
+    fiatBalance: 0,
+    balance: 0,
+    fiatCurrency: 'USD',
   }
 
   constructor(props: Props) {
@@ -45,8 +48,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       name,
       symbol,
       address,
-      fiatCurrency,
       balance,
+      fiatCurrency,
       fiatBalance,
       isError,
       isLoading,

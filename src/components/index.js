@@ -13,7 +13,7 @@ import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
 import CopyableField from './CopyableField'
-import DigitalAssets from './DigitalAssets'
+import DigitalAssetsList from './DigitalAssetsList'
 import PasswordField from './PasswordField'
 import WalletActions from './WalletActions'
 import WalletLoading from './WalletLoading'
@@ -23,7 +23,7 @@ import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
 import RoundIconButton from './RoundIconButton'
 import ButtonWithConfirm from './ButtonWithConfirm'
-import ActiveAssetsPanel from './ActiveAssetsPanel'
+// import ActiveAssetsPanel from './ActiveAssetsPanel'
 import WalletPasswordStep from './WalletPasswordStep'
 
 export {
@@ -40,7 +40,7 @@ export {
   PasswordStep,
   WalletHeader,
   CopyableField,
-  DigitalAssets,
+  DigitalAssetsList,
   PasswordField,
   WalletActions,
   WalletLoading,
@@ -49,7 +49,7 @@ export {
   WalletDataStep,
   WalletNameStep,
   RoundIconButton,
-  ActiveAssetsPanel,
+  // ActiveAssetsPanel,
   ButtonWithConfirm,
   WalletPasswordStep,
 }

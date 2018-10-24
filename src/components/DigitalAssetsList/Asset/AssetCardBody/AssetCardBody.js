@@ -13,7 +13,7 @@ type Props = {|
   +address: Address,
   +isError: boolean,
   +isLoading: boolean,
-  +isHovered: boolean,
+  +isHovered: boolean
 |}
 
 class AssetCardBody extends PureComponent<Props> {
@@ -55,7 +55,11 @@ class AssetCardBody extends PureComponent<Props> {
             />
           </div>
           <div className='fiat'>
-            <JFlatButton label='Reload asset' color='blue' isHoverOpacity />
+            <JFlatButton
+              label='Reload asset'
+              color='blue'
+              isHoverOpacity
+            />
           </div>
         </div>
       )
