@@ -72,7 +72,7 @@ class WalletsImportView extends Component<Props> {
     } = this.props
 
     return (
-      <div className='wallets-create-view'>
+      <div className='wallets-view -import'>
         <ModalHeader
           onBack={goToPrevStep}
           color='white'

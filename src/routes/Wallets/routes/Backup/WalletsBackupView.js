@@ -81,11 +81,12 @@ class WalletsBackupView extends Component<Props> {
     const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
 
     return (
-      <div className='wallets-backup-view'>
+      <div className='wallets-view -backup'>
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
           title='Backup wallet'
+          isDisabled={isLoading}
         />
         <div className='content'>
           {(currentStep === STEPS.PASSWORD) && (

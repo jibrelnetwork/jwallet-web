@@ -48,7 +48,7 @@ class WalletsRenameView extends Component<Props> {
     } = this.props
 
     return (
-      <div className='wallets-rename-view'>
+      <div className='wallets-view -rename'>
         <ModalHeader
           onBack={goToWallets}
           color='white'

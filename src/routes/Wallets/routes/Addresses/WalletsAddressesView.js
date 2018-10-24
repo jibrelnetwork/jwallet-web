@@ -56,7 +56,7 @@ class WalletsAddressesView extends Component<Props> {
     const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
 
     return (
-      <div className='wallets-addresses-view'>
+      <div className='wallets-view -addresses'>
         <ModalHeader
           onBack={goToWallets}
           color='white'

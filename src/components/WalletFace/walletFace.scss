@@ -11,12 +11,27 @@
   transition: background-color 0.3s ease 0s;
   cursor: pointer;
 
+  > .actions {
+    margin-left: auto;
+    padding: 30px;
+  }
+
   > .icon {
     padding: 30px;
 
     &.-transparent {
       opacity: 0.5;
       transition: opacity 0.3s ease 0s;
+    }
+  }
+
+  &:hover {
+    background-color: $bright-sky-blue;
+
+    > .icon {
+      &.-transparent {
+        opacity: 1;
+      }
     }
   }
 
@@ -33,25 +48,9 @@
     }
   }
 
-  > .actions {
-    margin-left: auto;
-    padding: 30px;
-  }
-
-  &:hover {
-    background-color: $bright-sky-blue;
-
-    /* stylelint-disable-next-line no-descending-specificity */
-    > .icon {
-      &.-transparent {
-        opacity: 1;
-      }
-    }
-
-    > .data {
-      > .description {
-        opacity: 1;
-      }
+  &:hover > .data {
+    > .description {
+      opacity: 1;
     }
   }
 }
