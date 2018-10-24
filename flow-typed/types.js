@@ -297,7 +297,6 @@ declare type NetworksData = {
  * Digital assets
  */
 declare type DigitalAssetsFilter = {|
-  +searchQuery: string,
   +hideZeroBalance: boolean,
   +myAssetsFirst: boolean,
   +sortByName: false | 'asc' | 'desc',
@@ -320,14 +319,8 @@ declare type DigitalAsset = {|
   +decimals: Decimals,
   +isCustom: boolean,
   +isActive: boolean,
+  // +networkId: number,
 |}
-
-// declare type DigitalAssetMainDataWithBalance = {
-//   +address: Address,
-//   +symbol: string,
-//   +name: string,
-//   +balance: number,
-// }
 
 declare type DigitalAssets = Array<DigitalAsset>
 
@@ -335,11 +328,7 @@ declare type DigitalAssetsState = {
   +items: DigitalAssets,
   +filter: DigitalAssetsFilter,
   +balances: DigitalAssetBalances,
-  // +foundAssets: Addresses,
-  // +balances: Balances,
-  // +searchQuery: string,
-  // +isInitialised: boolean,
-  // +isBalancesLoading: boolean,
+  +searchQuery: string,
   // +currentAddress: ?Address,
 }
 

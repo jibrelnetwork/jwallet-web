@@ -77,8 +77,8 @@ type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
 const initialState: DigitalAssetsState = {
   items: [],
   balances: {},
+  searchQuery: '',
   filter: {
-    searchQuery: '',
     hideZeroBalance: false,
     myAssetsFirst: false,
     sortByName: false,
@@ -140,10 +140,7 @@ const digitalAssets = (
 
       return {
         ...state,
-        filter: {
-          ...state.filter,
-          searchQuery: query,
-        },
+        searchQuery: query,
       }
     }
 
