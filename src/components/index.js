@@ -13,7 +13,7 @@ import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
 import CopyableField from './CopyableField'
-import DigitalAssetsList from './DigitalAssetsList'
+import DigitalAssetsGrid from './DigitalAssetsGrid'
 import PasswordField from './PasswordField'
 import WalletActions from './WalletActions'
 import WalletLoading from './WalletLoading'
@@ -41,7 +41,6 @@ export {
   PasswordStep,
   WalletHeader,
   CopyableField,
-  DigitalAssetsList,
   PasswordField,
   WalletActions,
   WalletLoading,
@@ -52,6 +51,7 @@ export {
   RoundIconButton,
   NewWalletButtons,
   // ActiveAssetsPanel,
+  DigitalAssetsGrid,
   ButtonWithConfirm,
   WalletPasswordStep,
 }
