@@ -85,9 +85,9 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
 
     return (
       <div
-        onClick={isDisabled ? undefined : onClick}
         onMouseEnter={handle(this.onHover)(true)}
         onMouseLeave={handle(this.onHover)(false)}
+        onClick={isDisabled ? undefined : onClick}
         className={buttonClassName}
       >
         {iconName && (
