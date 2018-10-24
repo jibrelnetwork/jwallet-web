@@ -15,7 +15,7 @@ storiesOf('AssetCard')
         name={ethereum.name}
         symbol={ethereum.symbol}
         address={ethereum.address}
-        fiatMoney='USD'
+        fiatCurrency='EU'
         balance={100325.578}
         fiatBalance={2020.889}
       />
@@ -28,7 +28,7 @@ storiesOf('AssetCard')
         name={ethereum.name}
         symbol={ethereum.symbol}
         address={ethereum.address}
-        fiatMoney='USD'
+        fiatCurrency='USD'
         balance={100325}
         fiatBalance={2020}
         isLoading
@@ -42,7 +42,7 @@ storiesOf('AssetCard')
         name={ethereum.name}
         symbol={ethereum.symbol}
         address={ethereum.address}
-        fiatMoney='USD'
+        fiatCurrency='EU'
         balance={100325}
         fiatBalance={0}
       />
@@ -55,10 +55,10 @@ storiesOf('AssetCard')
         name={ethereum.name}
         symbol={ethereum.symbol}
         address={ethereum.address}
-        fiatMoney='USD'
+        fiatCurrency='USD'
         balance={100325}
         fiatBalance={2020}
-        isLoadingError
+        isError
       />
     </div>
   ))

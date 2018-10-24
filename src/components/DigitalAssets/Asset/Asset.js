@@ -2,19 +2,20 @@
 
 import React, { PureComponent } from 'react'
 
-import AssetBalance from 'components/AssetBalance'
 import { handle } from 'utils/eventHandlers'
-import { JAssetSymbol, JFlatButton, JText, JLoader } from 'components/base'
+import { JAssetSymbol, JText } from 'components/base'
+
+import AssetCardBody from './AssetCardBody'
 
 type Props = {|
   +name: string,
   +symbol: string,
   +address: Address,
-  +fiatMoney: string,
+  +fiatCurrency: string,
   +balance: number,
   +fiatBalance: number,
+  +isError: boolean,
   +isLoading: boolean,
-  +isLoadingError: boolean,
 |}
 
 type AssetsState = {
@@ -23,8 +24,8 @@ type AssetsState = {
 
 class AssetCard extends PureComponent<Props, AssetsState> {
   static defaultProps = {
+    isError: false,
     isLoading: false,
-    isLoadingError: false,
   }
 
   constructor(props: Props) {
@@ -44,18 +45,16 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       name,
       symbol,
       address,
-      fiatMoney,
+      fiatCurrency,
       balance,
       fiatBalance,
+      isError,
       isLoading,
-      isLoadingError,
     } = this.props
 
     const {
       isHovered,
     } = this.state
-
-    const isLoadingContext = isLoading ? 'loading' : (isLoadingError ? 'error-loading' : null)
 
     return (
       <div
@@ -69,74 +68,16 @@ class AssetCard extends PureComponent<Props, AssetsState> {
         <div className='name'>
           <JText value={name} color='dark' weight='bold' size='header' />
         </div>
-        {(() => {
-          switch (isLoadingContext) {
-            case 'error-loading':
-              return (
-                <div className='balance'>
-                  <div className='crypto'>
-                    <JText
-                      value='Balance loading error'
-                      color='gray'
-                      weight='bold'
-                      whiteSpace='wrap'
-                    />
-                  </div>
-                  <div className='fiat'>
-                    <JFlatButton label='Reload asset' color='blue' isHoverOpacity />
-                  </div>
-                </div>
-              )
-            case 'loading':
-              return (
-                <div className='loading'>
-                  <JLoader color='blue' />
-                </div>
-              )
-            default:
-              return (
-                <div className='balance'>
-                  <div className='crypto'>
-                    <AssetBalance
-                      color='gray'
-                      symbol={symbol}
-                      balance={balance}
-                    />
-                  </div>
-                  {!isHovered ? (
-                    <div className='fiat'>
-                      {fiatBalance !== 0 ? (
-                        <AssetBalance
-                          color='blue'
-                          size='header'
-                          symbol={fiatMoney}
-                          balance={fiatBalance}
-                        />
-                      ) : (
-                        <div className='message -transparent'>
-                          <JText
-                            value='No USD Exchange'
-                            color='gray'
-                            weight='bold'
-                            whiteSpace='wrap'
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className='fiat'>
-                      <JFlatButton
-                        onClick={console.log(address)}
-                        label='Show transactions'
-                        color='blue'
-                        isHoverOpacity
-                      />
-                    </div>
-                  )}
-                </div>
-              )
-          }
-        })()}
+        <AssetCardBody
+          address={address}
+          fiatCurrency={fiatCurrency}
+          symbol={symbol}
+          balance={balance}
+          fiatBalance={fiatBalance}
+          isError={isError}
+          isLoading={isLoading}
+          isHovered={isHovered}
+        />
       </div>
     )
   }
