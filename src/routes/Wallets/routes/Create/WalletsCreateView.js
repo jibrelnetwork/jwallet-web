@@ -57,7 +57,7 @@ class WalletsCreateView extends Component<Props> {
     } = this.props
 
     return (
-      <div className='wallets-create-view'>
+      <div className='wallets-view -create'>
         <ModalHeader
           onBack={goToPrevStep}
           color='white'

@@ -30,7 +30,7 @@ class WalletsStartView extends Component<Props> {
     }: Props = this.props
 
     return (
-      <div className='wallets-start-view'>
+      <div className='wallets-view -start'>
         <WalletHeader />
         <div className='content'>
           <div className='title'>

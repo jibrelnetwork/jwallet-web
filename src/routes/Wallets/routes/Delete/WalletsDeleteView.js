@@ -121,7 +121,7 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
     }
 
     return (
-      <div className='wallets-delete-view'>
+      <div className='wallets-view -delete'>
         <ModalHeader
           onBack={goToWallets}
           color='white'

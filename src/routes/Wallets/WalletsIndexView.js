@@ -45,7 +45,7 @@ class WalletsIndexView extends Component<Props> {
     }: Props = this.props
 
     return (
-      <div className='wallets-index-view'>
+      <div className='wallets-view -index'>
         <WalletHeader />
         <div className='content'>
           {items.map(item => (
