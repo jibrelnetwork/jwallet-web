@@ -5,6 +5,7 @@ import HelpText from './HelpText'
 import ESCButton from './ESCButton'
 import MenuPanel from './MenuPanel'
 import Expandable from './Expandable'
+import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
 import AssetPicker from './AssetPicker'
@@ -15,7 +16,6 @@ import WalletHeader from './WalletHeader'
 import CopyableField from './CopyableField'
 import DigitalAssets from './DigitalAssets'
 import PasswordField from './PasswordField'
-import WalletActions from './WalletActions'
 import WalletLoading from './WalletLoading'
 import DerivationPath from './DerivationPath'
 import OverlayActions from './OverlayActions'
@@ -33,6 +33,7 @@ export {
   ESCButton,
   MenuPanel,
   Expandable,
+  WalletCard,
   WalletFace,
   WalletStep,
   AssetPicker,
@@ -43,7 +44,6 @@ export {
   CopyableField,
   DigitalAssets,
   PasswordField,
-  WalletActions,
   WalletLoading,
   DerivationPath,
   OverlayActions,
