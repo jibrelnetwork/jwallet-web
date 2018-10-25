@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react'
 
-import { JCard } from 'components/base'
 // import { filterDigitalAssets, filterFoundDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
@@ -15,14 +14,14 @@ type Props = {
   balances: DigitalAssetBalances,
 }
 
-class DigitalAssetsList extends PureComponent<Props> {
+class DigitalAssetsGrid extends PureComponent<Props> {
   componentDidMount() {
-    console.log('MOUNT DigitalAssetsList')
+    console.log('MOUNT DigitalAssetsGrid')
     this.props.openView()
   }
 
   componentWillUnmount() {
-    console.log('UNMOUNT DigitalAssetsList')
+    console.log('UNMOUNT DigitalAssetsGrid')
     this.props.closeView()
   }
 
@@ -33,7 +32,7 @@ class DigitalAssetsList extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='digital-assets-list'>
+      <div className='digital-assets-grid'>
         {items.length === 0 && <Empty />}
         {items.map((asset) => {
           const balance = balances[asset.address] || {
@@ -41,13 +40,13 @@ class DigitalAssetsList extends PureComponent<Props> {
           }
 
           return (
-            <JCard key={asset.address}>
+            <div className='box' key={asset.address}>
               { /* @TODO: add fiatCurrency, fiatBalance */ }
               <Asset
                 {...asset}
                 {...balance}
               />
-            </JCard>
+            </div>
           )
         }
         )}
@@ -56,4 +55,4 @@ class DigitalAssetsList extends PureComponent<Props> {
   }
 }
 
-export default DigitalAssetsList
+export default DigitalAssetsGrid
