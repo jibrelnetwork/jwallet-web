@@ -303,8 +303,8 @@ declare type DigitalAssetsFilter = {|
   +sortByBalace: false | 'asc' | 'desc',
 |}
 
-type NetworkId = string
-type BlockNumber = string
+type NetworkId = ?string
+type BlockNumber = ?string
 type OwnerAddress = string
 type AssetAddress = string
 

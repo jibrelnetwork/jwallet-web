@@ -8,7 +8,7 @@ import Grid from './routes/Grid'
 export default {
   path: 'digital-assets',
   component: AsideLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/list') },
+  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/grid') },
   childRoutes: [
     Grid,
   ],

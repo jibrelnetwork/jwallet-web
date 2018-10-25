@@ -15,8 +15,10 @@ const DIGITAL_ASSETS_TABS = {
 type Props = {
   openView: () => void,
   closeView: () => void,
+  setSearchQuery: (string) => void,
   items: DigitalAssets,
   balances: DigitalAssetBalances,
+  searchQuery: string,
 }
 
 class DigitalAssetsView extends Component<Props> {
@@ -34,6 +36,8 @@ class DigitalAssetsView extends Component<Props> {
     const {
       items,
       balances,
+      searchQuery,
+      setSearchQuery,
     } = this.props
 
     return (
@@ -42,9 +46,9 @@ class DigitalAssetsView extends Component<Props> {
           <JTabs tabs={DIGITAL_ASSETS_TABS} />
           <div className='search'>
             <JSearch
-              onChange={console.log}
-              value=''
-              placeholder='search...'
+              onChange={setSearchQuery}
+              value={searchQuery}
+              placeholder='Search...'
             />
           </div>
         </div>
