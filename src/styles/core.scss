@@ -124,19 +124,23 @@
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
 
   // Views
-  @import '../routes/Funds/styles/funds';
-  @import '../routes/NotFound/styles/notFound';
+  @import '../routes/DigitalAssets/digitalAssets';
   @import '../routes/Wallets/styles/walletsView';
-  @import '../routes/CustomAsset/styles/customAsset';
-  @import '../routes/Transactions/styles/transactions';
-  @import '../routes/DigitalAssets/styles/digitalAssets';
+  @import '../routes/NotFound/styles/notFound';
+
+  // @import '../routes/Funds/styles/funds';
+  // @import '../routes/CustomAsset/styles/customAsset';
+  // @import '../routes/Transactions/styles/transactions';
 
   // Layouts
-  @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
   @import '../layouts/CoreLayout/coreLayout';
-  @import '../layouts/DigitalAssetsLayout/digitalAssetsLayout';
-  @import '../layouts/MenuLayout/menuLayout';
-  @import '../layouts/ModalLayout/modalLayout';
-  @import '../layouts/TransactionsLayout/transactionsLayout';
   @import '../layouts/WalletsLayout/walletsLayout';
+  @import '../layouts/AsideLayout/asideLayout';
+
+  // To be removed
+  // @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
+  // @import '../layouts/DigitalAssetsLayout/digitalAssetsLayout';
+  // @import '../layouts/MenuLayout/menuLayout';
+  // @import '../layouts/ModalLayout/modalLayout';
+  // @import '../layouts/TransactionsLayout/transactionsLayout';
 }

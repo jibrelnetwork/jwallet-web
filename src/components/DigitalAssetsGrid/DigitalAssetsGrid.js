@@ -9,23 +9,11 @@ import Asset from './Asset'
 import Empty from './Empty'
 
 type Props = {
-  openView: () => void,
-  closeView: () => void,
   items: DigitalAssets,
   balances: DigitalAssetBalances,
 }
 
 class DigitalAssetsList extends PureComponent<Props> {
-  componentDidMount() {
-    console.log('MOUNT DigitalAssetsList')
-    this.props.openView()
-  }
-
-  componentWillUnmount() {
-    console.log('UNMOUNT DigitalAssetsList')
-    this.props.closeView()
-  }
-
   render() {
     const {
       items,
@@ -33,7 +21,7 @@ class DigitalAssetsList extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='digital-assets-list'>
+      <div className='digital-assets-grid'>
         {items.length === 0 && <Empty />}
         {items.map((asset) => {
           const balance = balances[asset.address] || {

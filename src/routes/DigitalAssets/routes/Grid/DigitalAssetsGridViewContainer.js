@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux'
 
-import { DigitalAssetsGrid } from 'components'
+import DigitalAssetsGridView from './DigitalAssetsGridView'
 
 import {
   openView,
@@ -22,4 +22,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DigitalAssetsGrid)
+)(DigitalAssetsGridView)

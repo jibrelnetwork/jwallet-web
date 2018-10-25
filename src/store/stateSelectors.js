@@ -42,8 +42,8 @@ export function selectNetworksItems(state: State): Networks {
   return state.networks.items
 }
 
-export function selectNetworkId(state: State): ?NetworkId {
-  return state.networks.currentNetwork
+export function selectNetworkId(): ?NetworkId {
+  return '3'
 }
 
 /**
