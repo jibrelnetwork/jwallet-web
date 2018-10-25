@@ -303,12 +303,22 @@ declare type DigitalAssetsFilter = {|
   +sortByBalace: false | 'asc' | 'desc',
 |}
 
+type NetworkId = ?string
+type BlockNumber = ?string
+type OwnerAddress = string
+type AssetAddress = string
+
 declare type DigitalAssetBalances = {
-  [string]: {
-    balance: Bignumber,
-    lastUpdated: ?Date,
-    isLoading: boolean,
-    isError: boolean,
+  [NetworkId]: {
+    [BlockNumber]: {
+      [OwnerAddress]: {
+        [AssetAddress]: {
+          balance: Bignumber,
+          isLoading: boolean,
+          isError: boolean,
+        }
+      }
+    }
   }
 }
 
@@ -319,7 +329,6 @@ declare type DigitalAsset = {|
   +decimals: Decimals,
   +isCustom: boolean,
   +isActive: boolean,
-  // +networkId: number,
 |}
 
 declare type DigitalAssets = Array<DigitalAsset>

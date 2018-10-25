@@ -8,23 +8,11 @@ import Asset from './Asset'
 import Empty from './Empty'
 
 type Props = {
-  openView: () => void,
-  closeView: () => void,
   items: DigitalAssets,
   balances: DigitalAssetBalances,
 }
 
 class DigitalAssetsGrid extends PureComponent<Props> {
-  componentDidMount() {
-    console.log('MOUNT DigitalAssetsGrid')
-    this.props.openView()
-  }
-
-  componentWillUnmount() {
-    console.log('UNMOUNT DigitalAssetsGrid')
-    this.props.closeView()
-  }
-
   render() {
     const {
       items,

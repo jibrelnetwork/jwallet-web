@@ -8,7 +8,7 @@ import { JSearch, JTabs } from 'components/base'
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
-  '/transactions': 'Transactions',
+  '/custom-asset/add': 'Transactions',
 }
 
 type Props = {

@@ -5,10 +5,10 @@ import React, { Component } from 'react'
 import MenuPanel from 'components/MenuPanel'
 
 type Props = {
-  children: Object,
+  children: React$Node,
 }
 
-class MenuLayout extends Component<Props> {
+class AsideLayout extends Component<Props> {
   componentDidMount() {
     console.log('MOUNT MenuLayout')
   }
@@ -19,7 +19,7 @@ class MenuLayout extends Component<Props> {
 
   render() {
     return (
-      <div className='menu-layout'>
+      <div className='aside-layout'>
         <div className='aside'>
           <MenuPanel />
         </div>
@@ -31,4 +31,4 @@ class MenuLayout extends Component<Props> {
   }
 }
 
-export default MenuLayout
+export default AsideLayout

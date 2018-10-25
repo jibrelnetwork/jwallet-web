@@ -1,12 +1,15 @@
-import DigitalAssetsLayout from 'layouts/DigitalAssets'
+// @flow
 
-import List from './routes/List'
+import { AsideLayout } from 'layouts'
+// import DigitalAssetsListView from './routes/List/DigitalAssetsGridView'
+
+import Grid from './routes/Grid'
 
 export default {
   path: 'digital-assets',
-  component: DigitalAssetsLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/list') },
+  component: AsideLayout,
+  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/grid') },
   childRoutes: [
-    List,
+    Grid,
   ],
 }

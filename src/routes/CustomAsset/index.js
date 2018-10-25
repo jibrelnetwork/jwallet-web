@@ -1,10 +1,10 @@
-import ModalLayout from 'layouts/ModalLayout'
+import DigitalAssetsLayout from 'layouts/DigitalAssets'
 
 import Add from './routes/Add'
 
 export default {
   path: 'custom-asset',
-  component: ModalLayout,
+  component: DigitalAssetsLayout,
   childRoutes: [
     Add,
   ],

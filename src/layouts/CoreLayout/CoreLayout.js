@@ -2,12 +2,10 @@
 
 import React from 'react'
 
-import type { Node } from 'react'
-
 import 'styles/core.scss'
 
 type Props = {|
-  +children: Node,
+  +children: React$Node,
 |}
 
 function CoreLayout({ children }: Props) {
