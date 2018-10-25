@@ -125,8 +125,8 @@
 
   // Views
   @import '../routes/Funds/styles/funds';
+  @import '../routes/Wallets/walletsView';
   @import '../routes/NotFound/styles/notFound';
-  @import '../routes/Wallets/styles/walletsView';
   @import '../routes/CustomAsset/styles/customAsset';
   @import '../routes/Transactions/styles/transactions';
   @import '../routes/DigitalAssets/styles/digitalAssets';
