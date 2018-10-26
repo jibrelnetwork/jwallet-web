@@ -2,8 +2,9 @@
 
 import React, { PureComponent } from 'react'
 
+import WalletViewTitle from 'components/WalletViewTitle'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
-import { JRaisedButton, JText } from 'components/base'
+import JRaisedButton from 'components/base/JRaisedButton'
 
 type Props = {|
   +onSubmit: Function,
@@ -15,7 +16,7 @@ type Props = {|
 
 class WalletStep extends PureComponent<Props> {
   static defaultProps = {
-    title: null,
+    isLoading: false,
   }
 
   render() {
@@ -29,15 +30,7 @@ class WalletStep extends PureComponent<Props> {
 
     return (
       <div className='wallet-step'>
-        {!!title && (
-          <div className='title'>
-            {title.map((line: string) => (
-              <div className='string' key={line}>
-                <JText size='large' color='white' value={line} whiteSpace='wrap' align='center' />
-              </div>
-            ))}
-          </div>
-        )}
+        <WalletViewTitle data={title} />
         <form className='form' onSubmit={ignoreEvent(isLoading ? null : onSubmit)()}>
           {children}
           <div className='actions'>
