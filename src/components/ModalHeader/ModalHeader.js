@@ -29,17 +29,15 @@ class ModalHeader extends PureComponent<Props> {
 
     return (
       <div className={`modal-header -${color}`}>
-        <div className='content'>
-          <div className='title'>
-            <JText value={title} color={color} size='title' />
-          </div>
-          <div className='button'>
-            <ESCButton
-              onESC={onBack}
-              color={color}
-              isDisabled={isDisabled}
-            />
-          </div>
+        <div className='title'>
+          <JText value={title} color={color} size='title' />
+        </div>
+        <div className='button'>
+          <ESCButton
+            onESC={onBack}
+            color={color}
+            isDisabled={isDisabled}
+          />
         </div>
       </div>
     )
