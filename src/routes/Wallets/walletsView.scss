@@ -47,10 +47,33 @@
     }
   }
 
+  &.-index,
+  &.-addresses {
+    height: auto;
+
+    > .content {
+      min-height: 100vh;
+      padding: 200px 0 50px 0;
+    }
+  }
+
   &.-index {
     > .content {
       > .wallet {
-        margin-bottom: 1px;
+        &:not(:last-child) {
+          margin-bottom: 1px;
+        }
+      }
+    }
+  }
+
+  &.-addresses {
+    > .content {
+      > .actions {
+        @include flex-row-center;
+
+        width: 100%;
+        margin-top: 40px;
       }
     }
   }
