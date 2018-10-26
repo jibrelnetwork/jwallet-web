@@ -4,10 +4,8 @@ import React, { Component } from 'react'
 
 import config from 'config'
 import handle from 'utils/eventHandlers/handle'
-import ModalHeader from 'components/ModalHeader'
 import JFlatButton from 'components/base/JFlatButton'
-
-import MnemonicAddressesList from './components/MnemonicAddressesList'
+import { ModalHeader, WalletViewTitle, MnemonicAddresses } from 'components'
 
 type Props = {|
   +openView: () => void,
@@ -63,22 +61,28 @@ class WalletsAddressesView extends Component<Props> {
           title='Mnemonic addresses'
         />
         <div className='content'>
-          <MnemonicAddressesList
+          <WalletViewTitle
+            data={[
+              'To enhance your privacy, the wallet can contain as many addresses',
+              'as you need. Please, choose one to continue',
+            ]}
+          />
+          <MnemonicAddresses
+            renameAddress={console.log}
             setActive={this.setActiveAddress}
             addresses={addresses}
             isReadOnly={isReadOnly}
           />
           <div className='actions'>
-            <div className='forward'>
-              <JFlatButton
-                onClick={handle(getMoreRequest)(wallets, walletId, startIndex, endIndex)}
-                label='Get more'
-                iconName='plus'
-                iconSize='small'
-                iconColor='white'
-                isTransparent
-              />
-            </div>
+            <JFlatButton
+              onClick={handle(getMoreRequest)(wallets, walletId, startIndex, endIndex)}
+              iconName='plus'
+              iconSize='small'
+              iconColor='white'
+              label='Get more addresses'
+              isBordered
+              isTransparent
+            />
           </div>
         </div>
       </div>
