@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react'
 
-import { JCard } from 'components/base'
 // import { filterDigitalAssets, filterFoundDigitalAssets } from 'utils/digitalAssets'
 
 import Asset from './Asset'
@@ -13,7 +12,7 @@ type Props = {
   balances: DigitalAssetBalances,
 }
 
-class DigitalAssetsList extends PureComponent<Props> {
+class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
     const {
       items,
@@ -29,13 +28,13 @@ class DigitalAssetsList extends PureComponent<Props> {
           }
 
           return (
-            <JCard key={asset.address}>
+            <div className='box' key={asset.address}>
               { /* @TODO: add fiatCurrency, fiatBalance */ }
               <Asset
                 {...asset}
                 {...balance}
               />
-            </JCard>
+            </div>
           )
         }
         )}
@@ -44,4 +43,4 @@ class DigitalAssetsList extends PureComponent<Props> {
   }
 }
 
-export default DigitalAssetsList
+export default DigitalAssetsGrid
