@@ -5,13 +5,17 @@ import classNames from 'classnames'
 import { Link } from 'react-router'
 
 const JTabs = ({ tabs, location }: Props) => (
-  <ul className='j-tabs'>
+  <div className='j-tabs'>
     {Object.keys(tabs).map((path: string) => (
-      <li key={path} className={classNames('tab', { '-active': (path === location.pathname) })}>
-        <Link to={path} className='link'>{tabs[path]}</Link>
-      </li>
+      <Link
+        key={path}
+        to={path}
+        className={classNames('tab', { '-active': (path === location.pathname) })}
+      >
+        {tabs[path]}
+      </Link>
     ))}
-  </ul>
+  </div>
 )
 
 type Props = {
