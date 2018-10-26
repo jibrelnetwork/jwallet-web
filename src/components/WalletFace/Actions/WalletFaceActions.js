@@ -14,24 +14,24 @@ type WalletFaceAction = {|
 
 type Props = {|
   +toggle: WalletFaceActionsHandler,
-  +renameWallet: ?WalletFaceActionsHandler,
-  +backupWallet: ?WalletFaceActionsHandler,
-  +deleteWallet: ?WalletFaceActionsHandler,
+  +backup: ?WalletFaceActionsHandler,
+  +rename: ?WalletFaceActionsHandler,
+  +remove: ?WalletFaceActionsHandler,
   +isToggled: boolean,
 |}
 
 class WalletFaceActions extends PureComponent<Props> {
   getActions = (): Array<WalletFaceAction> => {
     const {
-      renameWallet,
-      backupWallet,
-      deleteWallet,
+      backup,
+      rename,
+      remove,
     }: Props = this.props
 
     return [
-      { iconName: 'import', handler: backupWallet },
-      { iconName: 'edit', handler: renameWallet },
-      { iconName: 'bucket', handler: deleteWallet },
+      { iconName: 'import', handler: backup },
+      { iconName: 'edit', handler: rename },
+      { iconName: 'bucket', handler: remove },
     ]
   }
 
