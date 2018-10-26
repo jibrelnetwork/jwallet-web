@@ -118,9 +118,11 @@
   @import '../components/DerivationPath/derivationPath';
   @import '../components/OverlayActions/overlayActions';
   @import '../components/RoundIconButton/roundIconButton';
+  @import '../components/WalletViewTitle/walletViewTitle';
   @import '../components/NewWalletButtons/newWalletButtons';
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
+  @import '../components/MnemonicAddresses/mnemonicAddresses';
 
   // Views
   @import '../routes/Funds/styles/funds';
