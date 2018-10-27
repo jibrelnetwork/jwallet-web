@@ -46,4 +46,12 @@
       }
     }
   }
+
+  &.-index {
+    > .content {
+      > .wallet {
+        margin-bottom: 1px;
+      }
+    }
+  }
 }

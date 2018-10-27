@@ -3,13 +3,8 @@
 import React, { PureComponent } from 'react'
 
 import checkMnemonicType from 'utils/keystore/checkMnemonicType'
+import { WalletFace, WalletLoading } from 'components'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
-
-import {
-  WalletFace,
-  WalletActions,
-  WalletLoading,
-} from 'components'
 
 const WALLET_TYPE_ICON_MAP: { [WalletType]: string } = {
   'mnemonic': 'multy',
@@ -20,17 +15,14 @@ type Props = {|
   +renameWallet: (WalletId) => void,
   +backupWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
-  +toggleWallet: (WalletId) => void,
   +setActiveWallet: Function,
   +walletData: Wallet,
   +isLoading: ?boolean,
-  +isToggled: ?boolean,
 |}
 
 class WalletCard extends PureComponent<Props> {
   static defaultProps = {
     isLoading: false,
-    isToggled: false,
   }
 
   render() {
@@ -38,11 +30,9 @@ class WalletCard extends PureComponent<Props> {
       renameWallet,
       backupWallet,
       deleteWallet,
-      toggleWallet,
       setActiveWallet,
       walletData,
       isLoading,
-      isToggled,
     }: Props = this.props
 
     const {
@@ -56,16 +46,6 @@ class WalletCard extends PureComponent<Props> {
     const isMnemonic: boolean = checkMnemonicType(type)
     const iconName: string = WALLET_TYPE_ICON_MAP[type]
 
-    if (isToggled) {
-      return (
-        <WalletActions
-          renameWallet={handle(renameWallet)(id)}
-          backupWallet={handle(backupWallet)(id)}
-          deleteWallet={handle(deleteWallet)(id)}
-        />
-      )
-    }
-
     if (isLoading) {
       return <WalletLoading />
     }
@@ -77,11 +57,14 @@ class WalletCard extends PureComponent<Props> {
     return (
       <WalletFace
         onClick={handle(setActiveWallet)(id)}
-        showActions={ignoreEvent(toggleWallet)(id)}
+        renameWallet={ignoreEvent(renameWallet)(id)}
+        deleteWallet={ignoreEvent(deleteWallet)(id)}
+        backupWallet={isReadOnly ? null : ignoreEvent(backupWallet)(id)}
         title={name}
         iconName={iconName}
         description={isReadOnly ? `${description}, read only` : description}
         isReadOnly={isReadOnly}
+        hasActions
       />
     )
   }

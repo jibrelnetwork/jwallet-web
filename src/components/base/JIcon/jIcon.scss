@@ -330,13 +330,13 @@
       }
     }
 
-    &.-dotts-border {
+    &.-dots-border {
       &.-white {
-        background-image: $icon-medium-dotts-border-white;
+        background-image: $icon-medium-dots-border-white;
       }
 
       &.-gray {
-        background-image: $icon-medium-dotts-border-gray;
+        background-image: $icon-medium-dots-border-gray;
       }
     }
 
@@ -514,6 +514,12 @@
       }
     }
 
+    &.-bucket {
+      &.-white {
+        background-image: $icon-medium-bucket-white;
+      }
+    }
+
     &.-network {
       &.-gray {
         background-image: $icon-medium-network-gray;
@@ -560,11 +566,15 @@
       &.-sky {
         background-image: $icon-medium-edit-sky;
       }
+
+      &.-white {
+        background-image: $icon-medium-edit-white;
+      }
     }
 
-    &.-dotts-full {
+    &.-dots-full {
       &.-gray {
-        background-image: $icon-medium-dotts-full-gray;
+        background-image: $icon-medium-dots-full-gray;
       }
     }
 

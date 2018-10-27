@@ -5,10 +5,15 @@
   @include hover-animation;
   @include flex-row-center;
 
+  position: relative;
   height: $raised-button-height;
   padding: 0 25px;
   border-radius: 3px;
   cursor: pointer;
+
+  &:active {
+    top: -1px;
+  }
 
   &.-wide {
     width: $wide-button-width;
