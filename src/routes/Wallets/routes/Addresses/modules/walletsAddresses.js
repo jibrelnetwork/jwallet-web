@@ -4,9 +4,7 @@
 export const OPEN_VIEW: '@@walletsAddresses/OPEN_VIEW' = '@@walletsAddresses/OPEN_VIEW'
 export const CLOSE_VIEW: '@@walletsAddresses/CLOSE_VIEW' = '@@walletsAddresses/CLOSE_VIEW'
 
-export const SET_ACTIVE_ERROR: '@@walletsAddresses/SET_ACTIVE_ERROR' = '@@walletsAddresses/SET_ACTIVE_ERROR'
-export const SET_ACTIVE_SUCCESS: '@@walletsAddresses/SET_ACTIVE_SUCCESS' = '@@walletsAddresses/SET_ACTIVE_SUCCESS'
-export const SET_ACTIVE_REQUEST: '@@walletsAddresses/SET_ACTIVE_REQUEST' = '@@walletsAddresses/SET_ACTIVE_REQUEST'
+export const SET_ACTIVE: '@@walletsAddresses/SET_ACTIVE' = '@@walletsAddresses/SET_ACTIVE'
 
 export const GET_MORE_ERROR: '@@walletsAddresses/GET_MORE_ERROR' = '@@walletsAddresses/GET_MORE_ERROR'
 export const GET_MORE_SUCCESS: '@@walletsAddresses/GET_MORE_SUCCESS' = '@@walletsAddresses/GET_MORE_SUCCESS'
@@ -34,26 +32,9 @@ export function closeView() {
   }
 }
 
-export function setActiveError(err: Error) {
+export function setActive(items: Wallets, walletId: WalletId, addressIndex: Index) {
   return {
-    type: SET_ACTIVE_ERROR,
-    payload: err,
-    error: true,
-  }
-}
-
-export function setActiveSuccess(items: Wallets) {
-  return {
-    type: SET_ACTIVE_SUCCESS,
-    payload: {
-      items,
-    },
-  }
-}
-
-export function setActiveRequest(items: Wallets, walletId: WalletId, addressIndex: Index) {
-  return {
-    type: SET_ACTIVE_REQUEST,
+    type: SET_ACTIVE,
     payload: {
       items,
       walletId,
@@ -131,9 +112,7 @@ export function clean() {
 export type WalletsAddressesAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
-  ExtractReturn<typeof setActiveError> |
-  ExtractReturn<typeof setActiveSuccess> |
-  ExtractReturn<typeof setActiveRequest> |
+  ExtractReturn<typeof setActive> |
   ExtractReturn<typeof getMoreError> |
   ExtractReturn<typeof getMoreSuccess> |
   ExtractReturn<typeof getMoreRequest> |
@@ -143,6 +122,9 @@ export type WalletsAddressesAction =
   ExtractReturn<typeof clean>
 
 const initialState: WalletsAddressesState = {
+  persist: {
+    addressNames: {},
+  },
   addresses: [],
   balances: {},
   iteration: 0,
@@ -188,7 +170,10 @@ function walletsAddresses(
       }
 
     case CLEAN:
-      return initialState
+      return {
+        ...initialState,
+        persist: state.persist,
+      }
 
     default:
       return state

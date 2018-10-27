@@ -6,7 +6,6 @@ import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImpo
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
-import * as walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 
 import type { NewWalletLocation } from 'routes/Wallets/modules/wallets'
 
@@ -107,21 +106,6 @@ export function backupRequest(items: Wallets, walletId: string, password: string
 
 export function deleteRequest(items: Wallets, walletId: string) {
   walletsWorker.postMessage(walletsDelete.deleteRequest(items, walletId))
-}
-
-export function setActiveRequest(items: Wallets, walletId: WalletId, addressIndex: Index) {
-  walletsWorker.postMessage(walletsAddresses.setActiveRequest(items, walletId, addressIndex))
-}
-
-export function getMoreRequest(
-  items: Wallets,
-  walletId: WalletId,
-  startIndex: Index,
-  endIndex: Index,
-) {
-  walletsWorker.postMessage(
-    walletsAddresses.getMoreRequest(items, walletId, startIndex, endIndex),
-  )
 }
 
 export function run(store: { dispatch: (WalletsAnyAction) => void }) {

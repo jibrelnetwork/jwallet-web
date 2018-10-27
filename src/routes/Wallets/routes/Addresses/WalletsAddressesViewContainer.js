@@ -8,8 +8,8 @@ import WalletsAddressesView from './WalletsAddressesView'
 import {
   openView,
   closeView,
+  setActive,
   getMoreRequest,
-  setActiveRequest,
 } from './modules/walletsAddresses'
 
 type StateProps = {|
@@ -37,8 +37,8 @@ function mapStateToProps({ walletsAddresses, wallets }: State): StateProps {
 const mapDispatchToProps = {
   openView,
   closeView,
+  setActive,
   getMoreRequest,
-  setActiveRequest,
   goToWallets: () => push('/wallets'),
 }
 

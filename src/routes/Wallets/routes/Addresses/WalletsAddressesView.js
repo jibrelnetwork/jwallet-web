@@ -11,7 +11,7 @@ type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +goToWallets: () => void,
-  +setActiveRequest: (Wallets, WalletId, Index) => void,
+  +setActive: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +wallets: Wallets,
   +addresses: Addresses,
@@ -31,12 +31,12 @@ class WalletsAddressesView extends Component<Props> {
 
   setActiveAddress = (addressIndex: Index) => {
     const {
-      setActiveRequest,
+      setActive,
       wallets,
       walletId,
     } = this.props
 
-    return setActiveRequest(wallets, walletId, addressIndex)
+    return setActive(wallets, walletId, addressIndex)
   }
 
   render() {

@@ -16,6 +16,7 @@ declare type Addresses = Array<Address>
 declare type Bignumber = any
 declare type Decimals = number
 declare type Balances = { [Address]: number }
+declare type AddressNames = { [Address]: string }
 declare type AddressBalancePairs = Array<[Address, number]>
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
@@ -261,6 +262,9 @@ declare type WalletsBackupState = {|
  * Wallets addresses
  */
 declare type WalletsAddressesState = {|
+  +persist: {|
+    +addressNames: AddressNames,
+  |},
   +addresses: Addresses,
   +balances: Balances,
   +iteration: Index,
