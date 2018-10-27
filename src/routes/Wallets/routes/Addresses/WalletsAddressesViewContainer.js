@@ -3,6 +3,8 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import { getWallet, getAddressWalletNames } from 'utils/wallets'
+
 import WalletsAddressesView from './WalletsAddressesView'
 
 import {
@@ -15,6 +17,8 @@ import {
 type StateProps = {|
   +wallets: Wallets,
   +addresses: Addresses,
+  +addressNames: AddressNames,
+  +addressWalletNames: AddressNames,
   +balances: Balances,
   +iteration: Index,
   +walletId: ?WalletId,
@@ -23,11 +27,27 @@ type StateProps = {|
 |}
 
 function mapStateToProps({ walletsAddresses, wallets }: State): StateProps {
+  const {
+    persist: {
+      addressNames,
+    },
+    addresses,
+    balances,
+    iteration,
+    isLoading,
+  } = walletsAddresses
+
   const { items, activeWalletId } = wallets
-  const foundWallet: ?Wallet = items.find((w: Wallet): boolean => (activeWalletId === w.id))
+  const foundWallet: ?Wallet = getWallet(items, activeWalletId)
+  const addressWalletNames: AddressNames = getAddressWalletNames(items)
 
   return {
-    ...walletsAddresses,
+    addresses,
+    balances,
+    addressNames,
+    addressWalletNames,
+    iteration,
+    isLoading,
     wallets: items,
     walletId: activeWalletId,
     isReadOnly: foundWallet ? foundWallet.isReadOnly : false,
@@ -40,6 +60,7 @@ const mapDispatchToProps = {
   setActive,
   getMoreRequest,
   goToWallets: () => push('/wallets'),
+  renameAddress: (address: Address) => push(`/wallets/rename/address/${address}`),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletsAddressesView)

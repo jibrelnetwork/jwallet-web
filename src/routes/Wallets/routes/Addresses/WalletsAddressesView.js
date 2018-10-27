@@ -11,10 +11,13 @@ type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +goToWallets: () => void,
+  +renameAddress: (Address) => void,
   +setActive: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +wallets: Wallets,
   +addresses: Addresses,
+  +addressNames: AddressNames,
+  +addressWalletNames: AddressNames,
   +iteration: Index,
   +walletId: WalletId,
   +isReadOnly: boolean,
@@ -42,9 +45,12 @@ class WalletsAddressesView extends Component<Props> {
   render() {
     const {
       goToWallets,
+      renameAddress,
       getMoreRequest,
       wallets,
       addresses,
+      addressNames,
+      addressWalletNames,
       walletId,
       iteration,
       isReadOnly,
@@ -68,9 +74,11 @@ class WalletsAddressesView extends Component<Props> {
             ]}
           />
           <MnemonicAddresses
-            renameAddress={console.log}
+            renameAddress={renameAddress}
             setActive={this.setActiveAddress}
             addresses={addresses}
+            addressNames={addressNames}
+            addressWalletNames={addressWalletNames}
             isReadOnly={isReadOnly}
           />
           <div className='actions'>
