@@ -53,7 +53,7 @@ class RoundIconButton extends PureComponent<Props> {
             <JText value={label} color={color} fontCase='upper' />
           </div>
         )}
-        <div lassName='icon'>
+        <div className='icon'>
           <JIcon name={iconName} color={color} size='medium' />
         </div>
       </div>
