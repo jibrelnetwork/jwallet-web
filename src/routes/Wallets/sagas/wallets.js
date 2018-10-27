@@ -3,13 +3,15 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import walletsWorker from 'workers/wallets'
+import keystore from 'services/keystore'
 import { selectWallets } from 'store/stateSelectors'
 import { getWallet, checkMnemonicType } from 'utils/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 
 import * as wallets from '../modules/wallets'
+
+import type { NewWalletLocation } from '../modules/wallets'
 
 function* openView(): Saga<void> {
   yield put(wallets.clean())
@@ -36,7 +38,7 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
   yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/wallets'))
 }
 
-function* checkNameRequest(action: ExtractReturn<typeof wallets.checkNameRequest>): Saga<void> {
+function* checkName(action: ExtractReturn<typeof wallets.checkName>): Saga<void> {
   const { items, name, newWalletLocation } = action.payload
   const nameCleaned: string = name.trim()
 
@@ -46,18 +48,20 @@ function* checkNameRequest(action: ExtractReturn<typeof wallets.checkNameRequest
     return
   }
 
-  yield put(wallets.setIsLoading(true))
-
-  walletsWorker.checkNameRequest(items, nameCleaned, newWalletLocation)
+  try {
+    keystore.checkWalletUniqueness(items, nameCleaned, 'name')
+    yield* checkNameSuccess(newWalletLocation)
+  } catch (err) {
+    yield* checkNameError(err)
+  }
 }
 
-function* checkNameError(action: { payload: Error }): Saga<void> {
-  yield put(wallets.setInvalidField('name', action.payload.message))
-  yield put(wallets.setIsLoading(false))
+function* checkNameError(err: Error): Saga<void> {
+  yield put(wallets.setInvalidField('name', err.message))
 }
 
-function* checkNameSuccess(action: ExtractReturn<typeof wallets.checkNameSuccess>): Saga<void> {
-  switch (action.payload.newWalletLocation) {
+function* checkNameSuccess(newWalletLocation: NewWalletLocation): Saga<void> {
+  switch (newWalletLocation) {
     case 'create':
       yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
       break
@@ -69,14 +73,10 @@ function* checkNameSuccess(action: ExtractReturn<typeof wallets.checkNameSuccess
     default:
       break
   }
-
-  yield put(wallets.setIsLoading(false))
 }
 
 export function* walletsRootSaga(): Saga<void> {
   yield takeEvery(wallets.OPEN_VIEW, openView)
-  yield takeEvery(wallets.CHECK_NAME_ERROR, checkNameError)
+  yield takeEvery(wallets.CHECK_NAME, checkName)
   yield takeEvery(wallets.SET_ACTIVE_WALLET, setActiveWallet)
-  yield takeEvery(wallets.CHECK_NAME_SUCCESS, checkNameSuccess)
-  yield takeEvery(wallets.CHECK_NAME_REQUEST, checkNameRequest)
 }

@@ -84,7 +84,7 @@ function* setNextStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      yield put(wallets.checkNameRequest(items, name, 'create'))
+      yield put(wallets.checkName(items, name, 'create'))
       break
     }
 

@@ -1,13 +1,10 @@
 // @flow
 
-import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
-
-import type { NewWalletLocation } from 'routes/Wallets/modules/wallets'
 
 import type { WalletsAnyAction, WalletsWorkerInstance } from './worker'
 
@@ -22,14 +19,6 @@ type ImportWalletData = {|
 
 // $FlowFixMe
 const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
-
-export function checkNameRequest(
-  items: Wallets,
-  name: string,
-  newWalletLocation: NewWalletLocation,
-) {
-  walletsWorker.postMessage(wallets.checkNameRequest(items, name, newWalletLocation))
-}
 
 export function createRequest(walletsData: WalletsState) {
   const {

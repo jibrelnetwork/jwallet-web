@@ -133,7 +133,7 @@ export function* setNextStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      yield put(wallets.checkNameRequest(items, name, 'import'))
+      yield put(wallets.checkName(items, name, 'import'))
       break
     }
 

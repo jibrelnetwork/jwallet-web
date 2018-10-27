@@ -4,14 +4,12 @@ import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 import keystore from 'services/keystore'
 
-import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
-import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
@@ -19,7 +17,6 @@ import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/w
 import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 export type WalletsAnyAction =
-  WalletsAction |
   WalletsCreateAction |
   WalletsImportAction |
   WalletsRenameAction |
@@ -56,23 +53,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
   const action: WalletsAnyAction = msg.data
 
   switch (action.type) {
-    case wallets.CHECK_NAME_REQUEST: {
-      try {
-        const { items, name, newWalletLocation } = action.payload
-
-        keystore.checkWalletUniqueness(items, name, 'name')
-
-        walletsWorker.postMessage(wallets.checkNameSuccess(newWalletLocation))
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-
-        walletsWorker.postMessage(wallets.checkNameError(err.message))
-      }
-
-      break
-    }
-
     case walletsCreate.CREATE_REQUEST: {
       try {
         const {

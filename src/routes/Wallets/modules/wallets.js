@@ -43,9 +43,7 @@ export const CHANGE_PASSWORD_INPUT: '@@wallets/CHANGE_PASSWORD_INPUT' = '@@walle
 export const CHANGE_PASSWORD_HINT_INPUT: '@@wallets/CHANGE_PASSWORD_HINT_INPUT' = '@@wallets/CHANGE_PASSWORD_HINT_INPUT'
 export const CHANGE_PASSWORD_CONFIRM_INPUT: '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT' = '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT'
 
-export const CHECK_NAME_ERROR: '@@wallets/CHECK_NAME_ERROR' = '@@wallets/CHECK_NAME_ERROR'
-export const CHECK_NAME_SUCCESS: '@@wallets/CHECK_NAME_SUCCESS' = '@@wallets/CHECK_NAME_SUCCESS'
-export const CHECK_NAME_REQUEST: '@@wallets/CHECK_NAME_REQUEST' = '@@wallets/CHECK_NAME_REQUEST'
+export const CHECK_NAME: '@@wallets/CHECK_NAME' = '@@wallets/CHECK_NAME'
 
 export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
 export const SET_WALLETS_ITEMS: '@@wallets/SET_WALLETS_ITEMS' = '@@wallets/SET_WALLETS_ITEMS'
@@ -124,32 +122,13 @@ export function changePasswordConfirmInput(passwordConfirm: string) {
   }
 }
 
-export function checkNameError(message: string) {
-  return {
-    type: CHECK_NAME_ERROR,
-    payload: {
-      message,
-    },
-    error: true,
-  }
-}
-
-export function checkNameSuccess(newWalletLocation: NewWalletLocation) {
-  return {
-    type: CHECK_NAME_SUCCESS,
-    payload: {
-      newWalletLocation,
-    },
-  }
-}
-
-export function checkNameRequest(
+export function checkName(
   items: Wallets,
   name: string,
   newWalletLocation: NewWalletLocation,
 ) {
   return {
-    type: CHECK_NAME_REQUEST,
+    type: CHECK_NAME,
     payload: {
       name,
       items,
@@ -225,9 +204,7 @@ export type WalletsAction =
   ExtractReturn<typeof changePasswordInput> |
   ExtractReturn<typeof changePasswordHintInput> |
   ExtractReturn<typeof changePasswordConfirmInput> |
-  ExtractReturn<typeof checkNameError> |
-  ExtractReturn<typeof checkNameSuccess> |
-  ExtractReturn<typeof checkNameRequest> |
+  ExtractReturn<typeof checkName> |
   ExtractReturn<typeof setWallets> |
   ExtractReturn<typeof setWalletsItems> |
   ExtractReturn<typeof toggleWallet> |
