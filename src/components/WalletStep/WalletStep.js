@@ -16,6 +16,7 @@ type Props = {|
 
 class WalletStep extends PureComponent<Props> {
   static defaultProps = {
+    title: null,
     isLoading: false,
   }
 
