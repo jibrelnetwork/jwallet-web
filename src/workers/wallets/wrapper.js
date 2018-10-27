@@ -23,13 +23,17 @@ const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
 export function createRequest(walletsData: WalletsState) {
   const {
     name,
-    items,
+    persist,
     password,
     passwordHint,
+  }: WalletsState = walletsData
+
+  const {
+    items,
     passwordOptions,
     mnemonicOptions,
     testPasswordData,
-  }: WalletsState = walletsData
+  } = persist
 
   const passwordOptionsUser: PasswordOptionsUser = {
     ...passwordOptions,
@@ -49,13 +53,17 @@ export function createRequest(walletsData: WalletsState) {
 export function importRequest(walletsData: WalletsState, importWalletData: ImportWalletData) {
   const {
     name,
-    items,
+    persist,
     password,
     passwordHint,
+  }: WalletsState = walletsData
+
+  const {
+    items,
     passwordOptions,
     mnemonicOptions,
     testPasswordData,
-  }: WalletsState = walletsData
+  } = persist
 
   const {
     data,

@@ -5,7 +5,6 @@ export type WalletsSetWalletsActionPayload = {|
   +testPasswordData: EncryptedData,
   +passwordOptions: PasswordOptions,
   +mnemonicOptions: MnemonicOptions,
-  +passwordHint: string,
 |}
 
 export type WalletsCreateRequestPayload = {|
@@ -27,8 +26,6 @@ export type WalletsImportRequestPayload = {|
   +password: string,
 |}
 
-export type NewWalletLocation = 'create' | 'import'
-
 /* eslint-disable max-len */
 export const GO_TO_START_VIEW: '@@wallets/GO_TO_START_VIEW' = '@@wallets/GO_TO_START_VIEW'
 
@@ -43,11 +40,8 @@ export const CHANGE_PASSWORD_INPUT: '@@wallets/CHANGE_PASSWORD_INPUT' = '@@walle
 export const CHANGE_PASSWORD_HINT_INPUT: '@@wallets/CHANGE_PASSWORD_HINT_INPUT' = '@@wallets/CHANGE_PASSWORD_HINT_INPUT'
 export const CHANGE_PASSWORD_CONFIRM_INPUT: '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT' = '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT'
 
-export const CHECK_NAME: '@@wallets/CHECK_NAME' = '@@wallets/CHECK_NAME'
-
 export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
 export const SET_WALLETS_ITEMS: '@@wallets/SET_WALLETS_ITEMS' = '@@wallets/SET_WALLETS_ITEMS'
-export const TOGGLE_WALLET: '@@wallets/TOGGLE_WALLET' = '@@wallets/TOGGLE_WALLET'
 export const SET_ACTIVE_WALLET: '@@wallets/SET_ACTIVE_WALLET' = '@@wallets/SET_ACTIVE_WALLET'
 
 export const SET_IS_LOADING: '@@wallets/SET_IS_LOADING' = '@@wallets/SET_IS_LOADING'
@@ -122,21 +116,6 @@ export function changePasswordConfirmInput(passwordConfirm: string) {
   }
 }
 
-export function checkName(
-  items: Wallets,
-  name: string,
-  newWalletLocation: NewWalletLocation,
-) {
-  return {
-    type: CHECK_NAME,
-    payload: {
-      name,
-      items,
-      newWalletLocation,
-    },
-  }
-}
-
 export function setWallets(payload: WalletsSetWalletsActionPayload) {
   return {
     type: SET_WALLETS,
@@ -149,15 +128,6 @@ export function setWalletsItems(items: Wallets) {
     type: SET_WALLETS_ITEMS,
     payload: {
       items,
-    },
-  }
-}
-
-export function toggleWallet(toggledWalletId: WalletId) {
-  return {
-    type: TOGGLE_WALLET,
-    payload: {
-      toggledWalletId,
     },
   }
 }
@@ -204,27 +174,26 @@ export type WalletsAction =
   ExtractReturn<typeof changePasswordInput> |
   ExtractReturn<typeof changePasswordHintInput> |
   ExtractReturn<typeof changePasswordConfirmInput> |
-  ExtractReturn<typeof checkName> |
   ExtractReturn<typeof setWallets> |
   ExtractReturn<typeof setWalletsItems> |
-  ExtractReturn<typeof toggleWallet> |
   ExtractReturn<typeof setActiveWallet> |
   ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof setInvalidField> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsState = {
-  items: [],
+  persist: {
+    items: [],
+    activeWalletId: null,
+    passwordOptions: null,
+    mnemonicOptions: null,
+    testPasswordData: null,
+  },
   invalidFields: {},
   name: '',
   password: '',
   passwordHint: '',
   passwordConfirm: '',
-  activeWalletId: null,
-  toggledWalletId: null,
-  passwordOptions: null,
-  mnemonicOptions: null,
-  testPasswordData: null,
   isLoading: false,
 }
 
@@ -276,25 +245,28 @@ const wallets = (
     case SET_WALLETS:
       return {
         ...state,
-        ...action.payload,
+        persist: {
+          ...state.persist,
+          ...action.payload,
+        },
       }
 
     case SET_WALLETS_ITEMS:
       return {
         ...state,
-        items: action.payload.items,
-      }
-
-    case TOGGLE_WALLET:
-      return {
-        ...state,
-        toggledWalletId: action.payload.toggledWalletId,
+        persist: {
+          ...state.persist,
+          items: action.payload.items,
+        },
       }
 
     case SET_ACTIVE_WALLET:
       return {
         ...state,
-        activeWalletId: action.payload.activeWalletId,
+        persist: {
+          ...state.persist,
+          activeWalletId: action.payload.activeWalletId,
+        },
       }
 
     case SET_IS_LOADING:
@@ -316,28 +288,11 @@ const wallets = (
       }
     }
 
-    case CLEAN: {
-      const {
-        invalidFields,
-        name,
-        password,
-        passwordHint,
-        passwordConfirm,
-        toggledWalletId,
-        isLoading,
-      } = initialState
-
+    case CLEAN:
       return {
-        ...state,
-        invalidFields,
-        name,
-        password,
-        passwordHint,
-        passwordConfirm,
-        toggledWalletId,
-        isLoading,
+        ...initialState,
+        persist: state.persist,
       }
-    }
 
     default:
       return state

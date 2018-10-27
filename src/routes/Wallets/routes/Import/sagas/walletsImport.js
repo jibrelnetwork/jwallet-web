@@ -10,6 +10,24 @@ import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsImport from '../modules/walletsImport'
 
+function* checkName(): Saga<void> {
+  const { persist, name }: WalletsState = yield select(selectWallets)
+  const nameCleaned: string = name.trim()
+
+  if (!nameCleaned) {
+    yield put(wallets.setInvalidField('name', 'Name should not be empty'))
+
+    return
+  }
+
+  try {
+    keystore.checkWalletUniqueness(persist.items, nameCleaned, 'name')
+    yield put(walletsImport.setCurrentStep(walletsImport.STEPS.DATA))
+  } catch (err) {
+    yield put(wallets.setInvalidField('name', err.message))
+  }
+}
+
 function* checkData(): Saga<void> {
   const {
     data,
@@ -58,7 +76,7 @@ function* importWallet(): Saga<void> {
     derivationPath,
   }: WalletsImportState = yield select(selectWalletsImport)
 
-  const isPasswordExists: boolean = !!walletsData.testPasswordData
+  const isPasswordExists: boolean = !!walletsData.persist.testPasswordData
 
   if (!isPasswordExists) {
     if (password === name) {
@@ -128,12 +146,11 @@ function* checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataI
 }
 
 export function* setNextStep(): Saga<void> {
-  const { items, name }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsImportState = yield select(selectWalletsImport)
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      yield put(wallets.checkName(items, name, 'import'))
+      yield* checkName()
       break
     }
 
@@ -161,12 +178,12 @@ function* goToWalletsImportDataStep(): Saga<void> {
 }
 
 export function* setPrevStep(): Saga<void> {
-  const { items }: WalletsState = yield select(selectWallets)
+  const { persist }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsImportState = yield select(selectWalletsImport)
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      const isEmptyWallets: boolean = !items.length
+      const isEmptyWallets: boolean = !persist.items.length
 
       yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
 

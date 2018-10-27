@@ -8,11 +8,11 @@ export function selectWallets(state: State): WalletsState {
 }
 
 export function selectWalletsItems(state: State): Wallets {
-  return state.wallets.items
+  return state.wallets.persist.items
 }
 
 export function selectActiveWalletId(state: State): ?WalletId {
-  return state.wallets.activeWalletId
+  return state.wallets.persist.activeWalletId
 }
 
 export function selectWalletsCreate(state: State): WalletsCreateState {

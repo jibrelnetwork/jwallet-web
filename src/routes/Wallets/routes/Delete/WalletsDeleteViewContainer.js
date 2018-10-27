@@ -17,7 +17,7 @@ type StateProps = {|
 
 function mapStateToProps({ wallets }: State): StateProps {
   return {
-    items: wallets.items,
+    items: wallets.persist.items,
   }
 }
 

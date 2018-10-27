@@ -3,24 +3,43 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
+import keystore from 'services/keystore'
 import walletsWorker from 'workers/wallets'
 import { selectWallets, selectWalletsCreate } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsCreate from '../modules/walletsCreate'
 
+function* checkName(): Saga<void> {
+  const { persist, name }: WalletsState = yield select(selectWallets)
+  const nameCleaned: string = name.trim()
+
+  if (!nameCleaned) {
+    yield put(wallets.setInvalidField('name', 'Name should not be empty'))
+
+    return
+  }
+
+  try {
+    keystore.checkWalletUniqueness(persist.items, nameCleaned, 'name')
+    yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
+  } catch (err) {
+    yield put(wallets.setInvalidField('name', err.message))
+  }
+}
+
 function* createWallet(): Saga<void> {
-  const walletsData = yield select(selectWallets)
+  const walletsData: WalletsState = yield select(selectWallets)
 
   const {
+    persist,
     name,
     password,
     passwordHint,
     passwordConfirm,
-    testPasswordData,
   }: WalletsState = walletsData
 
-  const isPasswordExists: boolean = !!testPasswordData
+  const isPasswordExists: boolean = !!persist.testPasswordData
 
   if (!isPasswordExists) {
     if (password === name) {
@@ -79,12 +98,11 @@ function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
 }
 
 function* setNextStep(): Saga<void> {
-  const { items, name }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      yield put(wallets.checkName(items, name, 'create'))
+      yield* checkName()
       break
     }
 
@@ -103,12 +121,12 @@ function* goToWalletsCreateNameStep(): Saga<void> {
 }
 
 function* setPrevStep(): Saga<void> {
-  const { items }: WalletsState = yield select(selectWallets)
+  const { persist }: WalletsState = yield select(selectWallets)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      const isEmptyWallets: boolean = !items.length
+      const isEmptyWallets: boolean = !persist.items.length
 
       yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
 

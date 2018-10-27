@@ -14,8 +14,8 @@ function* openView(action: ExtractReturn<typeof walletsDelete.openView>): Saga<v
   yield put(wallets.clean())
   yield put(walletsDelete.clean())
 
-  const { items }: WalletsState = yield select(selectWallets)
-  const isFound: boolean = !!getWallet(items, action.payload.walletId)
+  const { persist }: WalletsState = yield select(selectWallets)
+  const isFound: boolean = !!getWallet(persist.items, action.payload.walletId)
 
   if (!isFound) {
     yield put(push('/wallets'))

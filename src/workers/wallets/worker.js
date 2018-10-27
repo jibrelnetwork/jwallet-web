@@ -62,7 +62,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           testPasswordData,
           name,
           password,
-          passwordHint,
         } = action.payload
 
         const passwordOpts: PasswordOptions = utils.getPasswordOptions(passwordOptions)
@@ -73,7 +72,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         }
 
         walletsWorker.postMessage(walletsCreate.createSuccess({
-          passwordHint,
           passwordOptions: passwordOpts,
           mnemonicOptions: mnemonicOpts,
           testPasswordData: testPasswordData || keystore.initPassword(password, passwordOpts),
@@ -104,7 +102,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           data,
           name,
           password,
-          passwordHint,
         } = action.payload
 
         const passwordOpts: PasswordOptions = utils.getPasswordOptions(passwordOptions)
@@ -115,7 +112,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         }
 
         walletsWorker.postMessage(walletsImport.importSuccess({
-          passwordHint,
           passwordOptions: passwordOpts,
           mnemonicOptions: mnemonicOpts,
           testPasswordData: testPasswordData || keystore.initPassword(password, passwordOpts),

@@ -6,18 +6,24 @@ import { push } from 'react-router-redux'
 import {
   openView,
   closeView,
-  toggleWallet,
   setActiveWallet,
 } from './modules/wallets'
 
 import WalletsIndexView from './WalletsIndexView'
 
-const mapStateToProps = ({ wallets }: State): WalletsState => wallets
+type StateProps = {|
+  +items: Wallets,
+|}
+
+function mapStateToProps({ wallets }: State): StateProps {
+  return {
+    items: wallets.persist.items,
+  }
+}
 
 const mapDispatchToProps = {
   openView,
   closeView,
-  toggleWallet,
   setActiveWallet,
   createWallet: () => push('/wallets/create'),
   importWallet: () => push('/wallets/import'),

@@ -15,9 +15,10 @@ import * as walletsAddresses from '../modules/walletsAddresses'
 function* openView(): Saga<void> {
   yield put(walletsAddresses.clean())
 
-  const { items, activeWalletId } = yield select(selectWallets)
-  const { iteration } = yield select(selectWalletsAddresses)
+  const { persist }: WalletsState = yield select(selectWallets)
+  const { iteration }: WalletsAddressesState = yield select(selectWalletsAddresses)
 
+  const { items, activeWalletId } = persist
   const startIndex: Index = config.mnemonicAddressesCount * iteration
   const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
 
@@ -71,9 +72,9 @@ function* getBalancesByAddresses(addresses: Addresses): Saga<Balances> {
 function* getBalances(
   action: ExtractReturn<typeof walletsAddresses.getBalancesRequest>,
 ): Saga<void> {
-  const { activeWalletId } = yield select(selectWallets)
+  const { persist }: WalletsState = yield select(selectWallets)
 
-  if (!activeWalletId) {
+  if (!persist.activeWalletId) {
     return
   }
 

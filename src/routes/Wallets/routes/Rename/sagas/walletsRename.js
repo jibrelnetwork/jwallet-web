@@ -15,8 +15,8 @@ function* openView(action: ExtractReturn<typeof walletsRename.openView>): Saga<v
   yield put(walletsRename.clean())
 
   const { walletId } = action.payload
-  const { items } = yield select(selectWallets)
-  const foundWallet: ?Wallet = getWallet(items, walletId)
+  const { persist }: WalletsState = yield select(selectWallets)
+  const foundWallet: ?Wallet = getWallet(persist.items, walletId)
 
   if (foundWallet) {
     yield put(wallets.changeNameInput(foundWallet.name))

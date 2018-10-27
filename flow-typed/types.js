@@ -178,17 +178,18 @@ declare type PasswordResult = {|
 |}
 
 declare type WalletsState = {|
-  +items: Wallets,
+  +persist: {|
+    +items: Wallets,
+    +testPasswordData: ?EncryptedData,
+    +passwordOptions: ?PasswordOptions,
+    +mnemonicOptions: ?MnemonicOptions,
+    +activeWalletId: ?WalletId,
+  |},
   +invalidFields: FormFields,
-  +testPasswordData: ?EncryptedData,
-  +passwordOptions: ?PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptions,
   +name: string,
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  +activeWalletId: ?WalletId,
-  +toggledWalletId: ?WalletId,
   +isLoading: boolean,
 |}
 

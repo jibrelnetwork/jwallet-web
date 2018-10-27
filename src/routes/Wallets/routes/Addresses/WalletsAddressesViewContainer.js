@@ -37,7 +37,7 @@ function mapStateToProps({ walletsAddresses, wallets }: State): StateProps {
     isLoading,
   } = walletsAddresses
 
-  const { items, activeWalletId } = wallets
+  const { items, activeWalletId } = wallets.persist
   const foundWallet: ?Wallet = getWallet(items, activeWalletId)
   const addressWalletNames: AddressNames = getAddressWalletNames(items)
 

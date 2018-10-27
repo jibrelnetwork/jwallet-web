@@ -15,8 +15,8 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
   yield put(wallets.clean())
   yield put(walletsBackup.clean())
 
-  const { items }: WalletsState = yield select(selectWallets)
-  const foundWallet: ?Wallet = getWallet(items, action.payload.walletId)
+  const { persist }: WalletsState = yield select(selectWallets)
+  const foundWallet: ?Wallet = getWallet(persist.items, action.payload.walletId)
 
   if (!foundWallet || foundWallet.isReadOnly) {
     yield put(push('/wallets'))
@@ -24,7 +24,7 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
 }
 
 function* backupWallet(walletId: string): Saga<void> {
-  const { items, password } = yield select(selectWallets)
+  const { persist, password }: WalletsState = yield select(selectWallets)
 
   if (!password) {
     yield put(
@@ -35,7 +35,7 @@ function* backupWallet(walletId: string): Saga<void> {
   }
 
   yield put(wallets.setIsLoading(true))
-  yield walletsWorker.backupRequest(items, walletId, password)
+  yield walletsWorker.backupRequest(persist.items, walletId, password)
 }
 
 function* backupError(action: { payload: Error }): Saga<void> {

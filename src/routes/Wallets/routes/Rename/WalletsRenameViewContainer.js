@@ -22,17 +22,19 @@ type StateProps = {|
 
 function mapStateToProps({ wallets }: State): StateProps {
   const {
-    items,
-    invalidFields,
+    persist: {
+      items,
+    },
     name,
     isLoading,
+    invalidFields,
   } = wallets
 
   return {
-    items,
-    invalidFields,
     name,
+    items,
     isLoading,
+    invalidFields,
   }
 }
 
