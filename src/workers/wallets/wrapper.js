@@ -3,7 +3,6 @@
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
-import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 import type { WalletsAnyAction, WalletsWorkerInstance } from './worker'
 
@@ -94,10 +93,6 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
 
 export function backupRequest(items: Wallets, walletId: string, password: string) {
   walletsWorker.postMessage(walletsBackup.backupRequest(items, walletId, password))
-}
-
-export function deleteRequest(items: Wallets, walletId: string) {
-  walletsWorker.postMessage(walletsDelete.deleteRequest(items, walletId))
 }
 
 export function run(store: { dispatch: (WalletsAnyAction) => void }) {

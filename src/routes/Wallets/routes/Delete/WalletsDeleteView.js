@@ -9,7 +9,7 @@ type Props = {|
   +closeView: () => void,
   +goToWallets: () => void,
   +openView: (string) => void,
-  +deleteRequest: (Wallets, string) => void,
+  +remove: (Wallets, string) => void,
   +items: Wallets,
   +params: {|
     +walletId: string,
@@ -108,8 +108,8 @@ class WalletsDeleteView extends Component<Props, ComponentState> {
   }
 
   confirmDelete = () => {
-    const { deleteRequest, items, params } = this.props
-    deleteRequest(items, params.walletId)
+    const { remove, items, params } = this.props
+    remove(items, params.walletId)
   }
 
   render() {

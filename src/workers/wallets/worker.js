@@ -7,18 +7,12 @@ import keystore from 'services/keystore'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
-import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
-import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
-export type WalletsAnyAction =
-  WalletsCreateAction |
-  WalletsImportAction |
-  WalletsBackupAction |
-  WalletsDeleteAction
+export type WalletsAnyAction = WalletsCreateAction | WalletsImportAction | WalletsBackupAction
 
 type WalletsWorkerMessage = {|
   +data: WalletsAnyAction,
@@ -141,23 +135,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(walletsBackup.backupError(err.message))
-      }
-
-      break
-    }
-
-    case walletsDelete.DELETE_REQUEST: {
-      try {
-        const { items, walletId } = action.payload
-
-        const itemsNew = keystore.removeWallet(items, walletId)
-
-        walletsWorker.postMessage(walletsDelete.deleteSuccess(itemsNew))
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-
-        walletsWorker.postMessage(walletsDelete.deleteError(err.message))
       }
 
       break

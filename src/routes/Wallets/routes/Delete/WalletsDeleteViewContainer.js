@@ -6,9 +6,9 @@ import { push } from 'react-router-redux'
 import WalletsDeleteView from './WalletsDeleteView'
 
 import {
+  remove,
   openView,
   closeView,
-  deleteRequest,
 } from './modules/walletsDelete'
 
 type StateProps = {|
@@ -22,9 +22,9 @@ function mapStateToProps({ wallets }: State): StateProps {
 }
 
 const mapDispatchToProps = {
+  remove,
   openView,
   closeView,
-  deleteRequest,
   goToWallets: () => push('/wallets'),
 }
 
