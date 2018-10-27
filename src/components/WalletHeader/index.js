@@ -1,5 +1,5 @@
 // @flow
 
-import WalletHeader from './WalletHeaderContainer'
+import WalletHeader from './WalletHeader'
 
 export default WalletHeader
