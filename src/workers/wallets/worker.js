@@ -6,20 +6,17 @@ import keystore from 'services/keystore'
 
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
-import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
-import type { WalletsRenameAction } from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import type { WalletsDeleteAction } from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
 export type WalletsAnyAction =
   WalletsCreateAction |
   WalletsImportAction |
-  WalletsRenameAction |
   WalletsBackupAction |
   WalletsDeleteAction
 
@@ -127,25 +124,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(walletsImport.importError(err.message))
-      }
-
-      break
-    }
-
-    case walletsRename.RENAME_REQUEST: {
-      try {
-        const { items, name, walletId } = action.payload
-
-        keystore.checkWalletUniqueness(items, name, 'name')
-
-        const itemsNew = keystore.updateWallet(items, walletId, { name })
-
-        walletsWorker.postMessage(walletsRename.renameSuccess(itemsNew))
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-
-        walletsWorker.postMessage(walletsRename.renameError(err.message))
       }
 
       break

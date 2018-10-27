@@ -3,11 +3,7 @@
 export const OPEN_VIEW: '@@walletsRename/OPEN_VIEW' = '@@walletsRename/OPEN_VIEW'
 export const CLOSE_VIEW: '@@walletsRename/CLOSE_VIEW' = '@@walletsRename/CLOSE_VIEW'
 
-export const RENAME_ERROR: '@@walletsRename/RENAME_ERROR' = '@@walletsRename/RENAME_ERROR'
-export const RENAME_SUCCESS: '@@walletsRename/RENAME_SUCCESS' = '@@walletsRename/RENAME_SUCCESS'
-export const RENAME_REQUEST: '@@walletsRename/RENAME_REQUEST' = '@@walletsRename/RENAME_REQUEST'
-
-export const CLEAN: '@@walletsRename/CLEAN' = '@@walletsRename/CLEAN'
+export const RENAME: '@@walletsRename/RENAME' = '@@walletsRename/RENAME'
 
 export function openView(walletId: string) {
   return {
@@ -24,28 +20,9 @@ export function closeView() {
   }
 }
 
-export function renameError(message: string) {
+export function rename(items: Wallets, name: string, walletId: string) {
   return {
-    type: RENAME_ERROR,
-    payload: {
-      message,
-    },
-    error: true,
-  }
-}
-
-export function renameSuccess(items: Wallets) {
-  return {
-    type: RENAME_SUCCESS,
-    payload: {
-      items,
-    },
-  }
-}
-
-export function renameRequest(items: Wallets, name: string, walletId: string) {
-  return {
-    type: RENAME_REQUEST,
+    type: RENAME,
     payload: {
       items,
       name,
@@ -54,16 +31,7 @@ export function renameRequest(items: Wallets, name: string, walletId: string) {
   }
 }
 
-export function clean() {
-  return {
-    type: CLEAN,
-  }
-}
-
 export type WalletsRenameAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
-  ExtractReturn<typeof renameError> |
-  ExtractReturn<typeof renameSuccess> |
-  ExtractReturn<typeof renameRequest> |
-  ExtractReturn<typeof clean>
+  ExtractReturn<typeof rename>

@@ -2,7 +2,6 @@
 
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
-import * as walletsRename from 'routes/Wallets/routes/Rename/modules/walletsRename'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import * as walletsDelete from 'routes/Wallets/routes/Delete/modules/walletsDelete'
 
@@ -91,10 +90,6 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
     passwordOptions: passwordOptionsUser,
     mnemonicOptions: mnemonicOptionsUser,
   }))
-}
-
-export function renameRequest(items: Wallets, name: string, walletId: string) {
-  walletsWorker.postMessage(walletsRename.renameRequest(items, name, walletId))
 }
 
 export function backupRequest(items: Wallets, walletId: string, password: string) {
