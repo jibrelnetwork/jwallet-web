@@ -6,14 +6,13 @@
 
   z-index: $z-index-modal-header;
   position: fixed;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 100%;
 
   > .title,
   > .button {
     position: absolute;
-    top: 50px;
   }
 
   > .title {
@@ -22,7 +21,10 @@
   }
 
   > .button {
+    @include flex-row-center;
+
     right: 50px;
+    height: 38px;
   }
 
   &.-gray {
