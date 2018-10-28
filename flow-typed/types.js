@@ -273,6 +273,14 @@ declare type WalletsAddressesState = {|
 |}
 
 /**
+ * Wallets rename address
+ */
+declare type WalletsRenameAddressState ={|
+  +name: string,
+  +invalidFields: FormFields,
+|}
+
+/**
  * Networks
  */
 declare type NetworkId = string
@@ -445,6 +453,7 @@ declare type State = {|
   +walletsImport: WalletsImportState,
   +walletsBackup: WalletsBackupState,
   +walletsAddresses: WalletsAddressesState,
+  +walletsRenameAddress: WalletsRenameAddressState,
   // networks
   +networks: NetworksData,
   // digitalAssets
@@ -466,6 +475,7 @@ declare type InitialState = {
   walletsImport?: WalletsImportState,
   walletsBackup?: WalletsBackupState,
   walletsAddresses?: WalletsAddressesState,
+  walletsRenameAddress?: WalletsRenameAddressState,
   // networks
   networks?: NetworksData,
   // digitalAssets

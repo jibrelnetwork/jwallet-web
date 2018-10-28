@@ -31,6 +31,10 @@ export function selectWalletsAddresses(state: State): WalletsAddressesState {
   return state.walletsAddresses
 }
 
+export function selectWalletsRenameAddress(state: State): WalletsRenameAddressState {
+  return state.walletsRenameAddress
+}
+
 /**
  * Networks
  */

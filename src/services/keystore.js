@@ -576,5 +576,6 @@ export default {
   checkWalletUniqueness,
   checkWalletIsMnemonicType,
   getPasswordStrength: utils.testPassword,
+  checkAddressValid: utils.checkAddressValid,
   checkDerivationPath: utils.checkDerivationPath,
 }
