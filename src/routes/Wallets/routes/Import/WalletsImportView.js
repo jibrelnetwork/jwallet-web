@@ -87,6 +87,8 @@ class WalletsImportView extends Component<Props> {
               invalidFields={invalidFields}
               valueName={name}
               buttonLabel='Next step'
+              fieldName='wallets-name'
+              placeholder='Wallet name'
               isLoading={isLoading}
             />
           )}

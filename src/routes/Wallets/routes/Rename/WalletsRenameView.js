@@ -3,8 +3,7 @@
 import React, { Component } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import ModalHeader from 'components/ModalHeader'
-import WalletNameStep from 'components/WalletNameStep'
+import { ModalHeader, WalletNameStep } from 'components'
 
 type Props = {|
   +closeView: () => void,
@@ -61,6 +60,8 @@ class WalletsRenameView extends Component<Props> {
             invalidFields={invalidFields}
             valueName={name}
             buttonLabel='OK'
+            fieldName='wallets-name'
+            placeholder='Wallet name'
             isLoading={isLoading}
           />
         </div>
