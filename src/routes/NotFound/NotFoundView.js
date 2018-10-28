@@ -5,10 +5,10 @@ import React from 'react'
 import { JThumbnail, JFlatButton } from 'components/base'
 
 type Props = {|
-  +goToIndex: () => void,
+  +goToHome: () => void,
 |}
 
-const NotFoundView = ({ goToIndex }: Props) => (
+const NotFoundView = ({ goToHome }: Props) => (
   <div className='not-found-view'>
     <div className='content'>
       <JThumbnail
@@ -23,7 +23,7 @@ const NotFoundView = ({ goToIndex }: Props) => (
       <div className='actions'>
         <div className='back'>
           <JFlatButton
-            onClick={goToIndex}
+            onClick={goToHome}
             color='white'
             label='Back to Home'
             isHoverOpacity

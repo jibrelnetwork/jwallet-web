@@ -1,12 +1,12 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 
 import NotFoundView from './NotFoundView'
+import { goToHome } from './modules/notFound'
 
 const mapDispatchToProps = {
-  goToIndex: () => push('/'),
+  goToHome,
 }
 
 export default connect(null, mapDispatchToProps)(NotFoundView)
