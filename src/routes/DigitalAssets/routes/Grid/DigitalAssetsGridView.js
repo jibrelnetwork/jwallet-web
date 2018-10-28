@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JSearch, JTabs } from 'components/base'
+import { JSearch, JTabs, JIcon } from 'components/base'
 
 import { DigitalAssetsGrid } from 'components'
 
@@ -44,12 +44,28 @@ class DigitalAssetsView extends Component<Props> {
       <div className='digital-assets-grid-view'>
         <div className='header'>
           <JTabs tabs={DIGITAL_ASSETS_TABS} />
-          <div className='search'>
-            <JSearch
-              onChange={setSearchQuery}
-              value={searchQuery}
-              placeholder='Search...'
-            />
+          <div className='actions'>
+            <div className='search'>
+              <JSearch
+                onChange={setSearchQuery}
+                value={searchQuery}
+                placeholder='Search...'
+              />
+            </div>
+            <div className='filter'>
+              <JIcon
+                size='medium'
+                color='gray'
+                name='filter'
+              />
+            </div>
+            <div className='setting'>
+              <JIcon
+                size='medium'
+                color='gray'
+                name='setting-grid'
+              />
+            </div>
           </div>
         </div>
         <div className='content'>

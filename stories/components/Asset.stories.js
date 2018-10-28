@@ -3,7 +3,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import AssetCard from 'components/DigitalAssetsList/Asset'
+import AssetCard from 'components/DigitalAssetsGrid/Asset'
 import ethereum from 'data/assets/ethereum'
 
 storiesOf('AssetCard')

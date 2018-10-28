@@ -16,45 +16,28 @@
   > .header {
     @include flex-row;
 
+    justify-content: space-between;
+    align-items: center;
     position: relative;
     width: 100%;
+    max-width: 1000px;
     height: $page-header-height;
-    padding: 0 200px;
-    border-bottom: 1px solid rgba($dusk, 0.1);
+    margin-left: auto;
+    margin-right: auto;
 
     > .actions {
       @include box;
-      @include flex-row-center;
+      @include flex-row;
 
-      position: absolute;
-      top: 0;
-      right: 200px;
-      height: 100%;
-      background-color: $pale-grey;
+      align-items: center;
 
-      &::before {
-        position: absolute;
-        top: 0;
-        left: -80px;
-        display: block;
-        height: 100%;
-        width: 80px;
-        background: linear-gradient(to right, transparent, $pale-grey);
-        content: '';
+      > .search,
+      > .filter {
+        margin-right: 45px;
       }
 
-      > .search {
-        margin-left: 40px;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 1600px) {
-    > .header {
-      padding: 0 160px;
-
-      > .actions {
-        right: 160px;
+      > .setting {
+        transform: translateY(4px);
       }
     }
   }
