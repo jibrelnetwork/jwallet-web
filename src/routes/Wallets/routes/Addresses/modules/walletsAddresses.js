@@ -14,6 +14,8 @@ export const GET_ETH_BALANCES_ERROR: '@@walletsAddresses/GET_ETH_BALANCES_ERROR'
 export const GET_ETH_BALANCES_SUCCESS: '@@walletsAddresses/GET_ETH_BALANCES_SUCCESS' = '@@walletsAddresses/GET_ETH_BALANCES_SUCCESS'
 export const GET_ETH_BALANCES_REQUEST: '@@walletsAddresses/GET_ETH_BALANCES_REQUEST' = '@@walletsAddresses/GET_ETH_BALANCES_REQUEST'
 
+export const SET_ADDRESS_NAMES: '@@walletsAddresses/SET_ADDRESS_NAMES' = '@@walletsAddresses/SET_ADDRESS_NAMES'
+
 export const CLEAN: '@@walletsAddresses/CLEAN' = '@@walletsAddresses/CLEAN'
 /* eslint-enable max-len */
 
@@ -103,6 +105,15 @@ export function getBalancesRequest(addresses: Addresses) {
   }
 }
 
+export function setAddressNames(addressNames: AddressNames) {
+  return {
+    type: SET_ADDRESS_NAMES,
+    payload: {
+      addressNames,
+    },
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -119,6 +130,7 @@ export type WalletsAddressesAction =
   ExtractReturn<typeof getBalancesError> |
   ExtractReturn<typeof getBalancesSuccess> |
   ExtractReturn<typeof getBalancesRequest> |
+  ExtractReturn<typeof setAddressNames> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsAddressesState = {
@@ -167,6 +179,15 @@ function walletsAddresses(
         ...state,
         balances: initialState.balances,
         isLoading: false,
+      }
+
+    case SET_ADDRESS_NAMES:
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          addressNames: action.payload.addressNames,
+        },
       }
 
     case CLEAN:

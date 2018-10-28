@@ -15,18 +15,31 @@ import * as walletsAddresses from '../modules/walletsAddresses'
 function* openView(): Saga<void> {
   yield put(walletsAddresses.clean())
 
-  const { persist }: WalletsState = yield select(selectWallets)
-  const { iteration }: WalletsAddressesState = yield select(selectWalletsAddresses)
+  const {
+    persist: {
+      items,
+      activeWalletId,
+    },
+  }: WalletsState = yield select(selectWallets)
 
-  const { items, activeWalletId } = persist
-  const startIndex: Index = config.mnemonicAddressesCount * iteration
-  const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
+  if (!items) {
+    yield put(push('/wallets/start'))
 
-  if (!activeWalletId) {
     return
   }
 
+  if (!activeWalletId) {
+    yield put(push('/wallets'))
+
+    return
+  }
+
+  const { iteration }: WalletsAddressesState = yield select(selectWalletsAddresses)
+
+  const startIndex: Index = config.mnemonicAddressesCount * iteration
+  const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
   const addresses = keystore.getAddresses(items, activeWalletId, startIndex, endIndex)
+
   yield put(walletsAddresses.getMoreSuccess(addresses))
 }
 
