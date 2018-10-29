@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
+
 import { Link } from 'react-router'
 
 const JTabs = ({ tabs }: Props) => (
@@ -11,7 +11,7 @@ const JTabs = ({ tabs }: Props) => (
         key={path}
         to={path}
         activeClassName='-active'
-        className={classNames('tab')}
+        className='tab'
       >
         {tabs[path]}
       </Link>
