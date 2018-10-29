@@ -4,13 +4,14 @@ import React from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router'
 
-const JTabs = ({ tabs, location }: Props) => (
+const JTabs = ({ tabs }: Props) => (
   <div className='j-tabs'>
     {Object.keys(tabs).map((path: string) => (
       <Link
         key={path}
         to={path}
-        className={classNames('tab', { '-active': (path === location.pathname) })}
+        activeClassName='-active'
+        className={classNames('tab')}
       >
         {tabs[path]}
       </Link>
@@ -19,10 +20,7 @@ const JTabs = ({ tabs, location }: Props) => (
 )
 
 type Props = {
-  tabs: { [string]: string },
-  location: {
-    pathname: string,
-  },
+  tabs: { [string]: string }
 }
 
 export default JTabs

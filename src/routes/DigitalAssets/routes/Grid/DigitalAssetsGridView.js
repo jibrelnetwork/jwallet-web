@@ -8,7 +8,7 @@ import { JSearch, JTabs } from 'components/base'
 import { DigitalAssetsGrid } from 'components'
 
 const DIGITAL_ASSETS_TABS = {
-  '/digital-assets': 'Digital assets',
+  '/digital-assets/grid': 'Digital assets',
   '/custom-asset/add': 'Transactions',
 }
 
