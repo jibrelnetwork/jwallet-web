@@ -40,7 +40,7 @@ function* rename(action: ExtractReturn<typeof walletsRename.rename>): Saga<void>
   const foundWallet: ?Wallet = getWallet(items, walletId)
 
   if (foundWallet && (foundWallet.name === name)) {
-    yield put(wallets.setInvalidField('name', 'Wallet name should be changed'))
+    yield put(wallets.setInvalidField('name', 'Wallet with this name already exists'))
 
     return
   }

@@ -7,17 +7,15 @@ import { ModalHeader, WalletNameStep } from 'components'
 
 type Props = {|
   +closeView: () => void,
-  +goToWallets: () => void,
   +openView: (string) => void,
+  +goToWalletsAddresses: () => void,
   +changeNameInput: (string) => void,
-  +rename: (Wallets, string, string) => void,
-  +items: Wallets,
+  +renameAddress: (string, string) => void,
   +invalidFields: FormFields,
   +params: {|
-    +walletId: string,
+    +address: string,
   |},
   +name: string,
-  +isLoading: boolean,
 |}
 
 class WalletsRenameView extends Component<Props> {
@@ -27,7 +25,7 @@ class WalletsRenameView extends Component<Props> {
       params,
     } = this.props
 
-    openView(params.walletId)
+    openView(params.address)
   }
 
   componentWillUnmount() {
@@ -36,33 +34,30 @@ class WalletsRenameView extends Component<Props> {
 
   render() {
     const {
-      rename,
-      goToWallets,
+      renameAddress,
       changeNameInput,
-      items,
+      goToWalletsAddresses,
       invalidFields,
       params,
       name,
-      isLoading,
     } = this.props
 
     return (
-      <div className='wallets-view -rename'>
+      <div className='wallets-view -rename-address'>
         <ModalHeader
-          onBack={goToWallets}
+          onBack={goToWalletsAddresses}
           color='white'
-          title='Rename wallet'
+          title='Rename address'
         />
         <div className='content'>
           <WalletNameStep
-            onSubmit={handle(rename)(items, name, params.walletId)}
+            onSubmit={handle(renameAddress)(params.address, name)}
             onChangeName={changeNameInput}
             invalidFields={invalidFields}
             valueName={name}
             buttonLabel='OK'
-            fieldName='wallets-name'
-            placeholder='Wallet name'
-            isLoading={isLoading}
+            fieldName='address-name'
+            placeholder='Address name'
           />
         </div>
       </div>
