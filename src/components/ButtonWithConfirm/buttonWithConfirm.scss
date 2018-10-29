@@ -1,32 +1,9 @@
 .button-with-confirm {
   all: initial;
 
-  @include font;
-  @include flex-row;
+  @include flex-row-center;
 
-  position: relative;
-
-  > .front,
-  > .back {
-    width: 0;
-    visibility: hidden;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease 0s;
-
-    &.-active {
-      width: auto;
-      visibility: visible;
-      overflow: visible;
-      opacity: 1;
-    }
-  }
-
-  > .back {
-    @include flex-row;
-
-    > .button.-right {
-      margin-left: 30px;
-    }
+  > .confirm {
+    margin-left: 15px;
   }
 }
