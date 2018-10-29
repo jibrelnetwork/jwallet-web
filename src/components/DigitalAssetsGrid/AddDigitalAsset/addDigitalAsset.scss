@@ -11,9 +11,15 @@
   cursor: pointer;
 
   > .icon {
+    @include flex-column-center;
     @include hover-animation;
 
+    width: 32px;
+    height: 32px;
     opacity: 0.3;
+    transform: rotate(-45deg);
+    border: 1px solid $dusk;
+    border-radius: 16px;
   }
 
   &:hover {
