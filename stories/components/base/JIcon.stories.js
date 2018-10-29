@@ -331,6 +331,13 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
+            name='setting-grid'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
             name='priority-high'
           />
         </div>
