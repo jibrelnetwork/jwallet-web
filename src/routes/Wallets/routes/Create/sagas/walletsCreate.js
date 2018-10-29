@@ -5,7 +5,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import keystore from 'services/keystore'
 import walletsWorker from 'workers/wallets'
-import { selectWallets, selectWalletsPersist, selectWalletsCreate } from 'store/stateSelectors'
+import { selectWallets, selectWalletsItems, selectWalletsCreate } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsCreate from '../modules/walletsCreate'
@@ -121,7 +121,7 @@ function* goToWalletsCreateNameStep(): Saga<void> {
 }
 
 function* setPrevStep(): Saga<void> {
-  const { items }: WalletsPersist = yield select(selectWalletsPersist)
+  const items: Wallets = yield select(selectWalletsItems)
   const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
 
   switch (currentStep) {

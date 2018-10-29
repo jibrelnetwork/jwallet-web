@@ -5,7 +5,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import keystore from 'services/keystore'
 import getWallet from 'utils/wallets/getWallet'
-import { selectWalletsPersist } from 'store/stateSelectors'
+import { selectWalletsItems } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsDelete from '../modules/walletsDelete'
@@ -13,7 +13,7 @@ import * as walletsDelete from '../modules/walletsDelete'
 function* openView(action: ExtractReturn<typeof walletsDelete.openView>): Saga<void> {
   yield put(wallets.clean())
 
-  const { items }: WalletsPersist = yield select(selectWalletsPersist)
+  const items: Wallets = yield select(selectWalletsItems)
   const isFound: boolean = !!getWallet(items, action.payload.walletId)
 
   if (!isFound) {

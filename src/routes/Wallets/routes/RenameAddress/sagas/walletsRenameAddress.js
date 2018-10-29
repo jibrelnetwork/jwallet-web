@@ -5,7 +5,13 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import keystore from 'services/keystore'
 import getAddressWalletNames from 'utils/wallets/getAddressWalletNames'
-import { selectWalletsPersist, selectWalletsAddressesPersist } from 'store/stateSelectors'
+
+import {
+  selectWalletsItems,
+  selectWalletsPersist,
+  selectWalletsAddressNames,
+} from 'store/stateSelectors'
+
 import * as walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 
 import * as walletsRenameAddress from '../modules/walletsRenameAddress'
@@ -26,7 +32,7 @@ function* openView(action: ExtractReturn<typeof walletsRenameAddress.openView>):
   } else if (!isAddressValid || isAddressWalletExist) {
     yield put(push('/wallets/addresses'))
   } else {
-    const { addressNames }: WalletsAddressesPersist = yield select(selectWalletsAddressesPersist)
+    const addressNames: AddressNames = yield select(selectWalletsAddressNames)
     yield put(walletsRenameAddress.changeNameInput(addressNames[address] || ''))
   }
 }
@@ -40,8 +46,8 @@ function* rename(action: ExtractReturn<typeof walletsRenameAddress.renameAddress
     return
   }
 
-  const { items }: WalletsPersist = yield select(selectWalletsPersist)
-  const { addressNames }: WalletsAddressesPersist = yield select(selectWalletsAddressesPersist)
+  const items: Wallets = yield select(selectWalletsItems)
+  const addressNames: AddressNames = yield select(selectWalletsAddressNames)
   const walletNames: AddressNames = getAddressWalletNames(items)
   const isWalletNameExist: boolean = !!Object.values(walletNames).includes(name)
   const isAddressNameExist: boolean = !!Object.values(addressNames).includes(name)
@@ -62,7 +68,7 @@ function* rename(action: ExtractReturn<typeof walletsRenameAddress.renameAddress
 }
 
 function* removeAddressName(address: string): Saga<void> {
-  const { addressNames }: WalletsAddressesPersist = yield select(selectWalletsAddressesPersist)
+  const addressNames: AddressNames = yield select(selectWalletsAddressNames)
 
   const addressNamesNew: AddressNames = Object
     .keys(addressNames)

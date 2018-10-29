@@ -6,7 +6,7 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 import walletsWorker from 'workers/wallets'
 import getWallet from 'utils/wallets/getWallet'
 import { fileSaver, clipboard } from 'services'
-import { selectWallets, selectWalletsPersist, selectWalletsBackup } from 'store/stateSelectors'
+import { selectWallets, selectWalletsItems, selectWalletsBackup } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsBackup from '../modules/walletsBackup'
@@ -15,7 +15,7 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
   yield put(wallets.clean())
   yield put(walletsBackup.clean())
 
-  const { items }: WalletsPersist = yield select(selectWalletsPersist)
+  const items: Wallets = yield select(selectWalletsItems)
   const foundWallet: ?Wallet = getWallet(items, action.payload.walletId)
 
   if (!foundWallet || foundWallet.isReadOnly) {
