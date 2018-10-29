@@ -1,27 +1,32 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 
+import config from 'config'
 import JLogo from 'components/base/JLogo'
 import RoundIconButton from 'components/RoundIconButton'
 
-const WalletHeader = ({ goToLanding }: Props) => (
-  <div className='wallet-header'>
-    <div className='content'>
-      <JLogo />
-      <div className='button'>
-        <RoundIconButton onClick={goToLanding} iconName='padding-cross' color='white' />
+class WalletHeader extends Component<*> {
+  goToLanding = () => {
+    window.location.href = config.landingURL
+  }
+
+  render() {
+    return (
+      <div className='wallet-header'>
+        <div className='logo'>
+          <JLogo />
+        </div>
+        <div className='button'>
+          <RoundIconButton
+            onClick={this.goToLanding}
+            color='white'
+            iconName='padding-cross'
+          />
+        </div>
       </div>
-    </div>
-  </div>
-)
-
-type Props = {
-  goToLanding: Function,
-}
-
-WalletHeader.defaultProps = {
-  goToLanding: () => {},
+    )
+  }
 }
 
 export default WalletHeader

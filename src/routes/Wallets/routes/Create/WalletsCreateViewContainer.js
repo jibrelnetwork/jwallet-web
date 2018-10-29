@@ -31,13 +31,15 @@ type StateProps = {|
 
 function mapStateToProps({ wallets, walletsCreate }: State): StateProps {
   const {
+    persist: {
+      testPasswordData,
+    },
     name,
     password,
     isLoading,
     passwordHint,
     invalidFields,
     passwordConfirm,
-    testPasswordData,
   } = wallets
 
   return {

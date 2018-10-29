@@ -1,0 +1,11 @@
+.mnemonic-addresses {
+  all: initial;
+
+  @include flex-column-center;
+
+  > .address {
+    &:not(:last-child) {
+      margin-bottom: 1px;
+    }
+  }
+}

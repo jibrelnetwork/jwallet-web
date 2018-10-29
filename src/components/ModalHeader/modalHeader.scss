@@ -6,34 +6,30 @@
 
   z-index: $z-index-modal-header;
   position: fixed;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 100%;
-  height: $modal-header-height;
-  padding: 0 50px;
 
-  &.-menu {
-    padding-left: ($menu-panel-width + 50px);
+  > .title,
+  > .button {
+    position: absolute;
+  }
+
+  > .title {
+    left: 50px;
+    cursor: default;
+  }
+
+  > .button {
+    @include flex-row-center;
+
+    right: 50px;
+    height: 38px;
   }
 
   &.-gray {
     > .content {
       background: linear-gradient(to top, transparent, $white);
-    }
-  }
-  // 
-  // &.-white {
-  //   background: linear-gradient(to top right, rgba(#002bb3, 0.5), rgba($blue, 0.5));
-  // }
-
-  > .content {
-    @include flex-row-center;
-
-    width: 100%;
-    height: 100%;
-
-    > .button {
-      margin-left: auto;
     }
   }
 }

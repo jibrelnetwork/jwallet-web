@@ -1,55 +1,64 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
 import { JIcon, JText } from 'components/base'
 
-const RoundIconButton = ({
-  onClick,
-  iconName,
-  color,
-  label,
-  isBorder,
-  bgColor,
-  isBoxShadow,
-}: Props) => (
-  <div onClick={onClick} className='round-icon-button'>
-    {label && (
-      <div className='label'>
-        <JText value={label} color={color} fontCase='upper' />
-      </div>
-    )}
-    <div className={classNames(
-      `icon -${color}`,
-      bgColor && `-bg-${bgColor}`,
-      isBoxShadow && '-box-shadow',
-      isBorder && '-border',
-    )}
-    >
-      <JIcon name={iconName} color={color} size='medium' />
-    </div>
-  </div>
-)
+type RoundIconButtonBgColor = 'blue'
+type RoundIconButtonColor = 'gray' | 'white'
 
 type Props = {
-  onClick: Function,
+  onClick: () => void,
   label: ?string,
   iconName: string,
-  color: 'gray' | 'white',
-  bgColor: 'blue' | null,
-  isBorder: boolean,
-  isBgColor: boolean,
-  isBoxShadow: boolean,
+  color: RoundIconButtonColor,
+  bgColor: ?RoundIconButtonBgColor,
+  hasShadow: boolean,
+  isBordered: boolean,
 }
 
-RoundIconButton.defaultProps = {
-  color: 'white',
-  label: null,
-  bgColor: null,
-  isBorder: false,
-  isBgColor: false,
-  isBoxShadow: false,
+class RoundIconButton extends PureComponent<Props> {
+  static defaultProps = {
+    color: 'white',
+    label: null,
+    bgColor: null,
+    hasShadow: false,
+    isBordered: false,
+  }
+
+  render() {
+    const {
+      onClick,
+      color,
+      label,
+      bgColor,
+      iconName,
+      hasShadow,
+      isBordered,
+    }: Props = this.props
+
+    return (
+      <div
+        onClick={onClick}
+        className={classNames(
+          `round-icon-button -${color}`,
+          isBordered && '-border',
+          hasShadow && '-box-shadow',
+          bgColor && `-bg-${bgColor}`,
+        )}
+      >
+        {label && (
+          <div className='label'>
+            <JText value={label} color={color} fontCase='upper' />
+          </div>
+        )}
+        <div className='icon'>
+          <JIcon name={iconName} color={color} size='medium' />
+        </div>
+      </div>
+    )
+  }
 }
 
 export default RoundIconButton

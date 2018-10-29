@@ -11,10 +11,10 @@ import WalletFaceActions from './Actions'
 type WalletFaceHandler = () => void
 
 type Props = {|
-  +onClick: Function,
-  +renameWallet: ?WalletFaceHandler,
-  +backupWallet: ?WalletFaceHandler,
-  +deleteWallet: ?WalletFaceHandler,
+  +backup: ?WalletFaceHandler,
+  +rename: ?WalletFaceHandler,
+  +remove: ?WalletFaceHandler,
+  +onClick: WalletFaceHandler,
   +title: string,
   +iconName: string,
   +description: string,
@@ -29,9 +29,9 @@ type StateProps = {|
 
 class WalletFace extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    renameWallet: null,
-    backupWallet: null,
-    deleteWallet: null,
+    backup: null,
+    rename: null,
+    remove: null,
     isReadOnly: false,
     hasActions: false,
     isTransparent: false,
@@ -51,10 +51,10 @@ class WalletFace extends PureComponent<Props, StateProps> {
 
   render() {
     const {
+      backup,
+      rename,
+      remove,
       onClick,
-      renameWallet,
-      backupWallet,
-      deleteWallet,
       title,
       iconName,
       description,
@@ -93,10 +93,10 @@ class WalletFace extends PureComponent<Props, StateProps> {
           </div>
           {hasActions && (
             <WalletFaceActions
+              backup={backup}
+              rename={rename}
+              remove={remove}
               toggle={ignoreEvent(this.toggle)()}
-              renameWallet={renameWallet}
-              backupWallet={backupWallet}
-              deleteWallet={deleteWallet}
               isToggled={isToggled}
             />
           )}

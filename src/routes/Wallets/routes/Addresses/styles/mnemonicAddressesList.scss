@@ -1,9 +1,0 @@
-.mnemonic-addresses-list {
-  all: initial;
-
-  @include flex-column-center;
-
-  > .address {
-    margin-bottom: 20px;
-  }
-}

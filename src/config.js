@@ -113,4 +113,9 @@ export default {
    * number of addresses derived from bip32 extended public key
    */
   mnemonicAddressesCount: 4,
+
+  /**
+   * landing page url
+   */
+  landingURL: 'https://jwallet.network',
 }

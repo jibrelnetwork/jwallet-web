@@ -12,7 +12,7 @@ type Props = {|
 const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
-    <div className='button'>
+    <div className='create'>
       <WalletFace
         onClick={createWallet}
         iconName='add'
@@ -21,15 +21,13 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
         isTransparent
       />
     </div>
-    <div className='button'>
-      <WalletFace
-        onClick={importWallet}
-        iconName='import'
-        title='Import wallet'
-        description='Import existing wallet to manage on-chain funds'
-        isTransparent
-      />
-    </div>
+    <WalletFace
+      onClick={importWallet}
+      iconName='import'
+      title='Import wallet'
+      description='Import existing wallet to manage on-chain funds'
+      isTransparent
+    />
   </div>
 )
 

@@ -3,7 +3,7 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import walletsWorker from 'workers/wallets'
+import keystore from 'services/keystore'
 import getWallet from 'utils/wallets/getWallet'
 import { selectWallets } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
@@ -12,11 +12,10 @@ import * as walletsRename from '../modules/walletsRename'
 
 function* openView(action: ExtractReturn<typeof walletsRename.openView>): Saga<void> {
   yield put(wallets.clean())
-  yield put(walletsRename.clean())
 
   const { walletId } = action.payload
-  const { items } = yield select(selectWallets)
-  const foundWallet: ?Wallet = getWallet(items, walletId)
+  const { persist }: WalletsState = yield select(selectWallets)
+  const foundWallet: ?Wallet = getWallet(persist.items, walletId)
 
   if (foundWallet) {
     yield put(wallets.changeNameInput(foundWallet.name))
@@ -25,7 +24,7 @@ function* openView(action: ExtractReturn<typeof walletsRename.openView>): Saga<v
   }
 }
 
-function* renameRequest(action: ExtractReturn<typeof walletsRename.renameRequest>): Saga<void> {
+function* rename(action: ExtractReturn<typeof walletsRename.rename>): Saga<void> {
   const {
     items,
     name,
@@ -46,25 +45,18 @@ function* renameRequest(action: ExtractReturn<typeof walletsRename.renameRequest
     return
   }
 
-  yield put(wallets.setIsLoading(true))
+  try {
+    keystore.checkWalletUniqueness(items, name, 'name')
+    const itemsNew = keystore.updateWallet(items, walletId, { name })
 
-  walletsWorker.renameRequest(items, name, walletId)
-}
-
-function* renameError(action: { payload: Error }): Saga<void> {
-  yield put(wallets.setInvalidField('name', action.payload.message))
-  yield put(wallets.setIsLoading(false))
-}
-
-function* renameSuccess(action: ExtractReturn<typeof walletsRename.renameSuccess>): Saga<void> {
-  yield put(wallets.setWalletsItems(action.payload.items))
-  yield put(wallets.setIsLoading(false))
-  yield put(push('/wallets'))
+    yield put(wallets.setWalletsItems(itemsNew))
+    yield put(push('/wallets'))
+  } catch (err) {
+    yield put(wallets.setInvalidField('name', err.message))
+  }
 }
 
 export function* walletsRenameRootSaga(): Saga<void> {
+  yield takeEvery(walletsRename.RENAME, rename)
   yield takeEvery(walletsRename.OPEN_VIEW, openView)
-  yield takeEvery(walletsRename.RENAME_ERROR, renameError)
-  yield takeEvery(walletsRename.RENAME_SUCCESS, renameSuccess)
-  yield takeEvery(walletsRename.RENAME_REQUEST, renameRequest)
 }

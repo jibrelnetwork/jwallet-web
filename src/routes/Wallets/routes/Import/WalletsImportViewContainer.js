@@ -38,13 +38,15 @@ type StateProps = {|
 
 function mapStateToProps({ wallets, walletsImport }: State): StateProps {
   const {
+    persist: {
+      testPasswordData,
+    },
     name,
     password,
     isLoading,
     passwordHint,
     invalidFields,
     passwordConfirm,
-    testPasswordData,
   } = wallets
 
   return {
