@@ -16,6 +16,7 @@ type Props = {
   +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
+  +isCustom: boolean,
 }
 
 type AssetsState = {
@@ -29,6 +30,7 @@ class AssetCard extends PureComponent<Props, AssetsState> {
     fiatBalance: 0,
     balance: 0,
     fiatCurrency: 'USD',
+    isCustom: false,
   }
 
   constructor(props: Props) {
@@ -53,6 +55,7 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       fiatBalance,
       isError,
       isLoading,
+      isCustom,
     } = this.props
 
     const {
@@ -65,11 +68,17 @@ class AssetCard extends PureComponent<Props, AssetsState> {
         onMouseLeave={handle(this.onHover)(false)}
         className='asset-card'
       >
-        <div className='symbol'>
-          <JAssetSymbol symbol={symbol} color='gray' />
-        </div>
+        {!isCustom ? (
+          <div className='symbol -icon'>
+            <JAssetSymbol symbol={symbol} color='gray' />
+          </div>
+        ) : (
+          <div className='symbol -text'>
+            <JText value={symbol} color='blue' weight='bold' size='header' whiteSpace='wrap' />
+          </div>
+        )}
         <div className='name'>
-          <JText value={name} color='dark' weight='bold' size='header' />
+          <JText value={name} color='dark' weight='bold' size='header' whiteSpace='wrap' />
         </div>
         <AssetCardBody
           address={address}

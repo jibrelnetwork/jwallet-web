@@ -21,7 +21,15 @@
 
   > .symbol {
     margin: 0 auto;
-    opacity: 0.2;
+
+    &.-icon {
+      opacity: 0.2;
+    }
+
+    &.-text {
+      height: 36px;
+      padding-top: 11px;
+    }
   }
 
   > .name {
