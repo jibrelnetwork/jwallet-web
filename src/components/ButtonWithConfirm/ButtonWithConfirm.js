@@ -1,54 +1,128 @@
 // @flow
 
-import React from 'react'
-import classNames from 'classnames'
+import React, { Component, Fragment } from 'react'
 
-import handle from 'utils/eventHandlers/handle'
 import JFlatButton from 'components/base/JFlatButton'
 
-const ButtonWithConfirm = ({
-  toggle,
-  onClick,
-  setHovered,
-  label,
-  labelCancel,
-  labelConfirm,
-  isActive,
-  isHovered,
-}: Props) => (
-  <div className='button-with-confirm'>
-    <div className={classNames('front', { '-active': !isActive })}>
-      <JFlatButton onClick={handle(toggle)(true)} label={label} color='gray' isTransparent />
-    </div>
-    <div className={classNames('back', { '-active': isActive })}>
-      <div className='button'>
-        <JFlatButton onClick={onClick} label={labelConfirm} color='gray' isTransparent />
-      </div>
-      <div
-        onMouseEnter={handle(setHovered)(true)}
-        onMouseLeave={handle(setHovered)(false)}
-        className='button -right'
-      >
-        <JFlatButton
-          onClick={handle(toggle)(false)}
-          label={labelCancel}
-          color={isHovered ? 'sky' : 'blue'}
-          isOpaque
-        />
-      </div>
-    </div>
-  </div>
-)
+type Props = {|
+  +onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  +label: string,
+  +labelCancel: string,
+  +labelConfirm: string,
+  +confirmTimeout: number,
+|}
 
-type Props = {
-  toggle: (boolean) => void,
-  onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  setHovered: (boolean) => void,
-  label: string,
-  labelCancel: string,
-  labelConfirm: string,
+type ComponentState = {|
+  countdown: number,
+  intervalId: ?IntervalID,
   isActive: boolean,
-  isHovered: boolean,
+|}
+
+const ONE_SECOND: 1000 = 1000
+
+class ButtonWithConfirm extends Component<Props, ComponentState> {
+  static defaultProps = {
+    confirmTimeout: 0,
+  }
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      intervalId: null,
+      countdown: props.confirmTimeout,
+      isActive: false,
+    }
+  }
+
+  setIntervalId = (intervalId: ?IntervalID) => {
+    this.setState({ intervalId })
+  }
+
+  setCountdown = (countdown: number) => {
+    if (countdown < 0) {
+      this.finishCountdown()
+    } else {
+      this.setState({ countdown })
+    }
+  }
+
+  startCountdown = () => {
+    const intervalId: IntervalID = setInterval(() => {
+      this.setCountdown(this.state.countdown - 1)
+    }, ONE_SECOND)
+
+    this.setIntervalId(intervalId)
+  }
+
+  finishCountdown = () => {
+    const { intervalId } = this.state
+
+    if (intervalId) {
+      clearInterval(intervalId)
+      this.setIntervalId(null)
+    }
+  }
+
+  resetCountdown = () => {
+    this.finishCountdown()
+    this.setCountdown(this.props.confirmTimeout)
+  }
+
+  initAction = () => {
+    this.setState({ isActive: true })
+    this.startCountdown()
+  }
+
+  cancelAction = () => {
+    this.setState({ isActive: false })
+    this.resetCountdown()
+  }
+
+  render() {
+    const {
+      onClick,
+      label,
+      labelCancel,
+      labelConfirm,
+    }: Props = this.props
+
+    const {
+      countdown,
+      isActive,
+    }: ComponentState = this.state
+
+    return (
+      <div className='button-with-confirm'>
+        {isActive ? (
+          <Fragment>
+            <JFlatButton
+              onClick={this.cancelAction}
+              label={labelCancel}
+              color='white'
+              isBordered
+            />
+            <div className='confirm'>
+              <JFlatButton
+                onClick={onClick}
+                label={(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
+                color='white'
+                isDisabled={countdown > 0}
+                isBordered
+              />
+            </div>
+          </Fragment>
+        ) : (
+          <JFlatButton
+            onClick={this.initAction}
+            label={label}
+            color='white'
+            isBordered
+          />
+        )}
+      </div>
+    )
+  }
 }
 
 export default ButtonWithConfirm
