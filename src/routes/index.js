@@ -26,7 +26,7 @@ export default {
     */
     Terms,
     Wallets,
-    NotFound,
     CustomAsset,
+    NotFound,
   ],
 }
