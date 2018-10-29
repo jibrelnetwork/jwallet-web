@@ -70,20 +70,23 @@ export function setSearchQuery(query: string) {
 
 type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
   | ExtractReturn<typeof addAsset>
-  | ExtractReturn<typeof removeAsset>
-  | ExtractReturn<typeof updateAsset>
+  // | ExtractReturn<typeof removeAsset>
+  // | ExtractReturn<typeof updateAsset>
   | ExtractReturn<typeof setSearchQuery>
 
 const initialState: DigitalAssetsState = {
-  items: [],
-  balances: {},
-  searchQuery: '',
-  filter: {
-    hideZeroBalance: false,
-    myAssetsFirst: false,
-    sortByName: false,
-    sortByBalace: false,
+  persist: {
+    items: {},
+    balances: {},
   },
+  filter: {
+    sortBy: null,
+    sortByNameOrder: 'asc',
+    sortByBalaceOrder: 'asc',
+    myAssetsFirst: false,
+    hideZeroBalance: false,
+  },
+  searchQuery: '',
 }
 
 const digitalAssets = (
@@ -96,42 +99,26 @@ const digitalAssets = (
 
       return {
         ...state,
-        items,
+        persist: {
+          ...state.persist,
+          items,
+        },
       }
     }
 
     case ADD_ASSET: {
       const { item } = action.payload
+      const { address } = item
 
       return {
         ...state,
-        items: [
-          ...state.items,
-          item,
-        ],
-      }
-    }
-
-    case REMOVE_ASSET: {
-      const { address } = action.payload
-
-      return {
-        ...state,
-        items: state.items.filter(item => item.address !== address),
-      }
-    }
-
-    case UPDATE_ASSET: {
-      const { item: assetItem } = action.payload
-      const { address } = assetItem
-
-      return {
-        ...state,
-        items: state.items.map(
-          item => (item.address === address) ?
-            { ...item, ...assetItem }
-            : item
-        ),
+        persist: {
+          ...state.persist,
+          items: {
+            ...state.persist.items,
+            [address]: item,
+          },
+        },
       }
     }
 

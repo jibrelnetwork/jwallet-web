@@ -309,28 +309,33 @@ declare type NetworksData = {
 /**
  * Digital assets
  */
-declare type DigitalAssetsFilter = {|
-  +hideZeroBalance: boolean,
-  +myAssetsFirst: boolean,
-  +sortByName: false | 'asc' | 'desc',
-  +sortByBalace: false | 'asc' | 'desc',
-|}
-
-type NetworkId = ?string
-type BlockNumber = ?string
 type OwnerAddress = string
 type AssetAddress = string
 
-declare type DigitalAssetBalances = {
-  [NetworkId]: {
-    [BlockNumber]: {
-      [OwnerAddress]: {
-        [AssetAddress]: {
-          balance: Bignumber,
-          isLoading: boolean,
-          isError: boolean,
-        }
-      }
+declare type DigitalAssetsFilter = {|
+  +sortBy: null | 'name' | 'balance',
+  +sortByNameOrder: 'asc' | 'desc',
+  +sortByBalaceOrder: 'asc' | 'desc',
+  +myAssetsFirst: boolean,
+  +hideZeroBalance: boolean,
+|}
+
+declare type DigitalAssetsBalance = {|
+  balance: Bignumber,
+  isLoading: boolean,
+  isError: boolean,
+|}
+
+declare type DigitalAssetsOwnerBalances = {
+  [AssetAddress]: DigitalAssetsBalance,
+}
+
+type _NetworkId = ?string
+type _BlockNumber = ?string
+declare type DigitalAssetsBalances = {
+  [_NetworkId]: {
+    [_BlockNumber]: {
+      [OwnerAddress]: DigitalAssetsOwnerBalances
     }
   }
 }
@@ -344,14 +349,17 @@ declare type DigitalAsset = {|
   +isActive: boolean,
 |}
 
-declare type DigitalAssets = Array<DigitalAsset>
+declare type DigitalAssets = {
+  [AssetAddress]: DigitalAsset
+}
 
 declare type DigitalAssetsState = {
-  +items: DigitalAssets,
+  +persist: {|
+    +items: DigitalAssets,
+    +balances: DigitalAssetsBalances,
+  |},
   +filter: DigitalAssetsFilter,
-  +balances: DigitalAssetBalances,
   +searchQuery: string,
-  // +currentAddress: ?Address,
 }
 
 /**

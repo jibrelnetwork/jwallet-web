@@ -46,27 +46,84 @@ export function selectNetworksItems(state: State): Networks {
   return state.networks.items
 }
 
-export function selectNetworkId(): ?NetworkId {
+// eslint-disable-next-line no-unused-vars
+export function selectNetworkId(state: State): ?NetworkId {
   return '3'
+}
+
+/**
+ * Blocks
+ */
+
+// eslint-disable-next-line no-unused-vars
+export function selectCurrentBlockNumber(state: State): number {
+  return 0
 }
 
 /**
  * Digital Assets
  */
-export function selectDigitalAssets(state: State): DigitalAssetsState {
-  return state.digitalAssets
+export function selectDigitalAssets({ digitalAssets }: State): DigitalAssetsState {
+  return digitalAssets
 }
 
 export function selectDigitalAssetsItems(state: State): DigitalAssets {
-  return state.digitalAssets.items
+  const {
+    digitalAssets: {
+      persist: {
+        items,
+      },
+    },
+  } = state
+
+  return items
 }
 
-export function selectDigitalAssetsBalances({ digitalAssets }: State): Balances {
-  return digitalAssets.balances
+export function selectDigitalAssetsBalances(state: State): DigitalAssetsBalances {
+  const {
+    digitalAssets: {
+      persist: {
+        balances,
+      },
+    },
+  } = state
+
+  return balances
 }
 
-export function selectCurrentDigitalAsset(state: State): ?Address {
-  return state.digitalAssets.currentAddress
+export function selectDigitalAssetsOwnerBalances(
+  state: State,
+  blockNumber: number,
+  ownerAddress: Address,
+): ?DigitalAssetsOwnerBalances {
+  const balances = selectDigitalAssetsBalances(state)
+  const networkId = selectNetworkId(state)
+  const block = blockNumber.toString()
+
+  if (balances &&
+      balances[networkId] &&
+      balances[networkId][block] &&
+      balances[networkId][block][ownerAddress]
+  ) {
+    return balances[networkId][block][ownerAddress]
+  } else {
+    return null
+  }
+}
+
+export function selectDigitalAssetBalance(
+  state: State,
+  blockNumber: number,
+  ownerAddress: Address,
+  assetAddress: Address
+): ?DigitalAssetsBalance {
+  const ownerBalances = selectDigitalAssetsOwnerBalances(state, blockNumber, ownerAddress)
+
+  if (ownerBalances && ownerBalances[assetAddress]) {
+    return ownerBalances[assetAddress]
+  } else {
+    return null
+  }
 }
 
 export function selectCustomAsset(state: State): CustomAssetState {

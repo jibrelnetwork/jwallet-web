@@ -5,7 +5,10 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JSearch, JTabs, JIcon } from 'components/base'
 
-import { DigitalAssetsGrid } from 'components'
+import {
+  DigitalAssetsGrid,
+  type DigitalAssetsGridItemType,
+} from 'components'
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
@@ -16,8 +19,7 @@ type Props = {
   openView: () => void,
   closeView: () => void,
   setSearchQuery: (string) => void,
-  items: DigitalAssets,
-  balances: DigitalAssetBalances,
+  items: DigitalAssetsGridItemType,
   searchQuery: string,
 }
 
@@ -35,7 +37,6 @@ class DigitalAssetsView extends Component<Props> {
   render() {
     const {
       items,
-      balances,
       searchQuery,
       setSearchQuery,
     } = this.props
@@ -72,7 +73,6 @@ class DigitalAssetsView extends Component<Props> {
           <Scrollbars autoHide>
             <DigitalAssetsGrid
               items={items}
-              balances={balances}
             />
           </Scrollbars>
         </div>

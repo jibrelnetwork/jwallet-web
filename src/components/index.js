@@ -25,7 +25,7 @@ import WalletViewTitle from './WalletViewTitle'
 import NewWalletButtons from './NewWalletButtons'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
-import DigitalAssetsGrid from './DigitalAssetsGrid'
+import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
 import WalletPasswordStep from './WalletPasswordStep'
 
 export {
@@ -56,4 +56,8 @@ export {
   ButtonWithConfirm,
   MnemonicAddresses,
   WalletPasswordStep,
+}
+
+export type {
+  DigitalAssetsGridItemType,
 }

@@ -17,13 +17,14 @@ import {
 function* openView(): Saga<void> {
   console.log('openView')
   const existingAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
-  const haveAssetsInStorage = existingAssets.length > 0
+  const haveAssetsInStorage = Object.keys(existingAssets).length > 0
 
   if (!haveAssetsInStorage) {
-    const allAssets: DigitalAssets = [
-      assetsData.ethereum,
-      ...assetsData.main,
-    ]
+    const allAssets = assetsData.main.reduce((result, asset) => ({
+      ...result,
+      [asset.address]: asset,
+    }), {})
+    // console.log(allAssets)
 
     yield put(setInitialItems(allAssets))
   }

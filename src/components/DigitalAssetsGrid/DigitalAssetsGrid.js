@@ -7,36 +7,33 @@ import React, { PureComponent } from 'react'
 import Asset from './Asset'
 import Empty from './Empty'
 
+export type DigitalAssetsGridItemType = Array<{
+  asset: DigitalAsset,
+  balance: ?DigitalAssetsBalance,
+}>
+
 type Props = {
-  items: DigitalAssets,
-  balances: DigitalAssetBalances,
+  items: DigitalAssetsGridItemType,
 }
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
     const {
       items,
-      balances,
     } = this.props
 
     return (
       <div className='digital-assets-grid'>
         {items.length === 0 && <Empty />}
-        {items.map((asset) => {
-          const balance = balances[asset.address] || {
-            isLoading: true,
-          }
-
-          return (
-            <div className='box' key={asset.address}>
-              { /* @TODO: add fiatCurrency, fiatBalance */ }
-              <Asset
-                {...asset}
-                {...balance}
-              />
-            </div>
-          )
-        }
+        {items.map(item => (
+          <div className='box' key={item.asset.address}>
+            { /* @TODO: add fiatCurrency, fiatBalance */ }
+            <Asset
+              {...item.asset}
+              {...item.balance}
+            />
+          </div>
+        )
         )}
       </div>
     )
