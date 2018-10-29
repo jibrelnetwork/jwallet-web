@@ -1,0 +1,15 @@
+.popup-button {
+  all: initial;
+  position: relative;
+
+  > .icon {
+    @include hover-animation;
+
+    opacity: 0.5;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

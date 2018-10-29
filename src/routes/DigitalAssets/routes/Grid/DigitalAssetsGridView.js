@@ -5,7 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JSearch, JTabs, JIcon } from 'components/base'
 
-import { DigitalAssetsGrid } from 'components'
+import { DigitalAssetsGrid, PopupButton } from 'components'
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
@@ -53,10 +53,8 @@ class DigitalAssetsView extends Component<Props> {
               />
             </div>
             <div className='filter'>
-              <JIcon
-                size='medium'
-                color='gray'
-                name='filter'
+              <PopupButton
+                icon='filter'
               />
             </div>
             <div className='setting'>
