@@ -6,13 +6,13 @@ import JText from 'components/base/JText'
 import ESCButton from 'components/ESCButton'
 
 type ModalHeaderColor = 'white' | 'gray'
-type ModalHeaderconName = 'arrow-left' | 'padding-cross'
+type ModalHeaderIconName = 'arrow-left' | 'padding-cross'
 
 type Props = {|
   +onBack: () => void,
   +title: string,
   +color: ModalHeaderColor,
-  +iconName: ModalHeaderconName,
+  +iconName: ModalHeaderIconName,
   +isDisabled: boolean,
 |}
 
