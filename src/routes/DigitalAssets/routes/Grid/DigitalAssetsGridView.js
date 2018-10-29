@@ -49,7 +49,7 @@ class DigitalAssetsView extends Component<Props> {
               <JSearch
                 onChange={setSearchQuery}
                 value={searchQuery}
-                placeholder='Search...'
+                placeholder='Search asset...'
               />
             </div>
             <div className='filter'>
