@@ -7,9 +7,10 @@ import DigitalAssets from './DigitalAssets'
 import Funds from './Funds'
 import Transactions from './Transactions'
 */
-import CustomAsset from './CustomAsset'
+import Terms from './Terms'
 import Wallets from './Wallets'
 import NotFound from './NotFound'
+import CustomAsset from './CustomAsset'
 
 export default {
   path: '/',
@@ -20,12 +21,12 @@ export default {
   childRoutes: [
     /*
     DigitalAssets(store),
-    CustomAsset(store),
     Funds(store),
     Transactions(store),
     */
-    CustomAsset,
+    Terms,
     Wallets,
     NotFound,
+    CustomAsset,
   ],
 }

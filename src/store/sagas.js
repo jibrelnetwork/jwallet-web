@@ -20,6 +20,9 @@ import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
 import transactionsSagas from 'routes/Transactions/sagas'
 */
 
+// Terms
+import termsSagas from 'routes/Terms/sagas'
+
 // Not Found
 import notFoundSagas from 'routes/NotFound/sagas'
 
@@ -38,6 +41,8 @@ export default {
   ...walletsSagas,
   // Custom Asset
   ...customAssetSagas,
+  // Terms
+  ...termsSagas,
   // Not FOund
   ...notFoundSagas,
 }

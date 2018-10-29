@@ -5,10 +5,12 @@ import React, { Component } from 'react'
 import RoundIconButton from 'components/RoundIconButton'
 
 type ESCButtonColor = 'white' | 'gray'
+type ESCButtonIconName = 'arrow-left' | 'padding-cross'
 
 type Props = {|
   +onESC: () => void,
   +color: ESCButtonColor,
+  +iconName: ESCButtonIconName,
   +isDisabled: boolean,
 |}
 
@@ -40,12 +42,14 @@ class ESCButton extends Component<Props> {
   }
 
   render() {
+    const { color, iconName } = this.props
+
     return (
       <div className='esc-button'>
         <RoundIconButton
           onClick={this.handle}
-          iconName='arrow-left'
-          color={this.props.color}
+          color={color}
+          iconName={iconName}
         />
       </div>
     )

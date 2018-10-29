@@ -125,6 +125,7 @@
   @import '../components/MnemonicAddresses/mnemonicAddresses';
 
   // Views
+  @import '../routes/Terms/termsView';
   @import '../routes/Funds/styles/funds';
   @import '../routes/Wallets/walletsView';
   @import '../routes/NotFound/notFoundView';
