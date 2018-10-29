@@ -6,6 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { JSearch, JTabs, JIcon } from 'components/base'
 
 import {
+  PopupButton,
   DigitalAssetsGrid,
   type DigitalAssetsGridItemType,
 } from 'components'
@@ -50,14 +51,12 @@ class DigitalAssetsView extends Component<Props> {
               <JSearch
                 onChange={setSearchQuery}
                 value={searchQuery}
-                placeholder='Search...'
+                placeholder='Search asset...'
               />
             </div>
             <div className='filter'>
-              <JIcon
-                size='medium'
-                color='gray'
-                name='filter'
+              <PopupButton
+                icon='filter'
               />
             </div>
             <div className='setting'>
