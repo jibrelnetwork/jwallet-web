@@ -10,7 +10,7 @@ const AddAsset = () => (
       <JIcon
         size='medium'
         color='gray'
-        name='priority-high'
+        name='close-header'
       />
     </div>
   </div>
