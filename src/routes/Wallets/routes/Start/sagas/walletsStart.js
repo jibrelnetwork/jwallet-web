@@ -3,14 +3,14 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { selectWallets } from 'store/stateSelectors'
+import { selectWalletsItems } from 'store/stateSelectors'
 
 import * as walletsStart from '../modules/walletsStart'
 
 function* openView(): Saga<void> {
-  const { persist }: WalletsState = yield select(selectWallets)
+  const items: Wallets = yield select(selectWalletsItems)
 
-  if (persist.items.length) {
+  if (items.length) {
     yield put(push('/wallets'))
   }
 }
