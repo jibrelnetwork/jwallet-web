@@ -15,10 +15,6 @@
 
     > .form > .actions {
       @include flex-row-center;
-
-      > .confirm {
-        margin-left: 15px;
-      }
     }
   }
 
