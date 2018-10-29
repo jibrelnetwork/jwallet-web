@@ -37,7 +37,15 @@
       }
 
       > .setting {
+        @include hover-animation;
+
         transform: translateY(4px);
+        opacity: 0.5;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+        }
       }
     }
   }
