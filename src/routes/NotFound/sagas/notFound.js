@@ -3,17 +3,12 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { selectWallets } from 'store/stateSelectors'
+import { selectWalletsPersist } from 'store/stateSelectors'
 
 import * as notFound from '../modules/notFound'
 
 function* goToHome(): Saga<void> {
-  const {
-    persist: {
-      items,
-      activeWalletId,
-    },
-  }: WalletsState = yield select(selectWallets)
+  const { items, activeWalletId }: WalletsPersist = yield select(selectWalletsPersist)
 
   if (!items.length) {
     yield put(push('/wallets/start'))
