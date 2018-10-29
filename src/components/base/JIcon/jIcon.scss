@@ -656,6 +656,12 @@
       }
     }
 
+    &.-setting-grid {
+      &.-gray {
+        background-image: $icon-medium-setting-grid-gray;
+      }
+    }
+
     &.-priority-high {
       &.-gray {
         background-image: $icon-medium-priority-high-gray;
