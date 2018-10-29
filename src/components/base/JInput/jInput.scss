@@ -244,12 +244,11 @@
 
   &.-disabled {
     cursor: default;
-    $disabled-white-color: #1952d5;
-    $disabled-white-background-color: #0037b5;
 
     &.-white > .input {
-      color: $disabled-white-color;
-      background-color: $disabled-white-background-color;
+      color: $azul;
+      background-color: $true-blue;
+      border: none;
     }
 
     &.-gray > .input {

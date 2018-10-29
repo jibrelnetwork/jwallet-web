@@ -3,4 +3,7 @@
     "stylelint-config-jibrelnetwork"
   ],
   "ignoreFiles": "**/*.js",
+  "rules": {
+    "no-descending-specificity": null
+  }
 }

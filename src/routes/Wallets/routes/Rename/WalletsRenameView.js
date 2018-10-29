@@ -3,15 +3,14 @@
 import React, { Component } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import ModalHeader from 'components/ModalHeader'
-import WalletNameStep from 'components/WalletNameStep'
+import { ModalHeader, WalletNameStep } from 'components'
 
 type Props = {|
   +closeView: () => void,
   +goToWallets: () => void,
   +openView: (string) => void,
   +changeNameInput: (string) => void,
-  +renameRequest: (Wallets, string, string) => void,
+  +rename: (Wallets, string, string) => void,
   +items: Wallets,
   +invalidFields: FormFields,
   +params: {|
@@ -37,8 +36,8 @@ class WalletsRenameView extends Component<Props> {
 
   render() {
     const {
+      rename,
       goToWallets,
-      renameRequest,
       changeNameInput,
       items,
       invalidFields,
@@ -56,11 +55,13 @@ class WalletsRenameView extends Component<Props> {
         />
         <div className='content'>
           <WalletNameStep
-            onSubmit={handle(renameRequest)(items, name, params.walletId)}
+            onSubmit={handle(rename)(items, name, params.walletId)}
             onChangeName={changeNameInput}
             invalidFields={invalidFields}
             valueName={name}
             buttonLabel='OK'
+            fieldName='wallets-name'
+            placeholder='Wallet name'
             isLoading={isLoading}
           />
         </div>

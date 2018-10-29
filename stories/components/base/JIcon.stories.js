@@ -85,7 +85,7 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='white'
-            name='dotts-border'
+            name='dots-border'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: '#003DC6' }}>
@@ -261,7 +261,7 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
-            name='dotts-full'
+            name='dots-full'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
@@ -644,7 +644,7 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
-            name='dotts-border'
+            name='dots-border'
           />
         </div>
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>

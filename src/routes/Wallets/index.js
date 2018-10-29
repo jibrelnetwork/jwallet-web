@@ -9,6 +9,7 @@ import Rename from './routes/Rename'
 import Backup from './routes/Backup'
 import Delete from './routes/Delete'
 import Addresses from './routes/Addresses'
+import RenameAddress from './routes/RenameAddress'
 import WalletsIndex from './WalletsIndexViewContainer'
 
 export default {
@@ -25,5 +26,6 @@ export default {
     Backup,
     Delete,
     Addresses,
+    RenameAddress,
   ],
 }

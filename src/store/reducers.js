@@ -12,6 +12,7 @@ import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
+import walletsRenameAddress from 'routes/Wallets/routes/RenameAddress/modules/walletsRenameAddress'
 
 // networks
 import networks from 'routes/modules/networks'
@@ -25,7 +26,7 @@ type KeyReducer = { key: string, reducer: Reducer<any, any> }
 const persistConfig = {
   storage,
   key: 'jwallet-web',
-  whitelist: ['wallets'],
+  whitelist: ['wallets', 'walletsAddresses'],
 }
 
 export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
@@ -36,6 +37,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
     walletsImport,
     walletsBackup,
     walletsAddresses,
+    walletsRenameAddress,
     // networks
     networks,
     // digitalAssets

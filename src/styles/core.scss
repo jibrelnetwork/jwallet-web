@@ -114,23 +114,23 @@
   @import '../components/CopyableField/copyableField';
   @import '../components/DigitalAssetsGrid/digitalAssetsGrid';
   @import '../components/PasswordField/passwordField';
-  @import '../components/WalletActions/walletActions';
   @import '../components/WalletLoading/WalletLoading';
   @import '../components/DerivationPath/derivationPath';
   @import '../components/OverlayActions/overlayActions';
   @import '../components/RoundIconButton/roundIconButton';
+  @import '../components/WalletViewTitle/walletViewTitle';
   @import '../components/NewWalletButtons/newWalletButtons';
   @import '../components/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
+  @import '../components/MnemonicAddresses/mnemonicAddresses';
 
   // Views
+  @import '../routes/Funds/styles/funds';
+  @import '../routes/Wallets/walletsView';
+  @import '../routes/NotFound/notFoundView';
   @import '../routes/DigitalAssets/digitalAssets';
-  @import '../routes/Wallets/styles/walletsView';
-  @import '../routes/NotFound/styles/notFound';
-
-  // @import '../routes/Funds/styles/funds';
-  // @import '../routes/CustomAsset/styles/customAsset';
-  // @import '../routes/Transactions/styles/transactions';
+  @import '../routes/CustomAsset/styles/customAsset';
+  @import '../routes/Transactions/styles/transactions';
 
   // Layouts
   @import '../layouts/CoreLayout/coreLayout';

@@ -1,3 +1,5 @@
+@import './Actions/walletFaceActions';
+
 .wallet-face {
   all: initial;
 
@@ -8,31 +10,10 @@
   height: $wallet-button-height;
   align-items: center;
   background-color: $blue;
-  transition: background-color 0.3s ease 0s;
   cursor: pointer;
 
-  > .actions {
-    margin-left: auto;
+  > .type {
     padding: 30px;
-  }
-
-  > .icon {
-    padding: 30px;
-
-    &.-transparent {
-      opacity: 0.5;
-      transition: opacity 0.3s ease 0s;
-    }
-  }
-
-  &:hover {
-    background-color: $bright-sky-blue;
-
-    > .icon {
-      &.-transparent {
-        opacity: 1;
-      }
-    }
   }
 
   > .data {
@@ -42,15 +23,44 @@
 
       @include flex-row;
 
-      > .icon {
+      > .eye {
         transform: translate(-5px, -3px);
       }
     }
   }
 
-  &:hover > .data {
-    > .description {
-      opacity: 1;
+  &.-transparent {
+    > .type {
+      opacity: 0.5;
+      transition: opacity 0.3s ease 0s;
+    }
+  }
+
+  &:hover,
+  &.-toggled {
+    background-color: $bright-sky-blue;
+
+    &,
+    &.-transparent {
+      > .type {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover {
+    > .data {
+      > .description {
+        opacity: 1;
+      }
+    }
+
+    &.-toggled {
+      > .data {
+        > .description {
+          opacity: 0.5;
+        }
+      }
     }
   }
 }

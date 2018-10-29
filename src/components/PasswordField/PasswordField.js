@@ -115,18 +115,16 @@ class PasswordField extends Component<Props, StateProps> {
           isDisabled={isDisabled}
           isAutoFocus
         />
-        <div className='confirmation'>
-          <Indicator status={this.getStatus()} />
-          <JInput
-            onChange={onChangeConfirm}
-            value={valueConfirm}
-            placeholder={placeholderConfirm}
-            errorMessage={invalidFields.passwordConfirm}
-            type='password'
-            name='password-confirm'
-            isDisabled={isDisabled}
-          />
-        </div>
+        <Indicator status={this.getStatus()} />
+        <JInput
+          onChange={onChangeConfirm}
+          value={valueConfirm}
+          placeholder={placeholderConfirm}
+          errorMessage={invalidFields.passwordConfirm}
+          type='password'
+          name='password-confirm'
+          isDisabled={isDisabled}
+        />
       </div>
     )
   }

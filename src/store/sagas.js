@@ -20,6 +20,9 @@ import fundsSagas from 'routes/Funds/sagas'
 import transactionsSagas from 'routes/Transactions/sagas'
 */
 
+// Not Found
+import notFoundSagas from 'routes/NotFound/sagas'
+
 export default {
   /*
   // Networks
@@ -35,4 +38,6 @@ export default {
   ...digitalAssetsSagas,
   // Custom Asset
   ...customAssetSagas,
+  // Not FOund
+  ...notFoundSagas,
 }

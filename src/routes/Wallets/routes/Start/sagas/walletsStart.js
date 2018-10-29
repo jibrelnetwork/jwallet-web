@@ -8,9 +8,9 @@ import { selectWallets } from 'store/stateSelectors'
 import * as walletsStart from '../modules/walletsStart'
 
 function* openView(): Saga<void> {
-  const { items } = yield select(selectWallets)
+  const { persist }: WalletsState = yield select(selectWallets)
 
-  if (items.length) {
+  if (persist.items.length) {
     yield put(push('/wallets'))
   }
 }

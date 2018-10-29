@@ -5,6 +5,7 @@ import HelpText from './HelpText'
 import ESCButton from './ESCButton'
 import MenuPanel from './MenuPanel'
 import Expandable from './Expandable'
+import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
 import AssetPicker from './AssetPicker'
@@ -13,18 +14,18 @@ import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
 import CopyableField from './CopyableField'
-import DigitalAssetsGrid from './DigitalAssetsGrid'
 import PasswordField from './PasswordField'
-import WalletActions from './WalletActions'
 import WalletLoading from './WalletLoading'
 import DerivationPath from './DerivationPath'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
 import RoundIconButton from './RoundIconButton'
+import WalletViewTitle from './WalletViewTitle'
 import NewWalletButtons from './NewWalletButtons'
 import ButtonWithConfirm from './ButtonWithConfirm'
-// import ActiveAssetsPanel from './ActiveAssetsPanel'
+import MnemonicAddresses from './MnemonicAddresses'
+import DigitalAssetsGrid from './DigitalAssetsGrid'
 import WalletPasswordStep from './WalletPasswordStep'
 
 export {
@@ -33,6 +34,7 @@ export {
   ESCButton,
   MenuPanel,
   Expandable,
+  WalletCard,
   WalletFace,
   WalletStep,
   AssetPicker,
@@ -42,16 +44,16 @@ export {
   WalletHeader,
   CopyableField,
   PasswordField,
-  WalletActions,
   WalletLoading,
   DerivationPath,
   OverlayActions,
   WalletDataStep,
   WalletNameStep,
   RoundIconButton,
+  WalletViewTitle,
   NewWalletButtons,
-  // ActiveAssetsPanel,
   DigitalAssetsGrid,
   ButtonWithConfirm,
+  MnemonicAddresses,
   WalletPasswordStep,
 }

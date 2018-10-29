@@ -6,9 +6,9 @@ import { push } from 'react-router-redux'
 import { changeNameInput } from '../../modules/wallets'
 
 import {
+  rename,
   openView,
   closeView,
-  renameRequest,
 } from './modules/walletsRename'
 
 import WalletsRenameView from './WalletsRenameView'
@@ -22,24 +22,26 @@ type StateProps = {|
 
 function mapStateToProps({ wallets }: State): StateProps {
   const {
-    items,
-    invalidFields,
+    persist: {
+      items,
+    },
     name,
     isLoading,
+    invalidFields,
   } = wallets
 
   return {
-    items,
-    invalidFields,
     name,
+    items,
     isLoading,
+    invalidFields,
   }
 }
 
 const mapDispatchToProps = {
+  rename,
   openView,
   closeView,
-  renameRequest,
   changeNameInput,
   goToWallets: () => push('/wallets'),
 }

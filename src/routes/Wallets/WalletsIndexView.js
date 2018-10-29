@@ -3,23 +3,20 @@
 import React, { Component } from 'react'
 
 import JCard from 'components/base/JCard'
-import WalletHeader from 'components/WalletHeader'
-
-import WalletCard from 'components/WalletCard'
-import NewWalletButtons from 'components/NewWalletButtons'
+import { handle, ignoreEvent } from 'utils/eventHandlers'
+import { checkMnemonicType, getShortenedAddress } from 'utils/wallets'
+import { WalletCard, WalletHeader, NewWalletButtons } from 'components'
 
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +createWallet: () => void,
   +importWallet: () => void,
-  +renameWallet: (WalletId) => void,
   +backupWallet: (WalletId) => void,
+  +renameWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
-  +toggleWallet: (WalletId) => void,
   +setActiveWallet: (WalletId) => void,
   +items: Wallets,
-  +toggledWalletId: WalletId,
 |}
 
 class WalletsIndexView extends Component<Props> {
@@ -35,34 +32,49 @@ class WalletsIndexView extends Component<Props> {
     const {
       createWallet,
       importWallet,
-      renameWallet,
       backupWallet,
+      renameWallet,
       deleteWallet,
-      toggleWallet,
       setActiveWallet,
       items,
-      toggledWalletId,
     }: Props = this.props
 
     return (
       <div className='wallets-view -index'>
         <WalletHeader />
         <div className='content'>
-          {items.map(item => (
-            <div key={item.id} className='wallet'>
-              <JCard color='blue'>
-                <WalletCard
-                  renameWallet={renameWallet}
-                  backupWallet={backupWallet}
-                  deleteWallet={deleteWallet}
-                  toggleWallet={toggleWallet}
-                  setActiveWallet={setActiveWallet}
-                  walletData={item}
-                  isToggled={toggledWalletId === item.id}
-                />
-              </JCard>
-            </div>
-          ))}
+          {items.map((item) => {
+            const {
+              id,
+              name,
+              type,
+              address,
+              isReadOnly,
+            }: Wallet = item
+
+            const isMnemonic: boolean = checkMnemonicType(type)
+
+            const description: string = (!isMnemonic && address)
+              ? getShortenedAddress(address)
+              : 'Mnemonic, many addresses'
+
+            return (
+              <div key={item.id} className='wallet'>
+                <JCard color='blue'>
+                  <WalletCard
+                    setActive={handle(setActiveWallet)(id)}
+                    rename={ignoreEvent(renameWallet)(id)}
+                    remove={ignoreEvent(deleteWallet)(id)}
+                    backup={isReadOnly ? null : ignoreEvent(backupWallet)(id)}
+                    type={type}
+                    title={name}
+                    description={isReadOnly ? `${description}, read only` : description}
+                    isReadOnly={isReadOnly}
+                  />
+                </JCard>
+              </div>
+            )
+          })}
           <NewWalletButtons
             createWallet={createWallet}
             importWallet={importWallet}

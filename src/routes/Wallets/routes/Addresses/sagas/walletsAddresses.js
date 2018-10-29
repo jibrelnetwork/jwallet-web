@@ -6,54 +6,56 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 
 import config from 'config'
 import web3 from 'services/web3'
-import walletsWorker from 'workers/wallets'
+import keystore from 'services/keystore'
 import { selectWallets, selectWalletsAddresses } from 'store/stateSelectors'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsAddresses from '../modules/walletsAddresses'
 
 function* openView(): Saga<void> {
-  const { items, activeWalletId } = yield select(selectWallets)
-  const { iteration } = yield select(selectWalletsAddresses)
+  yield put(walletsAddresses.clean())
 
-  const startIndex: Index = config.mnemonicAddressesCount * iteration
-  const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
+  const {
+    persist: {
+      items,
+      activeWalletId,
+    },
+  }: WalletsState = yield select(selectWallets)
 
-  if (!activeWalletId) {
+  if (!items) {
+    yield put(push('/wallets/start'))
+
     return
   }
 
-  yield put(walletsAddresses.getMoreRequest(items, activeWalletId, startIndex, endIndex))
+  if (!activeWalletId) {
+    yield put(push('/wallets'))
+
+    return
+  }
+
+  const { iteration }: WalletsAddressesState = yield select(selectWalletsAddresses)
+
+  const startIndex: Index = config.mnemonicAddressesCount * iteration
+  const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
+  const addresses = keystore.getAddresses(items, activeWalletId, startIndex, endIndex)
+
+  yield put(walletsAddresses.getMoreSuccess(addresses))
 }
 
-function* closeView(): Saga<void> {
-  yield put(walletsAddresses.clean())
-}
-
-function setActive(
-  action: ExtractReturn<typeof walletsAddresses.setActiveRequest>,
-): Saga<void> {
+function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): Saga<void> {
   const {
     items,
     walletId,
     addressIndex,
   } = action.payload
 
-  walletsWorker.setActiveRequest(items, walletId, addressIndex)
-}
-
-function* setActiveError(): Saga<void> {
-  // notify user
-}
-
-function* setActiveSuccess(
-  action: ExtractReturn<typeof walletsAddresses.setActiveSuccess>,
-): Saga<void> {
-  yield put(wallets.setWallets(action.payload.items))
+  const itemsNew: Wallets = keystore.updateWallet(items, walletId, { addressIndex })
+  yield put(wallets.setWalletsItems(itemsNew))
   yield put(push('/wallets'))
 }
 
-function getMore(
+function* getMore(
   action: ExtractReturn<typeof walletsAddresses.getMoreRequest>,
 ): Saga<void> {
   const {
@@ -63,11 +65,8 @@ function getMore(
     startIndex,
   } = action.payload
 
-  walletsWorker.getMoreRequest(items, walletId, startIndex, endIndex)
-}
-
-function* getMoreError(): Saga<void> {
-  // notify user
+  const addresses = keystore.getAddresses(items, walletId, startIndex, endIndex)
+  yield put(walletsAddresses.getMoreSuccess(addresses))
 }
 
 function getBalanceByAddress(address: Address) {
@@ -86,9 +85,9 @@ function* getBalancesByAddresses(addresses: Addresses): Saga<Balances> {
 function* getBalances(
   action: ExtractReturn<typeof walletsAddresses.getBalancesRequest>,
 ): Saga<void> {
-  const { activeWalletId } = yield select(selectWallets)
+  const { persist }: WalletsState = yield select(selectWallets)
 
-  if (!activeWalletId) {
+  if (!persist.activeWalletId) {
     return
   }
 
@@ -102,18 +101,9 @@ function* getBalances(
   }
 }
 
-function* getBalancesError(): Saga<void> {
-  // notify user
-}
-
 export function* walletsAddressesRootSaga(): Saga<void> {
   yield takeEvery(walletsAddresses.OPEN_VIEW, openView)
-  yield takeEvery(walletsAddresses.CLOSE_VIEW, closeView)
+  yield takeEvery(walletsAddresses.SET_ACTIVE, setActive)
   yield takeEvery(walletsAddresses.GET_MORE_REQUEST, getMore)
-  yield takeEvery(walletsAddresses.GET_MORE_ERROR, getMoreError)
-  yield takeEvery(walletsAddresses.SET_ACTIVE_REQUEST, setActive)
-  yield takeEvery(walletsAddresses.SET_ACTIVE_ERROR, setActiveError)
-  yield takeEvery(walletsAddresses.SET_ACTIVE_SUCCESS, setActiveSuccess)
   yield takeEvery(walletsAddresses.GET_ETH_BALANCES_REQUEST, getBalances)
-  yield takeEvery(walletsAddresses.GET_ETH_BALANCES_ERROR, getBalancesError)
 }

@@ -3,11 +3,7 @@
 export const OPEN_VIEW: '@@walletsDelete/OPEN_VIEW' = '@@walletsDelete/OPEN_VIEW'
 export const CLOSE_VIEW: '@@walletsDelete/CLOSE_VIEW' = '@@walletsDelete/CLOSE_VIEW'
 
-export const DELETE_ERROR: '@@walletsDelete/DELETE_ERROR' = '@@walletsDelete/DELETE_ERROR'
-export const DELETE_SUCCESS: '@@walletsDelete/DELETE_SUCCESS' = '@@walletsDelete/DELETE_SUCCESS'
-export const DELETE_REQUEST: '@@walletsDelete/DELETE_REQUEST' = '@@walletsDelete/DELETE_REQUEST'
-
-export const CLEAN: '@@walletsDelete/CLEAN' = '@@walletsDelete/CLEAN'
+export const REMOVE: '@@walletsDelete/REMOVE' = '@@walletsDelete/REMOVE'
 
 export function openView(walletId: string) {
   return {
@@ -24,28 +20,9 @@ export function closeView() {
   }
 }
 
-export function deleteError(message: string) {
+export function remove(items: Wallets, walletId: string) {
   return {
-    type: DELETE_ERROR,
-    payload: {
-      message,
-    },
-    error: true,
-  }
-}
-
-export function deleteSuccess(items: Wallets) {
-  return {
-    type: DELETE_SUCCESS,
-    payload: {
-      items,
-    },
-  }
-}
-
-export function deleteRequest(items: Wallets, walletId: string) {
-  return {
-    type: DELETE_REQUEST,
+    type: REMOVE,
     payload: {
       items,
       walletId,
@@ -53,16 +30,7 @@ export function deleteRequest(items: Wallets, walletId: string) {
   }
 }
 
-export function clean() {
-  return {
-    type: CLEAN,
-  }
-}
-
 export type WalletsDeleteAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
-  ExtractReturn<typeof deleteError> |
-  ExtractReturn<typeof deleteSuccess> |
-  ExtractReturn<typeof deleteRequest> |
-  ExtractReturn<typeof clean>
+  ExtractReturn<typeof remove>

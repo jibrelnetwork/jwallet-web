@@ -16,6 +16,7 @@ declare type Addresses = Array<Address>
 declare type Bignumber = any
 declare type Decimals = number
 declare type Balances = { [Address]: number }
+declare type AddressNames = { [Address]: string }
 declare type AddressBalancePairs = Array<[Address, number]>
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
@@ -177,17 +178,18 @@ declare type PasswordResult = {|
 |}
 
 declare type WalletsState = {|
-  +items: Wallets,
+  +persist: {|
+    +items: Wallets,
+    +testPasswordData: ?EncryptedData,
+    +passwordOptions: ?PasswordOptions,
+    +mnemonicOptions: ?MnemonicOptions,
+    +activeWalletId: ?WalletId,
+  |},
   +invalidFields: FormFields,
-  +testPasswordData: ?EncryptedData,
-  +passwordOptions: ?PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptions,
   +name: string,
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  +activeWalletId: ?WalletId,
-  +toggledWalletId: ?WalletId,
   +isLoading: boolean,
 |}
 
@@ -261,10 +263,21 @@ declare type WalletsBackupState = {|
  * Wallets addresses
  */
 declare type WalletsAddressesState = {|
+  +persist: {|
+    +addressNames: AddressNames,
+  |},
   +addresses: Addresses,
   +balances: Balances,
   +iteration: Index,
   +isLoading: boolean,
+|}
+
+/**
+ * Wallets rename address
+ */
+declare type WalletsRenameAddressState ={|
+  +name: string,
+  +invalidFields: FormFields,
 |}
 
 /**
@@ -454,6 +467,7 @@ declare type State = {|
   +walletsImport: WalletsImportState,
   +walletsBackup: WalletsBackupState,
   +walletsAddresses: WalletsAddressesState,
+  +walletsRenameAddress: WalletsRenameAddressState,
   // networks
   +networks: NetworksData,
   // digitalAssets
@@ -475,6 +489,7 @@ declare type InitialState = {
   walletsImport?: WalletsImportState,
   walletsBackup?: WalletsBackupState,
   walletsAddresses?: WalletsAddressesState,
+  walletsRenameAddress?: WalletsRenameAddressState,
   // networks
   networks?: NetworksData,
   // digitalAssets
