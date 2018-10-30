@@ -3,7 +3,7 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { selectWallets } from 'store/stateSelectors'
+import { selectWalletsItems } from 'store/stateSelectors'
 import { getWallet, checkMnemonicType } from 'utils/wallets'
 
 import * as wallets from '../modules/wallets'
@@ -12,9 +12,9 @@ function* openView(): Saga<void> {
   yield put(wallets.clean())
   yield put(wallets.setActiveWallet(null))
 
-  const { persist }: WalletsState = yield select(selectWallets)
+  const items: Wallets = yield select(selectWalletsItems)
 
-  if (!persist.items.length) {
+  if (!items.length) {
     yield put(push('/wallets/start'))
   }
 }
@@ -26,8 +26,8 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
     return
   }
 
-  const { persist }: WalletsState = yield select(selectWallets)
-  const wallet: ?Wallet = getWallet(persist.items, activeWalletId)
+  const items: Wallets = yield select(selectWalletsItems)
+  const wallet: ?Wallet = getWallet(items, activeWalletId)
   const isMnemonicWallet: boolean = !!wallet && checkMnemonicType(wallet.type)
 
   yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/wallets'))

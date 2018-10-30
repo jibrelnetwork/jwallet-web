@@ -10,6 +10,7 @@ import DigitalAssets from './DigitalAssets'
 import CustomAsset from './CustomAsset'
 import Wallets from './Wallets'
 import NotFound from './NotFound'
+import Terms from './Terms'
 
 export default {
   path: '/',
@@ -19,13 +20,14 @@ export default {
   },
   childRoutes: [
     /*
-    CustomAsset(store),
     Funds(store),
     Transactions(store),
     */
     DigitalAssets,
     CustomAsset,
     Wallets,
+    Terms,
+    CustomAsset,
     NotFound,
   ],
 }

@@ -1,5 +1,5 @@
 // @flow
 
-import ButtonWithConfirm from './ButtonWithConfirmContainer'
+import ButtonWithConfirm from './ButtonWithConfirm'
 
 export default ButtonWithConfirm

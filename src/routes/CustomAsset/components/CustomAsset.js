@@ -2,7 +2,6 @@
 
 import React from 'react'
 
-import { ModalHeader } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
 
 type CustomAssetFormType = 'add' | 'edit'
@@ -43,13 +42,6 @@ const CustomAsset = ({
 
   return (
     <div className='custom-asset'>
-      <div className='header'>
-        <ModalHeader
-          title={`routes.${i18nKey}.title`}
-          color='gray'
-          withMenu
-        />
-      </div>
       <div className='form'>
         {fields.map(({ key, isDisabled, isLoading }) => (
           <JInput
@@ -58,7 +50,7 @@ const CustomAsset = ({
             value={formFields[key]}
             name={`custom-asset-${key}`}
             errorMessage={invalidFields[key]}
-            placeholder={`routes.${i18nKey}.placeholder.${key}`}
+            placeholder={i18n(`routes.${i18nKey}.placeholder.${key}`)}
             type='text'
             color='gray'
             isDisabled={isDisabled}
@@ -69,7 +61,7 @@ const CustomAsset = ({
           <div className='confirm'>
             <JRaisedButton
               onClick={submit}
-              label={`routes.${i18nKey}.buttonTitle`}
+              label={i18n(`routes.${i18nKey}.buttonTitle`)}
               color='blue'
               labelColor='white'
               isWide

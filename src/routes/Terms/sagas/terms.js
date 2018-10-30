@@ -5,16 +5,18 @@ import { put, select, takeEvery } from 'redux-saga/effects'
 
 import { selectWalletsItems } from 'store/stateSelectors'
 
-import * as walletsStart from '../modules/walletsStart'
+import * as terms from '../modules/terms'
 
-function* openView(): Saga<void> {
+function* goToHome(): Saga<void> {
   const items: Wallets = yield select(selectWalletsItems)
 
-  if (items.length) {
+  if (!items.length) {
+    yield put(push('/wallets/start'))
+  } else {
     yield put(push('/wallets'))
   }
 }
 
-export function* walletsStartRootSaga(): Saga<void> {
-  yield takeEvery(walletsStart.OPEN_VIEW, openView)
+export function* termsRootSaga(): Saga<void> {
+  yield takeEvery(terms.GO_TO_HOME, goToHome)
 }

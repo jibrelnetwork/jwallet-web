@@ -7,7 +7,13 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import config from 'config'
 import web3 from 'services/web3'
 import keystore from 'services/keystore'
-import { selectWallets, selectWalletsAddresses } from 'store/stateSelectors'
+
+import {
+  selectActiveWalletId,
+  selectWalletsPersist,
+  selectWalletsAddresses,
+} from 'store/stateSelectors'
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsAddresses from '../modules/walletsAddresses'
@@ -15,12 +21,7 @@ import * as walletsAddresses from '../modules/walletsAddresses'
 function* openView(): Saga<void> {
   yield put(walletsAddresses.clean())
 
-  const {
-    persist: {
-      items,
-      activeWalletId,
-    },
-  }: WalletsState = yield select(selectWallets)
+  const { items, activeWalletId }: WalletsPersist = yield select(selectWalletsPersist)
 
   if (!items) {
     yield put(push('/wallets/start'))
@@ -85,9 +86,9 @@ function* getBalancesByAddresses(addresses: Addresses): Saga<Balances> {
 function* getBalances(
   action: ExtractReturn<typeof walletsAddresses.getBalancesRequest>,
 ): Saga<void> {
-  const { persist }: WalletsState = yield select(selectWallets)
+  const activeWalletId: ?WalletId = yield select(selectActiveWalletId)
 
-  if (!persist.activeWalletId) {
+  if (!activeWalletId) {
     return
   }
 

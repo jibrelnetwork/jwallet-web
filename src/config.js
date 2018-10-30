@@ -118,4 +118,9 @@ export default {
    * landing page url
    */
   landingURL: 'https://jwallet.network',
+
+  /**
+   * timeout before confirming of delete wallet action
+   */
+  deleteConfirmTimeout: 30,
 }

@@ -7,6 +7,10 @@ export function selectWallets(state: State): WalletsState {
   return state.wallets
 }
 
+export function selectWalletsPersist(state: State): WalletsPersist {
+  return state.wallets.persist
+}
+
 export function selectWalletsItems(state: State): Wallets {
   return state.wallets.persist.items
 }
@@ -29,6 +33,10 @@ export function selectWalletsBackup(state: State): WalletsBackupState {
 
 export function selectWalletsAddresses(state: State): WalletsAddressesState {
   return state.walletsAddresses
+}
+
+export function selectWalletsAddressNames(state: State): AddressNames {
+  return state.walletsAddresses.persist.addressNames
 }
 
 export function selectWalletsRenameAddress(state: State): WalletsRenameAddressState {

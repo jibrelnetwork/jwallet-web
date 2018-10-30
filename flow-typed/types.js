@@ -177,14 +177,16 @@ declare type PasswordResult = {|
   |},
 |}
 
+declare type WalletsPersist = {|
+  +items: Wallets,
+  +testPasswordData: ?EncryptedData,
+  +passwordOptions: ?PasswordOptions,
+  +mnemonicOptions: ?MnemonicOptions,
+  +activeWalletId: ?WalletId,
+|}
+
 declare type WalletsState = {|
-  +persist: {|
-    +items: Wallets,
-    +testPasswordData: ?EncryptedData,
-    +passwordOptions: ?PasswordOptions,
-    +mnemonicOptions: ?MnemonicOptions,
-    +activeWalletId: ?WalletId,
-  |},
+  +persist: WalletsPersist,
   +invalidFields: FormFields,
   +name: string,
   +password: string,
@@ -262,10 +264,12 @@ declare type WalletsBackupState = {|
 /**
  * Wallets addresses
  */
+declare type WalletsAddressesPersist = {|
+  +addressNames: AddressNames,
+|}
+
 declare type WalletsAddressesState = {|
-  +persist: {|
-    +addressNames: AddressNames,
-  |},
+  +persist: WalletsAddressesPersist,
   +addresses: Addresses,
   +balances: Balances,
   +iteration: Index,
