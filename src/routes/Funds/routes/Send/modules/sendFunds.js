@@ -227,9 +227,9 @@ const initialState: SendFundsData = {
 
 const sendFunds = (
   state: SendFundsData = initialState,
-  action: FSA,
+  action: Object,
 ): Object => {
-  const { type, payload }: FSA = action
+  const { type, payload }: Object = action
 
   switch (type) {
     case OPEN: {

@@ -5,6 +5,8 @@ import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
+import type { Store, Reducer } from 'react-redux'
+
 // wallets
 import wallets from 'routes/Wallets/modules/wallets'
 import transactions from 'routes/Transactions/modules/transactions'
@@ -21,7 +23,7 @@ import networks from 'routes/modules/networks'
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import customAsset from 'routes/CustomAsset/modules/customAsset'
 
-type KeyReducer = { key: string, reducer: Reducer<any, any> }
+type KeyReducer = { key: string, reducer: Reducer<State, *> }
 
 const persistConfig = {
   storage,
@@ -29,7 +31,7 @@ const persistConfig = {
   whitelist: ['wallets', 'walletsAddresses'],
 }
 
-export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
+export function makeRootReducer(asyncReducers: ?Reducers): Reducer<State, *> {
   const rootReducer = combineReducers({
     // wallets
     wallets,
@@ -54,7 +56,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
   return persistReducer(persistConfig, rootReducer)
 }
 
-export function injectReducer(store: Store, { key, reducer }: KeyReducer) {
+export function injectReducer(store: Store<State, *>, { key, reducer }: KeyReducer) {
   store.replaceReducer(makeRootReducer({
     ...store.asyncReducers,
     [key]: reducer,

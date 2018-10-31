@@ -173,9 +173,9 @@ const initialState: TransactionsData = {
 
 const transactions = (
   state: TransactionsData = initialState,
-  action: FSA,
+  action: Object,
 ): Object => {
-  const { type, payload }: FSA = action
+  const { type, payload }: Object = action
 
   switch (type) {
     case GET_SUCCESS: {
