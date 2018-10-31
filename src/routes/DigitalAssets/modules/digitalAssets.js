@@ -80,7 +80,7 @@ const initialState: DigitalAssetsState = {
     balances: {},
   },
   filter: {
-    sortBy: null,
+    sortBy: 'name',
     sortByNameOrder: 'asc',
     sortByBalaceOrder: 'asc',
     myAssetsFirst: false,
