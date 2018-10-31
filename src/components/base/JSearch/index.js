@@ -1,5 +1,5 @@
 // @flow
 
-import JSearch from './JSearchContainer'
+import JSearch from './JSearch'
 
 export default JSearch

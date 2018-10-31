@@ -59,6 +59,7 @@ class AssetCardBody extends PureComponent<Props> {
               label='Reload asset'
               color='blue'
               isHoverOpacity
+              onClick={console.log}
             />
           </div>
         </div>
@@ -97,7 +98,7 @@ class AssetCardBody extends PureComponent<Props> {
         ) : (
           <div className='fiat'>
             <JFlatButton
-              onClick={console.log(address)}
+              onClick={() => console.log(address)}
               label='Show transactions'
               color='blue'
               isHoverOpacity
