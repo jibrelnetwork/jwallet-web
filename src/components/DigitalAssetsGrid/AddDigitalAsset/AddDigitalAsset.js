@@ -3,9 +3,14 @@
 import React from 'react'
 
 import { JIcon } from 'components/base'
+import { handle } from 'utils/eventHandlers'
 
-const AddAsset = () => (
-  <div className='add-asset'>
+type Props = {
+  onClick: () => void
+}
+
+const AddAsset = ({ onClick }: Props) => (
+  <div className='add-asset' onClick={handle(onClick)()}>
     <div className='icon'>
       <JIcon
         size='medium'
