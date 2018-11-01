@@ -60,8 +60,7 @@
     }
 
     &:hover {
-      > .flag::before,
-      > .label {
+      > .flag::before {
         opacity: 1;
       }
     }
