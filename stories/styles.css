@@ -33,3 +33,8 @@ h3 {
 .inline {
   display: inline-block;
 }
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}

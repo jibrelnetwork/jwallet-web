@@ -660,6 +660,12 @@
       }
     }
 
+    &.-close-padding {
+      &.-gray {
+        background-image: $icon-medium-close-padding-gray;
+      }
+    }
+
     &.-filter-selected {
       &.-gray {
         background-image: $icon-medium-filter-selected-gray;

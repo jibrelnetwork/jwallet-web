@@ -2,8 +2,9 @@
   all: initial;
   display: block;
   position: relative;
+  z-index: $z-popup-button;
 
-  > .informer {
+  > .counter {
     @include flex-column-center;
 
     height: 16px;
@@ -32,7 +33,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: $z-popup-button-overlay;
     position: fixed;
   }
 
@@ -49,5 +50,16 @@
     &:hover {
       opacity: 1;
     }
+  }
+
+  > .container {
+    top: -14px;
+    right: -14px;
+    position: absolute;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: $z-popup-button-container;
+    width: 250px;
   }
 }

@@ -6,19 +6,16 @@ import { JIcon, JText } from 'components/base'
 import handle from 'utils/eventHandlers/handle'
 
 type Props = {
+  children: ?Object,
   +icon: string,
-  +informer: number,
+  +counter: string,
 }
 
 type ComponentState = {|
-  +isActive: boolean,
+  isActive: boolean,
 |}
 
 class PopupButton extends PureComponent<Props, ComponentState> {
-  static defaultProps = {
-    isActive: false,
-  }
-
   constructor(props: Props) {
     super(props)
 
@@ -35,8 +32,9 @@ class PopupButton extends PureComponent<Props, ComponentState> {
 
   render() {
     const {
+      children,
       icon,
-      informer,
+      counter,
     } = this.props
 
     const {
@@ -45,9 +43,9 @@ class PopupButton extends PureComponent<Props, ComponentState> {
 
     return (
       <div className='popup-button' >
-        {informer && (
-          <div className='informer'>
-            <JText value={informer} size='small' color='white' weight='bold' />
+        {counter && (
+          <div className='counter'>
+            <JText value={counter} size='small' color='white' weight='bold' />
           </div>
         )}
         <div className='icon' onClick={handle(this.toggle)(!isActive)}>
@@ -57,7 +55,10 @@ class PopupButton extends PureComponent<Props, ComponentState> {
           <Fragment>
             <div className='overlay' onClick={handle(this.toggle)(!isActive)} />
             <div className='close' onClick={handle(this.toggle)(!isActive)}>
-              <JIcon size='medium' color='gray' name='cross' />
+              <JIcon size='medium' color='gray' name='close-padding' />
+            </div>
+            <div className='container'>
+              {children}
             </div>
           </Fragment>
         )}
