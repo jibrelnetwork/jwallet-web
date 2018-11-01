@@ -1,43 +1,43 @@
 // @flow
 
-import React from 'react'
-import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
-import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
+import { JText } from 'components/base'
 
-const JCheckbox = ({ toggle, children, name, isActive, isTopAligned }: Props) => (
-  <div
-    className={classNames('j-checkbox', isActive && '-active', isTopAligned && '-top')}
-    onClick={ignoreEvent(toggle)(isActive)}
-  >
-    <div className='input'>
-      <input
-        type='checkbox'
-        className='checkbox'
-        name={`checkbox-${name}`}
-        checked={isActive}
-        readOnly
-      />
-      <label htmlFor={`checkbox-${name}`} className='label' />
-    </div>
-    <div className='content'>
-      {children}
-    </div>
-  </div>
-)
+type Props = {|
+  +name: number | string,
+  +label: number | string,
+|}
 
-type Props = {
-  toggle: Function,
-  children: ?Object,
-  name: number | string,
-  isActive: boolean,
-  isTopAligned: boolean,
-}
+class JCheckbox extends PureComponent<Props> {
+  render() {
+    const {
+      name,
+      label,
+    } = this.props
 
-JCheckbox.defaultProps = {
-  children: null,
-  isActive: false,
-  isTopAligned: false,
+    return (
+      <div className='j-checkbox'>
+        <label className='field'>
+          <input
+            type='checkbox'
+            className='checkbox'
+            name={`checkbox-${name}`}
+          />
+          <span className='flag' />
+          <span className='label'>
+            <JText
+              color='gray'
+              size='normal'
+              value={label}
+              weight='bold'
+              whiteSpace='wrap'
+            />
+          </span>
+        </label>
+      </div>
+    )
+  }
 }
 
 export default JCheckbox
