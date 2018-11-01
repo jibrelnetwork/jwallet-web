@@ -1,10 +1,10 @@
-import DigitalAssetsLayout from 'layouts/DigitalAssets'
+// import DigitalAssetsLayout from 'layouts/DigitalAssets'
 
 import Add from './routes/Add'
 
 export default {
   path: 'custom-asset',
-  component: DigitalAssetsLayout,
+  // component: DigitalAssetsLayout,
   childRoutes: [
     Add,
   ],
