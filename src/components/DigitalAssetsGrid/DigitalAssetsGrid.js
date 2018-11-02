@@ -7,13 +7,13 @@ import React, { PureComponent } from 'react'
 import Asset from './Asset'
 import Empty from './Empty'
 
-export type DigitalAssetsGridItemType = Array<{
+export type DigitalAssetsGridItemType = {
   asset: DigitalAsset,
   balance: ?DigitalAssetsBalance,
-}>
+}
 
 type Props = {
-  items: DigitalAssetsGridItemType,
+  items: Array<DigitalAssetsGridItemType>,
 }
 
 class DigitalAssetsGrid extends PureComponent<Props> {

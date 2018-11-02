@@ -1,5 +1,4 @@
 // @flow
-// import { delay } from 'redux-saga'
 
 import { select, put, takeEvery } from 'redux-saga/effects'
 
@@ -10,12 +9,14 @@ import {
 } from 'store/stateSelectors'
 
 import {
-  OPEN_VIEW,
+  OPEN_LAYOUT,
+} from 'routes/modules/wallet'
+
+import {
   setInitialItems,
 } from '../modules/digitalAssets'
 
-function* openView(): Saga<void> {
-  console.log('openView')
+function* initDigitalAssets(): Saga<void> {
   const existingAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
   const haveAssetsInStorage = Object.keys(existingAssets).length > 0
 
@@ -24,13 +25,11 @@ function* openView(): Saga<void> {
       ...result,
       [asset.address]: asset,
     }), {})
-    // console.log(allAssets)
 
     yield put(setInitialItems(allAssets))
   }
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {
-  console.log('digitalAssetsRootSaga')
-  yield takeEvery(OPEN_VIEW, openView)
+  yield takeEvery(OPEN_LAYOUT, initDigitalAssets)
 }
