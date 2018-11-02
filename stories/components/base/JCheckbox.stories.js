@@ -10,11 +10,11 @@ storiesOf('JCheckbox')
     <div>
       <h2>Default</h2>
       <div className='story'>
-        <JCheckbox label='Test' value='test' />
+        <JCheckbox label='Test' />
       </div>
       <h2>Checked</h2>
       <div className='story'>
-        <JCheckbox label='Ttest 2' value='test2' isChecked />
+        <JCheckbox label='Ttest 2' isChecked />
       </div>
     </div>
   ))
