@@ -56,10 +56,11 @@
     top: -14px;
     right: -14px;
     position: absolute;
+    width: 250px;
     padding: 20px;
     border-radius: 5px;
     background-color: #fff;
     z-index: $z-popup-button-container;
-    width: 250px;
+    box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
   }
 }

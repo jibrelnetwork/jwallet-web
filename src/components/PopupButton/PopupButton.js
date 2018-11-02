@@ -6,9 +6,9 @@ import { JIcon, JText } from 'components/base'
 import handle from 'utils/eventHandlers/handle'
 
 type Props = {
-  children: ?Object,
+  +children: React$Node,
   +icon: string,
-  +counter: string,
+  +counter: number,
 }
 
 type ComponentState = {|
@@ -16,6 +16,10 @@ type ComponentState = {|
 |}
 
 class PopupButton extends PureComponent<Props, ComponentState> {
+  static defaultProps = {
+    counter: 0,
+  }
+
   constructor(props: Props) {
     super(props)
 
@@ -43,11 +47,11 @@ class PopupButton extends PureComponent<Props, ComponentState> {
 
     return (
       <div className='popup-button' >
-        {counter && (
+        {counter ? (
           <div className='counter'>
-            <JText value={counter} size='small' color='white' weight='bold' />
+            <JText value={counter.toString()} size='small' color='white' weight='bold' />
           </div>
-        )}
+        ) : ''}
         <div className='icon' onClick={handle(this.toggle)(!isActive)}>
           <JIcon size='medium' color='gray' name={icon} />
         </div>
