@@ -28,6 +28,7 @@ import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
 import WalletPasswordStep from './WalletPasswordStep'
+import DigitalAssetsFilter from './DigitalAssetsFilter'
 
 export {
   QRCode,
@@ -58,6 +59,7 @@ export {
   ButtonWithConfirm,
   MnemonicAddresses,
   WalletPasswordStep,
+  DigitalAssetsFilter,
 }
 
 export type {

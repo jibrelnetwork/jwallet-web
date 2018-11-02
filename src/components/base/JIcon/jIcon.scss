@@ -721,6 +721,30 @@
     &.-flag-kr {
       background-image: $icon-medium-flag-kr;
     }
+
+    &.-sort-alphabet-up {
+      &.-blue {
+        background-image: $icon-medium-sort-alphabet-up-blue;
+      }
+    }
+
+    &.-sort-alphabet-down {
+      &.-blue {
+        background-image: $icon-medium-sort-alphabet-down-blue;
+      }
+    }
+
+    &.-sort-desc {
+      &.-blue {
+        background-image: $icon-medium-sort-desc-blue;
+      }
+    }
+
+    &.-sort-asc {
+      &.-blue {
+        background-image: $icon-medium-sort-asc-blue;
+      }
+    }
   }
 
   /**
