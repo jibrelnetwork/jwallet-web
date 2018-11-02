@@ -1,5 +1,5 @@
 // @flow
 
-import AsideLayout from './AsideLayout'
+import AsideLayoutContainer from './AsideLayoutContainer'
 
-export default AsideLayout
+export default AsideLayoutContainer
