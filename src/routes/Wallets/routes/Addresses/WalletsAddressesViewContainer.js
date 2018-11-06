@@ -26,7 +26,7 @@ type StateProps = {|
   +isReadOnly: boolean,
 |}
 
-function mapStateToProps({ walletsAddresses, wallets }: State): StateProps {
+function mapStateToProps({ walletsAddresses, wallets }: AppState): StateProps {
   const {
     persist: {
       addressNames,

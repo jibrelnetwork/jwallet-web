@@ -1,7 +1,7 @@
 // @flow
 
 import storage from 'localforage'
-import { combineReducers } from 'redux'
+import { combineReducers, type Reducer } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
@@ -21,15 +21,13 @@ import networks from 'routes/modules/networks'
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import customAsset from 'routes/CustomAsset/modules/customAsset'
 
-type KeyReducer = { key: string, reducer: Reducer<any, any> }
-
 const persistConfig = {
   storage,
   key: 'jwallet-web',
   whitelist: ['wallets', 'walletsAddresses'],
 }
 
-export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
+export function makeRootReducer(): Reducer<AppState, any> {
   const rootReducer = combineReducers({
     // wallets
     wallets,
@@ -47,16 +45,7 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<any, any> {
     transactions,
     // router
     router,
-    // async
-    ...asyncReducers,
   })
 
   return persistReducer(persistConfig, rootReducer)
-}
-
-export function injectReducer(store: Store, { key, reducer }: KeyReducer) {
-  store.replaceReducer(makeRootReducer({
-    ...store.asyncReducers,
-    [key]: reducer,
-  }))
 }

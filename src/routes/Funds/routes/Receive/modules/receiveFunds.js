@@ -133,9 +133,9 @@ const initialState: ReceiveFundsData = {
 
 const receiveFunds = (
   state: ReceiveFundsData = initialState,
-  action: FSA,
+  action: Object,
 ): Object => {
-  const { type, payload }: FSA = action
+  const { type, payload } = action
 
   switch (type) {
     case OPEN: {

@@ -1,21 +1,8 @@
-import { injectReducer } from 'store/reducers'
+// @flow
 
-export default store => ({
+import TransactionsOutgoingViewContainer from './containers/TransactionsOutgoingViewContainer'
+
+export default {
   path: 'outgoing',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const View = require('./containers/TransactionsOutgoingViewContainer').default
-
-      const transactions = require('../../modules/transactions').default
-      const send = require('../../../Funds/routes/Send/modules/sendFunds').default
-      const receive = require('../../../Funds/routes/Receive/modules/receiveFunds').default
-
-      injectReducer(store, { key: 'transactions', reducer: transactions })
-      injectReducer(store, { key: 'sendFunds', reducer: send })
-      injectReducer(store, { key: 'receiveFunds', reducer: receive })
-
-      cb(null, View)
-    }, 'transactions-outgoing')
-  },
-})
-
+  component: TransactionsOutgoingViewContainer,
+}
