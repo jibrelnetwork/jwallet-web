@@ -71,9 +71,9 @@ const initialState: ConvertFundsData = {
 
 const convertFunds = (
   state: ConvertFundsData = initialState,
-  action: FSA,
+  action: Object,
 ): Object => {
-  const { type, payload }: FSA = action
+  const { type, payload } = action
 
   switch (type) {
     case SET_FROM_ASSET: {
