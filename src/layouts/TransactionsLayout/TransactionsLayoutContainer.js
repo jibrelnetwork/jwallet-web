@@ -8,7 +8,7 @@ import { open, close, search } from 'routes/Transactions/modules/transactions'
 
 import TransactionsLayout from './TransactionsLayout'
 
-const mapStateToProps: Function = ({ transactions }: State): {
+const mapStateToProps: Function = ({ transactions }: AppState): {
   searchQuery: string,
 } => ({
   searchQuery: transactions.searchQuery,

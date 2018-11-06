@@ -1,7 +1,7 @@
 // @flow
 
 import storage from 'localforage'
-import { combineReducers } from 'redux'
+import { combineReducers, type Reducer } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
@@ -28,8 +28,8 @@ const persistConfig = {
   whitelist: ['wallets', 'walletsAddresses'],
 }
 
-export function makeRootReducer() {
-  const reducers: AppState = {
+export function makeRootReducer(): Reducer<AppState, any> {
+  const rootReducer = combineReducers({
     // wallets
     wallets,
     walletsCreate,
@@ -45,8 +45,7 @@ export function makeRootReducer() {
     // transactions,
     // router
     router,
-  }
+  })
 
-  const rootReducer = combineReducers(reducers)
   return persistReducer(persistConfig, rootReducer)
 }

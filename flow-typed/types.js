@@ -1,14 +1,5 @@
 // @flow
 
-/* eslint-disable no-unused-vars */
-
-import type { Reducer, Store, Dispatch } from 'redux'
-import type { Saga } from 'redux-saga'
-import type { Persistor } from 'redux-persist/lib/types'
-
-/**
- * General
- */
 declare type Index = number
 declare type EthereumAddress = 'Ethereum'
 declare type Address = string | EthereumAddress
@@ -37,40 +28,9 @@ declare type HMR = {|
   +accept: (string, (void) => void) => void,
 |}
 
-/**
- * Router
- */
-declare type RouterData = {
-  +locationBeforeTransitions: {
-    +pathname: string,
-  },
-}
+declare type SetFieldFunction<T> = ($Keys<T>, string) => void
 
-/**
- * Entire state
- */
-declare type AppState = {|
-  // wallets
-  +wallets: WalletsState,
-  +walletsCreate: WalletsCreateState,
-  +walletsImport: WalletsImportState,
-  +walletsBackup: WalletsBackupState,
-  +walletsAddresses: WalletsAddressesState,
-  +walletsRenameAddress: WalletsRenameAddressState,
-  // networks
-  // +networks: NetworksData,
-  // digitalAssets
-  +digitalAssets: DigitalAssetsState,
-  +digitalAssetsGrid: DigitalAssetsGridState,
-  // +customAsset: CustomAssetState,
-  // transactions
-  // +transactions: TransactionsData,
-  // funds
-  // +receiveFunds: ReceiveFundsData,
-  // +sendFunds: SendFundsData,
-  // router
-  +router: RouterData,
-|}
+declare function i18n(path: string): string
 
 /**
  * Errors
@@ -79,5 +39,3 @@ declare type InvalidFieldError = {
   +fieldName: string,
   +message: string,
 }
-
-/* eslint-enable no-unused-vars */

@@ -20,7 +20,7 @@ type StateProps = {|
   +isLoading: boolean,
 |}
 
-function mapStateToProps({ wallets }: State): StateProps {
+function mapStateToProps({ wallets }: AppState): StateProps {
   const {
     persist: {
       items,

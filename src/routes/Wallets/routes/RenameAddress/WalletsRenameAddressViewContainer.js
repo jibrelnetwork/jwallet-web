@@ -17,7 +17,7 @@ type StateProps = {|
   +name: string,
 |}
 
-function mapStateToProps({ walletsRenameAddress }: State): StateProps {
+function mapStateToProps({ walletsRenameAddress }: AppState): StateProps {
   const { name, invalidFields } = walletsRenameAddress
 
   return { name, invalidFields }

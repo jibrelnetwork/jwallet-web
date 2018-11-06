@@ -33,7 +33,7 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
     typeof window === 'object' && __DEV__ &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+        // Extension’s options like name, actionsBlacklist, actionsCreators, serialize...
       }) : compose
 
   // ======================================================

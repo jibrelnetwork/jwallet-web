@@ -1,8 +1,5 @@
 // @flow
 
-/**
- * Funds
- */
 declare type SendFundsData = {
     +invalidFields: FormFields,
     +alert: string,
