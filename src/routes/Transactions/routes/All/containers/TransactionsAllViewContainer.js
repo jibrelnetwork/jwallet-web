@@ -9,7 +9,7 @@ import { getTransactionsByPeriod, filterFoundTransactions } from 'utils/transact
 
 import TransactionsList from '../../../components/TransactionsList'
 
-function mapStateToProps({ networks, digitalAssets, transactions }: State): {
+function mapStateToProps({ networks, digitalAssets, transactions }: AppState): {
   items: Transactions,
   currentAsset: ?DigitalAsset,
   transactionsByPeriod: TransactionsByPeriod,

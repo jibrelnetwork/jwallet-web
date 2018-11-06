@@ -18,7 +18,7 @@ import {
   copyAddress,
 } from '../modules/receiveFunds'
 
-const mapStateToProps: Function = ({ wallets, receiveFunds }: State) => ({
+const mapStateToProps: Function = ({ wallets, receiveFunds }: AppState) => ({
   ...receiveFunds,
   recipient: getWalletNameAndAddress(wallets.activeWalletId),
 })

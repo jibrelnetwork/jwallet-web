@@ -15,7 +15,7 @@ type StateProps = {|
   +items: Wallets,
 |}
 
-function mapStateToProps({ wallets }: State): StateProps {
+function mapStateToProps({ wallets }: AppState): StateProps {
   return {
     items: wallets.persist.items,
   }

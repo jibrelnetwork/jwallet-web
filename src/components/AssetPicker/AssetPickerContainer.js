@@ -6,7 +6,7 @@ import getActiveDigitalAssetsData from 'utils/digitalAssets/getActiveDigitalAsse
 
 import AssetPicker from './AssetPicker'
 
-const mapStateToProps: Function = ({ digitalAssets }: State): {
+const mapStateToProps: Function = ({ digitalAssets }: AppState): {
   activeAssets: Array<DigitalAssetMainDataWithBalance>,
   isLoading: boolean,
 } => ({
