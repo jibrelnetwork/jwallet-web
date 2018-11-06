@@ -12,10 +12,7 @@ import { makeRootReducer } from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
 
-function configureStore(initialState: InitialState = {}, history: Object): {|
-  +store: Store,
-  +persistor: Persistor,
-|} {
+function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Middleware Configuration
   // ======================================================
@@ -30,22 +27,27 @@ function configureStore(initialState: InitialState = {}, history: Object): {|
   }
 
   // ======================================================
-  // Store Enhancers
+  // Store Enhancers, redux developer tools
   // ======================================================
-  const enhancers = []
+  const composeEnhancers =
+    typeof window === 'object' && __DEV__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      }) : compose
 
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
   const rootReducer = makeRootReducer()
-  const enhancer = compose(applyMiddleware(...middleware), ...enhancers)
+  const enhancer = composeEnhancers(
+    applyMiddleware(...middleware),
+  )
   const store = createStore(rootReducer, initialState, enhancer)
   const persistor = persistStore(store)
 
-  store.asyncReducers = {}
-
   // ======================================================
-  // Inject sagas
+  // Run sagas
   // ======================================================
   Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
 
@@ -53,16 +55,6 @@ function configureStore(initialState: InitialState = {}, history: Object): {|
   // Start workers
   // ======================================================
   workers.forEach(worker => worker.run(store))
-
-  const hmr: HMR = (module: any).hot
-
-  if (hmr) {
-    hmr.accept('./reducers', () => {
-      const reducers = require('./reducers').makeRootReducer
-
-      store.replaceReducer(reducers(store.asyncReducers))
-    })
-  }
 
   return { store, persistor }
 }
