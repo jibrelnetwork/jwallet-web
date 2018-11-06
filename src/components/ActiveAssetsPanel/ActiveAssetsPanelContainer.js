@@ -20,7 +20,7 @@ const getWalletAddress = (id: ?WalletId): ?Address => {
   }
 }
 
-const mapStateToProps: Function = ({ digitalAssets, wallets }: State): {
+const mapStateToProps: Function = ({ digitalAssets, wallets }: AppState): {
   digitalAssets: Array<DigitalAssetMainDataWithBalance>,
   currentAssetAddress: ?Address,
   currentWalletAddress: ?Address,
