@@ -476,6 +476,34 @@ storiesOf('JIcon')
             name='edit-pen'
           />
         </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-alphabet-up'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-alphabet-down'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-desc'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-asc'
+          />
+        </div>
       </div>
       <h2>large</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>

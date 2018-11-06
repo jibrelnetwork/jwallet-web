@@ -124,6 +124,7 @@
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/MnemonicAddresses/mnemonicAddresses';
   @import '../components/PopupButton/popupButton';
+  @import '../components/DigitalAssetsFilter/digitalAssetsFilter';
   @import '../components/CloseableScreen/closeableScreen';
   @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
@@ -133,7 +134,6 @@
   @import '../routes/Wallets/walletsView';
   @import '../routes/NotFound/notFoundView';
   @import '../routes/DigitalAssets/digitalAssets';
-  @import '../routes/CustomAsset/styles/customAsset';
   @import '../routes/Transactions/styles/transactions';
 
   // Layouts
