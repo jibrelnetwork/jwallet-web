@@ -260,6 +260,13 @@ storiesOf('JIcon')
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
             size='medium'
+            color='blue'
+            name='trash'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
             color='gray'
             name='dots-full'
           />
@@ -746,6 +753,13 @@ storiesOf('JIcon')
             size='medium'
             color='sky'
             name='edit'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='sky'
+            name='trash'
           />
         </div>
 

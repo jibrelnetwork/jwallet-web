@@ -103,6 +103,7 @@
   // Components
   @import '../components/QRCode/qrCode';
   @import '../components/HelpText/helpText';
+  @import '../components/AssetItem/assetItem';
   @import '../components/MenuPanel/menuPanel';
   @import '../components/Expandable/expandable';
   @import '../components/WalletFace/walletFace';
@@ -120,7 +121,6 @@
   @import '../components/RoundIconButton/roundIconButton';
   @import '../components/WalletViewTitle/walletViewTitle';
   @import '../components/NewWalletButtons/newWalletButtons';
-  @import '../components/ActiveAssetsPanel/activeAssetsPanel';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/MnemonicAddresses/mnemonicAddresses';
 

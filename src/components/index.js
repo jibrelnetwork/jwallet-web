@@ -2,6 +2,7 @@
 
 import QRCode from './QRCode'
 import HelpText from './HelpText'
+import AssetItem from './AssetItem'
 import ESCButton from './ESCButton'
 import MenuPanel from './MenuPanel'
 import Expandable from './Expandable'
@@ -24,7 +25,6 @@ import WalletNameStep from './WalletNameStep'
 import RoundIconButton from './RoundIconButton'
 import WalletViewTitle from './WalletViewTitle'
 import NewWalletButtons from './NewWalletButtons'
-import ActiveAssetsPanel from './ActiveAssetsPanel'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import WalletPasswordStep from './WalletPasswordStep'
@@ -32,6 +32,7 @@ import WalletPasswordStep from './WalletPasswordStep'
 export {
   QRCode,
   HelpText,
+  AssetItem,
   ESCButton,
   MenuPanel,
   Expandable,
@@ -54,7 +55,6 @@ export {
   RoundIconButton,
   WalletViewTitle,
   NewWalletButtons,
-  ActiveAssetsPanel,
   ButtonWithConfirm,
   MnemonicAddresses,
   WalletPasswordStep,
