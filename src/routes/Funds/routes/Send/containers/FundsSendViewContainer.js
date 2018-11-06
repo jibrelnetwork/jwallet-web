@@ -21,7 +21,7 @@ import {
   setNextStep,
 } from '../modules/sendFunds'
 
-const mapStateToProps: Function = ({ wallets, sendFunds }: State) => ({
+const mapStateToProps: Function = ({ wallets, sendFunds }: AppState) => ({
   ...sendFunds,
   sender: getWalletNameAndAddress(wallets.activeWalletId),
 })

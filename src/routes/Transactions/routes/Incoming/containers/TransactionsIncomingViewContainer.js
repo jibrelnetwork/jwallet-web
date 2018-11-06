@@ -13,7 +13,7 @@ function getIncomingTransactions(transactions: Transactions) {
   return transactions.filter(({ type }: Transaction) => (type === 'receive'))
 }
 
-function mapStateToProps({ networks, digitalAssets, transactions }: State): {
+function mapStateToProps({ networks, digitalAssets, transactions }: AppState): {
   items: Transactions,
   currentAsset: ?DigitalAsset,
   transactionsByPeriod: TransactionsByPeriod,

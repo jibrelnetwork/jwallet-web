@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
   openLayout,
   closeLayout,
-} from 'routes/modules/wallet'
+} from 'routes/modules/aside'
 
 import AsideLayout from './AsideLayout'
 

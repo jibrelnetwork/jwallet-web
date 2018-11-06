@@ -1,15 +1,14 @@
 // @flow
 
 import storage from 'localforage'
-import { combineReducers } from 'redux'
+import { combineReducers, type Reducer } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
-import type { Store, Reducer } from 'react-redux'
+// import { type AllActions } from 'routes'
 
 // wallets
 import wallets from 'routes/Wallets/modules/wallets'
-import transactions from 'routes/Transactions/modules/transactions'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
@@ -19,11 +18,11 @@ import walletsRenameAddress from 'routes/Wallets/routes/RenameAddress/modules/wa
 // networks
 import networks from 'routes/modules/networks'
 
-// digitalAssets
-import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
-import customAsset from 'routes/CustomAsset/modules/customAsset'
+// transactions
+import transactions from 'routes/Transactions/modules/transactions'
 
-type KeyReducer = { key: string, reducer: Reducer<State, *> }
+// digitalAssets
+import { reducers as digitalAssets } from 'routes/DigitalAssets'
 
 const persistConfig = {
   storage,
@@ -31,7 +30,7 @@ const persistConfig = {
   whitelist: ['wallets', 'walletsAddresses'],
 }
 
-export function makeRootReducer(asyncReducers: ?Reducers): Reducer<State, *> {
+export function makeRootReducer(): Reducer<AppState, any> {
   const rootReducer = combineReducers({
     // wallets
     wallets,
@@ -43,22 +42,12 @@ export function makeRootReducer(asyncReducers: ?Reducers): Reducer<State, *> {
     // networks
     networks,
     // digitalAssets
-    digitalAssets,
-    customAsset,
+    ...digitalAssets,
     // transactions
     transactions,
     // router
     router,
-    // async
-    ...asyncReducers,
   })
 
   return persistReducer(persistConfig, rootReducer)
-}
-
-export function injectReducer(store: Store<State, *>, { key, reducer }: KeyReducer) {
-  store.replaceReducer(makeRootReducer({
-    ...store.asyncReducers,
-    [key]: reducer,
-  }))
 }

@@ -4,10 +4,10 @@ import React from 'react'
 
 import { JInput, JRaisedButton } from 'components/base'
 
-export type DigitalAssetEditFormProps = {
-  formFields: CustomAssetFormFields,
-  invalidFields: CustomAssetFormFields,
-  setField: SetFieldFunction<CustomAssetFormFields>,
+type DigitalAssetEditFormProps = {
+  formFields: EditAssetFormFields,
+  invalidFields: EditAssetFormFields,
+  setField: SetFieldFunction<EditAssetFormFields>,
   submit: () => void,
   isAddressLoading: boolean,
   isAddressEditable: boolean,
@@ -23,11 +23,11 @@ const DigitalAssetEditForm = ({
   isAddressEditable,
   submitLabel,
 }: DigitalAssetEditFormProps) => {
-  const setFieldHandler = (fieldName: $Keys<CustomAssetFormFields>) =>
+  const setFieldHandler = (fieldName: $Keys<EditAssetFormFields>) =>
     (value: string) => setField(fieldName, value)
 
   const fields: Array<{
-    key: $Keys<CustomAssetFormFields>,
+    key: $Keys<EditAssetFormFields>,
     placeholder: string,
     isDisabled: boolean,
     isLoading: boolean,

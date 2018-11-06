@@ -2,8 +2,7 @@
 
 import { connect } from 'react-redux'
 import {
-  // selectDigitalAssets,
-  selectDigitalAssetsItems,
+  selectDigitalAssets,
   selectCurrentBlockNumber,
   selectDigitalAssetBalance,
 } from 'store/stateSelectors'
@@ -16,10 +15,10 @@ import {
   setSearchQuery,
 } from './modules/digitalAssetsGrid'
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: AppState) => {
   const currentBlock = selectCurrentBlockNumber(state)
   const currentOwnerAddress = ''
-  const assets = selectDigitalAssetsItems(state)
+  const assets = selectDigitalAssets(state)
   // const searchQuery = selectDigitalAssets(state).searchQuery
 
   const items = Object.keys(assets)

@@ -52,25 +52,36 @@ declare type DigitalAssetsState = {
     +items: DigitalAssets,
     +balances: DigitalAssetsBalances,
   |},
-  +filter: DigitalAssetsFilter,
-  +searchQuery: string,
 }
 
+declare type DigitalAssetsGridState = {|
+  +filter: DigitalAssetsFilter,
+  +searchQuery: string,
+|}
+
 /**
- * Custom digital asset
+ * Add custom digital asset
  */
-declare type CustomAssetFormFields = {|
+declare type EditAssetFormFields = {|
   +address: string,
   +name: string,
   +symbol: string,
   +decimals: string,
 |}
 
-declare type CustomAssetState = {
-  +invalidFields: CustomAssetFormFields,
-  +formFields: CustomAssetFormFields,
+declare type AddAssetState = {
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields,
   +isAssetValid: boolean,
   +isAssetLoaded: boolean,
   +isAssetLoading: boolean,
   +requestedAddress: string,
+}
+
+/**
+ * Edit custom digital asset
+ */
+declare type EditAssetState = {
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields
 }

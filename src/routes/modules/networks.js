@@ -156,7 +156,7 @@ const networks = (
   state: NetworksData = initialState,
   action: Object,
 ): Object => {
-  const { type, payload }: Object = action
+  const { type, payload } = action
 
   switch (type) {
     case INIT_FINISH: {

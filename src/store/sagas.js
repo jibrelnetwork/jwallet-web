@@ -3,11 +3,8 @@
 // Wallets
 import walletsSagas from 'routes/Wallets/sagas'
 
-// Custom Asset
-import customAssetSagas from 'routes/CustomAsset/sagas/customAsset'
-
 // Digital Assets
-import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
+import { sagas as digitalAssetsSagas } from 'routes/DigitalAssets'
 
 /*
 // Networks
@@ -39,8 +36,6 @@ export default {
   ...walletsSagas,
   // Digital Assets
   ...digitalAssetsSagas,
-  // Custom Asset
-  ...customAssetSagas,
   // Terms
   ...termsSagas,
   // Not FOund

@@ -5,8 +5,6 @@ import { persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
 
-import type { Store } from 'react-redux'
-
 import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'
@@ -14,10 +12,7 @@ import { makeRootReducer } from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
 
-function configureStore(initialState: InitialState = {}, history: Object): {|
-  +store: Store<State, *>,
-  +persistor: Persistor,
-|} {
+function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Middleware Configuration
   // ======================================================
@@ -34,12 +29,11 @@ function configureStore(initialState: InitialState = {}, history: Object): {|
   // ======================================================
   // Store Enhancers, redux developer tools
   // ======================================================
-  const enhancers = []
   const composeEnhancers =
     typeof window === 'object' && __DEV__ &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+        // Extension’s options like name, actionsBlacklist, actionsCreators, serialize...
       }) : compose
 
   // ======================================================
@@ -48,15 +42,12 @@ function configureStore(initialState: InitialState = {}, history: Object): {|
   const rootReducer = makeRootReducer()
   const enhancer = composeEnhancers(
     applyMiddleware(...middleware),
-    ...enhancers
   )
   const store = createStore(rootReducer, initialState, enhancer)
   const persistor = persistStore(store)
 
-  store.asyncReducers = {}
-
   // ======================================================
-  // Inject sagas
+  // Run sagas
   // ======================================================
   Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
 

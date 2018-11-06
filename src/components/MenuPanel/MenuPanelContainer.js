@@ -20,7 +20,7 @@ function getNetworkTitleIdMap(
   return assoc(id, i18nTitle)(res)
 }
 
-const mapStateToProps = ({ networks, wallets }: State): {
+const mapStateToProps = ({ networks, wallets }: AppState): {
   networks: NetworkTitleById,
   currentNetwork: ?NetworkId,
   currentLanguage: LanguageCode,

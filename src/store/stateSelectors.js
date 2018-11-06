@@ -3,59 +3,59 @@
 /**
  * Wallets
  */
-export function selectWallets(state: State): WalletsState {
+export function selectWallets(state: AppState): WalletsState {
   return state.wallets
 }
 
-export function selectWalletsPersist(state: State): WalletsPersist {
+export function selectWalletsPersist(state: AppState): WalletsPersist {
   return state.wallets.persist
 }
 
-export function selectWalletsItems(state: State): Wallets {
+export function selectWalletsItems(state: AppState): Wallets {
   return state.wallets.persist.items
 }
 
-export function selectActiveWalletId(state: State): ?WalletId {
+export function selectActiveWalletId(state: AppState): ?WalletId {
   return state.wallets.persist.activeWalletId
 }
 
-export function selectWalletsCreate(state: State): WalletsCreateState {
+export function selectWalletsCreate(state: AppState): WalletsCreateState {
   return state.walletsCreate
 }
 
-export function selectWalletsImport(state: State): WalletsImportState {
+export function selectWalletsImport(state: AppState): WalletsImportState {
   return state.walletsImport
 }
 
-export function selectWalletsBackup(state: State): WalletsBackupState {
+export function selectWalletsBackup(state: AppState): WalletsBackupState {
   return state.walletsBackup
 }
 
-export function selectWalletsAddresses(state: State): WalletsAddressesState {
+export function selectWalletsAddresses(state: AppState): WalletsAddressesState {
   return state.walletsAddresses
 }
 
-export function selectWalletsAddressNames(state: State): AddressNames {
+export function selectWalletsAddressNames(state: AppState): AddressNames {
   return state.walletsAddresses.persist.addressNames
 }
 
-export function selectWalletsRenameAddress(state: State): WalletsRenameAddressState {
+export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddressState {
   return state.walletsRenameAddress
 }
 
 /**
  * Networks
  */
-export function selectNetworks(state: State): NetworksData {
-  return state.networks
-}
+// export function selectNetworks(state: AppState): NetworksData {
+//   return state.networks
+// }
 
-export function selectNetworksItems(state: State): Networks {
-  return state.networks.items
-}
+// export function selectNetworksItems(state: AppState): Networks {
+//   return state.networks.items
+// }
 
 // eslint-disable-next-line no-unused-vars
-export function selectNetworkId(state: State): ?NetworkId {
+export function selectNetworkId(state: AppState): ?NetworkId {
   return '3'
 }
 
@@ -64,18 +64,14 @@ export function selectNetworkId(state: State): ?NetworkId {
  */
 
 // eslint-disable-next-line no-unused-vars
-export function selectCurrentBlockNumber(state: State): number {
+export function selectCurrentBlockNumber(state: AppState): number {
   return 0
 }
 
 /**
  * Digital Assets
  */
-export function selectDigitalAssets({ digitalAssets }: State): DigitalAssetsState {
-  return digitalAssets
-}
-
-export function selectDigitalAssetsItems(state: State): DigitalAssets {
+export function selectDigitalAssets(state: AppState): DigitalAssets {
   const {
     digitalAssets: {
       persist: {
@@ -87,7 +83,12 @@ export function selectDigitalAssetsItems(state: State): DigitalAssets {
   return items
 }
 
-export function selectDigitalAssetsBalances(state: State): DigitalAssetsBalances {
+export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
+  const assets = selectDigitalAssets(state)
+  return assets[contractAddress]
+}
+
+export function selectDigitalAssetsBalances(state: AppState): DigitalAssetsBalances {
   const {
     digitalAssets: {
       persist: {
@@ -100,7 +101,7 @@ export function selectDigitalAssetsBalances(state: State): DigitalAssetsBalances
 }
 
 export function selectDigitalAssetsOwnerBalances(
-  state: State,
+  state: AppState,
   blockNumber: number,
   ownerAddress: Address,
 ): ?DigitalAssetsOwnerBalances {
@@ -120,7 +121,7 @@ export function selectDigitalAssetsOwnerBalances(
 }
 
 export function selectDigitalAssetBalance(
-  state: State,
+  state: AppState,
   blockNumber: number,
   ownerAddress: Address,
   assetAddress: Address
@@ -134,28 +135,32 @@ export function selectDigitalAssetBalance(
   }
 }
 
-export function selectCustomAsset(state: State): CustomAssetState {
-  return state.customAsset
+export function selectAddAsset(state: AppState): AddAssetState {
+  return state.addAsset
 }
 
-/**
- * Transactions
- */
-export function selectTransactions(state: State): TransactionsData {
-  return state.transactions
-}
+// export function selectEditAsset(state: AppState): EditAssetState {
+//   return state.editAsset
+// }
 
-export function selectTransactionsItems(state: State): Transactions {
-  return state.transactions.items
-}
+// /**
+//  * Transactions
+//  */
+// export function selectTransactions(state: AppState): TransactionsData {
+//   return state.transactions
+// }
 
-/**
- * Funds
- */
-export function selectReceiveFunds(state: State): ReceiveFundsData {
-  return state.receiveFunds
-}
+// export function selectTransactionsItems(state: AppState): Transactions {
+//   return state.transactions.items
+// }
 
-export function selectSendFunds(state: State): SendFundsData {
-  return state.sendFunds
-}
+// /**
+//  * Funds
+//  */
+// export function selectReceiveFunds(state: AppState): ReceiveFundsData {
+//   return state.receiveFunds
+// }
+
+// export function selectSendFunds(state: AppState): SendFundsData {
+//   return state.sendFunds
+// }
