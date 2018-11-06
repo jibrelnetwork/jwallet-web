@@ -3,7 +3,7 @@
 import AddAssetContainer from './AddAssetContainer'
 
 const AddAsset = {
-  path: 'add',
+  path: 'add-asset',
   component: AddAssetContainer,
 }
 

@@ -135,9 +135,13 @@ export function selectDigitalAssetBalance(
   }
 }
 
-export function selectCustomAsset(state: AppState): CustomAssetState {
+export function selectAddAsset(state: AppState): AddAssetState {
   return state.addAsset
 }
+
+// export function selectEditAsset(state: AppState): EditAssetState {
+//   return state.editAsset
+// }
 
 // /**
 //  * Transactions

@@ -1,9 +1,7 @@
 // @flow
 
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { selectCustomAsset } from 'store/stateSelectors'
-import { DigitalAssetEditForm } from 'components'
+import { selectAddAsset } from 'store/stateSelectors'
 
 import {
   openView,
@@ -11,31 +9,15 @@ import {
   setField,
 } from './modules/addAsset'
 
-type StateProps = {
-  formFields: CustomAssetFormFields,
-  invalidFields: CustomAssetFormFields,
-}
+import AddAssetView from './AddAssetView'
 
-type DispatchProps = {
-  open: () => void,
-  close: () => void,
-  submit: () => void,
-  setField: SetFieldFunction<CustomAssetFormFields>,
-}
+function mapStateToProps(state: AppState) {
+  const { formFields, invalidFields, isAssetLoading } = selectAddAsset(state)
 
-class CustomAssetAddContainer extends Component<StateProps & DispatchProps, *> {
-  componentDidMount() {
-    this.props.open()
-  }
-
-  componentWillUnmount() {
-    this.props.close()
-  }
-
-  render() {
-    return (
-      <DigitalAssetEditForm {...this.props} />
-    )
+  return {
+    formFields,
+    invalidFields,
+    isAddressLoading: isAssetLoading,
   }
 }
 
@@ -44,21 +26,10 @@ const mapDispatchToProps = {
   close: closeView,
   setField,
   // submit
-}
-
-function mapStateToProps(state: AppState): StateProps {
-  const { formFields, invalidFields, isAssetLoading } = selectCustomAsset(state)
-
-  return {
-    formFields,
-    invalidFields,
-    isAddressLoading: isAssetLoading,
-    isAddressEditable: true,
-    submitLabel: 'Add asset',
-  }
+  // closeClick
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CustomAssetAddContainer)
+)(AddAssetView)

@@ -7,8 +7,8 @@ import { put, select, takeEvery, take, race, call, all } from 'redux-saga/effect
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 
 import {
-  selectCustomAsset,
-  selectDigitalAssetsItems,
+  selectAddAsset,
+  selectDigitalAsset,
 } from 'store/stateSelectors'
 
 import web3 from 'services/web3'
@@ -42,12 +42,6 @@ type RequestedAssetFields = {|
 |}
 
 const NODE_EMPTY_VALUE = '0x'
-
-function* getDigitalAsset(contractAddress: Address): Saga<DigitalAsset> {
-  const digitalAssets: DigitalAssets = yield select(selectDigitalAssetsItems)
-
-  return digitalAssets.find(address => address === contractAddress)
-}
 
 /**
  * Request not required field from contract
@@ -104,60 +98,69 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
    * Address field validation
    * This input is avalable only in add asset page, in edit asset is is disabled
    */
-  if (fieldName === 'address') {
-    const contractAddress = value.trim()
+  if (fieldName !== 'address') {
+    return
+  }
 
-    // check if we are already requesting this address...
-    const { requestedAddress }: ExtractReturn<typeof selectCustomAsset>
-      = yield select(selectCustomAsset)
+  const contractAddress: Address = value.trim()
 
-    if (keystore.checkAddressValid(contractAddress) && requestedAddress !== contractAddress) {
-      yield* clearFields()
-      yield put(clearFieldError('address'))
+  // check if we are already requesting this address...
+  const {
+    requestedAddress,
+  }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
-      try {
-        // Check if this asset already exists
-        const foundAsset = yield* getDigitalAsset(contractAddress)
-        if (foundAsset) {
-          throw new InvalidFieldError('address', i18n('general.error.address.exists'))
-        }
+  if (requestedAddress === contractAddress) {
+    return
+  }
 
-        // set loading, shows loader on address input, update requestedAddress
-        yield put(startAssetLoading(contractAddress))
+  if (!keystore.checkAddressValid(contractAddress)) {
+    return
+  }
 
-        // wait for result or cancel all
-        const { result } = yield race({
-          result: all({
-            name: requestAssetField(getContractName, contractAddress),
-            symbol: requestAssetField(getContractSymbol, contractAddress),
-            decimals: requestAssetField(getContractDecimals, contractAddress),
-            isERC20: checkAssetIsERC20Compatible(contractAddress),
-          }),
-          // cancel on close Add/Edit asset screen
-          close: take(CLOSE_VIEW),
-          // cancel, when we are trying to request another contract
-          restart: take(START_ASSET_LOADING),
-        })
+  yield* clearFields()
+  yield put(clearFieldError('address'))
 
-        if (result && result.isERC20) {
-          const { name, symbol, decimals }: RequestedAssetFields = result
+  try {
+    // Check if this asset already exists
+    const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, contractAddress)
+    if (foundAsset) {
+      throw new InvalidFieldError('address', i18n('general.error.address.exists'))
+    }
 
-          yield put(setIsAssetValid(true))
-          yield put(setField('name', name || ''))
-          yield put(setField('symbol', symbol || ''))
-          yield put(setField('decimals', decimals ? decimals.toString() : ''))
-        } else if (result) {
-          throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
-        }
-      } catch (err) {
-        yield put(setIsAssetValid(false))
+    // set loading, shows loader on address input, update requestedAddress
+    yield put(startAssetLoading(contractAddress))
 
-        if (err instanceof InvalidFieldError) {
-          yield put(setFieldError(err.fieldName, err.message))
-        } else {
-          yield put(setFieldError('address', i18n('general.error.network.connection')))
-        }
-      }
+    // wait for result or cancel all
+    const { result } = yield race({
+      result: all({
+        name: requestAssetField(getContractName, contractAddress),
+        symbol: requestAssetField(getContractSymbol, contractAddress),
+        decimals: requestAssetField(getContractDecimals, contractAddress),
+        isERC20: checkAssetIsERC20Compatible(contractAddress),
+      }),
+      // cancel on close Add/Edit asset screen
+      close: take(CLOSE_VIEW),
+      // cancel, when we are trying to request another contract
+      restart: take(START_ASSET_LOADING),
+    })
+
+    if (result && result.isERC20) {
+      const { name, symbol, decimals }: RequestedAssetFields = result
+
+      yield put(setIsAssetValid(true))
+      yield put(setField('name', name || ''))
+      yield put(setField('symbol', symbol || ''))
+      yield put(setField('decimals', decimals ? decimals.toString() : ''))
+    } else if (result) {
+      throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
+    }
+  } catch (err) {
+    yield put(setIsAssetValid(false))
+
+    if (err instanceof InvalidFieldError) {
+      yield put(setFieldError(err.fieldName, err.message))
+    } else {
+      yield put(setFieldError('address', i18n('general.error.network.connection')))
     }
   }
 }

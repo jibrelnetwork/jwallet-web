@@ -48,7 +48,7 @@ export function setIsAssetValid(isAssetValid: boolean) {
   }
 }
 
-export function setField(fieldName: $Keys<CustomAssetFormFields>, value: string) {
+export function setField(fieldName: $Keys<EditAssetFormFields>, value: string) {
   return {
     type: SET_FIELD,
     payload: {
@@ -58,7 +58,7 @@ export function setField(fieldName: $Keys<CustomAssetFormFields>, value: string)
   }
 }
 
-export function setFieldError(fieldName: $Keys<CustomAssetFormFields>, message: string) {
+export function setFieldError(fieldName: $Keys<EditAssetFormFields>, message: string) {
   return {
     type: SET_INVALID_FIELD,
     payload: {
@@ -68,7 +68,7 @@ export function setFieldError(fieldName: $Keys<CustomAssetFormFields>, message: 
   }
 }
 
-export function clearFieldError(fieldName: $Keys<CustomAssetFormFields>) {
+export function clearFieldError(fieldName: $Keys<EditAssetFormFields>) {
   return setFieldError(fieldName, '')
 }
 
@@ -78,14 +78,14 @@ export function clean() {
   }
 }
 
-type CustomAssetActions = ExtractReturn<typeof setField> |
+export type AddAssetActions = ExtractReturn<typeof setField> |
   ExtractReturn<typeof setFieldError> |
   ExtractReturn<typeof startAssetLoading> |
   ExtractReturn<typeof terminateAssetLoading> |
   ExtractReturn<typeof setIsAssetValid> |
   ExtractReturn<typeof clean>
 
-const initialState: CustomAssetState = {
+const initialState: AddAssetState = {
   invalidFields: {
     address: '',
     name: '',
@@ -106,9 +106,9 @@ const initialState: CustomAssetState = {
 }
 
 function addAsset(
-  state: CustomAssetState = initialState,
-  action: CustomAssetActions,
-): CustomAssetState {
+  state: AddAssetState = initialState,
+  action: AddAssetActions,
+): AddAssetState {
   switch (action.type) {
     case SET_FIELD: {
       const { fieldName, value } = action.payload

@@ -10,19 +10,24 @@ import digitalAssetsGrid, {
   type DigitalAssetsGridActions,
 } from './routes/Grid/modules/digitalAssetsGrid'
 
-// import addAssetForm from './routes/Add/modules/addAssetForm'
+import addAsset, {
+  type AddAssetActions,
+} from './routes/AddAsset/modules/addAsset'
 
 import { digitalAssetsRootSaga } from './sagas/digitalAssets'
+import { addAssetRootSaga } from './routes/AddAsset/sagas/addAsset'
 
 import Grid from './routes/Grid'
+import AddAsset from './routes/AddAsset'
 
 export const reducers = {
   digitalAssets,
   digitalAssetsGrid,
-  // addAssetForm,
+  addAsset,
 }
 
 export const sagas = {
+  addAssetRootSaga,
   digitalAssetsRootSaga,
 }
 
@@ -32,8 +37,9 @@ export {
   UPDATE_ASSET,
 } from './modules/digitalAssets'
 
-export type DigitalAssetsAllActions = DigitalAssetsActions
-  | DigitalAssetsGridActions
+export type DigitalAssetsAllActions = DigitalAssetsActions |
+  DigitalAssetsGridActions |
+  AddAssetActions
 
 export default {
   path: 'digital-assets',
@@ -43,5 +49,6 @@ export default {
   },
   childRoutes: [
     Grid,
+    AddAsset,
   ],
 }
