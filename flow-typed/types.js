@@ -2,7 +2,6 @@
 
 /* eslint-disable no-unused-vars */
 
-import type { Reducer } from 'redux'
 import type { Saga } from 'redux-saga'
 import type { Persistor } from 'redux-persist/lib/types'
 
@@ -21,8 +20,6 @@ declare type AddressBalancePairs = Array<[Address, number]>
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
-
-declare type Reducers = { [string]: Reducer<any, any> }
 
 declare type DerivationPath = {
   +path: string,
@@ -51,7 +48,7 @@ declare type RouterData = {
 /**
  * Entire state
  */
-declare type State = {|
+declare type AppState = {|
   // wallets
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,

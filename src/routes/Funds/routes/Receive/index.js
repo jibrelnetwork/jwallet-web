@@ -1,13 +1,8 @@
-import { injectReducer } from 'store/reducers'
+// @flow
 
-export default store => ({
+import FundsReceiveViewContainer from './containers/FundsReceiveViewContainer'
+
+export default {
   path: 'receive',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      const View = require('./containers/FundsReceiveViewContainer').default
-      const receiveFunds = require('./modules/receiveFunds').default
-      injectReducer(store, { key: 'receiveFunds', reducer: receiveFunds })
-      cb(null, View)
-    }, 'funds-receive')
-  },
-})
+  component: FundsReceiveViewContainer,
+}
