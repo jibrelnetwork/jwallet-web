@@ -1,6 +1,21 @@
 .popup-button {
   all: initial;
+  display: block;
   position: relative;
+  z-index: $z-popup-button;
+
+  > .counter {
+    @include flex-column-center;
+
+    height: 16px;
+    min-width: 16px;
+    top: -3px;
+    left: -5px;
+    line-height: 0.8;
+    position: absolute;
+    border-radius: 10px;
+    background-color: $blue-two;
+  }
 
   > .icon {
     @include hover-animation;
@@ -11,5 +26,40 @@
     &:hover {
       opacity: 1;
     }
+  }
+
+  > .overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: $z-popup-button-overlay;
+    position: fixed;
+  }
+
+  > .close {
+    @include hover-animation;
+
+    top: 0;
+    right: 0;
+    z-index: 20;
+    opacity: 0.5;
+    cursor: pointer;
+    position: absolute;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  > .container {
+    top: -14px;
+    right: -14px;
+    position: absolute;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: $z-popup-button-container;
+    width: 250px;
   }
 }

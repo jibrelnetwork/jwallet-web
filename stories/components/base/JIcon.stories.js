@@ -745,6 +745,13 @@ storiesOf('JIcon')
             name='add'
           />
         </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            name='close-padding'
+            size='small'
+            color='gray'
+          />
+        </div>
       </div>
       <h2>sky</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>

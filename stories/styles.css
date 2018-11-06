@@ -29,3 +29,12 @@ h3 {
 .story.-blue {
   background-color: #0033a3;
 }
+
+.inline {
+  display: inline-block;
+}
+
+.align-right {
+  display: flex;
+  justify-content: flex-end;
+}
