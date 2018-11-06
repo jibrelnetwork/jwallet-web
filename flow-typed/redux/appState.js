@@ -19,13 +19,14 @@ declare type AppState = {|
   // +networks: NetworksData,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
+  +addAsset: AddAssetState,
+  // +editAsset: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
-  // +customAsset: CustomAssetState,
   // transactions
   // +transactions: TransactionsData,
   // funds
   // +receiveFunds: ReceiveFundsData,
   // +sendFunds: SendFundsData,
   // router
-  +router: RouterData,
+  +router: RouterState,
 |}

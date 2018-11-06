@@ -1,51 +1,87 @@
 // @flow
 
-declare type DigitalAssetsListType = 'balance' | 'popular' | 'custom'
+/**
+ * Digital assets
+ */
+type OwnerAddress = string
+type AssetAddress = string
 
-declare type DigitalAsset = {
+declare type DigitalAssetsFilter = {|
+  +sortBy: 'name' | 'balance',
+  +sortByNameOrder: 'asc' | 'desc',
+  +sortByBalaceOrder: 'asc' | 'desc',
+  +myAssetsFirst: boolean,
+  +hideZeroBalance: boolean,
+|}
+
+declare type DigitalAssetsBalance = {|
+  balance: Bignumber,
+  isLoading: boolean,
+  isError: boolean,
+|}
+
+declare type DigitalAssetsOwnerBalances = {
+  [AssetAddress]: DigitalAssetsBalance,
+}
+
+type _NetworkId = ?string
+type _BlockNumber = ?string
+declare type DigitalAssetsBalances = {
+  [_NetworkId]: {
+    [_BlockNumber]: {
+      [OwnerAddress]: DigitalAssetsOwnerBalances
+    }
+  }
+}
+
+declare type DigitalAsset = {|
   +address: Address,
   +symbol: string,
   +name: string,
   +decimals: Decimals,
   +isCustom: boolean,
   +isActive: boolean,
+|}
+
+declare type DigitalAssets = {
+  [AssetAddress]: DigitalAsset
 }
 
-declare type DigitalAssetMainDataWithBalance = {
-  +address: Address,
-  +symbol: string,
-  +name: string,
-  +balance: number,
+declare type DigitalAssetsState = {
+  +persist: {|
+    +items: DigitalAssets,
+    +balances: DigitalAssetsBalances,
+  |},
 }
 
-declare type DigitalAssets = Array<DigitalAsset>
-
-declare type DigitalAssetsData = {
-  +invalidFields: FormFields,
-  +items: DigitalAssets,
-  +foundAssets: Addresses,
-  +balances: Balances,
+declare type DigitalAssetsGridState = {|
+  +filter: DigitalAssetsFilter,
   +searchQuery: string,
-  +isInitialised: boolean,
-  +isBalancesLoading: boolean,
-  +currentAddress: ?Address,
-}
+|}
 
 /**
- * Custom digital asset
+ * Add custom digital asset
  */
-declare type CustomAssetFormFields = {|
+declare type EditAssetFormFields = {|
   +address: string,
   +name: string,
   +symbol: string,
   +decimals: string,
 |}
 
-declare type CustomAssetState = {
-  +invalidFields: CustomAssetFormFields,
-  +formFields: CustomAssetFormFields,
+declare type AddAssetState = {
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields,
   +isAssetValid: boolean,
   +isAssetLoaded: boolean,
   +isAssetLoading: boolean,
   +requestedAddress: string,
+}
+
+/**
+ * Edit custom digital asset
+ */
+declare type EditAssetState = {
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields
 }

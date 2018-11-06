@@ -1,7 +1,12 @@
 // @flow
 
-declare type RouterData = {
+declare type RouterState = {
   +locationBeforeTransitions: {
+    +action: 'POP' | 'PUSH',
+    +hash: string,
+    +key: ?Object,
     +pathname: string,
+    +search: string,
+    +state: ?Object,
   },
 }
