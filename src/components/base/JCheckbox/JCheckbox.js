@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 import { JText } from 'components/base'
 
 type Props = {|
-  +onChange: ?Function,
+  +onChange: ?((boolean) => void),
   +name: string,
   +label: string,
   +isChecked: boolean,
@@ -16,9 +16,14 @@ class JCheckbox extends PureComponent<Props> {
     isChecked: false,
   }
 
+  onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    if (this.props.onChange) {
+      this.props.onChange(event.target.checked)
+    }
+  }
+
   render() {
     const {
-      onChange,
       name,
       label,
       isChecked,
@@ -28,7 +33,7 @@ class JCheckbox extends PureComponent<Props> {
       <div className='j-checkbox'>
         <label className='field'>
           <input
-            onChange={onChange}
+            onChange={this.onChange}
             name={`checkbox-${name}`}
             type='checkbox'
             className='checkbox'
