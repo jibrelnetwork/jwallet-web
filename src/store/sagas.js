@@ -7,7 +7,7 @@ import walletsSagas from 'routes/Wallets/sagas'
 import customAssetSagas from 'routes/CustomAsset/sagas/customAsset'
 
 // Digital Assets
-import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
+import { sagas as digitalAssetsSagas } from 'routes/DigitalAssets'
 
 /*
 // Networks

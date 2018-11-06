@@ -52,9 +52,12 @@ declare type DigitalAssetsState = {
     +items: DigitalAssets,
     +balances: DigitalAssetsBalances,
   |},
+}
+
+declare type DigitalAssetsGridState = {|
   +filter: DigitalAssetsFilter,
   +searchQuery: string,
-}
+|}
 
 /**
  * Custom digital asset
