@@ -20,25 +20,21 @@ type Props = {
   openView: () => void,
   closeView: () => void,
   setSearchQuery: (string) => void,
-  items: DigitalAssetsGridItemType,
-  searchQuery: string,
+  items: Array<DigitalAssetsGridItemType>,
 }
 
-class DigitalAssetsView extends Component<Props> {
+class DigitalAssetsGridView extends Component<Props> {
   componentDidMount() {
     this.props.openView()
-    console.log('MOUNT: DigitalAssetsLayout')
   }
 
   componentWillUnmount() {
     this.props.closeView()
-    console.log('UNMOUNT: DigitalAssetsLayout')
   }
 
   render() {
     const {
       items,
-      searchQuery,
       setSearchQuery,
     } = this.props
 
@@ -49,8 +45,7 @@ class DigitalAssetsView extends Component<Props> {
           <div className='actions'>
             <div className='search'>
               <JSearch
-                onChange={setSearchQuery}
-                value={searchQuery}
+                onQueryChange={setSearchQuery}
                 placeholder='Search asset...'
               />
             </div>
@@ -80,4 +75,4 @@ class DigitalAssetsView extends Component<Props> {
   }
 }
 
-export default DigitalAssetsView
+export default DigitalAssetsGridView

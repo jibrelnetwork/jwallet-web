@@ -1,20 +1,21 @@
 // @flow
 
 import React, { Component } from 'react'
-
 import MenuPanel from 'components/MenuPanel'
 
-type Props = {
-  children: React$Node,
-}
+type Props = {|
+  +openLayout: () => void,
+  +closeLayout: () => void,
+  +children: React$Node,
+|}
 
 class AsideLayout extends Component<Props> {
   componentDidMount() {
-    console.log('MOUNT MenuLayout')
+    this.props.openLayout()
   }
 
   componentWillUnmount() {
-    console.log('UNMOUNT MenuLayout')
+    this.props.closeLayout()
   }
 
   render() {

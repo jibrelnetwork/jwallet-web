@@ -6,17 +6,21 @@ import CoreLayout from 'layouts/CoreLayout'
 import Funds from './Funds'
 import Transactions from './Transactions'
 */
-import DigitalAssets from './DigitalAssets'
-import CustomAsset from './CustomAsset'
+import DigitalAssets, {
+  type DigitalAssetsAllActions,
+} from './DigitalAssets'
+
 import Wallets from './Wallets'
 import NotFound from './NotFound'
 import Terms from './Terms'
+
+export type AllActions = DigitalAssetsAllActions
 
 export default {
   path: '/',
   component: CoreLayout,
   indexRoute: {
-    onEnter: (nextState: State, replace: (string) => void) => replace('/transactions'),
+    onEnter: (nextState: AppState, replace: (string) => void) => replace('/transactions'),
   },
   childRoutes: [
     /*
@@ -24,10 +28,8 @@ export default {
     Transactions(store),
     */
     DigitalAssets,
-    CustomAsset,
     Wallets,
     Terms,
-    CustomAsset,
     NotFound,
   ],
 }

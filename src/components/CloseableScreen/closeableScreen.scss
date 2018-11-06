@@ -1,0 +1,34 @@
+
+.closeable-screen {
+  all: initial;
+
+  @include box;
+  @include flex-column-center;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  > .content {
+    width: 100%;
+    height: calc(100% - #{$page-header-height});
+  }
+
+  > .header {
+    @include flex-row;
+
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: $page-header-height;
+    margin-left: auto;
+    margin-right: auto;
+
+    > .actions {
+      @include box;
+      @include flex-row;
+    }
+  }
+}

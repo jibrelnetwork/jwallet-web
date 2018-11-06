@@ -1,27 +1,9 @@
 // @flow
 
-/* eslint-disable max-len */
-export const OPEN_VIEW: '@@digitalAssets/OPEN_VIEW' = '@@digitalAssets/OPEN_VIEW'
-export const CLOSE_VIEW: '@@digitalAssets/CLOSE_VIEW' = '@@digitalAssets/CLOSE_VIEW'
-
-export const SET_INITIAL_ITEMS: '@@digitalAssets/SET_INITIAL_ITEMS' = '@@digitalAssets/SET_INITIAL_ITEMS'
-export const ADD_ASSET: '@@digitalAssets/ADD_ASSET' = '@@digitalAssets/ADD_ASSET'
-export const REMOVE_ASSET: '@@digitalAssets/REMOVE_ASSET' = '@@digitalAssets/REMOVE_ASSET'
-export const UPDATE_ASSET: '@@digitalAssets/UPDATE_ASSET' = '@@digitalAssets/UPDATE_ASSET'
-export const SET_SEARCH_QUERY: '@@digitalAssets/SET_SEARCH_QUERY' = '@@digitalAssets/SET_SEARCH_QUERY'
-/* eslint-enable max-len */
-
-export function openView() {
-  return {
-    type: OPEN_VIEW,
-  }
-}
-
-export function closeView() {
-  return {
-    type: CLOSE_VIEW,
-  }
-}
+export const SET_INITIAL_ITEMS = '@@digitalAssets/SET_INITIAL_ITEMS'
+export const ADD_ASSET = '@@digitalAssets/ADD_ASSET'
+export const REMOVE_ASSET = '@@digitalAssets/REMOVE_ASSET'
+export const UPDATE_ASSET = '@@digitalAssets/UPDATE_ASSET'
 
 export function setInitialItems(items: DigitalAssets) {
   return {
@@ -59,34 +41,16 @@ export function updateAsset(item: DigitalAsset) {
   }
 }
 
-export function setSearchQuery(query: string) {
-  return {
-    type: SET_SEARCH_QUERY,
-    payload: {
-      query,
-    },
-  }
-}
-
-type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
+export type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
   | ExtractReturn<typeof addAsset>
-  // | ExtractReturn<typeof removeAsset>
-  // | ExtractReturn<typeof updateAsset>
-  | ExtractReturn<typeof setSearchQuery>
+  | ExtractReturn<typeof removeAsset>
+  | ExtractReturn<typeof updateAsset>
 
 const initialState: DigitalAssetsState = {
   persist: {
     items: {},
     balances: {},
   },
-  filter: {
-    sortBy: null,
-    sortByNameOrder: 'asc',
-    sortByBalaceOrder: 'asc',
-    myAssetsFirst: false,
-    hideZeroBalance: false,
-  },
-  searchQuery: '',
 }
 
 const digitalAssets = (
@@ -119,15 +83,6 @@ const digitalAssets = (
             [address]: item,
           },
         },
-      }
-    }
-
-    case SET_SEARCH_QUERY: {
-      const { query } = action.payload
-
-      return {
-        ...state,
-        searchQuery: query,
       }
     }
 
