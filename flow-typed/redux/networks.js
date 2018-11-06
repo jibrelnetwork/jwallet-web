@@ -1,8 +1,5 @@
 // @flow
 
-/**
- * Networks
- */
 declare type NetworkId = string
 declare type NetworkTitleById = { [NetworkId]: string }
 

@@ -1,8 +1,5 @@
 // @flow
 
-/**
- * Digital assets
- */
 declare type DigitalAssetsListType = 'balance' | 'popular' | 'custom'
 
 declare type DigitalAsset = {

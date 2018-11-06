@@ -1,8 +1,5 @@
 // @flow
 
-/**
- * Transactions
- */
 declare type Hash = string
 declare type Hashes = Array<string>
 

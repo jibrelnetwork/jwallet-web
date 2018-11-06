@@ -1,8 +1,5 @@
 // @flow
 
-/**
- * Wallets
- */
 declare type Password = string
 declare type WalletId = string
 declare type WalletType = 'address' | 'mnemonic'
