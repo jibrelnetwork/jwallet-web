@@ -1,17 +1,16 @@
 // @flow
 
-/**
- * Digital assets
- */
 type OwnerAddress = string
 type AssetAddress = string
 
+declare type SortOrder = 'asc' | 'desc'
+
 declare type DigitalAssetsFilter = {|
   +sortBy: 'name' | 'balance',
-  +sortByNameOrder: 'asc' | 'desc',
-  +sortByBalaceOrder: 'asc' | 'desc',
-  +myAssetsFirst: boolean,
-  +hideZeroBalance: boolean,
+  +sortByNameOrder: SortOrder,
+  +sortByBalanceOrder: SortOrder,
+  +isMyAssetsFirst: boolean,
+  +isHideZeroBalance: boolean,
 |}
 
 declare type DigitalAssetsBalance = {|

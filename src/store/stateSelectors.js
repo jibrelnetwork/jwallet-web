@@ -88,6 +88,14 @@ export function selectDigitalAsset(state: AppState, contractAddress: Address): ?
   return assets[contractAddress]
 }
 
+export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilter {
+  return state.digitalAssetsGrid.filter
+}
+
+export function selectDigitalAssetsGridSearchQuery({ digitalAssetsGrid }: AppState): string {
+  return digitalAssetsGrid.searchQuery
+}
+
 export function selectDigitalAssetsBalances(state: AppState): DigitalAssetsBalances {
   const {
     digitalAssets: {

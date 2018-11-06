@@ -6,8 +6,8 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { JSearch, JTabs, JIcon } from 'components/base'
 
 import {
-  PopupButton,
   DigitalAssetsGrid,
+  DigitalAssetsFilter,
   type DigitalAssetsGridItemType,
 } from 'components'
 
@@ -20,7 +20,12 @@ type Props = {
   openView: () => void,
   closeView: () => void,
   setSearchQuery: (string) => void,
+  sortByNameClick: () => void,
+  sortByBalanceClick: () => void,
+  setMyAssetsFirst: (boolean) => void,
+  setHideZeroBalance: (boolean) => void,
   items: Array<DigitalAssetsGridItemType>,
+  filter: DigitalAssetsFilter
 }
 
 class DigitalAssetsGridView extends Component<Props> {
@@ -36,6 +41,11 @@ class DigitalAssetsGridView extends Component<Props> {
     const {
       items,
       setSearchQuery,
+      filter,
+      sortByNameClick,
+      sortByBalanceClick,
+      setMyAssetsFirst,
+      setHideZeroBalance,
     } = this.props
 
     return (
@@ -50,8 +60,12 @@ class DigitalAssetsGridView extends Component<Props> {
               />
             </div>
             <div className='filter'>
-              <PopupButton
-                icon='filter'
+              <DigitalAssetsFilter
+                {...filter}
+                onClickSortByName={sortByNameClick}
+                onClickSortByBalance={sortByBalanceClick}
+                onChangeMyAssetsFirst={setMyAssetsFirst}
+                onChangeHideZeroBalance={setHideZeroBalance}
               />
             </div>
             <div className='setting'>

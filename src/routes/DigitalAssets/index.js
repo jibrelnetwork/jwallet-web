@@ -16,6 +16,7 @@ import addAsset, {
 
 import { digitalAssetsRootSaga } from './sagas/digitalAssets'
 import { addAssetRootSaga } from './routes/AddAsset/sagas/addAsset'
+import { digitalAssetsGridRootSaga } from './routes/Grid/sagas/digitalAssetsGrid'
 
 import Grid from './routes/Grid'
 import AddAsset from './routes/AddAsset'
@@ -29,6 +30,7 @@ export const reducers = {
 export const sagas = {
   addAssetRootSaga,
   digitalAssetsRootSaga,
+  digitalAssetsGridRootSaga,
 }
 
 export {

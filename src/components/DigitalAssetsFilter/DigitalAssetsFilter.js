@@ -5,40 +5,43 @@ import classNames from 'classnames'
 
 import { PopupButton } from 'components'
 import { JIcon, JText, JCheckbox } from 'components/base'
+import { handle } from 'utils/eventHandlers'
 
 type Props = {
-  +onClickName: ?Function,
-  +onClickBalance: ?Function,
-  +onChangeMyAssetsFirst: ?Function,
-  +onChangeHideZeroBalance: ?Function,
-  +sortName: 'down' | 'up',
-  +sortBalance: 'asc' | 'desc',
-  +sortButtonActive: 'name' | 'balance',
+  +onClickSortByName: ?(() => void),
+  +onClickSortByBalance: ?(() => void),
+  +onChangeMyAssetsFirst: ?((boolean) => void),
+  +onChangeHideZeroBalance: ?((boolean) => void),
+  +sortByNameOrder: SortOrder,
+  +sortByBalanceOrder: SortOrder,
+  +sortBy: 'name' | 'balance',
   +isMyAssetsFirst: boolean,
   +isHideZeroBalance: boolean,
 }
 
 class DigitalAssetsFilter extends PureComponent<Props> {
   static defaultProps = {
-    sortName: 'down',
-    sortBalance: 'asc',
-    sortButtonActive: 'name',
+    sortByNameOrder: 'asc',
+    sortByBalanceOrder: 'asc',
+    sortBy: 'name',
     isMyAssetsFirst: false,
     isHideZeroBalance: false,
   }
 
   render() {
     const {
-      onClickName,
-      onClickBalance,
+      onClickSortByName,
+      onClickSortByBalance,
       onChangeMyAssetsFirst,
       onChangeHideZeroBalance,
-      sortName,
-      sortBalance,
-      sortButtonActive,
+      sortByNameOrder,
+      sortByBalanceOrder,
+      sortBy,
       isMyAssetsFirst,
       isHideZeroBalance,
     } = this.props
+
+    const sortByNameIcon = (sortByNameOrder === 'asc') ? 'down' : 'up'
 
     return (
       <PopupButton icon='filter'>
@@ -75,27 +78,27 @@ class DigitalAssetsFilter extends PureComponent<Props> {
           </div>
           <div className='sorting'>
             <button
-              onClick={onClickName}
-              className={classNames('button', sortButtonActive === 'name' ? '-active' : '')}
+              onClick={handle(onClickSortByName)()}
+              className={classNames('button', sortBy === 'name' ? '-active' : '')}
             >
               <span className='icon'>
                 <JIcon
                   size='medium'
                   color='blue'
-                  name={`sort-alphabet-${sortName}`}
+                  name={`sort-alphabet-${sortByNameIcon}`}
                 />
               </span>
               Name
             </button>
             <button
-              onClick={onClickBalance}
-              className={classNames('button', sortButtonActive === 'balance' ? '-active' : '')}
+              onClick={handle(onClickSortByBalance)()}
+              className={classNames('button', sortBy === 'balance' ? '-active' : '')}
             >
               <span className='icon'>
                 <JIcon
                   size='medium'
                   color='blue'
-                  name={`sort-${sortBalance}`}
+                  name={`sort-${sortByBalanceOrder}`}
                 />
               </span>
               Balance
