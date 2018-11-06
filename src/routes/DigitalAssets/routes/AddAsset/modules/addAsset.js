@@ -105,7 +105,7 @@ const initialState: CustomAssetState = {
   requestedAddress: '',
 }
 
-function addAssetForm(
+function addAsset(
   state: CustomAssetState = initialState,
   action: CustomAssetActions,
 ): CustomAssetState {
@@ -179,4 +179,4 @@ function addAssetForm(
   }
 }
 
-export default addAssetForm
+export default addAsset
