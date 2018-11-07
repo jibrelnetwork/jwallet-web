@@ -15,6 +15,7 @@ type Props = {
   +sortByBalanceOrder: SortOrder,
   +sortBy: 'name' | 'balance',
   +isHideZeroBalance: boolean,
+  +filterCount: number,
 }
 
 class DigitalAssetsFilter extends PureComponent<Props> {
@@ -23,6 +24,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
     sortByBalanceOrder: 'asc',
     sortBy: 'name',
     isHideZeroBalance: false,
+    filterCount: 0,
   }
 
   render() {
@@ -34,12 +36,13 @@ class DigitalAssetsFilter extends PureComponent<Props> {
       sortByBalanceOrder,
       sortBy,
       isHideZeroBalance,
+      filterCount,
     } = this.props
 
     const sortByNameIcon = (sortByNameOrder === 'asc') ? 'down' : 'up'
 
     return (
-      <PopupButton icon='filter'>
+      <PopupButton icon='filter' counter={filterCount}>
         <div className='assets-filter'>
           <div className='title'>
             <JText
