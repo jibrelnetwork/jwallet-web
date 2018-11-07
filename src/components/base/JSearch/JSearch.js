@@ -54,8 +54,8 @@ class JSearch extends PureComponent<Props, ComponentState> {
 
     const queryTimeout = setTimeout(
       this.props.onQueryChange,
-      300,
-      this.state.value
+      100,
+      value
     )
 
     this.setState({
