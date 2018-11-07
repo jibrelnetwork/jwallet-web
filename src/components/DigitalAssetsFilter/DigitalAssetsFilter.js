@@ -8,9 +8,9 @@ import { JIcon, JText, JCheckbox } from 'components/base'
 import { handle } from 'utils/eventHandlers'
 
 type Props = {
-  +onClickSortByName: ?(() => void),
-  +onClickSortByBalance: ?(() => void),
-  +onChangeHideZeroBalance: ?((boolean) => void),
+  +sortByNameClick: ((void) => void),
+  +sortByBalanceClick: ((void) => void),
+  +setHideZeroBalance: ((boolean) => void),
   +sortByNameOrder: SortOrder,
   +sortByBalanceOrder: SortOrder,
   +sortBy: 'name' | 'balance',
@@ -27,9 +27,9 @@ class DigitalAssetsFilter extends PureComponent<Props> {
 
   render() {
     const {
-      onClickSortByName,
-      onClickSortByBalance,
-      onChangeHideZeroBalance,
+      sortByNameClick,
+      sortByBalanceClick,
+      setHideZeroBalance,
       sortByNameOrder,
       sortByBalanceOrder,
       sortBy,
@@ -49,9 +49,9 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             />
           </div>
           <JCheckbox
-            onChange={onChangeHideZeroBalance}
-            name='my-assets-first'
-            label='My assets first'
+            onChange={setHideZeroBalance}
+            name='hide-zero-balance'
+            label='Hide zero balance'
             isChecked={isHideZeroBalance}
           />
           <div className='title'>
@@ -65,7 +65,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
           </div>
           <div className='sorting'>
             <button
-              onClick={handle(onClickSortByName)()}
+              onClick={handle(sortByNameClick)()}
               className={classNames('button', sortBy === 'name' ? '-active' : '')}
             >
               <span className='icon'>
@@ -84,7 +84,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
               />
             </button>
             <button
-              onClick={handle(onClickSortByBalance)()}
+              onClick={handle(sortByBalanceClick)()}
               className={classNames('button', sortBy === 'balance' ? '-active' : '')}
             >
               <span className='icon'>

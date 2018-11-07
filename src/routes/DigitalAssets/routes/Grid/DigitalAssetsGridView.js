@@ -22,7 +22,6 @@ type Props = {
   setSearchQuery: (string) => void,
   sortByNameClick: () => void,
   sortByBalanceClick: () => void,
-  setMyAssetsFirst: (boolean) => void,
   setHideZeroBalance: (boolean) => void,
   items: Array<DigitalAssetsGridItemType>,
   filter: DigitalAssetsFilter
@@ -44,7 +43,6 @@ class DigitalAssetsGridView extends Component<Props> {
       filter,
       sortByNameClick,
       sortByBalanceClick,
-      setMyAssetsFirst,
       setHideZeroBalance,
     } = this.props
 
@@ -63,10 +61,9 @@ class DigitalAssetsGridView extends Component<Props> {
               <div className='filter'>
                 <DigitalAssetsFilter
                   {...filter}
-                  onClickSortByName={sortByNameClick}
-                  onClickSortByBalance={sortByBalanceClick}
-                  onChangeMyAssetsFirst={setMyAssetsFirst}
-                  onChangeHideZeroBalance={setHideZeroBalance}
+                  sortByNameClick={sortByNameClick}
+                  sortByBalanceClick={sortByBalanceClick}
+                  setHideZeroBalance={setHideZeroBalance}
                 />
               </div>
               <div className='setting'>
