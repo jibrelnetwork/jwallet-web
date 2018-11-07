@@ -16,7 +16,7 @@ class JCheckbox extends PureComponent<Props> {
     isChecked: false,
   }
 
-  onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (this.props.onChange) {
       this.props.onChange(event.target.checked)
     }
