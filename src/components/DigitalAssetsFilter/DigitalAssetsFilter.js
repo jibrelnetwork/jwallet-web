@@ -10,12 +10,10 @@ import { handle } from 'utils/eventHandlers'
 type Props = {
   +onClickSortByName: ?(() => void),
   +onClickSortByBalance: ?(() => void),
-  +onChangeMyAssetsFirst: ?((boolean) => void),
   +onChangeHideZeroBalance: ?((boolean) => void),
   +sortByNameOrder: SortOrder,
   +sortByBalanceOrder: SortOrder,
   +sortBy: 'name' | 'balance',
-  +isMyAssetsFirst: boolean,
   +isHideZeroBalance: boolean,
 }
 
@@ -24,7 +22,6 @@ class DigitalAssetsFilter extends PureComponent<Props> {
     sortByNameOrder: 'asc',
     sortByBalanceOrder: 'asc',
     sortBy: 'name',
-    isMyAssetsFirst: false,
     isHideZeroBalance: false,
   }
 
@@ -32,16 +29,12 @@ class DigitalAssetsFilter extends PureComponent<Props> {
     const {
       onClickSortByName,
       onClickSortByBalance,
-      onChangeMyAssetsFirst,
       onChangeHideZeroBalance,
       sortByNameOrder,
       sortByBalanceOrder,
       sortBy,
-      isMyAssetsFirst,
       isHideZeroBalance,
     } = this.props
-
-    const sortByNameIcon = (sortByNameOrder === 'asc') ? 'down' : 'up'
 
     return (
       <PopupButton icon='filter'>
@@ -55,12 +48,6 @@ class DigitalAssetsFilter extends PureComponent<Props> {
               whiteSpace='wrap'
             />
           </div>
-          <JCheckbox
-            onChange={onChangeMyAssetsFirst}
-            name='hide-zero-balance'
-            label='Hide zero balance'
-            isChecked={isMyAssetsFirst}
-          />
           <JCheckbox
             onChange={onChangeHideZeroBalance}
             name='my-assets-first'
@@ -85,10 +72,16 @@ class DigitalAssetsFilter extends PureComponent<Props> {
                 <JIcon
                   size='medium'
                   color='blue'
-                  name={`sort-alphabet-${sortByNameIcon}`}
+                  name={`sort-alphabet-${sortByNameOrder}`}
                 />
               </span>
-              Name
+              <JText
+                color='blue'
+                size='normal'
+                value='Name'
+                weight='bold'
+                whiteSpace='wrap'
+              />
             </button>
             <button
               onClick={handle(onClickSortByBalance)()}
@@ -101,7 +94,13 @@ class DigitalAssetsFilter extends PureComponent<Props> {
                   name={`sort-${sortByBalanceOrder}`}
                 />
               </span>
-              Balance
+              <JText
+                color='blue'
+                size='normal'
+                value='Balance'
+                weight='bold'
+                whiteSpace='wrap'
+              />
             </button>
           </div>
         </div>

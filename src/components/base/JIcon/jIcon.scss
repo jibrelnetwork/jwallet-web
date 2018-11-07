@@ -722,13 +722,13 @@
       background-image: $icon-medium-flag-kr;
     }
 
-    &.-sort-alphabet-up {
+    &.-sort-alphabet-desc {
       &.-blue {
         background-image: $icon-medium-sort-alphabet-up-blue;
       }
     }
 
-    &.-sort-alphabet-down {
+    &.-sort-alphabet-asc {
       &.-blue {
         background-image: $icon-medium-sort-alphabet-down-blue;
       }
