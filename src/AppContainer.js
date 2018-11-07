@@ -5,8 +5,12 @@ import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
+import type { Persistor } from 'redux-persist/lib/types'
+import { type Store, type Dispatch } from 'redux'
+import { type AppActions } from 'routes'
+
 type Props = {
-  store: Store,
+  store: Store<AppState, AppActions, Dispatch<AppActions>>,
   routes: Object,
   history: Object,
   persistor: Persistor,
