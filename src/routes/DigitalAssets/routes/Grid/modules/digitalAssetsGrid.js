@@ -7,7 +7,6 @@ export const SET_SEARCH_QUERY = '@@digitalAssetsGrid/SET_SEARCH_QUERY'
 
 export const SET_FILTER_SORT_BY_NAME = '@@digitalAssetsGrid/SET_FILTER_SORT_BY_NAME'
 export const SET_FILTER_SORT_BY_BALANCE = '@@digitalAssetsGrid/SET_FILTER_SORT_BY_BALANCE'
-export const SET_FILTER_MY_ASSETS_FIRST = '@@digitalAssetsGrid/SET_FILTER_MY_ASSETS_FIRST'
 export const SET_FILTER_HIDE_ZERO_BALANCE = '@@digitalAssetsGrid/SET_FILTER_HIDE_ZERO_BALANCE'
 
 export const SORT_BY_NAME_CLICK = '@@digitalAssetsGrid/SORT_BY_NAME_CLICK'
@@ -66,15 +65,6 @@ export function sortByBalanceClick() {
   }
 }
 
-export function setMyAssetsFirst(isActive: boolean) {
-  return {
-    type: SET_FILTER_MY_ASSETS_FIRST,
-    payload: {
-      isActive,
-    },
-  }
-}
-
 export function setHideZeroBalance(isActive: boolean) {
   return {
     type: SET_FILTER_HIDE_ZERO_BALANCE,
@@ -97,7 +87,6 @@ export type DigitalAssetsGridActions = ExtractReturn<typeof openView> |
   ExtractReturn<typeof sortByNameClick> |
   ExtractReturn<typeof setSortByBalance> |
   ExtractReturn<typeof sortByBalanceClick> |
-  ExtractReturn<typeof setMyAssetsFirst> |
   ExtractReturn<typeof setHideZeroBalance>
 
 const initialState: DigitalAssetsGridState = {
@@ -105,7 +94,6 @@ const initialState: DigitalAssetsGridState = {
     sortBy: 'name',
     sortByNameOrder: 'asc',
     sortByBalanceOrder: 'asc',
-    isMyAssetsFirst: false,
     isHideZeroBalance: false,
   },
   searchQuery: '',
@@ -147,18 +135,6 @@ const digitalAssetsGrid = (
           ...state.filter,
           sortByBalanceOrder: order,
           sortBy: 'balance',
-        },
-      }
-    }
-
-    case SET_FILTER_MY_ASSETS_FIRST: {
-      const { isActive } = action.payload
-
-      return {
-        ...state,
-        filter: {
-          ...state.filter,
-          isMyAssetsFirst: isActive,
         },
       }
     }

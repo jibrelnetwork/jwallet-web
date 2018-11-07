@@ -16,7 +16,6 @@ import {
   setSearchQuery,
   sortByNameClick,
   sortByBalanceClick,
-  setMyAssetsFirst,
   setHideZeroBalance,
 } from './modules/digitalAssetsGrid'
 
@@ -53,7 +52,6 @@ const mapDispatchToProps = {
   setSearchQuery,
   sortByNameClick,
   sortByBalanceClick,
-  setMyAssetsFirst,
   setHideZeroBalance,
 }
 

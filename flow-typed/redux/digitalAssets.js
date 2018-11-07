@@ -9,7 +9,6 @@ declare type DigitalAssetsFilter = {|
   +sortBy: 'name' | 'balance',
   +sortByNameOrder: SortOrder,
   +sortByBalanceOrder: SortOrder,
-  +isMyAssetsFirst: boolean,
   +isHideZeroBalance: boolean,
 |}
 

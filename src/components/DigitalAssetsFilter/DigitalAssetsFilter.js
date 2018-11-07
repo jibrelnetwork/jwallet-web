@@ -8,14 +8,12 @@ import { JIcon, JText, JCheckbox } from 'components/base'
 import { handle } from 'utils/eventHandlers'
 
 type Props = {
-  +onClickSortByName: ((void) => void),
-  +onClickSortByBalance: ((void) => void),
-  +onChangeMyAssetsFirst: ((boolean) => void),
-  +onChangeHideZeroBalance: ((boolean) => void),
+  +sortByNameClick: ((void) => void),
+  +sortByBalanceClick: ((void) => void),
+  +setHideZeroBalance: ((boolean) => void),
   +sortByNameOrder: SortOrder,
   +sortByBalanceOrder: SortOrder,
   +sortBy: 'name' | 'balance',
-  +isMyAssetsFirst: boolean,
   +isHideZeroBalance: boolean,
 }
 
@@ -24,20 +22,17 @@ class DigitalAssetsFilter extends PureComponent<Props> {
     sortByNameOrder: 'asc',
     sortByBalanceOrder: 'asc',
     sortBy: 'name',
-    isMyAssetsFirst: false,
     isHideZeroBalance: false,
   }
 
   render() {
     const {
-      onClickSortByName,
-      onClickSortByBalance,
-      onChangeMyAssetsFirst,
-      onChangeHideZeroBalance,
+      sortByNameClick,
+      sortByBalanceClick,
+      setHideZeroBalance,
       sortByNameOrder,
       sortByBalanceOrder,
       sortBy,
-      isMyAssetsFirst,
       isHideZeroBalance,
     } = this.props
 
@@ -56,15 +51,9 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             />
           </div>
           <JCheckbox
-            onChange={onChangeMyAssetsFirst}
+            onChange={setHideZeroBalance}
             name='hide-zero-balance'
             label='Hide zero balance'
-            isChecked={isMyAssetsFirst}
-          />
-          <JCheckbox
-            onChange={onChangeHideZeroBalance}
-            name='my-assets-first'
-            label='My assets first'
             isChecked={isHideZeroBalance}
           />
           <div className='title'>
@@ -78,7 +67,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
           </div>
           <div className='sorting'>
             <button
-              onClick={handle(onClickSortByName)()}
+              onClick={handle(sortByNameClick)()}
               className={classNames('button', sortBy === 'name' ? '-active' : '')}
             >
               <span className='icon'>
@@ -91,7 +80,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
               Name
             </button>
             <button
-              onClick={handle(onClickSortByBalance)()}
+              onClick={handle(sortByBalanceClick)()}
               className={classNames('button', sortBy === 'balance' ? '-active' : '')}
             >
               <span className='icon'>
