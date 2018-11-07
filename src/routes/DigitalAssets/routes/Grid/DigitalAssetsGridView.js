@@ -16,7 +16,7 @@ const DIGITAL_ASSETS_TABS = {
   '/custom-asset/add': 'Transactions',
 }
 
-type Props = {
+type Props = {|
   openView: () => void,
   closeView: () => void,
   setSearchQuery: (string) => void,
@@ -24,9 +24,9 @@ type Props = {
   sortByBalanceClick: () => void,
   setHideZeroBalance: (boolean) => void,
   items: Array<DigitalAssetsGridItemType>,
-  filter: DigitalAssetsFilter,
+  filter: DigitalAssetsFilterType,
   filterCount: number,
-}
+|}
 
 class DigitalAssetsGridView extends Component<Props> {
   componentDidMount() {

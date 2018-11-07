@@ -122,7 +122,10 @@ const mapDispatchToProps = {
   setHideZeroBalance,
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+type OwnProps = {||}
+
+/* eslint-disable no-undef */
+export default (
+  connect < AppState, any, OwnProps, _, _ > (mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsGridView)
+/* eslint-enable no-undef */

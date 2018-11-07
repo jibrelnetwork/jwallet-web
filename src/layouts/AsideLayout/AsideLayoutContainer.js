@@ -14,4 +14,12 @@ const mapDispatchToProps = {
   closeLayout,
 }
 
-export default connect(null, mapDispatchToProps)(AsideLayout)
+type OwnProps = {|
+  +children: React$Node,
+|}
+
+/* eslint-disable no-undef */
+export default (
+  connect < AppState, any, OwnProps, _, _ > (null, mapDispatchToProps)
+)(AsideLayout)
+/* eslint-enable no-undef */

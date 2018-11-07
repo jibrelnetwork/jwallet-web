@@ -29,7 +29,10 @@ const mapDispatchToProps = {
   // closeClick
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+type OwnProps = {||}
+
+/* eslint-disable no-undef */
+export default (
+  connect < AppState, any, OwnProps, _, _ > (mapStateToProps, mapDispatchToProps)
 )(AddAssetView)
+/* eslint-enable no-undef */
