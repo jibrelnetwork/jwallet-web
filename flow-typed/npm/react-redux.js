@@ -81,7 +81,7 @@ declare module 'react-redux' {
       mapStateToProps: MapStateToProps<S, OP, SP>,
   ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...SP |}>>;
 
-  declare export function connect<S, D, OP, SP>(
+  declare export function connect<S, D, OP, SP, DP>(
     null,
     mapDispatchToProps: DP,
   ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...DP |}>>;
