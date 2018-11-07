@@ -8,10 +8,10 @@ import { JIcon, JText, JCheckbox } from 'components/base'
 import { handle } from 'utils/eventHandlers'
 
 type Props = {
-  +onClickSortByName: ?(() => void),
-  +onClickSortByBalance: ?(() => void),
-  +onChangeMyAssetsFirst: ?((boolean) => void),
-  +onChangeHideZeroBalance: ?((boolean) => void),
+  +onClickSortByName: ((void) => void),
+  +onClickSortByBalance: ((void) => void),
+  +onChangeMyAssetsFirst: ((boolean) => void),
+  +onChangeHideZeroBalance: ((boolean) => void),
   +sortByNameOrder: SortOrder,
   +sortByBalanceOrder: SortOrder,
   +sortBy: 'name' | 'balance',
