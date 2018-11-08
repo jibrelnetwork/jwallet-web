@@ -1,30 +1,40 @@
 // @flow
 
-// import React from 'react'
-// import Tooltip from 'rc-tooltip'
-// import 'rc-tooltip/assets/bootstrap.css'
+import React, { PureComponent } from 'react'
+import Tooltip from 'rc-tooltip'
 
-// import JText from '../JText'
+import { JText } from 'components/base'
 
-// const JTooltip = ({ text, children }: Props) => (
-//   <div className='jTooltip'>
-//     <Tooltip
-//       overlay={(
-//         <JText
-//           value={text}
-//           variants={['white', 'mini']}
-//         />
-//       )}
-//       placement='right'
-//     >
-//       <div>{children}</div>
-//     </Tooltip>
-//   </div>
-// )
+type Props = {|
+  +text: string,
+  +children: React$Node,
+|}
 
-// type Props = {
-//   text: string,
-//   children: React.Node,
-// }
+class JTooltip extends PureComponent<Props> {
+  render() {
+    const {
+      text,
+      children,
+    } = this.props
 
-// export default JTooltip
+    return (
+      <div className='j-tooltip'>
+        <Tooltip
+          overlay={(
+            <JText
+              value={text}
+              size='small'
+              color='white'
+              weight='bold'
+            />
+          )}
+          placement='top'
+        >
+          <div>{children}</div>
+        </Tooltip>
+      </div>
+    )
+  }
+}
+
+export default JTooltip
