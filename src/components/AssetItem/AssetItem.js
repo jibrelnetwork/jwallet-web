@@ -39,17 +39,21 @@ class AssetItem extends PureComponent<Props, StateProps> {
       isDeleteDialog: false,
     }
   }
+
   onHoverEdit = (isHoveredEdit: boolean) => {
     this.setState({ isHoveredEdit })
   }
+
   onHoverTrash = (isHoveredTrash: boolean) => {
     this.setState({ isHoveredTrash })
   }
+
   toggleChange = (isChange: boolean) => {
     this.setState({
       isChange,
     })
   }
+
   toggleDeleteDialog = (isDeleteDialog: boolean) => {
     this.setState({
       isDeleteDialog,
@@ -74,9 +78,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
     return (
       <JCard color='white' isBorderRadius isHover>
-        <div
-          className='asset-item'
-        >
+        <div className='asset-item'>
           <div className='info'>
             {!isCustom ? (
               <div className='symbol -icon'>

@@ -11,7 +11,7 @@ import { setActive } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import DigitalAssets from './DigitalAssets'
 
-const mapStateToProps: Function = ({ digitalAssets }: State): DigitalAssetsData => digitalAssets
+const mapStateToProps: Function = ({ digitalAssets }: AppState): DigitalAssetsData => digitalAssets
 
 const mapDispatchToProps: {
   setActive: Function,

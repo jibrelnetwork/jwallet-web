@@ -29,7 +29,7 @@ type StateProps = {|
   +isPasswordExists: boolean,
 |}
 
-function mapStateToProps({ wallets, walletsCreate }: State): StateProps {
+function mapStateToProps({ wallets, walletsCreate }: AppState): StateProps {
   const {
     persist: {
       testPasswordData,

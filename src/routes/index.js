@@ -16,7 +16,7 @@ export default {
   path: '/',
   component: CoreLayout,
   indexRoute: {
-    onEnter: (nextState: State, replace: (string) => void) => replace('/transactions'),
+    onEnter: (nextState: AppState, replace: (string) => void) => replace('/transactions'),
   },
   childRoutes: [
     /*

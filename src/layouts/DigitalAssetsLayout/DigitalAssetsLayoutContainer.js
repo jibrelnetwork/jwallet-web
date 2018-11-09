@@ -9,7 +9,7 @@ import { open, close, search } from 'routes/DigitalAssets/modules/digitalAssets'
 
 import DigitalAssetsLayout from './DigitalAssetsLayout'
 
-const mapStateToProps: Function = ({ digitalAssets }: State): {
+const mapStateToProps: Function = ({ digitalAssets }: AppState): {
   searchQuery: string,
 } => ({
   searchQuery: digitalAssets.searchQuery,

@@ -48,7 +48,7 @@ const mapDispatchToProps = {
   setField,
 }
 
-function mapStateToProps(state: State): StateProps {
+function mapStateToProps(state: AppState): StateProps {
   const { formFields, invalidFields, isAssetLoading } = selectCustomAsset(state)
 
   return {
