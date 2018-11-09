@@ -49,6 +49,5 @@ export function makeRootReducer() {
     router,
   })
 
-  // eslint-disable-next-line no-sequences
-  return persistReducer < AppState, AppActions > (persistConfig, rootReducer)
+  return persistReducer/* :: < AppState, AppActions > */(persistConfig, rootReducer)
 }

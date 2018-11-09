@@ -122,10 +122,9 @@ const mapDispatchToProps = {
   setHideZeroBalance,
 }
 
+// eslint-disable-next-line no-unused-vars
 type OwnProps = {||}
 
-/* eslint-disable no-undef */
 export default (
-  connect < AppState, any, OwnProps, _, _ > (mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsGridView)
-/* eslint-enable no-undef */
