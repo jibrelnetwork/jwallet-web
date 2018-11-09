@@ -6,13 +6,15 @@ import CoreLayout from 'layouts/CoreLayout'
 import Funds from './Funds'
 import Transactions from './Transactions'
 */
-import DigitalAssets, {
-  type DigitalAssetsAllActions,
-} from './DigitalAssets'
 
+import DigitalAssets from './DigitalAssets'
 import Wallets from './Wallets'
 import NotFound from './NotFound'
 import Terms from './Terms'
+
+import {
+  type DigitalAssetsAllActions,
+} from './DigitalAssets/modules'
 
 export type AppActions = DigitalAssetsAllActions
 

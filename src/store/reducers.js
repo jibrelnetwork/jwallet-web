@@ -15,14 +15,19 @@ import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 import walletsRenameAddress from 'routes/Wallets/routes/RenameAddress/modules/walletsRenameAddress'
 
+// Digital ssets
+import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import addAsset from 'routes/DigitalAssets/routes/AddAsset/modules/addAsset'
+import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
+// import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
+// import digitalAssetsSettings
+//   from 'routes/DigitalAssets/routes/Settings/modules/digitalAssetsSettings'
+
 // networks
 import networks from 'routes/modules/networks'
 
 // transactions
 import transactions from 'routes/Transactions/modules/transactions'
-
-// digitalAssets
-import { reducers as digitalAssets } from 'routes/DigitalAssets'
 
 const persistConfig = {
   storage,
@@ -42,7 +47,9 @@ export function makeRootReducer() {
     // networks
     networks,
     // digitalAssets
-    ...digitalAssets,
+    digitalAssets,
+    digitalAssetsGrid,
+    addAsset,
     // transactions
     transactions,
     // router

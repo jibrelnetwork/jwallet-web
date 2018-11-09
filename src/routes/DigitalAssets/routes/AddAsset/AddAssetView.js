@@ -13,7 +13,7 @@ type Props = {
   closeClick: () => void,
 } & React$ElementConfig<typeof DigitalAssetEditForm>
 
-const CustomAssetAddView = ({
+const AddAssetView = ({
   openView,
   closeView,
   closeClick,
@@ -41,4 +41,4 @@ const CustomAssetAddView = ({
   </CloseableScreen>
 )
 
-export default CustomAssetAddView
+export default AddAssetView

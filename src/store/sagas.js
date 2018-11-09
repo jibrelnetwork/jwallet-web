@@ -4,7 +4,7 @@
 import walletsSagas from 'routes/Wallets/sagas'
 
 // Digital Assets
-import { sagas as digitalAssetsSagas } from 'routes/DigitalAssets'
+import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
 
 /*
 // Networks
