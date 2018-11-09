@@ -13,10 +13,10 @@ import {
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
-  '/custom-asset/add': 'Transactions',
+  '/': 'Transactions',
 }
 
-type Props = {
+type Props = {|
   openView: () => void,
   closeView: () => void,
   setSearchQuery: (string) => void,
@@ -24,8 +24,9 @@ type Props = {
   sortByBalanceClick: () => void,
   setHideZeroBalance: (boolean) => void,
   items: Array<DigitalAssetsGridItemType>,
-  filter: DigitalAssetsFilter
-}
+  filter: DigitalAssetsFilterType,
+  filterCount: number,
+|}
 
 class DigitalAssetsGridView extends Component<Props> {
   componentDidMount() {
@@ -44,6 +45,7 @@ class DigitalAssetsGridView extends Component<Props> {
       sortByNameClick,
       sortByBalanceClick,
       setHideZeroBalance,
+      filterCount,
     } = this.props
 
     return (
@@ -61,6 +63,7 @@ class DigitalAssetsGridView extends Component<Props> {
               <div className='filter'>
                 <DigitalAssetsFilter
                   {...filter}
+                  filterCount={filterCount}
                   sortByNameClick={sortByNameClick}
                   sortByBalanceClick={sortByBalanceClick}
                   setHideZeroBalance={setHideZeroBalance}

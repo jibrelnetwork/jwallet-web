@@ -29,7 +29,9 @@ const mapDispatchToProps = {
   // closeClick
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+// eslint-disable-next-line no-unused-vars
+type OwnProps = {||}
+
+export default (
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(AddAssetView)

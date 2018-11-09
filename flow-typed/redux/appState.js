@@ -3,11 +3,10 @@
 /* eslint-disable no-unused-vars */
 
 import type { Saga } from 'redux-saga'
-import type { Persistor } from 'redux-persist/lib/types'
 
 /* eslint-enable no-unused-vars */
 
-declare type AppState = {|
+declare type AppState = {
   // wallets
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,
@@ -29,4 +28,4 @@ declare type AppState = {|
   // +sendFunds: SendFundsData,
   // router
   +router: RouterState,
-|}
+}

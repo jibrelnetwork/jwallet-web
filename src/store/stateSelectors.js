@@ -88,7 +88,7 @@ export function selectDigitalAsset(state: AppState, contractAddress: Address): ?
   return assets[contractAddress]
 }
 
-export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilter {
+export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {
   return state.digitalAssetsGrid.filter
 }
 

@@ -5,7 +5,7 @@ type AssetAddress = string
 
 declare type SortOrder = 'asc' | 'desc'
 
-declare type DigitalAssetsFilter = {|
+declare type DigitalAssetsFilterType = {|
   +sortBy: 'name' | 'balance',
   +sortByNameOrder: SortOrder,
   +sortByBalanceOrder: SortOrder,
@@ -53,7 +53,7 @@ declare type DigitalAssetsState = {
 }
 
 declare type DigitalAssetsGridState = {|
-  +filter: DigitalAssetsFilter,
+  +filter: DigitalAssetsFilterType,
   +searchQuery: string,
 |}
 

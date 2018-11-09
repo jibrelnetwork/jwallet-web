@@ -14,7 +14,7 @@ import Wallets from './Wallets'
 import NotFound from './NotFound'
 import Terms from './Terms'
 
-export type AllActions = DigitalAssetsAllActions
+export type AppActions = DigitalAssetsAllActions
 
 export default {
   path: '/',

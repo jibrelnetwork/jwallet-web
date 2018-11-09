@@ -14,4 +14,6 @@ const mapDispatchToProps = {
   closeLayout,
 }
 
-export default connect(null, mapDispatchToProps)(AsideLayout)
+export default (
+  connect/* :: < AppState, any, Object, _, _ > */(null, mapDispatchToProps)
+)(AsideLayout)
