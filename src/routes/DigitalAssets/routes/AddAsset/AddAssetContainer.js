@@ -7,6 +7,7 @@ import {
   openView,
   closeView,
   setField,
+  submitAssetForm,
 } from './modules/addAsset'
 
 import AddAssetView from './AddAssetView'
@@ -22,10 +23,10 @@ function mapStateToProps(state: AppState) {
 }
 
 const mapDispatchToProps = {
-  open: openView,
-  close: closeView,
+  openView,
+  closeView,
   setField,
-  // submit
+  submit: submitAssetForm,
   // closeClick
 }
 

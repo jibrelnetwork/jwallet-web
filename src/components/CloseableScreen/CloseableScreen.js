@@ -10,9 +10,9 @@ type Props = {
   title: string,
   children: React$Node,
   allowClose: boolean,
-  open: ?(() => void),
-  close: ?(() => void),
-  closeClick: ?(() => void),
+  open: (() => void),
+  close: (() => void),
+  closeClick: (() => void),
 }
 
 class CloseableScreen extends Component<Props> {

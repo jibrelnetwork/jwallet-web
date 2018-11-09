@@ -84,8 +84,14 @@ export function selectDigitalAssets(state: AppState): DigitalAssets {
 }
 
 export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
-  const assets = selectDigitalAssets(state)
-  return assets[contractAddress]
+  const items = selectDigitalAssets(state)
+  if (items[contractAddress]) {
+    return items[contractAddress]
+  }
+
+  const addressLower = contractAddress.toLowerCase()
+  const key = Object.keys(items).find(addr => items[addr].address.toLowerCase() === addressLower)
+  return key ? items[key] : null
 }
 
 export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {

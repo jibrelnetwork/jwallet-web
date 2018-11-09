@@ -24,7 +24,12 @@ import {
   clearFieldError,
   setIsAssetValid,
   startAssetLoading,
+  SUBMIT_ASSET_FORM,
 } from '../modules/addAsset'
+
+import {
+  addCustomAsset,
+} from '../../../modules/digitalAssets'
 
 const {
   getContractName,
@@ -80,6 +85,10 @@ function* clearFields(): Saga<void> {
   yield put(setField('name', ''))
   yield put(setField('symbol', ''))
   yield put(setField('decimals', ''))
+}
+
+function* clearFieldsError(): Saga<void> {
+  yield put(clearFieldError('address'))
   yield put(clearFieldError('name'))
   yield put(clearFieldError('symbol'))
   yield put(clearFieldError('decimals'))
@@ -118,7 +127,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
   }
 
   yield* clearFields()
-  yield put(clearFieldError('address'))
+  yield* clearFieldsError()
 
   try {
     // Check if this asset already exists
@@ -165,6 +174,81 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
   }
 }
 
+function* onAssetFormSumbit(): Saga<void> {
+  const {
+    isAssetValid,
+    isAssetLoaded,
+    formFields: {
+      address,
+      name,
+      symbol,
+      decimals,
+    },
+  }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
+
+  const contractAddress = address.trim()
+  const contractName = name.trim()
+  const contractSymbol = symbol.trim()
+  const contractDecimals = parseInt(decimals, 10)
+
+  if (isAssetLoaded && !isAssetValid) {
+    // the error is already shows for the address field
+    return
+  }
+
+  yield* clearFieldsError()
+
+  // check contract address
+  if (!keystore.checkAddressValid(contractAddress)) {
+    yield put(setFieldError('address', 'Invalid ERC-20 contract address'))
+    return
+  }
+
+  if (!isAssetLoaded) {
+    yield put(setFieldError('address', 'Please wait for asset validity check'))
+    return
+  }
+
+  // Check if this asset already exists
+  const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, contractAddress)
+  if (foundAsset) {
+    yield put(setFieldError('address', i18n('general.error.address.exists')))
+    return
+  }
+
+  if (contractName.length === 0) {
+    yield put(setFieldError('name', 'Valid digital asset name is required'))
+  }
+
+  if (contractSymbol.length === 0 || contractSymbol.length > 10) {
+    yield put(setFieldError('symbol', 'Valid digital asset symbol is required'))
+  }
+
+  if (Number.isNaN(contractDecimals) ||
+    contractDecimals <= 0 ||
+    contractDecimals > 127) {
+    yield put(
+      setFieldError('decimals', 'Digital asset decimals should be a number between 1...127')
+    )
+  }
+
+  const {
+    invalidFields: {
+      address: addressError,
+      name: nameError,
+      symbol: symbolError,
+      decimals: decimalsError,
+    },
+  }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
+
+  if (addressError === '' &&
+      nameError === '' &&
+      symbolError === '' &&
+      decimalsError === '') {
+    yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
+  }
+}
+
 function* addAssetOpen(): Saga<void> {
   yield put(clean())
 }
@@ -172,4 +256,5 @@ function* addAssetOpen(): Saga<void> {
 export function* addAssetRootSaga(): Saga<void> {
   yield takeEvery(OPEN_VIEW, addAssetOpen)
   yield takeEvery(SET_FIELD, onFieldChange)
+  yield takeEvery(SUBMIT_ASSET_FORM, onAssetFormSumbit)
 }

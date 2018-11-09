@@ -1,7 +1,7 @@
 // @flow
 
 export const SET_INITIAL_ITEMS = '@@digitalAssets/SET_INITIAL_ITEMS'
-export const ADD_ASSET = '@@digitalAssets/ADD_ASSET'
+export const ADD_CUSTOM_ASSET = '@@digitalAssets/ADD_CUSTOM_ASSET'
 export const REMOVE_ASSET = '@@digitalAssets/REMOVE_ASSET'
 export const UPDATE_ASSET = '@@digitalAssets/UPDATE_ASSET'
 
@@ -14,11 +14,14 @@ export function setInitialItems(items: DigitalAssets) {
   }
 }
 
-export function addAsset(item: DigitalAsset) {
+export function addCustomAsset(address: Address, name: string, symbol: string, decimals: number) {
   return {
-    type: ADD_ASSET,
+    type: ADD_CUSTOM_ASSET,
     payload: {
-      item,
+      address,
+      name,
+      symbol,
+      decimals,
     },
   }
 }
@@ -42,7 +45,7 @@ export function updateAsset(item: DigitalAsset) {
 }
 
 export type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
-  | ExtractReturn<typeof addAsset>
+  | ExtractReturn<typeof addCustomAsset>
   | ExtractReturn<typeof removeAsset>
   | ExtractReturn<typeof updateAsset>
 
@@ -70,9 +73,13 @@ const digitalAssets = (
       }
     }
 
-    case ADD_ASSET: {
-      const { item } = action.payload
-      const { address } = item
+    case ADD_CUSTOM_ASSET: {
+      const {
+        address,
+        name,
+        symbol,
+        decimals,
+      } = action.payload
 
       return {
         ...state,
@@ -80,7 +87,14 @@ const digitalAssets = (
           ...state.persist,
           items: {
             ...state.persist.items,
-            [address]: item,
+            [address]: {
+              address,
+              name,
+              symbol,
+              decimals,
+              isCustom: true,
+              isActive: true,
+            },
           },
         },
       }
