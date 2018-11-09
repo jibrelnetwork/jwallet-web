@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import {
   selectDigitalAssets,
@@ -120,6 +121,7 @@ const mapDispatchToProps = {
   sortByNameClick,
   sortByBalanceClick,
   setHideZeroBalance,
+  addAssetClick: () => push('/digital-assets/add-asset'),
 }
 
 // eslint-disable-next-line no-unused-vars

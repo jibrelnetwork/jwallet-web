@@ -23,6 +23,7 @@ type Props = {|
   sortByNameClick: () => void,
   sortByBalanceClick: () => void,
   setHideZeroBalance: (boolean) => void,
+  addAssetClick: () => void,
   items: Array<DigitalAssetsGridItemType>,
   filter: DigitalAssetsFilterType,
   filterCount: number,
@@ -46,6 +47,7 @@ class DigitalAssetsGridView extends Component<Props> {
       sortByBalanceClick,
       setHideZeroBalance,
       filterCount,
+      addAssetClick,
     } = this.props
 
     return (
@@ -83,6 +85,7 @@ class DigitalAssetsGridView extends Component<Props> {
           <Scrollbars autoHide>
             <DigitalAssetsGrid
               items={items}
+              addAssetClick={addAssetClick}
             />
           </Scrollbars>
         </div>

@@ -2,10 +2,9 @@
 
 import React, { PureComponent } from 'react'
 
-// import { filterDigitalAssets, filterFoundDigitalAssets } from 'utils/digitalAssets'
-
 import Asset from './Asset'
 import Empty from './Empty'
+import AddDigitalAsset from './AddDigitalAsset'
 
 export type DigitalAssetsGridItemType = {
   asset: DigitalAsset,
@@ -14,12 +13,14 @@ export type DigitalAssetsGridItemType = {
 
 type Props = {
   items: Array<DigitalAssetsGridItemType>,
+  addAssetClick: () => void,
 }
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
     const {
       items,
+      addAssetClick,
     } = this.props
 
     return (
@@ -40,6 +41,10 @@ class DigitalAssetsGrid extends PureComponent<Props> {
           </div>
         )
         )}
+        {items.length > 0 &&
+        <div className='box'>
+          <AddDigitalAsset onClick={addAssetClick} />
+        </div>}
       </div>
     )
   }
