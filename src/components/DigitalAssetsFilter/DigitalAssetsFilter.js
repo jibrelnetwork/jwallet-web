@@ -39,8 +39,6 @@ class DigitalAssetsFilter extends PureComponent<Props> {
       filterCount,
     } = this.props
 
-    const sortByNameIcon = (sortByNameOrder === 'asc') ? 'down' : 'up'
-
     return (
       <PopupButton icon='filter' counter={filterCount}>
         <div className='assets-filter'>
@@ -77,10 +75,16 @@ class DigitalAssetsFilter extends PureComponent<Props> {
                 <JIcon
                   size='medium'
                   color='blue'
-                  name={`sort-alphabet-${sortByNameIcon}`}
+                  name={`sort-alphabet-${sortByNameOrder}`}
                 />
               </span>
-              Name
+              <JText
+                color='blue'
+                size='normal'
+                value='Name'
+                weight='bold'
+                whiteSpace='wrap'
+              />
             </button>
             <button
               onClick={handle(sortByBalanceClick)()}
@@ -93,7 +97,13 @@ class DigitalAssetsFilter extends PureComponent<Props> {
                   name={`sort-${sortByBalanceOrder}`}
                 />
               </span>
-              Balance
+              <JText
+                color='blue'
+                size='normal'
+                value='Balance'
+                weight='bold'
+                whiteSpace='wrap'
+              />
             </button>
           </div>
         </div>

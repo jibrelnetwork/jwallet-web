@@ -13,7 +13,7 @@ import {
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
-  '/custom-asset/add': 'Transactions',
+  '/': 'Transactions',
 }
 
 type Props = {|
@@ -51,29 +51,31 @@ class DigitalAssetsGridView extends Component<Props> {
     return (
       <div className='digital-assets-grid-view'>
         <div className='header'>
-          <JTabs tabs={DIGITAL_ASSETS_TABS} />
-          <div className='actions'>
-            <div className='search'>
-              <JSearch
-                onQueryChange={setSearchQuery}
-                placeholder='Search asset...'
-              />
-            </div>
-            <div className='filter'>
-              <DigitalAssetsFilter
-                {...filter}
-                filterCount={filterCount}
-                sortByNameClick={sortByNameClick}
-                sortByBalanceClick={sortByBalanceClick}
-                setHideZeroBalance={setHideZeroBalance}
-              />
-            </div>
-            <div className='setting'>
-              <JIcon
-                size='medium'
-                color='gray'
-                name='setting-grid'
-              />
+          <div className='container'>
+            <JTabs tabs={DIGITAL_ASSETS_TABS} />
+            <div className='actions'>
+              <div className='search'>
+                <JSearch
+                  onQueryChange={setSearchQuery}
+                  placeholder='Search asset...'
+                />
+              </div>
+              <div className='filter'>
+                <DigitalAssetsFilter
+                  {...filter}
+                  filterCount={filterCount}
+                  sortByNameClick={sortByNameClick}
+                  sortByBalanceClick={sortByBalanceClick}
+                  setHideZeroBalance={setHideZeroBalance}
+                />
+              </div>
+              <div className='setting'>
+                <JIcon
+                  size='medium'
+                  color='gray'
+                  name='setting-grid'
+                />
+              </div>
             </div>
           </div>
         </div>
