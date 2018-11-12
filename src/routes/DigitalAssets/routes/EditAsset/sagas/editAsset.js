@@ -80,6 +80,7 @@ function* onAssetFormSumbit(): Saga<void> {
       symbolError === '' &&
       decimalsError === '') {
     yield put(updateAsset(foundAsset.address, contractName, contractSymbol, contractDecimals))
+    yield put(backOrFallback('/digital-assets'))
   }
 }
 

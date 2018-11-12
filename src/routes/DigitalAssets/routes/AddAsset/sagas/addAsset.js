@@ -11,6 +11,8 @@ import {
   selectDigitalAsset,
 } from 'store/stateSelectors'
 
+import { backOrFallback } from 'routes/modules'
+
 import web3 from 'services/web3'
 
 import {
@@ -246,6 +248,7 @@ function* onAssetFormSumbit(): Saga<void> {
       symbolError === '' &&
       decimalsError === '') {
     yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
+    yield put(backOrFallback('/digital-assets'))
   }
 }
 
