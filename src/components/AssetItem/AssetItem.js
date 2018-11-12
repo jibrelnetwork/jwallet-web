@@ -3,8 +3,7 @@
 import React, { PureComponent, Fragment } from 'react'
 
 import classNames from 'classnames'
-import { handle } from 'utils/eventHandlers'
-import AssetBalance from 'components/AssetBalance'
+import { AssetBalance } from 'components'
 import { JAssetSymbol, JText, JCard, JIcon, JFlatButton, JSwitch, JTooltip } from 'components/base'
 
 type Props = {
@@ -40,25 +39,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
     }
   }
 
-  onHoverEdit = (isHoveredEdit: boolean) => {
-    this.setState({ isHoveredEdit })
-  }
+  onHoverEdit = () => this.setState({ isHoveredEdit: !this.state.isHoveredEdit })
 
-  onHoverTrash = (isHoveredTrash: boolean) => {
-    this.setState({ isHoveredTrash })
-  }
+  onHoverTrash = () => this.setState({ isHoveredTrash: !this.state.isHoveredTrash })
 
-  toggleChange = (isChange: boolean) => {
-    this.setState({
-      isChange,
-    })
-  }
+  toggleChange = () => this.setState({ isChange: !this.state.isChange })
 
-  toggleDeleteDialog = (isDeleteDialog: boolean) => {
-    this.setState({
-      isDeleteDialog,
-    })
-  }
+  toggleDeleteDialog = () => this.setState({ isDeleteDialog: !this.state.isDeleteDialog })
 
   render() {
     const {
@@ -110,12 +97,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   <Fragment>
                     <div
                       className={classNames('overlay', !isChange && '-hide')}
-                      onClick={handle(this.toggleChange)(!isChange)}
+                      onClick={this.toggleChange}
                     />
                     <div
                       className={classNames('item', !isChange && '-hide')}
-                      onMouseEnter={handle(this.onHoverEdit)(true)}
-                      onMouseLeave={handle(this.onHoverEdit)(false)}
+                      onMouseEnter={this.onHoverEdit}
+                      onMouseLeave={this.onHoverEdit}
                     >
                       <JTooltip text='Edit'>
                         <JIcon
@@ -127,9 +114,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
                     </div>
                     <div
                       className={classNames('item', !isChange && '-hide')}
-                      onMouseEnter={handle(this.onHoverTrash)(true)}
-                      onMouseLeave={handle(this.onHoverTrash)(false)}
-                      onClick={handle(this.toggleDeleteDialog)(!isDeleteDialog)}
+                      onMouseEnter={this.onHoverTrash}
+                      onMouseLeave={this.onHoverTrash}
+                      onClick={this.toggleDeleteDialog}
                     >
                       <JTooltip text='Delete'>
                         <JIcon
@@ -140,8 +127,8 @@ class AssetItem extends PureComponent<Props, StateProps> {
                       </JTooltip>
                     </div>
                     <div
-                      className={classNames('item -dotts', isChange && '-hide')}
-                      onClick={handle(this.toggleChange)(!isChange)}
+                      className={classNames('item -dots', isChange && '-hide')}
+                      onClick={this.toggleChange}
                     >
                       <JIcon
                         size='medium'
@@ -168,12 +155,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                     </div>
                     <div className='button'>
                       <JFlatButton
-                        onClick={handle(this.toggleDeleteDialog)(!isDeleteDialog)}
+                        onClick={this.toggleDeleteDialog}
                         label='No'
                         color='blue'
                         isBordered
                       />
                     </div>
+
                   </Fragment>
                 )}
               </Fragment>
