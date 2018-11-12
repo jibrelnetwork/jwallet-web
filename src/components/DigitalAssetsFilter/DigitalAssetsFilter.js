@@ -39,8 +39,10 @@ class DigitalAssetsFilter extends PureComponent<Props> {
       filterCount,
     } = this.props
 
+    const popupButtonIcon = (filterCount === 0) ? 'filter' : 'filter-selected'
+
     return (
-      <PopupButton icon='filter' counter={filterCount}>
+      <PopupButton icon={popupButtonIcon} counter={filterCount}>
         <div className='assets-filter'>
           <div className='title'>
             <JText
