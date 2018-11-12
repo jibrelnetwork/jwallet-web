@@ -9,8 +9,8 @@ import {
 } from 'store/stateSelectors'
 
 import {
-  OPEN_LAYOUT,
-} from 'routes/modules/aside'
+  OPEN_ASIDE_LAYOUT,
+} from 'routes/modules'
 
 import {
   setInitialItems,
@@ -31,5 +31,5 @@ function* initDigitalAssets(): Saga<void> {
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {
-  yield takeEvery(OPEN_LAYOUT, initDigitalAssets)
+  yield takeEvery(OPEN_ASIDE_LAYOUT, initDigitalAssets)
 }

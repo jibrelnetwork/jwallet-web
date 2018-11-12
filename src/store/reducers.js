@@ -20,8 +20,6 @@ import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import addAsset from 'routes/DigitalAssets/routes/AddAsset/modules/addAsset'
 import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
 import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
-// import digitalAssetsSettings
-//   from 'routes/DigitalAssets/routes/Settings/modules/digitalAssetsSettings'
 
 // networks
 import networks from 'routes/modules/networks'

@@ -13,10 +13,15 @@ import NotFound from './NotFound'
 import Terms from './Terms'
 
 import {
+  type CoreActions,
+} from './modules'
+
+import {
   type DigitalAssetsAllActions,
 } from './DigitalAssets/modules'
 
-export type AppActions = DigitalAssetsAllActions
+export type AppActions = DigitalAssetsAllActions |
+  CoreActions
 
 export default {
   path: '/',
