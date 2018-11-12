@@ -1,0 +1,57 @@
+.j-switch {
+  all: initial;
+  display: inline-block;
+
+  &:not(:last-child) {
+    margin-bottom: $checkbox-item-margin-bottom;
+  }
+
+  > .field {
+    width: 42px;
+    height: 24px;
+    display: block;
+    cursor: pointer;
+    position: relative;
+
+    > .checkbox {
+      display: none;
+    }
+
+    > .switch {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: pointer;
+      border-radius: 100px;
+      background-color: rgba($dusk, 0.2);
+      transition: background-color 0.3s ease;
+
+      &::after {
+        content: '';
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        border-radius: 100px;
+        background-color: #fff;
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+    }
+
+    > .checkbox:checked ~ .switch {
+      background-color: $blue-two;
+
+      &::after {
+        transform: translateX(calc(100% - 2px));
+      }
+    }
+
+    &:hover {
+      > .switch {
+        background-color: rgba($dusk, 0.6);
+      }
+    }
+  }
+}

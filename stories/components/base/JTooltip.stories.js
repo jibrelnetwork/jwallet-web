@@ -10,7 +10,7 @@ storiesOf('JTooltip', module)
   .add('Default', () => (
     <div className='story'>
       <h2>Default</h2>
-      <div>
+      <div style={{ paddingLeft: '50px' }}>
         <JTooltip
           text='Some tooltip'
         >
