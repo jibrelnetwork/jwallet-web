@@ -18,8 +18,8 @@ import walletsRenameAddress from 'routes/Wallets/routes/RenameAddress/modules/wa
 // Digital ssets
 import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import addAsset from 'routes/DigitalAssets/routes/AddAsset/modules/addAsset'
+import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
 import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
-// import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
 // import digitalAssetsSettings
 //   from 'routes/DigitalAssets/routes/Settings/modules/digitalAssetsSettings'
 
@@ -50,6 +50,7 @@ export function makeRootReducer() {
     digitalAssets,
     digitalAssetsGrid,
     addAsset,
+    editAsset,
     // transactions
     transactions,
     // router

@@ -35,11 +35,14 @@ export function removeAsset(assetAddress: Address) {
   }
 }
 
-export function updateAsset(item: DigitalAsset) {
+export function updateAsset(address: Address, name: string, symbol: string, decimals: number) {
   return {
     type: UPDATE_ASSET,
     payload: {
-      item,
+      address,
+      name,
+      symbol,
+      decimals,
     },
   }
 }
@@ -94,6 +97,35 @@ const digitalAssets = (
               decimals,
               isCustom: true,
               isActive: true,
+            },
+          },
+        },
+      }
+    }
+
+    case UPDATE_ASSET: {
+      const {
+        address,
+        name,
+        symbol,
+        decimals,
+      } = action.payload
+
+      const {
+        persist,
+      } = state
+
+      return {
+        ...state,
+        persist: {
+          ...persist,
+          items: {
+            ...persist.items,
+            [address]: {
+              ...persist.items[address],
+              name,
+              symbol,
+              decimals,
             },
           },
         },

@@ -153,6 +153,10 @@ export function selectAddAsset(state: AppState): AddAssetState {
   return state.addAsset
 }
 
+export function selectEditAsset(state: AppState): EditAssetState {
+  return state.editAsset
+}
+
 // export function selectEditAsset(state: AppState): EditAssetState {
 //   return state.editAsset
 // }

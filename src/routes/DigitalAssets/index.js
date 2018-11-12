@@ -4,6 +4,8 @@ import { AsideLayout } from 'layouts'
 
 import Grid from './routes/Grid'
 import AddAsset from './routes/AddAsset'
+import EditAsset from './routes/EditAsset'
+// import ManageAssets from './routes/ManageAssets'
 
 export default {
   path: 'digital-assets',
@@ -14,5 +16,6 @@ export default {
   childRoutes: [
     Grid,
     AddAsset,
+    EditAsset,
   ],
 }

@@ -12,7 +12,7 @@ export const SET_ASSET_IS_VALID = '@@addAsset/SET_ASSET_IS_VALID'
 
 export const SUBMIT_ASSET_FORM = '@@addAsset/SUBMIT_ASSET_FORM'
 
-export const CLEAN: '@@addAsset/CLEAN' = '@@addAsset/CLEAN'
+export const CLEAN = '@@addAsset/CLEAN'
 
 export function openView() {
   return {
