@@ -1,1 +1,5 @@
-export { default } from './JTooltipContainer'
+// @flow
+
+import JTooltip from './JTooltip'
+
+export default JTooltip

@@ -15,8 +15,9 @@ import JSelect from './JSelect'
 import JTabs from './JTabs'
 import JText from './JText'
 import JThumbnail from './JThumbnail'
+import JTooltip from './JTooltip'
+import JSwitch from './JSwitch'
 // import JToast from './JToast'
-// import JTooltip from './JTooltip'
 
 export {
   JAssetSymbol,
@@ -34,6 +35,7 @@ export {
   JTabs,
   JText,
   JThumbnail,
+  JTooltip,
+  JSwitch,
   // JToast,
-  // JTooltip,
 }

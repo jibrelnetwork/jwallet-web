@@ -1,15 +1,7 @@
-.jTooltip {
+.j-tooltip {
   all: initial;
-  cursor: help;
+  cursor: pointer;
   display: inline-flex;
 }
 
-.rc-tooltip-inner {
-  height: 32px;
-  border-radius: 2px !important;
-  background-color: $dusk !important;
-}
-
-.rc-tooltip-arrow {
-  border-right-color: $dusk !important;
-}
+@import './rc-tooltip.scss'

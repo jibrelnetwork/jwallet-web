@@ -6,6 +6,7 @@ body {
 #root,
 html {
   height: 100%;
+  background-color: #f5f6fa;
 }
 
 h1 {
@@ -23,18 +24,12 @@ h3 {
 .story {
   padding: 20px;
   height: 100%;
-  background-color: #f5f6fa;
 }
 
 .story.-blue {
   background-color: #0033a3;
 }
 
-.inline {
-  display: inline-block;
-}
-
-.align-right {
-  display: flex;
-  justify-content: flex-end;
+.story.-white {
+  background-color: #fff;
 }
