@@ -4,15 +4,15 @@ import React from 'react'
 
 import { JInput, JRaisedButton } from 'components/base'
 
-type DigitalAssetEditFormProps = {
+type DigitalAssetEditFormProps = {|
   formFields: EditAssetFormFields,
   invalidFields: EditAssetFormFields,
   setField: SetFieldFunction<EditAssetFormFields>,
-  submit: () => void,
   isAddressLoading: boolean,
   isAddressEditable: boolean,
   submitLabel: string,
-}
+  submit: () => void,
+|}
 
 const DigitalAssetEditForm = ({
   formFields,
@@ -31,17 +31,27 @@ const DigitalAssetEditForm = ({
     placeholder: string,
     isDisabled: boolean,
     isLoading: boolean,
-  }> = [
-    {
-      key: 'address',
-      placeholder: 'Address (ERC-20)',
-      isDisabled: !isAddressEditable,
-      isLoading: isAddressLoading,
-    },
-    { key: 'name', placeholder: 'Name', isDisabled: false, isLoading: false },
-    { key: 'symbol', placeholder: 'Symbol', isDisabled: false, isLoading: false },
-    { key: 'decimals', placeholder: 'Decimals', isDisabled: false, isLoading: false },
-  ]
+  }> = [{
+    key: 'address',
+    placeholder: 'Address (ERC-20)',
+    isDisabled: !isAddressEditable,
+    isLoading: isAddressLoading,
+  }, {
+    key: 'name',
+    placeholder: 'Name',
+    isDisabled: false,
+    isLoading: false,
+  }, {
+    key: 'symbol',
+    placeholder: 'Symbol',
+    isDisabled: false,
+    isLoading: false,
+  }, {
+    key: 'decimals',
+    placeholder: 'Decimals',
+    isDisabled: false,
+    isLoading: false,
+  }]
 
   return (
     <div className='digital-asset-edit-form'>

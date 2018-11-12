@@ -45,12 +45,12 @@ declare type DigitalAssets = {
   [AssetAddress]: DigitalAsset
 }
 
-declare type DigitalAssetsState = {
+declare type DigitalAssetsState = {|
   +persist: {|
     +items: DigitalAssets,
     +balances: DigitalAssetsBalances,
   |},
-}
+|}
 
 declare type DigitalAssetsGridState = {|
   +filter: DigitalAssetsFilterType,
@@ -67,19 +67,19 @@ declare type EditAssetFormFields = {|
   +decimals: string,
 |}
 
-declare type AddAssetState = {
+declare type AddAssetState = {|
   +formFields: EditAssetFormFields,
   +invalidFields: EditAssetFormFields,
   +isAssetValid: boolean,
   +isAssetLoaded: boolean,
   +isAssetLoading: boolean,
   +requestedAddress: string,
-}
+|}
 
 /**
  * Edit custom digital asset
  */
-declare type EditAssetState = {
+declare type EditAssetState = {|
   +formFields: EditAssetFormFields,
   +invalidFields: EditAssetFormFields
-}
+|}

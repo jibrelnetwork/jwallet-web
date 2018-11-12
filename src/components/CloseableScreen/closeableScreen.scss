@@ -26,8 +26,7 @@
       @include flex-row;
 
       max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
       align-items: center;
       justify-content: space-between;
       height: $page-header-height;
