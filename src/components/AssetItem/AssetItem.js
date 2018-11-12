@@ -5,7 +5,7 @@ import React, { PureComponent, Fragment } from 'react'
 import classNames from 'classnames'
 import { handle } from 'utils/eventHandlers'
 import AssetBalance from 'components/AssetBalance'
-import { JAssetSymbol, JText, JCard, JIcon, JFlatButton } from 'components/base'
+import { JAssetSymbol, JText, JCard, JIcon, JFlatButton, JSwitch, JTooltip } from 'components/base'
 
 type Props = {
   deleteAssetItem: () => void,
@@ -109,7 +109,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 {!isDeleteDialog ? (
                   <Fragment>
                     <div
-                      className='overlay'
+                      className={classNames('overlay', !isChange && '-hide')}
                       onClick={handle(this.toggleChange)(!isChange)}
                     />
                     <div
@@ -117,11 +117,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                       onMouseEnter={handle(this.onHoverEdit)(true)}
                       onMouseLeave={handle(this.onHoverEdit)(false)}
                     >
-                      <JIcon
-                        size='medium'
-                        color={isHoveredEdit ? 'sky' : 'blue'}
-                        name='edit'
-                      />
+                      <JTooltip text='Edit'>
+                        <JIcon
+                          size='medium'
+                          color={isHoveredEdit ? 'sky' : 'blue'}
+                          name='edit'
+                        />
+                      </JTooltip>
                     </div>
                     <div
                       className={classNames('item', !isChange && '-hide')}
@@ -129,11 +131,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                       onMouseLeave={handle(this.onHoverTrash)(false)}
                       onClick={handle(this.toggleDeleteDialog)(!isDeleteDialog)}
                     >
-                      <JIcon
-                        size='medium'
-                        color={isHoveredTrash ? 'sky' : 'blue'}
-                        name='trash'
-                      />
+                      <JTooltip text='Delete'>
+                        <JIcon
+                          size='medium'
+                          color={isHoveredTrash ? 'sky' : 'blue'}
+                          name='trash'
+                        />
+                      </JTooltip>
                     </div>
                     <div
                       className={classNames('item -dotts', isChange && '-hide')}
@@ -143,6 +147,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
                         size='medium'
                         color='gray'
                         name='dots-full'
+                      />
+                    </div>
+                    <div className='item'>
+                      <JSwitch
+                        onChange={console.log()}
+                        name='NULL'
                       />
                     </div>
                   </Fragment>
