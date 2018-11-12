@@ -2,13 +2,13 @@
 
 import QRCode from './QRCode'
 import HelpText from './HelpText'
+import AssetItem from './AssetItem'
 import ESCButton from './ESCButton'
 import MenuPanel from './MenuPanel'
 import Expandable from './Expandable'
 import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
-// import AssetPicker from './AssetPicker'
 import ModalHeader from './ModalHeader'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
@@ -36,13 +36,13 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 export {
   QRCode,
   HelpText,
+  AssetItem,
   ESCButton,
   MenuPanel,
   Expandable,
   WalletCard,
   WalletFace,
   WalletStep,
-  // AssetPicker,
   ModalHeader,
   PopupButton,
   AssetBalance,

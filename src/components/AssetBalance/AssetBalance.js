@@ -7,7 +7,7 @@ import { JText } from 'components/base'
 type Props = {|
   +symbol: string,
   +color: 'blue' | 'gray',
-  +size: 'normal' | 'header',
+  +size: 'small' | 'normal' | 'header',
   +balance: number,
 |}
 

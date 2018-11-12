@@ -1,6 +1,7 @@
 .j-switch {
   all: initial;
   display: inline-block;
+  vertical-align: middle;
 
   &:not(:last-child) {
     margin-bottom: $checkbox-item-margin-bottom;

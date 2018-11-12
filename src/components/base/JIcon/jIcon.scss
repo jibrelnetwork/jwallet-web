@@ -576,6 +576,16 @@
       }
     }
 
+    &.-trash {
+      &.-blue {
+        background-image: $icon-medium-trash-blue;
+      }
+
+      &.-sky {
+        background-image: $icon-medium-trash-sky;
+      }
+    }
+
     &.-dots-full {
       &.-gray {
         background-image: $icon-medium-dots-full-gray;
