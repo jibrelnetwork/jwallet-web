@@ -83,3 +83,10 @@ declare type EditAssetState = {|
   +formFields: EditAssetFormFields,
   +invalidFields: EditAssetFormFields
 |}
+
+/**
+ * Digital assets manager
+ */
+declare type DigitalAssetsManagerState = {|
+  +searchQuery: string,
+|}

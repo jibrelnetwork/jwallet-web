@@ -20,6 +20,7 @@ import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 import addAsset from 'routes/DigitalAssets/routes/AddAsset/modules/addAsset'
 import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
 import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
+import digitalAssetsManager from 'routes/DigitalAssets/routes/Manager/modules/digitalAssetsManager'
 
 // networks
 import networks from 'routes/modules/networks'
@@ -47,6 +48,7 @@ export function makeRootReducer() {
     // digitalAssets
     digitalAssets,
     digitalAssetsGrid,
+    digitalAssetsManager,
     addAsset,
     editAsset,
     // transactions

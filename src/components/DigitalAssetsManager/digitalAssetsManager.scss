@@ -1,0 +1,19 @@
+
+.digital-assets-manager {
+  all: initial;
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  font-size: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -20px;
+  padding-top: $page-header-height;
+
+  > .box {
+    width: 100%;
+    margin-bottom: 13px;
+    height: 80px;
+  }
+}

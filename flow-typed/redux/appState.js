@@ -21,6 +21,7 @@ declare type AppState = {
   +addAsset: AddAssetState,
   +editAsset: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
+  +digitalAssetsManager: DigitalAssetsManagerState,
   // transactions
   // +transactions: TransactionsData,
   // funds

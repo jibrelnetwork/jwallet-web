@@ -8,10 +8,13 @@ import { JAssetSymbol, JText, JCard, JIcon, JFlatButton, JSwitch, JTooltip } fro
 
 type Props = {
   deleteAssetItem: () => void,
+  setIsActive: (boolean) => void,
+  address: Address,
   +name: string,
   +symbol: string,
   +balance: number,
   +isCustom: boolean,
+  +isActive: boolean,
 }
 
 type StateProps = {|
@@ -26,6 +29,8 @@ class AssetItem extends PureComponent<Props, StateProps> {
     fiatBalance: 0,
     balance: 0,
     isCustom: false,
+    isActive: false,
+    address: '',
   }
 
   constructor(props: Props) {
@@ -49,11 +54,14 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
   render() {
     const {
+      address,
       deleteAssetItem,
+      setIsActive,
       name,
       symbol,
       balance,
       isCustom,
+      isActive,
     } = this.props
 
     const {
@@ -91,7 +99,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
             </div>
           </div>
           <div className='actions'>
-            {isCustom && (
+            {isCustom ? (
               <Fragment>
                 {!isDeleteDialog ? (
                   <Fragment>
@@ -138,8 +146,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
                     </div>
                     <div className='item'>
                       <JSwitch
-                        onChange={console.log()}
-                        name='NULL'
+                        onChange={setIsActive}
+                        isChecked={isActive}
+                        name={address}
                       />
                     </div>
                   </Fragment>
@@ -165,6 +174,14 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   </Fragment>
                 )}
               </Fragment>
+            ) : (
+              <div className='item'>
+                <JSwitch
+                  onChange={setIsActive}
+                  isChecked={isActive}
+                  name={address}
+                />
+              </div>
             )}
           </div>
         </div>
