@@ -16,6 +16,7 @@ import JTabs from './JTabs'
 import JText from './JText'
 import JThumbnail from './JThumbnail'
 import JTooltip from './JTooltip'
+import JSwitch from './JSwitch'
 // import JToast from './JToast'
 
 export {
@@ -35,5 +36,6 @@ export {
   JText,
   JThumbnail,
   JTooltip,
+  JSwitch,
   // JToast,
 }
