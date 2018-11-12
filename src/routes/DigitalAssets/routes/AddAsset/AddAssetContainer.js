@@ -2,6 +2,7 @@
 
 import { connect } from 'react-redux'
 import { selectAddAsset } from 'store/stateSelectors'
+import { backOrFallback } from 'routes/modules'
 
 import {
   openView,
@@ -27,7 +28,7 @@ const mapDispatchToProps = {
   closeView,
   setField,
   submit: submitAssetForm,
-  // closeClick
+  closeClick: () => backOrFallback('/digital-assets'),
 }
 
 // eslint-disable-next-line no-unused-vars

@@ -1,6 +1,7 @@
 // @flow
 
 import { put, select, takeEvery } from 'redux-saga/effects'
+import { backOrFallback } from 'routes/modules'
 
 import {
   selectEditAsset,
@@ -11,9 +12,9 @@ import {
   setField,
   setFieldError,
   clearFieldError,
-  openView,
   OPEN_VIEW,
   SUBMIT_ASSET_FORM,
+  typeof openView as openViewType,
 } from '../modules/editAsset'
 
 import {
@@ -82,11 +83,11 @@ function* onAssetFormSumbit(): Saga<void> {
   }
 }
 
-function* editAssetOpen({ payload: { assetAddress } }: ExtractReturn<typeof openView>): Saga<void> {
+function* editAssetOpen({ payload: { assetAddress } }: ExtractReturn<openViewType>): Saga<void> {
   // Check, do we have this asset
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, assetAddress)
   if (!(foundAsset && foundAsset.isCustom)) {
-    // TODO: redirect here
+    yield put(backOrFallback('/digital-assets'))
     return
   }
 

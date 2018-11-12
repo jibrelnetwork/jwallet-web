@@ -2,6 +2,7 @@
 
 import { connect } from 'react-redux'
 import { selectEditAsset } from 'store/stateSelectors'
+import { backOrFallback } from 'routes/modules'
 import { type AppActions } from 'routes'
 
 import {
@@ -31,7 +32,7 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => ({
   openView: () => dispatch(openView(ownProps.params.assetAddress)),
   submit: () => dispatch(submitAssetForm()),
-  // closeClick
+  closeClick: () => dispatch(backOrFallback('/digital-assets')),
 })
 
 export default (

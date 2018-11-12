@@ -27,7 +27,7 @@ const AddAssetView = ({
     title='Add digital asset'
     open={openView}
     close={closeView}
-    onCloseClick={closeClick}
+    closeClick={closeClick}
   >
     <DigitalAssetEditForm
       formFields={formFields}
