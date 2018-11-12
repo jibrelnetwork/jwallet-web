@@ -8,7 +8,7 @@ type Props = {|
   +isChecked: boolean,
 |}
 
-class JCheckbox extends PureComponent<Props> {
+class JSwitch extends PureComponent<Props> {
   static defaultProps = {
     isChecked: false,
   }
@@ -42,4 +42,4 @@ class JCheckbox extends PureComponent<Props> {
   }
 }
 
-export default JCheckbox
+export default JSwitch
