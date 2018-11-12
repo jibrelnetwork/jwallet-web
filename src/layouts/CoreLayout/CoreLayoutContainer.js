@@ -3,15 +3,15 @@
 import { connect } from 'react-redux'
 
 import {
-  openAsideLayout,
-  closeAsideLayout,
+  openCoreLayout,
+  closeCoreLayout,
 } from 'routes/modules/layout'
 
-import AsideLayout from './AsideLayout'
+import AsideLayout from './CoreLayout'
 
 const mapDispatchToProps = {
-  openLayout: openAsideLayout,
-  closeLayout: closeAsideLayout,
+  openLayout: openCoreLayout,
+  closeLayout: closeCoreLayout,
 }
 
 export default (

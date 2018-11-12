@@ -1,5 +1,5 @@
 // @flow
 
-import CoreLayout from './CoreLayout'
+import CoreLayoutContainer from './CoreLayoutContainer'
 
-export default CoreLayout
+export default CoreLayoutContainer
