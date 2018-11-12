@@ -3,12 +3,12 @@
 type OwnerAddress = string
 type AssetAddress = string
 
-declare type SortOrder = 'asc' | 'desc'
+declare type SortDirection = 'asc' | 'desc'
 
 declare type DigitalAssetsFilterType = {|
   +sortBy: 'name' | 'balance',
-  +sortByNameOrder: SortOrder,
-  +sortByBalanceOrder: SortOrder,
+  +sortByNameDirection: SortDirection,
+  +sortByBalanceDirection: SortDirection,
   +isHideZeroBalance: boolean,
 |}
 
@@ -37,8 +37,8 @@ declare type DigitalAsset = {|
   +symbol: string,
   +name: string,
   +decimals: Decimals,
-  +isCustom: boolean,
-  +isActive: boolean,
+  +isCustom?: boolean,
+  +isActive?: boolean,
 |}
 
 declare type DigitalAssets = {

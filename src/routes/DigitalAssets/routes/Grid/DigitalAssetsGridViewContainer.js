@@ -46,8 +46,8 @@ const mapStateToProps = (state: AppState) => {
 
   const {
     sortBy,
-    sortByNameOrder,
-    sortByBalanceOrder,
+    sortByNameDirection,
+    sortByBalanceDirection,
     isHideZeroBalance,
   } = filter
 
@@ -56,9 +56,9 @@ const mapStateToProps = (state: AppState) => {
     { asset: { name: nameB } },
   ): number => {
     if (nameA > nameB) {
-      return (sortByNameOrder === 'asc') ? 1 : -1
+      return (sortByNameDirection === 'asc') ? 1 : -1
     } else if (nameA < nameB) {
-      return (sortByNameOrder === 'asc') ? -1 : 1
+      return (sortByNameDirection === 'asc') ? -1 : 1
     } else {
       return 0
     }
@@ -73,9 +73,9 @@ const mapStateToProps = (state: AppState) => {
     const { balance: balanceB } = b.balance
 
     if (balanceA > balanceB) {
-      return (sortByBalanceOrder === 'asc') ? 1 : -1
+      return (sortByBalanceDirection === 'asc') ? 1 : -1
     } else if (balanceA < balanceB) {
-      return (sortByBalanceOrder === 'asc') ? -1 : 1
+      return (sortByBalanceDirection === 'asc') ? -1 : 1
     } else {
       return 0
     }

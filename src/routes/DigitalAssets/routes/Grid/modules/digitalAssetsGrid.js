@@ -35,11 +35,11 @@ export function setSearchQuery(query: string) {
   }
 }
 
-export function setSortByName(order: SortOrder) {
+export function setSortByName(direction: SortDirection) {
   return {
     type: SET_FILTER_SORT_BY_NAME,
     payload: {
-      order,
+      direction,
     },
   }
 }
@@ -50,11 +50,11 @@ export function sortByNameClick() {
   }
 }
 
-export function setSortByBalance(order: SortOrder) {
+export function setSortByBalance(direction: SortDirection) {
   return {
     type: SET_FILTER_SORT_BY_BALANCE,
     payload: {
-      order,
+      direction,
     },
   }
 }
@@ -92,8 +92,8 @@ export type DigitalAssetsGridActions = ExtractReturn<typeof openView> |
 const initialState: DigitalAssetsGridState = {
   filter: {
     sortBy: 'name',
-    sortByNameOrder: 'asc',
-    sortByBalanceOrder: 'asc',
+    sortByNameDirection: 'asc',
+    sortByBalanceDirection: 'asc',
     isHideZeroBalance: false,
   },
   searchQuery: '',
@@ -114,26 +114,26 @@ const digitalAssetsGrid = (
     }
 
     case SET_FILTER_SORT_BY_NAME: {
-      const { order } = action.payload
+      const { direction } = action.payload
 
       return {
         ...state,
         filter: {
           ...state.filter,
-          sortByNameOrder: order,
+          sortByNameDirection: direction,
           sortBy: 'name',
         },
       }
     }
 
     case SET_FILTER_SORT_BY_BALANCE: {
-      const { order } = action.payload
+      const { direction } = action.payload
 
       return {
         ...state,
         filter: {
           ...state.filter,
-          sortByBalanceOrder: order,
+          sortByBalanceDirection: direction,
           sortBy: 'balance',
         },
       }

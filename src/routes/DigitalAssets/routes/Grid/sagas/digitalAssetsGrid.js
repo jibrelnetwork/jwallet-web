@@ -10,33 +10,33 @@ import {
   SORT_BY_BALANCE_CLICK,
 } from '../modules/digitalAssetsGrid'
 
-function toggleSortOrder(currentOrder: SortOrder): SortOrder {
-  return (currentOrder === 'asc') ? 'desc' : 'asc'
+function toggleSortDirection(currentDirection: SortDirection): SortDirection {
+  return (currentDirection === 'asc') ? 'desc' : 'asc'
 }
 
 function* sortByNameClick(): Saga<void> {
   const {
-    sortByNameOrder,
+    sortByNameDirection,
     sortBy,
   }: DigitalAssetsFilterType = yield select(selectDigitalAssetsGridFilters)
 
   if (sortBy === 'name') {
-    yield put(setSortByName(toggleSortOrder(sortByNameOrder)))
+    yield put(setSortByName(toggleSortDirection(sortByNameDirection)))
   } else {
-    yield put(setSortByName(sortByNameOrder))
+    yield put(setSortByName(sortByNameDirection))
   }
 }
 
 function* sortByBalanceClick(): Saga<void> {
   const {
-    sortByBalanceOrder,
+    sortByBalanceDirection,
     sortBy,
   }: DigitalAssetsFilterType = yield select(selectDigitalAssetsGridFilters)
 
   if (sortBy === 'balance') {
-    yield put(setSortByBalance(toggleSortOrder(sortByBalanceOrder)))
+    yield put(setSortByBalance(toggleSortDirection(sortByBalanceDirection)))
   } else {
-    yield put(setSortByBalance(sortByBalanceOrder))
+    yield put(setSortByBalance(sortByBalanceDirection))
   }
 }
 

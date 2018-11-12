@@ -1,3 +1,5 @@
+// @flow
+
 import DigitalAssetsGridViewContainer from './DigitalAssetsGridViewContainer'
 
 export default {

@@ -11,8 +11,8 @@ type Props = {
   +sortByNameClick: ((void) => void),
   +sortByBalanceClick: ((void) => void),
   +setHideZeroBalance: ((boolean) => void),
-  +sortByNameOrder: SortOrder,
-  +sortByBalanceOrder: SortOrder,
+  +sortByNameDirection: SortDirection,
+  +sortByBalanceDirection: SortDirection,
   +sortBy: 'name' | 'balance',
   +isHideZeroBalance: boolean,
   +filterCount: number,
@@ -20,8 +20,8 @@ type Props = {
 
 class DigitalAssetsFilter extends PureComponent<Props> {
   static defaultProps = {
-    sortByNameOrder: 'asc',
-    sortByBalanceOrder: 'asc',
+    sortByNameDirection: 'asc',
+    sortByBalanceDirection: 'asc',
     sortBy: 'name',
     isHideZeroBalance: false,
     filterCount: 0,
@@ -32,8 +32,8 @@ class DigitalAssetsFilter extends PureComponent<Props> {
       sortByNameClick,
       sortByBalanceClick,
       setHideZeroBalance,
-      sortByNameOrder,
-      sortByBalanceOrder,
+      sortByNameDirection,
+      sortByBalanceDirection,
       sortBy,
       isHideZeroBalance,
       filterCount,
@@ -75,7 +75,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
                 <JIcon
                   size='medium'
                   color='blue'
-                  name={`sort-alphabet-${sortByNameOrder}`}
+                  name={`sort-alphabet-${sortByNameDirection}`}
                 />
               </span>
               <JText
@@ -94,7 +94,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
                 <JIcon
                   size='medium'
                   color='blue'
-                  name={`sort-${sortByBalanceOrder}`}
+                  name={`sort-${sortByBalanceDirection}`}
                 />
               </span>
               <JText

@@ -19,7 +19,7 @@ declare type AppState = {
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +addAsset: AddAssetState,
-  // +editAsset: EditAssetState,
+  +editAsset: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   // transactions
   // +transactions: TransactionsData,
