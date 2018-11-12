@@ -11,24 +11,31 @@
 
   > .content {
     width: 100%;
-    height: calc(100% - #{$page-header-height});
+    height: 100%;
   }
 
   > .header {
-    @include flex-row;
-
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 1000px;
-    height: $page-header-height;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    z-index: 10;
+    background-image: linear-gradient(to bottom, hsl(228, 33.33%, 97.06%) 0%, hsl(228, 33.33%, 97.06%) 60%, hsla(228, 33.33%, 97.06%, 0) 100%);
 
-    > .actions {
-      @include box;
+    > .container {
       @include flex-row;
+
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      align-items: center;
+      justify-content: space-between;
+      height: $page-header-height;
+
+      > .actions {
+        @include box;
+        @include flex-row;
+      }
     }
   }
 }

@@ -46,14 +46,20 @@ class CloseableScreen extends Component<Props> {
     return (
       <div className='closeable-screen'>
         <div className='header'>
-          <JText value={title} />
-          <div className='actions'>
-            {closeClick && <ESCButton
-              onESC={closeClick}
+          <div className='container'>
+            <JText
+              value={title}
               color='gray'
-              iconName='padding-cross'
-              isDisabled={!allowClose}
-            />}
+              size='header'
+            />
+            <div className='actions'>
+              {closeClick && <ESCButton
+                onESC={closeClick}
+                color='gray'
+                iconName='padding-cross'
+                isDisabled={!allowClose}
+              />}
+            </div>
           </div>
         </div>
         <div className='content'>

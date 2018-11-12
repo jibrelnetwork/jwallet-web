@@ -17,11 +17,5 @@
     margin: 0 auto;
     min-height: 100%;
     padding: 50px 0;
-
-    > .actions {
-      @include flex-row;
-
-      align-items: center;
-    }
   }
 }
