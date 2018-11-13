@@ -39,14 +39,14 @@ export type DigitalAssetsManagerActions = ExtractReturn<typeof openView> |
   ExtractReturn<typeof setSearchQuery> |
   ExtractReturn<typeof clean>
 
-const initialState: DigitalAssetManagerState = {
+const initialState: DigitalAssetsManagerState = {
   searchQuery: '',
 }
 
 const digitalAssetsManager = (
-  state: DigitalAssetManagerState = initialState,
+  state: DigitalAssetsManagerState = initialState,
   action: DigitalAssetsManagerActions,
-): DigitalAssetManagerState => {
+): DigitalAssetsManagerState => {
   switch (action.type) {
     case SET_SEARCH_QUERY: {
       const { query } = action.payload

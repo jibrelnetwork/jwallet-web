@@ -31,7 +31,7 @@ import transactions from 'routes/Transactions/modules/transactions'
 const persistConfig = {
   storage,
   key: 'jwallet-web',
-  whitelist: ['wallets', 'walletsAddresses'],
+  whitelist: ['wallets', 'walletsAddresses', 'digitalAssets'],
 }
 
 export function makeRootReducer() {

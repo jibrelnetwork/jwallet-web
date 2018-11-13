@@ -7,6 +7,7 @@ import { type AppActions } from 'routes'
 
 import {
   openView,
+  setField,
   submitAssetForm,
 } from './modules/editAsset'
 
@@ -32,6 +33,7 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => ({
   openView: () => dispatch(openView(ownProps.params.assetAddress)),
   submit: () => dispatch(submitAssetForm()),
+  setField: (fieldName, value) => dispatch(setField(fieldName, value)),
   closeClick: () => dispatch(backOrFallback('/digital-assets')),
 })
 

@@ -18,6 +18,11 @@ import {
   setSearchQuery,
 } from './modules/digitalAssetsManager'
 
+import {
+  setAssetIsActive,
+  deleteAsset,
+} from '../../modules/digitalAssets'
+
 const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
   const query = searchQuery.trim().toUpperCase()
   const { name, symbol, address } = asset
@@ -46,6 +51,19 @@ const sortByNameFn = (
   }
 }
 
+const sortByCustomFirstFn = (
+  { asset: { isCustom: A } },
+  { asset: { isCustom: B } },
+): number => {
+  if (A === false && B === true) {
+    return 1
+  } else if (A === true && B === false) {
+    return -1
+  } else {
+    return 0
+  }
+}
+
 const mapStateToProps = (state: AppState) => {
   const currentBlock = selectCurrentBlockNumber(state)
   const assets = selectDigitalAssets(state)
@@ -66,6 +84,8 @@ const mapStateToProps = (state: AppState) => {
 
   // eslint-disable-next-line fp/no-mutating-methods
   items.sort(sortByNameFn)
+  // eslint-disable-next-line fp/no-mutating-methods
+  items.sort(sortByCustomFirstFn)
 
   return {
     items,
@@ -76,7 +96,10 @@ const mapDispatchToProps = {
   openView,
   closeView,
   setSearchQuery,
+  setAssetIsActive,
+  deleteCustomAsset: deleteAsset,
   addAssetClick: () => push('/digital-assets/add-asset'),
+  editAsset: (address: Address) => push(`/digital-assets/edit-asset/${address}`),
 }
 
 // eslint-disable-next-line no-unused-vars

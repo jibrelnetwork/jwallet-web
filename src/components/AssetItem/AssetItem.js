@@ -9,6 +9,7 @@ import { JAssetSymbol, JText, JCard, JIcon, JFlatButton, JSwitch, JTooltip } fro
 type Props = {
   deleteAssetItem: () => void,
   setIsActive: (boolean) => void,
+  editAssetItemClick: () => void,
   address: Address,
   +name: string,
   +symbol: string,
@@ -56,6 +57,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
     const {
       address,
       deleteAssetItem,
+      editAssetItemClick,
       setIsActive,
       name,
       symbol,
@@ -111,6 +113,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                       className={classNames('item', !isChange && '-hide')}
                       onMouseEnter={this.onHoverEdit}
                       onMouseLeave={this.onHoverEdit}
+                      onClick={editAssetItemClick}
                     >
                       <JTooltip text='Edit'>
                         <JIcon

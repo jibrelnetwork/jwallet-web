@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { handle } from 'utils/eventHandlers'
 
 import AssetItem from '../AssetItem'
 import Empty from './Empty'
@@ -13,6 +14,7 @@ export type DigitalAssetsGridItemType = {
 type Props = {
   items: Array<DigitalAssetsGridItemType>,
   deleteCustomAsset: (Address) => void,
+  editAsset: (Address) => void,
   setAssetIsActive: (Address, boolean) => void,
 }
 
@@ -22,6 +24,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
       items,
       deleteCustomAsset,
       setAssetIsActive,
+      editAsset,
     } = this.props
 
     return (
@@ -34,9 +37,11 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               name={asset.name}
               symbol={asset.symbol}
               isCustom={asset.isCustom}
+              isActive={asset.isActive}
               balance={balance ? balance.balance : 0}
               setIsActive={(isActive: boolean) => setAssetIsActive(asset.address, isActive)}
-              deleteAssetItem={() => deleteCustomAsset(asset.address)}
+              deleteAssetItem={handle(deleteCustomAsset)(asset.address)}
+              editAssetItemClick={handle(editAsset)(asset.address)}
             />
           </div>
         )

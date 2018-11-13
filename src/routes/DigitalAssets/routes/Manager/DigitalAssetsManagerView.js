@@ -18,6 +18,7 @@ type Props = {|
   items: Array<DigitalAssetsGridItemType>,
   deleteCustomAsset: (Address) => void,
   setAssetIsActive: (Address, boolean) => void,
+  editAsset: (Address) => void,
 |}
 
 class DigitalAssetsManagerView extends Component<Props> {
@@ -36,6 +37,7 @@ class DigitalAssetsManagerView extends Component<Props> {
       addAssetClick,
       deleteCustomAsset,
       setAssetIsActive,
+      editAsset,
     } = this.props
 
     return (
@@ -68,6 +70,7 @@ class DigitalAssetsManagerView extends Component<Props> {
               items={items}
               deleteCustomAsset={deleteCustomAsset}
               setAssetIsActive={setAssetIsActive}
+              editAsset={editAsset}
             />
           </Scrollbars>
         </div>
