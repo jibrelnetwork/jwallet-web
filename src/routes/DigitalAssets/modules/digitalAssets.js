@@ -2,8 +2,9 @@
 
 export const SET_INITIAL_ITEMS = '@@digitalAssets/SET_INITIAL_ITEMS'
 export const ADD_CUSTOM_ASSET = '@@digitalAssets/ADD_CUSTOM_ASSET'
-export const REMOVE_ASSET = '@@digitalAssets/REMOVE_ASSET'
+export const DELETE_ASSET = '@@digitalAssets/DELETE_ASSET'
 export const UPDATE_ASSET = '@@digitalAssets/UPDATE_ASSET'
+export const SET_ASSET_IS_ACTIVE = '@@digitalAssets/SET_ASSET_IS_ACTIVE'
 
 export function setInitialItems(items: DigitalAssets) {
   return {
@@ -26,9 +27,19 @@ export function addCustomAsset(address: Address, name: string, symbol: string, d
   }
 }
 
-export function removeAsset(assetAddress: Address) {
+export function setAssetIsActive(assetAddress: Address, isActive: boolean) {
   return {
-    type: REMOVE_ASSET,
+    type: SET_ASSET_IS_ACTIVE,
+    payload: {
+      address: assetAddress,
+      isActive,
+    },
+  }
+}
+
+export function deleteAsset(assetAddress: Address) {
+  return {
+    type: DELETE_ASSET,
     payload: {
       address: assetAddress,
     },
@@ -49,8 +60,9 @@ export function updateAsset(address: Address, name: string, symbol: string, deci
 
 export type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
   | ExtractReturn<typeof addCustomAsset>
-  | ExtractReturn<typeof removeAsset>
+  | ExtractReturn<typeof deleteAsset>
   | ExtractReturn<typeof updateAsset>
+  | ExtractReturn<typeof setAssetIsActive>
 
 const initialState: DigitalAssetsState = {
   persist: {
@@ -128,6 +140,64 @@ const digitalAssets = (
               decimals,
             },
           },
+        },
+      }
+    }
+
+    case SET_ASSET_IS_ACTIVE: {
+      const {
+        address,
+        isActive,
+      } = action.payload
+
+      const {
+        persist,
+      } = state
+
+      return {
+        ...state,
+        persist: {
+          ...persist,
+          items: {
+            ...persist.items,
+            [address]: {
+              ...persist.items[address],
+              isActive,
+            },
+          },
+        },
+      }
+    }
+
+    case DELETE_ASSET: {
+      const {
+        address,
+      } = action.payload
+
+      const {
+        persist,
+      } = state
+
+      // const itemsWithoutAsset = {
+      //   ...persist.items,
+      // }
+
+      const newItems = Object
+        .keys(persist.items)
+        .map(addr => persist.items[addr])
+        .reduce((previous, current) => (current.address !== address) ? {
+          ...previous,
+          [current.address]: current,
+        } : previous, {})
+
+      // deslint-disable-next-line no-delete-var
+      // delete itemsWithoutAsset[address]
+
+      return {
+        ...state,
+        persist: {
+          ...persist,
+          items: newItems,
         },
       }
     }
