@@ -32,15 +32,13 @@
 
         align-items: center;
 
-        > .search,
-        > .filter {
+        > .search {
           margin-right: 45px;
         }
 
-        > .setting {
+        > .add {
           @include hover-animation;
 
-          transform: translateY(4px);
           opacity: 0.5;
           cursor: pointer;
 

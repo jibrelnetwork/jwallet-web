@@ -5,11 +5,10 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import {
   DigitalAssetsManager,
-  RoundIconButton,
   type DigitalAssetsGridItemType,
 } from 'components'
 
-import { JSearch, JText } from 'components/base'
+import { JSearch, JText, JIcon } from 'components/base'
 
 type Props = {|
   openView: () => void,
@@ -40,7 +39,7 @@ class DigitalAssetsManagerView extends Component<Props> {
     } = this.props
 
     return (
-      <div className='digital-assets-grid-view'>
+      <div className='digital-assets-manager-view'>
         <div className='header'>
           <div className='container'>
             <div className='title'>
@@ -53,11 +52,13 @@ class DigitalAssetsManagerView extends Component<Props> {
                   placeholder='Search asset...'
                 />
               </div>
-              <RoundIconButton
-                color='gray'
-                iconName='add'
-                onClick={addAssetClick}
-              />
+              <div className='add' onClick={addAssetClick}>
+                <JIcon
+                  size='medium'
+                  color='gray'
+                  name='add'
+                />
+              </div>
             </div>
           </div>
         </div>
