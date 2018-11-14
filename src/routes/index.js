@@ -13,15 +13,15 @@ import NotFound from './NotFound'
 import Terms from './Terms'
 
 import {
-  type CoreActions,
+  type CoreAction,
 } from './modules'
 
 import {
-  type DigitalAssetsAllActions,
+  type DigitalAssetsModuleAction,
 } from './DigitalAssets/modules'
 
-export type AppActions = DigitalAssetsAllActions |
-  CoreActions
+export type AppAction = DigitalAssetsModuleAction |
+  CoreAction
 
 export default {
   path: '/',

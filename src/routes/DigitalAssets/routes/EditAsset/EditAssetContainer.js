@@ -3,7 +3,6 @@
 import { connect } from 'react-redux'
 import { selectEditAsset } from 'store/stateSelectors'
 import { backOrFallback } from 'routes/modules'
-import { type AppActions } from 'routes'
 
 import {
   openView,
@@ -14,29 +13,33 @@ import {
 import EditAssetView from './EditAssetView'
 
 type OwnProps = {|
-  params: {|
-    assetAddress: Address,
+  +params: {|
+    +assetAddress: Address,
   |},
 |}
 
-type Dispatch = AppActions => AppActions
-
-function mapStateToProps(state: AppState) {
+function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const { formFields, invalidFields } = selectEditAsset(state)
+  const {
+    params: {
+      assetAddress,
+    },
+  } = ownProps
 
   return {
     formFields,
     invalidFields,
+    address: assetAddress,
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => ({
-  openView: () => dispatch(openView(ownProps.params.assetAddress)),
-  submit: () => dispatch(submitAssetForm()),
-  setField: (fieldName, value) => dispatch(setField(fieldName, value)),
-  closeClick: () => dispatch(backOrFallback('/digital-assets')),
-})
+const mapDispatchToProps = {
+  openView,
+  submit: submitAssetForm,
+  setField,
+  closeClick: () => backOrFallback('/digital-assets'),
+}
 
 export default (
-  connect/* :: < AppState, Dispatch, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(EditAssetView)

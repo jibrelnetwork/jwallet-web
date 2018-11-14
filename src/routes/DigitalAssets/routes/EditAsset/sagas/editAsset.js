@@ -75,10 +75,10 @@ function* onAssetFormSumbit(): Saga<void> {
     },
   }: ExtractReturn<typeof selectEditAsset> = yield select(selectEditAsset)
 
-  if (addressError === '' &&
-      nameError === '' &&
-      symbolError === '' &&
-      decimalsError === '') {
+  if (!addressError &&
+      !nameError &&
+      !symbolError &&
+      !decimalsError) {
     yield put(updateAsset(foundAsset.address, contractName, contractSymbol, contractDecimals))
     yield put(backOrFallback('/digital-assets'))
   }

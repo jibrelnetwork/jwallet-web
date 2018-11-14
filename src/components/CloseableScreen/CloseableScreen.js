@@ -9,7 +9,7 @@ import ESCButton from '../ESCButton'
 type Props = {
   title: string,
   children: React$Node,
-  allowClose: boolean,
+  isCloseable: boolean,
   open: ?(() => void),
   close: ?(() => void),
   closeClick: ?(() => void),
@@ -20,7 +20,7 @@ class CloseableScreen extends Component<Props> {
     open: null,
     close: null,
     closeClick: null,
-    allowClose: true,
+    isCloseable: true,
   }
 
   componentDidMount() {
@@ -40,7 +40,7 @@ class CloseableScreen extends Component<Props> {
       title,
       children,
       closeClick,
-      allowClose,
+      isCloseable,
     } = this.props
 
     return (
@@ -57,7 +57,7 @@ class CloseableScreen extends Component<Props> {
                 onESC={closeClick}
                 color='gray'
                 iconName='padding-cross'
-                isDisabled={!allowClose}
+                isDisabled={!isCloseable}
               />}
             </div>
           </div>

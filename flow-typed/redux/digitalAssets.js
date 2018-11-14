@@ -22,11 +22,11 @@ declare type DigitalAssetsOwnerBalances = {
   [AssetAddress]: DigitalAssetsBalance,
 }
 
-type _NetworkId = ?string
-type _BlockNumber = ?string
+type NetworkIdOptional = ?string
+type BlockNumberOptional = ?string
 declare type DigitalAssetsBalances = {
-  [_NetworkId]: {
-    [_BlockNumber]: {
+  [NetworkIdOptional]: {
+    [BlockNumberOptional]: {
       [OwnerAddress]: DigitalAssetsOwnerBalances
     }
   }

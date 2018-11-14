@@ -4,8 +4,7 @@ import React, { PureComponent }  from 'react'
 import classNames from 'classnames'
 
 import JIcon from 'components/base/JIcon'
-import handle from 'utils/eventHandlers/handle'
-import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
+import { handle, handleTargetValue } from 'utils/eventHandlers'
 
 type Props = {|
   +onQueryChange: (string) => void,

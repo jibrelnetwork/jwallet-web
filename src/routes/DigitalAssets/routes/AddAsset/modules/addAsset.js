@@ -86,7 +86,7 @@ export function clean() {
   }
 }
 
-export type AddAssetActions = ExtractReturn<typeof setField> |
+export type AddAssetAction = ExtractReturn<typeof setField> |
   ExtractReturn<typeof setFieldError> |
   ExtractReturn<typeof submitAssetForm> |
   ExtractReturn<typeof startAssetLoading> |
@@ -116,7 +116,7 @@ const initialState: AddAssetState = {
 
 function addAsset(
   state: AddAssetState = initialState,
-  action: AddAssetActions,
+  action: AddAssetAction,
 ): AddAssetState {
   switch (action.type) {
     case SET_FIELD: {

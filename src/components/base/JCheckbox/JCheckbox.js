@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 
-import { JText } from 'components/base'
+import JText from 'components/base/JText'
 
 type Props = {|
   +onChange: ?((boolean) => void),

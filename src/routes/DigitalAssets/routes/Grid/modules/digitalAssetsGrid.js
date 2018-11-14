@@ -80,7 +80,7 @@ export function clean() {
   }
 }
 
-export type DigitalAssetsGridActions = ExtractReturn<typeof openView> |
+export type DigitalAssetsGridAction = ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
   ExtractReturn<typeof setSearchQuery> |
   ExtractReturn<typeof setSortByName> |
@@ -101,7 +101,7 @@ const initialState: DigitalAssetsGridState = {
 
 const digitalAssetsGrid = (
   state: DigitalAssetsGridState = initialState,
-  action: DigitalAssetsGridActions,
+  action: DigitalAssetsGridAction,
 ): DigitalAssetsGridState => {
   switch (action.type) {
     case SET_SEARCH_QUERY: {

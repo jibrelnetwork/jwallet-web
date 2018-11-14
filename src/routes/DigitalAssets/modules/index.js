@@ -1,22 +1,22 @@
 // @flow
 
 import {
-  type DigitalAssetsActions,
+  type DigitalAssetsAction,
 } from './digitalAssets'
 
 import {
-  type DigitalAssetsGridActions,
+  type DigitalAssetsGridAction,
 } from '../routes/Grid/modules/digitalAssetsGrid'
 
 import {
-  type AddAssetActions,
+  type AddAssetAction,
 } from '../routes/AddAsset/modules/addAsset'
 
 import {
-  type EditAssetActions,
+  type EditAssetAction,
 } from '../routes/EditAsset/modules/editAsset'
 
-export type DigitalAssetsAllActions = DigitalAssetsActions |
-  DigitalAssetsGridActions |
-  AddAssetActions |
-  EditAssetActions
+export type DigitalAssetsModuleAction = DigitalAssetsAction |
+  DigitalAssetsGridAction |
+  AddAssetAction |
+  EditAssetAction

@@ -7,10 +7,10 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import type { Persistor } from 'redux-persist/lib/types'
 import { type Store, type Dispatch } from 'redux'
-import { type AppActions } from 'routes'
+import { type AppAction } from 'routes'
 
 type Props = {
-  store: Store<AppState, AppActions, Dispatch<AppActions>>,
+  store: Store<AppState, AppAction, Dispatch<AppAction>>,
   routes: Object,
   history: Object,
   persistor: Persistor,
