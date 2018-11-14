@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { handle } from 'utils/eventHandlers'
 
 import {
   CloseableScreen,
@@ -8,8 +9,9 @@ import {
 } from 'components'
 
 type Props = {
-  openView: () => void,
+  openView: (Address) => void,
   closeClick: () => void,
+  address: Address,
 } & React$ElementConfig<typeof DigitalAssetEditForm>
 
 const EditAssetView = ({
@@ -18,11 +20,12 @@ const EditAssetView = ({
   formFields,
   invalidFields,
   setField,
+  address,
   submit,
 }: Props) => (
   <CloseableScreen
     title='Edit digital asset'
-    open={openView}
+    open={handle(openView)(address)}
     closeClick={closeClick}
   >
     <DigitalAssetEditForm

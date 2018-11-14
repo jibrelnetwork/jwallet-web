@@ -45,7 +45,7 @@ class AssetCardBody extends PureComponent<Props> {
 
     if (isError) {
       return (
-        <div className='balance'>
+        <div className='asset-card-body'>
           <div className='crypto'>
             <JText
               value='Balance loading error'
@@ -67,7 +67,7 @@ class AssetCardBody extends PureComponent<Props> {
     }
 
     return (
-      <div className='balance'>
+      <div className='asset-card-body'>
         <div className='crypto'>
           <AssetBalance
             color='gray'

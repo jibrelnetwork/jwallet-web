@@ -5,8 +5,6 @@ import { persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
 import { applyMiddleware, compose, createStore } from 'redux'
 
-// import { type AppActions } from 'routes'
-
 import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'

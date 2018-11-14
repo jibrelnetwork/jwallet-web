@@ -39,8 +39,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               isError={balance ? balance.isError : false}
             />
           </div>
-        )
-        )}
+        ))}
         {items.length &&
           <div className='box'>
             <AddDigitalAsset onClick={addAssetClick} />

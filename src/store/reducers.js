@@ -5,7 +5,7 @@ import { combineReducers, type Reducer } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
-import { type AppActions } from 'routes'
+import { type AppAction } from 'routes'
 
 // wallets
 import wallets from 'routes/Wallets/modules/wallets'
@@ -34,7 +34,7 @@ const persistConfig = {
 }
 
 export function makeRootReducer() {
-  const rootReducer: Reducer<AppState, AppActions> = combineReducers({
+  const rootReducer: Reducer<AppState, AppAction> = combineReducers({
     // wallets
     wallets,
     walletsCreate,
@@ -55,5 +55,5 @@ export function makeRootReducer() {
     router,
   })
 
-  return persistReducer/* :: < AppState, AppActions > */(persistConfig, rootReducer)
+  return persistReducer/* :: < AppState, AppAction > */(persistConfig, rootReducer)
 }

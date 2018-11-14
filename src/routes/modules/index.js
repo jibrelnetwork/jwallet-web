@@ -1,9 +1,9 @@
 // @flow
 
-import { type LayoutActions } from './layout'
+import { type LayoutAction } from './layout'
 import { type RedirectActions } from './redirect'
 
-export type CoreActions = LayoutActions |
+export type CoreAction = LayoutAction |
   RedirectActions
 
 export {

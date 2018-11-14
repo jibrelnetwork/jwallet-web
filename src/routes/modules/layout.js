@@ -30,7 +30,7 @@ export function closeCoreLayout() {
   }
 }
 
-export type LayoutActions = ExtractReturn<typeof openAsideLayout> |
+export type LayoutAction = ExtractReturn<typeof openAsideLayout> |
   ExtractReturn<typeof closeAsideLayout> |
   ExtractReturn<typeof openCoreLayout> |
   ExtractReturn<typeof closeCoreLayout>

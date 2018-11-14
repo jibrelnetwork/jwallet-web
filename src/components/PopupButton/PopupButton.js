@@ -5,11 +5,11 @@ import React, { PureComponent, Fragment } from 'react'
 import { JIcon, JText } from 'components/base'
 import handle from 'utils/eventHandlers/handle'
 
-type Props = {
+type Props = {|
   +children: React$Node,
   +icon: string,
   +counter: number,
-}
+|}
 
 type ComponentState = {|
   isActive: boolean,
@@ -28,7 +28,7 @@ class PopupButton extends PureComponent<Props, ComponentState> {
     }
   }
 
-  toggle = (isActive: boolean) => { this.setState({ isActive }) }
+  toggle = (isActive: boolean) => this.setState({ isActive })
 
   render() {
     const {

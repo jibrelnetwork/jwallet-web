@@ -48,13 +48,10 @@ type RequestedAssetFields = {|
   isERC20: ?boolean,
 |}
 
-const NODE_EMPTY_VALUE = '0x'
+const ZERO_HEX = '0x'
 
 /**
  * Request not required field from contract
- *
- * @param {Function} contractMethod
- * @param {Address} contractAddress
  */
 function* requestAssetField(
   contractMethod: Function,
@@ -62,7 +59,7 @@ function* requestAssetField(
 ): Saga<string | number | void> {
   try {
     const result = yield call(contractMethod, contractAddress)
-    if (result === NODE_EMPTY_VALUE) {
+    if (result === ZERO_HEX) {
       return null
     } else {
       return result
@@ -98,9 +95,6 @@ function* clearFieldsError(): Saga<void> {
 
 /**
  * Fires, when user changes fields on CustomAssetForm
- *
- * @param action from setField method
- * @returns {undefined}
  */
 function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
   const { fieldName, value } = action.payload
@@ -243,10 +237,10 @@ function* onAssetFormSumbit(): Saga<void> {
     },
   }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
-  if (addressError === '' &&
-      nameError === '' &&
-      symbolError === '' &&
-      decimalsError === '') {
+  if (!addressError &&
+      !nameError &&
+      !symbolError &&
+      !decimalsError) {
     yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
     yield put(backOrFallback('/digital-assets'))
   }

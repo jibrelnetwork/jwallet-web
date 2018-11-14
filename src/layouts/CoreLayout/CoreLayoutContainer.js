@@ -7,7 +7,7 @@ import {
   closeCoreLayout,
 } from 'routes/modules/layout'
 
-import AsideLayout from './CoreLayout'
+import CoreLayout from './CoreLayout'
 
 const mapDispatchToProps = {
   openLayout: openCoreLayout,
@@ -16,4 +16,4 @@ const mapDispatchToProps = {
 
 export default (
   connect/* :: < AppState, any, Object, _, _ > */(null, mapDispatchToProps)
-)(AsideLayout)
+)(CoreLayout)

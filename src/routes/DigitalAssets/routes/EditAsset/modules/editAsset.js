@@ -48,7 +48,7 @@ export function clearFieldError(fieldName: $Keys<EditAssetFormFields>) {
   return setFieldError(fieldName, '')
 }
 
-export type EditAssetActions = ExtractReturn<typeof setField> |
+export type EditAssetAction = ExtractReturn<typeof setField> |
   ExtractReturn<typeof setFieldError> |
   ExtractReturn<typeof submitAssetForm> |
   ExtractReturn<typeof openView>
@@ -70,7 +70,7 @@ const initialState: EditAssetState = {
 
 function editAsset(
   state: EditAssetState = initialState,
-  action: EditAssetActions,
+  action: EditAssetAction,
 ): EditAssetState {
   switch (action.type) {
     case SET_FIELD: {

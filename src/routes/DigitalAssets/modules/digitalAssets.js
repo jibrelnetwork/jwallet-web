@@ -47,7 +47,7 @@ export function updateAsset(address: Address, name: string, symbol: string, deci
   }
 }
 
-export type DigitalAssetsActions = ExtractReturn<typeof setInitialItems>
+export type DigitalAssetsAction = ExtractReturn<typeof setInitialItems>
   | ExtractReturn<typeof addCustomAsset>
   | ExtractReturn<typeof removeAsset>
   | ExtractReturn<typeof updateAsset>
@@ -61,7 +61,7 @@ const initialState: DigitalAssetsState = {
 
 const digitalAssets = (
   state: DigitalAssetsState = initialState,
-  action: DigitalAssetsActions,
+  action: DigitalAssetsAction,
 ): DigitalAssetsState => {
   switch (action.type) {
     case SET_INITIAL_ITEMS: {

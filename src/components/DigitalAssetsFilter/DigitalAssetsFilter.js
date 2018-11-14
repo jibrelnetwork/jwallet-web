@@ -5,9 +5,8 @@ import classNames from 'classnames'
 
 import { PopupButton } from 'components'
 import { JIcon, JText, JCheckbox } from 'components/base'
-import { handle } from 'utils/eventHandlers'
 
-type Props = {
+type Props = {|
   +sortByNameClick: ((void) => void),
   +sortByBalanceClick: ((void) => void),
   +setHideZeroBalance: ((boolean) => void),
@@ -16,7 +15,7 @@ type Props = {
   +sortBy: 'name' | 'balance',
   +isHideZeroBalance: boolean,
   +filterCount: number,
-}
+|}
 
 class DigitalAssetsFilter extends PureComponent<Props> {
   static defaultProps = {
@@ -39,11 +38,9 @@ class DigitalAssetsFilter extends PureComponent<Props> {
       filterCount,
     } = this.props
 
-    const popupButtonIcon = (filterCount === 0) ? 'filter' : 'filter-selected'
-
     return (
-      <PopupButton icon={popupButtonIcon} counter={filterCount}>
-        <div className='assets-filter'>
+      <PopupButton icon={(filterCount === 0) ? 'filter' : 'filter-selected'} counter={filterCount}>
+        <div className='digital-assets-filter'>
           <div className='title'>
             <JText
               color='gray'
@@ -70,7 +67,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
           </div>
           <div className='sorting'>
             <button
-              onClick={handle(sortByNameClick)()}
+              onClick={sortByNameClick}
               className={classNames('button', sortBy === 'name' ? '-active' : '')}
             >
               <span className='icon'>
@@ -89,7 +86,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
               />
             </button>
             <button
-              onClick={handle(sortByBalanceClick)()}
+              onClick={sortByBalanceClick}
               className={classNames('button', sortBy === 'balance' ? '-active' : '')}
             >
               <span className='icon'>
