@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import {
-  DigitalAssetsManager,
+  DigitalAssetsManage,
   type DigitalAssetsGridItemType,
 } from 'components'
 
@@ -21,7 +21,7 @@ type Props = {|
   editAsset: (Address) => void,
 |}
 
-class DigitalAssetsManagerView extends Component<Props> {
+class DigitalAssetsManageView extends Component<Props> {
   componentDidMount() {
     this.props.openView()
   }
@@ -41,7 +41,7 @@ class DigitalAssetsManagerView extends Component<Props> {
     } = this.props
 
     return (
-      <div className='digital-assets-manager-view'>
+      <div className='digital-assets-manage-view'>
         <div className='header'>
           <div className='container'>
             <div className='title'>
@@ -66,7 +66,7 @@ class DigitalAssetsManagerView extends Component<Props> {
         </div>
         <div className='content'>
           <Scrollbars autoHide>
-            <DigitalAssetsManager
+            <DigitalAssetsManage
               items={items}
               deleteCustomAsset={deleteCustomAsset}
               setAssetIsActive={setAssetIsActive}
@@ -79,4 +79,4 @@ class DigitalAssetsManagerView extends Component<Props> {
   }
 }
 
-export default DigitalAssetsManagerView
+export default DigitalAssetsManageView

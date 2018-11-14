@@ -27,7 +27,7 @@ import NewWalletButtons from './NewWalletButtons'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
-import DigitalAssetsManager from './DigitalAssetsManager'
+import DigitalAssetsManage from './DigitalAssetsManage'
 import WalletPasswordStep from './WalletPasswordStep'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
 
@@ -66,7 +66,7 @@ export {
   WalletPasswordStep,
   DigitalAssetsFilter,
   DigitalAssetEditForm,
-  DigitalAssetsManager,
+  DigitalAssetsManage,
 }
 
 export type {

@@ -28,7 +28,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='digital-assets-manager'>
+      <div className='digital-assets-manage'>
         {items.length === 0 && <Empty />}
         {items.map(({ asset, balance }) => (
           <div className='box' key={asset.address}>

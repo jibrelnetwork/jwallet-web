@@ -1,11 +1,11 @@
 // @flow
 
-export const OPEN_VIEW = '@@digitalAssetsManager/OPEN_VIEW'
-export const CLOSE_VIEW = '@@digitalAssetsManager/CLOSE_VIEW'
+export const OPEN_VIEW = '@@digitalAssetsManage/OPEN_VIEW'
+export const CLOSE_VIEW = '@@digitalAssetsManage/CLOSE_VIEW'
 
-export const SET_SEARCH_QUERY = '@@digitalAssetsManager/SET_SEARCH_QUERY'
+export const SET_SEARCH_QUERY = '@@digitalAssetsManage/SET_SEARCH_QUERY'
 
-export const CLEAN = '@@digitalAssetsManager/CLEAN'
+export const CLEAN = '@@digitalAssetsManage/CLEAN'
 
 export function openView() {
   return {
@@ -34,19 +34,19 @@ export function clean() {
   }
 }
 
-export type DigitalAssetsManagerActions = ExtractReturn<typeof openView> |
+export type DigitalAssetsManageAction = ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
   ExtractReturn<typeof setSearchQuery> |
   ExtractReturn<typeof clean>
 
-const initialState: DigitalAssetsManagerState = {
+const initialState: DigitalAssetsManageState = {
   searchQuery: '',
 }
 
-const digitalAssetsManager = (
-  state: DigitalAssetsManagerState = initialState,
-  action: DigitalAssetsManagerActions,
-): DigitalAssetsManagerState => {
+const digitalAssetsManage = (
+  state: DigitalAssetsManageState = initialState,
+  action: DigitalAssetsManageAction,
+): DigitalAssetsManageState => {
   switch (action.type) {
     case SET_SEARCH_QUERY: {
       const { query } = action.payload
@@ -68,4 +68,4 @@ const digitalAssetsManager = (
   }
 }
 
-export default digitalAssetsManager
+export default digitalAssetsManage

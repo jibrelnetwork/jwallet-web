@@ -7,16 +7,16 @@ import {
   selectDigitalAssets,
   selectCurrentBlockNumber,
   selectDigitalAssetBalance,
-  selectDigitalAssetsManagerSearchQuery,
+  selectDigitalAssetsManageSearchQuery,
 } from 'store/stateSelectors'
 
-import DigitalAssetsManagerView from './DigitalAssetsManagerView'
+import DigitalAssetsManageView from './DigitalAssetsManageView'
 
 import {
   openView,
   closeView,
   setSearchQuery,
-} from './modules/digitalAssetsManager'
+} from './modules/digitalAssetsManage'
 
 import {
   setAssetIsActive,
@@ -67,7 +67,7 @@ const sortByCustomFirstFn = (
 const mapStateToProps = (state: AppState) => {
   const currentBlock = selectCurrentBlockNumber(state)
   const assets = selectDigitalAssets(state)
-  const searchQuery = selectDigitalAssetsManagerSearchQuery(state)
+  const searchQuery = selectDigitalAssetsManageSearchQuery(state)
   const currentOwnerAddress = ''
 
   const items = Object.keys(assets)
@@ -107,4 +107,4 @@ type OwnProps = {||}
 
 export default (
   connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
-)(DigitalAssetsManagerView)
+)(DigitalAssetsManageView)

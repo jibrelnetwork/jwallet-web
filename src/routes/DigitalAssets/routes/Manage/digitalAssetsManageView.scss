@@ -1,4 +1,4 @@
-.digital-assets-manager-view {
+.digital-assets-manage-view {
   all: initial;
 
   @include box;
@@ -14,7 +14,13 @@
     width: 100%;
     position: absolute;
     z-index: 10;
-    background-image: linear-gradient(to bottom, hsl(228, 33.33%, 97.06%) 0%, hsl(228, 33.33%, 97.06%) 60%, hsla(228, 33.33%, 97.06%, 0) 100%);
+    background-image:
+      linear-gradient(
+        to bottom,
+        hsl(228, 33.33%, 97.06%) 0%,
+        hsl(228, 33.33%, 97.06%) 60%,
+        hsla(228, 33.33%, 97.06%, 0) 100%
+      );
 
     > .container {
       @include flex-row;

@@ -85,8 +85,8 @@ declare type EditAssetState = {|
 |}
 
 /**
- * Digital assets manager
+ * Digital assets manage
  */
-declare type DigitalAssetsManagerState = {|
+declare type DigitalAssetsManageState = {|
   +searchQuery: string,
 |}
