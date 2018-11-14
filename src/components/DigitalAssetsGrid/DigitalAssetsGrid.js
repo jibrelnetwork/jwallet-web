@@ -41,10 +41,11 @@ class DigitalAssetsGrid extends PureComponent<Props> {
           </div>
         )
         )}
-        {items.length > 0 &&
-        <div className='box'>
-          <AddDigitalAsset onClick={addAssetClick} />
-        </div>}
+        {items.length &&
+          <div className='box'>
+            <AddDigitalAsset onClick={addAssetClick} />
+          </div>
+        }
       </div>
     )
   }

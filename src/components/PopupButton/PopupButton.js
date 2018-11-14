@@ -28,11 +28,7 @@ class PopupButton extends PureComponent<Props, ComponentState> {
     }
   }
 
-  toggle = (isActive: boolean) => {
-    this.setState({
-      isActive,
-    })
-  }
+  toggle = (isActive: boolean) => { this.setState({ isActive }) }
 
   render() {
     const {
@@ -47,11 +43,11 @@ class PopupButton extends PureComponent<Props, ComponentState> {
 
     return (
       <div className='popup-button' >
-        {counter ? (
+        {!!counter && (
           <div className='counter'>
             <JText value={counter.toString()} size='small' color='white' weight='bold' />
           </div>
-        ) : ''}
+        )}
         <div className='icon' onClick={handle(this.toggle)(!isActive)}>
           <JIcon size='medium' color='gray' name={icon} />
         </div>
