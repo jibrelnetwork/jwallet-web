@@ -5,21 +5,27 @@ import { combineReducers, type Reducer } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { routerReducer as router } from 'react-router-redux'
 
+import { type AppAction } from 'routes'
+
 // wallets
 import wallets from 'routes/Wallets/modules/wallets'
-import transactions from 'routes/Transactions/modules/transactions'
 import walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 import walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 import walletsRenameAddress from 'routes/Wallets/routes/RenameAddress/modules/walletsRenameAddress'
 
+// Digital ssets
+import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
+import addAsset from 'routes/DigitalAssets/routes/AddAsset/modules/addAsset'
+import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
+import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
+
 // networks
 import networks from 'routes/modules/networks'
 
-// digitalAssets
-import digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
-import customAsset from 'routes/CustomAsset/modules/customAsset'
+// transactions
+import transactions from 'routes/Transactions/modules/transactions'
 
 const persistConfig = {
   storage,
@@ -27,8 +33,8 @@ const persistConfig = {
   whitelist: ['wallets', 'walletsAddresses'],
 }
 
-export function makeRootReducer(): Reducer<AppState, any> {
-  const rootReducer = combineReducers({
+export function makeRootReducer() {
+  const rootReducer: Reducer<AppState, AppAction> = combineReducers({
     // wallets
     wallets,
     walletsCreate,
@@ -40,12 +46,14 @@ export function makeRootReducer(): Reducer<AppState, any> {
     networks,
     // digitalAssets
     digitalAssets,
-    customAsset,
+    digitalAssetsGrid,
+    addAsset,
+    editAsset,
     // transactions
     transactions,
     // router
     router,
   })
 
-  return persistReducer(persistConfig, rootReducer)
+  return persistReducer/* :: < AppState, AppAction > */(persistConfig, rootReducer)
 }

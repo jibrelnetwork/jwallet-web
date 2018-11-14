@@ -1,10 +1,10 @@
 // @flow
 
 import Keystore from '@jibrelnetwork/jwallet-web-keystore'
-import { equals, isEmpty, gt, lt, toLower } from 'ramda'
+import { equals, isEmpty, toLower } from 'ramda'
 
 import config from 'config'
-import ethereum from 'data/assets/ethereum'
+// import ethereum from 'data/assets/ethereum'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { getTransactionValue, toBigNumber } from 'utils/transactions'
 
@@ -74,8 +74,9 @@ const testKeystorePassword = (password: Password) => {
   }
 }
 
-function customAssetData(assetData: CustomAssetData, digitalAssets: DigitalAssets) {
-  const { address, name, symbol, decimals }: CustomAssetData = assetData
+/*
+function customAssetData(assetData: CustomAssetState, digitalAssets: DigitalAssets) {
+  const { address, name, symbol, decimals } = assetData
 
   customAssetAddress(address)
   customAssetPropUniq('address', address, digitalAssets)
@@ -135,6 +136,7 @@ function customAssetPropUniq(propName: string, propValue: string, digitalAssets:
     }
   })
 }
+*/
 
 function searchQuery(query: string) {
   if (/[^a-z0-9 \-.,]/ig.test(query)) {
@@ -234,12 +236,12 @@ export default {
   walletNameUniq,
   walletPassword,
   testKeystorePassword,
-  customAssetData,
-  customAssetAddress,
-  customAssetName,
-  customAssetSymbol,
-  customAssetDecimals,
-  customAssetPropUniq,
+  // customAssetData,
+  // customAssetAddress,
+  // customAssetName,
+  // customAssetSymbol,
+  // customAssetDecimals,
+  // customAssetPropUniq,
   searchQuery,
   txData,
   txAmount,

@@ -3,14 +3,25 @@
 import CoreLayout from 'layouts/CoreLayout'
 
 /*
-import DigitalAssets from './DigitalAssets'
 import Funds from './Funds'
 import Transactions from './Transactions'
 */
-import Terms from './Terms'
+
+import DigitalAssets from './DigitalAssets'
 import Wallets from './Wallets'
 import NotFound from './NotFound'
-import CustomAsset from './CustomAsset'
+import Terms from './Terms'
+
+import {
+  type CoreAction,
+} from './modules'
+
+import {
+  type DigitalAssetsModuleAction,
+} from './DigitalAssets/modules'
+
+export type AppAction = DigitalAssetsModuleAction |
+  CoreAction
 
 export default {
   path: '/',
@@ -20,13 +31,12 @@ export default {
   },
   childRoutes: [
     /*
-    DigitalAssets(store),
     Funds(store),
     Transactions(store),
     */
-    Terms,
+    DigitalAssets,
     Wallets,
-    CustomAsset,
+    Terms,
     NotFound,
   ],
 }

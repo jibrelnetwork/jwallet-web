@@ -68,7 +68,7 @@ function getContractDecimals(
 ): Promise<number> {
   return jibrelContractsApi.contracts.erc20Named
     .decimals({ ...rpcProps, contractAddress })
-    .then(decimals => parseInt(decimals.c, 10))
+    .then(decimals => decimals.toNumber())
 }
 
 function getContractName(

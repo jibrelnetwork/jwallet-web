@@ -1,24 +1,13 @@
 // @flow
 
+// Core sagas
+import coreSagas from 'routes/sagas'
+
 // Wallets
 import walletsSagas from 'routes/Wallets/sagas'
 
-// Custom Asset
-import customAssetSagas from 'routes/CustomAsset/sagas/customAsset'
-
-/*
-// Networks
-import * as networksSagas from 'routes/sagas/networks'
-
-// Funds
-import fundsSagas from 'routes/Funds/sagas'
-
 // Digital Assets
 import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
-
-// Transactions
-import transactionsSagas from 'routes/Transactions/sagas'
-*/
 
 // Terms
 import termsSagas from 'routes/Terms/sagas'
@@ -27,20 +16,11 @@ import termsSagas from 'routes/Terms/sagas'
 import notFoundSagas from 'routes/NotFound/sagas'
 
 export default {
-  /*
-  // Networks
-  ...networksSagas,
-  // Funds
-  ...fundsSagas,
-  // Digital Assets
-  ...digitalAssetsSagas,
-  // Transactions
-  ...transactionsSagas,
-  */
+  ...coreSagas,
   // Wallets
   ...walletsSagas,
-  // Custom Asset
-  ...customAssetSagas,
+  // Digital Assets
+  ...digitalAssetsSagas,
   // Terms
   ...termsSagas,
   // Not FOund

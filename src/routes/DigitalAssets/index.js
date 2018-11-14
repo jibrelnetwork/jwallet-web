@@ -1,16 +1,21 @@
-import DigitalAssetsLayout from 'layouts/DigitalAssetsLayout'
+// @flow
 
-import Balance from './routes/Balance'
-import Custom from './routes/Custom'
-import Popular from './routes/Popular'
+import { AsideLayout } from 'layouts'
 
-export default store => ({
+import Grid from './routes/Grid'
+import AddAsset from './routes/AddAsset'
+import EditAsset from './routes/EditAsset'
+// import ManageAssets from './routes/ManageAssets'
+
+export default {
   path: 'digital-assets',
-  component: DigitalAssetsLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/digital-assets/balance') },
+  component: AsideLayout,
+  indexRoute: {
+    onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets/grid'),
+  },
   childRoutes: [
-    Custom(store),
-    Popular(store),
-    Balance(store),
+    Grid,
+    AddAsset,
+    EditAsset,
   ],
-})
+}

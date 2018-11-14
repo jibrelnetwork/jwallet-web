@@ -17,7 +17,7 @@ $font: 'Open Sans', Arial, sans-serif;
 /**
  * Page Header
  */
-$page-header-height: 80px;
+$page-header-height: 130px;
 
 /**
  * Menu Panel
@@ -46,15 +46,9 @@ $select-height: ($form-field-height * 3);
 /**
  * Checkbox & Radio
  */
-$checkbox-item-margin-bottom: 20px;
+$checkbox-item-margin-bottom: 10px;
 $checkbox-dot-size: 16px;
 $checkbox-dot-margin-right: 15px;
-
-/**
- * Button
- */
-$raised-button-height: 48px;
-$wide-button-width: 156px;
 
 /**
  * Modal Header

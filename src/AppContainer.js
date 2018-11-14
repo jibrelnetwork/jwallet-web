@@ -1,35 +1,29 @@
 // @flow
 
 import React from 'react'
-import { css } from 'glamor'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
 import { PersistGate } from 'redux-persist/integration/react'
 
-const toastStyles = css({
-  right: '45px',
-  width: '365px',
-  padding: '5px',
-  boxShadow: 'none',
-})
+import type { Persistor } from 'redux-persist/lib/types'
+import { type Store, type Dispatch } from 'redux'
+import { type AppAction } from 'routes'
 
 type Props = {
-  store: Object,
+  store: Store<AppState, AppAction, Dispatch<AppAction>>,
   routes: Object,
   history: Object,
-  persistor: Object,
+  persistor: Persistor,
 }
 
 const AppContainer = ({ history, routes, store, persistor }: Props) => (
   <Provider store={store}>
     <div style={{ height: '100%' }}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate persistor={persistor}>
         <Router history={history}>
           {routes}
         </Router>
       </PersistGate>
-      <ToastContainer toastClassName={toastStyles} />
     </div>
   </Provider>
 )

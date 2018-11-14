@@ -1,26 +1,34 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 
 import MenuPanel from 'components/MenuPanel'
 
-const MenuLayout = ({ children }: Props) => (
-  <div className='menu-layout'>
-    <div className='aside'>
-      <MenuPanel />
-    </div>
-    <div className='content'>
-      {children}
-    </div>
-  </div>
-)
-
 type Props = {
-  children?: Object,
+  children: Object,
 }
 
-MenuLayout.defaultProps = {
-  children: null,
+class MenuLayout extends Component<Props> {
+  componentDidMount() {
+    console.log('MOUNT MenuLayout')
+  }
+
+  componentWillUnmount() {
+    console.log('UNMOUNT MenuLayout')
+  }
+
+  render() {
+    return (
+      <div className='menu-layout'>
+        <div className='aside'>
+          <MenuPanel />
+        </div>
+        <div className='content'>
+          {this.props.children}
+        </div>
+      </div>
+    )
+  }
 }
 
 export default MenuLayout

@@ -338,6 +338,13 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
+            name='setting-grid'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
             name='priority-high'
           />
         </div>
@@ -474,6 +481,34 @@ storiesOf('JIcon')
             size='medium'
             color='blue'
             name='edit-pen'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-alphabet-up'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-alphabet-down'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-desc'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='sort-asc'
           />
         </div>
       </div>
@@ -743,6 +778,13 @@ storiesOf('JIcon')
             size='medium'
             color='gray'
             name='add'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            name='close-padding'
+            size='small'
+            color='gray'
           />
         </div>
       </div>
