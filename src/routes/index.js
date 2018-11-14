@@ -9,6 +9,7 @@ import Transactions from './Transactions'
 */
 import Terms from './Terms'
 import Wallets from './Wallets'
+import Settings from './Settings'
 import NotFound from './NotFound'
 import CustomAsset from './CustomAsset'
 
@@ -26,6 +27,7 @@ export default {
     */
     Terms,
     Wallets,
+    Settings,
     CustomAsset,
     NotFound,
   ],
