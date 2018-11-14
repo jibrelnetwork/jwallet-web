@@ -1,0 +1,42 @@
+.menu-panel-actions-more {
+  all: initial;
+  position: relative;
+  margin-top: 25px;
+  width: 100%;
+
+  > .body {
+    @include hover-animation;
+
+    width: 100%;
+    max-height: 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+
+    > .separator {
+      width: 100%;
+      max-height: 0;
+      margin: 0;
+      background-color: $white;
+      opacity: 0;
+      overflow: hidden;
+      transition: margin 0.3s ease 0s;
+    }
+  }
+
+  &.-active {
+    > .body {
+      max-height: 300px;
+      opacity: 1;
+      visibility: visible;
+
+      > .separator {
+        height: 1px;
+        max-height: 1px;
+        margin: 40px 0;
+        opacity: 0.1;
+      }
+    }
+  }
+}

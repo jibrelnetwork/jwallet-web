@@ -1,71 +1,69 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
+import classNames from 'classnames'
 
 import JLogo from 'components/base/JLogo'
 
-import MenuLink from './Link'
-import MenuSelect from './Select'
+import MenuPanelActions from './Actions'
+import MenuPanelMainAction from './MainAction'
+import MenuPanelBalanceTicker from './BalanceTicker'
+import MenuPanelWalletManager from './WalletManager'
 
-const MenuPanel = ({
-  setNetwork,
-  setLanguage,
-  toggleSelect,
-  networks,
-  activeSelect,
-  currentNetwork,
-  currentLanguage,
-  isWalletReadOnly,
-}: Props) => (
-  <div className='menu-panel'>
-    <div className='logo'>
-      <JLogo />
-    </div>
-    <div className='links'>
-      <MenuLink path='/funds/send' icon='send' disabled={isWalletReadOnly} />
-      <MenuLink path='/funds/receive' icon='receive' />
-    </div>
-    <div className='selects'>
-      <MenuSelect
-        toggle={toggleSelect}
-        setActive={setLanguage}
-        options={{ en: 'English', ko: 'Korean', zh: 'Chinese', ja: 'Japanese' }}
-        active={currentLanguage}
-        name='language'
-        isOpen={(activeSelect === 'language')}
-      />
-      <MenuSelect
-        toggle={toggleSelect}
-        setActive={setNetwork}
-        options={networks}
-        active={currentNetwork}
-        name='network'
-        isOpen={(activeSelect === 'network')}
-      />
-    </div>
-  </div>
-)
+type Props = {|
+  +wallet: ?Wallet,
+|}
 
-type Props = {
-  setNetwork: Function,
-  setLanguage: Function,
-  toggleSelect: Function,
-  networks: { [NetworkId]: string },
-  activeSelect: ?string,
-  currentNetwork: ?NetworkId,
-  currentLanguage: LanguageCode,
-  isWalletReadOnly: boolean,
-}
+type ComponentState = {|
+  isActionsMoreActive: boolean,
+|}
 
-MenuPanel.defaultProps = {
-  setNetwork: () => {},
-  setLanguage: () => {},
-  toggleSelect: () => {},
-  networks: {},
-  activeSelect: null,
-  currentNetwork: null,
-  currentLanguage: 'en-US',
-  isWalletReadOnly: true,
+class MenuPanel extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isActionsMoreActive: false,
+    }
+  }
+
+  toggleActionsMore = () => this.setState({ isActionsMoreActive: !this.state.isActionsMoreActive })
+
+  render() {
+    const { wallet }: Props = this.props
+
+    if (!wallet) {
+      return null
+    }
+
+    const {
+      type,
+      isReadOnly,
+    }: Wallet = wallet
+
+    const { isActionsMoreActive }: ComponentState = this.state
+
+    return (
+      <div className={classNames('menu-panel', isReadOnly && '-read-only')}>
+        <div className='top'>
+          <div className='logo'>
+            <JLogo isMinimal />
+          </div>
+          <div className='separator' />
+          <div className='ticker'>
+            <MenuPanelBalanceTicker />
+          </div>
+        </div>
+        <div className='actions'>
+          <MenuPanelMainAction type={type} isReadOnly={isReadOnly} />
+          <MenuPanelActions toggle={this.toggleActionsMore} isActive={isActionsMoreActive} />
+        </div>
+        <div className='wallet'>
+          <MenuPanelWalletManager />
+        </div>
+      </div>
+    )
+  }
 }
 
 export default MenuPanel

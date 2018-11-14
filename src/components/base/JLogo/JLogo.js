@@ -1,14 +1,27 @@
 // @flow
 
-import React from 'react'
+import classNames from 'classnames'
 import { Link } from 'react-router'
+import React, { PureComponent } from 'react'
 
-// @TODO: div inside <a> - not good
+type Props = {|
+  +isMinimal: boolean,
+|}
 
-const JLogo = () => (
-  <Link to='/' className='j-logo'>
-    <div className='image' />
-  </Link>
-)
+class JLogo extends PureComponent<Props> {
+  static defaultProps = {
+    isMinimal: false,
+  }
+
+  render() {
+    const { isMinimal }: Props = this.props
+
+    return (
+      <Link to='/' className={classNames('j-logo', isMinimal && '-minimal')}>
+        <span className='image' />
+      </Link>
+    )
+  }
+}
 
 export default JLogo

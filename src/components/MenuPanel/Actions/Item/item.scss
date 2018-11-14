@@ -1,0 +1,35 @@
+.menu-panel-actions-item {
+  all: initial;
+
+  @include flex-row;
+
+  align-items: center;
+  cursor: pointer;
+
+  > .text,
+  > .icon {
+    @include flex-row;
+
+    height: 100%;
+    align-items: center;
+  }
+
+  > .text {
+    margin-left: 20px;
+  }
+
+  > .icon {
+    opacity: 0.5;
+    transition: opacity 0.3s ease 0s;
+  }
+
+  &:hover {
+    > .icon {
+      opacity: 1;
+    }
+  }
+
+  &:not(:first-child) {
+    margin-top: 25px;
+  }
+}

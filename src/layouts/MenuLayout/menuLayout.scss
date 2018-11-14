@@ -5,11 +5,11 @@
 
   position: relative;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
   > .aside {
-    width: 200px;
     height: 100%;
+    width: $menu-panel-width;
   }
 
   > .content {

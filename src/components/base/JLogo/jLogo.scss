@@ -15,4 +15,14 @@
     height: 100%;
     background-image: $logo;
   }
+
+  &.-minimal {
+    width: 32px;
+    height: 32px;
+
+    > .image {
+      background-image: none;
+      background-color: $white;
+    }
+  }
 }
