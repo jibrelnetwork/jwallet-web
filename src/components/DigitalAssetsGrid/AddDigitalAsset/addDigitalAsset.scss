@@ -1,0 +1,32 @@
+.add-asset {
+  all: initial;
+
+  @include box;
+  @include flex-column-center;
+  @include hover-animation;
+
+  border-radius: 5px;
+  height: 220px;
+  border: 1px dashed rgba($dusk, 0.2);
+  cursor: pointer;
+
+  > .icon {
+    @include flex-column-center;
+    @include hover-animation;
+
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+    transform: rotate(-45deg);
+    border: 1px solid $dusk;
+    border-radius: 16px;
+  }
+
+  &:hover {
+    border-color: rgba($dusk, 0.3);
+
+    > .icon {
+      opacity: 0.5;
+    }
+  }
+}

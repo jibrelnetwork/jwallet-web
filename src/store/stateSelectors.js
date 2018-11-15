@@ -46,59 +46,139 @@ export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddres
 /**
  * Networks
  */
-export function selectNetworks(state: AppState): NetworksData {
-  return state.networks
-}
+// export function selectNetworks(state: AppState): NetworksData {
+//   return state.networks
+// }
 
-export function selectNetworksItems(state: AppState): Networks {
-  return state.networks.items
-}
+// export function selectNetworksItems(state: AppState): Networks {
+//   return state.networks.items
+// }
 
+// eslint-disable-next-line no-unused-vars
 export function selectNetworkId(state: AppState): ?NetworkId {
-  return state.networks.currentNetwork
+  return '3'
+}
+
+/**
+ * Blocks
+ */
+
+// eslint-disable-next-line no-unused-vars
+export function selectCurrentBlockNumber(state: AppState): number {
+  return 0
 }
 
 /**
  * Digital Assets
  */
-export function selectDigitalAssets(state: AppState): DigitalAssetsData {
-  return state.digitalAssets
+export function selectDigitalAssets(state: AppState): DigitalAssets {
+  const {
+    digitalAssets: {
+      persist: {
+        items,
+      },
+    },
+  } = state
+
+  return items
 }
 
-export function selectDigitalAssetsItems(state: AppState): DigitalAssets {
-  return state.digitalAssets.items
+export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
+  const items = selectDigitalAssets(state)
+  if (items[contractAddress]) {
+    return items[contractAddress]
+  }
+
+  const addressLower = contractAddress.toLowerCase()
+  const key = Object.keys(items).find(addr => items[addr].address.toLowerCase() === addressLower)
+  return key ? items[key] : null
 }
 
-export function selectDigitalAssetsBalances(state: AppState): Balances {
-  return state.digitalAssets.balances
+export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {
+  return state.digitalAssetsGrid.filter
 }
 
-export function selectCurrentDigitalAsset(state: AppState): ?Address {
-  return state.digitalAssets.currentAddress
+export function selectDigitalAssetsGridSearchQuery({ digitalAssetsGrid }: AppState): string {
+  return digitalAssetsGrid.searchQuery
 }
 
-export function selectCustomAsset(state: AppState): CustomAssetState {
-  return state.customAsset
+export function selectDigitalAssetsBalances(state: AppState): DigitalAssetsBalances {
+  const {
+    digitalAssets: {
+      persist: {
+        balances,
+      },
+    },
+  } = state
+
+  return balances
 }
 
-/**
- * Transactions
- */
-export function selectTransactions(state: AppState): TransactionsData {
-  return state.transactions
+export function selectDigitalAssetsOwnerBalances(
+  state: AppState,
+  blockNumber: number,
+  ownerAddress: Address,
+): ?DigitalAssetsOwnerBalances {
+  const balances = selectDigitalAssetsBalances(state)
+  const networkId = selectNetworkId(state)
+  const block = blockNumber.toString()
+
+  if (balances &&
+      balances[networkId] &&
+      balances[networkId][block] &&
+      balances[networkId][block][ownerAddress]
+  ) {
+    return balances[networkId][block][ownerAddress]
+  } else {
+    return null
+  }
 }
 
-export function selectTransactionsItems(state: AppState): Transactions {
-  return state.transactions.items
+export function selectDigitalAssetBalance(
+  state: AppState,
+  blockNumber: number,
+  ownerAddress: Address,
+  assetAddress: Address
+): ?DigitalAssetsBalance {
+  const ownerBalances = selectDigitalAssetsOwnerBalances(state, blockNumber, ownerAddress)
+
+  if (ownerBalances && ownerBalances[assetAddress]) {
+    return ownerBalances[assetAddress]
+  } else {
+    return null
+  }
 }
 
-/**
- * Funds
- */
-export function selectReceiveFunds(state: AppState): ReceiveFundsData {
-  return state.receiveFunds
+export function selectAddAsset(state: AppState): AddAssetState {
+  return state.addAsset
 }
 
-export function selectSendFunds(state: AppState): SendFundsData {
-  return state.sendFunds
+export function selectEditAsset(state: AppState): EditAssetState {
+  return state.editAsset
 }
+
+// export function selectEditAsset(state: AppState): EditAssetState {
+//   return state.editAsset
+// }
+
+// /**
+//  * Transactions
+//  */
+// export function selectTransactions(state: AppState): TransactionsData {
+//   return state.transactions
+// }
+
+// export function selectTransactionsItems(state: AppState): Transactions {
+//   return state.transactions.items
+// }
+
+// /**
+//  * Funds
+//  */
+// export function selectReceiveFunds(state: AppState): ReceiveFundsData {
+//   return state.receiveFunds
+// }
+
+// export function selectSendFunds(state: AppState): SendFundsData {
+//   return state.sendFunds
+// }

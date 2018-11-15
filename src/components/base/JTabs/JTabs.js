@@ -1,24 +1,26 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
+
 import { Link } from 'react-router'
 
-const JTabs = ({ tabs, location }: Props) => (
-  <ul className='j-tabs'>
+const JTabs = ({ tabs }: Props) => (
+  <div className='j-tabs'>
     {Object.keys(tabs).map((path: string) => (
-      <li key={path} className={classNames('tab', { '-active': (path === location.pathname) })}>
-        <Link to={path} className='link'>{tabs[path]}</Link>
-      </li>
+      <Link
+        key={path}
+        to={path}
+        activeClassName='-active'
+        className='tab'
+      >
+        {tabs[path]}
+      </Link>
     ))}
-  </ul>
+  </div>
 )
 
 type Props = {
-  tabs: { [string]: string },
-  location: {
-    pathname: string,
-  },
+  tabs: { [string]: string }
 }
 
 export default JTabs

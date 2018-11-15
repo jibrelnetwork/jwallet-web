@@ -1,299 +1,139 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
+export const SET_INITIAL_ITEMS = '@@digitalAssets/SET_INITIAL_ITEMS'
+export const ADD_CUSTOM_ASSET = '@@digitalAssets/ADD_CUSTOM_ASSET'
+export const REMOVE_ASSET = '@@digitalAssets/REMOVE_ASSET'
+export const UPDATE_ASSET = '@@digitalAssets/UPDATE_ASSET'
 
-export const INIT = '@@digitalAssets/INIT'
-export const INIT_FINISH = '@@digitalAssets/INIT_FINISH'
-export const OPEN = '@@digitalAssets/OPEN'
-export const CLOSE = '@@digitalAssets/CLOSE'
-export const SET_ASSETS = '@@digitalAssets/SET_ASSETS'
-export const SET_ASSETS_SUCCESS = '@@digitalAssets/SET_ASSETS_SUCCESS'
-export const SET_ACTIVE = '@@digitalAssets/SET_ACTIVE'
-export const SET_CURRENT = '@@digitalAssets/SET_CURRENT'
-export const GET_BALANCES = '@@digitalAssets/GET_BALANCES'
-export const GET_BALANCES_SUCCESS = '@@digitalAssets/GET_BALANCES_SUCCESS'
-export const GET_BALANCES_ERROR = '@@digitalAssets/GET_BALANCES_ERROR'
-export const SET_BALANCES_LOADING = '@@digitalAssets/SET_BALANCES_LOADING'
-export const SET_BALANCE_BY_ADDRESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS'
-export const SET_BALANCE_BY_ADDRESS_SUCCESS = '@@digitalAssets/SET_BALANCE_BY_ADDRESS_SUCCESS'
-export const SEARCH = '@@digitalAssets/SEARCH'
-export const SEARCH_SUCCESS = '@@digitalAssets/SEARCH_SUCCESS'
-export const SEARCH_ERROR = '@@digitalAssets/SEARCH_ERROR'
-export const SET_INVALID_FIELD = '@@digitalAssets/SET_INVALID_FIELD'
-export const CLEAN = '@@digitalAssets/CLEAN'
+export function setInitialItems(items: DigitalAssets) {
+  return {
+    type: SET_INITIAL_ITEMS,
+    payload: {
+      items,
+    },
+  }
+}
 
-export const init = (): { type: string } => ({
-  type: INIT,
-})
+export function addCustomAsset(address: Address, name: string, symbol: string, decimals: number) {
+  return {
+    type: ADD_CUSTOM_ASSET,
+    payload: {
+      address,
+      name,
+      symbol,
+      decimals,
+    },
+  }
+}
 
-export const initFinish = (): { type: string } => ({
-  type: INIT_FINISH,
-})
+export function removeAsset(assetAddress: Address) {
+  return {
+    type: REMOVE_ASSET,
+    payload: {
+      address: assetAddress,
+    },
+  }
+}
 
-export const open = (): { type: string } => ({
-  type: OPEN,
-})
+export function updateAsset(address: Address, name: string, symbol: string, decimals: number) {
+  return {
+    type: UPDATE_ASSET,
+    payload: {
+      address,
+      name,
+      symbol,
+      decimals,
+    },
+  }
+}
 
-export const close = (): { type: string } => ({
-  type: CLOSE,
-})
+export type DigitalAssetsAction = ExtractReturn<typeof setInitialItems>
+  | ExtractReturn<typeof addCustomAsset>
+  | ExtractReturn<typeof removeAsset>
+  | ExtractReturn<typeof updateAsset>
 
-export const setAssets = (items: ?DigitalAssets): {
-  type: string,
-  payload: {
-    items: ?DigitalAssets,
+const initialState: DigitalAssetsState = {
+  persist: {
+    items: {},
+    balances: {},
   },
-} => ({
-  type: SET_ASSETS,
-  payload: {
-    items,
-  },
-})
-
-export const setAssetsSuccess = (items: DigitalAssets): {
-  type: string,
-  payload: {
-    items: DigitalAssets,
-  },
-} => ({
-  type: SET_ASSETS_SUCCESS,
-  payload: {
-    items,
-  },
-})
-
-export const setActive = (address: Address): {
-  type: string,
-  payload: {
-    address: Address,
-  },
-} => ({
-  type: SET_ACTIVE,
-  payload: {
-    address,
-  },
-})
-
-export const setCurrent = (currentAddress: ?Address): {
-  type: string,
-  payload: {
-    currentAddress: ?Address,
-  },
-} => ({
-  type: SET_CURRENT,
-  payload: {
-    currentAddress,
-  },
-})
-
-export const getBalances = (): { type: string } => ({
-  type: GET_BALANCES,
-})
-
-export const getBalancesSuccess = (balances: Balances): {
-  type: string,
-  payload: {
-    balances: Balances,
-  },
-} => ({
-  type: GET_BALANCES_SUCCESS,
-  payload: {
-    balances,
-  },
-})
-
-export const getBalancesError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: GET_BALANCES_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setBalancesLoading = (isBalancesLoading: boolean): {
-  type: string,
-  payload: {
-    isBalancesLoading: boolean,
-  },
-} => ({
-  type: SET_BALANCES_LOADING,
-  payload: {
-    isBalancesLoading,
-  },
-})
-
-export const setBalanceByAddress = (address: Address, balance: number): {
-  type: string,
-  payload: {
-    address: Address,
-    balance: number,
-  },
-} => ({
-  type: SET_BALANCE_BY_ADDRESS,
-  payload: {
-    address,
-    balance,
-  },
-})
-
-export const setBalanceByAddressSuccess = (balances: Balances): {
-  type: string,
-  payload: {
-    balances: Balances,
-  },
-} => ({
-  type: SET_BALANCE_BY_ADDRESS_SUCCESS,
-  payload: {
-    balances,
-  },
-})
-
-export const search = (searchQuery: string): {
-  type: string,
-  payload: {
-    searchQuery: string,
-  },
-} => ({
-  type: SEARCH,
-  payload: {
-    searchQuery,
-  },
-})
-
-export const searchSuccess = (foundAssets: Addresses): {
-  type: string,
-  payload: {
-    foundAssets: Addresses,
-  },
-} => ({
-  type: SEARCH_SUCCESS,
-  payload: {
-    foundAssets,
-  },
-})
-
-export const searchError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SEARCH_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setInvalidField = (fieldName: string, message: string): {
-  type: string,
-  payload: {
-    fieldName: string,
-    message: string,
-  },
-} => ({
-  type: SET_INVALID_FIELD,
-  payload: {
-    fieldName,
-    message,
-  },
-})
-
-export const clean = (): { type: string } => ({
-  type: CLEAN,
-})
-
-const initialState: DigitalAssetsData = {
-  items: [],
-  foundAssets: [],
-  balances: {},
-  invalidFields: {},
-  searchQuery: '',
-  isInitialised: false,
-  isBalancesLoading: false,
-  currentAddress: null,
 }
 
 const digitalAssets = (
-  state: DigitalAssetsData = initialState,
-  action: FSA,
-): Object => {
-  const { type, payload }: FSA = action
+  state: DigitalAssetsState = initialState,
+  action: DigitalAssetsAction,
+): DigitalAssetsState => {
+  switch (action.type) {
+    case SET_INITIAL_ITEMS: {
+      const { items } = action.payload
 
-  switch (type) {
-    case INIT_FINISH: {
-      return assoc('isInitialised', true)(state)
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items,
+        },
+      }
     }
 
-    case SET_ASSETS_SUCCESS: {
-      return assoc('items', payload.items)(state)
+    case ADD_CUSTOM_ASSET: {
+      const {
+        address,
+        name,
+        symbol,
+        decimals,
+      } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...state.persist.items,
+            [address]: {
+              address,
+              name,
+              symbol,
+              decimals,
+              isCustom: true,
+              isActive: true,
+            },
+          },
+        },
+      }
     }
 
-    case SET_CURRENT: {
-      return assoc('currentAddress', payload.currentAddress)(state)
+    case UPDATE_ASSET: {
+      const {
+        address,
+        name,
+        symbol,
+        decimals,
+      } = action.payload
+
+      const {
+        persist,
+      } = state
+
+      return {
+        ...state,
+        persist: {
+          ...persist,
+          items: {
+            ...persist.items,
+            [address]: {
+              ...persist.items[address],
+              name,
+              symbol,
+              decimals,
+            },
+          },
+        },
+      }
     }
 
-    case GET_BALANCES: {
-      return compose(
-        assoc('balances', {}),
-        assoc('isBalancesLoading', true),
-      )(state)
-    }
-
-    case GET_BALANCES_SUCCESS: {
-      return compose(
-        assoc('balances', payload.balances),
-        assoc('isBalancesLoading', false),
-      )(state)
-    }
-
-    case GET_BALANCES_ERROR: {
-      return compose(
-        assoc('balances', {}),
-        assoc('isBalancesLoading', false),
-      )(state)
-    }
-
-    case SET_BALANCES_LOADING: {
-      return assoc('isBalancesLoading', false)(state)
-    }
-
-    case SET_BALANCE_BY_ADDRESS_SUCCESS: {
-      return assoc('balances', payload.balances)(state)
-    }
-
-    case SEARCH: {
-      return compose(
-        assoc('foundAssets', []),
-        assoc('searchQuery', payload.searchQuery),
-        assocPath(['invalidFields', 'searchQuery'], null),
-      )(state)
-    }
-
-    case SEARCH_SUCCESS: {
-      return assoc('foundAssets', payload.foundAssets)(state)
-    }
-
-    case SEARCH_ERROR: {
-      return compose(
-        assoc('foundAssets', []),
-        assoc('searchQuery', ''),
-      )(state)
-    }
-
-    case SET_INVALID_FIELD: {
-      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
-    }
-
-    case CLEAN: {
-      return compose(
-        assoc('foundAssets', []),
-        assoc('invalidFields', {}),
-        assoc('searchQuery', ''),
-        assoc('isBalancesLoading', false),
-      )(state)
-    }
-
-    default: return state
+    default:
+      return state
   }
 }
 

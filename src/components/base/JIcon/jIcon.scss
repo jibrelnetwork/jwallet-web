@@ -276,6 +276,10 @@
       &.-white {
         background-image: $icon-medium-padding-cross-white;
       }
+
+      &.-gray {
+        background-image: $icon-medium-padding-cross-gray;
+      }
     }
 
     &.-chevron-down {
@@ -670,9 +674,21 @@
       }
     }
 
+    &.-close-padding {
+      &.-gray {
+        background-image: $icon-medium-close-padding-gray;
+      }
+    }
+
     &.-filter-selected {
       &.-gray {
         background-image: $icon-medium-filter-selected-gray;
+      }
+    }
+
+    &.-setting-grid {
+      &.-gray {
+        background-image: $icon-medium-setting-grid-gray;
       }
     }
 
@@ -718,6 +734,30 @@
 
     &.-flag-kr {
       background-image: $icon-medium-flag-kr;
+    }
+
+    &.-sort-alphabet-desc {
+      &.-blue {
+        background-image: $icon-medium-sort-alphabet-up-blue;
+      }
+    }
+
+    &.-sort-alphabet-asc {
+      &.-blue {
+        background-image: $icon-medium-sort-alphabet-down-blue;
+      }
+    }
+
+    &.-sort-desc {
+      &.-blue {
+        background-image: $icon-medium-sort-desc-blue;
+      }
+    }
+
+    &.-sort-asc {
+      &.-blue {
+        background-image: $icon-medium-sort-asc-blue;
+      }
     }
   }
 

@@ -114,7 +114,7 @@
   @import '../components/AssetBalance/assetBalance';
   @import '../components/WalletHeader/walletHeader';
   @import '../components/CopyableField/copyableField';
-  @import '../components/DigitalAssets/digitalAssets';
+  @import '../components/DigitalAssetsGrid/digitalAssetsGrid';
   @import '../components/PasswordField/passwordField';
   @import '../components/WalletLoading/WalletLoading';
   @import '../components/DerivationPath/derivationPath';
@@ -124,6 +124,10 @@
   @import '../components/NewWalletButtons/newWalletButtons';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/MnemonicAddresses/mnemonicAddresses';
+  @import '../components/PopupButton/popupButton';
+  @import '../components/DigitalAssetsFilter/digitalAssetsFilter';
+  @import '../components/CloseableScreen/closeableScreen';
+  @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
   // Views
   @import '../routes/Terms/termsView';
@@ -131,16 +135,18 @@
   @import '../routes/Wallets/walletsView';
   @import '../routes/Settings/settingsView';
   @import '../routes/NotFound/notFoundView';
-  @import '../routes/CustomAsset/styles/customAsset';
+  @import '../routes/DigitalAssets/digitalAssets';
   @import '../routes/Transactions/styles/transactions';
-  @import '../routes/DigitalAssets/styles/digitalAssets';
 
   // Layouts
-  @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
   @import '../layouts/CoreLayout/coreLayout';
-  @import '../layouts/DigitalAssetsLayout/digitalAssetsLayout';
-  @import '../layouts/MenuLayout/menuLayout';
-  @import '../layouts/ModalLayout/modalLayout';
-  @import '../layouts/TransactionsLayout/transactionsLayout';
   @import '../layouts/WalletsLayout/walletsLayout';
+  @import '../layouts/AsideLayout/asideLayout';
+
+  // To be removed
+  // @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
+  // @import '../layouts/DigitalAssetsLayout/digitalAssetsLayout';
+  // @import '../layouts/MenuLayout/menuLayout';
+  // @import '../layouts/ModalLayout/modalLayout';
+  // @import '../layouts/TransactionsLayout/transactionsLayout';
 }

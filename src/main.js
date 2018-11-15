@@ -66,7 +66,7 @@ if (!__DEV__) {
   // ========================================================
   // HMR Setup
   // ========================================================
-  const hmr: HMR = (module: any).hot
+  const hmr: HMR = (module /* :: : Object */).hot
 
   if (hmr) {
     // Development render functions

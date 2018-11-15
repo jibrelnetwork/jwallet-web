@@ -3,6 +3,13 @@
 .*/src/static/.*
 .*/stories/.*
 *.old.js
+.*/src/components/ActiveAssetsPanel/.*
+.*/src/components/AssetPicker/.*
+.*/src/components/base/JSelect/.*
+.*/src/components/Expandable/.*
+.*/src/components/PasswordStep/.*
+.*/src/routes/Funds/.*
+.*/src/routes/Transactions/.*
 
 [include]
 
