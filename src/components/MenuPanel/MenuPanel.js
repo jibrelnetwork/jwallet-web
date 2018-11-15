@@ -1,9 +1,10 @@
 // @flow
 
-import React, { Component } from 'react'
 import classNames from 'classnames'
+import React, { Component } from 'react'
 
 import JLogo from 'components/base/JLogo'
+import getWallet from 'utils/wallets/getWallet'
 
 import MenuPanelActions from './Actions'
 import MenuPanelMainAction from './MainAction'
@@ -11,11 +12,15 @@ import MenuPanelBalanceTicker from './BalanceTicker'
 import MenuPanelWalletManager from './WalletManager'
 
 type Props = {|
-  +wallet: ?Wallet,
+  +items: Wallets,
+  +addresses: Addresses,
+  +addressNames: AddressNames,
+  +activeWalletId: ?WalletId,
 |}
 
 type ComponentState = {|
   isActionsMoreActive: boolean,
+  isWalletManagerActive: boolean,
 |}
 
 class MenuPanel extends Component<Props, ComponentState> {
@@ -24,13 +29,33 @@ class MenuPanel extends Component<Props, ComponentState> {
 
     this.state = {
       isActionsMoreActive: false,
+      isWalletManagerActive: false,
     }
   }
 
-  toggleActionsMore = () => this.setState({ isActionsMoreActive: !this.state.isActionsMoreActive })
+  toggleActionsMore = () => {
+    this.setState({
+      isWalletManagerActive: false,
+      isActionsMoreActive: !this.state.isActionsMoreActive,
+    })
+  }
+
+  toggleWalletManager = () => {
+    this.setState({
+      isActionsMoreActive: false,
+      isWalletManagerActive: !this.state.isWalletManagerActive,
+    })
+  }
 
   render() {
-    const { wallet }: Props = this.props
+    const {
+      items,
+      addresses,
+      addressNames,
+      activeWalletId,
+    }: Props = this.props
+
+    const wallet: ?Wallet = getWallet(items, activeWalletId)
 
     if (!wallet) {
       return null
@@ -41,7 +66,10 @@ class MenuPanel extends Component<Props, ComponentState> {
       isReadOnly,
     }: Wallet = wallet
 
-    const { isActionsMoreActive }: ComponentState = this.state
+    const {
+      isActionsMoreActive,
+      isWalletManagerActive,
+    }: ComponentState = this.state
 
     return (
       <div className={classNames('menu-panel', isReadOnly && '-read-only')}>
@@ -58,9 +86,14 @@ class MenuPanel extends Component<Props, ComponentState> {
           <MenuPanelMainAction type={type} isReadOnly={isReadOnly} />
           <MenuPanelActions toggle={this.toggleActionsMore} isActive={isActionsMoreActive} />
         </div>
-        <div className='wallet'>
-          <MenuPanelWalletManager />
-        </div>
+        <MenuPanelWalletManager
+          toggle={this.toggleWalletManager}
+          items={items}
+          addresses={addresses}
+          addressNames={addressNames}
+          activeWalletId={activeWalletId}
+          isActive={isWalletManagerActive}
+        />
       </div>
     )
   }

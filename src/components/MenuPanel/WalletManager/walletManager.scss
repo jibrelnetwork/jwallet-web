@@ -1,0 +1,10 @@
+@import './Main/main';
+@import './Details/details';
+
+.menu-panel-wallet-manager {
+  all: initial;
+
+  @include flex-column;
+
+  margin-top: auto;
+}

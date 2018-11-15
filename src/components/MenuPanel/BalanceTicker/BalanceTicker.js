@@ -14,8 +14,15 @@ function MenuPanelBalanceTicker() {
 
   return (
     <div className='menu-panel-balance-ticker'>
-      <JText value='Total Balance' color='white' size='small' />
-      <JText value={`${amountDivided} ${TICKER_CURRENCY}`} color='white' size='large' />
+      <div className='title'>
+        <JText value='Total Balance' color='white' size='small' fontCase='upper' />
+      </div>
+      <JText
+        value={`${amountDivided} ${TICKER_CURRENCY}`}
+        size='large'
+        color='white'
+        weight='bold'
+      />
     </div>
   )
 }

@@ -1,0 +1,36 @@
+.menu-panel-wallet-manager-main {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+
+  width: 100%;
+  padding: 30px 50px;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease 0s;
+
+  > .info {
+    @include flex-column;
+
+    width: 100%;
+    margin-left: 20px;
+
+    > .name {
+      max-width: 130px;
+    }
+
+    > .address {
+      opacity: 0.5;
+    }
+  }
+
+  > .chevron {
+    margin: 0 -4px 0 auto;
+  }
+
+  &:hover,
+  &.-active {
+    background-color: $cobalt-blue;
+  }
+}

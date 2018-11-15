@@ -2,13 +2,15 @@
 
 import { connect } from 'react-redux'
 
-import getWallet from 'utils/wallets/getWallet'
-import { selectWalletsPersist } from 'store/stateSelectors'
+import { selectWalletsPersist, selectWalletsAddresses } from 'store/stateSelectors'
 
 import MenuLayout from './MenuLayout'
 
 type StateProps = {|
-  +wallet: ?Wallet,
+  +items: Wallets,
+  +addresses: Addresses,
+  +addressNames: AddressNames,
+  +activeWalletId: ?WalletId,
 |}
 
 function mapStateToProps(state: AppState): StateProps {
@@ -17,8 +19,16 @@ function mapStateToProps(state: AppState): StateProps {
     activeWalletId,
   }: WalletsPersist = selectWalletsPersist(state)
 
+  const {
+    addresses,
+    persist,
+  }: WalletsAddressesState = selectWalletsAddresses(state)
+
   return {
-    wallet: getWallet(items, activeWalletId),
+    items,
+    addresses,
+    activeWalletId,
+    addressNames: persist.addressNames,
   }
 }
 
