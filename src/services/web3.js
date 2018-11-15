@@ -187,13 +187,17 @@ function getTransactionStatus(blockHash: Hash) {
 }
 
 function getBlocks(list: any) {
-  return Promise.all(list.map(item => getBlock(item))).then(getBlocksData)
+  return Promise.all(list.map(item => getBlockOld(item))).then(getBlocksData)
 }
 
-function getBlock(item: { blockHash: Hash }) {
+function getBlockOld(item: { blockHash: Hash }) {
   const blockId = item.blockHash
 
   return blockId ? jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId }) : {}
+}
+
+export function getBlock(blockId: BlockId): Promise<ETHBlock> {
+  return jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId, returnTransactionObjects: true })
 }
 
 function getBlocksData(blocksData: any = []) {
@@ -394,4 +398,5 @@ export default {
   getContractCode,
   checkContractCodeIsERC20,
   checkSignatureInContract,
+  getBlock,
 }

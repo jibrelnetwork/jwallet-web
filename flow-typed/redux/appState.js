@@ -26,6 +26,8 @@ declare type AppState = {
   // funds
   // +receiveFunds: ReceiveFundsData,
   // +sendFunds: SendFundsData,
+  // blocks
+  +blocks: BlocksState,
   // router
   +router: RouterState,
 }

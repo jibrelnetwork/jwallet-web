@@ -24,6 +24,9 @@ import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalA
 // networks
 import networks from 'routes/modules/networks'
 
+// blocks
+import blocks from 'routes/modules/blocks'
+
 // transactions
 import transactions from 'routes/Transactions/modules/transactions'
 
@@ -51,6 +54,8 @@ export function makeRootReducer() {
     editAsset,
     // transactions
     transactions,
+    // blocks
+    blocks,
     // router
     router,
   })
