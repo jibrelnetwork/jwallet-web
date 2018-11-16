@@ -55,25 +55,27 @@
     }
   }
 
+  > .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+
+    &.-active {
+      display: block;
+    }
+  }
+
   > .actions {
     display: flex;
     align-items: center;
     padding-right: 20px;
-
-    > .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-
-      &.-hide {
-        display: none;
-      }
-    }
+    position: relative;
+    height: 100%;
 
     > .item {
-      position: relative;
       cursor: pointer;
 
       &:not(:first-child) {
