@@ -6,23 +6,74 @@ import {
 } from 'redux-saga'
 
 import {
-  // select,
+  select,
   put,
   call,
 } from 'redux-saga/effects'
 
+import keystore from 'services/keystore'
+
+import {
+  selectWalletsItems,
+  selectActiveWalletId,
+  selectDigitalAssets,
+} from 'store/stateSelectors'
+
+import {
+  initAtBlock,
+} from '../modules/balances'
+
+function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
+  const allAssets = selectDigitalAssets(state)
+  return Object.keys(allAssets).map(address => allAssets[address]).filter(asset => asset.isActive)
+}
+
 export function* getBalancesSchedulerProcess(
-  requestQueueCh: Channel<SchedulerTask>
-  // networkId: NetworkId
-  // currentBlock: BlockInfo
+  requestQueueCh: Channel<SchedulerTask>,
+  networkId: NetworkId,
+  currentBlock: BlockInfo,
 ): Saga<void> {
   try {
+    const wallets: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
+
+    const activeWalletId: ExtractReturn<typeof selectActiveWalletId>
+      = yield select(selectActiveWalletId)
+    if (!activeWalletId) {
+      return
+    }
+
+    const activeOwnerAddress = keystore.getAddress(wallets, activeWalletId)
+    if (!activeOwnerAddress) {
+      return
+    }
+
+    const activeAssets: Array<DigitalAsset> = yield select(selectActiveDigitalAssets)
+    if (activeAssets.length === 0) {
+      // @TODO: notify, that everything is fetched
+      return
+    }
+
+    // push initial balances state
+    const initialState: OwnerBalances = activeAssets.reduce((prev, asset) => ({
+      ...prev,
+      [asset.address]: {
+        balance: null,
+        isLoading: false,
+      },
+    }), {})
+
+    yield put(initAtBlock(
+      networkId,
+      currentBlock.number,
+      activeOwnerAddress,
+      initialState
+    ))
+
+    // yield all(activeAssets.map(asset => put(requestQueueCh, {
+
+    // }))
+
     while (true) {
-      // 1. select network
-      // 2. select current address
-      // 3. we gave current block
-      // 4. select enabled assets
-      // 5. push initial balances state to redux
       // 6. push tasks to the scheduler
 
       yield call(delay, 1000)
@@ -42,7 +93,7 @@ export function* getBalancesSchedulerProcess(
 
       yield put(requestQueueCh, task)
 
-      console.log('scheduled')
+      // console.log('scheduled')
     }
   } finally {
     // canceled...
@@ -50,5 +101,5 @@ export function* getBalancesSchedulerProcess(
 }
 
 export function* requestBalance(task: SchedulerTask): Saga<void> {
-  console.log('requestBalance', task)
+  // console.log('requestBalance', task)
 }

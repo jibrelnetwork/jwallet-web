@@ -3,6 +3,7 @@
 import {
   delay,
   channel,
+  buffers,
   type Task,
   type Channel,
 } from 'redux-saga'
@@ -72,7 +73,7 @@ function selectProcessedBlock(state: AppState, networkId: NetworkId): ?BlockInfo
   return null
 }
 
-function* requestTaskProcess(requestQueueCh: Channel<SchedulerTask>): Saga<void> {
+function* requestTaskProcess(requestQueueCh: Channel): Saga<void> {
   while (true) {
     const request: SchedulerTask = yield take(requestQueueCh)
     if (request.retryCount) {
@@ -104,7 +105,8 @@ function* blockDataProcess(): Saga<void> {
       continue
     }
 
-    const requestQueueCh: Channel<SchedulerTask> = yield channel()
+    const buffer = buffers.expanding(1);
+    const requestQueueCh: Channel = yield channel(buffer)
     const requestTasks: Array<Task<typeof requestTaskProcess>> = []
     /* eslint-disable more/no-c-like-loops,
       fp/no-let, fp/no-mutation, no-plusplus, fp/no-mutating-methods */
