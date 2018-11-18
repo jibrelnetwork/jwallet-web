@@ -25,7 +25,13 @@ class DigitalAssetsGrid extends PureComponent<Props> {
 
     return (
       <div className='digital-assets-grid'>
-        {items.length === 0 && <Empty />}
+        {!items.length &&
+          <Empty
+            image='screen-search'
+            description='There are no Digital Assets to show'
+            isTransparent
+          />
+        }
         {items.map(({ asset, balance }) => (
           <div className='box' key={asset.address}>
             { /* @TODO: add fiatCurrency, fiatBalance */ }

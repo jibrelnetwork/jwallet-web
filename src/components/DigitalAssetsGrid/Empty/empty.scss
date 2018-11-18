@@ -3,5 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  margin-top: -$page-header-height;
+  padding-top: 30px;
+  height: 100vh;
 }
