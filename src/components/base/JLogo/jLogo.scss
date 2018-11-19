@@ -6,23 +6,24 @@
   z-index: $z-index-menu-logo;
   position: relative;
   display: flex;
-  width: $logo-width;
-  height: $logo-height;
+  width: $logo-full-width;
+  height: $logo-full-height;
   cursor: pointer;
 
   > .image {
     width: 100%;
     height: 100%;
-    background-image: $logo;
+    background-image: $logo-full;
+    background-position: left center;
+    background-repeat: no-repeat;
   }
 
-  &.-minimal {
-    width: 32px;
-    height: 32px;
+  &.-only-icon {
+    width: $logo-icon-width;
+    height: $logo-icon-height;
 
     > .image {
-      background-image: none;
-      background-color: $white;
+      background-image: $logo-icon;
     }
   }
 }
