@@ -1,6 +1,5 @@
 // @flow
 
-type OwnerAddress = string
 type AssetAddress = string
 
 declare type SortDirection = 'asc' | 'desc'
@@ -11,26 +10,6 @@ declare type DigitalAssetsFilterType = {|
   +sortByBalanceDirection: SortDirection,
   +isHideZeroBalance: boolean,
 |}
-
-declare type DigitalAssetsBalance = {|
-  balance: Bignumber,
-  isLoading: boolean,
-  isError: boolean,
-|}
-
-declare type DigitalAssetsOwnerBalances = {
-  [AssetAddress]: DigitalAssetsBalance,
-}
-
-type NetworkIdOptional = ?string
-type BlockNumberOptional = ?string
-declare type DigitalAssetsBalances = {
-  [NetworkIdOptional]: {
-    [BlockNumberOptional]: {
-      [OwnerAddress]: DigitalAssetsOwnerBalances
-    }
-  }
-}
 
 declare type DigitalAsset = {|
   +address: Address,
@@ -48,7 +27,6 @@ declare type DigitalAssets = {
 declare type DigitalAssetsState = {|
   +persist: {|
     +items: DigitalAssets,
-    +balances: DigitalAssetsBalances,
   |},
 |}
 

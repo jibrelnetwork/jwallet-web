@@ -55,7 +55,6 @@ export type DigitalAssetsAction = ExtractReturn<typeof setInitialItems>
 const initialState: DigitalAssetsState = {
   persist: {
     items: {},
-    balances: {},
   },
 }
 

@@ -27,6 +27,9 @@ import networks from 'routes/modules/networks'
 // blocks
 import blocks from 'routes/modules/blocks'
 
+// balances
+import balances from 'routes/modules/balances'
+
 // transactions
 import transactions from 'routes/Transactions/modules/transactions'
 
@@ -56,6 +59,8 @@ export function makeRootReducer() {
     transactions,
     // blocks
     blocks,
+    // balances
+    balances,
     // router
     router,
   })
