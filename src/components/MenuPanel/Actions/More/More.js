@@ -22,7 +22,7 @@ function MenuPanelActionsMore({
         <MenuPanelActionsItem
           onClick={toggle}
           label={`${isActive ? 'Less' : 'More'} actions`}
-          icon='star'
+          icon='dots-border'
         />
       </div>
       <div className='body'>

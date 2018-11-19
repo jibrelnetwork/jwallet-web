@@ -43,7 +43,7 @@ function MenuPanelWalletManagerDetails({
           />
           <div className='action'>
             <MenuPanelActionsItem
-              icon='star'
+              icon='setting'
               path='/wallets'
               label='Manage wallets'
             />
