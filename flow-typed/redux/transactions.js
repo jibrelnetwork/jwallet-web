@@ -51,7 +51,7 @@ declare type TransactionFromBlockExplorer = {|
   +contractAddress: string,
 |}
 
-declare type TransactionsState = {
+declare type TransactionsState = {|
   +persist: {|
     +items: {
       [NetworkIdOptional]: {
@@ -61,6 +61,7 @@ declare type TransactionsState = {
       },
     },
   |},
+  +isLoading: boolean,
   +isSyncing: boolean,
   +isBlockExplorerError: boolean,
-}
+|}

@@ -169,16 +169,12 @@ export function selectEditAsset(state: AppState): EditAssetState {
 //   return state.editAsset
 // }
 
-// /**
-//  * Transactions
-//  */
-// export function selectTransactions(state: AppState): TransactionsData {
-//   return state.transactions
-// }
-
-// export function selectTransactionsItems(state: AppState): Transactions {
-//   return state.transactions.items
-// }
+/**
+ * Transactions
+ */
+export function selectTransactions(state: AppState): TransactionsState {
+  return state.transactions
+}
 
 // /**
 //  * Funds

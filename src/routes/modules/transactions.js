@@ -6,6 +6,7 @@ export const SYNC_ERROR = '@@transactions/SYNC_ERROR'
 
 export const SET_ITEMS = '@@transactions/SET_ITEMS'
 
+export const SET_IS_LOADING = '@@transactions/SET_IS_LOADING'
 export const SET_IS_BLOCK_EXPLORER_ERROR = '@@transactions/SET_IS_BLOCK_EXPLORER_ERROR'
 
 export const CLEAN = '@@transactions/CLEAN'
@@ -47,6 +48,15 @@ export function setItems(
   }
 }
 
+export function setIsLoading(isLoading: boolean) {
+  return {
+    type: SET_IS_LOADING,
+    payload: {
+      isLoading,
+    },
+  }
+}
+
 export function setIsBlockExporerError(isBlockExplorerError: boolean) {
   return {
     type: SET_IS_BLOCK_EXPLORER_ERROR,
@@ -67,6 +77,7 @@ type TransactionsAction =
   ExtractReturn<typeof syncStop> |
   ExtractReturn<typeof syncError> |
   ExtractReturn<typeof setItems> |
+  ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof setIsBlockExporerError> |
   ExtractReturn<typeof clean>
 
@@ -74,6 +85,7 @@ const initialState: TransactionsState = {
   persist: {
     items: {},
   },
+  isLoading: false,
   isSyncing: false,
   isBlockExplorerError: false,
 }
@@ -110,17 +122,17 @@ function transactions(
         result: Transactions,
         hash: Hash,
       ): Transactions => {
-        if (result[hash]) {
+        if (!result[hash]) {
           return {
-            ...oldTransactions,
+            ...result,
             [hash]: items[hash],
           }
         }
 
         return {
-          ...oldTransactions,
+          ...result,
           [hash]: {
-            ...oldTransactions[hash],
+            ...result[hash],
             ...items[hash],
           },
         }
@@ -143,6 +155,12 @@ function transactions(
         },
       }
     }
+
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      }
 
     case SET_IS_BLOCK_EXPLORER_ERROR:
       return {
