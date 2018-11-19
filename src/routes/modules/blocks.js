@@ -2,6 +2,8 @@
 
 export const SET_LATEST_BLOCK = '@@blocks/SET_LATEST_BLOCK'
 export const SET_CURRENT_BLOCK = '@@blocks/SET_CURRENT_BLOCK'
+export const SET_IS_BALANCES_FETCHED = '@@blocks/CURRENT_BLOCK/SET_IS_BALANCES_FETCHED'
+
 export const SET_PROCESSED_BLOCK = '@@blocks/SET_PROCESSED_BLOCK'
 export const CLEAN = '@@blocks/CLEAN'
 
@@ -21,6 +23,15 @@ export function setCurrentBlock(networkId: NetworkId, block: ?BlockInfo) {
     payload: {
       networkId,
       block,
+    },
+  }
+}
+
+export function setIsBalancesFetched(networkId: NetworkId) {
+  return {
+    type: SET_IS_BALANCES_FETCHED,
+    payload: {
+      networkId,
     },
   }
 }
@@ -46,6 +57,7 @@ export function clean(networkId: NetworkId) {
 
 export type BlocksAction = ExtractReturn<typeof setLatestBlock>
   | ExtractReturn<typeof setCurrentBlock>
+  | ExtractReturn<typeof setBalancesIsFetched>
   | ExtractReturn<typeof setProcessedBlock>
   | ExtractReturn<typeof clean>
 
@@ -90,6 +102,27 @@ const digitalAssets = (
             [networkId]: {
               ...blocks[networkId],
               currentBlock: block,
+            },
+          },
+        },
+      }
+    }
+
+    case SET_IS_BALANCES_FETCHED: {
+      const { networkId } = action.payload
+      const { blocks } = state.persist
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          blocks: {
+            [networkId]: {
+              ...blocks[networkId],
+              currentBlock: {
+                ...blocks[networkId].currentBlock,
+                isBalancesFetched: true,
+              },
             },
           },
         },

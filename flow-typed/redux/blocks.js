@@ -54,8 +54,7 @@ declare type BlockInfo = {|
   +hash: string,
   +parentHash: string,
   +timestamp: number,
-  +isBalancesLoading?: boolean,
-  +isBalancesReady?: boolean,
+  +isBalancesFetched?: boolean,
 |}
 
 declare type BlocksState = {

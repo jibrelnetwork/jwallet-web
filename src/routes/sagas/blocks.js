@@ -77,7 +77,8 @@ function* requestTaskProcess(requestQueueCh: Channel): Saga<void> {
   while (true) {
     const request: SchedulerTask = yield take(requestQueueCh)
     if (request.retryCount) {
-      request.retryCount = request.retryCount - 1
+      // eslint-disable-next-line fp/no-mutation
+      request.retryCount -= 1
     }
 
     try {
@@ -105,14 +106,10 @@ function* blockDataProcess(): Saga<void> {
       continue
     }
 
-    const buffer = buffers.expanding(1);
+    const buffer = buffers.expanding(1)
     const requestQueueCh: Channel = yield channel(buffer)
-    const requestTasks: Array<Task<typeof requestTaskProcess>> = []
-    /* eslint-disable more/no-c-like-loops,
-      fp/no-let, fp/no-mutation, no-plusplus, fp/no-mutating-methods */
-    for (let i = 0; i < 5; i++) {
-      requestTasks.push(yield fork(requestTaskProcess, requestQueueCh))
-    }
+    const requestTasks: Array<Task<typeof requestTaskProcess>> =
+      yield all(Array.from({ length: 5 }).map(() => fork(requestTaskProcess, requestQueueCh)))
 
     const getBalancesTask: Task<typeof getBalancesSchedulerProcess> = yield fork(
       getBalancesSchedulerProcess,
@@ -126,12 +123,9 @@ function* blockDataProcess(): Saga<void> {
 
     yield cancel(getBalancesTask)
 
-    for (let i = 0; i < requestTasks.length; i++) {
-      yield cancel(requestTasks[i])
-    }
+    yield all(requestTasks.map(task => cancel(task)))
+
     requestQueueCh.close()
-    /* eslint-enable more/no-c-like-loops,
-      fp/no-let, fp/no-mutation, no-plusplus, fp/no-mutating-methods */
   }
 }
 
@@ -153,7 +147,7 @@ function* blockFlowProcess(): Saga<void> {
       continue
     }
 
-    if (currentBlock.isBalancesReady /* && currentBlock.isTransactionsReady */) {
+    if (currentBlock.isBalancesFetched /* && currentBlock.isTransactionsReady */) {
       if (processedBlock && processedBlock.hash === currentBlock.hash) {
         continue
       }

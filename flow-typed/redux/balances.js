@@ -6,7 +6,7 @@ type NetworkIdOptional = ?string
 type BlockNumberOptional = ?string
 
 declare type Balance = {|
-  balance: Bignumber,
+  balance: string,
   isLoading: boolean,
 |}
 
