@@ -12,10 +12,6 @@
     "i18n": false
   },
   "rules": {
-    "padded-blocks": [2, "never"],
-    "no-multiple-empty-lines": [2, {
-      "max": 1
-    }],
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
@@ -34,9 +30,6 @@
         { "property": "captchaErrorCallback" },
         { "property": "captchaExpiredCallback" }
       ]
-    }],
-    "fp/no-class": 0,
-    "no-use-before-define": 0,
-    "react/prefer-stateless-function": 0
+    }]
   }
 }

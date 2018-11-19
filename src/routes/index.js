@@ -6,11 +6,12 @@ import CoreLayout from 'layouts/CoreLayout'
 import Funds from './Funds'
 */
 
+import Terms from './Terms'
 import Wallets from './Wallets'
+import Settings from './Settings'
 import NotFound from './NotFound'
 import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
-import Terms from './Terms'
 
 import {
   type CoreAction,
@@ -35,6 +36,7 @@ export default {
     */
     Terms,
     Wallets,
+    Settings,
     Transactions,
     DigitalAssets,
     NotFound,
