@@ -25,6 +25,12 @@
     }
   }
 
+  &:hover {
+    > .body {
+      will-change: opacity, max-height;
+    }
+  }
+
   &.-active {
     > .body {
       max-height: 300px;

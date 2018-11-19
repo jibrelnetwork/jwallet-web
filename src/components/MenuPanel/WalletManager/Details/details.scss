@@ -12,6 +12,7 @@
   visibility: hidden;
   overflow: hidden;
   opacity: 0;
+  will-change: opacity, max-height;
 
   > .action {
     @include flex-row-center;
