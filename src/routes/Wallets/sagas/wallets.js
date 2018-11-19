@@ -30,7 +30,7 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
   const wallet: ?Wallet = getWallet(items, activeWalletId)
   const isMnemonicWallet: boolean = !!wallet && checkMnemonicType(wallet.type)
 
-  yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/wallets'))
+  yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/digital-assets/grid'))
 }
 
 export function* walletsRootSaga(): Saga<void> {

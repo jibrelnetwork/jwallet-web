@@ -59,6 +59,14 @@ export function selectNetworkId(state: AppState): ?NetworkId {
   return '3'
 }
 
+export function selectRPCProps(): RPCProps {
+  return {
+    rpcaddr: 'ropsten-node.jwallet.network',
+    rpcport: 443,
+    ssl: true,
+  }
+}
+
 /**
  * Blocks
  */

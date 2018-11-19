@@ -2,10 +2,18 @@
 
 import React from 'react'
 
-import TransactionItemMain from './TransactionItemMain'
-import TransactionItemAdditional from './TransactionItemAdditional'
+import TransactionItemMain from './Main'
+import TransactionItemDetails from './Details'
 
-const TransactionItem = ({ repeat, setActive, data, assetSymbol, activeTxHash }: Props) => {
+type Props = {
+  repeat: Function,
+  setActive: Function,
+  data: Transaction,
+  activeTxHash: ?Hash,
+  assetSymbol: ?string,
+}
+
+function TransactionItem({ repeat, setActive, data, assetSymbol, activeTxHash }: Props) {
   const isActive: boolean = (data.transactionHash === activeTxHash)
 
   return (
@@ -17,7 +25,7 @@ const TransactionItem = ({ repeat, setActive, data, assetSymbol, activeTxHash }:
         assetSymbol={assetSymbol}
         isActive={isActive}
       />
-      <TransactionItemAdditional
+      <TransactionItemDetails
         repeat={repeat}
         data={data}
         assetSymbol={assetSymbol}
@@ -25,14 +33,6 @@ const TransactionItem = ({ repeat, setActive, data, assetSymbol, activeTxHash }:
       />
     </div>
   )
-}
-
-type Props = {
-  repeat: Function,
-  setActive: Function,
-  data: Transaction,
-  activeTxHash: ?Hash,
-  assetSymbol: ?string,
 }
 
 export default TransactionItem

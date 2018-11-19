@@ -4,10 +4,18 @@ import React from 'react'
 import classNames from 'classnames'
 import { assoc } from 'ramda'
 
-import { JIcon, JRaisedButton, JText } from 'components/base'
 import { handle, ignoreEvent } from 'utils/eventHandlers'
+import { JIcon, JRaisedButton, JText } from 'components/base'
 
-const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' => {
+type Props = {
+  repeat: Function,
+  setActive: Function,
+  data: Transaction,
+  assetSymbol: ?string,
+  isActive: boolean,
+}
+
+function getJNTEventType({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' {
   if (!isJNT) {
     return '—'
   }
@@ -15,7 +23,7 @@ const getJNTEventType = ({ type, isJNT }: Transaction): '—' | 'mint' | 'burn' 
   return (type === 'send') ? 'burn' : 'mint'
 }
 
-const TransactionItemMain = ({ repeat, setActive, data, assetSymbol, isActive }: Props) => {
+function TransactionItemMain({ repeat, setActive, data, assetSymbol, isActive }: Props) {
   const color = (data.type === 'receive') ? 'blue' : 'gray'
 
   return (
@@ -64,14 +72,6 @@ const TransactionItemMain = ({ repeat, setActive, data, assetSymbol, isActive }:
       </div>
     </div>
   )
-}
-
-type Props = {
-  repeat: Function,
-  setActive: Function,
-  data: Transaction,
-  assetSymbol: ?string,
-  isActive: boolean,
 }
 
 export default TransactionItemMain

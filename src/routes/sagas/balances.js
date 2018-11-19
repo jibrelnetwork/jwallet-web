@@ -42,7 +42,7 @@ export function* getBalancesSchedulerProcess(
 
       yield put(requestQueueCh, task)
 
-      console.log('scheduled')
+      // console.log('scheduled')
     }
   } finally {
     // canceled...
@@ -50,5 +50,5 @@ export function* getBalancesSchedulerProcess(
 }
 
 export function* requestBalance(task: SchedulerTask): Saga<void> {
-  console.log('requestBalance', task)
+  // console.log('requestBalance', task)
 }

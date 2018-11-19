@@ -1,16 +1,17 @@
-import TransactionsLayout from 'layouts/TransactionsLayout'
+// @flow
 
-import All from './routes/All'
-import Incoming from './routes/Incoming'
-import Outgoing from './routes/Outgoing'
+import AsideLayout from 'layouts/AsideLayout'
 
-export default store => ({
+import Asset from './routes/Asset'
+import TransactionsIndex from './TransactionsIndexViewContainer'
+
+export default {
   path: 'transactions',
-  component: TransactionsLayout,
-  indexRoute: { onEnter: (nextState, replace) => replace('/transactions/all') },
+  component: AsideLayout,
+  indexRoute: {
+    component: TransactionsIndex,
+  },
   childRoutes: [
-    All(store),
-    Incoming(store),
-    Outgoing(store),
+    Asset,
   ],
-})
+}

@@ -22,6 +22,7 @@ import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
 import RoundIconButton from './RoundIconButton'
+import TransactionItem from './TransactionItem'
 import WalletViewTitle from './WalletViewTitle'
 import NewWalletButtons from './NewWalletButtons'
 import ButtonWithConfirm from './ButtonWithConfirm'
@@ -57,6 +58,7 @@ export {
   WalletNameStep,
   CloseableScreen,
   RoundIconButton,
+  TransactionItem,
   WalletViewTitle,
   NewWalletButtons,
   DigitalAssetsGrid,

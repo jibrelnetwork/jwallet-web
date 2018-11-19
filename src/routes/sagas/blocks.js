@@ -42,6 +42,8 @@ import {
   getBalancesSchedulerProcess,
 } from './balances'
 
+import * as transactions from './transactions'
+
 function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
   const { blocks } = state.blocks.persist
 
@@ -75,6 +77,7 @@ function selectProcessedBlock(state: AppState, networkId: NetworkId): ?BlockInfo
 function* requestTaskProcess(requestQueueCh: Channel<SchedulerTask>): Saga<void> {
   while (true) {
     const request: SchedulerTask = yield take(requestQueueCh)
+
     if (request.retryCount) {
       request.retryCount = request.retryCount - 1
     }
@@ -83,9 +86,10 @@ function* requestTaskProcess(requestQueueCh: Channel<SchedulerTask>): Saga<void>
       if (request.module === 'balances') {
         yield* requestBalance(request)
       }
-      // if (request.module === 'transactions') {
-      //   yield* requestTransaction(request, requestQueueCh)
-      // }
+
+      if (request.module === 'transactions') {
+        yield* requestTransactions(request, requestQueueCh)
+      }
     } catch (error) {
       if (request.retryCount && request.retryCount > 0) {
         yield put(requestQueueCh, request)
