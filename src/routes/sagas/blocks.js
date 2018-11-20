@@ -32,6 +32,7 @@ import {
 
 import {
   setLatestBlock,
+  setCurrentBlock,
   setProcessedBlock,
   SET_CURRENT_BLOCK,
 } from '../modules/blocks'
@@ -92,13 +93,15 @@ export function* requestTaskProcess(requestQueue: Channel): Saga<void> {
       if (request.module === 'transactions') {
         yield* requestTransactions(request)
       }
-    } catch (error) {
+    } catch (err) {
       if (request.retryCount && request.retryCount > 0) {
         yield put(requestQueue, {
           ...request,
           retryCount: request.retryCount - 1,
         })
       }
+
+      console.error(err)
     }
   }
 }
@@ -131,13 +134,8 @@ function* blockDataProcess(): Saga<void> {
 
     const buffer = buffers.expanding(1)
     const requestQueue: Channel = yield channel(buffer)
-    const requestTasks: Array<Task<typeof requestTaskProcess>> = []
-
-    /* eslint-disable more/no-c-like-loops,
-      fp/no-let, fp/no-mutation, no-plusplus, fp/no-mutating-methods */
-    for (let i = 0; i < 5; i++) {
-      requestTasks.push(yield fork(requestTaskProcess, requestQueue))
-    }
+    const requestTasks: Array<Task<typeof requestTaskProcess>> =
+      yield all(Array.from({ length: 5 }).map(() => fork(requestTaskProcess, requestQueue)))
 
     const getBalancesTask: Task<typeof getBalancesSchedulerProcess> = yield fork(
       getBalancesSchedulerProcess,
@@ -153,15 +151,11 @@ function* blockDataProcess(): Saga<void> {
 
     yield cancel(getBalancesTask)
 
-    for (let i = 0; i < requestTasks.length; i++) {
-      yield cancel(requestTasks[i])
-    }
+    yield all(requestTasks.map(task => cancel(task)))
 
     yield put(transactions.syncStop())
 
     requestQueue.close()
-    /* eslint-enable more/no-c-like-loops,
-      fp/no-let, fp/no-mutation, no-plusplus, fp/no-mutating-methods */
   }
 }
 
@@ -179,21 +173,18 @@ function* blockFlowProcess(): Saga<void> {
     }
 
     if (!currentBlock) {
-      // yield put(setCurrentBlock(networkId, latestBlock))
+      yield put(setCurrentBlock(networkId, latestBlock))
       continue
     }
 
-    if (currentBlock.isBalancesReady /* && currentBlock.isTransactionsReady */) {
-      if (processedBlock && processedBlock.hash === currentBlock.hash) {
-        continue
-      }
-      yield put(setProcessedBlock(networkId, currentBlock))
-
-      if (currentBlock.hash === latestBlock.hash) {
-        continue
+    if (currentBlock.isBalancesFetched /* && currentBlock.isTransactionsReady */) {
+      if (!processedBlock || processedBlock.hash !== currentBlock.hash) {
+        yield put(setProcessedBlock(networkId, currentBlock))
       }
 
-      // yield put(setCurrentBlock(networkId, null))
+      if (currentBlock.hash !== latestBlock.hash) {
+        yield put(setCurrentBlock(networkId, null))
+      }
     }
   }
 }
@@ -212,7 +203,7 @@ function* getBlockProcess(): Saga<void> {
           parentHash,
         }: ETHBlock = yield call(web3.getBlock, 'latest')
 
-        const latestBlockInfo: BlockInfo = {
+        const receivedBlock: BlockInfo = {
           number,
           hash,
           timestamp,
@@ -220,12 +211,12 @@ function* getBlockProcess(): Saga<void> {
           requestedAt: new Date(),
         }
 
-        if (!latestBlock || latestBlockInfo.number > latestBlock.number) {
-          console.log(`setLatestBlock: ${networkId} -> ${latestBlockInfo.number}`)
-          yield put(setLatestBlock(networkId, latestBlockInfo))
-        } else if (latestBlockInfo.number < latestBlock.number) {
+        if (!latestBlock || receivedBlock.number > latestBlock.number) {
+          console.log(`setLatestBlock: ${networkId} -> ${receivedBlock.number}`)
+          yield put(setLatestBlock(networkId, receivedBlock))
+        } else if (receivedBlock.number < latestBlock.number) {
           console.error(`WE ARE IN FORK: ${networkId} -> new block
-            number: ${latestBlockInfo.number}, old number ${latestBlock.number}`)
+            number: ${receivedBlock.number}, old number ${latestBlock.number}`)
         }
 
         yield call(delay, 7000)

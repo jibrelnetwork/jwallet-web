@@ -12,6 +12,7 @@
     "i18n": false
   },
   "rules": {
+    "no-use-before-define": 0,
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
