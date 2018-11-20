@@ -65,7 +65,7 @@ export default {
     size: 2,
   },
 
-  etherscanApiOptions: {
+  blockExplorerApiOptions: {
     method: 'GET',
     headers: {
       Accept: 'application/json',

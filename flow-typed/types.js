@@ -3,6 +3,8 @@
 declare type Index = number
 declare type EthereumAddress = 'Ethereum'
 declare type Address = string | EthereumAddress
+declare type OwnerAddress = string
+declare type AssetAddress = string
 declare type Addresses = Array<Address>
 declare type Bignumber = any
 declare type Decimals = number

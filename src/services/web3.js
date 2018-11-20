@@ -15,12 +15,6 @@ export const EMPTY_CONTRACT_CODE = '0x'
 
 const { defaultDecimals } = config
 
-type RPCProps = {
-  rpcaddr: string,
-  rpcport: number,
-  ssl: boolean,
-}
-
 /* eslint-disable-next-line fp/no-let */
 let rpcProps: RPCProps = {
   rpcaddr: 'ropsten-node.jwallet.network',

@@ -2,9 +2,9 @@
 
 import React from 'react'
 
+import TransactionItem from 'components/TransactionItem'
 import { JCard, JLoader } from 'components/base'
 
-import TransactionItem from './TransactionItem'
 import TransactionsEmpty from './TransactionsEmpty'
 
 const TransactionsByPeriod = ({

@@ -1,5 +1,5 @@
-@import './transactionItemAdditional';
-@import './transactionItemMain';
+@import './Main/main';
+@import './Details/details';
 
 .transaction-item {
   all: initial;

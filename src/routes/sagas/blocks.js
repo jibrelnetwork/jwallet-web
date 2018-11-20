@@ -18,19 +18,23 @@ import {
   call,
 } from 'redux-saga/effects'
 
+import * as transactions from 'routes/modules/transactions'
+
 import {
   selectNetworkId,
+  selectWalletsPersist,
 } from 'store/stateSelectors'
 
 import {
-  getBlock,
-} from 'services/web3'
+  web3,
+  keystore,
+} from 'services'
 
 import {
   setLatestBlock,
   setCurrentBlock,
-  setProcessedBlock,
-  SET_CURRENT_BLOCK,
+  setProcessingBlock,
+  SET_PROCESSING_BLOCK,
 } from '../modules/blocks'
 
 import {
@@ -43,89 +47,115 @@ import {
   getBalancesSchedulerProcess,
 } from './balances'
 
-function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { blocks } = state.blocks.persist
+import {
+  requestTransactions,
+} from './transactions'
 
-  if (blocks[networkId] && blocks[networkId].latestBlock) {
-    return blocks[networkId].latestBlock
+function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
+  const { items } = state.blocks.persist
+
+  if (items[networkId] && items[networkId].latestBlock) {
+    return items[networkId].latestBlock
   }
 
   return null
 }
 
 function selectCurrentBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { blocks } = state.blocks.persist
+  const { items } = state.blocks.persist
 
-  if (blocks[networkId] && blocks[networkId].latestBlock) {
-    return blocks[networkId].currentBlock
+  if (items[networkId] && items[networkId].latestBlock) {
+    return items[networkId].currentBlock
   }
 
   return null
 }
 
-function selectProcessedBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { blocks } = state.blocks.persist
+function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
+  const { items } = state.blocks.persist
 
-  if (blocks[networkId] && blocks[networkId].latestBlock) {
-    return blocks[networkId].processedBlock
+  if (items[networkId] && items[networkId].latestBlock) {
+    return items[networkId].processingBlock
   }
 
   return null
 }
 
-function* requestTaskProcess(requestQueue: Channel): Saga<void> {
+export function* requestTaskProcess(requestQueue: Channel): Saga<void> {
   while (true) {
     const request: SchedulerTask = yield take(requestQueue)
-    if (request.retryCount) {
-      // eslint-disable-next-line fp/no-mutation
-      request.retryCount -= 1
-    }
 
     try {
       if (request.module === 'balances') {
         yield* requestBalance(request)
       }
-      // if (request.module === 'transactions') {
-      //   yield* requestTransaction(request, requestQueueCh)
-      // }
-    } catch (error) {
-      if (request.retryCount && request.retryCount > 0) {
-        yield put(requestQueue, request)
+
+      if (request.module === 'transactions') {
+        yield* requestTransactions(request)
       }
+    } catch (err) {
+      if (request.retryCount && request.retryCount > 0) {
+        yield put(requestQueue, {
+          ...request,
+          retryCount: request.retryCount - 1,
+        })
+      }
+
+      console.error(err)
     }
   }
 }
 
 function* blockDataProcess(): Saga<void> {
   while (true) {
-    const networkId: NetworkId = yield select(selectNetworkId)
-    const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
+    const {
+      items,
+      activeWalletId,
+    }: ExtractReturn<typeof selectWalletsPersist> = yield select(selectWalletsPersist)
 
-    if (!currentBlock) {
-      yield take(SET_CURRENT_BLOCK)
+    if (!activeWalletId) {
+      throw new Error('Active wallet is not found')
+    }
+
+    const owner: ?Address = keystore.getAddress(items, activeWalletId)
+
+    if (!owner) {
+      throw new Error('Active wallet is not found')
+    }
+
+    const networkId: ExtractReturn<typeof selectNetworkId> = yield select(selectNetworkId)
+    const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
+    const processingBlock: ?BlockInfo = yield select(selectProcessingBlock, networkId)
+
+    if (!processingBlock) {
+      yield take(SET_PROCESSING_BLOCK)
       continue
     }
 
     const buffer = buffers.expanding(1)
-    const requestQueueCh: Channel = yield channel(buffer)
+    const requestQueue: Channel = yield channel(buffer)
     const requestTasks: Array<Task<typeof requestTaskProcess>> =
-      yield all(Array.from({ length: 5 }).map(() => fork(requestTaskProcess, requestQueueCh)))
+      yield all(Array.from({ length: 5 }).map(() => fork(requestTaskProcess, requestQueue)))
 
     const getBalancesTask: Task<typeof getBalancesSchedulerProcess> = yield fork(
       getBalancesSchedulerProcess,
-      requestQueueCh,
+      requestQueue,
       networkId,
-      currentBlock
+      processingBlock,
     )
 
+    yield put(transactions.syncStart(requestQueue, networkId, owner, currentBlock, processingBlock))
+
     // wait current block change
-    yield take(SET_CURRENT_BLOCK)
+    yield take(SET_PROCESSING_BLOCK)
 
     yield cancel(getBalancesTask)
 
     yield all(requestTasks.map(task => cancel(task)))
 
-    requestQueueCh.close()
+    yield put(transactions.syncStop())
+
+    requestQueue.close()
   }
 }
 
@@ -136,24 +166,24 @@ function* blockFlowProcess(): Saga<void> {
     const networkId: NetworkId = yield select(selectNetworkId)
     const latestBlock: ?BlockInfo = yield select(selectLatestBlock, networkId)
     const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
-    const processedBlock: ?BlockInfo = yield select(selectProcessedBlock, networkId)
+    const processingBlock: ?BlockInfo = yield select(selectProcessingBlock, networkId)
 
     if (!latestBlock) {
       continue
     }
 
-    if (!currentBlock) {
-      yield put(setCurrentBlock(networkId, latestBlock))
+    if (!processingBlock) {
+      yield put(setProcessingBlock(networkId, latestBlock))
       continue
     }
 
-    if (currentBlock.isBalancesFetched /* && currentBlock.isTransactionsReady */) {
-      if (!processedBlock || processedBlock.hash !== currentBlock.hash) {
-        yield put(setProcessedBlock(networkId, currentBlock))
+    if (processingBlock.isBalancesFetched /* && processingBlock.isTransactionsReady */) {
+      if (!currentBlock || (currentBlock.hash !== processingBlock.hash)) {
+        yield put(setCurrentBlock(networkId, processingBlock))
       }
 
-      if (currentBlock.hash !== latestBlock.hash) {
-        yield put(setCurrentBlock(networkId, null))
+      if (processingBlock.hash !== latestBlock.hash) {
+        yield put(setProcessingBlock(networkId, null))
       }
     }
   }
@@ -167,17 +197,17 @@ function* getBlockProcess(): Saga<void> {
 
       try {
         const {
-          number,
           hash,
-          timestamp,
           parentHash,
-        }: ETHBlock = yield call(getBlock, 'latest')
+          number,
+          timestamp,
+        }: ETHBlock = yield call(web3.getBlock, 'latest')
 
         const receivedBlock: BlockInfo = {
-          number,
           hash,
-          timestamp,
           parentHash,
+          number,
+          timestamp,
           requestedAt: new Date(),
         }
 

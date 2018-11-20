@@ -2,8 +2,8 @@
 
 import ethereum from 'data/assets/ethereum'
 
-function checkEthereumAsset(address: Address): boolean {
+function checkETH(address: Address): boolean {
   return (address.toLowerCase() === ethereum.address.toLowerCase())
 }
 
-export default checkEthereumAsset
+export default checkETH

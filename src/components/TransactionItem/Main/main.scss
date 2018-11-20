@@ -57,7 +57,7 @@
         right: 0;
         opacity: 0;
 
-        &:before {
+        &::before {
           position: absolute;
           top: 0;
           left: -80px;
