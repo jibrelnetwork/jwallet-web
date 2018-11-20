@@ -80,6 +80,8 @@ export function selectCurrentBlockNumber(state: AppState): number {
  * Digital Assets
  */
 export function selectDigitalAssets(state: AppState): DigitalAssets {
+  console.error('DEPRECATED')
+
   const {
     digitalAssets: {
       persist: {
@@ -92,6 +94,8 @@ export function selectDigitalAssets(state: AppState): DigitalAssets {
 }
 
 export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
+  console.error('DEPRECATED')
+
   const items = selectDigitalAssets(state)
   if (items[contractAddress]) {
     return items[contractAddress]

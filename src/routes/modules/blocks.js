@@ -127,6 +127,27 @@ function blocks(
       }
     }
 
+    case SET_IS_BALANCES_FETCHED: {
+      const { items } = state.persist
+      const { networkId } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            [networkId]: {
+              ...items[networkId],
+              currentBlock: {
+                ...items[networkId].currentBlock,
+                isBalancesFetched: true,
+              },
+            },
+          },
+        },
+      }
+    }
+
     case SET_IS_TRANSACTIONS_FETCHED: {
       const { items } = state.persist
       const { networkId } = action.payload

@@ -26,6 +26,12 @@ import {
 } from 'store/stateSelectors'
 
 import {
+  selectLatestBlock,
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
+
+import {
   web3,
   keystore,
 } from 'services'
@@ -51,37 +57,7 @@ import {
   requestTransactions,
 } from './transactions'
 
-function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { items } = state.blocks.persist
-
-  if (items[networkId] && items[networkId].latestBlock) {
-    return items[networkId].latestBlock
-  }
-
-  return null
-}
-
-function selectCurrentBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { items } = state.blocks.persist
-
-  if (items[networkId] && items[networkId].latestBlock) {
-    return items[networkId].currentBlock
-  }
-
-  return null
-}
-
-function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { items } = state.blocks.persist
-
-  if (items[networkId] && items[networkId].latestBlock) {
-    return items[networkId].processingBlock
-  }
-
-  return null
-}
-
-export function* requestTaskProcess(requestQueue: Channel): Saga<void> {
+export function* requestProcess(requestQueue: Channel): Saga<void> {
   while (true) {
     const request: SchedulerTask = yield take(requestQueue)
 
@@ -106,7 +82,7 @@ export function* requestTaskProcess(requestQueue: Channel): Saga<void> {
   }
 }
 
-function* blockDataProcess(): Saga<void> {
+function* schedulerProcess(): Saga<void> {
   while (true) {
     const {
       items,
@@ -134,8 +110,8 @@ function* blockDataProcess(): Saga<void> {
 
     const buffer = buffers.expanding(1)
     const requestQueue: Channel = yield channel(buffer)
-    const requestTasks: Array<Task<typeof requestTaskProcess>> =
-      yield all(Array.from({ length: 5 }).map(() => fork(requestTaskProcess, requestQueue)))
+    const requestTasks: Array<Task<typeof requestProcess>> =
+      yield all(Array.from({ length: 5 }).map(() => fork(requestProcess, requestQueue)))
 
     const getBalancesTask: Task<typeof getBalancesSchedulerProcess> = yield fork(
       getBalancesSchedulerProcess,
@@ -234,13 +210,13 @@ function* blockManager(): Saga<void> {
   while (yield take(OPEN_ASIDE_LAYOUT)) {
     const getBlockTask: Task<typeof getBlockProcess> = yield fork(getBlockProcess)
     const blockFlowTask: Task<typeof blockFlowProcess> = yield fork(blockFlowProcess)
-    const blockDataTask: Task<typeof blockDataProcess> = yield fork(blockDataProcess)
+    const schedulerTask: Task<typeof schedulerProcess> = yield fork(schedulerProcess)
 
     yield take(CLOSE_ASIDE_LAYOUT)
 
     yield cancel(getBlockTask)
     yield cancel(blockFlowTask)
-    yield cancel(blockDataTask)
+    yield cancel(schedulerTask)
   }
 }
 

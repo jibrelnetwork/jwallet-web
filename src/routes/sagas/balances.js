@@ -18,26 +18,18 @@ import {
   selectNetworkId,
   selectWalletsItems,
   selectActiveWalletId,
-  selectDigitalAssets,
 } from 'store/stateSelectors'
 
-import {
-  getAssetBalance,
-} from 'services/web3'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+
+import { getAssetBalance, getETHBalance } from 'services/web3'
+
+import { setIsBalancesFetched } from '../modules/blocks'
 
 import {
   initAtBlock,
   updateBalance,
 } from '../modules/balances'
-
-import {
-  setIsBalancesFetched,
-} from '../modules/blocks'
-
-function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
-  const allAssets = selectDigitalAssets(state)
-  return Object.keys(allAssets).map(address => allAssets[address]).filter(asset => asset.isActive)
-}
 
 function selectHasPendingBalances(
   state: AppState,
@@ -101,28 +93,41 @@ export function* getBalancesSchedulerProcess(
 
     // schedule to fetch all balances
     yield all(activeAssets.map((asset) => {
-      const task: SchedulerTask = {
-        module: 'balances',
-        method: {
-          name: 'getERC20Balance',
-          payload: {
-            blockNumber: currentBlock.number,
-            contractAddress: asset.address,
-            owner: activeOwnerAddress,
+      if (asset.address === 'Ethereum') {
+        const task: SchedulerTask = {
+          module: 'balances',
+          method: {
+            name: 'getETHBalance',
+            payload: {
+              blockNumber: currentBlock.number,
+              owner: activeOwnerAddress,
+            },
           },
-        },
+        }
+        return put(requestQueue, task)
+      } else {
+        const task: SchedulerTask = {
+          module: 'balances',
+          method: {
+            name: 'getERC20Balance',
+            payload: {
+              blockNumber: currentBlock.number,
+              contractAddress: asset.address,
+              owner: activeOwnerAddress,
+            },
+          },
+        }
+        return put(requestQueue, task)
       }
-      return put(requestQueue, task)
     }))
 
     while (true) {
-      console.log(networkId, currentBlock.number, activeOwnerAddress)
       const hasPendingBalances: ExtractReturn<typeof selectHasPendingBalances>
         = yield select(selectHasPendingBalances, networkId, currentBlock.number, activeOwnerAddress)
 
       if (!hasPendingBalances) {
         yield put(setIsBalancesFetched(networkId))
-        console.log('All balances for block ${} has been fetched')
+        console.log(`All balances for block ${currentBlock.number} has been fetched`)
         return
       }
 
@@ -143,7 +148,8 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
       const balance: Bignumber = yield call(
         getAssetBalance,
         payload.contractAddress,
-        payload.owner)
+        payload.owner
+      )
 
       const balancePayload = {
         balance: balance.toString(10),
@@ -157,6 +163,33 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
         payload.blockNumber,
         payload.owner,
         payload.contractAddress,
+        balancePayload
+      ))
+      break
+    }
+
+    case 'getETHBalance': {
+      const {
+        payload,
+      } = task.method
+
+      const balance: Bignumber = yield call(
+        getETHBalance,
+        payload.owner
+      )
+
+      const balancePayload = {
+        balance: balance.toString(10),
+        isLoading: false,
+      }
+
+      const networkId: NetworkId = yield select(selectNetworkId)
+
+      yield put(updateBalance(
+        networkId,
+        payload.blockNumber,
+        payload.owner,
+        'Ethereum',
         balancePayload
       ))
       break

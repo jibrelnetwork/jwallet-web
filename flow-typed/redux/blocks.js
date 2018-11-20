@@ -57,6 +57,20 @@ declare type BlockInfo = {|
   +isBalancesFetched?: boolean,
 |}
 
+// just leave it here
+// now is not used
+declare type BlockRange = Array<{
+  start: number,
+  end: number,
+  assets: {
+    [AssetAddeess]: Array<{
+      start: number,
+      end: number,
+      isLoaded: boolean
+    }>
+  }
+}>
+
 declare type BlocksState = {
   +persist: {
     +items: {
