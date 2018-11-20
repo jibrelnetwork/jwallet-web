@@ -31,7 +31,7 @@ import blocks from 'routes/modules/blocks'
 import balances from 'routes/modules/balances'
 
 // transactions
-import transactions from 'routes/Transactions/modules/transactions'
+import transactions from 'routes/modules/transactions'
 
 const persistConfig = {
   storage,

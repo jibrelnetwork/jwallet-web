@@ -6,7 +6,7 @@ import { flatten, prop, sortBy, reverse } from 'ramda'
 import { keccak256 } from 'js-sha3'
 
 import config from 'config'
-import checkJNTAsset from 'utils/digitalAssets/checkJNTAsset'
+import checkJNT from 'utils/digitalAssets/checkJNT'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const PUSH_INSTRUCTION = '63'
@@ -287,7 +287,7 @@ function sortTransactions(list: any) {
 function getContractTransactions(contractAddress: Address, owner: Address, decimals: Decimals) {
   const transferTransactions = getERC20Transactions(contractAddress, owner, decimals)
 
-  if (!checkJNTAsset(contractAddress)) {
+  if (!checkJNT(contractAddress)) {
     return transferTransactions
   }
 
