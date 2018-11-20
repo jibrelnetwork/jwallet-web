@@ -21,7 +21,6 @@ function MenuPanelWalletManagerDetailsAddressWithName({
           size='normal'
           value={addressName}
           weight='bold'
-          whiteSpace='wrap'
         />
       </div>
       <div className='address'>

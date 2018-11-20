@@ -1,6 +1,6 @@
 .j-radio {
   all: initial;
-  display: inline-block;
+  display: block;
 
   &:not(:last-child) {
     margin-bottom: $checkbox-item-margin-bottom;
@@ -50,7 +50,7 @@
       @include hover-animation;
 
       opacity: 0.6;
-      display: inline-block;
+      display: block;
 
       &:active {
         user-select: none;
