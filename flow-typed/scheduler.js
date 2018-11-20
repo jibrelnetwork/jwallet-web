@@ -8,7 +8,7 @@ declare type getERC20BalanceMethod = {|
   payload: {|
     blockNumber: number,
     contractAddress: Address,
-    walletAddress: Address,
+    owner: Address,
   |}
 |}
 
@@ -16,7 +16,7 @@ declare type getETHBalanceMethod = {|
   name: 'getETHBalance',
   payload: {|
     blockNumber: number,
-    walletAddress: Address,
+    owner: Address,
   |}
 |}
 

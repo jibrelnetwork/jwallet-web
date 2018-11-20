@@ -22,6 +22,10 @@ import {
 } from 'store/stateSelectors'
 
 import {
+  getAssetBalance,
+} from 'services/web3'
+
+import {
   initAtBlock,
   updateBalance,
 } from '../modules/balances'
@@ -38,13 +42,15 @@ function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
 function selectHasPendingBalances(
   state: AppState,
   networkId: NetworkId,
-  blockNumber: BlockNumber,
+  blockNumber: number,
   ownerAddress: Address): boolean {
   const { balances } = state.balances.persist
+  const block = blockNumber.toString()
+
   if (balances[networkId] &&
-      balances[networkId][blockNumber] &&
-      balances[networkId][blockNumber][ownerAddress]) {
-    const assets = balances[networkId][blockNumber][ownerAddress]
+      balances[networkId][block] &&
+      balances[networkId][block][ownerAddress]) {
+    const assets = balances[networkId][block][ownerAddress]
     return !!(Object
       .keys(assets)
       .find((address: Address) => assets[address].isLoading))
@@ -53,7 +59,7 @@ function selectHasPendingBalances(
 }
 
 export function* getBalancesSchedulerProcess(
-  requestQueueCh: Channel<SchedulerTask>,
+  requestQueue: Channel,
   networkId: NetworkId,
   currentBlock: BlockInfo,
 ): Saga<void> {
@@ -102,11 +108,11 @@ export function* getBalancesSchedulerProcess(
           payload: {
             blockNumber: currentBlock.number,
             contractAddress: asset.address,
-            walletAddress: activeOwnerAddress,
+            owner: activeOwnerAddress,
           },
         },
       }
-      return put(requestQueueCh, task)
+      return put(requestQueue, task)
     }))
 
     while (true) {
@@ -128,15 +134,19 @@ export function* getBalancesSchedulerProcess(
 }
 
 export function* requestBalance(task: SchedulerTask): Saga<void> {
-  console.log('requestBalance', task)
-  yield delay(500)
-
-  const { name, payload } = task.method
-
-  switch (name) {
+  switch (task.method.name) {
     case 'getERC20Balance': {
-      const balance = {
-        balance: '0',
+      const {
+        payload,
+      } = task.method
+
+      const balance: Bignumber = yield call(
+        getAssetBalance,
+        payload.contractAddress,
+        payload.owner)
+
+      const balancePayload = {
+        balance: balance.toString(10),
         isLoading: false,
       }
 
@@ -145,9 +155,9 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
       yield put(updateBalance(
         networkId,
         payload.blockNumber,
-        payload.walletAddress,
+        payload.owner,
         payload.contractAddress,
-        balance
+        balancePayload
       ))
       break
     }

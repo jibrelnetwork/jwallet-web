@@ -73,9 +73,9 @@ function selectProcessedBlock(state: AppState, networkId: NetworkId): ?BlockInfo
   return null
 }
 
-function* requestTaskProcess(requestQueueCh: Channel): Saga<void> {
+function* requestTaskProcess(requestQueue: Channel): Saga<void> {
   while (true) {
-    const request: SchedulerTask = yield take(requestQueueCh)
+    const request: SchedulerTask = yield take(requestQueue)
     if (request.retryCount) {
       // eslint-disable-next-line fp/no-mutation
       request.retryCount -= 1
@@ -90,7 +90,7 @@ function* requestTaskProcess(requestQueueCh: Channel): Saga<void> {
       // }
     } catch (error) {
       if (request.retryCount && request.retryCount > 0) {
-        yield put(requestQueueCh, request)
+        yield put(requestQueue, request)
       }
     }
   }

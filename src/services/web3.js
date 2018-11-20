@@ -53,14 +53,14 @@ function getTokenBalance(
     .then(balance => (balance.toNumber() / (10 ** decimals)))
 }
 
-function getAssetBalance(
+export function getAssetBalance(
   contractAddress: Address,
-  owner: Address,
-  decimals: Decimals,
-): Promise<number> {
+  owner: Address
+  // decimals: Decimals,
+): Promise<Bignumber> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
-    .then(balance => (balance.toNumber() / (10 ** decimals)))
+    // .then(balance => (balance.toNumber() / (10 ** decimals)))
 }
 
 function getContractDecimals(
