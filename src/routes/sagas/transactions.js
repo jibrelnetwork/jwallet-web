@@ -1,26 +1,28 @@
 // @flow
 
+import update from 'react-addons-update'
 import { all, put, call, fork, take, cancel, select, takeEvery } from 'redux-saga/effects'
 
 import type { Task, Channel } from 'redux-saga'
 
-import { keystore, blockExplorer } from 'services'
+import blockExplorer from 'services/blockExplorer'
 import { checkETH, checkJNT } from 'utils/digitalAssets'
 
 import {
-  selectNetworkId,
   selectTransactions,
   selectDigitalAssets,
-  selectWalletsPersist,
-  selectCurrentBlockNumber,
 } from 'store/stateSelectors'
 
+/* eslint-disable-next-line no-unused-vars */
+import { requestTaskProcess } from './blocks'
 import * as transactions from '../modules/transactions'
 
 type TransactionMethodName =
   'getETHTransactions' |
   'getERC20Transactions' |
   'getJNTTransactions'
+
+const MAX_BLOCKS_PER_REQUEST: number = 100 * 1000
 
 function getMethodName({ address }: DigitalAsset): TransactionMethodName {
   if (checkETH(address)) {
@@ -33,31 +35,27 @@ function getMethodName({ address }: DigitalAsset): TransactionMethodName {
 }
 
 function putRequest(
-  // $FlowFixMe
-  requestQueue: Channel<SchedulerTask>,
+  requestQueue: Channel,
   digitalAssets: DigitalAssets,
   owner: Address,
-  assetAddress: Address,
+  asset: Address,
   networkId: NetworkId,
-  currentBlock: number,
+  fromBlock: number,
+  toBlock: number,
 ) {
-  const digitalAsset: DigitalAsset = digitalAssets[assetAddress]
+  const digitalAsset: DigitalAsset = digitalAssets[asset]
   const name: TransactionMethodName = getMethodName(digitalAsset)
-
-  const {
-    address,
-    decimals,
-  }: DigitalAsset = digitalAsset
 
   const task: SchedulerTask = {
     method: {
       name,
       payload: {
+        asset,
         owner,
-        address,
-        decimals,
         networkId,
-        currentBlock,
+        toBlock,
+        fromBlock,
+        decimals: digitalAsset.decimals,
       },
     },
     module: 'transactions',
@@ -65,15 +63,15 @@ function putRequest(
     retryCount: 3,
   }
 
-  // $FlowFixMe
   return put(requestQueue, task)
 }
 
 export function* requestTransactionsLoop(
-  requestQueue: Channel<SchedulerTask>,
-  owner: Address,
+  requestQueue: Channel,
   networkId: NetworkId,
-  currentBlock: number,
+  owner: Address,
+  fromBlock: number,
+  toBlock: number,
 ): Saga<void> {
   try {
     while (true) {
@@ -83,13 +81,14 @@ export function* requestTransactionsLoop(
       yield all(Object
         .keys(digitalAssets)
         .filter((assetAddress: Address): boolean => !!digitalAssets[assetAddress].isActive)
-        .map((address: Address) => putRequest(
+        .map((asset: Address) => putRequest(
           requestQueue,
           digitalAssets,
           owner,
-          address,
+          asset,
           networkId,
-          currentBlock,
+          fromBlock,
+          toBlock,
         ))
       )
     }
@@ -135,9 +134,10 @@ function* checkLoadingTransactions(networkId: NetworkId, owner: Address): Saga<v
     return
   }
 
-  const loadingTransactions = Object
-    .keys(itemsByOwner)
-    .reduce((result: Transactions, asset: Address): Transactions => {
+  const assetAddresses: Array<AssetAddress> = Object.keys(itemsByOwner)
+
+  const loadingTransactions = assetAddresses
+    .reduce((result: Transactions, asset: AssetAddress): Transactions => {
       const itemsByAsset = itemsByOwner[asset]
 
       if (!itemsByAsset) {
@@ -154,17 +154,86 @@ function* checkLoadingTransactions(networkId: NetworkId, owner: Address): Saga<v
   }
 }
 
-export function* requestTransactions(task: SchedulerTask): Saga<void> {
+function* recursiveRequestTransactions(
+  task: SchedulerTask,
+  requestQueue: Channel,
+  fromBlock: number,
+  toBlock: number,
+): Saga<void> {
   const {
+    payload,
     name,
-    owner,
-    networkId,
-  } = task
+  } = task.method
 
   switch (name) {
+    case 'getETHTransactions':
+    case 'getERC20Transactions':
+    case 'getJNTTransactions': {
+      const diffBlockNumber: number = toBlock - fromBlock
+
+      const fromBlockNew = (diffBlockNumber > MAX_BLOCKS_PER_REQUEST)
+        ? (toBlock - MAX_BLOCKS_PER_REQUEST)
+        : fromBlock
+
+      const subTask: SchedulerTask = update(task, {
+        method: {
+          payload: {
+            $set: {
+              ...payload,
+              toBlock,
+              fromBlock: (fromBlockNew <= 0) ? 0 : fromBlockNew,
+            },
+          },
+        },
+      })
+
+      yield put(requestQueue, subTask)
+
+      if (fromBlockNew > 0) {
+        yield* recursiveRequestTransactions(
+          task,
+          requestQueue,
+          fromBlockNew - MAX_BLOCKS_PER_REQUEST,
+          toBlock - MAX_BLOCKS_PER_REQUEST,
+        )
+      }
+
+      break
+    }
+
+    default:
+      break
+  }
+}
+
+export function* requestTransactions(
+  task: SchedulerTask,
+  requestQueue: Channel,
+): Saga<void> {
+  switch (task.method.name) {
     case 'getETHTransactions': {
-      const txs: Transactions = yield call(blockExplorer.getETHTransactions, owner, networkId)
+      const {
+        owner,
+        networkId,
+        fromBlock,
+        toBlock,
+      } = task.method.payload
+
+      if ((toBlock - fromBlock) > MAX_BLOCKS_PER_REQUEST) {
+        yield recursiveRequestTransactions(task, requestQueue, toBlock, fromBlock)
+        break
+      }
+
+      const txs: Transactions = yield call(
+        blockExplorer.getETHTransactions,
+        networkId,
+        owner,
+        fromBlock,
+        toBlock,
+      )
+
       yield put(transactions.setItems(networkId, owner, 'Ethereum', txs))
+      yield* checkLoadingTransactions(owner, networkId)
       break
     }
 
@@ -173,20 +242,18 @@ export function* requestTransactions(task: SchedulerTask): Saga<void> {
       break
     }
   }
-
-  yield* checkLoadingTransactions(owner, networkId)
 }
 
-export function* syncStart(requestQueue: Channel<SchedulerTask>): Saga<void> {
-  const { items, activeWalletId }: WalletsPersist = yield select(selectWalletsPersist)
+export function* syncStart(action: ExtractReturn<typeof transactions.syncStart>): Saga<void> {
+  const {
+    requestQueue,
+    currentBlock,
+    processingBlock,
+    owner,
+    networkId,
+  } = action.payload
 
-  if (!activeWalletId) {
-    throw new Error('Active wallet is not found')
-  }
-
-  const networkId: NetworkId = yield select(selectNetworkId)
-  const owner: ?Address = keystore.getAddress(items, activeWalletId)
-  const currentBlock: number = yield select(selectCurrentBlockNumber)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
 
   const requestTasks: Array<Task<typeof requestTaskProcess>> = yield all(Array
     .from({ length: 5 })
@@ -196,9 +263,10 @@ export function* syncStart(requestQueue: Channel<SchedulerTask>): Saga<void> {
   const requestTransactionsTask: Task<typeof requestTransactionsLoop> = yield fork(
     requestTransactionsLoop,
     requestQueue,
-    owner,
     networkId,
-    currentBlock,
+    owner,
+    currentBlockNumber,
+    processingBlock.number,
   )
 
   yield take(transactions.SYNC_STOP)

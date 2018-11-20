@@ -55,7 +55,7 @@ export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddres
 // }
 
 // eslint-disable-next-line no-unused-vars
-export function selectNetworkId(state: AppState): ?NetworkId {
+export function selectNetworkId(state: AppState): NetworkId {
   return '3'
 }
 

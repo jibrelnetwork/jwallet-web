@@ -11,12 +11,14 @@ const ENDPOINT_NAMES = {
 }
 
 type BlockExplorerAPIParams = {|
-  address: Address,
-  action: 'txlist',
-  module: 'account',
-  sort: 'asc' | 'desc',
-  page: number,
-  offset: number,
+  +address: Address,
+  +action: 'txlist',
+  +module: 'account',
+  +sort: 'asc' | 'desc',
+  +page?: number,
+  +offset?: number,
+  +endblock?: number,
+  +startblock?: number,
 |}
 
 function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Object {
@@ -24,12 +26,11 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Object {
 
   const queryParams: string = Object
     .keys(params)
-    .map(key => `${key}=${params[key]}`)
+    .map(key => key && params[key] ? `${key}=${params[key]}` : '')
     .join('&')
     .replace(/&$/, '')
 
-  return fetch(`${apiEnpoint}?${queryParams}`, config.blockExplorerApiOptions)
-    .then(r => r.json())
+  return fetch(`${apiEnpoint}?${queryParams}`, config.blockExplorerApiOptions).then(r => r.json())
 }
 
 function handlerTransactionsResponse(response: Object): Array<any> {
@@ -49,19 +50,6 @@ function handlerTransactionsResponse(response: Object): Array<any> {
   }
 
   return result
-}
-
-function getTransactions(owner: Address, networkId: NetworkId) {
-  return callApi({
-    sort: 'desc',
-    address: owner,
-    action: 'txlist',
-    module: 'account',
-    page: 1,
-    offset: 50,
-    // endblock: currentBlock,
-    // startblock: (currentBlock - (500 * 1000)),
-  }, networkId).then(handlerTransactionsResponse)
 }
 
 function checkETHTransaction(data: Object): boolean {
@@ -138,8 +126,21 @@ function filterETHTransactions(list: Array<any>): Array<Object> {
   })
 }
 
-function getETHTransactions(owner: Address, networkId: NetworkId): Promise<any> {
-  return getTransactions(owner, networkId)
+function getETHTransactions(
+  networkId: NetworkId,
+  owner: Address,
+  startblock: number,
+  endblock: number,
+): Promise<any> {
+  return callApi({
+    endblock,
+    startblock,
+    sort: 'desc',
+    address: owner,
+    action: 'txlist',
+    module: 'account',
+  }, networkId)
+    .then(handlerTransactionsResponse)
     .then(filterETHTransactions)
     .then(prepareETHTransactions)
 }

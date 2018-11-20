@@ -1,5 +1,7 @@
 // @flow
 
+import update from 'react-addons-update'
+
 export const SYNC_START = '@@transactions/SYNC_START'
 export const SYNC_STOP = '@@transactions/SYNC_STOP'
 export const SYNC_ERROR = '@@transactions/SYNC_ERROR'
@@ -9,11 +11,22 @@ export const SET_ITEMS = '@@transactions/SET_ITEMS'
 export const SET_IS_LOADING = '@@transactions/SET_IS_LOADING'
 export const SET_IS_BLOCK_EXPLORER_ERROR = '@@transactions/SET_IS_BLOCK_EXPLORER_ERROR'
 
-export const CLEAN = '@@transactions/CLEAN'
-
-export function syncStart() {
+export function syncStart(
+  requestQueue: Channel,
+  networkId: NetworkId,
+  owner: Address,
+  currentBlock: ?BlockInfo,
+  processingBlock: BlockInfo,
+) {
   return {
     type: SYNC_START,
+    payload: {
+      requestQueue,
+      currentBlock,
+      processingBlock,
+      owner,
+      networkId,
+    },
   }
 }
 
@@ -34,16 +47,16 @@ export function syncError(err: Error) {
 export function setItems(
   networkId: NetworkId,
   owner: Address,
-  assetAddress: AssetAddress,
+  asset: AssetAddress,
   items: Transactions,
 ) {
   return {
     type: SET_ITEMS,
     payload: {
       items,
+      asset,
       owner,
       networkId,
-      assetAddress,
     },
   }
 }
@@ -66,20 +79,13 @@ export function setIsBlockExporerError(isBlockExplorerError: boolean) {
   }
 }
 
-export function clean() {
-  return {
-    type: CLEAN,
-  }
-}
-
 type TransactionsAction =
   ExtractReturn<typeof syncStart> |
   ExtractReturn<typeof syncStop> |
   ExtractReturn<typeof syncError> |
   ExtractReturn<typeof setItems> |
   ExtractReturn<typeof setIsLoading> |
-  ExtractReturn<typeof setIsBlockExporerError> |
-  ExtractReturn<typeof clean>
+  ExtractReturn<typeof setIsBlockExporerError>
 
 const initialState: TransactionsState = {
   persist: {
@@ -110,50 +116,36 @@ function transactions(
     case SET_ITEMS: {
       const {
         items,
+        asset,
         owner,
         networkId,
-        assetAddress,
       } = action.payload
 
-      const txHashes: Hashes = Object.keys(items)
-      const oldTransactions: Transactions = state.persist.items[networkId][owner][assetAddress]
+      const oldTransactions: Transactions = state.persist.items[networkId][owner][asset]
 
-      const newTransactions: Transactions = txHashes.reduce((
-        result: Transactions,
-        hash: Hash,
-      ): Transactions => {
-        if (!result[hash]) {
-          return {
-            ...result,
-            [hash]: items[hash],
-          }
-        }
-
-        return {
-          ...result,
+      const newTransactions: Transactions = Object
+        .keys(items)
+        .reduce((result: Transactions, hash: Hash): Transactions => update(result, {
           [hash]: {
-            ...result[hash],
-            ...items[hash],
+            $set: !result[hash] ? items[hash] : update(result[hash], {
+              $merge: items[hash],
+            }),
           },
-        }
-      }, oldTransactions)
+        }), oldTransactions)
 
-      return {
-        ...state,
+      return update(state, {
         persist: {
-          ...state.persist,
           items: {
-            ...state.persist.items,
             [networkId]: {
-              ...state.persist.items[networkId],
               [owner]: {
-                ...state.persist.items[networkId][owner],
-                [assetAddress]: newTransactions,
+                [asset]: {
+                  $set: newTransactions,
+                },
               },
             },
           },
         },
-      }
+      })
     }
 
     case SET_IS_LOADING:
@@ -166,12 +158,6 @@ function transactions(
       return {
         ...state,
         isBlockExplorerError: action.payload.isBlockExplorerError,
-      }
-
-    case CLEAN:
-      return {
-        ...initialState,
-        persist: state.persist,
       }
 
     default:
