@@ -33,8 +33,8 @@ import {
 import {
   setLatestBlock,
   setCurrentBlock,
-  setProcessedBlock,
-  SET_CURRENT_BLOCK,
+  setProcessingBlock,
+  SET_PROCESSING_BLOCK,
 } from '../modules/blocks'
 
 import {
@@ -52,30 +52,30 @@ import {
 } from './transactions'
 
 function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { blocks } = state.blocks.persist
+  const { items } = state.blocks.persist
 
-  if (blocks[networkId] && blocks[networkId].latestBlock) {
-    return blocks[networkId].latestBlock
+  if (items[networkId] && items[networkId].latestBlock) {
+    return items[networkId].latestBlock
   }
 
   return null
 }
 
 function selectCurrentBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { blocks } = state.blocks.persist
+  const { items } = state.blocks.persist
 
-  if (blocks[networkId] && blocks[networkId].latestBlock) {
-    return blocks[networkId].currentBlock
+  if (items[networkId] && items[networkId].latestBlock) {
+    return items[networkId].currentBlock
   }
 
   return null
 }
 
-function selectProcessedBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { blocks } = state.blocks.persist
+function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
+  const { items } = state.blocks.persist
 
-  if (blocks[networkId] && blocks[networkId].latestBlock) {
-    return blocks[networkId].processedBlock
+  if (items[networkId] && items[networkId].latestBlock) {
+    return items[networkId].processingBlock
   }
 
   return null
@@ -124,11 +124,11 @@ function* blockDataProcess(): Saga<void> {
     }
 
     const networkId: ExtractReturn<typeof selectNetworkId> = yield select(selectNetworkId)
-    const currentBlock: ?BlockInfo = yield select(selectProcessedBlock, networkId)
-    const processingBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
+    const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
+    const processingBlock: ?BlockInfo = yield select(selectProcessingBlock, networkId)
 
     if (!processingBlock) {
-      yield take(SET_CURRENT_BLOCK)
+      yield take(SET_PROCESSING_BLOCK)
       continue
     }
 
@@ -147,7 +147,7 @@ function* blockDataProcess(): Saga<void> {
     yield put(transactions.syncStart(requestQueue, networkId, owner, currentBlock, processingBlock))
 
     // wait current block change
-    yield take(SET_CURRENT_BLOCK)
+    yield take(SET_PROCESSING_BLOCK)
 
     yield cancel(getBalancesTask)
 
@@ -166,24 +166,24 @@ function* blockFlowProcess(): Saga<void> {
     const networkId: NetworkId = yield select(selectNetworkId)
     const latestBlock: ?BlockInfo = yield select(selectLatestBlock, networkId)
     const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
-    const processedBlock: ?BlockInfo = yield select(selectProcessedBlock, networkId)
+    const processingBlock: ?BlockInfo = yield select(selectProcessingBlock, networkId)
 
     if (!latestBlock) {
       continue
     }
 
-    if (!currentBlock) {
-      yield put(setCurrentBlock(networkId, latestBlock))
+    if (!processingBlock) {
+      yield put(setProcessingBlock(networkId, latestBlock))
       continue
     }
 
-    if (currentBlock.isBalancesFetched /* && currentBlock.isTransactionsReady */) {
-      if (!processedBlock || processedBlock.hash !== currentBlock.hash) {
-        yield put(setProcessedBlock(networkId, currentBlock))
+    if (processingBlock.isBalancesFetched /* && processingBlock.isTransactionsReady */) {
+      if (!currentBlock || (currentBlock.hash !== processingBlock.hash)) {
+        yield put(setCurrentBlock(networkId, processingBlock))
       }
 
-      if (currentBlock.hash !== latestBlock.hash) {
-        yield put(setCurrentBlock(networkId, null))
+      if (processingBlock.hash !== latestBlock.hash) {
+        yield put(setProcessingBlock(networkId, null))
       }
     }
   }
@@ -197,17 +197,17 @@ function* getBlockProcess(): Saga<void> {
 
       try {
         const {
-          number,
           hash,
-          timestamp,
           parentHash,
+          number,
+          timestamp,
         }: ETHBlock = yield call(web3.getBlock, 'latest')
 
         const receivedBlock: BlockInfo = {
-          number,
           hash,
-          timestamp,
           parentHash,
+          number,
+          timestamp,
           requestedAt: new Date(),
         }
 

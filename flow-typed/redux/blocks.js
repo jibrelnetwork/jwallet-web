@@ -59,11 +59,11 @@ declare type BlockInfo = {|
 
 declare type BlocksState = {
   +persist: {
-    +blocks: {
+    +items: {
       +[NetworkIdOptional]: {|
         +latestBlock: ?BlockInfo,
         +currentBlock: ?BlockInfo,
-        +processedBlock: ?BlockInfo,
+        +processingBlock: ?BlockInfo,
       |}
     }
   }
