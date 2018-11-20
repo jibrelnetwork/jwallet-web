@@ -13,11 +13,12 @@
   overflow: hidden;
   opacity: 0;
   will-change: opacity, max-height;
+  padding-left: 50px;
+  padding-right: 50px;
 
   > .action {
-    @include flex-row-center;
-
-    padding: 20px 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   &.-active {

@@ -10,6 +10,10 @@
   cursor: pointer;
   transition: background-color 0.3s ease 0s;
 
+  > .icon {
+    opacity: 0.5;
+  }
+
   > .info {
     @include flex-column;
 
@@ -26,11 +30,21 @@
   }
 
   > .chevron {
-    margin: 0 -4px 0 auto;
+    @include hover-animation;
+
+    margin-right: -4px;
   }
 
   &:hover,
   &.-active {
     background-color: $cobalt-blue;
+  }
+
+  &.-active {
+    padding-bottom: 15px;
+
+    > .chevron {
+      transform: scaleY(-1);
+    }
   }
 }
