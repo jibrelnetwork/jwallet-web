@@ -19,7 +19,7 @@ type Props = {
 }
 
 type StateProps = {|
-  isChange: boolean,
+  isToggled: boolean,
   isHoveredEdit: boolean,
   isHoveredTrash: boolean,
 |}
@@ -37,7 +37,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
     super(props)
 
     this.state = {
-      isChange: false,
+      isToggled: false,
       isHoveredEdit: false,
       isHoveredTrash: false,
     }
@@ -45,11 +45,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
   onHoverEdit = () => this.setState({ isHoveredEdit: !this.state.isHoveredEdit })
 
-  onHoverTrash = () => this.setState({ isHoveredTrash: !this.state.isHoveredTrash })
+  onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
 
-  unsetHoverTrash = () => this.setState({ isHoveredTrash: false })
-
-  toggleChange = () => this.setState({ isChange: !this.state.isChange })
+  toggle = () => this.setState({ isToggled: !this.state.isToggled })
 
   render() {
     const {
@@ -65,14 +63,14 @@ class AssetItem extends PureComponent<Props, StateProps> {
     } = this.props
 
     const {
-      isChange,
+      isToggled,
       isHoveredEdit,
       isHoveredTrash,
     }: StateProps = this.state
 
     return (
       <JCard color='white' isBorderRadius isHover>
-        <div className='asset-item'>
+        <div className={classNames('asset-item', isToggled && '-active')}>
           <div className='info'>
             {!isCustom ? (
               <div className='symbol -icon'>
@@ -98,14 +96,14 @@ class AssetItem extends PureComponent<Props, StateProps> {
             </div>
           </div>
           <div
-            className={classNames('overlay', isChange && '-active')}
-            onClick={this.toggleChange}
+            className='overlay'
+            onClick={this.toggle}
           />
           <div className='actions'>
             {isCustom ? (
               <Fragment>
                 <div
-                  className={classNames('item', !isChange && '-hide')}
+                  className='item -edit'
                   onMouseEnter={this.onHoverEdit}
                   onMouseLeave={this.onHoverEdit}
                   onClick={editAssetItemClick}
@@ -119,25 +117,25 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   </JTooltip>
                 </div>
                 <div
-                  className={classNames('item', !isChange && '-hide')}
-                  onMouseEnter={this.onHoverTrash}
-                  onMouseLeave={this.onHoverTrash}
-                  onClick={this.unsetHoverTrash}
+                  className='item -delete'
+                  onMouseEnter={this.onHoverTrash(true)}
+                  onMouseLeave={this.onHoverTrash(false)}
+                  onClick={this.onHoverTrash(false)}
                 >
                   <ButtonWithConfirm
                     onClick={deleteAssetItem}
                     color='blue'
+                    bgColor='white'
                     labelCancel='No'
-                    iconName='trash'
+                    iconTooltipName='trash'
                     labelConfirm='Yes, delete'
-                    iconColor={isHoveredTrash ? 'sky' : 'blue'}
+                    iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
                     isReverse
-                    isOverlay
                   />
                 </div>
                 <div
-                  className={classNames('item -dots', isChange && '-hide')}
-                  onClick={this.toggleChange}
+                  className='item -dots'
+                  onClick={this.toggle}
                 >
                   <JIcon
                     size='medium'
@@ -145,7 +143,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                     name='dots-full'
                   />
                 </div>
-                <div className='item'>
+                <div className='item -switch'>
                   <JSwitch
                     onChange={setIsActive}
                     isChecked={isActive}
@@ -154,7 +152,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 </div>
               </Fragment>
             ) : (
-              <div className='item'>
+              <div className='item -switch'>
                 <JSwitch
                   onChange={setIsActive}
                   isChecked={isActive}

@@ -19,19 +19,20 @@
       }
     }
 
-    &.-overlay {
+    &.-overlay-white,
+    &.-overlay-blue {
       position: absolute;
       right: 20px;
-      z-index: 2;
+      z-index: 1;
       top: 0;
+    }
 
-      &.-white {
-        background-color: $white;
-      }
+    &.-overlay-white {
+      background-color: $white;
+    }
 
-      &.-blue {
-        background-color: $blue;
-      }
+    &.-overlay-blue {
+      background-color: $blue;
     }
   }
 }
