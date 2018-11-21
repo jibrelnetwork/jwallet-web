@@ -3,6 +3,7 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+import MenuPanelActionsItem from '../../../Actions/Item'
 import MenuPanelWalletManagerDetailsAddressesItem from './Item'
 
 type Props = {|
@@ -30,6 +31,11 @@ function MenuPanelWalletManagerDetailsAddresses({
             key={item}
           />
         ))}
+        <MenuPanelActionsItem
+          icon='plus'
+          path='/wallets'
+          label='Add more addresses'
+        />
       </Scrollbars>
     </div>
   )
