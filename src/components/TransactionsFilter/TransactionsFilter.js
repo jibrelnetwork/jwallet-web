@@ -11,7 +11,7 @@ type Props = {|
   +filterCount: number,
 |}
 
-class DigitalAssetsFilter extends PureComponent<Props> {
+class TransactionAssetsFilter extends PureComponent<Props> {
   static defaultProps = {
     isOnlyPending: false,
     filterCount: 0,
@@ -26,7 +26,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
 
     return (
       <PopupButton icon={(filterCount === 0) ? 'filter' : 'filter-selected'} counter={filterCount}>
-        <div className='digital-assets-filter'>
+        <div className='transaction-assets-filter'>
           <div className='title'>
             <JText
               color='gray'
@@ -48,4 +48,4 @@ class DigitalAssetsFilter extends PureComponent<Props> {
   }
 }
 
-export default DigitalAssetsFilter
+export default TransactionAssetsFilter
