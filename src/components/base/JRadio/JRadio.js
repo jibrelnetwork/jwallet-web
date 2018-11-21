@@ -31,8 +31,8 @@ class JRadio extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='j-radio'>
-        <label className={classNames('field', isChecked && '-checked')}>
+      <div className={classNames('j-radio', isChecked && '-checked')}>
+        <label className='field'>
           <input
             onChange={this.onChange}
             name={`radio-${name}`}

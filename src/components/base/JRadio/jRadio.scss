@@ -68,8 +68,10 @@
         }
       }
     }
+  }
 
-    &.-checked {
+  &.-checked {
+    > .field {
       > .label {
         opacity: 1;
       }

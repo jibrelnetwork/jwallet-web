@@ -18,17 +18,19 @@ function MenuPanelWalletManagerDetailsAddressesItem({
   address,
   addressName,
 }: Props) {
+  const shortAddress = getShortenedAddress(address, SYMBOLS_FROM_START, SYMBOLS_FROM_END)
+
   return (
     <div className='menu-panel-wallet-manager-details-addresses-item' key={address}>
       <JRadio
         onChange={console.log()}
         label={addressName ? (
           <MenuPanelWalletManagerDetailsAddressWithName
-            address={getShortenedAddress(address, SYMBOLS_FROM_START, SYMBOLS_FROM_END)}
+            address={shortAddress}
             addressName={addressName}
           />
         ) : (
-          getShortenedAddress(address, SYMBOLS_FROM_START, SYMBOLS_FROM_END)
+          shortAddress
         )}
         name='address'
       />
