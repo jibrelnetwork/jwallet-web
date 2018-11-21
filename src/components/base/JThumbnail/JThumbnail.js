@@ -5,10 +5,10 @@ import classNames from 'classnames'
 
 import { JText, JIcon } from 'components/base'
 
-type JThumbnailImage = 'key' | 'man' | 'cloud' | 'auth-question' | 'auth-cross' | 'screen-search'
+type JThumbnailImage = 'auth-question' | 'auth-cross' | 'screen-search'
 
 type Props = {|
-  +title: string,
+  +title: ?string,
   +description: string | Array<string>,
   +image: JThumbnailImage,
   +iconSize: 'large' | 'xlarge',
@@ -18,11 +18,8 @@ type Props = {|
 
 class JThumbnail extends PureComponent<Props, *> {
   static defaultProps = {
-    title: '',
-    iconSize: 'xlarge',
-    color: 'white',
+    title: null,
     isTransparent: false,
-    description: '',
   }
 
   render() {
@@ -36,8 +33,8 @@ class JThumbnail extends PureComponent<Props, *> {
     } = this.props
 
     return (
-      <div className='j-thumbnail' >
-        <div className={classNames('icon', isTransparent && '-transparent')}>
+      <div className={classNames('j-thumbnail', isTransparent && '-transparent')} >
+        <div className='icon'>
           <JIcon size={iconSize} name={image} />
         </div>
         {title && (

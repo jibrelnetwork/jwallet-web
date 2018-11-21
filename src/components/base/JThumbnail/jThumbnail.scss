@@ -6,12 +6,6 @@
   width: 480px;
   padding-bottom: 30px;
 
-  > .icon {
-    &.-transparent {
-      opacity: 0.5;
-    }
-  }
-
   > .title {
     margin-top: 25px;
     text-align: center;
@@ -25,5 +19,11 @@
     line-height: 24px;
     text-align: center;
     opacity: 0.5;
+  }
+
+  &.-transparent {
+    > .icon {
+      opacity: 0.5;
+    }
   }
 }

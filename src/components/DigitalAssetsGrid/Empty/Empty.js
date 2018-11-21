@@ -12,30 +12,29 @@ type Props = {|
 |}
 
 class DigitalAssetsEmpty extends PureComponent<Props> {
-    static defaultProps = {
-      color: 'gray',
-      isTransparent: false,
-    }
-    render() {
-      const {
-        image,
-        color,
-        description,
-        isTransparent,
-      } = this.props
+  static defaultProps = {
+    isTransparent: false,
+  }
+  render() {
+    const {
+      image,
+      color,
+      description,
+      isTransparent,
+    } = this.props
 
-      return (
-        <div className='digital-assets-empty'>
-          <JThumbnail
-            image={image}
-            iconSize='large'
-            color={color}
-            description={description}
-            isTransparent={isTransparent}
-          />
-        </div>
-      )
-    }
+    return (
+      <div className='digital-assets-empty'>
+        <JThumbnail
+          image={image}
+          iconSize='large'
+          color={color}
+          description={description}
+          isTransparent={isTransparent}
+        />
+      </div>
+    )
+  }
 }
 
 export default DigitalAssetsEmpty
