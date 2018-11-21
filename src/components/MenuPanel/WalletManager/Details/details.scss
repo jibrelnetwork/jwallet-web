@@ -11,7 +11,6 @@
   background-color: $cobalt-blue;
   visibility: hidden;
   overflow: hidden;
-  opacity: 0;
   will-change: opacity, max-height;
   padding-left: 50px;
   padding-right: 50px;
@@ -28,6 +27,5 @@
   &.-active {
     max-height: 250px;
     visibility: visible;
-    opacity: 1;
   }
 }
