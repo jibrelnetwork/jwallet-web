@@ -26,7 +26,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Object {
 
   const queryParams: string = Object
     .keys(params)
-    .map(key => key && params[key] ? `${key}=${params[key]}` : '')
+    .map(key => (key && (params[key] != null)) ? `${key}=${params[key]}` : '')
     .join('&')
     .replace(/&$/, '')
 
@@ -103,6 +103,7 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
         timestamp: parseInt(timeStamp, 10) || 0,
         blockNumber: parseInt(blockNumber, 10) || 0,
         isRemoved: false,
+        isLoading: false,
       },
     }
   }, {})

@@ -131,12 +131,12 @@ export function* getBalancesSchedulerProcess(
       )
 
       if (!hasPendingBalances) {
-        yield put(setIsBalancesFetched(networkId))
+        yield put(setIsBalancesFetched(networkId, true))
         console.log(`All balances for block ${processingBlock.number} has been fetched`)
         return
       }
 
-      yield call(delay, 100)
+      yield call(delay, 1000)
     }
   } finally {
     // canceled...

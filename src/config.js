@@ -123,4 +123,9 @@ export default {
    * timeout before confirming of delete wallet action
    */
   deleteConfirmTimeout: 30,
+
+  /**
+   * min count of transactions to dislay for user (initial sync)
+   */
+  minTransactionsCountToShow: 50,
 }

@@ -26,7 +26,12 @@ function* initDigitalAssets(): Saga<void> {
       [asset.address]: asset,
     }), {})
 
-    yield put(setInitialItems(allAssets))
+    const allAssetsWithETH = {
+      [assetsData.ethereum.address]: assetsData.ethereum,
+      ...allAssets,
+    }
+
+    yield put(setInitialItems(allAssetsWithETH))
   }
 }
 

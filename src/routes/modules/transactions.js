@@ -1,14 +1,11 @@
 // @flow
 
-import update from 'react-addons-update'
-
 export const SYNC_START = '@@transactions/SYNC_START'
 export const SYNC_STOP = '@@transactions/SYNC_STOP'
 export const SYNC_ERROR = '@@transactions/SYNC_ERROR'
 
 export const SET_ITEMS = '@@transactions/SET_ITEMS'
 
-export const SET_IS_LOADING = '@@transactions/SET_IS_LOADING'
 export const SET_IS_BLOCK_EXPLORER_ERROR = '@@transactions/SET_IS_BLOCK_EXPLORER_ERROR'
 
 export function syncStart(
@@ -61,15 +58,6 @@ export function setItems(
   }
 }
 
-export function setIsLoading(isLoading: boolean) {
-  return {
-    type: SET_IS_LOADING,
-    payload: {
-      isLoading,
-    },
-  }
-}
-
 export function setIsBlockExporerError(isBlockExplorerError: boolean) {
   return {
     type: SET_IS_BLOCK_EXPLORER_ERROR,
@@ -84,14 +72,12 @@ type TransactionsAction =
   ExtractReturn<typeof syncStop> |
   ExtractReturn<typeof syncError> |
   ExtractReturn<typeof setItems> |
-  ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof setIsBlockExporerError>
 
 const initialState: TransactionsState = {
   persist: {
     items: {},
   },
-  isLoading: false,
   isSyncing: false,
   isBlockExplorerError: false,
 }
@@ -121,38 +107,46 @@ function transactions(
         networkId,
       } = action.payload
 
-      const oldTransactions: Transactions = state.persist.items[networkId][owner][asset]
+      const transactionsByNetworkId = state.persist.items[networkId] || {}
+      const transactionsByOwner = transactionsByNetworkId[owner] || {}
+      const oldTransactions: Transactions = transactionsByOwner[asset] || {}
 
       const newTransactions: Transactions = Object
         .keys(items)
-        .reduce((result: Transactions, hash: Hash): Transactions => update(result, {
-          [hash]: {
-            $set: !result[hash] ? items[hash] : update(result[hash], {
-              $merge: items[hash],
-            }),
-          },
-        }), oldTransactions)
+        .reduce((result: Transactions, hash: Hash): Transactions => {
+          if (!result[hash]) {
+            return {
+              ...result,
+              [hash]: items[hash],
+            }
+          }
 
-      return update(state, {
+          return {
+            ...result,
+            [hash]: {
+              ...result[hash],
+              ...items[hash],
+            },
+          }
+        }, oldTransactions)
+
+      return {
+        ...state,
         persist: {
+          ...state.persist,
           items: {
+            ...state.persist.items,
             [networkId]: {
+              ...transactionsByNetworkId,
               [owner]: {
-                [asset]: {
-                  $set: newTransactions,
-                },
+                ...transactionsByOwner,
+                [asset]: newTransactions,
               },
             },
           },
         },
-      })
-    }
-
-    case SET_IS_LOADING:
-      return {
-        ...state,
-        isLoading: action.payload.isLoading,
       }
+    }
 
     case SET_IS_BLOCK_EXPLORER_ERROR:
       return {

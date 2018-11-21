@@ -38,7 +38,6 @@
     "rc-tooltip": "3.7.0",
     "react": "16.5.2",
     "react-addons-shallow-compare": "15.6.0",
-    "react-addons-update": "^15.6.2",
     "react-custom-scrollbars": "4.1.2",
     "react-dates": "12.6.0",
     "react-dom": "16.5.2",

@@ -54,7 +54,10 @@ declare type BlockInfo = {|
   +hash: string,
   +parentHash: string,
   +timestamp: number,
+  +isBalancesLoading?: boolean,
   +isBalancesFetched?: boolean,
+  +isTransactionsLoading?: boolean,
+  +isTransactionsFetched?: boolean,
 |}
 
 // just leave it here
