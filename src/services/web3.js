@@ -31,10 +31,10 @@ function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-function getETHBalance(address: Address): Promise<number> {
+export function getETHBalance(address: Address): Promise<Bignumber> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
-    .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
+    // .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
 }
 
 function getTokenBalance(

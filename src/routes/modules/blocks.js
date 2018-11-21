@@ -118,24 +118,6 @@ function blocks(
       }
     }
 
-    case SET_CURRENT_BLOCK: {
-      const { items } = state.persist
-      const { networkId, block } = action.payload
-
-      return {
-        ...state,
-        persist: {
-          ...state.persist,
-          items: {
-            [networkId]: {
-              ...items[networkId],
-              currentBlock: block,
-            },
-          },
-        },
-      }
-    }
-
     case SET_PROCESSING_BLOCK: {
       const { items } = state.persist
       const { networkId, block } = action.payload
@@ -148,6 +130,24 @@ function blocks(
             [networkId]: {
               ...items[networkId],
               processingBlock: block,
+            },
+          },
+        },
+      }
+    }
+
+    case SET_CURRENT_BLOCK: {
+      const { items } = state.persist
+      const { networkId, block } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            [networkId]: {
+              ...items[networkId],
+              currentBlock: block,
             },
           },
         },

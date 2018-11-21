@@ -14,8 +14,7 @@ import {
   selectDigitalAssets,
 } from 'store/stateSelectors'
 
-/* eslint-disable-next-line no-unused-vars */
-import { selectProcessingBlock } from './blocks'
+import { selectProcessingBlock } from 'store/selectors/blocks'
 import * as blocks from '../modules/blocks'
 import * as transactions from '../modules/transactions'
 
