@@ -38,6 +38,10 @@
   &:hover,
   &.-active {
     background-color: $cobalt-blue;
+
+    &.-read-only {
+      background-color: $dark-three;
+    }
   }
 
   &.-active {

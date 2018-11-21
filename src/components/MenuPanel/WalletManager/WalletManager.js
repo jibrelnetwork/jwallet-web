@@ -15,6 +15,7 @@ type Props = {|
   +addressNames: AddressNames,
   +activeWalletId: ?WalletId,
   +isActive: boolean,
+  +isReadOnly: boolean,
 |}
 
 function MenuPanelWalletManager({
@@ -24,6 +25,7 @@ function MenuPanelWalletManager({
   addressNames,
   activeWalletId,
   isActive,
+  isReadOnly,
 }: Props) {
   if (!activeWalletId) {
     return null
@@ -49,6 +51,7 @@ function MenuPanelWalletManager({
         name={name}
         address={address}
         isActive={isActive}
+        isReadOnly={isReadOnly}
       />
       <MenuPanelWalletManagerDetails
         setActiveAddress={console.log}
@@ -56,6 +59,7 @@ function MenuPanelWalletManager({
         addressNames={addressNames}
         type={type}
         isActive={isActive}
+        isReadOnly={isReadOnly}
       />
     </div>
   )
