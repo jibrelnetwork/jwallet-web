@@ -1,10 +1,11 @@
 // @flow
 
-import update from 'react-addons-update'
+import { delay } from 'redux-saga'
 import { all, put, call, fork, take, cancel, select, takeEvery } from 'redux-saga/effects'
 
 import type { Task, Channel } from 'redux-saga'
 
+import config from 'config'
 import blockExplorer from 'services/blockExplorer'
 import { checkETH, checkJNT } from 'utils/digitalAssets'
 
@@ -14,7 +15,8 @@ import {
 } from 'store/stateSelectors'
 
 /* eslint-disable-next-line no-unused-vars */
-import { requestTaskProcess } from './blocks'
+import { selectProcessingBlock } from './blocks'
+import * as blocks from '../modules/blocks'
 import * as transactions from '../modules/transactions'
 
 type TransactionMethodName =
@@ -66,7 +68,7 @@ function putRequest(
   return put(requestQueue, task)
 }
 
-export function* requestTransactionsLoop(
+export function* scheduleRequestsTransactions(
   requestQueue: Channel,
   networkId: NetworkId,
   owner: Address,
@@ -74,23 +76,53 @@ export function* requestTransactionsLoop(
   toBlock: number,
 ): Saga<void> {
   try {
-    while (true) {
-      const digitalAssets: ExtractReturn<typeof selectDigitalAssets> =
-        yield select(selectDigitalAssets)
+    const digitalAssets: ExtractReturn<typeof selectDigitalAssets> =
+      yield select(selectDigitalAssets)
 
-      yield all(Object
-        .keys(digitalAssets)
-        .filter((assetAddress: Address): boolean => !!digitalAssets[assetAddress].isActive)
-        .map((asset: Address) => putRequest(
-          requestQueue,
-          digitalAssets,
-          owner,
-          asset,
-          networkId,
-          fromBlock,
-          toBlock,
-        ))
-      )
+    yield all(Object
+      .keys(digitalAssets)
+      .filter((assetAddress: Address): boolean => !!digitalAssets[assetAddress].isActive)
+      .map((asset: Address) => putRequest(
+        requestQueue,
+        digitalAssets,
+        owner,
+        asset,
+        networkId,
+        fromBlock,
+        toBlock,
+      ))
+    )
+
+    yield put(blocks.setIsTransactionsLoading(networkId, true))
+    yield put(blocks.setIsTransactionsFetched(networkId, false))
+
+    while (true) {
+      yield call(delay, 10000)
+
+      const processingBlock: ExtractReturn<typeof selectProcessingBlock> =
+        yield select(selectProcessingBlock, networkId)
+
+      if (!processingBlock) {
+        return
+      }
+
+      const {
+        isTransactionsFetched,
+        isTransactionsLoading,
+      }: BlockInfo = processingBlock
+
+      const isFetched: boolean = yield* checkFetchedTransactions(owner, networkId)
+
+      if (!isTransactionsFetched && isFetched) {
+        yield put(blocks.setIsTransactionsFetched(networkId, true))
+      }
+
+      const isLoading: boolean = yield* checkLoadingTransactions(owner, networkId)
+
+      if (isTransactionsLoading && !isLoading) {
+        yield put(blocks.setIsTransactionsFetched(networkId, true))
+        yield put(blocks.setIsTransactionsLoading(networkId, false))
+      }
     }
   } finally {
     //
@@ -99,44 +131,43 @@ export function* requestTransactionsLoop(
 
 function getLoadingTransactions(txs: Transactions): Transactions {
   return Object.keys(txs).reduce((result: Transactions, hash: Hash): Transactions => {
-    const {
-      gasUsed,
-      timestamp,
-    }: Transaction = txs[hash]
+    const { isLoading }: Transaction = txs[hash]
 
-    // gasUsed is fetched from transactionReceipt, timestamp is fetched from block
-    if (gasUsed && timestamp) {
-      return result
-    }
-
-    return {
+    return !isLoading ? result : {
       ...result,
       [hash]: txs[hash],
     }
   }, {})
 }
 
-function* checkLoadingTransactions(networkId: NetworkId, owner: Address): Saga<void> {
-  const {
-    persist,
-    isLoading,
-  }: ExtractReturn<typeof selectTransactions> = yield (selectTransactions)
+function getFetchedTransactions(txs: Transactions): Transactions {
+  return Object.keys(txs).reduce((result: Transactions, hash: Hash): Transactions => {
+    const { isLoading }: Transaction = txs[hash]
 
+    return isLoading ? result : {
+      ...result,
+      [hash]: txs[hash],
+    }
+  }, {})
+}
+
+function* checkLoadingTransactions(networkId: NetworkId, owner: Address): Saga<boolean> {
+  const { persist }: ExtractReturn<typeof selectTransactions> = yield select(selectTransactions)
   const itemsByNetworkId = persist.items[networkId]
 
   if (!itemsByNetworkId) {
-    return
+    return false
   }
 
   const itemsByOwner = itemsByNetworkId[owner]
 
   if (!itemsByOwner) {
-    return
+    return false
   }
 
   const assetAddresses: Array<AssetAddress> = Object.keys(itemsByOwner)
 
-  const loadingTransactions = assetAddresses
+  const txs: Transactions = assetAddresses
     .reduce((result: Transactions, asset: AssetAddress): Transactions => {
       const itemsByAsset = itemsByOwner[asset]
 
@@ -144,14 +175,50 @@ function* checkLoadingTransactions(networkId: NetworkId, owner: Address): Saga<v
         return result
       }
 
-      return getLoadingTransactions(itemsByAsset)
+      return {
+        ...result,
+        ...getLoadingTransactions(itemsByAsset),
+      }
     }, {})
 
-  const isCurrentlyLoading: boolean = !!Object.keys(loadingTransactions)
+  const isLoading: boolean = (Object.keys(txs).length === 0)
 
-  if (isLoading !== isCurrentlyLoading) {
-    yield put(transactions.setIsLoading(isCurrentlyLoading))
+  return isLoading
+}
+
+function* checkFetchedTransactions(networkId: NetworkId, owner: Address): Saga<boolean> {
+  const { persist }: ExtractReturn<typeof selectTransactions> = yield select(selectTransactions)
+  const itemsByNetworkId = persist.items[networkId]
+
+  if (!itemsByNetworkId) {
+    return false
   }
+
+  const itemsByOwner = itemsByNetworkId[owner]
+
+  if (!itemsByOwner) {
+    return false
+  }
+
+  const assetAddresses: Array<AssetAddress> = Object.keys(itemsByOwner)
+
+  const txs: Transactions = assetAddresses
+    .reduce((result: Transactions, asset: AssetAddress): Transactions => {
+      const itemsByAsset = itemsByOwner[asset]
+
+      if (!itemsByAsset) {
+        return result
+      }
+
+      return {
+        ...result,
+        ...getFetchedTransactions(itemsByAsset),
+      }
+    }, {})
+
+  const foundCount: number = Object.keys(txs).length
+
+  return (foundCount >= config.minTransactionsCountToShow)
 }
 
 function* recursiveRequestTransactions(
@@ -175,21 +242,21 @@ function* recursiveRequestTransactions(
         ? (toBlock - MAX_BLOCKS_PER_REQUEST)
         : fromBlock
 
-      const subTask: SchedulerTask = update(task, {
+      yield put(requestQueue, {
+        ...task,
         method: {
+          ...task.method,
           payload: {
-            $set: {
-              ...payload,
-              toBlock,
-              fromBlock: (fromBlockNew <= 0) ? 0 : fromBlockNew,
-            },
+            ...payload,
+            toBlock,
+            fromBlock: (fromBlockNew <= 0) ? 0 : fromBlockNew,
           },
         },
       })
 
-      yield put(requestQueue, subTask)
-
       if (fromBlockNew > 0) {
+        yield call(delay, 100)
+
         yield* recursiveRequestTransactions(
           task,
           requestQueue,
@@ -210,17 +277,19 @@ export function* requestTransactions(
   task: SchedulerTask,
   requestQueue: Channel,
 ): Saga<void> {
-  switch (task.method.name) {
+  const { method } = task
+
+  switch (method.name) {
     case 'getETHTransactions': {
       const {
         owner,
         networkId,
         fromBlock,
         toBlock,
-      } = task.method.payload
+      } = method.payload
 
       if ((toBlock - fromBlock) > MAX_BLOCKS_PER_REQUEST) {
-        yield recursiveRequestTransactions(task, requestQueue, toBlock, fromBlock)
+        yield recursiveRequestTransactions(task, requestQueue, fromBlock, toBlock)
         break
       }
 
@@ -232,12 +301,24 @@ export function* requestTransactions(
         toBlock,
       )
 
-      yield put(transactions.setItems(networkId, owner, 'Ethereum', txs))
-      yield* checkLoadingTransactions(owner, networkId)
+      const isEmpty: boolean = !Object.keys(txs).length
+
+      if (!isEmpty) {
+        yield put(transactions.setItems(networkId, owner, 'Ethereum', txs))
+      }
+
+      break
+    }
+
+    case 'getERC20Transactions': {
+      // simulate api call
+      yield call(delay, 1000)
       break
     }
 
     default: {
+      // currently JNT here
+      yield call(delay, 1000)
       console.log(task)
       break
     }
@@ -255,13 +336,8 @@ export function* syncStart(action: ExtractReturn<typeof transactions.syncStart>)
 
   const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
 
-  const requestTasks: Array<Task<typeof requestTaskProcess>> = yield all(Array
-    .from({ length: 5 })
-    .map(() => fork(requestTaskProcess, requestQueue))
-  )
-
-  const requestTransactionsTask: Task<typeof requestTransactionsLoop> = yield fork(
-    requestTransactionsLoop,
+  const requestTransactionsTask: Task<typeof scheduleRequestsTransactions> = yield fork(
+    scheduleRequestsTransactions,
     requestQueue,
     networkId,
     owner,
@@ -271,7 +347,6 @@ export function* syncStart(action: ExtractReturn<typeof transactions.syncStart>)
 
   yield take(transactions.SYNC_STOP)
   yield cancel(requestTransactionsTask)
-  yield all(requestTasks.map(requestTask => cancel(requestTask)))
 }
 
 export function* transactionsRootSaga(): Saga<void> {

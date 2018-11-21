@@ -13,6 +13,7 @@ import {
 } from 'redux-saga/effects'
 
 import keystore from 'services/keystore'
+import checkETH from 'utils/digitalAssets/checkETH'
 
 import {
   selectNetworkId,
@@ -100,20 +101,22 @@ export function* getBalancesSchedulerProcess(
     ))
 
     // schedule to fetch all balances
-    yield all(activeAssets.map((asset) => {
-      const task: SchedulerTask = {
-        module: 'balances',
-        method: {
-          name: 'getERC20Balance',
-          payload: {
-            blockNumber: currentBlock.number,
-            contractAddress: asset.address,
-            owner: activeOwnerAddress,
+    yield all(activeAssets
+      .filter(({ address }) => !checkETH(address))
+      .map((asset) => {
+        const task: SchedulerTask = {
+          module: 'balances',
+          method: {
+            name: 'getERC20Balance',
+            payload: {
+              blockNumber: currentBlock.number,
+              contractAddress: asset.address,
+              owner: activeOwnerAddress,
+            },
           },
-        },
-      }
-      return put(requestQueue, task)
-    }))
+        }
+        return put(requestQueue, task)
+      }))
 
     while (true) {
       console.log(networkId, currentBlock.number, activeOwnerAddress)
@@ -121,12 +124,12 @@ export function* getBalancesSchedulerProcess(
         = yield select(selectHasPendingBalances, networkId, currentBlock.number, activeOwnerAddress)
 
       if (!hasPendingBalances) {
-        yield put(setIsBalancesFetched(networkId))
+        yield put(setIsBalancesFetched(networkId, true))
         console.log('All balances for block ${} has been fetched')
         return
       }
 
-      yield call(delay, 100)
+      yield call(delay, 1000)
     }
   } finally {
     // canceled...

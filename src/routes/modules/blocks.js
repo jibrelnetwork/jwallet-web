@@ -4,6 +4,9 @@ export const SET_LATEST_BLOCK = '@@blocks/SET_LATEST_BLOCK'
 export const SET_CURRENT_BLOCK = '@@blocks/SET_CURRENT_BLOCK'
 export const SET_PROCESSING_BLOCK = '@@blocks/SET_PROCESSING_BLOCK'
 
+export const SET_IS_BALANCES_LOADING = '@@blocks/SET_IS_BALANCES_LOADING'
+export const SET_IS_TRANSACTIONS_LOADING = '@@blocks/SET_IS_TRANSACTIONS_LOADING'
+
 export const SET_IS_BALANCES_FETCHED = '@@blocks/SET_IS_BALANCES_FETCHED'
 export const SET_IS_TRANSACTIONS_FETCHED = '@@blocks/SET_IS_TRANSACTIONS_FETCHED'
 
@@ -37,20 +40,42 @@ export function setProcessingBlock(networkId: NetworkId, block: ?BlockInfo) {
   }
 }
 
-export function setIsBalancesFetched(networkId: NetworkId) {
+export function setIsBalancesLoading(networkId: NetworkId, isLoading: boolean) {
   return {
-    type: SET_IS_BALANCES_FETCHED,
+    type: SET_IS_BALANCES_LOADING,
     payload: {
       networkId,
+      isLoading,
     },
   }
 }
 
-export function setIsTransactionsFetched(networkId: NetworkId) {
+export function setIsTransactionsLoading(networkId: NetworkId, isLoading: boolean) {
+  return {
+    type: SET_IS_TRANSACTIONS_LOADING,
+    payload: {
+      networkId,
+      isLoading,
+    },
+  }
+}
+
+export function setIsBalancesFetched(networkId: NetworkId, isFetched: boolean) {
+  return {
+    type: SET_IS_BALANCES_FETCHED,
+    payload: {
+      networkId,
+      isFetched,
+    },
+  }
+}
+
+export function setIsTransactionsFetched(networkId: NetworkId, isFetched: boolean) {
   return {
     type: SET_IS_TRANSACTIONS_FETCHED,
     payload: {
       networkId,
+      isFetched,
     },
   }
 }
@@ -59,6 +84,8 @@ export type BlocksAction =
   ExtractReturn<typeof setLatestBlock>
   | ExtractReturn<typeof setCurrentBlock>
   | ExtractReturn<typeof setProcessingBlock>
+  | ExtractReturn<typeof setIsBalancesLoading>
+  | ExtractReturn<typeof setIsTransactionsLoading>
   | ExtractReturn<typeof setIsBalancesFetched>
   | ExtractReturn<typeof setIsTransactionsFetched>
 
@@ -127,9 +154,9 @@ function blocks(
       }
     }
 
-    case SET_IS_TRANSACTIONS_FETCHED: {
+    case SET_IS_BALANCES_LOADING: {
       const { items } = state.persist
-      const { networkId } = action.payload
+      const { networkId, isLoading } = action.payload
 
       return {
         ...state,
@@ -138,9 +165,72 @@ function blocks(
           items: {
             [networkId]: {
               ...items[networkId],
-              currentBlock: {
-                ...items[networkId].currentBlock,
-                issTransactionsFetched: true,
+              processingBlock: {
+                ...items[networkId].processingBlock,
+                isBalancesLoading: isLoading,
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case SET_IS_TRANSACTIONS_LOADING: {
+      const { items } = state.persist
+      const { networkId, isLoading } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            [networkId]: {
+              ...items[networkId],
+              processingBlock: {
+                ...items[networkId].processingBlock,
+                isTransactionsLoading: isLoading,
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case SET_IS_BALANCES_FETCHED: {
+      const { items } = state.persist
+      const { networkId, isFetched } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            [networkId]: {
+              ...items[networkId],
+              processingBlock: {
+                ...items[networkId].processingBlock,
+                isBalancesFetched: isFetched,
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case SET_IS_TRANSACTIONS_FETCHED: {
+      const { items } = state.persist
+      const { networkId, isFetched } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            [networkId]: {
+              ...items[networkId],
+              processingBlock: {
+                ...items[networkId].processingBlock,
+                isTransactionsFetched: isFetched,
               },
             },
           },

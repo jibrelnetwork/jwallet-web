@@ -5,17 +5,16 @@ import {
   channel,
   buffers,
   type Task,
-  type Channel,
 } from 'redux-saga'
 
 import {
   all,
-  take,
-  fork,
-  cancel,
-  select,
   put,
   call,
+  fork,
+  take,
+  cancel,
+  select,
 } from 'redux-saga/effects'
 
 import * as transactions from 'routes/modules/transactions'
@@ -71,7 +70,7 @@ function selectCurrentBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
   return null
 }
 
-function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
+export function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
   const { items } = state.blocks.persist
 
   if (items[networkId] && items[networkId].latestBlock) {
@@ -91,7 +90,7 @@ export function* requestTaskProcess(requestQueue: Channel): Saga<void> {
       }
 
       if (request.module === 'transactions') {
-        yield* requestTransactions(request)
+        yield* requestTransactions(request, requestQueue)
       }
     } catch (err) {
       if (request.retryCount && request.retryCount > 0) {
@@ -114,13 +113,13 @@ function* blockDataProcess(): Saga<void> {
     }: ExtractReturn<typeof selectWalletsPersist> = yield select(selectWalletsPersist)
 
     if (!activeWalletId) {
-      throw new Error('Active wallet is not found')
+      return
     }
 
     const owner: ?Address = keystore.getAddress(items, activeWalletId)
 
     if (!owner) {
-      throw new Error('Active wallet is not found')
+      return
     }
 
     const networkId: ExtractReturn<typeof selectNetworkId> = yield select(selectNetworkId)
@@ -134,8 +133,11 @@ function* blockDataProcess(): Saga<void> {
 
     const buffer = buffers.expanding(1)
     const requestQueue: Channel = yield channel(buffer)
-    const requestTasks: Array<Task<typeof requestTaskProcess>> =
-      yield all(Array.from({ length: 5 }).map(() => fork(requestTaskProcess, requestQueue)))
+
+    const requestTasks: Array<Task<typeof requestTaskProcess>> = yield all(Array
+      .from({ length: 5 })
+      .map(() => fork(requestTaskProcess, requestQueue))
+    )
 
     const getBalancesTask: Task<typeof getBalancesSchedulerProcess> = yield fork(
       getBalancesSchedulerProcess,
@@ -177,12 +179,23 @@ function* blockFlowProcess(): Saga<void> {
       continue
     }
 
-    if (processingBlock.isBalancesFetched /* && processingBlock.isTransactionsReady */) {
-      if (!currentBlock || (currentBlock.hash !== processingBlock.hash)) {
+    const {
+      hash,
+      isBalancesFetched,
+      isBalancesLoading,
+      isTransactionsFetched,
+      isTransactionsLoading,
+    }: BlockInfo = processingBlock
+
+    if (isBalancesFetched && isTransactionsFetched) {
+      if (!currentBlock || (currentBlock.hash !== hash)) {
         yield put(setCurrentBlock(networkId, processingBlock))
       }
 
-      if (processingBlock.hash !== latestBlock.hash) {
+      const isProcessingBlockOutdated: boolean = (hash !== latestBlock.hash)
+      const isProcessingBlockFinished: boolean = !(isBalancesLoading || isTransactionsLoading)
+
+      if (isProcessingBlockOutdated && isProcessingBlockFinished) {
         yield put(setProcessingBlock(networkId, null))
       }
     }

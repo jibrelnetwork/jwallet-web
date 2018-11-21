@@ -19,18 +19,19 @@ declare type TransactionStatus = '0x0' | '0x1'
 declare type TransactionEventType = 0 | 1 | 2
 
 declare type Transaction = {
-  +to: Address,
-  +from: Address,
-  +blockHash: ?Hash,
+  +to?: Address,
+  +from?: Address,
+  +blockHash?: ?Hash,
   +contractAddress?: Address,
-  +amount: number,
+  +amount?: number,
   +gasUsed?: number,
-  +gasPrice: number,
+  +gasPrice?: number,
   +timestamp?: number,
-  +blockNumber: ?number,
+  +blockNumber?: ?number,
   +status?: TransactionStatus,
-  +eventType: TransactionEventType,
+  +eventType?: TransactionEventType,
   +isRemoved?: boolean,
+  +isLoading: boolean,
 }
 
 declare type Transactions = {
@@ -61,7 +62,6 @@ declare type TransactionsState = {|
       },
     },
   |},
-  +isLoading: boolean,
   +isSyncing: boolean,
   +isBlockExplorerError: boolean,
 |}
