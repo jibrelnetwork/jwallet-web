@@ -1,4 +1,10 @@
 {
   "*.js": "./node_modules/.bin/eslint",
-  "*.scss": "./node_modules/.bin/stylelint --syntax=scss"
+  "*.scss": "./node_modules/.bin/stylelint --syntax=scss",
+  "ignore": [
+    "node_modules/**",
+    "build/**",
+    "test/**",
+    "src/public/**"
+  ]
 }
