@@ -53,7 +53,7 @@ function selectHasPendingBalances(
 export function* getBalancesSchedulerProcess(
   requestQueue: Channel,
   networkId: NetworkId,
-  currentBlock: BlockInfo,
+  processingBlock: BlockInfo,
 ): Saga<void> {
   try {
     const wallets: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
@@ -86,7 +86,7 @@ export function* getBalancesSchedulerProcess(
 
     yield put(initAtBlock(
       networkId,
-      currentBlock.number,
+      processingBlock.number,
       activeOwnerAddress,
       initialState
     ))
@@ -99,7 +99,7 @@ export function* getBalancesSchedulerProcess(
           method: {
             name: 'getETHBalance',
             payload: {
-              blockNumber: currentBlock.number,
+              blockNumber: processingBlock.number,
               owner: activeOwnerAddress,
             },
           },
@@ -111,7 +111,7 @@ export function* getBalancesSchedulerProcess(
           method: {
             name: 'getERC20Balance',
             payload: {
-              blockNumber: currentBlock.number,
+              blockNumber: processingBlock.number,
               contractAddress: asset.address,
               owner: activeOwnerAddress,
             },
@@ -121,13 +121,18 @@ export function* getBalancesSchedulerProcess(
       }
     }))
 
+    // wait, while all balances will be fetched
     while (true) {
-      const hasPendingBalances: ExtractReturn<typeof selectHasPendingBalances>
-        = yield select(selectHasPendingBalances, networkId, currentBlock.number, activeOwnerAddress)
+      const hasPendingBalances: ExtractReturn<typeof selectHasPendingBalances> = yield select(
+        selectHasPendingBalances,
+        networkId,
+        processingBlock.number,
+        activeOwnerAddress
+      )
 
       if (!hasPendingBalances) {
         yield put(setIsBalancesFetched(networkId))
-        console.log(`All balances for block ${currentBlock.number} has been fetched`)
+        console.log(`All balances for block ${processingBlock.number} has been fetched`)
         return
       }
 

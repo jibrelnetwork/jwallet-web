@@ -91,24 +91,6 @@ function blocks(
       }
     }
 
-    case SET_CURRENT_BLOCK: {
-      const { items } = state.persist
-      const { networkId, block } = action.payload
-
-      return {
-        ...state,
-        persist: {
-          ...state.persist,
-          items: {
-            [networkId]: {
-              ...items[networkId],
-              currentBlock: block,
-            },
-          },
-        },
-      }
-    }
-
     case SET_PROCESSING_BLOCK: {
       const { items } = state.persist
       const { networkId, block } = action.payload
@@ -127,6 +109,24 @@ function blocks(
       }
     }
 
+    case SET_CURRENT_BLOCK: {
+      const { items } = state.persist
+      const { networkId, block } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            [networkId]: {
+              ...items[networkId],
+              currentBlock: block,
+            },
+          },
+        },
+      }
+    }
+
     case SET_IS_BALANCES_FETCHED: {
       const { items } = state.persist
       const { networkId } = action.payload
@@ -138,7 +138,7 @@ function blocks(
           items: {
             [networkId]: {
               ...items[networkId],
-              currentBlock: {
+              processingBlock: {
                 ...items[networkId].currentBlock,
                 isBalancesFetched: true,
               },
@@ -159,7 +159,7 @@ function blocks(
           items: {
             [networkId]: {
               ...items[networkId],
-              currentBlock: {
+              processingBlock: {
                 ...items[networkId].currentBlock,
                 issTransactionsFetched: true,
               },
