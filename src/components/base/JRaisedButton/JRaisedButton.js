@@ -73,6 +73,7 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
       isWide && '-wide',
       isHovered && '-hovered',
       isDisabled && '-disabled',
+      labelColor === 'dark' && '-hover-dark',
     )
 
     if (isLoading) {
@@ -98,7 +99,7 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
         <div className='label'>
           <JText
             value={label}
-            color={(isHovered || isDisabled) ? 'white' : labelColor}
+            color={((isHovered && labelColor !== 'dark') || isDisabled) ? 'white' : labelColor}
             weight='bold'
           />
         </div>
