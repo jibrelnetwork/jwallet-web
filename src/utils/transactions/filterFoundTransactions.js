@@ -1,15 +1,7 @@
 // @flow
 
-function filterFoundTransactions({
-  items,
-  foundTransactions,
-  searchQuery,
-}: TransactionsData): Transactions {
-  if (!searchQuery) {
-    return items
-  }
-
-  return items.filter((tx: Transaction): boolean => foundTransactions.includes(tx.transactionHash))
+function filterFoundTransactions(transactions: Transaction[], foundItems: Hashes): Transaction[] {
+  return transactions.filter((item: Transaction): boolean => foundItems.includes(item.hash))
 }
 
 export default filterFoundTransactions
