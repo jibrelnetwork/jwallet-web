@@ -13,7 +13,7 @@ import {
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
-  '/': 'Transactions',
+  '/transactions': 'Transactions',
 }
 
 type Props = {|
