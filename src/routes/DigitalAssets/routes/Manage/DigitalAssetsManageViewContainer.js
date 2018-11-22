@@ -43,7 +43,7 @@ const sortAssetsFn = (
   { asset: { name: nameB } },
 ): number => {
   if (isCustom) {
-    return 1
+    return -1
   }
   if (nameA > nameB) {
     return 1
