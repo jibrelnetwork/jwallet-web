@@ -66,7 +66,7 @@ declare type BlockRange = Array<{
   start: number,
   end: number,
   assets: {
-    [AssetAddeess]: Array<{
+    [AssetAddress]: Array<{
       start: number,
       end: number,
       isLoaded: boolean
