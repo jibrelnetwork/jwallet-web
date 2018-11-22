@@ -55,12 +55,12 @@ export function makeRootReducer() {
     digitalAssetsGrid,
     addAsset,
     editAsset,
-    // transactions
-    transactions,
     // blocks
     blocks,
     // balances
     balances,
+    // transactions
+    transactions,
     // router
     router,
   })
