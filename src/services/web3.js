@@ -31,30 +31,17 @@ function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-export function getETHBalance(address: Address): Promise<Bignumber> {
+export function getETHBalance(address: Address): Promise<typeof Bignumber> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
-    // .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
-}
-
-function getTokenBalance(
-  contractAddress: Address,
-  owner: Address,
-  decimals: Decimals = defaultDecimals,
-): Promise<number> {
-  return jibrelContractsApi.contracts.erc20
-    .balanceOf({ ...rpcProps, contractAddress, owner })
-    .then(balance => (balance.toNumber() / (10 ** decimals)))
 }
 
 export function getAssetBalance(
   contractAddress: Address,
   owner: Address
-  // decimals: Decimals,
-): Promise<Bignumber> {
+): Promise<typeof Bignumber> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
-    // .then(balance => (balance.toNumber() / (10 ** decimals)))
 }
 
 function getContractDecimals(
@@ -82,7 +69,8 @@ function getContractSymbol(
 function getContractCode(
   contractAddress: Address
 ): Promise<string> {
-  return jibrelContractsApi.eth.getCode({ ...rpcProps, address: contractAddress })
+  return jibrelContractsApi.eth
+    .getCode({ ...rpcProps, address: contractAddress })
 }
 
 /**
@@ -113,14 +101,18 @@ function checkSignatureInContract(contractCode: string, signature: string): bool
  * @param {string} contractCode
  * @returns {boolean}
  */
-function checkContractCodeIsERC20(contractCode: string): boolean {
-  const signatures = [
+function checkContractCodeIsERC20(contractCode: string, checkAllMethods: boolean = false): boolean {
+  const signatures = checkAllMethods ? [
     'totalSupply()',
-    'transferFrom(address,address,uint256)',
     'balanceOf(address)',
     'transfer(address,uint256)',
+    'transferFrom(address,address,uint256)',
     'allowance(address,address)',
     'approve(address,uint256)',
+  ] : [
+    'totalSupply()',
+    'balanceOf(address)',
+    'transfer(address,uint256)',
   ]
 
   // run checkSignatureInContract and try to find False in result
@@ -380,7 +372,6 @@ export default {
   setRpcProps,
   getRpcProps,
   getETHBalance,
-  getTokenBalance,
   getAssetBalance,
   getETHTransactions,
   getContractTransactions,
