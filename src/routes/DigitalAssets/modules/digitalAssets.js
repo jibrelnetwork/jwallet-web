@@ -178,10 +178,6 @@ const digitalAssets = (
         persist,
       } = state
 
-      // const itemsWithoutAsset = {
-      //   ...persist.items,
-      // }
-
       const newItems = Object
         .keys(persist.items)
         .map(addr => persist.items[addr])
@@ -189,9 +185,6 @@ const digitalAssets = (
           ...previous,
           [current.address]: current,
         } : previous, {})
-
-      // deslint-disable-next-line no-delete-var
-      // delete itemsWithoutAsset[address]
 
       return {
         ...state,

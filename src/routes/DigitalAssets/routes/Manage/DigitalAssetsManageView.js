@@ -11,14 +11,14 @@ import {
 import { JSearch, JText, JIcon } from 'components/base'
 
 type Props = {|
-  openView: () => void,
-  closeView: () => void,
-  setSearchQuery: (string) => void,
-  addAssetClick: () => void,
-  items: Array<DigitalAssetsGridItemType>,
-  deleteCustomAsset: (Address) => void,
-  setAssetIsActive: (Address, boolean) => void,
-  editAsset: (Address) => void,
+  +openView: () => void,
+  +closeView: () => void,
+  +setSearchQuery: (string) => void,
+  +addAssetClick: () => void,
+  +items: Array<DigitalAssetsGridItemType>,
+  +deleteCustomAsset: (Address) => void,
+  +setAssetIsActive: (Address, boolean) => void,
+  +editAsset: (Address) => void,
 |}
 
 class DigitalAssetsManageView extends Component<Props> {

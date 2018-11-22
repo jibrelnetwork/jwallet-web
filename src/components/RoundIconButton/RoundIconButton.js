@@ -2,7 +2,6 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { handle } from 'utils/eventHandlers'
 
 import { JIcon, JText } from 'components/base'
 
@@ -41,7 +40,7 @@ class RoundIconButton extends PureComponent<Props> {
 
     return (
       <div
-        onClick={handle(onClick)()}
+        onClick={onClick}
         className={classNames(
           `round-icon-button -${color}`,
           isBordered && '-border',

@@ -38,26 +38,16 @@ const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => 
   return false
 }
 
-const sortByNameFn = (
-  { asset: { name: nameA } },
+const sortAssetsFn = (
+  { asset: { name: nameA, isCustom } },
   { asset: { name: nameB } },
 ): number => {
+  if (isCustom) {
+    return 1
+  }
   if (nameA > nameB) {
     return 1
   } else if (nameA < nameB) {
-    return -1
-  } else {
-    return 0
-  }
-}
-
-const sortByCustomFirstFn = (
-  { asset: { isCustom: A } },
-  { asset: { isCustom: B } },
-): number => {
-  if (A === false && B === true) {
-    return 1
-  } else if (A === true && B === false) {
     return -1
   } else {
     return 0
@@ -83,9 +73,7 @@ const mapStateToProps = (state: AppState) => {
     .filter(item => checkSearchQuery(item.asset, searchQuery))
 
   // eslint-disable-next-line fp/no-mutating-methods
-  items.sort(sortByNameFn)
-  // eslint-disable-next-line fp/no-mutating-methods
-  items.sort(sortByCustomFirstFn)
+  items.sort(sortAssetsFn)
 
   return {
     items,

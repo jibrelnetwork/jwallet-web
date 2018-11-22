@@ -6,17 +6,17 @@ import { handle } from 'utils/eventHandlers'
 import AssetItem from '../AssetItem'
 import Empty from './Empty'
 
-export type DigitalAssetsGridItemType = {
-  asset: DigitalAsset,
-  balance: ?DigitalAssetsBalance,
-}
+export type DigitalAssetsGridItemType = {|
+  +asset: DigitalAsset,
+  +balance: ?DigitalAssetsBalance,
+|}
 
-type Props = {
-  items: Array<DigitalAssetsGridItemType>,
-  deleteCustomAsset: (Address) => void,
-  editAsset: (Address) => void,
-  setAssetIsActive: (Address, boolean) => void,
-}
+type Props = {|
+  +items: Array<DigitalAssetsGridItemType>,
+  +deleteCustomAsset: (Address) => void,
+  +editAsset: (Address) => void,
+  +setAssetIsActive: (Address, boolean) => void,
+|}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
@@ -44,8 +44,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               editAssetItemClick={handle(editAsset)(asset.address)}
             />
           </div>
-        )
-        )}
+        ))}
       </div>
     )
   }
