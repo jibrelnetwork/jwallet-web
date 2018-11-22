@@ -32,7 +32,7 @@ function MenuPanelWalletManagerDetailsAddressesItem({
         ) : (
           shortAddress
         )}
-        name='address'
+        name={address}
       />
     </div>
   )
