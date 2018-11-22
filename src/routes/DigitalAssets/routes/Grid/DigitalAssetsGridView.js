@@ -8,7 +8,6 @@ import { JSearch, JTabs, JIcon } from 'components/base'
 import {
   DigitalAssetsGrid,
   DigitalAssetsFilter,
-  type DigitalAssetsGridItemType,
 } from 'components'
 
 const DIGITAL_ASSETS_TABS = {

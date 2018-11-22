@@ -3,10 +3,7 @@
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import {
-  DigitalAssetsManage,
-  type DigitalAssetsGridItemType,
-} from 'components'
+import { DigitalAssetsManage } from 'components'
 
 import { JSearch, JText, JIcon } from 'components/base'
 
