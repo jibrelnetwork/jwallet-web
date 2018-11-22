@@ -1,9 +1,9 @@
 .digital-assets-empty {
   all: initial;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: -$page-header-height;
-  padding-top: 30px;
+  justify-content: center;
   height: 100vh;
+  padding-top: 30px;
+  margin-top: -$page-header-height;
 }
