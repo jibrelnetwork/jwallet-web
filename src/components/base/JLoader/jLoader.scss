@@ -45,6 +45,10 @@
   &.-sky > .dot {
     background-color: $bright-sky-blue;
   }
+
+  &.-dark > .dot {
+    background-color: rgba($dark-three, 0.8);
+  }
 }
 
 @keyframes firstDotAnimation {

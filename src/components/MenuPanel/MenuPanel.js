@@ -75,7 +75,7 @@ class MenuPanel extends Component<Props, ComponentState> {
       <div className={classNames('menu-panel', isReadOnly && '-read-only')}>
         <div className='top'>
           <div className='logo'>
-            <JLogo isMinimal />
+            <JLogo isOnlyIcon />
           </div>
           <div className='separator' />
           <div className='ticker'>
@@ -93,6 +93,7 @@ class MenuPanel extends Component<Props, ComponentState> {
           addressNames={addressNames}
           activeWalletId={activeWalletId}
           isActive={isWalletManagerActive}
+          isReadOnly={isReadOnly}
         />
       </div>
     )

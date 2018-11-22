@@ -5,19 +5,19 @@ import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
 
 type Props = {|
-  +isMinimal: boolean,
+  +isOnlyIcon: boolean,
 |}
 
 class JLogo extends PureComponent<Props> {
   static defaultProps = {
-    isMinimal: false,
+    isOnlyIcon: false,
   }
 
   render() {
-    const { isMinimal }: Props = this.props
+    const { isOnlyIcon }: Props = this.props
 
     return (
-      <Link to='/' className={classNames('j-logo', isMinimal && '-minimal')}>
+      <Link to='/' className={classNames('j-logo', isOnlyIcon && '-only-icon')}>
         <span className='image' />
       </Link>
     )

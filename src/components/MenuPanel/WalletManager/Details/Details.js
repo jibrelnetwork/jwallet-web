@@ -15,6 +15,7 @@ type Props = {|
   +addressNames: AddressNames,
   +type: WalletType,
   +isActive: boolean,
+  +isReadOnly: boolean,
 |}
 
 function MenuPanelWalletManagerDetails({
@@ -23,6 +24,7 @@ function MenuPanelWalletManagerDetails({
   addressNames,
   type,
   isActive,
+  isReadOnly,
 }: Props) {
   const isMnemonic: boolean = checkMnemonicType(type)
 
@@ -32,6 +34,7 @@ function MenuPanelWalletManagerDetails({
         'menu-panel-wallet-manager-details',
         isActive && '-active',
         isMnemonic && '-mnemonic',
+        isReadOnly && '-read-only'
       )}
     >
       {!isMnemonic ? <MenuPanelWalletManagerDetailsActions /> : (
@@ -43,7 +46,7 @@ function MenuPanelWalletManagerDetails({
           />
           <div className='action'>
             <MenuPanelActionsItem
-              icon='star'
+              icon='setting'
               path='/wallets'
               label='Manage wallets'
             />

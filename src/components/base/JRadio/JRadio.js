@@ -1,37 +1,61 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
-import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
+import JText from 'components/base/JText'
 
-const JRadio = ({ toggle, children, name, isActive, isTopAligned }: Props) => (
-  <div
-    className={classNames('j-radio', isActive && '-active', isTopAligned && '-top')}
-    onClick={ignoreEvent(toggle)(isActive)}
-  >
-    <div className='input'>
-      <input type='radio' className='radio' name={`radio-${name}`} checked={isActive} readOnly />
-      <label htmlFor={`radio-${name}`} className='label' />
-    </div>
-    <div className='content'>
-      {children}
-    </div>
-  </div>
-)
+type Props = {|
+  +onChange: ?((boolean) => void),
+  +name: string,
+  +label: React$Node,
+  +isChecked: boolean,
+|}
 
-type Props = {
-  toggle: Function,
-  children: ?Object,
-  name: number | string,
-  isActive: boolean,
-  isTopAligned: boolean,
-}
+class JRadio extends PureComponent<Props> {
+  static defaultProps = {
+    isChecked: false,
+  }
 
-JRadio.defaultProps = {
-  children: null,
-  isActive: false,
-  isTopAligned: false,
+  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+    if (this.props.onChange) {
+      this.props.onChange(event.target.checked)
+    }
+  }
+
+  render() {
+    const {
+      name,
+      label,
+      isChecked,
+    } = this.props
+
+    return (
+      <div className={classNames('j-radio', isChecked && '-checked')}>
+        <label className='field'>
+          <input
+            onChange={this.onChange}
+            name={`radio-${name}`}
+            type='radio'
+            className='checkbox'
+            defaultChecked={isChecked}
+          />
+          <div className='flag' />
+          <div className='label'>
+            {(typeof label !== 'string') ? label : (
+              <JText
+                color='white'
+                size='small'
+                value={label}
+                weight='bold'
+                whiteSpace='wrap'
+              />
+            )}
+          </div>
+        </label>
+      </div>
+    )
+  }
 }
 
 export default JRadio

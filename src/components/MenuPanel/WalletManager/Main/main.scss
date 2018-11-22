@@ -8,7 +8,11 @@
   padding: 30px 50px;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease 0s;
+  transition: background-color 0.3s ease 0s, padding-bottom 0.3s ease 0s;
+
+  > .icon {
+    opacity: 0.5;
+  }
 
   > .info {
     @include flex-column;
@@ -26,11 +30,26 @@
   }
 
   > .chevron {
-    margin: 0 -4px 0 auto;
+    @include hover-animation;
+
+    margin-left: auto;
+    margin-right: -4px;
   }
 
   &:hover,
   &.-active {
     background-color: $cobalt-blue;
+
+    &.-read-only {
+      background-color: $dark-three;
+    }
+  }
+
+  &.-active {
+    padding-bottom: 15px;
+
+    > .chevron {
+      transform: scaleY(-1);
+    }
   }
 }

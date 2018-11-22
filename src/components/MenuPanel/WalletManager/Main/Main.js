@@ -3,15 +3,18 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+
 import { JIcon, JText } from 'components/base'
 import getShortenedAddress from 'utils/wallets/getShortenedAddress'
 
 type Props = {|
   +toggle: () => void,
-  +type: string,
+  +type: WalletType,
   +name: string,
   +address: string,
   +isActive: boolean,
+  +isReadOnly: boolean,
 |}
 
 const SYMBOLS_FROM_START = 8
@@ -23,18 +26,22 @@ function MenuPanelWalletManagerMain({
   name,
   address,
   isActive,
+  isReadOnly,
 }: Props) {
-  // type is neccessary for icon
-  console.log(type)
+  const isMnemonic: boolean = checkMnemonicType(type)
 
   return (
     <div
       onClick={toggle}
-      className={classNames('menu-panel-wallet-manager-main', isActive && '-active')}
+      className={classNames(
+        'menu-panel-wallet-manager-main',
+        isActive && '-active',
+        isReadOnly && '-read-only'
+      )}
     >
       <div className='icon'>
         <JIcon
-          name='multy'
+          name={isMnemonic ? 'multy' : 'binding'}
           size='medium'
           color='white'
         />
