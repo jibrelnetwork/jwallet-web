@@ -10,7 +10,6 @@
   position: relative;
   padding: 20px 0;
   height: 80px;
-  cursor: pointer;
 
   > .info {
     @include flex-row;
@@ -62,6 +61,7 @@
     width: 100%;
     height: 100%;
     display: none;
+    cursor: pointer;
   }
 
   > .actions {
