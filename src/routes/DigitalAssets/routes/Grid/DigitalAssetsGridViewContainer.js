@@ -5,11 +5,25 @@ import { push } from 'react-router-redux'
 
 import {
   selectDigitalAssets,
-  selectCurrentBlockNumber,
-  selectDigitalAssetBalance,
   selectDigitalAssetsGridFilters,
   selectDigitalAssetsGridSearchQuery,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
+
+import {
+  selectCurrentBlockNumber,
+} from 'store/selectors/blocks'
+
+import {
+  selectNetworkId,
+} from 'store/selectors/networks'
+
+import {
+  selectDigitalAssetBalance,
+} from 'store/selectors/balances'
+
+import {
+  selectActiveWalletAddress,
+} from 'store/selectors/wallets'
 
 import DigitalAssetsGridView from './DigitalAssetsGridView'
 
@@ -38,11 +52,15 @@ const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => 
 }
 
 const mapStateToProps = (state: AppState) => {
-  const currentBlock = selectCurrentBlockNumber(state)
-  const currentOwnerAddress = ''
-  const assets = selectDigitalAssets(state)
+  const networkId = selectNetworkId(state)
+
+  // assets grid selectors
+  const assets = selectDigitalAssets(state /* , networkId */)
   const filter = selectDigitalAssetsGridFilters(state)
   const searchQuery = selectDigitalAssetsGridSearchQuery(state)
+
+  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
+  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
 
   const {
     sortBy,
@@ -86,7 +104,7 @@ const mapStateToProps = (state: AppState) => {
       asset: assets[assetAddress],
       balance: selectDigitalAssetBalance(
         state,
-        currentBlock,
+        currentBlockNumber,
         currentOwnerAddress,
         assetAddress
       ),

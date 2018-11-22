@@ -2,9 +2,9 @@
 
 import { selectNetworkId } from './networks'
 
-export function selectDigitalAssetsBalances(state: AppState): DigitalAssetsBalances {
+export function selectDigitalAssetsBalances(state: AppState): Balances {
   const {
-    digitalAssets: {
+    balances: {
       persist: {
         balances,
       },
@@ -18,7 +18,7 @@ export function selectDigitalAssetsOwnerBalances(
   state: AppState,
   blockNumber: number,
   ownerAddress: Address,
-): ?DigitalAssetsOwnerBalances {
+): ?OwnerBalances {
   const balances = selectDigitalAssetsBalances(state)
   const networkId = selectNetworkId(state)
   const block = blockNumber.toString()
@@ -39,7 +39,7 @@ export function selectDigitalAssetBalance(
   blockNumber: number,
   ownerAddress: Address,
   assetAddress: Address
-): ?DigitalAssetsBalance {
+): ?Balance {
   const ownerBalances = selectDigitalAssetsOwnerBalances(state, blockNumber, ownerAddress)
 
   if (ownerBalances && ownerBalances[assetAddress]) {
