@@ -2,37 +2,51 @@
 
 import React from 'react'
 
-import TransactionItemMain from './Main'
-import TransactionItemDetails from './Details'
+// import TransactionItemMain from './Main'
+// import TransactionItemDetails from './Details'
 
-type Props = {
-  repeat: Function,
-  setActive: Function,
-  data: Transaction,
-  activeTxHash: ?Hash,
-  assetSymbol: ?string,
-}
+type Props = {|
+  // +setActive: () => void,
+  +data: TransactionWithAssetAddress,
+  +asset: ?DigitalAsset,
+  // +isActive: boolean,
+|}
 
-function TransactionItem({ repeat, setActive, data, assetSymbol, activeTxHash }: Props) {
-  const isActive: boolean = (data.transactionHash === activeTxHash)
+function TransactionItem({
+  // setActive,
+  data,
+  asset,
+  // isActive,
+}: Props) {
+  if (!asset) {
+    return null
+  }
 
+  return (
+    <div>
+      {data.hash}
+    </div>
+  )
+
+  /*
   return (
     <div className='transaction-item'>
       <TransactionItemMain
-        repeat={repeat}
         setActive={setActive}
         data={data}
-        assetSymbol={assetSymbol}
+        assetSymbol={asset.symbol}
         isActive={isActive}
       />
       <TransactionItemDetails
-        repeat={repeat}
+        repeat={console.log}
+        addComment={console.log}
+        addFavorite={console.log}
         data={data}
-        assetSymbol={assetSymbol}
         isActive={isActive}
       />
     </div>
   )
+  */
 }
 
 export default TransactionItem

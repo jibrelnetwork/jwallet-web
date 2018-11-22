@@ -21,18 +21,18 @@ import DerivationPath from './DerivationPath'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
+import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
 import TransactionItem from './TransactionItem'
 import WalletViewTitle from './WalletViewTitle'
 import NewWalletButtons from './NewWalletButtons'
+import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
-import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
 import WalletPasswordStep from './WalletPasswordStep'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
-
-import CloseableScreen from './CloseableScreen'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
+import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
 
 export {
   QRCode,
@@ -61,6 +61,7 @@ export {
   TransactionItem,
   WalletViewTitle,
   NewWalletButtons,
+  TransactionsList,
   DigitalAssetsGrid,
   ButtonWithConfirm,
   MnemonicAddresses,
