@@ -33,3 +33,8 @@ h3 {
 .story.-white {
   background-color: #fff;
 }
+
+.right-position-content {
+  display: flex;
+  justify-content: flex-end;
+}
