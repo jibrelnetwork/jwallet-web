@@ -14,13 +14,15 @@ type Props = {|
 |}
 
 type ComponentState = {|
-  +isActive: boolean,
+  +searchInputRef: React$ElementRef<any>,
   +value: string,
   +queryTimeout: ?TimeoutID,
+  +isActive: boolean,
 |}
 
 class JSearch extends PureComponent<Props, ComponentState> {
   static defaultProps = {
+    value: '',
     placeholder: '',
   }
 
@@ -28,6 +30,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
     super(props)
 
     this.state = {
+      searchInputRef: React.createRef(),
       value: props.value,
       queryTimeout: null,
       isActive: false,
@@ -53,9 +56,16 @@ class JSearch extends PureComponent<Props, ComponentState> {
       value: '',
     })
 
-    if (!isActive) {
-      if (this.state.queryTimeout) {
-        clearTimeout(this.state.queryTimeout)
+    const {
+      searchInputRef,
+      queryTimeout,
+    } = this.state
+
+    if (isActive) {
+      searchInputRef.current.focus()
+    } else {
+      if (queryTimeout) {
+        clearTimeout(queryTimeout)
       }
 
       this.props.onChange('')
@@ -68,6 +78,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
     } = this.props
 
     const {
+      searchInputRef,
       value,
       isActive,
     } = this.state
@@ -80,6 +91,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
         <div className='field'>
           <input
             onChange={handleTargetValue(this.onChange)}
+            ref={searchInputRef}
             value={value}
             placeholder={placeholder}
             type='text'

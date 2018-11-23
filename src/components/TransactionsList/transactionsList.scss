@@ -2,4 +2,8 @@
 
 .transactions-list {
   all: initial;
+  display: block;
+  max-width: 1000px;
+  margin: 0 auto 50px auto;
+  padding-top: $page-header-height;
 }

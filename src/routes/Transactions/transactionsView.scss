@@ -1,3 +1,51 @@
 .transactions-view {
   all: initial;
+
+  @include flex-column-center;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  > .header {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image:
+      linear-gradient(
+        to bottom,
+        hsl(228, 33.33%, 97.06%) 0%,
+        hsl(228, 33.33%, 97.06%) 60%,
+        hsla(228, 33.33%, 97.06%, 0) 100%
+      );
+
+    > .container {
+      @include flex-row;
+
+      max-width: 1000px;
+      height: $page-header-height;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+
+      > .actions {
+        @include box;
+        @include flex-row;
+
+        align-items: center;
+
+        > .search,
+        > .filter {
+          margin-right: 45px;
+        }
+      }
+    }
+  }
+
+  > .content {
+    width: 100%;
+    height: 100%;
+  }
 }
