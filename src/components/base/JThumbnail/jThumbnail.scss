@@ -6,41 +6,24 @@
   width: 480px;
   padding-bottom: 30px;
 
-  > .image {
-    width: $thumbnail-width;
-    height: $thumbnail-height;
-    background-size: $thumbnail-width $thumbnail-height;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    &.-key {
-      background-image: $key-blue;
-    }
-
-    &.-man {
-      background-image: $man-blue;
-    }
-
-    &.-cloud {
-      background-image: $cloud-white;
-
-      &.-blue {
-        background-image: $cloud-blue;
-      }
-    }
-  }
-
   > .title {
     margin-top: 25px;
-    margin-bottom: 12px;
     text-align: center;
+    margin-bottom: 6px;
   }
 
   > .description {
     @include flex-column-center;
 
+    padding-top: 10px;
     line-height: 24px;
     text-align: center;
     opacity: 0.5;
+  }
+
+  &.-transparent {
+    > .icon {
+      opacity: 0.5;
+    }
   }
 }
