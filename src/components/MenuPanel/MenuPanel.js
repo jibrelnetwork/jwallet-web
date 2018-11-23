@@ -12,6 +12,8 @@ import MenuPanelBalanceTicker from './BalanceTicker'
 import MenuPanelWalletManager from './WalletManager'
 
 type Props = {|
+  +getMoreAddresses: () => void,
+  +setActiveAddress: (Index) => void,
   +items: Wallets,
   +addresses: Addresses,
   +addressNames: AddressNames,
@@ -49,6 +51,8 @@ class MenuPanel extends Component<Props, ComponentState> {
 
   render() {
     const {
+      getMoreAddresses,
+      setActiveAddress,
       items,
       addresses,
       addressNames,
@@ -88,6 +92,8 @@ class MenuPanel extends Component<Props, ComponentState> {
         </div>
         <MenuPanelWalletManager
           toggle={this.toggleWalletManager}
+          getMoreAddresses={getMoreAddresses}
+          setActiveAddress={setActiveAddress}
           items={items}
           addresses={addresses}
           addressNames={addressNames}

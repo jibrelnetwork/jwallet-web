@@ -10,19 +10,23 @@ import MenuPanelWalletManagerDetailsActions from './Actions'
 import MenuPanelWalletManagerDetailsAddresses from './Addresses'
 
 type Props = {|
-  +setActiveAddress: () => void,
+  +getMoreAddresses: () => void,
+  +setActiveAddress: (Index) => void,
   +addresses: Addresses,
   +addressNames: AddressNames,
   +type: WalletType,
+  +currentAddressIndex: ?Index,
   +isActive: boolean,
   +isReadOnly: boolean,
 |}
 
 function MenuPanelWalletManagerDetails({
+  getMoreAddresses,
   setActiveAddress,
   addresses,
   addressNames,
   type,
+  currentAddressIndex,
   isActive,
   isReadOnly,
 }: Props) {
@@ -40,9 +44,11 @@ function MenuPanelWalletManagerDetails({
       {!isMnemonic ? <MenuPanelWalletManagerDetailsActions /> : (
         <Fragment>
           <MenuPanelWalletManagerDetailsAddresses
+            getMoreAddresses={getMoreAddresses}
             setActiveAddress={setActiveAddress}
             addresses={addresses}
             addressNames={addressNames}
+            currentAddressIndex={currentAddressIndex}
           />
           <div className='action'>
             <MenuPanelActionsItem

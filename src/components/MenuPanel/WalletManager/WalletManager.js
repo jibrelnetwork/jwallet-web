@@ -10,6 +10,8 @@ import MenuPanelWalletManagerDetails from './Details'
 
 type Props = {|
   +toggle: () => void,
+  +getMoreAddresses: () => void,
+  +setActiveAddress: (Index) => void,
   +items: Wallets,
   +addresses: Addresses,
   +addressNames: AddressNames,
@@ -20,6 +22,8 @@ type Props = {|
 
 function MenuPanelWalletManager({
   toggle,
+  getMoreAddresses,
+  setActiveAddress,
   items,
   addresses,
   addressNames,
@@ -41,6 +45,7 @@ function MenuPanelWalletManager({
   const {
     type,
     name,
+    addressIndex,
   }: Wallet = wallet
 
   return (
@@ -54,10 +59,12 @@ function MenuPanelWalletManager({
         isReadOnly={isReadOnly}
       />
       <MenuPanelWalletManagerDetails
-        setActiveAddress={console.log}
+        setActiveAddress={setActiveAddress}
+        getMoreAddresses={getMoreAddresses}
         addresses={addresses}
         addressNames={addressNames}
         type={type}
+        currentAddressIndex={addressIndex}
         isActive={isActive}
         isReadOnly={isReadOnly}
       />
