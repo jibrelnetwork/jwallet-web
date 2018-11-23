@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 
 type Props = {
   name: string,
-  color: 'white' | 'blue' | 'gray' | 'sky',
+  color: 'white' | 'blue' | 'gray' | 'sky' | 'red',
   size: 'small' | 'medium' | 'large' | 'xlarge',
 }
 
