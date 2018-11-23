@@ -8,7 +8,6 @@ import { JSearch, JTabs, JIcon } from 'components/base'
 import {
   DigitalAssetsGrid,
   DigitalAssetsFilter,
-  type DigitalAssetsGridItemType,
 } from 'components'
 
 const DIGITAL_ASSETS_TABS = {
@@ -24,6 +23,7 @@ type Props = {|
   sortByBalanceClick: () => void,
   setHideZeroBalance: (boolean) => void,
   addAssetClick: () => void,
+  manageAssetsOpenClick: () => void,
   items: Array<DigitalAssetsGridItemType>,
   filter: DigitalAssetsFilterType,
   filterCount: number,
@@ -48,6 +48,7 @@ class DigitalAssetsGridView extends Component<Props> {
       setHideZeroBalance,
       filterCount,
       addAssetClick,
+      manageAssetsOpenClick,
     } = this.props
 
     return (
@@ -71,7 +72,7 @@ class DigitalAssetsGridView extends Component<Props> {
                   setHideZeroBalance={setHideZeroBalance}
                 />
               </div>
-              <div className='setting'>
+              <div className='setting' onClick={manageAssetsOpenClick}>
                 <JIcon
                   size='medium'
                   color='gray'

@@ -29,11 +29,12 @@ import NewWalletButtons from './NewWalletButtons'
 import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
+import DigitalAssetsGrid from './DigitalAssetsGrid'
 import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
+import DigitalAssetsManage from './DigitalAssetsManage'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
-import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
 
 export {
   QRCode,
@@ -66,12 +67,9 @@ export {
   DigitalAssetsGrid,
   ButtonWithConfirm,
   MnemonicAddresses,
+  TransactionsFilter,
   WalletPasswordStep,
   DigitalAssetsFilter,
-  TransactionsFilter,
+  DigitalAssetsManage,
   DigitalAssetEditForm,
-}
-
-export type {
-  DigitalAssetsGridItemType,
 }

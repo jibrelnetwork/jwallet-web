@@ -127,9 +127,10 @@
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
   @import '../components/DigitalAssetsGrid/digitalAssetsGrid';
   @import '../components/MnemonicAddresses/mnemonicAddresses';
-  @import '../components/DigitalAssetsFilter/digitalAssetsFilter';
-  @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
   @import '../components/TransactionsFilter/transactionsFilter';
+  @import '../components/DigitalAssetsFilter/digitalAssetsFilter';
+  @import '../components/DigitalAssetsManage/digitalAssetsManage';
+  @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
   // Views
   @import '../routes/Terms/termsView';
