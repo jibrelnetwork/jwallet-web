@@ -5,12 +5,8 @@ export const SET_INITIAL_ITEMS = '@@digitalAssets/SET_INITIAL_ITEMS'
 export const UPDATE_ASSET = '@@digitalAssets/UPDATE_ASSET'
 export const DELETE_CUSTOM_ASSET = '@@digitalAssets/DELETE_CUSTOM_ASSET'
 export const ADD_CUSTOM_ASSET = '@@digitalAssets/ADD_CUSTOM_ASSET'
-
-// @public
 export const SET_ASSET_IS_ACTIVE = '@@digitalAssets/SET_ASSET_IS_ACTIVE'
 export const DELETE_ASSET_REQUEST = '@@digitalAssets/DELETE_ASSET_REQUEST'
-export const DELETE_ASSET_SUCCESS = '@@digitalAssets/DELETE_ASSET_SUCCESS'
-export const ADD_CUSTOM_ASSET_SUCCESS = '@@digitalAssets/ADD_CUSTOM_ASSET_SUCCESS'
 
 export function setInitialItems(items: DigitalAssets) {
   return {
@@ -33,15 +29,6 @@ export function addCustomAsset(address: Address, name: string, symbol: string, d
   }
 }
 
-export function addCustomAssetSuccess(address: Address) {
-  return {
-    type: ADD_CUSTOM_ASSET_SUCCESS,
-    payload: {
-      address,
-    },
-  }
-}
-
 export function setAssetIsActive(assetAddress: Address, isActive: boolean) {
   return {
     type: SET_ASSET_IS_ACTIVE,
@@ -52,7 +39,6 @@ export function setAssetIsActive(assetAddress: Address, isActive: boolean) {
   }
 }
 
-// @public
 export function deleteCustomAsset(assetAddress: Address) {
   return {
     type: DELETE_CUSTOM_ASSET,
@@ -65,15 +51,6 @@ export function deleteCustomAsset(assetAddress: Address) {
 export function deleteAssetRequest(assetAddress: Address) {
   return {
     type: DELETE_ASSET_REQUEST,
-    payload: {
-      address: assetAddress,
-    },
-  }
-}
-
-export function deleteAssetSuccess(assetAddress: Address) {
-  return {
-    type: DELETE_ASSET_SUCCESS,
     payload: {
       address: assetAddress,
     },
@@ -94,10 +71,8 @@ export function updateAsset(address: Address, name: string, symbol: string, deci
 
 export type DigitalAssetsAction = ExtractReturn<typeof setInitialItems>
   | ExtractReturn<typeof addCustomAsset>
-  | ExtractReturn<typeof addCustomAssetSuccess>
   | ExtractReturn<typeof deleteCustomAsset>
   | ExtractReturn<typeof deleteAssetRequest>
-  | ExtractReturn<typeof deleteAssetSuccess>
   | ExtractReturn<typeof updateAsset>
   | ExtractReturn<typeof setAssetIsActive>
 

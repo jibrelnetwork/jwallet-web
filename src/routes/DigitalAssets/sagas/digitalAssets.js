@@ -16,7 +16,6 @@ import {
   setInitialItems,
   deleteCustomAsset,
   deleteAssetRequest,
-  deleteAssetSuccess,
   DELETE_CUSTOM_ASSET,
 } from '../modules/digitalAssets'
 
@@ -27,7 +26,6 @@ function* deleteCustomAssetSaga(action: ExtractReturn<typeof deleteCustomAsset>)
   const assets: DigitalAssets = yield select(selectDigitalAssets)
   if (assets && assets[assetAddress] && assets[assetAddress].isCustom) {
     yield put(deleteAssetRequest(assetAddress))
-    yield put(deleteAssetSuccess(assetAddress))
   }
 }
 
