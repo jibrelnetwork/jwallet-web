@@ -30,6 +30,8 @@ declare type HMR = {|
 
 declare type SetFieldFunction<T> = ($Keys<T>, string) => void
 
+declare type OwnPropsEmpty = {||}
+
 declare function i18n(path: string): string
 
 /**
