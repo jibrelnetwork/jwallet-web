@@ -16,6 +16,12 @@ import {
   type EditAssetAction,
 } from '../routes/EditAsset/modules/editAsset'
 
+// exported interface
+export {
+  setAssetIsActive,
+  deleteCustomAsset,
+} from './digitalAssets'
+
 export type DigitalAssetsModuleAction = DigitalAssetsAction |
   DigitalAssetsGridAction |
   AddAssetAction |

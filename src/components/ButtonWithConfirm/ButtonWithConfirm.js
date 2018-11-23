@@ -2,14 +2,23 @@
 
 import React, { Component, Fragment } from 'react'
 
-import JFlatButton from 'components/base/JFlatButton'
+import classNames from 'classnames'
+
+import { JFlatButton, JIcon, JTooltip } from 'components/base'
+
+import type { JIconColor } from 'components/base/JIcon/JIcon'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,
-  +label: string,
+  +color: 'blue' | 'gray' | 'sky' | 'white',
+  +label: ?string,
+  +bgColor: ?string,
+  +iconTooltipName: ?string,
+  +iconTooltipColor: ?JIconColor,
   +labelCancel: string,
   +labelConfirm: string,
   +confirmTimeout: number,
+  +isReverse: boolean,
 |}
 
 type ComponentState = {|
@@ -22,7 +31,12 @@ const ONE_SECOND: 1000 = 1000
 
 class ButtonWithConfirm extends Component<Props, ComponentState> {
   static defaultProps = {
+    label: null,
+    bgColor: null,
+    iconTooltipName: null,
+    iconTooltipColor: null,
     confirmTimeout: 0,
+    isReverse: false,
   }
 
   constructor(props: Props) {
@@ -82,9 +96,14 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
   render() {
     const {
       onClick,
+      color,
       label,
+      bgColor,
+      iconTooltipName,
+      iconTooltipColor,
       labelCancel,
       labelConfirm,
+      isReverse,
     }: Props = this.props
 
     const {
@@ -95,30 +114,51 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     return (
       <div className='button-with-confirm'>
         {isActive ? (
-          <Fragment>
+          <div
+            className={classNames(
+              'actions',
+              bgColor && `-overlay-${bgColor}`,
+              isReverse && '-reverse',
+            )}
+          >
             <JFlatButton
               onClick={this.cancelAction}
               label={labelCancel}
-              color='white'
+              color={color}
               isBordered
             />
             <div className='confirm'>
               <JFlatButton
                 onClick={onClick}
+                color={color}
                 label={(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
-                color='white'
                 isDisabled={countdown > 0}
                 isBordered
               />
             </div>
-          </Fragment>
+          </div>
         ) : (
-          <JFlatButton
-            onClick={this.initAction}
-            label={label}
-            color='white'
-            isBordered
-          />
+          <Fragment>
+            {label && !iconTooltipName && !iconTooltipColor && (
+              <JFlatButton
+                onClick={this.initAction}
+                label={label}
+                color={color}
+                isBordered
+              />
+            )}
+            {iconTooltipName && iconTooltipColor && !label && (
+              <div className='icon' onClick={this.initAction}>
+                <JTooltip text='Delete'>
+                  <JIcon
+                    size='medium'
+                    color={iconTooltipColor}
+                    name={iconTooltipName}
+                  />
+                </JTooltip>
+              </div>
+            )}
+          </Fragment>
         )}
       </div>
     )
