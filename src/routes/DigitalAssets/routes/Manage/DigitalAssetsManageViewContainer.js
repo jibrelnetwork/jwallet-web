@@ -20,7 +20,7 @@ import {
 
 import {
   setAssetIsActive,
-  deleteAsset,
+  deleteCustomAsset,
 } from '../../modules/digitalAssets'
 
 const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
@@ -85,9 +85,9 @@ const mapDispatchToProps = {
   closeView,
   setSearchQuery,
   setAssetIsActive,
-  deleteCustomAsset: deleteAsset,
-  addAssetClick: () => push('/digital-assets/add-asset'),
+  deleteCustomAsset,
   editAsset: (address: Address) => push(`/digital-assets/edit-asset/${address}`),
+  addAssetClick: () => push('/digital-assets/add-asset'),
 }
 
 // eslint-disable-next-line no-unused-vars

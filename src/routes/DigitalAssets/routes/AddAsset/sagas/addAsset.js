@@ -31,6 +31,7 @@ import {
 
 import {
   addCustomAsset,
+  addCustomAssetSuccess,
 } from '../../../modules/digitalAssets'
 
 const {
@@ -242,6 +243,7 @@ function* onAssetFormSumbit(): Saga<void> {
       !symbolError &&
       !decimalsError) {
     yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
+    yield put(addCustomAssetSuccess(contractAddress))
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
   }
 }
