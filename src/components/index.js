@@ -30,6 +30,7 @@ import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import WalletPasswordStep from './WalletPasswordStep'
+import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 import DigitalAssetsGrid, { type DigitalAssetsGridItemType } from './DigitalAssetsGrid'
@@ -67,6 +68,7 @@ export {
   MnemonicAddresses,
   WalletPasswordStep,
   DigitalAssetsFilter,
+  TransactionsFilter,
   DigitalAssetEditForm,
 }
 
