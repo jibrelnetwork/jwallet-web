@@ -38,7 +38,7 @@ class JRadio extends PureComponent<Props> {
             name={`radio-${name}`}
             type='radio'
             className='checkbox'
-            defaultChecked={isChecked}
+            checked={isChecked}
           />
           <div className='flag' />
           <div className='label'>

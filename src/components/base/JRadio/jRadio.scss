@@ -7,9 +7,10 @@
   }
 
   > .field {
-    display: block;
+    @include flex-row;
+
     position: relative;
-    padding-left: 40px;
+    align-items: center;
     cursor: pointer;
 
     > .checkbox {
@@ -17,6 +18,9 @@
     }
 
     > .flag {
+      width: 18px;
+      height: 18px;
+
       &::before,
       &::after {
         @include hover-animation;
@@ -47,10 +51,12 @@
     }
 
     > .label {
+      @include flex-column;
       @include hover-animation;
 
+      margin-left: 20px;
+      justify-content: center;
       opacity: 0.6;
-      display: block;
 
       &:active {
         user-select: none;
