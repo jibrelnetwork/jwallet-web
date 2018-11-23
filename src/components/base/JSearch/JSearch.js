@@ -1,20 +1,22 @@
 // @flow
 
-import React, { PureComponent }  from 'react'
 import classNames from 'classnames'
+import React, { PureComponent }  from 'react'
 
+import config from 'config'
 import JIcon from 'components/base/JIcon'
 import { handle, handleTargetValue } from 'utils/eventHandlers'
 
 type Props = {|
-  +onQueryChange: (string) => void,
+  +onChange: (string) => void,
+  +value: string,
   +placeholder: string,
 |}
 
 type ComponentState = {|
-  isActive: boolean,
-  value: string,
-  queryTimeout: ?TimeoutID,
+  +isActive: boolean,
+  +value: string,
+  +queryTimeout: ?TimeoutID,
 |}
 
 class JSearch extends PureComponent<Props, ComponentState> {
@@ -26,10 +28,23 @@ class JSearch extends PureComponent<Props, ComponentState> {
     super(props)
 
     this.state = {
-      isActive: false,
-      value: '',
+      value: props.value,
       queryTimeout: null,
+      isActive: false,
     }
+  }
+
+  onChange = (value: string) => {
+    if (this.state.queryTimeout) {
+      clearTimeout(this.state.queryTimeout)
+    }
+
+    const queryTimeout = setTimeout(this.props.onChange, config.searchTimeout, value)
+
+    this.setState({
+      value,
+      queryTimeout,
+    })
   }
 
   toggle = (isActive: boolean) => {
@@ -42,25 +57,9 @@ class JSearch extends PureComponent<Props, ComponentState> {
       if (this.state.queryTimeout) {
         clearTimeout(this.state.queryTimeout)
       }
-      this.props.onQueryChange('')
+
+      this.props.onChange('')
     }
-  }
-
-  searchInputChange = (value: string) => {
-    if (this.state.queryTimeout) {
-      clearTimeout(this.state.queryTimeout)
-    }
-
-    const queryTimeout = setTimeout(
-      this.props.onQueryChange,
-      100,
-      value
-    )
-
-    this.setState({
-      value,
-      queryTimeout,
-    })
   }
 
   render() {
@@ -69,8 +68,8 @@ class JSearch extends PureComponent<Props, ComponentState> {
     } = this.props
 
     const {
-      isActive,
       value,
+      isActive,
     } = this.state
 
     return (
@@ -80,7 +79,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
         </div>
         <div className='field'>
           <input
-            onChange={handleTargetValue(this.searchInputChange)}
+            onChange={handleTargetValue(this.onChange)}
             value={value}
             placeholder={placeholder}
             type='text'
@@ -94,4 +93,5 @@ class JSearch extends PureComponent<Props, ComponentState> {
     )
   }
 }
+
 export default JSearch
