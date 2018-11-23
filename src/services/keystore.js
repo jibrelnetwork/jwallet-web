@@ -370,7 +370,7 @@ function updateWallet(
     name: name || wallet.name,
     customType: customType || wallet.customType,
     bip32XPublicKey: bip32XPublicKey || wallet.bip32XPublicKey,
-    addressIndex: addressIndex || wallet.addressIndex,
+    addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
     isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
   }
 
