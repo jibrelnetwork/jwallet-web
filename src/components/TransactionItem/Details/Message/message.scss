@@ -1,0 +1,51 @@
+.transaction-item-message {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+  @include hover-animation;
+
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: $white;
+
+  > .icon {
+    @include flex-row;
+
+    width: 80px;
+    opacity: 0.5;
+    align-items: center;
+    justify-content: center;
+  }
+
+  > .field {
+    @include font;
+
+    height: 36px;
+    font-size: 13px;
+    border-width: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: calc(100% - 290px);
+    border-left: 1px solid $pale-grey-two;
+  }
+
+  > .actions {
+    @include flex-row;
+
+    padding-right: 20px;
+
+    > .button {
+      width: 100px;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+}

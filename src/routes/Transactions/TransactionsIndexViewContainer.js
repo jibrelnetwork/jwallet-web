@@ -12,14 +12,15 @@ import TransactionsIndexView from './TransactionsIndexView'
 
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const owner: ?OwnerAddress = selectActiveWalletAddress(state)
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
 
-  const transactionsByOwner: ?TransactionsByOwner = owner
-    ? selectTransactionsByOwner(state, networkId, owner)
+  const transactionsByOwner: ?TransactionsByOwner = ownerAddress
+    ? selectTransactionsByOwner(state, networkId, ownerAddress)
     : null
 
   return {
+    ownerAddress,
     digitalAssets,
     transactions: transactionsByOwner ? flattenTransactionsByOwner(transactionsByOwner) : [],
   }

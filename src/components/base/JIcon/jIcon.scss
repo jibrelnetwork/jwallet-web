@@ -592,6 +592,12 @@
       }
     }
 
+    &.-repeat {
+      &.-gray {
+        background-image: $icon-medium-repeat-gray;
+      }
+    }
+
     &.-star-add {
       &.-gray {
         background-image: $icon-medium-star-add-gray;

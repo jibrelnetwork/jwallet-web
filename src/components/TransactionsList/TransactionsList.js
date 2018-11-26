@@ -9,6 +9,7 @@ import TransactionsListEmpty from './Empty'
 type Props = {|
   +items: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
+  +ownerAddress: OwnerAddress,
 |}
 
 type ComponentState = {
@@ -39,6 +40,7 @@ class TransactionsList extends Component<Props, ComponentState> {
     const {
       items,
       digitalAssets,
+      ownerAddress,
     }: Props = this.props
 
     if (!items) {
@@ -53,6 +55,7 @@ class TransactionsList extends Component<Props, ComponentState> {
 
     return (
       <div className='transactions-list'>
+
         {items.map((item: TransactionWithAssetAddress) => (
           <TransactionItem
             key={item.hash}
@@ -60,6 +63,7 @@ class TransactionsList extends Component<Props, ComponentState> {
             data={item}
             asset={digitalAssets[item.assetAddress]}
             isActive={activeItems.includes(item.hash)}
+            isReceived={ownerAddress.toLowerCase() === item.from}
           />
         ))}
       </div>

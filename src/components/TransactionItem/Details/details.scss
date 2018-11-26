@@ -1,3 +1,5 @@
+@import './Message/message';
+
 .transaction-item-details {
   all: initial;
 
@@ -10,12 +12,14 @@
   padding-left: ($transaction-item-h-padding + $icon-large-size + $transaction-item-h-padding);
   overflow: hidden;
   visibility: hidden;
+  border-top: 1px solid rgba($dusk, 0.1);
   opacity: 0;
 
   &.-active {
-    max-height: 300px;
-    visibility: visible;
     opacity: 1;
+    max-height: 300px;
+    padding-top: 20px;
+    visibility: visible;
   }
 
   > .item {
@@ -25,7 +29,7 @@
       opacity: 0.5;
     }
 
-    > .value > .link {
+    > .value {
       @include font;
     }
   }
@@ -33,9 +37,41 @@
   > .actions {
     @include flex-row;
 
-    position: absolute;
     right: 0;
     bottom: 0;
+    position: absolute;
     padding: $transaction-item-v-padding $transaction-item-h-padding;
+
+    > .action {
+      @include flex-row;
+
+      cursor: pointer;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-right: 55px;
+      }
+
+      > .icon {
+        @include hover-animation;
+
+        opacity: 0.5;
+      }
+
+      > .text {
+        @include hover-animation;
+
+        opacity: 0.7;
+        margin-top: 1px;
+        margin-left: 10px;
+      }
+
+      &:hover {
+        > .icon,
+        > .text {
+          opacity: 1;
+        }
+      }
+    }
   }
 }
