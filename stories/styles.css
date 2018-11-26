@@ -38,3 +38,15 @@ h3 {
   display: flex;
   justify-content: flex-end;
 }
+
+.story > .grid {
+  max-width: 1020px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.story > .grid > .box {
+  width: 33.333%;
+  padding: 0 10px 20px 10px;
+}
