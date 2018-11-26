@@ -28,6 +28,8 @@ function TransactionsIndexView({
   searchQuery,
   isOnlyPending,
 }: Props) {
+  const filterCount: number = isOnlyPending ? 1 : 0
+
   return (
     <div className='transactions-view -index'>
       <div className='header'>
@@ -44,7 +46,7 @@ function TransactionsIndexView({
             <div className='filter'>
               <TransactionsFilter
                 setOnlyPending={setIsOnlyPending}
-                filterCount={isOnlyPending ? 1 : 0}
+                filterCount={filterCount}
                 isOnlyPending={isOnlyPending}
               />
             </div>
@@ -56,6 +58,7 @@ function TransactionsIndexView({
           <TransactionsList
             items={transactions}
             digitalAssets={digitalAssets}
+            isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>
       </div>
