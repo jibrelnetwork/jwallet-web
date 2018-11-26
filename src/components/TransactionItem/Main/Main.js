@@ -66,14 +66,16 @@ class TransactionItemMain extends PureComponent<Props> {
               />
             </div>
           </div>
-          <div className='message'>
-            <div className='icon'>
-              <JIcon size='medium' name='message' color='gray' />
+          {!isReceived && (
+            <div className='message'>
+              <div className='icon'>
+                <JIcon size='medium' name='message' color='gray' />
+              </div>
+              <div className='text'>
+                <JText value='Thanks man!' color='gray' size='normal' />
+              </div>
             </div>
-            <div className='text'>
-              <JText value='Thanks man!' color='gray' size='normal' />
-            </div>
-          </div>
+          )}
         </div>
         <div className='box'>
           <div className='balance'>
