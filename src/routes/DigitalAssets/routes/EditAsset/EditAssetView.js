@@ -12,7 +12,11 @@ type Props = {
   openView: (Address) => void,
   closeClick: () => void,
   address: Address,
-} & React$ElementConfig<typeof DigitalAssetEditForm>
+  formFields: EditAssetFormFields,
+  invalidFields: EditAssetFormFields,
+  setField: SetFieldFunction<EditAssetFormFields>,
+  submit: () => void,
+}
 
 const EditAssetView = ({
   openView,

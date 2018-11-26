@@ -5,10 +5,12 @@ import { push } from 'react-router-redux'
 
 import {
   selectDigitalAssets,
-  selectCurrentBlockNumber,
-  selectDigitalAssetBalance,
   selectDigitalAssetsManageSearchQuery,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
+import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { divDecimals } from 'utils/numbers'
 
 import DigitalAssetsManageView from './DigitalAssetsManageView'
 
@@ -22,6 +24,7 @@ import {
   setAssetIsActive,
   deleteCustomAsset,
 } from '../../modules/digitalAssets'
+import { selectNetworkId } from '../../../../store/stateSelectors'
 
 const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
   const query = searchQuery.trim().toUpperCase()
@@ -54,21 +57,30 @@ const sortAssetsFn = (
   }
 }
 
+const formatBalance = (balance: ?Balance, asset: DigitalAsset): ?Balance => (balance ? {
+  ...balance,
+  balance: divDecimals(balance.balance, asset.decimals),
+} : null)
+
 const mapStateToProps = (state: AppState) => {
-  const currentBlock = selectCurrentBlockNumber(state)
-  const assets = selectDigitalAssets(state)
+  const networkId = selectNetworkId(state)
+
+  // assets grid selectors
+  const assets = selectDigitalAssets(state /* , networkId */)
+  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
+
+  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
   const searchQuery = selectDigitalAssetsManageSearchQuery(state)
-  const currentOwnerAddress = ''
 
   const items = Object.keys(assets)
     .map(assetAddress => ({
       asset: assets[assetAddress],
-      balance: selectDigitalAssetBalance(
+      balance: formatBalance(selectDigitalAssetBalance(
         state,
-        currentBlock,
+        currentBlockNumber,
         currentOwnerAddress,
         assetAddress
-      ),
+      ), assets[assetAddress]),
     }))
     .filter(item => checkSearchQuery(item.asset, searchQuery))
 

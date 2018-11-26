@@ -10,7 +10,7 @@ type Props = {|
   +symbol: string,
   +color: 'blue' | 'gray',
   +size: 'small' | 'normal' | 'header',
-  +balance: typeof BigNumber,
+  +balance: typeof BigNumber | null,
   +decimals: number,
 |}
 

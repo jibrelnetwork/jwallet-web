@@ -9,12 +9,10 @@ import config from 'config'
 import blockExplorer from 'services/blockExplorer'
 import { checkETH, checkJNT } from 'utils/digitalAssets'
 
-import {
-  selectTransactions,
-  selectDigitalAssets,
-} from 'store/stateSelectors'
-
+import { selectTransactions } from 'store/stateSelectors'
+import { selectDigitalAssets } from 'store/selectors/digitalAssets'
 import { selectProcessingBlock } from 'store/selectors/blocks'
+
 import * as blocks from '../modules/blocks'
 import * as transactions from '../modules/transactions'
 

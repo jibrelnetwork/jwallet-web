@@ -88,12 +88,14 @@ function* schedulerProcess(): Saga<void> {
     }: ExtractReturn<typeof selectWalletsPersist> = yield select(selectWalletsPersist)
 
     if (!activeWalletId) {
+      console.error('schedulerProcess: no active walletId selected')
       return
     }
 
     const owner: ?Address = keystore.getAddress(items, activeWalletId)
 
     if (!owner) {
+      console.error('schedulerProcess: no active wallet address selected')
       return
     }
 

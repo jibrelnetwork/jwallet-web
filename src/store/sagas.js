@@ -1,5 +1,8 @@
 // @flow
 
+// Core sagas
+import coreSagas from 'routes/sagas'
+
 // Wallets
 import walletsSagas from 'routes/Wallets/sagas'
 
@@ -13,6 +16,8 @@ import termsSagas from 'routes/Terms/sagas'
 import notFoundSagas from 'routes/NotFound/sagas'
 
 export default {
+  // Core: scheduler
+  ...coreSagas,
   // Wallets
   ...walletsSagas,
   // Digital Assets
