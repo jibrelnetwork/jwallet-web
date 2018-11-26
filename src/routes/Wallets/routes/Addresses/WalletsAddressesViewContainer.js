@@ -19,10 +19,10 @@ type StateProps = {|
   +addresses: Addresses,
   +addressNames: AddressNames,
   +addressWalletNames: AddressNames,
-  +balances: Balances,
+  // +balances: Balances,
   +iteration: Index,
   +walletId: ?WalletId,
-  +isLoading: boolean,
+  // +isLoading: boolean,
   +isReadOnly: boolean,
 |}
 
@@ -32,9 +32,9 @@ function mapStateToProps({ walletsAddresses, wallets }: AppState): StateProps {
       addressNames,
     },
     addresses,
-    balances,
+    // balances,
     iteration,
-    isLoading,
+    // isLoading,
   } = walletsAddresses
 
   const { items, activeWalletId } = wallets.persist
@@ -43,11 +43,11 @@ function mapStateToProps({ walletsAddresses, wallets }: AppState): StateProps {
 
   return {
     addresses,
-    balances,
+    // balances,
     addressNames,
     addressWalletNames,
     iteration,
-    isLoading,
+    // isLoading,
     wallets: items,
     walletId: activeWalletId,
     isReadOnly: foundWallet ? foundWallet.isReadOnly : false,
@@ -63,4 +63,6 @@ const mapDispatchToProps = {
   renameAddress: (address: Address) => push(`/wallets/rename/address/${address}`),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletsAddressesView)
+export default (
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+)(WalletsAddressesView)

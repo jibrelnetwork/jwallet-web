@@ -5,7 +5,7 @@ import React from 'react'
 import { JThumbnail, JFlatButton } from 'components/base'
 
 type Props = {|
-  +goToHome: () => void,
+  goToHome: () => void,
 |}
 
 const NotFoundView = ({ goToHome }: Props) => (
@@ -13,6 +13,7 @@ const NotFoundView = ({ goToHome }: Props) => (
     <div className='content'>
       <JThumbnail
         color='white'
+        iconSize='xlarge'
         image='auth-question'
         title='404. Page Not Found.'
         description={[
