@@ -102,6 +102,10 @@ export function selectDigitalAssetsGridSearchQuery({ digitalAssetsGrid }: AppSta
   return digitalAssetsGrid.searchQuery
 }
 
+export function selectDigitalAssetsManageSearchQuery({ digitalAssetsManage }: AppState): string {
+  return digitalAssetsManage.searchQuery
+}
+
 export function selectDigitalAssetsBalances(state: AppState): DigitalAssetsBalances {
   const {
     digitalAssets: {

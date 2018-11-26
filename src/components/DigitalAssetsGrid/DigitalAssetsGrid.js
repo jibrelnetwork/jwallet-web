@@ -6,15 +6,10 @@ import Asset from './Asset'
 import Empty from './Empty'
 import AddDigitalAsset from './AddDigitalAsset'
 
-export type DigitalAssetsGridItemType = {
-  asset: DigitalAsset,
-  balance: ?DigitalAssetsBalance,
-}
-
-type Props = {
-  items: Array<DigitalAssetsGridItemType>,
-  addAssetClick: () => void,
-}
+type Props = {|
+  +items: Array<DigitalAssetsGridItemType>,
+  +addAssetClick: () => void,
+|}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {

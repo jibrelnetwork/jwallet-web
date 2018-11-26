@@ -1,51 +1,54 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 import { Link } from 'react-router'
 import { JIcon, JText } from 'components/base'
+import type { JIconColor } from 'components/base/JIcon/JICon'
 
 type Props = {|
   +title: string,
   +description: string,
   +path: string,
   +iconName: string,
-  +iconColor: 'white' | 'blue' | 'gray' | 'sky' | 'red',
+  +iconColor: JIconColor,
 |}
 
-SettingsCard.defaultProps = {
-  iconColor: 'blue',
-}
+class SettingsCard extends PureComponent<Props, *> {
+  static defaultProps = {
+    iconColor: 'blue',
+  }
 
-function SettingsCard(props: Props) {
-  const {
-    iconName,
-    iconColor,
-    path,
-    title,
-    description,
-  } = props
+  render() {
+    const {
+      iconName,
+      iconColor,
+      path,
+      title,
+      description,
+    } = this.props
 
-  return (
-    <Link to={path} className='settings-card'>
-      {iconName &&
-      <div className='icon'>
-        <JIcon
-          color={iconColor}
-          name={iconName}
-        />
-      </div>}
-      <div className='summary'>
-        <div className='title'>
-          <JText value={title} color='dark' size='header' />
-        </div>
-        {description &&
-        <div className='description'>
-          <JText value={description} color='dusk' />
+    return (
+      <Link to={path} className='settings-card'>
+        {iconName &&
+        <div className='icon'>
+          <JIcon
+            color={iconColor}
+            name={iconName}
+          />
         </div>}
-      </div>
-    </Link>
-  )
+        <div className='summary'>
+          <div className='title'>
+            <JText value={title} color='dark' size='header' />
+          </div>
+          {description &&
+          <div className='description'>
+            <JText value={description} color='dusk' />
+          </div>}
+        </div>
+      </Link>
+    )
+  }
 }
 
 export default SettingsCard
