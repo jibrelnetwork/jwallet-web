@@ -2,7 +2,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import classNames from 'classnames'
-import { getTxAmount, getTxLink } from 'utils/transactions'
+import { getTxAmount, getAddressLink } from 'utils/transactions'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 
 import { handle } from 'utils/eventHandlers'
@@ -56,7 +56,7 @@ class TransactionItemMain extends PureComponent<Props> {
           <div className='data'>
             <div className='hash'>
               <a
-                href={getTxLink(isReceived ? data.to : data.from, networkId)}
+                href={getAddressLink(data.hash, isReceived ? data.to : data.from, networkId)}
                 target='_blank'
                 className='link'
                 rel='noopener noreferrer'

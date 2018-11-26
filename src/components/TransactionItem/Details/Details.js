@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { getTxFee, getTxLink } from 'utils/transactions'
+import { getTxFee, getTxLink, getAddressLink } from 'utils/transactions'
 
 import { JText, JFlatButton } from 'components/base'
 import TransactionItemDetailsComment from './Comment'
@@ -19,9 +19,6 @@ type Props = {|
 type StateProps = {|
   isCommenting: boolean,
 |}
-
-// const getTxLinks = (txHash: Hash) => getTxLink(txHash, networkId)
-// console.warn(getTxLinks)
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
@@ -78,7 +75,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(from, networkId)}
+              href={getAddressLink(hash, from, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
@@ -93,7 +90,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(to, networkId)}
+              href={getAddressLink(hash, to, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
