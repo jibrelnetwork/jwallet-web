@@ -1,25 +1,40 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 
 import JThumbnail from 'components/base/JThumbnail'
 
-const DigitalAssetsEmpty = ({ color }: Props) => (
-  <div className='digital-assets-empty'>
-    <JThumbnail
-      image='cloud'
-      color={(color === 'white') ? 'gray' : 'white'}
-      description='There are no Digital Assets to show'
-    />
-  </div>
-)
+type Props = {|
+  +image: 'screen-search',
+  +color: 'gray' | 'red',
+  +description: string,
+  +isTransparent: boolean,
+|}
 
-type Props = {
-  color: 'white' | 'blue',
-}
+class DigitalAssetsEmpty extends PureComponent<Props> {
+  static defaultProps = {
+    isTransparent: false,
+  }
+  render() {
+    const {
+      image,
+      color,
+      description,
+      isTransparent,
+    } = this.props
 
-DigitalAssetsEmpty.defaultProps = {
-  color: 'white',
+    return (
+      <div className='digital-assets-empty'>
+        <JThumbnail
+          image={image}
+          iconSize='large'
+          color={color}
+          description={description}
+          isTransparent={isTransparent}
+        />
+      </div>
+    )
+  }
 }
 
 export default DigitalAssetsEmpty

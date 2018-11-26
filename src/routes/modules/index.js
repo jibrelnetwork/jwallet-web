@@ -1,10 +1,8 @@
 // @flow
 
 import { type LayoutAction } from './layout'
-import { type RedirectActions } from './redirect'
 
-export type CoreAction = LayoutAction |
-  RedirectActions
+export type CoreAction = LayoutAction
 
 export {
   OPEN_ASIDE_LAYOUT,
@@ -12,8 +10,3 @@ export {
   OPEN_CORE_LAYOUT,
   CLOSE_CORE_LAYOUT,
 } from './layout'
-
-export {
-  backOrFallback,
-} from './redirect'
-

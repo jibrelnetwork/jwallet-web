@@ -1,6 +1,7 @@
-.transactions-view {
+.digital-assets-manage-view {
   all: initial;
 
+  @include box;
   @include flex-column-center;
 
   position: relative;
@@ -8,11 +9,11 @@
   height: 100%;
 
   > .header {
-    z-index: 1;
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    position: absolute;
+    z-index: 10;
     background-image:
       linear-gradient(
         to bottom,
@@ -39,6 +40,17 @@
 
         > .search {
           margin-right: 45px;
+        }
+
+        > .add {
+          @include hover-animation;
+
+          opacity: 0.5;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 1;
+          }
         }
       }
     }

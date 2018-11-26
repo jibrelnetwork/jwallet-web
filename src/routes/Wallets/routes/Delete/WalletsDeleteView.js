@@ -66,6 +66,7 @@ class WalletsDeleteView extends Component<Props> {
             <div className='actions'>
               <ButtonWithConfirm
                 onClick={handle(remove)(items, walletId)}
+                color='white'
                 labelConfirm='Yes'
                 label='Yes, delete'
                 labelCancel='Nope, stop it'

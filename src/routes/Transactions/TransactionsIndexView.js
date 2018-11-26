@@ -1,31 +1,33 @@
 // @flow
 
 import React from 'react'
-
 import { Scrollbars } from 'react-custom-scrollbars'
+
 import { JSearch, JTabs } from 'components/base'
+import { TransactionsList, TransactionsFilter } from 'components'
 
-import {
-  TransactionsList,
-  // TransactionsFilter,
-} from 'components'
+type Props = {|
+  +setIsOnlyPending: (boolean) => void,
+  +changeSearchInput: (string) => void,
+  +transactions: TransactionWithAssetAddress[],
+  +digitalAssets: DigitalAssets,
+  +ownerAddress: ?OwnerAddress,
+  +searchQuery: string,
+  +isOnlyPending: boolean,
+|}
 
-const DIGITAL_ASSETS_TABS = {
+const TRANSACTIONS_TABS = {
   '/digital-assets': 'Digital assets',
   '/transactions': 'Transactions',
 }
 
-type Props = {|
-  +setSearchQuery: (string) => void,
-  +transactions: TransactionWithAssetAddress[],
-  +digitalAssets: DigitalAssets,
-  +ownerAddress: ?OwnerAddress,
-|}
-
 function TransactionsIndexView({
-  setSearchQuery,
+  setIsOnlyPending,
+  changeSearchInput,
   transactions,
   digitalAssets,
+  searchQuery,
+  isOnlyPending,
   ownerAddress,
 }: Props) {
   if (!ownerAddress) {
@@ -33,23 +35,25 @@ function TransactionsIndexView({
   }
 
   return (
-    <div className='transactions-view'>
+    <div className='transactions-view -index'>
       <div className='header'>
         <div className='container'>
-          <JTabs tabs={DIGITAL_ASSETS_TABS} />
+          <JTabs tabs={TRANSACTIONS_TABS} />
           <div className='actions'>
             <div className='search'>
               <JSearch
-                onQueryChange={setSearchQuery}
-                placeholder='Search asset...'
+                onChange={changeSearchInput}
+                value={searchQuery}
+                placeholder='Search transactions...'
               />
             </div>
-            {/* <div className='filter'>
+            <div className='filter'>
               <TransactionsFilter
-                {...filter}
-                filterCount={filterCount}
+                setOnlyPending={setIsOnlyPending}
+                filterCount={isOnlyPending ? 1 : 0}
+                isOnlyPending={isOnlyPending}
               />
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

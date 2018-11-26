@@ -6,7 +6,12 @@ import flattenTransactionsByOwner from 'utils/transactions/flattenTransactionsBy
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
-import { selectTransactionsByOwner } from 'store/selectors/transactions'
+import { selectTransactions, selectTransactionsByOwner } from 'store/selectors/transactions'
+
+import {
+  setIsOnlyPending,
+  changeSearchInput,
+} from 'routes/modules/transactions'
 
 import TransactionsIndexView from './TransactionsIndexView'
 
@@ -14,6 +19,7 @@ function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
+  const { isOnlyPending, searchQuery }: TransactionsState = selectTransactions(state)
 
   const transactionsByOwner: ?TransactionsByOwner = ownerAddress
     ? selectTransactionsByOwner(state, networkId, ownerAddress)
@@ -22,11 +28,16 @@ function mapStateToProps(state: AppState) {
   return {
     ownerAddress,
     digitalAssets,
+    searchQuery,
+    isOnlyPending,
     transactions: transactionsByOwner ? flattenTransactionsByOwner(transactionsByOwner) : [],
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  setIsOnlyPending,
+  changeSearchInput,
+}
 
 export default (
   connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
