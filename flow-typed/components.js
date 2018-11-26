@@ -2,5 +2,8 @@
 
 declare type DigitalAssetsGridItemType = {
   +asset: DigitalAsset,
-  +balance: ?DigitalAssetsBalance,
+  +balance: ?{
+    balance: Bignumber,
+    isLoading: boolean,
+  },
 }

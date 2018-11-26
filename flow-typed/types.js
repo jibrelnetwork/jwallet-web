@@ -3,10 +3,11 @@
 declare type Index = number
 declare type EthereumAddress = 'Ethereum'
 declare type Address = string | EthereumAddress
+declare type OwnerAddress = string
+declare type AssetAddress = string
 declare type Addresses = Array<Address>
 declare type Bignumber = any
 declare type Decimals = number
-declare type Balances = { [Address]: number }
 declare type AddressNames = { [Address]: string }
 declare type AddressBalancePairs = Array<[Address, number]>
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'

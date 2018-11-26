@@ -204,6 +204,8 @@ declare type WalletsBackupState = {|
 /**
  * Wallets addresses
  */
+declare type WalletsBalances = { [Address]: number }
+
 declare type WalletsAddressesPersist = {|
   +addressNames: AddressNames,
 |}
@@ -211,7 +213,7 @@ declare type WalletsAddressesPersist = {|
 declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
   +addresses: Addresses,
-  +balances: Balances,
+  +balances: WalletsBalances,
   +iteration: Index,
   +isLoading: boolean,
 |}

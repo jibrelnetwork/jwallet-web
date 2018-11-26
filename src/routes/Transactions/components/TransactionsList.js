@@ -59,7 +59,7 @@ TransactionsList.defaultProps = {
 
 type Props = {
   repeat: Function,
-  setActive: (txHash: Hash) => Dispatch,
+  setActive: Function,
   items: Transactions,
   currentAsset: ?DigitalAsset,
   transactionsByPeriod: Object,

@@ -1,0 +1,41 @@
+.transaction-item-details {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+  @include hover-animation;
+
+  position: relative;
+  max-height: 0;
+  padding-left: ($transaction-item-h-padding + $icon-large-size + $transaction-item-h-padding);
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+
+  &.-active {
+    max-height: 300px;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  > .item {
+    margin-bottom: $transaction-item-v-padding;
+
+    > .label {
+      opacity: 0.5;
+    }
+
+    > .value > .link {
+      @include font;
+    }
+  }
+
+  > .actions {
+    @include flex-row;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: $transaction-item-v-padding $transaction-item-h-padding;
+  }
+}

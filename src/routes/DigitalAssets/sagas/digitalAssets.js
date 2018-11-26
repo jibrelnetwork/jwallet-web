@@ -6,7 +6,7 @@ import assetsData from 'data/assets'
 
 import {
   selectDigitalAssets,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
 
 import {
   OPEN_ASIDE_LAYOUT,
@@ -39,7 +39,12 @@ function* initDigitalAssetsSaga(): Saga<void> {
       [asset.address]: asset,
     }), {})
 
-    yield put(setInitialItems(allAssets))
+    const allAssetsWithETH = {
+      [assetsData.ethereum.address]: assetsData.ethereum,
+      ...allAssets,
+    }
+
+    yield put(setInitialItems(allAssetsWithETH))
   }
 }
 

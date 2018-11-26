@@ -1,6 +1,7 @@
 // @flow
 
 declare type NetworkId = string
+declare type NetworkIdOptional = ?string
 declare type NetworkTitleById = { [NetworkId]: string }
 
 declare type Network = {
@@ -13,6 +14,13 @@ declare type Network = {
 }
 
 declare type Networks = Array<Network>
+
+/* eslint-disable-next-line no-unused-vars */
+type RPCProps = {|
+  +rpcaddr: string,
+  +rpcport: number,
+  +ssl: boolean,
+|}
 
 declare type NetworksData = {
   +items: Networks,
