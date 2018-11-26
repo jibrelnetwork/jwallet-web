@@ -140,6 +140,7 @@ const mapDispatchToProps = {
   sortByBalanceClick,
   setHideZeroBalance,
   addAssetClick: () => push('/digital-assets/add-asset'),
+  manageAssetsOpenClick: () => push('/digital-assets/manage'),
 }
 
 // eslint-disable-next-line no-unused-vars

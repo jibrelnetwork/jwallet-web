@@ -18,4 +18,6 @@ const mapDispatchToProps = {
   importWallet: () => push('/wallets/import'),
 }
 
-export default connect(null, mapDispatchToProps)(WalletsStartView)
+export default (
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(null, mapDispatchToProps)
+)(WalletsStartView)

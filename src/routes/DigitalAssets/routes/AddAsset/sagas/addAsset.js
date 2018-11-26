@@ -11,7 +11,7 @@ import {
   selectDigitalAsset,
 } from 'store/stateSelectors'
 
-import { backOrFallback } from 'routes/modules'
+import { reactRouterBack } from 'utils/browser'
 
 import web3 from 'services/web3'
 
@@ -29,9 +29,7 @@ import {
   SUBMIT_ASSET_FORM,
 } from '../modules/addAsset'
 
-import {
-  addCustomAsset,
-} from '../../../modules/digitalAssets'
+import { addCustomAsset } from '../../../modules/digitalAssets'
 
 const {
   getContractName,
@@ -242,7 +240,7 @@ function* onAssetFormSumbit(): Saga<void> {
       !symbolError &&
       !decimalsError) {
     yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
-    yield put(backOrFallback('/digital-assets'))
+    yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
   }
 }
 

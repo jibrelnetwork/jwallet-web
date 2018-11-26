@@ -9,7 +9,7 @@ import { STEPS } from './modules/walletsBackup'
 
 type Props = {|
   +closeView: () => void,
-  +goToNextStep: () => void,
+  +goToNextStep: (walletId: string) => void,
   +goToPrevStep: () => void,
   +downloadToTxt: () => void,
   +openView: (string) => void,
