@@ -32,8 +32,6 @@ declare type OwnPropsEmpty = {||}
 
 declare function i18n(path: string): string
 
-declare type OwnPropsEmpty = {||}
-
 /**
  * Errors
  */

@@ -77,7 +77,7 @@ class TransactionsList extends Component<Props, ComponentState> {
             blockExplorerSubdomain={blockExplorerSubdomain}
             isAssetList={!!assetAddress}
             isActive={activeItems.includes(item.hash)}
-            isReceived={ownerAddress.toLowerCase() === item.from.toLowerCase()}
+            isReceived={ownerAddress.toLowerCase() === item.to.toLowerCase()}
           />
         ))}
       </div>

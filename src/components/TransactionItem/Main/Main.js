@@ -67,7 +67,7 @@ class TransactionItemMain extends PureComponent<Props> {
     }
 
     const color = isReceived ? 'blue' : 'gray'
-    const txAddress: OwnerAddress = isReceived ? to : from
+    const txAddress: OwnerAddress = isReceived ? from : to
     const iconName = isReceived ? 'transaction-receive' : 'transaction-send'
 
     return (
@@ -104,7 +104,7 @@ class TransactionItemMain extends PureComponent<Props> {
               />
             </div>
           </div>
-          {!isReceived && (
+          {isReceived && (
             <div className='message'>
               <div className='icon'>
                 <JIcon size='medium' name='message' color='gray' />

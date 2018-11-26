@@ -17,7 +17,7 @@ class TransactionItemDetailsComment extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='transaction-item-message'>
+      <div className='transaction-item-details-comment'>
         <label htmlFor='message' className='icon'>
           <JIcon size='medium' color='gray' name='message-add' />
         </label>

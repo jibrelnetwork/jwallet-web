@@ -13,6 +13,7 @@ type Props = {|
   +params: {|
     +asset: string,
   |},
+  +network: ?Network,
   +digitalAssets: DigitalAssets,
   +searchQuery: string,
   +ownerAddress: ?OwnerAddress,
@@ -22,25 +23,37 @@ type Props = {|
 function TransactionsAssetView({
   setIsOnlyPending,
   changeSearchInput,
-  params,
   transactions,
+  params,
+  network,
   digitalAssets,
   searchQuery,
   ownerAddress,
   isOnlyPending,
 }: Props) {
-  if (!ownerAddress) {
+  if (!(ownerAddress && network)) {
+    return null
+  }
+
+  const asset: ?DigitalAsset = digitalAssets[params.asset]
+
+  if (!asset) {
     return null
   }
 
   const filterCount: number = isOnlyPending ? 1 : 0
+
+  const {
+    name,
+    symbol,
+  }: DigitalAsset = asset
 
   return (
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
           <div className='title'>
-            <JText value='Binance — 520,000 BNB' color='gray' size='tab' />
+            <JText value={`${name} — 39,76 ${symbol}`} color='gray' size='tab' />
           </div>
           <div className='actions'>
             <div className='search'>
@@ -66,6 +79,8 @@ function TransactionsAssetView({
             items={transactions}
             digitalAssets={digitalAssets}
             assetAddress={params.asset}
+            ownerAddress={ownerAddress}
+            blockExplorerSubdomain={network.blockExplorerSubdomain}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>

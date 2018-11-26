@@ -1,3 +1,7 @@
 // @flow
 
-export { divDecimals } from './divDecimals'
+import divDecimals from './divDecimals'
+
+export {
+  divDecimals,
+}

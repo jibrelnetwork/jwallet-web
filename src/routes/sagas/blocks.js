@@ -20,8 +20,8 @@ import {
 
 import * as transactions from 'routes/modules/transactions'
 
-import { selectNetworkId } from 'store/selectors/networks'
 import { selectWalletsPersist } from 'store/selectors/wallets'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
 
 import {
   selectLatestBlock,
@@ -99,7 +99,8 @@ function* schedulerProcess(): Saga<void> {
       return
     }
 
-    const networkId: ExtractReturn<typeof selectNetworkId> = yield select(selectNetworkId)
+    const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
+      yield select(selectCurrentNetworkId)
 
     while (true) {
       const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
@@ -155,7 +156,7 @@ function* blockFlowProcess(): Saga<void> {
   while (true) {
     yield call(delay, 1000)
 
-    const networkId: NetworkId = yield select(selectNetworkId)
+    const networkId: NetworkId = yield select(selectCurrentNetworkId)
     const latestBlock: ?BlockInfo = yield select(selectLatestBlock, networkId)
     const currentBlock: ?BlockInfo = yield select(selectCurrentBlock, networkId)
     const processingBlock: ?BlockInfo = yield select(selectProcessingBlock, networkId)
@@ -195,7 +196,7 @@ function* blockFlowProcess(): Saga<void> {
 function* getBlockProcess(): Saga<void> {
   try {
     while (true) {
-      const networkId: NetworkId = yield select(selectNetworkId)
+      const networkId: NetworkId = yield select(selectCurrentNetworkId)
       const latestBlock: ?BlockInfo = yield select(selectLatestBlock, networkId)
 
       try {
