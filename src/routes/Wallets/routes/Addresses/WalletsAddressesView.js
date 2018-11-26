@@ -19,7 +19,7 @@ type Props = {|
   +addressNames: AddressNames,
   +addressWalletNames: AddressNames,
   +iteration: Index,
-  +walletId: WalletId,
+  +walletId: ?WalletId,
   +isReadOnly: boolean,
 |}
 
@@ -39,7 +39,9 @@ class WalletsAddressesView extends Component<Props> {
       walletId,
     } = this.props
 
-    return setActive(wallets, walletId, addressIndex)
+    if (walletId) {
+      setActive(wallets, walletId, addressIndex)
+    }
   }
 
   render() {

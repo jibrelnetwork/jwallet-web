@@ -53,4 +53,13 @@ const mapDispatchToProps = {
   changePasswordInput,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletsBackupView)
+// eslint-disable-next-line no-unused-vars
+type OwnProps = {|
+  params: {|
+    walletId: string
+  |}
+|}
+
+export default (
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+)(WalletsBackupView)

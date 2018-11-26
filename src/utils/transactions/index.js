@@ -5,9 +5,10 @@ import getTxLink from './getTxLink'
 import toBigNumber from './toBigNumber'
 import getTxAmount from './getTxAmount'
 import getAddressLink from './getAddressLink'
+import filterTransactions from './filterTransactions'
+import searchTransactions from './searchTransactions'
 import getTransactionValue from './getTransactionValue'
 import checkTransactionLoading from './checkTransactionLoading'
-import filterFoundTransactions from './filterFoundTransactions'
 import flattenTransactionsByAsset from './flattenTransactionsByAsset'
 import flattenTransactionsByOwner from './flattenTransactionsByOwner'
 
@@ -17,9 +18,10 @@ export {
   toBigNumber,
   getTxAmount,
   getAddressLink,
+  filterTransactions,
+  searchTransactions,
   getTransactionValue,
   checkTransactionLoading,
-  filterFoundTransactions,
   flattenTransactionsByAsset,
   flattenTransactionsByOwner,
 }

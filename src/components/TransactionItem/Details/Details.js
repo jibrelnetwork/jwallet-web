@@ -1,17 +1,26 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { getTxFee, getTxLink, getAddressLink } from 'utils/transactions'
+import React, { PureComponent } from 'react'
 
-import { JText, JFlatButton } from 'components/base'
+import {
+  JText,
+  JFlatButton,
+} from 'components/base'
+
+import {
+  getTxFee,
+  getTxLink,
+  getAddressLink,
+} from 'utils/transactions'
+
 import TransactionItemDetailsComment from './Comment'
 
 type Props = {|
   +repeat: () => void,
   +addFavorite: () => void,
   +data: TransactionWithAssetAddress,
-  +networkId: NetworkId,
+  +blockExplorerSubdomain: string,
   +assetDecimals: number,
   +isActive: boolean,
 |}
@@ -35,7 +44,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const {
       repeat,
       addFavorite,
-      networkId,
+      blockExplorerSubdomain,
       assetDecimals,
       isActive,
     } = this.props
@@ -45,12 +54,16 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     }: StateProps = this.state
 
     const {
-      receiptData,
       data,
-      hash,
-      from,
+      receiptData,
       to,
+      from,
+      hash,
     }: TransactionWithAssetAddress = this.props.data
+
+    if (!(data && receiptData)) {
+      return null
+    }
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -60,7 +73,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(hash, networkId)}
+              href={getTxLink(hash, blockExplorerSubdomain)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
@@ -75,7 +88,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getAddressLink(hash, from, networkId)}
+              href={getAddressLink(from, blockExplorerSubdomain)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
@@ -90,7 +103,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getAddressLink(hash, to, networkId)}
+              href={getAddressLink(to, blockExplorerSubdomain)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'

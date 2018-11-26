@@ -12,7 +12,7 @@ type Props = {|
   +transactions: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
-  +networkId: NetworkId,
+  +network: ?Network,
   +searchQuery: string,
   +isOnlyPending: boolean,
 |}
@@ -27,14 +27,16 @@ function TransactionsIndexView({
   changeSearchInput,
   transactions,
   digitalAssets,
-  networkId,
+  network,
   searchQuery,
   isOnlyPending,
   ownerAddress,
 }: Props) {
-  if (!ownerAddress) {
+  if (!(ownerAddress && network)) {
     return null
   }
+
+  const filterCount: number = isOnlyPending ? 1 : 0
 
   return (
     <div className='transactions-view -index'>
@@ -52,7 +54,7 @@ function TransactionsIndexView({
             <div className='filter'>
               <TransactionsFilter
                 setOnlyPending={setIsOnlyPending}
-                filterCount={isOnlyPending ? 1 : 0}
+                filterCount={filterCount}
                 isOnlyPending={isOnlyPending}
               />
             </div>
@@ -63,9 +65,10 @@ function TransactionsIndexView({
         <Scrollbars autoHide>
           <TransactionsList
             items={transactions}
-            ownerAddress={ownerAddress}
-            networkId={networkId}
             digitalAssets={digitalAssets}
+            ownerAddress={ownerAddress}
+            blockExplorerSubdomain={network.blockExplorerSubdomain}
+            isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>
       </div>

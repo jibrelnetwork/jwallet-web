@@ -1,8 +1,8 @@
-.digital-assets-empty {
+.overlay-notification {
   all: initial;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  @include flex-row-center;
+
   height: 100vh;
   padding-top: 30px;
   margin-top: -$page-header-height;

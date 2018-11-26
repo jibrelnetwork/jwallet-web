@@ -2,18 +2,8 @@
 
 import config from 'config'
 
-function getAddressLink(
-  txHash: Hash,
-  address: Hash,
-  networkId: NetworkId,
-): string {
-  const enpointName: ?string = config.enpointNames[networkId]
-
-  if (!enpointName) {
-    return ''
-  }
-
-  return `//${enpointName}.${config.blockExplorerLink}/${address}/${txHash}`
+function getAddressLink(address: Address, blockExplorerSubdomain: string): string {
+  return `//${blockExplorerSubdomain}.${config.blockExplorerLink}/address/${address}`
 }
 
 export default getAddressLink

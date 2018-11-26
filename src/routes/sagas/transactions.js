@@ -1,9 +1,22 @@
 // @flow
 
 import { delay } from 'redux-saga'
-import { all, put, call, fork, take, cancel, select, takeEvery } from 'redux-saga/effects'
 
-import type { Task, Channel } from 'redux-saga'
+import {
+  all,
+  put,
+  call,
+  fork,
+  take,
+  cancel,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
+import type {
+  Task,
+  Channel,
+} from 'redux-saga'
 
 import config from 'config'
 import blockExplorer from 'services/blockExplorer'
@@ -11,7 +24,12 @@ import checkTransactionLoading from 'utils/transactions/checkTransactionLoading'
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectTransactions } from 'store/selectors/transactions'
 import { selectDigitalAssets } from 'store/selectors/digitalAssets'
-import { checkETH, checkJNT, flattenDigitalAssets } from 'utils/digitalAssets'
+
+import {
+  checkETH,
+  checkJNT,
+  flattenDigitalAssets,
+} from 'utils/digitalAssets'
 
 import * as blocks from '../modules/blocks'
 import * as transactions from '../modules/transactions'

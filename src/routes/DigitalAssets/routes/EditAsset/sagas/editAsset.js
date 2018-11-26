@@ -6,7 +6,7 @@ import { reactRouterBack } from 'utils/browser'
 import {
   selectEditAsset,
   selectDigitalAsset,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
 
 import {
   setField,

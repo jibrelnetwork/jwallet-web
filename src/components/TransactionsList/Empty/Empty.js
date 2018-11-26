@@ -2,17 +2,16 @@
 
 import React from 'react'
 
-import JThumbnail from 'components/base/JThumbnail'
+import OverlayNotification from 'components/OverlayNotification'
 
 function TransactionsListEmpty() {
   return (
-    <div className='transactions-list-empty'>
-      <JThumbnail
-        color='gray'
-        image='cloud'
-        description='empty'
-      />
-    </div>
+    <OverlayNotification
+      color='gray'
+      image='screen-reload'
+      description={['Looks like you haven\'t made', 'any transactions yet.']}
+      isTransparent
+    />
   )
 }
 

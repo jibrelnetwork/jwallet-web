@@ -46,6 +46,10 @@ export function selectDigitalAssetsGridSearchQuery({ digitalAssetsGrid }: AppSta
   return digitalAssetsGrid.searchQuery
 }
 
+export function selectDigitalAssetsManageSearchQuery({ digitalAssetsManage }: AppState): string {
+  return digitalAssetsManage.searchQuery
+}
+
 export function selectAddAsset(state: AppState): AddAssetState {
   return state.addAsset
 }
