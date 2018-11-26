@@ -2,9 +2,8 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { getTxFee, getTxLink } from 'utils/transactions'
 
-import config from 'config'
-import handle from 'utils/eventHandlers/handle'
 import { JText, JFlatButton } from 'components/base'
 import TransactionItemDetailsComment from './Comment'
 
@@ -12,6 +11,7 @@ type Props = {|
   +repeat: () => void,
   +addFavorite: () => void,
   +data: TransactionWithAssetAddress,
+  +networkId: NetworkId,
   +assetDecimals: number,
   +isActive: boolean,
 |}
@@ -20,7 +20,8 @@ type StateProps = {|
   isCommenting: boolean,
 |}
 
-const getTxLink = (txHash: Hash) => `${config.blockExplorerLink}/tx/${txHash}`
+// const getTxLinks = (txHash: Hash) => getTxLink(txHash, networkId)
+// console.warn(getTxLinks)
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
@@ -37,7 +38,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const {
       repeat,
       addFavorite,
-      data,
+      networkId,
       assetDecimals,
       isActive,
     } = this.props
@@ -46,7 +47,13 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       isCommenting,
     }: StateProps = this.state
 
-    const fee = ((data.receiptData.gasUsed * data.data.gasPrice) / (10 ** assetDecimals))
+    const {
+      receiptData,
+      data,
+      hash,
+      from,
+      to,
+    }: TransactionWithAssetAddress = this.props.data
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -56,12 +63,12 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(data.hash)}
+              href={getTxLink(hash, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
             >
-              <JText value={data.hash} color='blue' />
+              <JText value={hash} color='blue' weight='bold' />
             </a>
           </div>
         </div>
@@ -71,12 +78,12 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(data.from)}
+              href={getTxLink(from, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
             >
-              <JText value={data.from} color='blue' />
+              <JText value={from} color='blue' weight='bold' />
             </a>
           </div>
         </div>
@@ -86,12 +93,12 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(data.to)}
+              href={getTxLink(to, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
             >
-              <JText value={data.to} color='blue' />
+              <JText value={to} color='blue' weight='bold' />
             </a>
           </div>
         </div>
@@ -100,13 +107,17 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             <JText value='Fee' color='gray' />
           </div>
           <div className='value'>
-            <JText value={`${fee} ETH`} color='gray' />
+            <JText
+              value={`${getTxFee(receiptData.gasUsed, data.gasPrice, assetDecimals)} ETH`}
+              color='gray'
+              weight='bold'
+            />
           </div>
         </div>
         <div className='actions'>
           <div className='action'>
             <JFlatButton
-              onClick={handle(repeat)}
+              onClick={repeat}
               iconSize='medium'
               label='Repeat payment'
               iconColor='gray'

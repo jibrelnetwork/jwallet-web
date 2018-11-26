@@ -1,7 +1,8 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import classNames from 'classnames'
+import { getTxAmount, getTxLink } from 'utils/transactions'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 
 import { handle } from 'utils/eventHandlers'
@@ -10,11 +11,13 @@ import { JIcon, JAssetSymbol, JText } from 'components/base'
 type Props = {|
   +setActive: (boolean) => void,
   +data: TransactionWithAssetAddress,
+  +networkId: NetworkId,
   +assetDecimals: number,
   +assetSymbol: string,
   +isActive: boolean,
   +isCustom: boolean,
   +isReceived: boolean,
+  +isAssetList: boolean,
 |}
 
 class TransactionItemMain extends PureComponent<Props> {
@@ -22,20 +25,22 @@ class TransactionItemMain extends PureComponent<Props> {
     isActive: false,
     isCustom: false,
     isReceived: false,
+    isAssetList: false,
   }
 
   render() {
     const {
       setActive,
       data,
+      networkId,
       assetDecimals,
       assetSymbol,
       isActive,
       isCustom,
       isReceived,
+      isAssetList,
     } = this.props
 
-    const amount = data.amount / (10 ** assetDecimals)
     const color = isReceived ? 'blue' : 'gray'
     const iconName = isReceived ? 'transaction-receive' : 'transaction-send'
 
@@ -50,12 +55,19 @@ class TransactionItemMain extends PureComponent<Props> {
           </div>
           <div className='data'>
             <div className='hash'>
-              <JText
-                value={isReceived ? data.to : data.from}
-                color={color}
-                weight='bold'
-                size='normal'
-              />
+              <a
+                href={getTxLink(isReceived ? data.to : data.from, networkId)}
+                target='_blank'
+                className='link'
+                rel='noopener noreferrer'
+              >
+                <JText
+                  value={isReceived ? data.to : data.from}
+                  color={color}
+                  weight='bold'
+                  size='normal'
+                />
+              </a>
             </div>
             <div className='time'>
               <JText
@@ -81,7 +93,11 @@ class TransactionItemMain extends PureComponent<Props> {
           <div className='balance'>
             <div className='crypto'>
               <JText
-                value={`${isReceived ? '+' : '-'} ${amount} ${assetSymbol}`}
+                value={`
+                  ${isReceived ? '+' : '-'}
+                  ${getTxAmount(data.amount, assetDecimals)}
+                  ${assetSymbol}
+                `}
                 color={color}
                 size='normal'
                 weight='bold'
@@ -92,21 +108,26 @@ class TransactionItemMain extends PureComponent<Props> {
               <JText value='20,000 USD' color='gray' size='small' whiteSpace='wrap' />
             </div>
           </div>
-          {!isCustom ? (
-            <div className='symbol -icon'>
-              <JAssetSymbol symbol={assetSymbol} color='gray' />
-            </div>
-          ) : (
-            <div className='symbol -text'>
-              <JText
-                value={assetSymbol}
-                color='blue'
-                weight='bold'
-                size='normal'
-                whiteSpace='wrap'
-              />
-            </div>
+          {!isAssetList && (
+            <Fragment>
+              {!isCustom ? (
+                <div className='symbol -icon'>
+                  <JAssetSymbol symbol={assetSymbol} color='gray' />
+                </div>
+              ) : (
+                <div className='symbol -text'>
+                  <JText
+                    value={assetSymbol}
+                    color='blue'
+                    weight='bold'
+                    size='normal'
+                    whiteSpace='wrap'
+                  />
+                </div>
+              )}
+            </Fragment>
           )}
+
         </div>
       </div>
     )

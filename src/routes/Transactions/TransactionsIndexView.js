@@ -12,6 +12,7 @@ type Props = {|
   +transactions: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
+  +networkId: NetworkId,
   +searchQuery: string,
   +isOnlyPending: boolean,
 |}
@@ -26,6 +27,7 @@ function TransactionsIndexView({
   changeSearchInput,
   transactions,
   digitalAssets,
+  networkId,
   searchQuery,
   isOnlyPending,
   ownerAddress,
@@ -62,6 +64,7 @@ function TransactionsIndexView({
           <TransactionsList
             items={transactions}
             ownerAddress={ownerAddress}
+            networkId={networkId}
             digitalAssets={digitalAssets}
           />
         </Scrollbars>

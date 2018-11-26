@@ -30,6 +30,7 @@ function mapStateToProps(state: AppState) {
     digitalAssets,
     searchQuery,
     isOnlyPending,
+    networkId,
     transactions: transactionsByOwner ? flattenTransactionsByOwner(transactionsByOwner) : [],
   }
 }

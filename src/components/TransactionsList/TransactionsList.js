@@ -10,6 +10,7 @@ type Props = {|
   +items: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
   +ownerAddress: OwnerAddress,
+  +networkId: NetworkId,
 |}
 
 type ComponentState = {
@@ -41,6 +42,7 @@ class TransactionsList extends Component<Props, ComponentState> {
       items,
       digitalAssets,
       ownerAddress,
+      networkId,
     }: Props = this.props
 
     if (!items) {
@@ -60,6 +62,7 @@ class TransactionsList extends Component<Props, ComponentState> {
             key={item.hash}
             setActive={this.setActive(item.hash)}
             data={item}
+            networkId={networkId}
             asset={digitalAssets[item.assetAddress]}
             isActive={activeItems.includes(item.hash)}
             isReceived={ownerAddress.toLowerCase() === item.from.toLowerCase()}

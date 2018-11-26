@@ -102,7 +102,7 @@ export default {
   /**
    * blockexplorer url
    */
-  blockExplorerLink: 'https://etherscan.io',
+  blockExplorerLink: 'etherscan.io',
 
   /**
    * supported languages
@@ -128,4 +128,14 @@ export default {
    * min count of transactions to dislay for user (initial sync)
    */
   minTransactionsCountToShow: 50,
+
+  /**
+   * etherscan api enpoints
+   */
+  enpointNames: {
+    '1': 'api',
+    '3': 'api-ropsten',
+    '42': 'api-kovan',
+    '4': 'api-rinkeby',
+  },
 }

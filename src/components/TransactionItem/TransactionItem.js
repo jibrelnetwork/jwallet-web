@@ -11,6 +11,7 @@ type Props = {|
   +setActive: () => void,
   +data: TransactionWithAssetAddress,
   +asset: DigitalAsset,
+  +networkId: NetworkId,
   +isActive: boolean,
   +isReceived: boolean,
 |}
@@ -19,6 +20,7 @@ function TransactionItem({
   setActive,
   data,
   asset,
+  networkId,
   isActive,
   isReceived,
 }: Props) {
@@ -33,12 +35,14 @@ function TransactionItem({
           assetSymbol={asset.symbol}
           isCustom={asset.isCustom}
           isReceived={isReceived}
+          networkId={networkId}
         />
         <TransactionItemDetails
           repeat={console.log}
           addFavorite={console.log}
           data={data}
           assetDecimals={asset.decimals}
+          networkId={networkId}
           isActive={isActive}
         />
       </JCard>
