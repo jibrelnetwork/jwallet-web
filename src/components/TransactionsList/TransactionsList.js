@@ -9,6 +9,8 @@ import TransactionsListEmpty from './Empty'
 type Props = {|
   +items: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
+  // +assetAddress: string,
+  +isFiltered: boolean,
 |}
 
 type ComponentState = {
@@ -38,10 +40,13 @@ class TransactionsList extends Component<Props, ComponentState> {
   render() {
     const {
       items,
+      isFiltered,
       digitalAssets,
     }: Props = this.props
 
-    if (!items) {
+    console.log(isFiltered)
+
+    if (!items.length) {
       return (
         <div className='transactions-list'>
           <TransactionsListEmpty />
