@@ -20,10 +20,8 @@ import {
 
 import * as transactions from 'routes/modules/transactions'
 
-import {
-  selectNetworkId,
-  selectWalletsPersist,
-} from 'store/stateSelectors'
+import { selectNetworkId } from 'store/selectors/networks'
+import { selectWalletsPersist } from 'store/selectors/wallets'
 
 import {
   selectLatestBlock,

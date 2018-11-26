@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 
 import { Link } from 'react-router'
 import { JIcon, JText } from 'components/base'
-import type { JIconColor } from 'components/base/JIcon/JICon'
+import type { JIconColor } from 'components/base/JIcon/JIcon'
 
 type Props = {|
   +title: string,

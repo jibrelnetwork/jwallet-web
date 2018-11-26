@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { selectEditAsset } from 'store/stateSelectors'
+import { selectEditAsset } from 'store/selectors/digitalAssets'
 import { reactRouterBack } from 'utils/browser'
 
 import {

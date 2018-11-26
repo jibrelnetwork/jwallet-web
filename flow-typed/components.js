@@ -2,5 +2,5 @@
 
 declare type DigitalAssetsGridItemType = {
   +asset: DigitalAsset,
-  +balance: ?DigitalAssetsBalance,
+  +balance: ?Balance,
 }

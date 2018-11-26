@@ -9,7 +9,7 @@ import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import {
   selectAddAsset,
   selectDigitalAsset,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
 
 import { reactRouterBack } from 'utils/browser'
 

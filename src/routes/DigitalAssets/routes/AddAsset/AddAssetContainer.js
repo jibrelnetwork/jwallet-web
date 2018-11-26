@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { selectAddAsset } from 'store/stateSelectors'
+import { selectAddAsset } from 'store/selectors/digitalAssets'
 import { reactRouterBack } from 'utils/browser'
 
 import {
@@ -31,9 +31,6 @@ const mapDispatchToProps = {
   closeClick: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
-// eslint-disable-next-line no-unused-vars
-type OwnProps = {||}
-
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(AddAssetView)
