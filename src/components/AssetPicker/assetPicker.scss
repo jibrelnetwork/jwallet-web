@@ -1,8 +1,0 @@
-@import './Current/assetPickerCurrent';
-@import './Item/assetPickerItem';
-
-.asset-picker {
-  all: initial;
-
-  @include flex-column;
-}
