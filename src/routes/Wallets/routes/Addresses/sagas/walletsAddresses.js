@@ -53,7 +53,7 @@ function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): S
 
   const itemsNew: Wallets = keystore.updateWallet(items, walletId, { addressIndex })
   yield put(wallets.setWalletsItems(itemsNew))
-  yield put(push('/wallets'))
+  yield put(push('/digital-assets/grid'))
 }
 
 function* getMore(

@@ -25,8 +25,14 @@ import digitalAssetsManage from 'routes/DigitalAssets/routes/Manage/modules/digi
 // networks
 import networks from 'routes/modules/networks'
 
+// blocks
+import blocks from 'routes/modules/blocks'
+
+// balances
+import balances from 'routes/modules/balances'
+
 // transactions
-import transactions from 'routes/Transactions/modules/transactions'
+import transactions from 'routes/modules/transactions'
 
 const persistConfig = {
   storage,
@@ -53,6 +59,10 @@ export function makeRootReducer() {
     editAsset,
     // transactions
     transactions,
+    // blocks
+    blocks,
+    // balances
+    balances,
     // router
     router,
   })

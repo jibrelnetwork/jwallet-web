@@ -65,7 +65,7 @@ export default {
     size: 2,
   },
 
-  etherscanApiOptions: {
+  blockExplorerApiOptions: {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -123,4 +123,9 @@ export default {
    * timeout before confirming of delete wallet action
    */
   deleteConfirmTimeout: 30,
+
+  /**
+   * min count of transactions to dislay for user (initial sync)
+   */
+  minTransactionsCountToShow: 50,
 }

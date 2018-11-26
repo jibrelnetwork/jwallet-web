@@ -1,7 +1,7 @@
 // @flow
 
 import { select, put, takeEvery } from 'redux-saga/effects'
-import { selectDigitalAssetsGridFilters } from 'store/stateSelectors'
+import { selectDigitalAssetsGridFilters } from 'store/selectors/digitalAssets'
 
 import {
   setSortByName,

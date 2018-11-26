@@ -6,8 +6,8 @@ import qrCode from './qrCode'
 import keystore from './keystore'
 import validate from './validate'
 import clipboard from './clipboard'
-import etherscan from './etherscan'
 import fileSaver from './fileSaver'
+import blockExplorer from './blockExplorer'
 
 export {
   gtm,
@@ -16,6 +16,6 @@ export {
   keystore,
   validate,
   clipboard,
-  etherscan,
   fileSaver,
+  blockExplorer,
 }

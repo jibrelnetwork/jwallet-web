@@ -32,4 +32,6 @@ const mapDispatchToProps = {
   deleteWallet: (walletId: WalletId) => push(`/wallets/delete/${walletId}`),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletsIndexView)
+export default (
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+)(WalletsIndexView)
