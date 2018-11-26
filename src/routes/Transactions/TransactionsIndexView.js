@@ -11,6 +11,8 @@ type Props = {|
   +changeSearchInput: (string) => void,
   +transactions: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
+  +ownerAddress: ?OwnerAddress,
+  +network: ?Network,
   +searchQuery: string,
   +isOnlyPending: boolean,
 |}
@@ -25,9 +27,15 @@ function TransactionsIndexView({
   changeSearchInput,
   transactions,
   digitalAssets,
+  network,
   searchQuery,
   isOnlyPending,
+  ownerAddress,
 }: Props) {
+  if (!(ownerAddress && network)) {
+    return null
+  }
+
   const filterCount: number = isOnlyPending ? 1 : 0
 
   return (
@@ -58,6 +66,8 @@ function TransactionsIndexView({
           <TransactionsList
             items={transactions}
             digitalAssets={digitalAssets}
+            ownerAddress={ownerAddress}
+            blockExplorerSubdomain={network.blockExplorerSubdomain}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>

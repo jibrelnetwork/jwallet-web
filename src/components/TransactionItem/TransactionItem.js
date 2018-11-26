@@ -2,51 +2,63 @@
 
 import React from 'react'
 
-// import TransactionItemMain from './Main'
-// import TransactionItemDetails from './Details'
+import JCard from 'components/base/JCard'
+
+import TransactionItemMain from './Main'
+import TransactionItemDetails from './Details'
 
 type Props = {|
-  // +setActive: () => void,
+  +setActive: () => void,
   +data: TransactionWithAssetAddress,
   +asset: ?DigitalAsset,
-  // +isActive: boolean,
+  +blockExplorerSubdomain: string,
+  +isActive: boolean,
+  +isReceived: boolean,
+  +isAssetList: boolean,
 |}
 
 function TransactionItem({
-  // setActive,
+  setActive,
   data,
   asset,
-  // isActive,
+  blockExplorerSubdomain,
+  isActive,
+  isReceived,
+  isAssetList,
 }: Props) {
   if (!asset) {
     return null
   }
 
-  return (
-    <div>
-      {data.hash}
-    </div>
-  )
+  const {
+    symbol,
+    decimals,
+  }: DigitalAsset = asset
 
-  /*
   return (
     <div className='transaction-item'>
-      <TransactionItemMain
-        setActive={setActive}
-        data={data}
-        assetSymbol={asset.symbol}
-        isActive={isActive}
-      />
-      <TransactionItemDetails
-        repeat={console.log}
-        addComment={console.log}
-        addFavorite={console.log}
-        data={data}
-        isActive={isActive}
-      />
+      <JCard color='white' isBorderRadius isHover>
+        <TransactionItemMain
+          setActive={setActive}
+          data={data}
+          assetSymbol={symbol}
+          blockExplorerSubdomain={blockExplorerSubdomain}
+          assetDecimals={decimals}
+          isActive={isActive}
+          isReceived={isReceived}
+          isAssetList={isAssetList}
+        />
+        <TransactionItemDetails
+          repeat={console.log}
+          addFavorite={console.log}
+          data={data}
+          blockExplorerSubdomain={blockExplorerSubdomain}
+          assetDecimals={decimals}
+          isActive={isActive}
+        />
+      </JCard>
     </div>
   )
-  */
 }
 
 export default TransactionItem

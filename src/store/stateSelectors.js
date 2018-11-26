@@ -43,30 +43,6 @@ export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddres
   return state.walletsRenameAddress
 }
 
-/**
- * Networks
- */
-// export function selectNetworks(state: AppState): NetworksData {
-//   return state.networks
-// }
-
-// export function selectNetworksItems(state: AppState): Networks {
-//   return state.networks.items
-// }
-
-// eslint-disable-next-line no-unused-vars
-export function selectNetworkId(state: AppState): NetworkId {
-  return '3'
-}
-
-export function selectRPCProps(): RPCProps {
-  return {
-    rpcaddr: 'ropsten-node.jwallet.network',
-    rpcport: 443,
-    ssl: true,
-  }
-}
-
 // export function selectEditAsset(state: AppState): EditAssetState {
 //   return state.editAsset
 // }

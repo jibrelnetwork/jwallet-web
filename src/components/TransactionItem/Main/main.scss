@@ -2,90 +2,102 @@
   all: initial;
 
   @include box;
+  @include font;
   @include flex-row;
 
-  position: relative;
-  height: ($transaction-item-height - $transaction-item-border-size);
-  padding: $transaction-item-v-padding $transaction-item-h-padding;
-  align-items: center;
+  padding: 20px 0;
   cursor: pointer;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  height: $transaction-item-height;
 
-  &:hover > .item.-amount {
-    > .repeat {
-      opacity: 1;
-      visibility: visible;
-    }
+  > .box {
+    @include flex-row;
 
-    > .value {
-      visibility: hidden;
-      opacity: 0;
-    }
-  }
+    align-items: center;
 
-  &.-active > .item.-amount {
-    > .repeat {
-      visibility: hidden;
-      opacity: 0;
-    }
-
-    > .value {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  > .icon {
-    margin-right: $transaction-item-h-padding;
-  }
-
-  > .item {
-    &.-date {
-      min-width: 150px;
-    }
-
-    &.-amount {
+    > .status,
+    > .balance,
+    > .message {
       position: relative;
-      min-width: 120px;
-      margin-left: auto;
-      text-align: right;
 
-      > .repeat {
-        @include hover-animation;
-
-        position: absolute;
-        top: -12px;
+      &::before {
+        content: '';
         right: 0;
-        opacity: 0;
-
-        &::before {
-          position: absolute;
-          top: 0;
-          left: -80px;
-          display: block;
-          height: 100%;
-          width: 80px;
-          background: linear-gradient(to right, transparent, $white);
-          content: '';
-        }
+        top: 50%;
+        width: 1px;
+        height: 40px;
+        margin-top: -20px;
+        position: absolute;
+        background-color: $pale-grey-two;
       }
     }
 
-    > .label {
-      opacity: 0.5;
-    }
-  }
+    > .status {
+      @include flex-row;
 
-  @media only screen and (max-width: 1366px) {
-    > .item.-address > .value {
-      width: 240px;
-      overflow: hidden;
+      width: 80px;
+      align-items: center;
+      justify-content: center;
     }
-  }
 
-  @media only screen and (max-width: 1200px) {
-    > .item.-address > .value {
-      width: 200px;
-      overflow: hidden;
+    > .data {
+      min-width: 365px;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      > .time {
+        opacity: 0.5;
+        margin-top: 3px;
+      }
+    }
+
+    > .message {
+      @include flex-row;
+
+      max-width: 240px;
+      padding-left: 20px;
+      align-items: center;
+
+      &::before {
+        left: 0;
+      }
+
+      > .icon {
+        opacity: 0.3;
+      }
+
+      > .text {
+        margin-left: 10px;
+        opacity: 0.5;
+      }
+    }
+
+    > .balance {
+      text-align: right;
+      padding-right: 20px;
+
+      > .fiat {
+        opacity: 0.5;
+        margin-top: 3px;
+      }
+    }
+
+    > .symbol {
+      @include flex-row;
+
+      width: 70px;
+      align-items: center;
+      justify-content: center;
+
+      &.-icon {
+        opacity: 0.2;
+      }
+
+      &.-text {
+        height: 36px;
+      }
     }
   }
 }

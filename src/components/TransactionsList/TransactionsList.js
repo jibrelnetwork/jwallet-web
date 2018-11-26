@@ -9,7 +9,9 @@ import TransactionsListEmpty from './Empty'
 type Props = {|
   +items: TransactionWithAssetAddress[],
   +digitalAssets: DigitalAssets,
-  // +assetAddress: string,
+  +assetAddress: ?string,
+  +blockExplorerSubdomain: string,
+  +ownerAddress: OwnerAddress,
   +isFiltered: boolean,
 |}
 
@@ -18,6 +20,10 @@ type ComponentState = {
 }
 
 class TransactionsList extends Component<Props, ComponentState> {
+  static defaultProps = {
+    assetAddress: null,
+  }
+
   constructor(props: Props) {
     super(props)
 
@@ -42,9 +48,13 @@ class TransactionsList extends Component<Props, ComponentState> {
       items,
       isFiltered,
       digitalAssets,
+      assetAddress,
+      ownerAddress,
+      blockExplorerSubdomain,
     }: Props = this.props
 
     console.log(isFiltered)
+    console.log(assetAddress)
 
     if (!items.length) {
       return (
@@ -64,7 +74,10 @@ class TransactionsList extends Component<Props, ComponentState> {
             setActive={this.setActive(item.hash)}
             data={item}
             asset={digitalAssets[item.assetAddress]}
+            blockExplorerSubdomain={blockExplorerSubdomain}
+            isAssetList={!!assetAddress}
             isActive={activeItems.includes(item.hash)}
+            isReceived={ownerAddress.toLowerCase() === item.to.toLowerCase()}
           />
         ))}
       </div>

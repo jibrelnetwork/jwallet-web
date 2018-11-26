@@ -2,9 +2,13 @@
 
 import { connect } from 'react-redux'
 
-import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
+
+import {
+  selectNetworkById,
+  selectCurrentNetworkId,
+} from 'store/selectors/networks'
 
 import {
   selectTransactions,
@@ -50,6 +54,7 @@ function prepareTransactions(
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const assetAddress: string = ownProps.params.asset
   const networkId: NetworkId = selectCurrentNetworkId(state)
+  const network: ?Network = selectNetworkById(state, networkId)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
 
@@ -64,8 +69,8 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   return {
     digitalAssets,
+    network,
     searchQuery,
-    assetAddress,
     ownerAddress,
     isOnlyPending,
     transactions: prepareTransactions(

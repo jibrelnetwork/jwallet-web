@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux'
 
-import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
@@ -11,6 +10,11 @@ import {
   searchTransactions,
   flattenTransactionsByOwner,
 } from 'utils/transactions'
+
+import {
+  selectNetworkById,
+  selectCurrentNetworkId,
+} from 'store/selectors/networks'
 
 import {
   selectTransactions,
@@ -42,7 +46,8 @@ function prepareTransactions(
 
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const owner: ?OwnerAddress = selectActiveWalletAddress(state)
+  const network: ?Network = selectNetworkById(state, networkId)
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
 
   const {
@@ -50,13 +55,15 @@ function mapStateToProps(state: AppState) {
     isOnlyPending,
   }: TransactionsState = selectTransactions(state)
 
-  const transactionsByOwner: ?TransactionsByOwner = owner
-    ? selectTransactionsByOwner(state, networkId, owner)
+  const transactionsByOwner: ?TransactionsByOwner = ownerAddress
+    ? selectTransactionsByOwner(state, networkId, ownerAddress)
     : null
 
   return {
     digitalAssets,
+    network,
     searchQuery,
+    ownerAddress,
     isOnlyPending,
     transactions: prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
   }
