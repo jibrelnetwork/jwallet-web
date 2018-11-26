@@ -28,4 +28,6 @@ const mapDispatchToProps = {
   goToWallets: () => push('/wallets'),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletsDeleteView)
+export default (
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+)(WalletsDeleteView)

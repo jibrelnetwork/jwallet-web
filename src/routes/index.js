@@ -21,8 +21,13 @@ import {
   type DigitalAssetsModuleAction,
 } from './DigitalAssets/modules'
 
+import {
+  type NotFoundAction,
+} from './NotFound/modules/notFound'
+
 export type AppAction = DigitalAssetsModuleAction |
-  CoreAction
+  CoreAction |
+  NotFoundAction
 
 export default {
   path: '/',
