@@ -28,10 +28,6 @@
     > .label {
       opacity: 0.5;
     }
-
-    > .value {
-      @include font;
-    }
   }
 
   > .actions {
@@ -44,7 +40,9 @@
 
     > .action {
       @include flex-row;
+      @include hover-animation;
 
+      opacity: 0.5;
       cursor: pointer;
       align-items: center;
 
@@ -52,25 +50,8 @@
         margin-right: 55px;
       }
 
-      > .icon {
-        @include hover-animation;
-
-        opacity: 0.5;
-      }
-
-      > .text {
-        @include hover-animation;
-
-        opacity: 0.7;
-        margin-top: 1px;
-        margin-left: 10px;
-      }
-
       &:hover {
-        > .icon,
-        > .text {
-          opacity: 1;
-        }
+        opacity: 1;
       }
     }
   }

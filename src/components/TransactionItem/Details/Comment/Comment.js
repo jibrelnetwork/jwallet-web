@@ -5,15 +5,15 @@ import React, { PureComponent } from 'react'
 import { JIcon, JFlatButton } from 'components/base'
 
 type Props = {
-  saveMessage: () => void,
-  deleteMessage: () => void,
+  saveComment: () => void,
+  deleteComment: () => void,
 }
 
-class TransactionItemMessage extends PureComponent<Props> {
+class TransactionItemDetailsComment extends PureComponent<Props> {
   render() {
     const {
-      saveMessage,
-      deleteMessage,
+      saveComment,
+      deleteComment,
     } = this.props
 
     return (
@@ -21,13 +21,11 @@ class TransactionItemMessage extends PureComponent<Props> {
         <label htmlFor='message' className='icon'>
           <JIcon size='medium' color='gray' name='message-add' />
         </label>
-
         <input type='text' id='message' className='field' placeholder='Your comment' />
-
         <div className='actions'>
           <div className='button'>
             <JFlatButton
-              onClick={saveMessage}
+              onClick={saveComment}
               label='Save'
               color='blue'
               isBordered
@@ -35,7 +33,7 @@ class TransactionItemMessage extends PureComponent<Props> {
           </div>
           <div className='button'>
             <JFlatButton
-              onClick={deleteMessage}
+              onClick={deleteComment}
               label='Delete'
               color='blue'
               isBordered
@@ -47,4 +45,4 @@ class TransactionItemMessage extends PureComponent<Props> {
   }
 }
 
-export default TransactionItemMessage
+export default TransactionItemDetailsComment

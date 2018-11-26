@@ -8,7 +8,7 @@ import { handle } from 'utils/eventHandlers'
 import { JIcon, JAssetSymbol, JText } from 'components/base'
 
 type Props = {|
-  +setActive: Function,
+  +setActive: (boolean) => void,
   +data: TransactionWithAssetAddress,
   +assetDecimals: number,
   +assetSymbol: string,

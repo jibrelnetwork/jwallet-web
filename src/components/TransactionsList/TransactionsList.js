@@ -55,7 +55,6 @@ class TransactionsList extends Component<Props, ComponentState> {
 
     return (
       <div className='transactions-list'>
-
         {items.map((item: TransactionWithAssetAddress) => (
           <TransactionItem
             key={item.hash}
@@ -63,7 +62,7 @@ class TransactionsList extends Component<Props, ComponentState> {
             data={item}
             asset={digitalAssets[item.assetAddress]}
             isActive={activeItems.includes(item.hash)}
-            isReceived={ownerAddress.toLowerCase() === item.from}
+            isReceived={ownerAddress.toLowerCase() === item.from.toLowerCase()}
           />
         ))}
       </div>

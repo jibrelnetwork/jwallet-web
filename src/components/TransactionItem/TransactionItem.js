@@ -38,7 +38,6 @@ function TransactionItem({
           repeat={console.log}
           addFavorite={console.log}
           data={data}
-          assetSymbol={asset.symbol}
           assetDecimals={asset.decimals}
           isActive={isActive}
         />
