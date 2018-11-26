@@ -15,15 +15,13 @@ import {
 import keystore from 'services/keystore'
 
 import {
-  selectNetworkId,
   selectWalletsItems,
   selectActiveWalletId,
-} from 'store/stateSelectors'
+} from 'store/selectors/wallets'
 
+import { selectNetworkId } from 'store/selectors/networks'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
-
 import { getAssetBalance, getETHBalance } from 'services/web3'
-
 import { setIsBalancesFetched } from '../modules/blocks'
 
 import {

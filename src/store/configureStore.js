@@ -18,7 +18,7 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   const middleware = [sagaMiddleware, routerMiddleware(history), ...middlewares]
 
-  if (__DEV__) {
+  if (__DEV__ && !window.localStorage.hideReduxLogger) {
     const { logger } = require('redux-logger')
 
     /* eslint-disable fp/no-mutating-methods */

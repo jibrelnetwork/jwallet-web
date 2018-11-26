@@ -1,10 +1,10 @@
 // @flow
 
-import { selectNetworkId } from './networks'
+import { selectCurrentNetworkId } from './networks'
 
-export function selectDigitalAssetsBalances(state: AppState): DigitalAssetsBalances {
+export function selectDigitalAssetsBalances(state: AppState): Balances {
   const {
-    digitalAssets: {
+    balances: {
       persist: {
         balances,
       },
@@ -18,15 +18,16 @@ export function selectDigitalAssetsOwnerBalances(
   state: AppState,
   blockNumber: number,
   ownerAddress: Address,
-): ?DigitalAssetsOwnerBalances {
+): ?OwnerBalances {
+  const networkId = selectCurrentNetworkId(state)
   const balances = selectDigitalAssetsBalances(state)
-  const networkId = selectNetworkId(state)
   const block = blockNumber.toString()
 
-  if (balances &&
-        balances[networkId] &&
-        balances[networkId][block] &&
-        balances[networkId][block][ownerAddress]
+  if (
+    balances &&
+    balances[networkId] &&
+    balances[networkId][block] &&
+    balances[networkId][block][ownerAddress]
   ) {
     return balances[networkId][block][ownerAddress]
   } else {
@@ -39,7 +40,7 @@ export function selectDigitalAssetBalance(
   blockNumber: number,
   ownerAddress: Address,
   assetAddress: Address
-): ?DigitalAssetsBalance {
+): ?Balance {
   const ownerBalances = selectDigitalAssetsOwnerBalances(state, blockNumber, ownerAddress)
 
   if (ownerBalances && ownerBalances[assetAddress]) {

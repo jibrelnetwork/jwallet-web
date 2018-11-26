@@ -20,10 +20,8 @@ import {
 
 import * as transactions from 'routes/modules/transactions'
 
-import {
-  selectNetworkId,
-  selectWalletsPersist,
-} from 'store/stateSelectors'
+import { selectNetworkId } from 'store/selectors/networks'
+import { selectWalletsPersist } from 'store/selectors/wallets'
 
 import {
   selectLatestBlock,
@@ -90,12 +88,14 @@ function* schedulerProcess(): Saga<void> {
     }: ExtractReturn<typeof selectWalletsPersist> = yield select(selectWalletsPersist)
 
     if (!activeWalletId) {
+      console.error('schedulerProcess: no active walletId selected')
       return
     }
 
     const owner: ?Address = keystore.getAddress(items, activeWalletId)
 
     if (!owner) {
+      console.error('schedulerProcess: no active wallet address selected')
       return
     }
 

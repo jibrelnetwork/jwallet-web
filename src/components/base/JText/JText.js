@@ -1,15 +1,15 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
 type JTextAlign = 'center'
 type JTextFontCase = 'upper'
 type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap'
-type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark'
 type JTextSize = 'small' | 'normal' | 'large' | 'header' | 'tab' | 'title'
+type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk'
 
 type Props = {|
   +value: string,
