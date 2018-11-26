@@ -8,8 +8,8 @@ type JTextFontCase = 'upper'
 type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap'
-type JTextSize = 'small' | 'normal' | 'large' | 'header' | 'title'
 type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark'
+type JTextSize = 'small' | 'normal' | 'large' | 'header' | 'tab' | 'title'
 
 type Props = {|
   +value: string,
