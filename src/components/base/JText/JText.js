@@ -9,7 +9,7 @@ type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap'
 type JTextSize = 'small' | 'normal' | 'large' | 'header' | 'title'
-type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark'
+type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk'
 
 type Props = {|
   +value: string,

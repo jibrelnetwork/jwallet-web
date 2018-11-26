@@ -115,6 +115,7 @@
   @import '../components/WalletHeader/walletHeader';
   @import '../components/CopyableField/copyableField';
   @import '../components/DigitalAssetsGrid/digitalAssetsGrid';
+  @import '../components/DigitalAssetsManage/digitalAssetsManage';
   @import '../components/PasswordField/passwordField';
   @import '../components/WalletLoading/WalletLoading';
   @import '../components/DerivationPath/derivationPath';
@@ -129,6 +130,7 @@
   @import '../components/CloseableScreen/closeableScreen';
   @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
   @import '../components/TransactionsFilter/transactionsFilter';
+  @import '../components/SettingsCard/settingsCard.scss';
 
   // Views
   @import '../routes/Terms/termsView';
