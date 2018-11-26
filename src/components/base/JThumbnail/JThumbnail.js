@@ -5,13 +5,14 @@ import classNames from 'classnames'
 
 import { JText, JIcon } from 'components/base'
 
-type JThumbnailImage = 'auth-question' | 'auth-cross' | 'screen-search'
+export type JThumbnailDescription = string | Array<string>
+export type JThumbnailImage = 'auth-question' | 'auth-cross' | 'screen-search' | 'screen-reload'
 
 type Props = {|
   +title: ?string,
-  +description: string | Array<string>,
   +image: JThumbnailImage,
   +iconSize: 'large' | 'xlarge',
+  +description: JThumbnailDescription,
   +color: 'white' | 'gray' | 'blue' | 'red',
   isTransparent: boolean,
 |}
