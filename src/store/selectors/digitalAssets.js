@@ -12,6 +12,16 @@ export function selectDigitalAssets(state: AppState): DigitalAssets {
   return items
 }
 
+export function selectDigitalAssetsPersist(state: AppState): DigitalAssetsPersist {
+  return state.digitalAssets.persist
+}
+
+export function selectDigitalAssetsItems(state: AppState): DigitalAssets {
+  const digitalAssetsPersist: DigitalAssetsPersist = selectDigitalAssetsPersist(state)
+
+  return digitalAssetsPersist.items
+}
+
 export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
   const items = selectDigitalAssets(state)
   if (items[contractAddress]) {

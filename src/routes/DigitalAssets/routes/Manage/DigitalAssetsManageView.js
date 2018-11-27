@@ -47,7 +47,7 @@ class DigitalAssetsManageView extends Component<Props> {
             <div className='actions'>
               <div className='search'>
                 <JSearch
-                  onQueryChange={setSearchQuery}
+                  onChange={setSearchQuery}
                   placeholder='Search asset...'
                 />
               </div>

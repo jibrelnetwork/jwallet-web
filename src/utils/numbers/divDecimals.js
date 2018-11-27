@@ -2,7 +2,7 @@
 
 import { BigNumber } from 'bignumber.js'
 
-export function divDecimals(
+function divDecimals(
   value: BigNumber,
   decimals: number = 18
 ): BigNumber {
@@ -11,3 +11,5 @@ export function divDecimals(
 
   return value.div(basePow)
 }
+
+export default divDecimals

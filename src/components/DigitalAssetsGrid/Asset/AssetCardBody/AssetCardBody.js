@@ -6,11 +6,11 @@ import AssetBalance from 'components/AssetBalance'
 import { JFlatButton, JText, JLoader } from 'components/base'
 
 type Props = {|
-  +fiatBalance: number,
-  +balance: BalanceString,
   +symbol: string,
-  +fiatCurrency: string,
   +address: Address,
+  +balance: BalanceString,
+  +fiatBalance: number,
+  +fiatCurrency: string,
   +isError: boolean,
   +isLoading: boolean,
   +isHovered: boolean
@@ -26,11 +26,11 @@ class AssetCardBody extends PureComponent<Props> {
 
   render() {
     const {
+      symbol,
+      address,
+      fiatCurrency,
       balance,
       fiatBalance,
-      symbol,
-      fiatCurrency,
-      address,
       isError,
       isLoading,
       isHovered,
@@ -49,16 +49,16 @@ class AssetCardBody extends PureComponent<Props> {
         <div className='asset-card-body'>
           <div className='crypto'>
             <JText
-              value='Balance loading error'
               color='gray'
               weight='bold'
               whiteSpace='wrap'
+              value='Balance loading error'
             />
           </div>
           <div className='fiat'>
             <JFlatButton
-              label='Reload asset'
               color='blue'
+              label='Reload asset'
               isHoverOpacity
               onClick={console.log}
             />
@@ -99,9 +99,9 @@ class AssetCardBody extends PureComponent<Props> {
         ) : (
           <div className='fiat'>
             <JFlatButton
-              onClick={() => console.log(address)}
-              label='Show transactions'
+              to={`/transactions/${address}`}
               color='blue'
+              label='Show transactions'
               isHoverOpacity
             />
           </div>

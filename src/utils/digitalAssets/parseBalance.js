@@ -6,7 +6,8 @@ import { divDecimals } from '../numbers'
 
 function parseBalance(
   value: string | number | BigNumber,
-  decimals: number = 18): string {
+  decimals: number = 18
+): string {
   const normalized = divDecimals(new BigNumber(value), decimals)
 
   return normalized.toString()

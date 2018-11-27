@@ -19,7 +19,7 @@ import {
   selectActiveWalletId,
 } from 'store/selectors/wallets'
 
-import { selectNetworkId } from 'store/selectors/networks'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 import { getAssetBalance, getETHBalance } from 'services/web3'
 import { setIsBalancesFetched } from '../modules/blocks'
@@ -159,7 +159,7 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
         isLoading: false,
       }
 
-      const networkId: NetworkId = yield select(selectNetworkId)
+      const networkId: NetworkId = yield select(selectCurrentNetworkId)
 
       yield put(updateBalance(
         networkId,
@@ -186,7 +186,7 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
         isLoading: false,
       }
 
-      const networkId: NetworkId = yield select(selectNetworkId)
+      const networkId: NetworkId = yield select(selectCurrentNetworkId)
 
       yield put(updateBalance(
         networkId,

@@ -88,23 +88,32 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
       contractAddress,
     }: TransactionFromBlockExplorer = item
 
+    const newTransaction: Transaction = {
+      data: {
+        gasPrice: parseInt(gasPrice, 10) || 0,
+      },
+      blockData: {
+        minedAt: parseInt(timeStamp, 10) || 0,
+      },
+      receiptData: {
+        gasUsed: parseInt(gasUsed, 10) || 0,
+        status: (parseInt(isError, 16) === 1) ? 0 : 1,
+      },
+      to,
+      from,
+      hash,
+      blockHash,
+      contractAddress,
+      eventType: 0,
+      amount: parseInt(value, 10) || 0,
+      createdAt: parseInt(timeStamp, 10) || 0,
+      blockNumber: parseInt(blockNumber, 10) || 0,
+      isRemoved: false,
+    }
+
     return {
       ...result,
-      [hash]: {
-        to,
-        from,
-        blockHash,
-        contractAddress,
-        eventType: 0,
-        amount: parseInt(value, 10) || 0,
-        status: parseInt(isError, 10) || 0,
-        gasUsed: parseInt(gasUsed, 10) || 0,
-        gasPrice: parseInt(gasPrice, 10) || 0,
-        timestamp: parseInt(timeStamp, 10) || 0,
-        blockNumber: parseInt(blockNumber, 10) || 0,
-        isRemoved: false,
-        isLoading: false,
-      },
+      [hash]: newTransaction,
     }
   }, {})
 }

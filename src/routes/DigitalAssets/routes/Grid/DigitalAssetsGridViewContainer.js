@@ -10,8 +10,8 @@ import {
   selectDigitalAssetsGridSearchQuery,
 } from 'store/selectors/digitalAssets'
 
+import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectCurrentBlockNumber } from 'store/selectors/blocks'
-import { selectNetworkId } from 'store/selectors/networks'
 import { selectDigitalAssetBalance } from 'store/selectors/balances'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { parseBalance } from 'utils/digitalAssets'
@@ -43,7 +43,7 @@ const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => 
 }
 
 const mapStateToProps = (state: AppState) => {
-  const networkId = selectNetworkId(state)
+  const networkId = selectCurrentNetworkId(state)
 
   // assets grid selectors
   const assets = selectDigitalAssets(state /* , networkId */)

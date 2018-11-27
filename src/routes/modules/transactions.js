@@ -8,6 +8,9 @@ export const SET_ITEMS = '@@transactions/SET_ITEMS'
 
 export const SET_IS_BLOCK_EXPLORER_ERROR = '@@transactions/SET_IS_BLOCK_EXPLORER_ERROR'
 
+export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
+export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
+
 export function syncStart(
   requestQueue: Channel,
   networkId: NetworkId,
@@ -67,18 +70,40 @@ export function setIsBlockExporerError(isBlockExplorerError: boolean) {
   }
 }
 
+export function changeSearchInput(searchQuery: string) {
+  return {
+    type: CHANGE_SEARCH_INPUT,
+    payload: {
+      searchQuery,
+    },
+  }
+}
+
+export function setIsOnlyPending(isOnlyPending: boolean) {
+  return {
+    type: SET_IS_ONLY_PENDING,
+    payload: {
+      isOnlyPending,
+    },
+  }
+}
+
 type TransactionsAction =
   ExtractReturn<typeof syncStart> |
   ExtractReturn<typeof syncStop> |
   ExtractReturn<typeof syncError> |
   ExtractReturn<typeof setItems> |
-  ExtractReturn<typeof setIsBlockExporerError>
+  ExtractReturn<typeof setIsBlockExporerError> |
+  ExtractReturn<typeof changeSearchInput> |
+  ExtractReturn<typeof setIsOnlyPending>
 
 const initialState: TransactionsState = {
   persist: {
     items: {},
   },
+  searchQuery: '',
   isSyncing: false,
+  isOnlyPending: false,
   isBlockExplorerError: false,
 }
 
@@ -152,6 +177,18 @@ function transactions(
       return {
         ...state,
         isBlockExplorerError: action.payload.isBlockExplorerError,
+      }
+
+    case CHANGE_SEARCH_INPUT:
+      return {
+        ...state,
+        searchQuery: action.payload.searchQuery,
+      }
+
+    case SET_IS_ONLY_PENDING:
+      return {
+        ...state,
+        isOnlyPending: action.payload.isOnlyPending,
       }
 
     default:

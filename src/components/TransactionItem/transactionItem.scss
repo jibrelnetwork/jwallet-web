@@ -3,14 +3,6 @@
 
 .transaction-item {
   all: initial;
-
-  @include box;
-  @include flex-column;
-
-  position: relative;
-  border-bottom: $transaction-item-border-size solid $pale-grey;
-
-  &:last-child {
-    border-bottom: 0;
-  }
+  display: block;
+  margin-bottom: 10px;
 }

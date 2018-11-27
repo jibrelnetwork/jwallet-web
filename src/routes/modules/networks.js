@@ -1,7 +1,5 @@
 // @flow
 
-import { assoc, assocPath, compose } from 'ramda'
-
 export const INIT = '@@networks/INIT'
 export const INIT_FINISH = '@@networks/INIT_FINISH'
 export const SET_NETWORKS = '@@networks/SET_NETWORKS'
@@ -17,187 +15,187 @@ export const SAVE_CUSTOM_NETWORK_ERROR = '@@networks/SAVE_CUSTOM_NETWORK_ERROR'
 export const SET_INVALID_FIELD = '@@networks/SET_INVALID_FIELD'
 export const REMOVE_CUSTOM_NETWORK = '@@networks/REMOVE_CUSTOM_NETWORK'
 
-export const init = (): { type: string } => ({
-  type: INIT,
-})
-
-export const initFinish = (): { type: string } => ({
-  type: INIT_FINISH,
-})
-
-export const setNetworks = (items: ?Networks): {
-  type: string,
-  payload: {
-    items: ?Networks,
-  },
-} => ({
-  type: SET_NETWORKS,
-  payload: {
-    items,
-  },
-})
-
-export const setNetworksSuccess = (items: Networks): {
-  type: string,
-  payload: {
-    items: Networks,
-  },
-} => ({
-  type: SET_NETWORKS_SUCCESS,
-  payload: {
-    items,
-  },
-})
-
-export const setNetworksError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SET_NETWORKS_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const setCustomNetworkRPC = (customNetworkRPC: string): {
-  type: string,
-  payload: {
-    customNetworkRPC: string,
-  },
-} => ({
-  type: SET_CUSTOM_NETWORK_RPC,
-  payload: {
-    customNetworkRPC,
-  },
-})
-
-export const setCurrentNetwork = (currentNetwork: ?NetworkId): {
-  type: string,
-  payload: {
-    currentNetwork: ?NetworkId,
-  },
-} => ({
-  type: SET_CURRENT,
-  payload: {
-    currentNetwork,
-  },
-})
-
-export const setCurrentNetworkSuccess = (currentNetwork: NetworkId): {
-  type: string,
-  payload: {
-    currentNetwork: NetworkId,
-  },
-} => ({
-  type: SET_CURRENT_SUCCESS,
-  payload: {
-    currentNetwork,
-  },
-})
-
-export const setCurrentNetworkError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SET_CURRENT_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const saveCustomNetwork = (): { type: string } => ({
-  type: SAVE_CUSTOM_NETWORK,
-})
-
-export const saveCustomNetworkSuccess = (newNetworks: Networks): {
-  type: string,
-  payload: {
-    newNetworks: Networks,
-  },
-} => ({
-  type: SAVE_CUSTOM_NETWORK_SUCCESS,
-  payload: {
-    newNetworks,
-  },
-})
-
-export const saveCustomNetworkError = (err: Object): {
-  type: string,
-  payload: Object,
-  error: boolean,
-} => ({
-  type: SAVE_CUSTOM_NETWORK_ERROR,
-  payload: err,
-  error: true,
-})
-
-export const removeCustomNetwork = (networkId: NetworkId): {
-  type: string,
-  payload: {
-    networkId: NetworkId,
-  },
-} => ({
-  type: REMOVE_CUSTOM_NETWORK,
-  payload: {
-    networkId,
-  },
-})
-
-const initialState: NetworksData = {
-  items: [],
-  invalidFields: {},
-  customNetworkRPC: '',
-  isLoading: false,
-  isInitialised: false,
-  currentNetwork: null,
+export function init() {
+  return {
+    type: INIT,
+  }
 }
 
-const networks = (
-  state: NetworksData = initialState,
-  action: Object,
-): Object => {
-  const { type, payload } = action
+export function initFinish() {
+  return {
+    type: INIT_FINISH,
+  }
+}
 
-  switch (type) {
-    case INIT_FINISH: {
-      return assoc('isInitialised', true)(state)
-    }
+export function setNetworks(items: ?Networks) {
+  return {
+    type: SET_NETWORKS,
+    payload: {
+      items,
+    },
+  }
+}
 
-    case SET_NETWORKS: {
-      return assoc('isLoading', true)(state)
-    }
+export function setNetworksSuccess(items: Networks) {
+  return {
+    type: SET_NETWORKS_SUCCESS,
+    payload: {
+      items,
+    },
+  }
+}
 
-    case SET_NETWORKS_SUCCESS: {
-      return compose(
-        assoc('items', payload.items),
-        assoc('isLoading', false),
-      )(state)
-    }
+export function setNetworksError(err: Error) {
+  return {
+    type: SET_NETWORKS_ERROR,
+    payload: err,
+    error: true,
+  }
+}
 
-    case SET_NETWORKS_ERROR: {
-      return assoc('isLoading', false)(state)
-    }
+export function setCustomNetworkRPC(customNetworkRPC: string) {
+  return {
+    type: SET_CUSTOM_NETWORK_RPC,
+    payload: {
+      customNetworkRPC,
+    },
+  }
+}
 
-    case SET_CURRENT_SUCCESS: {
-      return assoc('currentNetwork', payload.currentNetwork)(state)
-    }
+export function setCurrentNetwork(currentNetwork: ?NetworkId) {
+  return {
+    type: SET_CURRENT,
+    payload: {
+      currentNetwork,
+    },
+  }
+}
 
-    case SET_CUSTOM_NETWORK_RPC: {
-      return assoc('customNetworkRPC', payload.customNetworkRPC)(state)
-    }
+export function setCurrentNetworkSuccess(currentNetwork: NetworkId) {
+  return {
+    type: SET_CURRENT_SUCCESS,
+    payload: {
+      currentNetwork,
+    },
+  }
+}
 
-    case SAVE_CUSTOM_NETWORK_SUCCESS: {
-      return compose(
-        assoc('items', payload.newNetworks),
-        assoc('customNetworkRPC', ''),
-      )(state)
-    }
+export function setCurrentNetworkError(err: Error) {
+  return {
+    type: SET_CURRENT_ERROR,
+    payload: err,
+    error: true,
+  }
+}
 
-    case SET_INVALID_FIELD: {
-      return assocPath(['invalidFields', payload.fieldName], payload.message)(state)
-    }
+export function saveCustomNetwork() {
+  return {
+    type: SAVE_CUSTOM_NETWORK,
+  }
+}
 
-    default: return state
+export function saveCustomNetworkSuccess(newNetworks: Networks) {
+  return {
+    type: SAVE_CUSTOM_NETWORK_SUCCESS,
+    payload: {
+      newNetworks,
+    },
+  }
+}
+
+export function saveCustomNetworkError(err: Error) {
+  return {
+    type: SAVE_CUSTOM_NETWORK_ERROR,
+    payload: err,
+    error: true,
+  }
+}
+
+export function removeCustomNetwork(networkId: NetworkId) {
+  return {
+    type: REMOVE_CUSTOM_NETWORK,
+    payload: {
+      networkId,
+    },
+  }
+}
+
+type NetworksAction =
+  ExtractReturn<typeof init> |
+  ExtractReturn<typeof initFinish> |
+  ExtractReturn<typeof setNetworks> |
+  ExtractReturn<typeof setNetworksSuccess> |
+  ExtractReturn<typeof setNetworksError> |
+  ExtractReturn<typeof setCustomNetworkRPC> |
+  ExtractReturn<typeof setCurrentNetwork> |
+  ExtractReturn<typeof setCurrentNetworkSuccess> |
+  ExtractReturn<typeof setCurrentNetworkError> |
+  ExtractReturn<typeof saveCustomNetwork> |
+  ExtractReturn<typeof saveCustomNetworkSuccess> |
+  ExtractReturn<typeof saveCustomNetworkError> |
+  ExtractReturn<typeof removeCustomNetwork>
+
+const initialState: NetworksState = {
+  persist: {
+    items: {
+      '3': {
+        title: 'Ropsten Test Network',
+        blockExplorerSubdomain: 'ropsten',
+        rpcaddr: 'ropsten-node.jwallet.network',
+        rpcport: 443,
+        ssl: true,
+        isCustom: false,
+      },
+    },
+    currentNetworkId: '3',
+  },
+}
+
+function networks(
+  state: NetworksState = initialState,
+  action: NetworksAction,
+): NetworksState {
+  switch (action.type) {
+    // case INIT_FINISH: {
+    //   return assoc('isInitialised', true)(state)
+    // }
+
+    // case SET_NETWORKS: {
+    //   return assoc('isLoading', true)(state)
+    // }
+
+    // case SET_NETWORKS_SUCCESS: {
+    //   return compose(
+    //     assoc('items', action.payload.items),
+    //     assoc('isLoading', false),
+    //   )(state)
+    // }
+
+    // case SET_NETWORKS_ERROR: {
+    //   return assoc('isLoading', false)(state)
+    // }
+
+    // case SET_CURRENT_SUCCESS: {
+    //   return assoc('currentNetwork', action.payload.currentNetwork)(state)
+    // }
+
+    // case SET_CUSTOM_NETWORK_RPC: {
+    //   return assoc('customNetworkRPC', action.payload.customNetworkRPC)(state)
+    // }
+
+    // case SAVE_CUSTOM_NETWORK_SUCCESS: {
+    //   return compose(
+    //     assoc('items', action.payload.newNetworks),
+    //     assoc('customNetworkRPC', ''),
+    //   )(state)
+    // }
+
+    // case SET_INVALID_FIELD: {
+    // return assocPath(['invalidFields', action.payload.fieldName], action.payload.message)(state)
+    // }
+
+    default:
+      return state
   }
 }
 
