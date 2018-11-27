@@ -20,7 +20,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
 
     return (
       <div className='digital-assets-grid'>
-        {items.map(({ asset, balance }) => (
+        {items.map(({ asset, balance, isLoading }) => (
           <div className='box' key={asset.address}>
             { /* @TODO: add fiatCurrency, fiatBalance */ }
             <Asset
@@ -28,9 +28,9 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               symbol={asset.symbol}
               address={asset.address}
               isCustom={asset.isCustom}
-              balance={balance ? balance.balance : 0}
-              isLoading={balance ? balance.isLoading : false}
-              isError={balance ? balance.isError : false}
+              balance={balance}
+              isLoading={isLoading}
+              isError={false}
             />
           </div>
         ))}
