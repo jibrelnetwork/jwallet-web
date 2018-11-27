@@ -7,17 +7,17 @@ import { JAssetSymbol, JText } from 'components/base'
 
 import AssetCardBody from './AssetCardBody'
 
-type Props = {
+type Props = {|
   +name: string,
   +symbol: string,
   +address: Address,
   +fiatCurrency: string,
-  +balance: number,
+  +balance: BalanceString,
   +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
   +isCustom: boolean,
-}
+|}
 
 type AssetsState = {
   isHovered: boolean,

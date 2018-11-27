@@ -15,6 +15,7 @@ declare type AssetAddresses = Array<AssetAddress>
 declare type AddressNames = { [Address]: string }
 
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
+declare type BalanceString = string
 
 declare type FormFields = { [string]: ?string }
 
