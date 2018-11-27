@@ -25,15 +25,16 @@ import {
   type NotFoundAction,
 } from './NotFound/modules/notFound'
 
-export type AppAction = DigitalAssetsModuleAction |
+export type AppAction =
   CoreAction |
-  NotFoundAction
+  NotFoundAction |
+  DigitalAssetsModuleAction
 
 export default {
   path: '/',
   component: CoreLayout,
   indexRoute: {
-    onEnter: (nextState: AppState, replace: (string) => void) => replace('/wallets'),
+    onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets'),
   },
   childRoutes: [
     /*

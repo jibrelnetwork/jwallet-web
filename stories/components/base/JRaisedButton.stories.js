@@ -38,6 +38,7 @@ storiesOf('JRaisedButton', module)
   ))
   .add('Different color', () => (
     <div>
+      <h2>White</h2>
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%', background: '#0033A3' }}>
         <div style={{ padding: '10px', width: '140px' }} >
           <JRaisedButton
@@ -65,6 +66,38 @@ storiesOf('JRaisedButton', module)
             color='white'
             labelColor='white'
             loaderColor='white'
+            isLoading
+          />
+        </div>
+      </div>
+      <h2>Dark</h2>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', background: '#232d3e' }}>
+        <div style={{ padding: '10px', width: '140px' }} >
+          <JRaisedButton
+            onClick={action('onClick')}
+            label='Yes, delete'
+            color='white'
+            labelColor='dark'
+            loaderColor='dark'
+          />
+        </div>
+        <div style={{ padding: '10px', width: '140px' }} >
+          <JRaisedButton
+            onClick={action('onClick')}
+            label='Yes, delete'
+            color='white'
+            labelColor='dark'
+            loaderColor='dark'
+            isDisabled
+          />
+        </div>
+        <div style={{ padding: '10px', width: '140px' }} >
+          <JRaisedButton
+            onClick={action('onClick')}
+            label='Yes, delete'
+            color='white'
+            labelColor='dark'
+            loaderColor='dark'
             isLoading
           />
         </div>

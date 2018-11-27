@@ -1,6 +1,6 @@
 // @flow
 
-import { AsideLayout } from 'layouts'
+import MenuLayout from 'layouts/MenuLayout'
 
 import Grid from './routes/Grid'
 import AddAsset from './routes/AddAsset'
@@ -9,7 +9,7 @@ import Manage from './routes/Manage'
 
 export default {
   path: 'digital-assets',
-  component: AsideLayout,
+  component: MenuLayout,
   indexRoute: {
     onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets/grid'),
   },

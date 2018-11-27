@@ -1,5 +1,5 @@
 // @flow
 
-import MenuLayout from './MenuLayout'
+import MenuLayout from './MenuLayoutContainer'
 
 export default MenuLayout
