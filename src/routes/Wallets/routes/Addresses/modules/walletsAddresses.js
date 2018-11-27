@@ -19,12 +19,9 @@ export const SET_ADDRESS_NAMES: '@@walletsAddresses/SET_ADDRESS_NAMES' = '@@wall
 export const CLEAN: '@@walletsAddresses/CLEAN' = '@@walletsAddresses/CLEAN'
 /* eslint-enable max-len */
 
-export function openView(walletId: string) {
+export function openView() {
   return {
     type: OPEN_VIEW,
-    payload: {
-      walletId,
-    },
   }
 }
 

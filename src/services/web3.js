@@ -6,7 +6,7 @@ import { flatten, prop, sortBy, reverse } from 'ramda'
 import { keccak256 } from 'js-sha3'
 
 import config from 'config'
-import checkJNTAsset from 'utils/digitalAssets/checkJNTAsset'
+import checkJNT from 'utils/digitalAssets/checkJNT'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
 
 const PUSH_INSTRUCTION = '63'
@@ -14,12 +14,6 @@ const PUSH_INSTRUCTION = '63'
 export const EMPTY_CONTRACT_CODE = '0x'
 
 const { defaultDecimals } = config
-
-type RPCProps = {
-  rpcaddr: string,
-  rpcport: number,
-  ssl: boolean,
-}
 
 /* eslint-disable-next-line fp/no-let */
 let rpcProps: RPCProps = {
@@ -37,30 +31,17 @@ function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-function getETHBalance(address: Address): Promise<number> {
+export function getETHBalance(address: Address): Promise<typeof Bignumber> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
-    .then(balance => (balance.toNumber() / (10 ** defaultDecimals)))
 }
 
-function getTokenBalance(
+export function getAssetBalance(
   contractAddress: Address,
-  owner: Address,
-  decimals: Decimals = defaultDecimals,
-): Promise<number> {
+  owner: Address
+): Promise<typeof Bignumber> {
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
-    .then(balance => (balance.toNumber() / (10 ** decimals)))
-}
-
-function getAssetBalance(
-  contractAddress: Address,
-  owner: Address,
-  decimals: Decimals,
-): Promise<number> {
-  return jibrelContractsApi.contracts.erc20
-    .balanceOf({ ...rpcProps, contractAddress, owner })
-    .then(balance => (balance.toNumber() / (10 ** decimals)))
 }
 
 function getContractDecimals(
@@ -88,7 +69,8 @@ function getContractSymbol(
 function getContractCode(
   contractAddress: Address
 ): Promise<string> {
-  return jibrelContractsApi.eth.getCode({ ...rpcProps, address: contractAddress })
+  return jibrelContractsApi.eth
+    .getCode({ ...rpcProps, address: contractAddress })
 }
 
 /**
@@ -119,14 +101,18 @@ function checkSignatureInContract(contractCode: string, signature: string): bool
  * @param {string} contractCode
  * @returns {boolean}
  */
-function checkContractCodeIsERC20(contractCode: string): boolean {
-  const signatures = [
+function checkContractCodeIsERC20(contractCode: string, checkAllMethods: boolean = false): boolean {
+  const signatures = checkAllMethods ? [
     'totalSupply()',
-    'transferFrom(address,address,uint256)',
     'balanceOf(address)',
     'transfer(address,uint256)',
+    'transferFrom(address,address,uint256)',
     'allowance(address,address)',
     'approve(address,uint256)',
+  ] : [
+    'totalSupply()',
+    'balanceOf(address)',
+    'transfer(address,uint256)',
   ]
 
   // run checkSignatureInContract and try to find False in result
@@ -187,13 +173,17 @@ function getTransactionStatus(blockHash: Hash) {
 }
 
 function getBlocks(list: any) {
-  return Promise.all(list.map(item => getBlock(item))).then(getBlocksData)
+  return Promise.all(list.map(item => getBlockOld(item))).then(getBlocksData)
 }
 
-function getBlock(item: { blockHash: Hash }) {
+function getBlockOld(item: { blockHash: Hash }) {
   const blockId = item.blockHash
 
   return blockId ? jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId }) : {}
+}
+
+export function getBlock(blockId: BlockId): Promise<ETHBlock> {
+  return jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId, returnTransactionObjects: true })
 }
 
 function getBlocksData(blocksData: any = []) {
@@ -289,7 +279,7 @@ function sortTransactions(list: any) {
 function getContractTransactions(contractAddress: Address, owner: Address, decimals: Decimals) {
   const transferTransactions = getERC20Transactions(contractAddress, owner, decimals)
 
-  if (!checkJNTAsset(contractAddress)) {
+  if (!checkJNT(contractAddress)) {
     return transferTransactions
   }
 
@@ -382,7 +372,6 @@ export default {
   setRpcProps,
   getRpcProps,
   getETHBalance,
-  getTokenBalance,
   getAssetBalance,
   getETHTransactions,
   getContractTransactions,
@@ -394,4 +383,5 @@ export default {
   getContractCode,
   checkContractCodeIsERC20,
   checkSignatureInContract,
+  getBlock,
 }

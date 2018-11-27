@@ -282,6 +282,13 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
+            name='repeat'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
             name='star-add'
           />
         </div>

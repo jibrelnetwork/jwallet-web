@@ -8,7 +8,7 @@ type Props = {|
   +symbol: string,
   +color: 'blue' | 'gray',
   +size: 'small' | 'normal' | 'header',
-  +balance: number,
+  +balance: BalanceString,
 |}
 
 class AssetBalance extends PureComponent<Props> {
@@ -16,6 +16,7 @@ class AssetBalance extends PureComponent<Props> {
     color: 'gray',
     size: 'normal',
   }
+
   render() {
     const {
       symbol,
@@ -24,8 +25,6 @@ class AssetBalance extends PureComponent<Props> {
       balance,
     } = this.props
 
-    const balanceValue = balance.toLocaleString('en-US', { maximumFractionDigits: 2 })
-
     return (
       <div className='asset-balance'>
         <div className='balance'>
@@ -33,7 +32,7 @@ class AssetBalance extends PureComponent<Props> {
             weight='bold'
             size={size}
             color={color}
-            value={balanceValue}
+            value={balance}
           />
         </div>
         <div className='symbol'>

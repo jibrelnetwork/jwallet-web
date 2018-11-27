@@ -1,0 +1,103 @@
+.transaction-item-main {
+  all: initial;
+
+  @include box;
+  @include font;
+  @include flex-row;
+
+  padding: 20px 0;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  height: $transaction-item-height;
+
+  > .box {
+    @include flex-row;
+
+    align-items: center;
+
+    > .status,
+    > .balance,
+    > .message {
+      position: relative;
+
+      &::before {
+        content: '';
+        right: 0;
+        top: 50%;
+        width: 1px;
+        height: 40px;
+        margin-top: -20px;
+        position: absolute;
+        background-color: $pale-grey-two;
+      }
+    }
+
+    > .status {
+      @include flex-row;
+
+      width: 80px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    > .data {
+      min-width: 365px;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      > .time {
+        opacity: 0.5;
+        margin-top: 3px;
+      }
+    }
+
+    > .message {
+      @include flex-row;
+
+      max-width: 240px;
+      padding-left: 20px;
+      align-items: center;
+
+      &::before {
+        left: 0;
+      }
+
+      > .icon {
+        opacity: 0.3;
+      }
+
+      > .text {
+        margin-left: 10px;
+        opacity: 0.5;
+      }
+    }
+
+    > .balance {
+      text-align: right;
+      padding-right: 20px;
+
+      > .fiat {
+        opacity: 0.5;
+        margin-top: 3px;
+      }
+    }
+
+    > .symbol {
+      @include flex-row;
+
+      width: 70px;
+      align-items: center;
+      justify-content: center;
+
+      &.-icon {
+        opacity: 0.2;
+      }
+
+      &.-text {
+        height: 36px;
+      }
+    }
+  }
+}

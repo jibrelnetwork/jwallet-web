@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 
 import Asset from './Asset'
-import Empty from './Empty'
+import DigitalAssetsGridEmpty from './Empty'
 import AddDigitalAsset from './AddDigitalAsset'
 
 type Props = {|
@@ -20,7 +20,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
 
     return (
       <div className='digital-assets-grid'>
-        {items.map(({ asset, balance }) => (
+        {items.map(({ asset, balance, isLoading }) => (
           <div className='box' key={asset.address}>
             { /* @TODO: add fiatCurrency, fiatBalance */ }
             <Asset
@@ -28,23 +28,16 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               symbol={asset.symbol}
               address={asset.address}
               isCustom={asset.isCustom}
-              balance={balance ? balance.balance : 0}
-              isLoading={balance ? balance.isLoading : false}
-              isError={balance ? balance.isError : false}
+              balance={balance}
+              isLoading={isLoading}
+              isError={false}
             />
           </div>
         ))}
-        {items.length ? (
+        {!items.length ? <DigitalAssetsGridEmpty /> : (
           <div className='box'>
             <AddDigitalAsset onClick={addAssetClick} />
           </div>
-        ) : (
-          <Empty
-            image='screen-search'
-            description='There are no Digital Assets to show'
-            color='gray'
-            isTransparent
-          />
         )}
       </div>
     )

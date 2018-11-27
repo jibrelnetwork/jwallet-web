@@ -516,6 +516,10 @@
       &.-blue {
         background-image: $icon-medium-upload-blue;
       }
+
+      &.-gray {
+        background-image: $icon-medium-upload-gray;
+      }
     }
 
     &.-bucket {
@@ -589,6 +593,12 @@
     &.-dots-full {
       &.-gray {
         background-image: $icon-medium-dots-full-gray;
+      }
+    }
+
+    &.-repeat {
+      &.-gray {
+        background-image: $icon-medium-repeat-gray;
       }
     }
 

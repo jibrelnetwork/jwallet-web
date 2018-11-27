@@ -1,6 +1,37 @@
 // @flow
 
+// test it with address
+// 0x4Bda106325C335dF99eab7fE363cAC8A0ba2a24D
+
 const MAIN_ASSETS = [{
+  name: 'Test Test Token (MTT)',
+  symbol: '_MTT',
+  decimals: 18,
+  address: '0x0d0f936ee4c93e25944694d6c121de94d9760f11',
+  isActive: true,
+  isCustom: false,
+}, {
+  name: 'Test Test Token (ZRX)',
+  symbol: '_ZRX',
+  decimals: 18,
+  address: '0xa8e9fa8f91e5ae138c74648c9c304f1c75003a8d',
+  isActive: true,
+  isCustom: false,
+}, {
+  name: 'Test Test Token (CCC)',
+  symbol: '_CCC',
+  decimals: 18,
+  address: '0x7f01e73f94011f7ac727dc34d7b3f4135b49e80c',
+  isActive: true,
+  isCustom: false,
+}, {
+  name: 'ZE Token based on ZRX Token',
+  symbol: '_ZE',
+  decimals: 18,
+  address: '0x4bda106325c335df99eab7fe363cac8a0ba2a24d',
+  isActive: true,
+  isCustom: false,
+}, {
   name: 'Jibrel Network Token',
   symbol: 'JNT',
   decimals: 18,
@@ -12,14 +43,14 @@ const MAIN_ASSETS = [{
   symbol: 'QTUM',
   decimals: 18,
   address: '0x9a642d6b3368ddc662CA244bAdf32cDA716005BC',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'OmiseGo',
   symbol: 'OMG',
   decimals: 18,
   address: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'EOS',
@@ -33,21 +64,21 @@ const MAIN_ASSETS = [{
   symbol: 'MKR',
   decimals: 18,
   address: '0xc66ea802717bfb9833400264dd12c2bceaa34a6d',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Augur Reputation',
   symbol: 'REP',
   decimals: 18,
   address: '0xe94327d07fc17907b4db788e5adf2ed424addff6',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Golem Network Token',
   symbol: 'GNT',
   decimals: 18,
   address: '0xa74476443119A942dE498590Fe1f2454d7D4aC0d',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'TenXPay',
@@ -61,14 +92,14 @@ const MAIN_ASSETS = [{
   symbol: 'KNC',
   decimals: 18,
   address: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Basic Attention Token',
   symbol: 'BAT',
   decimals: 18,
   address: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Digix Token',
@@ -89,14 +120,14 @@ const MAIN_ASSETS = [{
   symbol: 'ZRX',
   decimals: 18,
   address: '0xe41d2489571d322189246dafa5ebde1f4699f498',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Status Network Token',
   symbol: 'SNT',
   decimals: 18,
   address: '0x744d70fdbe2ba4cf95131626614a1763df805b9e',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Civic Token',
@@ -131,7 +162,7 @@ const MAIN_ASSETS = [{
   symbol: 'BNT',
   decimals: 18,
   address: '0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Gnosis Token',
@@ -152,35 +183,35 @@ const MAIN_ASSETS = [{
   symbol: 'FUN',
   decimals: 8,
   address: '0x419d0d8bdd9af5e606ae2232ed285aff190e711b',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Storj Token',
   symbol: 'STORJ',
   decimals: 8,
   address: '0xb64ef51c888972c908cfacf59b47c1afbc0ab8ac',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Edgeless Token',
   symbol: 'EDG',
   decimals: 0,
   address: '0x08711d3b02c8758f2fb3ab4e80228418a7f8e39c',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Melon',
   symbol: 'MLN',
   decimals: 18,
   address: '0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Aragon Network Token',
   symbol: 'ANT',
   decimals: 18,
   address: '0x960b236A07cf122663c4303350609A66A7B288C0',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'iExec RLC Token',
@@ -306,7 +337,7 @@ const MAIN_ASSETS = [{
   symbol: 'ADT',
   decimals: 9,
   address: '0xd0d6d6c5fe4a677d343cc433536bb717bae167dd',
-  isActive: true,
+  isActive: false,
   isCustom: false,
 }, {
   name: 'Lunyr Token',

@@ -9,5 +9,6 @@ const mapDispatchToProps = {
   goToHome,
 }
 
-export default connect(null, mapDispatchToProps)(NotFoundView)
-
+export default (
+  connect/* :: < AppState, Object, OwnPropsEmpty, _, _ > */(null, mapDispatchToProps)
+)(NotFoundView)

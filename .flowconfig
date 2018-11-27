@@ -10,7 +10,6 @@
 .*/src/components/Expandable/.*
 .*/src/components/PasswordStep/.*
 .*/src/routes/Funds/.*
-.*/src/routes/Transactions/.*
 
 [include]
 

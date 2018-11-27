@@ -3,7 +3,7 @@
 import { push } from 'react-router-redux'
 import { put, select, takeEvery } from 'redux-saga/effects'
 
-import { selectWalletsPersist } from 'store/stateSelectors'
+import { selectWalletsPersist } from 'store/selectors/wallets'
 
 import * as notFound from '../modules/notFound'
 

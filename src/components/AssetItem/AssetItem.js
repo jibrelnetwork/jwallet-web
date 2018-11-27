@@ -6,17 +6,17 @@ import classNames from 'classnames'
 import { AssetBalance, ButtonWithConfirm } from 'components'
 import { JAssetSymbol, JText, JCard, JIcon, JSwitch, JTooltip } from 'components/base'
 
-type Props = {
+type Props = {|
   deleteAssetItem: () => void,
   setIsActive: (boolean) => void,
   editAssetItemClick: () => void,
   address: Address,
   +name: string,
   +symbol: string,
-  +balance: number,
   +isCustom: boolean,
   +isActive: boolean,
-}
+  +balance: BalanceString,
+|}
 
 type StateProps = {|
   isToggled: boolean,
@@ -26,8 +26,7 @@ type StateProps = {|
 
 class AssetItem extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    fiatBalance: 0,
-    balance: 0,
+    balance: '0',
     isCustom: false,
     isActive: false,
     address: '',
