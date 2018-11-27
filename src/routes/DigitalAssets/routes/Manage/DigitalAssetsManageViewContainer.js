@@ -3,12 +3,16 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import divDecimals from 'utils/numbers/divDecimals'
+import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
+
 import {
   selectDigitalAssets,
-  selectCurrentBlockNumber,
-  selectDigitalAssetBalance,
   selectDigitalAssetsManageSearchQuery,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
 
 import DigitalAssetsManageView from './DigitalAssetsManageView'
 
@@ -54,21 +58,30 @@ const sortAssetsFn = (
   }
 }
 
+const formatBalance = (balance: ?Balance, asset: DigitalAsset): ?Balance => (balance ? {
+  ...balance,
+  balance: divDecimals(balance.balance, asset.decimals),
+} : null)
+
 const mapStateToProps = (state: AppState) => {
-  const currentBlock = selectCurrentBlockNumber(state)
-  const assets = selectDigitalAssets(state)
+  const networkId = selectCurrentNetworkId(state)
+
+  // assets grid selectors
+  const assets = selectDigitalAssets(state /* , networkId */)
+  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
+
+  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
   const searchQuery = selectDigitalAssetsManageSearchQuery(state)
-  const currentOwnerAddress = ''
 
   const items = Object.keys(assets)
     .map(assetAddress => ({
       asset: assets[assetAddress],
-      balance: selectDigitalAssetBalance(
+      balance: formatBalance(selectDigitalAssetBalance(
         state,
-        currentBlock,
+        currentBlockNumber,
         currentOwnerAddress,
         assetAddress
-      ),
+      ), assets[assetAddress]),
     }))
     .filter(item => checkSearchQuery(item.asset, searchQuery))
 

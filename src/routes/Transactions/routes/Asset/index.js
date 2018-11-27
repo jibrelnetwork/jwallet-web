@@ -3,6 +3,6 @@
 import View from './TransactionsAssetViewContainer'
 
 export default {
-  path: 'asset/:address',
+  path: ':asset',
   component: View,
 }

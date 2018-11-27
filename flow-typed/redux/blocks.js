@@ -62,17 +62,17 @@ declare type BlockInfo = {|
 
 // just leave it here
 // now is not used
-declare type BlockRange = Array<{
-  start: number,
-  end: number,
-  assets: {
-    [AssetAddress]: Array<{
-      start: number,
-      end: number,
-      isLoaded: boolean
-    }>
-  }
-}>
+// declare type BlockRange = Array<{
+//   start: number,
+//   end: number,
+//   assets: {
+//     [AssetAddress]: Array<{
+//       start: number,
+//       end: number,
+//       isLoaded: boolean
+//     }>
+//   }
+// }>
 
 declare type BlocksState = {
   +persist: {

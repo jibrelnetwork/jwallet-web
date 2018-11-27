@@ -34,6 +34,7 @@ import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
+import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export {
@@ -71,5 +72,6 @@ export {
   WalletPasswordStep,
   DigitalAssetsFilter,
   DigitalAssetsManage,
+  OverlayNotification,
   DigitalAssetEditForm,
 }

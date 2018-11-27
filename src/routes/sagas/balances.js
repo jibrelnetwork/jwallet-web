@@ -15,15 +15,13 @@ import {
 import keystore from 'services/keystore'
 
 import {
-  selectNetworkId,
   selectWalletsItems,
   selectActiveWalletId,
-} from 'store/stateSelectors'
+} from 'store/selectors/wallets'
 
+import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
-
 import { getAssetBalance, getETHBalance } from 'services/web3'
-
 import { setIsBalancesFetched } from '../modules/blocks'
 
 import {
@@ -161,7 +159,7 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
         isLoading: false,
       }
 
-      const networkId: NetworkId = yield select(selectNetworkId)
+      const networkId: NetworkId = yield select(selectCurrentNetworkId)
 
       yield put(updateBalance(
         networkId,
@@ -188,7 +186,7 @@ export function* requestBalance(task: SchedulerTask): Saga<void> {
         isLoading: false,
       }
 
-      const networkId: NetworkId = yield select(selectNetworkId)
+      const networkId: NetworkId = yield select(selectCurrentNetworkId)
 
       yield put(updateBalance(
         networkId,

@@ -10,39 +10,50 @@ import TransactionItemDetails from './Details'
 type Props = {|
   +setActive: () => void,
   +data: TransactionWithAssetAddress,
-  +asset: DigitalAsset,
-  +networkId: NetworkId,
+  +asset: ?DigitalAsset,
+  +blockExplorerSubdomain: string,
   +isActive: boolean,
   +isReceived: boolean,
+  +isAssetList: boolean,
 |}
 
 function TransactionItem({
   setActive,
   data,
   asset,
-  networkId,
+  blockExplorerSubdomain,
   isActive,
   isReceived,
+  isAssetList,
 }: Props) {
+  if (!asset) {
+    return null
+  }
+
+  const {
+    symbol,
+    decimals,
+  }: DigitalAsset = asset
+
   return (
     <div className='transaction-item'>
       <JCard color='white' isBorderRadius isHover>
         <TransactionItemMain
           setActive={setActive}
           data={data}
+          assetSymbol={symbol}
+          blockExplorerSubdomain={blockExplorerSubdomain}
+          assetDecimals={decimals}
           isActive={isActive}
-          assetDecimals={asset.decimals}
-          assetSymbol={asset.symbol}
-          isCustom={asset.isCustom}
           isReceived={isReceived}
-          networkId={networkId}
+          isAssetList={isAssetList}
         />
         <TransactionItemDetails
           repeat={console.log}
           addFavorite={console.log}
           data={data}
-          assetDecimals={asset.decimals}
-          networkId={networkId}
+          blockExplorerSubdomain={blockExplorerSubdomain}
+          assetDecimals={decimals}
           isActive={isActive}
         />
       </JCard>
