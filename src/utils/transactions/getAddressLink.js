@@ -3,7 +3,6 @@
 import config from 'config'
 
 function getAddressLink(
-  txHash: Hash,
   address: Hash,
   networkId: NetworkId,
 ): string {
@@ -13,7 +12,7 @@ function getAddressLink(
     return ''
   }
 
-  return `//${enpointName}.${config.blockExplorerLink}/${address}/${txHash}`
+  return `//${enpointName}.${config.blockExplorerLink}/address/${address}`
 }
 
 export default getAddressLink

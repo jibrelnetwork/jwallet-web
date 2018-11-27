@@ -56,7 +56,7 @@ class TransactionItemMain extends PureComponent<Props> {
           <div className='data'>
             <div className='hash'>
               <a
-                href={getAddressLink(data.hash, isReceived ? data.to : data.from, networkId)}
+                href={getAddressLink(isReceived ? data.to : data.from, networkId)}
                 target='_blank'
                 className='link'
                 rel='noopener noreferrer'

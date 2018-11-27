@@ -75,7 +75,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getAddressLink(hash, from, networkId)}
+              href={getAddressLink(from, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
@@ -90,7 +90,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getAddressLink(hash, to, networkId)}
+              href={getAddressLink(to, networkId)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
