@@ -6,6 +6,8 @@ import config from 'config'
 import MenuPanel from 'components/MenuPanel'
 
 type Props = {|
+  +openLayout: () => void,
+  +closeLayout: () => void,
   +setActive: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +items: Wallets,
@@ -17,14 +19,20 @@ type Props = {|
 |}
 
 class MenuLayout extends Component<Props> {
+  componentDidMount() {
+    this.props.openLayout()
+  }
+
+  componentWillUnmount() {
+    this.props.closeLayout()
+  }
+
   setActiveAddress = (addressIndex: Index) => {
     const {
       setActive,
       items,
       activeWalletId,
     }: Props = this.props
-
-    console.log(addressIndex, activeWalletId)
 
     if (!activeWalletId) {
       return

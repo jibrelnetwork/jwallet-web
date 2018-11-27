@@ -8,6 +8,11 @@ import {
 } from 'store/stateSelectors'
 
 import {
+  openMenuLayout,
+  closeMenuLayout,
+} from 'routes/modules/core'
+
+import {
   setActive,
   getMoreRequest,
 } from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
@@ -38,6 +43,8 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = {
   setActive,
   getMoreRequest,
+  openLayout: openMenuLayout,
+  closeLayout: closeMenuLayout,
 }
 
 /* ::

@@ -42,8 +42,8 @@ import {
 } from '../modules/blocks'
 
 import {
-  OPEN_ASIDE_LAYOUT,
-  CLOSE_ASIDE_LAYOUT,
+  OPEN_MENU_LAYOUT,
+  CLOSE_MENU_LAYOUT,
 } from '../modules'
 
 import {
@@ -235,12 +235,12 @@ function* getBlockProcess(): Saga<void> {
 }
 
 function* blockManager(): Saga<void> {
-  while (yield take(OPEN_ASIDE_LAYOUT)) {
+  while (yield take(OPEN_MENU_LAYOUT)) {
     const getBlockTask: Task<typeof getBlockProcess> = yield fork(getBlockProcess)
     const blockFlowTask: Task<typeof blockFlowProcess> = yield fork(blockFlowProcess)
     const schedulerTask: Task<typeof schedulerProcess> = yield fork(schedulerProcess)
 
-    yield take(CLOSE_ASIDE_LAYOUT)
+    yield take(CLOSE_MENU_LAYOUT)
 
     yield cancel(getBlockTask)
     yield cancel(blockFlowTask)

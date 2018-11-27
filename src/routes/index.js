@@ -25,9 +25,10 @@ import {
   type NotFoundAction,
 } from './NotFound/modules/notFound'
 
-export type AppAction = DigitalAssetsModuleAction |
+export type AppAction =
   CoreAction |
-  NotFoundAction
+  NotFoundAction |
+  DigitalAssetsModuleAction
 
 export default {
   path: '/',
