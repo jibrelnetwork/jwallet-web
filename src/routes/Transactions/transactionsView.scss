@@ -40,6 +40,18 @@
         > .search {
           margin-right: 45px;
         }
+
+        > .send {
+          @include hover-animation;
+
+          opacity: 0.5;
+          cursor: pointer;
+          margin-left: 45px;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
       }
     }
   }
