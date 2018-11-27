@@ -3,8 +3,15 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JSearch, JTabs } from 'components/base'
-import { TransactionsList, TransactionsFilter } from 'components'
+import {
+  JTabs,
+  JSearch,
+} from 'components/base'
+
+import {
+  TransactionsList,
+  TransactionsFilter,
+} from 'components'
 
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
@@ -14,6 +21,7 @@ type Props = {|
   +ownerAddress: ?OwnerAddress,
   +network: ?Network,
   +searchQuery: string,
+  +isSyncing: boolean,
   +isOnlyPending: boolean,
 |}
 
@@ -29,8 +37,9 @@ function TransactionsIndexView({
   digitalAssets,
   network,
   searchQuery,
-  isOnlyPending,
   ownerAddress,
+  isSyncing,
+  isOnlyPending,
 }: Props) {
   if (!(ownerAddress && network)) {
     return null
@@ -68,6 +77,7 @@ function TransactionsIndexView({
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
+            isSyncing={isSyncing}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>

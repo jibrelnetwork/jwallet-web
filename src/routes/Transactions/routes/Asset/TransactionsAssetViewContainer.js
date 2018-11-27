@@ -2,7 +2,9 @@
 
 import { connect } from 'react-redux'
 
+import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
@@ -13,6 +15,7 @@ import {
 import {
   selectTransactions,
   selectTransactionsByAsset,
+  selectTransactionsSyncing,
 } from 'store/selectors/transactions'
 
 import {
@@ -51,12 +54,31 @@ function prepareTransactions(
   return found
 }
 
+function getAssetBalance(
+  state: AppState,
+  networkId: NetworkId,
+  ownerAddress: ?OwnerAddress,
+  assetAddress: string,
+): BalanceString {
+  const currentBlock: ?BlockInfo = selectCurrentBlock(state, networkId)
+
+  if (!(currentBlock && ownerAddress)) {
+    return '0'
+  }
+
+  const balance = selectDigitalAssetBalance(state, currentBlock.number, ownerAddress, assetAddress)
+
+  return balance ? balance.balance : '0'
+}
+
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const assetAddress: string = ownProps.params.asset
   const networkId: NetworkId = selectCurrentNetworkId(state)
+  const isSyncing: boolean = selectTransactionsSyncing(state)
   const network: ?Network = selectNetworkById(state, networkId)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
+  const assetBalance = getAssetBalance(state, networkId, ownerAddress, assetAddress)
 
   const {
     searchQuery,
@@ -71,7 +93,9 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     digitalAssets,
     network,
     searchQuery,
+    assetBalance,
     ownerAddress,
+    isSyncing,
     isOnlyPending,
     transactions: prepareTransactions(
       transactionsByAsset,

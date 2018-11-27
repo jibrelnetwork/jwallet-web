@@ -1,10 +1,21 @@
 // @flow
 
 import React from 'react'
+import { BigNumber } from 'bignumber.js'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JSearch, JText, JIcon } from 'components/base'
-import { TransactionsList, TransactionsFilter } from 'components'
+import parseBalance from 'utils/digitalAssets/parseBalance'
+
+import {
+  JIcon,
+  JText,
+  JSearch,
+} from 'components/base'
+
+import {
+  TransactionsList,
+  TransactionsFilter,
+} from 'components'
 
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
@@ -17,6 +28,8 @@ type Props = {|
   +digitalAssets: DigitalAssets,
   +searchQuery: string,
   +ownerAddress: ?OwnerAddress,
+  +assetBalance: BalanceString,
+  +isSyncing: boolean,
   +isOnlyPending: boolean,
 |}
 
@@ -28,7 +41,9 @@ function TransactionsAssetView({
   network,
   digitalAssets,
   searchQuery,
+  assetBalance,
   ownerAddress,
+  isSyncing,
   isOnlyPending,
 }: Props) {
   if (!(ownerAddress && network)) {
@@ -46,14 +61,19 @@ function TransactionsAssetView({
   const {
     name,
     symbol,
+    decimals,
   }: DigitalAsset = asset
+
+  const titleText: string = (new BigNumber(assetBalance)).eq(0)
+    ? name
+    : `${name} — ${parseBalance(assetBalance, decimals)} ${symbol}`
 
   return (
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
           <div className='title'>
-            <JText value={`${name} — 39,76 ${symbol}`} color='gray' size='tab' />
+            <JText value={titleText} color='gray' size='tab' />
           </div>
           <div className='actions'>
             <div className='search'>
@@ -88,6 +108,7 @@ function TransactionsAssetView({
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
+            isSyncing={isSyncing}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>

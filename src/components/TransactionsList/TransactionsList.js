@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 
+import JLoader from 'components/base/JLoader'
 import TransactionItem from 'components/TransactionItem'
 
 import TransactionsListEmpty from './Empty'
@@ -12,7 +13,7 @@ type Props = {|
   +assetAddress: ?string,
   +blockExplorerSubdomain: string,
   +ownerAddress: OwnerAddress,
-  +isFiltered: boolean,
+  +isSyncing: boolean,
 |}
 
 type ComponentState = {
@@ -46,19 +47,16 @@ class TransactionsList extends Component<Props, ComponentState> {
   render() {
     const {
       items,
-      isFiltered,
       digitalAssets,
       assetAddress,
       ownerAddress,
       blockExplorerSubdomain,
+      isSyncing,
     }: Props = this.props
-
-    console.log(isFiltered)
-    console.log(assetAddress)
 
     if (!items.length) {
       return (
-        <div className='transactions-list'>
+        <div className='transactions-list -empty'>
           <TransactionsListEmpty />
         </div>
       )
@@ -80,6 +78,11 @@ class TransactionsList extends Component<Props, ComponentState> {
             isReceived={ownerAddress.toLowerCase() === item.to.toLowerCase()}
           />
         ))}
+        {isSyncing && (
+          <div className='loader'>
+            <JLoader color='gray' />
+          </div>
+        )}
       </div>
     )
   }

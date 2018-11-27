@@ -19,6 +19,7 @@ import {
 import {
   selectTransactions,
   selectTransactionsByOwner,
+  selectTransactionsSyncing,
 } from 'store/selectors/transactions'
 
 import {
@@ -46,6 +47,7 @@ function prepareTransactions(
 
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
+  const isSyncing: boolean = selectTransactionsSyncing(state)
   const network: ?Network = selectNetworkById(state, networkId)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
@@ -64,6 +66,7 @@ function mapStateToProps(state: AppState) {
     network,
     searchQuery,
     ownerAddress,
+    isSyncing,
     isOnlyPending,
     transactions: prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
   }
