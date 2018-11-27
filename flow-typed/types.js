@@ -11,6 +11,7 @@ declare type Decimals = number
 declare type AddressNames = { [Address]: string }
 declare type AddressBalancePairs = Array<[Address, number]>
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
+declare type BalanceString = string
 
 declare type FormFields = { [string]: ?string }
 

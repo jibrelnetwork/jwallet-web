@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
 import {
   selectDigitalAssets,
@@ -14,7 +14,7 @@ import { selectCurrentBlockNumber } from 'store/selectors/blocks'
 import { selectNetworkId } from 'store/selectors/networks'
 import { selectDigitalAssetBalance } from 'store/selectors/balances'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-// import { divDecimals } from 'utils/numbers'
+import { parseBalance } from 'utils/digitalAssets'
 
 import DigitalAssetsGridView from './DigitalAssetsGridView'
 
@@ -41,14 +41,6 @@ const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => 
 
   return false
 }
-
-const parseBalance = (balance: ?Balance): Balance => (balance ? {
-  ...balance,
-  balance: new BigNumber(balance.balance),
-} : {
-  isLoading: false,
-  balance: new BigNumber(0),
-})
 
 const mapStateToProps = (state: AppState) => {
   const networkId = selectNetworkId(state)
@@ -86,12 +78,12 @@ const mapStateToProps = (state: AppState) => {
       return 0
     }
 
-    const { balance: balanceA } = a.balance
-    const { balance: balanceB } = b.balance
+    const balanceA = new BigNumber(a.balance)
+    const balanceB = new BigNumber(b.balance)
 
-    if (balanceA > balanceB) {
+    if (balanceA.gt(balanceB)) {
       return (sortByBalanceDirection === 'asc') ? 1 : -1
-    } else if (balanceA < balanceB) {
+    } else if (balanceB.gt(balanceA)) {
       return (sortByBalanceDirection === 'asc') ? -1 : 1
     } else {
       return 0
@@ -99,18 +91,35 @@ const mapStateToProps = (state: AppState) => {
   }
 
   const items = Object.keys(assets)
-    .map(assetAddress => ({
-      asset: assets[assetAddress],
-      balance: parseBalance(selectDigitalAssetBalance(
+    .map((assetAddress) => {
+      const assetBalance = selectDigitalAssetBalance(
         state,
         currentBlockNumber,
         currentOwnerAddress,
         assetAddress
-      )),
-    }))
+      )
+
+      if (assetBalance) {
+        return {
+          asset: assets[assetAddress],
+          isLoading: assetBalance.isLoading,
+          balance: assetBalance.isLoading
+            ? '0'
+            : parseBalance(assetBalance.balance, assets[assetAddress].decimals),
+        }
+      } else {
+        return {
+          asset: assets[assetAddress],
+          balance: '0',
+          isLoading: false,
+        }
+      }
+    })
     .filter(item =>
       item.asset.isActive &&
-      (!isHideZeroBalance || (isHideZeroBalance && item.balance && item.balance.balance > 0)) &&
+      (!isHideZeroBalance ||
+        (isHideZeroBalance && item.balance && (new BigNumber(item.balance)).gt(0))
+      ) &&
       checkSearchQuery(item.asset, searchQuery)
     )
 

@@ -6,8 +6,8 @@ import AssetBalance from 'components/AssetBalance'
 import { JFlatButton, JText, JLoader } from 'components/base'
 
 type Props = {|
-  +balance: number,
   +fiatBalance: number,
+  +balance: BalanceString,
   +symbol: string,
   +fiatCurrency: string,
   +address: Address,
@@ -18,6 +18,7 @@ type Props = {|
 
 class AssetCardBody extends PureComponent<Props> {
   static defaultProps = {
+    balance: '0',
     isError: false,
     isLoading: false,
     isHovered: false,
@@ -82,7 +83,7 @@ class AssetCardBody extends PureComponent<Props> {
                 color='blue'
                 size='header'
                 symbol={fiatCurrency}
-                balance={fiatBalance}
+                balance={fiatBalance.toString()}
               />
             ) : (
               <div className='message -transparent'>

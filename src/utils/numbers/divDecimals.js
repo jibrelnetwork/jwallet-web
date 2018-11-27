@@ -1,13 +1,13 @@
 // @flow
 
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
 export function divDecimals(
-  value: typeof BigNumber,
+  value: BigNumber,
   decimals: number = 18
-): typeof BigNumber {
+): BigNumber {
   const base = new BigNumber(10)
-  const basePow = base.pow(new BigNumber(decimals))
+  const basePow = base.pow(decimals)
 
   return value.div(basePow)
 }
