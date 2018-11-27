@@ -3,18 +3,13 @@
 import React, { PureComponent } from 'react'
 
 import Asset from './Asset'
-import Empty from './Empty'
+import DigitalAssetsGridEmpty from './Empty'
 import AddDigitalAsset from './AddDigitalAsset'
 
-export type DigitalAssetsGridItemType = {
-  asset: DigitalAsset,
-  balance: ?DigitalAssetsBalance,
-}
-
-type Props = {
-  items: Array<DigitalAssetsGridItemType>,
-  addAssetClick: () => void,
-}
+type Props = {|
+  +items: Array<DigitalAssetsGridItemType>,
+  +addAssetClick: () => void,
+|}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
@@ -39,17 +34,10 @@ class DigitalAssetsGrid extends PureComponent<Props> {
             />
           </div>
         ))}
-        {items.length ? (
+        {!items.length ? <DigitalAssetsGridEmpty /> : (
           <div className='box'>
             <AddDigitalAsset onClick={addAssetClick} />
           </div>
-        ) : (
-          <Empty
-            image='screen-search'
-            description='There are no Digital Assets to show'
-            color='gray'
-            isTransparent
-          />
         )}
       </div>
     )

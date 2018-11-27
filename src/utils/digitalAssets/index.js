@@ -1,11 +1,13 @@
 // @flow
 
-import checkJNTAsset from './checkJNTAsset'
+import checkETH from './checkETH'
+import checkJNT from './checkJNT'
 import balanceToString from './balanceToString'
-import checkEthereumAsset from './checkEthereumAsset'
+import flattenDigitalAssets from './flattenDigitalAssets'
 
 export {
-  checkJNTAsset,
+  checkETH,
+  checkJNT,
   balanceToString,
-  checkEthereumAsset,
+  flattenDigitalAssets,
 }

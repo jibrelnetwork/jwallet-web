@@ -1,9 +1,14 @@
 // @flow
 
 import {
-  redirectRootSaga,
-} from './redirect'
+  blocksRootSaga,
+} from './blocks'
+
+import {
+  transactionsRootSaga,
+} from './transactions'
 
 export default {
-  redirectRootSaga,
+  blocksRootSaga,
+  transactionsRootSaga,
 }

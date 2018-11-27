@@ -1,10 +1,7 @@
 // @flow
 
-/* eslint-disable no-unused-vars */
-
-import type { Saga } from 'redux-saga'
-
-/* eslint-enable no-unused-vars */
+/* eslint-disable-next-line no-unused-vars */
+import type { Saga, Channel } from 'redux-saga'
 
 declare type AppState = {
   // wallets
@@ -15,14 +12,19 @@ declare type AppState = {
   +walletsAddresses: WalletsAddressesState,
   +walletsRenameAddress: WalletsRenameAddressState,
   // networks
-  // +networks: NetworksData,
+   +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +addAsset: AddAssetState,
   +editAsset: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
+  +digitalAssetsManage: DigitalAssetsManageState,
+  // blocks
+  +blocks: BlocksState,
   // transactions
-  // +transactions: TransactionsData,
+  +transactions: TransactionsState,
+  // balances
+  +balances: BalancesState,
   // funds
   // +receiveFunds: ReceiveFundsData,
   // +sendFunds: SendFundsData,

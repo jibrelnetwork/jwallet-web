@@ -2,14 +2,18 @@
 
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import BigNumber from 'bignumber.js'
 
 import {
   selectDigitalAssets,
-  selectCurrentBlockNumber,
-  selectDigitalAssetBalance,
   selectDigitalAssetsGridFilters,
   selectDigitalAssetsGridSearchQuery,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
+
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import DigitalAssetsGridView from './DigitalAssetsGridView'
 
@@ -37,12 +41,24 @@ const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => 
   return false
 }
 
+const parseBalance = (balance: ?Balance): Balance => (balance ? {
+  ...balance,
+  balance: new BigNumber(balance.balance),
+} : {
+  isLoading: false,
+  balance: new BigNumber(0),
+})
+
 const mapStateToProps = (state: AppState) => {
-  const currentBlock = selectCurrentBlockNumber(state)
-  const currentOwnerAddress = ''
-  const assets = selectDigitalAssets(state)
+  const networkId = selectCurrentNetworkId(state)
+
+  // assets grid selectors
+  const assets = selectDigitalAssets(state /* , networkId */)
   const filter = selectDigitalAssetsGridFilters(state)
   const searchQuery = selectDigitalAssetsGridSearchQuery(state)
+
+  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
+  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
 
   const {
     sortBy,
@@ -84,12 +100,12 @@ const mapStateToProps = (state: AppState) => {
   const items = Object.keys(assets)
     .map(assetAddress => ({
       asset: assets[assetAddress],
-      balance: selectDigitalAssetBalance(
+      balance: parseBalance(selectDigitalAssetBalance(
         state,
-        currentBlock,
+        currentBlockNumber,
         currentOwnerAddress,
         assetAddress
-      ),
+      )),
     }))
     .filter(item =>
       item.asset.isActive &&
@@ -122,11 +138,9 @@ const mapDispatchToProps = {
   sortByBalanceClick,
   setHideZeroBalance,
   addAssetClick: () => push('/digital-assets/add-asset'),
+  manageAssetsOpenClick: () => push('/digital-assets/manage'),
 }
 
-// eslint-disable-next-line no-unused-vars
-type OwnProps = {||}
-
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsGridView)

@@ -1,24 +1,32 @@
 // @flow
 
 declare type NetworkId = string
-declare type NetworkTitleById = { [NetworkId]: string }
 
-declare type Network = {
-  +id: NetworkId,
+declare type Network = {|
   +title: string,
   +rpcaddr: string,
-  +rpcport: string,
+  +rpcport: number,
+  +blockExplorerSubdomain: string,
   +ssl: boolean,
   +isCustom: boolean,
+|}
+
+declare type Networks = {
+  [NetworkId]: ?Network,
 }
 
-declare type Networks = Array<Network>
+/* eslint-disable-next-line no-unused-vars */
+type RPCProps = {|
+  +rpcaddr: string,
+  +rpcport: number,
+  +ssl: boolean,
+|}
 
-declare type NetworksData = {
+declare type NetworksPersist = {|
   +items: Networks,
-  +invalidFields: FormFields,
-  +customNetworkRPC: string,
-  +isLoading: boolean,
-  +isInitialised: boolean,
-  +currentNetwork: ?NetworkId,
-}
+  +currentNetworkId: NetworkId,
+|}
+
+declare type NetworksState = {|
+  +persist: NetworksPersist,
+|}

@@ -1,8 +1,8 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { selectEditAsset } from 'store/stateSelectors'
-import { backOrFallback } from 'routes/modules'
+import { selectEditAsset } from 'store/selectors/digitalAssets'
+import { reactRouterBack } from 'utils/browser'
 
 import {
   openView,
@@ -37,7 +37,7 @@ const mapDispatchToProps = {
   openView,
   submit: submitAssetForm,
   setField,
-  closeClick: () => backOrFallback('/digital-assets'),
+  closeClick: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
 export default (
