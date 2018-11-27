@@ -3,7 +3,7 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JSearch, JText } from 'components/base'
+import { JSearch, JText, JIcon } from 'components/base'
 import { TransactionsList, TransactionsFilter } from 'components'
 
 type Props = {|
@@ -68,6 +68,13 @@ function TransactionsAssetView({
                 setOnlyPending={setIsOnlyPending}
                 filterCount={filterCount}
                 isOnlyPending={isOnlyPending}
+              />
+            </div>
+            <div className='send'>
+              <JIcon
+                size='medium'
+                color='gray'
+                name='upload'
               />
             </div>
           </div>
