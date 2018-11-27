@@ -1,13 +1,13 @@
 // @flow
 
-import AsideLayout from 'layouts/AsideLayout'
+import MenuLayout from 'layouts/MenuLayout'
 
 import Asset from './routes/Asset'
 import TransactionsIndex from './TransactionsIndexViewContainer'
 
 export default {
   path: 'transactions',
-  component: AsideLayout,
+  component: MenuLayout,
   indexRoute: {
     component: TransactionsIndex,
   },

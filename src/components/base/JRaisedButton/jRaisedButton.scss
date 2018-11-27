@@ -31,8 +31,12 @@
     box-shadow: 0 3px 6px rgba($blue, 0.33);
 
     &.-disabled {
-      background-color: $pale-grey;
+      background-color: $blue-three;
       box-shadow: none;
+
+      > .label {
+        opacity: 0.3;
+      }
     }
   }
 
@@ -41,10 +45,18 @@
 
     &.-loading {
       background-color: $blue;
+
+      &.-hover-dark {
+        background-color: $white;
+      }
     }
 
     &.-disabled {
       background-color: $blue-three;
+
+      &.-hover-dark {
+        background-color: rgba($white, 0.1);
+      }
 
       > .label {
         opacity: 0.3;
@@ -55,19 +67,27 @@
   &.-hovered {
     background-color: $bright-sky-blue;
 
+    &.-hover-dark {
+      background-color: rgba($white, 0.8);
+    }
+
     &.-blue {
       &.-loading {
         background-color: $blue-two;
       }
 
       &.-disabled {
-        background-color: $pale-grey;
+        background-color: $blue-three;
       }
     }
 
     &.-white {
       &.-loading {
         background-color: $blue;
+
+        &.-hover-dark {
+          background-color: $white;
+        }
       }
 
       &.-disabled {

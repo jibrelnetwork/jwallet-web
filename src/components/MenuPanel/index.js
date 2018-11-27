@@ -1,5 +1,5 @@
 // @flow
 
-import MenuPanel from './MenuPanelContainer'
+import MenuPanel from './MenuPanel'
 
 export default MenuPanel

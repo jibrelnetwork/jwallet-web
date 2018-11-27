@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
   openCoreLayout,
   closeCoreLayout,
-} from 'routes/modules/layout'
+} from 'routes/modules/core'
 
 import CoreLayout from './CoreLayout'
 

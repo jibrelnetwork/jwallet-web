@@ -1,16 +1,14 @@
 // @flow
 
-import { select, put, takeEvery } from 'redux-saga/effects'
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
 
 import assetsData from 'data/assets'
-
-import {
-  selectDigitalAssets,
-} from 'store/selectors/digitalAssets'
-
-import {
-  OPEN_ASIDE_LAYOUT,
-} from 'routes/modules'
+import { OPEN_MENU_LAYOUT } from 'routes/modules'
+import { selectDigitalAssets } from 'store/selectors/digitalAssets'
 
 import {
   setInitialItems,
@@ -49,6 +47,6 @@ function* initDigitalAssetsSaga(): Saga<void> {
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {
-  yield takeEvery(OPEN_ASIDE_LAYOUT, initDigitalAssetsSaga)
+  yield takeEvery(OPEN_MENU_LAYOUT, initDigitalAssetsSaga)
   yield takeEvery(DELETE_CUSTOM_ASSET, deleteCustomAssetSaga)
 }
