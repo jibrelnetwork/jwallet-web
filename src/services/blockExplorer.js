@@ -1,5 +1,7 @@
 // @flow
 
+import { BigNumber } from 'bignumber.js'
+
 import config from 'config'
 import * as type from 'utils/type'
 
@@ -125,10 +127,11 @@ function filterETHTransactions(list: Array<any>): Array<Object> {
     }
 
     const {
+      value,
       contractAddress,
     }: Object = item
 
-    const isEmptyAmount: boolean = (Number(item.value) === 0)
+    const isEmptyAmount: boolean = (new BigNumber(value)).eq(0)
     const isContractCreation: boolean = !!contractAddress.length
 
     return !(isEmptyAmount && !isContractCreation)
