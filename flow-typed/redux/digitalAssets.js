@@ -21,13 +21,15 @@ declare type DigitalAsset = {|
 |}
 
 declare type DigitalAssets = {
-  [AssetAddress]: DigitalAsset
+  [AssetAddress]: ?DigitalAsset
 }
 
+declare type DigitalAssetsPersist = {|
+  +items: DigitalAssets,
+|}
+
 declare type DigitalAssetsState = {|
-  +persist: {|
-    +items: DigitalAssets,
-  |},
+  +persist: DigitalAssetsPersist,
 |}
 
 declare type DigitalAssetsGridState = {|

@@ -3,14 +3,16 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import divDecimals from 'utils/numbers/divDecimals'
+import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
+
 import {
   selectDigitalAssets,
   selectDigitalAssetsManageSearchQuery,
 } from 'store/selectors/digitalAssets'
-import { selectCurrentBlockNumber } from 'store/selectors/blocks'
-import { selectDigitalAssetBalance } from 'store/selectors/balances'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { divDecimals } from 'utils/numbers'
 
 import DigitalAssetsManageView from './DigitalAssetsManageView'
 
@@ -24,7 +26,6 @@ import {
   setAssetIsActive,
   deleteCustomAsset,
 } from '../../modules/digitalAssets'
-import { selectNetworkId } from '../../../../store/stateSelectors'
 
 const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
   const query = searchQuery.trim().toUpperCase()
@@ -63,7 +64,7 @@ const formatBalance = (balance: ?Balance, asset: DigitalAsset): ?Balance => (bal
 } : null)
 
 const mapStateToProps = (state: AppState) => {
-  const networkId = selectNetworkId(state)
+  const networkId = selectCurrentNetworkId(state)
 
   // assets grid selectors
   const assets = selectDigitalAssets(state /* , networkId */)

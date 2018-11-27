@@ -82,24 +82,23 @@
   /* stylelint-enable */
 
   // Base components
-  @import '../components/base/JAssetSymbol/jAssetSymbol';
   @import '../components/base/JCard/jCard';
-  @import '../components/base/JCheckbox/jCheckbox';
-  @import '../components/base/JFlatButton/jFlatButton';
   @import '../components/base/JIcon/jIcon';
-  @import '../components/base/JInput/jInput';
-  @import '../components/base/JLoader/jLoader';
   @import '../components/base/JLogo/jLogo';
-  @import '../components/base/JRadio/jRadio';
-  @import '../components/base/JRaisedButton/jRaisedButton';
-  @import '../components/base/JSearch/jSearch';
-  @import '../components/base/JSelect/jSelect';
   @import '../components/base/JTabs/jTabs';
   @import '../components/base/JText/jText';
-  @import '../components/base/JThumbnail/jThumbnail';
-  @import '../components/base/JTooltip/jTooltip';
+  @import '../components/base/JInput/jInput';
+  @import '../components/base/JRadio/jRadio';
+  @import '../components/base/JLoader/jLoader';
+  @import '../components/base/JSearch/jSearch';
+  @import '../components/base/JSelect/jSelect';
   @import '../components/base/JSwitch/jSwitch';
-  // @import '../components/base/JToast/jToast';
+  @import '../components/base/JTooltip/jTooltip';
+  @import '../components/base/JCheckbox/jCheckbox';
+  @import '../components/base/JThumbnail/jThumbnail';
+  @import '../components/base/JFlatButton/jFlatButton';
+  @import '../components/base/JAssetSymbol/jAssetSymbol';
+  @import '../components/base/JRaisedButton/jRaisedButton';
 
   // Components
   @import '../components/QRCode/qrCode';
@@ -111,35 +110,37 @@
   @import '../components/WalletStep/walletStep';
   @import '../components/AssetPicker/assetPicker';
   @import '../components/ModalHeader/modalHeader';
+  @import '../components/PopupButton/popupButton';
   @import '../components/AssetBalance/assetBalance';
+  @import '../components/SettingsCard/settingsCard';
   @import '../components/WalletHeader/walletHeader';
   @import '../components/CopyableField/copyableField';
-  @import '../components/DigitalAssetsGrid/digitalAssetsGrid';
-  @import '../components/DigitalAssetsManage/digitalAssetsManage';
   @import '../components/PasswordField/passwordField';
   @import '../components/WalletLoading/WalletLoading';
   @import '../components/DerivationPath/derivationPath';
   @import '../components/OverlayActions/overlayActions';
+  @import '../components/CloseableScreen/closeableScreen';
   @import '../components/RoundIconButton/roundIconButton';
+  @import '../components/TransactionItem/transactionItem';
   @import '../components/WalletViewTitle/walletViewTitle';
   @import '../components/NewWalletButtons/newWalletButtons';
+  @import '../components/TransactionsList/transactionsList';
   @import '../components/ButtonWithConfirm/buttonWithConfirm';
+  @import '../components/DigitalAssetsGrid/digitalAssetsGrid';
   @import '../components/MnemonicAddresses/mnemonicAddresses';
-  @import '../components/PopupButton/popupButton';
-  @import '../components/DigitalAssetsFilter/digitalAssetsFilter';
-  @import '../components/CloseableScreen/closeableScreen';
-  @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
   @import '../components/TransactionsFilter/transactionsFilter';
-  @import '../components/SettingsCard/settingsCard.scss';
+  @import '../components/DigitalAssetsFilter/digitalAssetsFilter';
+  @import '../components/DigitalAssetsManage/digitalAssetsManage';
+  @import '../components/OverlayNotification/overlayNotification';
+  @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
   // Views
   @import '../routes/Terms/termsView';
-  @import '../routes/Funds/styles/funds';
   @import '../routes/Wallets/walletsView';
   @import '../routes/Settings/settingsView';
   @import '../routes/NotFound/notFoundView';
   @import '../routes/DigitalAssets/digitalAssets';
-  @import '../routes/Transactions/styles/transactions';
+  @import '../routes/Transactions/transactionsView';
 
   // Layouts
   @import '../layouts/CoreLayout/coreLayout';

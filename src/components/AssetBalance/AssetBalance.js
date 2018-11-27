@@ -1,16 +1,16 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import BigNumber from 'bignumber.js'
+import React, { PureComponent } from 'react'
 
-import { divDecimals } from 'utils/numbers'
+import divDecimals from 'utils/numbers/divDecimals'
 import { JText } from 'components/base'
 
 type Props = {|
   +symbol: string,
   +color: 'blue' | 'gray',
   +size: 'small' | 'normal' | 'header',
-  +balance: typeof BigNumber | null,
+  +balance: ?Bignumber,
   +decimals: number,
 |}
 
