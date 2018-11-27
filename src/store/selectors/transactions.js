@@ -53,3 +53,7 @@ export function selectTransactionsByAsset(
 
   return byOwner[asset]
 }
+
+export function selectTransactionsSyncing(state: AppState): boolean {
+  return state.transactions.isSyncing
+}

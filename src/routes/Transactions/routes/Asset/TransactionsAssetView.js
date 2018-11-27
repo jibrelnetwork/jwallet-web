@@ -5,8 +5,17 @@ import { BigNumber } from 'bignumber.js'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import parseBalance from 'utils/digitalAssets/parseBalance'
-import { JSearch, JText, JIcon } from 'components/base'
-import { TransactionsList, TransactionsFilter } from 'components'
+
+import {
+  JIcon,
+  JText,
+  JSearch,
+} from 'components/base'
+
+import {
+  TransactionsList,
+  TransactionsFilter,
+} from 'components'
 
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
@@ -20,6 +29,7 @@ type Props = {|
   +searchQuery: string,
   +ownerAddress: ?OwnerAddress,
   +assetBalance: BalanceString,
+  +isSyncing: boolean,
   +isOnlyPending: boolean,
 |}
 
@@ -33,6 +43,7 @@ function TransactionsAssetView({
   searchQuery,
   assetBalance,
   ownerAddress,
+  isSyncing,
   isOnlyPending,
 }: Props) {
   if (!(ownerAddress && network)) {
@@ -97,6 +108,7 @@ function TransactionsAssetView({
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
+            isSyncing={isSyncing}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>
