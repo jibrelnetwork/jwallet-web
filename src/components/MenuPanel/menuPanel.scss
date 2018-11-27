@@ -1,26 +1,39 @@
-@import './Link/menuLink';
-@import './Select/menuSelect';
+@import './Actions/actions';
+@import './MainAction/mainAction';
+@import './BalanceTicker/balanceTicker';
+@import './WalletManager/walletManager';
 
 .menu-panel {
   all: initial;
 
-  @include box;
-  @include font;
-  @include flex-column-center;
+  @include flex-column;
 
   position: relative;
+  min-height: 100vh;
   width: $menu-panel-width;
-  height: 100vh;
-  padding: 30px 20px 20px 20px;
-  background-color: #002bb3;
+  background-image: linear-gradient(18deg, $blue-two, $darkish-blue-two);
 
-  > .links {
-    @include flex-column-center;
+  > .top {
+    @include flex-row;
 
-    flex-grow: 1;
+    padding: 45px 40px;
+    align-items: center;
+
+    > .separator {
+      width: 1px;
+      height: 32px;
+      margin-left: 30px;
+      background-color: $white;
+      opacity: 0.1;
+    }
+
+    > .ticker {
+      position: relative;
+      margin-left: 30px;
+    }
   }
 
-  > .selects {
-    width: 100%;
+  &.-read-only {
+    background-image: linear-gradient(18deg, $dusk, $dark);
   }
 }

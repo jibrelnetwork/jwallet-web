@@ -57,12 +57,12 @@ export function makeRootReducer() {
     digitalAssetsManage,
     addAsset,
     editAsset,
-    // transactions
-    transactions,
     // blocks
     blocks,
     // balances
     balances,
+    // transactions
+    transactions,
     // router
     router,
   })

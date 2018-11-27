@@ -3,14 +3,16 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import { parseBalance } from 'utils/digitalAssets'
+import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
+
 import {
   selectDigitalAssets,
   selectDigitalAssetsManageSearchQuery,
 } from 'store/selectors/digitalAssets'
-import { selectCurrentBlockNumber } from 'store/selectors/blocks'
-import { selectDigitalAssetBalance } from 'store/selectors/balances'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { divDecimals } from 'utils/numbers'
 
 import DigitalAssetsManageView from './DigitalAssetsManageView'
 
@@ -24,7 +26,6 @@ import {
   setAssetIsActive,
   deleteCustomAsset,
 } from '../../modules/digitalAssets'
-import { selectNetworkId } from '../../../../store/stateSelectors'
 
 const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
   const query = searchQuery.trim().toUpperCase()
@@ -57,13 +58,8 @@ const sortAssetsFn = (
   }
 }
 
-const formatBalance = (balance: ?Balance, asset: DigitalAsset): ?Balance => (balance ? {
-  ...balance,
-  balance: divDecimals(balance.balance, asset.decimals),
-} : null)
-
 const mapStateToProps = (state: AppState) => {
-  const networkId = selectNetworkId(state)
+  const networkId = selectCurrentNetworkId(state)
 
   // assets grid selectors
   const assets = selectDigitalAssets(state /* , networkId */)
@@ -73,15 +69,30 @@ const mapStateToProps = (state: AppState) => {
   const searchQuery = selectDigitalAssetsManageSearchQuery(state)
 
   const items = Object.keys(assets)
-    .map(assetAddress => ({
-      asset: assets[assetAddress],
-      balance: formatBalance(selectDigitalAssetBalance(
+    .map((assetAddress) => {
+      const assetBalance = selectDigitalAssetBalance(
         state,
         currentBlockNumber,
         currentOwnerAddress,
         assetAddress
-      ), assets[assetAddress]),
-    }))
+      )
+
+      if (assetBalance) {
+        return {
+          asset: assets[assetAddress],
+          isLoading: assetBalance.isLoading,
+          balance: assetBalance.isLoading
+            ? '0'
+            : parseBalance(assetBalance.balance, assets[assetAddress].decimals),
+        }
+      } else {
+        return {
+          asset: assets[assetAddress],
+          balance: '0',
+          isLoading: false,
+        }
+      }
+    })
     .filter(item => checkSearchQuery(item.asset, searchQuery))
 
   // eslint-disable-next-line fp/no-mutating-methods

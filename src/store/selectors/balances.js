@@ -1,6 +1,6 @@
 // @flow
 
-import { selectNetworkId } from './networks'
+import { selectCurrentNetworkId } from './networks'
 
 export function selectDigitalAssetsBalances(state: AppState): Balances {
   const {
@@ -19,14 +19,15 @@ export function selectDigitalAssetsOwnerBalances(
   blockNumber: number,
   ownerAddress: Address,
 ): ?OwnerBalances {
+  const networkId = selectCurrentNetworkId(state)
   const balances = selectDigitalAssetsBalances(state)
-  const networkId = selectNetworkId(state)
   const block = blockNumber.toString()
 
-  if (balances &&
-        balances[networkId] &&
-        balances[networkId][block] &&
-        balances[networkId][block][ownerAddress]
+  if (
+    balances &&
+    balances[networkId] &&
+    balances[networkId][block] &&
+    balances[networkId][block][ownerAddress]
   ) {
     return balances[networkId][block][ownerAddress]
   } else {

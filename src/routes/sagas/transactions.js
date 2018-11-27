@@ -1,17 +1,35 @@
 // @flow
 
 import { delay } from 'redux-saga'
-import { all, put, call, fork, take, cancel, select, takeEvery } from 'redux-saga/effects'
 
-import type { Task, Channel } from 'redux-saga'
+import {
+  all,
+  put,
+  call,
+  fork,
+  take,
+  cancel,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
+import type {
+  Task,
+  Channel,
+} from 'redux-saga'
 
 import config from 'config'
 import blockExplorer from 'services/blockExplorer'
-import { checkETH, checkJNT } from 'utils/digitalAssets'
-
-import { selectTransactions } from 'store/stateSelectors'
-import { selectDigitalAssets } from 'store/selectors/digitalAssets'
+import checkTransactionLoading from 'utils/transactions/checkTransactionLoading'
 import { selectProcessingBlock } from 'store/selectors/blocks'
+import { selectTransactions } from 'store/selectors/transactions'
+import { selectDigitalAssets } from 'store/selectors/digitalAssets'
+
+import {
+  checkETH,
+  checkJNT,
+  flattenDigitalAssets,
+} from 'utils/digitalAssets'
 
 import * as blocks from '../modules/blocks'
 import * as transactions from '../modules/transactions'
@@ -33,27 +51,24 @@ function getMethodName({ address }: DigitalAsset): TransactionMethodName {
   return 'getERC20Transactions'
 }
 
-function putRequest(
-  requestQueue: Channel,
-  digitalAssets: DigitalAssets,
+function getTask(
+  digitalAsset: DigitalAsset,
   owner: Address,
-  asset: Address,
   networkId: NetworkId,
   fromBlock: number,
   toBlock: number,
-) {
-  const digitalAsset: DigitalAsset = digitalAssets[asset]
+): SchedulerTask {
   const name: TransactionMethodName = getMethodName(digitalAsset)
 
-  const task: SchedulerTask = {
+  return {
     method: {
       name,
       payload: {
-        asset,
         owner,
         networkId,
         toBlock,
         fromBlock,
+        asset: digitalAsset.address,
         decimals: digitalAsset.decimals,
       },
     },
@@ -61,8 +76,6 @@ function putRequest(
     priority: 0,
     retryCount: 3,
   }
-
-  return put(requestQueue, task)
 }
 
 export function* scheduleRequestsTransactions(
@@ -76,18 +89,21 @@ export function* scheduleRequestsTransactions(
     const digitalAssets: ExtractReturn<typeof selectDigitalAssets> =
       yield select(selectDigitalAssets)
 
-    yield all(Object
-      .keys(digitalAssets)
-      .filter((assetAddress: Address): boolean => !!digitalAssets[assetAddress].isActive)
-      .map((asset: Address) => putRequest(
-        requestQueue,
-        digitalAssets,
-        owner,
-        asset,
-        networkId,
-        fromBlock,
-        toBlock,
-      ))
+    const digitalAssetsFlattened: DigitalAsset[] = flattenDigitalAssets(digitalAssets)
+
+    yield all(digitalAssetsFlattened
+      .filter(({ isActive }: DigitalAsset): boolean => !!isActive)
+      .map((digitalAsset: DigitalAsset) => {
+        const task: SchedulerTask = getTask(
+          digitalAsset,
+          owner,
+          networkId,
+          fromBlock,
+          toBlock,
+        )
+
+        return put(requestQueue, task)
+      })
     )
 
     yield put(blocks.setIsTransactionsLoading(networkId, true))
@@ -128,22 +144,22 @@ export function* scheduleRequestsTransactions(
 
 function getLoadingTransactions(txs: Transactions): Transactions {
   return Object.keys(txs).reduce((result: Transactions, hash: Hash): Transactions => {
-    const { isLoading }: Transaction = txs[hash]
+    const tx: ?Transaction = txs[hash]
 
-    return !isLoading ? result : {
+    return !(tx && checkTransactionLoading(tx)) ? result : {
       ...result,
-      [hash]: txs[hash],
+      [hash]: tx,
     }
   }, {})
 }
 
 function getFetchedTransactions(txs: Transactions): Transactions {
   return Object.keys(txs).reduce((result: Transactions, hash: Hash): Transactions => {
-    const { isLoading }: Transaction = txs[hash]
+    const tx: ?Transaction = txs[hash]
 
-    return isLoading ? result : {
+    return (!tx || checkTransactionLoading(tx)) ? result : {
       ...result,
-      [hash]: txs[hash],
+      [hash]: tx,
     }
   }, {})
 }
@@ -252,7 +268,7 @@ function* recursiveRequestTransactions(
       })
 
       if (fromBlockNew > 0) {
-        yield call(delay, 100)
+        yield call(delay, 1000)
 
         yield* recursiveRequestTransactions(
           task,

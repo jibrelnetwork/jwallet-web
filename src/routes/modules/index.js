@@ -1,12 +1,12 @@
 // @flow
 
-import { type LayoutAction } from './layout'
+import type { CoreAction as Action } from './core'
 
-export type CoreAction = LayoutAction
+export type CoreAction = Action
 
 export {
-  OPEN_ASIDE_LAYOUT,
-  CLOSE_ASIDE_LAYOUT,
   OPEN_CORE_LAYOUT,
   CLOSE_CORE_LAYOUT,
-} from './layout'
+  OPEN_MENU_LAYOUT,
+  CLOSE_MENU_LAYOUT,
+} from './core'

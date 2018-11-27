@@ -2,37 +2,36 @@
 
 import React, { PureComponent } from 'react'
 
-import { PopupButton } from 'components'
+import PopupButton from 'components/PopupButton'
 import { JText, JCheckbox } from 'components/base'
 
 type Props = {|
-  +setOnlyPending: ((boolean) => void),
-  +isOnlyPending: boolean,
+  +setOnlyPending: (boolean) => void,
   +filterCount: number,
+  +isOnlyPending: boolean,
 |}
 
-class TransactionFilter extends PureComponent<Props> {
+class TransactionsFilter extends PureComponent<Props> {
   static defaultProps = {
     isOnlyPending: false,
-    filterCount: 0,
   }
 
   render() {
     const {
       setOnlyPending,
-      isOnlyPending,
       filterCount,
+      isOnlyPending,
     } = this.props
 
     return (
-      <PopupButton icon={(filterCount === 0) ? 'filter' : 'filter-selected'} counter={filterCount}>
-        <div className='transaction-filter'>
+      <PopupButton icon={filterCount ? 'filter-selected' : 'filter'} counter={filterCount}>
+        <div className='transactions-filter'>
           <div className='title'>
             <JText
               color='gray'
               size='normal'
-              value='Filter'
               weight='bold'
+              value='Filter'
               whiteSpace='wrap'
             />
           </div>
@@ -48,4 +47,4 @@ class TransactionFilter extends PureComponent<Props> {
   }
 }
 
-export default TransactionFilter
+export default TransactionsFilter

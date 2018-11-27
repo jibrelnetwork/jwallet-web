@@ -12,22 +12,22 @@ declare type AppState = {
   +walletsAddresses: WalletsAddressesState,
   +walletsRenameAddress: WalletsRenameAddressState,
   // networks
-  // +networks: NetworksData,
+   +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +addAsset: AddAssetState,
   +editAsset: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
+  // blocks
+  +blocks: BlocksState,
   // transactions
   +transactions: TransactionsState,
+  // balances
+  +balances: BalancesState,
   // funds
   // +receiveFunds: ReceiveFundsData,
   // +sendFunds: SendFundsData,
-  // Balances
-  +balances: BalancesState,
-  // Blocks
-  +blocks: BlocksState,
-  // Router
+  // router
   +router: RouterState,
 }
