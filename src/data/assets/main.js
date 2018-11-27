@@ -35,7 +35,8 @@ const MAIN_ASSETS = [{
   name: 'Jibrel Network Token',
   symbol: 'JNT',
   decimals: 18,
-  address: '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7',
+  address: '0x1bafb2bb52d6929a947f8635d8299fd4ed66883c',
+  // address: '0xa5fd1a791c4dfcaacc963d4f73c6ae5824149ea7',
   isActive: true,
   isCustom: false,
 }, {
