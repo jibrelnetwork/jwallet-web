@@ -36,6 +36,7 @@ import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
+import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export {
   QRCode,
@@ -74,4 +75,5 @@ export {
   DigitalAssetsFilter,
   DigitalAssetsManage,
   OverlayNotification,
+  DigitalAssetEditForm,
 }
