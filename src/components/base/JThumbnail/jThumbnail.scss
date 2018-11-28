@@ -16,13 +16,13 @@
     @include flex-column-center;
 
     padding-top: 10px;
-    line-height: 24px;
+    line-height: (18/11);
     text-align: center;
-    opacity: 0.5;
   }
 
   &.-transparent {
-    > .icon {
+    > .icon,
+    > .description {
       opacity: 0.5;
     }
   }
