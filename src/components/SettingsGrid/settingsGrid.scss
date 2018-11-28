@@ -1,0 +1,14 @@
+.j-grid {
+  all: initial;
+  display: block;
+  position: relative;
+  width: 100%;
+  font-size: 0;
+
+  > .box {
+    width: 33.333%;
+    padding: 0 10px 20px 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+}

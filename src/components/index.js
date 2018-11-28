@@ -14,6 +14,7 @@ import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
+import SettingsGrid from './SettingsGrid'
 import CopyableField from './CopyableField'
 import PasswordField from './PasswordField'
 import WalletLoading from './WalletLoading'
@@ -35,7 +36,6 @@ import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
-import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export {
   QRCode,
@@ -52,6 +52,7 @@ export {
   AssetBalance,
   PasswordStep,
   WalletHeader,
+  SettingsGrid,
   CopyableField,
   PasswordField,
   WalletLoading,
@@ -73,5 +74,4 @@ export {
   DigitalAssetsFilter,
   DigitalAssetsManage,
   OverlayNotification,
-  DigitalAssetEditForm,
 }
