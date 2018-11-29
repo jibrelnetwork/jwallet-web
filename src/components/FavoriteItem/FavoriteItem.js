@@ -7,9 +7,10 @@ import { ButtonWithConfirm } from 'components'
 import { JText, JCard, JIcon, JTooltip } from 'components/base'
 
 type Props = {
-  editItem: () => void,
-  deleteItem: () => void,
-  address: Address,
+  +edit: () => void,
+  +send: () => void,
+  +remove: () => void,
+  +address: Address,
   +name: string,
   +symbol: string,
 }
@@ -38,9 +39,9 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
     }
   }
 
-  onHoverSend = () => this.setState({ isHoveredSend: !this.state.isHoveredSend })
+  onHoverSend = (isHoveredSend: boolean) => () => this.setState({ isHoveredSend })
 
-  onHoverEdit = () => this.setState({ isHoveredEdit: !this.state.isHoveredEdit })
+  onHoverEdit = (isHoveredEdit: boolean) => () => this.setState({ isHoveredEdit })
 
   onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
 
@@ -49,8 +50,9 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
   render() {
     const {
       address,
-      editItem,
-      deleteItem,
+      edit,
+      send,
+      remove,
       name,
       symbol,
     } = this.props
@@ -87,7 +89,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
               className='item -send'
               onMouseEnter={this.onHoverSend}
               onMouseLeave={this.onHoverSend}
-              onClick={deleteItem}
+              onClick={send}
             >
               <JTooltip text='Send'>
                 <JIcon
@@ -101,7 +103,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
               className='item -edit'
               onMouseEnter={this.onHoverEdit}
               onMouseLeave={this.onHoverEdit}
-              onClick={editItem}
+              onClick={edit}
             >
               <JTooltip text='Edit'>
                 <JIcon
@@ -118,7 +120,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
               onClick={this.onHoverTrash(false)}
             >
               <ButtonWithConfirm
-                onClick={deleteItem}
+                onClick={remove}
                 color='blue'
                 bgColor='white'
                 labelCancel='No'

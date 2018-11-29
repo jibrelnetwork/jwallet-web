@@ -11,7 +11,8 @@ storiesOf('FavoriteItem')
     <div className='story'>
       <h2>Default</h2>
       <FavoriteItem
-        deleteItem={console.log}
+        send={console.log}
+        remove={console.log}
         name='Alexey Selikhov'
         symbol='AS'
         address='0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd'

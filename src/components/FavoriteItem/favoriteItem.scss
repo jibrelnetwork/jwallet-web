@@ -2,7 +2,6 @@
   all: initial;
 
   @include box;
-  @include font;
   @include flex-row;
 
   align-items: center;
@@ -17,11 +16,9 @@
     align-items: center;
 
     > .symbol {
-      @include flex-row;
+      @include flex-row-center;
 
       width: 80px;
-      justify-content: center;
-      align-items: center;
 
       &.-icon {
         opacity: 0.2;

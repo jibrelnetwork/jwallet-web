@@ -35,8 +35,8 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               isActive={asset.isActive}
               balance={balance}
               setIsActive={(isActive: boolean) => setAssetIsActive(asset.address, isActive)}
-              deleteAssetItem={handle(deleteCustomAsset)(asset.address)}
-              editAssetItemClick={handle(editAsset)(asset.address)}
+              remove={handle(deleteCustomAsset)(asset.address)}
+              edit={handle(editAsset)(asset.address)}
             />
           </div>
         ))}
