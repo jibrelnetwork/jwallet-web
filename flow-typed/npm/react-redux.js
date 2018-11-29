@@ -66,25 +66,32 @@ declare module 'react-redux' {
   // component.
   declare type Connector<-S, -D, OP, WC> = (WC) => Class<ConnectedComponent<S, D, OP, WC>>;
 
+  declare type ExtFn = <V>(...args: Array<V> => any) => ((...V) => void)
+
   // Putting it all together.
   declare export function connect<S, D, OP, SP, DP>(
       mapStateToProps: MapStateToProps<S, OP, SP>,
       mapDispatchToProps: MapDispatchToPropsFn<D, OP, DP>,
-  ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...SP, ...DP |}>>;
+  ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...SP, ...$ObjMap<DP, ExtFn> |}>>;
 
   declare export function connect<S, D, OP, SP, DP>(
       mapStateToProps: MapStateToProps<S, OP, SP>,
       mapDispatchToProps: DP,
-  ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...SP, ...DP |}>>;
+  ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...SP, ...$ObjMap<DP, ExtFn> |}>>;
 
   declare export function connect<S, D, OP, SP>(
       mapStateToProps: MapStateToProps<S, OP, SP>,
   ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...SP |}>>;
 
   declare export function connect<S, D, OP, SP, DP>(
-    null,
+    mapStateToProps: void | null,
     mapDispatchToProps: DP,
-  ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...DP |}>>;
+  ): Connector<S, D, OP, React$ComponentType<{| ...OP, ...$ObjMap<DP, ExtFn> |}>>;
+
+  declare export function connect<S, D, OP, SP, DP>(
+    mapStateToProps: void | null,
+    mapDispatchToProps: MapDispatchToPropsFn<D, OP, DP>,
+  ): Connector<S, D, OP, React$ComponentType<{| ...$ReadOnly<OP>, ...$ObjMap<DP, ExtFn> |}>>;
 
   declare export function connect<S, D, OP, SP, DP, MP>(
     mapStateToProps: MapStateToProps<S, OP, DP>,

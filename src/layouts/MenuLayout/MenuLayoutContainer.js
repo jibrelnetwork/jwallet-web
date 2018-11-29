@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
   selectWalletsPersist,
   selectWalletsAddresses,
-} from 'store/stateSelectors'
+} from 'store/selectors/wallets'
 
 import {
   openMenuLayout,

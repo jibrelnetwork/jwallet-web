@@ -14,6 +14,11 @@ const mapDispatchToProps = {
   closeLayout: closeCoreLayout,
 }
 
+// eslint-disable-next-line no-unused-vars
+type OwnProps = {|
+  children: React$Node,
+|}
+
 export default (
-  connect/* :: < AppState, any, Object, _, _ > */(null, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, any > */(null, mapDispatchToProps)
 )(CoreLayout)
