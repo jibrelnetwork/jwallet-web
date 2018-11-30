@@ -3,11 +3,16 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { parseBalance } from 'utils/digitalAssets'
-import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectDigitalAssetBalance } from 'store/selectors/balances'
+import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
+
+import {
+  checkAssetFound,
+  compareDigitalAssetsByName,
+  getDigitalAssetsWithBalance,
+} from 'utils/digitalAssets'
 
 import {
   selectDigitalAssets,
@@ -27,76 +32,44 @@ import {
   deleteCustomAsset,
 } from '../../modules/digitalAssets'
 
-const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
-  const query = searchQuery.trim().toUpperCase()
-  const { name, symbol, address } = asset
-
-  if ((query.length < 2) ||
-      (symbol.toUpperCase().indexOf(query) !== -1) ||
-      (name.toUpperCase().indexOf(query) !== -1) ||
-      (address.toUpperCase() === query) ||
-      (address.substr(2).toUpperCase() === query)) {
-    return true
-  }
-
-  return false
-}
-
-const sortAssetsFn = (
-  { asset: { name: nameA, isCustom } },
-  { asset: { name: nameB } },
-): number => {
-  if (isCustom) {
-    return -1
-  }
-  if (nameA > nameB) {
-    return 1
-  } else if (nameA < nameB) {
-    return -1
-  } else {
-    return 0
-  }
-}
-
 const mapStateToProps = (state: AppState) => {
-  const networkId = selectCurrentNetworkId(state)
-
-  // assets grid selectors
-  const assets = selectDigitalAssets(state /* , networkId */)
-  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
-
-  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
+  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const assets: DigitalAssets = selectDigitalAssets(state /* , networkId */)
   const searchQuery = selectDigitalAssetsManageSearchQuery(state)
 
-  const items = Object.keys(assets)
-    .map((assetAddress) => {
-      const assetBalance = selectDigitalAssetBalance(
-        state,
-        currentBlockNumber,
-        currentOwnerAddress,
-        assetAddress
-      )
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    currentBlockNumber,
+    ownerAddress,
+  )
 
-      if (assetBalance) {
-        return {
-          asset: assets[assetAddress],
-          isLoading: assetBalance.isLoading,
-          balance: assetBalance.isLoading
-            ? '0'
-            : parseBalance(assetBalance.balance, assets[assetAddress].decimals),
-        }
-      } else {
-        return {
-          asset: assets[assetAddress],
-          balance: '0',
-          isLoading: false,
-        }
-      }
+  const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
+    assets,
+    assetsBalances,
+  )
+
+  const items: DigitalAssetWithBalance[] = assetsWithBalance
+    .filter((item: DigitalAssetWithBalance): boolean => {
+      const {
+        name,
+        symbol,
+        address,
+      }: DigitalAssetWithBalance = item
+
+      const isAssetFound: boolean = checkAssetFound(name, symbol, address, searchQuery)
+
+      return isAssetFound
     })
-    .filter(item => checkSearchQuery(item.asset, searchQuery))
 
   // eslint-disable-next-line fp/no-mutating-methods
-  items.sort(sortAssetsFn)
+  items.sort((
+    first: DigitalAssetWithBalance,
+    second: DigitalAssetWithBalance,
+  ): number => compareDigitalAssetsByName(first.name, second.name, 'asc', first.isCustom))
 
   return {
     items,
