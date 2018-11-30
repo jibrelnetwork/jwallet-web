@@ -1,18 +1,38 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
+
+import { Link } from 'react-router'
+
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JLoader, JText } from 'components/base'
+
+import {
+  JIcon,
+  JText,
+  JLoader,
+} from 'components/base'
+
+import type {
+  JIconSize,
+  JIconColor,
+} from 'components/base/JIcon/JIcon'
+
+export type JFlatButtonColor = 'blue' | 'gray' | 'sky' | 'white'
+export type JFlatButtonHandler = (SyntheticEvent<HTMLDivElement>) => void
 
 type Props = {|
-  +onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  +onClick: ?JFlatButtonHandler,
+  +to: ?string,
   +label: ?string,
-  +color: 'blue' | 'gray' | 'sky' | 'white',
   +iconName: ?string,
-  +iconSize: 'small' | 'medium',
-  +iconColor: 'blue' | 'gray' | 'sky' | 'white',
+  +iconSize: JIconSize,
+  +iconColor: JIconColor,
+  +color: JFlatButtonColor,
   +isLink: boolean,
   +isLoading: boolean,
   +isDisabled: boolean,
@@ -22,12 +42,20 @@ type Props = {|
   +isHoverOpacity: boolean,
 |}
 
+type BaseProps = {|
+  +onMouseEnter: (SyntheticEvent<any>) => void,
+  +onMouseLeave: (SyntheticEvent<any>) => void,
+  +className: string,
+|}
+
 type StateProps = {|
   isHovered: boolean,
 |}
 
 class JFlatButton extends PureComponent<Props, StateProps> {
   static defaultProps = {
+    onClick: null,
+    to: null,
     label: null,
     iconName: null,
     color: 'white',
@@ -57,6 +85,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
   render() {
     const {
       onClick,
+      to,
       label,
       color,
       isLink,
@@ -85,22 +114,8 @@ class JFlatButton extends PureComponent<Props, StateProps> {
 
     const isUnderscoredAndHovered: boolean = (isUnderscored && isHovered)
 
-    return (
-      <div
-        onClick={isDisabled ? null : onClick}
-        onMouseEnter={handle(this.onHover)(true)}
-        onMouseLeave={handle(this.onHover)(false)}
-        className={classNames(
-          `j-flat-button -${color}`,
-          label && '-label',
-          isLink && '-link',
-          isBordered && '-border',
-          isDisabled && '-disabled',
-          isTransparent && '-transparent',
-          isUnderscored && '-underscored',
-          isHoverOpacity && '-hover-opacity',
-        )}
-      >
+    const children: React$Node = (
+      <Fragment>
         {iconName && (
           <div className='icon'>
             <JIcon name={iconName} size={iconSize} color={iconColor} />
@@ -114,8 +129,47 @@ class JFlatButton extends PureComponent<Props, StateProps> {
             decoration={isUnderscored ? 'underline' : null}
           />
         )}
-      </div>
+      </Fragment>
     )
+
+    const baseProps: BaseProps = {
+      onMouseEnter: handle(this.onHover)(true),
+      onMouseLeave: handle(this.onHover)(false),
+      className: classNames(
+        `j-flat-button -${color}`,
+        label && '-label',
+        isLink && '-link',
+        isBordered && '-border',
+        isDisabled && '-disabled',
+        isTransparent && '-transparent',
+        isUnderscored && '-underscored',
+        isHoverOpacity && '-hover-opacity',
+      ),
+    }
+
+    if (onClick && !to) {
+      return (
+        <div
+          {...baseProps}
+          onClick={isDisabled ? null : onClick}
+        >
+          {children}
+        </div>
+      )
+    }
+
+    if (to && !onClick) {
+      return (
+        <Link
+          {...baseProps}
+          to={isDisabled ? null : to}
+        >
+          {children}
+        </Link>
+      )
+    }
+
+    return null
   }
 }
 

@@ -12,7 +12,7 @@ import {
 
 const DIGITAL_ASSETS_TABS = {
   '/digital-assets': 'Digital assets',
-  '/': 'Transactions',
+  '/transactions': 'Transactions',
 }
 
 type Props = {|
@@ -59,7 +59,7 @@ class DigitalAssetsGridView extends Component<Props> {
             <div className='actions'>
               <div className='search'>
                 <JSearch
-                  onQueryChange={setSearchQuery}
+                  onChange={setSearchQuery}
                   placeholder='Search asset...'
                 />
               </div>

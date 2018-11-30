@@ -65,4 +65,6 @@ const mapDispatchToProps = {
   changePasswordConfirmInput,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletsCreateView)
+export default (
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+)(WalletsCreateView)

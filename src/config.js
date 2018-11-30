@@ -2,7 +2,7 @@
 
 export default {
   // timeout for search input field (to prevent searching on each entered symbol)
-  searchTimeout: 400,
+  searchTimeout: 250,
 
   // timeout for resetting of pincode incorrect state
   resetIncorrectPincodeTimeout: 1000,
@@ -65,7 +65,7 @@ export default {
     size: 2,
   },
 
-  etherscanApiOptions: {
+  blockExplorerApiOptions: {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -102,7 +102,7 @@ export default {
   /**
    * blockexplorer url
    */
-  blockExplorerLink: 'https://etherscan.io',
+  blockExplorerLink: 'etherscan.io',
 
   /**
    * supported languages
@@ -123,4 +123,19 @@ export default {
    * timeout before confirming of delete wallet action
    */
   deleteConfirmTimeout: 30,
+
+  /**
+   * min count of transactions to dislay for user (initial sync)
+   */
+  minTransactionsCountToShow: 50,
+
+  /**
+   * etherscan api enpoints
+   */
+  enpointNames: {
+    '1': 'api',
+    '3': 'api-ropsten',
+    '42': 'api-kovan',
+    '4': 'api-rinkeby',
+  },
 }

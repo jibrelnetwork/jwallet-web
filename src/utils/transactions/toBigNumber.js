@@ -1,9 +1,9 @@
 // @flow
 
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
-function toBigNumber(value: string | number): Bignumber {
-  return new BigNumber((parseFloat(value) || 0), 10)
+function toBigNumber(value: string | number) {
+  return new BigNumber(value || 0)
 }
 
 export default toBigNumber

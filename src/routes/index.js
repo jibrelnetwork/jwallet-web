@@ -4,13 +4,13 @@ import CoreLayout from 'layouts/CoreLayout'
 
 /*
 import Funds from './Funds'
-import Transactions from './Transactions'
 */
 
 import Terms from './Terms'
 import Wallets from './Wallets'
 import Settings from './Settings'
 import NotFound from './NotFound'
+import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
 
 import {
@@ -21,23 +21,29 @@ import {
   type DigitalAssetsModuleAction,
 } from './DigitalAssets/modules'
 
-export type AppAction = DigitalAssetsModuleAction |
-  CoreAction
+import {
+  type NotFoundAction,
+} from './NotFound/modules/notFound'
+
+export type AppAction =
+  CoreAction |
+  NotFoundAction |
+  DigitalAssetsModuleAction
 
 export default {
   path: '/',
   component: CoreLayout,
   indexRoute: {
-    onEnter: (nextState: AppState, replace: (string) => void) => replace('/transactions'),
+    onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets'),
   },
   childRoutes: [
     /*
     Funds(store),
-    Transactions(store),
     */
     Terms,
     Wallets,
     Settings,
+    Transactions,
     DigitalAssets,
     NotFound,
   ],

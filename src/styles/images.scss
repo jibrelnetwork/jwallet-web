@@ -1,10 +1,15 @@
 /**
  * Logo
  */
-$logo-width: 137px;
-$logo-height: 36px;
+$logo-full-width: 137px;
+$logo-full-height: 36px;
 
-$logo: url('../public/assets/logo/logo.svg');
+$logo-full: url('../public/assets/logo/logo.svg');
+
+$logo-icon-width: 37px;
+$logo-icon-height: 32px;
+
+$logo-icon: url('../public/assets/logo/logo-icon.svg');
 
 /**
  * Loader

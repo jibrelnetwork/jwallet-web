@@ -1,0 +1,12 @@
+@import './Item/item';
+@import './More/more';
+
+.menu-panel-actions {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+
+  width: 100%;
+  padding: 50px;
+}

@@ -3,30 +3,105 @@
 declare type Hash = string
 declare type Hashes = Array<string>
 
-declare type Transaction = {
-  +type: string,
-  +status: string,
-  +transactionHash: Hash,
-  +date: string,
-  +contractAddress: Address,
-  +fee: number,
+declare type TransactionFromBlockExplorer = {|
+  +hash: Hash,
+  +to: string,
+  +from: string,
+  +value: string,
+  +gasUsed: string,
+  +isError: string,
+  +blockHash: Hash,
+  +gasPrice: string,
+  +timeStamp: string,
+  +blockNumber: string,
+  +contractAddress: string,
+|}
+
+/**
+ * status of transaction
+ * 0 - fail
+ * 1 - success
+ */
+declare type TransactionStatus = 0 | 1
+
+/**
+ * type of event
+ * 0 - ETH Transaction
+ * 1 - ERC20 Transfer
+ * 2 - JNT Mint/Burn
+ */
+declare type TransactionEventType = 0 | 1 | 2
+
+declare type TransactionData = {|
+  +gasPrice: number,
+|}
+
+declare type TransactionBlockData = {|
+  +minedAt: number,
+|}
+
+declare type TransactionReceiptData = {|
+  +gasUsed: number,
+  +status: TransactionStatus,
+|}
+
+declare type Transaction = {|
+  +data: ?TransactionData,
+  +blockData: ?TransactionBlockData,
+  +receiptData: ?TransactionReceiptData,
+  +hash: Hash,
+  +to: Address,
+  +from: Address,
+  +blockHash: ?Hash,
+  +contractAddress: ?Address,
   +amount: number,
-  +timestamp: number,
-  +from?: Address,
-  +to?: Address,
-  +address?: Address,
-  +isJNT?: boolean,
+  +createdAt: number,
+  +blockNumber: ?number,
+  +eventType: TransactionEventType,
+  +isRemoved: boolean,
+|}
+
+declare type TransactionWithAssetAddress = {|
+  +data: ?TransactionData,
+  +blockData: ?TransactionBlockData,
+  +receiptData: ?TransactionReceiptData,
+  +hash: Hash,
+  +to: Address,
+  +from: Address,
+  +blockHash: ?Hash,
+  +contractAddress: ?Address,
+  +assetAddress: AssetAddress,
+  +amount: number,
+  +createdAt: number,
+  +blockNumber: ?number,
+  +eventType: TransactionEventType,
+  +isRemoved: boolean,
+|}
+
+declare type Transactions = {
+  [Hash]: ?Transaction,
 }
 
-declare type Transactions = Array<Transaction>
-declare type TransactionsByPeriod = { [?string]: ?Transactions }
+declare type TransactionsByOwner = {
+  [AssetAddress]: ?Transactions,
+}
 
-declare type TransactionsData = {
-  +items: Transactions,
-  +foundTransactions: Hashes,
-  +invalidFields: FormFields,
+declare type TransactionsByNetworkId = {
+  [OwnerAddress]: ?TransactionsByOwner,
+}
+
+declare type TransactionsItems = {
+  [NetworkId]: ?TransactionsByNetworkId,
+}
+
+declare type TransactionsPersist = {|
+  +items: TransactionsItems,
+|}
+
+declare type TransactionsState = {|
+  +persist: TransactionsPersist,
   +searchQuery: string,
-  +isLoading: boolean,
+  +isSyncing: boolean,
+  +isOnlyPending: boolean,
   +isBlockExplorerError: boolean,
-  +activeTxHash: ?Hash,
-}
+|}

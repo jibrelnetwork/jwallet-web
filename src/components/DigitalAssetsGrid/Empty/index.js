@@ -1,5 +1,5 @@
 // @flow
 
-import Empty from './Empty'
+import DigitalAssetsGridEmpty from './Empty'
 
-export default Empty
+export default DigitalAssetsGridEmpty

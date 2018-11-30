@@ -2,14 +2,19 @@
 
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { BigNumber } from 'bignumber.js'
 
 import {
   selectDigitalAssets,
-  selectCurrentBlockNumber,
-  selectDigitalAssetBalance,
   selectDigitalAssetsGridFilters,
   selectDigitalAssetsGridSearchQuery,
-} from 'store/stateSelectors'
+} from 'store/selectors/digitalAssets'
+
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectCurrentBlockNumber } from 'store/selectors/blocks'
+import { selectDigitalAssetBalance } from 'store/selectors/balances'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { parseBalance } from 'utils/digitalAssets'
 
 import DigitalAssetsGridView from './DigitalAssetsGridView'
 
@@ -38,11 +43,15 @@ const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => 
 }
 
 const mapStateToProps = (state: AppState) => {
-  const currentBlock = selectCurrentBlockNumber(state)
-  const currentOwnerAddress = ''
-  const assets = selectDigitalAssets(state)
+  const networkId = selectCurrentNetworkId(state)
+
+  // assets grid selectors
+  const assets = selectDigitalAssets(state /* , networkId */)
   const filter = selectDigitalAssetsGridFilters(state)
   const searchQuery = selectDigitalAssetsGridSearchQuery(state)
+
+  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
+  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
 
   const {
     sortBy,
@@ -69,12 +78,12 @@ const mapStateToProps = (state: AppState) => {
       return 0
     }
 
-    const { balance: balanceA } = a.balance
-    const { balance: balanceB } = b.balance
+    const balanceA = new BigNumber(a.balance)
+    const balanceB = new BigNumber(b.balance)
 
-    if (balanceA > balanceB) {
+    if (balanceA.gt(balanceB)) {
       return (sortByBalanceDirection === 'asc') ? 1 : -1
-    } else if (balanceA < balanceB) {
+    } else if (balanceB.gt(balanceA)) {
       return (sortByBalanceDirection === 'asc') ? -1 : 1
     } else {
       return 0
@@ -82,18 +91,35 @@ const mapStateToProps = (state: AppState) => {
   }
 
   const items = Object.keys(assets)
-    .map(assetAddress => ({
-      asset: assets[assetAddress],
-      balance: selectDigitalAssetBalance(
+    .map((assetAddress) => {
+      const assetBalance = selectDigitalAssetBalance(
         state,
-        currentBlock,
+        currentBlockNumber,
         currentOwnerAddress,
         assetAddress
-      ),
-    }))
+      )
+
+      if (assetBalance) {
+        return {
+          asset: assets[assetAddress],
+          isLoading: assetBalance.isLoading,
+          balance: assetBalance.isLoading
+            ? '0'
+            : parseBalance(assetBalance.balance, assets[assetAddress].decimals),
+        }
+      } else {
+        return {
+          asset: assets[assetAddress],
+          balance: '0',
+          isLoading: false,
+        }
+      }
+    })
     .filter(item =>
       item.asset.isActive &&
-      (!isHideZeroBalance || (isHideZeroBalance && item.balance && item.balance.balance > 0)) &&
+      (!isHideZeroBalance ||
+        (isHideZeroBalance && item.balance && (new BigNumber(item.balance)).gt(0))
+      ) &&
       checkSearchQuery(item.asset, searchQuery)
     )
 
@@ -125,9 +151,6 @@ const mapDispatchToProps = {
   manageAssetsOpenClick: () => push('/digital-assets/manage'),
 }
 
-// eslint-disable-next-line no-unused-vars
-type OwnProps = {||}
-
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsGridView)
