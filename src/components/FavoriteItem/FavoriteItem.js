@@ -87,8 +87,8 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
           <div className='actions'>
             <div
               className='item -send'
-              onMouseEnter={this.onHoverSend}
-              onMouseLeave={this.onHoverSend}
+              onMouseEnter={this.onHoverSend(true)}
+              onMouseLeave={this.onHoverSend(false)}
               onClick={send}
             >
               <JTooltip text='Send'>
@@ -101,8 +101,8 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
             </div>
             <div
               className='item -edit'
-              onMouseEnter={this.onHoverEdit}
-              onMouseLeave={this.onHoverEdit}
+              onMouseEnter={this.onHoverEdit(true)}
+              onMouseLeave={this.onHoverEdit(false)}
               onClick={edit}
             >
               <JTooltip text='Edit'>
