@@ -12,6 +12,7 @@
     "build": "env-cmd env/production npx webpack-cli --config ./webpack.config.js",
     "clear": "node ./.buildscripts/clear.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook:build": "build-storybook -c .storybook -o docs/storybook",
     "lint:js": "npx eslint ./src",
     "lint:css": "npx stylelint ./src/**/*.scss",
     "lint-staged": "npx lint-staged",
@@ -53,7 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.1.6",
-    "@storybook/react": "3.3.14",
+    "@storybook/react": "4.0.9",
     "autoprefixer": "7.1.2",
     "babel-core": "7.0.0-beta.3",
     "babel-eslint": "9.0.0",
