@@ -103,7 +103,7 @@ module.exports = {
 
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
-      {
+      isEnvProduction && {
         test: /\.(js|jsx)$/,
         enforce: 'pre',
         use: [
@@ -229,7 +229,7 @@ module.exports = {
           // Make sure to add the new loader(s) before the "file" loader.
         ],
       },
-    ],
+    ].filter(Boolean),
   },
 
   plugins: [
