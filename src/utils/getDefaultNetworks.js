@@ -11,7 +11,7 @@ export default function getDefaultNetworks() {
   }, {
     id: 3,
     title: i18n('networkManager.knownNetworkTitle.ropsten'),
-    rpcaddr: isValid(__ROPSTEN_RPC_ADDR__) ? __ROPSTEN_RPC_ADDR__ : 'ropsten.node.jwallet.network',
+    rpcaddr: isValid(__ROPSTEN_RPC_ADDR__) ? __ROPSTEN_RPC_ADDR__ : 'ropsten-node.jwallet.network',
     rpcport: isValid(__ROPSTEN_RPC_PORT__) ? __ROPSTEN_RPC_PORT__ : '443',
     ssl: true,
     isCustom: false,

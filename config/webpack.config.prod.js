@@ -293,7 +293,7 @@ module.exports = {
       mangle: {
         /**
          * TODO: remove it (it costs ~30Kb additional bundle size)
-         * It is needed for jibrel-contracts-jsapi module
+         * It is needed for @jibrelnetwork/contracts-jsapi module
          */
         keep_fnames: true,
       },
