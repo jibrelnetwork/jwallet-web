@@ -245,8 +245,8 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      '__DEV__': process.env.NODE_ENV === 'development',
-      '__PROD__': process.env.NODE_ENV === 'production',
+      '__DEV__': isEnvDevelopment,
+      '__PROD__': isEnvProduction,
       'process.env.BUILD_NUMBER': process.env.BUILD_NUMBER || 'dev',
     }),
 
