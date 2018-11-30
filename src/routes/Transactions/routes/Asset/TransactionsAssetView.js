@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import { BigNumber } from 'bignumber.js'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import parseBalance from 'utils/digitalAssets/parseBalance'
@@ -26,9 +25,9 @@ type Props = {|
   |},
   +network: ?Network,
   +digitalAssets: DigitalAssets,
+  +assetBalance: ?Balance,
   +searchQuery: string,
   +ownerAddress: ?OwnerAddress,
-  +assetBalance: BalanceString,
   +isSyncing: boolean,
   +isOnlyPending: boolean,
 |}
@@ -64,9 +63,8 @@ function TransactionsAssetView({
     decimals,
   }: DigitalAsset = asset
 
-  const titleText: string = (new BigNumber(assetBalance)).eq(0)
-    ? name
-    : `${name} — ${parseBalance(assetBalance, decimals)} ${symbol}`
+  const balance: string = assetBalance ? parseBalance(assetBalance.value, decimals) : '0'
+  const titleText: string = assetBalance ? `${name} — ${balance} ${symbol}` : name
 
   return (
     <div className='transactions-view -asset'>

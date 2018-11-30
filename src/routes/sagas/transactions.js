@@ -13,10 +13,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import type {
-  Task,
-  Channel,
-} from 'redux-saga'
+import type { Task } from 'redux-saga'
 
 import config from 'config'
 import blockExplorer from 'services/blockExplorer'
@@ -51,24 +48,16 @@ function getMethodName({ address }: DigitalAsset): TransactionMethodName {
   return 'getERC20Transactions'
 }
 
-function getTask(
-  digitalAsset: DigitalAsset,
-  owner: Address,
-  networkId: NetworkId,
-  fromBlock: number,
-  toBlock: number,
-): SchedulerTask {
+function getTask(digitalAsset: DigitalAsset, fromBlock: number, toBlock: number): SchedulerTask {
   const name: TransactionMethodName = getMethodName(digitalAsset)
 
   return {
     method: {
       name,
       payload: {
-        owner,
-        networkId,
         toBlock,
         fromBlock,
-        asset: digitalAsset.address,
+        assetAddress: digitalAsset.address,
         decimals: digitalAsset.decimals,
       },
     },
@@ -81,7 +70,7 @@ function getTask(
 export function* scheduleRequestsTransactions(
   requestQueue: Channel,
   networkId: NetworkId,
-  owner: Address,
+  ownerAddress: OwnerAddress,
   fromBlock: number,
   toBlock: number,
 ): Saga<void> {
@@ -94,13 +83,7 @@ export function* scheduleRequestsTransactions(
     yield all(digitalAssetsFlattened
       .filter(({ isActive }: DigitalAsset): boolean => !!isActive)
       .map((digitalAsset: DigitalAsset) => {
-        const task: SchedulerTask = getTask(
-          digitalAsset,
-          owner,
-          networkId,
-          fromBlock,
-          toBlock,
-        )
+        const task: SchedulerTask = getTask(digitalAsset, fromBlock, toBlock)
 
         return put(requestQueue, task)
       })
@@ -122,15 +105,15 @@ export function* scheduleRequestsTransactions(
       const {
         isTransactionsFetched,
         isTransactionsLoading,
-      }: BlockInfo = processingBlock
+      }: BlockData = processingBlock
 
-      const isFetched: boolean = yield* checkFetchedTransactions(owner, networkId)
+      const isFetched: boolean = yield* checkFetchedTransactions(ownerAddress, networkId)
 
       if (!isTransactionsFetched && isFetched) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
       }
 
-      const isLoading: boolean = yield* checkLoadingTransactions(owner, networkId)
+      const isLoading: boolean = yield* checkLoadingTransactions(ownerAddress, networkId)
 
       if (isTransactionsLoading && !isLoading) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
@@ -138,7 +121,7 @@ export function* scheduleRequestsTransactions(
       }
     }
   } finally {
-    //
+    yield put(transactions.syncCancelled())
   }
 }
 
@@ -240,12 +223,9 @@ function* recursiveRequestTransactions(
   fromBlock: number,
   toBlock: number,
 ): Saga<void> {
-  const {
-    payload,
-    name,
-  } = task.method
+  const { method } = task
 
-  switch (name) {
+  switch (method.name) {
     case 'getETHTransactions':
     case 'getERC20Transactions':
     case 'getJNTTransactions': {
@@ -260,7 +240,7 @@ function* recursiveRequestTransactions(
         method: {
           ...task.method,
           payload: {
-            ...payload,
+            ...method.payload,
             toBlock,
             fromBlock: (fromBlockNew <= 0) ? 0 : fromBlockNew,
           },
@@ -287,18 +267,18 @@ function* recursiveRequestTransactions(
 }
 
 export function* requestTransactions(
-  task: SchedulerTask,
   requestQueue: Channel,
+  task: SchedulerTask,
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
 ): Saga<void> {
   const { method } = task
 
   switch (method.name) {
     case 'getETHTransactions': {
       const {
-        owner,
-        networkId,
-        fromBlock,
         toBlock,
+        fromBlock,
       } = method.payload
 
       if ((toBlock - fromBlock) > MAX_BLOCKS_PER_REQUEST) {
@@ -309,7 +289,7 @@ export function* requestTransactions(
       const txs: Transactions = yield call(
         blockExplorer.getETHTransactions,
         networkId,
-        owner,
+        ownerAddress,
         fromBlock,
         toBlock,
       )
@@ -317,7 +297,7 @@ export function* requestTransactions(
       const isEmpty: boolean = !Object.keys(txs).length
 
       if (!isEmpty) {
-        yield put(transactions.setItems(networkId, owner, 'Ethereum', txs))
+        yield put(transactions.setItems(networkId, ownerAddress, 'Ethereum', txs))
       }
 
       break
@@ -343,7 +323,7 @@ export function* syncStart(action: ExtractReturn<typeof transactions.syncStart>)
     requestQueue,
     currentBlock,
     processingBlock,
-    owner,
+    ownerAddress,
     networkId,
   } = action.payload
 
@@ -353,7 +333,7 @@ export function* syncStart(action: ExtractReturn<typeof transactions.syncStart>)
     scheduleRequestsTransactions,
     requestQueue,
     networkId,
-    owner,
+    ownerAddress,
     currentBlockNumber,
     processingBlock.number,
   )

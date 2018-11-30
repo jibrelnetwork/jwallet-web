@@ -10,12 +10,12 @@ import { JSearch, JText, JIcon } from 'components/base'
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
-  +setSearchQuery: (string) => void,
   +addAssetClick: () => void,
-  +items: Array<DigitalAssetsGridItemType>,
+  +editAsset: (Address) => void,
+  +setSearchQuery: (string) => void,
   +deleteCustomAsset: (Address) => void,
   +setAssetIsActive: (Address, boolean) => void,
-  +editAsset: (Address) => void,
+  +items: DigitalAssetWithBalance[],
 |}
 
 class DigitalAssetsManageView extends Component<Props> {

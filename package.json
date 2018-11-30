@@ -23,7 +23,7 @@
   "dependencies": {
     "@jibrelnetwork/contracts-jsapi": "1.0.2",
     "@jibrelnetwork/jwallet-web-keystore": "1.0.0",
-    "bignumber.js": "4.0.4",
+    "bignumber.js": "7.2.1",
     "classnames": "2.2.5",
     "dotenv": "4.0.0",
     "ethereum-qr-code": "0.3.0",
