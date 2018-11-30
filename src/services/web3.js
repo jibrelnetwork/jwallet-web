@@ -1,5 +1,5 @@
 import Promise from 'bluebird'
-import jibrelContractsApi from 'jibrel-contracts-jsapi'
+import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { flatten, sortBy } from 'lodash'
 
 import config from 'config'
