@@ -16,13 +16,27 @@ type Props = {|
   +isHovered: boolean
 |}
 
-class AssetCardBody extends PureComponent<Props> {
+type StateProps = {|
+  isHover: boolean,
+|}
+
+class AssetCardBody extends PureComponent<Props, StateProps> {
   static defaultProps = {
     balance: '0',
     isError: false,
     isLoading: false,
     isHovered: false,
   }
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isHover: false,
+    }
+  }
+
+  onHover = (isHover: boolean) => () => this.setState({ isHover })
 
   render() {
     const {
@@ -35,6 +49,10 @@ class AssetCardBody extends PureComponent<Props> {
       isLoading,
       isHovered,
     } = this.props
+
+    const {
+      isHover,
+    }: StateProps = this.state
 
     if (isLoading) {
       return (
@@ -98,12 +116,16 @@ class AssetCardBody extends PureComponent<Props> {
           </div>
         ) : (
           <div className='fiat'>
-            <JFlatButton
-              to={`/transactions/${address}`}
-              color='blue'
-              label='Show transactions'
-              isHoverOpacity
-            />
+            <div
+              onMouseEnter={this.onHover(true)}
+              onMouseLeave={this.onHover(false)}
+            >
+              <JFlatButton
+                to={`/transactions/${address}`}
+                color={isHover ? 'sky' : 'blue'}
+                label='Show transactions'
+              />
+            </div>
           </div>
         )}
       </div>
