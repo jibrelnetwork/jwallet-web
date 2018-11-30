@@ -2,46 +2,37 @@
 
 declare type SchedulerModule = 'balances' | 'transactions'
 
+declare type GetETHBalanceMethod = {|
+  +name: 'getETHBalance',
+|}
+
+declare type GetERC20BalanceMethod = {|
+  +name: 'getERC20Balance',
+  +payload: {|
+    +contractAddress: AssetAddress,
+  |}
+|}
+
+declare type GetBalanceMethod = GetETHBalanceMethod | GetERC20BalanceMethod
+
 declare type GetTransactionsName =
   'getETHTransactions' |
   'getERC20Transactions' |
   'getJNTTransactions'
 
 declare type GetTransactionsPayload = {|
-  +owner: Address,
-  +asset: Address,
-  +networkId: NetworkId,
+  +assetAddress: AssetAddress,
   +toBlock: number,
   +decimals: number,
   +fromBlock: number,
 |}
 
-declare type getETHBalanceMethod = {|
-  name: 'getETHBalance',
-  payload: {|
-    owner: Address,
-    blockNumber: number,
-  |}
-|}
-
-declare type getERC20BalanceMethod = {|
-  name: 'getERC20Balance',
-  payload: {|
-    owner: Address,
-    contractAddress: Address,
-    blockNumber: number,
-  |}
-|}
-
 declare type GetTransactionsMethod = {|
-  name: GetTransactionsName,
-  payload: GetTransactionsPayload,
+  +name: GetTransactionsName,
+  +payload: GetTransactionsPayload,
 |}
 
-type SchedulerMethod =
-  getETHBalanceMethod |
-  getERC20BalanceMethod |
-  GetTransactionsMethod
+type SchedulerMethod = GetBalanceMethod | GetTransactionsMethod
 
 declare type SchedulerTask = {|
   +module: SchedulerModule,

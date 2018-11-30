@@ -1,80 +1,44 @@
 // @flow
 
-import {
-  delay,
-  type Channel,
-} from 'redux-saga'
+import { delay } from 'redux-saga'
 
 import {
-  select,
-  put,
   all,
+  put,
   call,
+  fork,
+  take,
+  cancel,
+  select,
+  takeEvery,
 } from 'redux-saga/effects'
 
-import keystore from 'services/keystore'
+import type { Task } from 'redux-saga'
 
-import {
-  selectWalletsItems,
-  selectActiveWalletId,
-} from 'store/selectors/wallets'
-
-import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectPendingBalances } from 'store/selectors/balances'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
-import { getAssetBalance, getETHBalance } from 'services/web3'
-import { setIsBalancesFetched } from '../modules/blocks'
 
-import {
-  initAtBlock,
-  updateBalance,
-} from '../modules/balances'
+import web3 from 'services/web3'
 
-function selectHasPendingBalances(
-  state: AppState,
-  networkId: NetworkId,
-  blockNumber: number,
-  ownerAddress: Address): boolean {
-  const { balances } = state.balances.persist
-  const block = blockNumber.toString()
+import * as blocks from '../modules/blocks'
+import * as balances from '../modules/balances'
 
-  if (balances[networkId] &&
-      balances[networkId][block] &&
-      balances[networkId][block][ownerAddress]) {
-    const assets = balances[networkId][block][ownerAddress]
-    return !!(Object
-      .keys(assets)
-      .find((address: Address) => assets[address].isLoading))
-  }
-  return false
-}
-
-export function* getBalancesSchedulerProcess(
+export function* scheduleRequestsBalances(
   requestQueue: Channel,
   networkId: NetworkId,
-  processingBlock: BlockInfo,
+  ownerAddress: OwnerAddress,
+  blockNumber: number,
 ): Saga<void> {
   try {
-    const wallets: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-
-    const activeWalletId: ExtractReturn<typeof selectActiveWalletId>
-      = yield select(selectActiveWalletId)
-    if (!activeWalletId) {
-      return
-    }
-
-    const activeOwnerAddress = keystore.getAddress(wallets, activeWalletId)
-    if (!activeOwnerAddress) {
-      return
-    }
-
     const activeAssets: Array<DigitalAsset> = yield select(selectActiveDigitalAssets)
+
     if (activeAssets.length === 0) {
       // @TODO: notify, that everything is fetched
       return
     }
 
     // push initial balances state
-    const initialState: OwnerBalances = activeAssets.reduce((prev, asset) => ({
+    const initialItems: Balances = activeAssets.reduce((prev, asset) => ({
       ...prev,
       [asset.address]: {
         balance: null,
@@ -82,12 +46,7 @@ export function* getBalancesSchedulerProcess(
       },
     }), {})
 
-    yield put(initAtBlock(
-      networkId,
-      processingBlock.number,
-      activeOwnerAddress,
-      initialState
-    ))
+    yield put(balances.initAtBlock(networkId, blockNumber, ownerAddress, initialItems))
 
     // schedule to fetch all balances
     yield all(activeAssets.map((asset) => {
@@ -96,12 +55,9 @@ export function* getBalancesSchedulerProcess(
           module: 'balances',
           method: {
             name: 'getETHBalance',
-            payload: {
-              blockNumber: processingBlock.number,
-              owner: activeOwnerAddress,
-            },
           },
         }
+
         return put(requestQueue, task)
       } else {
         const task: SchedulerTask = {
@@ -109,95 +65,110 @@ export function* getBalancesSchedulerProcess(
           method: {
             name: 'getERC20Balance',
             payload: {
-              blockNumber: processingBlock.number,
               contractAddress: asset.address,
-              owner: activeOwnerAddress,
             },
           },
         }
+
         return put(requestQueue, task)
       }
     }))
 
     // wait, while all balances will be fetched
     while (true) {
-      const hasPendingBalances: ExtractReturn<typeof selectHasPendingBalances> = yield select(
-        selectHasPendingBalances,
+      const pendingBalances: ExtractReturn<typeof selectPendingBalances> = yield select(
+        selectPendingBalances,
         networkId,
-        processingBlock.number,
-        activeOwnerAddress
+        blockNumber,
+        ownerAddress,
       )
 
-      if (!hasPendingBalances) {
-        yield put(setIsBalancesFetched(networkId, true))
-        console.log(`All balances for block ${processingBlock.number} has been fetched`)
+      if (!pendingBalances.length) {
+        yield put(blocks.setIsBalancesFetched(networkId, true))
+
         return
       }
 
       yield call(delay, 1000)
     }
   } finally {
-    // canceled...
+    yield put(balances.syncCancelled())
   }
 }
 
-export function* requestBalance(task: SchedulerTask): Saga<void> {
-  switch (task.method.name) {
-    case 'getERC20Balance': {
-      const {
-        payload,
-      } = task.method
+export function* requestBalance(
+  task: SchedulerTask,
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  blockNumber: number,
+): Saga<void> {
+  const { method } = task
 
-      const balance: Bignumber = yield call(
-        getAssetBalance,
-        payload.contractAddress,
-        payload.owner
-      )
+  switch (method.name) {
+    case 'getETHBalance': {
+      const balance: Bignumber = yield call(web3.getETHBalance, ownerAddress)
 
       const balancePayload = {
-        balance: balance.toString(10),
+        value: balance.toString(10),
         isLoading: false,
       }
 
-      const networkId: NetworkId = yield select(selectCurrentNetworkId)
-
-      yield put(updateBalance(
+      yield put(balances.updateBalance(
         networkId,
-        payload.blockNumber,
-        payload.owner,
-        payload.contractAddress,
-        balancePayload
+        blockNumber,
+        ownerAddress,
+        'Ethereum',
+        balancePayload,
       ))
+
       break
     }
 
-    case 'getETHBalance': {
-      const {
-        payload,
-      } = task.method
-
-      const balance: Bignumber = yield call(
-        getETHBalance,
-        payload.owner
-      )
+    case 'getERC20Balance': {
+      const { contractAddress } = method.payload
+      const balance: Bignumber = yield call(web3.getAssetBalance, contractAddress, ownerAddress)
 
       const balancePayload = {
-        balance: balance.toString(10),
+        value: balance.toString(10),
         isLoading: false,
       }
 
-      const networkId: NetworkId = yield select(selectCurrentNetworkId)
-
-      yield put(updateBalance(
+      yield put(balances.updateBalance(
         networkId,
-        payload.blockNumber,
-        payload.owner,
-        'Ethereum',
-        balancePayload
+        blockNumber,
+        ownerAddress,
+        contractAddress,
+        balancePayload,
       ))
+
       break
     }
 
     default:
+      break
   }
+}
+
+export function* syncStart(action: ExtractReturn<typeof balances.syncStart>): Saga<void> {
+  const {
+    requestQueue,
+    processingBlock,
+    ownerAddress,
+    networkId,
+  } = action.payload
+
+  const requestBalancesTask: Task<typeof scheduleRequestsBalances> = yield fork(
+    scheduleRequestsBalances,
+    requestQueue,
+    networkId,
+    ownerAddress,
+    processingBlock.number,
+  )
+
+  yield take(balances.SYNC_STOP)
+  yield cancel(requestBalancesTask)
+}
+
+export function* balancessRootSaga(): Saga<void> {
+  yield takeEvery(balances.SYNC_START, syncStart)
 }
