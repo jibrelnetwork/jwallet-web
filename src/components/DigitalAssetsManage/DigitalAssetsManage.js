@@ -1,42 +1,52 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { handle } from 'utils/eventHandlers'
+
+import handle from 'utils/eventHandlers/handle'
+import parseBalance from 'utils/digitalAssets/parseBalance'
 
 import AssetItem from '../AssetItem'
 import Empty from './Empty'
 
 type Props = {|
-  +items: Array<DigitalAssetsGridItemType>,
-  +deleteCustomAsset: (Address) => void,
   +editAsset: (Address) => void,
+  +deleteCustomAsset: (Address) => void,
   +setAssetIsActive: (Address, boolean) => void,
+  +items: DigitalAssetWithBalance[],
 |}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
     const {
-      items,
+      editAsset,
       deleteCustomAsset,
       setAssetIsActive,
-      editAsset,
+      items,
     } = this.props
 
     return (
       <div className='digital-assets-manage'>
         {items.length === 0 && <Empty />}
-        {items.map(({ asset, balance }) => (
-          <div className='box' key={asset.address}>
+        {items.map(({
+          balance,
+          name,
+          symbol,
+          address,
+          decimals,
+          isActive,
+          isCustom,
+        }) => (
+          <div className='box' key={address}>
             <AssetItem
-              address={asset.address}
-              name={asset.name}
-              symbol={asset.symbol}
-              isCustom={asset.isCustom}
-              isActive={asset.isActive}
-              balance={balance}
-              setIsActive={(isActive: boolean) => setAssetIsActive(asset.address, isActive)}
-              deleteAssetItem={handle(deleteCustomAsset)(asset.address)}
-              editAssetItemClick={handle(editAsset)(asset.address)}
+              editAssetItemClick={handle(editAsset)(address)}
+              deleteAssetItem={handle(deleteCustomAsset)(address)}
+              setIsActive={(isActiveNew: boolean) => setAssetIsActive(address, isActiveNew)}
+              name={name}
+              symbol={symbol}
+              address={address}
+              balance={balance ? parseBalance(balance.value, decimals) : '0'}
+              isCustom={isCustom}
+              isActive={isActive}
             />
           </div>
         ))}

@@ -1,52 +1,113 @@
 // @flow
 
-import { selectCurrentNetworkId } from './networks'
-
-export function selectDigitalAssetsBalances(state: AppState): Balances {
-  const {
-    balances: {
-      persist: {
-        balances,
-      },
-    },
-  } = state
-
-  return balances
+export function selectBalances(state: AppState): BalancesState {
+  return state.balances
 }
 
-export function selectDigitalAssetsOwnerBalances(
-  state: AppState,
-  blockNumber: number,
-  ownerAddress: Address,
-): ?OwnerBalances {
-  const networkId = selectCurrentNetworkId(state)
-  const balances = selectDigitalAssetsBalances(state)
-  const block = blockNumber.toString()
+export function selectBalancesPersist(state: AppState): BalancesPersist {
+  const balances: BalancesState = selectBalances(state)
 
-  if (
-    balances &&
-    balances[networkId] &&
-    balances[networkId][block] &&
-    balances[networkId][block][ownerAddress]
-  ) {
-    return balances[networkId][block][ownerAddress]
-  } else {
+  return balances.persist
+}
+
+export function selectBalancesItems(state: AppState): BalancesItems {
+  const balancesPersist: BalancesPersist = selectBalancesPersist(state)
+
+  return balancesPersist.items
+}
+
+export function selectBalancesByNetworkId(
+  state: AppState,
+  networkId: NetworkId,
+): ?BalancesByNetworkId {
+  const balancesItems: BalancesItems = selectBalancesItems(state)
+
+  return balancesItems[networkId]
+}
+
+export function selectBalancesByBlockNumber(
+  state: AppState,
+  networkId: NetworkId,
+  blockNumber: number,
+): ?BalancesByBlockNumber {
+  const byNetworkId: ?BalancesByNetworkId = selectBalancesByNetworkId(state, networkId)
+
+  if (!byNetworkId) {
     return null
   }
+
+  return byNetworkId[blockNumber.toString()]
 }
 
-export function selectDigitalAssetBalance(
+export function selectBalancesByOwnerAddress(
   state: AppState,
+  networkId: NetworkId,
   blockNumber: number,
-  ownerAddress: Address,
-  assetAddress: Address
+  ownerAddress: OwnerAddress,
+): ?Balances {
+  const byBlockNumber: ?BalancesByBlockNumber = selectBalancesByBlockNumber(
+    state,
+    networkId,
+    blockNumber,
+  )
+
+  if (!byBlockNumber) {
+    return null
+  }
+
+  return byBlockNumber[ownerAddress]
+}
+
+export function selectBalanceByAssetAddress(
+  state: AppState,
+  networkId: NetworkId,
+  blockNumber: number,
+  ownerAddress: OwnerAddress,
+  assetAddress: AssetAddress,
 ): ?Balance {
-  const ownerBalances = selectDigitalAssetsOwnerBalances(state, blockNumber, ownerAddress)
+  const byOwnerAddress: ?Balances = selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    blockNumber,
+    ownerAddress,
+  )
 
-  if (ownerBalances && ownerBalances[assetAddress]) {
-    return ownerBalances[assetAddress]
-  } else {
+  if (!byOwnerAddress) {
     return null
   }
+
+  return byOwnerAddress[assetAddress]
 }
 
+export function selectPendingBalances(
+  state: AppState,
+  networkId: NetworkId,
+  blockNumber: number,
+  ownerAddress: OwnerAddress,
+): Balance[] {
+  const byOwnerAddress: ?Balances = selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    blockNumber,
+    ownerAddress,
+  )
+
+  if (!byOwnerAddress) {
+    return []
+  }
+
+  return Object
+    .keys(byOwnerAddress)
+    .reduce((result: Balance[], assetAddress: AssetAddress) => {
+      const balance: ?Balance = byOwnerAddress[assetAddress]
+
+      if (!(balance && balance.isLoading)) {
+        return result
+      }
+
+      return [
+        ...result,
+        balance,
+      ]
+    }, [])
+}
