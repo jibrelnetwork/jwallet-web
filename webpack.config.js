@@ -7,6 +7,8 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
+const zopfli = require('@gfx/zopfli')
 
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
@@ -327,6 +329,17 @@ module.exports = {
       analyzerMode: 'static',
       reportFilename: '../reports/bundle/index.html',
       openAnalyzer: false,
+    }),
+
+    // we pack files more than 8kb with gzip in advance
+    // to prevent nginx from converting it in run-time
+    isEnvProduction &&
+    new CompressionPlugin({
+      threshold: 8192,
+      exclude: /\.map$/,
+      algorithm(input, compressionOptions, callback) {
+        return zopfli.gzip(input, compressionOptions, callback)
+      },
     }),
 
     new CopyWebpackPlugin([

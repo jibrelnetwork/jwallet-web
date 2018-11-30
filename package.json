@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "./node_modules/.bin/env-cmd env/development npx webpack-dev-server --config ./webpack.config.js",
     "build": "./node_modules/.bin/env-cmd env/production npx webpack-cli --config ./webpack.config.js",
+    "build:clean": "npm run clear && npm run build",
     "clear": "node ./.buildscripts/clear.js",
     "storybook": "./node_modules/.bin/start-storybook -p 9001 -c .storybook",
     "storybook:build": "./node_modules/.bin/build-storybook -c .storybook -o docs/storybook",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.1.6",
+    "@gfx/zopfli": "1.0.10",
     "@storybook/react": "4.0.9",
     "autoprefixer": "7.1.2",
     "babel-core": "7.0.0-beta.3",
@@ -73,6 +75,7 @@
     "babel-preset-react-app": "6.1.0",
     "babel-runtime": "6.23.0",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
+    "compression-webpack-plugin": "2.0.0",
     "copy-webpack-plugin": "4.6.0",
     "css-loader": "1.0.1",
     "env-cmd": "8.0.2",
