@@ -106,7 +106,7 @@ export function* requestBalance(
 
   switch (method.name) {
     case 'getETHBalance': {
-      const balance: Bignumber = yield call(web3.getETHBalance, ownerAddress)
+      const balance: BigNumber = yield call(web3.getETHBalance, ownerAddress)
 
       const balancePayload = {
         value: balance.toString(10),
@@ -126,7 +126,7 @@ export function* requestBalance(
 
     case 'getERC20Balance': {
       const { contractAddress } = method.payload
-      const balance: Bignumber = yield call(web3.getAssetBalance, contractAddress, ownerAddress)
+      const balance: BigNumber = yield call(web3.getAssetBalance, contractAddress, ownerAddress)
 
       const balancePayload = {
         value: balance.toString(10),
