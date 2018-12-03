@@ -1,36 +1,41 @@
 // @flow
 
-export function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { items } = state.blocks.persist
-
-  if (items[networkId] && items[networkId].latestBlock) {
-    return items[networkId].latestBlock
-  }
-
-  return null
+export function selectBlocks(state: AppState): BlocksState {
+  return state.blocks
 }
 
-export function selectCurrentBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { items } = state.blocks.persist
+export function selectBlocksPersist(state: AppState): BlocksPersist {
+  const blocks: BlocksState = selectBlocks(state)
 
-  if (items[networkId] && items[networkId].latestBlock) {
-    return items[networkId].currentBlock
-  }
-
-  return null
+  return blocks.persist
 }
 
-export function selectCurrentBlockNumber(state: AppState, networkId: NetworkId): ?number {
-  const block = selectCurrentBlock(state, networkId)
-  return block ? block.number : null
+export function selectBlocksItems(state: AppState): BlocksByNetworkId {
+  const blocksPersist: BlocksPersist = selectBlocksPersist(state)
+
+  return blocksPersist.items
 }
 
-export function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockInfo {
-  const { items } = state.blocks.persist
+export function selectBlocksByNetworkId(state: AppState, networkId: NetworkId): ?Blocks {
+  const blocksItems: BlocksByNetworkId = selectBlocksItems(state)
 
-  if (items[networkId] && items[networkId].latestBlock) {
-    return items[networkId].processingBlock
-  }
+  return blocksItems[networkId]
+}
 
-  return null
+export function selectLatestBlock(state: AppState, networkId: NetworkId): ?BlockData {
+  const blocksByNetworkId: ?Blocks = selectBlocksByNetworkId(state, networkId)
+
+  return blocksByNetworkId ? blocksByNetworkId.latest : null
+}
+
+export function selectCurrentBlock(state: AppState, networkId: NetworkId): ?BlockData {
+  const blocksByNetworkId: ?Blocks = selectBlocksByNetworkId(state, networkId)
+
+  return blocksByNetworkId ? blocksByNetworkId.current : null
+}
+
+export function selectProcessingBlock(state: AppState, networkId: NetworkId): ?BlockData {
+  const blocksByNetworkId: ?Blocks = selectBlocksByNetworkId(state, networkId)
+
+  return blocksByNetworkId ? blocksByNetworkId.processing : null
 }

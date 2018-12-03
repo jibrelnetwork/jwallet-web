@@ -13,6 +13,7 @@ declare type EthereumAddress = 'Ethereum'
 declare type AssetAddress = Address | EthereumAddress
 declare type AssetAddresses = Array<AssetAddress>
 declare type AddressNames = { [Address]: string }
+declare type SortDirection = 'asc' | 'desc'
 
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 declare type BalanceString = string
