@@ -3,6 +3,7 @@
 export const SYNC_START = '@@transactions/SYNC_START'
 export const SYNC_STOP = '@@transactions/SYNC_STOP'
 export const SYNC_ERROR = '@@transactions/SYNC_ERROR'
+export const SYNC_CANCELLED = '@@transactions/SYNC_CANCELLED'
 
 export const SET_ITEMS = '@@transactions/SET_ITEMS'
 
@@ -14,9 +15,9 @@ export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
 export function syncStart(
   requestQueue: Channel,
   networkId: NetworkId,
-  owner: Address,
-  currentBlock: ?BlockInfo,
-  processingBlock: BlockInfo,
+  ownerAddress: OwnerAddress,
+  currentBlock: ?BlockData,
+  processingBlock: BlockData,
 ) {
   return {
     type: SYNC_START,
@@ -24,7 +25,7 @@ export function syncStart(
       requestQueue,
       currentBlock,
       processingBlock,
-      owner,
+      ownerAddress,
       networkId,
     },
   }
@@ -41,6 +42,12 @@ export function syncError(err: Error) {
     type: SYNC_ERROR,
     payload: err,
     error: true,
+  }
+}
+
+export function syncCancelled() {
+  return {
+    type: SYNC_CANCELLED,
   }
 }
 
@@ -92,6 +99,7 @@ type TransactionsAction =
   ExtractReturn<typeof syncStart> |
   ExtractReturn<typeof syncStop> |
   ExtractReturn<typeof syncError> |
+  ExtractReturn<typeof syncCancelled> |
   ExtractReturn<typeof setItems> |
   ExtractReturn<typeof setIsBlockExporerError> |
   ExtractReturn<typeof changeSearchInput> |

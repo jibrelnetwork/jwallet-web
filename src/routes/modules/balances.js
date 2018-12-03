@@ -1,13 +1,55 @@
 // @flow
 
+export const SYNC_START = '@@balances/SYNC_START'
+export const SYNC_STOP = '@@balances/SYNC_STOP'
+export const SYNC_ERROR = '@@balances/SYNC_ERROR'
+export const SYNC_CANCELLED = '@@balances/SYNC_CANCELLED'
+
 export const INIT_AT_BLOCK = '@@balances/INIT_AT_BLOCK'
 export const UPDATE_BALANCE = '@@balances/UPDATE_BALANCE'
+
+export function syncStart(
+  requestQueue: Channel,
+  networkId: NetworkId,
+  ownerAddress: Address,
+  processingBlock: BlockData,
+) {
+  return {
+    type: SYNC_START,
+    payload: {
+      requestQueue,
+      processingBlock,
+      ownerAddress,
+      networkId,
+    },
+  }
+}
+
+export function syncStop() {
+  return {
+    type: SYNC_STOP,
+  }
+}
+
+export function syncError(err: Error) {
+  return {
+    type: SYNC_ERROR,
+    payload: err,
+    error: true,
+  }
+}
+
+export function syncCancelled() {
+  return {
+    type: SYNC_CANCELLED,
+  }
+}
 
 export function initAtBlock(
   networkId: NetworkId,
   blockNumber: number,
   ownerAddress: Address,
-  initialItems: OwnerBalances,
+  initialItems: Balances,
 ) {
   return {
     type: INIT_AT_BLOCK,
@@ -39,12 +81,17 @@ export function updateBalance(
   }
 }
 
-export type BalancesAction = ExtractReturn<typeof initAtBlock> |
+export type BalancesAction =
+  ExtractReturn<typeof syncStart> |
+  ExtractReturn<typeof syncStop> |
+  ExtractReturn<typeof syncError> |
+  ExtractReturn<typeof syncCancelled> |
+  ExtractReturn<typeof initAtBlock> |
   ExtractReturn<typeof updateBalance>
 
 const initialState: BalancesState = {
   persist: {
-    balances: {},
+    items: {},
   },
 }
 
@@ -53,32 +100,25 @@ const updateBlock = (
   networkId: NetworkId,
   blockNumber: number,
   ownerAddress: Address,
-  ownerBalances: OwnerBalances,
+  ownerBalances: Balances,
 ): BalancesState => {
   const { persist } = state
-  const block = blockNumber.toString()
-
-  const blockState = persist.balances[networkId]
-    ? persist.balances[networkId][block]
-    : undefined
-
-  const ownerState = (blockState && persist.balances[networkId][block]
-    ? persist.balances[networkId][block][ownerAddress]
-    : undefined
-  )
+  const itemByNetworkId = persist.items[networkId]
+  const itemByBlockNumber = itemByNetworkId ? itemByNetworkId[blockNumber.toString()] : undefined
+  const itemByOwnerAddress = itemByBlockNumber ? itemByBlockNumber[ownerAddress] : undefined
 
   return {
     ...state,
     persist: {
       ...persist,
-      balances: {
-        ...persist.balances,
+      items: {
+        ...persist.items,
         [networkId]: {
-          ...persist.balances[networkId],
-          [block]: {
-            ...blockState,
+          ...itemByNetworkId,
+          [blockNumber.toString()]: {
+            ...itemByBlockNumber,
             [ownerAddress]: {
-              ...ownerState,
+              ...itemByOwnerAddress,
               ...ownerBalances,
             },
           },
@@ -88,10 +128,10 @@ const updateBlock = (
   }
 }
 
-const balances = (
+function balances(
   state: BalancesState = initialState,
   action: BalancesAction,
-): BalancesState => {
+): BalancesState {
   switch (action.type) {
     case INIT_AT_BLOCK: {
       const {

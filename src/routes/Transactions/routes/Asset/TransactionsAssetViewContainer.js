@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectDigitalAssetBalance } from 'store/selectors/balances'
+import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
@@ -54,23 +54,6 @@ function prepareTransactions(
   return found
 }
 
-function getAssetBalance(
-  state: AppState,
-  networkId: NetworkId,
-  ownerAddress: ?OwnerAddress,
-  assetAddress: string,
-): BalanceString {
-  const currentBlock: ?BlockInfo = selectCurrentBlock(state, networkId)
-
-  if (!(currentBlock && ownerAddress)) {
-    return '0'
-  }
-
-  const balance = selectDigitalAssetBalance(state, currentBlock.number, ownerAddress, assetAddress)
-
-  return balance ? balance.balance : '0'
-}
-
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const assetAddress: string = ownProps.params.asset
   const networkId: NetworkId = selectCurrentNetworkId(state)
@@ -78,7 +61,17 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const network: ?Network = selectNetworkById(state, networkId)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
-  const assetBalance = getAssetBalance(state, networkId, ownerAddress, assetAddress)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
+
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    currentBlockNumber,
+    ownerAddress,
+  )
+
+  const assetBalance: ?Balance = assetsBalances ? assetsBalances[assetAddress] : null
 
   const {
     searchQuery,
