@@ -6,6 +6,7 @@ import { JText } from 'components/base'
 import { SettingsGrid, SettingsCard } from 'components'
 
 import { divideThousands } from 'utils/numbers'
+import { formatBoolean, formatCurrency, formatLanguage } from './utils/formatters'
 
 type Props = {|
   ...SettingsState,
@@ -17,26 +18,6 @@ type Props = {|
 |}
 
 class SettingsIndexView extends PureComponent<Props, *> {
-  formatBoolean = (value: boolean): string => value ? 'Enabled' : 'Disabled'
-
-  formatLanguage = (langCode: string): string => {
-    const languageMap = {
-      en: 'English',
-      kr: 'Korean',
-    }
-
-    return languageMap[langCode] || 'Language not found'
-  }
-
-  formatCurrency = (curCode: string): string => {
-    const currencyCode = {
-      usd: 'US Dollar',
-      rub: 'Russian Ruble',
-    }
-
-    return currencyCode[curCode.toLowerCase()] || 'Currency not found'
-  }
-
   render() {
     const {
       localCurrencyCode,
@@ -65,7 +46,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
             <SettingsGrid>
               <SettingsCard
                 title='Local currency'
-                description={this.formatCurrency(localCurrencyCode)}
+                description={formatCurrency(localCurrencyCode)}
                 path='settings/currency'
                 iconName='local-currency'
                 iconColor='blue'
@@ -79,14 +60,14 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='System language'
-                description={this.formatLanguage(systemLanguageCode)}
+                description={formatLanguage(systemLanguageCode)}
                 path='settings/language'
                 iconName='language'
                 iconColor='blue'
               />
               <SettingsCard
                 title='PIN Code'
-                description={this.formatBoolean(isPinCode)}
+                description={formatBoolean(isPinCode)}
                 path='settings/pin-code'
                 iconName='lock-pin'
                 iconColor='blue'
@@ -100,7 +81,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='Exchange service'
-                description={this.formatBoolean(isExchangeService)}
+                description={formatBoolean(isExchangeService)}
                 path='settings/exchange'
                 iconName='exchange-service'
                 iconColor='blue'
@@ -114,14 +95,14 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='Sing a message'
-                description={this.formatBoolean(isSignMessage)}
+                description={formatBoolean(isSignMessage)}
                 path='settings/sign'
                 iconName='message'
                 iconColor='blue'
               />
               <SettingsCard
                 title='Check a signature'
-                description={this.formatBoolean(isCheckingSignature)}
+                description={formatBoolean(isCheckingSignature)}
                 path='settings/check-signature'
                 iconName='protect'
                 iconColor='blue'
