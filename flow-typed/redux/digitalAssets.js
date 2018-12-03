@@ -70,3 +70,33 @@ declare type EditAssetState = {|
 declare type DigitalAssetsManageState = {|
   +searchQuery: string,
 |}
+
+/**
+ * Send asset
+ */
+declare type DigitalAssetSendFormFields = {|
+  ownerAddress: string,
+  recepientAddress: string,
+  assetAddress: string,
+  value: string,
+  valueFiat: string,
+  priority: string,
+  comment: string,
+  nonce: string,
+|}
+
+declare type DigitalAssetSendState = {|
+  formFields: DigitalAssetSendFormFields,
+  invalidFields: DigitalAssetSendFormFields,
+|}
+
+// type TransactionPriorityType =
+//   'HIGH' |
+//   'NORMAL' |
+//   'LOW' |
+//   'CUSTOM'
+
+// type TransactionPriority = {
+//   type: TransactionPriorityType,
+//   value: string
+// }

@@ -20,5 +20,5 @@ type OwnProps = {|
 |}
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, any > */(null, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(null, mapDispatchToProps)
 )(CoreLayout)
