@@ -1,8 +1,10 @@
 // @flow
 
-type NetworkIdOptional = ?string
+declare type BlockNumber = string
+declare type BlockType = 'latest' | 'current' | 'processing'
 
-declare type BlockId = number |
+declare type BlockId =
+  number |
   Hash |
   'earliest' |
   'latest' |
@@ -14,7 +16,7 @@ declare type ETHTransaction = {
   from: Address,
   to: Address,
   gas: number,
-  gasPrice: Bignumber,
+  gasPrice: BigNumber,
   hash: Hash,
   input: Hash,
   nonce: number,
@@ -22,42 +24,26 @@ declare type ETHTransaction = {
   s: string,
   v: string,
   transactionIndex: number,
-  value: Bignumber,
+  value: BigNumber,
 }
 
-declare type ETHBlock = {
-  difficulty: Bignumber,
-  extraData: string,
-  gasLimit: number,
-  gasUsed: number,
-  hash: Hash,
-  logsBloom: string,
-  miner: Address,
-  mixHash: Hash,
-  nonce: Hash,
-  number: number,
-  parentHash: Hash,
-  receiptsRoot: Hash,
-  sha3Uncles: Hash,
-  size: number,
-  stateRoot: Hash,
-  timestamp: number,
-  totalDifficulty: Bignumber,
-  transactions: Array<Hash> | Array<ETHTransaction>,
-  transactionsRoot: Hash,
-  uncles: Array<Object>, // @TODO: flowtype it
-}
-
-declare type BlockInfo = {|
+declare type ETHBlock = {|
+  +hash: Hash,
+  +parentHash: Hash,
   +number: number,
-  +requestedAt: Date,
-  +hash: string,
-  +parentHash: string,
   +timestamp: number,
-  +isBalancesLoading?: boolean,
-  +isBalancesFetched?: boolean,
-  +isTransactionsLoading?: boolean,
-  +isTransactionsFetched?: boolean,
+|}
+
+declare type BlockData = {|
+  +number: number,
+  +timestamp: number,
+  +requestedAt: Date,
+  +hash: Hash,
+  +parentHash: Hash,
+  +isBalancesLoading: boolean,
+  +isBalancesFetched: boolean,
+  +isTransactionsLoading: boolean,
+  +isTransactionsFetched: boolean,
 |}
 
 // just leave it here
@@ -74,14 +60,20 @@ declare type BlockInfo = {|
 //   }
 // }>
 
-declare type BlocksState = {
-  +persist: {
-    +items: {
-      +[NetworkIdOptional]: {|
-        +latestBlock: ?BlockInfo,
-        +currentBlock: ?BlockInfo,
-        +processingBlock: ?BlockInfo,
-      |}
-    }
-  }
+declare type Blocks = {|
+  +latest: ?BlockData,
+  +current: ?BlockData,
+  +processing: ?BlockData,
+|}
+
+declare type BlocksByNetworkId = {
+  +[NetworkId]: ?Blocks,
 }
+
+declare type BlocksPersist = {|
+  +items: BlocksByNetworkId,
+|}
+
+declare type BlocksState = {|
+  +persist: BlocksPersist,
+|}

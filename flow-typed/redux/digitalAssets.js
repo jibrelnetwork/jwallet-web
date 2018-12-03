@@ -2,8 +2,6 @@
 
 type AssetAddress = string
 
-declare type SortDirection = 'asc' | 'desc'
-
 declare type DigitalAssetsFilterType = {|
   +sortBy: 'name' | 'balance',
   +sortByNameDirection: SortDirection,
@@ -12,6 +10,16 @@ declare type DigitalAssetsFilterType = {|
 |}
 
 declare type DigitalAsset = {|
+  +address: Address,
+  +symbol: string,
+  +name: string,
+  +decimals: Decimals,
+  +isCustom?: boolean,
+  +isActive?: boolean,
+|}
+
+declare type DigitalAssetWithBalance = {|
+  +balance: ?Balance,
   +address: Address,
   +symbol: string,
   +name: string,

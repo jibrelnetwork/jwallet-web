@@ -3,13 +3,13 @@
   "excludeGlob": [
     "node_modules/**"
   ],
-  "flowCommandPath": "./node_modules/.bin/flow",
+  "flowCommandPath": "npx flow",
   "includeGlob": [
     "./src/components/**/*.js",
     "./src/routes/**/*.js",
     "./src/services/**/*.js"
   ],
-  "outputDir": "./coverage/flow/",
+  "outputDir": "./reports/flow-coverage/",
   "projectDir": "./",
   "threshold": 90,
   "type": "html"
