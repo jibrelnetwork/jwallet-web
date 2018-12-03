@@ -34,6 +34,9 @@ import balances from 'routes/modules/balances'
 // transactions
 import transactions from 'routes/modules/transactions'
 
+// settings
+import settings from 'routes/modules/settings'
+
 const persistConfig = {
   storage,
   key: 'jwallet-web',
@@ -63,6 +66,7 @@ export function makeRootReducer() {
     balances,
     // transactions
     transactions,
+    settings,
     // router
     router,
   })

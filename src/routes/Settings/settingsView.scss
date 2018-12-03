@@ -65,9 +65,8 @@
 
     > .container {
       max-width: 1020px;
-      margin: 0 auto -20px auto;
+      margin: 0 auto $page-header-height/2 auto;
       padding-top: $page-header-height;
-      height: 100%;
     }
   }
 }
