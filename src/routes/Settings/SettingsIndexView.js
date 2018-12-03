@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 import { JText } from 'components/base'
 import { SettingsGrid, SettingsCard } from 'components'
 
-import { numbersUtils } from 'utils'
+import { divideThousands } from 'utils/numbers'
 
 type Props = {|
   ...SettingsState,
@@ -36,8 +36,6 @@ class SettingsIndexView extends PureComponent<Props, *> {
 
     return currencyCode[curCode.toLowerCase()] || 'Currency not found'
   }
-
-  formatGasPrice = (price: string): string => numbersUtils.divideThousands(price)
 
   render() {
     const {
@@ -74,7 +72,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='Default GAS Price'
-                description={this.formatGasPrice(defaultGasPrice)}
+                description={divideThousands(defaultGasPrice)}
                 path='settings/gas-price'
                 iconName='time'
                 iconColor='blue'
