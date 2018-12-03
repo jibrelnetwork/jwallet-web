@@ -6,7 +6,7 @@ import { JText } from 'components/base'
 import { SettingsGrid, SettingsCard } from 'components'
 
 import { divideThousands } from 'utils/numbers'
-import { formatBoolean, formatCurrency, formatLanguage } from './utils/formatters'
+import { formatBoolean, formatCurrency, formatLanguage } from './utils'
 
 type Props = {|
   ...SettingsState,
