@@ -33,13 +33,13 @@ function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-export function getETHBalance(address: Address): Promise<Bignumber> {
+export function getETHBalance(address: Address): Promise<BigNumber> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
     .then((value: any) => (typeof value === 'object') ? value : new BigNumber(0))
 }
 
-export function getAssetBalance(contractAddress: Address, owner: Address): Promise<Bignumber> {
+export function getAssetBalance(contractAddress: Address, owner: Address): Promise<BigNumber> {
   /**
    * Here should be check (value instanceof BigNumber)
    * but web3 uses another version of BigNumber
@@ -222,7 +222,7 @@ function prepareBlock(data: any): BlockData {
 
 /**
  * web3 block data: {
-    difficulty: Bignumber,
+    difficulty: BigNumber,
     extraData: string,
     gasLimit: number,
     gasUsed: number,
@@ -238,7 +238,7 @@ function prepareBlock(data: any): BlockData {
     size: number,
     stateRoot: Hash,
     timestamp: number,
-    totalDifficulty: Bignumber,
+    totalDifficulty: BigNumber,
     transactions: Array<Hash> | Array<ETHTransaction>,
     transactionsRoot: Hash,
     uncles: Array<Object>,
