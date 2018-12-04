@@ -21,6 +21,7 @@ declare type AppState = {
   +digitalAssetsManage: DigitalAssetsManageState,
   // send asset
   +digitalAssetsSend: DigitalAssetSendState,
+  +digitalAssetsSendConfirm: DigitalAssetSendConfirmState,
   // blocks
   +blocks: BlocksState,
   // transactions

@@ -1,30 +1,19 @@
 // @flow
 
 import DigitalAssetsSendViewContainer from './DigitalAssetsSendViewContainer'
+import DigitalAssetsSendConfirmViewContainer from './DigitalAssetsSendConfirmViewContainer'
+
+const confirm = {
+  path: 'send/confirm',
+  component: DigitalAssetsSendConfirmViewContainer,
+}
 
 const send = {
   path: 'send',
   component: DigitalAssetsSendViewContainer,
 }
 
-const sendAsset = {
-  path: 'send/:asset/',
-  component: DigitalAssetsSendViewContainer,
-}
-
-const sendAssetTo = {
-  path: 'send/:asset/:to',
-  component: DigitalAssetsSendViewContainer,
-}
-
-const repeatPayment = {
-  path: 'send/repaat/:txhash',
-  component: DigitalAssetsSendViewContainer,
-}
-
-export default {
+export default [
+  confirm,
   send,
-  sendAsset,
-  sendAssetTo,
-  repeatPayment,
-}
+]

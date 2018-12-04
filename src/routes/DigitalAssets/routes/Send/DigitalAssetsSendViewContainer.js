@@ -11,6 +11,7 @@ import {
   openView,
   closeView,
   setField,
+  sendFormSubmit,
 } from './modules/digitalAssetsSend'
 
 import DigitalAssetsSendView from './DigitalAssetsSendView'
@@ -41,6 +42,7 @@ const mapDispatchToProps = {
   openView,
   closeView,
   setField,
+  submit: sendFormSubmit,
   closeClick: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 

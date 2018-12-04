@@ -98,6 +98,11 @@ declare type DigitalAssetSendState = {|
   invalidFields: DigitalAssetSendFormFields,
 |}
 
+declare type DigitalAssetSendConfirmState = {|
+  passwordError: string,
+  isPasswordLoading: boolean,
+|}
+
 // type TransactionPriorityType =
 //   'HIGH' |
 //   'NORMAL' |

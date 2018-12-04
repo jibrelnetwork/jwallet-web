@@ -5,6 +5,7 @@ export const CLOSE_VIEW = '@@digitalAssetsSend/CLOSE_VIEW'
 
 export const SET_FIELD = '@@digitalAssetsSend/SET_FIELD'
 export const SET_INVALID_FIELD = '@@digitalAssetsSend/SET_INVALID_FIELD'
+export const SEND_FORM_SUBMIT = '@@digitalAssetsSend/SEND_FORM_SUBMIT'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
@@ -51,6 +52,12 @@ export function clearFieldError(fieldName: $Keys<DigitalAssetSendFormFields>) {
   return setFieldError(fieldName, '')
 }
 
+export function sendFormSubmit() {
+  return {
+    type: SEND_FORM_SUBMIT,
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -63,17 +70,6 @@ export type DigitalAssetSendAction =
   ExtractReturn<typeof setField> |
   ExtractReturn<typeof setFieldError> |
   ExtractReturn<typeof clean>
-
-// type TransactionPriorityType =
-//   'HIGH' |
-//   'NORMAL' |
-//   'LOW' |
-//   'CUSTOM'
-
-// type TransactionPriority = {
-//   type: TransactionPriorityType,
-//   value: string
-// }
 
 const initialState: DigitalAssetSendState = {
   formFields: {
