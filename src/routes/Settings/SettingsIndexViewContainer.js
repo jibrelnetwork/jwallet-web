@@ -2,9 +2,9 @@
 import { get } from 'lodash'
 import { connect } from 'react-redux'
 
+import { selectActiveWallet } from 'store/selectors/wallets'
+import { selectCurrentNetwork } from 'store/selectors/networks'
 import SettingsIndexView from './SettingsIndexView'
-import { selectActiveWallet } from '../../store/selectors/wallets'
-import { selectCurrentNetwork } from '../../store/selectors/networks'
 
 function mapStateToProps(state) {
   const networkName = get(selectCurrentNetwork(state), 'title', null)
@@ -22,7 +22,7 @@ function mapStateToProps(state) {
     passphrase,
   }
 
-  return { ...state.settings, ...resultProps } || {}
+  return { ...state.settings, ...resultProps }
 }
 
 export default connect(mapStateToProps)(SettingsIndexView)

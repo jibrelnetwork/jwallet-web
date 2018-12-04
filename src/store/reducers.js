@@ -35,7 +35,7 @@ import balances from 'routes/modules/balances'
 import transactions from 'routes/modules/transactions'
 
 // settings
-import settings from 'routes/modules/settings'
+import settings from 'routes/Settings/modules/settings'
 
 const persistConfig = {
   storage,
@@ -66,6 +66,7 @@ export function makeRootReducer() {
     balances,
     // transactions
     transactions,
+    // settings
     settings,
     // router
     router,

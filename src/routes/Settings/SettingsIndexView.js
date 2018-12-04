@@ -23,10 +23,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
       localCurrencyCode,
       defaultGasPrice,
       systemLanguageCode,
-      isPinCode,
-      isExchangeService,
-      isSignMessage,
-      isCheckingSignature,
+      hasPinCode,
       networkName,
       walletType,
       walletName,
@@ -67,7 +64,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='PIN Code'
-                description={formatBoolean(isPinCode)}
+                description={formatBoolean(hasPinCode)}
                 path='settings/pin-code'
                 iconName='lock-pin'
                 iconColor='blue'
@@ -81,8 +78,8 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='Exchange service'
-                description={formatBoolean(isExchangeService)}
-                path='settings/exchange'
+                description='Try Jcash'
+                path='https://jcash.network/'
                 iconName='exchange-service'
                 iconColor='blue'
               />
@@ -95,14 +92,14 @@ class SettingsIndexView extends PureComponent<Props, *> {
               />
               <SettingsCard
                 title='Sing a message'
-                description={formatBoolean(isSignMessage)}
+                description='Enable'
                 path='settings/sign'
                 iconName='message'
                 iconColor='blue'
               />
               <SettingsCard
                 title='Check a signature'
-                description={formatBoolean(isCheckingSignature)}
+                description='Enable'
                 path='settings/check-signature'
                 iconName='protect'
                 iconColor='blue'
