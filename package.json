@@ -19,6 +19,7 @@
     "lint-staged": "./node_modules/.bin/lint-staged",
     "flow": "./node_modules/.bin/flow",
     "flow-coverage": "./node_modules/.bin/flow-coverage-report",
+    "test": "npm run test:smoke",
     "test:smoke": "./node_modules/.bin/wdio wdio.conf.js --suite smoke",
     "precommit": "npm run lint-staged"
   },
