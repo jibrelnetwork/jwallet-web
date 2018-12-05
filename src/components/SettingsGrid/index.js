@@ -1,7 +1,7 @@
 // @flow
 
 import SettingsGrid from './SettingsGrid'
-import Card from './Card'
+import SettingsGridCard from './SettingsGridCard'
 
 export default SettingsGrid
-export { Card as SettingsCard }
+export { SettingsGridCard }

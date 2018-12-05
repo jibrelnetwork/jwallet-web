@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 import { JIcon, JText } from 'components/base'
 import type { JIconColor } from 'components/base/JIcon/JIcon'
 
-export type SettingsCard = {|
+type Props = {|
   +title: string,
   +description: string,
   +path: string,
@@ -14,9 +14,7 @@ export type SettingsCard = {|
   +iconColor: JIconColor,
 |}
 
-type Props = SettingsCard
-
-class Card extends PureComponent<Props, *> {
+class SettingsGridCard extends PureComponent<Props, *> {
   static defaultProps = {
     iconColor: 'blue',
   }
@@ -53,4 +51,4 @@ class Card extends PureComponent<Props, *> {
   }
 }
 
-export default Card
+export default SettingsGridCard

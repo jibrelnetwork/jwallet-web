@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 
 import { JText } from 'components/base'
-import { SettingsGrid, SettingsCard } from 'components'
+import { SettingsGrid, SettingsGridCard } from 'components'
 
 import { divideThousands } from 'utils/numbers'
 import { formatBoolean, formatCurrency, formatLanguage } from './utils'
@@ -46,99 +46,99 @@ class SettingsIndexView extends PureComponent<Props, *> {
         <main className='content'>
           <div className='container'>
             <SettingsGrid>
-              <SettingsCard
+              <SettingsGridCard
                 title='Local currency'
                 description={formatCurrency(localCurrencyCode)}
                 path='settings/currency'
                 iconName='local-currency'
                 iconColor='blue'
               />
-              <SettingsCard
+              <SettingsGridCard
                 title='Default GAS Price'
                 description={divideThousands(defaultGasPrice)}
                 path='settings/gas-price'
                 iconName='time'
                 iconColor='blue'
               />
-              <SettingsCard
+              <SettingsGridCard
                 title='System language'
                 description={formatLanguage(systemLanguageCode)}
                 path='settings/language'
                 iconName='language'
                 iconColor='blue'
               />
-              <SettingsCard
+              <SettingsGridCard
                 title='PIN Code'
                 description={formatBoolean(hasPinCode)}
                 path='settings/pin-code'
                 iconName='lock-pin'
                 iconColor='blue'
               />
-              <SettingsCard
+              <SettingsGridCard
                 title='Security password'
                 description='Change'
                 path='settings/password'
                 iconName='lock-pin'
                 iconColor='blue'
               />
-              <SettingsCard
+              <SettingsGridCard
                 title='Exchange service'
                 description='Try Jcash'
                 path='https://jcash.network/'
                 iconName='exchange-service'
                 iconColor='blue'
               />
-              <SettingsCard
+              <SettingsGridCard
                 title='Support'
                 description='Send ticket to support'
                 path='settings/support'
                 iconName='message'
                 iconColor='blue'
               />
-              {isFullMnemonic ? <SettingsCard
+              {isFullMnemonic ? <SettingsGridCard
                 title='Sing a message'
                 description='Enable'
                 path='settings/sign'
                 iconName='message'
                 iconColor='blue'
               /> : null}
-              {isFullMnemonic ? <SettingsCard
+              {isFullMnemonic ? <SettingsGridCard
                 title='Check a signature'
                 description='Enable'
                 path='settings/check-signature'
                 iconName='protect'
                 iconColor='blue'
               /> : null}
-              <SettingsCard
+              <SettingsGridCard
                 title='Backup wallet'
                 description='Save your money!'
                 path='settings/backup'
                 iconName='backup-wallet'
                 iconColor='blue'
               />
-              {isNetworkName ? <SettingsCard
+              {isNetworkName ? <SettingsGridCard
                 title='Network name'
-                description={networkName}
+                description={networkName || ' '}
                 path='settings/network'
                 iconName='network'
                 iconColor='blue'
               /> : null}
-              {isWalletName ? <SettingsCard
+              {isWalletName ? <SettingsGridCard
                 title='Rename wallet'
                 description={walletName}
                 path='settings/rename'
                 iconName='backup-wallet'
                 iconColor='blue'
               /> : null}
-              {isFullMnemonic ? <SettingsCard
+              {isFullMnemonic ? <SettingsGridCard
                 key='derivationPath'
                 title='Derivation path'
-                description={derivationPath}
+                description={derivationPath || ' '}
                 path='settings/derivation'
                 iconName='setting'
                 iconColor='blue'
               /> : null}
-              {isFullMnemonic ? <SettingsCard
+              {isFullMnemonic ? <SettingsGridCard
                 key='passphrase'
                 title='Passphrase'
                 description={passphrase || ' '}
@@ -146,7 +146,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
                 iconName='setting'
                 iconColor='blue'
               /> : null}
-              <SettingsCard
+              <SettingsGridCard
                 title='Delete wallet'
                 description='Badaaaah!'
                 path='settings/delete'

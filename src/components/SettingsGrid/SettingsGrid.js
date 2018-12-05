@@ -1,10 +1,10 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import Card from 'components/SettingsGrid/Card'
+import SettingsGridCard from 'components/SettingsGrid/SettingsGridCard'
 
 type Props = {|
-  +children: Array<?React$Element<typeof Card>>,
+  +children: Array<?React$Element<typeof SettingsGridCard>>,
 |}
 
 class SettingsGrid extends PureComponent<Props, *> {
