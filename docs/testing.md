@@ -12,6 +12,8 @@ Functional tests run via [webdriver.io](http://webdriver.io/). It connects to
 on your local machine or using [Jenkins Plugin](https://www.browserstack.com/automate/jenkins) 
 on CI server.
 
+All testing reports are stored at `./reports/browserstack`.
+
 To run the tests you need to:
 
 1. Start the server. You can use webpack development server or Docker container – 
