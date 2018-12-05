@@ -16,7 +16,7 @@ declare type ETHTransaction = {
   from: Address,
   to: Address,
   gas: number,
-  gasPrice: Bignumber,
+  gasPrice: BigNumber,
   hash: Hash,
   input: Hash,
   nonce: number,
@@ -24,7 +24,7 @@ declare type ETHTransaction = {
   s: string,
   v: string,
   transactionIndex: number,
-  value: Bignumber,
+  value: BigNumber,
 }
 
 declare type ETHBlock = {|
