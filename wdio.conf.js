@@ -6,7 +6,7 @@ if (!process.env.BROWSERSTACK_USERNAME || !process.env.BROWSERSTACK_ACCESS_KEY) 
   throw new Error('You must specify both BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY')
 }
 
-const TEST_SERVER_IP = process.env.TEST_SERVER_IP || ip.address()
+const TEST_SERVER_HOST = process.env.TEST_SERVER_HOST || ip.address()
 const TEST_SERVER_PORT = process.env.TEST_SERVER_PORT || 3000
 const REPORT_OUTPUT_DIR = './reports/browserstack'
 fs.mkdirpSync(path.resolve(REPORT_OUTPUT_DIR))
@@ -95,7 +95,7 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: `http://${TEST_SERVER_IP}:${TEST_SERVER_PORT}`,
+  baseUrl: `http://${TEST_SERVER_HOST}:${TEST_SERVER_PORT}`,
 
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,

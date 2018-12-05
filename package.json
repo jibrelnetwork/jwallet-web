@@ -21,6 +21,7 @@
     "flow-coverage": "./node_modules/.bin/flow-coverage-report",
     "test": "npm run test:smoke",
     "test:smoke": "./node_modules/.bin/wdio wdio.conf.js --suite smoke",
+    "test:functional": "./node_modules/.bin/wdio wdio.conf.js",
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
