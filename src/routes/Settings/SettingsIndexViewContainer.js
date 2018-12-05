@@ -1,28 +1,27 @@
 // @flow
-import { get } from 'lodash'
 import { connect } from 'react-redux'
 
 import { selectActiveWallet } from 'store/selectors/wallets'
-import { selectCurrentNetwork } from 'store/selectors/networks'
+import { selectCurrentNetworkName } from 'store/selectors/networks'
 import SettingsIndexView from './SettingsIndexView'
 
-function mapStateToProps(state) {
-  const networkName = get(selectCurrentNetwork(state), 'title', null)
+type Props = {|
+  ...SettingsState,
+  networkName: ?string,
+  wallet: ?Wallet,
+|}
 
-  const activeWallet = selectActiveWallet(state)
-  const walletName = get(activeWallet, 'name', null)
-  const walletType = get(activeWallet, 'customType', null)
-  const { derivationPath, passphrase } = get(activeWallet, 'mnemonicOptions', {})
+function mapStateToProps(state: AppState): ?Props {
+  const networkName = selectCurrentNetworkName(state)
+  const wallet = selectActiveWallet(state)
 
-  const resultProps = {
+  return {
+    ...state.settings,
     networkName,
-    walletName,
-    walletType,
-    derivationPath,
-    passphrase,
+    wallet,
   }
-
-  return { ...state.settings, ...resultProps }
 }
 
-export default connect(mapStateToProps)(SettingsIndexView)
+export default (
+  connect/* :: <AppState, null, Props, _, _ > */(mapStateToProps)(SettingsIndexView)
+)

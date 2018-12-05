@@ -1,22 +1,24 @@
 // @flow
 
-import React, { PureComponent, Children } from 'react'
+import React, { PureComponent } from 'react'
+import Card from 'components/SettingsGrid/Card'
 
 type Props = {|
-  +children: Array<React$Node>,
+  +children: Array<?React$Element<typeof Card>>,
 |}
 
 class SettingsGrid extends PureComponent<Props, *> {
   render() {
     const { children } = this.props
-    const { map: childrenMap } = Children
 
     return (
       <ul className='j-grid'>
-        {childrenMap(children, (card, index) => (
-          <li className='box' key={`settings-card-${index}`}>
-            {card}
-          </li>
+        {children.map(card => (
+          !card ? null : (
+            <li className='box' key={`settings-card-${card.props.path}`}>
+              {card}
+            </li>
+          )
         ))}
       </ul>
     )

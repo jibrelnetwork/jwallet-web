@@ -10,11 +10,8 @@ import { formatBoolean, formatCurrency, formatLanguage } from './utils'
 
 type Props = {|
   ...SettingsState,
-  +networkName: string,
-  +walletType: WalletType,
-  +walletName: string,
-  +derivationPath: string,
-  +passphrase: string,
+  networkName: ?string,
+  wallet: ?Wallet,
 |}
 
 class SettingsIndexView extends PureComponent<Props, *> {
@@ -25,11 +22,19 @@ class SettingsIndexView extends PureComponent<Props, *> {
       systemLanguageCode,
       hasPinCode,
       networkName,
-      walletType,
-      walletName,
-      derivationPath,
-      passphrase,
+      wallet,
     } = this.props
+
+    if (!wallet) {
+      return null
+    }
+
+    const { name: walletName, customType, isReadOnly, mnemonicOptions } = wallet
+    const isFullMnemonic = customType === 'mnemonic' && !isReadOnly
+    const derivationPath = mnemonicOptions ? mnemonicOptions.derivationPath : null
+    const passphrase = mnemonicOptions ? mnemonicOptions.derivationPath : null
+    const isNetworkName = Boolean(networkName)
+    const isWalletName = Boolean(walletName)
 
     return (
       <div className='settings-view'>
@@ -90,20 +95,20 @@ class SettingsIndexView extends PureComponent<Props, *> {
                 iconName='message'
                 iconColor='blue'
               />
-              <SettingsCard
+              {isFullMnemonic ? <SettingsCard
                 title='Sing a message'
                 description='Enable'
                 path='settings/sign'
                 iconName='message'
                 iconColor='blue'
-              />
-              <SettingsCard
+              /> : null}
+              {isFullMnemonic ? <SettingsCard
                 title='Check a signature'
                 description='Enable'
                 path='settings/check-signature'
                 iconName='protect'
                 iconColor='blue'
-              />
+              /> : null}
               <SettingsCard
                 title='Backup wallet'
                 description='Save your money!'
@@ -111,38 +116,36 @@ class SettingsIndexView extends PureComponent<Props, *> {
                 iconName='backup-wallet'
                 iconColor='blue'
               />
-              <SettingsCard
+              {isNetworkName ? <SettingsCard
                 title='Network name'
                 description={networkName}
                 path='settings/network'
                 iconName='network'
                 iconColor='blue'
-              />
-              <SettingsCard
+              /> : null}
+              {isWalletName ? <SettingsCard
                 title='Rename wallet'
                 description={walletName}
                 path='settings/rename'
                 iconName='backup-wallet'
                 iconColor='blue'
-              />
-              {walletType === 'mnemonic' && [
-                <SettingsCard
-                  key='derivationPath'
-                  title='Derivation path'
-                  description={derivationPath}
-                  path='settings/derivation'
-                  iconName='setting'
-                  iconColor='blue'
-                />,
-                <SettingsCard
-                  key='passphrase'
-                  title='Passphrase'
-                  description={passphrase || ' '}
-                  path='settings/passphrase'
-                  iconName='setting'
-                  iconColor='blue'
-                />,
-              ]}
+              /> : null}
+              {isFullMnemonic ? <SettingsCard
+                key='derivationPath'
+                title='Derivation path'
+                description={derivationPath}
+                path='settings/derivation'
+                iconName='setting'
+                iconColor='blue'
+              /> : null}
+              {isFullMnemonic ? <SettingsCard
+                key='passphrase'
+                title='Passphrase'
+                description={passphrase || ' '}
+                path='settings/passphrase'
+                iconName='setting'
+                iconColor='blue'
+              /> : null}
               <SettingsCard
                 title='Delete wallet'
                 description='Badaaaah!'
