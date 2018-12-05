@@ -327,7 +327,7 @@ module.exports = {
     isEnvProduction &&
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: '../reports/bundle/index.html',
+      reportFilename: '../reports/bundle-size/index.html',
       openAnalyzer: false,
     }),
 
