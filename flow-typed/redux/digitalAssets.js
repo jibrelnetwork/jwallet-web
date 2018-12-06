@@ -82,25 +82,29 @@ declare type DigitalAssetsManageState = {|
 /**
  * Send asset
  */
+declare type DigitalAssetSendFormStep = '1' | '2'
+
 declare type DigitalAssetSendFormFields = {|
   ownerAddress: string,
   recepientAddress: string,
   assetAddress: string,
-  value: string,
-  valueFiat: string,
+  amount: string,
+  amountFiat: string,
   priority: string,
   comment: string,
   nonce: string,
 |}
 
-declare type DigitalAssetSendState = {|
-  formFields: DigitalAssetSendFormFields,
-  invalidFields: DigitalAssetSendFormFields,
+declare type DigitalAssetSendFormInvalidFields = {|
+  ...DigitalAssetSendFormFields,
+  password: string
 |}
 
-declare type DigitalAssetSendConfirmState = {|
-  passwordError: string,
-  isPasswordLoading: boolean,
+declare type DigitalAssetSendState = {|
+  step: DigitalAssetSendFormStep,
+  formFields: DigitalAssetSendFormFields,
+  invalidFields: DigitalAssetSendFormInvalidFields,
+  isProcessing: boolean,
 |}
 
 // type TransactionPriorityType =

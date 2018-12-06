@@ -1,8 +1,10 @@
 // @flow
 
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 
 import { JRaisedButton, JInput } from 'components/base'
+
+import './passwordStep.scss'
 
 type Props = {|
   onSubmit: (password: string) => void,
@@ -10,7 +12,7 @@ type Props = {|
   errorMessage: string,
   placeholder: string,
   isLoading: boolean,
-  children: React$Node,
+  children: ?React$Node,
 |}
 
 type ComponentState = {
@@ -26,7 +28,7 @@ class PasswordStep extends Component<Props, ComponentState> {
     children: null,
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
 
     this.state = {
@@ -34,7 +36,7 @@ class PasswordStep extends Component<Props, ComponentState> {
     }
   }
 
-  onSumbit = () => {
+  onSubmit = () => {
     this.props.onSubmit(this.state.password)
   }
 
@@ -53,7 +55,7 @@ class PasswordStep extends Component<Props, ComponentState> {
 
     return (
       <div className='password-step'>
-        <Fragment>{children}</Fragment>
+        {children && <div className='wrap'>{children}</div>}
         <div className='form'>
           <JInput
             type='password'
@@ -63,7 +65,7 @@ class PasswordStep extends Component<Props, ComponentState> {
             errorMessage={errorMessage}
             placeholder={placeholder}
             color='gray'
-            isDisabled={!isLoading}
+            isDisabled={isLoading}
           />
           <div className='actions'>
             <JRaisedButton

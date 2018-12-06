@@ -5,10 +5,8 @@ import { push } from 'react-router-redux'
 import keystore from '@jibrelnetwork/jwallet-web-keystore'
 import { BigNumber } from 'bignumber.js'
 
-import {
-  selectActiveWalletAddress,
-} from 'store/selectors/wallets'
-
+import web3 from 'services/web3'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import {
   selectDigitalAsset,
   selectDigitalAssetsSend,
@@ -16,22 +14,22 @@ import {
 
 import {
   OPEN_VIEW,
-  // CLOSE_VIEW,
-  SEND_FORM_SUBMIT,
+  SUBMIT_STEP_ONE,
+  // setStep,
   setField,
   setFieldError,
   clearFieldError,
+  typeof openView as OpenView,
 } from '../modules/digitalAssetsSend'
 
-function* openView(): Saga<void> {
+/**
+ * Open/close view logic
+ */
+function* openView(action: ExtractReturn<OpenView>): Saga<void> {
   const activeAddress = yield select(selectActiveWalletAddress)
   yield put(setField('ownerAddress', activeAddress))
   yield put(setField('assetAddress', 'Ethereum'))
 }
-
-// function* closeView(): Saga<void> {
-
-// }
 
 function* checkErrors(): Saga<boolean> {
   const { invalidFields }: DigitalAssetSendState = yield select(selectDigitalAssetsSend)
@@ -57,14 +55,14 @@ function* trimFields(): Saga<void> {
   )
 }
 
-function* checkValues(): Saga<void> {
+function* validate(): Saga<void> {
   const { formFields }: DigitalAssetSendState = yield select(selectDigitalAssetsSend)
   const {
     ownerAddress,
     recepientAddress,
     assetAddress,
-    value,
-    // valueFiat,
+    amount,
+    // amountFiat,
     // priority,
     // comment,
     // nonce,
@@ -84,29 +82,67 @@ function* checkValues(): Saga<void> {
   }
 
   try {
-    const amount = new BigNumber(value)
-    if (amount.eq(0) || amount.lt(0)) {
-      yield put(setFieldError('value', 'Amount to send should be grater than 0'))
+    const amountBN = new BigNumber(amount)
+    if (amountBN.eq(0) || amountBN.lt(0)) {
+      yield put(setFieldError('amount', 'Amount to send should be grater than 0'))
     }
   } catch (error) {
-    yield put(setFieldError('value', 'Invalid amount value'))
+    yield put(setFieldError('amount', 'Invalid amount value'))
+  }
+}
+
+function getTransactionHandler(assetAddress: Address) {
+  return checkEthereumAsset(assetAddress) ? web3.sendETHTransaction : web3.sendContractTransaction
+}
+
+function* getTransactionData(data: SendFundsData) {
+  const { assetAddress, amount, recipient, gas, gasPrice, nonce, password }: SendFundsData = data
+  const walletId: WalletId = yield select(selectWalletId)
+  const items: DigitalAssets = yield select(selectDigitalAssetsItems)
+  const decimals: Decimals = getAssetDecimals(assetAddress, items)
+
+  const txData: TXData = {
+    to: recipient,
+    value: getTransactionValue(amount, decimals),
+    privateKey: keystore.getPrivateKey(password, walletId).replace('0x', ''),
   }
 
-  return yield* checkErrors()
+  /* eslint-disable fp/no-mutation */
+  if (!checkEthereumAsset(assetAddress)) {
+    txData.contractAddress = assetAddress
+  }
+
+  if (gasPrice) {
+    txData.gasPrice = toBigNumber(gasPrice)
+  }
+
+  if (gas) {
+    txData.gasLimit = toBigNumber(gas)
+  }
+
+  if (nonce) {
+    txData.nonce = toBigNumber(nonce)
+  }
+  /* eslint-enable fp/no-mutation */
+
+  return txData
 }
 
 function* sendFormSubmit(): Saga<void> {
   yield* trimFields()
   yield* clearErrors()
-  yield* checkValues()
+  yield* validate()
 
   if (!(yield* checkErrors())) {
     yield put(push('/digital-assets/send/confirm'))
   }
 }
 
+function* passwordSubmit(): Saga<void> {
+
+}
+
 export function* digitalAssetsSendRootSaga(): Saga<void> {
   yield takeEvery(OPEN_VIEW, openView)
-  // yield takeEvery(CLOSE_VIEW, closeView)
-  yield takeEvery(SEND_FORM_SUBMIT, sendFormSubmit)
+  yield takeEvery(, sendFormSubmit)
 }

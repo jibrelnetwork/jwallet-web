@@ -3,16 +3,14 @@
 import React from 'react'
 
 import {
-  CloseableScreen,
   PasswordStep,
+  CloseableScreen,
+  DigitalAssetSendConfirm,
 } from 'components'
-
-import { JText } from 'components/base'
-import JCard from '../../../../components/base/JCard/JCard'
 
 type Props = {|
   openView: () => void,
-  closeView: () => void,
+  // closeView: () => void,
   closeClick: () => void,
   passwordSubmit: (password: string) => void,
   passwordError: string,
@@ -29,7 +27,7 @@ type Props = {|
 
 const DigitalAssetsSendConfirmView = ({
   openView,
-  closeView,
+  // closeView,
   closeClick,
   passwordSubmit,
   passwordError,
@@ -46,11 +44,10 @@ const DigitalAssetsSendConfirmView = ({
   <CloseableScreen
     title='Send digital asset'
     open={openView}
-    close={closeView}
     closeClick={closeClick}
   >
-    <div className='digital-asset-send-view'>
-      <div className='form'>
+    <div className='digital-assets-send-view'>
+      <div className='wrap'>
         <PasswordStep
           onSubmit={passwordSubmit}
           submitLabel='Send asset'
@@ -58,17 +55,15 @@ const DigitalAssetsSendConfirmView = ({
           placeholder='Security password'
           isLoading={isLoading}
         >
-          <JCard>
-            <div className='digital-assets-send-confirm'>
-              <JText value={`${amount} ${amountCurrency}`} />
-              <JText value={`Fee - ${feeETH}ETH`} />
-              { /** spacer */ }
-              <JText value={`From ${fromName}`} />
-              <JText value={`${fromAddress}`} />
-              <JText value={`To ${toName}`} />
-              <JText value={`${toAddress}`} />
-            </div>
-          </JCard>
+          <DigitalAssetSendConfirm
+            amount={amount}
+            amountCurrency={amountCurrency}
+            feeETH={feeETH}
+            fromName={fromName}
+            fromAddress={fromAddress}
+            toName={toName}
+            toAddress={toAddress}
+          />
         </PasswordStep>
       </div>
     </div>

@@ -5,9 +5,17 @@ export const CLOSE_VIEW = '@@digitalAssetsSend/CLOSE_VIEW'
 
 export const SET_FIELD = '@@digitalAssetsSend/SET_FIELD'
 export const SET_INVALID_FIELD = '@@digitalAssetsSend/SET_INVALID_FIELD'
-export const SEND_FORM_SUBMIT = '@@digitalAssetsSend/SEND_FORM_SUBMIT'
+export const SUBMIT_SEND_FORM = '@@digitalAssetsSend/SUBMIT_SEND_FORM'
+
+export const SET_IS_PROCESSING = '@@digitalAssetsSendConfirm/SET_IS_PROCESSING'
+export const SUBMIT_PASSWORD_FORM = '@@digitalAssetsSend/SUBMIT_PASSWORD_FORM'
+
+export const SET_STEP = '@@digitalAssetsSend/SET_STEP'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
+
+export const STEP_ONE = '1'
+export const STEP_TWO = '2'
 
 export type OpenViewParams = {|
   +to?: string,
@@ -15,10 +23,13 @@ export type OpenViewParams = {|
   +txhash?: string,
 |}
 
-export function openView(params: OpenViewParams) {
+export function openView(step: DigitalAssetSendFormStep, params?: OpenViewParams) {
   return {
     type: OPEN_VIEW,
-    payload: params,
+    payload: {
+      step,
+      params,
+    },
   }
 }
 
@@ -27,6 +38,19 @@ export function closeView() {
     type: CLOSE_VIEW,
   }
 }
+
+export function setStep(step: DigitalAssetSendFormStep) {
+  return {
+    type: SET_STEP,
+    payload: {
+      step,
+    },
+  }
+}
+
+/**
+ * STEP ONE
+ */
 
 export function setField(fieldName: $Keys<DigitalAssetSendFormFields>, value: string) {
   return {
@@ -52,9 +76,28 @@ export function clearFieldError(fieldName: $Keys<DigitalAssetSendFormFields>) {
   return setFieldError(fieldName, '')
 }
 
-export function sendFormSubmit() {
+export function submitSendForm() {
   return {
-    type: SEND_FORM_SUBMIT,
+    type: SUBMIT_SEND_FORM,
+  }
+}
+
+/**
+ * STEP TWO
+ */
+
+export function setIsProcessing(isProcessing: boolean) {
+  return {
+    type: SET_IS_PROCESSING,
+    payload: {
+      isProcessing,
+    },
+  }
+}
+
+export function submitPasswordForm() {
+  return {
+    type: SUBMIT_PASSWORD_FORM,
   }
 }
 
@@ -67,8 +110,12 @@ export function clean() {
 export type DigitalAssetSendAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
+  ExtractReturn<typeof setStep> |
   ExtractReturn<typeof setField> |
   ExtractReturn<typeof setFieldError> |
+  ExtractReturn<typeof submitSendForm> |
+  ExtractReturn<typeof setIsProcessing> |
+  ExtractReturn<typeof submitPasswordForm> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetSendState = {
@@ -76,8 +123,8 @@ const initialState: DigitalAssetSendState = {
     ownerAddress: '',
     recepientAddress: '',
     assetAddress: '',
-    value: '',
-    valueFiat: '',
+    amount: '',
+    amountFiat: '',
     priority: '',
     comment: '',
     nonce: '',
@@ -86,12 +133,15 @@ const initialState: DigitalAssetSendState = {
     ownerAddress: '',
     recepientAddress: '',
     assetAddress: '',
-    value: '',
-    valueFiat: '',
+    amount: '',
+    amountFiat: '',
     priority: '',
     comment: '',
     nonce: '',
+    password: '',
   },
+  step: STEP_ONE,
+  isProcessing: false,
 }
 
 function digitalAssetsSend(
@@ -127,10 +177,29 @@ function digitalAssetsSend(
       }
     }
 
+    case SET_STEP: {
+      const { step } = action.payload
+
+      return {
+        ...state,
+        step,
+      }
+    }
+
+    case SET_IS_PROCESSING: {
+      const { isProcessing } = action.payload
+
+      return {
+        ...state,
+        isProcessing,
+      }
+    }
+
     case CLEAN:
       return initialState
 
-    default: return state
+    default:
+      return state
   }
 }
 

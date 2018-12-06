@@ -34,6 +34,7 @@ import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
+import DigitalAssetSendConfirm from './DigitalAssetSendConfirm'
 
 export {
   QRCode,
@@ -70,4 +71,5 @@ export {
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,
+  DigitalAssetSendConfirm,
 }

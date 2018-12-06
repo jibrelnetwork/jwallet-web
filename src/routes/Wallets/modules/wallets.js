@@ -48,8 +48,8 @@ export const SET_IS_LOADING: '@@wallets/SET_IS_LOADING' = '@@wallets/SET_IS_LOAD
 export const SET_INVALID_FIELD: '@@wallets/SET_INVALID_FIELD' = '@@wallets/SET_INVALID_FIELD'
 
 export const PRIVATE_KEY_REQUEST: '@@wallets/PRIVATE_KEY_REQUEST' = '@@wallets/PRIVATE_KEY_REQUEST'
-export const PRIVATE_KEY_SUCCESS: '@@wallets/PRIVATE_KEY_REQUEST' = '@@wallets/PRIVATE_KEY_SUCCESS'
-export const PRIVATE_KEY_ERROR: '@@wallets/PRIVATE_KEY_REQUEST' = '@@wallets/PRIVATE_KEY_ERROR'
+export const PRIVATE_KEY_SUCCESS: '@@wallets/PRIVATE_KEY_SUCCESS' = '@@wallets/PRIVATE_KEY_SUCCESS'
+export const PRIVATE_KEY_ERROR: '@@wallets/PRIVATE_KEY_ERROR' = '@@wallets/PRIVATE_KEY_ERROR'
 
 export const CLEAN: '@@wallets/CLEAN' = '@@wallets/CLEAN'
 /* eslint-enable max-len */
