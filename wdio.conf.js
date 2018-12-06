@@ -27,13 +27,37 @@ exports.config = {
     ],
   },
 
-  maxInstances: 1,
+  maxInstances: 4,
   capabilities: [
-    // {
-    //   device: 'iPad 6th',
-    //   real_mobile: true,
-    //   browserName: 'Mobile Safari',
-    // },
+    {
+      device: 'Samsung Galaxy Tab S3',
+      real_mobile: true,
+      os_version: '7.0',
+      browserName: 'Chrome',
+    },
+    {
+      device: 'Samsung Galaxy Tab S3',
+      real_mobile: true,
+      os_version: '7.0',
+      browserName: 'Firefox',
+    },
+    {
+      device: 'Samsung Galaxy Tab S3',
+      real_mobile: true,
+      os_version: '7.0',
+      browserName: 'Samsung',
+    },
+    {
+      device: 'Samsung Galaxy Tab S3',
+      real_mobile: true,
+      os_version: '7.0',
+      browserName: 'UC Browser',
+    },
+    {
+      device: 'iPad 6th',
+      real_mobile: true,
+      browserName: 'Mobile Safari',
+    },
     {
       os: 'OS X',
       os_version: 'Mojave',
