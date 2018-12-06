@@ -17,10 +17,6 @@ declare type TransactionFromBlockExplorer = {|
   +contractAddress: string,
 |}
 
-declare type RefetchBlockNumbers = {
-  [AssetAddress]: ?number[],
-}
-
 /**
  * status of transaction
  * 0 - fail
