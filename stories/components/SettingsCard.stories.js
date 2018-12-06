@@ -53,6 +53,15 @@ storiesOf('SettingsCard')
         </div>
         <div className='box'>
           <SettingsCard
+            title='Google'
+            description='Global search engine'
+            path='https://google.com'
+            iconName='search'
+            iconColor='gray'
+          />
+        </div>
+        <div className='box'>
+          <SettingsCard
             title='World'
             description='LonglonglongdescriptionLonglonglongdescription'
             path='hello'

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 
 import { Link } from 'react-router'
 import { JIcon, JText } from 'components/base'
@@ -14,38 +14,56 @@ type Props = {|
   +iconColor: JIconColor,
 |}
 
+const isExternalURL = (url: string): boolean => /^https?:\/\//.test(url)
+
 class SettingsGridCard extends PureComponent<Props, *> {
   static defaultProps = {
     iconColor: 'blue',
   }
 
-  render() {
+  renderContent = () => {
     const {
-      iconName,
-      iconColor,
-      path,
       title,
       description,
+      iconColor,
+      iconName,
     } = this.props
 
     return (
-      <Link to={path} className='settings-card'>
-        {iconName &&
-        <div className='icon'>
+      <Fragment>
+        <div key='icon' className='icon'>
           <JIcon
             color={iconColor}
             name={iconName}
           />
-        </div>}
-        <div className='summary'>
+        </div>
+        <div key='summary' className='summary'>
           <div className='title'>
             <JText value={title} color='dark' size='header' />
           </div>
-          {description &&
+          { description &&
           <div className='description'>
             <JText value={description} color='dusk' />
-          </div>}
+          </div> }
         </div>
+      </Fragment>
+    )
+  }
+
+  render() {
+    const { path } = this.props
+
+    if (isExternalURL(path)) {
+      return (
+        <a href={path} className='settings-card' rel='noreferrer noopener' target='_blank'>
+          { this.renderContent() }
+        </a>
+      )
+    }
+
+    return (
+      <Link to={path} className='settings-card'>
+        { this.renderContent() }
       </Link>
     )
   }
