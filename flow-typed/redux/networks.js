@@ -1,12 +1,23 @@
 // @flow
 
-declare type NetworkId = string
+declare type NetworkId =
+  '*' | // private
+  '1' | // main
+  '3' | // ropsten
+  '4' | // rinkeby
+  '42' // kovan
+
+declare type BlockExplorerAPISubdomain =
+  'api' |
+  'ropsten' |
+  'rinkeby' |
+  'kovan'
 
 declare type Network = {|
   +title: string,
   +rpcaddr: string,
   +rpcport: number,
-  +blockExplorerSubdomain: string,
+  +blockExplorerSubdomain: BlockExplorerAPISubdomain,
   +ssl: boolean,
   +isCustom: boolean,
 |}
