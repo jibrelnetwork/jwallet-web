@@ -1,42 +1,47 @@
 // @flow
 
-declare type SchedulerModule = 'balances' | 'transactions'
-
-declare type GetETHBalanceMethod = {|
+type GetETHBalanceMethod = {|
   +name: 'getETHBalance',
 |}
 
-declare type GetERC20BalanceMethod = {|
+type GetERC20BalanceMethod = {|
   +name: 'getERC20Balance',
   +payload: {|
     +contractAddress: AssetAddress,
   |}
 |}
 
-declare type GetBalanceMethod = GetETHBalanceMethod | GetERC20BalanceMethod
+type GetBalanceMethod = GetETHBalanceMethod | GetERC20BalanceMethod
 
-declare type GetTransactionsName =
+type GetTransactionsName =
   'getETHTransactions' |
   'getERC20Transactions' |
   'getJNTTransactions'
 
-declare type GetTransactionsPayload = {|
+type GetTransactionsPayload = {|
   +assetAddress: AssetAddress,
   +toBlock: number,
   +decimals: number,
   +fromBlock: number,
 |}
 
-declare type GetTransactionsMethod = {|
+type GetTransactionsMethod = {|
   +name: GetTransactionsName,
   +payload: GetTransactionsPayload,
 |}
 
-type SchedulerMethod = GetBalanceMethod | GetTransactionsMethod
-
-declare type SchedulerTask = {|
-  +module: SchedulerModule,
-  +method: SchedulerMethod,
+type SchedulerBalanceTask = {|
+  +module: 'balances',
+  +method: GetBalanceMethod,
   +priority?: number,
   +retryCount?: number,
 |}
+
+type SchedulerTransactionsTask = {|
+  +module: 'transactions',
+  +method: GetTransactionsMethod,
+  +priority?: number,
+  +retryCount?: number,
+|}
+
+declare type SchedulerTask = SchedulerBalanceTask | SchedulerTransactionsTask
