@@ -32,7 +32,7 @@ class SettingsIndexView extends PureComponent<Props, *> {
     const { name: walletName, customType, isReadOnly, mnemonicOptions } = wallet
     const isFullMnemonic = customType === 'mnemonic' && !isReadOnly
     const derivationPath = mnemonicOptions ? mnemonicOptions.derivationPath : null
-    const passphrase = mnemonicOptions ? mnemonicOptions.derivationPath : null
+    const passphrase = mnemonicOptions ? mnemonicOptions.passphrase : null
     const isNetworkName = Boolean(networkName)
     const isWalletName = Boolean(walletName)
 
