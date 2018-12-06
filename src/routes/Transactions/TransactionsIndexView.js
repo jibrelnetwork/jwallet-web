@@ -21,7 +21,7 @@ type Props = {|
   +ownerAddress: ?OwnerAddress,
   +network: ?Network,
   +searchQuery: string,
-  +isSyncing: boolean,
+  +isLoading: boolean,
   +isOnlyPending: boolean,
 |}
 
@@ -38,7 +38,7 @@ function TransactionsIndexView({
   network,
   searchQuery,
   ownerAddress,
-  isSyncing,
+  isLoading,
   isOnlyPending,
 }: Props) {
   if (!(ownerAddress && network)) {
@@ -77,7 +77,7 @@ function TransactionsIndexView({
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
-            isSyncing={isSyncing}
+            isLoading={isLoading}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>
