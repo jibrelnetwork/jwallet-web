@@ -71,18 +71,18 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
 
 function* currentBlockSync(networkId: NetworkId): Saga<void> {
   while (true) {
-    yield call(delay, config.currentBlockSyncTimeout)
-
     const latestBlock: ?BlockData = yield select(selectLatestBlock, networkId)
     const currentBlock: ?BlockData = yield select(selectCurrentBlock, networkId)
     const processingBlock: ?BlockData = yield select(selectProcessingBlock, networkId)
 
     if (!latestBlock) {
+      yield call(delay, config.currentBlockSyncTimeout)
       continue
     }
 
     if (!processingBlock) {
       yield put(blocks.setProcessingBlock(networkId, latestBlock))
+      yield call(delay, config.currentBlockSyncTimeout)
       continue
     }
 
@@ -108,6 +108,8 @@ function* currentBlockSync(networkId: NetworkId): Saga<void> {
         yield put(blocks.setProcessingBlock(networkId, latestBlock))
       }
     }
+
+    yield call(delay, config.currentBlockSyncTimeout)
   }
 }
 
@@ -156,7 +158,7 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
       const requestQueue: Channel = yield channel(buffer)
 
       const processQueueTasks: Array<Task<typeof processQueue>> = yield all(Array
-        .from({ length: 5 })
+        .from({ length: config.requestQueueWorkersCount })
         .map(() => fork(
           processQueue,
           requestQueue,
@@ -173,12 +175,12 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
         processingBlock,
       ))
 
-      yield put(transactions.syncStart(
+      yield put(transactions.fetchByOwnerRequest(
         requestQueue,
         networkId,
         ownerAddress,
-        currentBlock,
-        processingBlock,
+        currentBlock ? currentBlock.number : 0,
+        processingBlock.number,
       ))
 
       // wait current block change
@@ -187,14 +189,12 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
       yield all(processQueueTasks.map(task => cancel(task)))
 
       yield put(balances.syncStop())
-      yield put(transactions.syncStop())
 
       requestQueue.close()
     }
   } finally {
     if (yield cancelled()) {
       yield put(balances.syncStop())
-      yield put(transactions.syncStop())
     }
   }
 }
