@@ -8,7 +8,7 @@ TBD
 
 Functional tests run via [webdriver.io](http://webdriver.io/). It connects to 
 [BrowserStack](https://www.browserstack.com/) instance using 
-[BrowserStackLocal Application](https://www.browserstack.com/local-testing) 
+[BrowserStackLocal NodeJS Package](https://www.npmjs.com/package/browserstack-local) 
 on your local machine or using [Jenkins Plugin](https://www.browserstack.com/automate/jenkins) 
 on CI server.
 
@@ -19,15 +19,13 @@ To run the tests you need to:
 1. Start the server. You can use webpack development server or Docker container – 
 whatever fits your needs the most
 
-2. Start BrowserStack connector for local testing
-
-3. Specify environment variables:
+2. Specify environment variables:
     ```
     BROWSERSTACK_USERNAME=username
     BROWSERSTACK_ACCESS_KEY=secretkey
     ```
 
-4. Start the testing with `npm run test:functional`
+3. Start the testing with `npm run test:functional`
 
 You can also specify additional variables:
 ```
