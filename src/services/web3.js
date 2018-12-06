@@ -190,7 +190,7 @@ function getBlockOld(item: { blockHash: Hash }) {
 
 function prepareBlock(data: any): BlockData {
   if (!(
-    data &&
+    !type.isVoid(data) &&
     type.isObject(data) &&
     type.isString(data.hash) &&
     type.isString(data.parentHash) &&
