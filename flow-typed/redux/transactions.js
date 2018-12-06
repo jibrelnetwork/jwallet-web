@@ -17,6 +17,10 @@ declare type TransactionFromBlockExplorer = {|
   +contractAddress: string,
 |}
 
+declare type RefetchBlockNumbers = {
+  [AssetAddress]: ?number[],
+}
+
 /**
  * status of transaction
  * 0 - fail
@@ -33,7 +37,7 @@ declare type TransactionStatus = 0 | 1
 declare type TransactionEventType = 0 | 1 | 2
 
 declare type TransactionData = {|
-  +gasPrice: number,
+  +gasPrice: string,
 |}
 
 declare type TransactionBlockData = {|
@@ -41,7 +45,7 @@ declare type TransactionBlockData = {|
 |}
 
 declare type TransactionReceiptData = {|
-  +gasUsed: number,
+  +gasUsed: string,
   +status: TransactionStatus,
 |}
 
@@ -50,11 +54,11 @@ declare type Transaction = {|
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
   +hash: Hash,
-  +to: Address,
-  +from: Address,
+  +amount: string,
   +blockHash: ?Hash,
-  +contractAddress: ?Address,
-  +amount: number,
+  +to: ?OwnerAddress,
+  +from: OwnerAddress,
+  +contractAddress: ?OwnerAddress,
   +createdAt: number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,
@@ -66,12 +70,12 @@ declare type TransactionWithAssetAddress = {|
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
   +hash: Hash,
-  +to: Address,
-  +from: Address,
+  +amount: string,
   +blockHash: ?Hash,
-  +contractAddress: ?Address,
+  +to: ?OwnerAddress,
+  +from: OwnerAddress,
+  +contractAddress: ?OwnerAddress,
   +assetAddress: AssetAddress,
-  +amount: number,
   +createdAt: number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,
@@ -82,8 +86,17 @@ declare type Transactions = {
   [Hash]: ?Transaction,
 }
 
+declare type TransactionsByBlockNumber = {|
+  +items?: Transactions,
+  +isError?: boolean,
+|}
+
+declare type TransactionsByAssetAddress = {
+  [BlockNumber]: ?TransactionsByBlockNumber,
+}
+
 declare type TransactionsByOwner = {
-  [AssetAddress]: ?Transactions,
+  [AssetAddress]: ?TransactionsByAssetAddress,
 }
 
 declare type TransactionsByNetworkId = {
@@ -103,5 +116,5 @@ declare type TransactionsState = {|
   +searchQuery: string,
   +isSyncing: boolean,
   +isOnlyPending: boolean,
-  +isBlockExplorerError: boolean,
+  +isConnectionError: boolean,
 |}
