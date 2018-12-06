@@ -12,8 +12,8 @@ type Props = {|
   +data: TransactionWithAssetAddress,
   +asset: ?DigitalAsset,
   +blockExplorerSubdomain: string,
+  +isSent: boolean,
   +isActive: boolean,
-  +isReceived: boolean,
   +isAssetList: boolean,
 |}
 
@@ -22,8 +22,8 @@ function TransactionItem({
   data,
   asset,
   blockExplorerSubdomain,
+  isSent,
   isActive,
-  isReceived,
   isAssetList,
 }: Props) {
   if (!asset) {
@@ -44,8 +44,8 @@ function TransactionItem({
           assetSymbol={symbol}
           blockExplorerSubdomain={blockExplorerSubdomain}
           assetDecimals={decimals}
+          isSent={isSent}
           isActive={isActive}
-          isReceived={isReceived}
           isAssetList={isAssetList}
         />
         <TransactionItemDetails

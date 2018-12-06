@@ -13,7 +13,8 @@ type Props = {|
   +assetAddress: ?string,
   +blockExplorerSubdomain: string,
   +ownerAddress: OwnerAddress,
-  +isSyncing: boolean,
+  +isLoading: boolean,
+  +isFiltered: boolean,
 |}
 
 type ComponentState = {
@@ -51,10 +52,13 @@ class TransactionsList extends Component<Props, ComponentState> {
       assetAddress,
       ownerAddress,
       blockExplorerSubdomain,
-      isSyncing,
+      isLoading,
+      isFiltered,
     }: Props = this.props
 
-    if (!items.length) {
+    console.log(isFiltered)
+
+    if (!(isLoading || items.length)) {
       return (
         <div className='transactions-list -empty'>
           <TransactionsListEmpty />
@@ -75,10 +79,10 @@ class TransactionsList extends Component<Props, ComponentState> {
             blockExplorerSubdomain={blockExplorerSubdomain}
             isAssetList={!!assetAddress}
             isActive={activeItems.includes(item.hash)}
-            isReceived={ownerAddress.toLowerCase() === item.to.toLowerCase()}
+            isSent={ownerAddress.toLowerCase() === item.from.toLowerCase()}
           />
         ))}
-        {isSyncing && (
+        {isLoading && (
           <div className='loader'>
             <JLoader color='gray' />
           </div>
