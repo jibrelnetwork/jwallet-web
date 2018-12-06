@@ -114,7 +114,6 @@ declare type TransactionsPersist = {|
 declare type TransactionsState = {|
   +persist: TransactionsPersist,
   +searchQuery: string,
-  +isSyncing: boolean,
   +isOnlyPending: boolean,
   +isConnectionError: boolean,
 |}
