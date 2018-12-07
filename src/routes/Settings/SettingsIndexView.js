@@ -3,7 +3,8 @@
 import React, { PureComponent } from 'react'
 
 import { JText } from 'components/base'
-import { SettingsGrid, SettingsGridCard } from 'components'
+import { SettingsGrid } from 'components'
+import SettingsGridCard from 'components/SettingsGrid/SettingsGridCard'
 
 import { divideThousands } from 'utils/numbers'
 import { formatBoolean, formatCurrency, formatLanguage } from './utils'

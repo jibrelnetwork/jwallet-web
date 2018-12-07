@@ -14,7 +14,7 @@ import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
-import SettingsGrid, { SettingsGridCard } from './SettingsGrid'
+import SettingsGrid from './SettingsGrid'
 import CopyableField from './CopyableField'
 import PasswordField from './PasswordField'
 import WalletLoading from './WalletLoading'
@@ -65,7 +65,6 @@ export {
   RoundIconButton,
   TransactionItem,
   WalletViewTitle,
-  SettingsGridCard,
   NewWalletButtons,
   TransactionsList,
   DigitalAssetsGrid,

@@ -31,30 +31,6 @@
       align-items: center;
       justify-content: space-between;
       height: $page-header-height;
-
-      > .actions {
-        @include box;
-        @include flex-row;
-
-        align-items: center;
-
-        > .search,
-        > .filter {
-          margin-right: 45px;
-        }
-
-        > .setting {
-          @include hover-animation;
-
-          transform: translateY(4px);
-          opacity: 0.5;
-          cursor: pointer;
-
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
     }
   }
 

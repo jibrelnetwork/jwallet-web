@@ -5,13 +5,7 @@ import { selectActiveWallet } from 'store/selectors/wallets'
 import { selectCurrentNetworkName } from 'store/selectors/networks'
 import SettingsIndexView from './SettingsIndexView'
 
-type Props = {|
-  ...SettingsState,
-  networkName: ?string,
-  wallet: ?Wallet,
-|}
-
-function mapStateToProps(state: AppState): ?Props {
+function mapStateToProps(state: AppState) {
   const networkName = selectCurrentNetworkName(state)
   const wallet = selectActiveWallet(state)
 
@@ -23,5 +17,5 @@ function mapStateToProps(state: AppState): ?Props {
 }
 
 export default (
-  connect/* :: <AppState, null, Props, _, _ > */(mapStateToProps)(SettingsIndexView)
+  connect/* :: <AppState, null, OwnPropsEmpty, _, _ > */(mapStateToProps)(SettingsIndexView)
 )

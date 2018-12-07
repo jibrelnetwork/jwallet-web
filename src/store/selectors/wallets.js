@@ -44,7 +44,7 @@ export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddres
 
 export function selectActiveWallet(state: AppState): ?Wallet {
   const activeWalletId = selectActiveWalletId(state)
-  return selectWalletsItems(state).filter(wallet => wallet.id === activeWalletId)[0]
+  return selectWalletsItems(state).find(wallet => wallet.id === activeWalletId)
 }
 
 export function selectActiveWalletAddress(state: AppState): ?Address {

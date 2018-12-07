@@ -3,7 +3,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { SettingsGridCard as SettingsCard } from 'components/SettingsGrid'
+import SettingsCard from 'components/SettingsGrid/SettingsGridCard'
 
 storiesOf('SettingsCard')
   .add('Default', () => (

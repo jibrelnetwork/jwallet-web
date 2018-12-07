@@ -31,20 +31,20 @@ class SettingsGridCard extends PureComponent<Props, *> {
 
     return (
       <Fragment>
-        <div key='icon' className='icon'>
+        <div className='icon'>
           <JIcon
             color={iconColor}
             name={iconName}
           />
         </div>
-        <div key='summary' className='summary'>
+        <div className='summary'>
           <div className='title'>
             <JText value={title} color='dark' size='header' />
           </div>
-          { description &&
+          {description &&
           <div className='description'>
             <JText value={description} color='dusk' />
-          </div> }
+          </div>}
         </div>
       </Fragment>
     )
@@ -56,14 +56,14 @@ class SettingsGridCard extends PureComponent<Props, *> {
     if (isExternalURL(path)) {
       return (
         <a href={path} className='settings-card' rel='noreferrer noopener' target='_blank'>
-          { this.renderContent() }
+          {this.renderContent()}
         </a>
       )
     }
 
     return (
       <Link to={path} className='settings-card'>
-        { this.renderContent() }
+        {this.renderContent()}
       </Link>
     )
   }
