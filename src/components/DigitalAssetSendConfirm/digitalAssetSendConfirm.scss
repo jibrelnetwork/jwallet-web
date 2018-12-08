@@ -1,15 +1,9 @@
 
+@import './Card/digitalAssetsSendConfirmCard';
+@import './PasswordForm/digitalAssetsSendPasswordForm';
+
 .digital-asset-send-confirm {
-  > .amount {
-
-  }
-
-  > .fee {
-
-  }
-
-  > .from,
-  > .to {
-
+  > .card {
+    margin-bottom: 10px;
   }
 }

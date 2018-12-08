@@ -569,6 +569,7 @@ export default {
   removeWallet,
   initPassword,
   testPassword,
+  getPrivateKey,
   checkPassword,
   getBackupData,
   checkWalletUniqueness,

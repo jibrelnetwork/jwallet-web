@@ -34,6 +34,7 @@ import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
+import DigitalAssetSendForm from './DigitalAssetSendForm'
 import DigitalAssetSendConfirm from './DigitalAssetSendConfirm'
 
 export {
@@ -71,5 +72,6 @@ export {
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,
+  DigitalAssetSendForm,
   DigitalAssetSendConfirm,
 }

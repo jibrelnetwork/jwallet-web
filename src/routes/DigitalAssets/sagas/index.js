@@ -20,15 +20,10 @@ import {
   digitalAssetsSendRootSaga,
 } from '../routes/Send/sagas/digitalAssetsSend'
 
-import {
-  digitalAssetsSendConfirmRootSaga,
-} from '../routes/Send/sagas/digitalAssetsSendConfirm'
-
 export default {
   addAssetRootSaga,
   editAssetRootSaga,
   digitalAssetsRootSaga,
   digitalAssetsGridRootSaga,
   digitalAssetsSendRootSaga,
-  digitalAssetsSendConfirmRootSaga,
 }

@@ -8,7 +8,7 @@
   height: 100%;
   padding: 50px;
 
-  > .form {
+  > .wrap {
     @include flex-column;
 
     justify-content: center;

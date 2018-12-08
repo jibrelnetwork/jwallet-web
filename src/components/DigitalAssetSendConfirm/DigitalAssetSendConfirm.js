@@ -1,20 +1,22 @@
 // @flow
 
 import React from 'react'
-import { JCard, JText } from 'components/base'
+
+import DigitalAssetSendConfirmCard, {
+  type Props as DigitalAssetSendConfirmCardProps,
+} from './Card/DigitalAssetSendConfirmCard'
+
+import DigitalAssetSendPasswordForm, {
+  type Props as DigitalAssetSendPasswordFormProps,
+} from './PasswordForm/DigitalAssetSendPasswordForm'
 
 type Props = {|
-  amount: string,
-  amountCurrency: string,
-  feeETH: string,
-  fromName: string,
-  fromAddress: string,
-  toName: string,
-  toAddress: string,
-  // networkId: string,
+  ...DigitalAssetSendConfirmCardProps,
+  ...DigitalAssetSendPasswordFormProps,
 |}
 
 const DigitalAssetSendConfirm = ({
+  // card
   amount,
   amountCurrency,
   feeETH,
@@ -22,44 +24,32 @@ const DigitalAssetSendConfirm = ({
   fromAddress,
   toName,
   toAddress,
+  // form
+  submit,
+  isLoading,
+  setField,
+  formFields,
+  invalidFields,
 }: Props) => (
   <div className='digital-asset-send-confirm'>
-    <JCard color='white' isBorderRadius>
-      <div className='amount'>
-        <JText
-          value={`${amount} ${amountCurrency}`}
-          size='header'
-          color='dark'
-          weight='bold'
-        />
-      </div>
-      <div className='fee'>
-        <JText
-          value={`Fee - ${feeETH}ETH`}
-          color='dark'
-        />
-      </div>
-      <div className='from'>
-        <JText
-          value={`From ${fromName}`}
-          color='dark'
-        />
-        <JText
-          value={`${fromAddress}`}
-          color='dark'
-        />
-      </div>
-      <div className='to'>
-        <JText
-          value={`To - ${toName}`}
-          color='dark'
-        />
-        <JText
-          value={`${toAddress}`}
-          color='dark'
-        />
-      </div>
-    </JCard>
+    <div className='card'>
+      <DigitalAssetSendConfirmCard
+        amount={amount}
+        amountCurrency={amountCurrency}
+        feeETH={feeETH}
+        fromName={fromName}
+        fromAddress={fromAddress}
+        toName={toName}
+        toAddress={toAddress}
+      />
+    </div>
+    <DigitalAssetSendPasswordForm
+      submit={submit}
+      isLoading={isLoading}
+      setField={setField}
+      formFields={formFields}
+      invalidFields={invalidFields}
+    />
   </div>
 )
 

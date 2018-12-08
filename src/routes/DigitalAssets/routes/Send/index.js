@@ -1,12 +1,6 @@
 // @flow
 
 import DigitalAssetsSendViewContainer from './DigitalAssetsSendViewContainer'
-import DigitalAssetsSendConfirmViewContainer from './DigitalAssetsSendConfirmViewContainer'
-
-const confirm = {
-  path: 'send/confirm',
-  component: DigitalAssetsSendConfirmViewContainer,
-}
 
 const send = {
   path: 'send',
@@ -14,6 +8,5 @@ const send = {
 }
 
 export default [
-  confirm,
   send,
 ]

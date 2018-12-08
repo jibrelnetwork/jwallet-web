@@ -200,25 +200,26 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
 }
 
 function* syncStart(): Saga<void> {
-  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
-    yield select(selectCurrentNetworkId)
 
-  const address: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
+  // const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
+  //   yield select(selectCurrentNetworkId)
 
-  if (!address) {
-    return
-  }
+  // const address: ExtractReturn<typeof selectActiveWalletAddress> =
+  //   yield select(selectActiveWalletAddress)
 
-  const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)
-  const currentSyncTask: Task<typeof currentBlockSync> = yield fork(currentBlockSync, networkId)
-  const processBlockTask: Task<typeof processBlock> = yield fork(processBlock, networkId, address)
+  // if (!address) {
 
-  yield take(blocks.SYNC_STOP)
+  // }
 
-  yield cancel(latestSyncTask)
-  yield cancel(currentSyncTask)
-  yield cancel(processBlockTask)
+  // const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)
+  // const currentSyncTask: Task<typeof currentBlockSync> = yield fork(currentBlockSync, networkId)
+  // const processBlockTask: Task<typeof processBlock> = yield fork(processBlock, networkId, address)
+
+  // yield take(blocks.SYNC_STOP)
+
+  // yield cancel(latestSyncTask)
+  // yield cancel(currentSyncTask)
+  // yield cancel(processBlockTask)
 }
 
 function* syncRestart(): Saga<void> {

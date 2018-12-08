@@ -82,7 +82,7 @@ declare type DigitalAssetsManageState = {|
 /**
  * Send asset
  */
-declare type DigitalAssetSendFormStep = '1' | '2'
+declare type DigitalAssetSendStep = '1' | '2'
 
 declare type DigitalAssetSendFormFields = {|
   ownerAddress: string,
@@ -93,17 +93,13 @@ declare type DigitalAssetSendFormFields = {|
   priority: string,
   comment: string,
   nonce: string,
-|}
-
-declare type DigitalAssetSendFormInvalidFields = {|
-  ...DigitalAssetSendFormFields,
-  password: string
+  password: string,
 |}
 
 declare type DigitalAssetSendState = {|
-  step: DigitalAssetSendFormStep,
+  step: DigitalAssetSendStep,
   formFields: DigitalAssetSendFormFields,
-  invalidFields: DigitalAssetSendFormInvalidFields,
+  invalidFields: DigitalAssetSendFormFields,
   isProcessing: boolean,
 |}
 

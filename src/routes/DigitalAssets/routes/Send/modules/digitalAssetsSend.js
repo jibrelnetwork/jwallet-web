@@ -7,7 +7,7 @@ export const SET_FIELD = '@@digitalAssetsSend/SET_FIELD'
 export const SET_INVALID_FIELD = '@@digitalAssetsSend/SET_INVALID_FIELD'
 export const SUBMIT_SEND_FORM = '@@digitalAssetsSend/SUBMIT_SEND_FORM'
 
-export const SET_IS_PROCESSING = '@@digitalAssetsSendConfirm/SET_IS_PROCESSING'
+export const SET_IS_PROCESSING = '@@digitalAssetsSend/SET_IS_PROCESSING'
 export const SUBMIT_PASSWORD_FORM = '@@digitalAssetsSend/SUBMIT_PASSWORD_FORM'
 
 export const SET_STEP = '@@digitalAssetsSend/SET_STEP'
@@ -23,7 +23,7 @@ export type OpenViewParams = {|
   +txhash?: string,
 |}
 
-export function openView(step: DigitalAssetSendFormStep, params?: OpenViewParams) {
+export function openView(step: DigitalAssetSendStep, params?: OpenViewParams) {
   return {
     type: OPEN_VIEW,
     payload: {
@@ -39,7 +39,7 @@ export function closeView() {
   }
 }
 
-export function setStep(step: DigitalAssetSendFormStep) {
+export function setStep(step: DigitalAssetSendStep) {
   return {
     type: SET_STEP,
     payload: {
@@ -128,6 +128,7 @@ const initialState: DigitalAssetSendState = {
     priority: '',
     comment: '',
     nonce: '',
+    password: '',
   },
   invalidFields: {
     ownerAddress: '',

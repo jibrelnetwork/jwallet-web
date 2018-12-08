@@ -46,7 +46,7 @@ export function* getPrivateKey(walletId: string, password: string): Saga<string>
 
   while (true) {
     const { response, error } = yield race({
-      responce: take(wallets.PRIVATE_KEY_SUCCESS),
+      response: take(wallets.PRIVATE_KEY_SUCCESS),
       error: take(wallets.PRIVATE_KEY_ERROR),
     })
 
@@ -66,7 +66,7 @@ export function* getPrivateKey(walletId: string, password: string): Saga<string>
   }
 }
 
-export function* getPrivateKeyCancel(walletId: string) {
+export function* getPrivateKeyCancel(walletId: string): Saga<void> {
   yield put(wallets.privateKeyError(walletId, 'Cancelled'))
 }
 

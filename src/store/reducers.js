@@ -24,8 +24,6 @@ import digitalAssetsManage from 'routes/DigitalAssets/routes/Manage/modules/digi
 
 // Send digital asset
 import digitalAssetsSend from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
-import digitalAssetsSendConfirm
-  from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSendConfirm'
 
 // networks
 import networks from 'routes/modules/networks'
@@ -64,7 +62,6 @@ export function makeRootReducer() {
     editAsset,
     // send asset
     digitalAssetsSend,
-    digitalAssetsSendConfirm,
     // blocks
     blocks,
     // balances
