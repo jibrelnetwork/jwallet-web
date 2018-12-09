@@ -14,6 +14,7 @@ declare type BlockExplorerAPISubdomain =
   'kovan'
 
 declare type Network = {|
+  +id: NetworkId,
   +title: string,
   +rpcaddr: string,
   +rpcport: number,
@@ -25,13 +26,6 @@ declare type Network = {|
 declare type Networks = {
   [NetworkId]: ?Network,
 }
-
-/* eslint-disable-next-line no-unused-vars */
-type RPCProps = {|
-  +rpcaddr: string,
-  +rpcport: number,
-  +ssl: boolean,
-|}
 
 declare type NetworksPersist = {|
   +items: Networks,

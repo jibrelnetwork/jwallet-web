@@ -139,15 +139,25 @@ const initialState: NetworksState = {
   persist: {
     items: {
       '3': {
+        id: '3',
         title: 'Ropsten Test Network',
         blockExplorerSubdomain: 'ropsten',
-        rpcaddr: 'ropsten-node.jwallet.network',
+        rpcaddr: 'ropsten.jnode.network',
+        rpcport: 443,
+        ssl: true,
+        isCustom: false,
+      },
+      '1': {
+        id: '1',
+        title: 'Main Ethereum Network',
+        blockExplorerSubdomain: 'api',
+        rpcaddr: 'main-node.jwallet.network',
         rpcport: 443,
         ssl: true,
         isCustom: false,
       },
     },
-    currentNetworkId: '3',
+    currentNetworkId: '1',
   },
 }
 
