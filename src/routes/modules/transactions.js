@@ -9,10 +9,18 @@ export const INIT_ITEMS_BY_BLOCK = '@@transactions/INIT_ITEMS_BY_BLOCK'
 export const FETCH_BY_BLOCK_SUCCESS = '@@transactions/FETCH_BY_BLOCK_SUCCESS'
 export const FETCH_BY_BLOCK_ERROR = '@@transactions/FETCH_BY_BLOCK_ERROR'
 
+export const UPDATE_TRANSACTION_DATA = '@@transactions/UPDATE_TRANSACTION_DATA'
+
 export const SET_IS_CONNECTION_ERROR = '@@transactions/SET_IS_CONNECTION_ERROR'
 
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
 export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
+
+type UpdateTransactionData = {|
+  +data?: TransactionData,
+  +blockData?: TransactionBlockData,
+  +receiptData?: TransactionReceiptData,
+|}
 
 export function fetchByOwnerRequest(
   requestQueue: Channel,
@@ -118,6 +126,27 @@ export function fetchByBlockSuccess(
   }
 }
 
+export function updateTransactionData(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  assetAddress: AssetAddress,
+  blockNumber: BlockNumber,
+  transactionId: TransactionId,
+  updateData: UpdateTransactionData,
+) {
+  return {
+    type: UPDATE_TRANSACTION_DATA,
+    payload: {
+      updateData,
+      networkId,
+      blockNumber,
+      assetAddress,
+      ownerAddress,
+      transactionId,
+    },
+  }
+}
+
 export function setIsConnectionError(isConnectionError: boolean) {
   return {
     type: SET_IS_CONNECTION_ERROR,
@@ -151,6 +180,7 @@ type TransactionsAction =
   ExtractReturn<typeof initItemsByBlock> |
   ExtractReturn<typeof fetchByBlockSuccess> |
   ExtractReturn<typeof fetchByBlockError> |
+  ExtractReturn<typeof updateTransactionData> |
   ExtractReturn<typeof setIsConnectionError> |
   ExtractReturn<typeof changeSearchInput> |
   ExtractReturn<typeof setIsOnlyPending>
@@ -279,19 +309,19 @@ function transactions(
 
       const newTransactions: Transactions = Object
         .keys(items)
-        .reduce((result: Transactions, hash: Hash): Transactions => {
-          if (!result[hash]) {
+        .reduce((result: Transactions, id: TransactionId): Transactions => {
+          if (!result[id]) {
             return {
               ...result,
-              [hash]: items[hash],
+              [id]: items[id],
             }
           }
 
           return {
             ...result,
-            [hash]: {
-              ...result[hash],
-              ...items[hash],
+            [id]: {
+              ...result[id],
+              ...items[id],
             },
           }
         }, oldTransactions)
@@ -302,6 +332,64 @@ function transactions(
           ...state.persist,
           items: {
             ...state.persist.items,
+            [networkId]: {
+              ...transactionsByNetworkId,
+              [ownerAddress]: {
+                ...transactionsByOwner,
+                [assetAddress]: {
+                  ...transactionsByAsset,
+                  [blockNumber]: {
+                    ...transactionsByBlock,
+                    items: newTransactions,
+                    isError: false,
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case UPDATE_TRANSACTION_DATA: {
+      const {
+        updateData,
+        networkId,
+        blockNumber,
+        assetAddress,
+        ownerAddress,
+        transactionId,
+      } = action.payload
+
+      const { items } = state.persist
+      const transactionsByNetworkId = items[networkId] || {}
+      const transactionsByOwner = transactionsByNetworkId[ownerAddress] || {}
+      const transactionsByAsset = transactionsByOwner[assetAddress] || {}
+      const transactionsByBlock = transactionsByAsset[blockNumber] || {}
+      const oldTransactions: Transactions = transactionsByBlock.items || {}
+
+      const newTransactions: Transactions = Object
+        .keys(oldTransactions)
+        .reduce((result: Transactions, id: TransactionId): Transactions => {
+          if (id !== transactionId) {
+            return result
+          }
+
+          return {
+            ...result,
+            [id]: {
+              ...result[id],
+              ...updateData,
+            },
+          }
+        }, oldTransactions)
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...items,
             [networkId]: {
               ...transactionsByNetworkId,
               [ownerAddress]: {

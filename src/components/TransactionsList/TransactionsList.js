@@ -18,7 +18,7 @@ type Props = {|
 |}
 
 type ComponentState = {
-  +activeItems: Hashes,
+  +activeItems: TransactionId[],
 }
 
 class TransactionsList extends Component<Props, ComponentState> {
@@ -34,14 +34,14 @@ class TransactionsList extends Component<Props, ComponentState> {
     }
   }
 
-  setActive = (hash: Hash) => () => {
+  setActive = (id: TransactionId) => () => {
     const { activeItems }: ComponentState = this.state
-    const isFound: boolean = activeItems.includes(hash)
+    const isFound: boolean = activeItems.includes(id)
 
     this.setState({
       activeItems: !isFound
-        ? activeItems.concat(hash)
-        : activeItems.filter((item: Hash): boolean => (item !== hash)),
+        ? activeItems.concat(id)
+        : activeItems.filter((item: TransactionId): boolean => (item !== id)),
     })
   }
 
@@ -72,13 +72,13 @@ class TransactionsList extends Component<Props, ComponentState> {
       <div className='transactions-list'>
         {items.map((item: TransactionWithAssetAddress) => (
           <TransactionItem
-            key={item.hash}
-            setActive={this.setActive(item.hash)}
+            key={item.id}
+            setActive={this.setActive(item.id)}
             data={item}
             asset={digitalAssets[item.assetAddress]}
             blockExplorerSubdomain={blockExplorerSubdomain}
             isAssetList={!!assetAddress}
-            isActive={activeItems.includes(item.hash)}
+            isActive={activeItems.includes(item.id)}
             isSent={ownerAddress.toLowerCase() === item.from.toLowerCase()}
           />
         ))}

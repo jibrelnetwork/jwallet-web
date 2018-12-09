@@ -16,28 +16,26 @@ import {
 import type { Task } from 'redux-saga'
 
 import config from 'config'
-import blockExplorer from 'services/blockExplorer'
-
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectTransactionsByNetworkId } from 'store/selectors/transactions'
 
 import {
-  selectDigitalAssets,
-  selectActiveDigitalAssets,
-} from 'store/selectors/digitalAssets'
+  web3,
+  blockExplorer,
+} from 'services'
 
 import {
   checkETH,
   checkJNT,
 } from 'utils/digitalAssets'
 
+import {
+  selectDigitalAssets,
+  selectActiveDigitalAssets,
+} from 'store/selectors/digitalAssets'
+
 import * as blocks from '../modules/blocks'
 import * as transactions from '../modules/transactions'
-
-type TransactionMethodName =
-  'getETHTransactions' |
-  'getERC20Transactions' |
-  'getJNTTransactions'
 
 const {
   syncTransactionsTimeout,
@@ -48,37 +46,135 @@ const {
 
 const GENESIS_BLOCK_NUMBER: number = 0
 
-function getMethodName({ address }: DigitalAsset): TransactionMethodName {
-  if (checkETH(address)) {
-    return 'getETHTransactions'
-  } else if (checkJNT(address)) {
-    return 'getJNTTransactions'
+function getRequestTransactionTasks(
+  assetAddress: AssetAddress,
+  blockNumber: BlockNumber,
+  transaction: Transaction,
+  transactionId: TransactionId,
+): SchedulerTransactionTask[] {
+  const {
+    data,
+    blockData,
+    receiptData,
+    hash,
+    blockHash,
+  }: Transaction = transaction
+
+  if (!blockHash) {
+    return []
   }
 
-  return 'getERC20Transactions'
-}
+  const getDataMethod: GetTransactionMethod = {
+    name: 'getTransactionData',
+    payload: {
+      hash,
+      blockNumber,
+      assetAddress,
+      transactionId,
+    },
+  }
 
-function getRequestTransactionsByAssetTask(
-  digitalAsset: DigitalAsset,
-  fromBlock: number,
-  toBlock: number,
-): SchedulerTransactionsTask {
-  const name: TransactionMethodName = getMethodName(digitalAsset)
+  const getDataTask: SchedulerTransactionTask = {
+    method: getDataMethod,
+    module: 'transaction',
+    priority: 0,
+    retryCount: 3,
+  }
 
-  return {
+  const getReceiptDataTask: SchedulerTransactionTask = {
+    ...getDataTask,
     method: {
-      name,
+      ...getDataMethod,
+      name: 'getTransactionReceiptData',
+    },
+  }
+
+  const getBlockDataTask: SchedulerTransactionTask = {
+    ...getDataTask,
+    method: {
+      ...getDataMethod,
+      name: 'getBlockData',
       payload: {
-        toBlock,
-        fromBlock,
-        assetAddress: digitalAsset.address,
-        decimals: digitalAsset.decimals,
+        ...getDataMethod.payload,
+        hash: blockHash,
       },
     },
+  }
+
+  return [
+    data ? null : getDataTask,
+    blockData ? null : getBlockDataTask,
+    receiptData ? null : getReceiptDataTask,
+  ].reduce((
+    result: SchedulerTransactionTask[],
+    task: ?SchedulerTransactionTask,
+  ): SchedulerTransactionTask[] => (!task ? result : [
+    ...result,
+    task,
+  ]), [])
+}
+
+function getRequestTransactionsByAssetTasks(
+  assetAddress: AssetAddress,
+  fromBlock: number,
+  toBlock: number,
+): SchedulerTransactionsTask[] {
+  const baseTaskMethod: GetTransactionsMethod = {
+    name: 'getETHTransactions',
+    payload: {
+      assetAddress,
+      toBlock,
+      fromBlock,
+    },
+  }
+
+  const baseTask: SchedulerTransactionsTask = {
+    method: baseTaskMethod,
     module: 'transactions',
     priority: 0,
     retryCount: 3,
   }
+
+  if (checkETH(assetAddress)) {
+    return [baseTask]
+  }
+
+  const transferTasks: SchedulerTransactionsTask[] = [{
+    ...baseTask,
+    method: {
+      ...baseTaskMethod,
+      name: 'getTransferEventsTo',
+    },
+  }, {
+    ...baseTask,
+    method: {
+      ...baseTaskMethod,
+      name: 'getTransferEventsFrom',
+    },
+  }]
+
+  if (checkJNT(assetAddress)) {
+    const mintableTasks: SchedulerTransactionsTask[] = [{
+      ...baseTask,
+      method: {
+        ...baseTaskMethod,
+        name: 'getMintEvents',
+      },
+    }, {
+      ...baseTask,
+      method: {
+        ...baseTaskMethod,
+        name: 'getBurnEvents',
+      },
+    }]
+
+    return [
+      ...transferTasks,
+      ...mintableTasks,
+    ]
+  }
+
+  return transferTasks
 }
 
 function* checkTransactionsFetched(
@@ -257,15 +353,13 @@ function* fetchByOwnerRequest(
     digitalAsset.address,
   ))))
 
-  yield all(activeAssets.map((digitalAsset: DigitalAsset) => {
-    const task: SchedulerTransactionsTask = getRequestTransactionsByAssetTask(
-      digitalAsset,
-      fromBlock,
-      toBlock,
-    )
-
-    return put(requestQueue, task)
-  }))
+  yield all(activeAssets.reduce((
+    result: SchedulerTransactionsTask[],
+    digitalAsset: DigitalAsset,
+  ) => ([
+    ...result,
+    ...getRequestTransactionsByAssetTasks(digitalAsset.address, fromBlock, toBlock),
+  ]), []).map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
 
   /**
    * Init processing block statuses of loading/fetched flags of transactions
@@ -376,7 +470,11 @@ function getTasksToRefetchByAsset(
 
     const resultByBlockNumberNew: SchedulerTransactionsTask[] = [
       ...resultByBlockNumber,
-      getRequestTransactionsByAssetTask(digitalAsset, fromBlockNumber, currentBlockNumber),
+      ...getRequestTransactionsByAssetTasks(
+        digitalAsset.address,
+        fromBlockNumber,
+        currentBlockNumber,
+      ),
     ]
 
     if (!itemsByBlockNumber) {
@@ -412,8 +510,8 @@ function getTasksToRefetchByOwner(
       return resultByAssetAddress
     }
 
-    const fullyResyncTask: SchedulerTransactionsTask = getRequestTransactionsByAssetTask(
-      digitalAsset,
+    const fullyResyncTasks: SchedulerTransactionsTask[] = getRequestTransactionsByAssetTasks(
+      digitalAsset.address,
       GENESIS_BLOCK_NUMBER,
       latestBlockNumber,
     )
@@ -421,7 +519,7 @@ function getTasksToRefetchByOwner(
     if (!itemsByAssetAddress) {
       return [
         ...resultByAssetAddress,
-        fullyResyncTask,
+        ...fullyResyncTasks,
       ]
     }
 
@@ -435,14 +533,18 @@ function getTasksToRefetchByOwner(
     if (!lastExistedBlock) {
       return [
         ...failedRequests,
-        fullyResyncTask,
+        ...fullyResyncTasks,
       ]
     }
 
     if (lastExistedBlock > maxBlocksPerTransactionsRequest) {
       return [
         ...failedRequests,
-        getRequestTransactionsByAssetTask(digitalAsset, GENESIS_BLOCK_NUMBER, lastExistedBlock),
+        ...getRequestTransactionsByAssetTasks(
+          digitalAsset.address,
+          GENESIS_BLOCK_NUMBER,
+          lastExistedBlock,
+        ),
       ]
     }
 
@@ -493,34 +595,21 @@ function* recursiveRequestTransactions(
   fromBlock: number,
   toBlock: number,
 ): Saga<void> {
-  const { method } = task
+  const diffBlockNumber: number = toBlock - fromBlock
 
-  switch (method.name) {
-    case 'getETHTransactions':
-    case 'getERC20Transactions':
-    case 'getJNTTransactions': {
-      const diffBlockNumber: number = toBlock - fromBlock
+  const fromBlockNew = (diffBlockNumber > maxBlocksPerTransactionsRequest)
+    ? (toBlock - maxBlocksPerTransactionsRequest)
+    : fromBlock
 
-      const fromBlockNew = (diffBlockNumber > maxBlocksPerTransactionsRequest)
-        ? (toBlock - maxBlocksPerTransactionsRequest)
-        : fromBlock
+  yield* requestTransactionsByRange(requestQueue, task, fromBlock, toBlock)
 
-      yield* requestTransactionsByRange(requestQueue, task, fromBlock, toBlock)
-
-      if (fromBlockNew > 0) {
-        yield* recursiveRequestTransactions(
-          requestQueue,
-          task,
-          fromBlockNew - maxBlocksPerTransactionsRequest,
-          toBlock - maxBlocksPerTransactionsRequest,
-        )
-      }
-
-      break
-    }
-
-    default:
-      break
+  if (fromBlockNew > 0) {
+    yield* recursiveRequestTransactions(
+      requestQueue,
+      task,
+      fromBlockNew - maxBlocksPerTransactionsRequest,
+      toBlock - maxBlocksPerTransactionsRequest,
+    )
   }
 }
 
@@ -531,29 +620,87 @@ function* requestTransactionsByRange(
   toBlock: number,
 ): Saga<void> {
   const { method } = task
+  const diffBlockNumber: number = toBlock - fromBlock
 
-  switch (method.name) {
-    case 'getETHTransactions':
-    case 'getERC20Transactions':
-    case 'getJNTTransactions': {
-      const diffBlockNumber: number = toBlock - fromBlock
+  // just return if diff bigger than max
+  if (diffBlockNumber > maxBlocksPerTransactionsRequest) {
+    return
+  }
 
-      // just break if diff bigger than max
-      if (diffBlockNumber > maxBlocksPerTransactionsRequest) {
-        break
-      }
+  yield put(requestQueue, {
+    ...task,
+    method: {
+      ...task.method,
+      payload: {
+        ...method.payload,
+        toBlock,
+        fromBlock,
+      },
+    },
+  })
+}
 
-      yield put(requestQueue, {
-        ...task,
-        method: {
-          ...task.method,
-          payload: {
-            ...method.payload,
-            toBlock,
-            fromBlock,
-          },
-        },
-      })
+export function* requestTransaction(
+  task: SchedulerTransactionTask,
+  network: Network,
+  ownerAddress: OwnerAddress,
+): Saga<void> {
+  const networkId: NetworkId = network.id
+
+  const {
+    name,
+    payload,
+  } = task.method
+
+  const {
+    hash,
+    blockNumber,
+    assetAddress,
+    transactionId,
+  } = payload
+
+  switch (name) {
+    case 'getBlockData': {
+      const data: TransactionBlockData = yield call(web3.getBlockData, network, hash)
+
+      yield put(transactions.updateTransactionData(
+        networkId,
+        ownerAddress,
+        assetAddress,
+        blockNumber,
+        transactionId,
+        { blockData: data },
+      ))
+
+      break
+    }
+
+    case 'getTransactionData': {
+      const data: TransactionData = yield call(web3.getTransactionData, network, hash)
+
+      yield put(transactions.updateTransactionData(
+        networkId,
+        ownerAddress,
+        assetAddress,
+        blockNumber,
+        transactionId,
+        { data },
+      ))
+
+      break
+    }
+
+    case 'getTransactionReceiptData': {
+      const data: TransactionReceiptData = yield call(web3.getTransactionReceiptData, network, hash)
+
+      yield put(transactions.updateTransactionData(
+        networkId,
+        ownerAddress,
+        assetAddress,
+        blockNumber,
+        transactionId,
+        { receiptData: data },
+      ))
 
       break
     }
@@ -563,34 +710,66 @@ function* requestTransactionsByRange(
   }
 }
 
+function* fetchEventsData(
+  requestQueue: Channel,
+  assetAddress: AssetAddress,
+  blockNumber: BlockNumber,
+  txs: Transactions,
+): Saga<void> {
+  yield all(Object.keys(txs).reduce((
+    result: SchedulerTransactionTask[],
+    transactionId: TransactionId,
+  ): SchedulerTransactionTask[] => {
+    const currentTx: ?Transaction = txs[transactionId]
+
+    if (!currentTx) {
+      return result
+    }
+
+    return [
+      ...result,
+      ...getRequestTransactionTasks(assetAddress, blockNumber, currentTx, transactionId),
+    ]
+  }, []).map((task: SchedulerTransactionTask) => put(requestQueue, task)))
+}
+
 export function* requestTransactions(
   requestQueue: Channel,
   task: SchedulerTransactionsTask,
-  networkId: NetworkId,
+  network: Network,
   ownerAddress: OwnerAddress,
 ): Saga<void> {
+  const networkId: NetworkId = network.id
+
+  const {
+    method,
+    retryCount,
+  } = task
+
   const {
     name,
     payload,
-  } = task.method
+  } = method
 
   const {
     toBlock,
     fromBlock,
+    assetAddress,
   } = payload
 
   const toBlockStr: BlockNumber = toBlock.toString()
 
-  switch (name) {
-    case 'getETHTransactions': {
-      if ((toBlock - fromBlock) > maxBlocksPerTransactionsRequest) {
-        yield* recursiveRequestTransactions(requestQueue, task, fromBlock, toBlock)
-        break
-      }
+  if ((toBlock - fromBlock) > maxBlocksPerTransactionsRequest) {
+    yield* recursiveRequestTransactions(requestQueue, task, fromBlock, toBlock)
 
-      yield put(transactions.initItemsByBlock(networkId, ownerAddress, 'Ethereum', toBlockStr))
+    return
+  }
 
-      try {
+  yield put(transactions.initItemsByBlock(networkId, ownerAddress, assetAddress, toBlockStr))
+
+  try {
+    switch (name) {
+      case 'getETHTransactions': {
         const txs: Transactions = yield call(
           blockExplorer.getETHTransactions,
           networkId,
@@ -602,57 +781,127 @@ export function* requestTransactions(
         yield put(transactions.fetchByBlockSuccess(
           networkId,
           ownerAddress,
-          'Ethereum',
+          assetAddress,
           toBlockStr,
           txs,
         ))
-      } catch (err) {
-        if ((toBlock - fromBlock) < minBlocksPerTransactionsRequest) {
-          yield put(transactions.fetchByBlockError(networkId, ownerAddress, 'Ethereum', toBlockStr))
-          throw err
-        }
 
-        const mediumBlock: number = Math.round(toBlock / 2)
-
-        yield* requestTransactionsByRange(requestQueue, task, fromBlock, mediumBlock)
-        yield* requestTransactionsByRange(requestQueue, task, mediumBlock, toBlock)
+        break
       }
 
-      break
+      case 'getTransferEventsTo': {
+        const txs: Transactions = yield call(
+          web3.getTransferEventsTo,
+          network,
+          assetAddress,
+          ownerAddress,
+          fromBlock,
+          toBlock,
+        )
+
+        yield put(transactions.fetchByBlockSuccess(
+          networkId,
+          ownerAddress,
+          assetAddress,
+          toBlockStr,
+          txs,
+        ))
+
+        yield* fetchEventsData(requestQueue, assetAddress, toBlockStr, txs)
+
+        break
+      }
+
+      case 'getTransferEventsFrom': {
+        const txs: Transactions = yield call(
+          web3.getTransferEventsFrom,
+          network,
+          assetAddress,
+          ownerAddress,
+          fromBlock,
+          toBlock,
+        )
+
+        yield put(transactions.fetchByBlockSuccess(
+          networkId,
+          ownerAddress,
+          assetAddress,
+          toBlockStr,
+          txs,
+        ))
+
+        yield* fetchEventsData(requestQueue, assetAddress, toBlockStr, txs)
+
+        break
+      }
+
+      case 'getMintEvents': {
+        const txs: Transactions = yield call(
+          web3.getMintEvents,
+          network,
+          assetAddress,
+          ownerAddress,
+          fromBlock,
+          toBlock,
+        )
+
+        yield put(transactions.fetchByBlockSuccess(
+          networkId,
+          ownerAddress,
+          assetAddress,
+          toBlockStr,
+          txs,
+        ))
+
+        yield* fetchEventsData(requestQueue, assetAddress, toBlockStr, txs)
+
+        break
+      }
+
+      case 'getBurnEvents': {
+        const txs: Transactions = yield call(
+          web3.getBurnEvents,
+          network,
+          assetAddress,
+          ownerAddress,
+          fromBlock,
+          toBlock,
+        )
+
+        yield put(transactions.fetchByBlockSuccess(
+          networkId,
+          ownerAddress,
+          assetAddress,
+          toBlockStr,
+          txs,
+        ))
+
+        yield* fetchEventsData(requestQueue, assetAddress, toBlockStr, txs)
+
+        break
+      }
+
+      default:
+        break
+    }
+  } catch (err) {
+    if (retryCount && (retryCount > 0)) {
+      throw err
     }
 
-    case 'getERC20Transactions': {
-      // simulate api call
-      yield call(delay, 1000)
-
-      yield put(transactions.fetchByBlockSuccess(
+    if ((toBlock - fromBlock) < minBlocksPerTransactionsRequest) {
+      yield put(transactions.fetchByBlockError(
         networkId,
         ownerAddress,
-        payload.assetAddress,
+        assetAddress,
         toBlockStr,
-        {},
       ))
-
-      break
     }
 
-    case 'getJNTTransactions': {
-      // simulate api call
-      yield call(delay, 1000)
+    const mediumBlock: number = Math.round(toBlock / 2)
 
-      yield put(transactions.fetchByBlockSuccess(
-        networkId,
-        ownerAddress,
-        payload.assetAddress,
-        toBlockStr,
-        {},
-      ))
-
-      break
-    }
-
-    default:
-      break
+    yield* requestTransactionsByRange(requestQueue, task, fromBlock, mediumBlock)
+    yield* requestTransactionsByRange(requestQueue, task, mediumBlock, toBlock)
   }
 }
 

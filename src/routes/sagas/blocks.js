@@ -21,7 +21,6 @@ import {
 
 import config from 'config'
 import web3 from 'services/web3'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import {
@@ -30,11 +29,21 @@ import {
   selectProcessingBlock,
 } from 'store/selectors/blocks'
 
+import {
+  selectNetworkById,
+  selectCurrentNetworkId,
+} from 'store/selectors/networks'
+
 import * as balances from 'routes/modules/balances'
 import * as transactions from 'routes/modules/transactions'
 
 import { requestBalance } from './balances'
-import { requestTransactions } from './transactions'
+
+import {
+  requestTransaction,
+  requestTransactions,
+} from './transactions'
+
 import * as blocks from '../modules/blocks'
 
 function* latestBlockSync(networkId: NetworkId): Saga<void> {
@@ -42,8 +51,15 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
     while (true) {
       const latestBlock: ?BlockData = yield select(selectLatestBlock, networkId)
 
+      const network: ExtractReturn<typeof selectNetworkById> =
+        yield select(selectNetworkById, networkId)
+
+      if (!network) {
+        throw new Error('Active network does not exist')
+      }
+
       try {
-        const block: BlockData = yield call(web3.getBlock, 'latest')
+        const block: BlockData = yield call(web3.getBlock, network, 'latest')
 
         if (!latestBlock) {
           yield put(blocks.setLatestBlock(networkId, block))
@@ -122,11 +138,20 @@ export function* processQueue(
   while (true) {
     const request: SchedulerTask = yield take(requestQueue)
 
+    const network: ExtractReturn<typeof selectNetworkById> =
+      yield select(selectNetworkById, networkId)
+
+    if (!network) {
+      throw new Error('Active network does not exist')
+    }
+
     try {
       if (request.module === 'balances') {
-        yield* requestBalance(request, networkId, ownerAddress, blockNumber)
+        yield* requestBalance(request, network, ownerAddress, blockNumber)
       } else if (request.module === 'transactions') {
-        yield* requestTransactions(requestQueue, request, networkId, ownerAddress)
+        yield* requestTransactions(requestQueue, request, network, ownerAddress)
+      } else if (request.module === 'transaction') {
+        yield* requestTransaction(request, network, ownerAddress)
       } else {
         throw new Error(`Task handler for module ${request.module} is not defined`)
       }
@@ -203,11 +228,15 @@ function* syncStart(): Saga<void> {
   const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
     yield select(selectCurrentNetworkId)
 
+  if (!networkId) {
+    throw new Error('Active network does not exist')
+  }
+
   const address: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!address) {
-    return
+    throw new Error('Active address does not exist')
   }
 
   const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)
