@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import classNames from 'classnames'
 
 import AssetBalance from 'components/AssetBalance'
 import { JFlatButton, JText, JLoader } from 'components/base'
@@ -16,13 +17,27 @@ type Props = {|
   +isHovered: boolean
 |}
 
-class AssetCardBody extends PureComponent<Props> {
+type StateProps = {|
+  isHover: boolean,
+|}
+
+class AssetCardBody extends PureComponent<Props, StateProps> {
   static defaultProps = {
     balance: '0',
     isError: false,
     isLoading: false,
     isHovered: false,
   }
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isHover: false,
+    }
+  }
+
+  onHover = (isHover: boolean) => () => this.setState({ isHover })
 
   render() {
     const {
@@ -35,6 +50,10 @@ class AssetCardBody extends PureComponent<Props> {
       isLoading,
       isHovered,
     } = this.props
+
+    const {
+      isHover,
+    }: StateProps = this.state
 
     if (isLoading) {
       return (
@@ -68,7 +87,7 @@ class AssetCardBody extends PureComponent<Props> {
     }
 
     return (
-      <div className='asset-card-body'>
+      <div className={classNames('asset-card-body', isHovered && '-hovered')}>
         <div className='crypto'>
           <AssetBalance
             color='gray'
@@ -76,36 +95,38 @@ class AssetCardBody extends PureComponent<Props> {
             balance={balance}
           />
         </div>
-        {!isHovered ? (
-          <div className='fiat'>
-            {fiatBalance !== 0 ? (
+        <div className='fiat'>
+          {fiatBalance !== 0 ? (
+            <div className='balance'>
               <AssetBalance
                 color='blue'
                 size='header'
                 symbol={fiatCurrency}
                 balance={fiatBalance.toString()}
               />
-            ) : (
-              <div className='message -transparent'>
-                <JText
-                  value={`No ${fiatCurrency} Exchange`}
-                  color='gray'
-                  weight='bold'
-                  whiteSpace='wrap'
-                />
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className='fiat'>
+            </div>
+          ) : (
+            <div className='message -transparent'>
+              <JText
+                value={`No ${fiatCurrency} Exchange`}
+                color='gray'
+                weight='bold'
+                whiteSpace='wrap'
+              />
+            </div>
+          )}
+          <div
+            className='show'
+            onMouseEnter={this.onHover(true)}
+            onMouseLeave={this.onHover(false)}
+          >
             <JFlatButton
               to={`/transactions/${address}`}
-              color='blue'
+              color={isHover ? 'sky' : 'blue'}
               label='Show transactions'
-              isHoverOpacity
             />
           </div>
-        )}
+        </div>
       </div>
     )
   }
