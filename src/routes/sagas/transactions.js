@@ -17,6 +17,8 @@ import type { Task } from 'redux-saga'
 
 import config from 'config'
 import { selectProcessingBlock } from 'store/selectors/blocks'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectTransactionsByNetworkId } from 'store/selectors/transactions'
 
 import {
@@ -295,17 +297,24 @@ function* checkTransactionsLoading(
   return isLoading
 }
 
-function* syncProcessingBlockStatus(
-  networkId: NetworkId,
-  ownerAddress: OwnerAddress,
-): Saga<void> {
+function* syncProcessingBlockStatus(): Saga<void> {
   try {
     while (true) {
+      const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
+        yield select(selectCurrentNetworkId)
+
+      const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+        yield select(selectActiveWalletAddress)
+
       const processingBlock: ExtractReturn<typeof selectProcessingBlock> =
         yield select(selectProcessingBlock, networkId)
 
+      if (!(networkId && ownerAddress)) {
+        return
+      }
+
       if (!processingBlock) {
-        yield call(delay, 1000)
+        yield call(delay, config.processingBlockWaitTimeout)
         continue
       }
 
@@ -374,11 +383,8 @@ function* fetchByOwnerRequest(
   yield put(blocks.setIsTransactionsLoading(networkId, true))
   yield put(blocks.setIsTransactionsFetched(networkId, false))
 
-  const syncProcessingBlockStatusTask: Task<typeof syncProcessingBlockStatus> = yield fork(
-    syncProcessingBlockStatus,
-    networkId,
-    ownerAddress,
-  )
+  const syncProcessingBlockStatusTask: Task<typeof syncProcessingBlockStatus> =
+    yield fork(syncProcessingBlockStatus)
 
   yield take(blocks.SET_PROCESSING_BLOCK)
   yield cancel(syncProcessingBlockStatusTask)
