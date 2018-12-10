@@ -4,7 +4,7 @@ ENV MAIN_RPC_ADDR=main.node.jwallet.network \
     ROPSTEN_RPC_ADDR=ropsten.node.jwallet.network
 
 RUN npm r lint-staged
-RUN npm run compile:prod
+RUN npm run build:clean
 
 FROM nginx:alpine
 

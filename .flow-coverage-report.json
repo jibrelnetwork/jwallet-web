@@ -1,16 +1,16 @@
 {
   "concurrentFiles": 5,
-  "excludeGlob": [
+  "globExcludePatterns": [
     "node_modules/**"
   ],
-  "flowCommandPath": "./node_modules/.bin/flow",
-  "includeGlob": [
+  "flowCommandPath": "npx flow",
+  "globIncludePatterns": [
     "./src/components/**/*.js",
     "./src/routes/**/*.js",
     "./src/services/**/*.js"
   ],
-  "outputDir": "./coverage/flow/",
+  "outputDir": "./reports/flow-coverage/",
   "projectDir": "./",
   "threshold": 90,
-  "type": "html"
+  "reportTypes": "html"
 }

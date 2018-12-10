@@ -1689,5 +1689,5 @@ declare module 'bignumber.js' {
     static DEBUG: boolean;
   }
 
-  declare var BigNumber: typeof BigNumber;
+  declare export var BigNumber: typeof BigNumber;
 }

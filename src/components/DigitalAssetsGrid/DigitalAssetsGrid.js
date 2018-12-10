@@ -2,35 +2,44 @@
 
 import React, { PureComponent } from 'react'
 
+import parseBalance from 'utils/digitalAssets/parseBalance'
+
 import Asset from './Asset'
 import DigitalAssetsGridEmpty from './Empty'
 import AddDigitalAsset from './AddDigitalAsset'
 
 type Props = {|
-  +items: Array<DigitalAssetsGridItemType>,
   +addAssetClick: () => void,
+  +items: DigitalAssetWithBalance[],
 |}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
     const {
-      items,
       addAssetClick,
+      items,
     } = this.props
 
     return (
       <div className='digital-assets-grid'>
-        {items.map(({ asset, balance, isLoading }) => (
-          <div className='box' key={asset.address}>
+        {items.map(({
+          balance,
+          name,
+          symbol,
+          address,
+          decimals,
+          isCustom,
+        }: DigitalAssetWithBalance) => (
+          <div className='box' key={address}>
             { /* @TODO: add fiatCurrency, fiatBalance */ }
             <Asset
-              name={asset.name}
-              symbol={asset.symbol}
-              address={asset.address}
-              isCustom={asset.isCustom}
-              balance={balance}
-              isLoading={isLoading}
-              isError={false}
+              name={name}
+              symbol={symbol}
+              address={address}
+              balance={balance ? parseBalance(balance.value, decimals) : '0'}
+              isCustom={isCustom}
+              isError={balance ? !!balance.isError : false}
+              isLoading={balance ? balance.isLoading : true}
             />
           </div>
         ))}
