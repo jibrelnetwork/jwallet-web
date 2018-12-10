@@ -3,7 +3,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import SettingsCard from 'components/SettingsCard'
+import SettingsCard from 'components/SettingsGrid/SettingsGridCard'
 
 storiesOf('SettingsCard')
   .add('Default', () => (
@@ -37,10 +37,27 @@ storiesOf('SettingsCard')
       <div className='grid'>
         <div className='box'>
           <SettingsCard
+            title='System language'
+            description='English'
+            path='hello'
+            iconName='language'
+          />
+        </div>
+        <div className='box'>
+          <SettingsCard
             title='Hello'
             description='Some description'
             path='hello'
             iconName={null}
+          />
+        </div>
+        <div className='box'>
+          <SettingsCard
+            title='Google'
+            description='Global search engine'
+            path='https://google.com'
+            iconName='search'
+            iconColor='gray'
           />
         </div>
         <div className='box'>
@@ -62,10 +79,19 @@ storiesOf('SettingsCard')
         </div>
         <div className='box'>
           <SettingsCard
-            title='World'
+            title='Default GAS Price'
+            description='30,000'
+            path='hello'
+            iconName='time'
+            iconColor='gray'
+          />
+        </div>
+        <div className='box'>
+          <SettingsCard
+            title='Check a signature'
             description='LonglonglongdescriptionLonglonglongdescription'
             path='hello'
-            iconName='setting'
+            iconName='protect'
           />
         </div>
       </div>

@@ -25,6 +25,7 @@ declare type AppState = {
   +transactions: TransactionsState,
   // balances
   +balances: BalancesState,
+  +settings: SettingsState,
   // funds
   // +receiveFunds: ReceiveFundsData,
   // +sendFunds: SendFundsData,
