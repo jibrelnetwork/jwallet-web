@@ -85,9 +85,9 @@ declare type DigitalAssetsManageState = {|
 declare type DigitalAssetSendStep = '1' | '2'
 
 declare type DigitalAssetSendFormFields = {|
-  ownerAddress: string,
-  recepientAddress: string,
-  assetAddress: string,
+  recepient: Address,
+  ownerAddress: Address,
+  assetAddress: Address,
   amount: string,
   amountFiat: string,
   priority: string,

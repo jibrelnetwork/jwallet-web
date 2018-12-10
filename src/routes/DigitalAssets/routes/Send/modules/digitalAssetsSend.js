@@ -121,7 +121,7 @@ export type DigitalAssetSendAction =
 const initialState: DigitalAssetSendState = {
   formFields: {
     ownerAddress: '',
-    recepientAddress: '',
+    recepient: '',
     assetAddress: '',
     amount: '',
     amountFiat: '',
@@ -132,7 +132,7 @@ const initialState: DigitalAssetSendState = {
   },
   invalidFields: {
     ownerAddress: '',
-    recepientAddress: '',
+    recepient: '',
     assetAddress: '',
     amount: '',
     amountFiat: '',

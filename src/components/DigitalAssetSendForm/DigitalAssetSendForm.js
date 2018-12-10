@@ -15,7 +15,7 @@ type Props = {|
   +submit: () => void,
   +setField: SetFieldFunction,
   +formFields: DigitalAssetSendFormFields,
-  +invalidFields: DigitalAssetSendFormInvalidFields,
+  +invalidFields: DigitalAssetSendFormFields,
 |}
 
 const DigitalAssetSendForm = ({
@@ -37,10 +37,10 @@ const DigitalAssetSendForm = ({
         isLoading={false}
       />
       <JInput
-        onChange={setFieldHandler('recepientAddress', setField)}
-        value={formFields.recepientAddress}
-        name='recepientAddress'
-        errorMessage={invalidFields.recepientAddress}
+        onChange={setFieldHandler('recepient', setField)}
+        value={formFields.recepient}
+        name='recepient'
+        errorMessage={invalidFields.recepient}
         placeholder='Recepient address'
         type='text'
         color='gray'
