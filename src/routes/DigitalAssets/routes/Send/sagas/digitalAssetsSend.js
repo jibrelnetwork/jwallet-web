@@ -84,10 +84,6 @@ function* validate(): Saga<void> {
   }
 }
 
-function getTransactionHandler(assetAddress: Address) {
-  return checkETH(assetAddress) ? web3.sendETHTransaction : web3.sendContractTransaction
-}
-
 type GetTransactionDataPayload = {
   asset: DigitalAsset,
   recepient: Address,
@@ -150,6 +146,8 @@ function* submitPasswordForm(): Saga<void> {
   const {
     step,
     formFields: {
+      recepient,
+      amount,
       assetAddress,
       password,
     },
@@ -180,10 +178,28 @@ function* submitPasswordForm(): Saga<void> {
 
   yield put(digitalAssetsSend.setIsProcessing(true))
   try {
-    const privateKey: string = yield* getPrivateKey(activeWalletId, password)
+    const privateKey: string = (
+      yield* getPrivateKey(activeWalletId, password)
+    ).substr(2)
 
-    console.error(privateKey)
+    const txData = getTransactionData({
+      asset,
+      recepient,
+      amount,
+      privateKey,
+    })
+
+    const handler = checkETH(assetAddress)
+      ? web3.sendETHTransaction
+      : web3.sendContractTransaction
+
+    console.log(txData)
+
+    const txHash: string = yield call(handler, txData)
+
     yield put(digitalAssetsSend.setIsProcessing(false))
+
+    console.log(txHash)
   } catch (err) {
     yield put(digitalAssetsSend.setFieldError('password', err.message))
     yield put(digitalAssetsSend.setIsProcessing(false))
