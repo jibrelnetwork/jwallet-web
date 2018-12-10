@@ -26,9 +26,39 @@
       background-color: rgba($dusk, 0.1);
     }
 
+    > .balance,
+    > .message {
+      transition: opacity 0.3s ease;
+    }
+
     > .message {
       &.-transparent {
         opacity: 0.5;
+      }
+    }
+
+    > .show {
+      @include flex-row-center;
+
+      opacity: 0;
+      width: 100%;
+      bottom: -2px;
+      position: absolute;
+      transition: opacity 0.1s ease;
+    }
+  }
+
+  &.-hovered {
+    > .fiat {
+      > .balance,
+      > .message {
+        opacity: 0;
+        transition: opacity 0.1s ease;
+      }
+
+      > .show {
+        opacity: 1;
+        transition: opacity 0.3s ease;
       }
     }
   }

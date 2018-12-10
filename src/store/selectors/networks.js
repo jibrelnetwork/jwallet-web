@@ -31,6 +31,14 @@ export function selectCurrentNetwork(state: AppState): ?Network {
   return items[currentNetworkId]
 }
 
+export function selectCurrentNetworkName(state: AppState): ?string {
+  const currentNetwork = selectCurrentNetwork(state)
+  if (currentNetwork) {
+    return currentNetwork.title
+  }
+  return null
+}
+
 export function selectNetworkById(state: AppState, networkId: NetworkId): ?Network {
   const networksItems: Networks = selectNetworksItems(state)
 
