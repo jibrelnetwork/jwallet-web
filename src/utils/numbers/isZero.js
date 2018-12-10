@@ -2,7 +2,7 @@
 
 import { BigNumber } from 'bignumber.js'
 
-function isZero(amount: string): boolean {
+function isZero(amount: BigNumber | string | number): boolean {
   if (!amount) {
     return true
   }

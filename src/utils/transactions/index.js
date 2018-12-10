@@ -10,7 +10,6 @@ import searchTransactions from './searchTransactions'
 import flattenTransactions from './flattenTransactions'
 import getTransactionValue from './getTransactionValue'
 import checkTransactionLoading from './checkTransactionLoading'
-import checkTransactionsFetched from './checkTransactionsFetched'
 import flattenTransactionsByAsset from './flattenTransactionsByAsset'
 import flattenTransactionsByOwner from './flattenTransactionsByOwner'
 
@@ -25,7 +24,6 @@ export {
   flattenTransactions,
   getTransactionValue,
   checkTransactionLoading,
-  checkTransactionsFetched,
   flattenTransactionsByAsset,
   flattenTransactionsByOwner,
 }

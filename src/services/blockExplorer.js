@@ -1,5 +1,7 @@
 // @flow
 
+import utils from '@jibrelnetwork/jwallet-web-keystore'
+
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
 import * as type from 'utils/type'
@@ -45,7 +47,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<
     .then((response: Response): Promise<any> => response.json())
 }
 
-function handlerTransactionsResponse(response: any): Array<any> {
+function handleTransactionsResponse(response: any): Array<any> {
   if (type.isVoid(response) || type.isObject(response)) {
     return []
   }
@@ -130,15 +132,15 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
         minedAt: parseInt(timeStamp, 10) || 0,
       },
       receiptData: {
-        gasUsed,
+        gasUsed: parseInt(gasUsed, 10) || 0,
         status: (parseInt(isError, 16) === 1) ? 0 : 1,
       },
-      from,
+      from: utils.getChecksum(from),
       hash,
       blockHash,
       amount: value,
-      to: to.length ? to : null,
-      contractAddress: contractAddress.length ? contractAddress : null,
+      to: to.length ? utils.getChecksum(to) : null,
+      contractAddress: contractAddress.length ? utils.getChecksum(contractAddress) : null,
       eventType: 0,
       createdAt: parseInt(timeStamp, 10) || 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
@@ -166,7 +168,7 @@ function getETHTransactions(
     action: 'txlist',
     module: 'account',
   }, networkId)
-    .then(handlerTransactionsResponse)
+    .then(handleTransactionsResponse)
     .then(filterETHTransactions)
     .then(prepareETHTransactions)
 }

@@ -42,16 +42,16 @@ export function selectWalletsRenameAddress(state: AppState): WalletsRenameAddres
   return state.walletsRenameAddress
 }
 
-export function selectActiveWalletAddress(state: AppState): ?Address {
+export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
   const {
     items,
     activeWalletId,
   } = selectWalletsPersist(state)
 
-  if (activeWalletId) {
-    return keystore.getAddress(items, activeWalletId)
+  if (!activeWalletId) {
+    return null
   }
 
-  return null
+  return keystore.getAddress(items, activeWalletId)
 }
 
