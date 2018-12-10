@@ -26,16 +26,14 @@ class SettingsIndexView extends PureComponent<Props, *> {
       wallet,
     } = this.props
 
-    if (!wallet) {
+    if (!networkName || !wallet) {
       return null
     }
 
     const { name: walletName, customType, isReadOnly, mnemonicOptions } = wallet
-    const isFullMnemonic = customType === 'mnemonic' && !isReadOnly
+    const isFullMnemonic = (customType === 'mnemonic') && !isReadOnly
     const derivationPath = mnemonicOptions ? mnemonicOptions.derivationPath : null
     const passphrase = mnemonicOptions ? mnemonicOptions.passphrase : null
-    const isNetworkName = Boolean(networkName)
-    const isWalletName = Boolean(walletName)
 
     return (
       <div className='settings-view'>
@@ -117,20 +115,20 @@ class SettingsIndexView extends PureComponent<Props, *> {
                 iconName='backup-wallet'
                 iconColor='blue'
               />
-              {isNetworkName ? <SettingsGridCard
+              <SettingsGridCard
                 title='Network name'
                 description={networkName || ' '}
                 path='settings/network'
                 iconName='network'
                 iconColor='blue'
-              /> : null}
-              {isWalletName ? <SettingsGridCard
+              />
+              <SettingsGridCard
                 title='Rename wallet'
                 description={walletName}
                 path='settings/rename'
                 iconName='backup-wallet'
                 iconColor='blue'
-              /> : null}
+              />
               {isFullMnemonic ? <SettingsGridCard
                 key='derivationPath'
                 title='Derivation path'

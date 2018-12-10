@@ -12,7 +12,7 @@ class SettingsGrid extends PureComponent<Props, *> {
     const { children } = this.props
 
     return (
-      <ul className='j-grid'>
+      <ul className='settings-grid'>
         {children.map(card => (
           !card ? null : (
             <li className='box' key={`settings-card-${card.props.path}`}>

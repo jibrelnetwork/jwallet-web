@@ -55,14 +55,14 @@ class SettingsGridCard extends PureComponent<Props, *> {
 
     if (isExternalURL(path)) {
       return (
-        <a href={path} className='settings-card' rel='noreferrer noopener' target='_blank'>
+        <a href={path} className='settings-grid-card' rel='noreferrer noopener' target='_blank'>
           {this.renderContent()}
         </a>
       )
     }
 
     return (
-      <Link to={path} className='settings-card'>
+      <Link to={path} className='settings-grid-card'>
         {this.renderContent()}
       </Link>
     )
