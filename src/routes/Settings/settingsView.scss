@@ -31,6 +31,14 @@
       align-items: center;
       justify-content: space-between;
       height: $page-header-height;
+
+      > .actions {
+        display: flex;
+        align-items: center;
+        padding-right: 20px;
+        position: relative;
+        height: 100%;
+      }
     }
   }
 

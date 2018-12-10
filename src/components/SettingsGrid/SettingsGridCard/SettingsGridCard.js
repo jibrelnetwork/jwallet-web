@@ -11,7 +11,7 @@ type Props = {|
   +description: string,
   +path: string,
   +iconName: string,
-  +iconColor: JIconColor,
+  iconColor?: JIconColor,
 |}
 
 const isExternalURL = (url: string): boolean => /^https?:\/\//.test(url)
