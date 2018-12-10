@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { JCard, JText } from 'components/base'
+import { JText } from 'components/base'
 
 export type Props = {|
   +amount: string,
@@ -24,7 +24,7 @@ const DigitalAssetSendConfirmCard = ({
   toAddress,
 }: Props) => (
   <div className='digital-asset-send-confirm-card'>
-    <JCard color='white' isBorderRadius>
+    <div className='content'>
       <div className='amount'>
         <JText
           value={`${amount} ${amountCurrency}`}
@@ -35,31 +35,39 @@ const DigitalAssetSendConfirmCard = ({
       </div>
       <div className='fee'>
         <JText
-          value={`Fee - ${feeETH}ETH`}
-          color='dark'
+          value={`Fee — ${feeETH}ETH`}
+          color='gray'
         />
       </div>
-      <div className='from'>
-        <JText
-          value={`From${fromName ? ` - ${fromName}` : ''}`}
-          color='dark'
-        />
-        <JText
-          value={`${fromAddress}`}
-          color='dark'
-        />
+      <div className='field'>
+        <div className='direction'>
+          <JText
+            value={`From${fromName ? ` — ${fromName}` : ''}`}
+            color='dark'
+          />
+        </div>
+        <div className='address'>
+          <JText
+            value={`${fromAddress}`}
+            color='blue'
+          />
+        </div>
       </div>
-      <div className='to'>
-        <JText
-          value={`From${toName ? ` - ${toName}` : ''}`}
-          color='dark'
-        />
-        <JText
-          value={`${toAddress}`}
-          color='dark'
-        />
+      <div className='field'>
+        <div className='direction'>
+          <JText
+            value={`To${toName ? ` — ${toName}` : ''}`}
+            color='dark'
+          />
+        </div>
+        <div className='address'>
+          <JText
+            value={`${toAddress}`}
+            color='blue'
+          />
+        </div>
       </div>
-    </JCard>
+    </div>
   </div>
 )
 
