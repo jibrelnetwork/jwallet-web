@@ -14,6 +14,7 @@ import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
+import SettingsGrid from './SettingsGrid'
 import CopyableField from './CopyableField'
 import PasswordField from './PasswordField'
 import WalletLoading from './WalletLoading'
@@ -52,6 +53,7 @@ export {
   AssetBalance,
   PasswordStep,
   WalletHeader,
+  SettingsGrid,
   CopyableField,
   PasswordField,
   WalletLoading,

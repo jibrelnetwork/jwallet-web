@@ -3,4 +3,10 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="FLOW" />
   </component>
+  <component name="TaskProjectConfiguration">
+    <server type="JIRA" url="https://jibrelnetwork.atlassian.net" />
+  </component>
+  <component name="WebPackConfiguration">
+    <option name="path" value="$PROJECT_DIR$/config/webpack.config.dev.js" />
+  </component>
 </project>
