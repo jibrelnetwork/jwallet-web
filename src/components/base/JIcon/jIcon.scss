@@ -145,6 +145,16 @@
         background-image: $icon-small-star-blue;
       }
     }
+
+    &.-contract {
+      &.-black {
+        background-image: $icon-small-contract-black;
+      }
+
+      &.-blue {
+        background-image: $icon-small-contract-blue;
+      }
+    }
   }
 
   /**

@@ -13,11 +13,12 @@ type Props = {|
   +assetAddress: ?string,
   +blockExplorerSubdomain: string,
   +ownerAddress: OwnerAddress,
-  +isSyncing: boolean,
+  +isLoading: boolean,
+  +isFiltered: boolean,
 |}
 
 type ComponentState = {
-  +activeItems: Hashes,
+  +activeItems: TransactionId[],
 }
 
 class TransactionsList extends Component<Props, ComponentState> {
@@ -33,14 +34,14 @@ class TransactionsList extends Component<Props, ComponentState> {
     }
   }
 
-  setActive = (hash: Hash) => () => {
+  setActive = (id: TransactionId) => () => {
     const { activeItems }: ComponentState = this.state
-    const isFound: boolean = activeItems.includes(hash)
+    const isFound: boolean = activeItems.includes(id)
 
     this.setState({
       activeItems: !isFound
-        ? activeItems.concat(hash)
-        : activeItems.filter((item: Hash): boolean => (item !== hash)),
+        ? activeItems.concat(id)
+        : activeItems.filter((item: TransactionId): boolean => (item !== id)),
     })
   }
 
@@ -51,10 +52,13 @@ class TransactionsList extends Component<Props, ComponentState> {
       assetAddress,
       ownerAddress,
       blockExplorerSubdomain,
-      isSyncing,
+      isLoading,
+      isFiltered,
     }: Props = this.props
 
-    if (!items.length) {
+    console.log(isFiltered)
+
+    if (!(isLoading || items.length)) {
       return (
         <div className='transactions-list -empty'>
           <TransactionsListEmpty />
@@ -68,17 +72,17 @@ class TransactionsList extends Component<Props, ComponentState> {
       <div className='transactions-list'>
         {items.map((item: TransactionWithAssetAddress) => (
           <TransactionItem
-            key={item.hash}
-            setActive={this.setActive(item.hash)}
+            key={item.id}
+            setActive={this.setActive(item.id)}
             data={item}
             asset={digitalAssets[item.assetAddress]}
             blockExplorerSubdomain={blockExplorerSubdomain}
             isAssetList={!!assetAddress}
-            isActive={activeItems.includes(item.hash)}
-            isReceived={ownerAddress.toLowerCase() === item.to.toLowerCase()}
+            isActive={activeItems.includes(item.id)}
+            isSent={ownerAddress.toLowerCase() === item.from.toLowerCase()}
           />
         ))}
-        {isSyncing && (
+        {isLoading && (
           <div className='loader'>
             <JLoader color='gray' />
           </div>

@@ -25,6 +25,22 @@
   > .item {
     margin-bottom: $transaction-item-v-padding;
 
+    > .value {
+      @include flex-row;
+
+      align-items: center;
+
+      > .icon {
+        margin-right: 5px;
+      }
+
+      > .link {
+        @include flex-row;
+
+        align-items: center;
+      }
+    }
+
     > .label {
       opacity: 0.5;
     }

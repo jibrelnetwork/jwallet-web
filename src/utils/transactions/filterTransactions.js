@@ -1,7 +1,7 @@
 // @flow
 
-function checkPending(hash: Hash): boolean {
-  return !hash
+function checkPending({ blockHash }: TransactionWithAssetAddress): boolean {
+  return !blockHash
 }
 
 function filterTransactions(
@@ -12,7 +12,7 @@ function filterTransactions(
     return items
   }
 
-  return items.filter((item: TransactionWithAssetAddress): boolean => checkPending(item.hash))
+  return items.filter((item: TransactionWithAssetAddress): boolean => checkPending(item))
 }
 
 export default filterTransactions
