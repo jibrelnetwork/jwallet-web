@@ -1,4 +1,4 @@
-.asset-item {
+.favorite-item {
   all: initial;
 
   @include box;
@@ -75,6 +75,7 @@
         margin-left: 30px;
       }
 
+      &.-send,
       &.-edit,
       &.-delete {
         display: none;
@@ -109,6 +110,7 @@
           display: none;
         }
 
+        &.-send,
         &.-edit,
         &.-delete {
           display: block;

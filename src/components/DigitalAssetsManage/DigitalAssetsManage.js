@@ -2,10 +2,10 @@
 
 import React, { PureComponent } from 'react'
 
+import AssetItem from 'components/AssetItem'
 import handle from 'utils/eventHandlers/handle'
 import parseBalance from 'utils/digitalAssets/parseBalance'
 
-import AssetItem from '../AssetItem'
 import Empty from './Empty'
 
 type Props = {|
@@ -38,8 +38,8 @@ class DigitalAssetsGrid extends PureComponent<Props> {
         }) => (
           <div className='box' key={address}>
             <AssetItem
-              editAssetItemClick={handle(editAsset)(address)}
-              deleteAssetItem={handle(deleteCustomAsset)(address)}
+              edit={handle(editAsset)(address)}
+              remove={handle(deleteCustomAsset)(address)}
               setIsActive={(isActiveNew: boolean) => setAssetIsActive(address, isActiveNew)}
               name={name}
               symbol={symbol}
