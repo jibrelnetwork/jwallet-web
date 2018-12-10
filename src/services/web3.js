@@ -569,7 +569,7 @@ function sendTransaction(
       ...baseProps,
     })
   } else {
-    jibrelContractsApi.eth.sendTransaction({
+    jibrelContractsApi.erc20.transfer({
       ...baseProps,
       contractAddress: assetAddress,
     })
