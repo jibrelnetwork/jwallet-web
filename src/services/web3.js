@@ -1,6 +1,7 @@
 // @flow
 
 import Promise from 'bluebird'
+import { BigNumber } from 'bignumber.js'
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { flatten, prop, sortBy, reverse } from 'ramda'
 import { keccak256 } from 'js-sha3'
@@ -8,6 +9,7 @@ import { keccak256 } from 'js-sha3'
 import config from 'config'
 import checkJNT from 'utils/digitalAssets/checkJNT'
 import getFormattedDateString from 'utils/time/getFormattedDateString'
+import * as type from 'utils/type'
 
 const PUSH_INSTRUCTION = '63'
 
@@ -31,17 +33,21 @@ function getRpcProps(): RPCProps {
   return rpcProps
 }
 
-export function getETHBalance(address: Address): Promise<typeof Bignumber> {
+export function getETHBalance(address: Address): Promise<BigNumber> {
   return jibrelContractsApi.eth
     .getBalance({ ...rpcProps, address })
+    .then((value: any) => (typeof value === 'object') ? value : new BigNumber(0))
 }
 
-export function getAssetBalance(
-  contractAddress: Address,
-  owner: Address
-): Promise<typeof Bignumber> {
+export function getAssetBalance(contractAddress: Address, owner: Address): Promise<BigNumber> {
+  /**
+   * Here should be check (value instanceof BigNumber)
+   * but web3 uses another version of BigNumber
+   * so we should check at least that it is an object
+   */
   return jibrelContractsApi.contracts.erc20
     .balanceOf({ ...rpcProps, contractAddress, owner })
+    .then((value: any) => (typeof value === 'object') ? value : new BigNumber(0))
 }
 
 function getContractDecimals(
@@ -49,7 +55,7 @@ function getContractDecimals(
 ): Promise<number> {
   return jibrelContractsApi.contracts.erc20Named
     .decimals({ ...rpcProps, contractAddress })
-    .then(decimals => decimals.toNumber())
+    .then((value: any) => (value instanceof BigNumber) ? value.toNumber() : 0)
 }
 
 function getContractName(
@@ -182,8 +188,67 @@ function getBlockOld(item: { blockHash: Hash }) {
   return blockId ? jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId }) : {}
 }
 
-export function getBlock(blockId: BlockId): Promise<ETHBlock> {
-  return jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId, returnTransactionObjects: true })
+function prepareBlock(data: any): BlockData {
+  if (!(
+    data &&
+    type.isObject(data) &&
+    type.isString(data.hash) &&
+    type.isString(data.parentHash) &&
+    type.isNumber(data.number) &&
+    type.isNumber(data.timestamp)
+  )) {
+    throw new Error('Invalid ETH block format')
+  }
+
+  const {
+    hash,
+    parentHash,
+    number,
+    timestamp,
+  }: Object = data
+
+  return {
+    hash,
+    parentHash,
+    number,
+    timestamp,
+    requestedAt: new Date(),
+    isBalancesLoading: false,
+    isBalancesFetched: false,
+    isTransactionsLoading: false,
+    isTransactionsFetched: false,
+  }
+}
+
+/**
+ * web3 block data: {
+    difficulty: BigNumber,
+    extraData: string,
+    gasLimit: number,
+    gasUsed: number,
+    hash: Hash,
+    logsBloom: string,
+    miner: Address,
+    mixHash: Hash,
+    nonce: Hash,
+    number: number,
+    parentHash: Hash,
+    receiptsRoot: Hash,
+    sha3Uncles: Hash,
+    size: number,
+    stateRoot: Hash,
+    timestamp: number,
+    totalDifficulty: BigNumber,
+    transactions: Array<Hash> | Array<ETHTransaction>,
+    transactionsRoot: Hash,
+    uncles: Array<Object>,
+  }
+ */
+
+export function getBlock(blockId: BlockId): Promise<BlockData> {
+  return jibrelContractsApi.eth
+    .getBlock({ ...rpcProps, blockId })
+    .then(prepareBlock)
 }
 
 function getBlocksData(blocksData: any = []) {

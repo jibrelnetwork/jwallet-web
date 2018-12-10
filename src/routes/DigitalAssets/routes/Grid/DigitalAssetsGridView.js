@@ -3,7 +3,11 @@
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JSearch, JTabs, JIcon } from 'components/base'
+import {
+  JIcon,
+  JTabs,
+  JSearch,
+} from 'components/base'
 
 import {
   DigitalAssetsGrid,
@@ -18,15 +22,14 @@ const DIGITAL_ASSETS_TABS = {
 type Props = {|
   openView: () => void,
   closeView: () => void,
-  setSearchQuery: (string) => void,
+  addAssetClick: () => void,
   sortByNameClick: () => void,
   sortByBalanceClick: () => void,
-  setHideZeroBalance: (boolean) => void,
-  addAssetClick: () => void,
+  setSearchQuery: (string) => void,
   manageAssetsOpenClick: () => void,
-  items: Array<DigitalAssetsGridItemType>,
+  setHideZeroBalance: (boolean) => void,
+  items: DigitalAssetWithBalance[],
   filter: DigitalAssetsFilterType,
-  filterCount: number,
 |}
 
 class DigitalAssetsGridView extends Component<Props> {
@@ -40,16 +43,17 @@ class DigitalAssetsGridView extends Component<Props> {
 
   render() {
     const {
-      items,
+      addAssetClick,
       setSearchQuery,
-      filter,
       sortByNameClick,
       sortByBalanceClick,
       setHideZeroBalance,
-      filterCount,
-      addAssetClick,
       manageAssetsOpenClick,
+      items,
+      filter,
     } = this.props
+
+    const filterCount: number = filter.isHideZeroBalance ? 1 : 0
 
     return (
       <div className='digital-assets-grid-view'>
@@ -60,7 +64,7 @@ class DigitalAssetsGridView extends Component<Props> {
               <div className='search'>
                 <JSearch
                   onChange={setSearchQuery}
-                  placeholder='Search asset...'
+                  placeholder='Search assets...'
                 />
               </div>
               <div className='filter'>

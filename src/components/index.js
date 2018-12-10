@@ -12,9 +12,10 @@ import WalletStep from './WalletStep'
 import ModalHeader from './ModalHeader'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
+import FavoriteItem from './FavoriteItem'
 import PasswordStep from './PasswordStep'
 import WalletHeader from './WalletHeader'
-import FavoriteItem from './FavoriteItem'
+import SettingsGrid from './SettingsGrid'
 import CopyableField from './CopyableField'
 import PasswordField from './PasswordField'
 import WalletLoading from './WalletLoading'
@@ -49,11 +50,12 @@ export {
   WalletFace,
   WalletStep,
   ModalHeader,
-  FavoriteItem,
   PopupButton,
   AssetBalance,
+  FavoriteItem,
   PasswordStep,
   WalletHeader,
+  SettingsGrid,
   CopyableField,
   PasswordField,
   WalletLoading,

@@ -1,5 +1,7 @@
 // @flow
 
+const ONE_SECOND: number = 1000
+
 export default {
   // timeout for search input field (to prevent searching on each entered symbol)
   searchTimeout: 250,
@@ -138,4 +140,19 @@ export default {
     '42': 'api-kovan',
     '4': 'api-rinkeby',
   },
+
+  /**
+   * latest block sync timeout
+   */
+  latestBlockSyncTimeout: 10 * ONE_SECOND,
+
+  /**
+   * current block sync timeout
+   */
+  currentBlockSyncTimeout: 5 * ONE_SECOND,
+
+  /**
+   * processing block wait timeout
+   */
+  processingBlockWaitTimeout: 1 * ONE_SECOND,
 }
