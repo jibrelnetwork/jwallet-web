@@ -7,6 +7,7 @@ import { reactRouterBack } from 'utils/browser'
 import {
   selectDigitalAsset,
   selectDigitalAssetsSend,
+  selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
 import {
@@ -49,6 +50,10 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
   const asset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
   const amountCurrency = (asset && asset.symbol) ? asset.symbol : ''
 
+  const assets = selectActiveDigitalAssets(state)
+
+  console.log(assets)
+
   const feeETH = '0.00'
   const fromName = selectAddressName(state, formFields.ownerAddress)
   const toName = selectAddressName(state, formFields.recepient)
@@ -58,6 +63,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
     params,
     formFields,
     invalidFields,
+    assets,
     // step 2
     amount,
     amountCurrency,

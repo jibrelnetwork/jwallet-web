@@ -8,11 +8,12 @@
 
   position: relative;
   width: $form-width;
-  border-bottom: 1px solid rgba($dusk, 0.1);
-  transition: padding 0.3s ease 0s, border-color 0.3s ease 0s;
+  box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
+  background-color: $white;
+  margin-bottom: 10px;
 
   &:hover {
-    border-bottom: 1px solid rgba($dusk, 0.3);
+    box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
   }
 
   &.-disabled {
@@ -28,7 +29,7 @@
   }
 
   &.-active {
-    border-bottom: 1px solid rgba($dusk, 0.5);
+    border-bottom: 1px solid rgba($dusk, 0.1);
 
     > .options {
       max-height: $select-height;
@@ -38,10 +39,9 @@
   }
 
   &.-value {
-    padding-top: $form-field-padding-top;
-
     > .current {
       > .label {
+        top: 14px;
         width: auto;
         visibility: visible;
         opacity: 0.5;
@@ -59,15 +59,15 @@
     @include flex-row;
 
     align-items: center;
-    height: $form-field-height;
+    height: 64px;
     width: 100%;
+    z-index: 1;
     cursor: pointer;
+    padding: 22px 15px 23px;
 
     > .label {
       position: absolute;
-      top: 22px;
-      left: 0;
-      width: 0;
+      top: 14px;
       overflow: hidden;
       visibility: hidden;
       opacity: 0;
@@ -89,7 +89,6 @@
 
       flex-grow: 1;
       max-width: $form-width - $icon-small-size;
-      padding-right: 20px;
     }
 
     > .chevron {
@@ -104,12 +103,14 @@
 
   > .options {
     z-index: 2;
-    position: relative;
-    max-height: 0;
+    position: absolute;
+    width: $form-width;
+    top: 65px;
     height: $select-height;
     visibility: hidden;
     overflow: hidden;
     opacity: 0;
+    background-color: $white;
     transition: max-height 0.3s ease 0s, opacity 0.3s ease 0s;
   }
 

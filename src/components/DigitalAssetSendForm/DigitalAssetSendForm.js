@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import { AssetPicker } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
 
 type SetFieldFunction = (fieldName: $Keys<DigitalAssetSendFormFields>, value: string) => void
@@ -11,14 +12,20 @@ const setFieldHandler = (
   setField: SetFieldFunction
 ) => (value: string) => setField(fieldName, value)
 
+const setAssetFieldHandler = (
+  // setField: SetFieldFunction,
+) => (value: Object) => console.log(value) // setField('assetAddress', value)
+
 type Props = {|
   +submit: () => void,
   +setField: SetFieldFunction,
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
+  +assets: Array<DigitalAsset>,
 |}
 
 const DigitalAssetSendForm = ({
+  assets,
   submit,
   setField,
   formFields,
@@ -46,7 +53,13 @@ const DigitalAssetSendForm = ({
         color='gray'
         isLoading={false}
       />
-      <JInput
+      <AssetPicker
+        activeAssets={assets}
+        currentAsset={formFields.assetAddress}
+        onSelect={setAssetFieldHandler(setField)}
+        label='Asset address'
+      />
+      {/* <JInput
         onChange={setFieldHandler('assetAddress', setField)}
         value={formFields.assetAddress}
         name='assetAddress'
@@ -55,7 +68,7 @@ const DigitalAssetSendForm = ({
         type='text'
         color='gray'
         isLoading={false}
-      />
+      /> */}
       <div className='value-group'>
         <JInput
           onChange={setFieldHandler('amount', setField)}
@@ -67,7 +80,7 @@ const DigitalAssetSendForm = ({
           color='gray'
           isLoading={false}
         />
-        <JInput
+        {/* <JInput
           onChange={setFieldHandler('amountFiat', setField)}
           value={formFields.amountFiat}
           name='valueFiat'
@@ -76,7 +89,7 @@ const DigitalAssetSendForm = ({
           type='text'
           color='gray'
           isLoading={false}
-        />
+        /> */}
       </div>
       <JInput
         onChange={setFieldHandler('priority', setField)}

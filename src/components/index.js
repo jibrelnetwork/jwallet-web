@@ -9,6 +9,7 @@ import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
 import ModalHeader from './ModalHeader'
+import AssetPicker from './AssetPicker'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
@@ -47,6 +48,7 @@ export {
   WalletFace,
   WalletStep,
   ModalHeader,
+  AssetPicker,
   PopupButton,
   AssetBalance,
   PasswordStep,

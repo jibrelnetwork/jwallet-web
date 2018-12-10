@@ -27,10 +27,10 @@ const JSelect = ({
   >
     <div onClick={isDisabled ? undefined : handle(toggle)(!isOpen)} className='current'>
       <div className='label'>
-        <JText value={label} color={color} size='small' fontCase='upper' />
+        <JText value={label} color={color} size='small' />
       </div>
       <div className='placeholder'>
-        <JText value={label} color={color} size='large' />
+        <JText value={label} color={color} size='semilarge' whiteSpace='wrap' />
       </div>
       <div className='content'>
         {current && React.cloneElement(current, { isOpen, isLoading, isDisabled })}
