@@ -1,6 +1,7 @@
 // @flow
 
 import { select, all, put, call, takeEvery } from 'redux-saga/effects'
+import { push } from 'react-router-redux'
 import keystore from '@jibrelnetwork/jwallet-web-keystore'
 import { BigNumber } from 'bignumber.js'
 
@@ -101,7 +102,7 @@ function getTransactionData(data: GetTransactionDataPayload): TXData {
     asset,
     recepient,
     amount,
-    gas,
+    gasLimit,
     gasPrice,
     nonce,
     privateKey,
@@ -122,8 +123,8 @@ function getTransactionData(data: GetTransactionDataPayload): TXData {
     txData.gasPrice = new BigNumber(gasPrice)
   }
 
-  if (gas) {
-    txData.gasLimit = new BigNumber(gas)
+  if (gasLimit) {
+    txData.gasLimit = new BigNumber(gasLimit)
   }
 
   if (nonce) {
@@ -206,7 +207,15 @@ function* submitPasswordForm(): Saga<void> {
 
     yield put(digitalAssetsSend.setIsProcessing(false))
 
+    console.log('============================')
+    console.log('============================')
+    console.log('============================')
     console.log(txHash)
+    console.log('============================')
+    console.log('============================')
+    console.log('============================')
+
+    yield put(push(`/transactions/${asset.address}`))
   } catch (err) {
     yield put(digitalAssetsSend.setFieldError('password', err.message))
     yield put(digitalAssetsSend.setIsProcessing(false))
