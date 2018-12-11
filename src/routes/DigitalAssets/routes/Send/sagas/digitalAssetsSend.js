@@ -15,6 +15,8 @@ import {
   selectDigitalAsset,
   selectDigitalAssetsSend,
 } from 'store/selectors/digitalAssets'
+import { selectCurrentNetwork } from 'store/selectors/networks'
+
 import { getPrivateKey } from 'routes/Wallets/sagas'
 
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
@@ -148,10 +150,22 @@ function* submitPasswordForm(): Saga<void> {
     formFields: {
       recepient,
       amount,
+      nonce,
       assetAddress,
       password,
     },
   }: DigitalAssetSendState = yield select(selectDigitalAssetsSend)
+
+  if (password === '') {
+    yield put(digitalAssetsSend.setFieldError('password', 'Password is empty'))
+    return
+  }
+
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  if (!network) {
+    yield put(digitalAssetsSend.setFieldError('password', 'Active network is not set'))
+    return
+  }
 
   // it is impossible
   if (step !== digitalAssetsSend.STEP_TWO) {
@@ -171,12 +185,8 @@ function* submitPasswordForm(): Saga<void> {
     return
   }
 
-  if (password === '') {
-    yield put(digitalAssetsSend.setFieldError('password', 'Password is empty'))
-    return
-  }
-
   yield put(digitalAssetsSend.setIsProcessing(true))
+
   try {
     const privateKey: string = (
       yield* getPrivateKey(activeWalletId, password)
@@ -187,15 +197,12 @@ function* submitPasswordForm(): Saga<void> {
       recepient,
       amount,
       privateKey,
+      nonce,
     })
-
-    const handler = checkETH(assetAddress)
-      ? web3.sendETHTransaction
-      : web3.sendContractTransaction
 
     console.log(txData)
 
-    const txHash: string = yield call(handler, txData)
+    const txHash: string = yield call(web3.sendTransaction, network, asset.address, txData)
 
     yield put(digitalAssetsSend.setIsProcessing(false))
 
