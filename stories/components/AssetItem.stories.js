@@ -12,6 +12,7 @@ storiesOf('AssetItem')
     <div className='story'>
       <h2>Default</h2>
       <AssetItem
+        remove={console.log}
         name={ethereum.name}
         symbol={ethereum.symbol}
         address={ethereum.address}
@@ -19,6 +20,7 @@ storiesOf('AssetItem')
       />
       <h2>Is custom</h2>
       <AssetItem
+        remove={console.log}
         name={ethereum.name}
         symbol={ethereum.symbol}
         address={ethereum.address}

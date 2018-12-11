@@ -7,9 +7,9 @@ import { AssetBalance, ButtonWithConfirm } from 'components'
 import { JAssetSymbol, JText, JCard, JIcon, JSwitch, JTooltip } from 'components/base'
 
 type Props = {|
-  deleteAssetItem: () => void,
+  remove: () => void,
   setIsActive: (boolean) => void,
-  editAssetItemClick: () => void,
+  edit: () => void,
   address: Address,
   +name: string,
   +symbol: string,
@@ -51,8 +51,8 @@ class AssetItem extends PureComponent<Props, StateProps> {
   render() {
     const {
       address,
-      deleteAssetItem,
-      editAssetItemClick,
+      remove,
+      edit,
       setIsActive,
       name,
       symbol,
@@ -105,7 +105,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   className='item -edit'
                   onMouseEnter={this.onHoverEdit}
                   onMouseLeave={this.onHoverEdit}
-                  onClick={editAssetItemClick}
+                  onClick={edit}
                 >
                   <JTooltip text='Edit'>
                     <JIcon
@@ -122,7 +122,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   onClick={this.onHoverTrash(false)}
                 >
                   <ButtonWithConfirm
-                    onClick={deleteAssetItem}
+                    onClick={remove}
                     color='blue'
                     bgColor='white'
                     labelCancel='No'
