@@ -59,16 +59,16 @@ const DigitalAssetSendForm = ({
         onSelect={setAssetAddressFieldHandler(setField)}
         label='Asset address'
       />
-      {/* <JInput
-        onChange={setFieldHandler('assetAddress', setField)}
-        value={formFields.assetAddress}
-        name='assetAddress'
-        errorMessage={invalidFields.assetAddress}
-        placeholder='Asset address'
+      <JInput
+        onChange={setFieldHandler('priority', setField)}
+        value={formFields.priority}
+        name='priority'
+        errorMessage={invalidFields.priority}
+        placeholder='Priority'
         type='text'
         color='gray'
         isLoading={false}
-      /> */}
+      />
       <div className='value-group'>
         <JInput
           onChange={setFieldHandler('amount', setField)}
@@ -91,16 +91,28 @@ const DigitalAssetSendForm = ({
           isLoading={false}
         /> */}
       </div>
-      <JInput
-        onChange={setFieldHandler('priority', setField)}
-        value={formFields.priority}
-        name='priority'
-        errorMessage={invalidFields.priority}
-        placeholder='Priority'
-        type='text'
-        color='gray'
-        isLoading={false}
-      />
+      <div className='value-group'>
+        <JInput
+          onChange={setFieldHandler('nonce', setField)}
+          value={formFields.nonce}
+          name='nonce'
+          errorMessage={invalidFields.nonce}
+          placeholder='Nonce'
+          type='text'
+          color='gray'
+          isLoading={false}
+        />
+        {/* <JInput
+          onChange={setFieldHandler('amountFiat', setField)}
+          value={formFields.amountFiat}
+          name='valueFiat'
+          errorMessage={invalidFields.amountFiat}
+          placeholder='Value Fiat'
+          type='text'
+          color='gray'
+          isLoading={false}
+        /> */}
+      </div>
       <div className='actions'>
         <JRaisedButton
           onClick={submit}
