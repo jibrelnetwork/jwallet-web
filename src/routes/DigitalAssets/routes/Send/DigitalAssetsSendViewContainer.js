@@ -52,8 +52,6 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
 
   const assets = selectActiveDigitalAssets(state)
 
-  console.log(assets)
-
   const feeETH = '0.00'
   const fromName = selectAddressName(state, formFields.ownerAddress)
   const toName = selectAddressName(state, formFields.recepient)
