@@ -3,8 +3,11 @@
 import flattenTransactionsByAsset from './flattenTransactionsByAsset'
 
 function flattenTransactionsByOwner(items: TransactionsByOwner): TransactionWithAssetAddress[] {
-  return Object.keys(items).reduce((result: TransactionWithAssetAddress[], asset: AssetAddress) => {
-    const transactionsByAsset: ?Transactions = items[asset]
+  return Object.keys(items).reduce((
+    result: TransactionWithAssetAddress[],
+    assetAddress: AssetAddress,
+  ) => {
+    const transactionsByAsset: ?TransactionsByAssetAddress = items[assetAddress]
 
     if (!transactionsByAsset) {
       return result
@@ -12,7 +15,7 @@ function flattenTransactionsByOwner(items: TransactionsByOwner): TransactionWith
 
     const flattenedByAsset: TransactionWithAssetAddress[] = flattenTransactionsByAsset(
       transactionsByAsset,
-      asset,
+      assetAddress,
     )
 
     return [

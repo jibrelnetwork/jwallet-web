@@ -47,6 +47,14 @@
       padding-left: 20px;
       padding-right: 20px;
 
+      > .address {
+        @include flex-row;
+
+        > .icon {
+          margin-right: 5px;
+        }
+      }
+
       > .time {
         opacity: 0.5;
         margin-top: 3px;
