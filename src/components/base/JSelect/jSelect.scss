@@ -110,8 +110,10 @@
     visibility: hidden;
     overflow: hidden;
     opacity: 0;
+    max-height: 0;
     background-color: $white;
     transition: max-height 0.3s ease 0s, opacity 0.3s ease 0s;
+    box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
   }
 
   > .overlay {
