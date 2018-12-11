@@ -1,3 +1,56 @@
 .settings-view {
   all: initial;
+
+  @include box;
+  @include flex-column-center;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  > .header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+    background-image:
+      linear-gradient(
+        to bottom,
+        hsl(228, 33.33%, 97.06%) 0%,
+        hsl(228, 33.33%, 97.06%) 60%,
+        hsla(228, 33.33%, 97.06%, 0) 100%
+      );
+
+    > .container {
+      @include flex-row;
+
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      align-items: center;
+      justify-content: space-between;
+      height: $page-header-height;
+
+      > .actions {
+        display: flex;
+        align-items: center;
+        padding-right: 20px;
+        position: relative;
+        height: 100%;
+      }
+    }
+  }
+
+  > .content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    > .container {
+      max-width: 1020px;
+      margin: 0 auto $page-header-height/2 auto;
+      padding-top: $page-header-height;
+    }
+  }
 }

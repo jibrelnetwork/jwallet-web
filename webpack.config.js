@@ -246,6 +246,7 @@ module.exports = {
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
       NODE_ENV: process.env.NODE_ENV,
       PUBLIC_URL: publicUrl,
+      GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     }),
 
     // Makes some environment variables available to the JS code, for example:
@@ -327,7 +328,7 @@ module.exports = {
     isEnvProduction &&
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: '../reports/bundle/index.html',
+      reportFilename: '../reports/bundle-size/index.html',
       openAnalyzer: false,
     }),
 

@@ -1,5 +1,6 @@
 .transactions-list {
   all: initial;
+  position: relative;
   display: block;
   max-width: 1000px;
   margin: 0 auto 50px auto;
@@ -8,7 +9,10 @@
   > .loader {
     @include flex-row-center;
 
-    margin-top: 30px;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
   }
 
   &.-empty {

@@ -23,18 +23,11 @@
     <link rel='icon' type='image/png' sizes='32x32' href='%PUBLIC_URL%/assets/favicon/favicon-32x32.png' />
     <link rel='icon' type='image/png' sizes='16x16' href='%PUBLIC_URL%/assets/favicon/favicon-16x16.png' />
     <link rel='manifest' href='%PUBLIC_URL%/assets/favicon/manifest.json' />
-    <link rel='mask-icon' href='%PUBLIC_URL%/assets/favicon/safari-pinned-tab.svg' color='#5bbad5' />
+    <link rel='mask-icon' href='%PUBLIC_URL%/assets/favicon/safari-pinned-tab.svg' color='#003dc6' />
     <link rel='shortcut icon' href='%PUBLIC_URL%/assets/favicon/favicon.ico' />
     <meta name='msapplication-config' content='%PUBLIC_URL%/assets/favicon/browserconfig.xml' />
     <meta name='theme-color' content='#ffffff' />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' />
-    <!-- Google Tag Manager -->
-    <script>
-      (function(w,d,s,l,i){
-        w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NVF533L');
-    </script>
-    <!-- End Google Tag Manager -->
     <!-- Ethereum nodes -->
     <script>
       window.__MAIN_RPC_ADDR__ = '[MAIN_RPC_ADDR]'
@@ -45,56 +38,17 @@
     <!-- End Ethereum nodes -->
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src='https://www.googletagmanager.com/ns.html?id=GTM-NVF533L'
-        height='0'
-        width='0'
-        style='display:none;visibility:hidden'
-      ></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <!-- Yandex.Metrika counter -->
-    <script type='text/javascript' >
-      (function (d, w, c) {
-        (w[c] = w[c] || []).push(function() {
-          try {
-            w.yaCounter47049348 = new Ya.Metrika({
-              id:47049348,
-              clickmap:true,
-              trackLinks:true,
-              accurateTrackBounce:true,
-              webvisor:true
-            });
-          } catch(e) { }
-        });
-
-        var n = d.getElementsByTagName('script')[0],
-            s = d.createElement('script'),
-            f = function () { n.parentNode.insertBefore(s, n); };
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = 'https://mc.yandex.ru/metrika/watch.js';
-
-        if (w.opera == '[object Opera]') {
-          d.addEventListener('DOMContentLoaded', f, false);
-        } else { f(); }
-      })(document, window, 'yandex_metrika_callbacks');
-    </script>
-    <noscript>
-      <div>
-        <img
-          src='https://mc.yandex.ru/watch/47049348'
-          style='position:absolute; left:-9999px;'
-          alt=''
-        />
-      </div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id='root'></div>
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', '%GOOGLE_ANALYTICS_ID%', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
   </body>
 </html>

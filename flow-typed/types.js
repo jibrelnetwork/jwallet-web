@@ -17,6 +17,7 @@ declare type SortDirection = 'asc' | 'desc'
 
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 declare type BalanceString = string
+declare type CurrencyCode = 'USD' | 'EUR'
 
 declare type FormFields = { [string]: ?string }
 

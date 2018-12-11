@@ -21,7 +21,6 @@ import {
 
 import config from 'config'
 import web3 from 'services/web3'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import {
@@ -30,11 +29,21 @@ import {
   selectProcessingBlock,
 } from 'store/selectors/blocks'
 
+import {
+  selectNetworkById,
+  selectCurrentNetworkId,
+} from 'store/selectors/networks'
+
 import * as balances from 'routes/modules/balances'
 import * as transactions from 'routes/modules/transactions'
 
 import { requestBalance } from './balances'
-import { requestTransactions } from './transactions'
+
+import {
+  requestTransaction,
+  requestTransactions,
+} from './transactions'
+
 import * as blocks from '../modules/blocks'
 
 function* latestBlockSync(networkId: NetworkId): Saga<void> {
@@ -42,8 +51,15 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
     while (true) {
       const latestBlock: ?BlockData = yield select(selectLatestBlock, networkId)
 
+      const network: ExtractReturn<typeof selectNetworkById> =
+        yield select(selectNetworkById, networkId)
+
+      if (!network) {
+        throw new Error('Active network does not exist')
+      }
+
       try {
-        const block: BlockData = yield call(web3.getBlock, 'latest')
+        const block: BlockData = yield call(web3.getBlock, network, 'latest')
 
         if (!latestBlock) {
           yield put(blocks.setLatestBlock(networkId, block))
@@ -71,18 +87,18 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
 
 function* currentBlockSync(networkId: NetworkId): Saga<void> {
   while (true) {
-    yield call(delay, config.currentBlockSyncTimeout)
-
     const latestBlock: ?BlockData = yield select(selectLatestBlock, networkId)
     const currentBlock: ?BlockData = yield select(selectCurrentBlock, networkId)
     const processingBlock: ?BlockData = yield select(selectProcessingBlock, networkId)
 
     if (!latestBlock) {
+      yield call(delay, config.currentBlockSyncTimeout)
       continue
     }
 
     if (!processingBlock) {
       yield put(blocks.setProcessingBlock(networkId, latestBlock))
+      yield call(delay, config.currentBlockSyncTimeout)
       continue
     }
 
@@ -108,6 +124,8 @@ function* currentBlockSync(networkId: NetworkId): Saga<void> {
         yield put(blocks.setProcessingBlock(networkId, latestBlock))
       }
     }
+
+    yield call(delay, config.currentBlockSyncTimeout)
   }
 }
 
@@ -120,11 +138,20 @@ export function* processQueue(
   while (true) {
     const request: SchedulerTask = yield take(requestQueue)
 
+    const network: ExtractReturn<typeof selectNetworkById> =
+      yield select(selectNetworkById, networkId)
+
+    if (!network) {
+      throw new Error('Active network does not exist')
+    }
+
     try {
       if (request.module === 'balances') {
-        yield* requestBalance(request, networkId, ownerAddress, blockNumber)
+        yield* requestBalance(request, network, ownerAddress, blockNumber)
       } else if (request.module === 'transactions') {
-        yield* requestTransactions(requestQueue, request, networkId, ownerAddress)
+        yield* requestTransactions(requestQueue, request, network, ownerAddress)
+      } else if (request.module === 'transaction') {
+        yield* requestTransaction(request, network, ownerAddress)
       } else {
         throw new Error(`Task handler for module ${request.module} is not defined`)
       }
@@ -156,7 +183,7 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
       const requestQueue: Channel = yield channel(buffer)
 
       const processQueueTasks: Array<Task<typeof processQueue>> = yield all(Array
-        .from({ length: 5 })
+        .from({ length: config.requestQueueWorkersCount })
         .map(() => fork(
           processQueue,
           requestQueue,
@@ -173,12 +200,12 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
         processingBlock,
       ))
 
-      yield put(transactions.syncStart(
+      yield put(transactions.fetchByOwnerRequest(
         requestQueue,
         networkId,
         ownerAddress,
-        currentBlock,
-        processingBlock,
+        currentBlock ? currentBlock.number : 0,
+        processingBlock.number,
       ))
 
       // wait current block change
@@ -187,14 +214,12 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
       yield all(processQueueTasks.map(task => cancel(task)))
 
       yield put(balances.syncStop())
-      yield put(transactions.syncStop())
 
       requestQueue.close()
     }
   } finally {
     if (yield cancelled()) {
       yield put(balances.syncStop())
-      yield put(transactions.syncStop())
     }
   }
 }

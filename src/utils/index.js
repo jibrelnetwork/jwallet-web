@@ -4,8 +4,10 @@ import * as i18nUtils from './i18n'
 import * as timeUtils from './time'
 import * as errorsUtils from './errors'
 import * as browserUtils from './browser'
+import * as numbersUtils from './numbers'
 import * as walletsUtils from './wallets'
 import * as networksUtils from './networks'
+import * as formattersUtils from './formatters'
 import * as digitalAssetsUtils from './digitalAssets'
 import * as eventHandlersUtils from './eventHandlers'
 
@@ -14,8 +16,10 @@ export {
   timeUtils,
   errorsUtils,
   browserUtils,
+  numbersUtils,
   walletsUtils,
   networksUtils,
+  formattersUtils,
   digitalAssetsUtils,
   eventHandlersUtils,
 }
