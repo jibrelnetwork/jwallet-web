@@ -40,6 +40,20 @@ const MAIN_ASSETS = [{
   isActive: true,
   isCustom: false,
 }, {
+  name: 'South Korean Won',
+  symbol: 'JKRW',
+  decimals: 18,
+  address: '0x3aee4eea2cbb7769a1dcbc4f7287c85c45e2a70f',
+  isActive: true,
+  isCustom: false,
+}, {
+  name: 'Azbit',
+  symbol: 'AZ',
+  decimals: 18,
+  address: '0xeccab39acb2caf9adba72c1cb92fdc106b993e0b',
+  isActive: true,
+  isCustom: true,
+}, {
   name: 'Qtum',
   symbol: 'QTUM',
   decimals: 18,
