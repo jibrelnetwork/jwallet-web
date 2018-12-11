@@ -18,7 +18,7 @@ import {
 
 // const BALANCE_DECIMAL_PLACES: number = 4
 
-function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance) {
+function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetched: boolean) {
   const {
     name,
     symbol,
@@ -31,7 +31,9 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance) {
 
   return {
     '/digital-assets': 'Digital assets',
-    [`/transactions/${asset.address}`]: assetBalance ? `${name} — ${balance} ${symbol}` : name,
+    [`/transactions/${asset.address}`]: (isFetched && assetBalance)
+      ? `${name} — ${balance} ${symbol}`
+      : name,
   }
 }
 
@@ -49,6 +51,7 @@ type Props = {|
   +ownerAddress: ?OwnerAddress,
   +isLoading: boolean,
   +isOnlyPending: boolean,
+  +isCurrentBlockEmpty: boolean,
 |}
 
 function TransactionsAssetView({
@@ -63,6 +66,7 @@ function TransactionsAssetView({
   ownerAddress,
   isLoading,
   isOnlyPending,
+  isCurrentBlockEmpty,
 }: Props) {
   if (!(ownerAddress && network)) {
     return null
@@ -75,12 +79,13 @@ function TransactionsAssetView({
   }
 
   const filterCount: number = isOnlyPending ? 1 : 0
+  const isBalanceAllowed: boolean = !isLoading || (!(!transactions.length || isCurrentBlockEmpty))
 
   return (
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
-          <JTabs tabs={getTransactionsTabs(asset, assetBalance)} />
+          <JTabs tabs={getTransactionsTabs(asset, assetBalance, isBalanceAllowed)} />
           <div className='actions'>
             <div className='search'>
               <JSearch
@@ -114,8 +119,8 @@ function TransactionsAssetView({
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
-            isLoading={isLoading}
             isFiltered={!!filterCount || !!searchQuery}
+            isLoading={isLoading || isCurrentBlockEmpty}
           />
         </Scrollbars>
       </div>
