@@ -14,7 +14,7 @@ type Props = {|
   +blockExplorerSubdomain: string,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
-  +isFiltered: boolean,
+  // +isFiltered: boolean,
 |}
 
 type ComponentState = {
@@ -53,10 +53,8 @@ class TransactionsList extends Component<Props, ComponentState> {
       ownerAddress,
       blockExplorerSubdomain,
       isLoading,
-      isFiltered,
+      // isFiltered,
     }: Props = this.props
-
-    console.log(isFiltered)
 
     if (!(isLoading || items.length)) {
       return (
