@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 import { JIcon, JText } from 'components/base'
 import type { JIconColor } from 'components/base/JIcon/JIcon'
 
-type Props = {|
+export type Props = {|
   +title: string,
   +description: string,
   +path: string,

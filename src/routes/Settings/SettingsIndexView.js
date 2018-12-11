@@ -4,7 +4,8 @@ import React, { PureComponent } from 'react'
 
 import { JText, JSearch } from 'components/base'
 import { SettingsGrid } from 'components'
-import SettingsGridCard from 'components/SettingsGrid/SettingsGridCard'
+import SettingsGridCard,
+{ type SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
 
 import { divideThousands } from 'utils/numbers'
 import { formatBoolean, formatCurrency, formatLanguage } from 'utils/formatters'
@@ -25,100 +26,99 @@ const getSettingsCardProperties = ({
   walletName,
   derivationPath,
   passphrase,
-}) => [
-  {
-    title: 'Local currency',
-    description: formatCurrency(localCurrencyCode),
-    path: 'settings/currency',
-    iconName: 'local-currency',
-  },
-  {
-    title: 'Default GAS Price',
-    description: divideThousands(defaultGasPrice),
-    path: 'settings/gas-price',
-    iconName: 'time',
-  },
-  {
-    title: 'System language',
-    description: formatLanguage(systemLanguageCode),
-    path: 'settings/language',
-    iconName: 'language',
-  },
-  {
-    title: 'PIN Code',
-    description: formatBoolean(hasPinCode),
-    path: 'settings/pin-code',
-    iconName: 'lock-pin',
-  },
-  {
-    title: 'Security password',
-    description: 'Change',
-    path: 'settings/password',
-    iconName: 'lock-pin',
-  },
-  {
-    title: 'Exchange service',
-    description: 'Try Jcash',
-    path: 'https://jcash.network/',
-    iconName: 'exchange-service',
-  },
-  {
-    title: 'Support',
-    description: 'Send ticket to support',
-    path: 'settings/support',
-    iconName: 'message',
-  },
-  {
-    title: 'Sing a message',
-    description: isFullMnemonic ? 'Enable' : ' ',
-    path: 'settings/sign',
-    iconName: 'message',
-  },
-  {
-    title: 'Check a signature',
-    description: isFullMnemonic ? 'Enable' : ' ',
-    path: 'settings/check-signature',
-    iconName: 'protect',
-    iconColor: 'blue',
-  },
-  {
-    title: 'Backup wallet',
-    description: 'Save your money!',
-    path: 'settings/backup',
-    iconName: 'backup-wallet',
-  },
-  {
-    title: 'Network name',
-    description: networkName || ' ',
-    path: 'settings/network',
-    iconName: 'network',
-  },
-  {
-    title: 'Rename wallet',
-    description: walletName,
-    path: 'settings/rename',
-    iconName: 'backup-wallet',
-  },
-  {
-    title: 'Derivation path',
-    description: isFullMnemonic && derivationPath ? derivationPath : ' ',
-    path: 'settings/derivation',
-    iconName: 'setting',
-  },
-  {
-    title: 'Passphrase',
-    description: isFullMnemonic && passphrase ? passphrase : ' ',
-    path: 'settings/passphrase',
-    iconName: 'setting',
-  },
-  {
-    title: 'Delete wallet',
-    description: 'Badaaaah!',
-    path: 'settings/delete',
-    iconName: 'cross-circle',
-    iconColor: 'red',
-  },
-]
+}): {...SettingsGridCardProps, searchTags: string}[] => [{
+  title: 'Local currency',
+  description: formatCurrency(localCurrencyCode),
+  path: 'settings/currency',
+  iconName: 'local-currency',
+  searchTags: '',
+}, {
+  title: 'Default GAS Price',
+  description: divideThousands(defaultGasPrice),
+  path: 'settings/gas-price',
+  iconName: 'time',
+  searchTags: '',
+}, {
+  title: 'System language',
+  description: formatLanguage(systemLanguageCode),
+  path: 'settings/language',
+  iconName: 'language',
+  searchTags: 'locale translation',
+}, {
+  title: 'PIN Code',
+  description: formatBoolean(hasPinCode),
+  path: 'settings/pin-code',
+  iconName: 'lock-pin',
+  searchTags: '',
+}, {
+  title: 'Security password',
+  description: 'Change',
+  path: 'settings/password',
+  iconName: 'lock-pin',
+  searchTags: '',
+}, {
+  title: 'Exchange service',
+  description: 'Try Jcash',
+  path: 'https://jcash.network/',
+  iconName: 'exchange-service',
+  searchTags: '',
+}, {
+  title: 'Support',
+  description: 'Send ticket to support',
+  path: 'settings/support',
+  iconName: 'message',
+  searchTags: '',
+}, {
+  title: 'Sing a message',
+  description: isFullMnemonic ? 'Enable' : ' ',
+  path: 'settings/sign',
+  iconName: 'message',
+  searchTags: '',
+}, {
+  title: 'Check a signature',
+  description: isFullMnemonic ? 'Enable' : ' ',
+  path: 'settings/check-signature',
+  iconName: 'protect',
+  iconColor: 'blue',
+  searchTags: '',
+}, {
+  title: 'Backup wallet',
+  description: 'Save your money!',
+  path: 'settings/backup',
+  iconName: 'backup-wallet',
+  searchTags: '',
+}, {
+  title: 'Network name',
+  description: networkName || ' ',
+  path: 'settings/network',
+  iconName: 'network',
+  searchTags: '',
+}, {
+  title: 'Rename wallet',
+  description: walletName,
+  path: 'settings/rename',
+  iconName: 'backup-wallet',
+  searchTags: '',
+}, {
+  title: 'Derivation path',
+  description: isFullMnemonic && derivationPath ? derivationPath : ' ',
+  path: 'settings/derivation',
+  iconName: 'setting',
+  searchTags: '',
+}, {
+  title: 'Passphrase',
+  description: isFullMnemonic && passphrase ? passphrase : ' ',
+  path: 'settings/passphrase',
+  iconName: 'setting',
+  searchTags: '',
+}, {
+  title: 'Delete wallet',
+  description: 'Badaaaah!',
+  path: 'settings/delete',
+  iconName: 'cross-circle',
+  iconColor: 'red',
+  searchTags: '',
+}]
 
 type State = {|
   searchQuery: string
@@ -137,10 +137,10 @@ class SettingsIndexView extends PureComponent<Props, State> {
     this.setState({ searchQuery: query.toLowerCase() })
   }
 
-  filterCardByQuery = (value: string): boolean => {
+  filterCardByQuery = (query: string): boolean => {
     const queryPattern = new RegExp(`.*${this.state.searchQuery}.*`)
 
-    return queryPattern.test(value.toLowerCase())
+    return queryPattern.test(query.toLowerCase())
   }
 
   render() {
@@ -162,7 +162,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
     const derivationPath = mnemonicOptions ? mnemonicOptions.derivationPath : null
     const passphrase = mnemonicOptions ? mnemonicOptions.passphrase : null
 
-    const SettingsCards = getSettingsCardProperties({
+    const settingsCards = getSettingsCardProperties({
       localCurrencyCode,
       defaultGasPrice,
       systemLanguageCode,
@@ -173,17 +173,19 @@ class SettingsIndexView extends PureComponent<Props, State> {
       derivationPath,
       passphrase,
     }).filter((elementProps) => {
-      const { description, title } = elementProps
+      const { description, title, searchTags } = elementProps
 
       if (description === null || description === false) {
         return false
       }
-      if (!this.filterCardByQuery(description) && !this.filterCardByQuery(title)) {
+      if (!this.filterCardByQuery(description)
+        && !this.filterCardByQuery(title)
+        && !this.filterCardByQuery(searchTags)) {
         return false
       }
 
       return elementProps
-    }).map(properties => <SettingsGridCard key={properties.path} {...properties} />)
+    })
 
     return (
       <div className='settings-view'>
@@ -203,7 +205,16 @@ class SettingsIndexView extends PureComponent<Props, State> {
         <main className='content'>
           <div className='container'>
             <SettingsGrid>
-              {SettingsCards}
+              {settingsCards.map(properties => (
+                <SettingsGridCard
+                  key={properties.path}
+                  title={properties.title}
+                  description={properties.description}
+                  path={properties.path}
+                  iconName={properties.iconName}
+                  iconColor={properties.iconColor}
+                />
+              ))}
             </SettingsGrid>
           </div>
         </main>
