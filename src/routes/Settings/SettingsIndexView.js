@@ -134,13 +134,13 @@ class SettingsIndexView extends PureComponent<Props, State> {
   }
 
   setSearchQuery = (query: string): void => {
-    this.setState({ searchQuery: query.toLowerCase() })
+    this.setState({ searchQuery: query })
   }
 
   filterCardByQuery = (query: string): boolean => {
-    const queryPattern = new RegExp(`.*${this.state.searchQuery}.*`)
+    const queryPattern = new RegExp(this.state.searchQuery, 'gi')
 
-    return queryPattern.test(query.toLowerCase())
+    return queryPattern.test(query)
   }
 
   render() {
