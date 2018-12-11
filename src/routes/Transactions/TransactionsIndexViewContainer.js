@@ -78,7 +78,9 @@ function mapStateToProps(state: AppState) {
     ownerAddress,
     isOnlyPending,
     isLoading: isCurrentBlockEmpty || isLoading,
-    transactions: prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
+    transactions: isCurrentBlockEmpty
+      ? []
+      : prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
   }
 }
 

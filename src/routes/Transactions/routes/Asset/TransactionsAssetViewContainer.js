@@ -96,9 +96,10 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     searchQuery,
     assetBalance,
     ownerAddress,
+    isLoading,
     isOnlyPending,
-    isLoading: isCurrentBlockEmpty || isLoading,
-    transactions: prepareTransactions(
+    isCurrentBlockEmpty,
+    transactions: isCurrentBlockEmpty ? [] : prepareTransactions(
       transactionsByAsset,
       assetAddress,
       searchQuery,
