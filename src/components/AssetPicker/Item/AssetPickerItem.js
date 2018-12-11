@@ -11,15 +11,17 @@ const AssetPickerItem = ({ name, symbol, balance, isActive, isLoading, isDisable
     className={classNames('asset-picker-item', isActive && '-active', isDisabled && '-disabled')}
   >
     <div className='info'>
+      <div className='symbol'>
+        <div className='wrap'>
+          <JAssetSymbol symbol={symbol} color={isActive ? 'blue' : 'gray'} />
+        </div>
+      </div>
       <div className='name'>
-        <JText value={name} color='gray' weight='bold' />
+        <JText value={name} color='gray' weight='bold' whiteSpace='wrap' />
       </div>
       <div className='balance'>
         <AssetBalance symbol={symbol} color='gray' balance={balance} isLoading={isLoading} />
       </div>
-    </div>
-    <div className='symbol'>
-      <JAssetSymbol symbol={symbol} color='gray' />
     </div>
   </div>
 )

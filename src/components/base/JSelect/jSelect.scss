@@ -29,7 +29,7 @@
   }
 
   &.-active {
-    border-bottom: 1px solid rgba($dusk, 0.1);
+    border-bottom: $pale-grey-two;
 
     > .options {
       max-height: $select-height;

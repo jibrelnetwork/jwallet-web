@@ -17,13 +17,6 @@
     }
   }
 
-  &:hover,
-  &.-active {
-    > .symbol {
-      opacity: 0.5;
-    }
-  }
-
   > .info {
     @include box;
     @include flex-row;
@@ -31,7 +24,7 @@
     align-items: center;
     max-width: calc(100% - #{$token-icon-size});
     padding-right: 30px;
-    margin-top: 14px;
+    margin-top: 16px;
 
     > .name,
     > .balance {
@@ -44,7 +37,7 @@
   }
 
   > .symbol {
-    margin-left: auto;
+    margin: 0 12px 0 auto;
     opacity: 0.2;
     transition: opacity 0.3s ease 0s;
   }

@@ -36,8 +36,7 @@ const JSelect = ({
         {current && React.cloneElement(current, { isOpen, isLoading, isDisabled })}
       </div>
       <div className='chevron'>
-        {/* @TODO: need add size param to icon */}
-        <JIcon name={isOpen ? 'narrow' : 'expand'} color={color} />
+        <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' size='medium' />
       </div>
     </div>
     <div onClick={handle(toggle)(false)} className='options'>

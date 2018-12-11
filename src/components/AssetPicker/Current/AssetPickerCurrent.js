@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import AssetBalance from 'components/AssetBalance'
+import { AssetBalance } from 'components'
 import { JAssetSymbol, JText } from 'components/base'
 
 /**

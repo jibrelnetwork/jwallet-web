@@ -12,9 +12,9 @@ const setFieldHandler = (
   setField: SetFieldFunction
 ) => (value: string) => setField(fieldName, value)
 
-const setAssetFieldHandler = (
-  // setField: SetFieldFunction,
-) => (value: Object) => console.log(value) // setField('assetAddress', value)
+const setAssetAddressFieldHandler = (
+  setField: SetFieldFunction,
+) => (value: Address) => setField('assetAddress', value)
 
 type Props = {|
   +submit: () => void,
@@ -56,7 +56,7 @@ const DigitalAssetSendForm = ({
       <AssetPicker
         activeAssets={assets}
         currentAsset={formFields.assetAddress}
-        onSelect={setAssetFieldHandler(setField)}
+        onSelect={setAssetAddressFieldHandler(setField)}
         label='Asset address'
       />
       {/* <JInput
