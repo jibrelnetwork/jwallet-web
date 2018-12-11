@@ -33,7 +33,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<
     throw new Error('Block explorer is not supported for private networks')
   }
 
-  const apiEnpoint: string = `https://${apiSubdomain}.etherscan.io/api`
+  const apiEnpoint: string = `http://${apiSubdomain}.etherscan.io/api`
 
   const queryParams: string = Object
     .keys(params)
