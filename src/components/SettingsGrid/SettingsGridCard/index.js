@@ -1,4 +1,5 @@
 // @flow
-import SettingsGridCard from './SettingsGridCard'
+import SettingsGridCard, { type Props } from './SettingsGridCard'
 
 export default SettingsGridCard
+export type SettingsGridCardProps = Props
