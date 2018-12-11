@@ -6,10 +6,16 @@ import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
+  sortTransactions,
   filterTransactions,
   searchTransactions,
   flattenTransactionsByOwner,
 } from 'utils/transactions'
+
+import {
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
 
 import {
   selectNetworkById,
@@ -19,7 +25,6 @@ import {
 import {
   selectTransactions,
   selectTransactionsByOwner,
-  selectTransactionsSyncing,
 } from 'store/selectors/transactions'
 
 import {
@@ -41,16 +46,18 @@ function prepareTransactions(
   const flatten: TransactionWithAssetAddress[] = flattenTransactionsByOwner(items)
   const filtered: TransactionWithAssetAddress[] = filterTransactions(flatten, isOnlyPending)
   const found: TransactionWithAssetAddress[] = searchTransactions(filtered, searchQuery)
+  const sorted: TransactionWithAssetAddress[] = sortTransactions(found)
 
-  return found
+  return sorted
 }
 
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const isSyncing: boolean = selectTransactionsSyncing(state)
   const network: ?Network = selectNetworkById(state, networkId)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
 
   const {
     searchQuery,
@@ -61,13 +68,16 @@ function mapStateToProps(state: AppState) {
     ? selectTransactionsByOwner(state, networkId, ownerAddress)
     : null
 
+  const isCurrentBlockEmpty: boolean = !currentBlock
+  const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
+
   return {
     digitalAssets,
     network,
     searchQuery,
     ownerAddress,
-    isSyncing,
     isOnlyPending,
+    isLoading: isCurrentBlockEmpty || isLoading,
     transactions: prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
   }
 }

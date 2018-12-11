@@ -44,7 +44,7 @@ export function selectTransactionsByAsset(
   networkId: NetworkId,
   owner: OwnerAddress,
   asset: AssetAddress,
-): ?Transactions {
+): ?TransactionsByAssetAddress {
   const byOwner: ?TransactionsByOwner = selectTransactionsByOwner(state, networkId, owner)
 
   if (!byOwner) {
@@ -54,6 +54,23 @@ export function selectTransactionsByAsset(
   return byOwner[asset]
 }
 
-export function selectTransactionsSyncing(state: AppState): boolean {
-  return state.transactions.isSyncing
+export function selectTransactionsByBlockNumber(
+  state: AppState,
+  networkId: NetworkId,
+  owner: OwnerAddress,
+  asset: AssetAddress,
+  blockNumber: BlockNumber,
+): ?TransactionsByBlockNumber {
+  const byAssetAddress: ?TransactionsByAssetAddress = selectTransactionsByAsset(
+    state,
+    networkId,
+    owner,
+    asset,
+  )
+
+  if (!byAssetAddress) {
+    return null
+  }
+
+  return byAssetAddress[blockNumber]
 }

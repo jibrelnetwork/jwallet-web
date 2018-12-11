@@ -1,0 +1,121 @@
+.favorite-item {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 20px 0;
+  height: 80px;
+
+  > .info {
+    @include flex-row;
+
+    align-items: center;
+
+    > .symbol {
+      @include flex-row-center;
+
+      width: 80px;
+
+      &.-icon {
+        opacity: 0.2;
+      }
+
+      &.-text {
+        height: 36px;
+      }
+    }
+
+    > .data {
+      padding-left: 20px;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -20px;
+        width: 1px;
+        height: 40px;
+        background-color: $pale-grey-two;
+      }
+
+      > .balance {
+        margin-top: 4px;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  > .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    cursor: pointer;
+  }
+
+  > .actions {
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    position: relative;
+    height: 100%;
+
+    > .item {
+      cursor: pointer;
+
+      &:not(:first-child) {
+        margin-left: 30px;
+      }
+
+      &.-send,
+      &.-edit,
+      &.-delete {
+        display: none;
+      }
+
+      &.-dots {
+        opacity: 0.3;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:active {
+          opacity: 0.6;
+        }
+      }
+    }
+
+    > .button {
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &.-active {
+    > .overlay {
+      display: block;
+    }
+
+    > .actions {
+      > .item {
+        &.-dots {
+          display: none;
+        }
+
+        &.-send,
+        &.-edit,
+        &.-delete {
+          display: block;
+        }
+      }
+    }
+  }
+}
