@@ -2,11 +2,11 @@
 
 import mainAssets from 'data/assets/main'
 
-function checkJNT(contractAddress: Address): boolean {
+function checkJNT(address: AssetAddress): boolean {
   const jntAsset: ?DigitalAsset = mainAssets
     .find(({ symbol }: DigitalAsset): boolean => (symbol === 'JNT'))
 
-  return jntAsset ? (contractAddress.toLowerCase() === jntAsset.address.toLowerCase()) : false
+  return jntAsset ? (address.toLowerCase() === jntAsset.address.toLowerCase()) : false
 }
 
 export default checkJNT

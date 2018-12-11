@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
 import {
+  JIcon,
   JText,
   JFlatButton,
 } from 'components/base'
@@ -59,11 +60,14 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       to,
       from,
       hash,
+      contractAddress,
     }: TransactionWithAssetAddress = this.props.data
 
     if (!(data && receiptData)) {
       return null
     }
+
+    const toAddress: ?OwnerAddress = to || contractAddress
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -102,13 +106,22 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             <JText value='To address' color='gray' />
           </div>
           <div className='value'>
+            {contractAddress && (
+              <div className='icon'>
+                <JIcon
+                  size='small'
+                  color='blue'
+                  name='contract'
+                />
+              </div>
+            )}
             <a
-              href={getAddressLink(to, blockExplorerSubdomain)}
+              href={getAddressLink(toAddress, blockExplorerSubdomain)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
             >
-              <JText value={to} color='blue' weight='bold' />
+              <JText value={toAddress || ''} color='blue' weight='bold' />
             </a>
           </div>
         </div>

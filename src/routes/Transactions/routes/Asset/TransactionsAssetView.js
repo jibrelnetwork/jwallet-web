@@ -3,11 +3,11 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import parseBalance from 'utils/digitalAssets/parseBalance'
+import divDecimals from 'utils/numbers/divDecimals'
 
 import {
   JIcon,
-  JText,
+  JTabs,
   JSearch,
 } from 'components/base'
 
@@ -15,6 +15,25 @@ import {
   TransactionsList,
   TransactionsFilter,
 } from 'components'
+
+// const BALANCE_DECIMAL_PLACES: number = 4
+
+function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance) {
+  const {
+    name,
+    symbol,
+    decimals,
+  }: DigitalAsset = asset
+
+  const balance: string = assetBalance
+    ? divDecimals(assetBalance.value, decimals)
+    : '0'
+
+  return {
+    '/digital-assets': 'Digital assets',
+    [`/transactions/${asset.address}`]: assetBalance ? `${name} — ${balance} ${symbol}` : name,
+  }
+}
 
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
@@ -28,7 +47,7 @@ type Props = {|
   +assetBalance: ?Balance,
   +searchQuery: string,
   +ownerAddress: ?OwnerAddress,
-  +isSyncing: boolean,
+  +isLoading: boolean,
   +isOnlyPending: boolean,
 |}
 
@@ -42,7 +61,7 @@ function TransactionsAssetView({
   searchQuery,
   assetBalance,
   ownerAddress,
-  isSyncing,
+  isLoading,
   isOnlyPending,
 }: Props) {
   if (!(ownerAddress && network)) {
@@ -57,22 +76,11 @@ function TransactionsAssetView({
 
   const filterCount: number = isOnlyPending ? 1 : 0
 
-  const {
-    name,
-    symbol,
-    decimals,
-  }: DigitalAsset = asset
-
-  const balance: string = assetBalance ? parseBalance(assetBalance.value, decimals) : '0'
-  const titleText: string = assetBalance ? `${name} — ${balance} ${symbol}` : name
-
   return (
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
-          <div className='title'>
-            <JText value={titleText} color='gray' size='tab' />
-          </div>
+          <JTabs tabs={getTransactionsTabs(asset, assetBalance)} />
           <div className='actions'>
             <div className='search'>
               <JSearch
@@ -106,7 +114,7 @@ function TransactionsAssetView({
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
-            isSyncing={isSyncing}
+            isLoading={isLoading}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>

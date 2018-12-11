@@ -98,7 +98,7 @@ export function* scheduleRequestsBalances(
 
 export function* requestBalance(
   task: SchedulerTask,
-  networkId: NetworkId,
+  network: Network,
   ownerAddress: OwnerAddress,
   blockNumber: number,
 ): Saga<void> {
@@ -106,15 +106,15 @@ export function* requestBalance(
 
   switch (method.name) {
     case 'getETHBalance': {
-      const balance: BigNumber = yield call(web3.getETHBalance, ownerAddress)
+      const balance: string = yield call(web3.getAssetBalance, network, ownerAddress, 'Ethereum')
 
       const balancePayload = {
-        value: balance.toString(10),
+        value: balance,
         isLoading: false,
       }
 
       yield put(balances.updateBalance(
-        networkId,
+        network.id,
         blockNumber,
         ownerAddress,
         'Ethereum',
@@ -126,15 +126,21 @@ export function* requestBalance(
 
     case 'getERC20Balance': {
       const { contractAddress } = method.payload
-      const balance: BigNumber = yield call(web3.getAssetBalance, contractAddress, ownerAddress)
+
+      const balance: string = yield call(
+        web3.getAssetBalance,
+        network,
+        ownerAddress,
+        contractAddress,
+      )
 
       const balancePayload = {
-        value: balance.toString(10),
+        value: balance,
         isLoading: false,
       }
 
       yield put(balances.updateBalance(
-        networkId,
+        network.id,
         blockNumber,
         ownerAddress,
         contractAddress,

@@ -3,10 +3,11 @@
 import getTxFee from './getTxFee'
 import getTxLink from './getTxLink'
 import toBigNumber from './toBigNumber'
-import getTxAmount from './getTxAmount'
 import getAddressLink from './getAddressLink'
+import sortTransactions from './sortTransactions'
 import filterTransactions from './filterTransactions'
 import searchTransactions from './searchTransactions'
+import flattenTransactions from './flattenTransactions'
 import getTransactionValue from './getTransactionValue'
 import checkTransactionLoading from './checkTransactionLoading'
 import flattenTransactionsByAsset from './flattenTransactionsByAsset'
@@ -16,10 +17,11 @@ export {
   getTxFee,
   getTxLink,
   toBigNumber,
-  getTxAmount,
   getAddressLink,
+  sortTransactions,
   filterTransactions,
   searchTransactions,
+  flattenTransactions,
   getTransactionValue,
   checkTransactionLoading,
   flattenTransactionsByAsset,
