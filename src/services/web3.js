@@ -568,12 +568,41 @@ function sendTransaction(
       ...baseProps,
     })
   } else {
-    return jibrelContractsApi.erc20.transfer({
+    return jibrelContractsApi.contracts.erc20.transfer({
       ...baseProps,
       contractAddress: assetAddress,
     })
   }
 }
+
+// function estimateGas(
+//   network: Network,
+//   assetAddress: AssetAddress,
+//   props: EstimateGasProps,
+// ): Promise<string> {
+//   const {
+//     rpcaddr,
+//     rpcport,
+//     ssl,
+//   }: Network = network
+
+//   const baseProps = {
+//     rpcaddr,
+//     rpcport,
+//     ssl,
+//   }
+
+//   if (checkETH(assetAddress)) {
+//     return jibrelContractsApi.eth.estimateGas({
+//       ...baseProps,
+//     })
+//   } else {
+//     return jibrelContractsApi.contracts.erc20.transfer({
+//       ...baseProps,
+//       contractAddress: assetAddress,
+//     })
+//   }
+// }
 
 export default {
   getBlock,

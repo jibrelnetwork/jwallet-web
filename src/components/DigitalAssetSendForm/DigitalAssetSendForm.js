@@ -42,6 +42,7 @@ const DigitalAssetSendForm = ({
         type='text'
         color='gray'
         isLoading={false}
+        isDisabled
       />
       <JInput
         onChange={setFieldHandler('recepient', setField)}
@@ -58,16 +59,6 @@ const DigitalAssetSendForm = ({
         currentAsset={formFields.assetAddress}
         onSelect={setAssetAddressFieldHandler(setField)}
         label='Asset address'
-      />
-      <JInput
-        onChange={setFieldHandler('priority', setField)}
-        value={formFields.priority}
-        name='priority'
-        errorMessage={invalidFields.priority}
-        placeholder='Priority'
-        type='text'
-        color='gray'
-        isLoading={false}
       />
       <div className='value-group'>
         <JInput
@@ -91,6 +82,16 @@ const DigitalAssetSendForm = ({
           isLoading={false}
         /> */}
       </div>
+      <JInput
+        onChange={setFieldHandler('priority', setField)}
+        value={formFields.priority}
+        name='priority'
+        errorMessage={invalidFields.priority}
+        placeholder='Priority'
+        type='text'
+        color='gray'
+        isLoading={false}
+      />
       <div className='value-group'>
         <JInput
           onChange={setFieldHandler('nonce', setField)}

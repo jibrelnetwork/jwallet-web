@@ -6,13 +6,18 @@ import { reactRouterBack } from 'utils/browser'
 
 import {
   selectDigitalAsset,
+  selectDigitalAssets,
   selectDigitalAssetsSend,
-  selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
-
 import {
   selectAddressName,
+  selectActiveWalletAddress,
 } from 'store/selectors/wallets'
+import { divDecimals } from 'utils/numbers'
+import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectCurrentBlock } from 'store/selectors/blocks'
+import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
 
 import {
   openView,
@@ -46,11 +51,36 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
     assetAddress,
   } = formFields
 
+  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const assets: DigitalAssets = selectDigitalAssets(state /* , networkId */)
+
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    currentBlockNumber,
+    ownerAddress,
+  )
+
+  const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
+    assets,
+    assetsBalances,
+  )
+
+  const activeAssets: DigitalAssetWithBalance[] = assetsWithBalance
+    .map(item => ({
+      ...item,
+      balance: item.balance ? divDecimals(item.balance.value, item.decimals) : '',
+    }))
+    .filter((item: DigitalAssetWithBalance): boolean => item.isActive)
+
+  // console.log(activeAssets)
+
   // get asset symbol
   const asset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
   const amountCurrency = (asset && asset.symbol) ? asset.symbol : ''
-
-  const assets = selectActiveDigitalAssets(state)
 
   const feeETH = '0.00'
   const fromName = selectAddressName(state, formFields.ownerAddress)
@@ -61,7 +91,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
     params,
     formFields,
     invalidFields,
-    assets,
+    assets: activeAssets,
     // step 2
     amount,
     amountCurrency,
