@@ -16,7 +16,7 @@ type Props = {|
   wallet: ?Wallet,
 |}
 
-// Looks scary, but it just declaration of settings
+// Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
   localCurrencyCode,
   defaultGasPrice,
