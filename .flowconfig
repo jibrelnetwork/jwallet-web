@@ -7,7 +7,6 @@
 .*/src/components/AssetPicker/.*
 .*/src/components/base/JSelect/.*
 .*/src/components/Expandable/.*
-.*/src/components/PasswordStep/.*
 .*/src/routes/Funds/.*
 
 [include]

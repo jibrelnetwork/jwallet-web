@@ -7,24 +7,6 @@ const send = {
   component: DigitalAssetsSendViewContainer,
 }
 
-const sendAsset = {
-  path: 'send/:asset/',
-  component: DigitalAssetsSendViewContainer,
-}
-
-const sendAssetTo = {
-  path: 'send/:asset/:to',
-  component: DigitalAssetsSendViewContainer,
-}
-
-const repeatPayment = {
-  path: 'send/repaat/:txhash',
-  component: DigitalAssetsSendViewContainer,
-}
-
-export default {
+export default [
   send,
-  sendAsset,
-  sendAssetTo,
-  repeatPayment,
-}
+]

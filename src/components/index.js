@@ -9,6 +9,7 @@ import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
 import ModalHeader from './ModalHeader'
+import AssetPicker from './AssetPicker'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import PasswordStep from './PasswordStep'
@@ -34,6 +35,8 @@ import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
+import DigitalAssetSendForm from './DigitalAssetSendForm'
+import DigitalAssetSendConfirm from './DigitalAssetSendConfirm'
 
 export {
   QRCode,
@@ -45,6 +48,7 @@ export {
   WalletFace,
   WalletStep,
   ModalHeader,
+  AssetPicker,
   PopupButton,
   AssetBalance,
   PasswordStep,
@@ -70,4 +74,6 @@ export {
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,
+  DigitalAssetSendForm,
+  DigitalAssetSendConfirm,
 }

@@ -82,20 +82,25 @@ declare type DigitalAssetsManageState = {|
 /**
  * Send asset
  */
+declare type DigitalAssetSendStep = '1' | '2'
+
 declare type DigitalAssetSendFormFields = {|
-  ownerAddress: string,
-  recepientAddress: string,
-  assetAddress: string,
-  value: string,
-  valueFiat: string,
+  recepient: Address,
+  ownerAddress: Address,
+  assetAddress: Address,
+  amount: string,
+  amountFiat: string,
   priority: string,
   comment: string,
   nonce: string,
+  password: string,
 |}
 
 declare type DigitalAssetSendState = {|
+  step: DigitalAssetSendStep,
   formFields: DigitalAssetSendFormFields,
   invalidFields: DigitalAssetSendFormFields,
+  isProcessing: boolean,
 |}
 
 // type TransactionPriorityType =

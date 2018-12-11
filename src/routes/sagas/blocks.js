@@ -203,11 +203,15 @@ function* syncStart(): Saga<void> {
   const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
     yield select(selectCurrentNetworkId)
 
+  if (!networkId) {
+    throw new Error('Active network does not exist')
+  }
+
   const address: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!address) {
-    return
+    throw new Error('Active address does not exist')
   }
 
   const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)

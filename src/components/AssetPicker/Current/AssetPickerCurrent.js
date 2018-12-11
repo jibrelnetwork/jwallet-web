@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import AssetBalance from 'components/AssetBalance'
+import { AssetBalance } from 'components'
 import { JAssetSymbol, JText } from 'components/base'
 
 /**
@@ -18,12 +18,12 @@ const AssetPickerCurrent = ({ name, symbol, balance, isOpen, isLoading, isDisabl
   >
     <div className='info'>
       <div className='name'>
-        <JText value={`${name}:`} color='gray' size='large' weight='bold' />
+        <JText value={`${name}:`} color='gray' size='semilarge' weight='bold' />
       </div>
       <div className='balance'>
         <AssetBalance
           symbol={symbol}
-          size='large'
+          size='semilarge'
           color='gray'
           weight='bold'
           balance={balance}

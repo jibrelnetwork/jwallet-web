@@ -29,13 +29,19 @@ export function selectDigitalAsset(state: AppState, contractAddress: Address): ?
   }
 
   const addressLower = contractAddress.toLowerCase()
-  const key = Object.keys(items).find(addr => items[addr].address.toLowerCase() === addressLower)
+  const key = Object
+    .keys(items)
+    .find(addr => items[addr] && items[addr].address.toLowerCase() === addressLower)
   return key ? items[key] : null
 }
 
 export function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
   const allAssets = selectDigitalAssets(state)
-  return Object.keys(allAssets).map(address => allAssets[address]).filter(asset => asset.isActive)
+
+  return Object
+    .keys(allAssets)
+    .map(address => allAssets[address])
+    .filter(asset => asset && asset.isActive)
 }
 
 export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {

@@ -192,7 +192,7 @@ const digitalAssets = (
       const newItems = Object
         .keys(persist.items)
         .map(addr => persist.items[addr])
-        .reduce((previous, current) => (current.address !== address) ? {
+        .reduce((previous, current) => (current && current.address !== address) ? {
           ...previous,
           [current.address]: current,
         } : previous, {})

@@ -16,9 +16,14 @@ import {
   digitalAssetsGridRootSaga,
 } from '../routes/Grid/sagas/digitalAssetsGrid'
 
+import {
+  digitalAssetsSendRootSaga,
+} from '../routes/Send/sagas/digitalAssetsSend'
+
 export default {
   addAssetRootSaga,
   editAssetRootSaga,
   digitalAssetsRootSaga,
   digitalAssetsGridRootSaga,
+  digitalAssetsSendRootSaga,
 }

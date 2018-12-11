@@ -4,7 +4,7 @@
   @include flex-row-center;
 
   position: relative;
-  height: $form-field-height;
+  height: 64px;
   cursor: pointer;
 
   &.-disabled {

@@ -1,20 +1,11 @@
 // @flow
 
 import React from 'react'
-import { compose, filter, head, propEq } from 'ramda'
 
 import JSelect, { JSelectItem } from 'components/base/JSelect'
 
 import Current from './Current'
 import Item from './Item'
-
-const getAssetByAddress = (
-  address: ?Address,
-  assets: Array<DigitalAssetMainDataWithBalance>,
-): ?DigitalAssetMainDataWithBalance => !address ? null : compose(
-  head,
-  filter(propEq('address', address)),
-)(assets)
 
 const AssetPicker = ({
   onSelect,
@@ -24,7 +15,7 @@ const AssetPicker = ({
   isLoading,
   isDisabled,
 }: Props) => {
-  const foundAsset: ?DigitalAssetMainDataWithBalance = getAssetByAddress(currentAsset, activeAssets)
+  const foundAsset = activeAssets.find(asset => asset.address === currentAsset)
 
   return (
     <div className='asset-picker'>
