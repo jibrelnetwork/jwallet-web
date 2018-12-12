@@ -13,12 +13,18 @@ declare type BlockExplorerAPISubdomain =
   'rinkeby' |
   'kovan'
 
+declare type BlockExplorerSubdomain =
+  '' |
+  'ropsten' |
+  'rinkeby' |
+  'kovan'
+
 declare type Network = {|
   +id: NetworkId,
   +title: string,
   +rpcaddr: string,
   +rpcport: number,
-  +blockExplorerSubdomain: BlockExplorerAPISubdomain,
+  +blockExplorerSubdomain: BlockExplorerSubdomain,
   +ssl: boolean,
   +isCustom: boolean,
 |}
