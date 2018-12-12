@@ -9,7 +9,7 @@ import * as type from 'utils/type'
 const { blockExplorerApiOptions } = config
 
 const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } = {
-  '1': 'api',
+  '1': 'ropsten',
   '3': 'ropsten',
   '42': 'kovan',
   '4': 'rinkeby',
@@ -48,7 +48,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<
 }
 
 function handleTransactionsResponse(response: any): Array<any> {
-  if (type.isVoid(response) || type.isObject(response)) {
+  if (type.isVoid(response) || !type.isObject(response)) {
     return []
   }
 
@@ -135,10 +135,10 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
         gasUsed: parseInt(gasUsed, 10) || 0,
         status: (parseInt(isError, 16) === 1) ? 0 : 1,
       },
-      from: utils.getChecksum(from),
       hash,
       blockHash,
       amount: value,
+      from: utils.getChecksum(from),
       to: to.length ? utils.getChecksum(to) : null,
       contractAddress: contractAddress.length ? utils.getChecksum(contractAddress) : null,
       eventType: 0,
