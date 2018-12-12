@@ -21,6 +21,5 @@ export default function SubsettingsLayout(props: Props) {
         </div>
       </div>
     </CloseableScreen>
-
   )
 }
