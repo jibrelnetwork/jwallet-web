@@ -1,0 +1,12 @@
+.subsettings-layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+
+  > .container {
+    max-width: 1020px;
+    margin: 0 auto;
+  }
+}
