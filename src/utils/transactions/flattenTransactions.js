@@ -6,10 +6,16 @@ function flattenTransactions(
   items: Transactions,
   assetAddress: AssetAddress,
 ): TransactionWithAssetAddress[] {
-  return Object.keys(items).reduce((result: TransactionWithAssetAddress[], id: TransactionId) => {
-    const transaction: ?Transaction = items[id]
+  return Object.keys(items).reduce((result: TransactionWithAssetAddress[], txId: TransactionId) => {
+    const transaction: ?Transaction = items[txId]
 
     if (!transaction) {
+      return result
+    }
+
+    const isFound: boolean = !!result.find(({ id }: TransactionWithAssetAddress) => (txId === id))
+
+    if (isFound) {
       return result
     }
 
@@ -26,7 +32,7 @@ function flattenTransactions(
     return [
       ...result,
       {
-        id,
+        id: txId,
         assetAddress,
         ...transaction,
       },

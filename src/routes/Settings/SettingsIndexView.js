@@ -16,6 +16,7 @@ type Props = {|
   wallet: ?Wallet,
 |}
 
+// Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
   localCurrencyCode,
   defaultGasPrice,
@@ -69,7 +70,7 @@ const getSettingsCardProperties = ({
   iconName: 'message',
   searchTags: '',
 }, {
-  title: 'Sing a message',
+  title: 'Sign a message',
   description: isFullMnemonic ? 'Enable' : ' ',
   path: 'settings/sign',
   iconName: 'message',
@@ -134,7 +135,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
   }
 
   setSearchQuery = (query: string): void => {
-    this.setState({ searchQuery: query })
+    this.setState({ searchQuery: query.trim() })
   }
 
   filterCardByQuery = (query: string): boolean => {

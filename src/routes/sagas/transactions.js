@@ -16,6 +16,7 @@ import {
 import type { Task } from 'redux-saga'
 
 import config from 'config'
+import filterLoadingTransactions from 'utils/transactions/filterLoadingTransactions'
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
@@ -222,8 +223,10 @@ function* checkTransactionsFetched(
         return resultByBlockNumber
       }
 
+      const itemsFiltered: Transactions = filterLoadingTransactions(items)
+
       return {
-        ...items,
+        ...itemsFiltered,
         ...resultByBlockNumber,
       }
     }, {})
@@ -289,8 +292,16 @@ function* checkTransactionsLoading(
         return true
       }
 
+      const { items }: TransactionsByBlockNumber = itemsByBlockNumber
+
       // return true if items don't exist
-      return !itemsByBlockNumber.items
+      if (!items) {
+        return true
+      }
+
+      const itemsFiltered: Transactions = filterLoadingTransactions(items, true)
+
+      return (Object.keys(itemsFiltered).length !== 0)
     }, false)
   }, false)
 
@@ -601,13 +612,19 @@ function* recursiveRequestTransactions(
   fromBlock: number,
   toBlock: number,
 ): Saga<void> {
+  if (toBlock < 0) {
+    return
+  }
+
   const diffBlockNumber: number = toBlock - fromBlock
 
   const fromBlockNew = (diffBlockNumber > maxBlocksPerTransactionsRequest)
     ? (toBlock - maxBlocksPerTransactionsRequest)
     : fromBlock
 
-  yield* requestTransactionsByRange(requestQueue, task, fromBlock, toBlock)
+  const fromBlockSafety: number = (fromBlockNew < 0) ? 0 : fromBlockNew
+
+  yield* requestTransactionsByRange(requestQueue, task, fromBlockSafety, toBlock)
 
   if (fromBlockNew > 0) {
     yield* recursiveRequestTransactions(
@@ -640,7 +657,7 @@ function* requestTransactionsByRange(
       payload: {
         ...method.payload,
         toBlock,
-        fromBlock,
+        fromBlock: (fromBlock < 0) ? 0 : fromBlock,
       },
     },
   })
