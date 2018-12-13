@@ -9,7 +9,7 @@ import * as type from 'utils/type'
 const { blockExplorerApiOptions } = config
 
 const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } = {
-  '1': 'ropsten',
+  '1': 'api',
   '3': 'ropsten',
   '42': 'kovan',
   '4': 'rinkeby',
@@ -26,6 +26,16 @@ type BlockExplorerAPIParams = {|
   +startblock?: number,
 |}
 
+const MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN: string = 'api'
+
+function getMainEthersanAPIEndpoint(apiSubdomain: BlockExplorerAPISubdomain): string {
+  const isMainNetwork: boolean = (apiSubdomain === MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN)
+
+  return (__DEV__ && isMainNetwork)
+    ? 'https://ropsten.etherscan.io/api'
+    : `https://${apiSubdomain}.etherscan.io/api`
+}
+
 function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<any> {
   const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
 
@@ -33,7 +43,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<
     throw new Error('Block explorer is not supported for private networks')
   }
 
-  const apiEnpoint: string = `http://${apiSubdomain}.etherscan.io/api`
+  const apiEnpoint: string = getMainEthersanAPIEndpoint(apiSubdomain)
 
   const queryParams: string = Object
     .keys(params)
