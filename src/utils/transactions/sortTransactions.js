@@ -1,13 +1,13 @@
 // @flow
 
 function sortTransactions(
-  items: TransactionWithAssetAddress[],
+  items: TransactionWithPrimaryKeys[],
   direction: SortDirection = 'desc',
-): TransactionWithAssetAddress[] {
+): TransactionWithPrimaryKeys[] {
   // eslint-disable-next-line fp/no-mutating-methods
   return [...items].sort((
-    first: TransactionWithAssetAddress,
-    second: TransactionWithAssetAddress,
+    first: TransactionWithPrimaryKeys,
+    second: TransactionWithPrimaryKeys,
   ): number => {
     const firstValue: number = first.blockData ? first.blockData.minedAt : 0
     const secondValue: number = second.blockData ? second.blockData.minedAt : 0
