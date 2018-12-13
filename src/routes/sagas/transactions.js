@@ -606,7 +606,6 @@ function* resyncTransactionsByOwnerAddress(
       toBlock,
     )
 
-    console.error(tasks)
     yield all(tasks.map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
     yield delay(config.resyncTransactionsTimeout)
   }
@@ -644,7 +643,6 @@ function* resyncTransactionsByTransactionId(
     const items: TransactionWithAssetAddress[] = flattenTransactionsByOwner(itemsByOwner)
     const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items, currentBlock)
 
-    console.error(tasks)
     yield all(tasks.map((task: SchedulerTransactionTask) => put(requestQueue, task)))
     yield delay(config.resyncTransactionsTimeout)
   }
