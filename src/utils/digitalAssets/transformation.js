@@ -16,8 +16,8 @@
  *    source.display.digitalAssetsListPriority
  */
 
-function transformation(list: JAssets[], customAssetsList: string[] = []): DigitalAsset[] {
-  return list.map((asset) => {
+function transformation(list: JAssets[], customAssetsList: string[]): DigitalAsset[] {
+  return list.reduce((acc, asset) => {
     const {
       name,
       symbol,
@@ -35,7 +35,11 @@ function transformation(list: JAssets[], customAssetsList: string[] = []): Digit
       // priceFeed,
     } = asset
 
-    return {
+    if (!address) {
+      return acc
+    }
+
+    return [...acc, {
       name,
       symbol,
       decimals,
@@ -53,8 +57,8 @@ function transformation(list: JAssets[], customAssetsList: string[] = []): Digit
       // priceFeed: {
       //   currencyID: priceFeed ? priceFeed.currencyID : null,
       // },
-    }
-  })
+    }]
+  }, [])
 }
 
 export default transformation

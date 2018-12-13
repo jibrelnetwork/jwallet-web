@@ -5,9 +5,9 @@ declare type JAssets = {|
   symbol: string,
   blockchainParams: {|
     decimals: Decimals,
-    address: Address,
-    features: string[],
-    staticGasAmount: string,
+    address: ?Address,
+    features?: string[],
+    staticGasAmount: number,
     deploymentBlockNumber: number,
   |},
   display: {|
@@ -15,6 +15,6 @@ declare type JAssets = {|
     digitalAssetsListPriority: number,
   |},
   priceFeed?: {
-    currencyID: string,
+    currencyID: number,
   },
 |}
