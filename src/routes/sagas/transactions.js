@@ -60,18 +60,22 @@ const {
 const GENESIS_BLOCK_NUMBER: number = 0
 
 function getRequestTransactionTasks(
-  transaction: TransactionWithAssetAddress,
-  blockNumber: BlockNumber,
+  transaction: TransactionWithPrimaryKeys,
 ): SchedulerTransactionTask[] {
   const {
+    keys,
     data,
     blockData,
     receiptData,
-    id,
     hash,
     blockHash,
+  }: TransactionWithPrimaryKeys = transaction
+
+  const {
+    id,
+    blockNumber,
     assetAddress,
-  }: TransactionWithAssetAddress = transaction
+  } = keys
 
   if (!blockHash) {
     return []
@@ -612,15 +616,14 @@ function* resyncTransactionsByOwnerAddress(
 }
 
 function getTasksToFetchByTransactionId(
-  items: TransactionWithAssetAddress[],
-  blockNumber: BlockNumber,
+  items: TransactionWithPrimaryKeys[],
 ): SchedulerTransactionTask[] {
   return items.reduce((
     result: SchedulerTransactionTask[],
-    transaction: TransactionWithAssetAddress,
+    transaction: TransactionWithPrimaryKeys,
   ): SchedulerTransactionTask[] => ([
     ...result,
-    ...getRequestTransactionTasks(transaction, blockNumber),
+    ...getRequestTransactionTasks(transaction),
   ]), [])
 }
 
@@ -628,7 +631,6 @@ function* resyncTransactionsByTransactionId(
   requestQueue: Channel,
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
-  toBlock: number,
 ): Saga<void> {
   while (true) {
     const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
@@ -639,9 +641,8 @@ function* resyncTransactionsByTransactionId(
       continue
     }
 
-    const currentBlock: BlockNumber = toBlock.toString()
-    const items: TransactionWithAssetAddress[] = flattenTransactionsByOwner(itemsByOwner)
-    const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items, currentBlock)
+    const items: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(itemsByOwner, true)
+    const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items)
 
     yield all(tasks.map((task: SchedulerTransactionTask) => put(requestQueue, task)))
     yield delay(config.resyncTransactionsTimeout)
@@ -666,7 +667,7 @@ function* resyncTransactionsStart(
     yield fork(resyncTransactionsByOwnerAddress, requestQueue, networkId, ownerAddress, toBlock)
 
   const resyncTransactionsByTransactionIdTask: Task<typeof resyncTransactionsByTransactionId> =
-    yield fork(resyncTransactionsByTransactionId, requestQueue, networkId, ownerAddress, toBlock)
+    yield fork(resyncTransactionsByTransactionId, requestQueue, networkId, ownerAddress)
 
   yield take(transactions.RESYNC_TRANSACTIONS_STOP)
   yield cancel(resyncTransactionsByOwnerAddressTask)
@@ -806,8 +807,14 @@ function* fetchEventsData(
   blockNumber: BlockNumber,
   txs: Transactions,
 ): Saga<void> {
-  const items: TransactionWithAssetAddress[] = flattenTransactions(txs, assetAddress, true)
-  const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items, blockNumber)
+  const items: TransactionWithPrimaryKeys[] = flattenTransactions(
+    txs,
+    assetAddress,
+    blockNumber,
+    true,
+  )
+
+  const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items)
 
   yield all(tasks.map((task: SchedulerTransactionTask) => put(requestQueue, task)))
 }
