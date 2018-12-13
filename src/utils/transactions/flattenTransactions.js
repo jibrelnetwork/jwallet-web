@@ -5,6 +5,7 @@ import checkTransactionLoading from './checkTransactionLoading'
 function flattenTransactions(
   items: Transactions,
   assetAddress: AssetAddress,
+  isLoadingIncluded: boolean = false,
 ): TransactionWithAssetAddress[] {
   return Object.keys(items).reduce((result: TransactionWithAssetAddress[], txId: TransactionId) => {
     const transaction: ?Transaction = items[txId]
@@ -25,7 +26,9 @@ function flattenTransactions(
       receiptData,
     }: Transaction = transaction
 
-    if (checkTransactionLoading(data, blockData, receiptData)) {
+    const isLoading: boolean = checkTransactionLoading(data, blockData, receiptData)
+
+    if (isLoading && !isLoadingIncluded) {
       return result
     }
 
