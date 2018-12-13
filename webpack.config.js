@@ -182,6 +182,9 @@ module.exports = {
                 loader: require.resolve('sass-loader'),
                 options: {
                   sourceMap: isEnvProduction,
+                  includePaths: [
+                    PATHS.SOURCE,
+                  ],
                 },
               },
             ].filter(Boolean),
