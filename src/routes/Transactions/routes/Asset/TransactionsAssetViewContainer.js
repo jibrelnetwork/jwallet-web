@@ -46,15 +46,15 @@ function prepareTransactions(
   assetAddress: string,
   searchQuery: string,
   isOnlyPending: boolean,
-): TransactionWithAssetAddress[] {
+): TransactionWithPrimaryKeys[] {
   if (!items) {
     return []
   }
 
-  const flatten: TransactionWithAssetAddress[] = flattenTransactionsByAsset(items, assetAddress)
-  const filtered: TransactionWithAssetAddress[] = filterTransactions(flatten, isOnlyPending)
-  const found: TransactionWithAssetAddress[] = searchTransactions(filtered, searchQuery)
-  const sorted: TransactionWithAssetAddress[] = sortTransactions(found)
+  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(items, assetAddress)
+  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(flatten, isOnlyPending)
+  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery)
+  const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
   return sorted
 }
