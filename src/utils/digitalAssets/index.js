@@ -3,6 +3,7 @@
 import checkETH from './checkETH'
 import checkJNT from './checkJNT'
 import parseBalance from './parseBalance'
+import transformation from './transformation'
 import balanceToString from './balanceToString'
 import checkAssetFound from './checkAssetFound'
 import flattenDigitalAssets from './flattenDigitalAssets'
@@ -14,6 +15,7 @@ export {
   checkETH,
   checkJNT,
   parseBalance,
+  transformation,
   balanceToString,
   checkAssetFound,
   flattenDigitalAssets,
