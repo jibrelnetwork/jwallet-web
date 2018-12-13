@@ -26,6 +26,16 @@ type BlockExplorerAPIParams = {|
   +startblock?: number,
 |}
 
+const MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN: string = 'api'
+
+function getMainEthersanAPIEndpoint(apiSubdomain: BlockExplorerAPISubdomain): string {
+  const isMainNetwork: boolean = (apiSubdomain === MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN)
+
+  return (__DEV__ && isMainNetwork)
+    ? 'https://ropsten.etherscan.io/api'
+    : `https://${apiSubdomain}.etherscan.io/api`
+}
+
 function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<any> {
   const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
 
@@ -33,7 +43,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<
     throw new Error('Block explorer is not supported for private networks')
   }
 
-  const apiEnpoint: string = `http://${apiSubdomain}.etherscan.io/api`
+  const apiEnpoint: string = getMainEthersanAPIEndpoint(apiSubdomain)
 
   const queryParams: string = Object
     .keys(params)
@@ -48,7 +58,7 @@ function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<
 }
 
 function handleTransactionsResponse(response: any): Array<any> {
-  if (type.isVoid(response) || type.isObject(response)) {
+  if (type.isVoid(response) || !type.isObject(response)) {
     return []
   }
 
@@ -135,10 +145,10 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
         gasUsed: parseInt(gasUsed, 10) || 0,
         status: (parseInt(isError, 16) === 1) ? 0 : 1,
       },
-      from: utils.getChecksum(from),
       hash,
       blockHash,
       amount: value,
+      from: utils.getChecksum(from),
       to: to.length ? utils.getChecksum(to) : null,
       contractAddress: contractAddress.length ? utils.getChecksum(contractAddress) : null,
       eventType: 0,

@@ -9,7 +9,7 @@ import TransactionItemDetails from './Details'
 
 type Props = {|
   +setActive: () => void,
-  +data: TransactionWithAssetAddress,
+  +data: TransactionWithPrimaryKeys,
   +asset: ?DigitalAsset,
   +blockExplorerSubdomain: string,
   +isSent: boolean,

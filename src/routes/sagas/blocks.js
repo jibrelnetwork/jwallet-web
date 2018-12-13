@@ -208,18 +208,22 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
         processingBlock.number,
       ))
 
-      // wait current block change
+      yield put(transactions.resyncTransactionsStart(
+        requestQueue,
+        networkId,
+        ownerAddress,
+        currentBlock ? currentBlock.number : 0,
+      ))
+
       yield take(blocks.SET_PROCESSING_BLOCK)
-
       yield all(processQueueTasks.map(task => cancel(task)))
-
       yield put(balances.syncStop())
-
       requestQueue.close()
     }
   } finally {
     if (yield cancelled()) {
       yield put(balances.syncStop())
+      yield put(transactions.resyncTransactionsStop())
     }
   }
 }
