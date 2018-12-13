@@ -1,6 +1,8 @@
 // @flow
 
 const ONE_SECOND: number = 1000
+const ONE_MINUTE: number = 60 * ONE_SECOND
+
 const ONE_KB: number = 1024
 const ONE_MB: number = 1024 * ONE_KB
 
@@ -148,6 +150,8 @@ const config: AppConfig = {
   blockExplorerMaxResponseSize: 0.5 * ONE_MB,
 
   requestQueueWorkersCount: 4,
+
+  resyncTransactionsTimeout: 5 * ONE_MINUTE,
 }
 
 export default config

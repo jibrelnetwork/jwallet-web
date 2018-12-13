@@ -53,4 +53,5 @@ declare type AppConfig = {|
   +minBlocksPerTransactionsRequest: number,
   +blockExplorerMaxResponseSize: number,
   +requestQueueWorkersCount: number,
+  +resyncTransactionsTimeout: number,
 |}
