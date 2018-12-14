@@ -24,7 +24,7 @@ import {
 
 type Props = {|
   +setActive: (boolean) => void,
-  +data: TransactionWithAssetAddress,
+  +data: TransactionWithPrimaryKeys,
   +assetSymbol: string,
   +blockExplorerSubdomain: string,
   +assetDecimals: number,
@@ -62,7 +62,7 @@ class TransactionItemMain extends PureComponent<Props> {
       hash,
       amount,
       contractAddress,
-    }: TransactionWithAssetAddress = data
+    }: TransactionWithPrimaryKeys = data
 
     if (!blockData) {
       return null

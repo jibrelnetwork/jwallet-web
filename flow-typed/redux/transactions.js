@@ -119,18 +119,21 @@ declare type Transaction = {|
   +isRemoved: boolean,
 |}
 
-declare type TransactionWithAssetAddress = {|
+declare type TransactionWithPrimaryKeys = {|
+  +keys: {|
+    +id: TransactionId,
+    +blockNumber: BlockNumber,
+    +assetAddress: AssetAddress,
+  |},
   +data: ?TransactionData,
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
-  +id: TransactionId,
   +hash: Hash,
   +amount: string,
   +blockHash: ?Hash,
   +to: ?OwnerAddress,
   +from: OwnerAddress,
   +contractAddress: ?OwnerAddress,
-  +assetAddress: AssetAddress,
   +createdAt: ?number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,

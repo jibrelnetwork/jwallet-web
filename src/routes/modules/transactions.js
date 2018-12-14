@@ -1,7 +1,9 @@
 // @flow
 
 export const FETCH_BY_OWNER_REQUEST = '@@transactions/FETCH_BY_OWNER_REQUEST'
-export const REFETCH_BY_OWNER_REQUEST = '@@transactions/REFETCH_BY_OWNER_REQUEST'
+
+export const RESYNC_TRANSACTIONS_START = '@@transactions/RESYNC_TRANSACTIONS_START'
+export const RESYNC_TRANSACTIONS_STOP = '@@transactions/RESYNC_TRANSACTIONS_STOP'
 
 export const INIT_ITEMS_BY_ASSET = '@@transactions/INIT_ITEMS_BY_ASSET'
 export const INIT_ITEMS_BY_BLOCK = '@@transactions/INIT_ITEMS_BY_BLOCK'
@@ -41,20 +43,26 @@ export function fetchByOwnerRequest(
   }
 }
 
-export function refetchByOwnerRequest(
+export function resyncTransactionsStart(
   requestQueue: Channel,
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
   toBlock: number,
 ) {
   return {
-    type: FETCH_BY_OWNER_REQUEST,
+    type: RESYNC_TRANSACTIONS_START,
     payload: {
       requestQueue,
       networkId,
       ownerAddress,
       toBlock,
     },
+  }
+}
+
+export function resyncTransactionsStop() {
+  return {
+    type: RESYNC_TRANSACTIONS_STOP,
   }
 }
 
