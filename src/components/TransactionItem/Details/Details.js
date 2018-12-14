@@ -20,7 +20,7 @@ import TransactionItemDetailsComment from './Comment'
 type Props = {|
   +repeat: () => void,
   +addFavorite: () => void,
-  +data: TransactionWithAssetAddress,
+  +data: TransactionWithPrimaryKeys,
   +blockExplorerSubdomain: string,
   +assetDecimals: number,
   +isActive: boolean,
@@ -61,7 +61,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       from,
       hash,
       contractAddress,
-    }: TransactionWithAssetAddress = this.props.data
+    }: TransactionWithPrimaryKeys = this.props.data
 
     if (!(data && receiptData)) {
       return null

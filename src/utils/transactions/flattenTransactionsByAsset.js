@@ -5,9 +5,10 @@ import flattenTransactions from './flattenTransactions'
 function flattenTransactionsByAsset(
   transactionsByAssetAddress: TransactionsByAssetAddress,
   assetAddress: AssetAddress,
-): TransactionWithAssetAddress[] {
+  isLoadingIncluded?: boolean = false,
+): TransactionWithPrimaryKeys[] {
   return Object.keys(transactionsByAssetAddress).reduce((
-    result: TransactionWithAssetAddress[],
+    result: TransactionWithPrimaryKeys[],
     blockNumber: BlockNumber,
   ) => {
     const transactionsByBlockNumber: ?TransactionsByBlockNumber =
@@ -26,7 +27,12 @@ function flattenTransactionsByAsset(
       return result
     }
 
-    const flattened: TransactionWithAssetAddress[] = flattenTransactions(items, assetAddress)
+    const flattened: TransactionWithPrimaryKeys[] = flattenTransactions(
+      items,
+      assetAddress,
+      blockNumber,
+      isLoadingIncluded,
+    )
 
     return [
       ...result,

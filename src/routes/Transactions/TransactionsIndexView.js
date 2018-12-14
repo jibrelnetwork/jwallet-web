@@ -16,7 +16,7 @@ import {
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
-  +transactions: TransactionWithAssetAddress[],
+  +transactions: TransactionWithPrimaryKeys[],
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
   +network: ?Network,
