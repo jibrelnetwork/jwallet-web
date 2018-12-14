@@ -93,6 +93,12 @@
     text-overflow: ellipsis;
   }
 
+  &.-clip {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
+
   // Align
 
   &.-center {
