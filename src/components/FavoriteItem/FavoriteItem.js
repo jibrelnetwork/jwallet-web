@@ -27,6 +27,9 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
   static defaultProps = {
     isCustom: false,
     isActive: false,
+    onClickEdit: () => null,
+    onClickSend: () => null,
+    onClickRemove: () => null,
   }
 
   constructor(props: Props) {
@@ -46,9 +49,11 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
 
   onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
 
-  openActions = () => this.setState({
-    hasOpenedActions: true,
-  })
+  openActions = () => {
+    this.setState({
+      hasOpenedActions: true,
+    })
+  }
 
   closeActions = () => this.setState({
     hasOpenedActions: false,
@@ -78,7 +83,6 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
           className={classNames('favorite-item', {
             '-active': hasOpenedActions,
           })}
-          onClick={this.closeActions}
         >
           <div className='symbol -text'>
             <JText value={symbol} color='blue' weight='bold' size='header' whiteSpace='nowrap' />
@@ -102,6 +106,10 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
             </div> :
             <div className='spacer' />
           }
+          <div
+            className='overlay'
+            onClick={this.closeActions}
+          />
           <div className='actions'>
             <div
               className='item -send'
