@@ -15,7 +15,7 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectDigitalAssets,
+  selectDigitalAssetsItems,
   selectDigitalAssetsManageSearchQuery,
 } from 'store/selectors/digitalAssets'
 
@@ -37,7 +37,7 @@ const mapStateToProps = (state: AppState) => {
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const assets: DigitalAssets = selectDigitalAssets(state /* , networkId */)
+  const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
   const searchQuery = selectDigitalAssetsManageSearchQuery(state)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(

@@ -43,7 +43,7 @@ import {
 } from 'store/selectors/transactions'
 
 import {
-  selectDigitalAssets,
+  selectDigitalAssetsItems,
   selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
@@ -601,8 +601,8 @@ function* resyncTransactionsByOwnerAddress(
       continue
     }
 
-    const digitalAssets: ExtractReturn<typeof selectDigitalAssets> =
-      yield select(selectDigitalAssets)
+    const digitalAssets: ExtractReturn<typeof selectDigitalAssetsItems> =
+      yield select(selectDigitalAssetsItems)
 
     const tasks: SchedulerTransactionsTask[] = getTasksToRefetchByOwner(
       digitalAssets,
