@@ -7,28 +7,20 @@ import {
 } from 'redux-saga/effects'
 
 import assetsData from 'data/assets'
-import { OPEN_MENU_LAYOUT } from 'routes/modules'
-import { selectDigitalAssets } from 'store/selectors/digitalAssets'
 
 import {
-  setInitialItems,
-  deleteCustomAsset,
-  deleteAssetRequest,
-  DELETE_CUSTOM_ASSET,
-} from '../modules/digitalAssets'
+  selectDigitalAsset,
+  selectDigitalAssetsItems,
+} from 'store/selectors/digitalAssets'
 
-function* deleteCustomAssetSaga(action: ExtractReturn<typeof deleteCustomAsset>): Saga<void> {
-  const { assetAddress } = action.payload
+import * as blocks from 'routes/modules/blocks'
 
-  // check, that this asset is custom and exists
-  const assets: DigitalAssets = yield select(selectDigitalAssets)
-  if (assets && assets[assetAddress] && assets[assetAddress].isCustom) {
-    yield put(deleteAssetRequest(assetAddress))
-  }
-}
+import * as digitalAssets from '../modules/digitalAssets'
 
-function* initDigitalAssetsSaga(): Saga<void> {
-  const existingAssets: DigitalAssets = yield select(selectDigitalAssets)
+function* init(): Saga<void> {
+  const existingAssets: ExtractReturn<typeof selectDigitalAssetsItems> =
+    yield select(selectDigitalAssetsItems)
+
   const haveAssetsInStorage = Object.keys(existingAssets).length > 0
 
   if (!haveAssetsInStorage) {
@@ -42,11 +34,32 @@ function* initDigitalAssetsSaga(): Saga<void> {
       ...allAssets,
     }
 
-    yield put(setInitialItems(allAssetsWithETH))
+    yield put(digitalAssets.setInitialItems(allAssetsWithETH))
   }
 }
 
+function* setAssetIsActive(): Saga<void> {
+  yield put(blocks.syncRestart())
+}
+
+function* deleteCustomAsset(
+  action: ExtractReturn<typeof digitalAssets.deleteCustomAsset>,
+): Saga<void> {
+  const { assetAddress } = action.payload
+
+  const foundAsset: ExtractReturn<typeof selectDigitalAssetsItems> =
+    yield select(selectDigitalAsset, assetAddress)
+
+  if (!(foundAsset || foundAsset.isCustom)) {
+    return
+  }
+
+  yield put(digitalAssets.deleteAssetRequest(assetAddress))
+  yield put(blocks.syncRestart())
+}
+
 export function* digitalAssetsRootSaga(): Saga<void> {
-  yield takeEvery(OPEN_MENU_LAYOUT, initDigitalAssetsSaga)
-  yield takeEvery(DELETE_CUSTOM_ASSET, deleteCustomAssetSaga)
+  yield takeEvery(digitalAssets.INIT, init)
+  yield takeEvery(digitalAssets.SET_ASSET_IS_ACTIVE, setAssetIsActive)
+  yield takeEvery(digitalAssets.DELETE_CUSTOM_ASSET, deleteCustomAsset)
 }
