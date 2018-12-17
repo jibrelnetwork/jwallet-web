@@ -72,12 +72,17 @@ class JPicker extends PureComponent<Props, ComponentState> {
       ? bottomRenderer({ isOpen, isDisabled })
       : null
 
+    const countClass = (React.Children.count(children) < 4)
+      ? `-c${React.Children.count(children)}`
+      : null
+
     return (
       <div
         className={classNames(
           'j-picker',
           isOpen && '-active',
           isDisabled && '-disabled',
+          countClass
         )}
       >
         <div onClick={isDisabled ? undefined : handle(this.toggle)(!isOpen)} className='current'>

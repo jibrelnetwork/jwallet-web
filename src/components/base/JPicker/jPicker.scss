@@ -72,7 +72,7 @@
     position: absolute;
     width: $form-width;
     top: 65px;
-    height: $select-height;
+    height: (64px * 4);
     visibility: hidden;
     overflow: hidden;
     opacity: 0;
@@ -80,6 +80,22 @@
     background-color: $white;
     transition: max-height 0.3s ease 0s, opacity 0.3s ease 0s;
     box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+  }
+
+  &.-c3 > .options {
+    height: (64px * 3);
+  }
+
+  &.-c2 > .options {
+    height: (64px * 2);
+  }
+
+  &.-c1 > .options {
+    height: (64px * 1);
+  }
+
+  &.-c0 > .options {
+    height: 0;
   }
 
   > .overlay {
