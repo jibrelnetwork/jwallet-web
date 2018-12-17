@@ -2,13 +2,12 @@
 
 import React, { Component } from 'react'
 
-import { JText, JFlatButton } from 'components/base'
+import { JText } from 'components/base'
 import { WalletHeader, NewWalletButtons } from 'components'
 
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
-  +goToTerms: () => void,
   +createWallet: () => void,
   +importWallet: () => void,
 |}
@@ -24,7 +23,6 @@ class WalletsStartView extends Component<Props> {
 
   render() {
     const {
-      goToTerms,
       createWallet,
       importWallet,
     }: Props = this.props
@@ -45,10 +43,24 @@ class WalletsStartView extends Component<Props> {
           </div>
         </div>
         <div className='terms'>
-          <JText value='By clicking "Create new" or "Import" I agree to Jibrel’s' />
-          <div className='link'>
-            <JFlatButton onClick={goToTerms} label='Terms of Service' isUnderscored />
-          </div>
+          <JText value='By clicking "Create new" or "Import" I agree to' />
+          <a
+            className='j-text -white -nowrap -underline link'
+            href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Terms of Use
+          </a>
+          <JText value='and' />
+          <a
+            className='j-text -white -nowrap -underline link'
+            href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Privacy Policy
+          </a>
         </div>
       </div>
     )
