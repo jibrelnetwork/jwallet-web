@@ -79,6 +79,8 @@ module.exports = {
     modules: [
       PATHS.SOURCE,
       'node_modules',
+      path.resolve('assets/mainnet/assets.json'),
+      path.resolve('assets/ropsten/assets.json'),
     ],
     extensions: ['.js', '.jsx', '.json'],
     plugins: [
@@ -89,7 +91,11 @@ module.exports = {
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(
         PATHS.SOURCE,
-        ['package.json']
+        [
+          'package.json',
+          path.resolve('assets/mainnet/assets.json'),
+          path.resolve('assets/ropsten/assets.json'),
+        ]
       ),
     ],
   },
@@ -182,6 +188,9 @@ module.exports = {
                 loader: require.resolve('sass-loader'),
                 options: {
                   sourceMap: isEnvProduction,
+                  includePaths: [
+                    PATHS.SOURCE,
+                  ],
                 },
               },
             ].filter(Boolean),

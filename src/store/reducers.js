@@ -43,7 +43,7 @@ import settings from 'routes/Settings/modules/settings'
 const persistConfig = {
   storage,
   key: 'jwallet-web',
-  whitelist: ['wallets', 'walletsAddresses', 'digitalAssets'],
+  whitelist: ['wallets', 'walletsAddresses', 'digitalAssets', 'blocks', 'balances', 'transactions'],
 }
 
 export function makeRootReducer() {

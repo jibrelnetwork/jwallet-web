@@ -7,7 +7,7 @@ type JTextAlign = 'center'
 type JTextFontCase = 'upper'
 type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
-type JTextWhiteSpace = 'nowrap' | 'wrap'
+type JTextWhiteSpace = 'nowrap' | 'wrap' | 'clip'
 
 type JTextSize = 'small' | // 11
   'semismall' | // 12

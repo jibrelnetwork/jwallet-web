@@ -40,7 +40,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
-  +transactions: TransactionWithAssetAddress[],
+  +transactions: TransactionWithPrimaryKeys[],
   +params: {|
     +asset: string,
   |},

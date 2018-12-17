@@ -17,6 +17,14 @@
     border-radius: 5px;
   }
 
+  &.-white.-border-radius {
+    border-bottom: 1px solid $pale-grey-two;
+
+    &.-on-contrast-background {
+      border-bottom: none;
+    }
+  }
+
   &.-hover {
     @include hover-animation;
 

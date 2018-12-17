@@ -8,7 +8,7 @@ import TransactionItem from 'components/TransactionItem'
 import TransactionsListEmpty from './Empty'
 
 type Props = {|
-  +items: TransactionWithAssetAddress[],
+  +items: TransactionWithPrimaryKeys[],
   +digitalAssets: DigitalAssets,
   +assetAddress: ?string,
   +blockExplorerSubdomain: string,
@@ -68,18 +68,25 @@ class TransactionsList extends Component<Props, ComponentState> {
 
     return (
       <div className='transactions-list'>
-        {items.map((item: TransactionWithAssetAddress) => (
-          <TransactionItem
-            key={item.id}
-            setActive={this.setActive(item.id)}
-            data={item}
-            asset={digitalAssets[item.assetAddress]}
-            blockExplorerSubdomain={blockExplorerSubdomain}
-            isAssetList={!!assetAddress}
-            isActive={activeItems.includes(item.id)}
-            isSent={ownerAddress.toLowerCase() === item.from.toLowerCase()}
-          />
-        ))}
+        {items.map((item: TransactionWithPrimaryKeys) => {
+          const {
+            keys,
+            from,
+          } = item
+
+          return (
+            <TransactionItem
+              key={keys.id}
+              setActive={this.setActive(keys.id)}
+              data={item}
+              asset={digitalAssets[keys.assetAddress]}
+              blockExplorerSubdomain={blockExplorerSubdomain}
+              isAssetList={!!assetAddress}
+              isActive={activeItems.includes(keys.id)}
+              isSent={ownerAddress.toLowerCase() === from.toLowerCase()}
+            />
+          )
+        })}
         {isLoading && (
           <div className='loader'>
             <JLoader color='gray' />

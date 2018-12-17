@@ -12,6 +12,7 @@ import Settings from './Settings'
 import NotFound from './NotFound'
 import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
+import Favorites from './Favorites'
 
 import {
   type CoreAction,
@@ -45,6 +46,7 @@ export default {
     Settings,
     Transactions,
     DigitalAssets,
+    Favorites,
     NotFound,
   ],
 }
