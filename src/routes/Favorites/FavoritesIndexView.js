@@ -82,7 +82,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
       )
 
     return (
-      <div className='settings-view'>
+      <div className='favorites-view'>
         <header className='header'>
           <div className='container'>
             <JText value='Favorites' size='tab' color='dark' />
