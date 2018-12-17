@@ -5,15 +5,14 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { ButtonWithConfirm } from 'components'
 import { JText, JCard, JIcon, JTooltip } from 'components/base'
+import { Link } from 'react-router'
 
 type Props = {|
-  +onClickEdit: () => void,
-  +onClickSend: () => void,
-  +onClickRemove: () => void,
+  +onClickRemove: (string) => void,
   +address: Address,
   +title: string,
   +symbol: string,
-  description: string,
+  description: ?string,
 |}
 
 type StateProps = {|
@@ -25,10 +24,6 @@ type StateProps = {|
 
 class FavoriteItem extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    isCustom: false,
-    isActive: false,
-    onClickEdit: () => null,
-    onClickSend: () => null,
     onClickRemove: () => null,
   }
 
@@ -59,12 +54,13 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
     hasOpenedActions: false,
   })
 
+  handleClickRemove = () => {
+    this.props.onClickRemove(this.props.address)
+  }
+
   render() {
     const {
       address,
-      onClickEdit,
-      onClickSend,
-      onClickRemove,
       title,
       description,
       symbol,
@@ -88,11 +84,11 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
             <JText value={symbol} color='blue' weight='bold' size='header' whiteSpace='nowrap' />
           </div>
           <div className='data'>
-            <div className='title'>
-              <JText value={title} color='dark' weight='bold' size='normal' whiteSpace='clip' />
+            <div className='title j-text -dark -bold -clip'>
+              {title}
             </div>
-            <div className='address'>
-              <JText value={address} color='dark' weight='bold' size='small' whiteSpace='nowrap' />
+            <div className='address j-text -dark -nowrap'>
+              {address}
             </div>
           </div>
           {description ?
@@ -111,11 +107,11 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
             onClick={this.closeActions}
           />
           <div className='actions'>
-            <div
+            <Link
+              to={`/digital-assets/send?to=${address}`}
               className='item -send'
               onMouseEnter={this.onHoverSend(true)}
               onMouseLeave={this.onHoverSend(false)}
-              onClick={onClickSend}
             >
               <JTooltip text='Send'>
                 <JIcon
@@ -124,12 +120,12 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
                   name='upload'
                 />
               </JTooltip>
-            </div>
-            <div
+            </Link>
+            <Link
+              to={`/favorites/edit?address=${address}`}
               className='item -edit'
               onMouseEnter={this.onHoverEdit(true)}
               onMouseLeave={this.onHoverEdit(false)}
-              onClick={onClickEdit}
             >
               <JTooltip text='Edit'>
                 <JIcon
@@ -138,7 +134,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
                   name='edit'
                 />
               </JTooltip>
-            </div>
+            </Link>
             <div
               className='item -delete'
               onMouseEnter={this.onHoverTrash(true)}
@@ -146,7 +142,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
               onClick={this.onHoverTrash(false)}
             >
               <ButtonWithConfirm
-                onClick={onClickRemove}
+                onClick={this.handleClickRemove}
                 color='blue'
                 bgColor='white'
                 labelCancel='No'

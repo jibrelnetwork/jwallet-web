@@ -31,10 +31,10 @@
     border-left: 1px solid $pale-grey-two;
 
     > .title {
+      display: block;
       position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: clip;
+      font-size: 14px;
+      line-height: 21px;
 
       &::after {
         content: '';
@@ -50,7 +50,8 @@
     }
 
     > .address {
-      margin-top: 4px;
+      display: block;
+      font-size: 12px;
       opacity: 0.5;
     }
   }
