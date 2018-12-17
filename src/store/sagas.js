@@ -9,6 +9,9 @@ import walletsSagas from 'routes/Wallets/sagas'
 // digital assets
 import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
 
+// favorites
+import favoritesSagas from 'routes/Favorites/sagas'
+
 // terms
 import termsSagas from 'routes/Terms/sagas'
 
@@ -22,6 +25,8 @@ export default {
   ...walletsSagas,
   // digital assets
   ...digitalAssetsSagas,
+  // favoritesSagas
+  ...favoritesSagas,
   // terms
   ...termsSagas,
   // not found
