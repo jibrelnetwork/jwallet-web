@@ -1,6 +1,6 @@
 // @flow
 
-import { BigNumber } from 'bignumber.js'
+import BigNumber from 'utils/numbers/bigNumber'
 
 function compareDigitalAssetsByBalance(
   first: ?Balance,
@@ -11,8 +11,8 @@ function compareDigitalAssetsByBalance(
     return 0
   }
 
-  const firstNum = new BigNumber(first.value)
-  const secondNum = new BigNumber(second.value)
+  const firstNum = BigNumber(first.value)
+  const secondNum = BigNumber(second.value)
 
   if (firstNum.gt(secondNum)) {
     return (direction === 'asc') ? 1 : -1

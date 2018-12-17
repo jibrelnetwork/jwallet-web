@@ -3,7 +3,7 @@
 import { select, all, put, call, takeEvery } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import keystore from '@jibrelnetwork/jwallet-web-keystore'
-import { BigNumber } from 'bignumber.js'
+import BigNumber from 'utils/numbers/bigNumber'
 
 import checkETH from 'utils/digitalAssets/checkETH'
 import web3 from 'services/web3'
@@ -81,7 +81,7 @@ function* validate(): Saga<void> {
     yield put(digitalAssetsSend.setFieldError('assetAddress', 'Invalid asset address'))
   }
 
-  const amountBN = new BigNumber(amount)
+  const amountBN = BigNumber(amount)
   if (amountBN.isNaN() || amountBN.eq(0) || amountBN.lt(0)) {
     yield put(digitalAssetsSend.setFieldError('amount', 'Invalid amount value'))
   }
@@ -120,15 +120,15 @@ function getTransactionData(data: GetTransactionDataPayload): TXData {
   }
 
   if (gasPrice) {
-    txData.gasPrice = new BigNumber(gasPrice)
+    txData.gasPrice = BigNumber(gasPrice)
   }
 
   if (gasLimit) {
-    txData.gasLimit = new BigNumber(gasLimit)
+    txData.gasLimit = BigNumber(gasLimit)
   }
 
   if (nonce) {
-    txData.nonce = new BigNumber(nonce)
+    txData.nonce = BigNumber(nonce)
   }
   /* eslint-enable fp/no-mutation */
 
