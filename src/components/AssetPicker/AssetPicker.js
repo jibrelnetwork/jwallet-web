@@ -53,6 +53,15 @@ class AssetPicker extends Component<Props, ComponentState> {
 
     const activeAsset = assets.find(asset => asset.address === selectedAsset)
 
+    const filterStr = filter.trim().toLowerCase()
+    const filteredAssets = filterStr
+      ? assets.filter(asset =>
+        asset.address.toLowerCase() === filterStr ||
+          asset.symbol.toLowerCase().indexOf(filterStr) !== -1 ||
+          asset.name.toLowerCase().indexOf(filterStr) !== -1
+      )
+      : assets
+
     return (
       <div className='asset-picker'>
         <JPicker
@@ -65,7 +74,7 @@ class AssetPicker extends Component<Props, ComponentState> {
               asset={activeAsset}
             />)}
         >
-          { assets.map(asset => (
+          { filteredAssets.map(asset => (
             <JPickerItem
               key={asset.address}
               onSelect={onSelect}
