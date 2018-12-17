@@ -1,63 +1,85 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 
-import JSelect, { JSelectItem } from 'components/base/JSelect'
+import JPicker, { JPickerItem } from 'components/base/JPicker'
 
-import Current from './Current'
-import Item from './Item'
+import AssetPickerCurrent from './Current/AssetPickerCurrent'
+import AssetPickerItem from './Item/AssetPickerItem'
 
-const AssetPicker = ({
-  onSelect,
-  activeAssets,
-  currentAsset,
-  label,
-  isLoading,
-  isDisabled,
-}: Props) => {
-  const foundAsset = activeAssets.find(asset => asset.address === currentAsset)
+type Props = {|
+  assets: Array<DigitalAsset>,
+  selectedAsset: Address,
+  onSelect: (address: Address) => void,
+  // isDisabled: boolean,
+|}
 
-  return (
-    <div className='asset-picker'>
-      <JSelect
-        color='gray'
-        label={label}
-        isLoading={isLoading}
-        isDisabled={isDisabled}
-        current={foundAsset ? <Current {...foundAsset} /> : null}
-      >
-        {activeAssets.map(({ address, symbol, name, balance }: DigitalAssetMainDataWithBalance) => (
-          <JSelectItem key={address} onSelect={onSelect} value={address}>
-            <Item
-              name={name}
-              symbol={symbol}
-              balance={balance}
-              isLoading={isLoading}
-              isActive={address === currentAsset}
-            />
-          </JSelectItem>
-        ))}
-      </JSelect>
-    </div>
-  )
-}
+type ComponentState = {|
+  filter: string,
+|}
 
-type Props = {
-  onSelect: Function,
-  activeAssets: Array<DigitalAssetMainDataWithBalance>,
-  currentAsset: ?Address,
-  label: string,
-  isLoading: boolean,
-  isDisabled: boolean,
-}
+class AssetPicker extends Component<Props, ComponentState> {
+  static defaultProps = {
+    isDisabled: false,
+  }
 
-AssetPicker.defaultProps = {
-  onSelect: () => {},
-  activeAssets: [],
-  currentAsset: null,
-  label: 'Asset',
-  isLoading: false,
-  isDisabled: false,
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      filter: '',
+    }
+  }
+
+  onFilterChange = (filter: string) => {
+    this.setState({ filter })
+  }
+
+  onOpen = () => {
+    // reset filter
+    this.setState({ filter: '' })
+  }
+
+  render() {
+    const {
+      assets,
+      selectedAsset,
+      onSelect,
+    } = this.props
+
+    const {
+      filter,
+    } = this.state
+
+    const activeAsset = assets.find(asset => asset.address === selectedAsset)
+
+    return (
+      <div className='asset-picker'>
+        <JPicker
+          onOpen={this.onOpen}
+          currentRenderer={({ isOpen }) => (
+            <AssetPickerCurrent
+              isOpen={isOpen}
+              filterChange={this.onFilterChange}
+              filterValue={filter}
+              asset={activeAsset}
+            />)}
+        >
+          { assets.map(asset => (
+            <JPickerItem
+              key={asset.address}
+              onSelect={onSelect}
+              value={asset.address}
+            >
+              <AssetPickerItem
+                asset={asset}
+              />
+            </JPickerItem>
+          )) }
+        </JPicker>
+      </div>
+    )
+  }
 }
 
 export default AssetPicker

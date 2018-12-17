@@ -3,45 +3,56 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import AssetBalance from 'components/AssetBalance'
+import { formatBalance } from 'utils/numbers'
 import { JAssetSymbol, JText } from 'components/base'
 
-const AssetPickerItem = ({ name, symbol, balance, isActive, isLoading, isDisabled }: Props) => (
-  <div
-    className={classNames('asset-picker-item', isActive && '-active', isDisabled && '-disabled')}
-  >
-    <div className='info'>
-      <div className='symbol'>
-        <div className='wrap'>
-          <JAssetSymbol symbol={symbol} color={isActive ? 'blue' : 'gray'} />
+type Props = {|
+  +asset: DigitalAsset,
+  +balance: ?Balance,
+  // +fiatBalance: ?FiatBalance,
+  +isSelected: boolean,
+|}
+
+function AssetPickerItem({
+  asset,
+  balance,
+  // fiatBalance,
+  isSelected,
+}: Props) {
+  const balanceStr = (asset && balance && !balance.isLoading && !balance.isError)
+    ? `: ${formatBalance(balance.value)} ${asset.symbol}`
+    : ''
+
+  return (
+    <div className={classNames(
+      'asset-picker-item',
+      isSelected && '-active'
+    )}
+    >
+      <div className='info'>
+        <div className='symbol'>
+          <div className='wrap'>
+            <JAssetSymbol symbol={asset.symbol} color={isSelected ? 'blue' : 'gray'} />
+          </div>
         </div>
-      </div>
-      <div className='name'>
-        <JText value={name} color='gray' weight='bold' whiteSpace='wrap' />
-      </div>
-      <div className='balance'>
-        <AssetBalance symbol={symbol} color='gray' balance={balance} isLoading={isLoading} />
+        <div className='name'>
+          <JText value={asset.name} color='gray' weight='bold' whiteSpace='wrap' />
+        </div>
+        <div className='balance'>
+          <JText value={balanceStr} color='gray' whiteSpace='wrap' />
+        </div>
+        {/* <div className='fiat-balance'>
+          <JText ... />
+        </div> */}
       </div>
     </div>
-  </div>
-)
-
-type Props = {
-  name: string,
-  symbol: string,
-  balance: number,
-  isActive: boolean,
-  isLoading: boolean,
-  isDisabled: boolean,
+  )
 }
 
 AssetPickerItem.defaultProps = {
-  name: '',
-  symbol: '',
-  balance: 0,
-  isActive: false,
-  isLoading: false,
-  isDisabled: false,
+  balance: null,
+  isSelected: false,
+  // fiatBalance: null,
 }
 
 export default AssetPickerItem

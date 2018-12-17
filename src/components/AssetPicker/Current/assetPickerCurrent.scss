@@ -1,39 +1,31 @@
 .asset-picker-current {
   all: initial;
+  position: relative;
 
   @include flex-row;
 
-  position: relative;
-  align-items: center;
   flex-grow: 1;
   max-width: 100%;
   cursor: pointer;
 
-  &.-disabled {
-    cursor: default;
-
-    &:hover > .symbol {
-      opacity: 0.2;
-    }
+  > .placeholder {
+    width: auto;
+    overflow: hidden;
+    visibility: visible;
+    opacity: 0.7;
+    transition: opacity 0.3s ease 0s;
   }
 
-  > .info {
-    @include box;
-    @include flex-row;
+  > .label {
+    position: absolute;
+    top: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease 0s;
+    pointer-events: none;
+  }
 
-    align-items: center;
-    max-width: calc(100% - #{$token-icon-size});
-    padding-right: 30px;
-    margin-top: 16px;
-
-    > .name,
-    > .balance {
-      display: inline-flex;
-    }
-
-    > .balance {
-      margin-left: 5px;
-    }
+  > .name {
+    display: inline-flex;
   }
 
   > .symbol {
@@ -41,4 +33,12 @@
     opacity: 0.2;
     transition: opacity 0.3s ease 0s;
   }
+
+  // &.-disabled {
+  //   cursor: default;
+
+  //   &:hover > .symbol {
+  //     opacity: 0.2;
+  //   }
+  // }
 }

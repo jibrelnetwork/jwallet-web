@@ -55,10 +55,9 @@ const DigitalAssetSendForm = ({
         isLoading={false}
       />
       <AssetPicker
-        activeAssets={assets}
-        currentAsset={formFields.assetAddress}
+        assets={assets}
+        selectedAsset={formFields.assetAddress}
         onSelect={setAssetAddressFieldHandler(setField)}
-        label='Asset address'
       />
       <div className='value-group'>
         <JInput

@@ -11,5 +11,8 @@ if (!BigNumber.BigNumber) {
   BigNumber.BigNumber = BigNumber
 }
 
-export { BigNumber }
-export default BigNumber
+function bigNumber(value: string | number | BigNumber, base: number = 10): BigNumber {
+  return new BigNumber(value, base)
+}
+
+export default bigNumber
