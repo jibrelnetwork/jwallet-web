@@ -43,7 +43,7 @@ class WalletsStartView extends Component<Props> {
           </div>
         </div>
         <div className='terms'>
-          <JText value='By clicking "Create new" or "Import" I agree to Jibrel’s' />
+          <JText value='By clicking "Create new" or "Import" I agree to' />
           <a
             className='j-text -white -nowrap -underline link'
             href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
