@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 
 import { formatBalance } from 'utils/numbers'
 import { handleTargetValue } from 'utils/eventHandlers'
@@ -20,7 +20,7 @@ type ComponentState = {
   filterTextInput: React$ElementRef<any>,
 }
 
-class AssetPickerCurrent extends PureComponent<Props, ComponentState> {
+class AssetPickerCurrent extends Component<Props, ComponentState> {
   static defaultProps = {
     isOpen: false,
     asset: null,
