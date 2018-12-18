@@ -18,16 +18,10 @@
   }
 
   > .label {
-    // position: absolute;
-    // top: 14px;
     opacity: 0.5;
     transition: opacity 0.3s ease 0s;
     pointer-events: none;
     padding-bottom: 2px;
-  }
-
-  > .name {
-    // display: inline-flex;
   }
 
   > .symbol {
@@ -49,12 +43,4 @@
       height: 19px;
     }
   }
-
-  // &.-disabled {
-  //   cursor: default;
-
-  //   &:hover > .symbol {
-  //     opacity: 0.2;
-  //   }
-  // }
 }
