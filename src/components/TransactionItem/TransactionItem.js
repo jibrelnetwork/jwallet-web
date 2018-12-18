@@ -49,7 +49,9 @@ function TransactionItem({
           isAssetList={isAssetList}
         />
         <TransactionItemDetails
+          // eslint-disable-next-line no-console
           repeat={console.log}
+          // eslint-disable-next-line no-console
           addFavorite={console.log}
           data={data}
           blockExplorerSubdomain={blockExplorerSubdomain}

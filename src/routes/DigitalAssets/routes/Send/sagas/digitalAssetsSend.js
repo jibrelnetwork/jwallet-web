@@ -201,12 +201,14 @@ function* submitPasswordForm(): Saga<void> {
       nonce,
     })
 
+    // eslint-disable-next-line no-console
     console.log(txData)
 
     const txHash: string = yield call(web3.sendTransaction, network, asset.address, txData)
 
     yield put(digitalAssetsSend.setIsProcessing(false))
 
+    // eslint-disable-next-line no-console
     console.log(txHash)
 
     yield put(push(`/transactions/${asset.address}`))
