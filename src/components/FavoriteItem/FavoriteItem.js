@@ -5,18 +5,18 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { ButtonWithConfirm } from 'components'
 import { JText, JCard, JIcon, JTooltip } from 'components/base'
+import { Link } from 'react-router'
 
-type Props = {
-  +edit: () => void,
-  +send: () => void,
-  +remove: () => void,
+type Props = {|
+  +onClickRemove: (string) => void,
   +address: Address,
-  +name: string,
+  +title: string,
   +symbol: string,
-}
+  description: ?string,
+|}
 
 type StateProps = {|
-  isToggled: boolean,
+  hasOpenedActions: boolean,
   isHoveredSend: boolean,
   isHoveredEdit: boolean,
   isHoveredTrash: boolean,
@@ -24,15 +24,14 @@ type StateProps = {|
 
 class FavoriteItem extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    isCustom: false,
-    isActive: false,
+    onClickRemove: () => null,
   }
 
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      isToggled: false,
+      hasOpenedActions: false,
       isHoveredSend: false,
       isHoveredEdit: false,
       isHoveredTrash: false,
@@ -45,20 +44,30 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
 
   onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
 
-  toggle = () => this.setState({ isToggled: !this.state.isToggled })
+  openActions = () => {
+    this.setState({
+      hasOpenedActions: true,
+    })
+  }
+
+  closeActions = () => this.setState({
+    hasOpenedActions: false,
+  })
+
+  handleClickRemove = () => {
+    this.props.onClickRemove(this.props.address)
+  }
 
   render() {
     const {
       address,
-      edit,
-      send,
-      remove,
-      name,
+      title,
+      description,
       symbol,
     } = this.props
 
     const {
-      isToggled,
+      hasOpenedActions,
       isHoveredSend,
       isHoveredEdit,
       isHoveredTrash,
@@ -66,30 +75,43 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
 
     return (
       <JCard color='white' isBorderRadius isHover>
-        <div className={classNames('favorite-item', isToggled && '-active')}>
-          <div className='info'>
-            <div className='symbol -text'>
-              <JText value={symbol} color='blue' weight='bold' size='header' whiteSpace='wrap' />
+        <div
+          className={classNames('favorite-item', {
+            '-active': hasOpenedActions,
+          })}
+        >
+          <div className='symbol -text'>
+            <JText value={symbol} color='blue' weight='bold' size='header' whiteSpace='nowrap' />
+          </div>
+          <div className='data'>
+            <div className='title j-text -dark -bold -clip'>
+              {title}
             </div>
-            <div className='data'>
-              <div className='name'>
-                <JText value={name} color='dark' weight='bold' size='normal' whiteSpace='wrap' />
-              </div>
-              <div className='balance'>
-                <JText value={address} color='dark' weight='bold' size='small' whiteSpace='wrap' />
-              </div>
+            <div className='address j-text -dark -nowrap'>
+              {address}
             </div>
           </div>
+          {description ?
+            <div className='description'>
+              <div className='icon'>
+                <JIcon size='medium' name='message' color='gray' />
+              </div>
+              <div className='j-text text'>
+                {description}
+              </div>
+            </div> :
+            <div className='spacer' />
+          }
           <div
             className='overlay'
-            onClick={this.toggle}
+            onClick={this.closeActions}
           />
           <div className='actions'>
-            <div
+            <Link
+              to={`/digital-assets/send?to=${address}`}
               className='item -send'
               onMouseEnter={this.onHoverSend(true)}
               onMouseLeave={this.onHoverSend(false)}
-              onClick={send}
             >
               <JTooltip text='Send'>
                 <JIcon
@@ -98,12 +120,12 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
                   name='upload'
                 />
               </JTooltip>
-            </div>
-            <div
+            </Link>
+            <Link
+              to={`/favorites/edit?address=${address}`}
               className='item -edit'
               onMouseEnter={this.onHoverEdit(true)}
               onMouseLeave={this.onHoverEdit(false)}
-              onClick={edit}
             >
               <JTooltip text='Edit'>
                 <JIcon
@@ -112,7 +134,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
                   name='edit'
                 />
               </JTooltip>
-            </div>
+            </Link>
             <div
               className='item -delete'
               onMouseEnter={this.onHoverTrash(true)}
@@ -120,7 +142,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
               onClick={this.onHoverTrash(false)}
             >
               <ButtonWithConfirm
-                onClick={remove}
+                onClick={this.handleClickRemove}
                 color='blue'
                 bgColor='white'
                 labelCancel='No'
@@ -132,7 +154,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
             </div>
             <div
               className='item -dots'
-              onClick={this.toggle}
+              onClick={this.openActions}
             >
               <JIcon
                 size='medium'
