@@ -33,7 +33,7 @@
     border-bottom: $pale-grey-two;
 
     > .options {
-      max-height: $select-height;
+      max-height: (65px * 4);
       visibility: visible;
       opacity: 1;
     }
@@ -71,8 +71,11 @@
     z-index: 2;
     position: absolute;
     width: $form-width;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-sizing: content-box;
     top: 65px;
-    height: (64px * 4);
+    height: (65px * 4);
     visibility: hidden;
     overflow: hidden;
     opacity: 0;
@@ -96,6 +99,8 @@
 
   &.-c0 > .options {
     height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   > .overlay {

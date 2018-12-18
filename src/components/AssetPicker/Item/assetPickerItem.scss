@@ -16,6 +16,8 @@
   }
 
   > .info {
+    @include flex-row-center;
+
     > .symbol {
       float: left;
       position: relative;

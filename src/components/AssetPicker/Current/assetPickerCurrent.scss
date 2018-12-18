@@ -4,6 +4,7 @@
 
   @include flex-row;
 
+  flex-direction: column;
   flex-grow: 1;
   max-width: 100%;
   cursor: pointer;
@@ -17,21 +18,36 @@
   }
 
   > .label {
-    position: absolute;
-    top: 14px;
-    opacity: 0;
+    // position: absolute;
+    // top: 14px;
+    opacity: 0.5;
     transition: opacity 0.3s ease 0s;
     pointer-events: none;
+    padding-bottom: 2px;
   }
 
   > .name {
-    display: inline-flex;
+    // display: inline-flex;
   }
 
   > .symbol {
     margin: 0 12px 0 auto;
     opacity: 0.2;
     transition: opacity 0.3s ease 0s;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  > .edit {
+    height: 100%;
+
+    > .input {
+      border-width: 0;
+      font-size: 14px;
+      height: 19px;
+    }
   }
 
   // &.-disabled {

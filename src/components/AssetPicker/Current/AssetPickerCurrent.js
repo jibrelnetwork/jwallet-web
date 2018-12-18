@@ -72,7 +72,7 @@ class AssetPickerCurrent extends PureComponent<Props, *> {
             <JText
               value={label}
               color='gray'
-              size='semismall'
+              size='small'
               whiteSpace='wrap'
             />
           </div>
@@ -100,7 +100,7 @@ class AssetPickerCurrent extends PureComponent<Props, *> {
         { isEdit &&
         <Fragment>
           <div className='label'>
-            <JText value={label} size='semilarge' whiteSpace='wrap' />
+            <JText value={label} size='small' whiteSpace='wrap' color='gray' />
           </div>
           <div className='edit'>
             <input
