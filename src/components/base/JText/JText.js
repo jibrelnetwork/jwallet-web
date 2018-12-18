@@ -7,7 +7,7 @@ type JTextAlign = 'center'
 type JTextFontCase = 'upper'
 type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
-type JTextWhiteSpace = 'nowrap' | 'wrap'
+type JTextWhiteSpace = 'nowrap' | 'wrap' | 'clip'
 type JTextSize = 'small' | 'normal' | 'large' | 'header' | 'tab' | 'title'
 type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk'
 

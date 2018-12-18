@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
 import {
-  JIcon,
   JText,
   JFlatButton,
 } from 'components/base'
@@ -18,17 +17,50 @@ import {
 import TransactionItemDetailsComment from './Comment'
 
 type Props = {|
-  +repeat: () => void,
-  +addFavorite: () => void,
   +data: TransactionWithPrimaryKeys,
+  +toName: ?string,
+  +fromName: ?string,
   +blockExplorerSubdomain: string,
   +assetDecimals: number,
+  +isSent: boolean,
   +isActive: boolean,
 |}
 
 type StateProps = {|
   isCommenting: boolean,
 |}
+
+function getRepeatLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
+  const {
+    to,
+    from,
+    contractAddress,
+    amount,
+  }: TransactionWithPrimaryKeys = data
+
+  if (contractAddress || !(to && from)) {
+    return null
+  }
+
+  const actor: string = isSent ? `to=${to}` : `from=${from}`
+  const action: 'send' | 'receive' = isSent ? 'send' : 'receive'
+
+  return `/digital-assets/${action}?${actor}&amount=${amount}`
+}
+
+function getFavoriteLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
+  const {
+    to,
+    from,
+    contractAddress,
+  }: TransactionWithPrimaryKeys = data
+
+  if (contractAddress || !(to && from)) {
+    return null
+  }
+
+  return `/favorites/add?address=${isSent ? to : from}`
+}
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
@@ -43,10 +75,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
   render() {
     const {
-      repeat,
-      addFavorite,
+      toName,
+      fromName,
       blockExplorerSubdomain,
       assetDecimals,
+      isSent,
       isActive,
     } = this.props
 
@@ -60,14 +93,14 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       to,
       from,
       hash,
-      contractAddress,
     }: TransactionWithPrimaryKeys = this.props.data
 
     if (!(data && receiptData)) {
       return null
     }
 
-    const toAddress: ?OwnerAddress = to || contractAddress
+    const repeatLink: ?string = getRepeatLink(this.props.data, isSent)
+    const addFavoriteLink: ?string = getFavoriteLink(this.props.data, isSent)
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -86,45 +119,48 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             </a>
           </div>
         </div>
-        <div className='item -small-width'>
-          <div className='label'>
-            <JText value='From address' color='gray' />
-          </div>
-          <div className='value'>
-            <a
-              href={getAddressLink(from, blockExplorerSubdomain)}
-              target='_blank'
-              className='link'
-              rel='noopener noreferrer'
-            >
-              <JText value={from} color='blue' weight='bold' />
-            </a>
-          </div>
-        </div>
-        <div className='item -small-width'>
-          <div className='label'>
-            <JText value='To address' color='gray' />
-          </div>
-          <div className='value'>
-            {contractAddress && (
-              <div className='icon'>
-                <JIcon
-                  size='small'
+        {from && (
+          <div className='item -small-width'>
+            <div className='label'>
+              <JText value='From address' color='gray' />
+            </div>
+            <div className='value'>
+              <a
+                href={getAddressLink(from, blockExplorerSubdomain)}
+                target='_blank'
+                className='link'
+                rel='noopener noreferrer'
+              >
+                <JText
+                  value={fromName ? `${fromName} — ${from}` : from}
                   color='blue'
-                  name='contract'
+                  weight='bold'
                 />
-              </div>
-            )}
-            <a
-              href={getAddressLink(toAddress, blockExplorerSubdomain)}
-              target='_blank'
-              className='link'
-              rel='noopener noreferrer'
-            >
-              <JText value={toAddress || ''} color='blue' weight='bold' />
-            </a>
+              </a>
+            </div>
           </div>
-        </div>
+        )}
+        {to && (
+          <div className='item -small-width'>
+            <div className='label'>
+              <JText value='To address' color='gray' />
+            </div>
+            <div className='value'>
+              <a
+                href={getAddressLink(to, blockExplorerSubdomain)}
+                target='_blank'
+                className='link'
+                rel='noopener noreferrer'
+              >
+                <JText
+                  value={toName ? `${toName} — ${to}` : to}
+                  color='blue'
+                  weight='bold'
+                />
+              </a>
+            </div>
+          </div>
+        )}
         <div className='item'>
           <div className='label'>
             <JText value='Fee' color='gray' />
@@ -138,33 +174,37 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
         </div>
         <div className='actions'>
-          <div className='action'>
-            <JFlatButton
-              onClick={repeat}
-              iconSize='medium'
-              label='Repeat payment'
-              iconColor='gray'
-              color='gray'
-              iconName='repeat'
-            />
-          </div>
-          <div className='action'>
-            <JFlatButton
-              onClick={addFavorite}
-              iconSize='medium'
-              label='Add to favourites'
-              iconColor='gray'
-              color='gray'
-              iconName='star-add'
-            />
-          </div>
+          {!!repeatLink && (
+            <div className='action'>
+              <JFlatButton
+                to={repeatLink}
+                color='gray'
+                iconColor='gray'
+                iconName='repeat'
+                iconSize='medium'
+                label='Repeat payment'
+              />
+            </div>
+          )}
+          {!!addFavoriteLink && (
+            <div className='action'>
+              <JFlatButton
+                to={addFavoriteLink}
+                color='gray'
+                iconColor='gray'
+                iconSize='medium'
+                iconName='star-add'
+                label='Add to favourites'
+              />
+            </div>
+          )}
           <div className='action'>
             <JFlatButton
               onClick={this.toggle}
+              color='gray'
+              iconColor='gray'
               iconSize='medium'
               label='Add comment'
-              iconColor='gray'
-              color='gray'
               iconName='message-add'
             />
           </div>

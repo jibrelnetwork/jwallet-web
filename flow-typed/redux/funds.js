@@ -1,5 +1,7 @@
 // @flow
 
+import { BigNumber } from 'bignumber.js'
+
 declare type SendFundsData = {
   +invalidFields: FormFields,
   +alert: string,
@@ -40,10 +42,10 @@ declare type ConvertFundsData = {
 
 declare type TXData = {
   to: Address,
-  value: Bignumber,
+  value: BigNumber,
   privateKey: string,
   contractAddress?: Address,
-  gasPrice?: Bignumber,
-  gasLimit?: Bignumber,
-  nonce?: Bignumber,
+  gasPrice?: BigNumber,
+  gasLimit?: BigNumber,
+  nonce?: BigNumber,
 }

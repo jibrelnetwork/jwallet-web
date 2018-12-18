@@ -2,10 +2,13 @@
 
 import { connect } from 'react-redux'
 
+import { selectAllAddressNames } from 'store/selectors/favorites'
+
 import {
-  selectWalletsPersist,
+  selectWalletsItems,
+  selectActiveWalletId,
   selectWalletsAddresses,
-} from 'store/stateSelectors'
+} from 'store/selectors/wallets'
 
 import {
   openMenuLayout,
@@ -20,23 +23,21 @@ import {
 import MenuLayout from './MenuLayout'
 
 function mapStateToProps(state: AppState) {
-  const {
-    items,
-    activeWalletId,
-  }: WalletsPersist = selectWalletsPersist(state)
+  const items: Wallets = selectWalletsItems(state)
+  const activeWalletId: ?WalletId = selectActiveWalletId(state)
+  const addressNames: AddressNames = selectAllAddressNames(state)
 
   const {
     addresses,
-    persist,
     iteration,
   }: WalletsAddressesState = selectWalletsAddresses(state)
 
   return {
     items,
     addresses,
+    addressNames,
     iteration,
     activeWalletId,
-    addressNames: persist.addressNames,
   }
 }
 

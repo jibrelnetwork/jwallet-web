@@ -15,7 +15,7 @@ type Props = {|
   +getMoreAddresses: () => void,
   +setActiveAddress: (Index) => void,
   +items: Wallets,
-  +addresses: Addresses,
+  +addresses: Address[],
   +addressNames: AddressNames,
   +activeWalletId: ?WalletId,
 |}

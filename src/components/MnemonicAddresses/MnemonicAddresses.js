@@ -9,9 +9,9 @@ import { handle, ignoreEvent } from 'utils/eventHandlers'
 type Props = {|
   +renameAddress: (Address) => void,
   +setActive: (addressIndex: Index) => void,
-  +addresses: Addresses,
+  +addresses: Address[],
   +addressNames: AddressNames,
-  +addressWalletNames: AddressNames,
+  +walletsAddressNames: AddressNames,
   +isReadOnly: boolean,
 |}
 
@@ -20,13 +20,13 @@ const MnemonicAddresses = ({
   renameAddress,
   addresses,
   addressNames,
-  addressWalletNames,
+  walletsAddressNames,
   isReadOnly,
 }: Props) => (
   <div className='mnemonic-addresses'>
     {addresses.map((address, index) => {
-      const walletName: string = addressWalletNames[address]
-      const addressName: string = walletName || addressNames[address]
+      const walletName: ?string = walletsAddressNames[address]
+      const addressName: ?string = walletName || addressNames[address]
 
       return (
         <div key={address} className='address'>

@@ -18,7 +18,7 @@ function MenuPanelActions({
     <div className='menu-panel-actions'>
       <MenuPanelActionsItem icon='download' label='Receive asset' path='/digital-assets/receive' />
       <MenuPanelActionsItem icon='refresh' label='Convert assets' path='//jcash.network' />
-      <MenuPanelActionsItem icon='star' label='Favourites' path='/favourites' />
+      <MenuPanelActionsItem icon='star' label='Favorites' path='/favorites' />
       <MenuPanelActionsItem icon='setting' label='Settings' path='/settings' />
       <MenuPanelActionsMore toggle={toggle} isActive={isActive}>
         <MenuPanelActionsItem icon='message' label='Sign a message' path='/signature/sign' />
