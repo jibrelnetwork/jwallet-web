@@ -1,20 +1,22 @@
 // @flow
 
+declare type FavoriteAddress = Address
+
 declare type Favorite = {|
   +name?: string,
   +address: string,
-  +comment?: string,
+  +description?: string,
   +isAddedByUser?: boolean,
 |}
 
 declare type Favorites = {
-  [OwnerAddress]: ?Favorite,
+  [FavoriteAddress]: ?Favorite,
 }
 
 declare type FavoritesFormFields = {|
   +name: string,
   +address: string,
-  +comment: string,
+  +description: string,
 |}
 
 declare type FavoritesPersist = {|

@@ -24,24 +24,24 @@ export function addAuto(address: string) {
   }
 }
 
-export function addByUser(address: string, name: string, comment: string) {
+export function addByUser(address: string, name: string, description: string) {
   return {
     type: ADD_BY_USER,
     payload: {
       name,
       address,
-      comment,
+      description,
     },
   }
 }
 
-export function edit(address: string, name: string, comment: string) {
+export function edit(address: string, name: string, description: string) {
   return {
     type: EDIT,
     payload: {
       name,
       address,
-      comment,
+      description,
     },
   }
 }
@@ -117,12 +117,12 @@ const initialState: FavoritesState = {
   formFieldValues: {
     name: '',
     address: '',
-    comment: '',
+    description: '',
   },
   formFieldErrors: {
     name: '',
     address: '',
-    comment: '',
+    description: '',
   },
   isLoading: false,
 }

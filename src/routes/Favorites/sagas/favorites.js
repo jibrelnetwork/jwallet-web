@@ -8,45 +8,100 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import { selectFavoritesItems } from 'store/selectors/favorites'
+import {
+  selectAddressNames,
+  selectAddressWalletsNames,
+} from 'store/selectors/wallets'
+
+import {
+  selectFavoritesItems,
+  selectFavoritesAddressNames,
+} from 'store/selectors/favorites'
 
 import * as favorites from '../modules/favorites'
 
-function* checkFavoriteDataValid(name: string, comment: string, address?: string): Saga<void> {
-  const isNameInvalid: boolean = /[^a-z0-9 ]/ig.test(name)
-  const isCommentInvalid: boolean = /[^a-z0-9 ]/ig.test(comment)
+function* checkFavoriteDataValid(name: string, description: string, address?: string): Saga<void> {
+  const isnameInvalid: boolean = (name.length < 2)
+  const isDescriptionInvalid: boolean = (description.length < 2)
   const isAddressInvalid: boolean = !!address && utils.checkAddressValid(address)
 
   if (isAddressInvalid) {
     yield put(favorites.setFormFieldError('address', 'Please input valid address'))
   }
 
-  if (isNameInvalid) {
-    yield put(favorites.setFormFieldError('name', 'Please input valid name for address'))
+  if (isnameInvalid) {
+    yield put(favorites.setFormFieldError('name', 'Name length should be at least 2 symbols'))
   }
 
-  if (isCommentInvalid) {
-    yield put(favorites.setFormFieldError('comment', 'Please input valid comment for address'))
+  if (isDescriptionInvalid) {
+    yield put(
+      favorites.setFormFieldError('description', 'Description length should be at least 2 symbols'),
+    )
   }
 
-  if (isNameInvalid || isAddressInvalid || isCommentInvalid) {
+  if (isnameInvalid || isAddressInvalid || isDescriptionInvalid) {
     return false
   }
 
   return true
 }
 
+function* checkFavoriteAlreadyExists(items: Favorites, address: string, name: string): Saga<void> {
+  const foundItem: ?Favorite = items[address]
+
+  if (foundItem && foundItem.isAddedByUser) {
+    yield put(favorites.setFormFieldError('address', 'Favorite with this address already exists'))
+
+    return true
+  }
+
+  const favoritesAddressNames: ExtractReturn<typeof selectFavoritesAddressNames> =
+    yield select(selectFavoritesAddressNames)
+
+  const isFavoriteNameExist: boolean = !!Object.values(favoritesAddressNames).includes(name)
+
+  if (isFavoriteNameExist) {
+    yield put(favorites.setFormFieldError('name', 'Favorite with this name already exists'))
+
+    return true
+  }
+
+  const addressWalletsNames: ExtractReturn<typeof selectAddressWalletsNames> =
+    yield select(selectAddressWalletsNames)
+
+  const isAddressWalletsNameExist: boolean = !!Object.values(addressWalletsNames).includes(name)
+
+  if (isAddressWalletsNameExist) {
+    yield put(favorites.setFormFieldError('name', 'There is wallet with such name'))
+
+    return true
+  }
+
+  const addressNames: ExtractReturn<typeof selectAddressNames> =
+    yield select(selectAddressNames)
+
+  const isAddressNameExist: boolean = !!Object.values(addressNames).includes(name)
+
+  if (isAddressNameExist) {
+    yield put(favorites.setFormFieldError('name', 'There is address with such name'))
+
+    return true
+  }
+
+  return false
+}
+
 function getFavoriteData(
   address: string,
   name: string,
-  comment: string,
+  description: string,
   isAddedByUser: boolean,
 ): Favorite {
   return {
     address,
     isAddedByUser,
     name: name.trim(),
-    comment: comment.trim(),
+    description: description.trim(),
   }
 }
 
@@ -56,10 +111,10 @@ function* edit(action: ExtractReturn<typeof favorites.edit>): Saga<void> {
   const {
     name,
     address,
-    comment,
+    description,
   } = action.payload
 
-  const isValid: boolean = yield checkFavoriteDataValid(name, comment)
+  const isValid: boolean = yield checkFavoriteDataValid(name, description)
 
   if (!isValid) {
     return
@@ -67,7 +122,7 @@ function* edit(action: ExtractReturn<typeof favorites.edit>): Saga<void> {
 
   const newFavorites: Favorites = {
     ...items,
-    [address]: getFavoriteData(address, name, comment, true),
+    [address]: getFavoriteData(address, name, description, true),
   }
 
   yield put(favorites.setItems(newFavorites))
@@ -100,26 +155,19 @@ function* addByUser(action: ExtractReturn<typeof favorites.addByUser>): Saga<voi
   const {
     name,
     address,
-    comment,
+    description,
   } = action.payload
 
-  const isValid: boolean = yield checkFavoriteDataValid(name, comment, address)
+  const isValid: boolean = yield checkFavoriteDataValid(name, description, address)
+  const isExist: boolean = yield checkFavoriteAlreadyExists(items, address, name)
 
-  if (!isValid) {
-    return
-  }
-
-  const foundItem: ?Favorite = items[address]
-
-  if (foundItem && foundItem.isAddedByUser) {
-    yield put(favorites.setFormFieldError('address', 'Favorite with this address already exists'))
-
+  if (isExist || !isValid) {
     return
   }
 
   const newFavorites: Favorites = {
     ...items,
-    [address]: getFavoriteData(address, name, comment, true),
+    [address]: getFavoriteData(address, name, description, true),
   }
 
   yield put(favorites.setItems(newFavorites))
