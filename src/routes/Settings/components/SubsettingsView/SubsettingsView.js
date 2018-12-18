@@ -3,6 +3,8 @@
 import React from 'react'
 import { CloseableScreen } from 'components'
 
+import './subsettingsView.scss'
+
 type Props = {|
   +title: string,
   +closeClick: () => void,

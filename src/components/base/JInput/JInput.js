@@ -7,9 +7,13 @@ import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
 type JInputValue = string | number
 type JInputOnChangeHandler = (string) => void
+export type JInputColor = 'gray' | 'white'
+export type JInputType = 'text' | 'password'
 
 type Props = {|
   +onChange: ?JInputOnChangeHandler,
+  +onFocus: (?SyntheticEvent<*>) => void,
+  +onBlur: (?SyntheticEvent<*>) => void,
   +name: ?string,
   +label: ?string,
   +value: ?JInputValue,
@@ -17,8 +21,8 @@ type Props = {|
   +helpMessage: ?string,
   +infoMessage: ?string,
   +errorMessage: ?string,
-  +color: 'gray' | 'white',
-  +type: 'text' | 'password',
+  +color: JInputColor,
+  +type: JInputType,
   +rows: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
@@ -28,6 +32,8 @@ type Props = {|
 
 type ChildrenProps = {|
   +onChange: ?Function,
+  +onBlur: Function,
+  +onFocus: Function,
   +name: ?string,
   +className: string,
   +value: ?JInputValue,
@@ -39,6 +45,8 @@ type ChildrenProps = {|
 class JInput extends PureComponent<Props> {
   static defaultProps = {
     onChange: null,
+    onFocus: (event: SyntheticEvent<*>) => event,
+    onBlur: (event: SyntheticEvent<*>) => event,
     name: '',
     label: '',
     value: '',
@@ -58,6 +66,8 @@ class JInput extends PureComponent<Props> {
   render() {
     const {
       onChange,
+      onBlur,
+      onFocus,
       type,
       name,
       rows,
@@ -86,6 +96,8 @@ class JInput extends PureComponent<Props> {
       autoFocus: isAutoFocus,
       placeholder: labelOrPlaceholder,
       onChange: onChange ? handleTargetValue(onChange) : undefined,
+      onBlur,
+      onFocus,
     }
 
     const children = isMultiline
