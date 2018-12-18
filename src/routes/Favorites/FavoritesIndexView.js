@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 import { JText, JSearch } from 'components/base'
 import { FavoriteItem } from 'components'
 
-// import './favoritesView.scss'
+import './favoritesView.scss'
 
 type Favorite = {
   title: string,
