@@ -6,7 +6,6 @@ import CoreLayout from 'layouts/CoreLayout'
 import Funds from './Funds'
 */
 
-import Terms from './Terms'
 import Wallets from './Wallets'
 import Settings from './Settings'
 import NotFound from './NotFound'
@@ -41,7 +40,6 @@ export default {
     /*
     Funds(store),
     */
-    Terms,
     Wallets,
     Settings,
     Transactions,
