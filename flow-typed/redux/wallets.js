@@ -212,7 +212,7 @@ declare type WalletsAddressesPersist = {|
 
 declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
-  +addresses: Addresses,
+  +addresses: Address[],
   +balances: WalletsBalances,
   +iteration: Index,
   +isLoading: boolean,

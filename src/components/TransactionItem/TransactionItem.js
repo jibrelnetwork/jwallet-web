@@ -11,6 +11,8 @@ type Props = {|
   +setActive: () => void,
   +data: TransactionWithPrimaryKeys,
   +asset: ?DigitalAsset,
+  +toName: ?string,
+  +fromName: ?string,
   +blockExplorerSubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
@@ -21,6 +23,8 @@ function TransactionItem({
   setActive,
   data,
   asset,
+  toName,
+  fromName,
   blockExplorerSubdomain,
   isSent,
   isActive,
@@ -42,6 +46,7 @@ function TransactionItem({
           setActive={setActive}
           data={data}
           assetSymbol={symbol}
+          txAddressName={isSent ? toName : fromName}
           blockExplorerSubdomain={blockExplorerSubdomain}
           assetDecimals={decimals}
           isSent={isSent}
@@ -49,11 +54,12 @@ function TransactionItem({
           isAssetList={isAssetList}
         />
         <TransactionItemDetails
-          repeat={console.log}
-          addFavorite={console.log}
           data={data}
+          toName={toName}
+          fromName={fromName}
           blockExplorerSubdomain={blockExplorerSubdomain}
           assetDecimals={decimals}
+          isSent={isSent}
           isActive={isActive}
         />
       </JCard>
