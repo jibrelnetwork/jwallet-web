@@ -3,7 +3,14 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { getWallet, getAddressWalletNames } from 'utils/wallets'
+import {
+  selectActiveWallet,
+  selectAddressNames,
+  selectWalletsItems,
+  selectActiveWalletId,
+  selectWalletsAddresses,
+  selectAddressWalletsNames,
+} from 'store/selectors/wallets'
 
 import WalletsAddressesView from './WalletsAddressesView'
 
@@ -14,42 +21,29 @@ import {
   getMoreRequest,
 } from './modules/walletsAddresses'
 
-type StateProps = {|
-  +wallets: Wallets,
-  +addresses: Addresses,
-  +addressNames: AddressNames,
-  +addressWalletNames: AddressNames,
-  // +balances: Balances,
-  +iteration: Index,
-  +walletId: ?WalletId,
-  // +isLoading: boolean,
-  +isReadOnly: boolean,
-|}
-
-function mapStateToProps({ walletsAddresses, wallets }: AppState): StateProps {
+function mapStateToProps(state: AppState) {
   const {
-    persist: {
-      addressNames,
-    },
     addresses,
     // balances,
     iteration,
     // isLoading,
-  } = walletsAddresses
+  }: WalletsAddressesState = selectWalletsAddresses(state)
 
-  const { items, activeWalletId } = wallets.persist
-  const foundWallet: ?Wallet = getWallet(items, activeWalletId)
-  const addressWalletNames: AddressNames = getAddressWalletNames(items)
+  const wallets: Wallets = selectWalletsItems(state)
+  const foundWallet: ?Wallet = selectActiveWallet(state)
+  const walletId: ?WalletId = selectActiveWalletId(state)
+  const addressNames: AddressNames = selectAddressNames(state)
+  const walletsAddressNames: AddressNames = selectAddressWalletsNames(state)
 
   return {
-    addresses,
+    wallets,
     // balances,
+    addresses,
+    walletId,
     addressNames,
-    addressWalletNames,
+    walletsAddressNames,
     iteration,
     // isLoading,
-    wallets: items,
-    walletId: activeWalletId,
     isReadOnly: foundWallet ? foundWallet.isReadOnly : false,
   }
 }

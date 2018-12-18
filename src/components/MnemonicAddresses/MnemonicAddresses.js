@@ -11,7 +11,7 @@ type Props = {|
   +setActive: (addressIndex: Index) => void,
   +addresses: Addresses,
   +addressNames: AddressNames,
-  +addressWalletNames: AddressNames,
+  +walletsAddressNames: AddressNames,
   +isReadOnly: boolean,
 |}
 
@@ -20,12 +20,12 @@ const MnemonicAddresses = ({
   renameAddress,
   addresses,
   addressNames,
-  addressWalletNames,
+  walletsAddressNames,
   isReadOnly,
 }: Props) => (
   <div className='mnemonic-addresses'>
     {addresses.map((address, index) => {
-      const walletName: string = addressWalletNames[address]
+      const walletName: string = walletsAddressNames[address]
       const addressName: string = walletName || addressNames[address]
 
       return (
