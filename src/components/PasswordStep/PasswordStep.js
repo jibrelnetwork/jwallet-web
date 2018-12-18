@@ -4,8 +4,6 @@ import React, { Component } from 'react'
 
 import { JRaisedButton, JInput } from 'components/base'
 
-import './passwordStep.scss'
-
 type Props = {|
   onSubmit: (password: string) => void,
   submitLabel: string,
