@@ -2,6 +2,7 @@
 
 import { connect } from 'react-redux'
 
+import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
@@ -58,6 +59,7 @@ function mapStateToProps(state: AppState) {
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
+  const addressNames: AddressNames = selectAllAddressNames(state)
 
   const {
     searchQuery,
@@ -72,8 +74,9 @@ function mapStateToProps(state: AppState) {
   const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
 
   return {
-    digitalAssets,
     network,
+    addressNames,
+    digitalAssets,
     searchQuery,
     ownerAddress,
     isOnlyPending,

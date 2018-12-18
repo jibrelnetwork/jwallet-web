@@ -17,7 +17,7 @@ type Props = {|
   +wallets: Wallets,
   +addresses: Addresses,
   +addressNames: AddressNames,
-  +addressWalletNames: AddressNames,
+  +walletsAddressNames: AddressNames,
   +iteration: Index,
   +walletId: ?WalletId,
   +isReadOnly: boolean,
@@ -52,7 +52,7 @@ class WalletsAddressesView extends Component<Props> {
       wallets,
       addresses,
       addressNames,
-      addressWalletNames,
+      walletsAddressNames,
       walletId,
       iteration,
       isReadOnly,
@@ -80,7 +80,7 @@ class WalletsAddressesView extends Component<Props> {
             setActive={this.setActiveAddress}
             addresses={addresses}
             addressNames={addressNames}
-            addressWalletNames={addressWalletNames}
+            walletsAddressNames={walletsAddressNames}
             isReadOnly={isReadOnly}
           />
           <div className='actions'>

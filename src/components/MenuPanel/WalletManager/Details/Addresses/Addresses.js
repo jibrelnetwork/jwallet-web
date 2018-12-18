@@ -10,7 +10,7 @@ import MenuPanelWalletManagerDetailsAddressesItem from './Item'
 type Props = {|
   +getMoreAddresses: () => void,
   +setActiveAddress: (Index) => void,
-  +addresses: Addresses,
+  +addresses: Address[],
   +addressNames: AddressNames,
   +currentAddressIndex: ?Index,
 |}

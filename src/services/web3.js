@@ -1,10 +1,10 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { keccak256 } from 'js-sha3'
 
 import checkETH from 'utils/digitalAssets/checkETH'
+import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
 import * as type from 'utils/type'
 
 type ERC20MethodName =
@@ -352,8 +352,8 @@ function prepareTransferEvents(data: Array<Object>): Transactions {
     } = args
 
     const newTransaction: Transaction = {
-      to: utils.getChecksum(to),
-      from: utils.getChecksum(from),
+      to: getAddressWithChecksum(to),
+      from: getAddressWithChecksum(from),
       blockHash,
       blockNumber,
       data: null,
@@ -463,8 +463,8 @@ function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Tran
       value,
     }: JNTEventArgs = args
 
-    const ownerAddressChecksum: OwnerAddress = utils.getChecksum(owner)
-    const assetAddressChecksum: AssetAddress = utils.getChecksum(assetAddress)
+    const ownerAddressChecksum: OwnerAddress = getAddressWithChecksum(owner)
+    const assetAddressChecksum: AssetAddress = getAddressWithChecksum(assetAddress)
 
     const newTransaction: Transaction = {
       blockHash,

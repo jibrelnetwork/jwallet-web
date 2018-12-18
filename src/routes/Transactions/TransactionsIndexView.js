@@ -17,9 +17,10 @@ type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
   +transactions: TransactionWithPrimaryKeys[],
+  +network: ?Network,
+  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
-  +network: ?Network,
   +searchQuery: string,
   +isLoading: boolean,
   +isOnlyPending: boolean,
@@ -34,8 +35,9 @@ function TransactionsIndexView({
   setIsOnlyPending,
   changeSearchInput,
   transactions,
-  digitalAssets,
   network,
+  addressNames,
+  digitalAssets,
   searchQuery,
   ownerAddress,
   isLoading,
@@ -74,6 +76,7 @@ function TransactionsIndexView({
         <Scrollbars autoHide>
           <TransactionsList
             items={transactions}
+            addressNames={addressNames}
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
