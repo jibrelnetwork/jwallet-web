@@ -19,6 +19,6 @@ export default {
     Manage,
     AddAsset,
     EditAsset,
-    ...Send,
+    Send,
   ],
 }

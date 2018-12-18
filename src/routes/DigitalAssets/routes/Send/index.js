@@ -2,11 +2,7 @@
 
 import DigitalAssetsSendViewContainer from './DigitalAssetsSendViewContainer'
 
-const send = {
+export default {
   path: 'send',
   component: DigitalAssetsSendViewContainer,
 }
-
-export default [
-  send,
-]

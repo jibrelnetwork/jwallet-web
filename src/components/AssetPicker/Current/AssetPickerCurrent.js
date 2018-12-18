@@ -16,7 +16,11 @@ type Props = {|
   label: string,
 |}
 
-class AssetPickerCurrent extends PureComponent<Props, *> {
+type ComponentState = {
+  filterTextInput: React$ElementRef<any>,
+}
+
+class AssetPickerCurrent extends PureComponent<Props, ComponentState> {
   static defaultProps = {
     isOpen: false,
     asset: null,
@@ -29,12 +33,14 @@ class AssetPickerCurrent extends PureComponent<Props, *> {
   constructor(props: Props) {
     super(props)
 
-    this.filterTextInput = React.createRef()
+    this.state = {
+      filterTextInput: React.createRef(),
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.isOpen && !prevProps.isOpen) {
-      this.filterTextInput.current.focus()
+      this.state.filterTextInput.current.focus()
     }
   }
 
@@ -104,7 +110,7 @@ class AssetPickerCurrent extends PureComponent<Props, *> {
           </div>
           <div className='edit'>
             <input
-              ref={this.filterTextInput}
+              ref={this.state.filterTextInput}
               type='text'
               value={filterValue}
               onChange={handleTargetValue(filterChange)}

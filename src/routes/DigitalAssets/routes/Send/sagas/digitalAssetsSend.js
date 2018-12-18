@@ -91,9 +91,9 @@ type GetTransactionDataPayload = {
   asset: DigitalAsset,
   recepient: Address,
   amount: string,
-  gas: string,
-  gasPrice: string,
-  nonce: string,
+  gasLimit?: string,
+  gasPrice?: string,
+  nonce?: string,
   privateKey: string,
 }
 
@@ -207,13 +207,7 @@ function* submitPasswordForm(): Saga<void> {
 
     yield put(digitalAssetsSend.setIsProcessing(false))
 
-    console.log('============================')
-    console.log('============================')
-    console.log('============================')
     console.log(txHash)
-    console.log('============================')
-    console.log('============================')
-    console.log('============================')
 
     yield put(push(`/transactions/${asset.address}`))
   } catch (err) {
