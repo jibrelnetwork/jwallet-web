@@ -4,12 +4,21 @@ import React from 'react'
 
 import OverlayNotification from 'components/OverlayNotification'
 
-function TransactionsListEmpty() {
+type Props = {|
+  +isFiltered: boolean,
+|}
+
+function TransactionsListEmpty({ isFiltered }: Props) {
   return (
     <OverlayNotification
       color='gray'
       image='screen-reload'
-      description={['Looks like you haven\'t made', 'any transactions yet.']}
+      description={isFiltered ? [
+        'There are no items to display',
+      ] : [
+        'Looks like you haven\'t made',
+        'any transactions yet.',
+      ]}
       isTransparent
     />
   )

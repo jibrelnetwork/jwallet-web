@@ -1,9 +1,8 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
-
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
+import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
 import * as type from 'utils/type'
 
 const { blockExplorerApiOptions } = config
@@ -148,9 +147,9 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
       hash,
       blockHash,
       amount: value,
-      from: utils.getChecksum(from),
-      to: to.length ? utils.getChecksum(to) : null,
-      contractAddress: contractAddress.length ? utils.getChecksum(contractAddress) : null,
+      from: getAddressWithChecksum(from),
+      to: to.length ? getAddressWithChecksum(to) : null,
+      contractAddress: contractAddress.length ? getAddressWithChecksum(contractAddress) : null,
       eventType: 0,
       createdAt: parseInt(timeStamp, 10) || 0,
       blockNumber: parseInt(blockNumber, 10) || 0,

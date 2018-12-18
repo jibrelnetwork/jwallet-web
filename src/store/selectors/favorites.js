@@ -2,6 +2,11 @@
 
 import flattenFavorites from 'utils/favorites/flattenFavorites'
 
+import {
+  selectAddressNames,
+  selectAddressWalletsNames,
+} from './wallets'
+
 export function selectFavorites(state: AppState): FavoritesState {
   return state.favorites
 }
@@ -25,9 +30,42 @@ export function selectFavoritesUserItems(state: AppState): Favorite[] {
 }
 
 export function selectFavorite(state: AppState, address: OwnerAddress): ?Favorite {
-  const favoritesItems: Favorites = selectFavoritesItems(state)
+  const items: Favorites = selectFavoritesItems(state)
 
-  return favoritesItems[address]
+  return items[address]
+}
+
+export function selectFavoritesAddressNames(state: AppState): AddressNames {
+  const items: Favorites = selectFavoritesItems(state)
+
+  return flattenFavorites(items).reduce((result: AddressNames, item: Favorite): AddressNames => {
+    const {
+      name,
+      address,
+      isAddedByUser,
+    }: Favorite = item
+
+    if (name && isAddedByUser) {
+      return {
+        ...result,
+        [address]: name,
+      }
+    }
+
+    return result
+  }, {})
+}
+
+export function selectAllAddressNames(state: AppState): AddressNames {
+  const addressNames: AddressNames = selectAddressNames(state)
+  const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
+  const favoritesAddressNames: AddressNames = selectFavoritesAddressNames(state)
+
+  return {
+    ...addressNames,
+    ...addressWalletsNames,
+    ...favoritesAddressNames,
+  }
 }
 
 export function selectFavoritesFormFieldValues(state: AppState): FavoritesFormFields {
