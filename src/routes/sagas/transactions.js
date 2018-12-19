@@ -197,6 +197,7 @@ function getRequestTransactionsByAssetTasks(
 function* checkTransactionsFetched(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
+  activeAssets: DigitalAsset[],
 ): Saga<boolean> {
   const itemsByNetworkId: ExtractReturn<typeof selectTransactionsByNetworkId> =
     yield select(selectTransactionsByNetworkId, networkId)
@@ -215,6 +216,13 @@ function* checkTransactionsFetched(
     resultByAssetAddress: Transactions,
     assetAddress: AssetAddress,
   ): Transactions => {
+    const activeAsset: ?DigitalAsset = activeAssets
+      .find(({ address }: DigitalAsset): boolean => (address === assetAddress))
+
+    if (!activeAsset) {
+      return {}
+    }
+
     const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
 
     if (!itemsByAssetAddress) {
@@ -259,6 +267,7 @@ function* checkTransactionsFetched(
 function* checkTransactionsLoading(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
+  activeAssets: DigitalAsset[],
 ): Saga<boolean> {
   const itemsByNetworkId: ExtractReturn<typeof selectTransactionsByNetworkId> =
     yield select(selectTransactionsByNetworkId, networkId)
@@ -277,6 +286,13 @@ function* checkTransactionsLoading(
     resultByAssetAddress: boolean,
     assetAddress: AssetAddress,
   ): boolean => {
+    const activeAsset: ?DigitalAsset = activeAssets
+      .find(({ address }: DigitalAsset): boolean => (address === assetAddress))
+
+    if (!activeAsset) {
+      return false
+    }
+
     // return true if already true
     if (resultByAssetAddress) {
       return true
@@ -334,6 +350,9 @@ function* syncProcessingBlockStatus(): Saga<void> {
       const processingBlock: ExtractReturn<typeof selectProcessingBlock> =
         yield select(selectProcessingBlock, networkId)
 
+      const assets: ExtractReturn<typeof selectActiveDigitalAssets> =
+        yield select(selectActiveDigitalAssets)
+
       if (!(networkId && ownerAddress)) {
         return
       }
@@ -348,13 +367,13 @@ function* syncProcessingBlockStatus(): Saga<void> {
         isTransactionsLoading,
       }: BlockData = processingBlock
 
-      const isFetched: boolean = yield* checkTransactionsFetched(networkId, ownerAddress)
+      const isFetched: boolean = yield* checkTransactionsFetched(networkId, ownerAddress, assets)
 
       if (!isTransactionsFetched && isFetched) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
       }
 
-      const isLoading: boolean = yield* checkTransactionsLoading(networkId, ownerAddress)
+      const isLoading: boolean = yield* checkTransactionsLoading(networkId, ownerAddress, assets)
 
       if (isTransactionsLoading && !isLoading) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
@@ -379,7 +398,8 @@ function* fetchByOwnerRequest(
     fromBlock,
   } = action.payload
 
-  const activeAssets: DigitalAsset[] = yield select(selectActiveDigitalAssets)
+  const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
+    yield select(selectActiveDigitalAssets)
 
   yield all(activeAssets.map((digitalAsset: DigitalAsset) => put(transactions.initItemsByAsset(
     networkId,
@@ -540,7 +560,7 @@ function getTasksToRefetchByOwner(
     const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
     const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
 
-    if (!digitalAsset) {
+    if (!(digitalAsset && digitalAsset.isActive)) {
       return resultByAssetAddress
     }
 
@@ -582,7 +602,10 @@ function getTasksToRefetchByOwner(
       ]
     }
 
-    return failedRequests
+    return [
+      ...resultByAssetAddress,
+      ...failedRequests,
+    ]
   }, [])
 }
 
