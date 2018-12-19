@@ -108,6 +108,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
                   title={favorite.title}
                   description={favorite.description}
                   symbol={createSymbol(favorite.title)}
+                  // eslint-disable-next-line no-console
                   onClickRemove={console.log}
                 />
               </div>

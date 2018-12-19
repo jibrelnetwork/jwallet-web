@@ -6,9 +6,9 @@
   @include box;
 
   margin: 0;
-    padding: 0;
-    outline: none;
-  }
+  padding: 0;
+  outline: none;
+}
 
 html,
 body,
@@ -78,9 +78,10 @@ h4 {
 @import '../components/SettingsGrid/settingsGrid';
 @import '../components/WalletHeader/walletHeader';
 @import '../components/FavoriteItem/favoriteItem';
+@import '../components/PasswordStep/passwordStep';
 @import '../components/CopyableField/copyableField';
 @import '../components/PasswordField/passwordField';
-@import '../components/WalletLoading/WalletLoading';
+@import '../components/WalletLoading/walletLoading';
 @import '../components/OverlayActions/overlayActions';
 @import '../components/CloseableScreen/closeableScreen';
 @import '../components/RoundIconButton/roundIconButton';
@@ -99,7 +100,6 @@ h4 {
 @import '../components/DigitalAssetSendConfirm/digitalAssetSendConfirm';
 
 // Views
-@import '../routes/Terms/termsView';
 @import '../routes/Wallets/walletsView';
 @import '../routes/Settings/settingsView';
 @import '../routes/NotFound/notFoundView';

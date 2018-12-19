@@ -91,9 +91,9 @@ type GetTransactionDataPayload = {
   asset: DigitalAsset,
   recepient: Address,
   amount: string,
-  gas: string,
-  gasPrice: string,
-  nonce: string,
+  gasLimit?: string,
+  gasPrice?: string,
+  nonce?: string,
   privateKey: string,
 }
 
@@ -201,19 +201,15 @@ function* submitPasswordForm(): Saga<void> {
       nonce,
     })
 
+    // eslint-disable-next-line no-console
     console.log(txData)
 
     const txHash: string = yield call(web3.sendTransaction, network, asset.address, txData)
 
     yield put(digitalAssetsSend.setIsProcessing(false))
 
-    console.log('============================')
-    console.log('============================')
-    console.log('============================')
+    // eslint-disable-next-line no-console
     console.log(txHash)
-    console.log('============================')
-    console.log('============================')
-    console.log('============================')
 
     yield put(push(`/transactions/${asset.address}`))
   } catch (err) {
