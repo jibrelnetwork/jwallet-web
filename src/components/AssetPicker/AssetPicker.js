@@ -82,6 +82,7 @@ class AssetPicker extends Component<Props, ComponentState> {
             >
               <AssetPickerItem
                 asset={asset}
+                isSelected={activeAsset && asset.address === activeAsset.address}
               />
             </JPickerItem>
           ))}

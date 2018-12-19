@@ -102,6 +102,7 @@ class AddressPicker extends Component<Props, ComponentState> {
                 address={address.address}
                 title={address.title}
                 asset={asset}
+                isSelected={activeAddress && address.address === activeAddress.address}
               />
             </JPickerItem>
           ))}
