@@ -640,14 +640,34 @@ function* resyncTransactionsByOwnerAddress(
 
 function getTasksToFetchByTransactionId(
   items: TransactionWithPrimaryKeys[],
+  activeAssets?: DigitalAsset[],
 ): SchedulerTransactionTask[] {
   return items.reduce((
     result: SchedulerTransactionTask[],
     transaction: TransactionWithPrimaryKeys,
-  ): SchedulerTransactionTask[] => ([
-    ...result,
-    ...getRequestTransactionTasks(transaction),
-  ]), [])
+  ): SchedulerTransactionTask[] => {
+    /**
+     * If activeAssets param was passed in arguments
+     * we must check, that all transactions' data requests will be executed for active assets
+     */
+    if (activeAssets) {
+      const activeAsset: ?DigitalAsset = activeAssets
+        .find(({ address }: DigitalAsset): boolean => (address === transaction.keys.assetAddress))
+
+      /**
+       * If current transaction is not for active asset, we must ignore it
+       * so that, data/blockData/receiptData will not be (re)requested
+       */
+      if (!activeAsset) {
+        return result
+      }
+    }
+
+    return [
+      ...result,
+      ...getRequestTransactionTasks(transaction),
+    ]
+  }, [])
 }
 
 function* resyncTransactionsByTransactionId(
@@ -664,8 +684,11 @@ function* resyncTransactionsByTransactionId(
       continue
     }
 
+    const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
+      yield select(selectActiveDigitalAssets)
+
     const items: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(itemsByOwner, true)
-    const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items)
+    const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items, activeAssets)
 
     yield all(tasks.map((task: SchedulerTransactionTask) => put(requestQueue, task)))
     yield delay(config.resyncTransactionsTimeout)
