@@ -46,7 +46,7 @@ export function edit(address: string, name: string, description: string) {
   }
 }
 
-export function remove(address: string) {
+export function remove(address: FavoriteAddress) {
   return {
     type: REMOVE,
     payload: {
@@ -139,6 +139,8 @@ function favorites(
           ...state.persist,
           items: action.payload.items,
         },
+        formFieldValues: initialState.formFieldValues,
+        formFieldErrors: initialState.formFieldErrors,
       }
 
     case SET_IS_LOADING:
@@ -158,6 +160,10 @@ function favorites(
         formFieldValues: {
           ...state.formFieldValues,
           [fieldName]: value,
+        },
+        formFieldErrors: {
+          ...state.formFieldErrors,
+          [fieldName]: '',
         },
       }
     }
