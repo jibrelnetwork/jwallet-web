@@ -149,3 +149,76 @@ storiesOf('JInput', module)
       ))}
     </div>
   ))
+  .add('Different border-radius', () => (
+    <div>
+      <div className='story'>
+        {React.createElement(StateHOC(
+          ({ value, setValue }) => (
+            <JInput
+              onChange={setValue}
+              value={value}
+              type='text'
+              color='gray'
+              placeholder='Radius from all sides'
+            />
+          )
+        ))}
+      </div>
+      <div className='story'>
+        {React.createElement(StateHOC(
+          ({ value, setValue }) => (
+            <JInput
+              onChange={setValue}
+              value={value}
+              type='text'
+              color='gray'
+              placeholder='Radius on the top side'
+              sideBorderRadius='top'
+            />
+          )
+        ))}
+      </div>
+      <div className='story'>
+        {React.createElement(StateHOC(
+          ({ value, setValue }) => (
+            <JInput
+              onChange={setValue}
+              value={value}
+              type='text'
+              color='gray'
+              placeholder='Radius on the right side'
+              sideBorderRadius='right'
+            />
+          )
+        ))}
+      </div>
+      <div className='story'>
+        {React.createElement(StateHOC(
+          ({ value, setValue }) => (
+            <JInput
+              onChange={setValue}
+              value={value}
+              type='text'
+              color='gray'
+              placeholder='Radius on the bottom side'
+              sideBorderRadius='bottom'
+            />
+          )
+        ))}
+      </div>
+      <div className='story'>
+        {React.createElement(StateHOC(
+          ({ value, setValue }) => (
+            <JInput
+              onChange={setValue}
+              value={value}
+              type='text'
+              color='gray'
+              placeholder='Radius on the left side'
+              sideBorderRadius='left'
+            />
+          )
+        ))}
+      </div>
+    </div>
+  ))
