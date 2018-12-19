@@ -1,44 +1,25 @@
 // @flow
-import React from 'react'
+
+import { connect } from 'react-redux'
+
+import flattenFavorites from 'utils/favorites/flattenFavorites'
+import { selectFavoritesItems } from 'store/selectors/favorites'
+
 import FavoritesIndexView from './FavoritesIndexView'
+import { remove } from './modules/favorites'
 
-const testData = [
-  {
-    title: 'some random string that should create symbol for that',
-    address: '0x123',
-  },
-  {
-    title: '   hahahaha       ',
-    address: '0x1234',
-  },
-  {
-    title: 'Vasisualiy Dmitrievich Konstantinopolsky',
-    address: '0x12345',
-  },
-  {
-    title: 'Васисуалий Дмитриевич Константинопольский',
-    address: '0x123451',
-  },
-  {
-    title: '🧐 😅 💩',
-    address: '0x123456',
-  },
-  {
-    title: '白 崆',
-    address: '0x1234567',
-  },
-].concat(
-  new Array(100)
-    .fill(0)
-    .map((item, idx) => ({
-      title: 'Alexey Selikhov',
-      address: `0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd${idx}`,
-      description: idx % 17 === 0 ? 'Dude!' : null,
-    }))
-)
+function mapStateToProps(state: AppState) {
+  const items: Favorites = selectFavoritesItems(state)
 
-export default function FavoritesIndexViewContainer() {
-  return (
-    <FavoritesIndexView items={testData} />
-  )
+  return {
+    items: flattenFavorites(items),
+  }
 }
+
+const mapDispatchToProps = {
+  remove,
+}
+
+export default (
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+)(FavoritesIndexView)

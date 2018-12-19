@@ -2,23 +2,22 @@
 
 import React, { PureComponent } from 'react'
 
-import { JText, JSearch } from 'components/base'
-import { FavoriteItem } from 'components'
+import FavoriteItem from 'components/FavoriteItem'
+
+import {
+  JText,
+  JSearch,
+} from 'components/base'
 
 import './favoritesView.scss'
 
-type Favorite = {
-  title: string,
-  +address: string,
-  description: ?string,
-}
-
 type Props = {|
-  items: Favorite[]
+  +remove: (FavoriteItem) => void,
+  +items: Favorite[],
 |}
 
 type State = {|
-  searchQuery: string
+  +searchQuery: string
 |}
 
 const createSymbol = (text: string): string => {
@@ -50,7 +49,7 @@ const createSymbol = (text: string): string => {
 }
 
 const filterFavoriteByQuery = (re: RegExp) => (favorite: Favorite): boolean =>
-  re.test(favorite.title) || re.test(favorite.description || '')
+  re.test(favorite.name || '') || re.test(favorite.description || '')
 
 class FavoritesIndexView extends PureComponent<Props, State> {
   static defaultProps = {
@@ -70,16 +69,19 @@ class FavoritesIndexView extends PureComponent<Props, State> {
   }
 
   render() {
-    const { items: allItems } = this.props
+    const {
+      remove,
+      items,
+    }: Props = this.props
+
     const { searchQuery } = this.state
+    const isSearched: boolean = !!searchQuery
     const searchRegExp = new RegExp(searchQuery, 'gi')
     const filterFavoriteBySearchRegExp = filterFavoriteByQuery(searchRegExp)
 
-    const items = searchQuery.length === 0 ?
-      allItems :
-      allItems.filter(
-        item => filterFavoriteBySearchRegExp(item)
-      )
+    const foundItems: Favorite[] = !isSearched
+      ? items
+      : items.filter((item: Favorite): boolean => filterFavoriteBySearchRegExp(item))
 
     return (
       <div className='favorites-view'>
@@ -98,20 +100,30 @@ class FavoritesIndexView extends PureComponent<Props, State> {
         </header>
         <main className='content'>
           <div className='container'>
-            {items.map(favorite => (
-              <div
-                key={favorite.address}
-                className='box'
-              >
-                <FavoriteItem
-                  address={favorite.address}
-                  title={favorite.title}
-                  description={favorite.description}
-                  symbol={createSymbol(favorite.title)}
-                  onClickRemove={console.log}
-                />
-              </div>
-            ))}
+            {foundItems.map((item: Favorite) => {
+              const {
+                name,
+                address,
+                description,
+                isAddedByUser,
+              }: Favorite = item
+
+              if (!(isAddedByUser && name)) {
+                return null
+              }
+
+              return (
+                <div key={address} className='box'>
+                  <FavoriteItem
+                    remove={remove}
+                    name={name}
+                    address={address}
+                    description={description}
+                    symbol={createSymbol(name)}
+                  />
+                </div>
+              )
+            })}
           </div>
         </main>
       </div>
