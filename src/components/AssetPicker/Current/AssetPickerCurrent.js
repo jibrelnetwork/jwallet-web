@@ -70,6 +70,8 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
           <div className='placeholder'>
             <JText
               value={placeholder}
+              whiteSpace='wrap'
+              color='gray'
             />
           </div> }
         {asset && !isEdit &&

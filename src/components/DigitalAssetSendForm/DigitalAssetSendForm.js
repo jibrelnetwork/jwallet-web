@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { AssetPicker, AddressPicker } from 'components'
+import { AssetPicker, AddressPicker, DoubleInput } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
 import { type AddressInfo } from 'components/AddressPicker/AddressPicker'
 
@@ -59,28 +59,13 @@ const DigitalAssetSendForm = ({
         selectedAsset={formFields.assetAddress}
         onSelect={setAssetAddressFieldHandler(setField)}
       />
-      <div className='value-group'>
-        <JInput
-          onChange={setFieldHandler('amount', setField)}
-          value={formFields.amount}
-          name='value'
-          errorMessage={invalidFields.amount}
-          placeholder='Value'
-          type='text'
-          color='gray'
-          isLoading={false}
-        />
-        {/* <JInput
-          onChange={setFieldHandler('amountFiat', setField)}
-          value={formFields.amountFiat}
-          name='valueFiat'
-          errorMessage={invalidFields.amountFiat}
-          placeholder='Value Fiat'
-          type='text'
-          color='gray'
-          isLoading={false}
-        /> */}
-      </div>
+      <DoubleInput
+        onChange={setFieldHandler('amount', setField)}
+        valueAmount={formFields.amount}
+        errorMessageAmount={invalidFields.amount}
+        valueFiat={formFields.amountFiat}
+        errorMessageFiat={invalidFields.amountFiat}
+      />
       <JInput
         onChange={setFieldHandler('priority', setField)}
         value={formFields.priority}
