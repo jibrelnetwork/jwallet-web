@@ -1,0 +1,55 @@
+.address-picker-item {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+
+  flex-grow: 1;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  padding: 14px 0;
+
+  &:hover,
+  &.-active {
+    background-color: $blue-hover;
+  }
+
+  > .info {
+    @include flex-row-center;
+
+    > .symbol {
+      float: left;
+      position: relative;
+      text-align: center;
+      padding: 0 21px;
+      margin-right: 20px;
+
+      > .wrap {
+        opacity: 0.2;
+      }
+
+      &::after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 1px;
+        background-color: $pale-grey-two;
+      }
+    }
+
+    > .name {
+      float: left;
+    }
+
+    > .balance {
+      opacity: 0.5;
+    }
+  }
+
+  &.-active > .info > .symbol > .wrap {
+    opacity: 0.8;
+  }
+}

@@ -74,7 +74,7 @@ class AssetPicker extends Component<Props, ComponentState> {
               asset={activeAsset}
             />)}
         >
-          { filteredAssets.map(asset => (
+          {filteredAssets.map(asset => (
             <JPickerItem
               key={asset.address}
               onSelect={onSelect}
@@ -84,7 +84,7 @@ class AssetPicker extends Component<Props, ComponentState> {
                 asset={asset}
               />
             </JPickerItem>
-          )) }
+          ))}
         </JPicker>
       </div>
     )

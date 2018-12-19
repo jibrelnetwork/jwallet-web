@@ -2,8 +2,9 @@
 
 import React from 'react'
 
-import { AssetPicker } from 'components'
+import { AssetPicker, AddressPicker } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
+import { type AddressInfo } from 'components/AddressPicker/AddressPicker'
 
 type SetFieldFunction = (fieldName: $Keys<DigitalAssetSendFormFields>, value: string) => void
 
@@ -22,6 +23,7 @@ type Props = {|
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
   +assets: Array<DigitalAsset>,
+  +recepientAddresses: Array<AddressInfo>,
 |}
 
 const DigitalAssetSendForm = ({
@@ -30,6 +32,7 @@ const DigitalAssetSendForm = ({
   setField,
   formFields,
   invalidFields,
+  recepientAddresses,
 }: Props) => (
   <div className='digital-assets-send-form'>
     <div className='form'>
@@ -44,15 +47,12 @@ const DigitalAssetSendForm = ({
         isLoading={false}
         isDisabled
       />
-      <JInput
-        onChange={setFieldHandler('recepient', setField)}
-        value={formFields.recepient}
-        name='recepient'
+      <AddressPicker
+        onSelect={setFieldHandler('recepient', setField)}
         errorMessage={invalidFields.recepient}
-        placeholder='Recepient address'
-        type='text'
-        color='gray'
-        isLoading={false}
+        selectedAddress={formFields.recepient}
+        asset={assets[formFields.assetAddress]}
+        addresses={recepientAddresses}
       />
       <AssetPicker
         assets={assets}

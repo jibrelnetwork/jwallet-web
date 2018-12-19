@@ -112,4 +112,20 @@
     left: 0;
     cursor: pointer;
   }
+
+  > .error,
+  > .info {
+    @include font($form-helpers-font-size);
+
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    transform: translate(0, 100%);
+    padding: 0 $form-field-horizontal-padding;
+  }
+
+  > .error {
+    opacity: 1;
+    color: $tomato;
+  }
 }

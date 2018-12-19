@@ -19,6 +19,7 @@ import SettingsGrid from './SettingsGrid'
 import CopyableField from './CopyableField'
 import PasswordField from './PasswordField'
 import WalletLoading from './WalletLoading'
+import AddressPicker from './AddressPicker'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
@@ -59,6 +60,7 @@ export {
   SettingsGrid,
   CopyableField,
   PasswordField,
+  AddressPicker,
   WalletLoading,
   OverlayActions,
   WalletDataStep,

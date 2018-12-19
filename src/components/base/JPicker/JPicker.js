@@ -19,6 +19,8 @@ type Props = {|
   +bottomRenderer: ?((props: RendererProps) => React$Node),
   +children: ?React$Node,
   +isDisabled: boolean,
+  +infoMessage: string,
+  +errorMessage: string,
 |}
 
 type ComponentState = {|
@@ -33,6 +35,8 @@ class JPicker extends PureComponent<Props, ComponentState> {
     currentRenderer: null,
     bottomRenderer: null,
     isDisabled: false,
+    infoMessage: '',
+    errorMessage: '',
   }
 
   constructor(props: Props) {
@@ -60,6 +64,8 @@ class JPicker extends PureComponent<Props, ComponentState> {
       currentRenderer,
       bottomRenderer,
       isDisabled,
+      infoMessage,
+      errorMessage,
     } = this.props
 
     const { isOpen } = this.state
@@ -101,6 +107,8 @@ class JPicker extends PureComponent<Props, ComponentState> {
             {bottomEl}
           </div>}
         {isOpen && <div onClick={handle(this.toggle)(false)} className='overlay' />}
+        {infoMessage && <div className='info'>{infoMessage}</div>}
+        {errorMessage && <div className='error'>{errorMessage}</div>}
       </div>
     )
   }

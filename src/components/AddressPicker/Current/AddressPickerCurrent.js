@@ -2,13 +2,14 @@
 
 import React, { Component, Fragment } from 'react'
 
-import { formatBalance } from 'utils/numbers'
+// import { formatBalance } from 'utils/numbers'
 import { handleTargetValue } from 'utils/eventHandlers'
-import { JText, JAssetSymbol } from 'components/base'
+import { JText /* , JAssetSymbol */ } from 'components/base'
 
 type Props = {|
-  asset: ?DigitalAsset,
-  balance: ?Balance,
+  // asset: DigitalAsset,
+  address: ?Address,
+  // balance: ?Balance,
   isOpen: boolean,
   filterChange: (text: string) => void,
   filterValue: string,
@@ -16,17 +17,17 @@ type Props = {|
   label: string,
 |}
 
-type ComponentState = {
+type ComponentState = {|
   filterTextInput: React$ElementRef<any>,
-}
+|}
 
-class AssetPickerCurrent extends Component<Props, ComponentState> {
+class AddressPickerCurrent extends Component<Props, ComponentState> {
   static defaultProps = {
+    address: null,
     isOpen: false,
-    asset: null,
-    balance: null,
-    placeholder: 'Digital asset',
-    label: 'Digital asset',
+    // balance: null,
+    placeholder: 'Recepient address',
+    label: 'Recepient address',
     filterValue: '',
   }
 
@@ -51,8 +52,10 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
 
   render() {
     const {
-      asset,
-      balance,
+      // asset,
+      address,
+      // title,
+      // balance,
       label,
       isOpen: isEdit,
       placeholder,
@@ -60,19 +63,19 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
       filterValue,
     } = this.props
 
-    const balanceStr = (asset && balance && !balance.isLoading && !balance.isError)
-      ? `: ${formatBalance(balance.value)} ${asset.symbol}`
-      : ''
+    // const balanceStr = (address && balance && !balance.isLoading && !balance.isError)
+    //   ? `: ${formatBalance(balance.value)} ${asset.symbol}`
+    //   : ''
 
     return (
-      <div className='asset-picker-current'>
-        {!asset && !isEdit &&
+      <div className='address-picker-current'>
+        {!address && !isEdit &&
           <div className='placeholder'>
             <JText
               value={placeholder}
             />
           </div> }
-        {asset && !isEdit &&
+        {address && !isEdit &&
         <Fragment>
           <div className='label'>
             <JText
@@ -84,24 +87,24 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
           </div>
           <div className='name'>
             <JText
-              value={asset.name}
+              value={address}
               color='gray'
               size='semilarge'
               weight='bold'
               whiteSpace='wrap'
             />
-            {balanceStr &&
+            {/* { balanceStr &&
               <JText
                 value={balanceStr}
                 color='gray'
                 size='semilarge'
                 weight='bold'
                 whiteSpace='wrap'
-              /> }
+              /> } */}
           </div>
-          <div className='symbol'>
+          {/* <div className='symbol'>
             <JAssetSymbol symbol={asset.symbol} color='gray' />
-          </div>
+          </div> */}
         </Fragment> }
         {isEdit &&
         <Fragment>
@@ -124,4 +127,4 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
   }
 }
 
-export default AssetPickerCurrent
+export default AddressPickerCurrent
