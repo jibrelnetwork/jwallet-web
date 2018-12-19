@@ -1,16 +1,21 @@
 // @flow
 
 import { push } from 'react-router-redux'
-import { put, select, takeEvery } from 'redux-saga/effects'
-
-import keystore from 'services/keystore'
-import getAddressWalletNames from 'utils/wallets/getAddressWalletNames'
 
 import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
+import keystore from 'services/keystore'
+
+import {
+  selectAddressNames,
   selectWalletsItems,
-  selectWalletsPersist,
-  selectWalletsAddressNames,
-} from 'store/stateSelectors'
+  selectActiveWalletId,
+  selectAddressWalletsNames,
+} from 'store/selectors/wallets'
 
 import * as walletsAddresses from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
 
@@ -20,25 +25,37 @@ function* openView(action: ExtractReturn<typeof walletsRenameAddress.openView>):
   yield put(walletsRenameAddress.clean())
 
   const { address } = action.payload
-  const { items, activeWalletId }: WalletsPersist = yield select(selectWalletsPersist)
-  const walletNames: AddressNames = getAddressWalletNames(items)
-  const isAddressWalletExist: boolean = !!walletNames[address]
+
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
+  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
+
+  const addressWalletsNames: ExtractReturn<typeof selectAddressWalletsNames> =
+    yield select(selectAddressWalletsNames)
+
   const isAddressValid: boolean = keystore.checkAddressValid(address)
+  const isAddressWalletExist: boolean = !!addressWalletsNames[address]
 
   if (!items.length) {
     yield put(push('/wallets/start'))
-  } else if (!activeWalletId) {
+  } else if (!walletId) {
     yield put(push('/wallets'))
   } else if (!isAddressValid || isAddressWalletExist) {
     yield put(push('/wallets/addresses'))
   } else {
-    const addressNames: AddressNames = yield select(selectWalletsAddressNames)
+    const addressNames: ExtractReturn<typeof selectAddressNames> =
+      yield select(selectAddressNames)
+
     yield put(walletsRenameAddress.changeNameInput(addressNames[address] || ''))
   }
 }
 
-function* rename(action: ExtractReturn<typeof walletsRenameAddress.renameAddress>): Saga<void> {
-  const { name, address } = action.payload
+function* renameAddress(
+  action: ExtractReturn<typeof walletsRenameAddress.renameAddress>,
+): Saga<void> {
+  const {
+    name,
+    address,
+  } = action.payload
 
   if (!name) {
     yield* removeAddressName(address)
@@ -46,13 +63,23 @@ function* rename(action: ExtractReturn<typeof walletsRenameAddress.renameAddress
     return
   }
 
-  const items: Wallets = yield select(selectWalletsItems)
-  const addressNames: AddressNames = yield select(selectWalletsAddressNames)
-  const walletNames: AddressNames = getAddressWalletNames(items)
-  const isWalletNameExist: boolean = !!Object.values(walletNames).includes(name)
+  const addressNames: ExtractReturn<typeof selectAddressNames> =
+    yield select(selectAddressNames)
+
+  const addressWalletsNames: ExtractReturn<typeof selectAddressWalletsNames> =
+    yield select(selectAddressWalletsNames)
+
+  const isWalletNameExist: boolean = !!Object.values(addressWalletsNames).includes(name)
+
+  if (isWalletNameExist) {
+    yield put(walletsRenameAddress.setInvalidField('name', 'Wallet with this name already exists'))
+
+    return
+  }
+
   const isAddressNameExist: boolean = !!Object.values(addressNames).includes(name)
 
-  if (isWalletNameExist || isAddressNameExist) {
+  if (isAddressNameExist) {
     yield put(walletsRenameAddress.setInvalidField('name', 'Address with this name already exists'))
 
     return
@@ -68,11 +95,13 @@ function* rename(action: ExtractReturn<typeof walletsRenameAddress.renameAddress
 }
 
 function* removeAddressName(address: string): Saga<void> {
-  const addressNames: AddressNames = yield select(selectWalletsAddressNames)
+  const addressNames: ExtractReturn<typeof selectAddressNames> =
+    yield select(selectAddressNames)
 
-  const addressNamesNew: AddressNames = Object
-    .keys(addressNames)
-    .reduce((result: AddressNames, currentAddress: Address) => {
+  const addresses: Address[] = Object.keys(addressNames)
+
+  const addressNamesNew: AddressNames = addresses
+    .reduce((result: AddressNames, currentAddress: Address): AddressNames => {
       if (currentAddress === address) {
         return result
       }
@@ -89,5 +118,5 @@ function* removeAddressName(address: string): Saga<void> {
 
 export function* walletsRenameAddressRootSaga(): Saga<void> {
   yield takeEvery(walletsRenameAddress.OPEN_VIEW, openView)
-  yield takeEvery(walletsRenameAddress.RENAME_ADDRESS, rename)
+  yield takeEvery(walletsRenameAddress.RENAME_ADDRESS, renameAddress)
 }

@@ -16,7 +16,7 @@ type Props = {|
   +onSendAssetClick: () => void,
   +setActiveAddress: (Index) => void,
   +items: Wallets,
-  +addresses: Addresses,
+  +addresses: Address[],
   +addressNames: AddressNames,
   +activeWalletId: ?WalletId,
 |}

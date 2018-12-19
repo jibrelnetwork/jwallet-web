@@ -40,10 +40,21 @@ import transactions from 'routes/modules/transactions'
 // settings
 import settings from 'routes/Settings/modules/settings'
 
+// favorites
+import favorites from 'routes/Favorites/modules/favorites'
+
 const persistConfig = {
   storage,
   key: 'jwallet-web',
-  whitelist: ['wallets', 'walletsAddresses', 'digitalAssets', 'blocks', 'balances', 'transactions'],
+  whitelist: [
+    'blocks',
+    'wallets',
+    'balances',
+    'favorites',
+    'transactions',
+    'digitalAssets',
+    'walletsAddresses',
+  ],
 }
 
 export function makeRootReducer() {
@@ -73,6 +84,8 @@ export function makeRootReducer() {
     transactions,
     // settings
     settings,
+    // favorites
+    favorites,
     // router
     router,
   })

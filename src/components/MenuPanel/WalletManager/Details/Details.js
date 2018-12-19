@@ -12,7 +12,7 @@ import MenuPanelWalletManagerDetailsAddresses from './Addresses'
 type Props = {|
   +getMoreAddresses: () => void,
   +setActiveAddress: (Index) => void,
-  +addresses: Addresses,
+  +addresses: Address[],
   +addressNames: AddressNames,
   +type: WalletType,
   +currentAddressIndex: ?Index,

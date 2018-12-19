@@ -7,6 +7,7 @@ import * as browserUtils from './browser'
 import * as numbersUtils from './numbers'
 import * as walletsUtils from './wallets'
 import * as networksUtils from './networks'
+import * as favoritesUtils from './favorites'
 import * as formattersUtils from './formatters'
 import * as digitalAssetsUtils from './digitalAssets'
 import * as eventHandlersUtils from './eventHandlers'
@@ -19,6 +20,7 @@ export {
   numbersUtils,
   walletsUtils,
   networksUtils,
+  favoritesUtils,
   formattersUtils,
   digitalAssetsUtils,
   eventHandlersUtils,

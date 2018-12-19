@@ -26,6 +26,7 @@ type Props = {|
   +setActive: (boolean) => void,
   +data: TransactionWithPrimaryKeys,
   +assetSymbol: string,
+  +txAddressName: ?string,
   +blockExplorerSubdomain: string,
   +assetDecimals: number,
   +isSent: boolean,
@@ -47,6 +48,7 @@ class TransactionItemMain extends PureComponent<Props> {
       setActive,
       data,
       assetSymbol,
+      txAddressName,
       blockExplorerSubdomain,
       assetDecimals,
       isSent,
@@ -69,10 +71,9 @@ class TransactionItemMain extends PureComponent<Props> {
     }
 
     const color = isSent ? 'gray' : 'blue'
-    const toAddress: ?OwnerAddress = to || contractAddress
-    const txAddress: ?OwnerAddress = isSent ? toAddress : from
-    const iconName: string = isSent ? 'transaction-send' : 'transaction-receive'
     const amountSign: string = isSent ? '-' : '+'
+    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
+    const iconName: string = isSent ? 'transaction-send' : 'transaction-receive'
 
     return (
       <div
@@ -84,30 +85,32 @@ class TransactionItemMain extends PureComponent<Props> {
             <JIcon size='medium' name={iconName} />
           </div>
           <div className='data'>
-            <div className='address'>
-              {contractAddress && (
-                <div className='icon'>
-                  <JIcon
-                    size='small'
-                    color='black'
-                    name='contract'
+            {txAddress && (
+              <div className='address'>
+                {contractAddress && (
+                  <div className='icon'>
+                    <JIcon
+                      size='small'
+                      color='black'
+                      name='contract'
+                    />
+                  </div>
+                )}
+                <a
+                  href={getAddressLink(txAddress, blockExplorerSubdomain)}
+                  target='_blank'
+                  className='link'
+                  rel='noopener noreferrer'
+                >
+                  <JText
+                    color={color}
+                    value={txAddressName || txAddress}
+                    weight='bold'
+                    size='normal'
                   />
-                </div>
-              )}
-              <a
-                href={getAddressLink(txAddress, blockExplorerSubdomain)}
-                target='_blank'
-                className='link'
-                rel='noopener noreferrer'
-              >
-                <JText
-                  color={color}
-                  value={txAddress || ''}
-                  weight='bold'
-                  size='normal'
-                />
-              </a>
-            </div>
+                </a>
+              </div>
+            )}
             <div className='time'>
               <JText
                 value={getFormattedDateString(blockData.minedAt * 1000)}

@@ -2,15 +2,22 @@
 
 import { delay } from 'redux-saga'
 import { push } from 'react-router-redux'
-import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+
+import {
+  all,
+  call,
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
 
 import config from 'config'
 import web3 from 'services/web3'
 import keystore from 'services/keystore'
 
 import {
+  selectWalletsItems,
   selectActiveWalletId,
-  selectWalletsPersist,
   selectWalletsAddresses,
 } from 'store/stateSelectors'
 
@@ -21,7 +28,8 @@ import * as walletsAddresses from '../modules/walletsAddresses'
 function* openView(): Saga<void> {
   yield put(walletsAddresses.clean())
 
-  const { items, activeWalletId }: WalletsPersist = yield select(selectWalletsPersist)
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
+  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
 
   if (!items) {
     yield put(push('/wallets/start'))
@@ -29,7 +37,7 @@ function* openView(): Saga<void> {
     return
   }
 
-  if (!activeWalletId) {
+  if (!walletId) {
     yield put(push('/wallets'))
 
     return
@@ -39,7 +47,7 @@ function* openView(): Saga<void> {
 
   const startIndex: Index = config.mnemonicAddressesCount * iteration
   const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
-  const addresses = keystore.getAddresses(items, activeWalletId, startIndex, endIndex)
+  const addresses = keystore.getAddresses(items, walletId, startIndex, endIndex)
 
   yield put(walletsAddresses.getMoreSuccess(addresses))
 }
@@ -86,9 +94,9 @@ function* getBalancesByAddresses(addresses: Addresses): Saga<Balances> {
 function* getBalances(
   action: ExtractReturn<typeof walletsAddresses.getBalancesRequest>,
 ): Saga<void> {
-  const activeWalletId: ?WalletId = yield select(selectActiveWalletId)
+  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
 
-  if (!activeWalletId) {
+  if (!walletId) {
     return
   }
 

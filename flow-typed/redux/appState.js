@@ -27,10 +27,10 @@ declare type AppState = {
   +transactions: TransactionsState,
   // balances
   +balances: BalancesState,
+  // settings
   +settings: SettingsState,
-  // funds
-  // +receiveFunds: ReceiveFundsData,
-  // +sendFunds: SendFundsData,
+  // favorites
+  +favorites: FavoritesState,
   // router
   +router: RouterState,
 }

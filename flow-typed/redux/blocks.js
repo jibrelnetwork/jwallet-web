@@ -1,5 +1,7 @@
 // @flow
 
+import { BigNumber } from 'bignumber.js'
+
 declare type BlockNumber = string
 declare type BlockType = 'latest' | 'current' | 'processing'
 
