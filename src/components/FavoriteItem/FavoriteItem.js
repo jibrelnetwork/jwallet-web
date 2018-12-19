@@ -1,40 +1,43 @@
 // @flow
 
+import classNames from 'classnames'
+import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
 
-import classNames from 'classnames'
-import { ButtonWithConfirm } from 'components'
-import { JText, JCard, JIcon, JTooltip } from 'components/base'
-import { Link } from 'react-router'
+import ButtonWithConfirm from 'components/ButtonWithConfirm'
+import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
+
+import {
+  JCard,
+  JIcon,
+  JText,
+  JTooltip,
+} from 'components/base'
 
 type Props = {|
-  +onClickRemove: (string) => void,
-  +address: Address,
-  +title: string,
+  +remove: (FavoriteAddress) => void,
+  +name: string,
   +symbol: string,
-  description: ?string,
+  +description: ?string,
+  +address: FavoriteAddress,
 |}
 
-type StateProps = {|
-  hasOpenedActions: boolean,
-  isHoveredSend: boolean,
-  isHoveredEdit: boolean,
-  isHoveredTrash: boolean,
+type ComponentState = {|
+  +isHoveredSend: boolean,
+  +isHoveredEdit: boolean,
+  +isHoveredTrash: boolean,
+  +isActionsToggled: boolean,
 |}
 
-class FavoriteItem extends PureComponent<Props, StateProps> {
-  static defaultProps = {
-    onClickRemove: () => null,
-  }
-
+class FavoriteItem extends PureComponent<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      hasOpenedActions: false,
       isHoveredSend: false,
       isHoveredEdit: false,
       isHoveredTrash: false,
+      isActionsToggled: false,
     }
   }
 
@@ -44,40 +47,45 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
 
   onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
 
-  openActions = () => {
-    this.setState({
-      hasOpenedActions: true,
-    })
-  }
-
-  closeActions = () => this.setState({
-    hasOpenedActions: false,
+  openActions = () => this.setState({
+    isActionsToggled: true,
   })
 
-  handleClickRemove = () => {
-    this.props.onClickRemove(this.props.address)
+  closeActions = () => this.setState({
+    isActionsToggled: false,
+  })
+
+  remove = () => {
+    const {
+      remove,
+      address,
+    }: Props = this.props
+
+    this.onHoverTrash(false)
+
+    remove(address)
   }
 
   render() {
     const {
-      address,
-      title,
-      description,
+      name,
       symbol,
-    } = this.props
+      address,
+      description,
+    }: Props = this.props
 
     const {
-      hasOpenedActions,
       isHoveredSend,
       isHoveredEdit,
       isHoveredTrash,
-    }: StateProps = this.state
+      isActionsToggled,
+    }: ComponentState = this.state
 
     return (
       <JCard color='white' isBorderRadius isHover>
         <div
           className={classNames('favorite-item', {
-            '-active': hasOpenedActions,
+            '-active': isActionsToggled,
           })}
         >
           <div className='symbol -text'>
@@ -85,7 +93,7 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
           </div>
           <div className='data'>
             <div className='title j-text -dark -bold -clip'>
-              {title}
+              {name}
             </div>
             <div className='address j-text -dark -nowrap'>
               {address}
@@ -102,65 +110,55 @@ class FavoriteItem extends PureComponent<Props, StateProps> {
             </div> :
             <div className='spacer' />
           }
-          <div
-            className='overlay'
-            onClick={this.closeActions}
-          />
+          <div onClick={this.closeActions} className='overlay' />
           <div className='actions'>
             <Link
-              to={`/digital-assets/send?to=${address}`}
-              className='item -send'
               onMouseEnter={this.onHoverSend(true)}
               onMouseLeave={this.onHoverSend(false)}
+              to={`/digital-assets/send?to=${address}`}
+              className='item -send'
             >
               <JTooltip text='Send'>
                 <JIcon
-                  size='medium'
                   color={isHoveredSend ? 'sky' : 'blue'}
+                  size='medium'
                   name='upload'
                 />
               </JTooltip>
             </Link>
             <Link
-              to={`/favorites/edit?address=${address}`}
-              className='item -edit'
               onMouseEnter={this.onHoverEdit(true)}
               onMouseLeave={this.onHoverEdit(false)}
+              to={`/favorites/address/${address}`}
+              className='item -edit'
             >
               <JTooltip text='Edit'>
                 <JIcon
-                  size='medium'
                   color={isHoveredEdit ? 'sky' : 'blue'}
                   name='edit'
+                  size='medium'
                 />
               </JTooltip>
             </Link>
             <div
-              className='item -delete'
+              onClick={this.onHoverTrash(false)}
               onMouseEnter={this.onHoverTrash(true)}
               onMouseLeave={this.onHoverTrash(false)}
-              onClick={this.onHoverTrash(false)}
+              className='item -delete'
             >
               <ButtonWithConfirm
-                onClick={this.handleClickRemove}
+                onClick={ignoreEvent(this.remove)()}
+                iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
                 color='blue'
                 bgColor='white'
                 labelCancel='No'
                 iconTooltipName='trash'
                 labelConfirm='Yes, delete'
-                iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
                 isReverse
               />
             </div>
-            <div
-              className='item -dots'
-              onClick={this.openActions}
-            >
-              <JIcon
-                size='medium'
-                color='gray'
-                name='dots-full'
-              />
+            <div onClick={this.openActions} className='item -dots'>
+              <JIcon size='medium' color='gray' name='dots-full' />
             </div>
           </div>
         </div>
