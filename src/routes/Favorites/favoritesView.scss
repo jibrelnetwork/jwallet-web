@@ -59,4 +59,23 @@
       }
     }
   }
+
+  &.-address {
+    @include flex-column;
+
+    position: relative;
+    height: 100%;
+    padding: 50px;
+
+    > .form {
+      @include flex-column;
+
+      justify-content: center;
+      height: 100%;
+      width: 480px;
+      margin: 0 auto;
+      min-height: 100%;
+      padding: 50px 0;
+    }
+  }
 }

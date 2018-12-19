@@ -1,7 +1,8 @@
 // @flow
 
-import { MenuLayout } from 'layouts'
+import MenuLayout from 'layouts/MenuLayout'
 
+import Address from './routes/Address'
 import FavoritesIndex from './FavoritesIndexViewContainer'
 
 export default {
@@ -10,4 +11,7 @@ export default {
   indexRoute: {
     component: FavoritesIndex,
   },
+  childRoutes: [
+    Address,
+  ],
 }
