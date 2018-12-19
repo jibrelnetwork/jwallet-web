@@ -1,12 +1,14 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
+import { push } from 'react-router-redux'
 
 import {
   put,
   select,
   takeEvery,
 } from 'redux-saga/effects'
+
+import checkAddressValid from 'utils/wallets/checkAddressValid'
 
 import {
   selectAddressNames,
@@ -22,8 +24,8 @@ import * as favorites from '../modules/favorites'
 
 function* checkFavoriteDataValid(name: string, description: string, address?: string): Saga<void> {
   const isnameInvalid: boolean = (name.length < 2)
-  const isDescriptionInvalid: boolean = (description.length < 2)
-  const isAddressInvalid: boolean = !!address && utils.checkAddressValid(address)
+  const isAddressInvalid: boolean = !!address && !checkAddressValid(address)
+  const isDescriptionInvalid: boolean = !!description && (description.length < 2)
 
   if (isAddressInvalid) {
     yield put(favorites.setFormFieldError('address', 'Please input valid address'))
@@ -115,8 +117,9 @@ function* edit(action: ExtractReturn<typeof favorites.edit>): Saga<void> {
   } = action.payload
 
   const isValid: boolean = yield checkFavoriteDataValid(name, description)
+  const isFound: boolean = !!items[address]
 
-  if (!isValid) {
+  if (!(isFound && isValid)) {
     return
   }
 
@@ -126,6 +129,7 @@ function* edit(action: ExtractReturn<typeof favorites.edit>): Saga<void> {
   }
 
   yield put(favorites.setItems(newFavorites))
+  yield put(push('/favorites'))
 }
 
 function* remove(action: ExtractReturn<typeof favorites.remove>): Saga<void> {
@@ -134,7 +138,7 @@ function* remove(action: ExtractReturn<typeof favorites.remove>): Saga<void> {
   const { address } = action.payload
   const isFound: boolean = !!items[address]
 
-  if (isFound) {
+  if (!isFound) {
     return
   }
 
@@ -143,7 +147,7 @@ function* remove(action: ExtractReturn<typeof favorites.remove>): Saga<void> {
   const newFavorites: Favorites = favoriteAddresses
     .reduce((result: Favorites, i: OwnerAddress): Favorites => (i === address) ? result : {
       ...result,
-      [address]: items[i],
+      [i]: items[i],
     }, {})
 
   yield put(favorites.setItems(newFavorites))
@@ -171,6 +175,7 @@ function* addByUser(action: ExtractReturn<typeof favorites.addByUser>): Saga<voi
   }
 
   yield put(favorites.setItems(newFavorites))
+  yield put(push('/favorites'))
 }
 
 function* addAuto(action: ExtractReturn<typeof favorites.addAuto>): Saga<void> {
