@@ -12,7 +12,7 @@ const SYMBOLS_FROM_END = 6
 type Props = {|
   +setActive: () => void,
   +address: string,
-  +addressName: string,
+  +addressName: ?string,
   +isActive: boolean,
 |}
 
@@ -28,13 +28,11 @@ function MenuPanelWalletManagerDetailsAddressesItem({
     <div className='menu-panel-wallet-manager-details-addresses-item' key={address}>
       <JRadio
         onChange={setActive}
-        label={addressName ? (
+        label={!addressName ? shortAddress : (
           <MenuPanelWalletManagerDetailsAddressWithName
             address={shortAddress}
             addressName={addressName}
           />
-        ) : (
-          shortAddress
         )}
         name={address}
         isChecked={isActive}

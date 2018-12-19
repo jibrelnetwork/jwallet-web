@@ -9,12 +9,13 @@ import TransactionsListEmpty from './Empty'
 
 type Props = {|
   +items: TransactionWithPrimaryKeys[],
+  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetAddress: ?string,
   +blockExplorerSubdomain: string,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
-  // +isFiltered: boolean,
+  +isFiltered: boolean,
 |}
 
 type ComponentState = {
@@ -48,18 +49,19 @@ class TransactionsList extends Component<Props, ComponentState> {
   render() {
     const {
       items,
+      addressNames,
       digitalAssets,
       assetAddress,
       ownerAddress,
       blockExplorerSubdomain,
       isLoading,
-      // isFiltered,
+      isFiltered,
     }: Props = this.props
 
     if (!(isLoading || items.length)) {
       return (
         <div className='transactions-list -empty'>
-          <TransactionsListEmpty />
+          <TransactionsListEmpty isFiltered={isFiltered} />
         </div>
       )
     }
@@ -71,6 +73,7 @@ class TransactionsList extends Component<Props, ComponentState> {
         {items.map((item: TransactionWithPrimaryKeys) => {
           const {
             keys,
+            to,
             from,
           } = item
 
@@ -80,10 +83,12 @@ class TransactionsList extends Component<Props, ComponentState> {
               setActive={this.setActive(keys.id)}
               data={item}
               asset={digitalAssets[keys.assetAddress]}
+              toName={to && addressNames[to]}
+              fromName={from && addressNames[from]}
               blockExplorerSubdomain={blockExplorerSubdomain}
               isAssetList={!!assetAddress}
               isActive={activeItems.includes(keys.id)}
-              isSent={ownerAddress.toLowerCase() === from.toLowerCase()}
+              isSent={!!from && (ownerAddress.toLowerCase() === from.toLowerCase())}
             />
           )
         })}

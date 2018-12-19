@@ -37,7 +37,12 @@
       opacity: 0.5;
 
       > .link {
-        margin-left: 5px;
+        margin: 0 5px;
+
+        &:hover {
+          cursor: pointer;
+          color: $bright-sky-blue;
+        }
       }
     }
   }

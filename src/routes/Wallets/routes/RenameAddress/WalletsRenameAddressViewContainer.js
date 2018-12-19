@@ -18,9 +18,15 @@ type StateProps = {|
 |}
 
 function mapStateToProps({ walletsRenameAddress }: AppState): StateProps {
-  const { name, invalidFields } = walletsRenameAddress
+  const {
+    name,
+    invalidFields,
+  } = walletsRenameAddress
 
-  return { name, invalidFields }
+  return {
+    name,
+    invalidFields,
+  }
 }
 
 const mapDispatchToProps = {
@@ -31,6 +37,14 @@ const mapDispatchToProps = {
   goToWalletsAddresses: () => push('/wallets/addresses'),
 }
 
+/* ::
+type OwnProps = {|
+  +params: {|
+    +address: string,
+  |},
+|}
+*/
+
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(WalletsRenameAddressView)

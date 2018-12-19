@@ -16,8 +16,6 @@ import {
   TransactionsFilter,
 } from 'components'
 
-// const BALANCE_DECIMAL_PLACES: number = 4
-
 function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetched: boolean) {
   const {
     name,
@@ -45,6 +43,7 @@ type Props = {|
     +asset: string,
   |},
   +network: ?Network,
+  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetBalance: ?Balance,
   +searchQuery: string,
@@ -60,6 +59,7 @@ function TransactionsAssetView({
   transactions,
   params,
   network,
+  addressNames,
   digitalAssets,
   searchQuery,
   assetBalance,
@@ -115,6 +115,7 @@ function TransactionsAssetView({
         <Scrollbars autoHide>
           <TransactionsList
             items={transactions}
+            addressNames={addressNames}
             digitalAssets={digitalAssets}
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
