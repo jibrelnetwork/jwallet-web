@@ -20,7 +20,7 @@ function AssetPickerItem({
   isSelected,
 }: Props) {
   const balanceStr = (asset && balance && !balance.isLoading && !balance.isError)
-    ? `: ${formatBalance(balance.value)} ${asset.symbol}`
+    ? `${formatBalance(balance.value)} ${asset.symbol}`
     : ''
 
   return (
@@ -38,13 +38,12 @@ function AssetPickerItem({
         <div className='name'>
           <JText value={asset.name} color='gray' weight='bold' whiteSpace='wrap' />
         </div>
-        <div className='balance'>
-          <JText value={balanceStr} color='gray' whiteSpace='wrap' />
-        </div>
-        {/* <div className='fiat-balance'>
-          <JText ... />
-        </div> */}
       </div>
+      {balanceStr &&
+        <div className='balance'>
+          <JText value={balanceStr} color='blue' weight='bold' whiteSpace='wrap' />
+        </div>
+      }
     </div>
   )
 }

@@ -64,6 +64,8 @@ class AssetPickerCurrent extends PureComponent<Props, *> {
           <div className='placeholder'>
             <JText
               value={placeholder}
+              whiteSpace='wrap'
+              color='gray'
             />
           </div> }
         { asset && !isEdit &&

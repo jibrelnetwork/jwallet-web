@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { AssetPicker } from 'components'
+import { AssetPicker, DoubleInput } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
 
 type SetFieldFunction = (fieldName: $Keys<DigitalAssetSendFormFields>, value: string) => void
@@ -59,8 +59,15 @@ const DigitalAssetSendForm = ({
         selectedAsset={formFields.assetAddress}
         onSelect={setAssetAddressFieldHandler(setField)}
       />
+      <DoubleInput
+        onChange={setFieldHandler('amount', setField)}
+        valueAmount={formFields.amount}
+        errorMessageAmount={invalidFields.amount}
+        valueFiat={formFields.amountFiat}
+        errorMessageFiat={invalidFields.amountFiat}
+      />
       <div className='value-group'>
-        <JInput
+        {/* <JInput
           onChange={setFieldHandler('amount', setField)}
           value={formFields.amount}
           name='value'
@@ -69,7 +76,7 @@ const DigitalAssetSendForm = ({
           type='text'
           color='gray'
           isLoading={false}
-        />
+        /> */}
         {/* <JInput
           onChange={setFieldHandler('amountFiat', setField)}
           value={formFields.amountFiat}
