@@ -1,21 +1,20 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import keystore from 'services/keystore'
 import { Form, Field } from 'react-final-form'
 
 import { SubsettingsDescription, SubsettingsView } from 'routes/Settings/components'
 import { JInputField } from 'components/base/JInput'
-import Indicator from 'components/PasswordField/Indicator'
+import { PasswordFieldFinalFormAdapter } from 'components/PasswordField'
 import { JRaisedButton } from 'components/base'
+
+import './paymentPassword.scss'
 
 const text = {
   pageDescription: 'You will use this password to unlock and transfer your funds.\n' +
     'Keep it secure!',
   passwordOld: 'Old security password',
   passwordOldAlert: 'Old password is required',
-  passwordNew: 'New security password',
-  passwordConfirm: 'Repeat security password',
   passwordConfirmAlert: 'Password does not match confirmation',
   passwordNotEqual: 'Not equal',
   hint: 'Password hint',
@@ -26,68 +25,34 @@ const text = {
 
 const required = message => value => (value ? undefined : message)
 
-function getStatusByScore(score: number): ?PasswordStatus {
-  switch (score) {
-    case 0:
-      return 'red'
-    case 1:
-      return 'red'
-    case 2:
-      return 'orange'
-    case 3:
-      return 'yellow'
-    case 4:
-      return 'green'
-    default:
-      return null
-  }
+type Props = {
+  submit: () => void,
 }
 
-type State = {
-  passwordStrength: ?PasswordStatus,
-}
-
-export default class SecurityPassword extends PureComponent<*, State> {
+export default class PaymentPassword extends PureComponent<Props> {
   static defaultProps = {
     infoMessage: null,
     errorMessage: null,
   }
 
-  constructor() {
-    super()
-
-    this.state = {
-      passwordStrength: null,
-    }
-  }
-
   onSubmit = (formState: Object) => {
     const { passwordHint } = formState
-    if (passwordHint === undefined || passwordHint.lengt < 1) {
+    if (passwordHint === undefined || passwordHint.length < 1) {
       return { passwordHint: text.hintAlert }
     }
+    this.props.submit()
     return {}
   }
 
   validate = (formState: Object) => {
-    const { passwordNew, passwordNewConfirm, passwordHint } = formState
-    const errors = {}
+    const { passwordNew, passwordHint } = formState
+    const errors: { [string]: string } = {}
     /* eslint-disable fp/no-mutation */
     if (passwordHint && passwordHint.length === 0) {
-      errors.passwordHint = { warning: text.hintAlert }
+      errors.passwordHint = text.hintAlert
     }
     if (passwordHint && passwordHint === passwordNew) {
       errors.passwordHint = text.hintAlertPassword
-    }
-    if (passwordNewConfirm !== passwordNew) {
-      errors.passwordNewConfirm = text.passwordConfirmAlert
-    }
-    if (passwordNew && passwordNew.length > 0) {
-      const { score, feedback }: { score: number, feedback: Object }
-        = keystore.getPasswordStrength(passwordNew)
-      this.setState({ passwordStrength: getStatusByScore(score) })
-
-      errors.passwordNew = feedback.warning || feedback.suggestions[0]
     }
     /* eslint-enable fp/no-mutation */
 
@@ -95,15 +60,13 @@ export default class SecurityPassword extends PureComponent<*, State> {
   }
 
   render() {
-    const { passwordStrength } = this.state
-
     return (
       <SubsettingsView title='Update security password'>
         <SubsettingsDescription text={text.pageDescription} />
         <Form
           onSubmit={this.onSubmit}
           validate={this.validate}
-          render={({ handleSubmit, form, values }) => (
+          render={({ handleSubmit, form, values, submitting }) => (
             <form className='password-form' onSubmit={handleSubmit}>
               <Field
                 component={JInputField}
@@ -115,25 +78,10 @@ export default class SecurityPassword extends PureComponent<*, State> {
                 validate={required(text.passwordOldAlert)}
                 isAutoFocus
               />
-              <div style={{ 'position': 'relative' }}>
-                <Field
-                  component={JInputField}
-                  name='passwordNew'
-                  label={text.passwordNew}
-                  placeholder={text.passwordNew}
-                  color='gray'
-                  type='password'
-                  validateType='visited'
-                />
-                {(values && values.passwordNew) && <Indicator status={passwordStrength} />}
-              </div>
-              <Field
-                component={JInputField}
-                name='passwordNewConfirm'
-                label={text.passwordConfirm}
-                placeholder={text.passwordConfirm}
-                color='gray'
-                type='password'
+              <PasswordFieldFinalFormAdapter
+                onChange={form.change}
+                isLoading={submitting}
+                values={values}
               />
               <Field
                 component={JInputField}

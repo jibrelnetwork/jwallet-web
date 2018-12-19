@@ -12,8 +12,8 @@ export type JInputType = 'text' | 'password'
 
 type Props = {|
   +onChange: ?JInputOnChangeHandler,
-  +onFocus: (?SyntheticEvent<*>) => void,
-  +onBlur: (?SyntheticEvent<*>) => void,
+  onFocus?: Function,
+  onBlur?: Function,
   +name: ?string,
   +label: ?string,
   +value: ?JInputValue,
@@ -32,8 +32,8 @@ type Props = {|
 
 type ChildrenProps = {|
   +onChange: ?Function,
-  +onBlur: Function,
-  +onFocus: Function,
+  onBlur?: Function,
+  onFocus?: Function,
   +name: ?string,
   +className: string,
   +value: ?JInputValue,
@@ -45,8 +45,8 @@ type ChildrenProps = {|
 class JInput extends PureComponent<Props> {
   static defaultProps = {
     onChange: null,
-    onFocus: (event: SyntheticEvent<*>) => event,
-    onBlur: (event: SyntheticEvent<*>) => event,
+    onFocus: Function,
+    onBlur: Function,
     name: '',
     label: '',
     value: '',
