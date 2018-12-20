@@ -50,7 +50,7 @@ function* deleteCustomAsset(
   const foundAsset: ExtractReturn<typeof selectDigitalAssetsItems> =
     yield select(selectDigitalAsset, assetAddress)
 
-  if (!(foundAsset || foundAsset.isCustom)) {
+  if (!(foundAsset && foundAsset.isCustom)) {
     return
   }
 
