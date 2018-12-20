@@ -7,7 +7,6 @@ import checkAddressValid from './checkAddressValid'
 import checkMnemonicType from './checkMnemonicType'
 import getShortenedAddress from './getShortenedAddress'
 import getAddressWithChecksum from './getAddressWithChecksum'
-import getAddressWalletNames from './getAddressWalletNames'
 import checkAddressWithChecksumValid from './checkAddressWithChecksumValid'
 
 export {
@@ -17,7 +16,6 @@ export {
   checkAddressValid,
   checkMnemonicType,
   getShortenedAddress,
-  getAddressWalletNames,
   getAddressWithChecksum,
   checkAddressWithChecksumValid,
 }
