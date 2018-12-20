@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react'
+import classNames from 'classnames'
 
 import { formatBalance } from 'utils/numbers'
 import { handleTargetValue } from 'utils/eventHandlers'
@@ -65,25 +66,17 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
       : ''
 
     return (
-      <div className='asset-picker-current'>
-        {!asset && !isEdit &&
-          <div className='placeholder'>
-            <JText
-              value={placeholder}
-              whiteSpace='wrap'
-              color='gray'
-            />
-          </div> }
+      <div className={classNames('asset-picker-current', isEdit || asset ? '-value' : '')}>
+        <div className='placeholder'>
+          <JText
+            value={isEdit || asset ? label : placeholder}
+            whiteSpace='wrap'
+            color='gray'
+            size={isEdit || asset ? 'small' : 'semilarge'}
+          />
+        </div>
         {asset && !isEdit &&
         <Fragment>
-          <div className='label'>
-            <JText
-              value={label}
-              color='gray'
-              size='small'
-              whiteSpace='wrap'
-            />
-          </div>
           <div className='name'>
             <JText
               value={asset.name}
@@ -104,23 +97,20 @@ class AssetPickerCurrent extends Component<Props, ComponentState> {
           <div className='symbol'>
             <JAssetSymbol symbol={asset.symbol} color='gray' />
           </div>
-        </Fragment> }
-        {isEdit &&
-        <Fragment>
-          <div className='label'>
-            <JText value={label} size='small' whiteSpace='wrap' color='gray' />
-          </div>
-          <div className='edit'>
-            <input
-              ref={this.state.filterTextInput}
-              type='text'
-              value={filterValue}
-              onChange={handleTargetValue(filterChange)}
-              onClick={this.onFilterClick}
-              className='input'
-            />
-          </div>
         </Fragment>}
+        {isEdit &&
+        <div className='edit'>
+          <input
+            ref={this.state.filterTextInput}
+            type='text'
+            value={filterValue}
+            onChange={handleTargetValue(filterChange)}
+            onClick={this.onFilterClick}
+            className='input'
+            weight='bold'
+          />
+        </div>
+        }
       </div>
     )
   }

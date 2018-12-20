@@ -46,17 +46,19 @@
       border-width: 0;
       font-size: 14px;
       height: 19px;
+      font-weight: 600;
     }
   }
 
   &.-value {
     > .placeholder {
       opacity: 0.5;
-      transform: translateY(-9px);
+      transform: translateY(-13px);
     }
 
-    > .edit {
-      transform: translateY(9px);
+    > .edit,
+    > .name {
+      transform: translateY(8px);
     }
   }
 }

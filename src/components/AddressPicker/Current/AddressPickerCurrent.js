@@ -87,6 +87,7 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
             onChange={handleTargetValue(filterChange)}
             onClick={this.onFilterClick}
             className='input'
+            weight='bold'
           />
         </div>}
       </div>

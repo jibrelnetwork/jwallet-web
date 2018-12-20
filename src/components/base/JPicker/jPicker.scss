@@ -11,6 +11,8 @@
   box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
   background-color: $white;
   margin-bottom: 10px;
+  border-radius: $form-border-radius;
+  transition: border-radius 0.3s ease 0s;
 
   &:hover {
     box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
@@ -31,6 +33,7 @@
 
   &.-active {
     border-bottom: $pale-grey-two;
+    border-radius: $form-border-radius $form-border-radius 0 0;
 
     > .options {
       max-height: (65px * 4);
