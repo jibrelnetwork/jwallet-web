@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { JInput, JText, JLoader } from 'components/base'
 
 type Props = {|
-  +onChange: () => void,
+  +onChange: (value: string) => void,
   +valueFiat: string,
   +valueAmount: string,
   +errorMessageAmount: string,

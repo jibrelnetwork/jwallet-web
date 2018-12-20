@@ -7,7 +7,7 @@ import { formatBalance } from 'utils/numbers'
 import { JAssetSymbol, JText } from 'components/base'
 
 type Props = {|
-  +asset: DigitalAsset,
+  +asset: DigitalAssetWithBalance,
   +balance: ?Balance,
   // +fiatBalance: ?FiatBalance,
   +isSelected: boolean,
@@ -32,7 +32,17 @@ function AssetPickerItem({
       <div className='info'>
         <div className='symbol'>
           <div className='wrap'>
-            <JAssetSymbol symbol={asset.symbol} color={isSelected ? 'blue' : 'gray'} />
+            {!asset.isCustom ? (
+              <JAssetSymbol symbol={asset.symbol} color={isSelected ? 'blue' : 'gray'} />
+            ) : (
+              <JText
+                value={asset.symbol}
+                color='blue'
+                weight='bold'
+                size='normal'
+                whiteSpace='wrap'
+              />
+            )}
           </div>
         </div>
         <div className='name'>

@@ -8,7 +8,7 @@ import { handleTargetValue } from 'utils/eventHandlers'
 import { JText, JAssetSymbol } from 'components/base'
 
 type Props = {|
-  asset: ?DigitalAsset,
+  asset: ?DigitalAssetWithBalance,
   balance: ?Balance,
   isOpen: boolean,
   filterChange: (text: string) => void,

@@ -24,6 +24,7 @@ import AddressPicker from './AddressPicker'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
+import PriorityPicker from './PriorityPicker'
 import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
 import TransactionItem from './TransactionItem'
@@ -67,6 +68,7 @@ export {
   OverlayActions,
   WalletDataStep,
   WalletNameStep,
+  PriorityPicker,
   CloseableScreen,
   RoundIconButton,
   TransactionItem,

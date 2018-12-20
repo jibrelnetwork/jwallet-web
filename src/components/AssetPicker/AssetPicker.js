@@ -8,10 +8,9 @@ import AssetPickerCurrent from './Current/AssetPickerCurrent'
 import AssetPickerItem from './Item/AssetPickerItem'
 
 type Props = {|
-  assets: Array<DigitalAsset>,
+  assets: Array<DigitalAssetWithBalance>,
   selectedAsset: Address,
   onSelect: (address: Address) => void,
-  // isDisabled: boolean,
 |}
 
 type ComponentState = {|
@@ -19,10 +18,6 @@ type ComponentState = {|
 |}
 
 class AssetPicker extends Component<Props, ComponentState> {
-  static defaultProps = {
-    isDisabled: false,
-  }
-
   constructor(props: Props) {
     super(props)
 
