@@ -42,7 +42,7 @@
   > .current {
     @include flex-row;
 
-    z-index: 3;
+    z-index: 2;
     align-items: center;
     height: 64px;
     width: 100%;
@@ -68,7 +68,7 @@
   }
 
   > .options {
-    z-index: 2;
+    z-index: 3;
     position: absolute;
     width: $form-width;
     padding-top: 5px;

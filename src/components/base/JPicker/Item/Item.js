@@ -8,7 +8,7 @@ import handle from 'utils/eventHandlers/handle'
 const Item = ({ onSelect, children, value, disabled }: Props) => (
   <div
     onClick={disabled ? undefined : handle(onSelect)(value)}
-    className={classNames('j-select-item', disabled && '-disabled')}
+    className={classNames('j-picker-item', disabled && '-disabled')}
   >
     {children}
   </div>

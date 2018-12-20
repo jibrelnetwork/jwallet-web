@@ -90,7 +90,7 @@ export function selectActiveAssetsWithBalance(
   const assetsWithBalance = assets.map(asset => ({
     ...asset,
     balance: assetsBalances ? assetsBalances[asset.address] : null,
-    // fiatBalance
+    // fiatBalance (in future)
   }))
 
   return assetsWithBalance
