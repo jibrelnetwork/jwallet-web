@@ -225,6 +225,12 @@
     > .input {
       padding: 31px $box-horizontal-padding 14px;
     }
+
+    &.-virtual-half-size {
+      > .input {
+        padding-right: calc(50% + 15px);
+      }
+    }
   }
 
   &.-error {

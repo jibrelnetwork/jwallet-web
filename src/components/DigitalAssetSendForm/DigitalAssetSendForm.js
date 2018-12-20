@@ -63,7 +63,6 @@ const DigitalAssetSendForm = ({
         valueAmount={formFields.amount}
         errorMessageAmount={invalidFields.amount}
         valueFiat={formFields.amountFiat}
-        errorMessageFiat={invalidFields.amountFiat}
       />
       <JInput
         onChange={setFieldHandler('priority', setField)}

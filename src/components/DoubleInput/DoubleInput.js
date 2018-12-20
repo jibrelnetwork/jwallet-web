@@ -1,21 +1,22 @@
 // @flow
 
-import React, { PureComponent } from 'react'
-
-import { JInput } from 'components/base'
+import React, { PureComponent, Fragment } from 'react'
+import classNames from 'classnames'
+import { JInput, JText, JLoader } from 'components/base'
 
 type Props = {|
   +onChange: () => void,
   +valueFiat: string,
   +valueAmount: string,
-  +errorMessageFiat: string,
   +errorMessageAmount: string,
   +isLoading: boolean,
+  +isActive: boolean,
 |}
 
 class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
     isLoading: false,
+    isActive: false,
   }
 
   render() {
@@ -23,12 +24,12 @@ class DoubleInput extends PureComponent<Props> {
       onChange,
       valueFiat,
       valueAmount,
-      errorMessageFiat,
       errorMessageAmount,
       isLoading,
+      isActive,
     } = this.props
     return (
-      <div className='double-input'>
+      <div className={classNames('double-input', isActive && '-active')}>
         <div className='field'>
           <JInput
             onChange={onChange}
@@ -38,19 +39,39 @@ class DoubleInput extends PureComponent<Props> {
             placeholder='Value ETH'
             type='text'
             color='gray'
+            isVirtualHalfSize
           />
         </div>
-        <div className='field'>
-          <JInput
-            value={valueFiat}
-            name='ValueUSD'
-            errorMessage={errorMessageFiat}
-            placeholder='Value USD'
-            type='text'
-            color='gray'
-            isDisabled
-            isLoading={isLoading}
-          />
+        <div className='fiat'>
+          <div className='box'>
+            <div className='label'>
+              <JText
+                value='Value USD'
+                whiteSpace='wrap'
+                color='gray'
+                size={isActive ? 'small' : 'semilarge'}
+              />
+            </div>
+            {isActive && (
+              <Fragment>
+                {isLoading ? (
+                  <div className='value'>
+                    <JText
+                      value={valueFiat}
+                      whiteSpace='wrap'
+                      color='gray'
+                      size='semilarge'
+                      weight='bold'
+                    />
+                  </div>
+                ) : (
+                  <div className='loader'>
+                    <JLoader color='blue' />
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </div>
         </div>
       </div>
     )
