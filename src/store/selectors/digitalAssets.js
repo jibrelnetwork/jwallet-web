@@ -1,5 +1,12 @@
 // @flow
 
+import { flatten } from 'utils/browser'
+
+import { selectBalancesByOwnerAddress } from './balances'
+import { selectCurrentNetworkId } from './networks'
+import { selectCurrentBlock } from './blocks'
+import { selectActiveWalletAddress } from './wallets'
+
 export function selectDigitalAssets(state: AppState): DigitalAssets {
   const {
     digitalAssets: {
@@ -37,11 +44,7 @@ export function selectDigitalAsset(state: AppState, contractAddress: Address): ?
 
 export function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
   const allAssets = selectDigitalAssets(state)
-
-  return Object
-    .keys(allAssets)
-    .map(address => allAssets[address])
-    .filter(asset => asset && asset.isActive)
+  return flatten(allAssets).filter(asset => asset && asset.isActive)
 }
 
 export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {
@@ -66,4 +69,29 @@ export function selectEditAsset(state: AppState): EditAssetState {
 
 export function selectDigitalAssetsSend(state: AppState): DigitalAssetSendState {
   return state.digitalAssetsSend
+}
+
+export function selectActiveAssetsWithBalance(
+  state: AppState,
+): Array<DigitalAssetWithBalance> {
+  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const assets = selectActiveDigitalAssets(state /* , networkId */)
+
+  const assetsBalances: ?Balances = ownerAddress ? selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    currentBlockNumber,
+    ownerAddress,
+  ) : null
+
+  const assetsWithBalance = assets.map(asset => ({
+    ...asset,
+    balance: assetsBalances ? assetsBalances[asset.address] : null,
+    // fiatBalance
+  }))
+
+  return assetsWithBalance
 }
