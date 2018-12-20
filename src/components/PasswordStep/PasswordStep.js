@@ -21,7 +21,7 @@ class PasswordStep extends Component<Props, ComponentState> {
   static defaultProps = {
     submitLabel: 'Confirm',
     errorMessage: '',
-    placeholder: 'Security password',
+    placeholder: 'Payment password',
     isLoading: false,
     children: null,
   }
