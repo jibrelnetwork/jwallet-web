@@ -36,8 +36,9 @@ function FullPickerItem({
   return (
     <div
       className={classNames(
-        'full-picker-item',
-        isSelected && '-active'
+        'j-picker-full-item',
+        isSelected && '-active',
+        isDisabled && '-disabled'
       )}
       onClick={isDisabled ? undefined : handle(onSelect)(value)}
     >
