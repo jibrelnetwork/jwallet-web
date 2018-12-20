@@ -27,6 +27,7 @@ import * as digitalAssetsSend from '../modules/digitalAssetsSend'
  */
 function* openView(/* action: ExtractReturn<typeof digitalAssetsSend.openView> */): Saga<void> {
   const activeAddress = yield select(selectActiveWalletAddress)
+  yield put(digitalAssetsSend.clean())
   yield put(digitalAssetsSend.setField('ownerAddress', activeAddress))
   yield put(digitalAssetsSend.setField('assetAddress', 'Ethereum'))
 }
@@ -49,7 +50,7 @@ function* trimFields(): Saga<void> {
   const fieldNames: Array<$Keys<DigitalAssetSendFormFields>> = Object.keys(formFields)
 
   yield all(fieldNames.map(fieldName =>
-    formFields[fieldName].trim() !== formFields[fieldName]
+    fieldName !== 'priority' && formFields[fieldName].trim() !== formFields[fieldName]
       ? put(digitalAssetsSend.setField(fieldName, formFields[fieldName].trim()))
       : call(() => null))
   )
