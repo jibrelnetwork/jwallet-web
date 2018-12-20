@@ -2,14 +2,11 @@
 
 import React, { Component, Fragment } from 'react'
 import classNames from 'classnames'
-// import { formatBalance } from 'utils/numbers'
 import { handleTargetValue } from 'utils/eventHandlers'
-import { JText /* , JAssetSymbol */ } from 'components/base'
+import { JText } from 'components/base'
 
 type Props = {|
-  // asset: DigitalAsset,
   address: ?Address,
-  // balance: ?Balance,
   isOpen: boolean,
   filterChange: (text: string) => void,
   filterValue: string,
@@ -25,7 +22,6 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
   static defaultProps = {
     address: null,
     isOpen: false,
-    // balance: null,
     placeholder: 'Recepient address',
     label: 'Recepient address',
     filterValue: '',
@@ -52,20 +48,13 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
 
   render() {
     const {
-      // asset,
       address,
-      // title,
-      // balance,
       label,
       isOpen: isEdit,
       placeholder,
       filterChange,
       filterValue,
     } = this.props
-
-    // const balanceStr = (address && balance && !balance.isLoading && !balance.isError)
-    //   ? `: ${formatBalance(balance.value)} ${asset.symbol}`
-    //   : ''
 
     return (
       <div className={classNames('address-picker-current', isEdit || address ? '-value' : '')}>
@@ -79,14 +68,6 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
         </div>
         {address && !isEdit &&
         <Fragment>
-          {/* <div className='label'>
-            <JText
-              value={label}
-              color='gray'
-              size='small'
-              whiteSpace='wrap'
-            />
-          </div> */}
           <div className='name'>
             <JText
               value={address}
@@ -95,35 +76,19 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
               weight='bold'
               whiteSpace='wrap'
             />
-            {/* { balanceStr &&
-              <JText
-                value={balanceStr}
-                color='gray'
-                size='semilarge'
-                weight='bold'
-                whiteSpace='wrap'
-              /> } */}
-          </div>
-          {/* <div className='symbol'>
-            <JAssetSymbol symbol={asset.symbol} color='gray' />
-          </div> */}
-        </Fragment> }
-        {isEdit &&
-        <Fragment>
-          {/* <div className='label'>
-            <JText value={label} size='small' whiteSpace='wrap' color='gray' />
-          </div> */}
-          <div className='edit'>
-            <input
-              ref={this.state.filterTextInput}
-              type='text'
-              value={filterValue}
-              onChange={handleTargetValue(filterChange)}
-              onClick={this.onFilterClick}
-              className='input'
-            />
           </div>
         </Fragment>}
+        {isEdit &&
+        <div className='edit'>
+          <input
+            ref={this.state.filterTextInput}
+            type='text'
+            value={filterValue}
+            onChange={handleTargetValue(filterChange)}
+            onClick={this.onFilterClick}
+            className='input'
+          />
+        </div>}
       </div>
     )
   }
