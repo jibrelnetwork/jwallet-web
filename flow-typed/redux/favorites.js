@@ -4,8 +4,8 @@ declare type FavoriteAddress = Address
 
 declare type Favorite = {|
   +name?: string,
-  +address: string,
   +description?: string,
+  +address: FavoriteAddress,
   +isAddedByUser?: boolean,
 |}
 

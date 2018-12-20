@@ -59,7 +59,7 @@ function getFavoriteLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?st
     return null
   }
 
-  return `/favorites/add?address=${isSent ? to : from}`
+  return `/favorites/address/${isSent ? to : from}`
 }
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
