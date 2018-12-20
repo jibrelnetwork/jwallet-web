@@ -89,7 +89,7 @@ class AddressPicker extends Component<Props, ComponentState> {
               key={address.address}
               value={address.address}
               onSelect={onSelect}
-              icon=''
+              icon='padding-binding'
               title={address.title}
               description={address.address}
               isSelected={activeAddress && address.address === activeAddress.address}

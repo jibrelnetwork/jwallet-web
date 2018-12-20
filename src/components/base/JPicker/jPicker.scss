@@ -35,6 +35,7 @@
 
   &.-active {
     border-radius: $form-border-radius $form-border-radius 0 0;
+    z-index: 2;
 
     > .options {
       max-height: (65px * 4);
@@ -46,7 +47,6 @@
   > .current {
     @include flex-row;
 
-    z-index: 2;
     align-items: center;
     height: 64px;
     width: 100%;
