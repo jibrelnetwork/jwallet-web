@@ -4,7 +4,6 @@ import React from 'react'
 
 import { AssetPicker, AddressPicker, DoubleInput } from 'components'
 import { JInput, JRaisedButton } from 'components/base'
-import { type AddressInfo } from 'components/AddressPicker/AddressPicker'
 
 type SetFieldFunction = (fieldName: $Keys<DigitalAssetSendFormFields>, value: string) => void
 
@@ -22,8 +21,8 @@ type Props = {|
   +setField: SetFieldFunction,
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
-  +assets: Array<DigitalAsset>,
-  +recepientAddresses: Array<AddressInfo>,
+  +assets: Array<DigitalAssetWithBalance>,
+  +recepientAddresses: Array<AddressPickerAddress>,
 |}
 
 const DigitalAssetSendForm = ({

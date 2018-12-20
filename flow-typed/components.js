@@ -5,3 +5,8 @@ declare type DigitalAssetsGridItemType = {
   +balance: BalanceString,
   +isLoading?: boolean,
 }
+
+declare type AddressPickerAddress = {|
+  address: Address,
+  title: string,
+|}

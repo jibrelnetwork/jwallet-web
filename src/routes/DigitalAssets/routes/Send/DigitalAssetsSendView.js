@@ -27,7 +27,8 @@ type Props = {|
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
   +submitSendForm: () => void,
-  +assets: Array<DigitalAsset>,
+  +assets: Array<DigitalAssetWithBalance>,
+  +recepientAddresses: Array<AddressPickerAddress>,
   // step 2
   +amount: string,
   +amountCurrency: string,
@@ -51,6 +52,7 @@ const DigitalAssetsSendView = ({
   invalidFields,
   submitSendForm,
   assets,
+  recepientAddresses,
   // step 2 - card
   amount,
   amountCurrency,
@@ -75,6 +77,7 @@ const DigitalAssetsSendView = ({
             formFields={formFields}
             invalidFields={invalidFields}
             submit={submitSendForm}
+            recepientAddresses={recepientAddresses}
             assets={assets}
           /> :
           <DigitalAssetSendConfirm

@@ -8,14 +8,9 @@ import JPicker, { JPickerItem } from 'components/base/JPicker'
 import Current from './Current/AddressPickerCurrent'
 import Item from './Item/AddressPickerItem'
 
-export type AddressInfo = {|
-  +address: Address,
-  +title: string,
-|}
-
 type Props = {|
   asset: DigitalAsset,
-  addresses: Array<AddressInfo>,
+  addresses: Array<AddressPickerAddress>,
   selectedAddress: Address,
   onSelect: (address: Address) => void,
   isDisabled: boolean,
