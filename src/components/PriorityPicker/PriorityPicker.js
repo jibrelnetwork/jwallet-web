@@ -82,8 +82,12 @@ class PriorityPicker extends Component<Props, ComponentState> {
     this.props.onSelect({ type: 'NORMAL' })
   }
 
-  onCustomChange = (value) => {
-    this.props.onSelect({ type: 'CUSTOM', gas: value })
+  onCustomChange = (value: string) => {
+    this.props.onSelect({
+      type: 'CUSTOM',
+      gas: value,
+      gasPrice: '',
+    })
   }
 
   render() {
@@ -108,7 +112,7 @@ class PriorityPicker extends Component<Props, ComponentState> {
           <DoubleInput
             onClose={this.onCustomClose}
             onChange={this.onCustomChange}
-            valueFiat={selectedPriority.gas}
+            valueAmount={selectedPriority.gas}
           /> :
           <JPicker
             errorMessage={errorMessage}
