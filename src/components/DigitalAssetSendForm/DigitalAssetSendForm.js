@@ -2,19 +2,24 @@
 
 import React from 'react'
 
-import { AssetPicker, AddressPicker, DoubleInput } from 'components'
+import {
+  AssetPicker,
+  AddressPicker,
+  PriorityPicker,
+  DoubleInput,
+} from 'components'
+
 import { JInput, JRaisedButton } from 'components/base'
 
-type SetFieldFunction = (fieldName: $Keys<DigitalAssetSendFormFields>, value: string) => void
+type SetFieldFunction = (
+  fieldName: $Keys<DigitalAssetSendFormFields>,
+  value: string | TXPriority
+) => void
 
 const setFieldHandler = (
   fieldName: $Keys<DigitalAssetSendFormFields>,
   setField: SetFieldFunction
-) => (value: string) => setField(fieldName, value)
-
-const setAssetAddressFieldHandler = (
-  setField: SetFieldFunction,
-) => (value: Address) => setField('assetAddress', value)
+) => (value: string | TXPriority) => setField(fieldName, value)
 
 type Props = {|
   +submit: () => void,
@@ -50,52 +55,43 @@ const DigitalAssetSendForm = ({
         onSelect={setFieldHandler('recepient', setField)}
         errorMessage={invalidFields.recepient}
         selectedAddress={formFields.recepient}
-        asset={assets[formFields.assetAddress]}
         addresses={recepientAddresses}
       />
       <AssetPicker
         assets={assets}
         selectedAsset={formFields.assetAddress}
-        onSelect={setAssetAddressFieldHandler(setField)}
+        onSelect={setFieldHandler('assetAddress', setField)}
       />
       <DoubleInput
         onChange={setFieldHandler('amount', setField)}
         valueAmount={formFields.amount}
-        errorMessageAmount={invalidFields.amount}
         valueFiat={formFields.amountFiat}
+        errorMessageAmount={invalidFields.amount}
+      />
+      <PriorityPicker
+        selectedPriority={formFields.priority}
+        onSelect={setFieldHandler('priority', setField)}
       />
       <JInput
-        onChange={setFieldHandler('priority', setField)}
-        value={formFields.priority}
-        name='priority'
-        errorMessage={invalidFields.priority}
-        placeholder='Priority'
+        onChange={setFieldHandler('comment', setField)}
+        value={formFields.comment}
+        name='comment'
+        errorMessage={invalidFields.comment}
+        placeholder='Comment'
         type='text'
         color='gray'
         isLoading={false}
       />
-      <div className='value-group'>
-        <JInput
-          onChange={setFieldHandler('nonce', setField)}
-          value={formFields.nonce}
-          name='nonce'
-          errorMessage={invalidFields.nonce}
-          placeholder='Nonce'
-          type='text'
-          color='gray'
-          isLoading={false}
-        />
-        {/* <JInput
-          onChange={setFieldHandler('amountFiat', setField)}
-          value={formFields.amountFiat}
-          name='valueFiat'
-          errorMessage={invalidFields.amountFiat}
-          placeholder='Value Fiat'
-          type='text'
-          color='gray'
-          isLoading={false}
-        /> */}
-      </div>
+      <JInput
+        onChange={setFieldHandler('nonce', setField)}
+        value={formFields.nonce}
+        name='nonce'
+        errorMessage={invalidFields.nonce}
+        placeholder='Nonce'
+        type='text'
+        color='gray'
+        isLoading={false}
+      />
       <div className='actions'>
         <JRaisedButton
           onClick={submit}

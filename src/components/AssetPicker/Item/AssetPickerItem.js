@@ -7,7 +7,7 @@ import { formatBalance } from 'utils/numbers'
 import { JAssetSymbol, JText } from 'components/base'
 
 type Props = {|
-  +asset: DigitalAsset,
+  +asset: DigitalAssetWithBalance,
   +balance: ?Balance,
   // +fiatBalance: ?FiatBalance,
   +isSelected: boolean,

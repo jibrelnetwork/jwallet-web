@@ -7,7 +7,7 @@ import handle from 'utils/eventHandlers/handle'
 
 import { JText, JIcon } from 'components/base'
 
-type Props = {|
+type Props<T> = {|
   +icon: string,
   +title: string,
   +titleIcon: string,
@@ -15,13 +15,13 @@ type Props = {|
   +fiatBalance: string,
   +isLoading: boolean,
 
-  +value: string,
-  +onSelect: (value: string) => void,
+  +value: T,
+  +onSelect: (value: T) => void,
   +isSelected: boolean,
   +isDisabled: boolean,
 |}
 
-function FullPickerItem({
+function FullPickerItem<T>({
   icon,
   title,
   titleIcon,
@@ -32,7 +32,7 @@ function FullPickerItem({
   onSelect,
   isSelected,
   isDisabled,
-}: Props) {
+}: Props<T>) {
   return (
     <div
       className={classNames(
@@ -49,7 +49,7 @@ function FullPickerItem({
           </div>
         </div>
         <div className='title'>
-          { titleIcon && <JIcon name={titleIcon} />}
+          {titleIcon && <JIcon name={titleIcon} />}
           <JText value={title} color='gray' weight='bold' whiteSpace='wrap' />
         </div>
         <div className='description'>
@@ -60,7 +60,7 @@ function FullPickerItem({
         <div className='fiat-balance'>
           {isLoading
             ? <JIcon name='loading' color={isSelected ? 'blue' : 'gray'} />
-            : <JText value={fiatBalance} />}
+            : <JText value={fiatBalance || ''} />}
         </div>}
     </div>
   )
@@ -68,7 +68,7 @@ function FullPickerItem({
 
 FullPickerItem.defaultProps = {
   isDisabled: false,
-  fiatBalance: null,
+  fiatBalance: '',
   isLoading: false,
   titleIcon: '',
   isSelected: false,

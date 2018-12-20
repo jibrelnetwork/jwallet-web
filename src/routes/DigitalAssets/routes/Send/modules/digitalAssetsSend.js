@@ -125,10 +125,12 @@ const initialState: DigitalAssetSendState = {
     assetAddress: '',
     amount: '',
     amountFiat: '',
-    priority: '',
     comment: '',
     nonce: '',
     password: '',
+    priority: {
+      type: 'NORMAL',
+    },
   },
   invalidFields: {
     ownerAddress: '',

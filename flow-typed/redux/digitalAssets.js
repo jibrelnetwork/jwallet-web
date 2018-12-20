@@ -90,16 +90,21 @@ declare type DigitalAssetSendFormFields = {|
   assetAddress: Address,
   amount: string,
   amountFiat: string,
-  priority: string,
   comment: string,
   nonce: string,
   password: string,
+  priority: TXPriority,
+|}
+
+declare type DigitalAssetSendInvalidFields = {|
+  ...DigitalAssetSendFormFields,
+  priority: string,
 |}
 
 declare type DigitalAssetSendState = {|
   step: DigitalAssetSendStep,
   formFields: DigitalAssetSendFormFields,
-  invalidFields: DigitalAssetSendFormFields,
+  invalidFields: DigitalAssetSendInvalidFields,
   isProcessing: boolean,
 |}
 
@@ -112,6 +117,18 @@ declare type TXData = {
   gasLimit?: BigNumber,
   nonce?: BigNumber,
 }
+
+declare type TXPriority = {|
+  type: 'LOW',
+|} | {|
+  type: 'NORMAL',
+|} | {|
+  type: 'HIGH',
+|} | {|
+  type: 'CUSTOM',
+  gas: string,
+  gasPrice: string,
+|}
 
 declare type SendTransactionProps = {
   +value: string,

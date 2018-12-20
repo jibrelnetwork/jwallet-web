@@ -14,19 +14,12 @@
     width: auto;
     overflow: hidden;
     visibility: visible;
-    opacity: 0.7;
+    opacity: 0.6;
     transition: opacity 0.3s ease 0s, transform 0.3s ease 0s;
     position: absolute;
     top: 0;
     z-index: 1;
     will-change: opacity, transform;
-  }
-
-  > .label {
-    opacity: 0.5;
-    transition: opacity 0.3s ease 0s;
-    pointer-events: none;
-    padding-bottom: 2px;
   }
 
   > .symbol {
@@ -46,17 +39,19 @@
       border-width: 0;
       font-size: 14px;
       height: 19px;
+      font-weight: 600;
     }
   }
 
   &.-value {
     > .placeholder {
       opacity: 0.5;
-      transform: translateY(-9px);
+      transform: translateY(-13px);
     }
 
-    > .edit {
-      transform: translateY(9px);
+    > .edit,
+    > .name {
+      transform: translateY(8px);
     }
   }
 }
