@@ -98,7 +98,7 @@ type GetTransactionDataPayload = {
   privateKey: string,
 }
 
-function getTransactionData(data: GetTransactionDataPayload): TXData {
+function getTransactionData(data: GetTransactionDataPayload): SendTransactionProps {
   const {
     asset,
     recepient,
@@ -120,12 +120,12 @@ function getTransactionData(data: GetTransactionDataPayload): TXData {
     txData.contractAddress = asset.address
   }
 
-  if (gasPrice) {
-    txData.gasPrice = BigNumber(gasPrice)
+  if (gasLimit) {
+    txData.gas = BigNumber(gasLimit)
   }
 
-  if (gasLimit) {
-    txData.gasLimit = BigNumber(gasLimit)
+  if (gasPrice) {
+    txData.gasPrice = BigNumber(gasPrice)
   }
 
   if (nonce) {
