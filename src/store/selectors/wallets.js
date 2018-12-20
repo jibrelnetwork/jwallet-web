@@ -1,7 +1,6 @@
 // @flow
 
 import keystore from 'services/keystore'
-import getAddressWalletNames from 'utils/wallets/getAddressWalletNames'
 
 export function selectWallets(state: AppState): WalletsState {
   return state.wallets
@@ -76,13 +75,6 @@ export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
   }
 
   return keystore.getAddress(items, activeWalletId)
-}
-
-export function selectAddressName(state: AppState, address: Address): ?string {
-  const wallets: Wallets = selectWalletsItems(state)
-  const names: AddressNames = getAddressWalletNames(wallets)
-
-  return names[address]
 }
 
 export function selectWalletsCreate(state: AppState): WalletsCreateState {
