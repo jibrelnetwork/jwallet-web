@@ -23,7 +23,7 @@ const priorities: Array<PriorityItem> = [
     title: 'High',
     description: 'About 30 sec',
     fiatPrice: '5.2 USD',
-    icon: '',
+    icon: 'priority-high',
   },
   {
     priority: {
@@ -32,7 +32,7 @@ const priorities: Array<PriorityItem> = [
     title: 'Normal',
     description: 'About 1 min',
     fiatPrice: '3.22 USD',
-    icon: '',
+    icon: 'priority-normal',
   },
   {
     priority: {
@@ -41,7 +41,7 @@ const priorities: Array<PriorityItem> = [
     title: 'Low',
     description: 'About 15 min',
     fiatPrice: '1.22 USD',
-    icon: '',
+    icon: 'priority-low',
   },
   {
     priority: {
@@ -52,7 +52,7 @@ const priorities: Array<PriorityItem> = [
     title: 'Custom',
     description: 'Edit GAS and GAS Price manually',
     fiatPrice: '',
-    icon: '',
+    icon: 'priority-custom',
   },
 ]
 
@@ -131,7 +131,7 @@ class PriorityPicker extends Component<Props, ComponentState> {
                 icon={item.icon}
                 title={item.title}
                 description={item.description}
-                fiatBalance=''
+                fiatBalance={item.fiatPrice}
                 isSelected={selectedPriority && selectedPriority.type === item.priority.type}
               />
             ))}

@@ -9,14 +9,14 @@ import { JAssetSymbol, JText } from 'components/base'
 type Props = {|
   +asset: DigitalAssetWithBalance,
   +balance: ?Balance,
-  // +fiatBalance: ?FiatBalance,
+  +fiatBalance: ?FiatBalance,
   +isSelected: boolean,
 |}
 
 function AssetPickerItem({
   asset,
   balance,
-  // fiatBalance,
+  fiatBalance,
   isSelected,
 }: Props) {
   const balanceStr = (asset && balance && !balance.isLoading && !balance.isError)
@@ -32,16 +32,33 @@ function AssetPickerItem({
       <div className='info'>
         <div className='symbol'>
           <div className='wrap'>
-            <JAssetSymbol symbol={asset.symbol} color={isSelected ? 'blue' : 'gray'} />
+            {!asset.isCustom ? (
+              <JAssetSymbol symbol={asset.symbol} color={isSelected ? 'blue' : 'gray'} />
+            ) : (
+              <JText
+                value={asset.symbol}
+                color={isSelected ? 'blue' : 'gray'}
+                weight='bold'
+                size='normal'
+                whiteSpace='wrap'
+              />
+            )}
           </div>
         </div>
-        <div className='name'>
-          <JText value={asset.name} color='gray' weight='bold' whiteSpace='wrap' />
+        <div className='text'>
+          <div className='name'>
+            <JText value={asset.name} color='gray' weight='bold' whiteSpace='wrap' />
+          </div>
+          {balanceStr &&
+            <div className='balance'>
+              <JText value={balanceStr} color='gray' whiteSpace='wrap' />
+            </div>
+          }
         </div>
       </div>
-      {balanceStr &&
-        <div className='balance'>
-          <JText value={balanceStr} color='blue' weight='bold' whiteSpace='wrap' />
+      {fiatBalance &&
+        <div className='fiatbalance'>
+          <JText value={fiatBalance} color='blue' weight='bold' whiteSpace='wrap' />
         </div>
       }
     </div>
@@ -51,7 +68,7 @@ function AssetPickerItem({
 AssetPickerItem.defaultProps = {
   balance: null,
   isSelected: false,
-  // fiatBalance: null,
+  fiatBalance: null,
 }
 
 export default AssetPickerItem

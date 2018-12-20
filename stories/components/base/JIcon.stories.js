@@ -379,6 +379,13 @@ storiesOf('JIcon')
         <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
           <JIcon
             size='medium'
+            color='blue'
+            name='check-circle'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
             name='transaction-receive'
           />
         </div>

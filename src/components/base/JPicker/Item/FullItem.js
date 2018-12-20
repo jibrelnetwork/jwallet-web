@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import handle from 'utils/eventHandlers/handle'
 
-import { JText, JIcon } from 'components/base'
+import { JText, JIcon, JLoader } from 'components/base'
 
 type Props<T> = {|
   +icon: string,
@@ -45,23 +45,26 @@ function FullPickerItem<T>({
       <div className='info'>
         <div className='symbol'>
           <div className='wrap'>
-            <JIcon name={icon} color={isSelected ? 'blue' : 'gray'} />
+            <JIcon name={isSelected ? 'check-circle' : icon} color={isSelected ? 'blue' : 'gray'} />
           </div>
         </div>
-        <div className='title'>
-          {titleIcon && <JIcon name={titleIcon} />}
-          <JText value={title} color='gray' weight='bold' whiteSpace='wrap' />
-        </div>
-        <div className='description'>
-          <JText value={description} color='gray' whiteSpace='wrap' />
+        <div className='text'>
+          <div className='title'>
+            {titleIcon && <JIcon name={titleIcon} />}
+            <JText value={title} color='gray' weight='bold' whiteSpace='wrap' />
+          </div>
+          <div className='description'>
+            <JText value={description} color='gray' whiteSpace='wrap' />
+          </div>
         </div>
       </div>
       {(fiatBalance || isLoading) &&
         <div className='fiat-balance'>
           {isLoading
-            ? <JIcon name='loading' color={isSelected ? 'blue' : 'gray'} />
-            : <JText value={fiatBalance || ''} />}
-        </div>}
+            ? <JLoader color='blue' />
+            : <JText value={fiatBalance || ''} color='blue' weight='bold' whiteSpace='wrap' />}
+        </div>
+      }
     </div>
   )
 }

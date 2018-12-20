@@ -1,4 +1,4 @@
-.asset-picker-item {
+.j-picker-full-item {
   all: initial;
 
   @include box;
@@ -7,10 +7,10 @@
   flex-grow: 1;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  position: relative;
+  height: 64px;
   cursor: pointer;
   padding: 14px 15px 14px 0;
-  position: relative;
 
   &:hover,
   &.-active {
@@ -28,7 +28,7 @@
       width: 80px;
 
       > .wrap {
-        opacity: 0.2;
+        opacity: 0.55;
         display: inline-block;
         vertical-align: middle;
       }
@@ -45,13 +45,13 @@
     }
 
     > .text {
-      > .balance {
+      > .description {
         opacity: 0.5;
       }
     }
   }
 
   &.-active > .info > .symbol > .wrap {
-    opacity: 0.8;
+    opacity: 1;
   }
 }

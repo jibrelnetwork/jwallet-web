@@ -698,6 +698,12 @@
       }
     }
 
+    &.-check-circle {
+      &.-blue {
+        background-image: $icon-medium-check-circle-blue;
+      }
+    }
+
     &.-search {
       &.-gray {
         background-image: $icon-medium-search-gray;

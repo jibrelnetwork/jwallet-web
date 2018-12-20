@@ -276,7 +276,12 @@
     }
 
     &.-gray > .input {
-      opacity: 0.3;
+      color: rgba($dusk, 0.3);
+
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.2;
+      }
 
       &:hover,
       &:focus {
