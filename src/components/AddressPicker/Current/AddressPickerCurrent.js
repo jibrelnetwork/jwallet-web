@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react'
-
+import classNames from 'classnames'
 // import { formatBalance } from 'utils/numbers'
 import { handleTargetValue } from 'utils/eventHandlers'
 import { JText /* , JAssetSymbol */ } from 'components/base'
@@ -68,23 +68,25 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
     //   : ''
 
     return (
-      <div className='address-picker-current'>
-        {!address && !isEdit &&
-          <div className='placeholder'>
-            <JText
-              value={placeholder}
-            />
-          </div> }
+      <div className={classNames('address-picker-current', isEdit || address ? '-value' : '')}>
+        <div className='placeholder'>
+          <JText
+            value={isEdit || address ? label : placeholder}
+            whiteSpace='wrap'
+            color='gray'
+            size={isEdit || address ? 'small' : 'semilarge'}
+          />
+        </div>
         {address && !isEdit &&
         <Fragment>
-          <div className='label'>
+          {/* <div className='label'>
             <JText
               value={label}
               color='gray'
               size='small'
               whiteSpace='wrap'
             />
-          </div>
+          </div> */}
           <div className='name'>
             <JText
               value={address}
@@ -108,9 +110,9 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
         </Fragment> }
         {isEdit &&
         <Fragment>
-          <div className='label'>
+          {/* <div className='label'>
             <JText value={label} size='small' whiteSpace='wrap' color='gray' />
-          </div>
+          </div> */}
           <div className='edit'>
             <input
               ref={this.state.filterTextInput}
