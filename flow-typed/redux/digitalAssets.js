@@ -103,13 +103,22 @@ declare type DigitalAssetSendState = {|
   isProcessing: boolean,
 |}
 
-// type TransactionPriorityType =
-//   'HIGH' |
-//   'NORMAL' |
-//   'LOW' |
-//   'CUSTOM'
+declare type TXData = {
+  to: Address,
+  value: BigNumber,
+  privateKey: string,
+  contractAddress?: Address,
+  gasPrice?: BigNumber,
+  gasLimit?: BigNumber,
+  nonce?: BigNumber,
+}
 
-// type TransactionPriority = {
-//   type: TransactionPriorityType,
-//   value: string
-// }
+declare type SendTransactionProps = {
+  +value: string,
+  +privateKey: string,
+  +contractAddress: string,
+  +recipient: OwnerAddress,
+  +gas: string,
+  +nonce: string,
+  +gasPrice: string,
+}
