@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import keystore from '@jibrelnetwork/jwallet-web-keystore'
+import checkAddressValid from 'utils/wallets/checkAddressValid'
 
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
@@ -36,7 +36,7 @@ class AddressPicker extends Component<Props, ComponentState> {
 
   onFilterChange = (filter: string) => {
     this.setState({ filter }, () => {
-      if (keystore.checkAddressValid(filter)) {
+      if (checkAddressValid(filter)) {
         this.props.onSelect(filter)
       }
     })

@@ -1,7 +1,7 @@
 // @flow
 
 declare type FiatBalance = {|
-  +value: number,
+  +value: string,
   +currency: string,
   +isLoading: boolean,
   +isError?: boolean,
