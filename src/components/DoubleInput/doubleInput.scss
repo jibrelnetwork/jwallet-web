@@ -13,6 +13,12 @@
     z-index: 1;
   }
 
+  > .close {
+    position: absolute;
+    right: -20px;
+    top: 10px;
+  }
+
   > .fiat {
     @include flex-row-center;
 

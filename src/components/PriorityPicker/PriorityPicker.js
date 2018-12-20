@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 
+import { DoubleInput } from 'components'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
 import Current from './Current/PriorityPickerCurrent'
@@ -77,6 +78,14 @@ class PriorityPicker extends Component<Props, ComponentState> {
     // this.setState({ filter: '' })
   }
 
+  onCustomClose = () => {
+    this.props.onSelect({ type: 'NORMAL' })
+  }
+
+  onCustomChange = (value) => {
+    this.props.onSelect({ type: 'CUSTOM', gas: value })
+  }
+
   render() {
     const {
       onSelect,
@@ -95,28 +104,35 @@ class PriorityPicker extends Component<Props, ComponentState> {
 
     return (
       <div className='priority-picker'>
-        <JPicker
-          errorMessage={errorMessage}
-          isDisabled={isDisabled}
-          onOpen={this.onOpen}
-          currentRenderer={() => (
-            <Current
-              value={priorityValue}
-            />)}
-        >
-          {priorities.map(item => (
-            <JPickerFullItem
-              key={item.priority.type}
-              onSelect={onSelect}
-              value={item.priority}
-              icon={item.icon}
-              title={item.title}
-              description={item.description}
-              fiatBalance={item.fiatPrice}
-              isSelected={selectedPriority && selectedPriority.type === item.priority.type}
-            />
-          ))}
-        </JPicker>
+        {selectedPriority.type === 'CUSTOM' ?
+          <DoubleInput
+            onClose={this.onCustomClose}
+            onChange={this.onCustomChange}
+            valueFiat={selectedPriority.gas}
+          /> :
+          <JPicker
+            errorMessage={errorMessage}
+            isDisabled={isDisabled}
+            onOpen={this.onOpen}
+            currentRenderer={() => (
+              <Current
+                value={priorityValue}
+              />)}
+          >
+            {priorities.map(item => (
+              <JPickerFullItem
+                key={item.priority.type}
+                onSelect={onSelect}
+                value={item.priority}
+                icon={item.icon}
+                title={item.title}
+                description={item.description}
+                fiatBalance={item.fiatPrice}
+                isSelected={selectedPriority && selectedPriority.type === item.priority.type}
+              />
+            ))}
+          </JPicker>
+        }
       </div>
     )
   }

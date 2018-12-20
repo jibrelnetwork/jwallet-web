@@ -2,10 +2,25 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import classNames from 'classnames'
-import { JInput, JText, JLoader } from 'components/base'
+import { JInput, JText, JLoader, JIcon } from 'components/base'
+
+/*
+type Props = {|
+  +onChangeLeft: (value: string) => void,
+  +onChangeRight: ?((value: string) => void),
+  +onClose: ?(() => void),
+  valueLeft: string,
+  valueRight: string,
+  placeholderLeft: string,
+  placeholderRight: string,
+  errorMessage: string,
+  isLoading: boolean,
+|}
+*/
 
 type Props = {|
   +onChange: (value: string) => void,
+  +onClose: ?(() => void),
   +valueFiat: string,
   +valueAmount: string,
   +errorMessageAmount: string,
@@ -17,11 +32,13 @@ class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
     isLoading: false,
     isActive: false,
+    onClose: null,
   }
 
   render() {
     const {
       onChange,
+      onClose,
       valueFiat,
       valueAmount,
       errorMessageAmount,
@@ -73,6 +90,10 @@ class DoubleInput extends PureComponent<Props> {
             )}
           </div>
         </div>
+        {onClose &&
+        <div className='close' onClick={onClose}>
+          <JIcon name='close' size='small' color='gray' />
+        </div>}
       </div>
     )
   }

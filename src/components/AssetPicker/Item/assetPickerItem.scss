@@ -44,8 +44,10 @@
       }
     }
 
-    > .name {
-      float: left;
+    > .text {
+      > .balance {
+        opacity: 0.5;
+      }
     }
   }
 
