@@ -3,13 +3,11 @@
 import React, { Component } from 'react'
 import keystore from '@jibrelnetwork/jwallet-web-keystore'
 
-import JPicker, { JPickerItem } from 'components/base/JPicker'
+import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
 import Current from './Current/AddressPickerCurrent'
-import Item from './Item/AddressPickerItem'
 
 type Props = {|
-  asset: DigitalAsset,
   addresses: Array<AddressPickerAddress>,
   selectedAddress: Address,
   onSelect: (address: Address) => void,
@@ -51,7 +49,6 @@ class AddressPicker extends Component<Props, ComponentState> {
 
   render() {
     const {
-      asset,
       addresses,
       selectedAddress,
       onSelect,
@@ -88,18 +85,15 @@ class AddressPicker extends Component<Props, ComponentState> {
             />)}
         >
           {filtered.map(address => (
-            <JPickerItem
+            <JPickerFullItem
               key={address.address}
-              onSelect={onSelect}
               value={address.address}
-            >
-              <Item
-                address={address.address}
-                title={address.title}
-                asset={asset}
-                isSelected={activeAddress && address.address === activeAddress.address}
-              />
-            </JPickerItem>
+              onSelect={onSelect}
+              icon=''
+              title={address.title}
+              description={address.address}
+              isSelected={activeAddress && address.address === activeAddress.address}
+            />
           ))}
         </JPicker>
       </div>
