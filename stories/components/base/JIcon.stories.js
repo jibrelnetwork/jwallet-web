@@ -686,6 +686,13 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
+            name='padding-cross'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
             name='back-up'
           />
         </div>

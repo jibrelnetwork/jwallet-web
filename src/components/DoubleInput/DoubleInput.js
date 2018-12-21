@@ -58,10 +58,10 @@ class DoubleInput extends PureComponent<Props> {
             placeholder={placeholderLeft}
             type='text'
             color='gray'
-            isVirtualHalfSize
+            sideBorderRadius='left'
           />
         </div>
-        <div className='fiat'>
+        <div className='field'>
           <JInput
             onChange={onChangeRight}
             value={valueRight}
@@ -69,7 +69,7 @@ class DoubleInput extends PureComponent<Props> {
             placeholder={placeholderRight}
             type='text'
             color='gray'
-            isVirtualHalfSize
+            sideBorderRadius='top'
           />
           {isLoading && (
             <div className='loader'>
@@ -77,9 +77,9 @@ class DoubleInput extends PureComponent<Props> {
             </div>
           )}
         </div>
-        {onClose &&
+        {!onClose &&
         <div className='close' onClick={onClose}>
-          <JIcon name='close' size='small' color='gray' />
+          <JIcon name='padding-cross' size='medium' color='gray' />
         </div>}
       </div>
     )
