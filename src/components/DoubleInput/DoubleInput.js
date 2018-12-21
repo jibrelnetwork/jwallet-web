@@ -1,8 +1,7 @@
 // @flow
 
-import React, { PureComponent, Fragment } from 'react'
-import classNames from 'classnames'
-import { JInput, JText, JLoader, JIcon } from 'components/base'
+import React, { PureComponent } from 'react'
+import { JInput, JLoader, JIcon } from 'components/base'
 
 /*
 type Props = {|
@@ -19,76 +18,64 @@ type Props = {|
 */
 
 type Props = {|
-  +onChange: (value: string) => void,
+  +onChangeLeft: (value: string) => void,
+  +onChangeRight: ?((value: string) => void),
   +onClose: ?(() => void),
-  +valueFiat: string,
-  +valueAmount: string,
-  +errorMessageAmount: string,
+  +valueLeft: string,
+  +valueRight: string,
+  +placeholderLeft: string,
+  +placeholderRight: string,
+  +errorMessage: string,
   +isLoading: boolean,
-  +isActive: boolean,
 |}
 
 class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
     isLoading: false,
-    isActive: false,
     onClose: null,
   }
 
   render() {
     const {
-      onChange,
+      onChangeLeft,
+      onChangeRight,
       onClose,
-      valueFiat,
-      valueAmount,
-      errorMessageAmount,
+      valueLeft,
+      valueRight,
+      placeholderLeft,
+      placeholderRight,
+      errorMessage,
       isLoading,
-      isActive,
     } = this.props
     return (
-      <div className={classNames('double-input', isActive && '-active')}>
+      <div className='double-input'>
         <div className='field'>
           <JInput
-            onChange={onChange}
-            value={valueAmount}
-            name='ValueETH'
-            errorMessage={errorMessageAmount}
-            placeholder='Value ETH'
+            onChange={onChangeLeft}
+            value={valueLeft}
+            name={placeholderLeft}
+            errorMessage={errorMessage}
+            placeholder={placeholderLeft}
             type='text'
             color='gray'
             isVirtualHalfSize
           />
         </div>
         <div className='fiat'>
-          <div className='box'>
-            <div className='label'>
-              <JText
-                value='Value USD'
-                whiteSpace='wrap'
-                color='gray'
-                size={isActive ? 'small' : 'semilarge'}
-              />
+          <JInput
+            onChange={onChangeRight}
+            value={valueRight}
+            name={placeholderRight}
+            placeholder={placeholderRight}
+            type='text'
+            color='gray'
+            isVirtualHalfSize
+          />
+          {isLoading && (
+            <div className='loader'>
+              <JLoader color='blue' />
             </div>
-            {isActive && (
-              <Fragment>
-                {isLoading ? (
-                  <div className='value'>
-                    <JText
-                      value={valueFiat}
-                      whiteSpace='wrap'
-                      color='gray'
-                      size='semilarge'
-                      weight='bold'
-                    />
-                  </div>
-                ) : (
-                  <div className='loader'>
-                    <JLoader color='blue' />
-                  </div>
-                )}
-              </Fragment>
-            )}
-          </div>
+          )}
         </div>
         {onClose &&
         <div className='close' onClick={onClose}>

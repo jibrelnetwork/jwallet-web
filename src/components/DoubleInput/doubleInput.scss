@@ -1,6 +1,8 @@
 .double-input {
   all: initial;
-  display: block;
+
+  @include flex-row;
+
   position: relative;
 
   &::before {
@@ -17,6 +19,10 @@
     position: absolute;
     right: -20px;
     top: 10px;
+  }
+
+  > .field {
+    width: 50%;
   }
 
   > .fiat {
