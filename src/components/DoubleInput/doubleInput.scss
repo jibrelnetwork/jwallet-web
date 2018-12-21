@@ -1,6 +1,5 @@
 .double-input {
   all: initial;
-  display: block;
   position: relative;
 
   &::before {
@@ -8,59 +7,44 @@
     position: absolute;
     left: 50%;
     width: 1px;
-    height: calc(100% - 1px);
+    height: 65px;
     background-color: rgba($dusk, 0.1);
     z-index: 1;
   }
 
-  > .close {
-    position: absolute;
-    right: -20px;
-    top: 10px;
-  }
+  > .wrap {
+    @include flex-row;
 
-  > .fiat {
-    @include flex-row-center;
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 50%;
-    padding-left: $box-horizontal-padding;
-    padding-right: $box-horizontal-padding;
-    z-index: 1;
-
-    > .box {
+    > .field {
+      width: 50%;
       position: relative;
-      height: 19px;
-      width: 100%;
 
-      > .label {
+      > .loader {
+        top: 50%;
+        right: 15px;
         position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0.6;
+        transform: translateY(-50%);
+        margin-top: -($form-field-margin-bottom / 2);
       }
     }
   }
 
-  &.-active {
-    > .fiat {
-      > .box {
-        > .label {
-          opacity: 0.5;
-          transform: translateY(-13px);
-        }
+  > .close {
+    top: 50%;
+    right: -38px;
+    opacity: 0.5;
+    position: absolute;
+    cursor: pointer;
+    margin-top: -17px;
+    transition: opacity 0.3s ease 0s;
 
-        > .value {
-          transform: translateY(8px);
-        }
-
-        > .loader {
-          transform: translateY(17px);
-        }
-      }
+    &:hover {
+      opacity: 1;
     }
+  }
+
+  > .message {
+    transform: translateY(-5px);
+    padding-left: $form-field-horizontal-padding;
   }
 }
