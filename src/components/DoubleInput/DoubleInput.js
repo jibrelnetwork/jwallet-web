@@ -3,20 +3,6 @@
 import React, { PureComponent } from 'react'
 import { JInput, JLoader, JIcon } from 'components/base'
 
-/*
-type Props = {|
-  +onChangeLeft: (value: string) => void,
-  +onChangeRight: ?((value: string) => void),
-  +onClose: ?(() => void),
-  valueLeft: string,
-  valueRight: string,
-  placeholderLeft: string,
-  placeholderRight: string,
-  errorMessage: string,
-  isLoading: boolean,
-|}
-*/
-
 type Props = {|
   +onChangeLeft: (value: string) => void,
   +onChangeRight: ?((value: string) => void),
