@@ -6,6 +6,7 @@ import Grid from './routes/Grid'
 import AddAsset from './routes/AddAsset'
 import EditAsset from './routes/EditAsset'
 import Manage from './routes/Manage'
+import Send from './routes/Send'
 
 export default {
   path: 'digital-assets',
@@ -18,5 +19,6 @@ export default {
     Manage,
     AddAsset,
     EditAsset,
+    Send,
   ],
 }
