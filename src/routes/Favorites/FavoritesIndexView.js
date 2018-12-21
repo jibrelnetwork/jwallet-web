@@ -118,7 +118,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
     }
 
     return (
-      <div className='overlaycontainer'>
+      <div className='container'>
         <OverlayNotification
           color='gray'
           image='screen-no-favorites'
