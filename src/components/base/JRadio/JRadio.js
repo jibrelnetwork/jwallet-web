@@ -23,6 +23,7 @@ class JRadio extends PureComponent<Props> {
     }
   }
 
+  /* eslint-disable jsx-a11y/label-has-for */
   render() {
     const {
       name,
@@ -56,6 +57,7 @@ class JRadio extends PureComponent<Props> {
       </div>
     )
   }
+  /* eslint-enable jsx-a11y/label-has-for */
 }
 
 export default JRadio

@@ -79,6 +79,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               color='blue'
               label='Reload asset'
               isHoverOpacity
+              // eslint-disable-next-line no-console
               onClick={console.log}
             />
           </div>

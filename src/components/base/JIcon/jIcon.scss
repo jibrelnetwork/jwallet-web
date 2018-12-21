@@ -302,6 +302,18 @@
       }
     }
 
+    &.-chevron-up {
+      transform: rotateX(180deg);
+
+      &.-white {
+        background-image: $icon-medium-chevron-down-white;
+      }
+
+      &.-blue {
+        background-image: $icon-medium-chevon-down-blue;
+      }
+    }
+
     &.-checked {
       &.-blue {
         background-image: $icon-medium-checked-blue;
@@ -683,6 +695,12 @@
     &.-edit-pen {
       &.-blue {
         background-image: $icon-medium-edit-pen-blue;
+      }
+    }
+
+    &.-check-circle {
+      &.-blue {
+        background-image: $icon-medium-check-circle-blue;
       }
     }
 

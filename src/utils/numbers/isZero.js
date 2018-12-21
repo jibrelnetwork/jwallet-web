@@ -1,13 +1,13 @@
 // @flow
 
-import { BigNumber } from 'bignumber.js'
+import BigNumber from 'utils/numbers/bigNumber'
 
 function isZero(amount: BigNumber | string | number): boolean {
   if (!amount) {
     return true
   }
 
-  return (new BigNumber(amount).eq(0))
+  return BigNumber(amount).eq(0)
 }
 
 export default isZero

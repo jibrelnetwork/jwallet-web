@@ -6,7 +6,6 @@ import * as errorsUtils from './errors'
 import * as browserUtils from './browser'
 import * as numbersUtils from './numbers'
 import * as walletsUtils from './wallets'
-import * as keystoreUtils from './keystore'
 import * as networksUtils from './networks'
 import * as favoritesUtils from './favorites'
 import * as formattersUtils from './formatters'
@@ -20,7 +19,6 @@ export {
   browserUtils,
   numbersUtils,
   walletsUtils,
-  keystoreUtils,
   networksUtils,
   favoritesUtils,
   formattersUtils,

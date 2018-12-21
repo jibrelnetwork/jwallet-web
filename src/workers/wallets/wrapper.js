@@ -1,5 +1,6 @@
 // @flow
 
+import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
@@ -93,6 +94,10 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
 
 export function backupRequest(items: Wallets, walletId: string, password: string) {
   walletsWorker.postMessage(walletsBackup.backupRequest(items, walletId, password))
+}
+
+export function privateKeyRequest(wallet: Wallet, password: string) {
+  walletsWorker.postMessage(wallets.privateKeyRequest(wallet, password))
 }
 
 export function run(store: { dispatch: (WalletsAnyAction) => void }) {

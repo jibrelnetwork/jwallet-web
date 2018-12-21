@@ -549,7 +549,7 @@ function sendTransaction(
   network: Network,
   assetAddress: AssetAddress,
   props: SendTransactionProps,
-): void {
+): Promise<string> {
   const {
     rpcaddr,
     rpcport,
@@ -564,11 +564,11 @@ function sendTransaction(
   }
 
   if (checkETH(assetAddress)) {
-    jibrelContractsApi.eth.sendTransaction({
+    return jibrelContractsApi.eth.sendTransaction({
       ...baseProps,
     })
   } else {
-    jibrelContractsApi.erc20.transfer({
+    return jibrelContractsApi.contracts.erc20.transfer({
       ...baseProps,
       contractAddress: assetAddress,
     })

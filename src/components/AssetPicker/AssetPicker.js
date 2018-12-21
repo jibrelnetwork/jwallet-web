@@ -1,72 +1,90 @@
 // @flow
 
-import React from 'react'
-import { compose, filter, head, propEq } from 'ramda'
+import React, { Component } from 'react'
 
-import JSelect, { JSelectItem } from 'components/base/JSelect'
+import JPicker, { JPickerItem } from 'components/base/JPicker'
 
-import Current from './Current'
-import Item from './Item'
+import AssetPickerCurrent from './Current/AssetPickerCurrent'
+import AssetPickerItem from './Item/AssetPickerItem'
 
-const getAssetByAddress = (
-  address: ?Address,
-  assets: Array<DigitalAssetMainDataWithBalance>,
-): ?DigitalAssetMainDataWithBalance => !address ? null : compose(
-  head,
-  filter(propEq('address', address)),
-)(assets)
+type Props = {|
+  assets: Array<DigitalAssetWithBalance>,
+  selectedAsset: Address,
+  onSelect: (address: Address) => void,
+|}
 
-const AssetPicker = ({
-  onSelect,
-  activeAssets,
-  currentAsset,
-  label,
-  isLoading,
-  isDisabled,
-}: Props) => {
-  const foundAsset: ?DigitalAssetMainDataWithBalance = getAssetByAddress(currentAsset, activeAssets)
+type ComponentState = {|
+  filter: string,
+|}
 
-  return (
-    <div className='asset-picker'>
-      <JSelect
-        color='gray'
-        label={label}
-        isLoading={isLoading}
-        isDisabled={isDisabled}
-        current={foundAsset ? <Current {...foundAsset} /> : null}
-      >
-        {activeAssets.map(({ address, symbol, name, balance }: DigitalAssetMainDataWithBalance) => (
-          <JSelectItem key={address} onSelect={onSelect} value={address}>
-            <Item
-              name={name}
-              symbol={symbol}
-              balance={balance}
-              isLoading={isLoading}
-              isActive={address === currentAsset}
-            />
-          </JSelectItem>
-        ))}
-      </JSelect>
-    </div>
-  )
-}
+class AssetPicker extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
 
-type Props = {
-  onSelect: Function,
-  activeAssets: Array<DigitalAssetMainDataWithBalance>,
-  currentAsset: ?Address,
-  label: string,
-  isLoading: boolean,
-  isDisabled: boolean,
-}
+    this.state = {
+      filter: '',
+    }
+  }
 
-AssetPicker.defaultProps = {
-  onSelect: () => {},
-  activeAssets: [],
-  currentAsset: null,
-  label: 'Asset',
-  isLoading: false,
-  isDisabled: false,
+  onFilterChange = (filter: string) => {
+    this.setState({ filter })
+  }
+
+  onOpen = () => {
+    // reset filter
+    this.setState({ filter: '' })
+  }
+
+  render() {
+    const {
+      assets,
+      selectedAsset,
+      onSelect,
+    } = this.props
+
+    const {
+      filter,
+    } = this.state
+
+    const activeAsset = assets.find(asset => asset.address === selectedAsset)
+
+    const filterStr = filter.trim().toLowerCase()
+    const filteredAssets = filterStr
+      ? assets.filter(asset =>
+        asset.address.toLowerCase() === filterStr ||
+          asset.symbol.toLowerCase().indexOf(filterStr) !== -1 ||
+          asset.name.toLowerCase().indexOf(filterStr) !== -1
+      )
+      : assets
+
+    return (
+      <div className='asset-picker'>
+        <JPicker
+          onOpen={this.onOpen}
+          currentRenderer={({ isOpen }) => (
+            <AssetPickerCurrent
+              isOpen={isOpen}
+              filterChange={this.onFilterChange}
+              filterValue={filter}
+              asset={activeAsset}
+            />)}
+        >
+          {filteredAssets.map(asset => (
+            <JPickerItem
+              key={asset.address}
+              onSelect={onSelect}
+              value={asset.address}
+            >
+              <AssetPickerItem
+                asset={asset}
+                isSelected={activeAsset && asset.address === activeAsset.address}
+              />
+            </JPickerItem>
+          ))}
+        </JPicker>
+      </div>
+    )
+  }
 }
 
 export default AssetPicker

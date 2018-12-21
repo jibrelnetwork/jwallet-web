@@ -2,24 +2,17 @@
 
 import React from 'react'
 
-import JThumbnail from 'components/base/JThumbnail'
+import OverlayNotification from 'components/OverlayNotification'
 
-const DigitalAssetsEmpty = ({ color }: Props) => (
-  <div className='digital-assets-empty'>
-    <JThumbnail
-      image='cloud'
-      color={(color === 'white') ? 'gray' : 'white'}
+function DigitalAssetsManageEmpty() {
+  return (
+    <OverlayNotification
+      color='gray'
+      image='screen-search'
       description='There are no Digital Assets to show'
+      isTransparent
     />
-  </div>
-)
-
-type Props = {
-  color: 'white' | 'blue',
+  )
 }
 
-DigitalAssetsEmpty.defaultProps = {
-  color: 'white',
-}
-
-export default DigitalAssetsEmpty
+export default DigitalAssetsManageEmpty
