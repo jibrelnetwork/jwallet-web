@@ -40,6 +40,19 @@
         padding-right: 20px;
         position: relative;
         height: 100%;
+
+        > .add {
+          display: inline-block;
+          align-items: center;
+          opacity: 0.5;
+          transition: opacity 0.3s ease 0s;
+          padding: 12px;
+          margin: -12px -12px -12px 33px;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -57,6 +70,10 @@
       > .box {
         margin: 0 0 12px;
       }
+    }
+
+    > .overlaycontainer {
+      padding-top: $page-header-height;
     }
   }
 
