@@ -6,7 +6,11 @@ import classNames from 'classnames'
 import { JText, JIcon } from 'components/base'
 
 export type JThumbnailDescription = string | Array<string>
-export type JThumbnailImage = 'auth-question' | 'auth-cross' | 'screen-search' | 'screen-reload'
+export type JThumbnailImage = 'auth-question'
+  | 'auth-cross'
+  | 'screen-search'
+  | 'screen-reload'
+  | 'screen-no-favorites'
 
 type Props = {|
   +title: ?string,
