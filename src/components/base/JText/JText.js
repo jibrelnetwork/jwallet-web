@@ -18,7 +18,7 @@ type JTextSize = 'small' | // 11
   'tab' | // 20
   'title' // 25
 
-type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk'
+type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk' | 'orange'
 
 type Props = {|
   +value: string,

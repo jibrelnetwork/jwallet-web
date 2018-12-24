@@ -1,18 +1,21 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 
 import FavoriteItem from 'components/FavoriteItem'
+import OverlayNotification from 'components/OverlayNotification'
 
 import {
   JText,
   JSearch,
+  JIcon,
 } from 'components/base'
 
 import './favoritesView.scss'
 
 type Props = {|
-  +remove: (FavoriteItem) => void,
+  +remove: (FavoriteAddress) => void,
   +items: Favorite[],
 |}
 
@@ -68,10 +71,10 @@ class FavoritesIndexView extends PureComponent<Props, State> {
     this.setState({ searchQuery: query.trim() })
   }
 
-  render() {
+  renderContent() {
     const {
-      remove,
       items,
+      remove,
     }: Props = this.props
 
     const { searchQuery } = this.state
@@ -79,10 +82,58 @@ class FavoritesIndexView extends PureComponent<Props, State> {
     const searchRegExp = new RegExp(searchQuery, 'gi')
     const filterFavoriteBySearchRegExp = filterFavoriteByQuery(searchRegExp)
 
-    const foundItems: Favorite[] = !isSearched
+    const filteredItems: Favorite[] = !isSearched
       ? items
       : items.filter((item: Favorite): boolean => filterFavoriteBySearchRegExp(item))
 
+    if (filteredItems.length > 0) {
+      return (
+        <div className='container'>
+          {filteredItems.map((item: Favorite) => {
+            const {
+              name,
+              address,
+              description,
+              isAddedByUser,
+            }: Favorite = item
+
+            if (!(isAddedByUser && name)) {
+              return null
+            }
+
+            return (
+              <div key={address} className='box'>
+                <FavoriteItem
+                  remove={remove}
+                  name={name}
+                  address={address}
+                  description={description}
+                  symbol={createSymbol(name)}
+                />
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
+
+    return (
+      <div className='container'>
+        <OverlayNotification
+          color='gray'
+          image='screen-no-favorites'
+          description={isSearched ? [
+            'There are no favorites to display',
+          ] : [
+            'Looks like you have no favorites yet.',
+          ]}
+          isTransparent
+        />
+      </div>
+    )
+  }
+
+  render() {
     return (
       <div className='favorites-view'>
         <header className='header'>
@@ -95,36 +146,18 @@ class FavoritesIndexView extends PureComponent<Props, State> {
                   placeholder='Search favorites...'
                 />
               </div>
+              <Link className='add' to='/favorites/address'>
+                <JIcon
+                  name='favorite-address-add'
+                  size='medium'
+                  color='gray'
+                />
+              </Link>
             </div>
           </div>
         </header>
         <main className='content'>
-          <div className='container'>
-            {foundItems.map((item: Favorite) => {
-              const {
-                name,
-                address,
-                description,
-                isAddedByUser,
-              }: Favorite = item
-
-              if (!(isAddedByUser && name)) {
-                return null
-              }
-
-              return (
-                <div key={address} className='box'>
-                  <FavoriteItem
-                    remove={remove}
-                    name={name}
-                    address={address}
-                    description={description}
-                    symbol={createSymbol(name)}
-                  />
-                </div>
-              )
-            })}
-          </div>
+          {this.renderContent()}
         </main>
       </div>
     )
