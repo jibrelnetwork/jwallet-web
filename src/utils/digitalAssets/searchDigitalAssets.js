@@ -4,23 +4,19 @@ function searchDigitalAssets(
   items: DigitalAssetWithBalance[],
   searchQuery: string,
 ): DigitalAssetWithBalance[] {
-  const query: string = searchQuery.trim().toUpperCase()
+  const query: string = searchQuery.trim()
+  const searchRe: RegExp = new RegExp(query, 'ig')
 
-  if (!query) {
-    return items
-  }
-
-  return items.filter(({
+  return !query ? items : items.filter(({
     name,
     symbol,
     address,
   }: DigitalAssetWithBalance) => {
     if (
       (query.length < 2) ||
-      (symbol.toUpperCase().indexOf(query) !== -1) ||
-      (name.toUpperCase().indexOf(query) !== -1) ||
-      (address.toUpperCase() === query) ||
-      (address.substr(2).toUpperCase() === query)
+      (name.search(searchRe) !== -1) ||
+      (symbol.search(searchRe) !== -1) ||
+      (address.search(searchRe) !== -1)
     ) {
       return true
     }
