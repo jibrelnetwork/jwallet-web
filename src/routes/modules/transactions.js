@@ -13,8 +13,6 @@ export const FETCH_BY_BLOCK_ERROR = '@@transactions/FETCH_BY_BLOCK_ERROR'
 
 export const UPDATE_TRANSACTION_DATA = '@@transactions/UPDATE_TRANSACTION_DATA'
 
-export const SET_IS_CONNECTION_ERROR = '@@transactions/SET_IS_CONNECTION_ERROR'
-
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
 export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
 
@@ -155,15 +153,6 @@ export function updateTransactionData(
   }
 }
 
-export function setIsConnectionError(isConnectionError: boolean) {
-  return {
-    type: SET_IS_CONNECTION_ERROR,
-    payload: {
-      isConnectionError,
-    },
-  }
-}
-
 export function changeSearchInput(searchQuery: string) {
   return {
     type: CHANGE_SEARCH_INPUT,
@@ -189,7 +178,6 @@ type TransactionsAction =
   ExtractReturn<typeof fetchByBlockSuccess> |
   ExtractReturn<typeof fetchByBlockError> |
   ExtractReturn<typeof updateTransactionData> |
-  ExtractReturn<typeof setIsConnectionError> |
   ExtractReturn<typeof changeSearchInput> |
   ExtractReturn<typeof setIsOnlyPending>
 
@@ -215,17 +203,17 @@ function transactions(
         ownerAddress,
       } = action.payload
 
-      const transactionsByNetworkId = state.persist.items[networkId] || {}
-      const transactionsByOwner = transactionsByNetworkId[ownerAddress]
+      const itemsByNetworkId: TransactionsByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: ?TransactionsByOwner = itemsByNetworkId[ownerAddress]
 
-      return transactionsByOwner ? state : {
+      return itemsByOwner ? state : {
         ...state,
         persist: {
           ...state.persist,
           items: {
             ...items,
             [networkId]: {
-              ...transactionsByNetworkId,
+              ...itemsByNetworkId,
               [ownerAddress]: null,
             },
           },
@@ -242,20 +230,20 @@ function transactions(
         ownerAddress,
       } = action.payload
 
-      const transactionsByNetworkId = state.persist.items[networkId] || {}
-      const transactionsByOwner = transactionsByNetworkId[ownerAddress] || {}
-      const transactionsByAsset = transactionsByOwner[assetAddress]
+      const itemsByNetworkId: TransactionsByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByAsset: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
 
-      return transactionsByAsset ? state : {
+      return itemsByAsset ? state : {
         ...state,
         persist: {
           ...state.persist,
           items: {
             ...items,
             [networkId]: {
-              ...transactionsByNetworkId,
+              ...itemsByNetworkId,
               [ownerAddress]: {
-                ...transactionsByOwner,
+                ...itemsByOwner,
                 [assetAddress]: null,
               },
             },
@@ -274,23 +262,23 @@ function transactions(
         ownerAddress,
       } = action.payload
 
-      const transactionsByNetworkId = state.persist.items[networkId] || {}
-      const transactionsByOwner = transactionsByNetworkId[ownerAddress] || {}
-      const transactionsByAsset = transactionsByOwner[assetAddress] || {}
-      const transactionsByBlock = transactionsByAsset[blockNumber]
+      const itemsByNetworkId: TransactionsByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByAsset: TransactionsByAssetAddress = itemsByOwner[assetAddress] || {}
+      const itemsByBlock: ?TransactionsByBlockNumber = itemsByAsset[blockNumber]
 
-      return transactionsByBlock ? state : {
+      return itemsByBlock ? state : {
         ...state,
         persist: {
           ...state.persist,
           items: {
             ...items,
             [networkId]: {
-              ...transactionsByNetworkId,
+              ...itemsByNetworkId,
               [ownerAddress]: {
-                ...transactionsByOwner,
+                ...itemsByOwner,
                 [assetAddress]: {
-                  ...transactionsByAsset,
+                  ...itemsByAsset,
                   [blockNumber]: {},
                 },
               },
@@ -309,11 +297,15 @@ function transactions(
         ownerAddress,
       } = action.payload
 
-      const transactionsByNetworkId = state.persist.items[networkId] || {}
-      const transactionsByOwner = transactionsByNetworkId[ownerAddress] || {}
-      const transactionsByAsset = transactionsByOwner[assetAddress] || {}
-      const transactionsByBlock = transactionsByAsset[blockNumber] || {}
-      const oldTransactions: Transactions = transactionsByBlock.items || {}
+      const itemsByNetworkId: TransactionsByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByAsset: TransactionsByAssetAddress = itemsByOwner[assetAddress] || {}
+
+      const itemsByBlock: TransactionsByBlockNumber = itemsByAsset[blockNumber] || {
+        items: {},
+      }
+
+      const oldTransactions: Transactions = itemsByBlock.items || {}
 
       const newTransactions: Transactions = Object
         .keys(items)
@@ -341,15 +333,14 @@ function transactions(
           items: {
             ...state.persist.items,
             [networkId]: {
-              ...transactionsByNetworkId,
+              ...itemsByNetworkId,
               [ownerAddress]: {
-                ...transactionsByOwner,
+                ...itemsByOwner,
                 [assetAddress]: {
-                  ...transactionsByAsset,
+                  ...itemsByAsset,
                   [blockNumber]: {
-                    ...transactionsByBlock,
+                    ...itemsByBlock,
                     items: newTransactions,
-                    isError: false,
                   },
                 },
               },
@@ -370,11 +361,15 @@ function transactions(
       } = action.payload
 
       const { items } = state.persist
-      const transactionsByNetworkId = items[networkId] || {}
-      const transactionsByOwner = transactionsByNetworkId[ownerAddress] || {}
-      const transactionsByAsset = transactionsByOwner[assetAddress] || {}
-      const transactionsByBlock = transactionsByAsset[blockNumber] || {}
-      const oldTransactions: Transactions = transactionsByBlock.items || {}
+      const itemsByNetworkId: TransactionsByNetworkId = items[networkId] || {}
+      const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByAsset: TransactionsByAssetAddress = itemsByOwner[assetAddress] || {}
+
+      const itemsByBlock: TransactionsByBlockNumber = itemsByAsset[blockNumber] || {
+        items: {},
+      }
+
+      const oldTransactions: Transactions = itemsByBlock.items || {}
 
       const newTransactions: Transactions = Object
         .keys(oldTransactions)
@@ -399,15 +394,14 @@ function transactions(
           items: {
             ...items,
             [networkId]: {
-              ...transactionsByNetworkId,
+              ...itemsByNetworkId,
               [ownerAddress]: {
-                ...transactionsByOwner,
+                ...itemsByOwner,
                 [assetAddress]: {
-                  ...transactionsByAsset,
+                  ...itemsByAsset,
                   [blockNumber]: {
-                    ...transactionsByBlock,
+                    ...itemsByBlock,
                     items: newTransactions,
-                    isError: false,
                   },
                 },
               },
@@ -427,10 +421,13 @@ function transactions(
         ownerAddress,
       } = action.payload
 
-      const transactionsByNetworkId = state.persist.items[networkId] || {}
-      const transactionsByOwner = transactionsByNetworkId[ownerAddress] || {}
-      const transactionsByAsset = transactionsByOwner[assetAddress] || {}
-      const transactionsByBlock = transactionsByAsset[blockNumber] || {}
+      const itemsByNetworkId: TransactionsByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByAsset: TransactionsByAssetAddress = itemsByOwner[assetAddress] || {}
+
+      const itemsByBlock: TransactionsByBlockNumber = itemsByAsset[blockNumber] || {
+        items: {},
+      }
 
       return {
         ...state,
@@ -439,13 +436,13 @@ function transactions(
           items: {
             ...items,
             [networkId]: {
-              ...transactionsByNetworkId,
+              ...itemsByNetworkId,
               [ownerAddress]: {
-                ...transactionsByOwner,
+                ...itemsByOwner,
                 [assetAddress]: {
-                  ...transactionsByAsset,
+                  ...itemsByAsset,
                   [blockNumber]: {
-                    ...transactionsByBlock,
+                    ...itemsByBlock,
                     isError: true,
                   },
                 },
