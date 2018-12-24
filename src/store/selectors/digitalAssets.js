@@ -53,3 +53,7 @@ export function selectAddAsset(state: AppState): AddAssetState {
 export function selectEditAsset(state: AppState): EditAssetState {
   return state.editAsset
 }
+
+export function selectDigitalAssetsSend(state: AppState): DigitalAssetSendState {
+  return state.digitalAssetsSend
+}

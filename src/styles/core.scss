@@ -6,9 +6,9 @@
   @include box;
 
   margin: 0;
-    padding: 0;
-    outline: none;
-  }
+  padding: 0;
+  outline: none;
+}
 
 html,
 body,
@@ -54,7 +54,7 @@ h4 {
 @import '../components/base/JRadio/jRadio';
 @import '../components/base/JLoader/jLoader';
 @import '../components/base/JSearch/jSearch';
-@import '../components/base/JSelect/jSelect';
+@import '../components/base/JPicker/jPicker';
 @import '../components/base/JSwitch/jSwitch';
 @import '../components/base/JTooltip/jTooltip';
 @import '../components/base/JCheckbox/jCheckbox';
@@ -68,9 +68,9 @@ h4 {
 @import '../components/HelpText/helpText';
 @import '../components/AssetItem/assetItem';
 @import '../components/MenuPanel/menuPanel';
-@import '../components/Expandable/expandable';
 @import '../components/WalletFace/walletFace';
 @import '../components/WalletStep/walletStep';
+@import '../components/DoubleInput/doubleInput';
 @import '../components/AssetPicker/assetPicker';
 @import '../components/ModalHeader/modalHeader';
 @import '../components/PopupButton/popupButton';
@@ -78,11 +78,13 @@ h4 {
 @import '../components/SettingsGrid/settingsGrid';
 @import '../components/WalletHeader/walletHeader';
 @import '../components/FavoriteItem/favoriteItem';
+@import '../components/PasswordStep/passwordStep';
 @import '../components/CopyableField/copyableField';
 @import '../components/PasswordField/passwordField';
-@import '../components/WalletLoading/WalletLoading';
-@import '../components/DerivationPath/derivationPath';
+@import '../components/WalletLoading/walletLoading';
+@import '../components/AddressPicker/addressPicker';
 @import '../components/OverlayActions/overlayActions';
+@import '../components/PriorityPicker/priorityPicker';
 @import '../components/CloseableScreen/closeableScreen';
 @import '../components/RoundIconButton/roundIconButton';
 @import '../components/TransactionItem/transactionItem';
@@ -97,6 +99,7 @@ h4 {
 @import '../components/DigitalAssetsManage/digitalAssetsManage';
 @import '../components/OverlayNotification/overlayNotification';
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
+@import '../components/DigitalAssetSendConfirm/digitalAssetSendConfirm';
 
 // Views
 @import '../routes/Wallets/walletsView';
@@ -109,10 +112,3 @@ h4 {
 @import '../layouts/CoreLayout/coreLayout';
 @import '../layouts/MenuLayout/menuLayout';
 @import '../layouts/WalletsLayout/walletsLayout';
-
-// To be removed
-// @import '../layouts/ActiveAssetsLayout/activeAssetsLayout';
-// @import '../layouts/DigitalAssetsLayout/digitalAssetsLayout';
-// @import '../layouts/MenuLayout/menuLayout';
-// @import '../layouts/ModalLayout/modalLayout';
-// @import '../layouts/TransactionsLayout/transactionsLayout';

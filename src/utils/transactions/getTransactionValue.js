@@ -1,18 +1,18 @@
 // @flow
 
-import toBigNumber from './toBigNumber'
+import BigNumber from 'utils/numbers/bigNumber'
 
 function getTransactionValue(
-  amount: string | number,
+  amount: string | number | BigNumber,
   decimals: Decimals,
-): Bignumber {
-  const value: Bignumber = toBigNumber(amount)
-  const units: Bignumber = toBigNumber(10)
+): BigNumber {
+  const value = BigNumber(amount)
+  const ten = BigNumber(10)
 
-  const decimalsPower: Bignumber = units.pow(decimals)
-  const fixedValue: string = value.times(decimalsPower).toFixed()
+  const decimalsPower = ten.pow(decimals)
+  const fixedValue = value.times(decimalsPower).toFixed()
 
-  return toBigNumber(fixedValue)
+  return BigNumber(fixedValue)
 }
 
 export default getTransactionValue

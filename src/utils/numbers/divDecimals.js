@@ -1,12 +1,12 @@
 // @flow
 
-import { BigNumber } from 'bignumber.js'
+import BigNumber from './bigNumber'
 
 function divDecimals(value: string, decimals: number = 18, dp?: number, rm?: number): string {
-  const base = new BigNumber(10)
+  const base = BigNumber(10)
   const basePow = base.pow(decimals)
 
-  return (new BigNumber(value)).div(basePow).toFormat(dp, rm)
+  return BigNumber(value).div(basePow).toFormat(dp, rm)
 }
 
 export default divDecimals

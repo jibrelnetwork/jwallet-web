@@ -16,6 +16,7 @@ import {
 import {
   searchDigitalAssets,
   filterAssetsBalances,
+  flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
 } from 'utils/digitalAssets'
@@ -85,7 +86,7 @@ const mapStateToProps = (state: AppState) => {
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    assets,
+    flattenDigitalAssets(assets),
     assetsBalancesFiltered,
   )
 

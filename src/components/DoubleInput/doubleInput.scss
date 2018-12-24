@@ -1,0 +1,50 @@
+.double-input {
+  all: initial;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 1px;
+    height: 65px;
+    background-color: rgba($dusk, 0.1);
+    z-index: 1;
+  }
+
+  > .wrap {
+    @include flex-row;
+
+    > .field {
+      width: 50%;
+      position: relative;
+
+      > .loader {
+        top: 50%;
+        right: 15px;
+        position: absolute;
+        transform: translateY(-50%);
+        margin-top: -($form-field-margin-bottom / 2);
+      }
+    }
+  }
+
+  > .close {
+    top: 50%;
+    right: -38px;
+    opacity: 0.5;
+    position: absolute;
+    cursor: pointer;
+    margin-top: -17px;
+    transition: opacity 0.3s ease 0s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  > .message {
+    transform: translateY(-5px);
+    padding-left: $form-field-horizontal-padding;
+  }
+}

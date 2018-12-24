@@ -1,9 +1,9 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { BigNumber } from 'bignumber.js'
 import { push } from 'react-router-redux'
 
+import BigNumber from 'utils/numbers/bigNumber'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
@@ -18,6 +18,7 @@ import {
 import {
   searchDigitalAssets,
   filterAssetsBalances,
+  flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
   compareDigitalAssetsByBalance,
@@ -142,7 +143,7 @@ function mapStateToProps(state: AppState) {
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    assets,
+    flattenDigitalAssets(assets),
     assetsBalancesFiltered,
   )
 
