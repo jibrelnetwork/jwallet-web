@@ -205,11 +205,11 @@ function prepareBlock(data: any): BlockData {
     hash,
     parentHash,
     number,
-    timestamp,
-    requestedAt: new Date(),
-    isBalancesLoading: false,
+    minedAt: timestamp,
+    requestedAt: Date.now(),
+    isBalancesLoading: true,
     isBalancesFetched: false,
-    isTransactionsLoading: false,
+    isTransactionsLoading: true,
     isTransactionsFetched: false,
   }
 }
@@ -230,8 +230,8 @@ export function getBlock(network: Network, blockId: BlockId): Promise<BlockData>
 }
 
 function getBlockData(network: Network, blockId: BlockId): Promise<TransactionBlockData> {
-  return getBlock(network, blockId).then((data: BlockData): TransactionBlockData => ({
-    minedAt: data.timestamp,
+  return getBlock(network, blockId).then(({ minedAt }: BlockData): TransactionBlockData => ({
+    minedAt,
   }))
 }
 
