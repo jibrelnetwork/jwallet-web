@@ -4,13 +4,14 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
 import {
-  selectDigitalAssets,
+  selectDigitalAssetsItems,
   selectDigitalAssetsGridFilters,
   selectDigitalAssetsGridSearchQuery,
 } from 'store/selectors/digitalAssets'
 
 import {
   checkAssetFound,
+  flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
   compareDigitalAssetsByBalance,
@@ -38,7 +39,7 @@ const mapStateToProps = (state: AppState) => {
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const assets: DigitalAssets = selectDigitalAssets(state /* , networkId */)
+  const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
   const filter = selectDigitalAssetsGridFilters(state)
   const searchQuery: string = selectDigitalAssetsGridSearchQuery(state)
 
@@ -57,7 +58,7 @@ const mapStateToProps = (state: AppState) => {
   } = filter
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    assets,
+    flattenDigitalAssets(assets),
     assetsBalances,
   )
 

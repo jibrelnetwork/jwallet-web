@@ -1,11 +1,22 @@
 // @flow
 
 import { push } from 'react-router-redux'
-import { put, select, takeEvery } from 'redux-saga/effects'
+
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
 
 import keystore from 'services/keystore'
 import walletsWorker from 'workers/wallets'
-import { selectWallets, selectWalletsItems, selectWalletsCreate } from 'store/stateSelectors'
+
+import {
+  selectWallets,
+  selectWalletsItems,
+  selectWalletsCreate,
+} from 'store/stateSelectors'
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsCreate from '../modules/walletsCreate'
