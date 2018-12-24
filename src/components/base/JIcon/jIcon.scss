@@ -734,6 +734,12 @@
       }
     }
 
+    &.-favorite-address-add {
+      &.-gray {
+        background-image: $icon-medium-favorite-address-add-gray;
+      }
+    }
+
     &.-priority-high {
       &.-gray {
         background-image: $icon-medium-priority-high-gray;
@@ -833,6 +839,10 @@
 
     &.-screen-search {
       background-image: $icon-large-screen-search;
+    }
+
+    &.-screen-no-favorites {
+      background-image: $icon-large-screen-no-favorites;
     }
   }
 
