@@ -30,9 +30,9 @@ function filterAddressNames(addressNames: AddressNames, searchQuery: string): Ad
       return result
     }
 
-    const isAddressFound: boolean = (address.toLowerCase() === searchQuery)
     const isNameFound: boolean = (name.toLowerCase().indexOf(searchQuery) !== -1)
-    const isFound: boolean = (isAddressFound || isNameFound)
+    const isAddressFound: boolean = (address.toLowerCase().indexOf(searchQuery) !== -1)
+    const isFound: boolean = (isNameFound || isAddressFound)
 
     return !isFound ? result : {
       ...result,
