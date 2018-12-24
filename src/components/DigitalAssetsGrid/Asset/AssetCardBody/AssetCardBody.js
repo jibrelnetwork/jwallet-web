@@ -9,9 +9,9 @@ import { JFlatButton, JText, JLoader } from 'components/base'
 type Props = {|
   +symbol: string,
   +address: Address,
-  +balance: BalanceString,
-  +fiatBalance: number,
   +fiatCurrency: string,
+  +balance: ?BalanceString,
+  +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
   +isHovered: boolean
@@ -23,7 +23,6 @@ type StateProps = {|
 
 class AssetCardBody extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    balance: '0',
     isError: false,
     isLoading: false,
     isHovered: false,

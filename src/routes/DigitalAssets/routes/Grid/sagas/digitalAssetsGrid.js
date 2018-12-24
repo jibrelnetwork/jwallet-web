@@ -18,7 +18,7 @@ function* sortByNameClick(): Saga<void> {
   const {
     sortByNameDirection,
     sortBy,
-  }: DigitalAssetsFilterType = yield select(selectDigitalAssetsGridFilters)
+  }: DigitalAssetsFilterOptions = yield select(selectDigitalAssetsGridFilters)
 
   if (sortBy === 'name') {
     yield put(setSortByName(toggleSortDirection(sortByNameDirection)))
@@ -31,7 +31,7 @@ function* sortByBalanceClick(): Saga<void> {
   const {
     sortByBalanceDirection,
     sortBy,
-  }: DigitalAssetsFilterType = yield select(selectDigitalAssetsGridFilters)
+  }: DigitalAssetsFilterOptions = yield select(selectDigitalAssetsGridFilters)
 
   if (sortBy === 'balance') {
     yield put(setSortByBalance(toggleSortDirection(sortByBalanceDirection)))

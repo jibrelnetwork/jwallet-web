@@ -4,6 +4,11 @@ import { connect } from 'react-redux'
 import { BigNumber } from 'bignumber.js'
 import { push } from 'react-router-redux'
 
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectTransactionsByOwner } from 'store/selectors/transactions'
+
 import {
   selectDigitalAssetsItems,
   selectDigitalAssetsGridFilters,
@@ -11,16 +16,17 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import {
-  checkAssetFound,
+  searchDigitalAssets,
+  filterAssetsBalances,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
   compareDigitalAssetsByBalance,
 } from 'utils/digitalAssets'
 
-import { selectCurrentBlock } from 'store/selectors/blocks'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
+import {
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
 
 import DigitalAssetsGridView from './DigitalAssetsGridView'
 
@@ -33,63 +39,44 @@ import {
   setHideZeroBalance,
 } from './modules/digitalAssetsGrid'
 
-const mapStateToProps = (state: AppState) => {
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
-  const filter = selectDigitalAssetsGridFilters(state)
-  const searchQuery: string = selectDigitalAssetsGridSearchQuery(state)
+function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
+  return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
+}
 
-  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
-    state,
-    networkId,
-    currentBlockNumber,
-    ownerAddress,
-  )
+function filterZeroBalanceDigitalAssets(
+  items: DigitalAssetWithBalance[],
+  isHideZeroBalance: boolean,
+): DigitalAssetWithBalance[] {
+  if (!isHideZeroBalance) {
+    return items
+  }
 
+  return items.filter(({ balance }: DigitalAssetWithBalance): boolean => {
+    const isBalanceExist: boolean = !!(balance && (new BigNumber(balance.value)).gt(0))
+
+    return isBalanceExist
+  })
+}
+
+function sortDigitalAssets(
+  items: DigitalAssetWithBalance[],
+  filterOptions: DigitalAssetsFilterOptions,
+): DigitalAssetWithBalance[] {
   const {
     sortBy,
     sortByNameDirection,
     sortByBalanceDirection,
-    isHideZeroBalance,
-  } = filter
-
-  const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    assets,
-    assetsBalances,
-  )
-
-  const items: DigitalAssetWithBalance[] = assetsWithBalance
-    .filter((item: DigitalAssetWithBalance): boolean => {
-      const {
-        balance,
-        name,
-        symbol,
-        address,
-        isActive,
-      }: DigitalAssetWithBalance = item
-
-      const isAssetFound: boolean = checkAssetFound(name, symbol, address, searchQuery)
-      const isBalanceExist: boolean = !!(balance && (new BigNumber(balance.value)).gt(0))
-
-      return (
-        !!isActive &&
-        (!isHideZeroBalance || (isHideZeroBalance && isBalanceExist)) &&
-        isAssetFound
-      )
-    })
+  }: DigitalAssetsFilterOptions = filterOptions
 
   // eslint-disable-next-line fp/no-mutating-methods
-  items.sort((
+  const itemsSortedByName: DigitalAssetWithBalance[] = [...items].sort((
     first: DigitalAssetWithBalance,
     second: DigitalAssetWithBalance,
   ): number => compareDigitalAssetsByName(first.name, second.name, sortByNameDirection))
 
   if (sortBy === 'balance') {
     // eslint-disable-next-line fp/no-mutating-methods
-    items.sort((
+    return [...itemsSortedByName].sort((
       first: DigitalAssetWithBalance,
       second: DigitalAssetWithBalance,
     ): number => compareDigitalAssetsByBalance(
@@ -99,9 +86,69 @@ const mapStateToProps = (state: AppState) => {
     ))
   }
 
+  return itemsSortedByName
+}
+
+function prepareDigitalAssets(
+  items: DigitalAssetWithBalance[],
+  filterOptions: DigitalAssetsFilterOptions,
+  searchQuery: string,
+): DigitalAssetWithBalance[] {
+  const itemsActive: DigitalAssetWithBalance[] = filterActiveDigitalAssets(items)
+
+  const itemsFiltered: DigitalAssetWithBalance[] = filterZeroBalanceDigitalAssets(
+    itemsActive,
+    filterOptions.isHideZeroBalance,
+  )
+
+  const itemsFound: DigitalAssetWithBalance[] = searchDigitalAssets(
+    itemsFiltered,
+    searchQuery,
+  )
+
+  const itemsSorted: DigitalAssetWithBalance[] = sortDigitalAssets(
+    itemsFound,
+    filterOptions,
+  )
+
+  return itemsSorted
+}
+
+function mapStateToProps(state: AppState) {
+  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const searchQuery: string = selectDigitalAssetsGridSearchQuery(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
+  const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
+  const filterOptions: DigitalAssetsFilterOptions = selectDigitalAssetsGridFilters(state)
+  const txs: ?TransactionsByOwner = selectTransactionsByOwner(state, networkId, ownerAddress)
+
+  const assetsBalances: ?Balances = selectBalancesByBlockNumber(
+    state,
+    networkId,
+    ownerAddress,
+    currentBlock ? currentBlock.number.toString() : null,
+  )
+
+  /**
+   * filterAssetsBalances is necessary to make sure that app displays
+   * consistent state of balance+transactions by specific digital asset
+   */
+  const assetsBalancesFiltered: ?Balances = filterAssetsBalances(
+    assetsBalances,
+    txs,
+    processingBlock,
+  )
+
+  const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
+    assets,
+    assetsBalancesFiltered,
+  )
+
   return {
-    items,
-    filter,
+    filterOptions,
+    items: prepareDigitalAssets(assetsWithBalance, filterOptions, searchQuery),
   }
 }
 

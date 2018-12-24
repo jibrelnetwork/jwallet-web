@@ -3,13 +3,19 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectTransactionsByOwner } from 'store/selectors/transactions'
 
 import {
-  checkAssetFound,
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
+
+import {
+  searchDigitalAssets,
+  filterAssetsBalances,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
 } from 'utils/digitalAssets'
@@ -32,47 +38,59 @@ import {
   deleteCustomAsset,
 } from '../../modules/digitalAssets'
 
+function sortDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
+  // eslint-disable-next-line fp/no-mutating-methods
+  return [...items].sort((
+    first: DigitalAssetWithBalance,
+    second: DigitalAssetWithBalance,
+  ): number => compareDigitalAssetsByName(first.name, second.name, 'asc', first.isCustom))
+}
+
+function prepareDigitalAssets(
+  items: DigitalAssetWithBalance[],
+  searchQuery: string,
+): DigitalAssetWithBalance[] {
+  const itemsFound: DigitalAssetWithBalance[] = searchDigitalAssets(
+    items,
+    searchQuery,
+  )
+
+  return sortDigitalAssets(itemsFound)
+}
+
 const mapStateToProps = (state: AppState) => {
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const searchQuery: string = selectDigitalAssetsManageSearchQuery(state)
+  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
   const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
-  const searchQuery = selectDigitalAssetsManageSearchQuery(state)
+  const txs: ?TransactionsByOwner = selectTransactionsByOwner(state, networkId, ownerAddress)
 
-  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+  const assetsBalances: ?Balances = selectBalancesByBlockNumber(
     state,
     networkId,
-    currentBlockNumber,
     ownerAddress,
+    currentBlock ? currentBlock.number.toString() : null,
+  )
+
+  /**
+   * filterAssetsBalances is necessary to make sure that app displays
+   * consistent state of balance+transactions by specific digital asset
+   */
+  const assetsBalancesFiltered: ?Balances = filterAssetsBalances(
+    assetsBalances,
+    txs,
+    processingBlock,
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
     assets,
-    assetsBalances,
+    assetsBalancesFiltered,
   )
 
-  const items: DigitalAssetWithBalance[] = assetsWithBalance
-    .filter((item: DigitalAssetWithBalance): boolean => {
-      const {
-        name,
-        symbol,
-        address,
-      }: DigitalAssetWithBalance = item
-
-      const isAssetFound: boolean = checkAssetFound(name, symbol, address, searchQuery)
-
-      return isAssetFound
-    })
-
-  // eslint-disable-next-line fp/no-mutating-methods
-  items.sort((
-    first: DigitalAssetWithBalance,
-    second: DigitalAssetWithBalance,
-  ): number => compareDigitalAssetsByName(first.name, second.name, 'asc', first.isCustom))
-
   return {
-    items,
+    items: prepareDigitalAssets(assetsWithBalance, searchQuery),
   }
 }
 
@@ -82,13 +100,10 @@ const mapDispatchToProps = {
   setSearchQuery,
   setAssetIsActive,
   deleteCustomAsset,
+  addAsset: () => push('/digital-assets/add-asset'),
   editAsset: (address: Address) => push(`/digital-assets/edit-asset/${address}`),
-  addAssetClick: () => push('/digital-assets/add-asset'),
 }
 
-// eslint-disable-next-line no-unused-vars
-type OwnProps = {||}
-
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsManageView)
