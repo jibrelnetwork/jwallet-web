@@ -20,6 +20,8 @@ type ComponentState = {|
 |}
 
 function filterAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
+  const re: RegExp = new RegExp(searchQuery.trim(), 'ig')
+
   return !searchQuery ? addressNames : Object.keys(addressNames).reduce((
     result: AddressNames,
     address: Address,
@@ -30,9 +32,7 @@ function filterAddressNames(addressNames: AddressNames, searchQuery: string): Ad
       return result
     }
 
-    const isNameFound: boolean = (name.toLowerCase().indexOf(searchQuery) !== -1)
-    const isAddressFound: boolean = (address.toLowerCase().indexOf(searchQuery) !== -1)
-    const isFound: boolean = (isNameFound || isAddressFound)
+    const isFound: boolean = ((name.search(re) !== -1) || (address.search(re) !== -1))
 
     return !isFound ? result : {
       ...result,
@@ -75,8 +75,7 @@ class AddressPicker extends Component<Props, ComponentState> {
     }: Props = this.props
 
     const { searchQuery }: ComponentState = this.state
-    const query: string = searchQuery.trim().toLowerCase()
-    const filteredAddressNames: AddressNames = filterAddressNames(addressNames, query)
+    const filteredAddressNames: AddressNames = filterAddressNames(addressNames, searchQuery)
 
     return (
       <div className='address-picker'>
@@ -94,9 +93,9 @@ class AddressPicker extends Component<Props, ComponentState> {
           isDisabled={isDisabled}
         >
           {Object.keys(filteredAddressNames).map((address: Address) => {
-            const title: ?string = filteredAddressNames[address]
+            const name: ?string = filteredAddressNames[address]
 
-            if (!title) {
+            if (!name) {
               return null
             }
 
@@ -104,7 +103,7 @@ class AddressPicker extends Component<Props, ComponentState> {
               <JPickerFullItem
                 key={address}
                 onSelect={onSelect}
-                title={title}
+                title={name}
                 value={address}
                 description={address}
                 icon='padding-binding'
