@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { BigNumber } from 'bignumber.js'
 import { push } from 'react-router-redux'
 
 import {
@@ -12,10 +11,12 @@ import {
 
 import {
   checkAssetFound,
+  flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
   compareDigitalAssetsByBalance,
 } from 'utils/digitalAssets'
+import BigNumber from 'utils/numbers/bigNumber'
 
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
@@ -57,7 +58,7 @@ const mapStateToProps = (state: AppState) => {
   } = filter
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    assets,
+    flattenDigitalAssets(assets),
     assetsBalances,
   )
 
@@ -72,7 +73,7 @@ const mapStateToProps = (state: AppState) => {
       }: DigitalAssetWithBalance = item
 
       const isAssetFound: boolean = checkAssetFound(name, symbol, address, searchQuery)
-      const isBalanceExist: boolean = !!(balance && (new BigNumber(balance.value)).gt(0))
+      const isBalanceExist: boolean = !!(balance && BigNumber(balance.value).gt(0))
 
       return (
         !!isActive &&

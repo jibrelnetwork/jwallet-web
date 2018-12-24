@@ -10,5 +10,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, Object, OwnPropsEmpty, _, _ > */(null, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(null, mapDispatchToProps)
 )(NotFoundView)

@@ -10,6 +10,7 @@ import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
 
 import {
   checkAssetFound,
+  flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
 } from 'utils/digitalAssets'
@@ -48,7 +49,7 @@ const mapStateToProps = (state: AppState) => {
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    assets,
+    flattenDigitalAssets(assets),
     assetsBalances,
   )
 

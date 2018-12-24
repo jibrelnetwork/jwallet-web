@@ -225,6 +225,12 @@
     > .input {
       padding: 31px $box-horizontal-padding 14px;
     }
+
+    &.-virtual-half-size {
+      > .input {
+        padding-right: calc(50% + 15px);
+      }
+    }
   }
 
   &.-error {
@@ -270,7 +276,12 @@
     }
 
     &.-gray > .input {
-      opacity: 0.3;
+      color: rgba($dusk, 0.3);
+
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.2;
+      }
 
       &:hover,
       &:focus {

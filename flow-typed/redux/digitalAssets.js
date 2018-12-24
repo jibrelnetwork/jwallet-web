@@ -78,3 +78,64 @@ declare type EditAssetState = {|
 declare type DigitalAssetsManageState = {|
   +searchQuery: string,
 |}
+
+/**
+ * Send asset
+ */
+declare type DigitalAssetSendStep = '1' | '2'
+
+declare type DigitalAssetSendFormFields = {|
+  recepient: Address,
+  ownerAddress: Address,
+  assetAddress: Address,
+  amount: string,
+  amountFiat: string,
+  comment: string,
+  nonce: string,
+  password: string,
+  priority: TXPriority,
+|}
+
+declare type DigitalAssetSendInvalidFields = {|
+  ...DigitalAssetSendFormFields,
+  priority: string,
+|}
+
+declare type DigitalAssetSendState = {|
+  step: DigitalAssetSendStep,
+  formFields: DigitalAssetSendFormFields,
+  invalidFields: DigitalAssetSendInvalidFields,
+  isProcessing: boolean,
+|}
+
+declare type TXData = {
+  to: Address,
+  value: BigNumber,
+  privateKey: string,
+  contractAddress?: Address,
+  gasPrice?: BigNumber,
+  gasLimit?: BigNumber,
+  nonce?: BigNumber,
+}
+
+declare type TXPriority = {|
+  type: 'LOW',
+|} | {|
+  type: 'NORMAL',
+|} | {|
+  type: 'HIGH',
+|} | {|
+  type: 'CUSTOM',
+  gas: string,
+  gasPrice: string,
+|}
+
+declare type SendTransactionProps = {
+  +value: string,
+  +privateKey: string,
+  +contractAddress: string,
+  +recipient: OwnerAddress,
+  +gas: string,
+  +nonce: string,
+  +gasPrice: string,
+}

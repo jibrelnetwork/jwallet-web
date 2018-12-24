@@ -13,6 +13,7 @@ import MenuPanelWalletManager from './WalletManager'
 
 type Props = {|
   +getMoreAddresses: () => void,
+  +onSendAssetClick: () => void,
   +setActiveAddress: (Index) => void,
   +items: Wallets,
   +addresses: Address[],
@@ -57,6 +58,7 @@ class MenuPanel extends Component<Props, ComponentState> {
       addresses,
       addressNames,
       activeWalletId,
+      onSendAssetClick,
     }: Props = this.props
 
     const wallet: ?Wallet = getWallet(items, activeWalletId)
@@ -87,8 +89,15 @@ class MenuPanel extends Component<Props, ComponentState> {
           </div>
         </div>
         <div className='actions'>
-          <MenuPanelMainAction type={type} isReadOnly={isReadOnly} />
-          <MenuPanelActions toggle={this.toggleActionsMore} isActive={isActionsMoreActive} />
+          <MenuPanelMainAction
+            type={type}
+            isReadOnly={isReadOnly}
+            onSendAssetClick={onSendAssetClick}
+          />
+          <MenuPanelActions
+            toggle={this.toggleActionsMore}
+            isActive={isActionsMoreActive}
+          />
         </div>
         <MenuPanelWalletManager
           toggle={this.toggleWalletManager}

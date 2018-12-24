@@ -1,11 +1,11 @@
 // @flow
 
-import { BigNumber } from 'bignumber.js'
+import BigNumber from '../numbers/bigNumber'
 
 function getTxFee(gasUsed: number, gasPrice: string, decimals: number): string {
-  const base: BigNumber = new BigNumber(10)
+  const base: BigNumber = BigNumber(10)
   const basePow: BigNumber = base.pow(decimals)
-  const gasPriceBN: BigNumber = new BigNumber(gasPrice)
+  const gasPriceBN: BigNumber = BigNumber(gasPrice)
 
   return gasPriceBN.times(gasUsed).div(basePow).toFormat()
 }

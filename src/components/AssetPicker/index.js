@@ -1,5 +1,5 @@
 // @flow
 
-import AssetPicker from './AssetPickerContainer'
+import AssetPicker from './AssetPicker'
 
 export default AssetPicker

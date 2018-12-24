@@ -8,8 +8,17 @@ type JTextFontCase = 'upper'
 type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap' | 'clip'
-type JTextSize = 'small' | 'normal' | 'large' | 'header' | 'tab' | 'title'
-type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk'
+
+type JTextSize = 'small' | // 11
+  'semismall' | // 12
+  'normal' | // 13
+  'semilarge' | // 14
+  'large' | // 15
+  'header' | // 18
+  'tab' | // 20
+  'title' // 25
+
+type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk' | 'orange'
 
 type Props = {|
   +value: string,

@@ -4,15 +4,21 @@ import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 import keystore from 'services/keystore'
 
+import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
+import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
-export type WalletsAnyAction = WalletsCreateAction | WalletsImportAction | WalletsBackupAction
+export type WalletsAnyAction =
+  WalletsAction |
+  WalletsCreateAction |
+  WalletsImportAction |
+  WalletsBackupAction
 
 type WalletsWorkerMessage = {|
   +data: WalletsAnyAction,
@@ -135,6 +141,23 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(walletsBackup.backupError(err.message))
+      }
+
+      break
+    }
+
+    case wallets.PRIVATE_KEY_REQUEST: {
+      const { wallet, password } = action.payload
+
+      try {
+        const privateKey: string = keystore.getPrivateKey(wallet, password)
+
+        walletsWorker.postMessage(wallets.privateKeySuccess(wallet.id, privateKey))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(wallets.privateKeyError(wallet.id, err.message))
       }
 
       break
