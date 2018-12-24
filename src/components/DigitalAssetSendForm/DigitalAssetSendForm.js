@@ -7,6 +7,7 @@ import {
   AddressPicker,
   PriorityPicker,
   DoubleInput,
+  InputButton,
 } from 'components'
 
 import { JInput, JRaisedButton } from 'components/base'
@@ -72,26 +73,32 @@ const DigitalAssetSendForm = ({
         selectedPriority={formFields.priority}
         onSelect={setFieldHandler('priority', setField)}
       />
-      <JInput
-        onChange={setFieldHandler('comment', setField)}
-        value={formFields.comment}
-        name='comment'
-        errorMessage={invalidFields.comment}
-        placeholder='Comment'
-        type='text'
-        color='gray'
-        isLoading={false}
-      />
-      <JInput
-        onChange={setFieldHandler('nonce', setField)}
-        value={formFields.nonce}
-        name='nonce'
-        errorMessage={invalidFields.nonce}
-        placeholder='Nonce'
-        type='text'
-        color='gray'
-        isLoading={false}
-      />
+      <div className='split'>
+        <div className='box'>
+          <InputButton
+            onChange={setFieldHandler('comment', setField)}
+            value={formFields.comment}
+            errorMessage={invalidFields.comment}
+            icon='plus'
+            label='Add comment'
+            name='comment'
+            placeholder='Comment'
+            isLoading={false}
+          />
+        </div>
+        <div className='box'>
+          <InputButton
+            onChange={setFieldHandler('nonce', setField)}
+            value={formFields.nonce}
+            errorMessage={invalidFields.nonce}
+            icon='plus'
+            label='Show nonce'
+            name='nonce'
+            placeholder='Nonce'
+            isLoading={false}
+          />
+        </div>
+      </div>
       <div className='actions'>
         <JRaisedButton
           onClick={submit}
