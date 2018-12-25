@@ -23,6 +23,8 @@ import {
   selectDigitalAsset,
 } from 'store/selectors/digitalAssets'
 
+import * as blocks from 'routes/modules/blocks'
+
 import {
   OPEN_VIEW,
   CLOSE_VIEW,
@@ -37,7 +39,7 @@ import {
   SUBMIT_ASSET_FORM,
 } from '../modules/addAsset'
 
-import { addCustomAsset } from '../../../modules/digitalAssets'
+import * as digitalAssets from '../../../modules/digitalAssets'
 
 type RequestedAssetFields = {|
   decimals: ?number,
@@ -246,12 +248,18 @@ function* onAssetFormSumbit(): Saga<void> {
     },
   }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
-  if (!addressError &&
-      !nameError &&
-      !symbolError &&
-      !decimalsError) {
-    yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
+  if (
+    !addressError &&
+    !nameError &&
+    !symbolError &&
+    !decimalsError
+  ) {
+    yield put(
+      digitalAssets.addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals),
+    )
+
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+    yield put(blocks.syncRestart())
   }
 }
 

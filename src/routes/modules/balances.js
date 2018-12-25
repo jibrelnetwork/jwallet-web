@@ -1,93 +1,104 @@
 // @flow
 
-export const SYNC_START = '@@balances/SYNC_START'
-export const SYNC_STOP = '@@balances/SYNC_STOP'
-export const SYNC_ERROR = '@@balances/SYNC_ERROR'
-export const SYNC_CANCELLED = '@@balances/SYNC_CANCELLED'
+export const FETCH_BY_OWNER_REQUEST = '@@balances/FETCH_BY_OWNER_REQUEST'
 
-export const INIT_AT_BLOCK = '@@balances/INIT_AT_BLOCK'
-export const UPDATE_BALANCE = '@@balances/UPDATE_BALANCE'
+export const INIT_ITEM_BY_ASSET = '@@balances/INIT_ITEM_BY_ASSET'
+export const INIT_ITEMS_BY_BLOCK = '@@balances/INIT_ITEMS_BY_BLOCK'
 
-export function syncStart(
+export const FETCH_BY_ASSET_SUCCESS = '@@balances/FETCH_BY_ASSET_SUCCESS'
+export const FETCH_BY_ASSET_ERROR = '@@balances/FETCH_BY_ASSET_ERROR'
+
+export function fetchByOwnerRequest(
   requestQueue: Channel,
   networkId: NetworkId,
-  ownerAddress: Address,
-  processingBlock: BlockData,
+  ownerAddress: OwnerAddress,
+  blockNumber: number,
 ) {
   return {
-    type: SYNC_START,
+    type: FETCH_BY_OWNER_REQUEST,
     payload: {
       requestQueue,
-      processingBlock,
-      ownerAddress,
       networkId,
+      ownerAddress,
+      blockNumber,
     },
   }
 }
 
-export function syncStop() {
-  return {
-    type: SYNC_STOP,
-  }
-}
-
-export function syncError(err: Error) {
-  return {
-    type: SYNC_ERROR,
-    payload: err,
-    error: true,
-  }
-}
-
-export function syncCancelled() {
-  return {
-    type: SYNC_CANCELLED,
-  }
-}
-
-export function initAtBlock(
+export function initItemsByBlock(
   networkId: NetworkId,
-  blockNumber: number,
-  ownerAddress: Address,
-  initialItems: Balances,
+  ownerAddress: OwnerAddress,
+  blockNumber: BlockNumber,
 ) {
   return {
-    type: INIT_AT_BLOCK,
+    type: INIT_ITEMS_BY_BLOCK,
     payload: {
       networkId,
       blockNumber,
       ownerAddress,
-      initialItems,
     },
   }
 }
 
-export function updateBalance(
+export function initItemByAsset(
   networkId: NetworkId,
-  blockNumber: number,
-  ownerAddress: Address,
-  assetAddress: Address,
-  balance: Balance,
+  ownerAddress: OwnerAddress,
+  blockNumber: BlockNumber,
+  assetAddress: AssetAddress,
 ) {
   return {
-    type: UPDATE_BALANCE,
+    type: INIT_ITEM_BY_ASSET,
     payload: {
       networkId,
       blockNumber,
-      ownerAddress,
       assetAddress,
+      ownerAddress,
+    },
+  }
+}
+
+export function fetchByAssetError(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  blockNumber: BlockNumber,
+  assetAddress: AssetAddress,
+) {
+  return {
+    type: FETCH_BY_ASSET_ERROR,
+    payload: {
+      networkId,
+      blockNumber,
+      assetAddress,
+      ownerAddress,
+    },
+  }
+}
+
+export function fetchByAssetSuccess(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  blockNumber: BlockNumber,
+  assetAddress: AssetAddress,
+  balance: string,
+) {
+  return {
+    type: FETCH_BY_ASSET_SUCCESS,
+    payload: {
       balance,
+      networkId,
+      blockNumber,
+      assetAddress,
+      ownerAddress,
     },
   }
 }
 
 export type BalancesAction =
-  ExtractReturn<typeof syncStart> |
-  ExtractReturn<typeof syncStop> |
-  ExtractReturn<typeof syncError> |
-  ExtractReturn<typeof syncCancelled> |
-  ExtractReturn<typeof initAtBlock> |
-  ExtractReturn<typeof updateBalance>
+  ExtractReturn<typeof fetchByOwnerRequest> |
+  ExtractReturn<typeof initItemsByBlock> |
+  ExtractReturn<typeof initItemByAsset> |
+  ExtractReturn<typeof fetchByAssetError> |
+  ExtractReturn<typeof fetchByAssetSuccess>
 
 const initialState: BalancesState = {
   persist: {
@@ -95,77 +106,175 @@ const initialState: BalancesState = {
   },
 }
 
-const updateBlock = (
-  state: BalancesState,
-  networkId: NetworkId,
-  blockNumber: number,
-  ownerAddress: Address,
-  ownerBalances: Balances,
-): BalancesState => {
-  const { persist } = state
-  const itemByNetworkId = persist.items[networkId]
-  const itemByBlockNumber = itemByNetworkId ? itemByNetworkId[blockNumber.toString()] : undefined
-  const itemByOwnerAddress = itemByBlockNumber ? itemByBlockNumber[ownerAddress] : undefined
-
-  return {
-    ...state,
-    persist: {
-      ...persist,
-      items: {
-        ...persist.items,
-        [networkId]: {
-          ...itemByNetworkId,
-          [blockNumber.toString()]: {
-            ...itemByBlockNumber,
-            [ownerAddress]: {
-              ...itemByOwnerAddress,
-              ...ownerBalances,
-            },
-          },
-        },
-      },
-    },
-  }
-}
-
 function balances(
   state: BalancesState = initialState,
   action: BalancesAction,
 ): BalancesState {
   switch (action.type) {
-    case INIT_AT_BLOCK: {
+    case FETCH_BY_OWNER_REQUEST: {
+      const { items } = state.persist
+
       const {
         networkId,
-        blockNumber,
         ownerAddress,
-        initialItems,
       } = action.payload
 
-      return updateBlock(
-        state,
-        networkId,
-        blockNumber,
-        ownerAddress,
-        initialItems
-      )
+      const itemsByNetworkId: BalancesByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: ?BalancesByOwner = itemsByNetworkId[ownerAddress]
+
+      return itemsByOwner ? state : {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...items,
+            [networkId]: {
+              ...itemsByNetworkId,
+              [ownerAddress]: null,
+            },
+          },
+        },
+      }
     }
 
-    case UPDATE_BALANCE: {
+    case INIT_ITEMS_BY_BLOCK: {
+      const { items } = state.persist
+
+      const {
+        networkId,
+        ownerAddress,
+        blockNumber,
+      } = action.payload
+
+      const itemsByNetworkId: BalancesByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: BalancesByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByBlock: ?Balances = itemsByOwner[blockNumber]
+
+      return itemsByBlock ? state : {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...items,
+            [networkId]: {
+              ...itemsByNetworkId,
+              [ownerAddress]: {
+                ...itemsByOwner,
+                [blockNumber]: {},
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case INIT_ITEM_BY_ASSET: {
+      const { items } = state.persist
+
       const {
         networkId,
         blockNumber,
-        ownerAddress,
         assetAddress,
-        balance,
+        ownerAddress,
       } = action.payload
 
-      return updateBlock(
-        state,
+      const itemsByNetworkId: BalancesByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: BalancesByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByBlock: Balances = itemsByOwner[blockNumber] || {}
+      const itemByAsset: ?Balance = itemsByBlock[assetAddress]
+
+      return itemByAsset ? state : {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...items,
+            [networkId]: {
+              ...itemsByNetworkId,
+              [ownerAddress]: {
+                ...itemsByOwner,
+                [blockNumber]: {
+                  ...itemsByBlock,
+                  [assetAddress]: null,
+                },
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case FETCH_BY_ASSET_SUCCESS: {
+      const {
+        balance,
         networkId,
         blockNumber,
+        assetAddress,
         ownerAddress,
-        { [assetAddress]: balance }
-      )
+      } = action.payload
+
+      const itemsByNetworkId: BalancesByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: BalancesByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByBlock: Balances = itemsByOwner[blockNumber] || {}
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...state.persist.items,
+            [networkId]: {
+              ...itemsByNetworkId,
+              [ownerAddress]: {
+                ...itemsByOwner,
+                [blockNumber]: {
+                  ...itemsByBlock,
+                  [assetAddress]: {
+                    value: balance,
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case FETCH_BY_ASSET_ERROR: {
+      const { items } = state.persist
+
+      const {
+        networkId,
+        blockNumber,
+        assetAddress,
+        ownerAddress,
+      } = action.payload
+
+      const itemsByNetworkId: BalancesByNetworkId = state.persist.items[networkId] || {}
+      const itemsByOwner: BalancesByOwner = itemsByNetworkId[ownerAddress] || {}
+      const itemsByBlock: Balances = itemsByOwner[blockNumber] || {}
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...items,
+            [networkId]: {
+              ...itemsByNetworkId,
+              [ownerAddress]: {
+                ...itemsByOwner,
+                [blockNumber]: {
+                  ...itemsByBlock,
+                  [assetAddress]: {
+                    isError: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
     }
 
     default:

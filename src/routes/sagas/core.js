@@ -7,9 +7,11 @@ import {
 
 import * as core from 'routes/modules/core'
 import * as blocks from 'routes/modules/blocks'
+import * as digitalAssets from 'routes/DigitalAssets/modules/digitalAssets'
 
 function* openMenuLayout(): Saga<void> {
   yield put(blocks.syncStart())
+  yield put(digitalAssets.init())
 }
 
 function* closeMenuLayout(): Saga<void> {

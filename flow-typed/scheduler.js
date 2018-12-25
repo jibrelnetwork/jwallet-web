@@ -1,17 +1,12 @@
 // @flow
 
-declare type GetETHBalanceMethod = {|
-  +name: 'getETHBalance',
-|}
-
-declare type GetERC20BalanceMethod = {|
-  +name: 'getERC20Balance',
+declare type GetBalanceMethod = {|
+  +name: 'getAssetBalance',
   +payload: {|
-    +contractAddress: AssetAddress,
+    +blockNumber: number,
+    +assetAddress: AssetAddress,
   |}
 |}
-
-declare type GetBalanceMethod = GetETHBalanceMethod | GetERC20BalanceMethod
 
 declare type SchedulerBalanceTask = {|
   +module: 'balances',

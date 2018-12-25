@@ -25,89 +25,59 @@ export function selectBalancesByNetworkId(
   return balancesItems[networkId]
 }
 
+export function selectBalancesByOwner(
+  state: AppState,
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+): ?BalancesByOwner {
+  const itemsByNetworkId: ?BalancesByNetworkId = selectBalancesByNetworkId(
+    state,
+    networkId,
+  )
+
+  if (!itemsByNetworkId) {
+    return null
+  }
+
+  return itemsByNetworkId[ownerAddress]
+}
+
 export function selectBalancesByBlockNumber(
   state: AppState,
   networkId: NetworkId,
-  blockNumber: number,
-): ?BalancesByBlockNumber {
-  const byNetworkId: ?BalancesByNetworkId = selectBalancesByNetworkId(state, networkId)
-
-  if (!byNetworkId) {
-    return null
-  }
-
-  return byNetworkId[blockNumber.toString()]
-}
-
-export function selectBalancesByOwnerAddress(
-  state: AppState,
-  networkId: NetworkId,
-  blockNumber: number,
-  ownerAddress: OwnerAddress,
+  ownerAddress: ?OwnerAddress,
+  blockNumber: ?BlockNumber,
 ): ?Balances {
-  const byBlockNumber: ?BalancesByBlockNumber = selectBalancesByBlockNumber(
-    state,
-    networkId,
-    blockNumber,
-  )
-
-  if (!byBlockNumber) {
+  if (!(blockNumber && ownerAddress)) {
     return null
   }
 
-  return byBlockNumber[ownerAddress]
+  const itemsByOwner: ?BalancesByOwner = selectBalancesByOwner(state, networkId, ownerAddress)
+
+  if (!itemsByOwner) {
+    return null
+  }
+
+  return itemsByOwner[blockNumber]
 }
 
 export function selectBalanceByAssetAddress(
   state: AppState,
   networkId: NetworkId,
-  blockNumber: number,
   ownerAddress: OwnerAddress,
+  blockNumber: BlockNumber,
   assetAddress: AssetAddress,
 ): ?Balance {
-  const byOwnerAddress: ?Balances = selectBalancesByOwnerAddress(
+  const itemsByBlockNumber: ?Balances = selectBalancesByBlockNumber(
     state,
     networkId,
-    blockNumber,
     ownerAddress,
+    blockNumber,
   )
 
-  if (!byOwnerAddress) {
+  if (!itemsByBlockNumber) {
     return null
   }
 
-  return byOwnerAddress[assetAddress]
-}
-
-export function selectPendingBalances(
-  state: AppState,
-  networkId: NetworkId,
-  blockNumber: number,
-  ownerAddress: OwnerAddress,
-): Balance[] {
-  const byOwnerAddress: ?Balances = selectBalancesByOwnerAddress(
-    state,
-    networkId,
-    blockNumber,
-    ownerAddress,
-  )
-
-  if (!byOwnerAddress) {
-    return []
-  }
-
-  return Object
-    .keys(byOwnerAddress)
-    .reduce((result: Balance[], assetAddress: AssetAddress) => {
-      const balance: ?Balance = byOwnerAddress[assetAddress]
-
-      if (!(balance && balance.isLoading)) {
-        return result
-      }
-
-      return [
-        ...result,
-        balance,
-      ]
-    }, [])
+  return itemsByBlockNumber[assetAddress]
 }

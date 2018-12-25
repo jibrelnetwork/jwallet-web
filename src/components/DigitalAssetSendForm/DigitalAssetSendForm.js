@@ -25,10 +25,10 @@ const setFieldHandler = (
 type Props = {|
   +submit: () => void,
   +setField: SetFieldFunction,
+  +assets: DigitalAssetWithBalance[],
+  +addressNames: AddressNames,
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
-  +assets: Array<DigitalAssetWithBalance>,
-  +recepientAddresses: Array<AddressPickerAddress>,
 |}
 
 const DigitalAssetSendForm = ({
@@ -37,7 +37,7 @@ const DigitalAssetSendForm = ({
   setField,
   formFields,
   invalidFields,
-  recepientAddresses,
+  addressNames,
 }: Props) => (
   <div className='digital-assets-send-form'>
     <div className='form'>
@@ -54,9 +54,9 @@ const DigitalAssetSendForm = ({
       />
       <AddressPicker
         onSelect={setFieldHandler('recepient', setField)}
+        addressNames={addressNames}
         errorMessage={invalidFields.recepient}
         selectedAddress={formFields.recepient}
-        addresses={recepientAddresses}
       />
       <AssetPicker
         assets={assets}
@@ -64,10 +64,16 @@ const DigitalAssetSendForm = ({
         onSelect={setFieldHandler('assetAddress', setField)}
       />
       <DoubleInput
-        onChange={setFieldHandler('amount', setField)}
-        valueAmount={formFields.amount}
-        valueFiat={formFields.amountFiat}
-        errorMessageAmount={invalidFields.amount}
+        items={[{
+          onChange: setFieldHandler('amount', setField),
+          value: formFields.amount,
+          placeholder: 'Value',
+        }, {
+          value: formFields.amountFiat,
+          placeholder: 'Value',
+        }]}
+        warningMessage=''
+        errorMessage={invalidFields.amount}
       />
       <PriorityPicker
         selectedPriority={formFields.priority}

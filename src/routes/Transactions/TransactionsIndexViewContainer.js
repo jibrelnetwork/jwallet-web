@@ -55,11 +55,11 @@ function prepareTransactions(
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const network: ?Network = selectNetworkById(state, networkId)
+  const addressNames: AddressNames = selectAllAddressNames(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
-  const addressNames: AddressNames = selectAllAddressNames(state)
 
   const {
     searchQuery,

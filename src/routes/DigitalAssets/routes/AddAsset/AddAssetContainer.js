@@ -1,20 +1,25 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { selectAddAsset } from 'store/selectors/digitalAssets'
+
 import { reactRouterBack } from 'utils/browser'
+import { selectAddAsset } from 'store/selectors/digitalAssets'
 
 import {
   openView,
-  closeView,
   setField,
+  closeView,
   submitAssetForm,
 } from './modules/addAsset'
 
 import AddAssetView from './AddAssetView'
 
 function mapStateToProps(state: AppState) {
-  const { formFields, invalidFields, isAssetLoading } = selectAddAsset(state)
+  const {
+    formFields,
+    invalidFields,
+    isAssetLoading,
+  }: AddAssetState = selectAddAsset(state)
 
   return {
     formFields,
@@ -25,10 +30,10 @@ function mapStateToProps(state: AppState) {
 
 const mapDispatchToProps = {
   openView,
-  closeView,
   setField,
+  closeView,
   submit: submitAssetForm,
-  closeClick: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
+  close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
 export default (

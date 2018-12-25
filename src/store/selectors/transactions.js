@@ -28,8 +28,12 @@ export function selectTransactionsByNetworkId(
 export function selectTransactionsByOwner(
   state: AppState,
   networkId: NetworkId,
-  owner: OwnerAddress,
+  owner: ?OwnerAddress,
 ): ?TransactionsByOwner {
+  if (!owner) {
+    return null
+  }
+
   const byNetworkId: ?TransactionsByNetworkId = selectTransactionsByNetworkId(state, networkId)
 
   if (!byNetworkId) {
