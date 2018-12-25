@@ -34,7 +34,7 @@ export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {
   return flattenedItems.filter(({ isActive }: DigitalAsset): boolean => !!isActive)
 }
 
-export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {
+export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterOptions {
   return state.digitalAssetsGrid.filter
 }
 

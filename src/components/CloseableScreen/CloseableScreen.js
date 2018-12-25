@@ -3,43 +3,45 @@
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { JText } from 'components/base'
-import ESCButton from '../ESCButton'
+import JText from 'components/base/JText'
+import ESCButton from 'components/ESCButton'
 
-type Props = {
-  title: string,
-  children: React$Node,
-  isCloseable: boolean,
-  open: ?(() => void),
-  close: ?(() => void),
-  closeClick: ?(() => void),
-}
+type CloseableScreenHandler = () => void
+
+type Props = {|
+  +close: ?CloseableScreenHandler,
+  +onOpen: ?CloseableScreenHandler,
+  +onClose: ?CloseableScreenHandler,
+  +children: React$Node,
+  +title: string,
+  +isCloseable: boolean,
+|}
 
 class CloseableScreen extends Component<Props> {
   static defaultProps = {
-    open: null,
     close: null,
-    closeClick: null,
+    onOpen: null,
+    onClose: null,
     isCloseable: true,
   }
 
   componentDidMount() {
-    if (this.props.open) {
-      this.props.open()
+    if (this.props.onOpen) {
+      this.props.onOpen()
     }
   }
 
   componentWillUnmount() {
-    if (this.props.close) {
-      this.props.close()
+    if (this.props.onClose) {
+      this.props.onClose()
     }
   }
 
   render() {
     const {
-      title,
+      close,
       children,
-      closeClick,
+      title,
       isCloseable,
     } = this.props
 
@@ -53,8 +55,8 @@ class CloseableScreen extends Component<Props> {
               size='header'
             />
             <div className='actions'>
-              {closeClick && <ESCButton
-                onESC={closeClick}
+              {close && <ESCButton
+                onESC={close}
                 color='gray'
                 iconName='padding-cross'
                 isDisabled={!isCloseable}

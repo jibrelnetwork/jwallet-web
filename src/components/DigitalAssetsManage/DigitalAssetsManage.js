@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
 import AssetItem from 'components/AssetItem'
 import handle from 'utils/eventHandlers/handle'
@@ -15,18 +15,20 @@ type Props = {|
   +items: DigitalAssetWithBalance[],
 |}
 
-class DigitalAssetsGrid extends PureComponent<Props> {
+class DigitalAssetsManage extends Component<Props> {
+  setAssetIsActive = (address: AssetAddress) => (isActiveNew: boolean) =>
+    this.props.setAssetIsActive(address, isActiveNew)
+
   render() {
     const {
       editAsset,
       deleteCustomAsset,
-      setAssetIsActive,
       items,
     } = this.props
 
     return (
       <div className='digital-assets-manage'>
-        {items.length === 0 && <Empty />}
+        {!items.length && <Empty />}
         {items.map(({
           balance,
           name,
@@ -40,11 +42,11 @@ class DigitalAssetsGrid extends PureComponent<Props> {
             <AssetItem
               edit={handle(editAsset)(address)}
               remove={handle(deleteCustomAsset)(address)}
-              setIsActive={(isActiveNew: boolean) => setAssetIsActive(address, isActiveNew)}
+              setIsActive={this.setAssetIsActive(address)}
               name={name}
               symbol={symbol}
               address={address}
-              balance={balance ? parseBalance(balance.value, decimals) : '0'}
+              balance={parseBalance(balance, decimals)}
               isCustom={isCustom}
               isActive={isActive}
             />
@@ -55,4 +57,4 @@ class DigitalAssetsGrid extends PureComponent<Props> {
   }
 }
 
-export default DigitalAssetsGrid
+export default DigitalAssetsManage

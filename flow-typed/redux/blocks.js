@@ -1,32 +1,23 @@
 // @flow
 
+/* ::
 import { BigNumber } from 'bignumber.js'
 
-declare type BlockNumber = string
-declare type BlockType = 'latest' | 'current' | 'processing'
-
-declare type BlockId =
-  number |
-  Hash |
-  'earliest' |
-  'latest' |
-  'pending'
-
 declare type ETHTransaction = {
-  blockHash: Hash,
-  blockNumber: number,
-  from: Address,
-  to: Address,
-  gas: number,
-  gasPrice: BigNumber,
-  hash: Hash,
-  input: Hash,
-  nonce: number,
-  r: string,
-  s: string,
-  v: string,
-  transactionIndex: number,
-  value: BigNumber,
+  +blockHash: Hash,
+  +blockNumber: number,
+  +from: Address,
+  +to: Address,
+  +gas: number,
+  +gasPrice: BigNumber,
+  +hash: Hash,
+  +input: Hash,
+  +nonce: number,
+  +r: string,
+  +s: string,
+  +v: string,
+  +transactionIndex: number,
+  +value: BigNumber,
 }
 
 declare type ETHBlock = {|
@@ -35,32 +26,23 @@ declare type ETHBlock = {|
   +number: number,
   +timestamp: number,
 |}
+*/
+
+declare type BlockNumber = string
+declare type BlockId = Hash | BlockType | number
+declare type BlockType = 'latest' | 'current' | 'processing'
 
 declare type BlockData = {|
-  +number: number,
-  +timestamp: number,
-  +requestedAt: Date,
   +hash: Hash,
   +parentHash: Hash,
+  +number: number,
+  +minedAt: number,
+  +requestedAt: number,
   +isBalancesLoading: boolean,
   +isBalancesFetched: boolean,
   +isTransactionsLoading: boolean,
   +isTransactionsFetched: boolean,
 |}
-
-// just leave it here
-// now is not used
-// declare type BlockRange = Array<{
-//   start: number,
-//   end: number,
-//   assets: {
-//     [AssetAddress]: Array<{
-//       start: number,
-//       end: number,
-//       isLoaded: boolean
-//     }>
-//   }
-// }>
 
 declare type Blocks = {|
   +latest: ?BlockData,
