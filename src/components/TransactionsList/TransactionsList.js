@@ -8,16 +8,18 @@ import TransactionItem from 'components/TransactionItem'
 import TransactionsListEmpty from './Empty'
 
 type Props = {|
-  +items: TransactionWithAssetAddress[],
+  +items: TransactionWithPrimaryKeys[],
+  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetAddress: ?string,
   +blockExplorerSubdomain: string,
   +ownerAddress: OwnerAddress,
-  +isSyncing: boolean,
+  +isLoading: boolean,
+  +isFiltered: boolean,
 |}
 
 type ComponentState = {
-  +activeItems: Hashes,
+  +activeItems: TransactionId[],
 }
 
 class TransactionsList extends Component<Props, ComponentState> {
@@ -33,31 +35,33 @@ class TransactionsList extends Component<Props, ComponentState> {
     }
   }
 
-  setActive = (hash: Hash) => () => {
+  setActive = (id: TransactionId) => () => {
     const { activeItems }: ComponentState = this.state
-    const isFound: boolean = activeItems.includes(hash)
+    const isFound: boolean = activeItems.includes(id)
 
     this.setState({
       activeItems: !isFound
-        ? activeItems.concat(hash)
-        : activeItems.filter((item: Hash): boolean => (item !== hash)),
+        ? activeItems.concat(id)
+        : activeItems.filter((item: TransactionId): boolean => (item !== id)),
     })
   }
 
   render() {
     const {
       items,
+      addressNames,
       digitalAssets,
       assetAddress,
       ownerAddress,
       blockExplorerSubdomain,
-      isSyncing,
+      isLoading,
+      isFiltered,
     }: Props = this.props
 
-    if (!items.length) {
+    if (!(isLoading || items.length)) {
       return (
         <div className='transactions-list -empty'>
-          <TransactionsListEmpty />
+          <TransactionsListEmpty isFiltered={isFiltered} />
         </div>
       )
     }
@@ -66,19 +70,29 @@ class TransactionsList extends Component<Props, ComponentState> {
 
     return (
       <div className='transactions-list'>
-        {items.map((item: TransactionWithAssetAddress) => (
-          <TransactionItem
-            key={item.hash}
-            setActive={this.setActive(item.hash)}
-            data={item}
-            asset={digitalAssets[item.assetAddress]}
-            blockExplorerSubdomain={blockExplorerSubdomain}
-            isAssetList={!!assetAddress}
-            isActive={activeItems.includes(item.hash)}
-            isReceived={ownerAddress.toLowerCase() === item.to.toLowerCase()}
-          />
-        ))}
-        {isSyncing && (
+        {items.map((item: TransactionWithPrimaryKeys) => {
+          const {
+            keys,
+            to,
+            from,
+          } = item
+
+          return (
+            <TransactionItem
+              key={keys.id}
+              setActive={this.setActive(keys.id)}
+              data={item}
+              asset={digitalAssets[keys.assetAddress]}
+              toName={to && addressNames[to]}
+              fromName={from && addressNames[from]}
+              blockExplorerSubdomain={blockExplorerSubdomain}
+              isAssetList={!!assetAddress}
+              isActive={activeItems.includes(keys.id)}
+              isSent={!!from && (ownerAddress.toLowerCase() === from.toLowerCase())}
+            />
+          )
+        })}
+        {isLoading && (
           <div className='loader'>
             <JLoader color='gray' />
           </div>

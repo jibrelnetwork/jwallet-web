@@ -1,51 +1,78 @@
 // @flow
 
-declare type SchedulerModule = 'balances' | 'transactions'
-
-declare type GetTransactionsName =
-  'getETHTransactions' |
-  'getERC20Transactions' |
-  'getJNTTransactions'
-
-declare type GetTransactionsPayload = {|
-  +owner: Address,
-  +asset: Address,
-  +networkId: NetworkId,
-  +toBlock: number,
-  +decimals: number,
-  +fromBlock: number,
+declare type GetETHBalanceMethod = {|
+  +name: 'getETHBalance',
 |}
 
-declare type getETHBalanceMethod = {|
-  name: 'getETHBalance',
-  payload: {|
-    owner: Address,
-    blockNumber: number,
+declare type GetERC20BalanceMethod = {|
+  +name: 'getERC20Balance',
+  +payload: {|
+    +contractAddress: AssetAddress,
   |}
 |}
 
-declare type getERC20BalanceMethod = {|
-  name: 'getERC20Balance',
-  payload: {|
-    owner: Address,
-    contractAddress: Address,
-    blockNumber: number,
-  |}
-|}
+declare type GetBalanceMethod = GetETHBalanceMethod | GetERC20BalanceMethod
 
-declare type GetTransactionsMethod = {|
-  name: GetTransactionsName,
-  payload: GetTransactionsPayload,
-|}
-
-type SchedulerMethod =
-  getETHBalanceMethod |
-  getERC20BalanceMethod |
-  GetTransactionsMethod
-
-declare type SchedulerTask = {|
-  +module: SchedulerModule,
-  +method: SchedulerMethod,
+declare type SchedulerBalanceTask = {|
+  +module: 'balances',
+  +method: GetBalanceMethod,
   +priority?: number,
   +retryCount?: number,
 |}
+
+declare type GetTransactionsName =
+  'getETHTransactions' |
+  'getTransferEventsTo' |
+  'getTransferEventsFrom' |
+  'getMintEvents' |
+  'getBurnEvents' |
+  'getBlockData' |
+  'getTransactionData' |
+  'getTransactionReceiptData'
+
+declare type GetTransactionsPayload = {|
+  +assetAddress: AssetAddress,
+  +toBlock: number,
+  +fromBlock: number,
+|}
+
+declare type GetTransactionsMethod = {|
+  +name: GetTransactionsName,
+  +payload: GetTransactionsPayload,
+|}
+
+declare type SchedulerTransactionsTask = {|
+  +module: 'transactions',
+  +method: GetTransactionsMethod,
+  +priority?: number,
+  +retryCount?: number,
+|}
+
+declare type GetTransactionName =
+  'getBlockData' |
+  'getTransactionData' |
+  'getTransactionReceiptData'
+
+declare type GetTransactionPayload = {|
+  +hash: Hash,
+  +blockNumber: BlockNumber,
+  +assetAddress: AssetAddress,
+  +transactionId: TransactionId,
+|}
+
+declare type GetTransactionMethod = {|
+  +name: GetTransactionName,
+  +payload: GetTransactionPayload,
+|}
+
+declare type SchedulerTransactionTask = {|
+  +module: 'transaction',
+  +method: GetTransactionMethod,
+  +priority?: number,
+  +retryCount?: number,
+|}
+
+declare type SchedulerTask =
+  SchedulerBalanceTask |
+  SchedulerTransactionsTask |
+  SchedulerTransactionTask

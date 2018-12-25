@@ -19,11 +19,13 @@ type Props = {|
   +errorMessage: ?string,
   +color: 'gray' | 'white',
   +type: 'text' | 'password',
+  +sideBorderRadius: 'all' | 'top' | 'left' | 'bottom' | 'right',
   +rows: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
   +isDisabled: boolean,
   +isAutoFocus: boolean,
+  +isVirtualHalfSize: boolean,
 |}
 
 type ChildrenProps = {|
@@ -43,6 +45,7 @@ class JInput extends PureComponent<Props> {
     label: '',
     value: '',
     type: 'text',
+    sideBorderRadius: 'all',
     color: 'white',
     placeholder: '',
     helpMessage: null,
@@ -53,6 +56,7 @@ class JInput extends PureComponent<Props> {
     isPinCode: false,
     isDisabled: false,
     isAutoFocus: false,
+    isVirtualHalfSize: false,
   }
 
   render() {
@@ -64,6 +68,7 @@ class JInput extends PureComponent<Props> {
       color,
       label,
       value,
+      sideBorderRadius,
       placeholder,
       helpMessage,
       infoMessage,
@@ -72,6 +77,7 @@ class JInput extends PureComponent<Props> {
       isPinCode,
       isDisabled,
       isAutoFocus,
+      isVirtualHalfSize,
     } = this.props
 
     const isMultiline: boolean = !!rows
@@ -81,7 +87,7 @@ class JInput extends PureComponent<Props> {
     const baseProps: ChildrenProps = {
       name,
       value,
-      className: 'input',
+      className: `input -side-border-radius-${sideBorderRadius}`,
       disabled: isDisabled,
       autoFocus: isAutoFocus,
       placeholder: labelOrPlaceholder,
@@ -105,6 +111,7 @@ class JInput extends PureComponent<Props> {
           isDisabled && '-disabled',
           hasTopLabel && '-has-label',
           isMultiline && '-multiline',
+          isVirtualHalfSize && '-virtual-half-size'
         )}
       >
         {children}

@@ -11,6 +11,11 @@ import walletsRenameAddressSagas from '../routes/RenameAddress/sagas'
 
 const walletSagas = { walletsRootSaga }
 
+export {
+  getPrivateKey,
+  getPrivateKeyCancel,
+} from './wallets'
+
 export default {
   ...walletSagas,
   ...walletsCreateSagas,

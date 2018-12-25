@@ -1,9 +1,9 @@
 // @flow
 
-export const OPEN_VIEW: '@@notFound/OPEN_VIEW' = '@@notFound/OPEN_VIEW'
-export const CLOSE_VIEW: '@@notFound/CLOSE_VIEW' = '@@notFound/CLOSE_VIEW'
+export const OPEN_VIEW = '@@notFound/OPEN_VIEW'
+export const CLOSE_VIEW = '@@notFound/CLOSE_VIEW'
 
-export const GO_TO_HOME: '@@notFound/GO_TO_HOME' = '@@notFound/GO_TO_HOME'
+export const GO_TO_HOME = '@@notFound/GO_TO_HOME'
 
 export function openView() {
   return {

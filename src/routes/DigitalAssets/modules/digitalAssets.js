@@ -1,12 +1,19 @@
 // @flow
 
-// @private
+export const INIT = '@@digitalAssets/INIT'
+
 export const SET_INITIAL_ITEMS = '@@digitalAssets/SET_INITIAL_ITEMS'
 export const UPDATE_ASSET = '@@digitalAssets/UPDATE_ASSET'
 export const DELETE_CUSTOM_ASSET = '@@digitalAssets/DELETE_CUSTOM_ASSET'
 export const ADD_CUSTOM_ASSET = '@@digitalAssets/ADD_CUSTOM_ASSET'
 export const SET_ASSET_IS_ACTIVE = '@@digitalAssets/SET_ASSET_IS_ACTIVE'
 export const DELETE_ASSET_REQUEST = '@@digitalAssets/DELETE_ASSET_REQUEST'
+
+export function init() {
+  return {
+    type: INIT,
+  }
+}
 
 export function setInitialItems(items: DigitalAssets) {
   return {
@@ -69,7 +76,9 @@ export function updateAsset(address: Address, name: string, symbol: string, deci
   }
 }
 
-export type DigitalAssetsAction = ExtractReturn<typeof setInitialItems>
+export type DigitalAssetsAction =
+  | ExtractReturn<typeof init>
+  | ExtractReturn<typeof setInitialItems>
   | ExtractReturn<typeof addCustomAsset>
   | ExtractReturn<typeof deleteCustomAsset>
   | ExtractReturn<typeof deleteAssetRequest>
@@ -181,26 +190,28 @@ const digitalAssets = (
     }
 
     case DELETE_ASSET_REQUEST: {
-      const {
-        address,
-      } = action.payload
+      const { items } = state.persist
+      const { address } = action.payload
 
-      const {
-        persist,
-      } = state
+      const newItems: DigitalAssets = Object
+        .keys(items)
+        .reduce((result: DigitalAssets, currentAddress: AssetAddress) => {
+          const currentAsset: ?DigitalAsset = items[currentAddress]
 
-      const newItems = Object
-        .keys(persist.items)
-        .map(addr => persist.items[addr])
-        .reduce((previous, current) => (current.address !== address) ? {
-          ...previous,
-          [current.address]: current,
-        } : previous, {})
+          if (!currentAsset) {
+            return result
+          }
+
+          return (currentAddress === address) ? result : {
+            ...result,
+            [currentAddress]: currentAsset,
+          }
+        }, {})
 
       return {
         ...state,
         persist: {
-          ...persist,
+          ...state.persist,
           items: newItems,
         },
       }

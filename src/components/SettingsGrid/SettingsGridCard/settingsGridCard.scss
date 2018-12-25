@@ -1,0 +1,46 @@
+.settings-grid-card {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+  @include hover-animation;
+
+  position: relative;
+  background-color: $white;
+  box-shadow: 0 3px 6px 0 rgba($dusk, 0.05);
+  border-radius: 5px;
+  border-bottom: 1px solid $pale-grey-two;
+  padding: 30px;
+  padding-top: 36px;
+  height: 155px;
+  text-align: center;
+  cursor: pointer;
+  justify-content: flex-end;
+
+  &:hover {
+    box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
+  }
+
+  > .icon {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+  }
+
+  > .summary {
+    > .title {
+      line-height: 24px;
+      height: 24px;
+      margin-bottom: 3px;
+    }
+
+    > .description {
+      overflow: hidden;
+      opacity: 0.5;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 18px;
+      height: 18px;
+    }
+  }
+}

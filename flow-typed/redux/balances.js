@@ -1,31 +1,38 @@
 // @flow
 
-type OwnerAddress = string
-type AssetAddress = string
-type NetworkIdOptional = ?string
-type BlockNumberOptional = ?string
-
-declare type Balance = {|
-  balance: string | Bignumber,
-  isLoading: boolean,
+declare type FiatBalance = {|
+  +value: string,
+  +currency: string,
+  +isLoading: boolean,
+  +isError?: boolean,
 |}
 
-declare type OwnerBalances = {
-  [AssetAddress]: Balance,
-}
-
-declare type BlockBalances = {
-  [OwnerAddress]: OwnerBalances,
-}
+declare type Balance = {|
+  +value: string,
+  +isError?: boolean,
+  +isLoading: boolean,
+|}
 
 declare type Balances = {
-  [NetworkIdOptional]: {
-    [BlockNumberOptional]: BlockBalances,
-  }
+  [AssetAddress]: ?Balance,
 }
 
+declare type BalancesByBlockNumber = {
+  [OwnerAddress]: ?Balances,
+}
+
+declare type BalancesByNetworkId = {
+  [BlockNumber]: ?BalancesByBlockNumber,
+}
+
+declare type BalancesItems = {
+  [NetworkId]: ?BalancesByNetworkId,
+}
+
+declare type BalancesPersist = {|
+  +items: BalancesItems,
+|}
+
 declare type BalancesState = {|
-  persist: {|
-    balances: Balances,
-  |}
+  +persist: BalancesPersist,
 |}

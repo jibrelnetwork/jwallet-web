@@ -6,7 +6,7 @@
   display: inline-block;
   max-width: 100%;
   line-height: inherit;
-  transition: color 0.3s ease 0s, opacity 0.3s ease 0s;
+  transition: color 0.3s ease 0s, opacity 0.3s ease 0s, font-size 0.3s ease 0s;
   cursor: inherit;
 
   // Color
@@ -39,14 +39,26 @@
     color: $dusk;
   }
 
+  &.-orange {
+    color: $faded-orange;
+  }
+
   // Size
 
   &.-small {
     font-size: 11px;
   }
 
+  &.-semismall {
+    font-size: 12px;
+  }
+
   &.-normal {
     font-size: 13px;
+  }
+
+  &.-semilarge {
+    font-size: 14px;
   }
 
   &.-large {
@@ -91,6 +103,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  &.-clip {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
   }
 
   // Align

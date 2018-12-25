@@ -1,18 +1,18 @@
 // @flow
 
-function checkPending(hash: Hash): boolean {
-  return !hash
+function checkPending({ blockHash }: TransactionWithPrimaryKeys): boolean {
+  return !blockHash
 }
 
 function filterTransactions(
-  items: TransactionWithAssetAddress[],
+  items: TransactionWithPrimaryKeys[],
   isOnlyPending: boolean,
-): TransactionWithAssetAddress[] {
+): TransactionWithPrimaryKeys[] {
   if (!isOnlyPending) {
     return items
   }
 
-  return items.filter((item: TransactionWithAssetAddress): boolean => checkPending(item.hash))
+  return items.filter((item: TransactionWithPrimaryKeys): boolean => checkPending(item))
 }
 
 export default filterTransactions

@@ -1,14 +1,13 @@
 // @flow
 
 import React from 'react'
-import { BigNumber } from 'bignumber.js'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import parseBalance from 'utils/digitalAssets/parseBalance'
+import divDecimals from 'utils/numbers/divDecimals'
 
 import {
   JIcon,
-  JText,
+  JTabs,
   JSearch,
 } from 'components/base'
 
@@ -17,20 +16,41 @@ import {
   TransactionsFilter,
 } from 'components'
 
+function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetched: boolean) {
+  const {
+    name,
+    symbol,
+    decimals,
+  }: DigitalAsset = asset
+
+  const balance: string = assetBalance
+    ? divDecimals(assetBalance.value, decimals)
+    : '0'
+
+  return {
+    '/digital-assets': 'Digital assets',
+    [`/transactions/${asset.address}`]: (isFetched && assetBalance)
+      ? `${name} — ${balance} ${symbol}`
+      : name,
+  }
+}
+
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
-  +transactions: TransactionWithAssetAddress[],
+  +transactions: TransactionWithPrimaryKeys[],
   +params: {|
     +asset: string,
   |},
   +network: ?Network,
+  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
+  +assetBalance: ?Balance,
   +searchQuery: string,
   +ownerAddress: ?OwnerAddress,
-  +assetBalance: BalanceString,
-  +isSyncing: boolean,
+  +isLoading: boolean,
   +isOnlyPending: boolean,
+  +isCurrentBlockEmpty: boolean,
 |}
 
 function TransactionsAssetView({
@@ -39,12 +59,14 @@ function TransactionsAssetView({
   transactions,
   params,
   network,
+  addressNames,
   digitalAssets,
   searchQuery,
   assetBalance,
   ownerAddress,
-  isSyncing,
+  isLoading,
   isOnlyPending,
+  isCurrentBlockEmpty,
 }: Props) {
   if (!(ownerAddress && network)) {
     return null
@@ -57,24 +79,13 @@ function TransactionsAssetView({
   }
 
   const filterCount: number = isOnlyPending ? 1 : 0
-
-  const {
-    name,
-    symbol,
-    decimals,
-  }: DigitalAsset = asset
-
-  const titleText: string = (new BigNumber(assetBalance)).eq(0)
-    ? name
-    : `${name} — ${parseBalance(assetBalance, decimals)} ${symbol}`
+  const isBalanceAllowed: boolean = !isLoading || (!(!transactions.length || isCurrentBlockEmpty))
 
   return (
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
-          <div className='title'>
-            <JText value={titleText} color='gray' size='tab' />
-          </div>
+          <JTabs tabs={getTransactionsTabs(asset, assetBalance, isBalanceAllowed)} />
           <div className='actions'>
             <div className='search'>
               <JSearch
@@ -104,12 +115,13 @@ function TransactionsAssetView({
         <Scrollbars autoHide>
           <TransactionsList
             items={transactions}
+            addressNames={addressNames}
             digitalAssets={digitalAssets}
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
-            isSyncing={isSyncing}
             isFiltered={!!filterCount || !!searchQuery}
+            isLoading={isLoading || isCurrentBlockEmpty}
           />
         </Scrollbars>
       </div>

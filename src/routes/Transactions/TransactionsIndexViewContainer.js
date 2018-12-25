@@ -2,14 +2,21 @@
 
 import { connect } from 'react-redux'
 
+import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
+  sortTransactions,
   filterTransactions,
   searchTransactions,
   flattenTransactionsByOwner,
 } from 'utils/transactions'
+
+import {
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
 
 import {
   selectNetworkById,
@@ -19,7 +26,6 @@ import {
 import {
   selectTransactions,
   selectTransactionsByOwner,
-  selectTransactionsSyncing,
 } from 'store/selectors/transactions'
 
 import {
@@ -33,24 +39,27 @@ function prepareTransactions(
   items: ?TransactionsByOwner,
   searchQuery: string,
   isOnlyPending: boolean,
-): TransactionWithAssetAddress[] {
+): TransactionWithPrimaryKeys[] {
   if (!items) {
     return []
   }
 
-  const flatten: TransactionWithAssetAddress[] = flattenTransactionsByOwner(items)
-  const filtered: TransactionWithAssetAddress[] = filterTransactions(flatten, isOnlyPending)
-  const found: TransactionWithAssetAddress[] = searchTransactions(filtered, searchQuery)
+  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(items)
+  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(flatten, isOnlyPending)
+  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery)
+  const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
-  return found
+  return sorted
 }
 
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const isSyncing: boolean = selectTransactionsSyncing(state)
   const network: ?Network = selectNetworkById(state, networkId)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
+  const addressNames: AddressNames = selectAllAddressNames(state)
 
   const {
     searchQuery,
@@ -61,14 +70,20 @@ function mapStateToProps(state: AppState) {
     ? selectTransactionsByOwner(state, networkId, ownerAddress)
     : null
 
+  const isCurrentBlockEmpty: boolean = !currentBlock
+  const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
+
   return {
-    digitalAssets,
     network,
+    addressNames,
+    digitalAssets,
     searchQuery,
     ownerAddress,
-    isSyncing,
     isOnlyPending,
-    transactions: prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
+    isLoading: isCurrentBlockEmpty || isLoading,
+    transactions: isCurrentBlockEmpty
+      ? []
+      : prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
   }
 }
 

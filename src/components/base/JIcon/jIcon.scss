@@ -145,6 +145,16 @@
         background-image: $icon-small-star-blue;
       }
     }
+
+    &.-contract {
+      &.-black {
+        background-image: $icon-small-contract-black;
+      }
+
+      &.-blue {
+        background-image: $icon-small-contract-blue;
+      }
+    }
   }
 
   /**
@@ -283,6 +293,18 @@
     }
 
     &.-chevron-down {
+      &.-white {
+        background-image: $icon-medium-chevron-down-white;
+      }
+
+      &.-blue {
+        background-image: $icon-medium-chevon-down-blue;
+      }
+    }
+
+    &.-chevron-up {
+      transform: rotateX(180deg);
+
       &.-white {
         background-image: $icon-medium-chevron-down-white;
       }
@@ -520,6 +542,10 @@
       &.-gray {
         background-image: $icon-medium-upload-gray;
       }
+
+      &.-sky {
+        background-image: $icon-medium-upload-sky;
+      }
     }
 
     &.-bucket {
@@ -672,6 +698,12 @@
       }
     }
 
+    &.-check-circle {
+      &.-blue {
+        background-image: $icon-medium-check-circle-blue;
+      }
+    }
+
     &.-search {
       &.-gray {
         background-image: $icon-medium-search-gray;
@@ -699,6 +731,12 @@
     &.-setting-grid {
       &.-gray {
         background-image: $icon-medium-setting-grid-gray;
+      }
+    }
+
+    &.-favorite-address-add {
+      &.-gray {
+        background-image: $icon-medium-favorite-address-add-gray;
       }
     }
 
@@ -801,6 +839,10 @@
 
     &.-screen-search {
       background-image: $icon-large-screen-search;
+    }
+
+    &.-screen-no-favorites {
+      background-image: $icon-large-screen-no-favorites;
     }
   }
 

@@ -8,12 +8,13 @@ import React, {
 } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
+import getAddressLink from 'utils/transactions/getAddressLink'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 
 import {
-  getTxAmount,
-  getAddressLink,
-} from 'utils/transactions'
+  isZero,
+  divDecimals,
+} from 'utils/numbers'
 
 import {
   JIcon,
@@ -23,21 +24,22 @@ import {
 
 type Props = {|
   +setActive: (boolean) => void,
-  +data: TransactionWithAssetAddress,
+  +data: TransactionWithPrimaryKeys,
   +assetSymbol: string,
+  +txAddressName: ?string,
   +blockExplorerSubdomain: string,
   +assetDecimals: number,
+  +isSent: boolean,
   +isActive: boolean,
   +isCustom: boolean,
-  +isReceived: boolean,
   +isAssetList: boolean,
 |}
 
 class TransactionItemMain extends PureComponent<Props> {
   static defaultProps = {
+    isSent: false,
     isActive: false,
     isCustom: false,
-    isReceived: false,
     isAssetList: false,
   }
 
@@ -46,11 +48,12 @@ class TransactionItemMain extends PureComponent<Props> {
       setActive,
       data,
       assetSymbol,
+      txAddressName,
       blockExplorerSubdomain,
       assetDecimals,
+      isSent,
       isActive,
       isCustom,
-      isReceived,
       isAssetList,
     } = this.props
 
@@ -60,15 +63,17 @@ class TransactionItemMain extends PureComponent<Props> {
       from,
       hash,
       amount,
-    }: TransactionWithAssetAddress = data
+      contractAddress,
+    }: TransactionWithPrimaryKeys = data
 
     if (!blockData) {
       return null
     }
 
-    const color = isReceived ? 'blue' : 'gray'
-    const txAddress: OwnerAddress = isReceived ? from : to
-    const iconName = isReceived ? 'transaction-receive' : 'transaction-send'
+    const color = isSent ? 'gray' : 'blue'
+    const amountSign: string = isSent ? '-' : '+'
+    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
+    const iconName: string = isSent ? 'transaction-send' : 'transaction-receive'
 
     return (
       <div
@@ -80,21 +85,32 @@ class TransactionItemMain extends PureComponent<Props> {
             <JIcon size='medium' name={iconName} />
           </div>
           <div className='data'>
-            <div className='hash'>
-              <a
-                href={getAddressLink(txAddress, blockExplorerSubdomain)}
-                target='_blank'
-                className='link'
-                rel='noopener noreferrer'
-              >
-                <JText
-                  color={color}
-                  value={txAddress}
-                  weight='bold'
-                  size='normal'
-                />
-              </a>
-            </div>
+            {txAddress && (
+              <div className='address'>
+                {contractAddress && (
+                  <div className='icon'>
+                    <JIcon
+                      size='small'
+                      color='black'
+                      name='contract'
+                    />
+                  </div>
+                )}
+                <a
+                  href={getAddressLink(txAddress, blockExplorerSubdomain)}
+                  target='_blank'
+                  className='link'
+                  rel='noopener noreferrer'
+                >
+                  <JText
+                    color={color}
+                    value={txAddressName || txAddress}
+                    weight='bold'
+                    size='normal'
+                  />
+                </a>
+              </div>
+            )}
             <div className='time'>
               <JText
                 value={getFormattedDateString(blockData.minedAt * 1000)}
@@ -104,7 +120,7 @@ class TransactionItemMain extends PureComponent<Props> {
               />
             </div>
           </div>
-          {isReceived && (
+          {!isSent && (
             <div className='message'>
               <div className='icon'>
                 <JIcon size='medium' name='message' color='gray' />
@@ -120,8 +136,8 @@ class TransactionItemMain extends PureComponent<Props> {
             <div className='crypto'>
               <JText
                 value={`
-                  ${isReceived ? '+' : '-'}
-                  ${getTxAmount(amount, assetDecimals)}
+                  ${isZero(amount) ? '' : amountSign}
+                  ${divDecimals(amount, assetDecimals)}
                   ${assetSymbol}
                 `}
                 color={color}
@@ -130,9 +146,11 @@ class TransactionItemMain extends PureComponent<Props> {
                 whiteSpace='wrap'
               />
             </div>
-            <div className='fiat'>
-              <JText value='20,000 USD' color='gray' size='small' whiteSpace='wrap' />
-            </div>
+            {!isZero(amount) && (
+              <div className='fiat'>
+                <JText value='20,000 USD' color='gray' size='small' whiteSpace='wrap' />
+              </div>
+            )}
           </div>
           {!isAssetList && (
             <Fragment>

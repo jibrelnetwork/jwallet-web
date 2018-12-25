@@ -28,9 +28,28 @@
     width: 100%;
     padding-top: 0;
     background: inherit;
-    border-radius: $form-border-radius;
     font-weight: normal;
     resize: none;
+
+    &.-side-border-radius-all {
+      border-radius: $form-border-radius;
+    }
+
+    &.-side-border-radius-top {
+      border-radius: $form-border-radius $form-border-radius 0 0;
+    }
+
+    &.-side-border-radius-right {
+      border-radius: 0 $form-border-radius $form-border-radius 0;
+    }
+
+    &.-side-border-radius-bottom {
+      border-radius: 0 0 $form-border-radius $form-border-radius;
+    }
+
+    &.-side-border-radius-left {
+      border-radius: $form-border-radius 0 0 $form-border-radius;
+    }
   }
 
   > .error,
@@ -143,12 +162,11 @@
 
   &.-gray {
     color: $dusk;
-    background-color: $white;
 
     > .input {
       border: none;
       border-bottom: solid 1px #e1e4e8;
-      border-radius: $form-border-radius;
+      background-color: $white;
       color: $dusk;
       opacity: 1;
       padding: 22px $box-horizontal-padding 23px;
@@ -207,6 +225,12 @@
     > .input {
       padding: 31px $box-horizontal-padding 14px;
     }
+
+    &.-virtual-half-size {
+      > .input {
+        padding-right: calc(50% + 15px);
+      }
+    }
   }
 
   &.-error {
@@ -252,7 +276,12 @@
     }
 
     &.-gray > .input {
-      opacity: 0.3;
+      color: rgba($dusk, 0.3);
+
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.2;
+      }
 
       &:hover,
       &:focus {

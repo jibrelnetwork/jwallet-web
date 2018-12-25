@@ -1,12 +1,30 @@
 // @flow
 
-declare type NetworkId = string
+declare type NetworkId =
+  '*' | // private
+  '1' | // main
+  '3' | // ropsten
+  '4' | // rinkeby
+  '42' // kovan
+
+declare type BlockExplorerAPISubdomain =
+  'api' |
+  'ropsten' |
+  'rinkeby' |
+  'kovan'
+
+declare type BlockExplorerSubdomain =
+  '' |
+  'ropsten' |
+  'rinkeby' |
+  'kovan'
 
 declare type Network = {|
+  +id: NetworkId,
   +title: string,
   +rpcaddr: string,
   +rpcport: number,
-  +blockExplorerSubdomain: string,
+  +blockExplorerSubdomain: BlockExplorerSubdomain,
   +ssl: boolean,
   +isCustom: boolean,
 |}
@@ -14,13 +32,6 @@ declare type Network = {|
 declare type Networks = {
   [NetworkId]: ?Network,
 }
-
-/* eslint-disable-next-line no-unused-vars */
-type RPCProps = {|
-  +rpcaddr: string,
-  +rpcport: number,
-  +ssl: boolean,
-|}
 
 declare type NetworksPersist = {|
   +items: Networks,

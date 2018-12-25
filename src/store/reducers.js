@@ -22,6 +22,9 @@ import editAsset from 'routes/DigitalAssets/routes/EditAsset/modules/editAsset'
 import digitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/modules/digitalAssetsGrid'
 import digitalAssetsManage from 'routes/DigitalAssets/routes/Manage/modules/digitalAssetsManage'
 
+// Send digital asset
+import digitalAssetsSend from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
+
 // networks
 import networks from 'routes/modules/networks'
 
@@ -34,10 +37,24 @@ import balances from 'routes/modules/balances'
 // transactions
 import transactions from 'routes/modules/transactions'
 
+// settings
+import settings from 'routes/Settings/modules/settings'
+
+// favorites
+import favorites from 'routes/Favorites/modules/favorites'
+
 const persistConfig = {
   storage,
   key: 'jwallet-web',
-  whitelist: ['wallets', 'walletsAddresses', 'digitalAssets'],
+  whitelist: [
+    'blocks',
+    'wallets',
+    'balances',
+    'favorites',
+    'transactions',
+    'digitalAssets',
+    'walletsAddresses',
+  ],
 }
 
 export function makeRootReducer() {
@@ -57,12 +74,18 @@ export function makeRootReducer() {
     digitalAssetsManage,
     addAsset,
     editAsset,
+    // send asset
+    digitalAssetsSend,
     // blocks
     blocks,
     // balances
     balances,
     // transactions
     transactions,
+    // settings
+    settings,
+    // favorites
+    favorites,
     // router
     router,
   })

@@ -1,387 +1,594 @@
 // @flow
 
-import Promise from 'bluebird'
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
-import { flatten, prop, sortBy, reverse } from 'ramda'
 import { keccak256 } from 'js-sha3'
 
-import config from 'config'
-import checkJNT from 'utils/digitalAssets/checkJNT'
-import getFormattedDateString from 'utils/time/getFormattedDateString'
+import checkETH from 'utils/digitalAssets/checkETH'
+import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
+import * as type from 'utils/type'
 
-const PUSH_INSTRUCTION = '63'
+type ERC20MethodName =
+  'approve' |
+  'transfer' |
+  'Transfer' |
+  'balanceOf' |
+  'allowance' |
+  'totalSupply' |
+  'transferFrom'
 
-export const EMPTY_CONTRACT_CODE = '0x'
+type ERC20InterfaceSignatures = { [ERC20MethodName]: ?Hash }
 
-const { defaultDecimals } = config
-
-/* eslint-disable-next-line fp/no-let */
-let rpcProps: RPCProps = {
-  rpcaddr: 'ropsten-node.jwallet.network',
-  rpcport: 443,
-  ssl: true,
+const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
+  approve: keccak256('totalSupply()'),
+  transfer: keccak256('balanceOf(address)'),
+  balanceOf: keccak256('approve(address,uint256)'),
+  allowance: keccak256('transfer(address,uint256)'),
+  totalSupply: keccak256('allowance(address,address)'),
+  Transfer: keccak256('Transfer(address,address,uint256)'),
+  transferFrom: keccak256('transferFrom(address,address,uint256)'),
 }
 
-function setRpcProps(props: RPCProps): void {
-  /* eslint-disable-next-line fp/no-mutation */
-  rpcProps = props
-}
-
-function getRpcProps(): RPCProps {
-  return rpcProps
-}
-
-export function getETHBalance(address: Address): Promise<typeof Bignumber> {
-  return jibrelContractsApi.eth
-    .getBalance({ ...rpcProps, address })
-}
-
-export function getAssetBalance(
-  contractAddress: Address,
-  owner: Address
-): Promise<typeof Bignumber> {
-  return jibrelContractsApi.contracts.erc20
-    .balanceOf({ ...rpcProps, contractAddress, owner })
-}
-
-function getContractDecimals(
-  contractAddress: Address
-): Promise<number> {
-  return jibrelContractsApi.contracts.erc20Named
-    .decimals({ ...rpcProps, contractAddress })
-    .then(decimals => decimals.toNumber())
-}
-
-function getContractName(
-  contractAddress: Address
-): Promise<string> {
-  return jibrelContractsApi.contracts.erc20Named
-    .name({ ...rpcProps, contractAddress })
-}
-
-function getContractSymbol(
-  contractAddress: Address
-): Promise<string> {
-  return jibrelContractsApi.contracts.erc20Named
-    .symbol({ ...rpcProps, contractAddress })
-}
-
-function getContractCode(
-  contractAddress: Address
-): Promise<string> {
-  return jibrelContractsApi.eth
-    .getCode({ ...rpcProps, address: contractAddress })
-}
-
-/**
- * @function checkSignatureInContract
- *
- * @description Check existatce of function signature in contract
- *
- * @param {string} contractCode - code of contract, use eth.getCode to get it
- * @param {string} signature - signature (function name) to check
- *
- * @returns {boolean}
- *
- * @example
- *    const code = <some contract code> 0xABABABABABBDDSBBD....
- *    const signature = 'transferFrom(address,address,uint256)'
- *    console.log(checkSignature(code, signature))
- */
-function checkSignatureInContract(contractCode: string, signature: string): boolean {
-  return (contractCode
-    .toLowerCase()
-    .indexOf(PUSH_INSTRUCTION + keccak256(signature).substring(0, 8)) !== -1
+function isBigNumber(data: any): boolean {
+  return (
+    !type.isVoid(data) &&
+    type.isObject(data) &&
+    (typeof data.toString === 'function') &&
+    (typeof data.toNumber === 'function')
   )
 }
 
-/**
- * Check that contract code has all required ERC20 methods
- *
- * @param {string} contractCode
- * @returns {boolean}
- */
-function checkContractCodeIsERC20(contractCode: string, checkAllMethods: boolean = false): boolean {
-  const signatures = checkAllMethods ? [
-    'totalSupply()',
-    'balanceOf(address)',
-    'transfer(address,uint256)',
-    'transferFrom(address,address,uint256)',
-    'allowance(address,address)',
-    'approve(address,uint256)',
+export function getAssetBalance(
+  network: Network,
+  owner: OwnerAddress,
+  assetAddress: AssetAddress,
+): Promise<string> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  const balancePromise: Promise<any> = checkETH(assetAddress)
+    ? jibrelContractsApi.eth.getBalance({
+      rpcaddr,
+      rpcport,
+      ssl,
+      address: owner,
+    }) : jibrelContractsApi.contracts.erc20.balanceOf({
+      owner,
+      rpcaddr,
+      rpcport,
+      ssl,
+      contractAddress: assetAddress,
+    })
+
+  return balancePromise.then((value: any) => {
+    if (!isBigNumber(value)) {
+      throw new Error('Returned balance is not an instance of BigNumber')
+    }
+
+    return value.toString()
+  })
+}
+
+function getAssetDecimals(network: Network, assetAddress: AssetAddress): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.contracts.erc20Named.decimals({
+    rpcaddr,
+    rpcport,
+    ssl,
+    contractAddress: assetAddress,
+  }).then((value: any) => {
+    if (!isBigNumber(value)) {
+      throw new Error('Returned decimals is not an instance of BigNumber')
+    }
+
+    return value.toNumber()
+  })
+}
+
+function getAssetName(network: Network, assetAddress: AssetAddress): Promise<string> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.contracts.erc20Named.name({
+    rpcaddr,
+    rpcport,
+    ssl,
+    contractAddress: assetAddress,
+  })
+}
+
+function getAssetSymbol(network: Network, assetAddress: AssetAddress): Promise<string> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.contracts.erc20Named.symbol({
+    rpcaddr,
+    rpcport,
+    ssl,
+    contractAddress: assetAddress,
+  })
+}
+
+function getSmartContractCode(network: Network, assetAddress: AssetAddress): Promise<string> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.eth.getCode({
+    rpcaddr,
+    rpcport,
+    ssl,
+    address: assetAddress,
+  })
+}
+
+function checkMethodSignatureInSmartContractCode(
+  smartContractCode: string,
+  methodName: ERC20MethodName,
+): boolean {
+  /**
+   * For the reference please check:
+   * https://medium.com/@hayeah/how-to-decipher-a-smart-contract-method-call-8ee980311603
+   */
+  const methodSignatureHash: ?string = ERC20_INTERFACE_SIGNATURES[methodName]
+
+  if (!methodSignatureHash) {
+    throw new Error(`Hash of signature is not found for ${methodName}`)
+  }
+
+  const firstFourBytesOfHash: string = methodSignatureHash.substring(0, 8)
+  const code: string = smartContractCode.toLowerCase()
+  const isFound: boolean = code.indexOf(firstFourBytesOfHash) !== -1
+
+  return isFound
+}
+
+function checkERC20InterfaceCode(
+  smartContractCode: string,
+  isAllMethodsRequired: boolean = false,
+): boolean {
+  const signatures: ERC20MethodName[] = isAllMethodsRequired ? [
+    'approve',
+    'transfer',
+    'Transfer',
+    'allowance',
+    'balanceOf',
+    'totalSupply',
+    'transferFrom',
   ] : [
-    'totalSupply()',
-    'balanceOf(address)',
-    'transfer(address,uint256)',
+    'transfer',
+    'Transfer',
+    'balanceOf',
   ]
 
-  // run checkSignatureInContract and try to find False in result
-  // if at least one False in array- contract is not ERC20 compatible
-  const falseFound = signatures
-    .map(sign => checkSignatureInContract(contractCode, sign))
-    .find(isFound => !isFound)
-
-  return (falseFound !== false)
+  return !signatures.map((methodName: ERC20MethodName) => checkMethodSignatureInSmartContractCode(
+    smartContractCode,
+    methodName,
+  )).find(isFound => !isFound)
 }
 
-function getETHTransactions(address: Address) {
-  return jibrelContractsApi.eth
-    .getPastLogs({
-      ...rpcProps,
-      options: {
-        address,
-        fromBlock: 0,
-        toBlock: 'latest',
-      },
-    })
-    .then(list => getTransactionsInfo(list, false))
-    .then(list => parseTransactions(list, defaultDecimals))
-    .then(sortTransactions)
+function prepareBlock(data: any): BlockData {
+  if (!(
+    !type.isVoid(data) &&
+    type.isObject(data) &&
+    type.isString(data.hash) &&
+    type.isString(data.parentHash) &&
+    type.isNumber(data.number) &&
+    type.isNumber(data.timestamp)
+  )) {
+    throw new Error('Invalid ETH block format')
+  }
+
+  const {
+    hash,
+    parentHash,
+    number,
+    timestamp,
+  }: Object = data
+
+  return {
+    hash,
+    parentHash,
+    number,
+    timestamp,
+    requestedAt: new Date(),
+    isBalancesLoading: false,
+    isBalancesFetched: false,
+    isTransactionsLoading: false,
+    isTransactionsFetched: false,
+  }
 }
 
-function getTransactionsInfo(list: any, isContract: boolean) {
-  return Promise.all([
-    getBlocks(list),
-    getTransactions(list, isContract),
-    getTransactionReceipts(list),
-  ]).then(([
-    blocksData,
-    transactionsData,
-    transactionReceiptsData,
-  ]) => list.map(({ transactionHash, blockHash, address, from, to, value }, index) => ({
-    ...blocksData[index],
-    ...transactionsData[index],
-    ...transactionReceiptsData[index],
-    to,
-    from,
-    value,
-    address,
-    blockHash,
-    transactionHash,
-    status: getTransactionStatus(blockHash),
-  })))
+export function getBlock(network: Network, blockId: BlockId): Promise<BlockData> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.eth.getBlock({
+    rpcaddr,
+    rpcport,
+    ssl,
+    blockId,
+  }).then(prepareBlock)
 }
 
-function getLast50(list: any) {
-  return list.slice(-50)
-}
-
-function getTransactionStatus(blockHash: Hash) {
-  return blockHash
-    ? i18n('transactions.table.statusValue.accepted')
-    : i18n('transactions.table.statusValue.pending')
-}
-
-function getBlocks(list: any) {
-  return Promise.all(list.map(item => getBlockOld(item))).then(getBlocksData)
-}
-
-function getBlockOld(item: { blockHash: Hash }) {
-  const blockId = item.blockHash
-
-  return blockId ? jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId }) : {}
-}
-
-export function getBlock(blockId: BlockId): Promise<ETHBlock> {
-  return jibrelContractsApi.eth.getBlock({ ...rpcProps, blockId, returnTransactionObjects: true })
-}
-
-function getBlocksData(blocksData: any = []) {
-  return blocksData.map((blockData = {}) => ({
-    /**
-     * web3 returns timestamp in unix format,
-     * so for new Date it should be converted (mul by 1000)
-     */
-    timestamp: (blockData.timestamp || 0) * 1000,
+function getBlockData(network: Network, blockId: BlockId): Promise<TransactionBlockData> {
+  return getBlock(network, blockId).then((data: BlockData): TransactionBlockData => ({
+    minedAt: data.timestamp,
   }))
 }
 
-function getTransactions(list: any, isContract: boolean) {
-  return Promise
-    .all(list.map(item => getTransaction(item)))
-    .then(data => getTransactionsData(data, isContract))
+function prepareTransaction(data: any): TransactionData {
+  if (!(
+    !type.isVoid(data) &&
+    type.isObject(data) &&
+    isBigNumber(data.gasPrice)
+  )) {
+    throw new Error('Invalid ETH transaction format')
+  }
+
+  return {
+    gasPrice: data.gasPrice.toString(),
+  }
 }
 
-function getTransaction(item: any) {
-  return jibrelContractsApi.eth
-    .getTransaction({ ...rpcProps, transactionHash: item.transactionHash })
+function getTransactionData(network: Network, hash: Hash): Promise<TransactionData> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.eth.getTransaction({
+    rpcaddr,
+    rpcport,
+    ssl,
+    transactionHash: hash,
+  }).then(prepareTransaction)
 }
 
-function getTransactionsData(transactionsData: any = [], isContract: boolean = false) {
-  return transactionsData.map((transactionData = {}) => {
-    const { from, to, value, gasPrice } = transactionData
-    const _gasPrice = gasPrice ? (gasPrice.toNumber() / (10 ** defaultDecimals)) : 0
-    const _value = value ? value.toNumber() : 0
+function prepareTransactionReceipt(data: any): TransactionReceiptData {
+  if (!(
+    !type.isVoid(data) &&
+    type.isObject(data) &&
+    type.isNumber(data.gasUsed)
+  )) {
+    throw new Error('Invalid ETH transaction format')
+  }
 
-    return isContract ? { gasPrice: _gasPrice } : { from, to, value: _value, gasPrice: _gasPrice }
-  })
+  const {
+    gasUsed,
+    status,
+  }: Object = data
+
+  return {
+    gasUsed,
+    /**
+     * status flag contains 0 if tx was rejected and 1 otherwise
+     * (see Byzantium changes)
+     */
+    status: (parseInt(status, 16) === 1) ? 1 : 0,
+  }
 }
 
-function getTransactionReceipts(list: any) {
-  return Promise
-    .all(list.map(item => getTransactionReceipt(item)))
-    .then(getTransactionReceiptsData)
+function getTransactionReceiptData(network: Network, hash: Hash): Promise<TransactionReceiptData> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.eth.getTransactionReceipt({
+    rpcaddr,
+    rpcport,
+    ssl,
+    transactionHash: hash,
+  }).then(prepareTransactionReceipt)
 }
 
-function getTransactionReceipt(item: any) {
-  return jibrelContractsApi.eth
-    .getTransactionReceipt({ ...rpcProps, transactionHash: item.transactionHash })
+function handleEventsResponse(response: any): Array<any> {
+  if (type.isVoid(response) || !type.isArray(response)) {
+    throw new Error('Invalid contract events response')
+  }
+
+  return response
 }
 
-function getTransactionReceiptsData(transactionReceiptsData: any = []) {
-  return transactionReceiptsData.map((transactionReceiptData) => {
-    const { gasUsed, status } = transactionReceiptData
+function filterEvents(list: Array<any>): Array<Object> {
+  return list.filter((item: any): boolean => (!type.isVoid(item) && type.isObject(item)))
+}
+
+function checkTransferEvent(data: Object): boolean {
+  return (
+    type.isString(data.address) &&
+    !type.isVoid(data.args) &&
+    type.isObject(data.args) &&
+    type.isString(data.args.to) &&
+    isBigNumber(data.args.value) &&
+    type.isString(data.args.from) &&
+    type.isNumber(data.logIndex) &&
+    type.isString(data.blockHash) &&
+    type.isNumber(data.blockNumber) &&
+    type.isString(data.transactionHash)
+  )
+}
+
+function prepareTransferEvents(data: Array<Object>): Transactions {
+  return data.reduce((result: Transactions, item: Object): Transactions => {
+    if (!checkTransferEvent(item)) {
+      return result
+    }
+
+    const {
+      args,
+      logIndex,
+      blockHash,
+      blockNumber,
+      transactionHash,
+      removed,
+    }: TransferEventFromEthereumNode = item
+
+    const {
+      to,
+      from,
+      value,
+    } = args
+
+    const newTransaction: Transaction = {
+      to: getAddressWithChecksum(to),
+      from: getAddressWithChecksum(from),
+      blockHash,
+      blockNumber,
+      data: null,
+      blockData: null,
+      receiptData: null,
+      amount: value,
+      hash: transactionHash,
+      contractAddress: null,
+      eventType: 1,
+      createdAt: 0,
+      isRemoved: !!removed,
+    }
 
     return {
-      gas: (gasUsed || 0),
-      /**
-       * status flag contains 0 if tx was rejected and 1 otherwise
-       * (see Byzantium changes)
-       */
-      isRejected: (status === 0),
+      ...result,
+      [`${transactionHash}${logIndex}`]: newTransaction,
     }
-  })
+  }, {})
 }
 
-function parseTransactions(list: any, decimals: Decimals) {
-  return list.map(item => parseTransaction(item, decimals))
-}
+function getTransferEvents(
+  network: Network,
+  assetAddress: AssetAddress,
+  filter: SmartContractEventFilter,
+  fromBlock: number,
+  toBlock: number,
+): Promise<Transactions> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
 
-function parseTransaction(item: any, decimals: Decimals) {
-  const { timestamp, address, from, to, value, gas, gasPrice, isRejected, removed } = item
-
-  // case-insensitive comparison
-  const isSender: boolean = (!!from && (address.toLowerCase() === from.toLowerCase()))
-
-  return {
-    ...item,
-    contractAddress: null,
-    fee: (gas * gasPrice),
-    address: isSender ? to : from,
-    amount: (value / (10 ** decimals)),
-    type: isSender ? 'send' : 'receive',
-    /**
-     * removed flag is present for contract events only
-     * (see https://github.com/ethereum/wiki/wiki/JavaScript-API#contract-events)
-     */
-    status: (isRejected || removed) ? i18n('transactions.table.statusValue.rejected') : item.status,
-    date: timestamp ? getFormattedDateString(new Date(timestamp), 'hh:mm MM/DD/YYYY') : 'n/a',
-  }
-}
-
-function sortTransactions(list: any) {
-  const listSorted = sortBy(prop('timestamp'))(list)
-  const listReversed = reverse(listSorted)
-
-  return listReversed
-}
-
-function getContractTransactions(contractAddress: Address, owner: Address, decimals: Decimals) {
-  const transferTransactions = getERC20Transactions(contractAddress, owner, decimals)
-
-  if (!checkJNT(contractAddress)) {
-    return transferTransactions
+  const fromProps: SmartContractEventProps = {
+    rpcaddr,
+    rpcport,
+    ssl,
+    event: 'Transfer',
+    contractAddress: assetAddress,
+    options: {
+      filter,
+      toBlock,
+      fromBlock,
+    },
   }
 
-  const mintableTransactions = getJNTTransactions(contractAddress, owner, decimals)
-
-  return Promise
-    .all([transferTransactions, mintableTransactions])
-    .then(([transfer, mintable]) => transfer.concat(mintable))
-    .then(sortTransactions)
+  return jibrelContractsApi.contracts.erc20
+    .getPastEvents(fromProps)
+    .then(handleEventsResponse)
+    .then(filterEvents)
+    .then(prepareTransferEvents)
 }
 
-function getJNTTransactions(contractAddress: Address, owner: Address, decimals: Decimals) {
-  const mintEventProps = getEventsProps(contractAddress, 'MintEvent')
-  const burnEventProps = getEventsProps(contractAddress, 'BurnEvent')
-  const getEventsHandler = jibrelContractsApi.contracts.erc20Mintable.getPastEvents
-
-  return Promise
-    .all([getEventsHandler(mintEventProps), getEventsHandler(burnEventProps)])
-    .then(events => mergeEvents(events, owner))
-    .then(events => filterJNTEvents(events, owner))
-    .then(getLast50)
-    .then(list => getTransactionsInfo(list, true))
-    .then(list => parseTransactions(list, decimals))
-    .then(addJNTFlag)
+function getTransferEventsTo(
+  network: Network,
+  assetAddress: AssetAddress,
+  to: OwnerAddress,
+  fromBlock: number,
+  toBlock: number,
+): Promise<Transactions> {
+  return getTransferEvents(network, assetAddress, { to }, fromBlock, toBlock)
 }
 
-function getERC20Transactions(contractAddress: Address, owner: Address, decimals: number) {
-  const fromProps = getEventsProps(contractAddress, 'Transfer', { from: owner })
-  const toProps = getEventsProps(contractAddress, 'Transfer', { to: owner })
-  const getEventsHandler = jibrelContractsApi.contracts.erc20.getPastEvents
-
-  return Promise
-    .all([getEventsHandler(fromProps), getEventsHandler(toProps)])
-    .then(events => mergeEvents(events, owner))
-    .then(getLast50)
-    .then(list => getTransactionsInfo(list, true))
-    .then(list => parseTransactions(list, decimals))
-    .then(sortTransactions)
+function getTransferEventsFrom(
+  network: Network,
+  assetAddress: AssetAddress,
+  from: OwnerAddress,
+  fromBlock: number,
+  toBlock: number,
+): Promise<Transactions> {
+  return getTransferEvents(network, assetAddress, { from }, fromBlock, toBlock)
 }
 
-function filterJNTEvents(events: any, owner: Address) {
-  return events
-    // case-insensitive comparison
-    .filter(event => (event.owner.toLowerCase() === owner.toLowerCase()))
-    .map(event => ({
-      ...event,
-      from: isMintEvent(event) ? null : owner,
-      to: isMintEvent(event) ? owner : null,
-    }))
+function checkJNTEvent(data: Object): boolean {
+  return (
+    type.isString(data.event) &&
+    type.isString(data.address) &&
+    !type.isVoid(data.args) &&
+    type.isObject(data.args) &&
+    isBigNumber(data.args.value) &&
+    type.isString(data.args.owner) &&
+    type.isNumber(data.logIndex) &&
+    type.isString(data.blockHash) &&
+    type.isNumber(data.blockNumber) &&
+    type.isString(data.transactionHash)
+  )
 }
 
-function mergeEvents(events: any, owner: Address) {
-  // events contains [from, to] list
-  return flatten(events.map(list => list.map(event => getContractEventData(event, owner))))
+function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Transactions {
+  return data.reduce((result: Transactions, item: Object): Transactions => {
+    if (!checkJNTEvent(item)) {
+      return result
+    }
+
+    const {
+      args,
+      event,
+      logIndex,
+      blockHash,
+      blockNumber,
+      transactionHash,
+      removed,
+    }: JNTEventFromEthereumNode = item
+
+    const {
+      owner,
+      value,
+    }: JNTEventArgs = args
+
+    const ownerAddressChecksum: OwnerAddress = getAddressWithChecksum(owner)
+    const assetAddressChecksum: AssetAddress = getAddressWithChecksum(assetAddress)
+
+    const newTransaction: Transaction = {
+      blockHash,
+      blockNumber,
+      data: null,
+      blockData: null,
+      receiptData: null,
+      amount: value,
+      hash: transactionHash,
+      contractAddress: null,
+      to: (event === 'MintEvent') ? ownerAddressChecksum : assetAddressChecksum,
+      from: (event === 'BurnEvent') ? ownerAddressChecksum : assetAddressChecksum,
+      eventType: 1,
+      createdAt: 0,
+      isRemoved: !!removed,
+    }
+
+    return {
+      ...result,
+      [`${transactionHash}${logIndex}`]: newTransaction,
+    }
+  }, {})
 }
 
-function getContractEventData(item: any, address: Address) {
-  const { args, blockHash, transactionHash, event, removed } = item || {}
+function getJNTEvents(
+  network: Network,
+  assetAddress: AssetAddress,
+  event: JNTEventName,
+  owner: OwnerAddress,
+  fromBlock: number,
+  toBlock: number,
+): Promise<Transactions> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
 
-  return { blockHash, transactionHash, event, removed, address, ...args }
-}
-
-function getEventsProps(contractAddress: Address, event: string = 'Transfer', filter: any = {}) {
-  return {
-    ...rpcProps,
+  const fromProps: SmartContractEventProps = {
+    rpcaddr,
+    rpcport,
+    ssl,
     event,
-    contractAddress,
-    options: { filter, fromBlock: 0, toBlock: 'latest' },
+    contractAddress: assetAddress,
+    options: {
+      toBlock,
+      fromBlock,
+      filter: {
+        owner,
+      },
+    },
   }
+
+  return jibrelContractsApi.contracts.erc20Mintable
+    .getPastEvents(fromProps)
+    .then(handleEventsResponse)
+    .then(filterEvents)
+    .then((data: Array<Object>): Transactions => prepareJNTEvents(data, assetAddress))
 }
 
-function sendETHTransaction(props: any = {}) {
-  return jibrelContractsApi.eth.sendTransaction({ ...rpcProps, ...props })
+function getMintEvents(
+  network: Network,
+  assetAddress: AssetAddress,
+  ownerAddress: OwnerAddress,
+  fromBlock: number,
+  toBlock: number,
+): Promise<Transactions> {
+  return getJNTEvents(network, assetAddress, 'MintEvent', ownerAddress, fromBlock, toBlock)
 }
 
-function sendContractTransaction(props: any = {}) {
-  return jibrelContractsApi.contracts.erc20.transfer({ ...rpcProps, ...props })
+function getBurnEvents(
+  network: Network,
+  assetAddress: AssetAddress,
+  ownerAddress: OwnerAddress,
+  fromBlock: number,
+  toBlock: number,
+): Promise<Transactions> {
+  return getJNTEvents(network, assetAddress, 'BurnEvent', ownerAddress, fromBlock, toBlock)
 }
 
-function isMintEvent(data: { event: string }) {
-  return (data.event === 'MintEvent')
-}
+function sendTransaction(
+  network: Network,
+  assetAddress: AssetAddress,
+  props: SendTransactionProps,
+): Promise<string> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
 
-function addJNTFlag(list: any) {
-  return list.map(item => ({ ...item, isJNT: true }))
+  const baseProps = {
+    ...props,
+    rpcaddr,
+    rpcport,
+    ssl,
+  }
+
+  if (checkETH(assetAddress)) {
+    return jibrelContractsApi.eth.sendTransaction({
+      ...baseProps,
+    })
+  } else {
+    return jibrelContractsApi.contracts.erc20.transfer({
+      ...baseProps,
+      contractAddress: assetAddress,
+    })
+  }
 }
 
 export default {
-  EMPTY_CONTRACT_CODE,
-  setRpcProps,
-  getRpcProps,
-  getETHBalance,
-  getAssetBalance,
-  getETHTransactions,
-  getContractTransactions,
-  sendETHTransaction,
-  sendContractTransaction,
-  getContractName,
-  getContractSymbol,
-  getContractDecimals,
-  getContractCode,
-  checkContractCodeIsERC20,
-  checkSignatureInContract,
   getBlock,
+  getBlockData,
+  getAssetName,
+  getBurnEvents,
+  getMintEvents,
+  getAssetSymbol,
+  getAssetBalance,
+  getAssetDecimals,
+  sendTransaction,
+  getTransactionData,
+  getTransferEventsTo,
+  getSmartContractCode,
+  getTransferEventsFrom,
+  checkERC20InterfaceCode,
+  getTransactionReceiptData,
 }

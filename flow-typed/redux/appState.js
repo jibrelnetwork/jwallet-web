@@ -19,15 +19,18 @@ declare type AppState = {
   +editAsset: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
+  // send asset
+  +digitalAssetsSend: DigitalAssetSendState,
   // blocks
   +blocks: BlocksState,
   // transactions
   +transactions: TransactionsState,
   // balances
   +balances: BalancesState,
-  // funds
-  // +receiveFunds: ReceiveFundsData,
-  // +sendFunds: SendFundsData,
+  // settings
+  +settings: SettingsState,
+  // favorites
+  +favorites: FavoritesState,
   // router
   +router: RouterState,
 }

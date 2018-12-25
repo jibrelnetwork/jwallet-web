@@ -2,19 +2,26 @@
 
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { BigNumber } from 'bignumber.js'
 
 import {
-  selectDigitalAssets,
+  selectDigitalAssetsItems,
   selectDigitalAssetsGridFilters,
   selectDigitalAssetsGridSearchQuery,
 } from 'store/selectors/digitalAssets'
 
+import {
+  checkAssetFound,
+  flattenDigitalAssets,
+  compareDigitalAssetsByName,
+  getDigitalAssetsWithBalance,
+  compareDigitalAssetsByBalance,
+} from 'utils/digitalAssets'
+import BigNumber from 'utils/numbers/bigNumber'
+
+import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectCurrentBlockNumber } from 'store/selectors/blocks'
-import { selectDigitalAssetBalance } from 'store/selectors/balances'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { parseBalance } from 'utils/digitalAssets'
+import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
 
 import DigitalAssetsGridView from './DigitalAssetsGridView'
 
@@ -27,31 +34,21 @@ import {
   setHideZeroBalance,
 } from './modules/digitalAssetsGrid'
 
-const checkSearchQuery = (asset: DigitalAsset, searchQuery: string): boolean => {
-  const query = searchQuery.trim().toUpperCase()
-  const { name, symbol, address } = asset
-
-  if ((query.length < 2) ||
-      (symbol.toUpperCase().indexOf(query) !== -1) ||
-      (name.toUpperCase().indexOf(query) !== -1) ||
-      (address.toUpperCase() === query) ||
-      (address.substr(2).toUpperCase() === query)) {
-    return true
-  }
-
-  return false
-}
-
 const mapStateToProps = (state: AppState) => {
-  const networkId = selectCurrentNetworkId(state)
-
-  // assets grid selectors
-  const assets = selectDigitalAssets(state /* , networkId */)
+  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const assets: DigitalAssets = selectDigitalAssetsItems(state /* , networkId */)
   const filter = selectDigitalAssetsGridFilters(state)
-  const searchQuery = selectDigitalAssetsGridSearchQuery(state)
+  const searchQuery: string = selectDigitalAssetsGridSearchQuery(state)
 
-  const currentOwnerAddress = selectActiveWalletAddress(state) || ''
-  const currentBlockNumber = selectCurrentBlockNumber(state, networkId) || 0
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+    state,
+    networkId,
+    currentBlockNumber,
+    ownerAddress,
+  )
 
   const {
     sortBy,
@@ -60,83 +57,52 @@ const mapStateToProps = (state: AppState) => {
     isHideZeroBalance,
   } = filter
 
-  const sortByNameFn = (
-    { asset: { name: nameA } },
-    { asset: { name: nameB } },
-  ): number => {
-    if (nameA > nameB) {
-      return (sortByNameDirection === 'asc') ? 1 : -1
-    } else if (nameA < nameB) {
-      return (sortByNameDirection === 'asc') ? -1 : 1
-    } else {
-      return 0
-    }
-  }
+  const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
+    flattenDigitalAssets(assets),
+    assetsBalances,
+  )
 
-  const sortByBalanceFn = (a, b): number => {
-    if (!a.balance || !b.balance) {
-      return 0
-    }
+  const items: DigitalAssetWithBalance[] = assetsWithBalance
+    .filter((item: DigitalAssetWithBalance): boolean => {
+      const {
+        balance,
+        name,
+        symbol,
+        address,
+        isActive,
+      }: DigitalAssetWithBalance = item
 
-    const balanceA = new BigNumber(a.balance)
-    const balanceB = new BigNumber(b.balance)
+      const isAssetFound: boolean = checkAssetFound(name, symbol, address, searchQuery)
+      const isBalanceExist: boolean = !!(balance && BigNumber(balance.value).gt(0))
 
-    if (balanceA.gt(balanceB)) {
-      return (sortByBalanceDirection === 'asc') ? 1 : -1
-    } else if (balanceB.gt(balanceA)) {
-      return (sortByBalanceDirection === 'asc') ? -1 : 1
-    } else {
-      return 0
-    }
-  }
-
-  const items = Object.keys(assets)
-    .map((assetAddress) => {
-      const assetBalance = selectDigitalAssetBalance(
-        state,
-        currentBlockNumber,
-        currentOwnerAddress,
-        assetAddress
+      return (
+        !!isActive &&
+        (!isHideZeroBalance || (isHideZeroBalance && isBalanceExist)) &&
+        isAssetFound
       )
-
-      if (assetBalance) {
-        return {
-          asset: assets[assetAddress],
-          isLoading: assetBalance.isLoading,
-          balance: assetBalance.isLoading
-            ? '0'
-            : parseBalance(assetBalance.balance, assets[assetAddress].decimals),
-        }
-      } else {
-        return {
-          asset: assets[assetAddress],
-          balance: '0',
-          isLoading: false,
-        }
-      }
     })
-    .filter(item =>
-      item.asset.isActive &&
-      (!isHideZeroBalance ||
-        (isHideZeroBalance && item.balance && (new BigNumber(item.balance)).gt(0))
-      ) &&
-      checkSearchQuery(item.asset, searchQuery)
-    )
 
   // eslint-disable-next-line fp/no-mutating-methods
-  items.sort(sortByNameFn)
+  items.sort((
+    first: DigitalAssetWithBalance,
+    second: DigitalAssetWithBalance,
+  ): number => compareDigitalAssetsByName(first.name, second.name, sortByNameDirection))
+
   if (sortBy === 'balance') {
     // eslint-disable-next-line fp/no-mutating-methods
-    items.sort(sortByBalanceFn)
+    items.sort((
+      first: DigitalAssetWithBalance,
+      second: DigitalAssetWithBalance,
+    ): number => compareDigitalAssetsByBalance(
+      first.balance,
+      second.balance,
+      sortByBalanceDirection,
+    ))
   }
-
-  // filter counter in icon
-  const filterCount = (isHideZeroBalance) ? 1 : 0
 
   return {
     items,
     filter,
-    filterCount,
   }
 }
 

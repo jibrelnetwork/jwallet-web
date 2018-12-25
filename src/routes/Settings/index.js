@@ -1,8 +1,9 @@
 // @flow
 
-import MenuLayout from 'layouts/MenuLayout'
+import { MenuLayout } from 'layouts'
 
 import SettingsIndex from './SettingsIndexViewContainer'
+import SecurityPassword from './routes/SecurityPassword'
 
 export default {
   path: 'settings',
@@ -10,4 +11,7 @@ export default {
   indexRoute: {
     component: SettingsIndex,
   },
+  childRoutes: [
+    SecurityPassword,
+  ],
 }

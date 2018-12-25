@@ -8,10 +8,11 @@ import MenuPanel from 'components/MenuPanel'
 type Props = {|
   +openLayout: () => void,
   +closeLayout: () => void,
+  +onSendAssetClick: () => void,
   +setActive: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +items: Wallets,
-  +addresses: Addresses,
+  +addresses: Address[],
   +addressNames: AddressNames,
   +children: React$Node,
   +iteration: Index,
@@ -66,6 +67,7 @@ class MenuLayout extends Component<Props> {
       addressNames,
       children,
       activeWalletId,
+      onSendAssetClick,
     }: Props = this.props
 
     return (
@@ -74,6 +76,7 @@ class MenuLayout extends Component<Props> {
           <MenuPanel
             setActiveAddress={this.setActiveAddress}
             getMoreAddresses={this.getMoreAddresses}
+            onSendAssetClick={onSendAssetClick}
             items={items}
             addresses={addresses}
             addressNames={addressNames}

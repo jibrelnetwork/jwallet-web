@@ -1,22 +1,42 @@
 // @flow
 
-function flattenTransactionsByAsset(
-  items: Transactions,
-  assetAddress: AssetAddress,
-): TransactionWithAssetAddress[] {
-  return Object.keys(items).reduce((result: TransactionWithAssetAddress[], hash: Hash) => {
-    const transaction: ?Transaction = items[hash]
+import flattenTransactions from './flattenTransactions'
 
-    if (!transaction) {
+function flattenTransactionsByAsset(
+  transactionsByAssetAddress: TransactionsByAssetAddress,
+  assetAddress: AssetAddress,
+  isLoadingIncluded?: boolean = false,
+): TransactionWithPrimaryKeys[] {
+  return Object.keys(transactionsByAssetAddress).reduce((
+    result: TransactionWithPrimaryKeys[],
+    blockNumber: BlockNumber,
+  ) => {
+    const transactionsByBlockNumber: ?TransactionsByBlockNumber =
+      transactionsByAssetAddress[blockNumber]
+
+    if (!transactionsByBlockNumber) {
       return result
     }
 
+    const {
+      items,
+      isError,
+    }: TransactionsByBlockNumber = transactionsByBlockNumber
+
+    if (!items || isError) {
+      return result
+    }
+
+    const flattened: TransactionWithPrimaryKeys[] = flattenTransactions(
+      items,
+      assetAddress,
+      blockNumber,
+      isLoadingIncluded,
+    )
+
     return [
       ...result,
-      {
-        assetAddress,
-        ...transaction,
-      },
+      ...flattened,
     ]
   }, [])
 }

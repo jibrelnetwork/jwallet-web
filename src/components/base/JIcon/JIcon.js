@@ -2,8 +2,8 @@
 
 import React, { PureComponent } from 'react'
 
-export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red'
 export type JIconSize = 'small' | 'medium' | 'large' | 'xlarge'
+export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 type Props = {
   name: string,

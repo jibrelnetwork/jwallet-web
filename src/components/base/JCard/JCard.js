@@ -10,6 +10,7 @@ type Props = {
   children: ?React$Node,
   isHover: boolean,
   isBorderRadius: boolean,
+  isOnContrastBackground: boolean,
 }
 
 class JCard extends PureComponent<Props, *> {
@@ -20,16 +21,26 @@ class JCard extends PureComponent<Props, *> {
     children: null,
     isHover: false,
     isBorderRadius: false,
+    isOnContrastBackground: false,
   }
 
   render() {
-    const { title, color, children, isBorderRadius, isHover } = this.props
+    const {
+      title,
+      color,
+      children,
+      isBorderRadius,
+      isHover,
+      isOnContrastBackground,
+    } = this.props
 
     return (
-      <div className={classNames(
-        `j-card -${color}`,
-        isBorderRadius && '-border-radius',
-        isHover && '-hover')}
+      <div
+        className={classNames(`j-card -${color}`, {
+          '-border-radius': isBorderRadius,
+          '-hover': isHover,
+          '-on-contrast-background': isOnContrastBackground,
+        })}
       >
         {title && (
           <div className='title'>

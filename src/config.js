@@ -1,6 +1,12 @@
 // @flow
 
-export default {
+const ONE_SECOND: number = 1000
+const ONE_MINUTE: number = 60 * ONE_SECOND
+
+const ONE_KB: number = 1024
+const ONE_MB: number = 1024 * ONE_KB
+
+const config: AppConfig = {
   // timeout for search input field (to prevent searching on each entered symbol)
   searchTimeout: 250,
 
@@ -125,17 +131,27 @@ export default {
   deleteConfirmTimeout: 30,
 
   /**
-   * min count of transactions to dislay for user (initial sync)
+   * min count of transactions to display for user (initial sync)
    */
-  minTransactionsCountToShow: 50,
+  minTransactionsCountToShow: 1,
 
-  /**
-   * etherscan api enpoints
-   */
-  enpointNames: {
-    '1': 'api',
-    '3': 'api-ropsten',
-    '42': 'api-kovan',
-    '4': 'api-rinkeby',
-  },
+  latestBlockSyncTimeout: 30 * ONE_SECOND,
+
+  currentBlockSyncTimeout: 5 * ONE_SECOND,
+
+  processingBlockWaitTimeout: 1 * ONE_SECOND,
+
+  syncTransactionsTimeout: 10 * ONE_SECOND,
+
+  maxBlocksPerTransactionsRequest: 50 * 1000,
+
+  minBlocksPerTransactionsRequest: 1000,
+
+  blockExplorerMaxResponseSize: 0.5 * ONE_MB,
+
+  requestQueueWorkersCount: 4,
+
+  resyncTransactionsTimeout: 5 * ONE_MINUTE,
 }
+
+export default config

@@ -2,18 +2,28 @@
 
 import Promise from 'bluebird'
 import keystore from '@jibrelnetwork/jwallet-web-keystore'
-import { put, select, takeEvery, take, race, call, all } from 'redux-saga/effects'
 
+import {
+  all,
+  put,
+  call,
+  race,
+  take,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
+import web3 from 'services/web3'
+import reactRouterBack from 'utils/browser/reactRouterBack'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
+import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {
   selectAddAsset,
   selectDigitalAsset,
 } from 'store/selectors/digitalAssets'
 
-import { reactRouterBack } from 'utils/browser'
-
-import web3 from 'services/web3'
+import * as blocks from 'routes/modules/blocks'
 
 import {
   OPEN_VIEW,
@@ -29,15 +39,7 @@ import {
   SUBMIT_ASSET_FORM,
 } from '../modules/addAsset'
 
-import { addCustomAsset } from '../../../modules/digitalAssets'
-
-const {
-  getContractName,
-  getContractSymbol,
-  getContractDecimals,
-  getContractCode,
-  checkContractCodeIsERC20,
-} = web3
+import * as digitalAssets from '../../../modules/digitalAssets'
 
 type RequestedAssetFields = {|
   decimals: ?number,
@@ -53,10 +55,11 @@ const ZERO_HEX = '0x'
  */
 function* requestAssetField(
   contractMethod: Function,
-  contractAddress: Address
+  network: Network,
+  contractAddress: AssetAddress,
 ): Saga<string | number | void> {
   try {
-    const result = yield call(contractMethod, contractAddress)
+    const result = yield call(contractMethod, network, contractAddress)
     if (result === ZERO_HEX) {
       return null
     } else {
@@ -73,9 +76,13 @@ function* requestAssetField(
   }
 }
 
-function* checkAssetIsERC20Compatible(contractAddress: Address): Saga<boolean> {
-  const contractCode: string = yield call(getContractCode, contractAddress)
-  return checkContractCodeIsERC20(contractCode)
+function* checkAssetIsERC20Compatible(
+  network: Network,
+  contractAddress: AssetAddress,
+): Saga<boolean> {
+  const contractCode: string = yield call(web3.getSmartContractCode, network, contractAddress)
+
+  return web3.checkERC20InterfaceCode(contractCode)
 }
 
 function* clearFields(): Saga<void> {
@@ -95,6 +102,12 @@ function* clearFieldsError(): Saga<void> {
  * Fires, when user changes fields on CustomAssetForm
  */
 function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+
+  if (!network) {
+    throw new Error('Active network does not exist')
+  }
+
   const { fieldName, value } = action.payload
 
   /**
@@ -136,10 +149,10 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
     // wait for result or cancel all
     const { result } = yield race({
       result: all({
-        name: requestAssetField(getContractName, contractAddress),
-        symbol: requestAssetField(getContractSymbol, contractAddress),
-        decimals: requestAssetField(getContractDecimals, contractAddress),
-        isERC20: checkAssetIsERC20Compatible(contractAddress),
+        name: requestAssetField(web3.getAssetName, network, contractAddress),
+        symbol: requestAssetField(web3.getAssetSymbol, network, contractAddress),
+        decimals: requestAssetField(web3.getAssetDecimals, network, contractAddress),
+        isERC20: checkAssetIsERC20Compatible(network, contractAddress),
       }),
       // cancel on close Add/Edit asset screen
       close: take(CLOSE_VIEW),
@@ -235,12 +248,18 @@ function* onAssetFormSumbit(): Saga<void> {
     },
   }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
-  if (!addressError &&
-      !nameError &&
-      !symbolError &&
-      !decimalsError) {
-    yield put(addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals))
+  if (
+    !addressError &&
+    !nameError &&
+    !symbolError &&
+    !decimalsError
+  ) {
+    yield put(
+      digitalAssets.addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals),
+    )
+
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+    yield put(blocks.syncRestart())
   }
 }
 

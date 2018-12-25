@@ -1,19 +1,15 @@
 // @flow
 
-export function selectDigitalAssets(state: AppState): DigitalAssets {
-  const {
-    digitalAssets: {
-      persist: {
-        items,
-      },
-    },
-  } = state
+import flattenDigitalAssets from 'utils/digitalAssets/flattenDigitalAssets'
 
-  return items
+export function selectDigitalAssets(state: AppState): DigitalAssetsState {
+  return state.digitalAssets
 }
 
 export function selectDigitalAssetsPersist(state: AppState): DigitalAssetsPersist {
-  return state.digitalAssets.persist
+  const digitalAssets: DigitalAssetsState = selectDigitalAssets(state)
+
+  return digitalAssets.persist
 }
 
 export function selectDigitalAssetsItems(state: AppState): DigitalAssets {
@@ -22,20 +18,20 @@ export function selectDigitalAssetsItems(state: AppState): DigitalAssets {
   return digitalAssetsPersist.items
 }
 
-export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
-  const items = selectDigitalAssets(state)
-  if (items[contractAddress]) {
-    return items[contractAddress]
-  }
+export function selectDigitalAsset(state: AppState, assetAddress: AssetAddress): ?DigitalAsset {
+  const items: DigitalAssets = selectDigitalAssetsItems(state)
+  const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
+  const assetAddressLower: string = assetAddress.toLowerCase()
 
-  const addressLower = contractAddress.toLowerCase()
-  const key = Object.keys(items).find(addr => items[addr].address.toLowerCase() === addressLower)
-  return key ? items[key] : null
+  return flattenedItems
+    .find(({ address }: DigitalAsset): boolean => (address.toLowerCase() === assetAddressLower))
 }
 
-export function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
-  const allAssets = selectDigitalAssets(state)
-  return Object.keys(allAssets).map(address => allAssets[address]).filter(asset => asset.isActive)
+export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {
+  const items: DigitalAssets = selectDigitalAssetsItems(state)
+  const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
+
+  return flattenedItems.filter(({ isActive }: DigitalAsset): boolean => !!isActive)
 }
 
 export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {
@@ -56,4 +52,8 @@ export function selectAddAsset(state: AppState): AddAssetState {
 
 export function selectEditAsset(state: AppState): EditAssetState {
   return state.editAsset
+}
+
+export function selectDigitalAssetsSend(state: AppState): DigitalAssetSendState {
+  return state.digitalAssetsSend
 }

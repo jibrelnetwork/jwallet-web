@@ -1,7 +1,7 @@
 // @flow
 
 declare type Hash = string
-declare type Hashes = Array<string>
+declare type TransactionId = string
 
 declare type TransactionFromBlockExplorer = {|
   +hash: Hash,
@@ -15,6 +15,64 @@ declare type TransactionFromBlockExplorer = {|
   +timeStamp: string,
   +blockNumber: string,
   +contractAddress: string,
+|}
+
+declare type ERC20EventName = 'Transfer'
+declare type JNTEventName = 'MintEvent' | 'BurnEvent'
+declare type SmartContractEventName = ERC20EventName | JNTEventName
+
+declare type SmartContractEventProps = {|
+  +options: SmartContractEventOptions,
+  +rpcaddr: string,
+  +event: SmartContractEventName,
+  +contractAddress: AssetAddress,
+  +rpcport: number,
+  +ssl: boolean,
+|}
+
+declare type SmartContractEventFilter = {|
+  +to?: OwnerAddress,
+  +from?: OwnerAddress,
+  +owner?: OwnerAddress,
+|}
+
+declare type SmartContractEventOptions = {|
+  +filter: SmartContractEventFilter,
+  +toBlock: number,
+  +fromBlock: number,
+|}
+
+declare type JNTEventArgs = {|
+  +owner: string,
+  +value: string,
+|}
+
+declare type TransferEventArgs = {|
+  +to: string,
+  +from: string,
+  +value: string,
+|}
+
+declare type TransferEventFromEthereumNode = {|
+  +args: TransferEventArgs,
+  +event: string,
+  +address: string,
+  +blockHash: ?string,
+  +transactionHash: string,
+  +logIndex: number,
+  +blockNumber: ?number,
+  +removed: boolean,
+|}
+
+declare type JNTEventFromEthereumNode = {|
+  +args: JNTEventArgs,
+  +event: string,
+  +address: string,
+  +blockHash: ?string,
+  +transactionHash: string,
+  +logIndex: number,
+  +blockNumber: ?number,
+  +removed: boolean,
 |}
 
 /**
@@ -33,7 +91,7 @@ declare type TransactionStatus = 0 | 1
 declare type TransactionEventType = 0 | 1 | 2
 
 declare type TransactionData = {|
-  +gasPrice: number,
+  +gasPrice: string,
 |}
 
 declare type TransactionBlockData = {|
@@ -50,40 +108,53 @@ declare type Transaction = {|
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
   +hash: Hash,
-  +to: Address,
-  +from: Address,
+  +amount: string,
   +blockHash: ?Hash,
-  +contractAddress: ?Address,
-  +amount: number,
-  +createdAt: number,
+  +to: ?OwnerAddress,
+  +from: ?OwnerAddress,
+  +contractAddress: ?OwnerAddress,
+  +createdAt: ?number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,
   +isRemoved: boolean,
 |}
 
-declare type TransactionWithAssetAddress = {|
+declare type TransactionWithPrimaryKeys = {|
+  +keys: {|
+    +id: TransactionId,
+    +blockNumber: BlockNumber,
+    +assetAddress: AssetAddress,
+  |},
   +data: ?TransactionData,
   +blockData: ?TransactionBlockData,
   +receiptData: ?TransactionReceiptData,
   +hash: Hash,
-  +to: Address,
-  +from: Address,
+  +amount: string,
   +blockHash: ?Hash,
-  +contractAddress: ?Address,
-  +assetAddress: AssetAddress,
-  +amount: number,
-  +createdAt: number,
+  +to: ?OwnerAddress,
+  +from: ?OwnerAddress,
+  +contractAddress: ?OwnerAddress,
+  +createdAt: ?number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,
   +isRemoved: boolean,
 |}
 
 declare type Transactions = {
-  [Hash]: ?Transaction,
+  [TransactionId]: ?Transaction,
+}
+
+declare type TransactionsByBlockNumber = {|
+  +items?: Transactions,
+  +isError?: boolean,
+|}
+
+declare type TransactionsByAssetAddress = {
+  [BlockNumber]: ?TransactionsByBlockNumber,
 }
 
 declare type TransactionsByOwner = {
-  [AssetAddress]: ?Transactions,
+  [AssetAddress]: ?TransactionsByAssetAddress,
 }
 
 declare type TransactionsByNetworkId = {
@@ -101,7 +172,6 @@ declare type TransactionsPersist = {|
 declare type TransactionsState = {|
   +persist: TransactionsPersist,
   +searchQuery: string,
-  +isSyncing: boolean,
   +isOnlyPending: boolean,
-  +isBlockExplorerError: boolean,
+  +isConnectionError: boolean,
 |}

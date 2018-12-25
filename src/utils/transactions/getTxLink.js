@@ -3,7 +3,9 @@
 import config from 'config'
 
 function getTxLink(txHash: Hash, blockExplorerSubdomain: string): string {
-  return `//${blockExplorerSubdomain}.${config.blockExplorerLink}/tx/${txHash}`
+  const subdomainPrefix: string = blockExplorerSubdomain ? `${blockExplorerSubdomain}.` : ''
+
+  return `//${subdomainPrefix}${config.blockExplorerLink}/tx/${txHash}`
 }
 
 export default getTxLink

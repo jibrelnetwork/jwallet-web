@@ -1,7 +1,13 @@
 // @flow
 
-function getTxFee(gasUsed: number, gasPrice: number, decimals: number): number {
-  return (gasUsed * gasPrice) / (10 ** decimals)
+import BigNumber from '../numbers/bigNumber'
+
+function getTxFee(gasUsed: number, gasPrice: string, decimals: number): string {
+  const base: BigNumber = BigNumber(10)
+  const basePow: BigNumber = base.pow(decimals)
+  const gasPriceBN: BigNumber = BigNumber(gasPrice)
+
+  return gasPriceBN.times(gasUsed).div(basePow).toFormat()
 }
 
 export default getTxFee

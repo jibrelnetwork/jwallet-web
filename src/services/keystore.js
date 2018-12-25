@@ -379,9 +379,7 @@ function updateWallet(
   return appendWallet(newWallets, newWallet)
 }
 
-function getPrivateKey(wallets: Wallets, walletId: string, password: string): string {
-  const wallet: Wallet = getWallet(wallets, walletId)
-
+function getPrivateKey(wallet: Wallet, password: string): string {
   const {
     encrypted,
     passwordOptions,
@@ -465,12 +463,12 @@ function getMnemonic(wallets: Wallets, walletId: string, password: string): stri
 }
 
 function getBackupData(wallets: Wallets, walletId: string, password: string): string {
-  const { type }: Wallet = getWallet(wallets, walletId)
+  const wallet: Wallet = getWallet(wallets, walletId)
 
-  if (type === MNEMONIC_TYPE) {
+  if (wallet.type === MNEMONIC_TYPE) {
     return getMnemonic(wallets, walletId, password)
   } else {
-    return getPrivateKey(wallets, walletId, password)
+    return getPrivateKey(wallet, password)
   }
 }
 
@@ -494,7 +492,7 @@ function getAddress(wallets: Wallets, walletId: string): ?Address {
     : null
 }
 
-function getAddresses(wallets: Wallets, walletId: string, start: number, end: number): Addresses {
+function getAddresses(wallets: Wallets, walletId: string, start: number, end: number): Address[] {
   const {
     type,
     bip32XPublicKey,
@@ -571,6 +569,7 @@ export default {
   removeWallet,
   initPassword,
   testPassword,
+  getPrivateKey,
   checkPassword,
   getBackupData,
   checkWalletUniqueness,

@@ -147,11 +147,19 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       ),
     }
 
+    if (isDisabled) {
+      return (
+        <div {...baseProps}>
+          {children}
+        </div>
+      )
+    }
+
     if (onClick && !to) {
       return (
         <div
           {...baseProps}
-          onClick={isDisabled ? null : onClick}
+          onClick={onClick}
         >
           {children}
         </div>
@@ -162,7 +170,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       return (
         <Link
           {...baseProps}
-          to={isDisabled ? null : to}
+          to={to}
         >
           {children}
         </Link>

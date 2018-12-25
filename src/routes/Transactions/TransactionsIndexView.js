@@ -16,12 +16,13 @@ import {
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
-  +transactions: TransactionWithAssetAddress[],
+  +transactions: TransactionWithPrimaryKeys[],
+  +network: ?Network,
+  +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
-  +network: ?Network,
   +searchQuery: string,
-  +isSyncing: boolean,
+  +isLoading: boolean,
   +isOnlyPending: boolean,
 |}
 
@@ -34,11 +35,12 @@ function TransactionsIndexView({
   setIsOnlyPending,
   changeSearchInput,
   transactions,
-  digitalAssets,
   network,
+  addressNames,
+  digitalAssets,
   searchQuery,
   ownerAddress,
-  isSyncing,
+  isLoading,
   isOnlyPending,
 }: Props) {
   if (!(ownerAddress && network)) {
@@ -74,10 +76,11 @@ function TransactionsIndexView({
         <Scrollbars autoHide>
           <TransactionsList
             items={transactions}
+            addressNames={addressNames}
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}
             blockExplorerSubdomain={network.blockExplorerSubdomain}
-            isSyncing={isSyncing}
+            isLoading={isLoading}
             isFiltered={!!filterCount || !!searchQuery}
           />
         </Scrollbars>
