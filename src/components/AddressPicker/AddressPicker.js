@@ -1,100 +1,117 @@
 // @flow
 
 import React, { Component } from 'react'
-import checkAddressValid from 'utils/wallets/checkAddressValid'
 
+import checkAddressValid from 'utils/wallets/checkAddressValid'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
-import Current from './Current/AddressPickerCurrent'
+import AddressPickerCurrent from './Current'
 
 type Props = {|
-  addresses: Array<AddressPickerAddress>,
-  selectedAddress: Address,
-  onSelect: (address: Address) => void,
-  isDisabled: boolean,
-  errorMessage: string,
+  +onSelect: (address: Address) => void,
+  +addressNames: AddressNames,
+  +errorMessage: string,
+  +selectedAddress: Address,
+  +isDisabled: boolean,
 |}
 
 type ComponentState = {|
-  filter: string,
+  +searchQuery: string,
 |}
+
+function filterAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
+  const query: string = searchQuery.trim()
+  const searchRe: RegExp = new RegExp(query, 'ig')
+
+  return !query ? addressNames : Object.keys(addressNames).reduce((
+    result: AddressNames,
+    address: Address,
+  ): AddressNames => {
+    const name: ?string = addressNames[address]
+
+    if (!name) {
+      return result
+    }
+
+    const isFound: boolean = ((name.search(searchRe) !== -1) || (address.search(searchRe) !== -1))
+
+    return !isFound ? result : {
+      ...result,
+      [address]: name,
+    }
+  }, {})
+}
 
 class AddressPicker extends Component<Props, ComponentState> {
   static defaultProps = {
-    addresses: [],
-    isDisabled: false,
     errorMessage: '',
+    isDisabled: false,
   }
 
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      filter: '',
+      searchQuery: '',
     }
   }
 
-  onFilterChange = (filter: string) => {
-    this.setState({ filter }, () => {
-      if (checkAddressValid(filter)) {
-        this.props.onSelect(filter)
+  changeSearchQuery = (searchQuery: string) => {
+    this.setState({ searchQuery }, () => {
+      if (checkAddressValid(searchQuery)) {
+        this.props.onSelect(searchQuery)
       }
     })
   }
 
-  onOpen = () => {
-    // reset filter
-    this.setState({ filter: '' })
-  }
+  cleanSearchQuery = () => this.setState({ searchQuery: '' })
 
   render() {
     const {
-      addresses,
-      selectedAddress,
       onSelect,
-      isDisabled,
+      addressNames,
+      selectedAddress,
       errorMessage,
-    } = this.props
+      isDisabled,
+    }: Props = this.props
 
-    const {
-      filter,
-    } = this.state
-
-    const activeAddress = addresses.find(({ address }) => address === selectedAddress)
-
-    const filterStr = filter.trim().toLowerCase()
-    const filtered = filterStr
-      ? addresses.filter(({ address, title }) =>
-        address.toLowerCase() === filterStr ||
-          title.toLowerCase().indexOf(filterStr) !== -1
-      )
-      : addresses
+    const { searchQuery }: ComponentState = this.state
+    const filteredAddressNames: AddressNames = filterAddressNames(addressNames, searchQuery)
 
     return (
       <div className='address-picker'>
         <JPicker
+          onOpen={this.cleanSearchQuery}
+          currentRenderer={({ isOpen }) => (
+            <AddressPickerCurrent
+              onChange={this.changeSearchQuery}
+              value={selectedAddress}
+              searchQuery={searchQuery}
+              isOpen={isOpen}
+            />
+          )}
           errorMessage={errorMessage}
           isDisabled={isDisabled}
-          onOpen={this.onOpen}
-          currentRenderer={({ isOpen }) => (
-            <Current
-              isOpen={isOpen}
-              filterChange={this.onFilterChange}
-              filterValue={filter}
-              address={activeAddress ? activeAddress.address : null}
-            />)}
         >
-          {filtered.map(address => (
-            <JPickerFullItem
-              key={address.address}
-              value={address.address}
-              onSelect={onSelect}
-              icon='padding-binding'
-              title={address.title}
-              description={address.address}
-              isSelected={activeAddress && address.address === activeAddress.address}
-            />
-          ))}
+          {Object.keys(filteredAddressNames).map((address: Address) => {
+            const name: ?string = filteredAddressNames[address]
+
+            if (!name) {
+              return null
+            }
+
+            return (
+              <JPickerFullItem
+                key={address}
+                onSelect={onSelect}
+                title={name}
+                value={address}
+                description={address}
+                icon='padding-binding'
+                isSelected={address === selectedAddress}
+              />
+            )
+          })}
         </JPicker>
       </div>
     )

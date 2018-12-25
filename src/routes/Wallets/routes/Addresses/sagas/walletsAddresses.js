@@ -21,6 +21,7 @@ import {
   selectWalletsAddresses,
 } from 'store/stateSelectors'
 
+import * as blocks from 'routes/modules/blocks'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsAddresses from '../modules/walletsAddresses'
@@ -62,6 +63,7 @@ function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): S
   const itemsNew: Wallets = keystore.updateWallet(items, walletId, { addressIndex })
   yield put(wallets.setWalletsItems(itemsNew))
   yield put(push('/digital-assets'))
+  yield put(blocks.syncRestart())
 }
 
 function* getMore(

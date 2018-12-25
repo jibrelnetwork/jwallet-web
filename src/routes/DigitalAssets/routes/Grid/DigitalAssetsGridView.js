@@ -20,16 +20,16 @@ const DIGITAL_ASSETS_TABS = {
 }
 
 type Props = {|
-  openView: () => void,
-  closeView: () => void,
-  addAssetClick: () => void,
-  sortByNameClick: () => void,
-  sortByBalanceClick: () => void,
-  setSearchQuery: (string) => void,
-  manageAssetsOpenClick: () => void,
-  setHideZeroBalance: (boolean) => void,
-  items: DigitalAssetWithBalance[],
-  filter: DigitalAssetsFilterType,
+  +openView: () => void,
+  +closeView: () => void,
+  +addAssetClick: () => void,
+  +sortByNameClick: () => void,
+  +sortByBalanceClick: () => void,
+  +setSearchQuery: (string) => void,
+  +manageAssetsOpenClick: () => void,
+  +setHideZeroBalance: (boolean) => void,
+  +items: DigitalAssetWithBalance[],
+  +filterOptions: DigitalAssetsFilterOptions,
 |}
 
 class DigitalAssetsGridView extends Component<Props> {
@@ -50,10 +50,10 @@ class DigitalAssetsGridView extends Component<Props> {
       setHideZeroBalance,
       manageAssetsOpenClick,
       items,
-      filter,
+      filterOptions,
     } = this.props
 
-    const filterCount: number = filter.isHideZeroBalance ? 1 : 0
+    const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
 
     return (
       <div className='digital-assets-grid-view'>
@@ -69,7 +69,7 @@ class DigitalAssetsGridView extends Component<Props> {
               </div>
               <div className='filter'>
                 <DigitalAssetsFilter
-                  {...filter}
+                  {...filterOptions}
                   filterCount={filterCount}
                   sortByNameClick={sortByNameClick}
                   sortByBalanceClick={sortByBalanceClick}

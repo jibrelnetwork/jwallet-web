@@ -2,7 +2,10 @@
 
 import React, { PureComponent } from 'react'
 
-import parseBalance from 'utils/digitalAssets/parseBalance'
+import {
+  parseBalance,
+  checkBalanceLoading,
+} from 'utils/digitalAssets'
 
 import Asset from './Asset'
 import DigitalAssetsGridEmpty from './Empty'
@@ -31,15 +34,14 @@ class DigitalAssetsGrid extends PureComponent<Props> {
           isCustom,
         }: DigitalAssetWithBalance) => (
           <div className='box' key={address}>
-            { /* @TODO: add fiatCurrency, fiatBalance */ }
             <Asset
               name={name}
               symbol={symbol}
               address={address}
-              balance={balance ? parseBalance(balance.value, decimals) : '0'}
+              balance={parseBalance(balance, decimals)}
               isCustom={isCustom}
-              isError={balance ? !!balance.isError : false}
-              isLoading={balance ? balance.isLoading : true}
+              isError={!!balance && !!balance.isError}
+              isLoading={checkBalanceLoading(balance)}
             />
           </div>
         ))}

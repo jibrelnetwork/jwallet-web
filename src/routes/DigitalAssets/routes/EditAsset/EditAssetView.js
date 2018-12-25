@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+
 import { handle } from 'utils/eventHandlers'
 
 import {
@@ -8,19 +9,22 @@ import {
   DigitalAssetEditForm,
 } from 'components'
 
-type Props = {
-  openView: (Address) => void,
-  closeClick: () => void,
-  address: Address,
-  formFields: EditAssetFormFields,
-  invalidFields: EditAssetFormFields,
-  setField: SetFieldFunction<EditAssetFormFields>,
-  submit: () => void,
-}
+type Props = {|
+  +close: () => void,
+  +submit: () => void,
+  +openView: (Address) => void,
+  +setField: SetFieldFunction<EditAssetFormFields>,
+  +params: {|
+    +assetAddress: Address,
+  |},
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields,
+  +address: Address,
+|}
 
 const EditAssetView = ({
+  close,
   openView,
-  closeClick,
   formFields,
   invalidFields,
   setField,
@@ -28,17 +32,17 @@ const EditAssetView = ({
   submit,
 }: Props) => (
   <CloseableScreen
+    close={close}
+    onOpen={handle(openView)(address)}
     title='Edit digital asset'
-    open={handle(openView)(address)}
-    closeClick={closeClick}
   >
     <DigitalAssetEditForm
+      submit={submit}
+      setField={setField}
       formFields={formFields}
       invalidFields={invalidFields}
-      setField={setField}
-      submit={submit}
-      isAddressEditable={false}
       submitLabel='Save'
+      isAddressEditable={false}
     />
   </CloseableScreen>
 )

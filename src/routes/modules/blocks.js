@@ -21,6 +21,8 @@ export const SET_IS_TRANSACTIONS_LOADING = '@@blocks/SET_IS_TRANSACTIONS_LOADING
 export const SET_IS_BALANCES_FETCHED = '@@blocks/SET_IS_BALANCES_FETCHED'
 export const SET_IS_TRANSACTIONS_FETCHED = '@@blocks/SET_IS_TRANSACTIONS_FETCHED'
 
+export const SET_IS_CONNECTION_ERROR = '@@blocks/SET_IS_CONNECTION_ERROR'
+
 export function syncStart() {
   return {
     type: SYNC_START,
@@ -145,6 +147,15 @@ export function setIsTransactionsFetched(networkId: NetworkId, isFetched: boolea
   }
 }
 
+export function setIsConnectionError(isConnectionError: boolean) {
+  return {
+    type: SET_IS_CONNECTION_ERROR,
+    payload: {
+      isConnectionError,
+    },
+  }
+}
+
 export type BlocksAction =
   ExtractReturn<typeof syncStart>
   | ExtractReturn<typeof syncStop>
@@ -160,6 +171,7 @@ export type BlocksAction =
   | ExtractReturn<typeof setIsTransactionsLoading>
   | ExtractReturn<typeof setIsBalancesFetched>
   | ExtractReturn<typeof setIsTransactionsFetched>
+  | ExtractReturn<typeof setIsConnectionError>
 
 const initialState: BlocksState = {
   persist: {

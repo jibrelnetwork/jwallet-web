@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react'
-import { handle } from 'utils/eventHandlers'
+
+import handle from 'utils/eventHandlers/handle'
 
 import {
   CloseableScreen,
@@ -9,94 +10,98 @@ import {
   DigitalAssetSendConfirm,
 } from 'components'
 
-import {
-  type OpenViewParams,
-} from './modules/digitalAssetsSend'
+import type { OpenViewParams } from './modules/digitalAssetsSend'
 
-type SetFieldFunction = (fieldName: $Keys<DigitalAssetSendFormFields>, value: string) => void
+type SetFieldFunction = (
+  fieldName: $Keys<DigitalAssetSendFormFields>,
+  value: string | TXPriority
+) => void
 
 type Props = {|
   // utility
-  +openView: (params: OpenViewParams) => void,
+  +close: () => void,
   +closeView: () => void,
-  +closeClick: () => void,
+  +openView: (params: OpenViewParams) => void,
   +params: OpenViewParams,
   +step: DigitalAssetSendStep,
-  // forms
+  // step 1
   +setField: SetFieldFunction,
+  +submitSendForm: () => void,
+  +assets: DigitalAssetWithBalance[],
+  +addressNames: AddressNames,
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
-  +submitSendForm: () => void,
-  +assets: Array<DigitalAssetWithBalance>,
-  +recepientAddresses: Array<AddressPickerAddress>,
   // step 2
-  +amount: string,
-  +amountCurrency: string,
-  +feeETH: string,
-  +fromName: ?string,
-  +toName: ?string,
   +submitPasswordForm: () => void,
+  +amount: string,
+  +feeETH: string,
+  +toName: ?string,
+  +fromName: ?string,
+  +amountCurrency: string,
   +isLoading: boolean,
 |}
 
-const DigitalAssetsSendView = ({
+function DigitalAssetsSendView({
   // utility
+  close,
   openView,
   closeView,
-  closeClick,
   params,
   step,
   // step 1
   setField,
-  formFields,
-  invalidFields,
   submitSendForm,
   assets,
-  recepientAddresses,
-  // step 2 - card
-  amount,
-  amountCurrency,
-  feeETH,
-  fromName,
-  toName,
-  // step 2 - password form
+  addressNames,
+  formFields,
+  invalidFields,
+  // step 2
   submitPasswordForm,
+  amount,
+  feeETH,
+  toName,
+  fromName,
+  amountCurrency,
   isLoading,
-}: Props) => (
-  <CloseableScreen
-    title='Send digital asset'
-    open={handle(openView)(params)}
-    close={closeView}
-    closeClick={closeClick}
-  >
-    <div className='digital-assets-send-view'>
-      <div className='wrap'>
-        {step === '1' ?
-          <DigitalAssetSendForm
-            setField={setField}
-            formFields={formFields}
-            invalidFields={invalidFields}
-            submit={submitSendForm}
-            recepientAddresses={recepientAddresses}
-            assets={assets}
-          /> :
-          <DigitalAssetSendConfirm
-            amount={amount}
-            amountCurrency={amountCurrency}
-            feeETH={feeETH}
-            fromAddress={formFields.ownerAddress}
-            toAddress={formFields.recepient}
-            fromName={fromName}
-            toName={toName}
-            setField={setField}
-            formFields={formFields}
-            invalidFields={invalidFields}
-            submit={submitPasswordForm}
-            isLoading={isLoading}
-          />}
+}: Props) {
+  return (
+    <CloseableScreen
+      close={close}
+      onClose={closeView}
+      onOpen={handle(openView)(params)}
+      title='Send digital asset'
+    >
+      <div className='digital-assets-send-view'>
+        <div className='wrap'>
+          {(step === '1') ? (
+            <DigitalAssetSendForm
+              setField={setField}
+              formFields={formFields}
+              invalidFields={invalidFields}
+              submit={submitSendForm}
+              addressNames={addressNames}
+              assets={assets}
+            />
+          ) : (
+            <DigitalAssetSendConfirm
+              amount={amount}
+              amountCurrency={amountCurrency}
+              feeETH={feeETH}
+              fromAddress={formFields.ownerAddress}
+              toAddress={formFields.recepient}
+              fromName={fromName}
+              toName={toName}
+              setField={setField}
+              formFields={formFields}
+              invalidFields={invalidFields}
+              submit={submitPasswordForm}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  </CloseableScreen>
-)
+    </CloseableScreen>
+  )
+}
 
 export default DigitalAssetsSendView
