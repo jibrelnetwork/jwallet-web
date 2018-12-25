@@ -15,7 +15,7 @@ import {
 } from 'utils/eventHandlers'
 
 type Props = {|
-  +closeClick: () => any,
+  +close: () => void,
   +add: (string, string, string) => void,
   +edit: (string, string, string) => void,
   +setFormFieldValue: ($Keys<FavoritesFormFields>, string) => void,
@@ -64,7 +64,7 @@ class FavoritesAddressView extends Component<Props> {
     const {
       add,
       edit,
-      closeClick,
+      close,
       foundFavorite,
       formFieldValues,
       formFieldErrors,
@@ -82,7 +82,7 @@ class FavoritesAddressView extends Component<Props> {
 
     return (
       <CloseableScreen
-        closeClick={closeClick}
+        close={close}
         title={`${isExist ? 'Edit' : 'Add'} favorite address`}
       >
         <div className='favorites-view -address'>

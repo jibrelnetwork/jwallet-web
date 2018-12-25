@@ -44,7 +44,6 @@ declare type AppConfig = {|
   +mnemonicAddressesCount: number,
   +landingURL: 'https://jwallet.network',
   +deleteConfirmTimeout: number,
-  +minTransactionsCountToShow: number,
   +latestBlockSyncTimeout: number,
   +currentBlockSyncTimeout: number,
   +processingBlockWaitTimeout: number,
@@ -54,4 +53,5 @@ declare type AppConfig = {|
   +blockExplorerMaxResponseSize: number,
   +requestQueueWorkersCount: number,
   +resyncTransactionsTimeout: number,
+  +syncBalancesTimeout: number,
 |}

@@ -5,13 +5,13 @@ import React from 'react'
 import { JInput, JRaisedButton } from 'components/base'
 
 type DigitalAssetEditFormProps = {|
-  formFields: EditAssetFormFields,
-  invalidFields: EditAssetFormFields,
-  setField: SetFieldFunction<EditAssetFormFields>,
-  isAddressLoading: boolean,
-  isAddressEditable: boolean,
-  submitLabel: string,
-  submit: () => void,
+  +submit: () => void,
+  +setField: SetFieldFunction<EditAssetFormFields>,
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields,
+  +submitLabel: string,
+  +isAddressLoading: boolean,
+  +isAddressEditable: boolean,
 |}
 
 const DigitalAssetEditForm = ({

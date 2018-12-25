@@ -6,8 +6,16 @@ import reactRouterBack from 'utils/browser/reactRouterBack'
 import SubsettingsView from './SubsettingsView'
 
 const mapDispatchToProps = {
-  closeClick: () => reactRouterBack({ fallbackUrl: '/settings' }),
+  close: () => reactRouterBack({ fallbackUrl: '/settings' }),
 }
+
+/* ::
+type OwnProps = {|
+  +children: React$Node,
+  +title: string,
+|}
+*/
+
 export default (
-  connect/* :: < AppState, any, Object, _, _ > */(null, mapDispatchToProps)(SubsettingsView)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(null, mapDispatchToProps)(SubsettingsView)
 )

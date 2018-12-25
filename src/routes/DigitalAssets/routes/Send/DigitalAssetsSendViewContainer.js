@@ -8,7 +8,7 @@ import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 
 import {
   selectDigitalAsset,
@@ -46,11 +46,11 @@ function mapStateToProps(state: AppState) {
     assetAddress,
   } = formFields
 
-  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
     state,
     networkId,
-    currentBlockNumber,
     ownerAddress,
+    currentBlockNumber.toString(),
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(

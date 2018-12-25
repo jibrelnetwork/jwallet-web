@@ -8,21 +8,20 @@ declare type FiatBalance = {|
 |}
 
 declare type Balance = {|
-  +value: string,
+  +value?: string,
   +isError?: boolean,
-  +isLoading: boolean,
 |}
 
 declare type Balances = {
   [AssetAddress]: ?Balance,
 }
 
-declare type BalancesByBlockNumber = {
-  [OwnerAddress]: ?Balances,
+declare type BalancesByOwner = {
+  [BlockNumber]: ?Balances,
 }
 
 declare type BalancesByNetworkId = {
-  [BlockNumber]: ?BalancesByBlockNumber,
+  [OwnerAddress]: ?BalancesByOwner,
 }
 
 declare type BalancesItems = {

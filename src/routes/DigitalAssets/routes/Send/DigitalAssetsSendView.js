@@ -66,10 +66,10 @@ function DigitalAssetsSendView({
 }: Props) {
   return (
     <CloseableScreen
+      close={close}
+      onClose={closeView}
+      onOpen={handle(openView)(params)}
       title='Send digital asset'
-      close={closeView}
-      closeClick={close}
-      open={handle(openView)(params)}
     >
       <div className='digital-assets-send-view'>
         <div className='wrap'>

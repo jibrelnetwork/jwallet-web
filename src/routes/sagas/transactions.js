@@ -52,7 +52,8 @@ import * as transactions from '../modules/transactions'
 
 const {
   syncTransactionsTimeout,
-  minTransactionsCountToShow,
+  resyncTransactionsTimeout,
+  processingBlockWaitTimeout,
   maxBlocksPerTransactionsRequest,
   minBlocksPerTransactionsRequest,
 } = config
@@ -278,9 +279,7 @@ function* checkTransactionsFetched(
     }
   }, {})
 
-  const fetchedItemsCount: number = Object.keys(fetchedItems).length
-
-  return (fetchedItemsCount >= minTransactionsCountToShow)
+  return !!Object.keys(fetchedItems).length
 }
 
 function* checkTransactionsLoading(
@@ -375,7 +374,7 @@ function* syncProcessingBlockStatus(): Saga<void> {
       }
 
       if (!processingBlock) {
-        yield call(delay, config.processingBlockWaitTimeout)
+        yield call(delay, processingBlockWaitTimeout)
         continue
       }
 
@@ -637,7 +636,7 @@ function* resyncTransactionsByOwnerAddress(
       yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
     if (!itemsByOwner) {
-      yield delay(config.resyncTransactionsTimeout)
+      yield delay(resyncTransactionsTimeout)
       continue
     }
 
@@ -651,7 +650,7 @@ function* resyncTransactionsByOwnerAddress(
     )
 
     yield all(tasks.map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
-    yield delay(config.resyncTransactionsTimeout)
+    yield delay(resyncTransactionsTimeout)
   }
 }
 
@@ -677,7 +676,7 @@ function* resyncTransactionsByTransactionId(
       yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
     if (!itemsByOwner) {
-      yield delay(config.resyncTransactionsTimeout)
+      yield delay(resyncTransactionsTimeout)
       continue
     }
 
@@ -697,7 +696,7 @@ function* resyncTransactionsByTransactionId(
     const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items)
 
     yield all(tasks.map((task: SchedulerTransactionTask) => put(requestQueue, task)))
-    yield delay(config.resyncTransactionsTimeout)
+    yield delay(resyncTransactionsTimeout)
   }
 }
 

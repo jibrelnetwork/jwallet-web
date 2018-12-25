@@ -20,9 +20,10 @@ type ComponentState = {|
 |}
 
 function filterAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
-  const re: RegExp = new RegExp(searchQuery.trim(), 'ig')
+  const query: string = searchQuery.trim()
+  const searchRe: RegExp = new RegExp(query, 'ig')
 
-  return !searchQuery ? addressNames : Object.keys(addressNames).reduce((
+  return !query ? addressNames : Object.keys(addressNames).reduce((
     result: AddressNames,
     address: Address,
   ): AddressNames => {
@@ -32,7 +33,7 @@ function filterAddressNames(addressNames: AddressNames, searchQuery: string): Ad
       return result
     }
 
-    const isFound: boolean = ((name.search(re) !== -1) || (address.search(re) !== -1))
+    const isFound: boolean = ((name.search(searchRe) !== -1) || (address.search(searchRe) !== -1))
 
     return !isFound ? result : {
       ...result,

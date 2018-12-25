@@ -130,11 +130,6 @@ const config: AppConfig = {
    */
   deleteConfirmTimeout: 30,
 
-  /**
-   * min count of transactions to display for user (initial sync)
-   */
-  minTransactionsCountToShow: 1,
-
   latestBlockSyncTimeout: 30 * ONE_SECOND,
 
   currentBlockSyncTimeout: 5 * ONE_SECOND,
@@ -152,6 +147,8 @@ const config: AppConfig = {
   requestQueueWorkersCount: 4,
 
   resyncTransactionsTimeout: 5 * ONE_MINUTE,
+
+  syncBalancesTimeout: 10 * ONE_SECOND,
 }
 
 export default config

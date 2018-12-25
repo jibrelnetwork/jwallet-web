@@ -133,7 +133,6 @@ export function* processQueue(
   requestQueue: Channel,
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
-  blockNumber: number,
 ): Saga<void> {
   while (true) {
     const request: SchedulerTask = yield take(requestQueue)
@@ -147,7 +146,7 @@ export function* processQueue(
 
     try {
       if (request.module === 'balances') {
-        yield* requestBalance(request, network, ownerAddress, blockNumber)
+        yield* requestBalance(request, network, ownerAddress)
       } else if (request.module === 'transactions') {
         yield* requestTransactions(requestQueue, request, network, ownerAddress)
       } else if (request.module === 'transaction') {
@@ -184,20 +183,14 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
 
       const processQueueTasks: Array<Task<typeof processQueue>> = yield all(Array
         .from({ length: config.requestQueueWorkersCount })
-        .map(() => fork(
-          processQueue,
-          requestQueue,
-          networkId,
-          ownerAddress,
-          processingBlock.number,
-        ))
+        .map(() => fork(processQueue, requestQueue, networkId, ownerAddress))
       )
 
-      yield put(balances.syncStart(
+      yield put(balances.fetchByOwnerRequest(
         requestQueue,
         networkId,
         ownerAddress,
-        processingBlock,
+        processingBlock.number,
       ))
 
       yield put(transactions.fetchByOwnerRequest(
@@ -217,12 +210,10 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
 
       yield take(blocks.SET_PROCESSING_BLOCK)
       yield all(processQueueTasks.map(task => cancel(task)))
-      yield put(balances.syncStop())
       requestQueue.close()
     }
   } finally {
     if (yield cancelled()) {
-      yield put(balances.syncStop())
       yield put(transactions.resyncTransactionsStop())
     }
   }
