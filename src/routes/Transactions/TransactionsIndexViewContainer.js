@@ -7,10 +7,12 @@ import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
+  removeDuplicates,
   sortTransactions,
   filterTransactions,
   searchTransactions,
   flattenTransactionsByOwner,
+  flattenPendingTransactionsByOwner,
 } from 'utils/transactions'
 
 import {
@@ -26,6 +28,7 @@ import {
 import {
   selectTransactions,
   selectTransactionsByOwner,
+  selectPendingTransactionsByOwner,
 } from 'store/selectors/transactions'
 
 import {
@@ -37,6 +40,7 @@ import TransactionsIndexView from './TransactionsIndexView'
 
 function prepareTransactions(
   items: ?TransactionsByOwner,
+  pending: ?PendingTransactionsByOwner,
   searchQuery: string,
   isOnlyPending: boolean,
 ): TransactionWithPrimaryKeys[] {
@@ -45,7 +49,10 @@ function prepareTransactions(
   }
 
   const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(items)
-  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(flatten, isOnlyPending)
+  const flattenPending: TransactionWithPrimaryKeys[] = flattenPendingTransactionsByOwner(pending)
+  const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPending]
+  const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
+  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isOnlyPending)
   const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery)
   const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
@@ -66,9 +73,11 @@ function mapStateToProps(state: AppState) {
     isOnlyPending,
   }: TransactionsState = selectTransactions(state)
 
-  const transactionsByOwner: ?TransactionsByOwner = ownerAddress
-    ? selectTransactionsByOwner(state, networkId, ownerAddress)
-    : null
+  const transactionsByOwner: ?TransactionsByOwner =
+    selectTransactionsByOwner(state, networkId, ownerAddress)
+
+  const pendingTransactions: ?PendingTransactionsByOwner =
+    selectPendingTransactionsByOwner(state, networkId, ownerAddress)
 
   const isCurrentBlockEmpty: boolean = !currentBlock
   const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
@@ -83,7 +92,7 @@ function mapStateToProps(state: AppState) {
     isLoading: isCurrentBlockEmpty || isLoading,
     transactions: isCurrentBlockEmpty
       ? []
-      : prepareTransactions(transactionsByOwner, searchQuery, isOnlyPending),
+      : prepareTransactions(transactionsByOwner, pendingTransactions, searchQuery, isOnlyPending),
   }
 }
 

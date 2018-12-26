@@ -38,6 +38,8 @@ import {
   selectDigitalAssetsSend,
 } from 'store/selectors/digitalAssets'
 
+import * as transactions from 'routes/modules/transactions'
+
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
 function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
@@ -147,13 +149,69 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
   )
 }
 
+function* addPendingTransaction(
+  hash: Hash,
+  formFieldValues: DigitalAssetsSendFormFields,
+  networkId: NetworkId,
+  decimals: number,
+): Saga<void> {
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  if (!ownerAddress) {
+    throw new Error('There is no active wallet')
+  }
+
+  const {
+    amount,
+    gasLimit,
+    gasPrice,
+    recepient,
+    assetAddress,
+  }: DigitalAssetsSendFormFields = formFieldValues
+
+  yield put(transactions.addPendingTransaction(
+    networkId,
+    ownerAddress,
+    assetAddress,
+    {
+      data: {
+        gasPrice,
+      },
+      blockData: {
+        timestamp: Date.now() / 1000,
+      },
+      receiptData: {
+        gasUsed: parseInt(gasLimit, 10) || 0,
+        status: 1,
+      },
+      hash,
+      to: recepient,
+      blockHash: null,
+      blockNumber: null,
+      from: ownerAddress,
+      contractAddress: null,
+      eventType: checkETH(assetAddress) ? 0 : 1,
+      amount: getTransactionValue(amount, decimals),
+      isRemoved: false,
+    }
+  ))
+}
+
 function* sendTransactionSuccess(
   txHash: Hash,
-  assetAddress: AssetAddress,
-  comment: string,
+  formFieldValues: DigitalAssetsSendFormFields,
+  networkId: NetworkId,
+  decimals: number,
 ): Saga<void> {
+  const {
+    comment,
+    assetAddress,
+  }: DigitalAssetsSendFormFields = formFieldValues
+
   yield put(push(`/transactions/${assetAddress}`))
-  console.log(txHash)
+  yield* addPendingTransaction(txHash, formFieldValues, networkId, decimals)
+
   console.log(comment)
 }
 
@@ -198,7 +256,6 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   const {
     nonce,
     amount,
-    comment,
     gasLimit,
     gasPrice,
     password,
@@ -251,7 +308,7 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
     })
 
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
-    yield* sendTransactionSuccess(txHash, address, comment)
+    yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals)
   } catch (err) {
     yield* sendTransactionError(err)
   }

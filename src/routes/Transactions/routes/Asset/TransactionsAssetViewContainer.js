@@ -20,13 +20,16 @@ import {
 import {
   selectTransactions,
   selectTransactionsByAsset,
+  selectPendingTransactionsByAsset,
 } from 'store/selectors/transactions'
 
 import {
+  removeDuplicates,
   sortTransactions,
   filterTransactions,
   searchTransactions,
   flattenTransactionsByAsset,
+  flattenPendingTransactions,
 } from 'utils/transactions'
 
 import {
@@ -44,6 +47,7 @@ type OwnProps = {|
 
 function prepareTransactions(
   items: ?TransactionsByAssetAddress,
+  pending: ?Transactions,
   assetAddress: string,
   searchQuery: string,
   isOnlyPending: boolean,
@@ -53,7 +57,10 @@ function prepareTransactions(
   }
 
   const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByAsset(items, assetAddress)
-  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(flatten, isOnlyPending)
+  const flattenPen: TransactionWithPrimaryKeys[] = flattenPendingTransactions(pending, assetAddress)
+  const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPen]
+  const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
+  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isOnlyPending)
   const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery)
   const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
@@ -84,9 +91,11 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     isOnlyPending,
   }: TransactionsState = selectTransactions(state)
 
-  const transactionsByAsset: ?TransactionsByAssetAddress = ownerAddress
-    ? selectTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
-    : null
+  const transactionsByAsset: ?TransactionsByAssetAddress =
+    selectTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
+
+  const pendingTransactions: ?Transactions =
+    selectPendingTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
 
   const isCurrentBlockEmpty: boolean = !currentBlock
   const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
@@ -103,6 +112,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     isCurrentBlockEmpty,
     transactions: isCurrentBlockEmpty ? [] : prepareTransactions(
       transactionsByAsset,
+      pendingTransactions,
       assetAddress,
       searchQuery,
       isOnlyPending,

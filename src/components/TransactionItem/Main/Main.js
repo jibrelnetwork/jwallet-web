@@ -36,6 +36,12 @@ type Props = {|
   +isAssetList: boolean,
 |}
 
+const ONE_DAY: number = 1000 * 60 * 60 * 24
+
+function getPendingTransactionIconColor(timestamp: number): 'red' | 'gray' {
+  return ((Date.now() - timestamp) > ONE_DAY) ? 'red' : 'gray'
+}
+
 class TransactionItemMain extends PureComponent<Props> {
   static defaultProps = {
     isSent: false,
@@ -64,6 +70,7 @@ class TransactionItemMain extends PureComponent<Props> {
       from,
       hash,
       amount,
+      blockHash,
       contractAddress,
     }: TransactionWithPrimaryKeys = data
 
@@ -71,10 +78,12 @@ class TransactionItemMain extends PureComponent<Props> {
       return null
     }
 
-    const color = isSent ? 'gray' : 'blue'
+    const isPending: boolean = !blockHash
     const amountSign: string = isSent ? '-' : '+'
+    const color: 'gray' | 'blue' = isSent ? 'gray' : 'blue'
     const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
     const iconName: string = isSent ? 'transaction-send' : 'transaction-receive'
+    const timestamp: number = blockData.timestamp * 1000
 
     return (
       <div
@@ -83,7 +92,11 @@ class TransactionItemMain extends PureComponent<Props> {
       >
         <div className='box'>
           <div className='status'>
-            <JIcon size='medium' name={iconName} />
+            <JIcon
+              size='medium'
+              name={isPending ? 'time' : iconName}
+              color={isPending ? getPendingTransactionIconColor(timestamp) : 'white'}
+            />
           </div>
           <div className='data'>
             {txAddress && (
@@ -114,7 +127,7 @@ class TransactionItemMain extends PureComponent<Props> {
             )}
             <div className='time'>
               <JText
-                value={getFormattedDateString(blockData.minedAt * 1000)}
+                value={getFormattedDateString(timestamp)}
                 color='gray'
                 size='small'
                 whiteSpace='wrap'

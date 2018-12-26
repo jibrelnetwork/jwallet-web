@@ -138,7 +138,7 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
         gasPrice,
       },
       blockData: {
-        minedAt: parseInt(timeStamp, 10) || 0,
+        timestamp: parseInt(timeStamp, 10) || 0,
       },
       receiptData: {
         gasUsed: parseInt(gasUsed, 10) || 0,
@@ -151,7 +151,6 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
       to: to.length ? getAddressWithChecksum(to) : null,
       contractAddress: contractAddress.length ? getAddressWithChecksum(contractAddress) : null,
       eventType: 0,
-      createdAt: parseInt(timeStamp, 10) || 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
     }
