@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import JText from 'components/base/JText'
 import ESCButton from 'components/ESCButton'
+import { STEPS } from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
 
 import DigitalAssetsSendSteps from './components/Steps'
 
@@ -67,8 +68,8 @@ class DigitalAssetsSendView extends Component<Props> {
             <div className='actions'>
               <ESCButton
                 onESC={goToPrevStep}
+                iconName={(currentStep === STEPS.FORM) ? 'padding-cross' : 'arrow-left'}
                 color='gray'
-                iconName='arrow-left'
                 isDisabled={isLoading}
               />
             </div>

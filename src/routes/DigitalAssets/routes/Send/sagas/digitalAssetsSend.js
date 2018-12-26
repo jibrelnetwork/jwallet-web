@@ -83,10 +83,10 @@ function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?str
     const fee: BigNumber = divDecimals(0, decimals)
     const balanceWithFee: BigNumber = balance.plus(fee)
 
-    if (balanceWithFee.gt(amount)) {
+    if (balanceWithFee.lt(amount)) {
       return 'Amount exceeds balance'
     }
-  } else if (balance.gt(amount)) {
+  } else if (balance.lt(amount)) {
     return 'Amount exceeds balance'
   }
 
@@ -263,6 +263,7 @@ function* goToPrevStep(): Saga<void> {
       break
 
     default:
+      yield put(push('/digital-assets/grid'))
       break
   }
 }
