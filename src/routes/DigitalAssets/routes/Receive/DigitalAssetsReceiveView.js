@@ -10,8 +10,6 @@ import { saveQRCode, copyQRCode } from 'components/QRCode'
 
 type Props = {|
   +close: Function,
-  +openView: Function,
-  +closeView: Function,
   +items: AddressNames,
 |}
 
@@ -43,14 +41,12 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
   }
 
   render() {
-    const { items, close, openView, closeView } = this.props
+    const { items, close } = this.props
     const { selectedAddress } = this.state
 
     return (
       <CloseableScreen
         close={close}
-        onOpen={openView}
-        onClose={closeView}
         title='Receive assets'
       >
         <div className='digital-assets-receive-view'>

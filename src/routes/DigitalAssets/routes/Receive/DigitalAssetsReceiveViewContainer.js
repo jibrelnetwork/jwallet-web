@@ -9,11 +9,6 @@ import { isVoid } from 'utils/type/'
 
 import DigitalAssetsReceiveView from './DigitalAssetsReceiveView'
 
-import {
-  openView,
-  closeView,
-} from './modules/digitalAssetsReceive'
-
 const mapStateToProps = (state: AppState) => {
   const walletsList: AddressNames = selectWalletsAddressesList(state)
     .reduce((acc, address, index) => ({ ...acc, [address]: `Address #${index}` }), {})
@@ -30,8 +25,6 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = {
   close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
-  openView,
-  closeView,
 }
 
 export default (
