@@ -64,10 +64,14 @@ export function selectBalancesByBlockNumber(
 export function selectBalanceByAssetAddress(
   state: AppState,
   networkId: NetworkId,
-  ownerAddress: OwnerAddress,
+  ownerAddress: ?OwnerAddress,
   blockNumber: BlockNumber,
   assetAddress: AssetAddress,
 ): ?Balance {
+  if (!ownerAddress) {
+    return null
+  }
+
   const itemsByBlockNumber: ?Balances = selectBalancesByBlockNumber(
     state,
     networkId,

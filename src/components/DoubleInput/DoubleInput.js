@@ -30,6 +30,8 @@ type Props = {|
 class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
     onClose: null,
+    errorMessage: '',
+    warningMessage: '',
   }
 
   render() {

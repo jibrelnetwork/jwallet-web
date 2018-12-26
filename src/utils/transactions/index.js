@@ -2,7 +2,6 @@
 
 import getTxFee from './getTxFee'
 import getTxLink from './getTxLink'
-import toBigNumber from './toBigNumber'
 import getAddressLink from './getAddressLink'
 import sortTransactions from './sortTransactions'
 import filterTransactions from './filterTransactions'
@@ -17,7 +16,6 @@ import flattenTransactionsByOwner from './flattenTransactionsByOwner'
 export {
   getTxFee,
   getTxLink,
-  toBigNumber,
   getAddressLink,
   sortTransactions,
   filterTransactions,

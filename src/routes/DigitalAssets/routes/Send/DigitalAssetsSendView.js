@@ -1,107 +1,100 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
 
-import handle from 'utils/eventHandlers/handle'
+import JText from 'components/base/JText'
+import ESCButton from 'components/ESCButton'
 
-import {
-  CloseableScreen,
-  DigitalAssetSendForm,
-  DigitalAssetSendConfirm,
-} from 'components'
-
-import type { OpenViewParams } from './modules/digitalAssetsSend'
-
-type SetFieldFunction = (
-  fieldName: $Keys<DigitalAssetSendFormFields>,
-  value: string | TXPriority
-) => void
+import DigitalAssetsSendSteps from './components/Steps'
 
 type Props = {|
-  // utility
-  +close: () => void,
-  +closeView: () => void,
-  +openView: (params: OpenViewParams) => void,
-  +params: OpenViewParams,
-  +step: DigitalAssetSendStep,
-  // step 1
-  +setField: SetFieldFunction,
-  +submitSendForm: () => void,
-  +assets: DigitalAssetWithBalance[],
+  +goToNextStep: () => void,
+  +goToPrevStep: () => void,
+  +setPriority: (priority: TXPriorityKey) => void,
+  +openView: (params: DigitalAssetsSendRouteParams) => void,
+  +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>, value: string) => void,
+  +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
-  +formFields: DigitalAssetSendFormFields,
-  +invalidFields: DigitalAssetSendFormFields,
-  // step 2
-  +submitPasswordForm: () => void,
-  +amount: string,
-  +feeETH: string,
-  +toName: ?string,
-  +fromName: ?string,
-  +amountCurrency: string,
+  +selectedAsset: ?DigitalAsset,
+  +params: DigitalAssetsSendRouteParams,
+  +formFieldValues: DigitalAssetsSendFormFields,
+  +formFieldErrors: DigitalAssetsSendFormFields,
+  +ownerAddress: ?OwnerAddress,
+  +priority: TXPriorityKey,
+  +currentStep: DigitalAssetsSendStepIndex,
   +isLoading: boolean,
 |}
 
-function DigitalAssetsSendView({
-  // utility
-  close,
-  openView,
-  closeView,
-  params,
-  step,
-  // step 1
-  setField,
-  submitSendForm,
-  assets,
-  addressNames,
-  formFields,
-  invalidFields,
-  // step 2
-  submitPasswordForm,
-  amount,
-  feeETH,
-  toName,
-  fromName,
-  amountCurrency,
-  isLoading,
-}: Props) {
-  return (
-    <CloseableScreen
-      close={close}
-      onClose={closeView}
-      onOpen={handle(openView)(params)}
-      title='Send digital asset'
-    >
+class DigitalAssetsSendView extends Component<Props> {
+  componentDidMount() {
+    const {
+      openView,
+      params,
+    }: Props = this.props
+
+    openView(params)
+  }
+
+  setFormFieldValue = (fieldName: $Keys<DigitalAssetsSendFormFields>) =>
+    (value: string) => this.props.setFormFieldValue(fieldName, value)
+
+  render() {
+    const {
+      setPriority,
+      goToNextStep,
+      goToPrevStep,
+      digitalAssets,
+      addressNames,
+      selectedAsset,
+      formFieldValues,
+      formFieldErrors,
+      ownerAddress,
+      priority,
+      currentStep,
+      isLoading,
+    }: Props = this.props
+
+    if (!ownerAddress) {
+      return null
+    }
+
+    return (
       <div className='digital-assets-send-view'>
-        <div className='wrap'>
-          {(step === '1') ? (
-            <DigitalAssetSendForm
-              setField={setField}
-              formFields={formFields}
-              invalidFields={invalidFields}
-              submit={submitSendForm}
+        <div className='header'>
+          <div className='container'>
+            <JText size='tab' color='gray' value='Send asset' />
+            <div className='actions'>
+              <ESCButton
+                onESC={goToPrevStep}
+                color='gray'
+                iconName='arrow-left'
+                isDisabled={isLoading}
+              />
+            </div>
+          </div>
+        </div>
+        <div className='content'>
+          <Scrollbars autoHide>
+            <DigitalAssetsSendSteps
+              setPriority={setPriority}
+              goToNextStep={goToNextStep}
+              setFormFieldValue={this.setFormFieldValue}
+              formFieldValues={formFieldValues}
+              formFieldErrors={formFieldErrors}
               addressNames={addressNames}
-              assets={assets}
-            />
-          ) : (
-            <DigitalAssetSendConfirm
-              amount={amount}
-              amountCurrency={amountCurrency}
-              feeETH={feeETH}
-              fromAddress={formFields.ownerAddress}
-              toAddress={formFields.recepient}
-              fromName={fromName}
-              toName={toName}
-              setField={setField}
-              formFields={formFields}
-              invalidFields={invalidFields}
-              submit={submitPasswordForm}
+              digitalAssets={digitalAssets}
+              selectedAsset={selectedAsset}
+              ownerAddress={ownerAddress}
+              priority={priority}
+              currentStep={currentStep}
               isLoading={isLoading}
             />
-          )}
+          </Scrollbars>
         </div>
       </div>
-    </CloseableScreen>
-  )
+    )
+  }
 }
 
 export default DigitalAssetsSendView

@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux'
 
-import { reactRouterBack } from 'utils/browser'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
@@ -19,11 +18,11 @@ import {
 import DigitalAssetsSendView from './DigitalAssetsSendView'
 
 import {
-  setField,
   openView,
-  closeView,
-  submitSendForm,
-  submitPasswordForm,
+  setPriority,
+  goToNextStep,
+  goToPrevStep,
+  setFormFieldValue,
 } from './modules/digitalAssetsSend'
 
 function mapStateToProps(state: AppState) {
@@ -34,17 +33,12 @@ function mapStateToProps(state: AppState) {
   const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
 
   const {
-    step,
-    formFields,
-    invalidFields,
-    isProcessing,
-  } = selectDigitalAssetsSend(state)
-
-  const {
-    amount,
-    recepient,
-    assetAddress,
-  } = formFields
+    formFieldValues,
+    formFieldErrors,
+    priority,
+    currentStep,
+    isLoading,
+  }: DigitalAssetsSendState = selectDigitalAssetsSend(state)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
     state,
@@ -59,39 +53,32 @@ function mapStateToProps(state: AppState) {
   )
 
   const addressNames: AddressNames = selectAllAddressNames(state)
-  const asset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
+  const selectedAsset: ?DigitalAsset = selectDigitalAsset(state, formFieldValues.assetAddress)
 
   return {
     addressNames,
-    formFields,
-    invalidFields,
-    assets: assetsWithBalance,
-    feeETH: '0.00',
-    toName: addressNames[recepient] || '',
-    amountCurrency: (asset && asset.symbol) ? asset.symbol : '',
-    fromName: ownerAddress ? addressNames[ownerAddress] || '' : '',
-    step,
-    amount,
-    isLoading: isProcessing,
+    selectedAsset,
+    formFieldValues,
+    formFieldErrors,
+    priority,
+    ownerAddress,
+    currentStep,
+    isLoading,
+    digitalAssets: assetsWithBalance,
   }
 }
 
 const mapDispatchToProps = {
-  setField,
   openView,
-  closeView,
-  submitSendForm,
-  submitPasswordForm,
-  close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
+  setPriority,
+  goToNextStep,
+  goToPrevStep,
+  setFormFieldValue,
 }
 
 /* ::
 type OwnProps = {|
-  +params: {
-    +to?: string,
-    +asset?: string,
-    +txhash?: string,
-  }
+  +params: DigitalAssetsSendRouteParams
 |}
 */
 
