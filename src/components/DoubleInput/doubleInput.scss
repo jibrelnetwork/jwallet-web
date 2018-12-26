@@ -1,6 +1,7 @@
 .double-input {
   all: initial;
   position: relative;
+  display: block;
 
   &::before {
     content: '';
