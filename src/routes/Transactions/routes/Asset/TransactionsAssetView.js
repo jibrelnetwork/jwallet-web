@@ -3,7 +3,10 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import divDecimals from 'utils/numbers/divDecimals'
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 import {
   JIcon,
@@ -23,9 +26,9 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
     decimals,
   }: DigitalAsset = asset
 
-  const balance: string = (assetBalance && assetBalance.value)
-    ? divDecimals(assetBalance.value, decimals)
-    : '0'
+  const balance: string = formatBalance(
+    divDecimals(assetBalance ? assetBalance.value : 0, decimals),
+  )
 
   return {
     '/digital-assets': 'Digital assets',

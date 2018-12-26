@@ -14,6 +14,7 @@ import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 import {
   isZero,
   divDecimals,
+  formatBalance,
 } from 'utils/numbers'
 
 import {
@@ -137,7 +138,7 @@ class TransactionItemMain extends PureComponent<Props> {
               <JText
                 value={`
                   ${isZero(amount) ? '' : amountSign}
-                  ${divDecimals(amount, assetDecimals)}
+                  ${formatBalance(divDecimals(amount, assetDecimals))}
                   ${assetSymbol}
                 `}
                 color={color}
