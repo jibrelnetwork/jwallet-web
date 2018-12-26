@@ -659,6 +659,13 @@ storiesOf('JIcon')
             name='list'
           />
         </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='padding-cross'
+          />
+        </div>
       </div>
       <h2>gray</h2>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
