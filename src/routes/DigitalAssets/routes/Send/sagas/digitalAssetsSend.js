@@ -161,6 +161,39 @@ function* sendTransactionError(err: Error): Saga<void> {
   yield put(digitalAssetsSend.setFormFieldError('password', err.message))
 }
 
+function getTransactionData(data: SendTransactionProps): SendTransactionProps {
+  const {
+    gas,
+    value,
+    gasPrice,
+    to,
+    privateKey,
+    nonce,
+  }: SendTransactionProps = data
+
+  const dataNew: SendTransactionProps = {
+    to,
+    value,
+    privateKey,
+  }
+
+  /* eslint-disable fp/no-mutation */
+  if (!isZero(gas)) {
+    dataNew.gas = gas
+  }
+
+  if (!isZero(gasPrice)) {
+    dataNew.gasPrice = gasPrice
+  }
+
+  if (nonce) {
+    dataNew.nonce = nonce
+  }
+  /* eslint-enable fp/no-mutation */
+
+  return dataNew
+}
+
 function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
   const {
     nonce,
@@ -208,14 +241,14 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   try {
     const privateKey: string = yield* getPrivateKey(walletId, password)
 
-    const txData: SendTransactionProps = {
-      nonce,
+    const txData: SendTransactionProps = getTransactionData({
       gas: toBigNumber(gasLimit),
       gasPrice: toBigNumber(gasPrice),
       value: getTransactionValue(amount, decimals),
       to: recepient,
       privateKey: privateKey.substr(2),
-    }
+      nonce: parseInt(nonce, 10) || 0,
+    })
 
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
     yield* sendTransactionSuccess(txHash, address, comment)
