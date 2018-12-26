@@ -39,7 +39,7 @@ const mapDispatchToProps = {
   edit,
   setFormFieldValue,
   add: addByUser,
-  closeClick: () => reactRouterBack({ fallbackUrl: '/favorites' }),
+  close: () => reactRouterBack({ fallbackUrl: '/favorites' }),
 }
 
 /* ::

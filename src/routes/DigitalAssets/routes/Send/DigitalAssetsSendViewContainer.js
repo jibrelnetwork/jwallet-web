@@ -2,43 +2,37 @@
 
 import { connect } from 'react-redux'
 
-import { reactRouterBack, flattenWithHelper } from 'utils/browser'
+import { reactRouterBack } from 'utils/browser'
+import { selectCurrentBlock } from 'store/selectors/blocks'
+import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 
 import {
   selectDigitalAsset,
-  selectActiveAssetsWithBalance,
   selectDigitalAssetsSend,
+  selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
-import {
-  selectAllAddressNames,
-} from 'store/selectors/favorites'
+import DigitalAssetsSendView from './DigitalAssetsSendView'
 
 import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
-
-import {
+  setField,
   openView,
   closeView,
-  setField,
   submitSendForm,
   submitPasswordForm,
 } from './modules/digitalAssetsSend'
 
-import DigitalAssetsSendView from './DigitalAssetsSendView'
+function mapStateToProps(state: AppState) {
+  const networkId: NetworkId = selectCurrentNetworkId(state)
+  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
+  const activeAssets: DigitalAsset[] = selectActiveDigitalAssets(state)
+  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
 
-type OwnProps = {|
-  +params: {
-    +to?: string,
-    +asset?: string,
-    +txhash?: string,
-  }
-|}
-
-const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
-  const { params } = ownProps // router params
   const {
     step,
     formFields,
@@ -48,59 +42,58 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps) => {
 
   const {
     amount,
+    recepient,
     assetAddress,
   } = formFields
 
-  const activeAssets = selectActiveAssetsWithBalance(state)
-    .map((asset => asset.balance ? {
-      ...asset,
-      balance: {
-        ...asset.balance,
-        value: formatBalance(divDecimals(asset.balance.value, asset.decimals)),
-      },
-    } : asset))
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
+    state,
+    networkId,
+    ownerAddress,
+    currentBlockNumber.toString(),
+  )
 
-  // get asset symbol
+  const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
+    activeAssets,
+    assetsBalances,
+  )
+
+  const addressNames: AddressNames = selectAllAddressNames(state)
   const asset: ?DigitalAsset = selectDigitalAsset(state, assetAddress)
-  const amountCurrency = (asset && asset.symbol) ? asset.symbol : ''
-
-  // get sender and recepient name (for step 2)
-  const allAddressNames = selectAllAddressNames(state)
-  const fromName = allAddressNames[formFields.ownerAddress] || ''
-  const toName = allAddressNames[formFields.recepient] || ''
-
-  const recepientAddresses = flattenWithHelper(allAddressNames, (title, address) => ({
-    title,
-    address,
-  }))
-
-  const feeETH = '0.00'
 
   return {
-    step,
-    params,
+    addressNames,
     formFields,
     invalidFields,
-    assets: activeAssets,
-    recepientAddresses,
-    // step 2
+    assets: assetsWithBalance,
+    feeETH: '0.00',
+    toName: addressNames[recepient] || '',
+    amountCurrency: (asset && asset.symbol) ? asset.symbol : '',
+    fromName: ownerAddress ? addressNames[ownerAddress] || '' : '',
+    step,
     amount,
-    amountCurrency,
-    feeETH,
-    fromName,
-    toName,
     isLoading: isProcessing,
   }
 }
 
 const mapDispatchToProps = {
+  setField,
   openView,
   closeView,
-  setField,
   submitSendForm,
   submitPasswordForm,
-  closeClick: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
+  close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
+
+/* ::
+type OwnProps = {|
+  +params: {
+    +to?: string,
+    +asset?: string,
+    +txhash?: string,
+  }
+|}
+*/
 
 export default (
   connect/* :: < AppState, any, OwnProps, _, _> */(mapStateToProps, mapDispatchToProps)

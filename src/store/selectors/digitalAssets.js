@@ -1,26 +1,15 @@
 // @flow
 
-import { flatten } from 'utils/browser'
+import flattenDigitalAssets from 'utils/digitalAssets/flattenDigitalAssets'
 
-import { selectBalancesByOwnerAddress } from './balances'
-import { selectCurrentNetworkId } from './networks'
-import { selectCurrentBlock } from './blocks'
-import { selectActiveWalletAddress } from './wallets'
-
-export function selectDigitalAssets(state: AppState): DigitalAssets {
-  const {
-    digitalAssets: {
-      persist: {
-        items,
-      },
-    },
-  } = state
-
-  return items
+export function selectDigitalAssets(state: AppState): DigitalAssetsState {
+  return state.digitalAssets
 }
 
 export function selectDigitalAssetsPersist(state: AppState): DigitalAssetsPersist {
-  return state.digitalAssets.persist
+  const digitalAssets: DigitalAssetsState = selectDigitalAssets(state)
+
+  return digitalAssets.persist
 }
 
 export function selectDigitalAssetsItems(state: AppState): DigitalAssets {
@@ -29,25 +18,23 @@ export function selectDigitalAssetsItems(state: AppState): DigitalAssets {
   return digitalAssetsPersist.items
 }
 
-export function selectDigitalAsset(state: AppState, contractAddress: Address): ?DigitalAsset {
-  const items = selectDigitalAssets(state)
-  if (items[contractAddress]) {
-    return items[contractAddress]
-  }
+export function selectDigitalAsset(state: AppState, assetAddress: AssetAddress): ?DigitalAsset {
+  const items: DigitalAssets = selectDigitalAssetsItems(state)
+  const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
+  const assetAddressLower: string = assetAddress.toLowerCase()
 
-  const addressLower = contractAddress.toLowerCase()
-  const key = Object
-    .keys(items)
-    .find(addr => items[addr] && items[addr].address.toLowerCase() === addressLower)
-  return key ? items[key] : null
+  return flattenedItems
+    .find(({ address }: DigitalAsset): boolean => (address.toLowerCase() === assetAddressLower))
 }
 
-export function selectActiveDigitalAssets(state: AppState): Array<DigitalAsset> {
-  const allAssets = selectDigitalAssets(state)
-  return flatten(allAssets).filter(asset => asset && asset.isActive)
+export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {
+  const items: DigitalAssets = selectDigitalAssetsItems(state)
+  const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
+
+  return flattenedItems.filter(({ isActive }: DigitalAsset): boolean => !!isActive)
 }
 
-export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterType {
+export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterOptions {
   return state.digitalAssetsGrid.filter
 }
 
@@ -69,29 +56,4 @@ export function selectEditAsset(state: AppState): EditAssetState {
 
 export function selectDigitalAssetsSend(state: AppState): DigitalAssetSendState {
   return state.digitalAssetsSend
-}
-
-export function selectActiveAssetsWithBalance(
-  state: AppState,
-): Array<DigitalAssetWithBalance> {
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const assets = selectActiveDigitalAssets(state /* , networkId */)
-
-  const assetsBalances: ?Balances = ownerAddress ? selectBalancesByOwnerAddress(
-    state,
-    networkId,
-    currentBlockNumber,
-    ownerAddress,
-  ) : null
-
-  const assetsWithBalance = assets.map(asset => ({
-    ...asset,
-    balance: assetsBalances ? assetsBalances[asset.address] : null,
-    // fiatBalance (in future)
-  }))
-
-  return assetsWithBalance
 }

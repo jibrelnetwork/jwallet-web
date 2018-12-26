@@ -43,7 +43,7 @@ import {
 } from 'store/selectors/transactions'
 
 import {
-  selectDigitalAssets,
+  selectDigitalAssetsItems,
   selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
@@ -52,7 +52,8 @@ import * as transactions from '../modules/transactions'
 
 const {
   syncTransactionsTimeout,
-  minTransactionsCountToShow,
+  resyncTransactionsTimeout,
+  processingBlockWaitTimeout,
   maxBlocksPerTransactionsRequest,
   minBlocksPerTransactionsRequest,
 } = config
@@ -194,9 +195,31 @@ function getRequestTransactionsByAssetTasks(
   return transferTasks
 }
 
+function getTransactionsByOwnerForActiveAssets(
+  itemsByOwner: TransactionsByOwner,
+  activeAssets: DigitalAsset[],
+): TransactionsByOwner {
+  return Object
+    .keys(itemsByOwner)
+    .reduce((result: TransactionsByOwner, assetAddress: AssetAddress): TransactionsByOwner => {
+      const activeAsset: ?DigitalAsset = activeAssets
+        .find(({ address }: DigitalAsset): boolean => (address === assetAddress))
+
+      if (!activeAsset) {
+        return result
+      }
+
+      return {
+        ...result,
+        [assetAddress]: itemsByOwner[assetAddress],
+      }
+    }, {})
+}
+
 function* checkTransactionsFetched(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
+  activeAssets: DigitalAsset[],
 ): Saga<boolean> {
   const itemsByNetworkId: ExtractReturn<typeof selectTransactionsByNetworkId> =
     yield select(selectTransactionsByNetworkId, networkId)
@@ -211,7 +234,12 @@ function* checkTransactionsFetched(
     return false
   }
 
-  const fetchedItems: Transactions = Object.keys(itemsByOwner).reduce((
+  const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+    itemsByOwner,
+    activeAssets,
+  )
+
+  const fetchedItems: Transactions = Object.keys(itemsByOwnerForActiveAssets).reduce((
     resultByAssetAddress: Transactions,
     assetAddress: AssetAddress,
   ): Transactions => {
@@ -251,14 +279,13 @@ function* checkTransactionsFetched(
     }
   }, {})
 
-  const fetchedItemsCount: number = Object.keys(fetchedItems).length
-
-  return (fetchedItemsCount >= minTransactionsCountToShow)
+  return !!Object.keys(fetchedItems).length
 }
 
 function* checkTransactionsLoading(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
+  activeAssets: DigitalAsset[],
 ): Saga<boolean> {
   const itemsByNetworkId: ExtractReturn<typeof selectTransactionsByNetworkId> =
     yield select(selectTransactionsByNetworkId, networkId)
@@ -273,7 +300,12 @@ function* checkTransactionsLoading(
     return true
   }
 
-  const isLoading: boolean = Object.keys(itemsByOwner).reduce((
+  const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+    itemsByOwner,
+    activeAssets,
+  )
+
+  const isLoading: boolean = Object.keys(itemsByOwnerForActiveAssets).reduce((
     resultByAssetAddress: boolean,
     assetAddress: AssetAddress,
   ): boolean => {
@@ -334,12 +366,15 @@ function* syncProcessingBlockStatus(): Saga<void> {
       const processingBlock: ExtractReturn<typeof selectProcessingBlock> =
         yield select(selectProcessingBlock, networkId)
 
+      const assets: ExtractReturn<typeof selectActiveDigitalAssets> =
+        yield select(selectActiveDigitalAssets)
+
       if (!(networkId && ownerAddress)) {
         return
       }
 
       if (!processingBlock) {
-        yield call(delay, config.processingBlockWaitTimeout)
+        yield call(delay, processingBlockWaitTimeout)
         continue
       }
 
@@ -348,13 +383,13 @@ function* syncProcessingBlockStatus(): Saga<void> {
         isTransactionsLoading,
       }: BlockData = processingBlock
 
-      const isFetched: boolean = yield* checkTransactionsFetched(networkId, ownerAddress)
+      const isFetched: boolean = yield* checkTransactionsFetched(networkId, ownerAddress, assets)
 
       if (!isTransactionsFetched && isFetched) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
       }
 
-      const isLoading: boolean = yield* checkTransactionsLoading(networkId, ownerAddress)
+      const isLoading: boolean = yield* checkTransactionsLoading(networkId, ownerAddress, assets)
 
       if (isTransactionsLoading && !isLoading) {
         yield put(blocks.setIsTransactionsFetched(networkId, true))
@@ -379,7 +414,8 @@ function* fetchByOwnerRequest(
     fromBlock,
   } = action.payload
 
-  const activeAssets: DigitalAsset[] = yield select(selectActiveDigitalAssets)
+  const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
+    yield select(selectActiveDigitalAssets)
 
   yield all(activeAssets.map((digitalAsset: DigitalAsset) => put(transactions.initItemsByAsset(
     networkId,
@@ -540,7 +576,7 @@ function getTasksToRefetchByOwner(
     const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
     const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
 
-    if (!digitalAsset) {
+    if (!(digitalAsset && digitalAsset.isActive)) {
       return resultByAssetAddress
     }
 
@@ -582,7 +618,10 @@ function getTasksToRefetchByOwner(
       ]
     }
 
-    return failedRequests
+    return [
+      ...resultByAssetAddress,
+      ...failedRequests,
+    ]
   }, [])
 }
 
@@ -597,12 +636,12 @@ function* resyncTransactionsByOwnerAddress(
       yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
     if (!itemsByOwner) {
-      yield delay(config.resyncTransactionsTimeout)
+      yield delay(resyncTransactionsTimeout)
       continue
     }
 
-    const digitalAssets: ExtractReturn<typeof selectDigitalAssets> =
-      yield select(selectDigitalAssets)
+    const digitalAssets: ExtractReturn<typeof selectDigitalAssetsItems> =
+      yield select(selectDigitalAssetsItems)
 
     const tasks: SchedulerTransactionsTask[] = getTasksToRefetchByOwner(
       digitalAssets,
@@ -611,7 +650,7 @@ function* resyncTransactionsByOwnerAddress(
     )
 
     yield all(tasks.map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
-    yield delay(config.resyncTransactionsTimeout)
+    yield delay(resyncTransactionsTimeout)
   }
 }
 
@@ -637,15 +676,27 @@ function* resyncTransactionsByTransactionId(
       yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
     if (!itemsByOwner) {
-      yield delay(config.resyncTransactionsTimeout)
+      yield delay(resyncTransactionsTimeout)
       continue
     }
 
-    const items: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(itemsByOwner, true)
+    const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
+      yield select(selectActiveDigitalAssets)
+
+    const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+      itemsByOwner,
+      activeAssets,
+    )
+
+    const items: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(
+      itemsByOwnerForActiveAssets,
+      true,
+    )
+
     const tasks: SchedulerTransactionTask[] = getTasksToFetchByTransactionId(items)
 
     yield all(tasks.map((task: SchedulerTransactionTask) => put(requestQueue, task)))
-    yield delay(config.resyncTransactionsTimeout)
+    yield delay(resyncTransactionsTimeout)
   }
 }
 

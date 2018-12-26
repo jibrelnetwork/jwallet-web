@@ -5,7 +5,9 @@ import checkJNT from './checkJNT'
 import parseBalance from './parseBalance'
 import transformation from './transformation'
 import balanceToString from './balanceToString'
-import checkAssetFound from './checkAssetFound'
+import checkBalanceLoading from './checkBalanceLoading'
+import searchDigitalAssets from './searchDigitalAssets'
+import filterAssetsBalances from './filterAssetsBalances'
 import flattenDigitalAssets from './flattenDigitalAssets'
 import compareDigitalAssetsByName from './compareDigitalAssetsByName'
 import getDigitalAssetsWithBalance from './getDigitalAssetsWithBalance'
@@ -17,7 +19,9 @@ export {
   parseBalance,
   transformation,
   balanceToString,
-  checkAssetFound,
+  checkBalanceLoading,
+  searchDigitalAssets,
+  filterAssetsBalances,
   flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,

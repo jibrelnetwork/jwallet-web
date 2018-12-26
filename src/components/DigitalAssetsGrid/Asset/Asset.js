@@ -12,7 +12,7 @@ type Props = {|
   +symbol: string,
   +address: Address,
   +fiatCurrency: string,
-  +balance: BalanceString,
+  +balance: ?BalanceString,
   +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
@@ -28,7 +28,6 @@ class AssetCard extends PureComponent<Props, AssetsState> {
     isError: false,
     isLoading: false,
     fiatBalance: 0,
-    balance: 0,
     fiatCurrency: 'USD',
     isCustom: false,
   }

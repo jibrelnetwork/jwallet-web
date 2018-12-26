@@ -1,9 +1,9 @@
 // @flow
 
-import { divDecimals } from '../numbers'
+import divDecimals from 'utils/numbers/divDecimals'
 
-function parseBalance(value: string, decimals: number = 18): string {
-  return divDecimals(value, decimals)
+function parseBalance(balance: ?Balance, decimals: number = 18): ?BalanceString {
+  return (balance && balance.value) ? divDecimals(balance.value, decimals) : null
 }
 
 export default parseBalance

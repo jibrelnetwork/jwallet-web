@@ -6,7 +6,7 @@ import JText from 'components/base/JText'
 import { round, divideThousands } from 'utils/numbers'
 
 const TICKER_AMOUNT = 3589.45
-const TICKER_CURRENCY = 'USD'
+const TICKER_CURRENCY = 'ETH'
 
 function MenuPanelBalanceTicker() {
   const amountRounded: string = round(TICKER_AMOUNT, 2)

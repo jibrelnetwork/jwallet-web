@@ -1,29 +1,36 @@
 // @flow
 
 import React from 'react'
+
 import { CloseableScreen } from 'components'
 
 import './subsettingsView.scss'
 
 type Props = {|
-  +title: string,
-  +closeClick: () => void,
+  +close: () => void,
   +children: React$Node,
+  +title: string,
 |}
 
-export default function SubsettingsView(props: Props) {
+function SubsettingsView({
+  close,
+  children,
+  title,
+}: Props) {
   return (
     <div className='settings-view'>
       <CloseableScreen
-        title={props.title}
-        closeClick={props.closeClick}
+        close={close}
+        title={title}
       >
-        <div className='subsettings-layout'>
+        <div className='subsettings-view'>
           <div className='container'>
-            {props.children}
+            {children}
           </div>
         </div>
       </CloseableScreen>
     </div>
   )
 }
+
+export default SubsettingsView

@@ -8,15 +8,20 @@ import {
 } from 'components'
 
 type Props = {
-  openView: () => void,
-  closeView: () => void,
-  closeClick: () => void,
-} & React$ElementConfig<typeof DigitalAssetEditForm>
+  +close: () => void,
+  +openView: () => void,
+  +closeView: () => void,
+  +submit: () => void,
+  +setField: SetFieldFunction<EditAssetFormFields>,
+  +formFields: EditAssetFormFields,
+  +invalidFields: EditAssetFormFields,
+  +isAddressLoading: boolean,
+}
 
 const AddAssetView = ({
+  close,
   openView,
   closeView,
-  closeClick,
   formFields,
   invalidFields,
   setField,
@@ -24,19 +29,19 @@ const AddAssetView = ({
   isAddressLoading,
 }: Props) => (
   <CloseableScreen
+    close={close}
+    onOpen={openView}
+    onClose={closeView}
     title='Add digital asset'
-    open={openView}
-    close={closeView}
-    closeClick={closeClick}
   >
     <DigitalAssetEditForm
+      submit={submit}
+      setField={setField}
       formFields={formFields}
       invalidFields={invalidFields}
-      setField={setField}
-      submit={submit}
+      submitLabel='Add asset'
       isAddressLoading={isAddressLoading}
       isAddressEditable
-      submitLabel='Add asset'
     />
   </CloseableScreen>
 )

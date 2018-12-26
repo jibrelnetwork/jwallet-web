@@ -23,7 +23,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
     decimals,
   }: DigitalAsset = asset
 
-  const balance: string = assetBalance
+  const balance: string = (assetBalance && assetBalance.value)
     ? divDecimals(assetBalance.value, decimals)
     : '0'
 

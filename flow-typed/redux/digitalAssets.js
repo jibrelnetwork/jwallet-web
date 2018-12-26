@@ -1,9 +1,9 @@
 // @flow
 
-type AssetAddress = string
+declare type DigitalAssetsSortField = 'name' | 'balance'
 
-declare type DigitalAssetsFilterType = {|
-  +sortBy: 'name' | 'balance',
+declare type DigitalAssetsFilterOptions = {|
+  +sortBy: DigitalAssetsSortField,
   +sortByNameDirection: SortDirection,
   +sortByBalanceDirection: SortDirection,
   +isHideZeroBalance: boolean,
@@ -41,7 +41,7 @@ declare type DigitalAssetsState = {|
 |}
 
 declare type DigitalAssetsGridState = {|
-  +filter: DigitalAssetsFilterType,
+  +filter: DigitalAssetsFilterOptions,
   +searchQuery: string,
 |}
 
