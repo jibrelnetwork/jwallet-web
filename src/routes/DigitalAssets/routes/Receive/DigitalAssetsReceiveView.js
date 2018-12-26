@@ -2,9 +2,11 @@
 
 import React, { Component } from 'react'
 
-import { JRaisedButton } from 'components/base'
-import { AddressPicker, CloseableScreen } from 'components'
+import { JCard, JRaisedButton } from 'components/base'
+import { AddressPicker, CloseableScreen, QRCode } from 'components'
 import { clipboard, qrCode } from 'services'
+
+import { saveQRCode, copyQRCode } from 'components/QRCode'
 
 type Props = {|
   +close: Function,
@@ -29,7 +31,7 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
   setAddress = (address: Address): void => {
     this.setState({ selectedAddress: address }, () => {
       qrCode.generate({
-        selector: 'picture.qr',
+        selector: '.qr #qrcode',
         requisites: { to: address },
         appearance: {},
       })
@@ -54,7 +56,16 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
         <div className='digital-assets-receive-view'>
           <div className='content'>
             <div className='container'>
-              <picture className='qr' />
+              <div className='qrbox'>
+                <JCard color='white'>
+                  <QRCode
+                    copy={copyQRCode}
+                    color='white'
+                    download={saveQRCode}
+                    isActive
+                  />
+                </JCard>
+              </div>
               <AddressPicker
                 onSelect={this.setAddress}
                 addressNames={items}

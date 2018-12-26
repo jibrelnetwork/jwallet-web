@@ -60,14 +60,8 @@
         width: 100%;
       }
 
-      > .qr {
-        @include flex-column;
-
-        height: 240px;
+      > .qrbox {
         margin-bottom: 12px;
-        justify-content: center;
-        align-items: center;
-        background-color: #fff;
       }
     }
   }
