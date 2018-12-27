@@ -7,10 +7,22 @@ import { AddressPicker, CloseableScreen, QRCode } from 'components'
 import { clipboard, qrCode } from 'services'
 
 import { saveQRCode, copyQRCode } from 'components/QRCode'
+import { isVoid } from 'utils/type'
+
+const generateQRCode = (address: Address): void => {
+  if (!isVoid(address)) {
+    qrCode.generate({
+      selector: '.qr #qrcode',
+      requisites: { to: address },
+      appearance: {},
+    })
+  }
+}
 
 type Props = {|
   +close: Function,
   +items: AddressNames,
+  +wallet: ?Wallet,
 |}
 
 type State = {
@@ -21,19 +33,19 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
+    const initialAddress = isVoid(props.wallet) ? '' : props.wallet.address || ''
+
     this.state = {
-      selectedAddress: '',
+      selectedAddress: initialAddress,
     }
   }
 
+  componentDidMount(): void {
+    generateQRCode(this.state.selectedAddress)
+  }
+
   setAddress = (address: Address): void => {
-    this.setState({ selectedAddress: address }, () => {
-      qrCode.generate({
-        selector: '.qr #qrcode',
-        requisites: { to: address },
-        appearance: {},
-      })
-    })
+    this.setState({ selectedAddress: address }, () => { generateQRCode(address) })
   }
 
   copyAddress = () => {
@@ -41,7 +53,11 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
   }
 
   render() {
-    const { items, close } = this.props
+    if (isVoid(this.props.wallet)) {
+      return null
+    }
+
+    const { items, wallet, close } = this.props
     const { selectedAddress } = this.state
 
     return (
@@ -66,6 +82,7 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
                 onSelect={this.setAddress}
                 addressNames={items}
                 selectedAddress={selectedAddress}
+                isDisabled={wallet.type === 'address'}
               />
               <JRaisedButton onClick={this.copyAddress} label='Copy address' color='blue' />
             </div>
