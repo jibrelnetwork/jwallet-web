@@ -10,7 +10,7 @@ import { saveQRCode, copyQRCode } from 'components/QRCode'
 import { isVoid } from 'utils/type'
 
 const generateQRCode = (address: Address): void => {
-  if (!isVoid(address)) {
+  if (address) {
     qrCode.generate({
       selector: '.qr #qrcode',
       requisites: { to: address },
