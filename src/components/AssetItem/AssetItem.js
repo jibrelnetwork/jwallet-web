@@ -1,6 +1,7 @@
 // @flow
 
 import classNames from 'classnames'
+import checkETH from 'utils/digitalAssets/checkETH.js'
 
 import React, {
   Fragment,
@@ -167,6 +168,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 <JSwitch
                   onChange={setIsActive}
                   isChecked={isActive}
+                  isDisabled={isActive ? checkETH(address) : false}
                   name={address}
                 />
               </div>
