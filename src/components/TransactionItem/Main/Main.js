@@ -7,6 +7,7 @@ import React, {
   PureComponent,
 } from 'react'
 
+import config from 'config'
 import handle from 'utils/eventHandlers/handle'
 import getAddressLink from 'utils/transactions/getAddressLink'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
@@ -23,6 +24,10 @@ import {
   JAssetSymbol,
 } from 'components/base'
 
+type TransactionTextColor = 'red' | 'gray' | 'blue'
+type TransactionIconColor = 'red' | 'gray' | 'white'
+type TransactionIconName = 'time' | 'cross-circle' | 'transaction-send' | 'transaction-receive'
+
 type Props = {|
   +setActive: (boolean) => void,
   +data: TransactionWithPrimaryKeys,
@@ -36,10 +41,42 @@ type Props = {|
   +isAssetList: boolean,
 |}
 
-const ONE_DAY: number = 1000 * 60 * 60 * 24
+function getTransactionTextColor(isSent: boolean, isFailed: boolean): TransactionTextColor {
+  if (isFailed) {
+    return 'red'
+  }
 
-function getPendingTransactionIconColor(timestamp: number): 'red' | 'gray' {
-  return ((Date.now() - timestamp) > ONE_DAY) ? 'red' : 'gray'
+  return isSent ? 'gray' : 'blue'
+}
+
+function getTransactionIconColor(
+  isPending: boolean,
+  isFailed: boolean,
+  timestamp: number,
+): TransactionIconColor {
+  const isDelayed: boolean = isPending && ((Date.now() - timestamp) > config.miningDelay)
+
+  if (isDelayed || isFailed) {
+    return 'red'
+  }
+
+  return isPending ? 'gray' : 'white'
+}
+
+function getTransactionIconName(
+  isSent: boolean,
+  isPending: boolean,
+  isFailed: boolean,
+): TransactionIconName {
+  if (isPending) {
+    return 'time'
+  }
+
+  if (isFailed) {
+    return 'cross-circle'
+  }
+
+  return isSent ? 'transaction-send' : 'transaction-receive'
 }
 
 class TransactionItemMain extends PureComponent<Props> {
@@ -66,6 +103,7 @@ class TransactionItemMain extends PureComponent<Props> {
 
     const {
       blockData,
+      receiptData,
       to,
       from,
       hash,
@@ -74,16 +112,16 @@ class TransactionItemMain extends PureComponent<Props> {
       contractAddress,
     }: TransactionWithPrimaryKeys = data
 
-    if (!blockData) {
+    if (!(blockData && receiptData)) {
       return null
     }
 
     const isPending: boolean = !blockHash
+    const isFailed: boolean = !receiptData.status
     const amountSign: string = isSent ? '-' : '+'
-    const color: 'gray' | 'blue' = isSent ? 'gray' : 'blue'
-    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
-    const iconName: string = isSent ? 'transaction-send' : 'transaction-receive'
     const timestamp: number = blockData.timestamp * 1000
+    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
+    const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
 
     return (
       <div
@@ -94,8 +132,8 @@ class TransactionItemMain extends PureComponent<Props> {
           <div className='status'>
             <JIcon
               size='medium'
-              name={isPending ? 'time' : iconName}
-              color={isPending ? getPendingTransactionIconColor(timestamp) : 'white'}
+              name={getTransactionIconName(isSent, isPending, isFailed)}
+              color={getTransactionIconColor(isPending, isFailed, timestamp)}
             />
           </div>
           <div className='data'>
