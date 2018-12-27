@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-import { JCard, JRaisedButton } from 'components/base'
+import { JCard, JInput, JRaisedButton } from 'components/base'
 import { AddressPicker, CloseableScreen, QRCode } from 'components'
 import { clipboard, qrCode } from 'services'
 
@@ -33,7 +33,18 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const initialAddress = isVoid(props.wallet) ? '' : props.wallet.address || ''
+    const { wallet, items } = props
+    if (isVoid(wallet)) {
+      this.state = {
+        selectedAddress: '',
+      }
+
+      return
+    }
+
+    const { address, addressIndex } = wallet
+
+    const initialAddress = address || Object.keys(items)[addressIndex || 0]
 
     this.state = {
       selectedAddress: initialAddress,
@@ -78,12 +89,21 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
                   />
                 </JCard>
               </div>
-              <AddressPicker
-                onSelect={this.setAddress}
-                addressNames={items}
-                selectedAddress={selectedAddress}
-                isDisabled={wallet.type === 'address'}
-              />
+              {wallet.type === 'address' ?
+                <JInput
+                  label='Recepient address'
+                  value={selectedAddress}
+                  color='gray'
+                  type='text'
+                  isDisabled
+                /> :
+                <AddressPicker
+                  onSelect={this.setAddress}
+                  addressNames={items}
+                  selectedAddress={selectedAddress}
+                  isDisabled={wallet.type === 'address'}
+                />
+              }
               <JRaisedButton onClick={this.copyAddress} label='Copy address' color='blue' />
             </div>
           </div>
