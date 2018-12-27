@@ -11,9 +11,11 @@ import flattenTransactions from './flattenTransactions'
 import getTransactionValue from './getTransactionValue'
 import checkTransactionLoading from './checkTransactionLoading'
 import filterLoadingTransactions from './filterLoadingTransactions'
+import flattenPendingTransactions from './flattenPendingTransactions'
 import flattenTransactionsByAsset from './flattenTransactionsByAsset'
 import flattenTransactionsByOwner from './flattenTransactionsByOwner'
-import flattenPendingTransactions from './flattenPendingTransactions'
+import checkTransactionsByAssetLoading from './checkTransactionsByAssetLoading'
+import checkTransactionsByOwnerLoading from './checkTransactionsByOwnerLoading'
 import flattenPendingTransactionsByOwner from './flattenPendingTransactionsByOwner'
 
 export {
@@ -28,8 +30,10 @@ export {
   getTransactionValue,
   checkTransactionLoading,
   filterLoadingTransactions,
+  flattenPendingTransactions,
   flattenTransactionsByAsset,
   flattenTransactionsByOwner,
-  flattenPendingTransactions,
+  checkTransactionsByAssetLoading,
+  checkTransactionsByOwnerLoading,
   flattenPendingTransactionsByOwner,
 }

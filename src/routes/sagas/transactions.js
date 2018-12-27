@@ -29,8 +29,8 @@ import {
 import {
   flattenTransactions,
   checkTransactionLoading,
-  filterLoadingTransactions,
   flattenTransactionsByOwner,
+  checkTransactionsByOwnerLoading,
 } from 'utils/transactions'
 
 import {
@@ -198,9 +198,13 @@ function getRequestTransactionsByAssetTasks(
 }
 
 function getTransactionsByOwnerForActiveAssets(
-  itemsByOwner: TransactionsByOwner,
+  itemsByOwner: ?TransactionsByOwner,
   activeAssets: DigitalAsset[],
-): TransactionsByOwner {
+): ?TransactionsByOwner {
+  if (!itemsByOwner) {
+    return null
+  }
+
   return Object
     .keys(itemsByOwner)
     .reduce((result: TransactionsByOwner, assetAddress: AssetAddress): TransactionsByOwner => {
@@ -213,7 +217,7 @@ function getTransactionsByOwnerForActiveAssets(
 
       return {
         ...result,
-        [assetAddress]: itemsByOwner[assetAddress],
+        [assetAddress]: itemsByOwner ? itemsByOwner[assetAddress] : null,
       }
     }, {})
 }
@@ -226,56 +230,15 @@ function* checkTransactionsFetched(
   const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
     yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
-  if (!itemsByOwner) {
-    return false
-  }
-
-  const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+  const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
     itemsByOwner,
     activeAssets,
   )
 
-  const fetchedItems: Transactions = Object.keys(itemsByOwnerForActiveAssets).reduce((
-    resultByAssetAddress: Transactions,
-    assetAddress: AssetAddress,
-  ): Transactions => {
-    const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
+  const flatten: TransactionWithPrimaryKeys[] =
+    flattenTransactionsByOwner(itemsByOwnerForActiveAssets)
 
-    if (!itemsByAssetAddress) {
-      return resultByAssetAddress
-    }
-
-    const result: Transactions = Object.keys(itemsByAssetAddress).reduce((
-      resultByBlockNumber: Transactions,
-      blockNumber: BlockNumber,
-    ): Transactions => {
-      const itemsByBlockNumber: ?TransactionsByBlockNumber = itemsByAssetAddress[blockNumber]
-
-      if (!itemsByBlockNumber) {
-        return resultByBlockNumber
-      }
-
-      const { items }: TransactionsByBlockNumber = itemsByBlockNumber
-
-      if (!items) {
-        return resultByBlockNumber
-      }
-
-      const itemsFiltered: Transactions = filterLoadingTransactions(items)
-
-      return {
-        ...itemsFiltered,
-        ...resultByBlockNumber,
-      }
-    }, {})
-
-    return {
-      ...result,
-      ...resultByAssetAddress,
-    }
-  }, {})
-
-  return !!Object.keys(fetchedItems).length
+  return !!flatten.length
 }
 
 function* checkTransactionsLoading(
@@ -286,62 +249,12 @@ function* checkTransactionsLoading(
   const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
     yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
-  if (!itemsByOwner) {
-    return true
-  }
-
-  const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+  const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
     itemsByOwner,
     activeAssets,
   )
 
-  const isLoading: boolean = Object.keys(itemsByOwnerForActiveAssets).reduce((
-    resultByAssetAddress: boolean,
-    assetAddress: AssetAddress,
-  ): boolean => {
-    // return true if already true
-    if (resultByAssetAddress) {
-      return true
-    }
-
-    const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
-
-    // return true if items was not found by existed key
-    if (!itemsByAssetAddress) {
-      return true
-    }
-
-    // return result of iterating by addresses of assets
-    return Object.keys(itemsByAssetAddress).reduce((
-      resultByBlockNumber: boolean,
-      blockNumber: BlockNumber,
-    ): boolean => {
-      // return true if already true
-      if (resultByBlockNumber) {
-        return true
-      }
-
-      const itemsByBlockNumber: ?TransactionsByBlockNumber = itemsByAssetAddress[blockNumber]
-
-      // return true if items was not found by existed key
-      if (!itemsByBlockNumber) {
-        return true
-      }
-
-      const { items }: TransactionsByBlockNumber = itemsByBlockNumber
-
-      // return true if items don't exist
-      if (!items) {
-        return true
-      }
-
-      const itemsFiltered: Transactions = filterLoadingTransactions(items, true)
-
-      return (Object.keys(itemsFiltered).length !== 0)
-    }, false)
-  }, false)
-
-  return isLoading
+  return checkTransactionsByOwnerLoading(itemsByOwnerForActiveAssets)
 }
 
 function* syncProcessingBlockStatus(): Saga<void> {
@@ -673,7 +586,7 @@ function* resyncTransactionsByTransactionId(
     const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
       yield select(selectActiveDigitalAssets)
 
-    const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+    const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
       itemsByOwner,
       activeAssets,
     )
