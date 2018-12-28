@@ -1,31 +1,82 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
-import { JIcon, JFlatButton } from 'components/base'
+import {
+  handle,
+  handleTargetValue,
+} from 'utils/eventHandlers'
 
-type Props = {
-  saveComment: () => void,
-  deleteComment: () => void,
-}
+import {
+  JIcon,
+  JFlatButton,
+} from 'components/base'
 
-class TransactionItemDetailsComment extends PureComponent<Props> {
+type Props = {|
+  +toggle: () => void,
+  +edit: (CommentId, string) => void,
+  +comment: ?string,
+  +transactionId: TransactionId,
+|}
+
+type ComponentState = {|
+  +newValue: string,
+|}
+
+class TransactionItemDetailsComment extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    const { comment }: Props = props
+
+    this.state = {
+      newValue: comment || '',
+    }
+  }
+
+  saveComment = (value: string) => {
+    const {
+      edit,
+      toggle,
+      transactionId,
+    }: Props = this.props
+
+    edit(transactionId, value)
+    toggle()
+  }
+
+  deleteComment = () => this.saveComment('')
+
+  changeValue = (newValue: string) => {
+    this.setState({ newValue })
+  }
+
   render() {
     const {
-      saveComment,
-      deleteComment,
+      toggle,
+      comment,
     } = this.props
+
+    const { newValue }: ComponentState = this.state
+    const isValueChanged: boolean = (comment !== newValue)
 
     return (
       <div className='transaction-item-details-comment'>
         <label htmlFor='message' className='icon'>
           <JIcon size='medium' color='gray' name='message-add' />
         </label>
-        <input type='text' id='message' className='field' placeholder='Your comment' />
+        <input
+          onChange={handleTargetValue(this.changeValue)}
+          value={newValue}
+          type='text'
+          id='message'
+          className='field'
+          placeholder='Your comment'
+        />
         <div className='actions'>
           <div className='button'>
             <JFlatButton
-              onClick={saveComment}
+              onClick={handle(this.saveComment)(newValue)}
               label='Save'
               color='blue'
               isBordered
@@ -33,8 +84,8 @@ class TransactionItemDetailsComment extends PureComponent<Props> {
           </div>
           <div className='button'>
             <JFlatButton
-              onClick={deleteComment}
-              label='Delete'
+              onClick={isValueChanged ? toggle : this.deleteComment}
+              label={isValueChanged ? 'Cancel' : 'Delete'}
               color='blue'
               isBordered
             />

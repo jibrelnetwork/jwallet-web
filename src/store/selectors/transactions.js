@@ -16,6 +16,12 @@ export function selectTransactionsItems(state: AppState): TransactionsItems {
   return transactionsPersist.items
 }
 
+export function selectPendingTransactionsItems(state: AppState): PendingTransactionsItems {
+  const transactionsPersist: TransactionsPersist = selectTransactionsPersist(state)
+
+  return transactionsPersist.pending
+}
+
 export function selectTransactionsByNetworkId(
   state: AppState,
   networkId: NetworkId,
@@ -46,7 +52,7 @@ export function selectTransactionsByOwner(
 export function selectTransactionsByAsset(
   state: AppState,
   networkId: NetworkId,
-  owner: OwnerAddress,
+  owner: ?OwnerAddress,
   asset: AssetAddress,
 ): ?TransactionsByAssetAddress {
   const byOwner: ?TransactionsByOwner = selectTransactionsByOwner(state, networkId, owner)
@@ -77,4 +83,97 @@ export function selectTransactionsByBlockNumber(
   }
 
   return byAssetAddress[blockNumber]
+}
+
+export function selectTransactionById(
+  state: AppState,
+  networkId: NetworkId,
+  owner: OwnerAddress,
+  asset: AssetAddress,
+  blockNumber: BlockNumber,
+  id: TransactionId,
+): ?Transaction {
+  const byBlockNumber: ?TransactionsByBlockNumber = selectTransactionsByBlockNumber(
+    state,
+    networkId,
+    owner,
+    asset,
+    blockNumber,
+  )
+
+  if (!(byBlockNumber && byBlockNumber.items)) {
+    return null
+  }
+
+  return byBlockNumber.items[id]
+}
+
+export function selectPendingTransactionsByNetworkId(
+  state: AppState,
+  networkId: NetworkId,
+): ?PendingTransactionsByNetworkId {
+  const transactionsPending: PendingTransactionsItems = selectPendingTransactionsItems(state)
+
+  return transactionsPending[networkId]
+}
+
+export function selectPendingTransactionsByOwner(
+  state: AppState,
+  networkId: NetworkId,
+  owner: ?OwnerAddress,
+): ?PendingTransactionsByOwner {
+  if (!owner) {
+    return null
+  }
+
+  const byNetworkId: ?PendingTransactionsByNetworkId = selectPendingTransactionsByNetworkId(
+    state,
+    networkId,
+  )
+
+  if (!byNetworkId) {
+    return null
+  }
+
+  return byNetworkId[owner]
+}
+
+export function selectPendingTransactionsByAsset(
+  state: AppState,
+  networkId: NetworkId,
+  owner: ?OwnerAddress,
+  asset: AssetAddress,
+): ?Transactions {
+  const byOwner: ?PendingTransactionsByOwner = selectPendingTransactionsByOwner(
+    state,
+    networkId,
+    owner,
+  )
+
+  if (!byOwner) {
+    return null
+  }
+
+  return byOwner[asset]
+}
+
+export function selectPendingTransactionByHash(
+  state: AppState,
+  networkId: NetworkId,
+  owner: OwnerAddress,
+  asset: AssetAddress,
+  txHash: Hash,
+): ?Transaction {
+  const byAsset: ?Transactions = selectPendingTransactionsByAsset(
+    state,
+    networkId,
+    owner,
+    asset,
+  )
+
+  if (!byAsset) {
+    return null
+  }
+
+  return byAsset[txHash]
 }

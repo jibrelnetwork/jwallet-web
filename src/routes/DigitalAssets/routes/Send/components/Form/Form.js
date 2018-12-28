@@ -71,7 +71,8 @@ function DigitalAssetsSendForm({
             placeholder: 'Value',
           }, {
             value: formFieldValues.amountFiat,
-            placeholder: 'Value',
+            placeholder: 'Value USD',
+            isDisabled: true,
           }]}
           errorMessage={formFieldErrors.amount}
         />

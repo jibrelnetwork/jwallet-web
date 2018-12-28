@@ -54,4 +54,5 @@ declare type AppConfig = {|
   +requestQueueWorkersCount: number,
   +resyncTransactionsTimeout: number,
   +syncBalancesTimeout: number,
+  +miningDelay: number,
 |}

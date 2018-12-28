@@ -3,25 +3,30 @@
 import flattenTransactions from './flattenTransactions'
 
 function flattenTransactionsByAsset(
-  transactionsByAssetAddress: TransactionsByAssetAddress,
+  itemsByAssetAddress: ?TransactionsByAssetAddress,
   assetAddress: AssetAddress,
   isLoadingIncluded?: boolean = false,
 ): TransactionWithPrimaryKeys[] {
-  return Object.keys(transactionsByAssetAddress).reduce((
+  if (!itemsByAssetAddress) {
+    return []
+  }
+
+  return Object.keys(itemsByAssetAddress).reduce((
     result: TransactionWithPrimaryKeys[],
     blockNumber: BlockNumber,
   ) => {
-    const transactionsByBlockNumber: ?TransactionsByBlockNumber =
-      transactionsByAssetAddress[blockNumber]
+    const itemsByBlockNumber: ?TransactionsByBlockNumber = itemsByAssetAddress
+      ? itemsByAssetAddress[blockNumber]
+      : null
 
-    if (!transactionsByBlockNumber) {
+    if (!itemsByBlockNumber) {
       return result
     }
 
     const {
       items,
       isError,
-    }: TransactionsByBlockNumber = transactionsByBlockNumber
+    }: TransactionsByBlockNumber = itemsByBlockNumber
 
     if (!items || isError) {
       return result

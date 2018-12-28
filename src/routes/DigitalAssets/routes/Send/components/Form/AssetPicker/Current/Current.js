@@ -7,7 +7,10 @@ import React, {
   Component,
 } from 'react'
 
-import formatBalance from 'utils/numbers/formatBalance'
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 import {
   ignoreEvent,
@@ -57,10 +60,11 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
       name,
       symbol,
       balance,
+      decimals,
     }: DigitalAssetWithBalance = currentAsset
 
     const balanceStr: string = (balance && balance.value)
-      ? `: ${formatBalance(balance.value)} ${symbol}`
+      ? `: ${formatBalance(divDecimals(balance.value, decimals), 6)} ${symbol}`
       : ''
 
     return (

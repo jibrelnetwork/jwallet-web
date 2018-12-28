@@ -38,6 +38,9 @@ import {
   selectDigitalAssetsSend,
 } from 'store/selectors/digitalAssets'
 
+import * as comments from 'routes/modules/comments'
+import * as transactions from 'routes/modules/transactions'
+
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
 function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
@@ -83,10 +86,10 @@ function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?str
     const fee: BigNumber = divDecimals(0, decimals)
     const balanceWithFee: BigNumber = balance.plus(fee)
 
-    if (balanceWithFee.gt(amount)) {
+    if (balanceWithFee.lt(amount)) {
       return 'Amount exceeds balance'
     }
-  } else if (balance.gt(amount)) {
+  } else if (balance.lt(amount)) {
     return 'Amount exceeds balance'
   }
 
@@ -134,7 +137,7 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
   }
 
   if (isGasPriceInvalid) {
-    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas limit'))
+    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas price'))
   }
 
   return !(
@@ -147,25 +150,120 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
   )
 }
 
+function* addPendingTransaction(
+  hash: Hash,
+  formFieldValues: DigitalAssetsSendFormFields,
+  networkId: NetworkId,
+  decimals: number,
+): Saga<void> {
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  if (!ownerAddress) {
+    throw new Error('There is no active wallet')
+  }
+
+  const {
+    amount,
+    gasLimit,
+    gasPrice,
+    recepient,
+    assetAddress,
+  }: DigitalAssetsSendFormFields = formFieldValues
+
+  yield put(transactions.addPendingTransaction(
+    networkId,
+    ownerAddress,
+    assetAddress,
+    {
+      data: {
+        gasPrice,
+      },
+      blockData: {
+        timestamp: Date.now() / 1000,
+      },
+      receiptData: {
+        gasUsed: parseInt(gasLimit, 10) || 0,
+        status: 1,
+      },
+      hash,
+      to: recepient,
+      blockHash: null,
+      blockNumber: null,
+      from: ownerAddress,
+      contractAddress: null,
+      eventType: checkETH(assetAddress) ? 0 : 1,
+      amount: getTransactionValue(amount, decimals),
+      isRemoved: false,
+    }
+  ))
+}
+
+function* addTransactionComment(txHash: Hash, comment: string): Saga<void> {
+  if (!comment) {
+    return
+  }
+
+  yield put(comments.edit(txHash, comment))
+}
+
 function* sendTransactionSuccess(
   txHash: Hash,
-  assetAddress: AssetAddress,
-  comment: string,
+  formFieldValues: DigitalAssetsSendFormFields,
+  networkId: NetworkId,
+  decimals: number,
 ): Saga<void> {
+  const {
+    comment,
+    assetAddress,
+  }: DigitalAssetsSendFormFields = formFieldValues
+
   yield put(push(`/transactions/${assetAddress}`))
-  console.log(txHash)
-  console.log(comment)
+  yield* addPendingTransaction(txHash, formFieldValues, networkId, decimals)
+  yield* addTransactionComment(txHash, comment)
 }
 
 function* sendTransactionError(err: Error): Saga<void> {
   yield put(digitalAssetsSend.setFormFieldError('password', err.message))
 }
 
+function getTransactionData(data: SendTransactionProps): SendTransactionProps {
+  const {
+    gas,
+    value,
+    gasPrice,
+    to,
+    privateKey,
+    nonce,
+  }: SendTransactionProps = data
+
+  const dataNew: SendTransactionProps = {
+    to,
+    value,
+    privateKey,
+  }
+
+  /* eslint-disable fp/no-mutation */
+  if (!isZero(gas)) {
+    dataNew.gas = gas
+  }
+
+  if (!isZero(gasPrice)) {
+    dataNew.gasPrice = gasPrice
+  }
+
+  if (nonce) {
+    dataNew.nonce = nonce
+  }
+  /* eslint-enable fp/no-mutation */
+
+  return dataNew
+}
+
 function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
   const {
     nonce,
     amount,
-    comment,
     gasLimit,
     gasPrice,
     password,
@@ -208,17 +306,17 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   try {
     const privateKey: string = yield* getPrivateKey(walletId, password)
 
-    const txData: SendTransactionProps = {
-      nonce,
+    const txData: SendTransactionProps = getTransactionData({
       gas: toBigNumber(gasLimit),
       gasPrice: toBigNumber(gasPrice),
       value: getTransactionValue(amount, decimals),
       to: recepient,
       privateKey: privateKey.substr(2),
-    }
+      nonce: parseInt(nonce, 10) || 0,
+    })
 
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
-    yield* sendTransactionSuccess(txHash, address, comment)
+    yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals)
   } catch (err) {
     yield* sendTransactionError(err)
   }
@@ -263,6 +361,7 @@ function* goToPrevStep(): Saga<void> {
       break
 
     default:
+      yield put(push('/digital-assets/grid'))
       break
   }
 }

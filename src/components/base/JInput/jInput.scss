@@ -68,8 +68,7 @@
     opacity: 1;
   }
 
-  > .help,
-  > .lock {
+  > .help {
     /**
      * Just believe me
      */
@@ -101,15 +100,16 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: $icon-small-size $icon-small-size;
+      background-image: $icon-small-info-clear-gray;
     }
   }
 
-  > .help > .icon {
-    background-image: $icon-small-info-clear-gray;
-  }
-
-  > .lock > .icon {
-    background-image: $icon-small-lock-gray;
+  > .lock {
+    top: 50%;
+    right: 9px;
+    position: absolute;
+    margin-top: -12px;
+    opacity: 0.5;
   }
 
   > .loader {
@@ -277,16 +277,9 @@
     }
 
     &.-gray > .input {
-      color: rgba($dusk, 0.3);
-
-      &::placeholder {
-        color: $dusk;
-        opacity: 0.2;
-      }
-
       &:hover,
       &:focus {
-        border-bottom: 1px solid rgba($dusk, 0.1);
+        box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
       }
     }
   }

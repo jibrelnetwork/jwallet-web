@@ -3,7 +3,10 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
-import formatBalance from 'utils/numbers/formatBalance'
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 import {
   JText,
@@ -26,11 +29,12 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
       name,
       symbol,
       balance,
+      decimals,
       isCustom,
     }: DigitalAssetWithBalance = data
 
     const balanceStr: string = (balance && balance.value)
-      ? `${formatBalance(balance.value)} ${symbol}`
+      ? `${formatBalance(divDecimals(balance.value, decimals), 6)} ${symbol}`
       : ''
 
     return (

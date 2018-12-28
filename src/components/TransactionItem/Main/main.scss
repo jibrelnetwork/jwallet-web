@@ -43,15 +43,36 @@
     }
 
     > .data {
-      min-width: 365px;
+      width: 400px;
       padding-left: 20px;
       padding-right: 20px;
+      overflow: hidden;
 
       > .address {
         @include flex-row;
 
         > .icon {
           margin-right: 5px;
+        }
+
+        > .link {
+          @include flex-row;
+
+          position: relative;
+          flex-grow: 1;
+          overflow: hidden;
+
+          &::after {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            display: block;
+            width: 40px;
+            background: linear-gradient(to left, rgba($white, 1), rgba($white, 0));
+            pointer-events: none;
+            content: '';
+          }
         }
       }
 
@@ -64,9 +85,11 @@
     > .message {
       @include flex-row;
 
-      max-width: 240px;
+      position: relative;
+      width: 340px;
       padding-left: 20px;
       align-items: center;
+      overflow: hidden;
 
       &::before {
         left: 0;
@@ -77,8 +100,23 @@
       }
 
       > .text {
+        position: relative;
+        width: 100%;
         margin-left: 10px;
+        overflow: hidden;
         opacity: 0.5;
+
+        &::after {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          display: block;
+          width: 40px;
+          background: linear-gradient(to left, rgba($white, 1), rgba($white, 0));
+          pointer-events: none;
+          content: '';
+        }
       }
     }
 
