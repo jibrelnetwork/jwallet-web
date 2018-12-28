@@ -18,6 +18,7 @@ type Props = {|
   +addresses: Address[],
   +addressNames: AddressNames,
   +activeWalletId: ?WalletId,
+  +ethBalance: ?Balance,
 |}
 
 type ComponentState = {|
@@ -57,6 +58,7 @@ class MenuPanel extends Component<Props, ComponentState> {
       addresses,
       addressNames,
       activeWalletId,
+      ethBalance,
     }: Props = this.props
 
     const wallet: ?Wallet = getWallet(items, activeWalletId)
@@ -83,7 +85,7 @@ class MenuPanel extends Component<Props, ComponentState> {
           </div>
           <div className='separator' />
           <div className='ticker'>
-            <MenuPanelBalanceTicker />
+            <MenuPanelBalanceTicker ethBalance={ethBalance} />
           </div>
         </div>
         <div className='actions'>

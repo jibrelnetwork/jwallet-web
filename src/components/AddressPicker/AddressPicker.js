@@ -19,7 +19,7 @@ type ComponentState = {|
   +searchQuery: string,
 |}
 
-function filterAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
+function searchAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
   const query: string = searchQuery.trim()
   const searchRe: RegExp = new RegExp(query, 'ig')
 
@@ -44,7 +44,6 @@ function filterAddressNames(addressNames: AddressNames, searchQuery: string): Ad
 
 class AddressPicker extends Component<Props, ComponentState> {
   static defaultProps = {
-    errorMessage: '',
     isDisabled: false,
   }
 
@@ -76,7 +75,7 @@ class AddressPicker extends Component<Props, ComponentState> {
     }: Props = this.props
 
     const { searchQuery }: ComponentState = this.state
-    const filteredAddressNames: AddressNames = filterAddressNames(addressNames, searchQuery)
+    const filteredAddressNames: AddressNames = searchAddressNames(addressNames, searchQuery)
 
     return (
       <div className='address-picker'>

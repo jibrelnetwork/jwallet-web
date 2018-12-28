@@ -9,8 +9,8 @@ function sortTransactions(
     first: TransactionWithPrimaryKeys,
     second: TransactionWithPrimaryKeys,
   ): number => {
-    const firstValue: number = first.blockData ? first.blockData.minedAt : 0
-    const secondValue: number = second.blockData ? second.blockData.minedAt : 0
+    const firstValue: number = first.blockData ? first.blockData.timestamp : 0
+    const secondValue: number = second.blockData ? second.blockData.timestamp : 0
 
     if (firstValue > secondValue) {
       return (direction === 'asc') ? 1 : -1

@@ -12,12 +12,19 @@ type Props = {
   load: ?OverlayActionsHandler,
   copyLabel: string,
   loadLabel: ?string,
+  color: 'white' | 'gray',
+}
+
+const colorTextMap = {
+  white: 'blue',
+  gray: 'white',
 }
 
 class OverlayActions extends PureComponent<Props> {
   static defaultProps = {
     load: null,
     loadLabel: null,
+    color: 'gray',
   }
 
   render() {
@@ -26,18 +33,25 @@ class OverlayActions extends PureComponent<Props> {
       load,
       copyLabel,
       loadLabel,
+      color,
     }: Props = this.props
 
     const isLoadHandlerPresent: boolean = !!(load && loadLabel)
+    const textColor = colorTextMap[color]
 
     return (
-      <div className={classNames('overlay-actions', isLoadHandlerPresent && '-with-load')}>
+      <div className={classNames(
+        'overlay-actions',
+        isLoadHandlerPresent && '-with-load',
+        `-${color}`,
+      )}
+      >
         <div onClick={copy} className='item'>
           <div className='icon'>
-            <JIcon name='list' color='white' size='medium' />
+            <JIcon name='list' color={textColor} size='medium' />
           </div>
           <div className='text'>
-            <JText value={copyLabel} color='white' weight='bold' />
+            <JText value={copyLabel} color={textColor} weight='bold' />
           </div>
         </div>
         {isLoadHandlerPresent && (
@@ -47,10 +61,10 @@ class OverlayActions extends PureComponent<Props> {
             </div>
             <div onClick={load} className='item'>
               <div className='icon'>
-                <JIcon name='download' color='white' size='medium' />
+                <JIcon name='download' color={textColor} size='medium' />
               </div>
               <div className='text'>
-                <JText value={loadLabel || ''} color='white' weight='bold' />
+                <JText value={loadLabel || ''} color={textColor} weight='bold' />
               </div>
             </div>
           </Fragment>

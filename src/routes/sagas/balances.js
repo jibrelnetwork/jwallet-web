@@ -281,6 +281,6 @@ export function* requestBalance(
   ))
 }
 
-export function* balancessRootSaga(): Saga<void> {
+export function* balancesRootSaga(): Saga<void> {
   yield takeEvery(balances.FETCH_BY_OWNER_REQUEST, fetchByOwnerRequest)
 }

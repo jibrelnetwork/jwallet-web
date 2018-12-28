@@ -231,7 +231,7 @@ export function getBlock(network: Network, blockId: BlockId): Promise<BlockData>
 
 function getBlockData(network: Network, blockId: BlockId): Promise<TransactionBlockData> {
   return getBlock(network, blockId).then(({ minedAt }: BlockData): TransactionBlockData => ({
-    minedAt,
+    timestamp: minedAt,
   }))
 }
 
@@ -363,7 +363,6 @@ function prepareTransferEvents(data: Array<Object>): Transactions {
       hash: transactionHash,
       contractAddress: null,
       eventType: 1,
-      createdAt: 0,
       isRemoved: !!removed,
     }
 
@@ -478,7 +477,6 @@ function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Tran
       to: (event === 'MintEvent') ? ownerAddressChecksum : assetAddressChecksum,
       from: (event === 'BurnEvent') ? ownerAddressChecksum : assetAddressChecksum,
       eventType: 1,
-      createdAt: 0,
       isRemoved: !!removed,
     }
 
