@@ -28,8 +28,9 @@ import {
 
 import {
   flattenTransactions,
-  filterLoadingTransactions,
+  checkTransactionLoading,
   flattenTransactionsByOwner,
+  checkTransactionsByOwnerLoading,
 } from 'utils/transactions'
 
 import {
@@ -38,8 +39,9 @@ import {
 } from 'utils/digitalAssets'
 
 import {
+  selectTransactionById,
   selectTransactionsByOwner,
-  selectTransactionsByNetworkId,
+  selectPendingTransactionByHash,
 } from 'store/selectors/transactions'
 
 import {
@@ -196,9 +198,13 @@ function getRequestTransactionsByAssetTasks(
 }
 
 function getTransactionsByOwnerForActiveAssets(
-  itemsByOwner: TransactionsByOwner,
+  itemsByOwner: ?TransactionsByOwner,
   activeAssets: DigitalAsset[],
-): TransactionsByOwner {
+): ?TransactionsByOwner {
+  if (!itemsByOwner) {
+    return null
+  }
+
   return Object
     .keys(itemsByOwner)
     .reduce((result: TransactionsByOwner, assetAddress: AssetAddress): TransactionsByOwner => {
@@ -211,7 +217,7 @@ function getTransactionsByOwnerForActiveAssets(
 
       return {
         ...result,
-        [assetAddress]: itemsByOwner[assetAddress],
+        [assetAddress]: itemsByOwner ? itemsByOwner[assetAddress] : null,
       }
     }, {})
 }
@@ -221,65 +227,18 @@ function* checkTransactionsFetched(
   ownerAddress: OwnerAddress,
   activeAssets: DigitalAsset[],
 ): Saga<boolean> {
-  const itemsByNetworkId: ExtractReturn<typeof selectTransactionsByNetworkId> =
-    yield select(selectTransactionsByNetworkId, networkId)
+  const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
+    yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
-  if (!itemsByNetworkId) {
-    return false
-  }
-
-  const itemsByOwner: ?TransactionsByOwner = itemsByNetworkId[ownerAddress]
-
-  if (!itemsByOwner) {
-    return false
-  }
-
-  const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+  const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
     itemsByOwner,
     activeAssets,
   )
 
-  const fetchedItems: Transactions = Object.keys(itemsByOwnerForActiveAssets).reduce((
-    resultByAssetAddress: Transactions,
-    assetAddress: AssetAddress,
-  ): Transactions => {
-    const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
+  const flatten: TransactionWithPrimaryKeys[] =
+    flattenTransactionsByOwner(itemsByOwnerForActiveAssets)
 
-    if (!itemsByAssetAddress) {
-      return resultByAssetAddress
-    }
-
-    const result: Transactions = Object.keys(itemsByAssetAddress).reduce((
-      resultByBlockNumber: Transactions,
-      blockNumber: BlockNumber,
-    ): Transactions => {
-      const itemsByBlockNumber: ?TransactionsByBlockNumber = itemsByAssetAddress[blockNumber]
-
-      if (!itemsByBlockNumber) {
-        return resultByBlockNumber
-      }
-
-      const { items }: TransactionsByBlockNumber = itemsByBlockNumber
-
-      if (!items) {
-        return resultByBlockNumber
-      }
-
-      const itemsFiltered: Transactions = filterLoadingTransactions(items)
-
-      return {
-        ...itemsFiltered,
-        ...resultByBlockNumber,
-      }
-    }, {})
-
-    return {
-      ...result,
-      ...resultByAssetAddress,
-    }
-  }, {})
-
-  return !!Object.keys(fetchedItems).length
+  return !!flatten.length
 }
 
 function* checkTransactionsLoading(
@@ -287,71 +246,15 @@ function* checkTransactionsLoading(
   ownerAddress: OwnerAddress,
   activeAssets: DigitalAsset[],
 ): Saga<boolean> {
-  const itemsByNetworkId: ExtractReturn<typeof selectTransactionsByNetworkId> =
-    yield select(selectTransactionsByNetworkId, networkId)
+  const itemsByOwner: ExtractReturn<typeof selectTransactionsByOwner> =
+    yield select(selectTransactionsByOwner, networkId, ownerAddress)
 
-  if (!itemsByNetworkId) {
-    return true
-  }
-
-  const itemsByOwner: ?TransactionsByOwner = itemsByNetworkId[ownerAddress]
-
-  if (!itemsByOwner) {
-    return true
-  }
-
-  const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+  const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
     itemsByOwner,
     activeAssets,
   )
 
-  const isLoading: boolean = Object.keys(itemsByOwnerForActiveAssets).reduce((
-    resultByAssetAddress: boolean,
-    assetAddress: AssetAddress,
-  ): boolean => {
-    // return true if already true
-    if (resultByAssetAddress) {
-      return true
-    }
-
-    const itemsByAssetAddress: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
-
-    // return true if items was not found by existed key
-    if (!itemsByAssetAddress) {
-      return true
-    }
-
-    // return result of iterating by addresses of assets
-    return Object.keys(itemsByAssetAddress).reduce((
-      resultByBlockNumber: boolean,
-      blockNumber: BlockNumber,
-    ): boolean => {
-      // return true if already true
-      if (resultByBlockNumber) {
-        return true
-      }
-
-      const itemsByBlockNumber: ?TransactionsByBlockNumber = itemsByAssetAddress[blockNumber]
-
-      // return true if items was not found by existed key
-      if (!itemsByBlockNumber) {
-        return true
-      }
-
-      const { items }: TransactionsByBlockNumber = itemsByBlockNumber
-
-      // return true if items don't exist
-      if (!items) {
-        return true
-      }
-
-      const itemsFiltered: Transactions = filterLoadingTransactions(items, true)
-
-      return (Object.keys(itemsFiltered).length !== 0)
-    }, false)
-  }, false)
-
-  return isLoading
+  return checkTransactionsByOwnerLoading(itemsByOwnerForActiveAssets)
 }
 
 function* syncProcessingBlockStatus(): Saga<void> {
@@ -683,7 +586,7 @@ function* resyncTransactionsByTransactionId(
     const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
       yield select(selectActiveDigitalAssets)
 
-    const itemsByOwnerForActiveAssets: TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
+    const itemsByOwnerForActiveAssets: ?TransactionsByOwner = getTransactionsByOwnerForActiveAssets(
       itemsByOwner,
       activeAssets,
     )
@@ -782,6 +685,58 @@ function* requestTransactionsByRange(
   })
 }
 
+function* checkPendingTransaction(
+  action: ExtractReturn<typeof transactions.checkPendingTransaction>
+): Saga<void> {
+  const {
+    networkId,
+    ownerAddress,
+    assetAddress,
+    blockNumber,
+    transactionId,
+  } = action.payload
+
+  const transaction: ExtractReturn<typeof selectTransactionById> = yield select(
+    selectTransactionById,
+    networkId,
+    ownerAddress,
+    assetAddress,
+    blockNumber,
+    transactionId,
+  )
+
+  if (!transaction) {
+    return
+  }
+
+  const {
+    data,
+    blockData,
+    receiptData,
+    hash,
+  }: Transaction = transaction
+
+  const isLoading: boolean = checkTransactionLoading(data, blockData, receiptData)
+
+  if (isLoading) {
+    return
+  }
+
+  const pendingTransaction: ?ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
+    selectPendingTransactionByHash,
+    networkId,
+    ownerAddress,
+    assetAddress,
+    hash,
+  )
+
+  if (!pendingTransaction) {
+    return
+  }
+
+  yield put(transactions.removePendingTransaction(networkId, ownerAddress, assetAddress, hash))
+}
+
 export function* requestTransaction(
   task: SchedulerTransactionTask,
   network: Network,
@@ -850,6 +805,14 @@ export function* requestTransaction(
     default:
       break
   }
+
+  yield put(transactions.checkPendingTransaction(
+    networkId,
+    ownerAddress,
+    assetAddress,
+    blockNumber,
+    transactionId,
+  ))
 }
 
 function* fetchEventsData(
@@ -1045,4 +1008,5 @@ export function* requestTransactions(
 export function* transactionsRootSaga(): Saga<void> {
   yield takeEvery(transactions.FETCH_BY_OWNER_REQUEST, fetchByOwnerRequest)
   yield takeEvery(transactions.RESYNC_TRANSACTIONS_START, resyncTransactionsStart)
+  yield takeEvery(transactions.CHECK_PENDING_TRANSACTION, checkPendingTransaction)
 }

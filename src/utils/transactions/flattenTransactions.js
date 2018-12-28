@@ -15,13 +15,6 @@ function flattenTransactions(
       return result
     }
 
-    const isFound: boolean =
-      !!result.find(({ keys }: TransactionWithPrimaryKeys) => (txId === keys.id))
-
-    if (isFound) {
-      return result
-    }
-
     const {
       data,
       blockData,

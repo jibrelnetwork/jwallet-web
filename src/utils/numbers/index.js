@@ -1,17 +1,17 @@
 // @flow
 
-import BigNumber from './bigNumber'
 import round from './round'
 import isZero from './isZero'
 import divDecimals from './divDecimals'
-import divideThousands from './divideThousands'
+import toBigNumber from './toBigNumber'
 import formatBalance from './formatBalance'
+import divideThousands from './divideThousands'
 
 export {
   round,
   isZero,
   divDecimals,
+  toBigNumber,
   formatBalance,
   divideThousands,
-  BigNumber,
 }
