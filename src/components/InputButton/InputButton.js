@@ -1,11 +1,16 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { JInput, JText, JIcon } from 'components/base'
+import React, { PureComponent } from 'react'
+
+import {
+  JIcon,
+  JText,
+  JInput,
+} from 'components/base'
 
 type Props = {|
-  +onChange: () => void,
+  +onChange: (string) => void,
   +name: string,
   +icon: string,
   +value: string,
@@ -17,13 +22,14 @@ type Props = {|
 |}
 
 type ComponentState = {|
-  isActive: boolean,
+  +isActive: boolean,
 |}
 
 class InputButton extends PureComponent<Props, ComponentState> {
   static defaultProps = {
     isLoading: false,
   }
+
   constructor(props: Props) {
     super(props)
 
@@ -73,9 +79,9 @@ class InputButton extends PureComponent<Props, ComponentState> {
         </div>
         <div className='button' onClick={this.onActivation(true)}>
           <JIcon
+            name={icon}
             color='gray'
             size='medium'
-            name={icon}
           />
           <JText
             value={label}
