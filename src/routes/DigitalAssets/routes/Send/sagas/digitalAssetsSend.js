@@ -66,13 +66,11 @@ function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?str
   const currentBlock: ExtractReturn<typeof selectCurrentBlock> =
     yield select(selectCurrentBlock, networkId)
 
-  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
-
   const assetBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
     selectBalanceByAssetAddress,
     networkId,
     ownerAddress,
-    currentBlockNumber.toString(),
+    currentBlock ? currentBlock.number.toString() : null,
     address,
   )
 

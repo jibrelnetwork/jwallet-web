@@ -1,7 +1,9 @@
 // @flow
 
-import isZero from './isZero'
-import toBigNumber from './toBigNumber'
+import {
+  isZero,
+  toBigNumber,
+} from '.'
 
 function formatBalance(
   value: BigNumber | string | number | void,

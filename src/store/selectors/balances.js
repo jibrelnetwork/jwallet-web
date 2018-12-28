@@ -65,10 +65,10 @@ export function selectBalanceByAssetAddress(
   state: AppState,
   networkId: NetworkId,
   ownerAddress: ?OwnerAddress,
-  blockNumber: BlockNumber,
+  blockNumber: ?BlockNumber,
   assetAddress: AssetAddress,
 ): ?Balance {
-  if (!ownerAddress) {
+  if (!(blockNumber && ownerAddress)) {
     return null
   }
 
