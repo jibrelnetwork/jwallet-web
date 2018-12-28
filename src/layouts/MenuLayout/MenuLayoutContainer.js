@@ -38,7 +38,7 @@ function mapStateToProps(state: AppState) {
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
 
-  const ethBalance: ?Balances = selectBalanceByAssetAddress(
+  const ethBalance: ?Balance = selectBalanceByAssetAddress(
     state,
     networkId,
     ownerAddress,

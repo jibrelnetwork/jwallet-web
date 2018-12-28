@@ -103,13 +103,15 @@ function filterETHTransactions(list: Array<any>): Array<Object> {
 
     const {
       value,
+      isError,
       contractAddress,
     }: Object = item
 
     const isEmptyAmount: boolean = isZero(value)
+    const isFailed: boolean = (parseInt(isError, 16) === 1)
     const isContractCreation: boolean = !!contractAddress.length
 
-    return !(isEmptyAmount && !isContractCreation)
+    return !(isEmptyAmount && !isContractCreation && !isFailed)
   })
 }
 
@@ -138,7 +140,7 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
         gasPrice,
       },
       blockData: {
-        minedAt: parseInt(timeStamp, 10) || 0,
+        timestamp: parseInt(timeStamp, 10) || 0,
       },
       receiptData: {
         gasUsed: parseInt(gasUsed, 10) || 0,
@@ -151,7 +153,6 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
       to: to.length ? getAddressWithChecksum(to) : null,
       contractAddress: contractAddress.length ? getAddressWithChecksum(contractAddress) : null,
       eventType: 0,
-      createdAt: parseInt(timeStamp, 10) || 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
     }

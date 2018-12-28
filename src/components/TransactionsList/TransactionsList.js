@@ -8,7 +8,11 @@ import TransactionItem from 'components/TransactionItem'
 import TransactionsListEmpty from './Empty'
 
 type Props = {|
+  +removeFavorite: (Address) => void,
+  +editComment: (CommentId, string) => void,
   +items: TransactionWithPrimaryKeys[],
+  +comments: Comments,
+  +favorites: AddressNames,
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetAddress: ?string,
@@ -18,8 +22,32 @@ type Props = {|
   +isFiltered: boolean,
 |}
 
+function getComment(comments: Comments, id: TransactionId, hash: Hash): ?string {
+  /**
+   * comment by transaction id has greater priority than comment by transaction hash
+   * this is actual only for contract events
+   */
+  if (comments[id] != null) {
+    return comments[id]
+  }
+
+  return comments[hash]
+}
+
 type ComponentState = {
   +activeItems: TransactionId[],
+}
+
+function getAddressName(
+  favorites: AddressNames,
+  addressNames: AddressNames,
+  address: ?Address,
+): ?string {
+  if (!address) {
+    return null
+  }
+
+  return addressNames[address] || favorites[address]
 }
 
 class TransactionsList extends Component<Props, ComponentState> {
@@ -48,7 +76,11 @@ class TransactionsList extends Component<Props, ComponentState> {
 
   render() {
     const {
+      editComment,
+      removeFavorite,
       items,
+      comments,
+      favorites,
       addressNames,
       digitalAssets,
       assetAddress,
@@ -75,20 +107,31 @@ class TransactionsList extends Component<Props, ComponentState> {
             keys,
             to,
             from,
-          } = item
+            hash,
+            contractAddress,
+          }: TransactionWithPrimaryKeys = item
+
+          const isContractCreation: boolean = !!contractAddress
+          const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
+          const txAddress: ?Address = isSent ? (to || contractAddress) : from
 
           return (
             <TransactionItem
               key={keys.id}
+              editComment={editComment}
+              removeFavorite={removeFavorite}
               setActive={this.setActive(keys.id)}
               data={item}
               asset={digitalAssets[keys.assetAddress]}
-              toName={to && addressNames[to]}
-              fromName={from && addressNames[from]}
+              txAddress={txAddress}
+              comment={getComment(comments, keys.id, hash)}
               blockExplorerSubdomain={blockExplorerSubdomain}
+              toName={getAddressName(favorites, addressNames, to)}
+              fromName={getAddressName(favorites, addressNames, from)}
               isAssetList={!!assetAddress}
+              isSent={isSent || isContractCreation}
               isActive={activeItems.includes(keys.id)}
-              isSent={!!from && (ownerAddress.toLowerCase() === from.toLowerCase())}
+              isFromFavorites={!!(txAddress && favorites[txAddress])}
             />
           )
         })}

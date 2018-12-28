@@ -1,103 +1,101 @@
 // @flow
 
 export const OPEN_VIEW = '@@digitalAssetsSend/OPEN_VIEW'
-export const CLOSE_VIEW = '@@digitalAssetsSend/CLOSE_VIEW'
 
-export const SET_FIELD = '@@digitalAssetsSend/SET_FIELD'
-export const SET_INVALID_FIELD = '@@digitalAssetsSend/SET_INVALID_FIELD'
-export const SUBMIT_SEND_FORM = '@@digitalAssetsSend/SUBMIT_SEND_FORM'
+export const SET_PRIORITY = '@@digitalAssetsSend/SET_PRIORITY'
+export const SET_IS_LOADING = '@@digitalAssetsSend/SET_IS_LOADING'
+export const GO_TO_NEXT_STEP = '@@digitalAssetsSend/GO_TO_NEXT_STEP'
+export const GO_TO_PREV_STEP = '@@digitalAssetsSend/GO_TO_PREV_STEP'
+export const SET_CURRENT_STEP = '@@digitalAssetsSend/SET_CURRENT_STEP'
 
-export const SET_IS_PROCESSING = '@@digitalAssetsSend/SET_IS_PROCESSING'
-export const SUBMIT_PASSWORD_FORM = '@@digitalAssetsSend/SUBMIT_PASSWORD_FORM'
-
-export const SET_STEP = '@@digitalAssetsSend/SET_STEP'
+export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
+export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
-export const STEP_ONE = '1'
-export const STEP_TWO = '2'
+export const STEPS: DigitalAssetsSendSteps = {
+  FORM: 0,
+  CONFIRM: 1,
+}
 
-export type OpenViewParams = {|
-  +to?: string,
-  +asset?: string,
-  +txhash?: string,
-|}
+export const TXPRIORITY: TXPriority = {
+  LOW: 1,
+  NORMAL: 1.5,
+  HIGH: 2,
+  CUSTOM: 0,
+}
 
-export function openView(step: DigitalAssetSendStep, params?: OpenViewParams) {
+export function openView(params?: DigitalAssetsSendRouteParams) {
   return {
     type: OPEN_VIEW,
     payload: {
-      step,
       params,
     },
   }
 }
 
-export function closeView() {
+export function setPriority(priority: TXPriorityKey) {
   return {
-    type: CLOSE_VIEW,
-  }
-}
-
-export function setStep(step: DigitalAssetSendStep) {
-  return {
-    type: SET_STEP,
+    type: SET_PRIORITY,
     payload: {
-      step,
+      priority,
     },
   }
 }
 
-/**
- * STEP ONE
- */
-
-export function setField(fieldName: $Keys<DigitalAssetSendFormFields>, value: string) {
+export function setIsLoading(isLoading: boolean) {
   return {
-    type: SET_FIELD,
+    type: SET_IS_LOADING,
     payload: {
-      fieldName,
+      isLoading,
+    },
+  }
+}
+
+export function goToNextStep() {
+  return {
+    type: GO_TO_NEXT_STEP,
+  }
+}
+
+export function goToPrevStep() {
+  return {
+    type: GO_TO_PREV_STEP,
+  }
+}
+
+export function setCurrentStep(currentStep: DigitalAssetsSendStepIndex) {
+  return {
+    type: SET_CURRENT_STEP,
+    payload: {
+      currentStep,
+    },
+  }
+}
+
+export function setFormFieldValue(
+  fieldName: $Keys<DigitalAssetsSendFormFields>,
+  value: string,
+) {
+  return {
+    type: SET_FORM_FIELD_VALUE,
+    payload: {
       value,
-    },
-  }
-}
-
-export function setFieldError(fieldName: $Keys<DigitalAssetSendFormFields>, message: string) {
-  return {
-    type: SET_INVALID_FIELD,
-    payload: {
       fieldName,
-      message,
     },
   }
 }
 
-export function clearFieldError(fieldName: $Keys<DigitalAssetSendFormFields>) {
-  return setFieldError(fieldName, '')
-}
-
-export function submitSendForm() {
+export function setFormFieldError(
+  fieldName: $Keys<DigitalAssetsSendFormFields>,
+  message: string,
+) {
   return {
-    type: SUBMIT_SEND_FORM,
-  }
-}
-
-/**
- * STEP TWO
- */
-
-export function setIsProcessing(isProcessing: boolean) {
-  return {
-    type: SET_IS_PROCESSING,
+    type: SET_FORM_FIELD_ERROR,
     payload: {
-      isProcessing,
+      message,
+      fieldName,
     },
-  }
-}
-
-export function submitPasswordForm() {
-  return {
-    type: SUBMIT_PASSWORD_FORM,
   }
 }
 
@@ -107,96 +105,100 @@ export function clean() {
   }
 }
 
-export type DigitalAssetSendAction =
+export type DigitalAssetsSendAction =
   ExtractReturn<typeof openView> |
-  ExtractReturn<typeof closeView> |
-  ExtractReturn<typeof setStep> |
-  ExtractReturn<typeof setField> |
-  ExtractReturn<typeof setFieldError> |
-  ExtractReturn<typeof submitSendForm> |
-  ExtractReturn<typeof setIsProcessing> |
-  ExtractReturn<typeof submitPasswordForm> |
+  ExtractReturn<typeof setIsLoading> |
+  ExtractReturn<typeof goToNextStep> |
+  ExtractReturn<typeof goToPrevStep> |
+  ExtractReturn<typeof setCurrentStep> |
+  ExtractReturn<typeof setFormFieldValue> |
+  ExtractReturn<typeof setFormFieldError> |
   ExtractReturn<typeof clean>
 
-const initialState: DigitalAssetSendState = {
-  formFields: {
-    ownerAddress: '',
-    recepient: '',
-    assetAddress: '',
-    amount: '',
-    amountFiat: '',
-    comment: '',
+const initialState: DigitalAssetsSendState = {
+  formFieldValues: {
     nonce: '',
-    password: '',
-    priority: {
-      type: 'NORMAL',
-    },
-  },
-  invalidFields: {
-    ownerAddress: '',
-    recepient: '',
-    assetAddress: '',
     amount: '',
-    amountFiat: '',
-    priority: '',
     comment: '',
-    nonce: '',
+    gasLimit: '',
+    gasPrice: '',
     password: '',
+    recepient: '',
+    amountFiat: '',
+    assetAddress: '',
   },
-  step: STEP_ONE,
-  isProcessing: false,
+  formFieldErrors: {
+    nonce: '',
+    amount: '',
+    comment: '',
+    gasLimit: '',
+    gasPrice: '',
+    password: '',
+    recepient: '',
+    amountFiat: '',
+    assetAddress: '',
+  },
+  currentStep: STEPS.FORM,
+  priority: 'NORMAL',
+  isLoading: false,
 }
 
 function digitalAssetsSend(
-  state: DigitalAssetSendState = initialState,
-  action: DigitalAssetSendAction,
-): DigitalAssetSendState {
+  state: DigitalAssetsSendState = initialState,
+  action: DigitalAssetsSendAction,
+): DigitalAssetsSendState {
   switch (action.type) {
-    case SET_FIELD: {
-      const { fieldName, value } = action.payload
+    case SET_PRIORITY:
+      return {
+        ...state,
+        priority: action.payload.priority,
+      }
+
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading,
+      }
+
+    case SET_FORM_FIELD_VALUE: {
+      const {
+        value,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,
-        invalidFields: {
-          ...state.invalidFields,
+        formFieldErrors: {
+          ...state.formFieldErrors,
           [fieldName]: '',
         },
-        formFields: {
-          ...state.formFields,
+        formFieldValues: {
+          ...state.formFieldValues,
           [fieldName]: value,
         },
       }
     }
 
-    case SET_INVALID_FIELD: {
-      const { fieldName, message } = action.payload
+    case SET_FORM_FIELD_ERROR: {
+      const {
+        message,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,
-        invalidFields: {
-          ...state.invalidFields,
+        formFieldErrors: {
+          ...state.formFieldErrors,
           [fieldName]: message,
         },
       }
     }
 
-    case SET_STEP: {
-      const { step } = action.payload
-
+    case SET_CURRENT_STEP:
       return {
         ...state,
-        step,
+        currentStep: action.payload.currentStep,
       }
-    }
-
-    case SET_IS_PROCESSING: {
-      const { isProcessing } = action.payload
-
-      return {
-        ...state,
-        isProcessing,
-      }
-    }
 
     case CLEAN:
       return initialState
