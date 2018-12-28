@@ -43,6 +43,18 @@ function DigitalAssetsSendForm({
   priority,
   isLoading,
 }: Props) {
+  const {
+    nonce,
+    amount,
+    comment,
+    recipient,
+    amountFiat,
+    assetAddress,
+  }: DigitalAssetsSendFormFields = formFieldValues
+
+  const selectedAsset: ?DigitalAssetWithBalance = digitalAssets
+    .find(({ address }: DigitalAssetWithBalance): boolean => (address === assetAddress))
+
   return (
     <div className='digital-assets-send-form'>
       <form className='form' onSubmit={ignoreEvent(isLoading ? null : submit)()}>
@@ -56,22 +68,22 @@ function DigitalAssetsSendForm({
         <AddressPicker
           onSelect={setFormFieldValue('recipient')}
           addressNames={addressNames}
+          selectedAddress={recipient}
           errorMessage={formFieldErrors.recipient}
-          selectedAddress={formFieldValues.recipient}
         />
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
           digitalAssets={digitalAssets}
+          selectedAsset={assetAddress}
           errorMessage={formFieldErrors.assetAddress}
-          selectedAsset={formFieldValues.assetAddress}
         />
         <DoubleInput
           items={[{
             onChange: setFormFieldValue('amount'),
-            value: formFieldValues.amount,
-            placeholder: 'Value',
+            value: amount,
+            placeholder: `Value ${selectedAsset ? selectedAsset.symbol : ''}`,
           }, {
-            value: formFieldValues.amountFiat,
+            value: amountFiat,
             placeholder: 'Value USD',
             isDisabled: true,
           }]}
@@ -88,7 +100,7 @@ function DigitalAssetsSendForm({
           <div className='box'>
             <InputButton
               onChange={setFormFieldValue('comment')}
-              value={formFieldValues.comment}
+              value={comment}
               errorMessage={formFieldErrors.comment}
               icon='plus'
               name='comment'
@@ -99,7 +111,7 @@ function DigitalAssetsSendForm({
           <div className='box'>
             <InputButton
               onChange={setFormFieldValue('nonce')}
-              value={formFieldValues.nonce}
+              value={nonce}
               errorMessage={formFieldErrors.nonce}
               icon='plus'
               name='nonce'
