@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import { selectBalancesByOwnerAddress } from 'store/selectors/balances'
+import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
@@ -68,14 +68,13 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const currentBlockNumber: number = currentBlock ? currentBlock.number : 0
   const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
 
-  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByOwnerAddress(
+  const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
     state,
     networkId,
-    currentBlockNumber,
     ownerAddress,
+    currentBlock ? currentBlock.number.toString() : null,
   )
 
   const assetBalance: ?Balance = assetsBalances ? assetsBalances[assetAddress] : null

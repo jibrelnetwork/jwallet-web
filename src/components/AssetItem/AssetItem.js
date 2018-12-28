@@ -1,35 +1,48 @@
 // @flow
 
-import React, { PureComponent, Fragment } from 'react'
-
 import classNames from 'classnames'
-import { AssetBalance, ButtonWithConfirm } from 'components'
-import { JAssetSymbol, JText, JCard, JIcon, JSwitch, JTooltip } from 'components/base'
+
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
+
+import {
+  AssetBalance,
+  ButtonWithConfirm,
+} from 'components'
+
+import {
+  JCard,
+  JIcon,
+  JText,
+  JSwitch,
+  JTooltip,
+  JAssetSymbol,
+} from 'components/base'
 
 type Props = {|
-  remove: () => void,
-  setIsActive: (boolean) => void,
-  edit: () => void,
-  address: Address,
+  +edit: () => void,
+  +remove: () => void,
+  +setIsActive: (boolean) => void,
   +name: string,
   +symbol: string,
+  +address: Address,
+  +balance: ?BalanceString,
   +isCustom: boolean,
   +isActive: boolean,
-  +balance: BalanceString,
 |}
 
 type StateProps = {|
-  isToggled: boolean,
-  isHoveredEdit: boolean,
-  isHoveredTrash: boolean,
+  +isToggled: boolean,
+  +isHoveredEdit: boolean,
+  +isHoveredTrash: boolean,
 |}
 
 class AssetItem extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    balance: '0',
     isCustom: false,
     isActive: false,
-    address: '',
   }
 
   constructor(props: Props) {
@@ -84,20 +97,19 @@ class AssetItem extends PureComponent<Props, StateProps> {
               <div className='name'>
                 <JText value={name} color='dark' weight='bold' size='normal' whiteSpace='wrap' />
               </div>
-              <div className='balance'>
-                <AssetBalance
-                  color='gray'
-                  size='small'
-                  symbol={symbol}
-                  balance={balance}
-                />
-              </div>
+              {balance && (
+                <div className='balance'>
+                  <AssetBalance
+                    color='gray'
+                    size='small'
+                    symbol={symbol}
+                    balance={balance}
+                  />
+                </div>
+              )}
             </div>
           </div>
-          <div
-            className='overlay'
-            onClick={this.toggle}
-          />
+          <div onClick={this.toggle} className='overlay' />
           <div className='actions'>
             {isCustom ? (
               <Fragment>

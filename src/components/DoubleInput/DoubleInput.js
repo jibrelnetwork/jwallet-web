@@ -1,58 +1,65 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { JInput, JLoader, JIcon, JText } from 'components/base'
+
+import {
+  JIcon,
+  JText,
+  JInput,
+  JLoader,
+} from 'components/base'
+
+type DoubleInputItemHandler = (string) => void
+
+type DoubleInputItem = {|
+  +onChange?: DoubleInputItemHandler,
+  +value: string,
+  +placeholder: string,
+  +isLoading?: boolean,
+|}
+
+type DoubleInputHandler = () => void
 
 type Props = {|
-  +onChangeLeft: (value: string) => void,
-  +onChangeRight: ?((value: string) => void),
-  +onClose: ?(() => void),
-  +valueLeft: string,
-  +valueRight: string,
-  +warningMessage: string,
-  +placeholderLeft: string,
-  +placeholderRight: string,
+  +onClose: ?DoubleInputHandler,
+  +items: DoubleInputItem[],
   +errorMessage: string,
-  +isLoadingLeft: boolean,
-  +isLoadingRight: boolean,
+  +warningMessage: string,
 |}
 
 class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
-    onChangeRight: null,
     onClose: null,
-    isLoadingLeft: false,
-    isLoadingRight: false,
   }
 
   render() {
     const {
-      onChangeLeft,
-      onChangeRight,
       onClose,
-      valueLeft,
-      valueRight,
-      warningMessage,
-      placeholderLeft,
-      placeholderRight,
+      items,
       errorMessage,
-      isLoadingLeft,
-      isLoadingRight,
-    } = this.props
+      warningMessage,
+    }: Props = this.props
+
+    const [leftItem, rightItem]: DoubleInputItem[] = items
+
+    if (!(leftItem && rightItem)) {
+      return null
+    }
+
     return (
       <div className='double-input'>
         <div className='wrap'>
           <div className='field'>
             <JInput
-              onChange={onChangeLeft}
-              value={valueLeft}
-              name={placeholderLeft}
-              placeholder={placeholderLeft}
+              onChange={leftItem.onChange}
+              value={leftItem.value}
+              name={leftItem.placeholder}
+              placeholder={leftItem.placeholder}
               type='text'
               color='gray'
               sideBorderRadius='left'
             />
-            {isLoadingLeft && (
+            {!!leftItem.isLoading && (
               <div className='loader'>
                 <JLoader color='blue' />
               </div>
@@ -60,35 +67,36 @@ class DoubleInput extends PureComponent<Props> {
           </div>
           <div className='field'>
             <JInput
-              onChange={onChangeRight}
-              value={valueRight}
-              name={placeholderRight}
-              placeholder={placeholderRight}
+              onChange={rightItem.onChange}
+              value={rightItem.value}
+              name={rightItem.placeholder}
+              placeholder={rightItem.placeholder}
               type='text'
               color='gray'
               sideBorderRadius='top'
             />
-            {isLoadingRight && (
+            {!!rightItem.isLoading && (
               <div className='loader'>
                 <JLoader color='blue' />
               </div>
             )}
           </div>
         </div>
-        {onClose &&
-        <div className='close' onClick={onClose}>
-          <JIcon name='padding-cross' size='medium' color='gray' />
-        </div>}
-        {errorMessage &&
-        <div className='message'>
-          <JText value={errorMessage} color='red' size='small' />
-        </div>
-        }
-        {warningMessage &&
-        <div className='message'>
-          <JText value={warningMessage} color='orange' size='small' />
-        </div>
-        }
+        {onClose && (
+          <div className='close' onClick={onClose}>
+            <JIcon name='padding-cross' size='medium' color='gray' />
+          </div>
+        )}
+        {errorMessage && (
+          <div className='message'>
+            <JText value={errorMessage} color='red' size='small' />
+          </div>
+        )}
+        {warningMessage && (
+          <div className='message'>
+            <JText value={warningMessage} color='orange' size='small' />
+          </div>
+        )}
       </div>
     )
   }

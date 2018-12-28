@@ -7,6 +7,7 @@ import {
   AddressPicker,
   PriorityPicker,
   DoubleInput,
+  InputButton,
 } from 'components'
 
 import { JInput, JRaisedButton } from 'components/base'
@@ -24,10 +25,10 @@ const setFieldHandler = (
 type Props = {|
   +submit: () => void,
   +setField: SetFieldFunction,
+  +assets: DigitalAssetWithBalance[],
+  +addressNames: AddressNames,
   +formFields: DigitalAssetSendFormFields,
   +invalidFields: DigitalAssetSendFormFields,
-  +assets: Array<DigitalAssetWithBalance>,
-  +recepientAddresses: Array<AddressPickerAddress>,
 |}
 
 const DigitalAssetSendForm = ({
@@ -36,7 +37,7 @@ const DigitalAssetSendForm = ({
   setField,
   formFields,
   invalidFields,
-  recepientAddresses,
+  addressNames,
 }: Props) => (
   <div className='digital-assets-send-form'>
     <div className='form'>
@@ -53,9 +54,9 @@ const DigitalAssetSendForm = ({
       />
       <AddressPicker
         onSelect={setFieldHandler('recepient', setField)}
+        addressNames={addressNames}
         errorMessage={invalidFields.recepient}
         selectedAddress={formFields.recepient}
-        addresses={recepientAddresses}
       />
       <AssetPicker
         assets={assets}
@@ -63,35 +64,47 @@ const DigitalAssetSendForm = ({
         onSelect={setFieldHandler('assetAddress', setField)}
       />
       <DoubleInput
-        onChange={setFieldHandler('amount', setField)}
-        valueAmount={formFields.amount}
-        valueFiat={formFields.amountFiat}
-        errorMessageAmount={invalidFields.amount}
+        items={[{
+          onChange: setFieldHandler('amount', setField),
+          value: formFields.amount,
+          placeholder: 'Value',
+        }, {
+          value: formFields.amountFiat,
+          placeholder: 'Value',
+        }]}
+        warningMessage=''
+        errorMessage={invalidFields.amount}
       />
       <PriorityPicker
         selectedPriority={formFields.priority}
         onSelect={setFieldHandler('priority', setField)}
       />
-      <JInput
-        onChange={setFieldHandler('comment', setField)}
-        value={formFields.comment}
-        name='comment'
-        errorMessage={invalidFields.comment}
-        placeholder='Comment'
-        type='text'
-        color='gray'
-        isLoading={false}
-      />
-      <JInput
-        onChange={setFieldHandler('nonce', setField)}
-        value={formFields.nonce}
-        name='nonce'
-        errorMessage={invalidFields.nonce}
-        placeholder='Nonce'
-        type='text'
-        color='gray'
-        isLoading={false}
-      />
+      <div className='split'>
+        <div className='box'>
+          <InputButton
+            onChange={setFieldHandler('comment', setField)}
+            value={formFields.comment}
+            errorMessage={invalidFields.comment}
+            icon='plus'
+            label='Add comment'
+            name='comment'
+            placeholder='Comment'
+            isLoading={false}
+          />
+        </div>
+        <div className='box'>
+          <InputButton
+            onChange={setFieldHandler('nonce', setField)}
+            value={formFields.nonce}
+            errorMessage={invalidFields.nonce}
+            icon='plus'
+            label='Show nonce'
+            name='nonce'
+            placeholder='Nonce'
+            isLoading={false}
+          />
+        </div>
+      </div>
       <div className='actions'>
         <JRaisedButton
           onClick={submit}

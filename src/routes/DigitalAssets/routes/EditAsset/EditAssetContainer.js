@@ -1,8 +1,9 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { selectEditAsset } from 'store/selectors/digitalAssets'
+
 import { reactRouterBack } from 'utils/browser'
+import { selectEditAsset } from 'store/selectors/digitalAssets'
 
 import {
   openView,
@@ -19,12 +20,12 @@ type OwnProps = {|
 |}
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
-  const { formFields, invalidFields } = selectEditAsset(state)
   const {
-    params: {
-      assetAddress,
-    },
-  } = ownProps
+    formFields,
+    invalidFields,
+  }: EditAssetState = selectEditAsset(state)
+
+  const { assetAddress } = ownProps.params
 
   return {
     formFields,
@@ -35,9 +36,9 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
 const mapDispatchToProps = {
   openView,
-  submit: submitAssetForm,
   setField,
-  closeClick: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
+  submit: submitAssetForm,
+  close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
 export default (

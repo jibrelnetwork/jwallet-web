@@ -9,9 +9,9 @@ import { JFlatButton, JText, JLoader } from 'components/base'
 type Props = {|
   +symbol: string,
   +address: Address,
-  +balance: BalanceString,
-  +fiatBalance: number,
-  +fiatCurrency: string,
+  // +fiatCurrency: string,
+  +balance: ?BalanceString,
+  // +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
   +isHovered: boolean
@@ -23,7 +23,6 @@ type StateProps = {|
 
 class AssetCardBody extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    balance: '0',
     isError: false,
     isLoading: false,
     isHovered: false,
@@ -43,9 +42,9 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
     const {
       symbol,
       address,
-      fiatCurrency,
+      // fiatCurrency,
       balance,
-      fiatBalance,
+      // fiatBalance,
       isError,
       isLoading,
       isHovered,
@@ -97,7 +96,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
           />
         </div>
         <div className='fiat'>
-          {fiatBalance !== 0 ? (
+          {/* {fiatBalance !== 0 ? (
             <div className='balance'>
               <AssetBalance
                 color='blue'
@@ -115,17 +114,19 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
                 whiteSpace='wrap'
               />
             </div>
-          )}
-          <div
-            className='show'
-            onMouseEnter={this.onHover(true)}
-            onMouseLeave={this.onHover(false)}
-          >
-            <JFlatButton
-              to={`/transactions/${address}`}
-              color={isHover ? 'sky' : 'blue'}
-              label='Show transactions'
-            />
+          )} */}
+          <div className='show'>
+            <div
+              className='link'
+              onMouseEnter={this.onHover(true)}
+              onMouseLeave={this.onHover(false)}
+            >
+              <JFlatButton
+                to={`/transactions/${address}`}
+                color={isHover ? 'sky' : 'blue'}
+                label='Show transactions'
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -146,11 +146,11 @@ class TransactionItemMain extends PureComponent<Props> {
                 whiteSpace='wrap'
               />
             </div>
-            {!isZero(amount) && (
+            {/* {!isZero(amount) && (
               <div className='fiat'>
                 <JText value='20,000 USD' color='gray' size='small' whiteSpace='wrap' />
               </div>
-            )}
+            )} */}
           </div>
           {!isAssetList && (
             <Fragment>
