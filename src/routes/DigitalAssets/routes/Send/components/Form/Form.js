@@ -54,10 +54,10 @@ function DigitalAssetsSendForm({
           isDisabled
         />
         <AddressPicker
-          onSelect={setFormFieldValue('recepient')}
+          onSelect={setFormFieldValue('recipient')}
           addressNames={addressNames}
-          errorMessage={formFieldErrors.recepient}
-          selectedAddress={formFieldValues.recepient}
+          errorMessage={formFieldErrors.recipient}
+          selectedAddress={formFieldValues.recipient}
         />
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
