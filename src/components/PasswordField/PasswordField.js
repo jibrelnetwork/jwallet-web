@@ -19,6 +19,7 @@ type Props = {|
   +valueConfirm: ?string,
   +placeholderConfirm: string,
   +isDisabled: boolean,
+  +isAutoFocus: boolean,
   +color: JInputColor,
 |}
 
@@ -53,6 +54,7 @@ function getStatusByScore(score: number): ?PasswordStatus {
 class PasswordField extends Component<Props, StateProps> {
   static defaultProps = {
     color: 'white',
+    isAutoFocus: true,
   }
 
   constructor(props: Props) {
@@ -106,6 +108,7 @@ class PasswordField extends Component<Props, StateProps> {
       valueConfirm,
       placeholderConfirm,
       isDisabled,
+      isAutoFocus,
       color,
     }: Props = this.props
 
@@ -121,7 +124,7 @@ class PasswordField extends Component<Props, StateProps> {
           type='password'
           name='password'
           isDisabled={isDisabled}
-          isAutoFocus
+          isAutoFocus={isAutoFocus}
         />
         <Indicator status={this.getStatus()} />
         <JInput

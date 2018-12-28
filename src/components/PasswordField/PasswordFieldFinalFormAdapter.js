@@ -2,7 +2,7 @@
 import React from 'react'
 import PasswordField from 'components/PasswordField/index'
 
-type PProps = {
+type Props = {
   onChange: (name: string, value: mixed) => void,
   isLoading: ?boolean,
   values: ?Object,
@@ -15,19 +15,19 @@ const text = {
 
 const handlerChange = name => f => value => f(name, value)
 
-function PasswordFieldFinalFormAdapter(props: PProps) {
+function PasswordFieldFinalFormAdapter(props: Props) {
   const { onChange, isLoading, values } = props
-
   return (
     <PasswordField
       onChange={handlerChange('passwordNew')(onChange)}
       onChangeConfirm={handlerChange('passwordNewConfirm')(onChange)}
-      invalidFields={{}}
+      invalidFields={{ passwordNew: null, passwordNewConfirm: null }}
       value={values ? values.passwordNew : ''}
       placeholder={text.passwordNew}
       valueConfirm={values ? values.passwordNewConfirm : ''}
       placeholderConfirm={text.passwordNewConfirm}
       isDisabled={Boolean(isLoading)}
+      isAutoFocus={false}
       color='gray'
     />
   )

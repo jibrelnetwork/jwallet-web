@@ -26,27 +26,27 @@ const text = {
 const required = message => value => (value ? undefined : message)
 
 type Props = {
-  submit: () => void,
+  submit: Function,
 }
 
-export default class PaymentPassword extends PureComponent<Props> {
+export default class PaymentPasswordView extends PureComponent<Props> {
   static defaultProps = {
     infoMessage: null,
     errorMessage: null,
   }
 
-  onSubmit = (formState: Object) => {
+  onSubmit = (formState: PaymentPasswordForm) => {
     const { passwordHint } = formState
     if (passwordHint === undefined || passwordHint.length < 1) {
       return { passwordHint: text.hintAlert }
     }
-    this.props.submit()
+    this.props.submit(formState)
     return {}
   }
 
-  validate = (formState: Object) => {
+  validate = (formState: PaymentPasswordForm) => {
     const { passwordNew, passwordHint } = formState
-    const errors: { [string]: string } = {}
+    const errors = {}
     /* eslint-disable fp/no-mutation */
     if (passwordHint && passwordHint.length === 0) {
       errors.passwordHint = text.hintAlert

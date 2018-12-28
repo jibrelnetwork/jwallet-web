@@ -1,8 +1,8 @@
 // @flow
 
-import PaymentPassword from './PaymentPassword'
+import PaymentPasswordContainer from './PaymentPasswordContainer'
 
 export default {
   path: 'password',
-  component: PaymentPassword,
+  component: PaymentPasswordContainer,
 }
