@@ -3,8 +3,7 @@
 import { connect } from 'react-redux'
 
 import { selectCommentsItems } from 'store/selectors/comments'
-import { selectAllAddressNames } from 'store/selectors/favorites'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectFavoritesAddressNames } from 'store/selectors/favorites'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
@@ -27,6 +26,12 @@ import {
 } from 'store/selectors/networks'
 
 import {
+  selectAddressNames,
+  selectActiveWalletAddress,
+  selectAddressWalletsNames,
+} from 'store/selectors/wallets'
+
+import {
   selectTransactions,
   selectTransactionsByOwner,
   selectPendingTransactionsByOwner,
@@ -38,6 +43,7 @@ import {
 } from 'routes/modules/transactions'
 
 import { edit as editComment } from 'routes/modules/comments'
+import { remove as removeFavorite } from 'routes/Favorites/modules/favorites'
 
 import TransactionsIndexView from './TransactionsIndexView'
 
@@ -65,11 +71,13 @@ function prepareTransactions(
 function mapStateToProps(state: AppState) {
   const comments: Comments = selectCommentsItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
+  const addressNames: AddressNames = selectAddressNames(state)
   const network: ?Network = selectNetworkById(state, networkId)
-  const addressNames: AddressNames = selectAllAddressNames(state)
+  const favorites: AddressNames = selectFavoritesAddressNames(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
 
   const {
@@ -89,7 +97,11 @@ function mapStateToProps(state: AppState) {
   return {
     network,
     comments,
-    addressNames,
+    favorites,
+    addressNames: {
+      ...addressNames,
+      ...addressWalletsNames,
+    },
     digitalAssets,
     searchQuery,
     ownerAddress,
@@ -103,6 +115,7 @@ function mapStateToProps(state: AppState) {
 
 const mapDispatchToProps = {
   editComment,
+  removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
 }

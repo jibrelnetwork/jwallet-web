@@ -39,6 +39,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
 }
 
 type Props = {|
+  +removeFavorite: (Address) => void,
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
   +editComment: (CommentId, string) => void,
@@ -48,6 +49,7 @@ type Props = {|
   |},
   +network: ?Network,
   +comments: Comments,
+  +favorites: AddressNames,
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetBalance: ?Balance,
@@ -60,12 +62,14 @@ type Props = {|
 
 function TransactionsAssetView({
   editComment,
+  removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
   transactions,
   params,
   network,
   comments,
+  favorites,
   addressNames,
   digitalAssets,
   searchQuery,
@@ -122,8 +126,10 @@ function TransactionsAssetView({
         <Scrollbars autoHide>
           <TransactionsList
             editComment={editComment}
+            removeFavorite={removeFavorite}
             items={transactions}
             comments={comments}
+            favorites={favorites}
             addressNames={addressNames}
             digitalAssets={digitalAssets}
             assetAddress={params.asset}

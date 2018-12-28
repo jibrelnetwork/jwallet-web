@@ -33,6 +33,7 @@ type Props = {|
   +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
   +comment: ?string,
+  +txAddress: ?Address,
   +txAddressName: ?string,
   +blockExplorerSubdomain: string,
   +isSent: boolean,
@@ -85,6 +86,7 @@ class TransactionItemMain extends PureComponent<Props> {
       data,
       asset,
       comment,
+      txAddress,
       txAddressName,
       blockExplorerSubdomain,
       isSent,
@@ -95,8 +97,6 @@ class TransactionItemMain extends PureComponent<Props> {
     const {
       blockData,
       receiptData,
-      to,
-      from,
       hash,
       amount,
       blockHash,
@@ -118,7 +118,6 @@ class TransactionItemMain extends PureComponent<Props> {
     const amountSign: string = isSent ? '-' : '+'
     const timestamp: number = blockData.timestamp * 1000
     const isFailed: boolean = !receiptData.status || isRemoved
-    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
     const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
 
     return (

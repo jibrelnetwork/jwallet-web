@@ -67,6 +67,7 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
               value: formFieldValues.gasPrice,
               placeholder: 'Gas price',
             }]}
+            errorMessage={formFieldErrors.gasLimit || formFieldErrors.gasPrice}
           />
         ) : (
           <JPicker
