@@ -26,6 +26,8 @@ declare type AppState = {
   +transactions: TransactionsState,
   // balances
   +balances: BalancesState,
+  // comments
+  +comments: CommentsState,
   // settings
   +settings: SettingsState,
   // favorites

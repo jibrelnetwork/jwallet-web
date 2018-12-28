@@ -30,11 +30,11 @@ type TransactionIconName = 'time' | 'cross-circle' | 'transaction-send' | 'trans
 
 type Props = {|
   +setActive: (boolean) => void,
+  +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
-  +assetSymbol: string,
+  +comment: ?string,
   +txAddressName: ?string,
   +blockExplorerSubdomain: string,
-  +assetDecimals: number,
   +isSent: boolean,
   +isActive: boolean,
   +isCustom: boolean,
@@ -91,10 +91,10 @@ class TransactionItemMain extends PureComponent<Props> {
     const {
       setActive,
       data,
-      assetSymbol,
+      asset,
+      comment,
       txAddressName,
       blockExplorerSubdomain,
-      assetDecimals,
       isSent,
       isActive,
       isCustom,
@@ -111,6 +111,11 @@ class TransactionItemMain extends PureComponent<Props> {
       blockHash,
       contractAddress,
     }: TransactionWithPrimaryKeys = data
+
+    const {
+      symbol,
+      decimals,
+    }: DigitalAsset = asset
 
     if (!(blockData && receiptData)) {
       return null
@@ -172,13 +177,13 @@ class TransactionItemMain extends PureComponent<Props> {
               />
             </div>
           </div>
-          {!isSent && (
+          {!!comment && (
             <div className='message'>
               <div className='icon'>
                 <JIcon size='medium' name='message' color='gray' />
               </div>
               <div className='text'>
-                <JText value='Thanks man!' color='gray' size='normal' />
+                <JText value={comment} color='gray' size='normal' />
               </div>
             </div>
           )}
@@ -189,8 +194,8 @@ class TransactionItemMain extends PureComponent<Props> {
               <JText
                 value={`
                   ${isZero(amount) ? '' : amountSign}
-                  ${formatBalance(divDecimals(amount, assetDecimals))}
-                  ${assetSymbol}
+                  ${formatBalance(divDecimals(amount, decimals))}
+                  ${symbol}
                 `}
                 color={color}
                 size='normal'
@@ -208,12 +213,12 @@ class TransactionItemMain extends PureComponent<Props> {
             <Fragment>
               {!isCustom ? (
                 <div className='symbol -icon'>
-                  <JAssetSymbol symbol={assetSymbol} color='gray' />
+                  <JAssetSymbol symbol={symbol} color='gray' />
                 </div>
               ) : (
                 <div className='symbol -text'>
                   <JText
-                    value={assetSymbol}
+                    value={symbol}
                     color='blue'
                     weight='bold'
                     size='normal'

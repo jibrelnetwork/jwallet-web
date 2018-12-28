@@ -2,6 +2,7 @@
 
 import { connect } from 'react-redux'
 
+import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
@@ -37,6 +38,8 @@ import {
   changeSearchInput,
 } from 'routes/modules/transactions'
 
+import { edit as editComment } from 'routes/modules/comments'
+
 import TransactionsAssetView from './TransactionsAssetView'
 
 type OwnProps = {|
@@ -69,6 +72,7 @@ function prepareTransactions(
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const assetAddress: string = ownProps.params.asset
+  const comments: Comments = selectCommentsItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const network: ?Network = selectNetworkById(state, networkId)
   const addressNames: AddressNames = selectAllAddressNames(state)
@@ -102,6 +106,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   return {
     network,
+    comments,
     addressNames,
     digitalAssets,
     searchQuery,
@@ -121,6 +126,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 }
 
 const mapDispatchToProps = {
+  editComment,
   setIsOnlyPending,
   changeSearchInput,
 }

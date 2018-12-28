@@ -16,8 +16,10 @@ import {
 type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
+  +editComment: (CommentId, string) => void,
   +transactions: TransactionWithPrimaryKeys[],
   +network: ?Network,
+  +comments: Comments,
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
@@ -32,10 +34,12 @@ const TRANSACTIONS_TABS = {
 }
 
 function TransactionsIndexView({
+  editComment,
   setIsOnlyPending,
   changeSearchInput,
   transactions,
   network,
+  comments,
   addressNames,
   digitalAssets,
   searchQuery,
@@ -75,7 +79,9 @@ function TransactionsIndexView({
       <div className='content'>
         <Scrollbars autoHide>
           <TransactionsList
+            editComment={editComment}
             items={transactions}
+            comments={comments}
             addressNames={addressNames}
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}

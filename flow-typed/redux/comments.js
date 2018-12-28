@@ -12,5 +12,4 @@ declare type CommentsPersist = {|
 
 declare type CommentsState = {|
   +persist: CommentsPersist,
-  +isLoading: boolean,
 |}

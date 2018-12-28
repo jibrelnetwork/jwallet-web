@@ -8,7 +8,9 @@ import TransactionItem from 'components/TransactionItem'
 import TransactionsListEmpty from './Empty'
 
 type Props = {|
+  +editComment: (CommentId, string) => void,
   +items: TransactionWithPrimaryKeys[],
+  +comments: Comments,
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetAddress: ?string,
@@ -17,6 +19,18 @@ type Props = {|
   +isLoading: boolean,
   +isFiltered: boolean,
 |}
+
+function getComment(comments: Comments, id: TransactionId, hash: Hash): ?string {
+  /**
+   * comment by transaction id has greater priority than comment by transaction hash
+   * this is actual only for contract events
+   */
+  if (comments[id] != null) {
+    return comments[id]
+  }
+
+  return comments[hash]
+}
 
 type ComponentState = {
   +activeItems: TransactionId[],
@@ -48,7 +62,9 @@ class TransactionsList extends Component<Props, ComponentState> {
 
   render() {
     const {
+      editComment,
       items,
+      comments,
       addressNames,
       digitalAssets,
       assetAddress,
@@ -75,16 +91,19 @@ class TransactionsList extends Component<Props, ComponentState> {
             keys,
             to,
             from,
-          } = item
+            hash,
+          }: TransactionWithPrimaryKeys = item
 
           return (
             <TransactionItem
               key={keys.id}
+              editComment={editComment}
               setActive={this.setActive(keys.id)}
               data={item}
               asset={digitalAssets[keys.assetAddress]}
               toName={to && addressNames[to]}
               fromName={from && addressNames[from]}
+              comment={getComment(comments, keys.id, hash)}
               blockExplorerSubdomain={blockExplorerSubdomain}
               isAssetList={!!assetAddress}
               isActive={activeItems.includes(keys.id)}

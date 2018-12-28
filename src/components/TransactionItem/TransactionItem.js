@@ -9,9 +9,11 @@ import TransactionItemDetails from './Details'
 
 type Props = {|
   +setActive: () => void,
+  +editComment: (CommentId, string) => void,
   +data: TransactionWithPrimaryKeys,
   +asset: ?DigitalAsset,
   +toName: ?string,
+  +comment: ?string,
   +fromName: ?string,
   +blockExplorerSubdomain: string,
   +isSent: boolean,
@@ -21,9 +23,11 @@ type Props = {|
 
 function TransactionItem({
   setActive,
+  editComment,
   data,
   asset,
   toName,
+  comment,
   fromName,
   blockExplorerSubdomain,
   isSent,
@@ -34,31 +38,28 @@ function TransactionItem({
     return null
   }
 
-  const {
-    symbol,
-    decimals,
-  }: DigitalAsset = asset
-
   return (
     <div className='transaction-item'>
       <JCard color='white' isBorderRadius isHover>
         <TransactionItemMain
           setActive={setActive}
           data={data}
-          assetSymbol={symbol}
+          asset={asset}
+          comment={comment}
           txAddressName={isSent ? toName : fromName}
           blockExplorerSubdomain={blockExplorerSubdomain}
-          assetDecimals={decimals}
           isSent={isSent}
           isActive={isActive}
           isAssetList={isAssetList}
         />
         <TransactionItemDetails
+          editComment={editComment}
           data={data}
+          asset={asset}
+          comment={comment}
           toName={toName}
           fromName={fromName}
           blockExplorerSubdomain={blockExplorerSubdomain}
-          assetDecimals={decimals}
           isSent={isSent}
           isActive={isActive}
         />

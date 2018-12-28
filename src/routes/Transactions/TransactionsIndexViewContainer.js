@@ -2,6 +2,7 @@
 
 import { connect } from 'react-redux'
 
+import { selectCommentsItems } from 'store/selectors/comments'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
@@ -36,6 +37,8 @@ import {
   changeSearchInput,
 } from 'routes/modules/transactions'
 
+import { edit as editComment } from 'routes/modules/comments'
+
 import TransactionsIndexView from './TransactionsIndexView'
 
 function prepareTransactions(
@@ -60,6 +63,7 @@ function prepareTransactions(
 }
 
 function mapStateToProps(state: AppState) {
+  const comments: Comments = selectCommentsItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const network: ?Network = selectNetworkById(state, networkId)
   const addressNames: AddressNames = selectAllAddressNames(state)
@@ -84,6 +88,7 @@ function mapStateToProps(state: AppState) {
 
   return {
     network,
+    comments,
     addressNames,
     digitalAssets,
     searchQuery,
@@ -97,6 +102,7 @@ function mapStateToProps(state: AppState) {
 }
 
 const mapDispatchToProps = {
+  editComment,
   setIsOnlyPending,
   changeSearchInput,
 }

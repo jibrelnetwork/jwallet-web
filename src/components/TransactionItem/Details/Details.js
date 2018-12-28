@@ -17,20 +17,26 @@ import {
 import TransactionItemDetailsComment from './Comment'
 
 type Props = {|
+  +editComment: (CommentId, string) => void,
+  +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
   +toName: ?string,
+  +comment: ?string,
   +fromName: ?string,
   +blockExplorerSubdomain: string,
-  +assetDecimals: number,
   +isSent: boolean,
   +isActive: boolean,
 |}
 
 type StateProps = {|
-  isCommenting: boolean,
+  +isCommenting: boolean,
 |}
 
-function getRepeatLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
+function getRepeatLink(
+  data: TransactionWithPrimaryKeys,
+  assetAddress: AssetAddress,
+  isSent: boolean,
+): ?string {
   const {
     to,
     from,
@@ -38,14 +44,11 @@ function getRepeatLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?stri
     amount,
   }: TransactionWithPrimaryKeys = data
 
-  if (contractAddress || !(to && from)) {
+  if (!isSent || contractAddress || !(to && from)) {
     return null
   }
 
-  const actor: string = isSent ? `to=${to}` : `from=${from}`
-  const action: 'send' | 'receive' = isSent ? 'send' : 'receive'
-
-  return `/digital-assets/${action}?${actor}&amount=${amount}`
+  return `/digital-assets/send?to=${to}&asset=${assetAddress}&amount=${amount}`
 }
 
 function getFavoriteLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
@@ -75,32 +78,39 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
   render() {
     const {
+      editComment,
+      data,
+      asset,
+      comment,
       toName,
       fromName,
       blockExplorerSubdomain,
-      assetDecimals,
       isSent,
       isActive,
     } = this.props
 
-    const {
-      isCommenting,
-    }: StateProps = this.state
+    const { isCommenting }: StateProps = this.state
 
     const {
-      data,
+      keys,
       receiptData,
       to,
       from,
       hash,
-    }: TransactionWithPrimaryKeys = this.props.data
+      data: txData,
+    }: TransactionWithPrimaryKeys = data
 
-    if (!(data && receiptData)) {
+    const {
+      address,
+      decimals,
+    }: DigitalAsset = asset
+
+    if (!(txData && receiptData)) {
       return null
     }
 
-    const repeatLink: ?string = getRepeatLink(this.props.data, isSent)
-    const addFavoriteLink: ?string = getFavoriteLink(this.props.data, isSent)
+    const addFavoriteLink: ?string = getFavoriteLink(data, isSent)
+    const repeatLink: ?string = getRepeatLink(data, address, isSent)
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -167,7 +177,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <JText
-              value={`${getTxFee(receiptData.gasUsed, data.gasPrice, assetDecimals)} ETH`}
+              value={`${getTxFee(receiptData.gasUsed, txData.gasPrice, decimals)} ETH`}
               color='gray'
               weight='bold'
             />
@@ -211,8 +221,10 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         </div>
         {isCommenting && (
           <TransactionItemDetailsComment
-            saveComment={this.toggle}
-            deleteComment={this.toggle}
+            edit={editComment}
+            toggle={this.toggle}
+            comment={comment}
+            transactionId={keys.id}
           />
         )}
       </div>
