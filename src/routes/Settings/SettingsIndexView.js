@@ -71,13 +71,13 @@ const getSettingsCardProperties = ({
   searchTags: '',
 }, {
   title: 'Sign a message',
-  description: isFullMnemonic ? 'Enable' : ' ',
+  description: isFullMnemonic ? 'Enable' : '',
   path: 'settings/sign',
   iconName: 'message',
   searchTags: '',
 }, {
   title: 'Check a signature',
-  description: isFullMnemonic ? 'Enable' : ' ',
+  description: isFullMnemonic ? 'Enable' : '',
   path: 'settings/check-signature',
   iconName: 'protect',
   iconColor: 'blue',
@@ -90,7 +90,7 @@ const getSettingsCardProperties = ({
   searchTags: '',
 }, {
   title: 'Network name',
-  description: networkName || ' ',
+  description: networkName || '',
   path: 'settings/network',
   iconName: 'network',
   searchTags: '',
@@ -102,13 +102,13 @@ const getSettingsCardProperties = ({
   searchTags: '',
 }, {
   title: 'Derivation path',
-  description: isFullMnemonic && derivationPath ? derivationPath : ' ',
+  description: isFullMnemonic && derivationPath ? derivationPath : '',
   path: 'settings/derivation',
   iconName: 'setting',
   searchTags: '',
 }, {
   title: 'Passphrase',
-  description: isFullMnemonic && passphrase ? passphrase : ' ',
+  description: isFullMnemonic && passphrase ? passphrase : '',
   path: 'settings/passphrase',
   iconName: 'setting',
   searchTags: '',
@@ -176,7 +176,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
     }).filter((elementProps) => {
       const { description, title, searchTags } = elementProps
 
-      if (description === null || description === false) {
+      if (description === null || description === '') {
         return false
       }
       if (!this.filterCardByQuery(description)
