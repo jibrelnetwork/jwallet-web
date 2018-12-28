@@ -5,6 +5,7 @@ import React from 'react'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
 import {
+  InputButton,
   DoubleInput,
   AddressPicker,
 } from 'components'
@@ -81,23 +82,30 @@ function DigitalAssetsSendForm({
           formFieldErrors={formFieldErrors}
           selectedPriority={priority}
         />
-        <JInput
-          onChange={setFormFieldValue('comment')}
-          value={formFieldValues.comment}
-          errorMessage={formFieldErrors.comment}
-          color='gray'
-          name='comment'
-          placeholder='Comment'
-        />
-        <JInput
-          onChange={setFormFieldValue('nonce')}
-          value={formFieldValues.nonce}
-          errorMessage={formFieldErrors.nonce}
-          type='text'
-          name='nonce'
-          color='gray'
-          placeholder='Nonce'
-        />
+        <div className='split'>
+          <div className='box'>
+            <InputButton
+              onChange={setFormFieldValue('comment')}
+              value={formFieldValues.comment}
+              errorMessage={formFieldErrors.comment}
+              icon='plus'
+              name='comment'
+              label='Add comment'
+              placeholder='Comment'
+            />
+          </div>
+          <div className='box'>
+            <InputButton
+              onChange={setFormFieldValue('nonce')}
+              value={formFieldValues.nonce}
+              errorMessage={formFieldErrors.nonce}
+              icon='plus'
+              name='nonce'
+              label='Show nonce'
+              placeholder='Nonce'
+            />
+          </div>
+        </div>
         <div className='actions'>
           <JRaisedButton
             onClick={submit}
