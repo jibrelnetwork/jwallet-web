@@ -27,91 +27,105 @@ const getSettingsCardProperties = ({
   walletName,
   derivationPath,
   passphrase,
-}): {...SettingsGridCardProps, searchTags: string}[] => [{
+}): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
   title: 'Local currency',
   description: formatCurrency(localCurrencyCode),
   path: 'settings/currency',
   iconName: 'local-currency',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Default GAS Price',
   description: divideThousands(defaultGasPrice),
   path: 'settings/gas-price',
   iconName: 'time',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'System language',
   description: formatLanguage(systemLanguageCode),
   path: 'settings/language',
   iconName: 'language',
   searchTags: 'locale translation',
+  isVisible: true,
 }, {
   title: 'PIN Code',
   description: formatBoolean(hasPinCode),
   path: 'settings/pin-code',
   iconName: 'lock-pin',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Security password',
   description: 'Change',
   path: 'settings/password',
   iconName: 'lock-pin',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Exchange service',
   description: 'Try Jcash',
   path: 'https://jcash.network/',
   iconName: 'exchange-service',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Support',
   description: 'Send ticket to support',
   path: 'settings/support',
   iconName: 'message',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Sign a message',
-  description: isFullMnemonic ? 'Enable' : '',
+  description: isFullMnemonic ? 'Enable' : ' ',
   path: 'settings/sign',
   iconName: 'message',
   searchTags: '',
+  isVisible: isFullMnemonic,
 }, {
   title: 'Check a signature',
-  description: isFullMnemonic ? 'Enable' : '',
+  description: isFullMnemonic ? 'Enable' : ' ',
   path: 'settings/check-signature',
   iconName: 'protect',
   iconColor: 'blue',
   searchTags: '',
+  isVisible: isFullMnemonic,
 }, {
   title: 'Backup wallet',
   description: 'Save your money!',
   path: 'settings/backup',
   iconName: 'backup-wallet',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Network name',
-  description: networkName || '',
+  description: networkName || ' ',
   path: 'settings/network',
   iconName: 'network',
   searchTags: '',
+  isVisible: Boolean(networkName),
 }, {
   title: 'Rename wallet',
   description: walletName,
   path: 'settings/rename',
   iconName: 'backup-wallet',
   searchTags: '',
+  isVisible: true,
 }, {
   title: 'Derivation path',
-  description: isFullMnemonic && derivationPath ? derivationPath : '',
+  description: isFullMnemonic && derivationPath ? derivationPath : ' ',
   path: 'settings/derivation',
   iconName: 'setting',
   searchTags: '',
+  isVisible: isFullMnemonic,
 }, {
   title: 'Passphrase',
-  description: isFullMnemonic && passphrase ? passphrase : '',
+  description: isFullMnemonic && passphrase ? passphrase : ' ',
   path: 'settings/passphrase',
   iconName: 'setting',
   searchTags: '',
+  isVisible: isFullMnemonic,
 }, {
   title: 'Delete wallet',
   description: 'Badaaaah!',
@@ -119,6 +133,7 @@ const getSettingsCardProperties = ({
   iconName: 'cross-circle',
   iconColor: 'red',
   searchTags: '',
+  isVisible: true,
 }]
 
 type State = {|
@@ -174,9 +189,9 @@ class SettingsIndexView extends PureComponent<Props, State> {
       derivationPath,
       passphrase,
     }).filter((elementProps) => {
-      const { description, title, searchTags } = elementProps
+      const { isVisible, description, title, searchTags } = elementProps
 
-      if (description === null || description === '') {
+      if (!isVisible) {
         return false
       }
       if (!this.filterCardByQuery(description)
