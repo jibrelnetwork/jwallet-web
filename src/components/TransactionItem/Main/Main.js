@@ -37,7 +37,6 @@ type Props = {|
   +blockExplorerSubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
-  +isCustom: boolean,
   +isAssetList: boolean,
 |}
 
@@ -80,13 +79,6 @@ function getTransactionIconName(
 }
 
 class TransactionItemMain extends PureComponent<Props> {
-  static defaultProps = {
-    isSent: false,
-    isActive: false,
-    isCustom: false,
-    isAssetList: false,
-  }
-
   render() {
     const {
       setActive,
@@ -97,9 +89,8 @@ class TransactionItemMain extends PureComponent<Props> {
       blockExplorerSubdomain,
       isSent,
       isActive,
-      isCustom,
       isAssetList,
-    } = this.props
+    }: Props = this.props
 
     const {
       blockData,
@@ -116,6 +107,7 @@ class TransactionItemMain extends PureComponent<Props> {
     const {
       symbol,
       decimals,
+      isCustom,
     }: DigitalAsset = asset
 
     if (!(blockData && receiptData)) {
