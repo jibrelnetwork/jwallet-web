@@ -2,6 +2,8 @@
 
 const ONE_SECOND: number = 1000
 const ONE_MINUTE: number = 60 * ONE_SECOND
+const ONE_HOUR: number = 60 * ONE_MINUTE
+const ONE_DAY: number = 24 * ONE_HOUR
 
 const ONE_KB: number = 1024
 const ONE_MB: number = 1024 * ONE_KB
@@ -149,6 +151,8 @@ const config: AppConfig = {
   resyncTransactionsTimeout: 5 * ONE_MINUTE,
 
   syncBalancesTimeout: 10 * ONE_SECOND,
+
+  miningDelay: ONE_DAY,
 }
 
 export default config

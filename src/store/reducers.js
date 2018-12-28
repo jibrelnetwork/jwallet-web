@@ -34,6 +34,9 @@ import blocks from 'routes/modules/blocks'
 // balances
 import balances from 'routes/modules/balances'
 
+// comments
+import comments from 'routes/modules/comments'
+
 // transactions
 import transactions from 'routes/modules/transactions'
 
@@ -50,6 +53,7 @@ const persistConfig = {
     'blocks',
     'wallets',
     'balances',
+    'comments',
     'favorites',
     'transactions',
     'digitalAssets',
@@ -80,6 +84,8 @@ export function makeRootReducer() {
     blocks,
     // balances
     balances,
+    // comments
+    comments,
     // transactions
     transactions,
     // settings

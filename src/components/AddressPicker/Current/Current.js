@@ -29,7 +29,6 @@ type ComponentState = {|
 
 class AddressPickerCurrent extends Component<Props, ComponentState> {
   static defaultProps = {
-    value: null,
     searchQuery: '',
     label: 'Recipient address',
     placeholder: 'Recipient address',

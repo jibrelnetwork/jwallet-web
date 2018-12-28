@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import BigNumber from 'utils/numbers/bigNumber'
+import isZero from 'utils/numbers/isZero'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
@@ -52,11 +52,8 @@ function filterZeroBalanceDigitalAssets(
     return items
   }
 
-  return items.filter(({ balance }: DigitalAssetWithBalance): boolean => {
-    const isBalanceExist: boolean = !!(balance && (new BigNumber(balance.value)).gt(0))
-
-    return isBalanceExist
-  })
+  return items
+    .filter(({ balance }: DigitalAssetWithBalance): boolean => !!balance && !isZero(balance.value))
 }
 
 function sortDigitalAssets(

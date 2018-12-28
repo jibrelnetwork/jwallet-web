@@ -73,21 +73,19 @@ h4 {
 @import '../components/WalletFace/walletFace';
 @import '../components/WalletStep/walletStep';
 @import '../components/DoubleInput/doubleInput';
-@import '../components/AssetPicker/assetPicker';
+@import '../components/InputButton/inputButton';
 @import '../components/ModalHeader/modalHeader';
 @import '../components/PopupButton/popupButton';
-@import '../components/InputButton/inputButton';
 @import '../components/AssetBalance/assetBalance';
 @import '../components/SettingsGrid/settingsGrid';
 @import '../components/WalletHeader/walletHeader';
 @import '../components/FavoriteItem/favoriteItem';
 @import '../components/PasswordStep/passwordStep';
+@import '../components/AddressPicker/addressPicker';
 @import '../components/CopyableField/copyableField';
 @import '../components/PasswordField/passwordField';
-// @import '../components/WalletLoading/walletLoading';
-@import '../components/AddressPicker/addressPicker';
+@import '../components/WalletLoading/walletLoading';
 @import '../components/OverlayActions/overlayActions';
-@import '../components/PriorityPicker/priorityPicker';
 @import '../components/CloseableScreen/closeableScreen';
 @import '../components/RoundIconButton/roundIconButton';
 @import '../components/TransactionItem/transactionItem';
@@ -102,8 +100,6 @@ h4 {
 @import '../components/DigitalAssetsManage/digitalAssetsManage';
 @import '../components/OverlayNotification/overlayNotification';
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
-@import '../components/DigitalAssetSendForm/digitalAssetSendForm';
-@import '../components/DigitalAssetSendConfirm/digitalAssetSendConfirm';
 
 // Views
 @import '../routes/Wallets/walletsView';

@@ -3,6 +3,8 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
+import handle from 'utils/eventHandlers/handle'
+
 import {
   JText,
   JFlatButton,
@@ -17,20 +19,29 @@ import {
 import TransactionItemDetailsComment from './Comment'
 
 type Props = {|
+  +removeFavorite: (Address) => void,
+  +editComment: (CommentId, string) => void,
+  +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
   +toName: ?string,
+  +comment: ?string,
   +fromName: ?string,
+  +txAddress: ?Address,
   +blockExplorerSubdomain: string,
-  +assetDecimals: number,
   +isSent: boolean,
   +isActive: boolean,
+  +isFromFavorites: boolean,
 |}
 
 type StateProps = {|
-  isCommenting: boolean,
+  +isCommenting: boolean,
 |}
 
-function getRepeatLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
+function getRepeatLink(
+  data: TransactionWithPrimaryKeys,
+  assetAddress: AssetAddress,
+  isSent: boolean,
+): ?string {
   const {
     to,
     from,
@@ -38,28 +49,23 @@ function getRepeatLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?stri
     amount,
   }: TransactionWithPrimaryKeys = data
 
-  if (contractAddress || !(to && from)) {
+  if (!isSent || contractAddress || !(to && from)) {
     return null
   }
 
-  const actor: string = isSent ? `to=${to}` : `from=${from}`
-  const action: 'send' | 'receive' = isSent ? 'send' : 'receive'
-
-  return `/digital-assets/${action}?${actor}&amount=${amount}`
+  return `/digital-assets/send?to=${to}&asset=${assetAddress}&amount=${amount}`
 }
 
-function getFavoriteLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
-  const {
-    to,
-    from,
-    contractAddress,
-  }: TransactionWithPrimaryKeys = data
-
-  if (contractAddress || !(to && from)) {
+function getFavoriteLink(
+  txAddress: ?Address,
+  isExist: boolean,
+  isContractCreation: boolean,
+): ?string {
+  if (!txAddress || isExist || isContractCreation) {
     return null
   }
 
-  return `/favorites/address/${isSent ? to : from}`
+  return `/favorites/address/${txAddress}`
 }
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
@@ -75,32 +81,43 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
   render() {
     const {
+      editComment,
+      removeFavorite,
+      data,
+      asset,
       toName,
+      comment,
       fromName,
+      txAddress,
       blockExplorerSubdomain,
-      assetDecimals,
       isSent,
       isActive,
+      isFromFavorites,
     } = this.props
 
-    const {
-      isCommenting,
-    }: StateProps = this.state
+    const { isCommenting }: StateProps = this.state
 
     const {
-      data,
+      keys,
       receiptData,
       to,
       from,
       hash,
-    }: TransactionWithPrimaryKeys = this.props.data
+      contractAddress,
+      data: txData,
+    }: TransactionWithPrimaryKeys = data
 
-    if (!(data && receiptData)) {
+    const {
+      address,
+      decimals,
+    }: DigitalAsset = asset
+
+    if (!(txData && receiptData)) {
       return null
     }
 
-    const repeatLink: ?string = getRepeatLink(this.props.data, isSent)
-    const addFavoriteLink: ?string = getFavoriteLink(this.props.data, isSent)
+    const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
+    const repeatLink: ?string = getRepeatLink(data, address, isSent)
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -167,7 +184,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <JText
-              value={`${getTxFee(receiptData.gasUsed, data.gasPrice, assetDecimals)} ETH`}
+              value={`${getTxFee(receiptData.gasUsed, txData.gasPrice, decimals)} ETH`}
               color='gray'
               weight='bold'
             />
@@ -186,33 +203,36 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
               />
             </div>
           )}
-          {!!addFavoriteLink && (
+          {(addFavoriteLink || isFromFavorites) && (
             <div className='action'>
               <JFlatButton
+                onClick={isFromFavorites ? handle(removeFavorite)(txAddress) : null}
                 to={addFavoriteLink}
+                iconName={`star-${isFromFavorites ? 'remove' : 'add'}`}
+                label={`${isFromFavorites ? 'Remove from' : 'Add to'} favourites`}
                 color='gray'
                 iconColor='gray'
                 iconSize='medium'
-                iconName='star-add'
-                label='Add to favourites'
               />
             </div>
           )}
           <div className='action'>
             <JFlatButton
               onClick={this.toggle}
+              label={`${comment ? 'Edit' : 'Add'} comment`}
+              iconName={`message-${comment ? 'edit' : 'add'}`}
               color='gray'
               iconColor='gray'
               iconSize='medium'
-              label='Add comment'
-              iconName='message-add'
             />
           </div>
         </div>
         {isCommenting && (
           <TransactionItemDetailsComment
-            saveComment={this.toggle}
-            deleteComment={this.toggle}
+            edit={editComment}
+            toggle={this.toggle}
+            comment={comment}
+            transactionId={keys.id}
           />
         )}
       </div>

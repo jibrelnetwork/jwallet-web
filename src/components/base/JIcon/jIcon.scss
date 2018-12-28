@@ -477,6 +477,10 @@
     }
 
     &.-arrow-left {
+      &.-gray {
+        background-image: $icon-medium-arrow-left-gray;
+      }
+
       &.-white {
         background-image: $icon-medium-arrow-left-white;
       }
