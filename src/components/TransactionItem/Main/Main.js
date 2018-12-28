@@ -110,6 +110,7 @@ class TransactionItemMain extends PureComponent<Props> {
       amount,
       blockHash,
       contractAddress,
+      isRemoved,
     }: TransactionWithPrimaryKeys = data
 
     const {
@@ -122,9 +123,9 @@ class TransactionItemMain extends PureComponent<Props> {
     }
 
     const isPending: boolean = !blockHash
-    const isFailed: boolean = !receiptData.status
     const amountSign: string = isSent ? '-' : '+'
     const timestamp: number = blockData.timestamp * 1000
+    const isFailed: boolean = !receiptData.status || isRemoved
     const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
     const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
 
