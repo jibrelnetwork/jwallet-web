@@ -19,7 +19,7 @@ type Props = {|
   +iteration: Index,
   +activeWalletId: ?WalletId,
   +ethBalance: ?Balance,
-  isConnectionError: boolean,
+  +isConnectionError: boolean,
 |}
 
 class MenuLayout extends Component<Props> {
