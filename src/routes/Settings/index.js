@@ -3,7 +3,7 @@
 import { MenuLayout } from 'layouts'
 
 import SettingsIndex from './SettingsIndexViewContainer'
-import SecurityPassword from './routes/SecurityPassword'
+import PaymentPassword from './routes/PaymentPassword'
 
 export default {
   path: 'settings',
@@ -12,6 +12,6 @@ export default {
     component: SettingsIndex,
   },
   childRoutes: [
-    SecurityPassword,
+    PaymentPassword,
   ],
 }
