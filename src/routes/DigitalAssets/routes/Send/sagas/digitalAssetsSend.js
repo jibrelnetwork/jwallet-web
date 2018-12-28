@@ -44,7 +44,7 @@ import * as transactions from 'routes/modules/transactions'
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
 function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
-  if (isZero(amount)) {
+  if ((parseInt(amount, 10) < 0)) {
     return 'Amount should be greater than 0'
   }
 
@@ -107,18 +107,23 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
-  const isNonceInvalid: boolean = !!nonce && isZero(nonce)
-  const isDigitalAssetAddressInvalid: boolean = !digitalAsset
-  const isGasLimitInvalid: boolean = !!gasLimit && isZero(gasLimit)
-  const isGasPriceInvalid: boolean = !!gasPrice && isZero(gasPrice)
-  const isRecepientAddressInvalid: boolean = !checkAddressValid(recipient)
+  const isDigitalAssetAddressValid: boolean = !!digitalAsset
+  const isRecepientAddressValid: boolean = checkAddressValid(recipient)
   const amountErrorMessage: ?string = yield* getAmountError(amount, digitalAsset)
 
-  if (isRecepientAddressInvalid) {
+  const isNonceExist: boolean = !!nonce.trim()
+  const isGasLimitExist: boolean = !!gasLimit.trim()
+  const isGasPriceExist: boolean = !!gasPrice.trim()
+
+  const isNonceValid: boolean = (parseInt(nonce, 10) > 0)
+  const isGasLimitValid: boolean = (parseInt(gasLimit, 10) > 0)
+  const isGasPriceValid: boolean = (parseInt(gasPrice, 10) > 0)
+
+  if (!isRecepientAddressValid) {
     yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
   }
 
-  if (isDigitalAssetAddressInvalid) {
+  if (!isDigitalAssetAddressValid) {
     yield put(digitalAssetsSend.setFormFieldError('assetAddress', 'Invalid asset address'))
   }
 
@@ -126,25 +131,25 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
     yield put(digitalAssetsSend.setFormFieldError('amount', amountErrorMessage))
   }
 
-  if (isNonceInvalid) {
+  if (isNonceExist && !isNonceValid) {
     yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
   }
 
-  if (isGasLimitInvalid) {
+  if (isGasLimitExist && !isGasLimitValid) {
     yield put(digitalAssetsSend.setFormFieldError('gasLimit', 'Invalid value for gas limit'))
   }
 
-  if (isGasPriceInvalid) {
+  if (isGasPriceExist && !isGasPriceValid) {
     yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas price'))
   }
 
   return !(
-    isRecepientAddressInvalid ||
-    isDigitalAssetAddressInvalid ||
+    !isRecepientAddressValid ||
+    !isDigitalAssetAddressValid ||
     !!amountErrorMessage ||
-    isNonceInvalid ||
-    isGasLimitInvalid ||
-    isGasPriceInvalid
+    (isNonceExist && !isNonceValid) ||
+    (isGasLimitExist && !isGasLimitValid) ||
+    (isGasPriceExist && !isGasPriceValid)
   )
 }
 
