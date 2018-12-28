@@ -11,9 +11,9 @@ type Props = {|
   +name: string,
   +symbol: string,
   +address: Address,
-  +fiatCurrency: string,
+  // +fiatCurrency: string,
   +balance: ?BalanceString,
-  +fiatBalance: number,
+  // +fiatBalance: number,
   +isError: boolean,
   +isLoading: boolean,
   +isCustom: boolean,
@@ -27,8 +27,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
   static defaultProps = {
     isError: false,
     isLoading: false,
-    fiatBalance: 0,
-    fiatCurrency: 'USD',
+    // fiatBalance: 0,
+    // fiatCurrency: 'USD',
     isCustom: false,
   }
 
@@ -50,8 +50,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       symbol,
       address,
       balance,
-      fiatCurrency,
-      fiatBalance,
+      // fiatCurrency,
+      // fiatBalance,
       isError,
       isLoading,
       isCustom,
@@ -81,10 +81,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
         </div>
         <AssetCardBody
           address={address}
-          fiatCurrency={fiatCurrency}
           symbol={symbol}
           balance={balance}
-          fiatBalance={fiatBalance}
           isError={isError}
           isLoading={isLoading}
           isHovered={isHovered}
