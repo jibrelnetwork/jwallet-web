@@ -4,7 +4,11 @@ import React, { Component } from 'react'
 
 import AssetItem from 'components/AssetItem'
 import handle from 'utils/eventHandlers/handle'
-import parseBalance from 'utils/digitalAssets/parseBalance'
+
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 import Empty from './Empty'
 
@@ -46,7 +50,7 @@ class DigitalAssetsManage extends Component<Props> {
               name={name}
               symbol={symbol}
               address={address}
-              balance={parseBalance(balance, decimals)}
+              balance={formatBalance(divDecimals(balance ? balance.value : 0, decimals))}
               isCustom={isCustom}
               isActive={isActive}
             />

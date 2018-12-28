@@ -3,12 +3,15 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import divDecimals from 'utils/numbers/divDecimals'
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 import {
-  JIcon,
   JTabs,
   JSearch,
+  JFlatButton,
 } from 'components/base'
 
 import {
@@ -23,9 +26,9 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
     decimals,
   }: DigitalAsset = asset
 
-  const balance: string = (assetBalance && assetBalance.value)
-    ? divDecimals(assetBalance.value, decimals)
-    : '0'
+  const balance: string = formatBalance(
+    divDecimals(assetBalance ? assetBalance.value : 0, decimals),
+  )
 
   return {
     '/digital-assets': 'Digital assets',
@@ -36,13 +39,17 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
 }
 
 type Props = {|
+  +removeFavorite: (Address) => void,
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
+  +editComment: (CommentId, string) => void,
   +transactions: TransactionWithPrimaryKeys[],
   +params: {|
     +asset: string,
   |},
   +network: ?Network,
+  +comments: Comments,
+  +favorites: AddressNames,
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetBalance: ?Balance,
@@ -54,11 +61,15 @@ type Props = {|
 |}
 
 function TransactionsAssetView({
+  editComment,
+  removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
   transactions,
   params,
   network,
+  comments,
+  favorites,
   addressNames,
   digitalAssets,
   searchQuery,
@@ -102,10 +113,11 @@ function TransactionsAssetView({
               />
             </div>
             <div className='send'>
-              <JIcon
-                size='medium'
-                color='gray'
-                name='upload'
+              <JFlatButton
+                to={`/digital-assets/send?asset=${asset.address}`}
+                iconColor='gray'
+                iconSize='medium'
+                iconName='upload'
               />
             </div>
           </div>
@@ -114,7 +126,11 @@ function TransactionsAssetView({
       <div className='content'>
         <Scrollbars autoHide>
           <TransactionsList
+            editComment={editComment}
+            removeFavorite={removeFavorite}
             items={transactions}
+            comments={comments}
+            favorites={favorites}
             addressNames={addressNames}
             digitalAssets={digitalAssets}
             assetAddress={params.asset}

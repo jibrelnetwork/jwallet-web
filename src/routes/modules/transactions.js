@@ -12,6 +12,9 @@ export const FETCH_BY_BLOCK_SUCCESS = '@@transactions/FETCH_BY_BLOCK_SUCCESS'
 export const FETCH_BY_BLOCK_ERROR = '@@transactions/FETCH_BY_BLOCK_ERROR'
 
 export const UPDATE_TRANSACTION_DATA = '@@transactions/UPDATE_TRANSACTION_DATA'
+export const ADD_PENDING_TRANSACTION = '@@transactions/ADD_PENDING_TRANSACTION'
+export const CHECK_PENDING_TRANSACTION = '@@transactions/CHECK_PENDING_TRANSACTION'
+export const REMOVE_PENDING_TRANSACTION = '@@transactions/REMOVE_PENDING_TRANSACTION'
 
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
 export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
@@ -153,6 +156,59 @@ export function updateTransactionData(
   }
 }
 
+export function addPendingTransaction(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  assetAddress: AssetAddress,
+  data: Transaction,
+) {
+  return {
+    type: ADD_PENDING_TRANSACTION,
+    payload: {
+      data,
+      networkId,
+      assetAddress,
+      ownerAddress,
+    },
+  }
+}
+
+export function checkPendingTransaction(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  assetAddress: AssetAddress,
+  blockNumber: BlockNumber,
+  transactionId: TransactionId,
+) {
+  return {
+    type: CHECK_PENDING_TRANSACTION,
+    payload: {
+      networkId,
+      blockNumber,
+      assetAddress,
+      ownerAddress,
+      transactionId,
+    },
+  }
+}
+
+export function removePendingTransaction(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  assetAddress: AssetAddress,
+  txHash: Hash,
+) {
+  return {
+    type: REMOVE_PENDING_TRANSACTION,
+    payload: {
+      txHash,
+      networkId,
+      assetAddress,
+      ownerAddress,
+    },
+  }
+}
+
 export function changeSearchInput(searchQuery: string) {
   return {
     type: CHANGE_SEARCH_INPUT,
@@ -178,12 +234,14 @@ type TransactionsAction =
   ExtractReturn<typeof fetchByBlockSuccess> |
   ExtractReturn<typeof fetchByBlockError> |
   ExtractReturn<typeof updateTransactionData> |
+  ExtractReturn<typeof addPendingTransaction> |
   ExtractReturn<typeof changeSearchInput> |
   ExtractReturn<typeof setIsOnlyPending>
 
 const initialState: TransactionsState = {
   persist: {
     items: {},
+    pending: {},
   },
   searchQuery: '',
   isOnlyPending: false,
@@ -403,6 +461,81 @@ function transactions(
                     ...itemsByBlock,
                     items: newTransactions,
                   },
+                },
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case ADD_PENDING_TRANSACTION: {
+      const {
+        data,
+        networkId,
+        assetAddress,
+        ownerAddress,
+      } = action.payload
+
+      const { pending } = state.persist
+      const pendingByNetworkId: PendingTransactionsByNetworkId = pending[networkId] || {}
+      const pendingByOwner: PendingTransactionsByOwner = pendingByNetworkId[ownerAddress] || {}
+      const pendingByAsset: Transactions = pendingByOwner[assetAddress] || {}
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          pending: {
+            ...pending,
+            [networkId]: {
+              ...pendingByNetworkId,
+              [ownerAddress]: {
+                ...pendingByOwner,
+                [assetAddress]: {
+                  ...pendingByAsset,
+                  [data.hash]: data,
+                },
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case REMOVE_PENDING_TRANSACTION: {
+      const {
+        txHash,
+        networkId,
+        assetAddress,
+        ownerAddress,
+      } = action.payload
+
+      const { pending } = state.persist
+      const pendingByNetworkId: PendingTransactionsByNetworkId = pending[networkId] || {}
+      const pendingByOwner: PendingTransactionsByOwner = pendingByNetworkId[ownerAddress] || {}
+      const pendingByAsset: Transactions = pendingByOwner[assetAddress] || {}
+
+      const pendingByAssetNew: Transactions = Object.keys(pendingByAsset).reduce((
+        result: Transactions,
+        hash: Hash,
+      ): Transactions => (hash === txHash) ? result : {
+        ...result,
+        [hash]: pendingByAsset[hash],
+      }, {})
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          pending: {
+            ...pending,
+            [networkId]: {
+              ...pendingByNetworkId,
+              [ownerAddress]: {
+                ...pendingByOwner,
+                [assetAddress]: {
+                  ...pendingByAssetNew,
                 },
               },
             },

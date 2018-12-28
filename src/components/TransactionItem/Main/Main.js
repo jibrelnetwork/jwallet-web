@@ -7,6 +7,7 @@ import React, {
   PureComponent,
 } from 'react'
 
+import config from 'config'
 import handle from 'utils/eventHandlers/handle'
 import getAddressLink from 'utils/transactions/getAddressLink'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
@@ -14,6 +15,7 @@ import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 import {
   isZero,
   divDecimals,
+  formatBalance,
 } from 'utils/numbers'
 
 import {
@@ -22,58 +24,101 @@ import {
   JAssetSymbol,
 } from 'components/base'
 
+type TransactionTextColor = 'red' | 'gray' | 'blue'
+type TransactionIconColor = 'red' | 'gray' | 'white'
+type TransactionIconName = 'time' | 'cross-circle' | 'transaction-send' | 'transaction-receive'
+
 type Props = {|
   +setActive: (boolean) => void,
+  +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
-  +assetSymbol: string,
+  +comment: ?string,
+  +txAddress: ?Address,
   +txAddressName: ?string,
   +blockExplorerSubdomain: string,
-  +assetDecimals: number,
   +isSent: boolean,
   +isActive: boolean,
-  +isCustom: boolean,
   +isAssetList: boolean,
 |}
 
-class TransactionItemMain extends PureComponent<Props> {
-  static defaultProps = {
-    isSent: false,
-    isActive: false,
-    isCustom: false,
-    isAssetList: false,
+function getTransactionTextColor(isSent: boolean, isFailed: boolean): TransactionTextColor {
+  if (isFailed) {
+    return 'red'
   }
 
+  return isSent ? 'gray' : 'blue'
+}
+
+function getTransactionIconColor(
+  isPending: boolean,
+  isFailed: boolean,
+  timestamp: number,
+): TransactionIconColor {
+  const isDelayed: boolean = isPending && ((Date.now() - timestamp) > config.miningDelay)
+
+  if (isDelayed || isFailed) {
+    return 'red'
+  }
+
+  return isPending ? 'gray' : 'white'
+}
+
+function getTransactionIconName(
+  isSent: boolean,
+  isPending: boolean,
+  isFailed: boolean,
+): TransactionIconName {
+  if (isPending) {
+    return 'time'
+  }
+
+  if (isFailed) {
+    return 'cross-circle'
+  }
+
+  return isSent ? 'transaction-send' : 'transaction-receive'
+}
+
+class TransactionItemMain extends PureComponent<Props> {
   render() {
     const {
       setActive,
       data,
-      assetSymbol,
+      asset,
+      comment,
+      txAddress,
       txAddressName,
       blockExplorerSubdomain,
-      assetDecimals,
       isSent,
       isActive,
-      isCustom,
       isAssetList,
-    } = this.props
+    }: Props = this.props
 
     const {
       blockData,
-      to,
-      from,
+      receiptData,
       hash,
       amount,
+      blockHash,
       contractAddress,
+      isRemoved,
     }: TransactionWithPrimaryKeys = data
 
-    if (!blockData) {
+    const {
+      symbol,
+      decimals,
+      isCustom,
+    }: DigitalAsset = asset
+
+    if (!(blockData && receiptData)) {
       return null
     }
 
-    const color = isSent ? 'gray' : 'blue'
+    const isPending: boolean = !blockHash
     const amountSign: string = isSent ? '-' : '+'
-    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
-    const iconName: string = isSent ? 'transaction-send' : 'transaction-receive'
+    const timestamp: number = blockData.timestamp * 1000
+    const isFailed: boolean = !receiptData.status || isRemoved
+    const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
 
     return (
       <div
@@ -82,7 +127,11 @@ class TransactionItemMain extends PureComponent<Props> {
       >
         <div className='box'>
           <div className='status'>
-            <JIcon size='medium' name={iconName} />
+            <JIcon
+              size='medium'
+              name={getTransactionIconName(isSent, isPending, isFailed)}
+              color={getTransactionIconColor(isPending, isFailed, timestamp)}
+            />
           </div>
           <div className='data'>
             {txAddress && (
@@ -113,20 +162,20 @@ class TransactionItemMain extends PureComponent<Props> {
             )}
             <div className='time'>
               <JText
-                value={getFormattedDateString(blockData.minedAt * 1000)}
+                value={getFormattedDateString(timestamp)}
                 color='gray'
                 size='small'
                 whiteSpace='wrap'
               />
             </div>
           </div>
-          {!isSent && (
+          {!!comment && (
             <div className='message'>
               <div className='icon'>
                 <JIcon size='medium' name='message' color='gray' />
               </div>
               <div className='text'>
-                <JText value='Thanks man!' color='gray' size='normal' />
+                <JText value={comment} color='gray' size='normal' />
               </div>
             </div>
           )}
@@ -137,8 +186,8 @@ class TransactionItemMain extends PureComponent<Props> {
               <JText
                 value={`
                   ${isZero(amount) ? '' : amountSign}
-                  ${divDecimals(amount, assetDecimals)}
-                  ${assetSymbol}
+                  ${formatBalance(divDecimals(amount, decimals))}
+                  ${symbol}
                 `}
                 color={color}
                 size='normal'
@@ -156,12 +205,12 @@ class TransactionItemMain extends PureComponent<Props> {
             <Fragment>
               {!isCustom ? (
                 <div className='symbol -icon'>
-                  <JAssetSymbol symbol={assetSymbol} color='gray' />
+                  <JAssetSymbol symbol={symbol} color='gray' />
                 </div>
               ) : (
                 <div className='symbol -text'>
                   <JText
-                    value={assetSymbol}
+                    value={symbol}
                     color='blue'
                     weight='bold'
                     size='normal'
