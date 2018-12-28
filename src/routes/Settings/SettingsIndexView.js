@@ -18,7 +18,7 @@ type Props = {|
 
 // Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
-  customType,
+  isReadOnly,
   localCurrencyCode,
   defaultGasPrice,
   systemLanguageCode,
@@ -83,7 +83,7 @@ const getSettingsCardProperties = ({
   path: 'settings/sign',
   iconName: 'message',
   searchTags: '',
-  isVisible: isFullMnemonic || customType === 'privateKey',
+  isVisible: !isReadOnly,
 }, {
   title: 'Check a signature',
   description: isFullMnemonic ? 'Enable' : ' ',
@@ -180,7 +180,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
     const passphrase = mnemonicOptions ? mnemonicOptions.passphrase : null
 
     const settingsCards = getSettingsCardProperties({
-      customType,
+      isReadOnly,
       localCurrencyCode,
       defaultGasPrice,
       systemLanguageCode,
