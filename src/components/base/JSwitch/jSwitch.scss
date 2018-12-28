@@ -7,6 +7,10 @@
     margin-bottom: $checkbox-item-margin-bottom;
   }
 
+  &.-disabled {
+    opacity: 0.5;
+  }
+
   > .field {
     width: 42px;
     height: 24px;
