@@ -8,7 +8,8 @@
 
   position: relative;
   height: 100%;
-  padding: $page-header-height 50px 50px;
+  padding-top: $page-header-height;
+  padding-bottom: 50px;
   min-height: 660px;
 
   > .content {

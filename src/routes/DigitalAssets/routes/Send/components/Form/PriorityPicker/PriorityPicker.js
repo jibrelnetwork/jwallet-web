@@ -6,6 +6,7 @@ import DoubleInput from 'components/DoubleInput'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
 import DigitalAssetsSendFormPriorityPickerCurrent from './Current'
+import DigitalAssetsSendFormPriorityPickerInfo from './Info'
 import { TXPRIORITY } from '../../../modules/digitalAssetsSend'
 
 const TXPRIORITY_DATA: { [TXPriorityKey]: TXPriorityData } = {
@@ -71,6 +72,13 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
         ) : (
           <JPicker
             errorMessage={formFieldErrors.gasLimit || formFieldErrors.gasPrice}
+            bottomRenderer={() => (
+              <DigitalAssetsSendFormPriorityPickerInfo value={[
+                'The app doesn’t charge you any fees.',
+                'But you have to pay the blokchain fee to create a newtransaction.',
+              ]}
+              />
+            )}
             currentRenderer={() => (
               <DigitalAssetsSendFormPriorityPickerCurrent
                 currentPriority={selectedPriorityData.title}
