@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 
 import JInput from 'components/base/JInput'
+import { type JInputColor } from 'components/base/JInput/JInput'
 import keystore from 'services/keystore'
 
 import Indicator from './Indicator'
@@ -18,6 +19,8 @@ type Props = {|
   +valueConfirm: ?string,
   +placeholderConfirm: string,
   +isDisabled: boolean,
+  isAutoFocus?: boolean,
+  +color: JInputColor,
 |}
 
 type StateProps = {
@@ -49,6 +52,11 @@ function getStatusByScore(score: number): ?PasswordStatus {
 }
 
 class PasswordField extends Component<Props, StateProps> {
+  static defaultProps = {
+    color: 'white',
+    isAutoFocus: true,
+  }
+
   constructor(props: Props) {
     super(props)
 
@@ -100,11 +108,14 @@ class PasswordField extends Component<Props, StateProps> {
       valueConfirm,
       placeholderConfirm,
       isDisabled,
+      isAutoFocus,
+      color,
     }: Props = this.props
 
     return (
       <div className='password-field'>
         <JInput
+          color={color}
           onChange={this.onChange}
           value={value}
           placeholder={placeholder}
@@ -113,10 +124,11 @@ class PasswordField extends Component<Props, StateProps> {
           type='password'
           name='password'
           isDisabled={isDisabled}
-          isAutoFocus
+          isAutoFocus={isAutoFocus}
         />
         <Indicator status={this.getStatus()} />
         <JInput
+          color={color}
           onChange={onChangeConfirm}
           value={valueConfirm}
           placeholder={placeholderConfirm}

@@ -1,10 +1,18 @@
 // @flow
 
 export const INIT = '@@settings/INIT'
+export const CHANGE_PAYMENT_PASSWORD = '@@settings/CHANGE_PAYMENT_PASSWORD'
 
 export function init() {
   return {
     type: INIT,
+  }
+}
+
+export function changePaymentPassword(payload: PaymentPasswordForm) {
+  return {
+    type: CHANGE_PAYMENT_PASSWORD,
+    payload,
   }
 }
 
@@ -24,6 +32,9 @@ const settings = (
 ): SettingsState => {
   switch (action.type) {
     case INIT:
+      return state
+    case CHANGE_PAYMENT_PASSWORD:
+      console.log(action, state)
       return state
     default:
       return state
