@@ -9,9 +9,9 @@ import {
 } from 'utils/numbers'
 
 import {
-  JIcon,
   JTabs,
   JSearch,
+  JFlatButton,
 } from 'components/base'
 
 import {
@@ -113,10 +113,11 @@ function TransactionsAssetView({
               />
             </div>
             <div className='send'>
-              <JIcon
-                size='medium'
-                color='gray'
-                name='upload'
+              <JFlatButton
+                to={`/digital-assets/send?asset=${asset.address}`}
+                iconColor='gray'
+                iconSize='medium'
+                iconName='upload'
               />
             </div>
           </div>
