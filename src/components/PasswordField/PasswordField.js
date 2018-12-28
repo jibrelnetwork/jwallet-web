@@ -19,7 +19,7 @@ type Props = {|
   +valueConfirm: ?string,
   +placeholderConfirm: string,
   +isDisabled: boolean,
-  +isAutoFocus: boolean,
+  isAutoFocus?: boolean,
   +color: JInputColor,
 |}
 

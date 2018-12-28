@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import PasswordField from 'components/PasswordField/index'
+import PasswordField from 'components/PasswordField'
 
 type Props = {
   onChange: (name: string, value: mixed) => void,
@@ -21,7 +21,7 @@ function PasswordFieldFinalFormAdapter(props: Props) {
     <PasswordField
       onChange={handlerChange('passwordNew')(onChange)}
       onChangeConfirm={handlerChange('passwordNewConfirm')(onChange)}
-      invalidFields={{ passwordNew: null, passwordNewConfirm: null }}
+      invalidFields={{ password: null, passwordConfirm: null }}
       value={values ? values.passwordNew : ''}
       placeholder={text.passwordNew}
       valueConfirm={values ? values.passwordNewConfirm : ''}

@@ -44,11 +44,13 @@ type ChildrenProps = {|
   +autoFocus: boolean,
 |}
 
+const noop = () => {}
+
 class JInput extends PureComponent<Props> {
   static defaultProps = {
     onChange: null,
-    onFocus: Function,
-    onBlur: Function,
+    onFocus: noop,
+    onBlur: noop,
     name: '',
     label: '',
     value: '',
