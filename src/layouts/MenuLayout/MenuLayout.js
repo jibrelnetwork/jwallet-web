@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 
 import config from 'config'
 import MenuPanel from 'components/MenuPanel'
+import OverlayNotification from 'components/OverlayNotification'
 
 type Props = {|
   +openLayout: () => void,
@@ -17,6 +18,7 @@ type Props = {|
   +children: React$Node,
   +iteration: Index,
   +activeWalletId: ?WalletId,
+  isConnectionError: boolean,
 |}
 
 class MenuLayout extends Component<Props> {
@@ -68,6 +70,7 @@ class MenuLayout extends Component<Props> {
       children,
       activeWalletId,
       onSendAssetClick,
+      isConnectionError,
     }: Props = this.props
 
     return (
@@ -85,6 +88,18 @@ class MenuLayout extends Component<Props> {
         </div>
         <div className='content'>
           {children}
+          {isConnectionError && (
+            <div className='overlay'>
+              <OverlayNotification
+                color='red'
+                image='screen-error'
+                description={[
+                  'Internet connection error.',
+                  'Try again.',
+                ]}
+              />
+            </div>
+          )}
         </div>
       </div>
     )

@@ -3,8 +3,8 @@
 
   @include flex-row;
 
+  align-items: center;
   width: $wallet-button-width;
   height: $wallet-button-height;
-  align-items: center;
   justify-content: space-around;
 }
