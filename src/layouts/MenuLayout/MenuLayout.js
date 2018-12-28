@@ -7,8 +7,8 @@ import MenuPanel from 'components/MenuPanel'
 import OverlayNotification from 'components/OverlayNotification'
 
 type Props = {|
-  +openLayout: Function,
-  +closeLayout: Function,
+  +openLayout: () => void,
+  +closeLayout: () => void,
   +setActive: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +items: Wallets,
