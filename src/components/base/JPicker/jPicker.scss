@@ -61,6 +61,7 @@
       opacity: 0;
       background-color: $white;
       box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+      max-height: 0;
 
       > .items {
         max-height: 0;
@@ -125,6 +126,7 @@
       > .options {
         visibility: visible;
         opacity: 1;
+        max-height: none;
 
         > .items {
           max-height: (65px * 4);
