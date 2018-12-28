@@ -38,6 +38,7 @@ import {
   selectDigitalAssetsSend,
 } from 'store/selectors/digitalAssets'
 
+import * as comments from 'routes/modules/comments'
 import * as transactions from 'routes/modules/transactions'
 
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
@@ -198,6 +199,14 @@ function* addPendingTransaction(
   ))
 }
 
+function* addTransactionComment(txHash: Hash, comment: string): Saga<void> {
+  if (!comment) {
+    return
+  }
+
+  yield put(comments.edit(txHash, comment))
+}
+
 function* sendTransactionSuccess(
   txHash: Hash,
   formFieldValues: DigitalAssetsSendFormFields,
@@ -211,8 +220,7 @@ function* sendTransactionSuccess(
 
   yield put(push(`/transactions/${assetAddress}`))
   yield* addPendingTransaction(txHash, formFieldValues, networkId, decimals)
-
-  console.log(comment)
+  yield* addTransactionComment(txHash, comment)
 }
 
 function* sendTransactionError(err: Error): Saga<void> {
