@@ -33,11 +33,11 @@ type Props = {|
   +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
   +comment: ?string,
+  +txAddress: ?Address,
   +txAddressName: ?string,
   +blockExplorerSubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
-  +isCustom: boolean,
   +isAssetList: boolean,
 |}
 
@@ -80,32 +80,23 @@ function getTransactionIconName(
 }
 
 class TransactionItemMain extends PureComponent<Props> {
-  static defaultProps = {
-    isSent: false,
-    isActive: false,
-    isCustom: false,
-    isAssetList: false,
-  }
-
   render() {
     const {
       setActive,
       data,
       asset,
       comment,
+      txAddress,
       txAddressName,
       blockExplorerSubdomain,
       isSent,
       isActive,
-      isCustom,
       isAssetList,
-    } = this.props
+    }: Props = this.props
 
     const {
       blockData,
       receiptData,
-      to,
-      from,
       hash,
       amount,
       blockHash,
@@ -116,6 +107,7 @@ class TransactionItemMain extends PureComponent<Props> {
     const {
       symbol,
       decimals,
+      isCustom,
     }: DigitalAsset = asset
 
     if (!(blockData && receiptData)) {
@@ -126,7 +118,6 @@ class TransactionItemMain extends PureComponent<Props> {
     const amountSign: string = isSent ? '-' : '+'
     const timestamp: number = blockData.timestamp * 1000
     const isFailed: boolean = !receiptData.status || isRemoved
-    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
     const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
 
     return (

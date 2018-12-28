@@ -3,6 +3,8 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
+import handle from 'utils/eventHandlers/handle'
+
 import {
   JText,
   JFlatButton,
@@ -17,15 +19,18 @@ import {
 import TransactionItemDetailsComment from './Comment'
 
 type Props = {|
+  +removeFavorite: (Address) => void,
   +editComment: (CommentId, string) => void,
   +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
   +toName: ?string,
   +comment: ?string,
   +fromName: ?string,
+  +txAddress: ?Address,
   +blockExplorerSubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
+  +isFromFavorites: boolean,
 |}
 
 type StateProps = {|
@@ -51,18 +56,16 @@ function getRepeatLink(
   return `/digital-assets/send?to=${to}&asset=${assetAddress}&amount=${amount}`
 }
 
-function getFavoriteLink(data: TransactionWithPrimaryKeys, isSent: boolean): ?string {
-  const {
-    to,
-    from,
-    contractAddress,
-  }: TransactionWithPrimaryKeys = data
-
-  if (contractAddress || !(to && from)) {
+function getFavoriteLink(
+  txAddress: ?Address,
+  isExist: boolean,
+  isContractCreation: boolean,
+): ?string {
+  if (!txAddress || isExist || isContractCreation) {
     return null
   }
 
-  return `/favorites/address/${isSent ? to : from}`
+  return `/favorites/address/${txAddress}`
 }
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
@@ -79,14 +82,17 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
   render() {
     const {
       editComment,
+      removeFavorite,
       data,
       asset,
-      comment,
       toName,
+      comment,
       fromName,
+      txAddress,
       blockExplorerSubdomain,
       isSent,
       isActive,
+      isFromFavorites,
     } = this.props
 
     const { isCommenting }: StateProps = this.state
@@ -97,6 +103,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       to,
       from,
       hash,
+      contractAddress,
       data: txData,
     }: TransactionWithPrimaryKeys = data
 
@@ -109,7 +116,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       return null
     }
 
-    const addFavoriteLink: ?string = getFavoriteLink(data, isSent)
+    const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
     const repeatLink: ?string = getRepeatLink(data, address, isSent)
 
     return (
@@ -196,26 +203,27 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
               />
             </div>
           )}
-          {!!addFavoriteLink && (
+          {(addFavoriteLink || isFromFavorites) && (
             <div className='action'>
               <JFlatButton
+                onClick={isFromFavorites ? handle(removeFavorite)(txAddress) : null}
                 to={addFavoriteLink}
+                iconName={`star-${isFromFavorites ? 'remove' : 'add'}`}
+                label={`${isFromFavorites ? 'Remove from' : 'Add to'} favourites`}
                 color='gray'
                 iconColor='gray'
                 iconSize='medium'
-                iconName='star-add'
-                label='Add to favourites'
               />
             </div>
           )}
           <div className='action'>
             <JFlatButton
               onClick={this.toggle}
+              label={`${comment ? 'Edit' : 'Add'} comment`}
+              iconName={`message-${comment ? 'edit' : 'add'}`}
               color='gray'
               iconColor='gray'
               iconSize='medium'
-              label='Add comment'
-              iconName='message-add'
             />
           </div>
         </div>

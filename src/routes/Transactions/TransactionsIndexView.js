@@ -14,12 +14,14 @@ import {
 } from 'components'
 
 type Props = {|
+  +removeFavorite: (Address) => void,
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
   +editComment: (CommentId, string) => void,
   +transactions: TransactionWithPrimaryKeys[],
   +network: ?Network,
   +comments: Comments,
+  +favorites: AddressNames,
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
@@ -35,11 +37,13 @@ const TRANSACTIONS_TABS = {
 
 function TransactionsIndexView({
   editComment,
+  removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
   transactions,
   network,
   comments,
+  favorites,
   addressNames,
   digitalAssets,
   searchQuery,
@@ -80,8 +84,10 @@ function TransactionsIndexView({
         <Scrollbars autoHide>
           <TransactionsList
             editComment={editComment}
+            removeFavorite={removeFavorite}
             items={transactions}
             comments={comments}
+            favorites={favorites}
             addressNames={addressNames}
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}

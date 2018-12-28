@@ -137,7 +137,7 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
   }
 
   if (isGasPriceInvalid) {
-    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas limit'))
+    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas price'))
   }
 
   return !(
