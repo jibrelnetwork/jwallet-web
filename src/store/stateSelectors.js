@@ -36,7 +36,7 @@ export function selectWalletsAddresses(state: AppState): WalletsAddressesState {
 }
 
 export function selectWalletsAddressesList(state: AppState): string[] {
-  return state.walletsAddresses.addresses
+  return state.walletsAddresses ? state.walletsAddresses.addresses : []
 }
 
 export function selectWalletsAddressNames(state: AppState): AddressNames {
