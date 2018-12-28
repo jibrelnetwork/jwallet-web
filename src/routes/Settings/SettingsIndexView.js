@@ -90,7 +90,7 @@ const getSettingsCardProperties = ({
   iconName: 'protect',
   iconColor: 'blue',
   searchTags: '',
-  isVisible: isFullMnemonic,
+  isVisible: true,
 }, {
   title: 'Backup wallet',
   description: 'Save your money!',
