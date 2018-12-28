@@ -91,7 +91,7 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
               </div>
               {wallet.type === 'address' ?
                 <JInput
-                  label='Recepient address'
+                  label='Recipient address'
                   value={selectedAddress}
                   color='gray'
                   type='text'

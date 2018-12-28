@@ -24,6 +24,7 @@ const mapDispatchToProps = {
   close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
-export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+  mapStateToProps,
+  mapDispatchToProps,
 )(DigitalAssetsReceiveView)
