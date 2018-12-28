@@ -112,7 +112,7 @@ declare type DigitalAssetsSendFormFields = {|
   +gasPrice: string,
   +password: string,
   +amountFiat: string,
-  +recepient: Address,
+  +recipient: Address,
   +assetAddress: AssetAddress,
 |}
 

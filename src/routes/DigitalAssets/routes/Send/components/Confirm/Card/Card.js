@@ -23,14 +23,14 @@ function DigitalAssetsSendConfirmCard({
     amount,
     // gasLimit,
     // gasPrice,
-    recepient,
+    recipient,
   }: DigitalAssetsSendFormFields = formFieldValues
 
   const {
     symbol,
   }: DigitalAsset = selectedAsset
 
-  const toName: ?string = addressNames[recepient]
+  const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
 
   return (
@@ -60,7 +60,7 @@ function DigitalAssetsSendConfirmCard({
             <JText value={`To${toName ? ` — ${toName}` : ''}`} color='dark' />
           </div>
           <div className='address'>
-            <JText value={recepient} color='blue' />
+            <JText value={recipient} color='blue' />
           </div>
         </div>
       </div>

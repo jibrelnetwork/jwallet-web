@@ -3,7 +3,11 @@
 import React from 'react'
 
 import JText from 'components/base/JText'
-import { formatBalance } from 'utils/numbers'
+
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 const TICKER_CURRENCY = 'ETH'
 
@@ -12,7 +16,7 @@ type Props = {|
 |}
 
 function MenuPanelBalanceTicker({ ethBalance }: Props) {
-  const amountRounded: string = formatBalance(ethBalance.value)
+  const amountRounded: string = ethBalance ? formatBalance((divDecimals(ethBalance.value))) : '—'
 
   return (
     <div className='menu-panel-balance-ticker'>

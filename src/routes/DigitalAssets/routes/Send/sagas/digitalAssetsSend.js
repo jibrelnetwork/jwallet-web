@@ -100,7 +100,7 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
     amount,
     gasLimit,
     gasPrice,
-    recepient,
+    recipient,
     assetAddress,
   }: DigitalAssetsSendFormFields = formFieldValues
 
@@ -111,11 +111,11 @@ function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormField
   const isDigitalAssetAddressInvalid: boolean = !digitalAsset
   const isGasLimitInvalid: boolean = !!gasLimit && isZero(gasLimit)
   const isGasPriceInvalid: boolean = !!gasPrice && isZero(gasPrice)
-  const isRecepientAddressInvalid: boolean = !checkAddressValid(recepient)
+  const isRecepientAddressInvalid: boolean = !checkAddressValid(recipient)
   const amountErrorMessage: ?string = yield* getAmountError(amount, digitalAsset)
 
   if (isRecepientAddressInvalid) {
-    yield put(digitalAssetsSend.setFormFieldError('recepient', 'Invalid address'))
+    yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
   }
 
   if (isDigitalAssetAddressInvalid) {
@@ -165,7 +165,7 @@ function* addPendingTransaction(
     amount,
     gasLimit,
     gasPrice,
-    recepient,
+    recipient,
     assetAddress,
   }: DigitalAssetsSendFormFields = formFieldValues
 
@@ -185,7 +185,7 @@ function* addPendingTransaction(
         status: 1,
       },
       hash,
-      to: recepient,
+      to: recipient,
       blockHash: null,
       blockNumber: null,
       from: ownerAddress,
@@ -265,7 +265,7 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
     gasLimit,
     gasPrice,
     password,
-    recepient,
+    recipient,
     assetAddress,
   }: DigitalAssetsSendFormFields = formFieldValues
 
@@ -308,7 +308,7 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
       gas: toBigNumber(gasLimit),
       gasPrice: toBigNumber(gasPrice),
       value: getTransactionValue(amount, decimals),
-      to: recepient,
+      to: recipient,
       privateKey: privateKey.substr(2),
       nonce: parseInt(nonce, 10) || 0,
     })
