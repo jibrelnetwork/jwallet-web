@@ -7,7 +7,6 @@ import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
 import DigitalAssetsSendFormPriorityPickerCurrent from './Current'
 import DigitalAssetsSendFormPriorityPickerInfo from './Info'
-import { TXPRIORITY } from '../../../modules/digitalAssetsSend'
 
 const TXPRIORITY_DATA: { [TXPriorityKey]: TXPriorityData } = {
   HIGH: {
@@ -56,7 +55,7 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
 
     return (
       <div className='digital-assets-send-form-priority-picker'>
-        {(selectedPriority === TXPRIORITY.CUSTOM) ? (
+        {(selectedPriority === 'CUSTOM') ? (
           <DoubleInput
             onClose={this.closeCustomOptions}
             items={[{
