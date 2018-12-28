@@ -103,13 +103,15 @@ function filterETHTransactions(list: Array<any>): Array<Object> {
 
     const {
       value,
+      isError,
       contractAddress,
     }: Object = item
 
     const isEmptyAmount: boolean = isZero(value)
+    const isFailed: boolean = (parseInt(isError, 16) === 1)
     const isContractCreation: boolean = !!contractAddress.length
 
-    return !(isEmptyAmount && !isContractCreation)
+    return !(isEmptyAmount && !isContractCreation && !isFailed)
   })
 }
 

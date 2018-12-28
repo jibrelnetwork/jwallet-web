@@ -3,6 +3,8 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
+import JIcon from 'components/base/JIcon'
+
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
 type JInputValue = string | number
@@ -119,8 +121,16 @@ class JInput extends PureComponent<Props> {
         {infoMessage && <div className='info'>{infoMessage}</div>}
         {errorMessage && <div className='error'>{errorMessage}</div>}
         <div className='loader' />
-        <div className='lock'><div className='icon' /></div>
         <div className='help'><div className='icon' /></div>
+        {isDisabled && (
+          <div className='lock'>
+            <JIcon
+              size='medium'
+              color='gray'
+              name='padding-lock'
+            />
+          </div>
+        )}
       </div>
     )
   }

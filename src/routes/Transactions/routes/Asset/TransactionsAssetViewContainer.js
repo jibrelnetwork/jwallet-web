@@ -2,9 +2,9 @@
 
 import { connect } from 'react-redux'
 
-import { selectAllAddressNames } from 'store/selectors/favorites'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectCommentsItems } from 'store/selectors/comments'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+import { selectFavoritesAddressNames } from 'store/selectors/favorites'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 
 import {
@@ -16,6 +16,12 @@ import {
   selectNetworkById,
   selectCurrentNetworkId,
 } from 'store/selectors/networks'
+
+import {
+  selectAddressNames,
+  selectActiveWalletAddress,
+  selectAddressWalletsNames,
+} from 'store/selectors/wallets'
 
 import {
   selectTransactions,
@@ -36,6 +42,9 @@ import {
   setIsOnlyPending,
   changeSearchInput,
 } from 'routes/modules/transactions'
+
+import { edit as editComment } from 'routes/modules/comments'
+import { remove as removeFavorite } from 'routes/Favorites/modules/favorites'
 
 import TransactionsAssetView from './TransactionsAssetView'
 
@@ -69,12 +78,15 @@ function prepareTransactions(
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const assetAddress: string = ownProps.params.asset
+  const comments: Comments = selectCommentsItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
+  const addressNames: AddressNames = selectAddressNames(state)
   const network: ?Network = selectNetworkById(state, networkId)
-  const addressNames: AddressNames = selectAllAddressNames(state)
+  const favorites: AddressNames = selectFavoritesAddressNames(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
@@ -102,7 +114,12 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   return {
     network,
-    addressNames,
+    comments,
+    favorites,
+    addressNames: {
+      ...addressNames,
+      ...addressWalletsNames,
+    },
     digitalAssets,
     searchQuery,
     assetBalance,
@@ -121,6 +138,8 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 }
 
 const mapDispatchToProps = {
+  editComment,
+  removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
 }

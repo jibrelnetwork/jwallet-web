@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon } from 'components/base'
+import { JIcon, JText } from 'components/base'
 
 type RendererProps = {
   isOpen: boolean,
@@ -91,24 +91,36 @@ class JPicker extends PureComponent<Props, ComponentState> {
           countClass
         )}
       >
-        <div onClick={isDisabled ? undefined : handle(this.toggle)(!isOpen)} className='current'>
-          {currentEl}
-          <div className='chevron'>
-            <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' size='medium' />
+        <div className='select'>
+          <div onClick={isDisabled ? undefined : handle(this.toggle)(!isOpen)} className='current'>
+            {currentEl}
+            <div className='chevron'>
+              <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' size='medium' />
+            </div>
+          </div>
+          <div onClick={handle(this.toggle)(false)} className='options'>
+            <div className='items'>
+              <Scrollbars>
+                {children}
+              </Scrollbars>
+            </div>
+            {bottomEl &&
+            <div className='bottom'>
+              {bottomEl}
+            </div>}
           </div>
         </div>
-        <div onClick={handle(this.toggle)(false)} className='options'>
-          <Scrollbars>
-            {children}
-          </Scrollbars>
-        </div>
-        {bottomEl &&
-          <div className='bottom'>
-            {bottomEl}
-          </div>}
         {isOpen && <div onClick={handle(this.toggle)(false)} className='overlay' />}
-        {infoMessage && <div className='info'>{infoMessage}</div>}
-        {errorMessage && <div className='error'>{errorMessage}</div>}
+        {infoMessage && (
+          <div className='info'>
+            <JText value={infoMessage} color='orange' size='small' />
+          </div>
+        )}
+        {errorMessage && (
+          <div className='error'>
+            <JText value={errorMessage} color='red' size='small' />
+          </div>
+        )}
       </div>
     )
   }

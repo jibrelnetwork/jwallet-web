@@ -30,14 +30,14 @@ type TransactionIconName = 'time' | 'cross-circle' | 'transaction-send' | 'trans
 
 type Props = {|
   +setActive: (boolean) => void,
+  +asset: DigitalAsset,
   +data: TransactionWithPrimaryKeys,
-  +assetSymbol: string,
+  +comment: ?string,
+  +txAddress: ?Address,
   +txAddressName: ?string,
   +blockExplorerSubdomain: string,
-  +assetDecimals: number,
   +isSent: boolean,
   +isActive: boolean,
-  +isCustom: boolean,
   +isAssetList: boolean,
 |}
 
@@ -80,47 +80,44 @@ function getTransactionIconName(
 }
 
 class TransactionItemMain extends PureComponent<Props> {
-  static defaultProps = {
-    isSent: false,
-    isActive: false,
-    isCustom: false,
-    isAssetList: false,
-  }
-
   render() {
     const {
       setActive,
       data,
-      assetSymbol,
+      asset,
+      comment,
+      txAddress,
       txAddressName,
       blockExplorerSubdomain,
-      assetDecimals,
       isSent,
       isActive,
-      isCustom,
       isAssetList,
-    } = this.props
+    }: Props = this.props
 
     const {
       blockData,
       receiptData,
-      to,
-      from,
       hash,
       amount,
       blockHash,
       contractAddress,
+      isRemoved,
     }: TransactionWithPrimaryKeys = data
+
+    const {
+      symbol,
+      decimals,
+      isCustom,
+    }: DigitalAsset = asset
 
     if (!(blockData && receiptData)) {
       return null
     }
 
     const isPending: boolean = !blockHash
-    const isFailed: boolean = !receiptData.status
     const amountSign: string = isSent ? '-' : '+'
     const timestamp: number = blockData.timestamp * 1000
-    const txAddress: ?OwnerAddress = isSent ? (to || contractAddress) : from
+    const isFailed: boolean = !receiptData.status || isRemoved
     const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
 
     return (
@@ -172,13 +169,13 @@ class TransactionItemMain extends PureComponent<Props> {
               />
             </div>
           </div>
-          {!isSent && (
+          {!!comment && (
             <div className='message'>
               <div className='icon'>
                 <JIcon size='medium' name='message' color='gray' />
               </div>
               <div className='text'>
-                <JText value='Thanks man!' color='gray' size='normal' />
+                <JText value={comment} color='gray' size='normal' />
               </div>
             </div>
           )}
@@ -189,8 +186,8 @@ class TransactionItemMain extends PureComponent<Props> {
               <JText
                 value={`
                   ${isZero(amount) ? '' : amountSign}
-                  ${formatBalance(divDecimals(amount, assetDecimals))}
-                  ${assetSymbol}
+                  ${formatBalance(divDecimals(amount, decimals))}
+                  ${symbol}
                 `}
                 color={color}
                 size='normal'
@@ -208,12 +205,12 @@ class TransactionItemMain extends PureComponent<Props> {
             <Fragment>
               {!isCustom ? (
                 <div className='symbol -icon'>
-                  <JAssetSymbol symbol={assetSymbol} color='gray' />
+                  <JAssetSymbol symbol={symbol} color='gray' />
                 </div>
               ) : (
                 <div className='symbol -text'>
                   <JText
-                    value={assetSymbol}
+                    value={symbol}
                     color='blue'
                     weight='bold'
                     size='normal'
