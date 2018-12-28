@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 
 import { selectAllAddressNames } from 'store/selectors/favorites'
 
@@ -48,7 +47,6 @@ const mapDispatchToProps = {
   getMoreRequest,
   openLayout: openMenuLayout,
   closeLayout: closeMenuLayout,
-  onSendAssetClick: () => push('/digital-assets/send'),
 }
 
 /* ::
@@ -57,6 +55,7 @@ type OwnProps = {|
 |}
 */
 
-export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+export default connect/* :: < AppState, any, OwnProps, _, _ > */(
+  mapStateToProps,
+  mapDispatchToProps
 )(MenuLayout)
