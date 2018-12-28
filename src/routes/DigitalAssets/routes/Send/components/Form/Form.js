@@ -62,6 +62,7 @@ function DigitalAssetsSendForm({
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
           digitalAssets={digitalAssets}
+          errorMessage={formFieldErrors.assetAddress}
           selectedAsset={formFieldValues.assetAddress}
         />
         <DoubleInput
