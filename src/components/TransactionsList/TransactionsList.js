@@ -92,7 +92,11 @@ class TransactionsList extends Component<Props, ComponentState> {
             to,
             from,
             hash,
+            contractAddress,
           }: TransactionWithPrimaryKeys = item
+
+          const isContractCreation: boolean = !!contractAddress
+          const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
 
           return (
             <TransactionItem
@@ -107,7 +111,7 @@ class TransactionsList extends Component<Props, ComponentState> {
               blockExplorerSubdomain={blockExplorerSubdomain}
               isAssetList={!!assetAddress}
               isActive={activeItems.includes(keys.id)}
-              isSent={!!from && (ownerAddress.toLowerCase() === from.toLowerCase())}
+              isSent={isSent || isContractCreation}
             />
           )
         })}
