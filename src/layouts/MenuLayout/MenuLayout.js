@@ -17,7 +17,7 @@ type Props = {|
   +children: React$Node,
   +iteration: Index,
   +activeWalletId: ?WalletId,
-  +ethBalances: ?Balance,
+  +ethBalance: ?Balance,
 |}
 
 class MenuLayout extends Component<Props> {
@@ -69,7 +69,7 @@ class MenuLayout extends Component<Props> {
       children,
       activeWalletId,
       onSendAssetClick,
-      ethBalances,
+      ethBalance,
     }: Props = this.props
 
     return (
@@ -83,7 +83,7 @@ class MenuLayout extends Component<Props> {
             addresses={addresses}
             addressNames={addressNames}
             activeWalletId={activeWalletId}
-            ethBalances={ethBalances}
+            ethBalance={ethBalance}
           />
         </div>
         <div className='content'>

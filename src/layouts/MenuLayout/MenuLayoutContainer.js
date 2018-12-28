@@ -38,7 +38,7 @@ function mapStateToProps(state: AppState) {
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
 
-  const ethBalances: ?Balances = selectBalanceByAssetAddress(
+  const ethBalance: ?Balances = selectBalanceByAssetAddress(
     state,
     networkId,
     ownerAddress,
@@ -57,7 +57,7 @@ function mapStateToProps(state: AppState) {
     addressNames,
     iteration,
     activeWalletId,
-    ethBalances,
+    ethBalance,
   }
 }
 
