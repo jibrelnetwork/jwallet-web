@@ -60,4 +60,5 @@ declare type BlocksPersist = {|
 
 declare type BlocksState = {|
   +persist: BlocksPersist,
+  +isConnectionError: boolean,
 |}

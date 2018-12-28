@@ -177,6 +177,7 @@ const initialState: BlocksState = {
   persist: {
     items: {},
   },
+  isConnectionError: false,
 }
 
 function blocks(
@@ -297,6 +298,12 @@ function blocks(
         },
       }
     }
+
+    case SET_IS_CONNECTION_ERROR:
+      return {
+        ...state,
+        isConnectionError: action.payload.isConnectionError,
+      }
 
     default:
       return state

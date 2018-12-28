@@ -39,6 +39,7 @@ function mapStateToProps(state: AppState) {
     addressNames,
     iteration,
     activeWalletId,
+    isConnectionError: false,
   }
 }
 

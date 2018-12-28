@@ -8,6 +8,7 @@ import MenuPanel from './MenuPanel'
 import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
+import InputButton from './InputButton'
 import DoubleInput from './DoubleInput'
 import ModalHeader from './ModalHeader'
 import PopupButton from './PopupButton'
@@ -49,6 +50,7 @@ export {
   WalletFace,
   WalletStep,
   DoubleInput,
+  InputButton,
   ModalHeader,
   PopupButton,
   AssetBalance,

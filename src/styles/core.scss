@@ -17,8 +17,10 @@ body,
 
   height: 100%;
   width: 100%;
+  min-width: $window-min-width;
   margin: 0;
   padding: 0;
+  overflow: auto;
   background-color: $pale-grey;
   color: $dusk;
 }
@@ -71,6 +73,7 @@ h4 {
 @import '../components/WalletFace/walletFace';
 @import '../components/WalletStep/walletStep';
 @import '../components/DoubleInput/doubleInput';
+@import '../components/InputButton/inputButton';
 @import '../components/ModalHeader/modalHeader';
 @import '../components/PopupButton/popupButton';
 @import '../components/AssetBalance/assetBalance';
