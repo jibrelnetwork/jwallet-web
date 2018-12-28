@@ -58,6 +58,7 @@ function mapStateToProps(state: AppState) {
     iteration,
     activeWalletId,
     ethBalance,
+    isConnectionError: false,
   }
 }
 
