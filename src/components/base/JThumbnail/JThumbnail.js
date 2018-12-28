@@ -10,6 +10,7 @@ export type JThumbnailImage = 'auth-question'
   | 'auth-cross'
   | 'screen-search'
   | 'screen-reload'
+  | 'screen-error'
   | 'screen-no-favorites'
 
 type Props = {|
