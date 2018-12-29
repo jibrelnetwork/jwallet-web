@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import * as qs from 'query-string'
 
 import {
   put,
@@ -43,6 +44,50 @@ import * as comments from 'routes/modules/comments'
 import * as transactions from 'routes/modules/transactions'
 
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
+
+function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Saga<void> {
+  const {
+    to,
+    gas,
+    nonce,
+    asset,
+    amount,
+    comment,
+    gasPrice,
+  } = qs.parse(action.payload.query)
+
+  if (to) {
+    yield put(digitalAssetsSend.setFormFieldValue('recipient', to))
+  }
+
+  if (asset) {
+    yield put(digitalAssetsSend.setFormFieldValue('assetAddress', asset))
+  }
+
+  if (amount) {
+    yield put(digitalAssetsSend.setFormFieldValue('amount', amount))
+  }
+
+  if (nonce) {
+    yield put(digitalAssetsSend.setFormFieldValue('nonce', nonce))
+  }
+
+  if (gas) {
+    yield put(digitalAssetsSend.setFormFieldValue('gasLimit', gas))
+  }
+
+  if (gasPrice) {
+    yield put(digitalAssetsSend.setFormFieldValue('gasPrice', gasPrice))
+  }
+
+  if (gas || gasPrice) {
+    yield put(digitalAssetsSend.setPriority('CUSTOM'))
+  }
+
+  if (comment) {
+    yield put(digitalAssetsSend.setFormFieldValue('comment', comment))
+  }
+}
 
 function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
   const isValidAmount: boolean = (parseFloat(amount) > 0)
@@ -235,8 +280,8 @@ function* sendTransactionError(err: Error): Saga<void> {
 
 function getTransactionData(data: SendTransactionProps): SendTransactionProps {
   const {
-    gas,
     value,
+    gasLimit,
     gasPrice,
     to,
     privateKey,
@@ -250,12 +295,12 @@ function getTransactionData(data: SendTransactionProps): SendTransactionProps {
   }
 
   /* eslint-disable fp/no-mutation */
-  if (!isZero(gas)) {
-    dataNew.gas = gas
+  if (!isZero(gasLimit)) {
+    // dataNew.gasLimit = gasLimit
   }
 
   if (!isZero(gasPrice)) {
-    dataNew.gasPrice = gasPrice
+    // dataNew.gasPrice = gasPrice
   }
 
   if (nonce) {
@@ -313,11 +358,11 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
     const privateKey: string = yield* getPrivateKey(walletId, password)
 
     const txData: SendTransactionProps = getTransactionData({
-      gas: toBigNumber(gasLimit),
-      gasPrice: toBigNumber(gasPrice),
-      value: getTransactionValue(amount, decimals),
       to: recipient,
+      gasLimit: toBigNumber(gasLimit),
+      gasPrice: toBigNumber(gasPrice),
       privateKey: privateKey.substr(2),
+      value: getTransactionValue(amount, decimals),
       nonce: parseInt(nonce, 10) || 0,
     })
 
@@ -373,6 +418,7 @@ function* goToPrevStep(): Saga<void> {
 }
 
 export function* digitalAssetsSendRootSaga(): Saga<void> {
+  yield takeEvery(digitalAssetsSend.OPEN_VIEW, openView)
   yield takeEvery(digitalAssetsSend.GO_TO_NEXT_STEP, goToNextStep)
   yield takeEvery(digitalAssetsSend.GO_TO_PREV_STEP, goToPrevStep)
 }

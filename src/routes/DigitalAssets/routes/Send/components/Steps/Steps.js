@@ -58,7 +58,6 @@ function DigitalAssetsSendSteps({
           setPassword={setFormFieldValue('password')}
           addressNames={addressNames}
           selectedAsset={selectedAsset}
-          priority={priority}
           ownerAddress={ownerAddress}
           formFieldValues={formFieldValues}
           errorMessage={formFieldErrors.password}

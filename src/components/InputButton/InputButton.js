@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 
 import {
   JIcon,
@@ -25,7 +25,7 @@ type ComponentState = {|
   +isActive: boolean,
 |}
 
-class InputButton extends PureComponent<Props, ComponentState> {
+class InputButton extends Component<Props, ComponentState> {
   static defaultProps = {
     isLoading: false,
   }
@@ -34,11 +34,23 @@ class InputButton extends PureComponent<Props, ComponentState> {
     super(props)
 
     this.state = {
-      isActive: false,
+      isActive: !!props.value,
     }
   }
 
-  onActivation = (isActive: boolean) => () => this.setState({ isActive })
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.value !== this.props.value) {
+      this.setState({ isActive: !!nextProps.value })
+    }
+  }
+
+  setIsActive = (isActive: boolean) => () => {
+    this.setState({ isActive })
+
+    if (!isActive) {
+      this.props.onChange('')
+    }
+  }
 
   render() {
     const {
@@ -52,12 +64,8 @@ class InputButton extends PureComponent<Props, ComponentState> {
       errorMessage,
     }: Props = this.props
 
-    const {
-      isActive,
-    }: ComponentState = this.state
-
     return (
-      <div className={classNames('input-button', isActive && '-active')}>
+      <div className={classNames('input-button', this.state.isActive && '-active')}>
         <div className='field'>
           <JInput
             onChange={onChange}
@@ -69,7 +77,7 @@ class InputButton extends PureComponent<Props, ComponentState> {
             color='gray'
             isLoading={isLoading}
           />
-          <div className='close' onClick={this.onActivation(false)}>
+          <div className='close' onClick={this.setIsActive(false)}>
             <JIcon
               color='blue'
               size='medium'
@@ -77,7 +85,7 @@ class InputButton extends PureComponent<Props, ComponentState> {
             />
           </div>
         </div>
-        <div className='button' onClick={this.onActivation(true)}>
+        <div className='button' onClick={this.setIsActive(true)}>
           <JIcon
             name={icon}
             color='gray'

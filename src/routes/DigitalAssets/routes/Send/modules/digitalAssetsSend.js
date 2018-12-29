@@ -26,11 +26,11 @@ export const TXPRIORITY: TXPriority = {
   CUSTOM: 0,
 }
 
-export function openView(params?: DigitalAssetsSendRouteParams) {
+export function openView(query: string) {
   return {
     type: OPEN_VIEW,
     payload: {
-      params,
+      query,
     },
   }
 }

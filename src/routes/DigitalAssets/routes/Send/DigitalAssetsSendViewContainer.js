@@ -80,7 +80,9 @@ const mapDispatchToProps = {
 
 /* ::
 type OwnProps = {|
-  +params: DigitalAssetsSendRouteParams
+  +location: {|
+    +search: string,
+  |},
 |}
 */
 
