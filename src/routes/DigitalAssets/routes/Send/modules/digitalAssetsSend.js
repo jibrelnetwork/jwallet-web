@@ -1,6 +1,7 @@
 // @flow
 
 export const OPEN_VIEW = '@@digitalAssetsSend/OPEN_VIEW'
+export const CLOSE_VIEW = '@@digitalAssetsSend/CLOSE_VIEW'
 
 export const SET_PRIORITY = '@@digitalAssetsSend/SET_PRIORITY'
 export const SET_IS_LOADING = '@@digitalAssetsSend/SET_IS_LOADING'
@@ -25,12 +26,18 @@ export const TXPRIORITY: TXPriority = {
   CUSTOM: 0,
 }
 
-export function openView(params?: DigitalAssetsSendRouteParams) {
+export function openView(query: string) {
   return {
     type: OPEN_VIEW,
     payload: {
-      params,
+      query,
     },
+  }
+}
+
+export function closeView() {
+  return {
+    type: CLOSE_VIEW,
   }
 }
 
@@ -107,6 +114,7 @@ export function clean() {
 
 export type DigitalAssetsSendAction =
   ExtractReturn<typeof openView> |
+  ExtractReturn<typeof closeView> |
   ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof goToNextStep> |
   ExtractReturn<typeof goToPrevStep> |
@@ -148,6 +156,17 @@ function digitalAssetsSend(
   action: DigitalAssetsSendAction,
 ): DigitalAssetsSendState {
   switch (action.type) {
+    case CLOSE_VIEW:
+      return {
+        ...state,
+        formFieldErrors: initialState.formFieldErrors,
+        formFieldValues: {
+          ...state.formFieldValues,
+          password: '',
+        },
+        currentStep: initialState.currentStep,
+      }
+
     case SET_PRIORITY:
       return {
         ...state,
@@ -197,6 +216,11 @@ function digitalAssetsSend(
     case SET_CURRENT_STEP:
       return {
         ...state,
+        formFieldErrors: initialState.formFieldErrors,
+        formFieldValues: {
+          ...state.formFieldValues,
+          password: '',
+        },
         currentStep: action.payload.currentStep,
       }
 

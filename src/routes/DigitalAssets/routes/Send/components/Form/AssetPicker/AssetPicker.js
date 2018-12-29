@@ -10,6 +10,7 @@ import DigitalAssetsSendFormAssetPickerCurrent from './Current'
 type Props = {|
   +onSelect: (assetAddress: AssetAddress) => void,
   +digitalAssets: DigitalAssetWithBalance[],
+  +errorMessage: string,
   +selectedAsset: AssetAddress,
 |}
 
@@ -63,6 +64,7 @@ class DigitalAssetsSendFormAssetPicker extends Component<Props, ComponentState> 
   render() {
     const {
       onSelect,
+      errorMessage,
       digitalAssets,
       selectedAsset,
     }: Props = this.props
@@ -89,6 +91,7 @@ class DigitalAssetsSendFormAssetPicker extends Component<Props, ComponentState> 
               isOpen={isOpen}
             />
           )}
+          errorMessage={errorMessage}
         >
           {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => (
             <JPickerItem

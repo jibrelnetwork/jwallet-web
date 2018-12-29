@@ -40,7 +40,16 @@ type Props = {|
 |}
 
 class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
-  closeCustomOptions = () => this.props.onSelect('NORMAL')
+  closeCustomOptions = () => {
+    const {
+      onSelect,
+      setFormFieldValue,
+    }: Props = this.props
+
+    onSelect('NORMAL')
+    setFormFieldValue('gasLimit')('')
+    setFormFieldValue('gasPrice')('')
+  }
 
   render() {
     const {
