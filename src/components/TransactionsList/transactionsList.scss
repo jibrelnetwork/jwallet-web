@@ -9,9 +9,8 @@
   > .loader {
     @include flex-row-center;
 
-    left: 0;
     width: 100%;
-    height: calc(100vh - 180px);
+    margin-top: 30px;
   }
 
   &.-empty {
