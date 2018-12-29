@@ -52,7 +52,7 @@ const getSettingsCardProperties = ({
   iconName: 'lock-pin',
   searchTags: '',
 }, {
-  title: 'Security password',
+  title: 'Payment password',
   description: 'Change',
   path: 'settings/password',
   iconName: 'lock-pin',

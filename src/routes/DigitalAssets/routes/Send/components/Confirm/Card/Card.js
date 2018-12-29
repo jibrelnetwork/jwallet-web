@@ -3,12 +3,12 @@
 import React from 'react'
 
 import JText from 'components/base/JText'
+import getTxFee from 'utils/transactions/getTxFee'
 
 type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
-  +priority: TXPriorityKey,
   +ownerAddress: OwnerAddress,
 |}
 
@@ -16,22 +16,23 @@ function DigitalAssetsSendConfirmCard({
   addressNames,
   selectedAsset,
   formFieldValues,
-  priority,
   ownerAddress,
 }: Props) {
   const {
     amount,
-    // gasLimit,
-    // gasPrice,
+    gasLimit,
+    gasPrice,
     recipient,
   }: DigitalAssetsSendFormFields = formFieldValues
 
   const {
     symbol,
+    decimals,
   }: DigitalAsset = selectedAsset
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
+  const fee: string = getTxFee(parseFloat(gasLimit), gasPrice, decimals)
 
   return (
     <div className='digital-assets-send-confirm-card'>
@@ -45,7 +46,7 @@ function DigitalAssetsSendConfirmCard({
           />
         </div>
         <div className='fee'>
-          <JText value={`Fee — ${priority}ETH`} color='gray' />
+          <JText value={`Fee — ${fee} ETH`} color='gray' />
         </div>
         <div className='field'>
           <div className='direction'>

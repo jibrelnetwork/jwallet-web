@@ -125,8 +125,8 @@ declare type DigitalAssetsSendState = {|
 |}
 
 declare type SendTransactionProps = {|
-  gas?: BigNumber,
   +value: BigNumber,
+  gasLimit?: BigNumber,
   gasPrice?: BigNumber,
   +to: Address,
   +privateKey: string,
@@ -135,6 +135,10 @@ declare type SendTransactionProps = {|
 
 declare type DigitalAssetsSendRouteParams = {|
   +to?: string,
+  +gas?: string,
+  +nonce?: string,
   +asset?: string,
-  +txhash?: string,
+  +amount?: string,
+  +comment?: string,
+  +gasPrice?: string,
 |}
