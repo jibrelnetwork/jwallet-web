@@ -1,5 +1,10 @@
 // @flow
 
+import {
+  flattenTransactionsByAsset,
+  checkTransactionsByAssetLoading,
+} from 'utils/transactions'
+
 function filterAssetsBalances(
   assetBalances: ?Balances,
   txsByOwner: ?TransactionsByOwner,
@@ -19,10 +24,15 @@ function filterAssetsBalances(
       return result
     }
 
-    const txsByAssetAddress: ?TransactionsByAssetAddress = txsByOwner[assetAddress]
-    const isTxsEmpty: boolean = !(txsByAssetAddress && Object.keys(txsByAssetAddress).length)
+    const txsByAsset: ?TransactionsByAssetAddress = txsByOwner[assetAddress]
 
-    if (isTxsEmpty) {
+    const fetchedTxs: TransactionWithPrimaryKeys[] =
+      flattenTransactionsByAsset(txsByAsset, assetAddress)
+
+    const isFetchedEmpty: boolean = !fetchedTxs.length
+    const isLoading: boolean = checkTransactionsByAssetLoading(txsByAsset)
+
+    if (isFetchedEmpty && isLoading) {
       return result
     }
 

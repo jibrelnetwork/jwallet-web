@@ -7,8 +7,8 @@ import MenuPanel from 'components/MenuPanel'
 import OverlayNotification from 'components/OverlayNotification'
 
 type Props = {|
-  +openLayout: Function,
-  +closeLayout: Function,
+  +openLayout: () => void,
+  +closeLayout: () => void,
   +setActive: (Wallets, WalletId, Index) => void,
   +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
   +items: Wallets,
@@ -17,7 +17,8 @@ type Props = {|
   +children: React$Node,
   +iteration: Index,
   +activeWalletId: ?WalletId,
-  isConnectionError: boolean,
+  +ethBalance: ?Balance,
+  +isConnectionError: boolean,
 |}
 
 class MenuLayout extends Component<Props> {
@@ -68,6 +69,7 @@ class MenuLayout extends Component<Props> {
       addressNames,
       children,
       activeWalletId,
+      ethBalance,
       isConnectionError,
     }: Props = this.props
 
@@ -81,6 +83,7 @@ class MenuLayout extends Component<Props> {
             addresses={addresses}
             addressNames={addressNames}
             activeWalletId={activeWalletId}
+            ethBalance={ethBalance}
           />
         </div>
         <div className='content'>

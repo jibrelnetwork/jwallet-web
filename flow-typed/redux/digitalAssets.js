@@ -82,60 +82,59 @@ declare type DigitalAssetsManageState = {|
 /**
  * Send asset
  */
-declare type DigitalAssetSendStep = '1' | '2'
+declare type DigitalAssetsSendFormStepIndex = 0
+declare type DigitalAssetsSendConfirmStepIndex = 1
 
-declare type DigitalAssetSendFormFields = {|
-  recepient: Address,
-  ownerAddress: Address,
-  assetAddress: Address,
-  amount: string,
-  amountFiat: string,
-  comment: string,
-  nonce: string,
-  password: string,
-  priority: TXPriority,
+declare type DigitalAssetsSendStepIndex =
+  DigitalAssetsSendFormStepIndex |
+  DigitalAssetsSendConfirmStepIndex
+
+declare type DigitalAssetsSendSteps = {|
+  +FORM: DigitalAssetsSendFormStepIndex,
+  +CONFIRM: DigitalAssetsSendConfirmStepIndex,
 |}
 
-declare type DigitalAssetSendInvalidFields = {|
-  ...DigitalAssetSendFormFields,
-  priority: string,
+declare type TXPriorityKey = 'LOW' | 'NORMAL' | 'HIGH' | 'CUSTOM'
+declare type TXPriorityValue = 0 | 1 | 1.5 | 2
+declare type TXPriority = { [TXPriorityKey]: TXPriorityValue }
+
+declare type TXPriorityData = {|
+  +title: string,
+  +icon: string,
+  +description: string,
 |}
 
-declare type DigitalAssetSendState = {|
-  step: DigitalAssetSendStep,
-  formFields: DigitalAssetSendFormFields,
-  invalidFields: DigitalAssetSendInvalidFields,
-  isProcessing: boolean,
-|}
-
-declare type TXData = {
-  to: Address,
-  value: BigNumber,
-  privateKey: string,
-  contractAddress?: Address,
-  gasPrice?: BigNumber,
-  gasLimit?: BigNumber,
-  nonce?: BigNumber,
-}
-
-declare type TXPriority = {|
-  type: 'LOW',
-|} | {|
-  type: 'NORMAL',
-|} | {|
-  type: 'HIGH',
-|} | {|
-  type: 'CUSTOM',
-  gas: string,
-  gasPrice: string,
-|}
-
-declare type SendTransactionProps = {
-  +value: string,
-  +privateKey: string,
-  +contractAddress: string,
-  +recipient: OwnerAddress,
-  +gas: string,
+declare type DigitalAssetsSendFormFields = {|
   +nonce: string,
+  +amount: string,
+  +comment: string,
+  +gasLimit: string,
   +gasPrice: string,
-}
+  +password: string,
+  +amountFiat: string,
+  +recipient: Address,
+  +assetAddress: AssetAddress,
+|}
+
+declare type DigitalAssetsSendState = {|
+  +formFieldValues: DigitalAssetsSendFormFields,
+  +formFieldErrors: DigitalAssetsSendFormFields,
+  +priority: TXPriorityKey,
+  +currentStep: DigitalAssetsSendStepIndex,
+  +isLoading: boolean,
+|}
+
+declare type SendTransactionProps = {|
+  gas?: BigNumber,
+  +value: BigNumber,
+  gasPrice?: BigNumber,
+  +to: Address,
+  +privateKey: string,
+  nonce?: number,
+|}
+
+declare type DigitalAssetsSendRouteParams = {|
+  +to?: string,
+  +asset?: string,
+  +txhash?: string,
+|}

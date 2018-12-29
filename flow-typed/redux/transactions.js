@@ -95,7 +95,7 @@ declare type TransactionData = {|
 |}
 
 declare type TransactionBlockData = {|
-  +minedAt: number,
+  +timestamp: number,
 |}
 
 declare type TransactionReceiptData = {|
@@ -113,7 +113,6 @@ declare type Transaction = {|
   +to: ?OwnerAddress,
   +from: ?OwnerAddress,
   +contractAddress: ?OwnerAddress,
-  +createdAt: ?number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,
   +isRemoved: boolean,
@@ -134,7 +133,6 @@ declare type TransactionWithPrimaryKeys = {|
   +to: ?OwnerAddress,
   +from: ?OwnerAddress,
   +contractAddress: ?OwnerAddress,
-  +createdAt: ?number,
   +blockNumber: ?number,
   +eventType: TransactionEventType,
   +isRemoved: boolean,
@@ -165,8 +163,21 @@ declare type TransactionsItems = {
   [NetworkId]: ?TransactionsByNetworkId,
 }
 
+declare type PendingTransactionsByOwner = {
+  [AssetAddress]: ?Transactions,
+}
+
+declare type PendingTransactionsByNetworkId = {
+  [OwnerAddress]: ?PendingTransactionsByOwner,
+}
+
+declare type PendingTransactionsItems = {
+  [NetworkId]: ?PendingTransactionsByNetworkId,
+}
+
 declare type TransactionsPersist = {|
   +items: TransactionsItems,
+  +pending: PendingTransactionsItems,
 |}
 
 declare type TransactionsState = {|

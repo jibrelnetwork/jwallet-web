@@ -1,6 +1,6 @@
 // @flow
 
-function isVoid(data: any): boolean {
+function isVoid(data: any): boolean %checks {
   return (data == null)
 }
 

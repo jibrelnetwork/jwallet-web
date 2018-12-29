@@ -1,0 +1,43 @@
+@import 'styles/colors';
+
+.digital-assets-send-confirm-card {
+  all: initial;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background-color: $white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  text-align: center;
+
+  > .content {
+    > .fee {
+      position: relative;
+      opacity: 0.5;
+      margin-bottom: 60px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -30px;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 1px;
+        background-color: rgba($dusk, 0.1);
+      }
+    }
+
+    > .field {
+      margin-bottom: 30px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      > .direction {
+        opacity: 0.5;
+      }
+    }
+  }
+}
