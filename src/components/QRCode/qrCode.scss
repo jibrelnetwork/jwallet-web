@@ -36,6 +36,10 @@
     opacity: 1;
   }
 
+  &.-white {
+    border: none;
+  }
+
   > .qr {
     @include flex-row-center;
 

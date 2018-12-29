@@ -31,12 +31,11 @@
   }
 
   > .close {
-    top: 50%;
+    top: 20px;
     right: -38px;
     opacity: 0.5;
     position: absolute;
     cursor: pointer;
-    margin-top: -17px;
     transition: opacity 0.3s ease 0s;
 
     &:hover {

@@ -7,6 +7,7 @@ import AddAsset from './routes/AddAsset'
 import EditAsset from './routes/EditAsset'
 import Manage from './routes/Manage'
 import Send from './routes/Send'
+import Receive from './routes/Receive'
 
 export default {
   path: 'digital-assets',
@@ -20,5 +21,6 @@ export default {
     AddAsset,
     EditAsset,
     Send,
+    Receive,
   ],
 }

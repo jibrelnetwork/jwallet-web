@@ -3,14 +3,20 @@
 import React from 'react'
 
 import JText from 'components/base/JText'
-import { round, divideThousands } from 'utils/numbers'
 
-const TICKER_AMOUNT = 3589.45
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
+
 const TICKER_CURRENCY = 'ETH'
 
-function MenuPanelBalanceTicker() {
-  const amountRounded: string = round(TICKER_AMOUNT, 2)
-  const amountDivided: string = divideThousands(amountRounded)
+type Props = {|
+  +ethBalance: ?Balance,
+|}
+
+function MenuPanelBalanceTicker({ ethBalance }: Props) {
+  const amountRounded: string = ethBalance ? formatBalance((divDecimals(ethBalance.value))) : '—'
 
   return (
     <div className='menu-panel-balance-ticker'>
@@ -18,7 +24,7 @@ function MenuPanelBalanceTicker() {
         <JText value='Total Balance' color='white' size='small' fontCase='upper' />
       </div>
       <JText
-        value={`${amountDivided} ${TICKER_CURRENCY}`}
+        value={`${amountRounded} ${TICKER_CURRENCY}`}
         size='large'
         color='white'
         weight='bold'

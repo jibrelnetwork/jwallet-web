@@ -16,6 +16,7 @@ type DoubleInputItem = {|
   +value: string,
   +placeholder: string,
   +isLoading?: boolean,
+  +isDisabled?: boolean,
 |}
 
 type DoubleInputHandler = () => void
@@ -30,6 +31,8 @@ type Props = {|
 class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
     onClose: null,
+    errorMessage: '',
+    warningMessage: '',
   }
 
   render() {
@@ -58,6 +61,7 @@ class DoubleInput extends PureComponent<Props> {
               type='text'
               color='gray'
               sideBorderRadius='left'
+              isDisabled={leftItem.isDisabled}
             />
             {!!leftItem.isLoading && (
               <div className='loader'>
@@ -74,6 +78,7 @@ class DoubleInput extends PureComponent<Props> {
               type='text'
               color='gray'
               sideBorderRadius='top'
+              isDisabled={rightItem.isDisabled}
             />
             {!!rightItem.isLoading && (
               <div className='loader'>
