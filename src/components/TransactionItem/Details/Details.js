@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
+import divDecimals from 'utils/numbers/divDecimals'
 
 import {
   JText,
@@ -38,22 +39,38 @@ type StateProps = {|
 |}
 
 function getRepeatLink(
-  data: TransactionWithPrimaryKeys,
-  assetAddress: AssetAddress,
+  txData: TransactionWithPrimaryKeys,
+  digitalAsset: DigitalAsset,
+  comment: ?string,
   isSent: boolean,
 ): ?string {
   const {
+    data,
+    receiptData,
     to,
     from,
-    contractAddress,
     amount,
-  }: TransactionWithPrimaryKeys = data
+    contractAddress,
+  }: TransactionWithPrimaryKeys = txData
+
+  const {
+    address,
+    decimals,
+  }: DigitalAsset = digitalAsset
 
   if (!isSent || contractAddress || !(to && from)) {
     return null
   }
 
-  return `/digital-assets/send?to=${to}&asset=${assetAddress}&amount=${amount}`
+  const path: string = '/digital-assets/send'
+  const toParam: string = `to=${to}`
+  const assetParam: string = `&asset=${address}`
+  const commentParam: string = comment ? `&comment=${comment}` : ''
+  const gasPriceParam: string = data ? `&gas=${data.gasPrice}` : ''
+  const amountParam: string = `&amount=${divDecimals(amount, decimals)}`
+  const gasParam: string = receiptData ? `&gasPrice=${receiptData.gasUsed}` : ''
+
+  return `${path}?${toParam}${assetParam}${amountParam}${gasParam}${gasPriceParam}${commentParam}`
 }
 
 function getFavoriteLink(
@@ -83,7 +100,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const {
       editComment,
       removeFavorite,
-      data,
       asset,
       toName,
       comment,
@@ -93,31 +109,27 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       isSent,
       isActive,
       isFromFavorites,
+      data: txData,
     } = this.props
 
     const { isCommenting }: StateProps = this.state
 
     const {
+      data,
       keys,
       receiptData,
       to,
       from,
       hash,
       contractAddress,
-      data: txData,
-    }: TransactionWithPrimaryKeys = data
+    }: TransactionWithPrimaryKeys = txData
 
-    const {
-      address,
-      decimals,
-    }: DigitalAsset = asset
-
-    if (!(txData && receiptData)) {
+    if (!(data && receiptData)) {
       return null
     }
 
+    const repeatLink: ?string = getRepeatLink(txData, asset, comment, isSent)
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
-    const repeatLink: ?string = getRepeatLink(data, address, isSent)
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
@@ -184,7 +196,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <JText
-              value={`${getTxFee(receiptData.gasUsed, txData.gasPrice, decimals)} ETH`}
+              value={`${getTxFee(receiptData.gasUsed, data.gasPrice, asset.decimals)} ETH`}
               color='gray'
               weight='bold'
             />

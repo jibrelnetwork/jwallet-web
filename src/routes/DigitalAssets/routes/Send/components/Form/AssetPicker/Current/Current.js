@@ -61,6 +61,7 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
       symbol,
       balance,
       decimals,
+      isCustom,
     }: DigitalAssetWithBalance = currentAsset
 
     const balanceStr: string = (balance && balance.value)
@@ -87,9 +88,23 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
             />
           )}
         </div>
-        <div className='symbol'>
-          <JAssetSymbol symbol={symbol} color='gray' />
-        </div>
+        <Fragment>
+          {!isCustom ? (
+            <div className='symbol -icon'>
+              <JAssetSymbol symbol={symbol} color='gray' />
+            </div>
+          ) : (
+            <div className='symbol -text'>
+              <JText
+                value={symbol}
+                color='blue'
+                weight='bold'
+                size='normal'
+                whiteSpace='wrap'
+              />
+            </div>
+          )}
+        </Fragment>
       </Fragment>
     )
   }
