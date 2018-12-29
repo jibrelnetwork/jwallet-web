@@ -31,8 +31,8 @@ function getMainEthersanAPIEndpoint(apiSubdomain: BlockExplorerAPISubdomain): st
   const isMainNetwork: boolean = (apiSubdomain === MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN)
 
   return (__DEV__ && isMainNetwork)
-    ? 'https://ropsten.etherscan.io/api'
-    : `https://${apiSubdomain}.etherscan.io/api`
+    ? 'http://ropsten.etherscan.io/api'
+    : `http://${apiSubdomain}.etherscan.io/api`
 }
 
 function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<any> {
