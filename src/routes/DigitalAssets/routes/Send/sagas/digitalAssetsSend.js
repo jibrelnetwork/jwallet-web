@@ -11,6 +11,7 @@ import {
 
 import web3 from 'services/web3'
 import checkETH from 'utils/digitalAssets/checkETH'
+import reactRouterBack from 'utils/browser/reactRouterBack'
 import checkAddressValid from 'utils/wallets/checkAddressValid'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { getPrivateKey } from 'routes/Wallets/sagas'
@@ -44,7 +45,9 @@ import * as transactions from 'routes/modules/transactions'
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
 function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
-  if ((parseInt(amount, 10) < 0)) {
+  const isValidAmount: boolean = (parseFloat(amount) > 0)
+
+  if (!isValidAmount) {
     return 'Amount should be greater than 0'
   }
 
@@ -364,7 +367,7 @@ function* goToPrevStep(): Saga<void> {
       break
 
     default:
-      yield put(push('/digital-assets/grid'))
+      yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
       break
   }
 }

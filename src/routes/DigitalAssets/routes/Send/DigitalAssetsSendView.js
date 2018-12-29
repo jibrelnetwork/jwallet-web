@@ -10,6 +10,7 @@ import { STEPS } from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSen
 import DigitalAssetsSendSteps from './components/Steps'
 
 type Props = {|
+  +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
@@ -35,6 +36,10 @@ class DigitalAssetsSendView extends Component<Props> {
     }: Props = this.props
 
     openView(params)
+  }
+
+  componentWillUnmount() {
+    this.props.closeView()
   }
 
   setFormFieldValue = (fieldName: $Keys<DigitalAssetsSendFormFields>) =>
