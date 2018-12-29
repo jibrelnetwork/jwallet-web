@@ -32,7 +32,7 @@ function DigitalAssetsSendConfirmPassword({
           color='gray'
           type='password'
           name='password'
-          placeholder='Security password'
+          placeholder='Payment password'
           isDisabled={isLoading}
         />
         <div className='actions'>

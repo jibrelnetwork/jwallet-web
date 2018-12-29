@@ -12,7 +12,6 @@ type Props = {|
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
   +errorMessage: string,
-  +priority: TXPriorityKey,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
 |}
@@ -23,7 +22,6 @@ function DigitalAssetsSendConfirm({
   addressNames,
   selectedAsset,
   formFieldValues,
-  priority,
   errorMessage,
   ownerAddress,
   isLoading,
@@ -39,7 +37,6 @@ function DigitalAssetsSendConfirm({
           formFieldValues={formFieldValues}
           addressNames={addressNames}
           selectedAsset={selectedAsset}
-          priority={priority}
           ownerAddress={ownerAddress}
         />
       </div>

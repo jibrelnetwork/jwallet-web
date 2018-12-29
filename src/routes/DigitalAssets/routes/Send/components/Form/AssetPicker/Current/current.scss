@@ -25,13 +25,16 @@
   }
 
   > .symbol {
-    right: 0;
-    top: 50%;
-    opacity: 0.2;
     position: absolute;
+    top: 50%;
+    right: 0;
     margin: 0 12px 0 auto;
     transform: translateY(-50%);
     transition: opacity 0.3s ease 0s;
+
+    &.-icon {
+      opacity: 0.2;
+    }
   }
 
   > .edit {

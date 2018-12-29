@@ -19,6 +19,7 @@ import DigitalAssetsSendView from './DigitalAssetsSendView'
 
 import {
   openView,
+  closeView,
   setPriority,
   goToNextStep,
   goToPrevStep,
@@ -70,6 +71,7 @@ function mapStateToProps(state: AppState) {
 
 const mapDispatchToProps = {
   openView,
+  closeView,
   setPriority,
   goToNextStep,
   goToPrevStep,
@@ -78,7 +80,9 @@ const mapDispatchToProps = {
 
 /* ::
 type OwnProps = {|
-  +params: DigitalAssetsSendRouteParams
+  +location: {|
+    +search: string,
+  |},
 |}
 */
 

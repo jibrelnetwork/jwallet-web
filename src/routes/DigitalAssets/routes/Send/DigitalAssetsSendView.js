@@ -10,15 +10,18 @@ import { STEPS } from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSen
 import DigitalAssetsSendSteps from './components/Steps'
 
 type Props = {|
+  +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
+  +openView: (query: string) => void,
   +setPriority: (priority: TXPriorityKey) => void,
-  +openView: (params: DigitalAssetsSendRouteParams) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>, value: string) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
-  +params: DigitalAssetsSendRouteParams,
+  +location: {|
+    +search: string,
+  |},
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +ownerAddress: ?OwnerAddress,
@@ -31,10 +34,14 @@ class DigitalAssetsSendView extends Component<Props> {
   componentDidMount() {
     const {
       openView,
-      params,
+      location,
     }: Props = this.props
 
-    openView(params)
+    openView(location.search)
+  }
+
+  componentWillUnmount() {
+    this.props.closeView()
   }
 
   setFormFieldValue = (fieldName: $Keys<DigitalAssetsSendFormFields>) =>
