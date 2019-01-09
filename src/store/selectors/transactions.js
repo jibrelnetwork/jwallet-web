@@ -114,6 +114,10 @@ export function selectPendingTransactionsByNetworkId(
 ): ?PendingTransactionsByNetworkId {
   const transactionsPending: PendingTransactionsItems = selectPendingTransactionsItems(state)
 
+  if (!transactionsPending) {
+    return null
+  }
+
   return transactionsPending[networkId]
 }
 
