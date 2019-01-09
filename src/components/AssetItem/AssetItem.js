@@ -168,7 +168,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 <JSwitch
                   onChange={setIsActive}
                   isChecked={isActive}
-                  isDisabled={isActive && checkETH(address)}
+                  isDisabled={!__DEV__ && checkETH(address) && isActive}
                   name={address}
                 />
               </div>
