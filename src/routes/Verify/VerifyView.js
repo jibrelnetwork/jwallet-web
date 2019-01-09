@@ -13,7 +13,9 @@ type Props = {|
 |}
 
 function VerifyView({ onClose, isReadOnly, isMnemonic }: Props) {
-  const title = isMnemonic ? 'Add private key' : 'Add mnemonic'
+  const title = isMnemonic ?
+    'Add mnemonic' :
+    'Add private key'
 
   if (!isReadOnly) {
     // FIXME: need proper redirect to /wallets here
