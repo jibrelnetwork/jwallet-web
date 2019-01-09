@@ -14,7 +14,7 @@ type Props = {|
 function MenuPanelMainAction({ isReadOnly, type }: Props) {
   const isMnemonic = checkMnemonicType(type)
 
-  if (isReadOnly && isMnemonic) {
+  if (isReadOnly && !isMnemonic) {
     return (
       <Link
         className='menu-panel-main-action'
@@ -30,7 +30,7 @@ function MenuPanelMainAction({ isReadOnly, type }: Props) {
     )
   }
 
-  if (isReadOnly && !isMnemonic) {
+  if (isReadOnly && isMnemonic) {
     return (
       <Link
         className='menu-panel-main-action'
