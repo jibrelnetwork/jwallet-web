@@ -17,6 +17,7 @@ import type { Task } from 'redux-saga'
 
 import config from 'config'
 import web3 from 'services/web3'
+import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
@@ -54,8 +55,7 @@ function getBalancesForActiveAssets(
   return Object
     .keys(items)
     .reduce((result: Balances, assetAddress: AssetAddress): Balances => {
-      const activeAsset: ?DigitalAsset = activeAssets
-        .find(({ address }: DigitalAsset): boolean => (address === assetAddress))
+      const activeAsset: ?DigitalAsset = getDigitalAssetByAddress(activeAssets, assetAddress)
 
       if (!activeAsset) {
         return result
@@ -225,19 +225,19 @@ function* fetchByOwnerRequest(
   const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
     yield select(selectActiveDigitalAssets)
 
-  yield all(activeAssets.map(({ address }: DigitalAsset) => put(balances.initItemByAsset(
+  yield all(activeAssets.map(({ blockchainParams }: DigitalAsset) => put(balances.initItemByAsset(
     networkId,
     ownerAddress,
     blockNumber,
-    address,
+    blockchainParams.address,
   ))))
 
   yield all(activeAssets.reduce((
     result: SchedulerBalanceTask[],
-    { address }: DigitalAsset,
+    { blockchainParams }: DigitalAsset,
   ): SchedulerBalanceTask[] => ([
     ...result,
-    getRequestBalanceByAssetTask(address, blockNumber),
+    getRequestBalanceByAssetTask(blockchainParams.address, blockNumber),
   ]), []).map((task: SchedulerBalanceTask) => put(requestQueue, task)))
 
   /**

@@ -17,24 +17,82 @@ import * as blocks from 'routes/modules/blocks'
 
 import * as digitalAssets from '../modules/digitalAssets'
 
+function findByAddress(items: DigitalAssets, address: AssetAddress): ?DigitalAsset {
+  const addressToLower: string = address.toLowerCase()
+
+  const foundAddress: ?AssetAddress = Object
+    .keys(items)
+    .find((assetAddress: AssetAddress): boolean => (assetAddress.toLowerCase() === addressToLower))
+
+  return foundAddress ? items[foundAddress] : null
+}
+
+function mergeItems(items: DigitalAssets): DigitalAssets {
+  const defaultItems: DigitalAssets = assetsData.mainnet.reduce((
+    result: DigitalAssets,
+    item: DigitalAsset,
+  ): DigitalAssets => ({
+    ...result,
+    [item.blockchainParams.address]: item,
+  }), {})
+
+  const existingItems: DigitalAssets = Object.keys(items).reduce((
+    result: DigitalAssets,
+    address: AssetAddress,
+  ): DigitalAssets => {
+    const foundItem: ?DigitalAsset = findByAddress(items, address)
+
+    return {
+      ...result,
+      [address]: {
+        ...foundItem,
+        isCustom: foundItem ? foundItem.isCustom : true,
+      },
+    }
+  }, {})
+
+  return {
+    ...defaultItems,
+    ...existingItems,
+  }
+}
+
+function addETHAsset(items: DigitalAssets): DigitalAssets {
+  const defaultETHAddress: AssetAddress = assetsData.ethereum.blockchainParams.address
+
+  const foundETHAsset: ?DigitalAsset = assetsData.mainnet
+    .find((item: DigitalAsset) => (item.blockchainParams.type === 'ethereum'))
+
+  if (!foundETHAsset) {
+    return {
+      ...items,
+      [defaultETHAddress]: assetsData.ethereum,
+    }
+  }
+
+  return {
+    ...items,
+    [defaultETHAddress]: {
+      ...foundETHAsset,
+      blockchainParams: {
+        ...foundETHAsset.blockchainParams,
+        address: defaultETHAddress,
+      },
+    },
+  }
+}
+
 function* init(): Saga<void> {
-  const existingAssets: ExtractReturn<typeof selectDigitalAssetsItems> =
+  const existingItems: ExtractReturn<typeof selectDigitalAssetsItems> =
     yield select(selectDigitalAssetsItems)
 
-  const haveAssetsInStorage = Object.keys(existingAssets).length > 0
+  const isInited: boolean = (Object.keys(existingItems).length > 0)
 
-  if (!haveAssetsInStorage) {
-    const allAssets = assetsData.main.reduce((result, asset) => ({
-      ...result,
-      [asset.address]: asset,
-    }), {})
+  if (!isInited) {
+    const mergedItems: DigitalAssets = mergeItems(existingItems)
+    const itemsWithETH: DigitalAssets = addETHAsset(mergedItems)
 
-    const allAssetsWithETH = {
-      [assetsData.ethereum.address]: assetsData.ethereum,
-      ...allAssets,
-    }
-
-    yield put(digitalAssets.setInitialItems(allAssetsWithETH))
+    yield put(digitalAssets.setInitialItems(itemsWithETH))
   }
 }
 

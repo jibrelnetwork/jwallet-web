@@ -16,7 +16,6 @@ import {
 import type { Task } from 'redux-saga'
 
 import config from 'config'
-
 import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
@@ -36,6 +35,7 @@ import {
 import {
   checkETH,
   checkJNT,
+  getDigitalAssetByAddress,
 } from 'utils/digitalAssets'
 
 import {
@@ -208,8 +208,7 @@ function getTransactionsByOwnerForActiveAssets(
   return Object
     .keys(itemsByOwner)
     .reduce((result: TransactionsByOwner, assetAddress: AssetAddress): TransactionsByOwner => {
-      const activeAsset: ?DigitalAsset = activeAssets
-        .find(({ address }: DigitalAsset): boolean => (address === assetAddress))
+      const activeAsset: ?DigitalAsset = getDigitalAssetByAddress(activeAssets, assetAddress)
 
       if (!activeAsset) {
         return result
@@ -323,7 +322,7 @@ function* fetchByOwnerRequest(
   yield all(activeAssets.map((digitalAsset: DigitalAsset) => put(transactions.initItemsByAsset(
     networkId,
     ownerAddress,
-    digitalAsset.address,
+    digitalAsset.blockchainParams.address,
   ))))
 
   yield all(activeAssets.reduce((
@@ -331,7 +330,11 @@ function* fetchByOwnerRequest(
     digitalAsset: DigitalAsset,
   ) => ([
     ...result,
-    ...getRequestTransactionsByAssetTasks(digitalAsset.address, fromBlock, toBlock),
+    ...getRequestTransactionsByAssetTasks(
+      digitalAsset.blockchainParams.address,
+      fromBlock,
+      toBlock,
+    ),
   ]), []).map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
 
   /**
@@ -444,7 +447,7 @@ function getTasksToRefetchByAsset(
     const resultByBlockNumberNew: SchedulerTransactionsTask[] = [
       ...resultByBlockNumber,
       ...getRequestTransactionsByAssetTasks(
-        digitalAsset.address,
+        digitalAsset.blockchainParams.address,
         fromBlockNumber,
         currentBlockNumber,
       ),
@@ -484,7 +487,7 @@ function getTasksToRefetchByOwner(
     }
 
     const fullyResyncTasks: SchedulerTransactionsTask[] = getRequestTransactionsByAssetTasks(
-      digitalAsset.address,
+      digitalAsset.blockchainParams.address,
       GENESIS_BLOCK_NUMBER,
       latestBlockNumber,
     )
@@ -514,7 +517,7 @@ function getTasksToRefetchByOwner(
       return [
         ...failedRequests,
         ...getRequestTransactionsByAssetTasks(
-          digitalAsset.address,
+          digitalAsset.blockchainParams.address,
           GENESIS_BLOCK_NUMBER,
           lastExistedBlock,
         ),
