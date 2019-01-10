@@ -366,6 +366,13 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
       nonce: parseInt(nonce, 10) || 0,
     })
 
+    const logTxData = {
+      ...txData,
+      privateKey: '[removed]',
+    }
+    console.log(`Send transaction (to: ${address}) network: `, network)
+    console.log(`Send transaction (to: ${address}) txData: `, logTxData)
+
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
     yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals)
   } catch (err) {

@@ -35,13 +35,52 @@
       window.__ROPSTEN_RPC_ADDR__ = '[ROPSTEN_RPC_ADDR]'
       window.__ROPSTEN_RPC_PORT__ = '[ROPSTEN_RPC_PORT]'
     </script>
+    <script src='%PUBLIC_URL%/js/capabilities.js'></script>
     <!-- End Ethereum nodes -->
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id='root'></div>
+    <div id='root'>
+      <link rel='stylesheet' href='%PUBLIC_URL%/css/style.css'>
+      <div id='error-wrapper' class='unsupported-screen'>
+        <img src='%PUBLIC_URL%/assets/icons/new-pack/xlarge/auth-warning.svg' alt='JWallet internal error logo' id='icon' class='unsupported-screen__image'>
+        <main id='error' class='unsupported-screen__error'>
+          <h1 class='unsupported-screen__title'>Whoops! Your browser is not supported :(</h1>
+          <h2 class='unsupported-screen__subtitle'>Unsupported features:</h2>
+          <ul id='api-list' class='unsupported-screen__features-list'>
+            <noscript>
+              <li class='unsupported-screen__features-list_feature'>
+                You need to enable JavaScript to run this app
+              </li>
+            </noscript>
+          </ul>
+        </main>
+        <script>
+          var list = document.getElementById('api-list');
+          var wrapper = document.getElementById('error-wrapper');
+          var featuresList = window._CAPABILITY.list;
+
+          wrapper.setAttribute('class', 'unsupported-screen-hidden');
+
+          for (var index in featuresList) {
+            try {
+              var message = featuresList[index]();
+            } catch (e) { // for unexpectable cases
+              window._CAPABILITY.isFailed = true;
+              list.innerHTML += '<li class="unsupported-screen__features-list_feature"> Feature ID: ' + index + '</li>';
+            } finally {
+              if (message) {
+                window._CAPABILITY.isFailed = true;
+                list.innerHTML += '<li class="unsupported-screen__features-list_feature">' + message + '</li>';
+              }
+            }
+          }
+
+          if (window._CAPABILITY.isFailed) {
+            wrapper.setAttribute('class', 'unsupported-screen');
+          }
+        </script>
+      </div>
+    </div>
     <!-- Google Analytics -->
     <script>
       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
