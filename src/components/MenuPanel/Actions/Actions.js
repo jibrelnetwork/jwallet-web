@@ -21,9 +21,6 @@ function MenuPanelActions({
       <MenuPanelActionsItem icon='star' label='Favorites' path='/favorites' />
       <MenuPanelActionsItem icon='setting' label='Settings' path='/settings' />
       <MenuPanelActionsMore toggle={toggle} isActive={isActive}>
-        <MenuPanelActionsItem icon='message' label='Sign a message' path='/signature/sign' />
-        <MenuPanelActionsItem icon='protect' label='Check a signature' path='/signature/check' />
-        <MenuPanelActionsItem icon='password' label='Enable PIN' path='/settings/set-pin' />
         <MenuPanelActionsItem icon='back-up' label='Backup wallet' path='/settings/backup' />
       </MenuPanelActionsMore>
     </div>

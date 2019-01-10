@@ -13,19 +13,9 @@ function MenuPanelWalletManagerDetailsActions() {
         label='Manage wallets'
       />
       <MenuPanelActionsItem
-        icon='lock'
-        path='#'
-        label='Lock the app'
-      />
-      <MenuPanelActionsItem
         icon='plus'
-        path='#'
+        path='/wallets/create'
         label='Add new wallet'
-      />
-      <MenuPanelActionsItem
-        icon='password'
-        path='#'
-        label='Enable PIN'
       />
     </div>
   )
