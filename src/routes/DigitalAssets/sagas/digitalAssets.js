@@ -31,10 +31,26 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
   const defaultItems: DigitalAssets = assetsData.mainnet.reduce((
     result: DigitalAssets,
     item: DigitalAsset,
-  ): DigitalAssets => ({
-    ...result,
-    [item.blockchainParams.address]: item,
-  }), {})
+  ): DigitalAssets => {
+    const {
+      display,
+      blockchainParams,
+    }: DigitalAsset = item
+
+    const assetAddress: ?AssetAddress = blockchainParams.address
+
+    if (!assetAddress) {
+      return result
+    }
+
+    return {
+      ...result,
+      [assetAddress]: {
+        ...item,
+        isActive: !!display && display.isDefaultForcedDisplay,
+      },
+    }
+  }, {})
 
   const existingItems: DigitalAssets = Object.keys(items).reduce((
     result: DigitalAssets,
@@ -70,14 +86,20 @@ function addETHAsset(items: DigitalAssets): DigitalAssets {
     }
   }
 
+  const {
+    display,
+    blockchainParams,
+  }: DigitalAsset = foundETHAsset
+
   return {
     ...items,
     [defaultETHAddress]: {
       ...foundETHAsset,
       blockchainParams: {
-        ...foundETHAsset.blockchainParams,
+        ...blockchainParams,
         address: defaultETHAddress,
       },
+      isActive: !!display && display.isDefaultForcedDisplay,
     },
   }
 }
