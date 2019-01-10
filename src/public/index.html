@@ -44,7 +44,7 @@
       <div id='error-wrapper' class='unsupported-screen'>
         <img src='%PUBLIC_URL%/assets/icons/new-pack/xlarge/auth-warning.svg' alt='JWallet internal error logo' id='icon' class='unsupported-screen__image'>
         <main id='error' class='unsupported-screen__error'>
-          <h1 class='unsupported-screen__title'>Whoops! Your browser is't supported :(</h1>
+          <h1 class='unsupported-screen__title'>Whoops! Your browser is not supported :(</h1>
           <h2 class='unsupported-screen__subtitle'>Unsupported features:</h2>
           <ul id='api-list' class='unsupported-screen__features-list'>
             <noscript>
@@ -59,7 +59,7 @@
           var wrapper = document.getElementById('error-wrapper');
           var featuresList = window._CAPABILITY.list;
 
-          wrapper.setAttribute('class', 'unsupported-screen hidden');
+          wrapper.setAttribute('class', 'unsupported-screen-hidden');
 
           for (var index in featuresList) {
             try {
