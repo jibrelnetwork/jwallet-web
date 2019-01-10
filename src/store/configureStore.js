@@ -29,8 +29,12 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Store Enhancers, redux developer tools
   // ======================================================
+
+  //
+  // TODO: turn it back ( /* && __DEV__ */)
+  //
   const composeEnhancers =
-    typeof window === 'object' && __DEV__ &&
+    typeof window === 'object' /* && __DEV__ */ &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         // Extension’s options like name, actionsBlacklist, actionsCreators, serialize...
