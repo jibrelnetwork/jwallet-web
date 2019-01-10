@@ -11,21 +11,27 @@ const fullPathWithMaskedVariables = routerState =>
     )
     .replace(/\/{2,}/g, '/')
 
-export const reactRouterOnEnterPageView = (
-  nextState: ReactRouterState
-) =>
-  ga(
-    'send',
-    'pageview',
-    fullPathWithMaskedVariables(nextState)
-  )
+export const reactRouterOnEnterPageView = (exclude: Array<RegExp> = []) =>
+  (nextState: ReactRouterState): void => {
+    if (!exclude.find(re => re.test(nextState.location.pathname))) {
+      ga(
+        'send',
+        'pageview',
+        fullPathWithMaskedVariables(nextState)
+      )
+    }
+  }
 
-export const reactRouterOnChangePageView = (
-  prevState: ReactRouterState,
-  nextState: ReactRouterState
-) =>
-  ga(
-    'send',
-    'pageview',
-    fullPathWithMaskedVariables(nextState)
-  )
+export const reactRouterOnChangePageView = (exclude: Array<RegExp> = []) =>
+  (
+    prevState: ReactRouterState,
+    nextState: ReactRouterState
+  ): void => {
+    if (!exclude.find(re => re.test(nextState.location.pathname))) {
+      ga(
+        'send',
+        'pageview',
+        fullPathWithMaskedVariables(nextState)
+      )
+    }
+  }

@@ -35,11 +35,15 @@ export type AppAction =
   NotFoundAction |
   DigitalAssetsModuleAction
 
+const customAnalyticsRoutes = [
+  /^\/transactions\/0/,
+]
+
 export default {
   path: '/',
   component: CoreLayout,
-  onEnter: reactRouterOnEnterPageView,
-  onChange: reactRouterOnChangePageView,
+  onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
+  onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
   indexRoute: {
     onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets'),
   },
