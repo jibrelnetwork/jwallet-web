@@ -1,0 +1,75 @@
+/* stylelint-disable rscss/class-format, rscss/no-descendant-combinator, selector-max-universal */
+
+html,
+body,
+#root,
+.unsupported-screen {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+}
+
+.unsupported-screen {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: linear-gradient(60deg, #0058d2, #00309b);
+  text-align: center;
+}
+
+.unsupported-screen * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.unsupported-screen-hidden {
+  display: none;
+}
+
+.unsupported-screen__image,
+.unsupported-screen__error {
+  margin: 0 auto;
+}
+
+.unsupported-screen__image {
+  width: 90px;
+}
+
+.unsupported-screen__error {
+  color: #fff;
+  width: 480px;
+}
+
+.unsupported-screen__title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 25px;
+}
+
+.unsupported-screen__subtitle {
+  line-height: 19.5px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.unsupported-screen__features-list {
+  font-size: 13px;
+  text-align: left;
+}
+
+.unsupported-screen__features-list_feature {
+  list-style: circle;
+  line-height: 18px;
+}
