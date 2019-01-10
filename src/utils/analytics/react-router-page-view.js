@@ -10,6 +10,7 @@ const fullPathWithMaskedVariables = routerState =>
       ''
     )
     .replace(/\/{2,}/g, '/')
+    .replace(/[(|)]/g, '')
 
 export const reactRouterOnEnterPageView = (exclude: Array<RegExp> = []) =>
   (nextState: ReactRouterState): void => {
