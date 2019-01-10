@@ -2,7 +2,7 @@
 // eslint-disable-next-line fp/no-rest-parameters
 export const ga = (...args) => {
   // FIXME: local storage parameter requires proper naming and documentation
-  if (localStorage.getItem('usageAnalyticsConsent') === 'true') {
+  if (localStorage.getItem('CONSENT_USAGE_ANALYTICS') === 'true') {
     window.ga(...args)
   }
 }
