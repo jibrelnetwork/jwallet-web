@@ -370,7 +370,8 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
       ...txData,
       privateKey: '[removed]',
     }
-    console.log('Send transaction payload: ', logTxData)
+    console.log(`Send transaction (to: ${address}) network: `, network)
+    console.log(`Send transaction (to: ${address}) txData: `, logTxData)
 
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
     yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals)
