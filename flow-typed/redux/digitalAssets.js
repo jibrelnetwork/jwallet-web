@@ -31,7 +31,10 @@ declare type DigitalAssetPriceFeed = {|
   +currencyID: number,
 |}
 
+declare type DigitalAssetBlockchainParamsFeature = 'mintable'
+
 declare type DigitalAssetBlockchainParams = {|
+  +features?: DigitalAssetBlockchainParamsFeature[],
   +address: AssetAddress,
   +type: DigitalAssetType,
   +decimals: number,
