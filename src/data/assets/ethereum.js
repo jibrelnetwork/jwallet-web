@@ -5,6 +5,7 @@
 const ETHEREUM: DigitalAsset = {
   symbol: 'ETH',
   name: 'Ethereum',
+  isActive: true,
   blockchainParams: {
     type: 'ethereum',
     address: 'Ethereum',
