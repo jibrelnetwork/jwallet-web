@@ -37,6 +37,7 @@ export type AppAction =
 
 const customAnalyticsRoutes = [
   /^\/transactions\/.+/,
+  /^\/digital-assets\/edit-asset\/.+/,
 ]
 
 export default {
