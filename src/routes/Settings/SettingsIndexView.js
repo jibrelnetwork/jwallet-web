@@ -16,6 +16,9 @@ type Props = {|
   wallet: ?Wallet,
 |}
 
+// eslint-disable-next-line max-len
+const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=exchange_try_jcash'
+
 // Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
   isReadOnly,
@@ -66,7 +69,7 @@ const getSettingsCardProperties = ({
 }, {
   title: 'Exchange service',
   description: 'Try Jcash',
-  path: 'https://jcash.network/',
+  path: JCASH_UTM_URL,
   iconName: 'exchange-service',
   searchTags: '',
   isVisible: true,

@@ -1,5 +1,7 @@
 // @flow
 
+import type { ComponentType } from 'react'
+
 declare type Index = number
 
 declare type Decimals = number
@@ -37,4 +39,24 @@ declare type HMR = {|
 declare type InvalidFieldError = {
   +fieldName: string,
   +message: string,
+}
+
+/**
+ * Custom react-router types
+ */
+
+declare type ReactRouterState = {
+  +location: {
+    +pathname: string,
+    +hash: string,
+    +key: string,
+    +search: string
+  },
+  +routes: [{
+    +path: string
+  }],
+  params: {
+    [string]: string
+  },
+  components: [ComponentType]
 }
