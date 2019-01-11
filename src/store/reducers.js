@@ -42,6 +42,9 @@ import settings from 'routes/Settings/modules/settings'
 // favorites
 import favorites from 'routes/Favorites/modules/favorites'
 
+// upgrade
+import upgrade from 'routes/Upgrade/modules/upgrade'
+
 import persistReducers from './persistReducers'
 
 export function makeRootReducer() {
@@ -59,6 +62,8 @@ export function makeRootReducer() {
     digitalAssetsManage,
     // settings
     settings,
+    // upgrade
+    upgrade,
     // router
     router,
     // persist

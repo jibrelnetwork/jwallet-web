@@ -1,38 +1,37 @@
 // @flow
 
-import React, { Fragment } from 'react'
-import { Form, Field } from 'react-final-form'
 import classNames from 'classnames'
+import React, { Fragment } from 'react'
+
+import {
+  Form,
+  Field,
+} from 'react-final-form'
 
 import CloseableScreen from 'components/CloseableScreen'
 import { JInputField } from 'components/base/JInput'
-import { JText, JLoader } from 'components/base'
+
+import {
+  JText,
+  JLoader,
+} from 'components/base'
 
 import './upgradeView.scss'
-
-export type MnemonicFormFieldsType = {
-  mnemonic: string,
-  passphrase: string,
-  derivationPath: string,
-}
-
-export type PrivateKeyFormFieldsType = {
-  privateKey: string,
-}
 
 type Props = {|
   +onClose: Function,
   +onUnavailable: () => void,
-  +onSubmitPrivateKey: (PrivateKeyFormFieldsType) => void,
-  +onSubmitMnemonic: (MnemonicFormFieldsType) => void,
+  +onSubmitMnemonic: (UpgradeMnemonicFormFieldValues) => void,
+  +onSubmitPrivateKey: (UpgradePrivateKeyFormFieldValues) => void,
+  +isLoading: boolean,
   +isReadOnly: boolean,
   +isMnemonic: boolean,
-  +isLoading: boolean,
+  +isInvalidPassword: boolean,
 |}
 
 const noop = () => undefined
 
-const validatePrivateKey = ({ privateKey }: PrivateKeyFormFieldsType) => {
+const validatePrivateKey = ({ privateKey }: UpgradePrivateKeyFormFieldValues) => {
   if (!privateKey) {
     return {
       privateKey: 'Private key is required',
@@ -51,7 +50,7 @@ const validatePrivateKey = ({ privateKey }: PrivateKeyFormFieldsType) => {
 const validateMnemonic = ({
   mnemonic,
   derivationPath,
-}: MnemonicFormFieldsType) => {
+}: UpgradeMnemonicFormFieldValues) => {
   /* eslint-disable fp/no-mutation */
   const errors = {}
 
@@ -70,11 +69,12 @@ const validateMnemonic = ({
 function UpgradeView({
   onClose,
   onUnavailable,
-  onSubmitPrivateKey,
   onSubmitMnemonic,
+  onSubmitPrivateKey,
+  isLoading,
   isReadOnly,
   isMnemonic,
-  isLoading,
+  isInvalidPassword,
 }: Props) {
   if (!isReadOnly) {
     // FIXME: we should do it in controller or in router
@@ -82,31 +82,31 @@ function UpgradeView({
     return null
   }
 
-  const props = isMnemonic ?
-    {
-      title: 'Add mnemonic',
-      finalForm: {
-        onSubmit: onSubmitMnemonic,
-        validate: validateMnemonic,
-      },
-      inputField: {
-        name: 'mnemonic',
-        placeholder: 'Mnemonic',
-        rows: 6,
-      },
-    } :
-    {
-      title: 'Add private key',
-      finalForm: {
-        onSubmit: onSubmitPrivateKey,
-        validate: validatePrivateKey,
-      },
-      inputField: {
-        name: 'privateKey',
-        placeholder: 'Private key',
-        rows: 0,
-      },
-    }
+  console.log(isInvalidPassword)
+
+  const props = isMnemonic ? {
+    title: 'Add mnemonic',
+    finalForm: {
+      onSubmit: onSubmitMnemonic,
+      validate: validateMnemonic,
+    },
+    inputField: {
+      name: 'mnemonic',
+      placeholder: 'Mnemonic',
+      rows: 6,
+    },
+  } : {
+    title: 'Add private key',
+    finalForm: {
+      onSubmit: onSubmitPrivateKey,
+      validate: validatePrivateKey,
+    },
+    inputField: {
+      name: 'privateKey',
+      placeholder: 'Private key',
+      rows: 0,
+    },
+  }
 
   return (
     <CloseableScreen
@@ -154,11 +154,9 @@ function UpgradeView({
                 )}
                 type='submit'
               >
-                {isLoading ?
-                  <JLoader color='white' /> :
-                  <JText
-                    value='Save'
-                  />
+                {isLoading
+                  ? <JLoader color='white' />
+                  : <JText value='Save' />
                 }
               </button>
             </form>

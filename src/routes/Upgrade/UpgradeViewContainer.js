@@ -5,51 +5,57 @@ import { replace } from 'react-router-redux'
 
 import reactRouterBack from 'utils/browser/reactRouterBack'
 
-import { selectActiveWalletId, selectWalletsItems } from 'store/selectors/wallets'
 import getWallet from 'utils/wallets/getWallet'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+import { selectUpgrade } from 'store/selectors/upgrade'
+
+import {
+  selectWalletsItems,
+  selectActiveWalletId,
+} from 'store/selectors/wallets'
 
 import UpgradeView from './UpgradeView'
+
+import {
+  submitMnemonicRequest as onSubmitMnemonic,
+  submitPrivateKeyRequest as onSubmitPrivateKey,
+} from './modules/upgrade'
 
 function mapStateToProps(state: AppState) {
   const wallets: Wallets = selectWalletsItems(state)
   const activeWalletId: ?WalletId = selectActiveWalletId(state)
   const wallet: ?Wallet = getWallet(wallets, activeWalletId)
 
+  const {
+    isLoading,
+    isInvalidPassword,
+  }: UpgradeState = selectUpgrade(state)
+
   if (!wallet) {
-    return {
-      isReadOnly: false,
-      isMnemonic: false,
-      isLoading: false,
-    }
+    throw new Error('ActiveWalletNotFoundError')
   }
 
   const {
     type,
     isReadOnly,
   }: Wallet = wallet
-  const isMnemonic = checkMnemonicType(type)
 
   return {
+    isLoading,
     isReadOnly,
-    isMnemonic,
-    isLoading: false,
+    isInvalidPassword,
+    isMnemonic: checkMnemonicType(type),
   }
 }
 
 const mapDispatchToProps = {
-  onClose: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
+  onSubmitMnemonic,
+  onSubmitPrivateKey,
   onUnavailable: () => replace('/digital-assets'),
-  onSubmitPrivateKey: () => undefined,
-  onSubmitMnemonic: () => undefined,
+  onClose: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
-/* ::
-type OwnProps = {|
-|}
-*/
-
-export default connect/* :: < AppState, any, OwnProps, _, _ > */(
+export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UpgradeView)
