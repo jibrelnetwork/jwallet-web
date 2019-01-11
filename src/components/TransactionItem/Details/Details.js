@@ -56,7 +56,7 @@ function getRepeatLink(
   const {
     address,
     decimals,
-  }: DigitalAsset = digitalAsset
+  }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
   if (!isSent || contractAddress || !(to && from)) {
     return null
@@ -128,6 +128,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       return null
     }
 
+    const assetDecimals: number = asset.blockchainParams.decimals
     const repeatLink: ?string = getRepeatLink(txData, asset, comment, isSent)
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
 
@@ -196,7 +197,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <JText
-              value={`${getTxFee(receiptData.gasUsed, data.gasPrice, asset.decimals)} ETH`}
+              value={`${getTxFee(receiptData.gasUsed, data.gasPrice, assetDecimals)} ETH`}
               color='gray'
               weight='bold'
             />
