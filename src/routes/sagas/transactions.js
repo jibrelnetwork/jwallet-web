@@ -30,6 +30,7 @@ import {
   checkTransactionLoading,
   flattenTransactionsByOwner,
   checkTransactionsByOwnerLoading,
+  getLastExistedBlockNumberByAsset,
 } from 'utils/transactions'
 
 import {
@@ -255,7 +256,7 @@ function* checkTransactionsLoading(
     activeAssets,
   )
 
-  return checkTransactionsByOwnerLoading(itemsByOwnerForActiveAssets)
+  return checkTransactionsByOwnerLoading(itemsByOwnerForActiveAssets, activeAssets)
 }
 
 function* syncProcessingBlockStatus(): Saga<void> {
@@ -388,45 +389,6 @@ function getBlockNumberFromFetch(
   }, latestAvailableBlock)
 
   return fromBlock
-}
-
-function getLastExistedBlockNumberByAsset(
-  itemsByAssetAddress: TransactionsByAssetAddress,
-): number {
-  return Object.keys(itemsByAssetAddress).reduce((
-    result: number,
-    blockNumber: BlockNumber,
-  ) => {
-    const currentBlockNumber: number = parseInt(blockNumber, 10) || GENESIS_BLOCK_NUMBER
-
-    // need to get the lowest block number
-    const isLower: boolean = (currentBlockNumber < result)
-
-    // result === 0 means initial result
-    const isInitialResult: boolean = (result === 0)
-
-    // return result if current block number bigger than previous
-    if (!(isLower || isInitialResult)) {
-      return result
-    }
-
-    const itemsByBlockNumber: ?TransactionsByBlockNumber = itemsByAssetAddress[blockNumber]
-
-    if (!itemsByBlockNumber) {
-      return result
-    }
-
-    const {
-      items,
-      isError,
-    }: TransactionsByBlockNumber = itemsByBlockNumber
-
-    if (!isError && items) {
-      return currentBlockNumber
-    }
-
-    return result
-  }, 0)
 }
 
 function getTasksToRefetchByAsset(
