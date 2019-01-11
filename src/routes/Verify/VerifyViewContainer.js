@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { replace } from 'react-router-redux'
 
 import reactRouterBack from 'utils/browser/reactRouterBack'
 
@@ -19,6 +20,7 @@ function mapStateToProps(state: AppState) {
     return {
       isReadOnly: false,
       isMnemonic: false,
+      isLoading: false,
     }
   }
 
@@ -31,11 +33,15 @@ function mapStateToProps(state: AppState) {
   return {
     isReadOnly,
     isMnemonic,
+    isLoading: false,
   }
 }
 
 const mapDispatchToProps = {
   onClose: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
+  onUnavailable: () => replace('/digital-assets'),
+  onSubmitPrivateKey: () => undefined,
+  onSubmitMnemonic: () => undefined,
 }
 
 /* ::

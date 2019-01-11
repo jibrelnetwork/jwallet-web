@@ -10,6 +10,19 @@
   width: 100%;
   height: 100%;
 
+  > .form {
+    width: 455px;
+
+    > .submit {
+      width: 100%;
+      text-align: center;
+
+      &:not(.-disabled):hover {
+        background-color: $bright-sky-blue;
+      }
+    }
+  }
+
   > .header {
     top: 0;
     left: 0;
