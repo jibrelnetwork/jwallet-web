@@ -8,7 +8,7 @@ import CloseableScreen from 'components/CloseableScreen'
 import { JInputField } from 'components/base/JInput'
 import { JText, JLoader } from 'components/base'
 
-import './verifyView.scss'
+import './upgradeView.scss'
 
 export type MnemonicFormFieldsType = {
   mnemonic: string,
@@ -67,7 +67,7 @@ const validateMnemonic = ({
   /* eslint-enable fp/no-mutation */
 }
 
-function VerifyView({
+function UpgradeView({
   onClose,
   onUnavailable,
   onSubmitPrivateKey,
@@ -113,7 +113,7 @@ function VerifyView({
       close={onClose}
       title={props.title}
     >
-      <div className='verify-view'>
+      <div className='upgrade-view'>
         <Form
           onSubmit={isLoading ? noop : props.finalForm.onSubmit}
           validate={props.finalForm.validate}
@@ -169,4 +169,4 @@ function VerifyView({
   )
 }
 
-export default VerifyView
+export default UpgradeView

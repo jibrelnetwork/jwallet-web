@@ -12,7 +12,7 @@ import NotFound from './NotFound'
 import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
 import Favorites from './Favorites'
-import Verify from './Verify'
+import Upgrade from './Upgrade'
 
 import {
   type CoreAction,
@@ -46,7 +46,7 @@ export default {
     Transactions,
     DigitalAssets,
     Favorites,
-    Verify,
+    Upgrade,
     NotFound,
   ],
 }

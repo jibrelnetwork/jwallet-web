@@ -9,7 +9,7 @@ import { selectActiveWalletId, selectWalletsItems } from 'store/selectors/wallet
 import getWallet from 'utils/wallets/getWallet'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 
-import VerifyView from './VerifyView'
+import UpgradeView from './UpgradeView'
 
 function mapStateToProps(state: AppState) {
   const wallets: Wallets = selectWalletsItems(state)
@@ -52,4 +52,4 @@ type OwnProps = {|
 export default connect/* :: < AppState, any, OwnProps, _, _ > */(
   mapStateToProps,
   mapDispatchToProps
-)(VerifyView)
+)(UpgradeView)
