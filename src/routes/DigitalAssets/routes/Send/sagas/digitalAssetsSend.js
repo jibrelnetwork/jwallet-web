@@ -103,7 +103,7 @@ function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?str
   const {
     address,
     decimals,
-  }: DigitalAsset = digitalAsset
+  }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
   const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
     yield select(selectCurrentNetworkId)
@@ -350,7 +350,7 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   const {
     address,
     decimals,
-  }: DigitalAsset = digitalAsset
+  }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
   yield put(digitalAssetsSend.setIsLoading(true))
 

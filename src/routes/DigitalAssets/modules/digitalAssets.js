@@ -116,20 +116,25 @@ const digitalAssets = (
         decimals,
       } = action.payload
 
+      const customAsset: DigitalAsset = {
+        blockchainParams: {
+          address,
+          decimals,
+          type: 'erc-20',
+        },
+        name,
+        symbol,
+        isCustom: true,
+        isActive: true,
+      }
+
       return {
         ...state,
         persist: {
           ...state.persist,
           items: {
             ...state.persist.items,
-            [address]: {
-              address,
-              name,
-              symbol,
-              decimals,
-              isCustom: true,
-              isActive: true,
-            },
+            [address]: customAsset,
           },
         },
       }
@@ -143,9 +148,22 @@ const digitalAssets = (
         decimals,
       } = action.payload
 
-      const {
-        persist,
-      } = state
+      const { persist } = state
+      const oldAsset: ?DigitalAsset = persist.items[address]
+
+      if (!oldAsset) {
+        return state
+      }
+
+      const updatedAsset: DigitalAsset = {
+        ...oldAsset,
+        blockchainParams: {
+          ...oldAsset.blockchainParams,
+          decimals,
+        },
+        name,
+        symbol,
+      }
 
       return {
         ...state,
@@ -153,12 +171,7 @@ const digitalAssets = (
           ...persist,
           items: {
             ...persist.items,
-            [address]: {
-              ...persist.items[address],
-              name,
-              symbol,
-              decimals,
-            },
+            [address]: updatedAsset,
           },
         },
       }
@@ -170,9 +183,17 @@ const digitalAssets = (
         isActive,
       } = action.payload
 
-      const {
-        persist,
-      } = state
+      const { persist } = state
+      const oldAsset: ?DigitalAsset = persist.items[address]
+
+      if (!oldAsset) {
+        return state
+      }
+
+      const updatedAsset: DigitalAsset = {
+        ...oldAsset,
+        isActive,
+      }
 
       return {
         ...state,
@@ -180,10 +201,7 @@ const digitalAssets = (
           ...persist,
           items: {
             ...persist.items,
-            [address]: {
-              ...persist.items[address],
-              isActive,
-            },
+            [address]: updatedAsset,
           },
         },
       }

@@ -1,11 +1,11 @@
 // @flow
 
-import main from './main'
 import ethereum from './ethereum'
-import ropsten from './ropsten'
+import mainnet from '../../../assets/mainnet/assets.json'
+import ropsten from '../../../assets/ropsten/assets.json'
 
 export default {
-  main,
-  ethereum,
+  mainnet,
   ropsten,
+  ethereum,
 }

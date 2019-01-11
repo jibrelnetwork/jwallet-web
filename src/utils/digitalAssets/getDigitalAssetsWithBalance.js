@@ -6,7 +6,7 @@ function getDigitalAssetsWithBalance(
 ): DigitalAssetWithBalance[] {
   return digitalAssets.map((item: DigitalAsset): DigitalAssetWithBalance => ({
     ...item,
-    balance: balances ? balances[item.address] : null,
+    balance: balances ? balances[item.blockchainParams.address] : null,
   }))
 }
 
