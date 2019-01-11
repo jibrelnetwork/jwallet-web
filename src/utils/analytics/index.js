@@ -1,2 +1,2 @@
-export { ga, gaSendPageView } from './ga'
+export { ga, gaSendPageView, gaSendEvent } from './ga'
 export { reactRouterOnEnterPageView, reactRouterOnChangePageView } from './react-router-page-view'

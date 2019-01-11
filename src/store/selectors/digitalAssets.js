@@ -34,6 +34,13 @@ export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {
   return flattenedItems.filter(({ isActive }: DigitalAsset): boolean => !!isActive)
 }
 
+export function selectCustomDigitalAssets(state: AppState): DigitalAsset[] {
+  const items: DigitalAssets = selectDigitalAssetsItems(state)
+  const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
+
+  return flattenedItems.filter(({ isCustom }: DigitalAsset): boolean => !!isCustom)
+}
+
 export function selectDigitalAssetsGridFilters(state: AppState): DigitalAssetsFilterOptions {
   return state.digitalAssetsGrid.filter
 }

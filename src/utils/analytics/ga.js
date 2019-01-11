@@ -23,3 +23,8 @@ export const ga = (...args) => {
 export const gaSendPageView = (location) => {
   ga('send', 'pageview', location)
 }
+
+// eslint-disable-next-line fp/no-rest-parameters
+export const gaSendEvent = (...args) => {
+  ga('send', 'event', ...args)
+}

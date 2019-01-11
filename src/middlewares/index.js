@@ -1,3 +1,7 @@
 // @flow
 
-export default []
+import { analyticsMiddleware } from './analyticsMiddleware'
+
+export default [
+  analyticsMiddleware,
+]
