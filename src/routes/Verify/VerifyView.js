@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Form, Field } from 'react-final-form'
 import classNames from 'classnames'
 
@@ -13,8 +13,12 @@ import './verifyView.scss'
 type Props = {|
   +onClose: Function,
   +onUnavailable: () => void,
-  +onSubmitPrivateKey: ({ privatekey: string }) => void,
-  +onSubmitMnemonic: ({ mnemonic: string }) => void,
+  +onSubmitPrivateKey: ({ privateKey: string }) => void,
+  +onSubmitMnemonic: ({
+    mnemonic: string,
+    passphrase: string,
+    derivationPath: string,
+  }) => void,
   +isReadOnly: boolean,
   +isMnemonic: boolean,
   +isLoading: boolean,
@@ -45,7 +49,6 @@ function VerifyView({
       },
       inputField: {
         name: 'mnemonic',
-        label: 'Mnemonic',
         placeholder: 'Mnemonic',
         rows: 6,
       },
@@ -56,8 +59,7 @@ function VerifyView({
         onSubmit: onSubmitPrivateKey,
       },
       inputField: {
-        name: 'privatekey',
-        label: 'Private key',
+        name: 'privateKey',
         placeholder: 'Private key',
         rows: 0,
       },
@@ -83,6 +85,24 @@ function VerifyView({
                 isDisabled={isLoading}
                 isAutoFocus
               />
+              {isMnemonic && (
+                <Fragment>
+                  <Field
+                    name='passphrase'
+                    placeholder='BIP39 Mnemonic passphrase (optional)'
+                    component={JInputField}
+                    color='gray'
+                    isDisabled={isLoading}
+                  />
+                  <Field
+                    name='derivationPath'
+                    placeholder='Derivation path (optional)'
+                    component={JInputField}
+                    color='gray'
+                    isDisabled={isLoading}
+                  />
+                </Fragment>
+              )}
               <button
                 className={classNames(
                   'submit j-raised-button -blue',
