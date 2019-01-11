@@ -1,31 +1,25 @@
 // @flow
 
-export const SUBMIT_MNEMONIC_REQUEST = '@@upgrade/SUBMIT_MNEMONIC_REQUEST'
-export const SUBMIT_MNEMONIC_ERROR = '@@upgrade/SUBMIT_MNEMONIC_ERROR'
-export const SUBMIT_MNEMONIC_SUCCESS = '@@upgrade/SUBMIT_MNEMONIC_SUCCESS'
+export const OPEN_VIEW = '@@upgrade/OPEN_VIEW'
 
+export const SUBMIT_MNEMONIC_REQUEST = '@@upgrade/SUBMIT_MNEMONIC_REQUEST'
 export const SUBMIT_PRIVATE_KEY_REQUEST = '@@upgrade/SUBMIT_PRIVATE_KEY_REQUEST'
-export const SUBMIT_PRIVATE_KEY_ERROR = '@@upgrade/SUBMIT_PRIVATE_KEY_ERROR'
-export const SUBMIT_PRIVATE_KEY_SUCCESS = '@@upgrade/SUBMIT_PRIVATE_KEY_SUCCESS'
+
+export const SUBMIT_ERROR = '@@upgrade/SUBMIT_ERROR'
+export const SUBMIT_SUCCESS = '@@upgrade/SUBMIT_SUCCESS'
+
+export const CLEAN = '@@upgrade/CLEAN'
+
+export function openView() {
+  return {
+    type: OPEN_VIEW,
+  }
+}
 
 export function submitMnemonicRequest(payload: UpgradeMnemonicFormFieldValues) {
   return {
     type: SUBMIT_MNEMONIC_REQUEST,
     payload,
-  }
-}
-
-export function submitMnemonicError(err: Error) {
-  return {
-    type: SUBMIT_MNEMONIC_ERROR,
-    payload: err,
-    error: true,
-  }
-}
-
-export function submitMnemonicSuccess() {
-  return {
-    type: SUBMIT_MNEMONIC_SUCCESS,
   }
 }
 
@@ -36,27 +30,36 @@ export function submitPrivateKeyRequest(payload: UpgradePrivateKeyFormFieldValue
   }
 }
 
-export function submitPrivateKeyError(err: Error) {
+export function submitError(err: Error) {
   return {
-    type: SUBMIT_PRIVATE_KEY_ERROR,
+    type: SUBMIT_ERROR,
     payload: err,
     error: true,
   }
 }
 
-export function submitPrivateKeySuccess() {
+export function submitSuccess(items: Wallets) {
   return {
-    type: SUBMIT_PRIVATE_KEY_SUCCESS,
+    type: SUBMIT_SUCCESS,
+    payload: {
+      items,
+    },
+  }
+}
+
+export function clean() {
+  return {
+    type: CLEAN,
   }
 }
 
 type UpgradeAction =
+  ExtractReturn<typeof openView> |
   ExtractReturn<typeof submitMnemonicRequest> |
-  ExtractReturn<typeof submitMnemonicError> |
-  ExtractReturn<typeof submitMnemonicSuccess> |
   ExtractReturn<typeof submitPrivateKeyRequest> |
-  ExtractReturn<typeof submitPrivateKeyError> |
-  ExtractReturn<typeof submitPrivateKeySuccess>
+  ExtractReturn<typeof submitError> |
+  ExtractReturn<typeof submitSuccess> |
+  ExtractReturn<typeof clean>
 
 const initialState: UpgradeState = {
   isLoading: false,
@@ -76,21 +79,22 @@ function upgrade(
         isInvalidPassword: false,
       }
 
-    case SUBMIT_MNEMONIC_ERROR:
-    case SUBMIT_PRIVATE_KEY_ERROR:
+    case SUBMIT_ERROR:
       return {
         ...state,
         isLoading: false,
         isInvalidPassword: true,
       }
 
-    case SUBMIT_MNEMONIC_SUCCESS:
-    case SUBMIT_PRIVATE_KEY_SUCCESS:
+    case SUBMIT_SUCCESS:
       return {
         ...state,
         isLoading: false,
         isInvalidPassword: false,
       }
+
+    case CLEAN:
+      return initialState
 
     default:
       return state
