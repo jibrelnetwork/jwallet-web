@@ -1,14 +1,12 @@
 // @flow
 
-import { ga } from 'utils/analytics'
+import { gaSendPageView } from 'utils/analytics'
 import EditAssetContainer from './EditAssetContainer'
 
 const EditAsset = {
   path: 'edit-asset/:assetAddress',
   onEnter: (nextState: ReactRouterState): void =>
-    ga(
-      'send',
-      'pageview',
+    gaSendPageView(
       nextState.location.pathname
     ),
   component: EditAssetContainer,

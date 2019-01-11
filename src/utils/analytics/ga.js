@@ -19,3 +19,7 @@ export const ga = (...args) => {
     }
   }
 }
+
+export const gaSendPageView = (location) => {
+  ga('send', 'pageview', location)
+}

@@ -1,6 +1,6 @@
 // @flow
 
-import { ga } from './ga'
+import { gaSendPageView } from './ga'
 
 const fullPathWithMaskedVariables = routerState =>
   routerState.routes
@@ -15,9 +15,7 @@ const fullPathWithMaskedVariables = routerState =>
 export const reactRouterOnEnterPageView = (exclude: Array<RegExp> = []) =>
   (nextState: ReactRouterState): void => {
     if (!exclude.find(re => re.test(nextState.location.pathname))) {
-      ga(
-        'send',
-        'pageview',
+      gaSendPageView(
         fullPathWithMaskedVariables(nextState)
       )
     }
