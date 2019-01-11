@@ -10,21 +10,62 @@ import { JText, JLoader } from 'components/base'
 
 import './verifyView.scss'
 
+export type MnemonicFormFieldsType = {
+  mnemonic: string,
+  passphrase: string,
+  derivationPath: string,
+}
+
+export type PrivateKeyFormFieldsType = {
+  privateKey: string,
+}
+
 type Props = {|
   +onClose: Function,
   +onUnavailable: () => void,
-  +onSubmitPrivateKey: ({ privateKey: string }) => void,
-  +onSubmitMnemonic: ({
-    mnemonic: string,
-    passphrase: string,
-    derivationPath: string,
-  }) => void,
+  +onSubmitPrivateKey: (PrivateKeyFormFieldsType) => void,
+  +onSubmitMnemonic: (MnemonicFormFieldsType) => void,
   +isReadOnly: boolean,
   +isMnemonic: boolean,
   +isLoading: boolean,
 |}
 
 const noop = () => undefined
+
+const validatePrivateKey = ({ privateKey }: PrivateKeyFormFieldsType) => {
+  if (!privateKey) {
+    return {
+      privateKey: 'Private key is required',
+    }
+  }
+
+  if (privateKey.length < 64) {
+    return {
+      privateKey: `${privateKey.length} characters is too short! Private key is 64 characters`,
+    }
+  }
+
+  return {}
+}
+
+const validateMnemonic = ({
+  mnemonic,
+  derivationPath,
+}: MnemonicFormFieldsType) => {
+  /* eslint-disable fp/no-mutation */
+  const errors = {}
+
+  if (!mnemonic) {
+    errors.mnemonic = 'Mnemonic is required'
+  }
+
+  if (derivationPath) {
+    // FIXME: should validate derivation path
+  }
+
+  return errors
+  /* eslint-enable fp/no-mutation */
+}
 
 function VerifyView({
   onClose,
@@ -46,6 +87,7 @@ function VerifyView({
       title: 'Add mnemonic',
       finalForm: {
         onSubmit: onSubmitMnemonic,
+        validate: validateMnemonic,
       },
       inputField: {
         name: 'mnemonic',
@@ -57,6 +99,7 @@ function VerifyView({
       title: 'Add private key',
       finalForm: {
         onSubmit: onSubmitPrivateKey,
+        validate: validatePrivateKey,
       },
       inputField: {
         name: 'privateKey',
@@ -73,6 +116,7 @@ function VerifyView({
       <div className='verify-view'>
         <Form
           onSubmit={isLoading ? noop : props.finalForm.onSubmit}
+          validate={props.finalForm.validate}
           render={({ handleSubmit }) => (
             <form
               onSubmit={handleSubmit}
