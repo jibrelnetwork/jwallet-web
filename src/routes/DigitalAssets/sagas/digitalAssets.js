@@ -17,24 +17,104 @@ import * as blocks from 'routes/modules/blocks'
 
 import * as digitalAssets from '../modules/digitalAssets'
 
-function* init(): Saga<void> {
-  const existingAssets: ExtractReturn<typeof selectDigitalAssetsItems> =
-    yield select(selectDigitalAssetsItems)
+function findByAddress(items: DigitalAssets, address: AssetAddress): ?DigitalAsset {
+  const addressToLower: string = address.toLowerCase()
 
-  const haveAssetsInStorage = Object.keys(existingAssets).length > 0
+  const foundAddress: ?AssetAddress = Object
+    .keys(items)
+    .find((assetAddress: AssetAddress): boolean => (assetAddress.toLowerCase() === addressToLower))
 
-  if (!haveAssetsInStorage) {
-    const allAssets = assetsData.main.reduce((result, asset) => ({
-      ...result,
-      [asset.address]: asset,
-    }), {})
+  return foundAddress ? items[foundAddress] : null
+}
 
-    const allAssetsWithETH = {
-      [assetsData.ethereum.address]: assetsData.ethereum,
-      ...allAssets,
+function mergeItems(items: DigitalAssets): DigitalAssets {
+  const defaultItems: DigitalAssets = assetsData.mainnet.reduce((
+    result: DigitalAssets,
+    item: DigitalAsset,
+  ): DigitalAssets => {
+    const {
+      display,
+      blockchainParams,
+    }: DigitalAsset = item
+
+    const assetAddress: ?AssetAddress = blockchainParams.address
+
+    if (!assetAddress) {
+      return result
     }
 
-    yield put(digitalAssets.setInitialItems(allAssetsWithETH))
+    return {
+      ...result,
+      [assetAddress]: {
+        ...item,
+        isActive: !!display && display.isDefaultForcedDisplay,
+      },
+    }
+  }, {})
+
+  const existingItems: DigitalAssets = Object.keys(items).reduce((
+    result: DigitalAssets,
+    address: AssetAddress,
+  ): DigitalAssets => {
+    const foundItem: ?DigitalAsset = findByAddress(items, address)
+
+    return {
+      ...result,
+      [address]: {
+        ...foundItem,
+        isCustom: foundItem ? foundItem.isCustom : true,
+      },
+    }
+  }, {})
+
+  return {
+    ...defaultItems,
+    ...existingItems,
+  }
+}
+
+function addETHAsset(items: DigitalAssets): DigitalAssets {
+  const defaultETHAddress: AssetAddress = assetsData.ethereum.blockchainParams.address
+
+  const foundETHAsset: ?DigitalAsset = assetsData.mainnet
+    .find((item: DigitalAsset) => (item.blockchainParams.type === 'ethereum'))
+
+  if (!foundETHAsset) {
+    return {
+      ...items,
+      [defaultETHAddress]: assetsData.ethereum,
+    }
+  }
+
+  const {
+    display,
+    blockchainParams,
+  }: DigitalAsset = foundETHAsset
+
+  return {
+    ...items,
+    [defaultETHAddress]: {
+      ...foundETHAsset,
+      blockchainParams: {
+        ...blockchainParams,
+        address: defaultETHAddress,
+      },
+      isActive: !!display && display.isDefaultForcedDisplay,
+    },
+  }
+}
+
+function* init(): Saga<void> {
+  const existingItems: ExtractReturn<typeof selectDigitalAssetsItems> =
+    yield select(selectDigitalAssetsItems)
+
+  const isInited: boolean = (Object.keys(existingItems).length > 0)
+
+  if (!isInited) {
+    const mergedItems: DigitalAssets = mergeItems(existingItems)
+    const itemsWithETH: DigitalAssets = addETHAsset(mergedItems)
+
+    yield put(digitalAssets.setInitialItems(itemsWithETH))
   }
 }
 

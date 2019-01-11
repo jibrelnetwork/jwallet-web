@@ -29,8 +29,10 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
       name,
       symbol,
       balance,
-      decimals,
       isCustom,
+      blockchainParams: {
+        decimals,
+      },
     }: DigitalAssetWithBalance = data
 
     const balanceStr: string = (balance && balance.value)

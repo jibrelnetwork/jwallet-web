@@ -3,6 +3,7 @@
 import React from 'react'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
+import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 
 import {
   InputButton,
@@ -52,8 +53,8 @@ function DigitalAssetsSendForm({
     assetAddress,
   }: DigitalAssetsSendFormFields = formFieldValues
 
-  const selectedAsset: ?DigitalAssetWithBalance = digitalAssets
-    .find(({ address }: DigitalAssetWithBalance): boolean => (address === assetAddress))
+  const selectedAsset: ?DigitalAssetWithBalance =
+    getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
   return (
     <div className='digital-assets-send-form'>

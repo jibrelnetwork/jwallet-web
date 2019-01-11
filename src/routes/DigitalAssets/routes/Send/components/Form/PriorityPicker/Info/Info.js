@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { JText } from 'components/base'
 
 type Props = {|
-  value: Array,
+  value: string[],
 |}
 
 class PriorityPickerInfo extends Component<Props> {

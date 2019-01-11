@@ -27,7 +27,9 @@ function DigitalAssetsSendConfirmCard({
 
   const {
     symbol,
-    decimals,
+    blockchainParams: {
+      decimals,
+    },
   }: DigitalAsset = selectedAsset
 
   const toName: ?string = addressNames[recipient]

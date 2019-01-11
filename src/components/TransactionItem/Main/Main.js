@@ -106,8 +106,10 @@ class TransactionItemMain extends PureComponent<Props> {
 
     const {
       symbol,
-      decimals,
       isCustom,
+      blockchainParams: {
+        decimals,
+      },
     }: DigitalAsset = asset
 
     if (!(blockData && receiptData)) {

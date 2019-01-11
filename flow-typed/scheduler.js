@@ -29,6 +29,7 @@ declare type GetTransactionsPayload = {|
   +assetAddress: AssetAddress,
   +toBlock: number,
   +fromBlock: number,
+  +deploymentBlock: number,
 |}
 
 declare type GetTransactionsMethod = {|
