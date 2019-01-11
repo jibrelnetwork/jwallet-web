@@ -27,12 +27,4 @@ export const reactRouterOnChangePageView = (exclude: Array<RegExp> = []) =>
   (
     prevState: ReactRouterState,
     nextState: ReactRouterState
-  ): void => {
-    if (!exclude.find(re => re.test(nextState.location.pathname))) {
-      ga(
-        'send',
-        'pageview',
-        fullPathWithMaskedVariables(nextState)
-      )
-    }
-  }
+  ): void => reactRouterOnEnterPageView(exclude)(nextState)
