@@ -14,6 +14,8 @@ type Props = {|
   +label: string,
 |}
 
+const isExternalURL = (url: string): boolean => /^https?:\/\//.test(url)
+
 class MenuPanelActionsItem extends PureComponent<Props> {
   static defaultProps = {
     onClick: null,
@@ -52,7 +54,22 @@ class MenuPanelActionsItem extends PureComponent<Props> {
       return <div onClick={onClick} className='menu-panel-actions-item'>{content}</div>
     }
 
-    if (path) {
+    const isExternal = path && isExternalURL(path)
+
+    if (path && isExternal) {
+      return (
+        <a
+          href={path}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='menu-panel-actions-item'
+        >
+          {content}
+        </a>
+      )
+    }
+
+    if (path && !isExternal) {
       return <Link to={path} className='menu-panel-actions-item'>{content}</Link>
     }
 
