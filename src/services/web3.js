@@ -573,8 +573,43 @@ function sendTransaction(
   }
 }
 
+function getGasPrice(network: Network): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  } = network
+
+  const baseProps = {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }
+
+  return jibrelContractsApi.eth.getGasPrice(baseProps).then(val => val.toNumber())
+}
+
+function getNonce(network: Network, address: Address): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  } = network
+
+  const baseProps = {
+    rpcaddr,
+    rpcport,
+    ssl,
+    address,
+  }
+
+  return jibrelContractsApi.eth.getNonce(baseProps)
+}
+
 export default {
   getBlock,
+  getNonce,
+  getGasPrice,
   getBlockData,
   getAssetName,
   getBurnEvents,

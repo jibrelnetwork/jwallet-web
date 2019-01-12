@@ -164,12 +164,19 @@ declare type DigitalAssetsSendFormFields = {|
   +assetAddress: AssetAddress,
 |}
 
+declare type DigitalAssetsSendGasPrice = {|
+  +isLoading: boolean,
+  +isError: boolean,
+  +value: ?number,
+|}
+
 declare type DigitalAssetsSendState = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
   +isLoading: boolean,
+  +gasPrice: DigitalAssetsSendGasPrice,
 |}
 
 declare type SendTransactionProps = {|

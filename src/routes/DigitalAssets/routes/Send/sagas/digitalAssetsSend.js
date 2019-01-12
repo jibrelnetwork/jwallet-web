@@ -87,6 +87,27 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
   if (comment) {
     yield put(digitalAssetsSend.setFormFieldValue('comment', comment))
   }
+
+  yield* requestGasPrice()
+}
+
+function* requestGasPrice(): Saga<?number> {
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+
+  if (!network) {
+    throw new Error('There is no active network')
+  }
+
+  try {
+    yield put(digitalAssetsSend.setGasPriceIsLoading())
+
+    const gasPrice: number = yield call(web3.getGasPrice, network)
+    yield put(digitalAssetsSend.setGasPriceValue(gasPrice))
+    return gasPrice
+  } catch (err) {
+    yield put(digitalAssetsSend.setGasPriceIsError())
+    return null
+  }
 }
 
 function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
@@ -311,12 +332,15 @@ function getTransactionData(data: SendTransactionProps): SendTransactionProps {
   return dataNew
 }
 
-function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
+function* sendTransactionRequest(
+  formFieldValues: DigitalAssetsSendFormFields
+): Saga<void> {
   const {
     nonce,
     amount,
     gasLimit,
     gasPrice,
+    // priority,
     password,
     recipient,
     assetAddress,
@@ -350,6 +374,7 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   const {
     address,
     decimals,
+    // staticGasAmount,
   }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
   yield put(digitalAssetsSend.setIsLoading(true))
@@ -386,6 +411,7 @@ function* goToNextStep(): Saga<void> {
   const {
     formFieldValues,
     currentStep,
+    gasPrice,
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
   switch (currentStep) {
@@ -400,7 +426,7 @@ function* goToNextStep(): Saga<void> {
     }
 
     case digitalAssetsSend.STEPS.CONFIRM: {
-      yield* sendTransactionRequest(formFieldValues)
+      yield* sendTransactionRequest(formFieldValues, gasPrice)
       break
     }
 

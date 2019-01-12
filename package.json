@@ -30,7 +30,7 @@
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
-    "@jibrelnetwork/contracts-jsapi": "1.0.2",
+    "@jibrelnetwork/contracts-jsapi": "1.0.5",
     "@jibrelnetwork/jwallet-web-keystore": "1.0.0",
     "bignumber.js": "4.1.0",
     "classnames": "2.2.5",

@@ -9,6 +9,10 @@ export const GO_TO_NEXT_STEP = '@@digitalAssetsSend/GO_TO_NEXT_STEP'
 export const GO_TO_PREV_STEP = '@@digitalAssetsSend/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP = '@@digitalAssetsSend/SET_CURRENT_STEP'
 
+export const SET_GAS_PRICE_IS_LOADING = '@@digitalAssetsSend/SET_GAS_PRICE_IS_LOADING'
+export const SET_GAS_PRICE_IS_ERROR = '@@digitalAssetsSend/SET_GAS_PRICE_IS_ERROR'
+export const SET_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_GAS_PRICE_VALUE'
+
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
 
@@ -55,6 +59,33 @@ export function setIsLoading(isLoading: boolean) {
     type: SET_IS_LOADING,
     payload: {
       isLoading,
+    },
+  }
+}
+
+export function setGasPriceValue(gasPrice: ?number) {
+  return {
+    type: SET_GAS_PRICE_VALUE,
+    payload: {
+      value: gasPrice,
+    },
+  }
+}
+
+export function setGasPriceIsLoading(isLoading: boolean = true) {
+  return {
+    type: SET_GAS_PRICE_IS_LOADING,
+    payload: {
+      isLoading,
+    },
+  }
+}
+
+export function setGasPriceIsError(isError: boolean = true) {
+  return {
+    type: SET_GAS_PRICE_IS_ERROR,
+    payload: {
+      isError,
     },
   }
 }
@@ -149,6 +180,11 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
+  gasPrice: {
+    isLoading: false,
+    isError: false,
+    value: null,
+  },
 }
 
 function digitalAssetsSend(
@@ -223,6 +259,40 @@ function digitalAssetsSend(
         },
         currentStep: action.payload.currentStep,
       }
+
+    case SET_GAS_PRICE_VALUE: {
+      return {
+        ...state,
+        gasPrice: {
+          ...state.gasPrice,
+          value: action.payload.value,
+          isLoading: false,
+          isError: false,
+        },
+      }
+    }
+
+    case SET_GAS_PRICE_IS_ERROR: {
+      return {
+        ...state,
+        gasPrice: {
+          ...state.gasPrice,
+          ...action.payload,
+          isLoading: false,
+        },
+      }
+    }
+
+    case SET_GAS_PRICE_IS_LOADING: {
+      return {
+        ...state,
+        gasPrice: {
+          ...state.gasPrice,
+          ...action.payload,
+          isError: false,
+        },
+      }
+    }
 
     case CLEAN:
       return initialState
