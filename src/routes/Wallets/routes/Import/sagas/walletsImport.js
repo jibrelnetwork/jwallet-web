@@ -9,11 +9,11 @@ import {
 } from 'redux-saga/effects'
 
 import walletsWorker from 'workers/wallets'
+import checkDerivationPathValid from 'utils/mnemonic/checkDerivationPathValid'
 
 import {
   getTypeByInput,
   checkWalletUniqueness,
-  checkDerivationPathValid,
 } from 'utils/wallets'
 
 import {

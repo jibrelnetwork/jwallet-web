@@ -15,7 +15,7 @@ import {
 import web3 from 'services/web3'
 import reactRouterBack from 'utils/browser/reactRouterBack'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
-import checkAddressValid from 'utils/wallets/checkAddressValid'
+import checkAddressValid from 'utils/address/checkAddressValid'
 import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {

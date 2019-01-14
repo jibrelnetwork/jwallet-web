@@ -8,7 +8,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import checkAddressValid from 'utils/wallets/checkAddressValid'
+import checkAddressValid from 'utils/address/checkAddressValid'
 
 import {
   selectAddressNames,
