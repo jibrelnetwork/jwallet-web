@@ -21,6 +21,45 @@ import {
   submitPrivateKeyRequest as onSubmitPrivateKey,
 } from './modules/upgrade'
 
+const validatePrivateKey = (
+  { privateKey }: UpgradePrivateKeyFormFieldValues
+): UpgradePrivateKeyFormFieldErrors => {
+  if (!privateKey) {
+    return {
+      privateKey: 'Private key is required',
+    }
+  }
+
+  if (privateKey.length < 64) {
+    return {
+      privateKey: `${privateKey.length} characters is too short! Private key is 64 characters`,
+    }
+  }
+
+  return {}
+}
+
+const validateMnemonic = (
+  {
+    mnemonic,
+    derivationPath,
+  }: UpgradeMnemonicFormFieldValues
+): UpgradeMnemonicFormFieldErrors => {
+  /* eslint-disable fp/no-mutation */
+  const errors = {}
+
+  if (!mnemonic) {
+    errors.mnemonic = 'Mnemonic is required'
+  }
+
+  if (derivationPath) {
+    // FIXME: should validate derivation path
+  }
+
+  return errors
+  /* eslint-enable fp/no-mutation */
+}
+
 function mapStateToProps(state: AppState) {
   const wallets: Wallets = selectWalletsItems(state)
   const activeWalletId: ?WalletId = selectActiveWalletId(state)
@@ -41,6 +80,8 @@ function mapStateToProps(state: AppState) {
     isReadOnly,
     isInvalidPassword,
     isMnemonic: checkMnemonicType(type),
+    validateMnemonic,
+    validatePrivateKey,
   }
 }
 
