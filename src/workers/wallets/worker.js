@@ -1,18 +1,21 @@
 // @flow
 
 import {
+  createWallet,
+  getBackupData,
+  getPrivateKey,
+} from 'utils/wallets'
+
+import {
+  generateMnemonic,
+  getMnemonicOptions,
+} from 'utils/mnemonic'
+
+import {
   initPassword,
   checkPassword,
   getPasswordOptions,
 } from 'utils/encryption'
-
-import {
-  createWallet,
-  getBackupData,
-  getPrivateKey,
-  generateMnemonic,
-  getMnemonicOptions,
-} from 'utils/wallets'
 
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'

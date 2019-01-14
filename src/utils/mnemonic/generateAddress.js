@@ -1,6 +1,6 @@
 // @flow
 
-import getAddressFromPublicKey from './getAddressFromPublicKey'
+import getAddressFromPublicKey from 'utils/address/getAddressFromPublicKey'
 
 function generateAddress(hdRoot: HDPublicKey, index: number): string {
   const generatedKey: HDPublicKey = hdRoot.derive(index)

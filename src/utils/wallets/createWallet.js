@@ -8,16 +8,22 @@ import config from 'config'
 import testPassword from 'utils/encryption/testPassword'
 
 import {
-  appendWallet,
   checkAddressValid,
   getAddressChecksum,
+  checkPrivateKeyValid,
+  getAddressFromPrivateKey,
+} from 'utils/address'
+
+import {
   checkMnemonicValid,
   getXPubFromMnemonic,
-  checkPrivateKeyValid,
-  checkWalletUniqueness,
   checkDerivationPathValid,
-  getAddressFromPrivateKey,
   checkBip32XPublicKeyValid,
+} from 'utils/mnemonic'
+
+import {
+  appendWallet,
+  checkWalletUniqueness,
 } from '.'
 
 function leftPadString(stringToPad: string, padChar: string, totalLength: number) {
@@ -40,7 +46,7 @@ function createMnemonicWallet(
   }: WalletData = walletData
 
   if (!password) {
-    throw new Error('Password required')
+    throw new Error('PasswordEmptyError')
   }
 
   const mnemonic: string = data.toLowerCase()
@@ -51,7 +57,7 @@ function createMnemonicWallet(
   }: MnemonicOptions = mnemonicOptions
 
   if (!checkDerivationPathValid(derivationPath)) {
-    throw new Error('Invalid derivation path')
+    throw new Error('DerivationPathInvalidError')
   }
 
   const xpub: string = getXPubFromMnemonic(mnemonic, mnemonicOptions)
@@ -132,7 +138,7 @@ const createAddressWallet = (
   }: WalletData = walletData
 
   if (!password) {
-    throw new Error('Password required')
+    throw new Error('PasswordEmptyError')
   }
 
   const address: string = getAddressFromPrivateKey(data)
@@ -237,7 +243,7 @@ const createWallet = (
   } else if (checkAddressValid(data)) {
     return createReadOnlyAddressWallet(wallets, walletData)
   } else {
-    throw new Error('Wallet data not provided or invalid')
+    throw new Error('WalletDataError')
   }
 }
 

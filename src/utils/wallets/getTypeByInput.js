@@ -2,10 +2,13 @@
 
 import {
   checkAddressValid,
-  checkMnemonicValid,
   checkPrivateKeyValid,
+} from 'utils/address'
+
+import {
+  checkMnemonicValid,
   checkBip32XPublicKeyValid,
-} from '.'
+} from 'utils/mnemonic'
 
 function getTypeByInput(data: ?string): ?WalletCustomType {
   if (!data) {

@@ -2,12 +2,14 @@
 
 import utils from '@jibrelnetwork/jwallet-web-keystore'
 
+import add0x from 'utils/address/add0x'
+
 import {
-  add0x,
-  checkMnemonicType,
   getMnemonicOptions,
   getPrivateKeyFromMnemonic,
-} from '.'
+} from 'utils/mnemonic'
+
+import checkMnemonicType from './checkMnemonicType'
 
 function getPrivateKey(wallet: Wallet, password: string): string {
   const {
@@ -17,12 +19,8 @@ function getPrivateKey(wallet: Wallet, password: string): string {
     isReadOnly,
   }: Wallet = wallet
 
-  if (isReadOnly) {
-    throw new Error('Wallet is read only')
-  }
-
-  if (!passwordOptions) {
-    throw new Error('Invalid wallet')
+  if (isReadOnly || !passwordOptions) {
+    throw new Error('WalletDataError')
   }
 
   const {
@@ -35,7 +33,7 @@ function getPrivateKey(wallet: Wallet, password: string): string {
 
   if (!checkMnemonicType(type)) {
     if (!encrypted.mnemonic) {
-      throw new Error('Mnemonic to decrypt is not found')
+      throw new Error('WalletDataError')
     }
 
     const mnemonic: string = utils.decryptData(encrypted.mnemonic, dKey, encryptionType)
@@ -54,7 +52,7 @@ function getPrivateKey(wallet: Wallet, password: string): string {
     return add0x(privateKey)
   } else {
     if (!encrypted.privateKey) {
-      throw new Error('Private key to decrypt is not found')
+      throw new Error('WalletDataError')
     }
 
     const privateKey: string = utils.decryptData(encrypted.privateKey, dKey, encryptionType)

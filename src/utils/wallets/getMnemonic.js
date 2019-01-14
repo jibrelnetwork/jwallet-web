@@ -15,20 +15,13 @@ function getMnemonic(wallets: Wallets, walletId: string, password: string): stri
     isReadOnly,
   }: Wallet = getWallet(wallets, walletId)
 
-  if (!checkMnemonicType(type)) {
-    throw new Error('Wallet type is not mnemonic')
-  }
-
-  if (isReadOnly) {
-    throw new Error('Wallet is read only')
-  }
-
-  if (!passwordOptions) {
-    throw new Error('Invalid wallet')
-  }
-
-  if (!encrypted.mnemonic) {
-    throw new Error('Mnemonic to decrypt is not found')
+  if (
+    !checkMnemonicType(type) ||
+    isReadOnly ||
+    !passwordOptions ||
+    !encrypted.mnemonic
+  ) {
+    throw new Error('WalletDataError')
   }
 
   const {

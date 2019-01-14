@@ -1,9 +1,10 @@
 // @flow
 
+import generateAddresses from 'utils/mnemonic/generateAddresses'
+
 import {
   getWallet,
   checkMnemonicType,
-  generateAddresses,
 } from '.'
 
 function getAddresses(wallets: Wallets, walletId: string, start: number, end: number): Address[] {
@@ -13,7 +14,7 @@ function getAddresses(wallets: Wallets, walletId: string, start: number, end: nu
   }: Wallet = getWallet(wallets, walletId)
 
   if (!checkMnemonicType(type) || !bip32XPublicKey) {
-    throw new Error('Invalid wallet type')
+    throw new Error('WalletDataError')
   }
 
   return generateAddresses(bip32XPublicKey, start, end)
