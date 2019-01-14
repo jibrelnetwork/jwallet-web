@@ -6,6 +6,7 @@ import { keccak256 } from 'js-sha3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
 import * as type from 'utils/type'
+import BigNumber from 'bignumber.js'
 
 type ERC20MethodName =
   'approve' |
@@ -573,7 +574,7 @@ function sendTransaction(
   }
 }
 
-function getGasPrice(network: Network): Promise<number> {
+function getGasPrice(network: Network): Promise<BigNumber> {
   const {
     rpcaddr,
     rpcport,
@@ -586,7 +587,7 @@ function getGasPrice(network: Network): Promise<number> {
     ssl,
   }
 
-  return jibrelContractsApi.eth.getGasPrice(baseProps).then(val => val.toNumber())
+  return jibrelContractsApi.eth.getGasPrice(baseProps)
 }
 
 function getNonce(network: Network, address: Address): Promise<number> {

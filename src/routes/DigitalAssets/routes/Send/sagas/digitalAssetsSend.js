@@ -88,7 +88,7 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
   }
 }
 
-function* requestGasPrice(): Saga<?number> {
+function* requestGasPrice(): Saga<?BigNumber> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!network) {
@@ -96,70 +96,26 @@ function* requestGasPrice(): Saga<?number> {
   }
 
   try {
-    const gasPrice: number = yield call(web3.getGasPrice, network)
+    const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
     return gasPrice
   } catch (err) {
     return null
   }
 }
 
-function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
+function* checkPriority(
+  digitalAsset: DigitalAsset,
+  priority: TXPriorityKey,
+  formFieldValues: DigitalAssetsSendFormFields,
+): Saga<boolean> {
   const {
-    formFieldValues: {
-      // nonce,
-      amount,
-      assetAddress,
-      recipient,
-      gasPrice: userGasPrice,
-      gasLimit: userGasLimit,
-    },
-    priority,
-  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
-
-  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
-
-  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
-    yield select(selectDigitalAsset, assetAddress)
-
-  // simple fields
-  const isDigitalAssetAddressValid: boolean = !!digitalAsset
-  const isRecepientAddressValid: boolean = checkAddressValid(recipient)
-  const isOwnerAddressValid: boolean = checkAddressValid(ownerAddress)
-  const isAmountValid: boolean = (parseFloat(amount) > 0)
-
-  if (!isRecepientAddressValid) {
-    yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
-  }
-
-  if (!isOwnerAddressValid) {
-    yield put(digitalAssetsSend.setFormFieldError('ownerAddress', 'Invalid address'))
-  }
-
-  if (!isAmountValid) {
-    yield put(digitalAssetsSend.setFormFieldError('amount', 'Invalid amount'))
-  }
-
-  if (!isDigitalAssetAddressValid) {
-    yield put(digitalAssetsSend.setFormFieldError('assetAddress', 'Invalid asset address'))
-    return false // we can't do any other checks without digitalAsset selected
-  }
-
-  // TODO: do this in the next task
-  // const isNonceExist: boolean = !!nonce.trim()
-  // const isNonceValid: boolean = (parseInt(nonce, 10) > 0)
-  // if (isNonceExist && !isNonceValid) {
-  //   yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
-  // }
+    gasPrice: userGasPrice,
+    gasLimit: userGasLimit,
+  } = formFieldValues
 
   if (priority === 'CUSTOM') {
     const isGasPriceValid: boolean = parseFloat(userGasPrice) > 0
-
-    // convert it to WEI
-    const gasPrice = getTransactionValue(userGasPrice, 18).toString()
-
-    const gasLimit = parseInt(userGasLimit, 10)
-    const isGasLimitValid: boolean = (gasLimit > 0)
+    const isGasLimitValid: boolean = parseInt(userGasLimit, 10) > 0
 
     if (!isGasLimitValid) {
       yield put(digitalAssetsSend.setFormFieldError('gasLimit', 'Invalid value for gas limit'))
@@ -170,21 +126,27 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
     }
 
     if (isGasLimitValid && isGasPriceValid) {
+      // convert it to WEI
+      const gasPrice = getTransactionValue(userGasPrice, 18).toString()
       yield put(digitalAssetsSend.setGasPriceValue(gasPrice))
+
+      const gasLimit = toBigNumber(userGasLimit).toString()
       yield put(digitalAssetsSend.setGasLimitValue(gasLimit))
     }
   } else {
     const txPriorityCoefficient: number = digitalAssetsSend.TXPRIORITY[priority]
     if (!txPriorityCoefficient) {
       yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Priority is not selected'))
-      return false
+      return
     }
 
-    const gasPrice = ((yield* requestGasPrice()) * txPriorityCoefficient)
-    if (!gasPrice) {
+    const requestedGasPrice = yield* requestGasPrice()
+    if (!requestedGasPrice) {
       yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price'))
-      return false
+      return
     }
+
+    const gasPrice = requestedGasPrice.times(txPriorityCoefficient).toString()
     // save for the next step
     yield put(digitalAssetsSend.setGasPriceValue(gasPrice))
 
@@ -192,76 +154,135 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
       digitalAsset.blockchainParams &&
       digitalAsset.blockchainParams.staticGasAmount) {
       // save for the next step
-      yield put(
-        digitalAssetsSend.setGasLimitValue(digitalAsset.blockchainParams.staticGasAmount)
-      )
+      const staticGasAmount = toBigNumber(digitalAsset.blockchainParams.staticGasAmount).toString()
+      yield put(digitalAssetsSend.setGasLimitValue(staticGasAmount))
     } else {
-      // gas limit will be estimated at transaction send
+      // gas limit will be estimated at transaction send by jibrel-contracts-jsapi
       yield put(digitalAssetsSend.setGasLimitValue(null))
     }
   }
+}
 
+function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
   const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
     yield select(selectCurrentNetworkId)
 
   const currentBlock: ExtractReturn<typeof selectCurrentBlock> =
     yield select(selectCurrentBlock, networkId)
 
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
   const assetBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
     selectBalanceByAssetAddress,
     networkId,
     ownerAddress,
     currentBlock ? currentBlock.number.toString() : null,
-    digitalAsset.blockchainParams.address,
+    digitalAsset.blockchainParams.address
   )
 
-  if (assetBalance) {
-    const {
-      sendTransactionParams: {
-        gasPrice,
-        gasLimit,
-      },
-    }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
-
-    const feeETH = (gasPrice > 0 && gasLimit > 0)
-      ? toBigNumber(gasPrice).times(gasLimit)
-      : toBigNumber(0)
-
-    const balance = toBigNumber(assetBalance.value)
-    const amountToSend = getTransactionValue(amount, digitalAsset.blockchainParams.decimals)
-
-    if (checkETH(digitalAsset.blockchainParams.address)) {
-      if (balance.lt(amountToSend)) {
-        yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
-      } else {
-        const amountWithFee: BigNumber = amountToSend.plus(feeETH)
-        if (balance.lt(amountWithFee)) {
-          // eslint-disable-next-line max-len
-          yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount plus blockchain fee exceeds balance'))
-        }
-      }
-    } else {
-      if (balance.lt(amountToSend)) {
-        yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
-        return false
-      }
-
-      const ethBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
-        selectBalanceByAssetAddress,
-        networkId,
-        ownerAddress,
-        currentBlock ? currentBlock.number.toString() : null,
-        'Ethereum'
-      )
-
-      if (ethBalance && toBigNumber(ethBalance.value).lt(feeETH)) {
-        // eslint-disable-next-line max-len
-        yield put(digitalAssetsSend.setFormFieldError('amount', 'You don\'t have enough ETH to send this transaction'))
-      }
-    }
+  if (!assetBalance) {
+    return
   }
 
-  // check everything
+  const {
+    formFieldValues: {
+      amount,
+    },
+    sendTransactionParams: {
+      gasPrice,
+      gasLimit,
+    },
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  const amountToSend = getTransactionValue(amount, digitalAsset.blockchainParams.decimals)
+  const balance = toBigNumber(assetBalance.value)
+
+  const feeETH = (gasPrice && gasLimit)
+    ? toBigNumber(gasPrice).times(gasLimit)
+    : toBigNumber(0)
+
+  if (checkETH(digitalAsset.blockchainParams.address)) {
+    if (balance.lt(amountToSend)) {
+      yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
+    } else {
+      const amountWithFee: BigNumber = amountToSend.plus(feeETH)
+      if (balance.lt(amountWithFee)) {
+        // eslint-disable-next-line max-len
+        yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount plus blockchain fee exceeds balance'))
+      }
+    }
+  } else {
+    if (balance.lt(amountToSend)) {
+      yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
+      return
+    }
+
+    const ethBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
+      selectBalanceByAssetAddress,
+      networkId,
+      ownerAddress,
+      currentBlock ? currentBlock.number.toString() : null,
+      'Ethereum'
+    )
+
+    if (ethBalance && toBigNumber(ethBalance.value).lt(feeETH)) {
+      // eslint-disable-next-line max-len
+      yield put(digitalAssetsSend.setFormFieldError('amount', 'You don\'t have enough ETH to send this transaction'))
+    }
+  }
+}
+
+function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
+  const {
+    formFieldValues,
+    priority,
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  const {
+    // nonce,
+    amount,
+    assetAddress,
+    recipient,
+  }: DigitalAssetsSendFormFields = formFieldValues
+
+  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
+    yield select(selectDigitalAsset, assetAddress)
+
+  // simple fields
+  const isRecepientAddressValid: boolean = checkAddressValid(recipient)
+  const isAmountValid: boolean = (parseFloat(amount) > 0)
+
+  if (!isRecepientAddressValid) {
+    yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
+  }
+
+  if (!isAmountValid) {
+    yield put(digitalAssetsSend.setFormFieldError('amount', 'Invalid amount'))
+  }
+
+  if (!digitalAsset) {
+    yield put(digitalAssetsSend.setFormFieldError('assetAddress', 'Invalid asset address'))
+    return false // we can't do any other checks without digitalAsset selected
+  }
+
+  // TODO: do this in the next task
+  // check nonce
+  // const isNonceExist: boolean = !!nonce.trim()
+  // const isNonceValid: boolean = (parseInt(nonce, 10) > 0)
+  // if (isNonceExist && !isNonceValid) {
+  //   yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
+  // }
+
+  yield* checkPriority(
+    digitalAsset,
+    priority,
+    formFieldValues
+  )
+
+  yield* checkAmount(digitalAsset)
+
+  // check, that errors in the all fields are empty
   const {
     formFieldErrors,
   } = yield select(selectDigitalAssetsSend)
@@ -428,7 +449,7 @@ function* goToNextStep(): Saga<void> {
 
   switch (currentStep) {
     case digitalAssetsSend.STEPS.FORM: {
-      const isDataValid: boolean = yield* prepareAndCheckDigitalAssetsSendData(formFieldValues)
+      const isDataValid: boolean = yield* prepareAndCheckDigitalAssetsSendData()
 
       if (isDataValid) {
         yield put(digitalAssetsSend.setCurrentStep(digitalAssetsSend.STEPS.CONFIRM))
@@ -473,7 +494,7 @@ function* setPriority(): Saga<void> {
   if (priority === 'CUSTOM') {
     // request and set gas price
     const gasPrice = yield* requestGasPrice()
-    if (gasPrice > 0) {
+    if (gasPrice.gt(0)) {
       yield put(digitalAssetsSend.setFormFieldValue('gasPrice', divDecimals(gasPrice, 18)))
     }
 
@@ -496,7 +517,7 @@ function* setPriority(): Saga<void> {
   }
 }
 
-function* changeFormField(action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>) {
+function* setFormField(action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>) {
   const { payload: { fieldName, value } } = action
   if (fieldName === 'assetAddress' && value !== '') {
     yield* setPriority()
@@ -508,5 +529,5 @@ export function* digitalAssetsSendRootSaga(): Saga<void> {
   yield takeEvery(digitalAssetsSend.GO_TO_NEXT_STEP, goToNextStep)
   yield takeEvery(digitalAssetsSend.GO_TO_PREV_STEP, goToPrevStep)
   yield takeEvery(digitalAssetsSend.SET_PRIORITY, setPriority)
-  yield takeEvery(digitalAssetsSend.SET_FORM_FIELD_VALUE, changeFormField)
+  yield takeEvery(digitalAssetsSend.SET_FORM_FIELD_VALUE, setFormField)
 }

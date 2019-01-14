@@ -62,7 +62,7 @@ export function setIsLoading(isLoading: boolean) {
   }
 }
 
-export function setGasPriceValue(gasPrice: ?number) {
+export function setGasPriceValue(gasPrice: ?string) {
   return {
     type: SET_GAS_PRICE_VALUE,
     payload: {
@@ -71,7 +71,7 @@ export function setGasPriceValue(gasPrice: ?number) {
   }
 }
 
-export function setGasLimitValue(gasLimit: ?number) {
+export function setGasLimitValue(gasLimit: ?string) {
   return {
     type: SET_GAS_LIMIT_VALUE,
     payload: {
