@@ -140,7 +140,7 @@ class JInput extends PureComponent<Props> {
           <div className='lock'>
             <JIcon
               size='medium'
-              color='gray'
+              color={color}
               name='padding-lock'
             />
           </div>

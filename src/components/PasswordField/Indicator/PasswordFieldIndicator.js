@@ -1,17 +1,25 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
+import classNames from 'classnames'
 
 type Props = {|
   +status: ?PasswordStatus,
+  +isOffsetLeft: boolean,
 |}
 
-function PasswordFieldIndicator({ status }: Props) {
-  return !status ? null : (
-    <div className='password-field-indicator'>
-      <div className={`indicator -${status}`} />
-    </div>
-  )
+class PasswordFieldIndicator extends PureComponent<Props> {
+  static defaultProps = {
+    isOffsetLeft: false,
+  }
+  render() {
+    const { status, isOffsetLeft }: Props = this.props
+    return !status ? null : (
+      <div className={classNames('password-field-indicator', isOffsetLeft && '-offset-left')}>
+        <div className={`indicator -${status}`} />
+      </div>
+    )
+  }
 }
 
 export default PasswordFieldIndicator
