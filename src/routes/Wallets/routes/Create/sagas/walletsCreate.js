@@ -8,8 +8,8 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import keystore from 'services/keystore'
 import walletsWorker from 'workers/wallets'
+import checkWalletUniqueness from 'utils/wallets/checkWalletUniqueness'
 
 import {
   selectWallets,
@@ -32,7 +32,7 @@ function* checkName(): Saga<void> {
   }
 
   try {
-    keystore.checkWalletUniqueness(persist.items, nameCleaned, 'name')
+    checkWalletUniqueness(persist.items, nameCleaned, 'name')
     yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
   } catch (err) {
     yield put(wallets.setInvalidField('name', err.message))

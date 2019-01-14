@@ -24,16 +24,12 @@ import {
 function mapStateToProps(state: AppState) {
   const wallets: Wallets = selectWalletsItems(state)
   const activeWalletId: ?WalletId = selectActiveWalletId(state)
-  const wallet: ?Wallet = getWallet(wallets, activeWalletId)
+  const wallet: Wallet = getWallet(wallets, activeWalletId)
 
   const {
     isLoading,
     isInvalidPassword,
   }: UpgradeState = selectUpgrade(state)
-
-  if (!wallet) {
-    throw new Error('ActiveWalletNotFoundError')
-  }
 
   const {
     type,

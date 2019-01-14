@@ -61,11 +61,7 @@ class MenuPanel extends Component<Props, ComponentState> {
       ethBalance,
     }: Props = this.props
 
-    const wallet: ?Wallet = getWallet(items, activeWalletId)
-
-    if (!wallet) {
-      return null
-    }
+    const wallet: Wallet = getWallet(items, activeWalletId)
 
     const {
       type,

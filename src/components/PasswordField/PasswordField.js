@@ -3,8 +3,10 @@
 import React, { Component } from 'react'
 
 import JInput from 'components/base/JInput'
+
+import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
+
 import { type JInputColor } from 'components/base/JInput/JInput'
-import keystore from 'services/keystore'
 
 import Indicator from './Indicator'
 
@@ -63,13 +65,13 @@ class PasswordField extends Component<Props, StateProps> {
     const password: ?string = props.value
 
     this.state = {
-      passwordResult: password ? keystore.getPasswordStrength(password) : null,
+      passwordResult: password ? checkPasswordStrength(password) : null,
     }
   }
 
   onChange = (password: string) => {
     this.setState({
-      passwordResult: password ? keystore.getPasswordStrength(password) : null,
+      passwordResult: password ? checkPasswordStrength(password) : null,
     })
 
     this.props.onChange(password)

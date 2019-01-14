@@ -14,6 +14,12 @@ declare type JSONFormatConfig = {|
   +size: number,
 |}
 
+declare type ScryptParams = {|
+  +N: number,
+  +r: number,
+  +p: number,
+|}
+
 declare type AppConfig = {|
   +searchTimeout: number,
   +resetIncorrectPincodeTimeout: number,
@@ -55,4 +61,13 @@ declare type AppConfig = {|
   +resyncTransactionsTimeout: number,
   +syncBalancesTimeout: number,
   +miningDelay: number,
+  +addressWalletType: 'address',
+  +mnemonicWalletType: 'mnemonic',
+  +paddedMnemonicLength: number,
+  +testPasswordDataLength: number,
+  +defaultSaltBytesCount: number,
+  +defaultScryptParams: ScryptParams,
+  +defaultEncryptionType: 'nacl.secretbox',
+  +defaultDerivationKeyLength: number,
+  +defaultRandomBufferLength: number,
 |}

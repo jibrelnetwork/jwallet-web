@@ -2,8 +2,10 @@
 
 import React from 'react'
 
-import keystore from 'services/keystore'
-import getWallet from 'utils/wallets/getWallet'
+import {
+  getWallet,
+  getAddress,
+} from 'utils/wallets'
 
 import MenuPanelWalletManagerMain from './Main'
 import MenuPanelWalletManagerDetails from './Details'
@@ -35,12 +37,8 @@ function MenuPanelWalletManager({
     return null
   }
 
-  const wallet: ?Wallet = getWallet(items, activeWalletId)
-  const address: ?Address = keystore.getAddress(items, activeWalletId)
-
-  if (!(wallet && address)) {
-    return null
-  }
+  const wallet: Wallet = getWallet(items, activeWalletId)
+  const address: Address = getAddress(items, activeWalletId)
 
   const {
     type,

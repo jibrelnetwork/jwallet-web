@@ -6,7 +6,6 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-// import keystore from 'services/keystore'
 // import walletsWorker from 'workers/wallets'
 import reactRouterBack from 'utils/browser/reactRouterBack'
 
