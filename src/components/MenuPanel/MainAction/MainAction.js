@@ -18,7 +18,7 @@ function MenuPanelMainAction({ isReadOnly, type }: Props) {
     return (
       <Link
         className='menu-panel-main-action'
-        to='/verify'
+        to='/upgrade'
       >
         <JRaisedButton
           onClick={null}
@@ -34,7 +34,7 @@ function MenuPanelMainAction({ isReadOnly, type }: Props) {
     return (
       <Link
         className='menu-panel-main-action'
-        to='/verify'
+        to='/upgrade'
       >
         <JRaisedButton
           onClick={null}

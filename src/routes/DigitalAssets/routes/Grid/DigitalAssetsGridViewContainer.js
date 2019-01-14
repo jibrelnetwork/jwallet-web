@@ -136,6 +136,7 @@ function mapStateToProps(state: AppState) {
   const assetsBalancesFiltered: ?Balances = filterAssetsBalances(
     assetsBalances,
     txs,
+    assets,
     processingBlock,
   )
 

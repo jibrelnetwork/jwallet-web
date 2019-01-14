@@ -8,6 +8,7 @@ import {
 function filterAssetsBalances(
   assetBalances: ?Balances,
   txsByOwner: ?TransactionsByOwner,
+  assets: DigitalAssets,
   processingBlock: ?BlockData,
 ): ?Balances {
   if (!(assetBalances && processingBlock)) {
@@ -30,7 +31,7 @@ function filterAssetsBalances(
       flattenTransactionsByAsset(txsByAsset, assetAddress)
 
     const isFetchedEmpty: boolean = !fetchedTxs.length
-    const isLoading: boolean = checkTransactionsByAssetLoading(txsByAsset)
+    const isLoading: boolean = checkTransactionsByAssetLoading(txsByAsset, assets[assetAddress])
 
     if (isFetchedEmpty && isLoading) {
       return result

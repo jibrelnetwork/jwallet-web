@@ -28,11 +28,13 @@ class DigitalAssetsGrid extends PureComponent<Props> {
     return (
       <div className='digital-assets-grid'>
         {items.map(({
+          blockchainParams: {
+            address,
+            decimals,
+          },
           balance,
           name,
           symbol,
-          address,
-          decimals,
           isCustom,
         }: DigitalAssetWithBalance) => (
           <div className='box' key={address}>

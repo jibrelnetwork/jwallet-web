@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 
+import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import JPicker, { JPickerItem } from 'components/base/JPicker'
 
 import DigitalAssetsSendFormAssetPickerItem from './Item'
@@ -32,7 +33,9 @@ function searchDigitalAssets(
     const {
       name,
       symbol,
-      address,
+      blockchainParams: {
+        address,
+      },
     }: DigitalAssetWithBalance = asset
 
     const isFound: boolean = (
@@ -71,8 +74,8 @@ class DigitalAssetsSendFormAssetPicker extends Component<Props, ComponentState> 
 
     const { searchQuery }: ComponentState = this.state
 
-    const activeAsset: ?DigitalAssetWithBalance = digitalAssets
-      .find(({ address }: DigitalAssetWithBalance) => (address === selectedAsset))
+    const activeAsset: ?DigitalAssetWithBalance =
+      getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, selectedAsset)
 
     const filteredDigitalAssets: DigitalAssetWithBalance[] = searchDigitalAssets(
       digitalAssets,
@@ -93,18 +96,26 @@ class DigitalAssetsSendFormAssetPicker extends Component<Props, ComponentState> 
           )}
           errorMessage={errorMessage}
         >
-          {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => (
-            <JPickerItem
-              key={item.address}
-              onSelect={onSelect}
-              value={item.address}
-            >
-              <DigitalAssetsSendFormAssetPickerItem
-                data={item}
-                isSelected={!!activeAsset && (item.address === activeAsset.address)}
-              />
-            </JPickerItem>
-          ))}
+          {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => {
+            const assetAddress: AssetAddress = item.blockchainParams.address
+
+            const isSelected: boolean = !!activeAsset && (
+              assetAddress === activeAsset.blockchainParams.address
+            )
+
+            return (
+              <JPickerItem
+                key={assetAddress}
+                onSelect={onSelect}
+                value={assetAddress}
+              >
+                <DigitalAssetsSendFormAssetPickerItem
+                  data={item}
+                  isSelected={isSelected}
+                />
+              </JPickerItem>
+            )
+          })}
         </JPicker>
       </div>
     )

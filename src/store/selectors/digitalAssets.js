@@ -23,8 +23,9 @@ export function selectDigitalAsset(state: AppState, assetAddress: AssetAddress):
   const flattenedItems: DigitalAsset[] = flattenDigitalAssets(items)
   const assetAddressLower: string = assetAddress.toLowerCase()
 
-  return flattenedItems
-    .find(({ address }: DigitalAsset): boolean => (address.toLowerCase() === assetAddressLower))
+  return flattenedItems.find((
+    { blockchainParams }: DigitalAsset,
+  ): boolean => (blockchainParams.address.toLowerCase() === assetAddressLower))
 }
 
 export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {

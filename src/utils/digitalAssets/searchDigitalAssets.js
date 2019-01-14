@@ -10,7 +10,9 @@ function searchDigitalAssets(
   return !query ? items : items.filter(({
     name,
     symbol,
-    address,
+    blockchainParams: {
+      address,
+    },
   }: DigitalAssetWithBalance) => {
     if (
       (query.length < 2) ||
