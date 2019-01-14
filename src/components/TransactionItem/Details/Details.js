@@ -36,6 +36,7 @@ type Props = {|
 
 type StateProps = {|
   +isCommenting: boolean,
+  +hovered: 'hash' | 'from' | 'to' | null,
 |}
 
 function getRepeatLink(
@@ -91,8 +92,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     this.state = {
       isCommenting: false,
+      hovered: null,
     }
   }
+
+  onHover = (hovered: 'hash' | 'from' | 'to' | null) => () => this.setState({ hovered })
 
   toggle = () => this.setState({ isCommenting: !this.state.isCommenting })
 
@@ -112,7 +116,10 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       data: txData,
     } = this.props
 
-    const { isCommenting }: StateProps = this.state
+    const {
+      isCommenting,
+      hovered,
+    }: StateProps = this.state
 
     const {
       data,
@@ -140,11 +147,13 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           <div className='value'>
             <a
               href={getTxLink(hash, blockExplorerSubdomain)}
+              onMouseEnter={this.onHover('hash')}
+              onMouseLeave={this.onHover(null)}
               target='_blank'
               className='link'
               rel='noopener noreferrer'
             >
-              <JText value={hash} color='blue' weight='bold' />
+              <JText value={hash} color={hovered === 'hash' ? 'sky' : 'blue'} weight='bold' />
             </a>
           </div>
         </div>
@@ -156,13 +165,15 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             <div className='value'>
               <a
                 href={getAddressLink(from, blockExplorerSubdomain)}
+                onMouseEnter={this.onHover('from')}
+                onMouseLeave={this.onHover(null)}
                 target='_blank'
                 className='link'
                 rel='noopener noreferrer'
               >
                 <JText
                   value={fromName ? `${fromName} — ${from}` : from}
-                  color='blue'
+                  color={hovered === 'from' ? 'sky' : 'blue'}
                   weight='bold'
                 />
               </a>
@@ -177,13 +188,15 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             <div className='value'>
               <a
                 href={getAddressLink(to, blockExplorerSubdomain)}
+                onMouseEnter={this.onHover('to')}
+                onMouseLeave={this.onHover(null)}
                 target='_blank'
                 className='link'
                 rel='noopener noreferrer'
               >
                 <JText
                   value={toName ? `${toName} — ${to}` : to}
-                  color='blue'
+                  color={hovered === 'to' ? 'sky' : 'blue'}
                   weight='bold'
                 />
               </a>
