@@ -23,6 +23,8 @@ type Props = {|
   +onUnavailable: () => void,
   +onSubmitMnemonic: (UpgradeMnemonicFormFieldValues) => void,
   +onSubmitPrivateKey: (UpgradePrivateKeyFormFieldValues) => void,
+  +validateMnemonic: (UpgradeMnemonicFormFieldValues) => UpgradeMnemonicFormFieldErrors,
+  +validatePrivateKey: (UpgradePrivateKeyFormFieldValues) => UpgradePrivateKeyFormFieldErrors,
   +isLoading: boolean,
   +isReadOnly: boolean,
   +isMnemonic: boolean,
@@ -31,39 +33,24 @@ type Props = {|
 
 const noop = () => undefined
 
-const validatePrivateKey = ({ privateKey }: UpgradePrivateKeyFormFieldValues) => {
-  if (!privateKey) {
-    return {
-      privateKey: 'Private key is required',
-    }
+// FIXME: if we move password errors to validation function, we could get rid of this ugly hack
+// This is factory render function, so:
+// eslint-disable-next-line react/display-name
+const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
+  if (isInvalidPassword) {
+    return (
+      <JInputField
+        {...fieldProps}
+        meta={Object.assign(
+          {},
+          fieldProps.meta,
+          { error: 'Incorrect password' }
+        )}
+      />
+    )
   }
 
-  if (privateKey.length < 64) {
-    return {
-      privateKey: `${privateKey.length} characters is too short! Private key is 64 characters`,
-    }
-  }
-
-  return {}
-}
-
-const validateMnemonic = ({
-  mnemonic,
-  derivationPath,
-}: UpgradeMnemonicFormFieldValues) => {
-  /* eslint-disable fp/no-mutation */
-  const errors = {}
-
-  if (!mnemonic) {
-    errors.mnemonic = 'Mnemonic is required'
-  }
-
-  if (derivationPath) {
-    // FIXME: should validate derivation path
-  }
-
-  return errors
-  /* eslint-enable fp/no-mutation */
+  return <JInputField {...fieldProps} />
 }
 
 function UpgradeView({
@@ -75,14 +62,14 @@ function UpgradeView({
   isReadOnly,
   isMnemonic,
   isInvalidPassword,
+  validateMnemonic,
+  validatePrivateKey,
 }: Props) {
   if (!isReadOnly) {
     // FIXME: we should do it in controller or in router
     onUnavailable()
     return null
   }
-
-  console.log(isInvalidPassword)
 
   const props = isMnemonic ? {
     title: 'Add mnemonic',
@@ -147,6 +134,14 @@ function UpgradeView({
                   />
                 </Fragment>
               )}
+              <Field
+                name='password'
+                placeholder='Payment password'
+                type='password'
+                color='gray'
+                isDisabled={isLoading}
+                render={renderPasswordField(isInvalidPassword)}
+              />
               <button
                 className={classNames(
                   'submit j-raised-button -blue',
