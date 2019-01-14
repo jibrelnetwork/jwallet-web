@@ -5,6 +5,10 @@ declare type SettingsState = {|
   +defaultGasPrice: BalanceString,
   +systemLanguageCode: LanguageCode,
   +hasPinCode: boolean,
+  +passwordForm: {
+    values: PaymentPasswordForm,
+    messages: PaymentPasswordForm,
+  },
 |}
 
 declare type PaymentPasswordForm = {|

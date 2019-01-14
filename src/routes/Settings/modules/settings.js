@@ -17,13 +17,23 @@ export function changePaymentPassword(payload: PaymentPasswordForm) {
 }
 
 export type SettingsAction =
-  ExtractReturn<typeof init>
+  ExtractReturn<typeof init> |
+  ExtractReturn<typeof changePaymentPassword>
 
 const initialState: SettingsState = {
   localCurrencyCode: 'USD',
   defaultGasPrice: '30000',
   systemLanguageCode: 'en',
   hasPinCode: false,
+  passwordForm: {
+    values: {
+      passwordOld: '',
+      passwordNew: '',
+      passwordNewConfirm: '',
+      passwordHint: '',
+    },
+    messages: {},
+  },
 }
 
 const settings = (
@@ -34,8 +44,21 @@ const settings = (
     case INIT:
       return state
     case CHANGE_PAYMENT_PASSWORD:
-      console.log(action, state)
-      return state
+      return {
+        ...state,
+        passwordForm: {
+          values: action.payload,
+          messages: state.passwordForm.messages,
+        },
+      }
+    case '@settings/VALIDATION_PASSWORD_FORM':
+      return {
+        ...state,
+        passwordForm: {
+          values: state.passwordForm.values,
+          messages: action.payload,
+        },
+      }
     default:
       return state
   }

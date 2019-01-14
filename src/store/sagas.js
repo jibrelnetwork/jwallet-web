@@ -5,6 +5,7 @@ import walletsSagas from 'routes/Wallets/sagas'
 import notFoundSagas from 'routes/NotFound/sagas'
 import favoritesSagas from 'routes/Favorites/sagas'
 import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
+import settingsSagas from 'routes/Settings/sagas'
 
 export default {
   ...coreSagas,
@@ -12,4 +13,5 @@ export default {
   ...notFoundSagas,
   ...favoritesSagas,
   ...digitalAssetsSagas,
+  ...settingsSagas,
 }

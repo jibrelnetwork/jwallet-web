@@ -5,15 +5,13 @@ import { changePaymentPassword } from '../../modules/settings'
 
 import PaymentPasswordView from './PaymentPasswordView'
 
-// function mapStateToProps(state: AppState) {
-//   return state
-// }
+const mapStateToProps = ({ settings: passwordForm }) => passwordForm
 
-const mapDispatchToProps = {
+const dispatchToProps = {
   submit: changePaymentPassword,
 }
 
 export default connect/* :: < AppState, null, OwnPropsEmpty, _, _ > */(
-  null,
-  mapDispatchToProps
+  mapStateToProps,
+  dispatchToProps,
 )(PaymentPasswordView)
