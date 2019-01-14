@@ -3,7 +3,7 @@
 import ethereum from 'data/assets/ethereum'
 
 function checkETH(address: AssetAddress): boolean {
-  return (address.toLowerCase() === ethereum.address.toLowerCase())
+  return (address.toLowerCase() === ethereum.blockchainParams.address.toLowerCase())
 }
 
 export default checkETH

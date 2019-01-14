@@ -2,15 +2,11 @@
 
 import { connect } from 'react-redux'
 
+import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectFavoritesAddressNames } from 'store/selectors/favorites'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
-
-import {
-  selectCurrentBlock,
-  selectProcessingBlock,
-} from 'store/selectors/blocks'
 
 import {
   selectNetworkById,
@@ -36,6 +32,7 @@ import {
   searchTransactions,
   flattenTransactionsByAsset,
   flattenPendingTransactions,
+  checkTransactionsByAssetLoading,
 } from 'utils/transactions'
 
 import {
@@ -87,7 +84,6 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
-  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
     state,
@@ -110,7 +106,8 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     selectPendingTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
 
   const isCurrentBlockEmpty: boolean = !currentBlock
-  const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
+  const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
+  const isLoading: boolean = checkTransactionsByAssetLoading(transactionsByAsset, digitalAsset)
 
   return {
     network,

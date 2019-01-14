@@ -64,12 +64,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
   render() {
     const {
-      address,
-      remove,
       edit,
+      remove,
       setIsActive,
       name,
       symbol,
+      address,
       balance,
       isCustom,
       isActive,
@@ -167,9 +167,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
               <div className='item -switch'>
                 <JSwitch
                   onChange={setIsActive}
+                  name={address}
                   isChecked={isActive}
                   isDisabled={!__DEV__ && checkETH(address) && isActive}
-                  name={address}
                 />
               </div>
             )}

@@ -1,15 +1,39 @@
 // @flow
 
-import filterLoadingTransactions from './filterLoadingTransactions'
+import config from 'config'
+
+import {
+  filterLoadingTransactions,
+  getLastExistedBlockNumberByAsset,
+} from '.'
+
+const GENESIS_BLOCK_NUMBER: number = 0
 
 function checkTransactionsByAssetLoading(
   itemsByAssetAddress: ?TransactionsByAssetAddress,
+  digitalAsset: ?DigitalAsset,
 ): boolean {
-  if (!itemsByAssetAddress) {
+  if (!(itemsByAssetAddress && digitalAsset)) {
     return true
   }
 
-  return Object.keys(itemsByAssetAddress).reduce((
+  const blockNumbers: BlockNumber[] = Object.keys(itemsByAssetAddress)
+
+  if (!blockNumbers.length) {
+    return true
+  }
+
+  const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
+  const deploymentBlock: number = deploymentBlockNumber || GENESIS_BLOCK_NUMBER
+  const lastExistedBlockNumber: number = getLastExistedBlockNumberByAsset(itemsByAssetAddress)
+  const diff: number = (lastExistedBlockNumber - deploymentBlock)
+
+  // return true if there are no some necessary block number occurrences
+  if (diff > config.maxBlocksPerTransactionsRequest) {
+    return true
+  }
+
+  return blockNumbers.reduce((
     resultByBlockNumber: boolean,
     blockNumber: BlockNumber,
   ): boolean => {
@@ -36,7 +60,7 @@ function checkTransactionsByAssetLoading(
 
     const itemsFiltered: Transactions = filterLoadingTransactions(items, true)
 
-    return (Object.keys(itemsFiltered).length !== 0)
+    return !!Object.keys(itemsFiltered).length
   }, false)
 }
 

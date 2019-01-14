@@ -16,6 +16,7 @@ import flattenTransactionsByAsset from './flattenTransactionsByAsset'
 import flattenTransactionsByOwner from './flattenTransactionsByOwner'
 import checkTransactionsByAssetLoading from './checkTransactionsByAssetLoading'
 import checkTransactionsByOwnerLoading from './checkTransactionsByOwnerLoading'
+import getLastExistedBlockNumberByAsset from './getLastExistedBlockNumberByAsset'
 import flattenPendingTransactionsByOwner from './flattenPendingTransactionsByOwner'
 
 export {
@@ -35,5 +36,6 @@ export {
   flattenTransactionsByOwner,
   checkTransactionsByAssetLoading,
   checkTransactionsByOwnerLoading,
+  getLastExistedBlockNumberByAsset,
   flattenPendingTransactionsByOwner,
 }

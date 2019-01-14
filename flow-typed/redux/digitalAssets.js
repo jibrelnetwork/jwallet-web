@@ -9,6 +9,40 @@ declare type DigitalAssetsFilterOptions = {|
   +isHideZeroBalance: boolean,
 |}
 
+declare type DigitalAssetType = 'ethereum' | 'erc-20'
+
+declare type DigitalAssetPageUrl = {|
+  +url: string,
+  +type: string,
+|}
+
+declare type DigitalAssetPage = {|
+  +urls: DigitalAssetPageUrl[],
+  +description: string,
+|}
+
+declare type DigitalAssetDisplay = {|
+  +digitalAssetsListPriority: number,
+  +isDefaultForcedDisplay: boolean,
+|}
+
+declare type DigitalAssetPriceFeed = {|
+  +currencyIDType: string,
+  +currencyID: number,
+|}
+
+declare type DigitalAssetBlockchainParamsFeature = 'mintable'
+
+declare type DigitalAssetBlockchainParams = {|
+  +features?: DigitalAssetBlockchainParamsFeature[],
+  +address: AssetAddress,
+  +type: DigitalAssetType,
+  +decimals: number,
+  +staticGasAmount?: number,
+  +deploymentBlockNumber?: number,
+|}
+
+/*
 declare type DigitalAsset = {|
   +address: Address,
   +symbol: string,
@@ -17,13 +51,27 @@ declare type DigitalAsset = {|
   +isCustom?: boolean,
   +isActive?: boolean,
 |}
+*/
+
+declare type DigitalAsset = {|
+  +assetPage?: DigitalAssetPage,
+  +display?: DigitalAssetDisplay,
+  +priceFeed?: DigitalAssetPriceFeed,
+  +blockchainParams: DigitalAssetBlockchainParams,
+  +name: string,
+  +symbol: string,
+  +isCustom?: boolean,
+  +isActive?: boolean,
+|}
 
 declare type DigitalAssetWithBalance = {|
   +balance: ?Balance,
-  +address: Address,
-  +symbol: string,
+  +assetPage: DigitalAssetPage,
+  +display: DigitalAssetDisplay,
+  +priceFeed: DigitalAssetPriceFeed,
+  +blockchainParams: DigitalAssetBlockchainParams,
   +name: string,
-  +decimals: Decimals,
+  +symbol: string,
   +isCustom?: boolean,
   +isActive?: boolean,
 |}

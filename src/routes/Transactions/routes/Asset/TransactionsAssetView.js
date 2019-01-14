@@ -23,7 +23,10 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   const {
     name,
     symbol,
-    decimals,
+    blockchainParams: {
+      address,
+      decimals,
+    },
   }: DigitalAsset = asset
 
   const balance: string = formatBalance(
@@ -32,7 +35,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
 
   return {
     '/digital-assets': 'Digital assets',
-    [`/transactions/${asset.address}`]: (isFetched && assetBalance)
+    [`/transactions/${address}`]: (isFetched && assetBalance)
       ? `${name} — ${balance} ${symbol}`
       : name,
   }
@@ -114,7 +117,7 @@ function TransactionsAssetView({
             </div>
             <div className='send'>
               <JFlatButton
-                to={`/digital-assets/send?asset=${asset.address}`}
+                to={`/digital-assets/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'
                 iconSize='medium'
                 iconName='upload'

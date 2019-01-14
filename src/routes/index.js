@@ -1,6 +1,10 @@
 // @flow
 
 import CoreLayout from 'layouts/CoreLayout'
+import {
+  reactRouterOnChangePageView,
+  reactRouterOnEnterPageView,
+} from 'utils/analytics'
 
 /*
 import Funds from './Funds'
@@ -12,7 +16,7 @@ import NotFound from './NotFound'
 import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
 import Favorites from './Favorites'
-import Verify from './Verify'
+import Upgrade from './Upgrade'
 
 import {
   type CoreAction,
@@ -31,9 +35,16 @@ export type AppAction =
   NotFoundAction |
   DigitalAssetsModuleAction
 
+const customAnalyticsRoutes = [
+  /^\/transactions\/.+/,
+  /^\/digital-assets\/edit-asset\/.+/,
+]
+
 export default {
   path: '/',
   component: CoreLayout,
+  onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
+  onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
   indexRoute: {
     onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets'),
   },
@@ -46,7 +57,7 @@ export default {
     Transactions,
     DigitalAssets,
     Favorites,
-    Verify,
+    Upgrade,
     NotFound,
   ],
 }
