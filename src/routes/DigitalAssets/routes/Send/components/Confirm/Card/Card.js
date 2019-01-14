@@ -9,6 +9,7 @@ type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
+  +sendTransactionParams: SendTransactionParams,
   +ownerAddress: OwnerAddress,
 |}
 
@@ -16,21 +17,25 @@ function DigitalAssetsSendConfirmCard({
   addressNames,
   selectedAsset,
   formFieldValues,
+  sendTransactionParams,
   ownerAddress,
 }: Props) {
   const {
     amount,
+    recipient,
+  } = formFieldValues
+
+  const {
     gasLimit,
     gasPrice,
-    recipient,
-  }: DigitalAssetsSendFormFields = formFieldValues
+  } = sendTransactionParams
 
   const {
     symbol,
     blockchainParams: {
       decimals,
     },
-  }: DigitalAsset = selectedAsset
+  } = selectedAsset
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]

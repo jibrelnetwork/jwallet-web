@@ -39,6 +39,7 @@ function mapStateToProps(state: AppState) {
     priority,
     currentStep,
     isLoading,
+    sendTransactionParams,
   }: DigitalAssetsSendState = selectDigitalAssetsSend(state)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
@@ -66,6 +67,7 @@ function mapStateToProps(state: AppState) {
     currentStep,
     isLoading,
     digitalAssets: assetsWithBalance,
+    sendTransactionParams,
   }
 }
 

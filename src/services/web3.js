@@ -606,9 +606,42 @@ function getNonce(network: Network, address: Address): Promise<number> {
   return jibrelContractsApi.eth.getNonce(baseProps)
 }
 
+function estimateGas(
+  network: Network,
+  assetAddress: AssetAddress,
+  props: SendTransactionProps,
+): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  if (checkETH(assetAddress)) {
+    return jibrelContractsApi.eth.estimateGas({
+      ssl,
+      rpcaddr,
+      rpcport,
+      to: props.to,
+      value: props.value,
+    })
+  } else {
+    return jibrelContractsApi.contracts.erc20.estimateGas({
+      ssl,
+      rpcaddr,
+      rpcport,
+      contractAddress: assetAddress,
+      privateKey: props.privateKey,
+      method: 'transfer',
+      args: [props.to, props.value],
+    })
+  }
+}
+
 export default {
   getBlock,
   getNonce,
+  estimateGas,
   getGasPrice,
   getBlockData,
   getAssetName,

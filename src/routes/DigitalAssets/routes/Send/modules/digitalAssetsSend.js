@@ -9,9 +9,8 @@ export const GO_TO_NEXT_STEP = '@@digitalAssetsSend/GO_TO_NEXT_STEP'
 export const GO_TO_PREV_STEP = '@@digitalAssetsSend/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP = '@@digitalAssetsSend/SET_CURRENT_STEP'
 
-export const SET_GAS_PRICE_IS_LOADING = '@@digitalAssetsSend/SET_GAS_PRICE_IS_LOADING'
-export const SET_GAS_PRICE_IS_ERROR = '@@digitalAssetsSend/SET_GAS_PRICE_IS_ERROR'
 export const SET_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_GAS_PRICE_VALUE'
+export const SET_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_GAS_LIMIT_VALUE'
 
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
@@ -67,25 +66,16 @@ export function setGasPriceValue(gasPrice: ?number) {
   return {
     type: SET_GAS_PRICE_VALUE,
     payload: {
-      value: gasPrice,
+      gasPrice,
     },
   }
 }
 
-export function setGasPriceIsLoading(isLoading: boolean = true) {
+export function setGasLimitValue(gasLimit: ?number) {
   return {
-    type: SET_GAS_PRICE_IS_LOADING,
+    type: SET_GAS_LIMIT_VALUE,
     payload: {
-      isLoading,
-    },
-  }
-}
-
-export function setGasPriceIsError(isError: boolean = true) {
-  return {
-    type: SET_GAS_PRICE_IS_ERROR,
-    payload: {
-      isError,
+      gasLimit,
     },
   }
 }
@@ -180,10 +170,9 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
-  gasPrice: {
-    isLoading: false,
-    isError: false,
-    value: null,
+  sendTransactionParams: {
+    gasPrice: null,
+    gasLimit: null,
   },
 }
 
@@ -263,33 +252,19 @@ function digitalAssetsSend(
     case SET_GAS_PRICE_VALUE: {
       return {
         ...state,
-        gasPrice: {
-          ...state.gasPrice,
-          value: action.payload.value,
-          isLoading: false,
-          isError: false,
+        sendTransactionParams: {
+          ...state.sendTransactionParams,
+          gasPrice: action.payload.gasPrice,
         },
       }
     }
 
-    case SET_GAS_PRICE_IS_ERROR: {
+    case SET_GAS_LIMIT_VALUE: {
       return {
         ...state,
-        gasPrice: {
-          ...state.gasPrice,
-          ...action.payload,
-          isLoading: false,
-        },
-      }
-    }
-
-    case SET_GAS_PRICE_IS_LOADING: {
-      return {
-        ...state,
-        gasPrice: {
-          ...state.gasPrice,
-          ...action.payload,
-          isError: false,
+        sendTransactionParams: {
+          ...state.sendTransactionParams,
+          gasLimit: action.payload.gasLimit,
         },
       }
     }

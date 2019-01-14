@@ -11,6 +11,7 @@ type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
+  +sendTransactionParams: SendTransactionParams,
   +errorMessage: string,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
@@ -22,6 +23,7 @@ function DigitalAssetsSendConfirm({
   addressNames,
   selectedAsset,
   formFieldValues,
+  sendTransactionParams,
   errorMessage,
   ownerAddress,
   isLoading,
@@ -38,6 +40,7 @@ function DigitalAssetsSendConfirm({
           addressNames={addressNames}
           selectedAsset={selectedAsset}
           ownerAddress={ownerAddress}
+          sendTransactionParams={sendTransactionParams}
         />
       </div>
       <DigitalAssetsSendConfirmPassword
