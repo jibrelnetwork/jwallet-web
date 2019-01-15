@@ -9,7 +9,6 @@ import React, {
 
 import config from 'config'
 import handle from 'utils/eventHandlers/handle'
-import getAddressLink from 'utils/transactions/getAddressLink'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 
 import {
@@ -35,7 +34,6 @@ type Props = {|
   +comment: ?string,
   +txAddress: ?Address,
   +txAddressName: ?string,
-  +blockExplorerSubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
   +isAssetList: boolean,
@@ -88,7 +86,6 @@ class TransactionItemMain extends PureComponent<Props> {
       comment,
       txAddress,
       txAddressName,
-      blockExplorerSubdomain,
       isSent,
       isActive,
       isAssetList,
@@ -147,19 +144,12 @@ class TransactionItemMain extends PureComponent<Props> {
                     />
                   </div>
                 )}
-                <a
-                  href={getAddressLink(txAddress, blockExplorerSubdomain)}
-                  target='_blank'
-                  className='link'
-                  rel='noopener noreferrer'
-                >
-                  <JText
-                    color={color}
-                    value={txAddressName || txAddress}
-                    weight='bold'
-                    size='normal'
-                  />
-                </a>
+                <JText
+                  color={color}
+                  value={txAddressName || txAddress}
+                  weight='bold'
+                  size='normal'
+                />
               </div>
             )}
             <div className='time'>
