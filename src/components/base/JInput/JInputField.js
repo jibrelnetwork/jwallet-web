@@ -16,6 +16,7 @@ type Props = {|
   isAutoFocus?: boolean,
   isPinCode?: boolean,
   isDisabled?: boolean,
+  rows: ?number,
 |}
 
 JInputField.defaultProps = {
@@ -43,6 +44,7 @@ function JInputField(props: Props) {
     isAutoFocus,
     isDisabled,
     isPinCode,
+    rows,
   } = props
 
   const { error } = meta
@@ -63,6 +65,7 @@ function JInputField(props: Props) {
     isPinCode={isPinCode}
     isDisabled={isDisabled}
     isAutoFocus={isAutoFocus}
+    rows={rows}
   />)
 }
 

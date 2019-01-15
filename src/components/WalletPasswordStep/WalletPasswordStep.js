@@ -60,7 +60,7 @@ class WalletPasswordStep extends PureComponent<Props> {
             color='white'
             name='password'
             type='password'
-            placeholder='Password'
+            placeholder='Payment password'
             isDisabled={isLoading}
             isAutoFocus
           />
@@ -72,8 +72,8 @@ class WalletPasswordStep extends PureComponent<Props> {
               invalidFields={invalidFields}
               value={valuePassword}
               valueConfirm={valuePasswordConfirm}
-              placeholder='Password'
-              placeholderConfirm='Confirm password'
+              placeholder='Payment password'
+              placeholderConfirm='Confirm payment password'
               isDisabled={isLoading}
             />
             <JInput

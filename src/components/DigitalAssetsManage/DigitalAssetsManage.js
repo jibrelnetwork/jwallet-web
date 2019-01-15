@@ -34,11 +34,13 @@ class DigitalAssetsManage extends Component<Props> {
       <div className='digital-assets-manage'>
         {!items.length && <Empty />}
         {items.map(({
+          blockchainParams: {
+            address,
+            decimals,
+          },
           balance,
           name,
           symbol,
-          address,
-          decimals,
           isActive,
           isCustom,
         }) => (

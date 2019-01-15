@@ -3,6 +3,10 @@
 import View from './FavoritesAddressViewContainer'
 
 export default {
-  path: 'address(/:address)',
+  path: 'address',
   component: View,
+  childRoutes: [{
+    path: ':address',
+    component: View,
+  }],
 }

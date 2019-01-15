@@ -103,7 +103,7 @@ function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?str
   const {
     address,
     decimals,
-  }: DigitalAsset = digitalAsset
+  }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
   const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
     yield select(selectCurrentNetworkId)
@@ -350,7 +350,7 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   const {
     address,
     decimals,
-  }: DigitalAsset = digitalAsset
+  }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
   yield put(digitalAssetsSend.setIsLoading(true))
 
@@ -365,13 +365,6 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
       value: getTransactionValue(amount, decimals),
       nonce: parseInt(nonce, 10) || 0,
     })
-
-    const logTxData = {
-      ...txData,
-      privateKey: '[removed]',
-    }
-    console.log(`Send transaction (to: ${address}) network: `, network)
-    console.log(`Send transaction (to: ${address}) txData: `, logTxData)
 
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
     yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals)

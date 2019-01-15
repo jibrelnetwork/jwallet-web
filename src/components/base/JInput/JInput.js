@@ -111,7 +111,7 @@ class JInput extends PureComponent<Props> {
     }
 
     const children = isMultiline
-      ? <textarea {...baseProps} />
+      ? <textarea {...baseProps} rows={rows} />
       : <input {...baseProps} type={type} />
 
     return (

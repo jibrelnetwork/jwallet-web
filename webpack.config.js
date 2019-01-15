@@ -8,6 +8,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const zopfli = require('@gfx/zopfli')
 
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
@@ -361,6 +362,20 @@ module.exports = {
       },
     ]),
   ].filter(Boolean),
+
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: isEnvProduction,
+        terserOptions: {
+          keep_classnames: /^BigNumber/,
+          keep_fnames: /^BigNumber/,
+        },
+      }),
+    ],
+  },
 
   devServer: {
     // Enable gzip compression of generated files.

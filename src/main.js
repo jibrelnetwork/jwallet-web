@@ -11,6 +11,11 @@ import configureStore from 'store/configureStore'
 
 import AppContainer from './AppContainer'
 
+// Checking necessary compatibility browser features
+if (window._CAPABILITY.isFailed) {
+  throw new Error('Capability of browser API is failed')
+}
+
 // ========================================================
 // Browser History Setup
 // ========================================================

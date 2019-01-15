@@ -60,8 +60,10 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
       name,
       symbol,
       balance,
-      decimals,
       isCustom,
+      blockchainParams: {
+        decimals,
+      },
     }: DigitalAssetWithBalance = currentAsset
 
     const balanceStr: string = (balance && balance.value)

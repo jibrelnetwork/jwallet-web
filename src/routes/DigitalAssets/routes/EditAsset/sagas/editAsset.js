@@ -75,11 +75,15 @@ function* onAssetFormSumbit(): Saga<void> {
     },
   }: ExtractReturn<typeof selectEditAsset> = yield select(selectEditAsset)
 
-  if (!addressError &&
-      !nameError &&
-      !symbolError &&
-      !decimalsError) {
-    yield put(updateAsset(foundAsset.address, contractName, contractSymbol, contractDecimals))
+  if (
+    !addressError &&
+    !nameError &&
+    !symbolError &&
+    !decimalsError
+  ) {
+    const foundAssetAddress: AssetAddress = foundAsset.blockchainParams.address
+
+    yield put(updateAsset(foundAssetAddress, contractName, contractSymbol, contractDecimals))
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
   }
 }
@@ -87,16 +91,19 @@ function* onAssetFormSumbit(): Saga<void> {
 function* editAssetOpen({ payload: { assetAddress } }: ExtractReturn<openViewType>): Saga<void> {
   // Check, do we have this asset
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, assetAddress)
+
   if (!(foundAsset && foundAsset.isCustom)) {
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
     return
   }
 
   const {
-    address,
     name,
     symbol,
-    decimals,
+    blockchainParams: {
+      address,
+      decimals,
+    },
   } = foundAsset
 
   yield put(setField('address', address))
