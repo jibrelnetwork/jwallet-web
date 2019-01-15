@@ -83,7 +83,7 @@ function createMnemonicWallet(
     isReadOnly: false,
     bip32XPublicKey: xpub,
     type: config.mnemonicWalletType,
-    customType: 'mnemonic',
+    customType: config.mnemonicWalletType,
     encrypted: {
       privateKey: null,
       mnemonic: mnemonicEnc,
@@ -187,9 +187,9 @@ const createReadOnlyAddressWallet = (wallets: Wallets, walletData: WalletData): 
     id,
     name,
     isReadOnly: true,
-    customType: 'address',
     type: config.addressWalletType,
     address: getAddressChecksum(data),
+    customType: config.addressWalletType,
     encrypted: {
       mnemonic: null,
       privateKey: null,

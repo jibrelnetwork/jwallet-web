@@ -2,6 +2,7 @@
 
 import {
   createWallet,
+  upgradeWallet,
   getBackupData,
   getPrivateKey,
 } from 'utils/wallets'
@@ -17,17 +18,20 @@ import {
   getPasswordOptions,
 } from 'utils/encryption'
 
+import * as upgrade from 'routes/Upgrade/modules/upgrade'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
+import type { UpgradeAction } from 'routes/Upgrade/modules/upgrade'
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
 export type WalletsAnyAction =
+  UpgradeAction |
   WalletsAction |
   WalletsCreateAction |
   WalletsImportAction |
@@ -171,6 +175,33 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(wallets.privateKeyError(wallet.id, err.message))
+      }
+
+      break
+    }
+
+    case upgrade.UPGRADE_REQUEST: {
+      try {
+        const {
+          items,
+          walletId,
+          password,
+          passwordOptions,
+          testPasswordData,
+          data,
+          mnemonicOptionsUser,
+        } = action.payload
+
+        checkPassword(testPasswordData, password, getPasswordOptions(passwordOptions))
+
+        walletsWorker.postMessage(upgrade.upgradeSuccess(
+          upgradeWallet(items, walletId, password, data, mnemonicOptionsUser),
+        ))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(upgrade.upgradeError(err.message))
       }
 
       break

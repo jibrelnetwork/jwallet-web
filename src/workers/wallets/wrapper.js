@@ -1,5 +1,6 @@
 // @flow
 
+import * as upgrade from 'routes/Upgrade/modules/upgrade'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
@@ -98,6 +99,44 @@ export function backupRequest(items: Wallets, walletId: string, password: string
 
 export function privateKeyRequest(wallet: Wallet, password: string) {
   walletsWorker.postMessage(wallets.privateKeyRequest(wallet, password))
+}
+
+export function upgradeRequest(
+  walletsData: WalletsState,
+  password: string,
+  data: string,
+  derivationPath: ?string,
+  passphrase: ?string,
+) {
+  const {
+    items,
+    activeWalletId,
+    passwordOptions,
+    testPasswordData,
+  }: WalletsPersist = walletsData.persist
+
+  if (!activeWalletId) {
+    throw new Error('ActiveWalletNotFoundError')
+  }
+
+  if (!testPasswordData) {
+    throw new Error('WalletDataError')
+  }
+
+  const mnemonicOptionsUser: ?MnemonicOptionsUser = !derivationPath ? null : {
+    passphrase,
+    derivationPath,
+  }
+
+  walletsWorker.postMessage(upgrade.upgradeRequest(
+    items,
+    activeWalletId,
+    password,
+    passwordOptions,
+    testPasswordData,
+    data,
+    mnemonicOptionsUser,
+  ))
 }
 
 export function run(store: { dispatch: (WalletsAnyAction) => void }) {

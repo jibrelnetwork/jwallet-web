@@ -5,8 +5,9 @@ export const OPEN_VIEW = '@@upgrade/OPEN_VIEW'
 export const SUBMIT_MNEMONIC_REQUEST = '@@upgrade/SUBMIT_MNEMONIC_REQUEST'
 export const SUBMIT_PRIVATE_KEY_REQUEST = '@@upgrade/SUBMIT_PRIVATE_KEY_REQUEST'
 
-export const SUBMIT_ERROR = '@@upgrade/SUBMIT_ERROR'
-export const SUBMIT_SUCCESS = '@@upgrade/SUBMIT_SUCCESS'
+export const UPGRADE_ERROR = '@@upgrade/UPGRADE_ERROR'
+export const UPGRADE_REQUEST = '@@upgrade/UPGRADE_REQUEST'
+export const UPGRADE_SUCCESS = '@@upgrade/UPGRADE_SUCCESS'
 
 export const CLEAN = '@@upgrade/CLEAN'
 
@@ -30,17 +31,40 @@ export function submitPrivateKeyRequest(payload: UpgradePrivateKeyFormFieldValue
   }
 }
 
-export function submitError(err: Error) {
+export function upgradeRequest(
+  items: Wallets,
+  walletId: WalletId,
+  password: string,
+  passwordOptions: ?PasswordOptions,
+  testPasswordData: EncryptedData,
+  data: string,
+  mnemonicOptionsUser: ?MnemonicOptionsUser,
+) {
   return {
-    type: SUBMIT_ERROR,
+    type: UPGRADE_REQUEST,
+    payload: {
+      items,
+      walletId,
+      password,
+      passwordOptions,
+      testPasswordData,
+      data,
+      mnemonicOptionsUser,
+    },
+  }
+}
+
+export function upgradeError(err: Error) {
+  return {
+    type: UPGRADE_ERROR,
     payload: err,
     error: true,
   }
 }
 
-export function submitSuccess(items: Wallets) {
+export function upgradeSuccess(items: Wallets) {
   return {
-    type: SUBMIT_SUCCESS,
+    type: UPGRADE_SUCCESS,
     payload: {
       items,
     },
@@ -53,12 +77,13 @@ export function clean() {
   }
 }
 
-type UpgradeAction =
+export type UpgradeAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof submitMnemonicRequest> |
   ExtractReturn<typeof submitPrivateKeyRequest> |
-  ExtractReturn<typeof submitError> |
-  ExtractReturn<typeof submitSuccess> |
+  ExtractReturn<typeof upgradeError> |
+  ExtractReturn<typeof upgradeRequest> |
+  ExtractReturn<typeof upgradeSuccess> |
   ExtractReturn<typeof clean>
 
 const initialState: UpgradeState = {
@@ -79,14 +104,14 @@ function upgrade(
         isInvalidPassword: false,
       }
 
-    case SUBMIT_ERROR:
+    case UPGRADE_ERROR:
       return {
         ...state,
         isLoading: false,
         isInvalidPassword: true,
       }
 
-    case SUBMIT_SUCCESS:
+    case UPGRADE_SUCCESS:
       return {
         ...state,
         isLoading: false,

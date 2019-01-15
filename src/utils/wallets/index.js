@@ -3,11 +3,12 @@
 import getWallet from './getWallet'
 import getAddress from './getAddress'
 import getMnemonic from './getMnemonic'
+import getAddresses from './getAddresses'
 import appendWallet from './appendWallet'
 import createWallet from './createWallet'
 import removeWallet from './removeWallet'
 import updateWallet from './updateWallet'
-import getAddresses from './getAddresses'
+import upgradeWallet from './upgradeWallet'
 import getBackupData from './getBackupData'
 import getPrivateKey from './getPrivateKey'
 import getTypeByInput from './getTypeByInput'
@@ -18,11 +19,12 @@ export {
   getWallet,
   getAddress,
   getMnemonic,
+  getAddresses,
   appendWallet,
   createWallet,
   removeWallet,
   updateWallet,
-  getAddresses,
+  upgradeWallet,
   getBackupData,
   getPrivateKey,
   getTypeByInput,
