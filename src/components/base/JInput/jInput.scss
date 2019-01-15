@@ -27,7 +27,6 @@
 
     width: 100%;
     padding-top: 0;
-    min-height: 65px;
     background: inherit;
     font-weight: normal;
     resize: none;
@@ -143,12 +142,6 @@
     }
   }
 
-  &.-has-label {
-    > .input {
-      padding-top: $form-field-padding-top;
-    }
-  }
-
   &.-pincode {
     > .input {
       font-size: 21px;
@@ -170,8 +163,10 @@
       background-color: $white;
       color: $dusk;
       opacity: 1;
-      padding: 22px $box-horizontal-padding 23px;
       box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
+      min-height: $form-field-gray-height;
+      padding-left: $form-field-horizontal-padding;
+      padding-right: $form-field-horizontal-padding;
     }
   }
 
@@ -181,14 +176,14 @@
     > .status {
       right: $form-field-white-horizontal-padding;
     }
-  }
 
-  &.-white > .input {
-    $inner-padding: 15px $form-field-white-horizontal-padding;
-
-    color: $white;
-    padding: $inner-padding;
-    border: 1px solid $blue;
+    > .input {
+      color: $white;
+      border: 1px solid $blue;
+      min-height: $form-field-white-height;
+      padding-left: $form-field-white-horizontal-padding;
+      padding-right: $form-field-white-horizontal-padding;
+    }
   }
 
   // placeholder
@@ -224,7 +219,8 @@
 
   &.-gray.-value {
     > .input {
-      padding: 31px $box-horizontal-padding 14px;
+      padding-top: 31px;
+      padding-bottom: 14px;
     }
 
     &.-virtual-half-size {
