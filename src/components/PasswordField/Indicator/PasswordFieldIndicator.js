@@ -5,17 +5,23 @@ import classNames from 'classnames'
 
 type Props = {|
   +status: ?PasswordStatus,
-  +isOffsetLeft: boolean,
+  +color: 'white' | 'gray',
+  +isOffsetRight: boolean,
 |}
 
 class PasswordFieldIndicator extends PureComponent<Props> {
   static defaultProps = {
-    isOffsetLeft: false,
+    isOffsetRight: false,
   }
   render() {
-    const { status, isOffsetLeft }: Props = this.props
+    const { status, isOffsetRight, color }: Props = this.props
     return !status ? null : (
-      <div className={classNames('password-field-indicator', isOffsetLeft && '-offset-left')}>
+      <div className={classNames(
+        'password-field-indicator',
+        `-on-${color}-field`,
+        color === 'gray' && isOffsetRight && '-offset-right'
+      )}
+      >
         <div className={`indicator -${status}`} />
       </div>
     )
