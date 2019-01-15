@@ -77,7 +77,7 @@ class DoubleInput extends PureComponent<Props> {
               placeholder={rightItem.placeholder}
               type='text'
               color='gray'
-              sideBorderRadius='top'
+              sideBorderRadius='right'
               isDisabled={rightItem.isDisabled}
             />
             {!!rightItem.isLoading && (
