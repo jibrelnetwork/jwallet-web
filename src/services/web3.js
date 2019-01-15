@@ -581,13 +581,11 @@ function getGasPrice(network: Network): Promise<BigNumber> {
     ssl,
   } = network
 
-  const baseProps = {
+  return jibrelContractsApi.eth.getGasPrice({
     rpcaddr,
     rpcport,
     ssl,
-  }
-
-  return jibrelContractsApi.eth.getGasPrice(baseProps)
+  })
 }
 
 function getNonce(network: Network, address: Address): Promise<number> {
@@ -597,14 +595,12 @@ function getNonce(network: Network, address: Address): Promise<number> {
     ssl,
   } = network
 
-  const baseProps = {
+  return jibrelContractsApi.eth.getNonce({
     rpcaddr,
     rpcport,
     ssl,
     address,
-  }
-
-  return jibrelContractsApi.eth.getNonce(baseProps)
+  })
 }
 
 function estimateGas(
@@ -627,6 +623,7 @@ function estimateGas(
       value: props.value,
     })
   } else {
+    // to be fixed
     return jibrelContractsApi.contracts.erc20.estimateGas({
       ssl,
       rpcaddr,

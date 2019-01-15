@@ -20,7 +20,7 @@ import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 
 import {
-  divDecimals,
+  convertEth,
   toBigNumber,
 } from 'utils/numbers'
 
@@ -76,7 +76,7 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
   }
 
   if (gasPrice) {
-    yield put(digitalAssetsSend.setFormFieldValue('gasPrice', divDecimals(gasPrice, 18)))
+    yield put(digitalAssetsSend.setFormFieldValue('gasPrice', convertEth(gasPrice, 'wei', 'gwei')))
   }
 
   if (gas || gasPrice) {
@@ -97,7 +97,11 @@ function* requestGasPrice(): Saga<?BigNumber> {
 
   try {
     const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
-    return gasPrice
+    const gasPriceBn = toBigNumber(gasPrice)
+    if (gasPriceBn.isNaN()) {
+      return null
+    }
+    return gasPriceBn
   } catch (err) {
     return null
   }
@@ -114,7 +118,8 @@ function* checkPriority(
   } = formFieldValues
 
   if (priority === 'CUSTOM') {
-    const isGasPriceValid: boolean = parseFloat(userGasPrice) > 0
+    const gasPrice: ?string = convertEth(userGasPrice, 'gwei', 'wei')
+    const isGasPriceValid: boolean = !!gasPrice
     const isGasLimitValid: boolean = parseInt(userGasLimit, 10) > 0
 
     if (!isGasLimitValid) {
@@ -127,7 +132,6 @@ function* checkPriority(
 
     if (isGasLimitValid && isGasPriceValid) {
       // convert it to WEI
-      const gasPrice = getTransactionValue(userGasPrice, 18).toString()
       yield put(digitalAssetsSend.setGasPriceValue(gasPrice))
 
       const gasLimit = toBigNumber(userGasLimit).toString()
@@ -495,7 +499,9 @@ function* setPriority(): Saga<void> {
     // request and set gas price
     const gasPrice = yield* requestGasPrice()
     if (gasPrice.gt(0)) {
-      yield put(digitalAssetsSend.setFormFieldValue('gasPrice', divDecimals(gasPrice, 18)))
+      yield put(
+        digitalAssetsSend.setFormFieldValue('gasPrice', convertEth(gasPrice, 'wei', 'gwei'))
+      )
     }
 
     // request set gas limit
@@ -506,8 +512,11 @@ function* setPriority(): Saga<void> {
     const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
       yield select(selectDigitalAsset, assetAddress)
 
-    if (!digitalAsset || digitalAsset.isCustom) {
-      // we can't call estimateGas for custom asset here, because we need privateKey for it
+    if (!((digitalAsset &&
+          digitalAsset.blockchainParams &&
+          digitalAsset.blockchainParams.staticGasAmount)
+          || digitalAsset.isCustom)) {
+      // we can't call estimateGas for custom asset here, because we need a privateKey for it
       return
     }
 
@@ -517,7 +526,9 @@ function* setPriority(): Saga<void> {
   }
 }
 
-function* setFormField(action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>) {
+function* setFormField(
+  action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>
+): Saga<void> {
   const { payload: { fieldName, value } } = action
   if (fieldName === 'assetAddress' && value !== '') {
     yield* setPriority()

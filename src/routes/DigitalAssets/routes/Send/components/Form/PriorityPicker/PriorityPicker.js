@@ -74,7 +74,7 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
             }, {
               onChange: setFormFieldValue('gasPrice'),
               value: formFieldValues.gasPrice,
-              placeholder: 'Gas price',
+              placeholder: 'Gas price (gwei)',
             }]}
             errorMessage={formFieldErrors.gasLimit || formFieldErrors.gasPrice}
           />

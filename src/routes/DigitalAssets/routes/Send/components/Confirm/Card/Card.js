@@ -23,19 +23,19 @@ function DigitalAssetsSendConfirmCard({
   const {
     amount,
     recipient,
-  } = formFieldValues
+  }: DigitalAssetsSendFormFields = formFieldValues
 
   const {
     gasLimit,
     gasPrice,
-  } = gasSettings
+  }: GasSettings = gasSettings
 
   const {
     symbol,
     blockchainParams: {
       decimals,
     },
-  } = selectedAsset
+  }: DigitalAsset = selectedAsset
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
