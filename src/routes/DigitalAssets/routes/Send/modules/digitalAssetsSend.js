@@ -170,7 +170,7 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
-  sendTransactionParams: {
+  gasSettings: {
     gasPrice: null,
     gasLimit: null,
   },
@@ -252,8 +252,8 @@ function digitalAssetsSend(
     case SET_GAS_PRICE_VALUE: {
       return {
         ...state,
-        sendTransactionParams: {
-          ...state.sendTransactionParams,
+        gasSettings: {
+          ...state.gasSettings,
           gasPrice: action.payload.gasPrice,
         },
       }
@@ -262,8 +262,8 @@ function digitalAssetsSend(
     case SET_GAS_LIMIT_VALUE: {
       return {
         ...state,
-        sendTransactionParams: {
-          ...state.sendTransactionParams,
+        gasSettings: {
+          ...state.gasSettings,
           gasLimit: action.payload.gasLimit,
         },
       }

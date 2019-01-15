@@ -27,7 +27,7 @@ type Props = {|
   +ownerAddress: ?OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
-  +sendTransactionParams: SendTransactionParams,
+  +gasSettings: GasSettings,
   +isLoading: boolean,
 |}
 
@@ -62,7 +62,7 @@ class DigitalAssetsSendView extends Component<Props> {
       priority,
       currentStep,
       isLoading,
-      sendTransactionParams,
+      gasSettings,
     }: Props = this.props
 
     if (!ownerAddress) {
@@ -99,7 +99,7 @@ class DigitalAssetsSendView extends Component<Props> {
               priority={priority}
               currentStep={currentStep}
               isLoading={isLoading}
-              sendTransactionParams={sendTransactionParams}
+              gasSettings={gasSettings}
             />
           </Scrollbars>
         </div>

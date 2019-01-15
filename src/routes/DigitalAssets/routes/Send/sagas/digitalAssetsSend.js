@@ -189,7 +189,7 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
     formFieldValues: {
       amount,
     },
-    sendTransactionParams: {
+    gasSettings: {
       gasPrice,
       gasLimit,
     },
@@ -372,7 +372,7 @@ function* sendTransactionError(err: Error): Saga<void> {
 
 function* sendTransactionRequest(
   formFieldValues: DigitalAssetsSendFormFields,
-  sendTransactionParams: SendTransactionParams
+  gasSettings: GasSettings
 ): Saga<void> {
   const {
     nonce,
@@ -385,7 +385,7 @@ function* sendTransactionRequest(
   const {
     gasLimit,
     gasPrice,
-  } = sendTransactionParams
+  } = gasSettings
 
   if (!password) {
     yield put(digitalAssetsSend.setFormFieldError('password', 'Please input password'))
@@ -444,7 +444,7 @@ function* goToNextStep(): Saga<void> {
   const {
     formFieldValues,
     currentStep,
-    sendTransactionParams,
+    gasSettings,
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
   switch (currentStep) {
@@ -459,7 +459,7 @@ function* goToNextStep(): Saga<void> {
     }
 
     case digitalAssetsSend.STEPS.CONFIRM: {
-      yield* sendTransactionRequest(formFieldValues, sendTransactionParams)
+      yield* sendTransactionRequest(formFieldValues, gasSettings)
       break
     }
 
