@@ -10,7 +10,7 @@
 
     position: relative;
     width: $form-width;
-    box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
+    box-shadow: 0 3px 6px 0 rgba($dusk, 0.05);
     background-color: $white;
     margin-bottom: 10px;
     border-bottom: solid 1px $pale-grey-two;
@@ -18,7 +18,7 @@
     transition: border-radius 0.3s ease 0s, box-shadow 0.3s ease 0s;
 
     &:hover {
-      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+      box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
     }
 
     > .current {
@@ -40,6 +40,7 @@
 
       > .chevron {
         opacity: 0.5;
+        transform: translateX(6px);
         transition: opacity 0.3s ease 0s;
 
         &:hover {
@@ -60,8 +61,10 @@
       overflow: hidden;
       opacity: 0;
       background-color: $white;
-      box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+      box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
       max-height: 0;
+      margin-bottom: 30px;
+      border-radius: 0 0 $form-border-radius $form-border-radius;
 
       > .items {
         max-height: 0;
@@ -70,8 +73,9 @@
       }
 
       > .bottom {
-        padding-top: 20px;
-        padding-bottom: 13px;
+        margin-top: 8px;
+        padding-top: 23px;
+        padding-bottom: 20px;
         position: relative;
 
         &::before {
