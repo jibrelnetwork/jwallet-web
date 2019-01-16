@@ -1,6 +1,5 @@
 // @flow
 
-import * as ethUtils from './convert'
 import * as i18nUtils from './i18n'
 import * as timeUtils from './time'
 import * as errorsUtils from './errors'
@@ -14,7 +13,6 @@ import * as digitalAssetsUtils from './digitalAssets'
 import * as eventHandlersUtils from './eventHandlers'
 
 export {
-  ethUtils,
   i18nUtils,
   timeUtils,
   errorsUtils,
