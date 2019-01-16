@@ -44,6 +44,9 @@ import * as transactions from 'routes/modules/transactions'
 
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
+const ETH_MIN_GAS_PRICE = 21000
+const MIN_GAS_PRICE_COEFFICIENT = 0.5
+
 function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Saga<void> {
   const {
     to,
@@ -567,9 +570,10 @@ function* checkGasLimitWarning(newGasLimit: string): Saga<void> {
   if (!Number.isNaN(gasLimit) &&
       !Number.isNaN(initialGasLimit) &&
       gasLimit < initialGasLimit) {
-    yield put(
-      digitalAssetsSend.setFormFieldWarning('gasLimit', 'Seems this transaction can fail')
-    )
+    yield put(digitalAssetsSend.setFormFieldWarning(
+      'gasLimit',
+      'Gas limit is too small. Most likely, your transaction will fail'
+    ))
   } else if (formFieldWarnings.gasLimit) {
     yield put(digitalAssetsSend.setFormFieldWarning('gasLimit', ''))
   }
@@ -586,10 +590,13 @@ function* checkGasPriceWarning(newGasPrice: void | string | BigNumber): Saga<voi
     const gasPrice = toBigNumber(newGasPrice)
     const initialGasPrice = toBigNumber(initialGasSettings.gasPrice)
 
-    if (gasPrice.lt(initialGasPrice.times(0.5)) || gasPrice.lt(21000)) {
-      yield put(
-        digitalAssetsSend.setFormFieldWarning('gasPrice', 'Seems gas price too small')
-      )
+    if (gasPrice.lt(initialGasPrice.times(MIN_GAS_PRICE_COEFFICIENT)) ||
+      gasPrice.lt(ETH_MIN_GAS_PRICE)
+    ) {
+      yield put(digitalAssetsSend.setFormFieldWarning(
+        'gasPrice',
+        'Gas price is too small. Most likely, your transaction will fail'
+      ))
     } else if (formFieldWarnings.gasPrice) {
       yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
     }
@@ -610,12 +617,6 @@ function* setFormField(
       value,
     },
   } = action
-
-  // const {
-  //   priority,
-  //   formFieldWarnings,
-  //   initialGasSettings,
-  // }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
 
   if (fieldName === 'assetAddress' && value !== '') {
     yield* setPriority()
