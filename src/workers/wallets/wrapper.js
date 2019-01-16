@@ -1,5 +1,8 @@
 // @flow
 
+import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
+import getPasswordOptions from 'utils/encryption/getPasswordOptions'
+
 import * as upgrade from 'routes/Upgrade/modules/upgrade'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
@@ -35,18 +38,20 @@ export function createRequest(walletsData: WalletsState) {
     testPasswordData,
   } = persist
 
-  const passwordOptionsUser: PasswordOptionsUser = {
+  const passwordOpts: PasswordOptions = getPasswordOptions({
     ...passwordOptions,
     passwordHint,
-  }
+  })
+
+  const mnemonicOpts: MnemonicOptions = getMnemonicOptions(mnemonicOptions)
 
   walletsWorker.postMessage(walletsCreate.createRequest({
     name,
     items,
     password,
-    mnemonicOptions,
     testPasswordData,
-    passwordOptions: passwordOptionsUser,
+    mnemonicOptions: mnemonicOpts,
+    passwordOptions: passwordOpts,
   }))
 }
 
@@ -111,15 +116,14 @@ export function upgradeRequest(
   const {
     items,
     activeWalletId,
+    mnemonicOptions,
     passwordOptions,
     testPasswordData,
   }: WalletsPersist = walletsData.persist
 
   if (!activeWalletId) {
     throw new Error('ActiveWalletNotFoundError')
-  }
-
-  if (!testPasswordData) {
+  } else if (!testPasswordData) {
     throw new Error('WalletDataError')
   }
 
@@ -128,14 +132,21 @@ export function upgradeRequest(
     derivationPath,
   }
 
+  const passwordOpts: PasswordOptions = getPasswordOptions(passwordOptions)
+
+  const mnemonicOpts: MnemonicOptions = getMnemonicOptions({
+    ...mnemonicOptions,
+    ...mnemonicOptionsUser,
+  })
+
   walletsWorker.postMessage(upgrade.upgradeRequest(
     items,
     activeWalletId,
     password,
-    passwordOptions,
     testPasswordData,
     data,
-    mnemonicOptionsUser,
+    passwordOpts,
+    mnemonicOpts,
   ))
 }
 

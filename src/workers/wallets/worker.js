@@ -1,5 +1,7 @@
 // @flow
 
+import generateMnemonic from 'utils/mnemonic/generateMnemonic'
+
 import {
   createWallet,
   upgradeWallet,
@@ -8,14 +10,8 @@ import {
 } from 'utils/wallets'
 
 import {
-  generateMnemonic,
-  getMnemonicOptions,
-} from 'utils/mnemonic'
-
-import {
   initPassword,
   checkPassword,
-  getPasswordOptions,
 } from 'utils/encryption'
 
 import * as upgrade from 'routes/Upgrade/modules/upgrade'
@@ -78,22 +74,19 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           password,
         } = action.payload
 
-        const passwordOpts: PasswordOptions = getPasswordOptions(passwordOptions)
-        const mnemonicOpts: MnemonicOptions = getMnemonicOptions(mnemonicOptions)
-
         if (testPasswordData) {
-          checkPassword(testPasswordData, password, passwordOpts)
+          checkPassword(testPasswordData, password, passwordOptions)
         }
 
         walletsWorker.postMessage(walletsCreate.createSuccess({
-          passwordOptions: passwordOpts,
-          mnemonicOptions: mnemonicOpts,
-          testPasswordData: testPasswordData || initPassword(password, passwordOpts),
+          passwordOptions,
+          mnemonicOptions,
+          testPasswordData: testPasswordData || initPassword(password, passwordOptions),
           items: createWallet(items, {
-            data: generateMnemonic(),
             name,
-            passwordOptions: passwordOpts,
-            mnemonicOptions: mnemonicOpts,
+            passwordOptions,
+            mnemonicOptions,
+            data: generateMnemonic(),
           }, password),
         }))
       } catch (err) {
@@ -118,22 +111,19 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           password,
         } = action.payload
 
-        const passwordOpts: PasswordOptions = getPasswordOptions(passwordOptions)
-        const mnemonicOpts: MnemonicOptions = getMnemonicOptions(mnemonicOptions)
-
         if (testPasswordData) {
-          checkPassword(testPasswordData, password, passwordOpts)
+          checkPassword(testPasswordData, password, passwordOptions)
         }
 
         walletsWorker.postMessage(walletsImport.importSuccess({
-          passwordOptions: passwordOpts,
-          mnemonicOptions: mnemonicOpts,
-          testPasswordData: testPasswordData || initPassword(password, passwordOpts),
+          passwordOptions,
+          mnemonicOptions,
+          testPasswordData: testPasswordData || initPassword(password, passwordOptions),
           items: createWallet(items, {
             data,
             name,
-            passwordOptions: passwordOpts,
-            mnemonicOptions: mnemonicOpts,
+            passwordOptions,
+            mnemonicOptions,
           }, password),
         }))
       } catch (err) {
@@ -186,16 +176,16 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           items,
           walletId,
           password,
-          passwordOptions,
           testPasswordData,
           data,
-          mnemonicOptionsUser,
+          passwordOptions,
+          mnemonicOptions,
         } = action.payload
 
-        checkPassword(testPasswordData, password, getPasswordOptions(passwordOptions))
+        checkPassword(testPasswordData, password, passwordOptions)
 
         walletsWorker.postMessage(upgrade.upgradeSuccess(
-          upgradeWallet(items, walletId, password, data, mnemonicOptionsUser),
+          upgradeWallet(items, walletId, password, data, passwordOptions, mnemonicOptions),
         ))
       } catch (err) {
         // eslint-disable-next-line no-console

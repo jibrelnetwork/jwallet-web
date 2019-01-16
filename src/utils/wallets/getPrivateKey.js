@@ -31,7 +31,7 @@ function getPrivateKey(wallet: Wallet, password: string): string {
 
   const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
 
-  if (!checkMnemonicType(type)) {
+  if (checkMnemonicType(type)) {
     if (!encrypted.mnemonic) {
       throw new Error('WalletDataError')
     }

@@ -3,6 +3,7 @@
 import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 import config from 'config'
+import getAddressFromPrivateKey from 'utils/address/getAddressFromPrivateKey'
 
 import {
   getWallet,
@@ -10,7 +11,6 @@ import {
 } from 'utils/wallets'
 
 import {
-  getMnemonicOptions,
   getXPubFromMnemonic,
   checkDerivationPathValid,
 } from 'utils/mnemonic'
@@ -19,19 +19,19 @@ import updateWallet from './updateWallet'
 
 function addMnemonic(
   wallets: Wallets,
-  walletId: WalletId,
+  wallet: Wallet,
   password: string,
   mnemonicUser: string,
+  passwordOptions: PasswordOptions,
   mnemonicOptions: MnemonicOptions,
 ): Wallets {
   const {
+    id,
     type,
-    isReadOnly,
     bip32XPublicKey,
-    passwordOptions,
-  }: Wallet = getWallet(wallets, walletId)
+  }: Wallet = wallet
 
-  if (!checkMnemonicType(type) || !isReadOnly || !bip32XPublicKey) {
+  if (!checkMnemonicType(type) || !bip32XPublicKey) {
     throw new Error('WalletDataError')
   }
 
@@ -47,8 +47,9 @@ function addMnemonic(
     throw new Error('MnemonicInvalidError')
   }
 
-  return updateWallet(wallets, walletId, {
+  return updateWallet(wallets, id, {
     mnemonicOptions,
+    passwordOptions,
     encrypted: {
       mnemonic: utils.encryptMnemonic(mnemonic, password, passwordOptions),
       privateKey: null,
@@ -60,28 +61,29 @@ function addMnemonic(
 
 function addPrivateKey(
   wallets: Wallets,
-  walletId: WalletId,
+  wallet: Wallet,
   password: string,
   privateKey: string,
+  passwordOptions: PasswordOptions,
 ): Wallets {
   const {
+    id,
     type,
     address,
-    isReadOnly,
-    passwordOptions,
-  }: Wallet = getWallet(wallets, walletId)
+  }: Wallet = wallet
 
-  if (checkMnemonicType(type) || !isReadOnly || !address) {
+  if (checkMnemonicType(type) || !address) {
     throw new Error('WalletDataError')
   }
 
-  const addressFromPrivateKey: string = utils.getAddressFromPrivateKey(privateKey)
+  const addressFromPrivateKey: string = getAddressFromPrivateKey(privateKey)
 
   if (address.toLowerCase() !== addressFromPrivateKey.toLowerCase()) {
     throw new Error('PrivateKeyInvalidError')
   }
 
-  return updateWallet(wallets, walletId, {
+  return updateWallet(wallets, id, {
+    passwordOptions,
     encrypted: {
       privateKey: utils.encryptPrivateKey(privateKey, password, passwordOptions),
       mnemonic: null,
@@ -96,17 +98,24 @@ function upgradeWallet(
   walletId: WalletId,
   password: string,
   data: string,
-  mnemonicOptionsUser?: ?MnemonicOptionsUser,
+  passwordOptions: PasswordOptions,
+  mnemonicOptions?: MnemonicOptions,
 ): Wallets {
   const wallet: Wallet = getWallet(wallets, walletId)
 
-  if (checkMnemonicType(wallet.type)) {
-    const mOptions: MnemonicOptions = getMnemonicOptions(mnemonicOptionsUser)
-
-    return addMnemonic(wallets, walletId, password, data, mOptions)
+  if (!wallet.isReadOnly) {
+    throw new Error('WalletDataError')
   }
 
-  return addPrivateKey(wallets, walletId, password, data)
+  if (checkMnemonicType(wallet.type)) {
+    if (!mnemonicOptions) {
+      throw new Error('WalletDataError')
+    }
+
+    return addMnemonic(wallets, wallet, password, data, passwordOptions, mnemonicOptions)
+  }
+
+  return addPrivateKey(wallets, wallet, password, data, passwordOptions)
 }
 
 export default upgradeWallet

@@ -35,10 +35,10 @@ export function upgradeRequest(
   items: Wallets,
   walletId: WalletId,
   password: string,
-  passwordOptions: ?PasswordOptions,
   testPasswordData: EncryptedData,
   data: string,
-  mnemonicOptionsUser: ?MnemonicOptionsUser,
+  passwordOptions: PasswordOptions,
+  mnemonicOptions: MnemonicOptions,
 ) {
   return {
     type: UPGRADE_REQUEST,
@@ -46,10 +46,10 @@ export function upgradeRequest(
       items,
       walletId,
       password,
-      passwordOptions,
       testPasswordData,
       data,
-      mnemonicOptionsUser,
+      passwordOptions,
+      mnemonicOptions,
     },
   }
 }

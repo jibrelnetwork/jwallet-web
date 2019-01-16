@@ -10,8 +10,8 @@ export type WalletsSetWalletsActionPayload = {|
 export type WalletsCreateRequestPayload = {|
   +items: Wallets,
   +testPasswordData: ?EncryptedData,
-  +passwordOptions: ?PasswordOptionsUser | PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptionsUser | MnemonicOptions,
+  +passwordOptions: PasswordOptions,
+  +mnemonicOptions: MnemonicOptions,
   +name: string,
   +password: string,
 |}
