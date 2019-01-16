@@ -1,14 +1,21 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
-
 import config from 'config'
-import getAddressFromPrivateKey from 'utils/address/getAddressFromPrivateKey'
+
+import {
+  strip0x,
+  getAddressFromPrivateKey,
+} from 'utils/address'
 
 import {
   getWallet,
   checkMnemonicType,
 } from 'utils/wallets'
+
+import {
+  encryptData,
+  deriveKeyFromPassword,
+} from 'utils/encryption'
 
 import {
   getXPubFromMnemonic,
@@ -47,11 +54,24 @@ function addMnemonic(
     throw new Error('MnemonicInvalidError')
   }
 
+  const {
+    salt,
+    scryptParams,
+    encryptionType,
+    derivedKeyLength,
+  }: PasswordOptions = passwordOptions
+
+  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+
   return updateWallet(wallets, id, {
     mnemonicOptions,
     passwordOptions,
     encrypted: {
-      mnemonic: utils.encryptMnemonic(mnemonic, password, passwordOptions),
+      mnemonic: encryptData({
+        encryptionType,
+        data: mnemonic,
+        derivedKey: dKey,
+      }),
       privateKey: null,
     },
     customType: config.mnemonicWalletType,
@@ -82,10 +102,23 @@ function addPrivateKey(
     throw new Error('PrivateKeyInvalidError')
   }
 
+  const {
+    salt,
+    scryptParams,
+    encryptionType,
+    derivedKeyLength,
+  }: PasswordOptions = passwordOptions
+
+  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+
   return updateWallet(wallets, id, {
     passwordOptions,
     encrypted: {
-      privateKey: utils.encryptPrivateKey(privateKey, password, passwordOptions),
+      privateKey: encryptData({
+        encryptionType,
+        derivedKey: dKey,
+        data: strip0x(privateKey),
+      }),
       mnemonic: null,
     },
     customType: 'privateKey',

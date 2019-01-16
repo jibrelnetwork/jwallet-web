@@ -35,7 +35,6 @@ declare type MnemonicOptionsUser = {|
   +network?: ?number | string,
   +passphrase?: ?string,
   +derivationPath?: string,
-  +paddedMnemonicLength?: number,
 |}
 
 declare type PasswordOptions = {|
@@ -51,7 +50,6 @@ declare type MnemonicOptions = {|
   +network: number | string,
   +passphrase: string,
   +derivationPath: string,
-  +paddedMnemonicLength: number,
 |}
 
 declare type Wallet = {|

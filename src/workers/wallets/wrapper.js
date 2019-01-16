@@ -76,16 +76,16 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
     derivationPath,
   }: ImportWalletData = importWalletData
 
-  const passwordOptionsUser: PasswordOptionsUser = {
+  const passwordOpts: PasswordOptions = getPasswordOptions({
     ...passwordOptions,
     passwordHint,
-  }
+  })
 
-  const mnemonicOptionsUser: MnemonicOptionsUser = {
+  const mnemonicOpts: MnemonicOptions = getMnemonicOptions({
     ...mnemonicOptions,
     passphrase,
     derivationPath,
-  }
+  })
 
   walletsWorker.postMessage(walletsImport.importRequest({
     data,
@@ -93,8 +93,8 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
     items,
     password,
     testPasswordData,
-    passwordOptions: passwordOptionsUser,
-    mnemonicOptions: mnemonicOptionsUser,
+    mnemonicOptions: mnemonicOpts,
+    passwordOptions: passwordOpts,
   }))
 }
 

@@ -1,6 +1,9 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
+import {
+  decryptData,
+  deriveKeyFromPassword,
+} from 'utils/encryption'
 
 function checkPassword(
   testPasswordData: EncryptedData,
@@ -11,15 +14,14 @@ function checkPassword(
     salt,
     scryptParams,
     encryptionType,
+    derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
-
-  const testPasswordDataDec: ?string = utils.decryptData(
-    testPasswordData,
-    dKey,
+  const testPasswordDataDec: ?string = decryptData({
     encryptionType,
-  )
+    data: testPasswordData,
+    derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
+  })
 
   if (!testPasswordDataDec) {
     throw new Error('Password is invalid')

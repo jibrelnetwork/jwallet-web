@@ -1,6 +1,9 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
+import {
+  decryptData,
+  deriveKeyFromPassword,
+} from 'utils/encryption'
 
 import {
   getWallet,
@@ -28,12 +31,17 @@ function getMnemonic(wallets: Wallets, walletId: string, password: string): stri
     salt,
     scryptParams,
     encryptionType,
+    derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
-  const mnemonic: string = utils.decryptData(encrypted.mnemonic, dKey, encryptionType)
+  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
 
-  return mnemonic.trim()
+  return decryptData({
+    encryptionType,
+    derivedKey: dKey,
+    // $FlowFixMe
+    data: encrypted.mnemonic,
+  })
 }
 
 export default getMnemonic

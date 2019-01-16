@@ -158,9 +158,7 @@ const config: AppConfig = {
 
   mnemonicWalletType: 'mnemonic',
 
-  paddedMnemonicLength: 120,
-
-  testPasswordDataLength: 120,
+  encryptedDataLength: 120,
 
   defaultSaltBytesCount: 32,
 

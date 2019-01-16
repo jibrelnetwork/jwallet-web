@@ -1,13 +1,12 @@
 // @flow
 
 import uuidv4 from 'uuid/v4'
-import utils from '@jibrelnetwork/jwallet-web-keystore'
 
 import config from 'config'
-
 import testPassword from 'utils/encryption/testPassword'
 
 import {
+  strip0x,
   checkAddressValid,
   getAddressChecksum,
   checkPrivateKeyValid,
@@ -22,20 +21,19 @@ import {
 } from 'utils/mnemonic'
 
 import {
+  encryptData,
+  deriveKeyFromPassword,
+} from 'utils/encryption'
+
+import {
   appendWallet,
   checkWalletUniqueness,
 } from '.'
 
-function leftPadString(stringToPad: string, padChar: string, totalLength: number) {
-  const leftPad: string = padChar.repeat(totalLength - stringToPad.length)
-
-  return `${leftPad}${stringToPad}`
-}
-
 function createMnemonicWallet(
   wallets: Wallets,
   walletData: WalletData,
-  password: ?string,
+  password: string,
 ): Wallets {
   const {
     id,
@@ -45,21 +43,11 @@ function createMnemonicWallet(
     mnemonicOptions,
   }: WalletData = walletData
 
-  if (!password) {
-    throw new Error('PasswordEmptyError')
-  }
-
-  const mnemonic: string = data.toLowerCase()
-
-  const {
-    derivationPath,
-    paddedMnemonicLength,
-  }: MnemonicOptions = mnemonicOptions
-
-  if (!checkDerivationPathValid(derivationPath)) {
+  if (!checkDerivationPathValid(mnemonicOptions.derivationPath)) {
     throw new Error('DerivationPathInvalidError')
   }
 
+  const mnemonic: string = data.toLowerCase()
   const xpub: string = getXPubFromMnemonic(mnemonic, mnemonicOptions)
 
   checkWalletUniqueness(wallets, xpub, 'bip32XPublicKey')
@@ -68,11 +56,10 @@ function createMnemonicWallet(
     salt,
     scryptParams,
     encryptionType,
+    derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
-  const mnemonicPad: string = leftPadString(mnemonic, ' ', paddedMnemonicLength)
-  const mnemonicEnc: EncryptedData = utils.encryptData(mnemonicPad, dKey, encryptionType)
+  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
 
   return appendWallet(wallets, {
     id,
@@ -86,7 +73,11 @@ function createMnemonicWallet(
     customType: config.mnemonicWalletType,
     encrypted: {
       privateKey: null,
-      mnemonic: mnemonicEnc,
+      mnemonic: encryptData({
+        encryptionType,
+        data: mnemonic,
+        derivedKey: dKey,
+      }),
     },
     /**
      * Another wallet data, necessary for consistency of types
@@ -128,7 +119,7 @@ const createReadOnlyMnemonicWallet = (wallets: Wallets, walletData: WalletData):
 const createAddressWallet = (
   wallets: Wallets,
   walletData: WalletData,
-  password: ?string,
+  password: string,
 ): Wallets => {
   const {
     id,
@@ -137,21 +128,17 @@ const createAddressWallet = (
     passwordOptions,
   }: WalletData = walletData
 
-  if (!password) {
-    throw new Error('PasswordEmptyError')
-  }
-
   const address: string = getAddressFromPrivateKey(data)
-
   checkWalletUniqueness(wallets, address, 'address')
 
   const {
     salt,
     scryptParams,
     encryptionType,
+    derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = utils.deriveKeyFromPassword(password, salt, scryptParams)
+  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
 
   return appendWallet(wallets, {
     id,
@@ -163,7 +150,11 @@ const createAddressWallet = (
     type: config.addressWalletType,
     encrypted: {
       mnemonic: null,
-      privateKey: utils.encryptData(data, dKey, encryptionType, true),
+      privateKey: encryptData({
+        encryptionType,
+        derivedKey: dKey,
+        data: strip0x(data),
+      }),
     },
     /**
      * Another wallet data, necessary for consistency of types
@@ -204,21 +195,23 @@ const createReadOnlyAddressWallet = (wallets: Wallets, walletData: WalletData): 
   })
 }
 
-const createWallet = (
+function createWallet(
   wallets: Wallets,
   walletNewData: WalletNewData,
-  password?: string,
-): Wallets => {
+  password: string,
+): Wallets {
   const {
-    passwordOptions,
-    mnemonicOptions,
     data,
     name,
+    passwordOptions,
+    mnemonicOptions,
   }: WalletNewData = walletNewData
 
-  if (password) {
-    testPassword(password)
+  if (!password) {
+    throw new Error('PasswordEmptyError')
   }
+
+  testPassword(password)
 
   if (name) {
     checkWalletUniqueness(wallets, name, 'name')
