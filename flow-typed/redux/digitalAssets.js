@@ -175,7 +175,8 @@ declare type DigitalAssetsSendState = {|
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
   +isLoading: boolean,
-  +gasSettings: GasSettings,
+  +initialGasSettings: GasSettings,
+  +finalGasSettings: GasSettings,
 |}
 
 declare type SendTransactionProps = {|

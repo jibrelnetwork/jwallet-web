@@ -9,8 +9,14 @@ export const GO_TO_NEXT_STEP = '@@digitalAssetsSend/GO_TO_NEXT_STEP'
 export const GO_TO_PREV_STEP = '@@digitalAssetsSend/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP = '@@digitalAssetsSend/SET_CURRENT_STEP'
 
-export const SET_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_GAS_PRICE_VALUE'
-export const SET_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_GAS_LIMIT_VALUE'
+// Fetched from blockchain values
+export const SET_INITIAL_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_INITIAL_GAS_PRICE_VALUE'
+export const SET_INITIAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_INITIAL_GAS_LIMIT_VALUE'
+
+// Values that will be used with sendTransacton (transfer)
+// This values can be modified on the 1st step and can't be on the 2nd
+export const SET_FINAL_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_PRICE_VALUE'
+export const SET_FINAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_LIMIT_VALUE'
 
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
@@ -62,20 +68,38 @@ export function setIsLoading(isLoading: boolean) {
   }
 }
 
-export function setGasPriceValue(gasPrice: ?string) {
+export function setInitialGasPriceValue(value: ?string) {
   return {
-    type: SET_GAS_PRICE_VALUE,
+    type: SET_INITIAL_GAS_PRICE_VALUE,
     payload: {
-      gasPrice,
+      value,
     },
   }
 }
 
-export function setGasLimitValue(gasLimit: ?string) {
+export function setInitialGasLimitValue(value: ?string) {
   return {
-    type: SET_GAS_LIMIT_VALUE,
+    type: SET_INITIAL_GAS_LIMIT_VALUE,
     payload: {
-      gasLimit,
+      value,
+    },
+  }
+}
+
+export function setFinalGasPriceValue(value: ?string) {
+  return {
+    type: SET_FINAL_GAS_PRICE_VALUE,
+    payload: {
+      value,
+    },
+  }
+}
+
+export function setFinalGasLimitValue(value: ?string) {
+  return {
+    type: SET_FINAL_GAS_PRICE_VALUE,
+    payload: {
+      value,
     },
   }
 }
@@ -142,6 +166,10 @@ export type DigitalAssetsSendAction =
   ExtractReturn<typeof setCurrentStep> |
   ExtractReturn<typeof setFormFieldValue> |
   ExtractReturn<typeof setFormFieldError> |
+  ExtractReturn<typeof setInitialGasLimitValue> |
+  ExtractReturn<typeof setInitialGasPriceValue> |
+  ExtractReturn<typeof setFinalGasLimitValue> |
+  ExtractReturn<typeof setFinalGasPriceValue> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetsSendState = {
@@ -170,7 +198,11 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
-  gasSettings: {
+  initialGasSettings: {
+    gasPrice: null,
+    gasLimit: null,
+  },
+  finalGasSettings: {
     gasPrice: null,
     gasLimit: null,
   },
@@ -249,22 +281,46 @@ function digitalAssetsSend(
         currentStep: action.payload.currentStep,
       }
 
-    case SET_GAS_PRICE_VALUE: {
+    case SET_INITIAL_GAS_PRICE_VALUE: {
+      const { value } = action.payload
       return {
         ...state,
-        gasSettings: {
-          ...state.gasSettings,
-          gasPrice: action.payload.gasPrice,
+        initialGasSettings: {
+          ...state.initialGasSettings,
+          gasPrice: value,
         },
       }
     }
 
-    case SET_GAS_LIMIT_VALUE: {
+    case SET_INITIAL_GAS_LIMIT_VALUE: {
+      const { value } = action.payload
       return {
         ...state,
-        gasSettings: {
-          ...state.gasSettings,
-          gasLimit: action.payload.gasLimit,
+        initialGasSettings: {
+          ...state.initialGasSettings,
+          gasLimit: value,
+        },
+      }
+    }
+
+    case SET_FINAL_GAS_PRICE_VALUE: {
+      const { value } = action.payload
+      return {
+        ...state,
+        finalGasSettings: {
+          ...state.finalGasSettings,
+          gasPrice: value,
+        },
+      }
+    }
+
+    case SET_FINAL_GAS_LIMIT_VALUE: {
+      const { value } = action.payload
+      return {
+        ...state,
+        finalGasSettings: {
+          ...state.finalGasSettings,
+          gasLimit: value,
         },
       }
     }

@@ -71,6 +71,7 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
     yield put(digitalAssetsSend.setFormFieldValue('nonce', nonce))
   }
 
+  /** TODO: question, do we need to fill gasPrice and gasLimit for transaction repeat? */
   if (gas) {
     yield put(digitalAssetsSend.setFormFieldValue('gasLimit', gas))
   }
@@ -86,6 +87,8 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
   if (comment) {
     yield put(digitalAssetsSend.setFormFieldValue('comment', comment))
   }
+
+  yield* requestGasPrice()
 }
 
 function* requestGasPrice(): Saga<?BigNumber> {
@@ -96,12 +99,12 @@ function* requestGasPrice(): Saga<?BigNumber> {
   }
 
   try {
-    const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
-    const gasPriceBn = toBigNumber(gasPrice)
-    if (gasPriceBn.isNaN()) {
+    const gasPrice = toBigNumber(yield call(web3.getGasPrice, network))
+    if (gasPrice.isNaN()) {
       return null
     }
-    return gasPriceBn
+    yield put(digitalAssetsSend.setInitialGasPriceValue(gasPrice.toString()))
+    return gasPrice
   } catch (err) {
     return null
   }
@@ -116,6 +119,13 @@ function* checkPriority(
     gasPrice: userGasPrice,
     gasLimit: userGasLimit,
   } = formFieldValues
+
+  // get the latest (before transaction sending) gas price
+  const requestedGasPrice = yield* requestGasPrice()
+  if (!requestedGasPrice) {
+    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price'))
+    return
+  }
 
   if (priority === 'CUSTOM') {
     const gasPrice: ?string = convertEth(userGasPrice, 'gwei', 'wei')
@@ -132,10 +142,10 @@ function* checkPriority(
 
     if (isGasLimitValid && isGasPriceValid) {
       // convert it to WEI
-      yield put(digitalAssetsSend.setGasPriceValue(gasPrice))
+      yield put(digitalAssetsSend.setFinalGasPriceValue(gasPrice))
 
       const gasLimit = toBigNumber(userGasLimit).toString()
-      yield put(digitalAssetsSend.setGasLimitValue(gasLimit))
+      yield put(digitalAssetsSend.setFinalGasLimitValue(gasLimit))
     }
   } else {
     const txPriorityCoefficient: number = digitalAssetsSend.TXPRIORITY[priority]
@@ -144,25 +154,19 @@ function* checkPriority(
       return
     }
 
-    const requestedGasPrice = yield* requestGasPrice()
-    if (!requestedGasPrice) {
-      yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price'))
-      return
-    }
-
     const gasPrice = requestedGasPrice.times(txPriorityCoefficient).toString()
     // save for the next step
-    yield put(digitalAssetsSend.setGasPriceValue(gasPrice))
+    yield put(digitalAssetsSend.setFinalGasPriceValue(gasPrice))
 
     if (!digitalAsset.isCustom &&
       digitalAsset.blockchainParams &&
       digitalAsset.blockchainParams.staticGasAmount) {
       // save for the next step
       const staticGasAmount = toBigNumber(digitalAsset.blockchainParams.staticGasAmount).toString()
-      yield put(digitalAssetsSend.setGasLimitValue(staticGasAmount))
+      yield put(digitalAssetsSend.setFinalGasLimitValue(staticGasAmount))
     } else {
       // gas limit will be estimated at transaction send by jibrel-contracts-jsapi
-      yield put(digitalAssetsSend.setGasLimitValue(null))
+      yield put(digitalAssetsSend.setFinalGasLimitValue(null))
     }
   }
 }
@@ -448,7 +452,7 @@ function* goToNextStep(): Saga<void> {
   const {
     formFieldValues,
     currentStep,
-    gasSettings,
+    finalGasSettings,
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
   switch (currentStep) {
@@ -463,7 +467,7 @@ function* goToNextStep(): Saga<void> {
     }
 
     case digitalAssetsSend.STEPS.CONFIRM: {
-      yield* sendTransactionRequest(formFieldValues, gasSettings)
+      yield* sendTransactionRequest(formFieldValues, finalGasSettings)
       break
     }
 
