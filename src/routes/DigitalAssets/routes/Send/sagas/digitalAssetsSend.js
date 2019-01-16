@@ -61,6 +61,8 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
 
   if (asset) {
     yield put(digitalAssetsSend.setFormFieldValue('assetAddress', asset))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('assetAddress', 'Ethereum'))
   }
 
   if (amount) {
@@ -77,7 +79,9 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
   }
 
   if (gasPrice) {
-    yield put(digitalAssetsSend.setFormFieldValue('gasPrice', convertEth(gasPrice, 'wei', 'gwei')))
+    yield put(
+      digitalAssetsSend.setFormFieldValue('gasPrice', convertEth(gasPrice, 'wei', 'gwei') || '')
+    )
   }
 
   if (gas || gasPrice) {
@@ -491,6 +495,25 @@ function* goToPrevStep(): Saga<void> {
   }
 }
 
+// #TODO: will be changed in the next task
+function* requestGasLimit(digitalAsset: DigitalAsset): Saga<?number> {
+  const {
+    isCustom,
+    blockchainParams: {
+      staticGasAmount,
+    },
+  } = digitalAsset
+
+  if (isCustom || !staticGasAmount) {
+    // we can't call estimateGas for custom asset here, because we need a privateKey for it
+    return null
+  }
+
+  // after gas limit reqest we will set initial gas limit
+  yield put(digitalAssetsSend.setInitialGasLimitValue(String(staticGasAmount)))
+  return staticGasAmount
+}
+
 function* setPriority(): Saga<void> {
   const {
     formFieldValues: {
@@ -498,6 +521,10 @@ function* setPriority(): Saga<void> {
     },
     priority,
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  // force reset warnings, when asset address changed
+  yield put(digitalAssetsSend.setFormFieldWarning('gasLimit', ''))
+  yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
 
   if (priority === 'CUSTOM') {
     // request and set gas price
@@ -516,26 +543,90 @@ function* setPriority(): Saga<void> {
     const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
       yield select(selectDigitalAsset, assetAddress)
 
-    if (!((digitalAsset &&
-          digitalAsset.blockchainParams &&
-          digitalAsset.blockchainParams.staticGasAmount)
-          || digitalAsset.isCustom)) {
-      // we can't call estimateGas for custom asset here, because we need a privateKey for it
+    if (!digitalAsset) {
       return
     }
 
+    const gasLimit = yield* requestGasLimit(digitalAsset)
+    if (gasLimit) {
+      yield put(digitalAssetsSend.setFormFieldValue('gasLimit', String(gasLimit)))
+    }
+  }
+}
+
+function* checkGasLimitWarning(newGasLimit: string): Saga<void> {
+  const {
+    formFieldWarnings,
+    initialGasSettings,
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  // Priority warnings
+  const gasLimit = parseInt(newGasLimit, 10)
+  const initialGasLimit = parseInt(initialGasSettings.gasLimit, 10)
+
+  if (!Number.isNaN(gasLimit) &&
+      !Number.isNaN(initialGasLimit) &&
+      gasLimit < initialGasLimit) {
     yield put(
-      digitalAssetsSend.setFormFieldValue('gasLimit', digitalAsset.blockchainParams.staticGasAmount)
+      digitalAssetsSend.setFormFieldWarning('gasLimit', 'Seems this transaction can fail')
     )
+  } else if (formFieldWarnings.gasLimit) {
+    yield put(digitalAssetsSend.setFormFieldWarning('gasLimit', ''))
+  }
+}
+
+function* checkGasPriceWarning(newGasPrice: void | string | BigNumber): Saga<void> {
+  const {
+    formFieldWarnings,
+    initialGasSettings,
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  // Priority warnings
+  try {
+    const gasPrice = toBigNumber(newGasPrice)
+    const initialGasPrice = toBigNumber(initialGasSettings.gasPrice)
+
+    if (gasPrice.lt(initialGasPrice.times(0.5)) || gasPrice.lt(21000)) {
+      yield put(
+        digitalAssetsSend.setFormFieldWarning('gasPrice', 'Seems gas price too small')
+      )
+    } else if (formFieldWarnings.gasPrice) {
+      yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
+    }
+  } catch (err) {
+    // when toBigNumber throws exception - user input is invald, it is error, not warning
+    if (formFieldWarnings.gasPrice) {
+      yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
+    }
   }
 }
 
 function* setFormField(
   action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>
 ): Saga<void> {
-  const { payload: { fieldName, value } } = action
+  const {
+    payload: {
+      fieldName,
+      value,
+    },
+  } = action
+
+  // const {
+  //   priority,
+  //   formFieldWarnings,
+  //   initialGasSettings,
+  // }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
   if (fieldName === 'assetAddress' && value !== '') {
     yield* setPriority()
+  }
+
+  if (fieldName === 'gasLimit') {
+    yield* checkGasLimitWarning(value)
+  }
+
+  if (fieldName === 'gasPrice') {
+    yield* checkGasPriceWarning(convertEth(value, 'gwei', 'wei'))
   }
 }
 

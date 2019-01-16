@@ -24,6 +24,7 @@ type Props = {|
   |},
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFieldWarnings,
   +ownerAddress: ?OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
@@ -58,6 +59,7 @@ class DigitalAssetsSendView extends Component<Props> {
       selectedAsset,
       formFieldValues,
       formFieldErrors,
+      formFieldWarnings,
       ownerAddress,
       priority,
       currentStep,
@@ -92,6 +94,7 @@ class DigitalAssetsSendView extends Component<Props> {
               setFormFieldValue={this.setFormFieldValue}
               formFieldValues={formFieldValues}
               formFieldErrors={formFieldErrors}
+              formFieldWarnings={formFieldWarnings}
               addressNames={addressNames}
               digitalAssets={digitalAssets}
               selectedAsset={selectedAsset}

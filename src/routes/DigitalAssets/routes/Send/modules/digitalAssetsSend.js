@@ -20,6 +20,7 @@ export const SET_FINAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_LIMI
 
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
+export const SET_FORM_FIELD_WARNING = '@@digitalAssetsSend/SET_FORM_FIELD_WARNING'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
@@ -151,6 +152,19 @@ export function setFormFieldError(
   }
 }
 
+export function setFormFieldWarning(
+  fieldName: $Keys<DigitalAssetsSendFormFieldWarnings>,
+  message: string,
+) {
+  return {
+    type: SET_FORM_FIELD_WARNING,
+    payload: {
+      message,
+      fieldName,
+    },
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -160,12 +174,14 @@ export function clean() {
 export type DigitalAssetsSendAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
+  ExtractReturn<typeof setPriority> |
   ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof goToNextStep> |
   ExtractReturn<typeof goToPrevStep> |
   ExtractReturn<typeof setCurrentStep> |
   ExtractReturn<typeof setFormFieldValue> |
   ExtractReturn<typeof setFormFieldError> |
+  ExtractReturn<typeof setFormFieldWarning> |
   ExtractReturn<typeof setInitialGasLimitValue> |
   ExtractReturn<typeof setInitialGasPriceValue> |
   ExtractReturn<typeof setFinalGasLimitValue> |
@@ -194,6 +210,12 @@ const initialState: DigitalAssetsSendState = {
     recipient: '',
     amountFiat: '',
     assetAddress: '',
+  },
+  formFieldWarnings: {
+    nonce: '',
+    gasLimit: '',
+    gasPrice: '',
+    recipient: '',
   },
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
@@ -265,6 +287,21 @@ function digitalAssetsSend(
         ...state,
         formFieldErrors: {
           ...state.formFieldErrors,
+          [fieldName]: message,
+        },
+      }
+    }
+
+    case SET_FORM_FIELD_WARNING: {
+      const {
+        message,
+        fieldName,
+      } = action.payload
+
+      return {
+        ...state,
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
           [fieldName]: message,
         },
       }

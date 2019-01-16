@@ -10,27 +10,31 @@ const units = Object.keys(rawUnits).reduce((res, unit) => ({
 }), {})
 
 function convertEth(value: string, from: string, to: string): ?string {
-  const valueBn = toBigNumber(value)
+  try {
+    const valueBn = toBigNumber(value)
 
-  if (valueBn.isNaN()) {
+    if (valueBn.isNaN()) {
+      return null
+    }
+
+    const fromValue = from.toLowerCase()
+    if (!units[fromValue]) {
+      return null
+    }
+
+    const toValue = to.toLowerCase()
+    if (!units[toValue]) {
+      return null
+    }
+
+    return toBigNumber(valueBn)
+      .mul(units[fromValue])
+      .round(0, BigNumber.ROUND_DOWN)
+      .div(units[toValue])
+      .toString(10)
+  } catch (err) {
     return null
   }
-
-  const fromValue = from.toLowerCase()
-  if (!units[fromValue]) {
-    return null
-  }
-
-  const toValue = to.toLowerCase()
-  if (!units[toValue]) {
-    return null
-  }
-
-  return toBigNumber(valueBn)
-    .mul(units[fromValue])
-    .round(0, BigNumber.ROUND_DOWN)
-    .div(units[toValue])
-    .toString(10)
 }
 
 export default convertEth

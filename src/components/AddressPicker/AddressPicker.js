@@ -11,6 +11,7 @@ type Props = {|
   +onSelect: (address: Address) => void,
   +addressNames: AddressNames,
   +errorMessage: string,
+  +infoMessage: string,
   +selectedAddress: Address,
   +isDisabled: boolean,
 |}
@@ -45,6 +46,8 @@ function searchAddressNames(addressNames: AddressNames, searchQuery: string): Ad
 class AddressPicker extends Component<Props, ComponentState> {
   static defaultProps = {
     isDisabled: false,
+    infoMessage: '',
+    errorMessage: '',
   }
 
   constructor(props: Props) {
@@ -71,6 +74,7 @@ class AddressPicker extends Component<Props, ComponentState> {
       addressNames,
       selectedAddress,
       errorMessage,
+      infoMessage,
       isDisabled,
     }: Props = this.props
 
@@ -90,6 +94,7 @@ class AddressPicker extends Component<Props, ComponentState> {
             />
           )}
           errorMessage={errorMessage}
+          infoMessage={infoMessage}
           isDisabled={isDisabled}
         >
           {Object.keys(filteredAddressNames).map((address: Address) => {

@@ -18,6 +18,7 @@ type Props = {|
   +isLoading: string,
   +placeholder: string,
   +errorMessage: string,
+  +infoMessage: string,
   +isLoading: boolean,
 |}
 
@@ -28,6 +29,8 @@ type ComponentState = {|
 class InputButton extends Component<Props, ComponentState> {
   static defaultProps = {
     isLoading: false,
+    infoMessage: '',
+    errorMessage: '',
   }
 
   constructor(props: Props) {
@@ -62,6 +65,7 @@ class InputButton extends Component<Props, ComponentState> {
       isLoading,
       placeholder,
       errorMessage,
+      infoMessage,
     }: Props = this.props
 
     return (
@@ -72,6 +76,7 @@ class InputButton extends Component<Props, ComponentState> {
             value={value}
             name={name}
             errorMessage={errorMessage}
+            infoMessage={infoMessage}
             placeholder={placeholder}
             type='text'
             color='gray'

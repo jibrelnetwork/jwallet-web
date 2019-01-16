@@ -36,6 +36,7 @@ function mapStateToProps(state: AppState) {
   const {
     formFieldValues,
     formFieldErrors,
+    formFieldWarnings,
     priority,
     currentStep,
     isLoading,
@@ -62,6 +63,7 @@ function mapStateToProps(state: AppState) {
     selectedAsset,
     formFieldValues,
     formFieldErrors,
+    formFieldWarnings,
     priority,
     ownerAddress,
     currentStep,
