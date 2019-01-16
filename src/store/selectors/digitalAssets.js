@@ -48,11 +48,11 @@ export function selectDigitalAssetsManageSearchQuery({ digitalAssetsManage }: Ap
 }
 
 export function selectAddAsset(state: AppState): AddAssetState {
-  return state.addAsset
+  return state.digitalAssetsAdd
 }
 
 export function selectEditAsset(state: AppState): EditAssetState {
-  return state.editAsset
+  return state.digitalAssetsEdit
 }
 
 export function selectDigitalAssetsSend(state: AppState): DigitalAssetsSendState {
