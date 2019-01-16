@@ -54,7 +54,6 @@ function TransactionItem({
           comment={comment}
           txAddress={txAddress}
           txAddressName={isSent ? toName : fromName}
-          blockExplorerSubdomain={blockExplorerSubdomain}
           isSent={isSent}
           isActive={isActive}
           isAssetList={isAssetList}
