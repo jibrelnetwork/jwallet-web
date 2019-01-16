@@ -97,7 +97,7 @@ export function setFinalGasPriceValue(value: ?string) {
 
 export function setFinalGasLimitValue(value: ?string) {
   return {
-    type: SET_FINAL_GAS_PRICE_VALUE,
+    type: SET_FINAL_GAS_LIMIT_VALUE,
     payload: {
       value,
     },
