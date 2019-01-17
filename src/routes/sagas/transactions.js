@@ -863,10 +863,6 @@ export function* requestTransactions(
 
         const txIds: TransactionId[] = Object.keys(txs)
 
-        if (txIds.length) {
-          console.error(txs)
-        }
-
         yield all(txIds.map((txId: TransactionId) => put(transactions.checkPendingTransaction(
           networkId,
           ownerAddress,
