@@ -13,7 +13,7 @@ import {
 import web3 from 'services/web3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import reactRouterBack from 'utils/browser/reactRouterBack'
-import checkAddressValid from 'utils/wallets/checkAddressValid'
+import checkAddressValid from 'utils/address/checkAddressValid'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { getPrivateKey } from 'routes/Wallets/sagas'
 import { selectCurrentBlock } from 'store/selectors/blocks'

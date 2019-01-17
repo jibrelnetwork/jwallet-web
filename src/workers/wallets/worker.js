@@ -1,20 +1,33 @@
 // @flow
 
-import utils from '@jibrelnetwork/jwallet-web-keystore'
+import generateMnemonic from 'utils/mnemonic/generateMnemonic'
 
-import keystore from 'services/keystore'
+import {
+  createWallet,
+  upgradeWallet,
+  getBackupData,
+  getPrivateKey,
+} from 'utils/wallets'
 
+import {
+  initPassword,
+  checkPassword,
+} from 'utils/encryption'
+
+import * as upgrade from 'routes/Upgrade/modules/upgrade'
 import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
+import type { UpgradeAction } from 'routes/Upgrade/modules/upgrade'
 import type { WalletsAction } from 'routes/Wallets/modules/wallets'
 import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
 import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
 export type WalletsAnyAction =
+  UpgradeAction |
   WalletsAction |
   WalletsCreateAction |
   WalletsImportAction |
@@ -61,22 +74,19 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           password,
         } = action.payload
 
-        const passwordOpts: PasswordOptions = utils.getPasswordOptions(passwordOptions)
-        const mnemonicOpts: MnemonicOptions = utils.getMnemonicOptions(mnemonicOptions)
-
         if (testPasswordData) {
-          keystore.checkPassword(testPasswordData, password, passwordOpts)
+          checkPassword(testPasswordData, password, passwordOptions)
         }
 
         walletsWorker.postMessage(walletsCreate.createSuccess({
-          passwordOptions: passwordOpts,
-          mnemonicOptions: mnemonicOpts,
-          testPasswordData: testPasswordData || keystore.initPassword(password, passwordOpts),
-          items: keystore.createWallet(items, {
-            data: utils.generateMnemonic(),
+          passwordOptions,
+          mnemonicOptions,
+          testPasswordData: testPasswordData || initPassword(password, passwordOptions),
+          items: createWallet(items, {
             name,
-            passwordOptions: passwordOpts,
-            mnemonicOptions: mnemonicOpts,
+            passwordOptions,
+            mnemonicOptions,
+            data: generateMnemonic(),
           }, password),
         }))
       } catch (err) {
@@ -101,22 +111,19 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           password,
         } = action.payload
 
-        const passwordOpts: PasswordOptions = utils.getPasswordOptions(passwordOptions)
-        const mnemonicOpts: MnemonicOptions = utils.getMnemonicOptions(mnemonicOptions)
-
         if (testPasswordData) {
-          keystore.checkPassword(testPasswordData, password, passwordOpts)
+          checkPassword(testPasswordData, password, passwordOptions)
         }
 
         walletsWorker.postMessage(walletsImport.importSuccess({
-          passwordOptions: passwordOpts,
-          mnemonicOptions: mnemonicOpts,
-          testPasswordData: testPasswordData || keystore.initPassword(password, passwordOpts),
-          items: keystore.createWallet(items, {
+          passwordOptions,
+          mnemonicOptions,
+          testPasswordData: testPasswordData || initPassword(password, passwordOptions),
+          items: createWallet(items, {
             data,
             name,
-            passwordOptions: passwordOpts,
-            mnemonicOptions: mnemonicOpts,
+            passwordOptions,
+            mnemonicOptions,
           }, password),
         }))
       } catch (err) {
@@ -133,7 +140,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
       try {
         const { items, walletId, password } = action.payload
 
-        const data: string = keystore.getBackupData(items, walletId, password)
+        const data: string = getBackupData(items, walletId, password)
 
         walletsWorker.postMessage(walletsBackup.backupSuccess(data))
       } catch (err) {
@@ -150,7 +157,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
       const { wallet, password } = action.payload
 
       try {
-        const privateKey: string = keystore.getPrivateKey(wallet, password)
+        const privateKey: string = getPrivateKey(wallet, password)
 
         walletsWorker.postMessage(wallets.privateKeySuccess(wallet.id, privateKey))
       } catch (err) {
@@ -158,6 +165,33 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         console.error(err)
 
         walletsWorker.postMessage(wallets.privateKeyError(wallet.id, err.message))
+      }
+
+      break
+    }
+
+    case upgrade.UPGRADE_REQUEST: {
+      try {
+        const {
+          items,
+          walletId,
+          password,
+          testPasswordData,
+          data,
+          passwordOptions,
+          mnemonicOptions,
+        } = action.payload
+
+        checkPassword(testPasswordData, password, passwordOptions)
+
+        walletsWorker.postMessage(upgrade.upgradeSuccess(
+          upgradeWallet(items, walletId, password, data, passwordOptions, mnemonicOptions),
+        ))
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err)
+
+        walletsWorker.postMessage(upgrade.upgradeError(err.message))
       }
 
       break

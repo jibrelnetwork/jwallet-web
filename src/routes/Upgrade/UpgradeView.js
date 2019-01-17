@@ -1,80 +1,69 @@
 // @flow
 
-import React, { Fragment } from 'react'
-import { Form, Field } from 'react-final-form'
 import classNames from 'classnames'
+import React, { Fragment } from 'react'
+
+import {
+  Form,
+  Field,
+} from 'react-final-form'
 
 import CloseableScreen from 'components/CloseableScreen'
 import { JInputField } from 'components/base/JInput'
-import { JText, JLoader } from 'components/base'
+
+import {
+  JText,
+  JLoader,
+} from 'components/base'
 
 import './upgradeView.scss'
-
-export type MnemonicFormFieldsType = {
-  mnemonic: string,
-  passphrase: string,
-  derivationPath: string,
-}
-
-export type PrivateKeyFormFieldsType = {
-  privateKey: string,
-}
 
 type Props = {|
   +onClose: Function,
   +onUnavailable: () => void,
-  +onSubmitPrivateKey: (PrivateKeyFormFieldsType) => void,
-  +onSubmitMnemonic: (MnemonicFormFieldsType) => void,
+  +onSubmitMnemonic: (UpgradeMnemonicFormFieldValues) => void,
+  +onSubmitPrivateKey: (UpgradePrivateKeyFormFieldValues) => void,
+  +validateMnemonic: (UpgradeMnemonicFormFieldValues) => UpgradeMnemonicFormFieldErrors,
+  +validatePrivateKey: (UpgradePrivateKeyFormFieldValues) => UpgradePrivateKeyFormFieldErrors,
+  +isLoading: boolean,
   +isReadOnly: boolean,
   +isMnemonic: boolean,
-  +isLoading: boolean,
+  +isInvalidPassword: boolean,
 |}
 
 const noop = () => undefined
 
-const validatePrivateKey = ({ privateKey }: PrivateKeyFormFieldsType) => {
-  if (!privateKey) {
-    return {
-      privateKey: 'Private key is required',
-    }
+// FIXME: if we move password errors to validation function, we could get rid of this ugly hack
+// This is factory render function, so:
+// eslint-disable-next-line react/display-name
+const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
+  if (isInvalidPassword) {
+    return (
+      <JInputField
+        {...fieldProps}
+        meta={Object.assign(
+          {},
+          fieldProps.meta,
+          { error: 'Incorrect password' }
+        )}
+      />
+    )
   }
 
-  if (privateKey.length < 64) {
-    return {
-      privateKey: `${privateKey.length} characters is too short! Private key is 64 characters`,
-    }
-  }
-
-  return {}
-}
-
-const validateMnemonic = ({
-  mnemonic,
-  derivationPath,
-}: MnemonicFormFieldsType) => {
-  /* eslint-disable fp/no-mutation */
-  const errors = {}
-
-  if (!mnemonic) {
-    errors.mnemonic = 'Mnemonic is required'
-  }
-
-  if (derivationPath) {
-    // FIXME: should validate derivation path
-  }
-
-  return errors
-  /* eslint-enable fp/no-mutation */
+  return <JInputField {...fieldProps} />
 }
 
 function UpgradeView({
   onClose,
   onUnavailable,
-  onSubmitPrivateKey,
   onSubmitMnemonic,
+  onSubmitPrivateKey,
+  isLoading,
   isReadOnly,
   isMnemonic,
-  isLoading,
+  isInvalidPassword,
+  validateMnemonic,
+  validatePrivateKey,
 }: Props) {
   if (!isReadOnly) {
     // FIXME: we should do it in controller or in router
@@ -82,42 +71,43 @@ function UpgradeView({
     return null
   }
 
-  const props = isMnemonic ?
-    {
-      title: 'Add mnemonic',
-      finalForm: {
-        onSubmit: onSubmitMnemonic,
-        validate: validateMnemonic,
-      },
-      inputField: {
-        name: 'mnemonic',
-        placeholder: 'Mnemonic',
-        rows: 6,
-      },
-    } :
-    {
-      title: 'Add private key',
-      finalForm: {
-        onSubmit: onSubmitPrivateKey,
-        validate: validatePrivateKey,
-      },
-      inputField: {
-        name: 'privateKey',
-        placeholder: 'Private key',
-        rows: 0,
-      },
-    }
+  const props = isMnemonic ? {
+    title: 'Add mnemonic',
+    finalForm: {
+      onSubmit: onSubmitMnemonic,
+      validate: validateMnemonic,
+    },
+    inputField: {
+      name: 'mnemonic',
+      placeholder: 'Mnemonic',
+      rows: 6,
+    },
+  } : {
+    title: 'Add private key',
+    finalForm: {
+      onSubmit: onSubmitPrivateKey,
+      validate: validatePrivateKey,
+    },
+    inputField: {
+      name: 'privateKey',
+      placeholder: 'Private key',
+      rows: 0,
+    },
+  }
 
   return (
     <CloseableScreen
-      close={onClose}
+      close={isLoading ? null : onClose}
       title={props.title}
     >
       <div className='upgrade-view'>
         <Form
           onSubmit={isLoading ? noop : props.finalForm.onSubmit}
           validate={props.finalForm.validate}
-          render={({ handleSubmit }) => (
+          render={({
+            handleSubmit,
+            invalid,
+          }) => (
             <form
               onSubmit={handleSubmit}
               className='form'
@@ -126,7 +116,6 @@ function UpgradeView({
                 {...props.inputField}
                 component={JInputField}
                 color='gray'
-                isDisabled={isLoading}
                 isAutoFocus
               />
               {isMnemonic && (
@@ -136,29 +125,33 @@ function UpgradeView({
                     placeholder='BIP39 Mnemonic passphrase (optional)'
                     component={JInputField}
                     color='gray'
-                    isDisabled={isLoading}
                   />
                   <Field
                     name='derivationPath'
                     placeholder='Derivation path (optional)'
                     component={JInputField}
                     color='gray'
-                    isDisabled={isLoading}
                   />
                 </Fragment>
               )}
+              <Field
+                name='password'
+                placeholder='Payment password'
+                type='password'
+                color='gray'
+                isDisabled={isLoading}
+                render={renderPasswordField(isInvalidPassword)}
+              />
               <button
                 className={classNames(
                   'submit j-raised-button -blue',
-                  isLoading && '-disabled'
+                  (isLoading || invalid) && '-disabled'
                 )}
                 type='submit'
               >
-                {isLoading ?
-                  <JLoader color='white' /> :
-                  <JText
-                    value='Save'
-                  />
+                {isLoading
+                  ? <JLoader color='white' />
+                  : <JText value='Save' />
                 }
               </button>
             </form>

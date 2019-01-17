@@ -8,7 +8,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import keystore from 'services/keystore'
+import checkAddressValid from 'utils/address/checkAddressValid'
 
 import {
   selectAddressNames,
@@ -32,7 +32,7 @@ function* openView(action: ExtractReturn<typeof walletsRenameAddress.openView>):
   const addressWalletsNames: ExtractReturn<typeof selectAddressWalletsNames> =
     yield select(selectAddressWalletsNames)
 
-  const isAddressValid: boolean = keystore.checkAddressValid(address)
+  const isAddressValid: boolean = checkAddressValid(address)
   const isAddressWalletExist: boolean = !!addressWalletsNames[address]
 
   if (!items.length) {

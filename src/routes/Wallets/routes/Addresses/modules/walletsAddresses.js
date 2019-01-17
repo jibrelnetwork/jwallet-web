@@ -50,7 +50,7 @@ export function getMoreError(err: Error) {
   }
 }
 
-export function getMoreSuccess(addresses: Addresses) {
+export function getMoreSuccess(addresses: Address[]) {
   return {
     type: GET_MORE_SUCCESS,
     payload: {
@@ -93,7 +93,7 @@ export function getBalancesSuccess(balances: Balances) {
   }
 }
 
-export function getBalancesRequest(addresses: Addresses) {
+export function getBalancesRequest(addresses: Address[]) {
   return {
     type: GET_ETH_BALANCES_REQUEST,
     payload: {

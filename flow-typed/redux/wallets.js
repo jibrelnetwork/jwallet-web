@@ -32,10 +32,9 @@ declare type PasswordOptionsUser = {|
 |}
 
 declare type MnemonicOptionsUser = {|
-  +network?: ?Network,
+  +network?: ?number | string,
   +passphrase?: ?string,
   +derivationPath?: string,
-  +paddedMnemonicLength?: number,
 |}
 
 declare type PasswordOptions = {|
@@ -48,10 +47,9 @@ declare type PasswordOptions = {|
 |}
 
 declare type MnemonicOptions = {|
-  +network: Network,
+  +network: number | string,
   +passphrase: string,
   +derivationPath: string,
-  +paddedMnemonicLength: number,
 |}
 
 declare type Wallet = {|
@@ -224,4 +222,41 @@ declare type WalletsAddressesState = {|
 declare type WalletsRenameAddressState ={|
   +name: string,
   +invalidFields: FormFields,
+|}
+
+declare type HDPublicKey = {|
+  +toString: () => string,
+  +derive: (number) => HDPublicKey,
+  +xpubkey: string,
+  +publicKey: {|
+    +toString: () => string,
+  |},
+|}
+
+declare type HDPrivateKey = {|
+  +toString: () => string,
+  +isValidPath: (string) => boolean,
+  +derive: (string | number) => HDPrivateKey,
+  +xpubkey: string,
+  +xprivkey: string,
+  +hdPublicKey: HDPublicKey,
+  +privateKey: {|
+    +toString: () => string,
+  |},
+|}
+
+declare type KeyPair = {|
+  +getPublic: (boolean, 'hex') => string,
+  +_importPrivate: (string, 'hex') => void,
+|}
+
+declare type KeyWordArray = {|
+  +words: number[],
+  +sigBytes: number,
+  +toString: (KeyWordArrayEncoder) => string,
+|}
+
+declare type KeyWordArrayEncoder = {|
+  +parse: (string) => KeyWordArray,
+  +stringify: (KeyWordArray) => string,
 |}

@@ -39,11 +39,7 @@ class WalletsDeleteView extends Component<Props> {
       },
     }: Props = this.props
 
-    const foundWallet: ?Wallet = getWallet(items, walletId)
-
-    if (!foundWallet) {
-      return null
-    }
+    const foundWallet: Wallet = getWallet(items, walletId)
 
     return (
       <div className='wallets-view -delete'>
@@ -56,6 +52,7 @@ class WalletsDeleteView extends Component<Props> {
           <div className='form'>
             <JThumbnail
               color='white'
+              iconSize='xlarge'
               image='auth-cross'
               title={`Delete ${foundWallet.name}?`}
               description={[
