@@ -27,6 +27,7 @@ type Props = {|
   +addressNames: AddressNames,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +isLoading: boolean,
@@ -40,6 +41,7 @@ function DigitalAssetsSendForm({
   addressNames,
   formFieldValues,
   formFieldErrors,
+  formFieldWarnings,
   ownerAddress,
   priority,
   isLoading,
@@ -70,6 +72,7 @@ function DigitalAssetsSendForm({
           onSelect={setFormFieldValue('recipient')}
           addressNames={addressNames}
           selectedAddress={recipient}
+          infoMessage={formFieldWarnings.recipient}
           errorMessage={formFieldErrors.recipient}
         />
         <DigitalAssetsSendFormAssetPicker
@@ -95,6 +98,7 @@ function DigitalAssetsSendForm({
           setFormFieldValue={setFormFieldValue}
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
+          formFieldWarnings={formFieldWarnings}
           selectedPriority={priority}
         />
         <div className='split'>
@@ -114,6 +118,7 @@ function DigitalAssetsSendForm({
               onChange={setFormFieldValue('nonce')}
               value={nonce}
               errorMessage={formFieldErrors.nonce}
+              infoMessage={formFieldWarnings.nonce}
               icon='plus'
               name='nonce'
               label='Show nonce'

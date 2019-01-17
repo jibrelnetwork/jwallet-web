@@ -172,6 +172,7 @@ declare type GasSettings = {|
 declare type DigitalAssetsSendState = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
   +isLoading: boolean,

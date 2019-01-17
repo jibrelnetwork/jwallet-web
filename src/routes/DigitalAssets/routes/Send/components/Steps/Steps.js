@@ -16,6 +16,7 @@ type Props = {|
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
@@ -32,6 +33,7 @@ function DigitalAssetsSendSteps({
   selectedAsset,
   formFieldValues,
   formFieldErrors,
+  formFieldWarnings,
   ownerAddress,
   priority,
   currentStep,
@@ -46,6 +48,7 @@ function DigitalAssetsSendSteps({
           setFormFieldValue={setFormFieldValue}
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
+          formFieldWarnings={formFieldWarnings}
           submit={goToNextStep}
           addressNames={addressNames}
           digitalAssets={digitalAssets}

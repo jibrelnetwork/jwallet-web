@@ -37,6 +37,7 @@ type Props = {|
   +selectedPriority: TXPriorityKey,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
 |}
 
 class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
@@ -57,10 +58,16 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
       setFormFieldValue,
       formFieldValues,
       formFieldErrors,
+      formFieldWarnings,
       selectedPriority,
     }: Props = this.props
 
     const selectedPriorityData: TXPriorityData = TXPRIORITY_DATA[selectedPriority]
+
+    const errorMessage = formFieldErrors.gasLimit || formFieldErrors.gasPrice
+    const infoMessage = (!errorMessage)
+      ? formFieldWarnings.gasLimit || formFieldWarnings.gasPrice
+      : ''
 
     return (
       <div className='digital-assets-send-form-priority-picker'>
@@ -76,7 +83,8 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
               value: formFieldValues.gasPrice,
               placeholder: 'Gas price (gwei)',
             }]}
-            errorMessage={formFieldErrors.gasLimit || formFieldErrors.gasPrice}
+            errorMessage={errorMessage}
+            infoMessage={infoMessage}
           />
         ) : (
           <JPicker

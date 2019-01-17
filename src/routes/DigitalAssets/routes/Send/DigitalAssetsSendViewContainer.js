@@ -36,10 +36,11 @@ function mapStateToProps(state: AppState) {
   const {
     formFieldValues,
     formFieldErrors,
+    formFieldWarnings,
     priority,
     currentStep,
     isLoading,
-    gasSettings,
+    finalGasSettings,
   }: DigitalAssetsSendState = selectDigitalAssetsSend(state)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
@@ -62,12 +63,13 @@ function mapStateToProps(state: AppState) {
     selectedAsset,
     formFieldValues,
     formFieldErrors,
+    formFieldWarnings,
     priority,
     ownerAddress,
     currentStep,
     isLoading,
     digitalAssets: assetsWithBalance,
-    gasSettings,
+    gasSettings: finalGasSettings,
   }
 }
 
