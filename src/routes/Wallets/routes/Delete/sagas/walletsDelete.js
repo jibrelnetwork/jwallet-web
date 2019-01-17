@@ -1,11 +1,20 @@
 // @flow
 
 import { push } from 'react-router-redux'
-import { put, select, takeEvery } from 'redux-saga/effects'
 
-import keystore from 'services/keystore'
-import getWallet from 'utils/wallets/getWallet'
-import { selectWalletsItems } from 'store/stateSelectors'
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
+import { selectWalletsItems } from 'store/selectors/wallets'
+
+import {
+  getWallet,
+  removeWallet,
+} from 'utils/wallets'
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsDelete from '../modules/walletsDelete'
@@ -14,9 +23,10 @@ function* openView(action: ExtractReturn<typeof walletsDelete.openView>): Saga<v
   yield put(wallets.clean())
 
   const items: Wallets = yield select(selectWalletsItems)
-  const isFound: boolean = !!getWallet(items, action.payload.walletId)
 
-  if (!isFound) {
+  try {
+    getWallet(items, action.payload.walletId)
+  } catch (err) {
     yield put(push('/wallets'))
   }
 }
@@ -26,7 +36,7 @@ function* remove(action: ExtractReturn<typeof walletsDelete.remove>): Saga<void>
 
   yield put(wallets.setIsLoading(true))
 
-  const itemsNew: Wallets = keystore.removeWallet(items, walletId)
+  const itemsNew: Wallets = removeWallet(items, walletId)
   yield put(wallets.setWalletsItems(itemsNew))
 
   const isEmptyWallets: boolean = (itemsNew.length === 0)

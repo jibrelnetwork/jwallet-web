@@ -1,11 +1,23 @@
 // @flow
 
 import { push } from 'react-router-redux'
-import { put, call, select, takeEvery, race, take } from 'redux-saga/effects'
+
+import {
+  put,
+  call,
+  race,
+  take,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
 
 import { selectWalletsItems } from 'store/stateSelectors'
-import { getWallet, checkMnemonicType } from 'utils/wallets'
 import { privateKeyRequest } from 'workers/wallets/wrapper'
+
+import {
+  getWallet,
+  checkMnemonicType,
+} from 'utils/wallets'
 
 import * as wallets from '../modules/wallets'
 
@@ -28,19 +40,20 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
   }
 
   const items: Wallets = yield select(selectWalletsItems)
-  const wallet: ?Wallet = getWallet(items, activeWalletId)
-  const isMnemonicWallet: boolean = !!wallet && checkMnemonicType(wallet.type)
 
-  yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/digital-assets'))
+  try {
+    const wallet: Wallet = getWallet(items, activeWalletId)
+    const isMnemonicWallet: boolean = checkMnemonicType(wallet.type)
+
+    yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/digital-assets'))
+  } catch (err) {
+    yield put(push('/digital-assets'))
+  }
 }
 
 export function* getPrivateKey(walletId: string, password: string): Saga<string> {
   const items: Wallets = yield select(selectWalletsItems)
-  const wallet: ?Wallet = getWallet(items, walletId)
-
-  if (!wallet) {
-    throw new Error('Wallet not found')
-  }
+  const wallet: Wallet = getWallet(items, walletId)
 
   yield call(privateKeyRequest, wallet, password)
 

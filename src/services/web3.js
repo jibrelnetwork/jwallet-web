@@ -4,7 +4,7 @@ import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { keccak256 } from 'js-sha3'
 
 import checkETH from 'utils/digitalAssets/checkETH'
-import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
+import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
 
 type ERC20MethodName =

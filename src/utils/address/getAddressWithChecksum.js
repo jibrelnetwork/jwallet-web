@@ -7,17 +7,6 @@ import {
   strip0x,
 } from '.'
 
-type KeyWordArray = {|
-  words: number[],
-  sigBytes: number,
-  toString: (KeyWordArrayEncoder) => string,
-|}
-
-type KeyWordArrayEncoder = {|
-  parse: (string) => KeyWordArray,
-  stringify: (KeyWordArray) => string,
-|}
-
 const ENCODER: KeyWordArrayEncoder = cryptoJS.enc.Hex
 
 function getAddressWithChecksum(address: string): Address {

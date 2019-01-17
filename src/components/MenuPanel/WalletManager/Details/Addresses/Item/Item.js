@@ -3,7 +3,7 @@
 import React from 'react'
 
 import JRadio from 'components/base/JRadio'
-import getShortenedAddress from 'utils/wallets/getShortenedAddress'
+import getShortenedAddress from 'utils/address/getShortenedAddress'
 import MenuPanelWalletManagerDetailsAddressWithName from '../AddressWithName'
 
 const SYMBOLS_FROM_START = 8

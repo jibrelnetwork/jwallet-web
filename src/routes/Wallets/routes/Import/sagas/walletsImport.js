@@ -1,11 +1,27 @@
 // @flow
 
 import { push } from 'react-router-redux'
-import { put, select, takeEvery } from 'redux-saga/effects'
 
-import keystore from 'services/keystore'
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
 import walletsWorker from 'workers/wallets'
-import { selectWallets, selectWalletsItems, selectWalletsImport } from 'store/stateSelectors'
+import checkDerivationPathValid from 'utils/mnemonic/checkDerivationPathValid'
+
+import {
+  getTypeByInput,
+  checkWalletUniqueness,
+} from 'utils/wallets'
+
+import {
+  selectWallets,
+  selectWalletsItems,
+  selectWalletsImport,
+} from 'store/selectors/wallets'
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsImport from '../modules/walletsImport'
@@ -21,7 +37,7 @@ function* checkName(): Saga<void> {
   }
 
   try {
-    keystore.checkWalletUniqueness(persist.items, nameCleaned, 'name')
+    checkWalletUniqueness(persist.items, nameCleaned, 'name')
     yield put(walletsImport.setCurrentStep(walletsImport.STEPS.DATA))
   } catch (err) {
     yield put(wallets.setInvalidField('name', err.message))
@@ -49,7 +65,7 @@ function* checkData(): Saga<void> {
 
   if (derivationPath) {
     try {
-      keystore.checkDerivationPath(derivationPath)
+      checkDerivationPathValid(derivationPath)
     } catch (err) {
       yield put(walletsImport.setInvalidField('derivationPath', 'Derivation path is not valid'))
 
@@ -140,8 +156,8 @@ function* importSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
   yield put(wallets.setActiveWallet(importedWallet.id))
 }
 
-function* checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataInput>) {
-  const walletType: ?WalletCustomType = keystore.getDataType(action.payload.data)
+function* checkWalletType(action: ExtractReturn<typeof walletsImport.changeDataInput>): Saga<void> {
+  const walletType: ?WalletCustomType = getTypeByInput(action.payload.data)
   yield put(walletsImport.setWalletType(walletType))
 }
 
