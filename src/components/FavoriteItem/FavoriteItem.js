@@ -20,12 +20,13 @@ type Props = {|
   +symbol: string,
   +description: ?string,
   +address: FavoriteAddress,
+  +isWalletReadOnly: boolean,
 |}
 
+type FavoriteItemHoveredIcon = 'send' | 'edit' | 'trash'
+
 type ComponentState = {|
-  +isHoveredSend: boolean,
-  +isHoveredEdit: boolean,
-  +isHoveredTrash: boolean,
+  +hovered: ?FavoriteItemHoveredIcon,
   +isActionsToggled: boolean,
 |}
 
@@ -34,18 +35,12 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
     super(props)
 
     this.state = {
-      isHoveredSend: false,
-      isHoveredEdit: false,
-      isHoveredTrash: false,
+      hovered: null,
       isActionsToggled: false,
     }
   }
 
-  onHoverSend = (isHoveredSend: boolean) => () => this.setState({ isHoveredSend })
-
-  onHoverEdit = (isHoveredEdit: boolean) => () => this.setState({ isHoveredEdit })
-
-  onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
+  onHover = (hovered: ?FavoriteItemHoveredIcon) => () => this.setState({ hovered })
 
   openActions = () => this.setState({
     isActionsToggled: true,
@@ -61,7 +56,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
       address,
     }: Props = this.props
 
-    this.onHoverTrash(false)
+    this.onHover(null)
 
     remove(address)
   }
@@ -72,12 +67,11 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
       symbol,
       address,
       description,
+      isWalletReadOnly,
     }: Props = this.props
 
     const {
-      isHoveredSend,
-      isHoveredEdit,
-      isHoveredTrash,
+      hovered,
       isActionsToggled,
     }: ComponentState = this.state
 
@@ -112,43 +106,45 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
           }
           <div onClick={this.closeActions} className='overlay' />
           <div className='actions'>
+            {!isWalletReadOnly && (
+              <Link
+                onMouseEnter={this.onHover('send')}
+                onMouseLeave={this.onHover(null)}
+                to={`/digital-assets/send?to=${address}`}
+                className='item -send'
+              >
+                <JTooltip text='Send'>
+                  <JIcon
+                    color={(hovered === 'send') ? 'sky' : 'blue'}
+                    size='medium'
+                    name='upload'
+                  />
+                </JTooltip>
+              </Link>
+            )}
             <Link
-              onMouseEnter={this.onHoverSend(true)}
-              onMouseLeave={this.onHoverSend(false)}
-              to={`/digital-assets/send?to=${address}`}
-              className='item -send'
-            >
-              <JTooltip text='Send'>
-                <JIcon
-                  color={isHoveredSend ? 'sky' : 'blue'}
-                  size='medium'
-                  name='upload'
-                />
-              </JTooltip>
-            </Link>
-            <Link
-              onMouseEnter={this.onHoverEdit(true)}
-              onMouseLeave={this.onHoverEdit(false)}
+              onMouseEnter={this.onHover('edit')}
+              onMouseLeave={this.onHover(null)}
               to={`/favorites/address/${address}`}
               className='item -edit'
             >
               <JTooltip text='Edit'>
                 <JIcon
-                  color={isHoveredEdit ? 'sky' : 'blue'}
+                  color={(hovered === 'edit') ? 'sky' : 'blue'}
                   name='edit'
                   size='medium'
                 />
               </JTooltip>
             </Link>
             <div
-              onClick={this.onHoverTrash(false)}
-              onMouseEnter={this.onHoverTrash(true)}
-              onMouseLeave={this.onHoverTrash(false)}
+              onClick={this.onHover(null)}
+              onMouseLeave={this.onHover(null)}
+              onMouseEnter={this.onHover('trash')}
               className='item -delete'
             >
               <ButtonWithConfirm
                 onClick={ignoreEvent(this.remove)()}
-                iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
+                iconTooltipColor={(hovered === 'trash') ? 'sky' : 'blue'}
                 color='blue'
                 bgColor='white'
                 labelCancel='No'

@@ -22,15 +22,15 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     formFieldValues,
     formFieldErrors,
     isLoading,
-  } = selectFavorites(state)
+  }: FavoritesState = selectFavorites(state)
 
   const { address } = ownProps.params
   const items: Favorites = selectFavoritesItems(state)
 
   return {
+    isLoading,
     formFieldValues,
     formFieldErrors,
-    isLoading,
     foundFavorite: address ? items[address] : null,
   }
 }
