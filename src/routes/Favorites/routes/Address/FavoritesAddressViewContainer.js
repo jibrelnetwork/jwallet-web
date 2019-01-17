@@ -13,6 +13,7 @@ import {
   edit,
   addByUser,
   setFormFieldValue,
+  onAddressViewClose,
 } from '../../modules/favorites'
 
 import FavoritesAddressView from './FavoritesAddressView'
@@ -39,6 +40,7 @@ const mapDispatchToProps = {
   edit,
   setFormFieldValue,
   add: addByUser,
+  onClose: onAddressViewClose,
   close: () => reactRouterBack({ fallbackUrl: '/favorites' }),
 }
 
