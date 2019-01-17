@@ -674,7 +674,6 @@ function* checkPendingTransaction(
     networkId,
     ownerAddress,
     assetAddress,
-    blockNumber,
     transactionId,
   } = action.payload
 
@@ -683,7 +682,6 @@ function* checkPendingTransaction(
     networkId,
     ownerAddress,
     assetAddress,
-    blockNumber,
     transactionId,
   )
 
@@ -691,20 +689,15 @@ function* checkPendingTransaction(
     return
   }
 
-  const {
-    data,
-    blockData,
-    receiptData,
-    hash,
-  }: Transaction = transaction
-
-  const isLoading: boolean = checkTransactionLoading(data, blockData, receiptData)
+  const isLoading: boolean = checkTransactionLoading(transaction)
 
   if (isLoading) {
     return
   }
 
-  const pendingTransaction: ?ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
+  const { hash }: Transaction = transaction
+
+  const pendingTransaction: ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
     selectPendingTransactionByHash,
     networkId,
     ownerAddress,
@@ -792,7 +785,6 @@ export function* requestTransaction(
     networkId,
     ownerAddress,
     assetAddress,
-    blockNumber,
     transactionId,
   ))
 }
@@ -868,6 +860,19 @@ export function* requestTransactions(
           toBlockStr,
           txs,
         ))
+
+        const txIds: TransactionId[] = Object.keys(txs)
+
+        if (txIds.length) {
+          console.error(txs)
+        }
+
+        yield all(txIds.map((txId: TransactionId) => put(transactions.checkPendingTransaction(
+          networkId,
+          ownerAddress,
+          assetAddress,
+          txId,
+        ))))
 
         break
       }

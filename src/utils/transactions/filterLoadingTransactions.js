@@ -10,13 +10,7 @@ function filterLoadingTransactions(items: Transactions, isLoading?: boolean = fa
       return result
     }
 
-    const {
-      data,
-      blockData,
-      receiptData,
-    }: Transaction = tx
-
-    const isFetched: boolean = !checkTransactionLoading(data, blockData, receiptData)
+    const isFetched: boolean = !checkTransactionLoading(tx)
 
     /**
      * required loading | is tx loaded | result (result true means omit current tx)
