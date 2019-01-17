@@ -282,6 +282,18 @@
       }
     }
 
+    &.-mint-event {
+      &.-blue {
+        background-image: $icon-medium-mint-event-blue;
+      }
+    }
+
+    &.-burn-event {
+      &.-gray {
+        background-image: $icon-medium-burn-event-gray;
+      }
+    }
+
     &.-padding-cross {
       &.-white {
         background-image: $icon-medium-padding-cross-white;
