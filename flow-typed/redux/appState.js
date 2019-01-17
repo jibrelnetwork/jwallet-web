@@ -15,8 +15,8 @@ declare type AppState = {
    +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
-  +addAsset: AddAssetState,
-  +editAsset: EditAssetState,
+  +digitalAssetsAdd: AddAssetState,
+  +digitalAssetsEdit: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
   +digitalAssetsSend: DigitalAssetsSendState,

@@ -133,6 +133,7 @@
     "style-loader": "0.23.1",
     "stylelint": "8.4.0",
     "stylelint-config-jibrelnetwork": "1.0.3",
+    "terser-webpack-plugin": "1.2.1",
     "url-loader": "1.1.2",
     "wdio-browserstack-service": "0.1.18",
     "wdio-jasmine-framework": "0.3.8",
