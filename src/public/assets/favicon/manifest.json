@@ -1,6 +1,12 @@
 {
-    "name": "",
+    "name": "Jwallet",
+    "short_name": "Jwallet",
     "icons": [
+        {
+            "src": "/assets/img/favicon/android-chrome-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
         {
             "src": "/assets/img/favicon/android-chrome-192x192.png",
             "sizes": "192x192",
@@ -14,5 +20,13 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "standalone",
+    "related_applications": [{
+        "platform": "play",
+        "id": "com.jibrel.jwallet",
+        "url": "https://play.google.com/store/apps/details?id=com.jibrel.jwallet"
+    }, {
+        "platform": "itunes",
+        "url": "https://itunes.apple.com/app/jwallet/id1414196949?mt=8"
+    }]
 }
