@@ -1,21 +1,33 @@
 // @flow
 
-import add0x from './add0x'
-import strip0x from './strip0x'
 import getWallet from './getWallet'
-import checkAddressValid from './checkAddressValid'
+import getAddress from './getAddress'
+import getMnemonic from './getMnemonic'
+import getAddresses from './getAddresses'
+import appendWallet from './appendWallet'
+import createWallet from './createWallet'
+import removeWallet from './removeWallet'
+import updateWallet from './updateWallet'
+import upgradeWallet from './upgradeWallet'
+import getBackupData from './getBackupData'
+import getPrivateKey from './getPrivateKey'
+import getTypeByInput from './getTypeByInput'
 import checkMnemonicType from './checkMnemonicType'
-import getShortenedAddress from './getShortenedAddress'
-import getAddressWithChecksum from './getAddressWithChecksum'
-import checkAddressWithChecksumValid from './checkAddressWithChecksumValid'
+import checkWalletUniqueness from './checkWalletUniqueness'
 
 export {
-  add0x,
-  strip0x,
   getWallet,
-  checkAddressValid,
+  getAddress,
+  getMnemonic,
+  getAddresses,
+  appendWallet,
+  createWallet,
+  removeWallet,
+  updateWallet,
+  upgradeWallet,
+  getBackupData,
+  getPrivateKey,
+  getTypeByInput,
   checkMnemonicType,
-  getShortenedAddress,
-  getAddressWithChecksum,
-  checkAddressWithChecksumValid,
+  checkWalletUniqueness,
 }

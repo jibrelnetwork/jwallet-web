@@ -153,6 +153,26 @@ const config: AppConfig = {
   syncBalancesTimeout: 10 * ONE_SECOND,
 
   miningDelay: ONE_DAY,
+
+  addressWalletType: 'address',
+
+  mnemonicWalletType: 'mnemonic',
+
+  encryptedDataLength: 120,
+
+  defaultSaltBytesCount: 32,
+
+  defaultScryptParams: {
+    N: 2 ** 18,
+    r: 8,
+    p: 1,
+  },
+
+  defaultEncryptionType: 'nacl.secretbox',
+
+  defaultDerivationKeyLength: 32,
+
+  defaultRandomBufferLength: 32,
 }
 
 export default config

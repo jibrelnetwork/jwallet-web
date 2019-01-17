@@ -4,9 +4,12 @@ import React from 'react'
 import classNames from 'classnames'
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+import getShortenedAddress from 'utils/address/getShortenedAddress'
 
-import { JIcon, JText } from 'components/base'
-import getShortenedAddress from 'utils/wallets/getShortenedAddress'
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type Props = {|
   +toggle: () => void,
