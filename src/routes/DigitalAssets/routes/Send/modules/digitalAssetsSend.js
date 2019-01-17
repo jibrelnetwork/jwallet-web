@@ -153,7 +153,7 @@ export function setFormFieldError(
 }
 
 export function setFormFieldWarning(
-  fieldName: $Keys<DigitalAssetsSendFormFieldWarnings>,
+  fieldName: $Keys<DigitalAssetsSendFormFields>,
   message: string,
 ) {
   return {
@@ -213,9 +213,14 @@ const initialState: DigitalAssetsSendState = {
   },
   formFieldWarnings: {
     nonce: '',
+    amount: '',
+    comment: '',
     gasLimit: '',
     gasPrice: '',
+    password: '',
     recipient: '',
+    amountFiat: '',
+    assetAddress: '',
   },
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
@@ -270,6 +275,10 @@ function digitalAssetsSend(
           ...state.formFieldErrors,
           [fieldName]: '',
         },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
+          [fieldName]: '',
+        },
         formFieldValues: {
           ...state.formFieldValues,
           [fieldName]: value,
@@ -289,6 +298,10 @@ function digitalAssetsSend(
           ...state.formFieldErrors,
           [fieldName]: message,
         },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
+          [fieldName]: '',
+        },
       }
     }
 
@@ -300,6 +313,10 @@ function digitalAssetsSend(
 
       return {
         ...state,
+        formFieldErrors: {
+          ...state.formFieldErrors,
+          [fieldName]: '',
+        },
         formFieldWarnings: {
           ...state.formFieldWarnings,
           [fieldName]: message,

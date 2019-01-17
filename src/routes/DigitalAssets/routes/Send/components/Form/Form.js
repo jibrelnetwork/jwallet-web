@@ -27,7 +27,7 @@ type Props = {|
   +addressNames: AddressNames,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
-  +formFieldWarnings: DigitalAssetsSendFormFieldWarnings,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +isLoading: boolean,

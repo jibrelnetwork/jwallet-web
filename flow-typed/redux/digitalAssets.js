@@ -169,17 +169,10 @@ declare type GasSettings = {|
   gasLimit: ?string,
 |}
 
-declare type DigitalAssetsSendFormFieldWarnings = {|
-  +nonce: string,
-  +gasLimit: string,
-  +gasPrice: string,
-  +recipient: Address,
-|}
-
 declare type DigitalAssetsSendState = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
-  +formFieldWarnings: DigitalAssetsSendFormFieldWarnings,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
   +isLoading: boolean,

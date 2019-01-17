@@ -37,7 +37,7 @@ type Props = {|
   +selectedPriority: TXPriorityKey,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
-  +formFieldWarnings: DigitalAssetsSendFormFieldWarnings,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
 |}
 
 class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {

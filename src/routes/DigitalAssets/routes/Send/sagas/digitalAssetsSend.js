@@ -20,7 +20,8 @@ import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 
 import {
-  convertEth,
+  fromWeiToGWei,
+  fromGweiToWei,
   toBigNumber,
 } from 'utils/numbers'
 
@@ -44,18 +45,17 @@ import * as transactions from 'routes/modules/transactions'
 
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
-const ETH_MIN_GAS_PRICE = 21000
-const MIN_GAS_PRICE_COEFFICIENT = 0.5
+const MIN_GAS_PRICE_COEFFICIENT = 0.25
 
 function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Saga<void> {
   const {
     to,
-    gas,
-    nonce,
+    // gas,
+    // nonce,
     asset,
     amount,
     comment,
-    gasPrice,
+    // gasPric,
   } = qs.parse(action.payload.query)
 
   if (to) {
@@ -72,24 +72,24 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
     yield put(digitalAssetsSend.setFormFieldValue('amount', amount))
   }
 
-  if (nonce) {
-    yield put(digitalAssetsSend.setFormFieldValue('nonce', nonce))
-  }
+  // if (nonce) {
+  //   yield put(digitalAssetsSend.setFormFieldValue('nonce', nonce))
+  // }
 
   /** TODO: question, do we need to fill gasPrice and gasLimit for transaction repeat? */
-  if (gas) {
-    yield put(digitalAssetsSend.setFormFieldValue('gasLimit', gas))
-  }
+  // if (gas) {
+  //   yield put(digitalAssetsSend.setFormFieldValue('gasLimit', gas))
+  // }
 
-  if (gasPrice) {
-    yield put(
-      digitalAssetsSend.setFormFieldValue('gasPrice', convertEth(gasPrice, 'wei', 'gwei') || '')
-    )
-  }
+  // if (gasPrice) {
+  //   yield put(
+  //     digitalAssetsSend.setFormFieldValue('gasPrice', fromWeiToGWei(gasPrice))
+  //   )
+  // }
 
-  if (gas || gasPrice) {
-    yield put(digitalAssetsSend.setPriority('CUSTOM'))
-  }
+  // if (gas || gasPrice) {
+  //   yield put(digitalAssetsSend.setPriority('CUSTOM'))
+  // }
 
   if (comment) {
     yield put(digitalAssetsSend.setFormFieldValue('comment', comment))
@@ -135,8 +135,7 @@ function* checkPriority(
   }
 
   if (priority === 'CUSTOM') {
-    const gasPrice: ?string = convertEth(userGasPrice, 'gwei', 'wei')
-    const isGasPriceValid: boolean = !!gasPrice
+    const isGasPriceValid: boolean = parseFloat(userGasPrice) > 0
     const isGasLimitValid: boolean = parseInt(userGasLimit, 10) > 0
 
     if (!isGasLimitValid) {
@@ -149,9 +148,10 @@ function* checkPriority(
 
     if (isGasLimitValid && isGasPriceValid) {
       // convert it to WEI
+      const gasPrice: string = fromGweiToWei(userGasPrice)
       yield put(digitalAssetsSend.setFinalGasPriceValue(gasPrice))
 
-      const gasLimit = toBigNumber(userGasLimit).toString()
+      const gasLimit: string = toBigNumber(userGasLimit).toString()
       yield put(digitalAssetsSend.setFinalGasLimitValue(gasLimit))
     }
   } else {
@@ -204,7 +204,7 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
     formFieldValues: {
       amount,
     },
-    gasSettings: {
+    finalGasSettings: {
       gasPrice,
       gasLimit,
     },
@@ -525,16 +525,20 @@ function* setPriority(): Saga<void> {
     priority,
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
-  // force reset warnings, when asset address changed
   yield put(digitalAssetsSend.setFormFieldWarning('gasLimit', ''))
   yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
 
   if (priority === 'CUSTOM') {
     // request and set gas price
-    const gasPrice = yield* requestGasPrice()
+    const gasPrice: ?BigNumber = yield* requestGasPrice()
+    if (!gasPrice) {
+      digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price')
+      return
+    }
+
     if (gasPrice.gt(0)) {
       yield put(
-        digitalAssetsSend.setFormFieldValue('gasPrice', convertEth(gasPrice, 'wei', 'gwei'))
+        digitalAssetsSend.setFormFieldValue('gasPrice', fromWeiToGWei(gasPrice))
       )
     }
 
@@ -586,25 +590,20 @@ function* checkGasPriceWarning(newGasPrice: void | string | BigNumber): Saga<voi
   }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
 
   // Priority warnings
-  try {
-    const gasPrice = toBigNumber(newGasPrice)
-    const initialGasPrice = toBigNumber(initialGasSettings.gasPrice)
+  const gasPrice = parseFloat(newGasPrice) // GWEI
+  const initialGasPrice = parseInt(initialGasSettings.gasPrice, 10) // WEI
 
-    if (gasPrice.lt(initialGasPrice.times(MIN_GAS_PRICE_COEFFICIENT)) ||
-      gasPrice.lt(ETH_MIN_GAS_PRICE)
-    ) {
+  if (gasPrice > 0 && initialGasPrice > 0) {
+    const gasPriceWei = parseInt(fromGweiToWei(gasPrice), 10)
+
+    if (gasPriceWei < initialGasPrice * MIN_GAS_PRICE_COEFFICIENT) {
       yield put(digitalAssetsSend.setFormFieldWarning(
         'gasPrice',
         'Gas price is too small. Most likely, your transaction will fail'
       ))
-    } else if (formFieldWarnings.gasPrice) {
-      yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
     }
-  } catch (err) {
-    // when toBigNumber throws exception - user input is invald, it is error, not warning
-    if (formFieldWarnings.gasPrice) {
-      yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
-    }
+  } else if (formFieldWarnings.gasPrice) {
+    yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
   }
 }
 
@@ -627,7 +626,7 @@ function* setFormField(
   }
 
   if (fieldName === 'gasPrice') {
-    yield* checkGasPriceWarning(convertEth(value, 'gwei', 'wei'))
+    yield* checkGasPriceWarning(value)
   }
 }
 
