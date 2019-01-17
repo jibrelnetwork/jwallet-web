@@ -1,11 +1,7 @@
 // @flow
 
 import config from 'config'
-
-import {
-  strip0x,
-  getAddressFromPrivateKey,
-} from 'utils/address'
+import strip0x from 'utils/address/strip0x'
 
 import {
   getWallet,
@@ -17,18 +13,13 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
-import {
-  getXPubFromMnemonic,
-  checkDerivationPathValid,
-} from 'utils/mnemonic'
-
 import updateWallet from './updateWallet'
 
 function addMnemonic(
   wallets: Wallets,
   wallet: Wallet,
   password: string,
-  mnemonicUser: string,
+  mnemonic: string,
   passwordOptions: PasswordOptions,
   mnemonicOptions: MnemonicOptions,
 ): Wallets {
@@ -42,26 +33,12 @@ function addMnemonic(
     throw new Error('WalletDataError')
   }
 
-  const mnemonic: string = mnemonicUser.toLowerCase()
-
-  if (!checkDerivationPathValid(mnemonicOptions.derivationPath)) {
-    throw new Error('DerivationPathInvalidError')
-  }
-
-  const xpubFromMnemonic: string = getXPubFromMnemonic(mnemonic, mnemonicOptions)
-
-  if (bip32XPublicKey.toLowerCase() !== xpubFromMnemonic.toLowerCase()) {
-    throw new Error('MnemonicInvalidError')
-  }
-
   const {
     salt,
     scryptParams,
     encryptionType,
     derivedKeyLength,
   }: PasswordOptions = passwordOptions
-
-  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
 
   return updateWallet(wallets, id, {
     mnemonicOptions,
@@ -70,7 +47,7 @@ function addMnemonic(
       mnemonic: encryptData({
         encryptionType,
         data: mnemonic,
-        derivedKey: dKey,
+        derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
       }),
       privateKey: null,
     },
@@ -96,12 +73,6 @@ function addPrivateKey(
     throw new Error('WalletDataError')
   }
 
-  const addressFromPrivateKey: string = getAddressFromPrivateKey(privateKey)
-
-  if (address.toLowerCase() !== addressFromPrivateKey.toLowerCase()) {
-    throw new Error('PrivateKeyInvalidError')
-  }
-
   const {
     salt,
     scryptParams,
@@ -109,15 +80,13 @@ function addPrivateKey(
     derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-
   return updateWallet(wallets, id, {
     passwordOptions,
     encrypted: {
       privateKey: encryptData({
         encryptionType,
-        derivedKey: dKey,
         data: strip0x(privateKey),
+        derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
       }),
       mnemonic: null,
     },
@@ -140,15 +109,17 @@ function upgradeWallet(
     throw new Error('WalletDataError')
   }
 
+  const preparedData: string = data.trim().toLowerCase()
+
   if (checkMnemonicType(wallet.type)) {
     if (!mnemonicOptions) {
       throw new Error('WalletDataError')
     }
 
-    return addMnemonic(wallets, wallet, password, data, passwordOptions, mnemonicOptions)
+    return addMnemonic(wallets, wallet, password, preparedData, passwordOptions, mnemonicOptions)
   }
 
-  return addPrivateKey(wallets, wallet, password, data, passwordOptions)
+  return addPrivateKey(wallets, wallet, password, preparedData, passwordOptions)
 }
 
 export default upgradeWallet

@@ -59,8 +59,6 @@ function createMnemonicWallet(
     derivedKeyLength,
   }: PasswordOptions = passwordOptions
 
-  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-
   return appendWallet(wallets, {
     id,
     name,
@@ -76,7 +74,7 @@ function createMnemonicWallet(
       mnemonic: encryptData({
         encryptionType,
         data: mnemonic,
-        derivedKey: dKey,
+        derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
       }),
     },
     /**
@@ -86,7 +84,7 @@ function createMnemonicWallet(
   })
 }
 
-const createReadOnlyMnemonicWallet = (wallets: Wallets, walletData: WalletData): Wallets => {
+function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData): Wallets {
   const {
     id,
     data,
@@ -101,8 +99,8 @@ const createReadOnlyMnemonicWallet = (wallets: Wallets, walletData: WalletData):
     addressIndex: 0,
     isReadOnly: true,
     bip32XPublicKey: data,
-    type: config.mnemonicWalletType,
     customType: 'bip32Xpub',
+    type: config.mnemonicWalletType,
     encrypted: {
       mnemonic: null,
       privateKey: null,
@@ -116,11 +114,7 @@ const createReadOnlyMnemonicWallet = (wallets: Wallets, walletData: WalletData):
   })
 }
 
-const createAddressWallet = (
-  wallets: Wallets,
-  walletData: WalletData,
-  password: string,
-): Wallets => {
+function createAddressWallet(wallets: Wallets, walletData: WalletData, password: string): Wallets {
   const {
     id,
     data,
@@ -128,7 +122,8 @@ const createAddressWallet = (
     passwordOptions,
   }: WalletData = walletData
 
-  const address: string = getAddressFromPrivateKey(data)
+  const privateKey: string = data.toLowerCase()
+  const address: string = getAddressFromPrivateKey(privateKey)
   checkWalletUniqueness(wallets, address, 'address')
 
   const {
@@ -137,8 +132,6 @@ const createAddressWallet = (
     encryptionType,
     derivedKeyLength,
   }: PasswordOptions = passwordOptions
-
-  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
 
   return appendWallet(wallets, {
     id,
@@ -152,8 +145,8 @@ const createAddressWallet = (
       mnemonic: null,
       privateKey: encryptData({
         encryptionType,
-        derivedKey: dKey,
-        data: strip0x(data),
+        data: strip0x(privateKey),
+        derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
       }),
     },
     /**
@@ -165,7 +158,7 @@ const createAddressWallet = (
   })
 }
 
-const createReadOnlyAddressWallet = (wallets: Wallets, walletData: WalletData): Wallets => {
+function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): Wallets {
   const {
     id,
     data,

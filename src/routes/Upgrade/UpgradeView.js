@@ -97,14 +97,17 @@ function UpgradeView({
 
   return (
     <CloseableScreen
-      close={onClose}
+      close={isLoading ? null : onClose}
       title={props.title}
     >
       <div className='upgrade-view'>
         <Form
           onSubmit={isLoading ? noop : props.finalForm.onSubmit}
           validate={props.finalForm.validate}
-          render={({ handleSubmit }) => (
+          render={({
+            handleSubmit,
+            invalid,
+          }) => (
             <form
               onSubmit={handleSubmit}
               className='form'
@@ -113,7 +116,6 @@ function UpgradeView({
                 {...props.inputField}
                 component={JInputField}
                 color='gray'
-                isDisabled={isLoading}
                 isAutoFocus
               />
               {isMnemonic && (
@@ -123,14 +125,12 @@ function UpgradeView({
                     placeholder='BIP39 Mnemonic passphrase (optional)'
                     component={JInputField}
                     color='gray'
-                    isDisabled={isLoading}
                   />
                   <Field
                     name='derivationPath'
                     placeholder='Derivation path (optional)'
                     component={JInputField}
                     color='gray'
-                    isDisabled={isLoading}
                   />
                 </Fragment>
               )}
@@ -145,7 +145,7 @@ function UpgradeView({
               <button
                 className={classNames(
                   'submit j-raised-button -blue',
-                  isLoading && '-disabled'
+                  (isLoading || invalid) && '-disabled'
                 )}
                 type='submit'
               >
