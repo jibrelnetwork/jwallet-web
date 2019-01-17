@@ -97,7 +97,7 @@ function UpgradeView({
 
   return (
     <CloseableScreen
-      close={isLoading ? null : onClose}
+      close={isLoading ? noop : onClose}
       title={props.title}
     >
       <div className='upgrade-view'>
