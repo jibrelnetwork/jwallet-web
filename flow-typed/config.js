@@ -14,12 +14,6 @@ declare type JSONFormatConfig = {|
   +size: number,
 |}
 
-declare type ScryptParams = {|
-  +N: number,
-  +r: number,
-  +p: number,
-|}
-
 declare type AppConfig = {|
   +searchTimeout: number,
   +resetIncorrectPincodeTimeout: number,
