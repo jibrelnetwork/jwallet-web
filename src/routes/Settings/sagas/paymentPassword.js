@@ -1,8 +1,19 @@
 // @flow
-import { put } from 'redux-saga/effects'
-import { checkPassword } from 'utils/password'
+import { select, put } from 'redux-saga/effects'
+import { validatePassword } from 'utils/password'
+import * as settingsWorker from 'workers/settings/wrapper'
 
-export function* paymentPasswordCheck(action: Object): Saga<void> {
-  const payload = checkPassword(action.payload)
-  yield put({ type: '@settings/VALIDATION_PASSWORD_FORM', payload })
+import { VALIDATION_PASSWORD_FORM } from '../modules/settings'
+
+export function* paymentPasswordCheck({ payload }: Object): Saga<void> {
+  const validationMessages = validatePassword(payload)
+
+  yield put({ type: VALIDATION_PASSWORD_FORM, payload: validationMessages })
+  if (Object.keys(validationMessages).length === 0) {
+    const state = yield select()
+    const isValid = yield settingsWorker.checkPassword(state, payload.passwordOld)
+    if (isValid) {
+      // TODO: make some naughy things
+    }
+  }
 }
