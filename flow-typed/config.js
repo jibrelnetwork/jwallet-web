@@ -14,8 +14,8 @@ declare type JSONFormatConfig = {|
   +size: number,
 |}
 
-type BlockExplorerAPILink = 'api-blockchain-service.jwallet.network' |
-  'api-blockchain-service.jwallet.develop.stacks.jdev.network'
+type BlockExplorerAPILink = 'https://api-blockchain-service.jwallet.network' |
+  'http://api-blockchain-service.jwallet.develop.stacks.jdev.network'
 
 declare type AppConfig = {|
   +searchTimeout: number,
@@ -35,7 +35,7 @@ declare type AppConfig = {|
   +getTransactionsIntervalTimeout: number,
   +defaultDecimals: number,
   +jsonFormat: JSONFormatConfig,
-  +blockExplorerApiOptions: RequestOptions,
+  +blockExplorerAPIOptions: RequestOptions,
   +maxPasswordLength: number,
   +delayBeforeFormClean: number,
   +defaultDerivationPath: string,

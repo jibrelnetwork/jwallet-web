@@ -7,8 +7,8 @@ import * as type from 'utils/type'
 
 const {
   blockExplorerAPILink,
-  blockExplorerApiOptions,
-} = config
+  blockExplorerAPIOptions,
+}: AppConfig = config
 
 const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } = {
   '1': 'mainnet',
@@ -37,8 +37,7 @@ function callApi(
     throw new Error('BlockExplorerPrivateNetworkError')
   }
 
-  const apiEnpoint: string =
-    `http${__DEV__ ? '' : 's'}://${blockExplorerAPILink}/v1/${apiSubdomain}/${address}/transactions`
+  const apiEnpoint: string = `${blockExplorerAPILink}/v1/${apiSubdomain}/${address}/transactions`
 
   const queryParams: string = Object
     .keys(params)
@@ -48,7 +47,7 @@ function callApi(
 
   const requestInfo: RequestInfo = `${apiEnpoint}?${queryParams}`
 
-  return fetch(requestInfo, blockExplorerApiOptions)
+  return fetch(requestInfo, blockExplorerAPIOptions)
     .then((response: Response): Promise<any> => response.json())
 }
 

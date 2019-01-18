@@ -73,7 +73,7 @@ const config: AppConfig = {
     size: 2,
   },
 
-  blockExplorerApiOptions: {
+  blockExplorerAPIOptions: {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -110,8 +110,8 @@ const config: AppConfig = {
   blockExplorerUILink: 'etherscan.io',
 
   blockExplorerAPILink: __DEV__
-    ? 'api-blockchain-service.jwallet.develop.stacks.jdev.network'
-    : 'api-blockchain-service.jwallet.network',
+    ? 'http://api-blockchain-service.jwallet.develop.stacks.jdev.network'
+    : 'https://api-blockchain-service.jwallet.network',
 
   /**
    * supported languages
