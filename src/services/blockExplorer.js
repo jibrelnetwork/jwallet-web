@@ -2,7 +2,7 @@
 
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
-import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
+import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
 
 const { blockExplorerApiOptions } = config

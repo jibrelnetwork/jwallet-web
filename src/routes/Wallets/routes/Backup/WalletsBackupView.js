@@ -3,7 +3,15 @@
 import React, { Component } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import { ModalHeader, CopyableField, WalletPasswordStep, WalletStep } from 'components'
+
+import getWallet from 'utils/wallets/getWallet'
+
+import {
+  WalletStep,
+  ModalHeader,
+  CopyableField,
+  WalletPasswordStep,
+} from 'components'
 
 import { STEPS } from './modules/walletsBackup'
 
@@ -72,12 +80,7 @@ class WalletsBackupView extends Component<Props> {
       isLoading,
     } = this.props
 
-    const foundWallet: ?Wallet = items.find((w: Wallet): boolean => (w.id === params.walletId))
-
-    if (!foundWallet) {
-      return null
-    }
-
+    const foundWallet: Wallet = getWallet(items, params.walletId)
     const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
 
     return (

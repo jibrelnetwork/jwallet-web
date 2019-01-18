@@ -1,7 +1,6 @@
 // @flow
 
 import Promise from 'bluebird'
-import keystore from '@jibrelnetwork/jwallet-web-keystore'
 
 import {
   all,
@@ -16,6 +15,7 @@ import {
 import web3 from 'services/web3'
 import reactRouterBack from 'utils/browser/reactRouterBack'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
+import checkAddressValid from 'utils/address/checkAddressValid'
 import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {
@@ -129,7 +129,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
     return
   }
 
-  if (!keystore.checkAddressValid(contractAddress)) {
+  if (!checkAddressValid(contractAddress)) {
     return
   }
 
@@ -206,7 +206,7 @@ function* onAssetFormSumbit(): Saga<void> {
   yield* clearFieldsError()
 
   // check contract address
-  if (!keystore.checkAddressValid(contractAddress)) {
+  if (!checkAddressValid(contractAddress)) {
     yield put(setFieldError('address', 'Invalid ERC-20 contract address'))
     return
   }

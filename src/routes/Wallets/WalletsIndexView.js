@@ -3,9 +3,19 @@
 import React, { Component } from 'react'
 
 import JCard from 'components/base/JCard'
-import { handle, ignoreEvent } from 'utils/eventHandlers'
-import { checkMnemonicType, getShortenedAddress } from 'utils/wallets'
-import { WalletCard, WalletHeader, NewWalletButtons } from 'components'
+import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+import getShortenedAddress from 'utils/address/getShortenedAddress'
+
+import {
+  WalletCard,
+  WalletHeader,
+  NewWalletButtons,
+} from 'components'
+
+import {
+  handle,
+  ignoreEvent,
+} from 'utils/eventHandlers'
 
 type Props = {|
   +openView: () => void,

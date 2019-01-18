@@ -1,6 +1,7 @@
 // @flow
 
 import coreSagas from 'routes/sagas'
+import upgradeSagas from 'routes/Upgrade/sagas'
 import walletsSagas from 'routes/Wallets/sagas'
 import notFoundSagas from 'routes/NotFound/sagas'
 import favoritesSagas from 'routes/Favorites/sagas'
@@ -9,6 +10,7 @@ import settingsSagas from 'routes/Settings/sagas'
 
 export default {
   ...coreSagas,
+  ...upgradeSagas,
   ...walletsSagas,
   ...notFoundSagas,
   ...favoritesSagas,
