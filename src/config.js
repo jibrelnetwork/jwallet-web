@@ -107,10 +107,11 @@ const config: AppConfig = {
    */
   walletIdInitTimeout: 100,
 
-  /**
-   * blockexplorer url
-   */
-  blockExplorerLink: 'etherscan.io',
+  blockExplorerUILink: 'etherscan.io',
+
+  blockExplorerAPILink: __DEV__
+    ? 'api-blockchain-service.jwallet.develop.stacks.jdev.network'
+    : 'api-blockchain-service.jwallet.network',
 
   /**
    * supported languages

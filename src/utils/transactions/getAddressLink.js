@@ -2,11 +2,11 @@
 
 import config from 'config'
 
-function getAddressLink(address: ?Address, blockExplorerSubdomain: string): string {
-  const subdomainPrefix: string = blockExplorerSubdomain ? `${blockExplorerSubdomain}.` : ''
+function getAddressLink(address: ?Address, blockExplorerUISubdomain: string): string {
+  const uiSubdomainPrefix: string = blockExplorerUISubdomain ? `${blockExplorerUISubdomain}.` : ''
 
   return address
-    ? `//${subdomainPrefix}${config.blockExplorerLink}/address/${address}`
+    ? `//${uiSubdomainPrefix}${config.blockExplorerUILink}/address/${address}`
     : ''
 }
 

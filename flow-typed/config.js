@@ -14,6 +14,9 @@ declare type JSONFormatConfig = {|
   +size: number,
 |}
 
+type BlockExplorerAPILink = 'api-blockchain-service.jwallet.network' |
+  'api-blockchain-service.jwallet.develop.stacks.jdev.network'
+
 declare type AppConfig = {|
   +searchTimeout: number,
   +resetIncorrectPincodeTimeout: number,
@@ -39,7 +42,8 @@ declare type AppConfig = {|
   +balanceLoadingTimeout: number,
   +copyToBufferTimeout: number,
   +walletIdInitTimeout: number,
-  +blockExplorerLink: 'etherscan.io',
+  +blockExplorerUILink: 'etherscan.io',
+  +blockExplorerAPILink: BlockExplorerAPILink,
   +supportedLanguages: LanguageCode[],
   +mnemonicAddressesCount: number,
   +landingURL: 'https://jwallet.network',

@@ -17,7 +17,7 @@ type Props = {|
   +comment: ?string,
   +fromName: ?string,
   +txAddress: ?Address,
-  +blockExplorerSubdomain: string,
+  +blockExplorerUISubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
   +isAssetList: boolean,
@@ -34,7 +34,7 @@ function TransactionItem({
   comment,
   fromName,
   txAddress,
-  blockExplorerSubdomain,
+  blockExplorerUISubdomain,
   isSent,
   isActive,
   isAssetList,
@@ -67,7 +67,7 @@ function TransactionItem({
           comment={comment}
           fromName={fromName}
           txAddress={txAddress}
-          blockExplorerSubdomain={blockExplorerSubdomain}
+          blockExplorerUISubdomain={blockExplorerUISubdomain}
           isSent={isSent}
           isActive={isActive}
           isFromFavorites={isFromFavorites}

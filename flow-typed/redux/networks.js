@@ -8,12 +8,12 @@ declare type NetworkId =
   '42' // kovan
 
 declare type BlockExplorerAPISubdomain =
-  'api' |
+  'mainnet' |
   'ropsten' |
   'rinkeby' |
   'kovan'
 
-declare type BlockExplorerSubdomain =
+declare type BlockExplorerUISubdomain =
   '' |
   'ropsten' |
   'rinkeby' |
@@ -24,7 +24,7 @@ declare type Network = {|
   +title: string,
   +rpcaddr: string,
   +rpcport: number,
-  +blockExplorerSubdomain: BlockExplorerSubdomain,
+  +blockExplorerUISubdomain: BlockExplorerUISubdomain,
   +ssl: boolean,
   +isCustom: boolean,
 |}

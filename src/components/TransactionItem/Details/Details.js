@@ -28,7 +28,7 @@ type Props = {|
   +comment: ?string,
   +fromName: ?string,
   +txAddress: ?Address,
-  +blockExplorerSubdomain: string,
+  +blockExplorerUISubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
   +isFromFavorites: boolean,
@@ -109,7 +109,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       comment,
       fromName,
       txAddress,
-      blockExplorerSubdomain,
+      blockExplorerUISubdomain,
       isSent,
       isActive,
       isFromFavorites,
@@ -147,7 +147,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
           <div className='value'>
             <a
-              href={getTxLink(hash, blockExplorerSubdomain)}
+              href={getTxLink(hash, blockExplorerUISubdomain)}
               onMouseEnter={this.onHover('hash')}
               onMouseLeave={this.onHover(null)}
               target='_blank'
@@ -165,7 +165,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             </div>
             <div className='value'>
               <a
-                href={getAddressLink(from, blockExplorerSubdomain)}
+                href={getAddressLink(from, blockExplorerUISubdomain)}
                 onMouseEnter={this.onHover('from')}
                 onMouseLeave={this.onHover(null)}
                 target='_blank'
@@ -188,7 +188,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             </div>
             <div className='value'>
               <a
-                href={getAddressLink(to, blockExplorerSubdomain)}
+                href={getAddressLink(to, blockExplorerUISubdomain)}
                 onMouseEnter={this.onHover('to')}
                 onMouseLeave={this.onHover(null)}
                 target='_blank'

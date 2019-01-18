@@ -5,19 +5,20 @@ import isZero from 'utils/numbers/isZero'
 import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
 
-const { blockExplorerApiOptions } = config
+const {
+  blockExplorerAPILink,
+  blockExplorerApiOptions,
+} = config
 
 const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } = {
-  '1': 'api',
+  '1': 'mainnet',
   '3': 'ropsten',
   '42': 'kovan',
   '4': 'rinkeby',
 }
 
 type BlockExplorerAPIParams = {|
-  +address: OwnerAddress,
   +action: 'txlist',
-  +module: 'account',
   +sort: SortDirection,
   +page?: number,
   +offset?: number,
@@ -25,24 +26,19 @@ type BlockExplorerAPIParams = {|
   +startblock?: number,
 |}
 
-const MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN: string = 'api'
-
-function getMainEthersanAPIEndpoint(apiSubdomain: BlockExplorerAPISubdomain): string {
-  const isMainNetwork: boolean = (apiSubdomain === MAIN_NETWORK_ETHERSCAN_API_SUBDOMAIN)
-
-  return (__DEV__ && isMainNetwork)
-    ? 'http://ropsten.etherscan.io/api'
-    : `http://${apiSubdomain}.etherscan.io/api`
-}
-
-function callApi(params: BlockExplorerAPIParams, networkId: NetworkId): Promise<any> {
+function callApi(
+  params: BlockExplorerAPIParams,
+  networkId: NetworkId,
+  address: OwnerAddress,
+): Promise<any> {
   const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
 
   if (!apiSubdomain) {
-    throw new Error('Block explorer is not supported for private networks')
+    throw new Error('BlockExplorerPrivateNetworkError')
   }
 
-  const apiEnpoint: string = getMainEthersanAPIEndpoint(apiSubdomain)
+  const apiEnpoint: string =
+    `http${__DEV__ ? '' : 's'}://${blockExplorerAPILink}/v1/${apiSubdomain}/${address}/transactions`
 
   const queryParams: string = Object
     .keys(params)
@@ -73,7 +69,7 @@ function handleTransactionsResponse(response: any): Array<any> {
   if (!(isResultFound && isResultValid)) {
     return []
   } else if (isRequestFailed) {
-    throw new Error('Can not get transactions')
+    throw new Error('BlockExplorerRequestTransactionsError')
   }
 
   return result
@@ -166,7 +162,7 @@ function prepareETHTransactions(data: Array<Object>): Transactions {
 
 function getETHTransactions(
   networkId: NetworkId,
-  owner: Address,
+  owner: OwnerAddress,
   startblock: number,
   endblock: number,
 ): Promise<any> {
@@ -174,10 +170,8 @@ function getETHTransactions(
     endblock,
     startblock,
     sort: 'desc',
-    address: owner,
     action: 'txlist',
-    module: 'account',
-  }, networkId)
+  }, networkId, owner)
     .then(handleTransactionsResponse)
     .then(filterETHTransactions)
     .then(prepareETHTransactions)

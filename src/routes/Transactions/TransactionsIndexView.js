@@ -91,7 +91,7 @@ function TransactionsIndexView({
             addressNames={addressNames}
             digitalAssets={digitalAssets}
             ownerAddress={ownerAddress}
-            blockExplorerSubdomain={network.blockExplorerSubdomain}
+            blockExplorerUISubdomain={network.blockExplorerUISubdomain}
             isLoading={isLoading}
             isFiltered={!!filterCount || !!searchQuery}
           />
