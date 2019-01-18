@@ -6,7 +6,7 @@ declare type SettingsState = {|
   +systemLanguageCode: LanguageCode,
   +hasPinCode: boolean,
   +passwordForm: {
-    values: PaymentPasswordForm,
+    isLoading: boolean,
     messages: PaymentPasswordForm,
   },
 |}

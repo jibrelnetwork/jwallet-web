@@ -26,6 +26,7 @@ const text = {
 const required = message => value => (value ? undefined : message)
 
 type Props = {
+  passwordForm: { isLoading: boolean, messages: PaymentPasswordForm },
   submit: Function,
 }
 
@@ -60,13 +61,15 @@ export default class PaymentPasswordView extends PureComponent<Props> {
   }
 
   render() {
+    const { passwordForm } = this.props
+    console.log(passwordForm.messages)
     return (
       <SubsettingsView title='Update security password'>
         <SubsettingsDescription text={text.pageDescription} />
         <Form
           onSubmit={this.onSubmit}
           validate={this.validate}
-          render={({ handleSubmit, form, values, submitting }) => (
+          render={({ handleSubmit, form, values }) => (
             <form className='password-form' onSubmit={handleSubmit}>
               <Field
                 component={JInputField}
@@ -76,11 +79,12 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 color='gray'
                 type='password'
                 validate={required(text.passwordOldAlert)}
+                isDisabled={this.props.passwordForm.isLoading}
                 isAutoFocus
               />
               <PasswordFieldFinalFormAdapter
                 onChange={form.change}
-                isLoading={submitting}
+                isLoading={passwordForm.isLoading}
                 values={values}
               />
               <Field
@@ -90,8 +94,14 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 placeholder={text.hint}
                 color='gray'
                 validate={required(text.hintAlert)}
+                isDisabled={passwordForm.isLoading}
               />
-              <JRaisedButton onClick={form.submit} label='Set password' color='blue' />
+              <JRaisedButton
+                onClick={form.submit}
+                label='Set password'
+                color='blue'
+                isLoading={passwordForm.isLoading}
+              />
             </form>
           )}
         />

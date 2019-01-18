@@ -5,6 +5,8 @@ export const CHANGE_PAYMENT_PASSWORD: '@@settings/CHANGE_PAYMENT_PASSWORD' =
   '@@settings/CHANGE_PAYMENT_PASSWORD'
 export const VALIDATION_PASSWORD_FORM: '@@settings/VALIDATION_PASSWORD_FORM' =
   '@@settings/VALIDATION_PASSWORD_FORM'
+export const CHANGE_PAYMENT_PASSWORD_PENDING: '@@settings/CHANGE_PAYMENT_PASSWORD_PENDING' =
+  '@@settings/CHANGE_PAYMENT_PASSWORD_PENDING'
 
 export function init() {
   return {
@@ -19,6 +21,13 @@ export function changePaymentPassword(payload: PaymentPasswordForm) {
   }
 }
 
+export function changePaymentPasswordPending(payload: boolean) {
+  return {
+    type: CHANGE_PAYMENT_PASSWORD_PENDING,
+    payload,
+  }
+}
+
 export function validationPasswordForm(payload: Object) {
   return {
     type: VALIDATION_PASSWORD_FORM,
@@ -29,6 +38,7 @@ export function validationPasswordForm(payload: Object) {
 export type SettingsAction =
   ExtractReturn<typeof init> |
   ExtractReturn<typeof changePaymentPassword> |
+  ExtractReturn<typeof changePaymentPasswordPending> |
   ExtractReturn<typeof validationPasswordForm>
 
 const initialState: SettingsState = {
@@ -37,12 +47,7 @@ const initialState: SettingsState = {
   systemLanguageCode: 'en',
   hasPinCode: false,
   passwordForm: {
-    values: {
-      passwordOld: '',
-      passwordNew: '',
-      passwordNewConfirm: '',
-      passwordHint: '',
-    },
+    isLoading: false,
     messages: {},
   },
 }
@@ -55,19 +60,21 @@ const settings = (
     case INIT:
       return state
     case CHANGE_PAYMENT_PASSWORD:
-      return {
-        ...state,
-        passwordForm: {
-          values: action.payload,
-          messages: state.passwordForm.messages,
-        },
-      }
+      return state
     case VALIDATION_PASSWORD_FORM:
       return {
         ...state,
         passwordForm: {
-          values: state.passwordForm.values,
+          isLoading: state.passwordForm.isLoading,
           messages: action.payload,
+        },
+      }
+    case CHANGE_PAYMENT_PASSWORD_PENDING:
+      return {
+        ...state,
+        passwordForm: {
+          isLoading: action.payload,
+          messages: state.passwordForm.messages,
         },
       }
     default:

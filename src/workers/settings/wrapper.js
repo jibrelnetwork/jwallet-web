@@ -8,8 +8,8 @@ import SettingsWorker from './worker.js'
 // $FlowFixMe
 const settingsWorker = new SettingsWorker()
 
-export function checkPassword(state: AppState, password: string) {
-  settingsWorker.postMessage('hehe', state, password)
+export function changePassword(state: AppState, passwordForm: PaymentPasswordForm) {
+  settingsWorker.postMessage({ state, passwordForm })
 }
 
 export function run(store: { dispatch: (SettingsAction) => void }) {

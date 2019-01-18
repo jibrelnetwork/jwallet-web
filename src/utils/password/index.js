@@ -1,8 +1,8 @@
 // @flow
-import checkPassword from './check'
+import isValidatePassword from './check'
 import validatePassword from './validate'
 
 export {
-  checkPassword,
+  isValidatePassword,
   validatePassword,
 }
