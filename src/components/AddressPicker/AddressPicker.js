@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-import checkAddressValid from 'utils/wallets/checkAddressValid'
+import checkAddressValid from 'utils/address/checkAddressValid'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
 import AddressPickerCurrent from './Current'

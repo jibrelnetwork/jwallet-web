@@ -4,7 +4,7 @@ import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { keccak256 } from 'js-sha3'
 
 import checkETH from 'utils/digitalAssets/checkETH'
-import getAddressWithChecksum from 'utils/wallets/getAddressWithChecksum'
+import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
 
 type ERC20MethodName =
@@ -19,11 +19,11 @@ type ERC20MethodName =
 type ERC20InterfaceSignatures = { [ERC20MethodName]: ?Hash }
 
 const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
-  approve: keccak256('totalSupply()'),
-  transfer: keccak256('balanceOf(address)'),
-  balanceOf: keccak256('approve(address,uint256)'),
-  allowance: keccak256('transfer(address,uint256)'),
-  totalSupply: keccak256('allowance(address,address)'),
+  totalSupply: keccak256('totalSupply()'),
+  balanceOf: keccak256('balanceOf(address)'),
+  approve: keccak256('approve(address,uint256)'),
+  transfer: keccak256('transfer(address,uint256)'),
+  allowance: keccak256('allowance(address,address)'),
   Transfer: keccak256('Transfer(address,address,uint256)'),
   transferFrom: keccak256('transferFrom(address,address,uint256)'),
 }

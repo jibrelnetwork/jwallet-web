@@ -3,8 +3,12 @@
 import React from 'react'
 
 import WalletFace from 'components/WalletFace'
-import getShortenedAddress from 'utils/wallets/getShortenedAddress'
-import { handle, ignoreEvent } from 'utils/eventHandlers'
+import getShortenedAddress from 'utils/address/getShortenedAddress'
+
+import {
+  handle,
+  ignoreEvent,
+} from 'utils/eventHandlers'
 
 type Props = {|
   +renameAddress: (Address) => void,

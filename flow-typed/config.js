@@ -55,4 +55,12 @@ declare type AppConfig = {|
   +resyncTransactionsTimeout: number,
   +syncBalancesTimeout: number,
   +miningDelay: number,
+  +addressWalletType: 'address',
+  +mnemonicWalletType: 'mnemonic',
+  +encryptedDataLength: number,
+  +defaultSaltBytesCount: number,
+  +defaultScryptParams: ScryptParams,
+  +defaultEncryptionType: 'nacl.secretbox',
+  +defaultDerivationKeyLength: number,
+  +defaultRandomBufferLength: number,
 |}
