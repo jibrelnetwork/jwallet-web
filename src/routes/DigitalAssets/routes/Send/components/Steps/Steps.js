@@ -20,7 +20,7 @@ type Props = {|
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
-  +gasSettings: GasSettings,
+  +gasValues: GasValues,
   +isLoading: boolean,
 |}
 
@@ -38,7 +38,7 @@ function DigitalAssetsSendSteps({
   priority,
   currentStep,
   isLoading,
-  gasSettings,
+  gasValues,
 }: Props) {
   return (
     <div className='digital-assets-send-steps'>
@@ -67,7 +67,7 @@ function DigitalAssetsSendSteps({
           formFieldValues={formFieldValues}
           errorMessage={formFieldErrors.password}
           isLoading={isLoading}
-          gasSettings={gasSettings}
+          gasValues={gasValues}
         />
       )}
     </div>

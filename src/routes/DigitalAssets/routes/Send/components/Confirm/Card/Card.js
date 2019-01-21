@@ -9,7 +9,7 @@ type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
-  +gasSettings: GasSettings,
+  +gasValues: GasValues,
   +ownerAddress: OwnerAddress,
 |}
 
@@ -17,7 +17,7 @@ function DigitalAssetsSendConfirmCard({
   addressNames,
   selectedAsset,
   formFieldValues,
-  gasSettings,
+  gasValues,
   ownerAddress,
 }: Props) {
   const {
@@ -28,7 +28,7 @@ function DigitalAssetsSendConfirmCard({
   const {
     gasLimit,
     gasPrice,
-  }: GasSettings = gasSettings
+  }: GasValues = gasValues
 
   const {
     symbol,

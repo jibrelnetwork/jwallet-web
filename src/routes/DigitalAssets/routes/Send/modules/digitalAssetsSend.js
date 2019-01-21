@@ -10,8 +10,8 @@ export const GO_TO_PREV_STEP = '@@digitalAssetsSend/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP = '@@digitalAssetsSend/SET_CURRENT_STEP'
 
 // Fetched from blockchain values
-export const SET_INITIAL_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_INITIAL_GAS_PRICE_VALUE'
-export const SET_INITIAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_INITIAL_GAS_LIMIT_VALUE'
+export const SET_REQUESTED_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_REQUESTED_GAS_PRICE_VALUE'
+export const SET_REQUESTED_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_REQUESTED_GAS_LIMIT_VALUE'
 
 // Values that will be used with sendTransacton (transfer)
 // This values can be modified on the 1st step and can't be on the 2nd
@@ -69,25 +69,25 @@ export function setIsLoading(isLoading: boolean) {
   }
 }
 
-export function setInitialGasPriceValue(value: ?string) {
+export function setRequestedGasPrice(value: ?string) {
   return {
-    type: SET_INITIAL_GAS_PRICE_VALUE,
+    type: SET_REQUESTED_GAS_PRICE_VALUE,
     payload: {
       value,
     },
   }
 }
 
-export function setInitialGasLimitValue(value: ?string) {
+export function setRequestedGasLimit(value: ?string) {
   return {
-    type: SET_INITIAL_GAS_LIMIT_VALUE,
+    type: SET_REQUESTED_GAS_LIMIT_VALUE,
     payload: {
       value,
     },
   }
 }
 
-export function setFinalGasPriceValue(value: ?string) {
+export function setFinalGasPrice(value: ?string) {
   return {
     type: SET_FINAL_GAS_PRICE_VALUE,
     payload: {
@@ -96,7 +96,7 @@ export function setFinalGasPriceValue(value: ?string) {
   }
 }
 
-export function setFinalGasLimitValue(value: ?string) {
+export function setFinalGasLimit(value: ?string) {
   return {
     type: SET_FINAL_GAS_LIMIT_VALUE,
     payload: {
@@ -182,10 +182,10 @@ export type DigitalAssetsSendAction =
   ExtractReturn<typeof setFormFieldValue> |
   ExtractReturn<typeof setFormFieldError> |
   ExtractReturn<typeof setFormFieldWarning> |
-  ExtractReturn<typeof setInitialGasLimitValue> |
-  ExtractReturn<typeof setInitialGasPriceValue> |
-  ExtractReturn<typeof setFinalGasLimitValue> |
-  ExtractReturn<typeof setFinalGasPriceValue> |
+  ExtractReturn<typeof setRequestedGasPrice> |
+  ExtractReturn<typeof setRequestedGasLimit> |
+  ExtractReturn<typeof setFinalGasLimit> |
+  ExtractReturn<typeof setFinalGasPrice> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetsSendState = {
@@ -225,11 +225,11 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
-  initialGasSettings: {
+  requestedGasValues: {
     gasPrice: null,
     gasLimit: null,
   },
-  finalGasSettings: {
+  finalGasValues: {
     gasPrice: null,
     gasLimit: null,
   },
@@ -335,23 +335,23 @@ function digitalAssetsSend(
         currentStep: action.payload.currentStep,
       }
 
-    case SET_INITIAL_GAS_PRICE_VALUE: {
+    case SET_REQUESTED_GAS_PRICE_VALUE: {
       const { value } = action.payload
       return {
         ...state,
-        initialGasSettings: {
-          ...state.initialGasSettings,
+        requestedGasValues: {
+          ...state.requestedGasValues,
           gasPrice: value,
         },
       }
     }
 
-    case SET_INITIAL_GAS_LIMIT_VALUE: {
+    case SET_REQUESTED_GAS_LIMIT_VALUE: {
       const { value } = action.payload
       return {
         ...state,
-        initialGasSettings: {
-          ...state.initialGasSettings,
+        requestedGasValues: {
+          ...state.requestedGasValues,
           gasLimit: value,
         },
       }
@@ -361,8 +361,8 @@ function digitalAssetsSend(
       const { value } = action.payload
       return {
         ...state,
-        finalGasSettings: {
-          ...state.finalGasSettings,
+        finalGasValues: {
+          ...state.finalGasValues,
           gasPrice: value,
         },
       }
@@ -372,8 +372,8 @@ function digitalAssetsSend(
       const { value } = action.payload
       return {
         ...state,
-        finalGasSettings: {
-          ...state.finalGasSettings,
+        finalGasValues: {
+          ...state.finalGasValues,
           gasLimit: value,
         },
       }

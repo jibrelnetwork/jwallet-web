@@ -6,7 +6,7 @@ import { keccak256 } from 'js-sha3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
 type ERC20MethodName =
   'approve' |
@@ -28,6 +28,9 @@ const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
   Transfer: keccak256('Transfer(address,address,uint256)'),
   transferFrom: keccak256('transferFrom(address,address,uint256)'),
 }
+
+const ZERO_HEX = '0x'
+const ETH_DEFAULT_GAS_LIMIT = 21000
 
 function isBigNumber(data: any): boolean {
   return (
@@ -603,10 +606,10 @@ function getNonce(network: Network, address: Address): Promise<number> {
   })
 }
 
-function estimateGas(
+function estimateETHGas(
   network: Network,
-  assetAddress: AssetAddress,
-  props: SendTransactionProps,
+  to: Address,
+  value: BigNumber,
 ): Promise<number> {
   const {
     rpcaddr,
@@ -614,43 +617,59 @@ function estimateGas(
     ssl,
   }: Network = network
 
-  if (checkETH(assetAddress)) {
-    return jibrelContractsApi.eth.estimateGas({
-      ssl,
-      rpcaddr,
-      rpcport,
-      to: props.to,
-      value: props.value,
-    })
-  } else {
-    // to be fixed
-    return jibrelContractsApi.contracts.erc20.estimateGas({
-      ssl,
-      rpcaddr,
-      rpcport,
-      contractAddress: assetAddress,
-      privateKey: props.privateKey,
-      method: 'transfer',
-      args: [props.to, props.value],
-    })
+  return jibrelContractsApi.eth.estimateGas({
+    ssl,
+    rpcaddr,
+    rpcport,
+    to,
+    value,
+  })
+}
+
+function estimateContractGas(
+  network: Network,
+  assetAddress: AssetAddress,
+  from: Address,
+  to: Address,
+  value: BigNumber,
+): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  const baseProps = {
+    ssl,
+    rpcaddr,
+    rpcport,
+    from,
+    method: 'transfer',
+    args: [to, value],
+    contractAddress: assetAddress,
   }
+
+  return jibrelContractsApi.contracts.erc20.estimateGas(baseProps)
 }
 
 export default {
+  ZERO_HEX,
+  ETH_DEFAULT_GAS_LIMIT,
   getBlock,
   getNonce,
-  estimateGas,
   getGasPrice,
   getBlockData,
   getAssetName,
   getBurnEvents,
   getMintEvents,
   getAssetSymbol,
+  estimateETHGas,
   getAssetBalance,
-  getAssetDecimals,
   sendTransaction,
+  getAssetDecimals,
   getTransactionData,
   getTransferEventsTo,
+  estimateContractGas,
   getSmartContractCode,
   getTransferEventsFrom,
   checkERC20InterfaceCode,
