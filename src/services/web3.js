@@ -441,7 +441,7 @@ function checkJNTEvent(data: Object): boolean {
   )
 }
 
-function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Transactions {
+function prepareJNTEvents(data: Array<Object>): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
     if (!checkJNTEvent(item)) {
       return result
@@ -463,7 +463,6 @@ function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Tran
     }: JNTEventArgs = args
 
     const ownerAddressChecksum: OwnerAddress = getAddressWithChecksum(owner)
-    const assetAddressChecksum: AssetAddress = getAddressWithChecksum(assetAddress)
 
     const newTransaction: Transaction = {
       blockHash,
@@ -474,9 +473,9 @@ function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Tran
       amount: value,
       hash: transactionHash,
       contractAddress: null,
-      to: (event === 'MintEvent') ? ownerAddressChecksum : assetAddressChecksum,
-      from: (event === 'BurnEvent') ? ownerAddressChecksum : assetAddressChecksum,
-      eventType: 1,
+      to: (event === 'MintEvent') ? ownerAddressChecksum : null,
+      from: (event === 'BurnEvent') ? ownerAddressChecksum : null,
+      eventType: 2,
       isRemoved: !!removed,
     }
 
@@ -520,7 +519,7 @@ function getJNTEvents(
     .getPastEvents(fromProps)
     .then(handleEventsResponse)
     .then(filterEvents)
-    .then((data: Array<Object>): Transactions => prepareJNTEvents(data, assetAddress))
+    .then((data: Array<Object>): Transactions => prepareJNTEvents(data))
 }
 
 function getMintEvents(
