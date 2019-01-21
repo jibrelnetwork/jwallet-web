@@ -1,3 +1,4 @@
 NODE_ENV=development
 BABEL_ENV=development
 GOOGLE_ANALYTICS_ID=UA-103798122-6
+TICKER_API=http://api-fiat-courses.jwallet.develop.stacks.jdev.network

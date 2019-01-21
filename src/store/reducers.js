@@ -45,6 +45,9 @@ import favorites from 'routes/Favorites/modules/favorites'
 // upgrade
 import upgrade from 'routes/Upgrade/modules/upgrade'
 
+// ticker
+import ticker from 'routes/modules/ticker'
+
 import persistReducers from './persistReducers'
 
 export function makeRootReducer() {
@@ -69,6 +72,7 @@ export function makeRootReducer() {
     // persist
     ...persistReducers({
       blocks,
+      ticker,
       wallets,
       balances,
       comments,

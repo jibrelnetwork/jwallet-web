@@ -82,6 +82,15 @@ const config: AppConfig = {
     cache: 'default',
   },
 
+  tickerAPIOptions: {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    cache: 'default',
+  },
+
   // max password length
   maxPasswordLength: 40,
 

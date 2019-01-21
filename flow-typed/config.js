@@ -33,6 +33,7 @@ declare type AppConfig = {|
   +defaultDecimals: number,
   +jsonFormat: JSONFormatConfig,
   +blockExplorerApiOptions: RequestOptions,
+  +tickerAPIOptions: RequestOptions,
   +maxPasswordLength: number,
   +delayBeforeFormClean: number,
   +defaultDerivationPath: string,
