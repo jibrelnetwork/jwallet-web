@@ -2,13 +2,11 @@
 
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
+import getENVVar from 'utils/config/getENVVar'
 import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
 
-const {
-  blockExplorerAPILink,
-  blockExplorerAPIOptions,
-}: AppConfig = config
+const { blockExplorerAPIOptions }: AppConfig = config
 
 const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } = {
   '1': 'mainnet',
@@ -16,6 +14,9 @@ const ENDPOINT_NAMES_BY_NETWORK_ID: { [NetworkId]: BlockExplorerAPISubdomain } =
   '42': 'kovan',
   '4': 'rinkeby',
 }
+
+const BLOCKEXPLORER_API: string =
+  getENVVar('__BLOCKEXPLORER_API__') || __DEFAULT_BLOCKEXPLORER_API__
 
 type BlockExplorerAPIParams = {|
   +action: 'txlist',
@@ -37,7 +38,7 @@ function callApi(
     throw new Error('BlockExplorerPrivateNetworkError')
   }
 
-  const apiEnpoint: string = `${blockExplorerAPILink}/v1/${apiSubdomain}/${address}/transactions`
+  const apiEnpoint: string = `${BLOCKEXPLORER_API}/v1/${apiSubdomain}/${address}/transactions`
 
   const queryParams: string = Object
     .keys(params)

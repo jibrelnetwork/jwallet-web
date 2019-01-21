@@ -109,10 +109,6 @@ const config: AppConfig = {
 
   blockExplorerUILink: 'etherscan.io',
 
-  blockExplorerAPILink: __DEV__
-    ? 'http://api-blockchain-service.jwallet.develop.stacks.jdev.network'
-    : 'https://api-blockchain-service.jwallet.network',
-
   /**
    * supported languages
    */
