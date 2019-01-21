@@ -268,9 +268,7 @@ module.exports = {
       'process.env.BUILD_NUMBER': process.env.BUILD_NUMBER || 'dev',
       '__DEV__': isEnvDevelopment,
       '__PROD__': isEnvProduction,
-      '__DEFAULT_BLOCKEXPLORER_API__': isEnvDevelopment
-        ? '"http://api-blockchain-service.jwallet.develop.stacks.jdev.network"'
-        : '"https://api-blockchain-service.jwallet.network"',
+      '__DEFAULT_BLOCKEXPLORER_API__': JSON.stringify(process.env.BLOCKEXPLORER_API),
     }),
 
     // This gives some necessary context to module not found errors, such as
