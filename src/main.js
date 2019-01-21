@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
@@ -11,18 +10,7 @@ import configureStore from 'store/configureStore'
 
 import AppContainer from './AppContainer'
 
-// Checking necessary compatibility browser features
-declare var Modernizr: any
-if (Modernizr && (
-  !Modernizr.cookies ||
-  !Modernizr.crypto ||
-  !Modernizr.filereader ||
-  !Modernizr.indexeddb ||
-  !Modernizr.localstorage ||
-  !Modernizr.webworkers
-)) {
-  throw new Error('Some of required browser APIs are not available')
-}
+import browsercheck from './browsercheck'
 
 // ========================================================
 // Browser History Setup
@@ -61,16 +49,27 @@ if (typeof window !== 'undefined') {
 }
 
 const renderApp = () => {
-  const appContainer = (
-    <AppContainer
-      store={store}
-      routes={router}
-      history={history}
-      persistor={persistor}
-    />
-  )
+  browsercheck()
+    .then(
+      () => {
+        const appContainer = (
+          <AppContainer
+            store={store}
+            routes={router}
+            history={history}
+            persistor={persistor}
+          />
+        )
 
-  ReactDOM.render(appContainer, MOUNT_NODE)
+        ReactDOM.render(appContainer, MOUNT_NODE)
+      },
+      (err) => {
+        console.error(err)
+      }
+    )
+    .catch((err) => {
+      throw err
+    })
 }
 
 if (!__DEV__) {
