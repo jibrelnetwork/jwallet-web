@@ -7,8 +7,7 @@ import { SettingsGrid } from 'components'
 import SettingsGridCard,
 { type SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
 
-import { divideThousands } from 'utils/numbers'
-import { formatBoolean, formatCurrency, formatLanguage } from 'utils/formatters'
+import { formatCurrency } from 'utils/formatters'
 
 type Props = {|
   ...SettingsState,
@@ -21,42 +20,15 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 
 // Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
-  isReadOnly,
   localCurrencyCode,
-  defaultGasPrice,
-  systemLanguageCode,
-  hasPinCode,
-  isFullMnemonic,
   networkName,
   walletName,
-  derivationPath,
-  passphrase,
+  walletId,
 }): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
   title: 'Local currency',
   description: formatCurrency(localCurrencyCode),
   path: 'settings/currency',
   iconName: 'local-currency',
-  searchTags: '',
-  isVisible: true,
-}, {
-  title: 'Default GAS Price',
-  description: divideThousands(defaultGasPrice),
-  path: 'settings/gas-price',
-  iconName: 'time',
-  searchTags: '',
-  isVisible: true,
-}, {
-  title: 'System language',
-  description: formatLanguage(systemLanguageCode),
-  path: 'settings/language',
-  iconName: 'language',
-  searchTags: 'locale translation',
-  isVisible: true,
-}, {
-  title: 'PIN Code',
-  description: formatBoolean(hasPinCode),
-  path: 'settings/pin-code',
-  iconName: 'lock-pin',
   searchTags: '',
   isVisible: true,
 }, {
@@ -75,30 +47,15 @@ const getSettingsCardProperties = ({
   isVisible: true,
 }, {
   title: 'Support',
-  description: 'Send ticket to support',
-  path: 'settings/support',
+  description: 'Check out Jwallet on Zendesk',
+  path: 'https://jibrel.zendesk.com/hc/en-us/categories/360001171933-Jibrel-Wallet-Jwallet-',
   iconName: 'message',
-  searchTags: '',
-  isVisible: true,
-}, {
-  title: 'Sign a message',
-  description: isFullMnemonic ? 'Enable' : ' ',
-  path: 'settings/sign',
-  iconName: 'message',
-  searchTags: '',
-  isVisible: !isReadOnly,
-}, {
-  title: 'Check a signature',
-  description: isFullMnemonic ? 'Enable' : ' ',
-  path: 'settings/check-signature',
-  iconName: 'protect',
-  iconColor: 'blue',
-  searchTags: '',
+  searchTags: 'zendesk help',
   isVisible: true,
 }, {
   title: 'Backup wallet',
   description: 'Save your money!',
-  path: 'settings/backup',
+  path: `wallets/backup/${walletId}`,
   iconName: 'backup-wallet',
   searchTags: '',
   isVisible: true,
@@ -112,24 +69,10 @@ const getSettingsCardProperties = ({
 }, {
   title: 'Rename wallet',
   description: walletName,
-  path: 'settings/rename',
-  iconName: 'backup-wallet',
+  path: `wallets/rename/${walletId}`,
+  iconName: 'edit-pen',
   searchTags: '',
   isVisible: true,
-}, {
-  title: 'Derivation path',
-  description: isFullMnemonic && derivationPath ? derivationPath : ' ',
-  path: 'settings/derivation',
-  iconName: 'setting',
-  searchTags: '',
-  isVisible: isFullMnemonic,
-}, {
-  title: 'Passphrase',
-  description: isFullMnemonic && passphrase ? passphrase : ' ',
-  path: 'settings/passphrase',
-  iconName: 'setting',
-  searchTags: '',
-  isVisible: isFullMnemonic,
 }, {
   title: 'Delete wallet',
   description: 'Badaaaah!',
@@ -177,7 +120,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
       return null
     }
 
-    const { name: walletName, customType, isReadOnly, mnemonicOptions } = wallet
+    const { name: walletName, id: walletId, customType, isReadOnly, mnemonicOptions } = wallet
     const isFullMnemonic = (customType === 'mnemonic') && !isReadOnly
     const derivationPath = mnemonicOptions ? mnemonicOptions.derivationPath : null
     const passphrase = mnemonicOptions ? mnemonicOptions.passphrase : null
@@ -189,6 +132,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
       systemLanguageCode,
       hasPinCode,
       walletName,
+      walletId,
       networkName,
       isFullMnemonic,
       derivationPath,

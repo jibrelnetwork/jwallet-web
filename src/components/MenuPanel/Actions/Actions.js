@@ -8,6 +8,7 @@ import MenuPanelActionsMore from './More'
 type Props = {|
   +toggle: () => void,
   +isActive: boolean,
+  +activeWalletId: ?WalletId,
 |}
 
 // eslint-disable-next-line max-len
@@ -16,6 +17,7 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 function MenuPanelActions({
   toggle,
   isActive,
+  activeWalletId,
 }: Props) {
   return (
     <div className='menu-panel-actions'>
@@ -24,7 +26,11 @@ function MenuPanelActions({
       <MenuPanelActionsItem icon='star' label='Favorites' path='/favorites' />
       <MenuPanelActionsItem icon='setting' label='Settings' path='/settings' />
       <MenuPanelActionsMore toggle={toggle} isActive={isActive}>
-        <MenuPanelActionsItem icon='back-up' label='Backup wallet' path='/settings/backup' />
+        <MenuPanelActionsItem
+          icon='back-up'
+          label='Backup wallet'
+          path={`/wallets/backup/${activeWalletId || ''}`}
+        />
       </MenuPanelActionsMore>
     </div>
   )
