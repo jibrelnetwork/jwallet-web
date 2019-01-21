@@ -125,7 +125,7 @@
 
   &.-multiline {
     > .input {
-      line-height: 1.5;
+      line-height: $form-field-line-height;
     }
   }
 
@@ -165,8 +165,7 @@
       opacity: 1;
       box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
       min-height: $form-field-gray-height;
-      padding-left: $form-field-horizontal-padding;
-      padding-right: $form-field-horizontal-padding;
+      padding: $form-field-white-vertical-padding $form-field-horizontal-padding;
     }
   }
 
@@ -181,8 +180,7 @@
       color: $white;
       border: 1px solid $blue;
       min-height: $form-field-white-height;
-      padding-left: $form-field-white-horizontal-padding;
-      padding-right: $form-field-white-horizontal-padding;
+      padding: $form-field-padding-top $form-field-white-horizontal-padding;
     }
   }
 
