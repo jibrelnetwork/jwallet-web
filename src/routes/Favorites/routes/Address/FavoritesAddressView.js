@@ -16,6 +16,7 @@ import {
 
 type Props = {|
   +close: () => void,
+  +onClose: () => void,
   +add: (string, string, string) => void,
   +edit: (string, string, string) => void,
   +setFormFieldValue: ($Keys<FavoritesFormFields>, string) => void,
@@ -65,6 +66,7 @@ class FavoritesAddressView extends Component<Props> {
       add,
       edit,
       close,
+      onClose,
       foundFavorite,
       formFieldValues,
       formFieldErrors,
@@ -83,6 +85,7 @@ class FavoritesAddressView extends Component<Props> {
     return (
       <CloseableScreen
         close={close}
+        onClose={onClose}
         title={`${isExist ? 'Edit' : 'Add'} favorite address`}
       >
         <div className='favorites-view -address'>
@@ -109,7 +112,7 @@ class FavoritesAddressView extends Component<Props> {
               value={description}
               errorMessage={formFieldErrors.description}
               color='gray'
-              placeholder='Description'
+              placeholder='Description (optional)'
               name='favorite-description'
             />
             <div className='actions'>

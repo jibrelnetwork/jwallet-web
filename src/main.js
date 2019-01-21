@@ -12,8 +12,16 @@ import configureStore from 'store/configureStore'
 import AppContainer from './AppContainer'
 
 // Checking necessary compatibility browser features
-if (window._CAPABILITY.isFailed) {
-  throw new Error('Capability of browser API is failed')
+declare var Modernizr: any
+if (Modernizr && (
+  !Modernizr.cookies ||
+  !Modernizr.crypto ||
+  !Modernizr.filereader ||
+  !Modernizr.indexeddb ||
+  !Modernizr.localstorage ||
+  !Modernizr.webworkers
+)) {
+  throw new Error('Some of required browser APIs are not available')
 }
 
 // ========================================================
