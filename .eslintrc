@@ -9,7 +9,8 @@
     "__MAIN_RPC_PORT__": false,
     "__ROPSTEN_RPC_ADDR__": false,
     "__ROPSTEN_RPC_PORT__": false,
-    "i18n": false
+    "i18n": false,
+    "Modernizr": false
   },
   "rules": {
     "no-use-before-define": 0,

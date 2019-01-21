@@ -196,9 +196,14 @@ function* addAuto(action: ExtractReturn<typeof favorites.addAuto>): Saga<void> {
   yield put(favorites.setItems(newFavorites))
 }
 
+function* onAddressViewClose(): Saga<void> {
+  yield put(favorites.clean())
+}
+
 export function* favoritesRootSaga(): Saga<void> {
   yield takeEvery(favorites.EDIT, edit)
   yield takeEvery(favorites.REMOVE, remove)
   yield takeEvery(favorites.ADD_AUTO, addAuto)
   yield takeEvery(favorites.ADD_BY_USER, addByUser)
+  yield takeEvery(favorites.ON_ADDRESS_VIEW_CLOSE, onAddressViewClose)
 }

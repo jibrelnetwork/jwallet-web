@@ -17,6 +17,7 @@ import './favoritesView.scss'
 type Props = {|
   +remove: (FavoriteAddress) => void,
   +items: Favorite[],
+  +isWalletReadOnly: boolean,
 |}
 
 type State = {|
@@ -75,6 +76,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
     const {
       items,
       remove,
+      isWalletReadOnly,
     }: Props = this.props
 
     const { searchQuery } = this.state
@@ -109,6 +111,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
                   address={address}
                   description={description}
                   symbol={createSymbol(name)}
+                  isWalletReadOnly={isWalletReadOnly}
                 />
               </div>
             )
