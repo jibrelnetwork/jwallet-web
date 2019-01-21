@@ -34,10 +34,6 @@ h4 {
   padding: 0;
 }
 
-.unsupported-screen-hidden {
-  display: none;
-}
-
 .unsupported-screen__image,
 .unsupported-screen__error {
   margin: 0 auto;
@@ -69,7 +65,24 @@ h4 {
   text-align: left;
 }
 
-.unsupported-screen__features-list_feature {
+.unsupported-screen__feature {
   list-style: circle;
   line-height: 18px;
+}
+
+.unsupported-screen__feature.-javascript {
+  display: block;
+}
+
+html.cookies .unsupported-screen__feature.-cookies,
+html.crypto .unsupported-screen__feature.-crypto,
+html.filereader .unsupported-screen__feature.-filereader,
+html.indexeddb .unsupported-screen__feature.-indexeddb,
+html.localstorage .unsupported-screen__feature.-localstorage,
+html.webworkers .unsupported-screen__feature.-webworkers {
+  display: none;
+}
+
+html.cookies.crypto.filereader.indexeddb.localstorage.webworkers .unsupported-screen {
+  display: none;
 }
