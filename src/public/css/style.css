@@ -19,10 +19,20 @@ h4 {
 }
 
 .unsupported-screen {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  background: -webkit-linear-gradient(30deg, #0058d2, #00309b);
+  background: -o-linear-gradient(30deg, #0058d2, #00309b);
   background: linear-gradient(60deg, #0058d2, #00309b);
   text-align: center;
 }
@@ -76,11 +86,15 @@ h4 {
   text-decoration: none;
   font-weight: 600;
   font-size: 13px;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
   transition: color 0.3s;
 }
 
 .unsupported-screen__back:hover {
   color: #00c1ff;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
   transition: color 0.3s;
 }
 
@@ -95,7 +109,7 @@ h4 {
 }
 
 .unsupported-screen__feature {
-  display: none;
+  display: inline-block;
 }
 
 .unsupported-screen__feature::after {
@@ -120,7 +134,9 @@ html.no-webworkers .unsupported-screen__feature.-webworkers {
 }
 
 html.javascript .unsupported-screen {
-  display: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 html.no-cookies .unsupported-screen,
@@ -129,5 +145,7 @@ html.no-filereader .unsupported-screen,
 html.no-indexeddb .unsupported-screen,
 html.no-localstorage .unsupported-screen,
 html.no-webworkers .unsupported-screen {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
