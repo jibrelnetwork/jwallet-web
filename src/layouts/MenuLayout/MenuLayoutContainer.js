@@ -37,25 +37,20 @@ function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
+  const { addresses }: WalletsAddressesState = selectWalletsAddresses(state)
 
   const ethBalance: ?Balance = selectBalanceByAssetAddress(
     state,
     networkId,
     ownerAddress,
     currentBlock ? currentBlock.number.toString() : null,
-    ethereumAddress.address,
+    ethereumAddress.blockchainParams.address,
   )
-
-  const {
-    addresses,
-    iteration,
-  }: WalletsAddressesState = selectWalletsAddresses(state)
 
   return {
     items,
     addresses,
     addressNames,
-    iteration,
     activeWalletId,
     ethBalance,
     isConnectionError: false,
