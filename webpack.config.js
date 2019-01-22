@@ -269,6 +269,7 @@ module.exports = {
       '__DEV__': isEnvDevelopment,
       '__PROD__': isEnvProduction,
       '__DEFAULT_TICKER_API__': JSON.stringify(process.env.TICKER_API),
+      '__DEFAULT_BLOCKEXPLORER_API__': JSON.stringify(process.env.BLOCKEXPLORER_API),
     }),
 
     // This gives some necessary context to module not found errors, such as

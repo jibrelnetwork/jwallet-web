@@ -1,10 +1,12 @@
 // @flow
 
-function checkTransactionLoading(
-  data: ?TransactionData,
-  blockData: ?TransactionBlockData,
-  receiptData: ?TransactionReceiptData,
-): boolean {
+function checkTransactionLoading<T: Transaction | TransactionWithPrimaryKeys>(item: T): boolean {
+  const {
+    data,
+    blockData,
+    receiptData,
+  }: T = item
+
   return !(data && blockData && receiptData)
 }
 

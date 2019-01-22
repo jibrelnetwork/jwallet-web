@@ -73,7 +73,7 @@ const config: AppConfig = {
     size: 2,
   },
 
-  blockExplorerApiOptions: {
+  blockExplorerAPIOptions: {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -116,10 +116,7 @@ const config: AppConfig = {
    */
   walletIdInitTimeout: 100,
 
-  /**
-   * blockexplorer url
-   */
-  blockExplorerLink: 'etherscan.io',
+  blockExplorerUILink: 'etherscan.io',
 
   /**
    * supported languages

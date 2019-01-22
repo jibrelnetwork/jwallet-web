@@ -2,3 +2,4 @@ NODE_ENV=production
 BABEL_ENV=production
 GOOGLE_ANALYTICS_ID=UA-103798122-2
 TICKER_API=https://api-fiat-courses.jwallet.network
+BLOCKEXPLORER_API=https://api-blockchain-service.jwallet.network
