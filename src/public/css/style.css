@@ -134,9 +134,7 @@ html.no-webworkers .unsupported-screen__feature.-webworkers {
 }
 
 html.javascript .unsupported-screen {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: none;
 }
 
 html.no-cookies .unsupported-screen,
