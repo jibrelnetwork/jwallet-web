@@ -95,6 +95,28 @@ function* requestGasPrice(): Saga<?BigNumber> {
   }
 }
 
+function* requestNonce(): Saga<?number> {
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  if (!network) {
+    throw new Error('There is no active network')
+  }
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  if (!ownerAddress) {
+    throw new Error('There is no active wallet')
+  }
+
+  try {
+    const nonce: number = yield call(web3.getNonce, network, ownerAddress)
+    return nonce
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
 function* requestEstimateGas(
   network: Network,
   digitalAsset: DigitalAsset,
@@ -327,6 +349,38 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
   }
 }
 
+function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
+  const {
+    nonce: userNonce,
+  } = formFieldValues
+
+  if (userNonce === '') {
+    return
+  }
+
+  const isNonceValid: boolean = parseInt(userNonce, 10) > 0
+
+  if (!isNonceValid) {
+    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
+    return
+  }
+
+  const nonce: ?number = yield* requestNonce()
+  if (!nonce) {
+    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+    return
+  }
+
+  if (nonce > parseInt(userNonce, 10)) {
+    yield put(
+      digitalAssetsSend.setFormFieldError(
+        'nonce',
+        `Nonce should be greater than ${nonce}`
+      )
+    )
+  }
+}
+
 function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
   const {
     formFieldValues,
@@ -365,20 +419,8 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
     return false
   }
 
-  // TODO: do this in the next task
-  // check nonce
-  // const isNonceExist: boolean = !!nonce.trim()
-  // const isNonceValid: boolean = (parseInt(nonce, 10) > 0)
-  // if (isNonceExist && !isNonceValid) {
-  //   yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
-  // }
-
-  yield* checkPriority(
-    digitalAsset,
-    priority,
-    formFieldValues
-  )
-
+  yield* checkNonce(formFieldValues)
+  yield* checkPriority(digitalAsset, priority, formFieldValues)
   yield* checkAmount(digitalAsset)
 
   // check, that errors in the all fields are empty
@@ -752,10 +794,25 @@ function* onPriorityChange(): Saga<void> {
   }
 }
 
+function* onStartNonceEdit(action: ExtractReturn<digitalAssetsSend.setNonceEditable>): Saga<void> {
+  const { payload: { isEditable } } = action
+
+  if (isEditable) {
+    const nonce = yield* requestNonce()
+    if (!nonce) {
+      yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+      return
+    }
+
+    yield put(digitalAssetsSend.setFormFieldValue('nonce', String(nonce)))
+  }
+}
+
 export function* digitalAssetsSendRootSaga(): Saga<void> {
   yield takeEvery(digitalAssetsSend.OPEN_VIEW, openView)
   yield takeEvery(digitalAssetsSend.GO_TO_NEXT_STEP, goToNextStep)
   yield takeEvery(digitalAssetsSend.GO_TO_PREV_STEP, goToPrevStep)
   yield takeEvery(digitalAssetsSend.SET_PRIORITY, onPriorityChange)
   yield takeEvery(digitalAssetsSend.SET_FORM_FIELD_VALUE, onFormFieldChange)
+  yield takeEvery(digitalAssetsSend.SET_NONCE_EDITABLE, onStartNonceEdit)
 }

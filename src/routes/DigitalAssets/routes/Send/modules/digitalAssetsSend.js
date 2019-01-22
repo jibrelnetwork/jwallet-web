@@ -23,6 +23,7 @@ export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
 export const SET_FORM_FIELD_WARNING = '@@digitalAssetsSend/SET_FORM_FIELD_WARNING'
 export const SET_FORM_ERROR = '@@digitalAssetsSend/SET_FORM_ERROR'
 export const CLEAN_VALIDATION_ERRORS = '@@digitalAssetsSend/CLEAN_VALIDATION_ERRORS'
+export const SET_NONCE_EDITABLE = '@@digitalAssetsSend/SET_NONCE_EDITABLE'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
@@ -182,6 +183,15 @@ export function cleanValidationErrors() {
   }
 }
 
+export function setNonceEditable(isEditable: boolean) {
+  return {
+    type: SET_NONCE_EDITABLE,
+    payload: {
+      isEditable,
+    },
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -203,6 +213,8 @@ export type DigitalAssetsSendAction =
   ExtractReturn<typeof setRequestedGasLimit> |
   ExtractReturn<typeof setFinalGasLimit> |
   ExtractReturn<typeof setFinalGasPrice> |
+  ExtractReturn<typeof cleanValidationErrors> |
+  ExtractReturn<typeof setNonceEditable> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetsSendState = {

@@ -11,6 +11,7 @@ import {
 
 type Props = {|
   +onChange: (string) => void,
+  +onActivate: ?((isActive) => void),
   +name: string,
   +icon: string,
   +value: string,
@@ -19,7 +20,6 @@ type Props = {|
   +placeholder: string,
   +errorMessage: string,
   +infoMessage: string,
-  +isLoading: boolean,
 |}
 
 type ComponentState = {|
@@ -29,6 +29,7 @@ type ComponentState = {|
 class InputButton extends Component<Props, ComponentState> {
   static defaultProps = {
     isLoading: false,
+    onActivate: null,
     infoMessage: '',
     errorMessage: '',
   }
@@ -48,10 +49,20 @@ class InputButton extends Component<Props, ComponentState> {
   }
 
   setIsActive = (isActive: boolean) => () => {
+    const {
+      onActivate,
+      onChange,
+    } = this.props
+
     this.setState({ isActive })
 
     if (!isActive) {
-      this.props.onChange('')
+      if (onActivate) {
+        onActivate(false)
+      }
+      onChange('')
+    } else if (onActivate) {
+      onActivate(true)
     }
   }
 

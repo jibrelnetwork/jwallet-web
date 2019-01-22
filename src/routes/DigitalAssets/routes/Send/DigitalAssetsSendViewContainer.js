@@ -24,6 +24,7 @@ import {
   goToNextStep,
   goToPrevStep,
   setFormFieldValue,
+  setNonceEditable,
 } from './modules/digitalAssetsSend'
 
 function mapStateToProps(state: AppState) {
@@ -82,6 +83,7 @@ const mapDispatchToProps = {
   goToNextStep,
   goToPrevStep,
   setFormFieldValue,
+  setNonceEditable,
 }
 
 /* ::
