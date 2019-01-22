@@ -696,6 +696,21 @@ function* checkGasPriceWarning(newGasPrice: void | string | BigNumber): Saga<voi
   }
 }
 
+function* checkRecipientWarning(newValue: string): Saga<void> {
+  const {
+    formFieldWarnings: {
+      recipient: recipientWarning,
+    },
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  if (ownerAddress === newValue && !recipientWarning) {
+    yield put(digitalAssetsSend.setFormFieldWarning('recipient', 'Recipient is the same as sender'))
+  }
+}
+
 function* onFormFieldChange(
   action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>
 ): Saga<void> {
@@ -712,6 +727,7 @@ function* onFormFieldChange(
 
   if (fieldName === 'assetAddress' ||
        fieldName === 'recipient') {
+    yield* checkRecipientWarning(value)
     yield* usePredefinedPriority()
   }
 
