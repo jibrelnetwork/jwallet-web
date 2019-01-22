@@ -54,6 +54,7 @@ export default function reEncryptWallet(
 
     return {
       ...wallet,
+      passwordOptions: passwordOptionsNew,
       encrypted: {
         ...encrypted,
         mnemonic: encryptData({
@@ -72,6 +73,7 @@ export default function reEncryptWallet(
 
     return {
       ...wallet,
+      passwordOptions: passwordOptionsNew,
       encrypted: {
         ...encrypted,
         privateKey: encryptData({

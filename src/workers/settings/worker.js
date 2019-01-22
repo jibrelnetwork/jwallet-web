@@ -3,10 +3,12 @@
 import type { SettingsAction } from 'routes/Settings/modules/settings'
 import {
   changePaymentPasswordPending,
+  validationPasswordForm,
 } from 'routes/Settings/modules/settings'
+import * as wallets from 'routes/Wallets/modules/wallets'
+
 import { isValidatePassword } from 'utils/password'
 import { reEncryptWallet, getPasswordOptions, initPassword } from 'utils/encryption'
-import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
 
 type SettingsWorkerMessage = {|
   +data: SettingsAction,
@@ -26,23 +28,33 @@ settingsWorker.window = settingsWorker
 
 settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
   const { state, passwordForm } = msg.data
-  const passwordOptionsNew = getPasswordOptions({})
+  const passwordOptionsNew = getPasswordOptions({
+    passwordHint: passwordForm.passwordHint,
+  })
 
   if (isValidatePassword(state, passwordForm.passwordOld)) {
     const { items } = state.wallets.persist
-    const reEncryptedWallets = items.map(wallet =>
-      reEncryptWallet(
-        wallet,
-        passwordForm.passwordOld,
-        passwordForm.passwordNew,
-        passwordOptionsNew,
+    try {
+      const reEncryptedWallets = items.map(wallet =>
+        reEncryptWallet(
+          wallet,
+          passwordForm.passwordOld,
+          passwordForm.passwordNew,
+          passwordOptionsNew,
+        )
       )
-    )
-    settingsWorker.postMessage(walletsCreate.createSuccess({
-      passwordOptions: passwordOptionsNew,
-      mnemonicOptions: state.wallets.persist.mnemonicOptions,
-      testPasswordData: initPassword(passwordForm.passwordNew, passwordOptionsNew),
-      items: reEncryptedWallets,
+      settingsWorker.postMessage(wallets.setWallets({
+        passwordOptions: passwordOptionsNew,
+        mnemonicOptions: state.wallets.persist.mnemonicOptions,
+        testPasswordData: initPassword(passwordForm.passwordNew, passwordOptionsNew),
+        items: reEncryptedWallets,
+      }))
+    } catch (e) {
+      console.error(e)
+    }
+  } else {
+    settingsWorker.postMessage(validationPasswordForm({
+      passwordOld: 'Password is invalid',
     }))
   }
   settingsWorker.postMessage(changePaymentPasswordPending(false))

@@ -13,7 +13,7 @@ import './paymentPassword.scss'
 const text = {
   pageDescription: 'You will use this password to unlock and transfer your funds.\n' +
     'Keep it secure!',
-  passwordOld: 'Old security password',
+  passwordOld: 'Old payment password',
   passwordOldAlert: 'Old password is required',
   passwordConfirmAlert: 'Password does not match confirmation',
   passwordNotEqual: 'Not equal',
@@ -62,9 +62,9 @@ export default class PaymentPasswordView extends PureComponent<Props> {
 
   render() {
     const { passwordForm } = this.props
-    console.log(passwordForm.messages)
+
     return (
-      <SubsettingsView title='Update security password'>
+      <SubsettingsView title='Update payment password'>
         <SubsettingsDescription text={text.pageDescription} />
         <Form
           onSubmit={this.onSubmit}
@@ -76,6 +76,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 name='passwordOld'
                 label={text.passwordOld}
                 placeholder={text.passwordOld}
+                errorMessage={passwordForm.messages.passwordOld}
                 color='gray'
                 type='password'
                 validate={required(text.passwordOldAlert)}
@@ -84,6 +85,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
               />
               <PasswordFieldFinalFormAdapter
                 onChange={form.change}
+                errorMessages={passwordForm.messages}
                 isLoading={passwordForm.isLoading}
                 values={values}
               />
@@ -91,6 +93,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 component={JInputField}
                 name='passwordHint'
                 label={text.hint}
+                errorMessage={passwordForm.messages.passwordHint}
                 placeholder={text.hint}
                 color='gray'
                 validate={required(text.hintAlert)}

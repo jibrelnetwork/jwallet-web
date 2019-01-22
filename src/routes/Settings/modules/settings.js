@@ -28,7 +28,7 @@ export function changePaymentPasswordPending(payload: boolean) {
   }
 }
 
-export function validationPasswordForm(payload: Object) {
+export function validationPasswordForm(payload: PaymentPasswordForm) {
   return {
     type: VALIDATION_PASSWORD_FORM,
     payload,
@@ -58,8 +58,6 @@ const settings = (
 ): SettingsState => {
   switch (action.type) {
     case INIT:
-      return state
-    case CHANGE_PAYMENT_PASSWORD:
       return state
     case VALIDATION_PASSWORD_FORM:
       return {
