@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import handle from 'utils/eventHandlers/handle'
@@ -15,33 +15,41 @@ type Props = {|
   +currentAddressIndex: ?Index,
 |}
 
-function MenuPanelWalletManagerDetailsAddresses({
-  getMoreAddresses,
-  setActiveAddress,
-  addresses,
-  addressNames,
-  currentAddressIndex,
-}: Props) {
-  return (
-    <div className='menu-panel-wallet-manager-details-addresses'>
-      <Scrollbars>
-        {addresses.map((item: Address, index: Index) => (
-          <MenuPanelWalletManagerDetailsAddressesItem
-            setActive={handle(setActiveAddress)(index)}
-            address={item}
-            addressName={addressNames[item]}
-            key={item}
-            isActive={currentAddressIndex === index}
+class MenuPanelWalletManagerDetailsAddresses extends Component<Props> {
+  componentDidMount() {
+    this.props.getMoreAddresses()
+  }
+
+  render() {
+    const {
+      getMoreAddresses,
+      setActiveAddress,
+      addresses,
+      addressNames,
+      currentAddressIndex,
+    }: Props = this.props
+
+    return (
+      <div className='menu-panel-wallet-manager-details-addresses'>
+        <Scrollbars>
+          {addresses.map((item: Address, index: Index) => (
+            <MenuPanelWalletManagerDetailsAddressesItem
+              setActive={handle(setActiveAddress)(index)}
+              address={item}
+              addressName={addressNames[item]}
+              key={item}
+              isActive={currentAddressIndex === index}
+            />
+          ))}
+          <MenuPanelActionsItem
+            onClick={getMoreAddresses}
+            icon='plus'
+            label='Add more addresses'
           />
-        ))}
-        <MenuPanelActionsItem
-          onClick={getMoreAddresses}
-          icon='plus'
-          label='Add more addresses'
-        />
-      </Scrollbars>
-    </div>
-  )
+        </Scrollbars>
+      </div>
+    )
+  }
 }
 
 export default MenuPanelWalletManagerDetailsAddresses
