@@ -4,6 +4,7 @@ import { MenuLayout } from 'layouts'
 
 import SettingsIndex from './SettingsIndexViewContainer'
 import PaymentPassword from './routes/PaymentPassword'
+import Currency from './routes/Currency'
 
 export default {
   path: 'settings',
@@ -13,5 +14,6 @@ export default {
   },
   childRoutes: [
     PaymentPassword,
+    Currency,
   ],
 }
