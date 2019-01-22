@@ -92,6 +92,7 @@ class MenuPanel extends Component<Props, ComponentState> {
           <MenuPanelActions
             toggle={this.toggleActionsMore}
             isActive={isActionsMoreActive}
+            activeWalletId={activeWalletId}
           />
         </div>
         <MenuPanelWalletManager

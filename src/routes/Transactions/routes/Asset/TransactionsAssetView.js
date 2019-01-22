@@ -138,7 +138,7 @@ function TransactionsAssetView({
             digitalAssets={digitalAssets}
             assetAddress={params.asset}
             ownerAddress={ownerAddress}
-            blockExplorerSubdomain={network.blockExplorerSubdomain}
+            blockExplorerUISubdomain={network.blockExplorerUISubdomain}
             isFiltered={!!filterCount || !!searchQuery}
             isLoading={isLoading || isCurrentBlockEmpty}
           />

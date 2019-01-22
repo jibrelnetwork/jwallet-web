@@ -34,10 +34,6 @@ h4 {
   padding: 0;
 }
 
-.unsupported-screen-hidden {
-  display: none;
-}
-
 .unsupported-screen__image,
 .unsupported-screen__error {
   margin: 0 auto;
@@ -69,7 +65,34 @@ h4 {
   text-align: left;
 }
 
-.unsupported-screen__features-list_feature {
+.unsupported-screen__feature {
+  display: list-item;
   list-style: circle;
   line-height: 18px;
+}
+
+.unsupported-screen__feature.-javascript {
+  display: block;
+}
+
+html.no-cookies .unsupported-screen__feature.-cookies,
+html.no-getrandomvalues .unsupported-screen__feature.-getrandomvalues,
+html.no-filereader .unsupported-screen__feature.-filereader,
+html.no-indexeddb .unsupported-screen__feature.-indexeddb,
+html.no-localstorage .unsupported-screen__feature.-localstorage,
+html.no-webworkers .unsupported-screen__feature.-webworkers {
+  display: list-item;
+}
+
+html.javascript .unsupported-screen {
+  display: none;
+}
+
+html.no-cookies .unsupported-screen,
+html.no-getrandomvalues .unsupported-screen,
+html.no-filereader .unsupported-screen,
+html.no-indexeddb .unsupported-screen,
+html.no-localstorage .unsupported-screen,
+html.no-webworkers .unsupported-screen {
+  display: block;
 }

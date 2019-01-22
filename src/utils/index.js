@@ -2,6 +2,7 @@
 
 import * as i18nUtils from './i18n'
 import * as timeUtils from './time'
+import * as configUtils from './config'
 import * as errorsUtils from './errors'
 import * as addressUtils from './address'
 import * as browserUtils from './browser'
@@ -18,6 +19,7 @@ import * as eventHandlersUtils from './eventHandlers'
 export {
   i18nUtils,
   timeUtils,
+  configUtils,
   errorsUtils,
   addressUtils,
   browserUtils,
