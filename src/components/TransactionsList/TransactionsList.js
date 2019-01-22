@@ -16,7 +16,7 @@ type Props = {|
   +addressNames: AddressNames,
   +digitalAssets: DigitalAssets,
   +assetAddress: ?string,
-  +blockExplorerSubdomain: string,
+  +blockExplorerUISubdomain: string,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
   +isFiltered: boolean,
@@ -85,7 +85,7 @@ class TransactionsList extends Component<Props, ComponentState> {
       digitalAssets,
       assetAddress,
       ownerAddress,
-      blockExplorerSubdomain,
+      blockExplorerUISubdomain,
       isLoading,
       isFiltered,
     }: Props = this.props
@@ -125,7 +125,7 @@ class TransactionsList extends Component<Props, ComponentState> {
               asset={digitalAssets[keys.assetAddress]}
               txAddress={txAddress}
               comment={getComment(comments, keys.id, hash)}
-              blockExplorerSubdomain={blockExplorerSubdomain}
+              blockExplorerUISubdomain={blockExplorerUISubdomain}
               toName={getAddressName(favorites, addressNames, to)}
               fromName={getAddressName(favorites, addressNames, from)}
               isAssetList={!!assetAddress}
