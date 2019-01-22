@@ -3,8 +3,9 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
+import getWallet from 'utils/wallets/getWallet'
+
 import {
-  selectActiveWallet,
   selectAddressNames,
   selectWalletsItems,
   selectActiveWalletId,
@@ -15,43 +16,39 @@ import {
 import WalletsAddressesView from './WalletsAddressesView'
 
 import {
-  openView,
-  closeView,
   setActive,
+  onOpenView,
+  onCloseView,
   getMoreRequest,
 } from './modules/walletsAddresses'
 
 function mapStateToProps(state: AppState) {
   const {
+    balances,
     addresses,
-    // balances,
-    iteration,
-    // isLoading,
+    isLoading,
   }: WalletsAddressesState = selectWalletsAddresses(state)
 
   const wallets: Wallets = selectWalletsItems(state)
-  const foundWallet: ?Wallet = selectActiveWallet(state)
   const walletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAddressNames(state)
   const walletsAddressNames: AddressNames = selectAddressWalletsNames(state)
+  const wallet: Wallet = getWallet(wallets, walletId)
 
   return {
-    wallets,
-    // balances,
+    balances,
     addresses,
-    walletId,
     addressNames,
     walletsAddressNames,
-    iteration,
-    // isLoading,
-    isReadOnly: foundWallet ? foundWallet.isReadOnly : false,
+    isLoading,
+    isReadOnly: wallet.isReadOnly,
   }
 }
 
 const mapDispatchToProps = {
-  openView,
-  closeView,
   setActive,
+  onOpenView,
+  onCloseView,
   getMoreRequest,
   goToWallets: () => push('/wallets'),
   renameAddress: (address: Address) => push(`/wallets/rename/address/${address}`),

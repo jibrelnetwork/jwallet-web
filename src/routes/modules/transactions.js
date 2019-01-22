@@ -177,14 +177,12 @@ export function checkPendingTransaction(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
   assetAddress: AssetAddress,
-  blockNumber: BlockNumber,
   transactionId: TransactionId,
 ) {
   return {
     type: CHECK_PENDING_TRANSACTION,
     payload: {
       networkId,
-      blockNumber,
       assetAddress,
       ownerAddress,
       transactionId,

@@ -8,10 +8,10 @@ declare type UpgradeMnemonicFormFieldValues = {|
 |}
 
 declare type UpgradeMnemonicFormFieldErrors = {
-  password?: string,
-  mnemonic?: string,
-  passphrase?: string,
-  derivationPath?: string,
+  password?: ?string,
+  mnemonic?: ?string,
+  passphrase?: ?string,
+  derivationPath?: ?string,
 }
 
 declare type UpgradePrivateKeyFormFieldValues = {|
@@ -20,11 +20,11 @@ declare type UpgradePrivateKeyFormFieldValues = {|
 |}
 
 declare type UpgradePrivateKeyFormFieldErrors = {
-  password?: string,
-  privateKey?: string,
+  password?: ?string,
+  privateKey?: ?string,
 }
 
-declare type UpgradeState = {
-  isLoading: boolean,
-  isInvalidPassword: boolean,
-}
+declare type UpgradeState = {|
+  +isLoading: boolean,
+  +isInvalidPassword: boolean,
+|}

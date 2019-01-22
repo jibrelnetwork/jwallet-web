@@ -1,5 +1,7 @@
 // @flow
 
+export const ON_ADDRESS_VIEW_CLOSE = '@@favorites/ON_ADDRESS_VIEW_CLOSE'
+
 export const ADD_AUTO = '@@favorites/ADD_AUTO'
 export const ADD_BY_USER = '@@favorites/ADD_BY_USER'
 
@@ -14,6 +16,12 @@ export const SET_FORM_FIELD_VALUE = '@@favorites/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@favorites/SET_FORM_FIELD_ERROR'
 
 export const CLEAN = '@@favorites/CLEAN'
+
+export function onAddressViewClose() {
+  return {
+    type: ON_ADDRESS_VIEW_CLOSE,
+  }
+}
 
 export function addAuto(address: string) {
   return {
@@ -100,6 +108,7 @@ export function clean() {
 }
 
 export type FavoriteAction =
+  ExtractReturn<typeof onAddressViewClose> |
   ExtractReturn<typeof addAuto> |
   ExtractReturn<typeof addByUser> |
   ExtractReturn<typeof edit> |
