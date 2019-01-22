@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { selectActiveWallet } from 'store/selectors/wallets'
 import { selectCurrentNetworkName } from 'store/selectors/networks'
+
 import SettingsIndexView from './SettingsIndexView'
 
 function mapStateToProps(state: AppState) {
@@ -16,6 +17,7 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export default (
-  connect/* :: <AppState, null, OwnPropsEmpty, _, _ > */(mapStateToProps)(SettingsIndexView)
-)
+export default connect/* :: <AppState, null, OwnPropsEmpty, _, _ > */(
+  mapStateToProps,
+)(SettingsIndexView)
+
