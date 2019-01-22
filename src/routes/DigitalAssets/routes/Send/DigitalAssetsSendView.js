@@ -25,6 +25,7 @@ type Props = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
+  +formError: string,
   +ownerAddress: ?OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
@@ -60,6 +61,7 @@ class DigitalAssetsSendView extends Component<Props> {
       formFieldValues,
       formFieldErrors,
       formFieldWarnings,
+      formError,
       ownerAddress,
       priority,
       currentStep,
@@ -103,6 +105,7 @@ class DigitalAssetsSendView extends Component<Props> {
               currentStep={currentStep}
               isLoading={isLoading}
               gasValues={gasValues}
+              formError={formError}
             />
           </Scrollbars>
         </div>

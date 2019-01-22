@@ -21,6 +21,8 @@ export const SET_FINAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_LIMI
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
 export const SET_FORM_FIELD_WARNING = '@@digitalAssetsSend/SET_FORM_FIELD_WARNING'
+export const SET_FORM_ERROR = '@@digitalAssetsSend/SET_FORM_ERROR'
+export const CLEAN_VALIDATION_ERRORS = '@@digitalAssetsSend/CLEAN_VALIDATION_ERRORS'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
@@ -165,6 +167,21 @@ export function setFormFieldWarning(
   }
 }
 
+export function setFormError(message: string) {
+  return {
+    type: SET_FORM_ERROR,
+    payload: {
+      message,
+    },
+  }
+}
+
+export function cleanValidationErrors() {
+  return {
+    type: CLEAN_VALIDATION_ERRORS,
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -225,6 +242,7 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
+  formError: '',
   requestedGasValues: {
     gasPrice: null,
     gasLimit: null,
@@ -255,6 +273,17 @@ function digitalAssetsSend(
       return {
         ...state,
         priority: action.payload.priority,
+        formFieldErrors: {
+          ...state.formFieldErrors,
+          gasPrice: '',
+          gasLimit: '',
+        },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
+          gasPrice: '',
+          gasLimit: '',
+        },
+        formError: '',
       }
 
     case SET_IS_LOADING:
@@ -271,6 +300,7 @@ function digitalAssetsSend(
 
       return {
         ...state,
+        formError: '',
         formFieldErrors: {
           ...state.formFieldErrors,
           [fieldName]: '',
@@ -376,6 +406,23 @@ function digitalAssetsSend(
           ...state.finalGasValues,
           gasLimit: value,
         },
+      }
+    }
+
+    case SET_FORM_ERROR: {
+      const { message } = action.payload
+      return {
+        ...state,
+        formError: message,
+      }
+    }
+
+    case CLEAN_VALIDATION_ERRORS: {
+      return {
+        ...state,
+        formFieldErrors: initialState.formFieldErrors,
+        formFieldWarnongs: initialState.formFieldWarnongs,
+        formError: '',
       }
     }
 
