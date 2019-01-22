@@ -25,7 +25,7 @@ type Props = {|
   +backup: ?WalletFaceActionsHandler,
   +rename: ?WalletFaceActionsHandler,
   +remove: ?WalletFaceActionsHandler,
-  +balance: string,
+  +balance: ?string,
   +isToggled: boolean,
 |}
 
@@ -56,10 +56,12 @@ class WalletFaceActions extends PureComponent<Props> {
         <div onClick={toggle} className='overlay' />
         {isToggled ? (
           <div className='actions'>
-            <JText
-              value={`${formatBalance(divDecimals(balance))} ETH`}
-              color='white'
-            />
+            {balance && (
+              <JText
+                value={`${formatBalance(divDecimals(balance))} ETH`}
+                color='white'
+              />
+            )}
             {this.getActions().map((action: WalletFaceAction) => {
               const { handler, iconName }: WalletFaceAction = action
 
