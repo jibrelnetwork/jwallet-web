@@ -39,7 +39,7 @@ function DigitalAssetsSendConfirmCard({
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
-  const fee: string = getTxFee(parseFloat(gasLimit), gasPrice, decimals)
+  const fee: string = getTxFee(parseFloat(gasLimit), String(gasPrice), decimals)
 
   return (
     <div className='digital-assets-send-confirm-card'>
