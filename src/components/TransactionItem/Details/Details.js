@@ -32,6 +32,7 @@ type Props = {|
   +isSent: boolean,
   +isActive: boolean,
   +isFromFavorites: boolean,
+  +isMintable: boolean,
 |}
 
 type StateProps = {|
@@ -113,6 +114,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       isSent,
       isActive,
       isFromFavorites,
+      isMintable,
       data: txData,
     } = this.props
 
@@ -217,7 +219,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           </div>
         </div>
         <div className='actions'>
-          {!!repeatLink && (
+          {!!repeatLink && !isMintable && (
             <div className='action'>
               <JFlatButton
                 to={repeatLink}
@@ -229,7 +231,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
               />
             </div>
           )}
-          {(addFavoriteLink || isFromFavorites) && (
+          {(addFavoriteLink || isFromFavorites) && !isMintable && (
             <div className='action'>
               <JFlatButton
                 onClick={isFromFavorites ? handle(removeFavorite)(txAddress) : null}
