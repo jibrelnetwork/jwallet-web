@@ -14,7 +14,7 @@ declare type AssetAddress = Address | EthereumAddress
 
 declare type AddressNames = { [Address]: ?string }
 
-declare type CurrencyCode = 'USD' | 'EUR'
+declare type CurrencyCode = 'USD' | 'EUR' | 'CNY' | 'EUR' | 'GBP' | 'JPY' | 'KRW'
 declare type SortDirection = 'asc' | 'desc'
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
