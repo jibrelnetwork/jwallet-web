@@ -152,8 +152,6 @@ class TransactionItemMain extends PureComponent<Props> {
     const isFailed: boolean = !receiptData.status || isRemoved
     const color: TransactionTextColor =
       getTransactionTextColor(isEventMint, isEventBurn, isSent, isFailed)
-    const mintMsg = isEventMint && 'Token minting'
-    const burnMsg = isEventBurn && 'Token burning'
 
     return (
       <div
@@ -169,7 +167,7 @@ class TransactionItemMain extends PureComponent<Props> {
             />
           </div>
           <div className='data'>
-            {txAddress && (
+            {txAddress ? (
               <div className='address'>
                 {contractAddress && (
                   <div className='icon'>
@@ -182,10 +180,31 @@ class TransactionItemMain extends PureComponent<Props> {
                 )}
                 <JText
                   color={color}
-                  value={mintMsg || burnMsg || txAddressName || txAddress}
+                  value={txAddressName || txAddress}
                   weight='bold'
                   size='normal'
                 />
+              </div>
+            ) : (
+              <div className='address'>
+                {isEventMint && (
+                  <JText
+                    color={color}
+                    value='Token minting'
+                    weight='bold'
+                    size='normal'
+                    whiteSpace='wrap'
+                  />
+                )}
+                {isEventBurn && (
+                  <JText
+                    color={color}
+                    value='Token burning'
+                    weight='bold'
+                    size='normal'
+                    whiteSpace='wrap'
+                  />
+                )}
               </div>
             )}
             <div className='time'>
