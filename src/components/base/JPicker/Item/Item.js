@@ -3,6 +3,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import type { Node } from 'react'
+
 import handle from 'utils/eventHandlers/handle'
 
 const Item = ({ onSelect, children, value, disabled }: Props) => (
@@ -16,7 +18,7 @@ const Item = ({ onSelect, children, value, disabled }: Props) => (
 
 type Props = {
   onSelect: Function,
-  children: Object,
+  children: Node,
   value: number | string | Object,
   disabled: boolean,
 }

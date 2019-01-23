@@ -1,12 +1,12 @@
 // @flow
 
-export const INIT: '@@settings/INIT' = '@@settings/INIT'
-export const CHANGE_PAYMENT_PASSWORD: '@@settings/CHANGE_PAYMENT_PASSWORD' =
-  '@@settings/CHANGE_PAYMENT_PASSWORD'
-export const VALIDATION_PASSWORD_FORM: '@@settings/VALIDATION_PASSWORD_FORM' =
-  '@@settings/VALIDATION_PASSWORD_FORM'
-export const CHANGE_PAYMENT_PASSWORD_PENDING: '@@settings/CHANGE_PAYMENT_PASSWORD_PENDING' =
-  '@@settings/CHANGE_PAYMENT_PASSWORD_PENDING'
+import type { CurrencyFormFieldValues } from '../routes/Currency/types'
+
+export const INIT = '@@settings/INIT'
+export const CHANGE_PAYMENT_PASSWORD = '@@settings/CHANGE_PAYMENT_PASSWORD'
+export const VALIDATION_PASSWORD_FORM = '@@settings/VALIDATION_PASSWORD_FORM'
+export const CHANGE_PAYMENT_PASSWORD_PENDING = '@@settings/CHANGE_PAYMENT_PASSWORD_PENDING'
+export const CHANGE_LOCAL_CURRENCY = '@@settings/CHANGE_LOCAL_CURRENCY'
 
 export function init() {
   return {
@@ -35,6 +35,13 @@ export function validationPasswordForm(payload: PaymentPasswordForm) {
   }
 }
 
+export function changeLocalCurrencyCode(payload: CurrencyFormFieldValues) {
+  return {
+    type: CHANGE_LOCAL_CURRENCY,
+    currencyCode: payload.currencyCode,
+  }
+}
+
 export type SettingsAction =
   ExtractReturn<typeof init> |
   ExtractReturn<typeof changePaymentPassword> |
@@ -59,6 +66,11 @@ const settings = (
   switch (action.type) {
     case INIT:
       return state
+    case CHANGE_LOCAL_CURRENCY:
+      return {
+        ...state,
+        localCurrencyCode: action.currencyCode,
+      }
     case VALIDATION_PASSWORD_FORM:
       return {
         ...state,

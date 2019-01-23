@@ -1,0 +1,12 @@
+.currency-picker-current {
+  flex: 1 0;
+
+  > .j-text { /* stylelint-disable-line rscss/class-format, comment: FIXME */
+    display: block;
+    padding-bottom: 2px;
+  }
+
+  > .j-text:last-child { /* stylelint-disable-line rscss/class-format, comment: FIXME */
+    padding-bottom: 0;
+  }
+}
