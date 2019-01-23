@@ -9,6 +9,7 @@ import checkPassword from './checkPassword'
 import getPasswordOptions from './getPasswordOptions'
 import checkPasswordStrength from './checkPasswordStrength'
 import deriveKeyFromPassword from './deriveKeyFromPassword'
+import reEncryptWallet from './reEncryptWallet'
 
 export {
   decryptData,
@@ -20,4 +21,5 @@ export {
   getPasswordOptions,
   checkPasswordStrength,
   deriveKeyFromPassword,
+  reEncryptWallet,
 }

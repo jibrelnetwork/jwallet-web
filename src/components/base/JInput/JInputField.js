@@ -12,6 +12,7 @@ type Props = {|
   placeholder?: string,
   type?: JInputType,
   helpMessage?: string,
+  errorMessage?: string,
   isLoading?: boolean,
   isAutoFocus?: boolean,
   isPinCode?: boolean,
@@ -24,6 +25,7 @@ JInputField.defaultProps = {
   type: 'text',
   validateType: 'touched',
   helpMessage: undefined,
+  errorMessage: undefined,
   isLoading: false,
   isAutoFocus: false,
   isPinCode: false,
@@ -40,6 +42,7 @@ function JInputField(props: Props) {
     type,
     validateType,
     helpMessage,
+    errorMessage,
     isLoading,
     isAutoFocus,
     isDisabled,
@@ -58,7 +61,7 @@ function JInputField(props: Props) {
     value={input.value}
     placeholder={placeholder}
     helpMessage={helpMessage}
-    errorMessage={meta[validateType] && error ? error : undefined}
+    errorMessage={errorMessage || (meta[validateType] && error ? error : undefined)}
     color={color}
     type={type}
     isLoading={isLoading}

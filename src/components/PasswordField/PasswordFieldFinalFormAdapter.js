@@ -4,24 +4,28 @@ import PasswordField from 'components/PasswordField'
 
 type Props = {
   onChange: (name: string, value: mixed) => void,
+  errorMessages: PaymentPasswordForm,
   isLoading: ?boolean,
   values: ?Object,
 }
 
 const text = {
-  passwordNew: 'New security password',
-  passwordNewConfirm: 'Repeat security password',
+  passwordNew: 'New payment password',
+  passwordNewConfirm: 'Repeat payment password',
 }
 
 const handlerChange = name => f => value => f(name, value)
 
-function PasswordFieldFinalFormAdapter(props: Props) {
-  const { onChange, isLoading, values } = props
+function PasswordFieldFinalFormAdapter({ onChange, isLoading, values, errorMessages }: Props) {
+  const invalidFields = {
+    password: errorMessages.passwordNew,
+    passwordConfirm: errorMessages.passwordNewConfirm,
+  }
   return (
     <PasswordField
       onChange={handlerChange('passwordNew')(onChange)}
       onChangeConfirm={handlerChange('passwordNewConfirm')(onChange)}
-      invalidFields={{ password: null, passwordConfirm: null }}
+      invalidFields={invalidFields}
       value={values ? values.passwordNew : ''}
       placeholder={text.passwordNew}
       valueConfirm={values ? values.passwordNewConfirm : ''}

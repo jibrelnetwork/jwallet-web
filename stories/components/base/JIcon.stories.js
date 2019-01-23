@@ -226,6 +226,20 @@ storiesOf('JIcon')
           <JIcon
             size='medium'
             color='gray'
+            name='burn-event'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='blue'
+            name='mint-event'
+          />
+        </div>
+        <div style={{ padding: '3px', backgroundColor: 'transparent' }}>
+          <JIcon
+            size='medium'
+            color='gray'
             name='unchecked'
           />
         </div>
