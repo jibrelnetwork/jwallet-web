@@ -1,42 +1,38 @@
 // @flow
 
-/* eslint-disable max-len */
-export const OPEN_VIEW: '@@walletsAddresses/OPEN_VIEW' = '@@walletsAddresses/OPEN_VIEW'
-export const CLOSE_VIEW: '@@walletsAddresses/CLOSE_VIEW' = '@@walletsAddresses/CLOSE_VIEW'
+export const ON_OPEN_VIEW = '@@walletsAddresses/ON_OPEN_VIEW'
+export const ON_CLOSE_VIEW = '@@walletsAddresses/ON_CLOSE_VIEW'
 
-export const SET_ACTIVE: '@@walletsAddresses/SET_ACTIVE' = '@@walletsAddresses/SET_ACTIVE'
+export const SET_ACTIVE = '@@walletsAddresses/SET_ACTIVE'
 
-export const GET_MORE_ERROR: '@@walletsAddresses/GET_MORE_ERROR' = '@@walletsAddresses/GET_MORE_ERROR'
-export const GET_MORE_SUCCESS: '@@walletsAddresses/GET_MORE_SUCCESS' = '@@walletsAddresses/GET_MORE_SUCCESS'
-export const GET_MORE_REQUEST: '@@walletsAddresses/GET_MORE_REQUEST' = '@@walletsAddresses/GET_MORE_REQUEST'
+export const GET_MORE_ERROR = '@@walletsAddresses/GET_MORE_ERROR'
+export const GET_MORE_SUCCESS = '@@walletsAddresses/GET_MORE_SUCCESS'
+export const GET_MORE_REQUEST = '@@walletsAddresses/GET_MORE_REQUEST'
 
-export const GET_ETH_BALANCES_ERROR: '@@walletsAddresses/GET_ETH_BALANCES_ERROR' = '@@walletsAddresses/GET_ETH_BALANCES_ERROR'
-export const GET_ETH_BALANCES_SUCCESS: '@@walletsAddresses/GET_ETH_BALANCES_SUCCESS' = '@@walletsAddresses/GET_ETH_BALANCES_SUCCESS'
-export const GET_ETH_BALANCES_REQUEST: '@@walletsAddresses/GET_ETH_BALANCES_REQUEST' = '@@walletsAddresses/GET_ETH_BALANCES_REQUEST'
+export const GET_ETH_BALANCES_ERROR = '@@walletsAddresses/GET_ETH_BALANCES_ERROR'
+export const GET_ETH_BALANCES_SUCCESS = '@@walletsAddresses/GET_ETH_BALANCES_SUCCESS'
+export const GET_ETH_BALANCES_REQUEST = '@@walletsAddresses/GET_ETH_BALANCES_REQUEST'
 
-export const SET_ADDRESS_NAMES: '@@walletsAddresses/SET_ADDRESS_NAMES' = '@@walletsAddresses/SET_ADDRESS_NAMES'
+export const SET_ADDRESS_NAMES = '@@walletsAddresses/SET_ADDRESS_NAMES'
 
-export const CLEAN: '@@walletsAddresses/CLEAN' = '@@walletsAddresses/CLEAN'
-/* eslint-enable max-len */
+export const CLEAN = '@@walletsAddresses/CLEAN'
 
-export function openView() {
+export function onOpenView() {
   return {
-    type: OPEN_VIEW,
+    type: ON_OPEN_VIEW,
   }
 }
 
-export function closeView() {
+export function onCloseView() {
   return {
-    type: CLOSE_VIEW,
+    type: ON_CLOSE_VIEW,
   }
 }
 
-export function setActive(items: Wallets, walletId: WalletId, addressIndex: Index) {
+export function setActive(addressIndex: Index) {
   return {
     type: SET_ACTIVE,
     payload: {
-      items,
-      walletId,
       addressIndex,
     },
   }
@@ -59,20 +55,9 @@ export function getMoreSuccess(addresses: Address[]) {
   }
 }
 
-export function getMoreRequest(
-  items: Wallets,
-  walletId: WalletId,
-  startIndex: Index,
-  endIndex: Index,
-) {
+export function getMoreRequest() {
   return {
     type: GET_MORE_REQUEST,
-    payload: {
-      items,
-      walletId,
-      startIndex,
-      endIndex,
-    },
   }
 }
 
@@ -84,7 +69,7 @@ export function getBalancesError(err: Error) {
   }
 }
 
-export function getBalancesSuccess(balances: Balances) {
+export function getBalancesSuccess(balances: WalletsBalances) {
   return {
     type: GET_ETH_BALANCES_SUCCESS,
     payload: {
@@ -93,12 +78,9 @@ export function getBalancesSuccess(balances: Balances) {
   }
 }
 
-export function getBalancesRequest(addresses: Address[]) {
+export function getBalancesRequest() {
   return {
     type: GET_ETH_BALANCES_REQUEST,
-    payload: {
-      addresses,
-    },
   }
 }
 
@@ -118,8 +100,8 @@ export function clean() {
 }
 
 export type WalletsAddressesAction =
-  ExtractReturn<typeof openView> |
-  ExtractReturn<typeof closeView> |
+  ExtractReturn<typeof onOpenView> |
+  ExtractReturn<typeof onCloseView> |
   ExtractReturn<typeof setActive> |
   ExtractReturn<typeof getMoreError> |
   ExtractReturn<typeof getMoreSuccess> |

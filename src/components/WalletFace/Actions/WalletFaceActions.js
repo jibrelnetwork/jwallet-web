@@ -1,9 +1,17 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
-import JFlatButton from 'components/base/JFlatButton'
+import {
+  JText,
+  JFlatButton,
+} from 'components/base'
+
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 
 type WalletFaceActionsHandler = () => void
 
@@ -17,6 +25,7 @@ type Props = {|
   +backup: ?WalletFaceActionsHandler,
   +rename: ?WalletFaceActionsHandler,
   +remove: ?WalletFaceActionsHandler,
+  +balance: ?string,
   +isToggled: boolean,
 |}
 
@@ -36,13 +45,23 @@ class WalletFaceActions extends PureComponent<Props> {
   }
 
   render() {
-    const { toggle, isToggled }: Props = this.props
+    const {
+      toggle,
+      balance,
+      isToggled,
+    }: Props = this.props
 
     return (
       <div className={classNames('wallet-face-actions', isToggled && '-toggled')}>
         <div onClick={toggle} className='overlay' />
         {isToggled ? (
           <div className='actions'>
+            {balance && (
+              <JText
+                value={`${formatBalance(divDecimals(balance))} ETH`}
+                color='white'
+              />
+            )}
             {this.getActions().map((action: WalletFaceAction) => {
               const { handler, iconName }: WalletFaceAction = action
 

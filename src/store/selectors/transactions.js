@@ -90,22 +90,54 @@ export function selectTransactionById(
   networkId: NetworkId,
   owner: OwnerAddress,
   asset: AssetAddress,
-  blockNumber: BlockNumber,
   id: TransactionId,
+  blockNumber?: BlockNumber,
 ): ?Transaction {
-  const byBlockNumber: ?TransactionsByBlockNumber = selectTransactionsByBlockNumber(
+  // search within specific range, if blockNumber was specified
+  if (blockNumber) {
+    const byBlockNumber: ?TransactionsByBlockNumber = selectTransactionsByBlockNumber(
+      state,
+      networkId,
+      owner,
+      asset,
+      blockNumber,
+    )
+
+    if (!(byBlockNumber && byBlockNumber.items)) {
+      return null
+    }
+
+    return byBlockNumber.items[id]
+  }
+
+  // search transaction by id within full list by asset address
+  const byAssetAddress: ?TransactionsByAssetAddress = selectTransactionsByAsset(
     state,
     networkId,
     owner,
     asset,
-    blockNumber,
   )
 
-  if (!(byBlockNumber && byBlockNumber.items)) {
+  if (!byAssetAddress) {
     return null
   }
 
-  return byBlockNumber.items[id]
+  return Object.keys(byAssetAddress).reduce((
+    result: ?Transaction,
+    toBlock: BlockNumber,
+  ): ?Transaction => {
+    if (result) {
+      return result
+    }
+
+    const byBlockNumber: ?TransactionsByBlockNumber = byAssetAddress[toBlock]
+
+    if (!(byBlockNumber && byBlockNumber.items)) {
+      return null
+    }
+
+    return byBlockNumber.items[id]
+  }, null)
 }
 
 export function selectPendingTransactionsByNetworkId(

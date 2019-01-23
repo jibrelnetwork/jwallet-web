@@ -2,10 +2,10 @@
 
 import config from 'config'
 
-function getTxLink(txHash: Hash, blockExplorerSubdomain: string): string {
-  const subdomainPrefix: string = blockExplorerSubdomain ? `${blockExplorerSubdomain}.` : ''
+function getTxLink(txHash: Hash, blockExplorerUISubdomain: string): string {
+  const uiSubdomainPrefix: string = blockExplorerUISubdomain ? `${blockExplorerUISubdomain}.` : ''
 
-  return `//${subdomainPrefix}${config.blockExplorerLink}/tx/${txHash}`
+  return `//${uiSubdomainPrefix}${config.blockExplorerUILink}/tx/${txHash}`
 }
 
 export default getTxLink
