@@ -19,7 +19,6 @@ type Props = {|
   +changeDataInput: (string) => void,
   +changeNameInput: (string) => void,
   +changePasswordInput: (string) => void,
-  +changePassphraseInput: (string) => void,
   +changePasswordHintInput: (string) => void,
   +changeDerivationPathInput: (string) => void,
   +changePasswordConfirmInput: (string) => void,
@@ -27,7 +26,6 @@ type Props = {|
   +data: string,
   +name: string,
   +password: string,
-  +passphrase: string,
   +passwordHint: string,
   +derivationPath: string,
   +passwordConfirm: string,
@@ -53,7 +51,6 @@ class WalletsImportView extends Component<Props> {
       changeDataInput,
       changeNameInput,
       changePasswordInput,
-      changePassphraseInput,
       changePasswordHintInput,
       changeDerivationPathInput,
       changePasswordConfirmInput,
@@ -61,7 +58,6 @@ class WalletsImportView extends Component<Props> {
       data,
       name,
       password,
-      passphrase,
       walletType,
       passwordHint,
       derivationPath,
@@ -96,7 +92,6 @@ class WalletsImportView extends Component<Props> {
             <WalletDataStep
               onSubmit={goToNextStep}
               onChangeData={changeDataInput}
-              onChangePassphrase={changePassphraseInput}
               onChangeDerivationPath={changeDerivationPathInput}
               title={[
                 'Insert the private key or backup phrase to import. Also, you can import',
@@ -104,7 +99,6 @@ class WalletsImportView extends Component<Props> {
               ]}
               invalidFields={invalidFields}
               valueData={data}
-              valuePassphrase={passphrase}
               valueDerivationPath={derivationPath}
               buttonLabel='Next step'
               isLoading={isLoading}
