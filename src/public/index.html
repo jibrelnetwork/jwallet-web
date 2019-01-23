@@ -36,22 +36,25 @@
   <body>
     <div id='root'>
       <div class='unsupported-screen'>
-        <img src='%PUBLIC_URL%/assets/icons/new-pack/xlarge/auth-warning.svg' alt='JWallet internal error logo' id='icon' class='unsupported-screen__image'>
+        <img src='%PUBLIC_URL%/assets/icons/new-pack/xlarge/badbrowser@2x.png' alt='JWallet internal error logo' id='icon' class='unsupported-screen__image'>
         <main class='unsupported-screen__error'>
           <h1 class='unsupported-screen__title'>Whoops! Your browser is not supported :(</h1>
-          <h2 class='unsupported-screen__subtitle'>Jwallet relies on these features, so you need to switch to another browser or enable all of them:</h2>
-          <ul class='unsupported-screen__features-list'>
-            <noscript>
-              <li class='unsupported-screen__feature -javascript'>JavaScript</li>
-            </noscript>
-            <li class='unsupported-screen__feature -cookies'>Cookies</li>
-            <li class='unsupported-screen__feature -getrandomvalues'>Secure Random Numbers Generator</li>
-            <li class='unsupported-screen__feature -filereader'>File Reader API</li>
-            <li class='unsupported-screen__feature -indexeddb'>Indexed Database</li>
-            <li class='unsupported-screen__feature -localstorage'>Local Storage API</li>
-            <li class='unsupported-screen__feature -webworkers'>Web Workers</li>
-          </ul>
+          <div class='unsupported-screen__description'>
+            <p class='unsupported-screen__subtitle'>Jwallet relies on these features, so you need to switch to another browser or enable all of them:</p>
+            <ul class='unsupported-screen__features-list'>
+              <noscript>
+                <li class='unsupported-screen__feature -javascript'>JavaScript</li>
+              </noscript>
+              <li class='unsupported-screen__feature -cookies'>Cookies</li>
+              <li class='unsupported-screen__feature -getrandomvalues'>Secure Random Numbers Generator</li>
+              <li class='unsupported-screen__feature -filereader'>File Reader API</li>
+              <li class='unsupported-screen__feature -indexeddb'>Indexed Database</li>
+              <li class='unsupported-screen__feature -localstorage'>Local Storage API</li>
+              <li class='unsupported-screen__feature -webworkers'>Web Workers</li>
+            </ul>
+          </div>
         </main>
+        <a href='https://jwallet.network' class='unsupported-screen__back'>Back to Home</a>
       </div>
     </div>
     <!-- Google Analytics -->
