@@ -1,10 +1,11 @@
 // @flow
 
 import config from 'config'
+import getENVVar from 'utils/config/getENVVar'
 
 const { tickerAPIOptions } = config
 
-const TICKER_API: string = __DEFAULT_TICKER_API__
+const TICKER_API: string = getENVVar('_TICKER_API__') || __DEFAULT_TICKER_API__
 
 type TickerAPIParams = {|
   +id: FiatId[],

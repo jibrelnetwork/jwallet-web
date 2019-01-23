@@ -1,16 +1,55 @@
 // @flow
 
+import { delay } from 'redux-saga'
+
 import {
   put,
   call,
+  fork,
+  take,
+  cancel,
+  select,
   takeEvery,
 } from 'redux-saga/effects'
 
+import type { Task } from 'redux-saga'
+
+import config from 'config'
 import tickerService from 'services/ticker'
+import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import * as ticker from '../modules/ticker'
 
 const DEFAULT_FIAT_CURRENCY: FiatCurrency = 'USD'
+
+function* syncFiatCourses(): Saga<void> {
+  while (true) {
+    const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
+      yield select(selectActiveDigitalAssets)
+
+    if (!activeAssets.length) {
+      yield delay(config.fiatCoursesSyncTimeout)
+      continue
+    }
+
+    const fiatIds: FiatId[] = getActiveAssetsFiatIds(activeAssets)
+
+    yield put(ticker.fiatCoursesRequest(fiatIds))
+    yield delay(config.fiatCoursesSyncTimeout)
+  }
+}
+
+function* syncStart(): Saga<void> {
+  const syncFiatCoursesTask: Task<typeof syncFiatCourses> = yield fork(syncFiatCourses)
+
+  yield take(ticker.SYNC_STOP)
+  yield cancel(syncFiatCoursesTask)
+}
+
+function* syncRestart(): Saga<void> {
+  yield put(ticker.syncStop())
+  yield put(ticker.syncStart())
+}
 
 function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequest>): Saga<void> {
   const { fiatIds } = action.payload
@@ -49,6 +88,23 @@ function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequ
   }
 }
 
+function getActiveAssetsFiatIds(items: DigitalAsset[]): FiatId[] {
+  return items.reduce((result: FiatId[], { priceFeed }: DigitalAsset): FiatId[] => {
+    if (!priceFeed) {
+      return result
+    }
+
+    const { currencyID }: DigitalAssetPriceFeed = priceFeed
+
+    return [
+      ...result,
+      currencyID.toString(),
+    ]
+  }, [])
+}
+
 export function* tickerRootSaga(): Saga<void> {
+  yield takeEvery(ticker.SYNC_START, syncStart)
+  yield takeEvery(ticker.SYNC_RESTART, syncRestart)
   yield takeEvery(ticker.FIAT_COURSES_REQUEST, fiatCoursesRequest)
 }

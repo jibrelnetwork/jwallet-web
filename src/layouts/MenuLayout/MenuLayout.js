@@ -15,7 +15,7 @@ type Props = {|
   +addressNames: AddressNames,
   +children: React$Node,
   +activeWalletId: ?WalletId,
-  +ethBalance: ?Balance,
+  +balance: number,
   +isConnectionError: boolean,
 |}
 
@@ -37,7 +37,7 @@ class MenuLayout extends Component<Props> {
       addressNames,
       children,
       activeWalletId,
-      ethBalance,
+      balance,
       isConnectionError,
     }: Props = this.props
 
@@ -51,7 +51,7 @@ class MenuLayout extends Component<Props> {
             addresses={addresses}
             addressNames={addressNames}
             activeWalletId={activeWalletId}
-            ethBalance={ethBalance}
+            balance={balance}
           />
         </div>
         <div className='content'>

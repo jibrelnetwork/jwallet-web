@@ -1,5 +1,9 @@
 // @flow
 
+export const SYNC_STOP = '@@ticker/SYNC_STOP'
+export const SYNC_START = '@@ticker/SYNC_START'
+export const SYNC_RESTART = '@@ticker/SYNC_RESTART'
+
 export const FIAT_COURSES_ERROR = '@@ticker/FIAT_COURSES_ERROR'
 export const FIAT_COURSES_SUCCESS = '@@ticker/FIAT_COURSES_SUCCESS'
 export const FIAT_COURSES_REQUEST = '@@ticker/FIAT_COURSES_REQUEST'
@@ -7,6 +11,24 @@ export const FIAT_COURSES_REQUEST = '@@ticker/FIAT_COURSES_REQUEST'
 export const FIAT_COURSE_ERROR = '@@ticker/FIAT_COURSE_ERROR'
 export const FIAT_COURSE_SUCCESS = '@@ticker/FIAT_COURSE_SUCCESS'
 export const FIAT_COURSE_REQUEST = '@@ticker/FIAT_COURSE_REQUEST'
+
+export function syncStop() {
+  return {
+    type: SYNC_STOP,
+  }
+}
+
+export function syncStart() {
+  return {
+    type: SYNC_START,
+  }
+}
+
+export function syncRestart() {
+  return {
+    type: SYNC_RESTART,
+  }
+}
 
 export function fiatCoursesError(err: Error) {
   return {
@@ -69,7 +91,10 @@ export type TickerAction =
   ExtractReturn<typeof fiatCoursesRequest> |
   ExtractReturn<typeof fiatCourseError> |
   ExtractReturn<typeof fiatCourseSuccess> |
-  ExtractReturn<typeof fiatCourseRequest>
+  ExtractReturn<typeof fiatCourseRequest> |
+  ExtractReturn<typeof syncStop> |
+  ExtractReturn<typeof syncStart> |
+  ExtractReturn<typeof syncRestart>
 
 const initialState: TickerState = {
   persist: {

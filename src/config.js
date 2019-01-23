@@ -179,6 +179,8 @@ const config: AppConfig = {
   defaultDerivationKeyLength: 32,
 
   defaultRandomBufferLength: 32,
+
+  fiatCoursesSyncTimeout: ONE_MINUTE,
 }
 
 export default config

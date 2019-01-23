@@ -24,6 +24,7 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from 'routes/modules/blocks'
+import * as ticker from 'routes/modules/ticker'
 
 import {
   OPEN_VIEW,
@@ -260,6 +261,7 @@ function* onAssetFormSumbit(): Saga<void> {
 
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
     yield put(blocks.syncRestart())
+    yield put(ticker.syncRestart())
   }
 }
 

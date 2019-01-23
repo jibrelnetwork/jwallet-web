@@ -64,4 +64,5 @@ declare type AppConfig = {|
   +defaultEncryptionType: 'nacl.secretbox',
   +defaultDerivationKeyLength: number,
   +defaultRandomBufferLength: number,
+  +fiatCoursesSyncTimeout: number,
 |}
