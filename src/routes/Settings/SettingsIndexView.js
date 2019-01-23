@@ -21,7 +21,6 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 // Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
   localCurrencyCode,
-  networkName,
   walletName,
   walletId,
 }): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
@@ -52,20 +51,6 @@ const getSettingsCardProperties = ({
   iconName: 'message',
   searchTags: 'zendesk help',
   isVisible: true,
-}, {
-  title: 'Backup wallet',
-  description: 'Save your money!',
-  path: `wallets/backup/${walletId}`,
-  iconName: 'backup-wallet',
-  searchTags: '',
-  isVisible: true,
-}, {
-  title: 'Network name',
-  description: networkName || ' ',
-  path: 'settings/network',
-  iconName: 'network',
-  searchTags: '',
-  isVisible: Boolean(networkName),
 }, {
   title: 'Rename wallet',
   description: walletName,
