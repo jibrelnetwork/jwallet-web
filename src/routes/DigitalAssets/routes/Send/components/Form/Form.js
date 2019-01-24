@@ -24,6 +24,7 @@ type Props = {|
   +submit: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +formFieldValues: DigitalAssetsSendFormFields,
@@ -38,6 +39,7 @@ type Props = {|
 function DigitalAssetsSendForm({
   submit,
   setPriority,
+  setNonceEditable,
   setFormFieldValue,
   digitalAssets,
   addressNames,
@@ -122,6 +124,7 @@ function DigitalAssetsSendForm({
               value={nonce}
               errorMessage={formFieldErrors.nonce}
               infoMessage={formFieldWarnings.nonce}
+              onActivate={setNonceEditable}
               icon='plus'
               name='nonce'
               label='Show nonce'

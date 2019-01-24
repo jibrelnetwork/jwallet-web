@@ -11,6 +11,7 @@ type Props = {|
   +goToNextStep: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
@@ -29,6 +30,7 @@ function DigitalAssetsSendSteps({
   setPriority,
   goToNextStep,
   setFormFieldValue,
+  setNonceEditable,
   digitalAssets,
   addressNames,
   selectedAsset,
@@ -48,6 +50,7 @@ function DigitalAssetsSendSteps({
         <DigitalAssetsSendForm
           setPriority={setPriority}
           setFormFieldValue={setFormFieldValue}
+          setNonceEditable={setNonceEditable}
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
           formFieldWarnings={formFieldWarnings}
