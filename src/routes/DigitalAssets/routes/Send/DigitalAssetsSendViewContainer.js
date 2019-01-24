@@ -24,6 +24,7 @@ import {
   goToNextStep,
   goToPrevStep,
   setFormFieldValue,
+  setNonceEditable,
 } from './modules/digitalAssetsSend'
 
 function mapStateToProps(state: AppState) {
@@ -37,10 +38,11 @@ function mapStateToProps(state: AppState) {
     formFieldValues,
     formFieldErrors,
     formFieldWarnings,
+    formError,
     priority,
     currentStep,
     isLoading,
-    finalGasSettings,
+    finalGasValues,
   }: DigitalAssetsSendState = selectDigitalAssetsSend(state)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
@@ -64,12 +66,13 @@ function mapStateToProps(state: AppState) {
     formFieldValues,
     formFieldErrors,
     formFieldWarnings,
+    formError,
     priority,
     ownerAddress,
     currentStep,
     isLoading,
     digitalAssets: assetsWithBalance,
-    gasSettings: finalGasSettings,
+    gasValues: finalGasValues,
   }
 }
 
@@ -80,6 +83,7 @@ const mapDispatchToProps = {
   goToNextStep,
   goToPrevStep,
   setFormFieldValue,
+  setNonceEditable,
 }
 
 /* ::

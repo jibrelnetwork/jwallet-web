@@ -16,6 +16,7 @@ type Props = {|
   +openView: (query: string) => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>, value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
@@ -25,10 +26,11 @@ type Props = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
+  +formError: string,
   +ownerAddress: ?OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
-  +gasSettings: GasSettings,
+  +gasValues: GasValues,
   +isLoading: boolean,
 |}
 
@@ -60,11 +62,13 @@ class DigitalAssetsSendView extends Component<Props> {
       formFieldValues,
       formFieldErrors,
       formFieldWarnings,
+      setNonceEditable,
+      formError,
       ownerAddress,
       priority,
       currentStep,
       isLoading,
-      gasSettings,
+      gasValues,
     }: Props = this.props
 
     if (!ownerAddress) {
@@ -102,7 +106,9 @@ class DigitalAssetsSendView extends Component<Props> {
               priority={priority}
               currentStep={currentStep}
               isLoading={isLoading}
-              gasSettings={gasSettings}
+              gasValues={gasValues}
+              formError={formError}
+              setNonceEditable={setNonceEditable}
             />
           </Scrollbars>
         </div>

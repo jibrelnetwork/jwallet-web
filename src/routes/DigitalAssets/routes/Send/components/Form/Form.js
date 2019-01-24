@@ -12,6 +12,7 @@ import {
 } from 'components'
 
 import {
+  JText,
   JInput,
   JRaisedButton,
 } from 'components/base'
@@ -23,11 +24,13 @@ type Props = {|
   +submit: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
+  +formError: string,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +isLoading: boolean,
@@ -36,12 +39,14 @@ type Props = {|
 function DigitalAssetsSendForm({
   submit,
   setPriority,
+  setNonceEditable,
   setFormFieldValue,
   digitalAssets,
   addressNames,
   formFieldValues,
   formFieldErrors,
   formFieldWarnings,
+  formError,
   ownerAddress,
   priority,
   isLoading,
@@ -119,6 +124,7 @@ function DigitalAssetsSendForm({
               value={nonce}
               errorMessage={formFieldErrors.nonce}
               infoMessage={formFieldWarnings.nonce}
+              onActivate={setNonceEditable}
               icon='plus'
               name='nonce'
               label='Show nonce'
@@ -126,6 +132,10 @@ function DigitalAssetsSendForm({
             />
           </div>
         </div>
+        {formError &&
+          <div className='error'>
+            <JText value={formError} color='red' whiteSpace='wrap' />
+          </div>}
         <div className='actions'>
           <JRaisedButton
             onClick={submit}

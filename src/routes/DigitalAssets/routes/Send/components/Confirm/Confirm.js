@@ -11,7 +11,7 @@ type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
-  +gasSettings: GasSettings,
+  +gasValues: GasValues,
   +errorMessage: string,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
@@ -23,7 +23,7 @@ function DigitalAssetsSendConfirm({
   addressNames,
   selectedAsset,
   formFieldValues,
-  gasSettings,
+  gasValues,
   errorMessage,
   ownerAddress,
   isLoading,
@@ -40,7 +40,7 @@ function DigitalAssetsSendConfirm({
           addressNames={addressNames}
           selectedAsset={selectedAsset}
           ownerAddress={ownerAddress}
-          gasSettings={gasSettings}
+          gasValues={gasValues}
         />
       </div>
       <DigitalAssetsSendConfirmPassword

@@ -11,16 +11,18 @@ type Props = {|
   +goToNextStep: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
+  +formError: string,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
-  +gasSettings: GasSettings,
+  +gasValues: GasValues,
   +isLoading: boolean,
 |}
 
@@ -28,17 +30,19 @@ function DigitalAssetsSendSteps({
   setPriority,
   goToNextStep,
   setFormFieldValue,
+  setNonceEditable,
   digitalAssets,
   addressNames,
   selectedAsset,
   formFieldValues,
   formFieldErrors,
   formFieldWarnings,
+  formError,
   ownerAddress,
   priority,
   currentStep,
   isLoading,
-  gasSettings,
+  gasValues,
 }: Props) {
   return (
     <div className='digital-assets-send-steps'>
@@ -46,9 +50,11 @@ function DigitalAssetsSendSteps({
         <DigitalAssetsSendForm
           setPriority={setPriority}
           setFormFieldValue={setFormFieldValue}
+          setNonceEditable={setNonceEditable}
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
           formFieldWarnings={formFieldWarnings}
+          formError={formError}
           submit={goToNextStep}
           addressNames={addressNames}
           digitalAssets={digitalAssets}
@@ -67,7 +73,7 @@ function DigitalAssetsSendSteps({
           formFieldValues={formFieldValues}
           errorMessage={formFieldErrors.password}
           isLoading={isLoading}
-          gasSettings={gasSettings}
+          gasValues={gasValues}
         />
       )}
     </div>

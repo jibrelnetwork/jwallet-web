@@ -9,7 +9,7 @@ type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
-  +gasSettings: GasSettings,
+  +gasValues: GasValues,
   +ownerAddress: OwnerAddress,
 |}
 
@@ -17,7 +17,7 @@ function DigitalAssetsSendConfirmCard({
   addressNames,
   selectedAsset,
   formFieldValues,
-  gasSettings,
+  gasValues,
   ownerAddress,
 }: Props) {
   const {
@@ -28,7 +28,7 @@ function DigitalAssetsSendConfirmCard({
   const {
     gasLimit,
     gasPrice,
-  }: GasSettings = gasSettings
+  }: GasValues = gasValues
 
   const {
     symbol,
@@ -39,7 +39,7 @@ function DigitalAssetsSendConfirmCard({
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
-  const fee: string = getTxFee(parseFloat(gasLimit), gasPrice, decimals)
+  const fee: string = getTxFee(parseFloat(gasLimit), String(gasPrice), decimals)
 
   return (
     <div className='digital-assets-send-confirm-card'>
