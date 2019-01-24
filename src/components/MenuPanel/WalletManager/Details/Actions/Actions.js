@@ -12,11 +12,6 @@ function MenuPanelWalletManagerDetailsActions() {
         path='/wallets'
         label='Manage wallets'
       />
-      <MenuPanelActionsItem
-        icon='plus'
-        path='/wallets/create'
-        label='Add new wallet'
-      />
     </div>
   )
 }
