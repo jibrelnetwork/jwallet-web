@@ -34,6 +34,8 @@ declare type AppState = {
   +favorites: FavoritesState,
   // upgrade
   +upgrade: UpgradeState,
+  // ticker
+  +ticker: TickerState,
   // router
   +router: RouterState,
 }

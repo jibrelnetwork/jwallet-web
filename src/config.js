@@ -82,6 +82,15 @@ const config: AppConfig = {
     cache: 'default',
   },
 
+  tickerAPIOptions: {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    cache: 'default',
+  },
+
   // max password length
   maxPasswordLength: 40,
 
@@ -170,6 +179,8 @@ const config: AppConfig = {
   defaultDerivationKeyLength: 32,
 
   defaultRandomBufferLength: 32,
+
+  fiatCoursesSyncTimeout: ONE_MINUTE,
 }
 
 export default config

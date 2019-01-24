@@ -32,6 +32,7 @@ declare type AppConfig = {|
   +getTransactionsIntervalTimeout: number,
   +defaultDecimals: number,
   +jsonFormat: JSONFormatConfig,
+  +tickerAPIOptions: RequestOptions,
   +blockExplorerAPIOptions: RequestOptions,
   +maxPasswordLength: number,
   +delayBeforeFormClean: number,
@@ -63,4 +64,5 @@ declare type AppConfig = {|
   +defaultEncryptionType: 'nacl.secretbox',
   +defaultDerivationKeyLength: number,
   +defaultRandomBufferLength: number,
+  +fiatCoursesSyncTimeout: number,
 |}

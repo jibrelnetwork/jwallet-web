@@ -1,10 +1,13 @@
 // @flow
 
-declare type SettingsState = {|
-  +localCurrencyCode: CurrencyCode,
-  +defaultGasPrice: BalanceString,
+declare type SettingsPersist = {|
+  +fiatCurrency: FiatCurrency,
   +systemLanguageCode: LanguageCode,
   +hasPinCode: boolean,
+|}
+
+declare type SettingsState = {|
+  +persist: SettingsPersist,
   +passwordForm: {
     isLoading: boolean,
     messages: PaymentPasswordForm,
