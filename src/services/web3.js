@@ -20,11 +20,11 @@ type ERC20MethodName =
 type ERC20InterfaceSignatures = { [ERC20MethodName]: ?Hash }
 
 const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
-  approve: keccak256('totalSupply()'),
-  transfer: keccak256('balanceOf(address)'),
-  balanceOf: keccak256('approve(address,uint256)'),
-  allowance: keccak256('transfer(address,uint256)'),
-  totalSupply: keccak256('allowance(address,address)'),
+  totalSupply: keccak256('totalSupply()'),
+  balanceOf: keccak256('balanceOf(address)'),
+  approve: keccak256('approve(address,uint256)'),
+  transfer: keccak256('transfer(address,uint256)'),
+  allowance: keccak256('allowance(address,address)'),
   Transfer: keccak256('Transfer(address,address,uint256)'),
   transferFrom: keccak256('transferFrom(address,address,uint256)'),
 }
@@ -445,7 +445,7 @@ function checkJNTEvent(data: Object): boolean {
   )
 }
 
-function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Transactions {
+function prepareJNTEvents(data: Array<Object>): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
     if (!checkJNTEvent(item)) {
       return result
@@ -467,7 +467,6 @@ function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Tran
     }: JNTEventArgs = args
 
     const ownerAddressChecksum: OwnerAddress = getAddressWithChecksum(owner)
-    const assetAddressChecksum: AssetAddress = getAddressWithChecksum(assetAddress)
 
     const newTransaction: Transaction = {
       blockHash,
@@ -478,9 +477,9 @@ function prepareJNTEvents(data: Array<Object>, assetAddress: AssetAddress): Tran
       amount: value,
       hash: transactionHash,
       contractAddress: null,
-      to: (event === 'MintEvent') ? ownerAddressChecksum : assetAddressChecksum,
-      from: (event === 'BurnEvent') ? ownerAddressChecksum : assetAddressChecksum,
-      eventType: 1,
+      to: (event === 'MintEvent') ? ownerAddressChecksum : null,
+      from: (event === 'BurnEvent') ? ownerAddressChecksum : null,
+      eventType: 2,
       isRemoved: !!removed,
     }
 
@@ -524,7 +523,7 @@ function getJNTEvents(
     .getPastEvents(fromProps)
     .then(handleEventsResponse)
     .then(filterEvents)
-    .then((data: Array<Object>): Transactions => prepareJNTEvents(data, assetAddress))
+    .then((data: Array<Object>): Transactions => prepareJNTEvents(data))
 }
 
 function getMintEvents(

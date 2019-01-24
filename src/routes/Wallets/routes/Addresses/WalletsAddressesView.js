@@ -2,64 +2,51 @@
 
 import React, { Component } from 'react'
 
-import config from 'config'
-import handle from 'utils/eventHandlers/handle'
 import JFlatButton from 'components/base/JFlatButton'
-import { ModalHeader, WalletViewTitle, MnemonicAddresses } from 'components'
+
+import {
+  ModalHeader,
+  WalletViewTitle,
+  MnemonicAddresses,
+} from 'components'
 
 type Props = {|
-  +openView: () => void,
-  +closeView: () => void,
+  +onOpenView: () => void,
+  +onCloseView: () => void,
   +goToWallets: () => void,
+  +setActive: (Index) => void,
+  +getMoreRequest: () => void,
   +renameAddress: (Address) => void,
-  +setActive: (Wallets, WalletId, Index) => void,
-  +getMoreRequest: (Wallets, WalletId, Index, Index) => void,
-  +wallets: Wallets,
-  +addresses: Address[],
+  +addresses: OwnerAddress[],
+  +balances: WalletsBalances,
   +addressNames: AddressNames,
   +walletsAddressNames: AddressNames,
-  +iteration: Index,
-  +walletId: ?WalletId,
+  +isLoading: boolean,
   +isReadOnly: boolean,
 |}
 
 class WalletsAddressesView extends Component<Props> {
   componentDidMount() {
-    this.props.openView()
+    this.props.onOpenView()
   }
 
   componentWillUnmount() {
-    this.props.closeView()
-  }
-
-  setActiveAddress = (addressIndex: Index) => {
-    const {
-      setActive,
-      wallets,
-      walletId,
-    } = this.props
-
-    if (walletId) {
-      setActive(wallets, walletId, addressIndex)
-    }
+    this.props.onCloseView()
   }
 
   render() {
     const {
+      setActive,
       goToWallets,
       renameAddress,
       getMoreRequest,
-      wallets,
+      balances,
       addresses,
       addressNames,
       walletsAddressNames,
-      walletId,
-      iteration,
+      isLoading,
       isReadOnly,
     } = this.props
-
-    const startIndex: Index = config.mnemonicAddressesCount * iteration
-    const endIndex: Index = (startIndex + config.mnemonicAddressesCount) - 1
 
     return (
       <div className='wallets-view -addresses'>
@@ -76,16 +63,18 @@ class WalletsAddressesView extends Component<Props> {
             ]}
           />
           <MnemonicAddresses
+            setActive={setActive}
             renameAddress={renameAddress}
-            setActive={this.setActiveAddress}
+            balances={balances}
             addresses={addresses}
             addressNames={addressNames}
             walletsAddressNames={walletsAddressNames}
+            isLoading={isLoading}
             isReadOnly={isReadOnly}
           />
           <div className='actions'>
             <JFlatButton
-              onClick={handle(getMoreRequest)(wallets, walletId, startIndex, endIndex)}
+              onClick={getMoreRequest}
               iconName='plus'
               iconSize='small'
               iconColor='white'

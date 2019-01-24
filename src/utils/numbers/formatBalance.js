@@ -18,15 +18,15 @@ function formatBalance(
 
   if (dp === 2) {
     if (valueBN.lt(0.01)) {
-      return '>0.01'
+      return '<\u202F0.01'
     }
   } else if (dp === 4) {
     if (valueBN.lt(0.0001)) {
-      return '>0.0001'
+      return '<\u202F0.0001'
     }
   } else if (dp === 6) {
     if (valueBN.lt(0.000001)) {
-      return '>0.000001'
+      return '<\u202F0.000001'
     }
   }
 
