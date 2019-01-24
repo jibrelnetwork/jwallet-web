@@ -32,6 +32,7 @@ type Props = {|
   +isDisabled: boolean,
   +isAutoFocus: boolean,
   +isVirtualHalfSize: boolean,
+  withIndicator?: boolean,
 |}
 
 type ChildrenProps = {|
@@ -69,6 +70,7 @@ class JInput extends PureComponent<Props> {
     isDisabled: false,
     isAutoFocus: false,
     isVirtualHalfSize: false,
+    withIndicator: false,
   }
 
   render() {
@@ -92,6 +94,7 @@ class JInput extends PureComponent<Props> {
       isDisabled,
       isAutoFocus,
       isVirtualHalfSize,
+      withIndicator,
     } = this.props
 
     const isMultiline: boolean = !!rows
@@ -127,7 +130,8 @@ class JInput extends PureComponent<Props> {
           isDisabled && '-disabled',
           hasTopLabel && '-has-label',
           isMultiline && '-multiline',
-          isVirtualHalfSize && '-virtual-half-size'
+          isVirtualHalfSize && '-virtual-half-size',
+          withIndicator && '-with-indicator',
         )}
       >
         {children}
