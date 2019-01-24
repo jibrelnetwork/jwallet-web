@@ -26,33 +26,31 @@ export type WalletsImportRequestPayload = {|
   +password: string,
 |}
 
-/* eslint-disable max-len */
-export const GO_TO_START_VIEW: '@@wallets/GO_TO_START_VIEW' = '@@wallets/GO_TO_START_VIEW'
+export const GO_TO_START_VIEW = '@@wallets/GO_TO_START_VIEW'
 
-export const OPEN_LAYOUT: '@@wallets/OPEN_LAYOUT' = '@@wallets/OPEN_LAYOUT'
-export const CLOSE_LAYOUT: '@@wallets/CLOSE_LAYOUT' = '@@wallets/CLOSE_LAYOUT'
+export const OPEN_LAYOUT = '@@wallets/OPEN_LAYOUT'
+export const CLOSE_LAYOUT = '@@wallets/CLOSE_LAYOUT'
 
-export const OPEN_VIEW: '@@wallets/OPEN_VIEW' = '@@wallets/OPEN_VIEW'
-export const CLOSE_VIEW: '@@wallets/CLOSE_VIEW' = '@@wallets/CLOSE_VIEW'
+export const OPEN_VIEW = '@@wallets/OPEN_VIEW'
+export const CLOSE_VIEW = '@@wallets/CLOSE_VIEW'
 
-export const CHANGE_NAME_INPUT: '@@wallets/CHANGE_NAME_INPUT' = '@@wallets/CHANGE_NAME_INPUT'
-export const CHANGE_PASSWORD_INPUT: '@@wallets/CHANGE_PASSWORD_INPUT' = '@@wallets/CHANGE_PASSWORD_INPUT'
-export const CHANGE_PASSWORD_HINT_INPUT: '@@wallets/CHANGE_PASSWORD_HINT_INPUT' = '@@wallets/CHANGE_PASSWORD_HINT_INPUT'
-export const CHANGE_PASSWORD_CONFIRM_INPUT: '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT' = '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT'
+export const CHANGE_NAME_INPUT = '@@wallets/CHANGE_NAME_INPUT'
+export const CHANGE_PASSWORD_INPUT = '@@wallets/CHANGE_PASSWORD_INPUT'
+export const CHANGE_PASSWORD_HINT_INPUT = '@@wallets/CHANGE_PASSWORD_HINT_INPUT'
+export const CHANGE_PASSWORD_CONFIRM_INPUT = '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT'
 
-export const SET_WALLETS: '@@wallets/SET_WALLETS' = '@@wallets/SET_WALLETS'
-export const SET_WALLETS_ITEMS: '@@wallets/SET_WALLETS_ITEMS' = '@@wallets/SET_WALLETS_ITEMS'
-export const SET_ACTIVE_WALLET: '@@wallets/SET_ACTIVE_WALLET' = '@@wallets/SET_ACTIVE_WALLET'
+export const SET_WALLETS = '@@wallets/SET_WALLETS'
+export const SET_WALLETS_ITEMS = '@@wallets/SET_WALLETS_ITEMS'
+export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
 
-export const SET_IS_LOADING: '@@wallets/SET_IS_LOADING' = '@@wallets/SET_IS_LOADING'
-export const SET_INVALID_FIELD: '@@wallets/SET_INVALID_FIELD' = '@@wallets/SET_INVALID_FIELD'
+export const SET_IS_LOADING = '@@wallets/SET_IS_LOADING'
+export const SET_INVALID_FIELD = '@@wallets/SET_INVALID_FIELD'
 
-export const PRIVATE_KEY_REQUEST: '@@wallets/PRIVATE_KEY_REQUEST' = '@@wallets/PRIVATE_KEY_REQUEST'
-export const PRIVATE_KEY_SUCCESS: '@@wallets/PRIVATE_KEY_SUCCESS' = '@@wallets/PRIVATE_KEY_SUCCESS'
-export const PRIVATE_KEY_ERROR: '@@wallets/PRIVATE_KEY_ERROR' = '@@wallets/PRIVATE_KEY_ERROR'
+export const PRIVATE_KEY_ERROR = '@@wallets/PRIVATE_KEY_ERROR'
+export const PRIVATE_KEY_SUCCESS = '@@wallets/PRIVATE_KEY_SUCCESS'
+export const PRIVATE_KEY_REQUEST = '@@wallets/PRIVATE_KEY_REQUEST'
 
 export const CLEAN: '@@wallets/CLEAN' = '@@wallets/CLEAN'
-/* eslint-enable max-len */
 
 export function openLayout() {
   return {
@@ -164,12 +162,12 @@ export function setInvalidField(fieldName: string, message: string) {
   }
 }
 
-export function privateKeyRequest(wallet: Wallet, password: string) {
+export function privateKeyError(walletId: string, message: string) {
   return {
-    type: PRIVATE_KEY_REQUEST,
+    type: PRIVATE_KEY_ERROR,
     payload: {
-      wallet,
-      password,
+      walletId,
+      message,
     },
   }
 }
@@ -184,12 +182,12 @@ export function privateKeySuccess(walletId: string, privateKey: string) {
   }
 }
 
-export function privateKeyError(walletId: string, message: string) {
+export function privateKeyRequest(wallet: Wallet, password: string) {
   return {
-    type: PRIVATE_KEY_ERROR,
+    type: PRIVATE_KEY_REQUEST,
     payload: {
-      walletId,
-      message,
+      wallet,
+      password,
     },
   }
 }
@@ -213,9 +211,9 @@ export type WalletsAction =
   ExtractReturn<typeof setActiveWallet> |
   ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof setInvalidField> |
-  ExtractReturn<typeof privateKeyRequest> |
-  ExtractReturn<typeof privateKeySuccess> |
   ExtractReturn<typeof privateKeyError> |
+  ExtractReturn<typeof privateKeySuccess> |
+  ExtractReturn<typeof privateKeyRequest> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsState = {
@@ -234,10 +232,7 @@ const initialState: WalletsState = {
   isLoading: false,
 }
 
-const wallets = (
-  state: WalletsState = initialState,
-  action: WalletsAction,
-): WalletsState => {
+function wallets(state: WalletsState = initialState, action: WalletsAction): WalletsState {
   switch (action.type) {
     case CHANGE_NAME_INPUT:
       return {
