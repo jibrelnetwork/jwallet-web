@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 
-import { CURRENCIES_MAP } from 'data/settings'
+import currenciesData from 'data/currencies'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
 import { setFiatCurrency } from '../../modules/settings'
@@ -14,7 +14,7 @@ import type {
 } from './types'
 
 const validate = ({ fiatCurrency }: CurrencyFormFieldValues): CurrencyFormFieldErrors => {
-  if (!CURRENCIES_MAP[fiatCurrency]) {
+  if (!currenciesData[fiatCurrency]) {
     return {
       fiatCurrency: `Currency ${fiatCurrency} is not available`,
     }

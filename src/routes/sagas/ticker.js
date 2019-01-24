@@ -21,6 +21,21 @@ import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import * as ticker from '../modules/ticker'
 
+function getActiveAssetsFiatIds(items: DigitalAsset[]): FiatId[] {
+  return items.reduce((result: FiatId[], { priceFeed }: DigitalAsset): FiatId[] => {
+    if (!priceFeed) {
+      return result
+    }
+
+    const { currencyID }: DigitalAssetPriceFeed = priceFeed
+
+    return [
+      ...result,
+      currencyID.toString(),
+    ]
+  }, [])
+}
+
 function* syncFiatCourses(): Saga<void> {
   while (true) {
     const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
@@ -87,21 +102,6 @@ function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequ
   } catch (err) {
     yield put(ticker.fiatCoursesError(err))
   }
-}
-
-function getActiveAssetsFiatIds(items: DigitalAsset[]): FiatId[] {
-  return items.reduce((result: FiatId[], { priceFeed }: DigitalAsset): FiatId[] => {
-    if (!priceFeed) {
-      return result
-    }
-
-    const { currencyID }: DigitalAssetPriceFeed = priceFeed
-
-    return [
-      ...result,
-      currencyID.toString(),
-    ]
-  }, [])
 }
 
 export function* tickerRootSaga(): Saga<void> {

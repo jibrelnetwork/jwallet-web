@@ -1,5 +1,6 @@
 // @flow
-const CURRENCIES_MAP: { [FiatCurrency]: ?string } = {
+
+const CURRENCIES: { [FiatCurrency]: ?string } = {
   USD: 'US Dollar',
   CNY: 'Chinese Yuan',
   EUR: 'Euro',
@@ -8,4 +9,4 @@ const CURRENCIES_MAP: { [FiatCurrency]: ?string } = {
   KRW: 'South Korean won',
 }
 
-export default CURRENCIES_MAP
+export default CURRENCIES

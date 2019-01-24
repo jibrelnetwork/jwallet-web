@@ -1,9 +1,15 @@
 // @flow
 
-import { CURRENCIES_MAP } from 'data/settings'
+import currenciesData from 'data/currencies'
 
 function formatCurrency(curCode: FiatCurrency): string {
-  return CURRENCIES_MAP[curCode] || CURRENCIES_MAP.USD
+  const currencyDescription: ?string = currenciesData[curCode]
+
+  if (!currencyDescription) {
+    throw new Error('InvalidFiatCurrencyCode')
+  }
+
+  return currencyDescription
 }
 
 export default formatCurrency

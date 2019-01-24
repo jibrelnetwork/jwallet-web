@@ -1,7 +1,9 @@
 // @flow
 
 import config from 'config'
+import currenciesData from 'data/currencies'
 import getENVVar from 'utils/config/getENVVar'
+import { typeUtils } from 'utils'
 
 const { tickerAPIOptions } = config
 
@@ -13,122 +15,80 @@ type TickerAPIParams = {|
   +source: 'coinmarketcap',
 |}
 
-function callApi(params: TickerAPIParams): Promise<any> {
+function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> {
   const requestInfo: RequestInfo = `${TICKER_API}/v2/quotes`
+
+  const handleRequestError = () => {
+    if (retryCount > 0) {
+      return callApi(params, (retryCount - 1))
+    }
+
+    throw new Error('TickerRequestError')
+  }
 
   return fetch(requestInfo, {
     ...tickerAPIOptions,
     body: JSON.stringify(params),
-  }).then((response: Response): Promise<any> => response.json())
+  }).catch(handleRequestError).then((response: Response): Promise<any> => {
+    if (response.ok) {
+      return response.json()
+    }
+
+    return handleRequestError()
+  })
 }
 
-// function handleCoursesResponse(response: any): Array<any> {
-//   if (type.isVoid(response) || !type.isObject(response)) {
-//     return []
-//   }
+function handleFiatCoursesResponse(response: any): Object {
+  if (typeUtils.isVoid(response) || !typeUtils.isObject(response)) {
+    return {}
+  }
 
-//   const {
-//     result,
-//     message,
-//   }: Object = response
+  if (response.errors) {
+    return {}
+  }
 
-//   const isResultValid: boolean = type.isArray(result)
-//   const isRequestFailed: boolean = (message !== 'OK')
-//   const isResultFound: boolean = (message !== 'No transactions found')
+  return response
+}
 
-//   if (!(isResultFound && isResultValid)) {
-//     return []
-//   } else if (isRequestFailed) {
-//     throw new Error('Can not get transactions')
-//   }
+function prepareFiatCourses(data: Object): FiatCoursesAPI {
+  const responseKeys: string[] = Object.keys(data)
 
-//   return result
-// }
+  return responseKeys.reduce((result: FiatCoursesAPI, fiatId: string): FiatCoursesAPI => {
+    const isKeyValid: boolean = !Number.isNaN(fiatId)
 
-// function checkETHTransaction(data: Object): boolean {
-//   return (
-//     type.isString(data.to) &&
-//     type.isString(data.gas) &&
-//     type.isString(data.from) &&
-//     type.isString(data.hash) &&
-//     type.isString(data.value) &&
-//     type.isString(data.gasUsed) &&
-//     type.isString(data.isError) &&
-//     type.isString(data.blockHash) &&
-//     type.isString(data.timeStamp) &&
-//     type.isString(data.blockNumber) &&
-//     type.isString(data.contractAddress)
-//   )
-// }
+    if (!isKeyValid) {
+      return result
+    }
 
-// function filterETHTransactions(list: Array<any>): Array<Object> {
-//   return list.filter((item: any): boolean => {
-//     if (type.isVoid(item) || !type.isObject(item)) {
-//       return false
-//     }
+    const value: any = data[fiatId]
 
-//     const {
-//       value,
-//       isError,
-//       contractAddress,
-//     }: Object = item
+    if (typeUtils.isVoid(value) || !typeUtils.isObject(value)) {
+      return result
+    }
 
-//     const isEmptyAmount: boolean = isZero(value)
-//     const isFailed: boolean = (parseInt(isError, 16) === 1)
-//     const isContractCreation: boolean = !!contractAddress.length
+    const fiatCodes: any[] = Object.keys(value)
 
-//     return !(isEmptyAmount && !isContractCreation && !isFailed)
-//   })
-// }
+    const fiatCourse: FiatCourse = fiatCodes.reduce((
+      resultCourse: FiatCourse,
+      fiatCode: any,
+    ): FiatCourse => {
+      // filter invalid currency codes
+      if (!Object.keys(currenciesData).includes(fiatCode)) {
+        return resultCourse
+      }
 
-// function prepareETHTransactions(data: Array<Object>): Transactions {
-//   return data.reduce((result: Transactions, item: Object): Transactions => {
-//     if (!checkETHTransaction(item)) {
-//       return result
-//     }
+      return {
+        ...resultCourse,
+        [fiatCode]: value[fiatCode].toString(),
+      }
+    }, {})
 
-//     const {
-//       to,
-//       from,
-//       hash,
-//       value,
-//       gasUsed,
-//       isError,
-//       gasPrice,
-//       blockHash,
-//       timeStamp,
-//       blockNumber,
-//       contractAddress,
-//     }: TransactionFromBlockExplorer = item
-
-//     const newTransaction: Transaction = {
-//       data: {
-//         gasPrice,
-//       },
-//       blockData: {
-//         timestamp: parseInt(timeStamp, 10) || 0,
-//       },
-//       receiptData: {
-//         gasUsed: parseInt(gasUsed, 10) || 0,
-//         status: (parseInt(isError, 16) === 1) ? 0 : 1,
-//       },
-//       hash,
-//       blockHash,
-//       amount: value,
-//       from: getAddressWithChecksum(from),
-//       to: to.length ? getAddressWithChecksum(to) : null,
-//       contractAddress: contractAddress.length ? getAddressWithChecksum(contractAddress) : null,
-//       eventType: 0,
-//       blockNumber: parseInt(blockNumber, 10) || 0,
-//       isRemoved: false,
-//     }
-
-//     return {
-//       ...result,
-//       [hash]: newTransaction,
-//     }
-//   }, {})
-// }
+    return {
+      ...result,
+      [fiatId]: fiatCourse,
+    }
+  }, {})
+}
 
 function requestCourses(fiatCurrency: FiatCurrency, fiatIds: FiatId[]): Promise<FiatCoursesAPI> {
   return callApi({
@@ -136,8 +96,8 @@ function requestCourses(fiatCurrency: FiatCurrency, fiatIds: FiatId[]): Promise<
     convert: [fiatCurrency],
     source: 'coinmarketcap',
   })
-  // .then(handleCoursesResponse)
-  // .then(prepareCourses)
+    .then(handleFiatCoursesResponse)
+    .then(prepareFiatCourses)
 }
 
 export default {
