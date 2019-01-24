@@ -291,4 +291,10 @@
   &.-error.-gray > .input:-webkit-autofill {
     -webkit-text-fill-color: $tomato !important;
   }
+
+  &.-with-indicator {
+    > .input {
+      padding-right: 90px;
+    }
+  }
 }

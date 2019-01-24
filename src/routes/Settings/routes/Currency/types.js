@@ -1,9 +1,9 @@
 // @flow
 
 export type CurrencyFormFieldValues = {|
-  +currencyCode: CurrencyCode,
+  +fiatCurrency: FiatCurrency,
 |}
 
 export type CurrencyFormFieldErrors = {
-  currencyCode?: ?string,
+  +fiatCurrency?: ?string,
 }
