@@ -1,22 +1,17 @@
-import {
-  gaSetUserMetric,
-  gaSetUserDimension,
-  METRICS,
-  DIMENSIONS,
-} from 'utils/analytics'
+import { DIMENSIONS, METRICS, gaSetUserDimension, gaSetUserMetric } from 'utils/analytics'
+
+import { SET_WALLETS, SET_WALLETS_ITEMS } from 'routes/Wallets/modules/wallets'
+import { selectWalletsItems } from 'store/selectors/wallets'
 
 import {
   ADD_CUSTOM_ASSET,
   DELETE_CUSTOM_ASSET,
   SET_ASSET_IS_ACTIVE,
 } from 'routes/DigitalAssets/modules/digitalAssets'
-import { selectCustomDigitalAssets, selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+import { selectActiveDigitalAssets, selectCustomDigitalAssets } from 'store/selectors/digitalAssets'
 
 import { CHANGE_LOCAL_CURRENCY } from 'routes/Settings/modules/settings'
 import { selectSettings } from 'store/selectors/settings'
-
-import { SET_WALLETS, SET_WALLETS_ITEMS } from 'routes/Wallets/modules/wallets'
-import { selectWalletsItems } from 'store/selectors/wallets'
 
 import {
   ADD_AUTO as FAVORITES_ADD_AUTO,
@@ -25,10 +20,7 @@ import {
 } from 'routes/Favorites/modules/favorites'
 import { selectFavoritesItems } from 'store/selectors/favorites'
 
-export const analyticsMiddleware = store => next => (action) => {
-  next(action)
-  const state = store.getState()
-
+export const userParams = (state, action) => {
   switch (action.type) {
     case SET_WALLETS:
     case SET_WALLETS_ITEMS: {
