@@ -10,8 +10,8 @@ import {
 } from 'routes/DigitalAssets/modules/digitalAssets'
 import { selectActiveDigitalAssets, selectCustomDigitalAssets } from 'store/selectors/digitalAssets'
 
-import { CHANGE_LOCAL_CURRENCY } from 'routes/Settings/modules/settings'
-import { selectSettings } from 'store/selectors/settings'
+import { SET_FIAT_CURRENCY } from 'routes/Settings/modules/settings'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
 import {
   ADD_AUTO as FAVORITES_ADD_AUTO,
@@ -57,9 +57,8 @@ export const userParams = (state, action) => {
       gaSetUserMetric(METRICS.ASSETS_ACTIVE, quantity)
       break
     }
-    case CHANGE_LOCAL_CURRENCY: {
-      const { localCurrencyCode } = selectSettings(state)
-      gaSetUserDimension(DIMENSIONS.CURRENCY, localCurrencyCode)
+    case SET_FIAT_CURRENCY: {
+      gaSetUserDimension(DIMENSIONS.CURRENCY, selectSettingsFiatCurrency(state))
       break
     }
     case FAVORITES_ADD_AUTO:
