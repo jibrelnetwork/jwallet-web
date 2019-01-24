@@ -14,6 +14,7 @@ type PersistableReducerName =
   'balances' |
   'comments' |
   'networks' |
+  'settings' |
   'favorites' |
   'transactions' |
   'digitalAssets' |

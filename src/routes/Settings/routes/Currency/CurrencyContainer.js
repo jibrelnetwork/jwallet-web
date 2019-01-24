@@ -1,23 +1,22 @@
 // @flow
 import { connect } from 'react-redux'
-import { selectSettings } from 'store/selectors/settings'
 
 import { CURRENCIES_MAP } from 'data/settings'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
-import { changeLocalCurrencyCode } from '../../modules/settings'
+import { setFiatCurrency } from '../../modules/settings'
 
 import CurrencyView from './CurrencyView'
+
 import type {
   CurrencyFormFieldErrors,
   CurrencyFormFieldValues,
 } from './types'
 
-const validate: (CurrencyFormFieldValues) => CurrencyFormFieldErrors = ({
-  currencyCode,
-}) => {
-  if (!CURRENCIES_MAP[currencyCode]) {
+const validate = ({ fiatCurrency }: CurrencyFormFieldValues): CurrencyFormFieldErrors => {
+  if (!CURRENCIES_MAP[fiatCurrency]) {
     return {
-      currencyCode: `Currency ${currencyCode} is not available`,
+      fiatCurrency: `Currency ${fiatCurrency} is not available`,
     }
   }
 
@@ -25,16 +24,16 @@ const validate: (CurrencyFormFieldValues) => CurrencyFormFieldErrors = ({
 }
 
 function mapStateToProps(state: AppState) {
-  const { localCurrencyCode } = selectSettings(state)
+  const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
 
   return {
-    initialCurrencyCode: localCurrencyCode,
+    fiatCurrency,
     validate,
   }
 }
 
 const mapDispatchToProps = {
-  onSubmit: changeLocalCurrencyCode,
+  onSubmit: setFiatCurrency,
 }
 
 export default connect/* :: < AppState, null, OwnPropsEmpty, _, _ > */(

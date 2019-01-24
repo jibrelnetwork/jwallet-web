@@ -5,8 +5,9 @@ import { connect } from 'react-redux'
 import getDigitalAssetsWithBalance from 'utils/digitalAssets/getDigitalAssetsWithBalance'
 import { selectTickerItems } from 'store/selectors/ticker'
 import { selectCurrentBlock } from 'store/selectors/blocks'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
@@ -29,7 +30,11 @@ import {
 
 import MenuLayout from './MenuLayout'
 
-function getFiatBalance(assets: DigitalAssetWithBalance[], fiatCourses: FiatCourses): number {
+function getFiatBalance(
+  assets: DigitalAssetWithBalance[],
+  fiatCourses: FiatCourses,
+  fiatCurrency: FiatCurrency,
+): number {
   return assets.reduce((result: number, digitalAsset: DigitalAssetWithBalance): number => {
     const {
       balance,
@@ -52,7 +57,7 @@ function getFiatBalance(assets: DigitalAssetWithBalance[], fiatCourses: FiatCour
       return result
     }
 
-    const fiatCourseValue: ?string = fiatCourse.USD
+    const fiatCourseValue: ?string = fiatCourse[fiatCurrency]
 
     if (!fiatCourseValue) {
       return result
@@ -69,6 +74,7 @@ function mapStateToProps(state: AppState) {
   const activeWalletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
+  const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
   const { addresses }: WalletsAddressesState = selectWalletsAddresses(state)
@@ -90,7 +96,8 @@ function mapStateToProps(state: AppState) {
     addresses,
     addressNames,
     activeWalletId,
-    balance: getFiatBalance(assetsWithBalance, fiatCourses),
+    fiatCurrency,
+    fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency),
     isConnectionError: false,
   }
 }

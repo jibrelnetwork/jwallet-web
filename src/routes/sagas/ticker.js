@@ -16,11 +16,10 @@ import type { Task } from 'redux-saga'
 
 import config from 'config'
 import tickerService from 'services/ticker'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import * as ticker from '../modules/ticker'
-
-const DEFAULT_FIAT_CURRENCY: FiatCurrency = 'USD'
 
 function* syncFiatCourses(): Saga<void> {
   while (true) {
@@ -53,7 +52,9 @@ function* syncRestart(): Saga<void> {
 
 function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequest>): Saga<void> {
   const { fiatIds } = action.payload
-  const currentFiatCurrency: FiatCurrency = DEFAULT_FIAT_CURRENCY
+
+  const currentFiatCurrency: ExtractReturn<typeof selectSettingsFiatCurrency> =
+    yield select(selectSettingsFiatCurrency)
 
   if (!(fiatIds.length && currentFiatCurrency)) {
     yield put(ticker.fiatCoursesSuccess({}))
@@ -62,7 +63,7 @@ function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequ
   try {
     const fiatCoursesAPI: FiatCoursesAPI = yield call(
       tickerService.requestCourses,
-      DEFAULT_FIAT_CURRENCY,
+      currentFiatCurrency,
       fiatIds,
     )
 

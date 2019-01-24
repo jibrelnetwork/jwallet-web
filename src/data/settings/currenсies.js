@@ -1,5 +1,5 @@
 // @flow
-const CURRENCIES_MAP: { [CurrencyCode]: string } = {
+const CURRENCIES_MAP: { [FiatCurrency]: ?string } = {
   USD: 'US Dollar',
   CNY: 'Chinese Yuan',
   EUR: 'Euro',
