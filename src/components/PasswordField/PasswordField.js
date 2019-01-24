@@ -125,6 +125,7 @@ class PasswordField extends Component<Props, StateProps> {
           infoMessage={this.getInfoMessage()}
           type='password'
           name='password'
+          withIndicator
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
