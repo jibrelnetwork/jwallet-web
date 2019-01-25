@@ -15,13 +15,13 @@ import { selectWalletsCreate, selectWalletsImport } from 'store/selectors/wallet
 
 const CREATION_EVENTS = {
   [CREATE_STEPS.NAME]: 'NameCreated',
-  [CREATE_STEPS.PASSWORD]: 'PaymentPasswordFinished',
+  [CREATE_STEPS.PASSWORD]: 'PaymentPasswordEntered',
 }
 
 const IMPORT_EVENTS = {
   [IMPORT_STEPS.NAME]: 'NameCreated',
   [IMPORT_STEPS.DATA]: 'DataImported',
-  [IMPORT_STEPS.PASSWORD]: 'PaymentPasswordFinished',
+  [IMPORT_STEPS.PASSWORD]: 'PaymentPasswordEntered',
 }
 
 export const newWalletEvents = (state, action) => {
