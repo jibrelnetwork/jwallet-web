@@ -10,20 +10,23 @@ const browsercheck: () => Promise<void> = () => {
 
   return new Promise((resolve, reject) => {
     Modernizr.on('indexeddb', (indexedDBAvailable) => {
-      if (
-        !indexedDBAvailable ||
+      Modernizr.on('workerscrypto', (workerscryptoDBAvailable) => {
+        if (
+          !indexedDBAvailable ||
         !Modernizr.cookies ||
         !Modernizr.getrandomvalues ||
         !Modernizr.filereader ||
         !Modernizr.localstorage ||
-        !Modernizr.webworkers
-      ) {
-        return reject(
-          new Error('Some of required browser APIs are not available')
-        )
-      }
+        !Modernizr.webworkers ||
+        !workerscryptoDBAvailable
+        ) {
+          return reject(
+            new Error('Some of required browser APIs are not available')
+          )
+        }
 
-      return resolve()
+        return resolve()
+      })
     })
   })
 }
