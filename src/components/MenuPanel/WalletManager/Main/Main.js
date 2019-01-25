@@ -62,7 +62,7 @@ function MenuPanelWalletManagerMain({
           <JText
             value={getShortenedAddress(address, SYMBOLS_FROM_START, SYMBOLS_FROM_END)}
             color='white'
-            size='small'
+            size='semismall'
           />
         </div>
       </div>
