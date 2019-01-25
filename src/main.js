@@ -7,6 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import i18n from 'i18n'
 import router from 'routes/index'
 import configureStore from 'store/configureStore'
+import { gaSetUserDimension, DIMENSIONS } from 'utils/analytics'
 
 import AppContainer from './AppContainer'
 
@@ -46,6 +47,11 @@ if (!MOUNT_NODE) {
 // ========================================================
 if (typeof window !== 'undefined') {
   window.i18n = i18n()
+}
+
+// FIXME: move to analytics middleware after language selection implementation
+if (navigator.language) {
+  gaSetUserDimension(DIMENSIONS.LANGUAGE, navigator.language.toLowerCase())
 }
 
 const renderApp = () => {
