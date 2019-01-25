@@ -20,6 +20,9 @@ import {
 } from 'routes/Favorites/modules/favorites'
 import { selectFavoritesItems } from 'store/selectors/favorites'
 
+import { IMPORT_SUCCESS } from 'routes/Wallets/routes/Import/modules/walletsImport'
+import { CREATE_SUCCESS } from 'routes/Wallets/routes/Create/modules/walletsCreate'
+
 export const userParams = (state, action) => {
   switch (action.type) {
     case SET_WALLETS:
@@ -65,6 +68,17 @@ export const userParams = (state, action) => {
     case FAVORITES_ADD_BY_USER:
     case FAVORITES_REMOVE: {
       gaSetUserMetric(METRICS.FAVORITES, selectFavoritesItems(state).length)
+      break
+    }
+    case CREATE_SUCCESS:
+    case IMPORT_SUCCESS: {
+      if (selectWalletsItems(state).length === 1) {
+        const today = new Date()
+        gaSetUserDimension(
+          DIMENSIONS.FIRST_WALLET_DATE,
+          `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`
+        )
+      }
       break
     }
     default: {

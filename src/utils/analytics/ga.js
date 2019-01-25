@@ -14,6 +14,7 @@ export const METRICS = {
 export const DIMENSIONS = {
   CURRENCY: 'dimension1',
   LANGUAGE: 'dimension2',
+  FIRST_WALLET_DATE: 'dimension3',
 }
 
 const reportOnce = (message) => {
