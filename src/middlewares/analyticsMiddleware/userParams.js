@@ -72,7 +72,7 @@ export const userParams = (state, action) => {
     }
     case CREATE_SUCCESS:
     case IMPORT_SUCCESS: {
-      if (selectWalletsItems(state).length === 1) {
+      if (selectWalletsItems(state).length === 0) {
         const today = new Date()
         gaSetUserDimension(
           DIMENSIONS.FIRST_WALLET_DATE,
