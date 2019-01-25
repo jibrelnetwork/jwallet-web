@@ -8,7 +8,6 @@ var TEST_WORKER_URL = '/js/test-worker.js'
  */
 function addWorkerscryptoTest(M) {
   M.addAsyncTest(function() {
-    console.log('asynctest')
     var prerequisites = !!(M.webworkers);
 
     // Early exit
