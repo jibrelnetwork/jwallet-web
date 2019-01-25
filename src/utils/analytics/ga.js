@@ -1,6 +1,6 @@
 const REPORTED_ONCE = {}
 
-// quantitative parameters of the user
+// numeric parameters for analytics
 export const METRICS = {
   WALLETS: 'metric1',
   WALLETS_READONLY: 'metric2',
@@ -10,11 +10,13 @@ export const METRICS = {
   FAVORITES: 'metric6',
 }
 
-// string parameters of the user
+// string parameters for analytics
 export const DIMENSIONS = {
   CURRENCY: 'dimension1',
   LANGUAGE: 'dimension2',
   FIRST_WALLET_DATE: 'dimension3',
+  TRANSACTION_ASSET_SYMBOL: 'dimension4',
+  TRANSACTION_PRIORITY: 'dimension5',
 }
 
 const reportOnce = (message) => {
