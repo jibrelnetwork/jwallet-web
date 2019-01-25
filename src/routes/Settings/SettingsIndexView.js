@@ -2,17 +2,22 @@
 
 import React, { PureComponent } from 'react'
 
-import { JText, JSearch } from 'components/base'
+import formatCurrency from 'utils/formatters/formatCurrency'
 import { SettingsGrid } from 'components'
+
+import {
+  JText,
+  JSearch,
+} from 'components/base'
+
 import SettingsGridCard,
 { type SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
 
-import { formatCurrency } from 'utils/formatters'
-
 type Props = {|
   ...SettingsState,
-  networkName: ?string,
-  wallet: ?Wallet,
+  +wallet: ?Wallet,
+  +networkName: ?string,
+  +fiatCurrency: FiatCurrency,
 |}
 
 // eslint-disable-next-line max-len
@@ -20,12 +25,12 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 
 // Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
-  localCurrencyCode,
-  walletName,
   walletId,
+  walletName,
+  fiatCurrency,
 }): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
   title: 'Local currency',
-  description: formatCurrency(localCurrencyCode),
+  description: formatCurrency(fiatCurrency),
   path: 'settings/currency',
   iconName: 'local-currency',
   searchTags: '',
@@ -68,11 +73,11 @@ const getSettingsCardProperties = ({
   isVisible: true,
 }]
 
-type State = {|
-  searchQuery: string
+type ComponentState = {|
+  +searchQuery: string
 |}
 
-class SettingsIndexView extends PureComponent<Props, State> {
+class SettingsIndexView extends PureComponent<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -93,12 +98,11 @@ class SettingsIndexView extends PureComponent<Props, State> {
 
   render() {
     const {
-      localCurrencyCode,
-      defaultGasPrice,
+      wallet,
+      networkName,
+      fiatCurrency,
       systemLanguageCode,
       hasPinCode,
-      networkName,
-      wallet,
     } = this.props
 
     if (!networkName || !wallet) {
@@ -112,8 +116,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
 
     const settingsCards = getSettingsCardProperties({
       isReadOnly,
-      localCurrencyCode,
-      defaultGasPrice,
+      fiatCurrency,
       systemLanguageCode,
       hasPinCode,
       walletName,

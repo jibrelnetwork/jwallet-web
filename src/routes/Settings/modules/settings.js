@@ -2,17 +2,13 @@
 
 import type { CurrencyFormFieldValues } from '../routes/Currency/types'
 
-export const INIT = '@@settings/INIT'
 export const CHANGE_PAYMENT_PASSWORD = '@@settings/CHANGE_PAYMENT_PASSWORD'
 export const VALIDATION_PASSWORD_FORM = '@@settings/VALIDATION_PASSWORD_FORM'
 export const CHANGE_PAYMENT_PASSWORD_PENDING = '@@settings/CHANGE_PAYMENT_PASSWORD_PENDING'
-export const CHANGE_LOCAL_CURRENCY = '@@settings/CHANGE_LOCAL_CURRENCY'
 
-export function init() {
-  return {
-    type: INIT,
-  }
-}
+export const SET_FIAT_CURRENCY = '@@settings/SET_FIAT_CURRENCY'
+
+export const CLEAN = '@@settings/CLEAN'
 
 export function changePaymentPassword(payload: PaymentPasswordForm) {
   return {
@@ -35,58 +31,73 @@ export function validationPasswordForm(payload: PaymentPasswordForm) {
   }
 }
 
-export function changeLocalCurrencyCode(payload: CurrencyFormFieldValues) {
+export function setFiatCurrency(payload: CurrencyFormFieldValues) {
   return {
-    type: CHANGE_LOCAL_CURRENCY,
-    currencyCode: payload.currencyCode,
+    type: SET_FIAT_CURRENCY,
+    payload,
+  }
+}
+
+export function clean() {
+  return {
+    type: CLEAN,
   }
 }
 
 export type SettingsAction =
-  ExtractReturn<typeof init> |
   ExtractReturn<typeof changePaymentPassword> |
   ExtractReturn<typeof changePaymentPasswordPending> |
-  ExtractReturn<typeof validationPasswordForm>
+  ExtractReturn<typeof validationPasswordForm> |
+  ExtractReturn<typeof setFiatCurrency> |
+  ExtractReturn<typeof clean>
 
 const initialState: SettingsState = {
-  localCurrencyCode: 'USD',
-  defaultGasPrice: '30000',
-  systemLanguageCode: 'en',
-  hasPinCode: false,
+  persist: {
+    fiatCurrency: 'USD',
+    systemLanguageCode: 'en',
+    hasPinCode: false,
+  },
   passwordForm: {
     isLoading: false,
     messages: {},
   },
 }
 
-const settings = (
-  state: SettingsState = initialState,
-  action: SettingsAction,
-): SettingsState => {
+function settings(state: SettingsState = initialState, action: SettingsAction): SettingsState {
   switch (action.type) {
-    case INIT:
-      return state
-    case CHANGE_LOCAL_CURRENCY:
+    case SET_FIAT_CURRENCY:
       return {
         ...state,
-        localCurrencyCode: action.currencyCode,
+        persist: {
+          ...state.persist,
+          fiatCurrency: action.payload.fiatCurrency,
+        },
       }
+
     case VALIDATION_PASSWORD_FORM:
       return {
         ...state,
         passwordForm: {
-          isLoading: state.passwordForm.isLoading,
+          ...state.passwordForm,
           messages: action.payload,
         },
       }
+
     case CHANGE_PAYMENT_PASSWORD_PENDING:
       return {
         ...state,
         passwordForm: {
+          ...state.passwordForm,
           isLoading: action.payload,
-          messages: state.passwordForm.messages,
         },
       }
+
+    case CLEAN:
+      return {
+        ...initialState,
+        persist: state.persist,
+      }
+
     default:
       return state
   }
