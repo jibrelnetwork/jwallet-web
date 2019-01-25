@@ -5,28 +5,26 @@ import type {
   WalletsSetWalletsActionPayload,
 } from 'routes/Wallets/modules/wallets'
 
-/* eslint-disable max-len */
-export const OPEN_VIEW: '@@walletsImport/OPEN_VIEW' = '@@walletsImport/OPEN_VIEW'
-export const CLOSE_VIEW: '@@walletsImport/CLOSE_VIEW' = '@@walletsImport/CLOSE_VIEW'
+export const OPEN_VIEW = '@@walletsImport/OPEN_VIEW'
+export const CLOSE_VIEW = '@@walletsImport/CLOSE_VIEW'
 
-export const CHANGE_DATA_INPUT: '@@walletsImport/CHANGE_DATA_INPUT' = '@@walletsImport/CHANGE_DATA_INPUT'
-export const CHANGE_PASSPHRASE_INPUT: '@@walletsImport/CHANGE_PASSPHRASE_INPUT' = '@@walletsImport/CHANGE_PASSPHRASE_INPUT'
-export const CHANGE_DERIVATION_PATH_INPUT: '@@walletsImport/CHANGE_DERIVATION_PATH_INPUT' = '@@walletsImport/CHANGE_DERIVATION_PATH_INPUT'
+export const CHANGE_DATA_INPUT = '@@walletsImport/CHANGE_DATA_INPUT'
+export const CHANGE_PASSPHRASE_INPUT = '@@walletsImport/CHANGE_PASSPHRASE_INPUT'
+export const CHANGE_DERIVATION_PATH_INPUT = '@@walletsImport/CHANGE_DERIVATION_PATH_INPUT'
 
-export const SET_WALLET_TYPE: '@@walletsImport/SET_WALLET_TYPE' = '@@walletsImport/SET_WALLET_TYPE'
+export const SET_WALLET_TYPE = '@@walletsImport/SET_WALLET_TYPE'
 
-export const GO_TO_NEXT_STEP: '@@walletsImport/GO_TO_NEXT_STEP' = '@@walletsImport/GO_TO_NEXT_STEP'
-export const GO_TO_PREV_STEP: '@@walletsImport/GO_TO_PREV_STEP' = '@@walletsImport/GO_TO_PREV_STEP'
-export const SET_CURRENT_STEP: '@@walletsImport/SET_CURRENT_STEP' = '@@walletsImport/SET_CURRENT_STEP'
+export const GO_TO_NEXT_STEP = '@@walletsImport/GO_TO_NEXT_STEP'
+export const GO_TO_PREV_STEP = '@@walletsImport/GO_TO_PREV_STEP'
+export const SET_CURRENT_STEP = '@@walletsImport/SET_CURRENT_STEP'
 
-export const IMPORT_ERROR: '@@walletsImport/IMPORT_ERROR' = '@@walletsImport/IMPORT_ERROR'
-export const IMPORT_SUCCESS: '@@walletsImport/IMPORT_SUCCESS' = '@@walletsImport/IMPORT_SUCCESS'
-export const IMPORT_REQUEST: '@@walletsImport/IMPORT_REQUEST' = '@@walletsImport/IMPORT_REQUEST'
+export const IMPORT_ERROR = '@@walletsImport/IMPORT_ERROR'
+export const IMPORT_SUCCESS = '@@walletsImport/IMPORT_SUCCESS'
+export const IMPORT_REQUEST = '@@walletsImport/IMPORT_REQUEST'
 
-export const SET_INVALID_FIELD: '@@walletsImport/SET_INVALID_FIELD' = '@@walletsImport/SET_INVALID_FIELD'
+export const SET_INVALID_FIELD = '@@walletsImport/SET_INVALID_FIELD'
 
 export const CLEAN: '@@walletsImport/CLEAN' = '@@walletsImport/CLEAN'
-/* eslint-enable max-len */
 
 export const STEPS: WalletsImportSteps = {
   NAME: 0,
@@ -167,10 +165,10 @@ const initialState: WalletsImportState = {
   currentStep: STEPS.NAME,
 }
 
-const walletsImport = (
+function walletsImport(
   state: WalletsImportState = initialState,
   action: WalletsImportAction,
-): WalletsImportAction => {
+): WalletsImportAction {
   switch (action.type) {
     case CHANGE_DATA_INPUT:
       return {
@@ -211,6 +209,7 @@ const walletsImport = (
     case SET_CURRENT_STEP:
       return {
         ...state,
+        invalidFields: initialState.invalidFields,
         currentStep: action.payload.currentStep,
       }
 

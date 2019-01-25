@@ -30,7 +30,7 @@
     "precommit": "npm run lint-staged"
   },
   "dependencies": {
-    "@jibrelnetwork/contracts-jsapi": "1.0.2",
+    "@jibrelnetwork/contracts-jsapi": "1.0.6",
     "bignumber.js": "4.1.0",
     "bitcore-lib": "0.16.0",
     "bitcore-mnemonic": "1.7.0",
