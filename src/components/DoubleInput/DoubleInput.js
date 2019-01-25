@@ -25,14 +25,14 @@ type Props = {|
   +onClose: ?DoubleInputHandler,
   +items: DoubleInputItem[],
   +errorMessage: string,
-  +warningMessage: string,
+  +infoMessage: string,
 |}
 
 class DoubleInput extends PureComponent<Props> {
   static defaultProps = {
     onClose: null,
     errorMessage: '',
-    warningMessage: '',
+    infoMessage: '',
   }
 
   render() {
@@ -40,7 +40,7 @@ class DoubleInput extends PureComponent<Props> {
       onClose,
       items,
       errorMessage,
-      warningMessage,
+      infoMessage,
     }: Props = this.props
 
     const [leftItem, rightItem]: DoubleInputItem[] = items
@@ -97,9 +97,9 @@ class DoubleInput extends PureComponent<Props> {
             <JText value={errorMessage} color='red' size='small' />
           </div>
         )}
-        {warningMessage && (
+        {infoMessage && (
           <div className='message'>
-            <JText value={warningMessage} color='orange' size='small' />
+            <JText value={infoMessage} color='orange' size='small' />
           </div>
         )}
       </div>
