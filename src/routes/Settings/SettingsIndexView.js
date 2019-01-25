@@ -2,17 +2,22 @@
 
 import React, { PureComponent } from 'react'
 
-import { JText, JSearch } from 'components/base'
+import formatCurrency from 'utils/formatters/formatCurrency'
 import { SettingsGrid } from 'components'
+
+import {
+  JText,
+  JSearch,
+} from 'components/base'
+
 import SettingsGridCard,
 { type SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
 
-import { formatCurrency } from 'utils/formatters'
-
 type Props = {|
   ...SettingsState,
-  networkName: ?string,
-  wallet: ?Wallet,
+  +wallet: ?Wallet,
+  +networkName: ?string,
+  +fiatCurrency: FiatCurrency,
 |}
 
 // eslint-disable-next-line max-len
@@ -20,13 +25,12 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 
 // Looks scary, but it's just declaration of settings
 const getSettingsCardProperties = ({
-  localCurrencyCode,
-  networkName,
-  walletName,
   walletId,
+  walletName,
+  fiatCurrency,
 }): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
   title: 'Local currency',
-  description: formatCurrency(localCurrencyCode),
+  description: formatCurrency(fiatCurrency),
   path: 'settings/currency',
   iconName: 'local-currency',
   searchTags: '',
@@ -53,20 +57,6 @@ const getSettingsCardProperties = ({
   searchTags: 'zendesk help',
   isVisible: true,
 }, {
-  title: 'Backup wallet',
-  description: 'Save your money!',
-  path: `wallets/backup/${walletId}`,
-  iconName: 'backup-wallet',
-  searchTags: '',
-  isVisible: true,
-}, {
-  title: 'Network name',
-  description: networkName || ' ',
-  path: 'settings/network',
-  iconName: 'network',
-  searchTags: '',
-  isVisible: Boolean(networkName),
-}, {
   title: 'Rename wallet',
   description: walletName,
   path: `wallets/rename/${walletId}`,
@@ -76,18 +66,18 @@ const getSettingsCardProperties = ({
 }, {
   title: 'Delete wallet',
   description: 'Badaaaah!',
-  path: 'settings/delete',
+  path: `wallets/delete/${walletId}`,
   iconName: 'cross-circle',
   iconColor: 'red',
   searchTags: '',
   isVisible: true,
 }]
 
-type State = {|
-  searchQuery: string
+type ComponentState = {|
+  +searchQuery: string
 |}
 
-class SettingsIndexView extends PureComponent<Props, State> {
+class SettingsIndexView extends PureComponent<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -108,12 +98,11 @@ class SettingsIndexView extends PureComponent<Props, State> {
 
   render() {
     const {
-      localCurrencyCode,
-      defaultGasPrice,
+      wallet,
+      networkName,
+      fiatCurrency,
       systemLanguageCode,
       hasPinCode,
-      networkName,
-      wallet,
     } = this.props
 
     if (!networkName || !wallet) {
@@ -127,8 +116,7 @@ class SettingsIndexView extends PureComponent<Props, State> {
 
     const settingsCards = getSettingsCardProperties({
       isReadOnly,
-      localCurrencyCode,
-      defaultGasPrice,
+      fiatCurrency,
       systemLanguageCode,
       hasPinCode,
       walletName,

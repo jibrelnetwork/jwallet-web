@@ -19,10 +19,20 @@ h4 {
 }
 
 .unsupported-screen {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  background: -webkit-linear-gradient(30deg, #0058d2, #00309b);
+  background: -o-linear-gradient(30deg, #0058d2, #00309b);
   background: linear-gradient(60deg, #0058d2, #00309b);
   text-align: center;
 }
@@ -40,7 +50,9 @@ h4 {
 }
 
 .unsupported-screen__image {
+  display: block;
   width: 90px;
+  margin-bottom: 30px;
 }
 
 .unsupported-screen__error {
@@ -49,30 +61,71 @@ h4 {
 }
 
 .unsupported-screen__title {
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 25px;
+  margin-bottom: 20px;
+}
+
+.unsupported-screen__description {
+  font-size: 13px;
+  line-height: 23px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 105px;
+}
+
+.unsupported-screen__back {
+  display: block;
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  padding: 12px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
+.unsupported-screen__back:hover {
+  color: #00c1ff;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
 }
 
 .unsupported-screen__subtitle {
-  line-height: 19.5px;
-  font-size: 16px;
-  margin-bottom: 16px;
+  display: inline;
+  margin: 0;
 }
 
 .unsupported-screen__features-list {
-  font-size: 13px;
-  text-align: left;
+  display: inline;
+  font-weight: 600;
 }
 
 .unsupported-screen__feature {
-  display: list-item;
-  list-style: circle;
-  line-height: 18px;
+  display: none;
+}
+
+.unsupported-screen__feature::after {
+  content: ',';
+}
+
+.unsupported-screen__feature:last-child::after {
+  content: none;
 }
 
 .unsupported-screen__feature.-javascript {
-  display: block;
+  display: inline-block;
+}
+
+.unsupported-screen__feature.-javascript::after {
+  content: none;
 }
 
 html.no-cookies .unsupported-screen__feature.-cookies,
@@ -81,7 +134,7 @@ html.no-filereader .unsupported-screen__feature.-filereader,
 html.no-indexeddb .unsupported-screen__feature.-indexeddb,
 html.no-localstorage .unsupported-screen__feature.-localstorage,
 html.no-webworkers .unsupported-screen__feature.-webworkers {
-  display: list-item;
+  display: inline-block;
 }
 
 html.javascript .unsupported-screen {
@@ -94,5 +147,7 @@ html.no-filereader .unsupported-screen,
 html.no-indexeddb .unsupported-screen,
 html.no-localstorage .unsupported-screen,
 html.no-webworkers .unsupported-screen {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }

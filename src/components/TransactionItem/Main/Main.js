@@ -228,7 +228,7 @@ class TransactionItemMain extends PureComponent<Props> {
           )}
         </div>
         <div className='box'>
-          <div className='balance'>
+          <div className={classNames('balance', !isAssetList && '-border')}>
             <div className='crypto'>
               <JText
                 value={`

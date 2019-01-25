@@ -8,13 +8,11 @@ import { JInput } from 'components/base'
 type Props = {|
   +onSubmit: Function,
   +onChangeData: Function,
-  +onChangePassphrase: Function,
   +onChangeDerivationPath: Function,
   +title: ?Array<string>,
   +invalidFields: FormFields,
   +valueData: string,
   +buttonLabel: string,
-  +valuePassphrase: string,
   +valueDerivationPath: string,
   +isLoading: boolean,
   +isMnemonic: boolean,
@@ -23,13 +21,11 @@ type Props = {|
 const WalletDataStep = ({
   onSubmit,
   onChangeData,
-  onChangePassphrase,
   onChangeDerivationPath,
   title,
   invalidFields,
   valueData,
   buttonLabel,
-  valuePassphrase,
   valueDerivationPath,
   isLoading,
   isMnemonic,
@@ -53,14 +49,6 @@ const WalletDataStep = ({
     />
     {isMnemonic && (
       <Fragment>
-        <JInput
-          onChange={onChangePassphrase}
-          value={valuePassphrase}
-          errorMessage={invalidFields.passphrase}
-          color='white'
-          name='wallet-passphrase'
-          placeholder='BIP39 Mnemonic passphrase (optional)'
-        />
         <JInput
           onChange={onChangeDerivationPath}
           value={valueDerivationPath}

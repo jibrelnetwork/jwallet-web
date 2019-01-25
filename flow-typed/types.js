@@ -14,7 +14,6 @@ declare type AssetAddress = Address | EthereumAddress
 
 declare type AddressNames = { [Address]: ?string }
 
-declare type CurrencyCode = 'USD' | 'EUR'
 declare type SortDirection = 'asc' | 'desc'
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
@@ -44,7 +43,6 @@ declare type InvalidFieldError = {
 /**
  * Custom react-router types
  */
-
 declare type ReactRouterState = {
   +location: {
     +pathname: string,

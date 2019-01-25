@@ -11,6 +11,7 @@
     "__MAIN_RPC_PORT__": false,
     "__ROPSTEN_RPC_ADDR__": false,
     "__ROPSTEN_RPC_PORT__": false,
+    "__DEFAULT_TICKER_API__": false,
     "__DEFAULT_BLOCKEXPLORER_API__": false
   },
   "rules": {
