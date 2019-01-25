@@ -26,6 +26,7 @@ import {
 } from 'store/selectors/wallets'
 
 import * as blocks from 'routes/modules/blocks'
+import * as ticker from 'routes/modules/ticker'
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsAddresses from '../modules/walletsAddresses'
@@ -65,6 +66,7 @@ function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): S
   yield put(wallets.setWalletsItems(itemsNew))
   yield put(push('/digital-assets'))
   yield put(blocks.syncRestart())
+  yield put(ticker.syncRestart())
 }
 
 function* getMoreRequest(): Saga<void> {

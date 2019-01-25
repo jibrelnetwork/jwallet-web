@@ -9,10 +9,12 @@ import type { PersistConfig } from 'redux-persist/lib/types.js.flow'
 
 type PersistableReducerName =
   'blocks' |
+  'ticker' |
   'wallets' |
   'balances' |
   'comments' |
   'networks' |
+  'settings' |
   'favorites' |
   'transactions' |
   'digitalAssets' |

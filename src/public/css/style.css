@@ -109,19 +109,23 @@ h4 {
 }
 
 .unsupported-screen__feature {
-  display: inline-block;
+  display: none;
 }
 
 .unsupported-screen__feature::after {
   content: ',';
 }
 
-.unsupported-screen__feature:last-of-type::after {
+.unsupported-screen__feature:last-child::after {
   content: none;
 }
 
 .unsupported-screen__feature.-javascript {
   display: inline-block;
+}
+
+.unsupported-screen__feature.-javascript::after {
+  content: none;
 }
 
 html.no-cookies .unsupported-screen__feature.-cookies,

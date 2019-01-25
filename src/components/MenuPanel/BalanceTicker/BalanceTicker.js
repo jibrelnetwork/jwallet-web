@@ -9,22 +9,22 @@ import {
   formatBalance,
 } from 'utils/numbers'
 
-const TICKER_CURRENCY = 'ETH'
-
 type Props = {|
-  +ethBalance: ?Balance,
+  +currency: FiatCurrency,
+  +balance: number,
 |}
 
-function MenuPanelBalanceTicker({ ethBalance }: Props) {
-  const amountRounded: string = ethBalance ? formatBalance((divDecimals(ethBalance.value))) : '—'
-
+function MenuPanelBalanceTicker({
+  balance,
+  currency,
+}: Props) {
   return (
     <div className='menu-panel-balance-ticker'>
       <div className='title'>
         <JText value='Total Balance' color='white' size='small' fontCase='upper' />
       </div>
       <JText
-        value={`${amountRounded} ${TICKER_CURRENCY}`}
+        value={`${formatBalance((divDecimals(balance)))} ${currency}`}
         size='large'
         color='white'
         weight='bold'

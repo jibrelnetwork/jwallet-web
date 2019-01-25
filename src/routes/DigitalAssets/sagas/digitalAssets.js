@@ -14,6 +14,7 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from 'routes/modules/blocks'
+import * as ticker from 'routes/modules/ticker'
 
 import * as digitalAssets from '../modules/digitalAssets'
 
@@ -120,6 +121,7 @@ function* init(): Saga<void> {
 
 function* setAssetIsActive(): Saga<void> {
   yield put(blocks.syncRestart())
+  yield put(ticker.syncRestart())
 }
 
 function* deleteCustomAsset(
@@ -136,6 +138,7 @@ function* deleteCustomAsset(
 
   yield put(digitalAssets.deleteAssetRequest(assetAddress))
   yield put(blocks.syncRestart())
+  yield put(ticker.syncRestart())
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {

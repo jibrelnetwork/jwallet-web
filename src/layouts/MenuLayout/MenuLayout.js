@@ -15,7 +15,8 @@ type Props = {|
   +addressNames: AddressNames,
   +children: React$Node,
   +activeWalletId: ?WalletId,
-  +ethBalance: ?Balance,
+  +fiatCurrency: FiatCurrency,
+  +fiatBalance: number,
   +isConnectionError: boolean,
 |}
 
@@ -36,8 +37,9 @@ class MenuLayout extends Component<Props> {
       addresses,
       addressNames,
       children,
+      fiatCurrency,
       activeWalletId,
-      ethBalance,
+      fiatBalance,
       isConnectionError,
     }: Props = this.props
 
@@ -50,8 +52,9 @@ class MenuLayout extends Component<Props> {
             items={items}
             addresses={addresses}
             addressNames={addressNames}
+            fiatCurrency={fiatCurrency}
             activeWalletId={activeWalletId}
-            ethBalance={ethBalance}
+            fiatBalance={fiatBalance}
           />
         </div>
         <div className='content'>
