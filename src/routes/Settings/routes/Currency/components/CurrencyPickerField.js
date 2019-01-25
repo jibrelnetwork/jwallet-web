@@ -1,36 +1,37 @@
+// @flow
+
 import React from 'react'
+
+import JText from 'components/base/JText'
+import currenciesData from 'data/currencies'
+import formatCurrency from 'utils/formatters/formatCurrency'
 import JPicker, { JPickerItem } from 'components/base/JPicker'
-import { JText } from 'components/base'
-import { CURRENCIES_MAP } from 'data/settings'
 
 import './currencyPickerField.scss'
 
 import { CurrencyPickerCurrent } from './CurrencyPickerCurrent'
 
-const CURRENCY_CODES = Object.keys(CURRENCIES_MAP)
+const CURRENCY_CODES: FiatCurrency[] = Object.keys(currenciesData)
 
 export const CurrencyPickerField = (props) => {
   const {
-    input,
-  } = props
-
-  const {
     onChange,
-  } = input
+    value,
+  } = props.input
 
-  const currentCurrencyTitle = CURRENCIES_MAP[input.value]
+  const currentCurrencyTitle = currenciesData[value]
 
   return (
     <JPicker
       currentRenderer={() => <CurrencyPickerCurrent title={currentCurrencyTitle} />}
     >
-      {CURRENCY_CODES.map(code => (
+      {CURRENCY_CODES.map((fiatCurrency: FiatCurrency) => (
         <JPickerItem
-          key={code}
-          value={code}
           onSelect={onChange}
+          key={fiatCurrency}
+          value={fiatCurrency}
         >
-          <JText color='gray' value={CURRENCIES_MAP[code]} />
+          <JText color='gray' value={formatCurrency(fiatCurrency)} />
         </JPickerItem>
       ))}
     </JPicker>

@@ -1,10 +1,14 @@
 // @flow
 
 import React from 'react'
-import { Form, Field } from 'react-final-form'
 
-import { SubsettingsView } from 'routes/Settings/components'
-import { JText } from 'components/base'
+import {
+  Form,
+  Field,
+} from 'react-final-form'
+
+import JText from 'components/base/JText'
+import SubsettingsView from 'routes/Settings/components/SubsettingsView'
 
 import { CurrencyPickerField } from './components/CurrencyPickerField'
 
@@ -15,34 +19,32 @@ import type {
   CurrencyFormFieldErrors,
 } from './types'
 
-type Props = {
-  +initialCurrencyCode: string,
+type Props = {|
   +onSubmit: (CurrencyFormFieldValues) => {},
-  +validate: (CurrencyFormFieldValues) => CurrencyFormFieldErrors
-}
+  +validate: (CurrencyFormFieldValues) => CurrencyFormFieldErrors,
+  +fiatCurrency: FiatCurrency,
+|}
 
 const CurrencyView = ({
-  initialCurrencyCode,
   onSubmit,
   validate,
+  fiatCurrency,
 }: Props) => (
   <SubsettingsView title='Select currency'>
     <Form
       onSubmit={onSubmit}
       validate={validate}
-      initialValues={{
-        currencyCode: initialCurrencyCode,
-      }}
+      initialValues={{ fiatCurrency }}
       render={({ handleSubmit }) => (
         <form className='currency-form' onSubmit={handleSubmit}>
           <Field
-            name='currencyCode'
-            placeholder='Currency code'
             component={CurrencyPickerField}
+            name='fiatCurrency'
+            placeholder='Preffered fiat currency'
           />
           <button
-            className='submit j-raised-button -blue'
             type='submit'
+            className='submit j-raised-button -blue'
           >
             <JText value='Save' />
           </button>
