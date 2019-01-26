@@ -10,8 +10,9 @@ import {
 } from 'utils/wallets'
 
 import {
-  initPassword,
-  checkPassword,
+  decryptInternalKey,
+  encryptInternalKey,
+  deriveKeyFromPassword,
 } from 'utils/encryption'
 
 import * as upgrade from 'routes/Upgrade/modules/upgrade'
@@ -67,27 +68,31 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
       try {
         const {
           items,
+          internalKey,
           passwordOptions,
           mnemonicOptions,
-          testPasswordData,
           name,
           password,
         } = action.payload
 
-        if (testPasswordData) {
-          checkPassword(testPasswordData, password, passwordOptions)
-        }
+        const {
+          salt,
+          scryptParams,
+          encryptionType,
+          derivedKeyLength,
+        }: PasswordOptions = passwordOptions
+
+        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
 
         walletsWorker.postMessage(walletsCreate.createSuccess({
           passwordOptions,
-          mnemonicOptions,
-          testPasswordData: testPasswordData || initPassword(password, passwordOptions),
+          internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
           items: createWallet(items, {
             name,
-            passwordOptions,
             mnemonicOptions,
             data: generateMnemonic(),
-          }, password),
+          }, internalKeyDec, encryptionType),
         }))
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -103,28 +108,32 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
       try {
         const {
           items,
+          internalKey,
           passwordOptions,
           mnemonicOptions,
-          testPasswordData,
           data,
           name,
           password,
         } = action.payload
 
-        if (testPasswordData) {
-          checkPassword(testPasswordData, password, passwordOptions)
-        }
+        const {
+          salt,
+          scryptParams,
+          encryptionType,
+          derivedKeyLength,
+        }: PasswordOptions = passwordOptions
+
+        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
 
         walletsWorker.postMessage(walletsImport.importSuccess({
           passwordOptions,
-          mnemonicOptions,
-          testPasswordData: testPasswordData || initPassword(password, passwordOptions),
+          internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
           items: createWallet(items, {
             data,
             name,
-            passwordOptions,
             mnemonicOptions,
-          }, password),
+          }, internalKeyDec, encryptionType),
         }))
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -138,10 +147,29 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
 
     case walletsBackup.BACKUP_REQUEST: {
       try {
-        const { items, walletId, password } = action.payload
+        const {
+          items,
+          walletId,
+          password,
+          internalKey,
+          passwordOptions,
+        } = action.payload
 
-        const data: string = getBackupData(items, walletId, password)
+        if (!passwordOptions) {
+          throw new Error('WalletsDataError')
+        }
 
+        const {
+          salt,
+          scryptParams,
+          encryptionType,
+          derivedKeyLength,
+        }: PasswordOptions = passwordOptions
+
+        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
+
+        const data: string = getBackupData(items, walletId, internalKeyDec, encryptionType)
         walletsWorker.postMessage(walletsBackup.backupSuccess(data))
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -154,17 +182,35 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
     }
 
     case wallets.PRIVATE_KEY_REQUEST: {
-      const { wallet, password } = action.payload
-
       try {
-        const privateKey: string = getPrivateKey(wallet, password)
+        const {
+          wallet,
+          password,
+          internalKey,
+          passwordOptions,
+        } = action.payload
 
+        if (!passwordOptions) {
+          throw new Error('WalletsDataError')
+        }
+
+        const {
+          salt,
+          scryptParams,
+          encryptionType,
+          derivedKeyLength,
+        }: PasswordOptions = passwordOptions
+
+        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
+
+        const privateKey: string = getPrivateKey(wallet, internalKeyDec, encryptionType)
         walletsWorker.postMessage(wallets.privateKeySuccess(wallet.id, privateKey))
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        walletsWorker.postMessage(wallets.privateKeyError(wallet.id, err.message))
+        walletsWorker.postMessage(wallets.privateKeyError(action.payload.wallet.id, err.message))
       }
 
       break
@@ -174,19 +220,32 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
       try {
         const {
           items,
-          walletId,
-          password,
-          testPasswordData,
           data,
+          password,
+          walletId,
+          internalKey,
           passwordOptions,
           mnemonicOptions,
         } = action.payload
 
-        checkPassword(testPasswordData, password, passwordOptions)
+        const {
+          salt,
+          scryptParams,
+          encryptionType,
+          derivedKeyLength,
+        }: PasswordOptions = passwordOptions
 
-        walletsWorker.postMessage(upgrade.upgradeSuccess(
-          upgradeWallet(items, walletId, password, data, passwordOptions, mnemonicOptions),
-        ))
+        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
+
+        walletsWorker.postMessage(upgrade.upgradeSuccess(upgradeWallet({
+          items,
+          walletId,
+          data,
+          mnemonicOptions,
+          encryptionType,
+          internalKey: internalKeyDec,
+        })))
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)

@@ -5,9 +5,11 @@ import util from 'tweetnacl-util'
 
 import config from 'config'
 
+import getNonce from './getNonce'
+
 type EncryptPayload = {|
   +data: string,
-  +derivedKey: Uint8Array,
+  +key: Uint8Array,
   +encryptionType: string,
 |}
 
@@ -18,10 +20,6 @@ function leftPadString(stringToPad: string, padChar: string, totalLength: number
   return `${leftPad}${stringToPad}`
 }
 
-function getNonce(nonceLength: number): Uint8Array {
-  return nacl.randomBytes(nonceLength)
-}
-
 function encodeEncryptedData(encryptedData: Uint8Array, nonce: Uint8Array): EncryptedData {
   return {
     nonce: util.encodeBase64(nonce),
@@ -29,10 +27,10 @@ function encodeEncryptedData(encryptedData: Uint8Array, nonce: Uint8Array): Encr
   }
 }
 
-function encryptNaclSecretbox(data: string, derivedKey: Uint8Array): EncryptedData {
+function encryptNaclSecretbox(data: string, key: Uint8Array): EncryptedData {
   const nonce: Uint8Array = getNonce(nacl.secretbox.nonceLength)
   const dataToEncrypt: Uint8Array = util.decodeUTF8(data)
-  const encryptedData: ?Uint8Array = nacl.secretbox(dataToEncrypt, nonce, derivedKey)
+  const encryptedData: ?Uint8Array = nacl.secretbox(dataToEncrypt, nonce, key)
 
   if ((encryptedData === null) || (encryptedData === undefined)) {
     throw new Error('InvalidPasswordError')
@@ -43,8 +41,8 @@ function encryptNaclSecretbox(data: string, derivedKey: Uint8Array): EncryptedDa
 
 function encryptData(payload: EncryptPayload): EncryptedData {
   const {
+    key,
     data,
-    derivedKey,
     encryptionType,
   }: EncryptPayload = payload
 
@@ -54,7 +52,7 @@ function encryptData(payload: EncryptPayload): EncryptedData {
 
   const dataPad: string = leftPadString(data, ' ', config.encryptedDataLength)
 
-  return encryptNaclSecretbox(dataPad, derivedKey)
+  return encryptNaclSecretbox(dataPad, key)
 }
 
 export default encryptData

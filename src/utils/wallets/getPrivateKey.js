@@ -1,58 +1,54 @@
 // @flow
 
-import {
-  decryptData,
-  deriveKeyFromPassword,
-} from 'utils/encryption'
-
-import {
-  getMnemonicOptions,
-  getPrivateKeyFromMnemonic,
-} from 'utils/mnemonic'
+import decryptData from 'utils/encryption/decryptData'
+import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
 
 import checkMnemonicType from './checkMnemonicType'
 
-function getPrivateKey(wallet: Wallet, password: string): string {
+function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: string): string {
   const {
     encrypted,
-    passwordOptions,
     type,
     isReadOnly,
   }: Wallet = wallet
 
-  if (isReadOnly || !passwordOptions) {
+  if (isReadOnly) {
     throw new Error('WalletDataError')
   }
 
-  const {
-    salt,
-    scryptParams,
-    encryptionType,
-    derivedKeyLength,
-  }: PasswordOptions = passwordOptions
-
-  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-
   if (checkMnemonicType(type)) {
-    if (!encrypted.mnemonic) {
+    const {
+      network,
+      addressIndex,
+      derivationPath,
+    }: Wallet = wallet
+
+    if (
+      !encrypted.mnemonic ||
+      !encrypted.passphrase ||
+      !network ||
+      !derivationPath
+    ) {
       throw new Error('WalletDataError')
     }
 
     const mnemonic: string = decryptData({
       encryptionType,
-      derivedKey: dKey,
+      key: internalKey,
       data: encrypted.mnemonic,
     })
-
-    const {
-      addressIndex,
-      mnemonicOptions,
-    }: Wallet = wallet
 
     return getPrivateKeyFromMnemonic(
       mnemonic,
       addressIndex || 0,
-      getMnemonicOptions(mnemonicOptions),
+      decryptData({
+        encryptionType,
+        key: internalKey,
+        // $FlowFixMe
+        data: encrypted.passphrase,
+      }),
+      derivationPath,
+      network,
     )
   } else {
     if (!encrypted.privateKey) {
@@ -61,7 +57,7 @@ function getPrivateKey(wallet: Wallet, password: string): string {
 
     return decryptData({
       encryptionType,
-      derivedKey: dKey,
+      key: internalKey,
       data: encrypted.privateKey,
     })
   }

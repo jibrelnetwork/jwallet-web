@@ -22,7 +22,11 @@ import * as wallets from 'routes/Wallets/modules/wallets'
 import * as walletsCreate from '../modules/walletsCreate'
 
 function* checkName(): Saga<void> {
-  const { persist, name }: WalletsState = yield select(selectWallets)
+  const {
+    name,
+    persist,
+  }: ExtractReturn<typeof selectWallets> = yield select(selectWallets)
+
   const nameCleaned: string = name.trim()
 
   if (!nameCleaned) {
@@ -40,7 +44,7 @@ function* checkName(): Saga<void> {
 }
 
 function* createWallet(): Saga<void> {
-  const walletsData: WalletsState = yield select(selectWallets)
+  const walletsData: ExtractReturn<typeof selectWallets> = yield select(selectWallets)
 
   const {
     persist,
@@ -50,7 +54,7 @@ function* createWallet(): Saga<void> {
     passwordConfirm,
   }: WalletsState = walletsData
 
-  const isPasswordExists: boolean = !!persist.testPasswordData
+  const isPasswordExists: boolean = !!persist.internalKey
 
   if (!isPasswordExists) {
     if (password === name) {
@@ -109,7 +113,8 @@ function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<
 }
 
 function* setNextStep(): Saga<void> {
-  const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
+  const { currentStep }: ExtractReturn<typeof selectWalletsCreate> =
+    yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
@@ -132,8 +137,10 @@ function* goToWalletsCreateNameStep(): Saga<void> {
 }
 
 function* setPrevStep(): Saga<void> {
-  const items: Wallets = yield select(selectWalletsItems)
-  const { currentStep }: WalletsCreateState = yield select(selectWalletsCreate)
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
+
+  const { currentStep }: ExtractReturn<typeof selectWalletsCreate> =
+    yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
