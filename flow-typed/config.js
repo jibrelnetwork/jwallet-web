@@ -1,12 +1,8 @@
 // @flow
 
 declare type QRCodeAppearanceConfig = {|
-  +size: number,
+  +width: number,
   +errorCorrectionLevel: string,
-  +color: {|
-    +light: string,
-    +dark: string,
-  |},
 |}
 
 declare type JSONFormatConfig = {|

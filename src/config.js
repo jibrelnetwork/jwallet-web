@@ -38,12 +38,8 @@ const config: AppConfig = {
 
   // default QRCode appearance
   qrCodeDefaultAppearance: {
-    size: 240,
+    width: 240,
     errorCorrectionLevel: 'high',
-    color: {
-      light: '#ffcc00ff',
-      dark: '#001111ff',
-    },
   },
 
   /**
