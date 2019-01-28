@@ -17,6 +17,7 @@ import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
 import Favorites from './Favorites'
 import Upgrade from './Upgrade'
+import Agreements from './Agreements'
 
 import {
   type CoreAction,
@@ -58,6 +59,7 @@ export default {
     DigitalAssets,
     Favorites,
     Upgrade,
+    Agreements,
     NotFound,
   ],
 }
