@@ -195,7 +195,7 @@ function* requestGasLimit(): Saga<?number> {
     console.error(err)
     // fallback, now we are using staticGasAmount when we can't request gasLimit
     if (staticGasAmount) {
-      yield put(digitalAssetsSend.setNotifyPotentiallyFail(true))
+      yield put(digitalAssetsSend.setIsPotentiallyFail(true))
       return staticGasAmount
     } else {
       return null

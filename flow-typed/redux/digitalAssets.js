@@ -179,7 +179,7 @@ declare type DigitalAssetsSendState = {|
   +requestedGasValues: GasValues,
   +finalGasValues: GasValues,
   +formError: string,
-  +notifyPotentiallyFail: boolean,
+  +isPotentiallyFail: boolean,
 |}
 
 declare type SendTransactionProps = {|

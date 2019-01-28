@@ -193,7 +193,7 @@ export function setNonceEditable(isEditable: boolean) {
   }
 }
 
-export function setNotifyPotentiallyFail(willFail: boolean) {
+export function setIsPotentiallyFail(willFail: boolean) {
   return {
     type: SET_NOTIFY_POTENTIALLY_FAIL,
     payload: {
@@ -225,7 +225,7 @@ export type DigitalAssetsSendAction =
   ExtractReturn<typeof setFinalGasPrice> |
   ExtractReturn<typeof cleanValidationErrors> |
   ExtractReturn<typeof setNonceEditable> |
-  ExtractReturn<typeof setNotifyPotentiallyFail> |
+  ExtractReturn<typeof setIsPotentiallyFail> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetsSendState = {
@@ -274,7 +274,7 @@ const initialState: DigitalAssetsSendState = {
     gasPrice: null,
     gasLimit: null,
   },
-  notifyPotentiallyFail: false,
+  isPotentiallyFail: false,
 }
 
 function digitalAssetsSend(
@@ -445,7 +445,7 @@ function digitalAssetsSend(
       const { willFail } = action.payload
       return {
         ...state,
-        notifyPotentiallyFail: willFail,
+        isPotentiallyFail: willFail,
       }
     }
 
@@ -454,7 +454,7 @@ function digitalAssetsSend(
         ...state,
         formFieldErrors: initialState.formFieldErrors,
         formError: '',
-        notifyPotentiallyFail: false,
+        isPotentiallyFail: false,
       }
     }
 
