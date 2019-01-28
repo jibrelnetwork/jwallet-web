@@ -2,17 +2,24 @@
 
 import React, { PureComponent } from 'react'
 
+import classNames from 'classnames'
 import JText from 'components/base/JText'
 
 type Props = {|
   +onChange: ?((boolean) => void),
   +name: string,
   +label: string,
+  +color: 'white' | 'gray',
+  +children: ?React$Node,
+  +isRegular: boolean,
   +isChecked: boolean,
 |}
 
 class JCheckbox extends PureComponent<Props> {
   static defaultProps = {
+    color: 'gray',
+    children: null,
+    isRegular: false,
     isChecked: false,
   }
 
@@ -27,11 +34,14 @@ class JCheckbox extends PureComponent<Props> {
     const {
       name,
       label,
+      color,
+      children,
+      isRegular,
       isChecked,
     } = this.props
 
     return (
-      <div className='j-checkbox'>
+      <div className={classNames('j-checkbox', `-${color}`)}>
         <label className='field'>
           <input
             onChange={this.onChange}
@@ -43,13 +53,14 @@ class JCheckbox extends PureComponent<Props> {
           <span className='flag' />
           <span className='label'>
             <JText
-              color='gray'
+              color={color}
               size='normal'
               value={label}
-              weight='bold'
+              weight={isRegular ? 'regular' : 'bold'}
               whiteSpace='wrap'
             />
           </span>
+          { children }
         </label>
       </div>
     )

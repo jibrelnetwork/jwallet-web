@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 type JTextAlign = 'center'
 type JTextFontCase = 'upper'
 type JTextDecoration = 'underline'
-type JTextWeight = 'bold' | 'bolder'
+type JTextWeight = 'regular' | 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap' | 'clip'
 
 type JTextSize = 'small' | // 11
