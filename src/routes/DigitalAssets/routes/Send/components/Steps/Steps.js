@@ -25,6 +25,7 @@ type Props = {|
   +gasValues: GasValues,
   +isLoading: boolean,
   +isPotentiallyFail: boolean,
+  +fiatCurrency: FiatCurrency,
 |}
 
 function DigitalAssetsSendSteps({
@@ -45,6 +46,7 @@ function DigitalAssetsSendSteps({
   isLoading,
   gasValues,
   isPotentiallyFail,
+  fiatCurrency,
 }: Props) {
   return (
     <div className='digital-assets-send-steps'>
@@ -63,6 +65,7 @@ function DigitalAssetsSendSteps({
           ownerAddress={ownerAddress}
           priority={priority}
           isLoading={isLoading}
+          fiatCurrency={fiatCurrency}
         />
       )}
       {(currentStep === STEPS.CONFIRM) && (

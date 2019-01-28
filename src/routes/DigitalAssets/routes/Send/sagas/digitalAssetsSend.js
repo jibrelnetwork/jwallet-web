@@ -18,6 +18,7 @@ import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { getPrivateKey } from 'routes/Wallets/sagas'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
+import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
 
 import {
   fromWeiToGWei,
@@ -743,6 +744,53 @@ function* checkRecipientWarning(newValue: string): Saga<void> {
   }
 }
 
+function* convertAmountToFiat(amount: string, assetAddress: Address): Saga<?string> {
+  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
+    yield select(selectDigitalAsset, assetAddress)
+
+  if (!(digitalAsset && digitalAsset.priceFeed)) {
+    return null
+  }
+
+  const {
+    currencyID,
+  }: DigitalAssetPriceFeed = digitalAsset.priceFeed
+
+  const tickerCourse: ExtractReturn<typeof selectTickerItemCourseByCurrency>
+    = yield select(selectTickerItemCourseByCurrency, currencyID)
+
+  const isTickerCourseValid: boolean = parseFloat(tickerCourse) > 0
+  if (!isTickerCourseValid) {
+    return null
+  }
+
+  const fiatValue: BigNumber = toBigNumber(amount).times(tickerCourse)
+  const roundedValue: string = fiatValue.lt(0.01) ? '0.01' : fiatValue.toFixed(2)
+  return roundedValue
+}
+
+function* refrestFiatAmount(): Saga<void> {
+  const {
+    formFieldValues: {
+      amount,
+      assetAddress,
+    },
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  const isAmountValid: boolean = parseFloat(amount) > 0
+  if (!isAmountValid) {
+    yield put(digitalAssetsSend.setFormFieldValue('amountFiat', ''))
+    return
+  }
+
+  const fiatValue: ?string = yield* convertAmountToFiat(amount, assetAddress)
+  if (fiatValue) {
+    yield put(digitalAssetsSend.setFormFieldValue('amountFiat', `≈\u202F${fiatValue}`))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('amountFiat', '—'))
+  }
+}
+
 function* onFormFieldChange(
   action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>
 ): Saga<void> {
@@ -769,6 +817,12 @@ function* onFormFieldChange(
 
   if (fieldName === 'gasPrice') {
     yield* checkGasPriceWarning(value)
+  }
+
+  if (fieldName === 'amount' ||
+    fieldName === 'assetAddress' ||
+    fieldName === 'recipient') {
+    yield* refrestFiatAmount()
   }
 }
 

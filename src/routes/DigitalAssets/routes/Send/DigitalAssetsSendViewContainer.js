@@ -7,8 +7,8 @@ import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
-
 import {
   selectDigitalAsset,
   selectDigitalAssetsSend,
@@ -60,6 +60,7 @@ function mapStateToProps(state: AppState) {
 
   const addressNames: AddressNames = selectAllAddressNames(state)
   const selectedAsset: ?DigitalAsset = selectDigitalAsset(state, formFieldValues.assetAddress)
+  const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
 
   return {
     addressNames,
@@ -75,6 +76,7 @@ function mapStateToProps(state: AppState) {
     digitalAssets: assetsWithBalance,
     gasValues: finalGasValues,
     isPotentiallyFail,
+    fiatCurrency,
   }
 }
 
