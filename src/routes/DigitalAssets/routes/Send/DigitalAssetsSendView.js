@@ -32,6 +32,7 @@ type Props = {|
   +currentStep: DigitalAssetsSendStepIndex,
   +gasValues: GasValues,
   +isLoading: boolean,
+  +notifyPotentiallyFail: boolean,
 |}
 
 class DigitalAssetsSendView extends Component<Props> {
@@ -69,6 +70,7 @@ class DigitalAssetsSendView extends Component<Props> {
       currentStep,
       isLoading,
       gasValues,
+      notifyPotentiallyFail,
     }: Props = this.props
 
     if (!ownerAddress) {
@@ -109,6 +111,7 @@ class DigitalAssetsSendView extends Component<Props> {
               gasValues={gasValues}
               formError={formError}
               setNonceEditable={setNonceEditable}
+              notifyPotentiallyFail={notifyPotentiallyFail}
             />
           </Scrollbars>
         </div>

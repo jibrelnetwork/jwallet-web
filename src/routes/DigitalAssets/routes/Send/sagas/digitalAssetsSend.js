@@ -117,55 +117,6 @@ function* requestNonce(): Saga<?number> {
   }
 }
 
-function* requestEstimateGas(
-  network: Network,
-  digitalAsset: DigitalAsset,
-  from: Address,
-  recipient: Address,
-  amount: BigNumber,
-): Saga<number> {
-  const {
-    blockchainParams: {
-      address: assetAddress,
-      staticGasAmount,
-    },
-  } = digitalAsset
-
-  const gasAmount = staticGasAmount || web3.ETH_DEFAULT_GAS_LIMIT
-
-  if (checkETH(assetAddress)) {
-    const contractCode: string = yield call(
-      web3.getSmartContractCode,
-      network,
-      recipient
-    )
-
-    if (contractCode !== web3.ZERO_HEX) {
-      const estimatedGas: number = yield call(
-        web3.estimateETHGas,
-        network,
-        recipient,
-        amount,
-      )
-      return estimatedGas
-    }
-    return gasAmount
-  } else {
-    const estimatedGas: number = yield call(
-      web3.estimateContractGas,
-      network,
-      assetAddress,
-      from,
-      recipient,
-      amount,
-    )
-
-    return (estimatedGas > gasAmount)
-      ? estimatedGas
-      : gasAmount
-  }
-}
-
 function* requestGasLimit(): Saga<?number> {
   const {
     formFieldValues: {
@@ -199,19 +150,56 @@ function* requestGasLimit(): Saga<?number> {
     return null
   }
 
-  try {
-    const gasLimit: number = yield* requestEstimateGas(
-      network,
-      digitalAsset,
-      ownerAddress,
-      recipient,
-      getTransactionValue(amount, digitalAsset.blockchainParams.decimals)
-    )
+  const {
+    blockchainParams: {
+      staticGasAmount,
+    },
+  } = digitalAsset
 
-    return gasLimit
+  try {
+    const gasAmount = staticGasAmount || web3.ETH_DEFAULT_GAS_LIMIT
+    const sendAmount = getTransactionValue(amount, digitalAsset.blockchainParams.decimals)
+
+    if (checkETH(assetAddress)) {
+      const contractCode: string = yield call(
+        web3.getSmartContractCode,
+        network,
+        recipient
+      )
+
+      if (contractCode !== web3.ZERO_HEX) {
+        const estimatedGas: number = yield call(
+          web3.estimateETHGas,
+          network,
+          recipient,
+          sendAmount,
+        )
+        return estimatedGas
+      }
+      return gasAmount
+    } else {
+      const estimatedGas: number = yield call(
+        web3.estimateContractGas,
+        network,
+        assetAddress,
+        ownerAddress,
+        recipient,
+        sendAmount,
+      )
+
+      return (estimatedGas > gasAmount)
+        ? estimatedGas
+        : gasAmount
+    }
   } catch (err) {
     console.error(err)
-    return null
+    // fallback, now we are using staticGasAmount when we can't request gasLimit
+    if (staticGasAmount) {
+      yield put(digitalAssetsSend.setNotifyPotentiallyFail(true))
+      return staticGasAmount
+    } else {
+      return null
+    }
   }
 }
 
@@ -235,14 +223,6 @@ function* checkPriority(
   yield put(digitalAssetsSend.setRequestedGasPrice(requestedGasPrice.toString()))
 
   const requestedGasLimit: ?number = yield* requestGasLimit()
-  if (!requestedGasLimit) {
-    yield put(
-      digitalAssetsSend.setFormError(
-        'Node validation failed. Please change something and try again'
-      )
-    )
-    return
-  }
 
   if (priority === 'CUSTOM') {
     const isGasPriceValid: boolean = parseFloat(userGasPrice) > 0
@@ -265,6 +245,16 @@ function* checkPriority(
       yield put(digitalAssetsSend.setFinalGasLimit(gasLimit))
     }
   } else {
+    if (!requestedGasLimit) {
+      yield put(
+        digitalAssetsSend.setFormFieldError(
+          'gasLimit',
+          'Can\'t request gas limit, please use custom priority'
+        )
+      )
+      return
+    }
+
     const txPriorityCoefficient: number = digitalAssetsSend.TXPRIORITY[priority]
     if (!txPriorityCoefficient) {
       yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Priority is not selected'))
@@ -794,7 +784,9 @@ function* onPriorityChange(): Saga<void> {
   }
 }
 
-function* onStartNonceEdit(action: ExtractReturn<digitalAssetsSend.setNonceEditable>): Saga<void> {
+function* onStartNonceEdit(
+  action: ExtractReturn<typeof digitalAssetsSend.setNonceEditable>
+): Saga<void> {
   const { payload: { isEditable } } = action
 
   if (isEditable) {
