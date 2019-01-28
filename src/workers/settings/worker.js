@@ -1,14 +1,25 @@
 // @flow
 
-import type { SettingsAction } from 'routes/Settings/modules/settings'
+import nacl from 'tweetnacl'
+
+import config from 'config'
+import reEncryptWallet from 'utils/wallets/reEncryptWallet'
+
 import {
-  changePaymentPasswordPending,
+  decryptInternalKey,
+  encryptInternalKey,
+  getPasswordOptions,
+  deriveKeyFromPassword,
+} from 'utils/encryption'
+
+import {
   validationPasswordForm,
+  changePaymentPasswordPending,
 } from 'routes/Settings/modules/settings'
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 
-import { isValidatePassword } from 'utils/password'
-import { reEncryptWallet, getPasswordOptions, initPassword } from 'utils/encryption'
+import type { SettingsAction } from 'routes/Settings/modules/settings'
 
 type SettingsWorkerMessage = {|
   +data: SettingsAction,
@@ -27,35 +38,60 @@ const settingsWorker: SettingsWorkerInstance = self
 settingsWorker.window = settingsWorker
 
 settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
-  const { state, passwordForm } = msg.data
-  const passwordOptionsNew = getPasswordOptions({
-    passwordHint: passwordForm.passwordHint,
-  })
+  try {
+    const {
+      state,
+      passwordForm,
+    } = msg.data
 
-  if (isValidatePassword(state, passwordForm.passwordOld)) {
-    const { items } = state.wallets.persist
-    try {
-      const reEncryptedWallets = items.map(wallet =>
+    const {
+      items,
+      internalKey,
+      passwordOptions,
+    } = state.wallets.persist
+
+    const {
+      salt,
+      scryptParams,
+      encryptionType,
+      derivedKeyLength,
+    }: PasswordOptions = passwordOptions
+
+    const dk: Uint8Array =
+      deriveKeyFromPassword(passwordForm.passwordOld, scryptParams, derivedKeyLength, salt)
+
+    const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
+    const internalKeyNew: Uint8Array = nacl.randomBytes(config.defaultSaltBytesCount)
+    const passwordOptionsNew = getPasswordOptions(passwordForm.passwordHint)
+
+    const dkNew: Uint8Array = deriveKeyFromPassword(
+      passwordForm.passwordNew,
+      passwordOptionsNew.scryptParams,
+      passwordOptionsNew.derivedKeyLength,
+      passwordOptionsNew.salt,
+    )
+
+    settingsWorker.postMessage(wallets.setWallets({
+      items: items.map(wallet =>
         reEncryptWallet(
           wallet,
-          passwordForm.passwordOld,
-          passwordForm.passwordNew,
-          passwordOptionsNew,
+          internalKeyDec,
+          encryptionType,
+          internalKeyNew,
+          passwordOptionsNew.encryptionType,
         )
-      )
-      settingsWorker.postMessage(wallets.setWallets({
-        passwordOptions: passwordOptionsNew,
-        mnemonicOptions: state.wallets.persist.mnemonicOptions,
-        testPasswordData: initPassword(passwordForm.passwordNew, passwordOptionsNew),
-        items: reEncryptedWallets,
-      }))
-    } catch (e) {
-      console.error(e)
-    }
-  } else {
+      ),
+      passwordOptions: passwordOptionsNew,
+      internalKey: encryptInternalKey(internalKeyNew, dkNew, passwordOptionsNew.encryptionType),
+    }))
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+
     settingsWorker.postMessage(validationPasswordForm({
       passwordOld: 'Password is invalid',
     }))
+  } finally {
+    settingsWorker.postMessage(changePaymentPasswordPending(false))
   }
-  settingsWorker.postMessage(changePaymentPasswordPending(false))
 }

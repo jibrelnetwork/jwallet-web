@@ -9,8 +9,8 @@ type DecodedEncryptedData = {|
 |}
 
 type DecryptPayload = {|
+  +key: Uint8Array,
   +data: EncryptedData,
-  +derivedKey: Uint8Array,
   +encryptionType: string,
 |}
 
@@ -21,9 +21,9 @@ function decodeEncryptedData(data: EncryptedData): DecodedEncryptedData {
   }
 }
 
-function decryptNaclSecretbox(data: EncryptedData, derivedKey: Uint8Array): string {
+function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
   const decoded: DecodedEncryptedData = decodeEncryptedData(data)
-  const decryptedData: ?Uint8Array = nacl.secretbox.open(decoded.data, decoded.nonce, derivedKey)
+  const decryptedData: ?Uint8Array = nacl.secretbox.open(decoded.data, decoded.nonce, key)
 
   if ((decryptedData === null) || (decryptedData === undefined)) {
     throw new Error('InvalidPasswordError')
@@ -34,8 +34,8 @@ function decryptNaclSecretbox(data: EncryptedData, derivedKey: Uint8Array): stri
 
 function decryptData(payload: DecryptPayload): string {
   const {
+    key,
     data,
-    derivedKey,
     encryptionType,
   }: DecryptPayload = payload
 
@@ -43,7 +43,7 @@ function decryptData(payload: DecryptPayload): string {
     throw new Error(`DecryptionTypeError ${encryptionType}`)
   }
 
-  return decryptNaclSecretbox(data, derivedKey)
+  return decryptNaclSecretbox(data, key)
 }
 
 export default decryptData

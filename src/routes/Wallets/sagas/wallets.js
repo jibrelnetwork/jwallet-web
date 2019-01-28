@@ -4,20 +4,23 @@ import { push } from 'react-router-redux'
 
 import {
   put,
-  call,
   race,
   take,
   select,
   takeEvery,
 } from 'redux-saga/effects'
 
-import { selectWalletsItems } from 'store/stateSelectors'
-import { privateKeyRequest } from 'workers/wallets/wrapper'
+import walletsWorker from 'workers/wallets'
 
 import {
   getWallet,
   checkMnemonicType,
 } from 'utils/wallets'
+
+import {
+  selectWalletsItems,
+  selectWalletsPersist,
+} from 'store/stateSelectors'
 
 import * as wallets from '../modules/wallets'
 
@@ -25,7 +28,7 @@ function* openView(): Saga<void> {
   yield put(wallets.clean())
   yield put(wallets.setActiveWallet(null))
 
-  const items: Wallets = yield select(selectWalletsItems)
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
   if (!items.length) {
     yield put(push('/wallets/start'))
@@ -39,7 +42,7 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
     return
   }
 
-  const items: Wallets = yield select(selectWalletsItems)
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
   try {
     const wallet: Wallet = getWallet(items, activeWalletId)
@@ -52,31 +55,39 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
 }
 
 export function* getPrivateKey(walletId: string, password: string): Saga<string> {
-  const items: Wallets = yield select(selectWalletsItems)
-  const wallet: Wallet = getWallet(items, walletId)
+  const walletsPersist: ExtractReturn<typeof selectWalletsPersist> =
+    yield select(selectWalletsPersist)
 
-  yield call(privateKeyRequest, wallet, password)
+  try {
+    const wallet: Wallet = getWallet(walletsPersist.items, walletId)
 
-  while (true) {
-    const { response, error } = yield race({
-      response: take(wallets.PRIVATE_KEY_SUCCESS),
-      error: take(wallets.PRIVATE_KEY_ERROR),
-    })
+    walletsWorker.privateKeyRequest(walletsPersist, wallet, password)
 
-    if (response) {
-      if (response.payload.walletId !== walletId) {
-        continue
+    while (true) {
+      const { response, error } = yield race({
+        response: take(wallets.PRIVATE_KEY_SUCCESS),
+        error: take(wallets.PRIVATE_KEY_ERROR),
+      })
+
+      if (response) {
+        if (response.payload.walletId !== walletId) {
+          continue
+        }
+
+        return response.payload.privateKey
+      } else if (error) {
+        if (error.payload.walletId !== walletId) {
+          continue
+        }
+
+        throw new Error(error.payload.message)
       }
-
-      return response.payload.privateKey
-    } else if (error) {
-      if (error.payload.walletId !== walletId) {
-        continue
-      }
-
-      throw new Error(error.payload.message)
     }
+  } catch (err) {
+    yield put(wallets.privateKeyError(walletId, err.message))
   }
+
+  return ''
 }
 
 export function* getPrivateKeyCancel(walletId: string): Saga<void> {
