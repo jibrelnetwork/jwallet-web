@@ -3,6 +3,8 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+import handle from 'utils/eventHandlers/handle'
+
 import {
   divDecimals,
   formatBalance,
@@ -46,6 +48,7 @@ type Props = {|
   +setIsOnlyPending: (boolean) => void,
   +changeSearchInput: (string) => void,
   +editComment: (CommentId, string) => void,
+  +removeItemsByAsset: (AssetAddress) => void,
   +transactions: TransactionWithPrimaryKeys[],
   +params: {|
     +asset: string,
@@ -57,6 +60,7 @@ type Props = {|
   +digitalAssets: DigitalAssets,
   +assetBalance: ?Balance,
   +searchQuery: string,
+  +assetAddress: AssetAddress,
   +ownerAddress: ?OwnerAddress,
   +isLoading: boolean,
   +isOnlyPending: boolean,
@@ -68,6 +72,7 @@ function TransactionsAssetView({
   removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
+  removeItemsByAsset,
   transactions,
   params,
   network,
@@ -77,6 +82,7 @@ function TransactionsAssetView({
   digitalAssets,
   searchQuery,
   assetBalance,
+  assetAddress,
   ownerAddress,
   isLoading,
   isOnlyPending,
@@ -93,6 +99,7 @@ function TransactionsAssetView({
   }
 
   const filterCount: number = isOnlyPending ? 1 : 0
+  const isLoadingOrBlockEmpty: boolean = isLoading || isCurrentBlockEmpty
   const isBalanceAllowed: boolean = !isLoading || (!(!transactions.length || isCurrentBlockEmpty))
 
   return (
@@ -123,6 +130,15 @@ function TransactionsAssetView({
                 iconName='upload'
               />
             </div>
+            <div className='refetch'>
+              <JFlatButton
+                onClick={handle(removeItemsByAsset)(assetAddress)}
+                iconColor='gray'
+                iconSize='medium'
+                iconName='reload'
+                isDisabled={isLoadingOrBlockEmpty}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -140,7 +156,7 @@ function TransactionsAssetView({
             ownerAddress={ownerAddress}
             blockExplorerUISubdomain={network.blockExplorerUISubdomain}
             isFiltered={!!filterCount || !!searchQuery}
-            isLoading={isLoading || isCurrentBlockEmpty}
+            isLoading={isLoadingOrBlockEmpty}
           />
         </Scrollbars>
       </div>
