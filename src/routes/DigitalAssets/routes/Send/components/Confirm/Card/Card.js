@@ -11,6 +11,7 @@ type Props = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +gasValues: GasValues,
   +ownerAddress: OwnerAddress,
+  +isPotentiallyFail: boolean,
 |}
 
 function DigitalAssetsSendConfirmCard({
@@ -19,6 +20,7 @@ function DigitalAssetsSendConfirmCard({
   formFieldValues,
   gasValues,
   ownerAddress,
+  isPotentiallyFail,
 }: Props) {
   const {
     amount,
@@ -44,12 +46,19 @@ function DigitalAssetsSendConfirmCard({
   return (
     <div className='digital-assets-send-confirm-card'>
       <div className='content'>
+        {isPotentiallyFail &&
+        <div className='willfail'>
+          Your transaction does not pass one or more check-ups,
+          so we assume <b>it will most likely fail</b>. Please make sure you
+          know what you are doing before proceeding
+        </div>}
         <div className='amount'>
           <JText
             value={`${amount} ${symbol}`}
             size='header'
             color='dark'
             weight='bold'
+            whiteSpace='wrap'
           />
         </div>
         <div className='fee'>

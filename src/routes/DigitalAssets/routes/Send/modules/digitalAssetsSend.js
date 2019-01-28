@@ -24,6 +24,7 @@ export const SET_FORM_FIELD_WARNING = '@@digitalAssetsSend/SET_FORM_FIELD_WARNIN
 export const SET_FORM_ERROR = '@@digitalAssetsSend/SET_FORM_ERROR'
 export const CLEAN_VALIDATION_ERRORS = '@@digitalAssetsSend/CLEAN_VALIDATION_ERRORS'
 export const SET_NONCE_EDITABLE = '@@digitalAssetsSend/SET_NONCE_EDITABLE'
+export const SET_NOTIFY_POTENTIALLY_FAIL = '@@digitalAssetsSend/SET_NOTIFY_POTENTIALLY_FAIL'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
@@ -192,6 +193,15 @@ export function setNonceEditable(isEditable: boolean) {
   }
 }
 
+export function setIsPotentiallyFail(willFail: boolean) {
+  return {
+    type: SET_NOTIFY_POTENTIALLY_FAIL,
+    payload: {
+      willFail,
+    },
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -215,6 +225,7 @@ export type DigitalAssetsSendAction =
   ExtractReturn<typeof setFinalGasPrice> |
   ExtractReturn<typeof cleanValidationErrors> |
   ExtractReturn<typeof setNonceEditable> |
+  ExtractReturn<typeof setIsPotentiallyFail> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetsSendState = {
@@ -263,6 +274,7 @@ const initialState: DigitalAssetsSendState = {
     gasPrice: null,
     gasLimit: null,
   },
+  isPotentiallyFail: false,
 }
 
 function digitalAssetsSend(
@@ -429,12 +441,20 @@ function digitalAssetsSend(
       }
     }
 
+    case SET_NOTIFY_POTENTIALLY_FAIL: {
+      const { willFail } = action.payload
+      return {
+        ...state,
+        isPotentiallyFail: willFail,
+      }
+    }
+
     case CLEAN_VALIDATION_ERRORS: {
       return {
         ...state,
         formFieldErrors: initialState.formFieldErrors,
-        formFieldWarnongs: initialState.formFieldWarnongs,
         formError: '',
+        isPotentiallyFail: false,
       }
     }
 

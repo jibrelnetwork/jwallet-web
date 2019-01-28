@@ -11,12 +11,12 @@ import {
 
 type Props = {|
   +onChange: (string) => void,
-  +onActivate: ?((isActive) => void),
+  +onActivate: ?((isActive: boolean) => void),
   +name: string,
   +icon: string,
   +value: string,
   +label: string,
-  +isLoading: string,
+  +isLoading: boolean,
   +placeholder: string,
   +errorMessage: string,
   +infoMessage: string,
