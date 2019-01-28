@@ -3,7 +3,7 @@ import { checkMnemonicType } from 'utils/wallets'
 
 export const walletsAddresses = (state, pathname) => {
   if (
-    !/^\/wallets\/addresses$/.test(pathname)
+    !/^\/wallets\/addresses\/?$/.test(pathname)
   ) {
     // skip for all except selected paths
     return pathname

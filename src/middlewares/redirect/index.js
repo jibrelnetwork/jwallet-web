@@ -28,7 +28,11 @@ export const redirect = ({ getState }) => next => (action) => {
       if (isFullyHydrated(state)) {
         const pathname = action.type === LOCATION_CHANGE ?
           action.payload.pathname :
-          (state.router && state.router.locationBeforeTransitions && state.router.pathname)
+          (
+            state.router &&
+            state.router.locationBeforeTransitions &&
+            state.router.locationBeforeTransitions.pathname
+          )
 
         // order is important!
         const redirectPathname = [
