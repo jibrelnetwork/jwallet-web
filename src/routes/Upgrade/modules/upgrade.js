@@ -1,5 +1,15 @@
 // @flow
 
+export type UpgradeRequestPayload = {|
+  +items: Wallets,
+  +internalKey: ?EncryptedData,
+  +mnemonicOptions: MnemonicOptions,
+  +passwordOptions: ?PasswordOptions,
+  +data: string,
+  +password: string,
+  +walletId: WalletId,
+|}
+
 export const OPEN_VIEW = '@@upgrade/OPEN_VIEW'
 
 export const SUBMIT_MNEMONIC_REQUEST = '@@upgrade/SUBMIT_MNEMONIC_REQUEST'
@@ -31,26 +41,10 @@ export function submitPrivateKeyRequest(payload: UpgradePrivateKeyFormFieldValue
   }
 }
 
-export function upgradeRequest(
-  items: Wallets,
-  walletId: WalletId,
-  password: string,
-  testPasswordData: EncryptedData,
-  data: string,
-  passwordOptions: PasswordOptions,
-  mnemonicOptions: MnemonicOptions,
-) {
+export function upgradeRequest(payload: UpgradeRequestPayload) {
   return {
     type: UPGRADE_REQUEST,
-    payload: {
-      items,
-      walletId,
-      password,
-      testPasswordData,
-      data,
-      passwordOptions,
-      mnemonicOptions,
-    },
+    payload,
   }
 }
 

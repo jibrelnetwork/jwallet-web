@@ -28,5 +28,6 @@
     }, {
         "platform": "itunes",
         "url": "https://itunes.apple.com/app/jwallet/id1414196949?mt=8"
-    }]
+    }],
+    "prefer_related_applications": true
 }
