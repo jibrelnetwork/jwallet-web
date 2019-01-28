@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { replace } from 'react-router-redux'
 
 import config from 'config'
 import getWallet from 'utils/wallets/getWallet'
@@ -141,7 +140,6 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = {
   onSubmitMnemonic,
   onSubmitPrivateKey,
-  onUnavailable: () => replace('/digital-assets'),
   onClose: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 

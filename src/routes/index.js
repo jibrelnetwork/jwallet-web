@@ -46,9 +46,6 @@ export default {
   component: CoreLayout,
   onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
   onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
-  indexRoute: {
-    onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets'),
-  },
   childRoutes: [
     /*
     Funds(store),

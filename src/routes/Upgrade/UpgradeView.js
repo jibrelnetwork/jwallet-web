@@ -20,7 +20,6 @@ import './upgradeView.scss'
 
 type Props = {|
   +onClose: Function,
-  +onUnavailable: () => void,
   +onSubmitMnemonic: (UpgradeMnemonicFormFieldValues) => void,
   +onSubmitPrivateKey: (UpgradePrivateKeyFormFieldValues) => void,
   +validateMnemonic: (UpgradeMnemonicFormFieldValues) => UpgradeMnemonicFormFieldErrors,
@@ -55,7 +54,6 @@ const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
 
 function UpgradeView({
   onClose,
-  onUnavailable,
   onSubmitMnemonic,
   onSubmitPrivateKey,
   isLoading,
@@ -66,8 +64,6 @@ function UpgradeView({
   validatePrivateKey,
 }: Props) {
   if (!isReadOnly) {
-    // FIXME: we should do it in controller or in router
-    onUnavailable()
     return null
   }
 
