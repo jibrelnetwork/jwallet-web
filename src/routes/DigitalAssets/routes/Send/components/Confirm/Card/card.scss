@@ -1,4 +1,5 @@
 @import 'styles/colors';
+@import 'styles/mixins';
 
 .digital-assets-send-confirm-card {
   all: initial;
@@ -11,6 +12,14 @@
   text-align: center;
 
   > .content {
+    > .willfail {
+      @include font;
+
+      line-height: inherit;
+      margin-bottom: 30px;
+      color: $faded-orange;
+    }
+
     > .fee {
       position: relative;
       opacity: 0.5;
