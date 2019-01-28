@@ -18,7 +18,7 @@ function searchDigitalAssets(
       (query.length < 2) ||
       (name.search(searchRe) !== -1) ||
       (symbol.search(searchRe) !== -1) ||
-      (address.search(searchRe) !== -1)
+      (address.toLowerCase() === query.toLowerCase())
     ) {
       return true
     }
