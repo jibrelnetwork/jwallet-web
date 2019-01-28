@@ -8,6 +8,8 @@ export const RESYNC_TRANSACTIONS_STOP = '@@transactions/RESYNC_TRANSACTIONS_STOP
 export const INIT_ITEMS_BY_ASSET = '@@transactions/INIT_ITEMS_BY_ASSET'
 export const INIT_ITEMS_BY_BLOCK = '@@transactions/INIT_ITEMS_BY_BLOCK'
 
+export const REMOVE_ITEMS_BY_ASSET = '@@transactions/REMOVE_ITEMS_BY_ASSET'
+
 export const FETCH_BY_BLOCK_SUCCESS = '@@transactions/FETCH_BY_BLOCK_SUCCESS'
 export const FETCH_BY_BLOCK_ERROR = '@@transactions/FETCH_BY_BLOCK_ERROR'
 
@@ -15,6 +17,7 @@ export const UPDATE_TRANSACTION_DATA = '@@transactions/UPDATE_TRANSACTION_DATA'
 export const ADD_PENDING_TRANSACTION = '@@transactions/ADD_PENDING_TRANSACTION'
 export const CHECK_PENDING_TRANSACTION = '@@transactions/CHECK_PENDING_TRANSACTION'
 export const REMOVE_PENDING_TRANSACTION = '@@transactions/REMOVE_PENDING_TRANSACTION'
+export const REMOVE_PENDING_TRANSACTIONS = '@@transactions/REMOVE_PENDING_TRANSACTIONS'
 
 export const CHANGE_SEARCH_INPUT = '@@transactions/CHANGE_SEARCH_INPUT'
 export const SET_IS_ONLY_PENDING = '@@transactions/SET_IS_ONLY_PENDING'
@@ -71,6 +74,7 @@ export function initItemsByAsset(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
   assetAddress: AssetAddress,
+  isExistedIgnored?: boolean = false,
 ) {
   return {
     type: INIT_ITEMS_BY_ASSET,
@@ -78,6 +82,7 @@ export function initItemsByAsset(
       networkId,
       assetAddress,
       ownerAddress,
+      isExistedIgnored,
     },
   }
 }
@@ -95,6 +100,15 @@ export function initItemsByBlock(
       blockNumber,
       assetAddress,
       ownerAddress,
+    },
+  }
+}
+
+export function removeItemsByAsset(assetAddress: AssetAddress) {
+  return {
+    type: REMOVE_ITEMS_BY_ASSET,
+    payload: {
+      assetAddress,
     },
   }
 }
@@ -207,6 +221,21 @@ export function removePendingTransaction(
   }
 }
 
+export function removePendingTransactions(
+  networkId: NetworkId,
+  ownerAddress: OwnerAddress,
+  assetAddress: AssetAddress,
+) {
+  return {
+    type: REMOVE_PENDING_TRANSACTIONS,
+    payload: {
+      networkId,
+      assetAddress,
+      ownerAddress,
+    },
+  }
+}
+
 export function changeSearchInput(searchQuery: string) {
   return {
     type: CHANGE_SEARCH_INPUT,
@@ -229,6 +258,7 @@ type TransactionsAction =
   ExtractReturn<typeof fetchByOwnerRequest> |
   ExtractReturn<typeof initItemsByAsset> |
   ExtractReturn<typeof initItemsByBlock> |
+  ExtractReturn<typeof removeItemsByAsset> |
   ExtractReturn<typeof fetchByBlockSuccess> |
   ExtractReturn<typeof fetchByBlockError> |
   ExtractReturn<typeof updateTransactionData> |
@@ -284,13 +314,14 @@ function transactions(
         networkId,
         assetAddress,
         ownerAddress,
+        isExistedIgnored,
       } = action.payload
 
       const itemsByNetworkId: TransactionsByNetworkId = state.persist.items[networkId] || {}
       const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
       const itemsByAsset: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
 
-      return itemsByAsset ? state : {
+      return (itemsByAsset && !isExistedIgnored) ? state : {
         ...state,
         persist: {
           ...state.persist,
@@ -535,6 +566,35 @@ function transactions(
                 [assetAddress]: {
                   ...pendingByAssetNew,
                 },
+              },
+            },
+          },
+        },
+      }
+    }
+
+    case REMOVE_PENDING_TRANSACTIONS: {
+      const {
+        networkId,
+        assetAddress,
+        ownerAddress,
+      } = action.payload
+
+      const { pending } = state.persist
+      const pendingByNetworkId: PendingTransactionsByNetworkId = pending[networkId] || {}
+      const pendingByOwner: PendingTransactionsByOwner = pendingByNetworkId[ownerAddress] || {}
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          pending: {
+            ...pending,
+            [networkId]: {
+              ...pendingByNetworkId,
+              [ownerAddress]: {
+                ...pendingByOwner,
+                [assetAddress]: null,
               },
             },
           },
