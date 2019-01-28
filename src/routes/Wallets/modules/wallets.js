@@ -52,9 +52,9 @@ export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
 export const SET_IS_LOADING = '@@wallets/SET_IS_LOADING'
 export const SET_INVALID_FIELD = '@@wallets/SET_INVALID_FIELD'
 
-export const PRIVATE_KEY_REQUEST = '@@wallets/PRIVATE_KEY_REQUEST'
-export const PRIVATE_KEY_SUCCESS = '@@wallets/PRIVATE_KEY_SUCCESS'
 export const PRIVATE_KEY_ERROR = '@@wallets/PRIVATE_KEY_ERROR'
+export const PRIVATE_KEY_SUCCESS = '@@wallets/PRIVATE_KEY_SUCCESS'
+export const PRIVATE_KEY_REQUEST = '@@wallets/PRIVATE_KEY_REQUEST'
 
 export const CLEAN = '@@wallets/CLEAN'
 
@@ -168,10 +168,13 @@ export function setInvalidField(fieldName: string, message: string) {
   }
 }
 
-export function privateKeyRequest(payload: WalletsPrivateKeyRequestPayload) {
+export function privateKeyError(walletId: string, message: string) {
   return {
-    type: PRIVATE_KEY_REQUEST,
-    payload,
+    type: PRIVATE_KEY_ERROR,
+    payload: {
+      walletId,
+      message,
+    },
   }
 }
 
@@ -185,13 +188,10 @@ export function privateKeySuccess(walletId: string, privateKey: string) {
   }
 }
 
-export function privateKeyError(walletId: string, message: string) {
+export function privateKeyRequest(payload: WalletsPrivateKeyRequestPayload) {
   return {
-    type: PRIVATE_KEY_ERROR,
-    payload: {
-      walletId,
-      message,
-    },
+    type: PRIVATE_KEY_REQUEST,
+    payload,
   }
 }
 
@@ -214,9 +214,9 @@ export type WalletsAction =
   ExtractReturn<typeof setActiveWallet> |
   ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof setInvalidField> |
-  ExtractReturn<typeof privateKeyRequest> |
-  ExtractReturn<typeof privateKeySuccess> |
   ExtractReturn<typeof privateKeyError> |
+  ExtractReturn<typeof privateKeySuccess> |
+  ExtractReturn<typeof privateKeyRequest> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsState = {

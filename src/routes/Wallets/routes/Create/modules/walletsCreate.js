@@ -5,20 +5,18 @@ import type {
   WalletsSetWalletsActionPayload,
 } from 'routes/Wallets/modules/wallets'
 
-/* eslint-disable max-len */
-export const OPEN_VIEW: '@@walletsCreate/OPEN_VIEW' = '@@walletsCreate/OPEN_VIEW'
-export const CLOSE_VIEW: '@@walletsCreate/CLOSE_VIEW' = '@@walletsCreate/CLOSE_VIEW'
+export const OPEN_VIEW = '@@walletsCreate/OPEN_VIEW'
+export const CLOSE_VIEW = '@@walletsCreate/CLOSE_VIEW'
 
-export const GO_TO_NEXT_STEP: '@@walletsCreate/GO_TO_NEXT_STEP' = '@@walletsCreate/GO_TO_NEXT_STEP'
-export const GO_TO_PREV_STEP: '@@walletsCreate/GO_TO_PREV_STEP' = '@@walletsCreate/GO_TO_PREV_STEP'
-export const SET_CURRENT_STEP: '@@walletsCreate/SET_CURRENT_STEP' = '@@walletsCreate/SET_CURRENT_STEP'
+export const GO_TO_NEXT_STEP = '@@walletsCreate/GO_TO_NEXT_STEP'
+export const GO_TO_PREV_STEP = '@@walletsCreate/GO_TO_PREV_STEP'
+export const SET_CURRENT_STEP = '@@walletsCreate/SET_CURRENT_STEP'
 
-export const CREATE_ERROR: '@@walletsCreate/CREATE_ERROR' = '@@walletsCreate/CREATE_ERROR'
-export const CREATE_SUCCESS: '@@walletsCreate/CREATE_SUCCESS' = '@@walletsCreate/CREATE_SUCCESS'
-export const CREATE_REQUEST: '@@walletsCreate/CREATE_REQUEST' = '@@walletsCreate/CREATE_REQUEST'
+export const CREATE_ERROR = '@@walletsCreate/CREATE_ERROR'
+export const CREATE_SUCCESS = '@@walletsCreate/CREATE_SUCCESS'
+export const CREATE_REQUEST = '@@walletsCreate/CREATE_REQUEST'
 
-export const CLEAN: '@@walletsCreate/CLEAN' = '@@walletsCreate/CLEAN'
-/* eslint-enable max-len */
+export const CLEAN = '@@walletsCreate/CLEAN'
 
 export const STEPS: WalletsCreateSteps = {
   NAME: 0,
