@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react'
 
 import formatCurrency from 'utils/formatters/formatCurrency'
 import { SettingsGrid } from 'components'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import {
   JText,
@@ -156,7 +157,7 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
           </div>
         </header>
         <main className='content'>
-          <div className='container'>
+          <Scrollbars autoHide>
             <SettingsGrid>
               {settingsCards.map(properties => (
                 <SettingsGridCard
@@ -169,7 +170,7 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
                 />
               ))}
             </SettingsGrid>
-          </div>
+          </Scrollbars>
         </main>
       </div>
     )

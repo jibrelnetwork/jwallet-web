@@ -48,6 +48,11 @@
       background-color: transparent;
       border-width: 0;
       color: $dusk;
+
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.6;
+      }
     }
 
     > .close {
