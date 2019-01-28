@@ -3,6 +3,11 @@
 import { connect } from 'react-redux'
 
 import {
+  selectWallets,
+  selectWalletsCreate,
+} from 'store/selectors/wallets'
+
+import {
   changeNameInput,
   changePasswordInput,
   changePasswordHintInput,
@@ -29,10 +34,10 @@ type StateProps = {|
   +isPasswordExists: boolean,
 |}
 
-function mapStateToProps({ wallets, walletsCreate }: AppState): StateProps {
+function mapStateToProps(state: AppState): StateProps {
   const {
     persist: {
-      testPasswordData,
+      internalKey,
     },
     name,
     password,
@@ -40,7 +45,9 @@ function mapStateToProps({ wallets, walletsCreate }: AppState): StateProps {
     passwordHint,
     invalidFields,
     passwordConfirm,
-  } = wallets
+  }: WalletsState = selectWallets(state)
+
+  const walletsCreate: WalletsCreateState = selectWalletsCreate(state)
 
   return {
     ...walletsCreate,
@@ -50,7 +57,7 @@ function mapStateToProps({ wallets, walletsCreate }: AppState): StateProps {
     passwordHint,
     invalidFields,
     passwordConfirm,
-    isPasswordExists: !!testPasswordData,
+    isPasswordExists: !!internalKey,
   }
 }
 

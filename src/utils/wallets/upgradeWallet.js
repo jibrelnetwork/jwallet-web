@@ -2,26 +2,31 @@
 
 import config from 'config'
 import strip0x from 'utils/address/strip0x'
+import encryptData from 'utils/encryption/encryptData'
 
 import {
   getWallet,
   checkMnemonicType,
 } from 'utils/wallets'
 
-import {
-  encryptData,
-  deriveKeyFromPassword,
-} from 'utils/encryption'
-
 import updateWallet from './updateWallet'
+
+type UpgradeWalletData = {|
+  +items: Wallets,
+  +mnemonicOptions: ?MnemonicOptions,
+  +data: string,
+  +walletId: WalletId,
+  +encryptionType: string,
+  +internalKey: Uint8Array,
+|}
 
 function addMnemonic(
   wallets: Wallets,
   wallet: Wallet,
-  password: string,
   mnemonic: string,
-  passwordOptions: PasswordOptions,
   mnemonicOptions: MnemonicOptions,
+  internalKey: Uint8Array,
+  encryptionType: string,
 ): Wallets {
   const {
     id,
@@ -34,20 +39,24 @@ function addMnemonic(
   }
 
   const {
-    salt,
-    scryptParams,
-    encryptionType,
-    derivedKeyLength,
-  }: PasswordOptions = passwordOptions
+    network,
+    passphrase,
+    derivationPath,
+  }: MnemonicOptions = mnemonicOptions
 
   return updateWallet(wallets, id, {
-    mnemonicOptions,
-    passwordOptions,
+    network,
+    derivationPath,
     encrypted: {
       mnemonic: encryptData({
         encryptionType,
         data: mnemonic,
-        derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
+        key: internalKey,
+      }),
+      passphrase: encryptData({
+        encryptionType,
+        key: internalKey,
+        data: passphrase.trim().toLowerCase(),
       }),
       privateKey: null,
     },
@@ -59,9 +68,9 @@ function addMnemonic(
 function addPrivateKey(
   wallets: Wallets,
   wallet: Wallet,
-  password: string,
   privateKey: string,
-  passwordOptions: PasswordOptions,
+  internalKey: Uint8Array,
+  encryptionType: string,
 ): Wallets {
   const {
     id,
@@ -73,37 +82,30 @@ function addPrivateKey(
     throw new Error('WalletDataError')
   }
 
-  const {
-    salt,
-    scryptParams,
-    encryptionType,
-    derivedKeyLength,
-  }: PasswordOptions = passwordOptions
-
   return updateWallet(wallets, id, {
-    passwordOptions,
     encrypted: {
       privateKey: encryptData({
         encryptionType,
+        key: internalKey,
         data: strip0x(privateKey),
-        derivedKey: deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt),
       }),
       mnemonic: null,
+      passphrase: null,
     },
     customType: 'privateKey',
     isReadOnly: false,
   })
 }
 
-function upgradeWallet(
-  wallets: Wallets,
-  walletId: WalletId,
-  password: string,
-  data: string,
-  passwordOptions: PasswordOptions,
-  mnemonicOptions?: MnemonicOptions,
-): Wallets {
-  const wallet: Wallet = getWallet(wallets, walletId)
+function upgradeWallet({
+  items,
+  mnemonicOptions,
+  data,
+  walletId,
+  internalKey,
+  encryptionType,
+}: UpgradeWalletData): Wallets {
+  const wallet: Wallet = getWallet(items, walletId)
 
   if (!wallet.isReadOnly) {
     throw new Error('WalletDataError')
@@ -116,10 +118,10 @@ function upgradeWallet(
       throw new Error('WalletDataError')
     }
 
-    return addMnemonic(wallets, wallet, password, preparedData, passwordOptions, mnemonicOptions)
+    return addMnemonic(items, wallet, preparedData, mnemonicOptions, internalKey, encryptionType)
   }
 
-  return addPrivateKey(wallets, wallet, password, preparedData, passwordOptions)
+  return addPrivateKey(items, wallet, preparedData, internalKey, encryptionType)
 }
 
 export default upgradeWallet
