@@ -24,6 +24,7 @@ type Props = {|
   +currentStep: DigitalAssetsSendStepIndex,
   +gasValues: GasValues,
   +isLoading: boolean,
+  +isPotentiallyFail: boolean,
 |}
 
 function DigitalAssetsSendSteps({
@@ -43,6 +44,7 @@ function DigitalAssetsSendSteps({
   currentStep,
   isLoading,
   gasValues,
+  isPotentiallyFail,
 }: Props) {
   return (
     <div className='digital-assets-send-steps'>
@@ -74,6 +76,7 @@ function DigitalAssetsSendSteps({
           errorMessage={formFieldErrors.password}
           isLoading={isLoading}
           gasValues={gasValues}
+          isPotentiallyFail={isPotentiallyFail}
         />
       )}
     </div>

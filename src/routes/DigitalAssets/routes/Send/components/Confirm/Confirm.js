@@ -15,6 +15,7 @@ type Props = {|
   +errorMessage: string,
   +ownerAddress: OwnerAddress,
   +isLoading: boolean,
+  +isPotentiallyFail: boolean,
 |}
 
 function DigitalAssetsSendConfirm({
@@ -27,6 +28,7 @@ function DigitalAssetsSendConfirm({
   errorMessage,
   ownerAddress,
   isLoading,
+  isPotentiallyFail,
 }: Props) {
   if (!selectedAsset) {
     return null
@@ -41,6 +43,7 @@ function DigitalAssetsSendConfirm({
           selectedAsset={selectedAsset}
           ownerAddress={ownerAddress}
           gasValues={gasValues}
+          isPotentiallyFail={isPotentiallyFail}
         />
       </div>
       <DigitalAssetsSendConfirmPassword

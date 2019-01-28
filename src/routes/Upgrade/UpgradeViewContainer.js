@@ -3,6 +3,7 @@
 import { connect } from 'react-redux'
 import { replace } from 'react-router-redux'
 
+import config from 'config'
 import getWallet from 'utils/wallets/getWallet'
 import reactRouterBack from 'utils/browser/reactRouterBack'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
@@ -87,20 +88,17 @@ function validateMnemonic(bip32XPublicKey: ?string) {
 
     const mnemonicLower: string = mnemonic.trim().toLowerCase()
     const isMnemonicValid: boolean = checkMnemonicValid(mnemonicLower)
-    const isDeriPathValid: boolean = !derivationPath || checkDerivationPathValid(derivationPath)
+    const derivPath: string = derivationPath || config.defaultDerivationPath
+    const isDerivationPathValid: boolean = checkDerivationPathValid(derivPath)
 
-    if (!(isMnemonicValid && isDeriPathValid)) {
+    if (!(isMnemonicValid && isDerivationPathValid)) {
       return {
         mnemonic: isMnemonicValid ? null : mnemonicInvalidErr,
-        derivationPath: isDeriPathValid ? null : 'Derivation path is invalid',
+        derivationPath: isDerivationPathValid ? null : 'Derivation path is invalid',
       }
     }
 
-    const xpubFromMnemonic: string = getXPubFromMnemonic(mnemonicLower, {
-      passphrase,
-      derivationPath,
-    })
-
+    const xpubFromMnemonic: string = getXPubFromMnemonic(mnemonicLower, passphrase, derivPath)
     const isXPUBEqual: boolean = (bip32XPublicKey === xpubFromMnemonic)
 
     if (!isXPUBEqual) {

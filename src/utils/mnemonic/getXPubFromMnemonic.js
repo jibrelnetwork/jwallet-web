@@ -1,13 +1,14 @@
 // @flow
 
-import {
-  getPrivateHdRoot,
-  getMnemonicOptions,
-} from '.'
+import getPrivateHdRoot from './getPrivateHdRoot'
 
-function getXPubFromMnemonic(mnemonic: string, mnemonicOptionsUser: MnemonicOptionsUser): string {
-  const mnemonicOptions: MnemonicOptions = getMnemonicOptions(mnemonicOptionsUser)
-  const hdRoot: HDPrivateKey = getPrivateHdRoot(mnemonic, mnemonicOptions)
+function getXPubFromMnemonic(
+  mnemonic: string,
+  passphrase: string,
+  derivationPath: string,
+  network?: null | number | string = null,
+): string {
+  const hdRoot: HDPrivateKey = getPrivateHdRoot(mnemonic, passphrase, derivationPath, network)
 
   return hdRoot.hdPublicKey.toString()
 }

@@ -169,7 +169,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   onChange={setIsActive}
                   name={address}
                   isChecked={isActive}
-                  isDisabled={!__DEV__ && checkETH(address) && isActive}
+                  isDisabled={checkETH(address) && isActive}
                 />
               </div>
             )}

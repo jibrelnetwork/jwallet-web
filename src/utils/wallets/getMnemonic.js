@@ -1,45 +1,36 @@
 // @flow
 
-import {
-  decryptData,
-  deriveKeyFromPassword,
-} from 'utils/encryption'
+import decryptData from 'utils/encryption/decryptData'
 
 import {
   getWallet,
   checkMnemonicType,
 } from '.'
 
-function getMnemonic(wallets: Wallets, walletId: string, password: string): string {
+function getMnemonic(
+  wallets: Wallets,
+  walletId: string,
+  internalKey: Uint8Array,
+  encryptionType: string,
+): string {
   const {
     encrypted,
-    passwordOptions,
     type,
     isReadOnly,
   }: Wallet = getWallet(wallets, walletId)
 
   if (
-    !checkMnemonicType(type) ||
     isReadOnly ||
-    !passwordOptions ||
+    !checkMnemonicType(type) ||
     !encrypted.mnemonic
   ) {
     throw new Error('WalletDataError')
   }
 
-  const {
-    salt,
-    scryptParams,
-    encryptionType,
-    derivedKeyLength,
-  }: PasswordOptions = passwordOptions
-
-  const dKey: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-
   return decryptData({
-    encryptionType,
-    derivedKey: dKey,
     // $FlowFixMe
+    encryptionType,
+    key: internalKey,
     data: encrypted.mnemonic,
   })
 }

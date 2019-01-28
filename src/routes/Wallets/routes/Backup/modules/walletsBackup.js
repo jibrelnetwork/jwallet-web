@@ -1,22 +1,28 @@
 // @flow
 
-/* eslint-disable max-len */
-export const OPEN_VIEW: '@@walletsBackup/OPEN_VIEW' = '@@walletsBackup/OPEN_VIEW'
-export const CLOSE_VIEW: '@@walletsBackup/CLOSE_VIEW' = '@@walletsBackup/CLOSE_VIEW'
+export type WalletsBackupRequestPayload = {|
+  +items: Wallets,
+  +internalKey: ?EncryptedData,
+  +passwordOptions: ?PasswordOptions,
+  +password: string,
+  +walletId: WalletId,
+|}
 
-export const GO_TO_NEXT_STEP: '@@walletsBackup/GO_TO_NEXT_STEP' = '@@walletsBackup/GO_TO_NEXT_STEP'
-export const GO_TO_PREV_STEP: '@@walletsBackup/GO_TO_PREV_STEP' = '@@walletsBackup/GO_TO_PREV_STEP'
-export const SET_CURRENT_STEP: '@@walletsBackup/SET_CURRENT_STEP' = '@@walletsBackup/SET_CURRENT_STEP'
+export const OPEN_VIEW = '@@walletsBackup/OPEN_VIEW'
+export const CLOSE_VIEW = '@@walletsBackup/CLOSE_VIEW'
 
-export const BACKUP_ERROR: '@@walletsBackup/BACKUP_ERROR' = '@@walletsBackup/BACKUP_ERROR'
-export const BACKUP_SUCCESS: '@@walletsBackup/BACKUP_SUCCESS' = '@@walletsBackup/BACKUP_SUCCESS'
-export const BACKUP_REQUEST: '@@walletsBackup/BACKUP_REQUEST' = '@@walletsBackup/BACKUP_REQUEST'
+export const GO_TO_NEXT_STEP = '@@walletsBackup/GO_TO_NEXT_STEP'
+export const GO_TO_PREV_STEP = '@@walletsBackup/GO_TO_PREV_STEP'
+export const SET_CURRENT_STEP = '@@walletsBackup/SET_CURRENT_STEP'
 
-export const DOWNLOAD_TO_TXT: '@@walletsBackup/DOWNLOAD_TO_TXT' = '@@walletsBackup/DOWNLOAD_TO_TXT'
-export const COPY_TO_CLIPBOARD: '@@walletsBackup/COPY_TO_CLIPBOARD' = '@@walletsBackup/COPY_TO_CLIPBOARD'
+export const BACKUP_ERROR = '@@walletsBackup/BACKUP_ERROR'
+export const BACKUP_SUCCESS = '@@walletsBackup/BACKUP_SUCCESS'
+export const BACKUP_REQUEST = '@@walletsBackup/BACKUP_REQUEST'
 
-export const CLEAN: '@@walletsBackup/CLEAN' = '@@walletsBackup/CLEAN'
-/* eslint-enable max-len */
+export const DOWNLOAD_TO_TXT = '@@walletsBackup/DOWNLOAD_TO_TXT'
+export const COPY_TO_CLIPBOARD = '@@walletsBackup/COPY_TO_CLIPBOARD'
+
+export const CLEAN = '@@walletsBackup/CLEAN'
 
 export const STEPS: WalletsBackupSteps = {
   PASSWORD: 0,
@@ -81,14 +87,10 @@ export function backupSuccess(data: string) {
   }
 }
 
-export function backupRequest(items: Wallets, walletId: string, password: string) {
+export function backupRequest(payload: WalletsBackupRequestPayload) {
   return {
     type: BACKUP_REQUEST,
-    payload: {
-      items,
-      walletId,
-      password,
-    },
+    payload,
   }
 }
 

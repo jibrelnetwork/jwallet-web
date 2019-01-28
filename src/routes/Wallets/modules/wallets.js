@@ -2,14 +2,13 @@
 
 export type WalletsSetWalletsActionPayload = {|
   +items: Wallets,
-  +testPasswordData: EncryptedData,
-  +passwordOptions: PasswordOptions,
-  +mnemonicOptions: MnemonicOptions,
+  +internalKey: ?EncryptedData,
+  +passwordOptions: ?PasswordOptions,
 |}
 
 export type WalletsCreateRequestPayload = {|
   +items: Wallets,
-  +testPasswordData: ?EncryptedData,
+  +internalKey: ?EncryptedData,
   +passwordOptions: PasswordOptions,
   +mnemonicOptions: MnemonicOptions,
   +name: string,
@@ -18,11 +17,18 @@ export type WalletsCreateRequestPayload = {|
 
 export type WalletsImportRequestPayload = {|
   +items: Wallets,
-  +testPasswordData: ?EncryptedData,
-  +passwordOptions: ?PasswordOptionsUser | PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptionsUser | MnemonicOptions,
+  +internalKey: ?EncryptedData,
+  +passwordOptions: PasswordOptions,
+  +mnemonicOptions: MnemonicOptions,
   +data: string,
   +name: string,
+  +password: string,
+|}
+
+export type WalletsPrivateKeyRequestPayload = {|
+  +wallet: Wallet,
+  +internalKey: ?EncryptedData,
+  +passwordOptions: ?PasswordOptions,
   +password: string,
 |}
 
@@ -50,7 +56,7 @@ export const PRIVATE_KEY_ERROR = '@@wallets/PRIVATE_KEY_ERROR'
 export const PRIVATE_KEY_SUCCESS = '@@wallets/PRIVATE_KEY_SUCCESS'
 export const PRIVATE_KEY_REQUEST = '@@wallets/PRIVATE_KEY_REQUEST'
 
-export const CLEAN: '@@wallets/CLEAN' = '@@wallets/CLEAN'
+export const CLEAN = '@@wallets/CLEAN'
 
 export function openLayout() {
   return {
@@ -182,13 +188,10 @@ export function privateKeySuccess(walletId: string, privateKey: string) {
   }
 }
 
-export function privateKeyRequest(wallet: Wallet, password: string) {
+export function privateKeyRequest(payload: WalletsPrivateKeyRequestPayload) {
   return {
     type: PRIVATE_KEY_REQUEST,
-    payload: {
-      wallet,
-      password,
-    },
+    payload,
   }
 }
 
@@ -219,10 +222,9 @@ export type WalletsAction =
 const initialState: WalletsState = {
   persist: {
     items: [],
+    internalKey: null,
     activeWalletId: null,
     passwordOptions: null,
-    mnemonicOptions: null,
-    testPasswordData: null,
   },
   invalidFields: {},
   name: '',
