@@ -1,12 +1,12 @@
 // @flow
 
 const CURRENCIES: { [FiatCurrency]: ?string } = {
-  USD: 'US Dollar',
-  CNY: 'Chinese Yuan',
-  EUR: 'Euro',
-  GBP: 'Great Britain Pounds',
-  JPY: 'Japanese Yen',
-  KRW: 'South Korean won',
+  USD: 'US Dollar (USD)',
+  CNY: 'Chinese Yuan (CNY)',
+  EUR: 'Euro (EUR)',
+  GBP: 'Pound Sterling (GBP)',
+  JPY: 'Japanese Yen (JPY)',
+  KRW: 'South Korean won (KRW)',
 }
 
 export default CURRENCIES
