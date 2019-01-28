@@ -169,7 +169,8 @@ const config: AppConfig = {
   defaultSaltBytesCount: 32,
 
   defaultScryptParams: {
-    N: 2 ** 18,
+    // N: 2 ** 18, complexity like geth... oneday
+    N: 2 ** 14, // recommended Scrypt complexity param
     r: 8,
     p: 1,
   },
