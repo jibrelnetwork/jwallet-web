@@ -8,7 +8,7 @@ import AgreementsView from './AgreementsView'
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {
-  onSubmit: () => push('/wallets/start'),
+  onSubmit: () => push('/wallets'),
 }
 
 export default (
