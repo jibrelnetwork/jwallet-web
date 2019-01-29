@@ -564,6 +564,12 @@
       }
     }
 
+    &.-reload {
+      &.-gray {
+        background-image: $icon-medium-reload-gray;
+      }
+    }
+
     &.-bucket {
       &.-white {
         background-image: $icon-medium-bucket-white;
