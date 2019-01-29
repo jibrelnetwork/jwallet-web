@@ -146,6 +146,15 @@ function DigitalAssetsSendForm({
           />
         </div>
       </form>
+      <div className='message'>
+        <JText
+          value='The app doesn’t charge you any fees.
+          But you have to pay the blockchain fee to create a new transaction.'
+          color='gray'
+          whiteSpace='wrap'
+          align='center'
+        />
+      </div>
     </div>
   )
 }
