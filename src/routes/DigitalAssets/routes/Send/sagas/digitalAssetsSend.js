@@ -756,8 +756,8 @@ function* convertAmountToFiat(amount: string, assetAddress: Address): Saga<?stri
     currencyID,
   }: DigitalAssetPriceFeed = digitalAsset.priceFeed
 
-  const tickerCourse: string =
-    yield select(selectTickerItemCourseByCurrency, String(currencyID), null)
+  const tickerCourse: ExtractReturn<typeof selectTickerItemCourseByCurrency> =
+    yield select(selectTickerItemCourseByCurrency, String(currencyID))
 
   const isTickerCourseValid: boolean = parseFloat(tickerCourse) > 0
   if (!isTickerCourseValid) {
