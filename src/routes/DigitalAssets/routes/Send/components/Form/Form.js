@@ -34,6 +34,7 @@ type Props = {|
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +isLoading: boolean,
+  +fiatCurrency: FiatCurrency,
 |}
 
 function DigitalAssetsSendForm({
@@ -50,6 +51,7 @@ function DigitalAssetsSendForm({
   ownerAddress,
   priority,
   isLoading,
+  fiatCurrency,
 }: Props) {
   const {
     nonce,
@@ -93,7 +95,7 @@ function DigitalAssetsSendForm({
             placeholder: `Value ${selectedAsset ? selectedAsset.symbol : ''}`,
           }, {
             value: amountFiat,
-            placeholder: 'Value USD',
+            placeholder: `Value ${fiatCurrency}`,
             isDisabled: true,
           }]}
           errorMessage={formFieldErrors.amount}
