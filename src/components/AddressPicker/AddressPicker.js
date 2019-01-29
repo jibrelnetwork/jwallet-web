@@ -88,7 +88,8 @@ class AddressPicker extends Component<Props, ComponentState> {
           currentRenderer={({ isOpen }) => (
             <AddressPickerCurrent
               onChange={this.changeSearchQuery}
-              value={selectedAddress}
+              address={selectedAddress}
+              addressName={addressNames[selectedAddress]}
               searchQuery={searchQuery}
               isOpen={isOpen}
             />
