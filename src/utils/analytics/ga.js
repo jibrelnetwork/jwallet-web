@@ -1,3 +1,5 @@
+import { getAgreementValue } from 'utils/agreements'
+
 const REPORTED_ONCE = {}
 
 // numeric parameters for analytics
@@ -31,8 +33,7 @@ const reportOnce = (message) => {
 // We pass parameters directly to external library function, so:
 // eslint-disable-next-line fp/no-rest-parameters
 export const ga = (...args) => {
-  // FIXME: local storage parameter requires proper naming and documentation
-  if (localStorage.getItem('CONSENT_USAGE_ANALYTICS') === 'true') {
+  if (getAgreementValue('consentTrackingCookies')) {
     try {
       window.ga(...args)
     } catch (err) {

@@ -80,45 +80,50 @@ class WalletsBackupView extends Component<Props> {
       isLoading,
     } = this.props
 
-    const foundWallet: Wallet = getWallet(items, params.walletId)
-    const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
+    try {
+      const foundWallet: Wallet = getWallet(items, params.walletId)
+      const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
 
-    return (
-      <div className='wallets-view -backup'>
-        <ModalHeader
-          onBack={goToPrevStep}
-          color='white'
-          title='Backup wallet'
-          isDisabled={isLoading}
-        />
-        <div className='content'>
-          {(currentStep === STEPS.PASSWORD) && (
-            <WalletPasswordStep
-              onSubmit={handle(goToNextStep)(params.walletId)}
-              onChangePassword={changePasswordInput}
-              invalidFields={invalidFields}
-              valuePassword={password}
-              buttonLabel='OK'
-              isLoading={isLoading}
-              isPasswordExists
-            />
-          )}
-          {(currentStep === STEPS.PRIVATE) && (
-            <WalletStep
-              onSubmit={downloadToTxt}
-              title={[
-                'This backup phrase is the only way to restore access to your',
-                'funds. Keep it secure!',
-              ]}
-              buttonLabel='Download as TXT'
-              isLoading={isLoading}
-            >
-              <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />
-            </WalletStep>
-          )}
+      return (
+        <div className='wallets-view -backup'>
+          <ModalHeader
+            onBack={goToPrevStep}
+            color='white'
+            title='Backup wallet'
+            isDisabled={isLoading}
+          />
+          <div className='content'>
+            {(currentStep === STEPS.PASSWORD) && (
+              <WalletPasswordStep
+                onSubmit={handle(goToNextStep)(params.walletId)}
+                onChangePassword={changePasswordInput}
+                invalidFields={invalidFields}
+                valuePassword={password}
+                buttonLabel='OK'
+                isLoading={isLoading}
+                isPasswordExists
+              />
+            )}
+            {(currentStep === STEPS.PRIVATE) && (
+              <WalletStep
+                onSubmit={downloadToTxt}
+                title={[
+                  'This backup phrase is the only way to restore access to your',
+                  'funds. Keep it secure!',
+                ]}
+                buttonLabel='Download as TXT'
+                isLoading={isLoading}
+              >
+                <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />
+              </WalletStep>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      )
+    } catch (err) {
+      console.error(err)
+      return null
+    }
   }
 }
 

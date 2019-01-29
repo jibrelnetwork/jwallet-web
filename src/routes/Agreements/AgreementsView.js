@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 import { JCheckbox, JText, JRaisedButton } from 'components/base'
 import { setAgreementValue, getAgreementValue, checkAgreements } from 'utils/agreements'
+import { CONDITIONS_LIST } from 'data/agreements'
 
 export type Props = {|
   +onSubmit: () => void,
@@ -24,25 +25,18 @@ const conditions = {
   acceptTermsAndConditions: 'I have read and accepted',
 }
 
-const conditionsList = [
-  'understandPrivateDataPolicy',
-  'consentNoWarranty',
-  'consentTrackingCookies',
-  'acceptTermsAndConditions',
-]
-
 class AgreementsView extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      isDisabled: !checkAgreements(conditionsList),
+      isDisabled: !checkAgreements(CONDITIONS_LIST),
     }
   }
 
   onChange = (key: string, value: boolean) => () => {
     setAgreementValue(key, value)
-    this.setState({ isDisabled: !checkAgreements(conditionsList) })
+    this.setState({ isDisabled: !checkAgreements(CONDITIONS_LIST) })
   }
 
   render() {
@@ -63,7 +57,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
             />
           </h1>
           <div className='items'>
-            {conditionsList.map((key: string) => (
+            {CONDITIONS_LIST.map((key: string) => (
               <div className='item' key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
