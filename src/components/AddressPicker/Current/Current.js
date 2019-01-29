@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 
 import JText from 'components/base/JText'
-
+import { getShortenedAddress } from 'utils/address'
 import {
   ignoreEvent,
   handleTargetValue,
@@ -17,7 +17,8 @@ import {
 type Props = {|
   +onChange: (string) => void,
   +label: string,
-  +value: ?Address,
+  +address: ?Address,
+  +addressName: ?string,
   +searchQuery: string,
   +placeholder: string,
   +isOpen: boolean,
@@ -30,6 +31,8 @@ type ComponentState = {|
 class AddressPickerCurrent extends Component<Props, ComponentState> {
   static defaultProps = {
     searchQuery: '',
+    address: '',
+    addressName: '',
     label: 'Recipient address',
     placeholder: 'Recipient address',
     isOpen: false,
@@ -53,13 +56,14 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
     const {
       onChange,
       label,
-      value,
+      address,
+      addressName,
       placeholder,
       searchQuery,
       isOpen,
     }: Props = this.props
 
-    const isActive: boolean = (isOpen || !!value)
+    const isActive: boolean = (isOpen || !!address)
 
     return (
       <div className={classNames('address-picker-current', isActive ? '-active' : '')}>
@@ -71,18 +75,36 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
             whiteSpace='wrap'
           />
         </div>
-        {value && !isOpen && (
-          <Fragment>
-            <div className='name'>
+        {address && !isOpen && (
+          <div className='name'>
+            {addressName ?
+              <Fragment>
+                <div className='addrname'>
+                  <JText
+                    value={addressName}
+                    color='gray'
+                    weight='bold'
+                    size='semilarge'
+                    whiteSpace='nowrap'
+                  />
+                </div>
+                <JText
+                  value={`\u202F—\u202F${getShortenedAddress(address, 7, 6, '\u22EF')}`}
+                  color='gray'
+                  weight='bold'
+                  size='semilarge'
+                  whiteSpace='wrap'
+                />
+              </Fragment>
+              :
               <JText
-                value={value}
+                value={address}
                 color='gray'
                 weight='bold'
                 size='semilarge'
                 whiteSpace='wrap'
-              />
-            </div>
-          </Fragment>
+              />}
+          </div>
         )}
         {isOpen && (
           <div className='edit'>

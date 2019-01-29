@@ -52,7 +52,13 @@
 
     > .edit,
     > .name {
+      display: flex;
       transform: translateY(8px);
+
+      > .addrname {
+        display: inline-block;
+        max-width: 225px;
+      }
     }
   }
 }
