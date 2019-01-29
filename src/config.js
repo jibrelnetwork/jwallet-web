@@ -180,7 +180,7 @@ const config: AppConfig = {
 
   defaultRandomBufferLength: 32,
 
-  fiatCoursesSyncTimeout: ONE_MINUTE,
+  fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
 }
 
 export default config
