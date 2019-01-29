@@ -25,6 +25,21 @@ import {
   checkWalletUniqueness,
 } from '.'
 
+function max(a: number, b: number): number {
+  return (a > b) ? a : b
+}
+
+function getNextOrderIndex(wallets: Wallets): number {
+  const initial: number = wallets.length
+
+  const current: number = wallets.reduce((
+    result: number,
+    { orderIndex }: Wallet,
+  ): number => max(result, orderIndex), initial)
+
+  return (current + 1)
+}
+
 function createMnemonicWallet(
   wallets: Wallets,
   walletData: WalletData,
@@ -218,7 +233,7 @@ function createWallet(
     data,
     mnemonicOptions,
     name: name || id,
-    orderIndex: wallets.length,
+    orderIndex: getNextOrderIndex(wallets),
   }
 
   if (checkMnemonicValid(data)) {
