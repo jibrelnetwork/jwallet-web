@@ -458,7 +458,7 @@ function* addPendingTransaction(
     assetAddress,
     {
       data: {
-        gasPrice,
+        gasPrice: gasPrice || '0',
       },
       blockData: {
         timestamp: Date.now() / 1000,
@@ -756,8 +756,8 @@ function* convertAmountToFiat(amount: string, assetAddress: Address): Saga<?stri
     currencyID,
   }: DigitalAssetPriceFeed = digitalAsset.priceFeed
 
-  const tickerCourse: ExtractReturn<typeof selectTickerItemCourseByCurrency>
-    = yield select(selectTickerItemCourseByCurrency, currencyID)
+  const tickerCourse: string =
+    yield select(selectTickerItemCourseByCurrency, String(currencyID), null)
 
   const isTickerCourseValid: boolean = parseFloat(tickerCourse) > 0
   if (!isTickerCourseValid) {
@@ -769,7 +769,7 @@ function* convertAmountToFiat(amount: string, assetAddress: Address): Saga<?stri
   return roundedValue
 }
 
-function* refrestFiatAmount(): Saga<void> {
+function* refreshFiatAmount(): Saga<void> {
   const {
     formFieldValues: {
       amount,
@@ -822,7 +822,7 @@ function* onFormFieldChange(
   if (fieldName === 'amount' ||
     fieldName === 'assetAddress' ||
     fieldName === 'recipient') {
-    yield* refrestFiatAmount()
+    yield* refreshFiatAmount()
   }
 }
 
