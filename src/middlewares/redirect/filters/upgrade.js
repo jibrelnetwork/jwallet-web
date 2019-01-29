@@ -1,6 +1,8 @@
+// @flow
+
 import { selectActiveWallet } from 'store/selectors/wallets'
 
-export const upgrade = (state, pathname) => {
+export const upgrade = (state: AppState, pathname: string): string => {
   if (
     !/^\/upgrade/.test(pathname)
   ) {

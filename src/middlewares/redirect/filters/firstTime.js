@@ -1,6 +1,8 @@
+// @flow
+
 import { selectWalletsItems } from 'store/selectors/wallets'
 
-export const firstTime = (state, pathname) => {
+export const firstTime = (state: AppState, pathname: string): string => {
   if (
     /^\/agreement/.test(pathname) ||
     /^\/wallets\/create/.test(pathname) ||

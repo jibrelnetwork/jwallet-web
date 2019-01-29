@@ -1,6 +1,8 @@
+// @flow
+
 import { selectActiveWalletId } from 'store/selectors/wallets'
 
-export const selectedWallet = (state, pathname) => {
+export const selectedWallet = (state: AppState, pathname: string): string => {
   if (
     /^\/agreement/.test(pathname) ||
     // all /wallets/* except /wallets/addresses

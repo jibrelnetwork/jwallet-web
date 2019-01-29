@@ -1,4 +1,6 @@
-export const root = (state, pathname) => {
+// @flow
+
+export const root = (state: AppState, pathname: string): string => {
   if (
     !/^\/digital-assets\/?$/.test(pathname) &&
     !/^\/$/.test(pathname)

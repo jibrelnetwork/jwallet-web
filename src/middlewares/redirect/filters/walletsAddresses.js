@@ -1,7 +1,9 @@
+// @flow
+
 import { selectActiveWallet } from 'store/selectors/wallets'
 import { checkMnemonicType } from 'utils/wallets'
 
-export const walletsAddresses = (state, pathname) => {
+export const walletsAddresses = (state: AppState, pathname: string): string => {
   if (
     !/^\/wallets\/addresses\/?$/.test(pathname)
   ) {

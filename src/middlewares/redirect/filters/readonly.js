@@ -1,6 +1,8 @@
+// @flow
+
 import { selectActiveWallet } from 'store/selectors/wallets'
 
-export const readonly = (state, pathname) => {
+export const readonly = (state: AppState, pathname: string): string => {
   if (
     !/^\/digital-assets\/send/.test(pathname) &&
     !/^\/wallets\/backup/.test(pathname)
