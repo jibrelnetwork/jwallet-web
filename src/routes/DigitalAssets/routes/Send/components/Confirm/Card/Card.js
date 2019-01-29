@@ -57,7 +57,7 @@ function DigitalAssetsSendConfirmCard({
           know what you are doing before proceeding
         </div>}
         <div className='amount'>{`${amount} ${symbol}`}</div>
-        <div className='fee spacer'>
+        <div className='fee'>
           <JText
             value={`Fee — ${fee} ETH`}
             color='gray'
