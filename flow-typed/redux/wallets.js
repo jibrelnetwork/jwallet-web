@@ -53,6 +53,7 @@ declare type Wallet = {|
   +derivationPath: ?string,
   +bip32XPublicKey: ?string,
   +customType: WalletCustomType,
+  +orderIndex: number,
   +addressIndex: ?number,
   +network: null | number | string,
   +isReadOnly: boolean,
@@ -80,6 +81,7 @@ declare type WalletData = {|
   +id: string,
   +data: string,
   +name: string,
+  +orderIndex: number,
 |}
 
 declare type WalletDecryptedData = {|
