@@ -1,10 +1,10 @@
-import getAgreements from './getAgreements'
-import setAgreements from './setAgreements'
+import getAgreementValue from './getAgreementValue'
+import setAgreementValue from './setAgreementValue'
 import checkAgreements from './checkAgreements'
 
 export {
-  getAgreements,
-  setAgreements,
+  getAgreementValue,
+  setAgreementValue,
   checkAgreements,
 }
 

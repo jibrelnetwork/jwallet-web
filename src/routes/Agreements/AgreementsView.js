@@ -2,13 +2,17 @@
 
 import React, { PureComponent } from 'react'
 import { JCheckbox, JText, JRaisedButton } from 'components/base'
-import { setAgreements, getAgreements, checkAgreements } from 'utils/agreements'
+import { setAgreementValue, getAgreementValue, checkAgreements } from 'utils/agreements'
+
+export type Props = {|
+  +onSubmit: () => void,
+|}
 
 type StateProps = {|
   +isDisabled: boolean,
 |}
 
-const conditionsArray = {
+const conditions = {
   understandPrivateDataPolicy: `I understand that my funds are stored securely on my personal
   computer. No private data is sent to Jibrel AG servers.
   All encryption is done locally in browser`,
@@ -20,7 +24,7 @@ const conditionsArray = {
   acceptTermsAndConditions: 'I have read and accepted',
 }
 
-const nameConditionsArray = [
+const conditionsList = [
   'understandPrivateDataPolicy',
   'consentNoWarranty',
   'consentTrackingCookies',
@@ -32,13 +36,13 @@ class AgreementsView extends PureComponent<Props, StateProps> {
     super(props)
 
     this.state = {
-      isDisabled: true,
+      isDisabled: !checkAgreements(conditionsList),
     }
   }
 
-  onChange = (nameConditions: NameConditionsType) => () => {
-    setAgreements(nameConditions)
-    this.setState({ isDisabled: !checkAgreements(nameConditionsArray) })
+  onChange = (key: string, value: boolean) => () => {
+    setAgreementValue(key, value)
+    this.setState({ isDisabled: !checkAgreements(conditionsList) })
   }
 
   render() {
@@ -59,24 +63,24 @@ class AgreementsView extends PureComponent<Props, StateProps> {
             />
           </h1>
           <div className='items'>
-            {Object.keys(conditionsArray).map((key: string) => (
+            {conditionsList.map((key: string) => (
               <div className='item' key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
-                    onChange={this.onChange(key)}
-                    label={conditionsArray[key]}
+                    onChange={this.onChange(key, !getAgreementValue(key))}
+                    label={conditions[key]}
                     color='white'
                     name={key}
-                    isChecked={getAgreements(key) === 'true'}
+                    isChecked={getAgreementValue(key)}
                     isRegular
                   />
                 ) : (
                   <JCheckbox
-                    onChange={this.onChange(nameConditionsArray[3])}
+                    onChange={this.onChange(key, !getAgreementValue(key))}
                     color='white'
                     label='I have read and accepted'
                     name='conditions-3'
-                    isChecked={getAgreements(nameConditionsArray[3]) === 'true'}
+                    isChecked={getAgreementValue(key)}
                     isRegular
                   >
                     <a
@@ -105,7 +109,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
           </div>
           <div className='action'>
             <JRaisedButton
-              onClick={this.onСheck}
+              onClick={this.props.onSubmit}
               color='white'
               labelColor='blue'
               label='Confirm and continue'
