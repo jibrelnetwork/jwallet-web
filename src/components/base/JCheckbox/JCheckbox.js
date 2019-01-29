@@ -56,11 +56,11 @@ class JCheckbox extends PureComponent<Props> {
               color={color}
               size='normal'
               value={label}
-              weight={isRegular ? 'regular' : 'bold'}
+              weight={isRegular ? null : 'bold'}
               whiteSpace='wrap'
             />
           </span>
-          { children }
+          {children}
         </label>
       </div>
     )

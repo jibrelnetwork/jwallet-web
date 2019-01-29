@@ -8,18 +8,24 @@ type StateProps = {|
   +isDisabled: boolean,
 |}
 
-const conditionsArray = [
-  `I understand that my funds are stored securely on my personal
+const conditionsArray = {
+  understandPrivateDataPolicy: `I understand that my funds are stored securely on my personal
   computer. No private data is sent to Jibrel AG servers.
   All encryption is done locally in browser`,
-  `I consent that Jwallet service is provided as is without warranty.
+  consentNoWarranty: `I consent that Jwallet service is provided as is without warranty.
   Jibrel AG does not have access to my private information and could not
   participate in resolution of issues concerning money loss of any kind`,
-  `I consent to allow cookies for collecting anonymous usage data to improve
+  consentTrackingCookies: `I consent to allow cookies for collecting anonymous usage data to improve
   quality of provided service`,
-]
+  acceptTermsAndConditions: 'I have read and accepted',
+}
 
-const nameConditionsArray = ['condition-0', 'condition-1', 'condition-2', 'condition-3']
+const nameConditionsArray = [
+  'understandPrivateDataPolicy',
+  'consentNoWarranty',
+  'consentTrackingCookies',
+  'acceptTermsAndConditions',
+]
 
 class AgreementsView extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
@@ -40,7 +46,6 @@ class AgreementsView extends PureComponent<Props, StateProps> {
       isDisabled,
     }: StateProps = this.state
 
-    const agreementsFlags = getAgreements()
     return (
       <div className='agreements-view'>
         <div className='content'>
@@ -54,48 +59,49 @@ class AgreementsView extends PureComponent<Props, StateProps> {
             />
           </h1>
           <div className='items'>
-            {conditionsArray.map((item: string, i) => (
-              <div className='item' key={item}>
-                <JCheckbox
-                  onChange={this.onChange(`condition-${i}`)}
-                  label={item}
-                  color='white'
-                  name={`conditions-${i}`}
-                  isChecked={agreementsFlags[`condition-${i}`]}
-                  isRegular
-                />
+            {Object.keys(conditionsArray).map((key: string) => (
+              <div className='item' key={key}>
+                {key !== 'acceptTermsAndConditions' ? (
+                  <JCheckbox
+                    onChange={this.onChange(key)}
+                    label={conditionsArray[key]}
+                    color='white'
+                    name={key}
+                    isChecked={getAgreements(key) === 'true'}
+                    isRegular
+                  />
+                ) : (
+                  <JCheckbox
+                    onChange={this.onChange(nameConditionsArray[3])}
+                    color='white'
+                    label='I have read and accepted'
+                    name='conditions-3'
+                    isChecked={getAgreements(nameConditionsArray[3]) === 'true'}
+                    isRegular
+                  >
+                    <a
+                      className='j-text -white link'
+                      href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      Terms of Use
+                    </a>
+                    <span className='label'>
+                      <JText color='white' whiteSpace='wrap' value='and' />
+                    </span>
+                    <a
+                      className='j-text -white link'
+                      href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      Privacy Policy
+                    </a>
+                  </JCheckbox>
+                )}
               </div>
             ))}
-            <div className='item'>
-              <JCheckbox
-                onChange={this.onChange('condition-3')}
-                color='white'
-                label='I have read and accepted'
-                name='conditions-3'
-                isChecked={agreementsFlags['condition-3']}
-                isRegular
-              >
-                <a
-                  className='j-text -white link'
-                  href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Terms of Use
-                </a>
-                <span className='label'>
-                  <JText color='white' whiteSpace='wrap' value='and' />
-                </span>
-                <a
-                  className='j-text -white link'
-                  href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Privacy Policy
-                </a>
-              </JCheckbox>
-            </div>
           </div>
           <div className='action'>
             <JRaisedButton
