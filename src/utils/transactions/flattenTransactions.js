@@ -15,13 +15,7 @@ function flattenTransactions(
       return result
     }
 
-    const {
-      data,
-      blockData,
-      receiptData,
-    }: Transaction = transaction
-
-    const isLoading: boolean = checkTransactionLoading(data, blockData, receiptData)
+    const isLoading: boolean = checkTransactionLoading(transaction)
 
     if (isLoading && !isLoadingIncluded) {
       return result

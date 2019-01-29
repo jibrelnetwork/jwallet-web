@@ -25,7 +25,13 @@ import {
 
 type TransactionTextColor = 'red' | 'gray' | 'blue'
 type TransactionIconColor = 'red' | 'gray' | 'white'
-type TransactionIconName = 'time' | 'cross-circle' | 'transaction-send' | 'transaction-receive'
+type TransactionIconName =
+  'mint-event' |
+  'burn-event' |
+  'time' |
+  'cross-circle' |
+  'transaction-send' |
+  'transaction-receive'
 
 type Props = {|
   +setActive: (boolean) => void,
@@ -37,11 +43,26 @@ type Props = {|
   +isSent: boolean,
   +isActive: boolean,
   +isAssetList: boolean,
+  +isEventMint: boolean,
+  +isEventBurn: boolean,
 |}
 
-function getTransactionTextColor(isSent: boolean, isFailed: boolean): TransactionTextColor {
+function getTransactionTextColor(
+  isEventMint: boolean,
+  isEventBurn: boolean,
+  isSent: boolean,
+  isFailed: boolean,
+): TransactionTextColor {
   if (isFailed) {
     return 'red'
+  }
+
+  if (isEventMint) {
+    return 'blue'
+  }
+
+  if (isEventBurn) {
+    return 'gray'
   }
 
   return isSent ? 'gray' : 'blue'
@@ -62,10 +83,20 @@ function getTransactionIconColor(
 }
 
 function getTransactionIconName(
+  isEventMint: boolean,
+  isEventBurn: boolean,
   isSent: boolean,
   isPending: boolean,
   isFailed: boolean,
 ): TransactionIconName {
+  if (isEventMint) {
+    return 'mint-event'
+  }
+
+  if (isEventBurn) {
+    return 'burn-event'
+  }
+
   if (isPending) {
     return 'time'
   }
@@ -89,6 +120,8 @@ class TransactionItemMain extends PureComponent<Props> {
       isSent,
       isActive,
       isAssetList,
+      isEventMint,
+      isEventBurn,
     }: Props = this.props
 
     const {
@@ -117,7 +150,8 @@ class TransactionItemMain extends PureComponent<Props> {
     const amountSign: string = isSent ? '-' : '+'
     const timestamp: number = blockData.timestamp * 1000
     const isFailed: boolean = !receiptData.status || isRemoved
-    const color: TransactionTextColor = getTransactionTextColor(isSent, isFailed)
+    const color: TransactionTextColor =
+      getTransactionTextColor(isEventMint, isEventBurn, isSent, isFailed)
 
     return (
       <div
@@ -128,12 +162,12 @@ class TransactionItemMain extends PureComponent<Props> {
           <div className='status'>
             <JIcon
               size='medium'
-              name={getTransactionIconName(isSent, isPending, isFailed)}
+              name={getTransactionIconName(isEventMint, isEventBurn, isSent, isPending, isFailed)}
               color={getTransactionIconColor(isPending, isFailed, timestamp)}
             />
           </div>
           <div className='data'>
-            {txAddress && (
+            {txAddress ? (
               <div className='address'>
                 {contractAddress && (
                   <div className='icon'>
@@ -150,6 +184,27 @@ class TransactionItemMain extends PureComponent<Props> {
                   weight='bold'
                   size='normal'
                 />
+              </div>
+            ) : (
+              <div className='address'>
+                {isEventMint && (
+                  <JText
+                    color={color}
+                    value='Token minting'
+                    weight='bold'
+                    size='normal'
+                    whiteSpace='wrap'
+                  />
+                )}
+                {isEventBurn && (
+                  <JText
+                    color={color}
+                    value='Token burning'
+                    weight='bold'
+                    size='normal'
+                    whiteSpace='wrap'
+                  />
+                )}
               </div>
             )}
             <div className='time'>
@@ -173,7 +228,7 @@ class TransactionItemMain extends PureComponent<Props> {
           )}
         </div>
         <div className='box'>
-          <div className='balance'>
+          <div className={classNames('balance', !isAssetList && '-border')}>
             <div className='crypto'>
               <JText
                 value={`

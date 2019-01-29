@@ -52,6 +52,18 @@
             opacity: 1;
           }
         }
+
+        > .refetch {
+          @include hover-animation;
+
+          margin-left: 45px;
+          opacity: 0.5;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
       }
     }
   }

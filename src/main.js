@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
@@ -8,13 +7,11 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import i18n from 'i18n'
 import router from 'routes/index'
 import configureStore from 'store/configureStore'
+import { gaSetUserDimension, DIMENSIONS } from 'utils/analytics'
 
 import AppContainer from './AppContainer'
 
-// Checking necessary compatibility browser features
-if (window._CAPABILITY.isFailed) {
-  throw new Error('Capability of browser API is failed')
-}
+import browsercheck from './browsercheck'
 
 // ========================================================
 // Browser History Setup
@@ -52,17 +49,33 @@ if (typeof window !== 'undefined') {
   window.i18n = i18n()
 }
 
-const renderApp = () => {
-  const appContainer = (
-    <AppContainer
-      store={store}
-      routes={router}
-      history={history}
-      persistor={persistor}
-    />
-  )
+// FIXME: move to analytics middleware after language selection implementation
+if (navigator.language) {
+  gaSetUserDimension(DIMENSIONS.LANGUAGE, navigator.language.toLowerCase())
+}
 
-  ReactDOM.render(appContainer, MOUNT_NODE)
+const renderApp = () => {
+  browsercheck()
+    .then(
+      () => {
+        const appContainer = (
+          <AppContainer
+            store={store}
+            routes={router}
+            history={history}
+            persistor={persistor}
+          />
+        )
+
+        ReactDOM.render(appContainer, MOUNT_NODE)
+      },
+      (err) => {
+        console.error(err)
+      }
+    )
+    .catch((err) => {
+      throw err
+    })
 }
 
 if (!__DEV__) {

@@ -1,12 +1,8 @@
 // @flow
 
 declare type QRCodeAppearanceConfig = {|
-  +size: number,
+  +width: number,
   +errorCorrectionLevel: string,
-  +color: {|
-    +light: string,
-    +dark: string,
-  |},
 |}
 
 declare type JSONFormatConfig = {|
@@ -32,14 +28,15 @@ declare type AppConfig = {|
   +getTransactionsIntervalTimeout: number,
   +defaultDecimals: number,
   +jsonFormat: JSONFormatConfig,
-  +blockExplorerApiOptions: RequestOptions,
+  +tickerAPIOptions: RequestOptions,
+  +blockExplorerAPIOptions: RequestOptions,
   +maxPasswordLength: number,
   +delayBeforeFormClean: number,
   +defaultDerivationPath: string,
   +balanceLoadingTimeout: number,
   +copyToBufferTimeout: number,
   +walletIdInitTimeout: number,
-  +blockExplorerLink: 'etherscan.io',
+  +blockExplorerUILink: 'etherscan.io',
   +supportedLanguages: LanguageCode[],
   +mnemonicAddressesCount: number,
   +landingURL: 'https://jwallet.network',
@@ -63,4 +60,5 @@ declare type AppConfig = {|
   +defaultEncryptionType: 'nacl.secretbox',
   +defaultDerivationKeyLength: number,
   +defaultRandomBufferLength: number,
+  +fiatCoursesSyncTimeout: number,
 |}

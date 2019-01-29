@@ -282,6 +282,14 @@
       }
     }
 
+    &.-mint-event {
+      background-image: $icon-medium-mint-event-blue;
+    }
+
+    &.-burn-event {
+      background-image: $icon-medium-burn-event-gray;
+    }
+
     &.-padding-cross {
       &.-white {
         background-image: $icon-medium-padding-cross-white;
@@ -553,6 +561,12 @@
 
       &.-sky {
         background-image: $icon-medium-upload-sky;
+      }
+    }
+
+    &.-reload {
+      &.-gray {
+        background-image: $icon-medium-reload-gray;
       }
     }
 

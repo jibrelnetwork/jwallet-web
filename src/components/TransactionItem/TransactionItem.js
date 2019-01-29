@@ -17,7 +17,7 @@ type Props = {|
   +comment: ?string,
   +fromName: ?string,
   +txAddress: ?Address,
-  +blockExplorerSubdomain: string,
+  +blockExplorerUISubdomain: string,
   +isSent: boolean,
   +isActive: boolean,
   +isAssetList: boolean,
@@ -34,7 +34,7 @@ function TransactionItem({
   comment,
   fromName,
   txAddress,
-  blockExplorerSubdomain,
+  blockExplorerUISubdomain,
   isSent,
   isActive,
   isAssetList,
@@ -43,6 +43,9 @@ function TransactionItem({
   if (!asset) {
     return null
   }
+  const isMintable = data.eventType === 2
+  const isEventMint = isMintable && !data.from
+  const isEventBurn = isMintable && !data.to
 
   return (
     <div className='transaction-item'>
@@ -57,6 +60,8 @@ function TransactionItem({
           isSent={isSent}
           isActive={isActive}
           isAssetList={isAssetList}
+          isEventMint={isEventMint}
+          isEventBurn={isEventBurn}
         />
         <TransactionItemDetails
           editComment={editComment}
@@ -67,10 +72,11 @@ function TransactionItem({
           comment={comment}
           fromName={fromName}
           txAddress={txAddress}
-          blockExplorerSubdomain={blockExplorerSubdomain}
+          blockExplorerUISubdomain={blockExplorerUISubdomain}
           isSent={isSent}
           isActive={isActive}
           isFromFavorites={isFromFavorites}
+          isMintable={isMintable}
         />
       </JCard>
     </div>

@@ -9,7 +9,10 @@ import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCrea
 import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
-import type { WalletsAnyAction, WalletsWorkerInstance } from './worker'
+import type {
+  WalletsAnyAction,
+  WalletsWorkerInstance,
+} from './worker'
 
 // eslint-disable-next-line import/default
 import WalletsWorker from './worker.js'
@@ -33,25 +36,17 @@ export function createRequest(walletsData: WalletsState) {
 
   const {
     items,
+    internalKey,
     passwordOptions,
-    mnemonicOptions,
-    testPasswordData,
   } = persist
-
-  const passwordOpts: PasswordOptions = getPasswordOptions({
-    ...passwordOptions,
-    passwordHint,
-  })
-
-  const mnemonicOpts: MnemonicOptions = getMnemonicOptions(mnemonicOptions)
 
   walletsWorker.postMessage(walletsCreate.createRequest({
     name,
     items,
     password,
-    testPasswordData,
-    mnemonicOptions: mnemonicOpts,
-    passwordOptions: passwordOpts,
+    internalKey,
+    mnemonicOptions: getMnemonicOptions(),
+    passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
   }))
 }
 
@@ -65,9 +60,8 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
 
   const {
     items,
+    internalKey,
     passwordOptions,
-    mnemonicOptions,
-    testPasswordData,
   } = persist
 
   const {
@@ -76,34 +70,52 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
     derivationPath,
   }: ImportWalletData = importWalletData
 
-  const passwordOpts: PasswordOptions = getPasswordOptions({
-    ...passwordOptions,
-    passwordHint,
-  })
-
-  const mnemonicOpts: MnemonicOptions = getMnemonicOptions({
-    ...mnemonicOptions,
-    passphrase,
-    derivationPath,
-  })
-
   walletsWorker.postMessage(walletsImport.importRequest({
     data,
     name,
     items,
     password,
-    testPasswordData,
-    mnemonicOptions: mnemonicOpts,
-    passwordOptions: passwordOpts,
+    internalKey,
+    passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
+    mnemonicOptions: getMnemonicOptions({
+      passphrase,
+      derivationPath,
+    }),
   }))
 }
 
-export function backupRequest(items: Wallets, walletId: string, password: string) {
-  walletsWorker.postMessage(walletsBackup.backupRequest(items, walletId, password))
+export function backupRequest(walletsPersist: WalletsPersist, walletId: string, password: string) {
+  const {
+    items,
+    internalKey,
+    passwordOptions,
+  }: WalletsPersist = walletsPersist
+
+  walletsWorker.postMessage(walletsBackup.backupRequest({
+    items,
+    walletId,
+    password,
+    internalKey,
+    passwordOptions,
+  }))
 }
 
-export function privateKeyRequest(wallet: Wallet, password: string) {
-  walletsWorker.postMessage(wallets.privateKeyRequest(wallet, password))
+export function privateKeyRequest(
+  walletsPersist: WalletsPersist,
+  wallet: Wallet,
+  password: string,
+) {
+  const {
+    internalKey,
+    passwordOptions,
+  }: WalletsPersist = walletsPersist
+
+  walletsWorker.postMessage(wallets.privateKeyRequest({
+    wallet,
+    password,
+    internalKey,
+    passwordOptions,
+  }))
 }
 
 export function upgradeRequest(
@@ -115,39 +127,31 @@ export function upgradeRequest(
 ) {
   const {
     items,
+    internalKey,
     activeWalletId,
-    mnemonicOptions,
     passwordOptions,
-    testPasswordData,
   }: WalletsPersist = walletsData.persist
 
   if (!activeWalletId) {
     throw new Error('ActiveWalletNotFoundError')
-  } else if (!testPasswordData) {
+  } else if (!internalKey) {
     throw new Error('WalletDataError')
   }
 
-  const mnemonicOptionsUser: ?MnemonicOptionsUser = !derivationPath ? null : {
+  const mnemonicOptions: ?MnemonicOptionsUser = !derivationPath ? null : {
     passphrase,
     derivationPath,
   }
 
-  const passwordOpts: PasswordOptions = getPasswordOptions(passwordOptions)
-
-  const mnemonicOpts: MnemonicOptions = getMnemonicOptions({
-    ...mnemonicOptions,
-    ...mnemonicOptionsUser,
-  })
-
-  walletsWorker.postMessage(upgrade.upgradeRequest(
+  walletsWorker.postMessage(upgrade.upgradeRequest({
     items,
-    activeWalletId,
+    internalKey,
+    passwordOptions,
     password,
-    testPasswordData,
     data,
-    passwordOpts,
-    mnemonicOpts,
-  ))
+    walletId: activeWalletId,
+    mnemonicOptions: getMnemonicOptions(mnemonicOptions),
+  }))
 }
 
 export function run(store: { dispatch: (WalletsAnyAction) => void }) {

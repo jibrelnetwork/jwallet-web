@@ -1,10 +1,15 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
-import { JCard, JIcon, JText } from 'components/base'
+
+import {
+  JCard,
+  JIcon,
+  JText,
+} from 'components/base'
 
 import WalletFaceActions from './Actions'
 
@@ -16,6 +21,7 @@ type Props = {|
   +remove: ?WalletFaceHandler,
   +onClick: WalletFaceHandler,
   +title: string,
+  +balance: ?string,
   +iconName: string,
   +description: string,
   +isReadOnly: boolean,
@@ -32,6 +38,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
     backup: null,
     rename: null,
     remove: null,
+    balance: null,
     isReadOnly: false,
     hasActions: false,
     isTransparent: false,
@@ -56,6 +63,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
       remove,
       onClick,
       title,
+      balance,
       iconName,
       description,
       hasActions,
@@ -97,6 +105,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
               rename={rename}
               remove={remove}
               toggle={ignoreEvent(this.toggle)()}
+              balance={balance}
               isToggled={isToggled}
             />
           )}

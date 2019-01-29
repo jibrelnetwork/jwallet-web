@@ -38,12 +38,8 @@ const config: AppConfig = {
 
   // default QRCode appearance
   qrCodeDefaultAppearance: {
-    size: 240,
+    width: 240,
     errorCorrectionLevel: 'high',
-    color: {
-      light: '#ffcc00ff',
-      dark: '#001111ff',
-    },
   },
 
   /**
@@ -73,8 +69,17 @@ const config: AppConfig = {
     size: 2,
   },
 
-  blockExplorerApiOptions: {
+  blockExplorerAPIOptions: {
     method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    cache: 'default',
+  },
+
+  tickerAPIOptions: {
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -107,10 +112,7 @@ const config: AppConfig = {
    */
   walletIdInitTimeout: 100,
 
-  /**
-   * blockexplorer url
-   */
-  blockExplorerLink: 'etherscan.io',
+  blockExplorerUILink: 'etherscan.io',
 
   /**
    * supported languages
@@ -140,7 +142,7 @@ const config: AppConfig = {
 
   syncTransactionsTimeout: 10 * ONE_SECOND,
 
-  maxBlocksPerTransactionsRequest: 50 * 1000,
+  maxBlocksPerTransactionsRequest: 500 * 1000,
 
   minBlocksPerTransactionsRequest: 1000,
 
@@ -163,7 +165,11 @@ const config: AppConfig = {
   defaultSaltBytesCount: 32,
 
   defaultScryptParams: {
-    N: 2 ** 18,
+    /**
+     * 2 ** 18 - complexity like geth
+     * 2 ** 14 - recommended Scrypt complexity
+     */
+    N: __DEV__ ? 2 ** 14 : 2 ** 18,
     r: 8,
     p: 1,
   },
@@ -173,6 +179,8 @@ const config: AppConfig = {
   defaultDerivationKeyLength: 32,
 
   defaultRandomBufferLength: 32,
+
+  fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
 }
 
 export default config

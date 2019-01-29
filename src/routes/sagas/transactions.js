@@ -16,7 +16,6 @@ import {
 import type { Task } from 'redux-saga'
 
 import config from 'config'
-import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
@@ -40,6 +39,11 @@ import {
 } from 'utils/digitalAssets'
 
 import {
+  selectCurrentBlock,
+  selectProcessingBlock,
+} from 'store/selectors/blocks'
+
+import {
   selectTransactionById,
   selectTransactionsByOwner,
   selectPendingTransactionByHash,
@@ -51,6 +55,7 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from '../modules/blocks'
+import * as balances from '../modules/balances'
 import * as transactions from '../modules/transactions'
 
 const {
@@ -674,7 +679,6 @@ function* checkPendingTransaction(
     networkId,
     ownerAddress,
     assetAddress,
-    blockNumber,
     transactionId,
   } = action.payload
 
@@ -683,7 +687,6 @@ function* checkPendingTransaction(
     networkId,
     ownerAddress,
     assetAddress,
-    blockNumber,
     transactionId,
   )
 
@@ -691,20 +694,15 @@ function* checkPendingTransaction(
     return
   }
 
-  const {
-    data,
-    blockData,
-    receiptData,
-    hash,
-  }: Transaction = transaction
-
-  const isLoading: boolean = checkTransactionLoading(data, blockData, receiptData)
+  const isLoading: boolean = checkTransactionLoading(transaction)
 
   if (isLoading) {
     return
   }
 
-  const pendingTransaction: ?ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
+  const { hash }: Transaction = transaction
+
+  const pendingTransaction: ExtractReturn<typeof selectPendingTransactionByHash> = yield select(
     selectPendingTransactionByHash,
     networkId,
     ownerAddress,
@@ -792,7 +790,6 @@ export function* requestTransaction(
     networkId,
     ownerAddress,
     assetAddress,
-    blockNumber,
     transactionId,
   ))
 }
@@ -868,6 +865,15 @@ export function* requestTransactions(
           toBlockStr,
           txs,
         ))
+
+        const txIds: TransactionId[] = Object.keys(txs)
+
+        yield all(txIds.map((txId: TransactionId) => put(transactions.checkPendingTransaction(
+          networkId,
+          ownerAddress,
+          assetAddress,
+          txId,
+        ))))
 
         break
       }
@@ -988,7 +994,34 @@ export function* requestTransactions(
   }
 }
 
+function* removeItemsByAsset(
+  action: ExtractReturn<typeof transactions.removeItemsByAsset>
+): Saga<void> {
+  const { assetAddress } = action.payload
+
+  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
+    yield select(selectCurrentNetworkId)
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  const currentBlock: ExtractReturn<typeof selectCurrentBlock> =
+    yield select(selectCurrentBlock, networkId)
+
+  if (!(ownerAddress && currentBlock)) {
+    return
+  }
+
+  const blockNumber: BlockNumber = currentBlock.number.toString()
+
+  yield put(transactions.initItemsByAsset(networkId, ownerAddress, assetAddress, true))
+  yield put(transactions.removePendingTransactions(networkId, ownerAddress, assetAddress))
+  yield put(balances.initItemByAsset(networkId, ownerAddress, blockNumber, assetAddress, true))
+  yield put(blocks.syncRestart())
+}
+
 export function* transactionsRootSaga(): Saga<void> {
+  yield takeEvery(transactions.REMOVE_ITEMS_BY_ASSET, removeItemsByAsset)
   yield takeEvery(transactions.FETCH_BY_OWNER_REQUEST, fetchByOwnerRequest)
   yield takeEvery(transactions.RESYNC_TRANSACTIONS_START, resyncTransactionsStart)
   yield takeEvery(transactions.CHECK_PENDING_TRANSACTION, checkPendingTransaction)

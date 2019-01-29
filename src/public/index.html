@@ -5,17 +5,17 @@
     <meta http-equiv='x-ua-compatible' content='ie=edge' />
     <meta http-equiv='Cache-control' content='no-cache, no-store, must-revalidate'>
     <meta http-equiv='Pragma' content='no-cache'>
-    <title>jWallet by the Jibrel Network</title>
-    <meta name='description' content='The jWallet is the first institutional-grade token storage and transaction solution. It works across devices with no download required. The jWallet is preconfigured to work with your favorite tokens.' />
+    <title>Jwallet by the Jibrel Network</title>
+    <meta name='description' content='The Jwallet is the first institutional-grade token storage and transaction solution. It works across devices with no download required. The Jwallet is preconfigured to work with your favorite tokens.' />
     <meta name='image' content='%PUBLIC_URL%/assets/social.png'>
-    <meta itemprop='name' content='jWallet by the Jibrel Network' />
-    <meta itemprop='description' content='The jWallet is the first institutional-grade token storage and transaction solution. It works across devices with no download required. The jWallet is preconfigured to work with your favorite tokens.' />
+    <meta itemprop='name' content='Jwallet by the Jibrel Network' />
+    <meta itemprop='description' content='The Jwallet is the first institutional-grade token storage and transaction solution. It works across devices with no download required. The Jwallet is preconfigured to work with your favorite tokens.' />
     <meta itemprop='image' content='%PUBLIC_URL%/assets/social.png' />
-    <meta name='og:title' content='jWallet by the Jibrel Network' />
-    <meta name='og:description' content='The jWallet is the first institutional-grade token storage and transaction solution. It works across devices with no download required. The jWallet is preconfigured to work with your favorite tokens.' />
+    <meta name='og:title' content='Jwallet by the Jibrel Network' />
+    <meta name='og:description' content='The Jwallet is the first institutional-grade token storage and transaction solution. It works across devices with no download required. The Jwallet is preconfigured to work with your favorite tokens.' />
     <meta name='og:image' content='%PUBLIC_URL%/assets/social.png' />
     <meta name='og:url' content='https://jwallet.network/jwallet' />
-    <meta name='og:site_name' content='jWallet by the Jibrel Network' />
+    <meta name='og:site_name' content='Jwallet by the Jibrel Network' />
     <meta name='og:locale' content='en_US' />
     <meta name='og:type' content='website' />
     <meta name='viewport' content='width=1024' />
@@ -29,57 +29,33 @@
     <meta name='msapplication-config' content='%PUBLIC_URL%/assets/favicon/browserconfig.xml' />
     <meta name='theme-color' content='#ffffff' />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' />
-    <!-- Ethereum nodes -->
-    <script>
-      window.__MAIN_RPC_ADDR__ = '[MAIN_RPC_ADDR]'
-      window.__MAIN_RPC_PORT__ = '[MAIN_RPC_PORT]'
-      window.__ROPSTEN_RPC_ADDR__ = '[ROPSTEN_RPC_ADDR]'
-      window.__ROPSTEN_RPC_PORT__ = '[ROPSTEN_RPC_PORT]'
-    </script>
-    <script src='%PUBLIC_URL%/js/capabilities.js'></script>
-    <!-- End Ethereum nodes -->
+    <script src='%PUBLIC_URL%/js/settings.js'></script>
+    <script src='%PUBLIC_URL%/js/modernizr.js'></script>
+    <link rel='stylesheet' href='%PUBLIC_URL%/css/style.css'>
   </head>
   <body>
     <div id='root'>
-      <link rel='stylesheet' href='%PUBLIC_URL%/css/style.css'>
-      <div id='error-wrapper' class='unsupported-screen'>
-        <img src='%PUBLIC_URL%/assets/icons/new-pack/xlarge/auth-warning.svg' alt='JWallet internal error logo' id='icon' class='unsupported-screen__image'>
-        <main id='error' class='unsupported-screen__error'>
+      <div class='unsupported-screen'>
+        <img src='%PUBLIC_URL%/assets/icons/new-pack/xlarge/badbrowser@2x.png' alt='JWallet internal error logo' id='icon' class='unsupported-screen__image'>
+        <main class='unsupported-screen__error'>
           <h1 class='unsupported-screen__title'>Whoops! Your browser is not supported :(</h1>
-          <h2 class='unsupported-screen__subtitle'>Unsupported features:</h2>
-          <ul id='api-list' class='unsupported-screen__features-list'>
-            <noscript>
-              <li class='unsupported-screen__features-list_feature'>
-                You need to enable JavaScript to run this app
-              </li>
-            </noscript>
-          </ul>
+          <div class='unsupported-screen__description'>
+            <p class='unsupported-screen__subtitle'>Jwallet relies on these features, so you need to switch to another browser or enable all of them:</p>
+            <ul class='unsupported-screen__features-list'>
+              <noscript>
+                <li class='unsupported-screen__feature -javascript'>JavaScript</li>
+              </noscript>
+              <li class='unsupported-screen__feature -cookies'>Cookies</li>
+              <li class='unsupported-screen__feature -getrandomvalues'>Secure Random Numbers Generator</li>
+              <li class='unsupported-screen__feature -filereader'>File Reader API</li>
+              <li class='unsupported-screen__feature -indexeddb'>Indexed Database</li>
+              <li class='unsupported-screen__feature -localstorage'>Local Storage API</li>
+              <li class='unsupported-screen__feature -webworkers'>Web Workers</li>
+              <li class='unsupported-screen__feature -workerscrypto'>Secure Random Numbers Generator inside Web Workers</li>
+            </ul>
+          </div>
         </main>
-        <script>
-          var list = document.getElementById('api-list');
-          var wrapper = document.getElementById('error-wrapper');
-          var featuresList = window._CAPABILITY.list;
-
-          wrapper.setAttribute('class', 'unsupported-screen-hidden');
-
-          for (var index in featuresList) {
-            try {
-              var message = featuresList[index]();
-            } catch (e) { // for unexpectable cases
-              window._CAPABILITY.isFailed = true;
-              list.innerHTML += '<li class="unsupported-screen__features-list_feature"> Feature ID: ' + index + '</li>';
-            } finally {
-              if (message) {
-                window._CAPABILITY.isFailed = true;
-                list.innerHTML += '<li class="unsupported-screen__features-list_feature">' + message + '</li>';
-              }
-            }
-          }
-
-          if (window._CAPABILITY.isFailed) {
-            wrapper.setAttribute('class', 'unsupported-screen');
-          }
-        </script>
+        <a href='https://jwallet.network' class='unsupported-screen__back'>Back to Home</a>
       </div>
     </div>
     <!-- Google Analytics -->

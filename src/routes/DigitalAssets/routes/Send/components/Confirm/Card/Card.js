@@ -9,21 +9,28 @@ type Props = {|
   +addressNames: AddressNames,
   +selectedAsset: DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
+  +gasValues: GasValues,
   +ownerAddress: OwnerAddress,
+  +isPotentiallyFail: boolean,
 |}
 
 function DigitalAssetsSendConfirmCard({
   addressNames,
   selectedAsset,
   formFieldValues,
+  gasValues,
   ownerAddress,
+  isPotentiallyFail,
 }: Props) {
   const {
     amount,
-    gasLimit,
-    gasPrice,
     recipient,
   }: DigitalAssetsSendFormFields = formFieldValues
+
+  const {
+    gasLimit,
+    gasPrice,
+  }: GasValues = gasValues
 
   const {
     symbol,
@@ -34,17 +41,24 @@ function DigitalAssetsSendConfirmCard({
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
-  const fee: string = getTxFee(parseFloat(gasLimit), gasPrice, decimals)
+  const fee: string = getTxFee(parseFloat(gasLimit), String(gasPrice), decimals)
 
   return (
     <div className='digital-assets-send-confirm-card'>
       <div className='content'>
+        {isPotentiallyFail &&
+        <div className='willfail'>
+          Your transaction does not pass one or more check-ups,
+          so we assume <b>it will most likely fail</b>. Please make sure you
+          know what you are doing before proceeding
+        </div>}
         <div className='amount'>
           <JText
             value={`${amount} ${symbol}`}
             size='header'
             color='dark'
             weight='bold'
+            whiteSpace='wrap'
           />
         </div>
         <div className='fee'>

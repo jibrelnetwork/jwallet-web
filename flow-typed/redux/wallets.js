@@ -13,6 +13,7 @@ type EncryptedData = {|
 
 declare type WalletEncryptedData = {|
   +mnemonic: ?EncryptedData,
+  +passphrase: ?EncryptedData,
   +privateKey: ?EncryptedData,
 |}
 
@@ -20,15 +21,6 @@ declare type ScryptParams = {|
   +N: number,
   +r: number,
   +p: number,
-|}
-
-declare type PasswordOptionsUser = {|
-  +scryptParams?: ScryptParams,
-  +salt?: string,
-  +passwordHint?: string,
-  +encryptionType?: string,
-  +saltBytesCount?: number,
-  +derivedKeyLength?: number,
 |}
 
 declare type MnemonicOptionsUser = {|
@@ -53,24 +45,24 @@ declare type MnemonicOptions = {|
 |}
 
 declare type Wallet = {|
-  +passwordOptions: ?PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptions,
   +encrypted: WalletEncryptedData,
   +id: string,
   +name: string,
   +type: WalletType,
   +address: ?string,
+  +derivationPath: ?string,
   +bip32XPublicKey: ?string,
   +customType: WalletCustomType,
   +addressIndex: ?number,
+  +network: null | number | string,
   +isReadOnly: boolean,
 |}
 
 declare type WalletUpdatedData = {|
-  +passwordOptions?: PasswordOptions,
-  +mnemonicOptions?: MnemonicOptions,
   +encrypted?: WalletEncryptedData,
   +name?: string,
+  +derivationPath?: string,
+  +network?: number | string,
   +bip32XPublicKey?: ?string,
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,
@@ -78,14 +70,12 @@ declare type WalletUpdatedData = {|
 |}
 
 declare type WalletNewData = {|
-  +passwordOptions: PasswordOptions,
   +mnemonicOptions: MnemonicOptions,
   +data: string,
   +name?: string,
 |}
 
 declare type WalletData = {|
-  +passwordOptions: PasswordOptions,
   +mnemonicOptions: MnemonicOptions,
   +id: string,
   +data: string,
@@ -117,9 +107,8 @@ declare type PasswordResult = {|
 
 declare type WalletsPersist = {|
   +items: Wallets,
-  +testPasswordData: ?EncryptedData,
+  +internalKey: ?EncryptedData,
   +passwordOptions: ?PasswordOptions,
-  +mnemonicOptions: ?MnemonicOptions,
   +activeWalletId: ?WalletId,
 |}
 
@@ -202,7 +191,7 @@ declare type WalletsBackupState = {|
 /**
  * Wallets addresses
  */
-declare type WalletsBalances = { [Address]: number }
+declare type WalletsBalances = { [OwnerAddress]: ?string }
 
 declare type WalletsAddressesPersist = {|
   +addressNames: AddressNames,
@@ -210,7 +199,7 @@ declare type WalletsAddressesPersist = {|
 
 declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
-  +addresses: Address[],
+  +addresses: OwnerAddress[],
   +balances: WalletsBalances,
   +iteration: Index,
   +isLoading: boolean,

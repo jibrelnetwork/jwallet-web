@@ -7,8 +7,8 @@ import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
-
 import {
   selectDigitalAsset,
   selectDigitalAssetsSend,
@@ -24,6 +24,7 @@ import {
   goToNextStep,
   goToPrevStep,
   setFormFieldValue,
+  setNonceEditable,
 } from './modules/digitalAssetsSend'
 
 function mapStateToProps(state: AppState) {
@@ -36,9 +37,13 @@ function mapStateToProps(state: AppState) {
   const {
     formFieldValues,
     formFieldErrors,
+    formFieldWarnings,
+    formError,
     priority,
     currentStep,
     isLoading,
+    finalGasValues,
+    isPotentiallyFail,
   }: DigitalAssetsSendState = selectDigitalAssetsSend(state)
 
   const assetsBalances: ?Balances = !ownerAddress ? null : selectBalancesByBlockNumber(
@@ -55,17 +60,23 @@ function mapStateToProps(state: AppState) {
 
   const addressNames: AddressNames = selectAllAddressNames(state)
   const selectedAsset: ?DigitalAsset = selectDigitalAsset(state, formFieldValues.assetAddress)
+  const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
 
   return {
     addressNames,
     selectedAsset,
     formFieldValues,
     formFieldErrors,
+    formFieldWarnings,
+    formError,
     priority,
     ownerAddress,
     currentStep,
     isLoading,
     digitalAssets: assetsWithBalance,
+    gasValues: finalGasValues,
+    isPotentiallyFail,
+    fiatCurrency,
   }
 }
 
@@ -76,6 +87,7 @@ const mapDispatchToProps = {
   goToNextStep,
   goToPrevStep,
   setFormFieldValue,
+  setNonceEditable,
 }
 
 /* ::

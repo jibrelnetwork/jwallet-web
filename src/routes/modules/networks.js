@@ -141,7 +141,7 @@ const initialState: NetworksState = {
       '3': {
         id: '3',
         title: 'Ropsten Test Network',
-        blockExplorerSubdomain: 'ropsten',
+        blockExplorerUISubdomain: 'ropsten',
         rpcaddr: 'ropsten.jnode.network',
         rpcport: 443,
         ssl: true,
@@ -149,7 +149,7 @@ const initialState: NetworksState = {
       },
       '1': {
         id: '1',
-        blockExplorerSubdomain: '',
+        blockExplorerUISubdomain: '',
         title: 'Main Ethereum Network',
         rpcaddr: 'main-node.jwallet.network',
         rpcport: 443,

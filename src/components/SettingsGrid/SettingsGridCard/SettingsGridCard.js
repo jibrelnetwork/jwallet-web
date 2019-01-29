@@ -1,17 +1,25 @@
 // @flow
 
-import React, { Fragment, PureComponent } from 'react'
-
 import { Link } from 'react-router'
-import { JIcon, JText } from 'components/base'
+
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
+
+import {
+  JIcon,
+  JText,
+} from 'components/base'
+
 import type { JIconColor } from 'components/base/JIcon/JIcon'
 
 export type Props = {|
   +title: string,
-  +description: string,
   +path: string,
   +iconName: string,
-  iconColor?: JIconColor,
+  +description: string,
+  +iconColor: JIconColor,
 |}
 
 const isExternalURL = (url: string): boolean => /^https?:\/\//.test(url)

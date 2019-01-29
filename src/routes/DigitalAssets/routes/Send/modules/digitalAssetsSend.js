@@ -9,8 +9,22 @@ export const GO_TO_NEXT_STEP = '@@digitalAssetsSend/GO_TO_NEXT_STEP'
 export const GO_TO_PREV_STEP = '@@digitalAssetsSend/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP = '@@digitalAssetsSend/SET_CURRENT_STEP'
 
+// Fetched from blockchain values
+export const SET_REQUESTED_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_REQUESTED_GAS_PRICE_VALUE'
+export const SET_REQUESTED_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_REQUESTED_GAS_LIMIT_VALUE'
+
+// Values that will be used with sendTransacton (transfer)
+// This values can be modified on the 1st step and can't be on the 2nd
+export const SET_FINAL_GAS_PRICE_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_PRICE_VALUE'
+export const SET_FINAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_LIMIT_VALUE'
+
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
+export const SET_FORM_FIELD_WARNING = '@@digitalAssetsSend/SET_FORM_FIELD_WARNING'
+export const SET_FORM_ERROR = '@@digitalAssetsSend/SET_FORM_ERROR'
+export const CLEAN_VALIDATION_ERRORS = '@@digitalAssetsSend/CLEAN_VALIDATION_ERRORS'
+export const SET_NONCE_EDITABLE = '@@digitalAssetsSend/SET_NONCE_EDITABLE'
+export const SET_NOTIFY_POTENTIALLY_FAIL = '@@digitalAssetsSend/SET_NOTIFY_POTENTIALLY_FAIL'
 
 export const CLEAN = '@@digitalAssetsSend/CLEAN'
 
@@ -55,6 +69,42 @@ export function setIsLoading(isLoading: boolean) {
     type: SET_IS_LOADING,
     payload: {
       isLoading,
+    },
+  }
+}
+
+export function setRequestedGasPrice(value: ?string) {
+  return {
+    type: SET_REQUESTED_GAS_PRICE_VALUE,
+    payload: {
+      value,
+    },
+  }
+}
+
+export function setRequestedGasLimit(value: ?string) {
+  return {
+    type: SET_REQUESTED_GAS_LIMIT_VALUE,
+    payload: {
+      value,
+    },
+  }
+}
+
+export function setFinalGasPrice(value: ?string) {
+  return {
+    type: SET_FINAL_GAS_PRICE_VALUE,
+    payload: {
+      value,
+    },
+  }
+}
+
+export function setFinalGasLimit(value: ?string) {
+  return {
+    type: SET_FINAL_GAS_LIMIT_VALUE,
+    payload: {
+      value,
     },
   }
 }
@@ -106,6 +156,52 @@ export function setFormFieldError(
   }
 }
 
+export function setFormFieldWarning(
+  fieldName: $Keys<DigitalAssetsSendFormFields>,
+  message: string,
+) {
+  return {
+    type: SET_FORM_FIELD_WARNING,
+    payload: {
+      message,
+      fieldName,
+    },
+  }
+}
+
+export function setFormError(message: string) {
+  return {
+    type: SET_FORM_ERROR,
+    payload: {
+      message,
+    },
+  }
+}
+
+export function cleanValidationErrors() {
+  return {
+    type: CLEAN_VALIDATION_ERRORS,
+  }
+}
+
+export function setNonceEditable(isEditable: boolean) {
+  return {
+    type: SET_NONCE_EDITABLE,
+    payload: {
+      isEditable,
+    },
+  }
+}
+
+export function setIsPotentiallyFail(willFail: boolean) {
+  return {
+    type: SET_NOTIFY_POTENTIALLY_FAIL,
+    payload: {
+      willFail,
+    },
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -115,12 +211,21 @@ export function clean() {
 export type DigitalAssetsSendAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
+  ExtractReturn<typeof setPriority> |
   ExtractReturn<typeof setIsLoading> |
   ExtractReturn<typeof goToNextStep> |
   ExtractReturn<typeof goToPrevStep> |
   ExtractReturn<typeof setCurrentStep> |
   ExtractReturn<typeof setFormFieldValue> |
   ExtractReturn<typeof setFormFieldError> |
+  ExtractReturn<typeof setFormFieldWarning> |
+  ExtractReturn<typeof setRequestedGasPrice> |
+  ExtractReturn<typeof setRequestedGasLimit> |
+  ExtractReturn<typeof setFinalGasLimit> |
+  ExtractReturn<typeof setFinalGasPrice> |
+  ExtractReturn<typeof cleanValidationErrors> |
+  ExtractReturn<typeof setNonceEditable> |
+  ExtractReturn<typeof setIsPotentiallyFail> |
   ExtractReturn<typeof clean>
 
 const initialState: DigitalAssetsSendState = {
@@ -146,9 +251,30 @@ const initialState: DigitalAssetsSendState = {
     amountFiat: '',
     assetAddress: '',
   },
+  formFieldWarnings: {
+    nonce: '',
+    amount: '',
+    comment: '',
+    gasLimit: '',
+    gasPrice: '',
+    password: '',
+    recipient: '',
+    amountFiat: '',
+    assetAddress: '',
+  },
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
+  formError: '',
+  requestedGasValues: {
+    gasPrice: null,
+    gasLimit: null,
+  },
+  finalGasValues: {
+    gasPrice: null,
+    gasLimit: null,
+  },
+  isPotentiallyFail: false,
 }
 
 function digitalAssetsSend(
@@ -171,6 +297,17 @@ function digitalAssetsSend(
       return {
         ...state,
         priority: action.payload.priority,
+        formFieldErrors: {
+          ...state.formFieldErrors,
+          gasPrice: '',
+          gasLimit: '',
+        },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
+          gasPrice: '',
+          gasLimit: '',
+        },
+        formError: '',
       }
 
     case SET_IS_LOADING:
@@ -187,8 +324,13 @@ function digitalAssetsSend(
 
       return {
         ...state,
+        formError: '',
         formFieldErrors: {
           ...state.formFieldErrors,
+          [fieldName]: '',
+        },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
           [fieldName]: '',
         },
         formFieldValues: {
@@ -210,6 +352,29 @@ function digitalAssetsSend(
           ...state.formFieldErrors,
           [fieldName]: message,
         },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
+          [fieldName]: '',
+        },
+      }
+    }
+
+    case SET_FORM_FIELD_WARNING: {
+      const {
+        message,
+        fieldName,
+      } = action.payload
+
+      return {
+        ...state,
+        formFieldErrors: {
+          ...state.formFieldErrors,
+          [fieldName]: '',
+        },
+        formFieldWarnings: {
+          ...state.formFieldWarnings,
+          [fieldName]: message,
+        },
       }
     }
 
@@ -223,6 +388,75 @@ function digitalAssetsSend(
         },
         currentStep: action.payload.currentStep,
       }
+
+    case SET_REQUESTED_GAS_PRICE_VALUE: {
+      const { value } = action.payload
+      return {
+        ...state,
+        requestedGasValues: {
+          ...state.requestedGasValues,
+          gasPrice: value,
+        },
+      }
+    }
+
+    case SET_REQUESTED_GAS_LIMIT_VALUE: {
+      const { value } = action.payload
+      return {
+        ...state,
+        requestedGasValues: {
+          ...state.requestedGasValues,
+          gasLimit: value,
+        },
+      }
+    }
+
+    case SET_FINAL_GAS_PRICE_VALUE: {
+      const { value } = action.payload
+      return {
+        ...state,
+        finalGasValues: {
+          ...state.finalGasValues,
+          gasPrice: value,
+        },
+      }
+    }
+
+    case SET_FINAL_GAS_LIMIT_VALUE: {
+      const { value } = action.payload
+      return {
+        ...state,
+        finalGasValues: {
+          ...state.finalGasValues,
+          gasLimit: value,
+        },
+      }
+    }
+
+    case SET_FORM_ERROR: {
+      const { message } = action.payload
+      return {
+        ...state,
+        formError: message,
+      }
+    }
+
+    case SET_NOTIFY_POTENTIALLY_FAIL: {
+      const { willFail } = action.payload
+      return {
+        ...state,
+        isPotentiallyFail: willFail,
+      }
+    }
+
+    case CLEAN_VALIDATION_ERRORS: {
+      return {
+        ...state,
+        formFieldErrors: initialState.formFieldErrors,
+        formError: '',
+        isPotentiallyFail: false,
+      }
+    }
 
     case CLEAN:
       return initialState

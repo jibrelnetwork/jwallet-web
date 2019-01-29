@@ -14,6 +14,7 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from 'routes/modules/blocks'
+import * as ticker from 'routes/modules/ticker'
 
 import * as digitalAssets from '../modules/digitalAssets'
 
@@ -32,22 +33,17 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
     result: DigitalAssets,
     item: DigitalAsset,
   ): DigitalAssets => {
-    const {
-      display,
-      blockchainParams,
-    }: DigitalAsset = item
+    const { address }: DigitalAssetBlockchainParams = item.blockchainParams
 
-    const assetAddress: ?AssetAddress = blockchainParams.address
-
-    if (!assetAddress) {
+    if (!address) {
       return result
     }
 
     return {
       ...result,
-      [assetAddress]: {
+      [address]: {
         ...item,
-        isActive: !!display && display.isDefaultForcedDisplay,
+        isActive: false,
       },
     }
   }, {})
@@ -86,10 +82,7 @@ function addETHAsset(items: DigitalAssets): DigitalAssets {
     }
   }
 
-  const {
-    display,
-    blockchainParams,
-  }: DigitalAsset = foundETHAsset
+  const { blockchainParams }: DigitalAsset = foundETHAsset
 
   return {
     ...items,
@@ -99,7 +92,7 @@ function addETHAsset(items: DigitalAssets): DigitalAssets {
         ...blockchainParams,
         address: defaultETHAddress,
       },
-      isActive: !!display && display.isDefaultForcedDisplay,
+      isActive: true,
     },
   }
 }
@@ -120,6 +113,7 @@ function* init(): Saga<void> {
 
 function* setAssetIsActive(): Saga<void> {
   yield put(blocks.syncRestart())
+  yield put(ticker.syncRestart())
 }
 
 function* deleteCustomAsset(
@@ -136,6 +130,7 @@ function* deleteCustomAsset(
 
   yield put(digitalAssets.deleteAssetRequest(assetAddress))
   yield put(blocks.syncRestart())
+  yield put(ticker.syncRestart())
 }
 
 export function* digitalAssetsRootSaga(): Saga<void> {

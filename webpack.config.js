@@ -265,9 +265,11 @@ module.exports = {
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.BUILD_NUMBER': process.env.BUILD_NUMBER || 'dev',
       '__DEV__': isEnvDevelopment,
       '__PROD__': isEnvProduction,
-      'process.env.BUILD_NUMBER': process.env.BUILD_NUMBER || 'dev',
+      '__DEFAULT_TICKER_API__': JSON.stringify(process.env.DEFAULT_TICKER_API),
+      '__DEFAULT_BLOCKEXPLORER_API__': JSON.stringify(process.env.DEFAULT_BLOCKEXPLORER_API),
     }),
 
     // This gives some necessary context to module not found errors, such as

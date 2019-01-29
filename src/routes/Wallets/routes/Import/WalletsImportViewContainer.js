@@ -3,6 +3,11 @@
 import { connect } from 'react-redux'
 
 import {
+  selectWallets,
+  selectWalletsImport,
+} from 'store/selectors/wallets'
+
+import {
   changeNameInput,
   changePasswordInput,
   changePasswordHintInput,
@@ -15,7 +20,6 @@ import {
   goToNextStep,
   goToPrevStep,
   changeDataInput,
-  changePassphraseInput,
   changeDerivationPathInput,
 } from './modules/walletsImport'
 
@@ -36,10 +40,10 @@ type StateProps = {|
   +isPasswordExists: boolean,
 |}
 
-function mapStateToProps({ wallets, walletsImport }: AppState): StateProps {
+function mapStateToProps(state: AppState): StateProps {
   const {
     persist: {
-      testPasswordData,
+      internalKey,
     },
     name,
     password,
@@ -47,7 +51,9 @@ function mapStateToProps({ wallets, walletsImport }: AppState): StateProps {
     passwordHint,
     invalidFields,
     passwordConfirm,
-  } = wallets
+  }: WalletsState = selectWallets(state)
+
+  const walletsImport: WalletsImportState = selectWalletsImport(state)
 
   return {
     ...walletsImport,
@@ -56,7 +62,7 @@ function mapStateToProps({ wallets, walletsImport }: AppState): StateProps {
     isLoading,
     passwordHint,
     passwordConfirm,
-    isPasswordExists: !!testPasswordData,
+    isPasswordExists: !!internalKey,
     invalidFields: {
       ...invalidFields,
       ...walletsImport.invalidFields,
@@ -72,7 +78,6 @@ const mapDispatchToProps = {
   changeDataInput,
   changeNameInput,
   changePasswordInput,
-  changePassphraseInput,
   changePasswordHintInput,
   changeDerivationPathInput,
   changePasswordConfirmInput,
