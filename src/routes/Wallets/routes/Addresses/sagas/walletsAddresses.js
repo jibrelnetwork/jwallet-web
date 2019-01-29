@@ -34,21 +34,6 @@ import * as walletsAddresses from '../modules/walletsAddresses'
 function* onOpenView(): Saga<void> {
   yield put(walletsAddresses.clean())
 
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
-
-  if (!items) {
-    yield put(push('/wallets/start'))
-
-    return
-  }
-
-  if (!walletId) {
-    yield put(push('/wallets'))
-
-    return
-  }
-
   yield put(walletsAddresses.getMoreRequest())
 }
 

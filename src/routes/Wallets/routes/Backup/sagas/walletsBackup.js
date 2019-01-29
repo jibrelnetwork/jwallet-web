@@ -33,11 +33,7 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
   const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
   try {
-    const foundWallet: Wallet = getWallet(items, action.payload.walletId)
-
-    if (foundWallet.isReadOnly) {
-      yield put(push('/wallets'))
-    }
+    getWallet(items, action.payload.walletId)
   } catch (err) {
     yield put(push('/wallets'))
   }

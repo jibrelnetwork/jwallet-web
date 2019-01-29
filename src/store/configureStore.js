@@ -8,6 +8,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'
+import { redirect } from '../middlewares/redirect'
 import { makeRootReducer } from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -16,7 +17,7 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware, routerMiddleware(history), ...middlewares]
+  const middleware = [sagaMiddleware, redirect, routerMiddleware(history), ...middlewares]
 
   if (__DEV__ && !window.localStorage.hideReduxLogger) {
     const { logger } = require('redux-logger')
