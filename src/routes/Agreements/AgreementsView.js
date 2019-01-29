@@ -79,7 +79,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
                     onChange={this.onChange(key, !getAgreementValue(key))}
                     color='white'
                     label='I have read and accepted'
-                    name='conditions-3'
+                    name={key}
                     isChecked={getAgreementValue(key)}
                     isRegular
                   >
