@@ -35,6 +35,7 @@ function createMnemonicWallet(
     id,
     data,
     name,
+    orderIndex,
     mnemonicOptions,
   }: WalletData = walletData
 
@@ -57,6 +58,7 @@ function createMnemonicWallet(
     id,
     name,
     network,
+    orderIndex,
     derivationPath,
     addressIndex: 0,
     isReadOnly: false,
@@ -88,6 +90,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     id,
     data,
     name,
+    orderIndex,
   }: WalletData = walletData
 
   checkWalletUniqueness(wallets, data, 'bip32XPublicKey')
@@ -95,6 +98,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
   return appendWallet(wallets, {
     id,
     name,
+    orderIndex,
     addressIndex: 0,
     isReadOnly: true,
     bip32XPublicKey: data,
@@ -124,6 +128,7 @@ function createAddressWallet(
     id,
     data,
     name,
+    orderIndex,
   }: WalletData = walletData
 
   const privateKey: string = data.toLowerCase()
@@ -134,6 +139,7 @@ function createAddressWallet(
     id,
     name,
     address,
+    orderIndex,
     isReadOnly: false,
     customType: 'privateKey',
     type: config.addressWalletType,
@@ -161,6 +167,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     id,
     data,
     name,
+    orderIndex,
   }: WalletData = walletData
 
   checkWalletUniqueness(wallets, data, 'address')
@@ -168,6 +175,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
   return appendWallet(wallets, {
     id,
     name,
+    orderIndex,
     isReadOnly: true,
     type: config.addressWalletType,
     address: getAddressChecksum(data),
@@ -210,6 +218,7 @@ function createWallet(
     data,
     mnemonicOptions,
     name: name || id,
+    orderIndex: wallets.length,
   }
 
   if (checkMnemonicValid(data)) {
