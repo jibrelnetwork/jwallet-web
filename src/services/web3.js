@@ -159,10 +159,10 @@ function checkMethodSignatureInSmartContractCode(
    * For the reference please check:
    * https://medium.com/@hayeah/how-to-decipher-a-smart-contract-method-call-8ee980311603
    */
-  const bytesOfHash: string = ERC20_INTERFACE_SIGNATURES[methodName].substring(0, 8)
+  const firstFourBytesOfHash: string = ERC20_INTERFACE_SIGNATURES[methodName].substring(0, 8)
   const isFound: boolean = smartContractCode
     .toLowerCase()
-    .indexOf(bytesOfHash) !== -1
+    .indexOf(firstFourBytesOfHash) !== -1
 
   return isFound
 }
