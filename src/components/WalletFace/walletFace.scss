@@ -50,6 +50,12 @@
     }
   }
 
+  &.-toggled {
+    > .data {
+      width: calc(100% - 276px);
+    }
+  }
+
   &:hover {
     > .data {
       > .description {

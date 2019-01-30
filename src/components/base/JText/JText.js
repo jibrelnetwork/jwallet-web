@@ -9,7 +9,8 @@ type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap' | 'clip'
 
-type JTextSize = 'small' | // 11
+type JTextSize = 'tiny' | // 10
+  'small' | // 11
   'semismall' | // 12
   'normal' | // 13
   'semilarge' | // 14

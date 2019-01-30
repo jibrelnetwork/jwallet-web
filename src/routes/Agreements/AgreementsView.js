@@ -34,8 +34,8 @@ class AgreementsView extends PureComponent<Props, StateProps> {
     }
   }
 
-  onChange = (key: string, value: boolean) => () => {
-    setAgreementValue(key, value)
+  onChange = (key: string) => () => {
+    setAgreementValue(key, !getAgreementValue(key))
     this.setState({ isDisabled: !checkAgreements(CONDITIONS_LIST) })
   }
 
@@ -61,7 +61,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
               <div className='item' key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
-                    onChange={this.onChange(key, !getAgreementValue(key))}
+                    onChange={this.onChange(key)}
                     label={conditions[key]}
                     color='white'
                     name={key}
@@ -70,7 +70,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
                   />
                 ) : (
                   <JCheckbox
-                    onChange={this.onChange(key, !getAgreementValue(key))}
+                    onChange={this.onChange(key)}
                     color='white'
                     label='I have read and accepted'
                     name={key}
