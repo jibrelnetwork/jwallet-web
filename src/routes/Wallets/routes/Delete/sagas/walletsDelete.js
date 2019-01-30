@@ -37,9 +37,18 @@ function* remove(action: ExtractReturn<typeof walletsDelete.remove>): Saga<void>
   yield put(wallets.setIsLoading(true))
 
   const itemsNew: Wallets = removeWallet(items, walletId)
-  yield put(wallets.setWalletsItems(itemsNew))
+  const isEmptyWallets: boolean = !itemsNew.length
 
-  const isEmptyWallets: boolean = (itemsNew.length === 0)
+  if (isEmptyWallets) {
+    yield put(wallets.setWallets({
+      items: [],
+      internalKey: null,
+      passwordOptions: null,
+    }))
+  } else {
+    yield put(wallets.setWalletsItems(itemsNew))
+  }
+
   yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
 }
 

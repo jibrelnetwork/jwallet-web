@@ -12,6 +12,7 @@ import {
 } from 'components'
 
 import {
+  JText,
   JInput,
   JRaisedButton,
 } from 'components/base'
@@ -23,26 +24,34 @@ type Props = {|
   +submit: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
+  +formError: string,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +isLoading: boolean,
+  +fiatCurrency: FiatCurrency,
 |}
 
 function DigitalAssetsSendForm({
   submit,
   setPriority,
+  setNonceEditable,
   setFormFieldValue,
   digitalAssets,
   addressNames,
   formFieldValues,
   formFieldErrors,
+  formFieldWarnings,
+  formError,
   ownerAddress,
   priority,
   isLoading,
+  fiatCurrency,
 }: Props) {
   const {
     nonce,
@@ -70,6 +79,7 @@ function DigitalAssetsSendForm({
           onSelect={setFormFieldValue('recipient')}
           addressNames={addressNames}
           selectedAddress={recipient}
+          infoMessage={formFieldWarnings.recipient}
           errorMessage={formFieldErrors.recipient}
         />
         <DigitalAssetsSendFormAssetPicker
@@ -85,7 +95,7 @@ function DigitalAssetsSendForm({
             placeholder: `Value ${selectedAsset ? selectedAsset.symbol : ''}`,
           }, {
             value: amountFiat,
-            placeholder: 'Value USD',
+            placeholder: `Value ${fiatCurrency}`,
             isDisabled: true,
           }]}
           errorMessage={formFieldErrors.amount}
@@ -95,6 +105,7 @@ function DigitalAssetsSendForm({
           setFormFieldValue={setFormFieldValue}
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
+          formFieldWarnings={formFieldWarnings}
           selectedPriority={priority}
         />
         <div className='split'>
@@ -114,6 +125,8 @@ function DigitalAssetsSendForm({
               onChange={setFormFieldValue('nonce')}
               value={nonce}
               errorMessage={formFieldErrors.nonce}
+              infoMessage={formFieldWarnings.nonce}
+              onActivate={setNonceEditable}
               icon='plus'
               name='nonce'
               label='Show nonce'
@@ -121,6 +134,10 @@ function DigitalAssetsSendForm({
             />
           </div>
         </div>
+        {formError &&
+          <div className='error'>
+            <JText value={formError} color='red' whiteSpace='wrap' />
+          </div>}
         <div className='actions'>
           <JRaisedButton
             onClick={submit}
@@ -131,6 +148,15 @@ function DigitalAssetsSendForm({
           />
         </div>
       </form>
+      <div className='message'>
+        <JText
+          value='The app doesn’t charge you any fees.
+          But you have to pay the blockchain fee to create a new transaction.'
+          color='gray'
+          whiteSpace='wrap'
+          align='center'
+        />
+      </div>
     </div>
   )
 }

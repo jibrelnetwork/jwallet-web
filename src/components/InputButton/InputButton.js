@@ -11,14 +11,15 @@ import {
 
 type Props = {|
   +onChange: (string) => void,
+  +onActivate: ?((isActive: boolean) => void),
   +name: string,
   +icon: string,
   +value: string,
   +label: string,
-  +isLoading: string,
+  +isLoading: boolean,
   +placeholder: string,
   +errorMessage: string,
-  +isLoading: boolean,
+  +infoMessage: string,
 |}
 
 type ComponentState = {|
@@ -28,6 +29,9 @@ type ComponentState = {|
 class InputButton extends Component<Props, ComponentState> {
   static defaultProps = {
     isLoading: false,
+    onActivate: null,
+    infoMessage: '',
+    errorMessage: '',
   }
 
   constructor(props: Props) {
@@ -45,10 +49,20 @@ class InputButton extends Component<Props, ComponentState> {
   }
 
   setIsActive = (isActive: boolean) => () => {
+    const {
+      onActivate,
+      onChange,
+    } = this.props
+
     this.setState({ isActive })
 
     if (!isActive) {
-      this.props.onChange('')
+      if (onActivate) {
+        onActivate(false)
+      }
+      onChange('')
+    } else if (onActivate) {
+      onActivate(true)
     }
   }
 
@@ -62,6 +76,7 @@ class InputButton extends Component<Props, ComponentState> {
       isLoading,
       placeholder,
       errorMessage,
+      infoMessage,
     }: Props = this.props
 
     return (
@@ -72,6 +87,7 @@ class InputButton extends Component<Props, ComponentState> {
             value={value}
             name={name}
             errorMessage={errorMessage}
+            infoMessage={infoMessage}
             placeholder={placeholder}
             type='text'
             color='gray'

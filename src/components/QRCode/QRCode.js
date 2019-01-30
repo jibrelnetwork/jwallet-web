@@ -6,7 +6,7 @@ import classNames from 'classnames'
 const QRCode = ({ isActive, color }: Props) => (
   <div className={classNames('qr-code', isActive && '-active', `-${color}`)}>
     <div className='qr'>
-      <div id='qrcode' />
+      <canvas id='qrcode' />
     </div>
   </div>
 )

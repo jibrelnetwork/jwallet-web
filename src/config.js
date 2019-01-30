@@ -38,12 +38,8 @@ const config: AppConfig = {
 
   // default QRCode appearance
   qrCodeDefaultAppearance: {
-    size: 240,
+    width: 240,
     errorCorrectionLevel: 'high',
-    color: {
-      light: '#ffcc00ff',
-      dark: '#001111ff',
-    },
   },
 
   /**
@@ -146,7 +142,7 @@ const config: AppConfig = {
 
   syncTransactionsTimeout: 10 * ONE_SECOND,
 
-  maxBlocksPerTransactionsRequest: 50 * 1000,
+  maxBlocksPerTransactionsRequest: 500 * 1000,
 
   minBlocksPerTransactionsRequest: 1000,
 
@@ -169,7 +165,11 @@ const config: AppConfig = {
   defaultSaltBytesCount: 32,
 
   defaultScryptParams: {
-    N: 2 ** 18,
+    /**
+     * 2 ** 18 - complexity like geth
+     * 2 ** 14 - recommended Scrypt complexity
+     */
+    N: __DEV__ ? 2 ** 14 : 2 ** 18,
     r: 8,
     p: 1,
   },
@@ -180,7 +180,7 @@ const config: AppConfig = {
 
   defaultRandomBufferLength: 32,
 
-  fiatCoursesSyncTimeout: ONE_MINUTE,
+  fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
 }
 
 export default config

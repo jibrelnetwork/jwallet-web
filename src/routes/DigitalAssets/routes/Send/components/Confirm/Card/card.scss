@@ -1,4 +1,5 @@
 @import 'styles/colors';
+@import 'styles/mixins';
 
 .digital-assets-send-confirm-card {
   all: initial;
@@ -11,6 +12,22 @@
   text-align: center;
 
   > .content {
+    > .willfail {
+      @include font;
+
+      line-height: inherit;
+      margin-bottom: 30px;
+      color: $faded-orange;
+    }
+
+    > .amount {
+      @include font;
+
+      margin-bottom: 10px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
     > .fee {
       position: relative;
       opacity: 0.5;
@@ -29,13 +46,33 @@
     }
 
     > .field {
+      position: relative;
       margin-bottom: 30px;
+
+      &.-spacer {
+        margin-bottom: 60px;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          bottom: -30px;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 1px;
+          background-color: rgba($dusk, 0.1);
+        }
+      }
 
       &:last-child {
         margin-bottom: 0;
       }
 
       > .direction {
+        margin-bottom: 10px;
+      }
+
+      > .title {
         opacity: 0.5;
       }
     }

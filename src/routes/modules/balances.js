@@ -45,6 +45,7 @@ export function initItemByAsset(
   ownerAddress: OwnerAddress,
   blockNumber: BlockNumber,
   assetAddress: AssetAddress,
+  isExistedIgnored?: boolean = false,
 ) {
   return {
     type: INIT_ITEM_BY_ASSET,
@@ -53,6 +54,7 @@ export function initItemByAsset(
       blockNumber,
       assetAddress,
       ownerAddress,
+      isExistedIgnored,
     },
   }
 }
@@ -106,10 +108,7 @@ const initialState: BalancesState = {
   },
 }
 
-function balances(
-  state: BalancesState = initialState,
-  action: BalancesAction,
-): BalancesState {
+function balances(state: BalancesState = initialState, action: BalancesAction): BalancesState {
   switch (action.type) {
     case FETCH_BY_OWNER_REQUEST: {
       const { items } = state.persist
@@ -176,6 +175,7 @@ function balances(
         blockNumber,
         assetAddress,
         ownerAddress,
+        isExistedIgnored,
       } = action.payload
 
       const itemsByNetworkId: BalancesByNetworkId = state.persist.items[networkId] || {}
@@ -183,7 +183,7 @@ function balances(
       const itemsByBlock: Balances = itemsByOwner[blockNumber] || {}
       const itemByAsset: ?Balance = itemsByBlock[assetAddress]
 
-      return itemByAsset ? state : {
+      return (itemByAsset && !isExistedIgnored) ? state : {
         ...state,
         persist: {
           ...state.persist,

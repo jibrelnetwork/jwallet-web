@@ -13,9 +13,9 @@ function updateWallet(
 ): Wallets {
   const {
     encrypted,
-    passwordOptions,
-    mnemonicOptions,
     name,
+    network,
+    derivationPath,
     customType,
     bip32XPublicKey,
     addressIndex,
@@ -27,10 +27,10 @@ function updateWallet(
   const newWallet: Wallet = {
     ...wallet,
     encrypted: encrypted || wallet.encrypted,
-    passwordOptions: passwordOptions || wallet.passwordOptions,
-    mnemonicOptions: mnemonicOptions || wallet.mnemonicOptions,
     name: name || wallet.name,
+    network: network || wallet.network,
     customType: customType || wallet.customType,
+    derivationPath: derivationPath || wallet.derivationPath,
     bip32XPublicKey: bip32XPublicKey || wallet.bip32XPublicKey,
     addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
     isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,

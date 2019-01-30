@@ -19,7 +19,15 @@ type JTextSize = 'tiny' | // 10
   'tab' | // 20
   'title' // 25
 
-type JTextColor = 'blue' | 'gray' | 'red' | 'sky' | 'white' | 'dark' | 'dusk' | 'orange'
+type JTextColor = 'blue' | // #0058d2
+  'blue-two' | // #003DC6
+  'gray' | // = $dusk = #3d4f6c
+  'red' |
+  'sky' | // = $bright-sky-blue = #00c1ff
+  'white' |
+  'dark' | // #232d3e
+  'dusk' | // #3d4f6c
+  'orange'
 
 type Props = {|
   +value: string,

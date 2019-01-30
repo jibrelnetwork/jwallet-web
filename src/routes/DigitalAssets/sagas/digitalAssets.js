@@ -33,22 +33,17 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
     result: DigitalAssets,
     item: DigitalAsset,
   ): DigitalAssets => {
-    const {
-      display,
-      blockchainParams,
-    }: DigitalAsset = item
+    const { address }: DigitalAssetBlockchainParams = item.blockchainParams
 
-    const assetAddress: ?AssetAddress = blockchainParams.address
-
-    if (!assetAddress) {
+    if (!address) {
       return result
     }
 
     return {
       ...result,
-      [assetAddress]: {
+      [address]: {
         ...item,
-        isActive: !!display && display.isDefaultForcedDisplay,
+        isActive: false,
       },
     }
   }, {})
@@ -87,10 +82,7 @@ function addETHAsset(items: DigitalAssets): DigitalAssets {
     }
   }
 
-  const {
-    display,
-    blockchainParams,
-  }: DigitalAsset = foundETHAsset
+  const { blockchainParams }: DigitalAsset = foundETHAsset
 
   return {
     ...items,
@@ -100,7 +92,7 @@ function addETHAsset(items: DigitalAssets): DigitalAssets {
         ...blockchainParams,
         address: defaultETHAddress,
       },
-      isActive: !!display && display.isDefaultForcedDisplay,
+      isActive: true,
     },
   }
 }

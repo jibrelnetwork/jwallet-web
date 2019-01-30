@@ -6,6 +6,7 @@ import { keccak256 } from 'js-sha3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
+import { BigNumber } from 'bignumber.js'
 
 type ERC20MethodName =
   'approve' |
@@ -27,6 +28,9 @@ const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
   Transfer: keccak256('Transfer(address,address,uint256)'),
   transferFrom: keccak256('transferFrom(address,address,uint256)'),
 }
+
+const ZERO_HEX = '0x'
+const ETH_DEFAULT_GAS_LIMIT = 21000
 
 function isBigNumber(data: any): boolean {
   return (
@@ -572,18 +576,99 @@ function sendTransaction(
   }
 }
 
+function getGasPrice(network: Network): Promise<BigNumber> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  } = network
+
+  return jibrelContractsApi.eth.getGasPrice({
+    rpcaddr,
+    rpcport,
+    ssl,
+  })
+}
+
+function getNonce(network: Network, address: Address): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  } = network
+
+  return jibrelContractsApi.eth.getNonce({
+    rpcaddr,
+    rpcport,
+    ssl,
+    address,
+  })
+}
+
+function estimateETHGas(
+  network: Network,
+  to: Address,
+  value: BigNumber,
+): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  return jibrelContractsApi.eth.estimateGas({
+    ssl,
+    rpcaddr,
+    rpcport,
+    to,
+    value,
+  })
+}
+
+function estimateContractGas(
+  network: Network,
+  assetAddress: AssetAddress,
+  from: Address,
+  to: Address,
+  value: BigNumber,
+): Promise<number> {
+  const {
+    rpcaddr,
+    rpcport,
+    ssl,
+  }: Network = network
+
+  const baseProps = {
+    ssl,
+    rpcaddr,
+    rpcport,
+    from,
+    method: 'transfer',
+    args: [to, value],
+    contractAddress: assetAddress,
+  }
+
+  return jibrelContractsApi.contracts.erc20.estimateGas(baseProps)
+}
+
 export default {
+  ZERO_HEX,
+  ETH_DEFAULT_GAS_LIMIT,
   getBlock,
+  getNonce,
+  getGasPrice,
   getBlockData,
   getAssetName,
   getBurnEvents,
   getMintEvents,
   getAssetSymbol,
+  estimateETHGas,
   getAssetBalance,
-  getAssetDecimals,
   sendTransaction,
+  getAssetDecimals,
   getTransactionData,
   getTransferEventsTo,
+  estimateContractGas,
   getSmartContractCode,
   getTransferEventsFrom,
   checkERC20InterfaceCode,

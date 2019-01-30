@@ -18,10 +18,11 @@ import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { getPrivateKey } from 'routes/Wallets/sagas'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
+import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
 
 import {
-  isZero,
-  divDecimals,
+  fromWeiToGWei,
+  fromGweiToWei,
   toBigNumber,
 } from 'utils/numbers'
 
@@ -42,18 +43,16 @@ import {
 
 import * as comments from 'routes/modules/comments'
 import * as transactions from 'routes/modules/transactions'
-
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
+
+const MIN_GAS_PRICE_COEFFICIENT = 0.25
 
 function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Saga<void> {
   const {
     to,
-    gas,
-    nonce,
     asset,
     amount,
     comment,
-    gasPrice,
   } = qs.parse(action.payload.query)
 
   if (to) {
@@ -62,143 +61,370 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
 
   if (asset) {
     yield put(digitalAssetsSend.setFormFieldValue('assetAddress', asset))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('assetAddress', 'Ethereum'))
   }
 
   if (amount) {
     yield put(digitalAssetsSend.setFormFieldValue('amount', amount))
   }
 
-  if (nonce) {
-    yield put(digitalAssetsSend.setFormFieldValue('nonce', nonce))
-  }
-
-  if (gas) {
-    yield put(digitalAssetsSend.setFormFieldValue('gasLimit', gas))
-  }
-
-  if (gasPrice) {
-    yield put(digitalAssetsSend.setFormFieldValue('gasPrice', gasPrice))
-  }
-
-  if (gas || gasPrice) {
-    yield put(digitalAssetsSend.setPriority('CUSTOM'))
-  }
-
   if (comment) {
     yield put(digitalAssetsSend.setFormFieldValue('comment', comment))
   }
+
+  const gasPrice = yield* requestGasPrice()
+  if (gasPrice) {
+    yield put(digitalAssetsSend.setRequestedGasPrice(gasPrice.toString()))
+  } else {
+    yield put(digitalAssetsSend.setRequestedGasPrice(null))
+  }
 }
 
-function* getAmountError(amount: string, digitalAsset: ?DigitalAsset): Saga<?string> {
-  const isValidAmount: boolean = (parseFloat(amount) > 0)
+function* requestGasPrice(): Saga<?BigNumber> {
+  try {
+    const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+    if (!network) {
+      throw new Error('There is no active network')
+    }
 
-  if (!isValidAmount) {
-    return 'Amount should be greater than 0'
-  }
-
-  if (!digitalAsset) {
+    const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
+    return gasPrice
+  } catch (err) {
+    console.log(err)
     return null
   }
+}
 
-  const {
-    address,
-    decimals,
-  }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
-
-  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
-    yield select(selectCurrentNetworkId)
+function* requestNonce(): Saga<?number> {
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  if (!network) {
+    throw new Error('There is no active network')
+  }
 
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
+  if (!ownerAddress) {
+    throw new Error('There is no active wallet')
+  }
+
+  try {
+    const nonce: number = yield call(web3.getNonce, network, ownerAddress)
+    return nonce
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
+function* requestGasLimit(): Saga<?number> {
+  const {
+    formFieldValues: {
+      assetAddress,
+      recipient,
+      amount,
+    },
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+
+  if (!network) {
+    throw new Error('There is no active network')
+  }
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  if (!ownerAddress) {
+    throw new Error('There is no active wallet')
+  }
+
+  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
+    yield select(selectDigitalAsset, assetAddress)
+
+  const isAmountValid: boolean = parseFloat(amount) > 0
+  const isRecipientValid: boolean = checkAddressValid(recipient)
+
+  if (!(isAmountValid && isRecipientValid && digitalAsset)) {
+    console.error('Can\'t request gas limit, some parameters are absent')
+    return null
+  }
+
+  const {
+    blockchainParams: {
+      staticGasAmount,
+    },
+  } = digitalAsset
+
+  try {
+    const gasAmount = staticGasAmount || web3.ETH_DEFAULT_GAS_LIMIT
+    const sendAmount = getTransactionValue(amount, digitalAsset.blockchainParams.decimals)
+
+    if (checkETH(assetAddress)) {
+      const contractCode: string = yield call(
+        web3.getSmartContractCode,
+        network,
+        recipient
+      )
+
+      if (contractCode !== web3.ZERO_HEX) {
+        const estimatedGas: number = yield call(
+          web3.estimateETHGas,
+          network,
+          recipient,
+          sendAmount,
+        )
+        return estimatedGas
+      }
+      return gasAmount
+    } else {
+      const estimatedGas: number = yield call(
+        web3.estimateContractGas,
+        network,
+        assetAddress,
+        ownerAddress,
+        recipient,
+        sendAmount,
+      )
+
+      return (estimatedGas > gasAmount)
+        ? estimatedGas
+        : gasAmount
+    }
+  } catch (err) {
+    console.error(err)
+    // fallback, now we are using staticGasAmount when we can't request gasLimit
+    if (staticGasAmount) {
+      yield put(digitalAssetsSend.setIsPotentiallyFail(true))
+      return staticGasAmount
+    } else {
+      return null
+    }
+  }
+}
+
+function* checkPriority(
+  digitalAsset: DigitalAsset,
+  priority: TXPriorityKey,
+  formFieldValues: DigitalAssetsSendFormFields,
+): Saga<boolean> {
+  const {
+    gasPrice: userGasPrice,
+    gasLimit: userGasLimit,
+  } = formFieldValues
+
+  // get the latest (before transaction sending) gas price
+  const requestedGasPrice: ?BigNumber = yield* requestGasPrice()
+  if (!requestedGasPrice) {
+    yield put(digitalAssetsSend.setRequestedGasPrice(null))
+    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price'))
+    return
+  }
+  yield put(digitalAssetsSend.setRequestedGasPrice(requestedGasPrice.toString()))
+
+  const requestedGasLimit: ?number = yield* requestGasLimit()
+
+  if (priority === 'CUSTOM') {
+    const isGasPriceValid: boolean = parseFloat(userGasPrice) > 0
+    const isGasLimitValid: boolean = parseInt(userGasLimit, 10) > 0
+
+    if (!isGasPriceValid) {
+      yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas price'))
+    }
+
+    if (!isGasLimitValid) {
+      yield put(digitalAssetsSend.setFormFieldError('gasLimit', 'Invalid value for gas limit'))
+    }
+
+    if (isGasLimitValid && isGasPriceValid) {
+      // convert it to WEI
+      const gasPrice: string = fromGweiToWei(userGasPrice)
+      yield put(digitalAssetsSend.setFinalGasPrice(gasPrice))
+
+      const gasLimit: string = toBigNumber(userGasLimit).toString()
+      yield put(digitalAssetsSend.setFinalGasLimit(gasLimit))
+    }
+  } else {
+    if (!requestedGasLimit) {
+      yield put(
+        digitalAssetsSend.setFormFieldError(
+          'gasLimit',
+          'Can\'t request gas limit, please use custom priority'
+        )
+      )
+      return
+    }
+
+    const txPriorityCoefficient: number = digitalAssetsSend.TXPRIORITY[priority]
+    if (!txPriorityCoefficient) {
+      yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Priority is not selected'))
+      return
+    }
+
+    const gasPrice = requestedGasPrice.times(txPriorityCoefficient).toString()
+
+    // save for the next step
+    yield put(digitalAssetsSend.setFinalGasPrice(gasPrice))
+    yield put(digitalAssetsSend.setFinalGasLimit(String(requestedGasLimit)))
+  }
+}
+
+function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
+  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
+    yield select(selectCurrentNetworkId)
+
   const currentBlock: ExtractReturn<typeof selectCurrentBlock> =
     yield select(selectCurrentBlock, networkId)
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
 
   const assetBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
     selectBalanceByAssetAddress,
     networkId,
     ownerAddress,
     currentBlock ? currentBlock.number.toString() : null,
-    address,
+    digitalAsset.blockchainParams.address
   )
 
-  if (!assetBalance || assetBalance.isError) {
-    return null
+  if (!assetBalance) {
+    return
   }
 
-  const balance: BigNumber = divDecimals(assetBalance.value, decimals)
+  const {
+    formFieldValues: {
+      amount,
+    },
+    finalGasValues: {
+      gasPrice,
+      gasLimit,
+    },
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
-  if (checkETH(address)) {
-    const fee: BigNumber = divDecimals(0, decimals)
-    const balanceWithFee: BigNumber = balance.plus(fee)
+  const amountToSend = getTransactionValue(amount, digitalAsset.blockchainParams.decimals)
+  const balance = toBigNumber(assetBalance.value)
 
-    if (balanceWithFee.lt(amount)) {
-      return 'Amount exceeds balance'
+  const feeETH = (gasPrice && gasLimit)
+    ? toBigNumber(gasPrice).times(gasLimit)
+    : toBigNumber(0)
+
+  if (checkETH(digitalAsset.blockchainParams.address)) {
+    if (balance.lt(amountToSend)) {
+      yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
+    } else {
+      const amountWithFee: BigNumber = amountToSend.plus(feeETH)
+      if (balance.lt(amountWithFee)) {
+        // eslint-disable-next-line max-len
+        yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount plus blockchain fee exceeds balance'))
+      }
     }
-  } else if (balance.lt(amount)) {
-    return 'Amount exceeds balance'
-  }
+  } else {
+    if (balance.lt(amountToSend)) {
+      yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
+      return
+    }
 
-  return null
+    const ethBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
+      selectBalanceByAssetAddress,
+      networkId,
+      ownerAddress,
+      currentBlock ? currentBlock.number.toString() : null,
+      'Ethereum'
+    )
+
+    if (ethBalance && toBigNumber(ethBalance.value).lt(feeETH)) {
+      // eslint-disable-next-line max-len
+      yield put(digitalAssetsSend.setFormFieldError('amount', 'You don\'t have enough ETH to send this transaction'))
+    }
+  }
 }
 
-function* checkDigitalAssetsSendData(formFieldValues: DigitalAssetsSendFormFields): Saga<boolean> {
+function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
   const {
-    nonce,
+    nonce: userNonce,
+  } = formFieldValues
+
+  if (userNonce === '') {
+    return
+  }
+
+  const isNonceValid: boolean = parseInt(userNonce, 10) > 0
+
+  if (!isNonceValid) {
+    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
+    return
+  }
+
+  const nonce: ?number = yield* requestNonce()
+  if (!nonce) {
+    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+    return
+  }
+
+  if (nonce > parseInt(userNonce, 10)) {
+    yield put(
+      digitalAssetsSend.setFormFieldError(
+        'nonce',
+        `Nonce should be greater than ${nonce}`
+      )
+    )
+  }
+}
+
+function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
+  const {
+    formFieldValues,
+    priority,
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  const {
+    // nonce,
     amount,
-    gasLimit,
-    gasPrice,
-    recipient,
     assetAddress,
+    recipient,
   }: DigitalAssetsSendFormFields = formFieldValues
+
+  yield put(digitalAssetsSend.cleanValidationErrors())
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
-  const isDigitalAssetAddressValid: boolean = !!digitalAsset
+  // simple fields
   const isRecepientAddressValid: boolean = checkAddressValid(recipient)
-  const amountErrorMessage: ?string = yield* getAmountError(amount, digitalAsset)
-
-  const isNonceExist: boolean = !!nonce.trim()
-  const isGasLimitExist: boolean = !!gasLimit.trim()
-  const isGasPriceExist: boolean = !!gasPrice.trim()
-
-  const isNonceValid: boolean = (parseInt(nonce, 10) > 0)
-  const isGasLimitValid: boolean = (parseInt(gasLimit, 10) > 0)
-  const isGasPriceValid: boolean = (parseInt(gasPrice, 10) > 0)
+  const isAmountValid: boolean = (parseFloat(amount) > 0)
 
   if (!isRecepientAddressValid) {
     yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
   }
 
-  if (!isDigitalAssetAddressValid) {
+  if (!isAmountValid) {
+    yield put(digitalAssetsSend.setFormFieldError('amount', 'Invalid amount'))
+  }
+
+  if (!digitalAsset) {
     yield put(digitalAssetsSend.setFormFieldError('assetAddress', 'Invalid asset address'))
   }
 
-  if (amountErrorMessage) {
-    yield put(digitalAssetsSend.setFormFieldError('amount', amountErrorMessage))
+  if (!(isRecepientAddressValid && isAmountValid && digitalAsset)) {
+    return false
   }
 
-  if (isNonceExist && !isNonceValid) {
-    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
-  }
+  yield* checkNonce(formFieldValues)
+  yield* checkPriority(digitalAsset, priority, formFieldValues)
+  yield* checkAmount(digitalAsset)
 
-  if (isGasLimitExist && !isGasLimitValid) {
-    yield put(digitalAssetsSend.setFormFieldError('gasLimit', 'Invalid value for gas limit'))
-  }
+  // check, that errors in the all fields are empty
+  const {
+    formError,
+    formFieldErrors,
+  } = yield select(selectDigitalAssetsSend)
 
-  if (isGasPriceExist && !isGasPriceValid) {
-    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas price'))
-  }
-
-  return !(
-    !isRecepientAddressValid ||
-    !isDigitalAssetAddressValid ||
-    !!amountErrorMessage ||
-    (isNonceExist && !isNonceValid) ||
-    (isGasLimitExist && !isGasLimitValid) ||
-    (isGasPriceExist && !isGasPriceValid)
-  )
+  const hasErrors = formError ||
+    Object.keys(formFieldErrors).reduce(
+      (res, cur) => res || formFieldErrors[cur], false
+    )
+  return !hasErrors
 }
 
 function* addPendingTransaction(
@@ -206,6 +432,7 @@ function* addPendingTransaction(
   formFieldValues: DigitalAssetsSendFormFields,
   networkId: NetworkId,
   decimals: number,
+  gasValues: GasValues
 ): Saga<void> {
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
@@ -215,9 +442,12 @@ function* addPendingTransaction(
   }
 
   const {
-    amount,
     gasLimit,
     gasPrice,
+  }: GasValues = gasValues
+
+  const {
+    amount,
     recipient,
     assetAddress,
   }: DigitalAssetsSendFormFields = formFieldValues
@@ -228,7 +458,7 @@ function* addPendingTransaction(
     assetAddress,
     {
       data: {
-        gasPrice,
+        gasPrice: gasPrice || '0',
       },
       blockData: {
         timestamp: Date.now() / 1000,
@@ -263,6 +493,7 @@ function* sendTransactionSuccess(
   formFieldValues: DigitalAssetsSendFormFields,
   networkId: NetworkId,
   decimals: number,
+  gasValues: GasValues,
 ): Saga<void> {
   const {
     comment,
@@ -270,7 +501,7 @@ function* sendTransactionSuccess(
   }: DigitalAssetsSendFormFields = formFieldValues
 
   yield put(push(`/transactions/${assetAddress}`))
-  yield* addPendingTransaction(txHash, formFieldValues, networkId, decimals)
+  yield* addPendingTransaction(txHash, formFieldValues, networkId, decimals, gasValues)
   yield* addTransactionComment(txHash, comment)
 }
 
@@ -278,49 +509,22 @@ function* sendTransactionError(err: Error): Saga<void> {
   yield put(digitalAssetsSend.setFormFieldError('password', err.message))
 }
 
-function getTransactionData(data: SendTransactionProps): SendTransactionProps {
-  const {
-    value,
-    gasLimit,
-    gasPrice,
-    to,
-    privateKey,
-    nonce,
-  }: SendTransactionProps = data
-
-  const dataNew: SendTransactionProps = {
-    to,
-    value,
-    privateKey,
-  }
-
-  /* eslint-disable fp/no-mutation */
-  if (!isZero(gasLimit)) {
-    // dataNew.gasLimit = gasLimit
-  }
-
-  if (!isZero(gasPrice)) {
-    // dataNew.gasPrice = gasPrice
-  }
-
-  if (nonce) {
-    dataNew.nonce = nonce
-  }
-  /* eslint-enable fp/no-mutation */
-
-  return dataNew
-}
-
-function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
+function* sendTransactionRequest(
+  formFieldValues: DigitalAssetsSendFormFields,
+  gasValues: GasValues
+): Saga<void> {
   const {
     nonce,
     amount,
-    gasLimit,
-    gasPrice,
     password,
     recipient,
     assetAddress,
-  }: DigitalAssetsSendFormFields = formFieldValues
+  } = formFieldValues
+
+  const {
+    gasLimit,
+    gasPrice,
+  } = gasValues
 
   if (!password) {
     yield put(digitalAssetsSend.setFormFieldError('password', 'Please input password'))
@@ -357,17 +561,25 @@ function* sendTransactionRequest(formFieldValues: DigitalAssetsSendFormFields): 
   try {
     const privateKey: string = yield* getPrivateKey(walletId, password)
 
-    const txData: SendTransactionProps = getTransactionData({
-      privateKey,
+    const txData: SendTransactionProps = {
       to: recipient,
-      gasLimit: toBigNumber(gasLimit),
-      gasPrice: toBigNumber(gasPrice),
+      gasLimit: gasLimit
+        ? toBigNumber(gasLimit)
+        : undefined,
+      gasPrice: gasPrice
+        ? toBigNumber(gasPrice)
+        : undefined,
+      privateKey: (privateKey.substr(0, 2) === '0x')
+        ? privateKey.substr(2)
+        : privateKey,
       value: getTransactionValue(amount, decimals),
-      nonce: parseInt(nonce, 10) || 0,
-    })
+      nonce: (!Number.isNaN(parseInt(nonce, 10)))
+        ? parseInt(nonce, 10)
+        : undefined,
+    }
 
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
-    yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals)
+    yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals, gasValues)
   } catch (err) {
     yield* sendTransactionError(err)
   }
@@ -379,11 +591,12 @@ function* goToNextStep(): Saga<void> {
   const {
     formFieldValues,
     currentStep,
+    finalGasValues,
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
   switch (currentStep) {
     case digitalAssetsSend.STEPS.FORM: {
-      const isDataValid: boolean = yield* checkDigitalAssetsSendData(formFieldValues)
+      const isDataValid: boolean = yield* prepareAndCheckDigitalAssetsSendData()
 
       if (isDataValid) {
         yield put(digitalAssetsSend.setCurrentStep(digitalAssetsSend.STEPS.CONFIRM))
@@ -393,7 +606,7 @@ function* goToNextStep(): Saga<void> {
     }
 
     case digitalAssetsSend.STEPS.CONFIRM: {
-      yield* sendTransactionRequest(formFieldValues)
+      yield* sendTransactionRequest(formFieldValues, finalGasValues)
       break
     }
 
@@ -417,8 +630,235 @@ function* goToPrevStep(): Saga<void> {
   }
 }
 
+function* updateGasLimit(): Saga<void> {
+  const {
+    formFieldValues: {
+      assetAddress,
+      amount,
+      recipient,
+    },
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  if (assetAddress &&
+    parseFloat(amount) > 0 &&
+    checkAddressValid(recipient)
+  ) {
+    const gasLimit = yield* requestGasLimit()
+    if (gasLimit) {
+      yield put(digitalAssetsSend.setFormFieldValue('gasLimit', String(gasLimit)))
+    } else {
+      yield put(digitalAssetsSend.setFormFieldValue('gasLimit', ''))
+      yield put(digitalAssetsSend.setFormFieldWarning(
+        'gasLimit',
+        'Can\'t get gas limit. Most likely, your transaction will fail'
+      ))
+    }
+  }
+}
+
+function* updateGasPrice(): Saga<void> {
+  const gasPrice: ?BigNumber = yield* requestGasPrice()
+  if (!gasPrice) {
+    digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price')
+    return
+  }
+
+  yield put(digitalAssetsSend.setRequestedGasPrice(gasPrice.toString()))
+
+  if (gasPrice.gt(0)) {
+    yield put(
+      digitalAssetsSend.setFormFieldValue('gasPrice', fromWeiToGWei(gasPrice))
+    )
+  }
+}
+
+function* usePredefinedPriority(): Saga<void> {
+  const {
+    priority,
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  if (priority === 'CUSTOM') {
+    yield put(digitalAssetsSend.setPriority('NORMAL'))
+  }
+}
+
+function* checkGasLimitWarning(newGasLimit: string): Saga<void> {
+  const {
+    formFieldWarnings,
+    requestedGasValues,
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  // Priority warnings
+  const gasLimit = parseInt(newGasLimit, 10)
+  const actualGasLimit = parseInt(requestedGasValues.gasLimit, 10)
+
+  if (!Number.isNaN(gasLimit) &&
+      !Number.isNaN(actualGasLimit) &&
+      gasLimit > 0 &&
+      gasLimit < actualGasLimit) {
+    yield put(digitalAssetsSend.setFormFieldWarning(
+      'gasLimit',
+      'Gas limit is too small. Most likely, your transaction will fail'
+    ))
+  } else if (formFieldWarnings.gasLimit) {
+    yield put(digitalAssetsSend.setFormFieldWarning('gasLimit', ''))
+  }
+}
+
+function* checkGasPriceWarning(newGasPrice: void | string | BigNumber): Saga<void> {
+  const {
+    formFieldWarnings,
+    requestedGasValues,
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  // Priority warnings
+  const gasPrice = parseFloat(newGasPrice) // GWEI
+  const initialGasPrice = parseInt(requestedGasValues.gasPrice, 10) // WEI
+
+  if (gasPrice > 0 && initialGasPrice > 0) {
+    const gasPriceWei = parseInt(fromGweiToWei(gasPrice), 10)
+
+    if (gasPriceWei < initialGasPrice * MIN_GAS_PRICE_COEFFICIENT) {
+      yield put(digitalAssetsSend.setFormFieldWarning(
+        'gasPrice',
+        'Gas price is too small. Most likely, your transaction will fail'
+      ))
+    }
+  } else if (formFieldWarnings.gasPrice) {
+    yield put(digitalAssetsSend.setFormFieldWarning('gasPrice', ''))
+  }
+}
+
+function* checkRecipientWarning(newValue: string): Saga<void> {
+  const {
+    formFieldWarnings: {
+      recipient: recipientWarning,
+    },
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
+    yield select(selectActiveWalletAddress)
+
+  if (ownerAddress === newValue && !recipientWarning) {
+    yield put(digitalAssetsSend.setFormFieldWarning('recipient', 'Recipient is the same as sender'))
+  }
+}
+
+function* convertAmountToFiat(amount: string, assetAddress: Address): Saga<?string> {
+  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
+    yield select(selectDigitalAsset, assetAddress)
+
+  if (!(digitalAsset && digitalAsset.priceFeed)) {
+    return null
+  }
+
+  const {
+    currencyID,
+  }: DigitalAssetPriceFeed = digitalAsset.priceFeed
+
+  const tickerCourse: ExtractReturn<typeof selectTickerItemCourseByCurrency> =
+    yield select(selectTickerItemCourseByCurrency, String(currencyID))
+
+  const isTickerCourseValid: boolean = parseFloat(tickerCourse) > 0
+  if (!isTickerCourseValid) {
+    return null
+  }
+
+  const fiatValue: BigNumber = toBigNumber(amount).times(tickerCourse)
+  const roundedValue: string = fiatValue.lt(0.01) ? '0.01' : fiatValue.toFixed(2)
+  return roundedValue
+}
+
+function* refreshFiatAmount(): Saga<void> {
+  const {
+    formFieldValues: {
+      amount,
+      assetAddress,
+    },
+  }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
+
+  const isAmountValid: boolean = parseFloat(amount) > 0
+  if (!isAmountValid) {
+    yield put(digitalAssetsSend.setFormFieldValue('amountFiat', ''))
+    return
+  }
+
+  const fiatValue: ?string = yield* convertAmountToFiat(amount, assetAddress)
+  if (fiatValue) {
+    yield put(digitalAssetsSend.setFormFieldValue('amountFiat', `≈\u202F${fiatValue}`))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('amountFiat', '—'))
+  }
+}
+
+function* onFormFieldChange(
+  action: ExtractReturn<typeof digitalAssetsSend.setFormFieldValue>
+): Saga<void> {
+  const {
+    payload: {
+      fieldName,
+      value,
+    },
+  } = action
+
+  if (fieldName === 'assetAddress' || fieldName === 'recepient' || fieldName === 'amount') {
+    yield* updateGasLimit()
+  }
+
+  if (fieldName === 'assetAddress' ||
+       fieldName === 'recipient') {
+    yield* checkRecipientWarning(value)
+    yield* usePredefinedPriority()
+  }
+
+  if (fieldName === 'gasLimit') {
+    yield* checkGasLimitWarning(value)
+  }
+
+  if (fieldName === 'gasPrice') {
+    yield* checkGasPriceWarning(value)
+  }
+
+  if (fieldName === 'amount' ||
+    fieldName === 'assetAddress' ||
+    fieldName === 'recipient') {
+    yield* refreshFiatAmount()
+  }
+}
+
+function* onPriorityChange(): Saga<void> {
+  const {
+    priority,
+  }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+  if (priority === 'CUSTOM') {
+    // request and set gas price
+    yield* updateGasPrice()
+    yield* updateGasLimit()
+  }
+}
+
+function* onStartNonceEdit(
+  action: ExtractReturn<typeof digitalAssetsSend.setNonceEditable>
+): Saga<void> {
+  const { payload: { isEditable } } = action
+
+  if (isEditable) {
+    const nonce = yield* requestNonce()
+    if (!nonce) {
+      yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+      return
+    }
+
+    yield put(digitalAssetsSend.setFormFieldValue('nonce', String(nonce)))
+  }
+}
+
 export function* digitalAssetsSendRootSaga(): Saga<void> {
   yield takeEvery(digitalAssetsSend.OPEN_VIEW, openView)
   yield takeEvery(digitalAssetsSend.GO_TO_NEXT_STEP, goToNextStep)
   yield takeEvery(digitalAssetsSend.GO_TO_PREV_STEP, goToPrevStep)
+  yield takeEvery(digitalAssetsSend.SET_PRIORITY, onPriorityChange)
+  yield takeEvery(digitalAssetsSend.SET_FORM_FIELD_VALUE, onFormFieldChange)
+  yield takeEvery(digitalAssetsSend.SET_NONCE_EDITABLE, onStartNonceEdit)
 }

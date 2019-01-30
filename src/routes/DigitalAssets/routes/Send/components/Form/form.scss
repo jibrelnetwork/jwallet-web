@@ -17,5 +17,14 @@
         }
       }
     }
+
+    > .error {
+      margin-bottom: 10px;
+    }
+  }
+
+  > .message {
+    margin-top: 33px;
+    opacity: 0.5;
   }
 }

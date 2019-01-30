@@ -17,6 +17,7 @@ import Transactions from './Transactions'
 import DigitalAssets from './DigitalAssets'
 import Favorites from './Favorites'
 import Upgrade from './Upgrade'
+import Agreements from './Agreements'
 
 import {
   type CoreAction,
@@ -45,9 +46,6 @@ export default {
   component: CoreLayout,
   onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
   onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
-  indexRoute: {
-    onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets'),
-  },
   childRoutes: [
     /*
     Funds(store),
@@ -58,6 +56,7 @@ export default {
     DigitalAssets,
     Favorites,
     Upgrade,
+    Agreements,
     NotFound,
   ],
 }

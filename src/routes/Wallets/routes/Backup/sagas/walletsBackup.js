@@ -1,12 +1,27 @@
 // @flow
 
 import { push } from 'react-router-redux'
-import { put, select, takeEvery } from 'redux-saga/effects'
+
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
 
 import walletsWorker from 'workers/wallets'
 import getWallet from 'utils/wallets/getWallet'
-import { fileSaver, clipboard } from 'services'
-import { selectWallets, selectWalletsItems, selectWalletsBackup } from 'store/stateSelectors'
+
+import {
+  clipboard,
+  fileSaver,
+} from 'services'
+
+import {
+  selectWallets,
+  selectWalletsItems,
+  selectWalletsBackup,
+} from 'store/stateSelectors'
+
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsBackup from '../modules/walletsBackup'
@@ -15,21 +30,20 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
   yield put(wallets.clean())
   yield put(walletsBackup.clean())
 
-  const items: Wallets = yield select(selectWalletsItems)
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
   try {
-    const foundWallet: Wallet = getWallet(items, action.payload.walletId)
-
-    if (foundWallet.isReadOnly) {
-      yield put(push('/wallets'))
-    }
+    getWallet(items, action.payload.walletId)
   } catch (err) {
     yield put(push('/wallets'))
   }
 }
 
 function* backupWallet(walletId: string): Saga<void> {
-  const { persist, password }: WalletsState = yield select(selectWallets)
+  const {
+    persist,
+    password,
+  }: ExtractReturn<typeof selectWallets> = yield select(selectWallets)
 
   if (!password) {
     yield put(
@@ -40,7 +54,7 @@ function* backupWallet(walletId: string): Saga<void> {
   }
 
   yield put(wallets.setIsLoading(true))
-  yield walletsWorker.backupRequest(persist.items, walletId, password)
+  yield walletsWorker.backupRequest(persist, walletId, password)
 }
 
 function* backupError(action: { payload: Error }): Saga<void> {
@@ -55,7 +69,9 @@ function* backupSuccess(): Saga<void> {
 
 function* setNextStep(action: ExtractReturn<typeof walletsBackup.goToNextStep>): Saga<void> {
   const { walletId } = action.payload
-  const { currentStep }: WalletsBackupState = yield select(selectWalletsBackup)
+
+  const { currentStep }: ExtractReturn<typeof selectWalletsBackup> =
+    yield select(selectWalletsBackup)
 
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
@@ -69,7 +85,8 @@ function* setNextStep(action: ExtractReturn<typeof walletsBackup.goToNextStep>):
 }
 
 function* setPrevStep(): Saga<void> {
-  const { currentStep }: WalletsBackupState = yield select(selectWalletsBackup)
+  const { currentStep }: ExtractReturn<typeof selectWalletsBackup> =
+    yield select(selectWalletsBackup)
 
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
@@ -88,12 +105,12 @@ function* setPrevStep(): Saga<void> {
 }
 
 function* downloadToTxt(): Saga<void> {
-  const { data }: WalletsBackupState = yield select(selectWalletsBackup)
+  const { data }: ExtractReturn<typeof selectWalletsBackup> = yield select(selectWalletsBackup)
   fileSaver.saveTXT(data, 'jwallet-backup')
 }
 
 function* copyToClipboard(): Saga<void> {
-  const { data }: WalletsBackupState = yield select(selectWalletsBackup)
+  const { data }: ExtractReturn<typeof selectWalletsBackup> = yield select(selectWalletsBackup)
   clipboard.copyText(data)
 }
 

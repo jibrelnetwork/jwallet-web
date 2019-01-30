@@ -38,6 +38,7 @@ import {
 import {
   setIsOnlyPending,
   changeSearchInput,
+  removeItemsByAsset,
 } from 'routes/modules/transactions'
 
 import { edit as editComment } from 'routes/modules/comments'
@@ -120,6 +121,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     digitalAssets,
     searchQuery,
     assetBalance,
+    assetAddress,
     ownerAddress,
     isLoading,
     isOnlyPending,
@@ -139,6 +141,7 @@ const mapDispatchToProps = {
   removeFavorite,
   setIsOnlyPending,
   changeSearchInput,
+  removeItemsByAsset,
 }
 
 export default (

@@ -11,30 +11,42 @@ type Props = {|
   +goToNextStep: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
+  +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
+  +formError: string,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
+  +gasValues: GasValues,
   +isLoading: boolean,
+  +isPotentiallyFail: boolean,
+  +fiatCurrency: FiatCurrency,
 |}
 
 function DigitalAssetsSendSteps({
   setPriority,
   goToNextStep,
   setFormFieldValue,
+  setNonceEditable,
   digitalAssets,
   addressNames,
   selectedAsset,
   formFieldValues,
   formFieldErrors,
+  formFieldWarnings,
+  formError,
   ownerAddress,
   priority,
   currentStep,
   isLoading,
+  gasValues,
+  isPotentiallyFail,
+  fiatCurrency,
 }: Props) {
   return (
     <div className='digital-assets-send-steps'>
@@ -42,14 +54,18 @@ function DigitalAssetsSendSteps({
         <DigitalAssetsSendForm
           setPriority={setPriority}
           setFormFieldValue={setFormFieldValue}
+          setNonceEditable={setNonceEditable}
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
+          formFieldWarnings={formFieldWarnings}
+          formError={formError}
           submit={goToNextStep}
           addressNames={addressNames}
           digitalAssets={digitalAssets}
           ownerAddress={ownerAddress}
           priority={priority}
           isLoading={isLoading}
+          fiatCurrency={fiatCurrency}
         />
       )}
       {(currentStep === STEPS.CONFIRM) && (
@@ -62,6 +78,8 @@ function DigitalAssetsSendSteps({
           formFieldValues={formFieldValues}
           errorMessage={formFieldErrors.password}
           isLoading={isLoading}
+          gasValues={gasValues}
+          isPotentiallyFail={isPotentiallyFail}
         />
       )}
     </div>

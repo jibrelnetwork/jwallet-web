@@ -6,7 +6,6 @@ import DoubleInput from 'components/DoubleInput'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
 import DigitalAssetsSendFormPriorityPickerCurrent from './Current'
-import DigitalAssetsSendFormPriorityPickerInfo from './Info'
 
 const TXPRIORITY_DATA: { [TXPriorityKey]: TXPriorityData } = {
   HIGH: {
@@ -37,6 +36,7 @@ type Props = {|
   +selectedPriority: TXPriorityKey,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
+  +formFieldWarnings: DigitalAssetsSendFormFields,
 |}
 
 class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
@@ -57,10 +57,16 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
       setFormFieldValue,
       formFieldValues,
       formFieldErrors,
+      formFieldWarnings,
       selectedPriority,
     }: Props = this.props
 
     const selectedPriorityData: TXPriorityData = TXPRIORITY_DATA[selectedPriority]
+
+    const errorMessage = formFieldErrors.gasLimit || formFieldErrors.gasPrice
+    const infoMessage = (!errorMessage)
+      ? formFieldWarnings.gasLimit || formFieldWarnings.gasPrice
+      : ''
 
     return (
       <div className='digital-assets-send-form-priority-picker'>
@@ -74,20 +80,14 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
             }, {
               onChange: setFormFieldValue('gasPrice'),
               value: formFieldValues.gasPrice,
-              placeholder: 'Gas price',
+              placeholder: 'Gas price (gwei)',
             }]}
-            errorMessage={formFieldErrors.gasLimit || formFieldErrors.gasPrice}
+            errorMessage={errorMessage}
+            infoMessage={infoMessage}
           />
         ) : (
           <JPicker
             errorMessage={formFieldErrors.gasLimit || formFieldErrors.gasPrice}
-            bottomRenderer={() => (
-              <DigitalAssetsSendFormPriorityPickerInfo value={[
-                'The app doesn’t charge you any fees.',
-                'But you have to pay the blokchain fee to create a newtransaction.',
-              ]}
-              />
-            )}
             currentRenderer={() => (
               <DigitalAssetsSendFormPriorityPickerCurrent
                 currentPriority={selectedPriorityData.title}
