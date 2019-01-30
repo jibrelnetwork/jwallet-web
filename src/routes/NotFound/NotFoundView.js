@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 
 import { JThumbnail, JFlatButton } from 'components/base'
+import handle from 'utils/eventHandlers/handle'
 
 type Props = {|
   goToHome: () => void,
@@ -21,7 +22,7 @@ class NotFoundView extends PureComponent<Props, StateProps> {
     }
   }
 
-  onHover = () => this.setState({ isHovered: !this.state.isHovered })
+  onHover = (isHovered: boolean) => { this.setState({ isHovered }) }
 
   render() {
     const {
@@ -47,7 +48,11 @@ class NotFoundView extends PureComponent<Props, StateProps> {
             ]}
           />
           <div className='actions'>
-            <div className='back' onMouseEnter={this.onHover} onMouseLeave={this.onHover}>
+            <div
+              className='back'
+              onMouseEnter={handle(this.onHover)(true)}
+              onMouseLeave={handle(this.onHover)(false)}
+            >
               <JFlatButton
                 onClick={goToHome}
                 color={isHovered ? 'sky' : 'white'}
