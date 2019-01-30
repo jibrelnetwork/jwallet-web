@@ -432,7 +432,7 @@ function* addPendingTransaction(
   formFieldValues: DigitalAssetsSendFormFields,
   networkId: NetworkId,
   decimals: number,
-  gasValues: GasValues
+  gasValues: GasValues,
 ): Saga<void> {
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
@@ -446,6 +446,10 @@ function* addPendingTransaction(
     gasPrice,
   }: GasValues = gasValues
 
+  if (!(gasPrice && parseInt(gasLimit, 10))) {
+    throw new Error('GasValuesError')
+  }
+
   const {
     amount,
     recipient,
@@ -458,14 +462,14 @@ function* addPendingTransaction(
     assetAddress,
     {
       data: {
-        gasPrice: gasPrice || '0',
+        gasPrice,
       },
       blockData: {
         timestamp: Date.now() / 1000,
       },
       receiptData: {
-        gasUsed: parseInt(gasLimit, 10) || 0,
         status: 1,
+        gasUsed: parseInt(gasLimit, 10),
       },
       hash,
       to: recipient,
