@@ -7,22 +7,11 @@ import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import * as type from 'utils/type'
 import { BigNumber } from 'bignumber.js'
 
-type ERC20MethodName =
-  'approve' |
-  'transfer' |
-  'Transfer' |
-  'balanceOf' |
-  'allowance' |
-  'totalSupply' |
-  'transferFrom'
-
-type ERC20InterfaceSignatures = { [ERC20MethodName]: Hash }
-
 /**
  * Pre-calculated keccak256 values
  * use keccak256 from 'js-sha3' npm package to generate them
  */
-const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
+const ERC20_INTERFACE_SIGNATURES = {
   // keccak256('totalSupply()')
   totalSupply: '18160ddd7f15c72528c2f94fd8dfe3c8d5aa26e2c50c7d81f4bc7bee8d4b7932',
   // keccak256('balanceOf(address)')
@@ -153,13 +142,14 @@ function getSmartContractCode(network: Network, assetAddress: AssetAddress): Pro
 
 function checkMethodSignatureInSmartContractCode(
   smartContractCode: string,
-  methodName: ERC20MethodName,
+  methodName: $Keys<typeof ERC20_INTERFACE_SIGNATURES>,
 ): boolean {
   /**
    * For the reference please check:
    * https://medium.com/@hayeah/how-to-decipher-a-smart-contract-method-call-8ee980311603
    */
-  const firstFourBytesOfHash: string = ERC20_INTERFACE_SIGNATURES[methodName].substring(0, 8)
+  const erc20MethodNameHash = ERC20_INTERFACE_SIGNATURES[methodName]
+  const firstFourBytesOfHash: string = erc20MethodNameHash.substring(0, 8)
   const isFound: boolean = smartContractCode
     .toLowerCase()
     .indexOf(firstFourBytesOfHash) !== -1
@@ -171,7 +161,7 @@ function checkERC20InterfaceCode(
   smartContractCode: string,
   isAllMethodsRequired: boolean = false,
 ): boolean {
-  const signatures: ERC20MethodName[] = isAllMethodsRequired ? [
+  const signatures: Array<$Keys<typeof ERC20_INTERFACE_SIGNATURES>> = isAllMethodsRequired ? [
     'approve',
     'transfer',
     'Transfer',
