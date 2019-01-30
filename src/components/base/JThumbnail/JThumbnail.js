@@ -12,6 +12,7 @@ export type JThumbnailImage = 'auth-question'
   | 'screen-reload'
   | 'screen-error'
   | 'screen-no-favorites'
+  | 'bad-browser'
 
 type Props = {|
   +title: ?string,
