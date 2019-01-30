@@ -1,7 +1,6 @@
 // @flow
 
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
-import { keccak256 } from 'js-sha3'
 
 import checkETH from 'utils/digitalAssets/checkETH'
 import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
@@ -17,16 +16,27 @@ type ERC20MethodName =
   'totalSupply' |
   'transferFrom'
 
-type ERC20InterfaceSignatures = { [ERC20MethodName]: ?Hash }
+type ERC20InterfaceSignatures = { [ERC20MethodName]: Hash }
 
+/**
+ * Pre-calculated keccak256 values
+ * use keccak256 from 'js-sha3' npm package to generate them
+ */
 const ERC20_INTERFACE_SIGNATURES: ERC20InterfaceSignatures = {
-  totalSupply: keccak256('totalSupply()'),
-  balanceOf: keccak256('balanceOf(address)'),
-  approve: keccak256('approve(address,uint256)'),
-  transfer: keccak256('transfer(address,uint256)'),
-  allowance: keccak256('allowance(address,address)'),
-  Transfer: keccak256('Transfer(address,address,uint256)'),
-  transferFrom: keccak256('transferFrom(address,address,uint256)'),
+  // keccak256('totalSupply()')
+  totalSupply: '18160ddd7f15c72528c2f94fd8dfe3c8d5aa26e2c50c7d81f4bc7bee8d4b7932',
+  // keccak256('balanceOf(address)')
+  balanceOf: '70a08231b98ef4ca268c9cc3f6b4590e4bfec28280db06bb5d45e689f2a360be',
+  // keccak256('approve(address,uint256)')
+  approve: '095ea7b334ae44009aa867bfb386f5c3b4b443ac6f0ee573fa91c4608fbadfba',
+  // keccak256('transfer(address,uint256)')
+  transfer: 'a9059cbb2ab09eb219583f4a59a5d0623ade346d962bcd4e46b11da047c9049b',
+  // keccak256('allowance(address,address)')
+  allowance: 'dd62ed3e90e97b3d417db9c0c7522647811bafca5afc6694f143588d255fdfb4',
+  // keccak256('Transfer(address,address,uint256)')
+  Transfer: 'ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+  // keccak256('transferFrom(address,address,uint256)')
+  transferFrom: '23b872dd7302113369cda2901243429419bec145408fa8b352b3dd92b66c680b',
 }
 
 const ZERO_HEX = '0x'
@@ -149,15 +159,10 @@ function checkMethodSignatureInSmartContractCode(
    * For the reference please check:
    * https://medium.com/@hayeah/how-to-decipher-a-smart-contract-method-call-8ee980311603
    */
-  const methodSignatureHash: ?string = ERC20_INTERFACE_SIGNATURES[methodName]
-
-  if (!methodSignatureHash) {
-    throw new Error(`Hash of signature is not found for ${methodName}`)
-  }
-
-  const firstFourBytesOfHash: string = methodSignatureHash.substring(0, 8)
-  const code: string = smartContractCode.toLowerCase()
-  const isFound: boolean = code.indexOf(firstFourBytesOfHash) !== -1
+  const bytesOfHash: string = ERC20_INTERFACE_SIGNATURES[methodName].substring(0, 8)
+  const isFound: boolean = smartContractCode
+    .toLowerCase()
+    .indexOf(bytesOfHash) !== -1
 
   return isFound
 }
@@ -180,10 +185,16 @@ function checkERC20InterfaceCode(
     'balanceOf',
   ]
 
-  return !signatures.map((methodName: ERC20MethodName) => checkMethodSignatureInSmartContractCode(
-    smartContractCode,
-    methodName,
-  )).find(isFound => !isFound)
+  // this returns false - when not found
+  // undefined - when found
+  const falseFound  = signatures.map(
+    (methodName: ERC20MethodName) => checkMethodSignatureInSmartContractCode(
+      smartContractCode,
+      methodName,
+    )
+  ).find(isFound => !isFound)
+
+  return (falseFound !== false)
 }
 
 function prepareBlock(data: any): BlockData {
