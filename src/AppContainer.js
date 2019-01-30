@@ -20,7 +20,7 @@ type Props = {
 }
 
 type State = {
-  isSingleInstance: boolean,
+  isPrimaryInstance: boolean,
 }
 
 class AppContainer extends React.Component<Props, State> {
@@ -28,7 +28,7 @@ class AppContainer extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      isSingleInstance: true,
+      isPrimaryInstance: true,
     }
   }
 
@@ -37,8 +37,8 @@ class AppContainer extends React.Component<Props, State> {
     startSessionWatcher(
       persistor,
       store.dispatch,
-      (isSingleInstance) => {
-        this.setState({ isSingleInstance })
+      (isPrimaryInstance) => {
+        this.setState({ isPrimaryInstance })
       }
     )
   }
@@ -49,7 +49,7 @@ class AppContainer extends React.Component<Props, State> {
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          {this.state.isSingleInstance ?
+          {this.state.isPrimaryInstance ?
             <PersistGate persistor={persistor}>
               <Router history={history}>
                 {routes}
