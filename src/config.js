@@ -181,6 +181,8 @@ const config: AppConfig = {
   defaultRandomBufferLength: 32,
 
   fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
+
+  sessionIDKey: 'jwallet.activeTab',
 }
 
 export default config
