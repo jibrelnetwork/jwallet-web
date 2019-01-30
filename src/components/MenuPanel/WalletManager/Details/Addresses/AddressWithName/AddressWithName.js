@@ -26,7 +26,7 @@ function MenuPanelWalletManagerDetailsAddressWithName({
       <div className='address'>
         <JText
           color='white'
-          size='small'
+          size='semismall'
           value={address}
           whiteSpace='wrap'
         />

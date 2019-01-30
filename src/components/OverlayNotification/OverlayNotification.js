@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import classNames from 'classnames'
 
 import JThumbnail from 'components/base/JThumbnail'
 
@@ -30,13 +31,12 @@ class OverlayNotification extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='overlay-notification'>
+      <div className={classNames('overlay-notification', isTransparent && '-transparent')}>
         <JThumbnail
           color={color}
           image={image}
           description={description}
           iconSize='large'
-          isTransparent={isTransparent}
         />
       </div>
     )

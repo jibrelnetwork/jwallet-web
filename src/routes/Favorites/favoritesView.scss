@@ -37,7 +37,6 @@
       > .actions {
         display: flex;
         align-items: center;
-        padding-right: 20px;
         position: relative;
         height: 100%;
 
@@ -63,12 +62,17 @@
     overflow: auto;
 
     > .container {
+      all: initial;
+      display: block;
+      position: relative;
+      width: 100%;
       max-width: 1020px;
-      margin: 0 auto $page-header-height/2 auto;
+      font-size: 0;
+      margin: 0 auto -20px auto;
       padding-top: $page-header-height;
 
       > .box {
-        margin: 0 0 12px;
+        padding: 0 10px 10px;
       }
     }
   }

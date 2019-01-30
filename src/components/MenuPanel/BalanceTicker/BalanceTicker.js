@@ -21,7 +21,7 @@ function MenuPanelBalanceTicker({
   return (
     <div className='menu-panel-balance-ticker'>
       <div className='title'>
-        <JText value='Total Balance' color='white' size='small' fontCase='upper' />
+        <JText value='Total Balance' color='white' size='tiny' fontCase='upper' />
       </div>
       <JText
         value={`${formatBalance((divDecimals(balance)))} ${currency}`}

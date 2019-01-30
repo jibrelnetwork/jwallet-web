@@ -101,6 +101,7 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
             value={label}
             color={((isHovered && labelColor !== 'dark') || isDisabled) ? 'white' : labelColor}
             weight='bold'
+            whiteSpace='wrap'
           />
         </div>
       </div>

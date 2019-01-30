@@ -91,18 +91,24 @@ class AssetItem extends PureComponent<Props, StateProps> {
               </div>
             ) : (
               <div className='symbol -text'>
-                <JText value={symbol} color='blue' weight='bold' size='normal' whiteSpace='wrap' />
+                <JText
+                  value={symbol}
+                  color='blue'
+                  weight='bold'
+                  size='semilarge'
+                  whiteSpace='wrap'
+                />
               </div>
             )}
             <div className='data'>
               <div className='name'>
-                <JText value={name} color='dark' weight='bold' size='normal' whiteSpace='wrap' />
+                <JText value={name} color='dark' weight='bold' size='semilarge' whiteSpace='wrap' />
               </div>
               {balance && (
                 <div className='balance'>
                   <AssetBalance
                     color='gray'
-                    size='small'
+                    size='semismall'
                     symbol={symbol}
                     balance={balance}
                   />
