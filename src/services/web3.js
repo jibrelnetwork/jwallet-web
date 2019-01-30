@@ -185,16 +185,11 @@ function checkERC20InterfaceCode(
     'balanceOf',
   ]
 
-  // this returns false - when not found
-  // undefined - when found
-  const falseFound  = signatures.map(
-    (methodName: ERC20MethodName) => checkMethodSignatureInSmartContractCode(
-      smartContractCode,
-      methodName,
-    )
-  ).find(isFound => !isFound)
-
-  return (falseFound !== false)
+  const notFound = signatures.reduce(
+    (result, methodName) =>
+      result || !checkMethodSignatureInSmartContractCode(smartContractCode, methodName)
+    , false)
+  return !notFound
 }
 
 function prepareBlock(data: any): BlockData {
