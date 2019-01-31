@@ -11,6 +11,7 @@ type Props = {|
   +onChange: (string) => void,
   +value: string,
   +placeholder: string,
+  title?: string,
 |}
 
 type ComponentState = {|
@@ -24,6 +25,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
   static defaultProps = {
     value: '',
     placeholder: '',
+    title: 'Search',
   }
 
   constructor(props: Props) {
@@ -75,6 +77,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
   render() {
     const {
       placeholder,
+      title,
     } = this.props
 
     const {
@@ -85,7 +88,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
 
     return (
       <div className={classNames('j-search', isActive && '-active')}>
-        <div onClick={handle(this.toggle)(!isActive)} className='search'>
+        <div onClick={handle(this.toggle)(!isActive)} className='search' title={title}>
           <JIcon size='medium' name='search' color='gray' />
         </div>
         <div className='field'>

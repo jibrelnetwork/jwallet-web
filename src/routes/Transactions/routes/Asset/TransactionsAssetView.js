@@ -120,7 +120,7 @@ function TransactionsAssetView({
                 isOnlyPending={isOnlyPending}
               />
             </div>
-            <div className='send'>
+            <div className='send' title='Send asset'>
               <JFlatButton
                 to={`/digital-assets/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'
@@ -128,7 +128,7 @@ function TransactionsAssetView({
                 iconName='upload'
               />
             </div>
-            <div className='refetch'>
+            <div className='refetch' title='Resync'>
               <JFlatButton
                 onClick={handle(removeItemsByAsset)(assetAddress)}
                 iconColor='gray'

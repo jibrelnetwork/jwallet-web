@@ -9,6 +9,7 @@ type Props = {|
   +children: React$Node,
   +icon: string,
   +counter: number,
+  +title: string,
 |}
 
 type ComponentState = {|
@@ -18,6 +19,7 @@ type ComponentState = {|
 class PopupButton extends PureComponent<Props, ComponentState> {
   static defaultProps = {
     counter: 0,
+    title: 'Filter',
   }
 
   constructor(props: Props) {
@@ -35,6 +37,7 @@ class PopupButton extends PureComponent<Props, ComponentState> {
       children,
       icon,
       counter,
+      title,
     } = this.props
 
     const {
@@ -42,7 +45,7 @@ class PopupButton extends PureComponent<Props, ComponentState> {
     } = this.state
 
     return (
-      <div className='popup-button' >
+      <div className='popup-button' title={title}>
         {!!counter && (
           <div className='counter'>
             <JText value={counter.toString()} size='small' color='white' weight='bold' />
