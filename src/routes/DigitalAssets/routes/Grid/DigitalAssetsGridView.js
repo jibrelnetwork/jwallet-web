@@ -75,7 +75,11 @@ class DigitalAssetsGridView extends Component<Props> {
                   setHideZeroBalance={setHideZeroBalance}
                 />
               </div>
-              <div className='setting' onClick={manageAssetsOpenClick}>
+              <div
+                className='setting'
+                onClick={manageAssetsOpenClick}
+                title='Assets manager'
+              >
                 <JIcon
                   size='medium'
                   color='gray'
