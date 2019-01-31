@@ -8,10 +8,9 @@ import {
   JFlatButton,
 } from 'components/base'
 
-import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
+import ethereum from 'data/assets/ethereum'
+
+import { formatAssetBalance } from 'utils/formatters'
 
 type WalletFaceActionsHandler = () => void
 
@@ -58,7 +57,7 @@ class WalletFaceActions extends PureComponent<Props> {
           <div className='actions'>
             {balance && (
               <JText
-                value={`${formatBalance(divDecimals(balance), 4)} ETH`}
+                value={`${formatAssetBalance(ethereum.blockchainParams.address, balance)} ETH`}
                 color='white'
               />
             )}
