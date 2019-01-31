@@ -26,7 +26,7 @@ type Props = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
-  +formError: string,
+  +sendAssetError: string,
   +ownerAddress: ?OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
@@ -65,7 +65,7 @@ class DigitalAssetsSendView extends Component<Props> {
       formFieldErrors,
       formFieldWarnings,
       setNonceEditable,
-      formError,
+      sendAssetError,
       ownerAddress,
       priority,
       currentStep,
@@ -97,6 +97,7 @@ class DigitalAssetsSendView extends Component<Props> {
         <div className='content'>
           <Scrollbars autoHide>
             <DigitalAssetsSendSteps
+              goBack={goToPrevStep}
               setPriority={setPriority}
               goToNextStep={goToNextStep}
               setFormFieldValue={this.setFormFieldValue}
@@ -111,7 +112,7 @@ class DigitalAssetsSendView extends Component<Props> {
               currentStep={currentStep}
               isLoading={isLoading}
               gasValues={gasValues}
-              formError={formError}
+              sendAssetError={sendAssetError}
               setNonceEditable={setNonceEditable}
               isPotentiallyFail={isPotentiallyFail}
               fiatCurrency={fiatCurrency}
