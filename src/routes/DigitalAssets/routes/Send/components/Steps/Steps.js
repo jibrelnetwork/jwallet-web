@@ -9,6 +9,7 @@ import DigitalAssetsSendConfirm from '../Confirm'
 
 type Props = {|
   +goToNextStep: () => void,
+  +goBack: () => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
   +setNonceEditable: (isEditable: boolean) => void,
@@ -18,7 +19,7 @@ type Props = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
-  +formError: string,
+  +sendAssetError: string,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +currentStep: DigitalAssetsSendStepIndex,
@@ -29,6 +30,7 @@ type Props = {|
 |}
 
 function DigitalAssetsSendSteps({
+  goBack,
   setPriority,
   goToNextStep,
   setFormFieldValue,
@@ -39,7 +41,7 @@ function DigitalAssetsSendSteps({
   formFieldValues,
   formFieldErrors,
   formFieldWarnings,
-  formError,
+  sendAssetError,
   ownerAddress,
   priority,
   currentStep,
@@ -58,7 +60,6 @@ function DigitalAssetsSendSteps({
           formFieldValues={formFieldValues}
           formFieldErrors={formFieldErrors}
           formFieldWarnings={formFieldWarnings}
-          formError={formError}
           submit={goToNextStep}
           addressNames={addressNames}
           digitalAssets={digitalAssets}
@@ -71,12 +72,14 @@ function DigitalAssetsSendSteps({
       {(currentStep === STEPS.CONFIRM) && (
         <DigitalAssetsSendConfirm
           submit={goToNextStep}
+          goBack={goBack}
           setPassword={setFormFieldValue('password')}
           addressNames={addressNames}
           selectedAsset={selectedAsset}
           ownerAddress={ownerAddress}
           formFieldValues={formFieldValues}
-          errorMessage={formFieldErrors.password}
+          formFieldErrors={formFieldErrors}
+          errorMessage={sendAssetError}
           isLoading={isLoading}
           gasValues={gasValues}
           isPotentiallyFail={isPotentiallyFail}

@@ -177,6 +177,12 @@
       }
     }
 
+    &.-alert {
+      &.-white {
+        background-image: $icon-medium-alert-white;
+      }
+    }
+
     &.-close-header {
       &.-gray {
         background-image: $icon-medium-close-header-gray;

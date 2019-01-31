@@ -30,7 +30,6 @@ type Props = {|
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
-  +formError: string,
   +ownerAddress: OwnerAddress,
   +priority: TXPriorityKey,
   +isLoading: boolean,
@@ -47,7 +46,6 @@ function DigitalAssetsSendForm({
   formFieldValues,
   formFieldErrors,
   formFieldWarnings,
-  formError,
   ownerAddress,
   priority,
   isLoading,
@@ -134,10 +132,6 @@ function DigitalAssetsSendForm({
             />
           </div>
         </div>
-        {formError &&
-          <div className='error'>
-            <JText value={formError} color='red' whiteSpace='wrap' />
-          </div>}
         <div className='actions'>
           <JRaisedButton
             onClick={submit}

@@ -14,6 +14,7 @@ const walletSagas = { walletsRootSaga }
 export {
   getPrivateKey,
   getPrivateKeyCancel,
+  GetPrivateKeyError,
 } from './wallets'
 
 export default {
