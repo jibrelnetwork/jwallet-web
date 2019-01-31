@@ -134,7 +134,8 @@ html.no-filereader .unsupported-screen__feature.-filereader,
 html.no-indexeddb .unsupported-screen__feature.-indexeddb,
 html.no-localstorage .unsupported-screen__feature.-localstorage,
 html.no-webworkers .unsupported-screen__feature.-webworkers,
-html.no-workerscrypto .unsupported-screen__feature.-workerscrypto {
+html.no-workerscrypto .unsupported-screen__feature.-workerscrypto,
+html.no-crosstabstoreevents .unsupported-screen__feature.-crosstabstoreevents {
   display: inline-block;
 }
 
@@ -148,7 +149,8 @@ html.no-filereader .unsupported-screen,
 html.no-indexeddb .unsupported-screen,
 html.no-localstorage .unsupported-screen,
 html.no-webworkers .unsupported-screen,
-html.no-workerscrypto .unsupported-screen {
+html.no-workerscrypto .unsupported-screen,
+html.no-crosstabstoreevents .unsupported-screen {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
