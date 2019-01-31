@@ -136,7 +136,7 @@ class JInput extends PureComponent<Props> {
       >
         {children}
         {hasTopLabel && <div className='label'>{labelOrPlaceholder}</div>}
-        {infoMessage && <div className='info'>{infoMessage}</div>}
+        {!errorMessage && infoMessage && <div className='info'>{infoMessage}</div>}
         {errorMessage && <div className='error'>{errorMessage}</div>}
         <div className='loader' />
         <div className='help'><div className='icon' /></div>
