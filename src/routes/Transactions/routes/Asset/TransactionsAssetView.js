@@ -130,7 +130,7 @@ function TransactionsAssetView({
                 iconName='upload'
               />
             </div>
-            <div className='refetch' title='Refresh'>
+            <div className='refetch' title='Resync'>
               <JFlatButton
                 onClick={handle(removeItemsByAsset)(assetAddress)}
                 iconColor='gray'
