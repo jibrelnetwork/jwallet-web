@@ -21,7 +21,7 @@ export const SET_FINAL_GAS_LIMIT_VALUE = '@@digitalAssetsSend/SET_FINAL_GAS_LIMI
 export const SET_FORM_FIELD_VALUE = '@@digitalAssetsSend/SET_FORM_FIELD_VALUE'
 export const SET_FORM_FIELD_ERROR = '@@digitalAssetsSend/SET_FORM_FIELD_ERROR'
 export const SET_FORM_FIELD_WARNING = '@@digitalAssetsSend/SET_FORM_FIELD_WARNING'
-export const SET_FORM_ERROR = '@@digitalAssetsSend/SET_FORM_ERROR'
+export const SET_SEND_ASSET_ERROR = '@@digitalAssetsSend/SET_SEND_ASSET_ERROR'
 export const CLEAN_VALIDATION_ERRORS = '@@digitalAssetsSend/CLEAN_VALIDATION_ERRORS'
 export const SET_NONCE_EDITABLE = '@@digitalAssetsSend/SET_NONCE_EDITABLE'
 export const SET_NOTIFY_POTENTIALLY_FAIL = '@@digitalAssetsSend/SET_NOTIFY_POTENTIALLY_FAIL'
@@ -169,9 +169,9 @@ export function setFormFieldWarning(
   }
 }
 
-export function setFormError(message: string) {
+export function setSendAssetError(message: string) {
   return {
-    type: SET_FORM_ERROR,
+    type: SET_SEND_ASSET_ERROR,
     payload: {
       message,
     },
@@ -265,7 +265,7 @@ const initialState: DigitalAssetsSendState = {
   currentStep: STEPS.FORM,
   priority: 'NORMAL',
   isLoading: false,
-  formError: '',
+  sendAssetError: '',
   requestedGasValues: {
     gasPrice: null,
     gasLimit: null,
@@ -307,7 +307,6 @@ function digitalAssetsSend(
           gasPrice: '',
           gasLimit: '',
         },
-        formError: '',
       }
 
     case SET_IS_LOADING:
@@ -324,7 +323,6 @@ function digitalAssetsSend(
 
       return {
         ...state,
-        formError: '',
         formFieldErrors: {
           ...state.formFieldErrors,
           [fieldName]: '',
@@ -433,11 +431,11 @@ function digitalAssetsSend(
       }
     }
 
-    case SET_FORM_ERROR: {
+    case SET_SEND_ASSET_ERROR: {
       const { message } = action.payload
       return {
         ...state,
-        formError: message,
+        sendAssetError: message,
       }
     }
 
@@ -453,7 +451,7 @@ function digitalAssetsSend(
       return {
         ...state,
         formFieldErrors: initialState.formFieldErrors,
-        formError: '',
+        sendAssetError: '',
         isPotentiallyFail: false,
       }
     }

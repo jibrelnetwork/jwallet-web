@@ -4,10 +4,7 @@ import React, { PureComponent } from 'react'
 
 import checkBalanceLoading from 'utils/digitalAssets/checkBalanceLoading'
 
-import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
+import { formatAssetBalance } from 'utils/formatters'
 
 import Asset from './Asset'
 import DigitalAssetsGridEmpty from './Empty'
@@ -42,7 +39,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               name={name}
               symbol={symbol}
               address={address}
-              balance={formatBalance(divDecimals(balance ? balance.value : 0, decimals))}
+              balance={formatAssetBalance(address, balance ? balance.value : 0, decimals)}
               isCustom={isCustom}
               isError={!!balance && !!balance.isError}
               isLoading={checkBalanceLoading(balance)}

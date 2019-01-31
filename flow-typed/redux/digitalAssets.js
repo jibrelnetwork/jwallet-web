@@ -178,7 +178,7 @@ declare type DigitalAssetsSendState = {|
   +isLoading: boolean,
   +requestedGasValues: GasValues,
   +finalGasValues: GasValues,
-  +formError: string,
+  +sendAssetError: string,
   +isPotentiallyFail: boolean,
 |}
 

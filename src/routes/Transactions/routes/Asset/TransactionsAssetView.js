@@ -4,11 +4,7 @@ import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import handle from 'utils/eventHandlers/handle'
-
-import {
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
+import { formatAssetBalance } from 'utils/formatters'
 
 import {
   JTabs,
@@ -31,8 +27,10 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
     },
   }: DigitalAsset = asset
 
-  const balance: string = formatBalance(
-    divDecimals(assetBalance ? assetBalance.value : 0, decimals),
+  const balance: string = formatAssetBalance(
+    address,
+    assetBalance ? assetBalance.value : 0,
+    decimals
   )
 
   return {
