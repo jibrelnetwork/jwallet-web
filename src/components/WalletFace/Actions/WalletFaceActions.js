@@ -58,7 +58,7 @@ class WalletFaceActions extends PureComponent<Props> {
           <div className='actions'>
             {balance && (
               <JText
-                value={`${formatBalance(divDecimals(balance))} ETH`}
+                value={`${formatBalance(divDecimals(balance), 4)} ETH`}
                 color='white'
               />
             )}

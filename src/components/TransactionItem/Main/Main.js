@@ -11,11 +11,8 @@ import config from 'config'
 import handle from 'utils/eventHandlers/handle'
 import getFormattedDateString from 'utils/time/getFormattedDateString.js'
 
-import {
-  isZero,
-  divDecimals,
-  formatBalance,
-} from 'utils/numbers'
+import { isZero } from 'utils/numbers'
+import { formatAssetBalance } from 'utils/formatters'
 
 import {
   JIcon,
@@ -132,6 +129,9 @@ class TransactionItemMain extends PureComponent<Props> {
       blockHash,
       contractAddress,
       isRemoved,
+      keys: {
+        assetAddress,
+      },
     }: TransactionWithPrimaryKeys = data
 
     const {
@@ -233,7 +233,7 @@ class TransactionItemMain extends PureComponent<Props> {
               <JText
                 value={`
                   ${isZero(amount) ? '' : amountSign}
-                  ${formatBalance(divDecimals(amount, decimals))}
+                  ${assetAddress && formatAssetBalance(assetAddress, amount, decimals)}
                   ${symbol}
                 `}
                 color={color}
