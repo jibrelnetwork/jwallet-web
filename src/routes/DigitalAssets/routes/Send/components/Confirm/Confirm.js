@@ -2,15 +2,23 @@
 
 import React from 'react'
 
+import {
+  JText,
+  JIcon,
+  JFlatButton,
+} from 'components/base'
+
 import DigitalAssetsSendConfirmCard from './Card'
 import DigitalAssetsSendConfirmPassword from './Password'
 
 type Props = {|
   +submit: () => void,
+  +goBack: () => void,
   +setPassword: (value: string) => void,
   +addressNames: AddressNames,
   +selectedAsset: ?DigitalAsset,
   +formFieldValues: DigitalAssetsSendFormFields,
+  +formFieldErrors: DigitalAssetsSendFormFields,
   +gasValues: GasValues,
   +errorMessage: string,
   +ownerAddress: OwnerAddress,
@@ -20,10 +28,12 @@ type Props = {|
 
 function DigitalAssetsSendConfirm({
   submit,
+  goBack,
   setPassword,
   addressNames,
   selectedAsset,
   formFieldValues,
+  formFieldErrors,
   gasValues,
   errorMessage,
   ownerAddress,
@@ -50,9 +60,25 @@ function DigitalAssetsSendConfirm({
         submit={submit}
         onChange={setPassword}
         value={formFieldValues.password}
-        errorMessage={errorMessage}
+        errorMessage={formFieldErrors.password}
         isLoading={isLoading}
       />
+      {errorMessage &&
+      <div className='error'>
+        <div className='icon'>
+          <JIcon name='alert' size='medium' color='white' />
+        </div>
+        <div className='text'>
+          <JText value={errorMessage} color='white' size='semismall' whiteSpace='wrap' />
+        </div>
+        <div className='button'>
+          <JFlatButton
+            onClick={goBack}
+            label='Change parameters'
+            isBordered
+          />
+        </div>
+      </div>}
     </div>
   )
 }

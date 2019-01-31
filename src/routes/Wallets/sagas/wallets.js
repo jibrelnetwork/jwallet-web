@@ -54,40 +54,42 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
   }
 }
 
+export class GetPrivateKeyError extends Error {
+  // eslint-disable-next-line fp/no-rest-parameters
+  constructor(...args: any) {
+    super(...args)
+    this.name = 'GetPrivateKeyError'
+  }
+}
+
 export function* getPrivateKey(walletId: string, password: string): Saga<string> {
   const walletsPersist: ExtractReturn<typeof selectWalletsPersist> =
     yield select(selectWalletsPersist)
 
-  try {
-    const wallet: Wallet = getWallet(walletsPersist.items, walletId)
+  const wallet: Wallet = getWallet(walletsPersist.items, walletId)
 
-    walletsWorker.privateKeyRequest(walletsPersist, wallet, password)
+  walletsWorker.privateKeyRequest(walletsPersist, wallet, password)
 
-    while (true) {
-      const { response, error } = yield race({
-        response: take(wallets.PRIVATE_KEY_SUCCESS),
-        error: take(wallets.PRIVATE_KEY_ERROR),
-      })
+  while (true) {
+    const { response, error } = yield race({
+      response: take(wallets.PRIVATE_KEY_SUCCESS),
+      error: take(wallets.PRIVATE_KEY_ERROR),
+    })
 
-      if (response) {
-        if (response.payload.walletId !== walletId) {
-          continue
-        }
-
-        return response.payload.privateKey
-      } else if (error) {
-        if (error.payload.walletId !== walletId) {
-          continue
-        }
-
-        throw new Error(error.payload.message)
+    if (response) {
+      if (response.payload.walletId !== walletId) {
+        continue
       }
-    }
-  } catch (err) {
-    yield put(wallets.privateKeyError(walletId, err.message))
-  }
 
-  return ''
+      return response.payload.privateKey
+    } else if (error) {
+      if (error.payload.walletId !== walletId) {
+        continue
+      }
+
+      throw new GetPrivateKeyError(error.payload.message)
+    }
+  }
 }
 
 export function* getPrivateKeyCancel(walletId: string): Saga<void> {
