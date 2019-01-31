@@ -142,7 +142,7 @@ const config: AppConfig = {
 
   syncTransactionsTimeout: 10 * ONE_SECOND,
 
-  maxBlocksPerTransactionsRequest: 500 * 1000,
+  maxBlocksPerTransactionsRequest: 200 * 1000,
 
   minBlocksPerTransactionsRequest: 1000,
 
