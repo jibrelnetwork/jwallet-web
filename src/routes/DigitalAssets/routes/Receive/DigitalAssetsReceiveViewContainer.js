@@ -2,30 +2,16 @@
 
 import { connect } from 'react-redux'
 
-import { selectAllAddressNames } from 'store/selectors/favorites'
 import { reactRouterBack } from 'utils/browser'
-import {
-  selectActiveWallet,
-  selectWalletsAddresses,
-} from 'store/selectors/wallets'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import DigitalAssetsReceiveView from './DigitalAssetsReceiveView'
 
 const mapStateToProps = (state: AppState) => {
-  const addressNames: AddressNames = selectAllAddressNames(state)
-  const { addresses }: WalletsAddressesState = selectWalletsAddresses(state)
-
-  const items: AddressNames = addresses
-    .reduce((acc, address, index) => ({
-      ...acc,
-      [address]: addressNames[address] || `Address #${index}`,
-    }), {})
-
-  const wallet = selectActiveWallet(state)
+  const address = selectActiveWalletAddress(state)
 
   return {
-    items,
-    wallet,
+    address,
   }
 }
 
