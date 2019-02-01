@@ -63,6 +63,7 @@
     "redux-persist": "5.10.0",
     "redux-saga": "0.16.0",
     "scryptsy": "2.0.0",
+    "ttag": "1.6.0",
     "tweetnacl": "1.0.0",
     "tweetnacl-util": "0.15.0",
     "uuid": "3.3.2",
