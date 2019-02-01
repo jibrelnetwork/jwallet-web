@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import OverlayNotification from 'components/OverlayNotification'
 
@@ -14,10 +15,10 @@ function TransactionsListEmpty({ isFiltered }: Props) {
       color='gray'
       image='screen-reload'
       description={isFiltered ? [
-        'There are no items to display',
+        t`There are no items to display`,
       ] : [
-        'Looks like you haven\'t made',
-        'any transactions yet.',
+        t`Looks like you haven't made`,
+        t`any transactions yet.`,
       ]}
       isTransparent
     />

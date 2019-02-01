@@ -6,6 +6,7 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects'
+import { t } from 'ttag'
 
 import { selectWalletsItems } from 'store/selectors/wallets'
 
@@ -40,7 +41,7 @@ function* rename(action: ExtractReturn<typeof walletsRename.rename>): Saga<void>
   } = action.payload
 
   if (!name) {
-    yield put(wallets.setInvalidField('name', 'Wallet name can\'t be empty'))
+    yield put(wallets.setInvalidField('name', t`Wallet name can\'t be empty`))
 
     return
   }
@@ -48,7 +49,7 @@ function* rename(action: ExtractReturn<typeof walletsRename.rename>): Saga<void>
   const foundWallet: Wallet = getWallet(items, walletId)
 
   if (foundWallet.name === name) {
-    yield put(wallets.setInvalidField('name', 'Wallet with this name already exists'))
+    yield put(wallets.setInvalidField('name', t`Wallet with this name already exists`))
 
     return
   }

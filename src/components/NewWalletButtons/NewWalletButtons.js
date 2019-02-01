@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import WalletFace from 'components/WalletFace'
 
@@ -16,16 +17,16 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
       <WalletFace
         onClick={createWallet}
         iconName='add'
-        title='Create new wallet'
-        description='Create your own wallet to manage on-chain funds'
+        title={t`Create new wallet`}
+        description={t`Create your own wallet to manage on-chain funds`}
         isTransparent
       />
     </div>
     <WalletFace
       onClick={importWallet}
       iconName='import'
-      title='Import wallet'
-      description='Import existing wallet to manage on-chain funds'
+      title={t`Import wallet`}
+      description={t`Import existing wallet to manage on-chain funds`}
       isTransparent
     />
   </div>

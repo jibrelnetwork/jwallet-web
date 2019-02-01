@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import JText from 'components/base/JText'
 import handle from 'utils/eventHandlers/handle'
@@ -44,8 +45,8 @@ class CopyableField extends PureComponent<Props> {
           <OverlayActions
             copy={handle(copy)(value)}
             load={download ? handle(download)(value) : null}
-            loadLabel='Download as TXT'
-            copyLabel='Copy backup phrase'
+            loadLabel={t`Download as TXT`}
+            copyLabel={t`Copy backup phrase`}
           />
         </div>
       </div>

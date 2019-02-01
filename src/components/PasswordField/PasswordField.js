@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import JInput from 'components/base/JInput'
 
@@ -30,10 +31,10 @@ type StateProps = {
 }
 
 const STATUS_MESSAGE_MAP: { [PasswordStatus]: string } = {
-  'red': 'Too weak',
-  'green': 'Not bad',
-  'yellow': 'Bit weak',
-  'orange': 'Easily cracked',
+  'red': t`Too weak`,
+  'green': t`Not bad`,
+  'yellow': t`Bit weak`,
+  'orange': t`Easily cracked`,
 }
 
 function getStatusByScore(score: number): ?PasswordStatus {

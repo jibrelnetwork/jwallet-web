@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 
 import {
   put,
@@ -28,16 +29,19 @@ function* checkFavoriteDataValid(name: string, description: string, address?: st
   const isDescriptionInvalid: boolean = !!description && (description.length < 2)
 
   if (isAddressInvalid) {
-    yield put(favorites.setFormFieldError('address', 'Please input valid address'))
+    yield put(favorites.setFormFieldError('address', t`Please input valid address`))
   }
 
   if (isnameInvalid) {
-    yield put(favorites.setFormFieldError('name', 'Name length should be at least 2 symbols'))
+    yield put(favorites.setFormFieldError('name', t`Name length should be at least 2 symbols`))
   }
 
   if (isDescriptionInvalid) {
     yield put(
-      favorites.setFormFieldError('description', 'Description length should be at least 2 symbols'),
+      favorites.setFormFieldError(
+        'description',
+        t`Description length should be at least 2 symbols`
+      ),
     )
   }
 
@@ -52,7 +56,7 @@ function* checkFavoriteAlreadyExists(items: Favorites, address: string, name: st
   const foundItem: ?Favorite = items[address]
 
   if (foundItem && foundItem.isAddedByUser) {
-    yield put(favorites.setFormFieldError('address', 'Favorite with this address already exists'))
+    yield put(favorites.setFormFieldError('address', t`Favorite with this address already exists`))
 
     return true
   }
@@ -63,7 +67,7 @@ function* checkFavoriteAlreadyExists(items: Favorites, address: string, name: st
   const isFavoriteNameExist: boolean = !!Object.values(favoritesAddressNames).includes(name)
 
   if (isFavoriteNameExist) {
-    yield put(favorites.setFormFieldError('name', 'Favorite with this name already exists'))
+    yield put(favorites.setFormFieldError('name', t`Favorite with this name already exists`))
 
     return true
   }
@@ -74,7 +78,7 @@ function* checkFavoriteAlreadyExists(items: Favorites, address: string, name: st
   const isAddressWalletsNameExist: boolean = !!Object.values(addressWalletsNames).includes(name)
 
   if (isAddressWalletsNameExist) {
-    yield put(favorites.setFormFieldError('name', 'There is wallet with such name'))
+    yield put(favorites.setFormFieldError('name', t`There is wallet with such name`))
 
     return true
   }
@@ -85,7 +89,7 @@ function* checkFavoriteAlreadyExists(items: Favorites, address: string, name: st
   const isAddressNameExist: boolean = !!Object.values(addressNames).includes(name)
 
   if (isAddressNameExist) {
-    yield put(favorites.setFormFieldError('name', 'There is address with such name'))
+    yield put(favorites.setFormFieldError('name', t`There is address with such name`))
 
     return true
   }

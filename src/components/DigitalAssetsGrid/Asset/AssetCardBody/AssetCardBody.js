@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import AssetBalance from 'components/AssetBalance'
 import { JFlatButton, JText, JLoader } from 'components/base'
@@ -71,13 +72,13 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               color='gray'
               weight='bold'
               whiteSpace='wrap'
-              value='Balance loading error'
+              value={t`Balance loading error`}
             />
           </div>
           <div className='fiat'>
             <JFlatButton
               color='blue'
-              label='Reload asset'
+              label={t`Reload asset`}
               isHoverOpacity
               // eslint-disable-next-line no-console
               onClick={console.log}
@@ -100,7 +101,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
           {!fiatBalance ? (
             <div className='message -transparent'>
               <JText
-                value={`No ${fiatCurrency} Exchange`}
+                value={t`No ${fiatCurrency} Exchange`}
                 color='gray'
                 weight='bold'
                 whiteSpace='wrap'
@@ -125,7 +126,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               <JFlatButton
                 to={`/transactions/${address}`}
                 color={isHover ? 'sky' : 'blue'}
-                label='Show transactions'
+                label={t`Show transactions`}
               />
             </div>
           </div>

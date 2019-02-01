@@ -11,6 +11,7 @@ function concatEntropyBuffers(entropyBuffer: Buffer, randomBuffer: Buffer): Buff
   const totalEntropy: Buffer = Buffer.concat([entropyBuffer, randomBuffer])
 
   if (totalEntropy.length !== (entropyBuffer.length + randomBuffer.length)) {
+    // TODO: TTAG???
     throw new Error('Concatenation of entropy buffers failed')
   }
 
@@ -21,6 +22,7 @@ function getHashedEntropy(entropy: ?string, randomBufferLength: number): ?Buffer
   if (!entropy) {
     return null
   } else if (typeof entropy !== 'string') {
+    // TODO: TTAG???
     throw new TypeError('Entropy is set but not a string')
   }
 

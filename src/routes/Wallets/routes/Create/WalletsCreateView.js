@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import {
   ModalHeader,
@@ -61,7 +62,7 @@ class WalletsCreateView extends Component<Props> {
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          title='Create wallet'
+          title={t`Create wallet`}
           isDisabled={isLoading}
         />
         <div className='content'>
@@ -71,9 +72,9 @@ class WalletsCreateView extends Component<Props> {
               onChangeName={changeNameInput}
               invalidFields={invalidFields}
               valueName={name}
-              buttonLabel='Next step'
-              fieldName='wallets-name'
-              placeholder='Wallet name'
+              buttonLabel={t`Next step`}
+              fieldName={t`wallets-name`}
+              placeholder={t`Wallet name`}
               isLoading={isLoading}
             />
           )}
@@ -84,14 +85,14 @@ class WalletsCreateView extends Component<Props> {
               onChangePasswordHint={changePasswordHintInput}
               onChangePasswordConfirm={changePasswordConfirmInput}
               title={[
-                'You will use this password to unlock and transfer your funds.',
-                'Keep it secure!',
+                t`You will use this password to unlock and transfer your funds.`,
+                t`Keep it secure!`,
               ]}
               invalidFields={invalidFields}
               valuePassword={password}
               valuePasswordHint={passwordHint}
               valuePasswordConfirm={passwordConfirm}
-              buttonLabel='Create wallet'
+              buttonLabel={t`Create wallet`}
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

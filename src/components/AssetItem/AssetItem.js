@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import checkETH from 'utils/digitalAssets/checkETH'
+import { t } from 'ttag'
 
 import React, {
   Fragment,
@@ -144,9 +145,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
                     onClick={remove}
                     color='blue'
                     bgColor='white'
-                    labelCancel='No'
+                    labelCancel={t`No`}
                     iconTooltipName='trash'
-                    labelConfirm='Yes, delete'
+                    labelConfirm={t`Yes, delete`}
                     iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
                     isReverse
                   />

@@ -37,6 +37,7 @@ export const ga = (...args) => {
     try {
       window.ga(...args)
     } catch (err) {
+      // #TODO: TTAG???
       reportOnce('Google Analytics is not available')
     }
   }
@@ -53,6 +54,7 @@ export const gaSendEvent = (...args) => {
 
 export const gaSetUserMetric = (metric, value) => {
   if (!metric) {
+    // #TODO: TTAG???
     reportOnce('You tried to set undefined metric')
   } else {
     ga('set', metric, value)
@@ -61,6 +63,7 @@ export const gaSetUserMetric = (metric, value) => {
 
 export const gaSetUserDimension = (dimension, text) => {
   if (!dimension) {
+    // #TODO: TTAG???
     reportOnce('You tried to set undefined dimension')
   } else {
     ga('set', dimension, text)

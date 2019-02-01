@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import JFlatButton from 'components/base/JFlatButton'
 
@@ -53,13 +54,13 @@ class WalletsAddressesView extends Component<Props> {
         <ModalHeader
           onBack={goToWallets}
           color='white'
-          title='Mnemonic addresses'
+          title={t`Mnemonic addresses`}
         />
         <div className='content'>
           <WalletViewTitle
             data={[
-              'To enhance your privacy, the wallet can contain as many addresses',
-              'as you need. Please, choose one to continue',
+              t`To enhance your privacy, the wallet can contain as many addresses`,
+              t`as you need. Please, choose one to continue`,
             ]}
           />
           <MnemonicAddresses
@@ -78,7 +79,7 @@ class WalletsAddressesView extends Component<Props> {
               iconName='plus'
               iconSize='small'
               iconColor='white'
-              label='Get more addresses'
+              label={t`Get more addresses`}
               isBordered
               isTransparent
             />

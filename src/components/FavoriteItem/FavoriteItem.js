@@ -3,6 +3,7 @@
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import ButtonWithConfirm from 'components/ButtonWithConfirm'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
@@ -147,9 +148,9 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 iconTooltipColor={(hovered === 'trash') ? 'sky' : 'blue'}
                 color='blue'
                 bgColor='white'
-                labelCancel='No'
+                labelCancel={t`No`}
                 iconTooltipName='trash'
-                labelConfirm='Yes, delete'
+                labelConfirm={t`Yes, delete`}
                 isReverse
               />
             </div>

@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import { JInput, JRaisedButton } from 'components/base'
 
@@ -33,22 +34,22 @@ const DigitalAssetEditForm = ({
     isLoading: boolean,
   }> = [{
     key: 'address',
-    placeholder: 'Address (ERC-20)',
+    placeholder: t`Address (ERC-20)`,
     isDisabled: !isAddressEditable,
     isLoading: isAddressLoading,
   }, {
     key: 'name',
-    placeholder: 'Name',
+    placeholder: t`Name`,
     isDisabled: false,
     isLoading: false,
   }, {
     key: 'symbol',
-    placeholder: 'Symbol',
+    placeholder: t`Symbol`,
     isDisabled: false,
     isLoading: false,
   }, {
     key: 'decimals',
-    placeholder: 'Decimals',
+    placeholder: t`Decimals`,
     isDisabled: false,
     isLoading: false,
   }]
@@ -87,7 +88,7 @@ const DigitalAssetEditForm = ({
 DigitalAssetEditForm.defaultProps = {
   isAddressLoading: false,
   isAddressEditable: true,
-  submitLabel: 'Add asset',
+  submitLabel: t`Add asset`,
 }
 
 export default DigitalAssetEditForm

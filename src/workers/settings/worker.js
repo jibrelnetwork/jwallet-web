@@ -1,6 +1,7 @@
 // @flow
 
 import nacl from 'tweetnacl'
+import { t } from 'ttag'
 
 import config from 'config'
 import reEncryptWallet from 'utils/wallets/reEncryptWallet'
@@ -89,7 +90,7 @@ settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
     console.error(err)
 
     settingsWorker.postMessage(validationPasswordForm({
-      passwordOld: 'Password is invalid',
+      passwordOld: t`Password is invalid`,
     }))
   } finally {
     settingsWorker.postMessage(changePaymentPasswordPending(false))

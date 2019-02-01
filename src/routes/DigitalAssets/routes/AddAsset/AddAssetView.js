@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import {
   CloseableScreen,
@@ -32,14 +33,14 @@ const AddAssetView = ({
     close={close}
     onOpen={openView}
     onClose={closeView}
-    title='Add digital asset'
+    title={t`Add digital asset`}
   >
     <DigitalAssetEditForm
       submit={submit}
       setField={setField}
       formFields={formFields}
       invalidFields={invalidFields}
-      submitLabel='Add asset'
+      submitLabel={t`Add asset`}
       isAddressLoading={isAddressLoading}
       isAddressEditable
     />

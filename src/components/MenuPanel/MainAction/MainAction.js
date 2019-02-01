@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import JRaisedButton from 'components/base/JRaisedButton'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
@@ -22,7 +23,7 @@ function MenuPanelMainAction({ isReadOnly, type }: Props) {
       >
         <JRaisedButton
           onClick={null}
-          label='Add private key'
+          label={t`Add private key`}
           labelColor='dark'
           color='white'
         />
@@ -38,7 +39,7 @@ function MenuPanelMainAction({ isReadOnly, type }: Props) {
       >
         <JRaisedButton
           onClick={null}
-          label='Add mnemonic'
+          label={t`Add mnemonic`}
           labelColor='dark'
           color='white'
         />
@@ -53,7 +54,7 @@ function MenuPanelMainAction({ isReadOnly, type }: Props) {
     >
       <JRaisedButton
         onClick={null}
-        label='Send asset'
+        label={t`Send asset`}
         labelColor='blue'
         color='white'
       />

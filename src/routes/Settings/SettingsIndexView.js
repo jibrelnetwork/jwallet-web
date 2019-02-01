@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import formatCurrency from 'utils/formatters/formatCurrency'
 import { SettingsGrid } from 'components'
@@ -30,43 +31,43 @@ const getSettingsCardProperties = ({
   walletName,
   fiatCurrency,
 }): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
-  title: 'Local currency',
+  title: t`Local currency`,
   description: formatCurrency(fiatCurrency),
   path: 'settings/currency',
   iconName: 'local-currency',
   searchTags: '',
   isVisible: true,
 }, {
-  title: 'Payment password',
-  description: 'Change',
+  title: t`Payment password`,
+  description: t`Change`,
   path: 'settings/password',
   iconName: 'lock-pin',
   searchTags: '',
   isVisible: true,
 }, {
-  title: 'Exchange service',
-  description: 'Try Jcash',
+  title: t`Exchange service`,
+  description: t`Try Jcash`,
   path: JCASH_UTM_URL,
   iconName: 'exchange-service',
   searchTags: '',
   isVisible: true,
 }, {
-  title: 'Support',
-  description: 'Check out Jwallet on Zendesk',
+  title: t`Support`,
+  description: t`Check out Jwallet on Zendesk`,
   path: 'https://jibrel.zendesk.com/hc/en-us/categories/360001171933-Jibrel-Wallet-Jwallet-',
   iconName: 'message',
   searchTags: 'zendesk help',
   isVisible: true,
 }, {
-  title: 'Rename wallet',
+  title: t`Rename wallet`,
   description: walletName,
   path: `wallets/rename/${walletId}`,
   iconName: 'edit-pen',
   searchTags: '',
   isVisible: true,
 }, {
-  title: 'Delete wallet',
-  description: 'Badaaaah!',
+  title: t`Delete wallet`,
+  description: t`Badaaaah!`,
   path: `wallets/delete/${walletId}`,
   iconName: 'cross-circle',
   iconColor: 'red',
@@ -150,7 +151,7 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
               <div className='search'>
                 <JSearch
                   onChange={this.setSearchQuery}
-                  placeholder='Search settings...'
+                  placeholder={t`Search settings...`}
                 />
               </div>
             </div>

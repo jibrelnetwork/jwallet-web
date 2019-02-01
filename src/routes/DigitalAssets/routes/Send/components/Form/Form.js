@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
@@ -63,6 +64,8 @@ function DigitalAssetsSendForm({
   const selectedAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
+  const selectedAssetSymbol = selectedAsset ? selectedAsset.symbol : ''
+
   return (
     <div className='digital-assets-send-form'>
       <form className='form' onSubmit={ignoreEvent(isLoading ? null : submit)()}>
@@ -70,7 +73,7 @@ function DigitalAssetsSendForm({
           value={ownerAddress}
           color='gray'
           name='owner-address'
-          placeholder='Current address'
+          placeholder={t`Current address`}
           isDisabled
         />
         <AddressPicker
@@ -90,10 +93,10 @@ function DigitalAssetsSendForm({
           items={[{
             onChange: setFormFieldValue('amount'),
             value: amount,
-            placeholder: `Value ${selectedAsset ? selectedAsset.symbol : ''}`,
+            placeholder: t`Value ${selectedAssetSymbol}`,
           }, {
             value: amountFiat,
-            placeholder: `Value ${fiatCurrency}`,
+            placeholder: t`Value ${fiatCurrency}`,
             isDisabled: true,
           }]}
           errorMessage={formFieldErrors.amount}
@@ -114,8 +117,8 @@ function DigitalAssetsSendForm({
               errorMessage={formFieldErrors.comment}
               icon='plus'
               name='comment'
-              label='Add comment'
-              placeholder='Comment'
+              label={t`Add comment`}
+              placeholder={t`Comment`}
             />
           </div>
           <div className='box'>
@@ -127,8 +130,8 @@ function DigitalAssetsSendForm({
               onActivate={setNonceEditable}
               icon='plus'
               name='nonce'
-              label='Show nonce'
-              placeholder='Nonce'
+              label={t`Show nonce`}
+              placeholder={t`Nonce`}
             />
           </div>
         </div>
@@ -136,7 +139,7 @@ function DigitalAssetsSendForm({
           <JRaisedButton
             onClick={submit}
             color='blue'
-            label='Confirm'
+            label={t`Confirm`}
             labelColor='white'
             isWide
           />
@@ -144,8 +147,8 @@ function DigitalAssetsSendForm({
       </form>
       <div className='message'>
         <JText
-          value='The app doesn’t charge you any fees.
-          But you have to pay the blockchain fee to create a new transaction.'
+          // eslint-disable-next-line max-len
+          value={t`The app doesn’t charge you any fees. But you have to pay the blockchain fee to create a new transaction.`}
           color='gray'
           whiteSpace='wrap'
           align='center'

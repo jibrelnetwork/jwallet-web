@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { t } from 'ttag'
 
 import DigitalAssetsManage from 'components/DigitalAssetsManage'
 
@@ -46,11 +47,11 @@ class DigitalAssetsManageView extends Component<Props> {
         <div className='header'>
           <div className='container'>
             <div className='title'>
-              <JText size='tab' color='gray' value='Assets manager' />
+              <JText size='tab' color='gray' value={t`Assets manager`} />
             </div>
             <div className='actions'>
               <div className='search'>
-                <JSearch onChange={setSearchQuery} placeholder='Search asset...' />
+                <JSearch onChange={setSearchQuery} placeholder={t`Search asset...`} />
               </div>
               <div onClick={addAsset} className='add'>
                 <JIcon name='add' color='gray' size='medium' />

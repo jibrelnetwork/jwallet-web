@@ -1,6 +1,8 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
+
 import { JCheckbox, JText, JRaisedButton } from 'components/base'
 import { setAgreementValue, getAgreementValue, checkAgreements } from 'utils/agreements'
 import { CONDITIONS_LIST } from 'data/agreements'
@@ -13,17 +15,14 @@ type StateProps = {|
   +isDisabled: boolean,
 |}
 
+/* eslint-disable max-len */
 const conditions = {
-  understandPrivateDataPolicy: `I understand that my funds are stored securely on my personal
-  computer. No private data is sent to Jibrel AG servers.
-  All encryption is done locally in browser`,
-  consentNoWarranty: `I consent that Jwallet service is provided as is without warranty.
-  Jibrel AG does not have access to my private information and could not
-  participate in resolution of issues concerning money loss of any kind`,
-  consentTrackingCookies: `I consent to allow cookies for collecting anonymous usage data to improve
-  quality of provided service`,
-  acceptTermsAndConditions: 'I have read and accepted',
+  understandPrivateDataPolicy: t`I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser`,
+  consentNoWarranty: t`I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind`,
+  consentTrackingCookies: t`I consent to allow cookies for collecting anonymous usage data to improve quality of provided service`,
+  acceptTermsAndConditions: t`I have read and accepted`,
 }
+/* eslint-enable max-len */
 
 class AgreementsView extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
@@ -51,7 +50,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
             <JText
               size='title'
               color='white'
-              value='Terms and Conditions'
+              value={t`Terms and Conditions`}
               whiteSpace='wrap'
               align='center'
             />
@@ -72,7 +71,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
                   <JCheckbox
                     onChange={this.onChange(key)}
                     color='white'
-                    label='I have read and accepted'
+                    label={t`I have read and accepted`}
                     name={key}
                     isChecked={getAgreementValue(key)}
                     isRegular
@@ -83,10 +82,10 @@ class AgreementsView extends PureComponent<Props, StateProps> {
                       target='_blank'
                       rel='noopener noreferrer'
                     >
-                      Terms of Use
+                      {t`Terms of Use`}
                     </a>
                     <span className='label'>
-                      <JText color='white' whiteSpace='wrap' value='and' />
+                      <JText color='white' whiteSpace='wrap' value={t`and`} />
                     </span>
                     <a
                       className='j-text -white link'
@@ -94,7 +93,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
                       target='_blank'
                       rel='noopener noreferrer'
                     >
-                      Privacy Policy
+                      {t`Privacy Policy`}
                     </a>
                   </JCheckbox>
                 )}
@@ -106,7 +105,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
               onClick={this.props.onSubmit}
               color='white'
               labelColor='blue'
-              label='Confirm and continue'
+              label={t`Confirm and continue`}
               isDisabled={isDisabled}
               isWide
             />

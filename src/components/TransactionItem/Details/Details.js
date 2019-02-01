@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
@@ -141,11 +142,19 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const repeatLink: ?string = getRepeatLink(txData, asset, comment, isSent)
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
 
+    const favoritesLabel = isFromFavorites
+      ? t`Remove from favourites`
+      : t`Add to favourites`
+
+    const commentLabel = comment
+      ? t`Edit comment`
+      : t`Add comment`
+
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
         <div className='item'>
           <div className='label'>
-            <JText value='TX Hash' color='gray' />
+            <JText value={t`TX Hash`} color='gray' />
           </div>
           <div className='value'>
             <a
@@ -163,7 +172,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         {from && (
           <div className='item -small-width'>
             <div className='label'>
-              <JText value='From address' color='gray' />
+              <JText value={t`From address`} color='gray' />
             </div>
             <div className='value'>
               <a
@@ -186,7 +195,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         {to && (
           <div className='item -small-width'>
             <div className='label'>
-              <JText value='To address' color='gray' />
+              <JText value={t`To address`} color='gray' />
             </div>
             <div className='value'>
               <a
@@ -208,7 +217,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         )}
         <div className='item'>
           <div className='label'>
-            <JText value='Fee' color='gray' />
+            <JText value={t`Fee`} color='gray' />
           </div>
           <div className='value'>
             <JText
@@ -231,7 +240,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 iconColor='gray'
                 iconName='repeat'
                 iconSize='medium'
-                label='Repeat payment'
+                label={t`Repeat payment`}
               />
             </div>
           )}
@@ -241,7 +250,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 onClick={isFromFavorites ? handle(removeFavorite)(txAddress) : null}
                 to={addFavoriteLink}
                 iconName={`star-${isFromFavorites ? 'remove' : 'add'}`}
-                label={`${isFromFavorites ? 'Remove from' : 'Add to'} favourites`}
+                label={favoritesLabel}
                 color='gray'
                 iconColor='gray'
                 iconSize='medium'
@@ -251,7 +260,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           <div className='action'>
             <JFlatButton
               onClick={this.toggle}
-              label={`${comment ? 'Edit' : 'Add'} comment`}
+              label={commentLabel}
               iconName={`message-${comment ? 'edit' : 'add'}`}
               color='gray'
               iconColor='gray'

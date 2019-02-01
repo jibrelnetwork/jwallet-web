@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import { JThumbnail, JFlatButton } from 'components/base'
 import { Scrollbars } from 'react-custom-scrollbars'
@@ -14,10 +15,10 @@ const SingularTabBlockScreen = () => (
             color='white'
             iconSize='xlarge'
             image='bad-browser'
-            title='Jwallet supports only single tab'
+            title={t`Jwallet supports only single tab`}
             description={[
-              'Jwallet can be open only in one tab simultaneously.',
-              'Please reload this tab to continue using it.',
+              t`Jwallet can be open only in one tab simultaneously.`,
+              t`Please reload this tab to continue using it.`,
             ]}
           />
           <div className='actions'>
@@ -25,7 +26,7 @@ const SingularTabBlockScreen = () => (
               <JFlatButton
                 onClick={() => { window.location.reload(false) }}
                 color='white'
-                label='Reload Page'
+                label={t`Reload Page`}
                 isHoverOpacity
               />
             </div>

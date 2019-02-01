@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { t } from 'ttag'
 
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { reactRouterBack } from 'utils/browser'
@@ -18,7 +19,7 @@ const mapStateToProps = (state: AppState) => {
   const items: AddressNames = addresses
     .reduce((acc, address, index) => ({
       ...acc,
-      [address]: addressNames[address] || `Address #${index}`,
+      [address]: addressNames[address] || t`Address #${index}`,
     }), {})
 
   const wallet = selectActiveWallet(state)

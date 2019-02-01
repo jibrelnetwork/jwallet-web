@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import JCard from 'components/base/JCard'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
@@ -66,7 +67,7 @@ class WalletsIndexView extends Component<Props> {
 
             const description: string = (!isMnemonic && address)
               ? getShortenedAddress(address)
-              : 'Mnemonic, many addresses'
+              : t`Mnemonic, many addresses`
 
             return (
               <div key={item.id} className='wallet'>
@@ -78,7 +79,7 @@ class WalletsIndexView extends Component<Props> {
                     backup={isReadOnly ? null : ignoreEvent(backupWallet)(id)}
                     type={type}
                     title={name}
-                    description={isReadOnly ? `${description}, read only` : description}
+                    description={isReadOnly ? t`${description}, read only` : description}
                     isReadOnly={isReadOnly}
                   />
                 </JCard>

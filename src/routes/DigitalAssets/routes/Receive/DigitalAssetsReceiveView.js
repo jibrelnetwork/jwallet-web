@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import { JCard, JInput, JRaisedButton } from 'components/base'
 import { AddressPicker, CloseableScreen, QRCode } from 'components'
@@ -74,7 +75,7 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
     return (
       <CloseableScreen
         close={close}
-        title='Receive assets'
+        title={t`Receive assets`}
       >
         <div className='digital-assets-receive-view'>
           <div className='content'>
@@ -91,7 +92,7 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
               </div>
               {wallet.type === 'address' ?
                 <JInput
-                  label='Recipient address'
+                  label={t`Recipient address`}
                   value={selectedAddress}
                   color='gray'
                   type='text'
@@ -104,7 +105,7 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
                   isDisabled={wallet.type === 'address'}
                 />
               }
-              <JRaisedButton onClick={this.copyAddress} label='Copy address' color='blue' />
+              <JRaisedButton onClick={this.copyAddress} label={t`Copy address`} color='blue' />
             </div>
           </div>
         </div>

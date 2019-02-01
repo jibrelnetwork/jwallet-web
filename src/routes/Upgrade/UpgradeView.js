@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Fragment } from 'react'
+import { t } from 'ttag'
 
 import {
   Form,
@@ -43,7 +44,7 @@ const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
         meta={Object.assign(
           {},
           fieldProps.meta,
-          { error: 'Incorrect password' }
+          { error: t`Incorrect password` }
         )}
       />
     )
@@ -68,25 +69,25 @@ function UpgradeView({
   }
 
   const props = isMnemonic ? {
-    title: 'Add mnemonic',
+    title: t`Add mnemonic`,
     finalForm: {
       onSubmit: onSubmitMnemonic,
       validate: validateMnemonic,
     },
     inputField: {
       name: 'mnemonic',
-      placeholder: 'Mnemonic',
+      placeholder: t`Mnemonic`,
       rows: 6,
     },
   } : {
-    title: 'Add private key',
+    title: t`Add private key`,
     finalForm: {
       onSubmit: onSubmitPrivateKey,
       validate: validatePrivateKey,
     },
     inputField: {
       name: 'privateKey',
-      placeholder: 'Private key',
+      placeholder: t`Private key`,
       rows: 0,
     },
   }
@@ -118,13 +119,13 @@ function UpgradeView({
                 <Fragment>
                   <Field
                     name='passphrase'
-                    placeholder='BIP39 Mnemonic passphrase (optional)'
+                    placeholder={t`BIP39 Mnemonic passphrase (optional)`}
                     component={JInputField}
                     color='gray'
                   />
                   <Field
                     name='derivationPath'
-                    placeholder='Derivation path (optional)'
+                    placeholder={t`Derivation path (optional)`}
                     component={JInputField}
                     color='gray'
                   />
@@ -132,7 +133,7 @@ function UpgradeView({
               )}
               <Field
                 name='password'
-                placeholder='Payment password'
+                placeholder={t`Payment password`}
                 type='password'
                 color='gray'
                 isDisabled={isLoading}
@@ -147,7 +148,7 @@ function UpgradeView({
               >
                 {isLoading
                   ? <JLoader color='white' />
-                  : <JText value='Save' />
+                  : <JText value={t`Save`} />
                 }
               </button>
             </form>

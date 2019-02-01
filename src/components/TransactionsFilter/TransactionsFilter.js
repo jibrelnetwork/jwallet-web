@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import PopupButton from 'components/PopupButton'
 import { JText, JCheckbox } from 'components/base'
@@ -31,14 +32,14 @@ class TransactionsFilter extends PureComponent<Props> {
               color='gray'
               size='normal'
               weight='bold'
-              value='Filter'
+              value={t`Filter`}
               whiteSpace='wrap'
             />
           </div>
           <JCheckbox
             onChange={setOnlyPending}
             name='only-pending'
-            label='Only pending'
+            label={t`Only pending`}
             isChecked={isOnlyPending}
           />
         </div>

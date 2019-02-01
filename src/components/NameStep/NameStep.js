@@ -1,9 +1,12 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import HelpText from 'components/HelpText'
 import { JFlatButton, JInput, JRaisedButton } from 'components/base'
+
+// #TODO FIXME
 
 const NameStep = ({
   setName,
@@ -14,7 +17,7 @@ const NameStep = ({
 }: Props) => (
   <div className='form'>
     <div className='help'>
-      <HelpText text='Set name of the wallet' />
+      <HelpText text={t`Set name of the wallet`} />
     </div>
     <JInput
       onChange={setName}
@@ -23,7 +26,7 @@ const NameStep = ({
       type='text'
       color='white'
       name='wallet-name'
-      placeholder='routes.createWallet.placeholder.name'
+      placeholder={t`routes.createWallet.placeholder.name`}
     />
     <div className='actions'>
       <JFlatButton
@@ -31,14 +34,14 @@ const NameStep = ({
         iconName='arrow'
         iconSize='small'
         iconColor='white'
-        label='routes.createWallet.buttonTitle.prevStep'
+        label={t`routes.createWallet.buttonTitle.prevStep`}
         isTransparent
       />
       <div className='next'>
         <JRaisedButton
           onClick={setNextStep}
           color='blue'
-          label='routes.createWallet.buttonTitle.nextStep'
+          label={t`routes.createWallet.buttonTitle.nextStep`}
           isWide
         />
       </div>
