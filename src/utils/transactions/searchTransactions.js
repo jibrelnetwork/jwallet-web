@@ -12,7 +12,7 @@ function searchBy(f: Function, query: string): Function {
 
 function checkHashes(field: string, searchQuery: string): boolean {
   const query = searchQuery.replace(/^0x/, '')
-  const fromStart = new RegExp(`^${query}`, 'ig')
+  const fromStart = new RegExp(`^0x${query}`, 'ig')
   const fromEnd = new RegExp(`${query}$`, 'ig')
 
   return fromStart.test(field) || fromEnd.test(field)
