@@ -21,13 +21,15 @@ const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
         isTransparent
       />
     </div>
-    <WalletFace
-      onClick={importWallet}
-      iconName='import'
-      title='Import wallet'
-      description='Import existing wallet to manage on-chain funds'
-      isTransparent
-    />
+    <div className='import'>
+      <WalletFace
+        onClick={importWallet}
+        iconName='import'
+        title='Import wallet'
+        description='Import existing wallet to manage on-chain funds'
+        isTransparent
+      />
+    </div>
   </div>
 )
 

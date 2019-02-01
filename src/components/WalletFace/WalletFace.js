@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
 import {
-  JCard,
   JIcon,
   JText,
 } from 'components/base'
@@ -76,41 +75,39 @@ class WalletFace extends PureComponent<Props, StateProps> {
     }: StateProps = this.state
 
     return (
-      <JCard color='blue'>
-        <div
-          onClick={onClick}
-          className={classNames(
-            'wallet-face',
-            isToggled && '-toggled',
-            (isTransparent || isReadOnly) && '-transparent',
-          )}
-        >
-          <div className='type'>
-            <JIcon name={iconName} size='medium' color='white' />
-          </div>
-          <div className='data'>
-            <div className='title'>
-              <JText value={title} size='large' color='white' />
-            </div>
-            <div className='description'>
-              {isReadOnly && (
-                <div className='eye'><JIcon name='eye' size='medium' color='white' /></div>
-              )}
-              <JText value={description} color='white' />
-            </div>
-          </div>
-          {hasActions && (
-            <WalletFaceActions
-              backup={backup}
-              rename={rename}
-              remove={remove}
-              toggle={ignoreEvent(this.toggle)()}
-              balance={balance}
-              isToggled={isToggled}
-            />
-          )}
+      <div
+        onClick={onClick}
+        className={classNames(
+          'wallet-face',
+          isToggled && '-toggled',
+          (isTransparent || isReadOnly) && '-transparent',
+        )}
+      >
+        <div className='type'>
+          <JIcon name={iconName} size='medium' color='white' />
         </div>
-      </JCard>
+        <div className='data'>
+          <div className='title'>
+            <JText value={title} size='large' color='white' />
+          </div>
+          <div className='description'>
+            {isReadOnly && (
+              <div className='eye'><JIcon name='eye' size='medium' color='white' /></div>
+            )}
+            <JText value={description} color='white' />
+          </div>
+        </div>
+        {hasActions && (
+          <WalletFaceActions
+            backup={backup}
+            rename={rename}
+            remove={remove}
+            toggle={ignoreEvent(this.toggle)()}
+            balance={balance}
+            isToggled={isToggled}
+          />
+        )}
+      </div>
     )
   }
 }

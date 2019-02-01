@@ -11,5 +11,15 @@
 
   > .create {
     margin-bottom: 1px;
+    border-radius: 3px 3px 0 0;
+  }
+
+  > .import {
+    border-radius: 0 0 3px 3px;
+  }
+
+  > .create,
+  > .import {
+    overflow: hidden;
   }
 }
