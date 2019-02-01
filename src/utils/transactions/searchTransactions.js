@@ -1,26 +1,40 @@
 // @flow
 
-type ExtendedTransactionWithPrimaryKeys = {
+type TransactionWithNames = {
   ...TransactionWithPrimaryKeys,
   +toName: ?string,
   +fromName: ?string,
 }
 
-function checkField(field: string, searchQuery: string): boolean {
-  const sanitizedValue = field.replace(/^0x/, '')
-  const fromStart = new RegExp(`^${searchQuery}`, 'ig')
-  const fromEnd = new RegExp(`${searchQuery}$`, 'ig')
-  return fromStart.test(sanitizedValue) || fromEnd.test(sanitizedValue)
+function searchBy(f: Function, query: string): Function {
+  return (value: ?string): boolean => value ? f(value, query) : false
+}
+
+function checkHashes(field: string, searchQuery: string): boolean {
+  const query = searchQuery.replace(/^0x/, '')
+  const fromStart = new RegExp(`^${query}`, 'ig')
+  const fromEnd = new RegExp(`${query}$`, 'ig')
+
+  return fromStart.test(field) || fromEnd.test(field)
+}
+
+function checkNames(field: string, searchQuery: string) {
+  const pattern = new RegExp(searchQuery, 'ig')
+  return pattern.test(field)
 }
 
 function checkFound(
-  item: ExtendedTransactionWithPrimaryKeys,
+  item: TransactionWithNames,
   searchQuery: string,
 ): boolean {
-  const { hash, to, from, toName, fromName }: ExtendedTransactionWithPrimaryKeys = item
-  const valuesForCheck = [hash, to, from, toName, fromName]
+  const { hash, to, from, toName, fromName }: TransactionWithNames = item
+  const searchableHashes = [hash, to, from]
+  const searchableString = [toName, fromName]
 
-  return valuesForCheck.some(value => value && checkField(value, searchQuery))
+  // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
+  return searchableHashes.some(searchBy(checkHashes, searchQuery))
+  // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
+    || searchableString.some(searchBy(checkNames, searchQuery))
 }
 
 function searchTransactions(
@@ -32,7 +46,7 @@ function searchTransactions(
     return items
   }
 
-  const itemsWithNames: ExtendedTransactionWithPrimaryKeys[] = items.map(
+  const itemsWithNames: TransactionWithNames[] = items.map(
     (transaction) => {
       const toName = transaction.to && favorites ? favorites[transaction.to] : null
       const fromName = transaction.from && favorites ? favorites[transaction.from] : null
