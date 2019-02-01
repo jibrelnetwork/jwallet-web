@@ -14,11 +14,15 @@ import {
 import web3 from 'services/web3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import reactRouterBack from 'utils/browser/reactRouterBack'
-import checkAddressValid from 'utils/address/checkAddressValid'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
+
+import {
+  checkAddressValid,
+  getAddressChecksum,
+} from 'utils/address'
 
 import {
   getPrivateKey,
@@ -607,6 +611,11 @@ function* goToNextStep(): Saga<void> {
 
       if (isDataValid) {
         yield put(digitalAssetsSend.setCurrentStep(digitalAssetsSend.STEPS.CONFIRM))
+
+        yield put(digitalAssetsSend.setFormFieldValue(
+          'recipient',
+          getAddressChecksum(formFieldValues.recipient),
+        ))
       }
 
       break

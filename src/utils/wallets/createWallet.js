@@ -52,6 +52,7 @@ function createMnemonicWallet(
     name,
     orderIndex,
     mnemonicOptions,
+    createdBlockNumber,
   }: WalletData = walletData
 
   const {
@@ -77,6 +78,7 @@ function createMnemonicWallet(
     derivationPath,
     addressIndex: 0,
     isReadOnly: false,
+    createdBlockNumber,
     bip32XPublicKey: xpub,
     type: config.mnemonicWalletType,
     customType: config.mnemonicWalletType,
@@ -106,6 +108,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     data,
     name,
     orderIndex,
+    createdBlockNumber,
   }: WalletData = walletData
 
   checkWalletUniqueness(wallets, data, 'bip32XPublicKey')
@@ -116,6 +119,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     orderIndex,
     addressIndex: 0,
     isReadOnly: true,
+    createdBlockNumber,
     bip32XPublicKey: data,
     customType: 'bip32Xpub',
     type: config.mnemonicWalletType,
@@ -144,6 +148,7 @@ function createAddressWallet(
     data,
     name,
     orderIndex,
+    createdBlockNumber,
   }: WalletData = walletData
 
   const privateKey: string = data.toLowerCase()
@@ -156,6 +161,7 @@ function createAddressWallet(
     address,
     orderIndex,
     isReadOnly: false,
+    createdBlockNumber,
     customType: 'privateKey',
     type: config.addressWalletType,
     encrypted: {
@@ -183,6 +189,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     data,
     name,
     orderIndex,
+    createdBlockNumber,
   }: WalletData = walletData
 
   checkWalletUniqueness(wallets, data, 'address')
@@ -192,6 +199,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     name,
     orderIndex,
     isReadOnly: true,
+    createdBlockNumber,
     type: config.addressWalletType,
     address: getAddressChecksum(data),
     customType: config.addressWalletType,
@@ -220,6 +228,7 @@ function createWallet(
     data,
     name,
     mnemonicOptions,
+    createdBlockNumber,
   }: WalletNewData = walletNewData
 
   if (name) {
@@ -233,6 +242,7 @@ function createWallet(
     data,
     mnemonicOptions,
     name: name || id,
+    createdBlockNumber,
     orderIndex: getNextOrderIndex(wallets),
   }
 

@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import JCard from 'components/base/JCard'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 import getShortenedAddress from 'utils/address/getShortenedAddress'
 
@@ -54,24 +53,24 @@ class WalletsIndexView extends Component<Props> {
       <div className='wallets-view -index'>
         <WalletHeader />
         <div className='content'>
-          {items.map((item) => {
-            const {
-              id,
-              name,
-              type,
-              address,
-              isReadOnly,
-            }: Wallet = item
+          <div className='wallets'>
+            {items.map((item) => {
+              const {
+                id,
+                name,
+                type,
+                address,
+                isReadOnly,
+              }: Wallet = item
 
-            const isMnemonic: boolean = checkMnemonicType(type)
+              const isMnemonic: boolean = checkMnemonicType(type)
 
-            const description: string = (!isMnemonic && address)
-              ? getShortenedAddress(address)
-              : t`Mnemonic, many addresses`
+              const description: string = (!isMnemonic && address)
+                ? getShortenedAddress(address)
+                : t`Mnemonic, many addresses`
 
-            return (
-              <div key={item.id} className='wallet'>
-                <JCard color='blue'>
+              return (
+                <div key={item.id} className='wallet'>
                   <WalletCard
                     setActive={handle(setActiveWallet)(id)}
                     rename={ignoreEvent(renameWallet)(id)}
@@ -82,10 +81,10 @@ class WalletsIndexView extends Component<Props> {
                     description={isReadOnly ? t`${description}, read only` : description}
                     isReadOnly={isReadOnly}
                   />
-                </JCard>
-              </div>
-            )
-          })}
+                </div>
+              )
+            })}
+          </div>
           <NewWalletButtons
             createWallet={createWallet}
             importWallet={importWallet}

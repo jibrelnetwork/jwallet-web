@@ -47,13 +47,13 @@ function mapStateToProps(state: AppState): StateProps {
     passwordConfirm,
   }: WalletsState = selectWallets(state)
 
-  const walletsCreate: WalletsCreateState = selectWalletsCreate(state)
+  const { currentStep }: WalletsCreateState = selectWalletsCreate(state)
 
   return {
-    ...walletsCreate,
     name,
     password,
     isLoading,
+    currentStep,
     passwordHint,
     invalidFields,
     passwordConfirm,

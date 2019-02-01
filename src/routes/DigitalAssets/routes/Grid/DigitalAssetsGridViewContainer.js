@@ -5,9 +5,13 @@ import { push } from 'react-router-redux'
 
 import isZero from 'utils/numbers/isZero'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectTransactionsByOwner } from 'store/selectors/transactions'
+
+import {
+  selectActiveWallet,
+  selectActiveWalletAddress,
+} from 'store/selectors/wallets'
 
 import {
   selectDigitalAssetsItems,
@@ -114,6 +118,12 @@ function prepareDigitalAssets(
 }
 
 function mapStateToProps(state: AppState) {
+  const wallet: ?Wallet = selectActiveWallet(state)
+
+  if (!wallet) {
+    throw new Error('ActiveWalletNotFoundError')
+  }
+
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const searchQuery: string = selectDigitalAssetsGridSearchQuery(state)
@@ -139,6 +149,7 @@ function mapStateToProps(state: AppState) {
     txs,
     assets,
     processingBlock,
+    wallet.createdBlockNumber && wallet.createdBlockNumber.mainnet,
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
