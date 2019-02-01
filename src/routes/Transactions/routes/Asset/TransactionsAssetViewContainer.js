@@ -14,6 +14,7 @@ import {
 } from 'store/selectors/networks'
 
 import {
+  selectActiveWallet,
   selectAddressNames,
   selectActiveWalletAddress,
   selectAddressWalletsNames,
@@ -75,6 +76,12 @@ function prepareTransactions(
 }
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
+  const wallet: ?Wallet = selectActiveWallet(state)
+
+  if (!wallet) {
+    throw new Error('ActiveWalletNotFoundError')
+  }
+
   const assetAddress: string = ownProps.params.asset
   const comments: Comments = selectCommentsItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
@@ -108,7 +115,16 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const isCurrentBlockEmpty: boolean = !currentBlock
   const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
-  const isLoading: boolean = checkTransactionsByAssetLoading(transactionsByAsset, digitalAsset)
+
+  if (!digitalAsset) {
+    throw new Error('DigitalAssetNotFound')
+  }
+
+  const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
+  const createdBlockNumber: ?number = wallet.createdBlockNumber && wallet.createdBlockNumber.mainnet
+  const minBlock: ?number = createdBlockNumber || deploymentBlockNumber
+
+  const isLoading: boolean = checkTransactionsByAssetLoading(transactionsByAsset, minBlock)
 
   return {
     network,

@@ -26,7 +26,10 @@ type ImportWalletData = {|
 // $FlowFixMe
 const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
 
-export function createRequest(walletsData: WalletsState) {
+export function createRequest(
+  walletsData: WalletsState,
+  createdBlockNumber: WalletCreatedBlockNumber,
+) {
   const {
     name,
     persist,
@@ -45,6 +48,7 @@ export function createRequest(walletsData: WalletsState) {
     items,
     password,
     internalKey,
+    createdBlockNumber,
     mnemonicOptions: getMnemonicOptions(),
     passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
   }))
