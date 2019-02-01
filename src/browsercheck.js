@@ -10,7 +10,8 @@ const checkIndexedDB = () => new Promise((resolve, reject) => {
       !Modernizr.getrandomvalues ||
       !Modernizr.filereader ||
       !Modernizr.localstorage ||
-      !Modernizr.webworkers
+      !Modernizr.webworkers ||
+      !Modernizr.crosstabstoreevents
     ) {
       return reject(
         new Error('Some of required browser APIs are not available')
