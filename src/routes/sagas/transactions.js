@@ -16,6 +16,7 @@ import {
 import type { Task } from 'redux-saga'
 
 import config from 'config'
+import { selectProcessingBlock } from 'store/selectors/blocks'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 
 import {
@@ -38,11 +39,6 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectCurrentBlock,
-  selectProcessingBlock,
-} from 'store/selectors/blocks'
-
-import {
   selectActiveWallet,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
@@ -59,7 +55,6 @@ import {
 } from 'store/selectors/digitalAssets'
 
 import * as blocks from '../modules/blocks'
-import * as balances from '../modules/balances'
 import * as transactions from '../modules/transactions'
 
 const {
@@ -1046,18 +1041,11 @@ function* removeItemsByAsset(
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
-  const currentBlock: ExtractReturn<typeof selectCurrentBlock> =
-    yield select(selectCurrentBlock, networkId)
-
-  if (!(ownerAddress && currentBlock)) {
+  if (!ownerAddress) {
     return
   }
 
-  const blockNumber: BlockNumber = currentBlock.number.toString()
-
   yield put(transactions.initItemsByAsset(networkId, ownerAddress, assetAddress, true))
-  yield put(transactions.removePendingTransactions(networkId, ownerAddress, assetAddress))
-  yield put(balances.initItemByAsset(networkId, ownerAddress, blockNumber, assetAddress, true))
   yield put(blocks.syncRestart())
 }
 
