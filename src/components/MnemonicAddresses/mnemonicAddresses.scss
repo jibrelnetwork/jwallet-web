@@ -4,6 +4,16 @@
   @include flex-column-center;
 
   > .address {
+    overflow: hidden;
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
+
     &:not(:last-child) {
       margin-bottom: 1px;
     }
