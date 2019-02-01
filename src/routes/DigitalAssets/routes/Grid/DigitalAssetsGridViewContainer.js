@@ -18,11 +18,12 @@ import {
 import {
   searchDigitalAssets,
   filterAssetsBalances,
-  flattenDigitalAssets,
   compareDigitalAssetsByName,
   getDigitalAssetsWithBalance,
   compareDigitalAssetsByBalance,
 } from 'utils/digitalAssets'
+
+import { flatten } from 'utils/browser'
 
 import {
   selectCurrentBlock,
@@ -141,7 +142,7 @@ function mapStateToProps(state: AppState) {
   )
 
   const assetsWithBalance: DigitalAssetWithBalance[] = getDigitalAssetsWithBalance(
-    flattenDigitalAssets(assets),
+    flatten(assets),
     assetsBalancesFiltered,
   )
 
