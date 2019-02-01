@@ -38,6 +38,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     iconTooltipColor: null,
     confirmTimeout: 0,
     isReverse: false,
+    onCancelClick: () => {},
   }
 
   constructor(props: Props) {
