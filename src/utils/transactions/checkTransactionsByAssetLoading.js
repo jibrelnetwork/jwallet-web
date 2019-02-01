@@ -11,9 +11,9 @@ const GENESIS_BLOCK_NUMBER: number = 0
 
 function checkTransactionsByAssetLoading(
   itemsByAssetAddress: ?TransactionsByAssetAddress,
-  digitalAsset: ?DigitalAsset,
+  minBlock: ?number,
 ): boolean {
-  if (!(itemsByAssetAddress && digitalAsset)) {
+  if (!itemsByAssetAddress) {
     return true
   }
 
@@ -23,10 +23,9 @@ function checkTransactionsByAssetLoading(
     return true
   }
 
-  const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
-  const deploymentBlock: number = deploymentBlockNumber || GENESIS_BLOCK_NUMBER
+  const minBlockNumber: number = minBlock || GENESIS_BLOCK_NUMBER
   const lastExistedBlockNumber: number = getLastExistedBlockNumberByAsset(itemsByAssetAddress)
-  const diff: number = (lastExistedBlockNumber - deploymentBlock)
+  const diff: number = (lastExistedBlockNumber - minBlockNumber)
 
   // return true if there are no some necessary block number occurrences
   if (diff > config.maxBlocksPerTransactionsRequest) {

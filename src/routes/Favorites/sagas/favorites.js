@@ -8,7 +8,10 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import checkAddressValid from 'utils/address/checkAddressValid'
+import {
+  checkAddressValid,
+  getAddressChecksum,
+} from 'utils/address'
 
 import {
   selectAddressNames,
@@ -169,9 +172,11 @@ function* addByUser(action: ExtractReturn<typeof favorites.addByUser>): Saga<voi
     return
   }
 
+  const checksumAddres: Address = getAddressChecksum(address)
+
   const newFavorites: Favorites = {
     ...items,
-    [address]: getFavoriteData(address, name, description, true),
+    [checksumAddres]: getFavoriteData(checksumAddres, name, description, true),
   }
 
   yield put(favorites.setItems(newFavorites))
@@ -188,9 +193,11 @@ function* addAuto(action: ExtractReturn<typeof favorites.addAuto>): Saga<void> {
     return
   }
 
+  const checksumAddres: Address = getAddressChecksum(address)
+
   const newFavorites: Favorites = {
     ...items,
-    [address]: { address },
+    [checksumAddres]: { checksumAddres },
   }
 
   yield put(favorites.setItems(newFavorites))

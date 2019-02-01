@@ -11,6 +11,7 @@ export type WalletsCreateRequestPayload = {|
   +internalKey: ?EncryptedData,
   +passwordOptions: PasswordOptions,
   +mnemonicOptions: MnemonicOptions,
+  +createdBlockNumber: WalletCreatedBlockNumber,
   +name: string,
   +password: string,
 |}

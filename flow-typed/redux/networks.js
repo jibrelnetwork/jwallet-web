@@ -7,17 +7,9 @@ declare type NetworkId =
   '4' | // rinkeby
   '42' // kovan
 
-declare type BlockExplorerAPISubdomain =
-  'mainnet' |
-  'ropsten' |
-  'rinkeby' |
-  'kovan'
-
-declare type BlockExplorerUISubdomain =
-  '' |
-  'ropsten' |
-  'rinkeby' |
-  'kovan'
+declare type NetworkName = 'mainnet' | 'ropsten' | 'rinkeby' | 'kovan'
+declare type BlockExplorerAPISubdomain = NetworkName
+declare type BlockExplorerUISubdomain = '' | 'ropsten' | 'rinkeby' | 'kovan'
 
 declare type Network = {|
   +id: NetworkId,
