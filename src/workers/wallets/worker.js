@@ -71,6 +71,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           internalKey,
           passwordOptions,
           mnemonicOptions,
+          createdBlockNumber,
           name,
           password,
         } = action.payload
@@ -91,6 +92,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           items: createWallet(items, {
             name,
             mnemonicOptions,
+            createdBlockNumber,
             data: generateMnemonic(),
           }, internalKeyDec, encryptionType),
         }))

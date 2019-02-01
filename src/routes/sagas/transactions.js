@@ -17,7 +17,6 @@ import type { Task } from 'redux-saga'
 
 import config from 'config'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import {
   web3,
@@ -42,6 +41,11 @@ import {
   selectCurrentBlock,
   selectProcessingBlock,
 } from 'store/selectors/blocks'
+
+import {
+  selectActiveWallet,
+  selectActiveWalletAddress,
+} from 'store/selectors/wallets'
 
 import {
   selectTransactionById,
@@ -144,7 +148,7 @@ function getRequestTransactionsByAssetTasks(
   assetAddress: AssetAddress,
   fromBlock: number,
   toBlock: number,
-  deploymentBlock: ?number,
+  minBlock: ?number,
 ): SchedulerTransactionsTask[] {
   const baseTaskMethod: GetTransactionsMethod = {
     name: 'getETHTransactions',
@@ -152,7 +156,7 @@ function getRequestTransactionsByAssetTasks(
       assetAddress,
       toBlock,
       fromBlock,
-      deploymentBlock: deploymentBlock || GENESIS_BLOCK_NUMBER,
+      minBlock: minBlock || GENESIS_BLOCK_NUMBER,
     },
   }
 
@@ -261,7 +265,13 @@ function* checkTransactionsLoading(
     activeAssets,
   )
 
-  return checkTransactionsByOwnerLoading(itemsByOwnerForActiveAssets, activeAssets)
+  const walletCreatedBlockNumber: ?number = yield* getWalletCreatedBlockNumber()
+
+  return checkTransactionsByOwnerLoading(
+    itemsByOwnerForActiveAssets,
+    activeAssets,
+    walletCreatedBlockNumber,
+  )
 }
 
 function* syncProcessingBlockStatus(): Saga<void> {
@@ -313,6 +323,23 @@ function* syncProcessingBlockStatus(): Saga<void> {
   }
 }
 
+function* getWalletCreatedBlockNumber(): Saga<void> {
+  const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
+
+  if (!wallet) {
+    throw new Error('ActiveWalletNotFoundError')
+  }
+
+  /**
+   * @TODO
+   * check network here and get its name
+   */
+
+  const { createdBlockNumber }: Wallet = wallet
+
+  return createdBlockNumber && createdBlockNumber.mainnet
+}
+
 function* fetchByOwnerRequest(
   action: ExtractReturn<typeof transactions.fetchByOwnerRequest>,
 ): Saga<void> {
@@ -323,6 +350,8 @@ function* fetchByOwnerRequest(
     toBlock,
     fromBlock,
   } = action.payload
+
+  const walletCreatedBlockNumber: ?number = yield* getWalletCreatedBlockNumber()
 
   const activeAssets: ExtractReturn<typeof selectActiveDigitalAssets> =
     yield select(selectActiveDigitalAssets)
@@ -344,7 +373,12 @@ function* fetchByOwnerRequest(
 
     return [
       ...result,
-      ...getRequestTransactionsByAssetTasks(address, fromBlock, toBlock, deploymentBlockNumber),
+      ...getRequestTransactionsByAssetTasks(
+        address,
+        fromBlock,
+        toBlock,
+        walletCreatedBlockNumber || deploymentBlockNumber,
+      ),
     ]
   }, []).map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
 
@@ -399,6 +433,7 @@ function getBlockNumberFromFetch(
 function getTasksToRefetchByAsset(
   digitalAsset: DigitalAsset,
   itemsByAssetAddress: TransactionsByAssetAddress,
+  walletCreatedBlockNumber: ?number,
 ): SchedulerTransactionsTask[] {
   const {
     address,
@@ -419,7 +454,7 @@ function getTasksToRefetchByAsset(
         address,
         fromBlockNumber,
         currentBlockNumber,
-        deploymentBlockNumber,
+        walletCreatedBlockNumber || deploymentBlockNumber,
       ),
     ]
 
@@ -444,6 +479,7 @@ function getTasksToRefetchByOwner(
   digitalAssets: DigitalAssets,
   itemsByOwner: TransactionsByOwner,
   latestBlockNumber: number,
+  walletCreatedBlockNumber: ?number,
 ): SchedulerTransactionsTask[] {
   return Object.keys(itemsByOwner).reduce((
     resultByAssetAddress: SchedulerTransactionsTask[],
@@ -461,11 +497,13 @@ function getTasksToRefetchByOwner(
       deploymentBlockNumber,
     }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
+    const minBlock: ?number = walletCreatedBlockNumber || deploymentBlockNumber
+
     const fullyResyncTasks: SchedulerTransactionsTask[] = getRequestTransactionsByAssetTasks(
       address,
       GENESIS_BLOCK_NUMBER,
       latestBlockNumber,
-      deploymentBlockNumber,
+      minBlock,
     )
 
     if (!itemsByAssetAddress) {
@@ -478,6 +516,7 @@ function getTasksToRefetchByOwner(
     const failedRequests: SchedulerTransactionsTask[] = getTasksToRefetchByAsset(
       digitalAsset,
       itemsByAssetAddress,
+      walletCreatedBlockNumber,
     )
 
     const lastExistedBlock: number = getLastExistedBlockNumberByAsset(itemsByAssetAddress)
@@ -489,7 +528,7 @@ function getTasksToRefetchByOwner(
       ]
     }
 
-    const diff: number = lastExistedBlock - (deploymentBlockNumber || GENESIS_BLOCK_NUMBER)
+    const diff: number = lastExistedBlock - (minBlock || GENESIS_BLOCK_NUMBER)
 
     if (diff > maxBlocksPerTransactionsRequest) {
       return [
@@ -498,7 +537,7 @@ function getTasksToRefetchByOwner(
           address,
           GENESIS_BLOCK_NUMBER,
           lastExistedBlock,
-          deploymentBlockNumber,
+          minBlock,
         ),
       ]
     }
@@ -525,6 +564,8 @@ function* resyncTransactionsByOwnerAddress(
       continue
     }
 
+    const walletCreatedBlockNumber: ?number = yield* getWalletCreatedBlockNumber()
+
     const digitalAssets: ExtractReturn<typeof selectDigitalAssetsItems> =
       yield select(selectDigitalAssetsItems)
 
@@ -532,6 +573,7 @@ function* resyncTransactionsByOwnerAddress(
       digitalAssets,
       itemsByOwner,
       toBlock,
+      walletCreatedBlockNumber,
     )
 
     yield all(tasks.map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
@@ -615,12 +657,11 @@ function* requestTransactionsByRange(
   task: SchedulerTransactionsTask,
   fromBlock: number,
   toBlock: number,
-  deploymentBlock: number,
+  minBlock: number,
 ): Saga<void> {
   const { method } = task
   const diffBlockNumber: number = toBlock - fromBlock
-  const deploymentBlockNumber: number = deploymentBlock
-  const isRangeUnderflow: boolean = (fromBlock < deploymentBlockNumber)
+  const isRangeUnderflow: boolean = (fromBlock < minBlock)
   const isRangeTooBig: boolean = (diffBlockNumber > maxBlocksPerTransactionsRequest)
 
   if (isRangeUnderflow || isRangeTooBig) {
@@ -645,7 +686,7 @@ function* recursiveRequestTransactions(
   task: SchedulerTransactionsTask,
   fromBlock: number,
   toBlock: number,
-  deploymentBlock: number,
+  minBlock: number,
 ): Saga<void> {
   if (toBlock < 0) {
     return
@@ -657,17 +698,17 @@ function* recursiveRequestTransactions(
     ? (toBlock - maxBlocksPerTransactionsRequest)
     : fromBlock
 
-  const fromBlockSafety: number = (fromBlockNew < deploymentBlock) ? deploymentBlock : fromBlockNew
+  const fromBlockSafety: number = (fromBlockNew < minBlock) ? minBlock : fromBlockNew
 
-  yield* requestTransactionsByRange(requestQueue, task, fromBlockSafety, toBlock, deploymentBlock)
+  yield* requestTransactionsByRange(requestQueue, task, fromBlockSafety, toBlock, minBlock)
 
-  if (fromBlockSafety > deploymentBlock) {
+  if (fromBlockSafety > minBlock) {
     yield* recursiveRequestTransactions(
       requestQueue,
       task,
       fromBlockNew - maxBlocksPerTransactionsRequest,
       toBlock - maxBlocksPerTransactionsRequest,
-      deploymentBlock,
+      minBlock,
     )
   }
 }
@@ -832,15 +873,15 @@ export function* requestTransactions(
 
   const {
     toBlock,
+    minBlock,
     fromBlock,
     assetAddress,
-    deploymentBlock,
   } = payload
 
   const toBlockStr: BlockNumber = toBlock.toString()
 
   if ((toBlock - fromBlock) > maxBlocksPerTransactionsRequest) {
-    yield* recursiveRequestTransactions(requestQueue, task, fromBlock, toBlock, deploymentBlock)
+    yield* recursiveRequestTransactions(requestQueue, task, fromBlock, toBlock, minBlock)
 
     return
   }
@@ -989,8 +1030,8 @@ export function* requestTransactions(
 
     const mediumBlock: number = Math.round(toBlock / 2)
 
-    yield* requestTransactionsByRange(requestQueue, task, fromBlock, mediumBlock, deploymentBlock)
-    yield* requestTransactionsByRange(requestQueue, task, mediumBlock, toBlock, deploymentBlock)
+    yield* requestTransactionsByRange(requestQueue, task, fromBlock, mediumBlock, minBlock)
+    yield* requestTransactionsByRange(requestQueue, task, mediumBlock, toBlock, minBlock)
   }
 }
 

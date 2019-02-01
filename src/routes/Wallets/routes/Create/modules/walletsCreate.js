@@ -16,6 +16,10 @@ export const CREATE_ERROR = '@@walletsCreate/CREATE_ERROR'
 export const CREATE_SUCCESS = '@@walletsCreate/CREATE_SUCCESS'
 export const CREATE_REQUEST = '@@walletsCreate/CREATE_REQUEST'
 
+export const BLOCK_NUMBERS_ERROR = '@@walletsCreate/BLOCK_NUMBERS_ERROR'
+export const BLOCK_NUMBERS_SUCCESS = '@@walletsCreate/BLOCK_NUMBERS_SUCCESS'
+export const BLOCK_NUMBERS_REQUEST = '@@walletsCreate/BLOCK_NUMBERS_REQUEST'
+
 export const CLEAN = '@@walletsCreate/CLEAN'
 
 export const STEPS: WalletsCreateSteps = {
@@ -80,6 +84,27 @@ export function createRequest(payload: WalletsCreateRequestPayload) {
   }
 }
 
+export function blockNumbersError(err: Error) {
+  return {
+    type: BLOCK_NUMBERS_ERROR,
+    payload: err,
+    error: true,
+  }
+}
+
+export function blockNumbersSuccess(payload: WalletCreatedBlockNumber) {
+  return {
+    type: BLOCK_NUMBERS_SUCCESS,
+    payload,
+  }
+}
+
+export function blockNumbersRequest() {
+  return {
+    type: BLOCK_NUMBERS_REQUEST,
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -95,10 +120,15 @@ export type WalletsCreateAction =
   ExtractReturn<typeof createError> |
   ExtractReturn<typeof createSuccess> |
   ExtractReturn<typeof createRequest> |
+  ExtractReturn<typeof blockNumbersError> |
+  ExtractReturn<typeof blockNumbersSuccess> |
+  ExtractReturn<typeof blockNumbersRequest> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsCreateState = {
+  createdBlockNumber: {},
   currentStep: STEPS.NAME,
+  isBlocksLoading: false,
 }
 
 function walletsCreate(
@@ -110,6 +140,25 @@ function walletsCreate(
       return {
         ...state,
         currentStep: action.payload.currentStep,
+      }
+
+    case BLOCK_NUMBERS_REQUEST:
+      return {
+        ...state,
+        isBlocksLoading: true,
+      }
+
+    case BLOCK_NUMBERS_SUCCESS:
+      return {
+        ...state,
+        createdBlockNumber: action.payload,
+        isBlocksLoading: false,
+      }
+
+    case BLOCK_NUMBERS_ERROR:
+      return {
+        ...state,
+        isBlocksLoading: false,
       }
 
     case CLEAN:

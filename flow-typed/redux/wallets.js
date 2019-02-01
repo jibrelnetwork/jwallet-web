@@ -44,8 +44,11 @@ declare type MnemonicOptions = {|
   +derivationPath: string,
 |}
 
+declare type WalletCreatedBlockNumber = { [NetworkName]: ?number }
+
 declare type Wallet = {|
   +encrypted: WalletEncryptedData,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
   +id: string,
   +name: string,
   +type: WalletType,
@@ -72,12 +75,14 @@ declare type WalletUpdatedData = {|
 
 declare type WalletNewData = {|
   +mnemonicOptions: MnemonicOptions,
+  +createdBlockNumber?: WalletCreatedBlockNumber,
   +data: string,
   +name?: string,
 |}
 
 declare type WalletData = {|
   +mnemonicOptions: MnemonicOptions,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
   +id: string,
   +data: string,
   +name: string,
@@ -140,7 +145,9 @@ declare type WalletsCreateSteps = {|
 |}
 
 declare type WalletsCreateState = {|
+  +createdBlockNumber: WalletCreatedBlockNumber,
   +currentStep: WalletsCreateStepIndex,
+  +isBlocksLoading: boolean,
 |}
 
 /**
