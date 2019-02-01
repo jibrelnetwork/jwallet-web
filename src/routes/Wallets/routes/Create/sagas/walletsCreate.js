@@ -4,22 +4,30 @@ import { push } from 'react-router-redux'
 
 import {
   put,
+  call,
   select,
   takeEvery,
 } from 'redux-saga/effects'
 
+import web3 from 'services/web3'
 import walletsWorker from 'workers/wallets'
 import checkWalletUniqueness from 'utils/wallets/checkWalletUniqueness'
+import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {
   selectWallets,
   selectWalletsItems,
   selectWalletsCreate,
-} from 'store/stateSelectors'
+} from 'store/selectors/wallets'
 
 import * as wallets from 'routes/Wallets/modules/wallets'
 
 import * as walletsCreate from '../modules/walletsCreate'
+
+function* openView(): Saga<void> {
+  yield* clean()
+  yield put(walletsCreate.blockNumbersRequest())
+}
 
 function* checkName(): Saga<void> {
   const {
@@ -90,9 +98,22 @@ function* createWallet(): Saga<void> {
     }
   }
 
+  const { createdBlockNumber }: ExtractReturn<typeof selectWalletsCreate> =
+    yield select(selectWalletsCreate)
+
   yield put(wallets.setIsLoading(true))
 
-  yield walletsWorker.createRequest(walletsData)
+  /**
+   * @TODO
+   * add check that latest block numbers already loaded
+   *
+   * there is another way to solve it:
+   * send request(s) during creating of wallet and then append fetched results
+   *
+   * Current implementation is ok, because we send just one request
+   * and we have enough time to get response while user enters name & password
+   */
+  yield walletsWorker.createRequest(walletsData, createdBlockNumber)
 }
 
 function* createError(action: { payload: Error }): Saga<void> {
@@ -161,16 +182,43 @@ function* setPrevStep(): Saga<void> {
   }
 }
 
+function* blockNumbersRequest(): Saga<void> {
+  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+
+  if (!network) {
+    return
+  }
+
+  try {
+    /**
+     * @TODO
+     * add requests for each of network we support
+     */
+    const latestBlockMainnet: ?BlockData = yield call(web3.getBlock, network, 'latest')
+    const latestBlockNumberMainnet: number = latestBlockMainnet ? latestBlockMainnet.number : 0
+
+    yield put(walletsCreate.blockNumbersSuccess({
+      kovan: 0,
+      rinkeby: 0,
+      ropsten: 0,
+      mainnet: latestBlockNumberMainnet,
+    }))
+  } catch (err) {
+    yield put(walletsCreate.blockNumbersError(err))
+  }
+}
+
 function* clean(): Saga<void> {
   yield put(wallets.clean())
   yield put(walletsCreate.clean())
 }
 
 export function* walletsCreateRootSaga(): Saga<void> {
-  yield takeEvery(walletsCreate.OPEN_VIEW, clean)
   yield takeEvery(walletsCreate.CLOSE_VIEW, clean)
+  yield takeEvery(walletsCreate.OPEN_VIEW, openView)
   yield takeEvery(walletsCreate.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsCreate.GO_TO_PREV_STEP, setPrevStep)
   yield takeEvery(walletsCreate.CREATE_ERROR, createError)
   yield takeEvery(walletsCreate.CREATE_SUCCESS, createSuccess)
+  yield takeEvery(walletsCreate.BLOCK_NUMBERS_REQUEST, blockNumbersRequest)
 }
