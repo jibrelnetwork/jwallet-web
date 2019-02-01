@@ -1,13 +1,20 @@
 // @flow
 
 function checkField(field: string, searchQuery: string): boolean {
-  return (field.toLocaleLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+  const query = searchQuery.replace(/^0x/, '')
+  const fromStart = new RegExp(`^0x${query}`, 'ig')
+  const fromEnd = new RegExp(`${query}$`, 'ig')
+  return fromStart.test(field) || fromEnd.test(field)
 }
 
 function checkFound(item: TransactionWithPrimaryKeys, searchQuery: string): boolean {
-  const { hash }: TransactionWithPrimaryKeys = item
+  const { hash, to, from }: TransactionWithPrimaryKeys = item
 
-  return checkField(hash, searchQuery)
+  return [
+    checkField(hash, searchQuery),
+    from && checkField(from, searchQuery),
+    to && checkField(to, searchQuery),
+  ].filter(e => e).length > 0
 }
 
 function searchTransactions(
