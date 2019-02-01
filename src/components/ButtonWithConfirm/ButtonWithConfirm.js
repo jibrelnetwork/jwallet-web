@@ -10,6 +10,7 @@ import type { JIconColor } from 'components/base/JIcon/JIcon'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,
+  +onCancelClick: Function,
   +color: 'blue' | 'gray' | 'sky' | 'white',
   +label: ?string,
   +bgColor: ?string,
@@ -81,6 +82,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
   resetCountdown = () => {
     this.finishCountdown()
     this.setCountdown(this.props.confirmTimeout)
+    this.props.onCancelClick()
   }
 
   initAction = () => {
