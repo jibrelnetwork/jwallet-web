@@ -73,7 +73,7 @@
      */
     $input-icon-padding: 10px;
     $input-icon-size: ($icon-small-size + ($input-icon-padding * 2));
-    $input-icon-margin-top: ($form-field-padding-top / 2) - ($input-icon-size / 2);
+    $input-icon-margin-top: ($form-field-white-padding-vertical / 2) - ($input-icon-size / 2);
 
     @include flex-row-center;
 
@@ -171,8 +171,8 @@
 
     &.-multiline {
       > .input {
-        padding-top: $form-field-white-vertical-padding;
-        padding-bottom: $form-field-white-vertical-padding;
+        padding-top: $form-field-gray-vertical-padding;
+        padding-bottom: $form-field-gray-vertical-padding;
       }
     }
   }
@@ -194,8 +194,8 @@
 
     &.-multiline {
       > .input {
-        padding-top: $form-field-padding-top;
-        padding-bottom: $form-field-padding-top;
+        padding-top: $form-field-white-padding-vertical;
+        padding-bottom: $form-field-white-padding-vertical;
       }
     }
   }
