@@ -1,34 +1,49 @@
 // @flow
 
-function checkField(field: string, searchQuery: string): boolean {
-  const query = searchQuery.replace(/^0x/, '')
-  const fromStart = new RegExp(`^0x${query}`, 'ig')
-  const fromEnd = new RegExp(`${query}$`, 'ig')
-  return fromStart.test(field) || fromEnd.test(field)
+type ExtendedTransactionWithPrimaryKeys = {
+  ...TransactionWithPrimaryKeys,
+  +toName: ?string,
+  +fromName: ?string,
 }
 
-function checkFound(item: TransactionWithPrimaryKeys, searchQuery: string): boolean {
-  const { hash, to, from }: TransactionWithPrimaryKeys = item
+function checkField(field: string, searchQuery: string): boolean {
+  const sanitizedValue = field.replace(/^0x/, '')
+  const fromStart = new RegExp(`^${searchQuery}`, 'ig')
+  const fromEnd = new RegExp(`${searchQuery}$`, 'ig')
+  return fromStart.test(sanitizedValue) || fromEnd.test(sanitizedValue)
+}
 
-  return [
-    checkField(hash, searchQuery),
-    from && checkField(from, searchQuery),
-    to && checkField(to, searchQuery),
-  ].filter(e => e).length > 0
+function checkFound(
+  item: ExtendedTransactionWithPrimaryKeys,
+  searchQuery: string,
+): boolean {
+  const { hash, to, from, toName, fromName }: ExtendedTransactionWithPrimaryKeys = item
+  const valuesForCheck = [hash, to, from, toName, fromName]
+
+  return valuesForCheck.some(value => value && checkField(value, searchQuery))
 }
 
 function searchTransactions(
   items: TransactionWithPrimaryKeys[],
   searchQuery: string,
+  favorites?: AddressNames,
 ): TransactionWithPrimaryKeys[] {
   if (!searchQuery) {
     return items
   }
 
-  return items.filter((item: TransactionWithPrimaryKeys): boolean => checkFound(
-    item,
-    searchQuery,
-  ))
+  const itemsWithNames: ExtendedTransactionWithPrimaryKeys[] = items.map(
+    (transaction) => {
+      const toName = transaction.to && favorites ? favorites[transaction.to] : null
+      const fromName = transaction.from && favorites ? favorites[transaction.from] : null
+
+      return { ...transaction, toName, fromName }
+    }
+  )
+
+  return itemsWithNames.reduce(
+    (acc, item, index) => checkFound(item, searchQuery) ? [...acc, items[index]] : acc, []
+  )
 }
 
 export default searchTransactions
