@@ -92,6 +92,7 @@ class InputButton extends Component<Props, ComponentState> {
             type='text'
             color='gray'
             isLoading={isLoading}
+            iconPosition='right'
           />
           <div className='close' onClick={this.setIsActive(false)}>
             <JIcon
