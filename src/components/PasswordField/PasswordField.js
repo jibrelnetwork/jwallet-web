@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 
 import JInput from 'components/base/JInput'
-
 import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 
 import { type JInputColor } from 'components/base/JInput/JInput'
@@ -21,7 +20,7 @@ type Props = {|
   +valueConfirm: ?string,
   +placeholderConfirm: string,
   +isDisabled: boolean,
-  isAutoFocus?: boolean,
+  +isAutoFocus: boolean,
   +color: JInputColor,
 |}
 
@@ -78,6 +77,10 @@ class PasswordField extends Component<Props, StateProps> {
   }
 
   getInfoMessage = (): ?string => {
+    if (this.props.isDisabled) {
+      return null
+    }
+
     const { passwordResult }: StateProps = this.state
 
     if (!passwordResult) {
@@ -105,13 +108,13 @@ class PasswordField extends Component<Props, StateProps> {
     const {
       onChangeConfirm,
       invalidFields,
+      color,
       value,
       placeholder,
       valueConfirm,
       placeholderConfirm,
       isDisabled,
       isAutoFocus,
-      color,
     }: Props = this.props
 
     return (
