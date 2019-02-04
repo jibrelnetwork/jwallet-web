@@ -16,7 +16,7 @@ type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
 
 type WalletFaceAction = {|
   +handler: ?WalletFaceActionsHandler,
-  +iconName: 'edit' | 'to-multiaddress' | 'to-oneaddres' | 'import' | 'bucket',
+  +iconName: 'edit' | 'to-multiaddress' | 'to-oneaddress' | 'import' | 'bucket',
 |}
 
 type Props = {|
@@ -41,7 +41,7 @@ class WalletFaceActions extends PureComponent<Props> {
     }: Props = this.props
 
     return [
-      { iconName: isSimplified ? 'to-multiaddress' : 'to-oneaddres', handler: simplify },
+      { iconName: isSimplified ? 'to-multiaddress' : 'to-oneaddress', handler: simplify },
       { iconName: 'import', handler: backup },
       { iconName: 'edit', handler: rename },
       { iconName: 'bucket', handler: remove },
