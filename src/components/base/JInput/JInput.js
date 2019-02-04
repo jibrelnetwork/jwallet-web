@@ -61,6 +61,7 @@ class JInput extends PureComponent<Props> {
     value: '',
     type: 'text',
     sideBorderRadius: 'all',
+    iconPosition: null,
     color: 'white',
     placeholder: '',
     helpMessage: null,
