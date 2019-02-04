@@ -57,6 +57,7 @@ function prepareTransactions(
   items: ?TransactionsByAssetAddress,
   pending: ?Transactions,
   assetAddress: string,
+  names: AddressNames,
   searchQuery: string,
   isOnlyPending: boolean,
 ): TransactionWithPrimaryKeys[] {
@@ -69,7 +70,7 @@ function prepareTransactions(
   const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPen]
   const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
   const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isOnlyPending)
-  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery)
+  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
   const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
   return sorted
@@ -146,6 +147,11 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
       transactionsByAsset,
       pendingTransactions,
       assetAddress,
+      {
+        ...favorites,
+        ...addressNames,
+        ...addressWalletsNames,
+      },
       searchQuery,
       isOnlyPending,
     ),
