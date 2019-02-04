@@ -1,21 +1,16 @@
 // @flow
 
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 
 import classNames from 'classnames'
 
-import { JFlatButton, JIcon, JTooltip } from 'components/base'
-
-import type { JIconColor } from 'components/base/JIcon/JIcon'
+import { JFlatButton } from 'components/base'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,
   +onCancelClick: Function,
   +color: 'blue' | 'gray' | 'sky' | 'white',
-  +label: ?string,
   +bgColor: ?string,
-  +iconTooltipName: ?string,
-  +iconTooltipColor: ?JIconColor,
   +labelCancel: string,
   +labelConfirm: string,
   +confirmTimeout: number,
@@ -25,17 +20,13 @@ type Props = {|
 type ComponentState = {|
   countdown: number,
   intervalId: ?IntervalID,
-  isActive: boolean,
 |}
 
 const ONE_SECOND: 1000 = 1000
 
 class ButtonWithConfirm extends Component<Props, ComponentState> {
   static defaultProps = {
-    label: null,
     bgColor: null,
-    iconTooltipName: null,
-    iconTooltipColor: null,
     confirmTimeout: 0,
     isReverse: false,
     onCancelClick: () => {},
@@ -47,8 +38,11 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     this.state = {
       intervalId: null,
       countdown: props.confirmTimeout,
-      isActive: false,
     }
+  }
+
+  componentDidMount() {
+    this.initAction()
   }
 
   setIntervalId = (intervalId: ?IntervalID) => {
@@ -87,23 +81,14 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
   }
 
   initAction = () => {
-    this.setState({ isActive: true })
     this.startCountdown()
-  }
-
-  cancelAction = () => {
-    this.setState({ isActive: false })
-    this.resetCountdown()
   }
 
   render() {
     const {
       onClick,
       color,
-      label,
       bgColor,
-      iconTooltipName,
-      iconTooltipColor,
       labelCancel,
       labelConfirm,
       isReverse,
@@ -111,58 +96,33 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
 
     const {
       countdown,
-      isActive,
     }: ComponentState = this.state
 
     return (
       <div className='button-with-confirm'>
-        {isActive ? (
-          <div
-            className={classNames(
-              'actions',
-              bgColor && `-overlay-${bgColor}`,
-              isReverse && '-reverse',
-            )}
-          >
+        <div
+          className={classNames(
+            'actions',
+            bgColor && `-overlay-${bgColor}`,
+            isReverse && '-reverse',
+          )}
+        >
+          <JFlatButton
+            onClick={this.resetCountdown}
+            label={labelCancel}
+            color={color}
+            isBordered
+          />
+          <div className='confirm'>
             <JFlatButton
-              onClick={this.cancelAction}
-              label={labelCancel}
+              onClick={onClick}
               color={color}
+              label={(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
+              isDisabled={countdown > 0}
               isBordered
             />
-            <div className='confirm'>
-              <JFlatButton
-                onClick={onClick}
-                color={color}
-                label={(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
-                isDisabled={countdown > 0}
-                isBordered
-              />
-            </div>
           </div>
-        ) : (
-          <Fragment>
-            {label && !iconTooltipName && !iconTooltipColor && (
-              <JFlatButton
-                onClick={this.initAction}
-                label={label}
-                color={color}
-                isBordered
-              />
-            )}
-            {iconTooltipName && iconTooltipColor && !label && (
-              <div className='icon' onClick={this.initAction}>
-                <JTooltip text='Delete'>
-                  <JIcon
-                    size='medium'
-                    color={iconTooltipColor}
-                    name={iconTooltipName}
-                  />
-                </JTooltip>
-              </div>
-            )}
-          </Fragment>
-        )}
+        </div>
       </div>
     )
   }

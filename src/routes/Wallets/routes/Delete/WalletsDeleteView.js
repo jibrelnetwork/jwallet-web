@@ -66,7 +66,6 @@ class WalletsDeleteView extends Component<Props> {
                 onCancelClick={goToWallets}
                 color='white'
                 labelConfirm='Yes'
-                label='Yes, delete'
                 labelCancel='Nope, stop it'
                 confirmTimeout={config.deleteConfirmTimeout}
               />
