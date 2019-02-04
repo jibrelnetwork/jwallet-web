@@ -17,15 +17,24 @@
 
     &.-symbol-1st { background-image: $token-1st-blue; }
     &.-symbol-adt { background-image: $token-adt-blue; }
+    &.-symbol-ae { background-image: $token-ae-blue; }
+    &.-symbol-aion { background-image: $token-aion-blue; }
+    &.-symbol-alf { background-image: $token-alf-blue; }
     &.-symbol-ant { background-image: $token-ant-blue; }
     &.-symbol-ast { background-image: $token-ast-blue; }
     &.-symbol-bat { background-image: $token-bat-blue; }
     &.-symbol-bcap { background-image: $token-bcap-blue; }
+    &.-symbol-bnb { background-image: $token-bnb-blue; }
     &.-symbol-bnt { background-image: $token-bnt-blue; }
     &.-symbol-bqx { background-image: $token-bqx-blue; }
+    &.-symbol-btm { background-image: $token-btm-blue; }
     &.-symbol-cfi { background-image: $token-cfi-blue; }
+    &.-symbol-cmt { background-image: $token-cmt-blue; }
     &.-symbol-cvc { background-image: $token-cvc-blue; }
+    &.-symbol-dai { background-image: $token-dai-blue; }
+    &.-symbol-dcn { background-image: $token-dcn-blue; }
     &.-symbol-dgd { background-image: $token-dgd-blue; }
+    &.-symbol-dgx { background-image: $token-dgx-blue; }
     &.-symbol-dice { background-image: $token-dice-blue; }
     &.-symbol-dnt { background-image: $token-dnt-blue; }
     &.-symbol-edg { background-image: $token-edg-blue; }
@@ -36,7 +45,10 @@
     &.-symbol-gnt { background-image: $token-gnt-blue; }
     &.-symbol-guppy { background-image: $token-guppy-blue; }
     &.-symbol-hmq { background-image: $token-hmq-blue; }
+    &.-symbol-hvn { background-image: $token-hvn-blue; }
     &.-symbol-icn { background-image: $token-icn-blue; }
+    &.-symbol-icx { background-image: $token-icx-blue; }
+    &.-symbol-ios { background-image: $token-ios-blue; }
     &.-symbol-jaed { background-image: $token-jaed-blue; }
     &.-symbol-jcny { background-image: $token-jcny-blue; }
     &.-symbol-jeur { background-image: $token-jeur-blue; }
@@ -45,21 +57,34 @@
     &.-symbol-jrub { background-image: $token-jrub-blue; }
     &.-symbol-jusd { background-image: $token-jusd-blue; }
     &.-symbol-just { background-image: $token-just-blue; }
+    &.-symbol-jwon { background-image: $token-jwon-blue; }
+    &.-symbol-kcs { background-image: $token-kcs-blue; }
     &.-symbol-knc { background-image: $token-knc-blue; }
+    &.-symbol-link { background-image: $token-link-blue; }
+    &.-symbol-lrc { background-image: $token-lrc-blue; }
     &.-symbol-lun { background-image: $token-lun-blue; }
     &.-symbol-mana { background-image: $token-mana-blue; }
     &.-symbol-mco { background-image: $token-mco-blue; }
+    &.-symbol-mgo { background-image: $token-mgo-blue; }
     &.-symbol-mkr { background-image: $token-mkr-blue; }
     &.-symbol-mln { background-image: $token-mln-blue; }
     &.-symbol-mtl { background-image: $token-mtl-blue; }
+    &.-symbol-nas { background-image: $token-nas-blue; }
     &.-symbol-net { background-image: $token-net-blue; }
     &.-symbol-nmr { background-image: $token-nmr-blue; }
+    &.-symbol-npxs { background-image: $token-npxs-blue; }
     &.-symbol-null { background-image: $token-null-blue; }
     &.-symbol-omg { background-image: $token-omg-blue; }
     &.-symbol-pay { background-image: $token-pay-blue; }
     &.-symbol-plu { background-image: $token-plu-blue; }
+    &.-symbol-poly { background-image: $token-poly-blue; }
+    &.-symbol-powr { background-image: $token-powr-blue; }
+    &.-symbol-ppt { background-image: $token-ppt-blue; }
+    &.-symbol-prl { background-image: $token-prl-blue; }
+    &.-symbol-qash { background-image: $token-qash-blue; }
     &.-symbol-qtum { background-image: $token-qtum-blue; }
     &.-symbol-rep { background-image: $token-rep-blue; }
+    &.-symbol-rhoc { background-image: $token-rhoc-blue; }
     &.-symbol-rlc { background-image: $token-rlc-blue; }
     &.-symbol-san { background-image: $token-san-blue; }
     &.-symbol-sngls { background-image: $token-sngls-blue; }
@@ -67,12 +92,19 @@
     &.-symbol-storj { background-image: $token-storj-blue; }
     &.-symbol-swt { background-image: $token-swt-blue; }
     &.-symbol-taas { background-image: $token-taas-blue; }
+    &.-symbol-theta { background-image: $token-theta-blue; }
     &.-symbol-time { background-image: $token-time-blue; }
     &.-symbol-tkn { background-image: $token-tkn-blue; }
     &.-symbol-trst { background-image: $token-trst-blue; }
+    &.-symbol-trx { background-image: $token-trx-blue; }
+    &.-symbol-ven { background-image: $token-ven-blue; }
     &.-symbol-vsl { background-image: $token-vsl-blue; }
+    &.-symbol-wax { background-image: $token-wax-blue; }
     &.-symbol-wings { background-image: $token-wings-blue; }
     &.-symbol-xaur { background-image: $token-xaur-blue; }
+    &.-symbol-xin { background-image: $token-xin-blue; }
+    &.-symbol-xpa { background-image: $token-xpa-blue; }
+    &.-symbol-zil { background-image: $token-zil-blue; }
     &.-symbol-zrx { background-image: $token-zrx-blue; }
   }
 
@@ -81,15 +113,24 @@
 
     &.-symbol-1st { background-image: $token-1st-gray; }
     &.-symbol-adt { background-image: $token-adt-gray; }
+    &.-symbol-ae { background-image: $token-ae-gray; }
+    &.-symbol-aion { background-image: $token-aion-gray; }
+    &.-symbol-alf { background-image: $token-alf-gray; }
     &.-symbol-ant { background-image: $token-ant-gray; }
     &.-symbol-ast { background-image: $token-ast-gray; }
     &.-symbol-bat { background-image: $token-bat-gray; }
     &.-symbol-bcap { background-image: $token-bcap-gray; }
+    &.-symbol-bnb { background-image: $token-bnb-gray; }
     &.-symbol-bnt { background-image: $token-bnt-gray; }
     &.-symbol-bqx { background-image: $token-bqx-gray; }
+    &.-symbol-btm { background-image: $token-btm-gray; }
     &.-symbol-cfi { background-image: $token-cfi-gray; }
+    &.-symbol-cmt { background-image: $token-cmt-gray; }
     &.-symbol-cvc { background-image: $token-cvc-gray; }
+    &.-symbol-dai { background-image: $token-dai-gray; }
+    &.-symbol-dcn { background-image: $token-dcn-gray; }
     &.-symbol-dgd { background-image: $token-dgd-gray; }
+    &.-symbol-dgx { background-image: $token-dgx-gray; }
     &.-symbol-dice { background-image: $token-dice-gray; }
     &.-symbol-dnt { background-image: $token-dnt-gray; }
     &.-symbol-edg { background-image: $token-edg-gray; }
@@ -100,7 +141,10 @@
     &.-symbol-gnt { background-image: $token-gnt-gray; }
     &.-symbol-guppy { background-image: $token-guppy-gray; }
     &.-symbol-hmq { background-image: $token-hmq-gray; }
+    &.-symbol-hvn { background-image: $token-hvn-gray; }
     &.-symbol-icn { background-image: $token-icn-gray; }
+    &.-symbol-icx { background-image: $token-icx-gray; }
+    &.-symbol-ios { background-image: $token-ios-gray; }
     &.-symbol-jaed { background-image: $token-jaed-gray; }
     &.-symbol-jcny { background-image: $token-jcny-gray; }
     &.-symbol-jeur { background-image: $token-jeur-gray; }
@@ -109,21 +153,34 @@
     &.-symbol-jrub { background-image: $token-jrub-gray; }
     &.-symbol-jusd { background-image: $token-jusd-gray; }
     &.-symbol-just { background-image: $token-just-gray; }
+    &.-symbol-jwon { background-image: $token-jwon-gray; }
+    &.-symbol-kcs { background-image: $token-kcs-gray; }
     &.-symbol-knc { background-image: $token-knc-gray; }
+    &.-symbol-link { background-image: $token-link-gray; }
+    &.-symbol-lrc { background-image: $token-lrc-gray; }
     &.-symbol-lun { background-image: $token-lun-gray; }
     &.-symbol-mana { background-image: $token-mana-gray; }
     &.-symbol-mco { background-image: $token-mco-gray; }
+    &.-symbol-mgo { background-image: $token-mgo-gray; }
     &.-symbol-mkr { background-image: $token-mkr-gray; }
     &.-symbol-mln { background-image: $token-mln-gray; }
     &.-symbol-mtl { background-image: $token-mtl-gray; }
+    &.-symbol-nas { background-image: $token-nas-gray; }
     &.-symbol-net { background-image: $token-net-gray; }
     &.-symbol-nmr { background-image: $token-nmr-gray; }
+    &.-symbol-npxs { background-image: $token-npxs-gray; }
     &.-symbol-null { background-image: $token-null-gray; }
     &.-symbol-omg { background-image: $token-omg-gray; }
     &.-symbol-pay { background-image: $token-pay-gray; }
     &.-symbol-plu { background-image: $token-plu-gray; }
+    &.-symbol-poly { background-image: $token-poly-gray; }
+    &.-symbol-powr { background-image: $token-powr-gray; }
+    &.-symbol-ppt { background-image: $token-ppt-gray; }
+    &.-symbol-prl { background-image: $token-prl-gray; }
+    &.-symbol-qash { background-image: $token-qash-gray; }
     &.-symbol-qtum { background-image: $token-qtum-gray; }
     &.-symbol-rep { background-image: $token-rep-gray; }
+    &.-symbol-rhoc { background-image: $token-rhoc-gray; }
     &.-symbol-rlc { background-image: $token-rlc-gray; }
     &.-symbol-san { background-image: $token-san-gray; }
     &.-symbol-sngls { background-image: $token-sngls-gray; }
@@ -131,12 +188,19 @@
     &.-symbol-storj { background-image: $token-storj-gray; }
     &.-symbol-swt { background-image: $token-swt-gray; }
     &.-symbol-taas { background-image: $token-taas-gray; }
+    &.-symbol-theta { background-image: $token-theta-gray; }
     &.-symbol-time { background-image: $token-time-gray; }
     &.-symbol-tkn { background-image: $token-tkn-gray; }
     &.-symbol-trst { background-image: $token-trst-gray; }
+    &.-symbol-trx { background-image: $token-trx-gray; }
+    &.-symbol-ven { background-image: $token-ven-gray; }
     &.-symbol-vsl { background-image: $token-vsl-gray; }
+    &.-symbol-wax { background-image: $token-wax-gray; }
     &.-symbol-wings { background-image: $token-wings-gray; }
     &.-symbol-xaur { background-image: $token-xaur-gray; }
+    &.-symbol-xin { background-image: $token-xin-gray; }
+    &.-symbol-xpa { background-image: $token-xpa-gray; }
+    &.-symbol-zil { background-image: $token-zil-gray; }
     &.-symbol-zrx { background-image: $token-zrx-gray; }
   }
 
@@ -145,15 +209,24 @@
 
     &.-symbol-1st { background-image: $token-1st-white; }
     &.-symbol-adt { background-image: $token-adt-white; }
+    &.-symbol-ae { background-image: $token-ae-white; }
+    &.-symbol-aion { background-image: $token-aion-white; }
+    &.-symbol-alf { background-image: $token-alf-white; }
     &.-symbol-ant { background-image: $token-ant-white; }
     &.-symbol-ast { background-image: $token-ast-white; }
     &.-symbol-bat { background-image: $token-bat-white; }
     &.-symbol-bcap { background-image: $token-bcap-white; }
+    &.-symbol-bnb { background-image: $token-bnb-white; }
     &.-symbol-bnt { background-image: $token-bnt-white; }
     &.-symbol-bqx { background-image: $token-bqx-white; }
+    &.-symbol-btm { background-image: $token-btm-white; }
     &.-symbol-cfi { background-image: $token-cfi-white; }
+    &.-symbol-cmt { background-image: $token-cmt-white; }
     &.-symbol-cvc { background-image: $token-cvc-white; }
+    &.-symbol-dai { background-image: $token-dai-white; }
+    &.-symbol-dcn { background-image: $token-dcn-white; }
     &.-symbol-dgd { background-image: $token-dgd-white; }
+    &.-symbol-dgx { background-image: $token-dgx-white; }
     &.-symbol-dice { background-image: $token-dice-white; }
     &.-symbol-dnt { background-image: $token-dnt-white; }
     &.-symbol-edg { background-image: $token-edg-white; }
@@ -164,7 +237,10 @@
     &.-symbol-gnt { background-image: $token-gnt-white; }
     &.-symbol-guppy { background-image: $token-guppy-white; }
     &.-symbol-hmq { background-image: $token-hmq-white; }
+    &.-symbol-hvn { background-image: $token-hvn-white; }
     &.-symbol-icn { background-image: $token-icn-white; }
+    &.-symbol-icx { background-image: $token-icx-white; }
+    &.-symbol-ios { background-image: $token-ios-white; }
     &.-symbol-jaed { background-image: $token-jaed-white; }
     &.-symbol-jcny { background-image: $token-jcny-white; }
     &.-symbol-jeur { background-image: $token-jeur-white; }
@@ -173,21 +249,34 @@
     &.-symbol-jrub { background-image: $token-jrub-white; }
     &.-symbol-jusd { background-image: $token-jusd-white; }
     &.-symbol-just { background-image: $token-just-white; }
+    &.-symbol-jwon { background-image: $token-jwon-white; }
+    &.-symbol-kcs { background-image: $token-kcs-white; }
     &.-symbol-knc { background-image: $token-knc-white; }
+    &.-symbol-link { background-image: $token-link-white; }
+    &.-symbol-lrc { background-image: $token-lrc-white; }
     &.-symbol-lun { background-image: $token-lun-white; }
     &.-symbol-mana { background-image: $token-mana-white; }
     &.-symbol-mco { background-image: $token-mco-white; }
+    &.-symbol-mgo { background-image: $token-mgo-white; }
     &.-symbol-mkr { background-image: $token-mkr-white; }
     &.-symbol-mln { background-image: $token-mln-white; }
     &.-symbol-mtl { background-image: $token-mtl-white; }
+    &.-symbol-nas { background-image: $token-nas-white; }
     &.-symbol-net { background-image: $token-net-white; }
     &.-symbol-nmr { background-image: $token-nmr-white; }
+    &.-symbol-npxs { background-image: $token-npxs-white; }
     &.-symbol-null { background-image: $token-null-white; }
     &.-symbol-omg { background-image: $token-omg-white; }
     &.-symbol-pay { background-image: $token-pay-white; }
     &.-symbol-plu { background-image: $token-plu-white; }
+    &.-symbol-poly { background-image: $token-poly-white; }
+    &.-symbol-powr { background-image: $token-powr-white; }
+    &.-symbol-ppt { background-image: $token-ppt-white; }
+    &.-symbol-prl { background-image: $token-prl-white; }
+    &.-symbol-qash { background-image: $token-qash-white; }
     &.-symbol-qtum { background-image: $token-qtum-white; }
     &.-symbol-rep { background-image: $token-rep-white; }
+    &.-symbol-rhoc { background-image: $token-rhoc-white; }
     &.-symbol-rlc { background-image: $token-rlc-white; }
     &.-symbol-san { background-image: $token-san-white; }
     &.-symbol-sngls { background-image: $token-sngls-white; }
@@ -195,12 +284,19 @@
     &.-symbol-storj { background-image: $token-storj-white; }
     &.-symbol-swt { background-image: $token-swt-white; }
     &.-symbol-taas { background-image: $token-taas-white; }
+    &.-symbol-theta { background-image: $token-theta-white; }
     &.-symbol-time { background-image: $token-time-white; }
     &.-symbol-tkn { background-image: $token-tkn-white; }
     &.-symbol-trst { background-image: $token-trst-white; }
+    &.-symbol-trx { background-image: $token-trx-white; }
+    &.-symbol-ven { background-image: $token-ven-white; }
     &.-symbol-vsl { background-image: $token-vsl-white; }
+    &.-symbol-wax { background-image: $token-wax-white; }
     &.-symbol-wings { background-image: $token-wings-white; }
     &.-symbol-xaur { background-image: $token-xaur-white; }
+    &.-symbol-xin { background-image: $token-xin-white; }
+    &.-symbol-xpa { background-image: $token-xpa-white; }
+    &.-symbol-zil { background-image: $token-zil-white; }
     &.-symbol-zrx { background-image: $token-zrx-white; }
   }
 }
