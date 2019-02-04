@@ -9,6 +9,7 @@ import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 
 type JInputValue = string | number
 type JInputOnChangeHandler = (string) => void
+type JInputIconPosition = 'left' | 'right'
 export type JInputColor = 'gray' | 'white'
 export type JInputType = 'text' | 'password'
 
@@ -26,6 +27,7 @@ type Props = {|
   +color: JInputColor,
   +type: JInputType,
   +sideBorderRadius: 'all' | 'top' | 'left' | 'bottom' | 'right',
+  +iconPosition: ?JInputIconPosition,
   +rows: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
@@ -59,6 +61,7 @@ class JInput extends PureComponent<Props> {
     value: '',
     type: 'text',
     sideBorderRadius: 'all',
+    iconPosition: null,
     color: 'white',
     placeholder: '',
     helpMessage: null,
@@ -89,6 +92,7 @@ class JInput extends PureComponent<Props> {
       helpMessage,
       infoMessage,
       errorMessage,
+      iconPosition,
       isLoading,
       isPinCode,
       isDisabled,
@@ -132,6 +136,7 @@ class JInput extends PureComponent<Props> {
           isMultiline && '-multiline',
           isVirtualHalfSize && '-virtual-half-size',
           withIndicator && '-with-indicator',
+          iconPosition && `-icon-posotion-${iconPosition}`
         )}
       >
         {children}
@@ -140,11 +145,11 @@ class JInput extends PureComponent<Props> {
         {errorMessage && <div className='error'>{errorMessage}</div>}
         <div className='loader' />
         <div className='help'><div className='icon' /></div>
-        {color === 'gray' && isDisabled && (
+        {isDisabled && (
           <div className='lock'>
             <JIcon
               size='medium'
-              color='gray'
+              color={color}
               name='padding-lock'
             />
           </div>

@@ -19,7 +19,7 @@ class PasswordFieldIndicator extends PureComponent<Props> {
       <div className={classNames(
         'password-field-indicator',
         `-on-${color}-field`,
-        color === 'gray' && isOffsetRight && '-offset-right'
+        isOffsetRight && '-offset-right'
       )}
       >
         <div className={`indicator -${status}`} />

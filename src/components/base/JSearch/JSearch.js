@@ -39,6 +39,11 @@ class JSearch extends PureComponent<Props, ComponentState> {
     }
   }
 
+  componentWillUnmount() {
+    // FIXME
+    this.onChange('')
+  }
+
   onChange = (value: string) => {
     if (this.state.queryTimeout) {
       clearTimeout(this.state.queryTimeout)
