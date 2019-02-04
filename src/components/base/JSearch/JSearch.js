@@ -40,6 +40,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
   }
 
   componentWillUnmount() {
+    // FIXME
     this.onChange('')
   }
 
