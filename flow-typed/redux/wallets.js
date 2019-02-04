@@ -60,6 +60,7 @@ declare type Wallet = {|
   +addressIndex: ?number,
   +network: null | number | string,
   +isReadOnly: boolean,
+  +isSimplified: ?boolean,
 |}
 
 declare type WalletUpdatedData = {|
@@ -71,6 +72,7 @@ declare type WalletUpdatedData = {|
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,
   +isReadOnly?: ?boolean,
+  +isSimplified?: ?boolean,
 |}
 
 declare type WalletNewData = {|
@@ -78,6 +80,7 @@ declare type WalletNewData = {|
   +createdBlockNumber?: WalletCreatedBlockNumber,
   +data: string,
   +name?: string,
+  +isSimplified: ?boolean,
 |}
 
 declare type WalletData = {|
@@ -87,6 +90,7 @@ declare type WalletData = {|
   +data: string,
   +name: string,
   +orderIndex: number,
+  +isSimplified: ?boolean,
 |}
 
 declare type WalletDecryptedData = {|

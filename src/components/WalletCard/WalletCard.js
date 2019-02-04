@@ -10,6 +10,7 @@ type Props = {|
   +backup: ?WalletCardHandler,
   +rename: ?WalletCardHandler,
   +remove: ?WalletCardHandler,
+  +simplify: ?WalletCardHandler,
   +setActive: WalletCardHandler,
   +title: string,
   +type: WalletType,
@@ -28,6 +29,7 @@ class WalletCard extends PureComponent<Props> {
     backup: null,
     rename: null,
     remove: null,
+    simplify: null,
     isLoading: false,
     isReadOnly: false,
   }
@@ -37,6 +39,7 @@ class WalletCard extends PureComponent<Props> {
       backup,
       rename,
       remove,
+      simplify,
       setActive,
       type,
       title,
@@ -53,10 +56,11 @@ class WalletCard extends PureComponent<Props> {
 
     return (
       <WalletFace
-        onClick={setActive}
         backup={backup}
         rename={rename}
         remove={remove}
+        simplify={simplify}
+        onClick={setActive}
         title={title}
         iconName={iconName}
         description={description}
