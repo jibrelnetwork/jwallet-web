@@ -11,9 +11,24 @@
   background-position: center;
   border-radius: 50%;
   cursor: inherit;
+  position: relative;
+  font-size: inherit;
+
+  &.-symbol-not-listed::before {
+    @include font;
+
+    display: block;
+    content: attr(data-symbol);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    font-size: inherit;
+  }
 
   &.-blue {
-    background-image: linear-gradient(to top, $blue, $blue);
+    &.-symbol-not-listed { color: $blue; }
 
     &.-symbol-1st { background-image: $token-1st-blue; }
     &.-symbol-adt { background-image: $token-adt-blue; }
@@ -109,7 +124,7 @@
   }
 
   &.-gray {
-    background-image: linear-gradient(to top, $dusk, $dusk);
+    &.-symbol-not-listed { color: $blue; }
 
     &.-symbol-1st { background-image: $token-1st-gray; }
     &.-symbol-adt { background-image: $token-adt-gray; }
@@ -205,7 +220,7 @@
   }
 
   &.-white {
-    background-image: linear-gradient(to top, $white, $white);
+    &.-symbol-not-listed { color: $white; }
 
     &.-symbol-1st { background-image: $token-1st-white; }
     &.-symbol-adt { background-image: $token-adt-white; }
