@@ -94,7 +94,7 @@ function* requestGasPrice(): Saga<?BigNumber> {
   try {
     const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
     if (!network) {
-      throw new Error('There is no active network')
+      throw new Error(t`ActiveNetworkNotFoundError`)
     }
 
     const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
@@ -108,14 +108,14 @@ function* requestGasPrice(): Saga<?BigNumber> {
 function* requestNonce(): Saga<?number> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
   if (!network) {
-    throw new Error('There is no active network')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!ownerAddress) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   try {
@@ -139,14 +139,14 @@ function* requestGasLimit(): Saga<?number> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!network) {
-    throw new Error('There is no active network')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!ownerAddress) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
@@ -344,7 +344,7 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
 
     if (ethBalance && toBigNumber(ethBalance.value).lt(feeETH)) {
       // eslint-disable-next-line max-len
-      yield put(digitalAssetsSend.setFormFieldError('amount', t`You don\'t have enough ETH to send this transaction`))
+      yield put(digitalAssetsSend.setFormFieldError('amount', t`You don't have enough ETH to send this transaction`))
     }
   }
 }
@@ -445,7 +445,7 @@ function* addPendingTransaction(
     yield select(selectActiveWalletAddress)
 
   if (!ownerAddress) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const {
@@ -454,7 +454,7 @@ function* addPendingTransaction(
   }: GasValues = gasValues
 
   if (!(gasPrice && parseInt(gasLimit, 10))) {
-    throw new Error('GasValuesError')
+    throw new Error(t`GasValuesError`)
   }
 
   const {
@@ -542,20 +542,20 @@ function* sendTransactionRequest(
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!network) {
-    throw new Error('There is no active network')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
 
   if (!walletId) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
   if (!digitalAsset) {
-    throw new Error(`Digital asset is not found by address ${assetAddress}`)
+    throw new Error(t`DigitalAssetNotFound`)
   }
 
   const {

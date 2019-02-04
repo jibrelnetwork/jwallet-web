@@ -44,7 +44,7 @@ class NotFoundView extends PureComponent<Props, StateProps> {
             title={t`404. Page Not Found.`}
             isTransparent
             description={[
-              t`The page you\'re looking for can\'t be found.`,
+              t`The page you're looking for can't be found.`,
               t`Check the URL and try again.`,
             ]}
           />

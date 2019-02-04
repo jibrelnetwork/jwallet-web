@@ -72,6 +72,7 @@ class JInput extends PureComponent<Props> {
     isDisabled: false,
     isAutoFocus: false,
     isVirtualHalfSize: false,
+    iconPosition: null,
     withIndicator: false,
   }
 

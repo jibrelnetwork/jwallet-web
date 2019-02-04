@@ -6,8 +6,6 @@ import { t } from 'ttag'
 import HelpText from 'components/HelpText'
 import { JFlatButton, JInput, JRaisedButton } from 'components/base'
 
-// #TODO FIXME
-
 const NameStep = ({
   setName,
   setNextStep,
@@ -26,7 +24,7 @@ const NameStep = ({
       type='text'
       color='white'
       name='wallet-name'
-      placeholder={t`routes.createWallet.placeholder.name`}
+      placeholder={t`Wallet name`}
     />
     <div className='actions'>
       <JFlatButton
@@ -34,14 +32,14 @@ const NameStep = ({
         iconName='arrow'
         iconSize='small'
         iconColor='white'
-        label={t`routes.createWallet.buttonTitle.prevStep`}
+        label={t`Previous step`}
         isTransparent
       />
       <div className='next'>
         <JRaisedButton
           onClick={setNextStep}
           color='blue'
-          label={t`routes.createWallet.buttonTitle.nextStep`}
+          label={t`Next step`}
           isWide
         />
       </div>

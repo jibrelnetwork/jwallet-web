@@ -41,7 +41,7 @@ function* rename(action: ExtractReturn<typeof walletsRename.rename>): Saga<void>
   } = action.payload
 
   if (!name) {
-    yield put(wallets.setInvalidField('name', t`Wallet name can\'t be empty`))
+    yield put(wallets.setInvalidField('name', t`Wallet name can't be empty`))
 
     return
   }
