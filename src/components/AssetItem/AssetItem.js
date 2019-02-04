@@ -23,9 +23,9 @@ import {
 } from 'components/base'
 
 type Props = {|
-  +edit: () => void,
-  +remove: () => void,
-  +setIsActive: (boolean) => void,
+  +edit: (string) => void,
+  +remove: (string) => void,
+  +setIsActive: (string, boolean) => void,
   +name: string,
   +symbol: string,
   +address: Address,
@@ -56,17 +56,28 @@ class AssetItem extends PureComponent<Props, StateProps> {
     }
   }
 
-  onHoverEdit = () => this.setState({ isHoveredEdit: !this.state.isHoveredEdit })
+  onMouseEnterEdit = () => this.setState({ isHoveredEdit: true })
+  onMouseLeaveEdit = () => this.setState({ isHoveredEdit: false })
 
-  onHoverTrash = (isHoveredTrash: boolean) => () => this.setState({ isHoveredTrash })
+  onMouseEnterRemove = () => this.setState({ isHoveredTrash: true })
+  onMouseLeaveRemove = () => this.setState({ isHoveredTrash: false })
 
-  toggle = () => this.setState({ isToggled: !this.state.isToggled })
+  onClickEdit = () => {
+    this.props.edit(this.props.address)
+  }
+
+  onClickRemove = () => {
+    this.props.remove(this.props.address)
+  }
+
+  onClickSetActive = () => {
+    this.props.setIsActive(this.props.address, this.props.isActive)
+  }
+
+  toggle = () => this.setState(prevState => ({ isToggled: !prevState.isToggled }))
 
   render() {
     const {
-      edit,
-      remove,
-      setIsActive,
       name,
       symbol,
       address,
@@ -122,9 +133,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
               <Fragment>
                 <div
                   className='item -edit'
-                  onMouseEnter={this.onHoverEdit}
-                  onMouseLeave={this.onHoverEdit}
-                  onClick={edit}
+                  onMouseEnter={this.onMouseEnterEdit}
+                  onMouseLeave={this.onMouseLeaveEdit}
+                  onClick={this.onClickEdit}
                 >
                   <JTooltip text='Edit'>
                     <JIcon
@@ -136,12 +147,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 </div>
                 <div
                   className='item -delete'
-                  onMouseEnter={this.onHoverTrash(true)}
-                  onMouseLeave={this.onHoverTrash(false)}
-                  onClick={this.onHoverTrash(false)}
+                  onMouseEnter={this.onMouseEnterRemove}
+                  onMouseLeave={this.onMouseLeaveRemove}
+                  onClick={this.onMouseLeaveRemove}
                 >
                   <ButtonWithConfirm
-                    onClick={remove}
+                    onClick={this.onClickRemove}
                     color='blue'
                     bgColor='white'
                     labelCancel='No'
@@ -163,7 +174,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 </div>
                 <div className='item -switch'>
                   <JSwitch
-                    onChange={setIsActive}
+                    onChange={this.onClickSetActive}
                     isChecked={isActive}
                     name={address}
                   />
@@ -172,7 +183,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
             ) : (
               <div className='item -switch'>
                 <JSwitch
-                  onChange={setIsActive}
+                  onChange={this.onClickSetActive}
                   name={address}
                   isChecked={isActive}
                   isDisabled={checkETH(address) && isActive}
