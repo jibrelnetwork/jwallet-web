@@ -67,7 +67,7 @@ const getSettingsCardProperties = ({
   isVisible: true,
 }, {
   title: t`Delete wallet`,
-  description: t`Badaaaah!`,
+  description: t`Don't forget to back it up!`,
   path: `wallets/delete/${walletId}`,
   iconName: 'cross-circle',
   iconColor: 'red',

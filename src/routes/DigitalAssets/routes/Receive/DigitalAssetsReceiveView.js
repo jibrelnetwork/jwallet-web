@@ -1,13 +1,13 @@
 // @flow
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { JCard, JInput, JRaisedButton } from 'components/base'
-import { AddressPicker, CloseableScreen, QRCode } from 'components'
+import { saveQRCode, copyQRCode } from 'components/QRCode'
+import { CloseableScreen, QRCode } from 'components'
 import { clipboard, qrCode } from 'services'
 
-import { saveQRCode, copyQRCode } from 'components/QRCode'
 import { isVoid } from 'utils/type'
 
 const generateQRCode = (address: Address): void => {
@@ -20,57 +20,25 @@ const generateQRCode = (address: Address): void => {
   }
 }
 
+const copyAddress = (address) => { clipboard.copyText(address) }
+
 type Props = {|
   +close: Function,
-  +items: AddressNames,
-  +wallet: ?Wallet,
+  +address: ?Address,
 |}
 
-type State = {
-  selectedAddress: Address,
-}
-
-class DigitalAssetsReceiveView extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-
-    const { wallet, items } = props
-    if (isVoid(wallet)) {
-      this.state = {
-        selectedAddress: '',
-      }
-
-      return
-    }
-
-    const { address, addressIndex } = wallet
-
-    const initialAddress = address || Object.keys(items)[addressIndex || 0]
-
-    this.state = {
-      selectedAddress: initialAddress,
-    }
-  }
-
+class DigitalAssetsReceiveView extends PureComponent<Props, *> {
   componentDidMount(): void {
-    generateQRCode(this.state.selectedAddress)
-  }
-
-  setAddress = (address: Address): void => {
-    this.setState({ selectedAddress: address }, () => { generateQRCode(address) })
-  }
-
-  copyAddress = () => {
-    clipboard.copyText(this.state.selectedAddress)
+    if (this.props.address) {
+      generateQRCode(this.props.address)
+    }
   }
 
   render() {
-    if (isVoid(this.props.wallet)) {
+    const { address, close } = this.props
+    if (isVoid(address)) {
       return null
     }
-
-    const { items, wallet, close } = this.props
-    const { selectedAddress } = this.state
 
     return (
       <CloseableScreen
@@ -90,22 +58,18 @@ class DigitalAssetsReceiveView extends Component<Props, State> {
                   />
                 </JCard>
               </div>
-              {wallet.type === 'address' ?
-                <JInput
-                  label={t`Recipient address`}
-                  value={selectedAddress}
-                  color='gray'
-                  type='text'
-                  isDisabled
-                /> :
-                <AddressPicker
-                  onSelect={this.setAddress}
-                  addressNames={items}
-                  selectedAddress={selectedAddress}
-                  isDisabled={wallet.type === 'address'}
-                />
-              }
-              <JRaisedButton onClick={this.copyAddress} label={t`Copy address`} color='blue' />
+              <JInput
+                label={t`Recipient address`}
+                value={address}
+                color='gray'
+                type='text'
+                isDisabled
+              />
+              <JRaisedButton
+                onClick={copyAddress}
+                label={t`Copy address`}
+                color='blue'
+              />
             </div>
           </div>
         </div>
