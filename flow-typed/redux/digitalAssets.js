@@ -66,7 +66,7 @@ declare type DigitalAsset = {|
 
 declare type DigitalAssetWithBalance = {|
   +balance: ?Balance,
-  +fiatBalance: ?string,
+  // +fiatBalance: ?string,
   +assetPage: DigitalAssetPage,
   +display: DigitalAssetDisplay,
   +priceFeed: DigitalAssetPriceFeed,

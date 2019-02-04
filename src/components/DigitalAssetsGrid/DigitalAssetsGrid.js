@@ -13,14 +13,14 @@ import AddDigitalAsset from './AddDigitalAsset'
 type Props = {|
   +addAssetClick: () => void,
   +items: DigitalAssetWithBalance[],
-  +fiatCurrency: FiatCurrency
+  // +fiatCurrency: FiatCurrency
 |}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
     const {
       items,
-      fiatCurrency,
+      // fiatCurrency,
       addAssetClick,
     } = this.props
 
@@ -35,7 +35,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
           symbol,
           balance,
           isCustom,
-          fiatBalance,
+          // fiatBalance,
         }: DigitalAssetWithBalance) => (
           <div className='box' key={address}>
             <Asset
@@ -43,8 +43,8 @@ class DigitalAssetsGrid extends PureComponent<Props> {
               symbol={symbol}
               address={address}
               balance={formatAssetBalance(address, balance ? balance.value : 0, decimals)}
-              fiatCurrency={fiatCurrency}
-              fiatBalance={fiatBalance}
+              // fiatCurrency={fiatCurrency}
+              // fiatBalance={fiatBalance}
               isCustom={isCustom}
               isError={!!balance && !!balance.isError}
               isLoading={checkBalanceLoading(balance)}

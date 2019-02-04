@@ -12,8 +12,8 @@ type Props = {|
   +symbol: string,
   +address: Address,
   +balance: ?BalanceString,
-  +fiatCurrency: ?FiatCurrency,
-  +fiatBalance: ?string,
+  // +fiatCurrency: ?FiatCurrency,
+  // +fiatBalance: ?string,
   +isError: boolean,
   +isLoading: boolean,
   +isCustom: boolean,
@@ -28,7 +28,7 @@ class AssetCard extends PureComponent<Props, AssetsState> {
     isError: false,
     isLoading: false,
     isCustom: false,
-    fiatBalance: '',
+    // fiatBalance: '',
   }
 
   constructor(props: Props) {
@@ -49,8 +49,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       symbol,
       address,
       balance,
-      fiatCurrency,
-      fiatBalance,
+      // fiatCurrency,
+      // fiatBalance,
       isError,
       isLoading,
       isCustom,
@@ -79,8 +79,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
           <JText value={name} color='dark' weight='bold' size='header' whiteSpace='wrap' />
         </div>
         <AssetCardBody
-          fiatCurrency={fiatCurrency}
-          fiatBalance={fiatBalance}
+          // fiatCurrency={fiatCurrency}
+          // fiatBalance={fiatBalance}
           address={address}
           symbol={symbol}
           balance={balance}
