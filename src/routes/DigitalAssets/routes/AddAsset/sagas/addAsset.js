@@ -15,8 +15,12 @@ import {
 import web3 from 'services/web3'
 import reactRouterBack from 'utils/browser/reactRouterBack'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
-import checkAddressValid from 'utils/address/checkAddressValid'
 import { selectCurrentNetwork } from 'store/selectors/networks'
+
+import {
+  checkAddressValid,
+  getAddressChecksum,
+} from 'utils/address'
 
 import {
   selectAddAsset,
@@ -187,16 +191,16 @@ function* onAssetFormSumbit(): Saga<void> {
     isAssetValid,
     isAssetLoaded,
     formFields: {
-      address,
       name,
       symbol,
+      address,
       decimals,
     },
   }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
-  const contractAddress = address.trim()
   const contractName = name.trim()
   const contractSymbol = symbol.trim()
+  const contractAddress = address.trim()
   const contractDecimals = parseInt(decimals, 10)
 
   if (isAssetLoaded && !isAssetValid) {
@@ -219,6 +223,7 @@ function* onAssetFormSumbit(): Saga<void> {
 
   // Check if this asset already exists
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, contractAddress)
+
   if (foundAsset) {
     yield put(setFieldError('address', i18n('general.error.address.exists')))
     return
@@ -232,9 +237,11 @@ function* onAssetFormSumbit(): Saga<void> {
     yield put(setFieldError('symbol', 'Valid digital asset symbol is required'))
   }
 
-  if (Number.isNaN(contractDecimals) ||
+  if (
+    Number.isNaN(contractDecimals) ||
     contractDecimals <= 0 ||
-    contractDecimals > 127) {
+    contractDecimals > 127
+  ) {
     yield put(
       setFieldError('decimals', 'Digital asset decimals should be a number between 1...127')
     )
@@ -242,21 +249,23 @@ function* onAssetFormSumbit(): Saga<void> {
 
   const {
     invalidFields: {
-      address: addressError,
       name: nameError,
       symbol: symbolError,
+      address: addressError,
       decimals: decimalsError,
     },
   }: ExtractReturn<typeof selectAddAsset> = yield select(selectAddAsset)
 
+  const checksumAddres: Address = getAddressChecksum(contractAddress)
+
   if (
-    !addressError &&
     !nameError &&
     !symbolError &&
+    !addressError &&
     !decimalsError
   ) {
     yield put(
-      digitalAssets.addCustomAsset(contractAddress, contractName, contractSymbol, contractDecimals),
+      digitalAssets.addCustomAsset(checksumAddres, contractName, contractSymbol, contractDecimals),
     )
 
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))

@@ -6,6 +6,7 @@ import getDigitalAssetByAddress from '../digitalAssets/getDigitalAssetByAddress'
 function checkTransactionsByOwnerLoading(
   itemsByOwner: ?TransactionsByOwner,
   activeAssets: DigitalAsset[],
+  walletCreatedBlockNumber: ?number,
 ): boolean {
   if (!itemsByOwner) {
     return true
@@ -37,8 +38,15 @@ function checkTransactionsByOwnerLoading(
 
     const digitalAsset: ?DigitalAsset = getDigitalAssetByAddress(activeAssets, assetAddress)
 
+    if (!digitalAsset) {
+      return true
+    }
+
+    const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
+    const minBlock: ?number = walletCreatedBlockNumber || deploymentBlockNumber
+
     // return result of iterating by addresses of assets
-    return checkTransactionsByAssetLoading(itemsByAssetAddress, digitalAsset)
+    return checkTransactionsByAssetLoading(itemsByAssetAddress, minBlock)
   }, false)
 }
 
