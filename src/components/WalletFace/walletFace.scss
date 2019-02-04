@@ -42,7 +42,6 @@
 
     flex: 0 0 84px;
     height: 100%;
-    background-color: $blue;
   }
 
   &.-transparent {
@@ -69,10 +68,6 @@
       > .description {
         opacity: 1;
       }
-    }
-
-    > .actions {
-      background-color: $bright-sky-blue;
     }
 
     &.-toggled {
