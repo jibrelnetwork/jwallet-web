@@ -94,6 +94,7 @@ class WalletsIndexView extends Component<Props> {
                     title={name}
                     description={isReadOnly ? `${description}, read only` : description}
                     isReadOnly={isReadOnly}
+                    isSimplified={isSimplified}
                   />
                 </div>
               )

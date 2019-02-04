@@ -17,6 +17,7 @@ type Props = {|
   +description: string,
   +isLoading: boolean,
   +isReadOnly: boolean,
+  +isSimplified: ?boolean,
 |}
 
 const WALLET_TYPE_ICON_MAP: { [WalletType]: string } = {
@@ -32,6 +33,7 @@ class WalletCard extends PureComponent<Props> {
     simplify: null,
     isLoading: false,
     isReadOnly: false,
+    isSimplified: false,
   }
 
   render() {
@@ -46,6 +48,7 @@ class WalletCard extends PureComponent<Props> {
       description,
       isLoading,
       isReadOnly,
+      isSimplified,
     }: Props = this.props
 
     const iconName: string = WALLET_TYPE_ICON_MAP[type]
@@ -65,6 +68,7 @@ class WalletCard extends PureComponent<Props> {
         iconName={iconName}
         description={description}
         isReadOnly={isReadOnly}
+        isSimplified={isSimplified}
         hasActions
       />
     )
