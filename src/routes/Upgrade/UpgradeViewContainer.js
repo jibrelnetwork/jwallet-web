@@ -35,7 +35,7 @@ import {
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {
     if (!address) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
     const privateKeyInvalidErr: string = t`Private key is invalid`
@@ -75,7 +75,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
     derivationPath,
   }: UpgradeMnemonicFormFieldValues): UpgradeMnemonicFormFieldErrors => {
     if (!bip32XPublicKey) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
     const mnemonicInvalidErr: string = t`Mnemonic is invalid`

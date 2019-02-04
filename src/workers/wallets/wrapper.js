@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 
@@ -137,9 +139,9 @@ export function upgradeRequest(
   }: WalletsPersist = walletsData.persist
 
   if (!activeWalletId) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   } else if (!internalKey) {
-    throw new Error('WalletDataError')
+    throw new Error(t`WalletDataError`)
   }
 
   const mnemonicOptions: ?MnemonicOptionsUser = !derivationPath ? null : {

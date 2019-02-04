@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 
 import {
   all,
@@ -42,7 +43,7 @@ function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): S
   const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
 
   if (!walletId) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const { addressIndex } = action.payload
@@ -59,7 +60,7 @@ function* getMoreRequest(): Saga<void> {
   const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
 
   if (!walletId) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const { iteration }: ExtractReturn<typeof selectWalletsAddresses> =
@@ -98,9 +99,9 @@ function* getBalancesRequest(): Saga<void> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!walletId) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   } else if (!network) {
-    throw new Error('ActiveNetworkNotFoundError')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const { addresses }: ExtractReturn<typeof selectWalletsAddresses> =

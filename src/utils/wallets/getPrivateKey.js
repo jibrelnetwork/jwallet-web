@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import decryptData from 'utils/encryption/decryptData'
 import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
 
@@ -13,7 +15,7 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
   }: Wallet = wallet
 
   if (isReadOnly) {
-    throw new Error('WalletDataError')
+    throw new Error(t`WalletDataError`)
   }
 
   if (checkMnemonicType(type)) {
@@ -29,7 +31,7 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
       !network ||
       !derivationPath
     ) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
     const mnemonic: string = decryptData({
@@ -52,7 +54,7 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
     )
   } else {
     if (!encrypted.privateKey) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
     return decryptData({

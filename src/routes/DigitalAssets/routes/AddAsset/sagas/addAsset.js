@@ -111,7 +111,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!network) {
-    throw new Error('Active network does not exist')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const { fieldName, value } = action.payload
