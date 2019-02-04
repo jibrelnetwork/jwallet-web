@@ -40,7 +40,7 @@ function checkFound(
 function searchTransactions(
   items: TransactionWithPrimaryKeys[],
   searchQuery: string,
-  favorites?: AddressNames,
+  addressNames?: AddressNames,
 ): TransactionWithPrimaryKeys[] {
   if (!searchQuery) {
     return items
@@ -48,8 +48,8 @@ function searchTransactions(
 
   const itemsWithNames: TransactionWithNames[] = items.map(
     (transaction) => {
-      const toName = transaction.to && favorites ? favorites[transaction.to] : null
-      const fromName = transaction.from && favorites ? favorites[transaction.from] : null
+      const toName = transaction.to && addressNames ? addressNames[transaction.to] : null
+      const fromName = transaction.from && addressNames ? addressNames[transaction.from] : null
 
       return { ...transaction, toName, fromName }
     }

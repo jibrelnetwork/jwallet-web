@@ -50,7 +50,7 @@ import TransactionsIndexView from './TransactionsIndexView'
 function prepareTransactions(
   items: ?TransactionsByOwner,
   pending: ?PendingTransactionsByOwner,
-  favorites: AddressNames,
+  names: AddressNames,
   searchQuery: string,
   isOnlyPending: boolean,
 ): TransactionWithPrimaryKeys[] {
@@ -63,7 +63,7 @@ function prepareTransactions(
   const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPending]
   const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
   const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isOnlyPending)
-  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, favorites)
+  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
   const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
   return sorted
@@ -113,7 +113,11 @@ function mapStateToProps(state: AppState) {
       : prepareTransactions(
         transactionsByOwner,
         pendingTransactions,
-        favorites,
+        {
+          ...favorites,
+          ...addressNames,
+          ...addressWalletsNames,
+        },
         searchQuery,
         isOnlyPending
       ),
