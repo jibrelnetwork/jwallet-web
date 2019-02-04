@@ -73,7 +73,7 @@
      */
     $input-icon-padding: 10px;
     $input-icon-size: ($icon-small-size + ($input-icon-padding * 2));
-    $input-icon-margin-top: ($form-field-padding-top / 2) - ($input-icon-size / 2);
+    $input-icon-margin-top: ($form-field-white-padding-vertical / 2) - ($input-icon-size / 2);
 
     @include flex-row-center;
 
@@ -165,7 +165,15 @@
       opacity: 1;
       box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
       min-height: $form-field-gray-height;
-      padding: $form-field-white-vertical-padding $form-field-horizontal-padding;
+      padding-left: $form-field-horizontal-padding;
+      padding-right: $form-field-horizontal-padding;
+    }
+
+    &.-multiline {
+      > .input {
+        padding-top: $form-field-gray-vertical-padding;
+        padding-bottom: $form-field-gray-vertical-padding;
+      }
     }
   }
 
@@ -180,7 +188,15 @@
       color: $white;
       border: 1px solid $blue;
       min-height: $form-field-white-height;
-      padding: $form-field-padding-top $form-field-white-horizontal-padding;
+      padding-left: $form-field-white-horizontal-padding;
+      padding-right: $form-field-white-horizontal-padding;
+    }
+
+    &.-multiline {
+      > .input {
+        padding-top: $form-field-white-padding-vertical;
+        padding-bottom: $form-field-white-padding-vertical;
+      }
     }
   }
 
@@ -295,6 +311,18 @@
   &.-with-indicator {
     > .input {
       padding-right: 90px;
+    }
+  }
+
+  &.-icon-posotion-right {
+    > .input {
+      padding-right: 40px;
+    }
+  }
+
+  &.-icon-posotion-left {
+    > .input {
+      padding-left: 40px;
     }
   }
 }
