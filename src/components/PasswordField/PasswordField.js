@@ -129,7 +129,7 @@ class PasswordField extends Component<Props, StateProps> {
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
-        <Indicator status={this.getStatus()} isOffsetRight={isDisabled} color={color} />
+        {!isDisabled && <Indicator status={this.getStatus()} color={color} />}
         <JInput
           color={color}
           onChange={onChangeConfirm}
