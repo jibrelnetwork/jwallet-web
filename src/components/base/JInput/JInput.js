@@ -144,11 +144,11 @@ class JInput extends PureComponent<Props> {
         {errorMessage && <div className='error'>{errorMessage}</div>}
         <div className='loader' />
         <div className='help'><div className='icon' /></div>
-        {color === 'gray' && isDisabled && (
+        {isDisabled && (
           <div className='lock'>
             <JIcon
               size='medium'
-              color='gray'
+              color={color}
               name='padding-lock'
             />
           </div>

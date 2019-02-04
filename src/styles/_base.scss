@@ -38,14 +38,14 @@ $form-field-gray-height: 65px;
 $form-field-white-height: 48px;
 $form-field-line-height: 1.5;
 $form-border-radius: 3px;
-$form-field-padding-top: 16px;
+$form-field-white-padding-vertical: 16px;
 $form-field-horizontal-padding: $box-horizontal-padding;
-$form-field-white-vertical-padding: 22px;
+$form-field-gray-vertical-padding: 22px;
 $form-field-white-horizontal-padding: 20px;
 $form-field-white-font-size: 14px;
 $form-helpers-font-size: 11px;
 $form-field-margin-bottom: 10px;
-$form-field-full-height: ($form-field-height + $form-field-padding-top);
+$form-field-full-height: ($form-field-height + $form-field-white-padding-vertical);
 
 /**
  * Select
