@@ -297,4 +297,16 @@
       padding-right: 90px;
     }
   }
+
+  &.-icon-posotion-right {
+    > .input {
+      padding-right: 40px;
+    }
+  }
+
+  &.-icon-posotion-left {
+    > .input {
+      padding-left: 40px;
+    }
+  }
 }
