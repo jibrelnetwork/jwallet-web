@@ -586,7 +586,11 @@ function getGasPrice(network: Network): Promise<BigNumber> {
   })
 }
 
-function getNonce(network: Network, address: Address): Promise<number> {
+function getNonce(
+  network: Network,
+  address: Address,
+  defaultBlock?: BlockId = 'latest',
+): Promise<number> {
   const {
     rpcaddr,
     rpcport,
@@ -598,6 +602,7 @@ function getNonce(network: Network, address: Address): Promise<number> {
     rpcport,
     ssl,
     address,
+    defaultBlock: defaultBlock || 'latest',
   })
 }
 
