@@ -65,6 +65,8 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
 
   if (to) {
     yield put(digitalAssetsSend.setFormFieldValue('recipient', to))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('recipient', ''))
   }
 
   if (asset) {
