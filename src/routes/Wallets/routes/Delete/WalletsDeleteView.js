@@ -59,6 +59,7 @@ class WalletsDeleteView extends Component<Props> {
                 'All user data, including imported or generated private keys, will be deleted.',
                 'The only way to restore deleted wallet is to use the backup phrase.',
               ]}
+              isTransparent
             />
             <div className='actions'>
               <ButtonWithConfirm
