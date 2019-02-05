@@ -239,11 +239,11 @@ function* onAssetFormSumbit(): Saga<void> {
 
   if (
     Number.isNaN(contractDecimals) ||
-    contractDecimals <= 0 ||
+    contractDecimals < 0 ||
     contractDecimals > 127
   ) {
     yield put(
-      setFieldError('decimals', 'Digital asset decimals should be a number between 1...127')
+      setFieldError('decimals', 'Digital asset decimals should be a number between 0...127')
     )
   }
 
