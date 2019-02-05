@@ -37,3 +37,11 @@
 @mixin hover-animation {
   transition: all 0.3s ease 0s;
 }
+
+@mixin header-container {
+  max-width: 1020px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
