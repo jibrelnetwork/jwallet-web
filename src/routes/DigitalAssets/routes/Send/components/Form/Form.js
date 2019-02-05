@@ -63,7 +63,7 @@ function DigitalAssetsSendForm({
   const selectedAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
-  const hasManyRecepientAddresses = Object.keys(addressNames).length > 0
+  const hasManyRecipientAddresses = Object.keys(addressNames).length > 0
 
   return (
     <div className='digital-assets-send-form'>
@@ -75,7 +75,7 @@ function DigitalAssetsSendForm({
           placeholder='Current address'
           isDisabled
         />
-        {hasManyRecepientAddresses ? (<AddressPicker
+        {hasManyRecipientAddresses ? (<AddressPicker
           onSelect={setFormFieldValue('recipient')}
           addressNames={addressNames}
           selectedAddress={recipient}
