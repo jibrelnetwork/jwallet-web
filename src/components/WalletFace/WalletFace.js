@@ -26,6 +26,7 @@ type Props = {|
   +description: string,
   +isReadOnly: boolean,
   +hasActions: boolean,
+  +isSimplified: ?boolean,
   +isTransparent: boolean,
 |}
 
@@ -42,6 +43,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
     simplify: null,
     isReadOnly: false,
     hasActions: false,
+    isSimplified: false,
     isTransparent: false,
   }
 
@@ -80,6 +82,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
       description,
       hasActions,
       isReadOnly,
+      isSimplified,
       isTransparent,
     }: Props = this.props
 
@@ -118,6 +121,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
               simplify={simplify && this.simplify}
               balance={balance}
               isToggled={isToggled}
+              isSimplified={isSimplified}
             />
           </div>
         )}
