@@ -120,7 +120,15 @@ function mapStateToProps(state: AppState) {
   const wallet: ?Wallet = selectActiveWallet(state)
 
   if (!wallet) {
-    throw new Error('ActiveWalletNotFoundError')
+    return {
+      filterOptions: {
+        sortBy: 'name',
+        sortByNameDirection: 'asc',
+        sortByBalanceDirection: 'asc',
+        isHideZeroBalance: false,
+      },
+      items: [],
+    }
   }
 
   const networkId: NetworkId = selectCurrentNetworkId(state)
