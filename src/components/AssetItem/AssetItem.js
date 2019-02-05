@@ -71,7 +71,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
   }
 
   onClickSetActive = () => {
-    this.props.setIsActive(this.props.address, this.props.isActive)
+    this.props.setIsActive(this.props.address, !this.props.isActive)
   }
 
   toggle = () => this.setState(prevState => ({ isToggled: !prevState.isToggled }))
