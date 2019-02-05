@@ -63,53 +63,57 @@ class MenuPanel extends Component<Props, ComponentState> {
       fiatBalance,
     }: Props = this.props
 
-    const wallet: Wallet = getWallet(items, activeWalletId)
+    try {
+      const wallet: Wallet = getWallet(items, activeWalletId)
 
-    const {
-      type,
-      isReadOnly,
-    }: Wallet = wallet
+      const {
+        type,
+        isReadOnly,
+      }: Wallet = wallet
 
-    const {
-      isActionsMoreActive,
-      isWalletManagerActive,
-    }: ComponentState = this.state
+      const {
+        isActionsMoreActive,
+        isWalletManagerActive,
+      }: ComponentState = this.state
 
-    return (
-      <div className={classNames('menu-panel', isReadOnly && '-read-only')}>
-        <div className='top'>
-          <div className='logo'>
-            <JLogo isOnlyIcon />
+      return (
+        <div className={classNames('menu-panel', isReadOnly && '-read-only')}>
+          <div className='top'>
+            <div className='logo'>
+              <JLogo isOnlyIcon />
+            </div>
+            <div className='separator' />
+            <div className='ticker'>
+              <MenuPanelBalanceTicker balance={fiatBalance} currency={fiatCurrency} />
+            </div>
           </div>
-          <div className='separator' />
-          <div className='ticker'>
-            <MenuPanelBalanceTicker balance={fiatBalance} currency={fiatCurrency} />
+          <div className='actions'>
+            <MenuPanelMainAction
+              type={type}
+              isReadOnly={isReadOnly}
+            />
+            <MenuPanelActions
+              toggle={this.toggleActionsMore}
+              isActive={isActionsMoreActive}
+              activeWalletId={activeWalletId}
+            />
           </div>
-        </div>
-        <div className='actions'>
-          <MenuPanelMainAction
-            type={type}
+          <MenuPanelWalletManager
+            toggle={this.toggleWalletManager}
+            getMoreAddresses={getMoreAddresses}
+            setActiveAddress={setActiveAddress}
+            items={items}
+            addresses={addresses}
+            addressNames={addressNames}
+            activeWalletId={activeWalletId}
+            isActive={isWalletManagerActive}
             isReadOnly={isReadOnly}
           />
-          <MenuPanelActions
-            toggle={this.toggleActionsMore}
-            isActive={isActionsMoreActive}
-            activeWalletId={activeWalletId}
-          />
         </div>
-        <MenuPanelWalletManager
-          toggle={this.toggleWalletManager}
-          getMoreAddresses={getMoreAddresses}
-          setActiveAddress={setActiveAddress}
-          items={items}
-          addresses={addresses}
-          addressNames={addressNames}
-          activeWalletId={activeWalletId}
-          isActive={isWalletManagerActive}
-          isReadOnly={isReadOnly}
-        />
-      </div>
-    )
+      )
+    } catch (err) {
+      return null
+    }
   }
 }
 
