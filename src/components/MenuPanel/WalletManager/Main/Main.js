@@ -18,7 +18,6 @@ type Props = {|
   +address: string,
   +isActive: boolean,
   +isReadOnly: boolean,
-  +isSimplified: boolean,
 |}
 
 const SYMBOLS_FROM_START = 8
@@ -31,9 +30,8 @@ function MenuPanelWalletManagerMain({
   address,
   isActive,
   isReadOnly,
-  isSimplified,
 }: Props) {
-  const isMnemonic: boolean = checkMnemonicType(type) && !isSimplified
+  const isMnemonic: boolean = checkMnemonicType(type)
 
   return (
     <div
