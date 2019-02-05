@@ -29,8 +29,8 @@ declare type ETHBlock = {|
 */
 
 declare type BlockNumber = string
-declare type BlockId = Hash | BlockType | number
 declare type BlockType = 'latest' | 'current' | 'processing'
+declare type BlockId = Hash | BlockType | number
 
 declare type BlockData = {|
   +hash: Hash,

@@ -104,8 +104,9 @@ function* requestGasPrice(): Saga<?BigNumber> {
   }
 }
 
-function* requestNonce(): Saga<?number> {
+function* requestNonce(defaultBlock: BlockId): Saga<?number> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+
   if (!network) {
     throw new Error('There is no active network')
   }
@@ -118,10 +119,12 @@ function* requestNonce(): Saga<?number> {
   }
 
   try {
-    const nonce: number = yield call(web3.getNonce, network, ownerAddress)
+    const nonce: number = yield call(web3.getNonce, network, ownerAddress, defaultBlock)
+
     return nonce
   } catch (err) {
     console.log(err)
+
     return null
   }
 }
@@ -349,9 +352,7 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
 }
 
 function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
-  const {
-    nonce: userNonce,
-  } = formFieldValues
+  const userNonce = formFieldValues.nonce
 
   if (userNonce === '') {
     return
@@ -361,12 +362,15 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
 
   if (!isNonceValid) {
     yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
+
     return
   }
 
-  const nonce: ?number = yield* requestNonce()
+  const nonce: ?number = yield* requestNonce('latest')
+
   if (!nonce) {
     yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+
     return
   }
 
@@ -856,12 +860,24 @@ function* onPriorityChange(): Saga<void> {
 function* onStartNonceEdit(
   action: ExtractReturn<typeof digitalAssetsSend.setNonceEditable>
 ): Saga<void> {
-  const { payload: { isEditable } } = action
+  const { isEditable } = action.payload
 
   if (isEditable) {
-    const nonce = yield* requestNonce()
+    const nonce: ?number = yield* requestNonce('pending')
+
+    const {
+      formFieldValues,
+    }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+    const userNonce: string = formFieldValues.nonce
+
+    if (userNonce) {
+      return
+    }
+
     if (!nonce) {
       yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+
       return
     }
 
