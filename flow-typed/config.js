@@ -62,4 +62,5 @@ declare type AppConfig = {|
   +defaultRandomBufferLength: number,
   +fiatCoursesSyncTimeout: number,
   +sessionIDKey: string,
+  +minPasswordStrengthScore: number,
 |}

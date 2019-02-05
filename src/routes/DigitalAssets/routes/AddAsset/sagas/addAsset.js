@@ -171,7 +171,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
       yield put(setIsAssetValid(true))
       yield put(setField('name', name || ''))
       yield put(setField('symbol', symbol || ''))
-      yield put(setField('decimals', decimals ? decimals.toString() : ''))
+      yield put(setField('decimals', typeof decimals === 'number' ? decimals.toString() : ''))
     } else if (result) {
       throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
     }
@@ -239,11 +239,11 @@ function* onAssetFormSumbit(): Saga<void> {
 
   if (
     Number.isNaN(contractDecimals) ||
-    contractDecimals <= 0 ||
+    contractDecimals < 0 ||
     contractDecimals > 127
   ) {
     yield put(
-      setFieldError('decimals', 'Digital asset decimals should be a number between 1...127')
+      setFieldError('decimals', 'Digital asset decimals should be a number between 0...127')
     )
   }
 

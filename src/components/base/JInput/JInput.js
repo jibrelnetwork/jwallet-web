@@ -50,6 +50,7 @@ type ChildrenProps = {|
 |}
 
 const noop = () => {}
+const MAX_ROWS = 12
 
 class JInput extends PureComponent<Props> {
   static defaultProps = {
@@ -61,6 +62,7 @@ class JInput extends PureComponent<Props> {
     value: '',
     type: 'text',
     sideBorderRadius: 'all',
+    iconPosition: null,
     color: 'white',
     placeholder: '',
     helpMessage: null,
@@ -74,6 +76,22 @@ class JInput extends PureComponent<Props> {
     isVirtualHalfSize: false,
     withIndicator: false,
   }
+
+  componentDidUpdate() {
+    if (this.textarea.current) {
+      const { current } = this.textarea
+      while (
+        current.clientHeight < current.scrollHeight &&
+        current.rows <= MAX_ROWS
+      ) {
+        // mutating the DOM
+        // eslint-disable-next-line fp/no-mutation
+        current.rows += 1
+      }
+    }
+  }
+
+  textarea = React.createRef()
 
   render() {
     const {
@@ -107,17 +125,17 @@ class JInput extends PureComponent<Props> {
     const baseProps: ChildrenProps = {
       name,
       value,
+      onChange: onChange ? handleTargetValue(onChange) : undefined,
       className: `input -side-border-radius-${sideBorderRadius}`,
       disabled: isDisabled,
       autoFocus: isAutoFocus,
       placeholder: labelOrPlaceholder,
-      onChange: onChange ? handleTargetValue(onChange) : undefined,
       onBlur,
       onFocus,
     }
 
     const children = isMultiline
-      ? <textarea {...baseProps} rows={rows} />
+      ? <textarea {...baseProps} rows={rows} ref={this.textarea} />
       : <input {...baseProps} type={type} />
 
     return (
