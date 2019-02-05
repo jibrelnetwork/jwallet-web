@@ -171,7 +171,7 @@ function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
       yield put(setIsAssetValid(true))
       yield put(setField('name', name || ''))
       yield put(setField('symbol', symbol || ''))
-      yield put(setField('decimals', decimals ? decimals.toString() : ''))
+      yield put(setField('decimals', typeof decimals === 'number' ? decimals.toString() : ''))
     } else if (result) {
       throw new InvalidFieldError('address', i18n('general.error.address.notERC20'))
     }
