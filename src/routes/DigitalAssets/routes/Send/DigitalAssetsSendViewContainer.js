@@ -27,6 +27,22 @@ import {
   setNonceEditable,
 } from './modules/digitalAssetsSend'
 
+const removeOwnerAddress = (
+  allAddressNames: AddressNames,
+  ownerAddress: ?OwnerAddress
+): AddressNames => Object
+  .keys(allAddressNames)
+  .reduce(
+    (result, address) =>
+      address === ownerAddress
+        ? result
+        : {
+          ...result,
+          [address]: allAddressNames[address],
+        },
+    {}
+  )
+
 function mapStateToProps(state: AppState) {
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
@@ -58,7 +74,9 @@ function mapStateToProps(state: AppState) {
     assetsBalances,
   )
 
-  const addressNames: AddressNames = selectAllAddressNames(state)
+  const allAddressNames: AddressNames = selectAllAddressNames(state)
+  const addressNames = removeOwnerAddress(allAddressNames, ownerAddress)
+
   const selectedAsset: ?DigitalAsset = selectDigitalAsset(state, formFieldValues.assetAddress)
   const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
 

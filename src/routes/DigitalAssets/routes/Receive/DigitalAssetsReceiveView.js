@@ -19,17 +19,21 @@ const generateQRCode = (address: Address): void => {
   }
 }
 
-const copyAddress = (address) => { clipboard.copyText(address) }
-
 type Props = {|
   +close: Function,
   +address: ?Address,
 |}
 
 class DigitalAssetsReceiveView extends PureComponent<Props, *> {
-  componentDidMount(): void {
+  componentDidMount() {
     if (this.props.address) {
       generateQRCode(this.props.address)
+    }
+  }
+
+  copyAddress = () => {
+    if (this.props.address) {
+      clipboard.copyText(this.props.address)
     }
   }
 
@@ -65,7 +69,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
                 isDisabled
               />
               <JRaisedButton
-                onClick={copyAddress}
+                onClick={this.copyAddress}
                 label='Copy address'
                 color='blue'
               />

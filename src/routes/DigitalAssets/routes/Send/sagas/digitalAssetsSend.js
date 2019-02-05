@@ -65,6 +65,8 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
 
   if (to) {
     yield put(digitalAssetsSend.setFormFieldValue('recipient', to))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('recipient', ''))
   }
 
   if (asset) {
@@ -399,10 +401,10 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
     yield select(selectDigitalAsset, assetAddress)
 
   // simple fields
-  const isRecepientAddressValid: boolean = checkAddressValid(recipient)
+  const isRecipientAddressValid: boolean = checkAddressValid(recipient)
   const isAmountValid: boolean = (parseFloat(amount) > 0)
 
-  if (!isRecepientAddressValid) {
+  if (!isRecipientAddressValid) {
     yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
   }
 
@@ -414,7 +416,7 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
     yield put(digitalAssetsSend.setFormFieldError('assetAddress', 'Invalid asset address'))
   }
 
-  if (!(isRecepientAddressValid && isAmountValid && digitalAsset)) {
+  if (!(isRecipientAddressValid && isAmountValid && digitalAsset)) {
     return false
   }
 
@@ -816,7 +818,7 @@ function* onFormFieldChange(
     },
   } = action
 
-  if (fieldName === 'assetAddress' || fieldName === 'recepient' || fieldName === 'amount') {
+  if (fieldName === 'assetAddress' || fieldName === 'recipient' || fieldName === 'amount') {
     yield* updateGasLimit()
   }
 
