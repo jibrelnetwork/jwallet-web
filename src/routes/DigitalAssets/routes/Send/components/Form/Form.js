@@ -4,7 +4,6 @@ import React from 'react'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
-import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 
 import {
   InputButton,
@@ -64,13 +63,11 @@ function DigitalAssetsSendForm({
   const selectedAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
-  const ownerWithChecksum: Address = getAddressWithChecksum(ownerAddress)
-
   return (
     <div className='digital-assets-send-form'>
       <form className='form' onSubmit={ignoreEvent(isLoading ? null : submit)()}>
         <JInput
-          value={ownerWithChecksum}
+          value={ownerAddress}
           color='gray'
           name='owner-address'
           placeholder='Current address'

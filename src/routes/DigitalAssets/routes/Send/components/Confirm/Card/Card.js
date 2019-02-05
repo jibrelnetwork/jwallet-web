@@ -3,7 +3,6 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
 import JText from 'components/base/JText'
 import getTxFee from 'utils/transactions/getTxFee'
 
@@ -48,9 +47,6 @@ function DigitalAssetsSendConfirmCard({
   const hasComment: boolean = !!formFieldValues.comment
   const hasNonce: boolean = !!formFieldValues.nonce
 
-  const ownerWithChecksum: Address = getAddressWithChecksum(ownerAddress)
-  const recepientWithChecksum: Address = getAddressWithChecksum(recipient)
-
   return (
     <div className='digital-assets-send-confirm-card'>
       <div className='content'>
@@ -78,7 +74,7 @@ function DigitalAssetsSendConfirmCard({
           </div>
           <div className='address'>
             <JText
-              value={ownerWithChecksum}
+              value={ownerAddress}
               color='blue-two'
               weight='bold'
               whiteSpace='wrap'
@@ -95,7 +91,7 @@ function DigitalAssetsSendConfirmCard({
           </div>
           <div className='address'>
             <JText
-              value={recepientWithChecksum}
+              value={recipient}
               color='blue-two'
               weight='bold'
               whiteSpace='wrap'
