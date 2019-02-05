@@ -45,7 +45,7 @@ class CopyableField extends PureComponent<Props> {
             copy={handle(copy)(value)}
             load={download ? handle(download)(value) : null}
             loadLabel='Download as TXT'
-            copyLabel='Copy backup phrase'
+            copyLabel='Copy recovery text'
           />
         </div>
       </div>
