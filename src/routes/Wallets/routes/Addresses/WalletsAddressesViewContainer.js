@@ -22,6 +22,17 @@ import {
   getMoreRequest,
 } from './modules/walletsAddresses'
 
+function checkWalletReadOnly(wallets: Wallets, walletId: ?WalletId): boolean {
+  // FIXME: a hack to avoid breaking UI apart before redirect happens
+  try {
+    const { isReadOnly }: Wallet = getWallet(wallets, walletId)
+
+    return isReadOnly
+  } catch (e) {
+    return false
+  }
+}
+
 function mapStateToProps(state: AppState) {
   const {
     balances,
@@ -33,7 +44,6 @@ function mapStateToProps(state: AppState) {
   const walletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAddressNames(state)
   const walletsAddressNames: AddressNames = selectAddressWalletsNames(state)
-  const wallet: Wallet = getWallet(wallets, walletId)
 
   return {
     balances,
@@ -41,7 +51,7 @@ function mapStateToProps(state: AppState) {
     addressNames,
     walletsAddressNames,
     isLoading,
-    isReadOnly: wallet.isReadOnly,
+    isReadOnly: checkWalletReadOnly(wallets, walletId),
   }
 }
 
