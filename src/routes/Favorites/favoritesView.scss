@@ -26,10 +26,8 @@
 
     > .container {
       @include flex-row;
+      @include header-container;
 
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
       align-items: center;
       justify-content: space-between;
       height: $page-header-height;
