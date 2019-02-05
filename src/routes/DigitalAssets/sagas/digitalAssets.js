@@ -12,6 +12,7 @@ import {
   selectDigitalAsset,
   selectDigitalAssetsItems,
 } from 'store/selectors/digitalAssets'
+import { getAddressChecksum } from 'utils/address'
 
 import * as blocks from 'routes/modules/blocks'
 import * as ticker from 'routes/modules/ticker'
@@ -39,9 +40,11 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
       return result
     }
 
+    const addressWithChecksum: AssetAddress = getAddressChecksum(address)
+
     return {
       ...result,
-      [address]: {
+      [addressWithChecksum]: {
         ...item,
         isActive: false,
       },
@@ -52,11 +55,12 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
     result: DigitalAssets,
     address: AssetAddress,
   ): DigitalAssets => {
-    const foundItem: ?DigitalAsset = findByAddress(items, address)
+    const addressWithChecksum: AssetAddress = getAddressChecksum(address)
+    const foundItem: ?DigitalAsset = findByAddress(items, addressWithChecksum)
 
     return {
       ...result,
-      [address]: {
+      [addressWithChecksum]: {
         ...foundItem,
         isCustom: foundItem ? foundItem.isCustom : true,
       },

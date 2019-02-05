@@ -49,7 +49,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     this.state = {
       intervalId: null,
       countdown: props.confirmTimeout,
-      isActive: this.props.isActive || false,
+      isActive: props.isActive || false,
     }
   }
 
