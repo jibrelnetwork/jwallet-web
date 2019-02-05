@@ -20,6 +20,7 @@ type Props = {|
   +labelConfirm: string,
   +confirmTimeout: number,
   +isReverse: boolean,
+  isActive?: boolean,
 |}
 
 type ComponentState = {|
@@ -38,6 +39,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     iconTooltipColor: null,
     confirmTimeout: 0,
     isReverse: false,
+    isActive: false,
     onCancelClick: () => {},
   }
 
@@ -47,7 +49,13 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     this.state = {
       intervalId: null,
       countdown: props.confirmTimeout,
-      isActive: false,
+      isActive: this.props.isActive || false,
+    }
+  }
+
+  componentDidMount() {
+    if (this.state.isActive) {
+      this.initAction()
     }
   }
 
