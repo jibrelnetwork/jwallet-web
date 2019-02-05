@@ -108,7 +108,6 @@
     right: 9px;
     position: absolute;
     margin-top: -12px;
-    opacity: 0.5;
   }
 
   > .loader {
@@ -174,6 +173,10 @@
         padding-top: $form-field-gray-vertical-padding;
         padding-bottom: $form-field-gray-vertical-padding;
       }
+    }
+
+    > .lock {
+      opacity: 0.5;
     }
   }
 

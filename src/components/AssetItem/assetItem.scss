@@ -19,10 +19,7 @@
       @include flex-row-center;
 
       width: 80px;
-
-      &.-icon {
-        opacity: 0.2;
-      }
+      font-size: 14px;
 
       &.-text {
         height: 36px;
