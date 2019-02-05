@@ -22,6 +22,17 @@ import {
   getMoreRequest,
 } from './modules/walletsAddresses'
 
+function checkWalletReadOnly(wallets: Wallets, walletId: ?WalletId): boolean {
+  // FIXME: a hack to avoid breaking UI apart before redirect happens
+  try {
+    const { isReadOnly }: Wallet = getWallet(wallets, walletId)
+
+    return isReadOnly
+  } catch (e) {
+    return false
+  }
+}
+
 function mapStateToProps(state: AppState) {
   const {
     balances,
@@ -33,17 +44,6 @@ function mapStateToProps(state: AppState) {
   const walletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAddressNames(state)
   const walletsAddressNames: AddressNames = selectAddressWalletsNames(state)
-  // FIXME: a hack to avoid breaking UI apart before redirect happens
-  /* eslint-disable fp/no-mutation */
-  // eslint-disable-next-line fp/no-let
-  let isReadOnly = false
-  try {
-    const wallet: Wallet = getWallet(wallets, walletId);
-    ({ isReadOnly } = wallet)
-  } catch (e) {
-    isReadOnly = true
-  }
-  /* eslint-enable fp/no-mutation */
 
   return {
     balances,
@@ -51,7 +51,7 @@ function mapStateToProps(state: AppState) {
     addressNames,
     walletsAddressNames,
     isLoading,
-    isReadOnly,
+    isReadOnly: checkWalletReadOnly(wallets, walletId),
   }
 }
 
