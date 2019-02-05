@@ -183,6 +183,8 @@ const config: AppConfig = {
   fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
 
   sessionIDKey: 'jwallet.activeTab',
+
+  minPasswordStrengthScore: 3,
 }
 
 export default config
