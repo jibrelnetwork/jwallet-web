@@ -55,7 +55,6 @@ function MenuPanelWalletManager({
         address={address}
         isActive={isActive}
         isReadOnly={isReadOnly}
-        isSimplified={!!isSimplified}
       />
       <MenuPanelWalletManagerDetails
         setActiveAddress={setActiveAddress}
