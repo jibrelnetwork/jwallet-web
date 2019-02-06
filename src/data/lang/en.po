@@ -14,8 +14,8 @@ msgstr ""
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer.js:71
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:121
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:154
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:452
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:555
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:453
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:556
 #: src/routes/Favorites/FavoritesIndexViewContainer.js:17
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js:84
 #: src/routes/Wallets/routes/Addresses/sagas/walletsAddresses.js:46
@@ -192,7 +192,7 @@ msgstr ""
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:99
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:114
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:147
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:549
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:550
 #: src/routes/Wallets/routes/Addresses/sagas/walletsAddresses.js:104
 #: src/routes/sagas/blocks.js:60
 #: src/routes/sagas/blocks.js:146
@@ -262,41 +262,23 @@ msgid "Rename wallet"
 msgstr ""
 
 #: src/components/NameStep/NameStep.js:27
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:77
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:88
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js:81
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:96
 #: src/routes/Wallets/routes/Rename/WalletsRenameView.js:65
 msgid "Wallet name"
 msgstr ""
 
 #: src/components/NewWalletButtons/NewWalletButtons.js:29
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:76
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:123
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:84
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:125
 msgid "Import wallet"
 msgstr ""
 
 #: src/components/NameStep/NameStep.js:42
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:75
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:86
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:104
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js:79
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:94
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:109
 msgid "Next step"
-msgstr ""
-
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:98
-msgid "Insert the private key or backup phrase to import. Also, you can import"
-msgstr ""
-
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:99
-msgid "an address in the read-only mode."
-msgstr ""
-
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:88
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:116
-msgid "You will use this password to unlock and transfer your funds."
-msgstr ""
-
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:89
-#: src/routes/Wallets/routes/Import/WalletsImportView.js:117
-msgid "Keep it secure!"
 msgstr ""
 
 #: src/routes/Wallets/routes/Create/sagas/walletsCreate.js:44
@@ -343,12 +325,12 @@ msgstr ""
 msgid "Nope, stop it"
 msgstr ""
 
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:65
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:95
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js:69
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js:96
 msgid "Create wallet"
 msgstr ""
 
-#: src/routes/Wallets/routes/Create/WalletsCreateView.js:76
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js:80
 msgid "wallets-name"
 msgstr ""
 
@@ -365,19 +347,11 @@ msgstr ""
 msgid "Password should not be empty"
 msgstr ""
 
-#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:57
+#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:61
 msgid "Mnemonic addresses"
 msgstr ""
 
-#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:62
-msgid "To enhance your privacy, the wallet can contain as many addresses"
-msgstr ""
-
-#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:63
-msgid "as you need. Please, choose one to continue"
-msgstr ""
-
-#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:82
+#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:83
 msgid "Get more addresses"
 msgstr ""
 
@@ -469,7 +443,7 @@ msgstr ""
 msgid "Send asset"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:562
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:563
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js:122
 msgid "DigitalAssetNotFound"
 msgstr ""
@@ -507,6 +481,8 @@ msgid "Search settings..."
 msgstr ""
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:15
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js:61
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:72
 msgid ""
 "You will use this password to unlock and transfer your funds.\n"
 "Keep it secure!"
@@ -635,7 +611,7 @@ msgid "Description (optional)"
 msgstr ""
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:235
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:682
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:683
 msgid "Can't request gas price"
 msgstr ""
 
@@ -669,47 +645,43 @@ msgid "Invalid nonce"
 msgstr ""
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:374
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:882
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:883
 msgid "Can't request nonce"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:382
-msgid "Nonce should be greater than ${ nonce }"
-msgstr ""
-
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:411
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:412
 msgid "Invalid address"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:415
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:416
 msgid "Invalid amount"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:419
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:420
 msgid "Invalid asset address"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:541
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:542
 msgid "Please input password"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:596
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:597
 msgid "Invalid password"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:673
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:674
 msgid "Can't get gas limit. Most likely, your transaction will fail"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:721
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:722
 msgid "Gas limit is too small. Most likely, your transaction will fail"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:744
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:745
 msgid "Gas price is too small. Most likely, your transaction will fail"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:764
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:765
 msgid "Recipient is the same as sender"
 msgstr ""
 
@@ -804,13 +776,6 @@ msgstr ""
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:51
 msgid "it will most likely fail"
-msgstr ""
-
-#: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:59
-msgid ""
-"Your transaction does not pass one or more check-ups, so we assume ${ "
-"boldWillFail }. Please make sure you know what you are doing before "
-"proceeding"
 msgstr ""
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:64
@@ -955,16 +920,8 @@ msgstr ""
 msgid "Address, Private key, BIP32 XPUB, Mnemonic"
 msgstr ""
 
-#: src/components/TransactionsList/Empty/Empty.js:18
+#: src/components/TransactionsList/Empty/Empty.js:22
 msgid "There are no items to display"
-msgstr ""
-
-#: src/components/TransactionsList/Empty/Empty.js:20
-msgid "Looks like you haven't made"
-msgstr ""
-
-#: src/components/TransactionsList/Empty/Empty.js:21
-msgid "any transactions yet."
 msgstr ""
 
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:49
@@ -1029,19 +986,11 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:18
+#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:22
 msgid "Jwallet supports only single tab"
 msgstr ""
 
-#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:20
-msgid "Jwallet can be open only in one tab simultaneously."
-msgstr ""
-
-#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:21
-msgid "Please reload this tab to continue using it."
-msgstr ""
-
-#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:29
+#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:30
 msgid "Reload Page"
 msgstr ""
 
@@ -1181,7 +1130,7 @@ msgstr ""
 msgid "Invalid contract events response"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:461
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:462
 msgid "GasValuesError"
 msgstr ""
 
@@ -1240,4 +1189,39 @@ msgid ""
 "It is the only way to restore access to your funds.\n"
 "Keep it secure and never give it to anyone\n"
 "you don’t trust!"
+msgstr ""
+
+#: src/routes/Wallets/routes/Import/WalletsImportView.js:76
+msgid ""
+"Insert the private key or backup phrase to import. Also, you can import\n"
+"an address in the read-only mode."
+msgstr ""
+
+#: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:53
+msgid ""
+"To enhance your privacy, the wallet can contain as many addresses\n"
+"as you need. Please, choose one to continue"
+msgstr ""
+
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:383
+msgid "Nonce should be greater than ${ suggestedNonce }"
+msgstr ""
+
+#: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:58
+msgid ""
+"Your transaction does not pass one or more check-ups, so we assume \n"
+"${ boldWillFail }. Please make sure you know what you are doing before "
+"proceeding"
+msgstr ""
+
+#: src/components/TransactionsList/Empty/Empty.js:13
+msgid ""
+"Looks like you haven't made\n"
+"any transactions yet."
+msgstr ""
+
+#: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:10
+msgid ""
+"Jwallet can be open only in one tab simultaneously.\n"
+"Please reload this tab to continue using it."
 msgstr ""
