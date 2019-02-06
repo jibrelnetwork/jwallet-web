@@ -171,6 +171,18 @@
       }
     }
 
+    &.-to-oneaddress {
+      &.-white {
+        background-image: $icon-medium-to-oneaddress-white;
+      }
+    }
+
+    &.-to-multiaddress {
+      &.-white {
+        background-image: $icon-medium-to-multiaddress-white;
+      }
+    }
+
     &.-arrow-header {
       &.-white {
         background-image: $icon-medium-arrow-header-white;

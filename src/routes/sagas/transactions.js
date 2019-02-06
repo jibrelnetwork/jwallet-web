@@ -2,6 +2,8 @@
 
 import { delay } from 'redux-saga'
 
+import { t } from 'ttag'
+
 import {
   all,
   put,
@@ -322,7 +324,7 @@ function* getWalletCreatedBlockNumber(): Saga<void> {
   const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
 
   if (!wallet) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   /**

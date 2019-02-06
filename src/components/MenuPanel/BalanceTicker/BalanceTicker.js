@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import JText from 'components/base/JText'
 
@@ -21,10 +22,10 @@ function MenuPanelBalanceTicker({
   return (
     <div className='menu-panel-balance-ticker'>
       <div className='title'>
-        <JText value='Total Balance' color='white' size='tiny' fontCase='upper' />
+        <JText value={t`Total Balance`} color='white' size='tiny' fontCase='upper' />
       </div>
       <JText
-        value={`${formatBalance((divDecimals(balance)))} ${currency}`}
+        value={`${formatBalance(divDecimals(balance))} ${currency}`}
         size='large'
         color='white'
         weight='bold'

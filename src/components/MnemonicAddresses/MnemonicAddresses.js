@@ -25,6 +25,8 @@ type Props = {|
   +isReadOnly: boolean,
 |}
 
+// #FIXME: title={addressName || `Address #${index + 1}`}
+
 const MnemonicAddresses = ({
   setActive,
   renameAddress,

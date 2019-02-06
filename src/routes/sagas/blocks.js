@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import {
   delay,
   channel,
@@ -55,7 +57,7 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
         yield select(selectNetworkById, networkId)
 
       if (!network) {
-        throw new Error('Active network does not exist')
+        throw new Error(t`ActiveNetworkNotFoundError`)
       }
 
       try {
@@ -141,7 +143,7 @@ export function* processQueue(
       yield select(selectNetworkById, networkId)
 
     if (!network) {
-      throw new Error('Active network does not exist')
+      throw new Error(t`ActiveNetworkNotFoundError`)
     }
 
     try {
@@ -152,7 +154,7 @@ export function* processQueue(
       } else if (request.module === 'transaction') {
         yield* requestTransaction(request, network, ownerAddress)
       } else {
-        throw new Error(`Task handler for module ${request.module} is not defined`)
+        throw new Error(t`Task handler for module ${request.module} is not defined`)
       }
     } catch (err) {
       if (request.retryCount && request.retryCount > 0) {
@@ -224,14 +226,14 @@ function* syncStart(): Saga<void> {
     yield select(selectCurrentNetworkId)
 
   if (!networkId) {
-    throw new Error('Active network does not exist')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const address: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!address) {
-    throw new Error('Active address does not exist')
+    throw new Error(t`ActiveAddressNotFoundError`)
   }
 
   const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)

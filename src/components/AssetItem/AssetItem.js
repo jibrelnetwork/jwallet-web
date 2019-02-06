@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import checkETH from 'utils/digitalAssets/checkETH'
+import { t } from 'ttag'
 
 import React, {
   Fragment,
@@ -137,7 +138,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   onMouseLeave={this.onMouseLeaveEdit}
                   onClick={this.onClickEdit}
                 >
-                  <JTooltip text='Edit'>
+                  <JTooltip text={t`Edit`}>
                     <JIcon
                       size='medium'
                       color={isHoveredEdit ? 'sky' : 'blue'}
@@ -155,9 +156,9 @@ class AssetItem extends PureComponent<Props, StateProps> {
                     onClick={this.onClickRemove}
                     color='blue'
                     bgColor='white'
-                    labelCancel='No'
+                    labelCancel={t`No`}
                     iconTooltipName='trash'
-                    labelConfirm='Yes, delete'
+                    labelConfirm={t`Yes, delete`}
                     iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
                     isReverse
                   />

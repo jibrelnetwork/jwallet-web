@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import config from 'config'
 import handle from 'utils/eventHandlers/handle'
@@ -40,13 +41,16 @@ class WalletsDeleteView extends Component<Props> {
     }: Props = this.props
 
     const foundWallet: Wallet = getWallet(items, walletId)
+    const description: Array<string> =
+      (t`All user data, including imported or generated private keys, will be deleted.
+      The only way to restore deleted wallet is to use the backup phrase.`).split('\n')
 
     return (
       <div className='wallets-view -delete'>
         <ModalHeader
           onBack={goToWallets}
           color='white'
-          title='Delete wallet'
+          title={t`Delete wallet`}
         />
         <div className='content'>
           <div className='form'>
@@ -54,19 +58,17 @@ class WalletsDeleteView extends Component<Props> {
               color='white'
               iconSize='xlarge'
               image='auth-cross'
-              title={`Delete ${foundWallet.name}?`}
-              description={[
-                'All user data, including imported or generated private keys, will be deleted.',
-                'The only way to restore deleted wallet is to use the backup phrase.',
-              ]}
+              title={t`Delete ${foundWallet.name}?`}
+              description={description}
+              isTransparent
             />
             <div className='actions'>
               <ButtonWithConfirm
                 onClick={handle(remove)(items, walletId)}
                 onCancelClick={goToWallets}
                 color='white'
-                labelConfirm='Yes'
-                labelCancel='Nope, stop it'
+                labelConfirm={t`Yes`}
+                labelCancel={t`Nope, stop it`}
                 confirmTimeout={config.deleteConfirmTimeout}
                 isActive
               />

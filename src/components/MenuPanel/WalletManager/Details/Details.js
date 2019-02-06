@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Fragment } from 'react'
+import { t } from 'ttag'
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 
@@ -18,6 +19,7 @@ type Props = {|
   +currentAddressIndex: ?Index,
   +isActive: boolean,
   +isReadOnly: boolean,
+  +isSimplified: boolean,
 |}
 
 function MenuPanelWalletManagerDetails({
@@ -29,8 +31,9 @@ function MenuPanelWalletManagerDetails({
   currentAddressIndex,
   isActive,
   isReadOnly,
+  isSimplified,
 }: Props) {
-  const isMnemonic: boolean = checkMnemonicType(type)
+  const isMnemonic: boolean = checkMnemonicType(type) && !isSimplified
 
   return (
     <div
@@ -54,7 +57,7 @@ function MenuPanelWalletManagerDetails({
             <MenuPanelActionsItem
               icon='setting'
               path='/wallets'
-              label='Manage wallets'
+              label={t`Manage wallets`}
             />
           </div>
         </Fragment>

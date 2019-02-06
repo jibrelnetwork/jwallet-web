@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import MenuPanelActionsItem from '../../../Actions/Item'
 
@@ -10,7 +11,7 @@ function MenuPanelWalletManagerDetailsActions() {
       <MenuPanelActionsItem
         icon='setting'
         path='/wallets'
-        label='Manage wallets'
+        label={t`Manage wallets`}
       />
     </div>
   )

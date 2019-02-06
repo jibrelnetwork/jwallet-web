@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import { JRaisedButton, JInput } from 'components/base'
 
@@ -19,9 +20,9 @@ type ComponentState = {
 
 class PasswordStep extends Component<Props, ComponentState> {
   static defaultProps = {
-    submitLabel: 'Confirm',
+    submitLabel: t`Confirm`,
     errorMessage: '',
-    placeholder: 'Payment password',
+    placeholder: t`Payment password`,
     isLoading: false,
     children: null,
   }

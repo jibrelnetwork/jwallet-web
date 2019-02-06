@@ -1,6 +1,7 @@
 // @flow
 
 import uuidv4 from 'uuid/v4'
+import { t } from 'ttag'
 
 import config from 'config'
 import encryptData from 'utils/encryption/encryptData'
@@ -51,6 +52,7 @@ function createMnemonicWallet(
     data,
     name,
     orderIndex,
+    isSimplified,
     mnemonicOptions,
     createdBlockNumber,
   }: WalletData = walletData
@@ -62,7 +64,7 @@ function createMnemonicWallet(
   }: MnemonicOptions = mnemonicOptions
 
   if (!checkDerivationPathValid(derivationPath)) {
-    throw new Error('DerivationPathInvalidError')
+    throw new Error(t`DerivationPathInvalidError`)
   }
 
   const mnemonic: string = data.toLowerCase()
@@ -75,6 +77,7 @@ function createMnemonicWallet(
     name,
     network,
     orderIndex,
+    isSimplified,
     derivationPath,
     addressIndex: 0,
     isReadOnly: false,
@@ -108,6 +111,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     data,
     name,
     orderIndex,
+    isSimplified,
     createdBlockNumber,
   }: WalletData = walletData
 
@@ -117,6 +121,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     id,
     name,
     orderIndex,
+    isSimplified,
     addressIndex: 0,
     isReadOnly: true,
     createdBlockNumber,
@@ -148,6 +153,7 @@ function createAddressWallet(
     data,
     name,
     orderIndex,
+    isSimplified,
     createdBlockNumber,
   }: WalletData = walletData
 
@@ -160,6 +166,7 @@ function createAddressWallet(
     name,
     address,
     orderIndex,
+    isSimplified,
     isReadOnly: false,
     createdBlockNumber,
     customType: 'privateKey',
@@ -189,6 +196,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     data,
     name,
     orderIndex,
+    isSimplified,
     createdBlockNumber,
   }: WalletData = walletData
 
@@ -198,6 +206,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     id,
     name,
     orderIndex,
+    isSimplified,
     isReadOnly: true,
     createdBlockNumber,
     type: config.addressWalletType,
@@ -227,6 +236,7 @@ function createWallet(
   const {
     data,
     name,
+    isSimplified,
     mnemonicOptions,
     createdBlockNumber,
   }: WalletNewData = walletNewData
@@ -240,6 +250,7 @@ function createWallet(
   const walletData: WalletData = {
     id,
     data,
+    isSimplified,
     mnemonicOptions,
     name: name || id,
     createdBlockNumber,
@@ -255,7 +266,7 @@ function createWallet(
   } else if (checkAddressValid(data)) {
     return createReadOnlyAddressWallet(wallets, walletData)
   } else {
-    throw new Error('WalletDataError')
+    throw new Error(t`WalletDataError`)
   }
 }
 

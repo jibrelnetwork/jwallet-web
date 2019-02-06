@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 
 import {
   put,
@@ -8,7 +9,9 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
+import config from 'config'
 import walletsWorker from 'workers/wallets'
+import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 import checkDerivationPathValid from 'utils/mnemonic/checkDerivationPathValid'
 
 import {
@@ -35,7 +38,7 @@ function* checkName(): Saga<void> {
   const nameCleaned: string = name.trim()
 
   if (!nameCleaned) {
-    yield put(wallets.setInvalidField('name', 'Name should not be empty'))
+    yield put(wallets.setInvalidField('name', t`Name should not be empty`))
 
     return
   }
@@ -56,13 +59,13 @@ function* checkData(): Saga<void> {
   }: ExtractReturn<typeof selectWalletsImport> = yield select(selectWalletsImport)
 
   if (!data) {
-    yield put(walletsImport.setInvalidField('data', 'Data is empty'))
+    yield put(walletsImport.setInvalidField('data', t`Data is empty`))
 
     return
   }
 
   if (!walletType) {
-    yield put(walletsImport.setInvalidField('data', 'Data is invalid'))
+    yield put(walletsImport.setInvalidField('data', t`Data is invalid`))
 
     return
   }
@@ -71,7 +74,7 @@ function* checkData(): Saga<void> {
     try {
       checkDerivationPathValid(derivationPath)
     } catch (err) {
-      yield put(walletsImport.setInvalidField('derivationPath', 'Derivation path is not valid'))
+      yield put(walletsImport.setInvalidField('derivationPath', t`Derivation path is not valid`))
 
       return
     }
@@ -102,7 +105,7 @@ function* importWallet(): Saga<void> {
   if (!isPasswordExists) {
     if (password === name) {
       yield put(
-        wallets.setInvalidField('password', 'Password should not be equal with wallet name'),
+        wallets.setInvalidField('password', t`Password should not be equal with wallet name`),
       )
 
       return
@@ -110,7 +113,7 @@ function* importWallet(): Saga<void> {
 
     if (password !== passwordConfirm) {
       yield put(
-        walletsImport.setInvalidField('passwordConfirm', 'Password does not match confirmation'),
+        walletsImport.setInvalidField('passwordConfirm', t`Password does not match confirmation`),
       )
 
       return
@@ -118,7 +121,7 @@ function* importWallet(): Saga<void> {
 
     if (!passwordHint) {
       yield put(
-        walletsImport.setInvalidField('passwordHint', 'Password hint is required'),
+        walletsImport.setInvalidField('passwordHint', t`Password hint is required`),
       )
 
       return
@@ -126,9 +129,15 @@ function* importWallet(): Saga<void> {
 
     if (password === passwordHint) {
       yield put(
-        walletsImport.setInvalidField('passwordHint', 'Password and hint should not be equal'),
+        walletsImport.setInvalidField('passwordHint', t`Password and hint should not be equal`),
       )
 
+      return
+    }
+
+    const { score }: PasswordResult = checkPasswordStrength(password)
+
+    if (score < config.minPasswordStrengthScore) {
       return
     }
   }

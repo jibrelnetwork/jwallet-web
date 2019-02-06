@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import { JText, JIcon } from 'components/base'
 import handle from 'utils/eventHandlers/handle'
@@ -81,8 +82,8 @@ class CopyableField extends PureComponent<Props, StateProps> {
             // copy={handle(copy)(value)}
             copy={handle(this.onClick)(copy, value)}
             load={download ? handle(download)(value) : null}
-            loadLabel='Download as TXT'
-            copyLabel='Copy backup phrase'
+            loadLabel={t`Download as TXT`}
+            copyLabel={t`Copy recovery text`}
           />
         </div>
         <div className='success'>

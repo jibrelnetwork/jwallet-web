@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { t } from 'ttag'
 
 import JText from 'components/base/JText'
 import ESCButton from 'components/ESCButton'
@@ -83,7 +84,11 @@ class DigitalAssetsSendView extends Component<Props> {
       <div className='digital-assets-send-view'>
         <div className='header'>
           <div className='container'>
-            <JText size='tab' color='gray' value='Send asset' />
+            <JText
+              size='tab'
+              color='gray'
+              value={t`Send asset`}
+            />
             <div className='actions'>
               <ESCButton
                 onESC={goToPrevStep}

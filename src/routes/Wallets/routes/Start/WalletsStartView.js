@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t, jt } from 'ttag'
 
 import { JText } from 'components/base'
 import { WalletHeader, NewWalletButtons } from 'components'
@@ -32,8 +33,8 @@ class WalletsStartView extends Component<Props> {
         <WalletHeader />
         <div className='content'>
           <div className='title'>
-            <JText size='title' value='Create a new key pair or import an existing' />
-            <JText size='title' value='one to get started' />
+            <JText size='title' value={t`Create a new key pair or import an existing`} />
+            <JText size='title' value={t`one to get started`} />
           </div>
           <div className='buttons'>
             <NewWalletButtons
@@ -43,14 +44,14 @@ class WalletsStartView extends Component<Props> {
           </div>
         </div>
         <div className='terms'>
-          <JText value='By clicking "Create new" or "Import" I agree to' />
+          <JText value={t`By clicking "Create new" or "Import" I agree to`} />
           <a
             className='j-text -white -nowrap -underline link'
             href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
             target='_blank'
             rel='noopener noreferrer'
           >
-            Terms of Use
+            {jt`Terms of Use`}
           </a>
           <JText value='and' />
           <a
@@ -59,7 +60,7 @@ class WalletsStartView extends Component<Props> {
             target='_blank'
             rel='noopener noreferrer'
           >
-            Privacy Policy
+            {jt`Privacy Policy`}
           </a>
         </div>
       </div>

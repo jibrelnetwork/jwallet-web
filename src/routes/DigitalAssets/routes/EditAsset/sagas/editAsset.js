@@ -2,6 +2,7 @@
 
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { reactRouterBack } from 'utils/browser'
+import { t } from 'ttag'
 
 import {
   selectEditAsset,
@@ -46,23 +47,23 @@ function* onAssetFormSumbit(): Saga<void> {
   // Check, do we have this asset
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, address)
   if (!(foundAsset && foundAsset.isCustom)) {
-    yield put(setFieldError('address', 'Asset not found'))
+    yield put(setFieldError('address', t`Asset not found`))
     return
   }
 
   if (contractName.length === 0) {
-    yield put(setFieldError('name', 'Valid digital asset name is required'))
+    yield put(setFieldError('name', t`Valid digital asset name is required`))
   }
 
   if (contractSymbol.length === 0 || contractSymbol.length > 10) {
-    yield put(setFieldError('symbol', 'Valid digital asset symbol is required'))
+    yield put(setFieldError('symbol', t`Valid digital asset symbol is required`))
   }
 
   if (Number.isNaN(contractDecimals) ||
     contractDecimals < 0 ||
     contractDecimals > 127) {
     yield put(
-      setFieldError('decimals', 'Digital asset decimals should be a number between 0...127')
+      setFieldError('decimals', t`Digital asset decimals should be a number between 0...127`)
     )
   }
 

@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import { JThumbnail, JFlatButton } from 'components/base'
 import handle from 'utils/eventHandlers/handle'
@@ -40,11 +41,11 @@ class NotFoundView extends PureComponent<Props, StateProps> {
             color='white'
             iconSize='xlarge'
             image='auth-question'
-            title='404. Page Not Found.'
+            title={t`404. Page Not Found.`}
             isTransparent
             description={[
-              'The page you\'re looking for can\'t be found.',
-              'Check the URL and try again.',
+              t`The page you're looking for can't be found.`,
+              t`Check the URL and try again.`,
             ]}
           />
           <div className='actions'>
@@ -56,7 +57,7 @@ class NotFoundView extends PureComponent<Props, StateProps> {
               <JFlatButton
                 onClick={goToHome}
                 color={isHovered ? 'sky' : 'white'}
-                label='Back to Home'
+                label={t`Back to Home`}
               />
             </div>
           </div>

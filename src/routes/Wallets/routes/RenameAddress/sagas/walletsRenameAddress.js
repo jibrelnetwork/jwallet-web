@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 
 import {
   put,
@@ -72,7 +73,7 @@ function* renameAddress(
   const isWalletNameExist: boolean = !!Object.values(addressWalletsNames).includes(name)
 
   if (isWalletNameExist) {
-    yield put(walletsRenameAddress.setInvalidField('name', 'Wallet with this name already exists'))
+    yield put(walletsRenameAddress.setInvalidField('name', t`Wallet with this name already exists`))
 
     return
   }
@@ -80,7 +81,9 @@ function* renameAddress(
   const isAddressNameExist: boolean = !!Object.values(addressNames).includes(name)
 
   if (isAddressNameExist) {
-    yield put(walletsRenameAddress.setInvalidField('name', 'Address with this name already exists'))
+    yield put(
+      walletsRenameAddress.setInvalidField('name', t`Address with this name already exists`)
+    )
 
     return
   }

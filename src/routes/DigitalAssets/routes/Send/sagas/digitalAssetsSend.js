@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 import * as qs from 'query-string'
 
 import {
@@ -65,6 +66,8 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
 
   if (to) {
     yield put(digitalAssetsSend.setFormFieldValue('recipient', to))
+  } else {
+    yield put(digitalAssetsSend.setFormFieldValue('recipient', ''))
   }
 
   if (asset) {
@@ -93,7 +96,7 @@ function* requestGasPrice(): Saga<?BigNumber> {
   try {
     const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
     if (!network) {
-      throw new Error('There is no active network')
+      throw new Error(t`ActiveNetworkNotFoundError`)
     }
 
     const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
@@ -104,24 +107,27 @@ function* requestGasPrice(): Saga<?BigNumber> {
   }
 }
 
-function* requestNonce(): Saga<?number> {
+function* requestNonce(defaultBlock: BlockId): Saga<?number> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+
   if (!network) {
-    throw new Error('There is no active network')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!ownerAddress) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   try {
-    const nonce: number = yield call(web3.getNonce, network, ownerAddress)
+    const nonce: number = yield call(web3.getNonce, network, ownerAddress, defaultBlock)
+
     return nonce
   } catch (err) {
     console.log(err)
+
     return null
   }
 }
@@ -138,14 +144,14 @@ function* requestGasLimit(): Saga<?number> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!network) {
-    throw new Error('There is no active network')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
     yield select(selectActiveWalletAddress)
 
   if (!ownerAddress) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
@@ -226,7 +232,7 @@ function* checkPriority(
   const requestedGasPrice: ?BigNumber = yield* requestGasPrice()
   if (!requestedGasPrice) {
     yield put(digitalAssetsSend.setRequestedGasPrice(null))
-    yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price'))
+    yield put(digitalAssetsSend.setFormFieldError('gasPrice', t`Can't request gas price`))
     return
   }
   yield put(digitalAssetsSend.setRequestedGasPrice(requestedGasPrice.toString()))
@@ -238,11 +244,11 @@ function* checkPriority(
     const isGasLimitValid: boolean = parseInt(userGasLimit, 10) > 0
 
     if (!isGasPriceValid) {
-      yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Invalid value for gas price'))
+      yield put(digitalAssetsSend.setFormFieldError('gasPrice', t`Invalid value for gas price`))
     }
 
     if (!isGasLimitValid) {
-      yield put(digitalAssetsSend.setFormFieldError('gasLimit', 'Invalid value for gas limit'))
+      yield put(digitalAssetsSend.setFormFieldError('gasLimit', t`Invalid value for gas limit`))
     }
 
     if (isGasLimitValid && isGasPriceValid) {
@@ -258,7 +264,7 @@ function* checkPriority(
       yield put(
         digitalAssetsSend.setFormFieldError(
           'gasLimit',
-          'Can\'t request gas limit, please use custom priority'
+          t`Can't request gas limit, please use custom priority`
         )
       )
       return
@@ -266,7 +272,7 @@ function* checkPriority(
 
     const txPriorityCoefficient: number = digitalAssetsSend.TXPRIORITY[priority]
     if (!txPriorityCoefficient) {
-      yield put(digitalAssetsSend.setFormFieldError('gasPrice', 'Priority is not selected'))
+      yield put(digitalAssetsSend.setFormFieldError('gasPrice', t`Priority is not selected`))
       return
     }
 
@@ -319,17 +325,17 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
 
   if (checkETH(digitalAsset.blockchainParams.address)) {
     if (balance.lt(amountToSend)) {
-      yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
+      yield put(digitalAssetsSend.setFormFieldError('amount', t`Amount exceeds balance`))
     } else {
       const amountWithFee: BigNumber = amountToSend.plus(feeETH)
       if (balance.lt(amountWithFee)) {
         // eslint-disable-next-line max-len
-        yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount plus blockchain fee exceeds balance'))
+        yield put(digitalAssetsSend.setFormFieldError('amount', t`Amount plus blockchain fee exceeds balance`))
       }
     }
   } else {
     if (balance.lt(amountToSend)) {
-      yield put(digitalAssetsSend.setFormFieldError('amount', 'Amount exceeds balance'))
+      yield put(digitalAssetsSend.setFormFieldError('amount', t`Amount exceeds balance`))
       return
     }
 
@@ -343,15 +349,13 @@ function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
 
     if (ethBalance && toBigNumber(ethBalance.value).lt(feeETH)) {
       // eslint-disable-next-line max-len
-      yield put(digitalAssetsSend.setFormFieldError('amount', 'You don\'t have enough ETH to send this transaction'))
+      yield put(digitalAssetsSend.setFormFieldError('amount', t`You don't have enough ETH to send this transaction`))
     }
   }
 }
 
 function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
-  const {
-    nonce: userNonce,
-  } = formFieldValues
+  const userNonce = formFieldValues.nonce
 
   if (userNonce === '') {
     return
@@ -360,21 +364,23 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
   const isNonceValid: boolean = parseInt(userNonce, 10) > 0
 
   if (!isNonceValid) {
-    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Invalid nonce'))
+    yield put(digitalAssetsSend.setFormFieldError('nonce', t`Invalid nonce`))
     return
   }
 
-  const nonce: ?number = yield* requestNonce()
+  const nonce: ?number = yield* requestNonce('latest')
+
   if (!nonce) {
-    yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+    yield put(digitalAssetsSend.setFormFieldError('nonce', t`Can't request nonce`))
     return
   }
 
   if (nonce > parseInt(userNonce, 10)) {
+    const suggestedNonce = nonce - 1
     yield put(
       digitalAssetsSend.setFormFieldError(
         'nonce',
-        `Nonce should be greater than ${nonce}`
+        t`Nonce should be greater than ${suggestedNonce}`
       )
     )
   }
@@ -403,15 +409,15 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
   const isAmountValid: boolean = (parseFloat(amount) > 0)
 
   if (!isRecipientAddressValid) {
-    yield put(digitalAssetsSend.setFormFieldError('recipient', 'Invalid address'))
+    yield put(digitalAssetsSend.setFormFieldError('recipient', t`Invalid address`))
   }
 
   if (!isAmountValid) {
-    yield put(digitalAssetsSend.setFormFieldError('amount', 'Invalid amount'))
+    yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
   }
 
   if (!digitalAsset) {
-    yield put(digitalAssetsSend.setFormFieldError('assetAddress', 'Invalid asset address'))
+    yield put(digitalAssetsSend.setFormFieldError('assetAddress', t`Invalid asset address`))
   }
 
   if (!(isRecipientAddressValid && isAmountValid && digitalAsset)) {
@@ -444,7 +450,7 @@ function* addPendingTransaction(
     yield select(selectActiveWalletAddress)
 
   if (!ownerAddress) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const {
@@ -453,7 +459,7 @@ function* addPendingTransaction(
   }: GasValues = gasValues
 
   if (!(gasPrice && parseInt(gasLimit, 10))) {
-    throw new Error('GasValuesError')
+    throw new Error(t`GasValuesError`)
   }
 
   const {
@@ -533,7 +539,7 @@ function* sendTransactionRequest(
   } = gasValues
 
   if (!password) {
-    yield put(digitalAssetsSend.setFormFieldError('password', 'Please input password'))
+    yield put(digitalAssetsSend.setFormFieldError('password', t`Please input password`))
 
     return
   }
@@ -541,20 +547,20 @@ function* sendTransactionRequest(
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
   if (!network) {
-    throw new Error('There is no active network')
+    throw new Error(t`ActiveNetworkNotFoundError`)
   }
 
   const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
 
   if (!walletId) {
-    throw new Error('There is no active wallet')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
   if (!digitalAsset) {
-    throw new Error(`Digital asset is not found by address ${assetAddress}`)
+    throw new Error(t`DigitalAssetNotFound`)
   }
 
   const {
@@ -588,7 +594,7 @@ function* sendTransactionRequest(
     yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals, gasValues)
   } catch (err) {
     if (err instanceof GetPrivateKeyError) {
-      yield put(digitalAssetsSend.setFormFieldError('password', 'Invalid password'))
+      yield put(digitalAssetsSend.setFormFieldError('password', t`Invalid password`))
     } else {
       yield put(digitalAssetsSend.setSendAssetError(err.message))
     }
@@ -665,7 +671,7 @@ function* updateGasLimit(): Saga<void> {
       yield put(digitalAssetsSend.setFormFieldValue('gasLimit', ''))
       yield put(digitalAssetsSend.setFormFieldWarning(
         'gasLimit',
-        'Can\'t get gas limit. Most likely, your transaction will fail'
+        t`Can't get gas limit. Most likely, your transaction will fail`
       ))
     }
   }
@@ -674,7 +680,7 @@ function* updateGasLimit(): Saga<void> {
 function* updateGasPrice(): Saga<void> {
   const gasPrice: ?BigNumber = yield* requestGasPrice()
   if (!gasPrice) {
-    digitalAssetsSend.setFormFieldError('gasPrice', 'Can\'t request gas price')
+    digitalAssetsSend.setFormFieldError('gasPrice', t`Can't request gas price`)
     return
   }
 
@@ -713,7 +719,7 @@ function* checkGasLimitWarning(newGasLimit: string): Saga<void> {
       gasLimit < actualGasLimit) {
     yield put(digitalAssetsSend.setFormFieldWarning(
       'gasLimit',
-      'Gas limit is too small. Most likely, your transaction will fail'
+      t`Gas limit is too small. Most likely, your transaction will fail`
     ))
   } else if (formFieldWarnings.gasLimit) {
     yield put(digitalAssetsSend.setFormFieldWarning('gasLimit', ''))
@@ -736,7 +742,7 @@ function* checkGasPriceWarning(newGasPrice: void | string | BigNumber): Saga<voi
     if (gasPriceWei < initialGasPrice * MIN_GAS_PRICE_COEFFICIENT) {
       yield put(digitalAssetsSend.setFormFieldWarning(
         'gasPrice',
-        'Gas price is too small. Most likely, your transaction will fail'
+        t`Gas price is too small. Most likely, your transaction will fail`
       ))
     }
   } else if (formFieldWarnings.gasPrice) {
@@ -755,7 +761,9 @@ function* checkRecipientWarning(newValue: string): Saga<void> {
     yield select(selectActiveWalletAddress)
 
   if (ownerAddress === newValue && !recipientWarning) {
-    yield put(digitalAssetsSend.setFormFieldWarning('recipient', 'Recipient is the same as sender'))
+    yield put(
+      digitalAssetsSend.setFormFieldWarning('recipient', t`Recipient is the same as sender`)
+    )
   }
 }
 
@@ -856,12 +864,23 @@ function* onPriorityChange(): Saga<void> {
 function* onStartNonceEdit(
   action: ExtractReturn<typeof digitalAssetsSend.setNonceEditable>
 ): Saga<void> {
-  const { payload: { isEditable } } = action
+  const { isEditable } = action.payload
 
   if (isEditable) {
-    const nonce = yield* requestNonce()
+    const nonce: ?number = yield* requestNonce('pending')
+
+    const {
+      formFieldValues,
+    }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
+
+    const userNonce: string = formFieldValues.nonce
+
+    if (userNonce) {
+      return
+    }
+
     if (!nonce) {
-      yield put(digitalAssetsSend.setFormFieldError('nonce', 'Can\'t request nonce'))
+      yield put(digitalAssetsSend.setFormFieldError('nonce', t`Can't request nonce`))
       return
     }
 

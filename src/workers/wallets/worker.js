@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import generateMnemonic from 'utils/mnemonic/generateMnemonic'
 
 import {
@@ -93,6 +95,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
             name,
             mnemonicOptions,
             createdBlockNumber,
+            isSimplified: true,
             data: generateMnemonic(),
           }, internalKeyDec, encryptionType),
         }))
@@ -135,6 +138,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
             data,
             name,
             mnemonicOptions,
+            isSimplified: true,
           }, internalKeyDec, encryptionType),
         }))
       } catch (err) {
@@ -158,7 +162,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error('WalletsDataError')
+          throw new Error(t`WalletsDataError`)
         }
 
         const {
@@ -193,7 +197,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error('WalletsDataError')
+          throw new Error(t`WalletsDataError`)
         }
 
         const {

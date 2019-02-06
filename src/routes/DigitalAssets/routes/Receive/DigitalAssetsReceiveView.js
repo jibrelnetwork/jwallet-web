@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import { JCard, JInput, JRaisedButton } from 'components/base'
 import { saveQRCode, copyQRCode } from 'components/QRCode'
@@ -46,7 +47,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
     return (
       <CloseableScreen
         close={close}
-        title='Receive assets'
+        title={t`Receive assets`}
       >
         <div className='digital-assets-receive-view'>
           <div className='content'>
@@ -62,7 +63,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
                 </JCard>
               </div>
               <JInput
-                label='Recipient address'
+                label={t`Recipient address`}
                 value={address}
                 color='gray'
                 type='text'
@@ -70,7 +71,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
               />
               <JRaisedButton
                 onClick={this.copyAddress}
-                label='Copy address'
+                label={t`Copy address`}
                 color='blue'
               />
             </div>
