@@ -47,6 +47,10 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
       [addressWithChecksum]: {
         ...item,
         isActive: false,
+        blockchainParams: {
+          ...item.blockchainParams,
+          address: addressWithChecksum,
+        },
       },
     }
   }, {})
