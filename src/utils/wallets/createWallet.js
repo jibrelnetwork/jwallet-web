@@ -1,6 +1,7 @@
 // @flow
 
 import uuidv4 from 'uuid/v4'
+import { t } from 'ttag'
 
 import config from 'config'
 import encryptData from 'utils/encryption/encryptData'
@@ -63,7 +64,7 @@ function createMnemonicWallet(
   }: MnemonicOptions = mnemonicOptions
 
   if (!checkDerivationPathValid(derivationPath)) {
-    throw new Error('DerivationPathInvalidError')
+    throw new Error(t`DerivationPathInvalidError`)
   }
 
   const mnemonic: string = data.toLowerCase()
@@ -265,7 +266,7 @@ function createWallet(
   } else if (checkAddressValid(data)) {
     return createReadOnlyAddressWallet(wallets, walletData)
   } else {
-    throw new Error('WalletDataError')
+    throw new Error(t`WalletDataError`)
   }
 }
 

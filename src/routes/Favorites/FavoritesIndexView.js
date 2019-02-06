@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
+import { t } from 'ttag'
 
 import FavoriteItem from 'components/FavoriteItem'
 import OverlayNotification from 'components/OverlayNotification'
@@ -126,9 +127,9 @@ class FavoritesIndexView extends PureComponent<Props, State> {
           color='gray'
           image='screen-no-favorites'
           description={isSearched ? [
-            'There are no favorites to display',
+            t`There are no favorites to display`,
           ] : [
-            'Looks like you have no favorites yet.',
+            t`Looks like you have no favorites yet.`,
           ]}
           isTransparent
         />
@@ -141,15 +142,15 @@ class FavoritesIndexView extends PureComponent<Props, State> {
       <div className='favorites-view'>
         <header className='header'>
           <div className='container'>
-            <JText value='Favorites' size='tab' color='dark' />
+            <JText value={t`Favorites`} size='tab' color='dark' />
             <div className='actions'>
               <div className='search'>
                 <JSearch
                   onChange={this.setSearchQuery}
-                  placeholder='Search favorites...'
+                  placeholder={t`Search favorites...`}
                 />
               </div>
-              <Link className='add' to='/favorites/address' title='Add favorite address'>
+              <Link className='add' to='/favorites/address' title={t`Add favorite address`}>
                 <JIcon
                   name='favorite-address-add'
                   size='medium'

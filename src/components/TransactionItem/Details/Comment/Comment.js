@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import {
   handle,
@@ -71,13 +72,13 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           type='text'
           id='message'
           className='field'
-          placeholder='Your comment'
+          placeholder={t`Your comment`}
         />
         <div className='actions'>
           <div className='button'>
             <JFlatButton
               onClick={handle(this.saveComment)(newValue)}
-              label='Save'
+              label={t`Save`}
               color='blue'
               isBordered
             />
@@ -85,7 +86,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           <div className='button'>
             <JFlatButton
               onClick={isValueChanged ? toggle : this.deleteComment}
-              label={isValueChanged ? 'Cancel' : 'Delete'}
+              label={isValueChanged ? t`Cancel` : t`Delete`}
               color='blue'
               isBordered
             />

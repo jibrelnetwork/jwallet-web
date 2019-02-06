@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import { handle } from 'utils/eventHandlers'
 
@@ -34,14 +35,14 @@ const EditAssetView = ({
   <CloseableScreen
     close={close}
     onOpen={handle(openView)(address)}
-    title='Edit digital asset'
+    title={t`Edit digital asset`}
   >
     <DigitalAssetEditForm
       submit={submit}
       setField={setField}
       formFields={formFields}
       invalidFields={invalidFields}
-      submitLabel='Save'
+      submitLabel={t`Save`}
       isAddressEditable={false}
     />
   </CloseableScreen>

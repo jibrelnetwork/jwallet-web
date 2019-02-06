@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import checkPasswordStrength from './checkPasswordStrength'
 
 function testPassword(password: string): void {
@@ -8,7 +10,7 @@ function testPassword(password: string): void {
   if (testPasswordResult.score < 3) {
     const { warning, suggestions } = testPasswordResult.feedback
 
-    throw new Error(warning || suggestions[0] || 'Weak password')
+    throw new Error(warning || suggestions[0] || t`Weak password`)
   }
 }
 

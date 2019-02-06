@@ -2,6 +2,7 @@
 
 import nacl from 'tweetnacl'
 import util from 'tweetnacl-util'
+import { t } from 'ttag'
 
 import config from 'config'
 
@@ -33,7 +34,7 @@ function encryptNaclSecretbox(data: string, key: Uint8Array): EncryptedData {
   const encryptedData: ?Uint8Array = nacl.secretbox(dataToEncrypt, nonce, key)
 
   if ((encryptedData === null) || (encryptedData === undefined)) {
-    throw new Error('InvalidPasswordError')
+    throw new Error(t`InvalidPasswordError`)
   }
 
   return encodeEncryptedData(encryptedData, nonce)
@@ -47,7 +48,7 @@ function encryptData(payload: EncryptPayload): EncryptedData {
   }: EncryptPayload = payload
 
   if (encryptionType !== 'nacl.secretbox') {
-    throw new Error(`EncryptionTypeError ${encryptionType}`)
+    throw new Error(t`EncryptionTypeError ${encryptionType}`)
   }
 
   const dataPad: string = leftPadString(data, ' ', config.encryptedDataLength)

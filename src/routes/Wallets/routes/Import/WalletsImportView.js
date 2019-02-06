@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import {
   ModalHeader,
@@ -67,12 +68,20 @@ class WalletsImportView extends Component<Props> {
       isPasswordExists,
     } = this.props
 
+    const passwordStepTitle: Array<string> =
+     (t`You will use this password to unlock and transfer your funds.
+      Keep it secure!`).split('\n')
+
+    const dataStepTitle: Array<string> =
+     (t`Insert the private key or backup phrase to import. Also, you can import
+      an address in the read-only mode.`).split('\n')
+
     return (
       <div className='wallets-view -import'>
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          title='Import wallet'
+          title={t`Import wallet`}
           isDisabled={isLoading}
         />
         <div className='content'>
@@ -82,9 +91,9 @@ class WalletsImportView extends Component<Props> {
               onChangeName={changeNameInput}
               invalidFields={invalidFields}
               valueName={name}
-              buttonLabel='Next step'
+              buttonLabel={t`Next step`}
               fieldName='wallets-name'
-              placeholder='Wallet name'
+              placeholder={t`Wallet name`}
               isLoading={isLoading}
             />
           )}
@@ -93,14 +102,11 @@ class WalletsImportView extends Component<Props> {
               onSubmit={goToNextStep}
               onChangeData={changeDataInput}
               onChangeDerivationPath={changeDerivationPathInput}
-              title={[
-                'Insert the private key or backup phrase to import. Also, you can import',
-                'an address in the read-only mode.',
-              ]}
+              title={dataStepTitle}
               invalidFields={invalidFields}
               valueData={data}
               valueDerivationPath={derivationPath}
-              buttonLabel='Next step'
+              buttonLabel={t`Next step`}
               isLoading={isLoading}
               isMnemonic={walletType === 'mnemonic'}
             />
@@ -111,15 +117,12 @@ class WalletsImportView extends Component<Props> {
               onChangePassword={changePasswordInput}
               onChangePasswordHint={changePasswordHintInput}
               onChangePasswordConfirm={changePasswordConfirmInput}
-              title={[
-                'You will use this password to unlock and transfer your funds.',
-                'Keep it secure!',
-              ]}
+              title={passwordStepTitle}
               invalidFields={invalidFields}
               valuePassword={password}
               valuePasswordHint={passwordHint}
               valuePasswordConfirm={passwordConfirm}
-              buttonLabel='Import wallet'
+              buttonLabel={t`Import wallet`}
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />

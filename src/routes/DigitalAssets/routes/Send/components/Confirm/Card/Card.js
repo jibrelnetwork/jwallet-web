@@ -2,6 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { t, jt } from 'ttag'
 
 import JText from 'components/base/JText'
 import getTxFee from 'utils/transactions/getTxFee'
@@ -47,19 +48,20 @@ function DigitalAssetsSendConfirmCard({
   const hasComment: boolean = !!formFieldValues.comment
   const hasNonce: boolean = !!formFieldValues.nonce
 
+  const boldWillFail = <b>{t`it will most likely fail`}</b>
+
   return (
     <div className='digital-assets-send-confirm-card'>
       <div className='content'>
         {isPotentiallyFail &&
         <div className='willfail'>
-          Your transaction does not pass one or more check-ups,
-          so we assume <b>it will most likely fail</b>. Please make sure you
-          know what you are doing before proceeding
+          {jt`Your transaction does not pass one or more check-ups, so we assume 
+            ${boldWillFail}. Please make sure you know what you are doing before proceeding`}
         </div>}
         <div className='amount'>{`${amount} ${symbol}`}</div>
         <div className='fee'>
           <JText
-            value={`Fee — ${fee} ETH`}
+            value={t`Fee — ${fee} ETH`}
             color='gray'
             whiteSpace='wrap'
           />
@@ -67,7 +69,7 @@ function DigitalAssetsSendConfirmCard({
         <div className='field'>
           <div className='title direction'>
             <JText
-              value={`From${fromName ? ` — ${fromName}` : ''}`}
+              value={`${t`From`}${fromName ? ` — ${fromName}` : ''}`}
               color='dark'
               whiteSpace='wrap'
             />
@@ -84,7 +86,7 @@ function DigitalAssetsSendConfirmCard({
         <div className={classNames('field', { '-spacer': hasComment || hasNonce })}>
           <div className='title direction'>
             <JText
-              value={`To${toName ? ` — ${toName}` : ''}`}
+              value={`${t`To`}${toName ? ` — ${toName}` : ''}`}
               color='dark'
               whiteSpace='wrap'
             />
@@ -112,7 +114,7 @@ function DigitalAssetsSendConfirmCard({
         <div className='field'>
           <div className='title'>
             <JText
-              value={`Nonce — ${formFieldValues.nonce}`}
+              value={`${t`Nonce`}— ${formFieldValues.nonce}`}
               color='dark'
               whiteSpace='wrap'
             />

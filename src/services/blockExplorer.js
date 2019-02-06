@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
 import getENVVar from 'utils/config/getENVVar'
@@ -35,7 +37,7 @@ function callApi(
   const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
 
   if (!apiSubdomain) {
-    throw new Error('BlockExplorerPrivateNetworkError')
+    throw new Error(t`BlockExplorerPrivateNetworkError`)
   }
 
   const apiEnpoint: string = `${BLOCKEXPLORER_API}/v1/${apiSubdomain}/${address}/transactions`
@@ -69,7 +71,7 @@ function handleTransactionsResponse(response: any): Array<any> {
   if (!(isResultFound && isResultValid)) {
     return []
   } else if (isRequestFailed) {
-    throw new Error('BlockExplorerRequestTransactionsError')
+    throw new Error(t`BlockExplorerRequestTransactionsError`)
   }
 
   return result

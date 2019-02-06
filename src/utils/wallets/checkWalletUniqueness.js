@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 function checkWalletUniqueness(
   wallets: Wallets,
   uniqueProperty: string,
@@ -12,7 +14,7 @@ function checkWalletUniqueness(
   })
 
   if (foundWallet) {
-    throw new Error(`Wallet with such ${propertyName} already exists`)
+    throw new Error(t`Wallet with such ${propertyName} already exists`)
   }
 }
 

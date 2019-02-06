@@ -1,4 +1,6 @@
 import React from 'react'
+import { t } from 'ttag'
+
 import { JText } from 'components/base'
 
 export const CurrencyPickerCurrent = ({
@@ -6,7 +8,7 @@ export const CurrencyPickerCurrent = ({
 }) => (
   <div className='currency-picker-current'>
     <JText
-      value='Select currency'
+      value={t`Select currency`}
       size='small'
       color='dusk'
     />

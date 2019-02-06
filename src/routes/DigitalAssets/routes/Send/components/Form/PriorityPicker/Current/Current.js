@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-
+import { t } from 'ttag'
 import JText from 'components/base/JText'
 
 type Props = {|
@@ -15,7 +15,7 @@ function DigitalAssetsSendFormPriorityPickerCurrent({ currentPriority }: Props) 
         <JText
           size='small'
           color='gray'
-          value='Priority'
+          value={t`Priority`}
           whiteSpace='wrap'
         />
       </div>

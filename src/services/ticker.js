@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import config from 'config'
 import currenciesData from 'data/currencies'
 import getENVVar from 'utils/config/getENVVar'
@@ -23,7 +25,7 @@ function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> 
       return callApi(params, (retryCount - 1))
     }
 
-    throw new Error('TickerRequestError')
+    throw new Error(t`TickerRequestError`)
   }
 
   return fetch(requestInfo, {

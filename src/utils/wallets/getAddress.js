@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import generateAddresses from 'utils/mnemonic/generateAddresses'
 
 import {
@@ -17,7 +19,7 @@ function getAddress(wallets: Wallets, walletId: string): Address {
 
   if (!checkMnemonicType(type)) {
     if (!address) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
     return address
@@ -27,7 +29,7 @@ function getAddress(wallets: Wallets, walletId: string): Address {
   const indexEnd: number = indexStart + 1
 
   if (!bip32XPublicKey) {
-    throw new Error('WalletDataError')
+    throw new Error(t`WalletDataError`)
   }
 
   const derivedAddresses: Address[] = generateAddresses(bip32XPublicKey, indexStart, indexEnd)

@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 
 import {
   put,
@@ -40,7 +41,7 @@ function* checkName(): Saga<void> {
   const nameCleaned: string = name.trim()
 
   if (!nameCleaned) {
-    yield put(wallets.setInvalidField('name', 'Name should not be empty'))
+    yield put(wallets.setInvalidField('name', t`Name should not be empty`))
 
     return
   }
@@ -69,7 +70,7 @@ function* createWallet(): Saga<void> {
   if (!isPasswordExists) {
     if (password === name) {
       yield put(
-        wallets.setInvalidField('password', 'Password should not be equal with wallet name'),
+        wallets.setInvalidField('password', t`Password should not be equal with wallet name`),
       )
 
       return
@@ -77,7 +78,7 @@ function* createWallet(): Saga<void> {
 
     if (password !== passwordConfirm) {
       yield put(
-        wallets.setInvalidField('passwordConfirm', 'Password does not match confirmation'),
+        wallets.setInvalidField('passwordConfirm', t`Password does not match confirmation`),
       )
 
       return
@@ -85,7 +86,7 @@ function* createWallet(): Saga<void> {
 
     if (!passwordHint) {
       yield put(
-        wallets.setInvalidField('passwordHint', 'Password hint is required'),
+        wallets.setInvalidField('passwordHint', t`Password hint is required`),
       )
 
       return
@@ -93,7 +94,7 @@ function* createWallet(): Saga<void> {
 
     if (password === passwordHint) {
       yield put(
-        wallets.setInvalidField('passwordHint', 'Password and hint should not be equal'),
+        wallets.setInvalidField('passwordHint', t`Password and hint should not be equal`),
       )
 
       return

@@ -27,7 +27,8 @@
     "test:smoke": "npm run clean:report:browserstack && ./node_modules/.bin/wdio wdio.conf.js --suite smoke",
     "test:unit": "./node_modules/.bin/jest --config=./jest.config.js",
     "test:functional": "npm run clean:report:browserstack && ./node_modules/.bin/wdio wdio.conf.js",
-    "precommit": "npm run lint-staged"
+    "precommit": "npm run lint-staged",
+    "lang-update:en": "./node_modules/.bin/env-cmd env/development npx ttag update src/data/lang/en.po ./src"
   },
   "dependencies": {
     "@jibrelnetwork/contracts-jsapi": "1.1.0",
@@ -63,6 +64,7 @@
     "redux-persist": "5.10.0",
     "redux-saga": "0.16.0",
     "scryptsy": "2.0.0",
+    "ttag": "1.6.0",
     "tweetnacl": "1.0.0",
     "tweetnacl-util": "0.15.0",
     "uuid": "3.3.2",
@@ -71,6 +73,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.1.6",
+    "@babel/preset-flow": "7.0.0",
     "@babel/register": "7.0.0",
     "@babel/runtime": "7.2.0",
     "@gfx/zopfli": "1.0.10",
@@ -135,6 +138,7 @@
     "stylelint": "8.4.0",
     "stylelint-config-jibrelnetwork": "1.0.3",
     "terser-webpack-plugin": "1.2.1",
+    "ttag-cli": "1.6.0",
     "url-loader": "1.1.2",
     "wdio-browserstack-service": "0.1.18",
     "wdio-jasmine-framework": "0.3.8",

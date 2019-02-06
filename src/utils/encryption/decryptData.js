@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import nacl from 'tweetnacl'
 import util from 'tweetnacl-util'
 
@@ -26,7 +28,7 @@ function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
   const decryptedData: ?Uint8Array = nacl.secretbox.open(decoded.data, decoded.nonce, key)
 
   if ((decryptedData === null) || (decryptedData === undefined)) {
-    throw new Error('InvalidPasswordError')
+    throw new Error(t`InvalidPasswordError`)
   }
 
   return util.encodeUTF8(decryptedData).trim()
@@ -40,7 +42,7 @@ function decryptData(payload: DecryptPayload): string {
   }: DecryptPayload = payload
 
   if (encryptionType !== 'nacl.secretbox') {
-    throw new Error(`DecryptionTypeError ${encryptionType}`)
+    throw new Error(t`DecryptionTypeError ${encryptionType}`)
   }
 
   return decryptNaclSecretbox(data, key)

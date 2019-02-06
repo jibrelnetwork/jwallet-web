@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import QRCode from 'qrcode'
 
 import config from 'config'
@@ -10,7 +12,7 @@ function generate(payload: { requisites: any, appearance: any, selector: string 
 
   const canvas = document.querySelector(selector)
   if (!canvas) {
-    throw new Error('Selector is incorrect')
+    throw new Error(t`InvalidSelectorError`)
   }
 
   QRCode.toCanvas(canvas, `ethereum:${requisites.to}?token=ETH`, options)

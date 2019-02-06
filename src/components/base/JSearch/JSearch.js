@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent }  from 'react'
+import { t } from 'ttag'
 
 import config from 'config'
 import JIcon from 'components/base/JIcon'
@@ -25,7 +26,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
   static defaultProps = {
     value: '',
     placeholder: '',
-    title: 'Search',
+    title: t`Search`,
   }
 
   constructor(props: Props) {
