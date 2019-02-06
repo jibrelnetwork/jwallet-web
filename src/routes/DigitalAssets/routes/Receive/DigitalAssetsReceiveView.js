@@ -24,26 +24,59 @@ type Props = {|
   +address: ?Address,
 |}
 
-class DigitalAssetsReceiveView extends PureComponent<Props, *> {
+type StateProps = {|
+  label: 'Copy address' | 'Copied!',
+|}
+
+class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      label: 'Copy address',
+    }
+  }
+
   componentDidMount() {
     if (this.props.address) {
       generateQRCode(this.props.address)
     }
   }
 
+  // eslint-disable-next-line react/sort-comp
+  toggleTimeout: ?TimeoutID = null
+
   copyAddress = () => {
+    this.setState({ label: 'Copied!' })
+
+    this.toggleTimeout = setTimeout(() => {
+      this.setState({ label: 'Copy address' })
+    }, 2000)
+
     if (this.props.address) {
       clipboard.copyText(this.props.address)
     }
   }
 
+  componentWillUnmount() {
+    if (this.toglleTimeout) {
+      clearTimeout(this.toggleTimeout)
+    }
+  }
+
   render() {
     const { address, close } = this.props
+
+    const {
+      label,
+    }: StateProps = this.state
+
     if (isVoid(address)) {
       return null
     }
 
     return (
+
       <CloseableScreen
         close={close}
         title='Receive assets'
@@ -70,7 +103,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
               />
               <JRaisedButton
                 onClick={this.copyAddress}
-                label='Copy address'
+                label={label}
                 color='blue'
               />
             </div>
