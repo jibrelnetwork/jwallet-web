@@ -55,8 +55,8 @@ function DigitalAssetsSendConfirmCard({
       <div className='content'>
         {isPotentiallyFail &&
         <div className='willfail'>
-          { // eslint-disable-next-line max-len
-            jt`Your transaction does not pass one or more check-ups, so we assume ${boldWillFail}. Please make sure you know what you are doing before proceeding`}
+          {jt`Your transaction does not pass one or more check-ups, so we assume 
+            ${boldWillFail}. Please make sure you know what you are doing before proceeding`}
         </div>}
         <div className='amount'>{`${amount} ${symbol}`}</div>
         <div className='fee'>

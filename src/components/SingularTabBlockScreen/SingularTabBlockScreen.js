@@ -6,6 +6,10 @@ import { t } from 'ttag'
 import { JThumbnail, JFlatButton } from 'components/base'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+const descriptionText: Array<string> =
+  (t`Jwallet can be open only in one tab simultaneously.
+    Please reload this tab to continue using it.`).split('\n')
+
 const SingularTabBlockScreen = () => (
   <div className='wallets-layout'>
     <Scrollbars autoHide>
@@ -16,10 +20,7 @@ const SingularTabBlockScreen = () => (
             iconSize='xlarge'
             image='bad-browser'
             title={t`Jwallet supports only single tab`}
-            description={[
-              t`Jwallet can be open only in one tab simultaneously.`,
-              t`Please reload this tab to continue using it.`,
-            ]}
+            description={descriptionText}
           />
           <div className='actions'>
             <div className='back'>

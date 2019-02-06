@@ -376,10 +376,11 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
   }
 
   if (nonce > parseInt(userNonce, 10)) {
+    const suggestedNonce = nonce - 1
     yield put(
       digitalAssetsSend.setFormFieldError(
         'nonce',
-        t`Nonce should be greater than ${nonce}`
+        t`Nonce should be greater than ${suggestedNonce}`
       )
     )
   }

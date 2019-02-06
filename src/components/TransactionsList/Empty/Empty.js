@@ -9,6 +9,10 @@ type Props = {|
   +isFiltered: boolean,
 |}
 
+const noTransactionsText: Array<string> =
+  (t`Looks like you haven't made
+  any transactions yet.`).split('\n')
+
 function TransactionsListEmpty({ isFiltered }: Props) {
   return (
     <OverlayNotification
@@ -16,10 +20,7 @@ function TransactionsListEmpty({ isFiltered }: Props) {
       image='screen-reload'
       description={isFiltered ? [
         t`There are no items to display`,
-      ] : [
-        t`Looks like you haven't made`,
-        t`any transactions yet.`,
-      ]}
+      ] : noTransactionsText}
       isTransparent
     />
   )

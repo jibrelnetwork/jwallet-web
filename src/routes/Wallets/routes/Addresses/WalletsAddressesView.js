@@ -49,6 +49,10 @@ class WalletsAddressesView extends Component<Props> {
       isReadOnly,
     } = this.props
 
+    const titleText: Array<string> =
+      (t`To enhance your privacy, the wallet can contain as many addresses
+        as you need. Please, choose one to continue`).split('\n')
+
     return (
       <div className='wallets-view -addresses'>
         <ModalHeader
@@ -58,10 +62,7 @@ class WalletsAddressesView extends Component<Props> {
         />
         <div className='content'>
           <WalletViewTitle
-            data={[
-              t`To enhance your privacy, the wallet can contain as many addresses`,
-              t`as you need. Please, choose one to continue`,
-            ]}
+            data={titleText}
           />
           <MnemonicAddresses
             setActive={setActive}

@@ -68,6 +68,14 @@ class WalletsImportView extends Component<Props> {
       isPasswordExists,
     } = this.props
 
+    const passwordStepTitle: Array<string> =
+     (t`You will use this password to unlock and transfer your funds.
+      Keep it secure!`).split('\n')
+
+    const dataStepTitle: Array<string> =
+     (t`Insert the private key or backup phrase to import. Also, you can import
+      an address in the read-only mode.`).split('\n')
+
     return (
       <div className='wallets-view -import'>
         <ModalHeader
@@ -94,10 +102,7 @@ class WalletsImportView extends Component<Props> {
               onSubmit={goToNextStep}
               onChangeData={changeDataInput}
               onChangeDerivationPath={changeDerivationPathInput}
-              title={[
-                t`Insert the private key or backup phrase to import. Also, you can import`,
-                t`an address in the read-only mode.`,
-              ]}
+              title={dataStepTitle}
               invalidFields={invalidFields}
               valueData={data}
               valueDerivationPath={derivationPath}
@@ -112,10 +117,7 @@ class WalletsImportView extends Component<Props> {
               onChangePassword={changePasswordInput}
               onChangePasswordHint={changePasswordHintInput}
               onChangePasswordConfirm={changePasswordConfirmInput}
-              title={[
-                t`You will use this password to unlock and transfer your funds.`,
-                t`Keep it secure!`,
-              ]}
+              title={passwordStepTitle}
               invalidFields={invalidFields}
               valuePassword={password}
               valuePasswordHint={passwordHint}

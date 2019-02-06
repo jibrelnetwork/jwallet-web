@@ -57,6 +57,10 @@ class WalletsCreateView extends Component<Props> {
       isPasswordExists,
     } = this.props
 
+    const passwordStepTitle: Array<string> =
+      (t`You will use this password to unlock and transfer your funds.
+        Keep it secure!`).split('\n')
+
     return (
       <div className='wallets-view -create'>
         <ModalHeader
@@ -84,10 +88,7 @@ class WalletsCreateView extends Component<Props> {
               onChangePassword={changePasswordInput}
               onChangePasswordHint={changePasswordHintInput}
               onChangePasswordConfirm={changePasswordConfirmInput}
-              title={[
-                t`You will use this password to unlock and transfer your funds.`,
-                t`Keep it secure!`,
-              ]}
+              title={passwordStepTitle}
               invalidFields={invalidFields}
               valuePassword={password}
               valuePasswordHint={passwordHint}
