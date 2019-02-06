@@ -93,6 +93,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
             name,
             mnemonicOptions,
             createdBlockNumber,
+            isSimplified: true,
             data: generateMnemonic(),
           }, internalKeyDec, encryptionType),
         }))
@@ -135,6 +136,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
             data,
             name,
             mnemonicOptions,
+            isSimplified: true,
           }, internalKeyDec, encryptionType),
         }))
       } catch (err) {

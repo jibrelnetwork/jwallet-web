@@ -1,31 +1,21 @@
 // @flow
 
-import React, { PureComponent } from 'react'
-import classNames from 'classnames'
+import React from 'react'
 
 type Props = {|
   +status: ?PasswordStatus,
   +color: 'white' | 'gray',
-  +isOffsetRight: boolean,
 |}
 
-class PasswordFieldIndicator extends PureComponent<Props> {
-  static defaultProps = {
-    isOffsetRight: false,
-  }
-  render() {
-    const { status, isOffsetRight, color }: Props = this.props
-    return !status ? null : (
-      <div className={classNames(
-        'password-field-indicator',
-        `-on-${color}-field`,
-        isOffsetRight && '-offset-right'
-      )}
-      >
-        <div className={`indicator -${status}`} />
-      </div>
-    )
-  }
+function PasswordFieldIndicator({
+  color,
+  status,
+}: Props) {
+  return !status ? null : (
+    <div className={`password-field-indicator -on-${color}-field`}>
+      <div className={`indicator -${status}`} />
+    </div>
+  )
 }
 
 export default PasswordFieldIndicator

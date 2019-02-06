@@ -19,7 +19,6 @@ type Props = {|
   +addressNames: AddressNames,
   +activeWalletId: ?WalletId,
   +isActive: boolean,
-  +isReadOnly: boolean,
 |}
 
 function MenuPanelWalletManager({
@@ -31,7 +30,6 @@ function MenuPanelWalletManager({
   addressNames,
   activeWalletId,
   isActive,
-  isReadOnly,
 }: Props) {
   if (!activeWalletId) {
     return null
@@ -43,7 +41,9 @@ function MenuPanelWalletManager({
   const {
     type,
     name,
+    isReadOnly,
     addressIndex,
+    isSimplified,
   }: Wallet = wallet
 
   return (
@@ -65,6 +65,7 @@ function MenuPanelWalletManager({
         currentAddressIndex={addressIndex}
         isActive={isActive}
         isReadOnly={isReadOnly}
+        isSimplified={!!isSimplified}
       />
     </div>
   )

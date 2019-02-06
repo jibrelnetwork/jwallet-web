@@ -108,8 +108,10 @@ class WalletsBackupView extends Component<Props> {
               <WalletStep
                 onSubmit={downloadToTxt}
                 title={[
-                  'This backup phrase is the only way to restore access to your',
-                  'funds. Keep it secure!',
+                  'This is your secret recovery text.',
+                  'It is the only way to restore access to your funds.',
+                  'Keep it secure and never give it to anyone',
+                  'you don’t trust!',
                 ]}
                 buttonLabel='Download as TXT'
                 isLoading={isLoading}

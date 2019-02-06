@@ -9,9 +9,11 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
+import config from 'config'
 import web3 from 'services/web3'
 import walletsWorker from 'workers/wallets'
 import checkWalletUniqueness from 'utils/wallets/checkWalletUniqueness'
+import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {
@@ -94,6 +96,12 @@ function* createWallet(): Saga<void> {
         wallets.setInvalidField('passwordHint', 'Password and hint should not be equal'),
       )
 
+      return
+    }
+
+    const { score }: PasswordResult = checkPasswordStrength(password)
+
+    if (score < config.minPasswordStrengthScore) {
       return
     }
   }

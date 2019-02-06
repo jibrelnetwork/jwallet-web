@@ -57,6 +57,8 @@ export const PRIVATE_KEY_ERROR = '@@wallets/PRIVATE_KEY_ERROR'
 export const PRIVATE_KEY_SUCCESS = '@@wallets/PRIVATE_KEY_SUCCESS'
 export const PRIVATE_KEY_REQUEST = '@@wallets/PRIVATE_KEY_REQUEST'
 
+export const SIMPLIFY_WALLET = '@@wallets/SIMPLIFY_WALLET'
+
 export const CLEAN = '@@wallets/CLEAN'
 
 export function openLayout() {
@@ -196,6 +198,16 @@ export function privateKeyRequest(payload: WalletsPrivateKeyRequestPayload) {
   }
 }
 
+export function simplifyWallet(walletId: WalletId, isSimplified: boolean) {
+  return {
+    type: SIMPLIFY_WALLET,
+    payload: {
+      walletId,
+      isSimplified,
+    },
+  }
+}
+
 export function clean() {
   return {
     type: CLEAN,
@@ -218,6 +230,7 @@ export type WalletsAction =
   ExtractReturn<typeof privateKeyError> |
   ExtractReturn<typeof privateKeySuccess> |
   ExtractReturn<typeof privateKeyRequest> |
+  ExtractReturn<typeof simplifyWallet> |
   ExtractReturn<typeof clean>
 
 const initialState: WalletsState = {

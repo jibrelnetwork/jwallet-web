@@ -14,6 +14,7 @@ import walletsWorker from 'workers/wallets'
 
 import {
   getWallet,
+  updateWallet,
   checkMnemonicType,
 } from 'utils/wallets'
 
@@ -45,12 +46,15 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
   const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
   try {
-    const wallet: Wallet = getWallet(items, activeWalletId)
-    const isMnemonicWallet: boolean = checkMnemonicType(wallet.type)
+    const {
+      type,
+      isSimplified,
+    }: Wallet = getWallet(items, activeWalletId)
 
-    yield put(push(isMnemonicWallet ? '/wallets/addresses' : '/digital-assets'))
+    const isAddressRequired: boolean = checkMnemonicType(type) && !isSimplified
+    yield put(push(isAddressRequired ? '/wallets/addresses' : '/digital-assets/grid'))
   } catch (err) {
-    yield put(push('/digital-assets'))
+    yield put(push('/digital-assets/grid'))
   }
 }
 
@@ -96,7 +100,29 @@ export function* getPrivateKeyCancel(walletId: string): Saga<void> {
   yield put(wallets.privateKeyError(walletId, 'Cancelled'))
 }
 
+export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWallet>): Saga<void> {
+  const {
+    walletId,
+    isSimplified,
+  } = action.payload
+
+  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
+  const foundWallet: Wallet = getWallet(items, walletId)
+
+  if (!checkMnemonicType(foundWallet.type)) {
+    throw new Error('WalletDataError')
+  }
+
+  const newItems: Wallets = updateWallet(items, walletId, {
+    isSimplified,
+    addressIndex: 0,
+  })
+
+  yield put(wallets.setWalletsItems(newItems))
+}
+
 export function* walletsRootSaga(): Saga<void> {
   yield takeEvery(wallets.OPEN_VIEW, openView)
+  yield takeEvery(wallets.SIMPLIFY_WALLET, simplifyWallet)
   yield takeEvery(wallets.SET_ACTIVE_WALLET, setActiveWallet)
 }
