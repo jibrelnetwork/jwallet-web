@@ -12,19 +12,21 @@ import {
 
 import WalletFaceActions from './Actions'
 
-type WalletFaceHandler = () => void
+type WalletFaceHandler = (SyntheticEvent<HTMLDivElement>) => void
 
 type Props = {|
   +backup: ?WalletFaceHandler,
   +rename: ?WalletFaceHandler,
   +remove: ?WalletFaceHandler,
-  +onClick: WalletFaceHandler,
+  +onClick: ?WalletFaceHandler,
+  +simplify: ?WalletFaceHandler,
   +title: string,
   +balance: ?string,
   +iconName: string,
   +description: string,
   +isReadOnly: boolean,
   +hasActions: boolean,
+  +isSimplified: ?boolean,
   +isTransparent: boolean,
 |}
 
@@ -38,8 +40,10 @@ class WalletFace extends PureComponent<Props, StateProps> {
     rename: null,
     remove: null,
     balance: null,
+    simplify: null,
     isReadOnly: false,
     hasActions: false,
+    isSimplified: false,
     isTransparent: false,
   }
 
@@ -55,24 +59,34 @@ class WalletFace extends PureComponent<Props, StateProps> {
     this.setState({ isToggled: !this.state.isToggled })
   }
 
+  simplify = (event: SyntheticEvent<HTMLDivElement>) => {
+    this.toggle()
+
+    const { simplify }: Props = this.props
+
+    if (simplify) {
+      simplify(event)
+    }
+  }
+
   render() {
     const {
       backup,
       rename,
       remove,
       onClick,
+      simplify,
       title,
       balance,
       iconName,
       description,
       hasActions,
       isReadOnly,
+      isSimplified,
       isTransparent,
     }: Props = this.props
 
-    const {
-      isToggled,
-    }: StateProps = this.state
+    const { isToggled }: StateProps = this.state
 
     return (
       <div
@@ -98,14 +112,18 @@ class WalletFace extends PureComponent<Props, StateProps> {
           </div>
         </div>
         {hasActions && (
-          <WalletFaceActions
-            backup={backup}
-            rename={rename}
-            remove={remove}
-            toggle={ignoreEvent(this.toggle)()}
-            balance={balance}
-            isToggled={isToggled}
-          />
+          <div className='actions'>
+            <WalletFaceActions
+              backup={backup}
+              rename={rename}
+              remove={remove}
+              toggle={ignoreEvent(this.toggle)()}
+              simplify={simplify && this.simplify}
+              balance={balance}
+              isToggled={isToggled}
+              isSimplified={isSimplified}
+            />
+          </div>
         )}
       </div>
     )

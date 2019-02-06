@@ -20,6 +20,7 @@ function updateWallet(
     bip32XPublicKey,
     addressIndex,
     isReadOnly,
+    isSimplified,
   }: WalletUpdatedData = updatedData
 
   const wallet: Wallet = getWallet(wallets, walletId)
@@ -34,6 +35,7 @@ function updateWallet(
     bip32XPublicKey: bip32XPublicKey || wallet.bip32XPublicKey,
     addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
     isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
+    isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
   }
 
   const newWallets: Wallets = removeWallet(wallets, walletId)

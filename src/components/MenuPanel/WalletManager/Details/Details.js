@@ -18,6 +18,7 @@ type Props = {|
   +currentAddressIndex: ?Index,
   +isActive: boolean,
   +isReadOnly: boolean,
+  +isSimplified: boolean,
 |}
 
 function MenuPanelWalletManagerDetails({
@@ -29,8 +30,9 @@ function MenuPanelWalletManagerDetails({
   currentAddressIndex,
   isActive,
   isReadOnly,
+  isSimplified,
 }: Props) {
-  const isMnemonic: boolean = checkMnemonicType(type)
+  const isMnemonic: boolean = checkMnemonicType(type) && !isSimplified
 
   return (
     <div

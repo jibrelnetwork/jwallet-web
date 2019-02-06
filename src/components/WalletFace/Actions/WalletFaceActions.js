@@ -12,11 +12,11 @@ import ethereum from 'data/assets/ethereum'
 
 import { formatAssetBalance } from 'utils/formatters'
 
-type WalletFaceActionsHandler = () => void
+type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
 
 type WalletFaceAction = {|
   +handler: ?WalletFaceActionsHandler,
-  +iconName: 'edit' | 'import' | 'bucket',
+  +iconName: 'edit' | 'to-multiaddress' | 'to-oneaddress' | 'import' | 'bucket',
 |}
 
 type Props = {|
@@ -24,8 +24,10 @@ type Props = {|
   +backup: ?WalletFaceActionsHandler,
   +rename: ?WalletFaceActionsHandler,
   +remove: ?WalletFaceActionsHandler,
+  +simplify: ?WalletFaceActionsHandler,
   +balance: ?string,
   +isToggled: boolean,
+  +isSimplified: ?boolean,
 |}
 
 class WalletFaceActions extends PureComponent<Props> {
@@ -34,9 +36,12 @@ class WalletFaceActions extends PureComponent<Props> {
       backup,
       rename,
       remove,
+      simplify,
+      isSimplified,
     }: Props = this.props
 
     return [
+      { iconName: isSimplified ? 'to-multiaddress' : 'to-oneaddress', handler: simplify },
       { iconName: 'import', handler: backup },
       { iconName: 'edit', handler: rename },
       { iconName: 'bucket', handler: remove },

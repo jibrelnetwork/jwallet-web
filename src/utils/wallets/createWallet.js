@@ -51,6 +51,7 @@ function createMnemonicWallet(
     data,
     name,
     orderIndex,
+    isSimplified,
     mnemonicOptions,
     createdBlockNumber,
   }: WalletData = walletData
@@ -75,6 +76,7 @@ function createMnemonicWallet(
     name,
     network,
     orderIndex,
+    isSimplified,
     derivationPath,
     addressIndex: 0,
     isReadOnly: false,
@@ -108,6 +110,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     data,
     name,
     orderIndex,
+    isSimplified,
     createdBlockNumber,
   }: WalletData = walletData
 
@@ -117,6 +120,7 @@ function createReadOnlyMnemonicWallet(wallets: Wallets, walletData: WalletData):
     id,
     name,
     orderIndex,
+    isSimplified,
     addressIndex: 0,
     isReadOnly: true,
     createdBlockNumber,
@@ -148,6 +152,7 @@ function createAddressWallet(
     data,
     name,
     orderIndex,
+    isSimplified,
     createdBlockNumber,
   }: WalletData = walletData
 
@@ -160,6 +165,7 @@ function createAddressWallet(
     name,
     address,
     orderIndex,
+    isSimplified,
     isReadOnly: false,
     createdBlockNumber,
     customType: 'privateKey',
@@ -189,6 +195,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     data,
     name,
     orderIndex,
+    isSimplified,
     createdBlockNumber,
   }: WalletData = walletData
 
@@ -198,6 +205,7 @@ function createReadOnlyAddressWallet(wallets: Wallets, walletData: WalletData): 
     id,
     name,
     orderIndex,
+    isSimplified,
     isReadOnly: true,
     createdBlockNumber,
     type: config.addressWalletType,
@@ -227,6 +235,7 @@ function createWallet(
   const {
     data,
     name,
+    isSimplified,
     mnemonicOptions,
     createdBlockNumber,
   }: WalletNewData = walletNewData
@@ -240,6 +249,7 @@ function createWallet(
   const walletData: WalletData = {
     id,
     data,
+    isSimplified,
     mnemonicOptions,
     name: name || id,
     createdBlockNumber,
