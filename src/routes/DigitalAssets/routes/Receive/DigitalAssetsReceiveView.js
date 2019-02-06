@@ -48,7 +48,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
   }
 
   copyAddress = () => {
-    this.setState({ label: t`Copied` })
+    this.setState({ label: t`Copied!` })
 
     this.toggleTimeout = setTimeout(() => {
       this.setState({ label: t`Copy address` })
