@@ -53,7 +53,7 @@ class DigitalAssetsManageView extends Component<Props> {
               <div className='search'>
                 <JSearch onChange={setSearchQuery} placeholder={t`Search asset...`} />
               </div>
-              <div onClick={addAsset} className='add'>
+              <div onClick={addAsset} className='add' title={t`Add asset`}>
                 <JIcon name='add' color='gray' size='medium' />
               </div>
             </div>

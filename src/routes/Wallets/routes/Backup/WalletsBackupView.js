@@ -85,6 +85,11 @@ class WalletsBackupView extends Component<Props> {
       const foundWallet: Wallet = getWallet(items, params.walletId)
       const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
 
+      const walletStepTitle = (t`This is your secret recovery text.
+        It is the only way to restore access to your funds.
+        'Keep it secure and never give it to anyone'
+        you don’t trust!`).split('\n')
+
       return (
         <div className='wallets-view -backup'>
           <ModalHeader
@@ -108,10 +113,7 @@ class WalletsBackupView extends Component<Props> {
             {(currentStep === STEPS.PRIVATE) && (
               <WalletStep
                 onSubmit={downloadToTxt}
-                title={[
-                  t`This backup phrase is the only way to restore access to your`,
-                  t`funds. Keep it secure!`,
-                ]}
+                title={walletStepTitle}
                 buttonLabel={t`Download as TXT`}
                 isLoading={isLoading}
               >

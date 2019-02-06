@@ -27,7 +27,7 @@ import {
 import * as favorites from '../modules/favorites'
 
 function* checkFavoriteDataValid(name: string, description: string, address?: string): Saga<void> {
-  const isnameInvalid: boolean = (name.length < 2)
+  const isNameInvalid: boolean = (name.length < 2)
   const isAddressInvalid: boolean = !!address && !checkAddressValid(address)
   const isDescriptionInvalid: boolean = !!description && (description.length < 2)
 
@@ -35,7 +35,7 @@ function* checkFavoriteDataValid(name: string, description: string, address?: st
     yield put(favorites.setFormFieldError('address', t`Please input valid address`))
   }
 
-  if (isnameInvalid) {
+  if (isNameInvalid) {
     yield put(favorites.setFormFieldError('name', t`Name length should be at least 2 symbols`))
   }
 
@@ -48,7 +48,7 @@ function* checkFavoriteDataValid(name: string, description: string, address?: st
     )
   }
 
-  if (isnameInvalid || isAddressInvalid || isDescriptionInvalid) {
+  if (isNameInvalid || isAddressInvalid || isDescriptionInvalid) {
     return false
   }
 

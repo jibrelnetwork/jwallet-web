@@ -41,6 +41,9 @@ class WalletsDeleteView extends Component<Props> {
     }: Props = this.props
 
     const foundWallet: Wallet = getWallet(items, walletId)
+    const description: Array<string> =
+      (t`All user data, including imported or generated private keys, will be deleted.
+      The only way to restore deleted wallet is to use the backup phrase.`).split('\n')
 
     return (
       <div className='wallets-view -delete'>
@@ -56,10 +59,8 @@ class WalletsDeleteView extends Component<Props> {
               iconSize='xlarge'
               image='auth-cross'
               title={t`Delete ${foundWallet.name}?`}
-              description={[
-                t`All user data, including imported or generated private keys, will be deleted.`,
-                t`The only way to restore deleted wallet is to use the backup phrase.`,
-              ]}
+              description={description}
+              isTransparent
             />
             <div className='actions'>
               <ButtonWithConfirm
@@ -67,9 +68,9 @@ class WalletsDeleteView extends Component<Props> {
                 onCancelClick={goToWallets}
                 color='white'
                 labelConfirm={t`Yes`}
-                label={t`Yes, delete`}
                 labelCancel={t`Nope, stop it`}
                 confirmTimeout={config.deleteConfirmTimeout}
+                isActive
               />
             </div>
           </div>

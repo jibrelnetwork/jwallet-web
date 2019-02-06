@@ -9,7 +9,9 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
+import config from 'config'
 import walletsWorker from 'workers/wallets'
+import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 import checkDerivationPathValid from 'utils/mnemonic/checkDerivationPathValid'
 
 import {
@@ -130,6 +132,12 @@ function* importWallet(): Saga<void> {
         walletsImport.setInvalidField('passwordHint', t`Password and hint should not be equal`),
       )
 
+      return
+    }
+
+    const { score }: PasswordResult = checkPasswordStrength(password)
+
+    if (score < config.minPasswordStrengthScore) {
       return
     }
   }

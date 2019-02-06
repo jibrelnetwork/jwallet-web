@@ -64,7 +64,8 @@ function DigitalAssetsSendForm({
   const selectedAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
-  const selectedAssetSymbol = selectedAsset ? selectedAsset.symbol : ''
+  const selectedAssetSymbol: string = selectedAsset ? selectedAsset.symbol : ''
+  const hasManyRecipientAddresses: boolean = Object.keys(addressNames).length > 0
 
   return (
     <div className='digital-assets-send-form'>
@@ -76,13 +77,19 @@ function DigitalAssetsSendForm({
           placeholder={t`Current address`}
           isDisabled
         />
-        <AddressPicker
+        {hasManyRecipientAddresses ? (<AddressPicker
           onSelect={setFormFieldValue('recipient')}
           addressNames={addressNames}
           selectedAddress={recipient}
           infoMessage={formFieldWarnings.recipient}
           errorMessage={formFieldErrors.recipient}
-        />
+        />) : (<JInput
+          onChange={setFormFieldValue('recipient')}
+          value={recipient}
+          color='gray'
+          name='owner-address'
+          placeholder={t`Current address`}
+        />)}
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
           digitalAssets={digitalAssets}

@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 
 import AssetItem from 'components/AssetItem'
-import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
 
 import Empty from './Empty'
@@ -16,14 +15,12 @@ type Props = {|
 |}
 
 class DigitalAssetsManage extends Component<Props> {
-  setAssetIsActive = (address: AssetAddress) => (isActiveNew: boolean) =>
-    this.props.setAssetIsActive(address, isActiveNew)
-
   render() {
     const {
       editAsset,
       deleteCustomAsset,
       items,
+      setAssetIsActive,
     } = this.props
 
     return (
@@ -42,9 +39,9 @@ class DigitalAssetsManage extends Component<Props> {
         }) => (
           <div className='box' key={address}>
             <AssetItem
-              edit={handle(editAsset)(address)}
-              remove={handle(deleteCustomAsset)(address)}
-              setIsActive={this.setAssetIsActive(address)}
+              edit={editAsset}
+              remove={deleteCustomAsset}
+              setIsActive={setAssetIsActive}
               name={name}
               symbol={symbol}
               address={address}

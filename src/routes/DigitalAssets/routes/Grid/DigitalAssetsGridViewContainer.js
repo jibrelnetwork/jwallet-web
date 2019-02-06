@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { t } from 'ttag'
 
 import isZero from 'utils/numbers/isZero'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
@@ -122,7 +121,15 @@ function mapStateToProps(state: AppState) {
   const wallet: ?Wallet = selectActiveWallet(state)
 
   if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
+    return {
+      filterOptions: {
+        sortBy: 'name',
+        sortByNameDirection: 'asc',
+        sortByBalanceDirection: 'asc',
+        isHideZeroBalance: false,
+      },
+      items: [],
+    }
   }
 
   const networkId: NetworkId = selectCurrentNetworkId(state)

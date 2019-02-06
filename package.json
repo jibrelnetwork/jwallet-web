@@ -31,7 +31,7 @@
     "lang-update:en": "./node_modules/.bin/env-cmd env/development npx ttag update src/data/lang/en.po ./src"
   },
   "dependencies": {
-    "@jibrelnetwork/contracts-jsapi": "1.0.6",
+    "@jibrelnetwork/contracts-jsapi": "1.1.0",
     "bignumber.js": "4.1.0",
     "bitcore-lib": "0.16.0",
     "bitcore-mnemonic": "1.7.0",

@@ -3,8 +3,8 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
+import config from 'config'
 import JInput from 'components/base/JInput'
-
 import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 
 import { type JInputColor } from 'components/base/JInput/JInput'
@@ -22,7 +22,7 @@ type Props = {|
   +valueConfirm: ?string,
   +placeholderConfirm: string,
   +isDisabled: boolean,
-  isAutoFocus?: boolean,
+  +isAutoFocus: boolean,
   +color: JInputColor,
 |}
 
@@ -79,6 +79,10 @@ class PasswordField extends Component<Props, StateProps> {
   }
 
   getInfoMessage = (): ?string => {
+    if (this.props.isDisabled) {
+      return null
+    }
+
     const { passwordResult }: StateProps = this.state
 
     if (!passwordResult) {
@@ -88,32 +92,42 @@ class PasswordField extends Component<Props, StateProps> {
     /**
      * For field descriptions please refer to https://github.com/dropbox/zxcvbn
      */
-    const { score, feedback }: PasswordResult = passwordResult
-    const { warning, suggestions } = feedback
+    const {
+      score,
+      feedback,
+    }: PasswordResult = passwordResult
+
+    const {
+      warning,
+      suggestions,
+    } = feedback
+
     const status: ?PasswordStatus = getStatusByScore(score)
     const statusMessage: ?string = status ? STATUS_MESSAGE_MAP[status] : null
 
     return warning || suggestions[0] || statusMessage
   }
 
-  getStatus = () => {
-    const { passwordResult }: StateProps = this.state
-
-    return passwordResult ? getStatusByScore(passwordResult.score) : null
-  }
-
   render() {
     const {
       onChangeConfirm,
       invalidFields,
+      color,
       value,
       placeholder,
       valueConfirm,
       placeholderConfirm,
       isDisabled,
       isAutoFocus,
-      color,
     }: Props = this.props
+
+    const { passwordResult }: StateProps = this.state
+    const score: number = passwordResult ? passwordResult.score : 0
+    const status: ?PasswordStatus = passwordResult ? getStatusByScore(score) : null
+    const infoMessage: ?string = this.getInfoMessage()
+
+    const errorMessage: ?string = invalidFields.password ||
+      (score < config.minPasswordStrengthScore) ? infoMessage : null
 
     return (
       <div className='password-field'>
@@ -122,15 +136,15 @@ class PasswordField extends Component<Props, StateProps> {
           onChange={this.onChange}
           value={value}
           placeholder={placeholder}
-          errorMessage={invalidFields.password}
-          infoMessage={this.getInfoMessage()}
+          infoMessage={infoMessage}
+          errorMessage={errorMessage}
           type='password'
           name='password'
           withIndicator
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
-        <Indicator status={this.getStatus()} isOffsetRight={isDisabled} color={color} />
+        {!isDisabled && <Indicator status={status} color={color} />}
         <JInput
           color={color}
           onChange={onChangeConfirm}
