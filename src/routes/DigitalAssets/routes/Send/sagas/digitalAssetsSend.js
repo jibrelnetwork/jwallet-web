@@ -380,7 +380,7 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
     yield put(
       digitalAssetsSend.setFormFieldError(
         'nonce',
-        `Nonce should be greater than ${nonce}`
+        `Nonce should be greater than ${nonce - 1}`
       )
     )
   }
