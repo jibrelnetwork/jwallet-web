@@ -87,7 +87,7 @@ class WalletsBackupView extends Component<Props> {
 
       const walletStepTitle = (t`This is your secret recovery text.
         It is the only way to restore access to your funds.
-        'Keep it secure and never give it to anyone'
+        Keep it secure and never give it to anyone
         you don’t trust!`).split('\n')
 
       return (
