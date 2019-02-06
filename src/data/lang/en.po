@@ -338,7 +338,7 @@ msgstr ""
 msgid "Backup wallet"
 msgstr ""
 
-#: src/components/CopyableField/CopyableField.js:48
+#: src/components/CopyableField/CopyableField.js:85
 #: src/routes/Wallets/routes/Backup/WalletsBackupView.js:117
 msgid "Download as TXT"
 msgstr ""
@@ -1179,7 +1179,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/components/CopyableField/CopyableField.js:49
+#: src/components/CopyableField/CopyableField.js:86
 msgid "Copy recovery text"
 msgstr ""
 
@@ -1224,4 +1224,8 @@ msgstr ""
 msgid ""
 "Jwallet can be open only in one tab simultaneously.\n"
 "Please reload this tab to continue using it."
+msgstr ""
+
+#: src/components/CopyableField/CopyableField.js:94
+msgid "'Copied!'"
 msgstr ""

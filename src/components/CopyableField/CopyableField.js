@@ -49,7 +49,7 @@ class CopyableField extends PureComponent<Props, StateProps> {
   }
 
   componentWillUnmount() {
-    if (this.toglleTimeout) {
+    if (this.toggleTimeout) {
       clearTimeout(this.toggleTimeout)
     }
   }
@@ -91,7 +91,7 @@ class CopyableField extends PureComponent<Props, StateProps> {
             <JIcon name='check-circle' color='white' size='medium' />
           </div>
           <div className='text'>
-            <JText value='Copied!' color='white' weight='bold' />
+            <JText value={t`'Copied!'`} color='white' weight='bold' />
           </div>
         </div>
       </div>
