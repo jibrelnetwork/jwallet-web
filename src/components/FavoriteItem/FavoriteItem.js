@@ -114,7 +114,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 to={`/digital-assets/send?to=${address}`}
                 className='item -send'
               >
-                <JTooltip text='Send'>
+                <JTooltip text={t`Send`}>
                   <JIcon
                     color={(hovered === 'send') ? 'sky' : 'blue'}
                     size='medium'
@@ -129,7 +129,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               to={`/favorites/address/${address}`}
               className='item -edit'
             >
-              <JTooltip text='Edit'>
+              <JTooltip text={t`Edit`}>
                 <JIcon
                   color={(hovered === 'edit') ? 'sky' : 'blue'}
                   name='edit'

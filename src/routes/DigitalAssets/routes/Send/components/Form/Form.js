@@ -74,7 +74,7 @@ function DigitalAssetsSendForm({
           value={ownerAddress}
           color='gray'
           name='owner-address'
-          placeholder={t`Current address`}
+          label={t`Current address`}
           isDisabled
         />
         {hasManyRecipientAddresses ? (<AddressPicker
@@ -88,7 +88,7 @@ function DigitalAssetsSendForm({
           value={recipient}
           color='gray'
           name='owner-address'
-          placeholder={t`Current address`}
+          placeholder={t`Recipient address`}
         />)}
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}

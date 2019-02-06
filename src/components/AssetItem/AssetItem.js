@@ -138,7 +138,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   onMouseLeave={this.onMouseLeaveEdit}
                   onClick={this.onClickEdit}
                 >
-                  <JTooltip text='Edit'>
+                  <JTooltip text={t`Edit`}>
                     <JIcon
                       size='medium'
                       color={isHoveredEdit ? 'sky' : 'blue'}
