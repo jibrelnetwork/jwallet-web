@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { Form, Field } from 'react-final-form'
+import { t } from 'ttag'
 
 import { SubsettingsDescription, SubsettingsView } from 'routes/Settings/components'
 import { JInputField } from 'components/base/JInput'
@@ -11,16 +12,16 @@ import { JRaisedButton } from 'components/base'
 import './paymentPassword.scss'
 
 const text = {
-  pageDescription: 'You will use this password to unlock and transfer your funds.\n' +
-    'Keep it secure!',
-  passwordOld: 'Old payment password',
-  passwordOldAlert: 'Old password is required',
-  passwordConfirmAlert: 'Password does not match confirmation',
-  passwordNotEqual: 'Not equal',
-  hint: 'Password hint',
-  hintAlert: 'Password hint is required',
-  hintAlertPassword: 'Password and hint should not be equal',
-  button: 'Set button',
+  pageDescription: t`You will use this password to unlock and transfer your funds.
+    Keep it secure!`,
+  passwordOld: t`Old payment password`,
+  passwordOldAlert: t`Old password is required`,
+  passwordConfirmAlert: t`Password does not match confirmation`,
+  passwordNotEqual: t`Not equal`,
+  hint: t`Password hint`,
+  hintAlert: t`Password hint is required`,
+  hintAlertPassword: t`Password and hint should not be equal`,
+  button: t`Set button`,
 }
 
 const required = message => value => (value ? undefined : message)
@@ -64,7 +65,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
     const { passwordForm } = this.props
 
     return (
-      <SubsettingsView title='Update payment password'>
+      <SubsettingsView title={t`Update payment password`}>
         <SubsettingsDescription text={text.pageDescription} />
         <Form
           onSubmit={this.onSubmit}
@@ -101,7 +102,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
               />
               <JRaisedButton
                 onClick={form.submit}
-                label='Set password'
+                label={t`Set password`}
                 color='blue'
                 isLoading={passwordForm.isLoading}
               />

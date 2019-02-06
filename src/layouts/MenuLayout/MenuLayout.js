@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import MenuPanel from 'components/MenuPanel'
 import OverlayNotification from 'components/OverlayNotification'
@@ -65,8 +66,8 @@ class MenuLayout extends Component<Props> {
                 color='red'
                 image='screen-error'
                 description={[
-                  'Internet connection error.',
-                  'Try again.',
+                  t`Internet connection error.`,
+                  t`Try again.`,
                 ]}
               />
             </div>

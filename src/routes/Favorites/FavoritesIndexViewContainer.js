@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { t } from 'ttag'
 
 import flattenFavorites from 'utils/favorites/flattenFavorites'
 import { selectActiveWallet } from 'store/selectors/wallets'
@@ -13,7 +14,7 @@ function mapStateToProps(state: AppState) {
   const activeWallet: ?Wallet = selectActiveWallet(state)
 
   if (!activeWallet) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const items: Favorites = selectFavoritesItems(state)

@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Fragment } from 'react'
+import { t } from 'ttag'
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 
@@ -56,7 +57,7 @@ function MenuPanelWalletManagerDetails({
             <MenuPanelActionsItem
               icon='setting'
               path='/wallets'
-              label='Manage wallets'
+              label={t`Manage wallets`}
             />
           </div>
         </Fragment>

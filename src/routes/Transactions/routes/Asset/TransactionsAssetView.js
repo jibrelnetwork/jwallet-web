@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
@@ -34,7 +35,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   )
 
   return {
-    '/digital-assets': 'Digital assets',
+    '/digital-assets': t`Digital assets`,
     [`/transactions/${address}`]: (isFetched && assetBalance)
       ? `${name} — ${balance} ${symbol}`
       : name,
@@ -110,7 +111,7 @@ function TransactionsAssetView({
               <JSearch
                 onChange={changeSearchInput}
                 value={searchQuery}
-                placeholder='Search transactions...'
+                placeholder={t`Search transactions...`}
               />
             </div>
             <div className='filter'>
@@ -120,7 +121,7 @@ function TransactionsAssetView({
                 isOnlyPending={isOnlyPending}
               />
             </div>
-            <div className='send' title='Send asset'>
+            <div className='send' title={t`Send asset`}>
               <JFlatButton
                 to={`/digital-assets/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'

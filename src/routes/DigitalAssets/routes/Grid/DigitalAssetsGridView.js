@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { t } from 'ttag'
 
 import {
   JIcon,
@@ -15,8 +16,8 @@ import {
 } from 'components'
 
 const DIGITAL_ASSETS_TABS = {
-  '/digital-assets': 'Digital assets',
-  '/transactions': 'Transactions',
+  '/digital-assets': t`Digital assets`,
+  '/transactions': t`Transactions`,
 }
 
 type Props = {|
@@ -63,7 +64,7 @@ class DigitalAssetsGridView extends Component<Props> {
               <div className='search'>
                 <JSearch
                   onChange={setSearchQuery}
-                  placeholder='Search assets...'
+                  placeholder={t`Search assets...`}
                 />
               </div>
               <div className='filter'>
@@ -78,7 +79,7 @@ class DigitalAssetsGridView extends Component<Props> {
               <div
                 className='setting'
                 onClick={manageAssetsOpenClick}
-                title='Assets manager'
+                title={t`Assets manager`}
               >
                 <JIcon
                   size='medium'

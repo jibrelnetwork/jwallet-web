@@ -1,6 +1,7 @@
 // @flow
 
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import React, {
   Fragment,
@@ -190,7 +191,7 @@ class TransactionItemMain extends PureComponent<Props> {
                 {isEventMint && (
                   <JText
                     color={color}
-                    value='Token minting'
+                    value={t`Token minting`}
                     weight='bold'
                     size='normal'
                     whiteSpace='wrap'
@@ -199,7 +200,7 @@ class TransactionItemMain extends PureComponent<Props> {
                 {isEventBurn && (
                   <JText
                     color={color}
-                    value='Token burning'
+                    value={t`Token burning`}
                     weight='bold'
                     size='normal'
                     whiteSpace='wrap'

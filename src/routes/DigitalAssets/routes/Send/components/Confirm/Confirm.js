@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import {
   JText,
@@ -74,7 +75,7 @@ function DigitalAssetsSendConfirm({
         <div className='button'>
           <JFlatButton
             onClick={goBack}
-            label='Change parameters'
+            label={t`Change parameters`}
             isBordered
           />
         </div>

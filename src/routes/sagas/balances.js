@@ -1,6 +1,7 @@
 // @flow
 
 import { delay } from 'redux-saga'
+import { t } from 'ttag'
 
 import {
   all,
@@ -297,7 +298,7 @@ function* fetchByAssetSuccess(
     yield select(selectDigitalAsset, assetAddress)
 
   if (!digitalAsset) {
-    throw new Error('DigitalAssetNotFoundError')
+    throw new Error(t`DigitalAssetNotFoundError`)
   }
 
   const { priceFeed }: DigitalAsset = digitalAsset

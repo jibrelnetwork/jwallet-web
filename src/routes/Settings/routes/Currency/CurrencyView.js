@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import {
   Form,
@@ -30,7 +31,7 @@ const CurrencyView = ({
   validate,
   fiatCurrency,
 }: Props) => (
-  <SubsettingsView title='Select currency'>
+  <SubsettingsView title={t`Select currency`}>
     <Form
       onSubmit={onSubmit}
       validate={validate}
@@ -40,13 +41,13 @@ const CurrencyView = ({
           <Field
             component={CurrencyPickerField}
             name='fiatCurrency'
-            placeholder='Preffered fiat currency'
+            placeholder={t`Preffered fiat currency`}
           />
           <button
             type='submit'
             className='submit j-raised-button -blue'
           >
-            <JText value='Save' />
+            <JText value={t`Save`} />
           </button>
         </form>
       )}

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import MenuPanelActionsItem from '../Item'
 
@@ -16,12 +17,16 @@ function MenuPanelActionsMore({
   children,
   isActive,
 }: Props) {
+  const label = isActive
+    ? t`Less actions`
+    : t`More actions`
+
   return (
     <div className={classNames('menu-panel-actions-more', isActive && '-active')}>
       <div className='label'>
         <MenuPanelActionsItem
           onClick={toggle}
-          label={`${isActive ? 'Less' : 'More'} actions`}
+          label={label}
           icon='dots-border'
         />
       </div>

@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import AssetBalance from 'components/AssetBalance'
 import { JFlatButton, JText, JLoader } from 'components/base'
@@ -9,9 +10,9 @@ import { JFlatButton, JText, JLoader } from 'components/base'
 type Props = {|
   +symbol: string,
   +address: Address,
-  // +fiatCurrency: string,
   +balance: ?BalanceString,
-  // +fiatBalance: number,
+  // +fiatCurrency: ?FiatCurrency,
+  // +fiatBalance: ?string,
   +isError: boolean,
   +isLoading: boolean,
   +isHovered: boolean
@@ -26,6 +27,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
     isError: false,
     isLoading: false,
     isHovered: false,
+    // fiatBalance: '',
   }
 
   constructor(props: Props) {
@@ -70,13 +72,13 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               color='gray'
               weight='bold'
               whiteSpace='wrap'
-              value='Balance loading error'
+              value={t`Balance loading error`}
             />
           </div>
           <div className='fiat'>
             <JFlatButton
               color='blue'
-              label='Reload asset'
+              label={t`Reload asset`}
               isHoverOpacity
               // eslint-disable-next-line no-console
               onClick={console.log}
@@ -96,25 +98,25 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
           />
         </div>
         <div className='fiat'>
-          {/* {fiatBalance !== 0 ? (
-            <div className='balance'>
-              <AssetBalance
-                color='blue'
-                size='header'
-                symbol={fiatCurrency}
-                balance={fiatBalance.toString()}
-              />
-            </div>
-          ) : (
+          { /* !fiatBalance ? (
             <div className='message -transparent'>
               <JText
-                value={`No ${fiatCurrency} Exchange`}
+                value={t`No ${fiatCurrency} Exchange`}
                 color='gray'
                 weight='bold'
                 whiteSpace='wrap'
               />
             </div>
-          )} */}
+          ) : (
+            <div className='balance'>
+              <AssetBalance
+                color='blue'
+                size='header'
+                // symbol={fiatCurrency}
+                balance={fiatBalance}
+              />
+            </div>
+          ) */ }
           <div className='show'>
             <div
               className='link'
@@ -124,7 +126,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               <JFlatButton
                 to={`/transactions/${address}`}
                 color={isHover ? 'sky' : 'blue'}
-                label='Show transactions'
+                label={t`Show transactions`}
               />
             </div>
           </div>

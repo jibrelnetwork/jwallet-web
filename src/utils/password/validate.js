@@ -1,14 +1,16 @@
 // @flow
 
+import { t } from 'ttag'
+
 const passwordNotEqual = ({ passwordNew, passwordNewConfirm }) =>
   passwordNew !== passwordNewConfirm ?
-    { passwordNewConfirm: 'Password does not match confirmation' } : null
+    { passwordNewConfirm: t`Password does not match confirmation` } : null
 
 const hintRequired = ({ passwordHint }) =>
-  !passwordHint ? { passwordHint: 'Password hint is required' } : null
+  !passwordHint ? { passwordHint: t`Password hint is required` } : null
 
 const passwordHintEqualPassword = ({ passwordOld, passwordHint }) =>
-  passwordOld === passwordHint ? { passwordHint: 'Password and hint should not be equal' } : null
+  passwordOld === passwordHint ? { passwordHint: t`Password and hint should not be equal` } : null
 
 const validationsList = [
   passwordNotEqual,

@@ -1,6 +1,7 @@
 // @flow
 
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import React, {
   Fragment,
@@ -33,8 +34,8 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
     searchQuery: '',
     address: '',
     addressName: '',
-    label: 'Recipient address',
-    placeholder: 'Recipient address',
+    label: t`Recipient address`,
+    placeholder: t`Recipient address`,
     isOpen: false,
   }
 

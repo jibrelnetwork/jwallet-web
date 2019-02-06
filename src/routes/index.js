@@ -6,10 +6,6 @@ import {
   reactRouterOnEnterPageView,
 } from 'utils/analytics'
 
-/*
-import Funds from './Funds'
-*/
-
 import Wallets from './Wallets'
 import Settings from './Settings'
 import NotFound from './NotFound'

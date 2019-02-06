@@ -3,6 +3,7 @@
     "transform-export-extensions"
   ],
   "presets": [
-    "react-app"
+    "react-app",
+    "@babel/flow"
   ]
 }

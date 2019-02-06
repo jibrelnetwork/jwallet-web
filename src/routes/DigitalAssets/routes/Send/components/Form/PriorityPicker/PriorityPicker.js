@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-
+import { t } from 'ttag'
 import DoubleInput from 'components/DoubleInput'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
@@ -9,24 +9,24 @@ import DigitalAssetsSendFormPriorityPickerCurrent from './Current'
 
 const TXPRIORITY_DATA: { [TXPriorityKey]: TXPriorityData } = {
   HIGH: {
-    title: 'High',
+    title: t`High`,
     icon: 'priority-high',
-    description: 'About 30 sec',
+    description: t`About 30 sec`,
   },
   NORMAL: {
-    title: 'Normal',
+    title: t`Normal`,
     icon: 'priority-normal',
-    description: 'About 1 min',
+    description: t`About 1 min`,
   },
   LOW: {
-    title: 'Low',
+    title: t`Low`,
     icon: 'priority-low',
-    description: 'About 15 min',
+    description: t`About 15 min`,
   },
   CUSTOM: {
-    title: 'Custom',
+    title: t`Custom`,
     icon: 'priority-custom',
-    description: 'Edit GAS and GAS Price manually',
+    description: t`Edit GAS and GAS Price manually`,
   },
 }
 
@@ -76,11 +76,11 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
             items={[{
               onChange: setFormFieldValue('gasLimit'),
               value: formFieldValues.gasLimit,
-              placeholder: 'Gas limit',
+              placeholder: t`Gas limit`,
             }, {
               onChange: setFormFieldValue('gasPrice'),
               value: formFieldValues.gasPrice,
-              placeholder: 'Gas price (gwei)',
+              placeholder: t`Gas price (gwei)`,
             }]}
             errorMessage={errorMessage}
             infoMessage={infoMessage}

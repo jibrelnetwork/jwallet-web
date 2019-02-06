@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Fragment, PureComponent } from 'react'
+import { t } from 'ttag'
 
 import { JInput } from 'components/base'
 import { WalletStep, PasswordField } from 'components'
@@ -60,7 +61,7 @@ class WalletPasswordStep extends PureComponent<Props> {
             color='white'
             name='password'
             type='password'
-            placeholder='Payment password'
+            placeholder={t`Payment password`}
             isDisabled={isLoading}
             isAutoFocus
           />
@@ -72,8 +73,8 @@ class WalletPasswordStep extends PureComponent<Props> {
               invalidFields={invalidFields}
               value={valuePassword}
               valueConfirm={valuePasswordConfirm}
-              placeholder='Payment password'
-              placeholderConfirm='Confirm payment password'
+              placeholder={t`Payment password`}
+              placeholderConfirm={t`Confirm payment password`}
               isDisabled={isLoading}
             />
             <JInput
@@ -82,7 +83,7 @@ class WalletPasswordStep extends PureComponent<Props> {
               errorMessage={invalidFields.passwordHint}
               color='white'
               name='password-hint'
-              placeholder='Password hint'
+              placeholder={t`Password hint`}
               isDisabled={isLoading}
             />
           </Fragment>

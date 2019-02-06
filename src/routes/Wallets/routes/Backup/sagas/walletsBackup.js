@@ -1,6 +1,7 @@
 // @flow
 
 import { push } from 'react-router-redux'
+import { t } from 'ttag'
 
 import {
   put,
@@ -47,7 +48,7 @@ function* backupWallet(walletId: string): Saga<void> {
 
   if (!password) {
     yield put(
-      wallets.setInvalidField('password', 'Password should not be empty'),
+      wallets.setInvalidField('password', t`Password should not be empty`),
     )
 
     return

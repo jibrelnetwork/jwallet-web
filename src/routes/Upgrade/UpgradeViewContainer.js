@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { t } from 'ttag'
 
 import config from 'config'
 import getWallet from 'utils/wallets/getWallet'
@@ -34,10 +35,10 @@ import {
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {
     if (!address) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
-    const privateKeyInvalidErr: string = 'Private key is invalid'
+    const privateKeyInvalidErr: string = t`Private key is invalid`
 
     if (!privateKey) {
       return {
@@ -59,7 +60,7 @@ function validatePrivateKey(address: ?Address) {
 
     if (!isAddressEqual) {
       return {
-        privateKey: 'Entered data is not for this wallet',
+        privateKey: t`Entered data is not for this wallet`,
       }
     }
 
@@ -74,10 +75,10 @@ function validateMnemonic(bip32XPublicKey: ?string) {
     derivationPath,
   }: UpgradeMnemonicFormFieldValues): UpgradeMnemonicFormFieldErrors => {
     if (!bip32XPublicKey) {
-      throw new Error('WalletDataError')
+      throw new Error(t`WalletDataError`)
     }
 
-    const mnemonicInvalidErr: string = 'Mnemonic is invalid'
+    const mnemonicInvalidErr: string = t`Mnemonic is invalid`
 
     if (!mnemonic) {
       return {
@@ -93,7 +94,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
     if (!(isMnemonicValid && isDerivationPathValid)) {
       return {
         mnemonic: isMnemonicValid ? null : mnemonicInvalidErr,
-        derivationPath: isDerivationPathValid ? null : 'Derivation path is invalid',
+        derivationPath: isDerivationPathValid ? null : t`Derivation path is invalid`,
       }
     }
 
@@ -102,7 +103,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
 
     if (!isXPUBEqual) {
       return {
-        mnemonic: 'Entered data is not for this wallet',
+        mnemonic: t`Entered data is not for this wallet`,
       }
     }
 

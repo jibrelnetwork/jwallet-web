@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import {
   JInput,
@@ -32,13 +33,13 @@ function DigitalAssetsSendConfirmPassword({
           color='gray'
           type='password'
           name='password'
-          placeholder='Payment password'
+          placeholder={t`Payment password`}
           isDisabled={isLoading}
         />
         <div className='actions'>
           <JRaisedButton
             onClick={submit}
-            label='Send asset'
+            label={t`Send asset`}
             isLoading={isLoading}
             isWide
           />

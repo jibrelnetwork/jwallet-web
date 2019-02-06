@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 
@@ -84,12 +85,17 @@ class WalletsBackupView extends Component<Props> {
       const foundWallet: Wallet = getWallet(items, params.walletId)
       const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
 
+      const walletStepTitle = (t`This is your secret recovery text.
+        It is the only way to restore access to your funds.
+        Keep it secure and never give it to anyone
+        you don’t trust!`).split('\n')
+
       return (
         <div className='wallets-view -backup'>
           <ModalHeader
             onBack={goToPrevStep}
             color='white'
-            title='Backup wallet'
+            title={t`Backup wallet`}
             isDisabled={isLoading}
           />
           <div className='content'>
@@ -99,7 +105,7 @@ class WalletsBackupView extends Component<Props> {
                 onChangePassword={changePasswordInput}
                 invalidFields={invalidFields}
                 valuePassword={password}
-                buttonLabel='OK'
+                buttonLabel={t`OK`}
                 isLoading={isLoading}
                 isPasswordExists
               />
@@ -107,13 +113,8 @@ class WalletsBackupView extends Component<Props> {
             {(currentStep === STEPS.PRIVATE) && (
               <WalletStep
                 onSubmit={downloadToTxt}
-                title={[
-                  'This is your secret recovery text.',
-                  'It is the only way to restore access to your funds.',
-                  'Keep it secure and never give it to anyone',
-                  'you don’t trust!',
-                ]}
-                buttonLabel='Download as TXT'
+                title={walletStepTitle}
+                buttonLabel={t`Download as TXT`}
                 isLoading={isLoading}
               >
                 <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />

@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import { JCard, JInput, JRaisedButton } from 'components/base'
 import { saveQRCode, copyQRCode } from 'components/QRCode'
@@ -29,6 +30,9 @@ type StateProps = {|
 |}
 
 class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
+  // eslint-disable-next-line react/sort-comp
+  toggleTimeout: ?TimeoutID = null
+
   constructor(props: Props) {
     super(props)
 
@@ -43,14 +47,11 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     }
   }
 
-  // eslint-disable-next-line react/sort-comp
-  toggleTimeout: ?TimeoutID = null
-
   copyAddress = () => {
-    this.setState({ label: 'Copied!' })
+    this.setState({ label: t`Copied` })
 
     this.toggleTimeout = setTimeout(() => {
-      this.setState({ label: 'Copy address' })
+      this.setState({ label: t`Copy address` })
     }, 2000)
 
     if (this.props.address) {
@@ -59,7 +60,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
   }
 
   componentWillUnmount() {
-    if (this.toglleTimeout) {
+    if (this.toggleTimeout) {
       clearTimeout(this.toggleTimeout)
     }
   }
@@ -79,7 +80,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
 
       <CloseableScreen
         close={close}
-        title='Receive assets'
+        title={t`Receive assets`}
       >
         <div className='digital-assets-receive-view'>
           <div className='content'>
@@ -95,7 +96,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
                 </JCard>
               </div>
               <JInput
-                label='Recipient address'
+                label={t`Recipient address`}
                 value={address}
                 color='gray'
                 type='text'

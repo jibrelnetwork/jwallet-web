@@ -3,6 +3,7 @@
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import ButtonWithConfirm from 'components/ButtonWithConfirm'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
@@ -113,7 +114,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 to={`/digital-assets/send?to=${address}`}
                 className='item -send'
               >
-                <JTooltip text='Send'>
+                <JTooltip text={t`Send`}>
                   <JIcon
                     color={(hovered === 'send') ? 'sky' : 'blue'}
                     size='medium'
@@ -128,7 +129,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               to={`/favorites/address/${address}`}
               className='item -edit'
             >
-              <JTooltip text='Edit'>
+              <JTooltip text={t`Edit`}>
                 <JIcon
                   color={(hovered === 'edit') ? 'sky' : 'blue'}
                   name='edit'
@@ -147,9 +148,9 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 iconTooltipColor={(hovered === 'trash') ? 'sky' : 'blue'}
                 color='blue'
                 bgColor='white'
-                labelCancel='No'
+                labelCancel={t`No`}
                 iconTooltipName='trash'
-                labelConfirm='Yes, delete'
+                labelConfirm={t`Yes, delete`}
                 isReverse
               />
             </div>

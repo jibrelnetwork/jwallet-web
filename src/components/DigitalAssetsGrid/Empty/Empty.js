@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import OverlayNotification from 'components/OverlayNotification'
 
@@ -9,7 +10,7 @@ function DigitalAssetsGridEmpty() {
     <OverlayNotification
       color='gray'
       image='screen-search'
-      description='There are no Digital Assets to show'
+      description={t`There are no Digital Assets to show`}
       isTransparent
     />
   )

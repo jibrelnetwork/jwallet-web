@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { t } from 'ttag'
 
 import {
   JTabs,
@@ -31,8 +32,8 @@ type Props = {|
 |}
 
 const TRANSACTIONS_TABS = {
-  '/digital-assets': 'Digital assets',
-  '/transactions': 'Transactions',
+  '/digital-assets': t`Digital assets`,
+  '/transactions': t`Transactions`,
 }
 
 function TransactionsIndexView({
@@ -67,7 +68,7 @@ function TransactionsIndexView({
               <JSearch
                 onChange={changeSearchInput}
                 value={searchQuery}
-                placeholder='Search transactions...'
+                placeholder={t`Search transactions...`}
               />
             </div>
             <div className='filter'>

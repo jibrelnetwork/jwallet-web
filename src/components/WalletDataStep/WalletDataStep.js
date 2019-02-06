@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Fragment } from 'react'
+import { t } from 'ttag'
 
 import WalletStep from 'components/WalletStep'
 import { JInput } from 'components/base'
@@ -43,7 +44,7 @@ const WalletDataStep = ({
       type='text'
       color='white'
       name='wallet-data'
-      placeholder='Address, Private key, BIP32 XPUB, Mnemonic'
+      placeholder={t`Address, Private key, BIP32 XPUB, Mnemonic`}
       rows={2}
       isAutoFocus
     />
@@ -55,7 +56,7 @@ const WalletDataStep = ({
           errorMessage={invalidFields.derivationPath}
           color='white'
           name='wallet-derivation-path'
-          placeholder='Derivation path (optional)'
+          placeholder={t`Derivation path (optional)`}
         />
       </Fragment>
     )}

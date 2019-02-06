@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { t } from 'ttag'
 
 import { PopupButton } from 'components'
 import { JIcon, JText, JCheckbox } from 'components/base'
@@ -45,7 +46,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             <JText
               color='gray'
               size='normal'
-              value='Filter'
+              value={t`Filter`}
               weight='bold'
               whiteSpace='wrap'
             />
@@ -53,14 +54,14 @@ class DigitalAssetsFilter extends PureComponent<Props> {
           <JCheckbox
             onChange={setHideZeroBalance}
             name='hide-zero-balance'
-            label='Hide zero balance'
+            label={t`Hide zero balance`}
             isChecked={isHideZeroBalance}
           />
           <div className='title'>
             <JText
               color='gray'
               size='normal'
-              value='Sorting'
+              value={t`Sorting`}
               weight='bold'
               whiteSpace='wrap'
             />
@@ -80,7 +81,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
               <JText
                 color='blue'
                 size='normal'
-                value='Name'
+                value={t`Name`}
                 weight='bold'
                 whiteSpace='wrap'
               />
@@ -99,7 +100,7 @@ class DigitalAssetsFilter extends PureComponent<Props> {
               <JText
                 color='blue'
                 size='normal'
-                value='Balance'
+                value={t`Balance`}
                 weight='bold'
                 whiteSpace='wrap'
               />

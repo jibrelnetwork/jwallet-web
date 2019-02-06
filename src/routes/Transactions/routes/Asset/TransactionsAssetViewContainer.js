@@ -1,6 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
+import { t } from 'ttag'
 
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCommentsItems } from 'store/selectors/comments'
@@ -80,7 +81,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const wallet: ?Wallet = selectActiveWallet(state)
 
   if (!wallet) {
-    throw new Error('ActiveWalletNotFoundError')
+    throw new Error(t`ActiveWalletNotFoundError`)
   }
 
   const assetAddress: string = ownProps.params.asset
@@ -118,7 +119,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
 
   if (!digitalAsset) {
-    throw new Error('DigitalAssetNotFound')
+    throw new Error(t`DigitalAssetNotFound`)
   }
 
   const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams

@@ -1,9 +1,20 @@
 // @flow
 
+import { t } from 'ttag'
+
 const MONTHS = [
-  'January', 'February', 'March', 'April',
-  'May', 'June', 'July', 'August',
-  'Septemner', 'October', 'November', 'December',
+  t`January`,
+  t`February`,
+  t`March`,
+  t`April`,
+  t`May`,
+  t`June`,
+  t`July`,
+  t`August`,
+  t`Septemner`,
+  t`October`,
+  t`November`,
+  t`December`,
 ]
 
 function getFormattedDateString(

@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { t } from 'ttag'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
@@ -63,7 +64,8 @@ function DigitalAssetsSendForm({
   const selectedAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
-  const hasManyRecipientAddresses = Object.keys(addressNames).length > 0
+  const selectedAssetSymbol: string = selectedAsset ? selectedAsset.symbol : ''
+  const hasManyRecipientAddresses: boolean = Object.keys(addressNames).length > 0
 
   return (
     <div className='digital-assets-send-form'>
@@ -72,7 +74,7 @@ function DigitalAssetsSendForm({
           value={ownerAddress}
           color='gray'
           name='owner-address'
-          placeholder='Current address'
+          label={t`Current address`}
           isDisabled
         />
         {hasManyRecipientAddresses ? (<AddressPicker
@@ -86,7 +88,7 @@ function DigitalAssetsSendForm({
           value={recipient}
           color='gray'
           name='owner-address'
-          placeholder='Current address'
+          placeholder={t`Recipient address`}
         />)}
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
@@ -98,10 +100,10 @@ function DigitalAssetsSendForm({
           items={[{
             onChange: setFormFieldValue('amount'),
             value: amount,
-            placeholder: `Value ${selectedAsset ? selectedAsset.symbol : ''}`,
+            placeholder: t`Value ${selectedAssetSymbol}`,
           }, {
             value: amountFiat,
-            placeholder: `Value ${fiatCurrency}`,
+            placeholder: t`Value ${fiatCurrency}`,
             isDisabled: true,
           }]}
           errorMessage={formFieldErrors.amount}
@@ -122,8 +124,8 @@ function DigitalAssetsSendForm({
               errorMessage={formFieldErrors.comment}
               icon='plus'
               name='comment'
-              label='Add comment'
-              placeholder='Comment'
+              label={t`Add comment`}
+              placeholder={t`Comment`}
             />
           </div>
           <div className='box'>
@@ -135,8 +137,8 @@ function DigitalAssetsSendForm({
               onActivate={setNonceEditable}
               icon='plus'
               name='nonce'
-              label='Show nonce'
-              placeholder='Nonce'
+              label={t`Show nonce`}
+              placeholder={t`Nonce`}
             />
           </div>
         </div>
@@ -144,7 +146,7 @@ function DigitalAssetsSendForm({
           <JRaisedButton
             onClick={submit}
             color='blue'
-            label='Confirm'
+            label={t`Confirm`}
             labelColor='white'
             isWide
           />
@@ -152,8 +154,8 @@ function DigitalAssetsSendForm({
       </form>
       <div className='message'>
         <JText
-          value='The app doesn’t charge you any fees.
-          But you have to pay the blockchain fee to create a new transaction.'
+          // eslint-disable-next-line max-len
+          value={t`The app doesn’t charge you any fees. But you have to pay the blockchain fee to create a new transaction.`}
           color='gray'
           whiteSpace='wrap'
           align='center'

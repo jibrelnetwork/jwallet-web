@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import MenuPanelActionsItem from '../../../Actions/Item'
@@ -44,7 +45,7 @@ class MenuPanelWalletManagerDetailsAddresses extends Component<Props> {
           <MenuPanelActionsItem
             onClick={getMoreAddresses}
             icon='plus'
-            label='Add more addresses'
+            label={t`Add more addresses`}
           />
         </Scrollbars>
       </div>

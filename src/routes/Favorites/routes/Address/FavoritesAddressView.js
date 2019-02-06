@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import CloseableScreen from 'components/CloseableScreen'
 
@@ -82,11 +83,15 @@ class FavoritesAddressView extends Component<Props> {
     const isExist: boolean = !!foundFavorite
     const submitHandler = handle(isExist ? edit : add)(address, name, description)
 
+    const screenTitle: string = isExist
+      ? t`Edit favorite address`
+      : t`Add favorite address`
+
     return (
       <CloseableScreen
         close={close}
         onClose={onClose}
-        title={`${isExist ? 'Edit' : 'Add'} favorite address`}
+        title={screenTitle}
       >
         <div className='favorites-view -address'>
           <form className='form' onSubmit={ignoreEvent(isLoading ? null : submitHandler)()}>
@@ -95,7 +100,7 @@ class FavoritesAddressView extends Component<Props> {
               value={address}
               errorMessage={formFieldErrors.address}
               color='gray'
-              placeholder='Address'
+              placeholder={t`Address`}
               name='favorite-address'
               isDisabled={isExist}
             />
@@ -104,7 +109,7 @@ class FavoritesAddressView extends Component<Props> {
               value={name}
               errorMessage={formFieldErrors.name}
               color='gray'
-              placeholder='Name'
+              placeholder={t`Name`}
               name='favorite-name'
             />
             <JInput
@@ -112,13 +117,13 @@ class FavoritesAddressView extends Component<Props> {
               value={description}
               errorMessage={formFieldErrors.description}
               color='gray'
-              placeholder='Description (optional)'
+              placeholder={t`Description (optional)`}
               name='favorite-description'
             />
             <div className='actions'>
               <JRaisedButton
                 onClick={submitHandler}
-                label='Save'
+                label={t`Save`}
                 color='blue'
                 labelColor='white'
                 isLoading={isLoading}

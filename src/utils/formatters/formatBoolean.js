@@ -1,5 +1,7 @@
 // @flow
 
-export default function formatBoolean(value: boolean): 'Enabled' | 'Disabled' {
-  return value ? 'Enabled' : 'Disabled'
+import { t } from 'ttag'
+
+export default function formatBoolean(value: boolean): string {
+  return value ? t`Enabled` : t`Disabled`
 }

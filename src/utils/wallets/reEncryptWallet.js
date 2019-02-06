@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'ttag'
+
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 
 import {
@@ -74,7 +76,7 @@ function reEncryptWallet(
     }
   }
 
-  throw new Error('WalletDataError')
+  throw new Error(t`WalletDataError`)
 }
 
 export default reEncryptWallet

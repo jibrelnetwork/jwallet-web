@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react'
+import { t } from 'ttag'
 
 import classNames from 'classnames'
 
@@ -160,7 +161,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
             )}
             {iconTooltipName && iconTooltipColor && !label && (
               <div className='icon' onClick={this.initAction}>
-                <JTooltip text='Delete'>
+                <JTooltip text={t`Delete`}>
                   <JIcon
                     size='medium'
                     color={iconTooltipColor}

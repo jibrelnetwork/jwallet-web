@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import { ModalHeader, WalletNameStep } from 'components'
@@ -51,7 +52,7 @@ class WalletsRenameView extends Component<Props> {
         <ModalHeader
           onBack={goToWallets}
           color='white'
-          title='Rename wallet'
+          title={t`Rename wallet`}
         />
         <div className='content'>
           <WalletNameStep
@@ -59,9 +60,9 @@ class WalletsRenameView extends Component<Props> {
             onChangeName={changeNameInput}
             invalidFields={invalidFields}
             valueName={name}
-            buttonLabel='OK'
+            buttonLabel={t`OK`}
             fieldName='wallets-name'
-            placeholder='Wallet name'
+            placeholder={t`Wallet name`}
             isLoading={isLoading}
           />
         </div>

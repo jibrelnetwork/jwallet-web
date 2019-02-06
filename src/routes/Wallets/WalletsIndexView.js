@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import { t } from 'ttag'
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 import generateAddresses from 'utils/mnemonic/generateAddresses'
@@ -79,8 +80,10 @@ class WalletsIndexView extends Component<Props> {
               }
 
               const description: string = isMnemonic && !isSimplified
-                ? 'Mnemonic, many addresses'
+                ? t`Mnemonic, many addresses`
                 : getShortenedAddress(walletAddress)
+
+              const textReadOnly = t`read only`
 
               return (
                 <div key={item.id} className='wallet'>
@@ -92,7 +95,7 @@ class WalletsIndexView extends Component<Props> {
                     simplify={!isMnemonic ? null : ignoreEvent(simplifyWallet)(id, !isSimplified)}
                     type={type}
                     title={name}
-                    description={isReadOnly ? `${description}, read only` : description}
+                    description={isReadOnly ? `${description}, ${textReadOnly}` : description}
                     isReadOnly={isReadOnly}
                     isSimplified={isSimplified}
                   />
