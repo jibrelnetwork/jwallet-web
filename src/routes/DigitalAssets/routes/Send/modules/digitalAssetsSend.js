@@ -202,12 +202,6 @@ export function setIsPotentiallyFail(willFail: boolean) {
   }
 }
 
-export function clean() {
-  return {
-    type: CLEAN,
-  }
-}
-
 export type DigitalAssetsSendAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
@@ -225,8 +219,7 @@ export type DigitalAssetsSendAction =
   ExtractReturn<typeof setFinalGasPrice> |
   ExtractReturn<typeof cleanValidationErrors> |
   ExtractReturn<typeof setNonceEditable> |
-  ExtractReturn<typeof setIsPotentiallyFail> |
-  ExtractReturn<typeof clean>
+  ExtractReturn<typeof setIsPotentiallyFail>
 
 const initialState: DigitalAssetsSendState = {
   formFieldValues: {
@@ -456,7 +449,7 @@ function digitalAssetsSend(
       }
     }
 
-    case CLEAN:
+    case OPEN_VIEW:
       return initialState
 
     default:
