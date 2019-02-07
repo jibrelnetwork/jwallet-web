@@ -910,7 +910,7 @@ msgstr "Terms & Conditions"
 
 #: src/routes/Agreements/AgreementsView.js:88
 msgid "and"
-msgstr "and "
+msgstr "and"
 
 #: src/routes/Agreements/AgreementsView.js:108
 msgid "Confirm and continue"
