@@ -10,7 +10,7 @@ const toNominalValue = (asset: DigitalAssetWithBalance) => {
   }
 
   return divDecimals(
-    toBigNumber(balance.value),
+    balance.value,
     decimals
   )
 }
