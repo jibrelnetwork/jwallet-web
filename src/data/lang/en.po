@@ -51,8 +51,8 @@ msgid "Password is invalid"
 msgstr "Invalid Password"
 
 #: src/utils/wallets/checkWalletUniqueness.js:17
-msgid "Wallet with such ${ propertyName } already exists"
-msgstr "You already have a wallet named ${ propertyName }"
+msgid "Wallet with such ${ foundWallet.name } already exists"
+msgstr "You already have a wallet named ${ foundWallet.name }"
 
 #: src/utils/wallets/createWallet.js:67
 msgid "DerivationPathInvalidError"
