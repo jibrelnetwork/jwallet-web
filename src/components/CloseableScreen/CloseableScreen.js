@@ -52,7 +52,7 @@ class CloseableScreen extends Component<Props> {
             <JText
               value={title}
               color='gray'
-              size='header'
+              size='tab'
             />
             <div className='actions'>
               {close && <ESCButton
