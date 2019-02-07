@@ -9,7 +9,7 @@ msgstr ""
 #: src/workers/wallets/worker.js:165
 #: src/workers/wallets/worker.js:200
 msgid "WalletsDataError"
-msgstr ""
+msgstr "Wallets Data Error"
 
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer.js:71
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:121
@@ -25,7 +25,7 @@ msgstr ""
 #: src/routes/sagas/transactions.js:327
 #: src/workers/wallets/wrapper.js:142
 msgid "ActiveWalletNotFoundError"
-msgstr ""
+msgstr "Active Wallet Not Found Error"
 
 #: src/routes/Upgrade/UpgradeViewContainer.js:38
 #: src/routes/Upgrade/UpgradeViewContainer.js:78
@@ -44,149 +44,149 @@ msgstr ""
 #: src/utils/wallets/upgradeWallet.js:120
 #: src/workers/wallets/wrapper.js:144
 msgid "WalletDataError"
-msgstr ""
+msgstr "Wallet Data Error"
 
 #: src/workers/settings/worker.js:93
 msgid "Password is invalid"
-msgstr ""
+msgstr "Invalid Password"
 
 #: src/utils/wallets/checkWalletUniqueness.js:17
-msgid "Wallet with such ${ propertyName } already exists"
-msgstr ""
+msgid "Wallet with such ${ foundWallet.name } already exists"
+msgstr "You already have a wallet named ${ foundWallet.name }"
 
 #: src/utils/wallets/createWallet.js:67
 msgid "DerivationPathInvalidError"
-msgstr ""
+msgstr "Invalid Derivation Path"
 
 #: src/utils/wallets/getWallet.js:7
 msgid "WalletNotFoundError"
-msgstr ""
+msgstr "Wallet not found"
 
 #: src/utils/wallets/getWallet.js:13
 msgid "WalletNotFoundError ${ walletId }"
-msgstr ""
+msgstr "Wallet ${ walletId } was not found"
 
 #: src/utils/time/getFormattedDateString.js:6
 msgid "January"
-msgstr ""
+msgstr "January"
 
 #: src/utils/time/getFormattedDateString.js:7
 msgid "February"
-msgstr ""
+msgstr "February"
 
 #: src/utils/time/getFormattedDateString.js:8
 msgid "March"
-msgstr ""
+msgstr "March"
 
 #: src/utils/time/getFormattedDateString.js:9
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: src/utils/time/getFormattedDateString.js:10
 msgid "May"
-msgstr ""
+msgstr "May"
 
 #: src/utils/time/getFormattedDateString.js:11
 msgid "June"
-msgstr ""
+msgstr "June"
 
 #: src/utils/time/getFormattedDateString.js:12
 msgid "July"
-msgstr ""
+msgstr "July"
 
 #: src/utils/time/getFormattedDateString.js:13
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: src/utils/time/getFormattedDateString.js:14
 msgid "Septemner"
-msgstr ""
+msgstr "September"
 
 #: src/utils/time/getFormattedDateString.js:15
 msgid "October"
-msgstr ""
+msgstr "October"
 
 #: src/utils/time/getFormattedDateString.js:16
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: src/utils/time/getFormattedDateString.js:17
 msgid "December"
-msgstr ""
+msgstr "December"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:19
 #: src/routes/Wallets/routes/Create/sagas/walletsCreate.js:81
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:116
 #: src/utils/password/validate.js:7
 msgid "Password does not match confirmation"
-msgstr ""
+msgstr "Inputted passwords do not match"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:22
 #: src/routes/Wallets/routes/Create/sagas/walletsCreate.js:89
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:124
 #: src/utils/password/validate.js:10
 msgid "Password hint is required"
-msgstr ""
+msgstr "Password hint is required"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:23
 #: src/routes/Wallets/routes/Create/sagas/walletsCreate.js:97
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:132
 #: src/utils/password/validate.js:13
 msgid "Password and hint should not be equal"
-msgstr ""
+msgstr "Your Password hint cannot be your password"
 
 #: src/utils/mnemonic/generateMnemonic.js:15
 msgid "Concatenation of entropy buffers failed"
-msgstr ""
+msgstr "Concatenation of entropy buffers failed"
 
 #: src/utils/mnemonic/generateMnemonic.js:25
 msgid "Entropy is set but not a string"
-msgstr ""
+msgstr "Entropy is set but not a string"
 
 #: src/utils/formatters/formatBoolean.js:6
 msgid "Enabled"
-msgstr ""
+msgstr "Enabled"
 
 #: src/utils/formatters/formatBoolean.js:6
 msgid "Disabled"
-msgstr ""
+msgstr "Disabled"
 
 #: src/utils/formatters/formatCurrency.js:11
 msgid "InvalidFiatCurrencyCode"
-msgstr ""
+msgstr "Invalid Fiat Currency Code"
 
 #: src/utils/encryption/decryptData.js:31
 #: src/utils/encryption/encryptData.js:37
 msgid "InvalidPasswordError"
-msgstr ""
+msgstr "Invalid Password Error"
 
 #: src/utils/encryption/decryptData.js:45
 msgid "DecryptionTypeError ${ encryptionType }"
-msgstr ""
+msgstr "Decryption Error ${ encryptionType }"
 
 #: src/utils/encryption/encryptData.js:51
 msgid "EncryptionTypeError ${ encryptionType }"
-msgstr ""
+msgstr "Encryption Error ${ encryptionType }"
 
 #: src/utils/encryption/testPassword.js:13
 msgid "Weak password"
-msgstr ""
+msgstr "Weak Password"
 
 #: src/services/blockExplorer.js:40
 msgid "BlockExplorerPrivateNetworkError"
-msgstr ""
+msgstr "Block Explorer Private Network Error"
 
 #: src/services/blockExplorer.js:74
 msgid "BlockExplorerRequestTransactionsError"
-msgstr ""
+msgstr "Block Explorer Request Transactions Error"
 
 #: src/services/qrCode.js:15
 msgid "InvalidSelectorError"
-msgstr ""
+msgstr "Invalid Selector Error"
 
 #: src/routes/sagas/balances.js:301
 msgid "DigitalAssetNotFoundError"
-msgstr ""
+msgstr "Digital Asset not found"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:114
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:99
@@ -197,194 +197,194 @@ msgstr ""
 #: src/routes/sagas/blocks.js:60
 #: src/routes/sagas/blocks.js:146
 msgid "ActiveNetworkNotFoundError"
-msgstr ""
+msgstr "Active Network not found"
 
 #: src/routes/sagas/blocks.js:157
 msgid "Task handler for module ${ request.module } is not defined"
-msgstr ""
+msgstr "Task handler for module ${ request.module } is not defined"
 
 #: src/routes/sagas/blocks.js:236
 msgid "ActiveAddressNotFoundError"
-msgstr ""
+msgstr "Active Address not found"
 
 #: src/routes/Wallets/WalletsIndexView.js:83
 msgid "Mnemonic, many addresses"
-msgstr ""
+msgstr "Mnemonic, many addresses"
 
 #: src/routes/Wallets/routes/Start/WalletsStartView.js:36
 msgid "Create a new key pair or import an existing"
-msgstr ""
+msgstr "Create a new key pair or import an existing"
 
 #: src/routes/Wallets/routes/Start/WalletsStartView.js:37
 msgid "one to get started"
-msgstr ""
+msgstr "wallet to get started"
 
 #: src/routes/Wallets/routes/Start/WalletsStartView.js:47
 msgid "By clicking \"Create new\" or \"Import\" I agree to"
-msgstr ""
+msgstr "By clicking \"Create new\" or \"Import\" I agree to"
 
 #: src/routes/Agreements/AgreementsView.js:85
 #: src/routes/Wallets/routes/Start/WalletsStartView.js:54
 msgid "Terms of Use"
-msgstr ""
+msgstr "Terms of Use"
 
 #: src/routes/Agreements/AgreementsView.js:96
 #: src/routes/Wallets/routes/Start/WalletsStartView.js:63
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Privacy Policy"
 
 #: src/routes/Wallets/routes/RenameAddress/WalletsRenameAddressView.js:51
 msgid "Rename address"
-msgstr ""
+msgstr "Rename Address"
 
 #: src/routes/Wallets/routes/Backup/WalletsBackupView.js:108
 #: src/routes/Wallets/routes/Rename/WalletsRenameView.js:63
 #: src/routes/Wallets/routes/RenameAddress/WalletsRenameAddressView.js:59
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/routes/Wallets/routes/RenameAddress/WalletsRenameAddressView.js:61
 msgid "Address name"
-msgstr ""
+msgstr "Address Name"
 
 #: src/routes/Wallets/routes/Rename/sagas/walletsRename.js:52
 #: src/routes/Wallets/routes/RenameAddress/sagas/walletsRenameAddress.js:76
 msgid "Wallet with this name already exists"
-msgstr ""
+msgstr "Wallet with this name already exists"
 
 #: src/routes/Wallets/routes/RenameAddress/sagas/walletsRenameAddress.js:85
 msgid "Address with this name already exists"
-msgstr ""
+msgstr "Address with this name already exists"
 
 #: src/routes/Settings/SettingsIndexView.js:62
 #: src/routes/Wallets/routes/Rename/WalletsRenameView.js:55
 msgid "Rename wallet"
-msgstr ""
+msgstr "Rename wallet"
 
 #: src/components/NameStep/NameStep.js:27
 #: src/routes/Wallets/routes/Create/WalletsCreateView.js:81
 #: src/routes/Wallets/routes/Import/WalletsImportView.js:96
 #: src/routes/Wallets/routes/Rename/WalletsRenameView.js:65
 msgid "Wallet name"
-msgstr ""
+msgstr "Wallet Name"
 
 #: src/components/NewWalletButtons/NewWalletButtons.js:29
 #: src/routes/Wallets/routes/Import/WalletsImportView.js:84
 #: src/routes/Wallets/routes/Import/WalletsImportView.js:125
 msgid "Import wallet"
-msgstr ""
+msgstr "Import Wallet"
 
 #: src/components/NameStep/NameStep.js:42
 #: src/routes/Wallets/routes/Create/WalletsCreateView.js:79
 #: src/routes/Wallets/routes/Import/WalletsImportView.js:94
 #: src/routes/Wallets/routes/Import/WalletsImportView.js:109
 msgid "Next step"
-msgstr ""
+msgstr "Next Step"
 
 #: src/routes/Wallets/routes/Create/sagas/walletsCreate.js:44
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:41
 msgid "Name should not be empty"
-msgstr ""
+msgstr "Name cannot be empty"
 
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:62
 msgid "Data is empty"
-msgstr ""
+msgstr "Data is empty"
 
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:68
 msgid "Data is invalid"
-msgstr ""
+msgstr "Invalid Data"
 
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:77
 msgid "Derivation path is not valid"
-msgstr ""
+msgstr "Invalid Derivation Path"
 
 #: src/routes/Wallets/routes/Create/sagas/walletsCreate.js:73
 #: src/routes/Wallets/routes/Import/sagas/walletsImport.js:108
 msgid "Password should not be equal with wallet name"
-msgstr ""
+msgstr "Password cannot be the same was wallet name"
 
 #: src/routes/Settings/SettingsIndexView.js:69
 #: src/routes/Wallets/routes/Delete/WalletsDeleteView.js:53
 msgid "Delete wallet"
-msgstr ""
+msgstr "Delete Wallet"
 
 #: src/routes/Wallets/routes/Delete/WalletsDeleteView.js:61
 msgid "Delete ${ foundWallet.name }?"
-msgstr ""
+msgstr "Delete ${ foundWallet.name }"
 
 #: src/routes/Wallets/routes/Delete/WalletsDeleteView.js:70
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 #: src/components/AssetItem/AssetItem.js:161
 #: src/components/FavoriteItem/FavoriteItem.js:153
 msgid "Yes, delete"
-msgstr ""
+msgstr "Delete"
 
 #: src/routes/Wallets/routes/Delete/WalletsDeleteView.js:71
 msgid "Nope, stop it"
-msgstr ""
+msgstr "Cancel"
 
 #: src/routes/Wallets/routes/Create/WalletsCreateView.js:69
 #: src/routes/Wallets/routes/Create/WalletsCreateView.js:96
 msgid "Create wallet"
-msgstr ""
+msgstr "Create Wallet"
 
 #: src/routes/Wallets/routes/Create/WalletsCreateView.js:80
 msgid "wallets-name"
-msgstr ""
+msgstr "Wallet Name"
 
 #: src/routes/Wallets/routes/Backup/WalletsBackupView.js:98
 msgid "Backup wallet"
-msgstr ""
+msgstr "Backup Wallet"
 
 #: src/components/CopyableField/CopyableField.js:48
 #: src/routes/Wallets/routes/Backup/WalletsBackupView.js:117
 msgid "Download as TXT"
-msgstr ""
+msgstr "Download as TXT file"
 
 #: src/routes/Wallets/routes/Backup/sagas/walletsBackup.js:51
 msgid "Password should not be empty"
-msgstr ""
+msgstr "Password field cannot be empty"
 
 #: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:61
 msgid "Mnemonic addresses"
-msgstr ""
+msgstr "Mnemonic Addresses"
 
 #: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:83
 msgid "Get more addresses"
-msgstr ""
+msgstr "Get more addresses"
 
 #: src/routes/Upgrade/UpgradeView.js:47
 msgid "Incorrect password"
-msgstr ""
+msgstr "Incorrect Password"
 
 #: src/components/MenuPanel/MainAction/MainAction.js:42
 #: src/routes/Upgrade/UpgradeView.js:72
 msgid "Add mnemonic"
-msgstr ""
+msgstr "Add Mnemonic"
 
 #: src/routes/Upgrade/UpgradeView.js:79
 msgid "Mnemonic"
-msgstr ""
+msgstr "Mnemonic"
 
 #: src/components/MenuPanel/MainAction/MainAction.js:26
 #: src/routes/Upgrade/UpgradeView.js:83
 msgid "Add private key"
-msgstr ""
+msgstr "Add Private Key"
 
 #: src/routes/Upgrade/UpgradeView.js:90
 msgid "Private key"
-msgstr ""
+msgstr "Private Key"
 
 #: src/routes/Upgrade/UpgradeView.js:122
 msgid "BIP39 Mnemonic passphrase (optional)"
-msgstr ""
+msgstr "BIP39 Mnemonic Passphrase (optional)"
 
 #: src/components/WalletDataStep/WalletDataStep.js:59
 #: src/routes/Upgrade/UpgradeView.js:128
 msgid "Derivation path (optional)"
-msgstr ""
+msgstr "Derivation Path (optional)"
 
 #: src/components/PasswordStep/PasswordStep.js:25
 #: src/components/WalletPasswordStep/WalletPasswordStep.js:64
@@ -393,7 +393,7 @@ msgstr ""
 #: src/routes/Settings/SettingsIndexView.js:41
 #: src/routes/Upgrade/UpgradeView.js:136
 msgid "Payment password"
-msgstr ""
+msgstr "Payment Password"
 
 #: src/components/TransactionItem/Details/Comment/Comment.js:81
 #: src/routes/DigitalAssets/routes/EditAsset/EditAssetView.js:45
@@ -401,84 +401,84 @@ msgstr ""
 #: src/routes/Settings/routes/Currency/CurrencyView.js:50
 #: src/routes/Upgrade/UpgradeView.js:151
 msgid "Save"
-msgstr ""
+msgstr "Save"
 
 #: src/routes/Upgrade/UpgradeViewContainer.js:41
 msgid "Private key is invalid"
-msgstr ""
+msgstr "Invalid Private Key"
 
 #: src/routes/Upgrade/UpgradeViewContainer.js:63
 #: src/routes/Upgrade/UpgradeViewContainer.js:106
 msgid "Entered data is not for this wallet"
-msgstr ""
+msgstr "Inputted Data does not match Wallet"
 
 #: src/routes/Upgrade/UpgradeViewContainer.js:81
 msgid "Mnemonic is invalid"
-msgstr ""
+msgstr "Invalid Mnemonic"
 
 #: src/routes/Upgrade/UpgradeViewContainer.js:97
 msgid "Derivation path is invalid"
-msgstr ""
+msgstr "Invalid Derivation Path"
 
 #: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js:19
 #: src/routes/Transactions/TransactionsIndexView.js:35
 #: src/routes/Transactions/routes/Asset/TransactionsAssetView.js:38
 msgid "Digital assets"
-msgstr ""
+msgstr "Digital Assets"
 
 #: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js:20
 #: src/routes/Transactions/TransactionsIndexView.js:36
 msgid "Transactions"
-msgstr ""
+msgstr "Transactions"
 
 #: src/routes/Transactions/TransactionsIndexView.js:71
 #: src/routes/Transactions/routes/Asset/TransactionsAssetView.js:114
 msgid "Search transactions..."
-msgstr ""
+msgstr "Search transactions..."
 
 #: src/components/MenuPanel/MainAction/MainAction.js:57
 #: src/routes/DigitalAssets/routes/Send/DigitalAssetsSendView.js:90
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Password/Password.js:42
 #: src/routes/Transactions/routes/Asset/TransactionsAssetView.js:124
 msgid "Send asset"
-msgstr ""
+msgstr "Send Asset"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:563
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js:122
 msgid "DigitalAssetNotFound"
-msgstr ""
+msgstr "Digital Asset not found"
 
 #: src/routes/Settings/SettingsIndexView.js:34
 msgid "Local currency"
-msgstr ""
+msgstr "Local Currency"
 
 #: src/routes/Settings/SettingsIndexView.js:42
 msgid "Change"
-msgstr ""
+msgstr "Change"
 
 #: src/routes/Settings/SettingsIndexView.js:48
 msgid "Exchange service"
-msgstr ""
+msgstr "Exchange Service"
 
 #: src/routes/Settings/SettingsIndexView.js:49
 msgid "Try Jcash"
-msgstr ""
+msgstr "Try Jcash"
 
 #: src/routes/Settings/SettingsIndexView.js:55
 msgid "Support"
-msgstr ""
+msgstr "Support"
 
 #: src/routes/Settings/SettingsIndexView.js:56
 msgid "Check out Jwallet on Zendesk"
-msgstr ""
+msgstr "Check out Jwalllet on Zendesk"
 
 #: src/routes/Settings/SettingsIndexView.js:70
 msgid "Don't forget to back it up!"
-msgstr ""
+msgstr "Don't forget to back-up your wallet!"
 
 #: src/routes/Settings/SettingsIndexView.js:154
 msgid "Search settings..."
-msgstr ""
+msgstr "Search Settings..."
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:15
 #: src/routes/Wallets/routes/Create/WalletsCreateView.js:61
@@ -487,187 +487,189 @@ msgid ""
 "You will use this password to unlock and transfer your funds.\n"
 "Keep it secure!"
 msgstr ""
+"Your password allows you to access and transfer your funds.\n"
+"Keep it safe!"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:17
 msgid "Old payment password"
-msgstr ""
+msgstr "Old Payment Password"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:18
 msgid "Old password is required"
-msgstr ""
+msgstr "Old Password is required"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:20
 msgid "Not equal"
-msgstr ""
+msgstr "Does not match"
 
 #: src/components/WalletPasswordStep/WalletPasswordStep.js:86
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:21
 msgid "Password hint"
-msgstr ""
+msgstr "Password hint"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:24
 msgid "Set button"
-msgstr ""
+msgstr "Set button"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:68
 msgid "Update payment password"
-msgstr ""
+msgstr "Update Payment Password"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js:105
 msgid "Set password"
-msgstr ""
+msgstr "Set Password"
 
 #: src/routes/Settings/routes/Currency/CurrencyContainer.js:20
 msgid "Currency ${ fiatCurrency } is not available"
-msgstr ""
+msgstr "Currency ${ fiatCurrency } is unavailable"
 
 #: src/routes/Settings/routes/Currency/CurrencyView.js:34
 #: src/routes/Settings/routes/Currency/components/CurrencyPickerCurrent.js:11
 msgid "Select currency"
-msgstr ""
+msgstr "Select Currency"
 
 #: src/routes/Settings/routes/Currency/CurrencyView.js:44
 msgid "Preffered fiat currency"
-msgstr ""
+msgstr "Preferred Fiat Currency"
 
 #: src/routes/NotFound/NotFoundView.js:44
 msgid "404. Page Not Found."
-msgstr ""
+msgstr "404 - Page Not Found"
 
 #: src/routes/NotFound/NotFoundView.js:48
 msgid "Check the URL and try again."
-msgstr ""
+msgstr "Check the URL and try again"
 
 #: src/routes/NotFound/NotFoundView.js:60
 msgid "Back to Home"
-msgstr ""
+msgstr "Back to Home"
 
 #: src/routes/Favorites/FavoritesIndexView.js:130
 msgid "There are no favorites to display"
-msgstr ""
+msgstr "You have no favorites saved"
 
 #: src/routes/Favorites/FavoritesIndexView.js:132
 msgid "Looks like you have no favorites yet."
-msgstr ""
+msgstr "Looks like you haven't saved any addresses to favorites yet"
 
 #: src/components/MenuPanel/Actions/Actions.js:20
 #: src/routes/Favorites/FavoritesIndexView.js:145
 msgid "Favorites"
-msgstr ""
+msgstr "Favorites"
 
 #: src/routes/Favorites/FavoritesIndexView.js:150
 msgid "Search favorites..."
-msgstr ""
+msgstr "Search Favorites..."
 
 #: src/routes/Favorites/FavoritesIndexView.js:153
 #: src/routes/Favorites/routes/Address/FavoritesAddressView.js:88
 msgid "Add favorite address"
-msgstr ""
+msgstr "Add Favorite Address"
 
 #: src/routes/Favorites/sagas/favorites.js:35
 msgid "Please input valid address"
-msgstr ""
+msgstr "Please input a valid address"
 
 #: src/routes/Favorites/sagas/favorites.js:39
 msgid "Name length should be at least 2 symbols"
-msgstr ""
+msgstr "Name length must be at least 2 characters"
 
 #: src/routes/Favorites/sagas/favorites.js:46
 msgid "Description length should be at least 2 symbols"
-msgstr ""
+msgstr "Description length must be at least 2 characters"
 
 #: src/routes/Favorites/sagas/favorites.js:62
 msgid "Favorite with this address already exists"
-msgstr ""
+msgstr "This address is already saved to Favorites"
 
 #: src/routes/Favorites/sagas/favorites.js:73
 msgid "Favorite with this name already exists"
-msgstr ""
+msgstr "A Favorite address with this name already exists"
 
 #: src/routes/Favorites/sagas/favorites.js:84
 msgid "There is wallet with such name"
-msgstr ""
+msgstr "A wallet with this name already exists"
 
 #: src/routes/Favorites/sagas/favorites.js:95
 msgid "There is address with such name"
-msgstr ""
+msgstr "An address with this name already exists"
 
 #: src/routes/Favorites/routes/Address/FavoritesAddressView.js:87
 msgid "Edit favorite address"
-msgstr ""
+msgstr "Edit Favorite Addresses"
 
 #: src/routes/Favorites/routes/Address/FavoritesAddressView.js:103
 msgid "Address"
-msgstr ""
+msgstr "Address"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js:42
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:84
 #: src/routes/Favorites/routes/Address/FavoritesAddressView.js:112
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: src/routes/Favorites/routes/Address/FavoritesAddressView.js:120
 msgid "Description (optional)"
-msgstr ""
+msgstr "Description (optional)"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:235
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:683
 msgid "Can't request gas price"
-msgstr ""
+msgstr "Couldn't request gas price"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:247
 msgid "Invalid value for gas price"
-msgstr ""
+msgstr "Invalid Gas Price value"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:251
 msgid "Invalid value for gas limit"
-msgstr ""
+msgstr "Invalid Gas Limit value"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:267
 msgid "Can't request gas limit, please use custom priority"
-msgstr ""
+msgstr "Couldn't request Gas Limit, please use the Custom Priority feature"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:275
 msgid "Priority is not selected"
-msgstr ""
+msgstr "Priority has not been selected"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:328
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:338
 msgid "Amount exceeds balance"
-msgstr ""
+msgstr "Amount exceeds current balance"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:333
 msgid "Amount plus blockchain fee exceeds balance"
-msgstr ""
+msgstr "Amount, including blockchain fees, exceeds current balance"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:367
 msgid "Invalid nonce"
-msgstr ""
+msgstr "Invalid nonce"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:374
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:883
 msgid "Can't request nonce"
-msgstr ""
+msgstr "Couldn't request nonce"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:412
 msgid "Invalid address"
-msgstr ""
+msgstr "Invalid Address"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:416
 msgid "Invalid amount"
-msgstr ""
+msgstr "Invalid Amount"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:420
 msgid "Invalid asset address"
-msgstr ""
+msgstr "Invalid Asset Address"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:542
 msgid "Please input password"
-msgstr ""
+msgstr "Please enter your password"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:597
 msgid "Invalid password"
-msgstr ""
+msgstr "Incorrect Password"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:674
 msgid "Can't get gas limit. Most likely, your transaction will fail"
@@ -675,197 +677,199 @@ msgstr ""
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:722
 msgid "Gas limit is too small. Most likely, your transaction will fail"
-msgstr ""
+msgstr "Gas limit is too low. Your transaction will not be completed"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:745
 msgid "Gas price is too small. Most likely, your transaction will fail"
-msgstr ""
+msgstr "Gas price is too low. Your transaction will not be completed"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:765
 msgid "Recipient is the same as sender"
-msgstr ""
+msgstr "Recipient address is the same as sender address"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:77
 msgid "Current address"
-msgstr ""
+msgstr "Current Address"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:103
 msgid "Value ${ selectedAssetSymbol }"
-msgstr ""
+msgstr "Value ${ selectedAssetSymbol }"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:106
 msgid "Value ${ fiatCurrency }"
-msgstr ""
+msgstr "Value ${ fiatCurrency }"
 
 #: src/components/TransactionItem/Details/Details.js:151
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:127
 msgid "Add comment"
-msgstr ""
+msgstr "Add Comment"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:128
 msgid "Comment"
-msgstr ""
+msgstr "Comment"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:140
 msgid "Show nonce"
-msgstr ""
+msgstr "Display Nonce"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:117
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:141
 msgid "Nonce"
-msgstr ""
+msgstr "Nonce"
 
 #: src/components/PasswordStep/PasswordStep.js:23
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:149
 msgid "Confirm"
-msgstr ""
+msgstr "Confirm"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:158
 msgid ""
 "The app doesn’t charge you any fees. But you have to pay the blockchain fee "
 "to create a new transaction."
 msgstr ""
+"Jwallet is completely free but blockchain fees "
+"are needed to complete a transaction."
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:12
 msgid "High"
-msgstr ""
+msgstr "High"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:14
 msgid "About 30 sec"
-msgstr ""
+msgstr "~30 sec"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:17
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:19
 msgid "About 1 min"
-msgstr ""
+msgstr "~1 min"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:22
 msgid "Low"
-msgstr ""
+msgstr "Low"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:24
 msgid "About 15 min"
-msgstr ""
+msgstr "~15 min"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:27
 msgid "Custom"
-msgstr ""
+msgstr "Custom"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:29
 msgid "Edit GAS and GAS Price manually"
-msgstr ""
+msgstr "Manually specify Gas and Gas Price "
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:79
 msgid "Gas limit"
-msgstr ""
+msgstr "Gas Limit"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js:83
 msgid "Gas price (gwei)"
-msgstr ""
+msgstr "Gas Price (gwei)"
 
 #: src/routes/DigitalAssets/routes/Send/components/Form/PriorityPicker/Current/Current.js:18
 msgid "Priority"
-msgstr ""
+msgstr "Priority"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Confirm.js:78
 msgid "Change parameters"
-msgstr ""
+msgstr "Change Parameters"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:51
 msgid "it will most likely fail"
-msgstr ""
+msgstr "will most likely fail"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:64
 msgid "Fee — ${ fee } ETH"
-msgstr ""
+msgstr "Fee — ${ fee } ETH"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:72
 msgid "From"
-msgstr ""
+msgstr "From"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:89
 msgid "To"
-msgstr ""
+msgstr "To"
 
 #: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:50
 msgid "Receive assets"
-msgstr ""
+msgstr "Receive Assets"
 
 #: src/components/AddressPicker/Current/Current.js:37
 #: src/components/AddressPicker/Current/Current.js:38
 #: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:66
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:91
 msgid "Recipient address"
-msgstr ""
+msgstr "Recipient Address"
 
 #: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:74
 msgid "Copy address"
-msgstr ""
+msgstr "Copy Address"
 
 #: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js:82
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js:50
 msgid "Assets manager"
-msgstr ""
+msgstr "Asset Manager"
 
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js:54
 msgid "Search asset..."
-msgstr ""
+msgstr "Search Assets..."
 
 #: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js:67
 msgid "Search assets..."
-msgstr ""
+msgstr "Search Assets..."
 
 #: src/routes/DigitalAssets/routes/EditAsset/EditAssetView.js:38
 msgid "Edit digital asset"
-msgstr ""
+msgstr "Edit Digital Asset"
 
 #: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js:50
 msgid "Asset not found"
-msgstr ""
+msgstr "Asset not found"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:234
 #: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js:55
 msgid "Valid digital asset name is required"
-msgstr ""
+msgstr "Invalid Digital Asset Name"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:238
 #: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js:59
 msgid "Valid digital asset symbol is required"
-msgstr ""
+msgstr "Invalid Digital Asset Symbol"
 
 #: src/routes/DigitalAssets/routes/AddAsset/AddAssetView.js:36
 msgid "Add digital asset"
-msgstr ""
+msgstr "Add Digital Asset"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js:91
 #: src/routes/DigitalAssets/routes/AddAsset/AddAssetView.js:43
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js:56
 msgid "Add asset"
-msgstr ""
+msgstr "Add Asset"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:149
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:229
 msgid "This asset alreasy exists"
-msgstr ""
+msgstr "This asset already exists"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:177
 msgid "This asset is not ERC20 compatible"
-msgstr ""
+msgstr "This asset is not ERC-20 compatible"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:185
 msgid "Network connection error"
-msgstr ""
+msgstr "Network connection error"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:216
 msgid "Invalid ERC-20 contract address"
-msgstr ""
+msgstr "Invalid ERC-20 contract address"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:221
 msgid "Please wait for asset validity check"
-msgstr ""
+msgstr "Checking validity of Digital Asset..."
 
 #: src/routes/Agreements/AgreementsView.js:20
 msgid ""
@@ -873,6 +877,9 @@ msgid ""
 "private data is sent to Jibrel AG servers. All encryption is done locally "
 "in browser"
 msgstr ""
+"I understand that my funds are stored securely on my personal computer. No "
+"private data is sent to Jibrel AG servers. All encryption is done locally "
+"in browser"
 
 #: src/routes/Agreements/AgreementsView.js:21
 msgid ""
@@ -880,279 +887,284 @@ msgid ""
 "AG does not have access to my private information and could not participate "
 "in resolution of issues concerning money loss of any kind"
 msgstr ""
+"I consent that the Jwallet service is provided as is without warranty. Jibrel "
+"AG does not have access to my private information and would not be able "
+"to assist in the resolution of issues concerning money loss of any kind"
 
 #: src/routes/Agreements/AgreementsView.js:22
 msgid ""
 "I consent to allow cookies for collecting anonymous usage data to improve "
 "quality of provided service"
 msgstr ""
+"I agree to allow cookies to collect anonymous usage data to improve the "
+"quality of the Jwallet"
 
 #: src/routes/Agreements/AgreementsView.js:23
 #: src/routes/Agreements/AgreementsView.js:74
 msgid "I have read and accepted"
-msgstr ""
+msgstr "I have read and accepted the"
 
 #: src/routes/Agreements/AgreementsView.js:53
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Terms & Conditions"
 
 #: src/routes/Agreements/AgreementsView.js:88
 msgid "and"
-msgstr ""
+msgstr "and"
 
 #: src/routes/Agreements/AgreementsView.js:108
 msgid "Confirm and continue"
-msgstr ""
+msgstr "Confirm and continue"
 
 #: src/layouts/MenuLayout/MenuLayout.js:69
 msgid "Internet connection error."
-msgstr ""
+msgstr "Internet Connection Error"
 
 #: src/layouts/MenuLayout/MenuLayout.js:70
 msgid "Try again."
-msgstr ""
+msgstr "Try Again"
 
 #: src/components/WalletPasswordStep/WalletPasswordStep.js:77
 msgid "Confirm payment password"
-msgstr ""
+msgstr "Confirm Payment Password"
 
 #: src/components/WalletDataStep/WalletDataStep.js:47
 msgid "Address, Private key, BIP32 XPUB, Mnemonic"
-msgstr ""
+msgstr "Address, Private Key, BIP32 XPUB, Mnemonic"
 
 #: src/components/TransactionsList/Empty/Empty.js:22
 msgid "There are no items to display"
-msgstr ""
+msgstr "There are no transactions to display"
 
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:49
 #: src/components/TransactionsFilter/TransactionsFilter.js:35
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: src/components/TransactionsFilter/TransactionsFilter.js:42
 msgid "Only pending"
-msgstr ""
+msgstr "Only Pending"
 
 #: src/components/TransactionItem/Main/Main.js:194
 msgid "Token minting"
-msgstr ""
+msgstr "Token Minting"
 
 #: src/components/TransactionItem/Main/Main.js:203
 msgid "Token burning"
-msgstr ""
+msgstr "Token Burning"
 
 #: src/components/TransactionItem/Details/Details.js:146
 msgid "Remove from favourites"
-msgstr ""
+msgstr "Remove from Favorites"
 
 #: src/components/TransactionItem/Details/Details.js:147
 msgid "Add to favourites"
-msgstr ""
+msgstr "Add to Favorites"
 
 #: src/components/TransactionItem/Details/Details.js:150
 msgid "Edit comment"
-msgstr ""
+msgstr "Edit Comment"
 
 #: src/components/TransactionItem/Details/Details.js:157
 msgid "TX Hash"
-msgstr ""
+msgstr "TX Hash"
 
 #: src/components/TransactionItem/Details/Details.js:175
 msgid "From address"
-msgstr ""
+msgstr "From Address"
 
 #: src/components/TransactionItem/Details/Details.js:198
 msgid "To address"
-msgstr ""
+msgstr "To Address"
 
 #: src/components/TransactionItem/Details/Details.js:220
 msgid "Fee"
-msgstr ""
+msgstr "Fee"
 
 #: src/components/TransactionItem/Details/Details.js:243
 msgid "Repeat payment"
-msgstr ""
+msgstr "Repeat Payment"
 
 #: src/components/TransactionItem/Details/Comment/Comment.js:75
 msgid "Your comment"
-msgstr ""
+msgstr "Your Comment"
 
 #: src/components/TransactionItem/Details/Comment/Comment.js:89
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: src/components/ButtonWithConfirm/ButtonWithConfirm.js:164
 #: src/components/TransactionItem/Details/Comment/Comment.js:89
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:22
 msgid "Jwallet supports only single tab"
-msgstr ""
+msgstr "Jwallet can only be accessed from a single tab at a time"
 
 #: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:30
 msgid "Reload Page"
-msgstr ""
+msgstr "Reload Page"
 
 #: src/components/PasswordField/PasswordField.js:34
 msgid "Too weak"
-msgstr ""
+msgstr "Too weak"
 
 #: src/components/PasswordField/PasswordField.js:35
 msgid "Not bad"
-msgstr ""
+msgstr "Not bad"
 
 #: src/components/PasswordField/PasswordField.js:36
 msgid "Bit weak"
-msgstr ""
+msgstr "A bit weak"
 
 #: src/components/PasswordField/PasswordField.js:37
 msgid "Easily cracked"
-msgstr ""
+msgstr "Easily cracked"
 
 #: src/components/NewWalletButtons/NewWalletButtons.js:20
 msgid "Create new wallet"
-msgstr ""
+msgstr "Create new wallet"
 
 #: src/components/NewWalletButtons/NewWalletButtons.js:21
 msgid "Create your own wallet to manage on-chain funds"
-msgstr ""
+msgstr "Create your own wallet to manage your digital assets"
 
 #: src/components/NewWalletButtons/NewWalletButtons.js:30
 msgid "Import existing wallet to manage on-chain funds"
-msgstr ""
+msgstr "Import an existing wallet to manage your digital assets"
 
 #: src/components/NameStep/NameStep.js:18
 msgid "Set name of the wallet"
-msgstr ""
+msgstr "Name your wallet"
 
 #: src/components/MenuPanel/WalletManager/Details/Addresses/Addresses.js:48
 msgid "Add more addresses"
-msgstr ""
+msgstr "Add more addresses"
 
 #: src/components/MenuPanel/WalletManager/Details/Actions/Actions.js:14
 #: src/components/MenuPanel/WalletManager/Details/Details.js:60
 msgid "Manage wallets"
-msgstr ""
+msgstr "Manage Wallets"
 
 #: src/components/MenuPanel/BalanceTicker/BalanceTicker.js:25
 msgid "Total Balance"
-msgstr ""
+msgstr "Total Balance"
 
 #: src/components/MenuPanel/Actions/Actions.js:16
 msgid "Receive asset"
-msgstr ""
+msgstr "Receive Asset"
 
 #: src/components/MenuPanel/Actions/Actions.js:19
 msgid "Convert assets"
-msgstr ""
+msgstr "Convert Assets"
 
 #: src/components/MenuPanel/Actions/Actions.js:21
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: src/components/MenuPanel/Actions/More/More.js:21
 msgid "Less actions"
-msgstr ""
+msgstr "Less actions"
 
 #: src/components/MenuPanel/Actions/More/More.js:22
 msgid "More actions"
-msgstr ""
+msgstr "More actions"
 
 #: src/components/AssetItem/AssetItem.js:159
 #: src/components/FavoriteItem/FavoriteItem.js:151
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/components/DigitalAssetsGrid/Empty/Empty.js:13
 #: src/components/DigitalAssetsManage/Empty/Empty.js:13
 msgid "There are no Digital Assets to show"
-msgstr ""
+msgstr "There are no Digital Assets to display"
 
 #: src/components/DigitalAssetsGrid/Asset/AssetCardBody/AssetCardBody.js:75
 msgid "Balance loading error"
-msgstr ""
+msgstr "Balance loading error"
 
 #: src/components/DigitalAssetsGrid/Asset/AssetCardBody/AssetCardBody.js:81
 msgid "Reload asset"
-msgstr ""
+msgstr "Reload Asset"
 
 #: src/components/DigitalAssetsGrid/Asset/AssetCardBody/AssetCardBody.js:129
 msgid "Show transactions"
-msgstr ""
+msgstr "Display Transactions"
 
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:57
 msgid "Hide zero balance"
-msgstr ""
+msgstr "Hide Zero Balance"
 
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:64
 msgid "Sorting"
-msgstr ""
+msgstr "Sorting"
 
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:103
 msgid "Balance"
-msgstr ""
+msgstr "Balance"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js:37
 msgid "Address (ERC-20)"
-msgstr ""
+msgstr "Address (ERC-20)"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js:47
 msgid "Symbol"
-msgstr ""
+msgstr "Symbol"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js:52
 msgid "Decimals"
-msgstr ""
+msgstr "Decimals"
 
 #: src/services/ticker.js:28
 msgid "TickerRequestError"
-msgstr ""
+msgstr "Ticker Request Error"
 
 #: src/services/web3.js:71
 msgid "Returned balance is not an instance of BigNumber"
-msgstr ""
+msgstr "Returned balance is not an instance of BigNumber"
 
 #: src/services/web3.js:92
 msgid "Returned decimals is not an instance of BigNumber"
-msgstr ""
+msgstr "Returned decimals is not an instance of BigNumber"
 
 #: src/services/web3.js:195
 msgid "Invalid ETH block format"
-msgstr ""
+msgstr "Invalid ETH block format"
 
 #: src/services/web3.js:245
 #: src/services/web3.js:274
 msgid "Invalid ETH transaction format"
-msgstr ""
+msgstr "Invalid ETH transaction format"
 
 #: src/services/web3.js:309
 msgid "Invalid contract events response"
-msgstr ""
+msgstr "Invalid contract events response"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:462
 msgid "GasValuesError"
-msgstr ""
+msgstr "Gas Value Error"
 
 #: src/components/NameStep/NameStep.js:35
 msgid "Previous step"
-msgstr ""
+msgstr "Previous step"
 
 #: src/routes/Wallets/routes/Rename/sagas/walletsRename.js:44
 msgid "Wallet name can't be empty"
-msgstr ""
+msgstr "Wallet name can't be empty"
 
 #: src/routes/NotFound/NotFoundView.js:47
 msgid "The page you're looking for can't be found."
-msgstr ""
+msgstr "The page you're looking for can't be found"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:352
 msgid "You don't have enough ETH to send this transaction"
-msgstr ""
+msgstr "You don't have enough ETH to complete this transaction"
 
 #: src/routes/Wallets/WalletsIndexView.js:86
 msgid "read only"
-msgstr ""
+msgstr "Read-only"
 
 #: src/routes/Wallets/routes/Delete/WalletsDeleteView.js:45
 msgid ""
@@ -1160,28 +1172,31 @@ msgid ""
 "deleted.\n"
 "The only way to restore deleted wallet is to use the backup phrase."
 msgstr ""
+"All user data, including imported or generated private keys, will be "
+"deleted.\n"
+"The only way to restore a deleted wallet is to use your backup phrase."
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:247
 #: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js:66
 msgid "Digital asset decimals should be a number between 0...127"
-msgstr ""
+msgstr "Decimals should be a number between 0 and 127"
 
 #: src/components/base/JSearch/JSearch.js:29
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 #: src/components/FavoriteItem/FavoriteItem.js:117
 msgid "Send"
-msgstr ""
+msgstr "Send"
 
 #: src/components/AssetItem/AssetItem.js:141
 #: src/components/FavoriteItem/FavoriteItem.js:132
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: src/components/CopyableField/CopyableField.js:49
 msgid "Copy recovery text"
-msgstr ""
+msgstr "Copy recovery text"
 
 #: src/routes/Wallets/routes/Backup/WalletsBackupView.js:88
 msgid ""
@@ -1190,22 +1205,30 @@ msgid ""
 "Keep it secure and never give it to anyone\n"
 "you don’t trust!"
 msgstr ""
+"This is your secret recovery text.\n"
+"It is the only way to restore access to your funds.\n"
+"Keep it safe and never share it with anyone\n"
+"you don’t trust!"
 
 #: src/routes/Wallets/routes/Import/WalletsImportView.js:76
 msgid ""
 "Insert the private key or backup phrase to import. Also, you can import\n"
 "an address in the read-only mode."
 msgstr ""
+"Input a private key or backup phrase to import a wallet. You can also import\n"
+"a public key or address to access your wallet in read-only mode."
 
 #: src/routes/Wallets/routes/Addresses/WalletsAddressesView.js:53
 msgid ""
 "To enhance your privacy, the wallet can contain as many addresses\n"
 "as you need. Please, choose one to continue"
 msgstr ""
+"To enhance user privacy, the Jwallet supports as many addresses as you need.\n"
+"Please select an address to continue"
 
 #: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:383
 msgid "Nonce should be greater than ${ suggestedNonce }"
-msgstr ""
+msgstr "Nonce should be greater than ${ suggestedNonce }"
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:58
 msgid ""
@@ -1213,15 +1236,22 @@ msgid ""
 "${ boldWillFail }. Please make sure you know what you are doing before "
 "proceeding"
 msgstr ""
+"Your transaction does not meet the required criteria. You transaction\n"
+"${ boldWillFail }. Please make sure you know what you are doing before "
+"proceeding further"
 
 #: src/components/TransactionsList/Empty/Empty.js:13
 msgid ""
 "Looks like you haven't made\n"
 "any transactions yet."
 msgstr ""
+"Looks like you haven't made\n"
+"any transactions yet."
 
 #: src/components/SingularTabBlockScreen/SingularTabBlockScreen.js:10
 msgid ""
 "Jwallet can be open only in one tab simultaneously.\n"
 "Please reload this tab to continue using it."
 msgstr ""
+"Jwallet can be only be open in one tab at a time.\n"
+"Please reload this page to continue using the Jwallet."
