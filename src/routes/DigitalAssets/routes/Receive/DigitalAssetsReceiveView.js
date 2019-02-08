@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import config from 'config'
 
 import { JCard, JInput, JRaisedButton } from 'components/base'
 import { saveQRCode, copyQRCode } from 'components/QRCode'
@@ -26,7 +27,7 @@ type Props = {|
 |}
 
 type StateProps = {|
-  label: 'Copy address' | 'Copied!',
+  isCopied: boolean,
 |}
 
 class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
@@ -37,7 +38,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     super(props)
 
     this.state = {
-      label: 'Copy address',
+      isCopied: false,
     }
   }
 
@@ -48,11 +49,11 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
   }
 
   copyAddress = () => {
-    this.setState({ label: t`Copied!` })
+    this.setState({ isCopied: true })
 
     this.toggleTimeout = setTimeout(() => {
-      this.setState({ label: t`Copy address` })
-    }, 2000)
+      this.setState({ isCopied: false })
+    }, config.messageCopyTimeout)
 
     if (this.props.address) {
       clipboard.copyText(this.props.address)
@@ -69,7 +70,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     const { address, close } = this.props
 
     const {
-      label,
+      isCopied,
     }: StateProps = this.state
 
     if (isVoid(address)) {
@@ -104,7 +105,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
               />
               <JRaisedButton
                 onClick={this.copyAddress}
-                label={label}
+                label={isCopied ? t`Copied!` : t`Copy address`}
                 color='blue'
               />
             </div>
