@@ -157,11 +157,19 @@ function* requestGasLimit(): Saga<?number> {
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
-  const isAmountValid: boolean = parseFloat(amount) > 0
-  const isRecipientValid: boolean = checkAddressValid(recipient)
+  try {
+    const amountBigNumber: BigNumber = toBigNumber(amount)
+    const isAmountValid: boolean = !amountBigNumber.lte(0)
+    const isRecipientValid: boolean = checkAddressValid(recipient)
 
-  if (!(isAmountValid && isRecipientValid && digitalAsset)) {
-    console.error('Can\'t request gas limit, some parameters are absent')
+    if (!(isAmountValid && isRecipientValid && digitalAsset)) {
+      console.error('Can\'t request gas limit, some parameters are absent')
+
+      return null
+    }
+  } catch (err) {
+    yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
+
     return null
   }
 
@@ -406,21 +414,31 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
 
   // simple fields
   const isRecipientAddressValid: boolean = checkAddressValid(recipient)
-  const isAmountValid: boolean = (parseFloat(amount) > 0)
+
+  try {
+    const amountBigNumber: BigNumber = toBigNumber(amount)
+    const isAmountValid: boolean = !amountBigNumber.lte(0)
+
+    if (!isAmountValid) {
+      yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
+
+      return false
+    }
+  } catch (err) {
+    yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
+
+    return false
+  }
 
   if (!isRecipientAddressValid) {
     yield put(digitalAssetsSend.setFormFieldError('recipient', t`Invalid address`))
-  }
-
-  if (!isAmountValid) {
-    yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
   }
 
   if (!digitalAsset) {
     yield put(digitalAssetsSend.setFormFieldError('assetAddress', t`Invalid asset address`))
   }
 
-  if (!(isRecipientAddressValid && isAmountValid && digitalAsset)) {
+  if (!(isRecipientAddressValid && digitalAsset)) {
     return false
   }
 
@@ -800,8 +818,12 @@ function* refreshFiatAmount(): Saga<void> {
     },
   }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
 
-  const isAmountValid: boolean = parseFloat(amount) > 0
-  if (!isAmountValid) {
+  try {
+    const amountBigNumber = toBigNumber(amount)
+    if (amountBigNumber.lte(0)) {
+      throw new Error('InvalidAmount')
+    }
+  } catch (err) {
     yield put(digitalAssetsSend.setFormFieldValue('amountFiat', ''))
     return
   }
