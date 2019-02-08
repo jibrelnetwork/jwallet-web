@@ -157,11 +157,19 @@ function* requestGasLimit(): Saga<?number> {
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
-  const isAmountValid: boolean = parseFloat(amount) > 0
-  const isRecipientValid: boolean = checkAddressValid(recipient)
+  try {
+    const amountBigNumber: BigNumber = toBigNumber(amount)
+    const isAmountValid: boolean = amountBigNumber.lte(0)
+    const isRecipientValid: boolean = checkAddressValid(recipient)
 
-  if (!(isAmountValid && isRecipientValid && digitalAsset)) {
-    console.error('Can\'t request gas limit, some parameters are absent')
+    if (!(isAmountValid && isRecipientValid && digitalAsset)) {
+      console.error('Can\'t request gas limit, some parameters are absent')
+
+      return null
+    }
+  } catch (err) {
+    console.error(err)
+
     return null
   }
 
