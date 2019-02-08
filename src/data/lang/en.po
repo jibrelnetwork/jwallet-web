@@ -790,18 +790,18 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:83
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:84
 msgid "Receive assets"
 msgstr ""
 
 #: src/components/AddressPicker/Current/Current.js:37
 #: src/components/AddressPicker/Current/Current.js:38
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:99
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:100
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:91
 msgid "Recipient address"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:54
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:108
 msgid "Copy address"
 msgstr ""
 
@@ -1226,6 +1226,6 @@ msgid ""
 "Please reload this tab to continue using it."
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:51
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:108
 msgid "Copied!"
 msgstr ""
