@@ -800,8 +800,12 @@ function* refreshFiatAmount(): Saga<void> {
     },
   }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
 
-  const isAmountValid: boolean = parseFloat(amount) > 0
-  if (!isAmountValid) {
+  try {
+    const amountBigNumber = toBigNumber(amount)
+    if (amountBigNumber.lte(0)) {
+      throw new Error('InvalidAmount')
+    }
+  } catch (err) {
     yield put(digitalAssetsSend.setFormFieldValue('amountFiat', ''))
     return
   }

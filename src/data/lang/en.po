@@ -1091,7 +1091,7 @@ msgstr "Reload Asset"
 
 #: src/components/DigitalAssetsGrid/Asset/AssetCardBody/AssetCardBody.js:129
 msgid "Show transactions"
-msgstr "Display Transactions"
+msgstr ""
 
 #: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js:57
 msgid "Hide zero balance"
