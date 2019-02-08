@@ -1227,5 +1227,5 @@ msgid ""
 msgstr ""
 
 #: src/components/CopyableField/CopyableField.js:94
-msgid "'Copied!'"
+msgid "Copied!"
 msgstr ""
