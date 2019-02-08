@@ -6,6 +6,7 @@ import { t, jt } from 'ttag'
 
 import JText from 'components/base/JText'
 import getTxFee from 'utils/transactions/getTxFee'
+import ethereum from 'data/assets/ethereum'
 
 type Props = {|
   +addressNames: AddressNames,
@@ -36,14 +37,16 @@ function DigitalAssetsSendConfirmCard({
 
   const {
     symbol,
-    blockchainParams: {
-      decimals,
-    },
   }: DigitalAsset = selectedAsset
 
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
-  const fee: string = getTxFee(parseFloat(gasLimit), String(gasPrice), decimals)
+  const fee: string = getTxFee(
+    parseFloat(gasLimit),
+    String(gasPrice),
+    // fee is calculated in Ethereum
+    ethereum.blockchainParams.decimals
+  )
 
   const hasComment: boolean = !!formFieldValues.comment
   const hasNonce: boolean = !!formFieldValues.nonce
@@ -55,7 +58,7 @@ function DigitalAssetsSendConfirmCard({
       <div className='content'>
         {isPotentiallyFail &&
         <div className='willfail'>
-          {jt`Your transaction does not pass one or more check-ups, so we assume 
+          {jt`Your transaction does not pass one or more check-ups, so we assume
             ${boldWillFail}. Please make sure you know what you are doing before proceeding`}
         </div>}
         <div className='amount'>{`${amount} ${symbol}`}</div>
