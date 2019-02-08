@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import config from 'config'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
@@ -39,13 +40,13 @@ class CopyableField extends PureComponent<Props, StateProps> {
   }
 
   onClick = (copy: CopyableFieldHandler, value: string) => {
+    (copy)(value)
+
     this.setState({ isSuccess: true })
 
     this.toggleTimeout = setTimeout(() => {
       this.setState({ isSuccess: false })
-    }, 2000)
-
-    return (copy)(value)
+    }, config.messageCopyTimeout)
   }
 
   componentWillUnmount() {
@@ -79,7 +80,6 @@ class CopyableField extends PureComponent<Props, StateProps> {
         </div>
         <div className='overlay'>
           <OverlayActions
-            // copy={handle(copy)(value)}
             copy={handle(this.onClick)(copy, value)}
             load={download ? handle(download)(value) : null}
             loadLabel={t`Download as TXT`}
@@ -91,7 +91,7 @@ class CopyableField extends PureComponent<Props, StateProps> {
             <JIcon name='check-circle' color='white' size='medium' />
           </div>
           <div className='text'>
-            <JText value={t`'Copied!'`} color='white' weight='bold' />
+            <JText value={t`Copied!`} color='white' weight='bold' />
           </div>
         </div>
       </div>
