@@ -9,6 +9,8 @@ import router from 'routes/index'
 import configureStore from 'store/configureStore'
 import { gaSetUserDimension, DIMENSIONS } from 'utils/analytics'
 
+import './data/lang'
+
 import AppContainer from './AppContainer'
 
 import browsercheck from './browsercheck'

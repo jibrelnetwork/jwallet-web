@@ -1,18 +1,27 @@
 // @flow
 
-import toBigNumber from 'utils/numbers/toBigNumber'
+import { divDecimals, toBigNumber } from 'utils/numbers'
 
-function compareDigitalAssetsByBalance(
-  first: ?Balance,
-  second: ?Balance,
-  direction: SortDirection,
-): number {
-  if (!(first && second)) {
-    return 0
+const toNominalValue = (asset: DigitalAssetWithBalance) => {
+  const { balance } = asset
+  const { decimals } = asset.blockchainParams
+  if (!balance || !decimals) {
+    return toBigNumber()
   }
 
-  const firstNum = toBigNumber(first.value)
-  const secondNum = toBigNumber(second.value)
+  return divDecimals(
+    balance.value,
+    decimals
+  )
+}
+
+function compareDigitalAssetsByBalance(
+  first: DigitalAssetWithBalance,
+  second: DigitalAssetWithBalance,
+  direction: SortDirection,
+): number {
+  const firstNum = toNominalValue(first)
+  const secondNum = toNominalValue(second)
 
   if (firstNum.gt(secondNum)) {
     return (direction === 'asc') ? 1 : -1

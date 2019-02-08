@@ -14,7 +14,7 @@ function checkWalletUniqueness(
   })
 
   if (foundWallet) {
-    throw new Error(t`Wallet with such ${propertyName} already exists`)
+    throw new Error(t`Wallet with such ${foundWallet.name} already exists`)
   }
 }
 

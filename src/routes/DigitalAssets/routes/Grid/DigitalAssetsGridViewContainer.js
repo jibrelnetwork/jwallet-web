@@ -82,8 +82,8 @@ function sortDigitalAssets(
       first: DigitalAssetWithBalance,
       second: DigitalAssetWithBalance,
     ): number => compareDigitalAssetsByBalance(
-      first.balance,
-      second.balance,
+      first,
+      second,
       sortByBalanceDirection,
     ))
   }
