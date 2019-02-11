@@ -796,18 +796,18 @@ msgstr "From"
 msgid "To"
 msgstr "To"
 
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:50
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:84
 msgid "Receive assets"
 msgstr "Receive Assets"
 
 #: src/components/AddressPicker/Current/Current.js:37
 #: src/components/AddressPicker/Current/Current.js:38
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:66
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:100
 #: src/routes/DigitalAssets/routes/Send/components/Form/Form.js:91
 msgid "Recipient address"
 msgstr "Recipient Address"
 
-#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:74
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:108
 msgid "Copy address"
 msgstr "Copy Address"
 
@@ -1247,8 +1247,10 @@ msgid ""
 "Jwallet can be open only in one tab simultaneously.\n"
 "Please reload this tab to continue using it."
 msgstr ""
-"Jwallet can be only be open in one tab at a time.\n"
-"Please reload this page to continue using the Jwallet."
+
+#: src/routes/DigitalAssets/routes/Receive/DigitalAssetsReceiveView.js:108
+msgid "Copied!"
+msgstr ""
 
 #: src/routes/DigitalAssets/routes/Send/components/Confirm/Card/Card.js:61
 msgid ""

@@ -185,6 +185,8 @@ const config: AppConfig = {
   sessionIDKey: 'jwallet.activeTab',
 
   minPasswordStrengthScore: 3,
+
+  messageCopyTimeout: 2000,
 }
 
 export default config
