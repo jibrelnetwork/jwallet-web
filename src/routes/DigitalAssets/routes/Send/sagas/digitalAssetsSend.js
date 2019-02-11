@@ -33,6 +33,7 @@ import {
   fromWeiToGWei,
   fromGweiToWei,
   toBigNumber,
+  isValidNumeric,
 } from 'utils/numbers'
 
 import {
@@ -55,6 +56,9 @@ import * as transactions from 'routes/modules/transactions'
 import * as digitalAssetsSend from '../modules/digitalAssetsSend'
 
 const MIN_GAS_PRICE_COEFFICIENT = 0.25
+
+const isValidNumericAndBiggerThanZero = (value: string): boolean =>
+  isValidNumeric(value) && parseFloat(value) > 0
 
 function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Saga<void> {
   const {
@@ -157,17 +161,11 @@ function* requestGasLimit(): Saga<?number> {
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
 
-  try {
-    const amountBigNumber: BigNumber = toBigNumber(amount)
-    const isAmountValid: boolean = !amountBigNumber.lte(0)
-    const isRecipientValid: boolean = checkAddressValid(recipient)
+  const isAmountValid: boolean = isValidNumericAndBiggerThanZero(amount)
+  const isRecipientValid: boolean = checkAddressValid(recipient)
 
-    if (!(isAmountValid && isRecipientValid && digitalAsset)) {
-      console.error('Can\'t request gas limit, some parameters are absent')
-
-      return null
-    }
-  } catch (err) {
+  if (!(isAmountValid && isRecipientValid && digitalAsset)) {
+    console.error('Can\'t request gas limit, some parameters are absent')
     yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
 
     return null
@@ -248,8 +246,9 @@ function* checkPriority(
   const requestedGasLimit: ?number = yield* requestGasLimit()
 
   if (priority === 'CUSTOM') {
-    const isGasPriceValid: boolean = parseFloat(userGasPrice) > 0
-    const isGasLimitValid: boolean = parseInt(userGasLimit, 10) > 0
+    const isGasPriceValid: boolean = isValidNumericAndBiggerThanZero(userGasPrice)
+    const isGasLimitValid: boolean = isValidNumeric(userGasLimit) &&
+      parseInt(userGasLimit, 10) > 0
 
     if (!isGasPriceValid) {
       yield put(digitalAssetsSend.setFormFieldError('gasPrice', t`Invalid value for gas price`))
@@ -415,16 +414,9 @@ function* prepareAndCheckDigitalAssetsSendData(): Saga<boolean> {
   // simple fields
   const isRecipientAddressValid: boolean = checkAddressValid(recipient)
 
-  try {
-    const amountBigNumber: BigNumber = toBigNumber(amount)
-    const isAmountValid: boolean = !amountBigNumber.lte(0)
+  const isAmountValid: boolean = isValidNumericAndBiggerThanZero(amount)
 
-    if (!isAmountValid) {
-      yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
-
-      return false
-    }
-  } catch (err) {
+  if (!isAmountValid) {
     yield put(digitalAssetsSend.setFormFieldError('amount', t`Invalid amount`))
 
     return false
@@ -679,7 +671,7 @@ function* updateGasLimit(): Saga<void> {
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
   if (assetAddress &&
-    parseFloat(amount) > 0 &&
+    isValidNumericAndBiggerThanZero(amount) &&
     checkAddressValid(recipient)
   ) {
     const gasLimit = yield* requestGasLimit()
@@ -818,12 +810,7 @@ function* refreshFiatAmount(): Saga<void> {
     },
   }: DigitalAssetsSendState = yield select(selectDigitalAssetsSend)
 
-  try {
-    const amountBigNumber = toBigNumber(amount)
-    if (amountBigNumber.lte(0)) {
-      throw new Error('InvalidAmount')
-    }
-  } catch (err) {
+  if (!isValidNumericAndBiggerThanZero(amount)) {
     yield put(digitalAssetsSend.setFormFieldValue('amountFiat', ''))
     return
   }
