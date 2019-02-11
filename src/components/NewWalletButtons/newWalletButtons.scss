@@ -1,0 +1,25 @@
+.new-wallet-buttons {
+  @include flex-column-center;
+
+  > .separator {
+    width: 60px;
+    height: 1px;
+    margin: 40px auto;
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  > .create {
+    margin-bottom: 1px;
+    border-radius: 3px 3px 0 0;
+  }
+
+  > .import {
+    border-radius: 0 0 3px 3px;
+  }
+
+  > .create,
+  > .import {
+    overflow: hidden;
+  }
+}

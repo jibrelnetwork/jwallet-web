@@ -1,0 +1,34 @@
+.qr-code {
+  all: initial;
+
+  @include box;
+  @include flex-row-center;
+
+  position: relative;
+  max-height: 0;
+  height: $qr-code-height;
+  border: solid 1px transparent;
+  visibility: hidden;
+  opacity: 0;
+  transition: max-height 0.6s ease 0s, opacity 0.6s ease 0s;
+
+  &.-active {
+    max-height: $qr-code-height;
+    border: solid 1px $pale-grey-two;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.-white {
+    border: none;
+  }
+
+  > .qr {
+    @include flex-row-center;
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: opacity 0.6s ease 0s;
+  }
+}

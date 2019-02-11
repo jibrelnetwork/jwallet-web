@@ -1,0 +1,42 @@
+.asset-card {
+  all: initial;
+
+  @include box;
+  @include font;
+  @include flex-column;
+  @include hover-animation;
+
+  position: relative;
+  background-color: $white;
+  box-shadow: 0 3px 6px 0 rgba($dusk, 0.05);
+  border-radius: 5px;
+  padding: 25px;
+  height: 220px;
+  text-align: center;
+
+  &:hover {
+    box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
+  }
+
+  > .symbol {
+    margin: 0 auto;
+    font-size: 18px;
+
+    &.-text {
+      height: 36px;
+      padding-top: 11px;
+    }
+  }
+
+  > .name {
+    margin-top: 20px;
+  }
+
+  > .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    height: 95px;
+  }
+}

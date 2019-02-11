@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="list-sky" transform="translate(-1258.5 -186.5)">
+    <rect id="Rectangle_12563" data-name="Rectangle 12563" class="cls-1" width="24" height="24" transform="translate(1258.5 186.5)"/>
+    <g id="copy-paste" transform="translate(1258.75 186.751)">
+      <path id="Path_21111" data-name="Path 21111" class="cls-2" d="M20.128,8.149V5.216a1.467,1.467,0,0,0-1.467-1.467H14.75" transform="translate(-0.311 -0.067)"/>
+      <path id="Path_21112" data-name="Path 21112" class="cls-2" d="M6.128,3.749H2.217A1.467,1.467,0,0,0,.75,5.216V21.349a1.467,1.467,0,0,0,1.467,1.467H8.083" transform="translate(0 -0.067)"/>
+      <path id="Path_21113" data-name="Path 21113" class="cls-2" d="M14.224,4.647a.734.734,0,0,1-.7.5H7.252a.734.734,0,0,1-.7-.5L5.578,1.714a.732.732,0,0,1,.7-.965h8.231a.732.732,0,0,1,.7.965Z" transform="translate(-0.106 0)"/>
+      <rect id="Rectangle_12302" data-name="Rectangle 12302" class="cls-2" width="11.733" height="11.733" rx="1.5" transform="translate(11.017 11.016)"/>
+      <line id="Line_6077" data-name="Line 6077" class="cls-2" x2="5.867" transform="translate(13.95 13.949)"/>
+      <line id="Line_6078" data-name="Line 6078" class="cls-2" x2="5.867" transform="translate(13.95 16.882)"/>
+      <line id="Line_6079" data-name="Line 6079" class="cls-2" x2="2.2" transform="translate(13.95 19.816)"/>
+    </g>
+  </g>
+</svg>

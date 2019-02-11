@@ -1,0 +1,14 @@
+.subsettings-view {
+  all: initial;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  > .container {
+    max-width: 455px;
+    min-width: 100px;
+    margin: 0 auto;
+  }
+}

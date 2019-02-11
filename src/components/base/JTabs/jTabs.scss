@@ -1,0 +1,32 @@
+.j-tabs {
+  all: initial;
+
+  @include flex-row-center;
+  @include font;
+
+  height: 100%;
+
+  > .tab {
+    @include flex-row-center;
+    @include hover-animation;
+
+    position: relative;
+    height: 100%;
+    font-size: 20px;
+    color: $blue;
+
+    &:not(:last-child) {
+      margin-right: 50px;
+    }
+
+    &:hover,
+    &:active {
+      color: $bright-sky-blue;
+    }
+
+    &.-active {
+      color: $dark;
+      cursor: default;
+    }
+  }
+}

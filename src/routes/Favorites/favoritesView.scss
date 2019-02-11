@@ -1,0 +1,96 @@
+@import 'styles/mixins';
+
+.favorites-view {
+  all: initial;
+
+  @include box;
+  @include flex-column-center;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  > .header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+    background-image:
+      linear-gradient(
+        to bottom,
+        hsl(228, 33.33%, 97.06%) 0%,
+        hsl(228, 33.33%, 97.06%) 60%,
+        hsla(228, 33.33%, 97.06%, 0) 100%
+      );
+
+    > .container {
+      @include flex-row;
+      @include header-container;
+
+      align-items: center;
+      justify-content: space-between;
+      height: $page-header-height;
+
+      > .actions {
+        display: flex;
+        align-items: center;
+        position: relative;
+        height: 100%;
+
+        > .add {
+          display: inline-block;
+          align-items: center;
+          opacity: 0.5;
+          transition: opacity 0.3s ease 0s;
+          padding: 12px;
+          margin: -12px -12px -12px 33px;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  > .content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    > .container {
+      all: initial;
+      display: block;
+      position: relative;
+      width: 100%;
+      max-width: 1020px;
+      font-size: 0;
+      margin: 0 auto -20px auto;
+      padding-top: $page-header-height;
+
+      > .box {
+        padding: 0 10px 10px;
+      }
+    }
+  }
+
+  &.-address {
+    @include flex-column;
+
+    position: relative;
+    height: 100%;
+    padding: 50px;
+
+    > .form {
+      @include flex-column;
+
+      justify-content: center;
+      height: 100%;
+      width: 480px;
+      margin: 0 auto;
+      min-height: 100%;
+      padding: 50px 0;
+    }
+  }
+}

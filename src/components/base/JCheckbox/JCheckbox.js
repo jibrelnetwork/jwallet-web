@@ -1,28 +1,71 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-function JCheckbox({ toggle, label, className, isActive }) {
-  const checkboxLabel = label.length ? <div className='checkbox__label'>{label}</div> : null
+import React, { PureComponent } from 'react'
 
-  return (
-    <div className={`checkbox ${className}`} onClick={toggle(!isActive)}>
-      <div className={`checkbox__icon checkbox__icon--${isActive ? 'enabled' : 'disabled'}`} />
-      {checkboxLabel}
-    </div>
-  )
-}
+import classNames from 'classnames'
+import JText from 'components/base/JText'
 
-JCheckbox.propTypes = {
-  toggle: PropTypes.func.isRequired,
-  label: PropTypes.string,
-  className: PropTypes.string,
-  isActive: PropTypes.bool,
-}
+type Props = {|
+  +onChange: ?((boolean) => void),
+  +name: string,
+  +label: string,
+  +color: 'white' | 'gray',
+  +children: ?React$Node,
+  +isRegular: boolean,
+  +isChecked: boolean,
+|}
 
-JCheckbox.defaultProps = {
-  label: '',
-  className: '',
-  isActive: false,
+class JCheckbox extends PureComponent<Props> {
+  static defaultProps = {
+    color: 'gray',
+    children: null,
+    isRegular: false,
+    isChecked: false,
+  }
+
+  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+    if (this.props.onChange) {
+      this.props.onChange(event.target.checked)
+    }
+  }
+
+  /* eslint-disable jsx-a11y/label-has-for */
+  render() {
+    const {
+      name,
+      label,
+      color,
+      children,
+      isRegular,
+      isChecked,
+    } = this.props
+
+    return (
+      <div className={classNames('j-checkbox', `-${color}`)}>
+        <label className='field'>
+          <input
+            onChange={this.onChange}
+            name={`checkbox-${name}`}
+            type='checkbox'
+            className='checkbox'
+            defaultChecked={isChecked}
+          />
+          <span className='flag' />
+          <span className='label'>
+            <JText
+              color={color}
+              size='normal'
+              value={label}
+              weight={isRegular ? null : 'bold'}
+              whiteSpace='wrap'
+            />
+          </span>
+          {children}
+        </label>
+      </div>
+    )
+  }
+  /* eslint-enable jsx-a11y/label-has-for */
 }
 
 export default JCheckbox

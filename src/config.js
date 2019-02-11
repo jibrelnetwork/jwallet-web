@@ -1,6 +1,16 @@
-export default {
+// @flow
+
+const ONE_SECOND: number = 1000
+const ONE_MINUTE: number = 60 * ONE_SECOND
+const ONE_HOUR: number = 60 * ONE_MINUTE
+const ONE_DAY: number = 24 * ONE_HOUR
+
+const ONE_KB: number = 1024
+const ONE_MB: number = 1024 * ONE_KB
+
+const config: AppConfig = {
   // timeout for search input field (to prevent searching on each entered symbol)
-  searchTimeout: 400,
+  searchTimeout: 250,
 
   // timeout for resetting of pincode incorrect state
   resetIncorrectPincodeTimeout: 1000,
@@ -28,12 +38,8 @@ export default {
 
   // default QRCode appearance
   qrCodeDefaultAppearance: {
-    size: 150,
+    width: 240,
     errorCorrectionLevel: 'high',
-    color: {
-      light: '#ffcc00ff',
-      dark: '#001111ff',
-    },
   },
 
   /**
@@ -63,8 +69,17 @@ export default {
     size: 2,
   },
 
-  etherscanApiOptions: {
+  blockExplorerAPIOptions: {
     method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    cache: 'default',
+  },
+
+  tickerAPIOptions: {
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -74,4 +89,102 @@ export default {
 
   // max password length
   maxPasswordLength: 40,
+
+  // delay before form will be cleaned
+  delayBeforeFormClean: 1000,
+
+  // defaul derivation path for mnemonic
+  defaultDerivationPath: 'm/44\'/60\'/0\'/0',
+
+  /**
+   * minimum balance loading timeout (ms)
+   * to prevent blinking of loader for fast response
+   */
+  balanceLoadingTimeout: 300,
+
+  /**
+   * timeout for showing a message, that some content was copied to buffer (ms)
+   */
+  copyToBufferTimeout: 5 * 1000,
+
+  /**
+   * timeout for waiting of current wallet ID initialisation
+   */
+  walletIdInitTimeout: 100,
+
+  blockExplorerUILink: 'etherscan.io',
+
+  /**
+   * supported languages
+   */
+  supportedLanguages: ['en', 'ko', 'zh', 'ja'],
+
+  /**
+   * number of addresses derived from bip32 extended public key
+   */
+  mnemonicAddressesCount: 4,
+
+  /**
+   * landing page url
+   */
+  landingURL: 'https://jwallet.network',
+
+  /**
+   * timeout before confirming of delete wallet action
+   */
+  deleteConfirmTimeout: 30,
+
+  latestBlockSyncTimeout: 30 * ONE_SECOND,
+
+  currentBlockSyncTimeout: 5 * ONE_SECOND,
+
+  processingBlockWaitTimeout: 1 * ONE_SECOND,
+
+  syncTransactionsTimeout: 10 * ONE_SECOND,
+
+  maxBlocksPerTransactionsRequest: 200 * 1000,
+
+  minBlocksPerTransactionsRequest: 1000,
+
+  blockExplorerMaxResponseSize: 0.5 * ONE_MB,
+
+  requestQueueWorkersCount: 4,
+
+  resyncTransactionsTimeout: 5 * ONE_MINUTE,
+
+  syncBalancesTimeout: 10 * ONE_SECOND,
+
+  miningDelay: ONE_DAY,
+
+  addressWalletType: 'address',
+
+  mnemonicWalletType: 'mnemonic',
+
+  encryptedDataLength: 120,
+
+  defaultSaltBytesCount: 32,
+
+  defaultScryptParams: {
+    /**
+     * 2 ** 18 - complexity like geth
+     * 2 ** 14 - recommended Scrypt complexity
+     */
+    N: __DEV__ ? 2 ** 14 : 2 ** 18,
+    r: 8,
+    p: 1,
+  },
+
+  defaultEncryptionType: 'nacl.secretbox',
+
+  defaultDerivationKeyLength: 32,
+
+  defaultRandomBufferLength: 32,
+
+  fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
+
+  sessionIDKey: 'jwallet.activeTab',
+
+  minPasswordStrengthScore: 3,
 }
+
+export default config

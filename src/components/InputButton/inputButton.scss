@@ -1,0 +1,60 @@
+.input-button {
+  all: initial;
+  position: relative;
+  display: block;
+
+  > .button {
+    @include flex-row-center;
+
+    border-radius: 3px;
+    border: 1px dashed rgba($dusk, 0.3);
+    opacity: 0.7;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    transition: opacity 0.3s ease 0s, visibility 0.3s ease 0s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  > .field {
+    opacity: 0;
+    position: relative;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease 0s, visibility 0.3s ease 0s;
+
+    > .close {
+      top: 50%;
+      right: 13px;
+      position: absolute;
+      cursor: pointer;
+      margin-top: -12px;
+      transition: opacity 0.3s ease 0s;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &.-active {
+    > .button {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    > .field {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+}

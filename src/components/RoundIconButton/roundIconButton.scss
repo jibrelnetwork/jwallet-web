@@ -1,0 +1,76 @@
+.round-icon-button {
+  all: initial;
+
+  @include flex-row;
+
+  cursor: pointer;
+
+  > .label,
+  > .icon {
+    @include flex-row-center;
+    @include hover-animation;
+  }
+
+  > .label {
+    margin-right: 15px;
+    opacity: 0.5;
+  }
+
+  > .icon {
+    @include box;
+
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  &:hover {
+    > .label {
+      opacity: 1;
+    }
+
+    > .icon {
+      opacity: 1;
+    }
+  }
+
+  &.-box-shadow {
+    > .icon {
+      box-shadow: 0 3px 6px 0 rgba($dusk, 0.2);
+    }
+  }
+
+  &.-bg-blue {
+    > .icon {
+      background-color: $blue-two;
+      opacity: 1;
+    }
+
+    &:hover {
+      > .icon {
+        background-color: $bright-sky-blue;
+      }
+    }
+  }
+
+  &.-border {
+    > .icon {
+      border: 1px solid $white;
+    }
+
+    &:hover {
+      > .icon {
+        box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
+      }
+    }
+  }
+
+  &.-gray {
+    &.-border {
+      > .icon {
+        border: 1px solid $dusk;
+      }
+    }
+  }
+}

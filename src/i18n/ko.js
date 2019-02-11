@@ -1,25 +1,36 @@
-/* eslint-disable max-len */
-
+/* eslint-disable-next-line fp/no-mutation */
 module.exports = {
   language: 'ko', // not translate
+  menu: {
+    send: 'Send funds',
+    receive: 'Receive funds',
+    favorite: 'Favorite',
+  },
+  assetsPanel: {
+    button: 'Add digital asset',
+  },
   warning: {
     memoryStorage: '메모리를 스토리지로 사용 중입니다. 반드시 키를 백업하세요!',
   },
   header: {
-    sendTitle: '출금',
-    receiveTitle: '입금',
-    convertTitle: '전환',
-    keyManagerTitle: '키 관리',
+    sendTitle: 'Send',
+    receiveTitle: 'Receive',
+    convertTitle: 'Convert',
+    keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
-  networkManager: {
-    knownNetworkTitle: {
-      main: '메인 이더리움 네트워크',
-      ropsten: 'Ropsten 테스트 네트워크',
-      kovan: 'Kovan 테스트 네트워크',
-      rinkeby: 'Rinkeby 테스트 네트워크',
+  networks: {
+    default: {
+      main: 'Main Network',
+      ropsten: 'Ropsten',
+      kovan: 'Kovan',
+      rinkeby: 'Rinkeby',
+      localhost: 'Localhost 8545',
     },
     placeholder: {
-      customNetwork: '커스텀 RPC',
+      customNetwork: 'Custom RPC',
     },
   },
   languages: {
@@ -27,6 +38,163 @@ module.exports = {
     zh: 'Chinese',
     ko: 'Korean',
     ja: 'Japanese',
+  },
+  routes: {
+    addCustomAsset: {
+      title: 'Add Custom Asset',
+      buttonTitle: 'Add asset',
+      placeholder: {
+        address: '주소',
+        name: '이름',
+        symbol: '심볼',
+        decimals: 'decimals',
+      },
+    },
+    editCutomAsset: {
+      title: 'Edit Custom Asset',
+      buttonTitle: 'Save',
+      placeholder: {
+        address: 'Address',
+        name: 'Name',
+        symbol: 'Symbol',
+        decimals: 'Decimals',
+      },
+    },
+    backupKeys: {
+      title: 'Backup Keys',
+      buttonTitle: 'Backup keys',
+      placeholder: {
+        password: '키스토어 비밀번호',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+      },
+    },
+    changePassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
+    createWallet: {
+      title: 'Create New Mnemonic Wallet',
+      alert: {
+        mnemonic: 'Your mnemonic provides access to your assets!',
+        mnemonicConfirm: 'Confirm your mnemonic by re-entering it below.',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        mnemonic: 'Your mnemonic',
+        mnemonicConfirm: 'Confirm mnemonic',
+        name: 'Wallet name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      buttonTitle: {
+        save: 'Save as TXT',
+        confirm: 'Confirm',
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
+    importWallet: {
+      title: 'Import Wallet',
+      alert: {
+        data: 'Please enter your wallet data',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        data: 'Address, private key, mnemonic, BIP32 xpub',
+        name: 'Wallet name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      error: {
+        data: {
+          invalid: 'Please input valid data to import',
+        },
+      },
+      buttonTitle: {
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
+    editWallet: {
+      title: 'Edit Wallet',
+      placeholder: {
+        address: 'Address',
+        name: 'Wallet name',
+        password: 'Password',
+      },
+      buttonTitle: {
+        save: 'Save',
+        confirm: 'Confirm',
+      },
+    },
+    changeWalletPassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+    },
+    removeWallet: {
+      title: 'Remove wallet',
+      buttonTitle: 'Yes, remove wallet',
+      info: {
+        title: 'Remove current wallet',
+        text: [
+          'All user data, including imported or generated',
+          'private keys are stored locally, meaning your private',
+        ],
+      },
+    },
+    receiveFunds: {
+      title: 'Receive Funds',
+      buttonTitleCopy: 'Copy address',
+      buttonTitleCopied: 'Copied!',
+      placeholder: {
+        symbol: 'Asset',
+        amount: 'Amount',
+        recipient: 'Address',
+      },
+    },
+    sendFunds: {
+      title: 'Send Funds',
+      optionalTitle: 'Optional',
+      buttonTitleForm: 'Send funds',
+      buttonTitlePassword: 'Confirm',
+      alert: {
+        internalError: 'Transaction failed. Please try again',
+      },
+      placeholder: {
+        sender: 'Address',
+        symbol: 'Asset',
+        amount: 'Amount',
+        recipient: 'Recipient address',
+        gas: 'Gas',
+        gasPrice: 'Gas price',
+        nonce: 'Nonce',
+        password: 'Password',
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -213,34 +381,6 @@ module.exports = {
       },
       buttonTitle: 'Derivation Path 설정',
     },
-    backupKeystore: {
-      title: '키스토어 백업',
-      buttonTitle: 'TXT파일로 저장하기',
-      placeholder: {
-        password: '키스토어 비밀번호',
-      },
-      error: {
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-      },
-    },
-    changePassword: {
-      title: '새 키스토어 비밀번호',
-      buttonTitle: '확인',
-      placeholder: {
-        password: '현재 비밀번호',
-        newPassword: '새 비밀번호',
-      },
-      error: {
-        password: {
-          invalid: '비밀번호 불일치',
-        },
-        newPassword: {
-          weak: '비밀번호가 취약합니다',
-        },
-      },
-    },
     removeAccounts: {
       title: '키스토어 초기화',
       alert: '모든 키를 제거하시겠습니까?',
@@ -266,32 +406,6 @@ module.exports = {
         },
       },
       addCustomTokenTitle: '커스텀 토큰 추가',
-    },
-    addCustomToken: {
-      title: '커스텀 토큰 추가',
-      buttonTitle: '저장하기',
-      placeholder: {
-        address: '주소',
-        name: '이름',
-        symbol: '심볼',
-        decimals: 'decimals',
-      },
-      error: {
-        address: {
-          invalid: '유효한 컨트랙트 주소를 입력해주세요',
-          exists: 'Token with this address already exists',
-        },
-        name: {
-          invalid: '유효한 컨트랙트 이름을 입력해주세요',
-        },
-        symbol: {
-          invalid: '유효한 컨트랙트 심볼을 입력해주세요',
-          exists: 'Token with this symbol already exists',
-        },
-        decimals: {
-          invalid: '유효한 컨트랙트 소수점을 입력해주세요',
-        },
-      },
     },
     alphaWarning: {
       buttonTitle: '알겠습니다',
@@ -352,6 +466,69 @@ module.exports = {
     },
     filterTitle: '날짜',
   },
+  general: {
+    error: {
+      password: {
+        invalid: 'Invalid Password',
+      },
+      confirmPassword: {
+        notMatched: 'Password should match',
+      },
+      mnemonicConfirm: {
+        notMatched: 'Mnemonic should match',
+      },
+      walletName: {
+        empty: 'Key name shouldn\'t be empty',
+        invalid: 'Please input valid key name',
+        exists: 'Key with this name already exists',
+      },
+      derivationPath: {
+        invalid: 'Please input valid custom derivation path',
+      },
+      searchQuery: {
+        invalid: 'Search query is invalid',
+      },
+      address: {
+        invalid: 'Address should be a valid contract address',
+        exists: 'Asset with this address already exists',
+        tooShort: 'Address is too short',
+        notERC20: 'This contract is not ERC-20 compatible',
+      },
+      name: {
+        invalid: 'Name should be a valid contract name',
+        exists: 'Asset with this name already exists',
+      },
+      symbol: {
+        invalid: 'Symbol should be a valid contract symbol',
+        exists: 'Asset with this symbol already exists',
+      },
+      decimals: {
+        invalid: 'Decimals should be valid contract decimals',
+      },
+      amount: {
+        invalid: 'Please enter a valid transfer amount',
+        lessThan0: 'Amount should be greater than 0',
+        exceedsBalance: 'Amount specified exceeds current balance. Please enter a valid amount.',
+        emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
+      },
+      recipient: {
+        invalid: 'Please enter a valid wallet address',
+      },
+      gas: {
+        invalid: 'Please enter a valid gas limit value',
+        lessThan0: 'Gas limit should be greater than 0',
+      },
+      gasPrice: {
+        invalid: 'Please input a valid gas price value',
+        lessThan0: 'Gas price should be greater than 0',
+      },
+      nonce: {
+        invalid: 'Please input a valid transaction nonce',
+        lessThan0: 'Nonce should be greater than or equal 0 to',
+      },
+      network: {
+        connection: 'Connection error',
+      },
+    },
+  },
 }
-
-/* eslint-enable max-len */

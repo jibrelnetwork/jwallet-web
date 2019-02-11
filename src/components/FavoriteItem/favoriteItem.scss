@@ -1,0 +1,177 @@
+.favorite-item {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 20px 0;
+  height: 80px;
+
+  > .symbol {
+    @include flex-row-center;
+
+    flex: 0 0 80px;
+
+    &.-icon {
+      opacity: 0.2;
+    }
+
+    &.-text {
+      height: 36px;
+    }
+  }
+
+  > .data {
+    padding: 0 20px;
+    width: 380px;
+    position: relative;
+    border-left: 1px solid $pale-grey-two;
+
+    > .title {
+      display: block;
+      position: relative;
+      font-size: 14px;
+      line-height: 21px;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        pointer-events: none;
+      }
+    }
+
+    > .address {
+      display: block;
+      font-size: 12px;
+      opacity: 0.5;
+    }
+  }
+
+  > .description {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1 1;
+    min-width: 58px;
+    padding: 0 20px;
+    border-left: 1px solid $pale-grey-two;
+    height: 40px;
+    overflow: hidden;
+
+    > .icon {
+      display: flex;
+      opacity: 0.3;
+      height: 100%;
+      margin-top: 2px;
+      align-items: center;
+    }
+
+    > .text {
+      flex: 1 0;
+      color: $dusk;
+      font-size: 13px;
+      opacity: 0.5;
+      padding: 0 0 0 10px;
+      line-height: 40px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: clip;
+      position: relative;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        pointer-events: none;
+      }
+    }
+  }
+
+  > .spacer {
+    flex: 1 1 0;
+  }
+
+  > .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+  }
+
+  &.-active > .overlay {
+    display: block;
+  }
+
+  > .actions {
+    display: flex;
+    flex: 0 0 74px;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    position: relative;
+    height: 100%;
+
+    > .item {
+      cursor: pointer;
+
+      &:not(:first-child) {
+        margin-left: 30px;
+      }
+
+      &.-send,
+      &.-edit,
+      &.-delete {
+        display: none;
+      }
+
+      &.-dots {
+        opacity: 0.3;
+        transition: opacity 0.2s ease;
+
+        &:hover,
+        &:active {
+          opacity: 0.6;
+        }
+      }
+    }
+
+    > .button {
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &.-active {
+    > .actions {
+      > .item {
+        &.-dots {
+          display: none;
+        }
+
+        &.-send,
+        &.-edit,
+        &.-delete {
+          display: block;
+        }
+      }
+    }
+  }
+}

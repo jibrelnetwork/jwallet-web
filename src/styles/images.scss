@@ -1,26 +1,28 @@
-$bg-currency-eth: url('../public/img/currencies/bg/eth.png');
-$bg-currency-jusd: url('../public/img/currencies/bg/jusd.png');
-$bg-currency-jeur: url('../public/img/currencies/bg/jeur.png');
-$bg-currency-jgbp: url('../public/img/currencies/bg/jgbp.png');
-$bg-currency-jaed: url('../public/img/currencies/bg/jaed.png');
-$bg-currency-jrub: url('../public/img/currencies/bg/jrub.png');
-$bg-currency-jcny: url('../public/img/currencies/bg/jcny.png');
-$bg-currency-jkrw: url('../public/img/currencies/bg/jkrw.png');
-$bg-currency-jnt: url('../public/img/currencies/bg/jnt.png');
+/**
+ * Logo
+ */
+$logo-full-width: 137px;
+$logo-full-height: 36px;
 
-$logo: url("../public/img/logo.svg");
-$logo1024: url("../public/img/logo1024.svg");
-$logo-sale: url("../public/img/logo-sale.svg");
+$logo-full: url('../public/assets/logo/logo.svg');
 
-$loader-image: url('../public/img/logo-loading.svg');
+$logo-icon-width: 37px;
+$logo-icon-height: 32px;
 
-$modal-button-loader: url('../public/img/modal/button-loader.gif');
-$modal-done: url('../public/img/modal/done.svg');
-$modal-email-no-ok: url('../public/img/modal/email-no-ok.svg');
-$modal-email-ok: url('../public/img/modal/email-ok.svg');
-$modal-error: url('../public/img/modal/error.svg');
-$modal-keys-no-ok: url('../public/img/modal/keys-no-ok.svg');
-$modal-keys-ok: url('../public/img/modal/keys-ok.svg');
-$modal-screenshot: url('../public/img/modal/screenshot.svg');
-$modal-spy: url('../public/img/modal/spy.svg');
-$modal-warning: url('../public/img/modal/warning.svg');
+$logo-icon: url('../public/assets/logo/logo-icon.svg');
+
+/**
+ * Loader
+ */
+$loader-image: url('../public/assets/loader/logo-loading.svg');
+
+/**
+ * Thumbnail
+ */
+$thumbnail-width: 200px;
+$thumbnail-height: 165px;
+
+$man-blue: url('../public/assets/thumbnail/man-blue.svg');
+$key-blue: url('../public/assets/thumbnail/key-blue.svg');
+$cloud-white: url('../public/assets/thumbnail/cloud-white.svg');
+$cloud-blue: url('../public/assets/thumbnail/cloud-blue.svg');

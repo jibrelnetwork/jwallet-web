@@ -1,21 +1,19 @@
-import * as alphaWarningModalSagas from 'routes/JWallet/sagas/alphaWarningModal'
-import * as backupKeystoreModalSagas from 'routes/JWallet/sagas/backupKeystoreModal'
-import * as currenciesSagas from 'routes/JWallet/sagas/currencies'
-import * as fundsModalsSagas from 'routes/JWallet/sagas/fundsModals'
-import * as i18nSagas from 'routes/JWallet/sagas/i18n'
-import * as keystoreSagas from 'routes/JWallet/sagas/keystore'
-import * as keystoreModalsSagas from 'routes/JWallet/sagas/keystoreModals'
-import * as networksSagas from 'routes/JWallet/sagas/networks'
-import * as transactionsSagas from 'routes/JWallet/sagas/transactions'
+// @flow
+
+import coreSagas from 'routes/sagas'
+import upgradeSagas from 'routes/Upgrade/sagas'
+import walletsSagas from 'routes/Wallets/sagas'
+import notFoundSagas from 'routes/NotFound/sagas'
+import favoritesSagas from 'routes/Favorites/sagas'
+import digitalAssetsSagas from 'routes/DigitalAssets/sagas'
+import settingsSagas from 'routes/Settings/sagas'
 
 export default {
-  ...alphaWarningModalSagas,
-  ...backupKeystoreModalSagas,
-  ...currenciesSagas,
-  ...fundsModalsSagas,
-  ...i18nSagas,
-  ...keystoreSagas,
-  ...keystoreModalsSagas,
-  ...networksSagas,
-  ...transactionsSagas,
+  ...coreSagas,
+  ...upgradeSagas,
+  ...walletsSagas,
+  ...notFoundSagas,
+  ...favoritesSagas,
+  ...digitalAssetsSagas,
+  ...settingsSagas,
 }

@@ -1,0 +1,15 @@
+.wallet-step {
+  all: initial;
+  display: block;
+  width: 100%;
+
+  > .form {
+    width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+
+    > .actions {
+      margin-top: 20px;
+    }
+  }
+}

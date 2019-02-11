@@ -1,10 +1,58 @@
+// @flow
+
 import CoreLayout from 'layouts/CoreLayout'
-import JWalletRoute from './JWallet'
+import {
+  reactRouterOnChangePageView,
+  reactRouterOnEnterPageView,
+} from 'utils/analytics'
 
-const createRoutes = store => ({
-  path: '/jwallet',
+import Wallets from './Wallets'
+import Settings from './Settings'
+import NotFound from './NotFound'
+import Transactions from './Transactions'
+import DigitalAssets from './DigitalAssets'
+import Favorites from './Favorites'
+import Upgrade from './Upgrade'
+import Agreements from './Agreements'
+
+import {
+  type CoreAction,
+} from './modules'
+
+import {
+  type DigitalAssetsModuleAction,
+} from './DigitalAssets/modules'
+
+import {
+  type NotFoundAction,
+} from './NotFound/modules/notFound'
+
+export type AppAction =
+  CoreAction |
+  NotFoundAction |
+  DigitalAssetsModuleAction
+
+const customAnalyticsRoutes = [
+  /^\/transactions\/.+/,
+  /^\/digital-assets\/edit-asset\/.+/,
+]
+
+export default {
+  path: '/',
   component: CoreLayout,
-  indexRoute: JWalletRoute(store),
-})
-
-export default createRoutes
+  onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
+  onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
+  childRoutes: [
+    /*
+    Funds(store),
+    */
+    Wallets,
+    Settings,
+    Transactions,
+    DigitalAssets,
+    Favorites,
+    Upgrade,
+    Agreements,
+    NotFound,
+  ],
+}

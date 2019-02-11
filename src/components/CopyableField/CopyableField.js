@@ -1,84 +1,57 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-import { JIcon, JTextInput } from 'components/base'
+import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
-class CopyableField extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { isCopied: false }
+import JText from 'components/base/JText'
+import handle from 'utils/eventHandlers/handle'
+import OverlayActions from 'components/OverlayActions'
+
+type CopyableFieldHandler = () => void
+
+type Props = {|
+  +copy: CopyableFieldHandler,
+  +download: ?CopyableFieldHandler,
+  +value: string,
+  +valueToDisplay: ?string,
+|}
+
+class CopyableField extends PureComponent<Props> {
+  static defaultProps = {
+    download: null,
+    valueToDisplay: null,
   }
 
   render() {
-    const { value, placeholder } = this.props
-    const name = placeholder.toLowerCase().replace(' ', '-')
-    const copyTitle = i18n('modals.receiveFunds.copyTitle') || {}
+    const {
+      copy,
+      download,
+      value,
+      valueToDisplay,
+    }: Props = this.props
 
     return (
       <div className='copyable-field'>
-        <JTextInput
-          onValueChange={this.onValueChange}
-          value={value}
-          placeholder={placeholder}
-          name={name}
-          errorMessage={''}
-          successMessage={''}
-          editable={false}
-          multiline={false}
-        />
-        <div className='copyable-field__hidden' id={name}>{value}</div>
-        <JIcon
-          name='copy'
-          onClick={this.copyContentToBuffer(name)}
-          className='copyable-field__copy'
-          title={this.state.isCopied ? copyTitle.done : copyTitle.do}
-        />
+        <div className='value'>
+          <JText
+            value={valueToDisplay || value}
+            size='large'
+            color='white'
+            align='center'
+            whiteSpace='wrap'
+          />
+        </div>
+        <div className='overlay'>
+          <OverlayActions
+            copy={handle(copy)(value)}
+            load={download ? handle(download)(value) : null}
+            loadLabel={t`Download as TXT`}
+            copyLabel={t`Copy recovery text`}
+          />
+        </div>
       </div>
     )
   }
-
-  onValueChange = () => {}
-
-  copyContentToBuffer = name => (/* event */) => {
-    let copySuccess
-
-    const currentTextInputEl = document.getElementById(name)
-    this.selectElementText(currentTextInputEl)
-
-    try {
-      copySuccess = document.execCommand('copy')
-      this.cleanSelection()
-    } catch (e) {
-      copySuccess = false
-    }
-
-    if (copySuccess) {
-      this.setState({ isCopied: true })
-    }
-  }
-
-  selectElementText = (el) => {
-    const range = document.createRange()
-    range.selectNodeContents(el)
-
-    const selection = window.getSelection()
-    selection.removeAllRanges()
-    selection.addRange(range)
-  }
-
-  cleanSelection = () => {
-    const selection = window.getSelection()
-    selection.removeAllRanges()
-  }
-}
-
-CopyableField.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-  value: PropTypes.string,
-}
-
-CopyableField.defaultProps = {
-  value: '',
 }
 
 export default CopyableField

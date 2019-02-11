@@ -1,0 +1,92 @@
+.wallets-view {
+  all: initial;
+
+  @include flex-column-center;
+
+  position: relative;
+  height: 100%;
+
+  > .content {
+    @include box;
+    @include flex-column-center;
+
+    min-height: 100%;
+    flex: 1;
+
+    > .form > .actions {
+      @include flex-row-center;
+    }
+  }
+
+  &.-start {
+    > .content {
+      margin-bottom: -150px;
+
+      > .title {
+        @include flex-column-center;
+
+        line-height: 32px;
+      }
+    }
+
+    > .terms {
+      @include flex-row-center;
+
+      padding: 60px 0;
+      line-height: 30px;
+      opacity: 0.5;
+
+      > .link {
+        margin: 0 5px;
+
+        &:hover {
+          cursor: pointer;
+          color: $bright-sky-blue;
+        }
+      }
+    }
+  }
+
+  &.-index,
+  &.-addresses {
+    height: auto;
+
+    > .content {
+      min-height: 100vh;
+      padding: 150px 0;
+    }
+  }
+
+  &.-index {
+    > .content {
+      > .wallets {
+        > .wallet {
+          overflow: hidden;
+
+          &:first-child {
+            border-radius: 3px 3px 0 0;
+          }
+
+          &:last-child {
+            border-radius: 0 0 3px 3px;
+          }
+
+          &:not(:last-child) {
+            margin-bottom: 1px;
+          }
+        }
+      }
+    }
+  }
+
+  &.-addresses {
+    > .content {
+      > .actions {
+        @include flex-row-center;
+
+        width: 100%;
+        margin-top: 40px;
+      }
+    }
+  }
+}

@@ -1,129 +1,104 @@
 @import 'colors';
 @import 'icons';
 @import 'images';
+@import 'tokens';
+@import 'zindex';
 
-/* Header */
+/**
+ * Window
+ */
+$window-min-width: 1024px;
 
-$header-height: 40px;
-$header-v-padding: 40px;
-$tablet-header-v-padding: 40px;
-$tablet-header-h-padding: 30px;
-$mobile-header-padding: 20px;
-$header-full-height: $header-height + ($header-v-padding * 2);
-$mobile-header-full-height: $header-height + ($mobile-header-padding * 2);
+/**
+ * Base
+ */
+$box-horizontal-padding: 15px;
 
-/* Footer */
+/**
+ * Font
+ */
+$font: 'Open Sans', Arial, sans-serif;
 
-$footer-full-height: 40px;
+/**
+ * Page Header
+ */
+$page-header-height: 130px;
 
-/* Header + Footer */
+/**
+ * Menu Panel
+ */
+$menu-panel-width: 300px;
 
-$header-and-footer-height: $header-full-height + $footer-full-height;
+/**
+ * Form
+ */
+$form-width: 480px;
+$form-field-height: 80px;
+$form-field-gray-height: 65px;
+$form-field-white-height: 48px;
+$form-field-line-height: 1.5;
+$form-border-radius: 3px;
+$form-field-white-padding-vertical: 16px;
+$form-field-horizontal-padding: $box-horizontal-padding;
+$form-field-gray-vertical-padding: 22px;
+$form-field-white-horizontal-padding: 20px;
+$form-field-white-font-size: 14px;
+$form-helpers-font-size: 11px;
+$form-field-margin-bottom: 10px;
+$form-field-full-height: ($form-field-height + $form-field-white-padding-vertical);
 
-/* Logo */
+/**
+ * Select
+ */
+$select-height: ($form-field-height * 3);
 
-$logo-width: 145px;
-$logo-height: 35px;
+/**
+ * Checkbox & Radio
+ */
+$checkbox-item-margin-bottom: 10px;
+$checkbox-dot-size: 16px;
+$checkbox-dot-margin-right: 15px;
 
-/* Key manager */
+/**
+ * Modal Header
+ */
+$modal-header-height: 110px;
 
-$keys-manager-title-v-padding: 3px;
-$keys-manager-title-padding: $keys-manager-title-v-padding 32px $keys-manager-title-v-padding 0;
-$keys-manager-title-line-height: 17px;
+/**
+ * QR code
+ */
+$qr-code-height: 240px;
 
-/* Currencies */
+/**
+ * Wallet button
+ */
+$wallet-button-width: 480px;
+$wallet-button-height: 90px;
 
-$tablet-currencies-padding-bottom: 30px;
-$mobile-currencies-padding-bottom: 90px;
-$currencies-header-height: 85px;
-$currencies-header-line-height: 24px;
-$currencies-header-v-padding: 30px;
-$currencies-header-h-padding: 30px;
-$currencies-border-width: 1px;
+/**
+ * Help text
+ */
+$help-text-width: 480px;
+$help-text-padding: 25px;
+$help-text-line-height: 20px;
+$help-text-text-width: 385px;
 
-$currencies-before-body-height: (
-  $header-and-footer-height +
-  $currencies-header-height +
-  (2 * $currencies-border-width)
-);
+/**
+ * Copyable field
+ */
+$copyable-field-width: 360px;
+$copyable-field-height: 110px;
 
-$currency-item-v-padding: 25px;
-$currency-item-h-padding: 30px;
-$currency-item-symbol-size: 36px;
-$tablet-currency-item-symbol-margin-bottom: 20px;
-$currency-item-border-width: 1px;
-$currency-item-name-font-size: 14px;
-$currency-item-name-margin-bottom: 5px;
-$currency-item-balance-font-size: 13px;
+/**
+ * Overlay actions
+ */
+$overlay-separator-width: 1px;
+$overlay-separator-height: 75px;
 
-$tablet-currencies-full-height: (
-  ($currency-item-v-padding * 2) +
-  $tablet-currencies-padding-bottom +
-  $currency-item-symbol-size +
-  $tablet-currency-item-symbol-margin-bottom +
-  $currency-item-name-font-size +
-  $currency-item-name-margin-bottom +
-  $currency-item-balance-font-size
-);
-
-$mobile-currencies-full-height: (
-  $tablet-currencies-full-height -
-  $tablet-currencies-padding-bottom +
-  $mobile-currencies-padding-bottom
-);
-
-/* Transactions */
-
-$transactions-filters-height: 24px;
-$transactions-filters-padding: 30px;
-$transactions-table-h-padding: 30px;
-$transactions-table-padding-bottom: 30px;
-$transactions-table-header-height: 50px;
-
-$transactions-filters-full-height: (
-  $transactions-filters-height +
-  ($transactions-filters-padding * 2)
-);
-
-$transactions-table-before-height: $header-and-footer-height + $transactions-filters-full-height;
-
-$transactions-table-body-before-height: (
-  $transactions-table-before-height +
-  $transactions-table-header-height +
-  $transactions-table-padding-bottom
-);
-
-$tablet-transactions-before-height: $header-full-height + $tablet-currencies-full-height;
-
-$tablet-transactions-table-before-height: (
-  $tablet-transactions-before-height +
-  $transactions-filters-full-height
-);
-
-$mobile-transactions-before-height: $mobile-header-full-height + $mobile-currencies-full-height;
-
-/* Modal */
-
-$modal-padding-v: 40px;
-
-$modal-header-margin: 30px;
-$modal-header-height: 24px;
-$modal-header-full-height: ($modal-header-margin * 2) + $modal-header-height;
-
-/* Modal with table */
-
-$modal-table-header-height: 50px;
-
-$modal-table-body-border-width: 1px;
-
-$modal-table-footer-height: 24px;
-$modal-table-footer-padding: 30px;
-$modal-table-footer-full-height: ($modal-table-footer-padding * 2) + $modal-table-footer-height;
-
-$modal-table-body-without-height: (
-  ($modal-padding-v * 2) +
-  $modal-header-full-height +
-  $modal-table-header-height +
-  $modal-table-body-border-width +
-  $modal-table-footer-full-height
-);
+/**
+ * Transaction item
+ */
+$transaction-item-height: 80px;
+$transaction-item-v-padding: 20px;
+$transaction-item-h-padding: 25px;
+$transaction-item-border-size: 1px;

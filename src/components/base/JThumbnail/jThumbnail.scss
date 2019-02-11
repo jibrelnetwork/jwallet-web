@@ -1,0 +1,28 @@
+.j-thumbnail {
+  all: initial;
+
+  @include flex-column-center;
+
+  width: 480px;
+  padding-bottom: 30px;
+
+  > .title {
+    margin-top: 25px;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  > .description {
+    @include flex-column-center;
+
+    padding-top: 10px;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  &.-transparent {
+    > .description {
+      opacity: 0.5;
+    }
+  }
+}

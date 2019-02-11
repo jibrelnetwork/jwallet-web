@@ -1,96 +1,129 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-import { JFormField, JIcon, JPopover } from 'components/base'
+import React, { PureComponent } from 'react'
+import classNames from 'classnames'
+import { Scrollbars } from 'react-custom-scrollbars'
 
-import JPickerItem from './JPickerItem'
+import handle from 'utils/eventHandlers/handle'
+import { JIcon, JText } from 'components/base'
 
-class JPicker extends JFormField {
-  constructor(props) {
-    super(props)
-    this.state = { focused: false, disabled: !props.enabled }
+type RendererProps = {
+  isOpen: boolean,
+  isDisabled: boolean,
+}
+
+type Props = {|
+  +onOpen: ?(() => void),
+  +onClose: ?(() => void),
+  +currentRenderer: ?((props: RendererProps) => React$Node),
+  +bottomRenderer: ?((props: RendererProps) => React$Node),
+  +children: ?React$Node,
+  +isDisabled: boolean,
+  +infoMessage: string,
+  +errorMessage: string,
+|}
+
+type ComponentState = {|
+  isOpen: boolean,
+|}
+
+class JPicker extends PureComponent<Props, ComponentState> {
+  static defaultProps = {
+    onOpen: null,
+    onClose: null,
+    children: null,
+    currentRenderer: null,
+    bottomRenderer: null,
+    isDisabled: false,
+    infoMessage: '',
+    errorMessage: '',
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setDisabled(!nextProps.enabled)
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isOpen: false,
+    }
+  }
+
+  toggle = (isOpen: boolean) => {
+    const { onOpen, onClose } = this.props
+
+    this.setState(
+      { isOpen },
+      () => isOpen
+        ? onOpen && onOpen()
+        : onClose && onClose()
+    )
   }
 
   render() {
-    return (
-      <div className={this.getMainClassName()}>
-        {this.renderPlaceholder(this.props.selectedValue)}
-        {this.renderSelect()}
-        {this.renderArrowIcon()}
-        {this.renderMessage()}
-      </div>
-    )
-  }
+    const {
+      children,
+      currentRenderer,
+      bottomRenderer,
+      isDisabled,
+      infoMessage,
+      errorMessage,
+    } = this.props
 
-  renderSelect = () => {
-    const { selectedValue, name } = this.props
-    const { focused, disabled } = this.state
+    const { isOpen } = this.state
 
-    const selectClassName = `field__select field__select--${name}`
+    const currentEl = currentRenderer
+      ? currentRenderer({ isOpen, isDisabled })
+      : null
+
+    const bottomEl = bottomRenderer
+      ? bottomRenderer({ isOpen, isDisabled })
+      : null
+
+    const countClass = (React.Children.count(children) < 4)
+      ? `-c${React.Children.count(children)}`
+      : null
 
     return (
       <div
-        className={`${selectClassName} ${disabled ? 'field__select--disabled' : ''}`}
-        onClick={disabled ? null : this.setFocused(!focused)}
+        className={classNames(
+          'j-picker',
+          isOpen && '-active',
+          isDisabled && '-disabled',
+          countClass
+        )}
       >
-        <div className='picker__selected'>{selectedValue}</div>
-        <div className={`picker__items ${focused ? '' : 'picker__items--hidden'}`}>
-          {this.renderSelectChildren()}
+        <div className='select'>
+          <div onClick={isDisabled ? undefined : handle(this.toggle)(!isOpen)} className='current'>
+            {currentEl}
+            <div className='chevron'>
+              <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' size='medium' />
+            </div>
+          </div>
+          <div onClick={handle(this.toggle)(false)} className='options'>
+            <div className='items'>
+              <Scrollbars>
+                {children}
+              </Scrollbars>
+            </div>
+            {bottomEl &&
+            <div className='bottom'>
+              {bottomEl}
+            </div>}
+          </div>
         </div>
+        {isOpen && <div onClick={handle(this.toggle)(false)} className='overlay' />}
+        {infoMessage && (
+          <div className='info'>
+            <JText value={infoMessage} color='orange' size='small' />
+          </div>
+        )}
+        {errorMessage && (
+          <div className='error'>
+            <JText value={errorMessage} color='red' size='small' />
+          </div>
+        )}
       </div>
     )
   }
-
-  renderSelectChildren = () => {
-    const { onValueChange, children, selectedValue, name } = this.props
-    const { focused, disabled } = this.state
-
-    if (!focused || disabled) {
-      return null
-    }
-
-    const body = React.Children.map(children, (child) => {
-      return React.cloneElement(child, {
-        onValueChange,
-        selected: (child.props.value === selectedValue),
-      })
-    })
-
-    return <JPopover onClickOutside={this.setFocused(false)} body={body} name={name} reset />
-  }
-
-  renderArrowIcon = () => {
-    return (
-      <JIcon
-        small
-        name={`small-arrow${this.state.focused ? '-up' : ''}`}
-        className='picker__arrow-icon'
-      />
-    )
-  }
 }
-
-JPicker.propTypes = {
-  onValueChange: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  errorMessage: PropTypes.string,
-  successMessage: PropTypes.string,
-  enabled: PropTypes.bool,
-}
-
-JPicker.defaultProps = {
-  errorMessage: '',
-  successMessage: '',
-  enabled: true,
-}
-
-JPicker.Item = JPickerItem
 
 export default JPicker

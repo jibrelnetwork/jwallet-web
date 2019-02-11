@@ -1,20 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-function JLogo({ className }) {
-  return (
-    <a href='/jwallet' className={`logo pull-left ${className}`}>
-      <div className='logo__image' />
-    </a>
-  )
-}
+import classNames from 'classnames'
+import { Link } from 'react-router'
+import React, { PureComponent } from 'react'
 
-JLogo.propTypes = {
-  className: PropTypes.string,
-}
+type Props = {|
+  +isOnlyIcon: boolean,
+|}
 
-JLogo.defaultProps = {
-  className: '',
+class JLogo extends PureComponent<Props> {
+  static defaultProps = {
+    isOnlyIcon: false,
+  }
+
+  render() {
+    const { isOnlyIcon }: Props = this.props
+
+    return (
+      <Link to='/' className={classNames('j-logo', isOnlyIcon && '-only-icon')}>
+        <span className='image' />
+      </Link>
+    )
+  }
 }
 
 export default JLogo

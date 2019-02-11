@@ -6,3 +6,5 @@ function loadStories() {
 }
 
 configure(loadStories, module);
+
+global.i18n = _ => _

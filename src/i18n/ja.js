@@ -1,25 +1,36 @@
-/* eslint-disable max-len */
-
+/* eslint-disable-next-line fp/no-mutation */
 module.exports = {
   language: 'ja', // not translate
+  menu: {
+    send: 'Send funds',
+    receive: 'Receive funds',
+    favorite: 'Favorite',
+  },
+  assetsPanel: {
+    button: 'Add digital asset',
+  },
   warning: {
     memoryStorage: 'メモリをストレージとして使用しています。キーをバックアップすることを忘れないでください!',
   },
   header: {
-    sendTitle: '送信',
-    receiveTitle: '受信',
-    convertTitle: '変換',
-    keyManagerTitle: 'キー マネージャー',
+    sendTitle: 'Send',
+    receiveTitle: 'Receive',
+    convertTitle: 'Convert',
+    keyManagerTitle: 'Key manager',
+    actions: {
+      addCustomAsset: 'Add custom asset',
+    },
   },
-  networkManager: {
-    knownNetworkTitle: {
-      main: 'メイン Ethereum ネットワーク',
-      ropsten: 'Ropstenテスト ネットワーク',
-      kovan: 'Kovanテスト ネットワーク',
-      rinkeby: 'Rinkebyテスト ネットワーク',
+  networks: {
+    default: {
+      main: 'Main Network',
+      ropsten: 'Ropsten',
+      kovan: 'Kovan',
+      rinkeby: 'Rinkeby',
+      localhost: 'Localhost 8545',
     },
     placeholder: {
-      customNetwork: 'カスタムRPC',
+      customNetwork: 'Custom RPC',
     },
   },
   languages: {
@@ -27,6 +38,163 @@ module.exports = {
     zh: 'Chinese',
     ko: 'Korean',
     ja: 'Japanese',
+  },
+  routes: {
+    addCustomAsset: {
+      title: 'Add Custom Asset',
+      buttonTitle: 'Add asset',
+      placeholder: {
+        address: 'アドレス',
+        name: '名',
+        symbol: 'シンボル',
+        decimals: '小数点以下の桁数',
+      },
+    },
+    editCutomAsset: {
+      title: 'Edit Custom Asset',
+      buttonTitle: 'Save',
+      placeholder: {
+        address: 'Address',
+        name: 'Name',
+        symbol: 'Symbol',
+        decimals: 'Decimals',
+      },
+    },
+    backupKeys: {
+      title: 'Backup Keys',
+      buttonTitle: 'Backup keys',
+      placeholder: {
+        password: 'キーは、パスワードを保存',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+      },
+    },
+    changePassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+      error: {
+        password: {
+          invalid: 'Invalid Password',
+        },
+        confirmPassword: {
+          notMatched: 'Password should match',
+        },
+      },
+    },
+    createWallet: {
+      title: 'Create New Mnemonic Wallet',
+      alert: {
+        mnemonic: 'Your mnemonic provides access to your assets!',
+        mnemonicConfirm: 'Confirm your mnemonic by re-entering it below.',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        mnemonic: 'Your mnemonic',
+        mnemonicConfirm: 'Confirm mnemonic',
+        name: 'Wallet name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      buttonTitle: {
+        save: 'Save as TXT',
+        confirm: 'Confirm',
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
+    importWallet: {
+      title: 'Import Wallet',
+      alert: {
+        data: 'Please enter your wallet data',
+        password: 'Please provide a secure password for your wallet.',
+      },
+      placeholder: {
+        data: 'Address, private key, mnemonic, BIP32 xpub',
+        name: 'Wallet name',
+        password: 'Password',
+        passwordConfirm: 'Confirm password',
+      },
+      error: {
+        data: {
+          invalid: 'Please input valid data to import',
+        },
+      },
+      buttonTitle: {
+        prevStep: 'Previous step',
+        nextStep: 'Next step',
+        finish: 'Finish',
+      },
+    },
+    editWallet: {
+      title: 'Edit Wallet',
+      placeholder: {
+        address: 'Address',
+        name: 'Wallet name',
+        password: 'Password',
+      },
+      buttonTitle: {
+        save: 'Save',
+        confirm: 'Confirm',
+      },
+    },
+    changeWalletPassword: {
+      title: 'Set new password',
+      buttonTitle: 'Save',
+      placeholder: {
+        password: 'Old password',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm password',
+      },
+    },
+    removeWallet: {
+      title: 'Remove wallet',
+      buttonTitle: 'Yes, remove wallet',
+      info: {
+        title: 'Remove current wallet',
+        text: [
+          'All user data, including imported or generated',
+          'private keys are stored locally, meaning your private',
+        ],
+      },
+    },
+    receiveFunds: {
+      title: 'Receive Funds',
+      buttonTitleCopy: 'Copy address',
+      buttonTitleCopied: 'Copied!',
+      placeholder: {
+        symbol: 'Asset',
+        amount: 'Amount',
+        recipient: 'Address',
+      },
+    },
+    sendFunds: {
+      title: 'Send Funds',
+      optionalTitle: 'Optional',
+      buttonTitleForm: 'Send funds',
+      buttonTitlePassword: 'Confirm',
+      alert: {
+        internalError: 'Transaction failed. Please try again',
+      },
+      placeholder: {
+        sender: 'Address',
+        symbol: 'Asset',
+        amount: 'Amount',
+        recipient: 'Recipient address',
+        gas: 'Gas',
+        gasPrice: 'Gas price',
+        nonce: 'Nonce',
+        password: 'Password',
+      },
+    },
   },
   modals: {
     sendFunds: {
@@ -213,34 +381,6 @@ module.exports = {
       },
       buttonTitle: 'セット派生パス',
     },
-    backupKeystore: {
-      title: 'バックアップ キー ストア',
-      buttonTitle: 'テキストとして保存',
-      placeholder: {
-        password: 'キーは、パスワードを保存',
-      },
-      error: {
-        password: {
-          invalid: 'パスワードが正しくありません',
-        },
-      },
-    },
-    changePassword: {
-      title: '新しいキーストア パスワード',
-      buttonTitle: '確認します',
-      placeholder: {
-        password: '現在のパスワード',
-        newPassword: '新しいパスワード',
-      },
-      error: {
-        password: {
-          invalid: 'パスワードが正しくありません',
-        },
-        newPassword: {
-          weak: 'パスワードが弱すぎます',
-        },
-      },
-    },
     removeAccounts: {
       title: 'キーストアをクリア',
       alert: 'すべてのキーを削除したいことを確認してください',
@@ -266,32 +406,6 @@ module.exports = {
         },
       },
       addCustomTokenTitle: 'カスタム トークンを追加',
-    },
-    addCustomToken: {
-      title: 'カスタム トークンを追加',
-      buttonTitle: '保存',
-      placeholder: {
-        address: 'アドレス',
-        name: '名',
-        symbol: 'シンボル',
-        decimals: '小数点以下の桁数',
-      },
-      error: {
-        address: {
-          invalid: 'アドレスが有効な契約のアドレスをする必要があります',
-          exists: 'このアドレスのトークンが既に存在します。',
-        },
-        name: {
-          invalid: '有効な契約名である必要があります',
-        },
-        symbol: {
-          invalid: '記号は、有効な契約記号をする必要があります',
-          exists: 'Token with this symbol already exists',
-        },
-        decimals: {
-          invalid: '小数点以下は小数点以下の有効な契約をする必要があります',
-        },
-      },
     },
     alphaWarning: {
       buttonTitle: 'それを得た!',
@@ -352,6 +466,69 @@ module.exports = {
     },
     filterTitle: '日付',
   },
+  general: {
+    error: {
+      password: {
+        invalid: 'Invalid Password',
+      },
+      confirmPassword: {
+        notMatched: 'Password should match',
+      },
+      mnemonicConfirm: {
+        notMatched: 'Mnemonic should match',
+      },
+      walletName: {
+        empty: 'Wallet name shouldn\'t be empty',
+        invalid: 'Please input valid key name',
+        exists: 'Wallet with this name already exists',
+      },
+      derivationPath: {
+        invalid: 'Please input valid custom derivation path',
+      },
+      searchQuery: {
+        invalid: 'Search query is invalid',
+      },
+      address: {
+        invalid: 'Address should be a valid contract address',
+        exists: 'Asset with this address already exists',
+        tooShort: 'Address is too short',
+        notERC20: 'This contract is not ERC-20 compatible',
+      },
+      name: {
+        invalid: 'Name should be a valid contract name',
+        exists: 'Asset with this name already exists',
+      },
+      symbol: {
+        invalid: 'Symbol should be a valid contract symbol',
+        exists: 'Asset with this symbol already exists',
+      },
+      decimals: {
+        invalid: 'Decimals should be valid contract decimals',
+      },
+      amount: {
+        invalid: 'Please enter a valid transfer amount',
+        lessThan0: 'Amount should be greater than 0',
+        exceedsBalance: 'Amount specified exceeds current balance. Please enter a valid amount.',
+        emptyETHBalance: 'You don\'t have any ETH to paid for transaction',
+      },
+      recipient: {
+        invalid: 'Please enter a valid wallet address',
+      },
+      gas: {
+        invalid: 'Please enter a valid gas limit value',
+        lessThan0: 'Gas limit should be greater than 0',
+      },
+      gasPrice: {
+        invalid: 'Please input a valid gas price value',
+        lessThan0: 'Gas price should be greater than 0',
+      },
+      nonce: {
+        invalid: 'Please input a valid transaction nonce',
+        lessThan0: 'Nonce should be greater than or equal 0 to',
+      },
+      network: {
+        connection: 'Connection error',
+      },
+    },
+  },
 }
-
-/* eslint-enable max-len */

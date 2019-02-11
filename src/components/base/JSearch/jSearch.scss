@@ -1,0 +1,96 @@
+.j-search {
+  all: initial;
+
+  @include box;
+  @include flex-row-center;
+
+  transform: translateX(20px);
+
+  > .search {
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.3s ease 0s;
+  }
+
+  > .field {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.3s ease 0s;
+    will-change: width;
+    position: relative;
+    height: 24px;
+    padding-right: 20px;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      top: 0;
+      background-color: rgba($dusk, 0);
+    }
+
+    &::before {
+      right: 0;
+    }
+
+    &::after {
+      left: 0;
+    }
+
+    > .input {
+      @include font;
+
+      width: 100%;
+      height: 100%;
+      padding: 5px 20px;
+      background-color: transparent;
+      border-width: 0;
+      color: $dusk;
+
+      &::placeholder {
+        color: $dusk;
+        opacity: 0.6;
+      }
+    }
+
+    > .close {
+      @include hover-animation;
+
+      cursor: pointer;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      opacity: 0;
+      margin-top: -12px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  &:hover {
+    > .search {
+      opacity: 1;
+    }
+  }
+
+  &.-active {
+    > .field {
+      width: 355px;
+      margin-left: 20px;
+
+      &::before,
+      &::after {
+        background-color: rgba($dusk, 0.1);
+      }
+
+      > .close {
+        opacity: 0.2;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

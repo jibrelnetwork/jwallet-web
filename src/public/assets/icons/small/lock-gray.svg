@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 13">
+    <defs>
+        <style>
+            .cls-2{fill:#3d4f6c}
+        </style>
+    </defs>
+    <g id="icon-lock_30_" class="cls-1" data-name="icon-lock 30%" transform="translate(-1059 -1239.001)">
+        <path id="Path_16452" d="M23 4a4 4 0 0 0-8 0 1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-4-2a2 2 0 0 1 2 2h-4a2 2 0 0 1 2-2zm3 9h-6V6h6z" class="cls-2" data-name="Path 16452" transform="translate(1045 1239.001)"/>
+        <g id="Group_6959" data-name="Group 6959" transform="translate(1045 1239.001)">
+            <circle id="Ellipse_1030" cx="1" cy="1" r="1" class="cls-2" data-name="Ellipse 1030" transform="translate(18 7)"/>
+        </g>
+    </g>
+</svg>

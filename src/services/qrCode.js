@@ -1,13 +1,21 @@
-import EthereumQRPlugin from 'ethereum-qr-code'
+// @flow
+
+import { t } from 'ttag'
+
+import QRCode from 'qrcode'
 
 import config from 'config'
 
-const qr = new EthereumQRPlugin()
+function generate(payload: { requisites: any, appearance: any, selector: string }): void {
+  const { requisites, appearance, selector } = payload
+  const options = { ...config.qrCodeDefaultAppearance, ...appearance }
 
-function generate({ requisites, appearance, selector = '#qr-code' }) {
-  const options = { ...config.qrCodeDefaultAppearance, ...appearance, selector }
+  const canvas = document.querySelector(selector)
+  if (!canvas) {
+    throw new Error(t`InvalidSelectorError`)
+  }
 
-  return qr.toCanvas(requisites, options)
+  QRCode.toCanvas(canvas, `ethereum:${requisites.to}?token=ETH`, options)
 }
 
 export default { generate }

@@ -1,0 +1,58 @@
+.j-picker-full-item {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+
+  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 64px;
+  cursor: pointer;
+  padding: 14px 15px 14px 0;
+  transition: background-color 0.3s ease 0s;
+
+  &:hover,
+  &.-active {
+    background-color: $blue-hover;
+  }
+
+  > .info {
+    @include flex-row-center;
+
+    > .symbol {
+      float: left;
+      position: relative;
+      text-align: center;
+      margin-right: 20px;
+      width: 80px;
+
+      > .wrap {
+        opacity: 0.55;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      &::after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 1px;
+        background-color: $pale-grey-two;
+      }
+    }
+
+    > .text {
+      > .description {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &.-active > .info > .symbol > .wrap {
+    opacity: 1;
+  }
+}

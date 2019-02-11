@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <defs>
+        <style>
+            .cls-1{fill:none}.cls-2{fill:#0050db}
+        </style>
+    </defs>
+    <g id="icon-download" transform="translate(0 -.003)">
+        <g id="Frame_-_24px">
+            <path id="Rectangle_9694" d="M0 0h24v24H0z" class="cls-1" data-name="Rectangle 9694" transform="translate(0 .003)"/>
+        </g>
+        <g id="Line_Icons">
+            <g id="Group_6804" data-name="Group 6804">
+                <path id="Path_16429" d="M20 14H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2zm0 6H4v-4h16z" class="cls-2" data-name="Path 16429"/>
+                <path id="Path_16430" d="M16.707 7.708l-1.414-1.414L13 8.587V2h-2v6.587L8.707 6.294 7.293 7.708 12 12.416z" class="cls-2" data-name="Path 16430"/>
+            </g>
+        </g>
+    </g>
+</svg>

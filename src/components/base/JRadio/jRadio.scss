@@ -1,42 +1,96 @@
-.radio {
-  position: relative;
-}
-
-.radio__input {
-  display: none;
-}
-
-.radio__label {
-  position: relative;
+.j-radio {
+  all: initial;
   display: block;
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
 
-  &.radio__label--active {
-    &:before {
-      border: 2px solid $blue;
+  &:not(:last-child) {
+    margin-bottom: $checkbox-item-margin-bottom;
+  }
+
+  > .field {
+    @include flex-row;
+
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+
+    > .checkbox {
+      display: none;
     }
 
-    &:after {
-      position: relative;
-      top: -10px;
-      left: 4.4px;
-      display: block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: $blue;
-      content: '';
+    > .flag {
+      width: 18px;
+      height: 18px;
+
+      &::before,
+      &::after {
+        @include hover-animation;
+
+        content: '';
+        position: absolute;
+        border-radius: 20px;
+      }
+
+      &::before {
+        top: 50%;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        margin-top: -9px;
+        background-color: rgba($white, 0.2);
+      }
+
+      &::after {
+        top: 50%;
+        left: 5px;
+        width: 8px;
+        height: 8px;
+        margin-top: -4px;
+        background-color: $white;
+        transform: scale(0);
+      }
+    }
+
+    > .label {
+      @include flex-column;
+      @include hover-animation;
+
+      margin-left: 20px;
+      justify-content: center;
+      opacity: 0.6;
+
+      &:active {
+        user-select: none;
+      }
+    }
+
+    &:hover {
+      > .label {
+        opacity: 1;
+      }
+
+      > .flag {
+        &::before {
+          background-color: rgba($white, 0.4);
+        }
+      }
     }
   }
-}
 
-.radio__label:before {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid $gray2;
-  content: '';
+  &.-checked {
+    > .field {
+      > .label {
+        opacity: 1;
+      }
+
+      > .flag {
+        &::before {
+          background-color: rgba($white, 0.3);
+        }
+
+        &::after {
+          transform: scale(1);
+        }
+      }
+    }
+  }
 }

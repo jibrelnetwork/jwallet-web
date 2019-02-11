@@ -1,150 +1,115 @@
-:global {
-  @import 'base';
-  @import 'adaptive';
-  @import 'colors';
-  @import 'grid';
-  @import 'loading';
-  @import 'shake';
-  @import 'slider';
+@import 'base';
+@import 'mixins';
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
-  }
+/* stylelint-disable */
+* {
+  @include box;
 
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background: $line;
-    font-family: $font;
-    font-size: 13px;
-    line-height: 1;
-    color: $gray;
-  }
-
-  .clear:after {
-    clear: both;
-    display: block;
-    height: 0;
-    content: "";
-  }
-
-  a {
-    text-decoration: none;
-    color: $blue;
-
-    &:hover {
-      color: $blue2;
-    }
-  }
-
-  li {
-    list-style: none;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-weight: 600;
-  }
-
-  .pull-left {
-    float: left;
-  }
-
-  .pull-right {
-    float: right;
-  }
-
-  #root {
-    height: 100%;
-    width: 100%;
-  }
-
-  .container-wrap {
-    width: 100%;
-    height: 100%;
-  }
-
-  .container {
-    position: relative;
-    max-width: 1200px;
-    height: 100%;
-    margin: 0 auto;
-    transition: filter .1s ease;
-    will-change: filter;
-
-    &--modal-open {
-      filter: blur(3px);
-    }
-  }
-
-  .content {
-    position: relative;
-    width: 100%;
-    min-height: calc(100vh - #{$header-and-footer-height});
-  }
-
-  .unselectable {
-    user-select: none;
-    cursor: default;
-  }
-
-  @mixin flex-column {
-    display: flex;
-    flex-direction: column;
-  }
-
-  @mixin flex-column-center {
-    @include flex-column;
-
-    align-items: center;
-    justify-content: center;
-  }
-
-  @import '../components/base/JFormField/jFormField';
-  @import '../components/base/JButton/jButton';
-  @import '../components/base/JCheckbox/jCheckbox';
-  @import '../components/base/JFooter/jFooter';
-  @import '../components/base/JHeader/jHeader';
-  @import '../components/base/JIcon/jIcon';
-  @import '../components/base/JLoader/jLoader';
-  @import '../components/base/JLogo/jLogo';
-  @import '../components/base/JModal/jModal';
-  @import '../components/base/JPicker/jPicker';
-  @import '../components/base/JPopover/jPopover';
-  @import '../components/base/JRadio/jRadio';
-  @import '../components/base/JTable/jTable';
-  @import '../components/base/JTextInput/jTextInput';
-
-  @import '../components/modals/AlphaWarning/alphaWarning';
-  @import '../components/modals/Keystore/keystoreModal';
-  @import '../components/modals/Currencies/currenciesModal';
-
-  @import '../components/AccountsTable/accountsTable';
-  @import '../components/CopyableField/copyableField';
-  @import '../components/Currencies/currencies';
-  @import '../components/CurrenciesTable/currenciesTable';
-  @import '../components/CurrencyItem/currencyItem';
-  @import '../components/DerivationPath/derivationPath';
-  @import '../components/DatePicker/datePicker';
-  @import '../components/Expandable/expandable';
-  @import '../components/JWalletHeader/jWalletHeader';
-  @import '../components/KeysManager/keysManager';
-  @import '../components/KeystoreButtons/keystoreButtons';
-  @import '../components/LanguageManager/languageManager';
-  @import '../components/NetworksManager/networksManager';
-  @import '../components/PasswordField/passwordField';
-  @import '../components/Search/search';
-  @import '../components/SubmitModal/submitModal';
-  @import '../components/Transactions/transactions';
-  @import '../components/Warning/warning';
-
-  @import '../routes/JWallet/styles/jWallet';
+  margin: 0;
+  padding: 0;
+  outline: none;
 }
+
+html,
+body,
+#root {
+  @include font;
+
+  height: 100%;
+  width: 100%;
+  min-width: $window-min-width;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  background-color: $pale-grey;
+  color: $dusk;
+}
+
+a {
+  text-decoration: none;
+  color: $blue;
+
+  &:hover {
+    color: $blue-two;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+}
+/* stylelint-enable */
+
+// Base components
+@import '../components/base/JCard/jCard';
+@import '../components/base/JIcon/jIcon';
+@import '../components/base/JLogo/jLogo';
+@import '../components/base/JTabs/jTabs';
+@import '../components/base/JText/jText';
+@import '../components/base/JInput/jInput';
+@import '../components/base/JRadio/jRadio';
+@import '../components/base/JLoader/jLoader';
+@import '../components/base/JSearch/jSearch';
+@import '../components/base/JPicker/jPicker';
+@import '../components/base/JSwitch/jSwitch';
+@import '../components/base/JTooltip/jTooltip';
+@import '../components/base/JCheckbox/jCheckbox';
+@import '../components/base/JThumbnail/jThumbnail';
+@import '../components/base/JFlatButton/jFlatButton';
+@import '../components/base/JAssetSymbol/jAssetSymbol';
+@import '../components/base/JRaisedButton/jRaisedButton';
+
+// Components
+@import '../components/QRCode/qrCode';
+@import '../components/HelpText/helpText';
+@import '../components/AssetItem/assetItem';
+@import '../components/MenuPanel/menuPanel';
+@import '../components/WalletFace/walletFace';
+@import '../components/WalletStep/walletStep';
+@import '../components/DoubleInput/doubleInput';
+@import '../components/InputButton/inputButton';
+@import '../components/ModalHeader/modalHeader';
+@import '../components/PopupButton/popupButton';
+@import '../components/AssetBalance/assetBalance';
+@import '../components/SettingsGrid/settingsGrid';
+@import '../components/WalletHeader/walletHeader';
+@import '../components/FavoriteItem/favoriteItem';
+@import '../components/PasswordStep/passwordStep';
+@import '../components/AddressPicker/addressPicker';
+@import '../components/CopyableField/copyableField';
+@import '../components/PasswordField/passwordField';
+@import '../components/WalletLoading/walletLoading';
+@import '../components/OverlayActions/overlayActions';
+@import '../components/CloseableScreen/closeableScreen';
+@import '../components/RoundIconButton/roundIconButton';
+@import '../components/TransactionItem/transactionItem';
+@import '../components/WalletViewTitle/walletViewTitle';
+@import '../components/NewWalletButtons/newWalletButtons';
+@import '../components/TransactionsList/transactionsList';
+@import '../components/ButtonWithConfirm/buttonWithConfirm';
+@import '../components/DigitalAssetsGrid/digitalAssetsGrid';
+@import '../components/MnemonicAddresses/mnemonicAddresses';
+@import '../components/TransactionsFilter/transactionsFilter';
+@import '../components/DigitalAssetsFilter/digitalAssetsFilter';
+@import '../components/DigitalAssetsManage/digitalAssetsManage';
+@import '../components/OverlayNotification/overlayNotification';
+@import '../components/DigitalAssetEditForm/digitalAssetEditForm';
+
+// Views
+@import '../routes/Wallets/walletsView';
+@import '../routes/Settings/settingsView';
+@import '../routes/NotFound/notFoundView';
+@import '../routes/DigitalAssets/digitalAssets';
+@import '../routes/Transactions/transactionsView';
+@import '../routes/Agreements/agreementsView';
+
+// Layouts
+@import '../layouts/CoreLayout/coreLayout';
+@import '../layouts/MenuLayout/menuLayout';
+@import '../layouts/WalletsLayout/walletsLayout';

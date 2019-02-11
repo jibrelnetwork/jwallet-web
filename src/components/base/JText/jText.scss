@@ -1,0 +1,133 @@
+.j-text {
+  all: initial;
+
+  @include font;
+
+  display: inline-block;
+  max-width: 100%;
+  line-height: inherit;
+  transition: color 0.3s ease 0s, opacity 0.3s ease 0s, font-size 0.3s ease 0s;
+  cursor: inherit;
+
+  // Color
+
+  &.-blue {
+    color: $blue;
+  }
+
+  &.-blue-two {
+    color: $blue-two;
+  }
+
+  &.-gray {
+    color: $dusk;
+  }
+
+  &.-red {
+    color: $tomato;
+  }
+
+  &.-sky {
+    color: $bright-sky-blue;
+  }
+
+  &.-white {
+    color: $white;
+  }
+
+  &.-dark {
+    color: $dark;
+  }
+
+  &.-dusk {
+    color: $dusk;
+  }
+
+  &.-orange {
+    color: $faded-orange;
+  }
+
+  // Size
+
+  &.-tiny {
+    font-size: 10px;
+  }
+
+  &.-small {
+    font-size: 11px;
+  }
+
+  &.-semismall {
+    font-size: 12px;
+  }
+
+  &.-normal {
+    font-size: 13px;
+  }
+
+  &.-semilarge {
+    font-size: 14px;
+  }
+
+  &.-large {
+    font-size: 15px;
+  }
+
+  &.-header {
+    font-size: 18px;
+  }
+
+  &.-tab {
+    font-size: 20px;
+  }
+
+  &.-title {
+    font-size: 25px;
+  }
+
+  // Weight
+
+  &.-bold {
+    font-weight: 600;
+  }
+
+  &.-bolder {
+    font-weight: 900;
+  }
+
+  // Case
+
+  &.-upper {
+    text-transform: uppercase;
+  }
+
+  // White-space
+
+  &.-wrap {
+    white-space: normal;
+  }
+
+  &.-nowrap {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &.-clip {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+  }
+
+  // Align
+
+  &.-center {
+    text-align: center;
+  }
+
+  // Decoration
+
+  &.-underline {
+    text-decoration: underline;
+  }
+}

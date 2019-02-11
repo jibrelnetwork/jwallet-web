@@ -1,40 +1,108 @@
-.checkbox {
-  position: relative;
-  min-width: 20px;
-  height: 100%;
-  cursor: pointer;
-}
-
-.checkbox__icon {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  border: 2px solid;
-  border-radius: 10px;
-}
-
-.checkbox__icon--disabled {
+.j-checkbox {
+  all: initial;
   display: inline-block;
-  background-color: $white;
-  border-color: $gray2;
-}
 
-.checkbox__icon--enabled {
-  display: block;
-  background-color: $blue;
-  background-image: $icon-checkbox;
-  background-size: 9px 7px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  border-color: $blue;
-}
+  &:not(:last-child) {
+    margin-bottom: $checkbox-item-margin-bottom;
+  }
 
-.checkbox__label {
-  position: relative;
-  top: 0;
-  left: 0;
-  line-height: 50px;
-  padding-left: 30px;
+  > .field {
+    display: block;
+    position: relative;
+    cursor: pointer;
+
+    > .checkbox {
+      display: none;
+    }
+
+    > .flag {
+      &::before,
+      &::after {
+        @include hover-animation;
+
+        content: '';
+        top: 0;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        background-size: 24px;
+        background-position: -3px -3px;
+      }
+    }
+
+    > .label {
+      @include hover-animation;
+
+      display: inline-block;
+
+      &:active {
+        user-select: none;
+      }
+    }
+
+    > .link {
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    > .checkbox:checked ~ .flag {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.-gray {
+    > .field {
+      padding-left: 25px;
+
+      > .label {
+        opacity: 0.6;
+      }
+
+      > .flag {
+        &::before {
+          opacity: 0.1;
+          background-image: $icon-medium-unchecked-gray;
+        }
+
+        &::after {
+          opacity: 0;
+          background-image: $icon-medium-checked-blue;
+        }
+      }
+    }
+  }
+
+  &.-white {
+    > .field {
+      padding-left: 35px;
+
+      > .label {
+        opacity: 0.5;
+      }
+
+      > .flag {
+        &::before {
+          opacity: 0.3;
+          background-image: $icon-medium-unchecked-white;
+        }
+
+        &::after {
+          opacity: 0;
+          background-image: $icon-medium-checked-white;
+        }
+      }
+    }
+  }
+
+  &.-gray,
+  &.-white {
+    > .field:hover {
+      > .flag::before {
+        opacity: 1;
+      }
+    }
+  }
 }

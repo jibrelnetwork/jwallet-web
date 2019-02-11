@@ -1,0 +1,9 @@
+.wallets-layout {
+  all: initial;
+
+  @include flex-column;
+
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(60deg, $blue, $darkish-blue-two);
+}

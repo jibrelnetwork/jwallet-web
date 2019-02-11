@@ -1,0 +1,74 @@
+@import './Comment/comment';
+
+.transaction-item-details {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+  @include hover-animation;
+
+  position: relative;
+  max-height: 0;
+  padding-left: ($transaction-item-h-padding + $icon-large-size + $transaction-item-h-padding);
+  overflow: hidden;
+  visibility: hidden;
+  border-top: 1px solid rgba($dusk, 0.1);
+  opacity: 0;
+
+  &.-active {
+    opacity: 1;
+    max-height: 300px;
+    padding-top: 20px;
+    visibility: visible;
+  }
+
+  > .item {
+    margin-bottom: $transaction-item-v-padding;
+
+    > .value {
+      @include flex-row;
+
+      align-items: center;
+
+      > .icon {
+        margin-right: 5px;
+      }
+
+      > .link {
+        @include flex-row;
+
+        align-items: center;
+      }
+    }
+
+    > .label {
+      opacity: 0.5;
+    }
+  }
+
+  > .actions {
+    @include flex-row;
+
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    padding: $transaction-item-v-padding $transaction-item-h-padding;
+
+    > .action {
+      @include flex-row;
+      @include hover-animation;
+
+      opacity: 0.5;
+      cursor: pointer;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-right: 55px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

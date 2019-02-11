@@ -1,0 +1,13 @@
+.overlay-notification {
+  all: initial;
+
+  @include flex-row-center;
+
+  height: 100vh;
+  padding-top: 30px;
+  margin-top: -$page-header-height;
+
+  &.-transparent {
+    opacity: 0.5;
+  }
+}

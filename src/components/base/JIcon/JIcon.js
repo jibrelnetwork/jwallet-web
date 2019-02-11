@@ -1,24 +1,29 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// @flow
 
-function JIcon({ name, small, className, ...otherProps }) {
-  return (
-    <span
-      className={`icon icon--${name} ${small ? 'icon--small' : ''} ${className}`}
-      {...otherProps}
-    />
-  )
+import React, { PureComponent } from 'react'
+
+export type JIconSize = 'small' | 'medium' | 'large' | 'xlarge'
+export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
+
+type Props = {
+  name: string,
+  size: JIconSize,
+  color: JIconColor,
 }
 
-JIcon.propTypes = {
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  small: PropTypes.bool,
-}
+class JIcon extends PureComponent<Props> {
+  static defaultProps = {
+    size: 'medium',
+    color: 'white',
+  }
 
-JIcon.defaultProps = {
-  className: '',
-  small: false,
+  render() {
+    const { name, size, color }: Props = this.props
+
+    return (
+      <div className={`j-icon -${name} -${size} -${color}`} />
+    )
+  }
 }
 
 export default JIcon

@@ -1,54 +1,63 @@
-import { applyMiddleware, compose, createStore } from 'redux'
-import { routerMiddleware } from 'react-router-redux'
+// @flow
+
 import createSagaMiddleware from 'redux-saga'
-import { makeRootReducer } from './reducers'
+import { persistStore } from 'redux-persist'
+import { routerMiddleware } from 'react-router-redux'
+import { applyMiddleware, compose, createStore } from 'redux'
+
 import sagas from './sagas'
+import workers from '../workers'
+import middlewares from '../middlewares'
+import { redirect } from '../middlewares/redirect'
+import { makeRootReducer } from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
 
-export default (initialState = {}, history) => {
+function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware, routerMiddleware(history)]
+  const middleware = [sagaMiddleware, redirect, routerMiddleware(history), ...middlewares]
 
-  if (__DEV__) {
+  if (__DEV__ && !window.localStorage.hideReduxLogger) {
     const { logger } = require('redux-logger')
 
+    /* eslint-disable fp/no-mutating-methods */
     middleware.push(logger)
+    /* eslint-enable fp/no-mutating-methods */
   }
 
   // ======================================================
-  // Store Enhancers
+  // Store Enhancers, redux developer tools
   // ======================================================
-  const enhancers = []
+  const composeEnhancers =
+    typeof window === 'object' && __DEV__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      }) : compose
 
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
-  const store = createStore(
-    makeRootReducer(),
-    initialState,
-    compose(
-      applyMiddleware(...middleware),
-      ...enhancers
-    )
+  const rootReducer = makeRootReducer()
+  const enhancer = composeEnhancers(
+    applyMiddleware(...middleware),
   )
-
-  store.asyncReducers = {}
+  const store = createStore(rootReducer, initialState, enhancer)
+  const persistor = persistStore(store)
 
   // ======================================================
-  // Inject sagas
+  // Run sagas
   // ======================================================
-  Object.keys(sagas).map(sagaName => sagaMiddleware.run(sagas[sagaName]))
+  Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
 
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').makeRootReducer
+  // ======================================================
+  // Start workers
+  // ======================================================
+  workers.forEach(worker => worker.run(store))
 
-      store.replaceReducer(reducers(store.asyncReducers))
-    })
-  }
-
-  return store
+  return { store, persistor }
 }
+
+export default configureStore

@@ -1,0 +1,30 @@
+@import 'styles/mixins';
+
+.digital-assets-send-form {
+  > .form {
+    > .split {
+      @include flex-row;
+
+      > .box {
+        width: 50%;
+
+        &:not(:first-child) {
+          padding-left: 5px;
+        }
+
+        &:not(:last-child) {
+          padding-right: 5px;
+        }
+      }
+    }
+
+    > .error {
+      margin-bottom: 10px;
+    }
+  }
+
+  > .message {
+    margin-top: 33px;
+    opacity: 0.5;
+  }
+}

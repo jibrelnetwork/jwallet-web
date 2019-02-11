@@ -1,0 +1,101 @@
+.j-flat-button {
+  all: initial;
+
+  @include flex-row-center;
+
+  opacity: 1;
+  transition: opacity 0.3s ease, border-color 0.3s ease, top 0.3s ease;
+  cursor: pointer;
+
+  &.-border {
+    border: 1px solid;
+    border-radius: 3px;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    &.-blue {
+      border-color: rgba($blue, 0.2);
+    }
+
+    &.-white {
+      border-color: rgba($white, 0.2);
+    }
+  }
+
+  &.-link {
+    height: auto;
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    display: inline-block;
+    text-align: left;
+  }
+
+  > .icon {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  &.-label {
+    > .icon {
+      margin-right: 12px;
+    }
+  }
+
+  &.-disabled {
+    &.-border {
+      &.-white {
+        border-color: $white;
+      }
+
+      &.-blue {
+        border-color: $blue;
+      }
+    }
+
+    &,
+    &:hover {
+      opacity: 0.2;
+      cursor: default;
+    }
+  }
+
+  &.-loading {
+    cursor: default;
+  }
+
+  &.-transparent {
+    opacity: 0.7;
+  }
+
+  &:hover {
+    &.-border {
+      &.-white {
+        border-color: $white;
+
+        &.-loading {
+          border-color: rgba($white, 0.2);
+        }
+      }
+
+      &.-blue {
+        border-color: $blue;
+
+        &.-loading {
+          border-color: rgba($blue, 0.2);
+        }
+      }
+    }
+
+    &.-hover-opacity {
+      opacity: 0.7;
+
+      &.-transparent {
+        opacity: 1;
+      }
+    }
+  }
+}

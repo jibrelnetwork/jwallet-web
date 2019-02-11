@@ -1,0 +1,35 @@
+.modal-header {
+  all: initial;
+
+  @include box;
+  @include flex-row;
+
+  z-index: $z-index-modal-header;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 100%;
+
+  > .title,
+  > .button {
+    position: absolute;
+  }
+
+  > .title {
+    left: 50px;
+    cursor: default;
+  }
+
+  > .button {
+    @include flex-row-center;
+
+    right: 50px;
+    height: 38px;
+  }
+
+  &.-gray {
+    > .content {
+      background: linear-gradient(to top, transparent, $white);
+    }
+  }
+}

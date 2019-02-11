@@ -1,0 +1,17 @@
+.asset-balance {
+  all: initial;
+  display: inline-flex;
+  align-items: center;
+  cursor: inherit;
+
+  > .balance,
+  > .symbol {
+    @include flex-row;
+
+    align-items: center;
+  }
+
+  > .symbol {
+    margin-left: 5px;
+  }
+}

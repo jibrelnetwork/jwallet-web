@@ -1,18 +1,17 @@
+// @flow
+
 import React from 'react'
-import PropTypes from 'prop-types'
 
-function JLoader({ fixed }) {
-  const className = `loader ${fixed ? 'loader--fixed' : ''}`
+const JLoader = ({ color }: Props) => (
+  <div className={`j-loader -${color}`}>
+    <div className='dot -first' />
+    <div className='dot -second' />
+    <div className='dot -third' />
+  </div>
+)
 
-  return <div className={className} />
-}
-
-JLoader.propTypes = {
-  fixed: PropTypes.bool,
-}
-
-JLoader.defaultProps = {
-  fixed: false,
+type Props = {
+  color: 'blue' | 'gray' | 'white' | 'sky' | 'dark',
 }
 
 export default JLoader

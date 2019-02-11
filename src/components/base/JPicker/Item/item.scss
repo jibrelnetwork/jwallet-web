@@ -1,0 +1,14 @@
+.j-picker-item {
+  all: initial;
+
+  @include flex-row-center;
+
+  position: relative;
+  height: 64px;
+  cursor: pointer;
+
+  &.-disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}

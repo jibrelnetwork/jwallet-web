@@ -1,0 +1,47 @@
+@import 'base';
+
+@mixin box {
+  box-sizing: border-box;
+}
+
+@mixin font($font-size: 13px, $line-height: 1) {
+  font-family: $font;
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-row-center {
+  @include flex-row;
+
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column-center {
+  @include flex-column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover-animation {
+  transition: all 0.3s ease 0s;
+}
+
+@mixin header-container {
+  max-width: 1020px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}

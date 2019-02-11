@@ -1,0 +1,39 @@
+.button-with-confirm {
+  all: initial;
+
+  > .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > .confirm {
+      margin-left: 15px;
+      min-width: 130px;
+    }
+
+    &.-reverse {
+      flex-direction: row-reverse;
+
+      > .confirm {
+        margin-left: 0;
+        margin-right: 5px;
+      }
+    }
+
+    &.-overlay-white,
+    &.-overlay-blue {
+      position: absolute;
+      right: 20px;
+      z-index: 1;
+      top: 0;
+    }
+
+    &.-overlay-white {
+      background-color: $white;
+    }
+
+    &.-overlay-blue {
+      background-color: $blue;
+    }
+  }
+}

@@ -1,145 +1,39 @@
 {
-  "parser": "babel-eslint",
   "extends": [
-    "react-app",
-    "airbnb-base"
+    "jibrelnetwork"
   ],
-  "env": {
-    "node": true,
-    "es6": true,
-    "browser": true
-  },
   "globals": {
+    "i18n": false,
+    "Modernizr": false,
     "__DEV__": false,
     "__PROD__": false,
     "__MAIN_RPC_ADDR__": false,
     "__MAIN_RPC_PORT__": false,
     "__ROPSTEN_RPC_ADDR__": false,
     "__ROPSTEN_RPC_PORT__": false,
-    "i18n": false
-  },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+    "__DEFAULT_TICKER_API__": false,
+    "__DEFAULT_BLOCKEXPLORER_API__": false
   },
   "rules": {
-    "semi": [
-      "error",
-      "never"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "jsx-quotes": [
-      "error",
-      "prefer-single"
-    ],
-    "arrow-parens": [
-      "error",
-      "as-needed",
-      {
-        "requireForBlockBody": true
-      }
-    ],
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1,
-        "MemberExpression": 1,
-        "FunctionDeclaration": {
-          "parameters": "first"
-        },
-        "FunctionExpression": {
-          "parameters": "first"
-        },
-        "CallExpression": {
-          "arguments": "first"
-        },
-        "ArrayExpression": "first",
-        "ObjectExpression": "first"
-      }
-    ],
-    "no-multi-spaces": [
-      "error",
-      {
-        "exceptions": {
-          "Property": true,
-          "VariableDeclarator": true,
-          "ImportDeclaration": true
-        }
-      }
-    ],
-    "no-multiple-empty-lines": [
-      "error",
-      {
-        "max": 1
-      }
-    ],
-    "react/prop-types": [
-      "error",
-      {
-        "skipUndeclared": true
-      }
-    ],
-    "react/default-props-match-prop-types": [
-      "error"
-    ],
-    "react/forbid-prop-types": [
-      "error"
-    ],
-    "react/jsx-boolean-value": [
-      "error",
-      "never"
-    ],
-    "react/jsx-curly-spacing": [
-      "error",
-      {
-        "when": "never",
-        "allowMultiline": false
-      }
-    ],
-    "react/jsx-equals-spacing": [
-      "error",
-      "never"
-    ],
-    "react/jsx-filename-extension": [
-      "error",
-      {
-        "extensions": [".js"]
-      }
-    ],
-    "react/jsx-indent": [
-      "error",
-      2
-    ],
-    "object-curly-newline": [
-      "error",
-      {
-        "multiline": true,
-        "consistent": true
-      }
-    ],
-    "react/jsx-key": "error",
-    "react/jsx-closing-bracket-location": "error",
-    "react/require-default-props": "error",
-    "max-len": ["error", 100],
-    "newline-per-chained-call": "off",
-    "no-console": "warn",
-    "prefer-template": "error",
-    "class-methods-use-this": "warn",
-    "require-yield": "warn",
-    "no-underscore-dangle": "off",
-    "no-use-before-define": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "arrow-body-style": "off",
-    "global-require": "off"
+    "no-use-before-define": 0,
+    "fp/no-mutation": [2, {
+      "commonjs": true,
+      "allowThis": true,
+      "exceptions": [
+        { "property": "onmessage" },
+        { "property": "src" },
+        { "property": "type" },
+        { "property": "href" },
+        { "property": "i18n" },
+        { "property": "innerHTML" },
+        { "property": "postMessage" },
+        { "property": "defaultProps" },
+        { "property": "asyncReducers" },
+        { "property": "childContextTypes" },
+        { "property": "captchaCallback" },
+        { "property": "captchaErrorCallback" },
+        { "property": "captchaExpiredCallback" }
+      ]
+    }]
   }
 }

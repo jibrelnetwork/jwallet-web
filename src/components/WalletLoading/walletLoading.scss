@@ -1,0 +1,10 @@
+.wallet-loading {
+  all: initial;
+
+  @include flex-row;
+
+  align-items: center;
+  width: $wallet-button-width;
+  height: $wallet-button-height;
+  justify-content: space-around;
+}
