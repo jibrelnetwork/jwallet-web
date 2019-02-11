@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import config from 'config'
 
 import { JCard, JInput, JRaisedButton } from 'components/base'
 import { saveQRCode, copyQRCode } from 'components/QRCode'
@@ -25,7 +26,22 @@ type Props = {|
   +address: ?Address,
 |}
 
-class DigitalAssetsReceiveView extends PureComponent<Props, *> {
+type StateProps = {|
+  isCopied: boolean,
+|}
+
+class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
+  // eslint-disable-next-line react/sort-comp
+  toggleTimeout: ?TimeoutID = null
+
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isCopied: false,
+    }
+  }
+
   componentDidMount() {
     if (this.props.address) {
       generateQRCode(this.props.address)
@@ -33,18 +49,36 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
   }
 
   copyAddress = () => {
+    this.setState({ isCopied: true })
+
+    this.toggleTimeout = setTimeout(() => {
+      this.setState({ isCopied: false })
+    }, config.messageCopyTimeout)
+
     if (this.props.address) {
       clipboard.copyText(this.props.address)
     }
   }
 
+  componentWillUnmount() {
+    if (this.toggleTimeout) {
+      clearTimeout(this.toggleTimeout)
+    }
+  }
+
   render() {
     const { address, close } = this.props
+
+    const {
+      isCopied,
+    }: StateProps = this.state
+
     if (isVoid(address)) {
       return null
     }
 
     return (
+
       <CloseableScreen
         close={close}
         title={t`Receive assets`}
@@ -71,7 +105,7 @@ class DigitalAssetsReceiveView extends PureComponent<Props, *> {
               />
               <JRaisedButton
                 onClick={this.copyAddress}
-                label={t`Copy address`}
+                label={isCopied ? t`Copied!` : t`Copy address`}
                 color='blue'
               />
             </div>
