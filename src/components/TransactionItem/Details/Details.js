@@ -143,8 +143,8 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
 
     const favoritesLabel = isFromFavorites
-      ? t`Remove from favourites`
-      : t`Add to favourites`
+      ? t`Remove from Favorites`
+      : t`Add to Favorites`
 
     const commentLabel = comment
       ? t`Edit comment`
