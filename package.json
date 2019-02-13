@@ -28,7 +28,7 @@
     "test:unit": "./node_modules/.bin/jest --config=./jest.config.js",
     "test:functional": "npm run clean:report:browserstack && ./node_modules/.bin/wdio wdio.conf.js",
     "precommit": "npm run lint-staged",
-    "lang-update:en": "./node_modules/.bin/env-cmd env/development npx ttag update --extractLocation file src/data/lang/en.po ./src",
+    "lang-update:en": "./node_modules/.bin/env-cmd env/development npx ttag update --extractLocation file src/data/lang/en.po ./src && npm run ttag:tojson",
     "ttag:tojson": "npx ttag po2json src/data/lang/en.po > src/data/lang/en.json"
   },
   "dependencies": {
