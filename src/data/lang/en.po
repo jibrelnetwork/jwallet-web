@@ -12,10 +12,10 @@ msgid "WalletsDataError"
 msgstr "Wallets Data Error"
 
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer.js:71
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:121
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:154
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:471
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:574
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:125
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:158
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:463
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:566
 #: src/routes/Favorites/FavoritesIndexViewContainer.js:17
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js:84
 #: src/routes/Wallets/routes/Addresses/sagas/walletsAddresses.js:46
@@ -189,10 +189,10 @@ msgid "DigitalAssetNotFoundError"
 msgstr "Digital Asset not found"
 
 #: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js:114
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:99
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:114
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:147
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:568
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:103
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:118
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:151
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:560
 #: src/routes/Wallets/routes/Addresses/sagas/walletsAddresses.js:104
 #: src/routes/sagas/blocks.js:60
 #: src/routes/sagas/blocks.js:146
@@ -443,7 +443,7 @@ msgstr "Search transactions..."
 msgid "Send asset"
 msgstr "Send Asset"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:581
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:573
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js:122
 msgid "DigitalAssetNotFound"
 msgstr "Digital Asset not found"
@@ -612,80 +612,79 @@ msgstr "Name"
 msgid "Description (optional)"
 msgstr "Description (optional)"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:243
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:701
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:241
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:693
 msgid "Can't request gas price"
 msgstr "Couldn't request gas price"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:255
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:254
 msgid "Invalid value for gas price"
 msgstr "Invalid Gas Price value"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:259
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:258
 msgid "Invalid value for gas limit"
 msgstr "Invalid Gas Limit value"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:275
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:274
 msgid "Can't request gas limit, please use custom priority"
 msgstr "Couldn't request Gas Limit, please use the Custom Priority feature"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:283
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:282
 msgid "Priority is not selected"
 msgstr "Priority has not been selected"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:336
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:346
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:335
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:345
 msgid "Amount exceeds balance"
 msgstr "Amount exceeds current balance"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:341
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:340
 msgid "Amount plus blockchain fee exceeds balance"
 msgstr "Amount, including blockchain fees, exceeds current balance"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:375
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:374
 msgid "Invalid nonce"
 msgstr "Invalid nonce"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:382
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:905
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:381
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:892
 msgid "Can't request nonce"
 msgstr "Couldn't request nonce"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:434
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:426
 msgid "Invalid address"
 msgstr "Invalid Address"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:171
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:423
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:428
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:169
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:420
 msgid "Invalid amount"
 msgstr "Invalid Amount"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:438
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:430
 msgid "Invalid asset address"
 msgstr "Invalid Asset Address"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:560
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:552
 msgid "Please input password"
 msgstr "Please enter your password"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:615
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:607
 msgid "Invalid password"
 msgstr "Incorrect Password"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:692
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:684
 msgid "Can't get gas limit. Most likely, your transaction will fail"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:740
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:732
 msgid "Gas limit is too small. Most likely, your transaction will fail"
 msgstr "Gas limit is too low. Your transaction will not be completed"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:763
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:755
 msgid "Gas price is too small. Most likely, your transaction will fail"
 msgstr "Gas price is too low. Your transaction will not be completed"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:783
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:775
 msgid "Recipient is the same as sender"
 msgstr "Recipient address is the same as sender address"
 
@@ -955,14 +954,6 @@ msgstr "Token Minting"
 msgid "Token burning"
 msgstr "Token Burning"
 
-#: src/components/TransactionItem/Details/Details.js:146
-msgid "Remove from favourites"
-msgstr "Remove from Favorites"
-
-#: src/components/TransactionItem/Details/Details.js:147
-msgid "Add to favourites"
-msgstr "Add to Favorites"
-
 #: src/components/TransactionItem/Details/Details.js:150
 msgid "Edit comment"
 msgstr "Edit Comment"
@@ -1144,7 +1135,7 @@ msgstr "Invalid ETH transaction format"
 msgid "Invalid contract events response"
 msgstr "Invalid contract events response"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:480
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:472
 msgid "GasValuesError"
 msgstr "Gas Value Error"
 
@@ -1160,7 +1151,7 @@ msgstr "Wallet name can't be empty"
 msgid "The page you're looking for can't be found."
 msgstr "The page you're looking for can't be found"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:360
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:359
 msgid "You don't have enough ETH to send this transaction"
 msgstr "You don't have enough ETH to complete this transaction"
 
@@ -1230,7 +1221,7 @@ msgstr ""
 "need.\n"
 "Please select an address to continue"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:391
+#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js:390
 msgid "Nonce should be greater than ${ suggestedNonce }"
 msgstr "Nonce should be greater than ${ suggestedNonce }"
 
@@ -1261,3 +1252,11 @@ msgstr ""
 "Your transaction does not meet the required criteria. You transaction\n"
 "${ boldWillFail }. Please make sure you know what you are doing before "
 "proceeding further"
+
+#: src/components/TransactionItem/Details/Details.js:146
+msgid "Remove from Favorites"
+msgstr "Remove from Favorites"
+
+#: src/components/TransactionItem/Details/Details.js:147
+msgid "Add to Favorites"
+msgstr "Add to Favorites"
