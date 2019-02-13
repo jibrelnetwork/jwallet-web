@@ -1,33 +1,42 @@
 // @flow
 
+import escapeRegExp from 'utils/regexp/escapeRegExp'
+
 type TransactionWithNames = {
   ...TransactionWithPrimaryKeys,
   +toName: ?string,
   +fromName: ?string,
 }
 
+const HEX_PREFIX: string = '0x'
+
 function searchBy(f: Function, query: string): Function {
   return (value: ?string): boolean => value ? f(value, query) : false
 }
 
 function checkHashes(field: string, searchQuery: string): boolean {
-  const query = searchQuery.replace(/^0x/, '')
-  const fromStart = new RegExp(`^0x${query}`, 'ig')
-  const fromEnd = new RegExp(`${query}$`, 'ig')
+  const query: string = searchQuery.replace(`/^${HEX_PREFIX}/`, '')
+  const fromEnd: RegExp = new RegExp(`${escapeRegExp(query)}$`, 'ig')
+  const fromStart: RegExp = new RegExp(`^${HEX_PREFIX}${escapeRegExp(query)}`, 'ig')
 
   return fromStart.test(field) || fromEnd.test(field)
 }
 
-function checkNames(field: string, searchQuery: string) {
-  const pattern = new RegExp(searchQuery, 'ig')
+function checkNames(field: string, searchQuery: string): boolean {
+  const pattern: RegExp = new RegExp(escapeRegExp(searchQuery), 'ig')
+
   return pattern.test(field)
 }
 
-function checkFound(
-  item: TransactionWithNames,
-  searchQuery: string,
-): boolean {
-  const { hash, to, from, toName, fromName }: TransactionWithNames = item
+function checkFound(item: TransactionWithNames, searchQuery: string): boolean {
+  const {
+    to,
+    from,
+    hash,
+    toName,
+    fromName,
+  }: TransactionWithNames = item
+
   const searchableHashes = [hash, to, from]
   const searchableString = [toName, fromName]
 
