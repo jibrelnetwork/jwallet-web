@@ -12,10 +12,6 @@
     cursor: pointer;
     transition: opacity 0.3s ease 0s;
 
-    &:hover {
-      opacity: 0.5;
-    }
-
     > .icon,
     > .text {
       display: inline-flex;
@@ -45,5 +41,13 @@
 
   &.-white {
     background-color: #fff;
+  }
+
+  > .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 3px;
   }
 }
