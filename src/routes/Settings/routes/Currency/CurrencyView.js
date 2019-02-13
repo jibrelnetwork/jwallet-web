@@ -8,6 +8,8 @@ import {
   Field,
 } from 'react-final-form'
 
+import proofWorker from 'workers/proof'
+
 import JText from 'components/base/JText'
 import SubsettingsView from 'routes/Settings/components/SubsettingsView'
 
@@ -25,6 +27,11 @@ type Props = {|
   +validate: (CurrencyFormFieldValues) => CurrencyFormFieldErrors,
   +fiatCurrency: FiatCurrency,
 |}
+
+async function ping() {
+  const response = await proofWorker.ping({ message: 'ping' })
+  alert(response)
+}
 
 const CurrencyView = ({
   onSubmit,
@@ -48,6 +55,14 @@ const CurrencyView = ({
             className='submit j-raised-button -blue'
           >
             <JText value={t`Save`} />
+          </button>
+          <hr />
+          <button
+            type='button'
+            className='submit j-raised-button -blue'
+            onClick={ping}
+          >
+            <JText value={t`Ping`} />
           </button>
         </form>
       )}
