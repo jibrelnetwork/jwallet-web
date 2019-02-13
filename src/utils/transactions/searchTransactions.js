@@ -51,7 +51,7 @@ function searchTransactions(
   searchQuery: string,
   addressNames?: AddressNames,
 ): TransactionWithPrimaryKeys[] {
-  if (!searchQuery) {
+  if (!searchQuery || (searchQuery.trim() === HEX_PREFIX)) {
     return items
   }
 
