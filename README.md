@@ -12,13 +12,19 @@ And check it running: [http://localhost:8080]()
 
 Visit our repository on Docker Hub: https://hub.docker.com/r/jibrelnetwork/jwallet-web/
 
-## Development
+## After first checkout
 
-* `npm run compile` - compiles assets
+Install Digital Assets repository
+* `git submodule init`
+* `git submodule update`
+
+## Development
+* `npm i`
+* `npm run lang-update:en` - update en.json from po file
 * `npm run dev` - starts webpack dev server (HMR enabled)
 
 ## Production
 
-0. `npm i`
-1. `npm run compile:prod`
-2. share static files from `build` dir
+* `npm i`
+* `npm run build:clean`
+* share static files from `build` dir
