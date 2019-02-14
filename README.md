@@ -15,8 +15,7 @@ Visit our repository on Docker Hub: https://hub.docker.com/r/jibrelnetwork/jwall
 ## After first checkout
 
 Install Digital Assets repository
-* `git submodule init`
-* `git submodule update`
+* `git submodule update --init`
 
 ## Development
 * `npm i`
