@@ -32,6 +32,28 @@
         { "property": "captchaErrorCallback" },
         { "property": "captchaExpiredCallback" }
       ]
+    }],
+    "object-curly-newline": [2, {
+      "ObjectExpression": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      },
+      "ObjectPattern": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      },
+      "ImportDeclaration": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      },
+      "ExportDeclaration": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      }
     }]
   }
 }
