@@ -202,17 +202,11 @@ msgstr "Create a new key pair or import an existing"
 msgid "one to get started"
 msgstr "wallet to get started"
 
-#: src/routes/Wallets/routes/Start/WalletsStartView.js
-msgid "By clicking \"Create new\" or \"Import\" I agree to"
-msgstr "By clicking \"Create new\" or \"Import\" I agree to"
-
 #: src/routes/Agreements/AgreementsView.js
-#: src/routes/Wallets/routes/Start/WalletsStartView.js
 msgid "Terms of Use"
 msgstr "Terms of Use"
 
 #: src/routes/Agreements/AgreementsView.js
-#: src/routes/Wallets/routes/Start/WalletsStartView.js
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -511,8 +505,8 @@ msgid "Preffered fiat currency"
 msgstr "Preferred Fiat Currency"
 
 #: src/routes/NotFound/NotFoundView.js
-msgid "404. Page Not Found."
-msgstr "404 - Page Not Found"
+msgid "404 – Page Not Found"
+msgstr ""
 
 #: src/routes/NotFound/NotFoundView.js
 msgid "Check the URL and try again."

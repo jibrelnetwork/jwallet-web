@@ -20,8 +20,6 @@
 
   &.-start {
     > .content {
-      margin-bottom: -150px;
-
       > .title {
         @include flex-column-center;
 
