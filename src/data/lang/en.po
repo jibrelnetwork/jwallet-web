@@ -499,8 +499,8 @@ msgid "Preffered fiat currency"
 msgstr "Preferred Fiat Currency"
 
 #: src/routes/NotFound/NotFoundView.js
-msgid "404. Page Not Found."
-msgstr "404 - Page Not Found"
+msgid "404 – Page Not Found"
+msgstr ""
 
 #: src/routes/NotFound/NotFoundView.js
 msgid "Check the URL and try again."
