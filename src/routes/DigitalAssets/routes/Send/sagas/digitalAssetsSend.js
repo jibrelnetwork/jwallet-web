@@ -18,7 +18,7 @@ import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
-import { isVoid } from 'utils/types'
+import { isVoid } from 'utils/type'
 
 import {
   checkAddressValid,
