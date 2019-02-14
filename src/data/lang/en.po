@@ -394,12 +394,6 @@ msgstr "Invalid Derivation Path"
 
 #: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
 #: src/routes/Transactions/TransactionsIndexView.js
-#: src/routes/Transactions/routes/Asset/TransactionsAssetView.js
-msgid "Digital assets"
-msgstr "Digital Assets"
-
-#: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
-#: src/routes/Transactions/TransactionsIndexView.js
 msgid "Transactions"
 msgstr "Transactions"
 
@@ -505,8 +499,8 @@ msgid "Preffered fiat currency"
 msgstr "Preferred Fiat Currency"
 
 #: src/routes/NotFound/NotFoundView.js
-msgid "404. Page Not Found."
-msgstr "404 - Page Not Found"
+msgid "404 – Page Not Found"
+msgstr ""
 
 #: src/routes/NotFound/NotFoundView.js
 msgid "Check the URL and try again."
@@ -1225,3 +1219,9 @@ msgstr "Remove from Favorites"
 #: src/components/TransactionItem/Details/Details.js
 msgid "Add to Favorites"
 msgstr "Add to Favorites"
+
+#: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
+#: src/routes/Transactions/TransactionsIndexView.js
+#: src/routes/Transactions/routes/Asset/TransactionsAssetView.js
+msgid "Digital Assets"
+msgstr "Digital Assets"
