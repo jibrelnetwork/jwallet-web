@@ -32,7 +32,7 @@ type Props = {|
 |}
 
 const TRANSACTIONS_TABS = {
-  '/digital-assets': t`Digital assets`,
+  '/digital-assets': t`Digital Assets`,
   '/transactions': t`Transactions`,
 }
 
