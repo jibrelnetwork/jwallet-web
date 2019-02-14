@@ -36,6 +36,7 @@ export function selectCurrentNetworkName(state: AppState): ?string {
   if (currentNetwork) {
     return currentNetwork.title
   }
+
   return null
 }
 
