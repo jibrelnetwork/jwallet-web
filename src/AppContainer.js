@@ -6,7 +6,12 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import type { Persistor } from 'redux-persist/lib/types'
-import { type Store, type Dispatch } from 'redux'
+
+import type {
+  Store,
+  Dispatch,
+} from 'redux'
+
 import { type AppAction } from 'routes'
 
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
@@ -33,7 +38,11 @@ class AppContainer extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { persistor, store } = this.props
+    const {
+      store,
+      persistor,
+    } = this.props
+
     startSessionWatcher(
       persistor,
       store.dispatch,
@@ -44,7 +53,12 @@ class AppContainer extends React.Component<Props, State> {
   }
 
   render() {
-    const { store, persistor, history, routes } = this.props
+    const {
+      store,
+      routes,
+      history,
+      persistor,
+    } = this.props
 
     return (
       <Provider store={store}>
