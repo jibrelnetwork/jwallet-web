@@ -63,6 +63,10 @@
     padding: 0 $form-field-horizontal-padding;
   }
 
+  > .info {
+    color: $faded-orange;
+  }
+
   > .error {
     opacity: 1;
   }

@@ -3,7 +3,6 @@
     "jibrelnetwork"
   ],
   "globals": {
-    "i18n": false,
     "Modernizr": false,
     "__DEV__": false,
     "__PROD__": false,
@@ -24,7 +23,6 @@
         { "property": "src" },
         { "property": "type" },
         { "property": "href" },
-        { "property": "i18n" },
         { "property": "innerHTML" },
         { "property": "postMessage" },
         { "property": "defaultProps" },

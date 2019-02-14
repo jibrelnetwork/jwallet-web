@@ -53,8 +53,11 @@ const createSymbol = (text: string): string => {
   return (letters.first + letters.last).toUpperCase()
 }
 
-const filterFavoriteByQuery = (re: RegExp) => (favorite: Favorite): boolean =>
-  re.test(favorite.name || '') || re.test(favorite.description || '')
+function filterFavoriteByQuery(favorite: Favorite, searchQuery: string): boolean {
+  const re: RegExp = new RegExp(searchQuery, 'gi')
+
+  return re.test(favorite.name || '') || re.test(favorite.description || '')
+}
 
 class FavoritesIndexView extends PureComponent<Props, State> {
   static defaultProps = {
@@ -82,12 +85,10 @@ class FavoritesIndexView extends PureComponent<Props, State> {
 
     const { searchQuery } = this.state
     const isSearched: boolean = !!searchQuery
-    const searchRegExp = new RegExp(searchQuery, 'gi')
-    const filterFavoriteBySearchRegExp = filterFavoriteByQuery(searchRegExp)
 
     const filteredItems: Favorite[] = !isSearched
       ? items
-      : items.filter((item: Favorite): boolean => filterFavoriteBySearchRegExp(item))
+      : items.filter((item: Favorite): boolean => filterFavoriteByQuery(item, searchQuery))
 
     if (filteredItems.length > 0) {
       return (
