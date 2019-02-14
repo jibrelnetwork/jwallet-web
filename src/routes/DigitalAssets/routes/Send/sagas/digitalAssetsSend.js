@@ -18,6 +18,7 @@ import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
+import { isVoid } from 'utils/types'
 
 import {
   checkAddressValid,
@@ -377,7 +378,7 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
 
   const nonce: ?number = yield* requestNonce('latest')
 
-  if (nonce == null) { // null or undefined, but not zero
+  if (isVoid(nonce)) {
     yield put(digitalAssetsSend.setFormFieldError('nonce', t`Can't request nonce`))
     return
   }
@@ -888,7 +889,7 @@ function* onStartNonceEdit(
       return
     }
 
-    if (nonce == null) { // null or undefined, but not zero
+    if (isVoid(nonce)) {
       yield put(digitalAssetsSend.setFormFieldError('nonce', t`Can't request nonce`))
       return
     }
