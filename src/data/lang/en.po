@@ -1216,6 +1216,7 @@ msgid ""
 msgstr ""
 "Your transaction does not meet the required criteria. You transaction\n"
 "${ boldWillFail }. Please make sure you know what you are doing before "
+"proceeding further"
 
 #: src/components/TransactionItem/Details/Details.js
 msgid "Remove from Favorites"
