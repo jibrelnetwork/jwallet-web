@@ -89,6 +89,8 @@ function DigitalAssetsSendForm({
           color='gray'
           name='owner-address'
           placeholder={t`Recipient address`}
+          infoMessage={formFieldWarnings.recipient}
+          errorMessage={formFieldErrors.recipient}
         />)}
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import { syncHistoryWithStore } from 'react-router-redux'
 
-import i18n from 'i18n'
 import router from 'routes/index'
 import configureStore from 'store/configureStore'
 import { gaSetUserDimension, DIMENSIONS } from 'utils/analytics'
@@ -42,13 +41,6 @@ const MOUNT_NODE: ?HTMLElement = document.getElementById('root')
 
 if (!MOUNT_NODE) {
   throw new Error('MOUNT_NODE does not exist')
-}
-
-// ========================================================
-// i18n
-// ========================================================
-if (typeof window !== 'undefined') {
-  window.i18n = i18n()
 }
 
 // FIXME: move to analytics middleware after language selection implementation
