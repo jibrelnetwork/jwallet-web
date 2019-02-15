@@ -1,6 +1,5 @@
 // @flow
 
-import * as i18nUtils from './i18n'
 import * as timeUtils from './time'
 import * as typeUtils from './type'
 import * as configUtils from './config'
@@ -19,7 +18,6 @@ import * as digitalAssetsUtils from './digitalAssets'
 import * as eventHandlersUtils from './eventHandlers'
 
 export {
-  i18nUtils,
   timeUtils,
   typeUtils,
   configUtils,
