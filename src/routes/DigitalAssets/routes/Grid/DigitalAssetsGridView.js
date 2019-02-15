@@ -16,7 +16,7 @@ import {
 } from 'components'
 
 const DIGITAL_ASSETS_TABS = {
-  '/digital-assets': t`Digital assets`,
+  '/digital-assets': t`Digital Assets`,
   '/transactions': t`Transactions`,
 }
 
