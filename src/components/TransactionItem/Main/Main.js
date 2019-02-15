@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { t } from 'ttag'
 
 import React, {
-  Fragment,
   PureComponent,
 } from 'react'
 
@@ -137,7 +136,6 @@ class TransactionItemMain extends PureComponent<Props> {
 
     const {
       symbol,
-      isCustom,
       blockchainParams: {
         decimals,
       },
@@ -157,15 +155,17 @@ class TransactionItemMain extends PureComponent<Props> {
     return (
       <div
         onClick={handle(setActive)(hash)}
-        className={classNames('transaction-item-main', isActive && '-active')}
+        className={classNames(
+          'transaction-item-main',
+          {
+            '-active': isActive,
+            '-in-single-asset-list': isAssetList,
+          }
+        )}
       >
         <div className='box'>
-          <div className='status'>
-            <JIcon
-              size='medium'
-              name={getTransactionIconName(isEventMint, isEventBurn, isSent, isPending, isFailed)}
-              color={getTransactionIconColor(isPending, isFailed, timestamp)}
-            />
+          <div className='symbol'>
+            <JAssetSymbol symbol={symbol} color='gray' />
           </div>
           <div className='data'>
             {txAddress ? (
@@ -229,7 +229,7 @@ class TransactionItemMain extends PureComponent<Props> {
           )}
         </div>
         <div className='box'>
-          <div className={classNames('balance', !isAssetList && '-border')}>
+          <div className='balance'>
             <div className='crypto'>
               <JText
                 value={`
@@ -243,31 +243,14 @@ class TransactionItemMain extends PureComponent<Props> {
                 whiteSpace='wrap'
               />
             </div>
-            {/* {!isZero(amount) && (
-              <div className='fiat'>
-                <JText value='20,000 USD' color='gray' size='small' whiteSpace='wrap' />
-              </div>
-            )} */}
           </div>
-          {!isAssetList && (
-            <Fragment>
-              {!isCustom ? (
-                <div className='symbol -icon'>
-                  <JAssetSymbol symbol={symbol} color='gray' />
-                </div>
-              ) : (
-                <div className='symbol -text'>
-                  <JText
-                    value={symbol}
-                    color='blue'
-                    weight='bold'
-                    size='normal'
-                    whiteSpace='wrap'
-                  />
-                </div>
-              )}
-            </Fragment>
-          )}
+          <div className='status'>
+            <JIcon
+              size='medium'
+              name={getTransactionIconName(isEventMint, isEventBurn, isSent, isPending, isFailed)}
+              color={getTransactionIconColor(isPending, isFailed, timestamp)}
+            />
+          </div>
         </div>
       </div>
     )
