@@ -98,6 +98,7 @@
       "button": true,
       "submit": true,
       "reset": false
-    }]
+    }],
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"]
   }
 }
