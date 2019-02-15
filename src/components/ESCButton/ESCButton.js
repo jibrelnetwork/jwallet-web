@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import RoundIconButton from 'components/RoundIconButton'
 
 type ESCButtonColor = 'white' | 'gray'
-type ESCButtonIconName = 'arrow-left' | 'padding-cross'
+type ESCButtonIconName = 'arrow-left' | 'padding-cross' | 'cross'
 
 type Props = {|
   +onESC: () => void,
