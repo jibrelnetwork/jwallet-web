@@ -78,14 +78,6 @@ class CopyableField extends PureComponent<Props, StateProps> {
             whiteSpace='wrap'
           />
         </div>
-        <div className='overlay'>
-          <OverlayActions
-            copy={handle(this.onClick)(copy, value)}
-            load={download ? handle(download)(value) : null}
-            loadLabel={t`Download as TXT`}
-            copyLabel={t`Copy recovery text`}
-          />
-        </div>
         <div className='success'>
           <div className='icon'>
             <JIcon name='check-circle' color='white' size='medium' />
@@ -93,6 +85,14 @@ class CopyableField extends PureComponent<Props, StateProps> {
           <div className='text'>
             <JText value={t`Copied!`} color='white' weight='bold' />
           </div>
+        </div>
+        <div className='overlay'>
+          <OverlayActions
+            copy={handle(this.onClick)(copy, value)}
+            load={download ? handle(download)(value) : null}
+            loadLabel={t`Download as TXT`}
+            copyLabel={t`Copy recovery text`}
+          />
         </div>
       </div>
     )
