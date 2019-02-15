@@ -16,6 +16,10 @@ type Props = {|
   +addAsset: () => void,
   +openView: () => void,
   +closeView: () => void,
+  // FIXME: Temporary mapDispatchToProps solution
+  // fix when mapDispatchToProps shorthand will be supported by react-redux
+  // see related issue: https://github.com/flow-typed/flow-typed/issues/746
+  +onClickGoBack: Function,
   +editAsset: (Address) => void,
   +setSearchQuery: (string) => void,
   +deleteCustomAsset: (Address) => void,
@@ -36,6 +40,7 @@ class DigitalAssetsManageView extends Component<Props> {
     const {
       items,
       addAsset,
+      onClickGoBack,
       setSearchQuery,
       deleteCustomAsset,
       setAssetIsActive,
@@ -53,8 +58,11 @@ class DigitalAssetsManageView extends Component<Props> {
               <div className='search'>
                 <JSearch onChange={setSearchQuery} placeholder={t`Search asset...`} />
               </div>
-              <div onClick={addAsset} className='add' title={t`Add asset`}>
+              <div onClick={addAsset} className='button add' title={t`Add asset`}>
                 <JIcon name='add' color='gray' size='medium' />
+              </div>
+              <div onClick={onClickGoBack} className='button close' title={t`Close`}>
+                <JIcon name='cross' color='gray' size='medium' />
               </div>
             </div>
           </div>
