@@ -1,6 +1,6 @@
 import React from 'react'
 
-const files = require.context('../../public/assets/icons/new-pack/large', true, /.*\.svg$/)
+const files = require.context('../../public/assets/icons/new-pack/large', false, /.*\.svg$/)
 
 files.keys().forEach(x => files(x))
 

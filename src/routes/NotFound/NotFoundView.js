@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { JThumbnail, JFlatButton } from 'components/base'
-import SvgIcon from 'components/SvgIcon'
 import handle from 'utils/eventHandlers/handle'
 
 type Props = {|
@@ -38,7 +37,6 @@ class NotFoundView extends PureComponent<Props, StateProps> {
     return (
       <div className='not-found-view'>
         <div className='content'>
-          <SvgIcon type='screen-error' className='test-icon' />
           <JThumbnail
             color='white'
             iconSize='xlarge'

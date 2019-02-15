@@ -131,18 +131,29 @@ module.exports = {
         // back to the "file" loader at the end of the loader list.
         oneOf: [
           {
-            test: /^src\/public\/assets\/icons\/new-pack\/\*\.svg(?=\/|$)/i,
+            test: /\.svg$/,
             use: [
               {
                 loader: 'svg-sprite-loader',
+                options: {
+                  extract: false,
+                },
               },
               {
                 loader: 'svgo-loader',
                 options: {
                   plugins: [
                     { removeTitle: true },
-                    { convertColors: { shorthex: false } },
-                    { convertPathData: false },
+                    { removeComments: true },
+                    { convertStyleToAttrs: true },
+                    { convertPathData: true },
+                    { cleanupAttrs: true },
+                    { removeDoctype: true },
+                    { inlineStyles: true },
+                    { convertTransform: true },
+                    { removeAttrs: true },
+                    { removeUselessDefs: true },
+                    { removeStyleElement: true },
                   ],
                 },
               },
