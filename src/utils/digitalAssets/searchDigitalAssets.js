@@ -1,11 +1,13 @@
 // @flow
 
+import escapeRegExp from 'utils/regexp/escapeRegExp'
+
 function searchDigitalAssets(
   items: DigitalAssetWithBalance[],
   searchQuery: string,
 ): DigitalAssetWithBalance[] {
   const query: string = searchQuery.trim()
-  const searchRe: RegExp = new RegExp(query, 'ig')
+  const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
 
   return !query ? items : items.filter(({
     name,
