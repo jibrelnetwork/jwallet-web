@@ -130,6 +130,24 @@ module.exports = {
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
         oneOf: [
+          {
+            test: /^src\/public\/assets\/icons\/new-pack\/\*\.svg(?=\/|$)/i,
+            use: [
+              {
+                loader: 'svg-sprite-loader',
+              },
+              {
+                loader: 'svgo-loader',
+                options: {
+                  plugins: [
+                    { removeTitle: true },
+                    { convertColors: { shorthex: false } },
+                    { convertPathData: false },
+                  ],
+                },
+              },
+            ],
+          },
           // "url" loader works just like "file" loader but it also embeds
           // assets smaller than specified size as data URLs to avoid requests.
           {

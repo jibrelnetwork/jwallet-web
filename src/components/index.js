@@ -1,6 +1,7 @@
 // @flow
 
 import QRCode from './QRCode'
+import SvgIcon from './SvgIcon'
 import HelpText from './HelpText'
 import AssetItem from './AssetItem'
 import ESCButton from './ESCButton'
@@ -42,6 +43,7 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export {
   QRCode,
+  SvgIcon,
   HelpText,
   AssetItem,
   ESCButton,
