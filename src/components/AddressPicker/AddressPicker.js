@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 
+import escapeRegExp from 'utils/regexp/escapeRegExp'
 import checkAddressValid from 'utils/address/checkAddressValid'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
@@ -22,7 +23,7 @@ type ComponentState = {|
 
 function searchAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
   const query: string = searchQuery.trim()
-  const searchRe: RegExp = new RegExp(query, 'ig')
+  const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
 
   return !query ? addressNames : Object.keys(addressNames).reduce((
     result: AddressNames,

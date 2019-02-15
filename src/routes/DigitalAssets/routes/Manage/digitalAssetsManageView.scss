@@ -36,11 +36,12 @@
 
         align-items: center;
 
-        > .search {
+        > .search,
+        > .add {
           margin-right: 45px;
         }
 
-        > .add {
+        > .button {
           @include hover-animation;
 
           opacity: 0.5;
