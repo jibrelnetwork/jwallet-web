@@ -44,6 +44,21 @@ h4 {
   padding: 0;
 }
 
+.unsupported-screen a {
+  color: #fff;
+  text-decoration: none;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
+.unsupported-screen a:hover {
+  color: #00c1ff;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
 .unsupported-screen__image,
 .unsupported-screen__error {
   margin: 0 auto;
@@ -82,20 +97,8 @@ h4 {
   margin-left: -100px;
   padding: 12px;
   text-align: center;
-  color: #fff;
-  text-decoration: none;
   font-weight: 600;
   font-size: 13px;
-  -webkit-transition: color 0.3s;
-  -o-transition: color 0.3s;
-  transition: color 0.3s;
-}
-
-.unsupported-screen__back:hover {
-  color: #00c1ff;
-  -webkit-transition: color 0.3s;
-  -o-transition: color 0.3s;
-  transition: color 0.3s;
 }
 
 .unsupported-screen__subtitle {
@@ -135,7 +138,8 @@ html.no-indexeddb .unsupported-screen__feature.-indexeddb,
 html.no-localstorage .unsupported-screen__feature.-localstorage,
 html.no-webworkers .unsupported-screen__feature.-webworkers,
 html.no-workerscrypto .unsupported-screen__feature.-workerscrypto,
-html.no-crosstabstoreevents .unsupported-screen__feature.-crosstabstoreevents {
+html.no-crosstabstoreevents .unsupported-screen__feature.-crosstabstoreevents,
+html.ios .unsupported-screen__feature.-no-ios {
   display: inline-block;
 }
 
@@ -150,7 +154,8 @@ html.no-indexeddb .unsupported-screen,
 html.no-localstorage .unsupported-screen,
 html.no-webworkers .unsupported-screen,
 html.no-workerscrypto .unsupported-screen,
-html.no-crosstabstoreevents .unsupported-screen {
+html.no-crosstabstoreevents .unsupported-screen,
+html.ios .unsupported-screen {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
