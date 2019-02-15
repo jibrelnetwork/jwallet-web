@@ -394,12 +394,6 @@ msgstr "Invalid Derivation Path"
 
 #: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
 #: src/routes/Transactions/TransactionsIndexView.js
-#: src/routes/Transactions/routes/Asset/TransactionsAssetView.js
-msgid "Digital assets"
-msgstr "Digital Assets"
-
-#: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
-#: src/routes/Transactions/TransactionsIndexView.js
 msgid "Transactions"
 msgstr "Transactions"
 
@@ -953,6 +947,7 @@ msgstr "Cancel"
 
 #: src/components/ButtonWithConfirm/ButtonWithConfirm.js
 #: src/components/TransactionItem/Details/Comment/Comment.js
+#: src/components/WalletFace/Actions/WalletFaceActions.js
 msgid "Delete"
 msgstr "Delete"
 
@@ -1225,3 +1220,25 @@ msgstr "Remove from Favorites"
 #: src/components/TransactionItem/Details/Details.js
 msgid "Add to Favorites"
 msgstr "Add to Favorites"
+
+#: src/routes/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
+#: src/routes/Transactions/TransactionsIndexView.js
+#: src/routes/Transactions/routes/Asset/TransactionsAssetView.js
+msgid "Digital Assets"
+msgstr "Digital Assets"
+
+#: src/components/WalletFace/Actions/WalletFaceActions.js
+msgid "Convert to multi-address wallet"
+msgstr ""
+
+#: src/components/WalletFace/Actions/WalletFaceActions.js
+msgid "Convert to single-address wallet"
+msgstr ""
+
+#: src/components/WalletFace/Actions/WalletFaceActions.js
+msgid "Backup"
+msgstr ""
+
+#: src/components/WalletFace/Actions/WalletFaceActions.js
+msgid "Rename"
+msgstr ""

@@ -58,7 +58,7 @@ class CloseableScreen extends Component<Props> {
               {close && <ESCButton
                 onESC={close}
                 color='gray'
-                iconName='padding-cross'
+                iconName='cross'
                 isDisabled={!isCloseable}
               />}
             </div>

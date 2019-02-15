@@ -12,13 +12,19 @@
   justify-content: space-between;
   height: $transaction-item-height;
 
+  &.-in-single-asset-list {
+    > .box > .symbol {
+      display: none;
+    }
+  }
+
   > .box {
     @include flex-row;
 
     align-items: center;
 
-    > .status,
-    > .balance.-border,
+    > .symbol,
+    > .balance,
     > .message {
       position: relative;
 
@@ -136,14 +142,6 @@
       width: 70px;
       align-items: center;
       justify-content: center;
-
-      &.-icon {
-        opacity: 0.2;
-      }
-
-      &.-text {
-        height: 36px;
-      }
     }
   }
 }

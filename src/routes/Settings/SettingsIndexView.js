@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
+import escapeRegExp from 'utils/regexp/escapeRegExp'
 import formatCurrency from 'utils/formatters/formatCurrency'
 import { SettingsGrid } from 'components'
 import { Scrollbars } from 'react-custom-scrollbars'
@@ -93,7 +94,7 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
   }
 
   filterCardByQuery = (query: string): boolean => {
-    const queryPattern = new RegExp(this.state.searchQuery, 'gi')
+    const queryPattern = new RegExp(escapeRegExp(this.state.searchQuery), 'ig')
 
     return queryPattern.test(query)
   }
