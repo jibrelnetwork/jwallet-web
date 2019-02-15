@@ -1,5 +1,5 @@
 // @flow
 
-import TransactionsList from './TransactionsList'
+import TransactionsList from './TransactionsListRV'
 
 export default TransactionsList

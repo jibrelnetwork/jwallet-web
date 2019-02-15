@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
+// import { Scrollbars } from 'react-custom-scrollbars'
 import { t } from 'ttag'
 
 import {
@@ -81,22 +81,20 @@ function TransactionsIndexView({
           </div>
         </div>
       </div>
-      <div className='content'>
-        <Scrollbars autoHide>
-          <TransactionsList
-            editComment={editComment}
-            removeFavorite={removeFavorite}
-            items={transactions}
-            comments={comments}
-            favorites={favorites}
-            addressNames={addressNames}
-            digitalAssets={digitalAssets}
-            ownerAddress={ownerAddress}
-            blockExplorerUISubdomain={network.blockExplorerUISubdomain}
-            isLoading={isLoading}
-            isFiltered={!!filterCount || !!searchQuery}
-          />
-        </Scrollbars>
+      <div className='content' /* style={{ overflow: 'scrollY' }} */>
+        <TransactionsList
+          editComment={editComment}
+          removeFavorite={removeFavorite}
+          items={transactions}
+          comments={comments}
+          favorites={favorites}
+          addressNames={addressNames}
+          digitalAssets={digitalAssets}
+          ownerAddress={ownerAddress}
+          blockExplorerUISubdomain={network.blockExplorerUISubdomain}
+          isLoading={isLoading}
+          isFiltered={!!filterCount || !!searchQuery}
+        />
       </div>
     </div>
   )

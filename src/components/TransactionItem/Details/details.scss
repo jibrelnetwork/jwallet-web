@@ -1,7 +1,7 @@
 @import './Comment/comment';
 
 .transaction-item-details {
-  all: initial;
+  // all: initial;
 
   @include box;
   @include flex-column;

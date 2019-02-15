@@ -5,6 +5,7 @@
   max-width: 1000px;
   margin: 0 auto 50px auto;
   padding-top: $page-header-height;
+  height: 100%;
 
   > .loader {
     @include flex-row-center;
