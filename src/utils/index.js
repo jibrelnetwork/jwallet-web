@@ -4,6 +4,7 @@ import * as timeUtils from './time'
 import * as typeUtils from './type'
 import * as configUtils from './config'
 import * as errorsUtils from './errors'
+import * as regexpUtils from './regexp'
 import * as addressUtils from './address'
 import * as browserUtils from './browser'
 import * as numbersUtils from './numbers'
@@ -21,6 +22,7 @@ export {
   typeUtils,
   configUtils,
   errorsUtils,
+  regexpUtils,
   addressUtils,
   browserUtils,
   numbersUtils,

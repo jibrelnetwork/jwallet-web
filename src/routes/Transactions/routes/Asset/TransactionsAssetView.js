@@ -35,7 +35,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   )
 
   return {
-    '/digital-assets': t`Digital assets`,
+    '/digital-assets': t`Digital Assets`,
     [`/transactions/${address}`]: (isFetched && assetBalance)
       ? `${name} — ${balance} ${symbol}`
       : name,
