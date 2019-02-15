@@ -99,6 +99,12 @@
       "submit": true,
       "reset": false
     }],
-    "react/jsx-closing-bracket-location": [2, "tag-aligned"]
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
+    "react/jsx-closing-tag-location": 2,
+    "react/jsx-curly-spacing": [2, {
+      "when": "never",
+      "allowMultiline": false,
+      "objectLiterals": "never"
+    }]
   }
 }
