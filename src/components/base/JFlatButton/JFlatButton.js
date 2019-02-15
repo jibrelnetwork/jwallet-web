@@ -40,12 +40,14 @@ type Props = {|
   +isTransparent: boolean,
   +isUnderscored: boolean,
   +isHoverOpacity: boolean,
+  title?: string,
 |}
 
 type BaseProps = {|
   +onMouseEnter: (SyntheticEvent<any>) => void,
   +onMouseLeave: (SyntheticEvent<any>) => void,
   +className: string,
+  title?: string,
 |}
 
 type StateProps = {|
@@ -68,6 +70,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
     isTransparent: false,
     isUnderscored: false,
     isHoverOpacity: false,
+    title: undefined,
   }
 
   constructor(props: Props) {
@@ -98,6 +101,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       isTransparent,
       isUnderscored,
       isHoverOpacity,
+      title,
     } = this.props
 
     const {
@@ -145,6 +149,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
         isUnderscored && '-underscored',
         isHoverOpacity && '-hover-opacity',
       ),
+      title,
     }
 
     if (isDisabled) {

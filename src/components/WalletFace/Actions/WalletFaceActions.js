@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import {
   JText,
@@ -17,6 +18,7 @@ type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
 type WalletFaceAction = {|
   +handler: ?WalletFaceActionsHandler,
   +iconName: 'edit' | 'to-multiaddress' | 'to-oneaddress' | 'import' | 'bucket',
+  +tooltip: string,
 |}
 
 type Props = {|
@@ -41,10 +43,28 @@ class WalletFaceActions extends PureComponent<Props> {
     }: Props = this.props
 
     return [
-      { iconName: isSimplified ? 'to-multiaddress' : 'to-oneaddress', handler: simplify },
-      { iconName: 'import', handler: backup },
-      { iconName: 'edit', handler: rename },
-      { iconName: 'bucket', handler: remove },
+      {
+        iconName: isSimplified ? 'to-multiaddress' : 'to-oneaddress',
+        handler: simplify,
+        tooltip: isSimplified ?
+          t`Convert to multi-address wallet` :
+          t`Convert to single-address wallet`,
+      },
+      {
+        iconName: 'import',
+        handler: backup,
+        tooltip: t`Backup`,
+      },
+      {
+        iconName: 'edit',
+        handler: rename,
+        tooltip: t`Rename`,
+      },
+      {
+        iconName: 'bucket',
+        handler: remove,
+        tooltip: t`Delete`,
+      },
     ]
   }
 
@@ -77,6 +97,7 @@ class WalletFaceActions extends PureComponent<Props> {
                     iconSize='medium'
                     iconColor='white'
                     isHoverOpacity
+                    title={action.tooltip}
                   />
                 </div>
               )
