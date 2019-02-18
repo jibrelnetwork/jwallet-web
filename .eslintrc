@@ -130,6 +130,7 @@
       "functions": "always-multiline"
     }],
     "flowtype/array-style-simple-type": [2, "shorthand"],
-    "flowtype/delimiter-dangle": [2, "always-multiline"]
+    "flowtype/delimiter-dangle": [2, "always-multiline"],
+    "flowtype/newline-after-flow-annotation": [2, "always"]
   }
 }
