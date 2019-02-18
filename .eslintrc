@@ -133,6 +133,7 @@
     "flowtype/array-style-simple-type": [2, "shorthand"],
     "flowtype/delimiter-dangle": [2, "always-multiline"],
     "flowtype/newline-after-flow-annotation": [2, "always"],
-    "flowtype/object-type-delimiter": [2, "comma"]
+    "flowtype/object-type-delimiter": [2, "comma"],
+    "flowtype/require-compound-type-alias": [2, "always"]
   }
 }
