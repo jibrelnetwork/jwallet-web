@@ -131,7 +131,10 @@ module.exports = {
         // back to the "file" loader at the end of the loader list.
         oneOf: [
           {
-            test: /\.svg$/,
+            test: [
+              /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/).+\.svg(?=\/|$)/i,
+              /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
+            ],
             use: [
               {
                 loader: 'svg-sprite-loader',
@@ -144,16 +147,18 @@ module.exports = {
                 options: {
                   plugins: [
                     { removeTitle: true },
-                    { removeComments: true },
-                    { convertStyleToAttrs: true },
-                    { convertPathData: true },
-                    { cleanupAttrs: true },
                     { removeDoctype: true },
-                    { inlineStyles: true },
+                    { removeComments: true },
+                    { collapseGroups: true },
+                    { convertPathData: true },
+                    { removeDimensions: true },
                     { convertTransform: true },
-                    { removeAttrs: true },
                     { removeUselessDefs: true },
+                    { convertShapeToPath: true },
+                    { removeUselessStrokeAndFill: true },
+                    { removeNonInheritableGroupAttrs: true },
                     { removeStyleElement: true },
+                    { removeAttrs: { attrs: '(fill|stroke)' } },
                   ],
                 },
               },
