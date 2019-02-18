@@ -129,6 +129,7 @@
       "exports": "always-multiline",
       "functions": "always-multiline"
     }],
+    "flowtype/no-dupe-keys": 2,
     "flowtype/array-style-simple-type": [2, "shorthand"],
     "flowtype/delimiter-dangle": [2, "always-multiline"],
     "flowtype/newline-after-flow-annotation": [2, "always"]
