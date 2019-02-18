@@ -121,6 +121,7 @@
       "condition": "parens-new-line",
       "logical": "parens-new-line",
       "prop": "parens-new-line"
-    }]
+    }],
+    "flowtype/array-style-simple-type": [2, "shorthand"]
   }
 }
