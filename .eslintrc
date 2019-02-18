@@ -14,7 +14,6 @@
     "__DEFAULT_BLOCKEXPLORER_API__": false
   },
   "rules": {
-    "no-use-before-define": 0,
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
