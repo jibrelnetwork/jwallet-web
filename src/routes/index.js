@@ -15,17 +15,9 @@ import Favorites from './Favorites'
 import Upgrade from './Upgrade'
 import Agreements from './Agreements'
 
-import {
-  type CoreAction,
-} from './modules'
-
-import {
-  type DigitalAssetsModuleAction,
-} from './DigitalAssets/modules'
-
-import {
-  type NotFoundAction,
-} from './NotFound/modules/notFound'
+import type { CoreAction } from './modules'
+import type { NotFoundAction } from './NotFound/modules/notFound'
+import type { DigitalAssetsModuleAction } from './DigitalAssets/modules'
 
 export type AppAction =
   CoreAction |
