@@ -2,7 +2,7 @@
 
 /* eslint-disable fp/no-rest-parameters */
 function ignoreEvent(handler: ?Function): Function {
-  return (...args: Array<any>): Function => (event: Object): void => {
+  return (...args: any[]): Function => (event: Object): void => {
     event.preventDefault()
 
     if (handler) {
