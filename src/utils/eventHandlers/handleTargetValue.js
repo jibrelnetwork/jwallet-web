@@ -1,7 +1,7 @@
 // @flow
 
 type SyntheticInputEventElement<E> = {
-  target: E
+  target: E,
 } & SyntheticEvent<EventTarget>;
 
 function handleTargetValue(handler: (string) => void) {
