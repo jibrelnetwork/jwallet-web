@@ -122,6 +122,13 @@
       "logical": "parens-new-line",
       "prop": "parens-new-line"
     }],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline"
+    }],
     "flowtype/array-style-simple-type": [2, "shorthand"]
   }
 }
