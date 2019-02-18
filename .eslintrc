@@ -18,6 +18,8 @@
       "commonjs": true,
       "allowThis": true,
       "exceptions": [
+        { "object": "formErrors" },
+        { "object": "reduceResult" },
         { "property": "onmessage" },
         { "property": "src" },
         { "property": "type" },
