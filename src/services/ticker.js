@@ -7,15 +7,15 @@ import currenciesData from 'data/currencies'
 import getENVVar from 'utils/config/getENVVar'
 import { typeUtils } from 'utils'
 
-const { tickerAPIOptions } = config
-
-const TICKER_API: string = getENVVar('_TICKER_API__') || __DEFAULT_TICKER_API__
-
 type TickerAPIParams = {|
   +id: FiatId[],
   +convert: FiatCurrency[],
   +source: 'coinmarketcap',
 |}
+
+const { tickerAPIOptions } = config
+
+const TICKER_API: string = getENVVar('_TICKER_API__') || __DEFAULT_TICKER_API__
 
 function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> {
   const requestInfo: RequestInfo = `${TICKER_API}/v2/quotes`
