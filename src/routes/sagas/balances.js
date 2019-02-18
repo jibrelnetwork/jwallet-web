@@ -1,4 +1,5 @@
 // @flow
+import { isEmpty } from 'lodash-es'
 
 import { delay } from 'redux-saga'
 import { t } from 'ttag'
@@ -108,7 +109,7 @@ function* checkBalancesFetched(
     }
   }, {})
 
-  return !!Object.keys(fetchedItems).length
+  return !isEmpty(fetchedItems)
 }
 
 function* checkBalancesLoading(
