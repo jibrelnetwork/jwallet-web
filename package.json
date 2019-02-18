@@ -105,7 +105,7 @@
     "eslint": "4.19.1",
     "eslint-config-jibrelnetwork": "1.0.4",
     "eslint-loader": "2.1.1",
-    "eslint-plugin-flowtype": "2.50.1",
+    "eslint-plugin-flowtype": "3.4.2",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jest": "21.13.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
