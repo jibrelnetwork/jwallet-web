@@ -1,6 +1,6 @@
 {
   "name": "jwallet-web",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jibrelnetwork/jwallet-web.git"
@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "./node_modules/.bin/env-cmd env/development npx webpack-dev-server --config ./webpack.config.js",
     "build": "./node_modules/.bin/env-cmd env/production npx webpack-cli --config ./webpack.config.js",
-    "build:clean": "npm run clean:build && npm run clean:report:size && npm run build",
+    "build:clean": "npm run clean:build && npm run clean:report:size && npm run ttag:tojson && npm run build",
     "clean:build": "npx rimraf ./build/**",
     "clean:storybook": "npx rimraf ./docs/storybook",
     "clean:report:browserstack": "npx rimraf ./reports/browserstack",
@@ -28,7 +28,7 @@
     "test:unit": "./node_modules/.bin/jest --config=./jest.config.js",
     "test:functional": "npm run clean:report:browserstack && ./node_modules/.bin/wdio wdio.conf.js",
     "precommit": "npm run lint-staged",
-    "lang-update:en": "./node_modules/.bin/env-cmd env/development npx ttag update src/data/lang/en.po ./src",
+    "lang-update:en": "./node_modules/.bin/env-cmd env/development npx ttag update --extractLocation file src/data/lang/en.po ./src && npm run ttag:tojson",
     "ttag:tojson": "npx ttag po2json src/data/lang/en.po > src/data/lang/en.json"
   },
   "dependencies": {

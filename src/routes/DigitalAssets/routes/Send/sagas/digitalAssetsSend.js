@@ -18,6 +18,7 @@ import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
+import { isVoid } from 'utils/type'
 
 import {
   checkAddressValid,
@@ -368,7 +369,7 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
     return
   }
 
-  const isNonceValid: boolean = parseInt(userNonce, 10) > 0
+  const isNonceValid: boolean = parseInt(userNonce, 10) >= 0
 
   if (!isNonceValid) {
     yield put(digitalAssetsSend.setFormFieldError('nonce', t`Invalid nonce`))
@@ -377,13 +378,13 @@ function* checkNonce(formFieldValues: DigitalAssetsSendFormFields): Saga<void> {
 
   const nonce: ?number = yield* requestNonce('latest')
 
-  if (!nonce) {
+  if (isVoid(nonce)) {
     yield put(digitalAssetsSend.setFormFieldError('nonce', t`Can't request nonce`))
     return
   }
 
   if (nonce > parseInt(userNonce, 10)) {
-    const suggestedNonce = nonce - 1
+    const suggestedNonce: number = (nonce > 0) ? nonce - 1 : 0
     yield put(
       digitalAssetsSend.setFormFieldError(
         'nonce',
@@ -888,7 +889,7 @@ function* onStartNonceEdit(
       return
     }
 
-    if (!nonce) {
+    if (isVoid(nonce)) {
       yield put(digitalAssetsSend.setFormFieldError('nonce', t`Can't request nonce`))
       return
     }
