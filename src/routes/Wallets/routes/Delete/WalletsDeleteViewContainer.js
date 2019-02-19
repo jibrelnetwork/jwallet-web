@@ -9,7 +9,9 @@ import {
   remove,
   openView,
   closeView,
-} from '../../../../store/modules/walletsDelete'
+} from 'store/modules/walletsDelete'
+
+import WalletsDeleteView from './WalletsDeleteView'
 
 type StateProps = {|
   +items: Wallets,

@@ -8,7 +8,7 @@ import {
   setSortByBalance,
   SORT_BY_NAME_CLICK,
   SORT_BY_BALANCE_CLICK,
-} from '../../modules/digitalAssetsGrid'
+} from 'store/modules/digitalAssetsGrid'
 
 function toggleSortDirection(currentDirection: SortDirection): SortDirection {
   return (currentDirection === 'asc') ? 'desc' : 'asc'

@@ -5,7 +5,7 @@ import { t } from 'ttag'
 import currenciesData from 'data/currencies'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
-import { setFiatCurrency } from '../../../../store/modules/settings'
+import { setFiatCurrency } from 'store/modules/settings'
 
 import CurrencyView from './CurrencyView'
 

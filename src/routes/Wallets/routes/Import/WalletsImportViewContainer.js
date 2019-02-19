@@ -12,7 +12,7 @@ import {
   changePasswordInput,
   changePasswordHintInput,
   changePasswordConfirmInput,
-} from '../../../../store/modules/wallets'
+} from 'store/modules/wallets'
 
 import {
   openView,
@@ -21,7 +21,7 @@ import {
   goToPrevStep,
   changeDataInput,
   changeDerivationPathInput,
-} from '../../../../store/modules/walletsImport'
+} from 'store/modules/walletsImport'
 
 import WalletsCreateView from './WalletsImportView'
 

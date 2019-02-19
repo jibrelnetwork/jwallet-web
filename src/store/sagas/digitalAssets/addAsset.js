@@ -43,9 +43,9 @@ import {
   setIsAssetValid,
   startAssetLoading,
   SUBMIT_ASSET_FORM,
-} from '../../modules/addAsset'
+} from 'store/modules/addAsset'
 
-import * as digitalAssets from '../../modules/digitalAssets'
+import * as digitalAssets from 'store/modules/digitalAssets'
 
 type RequestedAssetFields = {|
   decimals: ?number,
