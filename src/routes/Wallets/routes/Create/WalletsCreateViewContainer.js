@@ -12,14 +12,14 @@ import {
   changePasswordInput,
   changePasswordHintInput,
   changePasswordConfirmInput,
-} from '../../modules/wallets'
+} from '../../../../store/modules/wallets'
 
 import {
   openView,
   closeView,
   goToNextStep,
   goToPrevStep,
-} from './modules/walletsCreate'
+} from '../../../../store/modules/walletsCreate'
 
 import WalletsCreateView from './WalletsCreateView'
 

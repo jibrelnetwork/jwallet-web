@@ -42,7 +42,7 @@ import {
   sortByNameClick,
   sortByBalanceClick,
   setHideZeroBalance,
-} from './modules/digitalAssetsGrid'
+} from '../../../../store/modules/digitalAssetsGrid'
 
 function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)

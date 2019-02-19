@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 
 import NotFoundView from './NotFoundView'
-import { goToHome } from './modules/notFound'
+import { goToHome } from '../../store/modules/notFound'
 
 const mapDispatchToProps = {
   goToHome,

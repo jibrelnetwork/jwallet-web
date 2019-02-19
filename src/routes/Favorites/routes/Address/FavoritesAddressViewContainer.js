@@ -14,7 +14,7 @@ import {
   addByUser,
   setFormFieldValue,
   onAddressViewClose,
-} from '../../modules/favorites'
+} from '../../../../store/modules/favorites'
 
 import FavoritesAddressView from './FavoritesAddressView'
 

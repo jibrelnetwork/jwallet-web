@@ -8,7 +8,7 @@ import {
   closeView,
   renameAddress,
   changeNameInput,
-} from './modules/walletsRenameAddress'
+} from '../../../../store/modules/walletsRenameAddress'
 
 import WalletsRenameAddressView from './WalletsRenameAddressView'
 

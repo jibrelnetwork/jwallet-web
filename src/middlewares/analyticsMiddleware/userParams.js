@@ -1,27 +1,27 @@
 import { DIMENSIONS, METRICS, gaSetUserDimension, gaSetUserMetric } from 'utils/analytics'
 
-import { SET_WALLETS, SET_WALLETS_ITEMS } from 'routes/Wallets/modules/wallets'
+import { SET_WALLETS, SET_WALLETS_ITEMS } from 'store/modules/wallets'
 import { selectWalletsItems } from 'store/selectors/wallets'
 
 import {
   ADD_CUSTOM_ASSET,
   DELETE_CUSTOM_ASSET,
   SET_ASSET_IS_ACTIVE,
-} from 'routes/DigitalAssets/modules/digitalAssets'
+} from 'store/modules/digitalAssets'
 import { selectActiveDigitalAssets, selectCustomDigitalAssets } from 'store/selectors/digitalAssets'
 
-import { SET_FIAT_CURRENCY } from 'routes/Settings/modules/settings'
+import { SET_FIAT_CURRENCY } from 'store/modules/settings'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
 import {
   ADD_AUTO as FAVORITES_ADD_AUTO,
   ADD_BY_USER as FAVORITES_ADD_BY_USER,
   REMOVE as FAVORITES_REMOVE,
-} from 'routes/Favorites/modules/favorites'
+} from 'store/modules/favorites'
 import { selectFavoritesItems } from 'store/selectors/favorites'
 
-import { IMPORT_SUCCESS } from 'routes/Wallets/routes/Import/modules/walletsImport'
-import { CREATE_SUCCESS } from 'routes/Wallets/routes/Create/modules/walletsCreate'
+import { IMPORT_SUCCESS } from 'store/modules/walletsImport'
+import { CREATE_SUCCESS } from 'store/modules/walletsCreate'
 
 export const userParams = (state, action) => {
   switch (action.type) {

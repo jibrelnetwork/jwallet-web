@@ -1,6 +1,6 @@
 // @flow
 
-import type { SettingsAction } from 'routes/Settings/modules/settings'
+import type { SettingsAction } from 'store/modules/settings'
 
 // eslint-disable-next-line import/default
 import SettingsWorker from './worker.js'

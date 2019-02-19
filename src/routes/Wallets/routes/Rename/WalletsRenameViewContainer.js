@@ -3,13 +3,13 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { changeNameInput } from '../../modules/wallets'
+import { changeNameInput } from '../../../../store/modules/wallets'
 
 import {
   rename,
   openView,
   closeView,
-} from './modules/walletsRename'
+} from '../../../../store/modules/walletsRename'
 
 import WalletsRenameView from './WalletsRenameView'
 
