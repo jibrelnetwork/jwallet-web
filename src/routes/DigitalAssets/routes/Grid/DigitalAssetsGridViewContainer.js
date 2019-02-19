@@ -177,7 +177,7 @@ const mapDispatchToProps = {
   sortByNameClick,
   sortByBalanceClick,
   setHideZeroBalance,
-  addAssetClick: () => push('/digital-assets/add-asset'),
+  addAssetClick: () => push('/digital-assets/manage'),
   manageAssetsOpenClick: () => push('/digital-assets/manage'),
 }
 
