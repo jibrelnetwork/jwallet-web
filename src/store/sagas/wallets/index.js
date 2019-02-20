@@ -1,14 +1,14 @@
 // @flow
 
-import { walletsRootSaga as walletsSagas } from './core'
-import * as walletsAddressesSagas from './addresses'
-import * as walletsBackupSagas from './backup'
-import * as walletsCreateSagas from './create'
-import * as walletsDeleteSagas from './delete'
-import * as walletsImportSagas from './import'
-import * as walletsRenameSagas from './rename'
-import * as walletsRenameAddressSagas from './renameAddress'
-import * as walletsStarSagas from './start'
+import { walletsRootSaga } from './core'
+import { walletsStartRootSaga } from './start'
+import { walletsBackupRootSaga } from './backup'
+import { walletsCreateRootSaga } from './create'
+import { walletsDeleteRootSaga } from './delete'
+import { walletsImportRootSaga } from './import'
+import { walletsRenameRootSaga } from './rename'
+import { walletsAddressesRootSaga } from './addresses'
+import { walletsRenameAddressRootSaga } from './renameAddress'
 
 export {
   getPrivateKey,
@@ -17,13 +17,13 @@ export {
 } from './core'
 
 export default {
-  ...{ walletsSagas },
-  ...walletsCreateSagas,
-  ...walletsImportSagas,
-  ...walletsRenameSagas,
-  ...walletsDeleteSagas,
-  ...walletsBackupSagas,
-  ...walletsAddressesSagas,
-  ...walletsRenameAddressSagas,
-  ...walletsStarSagas,
+  walletsRootSaga,
+  walletsStartRootSaga,
+  walletsBackupRootSaga,
+  walletsCreateRootSaga,
+  walletsDeleteRootSaga,
+  walletsImportRootSaga,
+  walletsRenameRootSaga,
+  walletsAddressesRootSaga,
+  walletsRenameAddressRootSaga,
 }

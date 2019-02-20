@@ -3,8 +3,6 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import WalletsDeleteView from './WalletsDeleteView'
-
 import {
   remove,
   openView,
