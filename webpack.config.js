@@ -141,6 +141,69 @@ module.exports = {
             },
           },
 
+          // SCSS modules loader
+          {
+            test: /\.m\.scss$/,
+            include: PATHS.SOURCE,
+            use: [
+              isEnvDevelopment && require.resolve('style-loader'),
+              isEnvProduction && {
+                loader: MiniCssExtractPlugin.loader,
+                options: Object.assign(
+                  {},
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
+                ),
+              },
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  url: false,
+                  import: false,
+                  modules: 'local',
+                  localIdentName: isEnvDevelopment ?
+                    '[path][name]__[local]--[hash:base64:5]' :
+                    '[hash:base64:8]',
+                  camelCase: true,
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                // Options for PostCSS as we reference these options twice
+                // Adds vendor prefixing based on your specified browser support in
+                // package.json
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebook/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    require('autoprefixer')({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 11',
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                  ],
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  sourceMap: isEnvProduction,
+                  includePaths: [
+                    PATHS.SOURCE,
+                  ],
+                },
+              },
+            ].filter(Boolean),
+          },
+
           // SCSS loader
           {
             test: /\.scss$/,
