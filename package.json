@@ -1,6 +1,6 @@
 {
   "name": "jwallet-web",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jibrelnetwork/jwallet-web.git"
@@ -78,7 +78,7 @@
     "@babel/register": "7.0.0",
     "@babel/runtime": "7.2.0",
     "@gfx/zopfli": "1.0.10",
-    "@storybook/react": "4.0.9",
+    "@storybook/react": "4.1.12",
     "autoprefixer": "7.1.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",

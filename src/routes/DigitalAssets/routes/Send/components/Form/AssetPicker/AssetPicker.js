@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 
+import escapeRegExp from 'utils/regexp/escapeRegExp'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 import JPicker, { JPickerItem } from 'components/base/JPicker'
 
@@ -24,7 +25,7 @@ function searchDigitalAssets(
   searchQuery: string,
 ): DigitalAssetWithBalance[] {
   const query: string = searchQuery.trim()
-  const searchRe: RegExp = new RegExp(query, 'ig')
+  const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
 
   return !query ? digitalAssets : digitalAssets.reduce((
     result: DigitalAssetWithBalance[],
