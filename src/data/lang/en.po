@@ -436,7 +436,7 @@ msgstr "Support"
 
 #: src/routes/Settings/SettingsIndexView.js
 msgid "Check out Jwallet on Zendesk"
-msgstr "Check out Jwalllet on Zendesk"
+msgstr ""
 
 #: src/routes/Settings/SettingsIndexView.js
 msgid "Don't forget to back it up!"
@@ -1241,4 +1241,8 @@ msgstr ""
 
 #: src/components/WalletFace/Actions/WalletFaceActions.js
 msgid "Rename"
+msgstr ""
+
+#: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js
+msgid "Close"
 msgstr ""
