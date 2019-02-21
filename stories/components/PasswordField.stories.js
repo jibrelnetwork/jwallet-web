@@ -6,7 +6,7 @@ import { storiesOf } from '@storybook/react'
 
 import PasswordField from 'components/PasswordField'
 
-const StateHOC = withState('password', 'setPassword')
+const StateHOC = withState('password', 'setPassword', '')
 
 storiesOf('PasswordField', module)
   .add('default state', () => (
@@ -14,7 +14,7 @@ storiesOf('PasswordField', module)
       {React.createElement(StateHOC(
         ({ password, setPassword, passwordConfirm }) => (
           <PasswordField
-            password={password}
+            value={password || ''}
             onPasswordChange={setPassword}
             onPasswordConfirmChange={() => {}}
             passwordConfirm={passwordConfirm}
