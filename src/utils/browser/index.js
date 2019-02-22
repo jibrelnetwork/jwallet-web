@@ -2,13 +2,13 @@
 
 import isSafari from './isSafari'
 import flatten from './flatten'
-import flattenWithHelper from './flattenWithHelper'
+import flattenWith from './flattenWith'
 import reactRouterBack from './reactRouterBack'
 import startSessionWatcher from './startSessionWatcher'
 
 export {
   flatten,
-  flattenWithHelper,
+  flattenWith,
   isSafari,
   reactRouterBack,
   startSessionWatcher,

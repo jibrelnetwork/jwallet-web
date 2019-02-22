@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux'
 
-import { changePasswordInput } from '../../modules/wallets'
+import { changePasswordInput } from 'store/modules/wallets'
 
 import {
   openView,
@@ -11,7 +11,7 @@ import {
   goToPrevStep,
   downloadToTxt,
   copyToClipboard,
-} from './modules/walletsBackup'
+} from 'store/modules/walletsBackup'
 
 import WalletsBackupView from './WalletsBackupView'
 

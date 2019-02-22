@@ -21,12 +21,12 @@ import {
 import {
   openMenuLayout,
   closeMenuLayout,
-} from 'routes/modules/core'
+} from 'store/modules/core'
 
 import {
   setActive,
   getMoreRequest,
-} from 'routes/Wallets/routes/Addresses/modules/walletsAddresses'
+} from 'store/modules/walletsAddresses'
 
 import MenuLayout from './MenuLayout'
 

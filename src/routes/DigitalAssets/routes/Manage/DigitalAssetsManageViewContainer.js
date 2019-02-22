@@ -33,18 +33,18 @@ import {
   selectDigitalAssetsManageSearchQuery,
 } from 'store/selectors/digitalAssets'
 
-import DigitalAssetsManageView from './DigitalAssetsManageView'
-
 import {
   openView,
   closeView,
   setSearchQuery,
-} from './modules/digitalAssetsManage'
+} from 'store/modules/digitalAssetsManage'
 
 import {
   setAssetIsActive,
   deleteCustomAsset,
-} from '../../modules/digitalAssets'
+} from 'store/modules/digitalAssets'
+
+import DigitalAssetsManageView from './DigitalAssetsManageView'
 
 function sortDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   // eslint-disable-next-line fp/no-mutating-methods

@@ -3,7 +3,7 @@ import { DIMENSIONS, gaSendEvent } from 'utils/analytics'
 import {
   GO_TO_NEXT_STEP,
   STEPS,
-} from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
+} from 'store/modules/digitalAssetsSend'
 import { selectDigitalAssetsSend, selectDigitalAsset } from 'store/selectors/digitalAssets'
 
 const TRANSACTION_EVENTS = {
