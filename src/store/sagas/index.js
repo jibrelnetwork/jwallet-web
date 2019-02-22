@@ -10,8 +10,8 @@ import { transactionsRootSaga } from './transactions'
 import { upgradeRootSaga } from './upgrade'
 import { favoritesRootSaga } from './favorites'
 import { settingsRootSaga } from './settings'
-import wallets from './wallets'
-import digitalAssets from './digitalAssets'
+import walletsSagas from './wallets'
+import digitalAssetsSagas from './digitalAssets'
 
 export default {
   coreRootSaga,
@@ -24,6 +24,6 @@ export default {
   upgradeRootSaga,
   favoritesRootSaga,
   settingsRootSaga,
-  wallets,
-  digitalAssets,
+  walletsSagas,
+  digitalAssetsSagas,
 }

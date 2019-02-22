@@ -54,7 +54,7 @@ import {
 
 import * as comments from 'store/modules/comments'
 import * as transactions from 'store/modules/transactions'
-import * as digitalAssetsSend from '../../modules/digitalAssetsSend'
+import * as digitalAssetsSend from 'store/modules/digitalAssetsSend'
 
 const MIN_GAS_PRICE_COEFFICIENT = 0.25
 

@@ -1,6 +1,6 @@
 // @flow
 
-import type { CurrencyFormFieldValues } from '../../routes/Settings/routes/Currency/types'
+import type { CurrencyFormFieldValues } from 'routes/Settings/routes/Currency/types'
 
 export const CHANGE_PAYMENT_PASSWORD = '@@settings/CHANGE_PAYMENT_PASSWORD'
 export const VALIDATION_PASSWORD_FORM = '@@settings/VALIDATION_PASSWORD_FORM'
