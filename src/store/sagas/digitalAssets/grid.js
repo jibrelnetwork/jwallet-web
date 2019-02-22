@@ -40,7 +40,7 @@ function* sortByBalanceClick(): Saga<void> {
   }
 }
 
-export function* digitalAssetsGridRootSaga(): Saga<void> {
+export function* gridRootSaga(): Saga<void> {
   yield takeEvery(SORT_BY_NAME_CLICK, sortByNameClick)
   yield takeEvery(SORT_BY_BALANCE_CLICK, sortByBalanceClick)
 }

@@ -140,7 +140,7 @@ function* deleteCustomAsset(
   yield put(ticker.syncRestart())
 }
 
-export function* digitalAssetsRootSaga(): Saga<void> {
+export function* coreRootSaga(): Saga<void> {
   yield takeEvery(digitalAssets.INIT, init)
   yield takeEvery(digitalAssets.SET_ASSET_IS_ACTIVE, setAssetIsActive)
   yield takeEvery(digitalAssets.DELETE_CUSTOM_ASSET, deleteCustomAsset)

@@ -14,7 +14,7 @@ msgstr "Wallets Data Error"
 #: src/routes/Favorites/FavoritesIndexViewContainer.js
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js
 #: src/store/sagas/blocks.js
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 #: src/store/sagas/transactions.js
 #: src/store/sagas/wallets/addresses.js
 #: src/workers/wallets/wrapper.js
@@ -169,7 +169,7 @@ msgstr "Digital Asset not found"
 
 #: src/store/sagas/blocks.js
 #: src/store/sagas/digitalAssets/addAsset.js
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 #: src/store/sagas/wallets/addresses.js
 msgid "ActiveNetworkNotFoundError"
 msgstr "Active Network not found"
@@ -402,7 +402,7 @@ msgid "Send asset"
 msgstr "Send Asset"
 
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "DigitalAssetNotFound"
 msgstr "Digital Asset not found"
 
@@ -570,75 +570,75 @@ msgstr "Name"
 msgid "Description (optional)"
 msgstr "Description (optional)"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't request gas price"
 msgstr "Couldn't request gas price"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid value for gas price"
 msgstr "Invalid Gas Price value"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid value for gas limit"
 msgstr "Invalid Gas Limit value"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't request gas limit, please use custom priority"
 msgstr "Couldn't request Gas Limit, please use the Custom Priority feature"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Priority is not selected"
 msgstr "Priority has not been selected"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Amount exceeds balance"
 msgstr "Amount exceeds current balance"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Amount plus blockchain fee exceeds balance"
 msgstr "Amount, including blockchain fees, exceeds current balance"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid nonce"
 msgstr "Invalid nonce"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't request nonce"
 msgstr "Couldn't request nonce"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid address"
 msgstr "Invalid Address"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid amount"
 msgstr "Invalid Amount"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid asset address"
 msgstr "Invalid Asset Address"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Please input password"
 msgstr "Please enter your password"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid password"
 msgstr "Incorrect Password"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't get gas limit. Most likely, your transaction will fail"
 msgstr ""
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Gas limit is too small. Most likely, your transaction will fail"
 msgstr "Gas limit is too low. Your transaction will not be completed"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Gas price is too small. Most likely, your transaction will fail"
 msgstr "Gas price is too low. Your transaction will not be completed"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Recipient is the same as sender"
 msgstr "Recipient address is the same as sender address"
 
@@ -1086,7 +1086,7 @@ msgstr "Invalid ETH transaction format"
 msgid "Invalid contract events response"
 msgstr "Invalid contract events response"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "GasValuesError"
 msgstr "Gas Value Error"
 
@@ -1102,7 +1102,7 @@ msgstr "Wallet name can't be empty"
 msgid "The page you're looking for can't be found."
 msgstr "The page you're looking for can't be found"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "You don't have enough ETH to send this transaction"
 msgstr "You don't have enough ETH to complete this transaction"
 
@@ -1172,7 +1172,7 @@ msgstr ""
 "need.\n"
 "Please select an address to continue"
 
-#: src/store/sagas/digitalAssets/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Nonce should be greater than ${ suggestedNonce }"
 msgstr "Nonce should be greater than ${ suggestedNonce }"
 
