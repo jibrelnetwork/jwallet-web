@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
   openLayout,
   closeLayout,
-} from 'routes/Wallets/modules/wallets'
+} from 'store/modules/wallets'
 
 import WalletsLayout from './WalletsLayout'
 

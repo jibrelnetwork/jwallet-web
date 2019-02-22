@@ -2,7 +2,7 @@
 import uuidv4 from 'uuid/v4'
 import config from 'config'
 import type { Persistor } from 'redux-persist/lib/types'
-import { closeMenuLayout } from 'routes/modules/core'
+import { closeMenuLayout } from 'store/modules/core'
 
 export default function startSessionWatcher(
   persistor: Persistor,

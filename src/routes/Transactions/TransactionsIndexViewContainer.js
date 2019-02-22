@@ -40,10 +40,10 @@ import {
 import {
   setIsOnlyPending,
   changeSearchInput,
-} from 'routes/modules/transactions'
+} from 'store/modules/transactions'
 
-import { edit as editComment } from 'routes/modules/comments'
-import { remove as removeFavorite } from 'routes/Favorites/modules/favorites'
+import { edit as editComment } from 'store/modules/comments'
+import { remove as removeFavorite } from 'store/modules/favorites'
 
 import TransactionsIndexView from './TransactionsIndexView'
 

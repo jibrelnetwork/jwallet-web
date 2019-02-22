@@ -17,17 +17,17 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
-import * as upgrade from 'routes/Upgrade/modules/upgrade'
-import * as wallets from 'routes/Wallets/modules/wallets'
-import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
-import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
-import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
+import * as upgrade from 'store/modules/upgrade'
+import * as wallets from 'store/modules/wallets'
+import * as walletsCreate from 'store/modules/walletsCreate'
+import * as walletsImport from 'store/modules/walletsImport'
+import * as walletsBackup from 'store/modules/walletsBackup'
 
-import type { UpgradeAction } from 'routes/Upgrade/modules/upgrade'
-import type { WalletsAction } from 'routes/Wallets/modules/wallets'
-import type { WalletsCreateAction } from 'routes/Wallets/routes/Create/modules/walletsCreate'
-import type { WalletsImportAction } from 'routes/Wallets/routes/Import/modules/walletsImport'
-import type { WalletsBackupAction } from 'routes/Wallets/routes/Backup/modules/walletsBackup'
+import type { UpgradeAction } from 'store/modules/upgrade'
+import type { WalletsAction } from 'store/modules/wallets'
+import type { WalletsCreateAction } from 'store/modules/walletsCreate'
+import type { WalletsImportAction } from 'store/modules/walletsImport'
+import type { WalletsBackupAction } from 'store/modules/walletsBackup'
 
 export type WalletsAnyAction =
   UpgradeAction |

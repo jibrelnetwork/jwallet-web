@@ -10,7 +10,7 @@ import {
   setField,
   closeView,
   submitAssetForm,
-} from './modules/addAsset'
+} from 'store/modules/addAsset'
 
 import AddAssetView from './AddAssetView'
 
