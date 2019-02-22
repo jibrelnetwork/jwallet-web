@@ -5,6 +5,7 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects'
+import { mapKeys } from 'lodash-es'
 
 import assetsData from 'data/assets'
 
@@ -19,57 +20,78 @@ import * as ticker from 'routes/modules/ticker'
 
 import * as digitalAssets from '../modules/digitalAssets'
 
-function findByAddress(items: DigitalAssets, address: AssetAddress): ?DigitalAsset {
-  const addressToLower: string = address.toLowerCase()
-
-  const foundAddress: ?AssetAddress = Object
-    .keys(items)
-    .find((assetAddress: AssetAddress): boolean => (assetAddress.toLowerCase() === addressToLower))
-
-  return foundAddress ? items[foundAddress] : null
-}
-
 function mergeItems(items: DigitalAssets): DigitalAssets {
+  // FIXME: use current network id instead
+  // FIXME: remove eslint disable after new rules are applied
+  /* eslint-disable no-param-reassign, fp/no-mutation */
   const defaultItems: DigitalAssets = assetsData.mainnet.reduce((
-    result: DigitalAssets,
+    reduceResult: DigitalAssets,
     item: DigitalAsset,
   ): DigitalAssets => {
     const { address }: DigitalAssetBlockchainParams = item.blockchainParams
 
     if (!address) {
-      return result
+      return reduceResult
     }
 
     const addressWithChecksum: AssetAddress = getAddressChecksum(address)
 
-    return {
-      ...result,
-      [addressWithChecksum]: {
-        ...item,
-        isActive: false,
-        blockchainParams: {
-          ...item.blockchainParams,
-          address: addressWithChecksum,
-        },
+    reduceResult[addressWithChecksum] = {
+      ...item,
+      isActive: false,
+      blockchainParams: {
+        ...item.blockchainParams,
+        address: addressWithChecksum,
       },
     }
-  }, {})
 
-  const existingItems: DigitalAssets = Object.keys(items).reduce((
-    result: DigitalAssets,
-    address: AssetAddress,
+    return reduceResult
+  }, {})
+  /* eslint-enable no-param-reassign, fp/no-mutation */
+
+  const itemsWithChecksum: DigitalAssets = mapKeys(
+    items,
+    (item, address) => getAddressChecksum(address)
+  )
+
+  // FIXME: remove eslint disable after new rules are applied
+  /* eslint-disable no-param-reassign, fp/no-mutation */
+  const existingItems: DigitalAssets = Object.keys(itemsWithChecksum).reduce((
+    reduceResult: DigitalAssets,
+    addressWithChecksum: AssetAddress,
   ): DigitalAssets => {
-    const addressWithChecksum: AssetAddress = getAddressChecksum(address)
-    const foundItem: ?DigitalAsset = findByAddress(items, addressWithChecksum)
+    const foundExistingItem: ?DigitalAsset = items[addressWithChecksum]
+    const foundDefaultItem: ?DigitalAsset = defaultItems[addressWithChecksum]
 
-    return {
-      ...result,
-      [addressWithChecksum]: {
-        ...foundItem,
-        isCustom: foundItem ? foundItem.isCustom : true,
-      },
+    // Ignore nonexistent items
+    if (!foundExistingItem) {
+      return reduceResult
     }
+
+    // Update from default item if it exists
+    if (foundDefaultItem) {
+      reduceResult[addressWithChecksum] = {
+        ...foundExistingItem,
+        ...foundDefaultItem,
+        isCustom: false,
+      }
+
+      return reduceResult
+    }
+
+    // Remove (ignore) inactive items that are not in default list and not marked as custom
+    if (!foundExistingItem.isActive && !foundExistingItem.isCustom) {
+      return reduceResult
+    }
+
+    // Active items that are not in default list are converted to custom
+    reduceResult[addressWithChecksum] = {
+      ...foundExistingItem,
+      isCustom: true,
+    }
+    return reduceResult
   }, {})
+  /* eslint-enable no-param-reassign, fp/no-mutation */
 
   return {
     ...defaultItems,
@@ -109,14 +131,10 @@ function* init(): Saga<void> {
   const existingItems: ExtractReturn<typeof selectDigitalAssetsItems> =
     yield select(selectDigitalAssetsItems)
 
-  const isInited: boolean = (Object.keys(existingItems).length > 0)
+  const mergedItems: DigitalAssets = mergeItems(existingItems)
+  const itemsWithETH: DigitalAssets = addETHAsset(mergedItems)
 
-  if (!isInited) {
-    const mergedItems: DigitalAssets = mergeItems(existingItems)
-    const itemsWithETH: DigitalAssets = addETHAsset(mergedItems)
-
-    yield put(digitalAssets.setInitialItems(itemsWithETH))
-  }
+  yield put(digitalAssets.setInitialItems(itemsWithETH))
 }
 
 function* setAssetIsActive(): Saga<void> {
