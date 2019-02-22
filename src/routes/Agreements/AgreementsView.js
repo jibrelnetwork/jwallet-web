@@ -59,7 +59,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
           </h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
-              <div className={style.checkboxItem} key={key}>
+              <div className={style.item} key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
                     onChange={this.onChange(key)}
