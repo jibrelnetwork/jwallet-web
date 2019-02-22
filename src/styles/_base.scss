@@ -1,8 +1,18 @@
 @import 'colors';
-@import 'icons';
+// @import 'icons';
 @import 'images';
-@import 'tokens';
+// @import 'tokens';
 @import 'zindex';
+
+/**
+ * Sizes
+ */
+$icon-small-size: 12px;
+$icon-medium-size: 24px;
+$icon-large-size: 48px;
+$icon-xlarge-size: 90px;
+
+$token-icon-size: 36px;
 
 /**
  * Window

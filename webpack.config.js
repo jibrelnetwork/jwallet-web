@@ -17,6 +17,8 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
+
 const PATHS = {
   INDEX_HTML: path.resolve('src/public/index.html'),
   INDEX_JS: path.resolve('src/main.js'),
@@ -124,46 +126,47 @@ module.exports = {
         ],
         include: PATHS.SOURCE,
       },
-
+      {
+        test: [
+          /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/).+\.svg(?=\/|$)/i,
+          /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: '[hash:8].sprite.svg',
+              publicPath: '/',
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { removeDoctype: true },
+                { removeComments: true },
+                { collapseGroups: true },
+                { convertPathData: true },
+                { removeDimensions: true },
+                { convertTransform: true },
+                { removeUselessDefs: true },
+                { convertShapeToPath: true },
+                { removeUselessStrokeAndFill: true },
+                { removeNonInheritableGroupAttrs: true },
+                { removeStyleElement: true },
+                { removeAttrs: { attrs: '(fill|stroke)' } },
+              ],
+            },
+          },
+        ],
+      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
         oneOf: [
-          {
-            test: [
-              /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/).+\.svg(?=\/|$)/i,
-              /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
-            ],
-            use: [
-              {
-                loader: 'svg-sprite-loader',
-                options: {
-                  extract: false,
-                },
-              },
-              {
-                loader: 'svgo-loader',
-                options: {
-                  plugins: [
-                    { removeTitle: true },
-                    { removeDoctype: true },
-                    { removeComments: true },
-                    { collapseGroups: true },
-                    { convertPathData: true },
-                    { removeDimensions: true },
-                    { convertTransform: true },
-                    { removeUselessDefs: true },
-                    { convertShapeToPath: true },
-                    { removeUselessStrokeAndFill: true },
-                    { removeNonInheritableGroupAttrs: true },
-                    { removeStyleElement: true },
-                    { removeAttrs: { attrs: '(fill|stroke)' } },
-                  ],
-                },
-              },
-            ],
-          },
           // "url" loader works just like "file" loader but it also embeds
           // assets smaller than specified size as data URLs to avoid requests.
           {
@@ -264,7 +267,9 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
+                      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/).+\.svg(?=\/|$)/i,
+                      /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
@@ -397,6 +402,8 @@ module.exports = {
         transformPath: targetPath => targetPath.replace(/src\/public/, ''),
       },
     ]),
+
+    new SpriteLoaderPlugin(),
   ].filter(Boolean),
 
   optimization: {

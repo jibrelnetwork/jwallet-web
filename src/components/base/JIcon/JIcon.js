@@ -12,7 +12,10 @@ type Props = {
 }
 
 const files = require.context('../../../public/assets/icons/new-pack', true, /.*\.svg$/)
-files.keys().forEach(x => files(x))
+const icons = files.keys().map(x => files(x).default).reduce((result, { id, url }) => ({
+  ...result,
+  [id]: url,
+}), {})
 
 class JIcon extends PureComponent<Props> {
   static defaultProps = {
@@ -23,9 +26,11 @@ class JIcon extends PureComponent<Props> {
   render() {
     const { name, size, color }: Props = this.props
 
+    const url = icons[`${name}-usage`] || icons[`${name}-${color}-usage`]
+
     return (
       <svg className={`j-icon -${size} -${color}`} >
-        <use xlinkHref={`#${name}-${color}`} />
+        <use xlinkHref={`${url}`} />
       </svg>
     )
   }
