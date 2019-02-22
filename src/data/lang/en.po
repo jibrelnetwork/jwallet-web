@@ -130,14 +130,6 @@ msgstr "Concatenation of entropy buffers failed"
 msgid "Entropy is set but not a string"
 msgstr "Entropy is set but not a string"
 
-#: src/utils/formatters/formatBoolean.js
-msgid "Enabled"
-msgstr "Enabled"
-
-#: src/utils/formatters/formatBoolean.js
-msgid "Disabled"
-msgstr "Disabled"
-
 #: src/utils/formatters/formatCurrency.js
 msgid "InvalidFiatCurrencyCode"
 msgstr "Invalid Fiat Currency Code"
@@ -1241,4 +1233,8 @@ msgstr ""
 
 #: src/components/WalletFace/Actions/WalletFaceActions.js
 msgid "Rename"
+msgstr ""
+
+#: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js
+msgid "Close"
 msgstr ""
