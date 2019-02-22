@@ -8,7 +8,7 @@ import {
 
 import walletsWorker from 'workers/wallets'
 import reactRouterBack from 'utils/browser/reactRouterBack'
-import { selectWallets } from 'store/stateSelectors'
+import { selectWallets } from 'store/selectors/wallets'
 
 import * as wallets from 'routes/Wallets/modules/wallets'
 

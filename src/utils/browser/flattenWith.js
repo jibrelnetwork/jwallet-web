@@ -2,7 +2,7 @@
 
 type flattenFn<T, F> = (item: T, key?: string) => F
 
-function flattenWithHelper<T, F>(
+function flattenWith<T, F>(
   items: { [string]: T },
   fn: flattenFn<T, F>
 ): Array<$NonMaybeType<F>> {
@@ -22,4 +22,4 @@ function flattenWithHelper<T, F>(
     }, [])
 }
 
-export default flattenWithHelper
+export default flattenWith

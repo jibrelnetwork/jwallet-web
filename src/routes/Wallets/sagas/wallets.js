@@ -21,7 +21,7 @@ import {
 import {
   selectWalletsItems,
   selectWalletsPersist,
-} from 'store/stateSelectors'
+} from 'store/selectors/wallets'
 
 import * as wallets from '../modules/wallets'
 
