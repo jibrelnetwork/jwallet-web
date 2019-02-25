@@ -1,14 +1,8 @@
 .j-icon {
-  all: initial;
-
-  @include box;
-  @include flex-row;
-  @include hover-animation;
-
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: inherit;
   fill: none;
+  cursor: inherit;
+  stroke-width: 1.5px;
+  display: inline-block;
 
   &.-white {
     stroke: $white;
@@ -64,6 +58,5 @@
   &.-xlarge {
     width: $icon-xlarge-size;
     height: $icon-xlarge-size;
-    background-size: $icon-xlarge-size $icon-xlarge-size;
   }
 }
