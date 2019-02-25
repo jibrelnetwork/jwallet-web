@@ -49,7 +49,7 @@ function DigitalAssetsSendConfirmCard({
     parseFloat(gasLimit),
     String(gasPrice),
     // fee is calculated in Ethereum
-    ethereum.blockchainParams.decimals
+    ethereum.blockchainParams.decimals,
   )
 
   const hasComment: boolean = !!formFieldValues.comment

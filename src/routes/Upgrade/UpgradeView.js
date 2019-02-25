@@ -44,7 +44,7 @@ const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
         meta={Object.assign(
           {},
           fieldProps.meta,
-          { error: t`Incorrect password` }
+          { error: t`Incorrect password` },
         )}
       />
     )
@@ -68,7 +68,7 @@ function UpgradeView({
     return null
   }
 
-  const props = isMnemonic ? {
+  const data = isMnemonic ? {
     title: t`Add mnemonic`,
     finalForm: {
       onSubmit: onSubmitMnemonic,
@@ -95,12 +95,12 @@ function UpgradeView({
   return (
     <CloseableScreen
       close={isLoading ? noop : onClose}
-      title={props.title}
+      title={data.title}
     >
       <div className='upgrade-view'>
         <Form
-          onSubmit={isLoading ? noop : props.finalForm.onSubmit}
-          validate={props.finalForm.validate}
+          onSubmit={isLoading ? noop : data.finalForm.onSubmit}
+          validate={data.finalForm.validate}
           render={({
             handleSubmit,
             invalid,
@@ -110,7 +110,7 @@ function UpgradeView({
               className='form'
             >
               <Field
-                {...props.inputField}
+                {...data.inputField}
                 component={JInputField}
                 color='gray'
                 isAutoFocus
@@ -142,7 +142,7 @@ function UpgradeView({
               <button
                 className={classNames(
                   'submit j-raised-button -blue',
-                  (isLoading || invalid) && '-disabled'
+                  (isLoading || invalid) && '-disabled',
                 )}
                 type='submit'
               >

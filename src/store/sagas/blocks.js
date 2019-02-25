@@ -6,7 +6,6 @@ import {
   delay,
   channel,
   buffers,
-  type Task,
 } from 'redux-saga'
 
 import {
@@ -20,6 +19,8 @@ import {
   cancelled,
   takeEvery,
 } from 'redux-saga/effects'
+
+import type { Task } from 'redux-saga'
 
 import config from 'config'
 import web3 from 'services/web3'
@@ -183,9 +184,9 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
       const buffer = buffers.expanding(1)
       const requestQueue: Channel = yield channel(buffer)
 
-      const processQueueTasks: Array<Task<typeof processQueue>> = yield all(Array
+      const processQueueTasks: Task<typeof processQueue>[] = yield all(Array
         .from({ length: config.requestQueueWorkersCount })
-        .map(() => fork(processQueue, requestQueue, networkId, ownerAddress))
+        .map(() => fork(processQueue, requestQueue, networkId, ownerAddress)),
       )
 
       yield put(balances.fetchByOwnerRequest(

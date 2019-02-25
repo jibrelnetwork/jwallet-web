@@ -12,7 +12,7 @@ import type {
   Dispatch,
 } from 'redux'
 
-import { type AppAction } from 'routes'
+import type { AppAction } from 'routes'
 
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
@@ -48,7 +48,7 @@ class AppContainer extends React.Component<Props, State> {
       store.dispatch,
       (isPrimaryInstance) => {
         this.setState({ isPrimaryInstance })
-      }
+      },
     )
   }
 
@@ -63,12 +63,13 @@ class AppContainer extends React.Component<Props, State> {
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          {this.state.isPrimaryInstance ?
+          {this.state.isPrimaryInstance ? (
             <PersistGate persistor={persistor}>
               <Router history={history}>
                 {routes}
               </Router>
-            </PersistGate> :
+            </PersistGate>
+          ) :
             <SingularTabBlockScreen />
           }
         </div>

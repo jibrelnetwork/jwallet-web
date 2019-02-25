@@ -1,9 +1,16 @@
 // @flow
 
-import React, { PureComponent, Fragment } from 'react'
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
 
-import { JIcon, JText } from 'components/base'
 import handle from 'utils/eventHandlers/handle'
+
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type Props = {|
   +children: React$Node,

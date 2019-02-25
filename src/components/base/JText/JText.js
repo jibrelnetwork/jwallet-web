@@ -9,7 +9,7 @@ type JTextDecoration = 'underline'
 type JTextWeight = 'bold' | 'bolder'
 type JTextWhiteSpace = 'nowrap' | 'wrap' | 'clip'
 
-type JTextSize = 'tiny' | // 10
+export type JTextSize = 'tiny' | // 10
   'small' | // 11
   'semismall' | // 12
   'normal' | // 13
@@ -19,7 +19,7 @@ type JTextSize = 'tiny' | // 10
   'tab' | // 20
   'title' // 25
 
-type JTextColor = 'blue' | // #0058d2
+export type JTextColor = 'blue' | // #0058d2
   'blue-two' | // #003DC6
   'gray' | // = $dusk = #3d4f6c
   'red' |

@@ -13,16 +13,16 @@ import {
 import { STEPS } from 'store/modules/walletsImport'
 
 type Props = {|
-  +openView: () => void,
-  +closeView: () => void,
+  +openView: Function,
+  +closeView: Function,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
-  +changeDataInput: (string) => void,
-  +changeNameInput: (string) => void,
-  +changePasswordInput: (string) => void,
-  +changePasswordHintInput: (string) => void,
-  +changeDerivationPathInput: (string) => void,
-  +changePasswordConfirmInput: (string) => void,
+  +changeDataInput: Function,
+  +changeNameInput: Function,
+  +changePasswordInput: Function,
+  +changePasswordHintInput: Function,
+  +changeDerivationPathInput: Function,
+  +changePasswordConfirmInput: Function,
   +invalidFields: FormFields,
   +data: string,
   +name: string,
@@ -30,7 +30,7 @@ type Props = {|
   +passwordHint: string,
   +derivationPath: string,
   +passwordConfirm: string,
-  +walletType: WalletCustomType,
+  +walletType: ?WalletCustomType,
   +currentStep: WalletsImportStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
@@ -68,11 +68,11 @@ class WalletsImportView extends Component<Props> {
       isPasswordExists,
     } = this.props
 
-    const passwordStepTitle: Array<string> =
+    const passwordStepTitle: string[] =
      (t`You will use this password to unlock and transfer your funds.
       Keep it secure!`).split('\n')
 
-    const dataStepTitle: Array<string> =
+    const dataStepTitle: string[] =
      (t`Insert the private key or backup phrase to import. Also, you can import
       an address in the read-only mode.`).split('\n')
 

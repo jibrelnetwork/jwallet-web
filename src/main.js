@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
@@ -6,7 +7,11 @@ import { syncHistoryWithStore } from 'react-router-redux'
 
 import router from 'routes/index'
 import configureStore from 'store/configureStore'
-import { gaSetUserDimension, DIMENSIONS } from 'utils/analytics'
+
+import {
+  DIMENSIONS,
+  gaSetUserDimension,
+} from 'utils/analytics'
 
 import './data/lang'
 
@@ -28,7 +33,10 @@ const browserHistory = createBrowserHistory()
 // react-router-redux of its location.
 const initialState = window.___INITIAL_STATE__
 
-const { store, persistor } = configureStore(initialState, browserHistory)
+const {
+  store,
+  persistor,
+} = configureStore(initialState, browserHistory)
 
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState: state => state.router,
@@ -65,7 +73,7 @@ const renderApp = () => {
       },
       (err) => {
         console.error(err)
-      }
+      },
     )
     .catch((err) => {
       throw err

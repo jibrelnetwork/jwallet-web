@@ -80,7 +80,7 @@ settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
           encryptionType,
           internalKeyNew,
           passwordOptionsNew.encryptionType,
-        )
+        ),
       ),
       passwordOptions: passwordOptionsNew,
       internalKey: encryptInternalKey(internalKeyNew, dkNew, passwordOptionsNew.encryptionType),

@@ -2,25 +2,29 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { Scrollbars } from 'react-custom-scrollbars'
 
+import SettingsGrid from 'components/SettingsGrid'
 import escapeRegExp from 'utils/regexp/escapeRegExp'
 import formatCurrency from 'utils/formatters/formatCurrency'
-import { SettingsGrid } from 'components'
-import { Scrollbars } from 'react-custom-scrollbars'
+import SettingsGridCard from 'components/SettingsGrid/SettingsGridCard'
 
 import {
   JText,
   JSearch,
 } from 'components/base'
 
-import SettingsGridCard,
-{ type SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
+import type { SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
 
 type Props = {|
   ...SettingsState,
   +wallet: ?Wallet,
   +networkName: ?string,
   +fiatCurrency: FiatCurrency,
+|}
+
+type ComponentState = {|
+  +searchQuery: string,
 |}
 
 // eslint-disable-next-line max-len
@@ -76,10 +80,6 @@ const getSettingsCardProperties = ({
   isVisible: true,
 }]
 
-type ComponentState = {|
-  +searchQuery: string
-|}
-
 class SettingsIndexView extends PureComponent<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
@@ -89,7 +89,7 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
     }
   }
 
-  setSearchQuery = (query: string): void => {
+  handleChange = (query: string): void => {
     this.setState({ searchQuery: query.trim() })
   }
 
@@ -112,7 +112,14 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
       return null
     }
 
-    const { name: walletName, id: walletId, customType, isReadOnly, mnemonicOptions } = wallet
+    const {
+      customType,
+      isReadOnly,
+      mnemonicOptions,
+      id: walletId,
+      name: walletName,
+    } = wallet
+
     const isFullMnemonic = (customType === 'mnemonic') && !isReadOnly
     const derivationPath = mnemonicOptions ? mnemonicOptions.derivationPath : null
     const passphrase = mnemonicOptions ? mnemonicOptions.passphrase : null
@@ -129,11 +136,17 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
       derivationPath,
       passphrase,
     }).filter((elementProps) => {
-      const { isVisible, description, title, searchTags } = elementProps
+      const {
+        searchTags,
+        title,
+        description,
+        isVisible,
+      } = elementProps
 
       if (!isVisible) {
         return false
       }
+
       if (!this.filterCardByQuery(description)
         && !this.filterCardByQuery(title)
         && !this.filterCardByQuery(searchTags)) {
@@ -151,7 +164,7 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
             <div className='actions'>
               <div className='search'>
                 <JSearch
-                  onChange={this.setSearchQuery}
+                  onChange={this.handleChange}
                   placeholder={t`Search settings...`}
                 />
               </div>

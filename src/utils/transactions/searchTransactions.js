@@ -60,12 +60,16 @@ function searchTransactions(
       const toName = transaction.to && addressNames ? addressNames[transaction.to] : null
       const fromName = transaction.from && addressNames ? addressNames[transaction.from] : null
 
-      return { ...transaction, toName, fromName }
-    }
+      return {
+        ...transaction,
+        toName,
+        fromName,
+      }
+    },
   )
 
   return itemsWithNames.reduce(
-    (acc, item, index) => checkFound(item, searchQuery) ? [...acc, items[index]] : acc, []
+    (acc, item, index) => checkFound(item, searchQuery) ? [...acc, items[index]] : acc, [],
   )
 }
 

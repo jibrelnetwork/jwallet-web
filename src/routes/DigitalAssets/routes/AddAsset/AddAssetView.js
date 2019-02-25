@@ -9,10 +9,10 @@ import {
 } from 'components'
 
 type Props = {
-  +close: () => void,
-  +openView: () => void,
-  +closeView: () => void,
+  +close: Function,
   +submit: () => void,
+  +openView: Function,
+  +closeView: Function,
   +setField: SetFieldFunction<EditAssetFormFields>,
   +formFields: EditAssetFormFields,
   +invalidFields: EditAssetFormFields,

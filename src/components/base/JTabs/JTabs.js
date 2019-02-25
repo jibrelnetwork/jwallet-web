@@ -4,6 +4,10 @@ import React from 'react'
 
 import { Link } from 'react-router'
 
+type Props = {|
+  +tabs: { [string]: string },
+|}
+
 const JTabs = ({ tabs }: Props) => (
   <div className='j-tabs'>
     {Object.keys(tabs).map((path: string) => (
@@ -18,9 +22,5 @@ const JTabs = ({ tabs }: Props) => (
     ))}
   </div>
 )
-
-type Props = {
-  tabs: { [string]: string }
-}
 
 export default JTabs

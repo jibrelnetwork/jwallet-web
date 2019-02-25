@@ -5,8 +5,8 @@ import React, { Component } from 'react'
 import 'styles/core.scss'
 
 type Props = {|
-  +openLayout: () => void,
-  +closeLayout: () => void,
+  +openLayout: Function,
+  +closeLayout: Function,
   +children: React$Node,
 |}
 

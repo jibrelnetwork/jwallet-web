@@ -12,6 +12,7 @@ type JInputOnChangeHandler = (string) => void
 type JInputIconPosition = 'left' | 'right'
 export type JInputColor = 'gray' | 'white'
 export type JInputType = 'text' | 'password'
+type JInputSideBorderRadius = 'all' | 'top' | 'left' | 'bottom' | 'right'
 
 type Props = {|
   +onChange: ?JInputOnChangeHandler,
@@ -26,8 +27,8 @@ type Props = {|
   +errorMessage: ?string,
   +color: JInputColor,
   +type: JInputType,
-  +sideBorderRadius: 'all' | 'top' | 'left' | 'bottom' | 'right',
   +iconPosition: ?JInputIconPosition,
+  +sideBorderRadius: JInputSideBorderRadius,
   +rows: ?number,
   +isLoading: boolean,
   +isPinCode: boolean,
@@ -50,6 +51,7 @@ type ChildrenProps = {|
 |}
 
 const noop = () => {}
+
 const MAX_ROWS = 12
 
 class JInput extends PureComponent<Props> {
@@ -80,6 +82,7 @@ class JInput extends PureComponent<Props> {
   componentDidUpdate() {
     if (this.textarea.current) {
       const { current } = this.textarea
+
       while (
         current.clientHeight < current.scrollHeight &&
         current.rows <= MAX_ROWS
@@ -153,7 +156,7 @@ class JInput extends PureComponent<Props> {
           isMultiline && '-multiline',
           isVirtualHalfSize && '-virtual-half-size',
           withIndicator && '-with-indicator',
-          iconPosition && `-icon-posotion-${iconPosition}`
+          iconPosition && `-icon-posotion-${iconPosition}`,
         )}
       >
         {children}

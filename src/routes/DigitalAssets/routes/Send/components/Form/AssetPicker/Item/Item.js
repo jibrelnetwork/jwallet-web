@@ -43,7 +43,7 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
       <div
         className={classNames(
           'digital-assets-send-form-asset-picker-item',
-          isSelected && '-active'
+          isSelected && '-active',
         )}
       >
         <div className='info'>
@@ -66,11 +66,11 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
             <div className='name'>
               <JText value={name} color='gray' weight='bold' whiteSpace='wrap' />
             </div>
-            {balanceStr &&
+            {balanceStr && (
               <div className='balance'>
                 <JText value={balanceStr} color='gray' whiteSpace='wrap' />
               </div>
-            }
+            )}
           </div>
         </div>
       </div>

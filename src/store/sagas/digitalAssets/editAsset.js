@@ -1,8 +1,13 @@
 // @flow
 
-import { put, select, takeEvery } from 'redux-saga/effects'
-import { reactRouterBack } from 'utils/browser'
 import { t } from 'ttag'
+import { reactRouterBack } from 'utils/browser'
+
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
 
 import {
   selectEditAsset,
@@ -46,8 +51,10 @@ function* onAssetFormSumbit(): Saga<void> {
 
   // Check, do we have this asset
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, address)
+
   if (!(foundAsset && foundAsset.isCustom)) {
     yield put(setFieldError('address', t`Asset not found`))
+
     return
   }
 
@@ -63,7 +70,7 @@ function* onAssetFormSumbit(): Saga<void> {
     contractDecimals < 0 ||
     contractDecimals > 127) {
     yield put(
-      setFieldError('decimals', t`Digital asset decimals should be a number between 0...127`)
+      setFieldError('decimals', t`Digital asset decimals should be a number between 0...127`),
     )
   }
 
@@ -95,6 +102,7 @@ function* editAssetOpen({ payload: { assetAddress } }: ExtractReturn<openViewTyp
 
   if (!(foundAsset && foundAsset.isCustom)) {
     yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+
     return
   }
 

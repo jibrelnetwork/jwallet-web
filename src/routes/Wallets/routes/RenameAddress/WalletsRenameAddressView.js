@@ -4,7 +4,11 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
-import { ModalHeader, WalletNameStep } from 'components'
+
+import {
+  ModalHeader,
+  WalletNameStep,
+} from 'components'
 
 type Props = {|
   +closeView: () => void,

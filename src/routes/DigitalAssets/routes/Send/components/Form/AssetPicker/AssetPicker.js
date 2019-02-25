@@ -61,9 +61,9 @@ class DigitalAssetsSendFormAssetPicker extends Component<Props, ComponentState> 
     }
   }
 
-  setSearchQuery = (searchQuery: string) => this.setState({ searchQuery })
+  handleChange = (searchQuery: string) => this.setState({ searchQuery })
 
-  cleanSearchQuery = () => this.setState({ searchQuery: '' })
+  handleOpen = () => this.setState({ searchQuery: '' })
 
   render() {
     const {
@@ -86,10 +86,10 @@ class DigitalAssetsSendFormAssetPicker extends Component<Props, ComponentState> 
     return (
       <div className='digital-assets-send-form-asset-picker'>
         <JPicker
-          onOpen={this.cleanSearchQuery}
+          onOpen={this.handleOpen}
           currentRenderer={({ isOpen }) => (
             <DigitalAssetsSendFormAssetPickerCurrent
-              onChange={this.setSearchQuery}
+              onChange={this.handleChange}
               searchQuery={searchQuery}
               currentAsset={activeAsset}
               isOpen={isOpen}

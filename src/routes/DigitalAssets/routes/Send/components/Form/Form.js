@@ -104,7 +104,7 @@ function DigitalAssetsSendForm({
         />
         <DoubleInput
           items={[{
-            onChange: setFormFieldValue('amount'),
+            handleChange: setFormFieldValue('amount'),
             value: amount,
             placeholder: t`Value ${selectedAssetSymbol}`,
           }, {

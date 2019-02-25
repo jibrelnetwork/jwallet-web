@@ -2,11 +2,14 @@
 
 import React from 'react'
 import { t } from 'ttag'
-
-import { JThumbnail, JFlatButton } from 'components/base'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-const descriptionText: Array<string> =
+import {
+  JThumbnail,
+  JFlatButton,
+} from 'components/base'
+
+const descriptionText: string[] =
   (t`Jwallet can be open only in one tab simultaneously.
     Please reload this tab to continue using it.`).split('\n')
 

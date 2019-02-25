@@ -78,7 +78,7 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
         </div>
         {address && !isOpen && (
           <div className='name'>
-            {addressName ?
+            {addressName ? (
               <Fragment>
                 <div className='addrname'>
                   <JText
@@ -97,14 +97,15 @@ class AddressPickerCurrent extends Component<Props, ComponentState> {
                   whiteSpace='wrap'
                 />
               </Fragment>
-              :
+            ) : (
               <JText
                 value={address}
                 color='gray'
                 weight='bold'
                 size='semilarge'
                 whiteSpace='wrap'
-              />}
+              />
+            )}
           </div>
         )}
         {isOpen && (

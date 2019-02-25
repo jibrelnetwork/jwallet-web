@@ -1,5 +1,7 @@
 // @flow
 
-export default function getAgreementValue(agreement: string): boolean {
+function getAgreementValue(agreement: string): boolean {
   return localStorage.getItem(agreement) === 'true'
 }
+
+export default getAgreementValue

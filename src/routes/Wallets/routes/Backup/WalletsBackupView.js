@@ -124,6 +124,7 @@ class WalletsBackupView extends Component<Props> {
       )
     } catch (err) {
       console.error(err)
+
       return null
     }
   }

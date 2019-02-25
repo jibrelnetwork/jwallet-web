@@ -3,7 +3,10 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import { JRaisedButton, JInput } from 'components/base'
+import {
+  JInput,
+  JRaisedButton,
+} from 'components/base'
 
 type Props = {|
   onSubmit: (password: string) => void,
@@ -35,11 +38,11 @@ class PasswordStep extends Component<Props, ComponentState> {
     }
   }
 
-  onSubmit = () => {
+  handleSubmit = () => {
     this.props.onSubmit(this.state.password)
   }
 
-  setPassword = (newValue: string) => {
+  handleChange = (newValue: string) => {
     this.setState({ password: newValue })
   }
 
@@ -58,7 +61,7 @@ class PasswordStep extends Component<Props, ComponentState> {
         <div className='form'>
           <JInput
             type='password'
-            onChange={this.setPassword}
+            onChange={this.handleChange}
             value={this.state.password}
             name='password'
             errorMessage={errorMessage}
@@ -68,7 +71,7 @@ class PasswordStep extends Component<Props, ComponentState> {
           />
           <div className='actions'>
             <JRaisedButton
-              onClick={this.onSubmit}
+              onClick={this.handleSubmit}
               isLoading={isLoading}
               label={submitLabel}
               isWide
