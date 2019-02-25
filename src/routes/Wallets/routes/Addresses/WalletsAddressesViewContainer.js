@@ -6,6 +6,13 @@ import { push } from 'react-router-redux'
 import getWallet from 'utils/wallets/getWallet'
 
 import {
+  setActive,
+  onOpenView,
+  onCloseView,
+  getMoreRequest,
+} from 'store/modules/walletsAddresses'
+
+import {
   selectAddressNames,
   selectWalletsItems,
   selectActiveWalletId,
@@ -14,13 +21,6 @@ import {
 } from 'store/selectors/wallets'
 
 import WalletsAddressesView from './WalletsAddressesView'
-
-import {
-  setActive,
-  onOpenView,
-  onCloseView,
-  getMoreRequest,
-} from './modules/walletsAddresses'
 
 function checkWalletReadOnly(wallets: Wallets, walletId: ?WalletId): boolean {
   // FIXME: a hack to avoid breaking UI apart before redirect happens

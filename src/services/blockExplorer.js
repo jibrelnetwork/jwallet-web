@@ -1,5 +1,6 @@
 // @flow
 
+import { isNil, isObject } from 'lodash-es'
 import { t } from 'ttag'
 
 import config from 'config'
@@ -95,7 +96,7 @@ function checkETHTransaction(data: Object): boolean {
 
 function filterETHTransactions(list: Array<any>): Array<Object> {
   return list.filter((item: any): boolean => {
-    if (type.isVoid(item) || !type.isObject(item)) {
+    if (isNil(item) || !isObject(item)) {
       return false
     }
 
