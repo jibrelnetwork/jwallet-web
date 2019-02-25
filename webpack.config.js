@@ -128,7 +128,7 @@ module.exports = {
       },
       {
         test: [
-          /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/).+\.svg(?=\/|$)/i,
+          /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
           /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
         ],
         use: [
@@ -152,7 +152,6 @@ module.exports = {
                 { removeDimensions: true },
                 { convertTransform: true },
                 { removeUselessDefs: true },
-                { convertShapeToPath: true },
                 { removeUselessStrokeAndFill: true },
                 { removeNonInheritableGroupAttrs: true },
                 { removeStyleElement: true },
@@ -268,7 +267,8 @@ module.exports = {
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
             exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
-                      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/).+\.svg(?=\/|$)/i,
+                      // eslint-disable-next-line max-len
+                      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
                       /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',

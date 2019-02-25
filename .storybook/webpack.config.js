@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack')
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
 
 const srcPath = path.resolve(__dirname, '..', 'src')
 
@@ -51,6 +52,10 @@ module.exports = (baseConfig, env) => {
 
   baseConfig.module.rules.push({
     test: /\.svg$/,
+    exclude: [
+      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
+      /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i
+    ],
     loader: 'file-loader',
     options: {
       name: 'static/media/[name].[hash:8].[ext]',
@@ -60,10 +65,18 @@ module.exports = (baseConfig, env) => {
 
   baseConfig.module.rules.push({
     test: [
-      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)new-pack(\\|\/)svg(\\|\/).+\.svg(?=\/|$)/i,
-      // /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
+      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
+      /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
     ],
     use: [
+      {
+        loader: 'svg-sprite-loader',
+        options: {
+          extract: true,
+          spriteFilename: '[hash:8].sprite.svg',
+          publicPath: '/',
+        },
+      },
       {
         loader: 'svgo-loader',
         options: {
@@ -76,19 +89,11 @@ module.exports = (baseConfig, env) => {
             { removeDimensions: true },
             { convertTransform: true },
             { removeUselessDefs: true },
-            { convertShapeToPath: true },
             { removeUselessStrokeAndFill: true },
             { removeNonInheritableGroupAttrs: true },
             { removeStyleElement: true },
             { removeAttrs: { attrs: '(fill|stroke)' } },
           ],
-        },
-      },
-      {
-        loader: 'svg-sprite-loader',
-        options: {
-          extract: false,
-          spriteFilename: 'icons.svg',
         },
       },
     ],
@@ -103,6 +108,10 @@ module.exports = (baseConfig, env) => {
       '__DEFAULT_TICKER_API__': '{}',
       '__DEFAULT_BLOCKEXPLORER_API__': '{}',
     })
+  )
+
+  baseConfig.plugins.push(
+    new SpriteLoaderPlugin()
   )
 
   baseConfig.resolve.modules = [
