@@ -15,8 +15,6 @@ import {
   selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
-import DigitalAssetsSendView from './DigitalAssetsSendView'
-
 import {
   openView,
   closeView,
@@ -25,7 +23,9 @@ import {
   goToPrevStep,
   setFormFieldValue,
   setNonceEditable,
-} from './modules/digitalAssetsSend'
+} from 'store/modules/digitalAssetsSend'
+
+import DigitalAssetsSendView from './DigitalAssetsSendView'
 
 const removeOwnerAddress = (
   allAddressNames: AddressNames,

@@ -9,7 +9,7 @@ import {
   openView,
   setField,
   submitAssetForm,
-} from './modules/editAsset'
+} from 'store/modules/editAsset'
 
 import EditAssetView from './EditAssetView'
 

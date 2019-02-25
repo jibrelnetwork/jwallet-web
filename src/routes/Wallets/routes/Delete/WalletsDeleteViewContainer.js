@@ -3,13 +3,13 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import WalletsDeleteView from './WalletsDeleteView'
-
 import {
   remove,
   openView,
   closeView,
-} from './modules/walletsDelete'
+} from 'store/modules/walletsDelete'
+
+import WalletsDeleteView from './WalletsDeleteView'
 
 type StateProps = {|
   +items: Wallets,
