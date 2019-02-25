@@ -40,7 +40,7 @@ class JThumbnail extends PureComponent<Props, *> {
     } = this.props
 
     return (
-      <div className={classNames('j-thumbnail', isTransparent && '-transparent')} >
+      <div className={classNames('j-thumbnail', `-${color}`, isTransparent && '-transparent')} >
         <div className='icon'>
           <JIcon size={iconSize} name={image} />
         </div>

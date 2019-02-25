@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 
 import classNames from 'classnames'
-import JText from 'components/base/JText'
+import { JText, JIcon } from 'components/base'
 
 type Props = {|
   +onChange: ?((boolean) => void),
@@ -50,7 +50,12 @@ class JCheckbox extends PureComponent<Props> {
             className='checkbox'
             defaultChecked={isChecked}
           />
-          <span className='flag' />
+          <span className='flag -unchecked'>
+            <JIcon name='unchecked' size='medium' color={color} />
+          </span>
+          <span className='flag -checked'>
+            <JIcon name='checked' size='medium' color={color === 'gray' ? 'blue' : color} />
+          </span>
           <span className='label'>
             <JText
               color={color}
