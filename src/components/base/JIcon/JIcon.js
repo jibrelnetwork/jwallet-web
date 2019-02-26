@@ -8,6 +8,7 @@ export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 type Props = {
   name: string,
   color: ?JIconColor,
+  useFill: boolean,
 }
 
 const files = require.context('../../../public/assets/icons/sprite-pack', true, /.*\.svg$/)
@@ -18,10 +19,11 @@ const icons = files.keys().map(
 class JIcon extends PureComponent<Props> {
   static defaultProps = {
     color: null,
+    useFill: false,
   }
 
   render() {
-    const { name, color }: Props = this.props
+    const { name, color, useFill }: Props = this.props
 
     const iconData = icons[`${name}-usage`]
     const viewBox = iconData ? iconData.viewBox : ''
@@ -31,7 +33,7 @@ class JIcon extends PureComponent<Props> {
 
     return (
       <svg
-        className={classNames('j-icon', color && `-${color}`)}
+        className={classNames('j-icon', color && `-${color}`, useFill && '-use-fill')}
         width={width} height={height}
       >
         <use xlinkHref={iconData && iconData.url} />

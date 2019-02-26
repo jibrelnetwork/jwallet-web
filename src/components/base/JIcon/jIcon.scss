@@ -7,25 +7,53 @@
 
   &.-white {
     stroke: $white;
+
+    &.-use-fill {
+      fill: $white;
+    }
   }
 
   &.-blue {
     stroke: $blue;
+
+    &.-use-fill {
+      fill: $blue;
+    }
   }
 
   &.-gray {
     stroke: $dusk;
+
+    &.-use-fill {
+      fill: $dusk;
+    }
   }
 
   &.-sky {
     stroke: $bright-sky-blue;
+
+    &.-use-fill {
+      fill: $bright-sky-blue;
+    }
   }
 
   &.-red {
     stroke: $tomato;
+
+    &.-use-fill {
+      fill: $tomato;
+    }
   }
 
   &.-black {
     stroke: $black;
+
+    &.-use-fill {
+      fill: $black;
+    }
+  }
+
+  &.-use-fill {
+    stroke-width: 0;
   }
 }

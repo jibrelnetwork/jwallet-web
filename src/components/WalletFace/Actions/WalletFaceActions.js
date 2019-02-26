@@ -105,8 +105,9 @@ class WalletFaceActions extends PureComponent<Props> {
         ) : (
           <JFlatButton
             onClick={toggle}
-            iconName='dots'
+            iconName='dots-full'
             iconColor='white'
+            iconUseFill
             isTransparent
             isHoverOpacity
           />
