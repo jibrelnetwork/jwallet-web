@@ -28,36 +28,4 @@
   &.-black {
     stroke: $black;
   }
-
-  /**
-   * Small icons
-   */
-  &.-small {
-    width: $icon-small-size;
-    height: $icon-small-size;
-  }
-
-  /**
-   * Medium icons
-   */
-  &.-medium {
-    width: $icon-medium-size;
-    height: $icon-medium-size;
-  }
-
-  /**
-   * Large icons
-   */
-  &.-large {
-    width: $icon-large-size;
-    height: $icon-large-size;
-  }
-
-  /**
-   * Size xlarge
-   */
-  &.-xlarge {
-    width: $icon-xlarge-size;
-    height: $icon-xlarge-size;
-  }
 }

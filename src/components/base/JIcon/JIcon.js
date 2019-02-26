@@ -13,10 +13,9 @@ type Props = {
 }
 
 const files = require.context('../../../public/assets/icons/sprite-pack', true, /.*\.svg$/)
-const icons = files.keys().map(x => files(x).default).reduce((result, { id, url }) => ({
-  ...result,
-  [id]: url,
-}), {})
+const icons = files.keys().map(
+  x => files(x).default).reduce((result, { id, url, viewBox }
+) => ({ ...result, [id]: { url, viewBox } }), {})
 
 class JIcon extends PureComponent<Props> {
   static defaultProps = {
@@ -28,10 +27,18 @@ class JIcon extends PureComponent<Props> {
   render() {
     const { name, size, color }: Props = this.props
 
-    const url = icons[`${name}-usage`]
+    const iconData = icons[`${name}-usage`]
+    const viewBox = iconData ? iconData.viewBox : ''
+    const sizeArray = viewBox.split(/(\s+)/).filter(e => e.trim().length > 0)
+    const width = sizeArray[2]
+    const height = sizeArray[3]
+
     return (
-      <svg className={classNames(`j-icon -${size}`, color && `-${color}`)} >
-        <use xlinkHref={url || name} />
+      <svg
+        className={classNames(`j-icon -${size}`, color && `-${color}`)}
+        width={width} height={height}
+      >
+        <use xlinkHref={iconData && iconData.url} />
       </svg>
     )
   }

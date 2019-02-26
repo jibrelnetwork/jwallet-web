@@ -11,8 +11,8 @@ const filesSmall = require.context(
   /.*\.svg$/
 )
 const iconsSmall = filesSmall.keys().map(
-  x => filesSmall(x).default).reduce((result, { id, url }
-) => ({ ...result, [id]: url }), {})
+  x => filesSmall(x).default).reduce((result, { id, url, viewBox }
+) => ({ ...result, [id]: { url, viewBox } }), {})
 
 const filesMedium = require.context(
   '../../../src/public/assets/icons/sprite-pack/medium',
@@ -20,8 +20,8 @@ const filesMedium = require.context(
   /.*\.svg$/
 )
 const iconsMedium = filesMedium.keys().map(
-  x => filesMedium(x).default).reduce((result, { id, url }
-) => ({ ...result, [id]: url }), {})
+  x => filesMedium(x).default).reduce((result, { id, url, viewBox }
+) => ({ ...result, [id]: { url, viewBox } }), {})
 
 const filesLarge = require.context(
   '../../../src/public/assets/icons/sprite-pack/large',
@@ -29,8 +29,8 @@ const filesLarge = require.context(
   /.*\.svg$/
 )
 const iconsLarge = filesLarge.keys().map(
-  x => filesLarge(x).default).reduce((result, { id, url }
-) => ({ ...result, [id]: url }), {})
+  x => filesLarge(x).default).reduce((result, { id, url, viewBox }
+) => ({ ...result, [id]: { url, viewBox } }), {})
 
 const filesXLarge = require.context(
   '../../../src/public/assets/icons/sprite-pack/xlarge',
@@ -38,8 +38,8 @@ const filesXLarge = require.context(
   /.*\.svg$/
 )
 const iconsXLarge = filesXLarge.keys().map(
-  x => filesXLarge(x).default).reduce((result, { id, url }
-) => ({ ...result, [id]: url }), {})
+  x => filesXLarge(x).default).reduce((result, { id, url, viewBox }
+) => ({ ...result, [id]: { url, viewBox } }), {})
 
 storiesOf('JIcon')
   .add('Small sizes', () => (
@@ -55,8 +55,8 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           {Object.keys(iconsSmall).map((item: string) => (
             <tr className='row' key={item}>
-              <td className='cell'><JIcon name={iconsSmall[item]} size='small' /></td>
-              <td className='cell'>{item}</td>
+              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
+              <td className='cell'>{item.replace('-usage', '')}</td>
             </tr>
           ))}
         </tbody>
@@ -76,8 +76,8 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           {Object.keys(iconsMedium).map((item: string) => (
             <tr className='row' key={item}>
-              <td className='cell'><JIcon name={iconsMedium[item]} size='medium' /></td>
-              <td className='cell'>{item}</td>
+              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
+              <td className='cell'>{item.replace('-usage', '')}</td>
             </tr>
           ))}
         </tbody>
@@ -97,8 +97,8 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           {Object.keys(iconsLarge).map((item: string) => (
             <tr className='row' key={item}>
-              <td className='cell'><JIcon name={iconsLarge[item]} size='large' /></td>
-              <td className='cell'>{item}</td>
+              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
+              <td className='cell'>{item.replace('-usage', '')}</td>
             </tr>
           ))}
         </tbody>
@@ -118,8 +118,8 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           {Object.keys(iconsXLarge).map((item: string) => (
             <tr className='row' key={item}>
-              <td className='cell'><JIcon name={iconsXLarge[item]} size='xlarge' /></td>
-              <td className='cell'>{item}</td>
+              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
+              <td className='cell'>{item.replace('-usage', '')}</td>
             </tr>
           ))}
         </tbody>
@@ -142,12 +142,12 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           <tr className='row'>
             <td className='cell'>
-              <span className='demo-icon'><JIcon name='add' size='medium' color='white' /></span>
-              <span className='demo-icon'><JIcon name='add' size='medium' color='blue' /></span>
-              <span className='demo-icon'><JIcon name='add' size='medium' color='gray' /></span>
-              <span className='demo-icon'><JIcon name='add' size='medium' color='sky' /></span>
-              <span className='demo-icon'><JIcon name='add' size='medium' color='red' /></span>
-              <span className='demo-icon'><JIcon name='add' size='medium' color='black' /></span>
+              <span className='demo-icon'><JIcon name='add' color='white' /></span>
+              <span className='demo-icon'><JIcon name='add' color='blue' /></span>
+              <span className='demo-icon'><JIcon name='add' color='gray' /></span>
+              <span className='demo-icon'><JIcon name='add' color='sky' /></span>
+              <span className='demo-icon'><JIcon name='add' color='red' /></span>
+              <span className='demo-icon'><JIcon name='add' color='black' /></span>
             </td>
             <td className='cell'>add</td>
             <td className='cell'>Props: white | blue | gray | sky | red | black</td>
@@ -155,18 +155,18 @@ storiesOf('JIcon')
           </tr>
           <tr className='row'>
             <td className='cell'>
-              <span className='demo-icon -white'><JIcon name='add' size='medium' /></span>
-              <span className='demo-icon -blue'><JIcon name='add' size='medium' /></span>
-              <span className='demo-icon -gray'><JIcon name='add' size='medium' /></span>
-              <span className='demo-icon -sky'><JIcon name='add' size='medium' /></span>
-              <span className='demo-icon -red'><JIcon name='add' size='medium' /></span>
-              <span className='demo-icon -black'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -white'><JIcon name='add' /></span>
+              <span className='demo-icon -blue'><JIcon name='add' /></span>
+              <span className='demo-icon -gray'><JIcon name='add' /></span>
+              <span className='demo-icon -sky'><JIcon name='add' /></span>
+              <span className='demo-icon -red'><JIcon name='add' /></span>
+              <span className='demo-icon -black'><JIcon name='add' /></span>
             </td>
             <td className='cell'>add</td>
             <td className='cell'>Inheritance from parent through stroke</td>
             <td className='cell'>Best Practice - Inheritance from parent through styles</td>
             <td className='cell'>
-              <span className='demo-icon -blue -h-sky'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -blue -h-sky'><JIcon name='add' /></span>
             </td>
           </tr>
         </tbody>
