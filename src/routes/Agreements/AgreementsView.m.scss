@@ -1,0 +1,42 @@
+@import 'styles/mixins';
+
+.container {
+  @include flex-column-center;
+
+  position: relative;
+  height: 100%;
+}
+
+.content {
+  @include box;
+  @include flex-column-center;
+
+  flex: 1;
+  padding: 150px 0;
+  height: 100vh;
+  width: 480px;
+}
+
+.title {
+  @include flex-column-center;
+
+  line-height: 32px;
+
+  &::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    margin: 40px auto;
+    background-color: #fff;
+    opacity: 0.2;
+  }
+}
+
+.item {
+  padding-bottom: 25px;
+}
+
+.action {
+  width: 100%;
+  padding-top: 25px;
+}

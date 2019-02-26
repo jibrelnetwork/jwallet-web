@@ -51,7 +51,13 @@ function sortDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBa
   return [...items].sort((
     first: DigitalAssetWithBalance,
     second: DigitalAssetWithBalance,
-  ): number => compareDigitalAssetsByName(first.name, second.name, 'asc', first.isCustom))
+  ): number => compareDigitalAssetsByName(
+    first.name.toLowerCase(),
+    second.name.toLowerCase(),
+    'asc',
+    first.isCustom,
+    second.isCustom,
+  ))
 }
 
 function prepareDigitalAssets(
