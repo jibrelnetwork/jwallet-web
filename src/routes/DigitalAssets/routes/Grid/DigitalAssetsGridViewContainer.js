@@ -33,8 +33,6 @@ import {
   selectProcessingBlock,
 } from 'store/selectors/blocks'
 
-import DigitalAssetsGridView from './DigitalAssetsGridView'
-
 import {
   openView,
   closeView,
@@ -42,7 +40,9 @@ import {
   sortByNameClick,
   sortByBalanceClick,
   setHideZeroBalance,
-} from './modules/digitalAssetsGrid'
+} from 'store/modules/digitalAssetsGrid'
+
+import DigitalAssetsGridView from './DigitalAssetsGridView'
 
 function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
@@ -177,7 +177,7 @@ const mapDispatchToProps = {
   sortByNameClick,
   sortByBalanceClick,
   setHideZeroBalance,
-  addAssetClick: () => push('/digital-assets/add-asset'),
+  addAssetClick: () => push('/digital-assets/manage'),
   manageAssetsOpenClick: () => push('/digital-assets/manage'),
 }
 

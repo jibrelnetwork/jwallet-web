@@ -9,7 +9,7 @@ import {
   WalletPasswordStep,
 } from 'components'
 
-import { STEPS } from './modules/walletsCreate'
+import { STEPS } from 'store/modules/walletsCreate'
 
 type Props = {|
   +openView: () => void,

@@ -8,7 +8,7 @@ import {
   closeView,
   simplifyWallet,
   setActiveWallet,
-} from './modules/wallets'
+} from 'store/modules/wallets'
 
 import WalletsIndexView from './WalletsIndexView'
 

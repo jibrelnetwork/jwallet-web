@@ -4,12 +4,12 @@ import {
   STEPS as CREATE_STEPS,
   GO_TO_NEXT_STEP as CREATE_GO_TO_NEXT_STEP,
   CREATE_SUCCESS,
-} from 'routes/Wallets/routes/Create/modules/walletsCreate'
+} from 'store/modules/walletsCreate'
 import {
   STEPS as IMPORT_STEPS,
   GO_TO_NEXT_STEP as IMPORT_GO_TO_NEXT_STEP,
   IMPORT_SUCCESS,
-} from 'routes/Wallets/routes/Import/modules/walletsImport'
+} from 'store/modules/walletsImport'
 
 import { selectWalletsCreate, selectWalletsImport } from 'store/selectors/wallets'
 
