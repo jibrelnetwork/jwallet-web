@@ -137,7 +137,7 @@ module.exports = {
             options: {
               extract: true,
               spriteFilename: '[hash:8].sprite.svg',
-              publicPath: '/',
+              publicPath: '/static/media/',
             },
           },
           {

@@ -74,7 +74,7 @@ module.exports = (baseConfig, env) => {
         options: {
           extract: true,
           spriteFilename: '[hash:8].sprite.svg',
-          publicPath: '/',
+          publicPath: '/static/media/',
         },
       },
       {
