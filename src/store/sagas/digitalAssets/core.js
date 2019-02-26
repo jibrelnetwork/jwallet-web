@@ -21,8 +21,6 @@ import * as digitalAssets from 'store/modules/digitalAssets'
 
 function mergeItems(items: DigitalAssets): DigitalAssets {
   // FIXME: use current network id instead
-  // FIXME: remove eslint disable after new rules are applied
-  /* eslint-disable no-param-reassign, fp/no-mutation */
   const defaultItems: DigitalAssets = assetsData.mainnet.reduce((
     reduceResult: DigitalAssets,
     item: DigitalAsset,
@@ -46,15 +44,12 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
 
     return reduceResult
   }, {})
-  /* eslint-enable no-param-reassign, fp/no-mutation */
 
   const itemsWithChecksum: DigitalAssets = mapKeys(
     items,
-    (item, address) => getAddressChecksum(address)
+    (item, address) => getAddressChecksum(address),
   )
 
-  // FIXME: remove eslint disable after new rules are applied
-  /* eslint-disable no-param-reassign, fp/no-mutation */
   const existingItems: DigitalAssets = Object.keys(itemsWithChecksum).reduce((
     reduceResult: DigitalAssets,
     addressWithChecksum: AssetAddress,
@@ -88,9 +83,9 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
       ...foundExistingItem,
       isCustom: true,
     }
+
     return reduceResult
   }, {})
-  /* eslint-enable no-param-reassign, fp/no-mutation */
 
   return {
     ...defaultItems,
