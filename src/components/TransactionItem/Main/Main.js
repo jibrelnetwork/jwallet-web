@@ -160,7 +160,7 @@ class TransactionItemMain extends PureComponent<Props> {
           {
             '-active': isActive,
             '-in-single-asset-list': isAssetList,
-          }
+          },
         )}
       >
         <div className='box'>

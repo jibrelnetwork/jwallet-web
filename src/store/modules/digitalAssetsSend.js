@@ -382,6 +382,7 @@ function digitalAssetsSend(
 
     case SET_REQUESTED_GAS_PRICE_VALUE: {
       const { value } = action.payload
+
       return {
         ...state,
         requestedGasValues: {
@@ -393,6 +394,7 @@ function digitalAssetsSend(
 
     case SET_REQUESTED_GAS_LIMIT_VALUE: {
       const { value } = action.payload
+
       return {
         ...state,
         requestedGasValues: {
@@ -404,6 +406,7 @@ function digitalAssetsSend(
 
     case SET_FINAL_GAS_PRICE_VALUE: {
       const { value } = action.payload
+
       return {
         ...state,
         finalGasValues: {
@@ -415,6 +418,7 @@ function digitalAssetsSend(
 
     case SET_FINAL_GAS_LIMIT_VALUE: {
       const { value } = action.payload
+
       return {
         ...state,
         finalGasValues: {
@@ -426,6 +430,7 @@ function digitalAssetsSend(
 
     case SET_SEND_ASSET_ERROR: {
       const { message } = action.payload
+
       return {
         ...state,
         sendAssetError: message,
@@ -434,6 +439,7 @@ function digitalAssetsSend(
 
     case SET_NOTIFY_POTENTIALLY_FAIL: {
       const { willFail } = action.payload
+
       return {
         ...state,
         isPotentiallyFail: willFail,

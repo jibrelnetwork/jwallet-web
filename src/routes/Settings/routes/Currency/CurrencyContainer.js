@@ -1,4 +1,5 @@
 // @flow
+
 import { connect } from 'react-redux'
 import { t } from 'ttag'
 
@@ -39,5 +40,5 @@ const mapDispatchToProps = {
 
 export default connect/* :: < AppState, null, OwnPropsEmpty, _, _ > */(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CurrencyView)

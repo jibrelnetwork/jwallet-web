@@ -74,7 +74,10 @@ function editAsset(
 ): EditAssetState {
   switch (action.type) {
     case SET_FIELD: {
-      const { fieldName, value } = action.payload
+      const {
+        value,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,
@@ -90,7 +93,10 @@ function editAsset(
     }
 
     case SET_INVALID_FIELD: {
-      const { fieldName, message } = action.payload
+      const {
+        message,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,

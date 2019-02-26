@@ -5,9 +5,11 @@ import BigNumber from 'bignumber.js'
 
 import toBigNumber from './toBigNumber'
 
+import type { ToBigNumberValue } from './toBigNumber'
+
 const UNIT_GWEI = '1000000000'
 
-function fromWeiToGWei(value: string | number | BigNumber): string {
+function fromWeiToGWei(value: ToBigNumberValue): string {
   return toBigNumber(value)
     .round(0, BigNumber.ROUND_DOWN)
     .div(UNIT_GWEI)

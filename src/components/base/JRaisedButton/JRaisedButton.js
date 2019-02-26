@@ -1,20 +1,35 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText, JLoader } from 'components/base'
+
+import {
+  JIcon,
+  JText,
+  JLoader,
+} from 'components/base'
+
+import type { JTextColor } from 'components/base/JText/JText'
+import type { JLoaderColor } from 'components/base/JLoader/JLoader'
+
+import type {
+  JIconSize,
+  JIconColor,
+} from 'components/base/JIcon/JIcon'
+
+type JRaisedButtonColor = 'blue' | 'white'
 
 type Props = {|
   +onClick: ?Function,
   +label: string,
   +iconName: ?string,
-  +color: 'blue' | 'white',
-  +iconColor: 'blue' | 'white',
-  +iconSize: 'small' | 'medium',
-  +loaderColor: 'blue' | 'white',
-  +labelColor: 'blue' | 'white' | 'dark',
+  +iconSize: JIconSize,
+  +iconColor: JIconColor,
+  +labelColor: JTextColor,
+  +loaderColor: JLoaderColor,
+  +color: JRaisedButtonColor,
   +isWide: boolean,
   +isLoading: boolean,
   +isDisabled: boolean,

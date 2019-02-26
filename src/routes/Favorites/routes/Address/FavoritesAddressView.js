@@ -16,7 +16,7 @@ import {
 } from 'utils/eventHandlers'
 
 type Props = {|
-  +close: () => void,
+  +close: Function,
   +onClose: () => void,
   +add: (string, string, string) => void,
   +edit: (string, string, string) => void,

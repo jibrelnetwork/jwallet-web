@@ -55,6 +55,7 @@ class DigitalAssetsGridView extends Component<Props> {
     } = this.props
 
     const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
+
     return (
       <div className='digital-assets-grid-view'>
         <div className='header'>

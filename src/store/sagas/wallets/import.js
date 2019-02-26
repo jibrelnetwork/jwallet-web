@@ -181,16 +181,19 @@ export function* setNextStep(): Saga<void> {
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
       yield* checkName()
+
       break
     }
 
     case walletsImport.STEPS.DATA: {
       yield* checkData()
+
       break
     }
 
     case walletsImport.STEPS.PASSWORD: {
       yield* importWallet()
+
       break
     }
 
@@ -224,11 +227,13 @@ export function* setPrevStep(): Saga<void> {
 
     case walletsImport.STEPS.DATA: {
       yield* goToWalletsImportNameStep()
+
       break
     }
 
     case walletsImport.STEPS.PASSWORD: {
       yield* goToWalletsImportDataStep()
+
       break
     }
 

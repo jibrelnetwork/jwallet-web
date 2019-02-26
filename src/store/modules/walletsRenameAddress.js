@@ -1,16 +1,14 @@
 // @flow
 
-/* eslint-disable max-len */
-export const OPEN_VIEW: '@@walletsRenameAddress/OPEN_VIEW' = '@@walletsRenameAddress/OPEN_VIEW'
-export const CLOSE_VIEW: '@@walletsRenameAddress/CLOSE_VIEW' = '@@walletsRenameAddress/CLOSE_VIEW'
+export const OPEN_VIEW = '@@walletsRenameAddress/OPEN_VIEW'
+export const CLOSE_VIEW = '@@walletsRenameAddress/CLOSE_VIEW'
 
-export const CHANGE_NAME_INPUT: '@@walletsRenameAddress/CHANGE_NAME_INPUT' = '@@walletsRenameAddress/CHANGE_NAME_INPUT'
-export const RENAME_ADDRESS: '@@walletsRenameAddress/RENAME_ADDRESS' = '@@walletsRenameAddress/RENAME_ADDRESS'
+export const CHANGE_NAME_INPUT = '@@walletsRenameAddress/CHANGE_NAME_INPUT'
+export const RENAME_ADDRESS = '@@walletsRenameAddress/RENAME_ADDRESS'
 
-export const SET_INVALID_FIELD: '@@walletsRenameAddress/SET_INVALID_FIELD' = '@@walletsRenameAddress/SET_INVALID_FIELD'
+export const SET_INVALID_FIELD = '@@walletsRenameAddress/SET_INVALID_FIELD'
 
-export const CLEAN: '@@walletsRenameAddress/CLEAN' = '@@walletsRenameAddress/CLEAN'
-/* eslint-enable max-len */
+export const CLEAN = '@@walletsRenameAddress/CLEAN'
 
 export function openView(address: string) {
   return {
@@ -62,7 +60,7 @@ export function clean() {
   }
 }
 
-export type walletsRenameAddressAction =
+export type WalletsRenameAddressAction =
   ExtractReturn<typeof openView> |
   ExtractReturn<typeof closeView> |
   ExtractReturn<typeof changeNameInput> |
@@ -77,7 +75,7 @@ const initialState: WalletsRenameAddressState = {
 
 function walletsRenameAddress(
   state: WalletsRenameAddressState = initialState,
-  action: walletsRenameAddressAction,
+  action: WalletsRenameAddressAction,
 ): WalletsRenameAddressState {
   switch (action.type) {
     case CHANGE_NAME_INPUT:
@@ -91,7 +89,10 @@ function walletsRenameAddress(
       }
 
     case SET_INVALID_FIELD: {
-      const { message, fieldName } = action.payload
+      const {
+        message,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,

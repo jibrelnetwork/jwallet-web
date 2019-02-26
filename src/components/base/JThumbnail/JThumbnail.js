@@ -3,10 +3,17 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
-import { JText, JIcon } from 'components/base'
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
-export type JThumbnailDescription = string | Array<string>
-export type JThumbnailImage = 'auth-question'
+export type JThumbnailSize = 'large' | 'xlarge'
+export type JThumbnailColor = 'white' | 'gray' | 'blue' | 'red'
+export type JThumbnailDescription = string | string[]
+
+export type JThumbnailImage =
+  | 'auth-question'
   | 'auth-cross'
   | 'screen-search'
   | 'screen-reload'
@@ -17,9 +24,9 @@ export type JThumbnailImage = 'auth-question'
 type Props = {|
   +title: ?string,
   +image: JThumbnailImage,
-  +iconSize: 'large' | 'xlarge',
+  +color: JThumbnailColor,
+  +iconSize: JThumbnailSize,
   +description: JThumbnailDescription,
-  +color: 'white' | 'gray' | 'blue' | 'red',
   isTransparent: boolean,
 |}
 

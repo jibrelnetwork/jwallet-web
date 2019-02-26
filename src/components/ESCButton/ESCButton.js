@@ -20,34 +20,39 @@ class ESCButton extends Component<Props> {
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.handleOnESC, true)
+    window.addEventListener('keydown', this.handleESC, true)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleOnESC, true)
+    window.removeEventListener('keydown', this.handleESC, true)
   }
 
-  handle = () => {
-    const { onESC, isDisabled } = this.props
+  handleClick = () => {
+    const {
+      onESC,
+      isDisabled,
+    } = this.props
 
     if (!isDisabled) {
       onESC()
     }
   }
 
-  handleOnESC = (event: { keyCode: number }) => {
+  handleESC = (event: { keyCode: number }) => {
     if (event.keyCode === 27) {
-      this.handle()
+      this.handleClick()
     }
   }
 
   render() {
-    const { color, iconName } = this.props
+    const {
+      color, iconName,
+    } = this.props
 
     return (
       <div className='esc-button'>
         <RoundIconButton
-          onClick={this.handle}
+          onClick={this.handleClick}
           color={color}
           iconName={iconName}
         />

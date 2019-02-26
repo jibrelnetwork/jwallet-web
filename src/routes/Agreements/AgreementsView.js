@@ -3,8 +3,18 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
-import { JCheckbox, JText, JRaisedButton } from 'components/base'
-import { setAgreementValue, getAgreementValue, checkAgreements } from 'utils/agreements'
+import {
+  JText,
+  JCheckbox,
+  JRaisedButton,
+} from 'components/base'
+
+import {
+  checkAgreements,
+  getAgreementValue,
+  setAgreementValue,
+} from 'utils/agreements'
+
 import { CONDITIONS_LIST } from 'data/agreements'
 
 import style from './AgreementsView.m.scss'

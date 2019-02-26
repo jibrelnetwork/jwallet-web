@@ -119,7 +119,7 @@ function mapStateToProps(state: AppState) {
           ...addressWalletsNames,
         },
         searchQuery,
-        isOnlyPending
+        isOnlyPending,
       ),
   }
 }

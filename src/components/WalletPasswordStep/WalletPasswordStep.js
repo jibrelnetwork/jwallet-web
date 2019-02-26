@@ -1,17 +1,25 @@
 // @flow
 
-import React, { Fragment, PureComponent } from 'react'
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
+
 import { t } from 'ttag'
 
 import { JInput } from 'components/base'
-import { WalletStep, PasswordField } from 'components'
+
+import {
+  WalletStep,
+  PasswordField,
+} from 'components'
 
 type Props = {|
   +onSubmit: Function,
   +onChangePassword: Function,
   onChangePasswordHint?: Function,
   onChangePasswordConfirm?: Function,
-  +title: ?Array<string>,
+  +title: ?string[],
   +invalidFields: FormFields,
   +buttonLabel: string,
   +valuePassword: string,

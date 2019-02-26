@@ -8,7 +8,7 @@ function getPrivateHdRoot(
   mnemonic: string,
   passphrase: string,
   derivationPath: string,
-  network: null | number | string,
+  network: ?NetworkId,
 ): HDPrivateKey {
   const hdPath: string = getHdPath(mnemonic, passphrase, derivationPath, network)
 

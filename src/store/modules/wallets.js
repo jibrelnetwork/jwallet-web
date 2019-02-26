@@ -324,7 +324,10 @@ function wallets(state: WalletsState = initialState, action: WalletsAction): Wal
       }
 
     case SET_INVALID_FIELD: {
-      const { message, fieldName } = action.payload
+      const {
+        message,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,

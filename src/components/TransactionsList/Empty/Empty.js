@@ -9,7 +9,7 @@ type Props = {|
   +isFiltered: boolean,
 |}
 
-const noTransactionsText: Array<string> =
+const noTransactionsText: string[] =
   (t`Looks like you haven't made
   any transactions yet.`).split('\n')
 

@@ -11,7 +11,7 @@ import {
 } from 'components'
 
 type Props = {|
-  +close: () => void,
+  +close: Function,
   +submit: () => void,
   +openView: (Address) => void,
   +setField: SetFieldFunction<EditAssetFormFields>,

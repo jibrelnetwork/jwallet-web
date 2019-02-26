@@ -1,22 +1,15 @@
 // @flow
 
 import CoreLayout from 'layouts/CoreLayout'
+
 import {
   reactRouterOnChangePageView,
   reactRouterOnEnterPageView,
 } from 'utils/analytics'
 
-import {
-  type CoreAction,
-} from 'store/modules/core'
-
-import {
-  type NotFoundAction,
-} from 'store/modules/notFound'
-
-import {
-  type DigitalAssetsModuleAction,
-} from 'store/modules/digitalAssets'
+import type { CoreAction } from 'store/modules/core'
+import type { NotFoundAction } from 'store/modules/notFound'
+import type { DigitalAssetsModuleAction } from 'store/modules/digitalAssets'
 
 import Wallets from './Wallets'
 import Settings from './Settings'

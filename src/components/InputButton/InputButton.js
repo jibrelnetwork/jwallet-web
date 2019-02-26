@@ -60,6 +60,7 @@ class InputButton extends Component<Props, ComponentState> {
       if (onActivate) {
         onActivate(false)
       }
+
       onChange('')
     } else if (onActivate) {
       onActivate(true)

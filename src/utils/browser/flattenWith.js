@@ -1,14 +1,14 @@
 // @flow
 
-type flattenFn<T, F> = (item: T, key?: string) => F
+type FlattenFn<T, F> = (item: T, key?: string) => F
 
 function flattenWith<T, F>(
   items: { [string]: T },
-  fn: flattenFn<T, F>
-): Array<$NonMaybeType<F>> {
+  fn: FlattenFn<T, F>,
+): $NonMaybeType<F>[] {
   return Object
     .keys(items)
-    .reduce((result: Array<F>, key: string) => {
+    .reduce((result: F[], key: string) => {
       const item: ?T = items[key]
 
       if (!item) {
