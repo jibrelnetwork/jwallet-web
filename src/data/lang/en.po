@@ -1242,3 +1242,7 @@ msgstr ""
 #: src/components/WalletFace/Actions/WalletFaceActions.js
 msgid "Rename"
 msgstr ""
+
+#: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js
+msgid "Close"
+msgstr ""

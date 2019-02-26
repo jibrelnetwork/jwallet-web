@@ -7,7 +7,6 @@ const srcPath = path.resolve(__dirname, '..', 'src')
 module.exports = (baseConfig, env) => {
   baseConfig.module.rules.push({
     test: /\.scss$/,
-    include: path.resolve('src'),
     use: [
       require.resolve('style-loader'),
       {

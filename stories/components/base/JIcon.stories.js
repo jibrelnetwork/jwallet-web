@@ -41,38 +41,22 @@ const iconsXLarge = filesXLarge.keys().map(
   x => filesXLarge(x).default).reduce((result, { id, url }
 ) => ({ ...result, [id]: url }), {})
 
-const cellh = {
-  textAlign: 'left',
-  padding: '10px 15px',
-}
-
-const cell = {
-  padding: '10px 15px',
-  stoke: '#000',
-  stroke: '#0058d2',
-}
-
-const title = {
-  fontSize: '16px',
-  padding: '10px 15px',
-}
-
 storiesOf('JIcon')
   .add('Small sizes', () => (
     <div>
-      <h2 style={title}>Icon size: medium</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style={cellh}>Icon view</th>
-            <th style={cellh}>Icon name</th>
+      <h2 className='title'>Icon size: medium</h2>
+      <table className='custom-table'>
+        <thead className='thead'>
+          <tr className='row'>
+            <th className='cell'>Icon view</th>
+            <th className='cell'>Icon name</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tbody'>
           {Object.keys(iconsSmall).map((item: string) => (
-            <tr key={item}>
-              <td style={cell}><JIcon name={iconsSmall[item]} size='small' /></td>
-              <td style={cell}>{item}</td>
+            <tr className='row' key={item}>
+              <td className='cell'><JIcon name={iconsSmall[item]} size='small' /></td>
+              <td className='cell'>{item}</td>
             </tr>
           ))}
         </tbody>
@@ -81,19 +65,19 @@ storiesOf('JIcon')
   ))
   .add('Medium sizes', () => (
     <div>
-      <h2 style={title}>Icon size: medium</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style={cellh}>Icon view</th>
-            <th style={cellh}>Icon name</th>
+      <h2 className='title'>Icon size: medium</h2>
+      <table className='custom-table'>
+        <thead className='thead'>
+          <tr className='row'>
+            <th className='cell'>Icon view</th>
+            <th className='cell'>Icon name</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tbody'>
           {Object.keys(iconsMedium).map((item: string) => (
-            <tr key={item}>
-              <td style={cell}><JIcon name={iconsMedium[item]} size='medium' /></td>
-              <td style={cell}>{item}</td>
+            <tr className='row' key={item}>
+              <td className='cell'><JIcon name={iconsMedium[item]} size='medium' /></td>
+              <td className='cell'>{item}</td>
             </tr>
           ))}
         </tbody>
@@ -102,19 +86,19 @@ storiesOf('JIcon')
   ))
   .add('Large sizes', () => (
     <div>
-      <h2 style={title}>Icon size: medium</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style={cellh}>Icon view</th>
-            <th style={cellh}>Icon name</th>
+      <h2 className='title'>Icon size: medium</h2>
+      <table className='custom-table'>
+        <thead className='thead'>
+          <tr className='row'>
+            <th className='cell'>Icon view</th>
+            <th className='cell'>Icon name</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tbody'>
           {Object.keys(iconsLarge).map((item: string) => (
-            <tr key={item}>
-              <td style={cell}><JIcon name={iconsLarge[item]} size='large' /></td>
-              <td style={cell}>{item}</td>
+            <tr className='row' key={item}>
+              <td className='cell'><JIcon name={iconsLarge[item]} size='large' /></td>
+              <td className='cell'>{item}</td>
             </tr>
           ))}
         </tbody>
@@ -123,21 +107,68 @@ storiesOf('JIcon')
   ))
   .add('XLarge sizes', () => (
     <div>
-      <h2 style={title}>Icon size: medium</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style={cellh}>Icon view</th>
-            <th style={cellh}>Icon name</th>
+      <h2 className='title'>Icon size: medium</h2>
+      <table className='custom-table'>
+        <thead className='thead'>
+          <tr className='row'>
+            <th className='cell'>Icon view</th>
+            <th className='cell'>Icon name</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tbody'>
           {Object.keys(iconsXLarge).map((item: string) => (
-            <tr key={item}>
-              <td style={cell}><JIcon name={iconsXLarge[item]} size='xlarge' /></td>
-              <td style={cell}>{item}</td>
+            <tr className='row' key={item}>
+              <td className='cell'><JIcon name={iconsXLarge[item]} size='xlarge' /></td>
+              <td className='cell'>{item}</td>
             </tr>
           ))}
+        </tbody>
+      </table>
+    </div>
+  ))
+  .add('Demo', () => (
+    <div>
+      <h2 className='title'>Icon size: medium</h2>
+      <table className='custom-table'>
+        <thead className='thead'>
+          <tr className='row'>
+            <th className='cell'>Icon view</th>
+            <th className='cell'>Icon name</th>
+            <th className='cell'>Type of staining</th>
+            <th className='cell'>Change color</th>
+            <th className='cell'>Demo</th>
+          </tr>
+        </thead>
+        <tbody className='tbody'>
+          <tr className='row'>
+            <td className='cell'>
+              <span className='demo-icon'><JIcon name='add' size='medium' color='white' /></span>
+              <span className='demo-icon'><JIcon name='add' size='medium' color='blue' /></span>
+              <span className='demo-icon'><JIcon name='add' size='medium' color='gray' /></span>
+              <span className='demo-icon'><JIcon name='add' size='medium' color='sky' /></span>
+              <span className='demo-icon'><JIcon name='add' size='medium' color='red' /></span>
+              <span className='demo-icon'><JIcon name='add' size='medium' color='black' /></span>
+            </td>
+            <td className='cell'>add</td>
+            <td className='cell'>Props: white | blue | gray | sky | red | black</td>
+            <td className='cell'>Only js event</td>
+          </tr>
+          <tr className='row'>
+            <td className='cell'>
+              <span className='demo-icon -white'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -blue'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -gray'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -sky'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -red'><JIcon name='add' size='medium' /></span>
+              <span className='demo-icon -black'><JIcon name='add' size='medium' /></span>
+            </td>
+            <td className='cell'>add</td>
+            <td className='cell'>Inheritance from parent through stroke</td>
+            <td className='cell'>Best Practice - Inheritance from parent through styles</td>
+            <td className='cell'>
+              <span className='demo-icon -blue -h-sky'><JIcon name='add' size='medium' /></span>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

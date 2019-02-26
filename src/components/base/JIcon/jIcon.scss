@@ -3,6 +3,7 @@
   cursor: inherit;
   stroke-width: 1.5px;
   display: inline-block;
+  transition: stroke 0.3s ease 0s;
 
   &.-white {
     stroke: $white;
