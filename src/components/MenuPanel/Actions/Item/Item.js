@@ -35,7 +35,6 @@ class MenuPanelActionsItem extends PureComponent<Props> {
         <span className='icon'>
           <JIcon
             name={icon}
-            size='medium'
             color='white'
           />
         </span>

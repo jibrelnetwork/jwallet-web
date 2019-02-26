@@ -160,7 +160,6 @@ class JInput extends PureComponent<Props> {
         {isDisabled && (
           <div className='lock'>
             <JIcon
-              size='medium'
               color={color}
               name='padding-lock'
             />

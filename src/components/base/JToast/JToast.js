@@ -46,7 +46,6 @@
 //       <JButton
 //         minimal
 //         iconName={`close-popup-${color === 'white' ? 'gray' : 'white'}`}
-//         iconSize='medium'
 //       />
 //     </div>
 //   </div>
@@ -64,7 +63,6 @@
 //   //       minimal
 //   //       onClick={closeToast}
 //   //       iconName='close'
-//   //       iconSize='medium'
 //   //     />
 //   //   </div>
 //   // ),

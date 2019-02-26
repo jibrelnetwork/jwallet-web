@@ -52,13 +52,13 @@ class PopupButton extends PureComponent<Props, ComponentState> {
           </div>
         )}
         <div className='icon' onClick={handle(this.toggle)(!isActive)}>
-          <JIcon size='medium' color='gray' name={icon} />
+          <JIcon color='gray' name={icon} />
         </div>
         {isActive && (
           <Fragment>
             <div className='overlay' onClick={handle(this.toggle)(!isActive)} />
             <div className='close' onClick={handle(this.toggle)(!isActive)}>
-              <JIcon size='medium' color='gray' name='close-padding' />
+              <JIcon color='gray' name='close-padding' />
             </div>
             <div className='container'>
               {children}

@@ -94,7 +94,6 @@ class WalletFaceActions extends PureComponent<Props> {
                   <JFlatButton
                     onClick={handler}
                     iconName={iconName}
-                    iconSize='medium'
                     iconColor='white'
                     isHoverOpacity
                     title={action.tooltip}
@@ -107,7 +106,6 @@ class WalletFaceActions extends PureComponent<Props> {
           <JFlatButton
             onClick={toggle}
             iconName='dots'
-            iconSize='medium'
             iconColor='white'
             isTransparent
             isHoverOpacity

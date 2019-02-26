@@ -67,7 +67,7 @@ function DigitalAssetsSendConfirm({
       {errorMessage &&
       <div className='error'>
         <div className='icon'>
-          <JIcon name='alert' size='medium' color='white' />
+          <JIcon name='alert' color='white' />
         </div>
         <div className='text'>
           <JText value={errorMessage} color='white' size='semismall' whiteSpace='wrap' />

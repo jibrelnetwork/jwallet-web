@@ -82,7 +82,6 @@ class DigitalAssetsGridView extends Component<Props> {
                 title={t`Assets manager`}
               >
                 <JIcon
-                  size='medium'
                   color='gray'
                   name='setting-grid'
                 />

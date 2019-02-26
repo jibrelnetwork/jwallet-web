@@ -78,7 +78,6 @@ class WalletsAddressesView extends Component<Props> {
             <JFlatButton
               onClick={getMoreRequest}
               iconName='plus'
-              iconSize='small'
               iconColor='white'
               label={t`Get more addresses`}
               isBordered

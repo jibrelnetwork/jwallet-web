@@ -17,7 +17,6 @@ export type JThumbnailImage = 'auth-question'
 type Props = {|
   +title: ?string,
   +image: JThumbnailImage,
-  +iconSize: 'large' | 'xlarge',
   +description: JThumbnailDescription,
   +color: 'white' | 'gray' | 'blue' | 'red',
   isTransparent: boolean,
@@ -32,7 +31,6 @@ class JThumbnail extends PureComponent<Props, *> {
   render() {
     const {
       image,
-      iconSize,
       color,
       isTransparent,
       title,
@@ -42,7 +40,7 @@ class JThumbnail extends PureComponent<Props, *> {
     return (
       <div className={classNames('j-thumbnail', `-${color}`, isTransparent && '-transparent')} >
         <div className='icon'>
-          <JIcon size={iconSize} name={image} />
+          <JIcon name={image} />
         </div>
         {title && (
           <div className='title'>

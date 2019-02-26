@@ -173,7 +173,6 @@ class TransactionItemMain extends PureComponent<Props> {
                 {contractAddress && (
                   <div className='icon'>
                     <JIcon
-                      size='small'
                       color='black'
                       name='contract'
                     />
@@ -220,7 +219,7 @@ class TransactionItemMain extends PureComponent<Props> {
           {!!comment && (
             <div className='message'>
               <div className='icon'>
-                <JIcon size='medium' name='message' color='gray' />
+                <JIcon name='message' color='gray' />
               </div>
               <div className='text'>
                 <JText value={comment} color='gray' size='normal' />
@@ -246,7 +245,6 @@ class TransactionItemMain extends PureComponent<Props> {
           </div>
           <div className='status'>
             <JIcon
-              size='medium'
               name={getTransactionIconName(isEventMint, isEventBurn, isSent, isPending, isFailed)}
               color={getTransactionIconColor(isPending, isFailed, timestamp)}
             />

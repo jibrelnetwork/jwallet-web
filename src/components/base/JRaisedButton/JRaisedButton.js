@@ -12,7 +12,6 @@ type Props = {|
   +iconName: ?string,
   +color: 'blue' | 'white',
   +iconColor: 'blue' | 'white',
-  +iconSize: 'small' | 'medium',
   +loaderColor: 'blue' | 'white',
   +labelColor: 'blue' | 'white' | 'dark',
   +isWide: boolean,
@@ -28,7 +27,6 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
   static defaultProps = {
     iconName: null,
     color: 'blue',
-    iconSize: 'medium',
     iconColor: 'white',
     labelColor: 'white',
     loaderColor: 'white',
@@ -55,7 +53,6 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
       label,
       color,
       iconName,
-      iconSize,
       iconColor,
       labelColor,
       loaderColor,
@@ -93,7 +90,7 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
       >
         {iconName && (
           <div className='icon'>
-            <JIcon name={iconName} size={iconSize} color={iconColor} />
+            <JIcon name={iconName} color={iconColor} />
           </div>
         )}
         <div className='label'>

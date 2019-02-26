@@ -3,12 +3,10 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
-export type JIconSize = 'small' | 'medium' | 'large' | 'xlarge'
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 type Props = {
   name: string,
-  size: JIconSize,
   color: ?JIconColor,
 }
 
@@ -19,13 +17,11 @@ const icons = files.keys().map(
 
 class JIcon extends PureComponent<Props> {
   static defaultProps = {
-    size: 'medium',
     color: null,
-    useСurrentСolor: false,
   }
 
   render() {
-    const { name, size, color }: Props = this.props
+    const { name, color }: Props = this.props
 
     const iconData = icons[`${name}-usage`]
     const viewBox = iconData ? iconData.viewBox : ''
@@ -35,7 +31,7 @@ class JIcon extends PureComponent<Props> {
 
     return (
       <svg
-        className={classNames(`j-icon -${size}`, color && `-${color}`)}
+        className={classNames('j-icon', color && `-${color}`)}
         width={width} height={height}
       >
         <use xlinkHref={iconData && iconData.url} />

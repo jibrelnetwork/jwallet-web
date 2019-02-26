@@ -51,10 +51,10 @@ class JCheckbox extends PureComponent<Props> {
             defaultChecked={isChecked}
           />
           <span className='flag -unchecked'>
-            <JIcon name='unchecked' size='medium' color={color} />
+            <JIcon name='unchecked' color={color} />
           </span>
           <span className='flag -checked'>
-            <JIcon name='checked' size='medium' color={color === 'gray' ? 'blue' : color} />
+            <JIcon name='checked' color={color === 'gray' ? 'blue' : color} />
           </span>
           <span className='label'>
             <JText

@@ -18,7 +18,6 @@ import {
 } from 'components/base'
 
 import type {
-  JIconSize,
   JIconColor,
 } from 'components/base/JIcon/JIcon'
 
@@ -30,7 +29,6 @@ type Props = {|
   +to: ?string,
   +label: ?string,
   +iconName: ?string,
-  +iconSize: JIconSize,
   +iconColor: JIconColor,
   +color: JFlatButtonColor,
   +isLink: boolean,
@@ -61,7 +59,6 @@ class JFlatButton extends PureComponent<Props, StateProps> {
     label: null,
     iconName: null,
     color: 'white',
-    iconSize: 'small',
     iconColor: 'white',
     isLink: false,
     isLoading: false,
@@ -93,7 +90,6 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       color,
       isLink,
       iconName,
-      iconSize,
       iconColor,
       isLoading,
       isDisabled,
@@ -122,7 +118,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       <Fragment>
         {iconName && (
           <div className='icon'>
-            <JIcon name={iconName} size={iconSize} color={iconColor} />
+            <JIcon name={iconName} color={iconColor} />
           </div>
         )}
         {label && (

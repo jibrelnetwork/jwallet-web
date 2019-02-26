@@ -155,7 +155,6 @@ class FavoritesIndexView extends PureComponent<Props, State> {
               <Link className='add' to='/favorites/address' title={t`Add favorite address`}>
                 <JIcon
                   name='favorite-address-add'
-                  size='medium'
                   color='gray'
                 />
               </Link>

@@ -73,7 +73,6 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             >
               <span className='icon'>
                 <JIcon
-                  size='medium'
                   color='blue'
                   name={`sort-alphabet-${sortByNameDirection}`}
                 />
@@ -92,7 +91,6 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             >
               <span className='icon'>
                 <JIcon
-                  size='medium'
                   color='blue'
                   name={`sort-${sortByBalanceDirection}`}
                 />

@@ -12,7 +12,6 @@ const AddAsset = ({ onClick }: Props) => (
   <div className='add-asset' onClick={onClick}>
     <div className='icon'>
       <JIcon
-        size='medium'
         color='gray'
         name='close-header'
       />

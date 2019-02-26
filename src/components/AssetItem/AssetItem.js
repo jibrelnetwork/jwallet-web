@@ -140,7 +140,6 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 >
                   <JTooltip text={t`Edit`}>
                     <JIcon
-                      size='medium'
                       color={isHoveredEdit ? 'sky' : 'blue'}
                       name='edit'
                     />
@@ -168,7 +167,6 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   onClick={this.toggle}
                 >
                   <JIcon
-                    size='medium'
                     color='gray'
                     name='dots-full'
                   />

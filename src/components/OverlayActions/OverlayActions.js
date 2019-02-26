@@ -48,7 +48,7 @@ class OverlayActions extends PureComponent<Props> {
       >
         <div onClick={copy} className='item'>
           <div className='icon'>
-            <JIcon name='list' color={textColor} size='medium' />
+            <JIcon name='list' color={textColor} />
           </div>
           <div className='text'>
             <JText value={copyLabel} color={textColor} weight='bold' />
@@ -61,7 +61,7 @@ class OverlayActions extends PureComponent<Props> {
             </div>
             <div onClick={load} className='item'>
               <div className='icon'>
-                <JIcon name='download' color={textColor} size='medium' />
+                <JIcon name='download' color={textColor} />
               </div>
               <div className='text'>
                 <JText value={loadLabel || ''} color={textColor} weight='bold' />

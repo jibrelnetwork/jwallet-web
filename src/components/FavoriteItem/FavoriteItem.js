@@ -97,7 +97,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
           {description ?
             <div className='description'>
               <div className='icon'>
-                <JIcon size='medium' name='message' color='gray' />
+                <JIcon name='message' color='gray' />
               </div>
               <div className='j-text text'>
                 {description}
@@ -117,7 +117,6 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 <JTooltip text={t`Send`}>
                   <JIcon
                     color={(hovered === 'send') ? 'sky' : 'blue'}
-                    size='medium'
                     name='upload'
                   />
                 </JTooltip>
@@ -133,7 +132,6 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 <JIcon
                   color={(hovered === 'edit') ? 'sky' : 'blue'}
                   name='edit'
-                  size='medium'
                 />
               </JTooltip>
             </Link>
@@ -155,7 +153,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               />
             </div>
             <div onClick={this.openActions} className='item -dots'>
-              <JIcon size='medium' color='gray' name='dots-full' />
+              <JIcon color='gray' name='dots-full' />
             </div>
           </div>
         </div>
