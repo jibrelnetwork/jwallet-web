@@ -7,9 +7,10 @@ import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
-import * as walletsCreate from 'store/modules/walletsCreate'
 import * as walletsImport from 'store/modules/walletsImport'
 import * as walletsBackup from 'store/modules/walletsBackup'
+
+import PromiseWorker from '../PromiseWorker'
 
 import type {
   WalletsAnyAction,
@@ -25,13 +26,13 @@ type ImportWalletData = {|
   +derivationPath: string,
 |}
 
-// $FlowFixMe
 const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
+const walletsWorkerPromise: WalletsWorkerInstance = new PromiseWorker(WalletsWorker)
 
 export function createRequest(
   walletsData: WalletsState,
   createdBlockNumber: WalletCreatedBlockNumber,
-) {
+): Promise {
   const {
     name,
     persist,
@@ -45,15 +46,18 @@ export function createRequest(
     passwordOptions,
   } = persist
 
-  walletsWorker.postMessage(walletsCreate.createRequest({
-    name,
-    items,
-    password,
-    internalKey,
-    createdBlockNumber,
-    mnemonicOptions: getMnemonicOptions(),
-    passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
-  }))
+  return walletsWorkerPromise.executeTask({
+    taskName: 'create',
+    payload: {
+      name,
+      items,
+      password,
+      internalKey,
+      createdBlockNumber,
+      mnemonicOptions: getMnemonicOptions(),
+      passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
+    },
+  })
 }
 
 export function importRequest(walletsData: WalletsState, importWalletData: ImportWalletData) {

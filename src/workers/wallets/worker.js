@@ -19,20 +19,17 @@ import {
 
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
-import * as walletsCreate from 'store/modules/walletsCreate'
 import * as walletsImport from 'store/modules/walletsImport'
 import * as walletsBackup from 'store/modules/walletsBackup'
 
 import type { UpgradeAction } from 'store/modules/upgrade'
 import type { WalletsAction } from 'store/modules/wallets'
-import type { WalletsCreateAction } from 'store/modules/walletsCreate'
 import type { WalletsImportAction } from 'store/modules/walletsImport'
 import type { WalletsBackupAction } from 'store/modules/walletsBackup'
 
 export type WalletsAnyAction =
   UpgradeAction |
   WalletsAction |
-  WalletsCreateAction |
   WalletsImportAction |
   WalletsBackupAction
 
@@ -65,30 +62,36 @@ walletsWorker.window = walletsWorker
 walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
   const action: WalletsAnyAction = msg.data
 
-  switch (action.type) {
-    case walletsCreate.CREATE_REQUEST: {
-      try {
-        const {
-          items,
-          internalKey,
-          passwordOptions,
-          mnemonicOptions,
-          createdBlockNumber,
-          name,
-          password,
-        } = action.payload
+  if (action.taskName === 'create') {
+    const {
+      taskId,
+      payload,
+    } = action
 
-        const {
-          salt,
-          scryptParams,
-          encryptionType,
-          derivedKeyLength,
-        }: PasswordOptions = passwordOptions
+    try {
+      const {
+        items,
+        internalKey,
+        passwordOptions,
+        mnemonicOptions,
+        createdBlockNumber,
+        name,
+        password,
+      } = payload
 
-        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
+      const {
+        salt,
+        scryptParams,
+        encryptionType,
+        derivedKeyLength,
+      }: PasswordOptions = passwordOptions
 
-        walletsWorker.postMessage(walletsCreate.createSuccess({
+      const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
+      const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
+
+      walletsWorker.postMessage({
+        taskId,
+        payload: {
           passwordOptions,
           internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
           items: createWallet(items, {
@@ -98,17 +101,21 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
             isSimplified: true,
             data: generateMnemonic(),
           }, internalKeyDec, encryptionType),
-        }))
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-
-        walletsWorker.postMessage(walletsCreate.createError(err.message))
-      }
-
-      break
+        },
+      })
+    } catch (err) {
+      walletsWorker.postMessage({
+        taskId,
+        error: true,
+        payload: {
+          stack: err.stack,
+          message: err.message,
+        },
+      })
     }
+  }
 
+  switch (action.type) {
     case walletsImport.IMPORT_REQUEST: {
       try {
         const {
