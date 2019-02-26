@@ -14,6 +14,10 @@
     "__DEFAULT_BLOCKEXPLORER_API__": false
   },
   "rules": {
+    "no-param-reassign": [2, {
+      "props": true,
+      "ignorePropertyModificationsFor": ["reduceResult"]
+    }],
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
