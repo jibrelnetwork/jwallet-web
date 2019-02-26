@@ -11,6 +11,7 @@ function compareDigitalAssetsByName(
   if (isFirstCustom && !isSecondCustom) {
     return -1
   }
+
   if (!isFirstCustom && isSecondCustom) {
     return 1
   }
