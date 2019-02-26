@@ -4,7 +4,6 @@ import './JIcon.stories'
 import './JSelect.stories'
 import './JThumbnail.stories'
 import './JInput.stories'
-// import './JToast.stories'
 // import './JTooltip.stories'
 
 // complex
