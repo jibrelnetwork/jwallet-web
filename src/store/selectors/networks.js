@@ -28,6 +28,7 @@ export function selectCurrentNetworkId(state: AppState): NetworkId {
 
 export function selectCurrentNetworkIdOrThrow(state: AppState): NetworkId {
   const networkId = selectCurrentNetworkId(state)
+
   if (!networkId || networkId === '*') {
     throw new ActiveNetworkNotFoundError()
   }
@@ -46,6 +47,7 @@ export function selectCurrentNetwork(state: AppState): ?Network {
 
 export function selectCurrentNetworkOrThrow(state: AppState): Network {
   const network = selectCurrentNetwork(state)
+
   if (!network) {
     throw new ActiveNetworkNotFoundError()
   }
@@ -55,9 +57,11 @@ export function selectCurrentNetworkOrThrow(state: AppState): Network {
 
 export function selectCurrentNetworkName(state: AppState): ?string {
   const currentNetwork = selectCurrentNetwork(state)
+
   if (currentNetwork) {
     return currentNetwork.title
   }
+
   return null
 }
 

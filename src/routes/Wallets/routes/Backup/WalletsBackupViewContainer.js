@@ -15,16 +15,10 @@ import {
 
 import WalletsBackupView from './WalletsBackupView'
 
-type StateProps = {|
-  +items: Wallets,
-  +invalidFields: FormFields,
-  +data: string,
-  +password: string,
-  +currentStep: WalletsBackupStepIndex,
-  +isLoading: boolean,
-|}
-
-function mapStateToProps({ wallets, walletsBackup }: AppState): StateProps {
+function mapStateToProps({
+  wallets,
+  walletsBackup,
+}: AppState) {
   const {
     persist: {
       items,
@@ -53,12 +47,13 @@ const mapDispatchToProps = {
   changePasswordInput,
 }
 
-// eslint-disable-next-line no-unused-vars
+/* ::
 type OwnProps = {|
   params: {|
-    walletId: string
-  |}
+    walletId: string,
+  |},
 |}
+*/
 
 export default (
   connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)

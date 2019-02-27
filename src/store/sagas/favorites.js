@@ -43,7 +43,7 @@ function* checkFavoriteDataValid(name: string, description: string, address?: st
     yield put(
       favorites.setFormFieldError(
         'description',
-        t`Description length should be at least 2 symbols`
+        t`Description length should be at least 2 symbols`,
       ),
     )
   }

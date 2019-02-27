@@ -2,7 +2,14 @@
 
 import React from 'react'
 
-import { JIcon, JText } from 'components/base'
+import {
+  JIcon,
+  JText,
+} from 'components/base'
+
+type Props = {|
+  +text: string,
+|}
 
 const HelpText = ({ text }: Props) => (
   <div className='help-text'>
@@ -14,9 +21,5 @@ const HelpText = ({ text }: Props) => (
     </div>
   </div>
 )
-
-type Props = {
-  text: string,
-}
 
 export default HelpText

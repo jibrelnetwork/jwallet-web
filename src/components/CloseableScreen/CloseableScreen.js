@@ -55,12 +55,14 @@ class CloseableScreen extends Component<Props> {
               size='tab'
             />
             <div className='actions'>
-              {close && <ESCButton
-                onESC={close}
-                color='gray'
-                iconName='cross'
-                isDisabled={!isCloseable}
-              />}
+              {close && (
+                <ESCButton
+                  onESC={close}
+                  color='gray'
+                  iconName='cross'
+                  isDisabled={!isCloseable}
+                />
+              )}
             </div>
           </div>
         </div>

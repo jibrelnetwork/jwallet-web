@@ -189,7 +189,12 @@ function blocks(
     case SET_PROCESSING_BLOCK:
     case SET_CURRENT_BLOCK: {
       const { items } = state.persist
-      const { networkId, block, blockType } = action.payload
+
+      const {
+        block,
+        blockType,
+        networkId,
+      } = action.payload
 
       const newItem: Blocks = {
         ...items[networkId],
@@ -209,7 +214,12 @@ function blocks(
 
     case SET_IS_BALANCES_LOADING: {
       const { items } = state.persist
-      const { networkId, isLoading } = action.payload
+
+      const {
+        networkId,
+        isLoading,
+      } = action.payload
+
       const itemByNetworkId: ?Blocks = items[networkId]
       const processingBlock: ?BlockData = itemByNetworkId ? itemByNetworkId.processing : undefined
 
@@ -232,7 +242,12 @@ function blocks(
 
     case SET_IS_TRANSACTIONS_LOADING: {
       const { items } = state.persist
-      const { networkId, isLoading } = action.payload
+
+      const {
+        networkId,
+        isLoading,
+      } = action.payload
+
       const itemByNetworkId: ?Blocks = items[networkId]
       const processingBlock: ?BlockData = itemByNetworkId ? itemByNetworkId.processing : undefined
 
@@ -255,7 +270,12 @@ function blocks(
 
     case SET_IS_BALANCES_FETCHED: {
       const { items } = state.persist
-      const { networkId, isFetched } = action.payload
+
+      const {
+        networkId,
+        isFetched,
+      } = action.payload
+
       const itemByNetworkId: ?Blocks = items[networkId]
       const processingBlock: ?BlockData = itemByNetworkId ? itemByNetworkId.processing : undefined
 
@@ -278,7 +298,12 @@ function blocks(
 
     case SET_IS_TRANSACTIONS_FETCHED: {
       const { items } = state.persist
-      const { networkId, isFetched } = action.payload
+
+      const {
+        networkId,
+        isFetched,
+      } = action.payload
+
       const itemByNetworkId: ?Blocks = items[networkId]
       const processingBlock: ?BlockData = itemByNetworkId ? itemByNetworkId.processing : undefined
 

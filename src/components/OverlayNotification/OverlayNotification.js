@@ -1,17 +1,18 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
 import JThumbnail from 'components/base/JThumbnail'
 
 import type {
+  JThumbnailColor,
   JThumbnailImage,
   JThumbnailDescription,
 } from 'components/base/JThumbnail/JThumbnail'
 
 type Props = {|
-  +color: 'gray' | 'red',
+  +color: JThumbnailColor,
   +image: JThumbnailImage,
   +description: JThumbnailDescription,
   +isTransparent: boolean,

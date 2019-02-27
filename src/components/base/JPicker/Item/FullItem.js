@@ -5,7 +5,11 @@ import classNames from 'classnames'
 
 import handle from 'utils/eventHandlers/handle'
 
-import { JText, JIcon, JLoader } from 'components/base'
+import {
+  JIcon,
+  JText,
+  JLoader,
+} from 'components/base'
 
 type Props<T> = {|
   +icon: string,
@@ -14,7 +18,6 @@ type Props<T> = {|
   +description: string,
   +fiatBalance: string,
   +isLoading: boolean,
-
   +value: T,
   +onSelect: (value: T) => void,
   +isSelected: boolean,
@@ -38,7 +41,7 @@ function FullPickerItem<T>({
       className={classNames(
         'j-picker-full-item',
         isSelected && '-active',
-        isDisabled && '-disabled'
+        isDisabled && '-disabled',
       )}
       onClick={isDisabled ? undefined : handle(onSelect)(value)}
     >
@@ -58,13 +61,13 @@ function FullPickerItem<T>({
           </div>
         </div>
       </div>
-      {(fiatBalance || isLoading) &&
+      {(fiatBalance || isLoading) && (
         <div className='fiat-balance'>
           {isLoading
             ? <JLoader color='blue' />
             : <JText value={fiatBalance || ''} color='blue' weight='bold' whiteSpace='wrap' />}
         </div>
-      }
+      )}
     </div>
   )
 }

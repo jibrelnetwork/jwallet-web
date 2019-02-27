@@ -31,7 +31,10 @@ function* openView(action: ExtractReturn<typeof walletsDelete.openView>): Saga<v
 }
 
 function* remove(action: ExtractReturn<typeof walletsDelete.remove>): Saga<void> {
-  const { items, walletId } = action.payload
+  const {
+    items,
+    walletId,
+  } = action.payload
 
   yield put(wallets.setIsLoading(true))
 

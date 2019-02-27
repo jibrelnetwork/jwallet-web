@@ -1,5 +1,7 @@
 // @flow
 
-export default function isValidNumeric(value: string | number): boolean {
+type IsValidNumericValue = string | number
+
+export default function isValidNumeric(value: IsValidNumericValue): boolean {
   return !Number.isNaN(Number(value))
 }

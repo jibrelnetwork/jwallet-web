@@ -96,7 +96,7 @@ module.exports = {
           'package.json',
           path.resolve('assets/mainnet/assets.json'),
           path.resolve('assets/ropsten/assets.json'),
-        ]
+        ],
       ),
     ],
   },
@@ -141,6 +141,69 @@ module.exports = {
             },
           },
 
+          // SCSS modules loader
+          {
+            test: /\.m\.scss$/,
+            include: PATHS.SOURCE,
+            use: [
+              isEnvDevelopment && require.resolve('style-loader'),
+              isEnvProduction && {
+                loader: MiniCssExtractPlugin.loader,
+                options: Object.assign(
+                  {},
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
+                ),
+              },
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  url: false,
+                  import: false,
+                  modules: 'local',
+                  localIdentName: isEnvDevelopment ?
+                    '[path][name]__[local]--[hash:base64:5]' :
+                    '[hash:base64:8]',
+                  camelCase: true,
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                // Options for PostCSS as we reference these options twice
+                // Adds vendor prefixing based on your specified browser support in
+                // package.json
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebook/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    require('autoprefixer')({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 11',
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                  ],
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  sourceMap: isEnvProduction,
+                  includePaths: [
+                    PATHS.SOURCE,
+                  ],
+                },
+              },
+            ].filter(Boolean),
+          },
+
           // SCSS loader
           {
             test: /\.scss$/,
@@ -151,7 +214,7 @@ module.exports = {
                 loader: MiniCssExtractPlugin.loader,
                 options: Object.assign(
                   {},
-                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
                 ),
               },
               {
@@ -212,7 +275,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve(
-                'babel-preset-react-app/webpack-overrides'
+                'babel-preset-react-app/webpack-overrides',
               ),
               cacheDirectory: true,
               cacheCompression: isEnvProduction,
@@ -292,7 +355,7 @@ module.exports = {
     // See https://github.com/facebook/create-react-app/issues/186
     isEnvDevelopment &&
     new WatchMissingNodeModulesPlugin(
-      path.resolve('node_modules')
+      path.resolve('node_modules'),
     ),
 
     isEnvProduction &&
@@ -430,11 +493,12 @@ module.exports = {
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay
       app.use(
-        require('react-dev-utils/evalSourceMapMiddleware')(server)
+        require('react-dev-utils/evalSourceMapMiddleware')(server),
       )
+
       // This lets us open files from the runtime error overlay.
       app.use(
-        require('react-dev-utils/errorOverlayMiddleware')()
+        require('react-dev-utils/errorOverlayMiddleware')(),
       )
 
       // This service worker file is effectively a 'no-op' that will reset any
@@ -443,7 +507,7 @@ module.exports = {
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       app.use(
-        require('react-dev-utils/noopServiceWorkerMiddleware')()
+        require('react-dev-utils/noopServiceWorkerMiddleware')(),
       )
     },
   },

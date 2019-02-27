@@ -13,11 +13,11 @@ import { CurrencyPickerCurrent } from './CurrencyPickerCurrent'
 
 const CURRENCY_CODES: FiatCurrency[] = Object.keys(currenciesData)
 
-export const CurrencyPickerField = (props) => {
+export const CurrencyPickerField = ({ input }: any) => {
   const {
     onChange,
     value,
-  } = props.input
+  } = input
 
   const currentCurrencyTitle = currenciesData[value]
 

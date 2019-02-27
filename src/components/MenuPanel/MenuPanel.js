@@ -107,7 +107,6 @@ class MenuPanel extends Component<Props, ComponentState> {
             addressNames={addressNames}
             activeWalletId={activeWalletId}
             isActive={isWalletManagerActive}
-            isReadOnly={isReadOnly}
           />
         </div>
       )

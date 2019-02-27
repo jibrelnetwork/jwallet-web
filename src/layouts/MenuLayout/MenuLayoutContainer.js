@@ -117,5 +117,5 @@ type OwnProps = {|
 
 export default connect/* :: < AppState, any, OwnProps, _, _ > */(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(MenuLayout)

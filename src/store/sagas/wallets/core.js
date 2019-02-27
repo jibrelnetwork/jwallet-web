@@ -77,7 +77,10 @@ export function* getPrivateKey(walletId: string, password: string): Saga<string>
   walletsWorker.privateKeyRequest(walletsPersist, wallet, password)
 
   while (true) {
-    const { response, error } = yield race({
+    const {
+      response,
+      error,
+    } = yield race({
       response: take(wallets.PRIVATE_KEY_SUCCESS),
       error: take(wallets.PRIVATE_KEY_ERROR),
     })

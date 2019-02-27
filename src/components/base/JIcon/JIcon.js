@@ -18,7 +18,11 @@ class JIcon extends PureComponent<Props> {
   }
 
   render() {
-    const { name, size, color }: Props = this.props
+    const {
+      name,
+      size,
+      color,
+    }: Props = this.props
 
     return (
       <div className={`j-icon -${name} -${size} -${color}`} />
