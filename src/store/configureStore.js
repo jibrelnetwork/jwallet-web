@@ -11,7 +11,7 @@ import {
   applyMiddleware,
 } from 'redux'
 
-import sagas from 'store/sagas'
+import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'
 import { makeRootReducer } from './reducers'
@@ -56,7 +56,7 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Run sagas
   // ======================================================
-  Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
+  sagas.forEach(saga => sagaMiddleware.run(saga))
 
   // ======================================================
   // Start workers

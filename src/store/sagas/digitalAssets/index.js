@@ -6,10 +6,10 @@ import { digitalAssetsEditRootSaga } from './edit'
 import { digitalAssetsGridRootSaga } from './grid'
 import { digitalAssetsSendRootSaga } from './send'
 
-export default {
+export default [
   digitalAssetsRootSaga,
   digitalAssetsAddRootSaga,
   digitalAssetsEditRootSaga,
   digitalAssetsGridRootSaga,
   digitalAssetsSendRootSaga,
-}
+]
