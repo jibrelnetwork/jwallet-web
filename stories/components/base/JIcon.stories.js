@@ -2,44 +2,35 @@
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import { keyBy } from 'lodash-es'
 
 import JIcon from '../../../src/components/base/JIcon'
 
 const filesSmall = require.context(
-  '../../../src/public/assets/icons/sprite-pack/small',
-  true,
-  /.*\.svg$/
-)
-const iconsSmall = filesSmall.keys().map(
-  x => filesSmall(x).default).reduce((result, { id, url, viewBox }
-) => ({ ...result, [id]: { url, viewBox } }), {})
-
+  '../../../src/public/assets/icons/sprite-pack/small', true, /.*\.svg$/)
 const filesMedium = require.context(
-  '../../../src/public/assets/icons/sprite-pack/medium',
-  true,
-  /.*\.svg$/
-)
-const iconsMedium = filesMedium.keys().map(
-  x => filesMedium(x).default).reduce((result, { id, url, viewBox }
-) => ({ ...result, [id]: { url, viewBox } }), {})
-
+  '../../../src/public/assets/icons/sprite-pack/medium', true, /.*\.svg$/)
 const filesLarge = require.context(
-  '../../../src/public/assets/icons/sprite-pack/large',
-  true,
-  /.*\.svg$/
-)
-const iconsLarge = filesLarge.keys().map(
-  x => filesLarge(x).default).reduce((result, { id, url, viewBox }
-) => ({ ...result, [id]: { url, viewBox } }), {})
-
+  '../../../src/public/assets/icons/sprite-pack/large', true, /.*\.svg$/)
 const filesXLarge = require.context(
-  '../../../src/public/assets/icons/sprite-pack/xlarge',
-  true,
-  /.*\.svg$/
+  '../../../src/public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/)
+
+const iconsSmall = keyBy(
+  filesSmall.keys().map(x => filesSmall(x).default),
+  'id'
 )
-const iconsXLarge = filesXLarge.keys().map(
-  x => filesXLarge(x).default).reduce((result, { id, url, viewBox }
-) => ({ ...result, [id]: { url, viewBox } }), {})
+const iconsMedium = keyBy(
+  filesMedium.keys().map(x => filesMedium(x).default),
+  'id'
+)
+const iconsLarge = keyBy(
+  filesLarge.keys().map(x => filesLarge(x).default),
+  'id'
+)
+const iconsXLarge = keyBy(
+  filesXLarge.keys().map(x => filesXLarge(x).default),
+  'id'
+)
 
 storiesOf('JIcon')
   .add('Small sizes', () => (
@@ -128,7 +119,7 @@ storiesOf('JIcon')
   ))
   .add('Demo', () => (
     <div>
-      <h2 className='title'>Icon size: medium</h2>
+      <h2 className='title'>Demo icons</h2>
       <table className='custom-table'>
         <thead className='thead'>
           <tr className='row'>
@@ -150,7 +141,7 @@ storiesOf('JIcon')
               <span className='demo-icon'><JIcon name='add' color='black' /></span>
             </td>
             <td className='cell'>add</td>
-            <td className='cell'>Props: white | blue | gray | sky | red | black</td>
+            <td className='cell'>Props: color=white | blue | gray | sky | red | black</td>
             <td className='cell'>Only js event</td>
           </tr>
           <tr className='row'>

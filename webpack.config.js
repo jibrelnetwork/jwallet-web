@@ -127,9 +127,10 @@ module.exports = {
         include: PATHS.SOURCE,
       },
       {
-        test: [
-          /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
-          /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+          path.resolve(__dirname, 'src/public/assets/tokens'),
         ],
         use: [
           {
@@ -330,9 +331,9 @@ module.exports = {
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
             exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
-                      // eslint-disable-next-line max-len
-                      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
-                      /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i],
+                      path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+                      path.resolve(__dirname, 'src/public/assets/tokens'),
+            ],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },

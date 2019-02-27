@@ -52,8 +52,8 @@ module.exports = (baseConfig, env) => {
   baseConfig.module.rules.push({
     test: /\.svg$/,
     exclude: [
-      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
-      /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i
+      path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
+      path.resolve(srcPath, 'public/assets/tokens'),
     ],
     loader: 'file-loader',
     options: {
@@ -61,11 +61,11 @@ module.exports = (baseConfig, env) => {
     }
   })
 
-
   baseConfig.module.rules.push({
-    test: [
-      /src(\\|\/)public(\\|\/)assets(\\|\/)icons(\\|\/)sprite-pack(\\|\/).+\.svg(?=\/|$)/i,
-      /src(\\|\/)public(\\|\/)assets(\\|\/)tokens(\\|\/).+\.svg(?=\/|$)/i,
+    test: /\.svg$/,
+    include: [
+      path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
+      path.resolve(srcPath, 'public/assets/tokens'),
     ],
     use: [
       {

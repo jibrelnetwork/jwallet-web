@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { keyBy } from 'lodash-es'
 
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
@@ -12,9 +13,18 @@ type Props = {
 }
 
 const files = require.context('../../../public/assets/icons/sprite-pack', true, /.*\.svg$/)
-const icons = files.keys().map(
-  x => files(x).default).reduce((result, { id, url, viewBox }
-) => ({ ...result, [id]: { url, viewBox } }), {})
+const icons = keyBy(
+  files.keys().map((x) => {
+    const filesArray = files(x).default
+    const sizeArray = filesArray.viewBox.split(/(\s+)/).filter(e => e.trim().length > 0)
+    /* eslint-disable prefer-destructuring, fp/no-mutation */
+    filesArray.width = sizeArray[2]
+    filesArray.height = sizeArray[3]
+    /* eslint-enable prefer-destructuring, fp/no-mutation */
+    return filesArray
+  }),
+  'id',
+)
 
 class JIcon extends PureComponent<Props> {
   static defaultProps = {
@@ -26,17 +36,13 @@ class JIcon extends PureComponent<Props> {
     const { name, color, useFill }: Props = this.props
 
     const iconData = icons[`${name}-usage`]
-    const viewBox = iconData ? iconData.viewBox : ''
-    const sizeArray = viewBox.split(/(\s+)/).filter(e => e.trim().length > 0)
-    const width = sizeArray[2]
-    const height = sizeArray[3]
 
     return (
       <svg
         className={classNames('j-icon', color && `-${color}`, useFill && '-use-fill')}
-        width={width} height={height}
+        width={iconData.width} height={iconData.height}
       >
-        <use xlinkHref={iconData && iconData.url} />
+        <use xlinkHref={iconData.url} />
       </svg>
     )
   }
