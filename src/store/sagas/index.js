@@ -24,6 +24,6 @@ export default {
   upgradeRootSaga,
   favoritesRootSaga,
   settingsRootSaga,
-  walletsSagas,
-  digitalAssetsSagas,
+  ...walletsSagas,
+  ...digitalAssetsSagas,
 }
