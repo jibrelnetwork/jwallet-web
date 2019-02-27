@@ -1,6 +1,7 @@
 // @flow
 
 import flattenDigitalAssets from 'utils/digitalAssets/flattenDigitalAssets'
+import { DigitalAssetNotFoundError } from 'errors'
 
 export function selectDigitalAssets(state: AppState): DigitalAssetsState {
   return state.digitalAssets
@@ -26,6 +27,18 @@ export function selectDigitalAsset(state: AppState, assetAddress: AssetAddress):
   return flattenedItems.find((
     { blockchainParams }: DigitalAsset,
   ): boolean => (blockchainParams.address.toLowerCase() === assetAddressLower))
+}
+
+export function selectDigitalAssetOrThrow(
+  state: AppState,
+  assetAddress: AssetAddress
+): DigitalAsset {
+  const asset = selectDigitalAsset(state, assetAddress)
+  if (!asset) {
+    throw new DigitalAssetNotFoundError(assetAddress)
+  }
+
+  return asset
 }
 
 export function selectActiveDigitalAssets(state: AppState): DigitalAsset[] {
