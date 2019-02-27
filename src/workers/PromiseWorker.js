@@ -6,11 +6,18 @@ import Promise from 'bluebird'
 import {
   WorkerError,
   WorkerTaskError,
+  WorkerTaskTimeoutError,
   WorkerTaskReplacedError,
   WorkerQueueExceededError,
 } from 'errors'
 
-type PromiseWorkerQueue = { [string]: ?Promise }
+type PromiseWorkerTask = {|
+  +reject: Function,
+  +resolve: Function,
+  +errorMessage: ?string,
+|}
+
+type PromiseWorkerQueue = { [string]: ?PromiseWorkerTask }
 
 type PromiseWorkerTaskResult = {|
   +payload: Object,
@@ -33,9 +40,9 @@ class PromiseWorker {
   queue: PromiseWorkerQueue
   worker: ?Object
 
-  constructor(Worker: Function) {
+  constructor(worker: Object) {
     this.queue = {}
-    this.startListen(Worker)
+    this.startListen(worker)
   }
 
   handleError = (err: Error) => {
@@ -47,7 +54,7 @@ class PromiseWorker {
     taskId,
     payload,
   }: PromiseWorkerTaskResult) => {
-    const task: ?Promise = this.queue[taskId]
+    const task: ?PromiseWorkerTask = this.queue[taskId]
 
     if (!task) {
       return
@@ -62,13 +69,20 @@ class PromiseWorker {
     this.removeTask(taskId)
   }
 
-  startListen = (Worker: Function) => {
-    this.worker = new Worker()
+  startListen = (worker: Object) => {
+    this.worker = worker
     this.worker.onerror = err => this.handleError(err)
     this.worker.onmessage = msg => this.handleTask(msg.data)
   }
 
-  addTask = (taskId: string, task: Promise) => {
+  endListen = () => {
+    if (this.worker) {
+      this.worker.onerror = null
+      this.worker.onmessage = null
+    }
+  }
+
+  addTask = (taskId: string, task: PromiseWorkerTask) => {
     const queueLength = Object.keys(this.queue).length
     const existedTask = this.queue[taskId]
 
@@ -79,26 +93,26 @@ class PromiseWorker {
     }
 
     this.queue[taskId] = task
-    setTimeout(() => this.removeTask(taskId), TASK_TIMEOUT)
+
+    setTimeout(() => {
+      this.removeTask(taskId)
+      const timeoutErrorMsg = task.errorMessage || `Worker did not respond within ${TASK_TIMEOUT}ms`
+      task.reject(new WorkerTaskTimeoutError(timeoutErrorMsg))
+    }, TASK_TIMEOUT)
   }
 
   removeTask = (taskId: string) => {
-    this.queue = Object
-      .keys(this.queue)
-      .reduce((reduceResult: PromiseWorkerQueue, currentTaskId: string) => {
-        if (taskId === currentTaskId) {
-          return reduceResult
-        }
+    const taskIds: string[] = Object.keys(this.queue)
 
-        /**
-         * @FIXME
-         */
-        /* eslint-disable fp/no-mutation, no-param-reassign */
-        reduceResult[currentTaskId] = this.queue[currentTaskId]
-        /* eslint-enable fp/no-mutation, no-param-reassign */
-
+    this.queue = taskIds.reduce((reduceResult: PromiseWorkerQueue, currentTaskId: string) => {
+      if (taskId === currentTaskId) {
         return reduceResult
-      }, {})
+      }
+
+      reduceResult[currentTaskId] = this.queue[currentTaskId]
+
+      return reduceResult
+    }, {})
   }
 
   executeTask = ({
@@ -123,15 +137,16 @@ class PromiseWorker {
       this.worker.postMessage(msgData)
     }
 
-    const timeoutErrorMessage = errorMessage || `Worker did not respond within ${TASK_TIMEOUT}ms`
-    const task: Promise = new Promise().timeout(TASK_TIMEOUT, timeoutErrorMessage)
-    this.addTask(taskId, task)
-
-    return task
+    return new Promise((resolve, reject) => this.addTask(taskId, {
+      reject,
+      resolve,
+      errorMessage,
+    }))
   }
 
   terminate = () => {
     this.queue = {}
+    this.endListen()
 
     if (this.worker) {
       this.worker.terminate()
@@ -139,9 +154,13 @@ class PromiseWorker {
     }
   }
 
-  restart = (Worker: Function) => {
+  restart = (worker: Object) => {
+    if (this.worker === worker) {
+      throw new WorkerError('Can not restart the same worker instance', WORKER_TYPE)
+    }
+
     this.terminate()
-    this.startListen(Worker)
+    this.startListen(worker)
   }
 }
 
