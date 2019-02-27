@@ -126,13 +126,7 @@ function* createWallet(): Saga<void> {
    * Current implementation is ok, because we send just one request
    * and we have enough time to get response while user enters name & password
    */
-  try {
-    const result = yield call(walletsWorker.createRequest, walletsData, createdBlockNumber)
-
-    yield put(walletsCreate.createSuccess(result))
-  } catch (err) {
-    yield put(walletsCreate.createError(err))
-  }
+  yield walletsWorker.createRequest(walletsData, createdBlockNumber)
 }
 
 function* createError(action: { payload: Error }): Saga<void> {
