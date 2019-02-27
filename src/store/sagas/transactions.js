@@ -2,8 +2,6 @@
 
 import { delay } from 'redux-saga'
 
-import { t } from 'ttag'
-
 import {
   all,
   put,
@@ -41,7 +39,7 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectActiveWallet,
+  selectActiveWalletOrThrow,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
@@ -321,11 +319,8 @@ function* syncProcessingBlockStatus(): Saga<void> {
 }
 
 function* getWalletCreatedBlockNumber(): Saga<void> {
-  const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
-
-  if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const wallet: ExtractReturn<typeof selectActiveWalletOrThrow>
+    = yield select(selectActiveWalletOrThrow)
 
   /**
    * @TODO

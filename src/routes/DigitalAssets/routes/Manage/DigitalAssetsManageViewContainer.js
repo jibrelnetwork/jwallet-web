@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { t } from 'ttag'
 
 import reactRouterBack from 'utils/browser/reactRouterBack'
 
@@ -24,7 +23,7 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectActiveWallet,
+  selectActiveWalletOrThrow,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
@@ -69,11 +68,7 @@ function prepareDigitalAssets(
 const onClickGoBack = () => reactRouterBack({ fallbackUrl: '/digital-assets/grid' })
 
 const mapStateToProps = (state: AppState) => {
-  const wallet: ?Wallet = selectActiveWallet(state)
-
-  if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const wallet: Wallet = selectActiveWalletOrThrow(state)
 
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)

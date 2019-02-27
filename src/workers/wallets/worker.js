@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
 import generateMnemonic from 'utils/mnemonic/generateMnemonic'
 
 import {
@@ -16,6 +14,8 @@ import {
   encryptInternalKey,
   deriveKeyFromPassword,
 } from 'utils/encryption'
+
+import { WalletInvalidDataError } from 'errors'
 
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
@@ -162,7 +162,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error(t`WalletsDataError`)
+          throw new WalletInvalidDataError(walletId, 'Invalid password options')
         }
 
         const {
@@ -197,7 +197,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error(t`WalletsDataError`)
+          throw new WalletInvalidDataError(wallet.id, 'Invalid password options')
         }
 
         const {

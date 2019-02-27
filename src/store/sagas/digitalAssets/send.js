@@ -38,17 +38,19 @@ import {
 } from 'utils/numbers'
 
 import {
-  selectActiveWalletId,
   selectActiveWalletAddress,
+  selectActiveWalletIdOrThrow,
+  selectActiveWalletAddressOrThrow,
 } from 'store/selectors/wallets'
 
 import {
-  selectCurrentNetwork,
-  selectCurrentNetworkId,
+  selectCurrentNetworkOrThrow,
+  selectCurrentNetworkIdOrThrow,
 } from 'store/selectors/networks'
 
 import {
   selectDigitalAsset,
+  selectDigitalAssetOrThrow,
   selectDigitalAssetsSend,
 } from 'store/selectors/digitalAssets'
 
@@ -99,10 +101,8 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
 
 function* requestGasPrice(): Saga<?BigNumber> {
   try {
-    const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
-    if (!network) {
-      throw new Error(t`ActiveNetworkNotFoundError`)
-    }
+    const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+      = yield select(selectCurrentNetworkOrThrow)
 
     const gasPrice: BigNumber = yield call(web3.getGasPrice, network)
     return gasPrice
@@ -113,18 +113,11 @@ function* requestGasPrice(): Saga<?BigNumber> {
 }
 
 function* requestNonce(defaultBlock: BlockId): Saga<?number> {
-  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+    = yield select(selectCurrentNetworkOrThrow)
 
-  if (!network) {
-    throw new Error(t`ActiveNetworkNotFoundError`)
-  }
-
-  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
-
-  if (!ownerAddress) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
+    yield select(selectActiveWalletAddressOrThrow)
 
   try {
     const nonce: number = yield call(web3.getNonce, network, ownerAddress, defaultBlock)
@@ -146,18 +139,11 @@ function* requestGasLimit(): Saga<?number> {
     },
   }: ExtractReturn<typeof selectDigitalAssetsSend> = yield select(selectDigitalAssetsSend)
 
-  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+    = yield select(selectCurrentNetworkOrThrow)
 
-  if (!network) {
-    throw new Error(t`ActiveNetworkNotFoundError`)
-  }
-
-  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
-
-  if (!ownerAddress) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
+    yield select(selectActiveWalletAddressOrThrow)
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
     yield select(selectDigitalAsset, assetAddress)
@@ -293,14 +279,14 @@ function* checkPriority(
 }
 
 function* checkAmount(digitalAsset: DigitalAsset): Saga<void> {
-  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
-    yield select(selectCurrentNetworkId)
+  const networkId: ExtractReturn<typeof selectCurrentNetworkIdOrThrow> =
+    yield select(selectCurrentNetworkIdOrThrow)
 
   const currentBlock: ExtractReturn<typeof selectCurrentBlock> =
     yield select(selectCurrentBlock, networkId)
 
-  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
+    yield select(selectActiveWalletAddressOrThrow)
 
   const assetBalance: ExtractReturn<typeof selectBalanceByAssetAddress> = yield select(
     selectBalanceByAssetAddress,
@@ -457,12 +443,8 @@ function* addPendingTransaction(
   decimals: number,
   gasValues: GasValues,
 ): Saga<void> {
-  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
-
-  if (!ownerAddress) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const ownerAddress: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
+    yield select(selectActiveWalletAddressOrThrow)
 
   const {
     gasLimit,
@@ -555,24 +537,14 @@ function* sendTransactionRequest(
     return
   }
 
-  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+    = yield select(selectCurrentNetworkOrThrow)
 
-  if (!network) {
-    throw new Error(t`ActiveNetworkNotFoundError`)
-  }
+  const walletId: ExtractReturn<typeof selectActiveWalletIdOrThrow>
+    = yield select(selectActiveWalletIdOrThrow)
 
-  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
-
-  if (!walletId) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
-
-  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
-    yield select(selectDigitalAsset, assetAddress)
-
-  if (!digitalAsset) {
-    throw new Error(t`DigitalAssetNotFound`)
-  }
+  const digitalAsset: ExtractReturn<typeof selectDigitalAssetOrThrow> =
+    yield select(selectDigitalAssetOrThrow, assetAddress)
 
   const {
     address,

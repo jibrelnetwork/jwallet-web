@@ -5,6 +5,7 @@ import { t } from 'ttag'
 
 import config from 'config'
 import encryptData from 'utils/encryption/encryptData'
+import { WalletInvalidDataError } from 'errors'
 
 import {
   strip0x,
@@ -266,7 +267,7 @@ function createWallet(
   } else if (checkAddressValid(data)) {
     return createReadOnlyAddressWallet(wallets, walletData)
   } else {
-    throw new Error(t`WalletDataError`)
+    throw new WalletInvalidDataError(id)
   }
 }
 

@@ -1,13 +1,15 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { t } from 'ttag'
 
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectFavoritesAddressNames } from 'store/selectors/favorites'
-import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
+import {
+  selectDigitalAssetsItems,
+  selectDigitalAssetOrThrow,
+} from 'store/selectors/digitalAssets'
 
 import {
   selectNetworkById,
@@ -15,7 +17,7 @@ import {
 } from 'store/selectors/networks'
 
 import {
-  selectActiveWallet,
+  selectActiveWalletOrThrow,
   selectAddressNames,
   selectActiveWalletAddress,
   selectAddressWalletsNames,
@@ -78,11 +80,7 @@ function prepareTransactions(
 }
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
-  const wallet: ?Wallet = selectActiveWallet(state)
-
-  if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const wallet: Wallet = selectActiveWalletOrThrow(state)
 
   const assetAddress: string = ownProps.params.asset
   const comments: Comments = selectCommentsItems(state)
@@ -116,11 +114,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     selectPendingTransactionsByAsset(state, networkId, ownerAddress, assetAddress)
 
   const isCurrentBlockEmpty: boolean = !currentBlock
-  const digitalAsset: ?DigitalAsset = digitalAssets[assetAddress]
-
-  if (!digitalAsset) {
-    throw new Error(t`DigitalAssetNotFound`)
-  }
+  const digitalAsset: DigitalAsset = selectDigitalAssetOrThrow(state, assetAddress)
 
   const { deploymentBlockNumber }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
   const createdBlockNumber: ?number = wallet.createdBlockNumber && wallet.createdBlockNumber.mainnet

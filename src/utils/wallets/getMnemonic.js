@@ -1,8 +1,7 @@
 // @flow
 
-import { t } from 'ttag'
-
 import decryptData from 'utils/encryption/decryptData'
+import { WalletInvalidDataError } from 'errors'
 
 import {
   getWallet,
@@ -26,7 +25,7 @@ function getMnemonic(
     !checkMnemonicType(type) ||
     !encrypted.mnemonic
   ) {
-    throw new Error(t`WalletDataError`)
+    throw new WalletInvalidDataError(walletId)
   }
 
   return decryptData({

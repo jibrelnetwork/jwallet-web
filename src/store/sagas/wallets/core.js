@@ -23,6 +23,8 @@ import {
   selectWalletsPersist,
 } from 'store/selectors/wallets'
 
+import { WalletInvalidDataError } from 'errors'
+
 import * as wallets from 'store/modules/wallets'
 
 function* openView(): Saga<void> {
@@ -110,7 +112,7 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
   const foundWallet: Wallet = getWallet(items, walletId)
 
   if (!checkMnemonicType(foundWallet.type)) {
-    throw new Error('WalletDataError')
+    throw new WalletInvalidDataError(walletId)
   }
 
   const newItems: Wallets = updateWallet(items, walletId, {
