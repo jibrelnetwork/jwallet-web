@@ -6,7 +6,11 @@ import { t } from 'ttag'
 
 import config from 'config'
 import JIcon from 'components/base/JIcon'
-import { handle, handleTargetValue } from 'utils/eventHandlers'
+
+import {
+  handle,
+  handleTargetValue,
+} from 'utils/eventHandlers'
 
 type Props = {|
   +onChange: (string) => void,

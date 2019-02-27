@@ -10,7 +10,10 @@ type Props = {|
   +importWallet: Function,
 |}
 
-const NewWalletButtons = ({ createWallet, importWallet }: Props) => (
+const NewWalletButtons = ({
+  createWallet,
+  importWallet,
+}: Props) => (
   <div className='new-wallet-buttons'>
     <div className='separator' />
     <div className='create'>

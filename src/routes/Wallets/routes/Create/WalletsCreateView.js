@@ -57,7 +57,7 @@ class WalletsCreateView extends Component<Props> {
       isPasswordExists,
     } = this.props
 
-    const passwordStepTitle: Array<string> =
+    const passwordStepTitle: string[] =
       (t`You will use this password to unlock and transfer your funds.
         Keep it secure!`).split('\n')
 

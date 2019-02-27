@@ -12,7 +12,7 @@ import {
 type DoubleInputItemHandler = (string) => void
 
 type DoubleInputItem = {|
-  +onChange?: DoubleInputItemHandler,
+  +handleChange?: DoubleInputItemHandler,
   +value: string,
   +placeholder: string,
   +isLoading?: boolean,
@@ -54,7 +54,7 @@ class DoubleInput extends PureComponent<Props> {
         <div className='wrap'>
           <div className='field'>
             <JInput
-              onChange={leftItem.onChange}
+              onChange={leftItem.handleChange}
               value={leftItem.value}
               name={leftItem.placeholder}
               placeholder={leftItem.placeholder}
@@ -71,7 +71,7 @@ class DoubleInput extends PureComponent<Props> {
           </div>
           <div className='field'>
             <JInput
-              onChange={rightItem.onChange}
+              onChange={rightItem.handleChange}
               value={rightItem.value}
               name={rightItem.placeholder}
               placeholder={rightItem.placeholder}

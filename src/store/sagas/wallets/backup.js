@@ -76,6 +76,7 @@ function* setNextStep(action: ExtractReturn<typeof walletsBackup.goToNextStep>):
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
       yield* backupWallet(walletId)
+
       break
     }
 
@@ -91,11 +92,13 @@ function* setPrevStep(): Saga<void> {
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
       yield put(push('/wallets'))
+
       break
     }
 
     case walletsBackup.STEPS.PRIVATE: {
       yield put(walletsBackup.setCurrentStep(walletsBackup.STEPS.PASSWORD))
+
       break
     }
 

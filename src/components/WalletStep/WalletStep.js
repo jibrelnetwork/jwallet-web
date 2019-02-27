@@ -8,7 +8,7 @@ import JRaisedButton from 'components/base/JRaisedButton'
 
 type Props = {|
   +onSubmit: Function,
-  +title: ?Array<string>,
+  +title: ?string[],
   +children: React$Node,
   +buttonLabel: string,
   +isLoading: boolean,

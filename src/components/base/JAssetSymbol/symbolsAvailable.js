@@ -97,6 +97,7 @@ export const SYMBOLS_AVAILABLE = [
 export const SYMBOLS_AVAILABLE_CLASS_INDEX = SYMBOLS_AVAILABLE
   .reduce((memo, symbol) => {
     memo[symbol] = `-symbol-${symbol.toLowerCase()}`
+
     return memo
   }, {})
 /* eslint-enable no-param-reassign, fp/no-mutation */

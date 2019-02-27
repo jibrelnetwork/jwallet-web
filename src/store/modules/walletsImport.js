@@ -214,7 +214,10 @@ function walletsImport(
       }
 
     case SET_INVALID_FIELD: {
-      const { message, fieldName } = action.payload
+      const {
+        message,
+        fieldName,
+      } = action.payload
 
       return {
         ...state,

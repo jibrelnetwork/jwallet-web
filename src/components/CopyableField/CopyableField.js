@@ -5,7 +5,9 @@ import config from 'config'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
-import { JText, JIcon } from 'components/base'
+import {
+  JText, JIcon,
+} from 'components/base'
 import handle from 'utils/eventHandlers/handle'
 import OverlayActions from 'components/OverlayActions'
 

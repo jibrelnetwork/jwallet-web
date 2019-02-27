@@ -9,6 +9,7 @@ import { getDigitalAssetsWithBalance } from 'utils/digitalAssets'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
+
 import {
   selectDigitalAsset,
   selectDigitalAssetsSend,
@@ -29,7 +30,7 @@ import DigitalAssetsSendView from './DigitalAssetsSendView'
 
 const removeOwnerAddress = (
   allAddressNames: AddressNames,
-  ownerAddress: ?OwnerAddress
+  ownerAddress: ?OwnerAddress,
 ): AddressNames => Object
   .keys(allAddressNames)
   .reduce(
@@ -40,7 +41,7 @@ const removeOwnerAddress = (
           ...result,
           [address]: allAddressNames[address],
         },
-    {}
+    {},
   )
 
 function mapStateToProps(state: AppState) {

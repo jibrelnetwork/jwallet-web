@@ -1,4 +1,5 @@
 // @flow
+
 const LANGUAGES_MAP: { [LanguageCode]: string } = {
   en: 'English',
   ko: 'Korean',

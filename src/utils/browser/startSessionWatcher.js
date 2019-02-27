@@ -1,4 +1,5 @@
 // @flow
+
 import uuidv4 from 'uuid/v4'
 import config from 'config'
 import type { Persistor } from 'redux-persist/lib/types'
@@ -7,7 +8,7 @@ import { closeMenuLayout } from 'store/modules/core'
 export default function startSessionWatcher(
   persistor: Persistor,
   dispatch: Function,
-  callback: Function
+  callback: Function,
 ): void {
   const appID = uuidv4()
 

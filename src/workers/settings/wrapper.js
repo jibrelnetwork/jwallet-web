@@ -9,7 +9,10 @@ import SettingsWorker from './worker.js'
 const settingsWorker = new SettingsWorker()
 
 export function changePassword(state: AppState, passwordForm: PaymentPasswordForm) {
-  settingsWorker.postMessage({ state, passwordForm })
+  settingsWorker.postMessage({
+    state,
+    passwordForm,
+  })
 }
 
 export function run(store: { dispatch: (SettingsAction) => void }) {

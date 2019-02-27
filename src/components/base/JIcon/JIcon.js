@@ -20,6 +20,7 @@ const icons = keyBy(
     /* eslint-disable prefer-destructuring, fp/no-mutation */
     filesArray.width = sizeArray[2]
     filesArray.height = sizeArray[3]
+
     /* eslint-enable prefer-destructuring, fp/no-mutation */
     return filesArray
   }),
@@ -33,8 +34,11 @@ class JIcon extends PureComponent<Props> {
   }
 
   render() {
-    const { name, color, useFill }: Props = this.props
-
+    const {
+      name,
+      useFill,
+      color,
+    }: Props = this.props
     const iconData = icons[`${name}-usage`]
 
     return (

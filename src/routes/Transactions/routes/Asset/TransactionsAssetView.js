@@ -31,7 +31,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   const balance: string = formatAssetBalance(
     address,
     assetBalance ? assetBalance.value : 0,
-    decimals
+    decimals,
   )
 
   return {

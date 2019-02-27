@@ -17,7 +17,7 @@ function getAddressWithChecksum(address: string): Address {
     .split('')
     .map((symbol: string, index: number) => ((parseInt(hash[index], 16) >= 8)
       ? symbol.toUpperCase()
-      : symbol)
+      : symbol),
     )
     .join('')
 

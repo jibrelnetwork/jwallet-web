@@ -39,7 +39,7 @@ function MenuPanelWalletManagerMain({
       className={classNames(
         'menu-panel-wallet-manager-main',
         isActive && '-active',
-        isReadOnly && '-read-only'
+        isReadOnly && '-read-only',
       )}
     >
       <div className='icon'>

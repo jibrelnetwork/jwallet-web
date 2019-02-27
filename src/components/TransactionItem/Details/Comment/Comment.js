@@ -14,7 +14,7 @@ import {
 } from 'components/base'
 
 type Props = {|
-  +toggle: () => void,
+  +onToggle: () => void,
   +edit: (CommentId, string) => void,
   +comment: ?string,
   +transactionId: TransactionId,
@@ -38,12 +38,12 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
   saveComment = (value: string) => {
     const {
       edit,
-      toggle,
+      onToggle,
       transactionId,
     }: Props = this.props
 
     edit(transactionId, value)
-    toggle()
+    onToggle()
   }
 
   deleteComment = () => this.saveComment('')
@@ -54,7 +54,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
 
   render() {
     const {
-      toggle,
+      onToggle,
       comment,
     } = this.props
 
@@ -85,7 +85,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           </div>
           <div className='button'>
             <JFlatButton
-              onClick={isValueChanged ? toggle : this.deleteComment}
+              onClick={isValueChanged ? onToggle : this.deleteComment}
               label={isValueChanged ? t`Cancel` : t`Delete`}
               color='blue'
               isBordered

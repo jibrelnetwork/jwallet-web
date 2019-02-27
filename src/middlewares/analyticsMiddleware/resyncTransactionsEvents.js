@@ -6,6 +6,7 @@ export const resyncTransactionsEvents = (state, action) => {
   switch (action.type) {
     case REMOVE_ITEMS_BY_ASSET: {
       gaSendEvent('StartResyncTransactions', action.payload.assetAddress)
+
       break
     }
     default: {

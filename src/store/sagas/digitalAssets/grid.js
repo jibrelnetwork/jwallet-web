@@ -1,6 +1,11 @@
 // @flow
 
-import { select, put, takeEvery } from 'redux-saga/effects'
+import {
+  put,
+  select,
+  takeEvery,
+} from 'redux-saga/effects'
+
 import { selectDigitalAssetsGridFilters } from 'store/selectors/digitalAssets'
 
 import {
@@ -16,8 +21,8 @@ function toggleSortDirection(currentDirection: SortDirection): SortDirection {
 
 function* sortByNameClick(): Saga<void> {
   const {
-    sortByNameDirection,
     sortBy,
+    sortByNameDirection,
   }: DigitalAssetsFilterOptions = yield select(selectDigitalAssetsGridFilters)
 
   if (sortBy === 'name') {
@@ -29,8 +34,8 @@ function* sortByNameClick(): Saga<void> {
 
 function* sortByBalanceClick(): Saga<void> {
   const {
-    sortByBalanceDirection,
     sortBy,
+    sortByBalanceDirection,
   }: DigitalAssetsFilterOptions = yield select(selectDigitalAssetsGridFilters)
 
   if (sortBy === 'balance') {

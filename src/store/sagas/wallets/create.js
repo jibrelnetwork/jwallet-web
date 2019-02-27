@@ -1,7 +1,7 @@
 // @flow
 
-import { push } from 'react-router-redux'
 import { t } from 'ttag'
+import { push } from 'react-router-redux'
 
 import {
   put,
@@ -25,6 +25,11 @@ import {
 
 import * as wallets from 'store/modules/wallets'
 import * as walletsCreate from 'store/modules/walletsCreate'
+
+function* clean(): Saga<void> {
+  yield put(wallets.clean())
+  yield put(walletsCreate.clean())
+}
 
 function* openView(): Saga<void> {
   yield* clean()
@@ -148,11 +153,13 @@ function* setNextStep(): Saga<void> {
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
       yield* checkName()
+
       break
     }
 
     case walletsCreate.STEPS.PASSWORD: {
       yield* createWallet()
+
       break
     }
 
@@ -182,6 +189,7 @@ function* setPrevStep(): Saga<void> {
 
     case walletsCreate.STEPS.PASSWORD: {
       yield* goToWalletsCreateNameStep()
+
       break
     }
 
@@ -214,11 +222,6 @@ function* blockNumbersRequest(): Saga<void> {
   } catch (err) {
     yield put(walletsCreate.blockNumbersError(err))
   }
-}
-
-function* clean(): Saga<void> {
-  yield put(wallets.clean())
-  yield put(walletsCreate.clean())
 }
 
 export function* walletsCreateRootSaga(): Saga<void> {

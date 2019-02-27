@@ -1,8 +1,7 @@
 // @flow
 
-import { delay } from 'redux-saga'
-
 import { t } from 'ttag'
+import { delay } from 'redux-saga'
 
 import {
   all,
@@ -249,6 +248,23 @@ function* checkTransactionsFetched(
   return !!flatten.length
 }
 
+function* getWalletCreatedBlockNumber(): Saga<void> {
+  const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
+
+  if (!wallet) {
+    throw new Error(t`ActiveWalletNotFoundError`)
+  }
+
+  /**
+   * @TODO
+   * check network here and get its name
+   */
+
+  const { createdBlockNumber }: Wallet = wallet
+
+  return createdBlockNumber && createdBlockNumber.mainnet
+}
+
 function* checkTransactionsLoading(
   networkId: NetworkId,
   ownerAddress: OwnerAddress,
@@ -318,23 +334,6 @@ function* syncProcessingBlockStatus(): Saga<void> {
   } finally {
     //
   }
-}
-
-function* getWalletCreatedBlockNumber(): Saga<void> {
-  const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
-
-  if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
-
-  /**
-   * @TODO
-   * check network here and get its name
-   */
-
-  const { createdBlockNumber }: Wallet = wallet
-
-  return createdBlockNumber && createdBlockNumber.mainnet
 }
 
 function* fetchByOwnerRequest(
@@ -711,7 +710,7 @@ function* recursiveRequestTransactions(
 }
 
 function* checkPendingTransaction(
-  action: ExtractReturn<typeof transactions.checkPendingTransaction>
+  action: ExtractReturn<typeof transactions.checkPendingTransaction>,
 ): Saga<void> {
   const {
     networkId,
@@ -1033,7 +1032,7 @@ export function* requestTransactions(
 }
 
 function* removeItemsByAsset(
-  action: ExtractReturn<typeof transactions.removeItemsByAsset>
+  action: ExtractReturn<typeof transactions.removeItemsByAsset>,
 ): Saga<void> {
   const { assetAddress } = action.payload
 

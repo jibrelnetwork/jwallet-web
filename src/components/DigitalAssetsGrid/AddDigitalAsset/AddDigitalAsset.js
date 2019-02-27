@@ -5,7 +5,7 @@ import React from 'react'
 import { JIcon } from 'components/base'
 
 type Props = {|
-  +onClick: () => void
+  +onClick: () => void,
 |}
 
 const AddAsset = ({ onClick }: Props) => (

@@ -2,17 +2,20 @@
 
 import React from 'react'
 import { t } from 'ttag'
+import { Link } from 'react-router'
 
 import JRaisedButton from 'components/base/JRaisedButton'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
-import { Link } from 'react-router'
 
 type Props = {|
   +isReadOnly: boolean,
   +type: WalletType,
 |}
 
-function MenuPanelMainAction({ isReadOnly, type }: Props) {
+function MenuPanelMainAction({
+  type,
+  isReadOnly,
+}: Props) {
   const isMnemonic = checkMnemonicType(type)
 
   if (isReadOnly && !isMnemonic) {

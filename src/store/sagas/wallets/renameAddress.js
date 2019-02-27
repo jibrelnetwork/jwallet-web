@@ -1,7 +1,7 @@
 // @flow
 
-import { push } from 'react-router-redux'
 import { t } from 'ttag'
+import { push } from 'react-router-redux'
 
 import {
   put,
@@ -49,6 +49,28 @@ function* openView(action: ExtractReturn<typeof walletsRenameAddress.openView>):
   }
 }
 
+function* removeAddressName(address: string): Saga<void> {
+  const addressNames: ExtractReturn<typeof selectAddressNames> =
+    yield select(selectAddressNames)
+
+  const addresses: Address[] = Object.keys(addressNames)
+
+  const addressNamesNew: AddressNames = addresses
+    .reduce((result: AddressNames, currentAddress: Address): AddressNames => {
+      if (currentAddress === address) {
+        return result
+      }
+
+      return {
+        ...result,
+        [currentAddress]: addressNames[currentAddress],
+      }
+    }, {})
+
+  yield put(walletsAddresses.setAddressNames(addressNamesNew))
+  yield put(push('/wallets/addresses'))
+}
+
 function* renameAddress(
   action: ExtractReturn<typeof walletsRenameAddress.renameAddress>,
 ): Saga<void> {
@@ -81,7 +103,7 @@ function* renameAddress(
 
   if (isAddressNameExist) {
     yield put(
-      walletsRenameAddress.setInvalidField('name', t`Address with this name already exists`)
+      walletsRenameAddress.setInvalidField('name', t`Address with this name already exists`),
     )
 
     return
@@ -91,28 +113,6 @@ function* renameAddress(
     ...addressNames,
     [address]: name,
   }
-
-  yield put(walletsAddresses.setAddressNames(addressNamesNew))
-  yield put(push('/wallets/addresses'))
-}
-
-function* removeAddressName(address: string): Saga<void> {
-  const addressNames: ExtractReturn<typeof selectAddressNames> =
-    yield select(selectAddressNames)
-
-  const addresses: Address[] = Object.keys(addressNames)
-
-  const addressNamesNew: AddressNames = addresses
-    .reduce((result: AddressNames, currentAddress: Address): AddressNames => {
-      if (currentAddress === address) {
-        return result
-      }
-
-      return {
-        ...result,
-        [currentAddress]: addressNames[currentAddress],
-      }
-    }, {})
 
   yield put(walletsAddresses.setAddressNames(addressNamesNew))
   yield put(push('/wallets/addresses'))

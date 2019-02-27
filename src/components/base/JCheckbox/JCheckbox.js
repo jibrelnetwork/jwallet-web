@@ -3,13 +3,17 @@
 import React, { PureComponent } from 'react'
 
 import classNames from 'classnames'
-import { JText, JIcon } from 'components/base'
+import {
+  JText, JIcon,
+} from 'components/base'
+
+type JCheckboxColor = 'white' | 'gray'
 
 type Props = {|
   +onChange: ?((boolean) => void),
   +name: string,
   +label: string,
-  +color: 'white' | 'gray',
+  +color: JCheckboxColor,
   +children: ?React$Node,
   +isRegular: boolean,
   +isChecked: boolean,
@@ -23,7 +27,7 @@ class JCheckbox extends PureComponent<Props> {
     isChecked: false,
   }
 
-  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     if (this.props.onChange) {
       this.props.onChange(event.target.checked)
     }
@@ -44,7 +48,7 @@ class JCheckbox extends PureComponent<Props> {
       <div className={classNames('j-checkbox', `-${color}`)}>
         <label className='field'>
           <input
-            onChange={this.onChange}
+            onChange={this.handleChange}
             name={`checkbox-${name}`}
             type='checkbox'
             className='checkbox'
