@@ -132,7 +132,7 @@ const config: AppConfig = {
   /**
    * timeout before confirming of delete wallet action
    */
-  deleteConfirmTimeout: __DEV__ ? 0 : 30,
+  deleteConfirmTimeout: __DEV__ ? 3 : 30,
 
   latestBlockSyncTimeout: 30 * ONE_SECOND,
 
