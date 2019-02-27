@@ -13,7 +13,7 @@ import * as walletsBackup from 'store/modules/walletsBackup'
 import PromiseWorker from '../PromiseWorker'
 
 import type {
-  WalletsAnyAction,
+  // WalletsAnyAction,
   WalletsWorkerInstance,
 } from './worker'
 
@@ -27,7 +27,7 @@ type ImportWalletData = {|
 |}
 
 const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
-const walletsWorkerPromise: WalletsWorkerInstance = new PromiseWorker(WalletsWorker)
+const walletsWorkerPromise: WalletsWorkerInstance = new PromiseWorker(walletsWorker)
 
 export function createRequest(
   walletsData: WalletsState,
@@ -164,8 +164,10 @@ export function upgradeRequest(
   }))
 }
 
-export function run(store: { dispatch: (WalletsAnyAction) => void }) {
+export function run(/* store: { dispatch: (WalletsAnyAction) => void } */) {
+  /*
   walletsWorker.onmessage = function walletsWorkerOnMessage(msg) {
     store.dispatch(msg.data)
   }
+  */
 }
