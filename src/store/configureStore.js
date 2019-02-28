@@ -6,17 +6,12 @@ import { persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
 
 import {
-  forOwn,
-  isObject,
-} from 'lodash-es'
-
-import {
   compose,
   createStore,
   applyMiddleware,
 } from 'redux'
 
-import sagas from 'store/sagas'
+import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'
 import { makeRootReducer } from './reducers'
@@ -61,11 +56,7 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Run sagas
   // ======================================================
-  forOwn(sagas, saga =>
-    isObject(saga) ?
-      forOwn(saga, sagaMiddleware.run)
-      : sagaMiddleware.run(saga),
-  )
+  sagas.forEach(saga => sagaMiddleware.run(saga))
 
   // ======================================================
   // Start workers

@@ -930,7 +930,7 @@ function* onStartNonceEdit(
   }
 }
 
-export function* sendRootSaga(): Saga<void> {
+export function* digitalAssetsSendRootSaga(): Saga<void> {
   yield takeEvery(digitalAssetsSend.OPEN_VIEW, openView)
   yield takeEvery(digitalAssetsSend.GO_TO_NEXT_STEP, goToNextStep)
   yield takeEvery(digitalAssetsSend.GO_TO_PREV_STEP, goToPrevStep)

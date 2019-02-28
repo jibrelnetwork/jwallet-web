@@ -1,15 +1,15 @@
 // @flow
 
-import { coreRootSaga } from './core'
-import { addAssetRootSaga } from './addAsset'
-import { editAssetRootSaga } from './editAsset'
-import { gridRootSaga } from './grid'
-import { sendRootSaga } from './send'
+import { digitalAssetsRootSaga } from './core'
+import { digitalAssetsAddRootSaga } from './add'
+import { digitalAssetsEditRootSaga } from './edit'
+import { digitalAssetsGridRootSaga } from './grid'
+import { digitalAssetsSendRootSaga } from './send'
 
-export default {
-  coreRootSaga,
-  addAssetRootSaga,
-  editAssetRootSaga,
-  gridRootSaga,
-  sendRootSaga,
-}
+export default [
+  digitalAssetsRootSaga,
+  digitalAssetsAddRootSaga,
+  digitalAssetsEditRootSaga,
+  digitalAssetsGridRootSaga,
+  digitalAssetsSendRootSaga,
+]
