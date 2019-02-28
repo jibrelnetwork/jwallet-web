@@ -2,7 +2,10 @@
 
 import React, { PureComponent } from 'react'
 
-import { WalletFace, WalletLoading } from 'components'
+import {
+  WalletFace,
+  WalletLoading,
+} from 'components'
 
 type WalletCardHandler = () => void
 

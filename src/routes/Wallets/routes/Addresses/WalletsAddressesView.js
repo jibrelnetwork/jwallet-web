@@ -49,7 +49,7 @@ class WalletsAddressesView extends Component<Props> {
       isReadOnly,
     } = this.props
 
-    const titleText: Array<string> =
+    const titleText: string[] =
       (t`To enhance your privacy, the wallet can contain as many addresses
         as you need. Please, choose one to continue`).split('\n')
 

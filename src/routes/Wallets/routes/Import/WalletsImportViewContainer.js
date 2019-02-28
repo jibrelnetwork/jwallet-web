@@ -12,7 +12,7 @@ import {
   changePasswordInput,
   changePasswordHintInput,
   changePasswordConfirmInput,
-} from '../../modules/wallets'
+} from 'store/modules/wallets'
 
 import {
   openView,
@@ -21,26 +21,11 @@ import {
   goToPrevStep,
   changeDataInput,
   changeDerivationPathInput,
-} from './modules/walletsImport'
+} from 'store/modules/walletsImport'
 
 import WalletsCreateView from './WalletsImportView'
 
-type StateProps = {|
-  +invalidFields: FormFields,
-  +data: string,
-  +name: string,
-  +password: string,
-  +passphrase: string,
-  +passwordHint: string,
-  +derivationPath: string,
-  +passwordConfirm: string,
-  +walletType: ?WalletCustomType,
-  +currentStep: WalletsImportStepIndex,
-  +isLoading: boolean,
-  +isPasswordExists: boolean,
-|}
-
-function mapStateToProps(state: AppState): StateProps {
+function mapStateToProps(state: AppState) {
   const {
     persist: {
       internalKey,
@@ -55,13 +40,23 @@ function mapStateToProps(state: AppState): StateProps {
 
   const walletsImport: WalletsImportState = selectWalletsImport(state)
 
+  const {
+    data,
+    walletType,
+    currentStep,
+    derivationPath,
+  }: WalletsImportState = walletsImport
+
   return {
-    ...walletsImport,
+    data,
     name,
     password,
-    isLoading,
+    walletType,
+    currentStep,
     passwordHint,
+    derivationPath,
     passwordConfirm,
+    isLoading,
     isPasswordExists: !!internalKey,
     invalidFields: {
       ...invalidFields,

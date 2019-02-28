@@ -5,11 +5,11 @@ import { t } from 'ttag'
 import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 
-import * as upgrade from 'routes/Upgrade/modules/upgrade'
-import * as wallets from 'routes/Wallets/modules/wallets'
-import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
-import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
-import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
+import * as upgrade from 'store/modules/upgrade'
+import * as wallets from 'store/modules/wallets'
+import * as walletsCreate from 'store/modules/walletsCreate'
+import * as walletsImport from 'store/modules/walletsImport'
+import * as walletsBackup from 'store/modules/walletsBackup'
 
 import type {
   WalletsAnyAction,

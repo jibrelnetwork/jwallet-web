@@ -4,7 +4,11 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import PopupButton from 'components/PopupButton'
-import { JText, JCheckbox } from 'components/base'
+
+import {
+  JText,
+  JCheckbox,
+} from 'components/base'
 
 type Props = {|
   +setOnlyPending: (boolean) => void,

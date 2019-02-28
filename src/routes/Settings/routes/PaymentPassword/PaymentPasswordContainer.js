@@ -1,7 +1,8 @@
 // @flow
+
 import { connect } from 'react-redux'
 
-import { changePaymentPassword } from '../../modules/settings'
+import { changePaymentPassword } from 'store/modules/settings'
 
 import PaymentPasswordView from './PaymentPasswordView'
 

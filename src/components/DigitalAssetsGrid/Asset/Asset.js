@@ -2,8 +2,12 @@
 
 import React, { PureComponent } from 'react'
 
-import { handle } from 'utils/eventHandlers'
-import { JAssetSymbol, JText } from 'components/base'
+import handle from 'utils/eventHandlers/handle'
+
+import {
+  JText,
+  JAssetSymbol,
+} from 'components/base'
 
 import AssetCardBody from './AssetCardBody'
 

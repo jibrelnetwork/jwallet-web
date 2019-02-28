@@ -1,11 +1,16 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import AssetBalance from 'components/AssetBalance'
-import { JFlatButton, JText, JLoader } from 'components/base'
+
+import {
+  JText,
+  JLoader,
+  JFlatButton,
+} from 'components/base'
 
 type Props = {|
   +symbol: string,
@@ -15,7 +20,7 @@ type Props = {|
   // +fiatBalance: ?string,
   +isError: boolean,
   +isLoading: boolean,
-  +isHovered: boolean
+  +isHovered: boolean,
 |}
 
 type StateProps = {|
@@ -80,8 +85,6 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               color='blue'
               label={t`Reload asset`}
               isHoverOpacity
-              // eslint-disable-next-line no-console
-              onClick={console.log}
             />
           </div>
         </div>

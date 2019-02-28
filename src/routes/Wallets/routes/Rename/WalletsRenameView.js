@@ -4,14 +4,18 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
-import { ModalHeader, WalletNameStep } from 'components'
+
+import {
+  ModalHeader,
+  WalletNameStep,
+} from 'components'
 
 type Props = {|
-  +closeView: () => void,
+  +rename: Function,
+  +openView: Function,
+  +closeView: Function,
   +goToWallets: () => void,
-  +openView: (string) => void,
   +changeNameInput: (string) => void,
-  +rename: (Wallets, string, string) => void,
   +items: Wallets,
   +invalidFields: FormFields,
   +params: {|

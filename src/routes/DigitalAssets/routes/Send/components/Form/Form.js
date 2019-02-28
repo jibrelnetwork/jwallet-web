@@ -77,21 +77,25 @@ function DigitalAssetsSendForm({
           label={t`Current address`}
           isDisabled
         />
-        {hasManyRecipientAddresses ? (<AddressPicker
-          onSelect={setFormFieldValue('recipient')}
-          addressNames={addressNames}
-          selectedAddress={recipient}
-          infoMessage={formFieldWarnings.recipient}
-          errorMessage={formFieldErrors.recipient}
-        />) : (<JInput
-          onChange={setFormFieldValue('recipient')}
-          value={recipient}
-          color='gray'
-          name='owner-address'
-          placeholder={t`Recipient address`}
-          infoMessage={formFieldWarnings.recipient}
-          errorMessage={formFieldErrors.recipient}
-        />)}
+        {hasManyRecipientAddresses ? (
+          <AddressPicker
+            onSelect={setFormFieldValue('recipient')}
+            addressNames={addressNames}
+            selectedAddress={recipient}
+            infoMessage={formFieldWarnings.recipient}
+            errorMessage={formFieldErrors.recipient}
+          />
+        ) : (
+          <JInput
+            onChange={setFormFieldValue('recipient')}
+            value={recipient}
+            color='gray'
+            name='owner-address'
+            placeholder={t`Recipient address`}
+            infoMessage={formFieldWarnings.recipient}
+            errorMessage={formFieldErrors.recipient}
+          />
+        )}
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
           digitalAssets={digitalAssets}
@@ -100,7 +104,7 @@ function DigitalAssetsSendForm({
         />
         <DoubleInput
           items={[{
-            onChange: setFormFieldValue('amount'),
+            handleChange: setFormFieldValue('amount'),
             value: amount,
             placeholder: t`Value ${selectedAssetSymbol}`,
           }, {

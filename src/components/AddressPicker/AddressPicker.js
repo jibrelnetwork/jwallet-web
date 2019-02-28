@@ -59,7 +59,7 @@ class AddressPicker extends Component<Props, ComponentState> {
     }
   }
 
-  changeSearchQuery = (searchQuery: string) => {
+  handleChange = (searchQuery: string) => {
     this.setState({ searchQuery }, () => {
       if (checkAddressValid(searchQuery)) {
         this.props.onSelect(searchQuery)
@@ -67,7 +67,7 @@ class AddressPicker extends Component<Props, ComponentState> {
     })
   }
 
-  cleanSearchQuery = () => this.setState({ searchQuery: '' })
+  handleOpen = () => this.setState({ searchQuery: '' })
 
   render() {
     const {
@@ -85,10 +85,10 @@ class AddressPicker extends Component<Props, ComponentState> {
     return (
       <div className='address-picker'>
         <JPicker
-          onOpen={this.cleanSearchQuery}
+          onOpen={this.handleOpen}
           currentRenderer={({ isOpen }) => (
             <AddressPickerCurrent
-              onChange={this.changeSearchQuery}
+              onChange={this.handleChange}
               address={selectedAddress}
               addressName={addressNames[selectedAddress]}
               searchQuery={searchQuery}

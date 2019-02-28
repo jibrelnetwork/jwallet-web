@@ -1,10 +1,15 @@
 // @flow
 
 import CoreLayout from 'layouts/CoreLayout'
+
 import {
   reactRouterOnChangePageView,
   reactRouterOnEnterPageView,
 } from 'utils/analytics'
+
+import type { CoreAction } from 'store/modules/core'
+import type { NotFoundAction } from 'store/modules/notFound'
+import type { DigitalAssetsModuleAction } from 'store/modules/digitalAssets'
 
 import Wallets from './Wallets'
 import Settings from './Settings'
@@ -14,18 +19,6 @@ import DigitalAssets from './DigitalAssets'
 import Favorites from './Favorites'
 import Upgrade from './Upgrade'
 import Agreements from './Agreements'
-
-import {
-  type CoreAction,
-} from './modules'
-
-import {
-  type DigitalAssetsModuleAction,
-} from './DigitalAssets/modules'
-
-import {
-  type NotFoundAction,
-} from './NotFound/modules/notFound'
 
 export type AppAction =
   CoreAction |
@@ -43,9 +36,6 @@ export default {
   onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
   onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
   childRoutes: [
-    /*
-    Funds(store),
-    */
     Wallets,
     Settings,
     Transactions,

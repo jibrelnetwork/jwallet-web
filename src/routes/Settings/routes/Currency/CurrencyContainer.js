@@ -1,11 +1,12 @@
 // @flow
+
 import { connect } from 'react-redux'
 import { t } from 'ttag'
 
 import currenciesData from 'data/currencies'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
-import { setFiatCurrency } from '../../modules/settings'
+import { setFiatCurrency } from 'store/modules/settings'
 
 import CurrencyView from './CurrencyView'
 
@@ -39,5 +40,5 @@ const mapDispatchToProps = {
 
 export default connect/* :: < AppState, null, OwnPropsEmpty, _, _ > */(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CurrencyView)

@@ -16,11 +16,11 @@ import {
 import {
   validationPasswordForm,
   changePaymentPasswordPending,
-} from 'routes/Settings/modules/settings'
+} from 'store/modules/settings'
 
-import * as wallets from 'routes/Wallets/modules/wallets'
+import * as wallets from 'store/modules/wallets'
 
-import type { SettingsAction } from 'routes/Settings/modules/settings'
+import type { SettingsAction } from 'store/modules/settings'
 
 type SettingsWorkerMessage = {|
   +data: SettingsAction,
@@ -80,7 +80,7 @@ settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
           encryptionType,
           internalKeyNew,
           passwordOptionsNew.encryptionType,
-        )
+        ),
       ),
       passwordOptions: passwordOptionsNew,
       internalKey: encryptInternalKey(internalKeyNew, dkNew, passwordOptionsNew.encryptionType),

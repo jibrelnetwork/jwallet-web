@@ -14,11 +14,16 @@
     "__DEFAULT_BLOCKEXPLORER_API__": false
   },
   "rules": {
-    "no-use-before-define": 0,
+    "no-param-reassign": [2, {
+      "props": true,
+      "ignorePropertyModificationsFor": ["reduceResult"]
+    }],
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
       "exceptions": [
+        { "object": "formErrors" },
+        { "object": "reduceResult" },
         { "property": "onmessage" },
         { "property": "src" },
         { "property": "type" },
@@ -32,6 +37,112 @@
         { "property": "captchaErrorCallback" },
         { "property": "captchaExpiredCallback" }
       ]
-    }]
+    }],
+    "object-curly-newline": [2, {
+      "ObjectExpression": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      },
+      "ObjectPattern": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      },
+      "ImportDeclaration": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      },
+      "ExportDeclaration": {
+        "minProperties": 2,
+        "multiline": true,
+        "consistent": true
+      }
+    }],
+    "padding-line-between-statements": [2, {
+      "blankLine": "always",
+      "prev": "*",
+      "next": [
+        "block",
+        "block-like",
+        "break",
+        "class",
+        "do",
+        "for",
+        "function",
+        "if",
+        "multiline-block-like",
+        "multiline-expression",
+        "return",
+        "switch",
+        "try",
+        "while"
+      ]
+    }, {
+      "blankLine": "always",
+      "prev": [
+        "block",
+        "block-like",
+        "break",
+        "class",
+        "do",
+        "for",
+        "function",
+        "if",
+        "multiline-block-like",
+        "multiline-expression",
+        "return",
+        "switch",
+        "try",
+        "while"
+      ],
+      "next": "*"
+    }, {
+      "blankLine": "any",
+      "prev": ["case"],
+      "next": "*"
+    }],
+    "react/button-has-type": [2, {
+      "button": true,
+      "submit": true,
+      "reset": false
+    }],
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
+    "react/jsx-closing-tag-location": 2,
+    "react/jsx-curly-spacing": [2, {
+      "when": "never",
+      "allowMultiline": false,
+      "objectLiterals": "never"
+    }],
+    "react/jsx-handler-names": 2,
+    "react/jsx-no-bind": 2,
+    "react/jsx-pascal-case": 2,
+    "react/jsx-wrap-multilines": [2, {
+      "declaration": "parens-new-line",
+      "assignment": "parens-new-line",
+      "return": "parens-new-line",
+      "arrow": "parens-new-line",
+      "condition": "parens-new-line",
+      "logical": "parens-new-line",
+      "prop": "parens-new-line"
+    }],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline"
+    }],
+    "flowtype/no-dupe-keys": 2,
+    "flowtype/array-style-simple-type": [2, "shorthand"],
+    "flowtype/delimiter-dangle": [2, "always-multiline"],
+    "flowtype/newline-after-flow-annotation": [2, "always"],
+    "flowtype/object-type-delimiter": [2, "comma"],
+    "flowtype/require-compound-type-alias": [2, "always"],
+    "flowtype/semi": [2, "never"],
+    "flowtype/space-before-generic-bracket": [2, "never"],
+    "flowtype/type-id-match": [2, "^([A-Z][a-z0-9]*)+$"],
+    "flowtype/type-import-style": [2, "declaration"]
   }
 }

@@ -1,15 +1,21 @@
 // @flow
 
 import createSagaMiddleware from 'redux-saga'
+
 import { persistStore } from 'redux-persist'
 import { routerMiddleware } from 'react-router-redux'
-import { applyMiddleware, compose, createStore } from 'redux'
+
+import {
+  compose,
+  createStore,
+  applyMiddleware,
+} from 'redux'
 
 import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'
-import { redirect } from '../middlewares/redirect'
 import { makeRootReducer } from './reducers'
+import { redirect } from '../middlewares/redirect'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -50,14 +56,17 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   // ======================================================
   // Run sagas
   // ======================================================
-  Object.keys(sagas).forEach(sagaName => sagaMiddleware.run(sagas[sagaName]))
+  sagas.forEach(saga => sagaMiddleware.run(saga))
 
   // ======================================================
   // Start workers
   // ======================================================
   workers.forEach(worker => worker.run(store))
 
-  return { store, persistor }
+  return {
+    store,
+    persistor,
+  }
 }
 
 export default configureStore

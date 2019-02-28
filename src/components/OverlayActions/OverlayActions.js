@@ -1,19 +1,27 @@
 // @flow
 
-import React, { PureComponent, Fragment } from 'react'
 import classNames from 'classnames'
 
-import { JIcon, JText } from 'components/base'
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
+
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type OverlayActionsHandler = () => void
+type OverlayActionsColor = 'white' | 'gray'
 
-type Props = {
-  copy: OverlayActionsHandler,
-  load: ?OverlayActionsHandler,
-  copyLabel: string,
-  loadLabel: ?string,
-  color: 'white' | 'gray',
-}
+type Props = {|
+  +copy: OverlayActionsHandler,
+  +load: ?OverlayActionsHandler,
+  +copyLabel: string,
+  +loadLabel: ?string,
+  +color: OverlayActionsColor,
+|}
 
 const colorTextMap = {
   white: 'blue',

@@ -3,9 +3,21 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
-import { JCheckbox, JText, JRaisedButton } from 'components/base'
-import { setAgreementValue, getAgreementValue, checkAgreements } from 'utils/agreements'
+import {
+  JText,
+  JCheckbox,
+  JRaisedButton,
+} from 'components/base'
+
+import {
+  checkAgreements,
+  getAgreementValue,
+  setAgreementValue,
+} from 'utils/agreements'
+
 import { CONDITIONS_LIST } from 'data/agreements'
+
+import style from './AgreementsView.m.scss'
 
 export type Props = {|
   +onSubmit: () => void,
@@ -44,9 +56,9 @@ class AgreementsView extends PureComponent<Props, StateProps> {
     }: StateProps = this.state
 
     return (
-      <div className='agreements-view'>
-        <div className='content'>
-          <h1 className='title'>
+      <div className={style.container}>
+        <div className={style.content}>
+          <h1 className={style.title}>
             <JText
               size='title'
               color='white'
@@ -55,9 +67,9 @@ class AgreementsView extends PureComponent<Props, StateProps> {
               align='center'
             />
           </h1>
-          <div className='items'>
+          <div>
             {CONDITIONS_LIST.map((key: string) => (
-              <div className='item' key={key}>
+              <div className={style.item} key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
                     onChange={this.onChange(key)}
@@ -100,7 +112,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
               </div>
             ))}
           </div>
-          <div className='action'>
+          <div className={style.action}>
             <JRaisedButton
               onClick={this.props.onSubmit}
               color='white'

@@ -12,6 +12,7 @@ export const walletsAddresses = (state: AppState, pathname: string): string => {
   }
 
   const activeWallet = selectActiveWallet(state)
+
   if (activeWallet && !checkMnemonicType(activeWallet.type)) {
     return '/digital-assets/grid'
   }
