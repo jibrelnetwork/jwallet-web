@@ -9,19 +9,15 @@ import {
 
 const MOCK_WORKER_MSG_TIMEOUT: number = 1000
 const MOCK_WORKER_TYPE: 'promise' = 'promise'
-const MOCK_WORKER_URL: string = 'MOCK_WORKER_URL'
 const MOCK_WORKER_ERROR: string = 'MOCK_WORKER_ERROR'
 const MOCK_WORKER_RESULT_OK: string = 'MOCK_WORKER_RESULT_OK'
 const MOCK_WORKER_RESULT_FAIL: string = 'MOCK_WORKER_RESULT_FAIL'
 
 class MOCK_WORKER {
-  url: string
   onerror: Function
   onmessage: Function
 
-  constructor(url: string) {
-    this.url = url
-
+  constructor() {
     this.onerror = () => {}
 
     this.onmessage = () => {}
@@ -104,7 +100,7 @@ class MOCK_WORKER {
   }
 }
 
-const MOCK_WORKER_INSTANCE: Object = new MOCK_WORKER(MOCK_WORKER_URL)
+const MOCK_WORKER_INSTANCE: Object = new MOCK_WORKER()
 
 describe('PromiseWorker', () => {
   test('defined', () => {
@@ -178,7 +174,7 @@ describe('PromiseWorker', () => {
   test('restart (running) success', async () => {
     const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
 
-    const newMockWorkerInstance: Object = new MOCK_WORKER(MOCK_WORKER_URL)
+    const newMockWorkerInstance: Object = new MOCK_WORKER()
     promiseWorker.restart(newMockWorkerInstance)
 
     await promiseWorker.executeTask({ taskName: 'taskOk' }).then((response) => {
@@ -192,7 +188,7 @@ describe('PromiseWorker', () => {
 
     promiseWorker.terminate()
 
-    const newMockWorkerInstance: Object = new MOCK_WORKER(MOCK_WORKER_URL)
+    const newMockWorkerInstance: Object = new MOCK_WORKER()
     promiseWorker.restart(newMockWorkerInstance)
 
     await promiseWorker.executeTask({ taskName: 'taskOk' }).then((response) => {
