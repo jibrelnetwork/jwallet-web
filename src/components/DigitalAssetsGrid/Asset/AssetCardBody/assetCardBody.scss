@@ -45,10 +45,14 @@
       bottom: -2px;
       position: absolute;
       transition: opacity 0.1s ease;
+
+      > .link:hover {
+        color: $bright-sky-blue;
+      }
     }
   }
 
-  &.-hovered {
+  &:hover {
     > .fiat {
       > .balance,
       > .message {
