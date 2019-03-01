@@ -18,6 +18,7 @@
       "props": true,
       "ignorePropertyModificationsFor": ["self", "reduceResult"]
     }],
+    "fp/no-events": 0,
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
