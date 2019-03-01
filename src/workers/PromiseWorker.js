@@ -100,6 +100,8 @@ function handleTask(self, {
 function startListen(self: Object, worker: Object) {
   if (self.worker) {
     throw new WorkerError('Worker has been already started', WORKER_TYPE)
+  } else if (worker.onerror || worker.onmessage) {
+    throw new WorkerError('Worker has been already listened', WORKER_TYPE)
   }
 
   self.worker = worker
@@ -130,7 +132,7 @@ class PromiseWorker {
     taskName,
     transfer,
     errorMessage,
-  }: PromiseWorkerTaskPayload) => {
+  }: PromiseWorkerTaskPayload): Promise => {
     const taskId: string = uuidv4()
 
     const msgData = {

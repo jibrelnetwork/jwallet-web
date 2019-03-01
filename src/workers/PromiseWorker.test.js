@@ -14,13 +14,12 @@ const MOCK_WORKER_RESULT_OK: string = 'MOCK_WORKER_RESULT_OK'
 const MOCK_WORKER_RESULT_FAIL: string = 'MOCK_WORKER_RESULT_FAIL'
 
 class MOCK_WORKER {
-  onerror: Function
-  onmessage: Function
+  onerror: ?Function
+  onmessage: ?Function
 
   constructor() {
-    this.onerror = () => {}
-
-    this.onmessage = () => {}
+    this.onerror = null
+    this.onmessage = null
   }
 
   terminate = () => {}
@@ -39,6 +38,10 @@ class MOCK_WORKER {
         // process payload from msg
 
         setTimeout(() => {
+          if (!self.onmessage) {
+            return
+          }
+
           self.onmessage({ /* WORKER: self.postMessage */
             data: {
               taskId,
@@ -57,6 +60,10 @@ class MOCK_WORKER {
           try {
             throw new Error(MOCK_WORKER_RESULT_FAIL)
           } catch (err) {
+            if (!self.onmessage) {
+              return
+            }
+
             self.onmessage({ /* WORKER: self.postMessage */
               data: {
                 taskId,
@@ -76,6 +83,10 @@ class MOCK_WORKER {
       case 'taskThrow': {
         // process payload from msg
 
+        if (!self.onerror) {
+          return
+        }
+
         self.onerror(new Error(MOCK_WORKER_ERROR)) /* WORKER: throw new Error(MOCK_WORKER_ERROR) */
 
         break
@@ -83,6 +94,10 @@ class MOCK_WORKER {
 
       case 'taskAfterTerminate': {
         // process payload from msg
+
+        if (!self.onmessage) {
+          return
+        }
 
         self.onmessage({ /* WORKER: self.postMessage */
           data: {
@@ -114,6 +129,25 @@ describe('PromiseWorker', () => {
     expect(promiseWorker).toHaveProperty('executeTask')
     expect(promiseWorker).toHaveProperty('terminate')
     expect(promiseWorker).toHaveProperty('restart')
+
+    promiseWorker.terminate()
+  })
+
+  test('constructor (error)', () => {
+    const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
+
+    expect(promiseWorker).toBeInstanceOf(PromiseWorker)
+
+    try {
+      /* eslint-disable-next-line no-unused-vars */
+      const anotherPromiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
+    } catch (err) {
+      expect(err).toMatchObject(
+        new WorkerError('Worker has been already listened', MOCK_WORKER_TYPE),
+      )
+    }
+
+    promiseWorker.terminate()
   })
 
   test('executeTask success', async () => {
@@ -123,6 +157,8 @@ describe('PromiseWorker', () => {
       expect(response).toBeDefined()
       expect(response).toEqual(MOCK_WORKER_RESULT_OK)
     })
+
+    promiseWorker.terminate()
   })
 
   test('executeTask failure', async () => {
@@ -136,6 +172,8 @@ describe('PromiseWorker', () => {
         message: MOCK_WORKER_RESULT_FAIL,
       }))
     })
+
+    promiseWorker.terminate()
   })
 
   test('executeTask throw', () => {
@@ -146,6 +184,8 @@ describe('PromiseWorker', () => {
     } catch (err) {
       expect(err).toMatchObject(new WorkerError(new Error(MOCK_WORKER_ERROR), MOCK_WORKER_TYPE))
     }
+
+    promiseWorker.terminate()
   })
 
   test('terminate', () => {
@@ -169,6 +209,8 @@ describe('PromiseWorker', () => {
         new WorkerError('Can not restart the same worker instance', MOCK_WORKER_TYPE),
       )
     }
+
+    promiseWorker.terminate()
   })
 
   test('restart (running) success', async () => {
@@ -181,6 +223,8 @@ describe('PromiseWorker', () => {
       expect(response).toBeDefined()
       expect(response).toEqual(MOCK_WORKER_RESULT_OK)
     })
+
+    promiseWorker.terminate()
   })
 
   test('restart (terminated) success', async () => {
@@ -195,5 +239,7 @@ describe('PromiseWorker', () => {
       expect(response).toBeDefined()
       expect(response).toEqual(MOCK_WORKER_RESULT_OK)
     })
+
+    promiseWorker.terminate()
   })
 })
