@@ -9,7 +9,7 @@ describe('WalletInvalidDataError', () => {
     expect(WalletInvalidDataError).not.toEqual(undefined)
   })
 
-  test('can be throwed', () => {
+  test('can be thrown', () => {
     const fn = () => {
       throw new WalletInvalidDataError()
     }
@@ -43,21 +43,11 @@ describe('WalletInvalidDataError', () => {
     }
   })
 
-  test('has walletId and message text', () => {
+  test('has walletId', () => {
     try {
       throw new WalletInvalidDataError(walletId)
     } catch (err) {
       expect(err.walletId).toBeDefined()
-      expect(err.message).toBe('Invalid wallet data')
-    }
-  })
-
-  test('has correct message when walletId is not set', () => {
-    try {
-      throw new WalletInvalidDataError()
-    } catch (err) {
-      expect(err.walletId).toBeUndefined()
-      expect(err.message).toBe('Invalid wallet data')
     }
   })
 })

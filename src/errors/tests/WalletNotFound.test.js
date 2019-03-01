@@ -9,7 +9,7 @@ describe('WalletNotFoundError', () => {
     expect(WalletNotFoundError).not.toEqual(undefined)
   })
 
-  test('can be throwed', () => {
+  test('can be thrown', () => {
     const fn = () => {
       throw new WalletNotFoundError()
     }
@@ -43,21 +43,11 @@ describe('WalletNotFoundError', () => {
     }
   })
 
-  test('has walletId and message text', () => {
+  test('has walletId', () => {
     try {
       throw new WalletNotFoundError(walletId)
     } catch (err) {
       expect(err.walletId).toBeDefined()
-      expect(err.message).toBe(`Wallet ${walletId} not found`)
-    }
-  })
-
-  test('has correct message when walletId is not set', () => {
-    try {
-      throw new WalletNotFoundError()
-    } catch (err) {
-      expect(err.walletId).toBeUndefined()
-      expect(err.message).toBe('Wallet null not found')
     }
   })
 })

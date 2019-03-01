@@ -7,7 +7,7 @@ describe('ActiveNetworkNotFoundError', () => {
     expect(ActiveNetworkNotFoundError).not.toEqual(undefined)
   })
 
-  test('can be throwed', () => {
+  test('can be thrown', () => {
     const fn = () => {
       throw new ActiveNetworkNotFoundError()
     }

@@ -7,7 +7,7 @@ describe('ActiveWalletNotFoundError', () => {
     expect(ActiveWalletNotFoundError).not.toEqual(undefined)
   })
 
-  test('can be throwed', () => {
+  test('can be thrown', () => {
     const fn = () => {
       throw new ActiveWalletNotFoundError()
     }

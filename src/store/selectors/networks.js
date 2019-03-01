@@ -29,7 +29,7 @@ export function selectCurrentNetworkId(state: AppState): NetworkId {
 export function selectCurrentNetworkIdOrThrow(state: AppState): NetworkId {
   const networkId = selectCurrentNetworkId(state)
 
-  if (!networkId || networkId === '*') {
+  if (!networkId) {
     throw new ActiveNetworkNotFoundError()
   }
 
