@@ -42,16 +42,23 @@ class MOCK_WORKER {
 
     if (msgData.payload === MOCK_WORKER_RESULT_FAIL) {
       setInterval(() => {
-        if (!self.onerror) {
-          return
-        }
+        try {
+          throw new Error(MOCK_WORKER_ERROR)
+        } catch (err) {
+          if (!self.onerror) {
+            return
+          }
 
-        self.onerror({ /* WORKER: self.postMessage */
-          data: {
-            error: true,
-            payload: new Error(MOCK_WORKER_ERROR),
-          },
-        })
+          self.onerror({ /* WORKER: self.postMessage */
+            data: {
+              error: true,
+              payload: {
+                stack: err.stack,
+                message: err.message,
+              },
+            },
+          })
+        }
       }, MOCK_WORKER_EVENT_TIMEOUT)
     }
 
