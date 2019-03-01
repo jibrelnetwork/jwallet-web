@@ -122,7 +122,7 @@ describe('PromiseWorker', () => {
     expect(PromiseWorker).toBeDefined()
   })
 
-  test('constructor', () => {
+  test('constructor success', () => {
     const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
 
     expect(promiseWorker).toBeInstanceOf(PromiseWorker)
@@ -133,7 +133,7 @@ describe('PromiseWorker', () => {
     promiseWorker.terminate()
   })
 
-  test('constructor (error)', () => {
+  test('constructor throw', () => {
     const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
 
     expect(promiseWorker).toBeInstanceOf(PromiseWorker)
@@ -199,20 +199,6 @@ describe('PromiseWorker', () => {
     }
   })
 
-  test('restart error', () => {
-    const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
-
-    try {
-      promiseWorker.restart(MOCK_WORKER_INSTANCE)
-    } catch (err) {
-      expect(err).toMatchObject(
-        new WorkerError('Can not restart the same worker instance', MOCK_WORKER_TYPE),
-      )
-    }
-
-    promiseWorker.terminate()
-  })
-
   test('restart (running) success', async () => {
     const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
 
@@ -239,6 +225,20 @@ describe('PromiseWorker', () => {
       expect(response).toBeDefined()
       expect(response).toEqual(MOCK_WORKER_RESULT_OK)
     })
+
+    promiseWorker.terminate()
+  })
+
+  test('restart throw', () => {
+    const promiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
+
+    try {
+      promiseWorker.restart(MOCK_WORKER_INSTANCE)
+    } catch (err) {
+      expect(err).toMatchObject(
+        new WorkerError('Can not restart the same worker instance', MOCK_WORKER_TYPE),
+      )
+    }
 
     promiseWorker.terminate()
   })

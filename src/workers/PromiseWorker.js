@@ -20,13 +20,13 @@ type PromiseWorkerTask = {|
 type PromiseWorkerQueue = { [string]: ?PromiseWorkerTask }
 
 type PromiseWorkerTaskResult = {|
-  +payload: Object,
+  +payload: any,
   +taskId: string,
   +error: boolean,
 |}
 
 type PromiseWorkerTaskPayload = {|
-  +payload: Object,
+  +payload?: any,
   +taskName: string,
   +errorMessage?: string,
   +transfer?: ArrayBuffer,
