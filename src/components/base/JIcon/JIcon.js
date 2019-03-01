@@ -9,7 +9,6 @@ export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 type Props = {
   name: string,
   color: ?JIconColor,
-  useFill: boolean,
 }
 
 const files = require.context('../../../public/assets/icons/sprite-pack', true, /.*\.svg$/)
@@ -27,19 +26,39 @@ const icons = keyBy(
   'id',
 )
 
-class JIcon extends PureComponent<Props> {
+type StateProps = {
+  useFill: boolean,
+}
+
+class JIcon extends PureComponent<Props, StateProps> {
   static defaultProps = {
     color: null,
-    useFill: false,
   }
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      useFill: false,
+    }
+  }
+
+  onUseFill = () => this.setState({ useFill: true })
 
   render() {
     const {
       name,
-      useFill,
       color,
     }: Props = this.props
+
+    const {
+      useFill,
+    } = this.state
+
     const iconData = icons[`${name}-usage`]
+
+    if (name.indexOf('use-fill') !== -1) {
+      this.onUseFill()
+    }
 
     return (
       <svg

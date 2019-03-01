@@ -38,7 +38,6 @@ type Props = {|
   +isTransparent: boolean,
   +isUnderscored: boolean,
   +isHoverOpacity: boolean,
-  +iconUseFill: boolean,
   title?: string,
 |}
 
@@ -68,7 +67,6 @@ class JFlatButton extends PureComponent<Props, StateProps> {
     isTransparent: false,
     isUnderscored: false,
     isHoverOpacity: false,
-    iconUseFill: false,
     title: undefined,
   }
 
@@ -99,7 +97,6 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       isTransparent,
       isUnderscored,
       isHoverOpacity,
-      iconUseFill,
       title,
     } = this.props
 
@@ -121,7 +118,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       <Fragment>
         {iconName && (
           <div className='icon'>
-            <JIcon name={iconName} color={iconColor} useFill={iconUseFill} />
+            <JIcon name={iconName} color={iconColor} />
           </div>
         )}
         {label && (
