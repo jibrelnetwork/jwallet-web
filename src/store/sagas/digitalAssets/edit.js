@@ -121,7 +121,7 @@ function* editAssetOpen({ payload: { assetAddress } }: ExtractReturn<openViewTyp
   yield put(setField('decimals', decimals.toString()))
 }
 
-export function* editAssetRootSaga(): Saga<void> {
+export function* digitalAssetsEditRootSaga(): Saga<void> {
   yield takeEvery(OPEN_VIEW, editAssetOpen)
   yield takeEvery(SUBMIT_ASSET_FORM, onAssetFormSumbit)
 }
