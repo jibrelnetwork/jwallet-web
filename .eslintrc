@@ -26,6 +26,7 @@
         { "object": "self" },
         { "object": "formErrors" },
         { "object": "reduceResult" },
+        { "property": "onerror" },
         { "property": "onmessage" },
         { "property": "src" },
         { "property": "type" },
