@@ -68,6 +68,7 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
         ...foundExistingItem,
         ...foundDefaultItem,
         isCustom: false,
+        isActive: !!foundExistingItem.isActive,
       }
 
       return reduceResult
