@@ -293,7 +293,7 @@ function* addAssetOpen(): Saga<void> {
   yield put(clean())
 }
 
-export function* addAssetRootSaga(): Saga<void> {
+export function* digitalAssetsAddRootSaga(): Saga<void> {
   yield takeEvery(OPEN_VIEW, addAssetOpen)
   yield takeEvery(SET_FIELD, onFieldChange)
   yield takeEvery(SUBMIT_ASSET_FORM, onAssetFormSumbit)
