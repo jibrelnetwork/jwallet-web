@@ -108,10 +108,9 @@ class AssetCardBody extends PureComponent<Props, *> {
               className={classNames(
                 'link',
                 JTextStyle['j-text'],
-                JTextStyle['-normal'],
-                JTextStyle['-blue'],
-                JTextStyle['-bold'],
-                JTextStyle['-nowrap'])}
+                JTextStyle.blue,
+                JTextStyle.bold,
+                JTextStyle.nowrap)}
             >
               {t`Show transactions`}
             </Link>

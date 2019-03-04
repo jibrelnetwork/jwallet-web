@@ -1,129 +1,125 @@
 @import "styles/mixins";
 
 .j-text {
-  @include font;
-
   transition: color 0.3s ease 0s, opacity 0.3s ease 0s, font-size 0.3s ease 0s;
+}
 
-  // Color
+.blue {
+  color: $blue;
+}
 
-  &.-blue {
-    color: $blue;
-  }
+.blue-two {
+  color: $blue-two;
+}
 
-  &.-blue-two {
-    color: $blue-two;
-  }
+.gray {
+  color: $dusk;
+}
 
-  &.-gray {
-    color: $dusk;
-  }
+.red {
+  color: $tomato;
+}
 
-  &.-red {
-    color: $tomato;
-  }
+.sky {
+  color: $bright-sky-blue;
+}
 
-  &.-sky {
-    color: $bright-sky-blue;
-  }
+.white {
+  color: $white;
+}
 
-  &.-white {
-    color: $white;
-  }
+.dark {
+  color: $dark;
+}
 
-  &.-dark {
-    color: $dark;
-  }
+.dusk {
+  color: $dusk;
+}
 
-  &.-dusk {
-    color: $dusk;
-  }
+.orange {
+  color: $faded-orange;
+}
 
-  &.-orange {
-    color: $faded-orange;
-  }
+// Size
 
-  // Size
+.tiny {
+  font-size: 10px;
+}
 
-  &.-tiny {
-    font-size: 10px;
-  }
+.small {
+  font-size: 11px;
+}
 
-  &.-small {
-    font-size: 11px;
-  }
+.semismall {
+  font-size: 12px;
+}
 
-  &.-semismall {
-    font-size: 12px;
-  }
+.normal {
+  font-size: 13px;
+}
 
-  &.-normal {
-    font-size: 13px;
-  }
+.semilarge {
+  font-size: 14px;
+}
 
-  &.-semilarge {
-    font-size: 14px;
-  }
+.large {
+  font-size: 15px;
+}
 
-  &.-large {
-    font-size: 15px;
-  }
+.header {
+  font-size: 18px;
+}
 
-  &.-header {
-    font-size: 18px;
-  }
+.tab {
+  font-size: 20px;
+}
 
-  &.-tab {
-    font-size: 20px;
-  }
+.title {
+  font-size: 25px;
+}
 
-  &.-title {
-    font-size: 25px;
-  }
+// Weight
 
-  // Weight
+.bold {
+  font-weight: 600;
+}
 
-  &.-bold {
-    font-weight: 600;
-  }
+.bolder {
+  font-weight: 900;
+}
 
-  &.-bolder {
-    font-weight: 900;
-  }
+// Case
 
-  // Case
+.upper {
+  text-transform: uppercase;
+}
 
-  &.-upper {
-    text-transform: uppercase;
-  }
+// White-space
 
-  // White-space
+.wrap {
+  white-space: normal;
+}
 
-  &.-wrap {
-    white-space: normal;
-  }
+.nowrap {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
-  &.-nowrap {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
+.clip {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+}
 
-  &.-clip {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: clip;
-  }
+// Align
 
-  // Align
+.center {
+  text-align: center;
+}
 
-  &.-center {
-    text-align: center;
-  }
+// Decoration
 
-  // Decoration
-
-  &.-underline {
-    text-decoration: underline;
-  }
+.underline {
+  text-decoration: underline;
 }
