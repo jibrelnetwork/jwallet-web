@@ -52,6 +52,7 @@ export function selectActiveWalletId(state: AppState): ?WalletId {
 
 export function selectActiveWalletIdOrThrow(state: AppState): WalletId {
   const activeWalletId = selectActiveWalletId(state)
+
   if (!activeWalletId) {
     throw new ActiveWalletNotFoundError()
   }
@@ -67,6 +68,7 @@ export function selectWallet(state: AppState, walletId: WalletId): ?Wallet {
 
 export function selectWalletOrThrow(state: AppState, walletId: WalletId): Wallet {
   const wallet = selectWallet(state, walletId)
+
   if (!wallet) {
     throw new WalletNotFoundError(walletId)
   }
@@ -89,6 +91,7 @@ export function selectActiveWallet(state: AppState): ?Wallet {
 
 export function selectActiveWalletOrThrow(state: AppState): Wallet {
   const activeWallet = selectActiveWallet(state)
+
   if (!activeWallet) {
     throw new ActiveWalletNotFoundError()
   }
@@ -111,6 +114,7 @@ export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
 
 export function selectActiveWalletAddressOrThrow(state: AppState): OwnerAddress {
   const address = selectActiveWalletAddress(state)
+
   if (!address) {
     throw new ActiveWalletNotFoundError()
   }

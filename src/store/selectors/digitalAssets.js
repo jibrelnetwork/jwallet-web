@@ -31,9 +31,10 @@ export function selectDigitalAsset(state: AppState, assetAddress: AssetAddress):
 
 export function selectDigitalAssetOrThrow(
   state: AppState,
-  assetAddress: AssetAddress
+  assetAddress: AssetAddress,
 ): DigitalAsset {
   const asset = selectDigitalAsset(state, assetAddress)
+
   if (!asset) {
     throw new DigitalAssetNotFoundError(assetAddress)
   }
