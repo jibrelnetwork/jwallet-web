@@ -4,6 +4,7 @@
   @include font;
   @include box;
   @include hover-animation;
+  @include flex-row-center;
 
   height: 48px;
   width: 100%;
