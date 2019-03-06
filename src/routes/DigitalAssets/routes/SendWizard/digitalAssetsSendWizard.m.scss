@@ -1,0 +1,33 @@
+@import 'styles/mixins.scss';
+
+.wizard {
+  all: initial;
+
+  @include box;
+  @include flex-column;
+
+  position: relative;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+.steps {
+  @include flex-column;
+
+  justify-content: center;
+  height: 100%;
+  width: 480px;
+  margin: 0 auto;
+  min-height: 660px;
+  padding-bottom: 50px;
+  padding-top: $page-header-height;
+}
+
+.message {
+  margin-top: 30px;
+  opacity: 0.5;
+}

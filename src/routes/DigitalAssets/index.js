@@ -6,7 +6,8 @@ import Grid from './routes/Grid'
 import AddAsset from './routes/AddAsset'
 import EditAsset from './routes/EditAsset'
 import Manage from './routes/Manage'
-import Send from './routes/Send'
+// import Send from './routes/Send'
+import SendWizard from './routes/SendWizard'
 import Receive from './routes/Receive'
 
 export default {
@@ -16,11 +17,12 @@ export default {
     onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets/grid'),
   },
   childRoutes: [
+    SendWizard,
     Grid,
     Manage,
     AddAsset,
     EditAsset,
-    Send,
+    // Send,
     Receive,
   ],
 }

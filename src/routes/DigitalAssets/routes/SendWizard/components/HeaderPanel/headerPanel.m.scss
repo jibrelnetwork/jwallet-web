@@ -1,0 +1,31 @@
+
+@import 'styles/mixins.scss';
+
+.header-panel {
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  background-image:
+    linear-gradient(
+      to bottom,
+      hsl(228, 33.33%, 97.06%) 0%,
+      hsl(228, 33.33%, 97.06%) 60%,
+      hsla(228, 33.33%, 97.06%, 0) 100%
+    );
+}
+
+.container {
+  @include flex-row;
+  @include header-container;
+
+  align-items: center;
+  justify-content: space-between;
+  height: $page-header-height;
+}
+
+.actions {
+  @include box;
+  @include flex-row;
+}

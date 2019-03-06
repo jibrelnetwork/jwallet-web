@@ -1,0 +1,32 @@
+@import 'styles/mixins.scss';
+
+.error {
+  @include hover-animation;
+
+  position: relative;
+  border-radius: 5px;
+  background-color: $tomato;
+  padding: 20px 20px 20px 64px;
+  margin-top: 10px;
+  text-align: center;
+  min-height: 64px;
+
+  &:hover {
+    box-shadow: 0 9px 18px 0 rgba(61, 79, 108, 0.1);
+  }
+}
+
+.icon {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+.text {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 200px;
+}
