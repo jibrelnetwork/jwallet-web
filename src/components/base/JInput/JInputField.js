@@ -2,14 +2,14 @@
 
 import React from 'react'
 
-import JInput from './JInput'
-
-import type {
-  JInputType,
-  JInputColor,
+import JInput, {
+  type JInputType,
+  type JInputColor,
 } from './JInput'
 
-type InputValidateType = 'touched' | 'visited'
+type InputValidateType = 'touched' |
+  'visited' |
+  'dirtySinceLastSubmit'
 
 type Props = {|
   +input: Object,
@@ -46,13 +46,13 @@ function JInputField(props: Props) {
     rows,
   } = props
 
-  const { error } = meta
-
   const {
     onBlur: handleBlur,
     onFocus: handleFocus,
     onChange: handleChange,
   } = input
+
+  const error = meta.error || meta.submitError
 
   return (
     <JInput
@@ -64,7 +64,11 @@ function JInputField(props: Props) {
       value={input.value}
       placeholder={placeholder}
       helpMessage={helpMessage}
-      errorMessage={errorMessage || (meta[validateType] && error ? error : undefined)}
+      errorMessage={errorMessage || (
+        !meta[validateType] && error
+          ? error
+          : undefined
+      )}
       color={color}
       type={type}
       isLoading={isLoading}

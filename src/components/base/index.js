@@ -6,6 +6,7 @@ import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
 import JIcon from './JIcon'
 import JInput from './JInput'
+import JInputField from './JInput/JInputField'
 import JLoader from './JLoader'
 import JLogo from './JLogo'
 import JRadio from './JRadio'
@@ -25,6 +26,7 @@ export {
   JFlatButton,
   JIcon,
   JInput,
+  JInputField,
   JLoader,
   JLogo,
   JRadio,
