@@ -3,9 +3,11 @@
 import React from 'react'
 import { t } from 'ttag'
 import { Link } from 'react-router'
+import classnames from 'classnames'
 
-import JRaisedButton from 'components/base/JRaisedButton'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+
+import jRaisedButton from 'components/base/JRaisedButton/jRaisedButton.m.scss'
 
 type Props = {|
   +isReadOnly: boolean,
@@ -20,48 +22,36 @@ function MenuPanelMainAction({
 
   if (isReadOnly && !isMnemonic) {
     return (
-      <Link
-        className='menu-panel-main-action'
-        to='/upgrade'
-      >
-        <JRaisedButton
-          onClick={null}
-          label={t`Add private key`}
-          labelColor='dark'
-          color='white'
-        />
-      </Link>
+      <div className='main-action'>
+        <Link
+          className={classnames(jRaisedButton.jButton, jRaisedButton.gray)}
+          to='/upgrade'
+        >{t`Add private key`}
+        </Link>
+      </div>
     )
   }
 
   if (isReadOnly && isMnemonic) {
     return (
-      <Link
-        className='menu-panel-main-action'
-        to='/upgrade'
-      >
-        <JRaisedButton
-          onClick={null}
-          label={t`Add mnemonic`}
-          labelColor='dark'
-          color='white'
-        />
-      </Link>
+      <div className='main-action'>
+        <Link
+          className={classnames(jRaisedButton.jButton, jRaisedButton.white)}
+          to='/upgrade'
+        >{t`Add mnemonic`}
+        </Link>
+      </div>
     )
   }
 
   return (
-    <Link
-      className='menu-panel-main-action'
-      to='/digital-assets/send'
-    >
-      <JRaisedButton
-        onClick={null}
-        label={t`Send asset`}
-        labelColor='blue'
-        color='white'
-      />
-    </Link>
+    <div className='main-action'>
+      <Link
+        className={classnames(jRaisedButton.jButton, jRaisedButton.white)}
+        to='/digital-assets/send'
+      >{t`Send asset`}
+      </Link>
+    </div>
   )
 }
 

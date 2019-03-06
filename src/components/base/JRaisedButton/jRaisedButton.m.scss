@@ -1,0 +1,90 @@
+@import "styles/mixins";
+
+.j-button {
+  @include font;
+  @include box;
+  @include hover-animation;
+  @include flex-row-center;
+
+  height: 48px;
+  width: 100%;
+  padding: 0 25px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  line-height: 48px;
+  text-align: center;
+  font-weight: 600;
+  white-space: normal;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:active {
+    transition: all 0.2s linear;
+    box-shadow: none;
+  }
+}
+
+.blue {
+  height: 64px;
+  background-color: $blue-two;
+  box-shadow: 0 3px 6px rgba($blue, 0.33);
+  color: $white;
+
+  //&:focus,
+  &:hover {
+    background-color: $bright-sky-blue;
+  }
+
+  &:disabled {
+    background-color: $pale-grey-three;
+    box-shadow: none;
+
+    &.-loading {
+      background-color: $blue-two;
+    }
+  }
+}
+
+.white {
+  background-color: $white;
+  box-shadow: 0 3px 6px rgba($black, 0.1);
+  color: $blue-two;
+
+  //&:focus,
+  &:hover {
+    background-color: $bright-sky-blue;
+    color: $white;
+  }
+
+  &:disabled {
+    background-color: $blue-three;
+    color: rgba($white, 0.3);
+
+    &.-loading {
+      background-color: $blue;
+    }
+  }
+}
+
+.gray {
+  background-color: $white;
+  box-shadow: 0 3px 6px rgba($black, 0.1);
+  color: $dark-two;
+
+  //&:focus,
+  &:hover {
+    background-color: $pale-grey-three;
+  }
+
+  &:disabled {
+    background-color: $blue-three;
+    color: $dusk;
+
+    &.-loading {
+      background-color: $white;
+    }
+  }
+}
