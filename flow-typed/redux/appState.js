@@ -1,8 +1,9 @@
 // @flow
 
-/* eslint-disable-next-line no-unused-vars */
 import {
+  // eslint-disable-next-line no-unused-vars
   type Saga,
+  // eslint-disable-next-line no-unused-vars
   type Channel,
 } from 'redux-saga'
 
