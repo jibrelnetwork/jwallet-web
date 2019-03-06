@@ -15,8 +15,10 @@ import * as encryptionUtils from './encryption'
 import * as formattersUtils from './formatters'
 import * as digitalAssetsUtils from './digitalAssets'
 import * as eventHandlersUtils from './eventHandlers'
+import * as misc from './misc'
 
 export {
+  misc,
   timeUtils,
   typeUtils,
   configUtils,
