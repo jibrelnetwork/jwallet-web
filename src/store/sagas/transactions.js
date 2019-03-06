@@ -1,7 +1,10 @@
 // @flow
 
 import { t } from 'ttag'
-import { delay } from 'redux-saga'
+import {
+  delay,
+  type Task,
+} from 'redux-saga'
 
 import {
   all,
@@ -13,8 +16,6 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects'
-
-import type { Task } from 'redux-saga'
 
 import config from 'config'
 import { selectProcessingBlock } from 'store/selectors/blocks'

@@ -7,7 +7,7 @@ import {
   formatBalance,
 } from 'utils/numbers'
 
-import type { ToBigNumberValue } from 'utils/numbers/toBigNumber'
+import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
 
 export default function formatAssetBalance(
   asset: AssetAddress,

@@ -2,11 +2,9 @@
 
 import React from 'react'
 
-import JInput from './JInput'
-
-import type {
-  JInputType,
-  JInputColor,
+import JInput, {
+  type JInputType,
+  type JInputColor,
 } from './JInput'
 
 type InputValidateType = 'touched' | 'visited'

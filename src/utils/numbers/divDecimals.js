@@ -1,8 +1,8 @@
 // @flow
 
-import toBigNumber from './toBigNumber'
-
-import type { ToBigNumberValue } from './toBigNumber'
+import toBigNumber, {
+  type ToBigNumberValue,
+} from './toBigNumber'
 
 function divDecimals(value: ?ToBigNumberValue, decimals?: number = 18): BigNumber {
   const base: BigNumber = toBigNumber(10)

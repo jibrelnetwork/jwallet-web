@@ -2,7 +2,11 @@
 
 import { isEmpty } from 'lodash-es'
 
-import { delay } from 'redux-saga'
+import {
+  delay,
+  type Task,
+} from 'redux-saga'
+
 import { t } from 'ttag'
 
 import {
@@ -15,8 +19,6 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects'
-
-import type { Task } from 'redux-saga'
 
 import config from 'config'
 import web3 from 'services/web3'

@@ -1,6 +1,6 @@
 // @flow
 
-import type { ComponentType } from 'react'
+import { type ComponentType } from 'react'
 
 declare type Index = number
 
@@ -46,13 +46,13 @@ declare type ReactRouterState = {
     +pathname: string,
     +hash: string,
     +key: string,
-    +search: string
+    +search: string,
   },
   +routes: [{
-    +path: string
+    +path: string,
   }],
   params: {
-    [string]: string
+    [string]: string,
   },
-  components: [ComponentType]
+  components: [ComponentType],
 }

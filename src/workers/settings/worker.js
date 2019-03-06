@@ -16,11 +16,10 @@ import {
 import {
   validationPasswordForm,
   changePaymentPasswordPending,
+  type SettingsAction,
 } from 'store/modules/settings'
 
 import * as wallets from 'store/modules/wallets'
-
-import type { SettingsAction } from 'store/modules/settings'
 
 type SettingsWorkerMessage = {|
   +data: SettingsAction,

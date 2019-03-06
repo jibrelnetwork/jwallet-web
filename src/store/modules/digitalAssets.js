@@ -1,8 +1,8 @@
 // @flow
 
-import type { DigitalAssetsGridAction } from 'store/modules/digitalAssetsGrid'
-import type { AddAssetAction } from 'store/modules/addAsset'
-import type { EditAssetAction } from 'store/modules/editAsset'
+import { type DigitalAssetsGridAction } from 'store/modules/digitalAssetsGrid'
+import { type AddAssetAction } from 'store/modules/addAsset'
+import { type EditAssetAction } from 'store/modules/editAsset'
 
 export const INIT = '@@digitalAssets/INIT'
 
