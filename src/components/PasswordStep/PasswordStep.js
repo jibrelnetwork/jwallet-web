@@ -73,9 +73,8 @@ class PasswordStep extends Component<Props, ComponentState> {
             <JRaisedButton
               onClick={this.handleSubmit}
               isLoading={isLoading}
-              label={submitLabel}
-              isWide
-            />
+            >{submitLabel}
+            </JRaisedButton>
           </div>
         </div>
       </div>

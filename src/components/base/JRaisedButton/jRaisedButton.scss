@@ -28,10 +28,6 @@
       background-color: $bright-sky-blue;
     }
 
-    &:active {
-      box-shadow: none;
-    }
-
     &:disabled {
       background-color: $pale-grey-three;
       box-shadow: none;
@@ -51,10 +47,6 @@
     &:hover {
       background-color: $bright-sky-blue;
       color: $white;
-    }
-
-    &:active {
-      box-shadow: none;
     }
 
     &:disabled {
@@ -77,10 +69,6 @@
       background-color: $pale-grey;
     }
 
-    &:active {
-      box-shadow: none;
-    }
-
     &:disabled {
       background-color: $blue-three;
       color: $dusk;
@@ -93,5 +81,10 @@
 
   &:disabled {
     cursor: default;
+  }
+
+  &:active {
+    transition: all 0.2s linear;
+    box-shadow: none;
   }
 }

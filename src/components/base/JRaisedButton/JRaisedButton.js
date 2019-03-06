@@ -18,6 +18,7 @@ type Props = {
   +theme: Themes,
   +isLoading: boolean,
   +disabled: boolean,
+  +className: ?string,
 }
 
 const loaderColorMap: { [Themes]: JLoaderColor } = {
@@ -32,6 +33,7 @@ class JRaisedButton extends PureComponent<Props, *> {
     theme: 'blue',
     isLoading: false,
     disabled: false,
+    className: undefined,
   }
 
   render() {
@@ -49,6 +51,7 @@ class JRaisedButton extends PureComponent<Props, *> {
     ])
 
     const buttonClassName = classNames(
+      this.props.className,
       'j-raised-button',
       `-${this.props.theme}`,
       isLoading && '-loading')

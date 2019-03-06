@@ -122,9 +122,8 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
               />
               <JRaisedButton
                 onClick={this.handleClick}
-                label={isCopied ? t`Copied!` : t`Copy address`}
-                color='blue'
-              />
+              >{isCopied ? t`Copied!` : t`Copy address`}
+              </JRaisedButton>
             </div>
           </div>
         </div>

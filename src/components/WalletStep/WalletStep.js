@@ -37,12 +37,10 @@ class WalletStep extends PureComponent<Props> {
           <div className='actions'>
             <JRaisedButton
               onClick={onSubmit}
-              label={buttonLabel}
-              color='white'
-              labelColor='blue'
-              loaderColor='white'
+              theme='white'
               isLoading={isLoading}
-            />
+            >{buttonLabel}
+            </JRaisedButton>
           </div>
         </form>
       </div>
