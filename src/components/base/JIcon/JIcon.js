@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { keyBy } from 'lodash-es'
 
@@ -26,49 +26,28 @@ const icons = keyBy(
   'id',
 )
 
-type StateProps = {
-  useFill: boolean,
+function JIcon({
+  name, color,
+}: Props) {
+  const iconData = icons[`${name}-usage`]
+  const isUseFill = name.indexOf('use-fill') !== -1
+
+  return (
+    <svg
+      className={classNames(
+        'j-icon',
+        color && `-${color}`,
+        isUseFill && '-use-fill')}
+      width={iconData.width}
+      height={iconData.height}
+    >
+      <use xlinkHref={iconData.url} />
+    </svg>
+  )
 }
 
-class JIcon extends PureComponent<Props, StateProps> {
-  static defaultProps = {
-    color: null,
-  }
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      useFill: false,
-    }
-  }
-
-  onUseFill = () => this.setState({ useFill: true })
-
-  render() {
-    const {
-      name,
-      color,
-    }: Props = this.props
-
-    const {
-      useFill,
-    } = this.state
-
-    const iconData = icons[`${name}-usage`]
-
-    if (name.indexOf('use-fill') !== -1) {
-      this.onUseFill()
-    }
-
-    return (
-      <svg
-        className={classNames('j-icon', color && `-${color}`, useFill && '-use-fill')}
-        width={iconData.width} height={iconData.height}
-      >
-        <use xlinkHref={iconData.url} />
-      </svg>
-    )
-  }
+JIcon.defaultProps = {
+  color: null,
 }
 
 export default JIcon
