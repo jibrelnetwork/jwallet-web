@@ -22,7 +22,7 @@ import {
   type PasswordStepValues,
 } from '../../DigitalAssetsSendWizard'
 
-export type SaveValuesFunction = (values: PasswordStepValues) => Promise<void>
+export type OnSubmit = (values: PasswordStepValues) => Promise<void>
 
 type FormValues = {|
   password: string,
@@ -30,7 +30,7 @@ type FormValues = {|
 
 type Props = {|
   walletId: WalletId,
-  saveValues: SaveValuesFunction,
+  onSubmit: OnSubmit,
   requestPrivateKey: RequestPrivateKeyFunction,
 |}
 
@@ -59,7 +59,7 @@ class PasswordStepForm extends Component<Props> {
         privateKey,
       } = await executeDeferredAction(requestPrivateKey, payload)
 
-      await this.props.saveValues({
+      await this.props.onSubmit({
         privateKey,
       })
 

@@ -9,11 +9,11 @@ import {
 } from 'store/modules/digitalAssetsSendWizard'
 
 import PasswordStep, {
-  type SaveValuesFunction,
+  type OnSubmit,
 } from './PasswordStepForm'
 
 type OwnProps = {|
-  saveValues: SaveValuesFunction,
+  onSubmit: OnSubmit,
 |}
 
 const mapStateToProps = (state: AppState) => {

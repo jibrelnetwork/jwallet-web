@@ -121,7 +121,7 @@ class DigitalAssetsSendWizard extends Component<Props, State> {
     }
   }
 
-  saveFirstStepValues = (values: FirstStepValues) => {
+  handleFirstStepSubmit = (values: FirstStepValues) => {
     const prom: Promise<void> = new Promise((resolve) => {
       this.setState({
         firstStepValues: values,
@@ -137,7 +137,7 @@ class DigitalAssetsSendWizard extends Component<Props, State> {
     return prom
   }
 
-  savePasswordStep = async (values: PasswordStepValues) => {
+  handlePasswordStepSubmit = async (values: PasswordStepValues) => {
     const savePromise: Promise<void> = new Promise((resolve) => {
       this.setState({
         passwordStepValues: values,
@@ -219,7 +219,7 @@ class DigitalAssetsSendWizard extends Component<Props, State> {
                 <Fragment>
                   <FirstStepForm
                     initialValues={firstStepValues}
-                    saveValues={this.saveFirstStepValues}
+                    onSubmit={this.handleFirstStepSubmit}
                   />
                   <div className={styles.message}>
                     <JText
@@ -235,7 +235,7 @@ class DigitalAssetsSendWizard extends Component<Props, State> {
               {(step === PASSWORD_STEP) && (
                 <Fragment>
                   <PasswordStepForm
-                    saveValues={this.savePasswordStep}
+                    onSubmit={this.handlePasswordStepSubmit}
                   />
                   {sendTransactionError && (
                     <ErrorMessage
