@@ -6,6 +6,7 @@ import {
   delay,
   channel,
   buffers,
+  type Task,
 } from 'redux-saga'
 
 import {
@@ -19,8 +20,6 @@ import {
   cancelled,
   takeEvery,
 } from 'redux-saga/effects'
-
-import type { Task } from 'redux-saga'
 
 import config from 'config'
 import web3 from 'services/web3'

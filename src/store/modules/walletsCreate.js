@@ -1,8 +1,8 @@
 // @flow
 
-import type {
-  WalletsCreateRequestPayload,
-  WalletsSetWalletsActionPayload,
+import {
+  type WalletsCreateRequestPayload,
+  type WalletsSetWalletsActionPayload,
 } from 'store/modules/wallets'
 
 export const OPEN_VIEW = '@@walletsCreate/OPEN_VIEW'

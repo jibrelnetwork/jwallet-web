@@ -5,7 +5,7 @@ import {
   toBigNumber,
 } from '.'
 
-import type { ToBigNumberValue } from './toBigNumber'
+import { type ToBigNumberValue } from './toBigNumber'
 
 function formatBalance(value: ?ToBigNumberValue, dp?: number = 2, rm?: number): string {
   if (isZero(value)) {

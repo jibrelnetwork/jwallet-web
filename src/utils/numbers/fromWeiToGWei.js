@@ -3,9 +3,9 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 
-import toBigNumber from './toBigNumber'
-
-import type { ToBigNumberValue } from './toBigNumber'
+import toBigNumber, {
+  type ToBigNumberValue,
+} from './toBigNumber'
 
 const UNIT_GWEI = '1000000000'
 
