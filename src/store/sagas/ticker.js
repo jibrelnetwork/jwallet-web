@@ -1,6 +1,9 @@
 // @flow
 
-import { delay } from 'redux-saga'
+import {
+  delay,
+  type Task,
+} from 'redux-saga'
 
 import {
   put,
@@ -11,8 +14,6 @@ import {
   select,
   takeEvery,
 } from 'redux-saga/effects'
-
-import type { Task } from 'redux-saga'
 
 import config from 'config'
 import tickerService from 'services/ticker'

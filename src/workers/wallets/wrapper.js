@@ -11,13 +11,11 @@ import * as walletsCreate from 'store/modules/walletsCreate'
 import * as walletsImport from 'store/modules/walletsImport'
 import * as walletsBackup from 'store/modules/walletsBackup'
 
-import type {
-  WalletsAnyAction,
-  WalletsWorkerInstance,
-} from './worker'
-
 // eslint-disable-next-line import/default
-import WalletsWorker from './worker.js'
+import WalletsWorker, {
+  type WalletsAnyAction,
+  type WalletsWorkerInstance,
+} from './worker.js'
 
 type ImportWalletData = {|
   +data: string,

@@ -1,6 +1,6 @@
 // @flow
 
-import type { CoreAction as Action } from './core'
+import { type CoreAction as Action } from './core'
 
 export type CoreAction = Action
 

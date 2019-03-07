@@ -3,9 +3,8 @@
 import {
   push,
   goBack,
+  type RouterAction,
 } from 'react-router-redux'
-
-import type { RouterAction } from 'react-router-redux'
 
 type RouterBackPayload = {|
   +fallbackUrl?: string,

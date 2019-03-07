@@ -15,9 +15,9 @@ import { CurrencyPickerField } from './components/CurrencyPickerField'
 
 import './currencyView.scss'
 
-import type {
-  CurrencyFormFieldValues,
-  CurrencyFormFieldErrors,
+import {
+  type CurrencyFormFieldValues,
+  type CurrencyFormFieldErrors,
 } from './types'
 
 type Props = {|
