@@ -19,6 +19,7 @@ type Props = {|
   +color: JInputColor,
   placeholder?: string,
   helpMessage?: string,
+  infoMessage?: string,
   errorMessage?: string,
   validateType?: InputValidateType,
   isLoading?: boolean,
@@ -27,6 +28,24 @@ type Props = {|
   isDisabled?: boolean,
   rows: ?number,
 |}
+
+function getErrorMessage(meta: Object, validateType: ?InputValidateType): ?string {
+  const err = meta.error || meta.submitError
+
+  const error = (typeof err === 'string')
+    ? err
+    : typeof err === 'object' && err.message && !err.isInfo
+      ? err.message
+      : ''
+
+  if (validateType === 'dirtySinceLastSubmit' && !meta[validateType]) {
+    return error
+  } else if ((validateType === 'touched' || validateType === 'visited') && meta[validateType]) {
+    return error
+  }
+
+  return undefined
+}
 
 function JInputField(props: Props) {
   const {
@@ -38,6 +57,7 @@ function JInputField(props: Props) {
     type,
     validateType,
     helpMessage,
+    infoMessage,
     errorMessage,
     isLoading,
     isAutoFocus,
@@ -52,8 +72,6 @@ function JInputField(props: Props) {
     onChange: handleChange,
   } = input
 
-  const error = meta.error || meta.submitError
-
   return (
     <JInput
       onBlur={handleBlur}
@@ -64,11 +82,8 @@ function JInputField(props: Props) {
       value={input.value}
       placeholder={placeholder}
       helpMessage={helpMessage}
-      errorMessage={errorMessage || (
-        !meta[validateType] && error
-          ? error
-          : undefined
-      )}
+      errorMessage={errorMessage || getErrorMessage(meta, validateType)}
+      infoMessage={infoMessage}
       color={color}
       type={type}
       isLoading={isLoading}
@@ -83,7 +98,8 @@ function JInputField(props: Props) {
 JInputField.defaultProps = {
   placeholder: undefined,
   type: 'text',
-  validateType: 'touched',
+  validateType: 'dirtySinceLastSubmit',
+  infoMessage: undefined,
   helpMessage: undefined,
   errorMessage: undefined,
   isLoading: false,
