@@ -3,6 +3,6 @@
 import DigitalAssetsSendWizardContainer from './DigitalAssetsSendWizardContainer'
 
 export default {
-  path: 'send',
+  path: 'send-wizard',
   component: DigitalAssetsSendWizardContainer,
 }
