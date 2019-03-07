@@ -69,6 +69,7 @@
     "tweetnacl-util": "0.15.0",
     "uuid": "3.3.2",
     "whatwg-fetch": "2.0.3",
+    "yup": "0.26.10",
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
