@@ -4,11 +4,7 @@ import { omit } from 'lodash-es'
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
-import {
-  JLoader,
-} from 'components/base'
-
-import type { JLoaderColor } from 'components/base/JLoader/JLoader'
+import JLoader, { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
 import style from './jRaisedButton.m.scss'
 
@@ -35,7 +31,7 @@ class JRaisedButton extends PureComponent<Props, *> {
     theme: 'blue',
     onClick: null,
     isLoading: false,
-    disabled: false,
+    disabled: undefined,
     className: undefined,
   }
 
