@@ -17,9 +17,9 @@ import {
   JLoader,
 } from 'components/base'
 
-import type {
-  JIconSize,
-  JIconColor,
+import {
+  type JIconSize,
+  type JIconColor,
 } from 'components/base/JIcon/JIcon'
 
 export type JFlatButtonColor = 'blue' | 'gray' | 'sky' | 'white'

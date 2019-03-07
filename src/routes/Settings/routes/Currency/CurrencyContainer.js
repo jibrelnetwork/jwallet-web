@@ -10,9 +10,9 @@ import { setFiatCurrency } from 'store/modules/settings'
 
 import CurrencyView from './CurrencyView'
 
-import type {
-  CurrencyFormFieldErrors,
-  CurrencyFormFieldValues,
+import {
+  type CurrencyFormFieldErrors,
+  type CurrencyFormFieldValues,
 } from './types'
 
 const validate = ({ fiatCurrency }: CurrencyFormFieldValues): CurrencyFormFieldErrors => {
