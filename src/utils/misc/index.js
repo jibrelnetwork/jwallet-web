@@ -1,3 +1,4 @@
 // @flow
 
-export { default as Deffered } from './deffered'
+export { default as Deferred } from './deferred'
+export { default as executeDeferredAction } from './executeDeferredAction'

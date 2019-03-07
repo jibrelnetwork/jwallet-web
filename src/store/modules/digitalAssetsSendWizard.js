@@ -1,6 +1,6 @@
 // @flow
 
-import { type Deffered } from 'utils/misc'
+import { type Deferred } from 'utils/misc'
 
 export const REQUEST_PRIVATE_KEY = '@@digitalAssetsSendWizard/REQUEST_PRIVATE_KEY'
 export const SEND_TRANSACTION = '@@digitalAssetsSendWizard/SEND_TRANSACTION'
@@ -12,14 +12,12 @@ export type RequestPrivateKeyPayload = {|
 |}
 
 export type RequestPrivateKeyResult = {|
-  result: {
-    privateKey: string,
-  },
+  privateKey: string,
 |}
 
 export function requestPrivateKey(
   payload: RequestPrivateKeyPayload,
-  resolver: Deffered<RequestPrivateKeyResult>,
+  resolver: Deferred<RequestPrivateKeyResult>,
 ) {
   return {
     type: REQUEST_PRIVATE_KEY,
@@ -41,14 +39,12 @@ export type SendTransactionPayload = {|
 |}
 
 export type SendTransactionResult = {|
-  result: {
-    txHash: Hash,
-  },
+  txHash: Hash,
 |}
 
 export function sendTransaction(
   payload: SendTransactionPayload,
-  resolver: Deffered<SendTransactionResult>,
+  resolver: Deferred<SendTransactionResult>,
 ) {
   return {
     type: SEND_TRANSACTION,
@@ -68,7 +64,7 @@ export type AddPendingTransactionResult = void
 
 export function addPendingTransaction(
   payload: AddPendingTransactionPayload,
-  resolver: Deffered<AddPendingTransactionResult>,
+  resolver: Deferred<AddPendingTransactionResult>,
 ) {
   return {
     type: ADD_PENDING_TRANSACTION,

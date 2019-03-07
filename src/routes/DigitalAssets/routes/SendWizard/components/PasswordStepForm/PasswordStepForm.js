@@ -11,10 +11,10 @@ import {
   JInputField,
   JRaisedButton,
 } from 'components/base'
-import { Deffered } from 'utils/misc'
+
+import { executeDeferredAction } from 'utils/misc'
 
 import {
-  type RequestPrivateKeyResult,
   typeof requestPrivateKey as RequestPrivateKeyFunction,
 } from 'store/modules/digitalAssetsSendWizard'
 
@@ -49,20 +49,15 @@ class PasswordStepForm extends Component<Props> {
       }
     }
 
-    const payload = {
-      walletId,
-      password: values.password,
-    }
-    const resolver: Deffered<RequestPrivateKeyResult> = new Deffered()
-
-    requestPrivateKey(payload, resolver)
-
     try {
+      const payload = {
+        walletId,
+        password,
+      }
+
       const {
-        result: {
-          privateKey,
-        },
-      } = await resolver.promise
+        privateKey,
+      } = await executeDeferredAction(requestPrivateKey, payload)
 
       await this.props.saveValues({
         privateKey,

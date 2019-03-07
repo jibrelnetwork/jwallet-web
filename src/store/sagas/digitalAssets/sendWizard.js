@@ -44,9 +44,7 @@ function* requestPrivateKey(action: RequestPrivateKeyAction): Saga<void> {
     const privateKey: string = yield* getPrivateKey(walletId, password)
 
     resolver.resolve({
-      result: {
-        privateKey,
-      },
+      privateKey,
     })
   } catch (err) {
     resolver.reject(err)
@@ -108,9 +106,7 @@ function* sendTransaction(action: SendTransactionAction): Saga<void> {
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
 
     resolver.resolve({
-      result: {
-        txHash,
-      },
+      txHash,
     })
   } catch (err) {
     resolver.reject(err)

@@ -8,12 +8,9 @@ import { t } from 'ttag'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JText } from 'components/base'
-import { Deffered } from 'utils/misc'
+import { executeDeferredAction } from 'utils/misc'
 
 import {
-  type SendTransactionPayload,
-  type SendTransactionResult,
-  type AddPendingTransactionPayload,
   typeof sendTransaction as SendTransactionFunction,
   typeof addPendingTransaction as AddPendingTransactionFunction,
 } from 'store/modules/digitalAssetsSendWizard'
@@ -171,32 +168,24 @@ class DigitalAssetsSendWizard extends Component<Props, State> {
       }
 
       // send transaction
-      const sendTransactionPayload: SendTransactionPayload = {
+      const sendTransactionPayload = {
         asset,
         recipient,
         amount,
         privateKey,
       }
-      const sendTransactionResolver: Deffered<SendTransactionResult> = new Deffered()
-
-      this.props.sendTransaction(sendTransactionPayload, sendTransactionResolver)
 
       const {
-        result: {
-          txHash,
-        },
-      } = await sendTransactionResolver.promise
+        txHash,
+      } = await executeDeferredAction(this.props.sendTransaction, sendTransactionPayload)
 
       // add pending transaction
-      const addPendingTransactionPayload: AddPendingTransactionPayload = {
+      const addPendingTransactionPayload = {
         sendTransactionPayload,
         txHash,
       }
-      const addPendingTransactionResolver: Deffered<void> = new Deffered()
 
-      this.props.addPendingTransaction(addPendingTransactionPayload, addPendingTransactionResolver)
-
-      await addPendingTransactionResolver.promise
+      await executeDeferredAction(this.props.addPendingTransaction, addPendingTransactionPayload)
 
       // #TODO: change this
       // transaction addedd successfully, finish
