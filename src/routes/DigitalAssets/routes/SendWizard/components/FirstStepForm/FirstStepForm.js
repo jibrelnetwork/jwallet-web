@@ -32,7 +32,7 @@ const validateAndSubmit =
       await saveValues(values)
     }
 
-function FirstStep({
+function FirstStepForm({
   saveValues,
   initialValues,
 }: Props) {
@@ -89,4 +89,4 @@ function FirstStep({
   )
 }
 
-export default FirstStep
+export default FirstStepForm
