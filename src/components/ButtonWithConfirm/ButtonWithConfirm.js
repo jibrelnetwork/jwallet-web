@@ -15,8 +15,8 @@ import {
   JFlatButton,
 } from 'components/base'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
-import type { JFlatButtonColor } from 'components/base/JFlatButton/JFlatButton'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
+import { type JFlatButtonColor } from 'components/base/JFlatButton/JFlatButton'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,

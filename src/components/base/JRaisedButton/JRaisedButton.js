@@ -11,10 +11,10 @@ import {
   JLoader,
 } from 'components/base'
 
-import type { JTextColor } from 'components/base/JText/JText'
-import type { JLoaderColor } from 'components/base/JLoader/JLoader'
+import { type JTextColor } from 'components/base/JText/JText'
+import { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 type JRaisedButtonColor = 'blue' | 'white'
 

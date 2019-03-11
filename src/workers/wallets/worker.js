@@ -17,17 +17,19 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
+/* eslint-disable import/no-duplicates */
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
 import * as walletsCreate from 'store/modules/walletsCreate'
 import * as walletsImport from 'store/modules/walletsImport'
 import * as walletsBackup from 'store/modules/walletsBackup'
 
-import type { UpgradeAction } from 'store/modules/upgrade'
-import type { WalletsAction } from 'store/modules/wallets'
-import type { WalletsCreateAction } from 'store/modules/walletsCreate'
-import type { WalletsImportAction } from 'store/modules/walletsImport'
-import type { WalletsBackupAction } from 'store/modules/walletsBackup'
+import { type UpgradeAction } from 'store/modules/upgrade'
+import { type WalletsAction } from 'store/modules/wallets'
+import { type WalletsCreateAction } from 'store/modules/walletsCreate'
+import { type WalletsImportAction } from 'store/modules/walletsImport'
+import { type WalletsBackupAction } from 'store/modules/walletsBackup'
+/* eslint-enable import/no-duplicates */
 
 export type WalletsAnyAction =
   UpgradeAction |

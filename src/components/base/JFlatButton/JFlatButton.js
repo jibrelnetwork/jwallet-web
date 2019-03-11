@@ -17,9 +17,7 @@ import {
   JLoader,
 } from 'components/base'
 
-import type {
-  JIconColor,
-} from 'components/base/JIcon/JIcon'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 export type JFlatButtonColor = 'blue' | 'gray' | 'sky' | 'white'
 export type JFlatButtonHandler = (SyntheticEvent<HTMLDivElement>) => void
