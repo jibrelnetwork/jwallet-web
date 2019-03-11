@@ -1,8 +1,9 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 
+import { iconsAsset } from 'utils/sprite'
 import { SYMBOLS_AVAILABLE_CLASS_INDEX } from './symbolsAvailable'
 
 type JAssetSymbolColor = 'blue' | 'gray' | 'white'
@@ -15,32 +16,21 @@ type Props = {
 const getSymbolClassName = symbol =>
   SYMBOLS_AVAILABLE_CLASS_INDEX[symbol.toLowerCase()] || '-symbol-not-listed'
 
-const files = require.context('../../../public/assets/tokens/blue', true, /.*\.svg$/)
-const icons = files.keys().map(x => files(x).default).reduce((result, {
-  id, url,
-}) => ({
-  ...result,
-  [id]: url,
-}), {})
+function JAssetSymbol({
+  symbol, color,
+}: Props) {
+  const url = iconsAsset[`${symbol.toLowerCase()}-usage`]
 
-class JAssetSymbol extends PureComponent<Props> {
-  render() {
-    const {
-      symbol, color,
-    }: Props = this.props
-    const url = icons[`${symbol.toLowerCase()}-usage`]
-
-    return (
-      <div
-        className={classNames(`j-asset-symbol ${getSymbolClassName(symbol)} -${color}`)}
-        data-symbol={symbol}
-      >
-        <svg className='icon' >
-          <use xlinkHref={url} />
-        </svg>
-      </div>
-    )
-  }
+  return (
+    <div
+      className={classNames(`j-asset-symbol ${getSymbolClassName(symbol)} -${color}`)}
+      data-symbol={symbol}
+    >
+      <svg className='icon' >
+        <use xlinkHref={url} />
+      </svg>
+    </div>
+  )
 }
 
 export default JAssetSymbol
