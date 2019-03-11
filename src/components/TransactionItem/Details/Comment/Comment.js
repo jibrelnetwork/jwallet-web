@@ -64,7 +64,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
     return (
       <div className='transaction-item-details-comment'>
         <label htmlFor='message' className='icon'>
-          <JIcon size='medium' color='gray' name='message-add' />
+          <JIcon color='gray' name='message-add' />
         </label>
         <input
           onChange={handleTargetValue(this.changeValue)}

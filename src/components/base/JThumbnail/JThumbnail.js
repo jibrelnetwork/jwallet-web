@@ -8,7 +8,6 @@ import {
   JText,
 } from 'components/base'
 
-export type JThumbnailSize = 'large' | 'xlarge'
 export type JThumbnailColor = 'white' | 'gray' | 'blue' | 'red'
 export type JThumbnailDescription = string | string[]
 
@@ -25,7 +24,6 @@ type Props = {|
   +title: ?string,
   +image: JThumbnailImage,
   +color: JThumbnailColor,
-  +iconSize: JThumbnailSize,
   +description: JThumbnailDescription,
   isTransparent: boolean,
 |}
@@ -39,7 +37,6 @@ class JThumbnail extends PureComponent<Props, *> {
   render() {
     const {
       image,
-      iconSize,
       color,
       isTransparent,
       title,
@@ -47,9 +44,9 @@ class JThumbnail extends PureComponent<Props, *> {
     } = this.props
 
     return (
-      <div className={classNames('j-thumbnail', isTransparent && '-transparent')} >
+      <div className={classNames('j-thumbnail', `-${color}`, isTransparent && '-transparent')} >
         <div className='icon'>
-          <JIcon size={iconSize} name={image} />
+          <JIcon name={image} />
         </div>
         {title && (
           <div className='title'>

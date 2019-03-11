@@ -172,7 +172,6 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
               <div className='icon' onClick={this.handleClickInit}>
                 <JTooltip text={t`Delete`}>
                   <JIcon
-                    size='medium'
                     color={iconTooltipColor}
                     name={iconTooltipName}
                   />

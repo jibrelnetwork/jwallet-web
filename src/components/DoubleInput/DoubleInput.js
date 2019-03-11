@@ -89,7 +89,7 @@ class DoubleInput extends PureComponent<Props> {
         </div>
         {onClose && (
           <div className='close' onClick={onClose}>
-            <JIcon name='padding-cross' size='medium' color='gray' />
+            <JIcon name='padding-cross' color='gray' />
           </div>
         )}
         {errorMessage && (

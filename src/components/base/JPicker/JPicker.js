@@ -104,7 +104,7 @@ class JPicker extends PureComponent<Props, ComponentState> {
           <div onClick={isDisabled ? undefined : handle(this.toggle)(!isOpen)} className='current'>
             {currentEl}
             <div className='chevron'>
-              <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' size='medium' />
+              <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' />
             </div>
           </div>
           <div onClick={handle(this.toggle)(false)} className='options'>

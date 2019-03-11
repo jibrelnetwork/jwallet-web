@@ -16,19 +16,12 @@
     }
 
     > .flag {
-      &::before,
-      &::after {
-        @include hover-animation;
-
-        content: '';
-        top: 0;
-        left: 0;
-        width: 18px;
-        height: 18px;
-        position: absolute;
-        background-size: 24px;
-        background-position: -3px -3px;
-      }
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: 18px;
+      height: 18px;
+      transition: opacity 0.3s ease 0s;
     }
 
     > .label {
@@ -45,12 +38,6 @@
       margin-left: 5px;
       margin-right: 5px;
     }
-
-    > .checkbox:checked ~ .flag {
-      &::after {
-        opacity: 1;
-      }
-    }
   }
 
   &.-gray {
@@ -62,14 +49,14 @@
       }
 
       > .flag {
-        &::before {
+        &.-unchecked {
+          stroke: $dusk;
           opacity: 0.1;
-          background-image: $icon-medium-unchecked-gray;
         }
 
-        &::after {
+        &.-checked {
+          stroke: $blue;
           opacity: 0;
-          background-image: $icon-medium-checked-blue;
         }
       }
     }
@@ -84,14 +71,14 @@
       }
 
       > .flag {
-        &::before {
+        stroke: $white;
+
+        &.-unchecked {
           opacity: 0.3;
-          background-image: $icon-medium-unchecked-white;
         }
 
-        &::after {
+        &.-checked {
           opacity: 0;
-          background-image: $icon-medium-checked-white;
         }
       }
     }
@@ -99,9 +86,21 @@
 
   &.-gray,
   &.-white {
-    > .field:hover {
-      > .flag::before {
-        opacity: 1;
+    > .field {
+      &:hover {
+        > .flag.-unchecked {
+          opacity: 1;
+        }
+      }
+
+      > .checkbox:checked ~ .flag {
+        &.-unchecked {
+          opacity: 0;
+        }
+
+        &.-checked {
+          opacity: 1;
+        }
       }
     }
   }

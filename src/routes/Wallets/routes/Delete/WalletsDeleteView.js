@@ -65,7 +65,6 @@ class WalletsDeleteView extends Component<Props> {
           <div className='form'>
             <JThumbnail
               color='white'
-              iconSize='xlarge'
               image='auth-cross'
               title={t`Delete ${foundWallet.name}?`}
               description={description}

@@ -14,7 +14,7 @@ type Props = {|
 const HelpText = ({ text }: Props) => (
   <div className='help-text'>
     <div className='icon'>
-      <JIcon name='info' color='white' size='medium' />
+      <JIcon name='info' color='white' />
     </div>
     <div className='text'>
       <JText value={text} color='white' whiteSpace='wrap' />
