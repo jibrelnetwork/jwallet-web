@@ -3,7 +3,9 @@
 import React, { PureComponent } from 'react'
 
 import classNames from 'classnames'
-import JText from 'components/base/JText'
+import {
+  JText, JIcon,
+} from 'components/base'
 
 type JCheckboxColor = 'white' | 'gray'
 
@@ -52,7 +54,12 @@ class JCheckbox extends PureComponent<Props> {
             className='checkbox'
             defaultChecked={isChecked}
           />
-          <span className='flag' />
+          <span className='flag -unchecked'>
+            <JIcon name='unchecked' color={color} />
+          </span>
+          <span className='flag -checked'>
+            <JIcon name='checked' color={color === 'gray' ? 'blue' : color} />
+          </span>
           <span className='label'>
             <JText
               color={color}

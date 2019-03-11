@@ -98,7 +98,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
         )}
       >
         <div className='type'>
-          <JIcon name={iconName} size='medium' color='white' />
+          <JIcon name={iconName} color='white' />
         </div>
         <div className='data'>
           <div className='title'>
@@ -106,7 +106,7 @@ class WalletFace extends PureComponent<Props, StateProps> {
           </div>
           <div className='description'>
             {isReadOnly && (
-              <div className='eye'><JIcon name='eye' size='medium' color='white' /></div>
+              <div className='eye'><JIcon name='eye' color='white' /></div>
             )}
             <JText value={description} color='white' />
           </div>

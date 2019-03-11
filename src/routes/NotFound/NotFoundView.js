@@ -43,7 +43,6 @@ class NotFoundView extends PureComponent<Props, StateProps> {
         <div className='content'>
           <JThumbnail
             color='white'
-            iconSize='xlarge'
             image='auth-question'
             title={t`404 – Page Not Found`}
             isTransparent

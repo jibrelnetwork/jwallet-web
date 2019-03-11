@@ -71,42 +71,6 @@
     opacity: 1;
   }
 
-  > .help {
-    /**
-     * Just believe me
-     */
-    $input-icon-padding: 10px;
-    $input-icon-size: ($icon-small-size + ($input-icon-padding * 2));
-    $input-icon-margin-top: ($form-field-white-padding-vertical / 2) - ($input-icon-size / 2);
-
-    @include flex-row-center;
-
-    position: absolute;
-    right: 0;
-    top: 50%;
-    display: none;
-    width: $input-icon-size;
-    height: $input-icon-size;
-    padding: $input-icon-padding;
-    margin-top: $input-icon-margin-top;
-    opacity: 0.3;
-    transition: opacity 0.3s ease 0s;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.5;
-    }
-
-    > .icon {
-      width: 100%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: $icon-small-size $icon-small-size;
-      background-image: $icon-small-info-clear-gray;
-    }
-  }
-
   > .lock {
     top: 50%;
     right: 9px;
@@ -298,12 +262,6 @@
       &:focus {
         box-shadow: 0 3px 6px 0 rgba(61, 79, 108, 0.05);
       }
-    }
-  }
-
-  &.-help {
-    > .help {
-      display: block;
     }
   }
 

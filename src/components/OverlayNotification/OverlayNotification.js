@@ -37,7 +37,6 @@ class OverlayNotification extends PureComponent<Props> {
           color={color}
           image={image}
           description={description}
-          iconSize='large'
         />
       </div>
     )

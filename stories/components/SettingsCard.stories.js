@@ -16,7 +16,6 @@ storiesOf('SettingsCard')
           path='hello'
           iconName='setting'
           iconColor='blue'
-          iconSize='medium'
         />
       </div>
       <div className='box'>
@@ -26,7 +25,6 @@ storiesOf('SettingsCard')
           path='hello'
           iconName='lock-pin'
           iconColor='blue'
-          iconSize='medium'
         />
       </div>
     </div>
