@@ -3,7 +3,10 @@
 import React from 'react'
 import { t } from 'ttag'
 
-import { JInput, JRaisedButton } from 'components/base'
+import {
+  JInput,
+  JRaisedButton,
+} from 'components/base'
 
 type DigitalAssetEditFormProps = {|
   +submit: () => void,
@@ -57,7 +60,12 @@ const DigitalAssetEditForm = ({
   return (
     <div className='digital-asset-edit-form'>
       <div className='form'>
-        {fields.map(({ key, placeholder, isDisabled, isLoading }) => (
+        {fields.map(({
+          key,
+          placeholder,
+          isDisabled,
+          isLoading,
+        }) => (
           <JInput
             key={key}
             onChange={setFieldHandler(key)}
@@ -72,13 +80,7 @@ const DigitalAssetEditForm = ({
           />
         ))}
         <div className='actions'>
-          <JRaisedButton
-            onClick={submit}
-            label={submitLabel}
-            color='blue'
-            labelColor='white'
-            isWide
-          />
+          <JRaisedButton onClick={submit}>{submitLabel}</JRaisedButton>
         </div>
       </div>
     </div>

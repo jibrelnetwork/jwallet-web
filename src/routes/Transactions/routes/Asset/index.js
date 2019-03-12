@@ -7,7 +7,7 @@ export default {
   path: ':asset',
   onEnter: (nextState: ReactRouterState): void =>
     gaSendPageView(
-      nextState.location.pathname
+      nextState.location.pathname,
     ),
   component: View,
 }

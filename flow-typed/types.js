@@ -1,6 +1,6 @@
 // @flow
 
-import type { ComponentType } from 'react'
+import { type ComponentType } from 'react'
 
 declare type Index = number
 
@@ -10,11 +10,16 @@ declare type BalanceString = string
 declare type Address = string
 declare type OwnerAddress = Address
 declare type EthereumAddress = 'Ethereum'
+
+// eslint-disable-next-line flowtype/require-compound-type-alias
 declare type AssetAddress = Address | EthereumAddress
 
 declare type AddressNames = { [Address]: ?string }
 
+// eslint-disable-next-line flowtype/require-compound-type-alias
 declare type SortDirection = 'asc' | 'desc'
+
+// eslint-disable-next-line flowtype/require-compound-type-alias
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
@@ -46,13 +51,13 @@ declare type ReactRouterState = {
     +pathname: string,
     +hash: string,
     +key: string,
-    +search: string
+    +search: string,
   },
   +routes: [{
-    +path: string
+    +path: string,
   }],
   params: {
-    [string]: string
+    [string]: string,
   },
-  components: [ComponentType]
+  components: [ComponentType],
 }

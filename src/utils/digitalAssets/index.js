@@ -2,8 +2,6 @@
 
 import checkETH from './checkETH'
 import checkJNT from './checkJNT'
-import parseBalance from './parseBalance'
-import balanceToString from './balanceToString'
 import checkBalanceLoading from './checkBalanceLoading'
 import searchDigitalAssets from './searchDigitalAssets'
 import filterAssetsBalances from './filterAssetsBalances'
@@ -16,8 +14,6 @@ import compareDigitalAssetsByBalance from './compareDigitalAssetsByBalance'
 export {
   checkETH,
   checkJNT,
-  parseBalance,
-  balanceToString,
   checkBalanceLoading,
   searchDigitalAssets,
   filterAssetsBalances,

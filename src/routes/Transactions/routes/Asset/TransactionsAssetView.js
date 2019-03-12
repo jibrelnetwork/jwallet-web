@@ -31,7 +31,7 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   const balance: string = formatAssetBalance(
     address,
     assetBalance ? assetBalance.value : 0,
-    decimals
+    decimals,
   )
 
   return {
@@ -125,7 +125,6 @@ function TransactionsAssetView({
               <JFlatButton
                 to={`/digital-assets/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'
-                iconSize='medium'
                 iconName='upload'
               />
             </div>
@@ -133,7 +132,6 @@ function TransactionsAssetView({
               <JFlatButton
                 onClick={handle(removeItemsByAsset)(assetAddress)}
                 iconColor='gray'
-                iconSize='medium'
                 iconName='reload'
                 isDisabled={isLoadingOrBlockEmpty}
               />

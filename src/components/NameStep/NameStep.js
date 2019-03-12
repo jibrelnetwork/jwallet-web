@@ -4,7 +4,20 @@ import React from 'react'
 import { t } from 'ttag'
 
 import HelpText from 'components/HelpText'
-import { JFlatButton, JInput, JRaisedButton } from 'components/base'
+
+import {
+  JInput,
+  JFlatButton,
+  JRaisedButton,
+} from 'components/base'
+
+type Props = {|
+  +setName: Function,
+  +setNextStep: Function,
+  +goToWallets: Function,
+  +invalidFields: FormFields,
+  +name: string,
+|}
 
 const NameStep = ({
   setName,
@@ -30,7 +43,6 @@ const NameStep = ({
       <JFlatButton
         onClick={goToWallets}
         iconName='arrow'
-        iconSize='small'
         iconColor='white'
         label={t`Previous step`}
         isTransparent
@@ -38,21 +50,11 @@ const NameStep = ({
       <div className='next'>
         <JRaisedButton
           onClick={setNextStep}
-          color='blue'
-          label={t`Next step`}
-          isWide
-        />
+        >{t`Next step`}
+        </JRaisedButton>
       </div>
     </div>
   </div>
 )
-
-type Props = {
-  setName: Function,
-  setNextStep: Function,
-  goToWallets: Function,
-  invalidFields: FormFields,
-  name: string,
-}
 
 export default NameStep

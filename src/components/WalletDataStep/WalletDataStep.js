@@ -10,7 +10,7 @@ type Props = {|
   +onSubmit: Function,
   +onChangeData: Function,
   +onChangeDerivationPath: Function,
-  +title: ?Array<string>,
+  +title: ?string[],
   +invalidFields: FormFields,
   +valueData: string,
   +buttonLabel: string,

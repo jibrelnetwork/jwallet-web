@@ -1,9 +1,16 @@
 // @flow
 
-import { Link } from 'react-router'
-import React, { Fragment, PureComponent } from 'react'
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
 
-import { JIcon, JText } from 'components/base'
+import { Link } from 'react-router'
+
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type MenuPanelActionsItemHandler = () => void
 
@@ -35,7 +42,6 @@ class MenuPanelActionsItem extends PureComponent<Props> {
         <span className='icon'>
           <JIcon
             name={icon}
-            size='medium'
             color='white'
           />
         </span>

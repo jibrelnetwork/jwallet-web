@@ -8,7 +8,7 @@ import JRaisedButton from 'components/base/JRaisedButton'
 
 type Props = {|
   +onSubmit: Function,
-  +title: ?Array<string>,
+  +title: ?string[],
   +children: React$Node,
   +buttonLabel: string,
   +isLoading: boolean,
@@ -37,12 +37,10 @@ class WalletStep extends PureComponent<Props> {
           <div className='actions'>
             <JRaisedButton
               onClick={onSubmit}
-              label={buttonLabel}
-              color='white'
-              labelColor='blue'
-              loaderColor='white'
+              theme='white'
               isLoading={isLoading}
-            />
+            >{buttonLabel}
+            </JRaisedButton>
           </div>
         </form>
       </div>

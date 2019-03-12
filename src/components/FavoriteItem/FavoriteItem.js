@@ -1,9 +1,9 @@
 // @flow
 
 import classNames from 'classnames'
-import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { Link } from 'react-router'
 
 import ButtonWithConfirm from 'components/ButtonWithConfirm'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
@@ -43,11 +43,11 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
 
   onHover = (hovered: ?FavoriteItemHoveredIcon) => () => this.setState({ hovered })
 
-  openActions = () => this.setState({
+  handleOpen = () => this.setState({
     isActionsToggled: true,
   })
 
-  closeActions = () => this.setState({
+  handleClose = () => this.setState({
     isActionsToggled: false,
   })
 
@@ -94,18 +94,19 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               {address}
             </div>
           </div>
-          {description ?
+          {description ? (
             <div className='description'>
               <div className='icon'>
-                <JIcon size='medium' name='message' color='gray' />
+                <JIcon name='message' color='gray' />
               </div>
               <div className='j-text text'>
                 {description}
               </div>
-            </div> :
+            </div>
+          ) :
             <div className='spacer' />
           }
-          <div onClick={this.closeActions} className='overlay' />
+          <div onClick={this.handleClose} className='overlay' />
           <div className='actions'>
             {!isWalletReadOnly && (
               <Link
@@ -117,7 +118,6 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 <JTooltip text={t`Send`}>
                   <JIcon
                     color={(hovered === 'send') ? 'sky' : 'blue'}
-                    size='medium'
                     name='upload'
                   />
                 </JTooltip>
@@ -133,7 +133,6 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 <JIcon
                   color={(hovered === 'edit') ? 'sky' : 'blue'}
                   name='edit'
-                  size='medium'
                 />
               </JTooltip>
             </Link>
@@ -154,8 +153,8 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 isReverse
               />
             </div>
-            <div onClick={this.openActions} className='item -dots'>
-              <JIcon size='medium' color='gray' name='dots-full' />
+            <div onClick={this.handleOpen} className='item -dots'>
+              <JIcon color='gray' name='dots-full' />
             </div>
           </div>
         </div>

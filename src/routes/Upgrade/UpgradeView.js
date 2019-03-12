@@ -1,6 +1,5 @@
 // @flow
 
-import classNames from 'classnames'
 import React, { Fragment } from 'react'
 import { t } from 'ttag'
 
@@ -13,8 +12,7 @@ import CloseableScreen from 'components/CloseableScreen'
 import { JInputField } from 'components/base/JInput'
 
 import {
-  JText,
-  JLoader,
+  JRaisedButton,
 } from 'components/base'
 
 import './upgradeView.scss'
@@ -44,7 +42,7 @@ const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
         meta={Object.assign(
           {},
           fieldProps.meta,
-          { error: t`Incorrect password` }
+          { error: t`Incorrect password` },
         )}
       />
     )
@@ -68,7 +66,7 @@ function UpgradeView({
     return null
   }
 
-  const props = isMnemonic ? {
+  const data = isMnemonic ? {
     title: t`Add mnemonic`,
     finalForm: {
       onSubmit: onSubmitMnemonic,
@@ -95,12 +93,12 @@ function UpgradeView({
   return (
     <CloseableScreen
       close={isLoading ? noop : onClose}
-      title={props.title}
+      title={data.title}
     >
       <div className='upgrade-view'>
         <Form
-          onSubmit={isLoading ? noop : props.finalForm.onSubmit}
-          validate={props.finalForm.validate}
+          onSubmit={isLoading ? noop : data.finalForm.onSubmit}
+          validate={data.finalForm.validate}
           render={({
             handleSubmit,
             invalid,
@@ -110,7 +108,7 @@ function UpgradeView({
               className='form'
             >
               <Field
-                {...props.inputField}
+                {...data.inputField}
                 component={JInputField}
                 color='gray'
                 isAutoFocus
@@ -139,18 +137,11 @@ function UpgradeView({
                 isDisabled={isLoading}
                 render={renderPasswordField(isInvalidPassword)}
               />
-              <button
-                className={classNames(
-                  'submit j-raised-button -blue',
-                  (isLoading || invalid) && '-disabled'
-                )}
+              <JRaisedButton
                 type='submit'
-              >
-                {isLoading
-                  ? <JLoader color='white' />
-                  : <JText value={t`Save`} />
-                }
-              </button>
+                disabled={(isLoading || invalid)}
+              >{t`Save`}
+              </JRaisedButton>
             </form>
           )}
         />

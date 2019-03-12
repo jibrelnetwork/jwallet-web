@@ -1,0 +1,123 @@
+body {
+  width: auto;
+  height: 100%;
+}
+
+#root,
+html {
+  height: 100%;
+  background-color: #f5f6fa;
+}
+
+h1 {
+  margin: 30px 0;
+}
+
+h2 {
+  margin: 20px 0;
+}
+
+h3 {
+  margin: 10px 0;
+}
+
+.story {
+  padding: 20px;
+  height: 100%;
+}
+
+.story.-blue {
+  background-color: #0033a3;
+}
+
+.story.-white {
+  background-color: #fff;
+}
+
+.right-position-content {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.story > .grid {
+  max-width: 1020px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.story > .grid > .box {
+  width: 33.333%;
+  padding: 0 10px 20px 10px;
+}
+
+.title {
+  font-size: 16px;
+  padding: 10px 15px;
+}
+
+.custom-table {
+  border-collapse: collapse;
+
+  > .thead,
+  > .tbody {
+    > .row {
+      > .cell {
+        display: table-cell;
+        stroke: #0058d2;
+        padding: 10px 15px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  > .thead {
+    > .row {
+      > .cell {
+        text-align: left;
+      }
+    }
+  }
+
+  > .tbody {
+    > .row {
+      &:nth-child(even) {
+        background-color: rgb(240, 241, 252);
+      }
+    }
+  }
+}
+
+.demo-icon {
+  margin-left: 5px;
+
+  &.-white {
+    stroke: #fff;
+  }
+
+  &.-blue {
+    stroke: #0058d2;
+  }
+
+  &.-gray {
+    stroke: #3d4f6c;
+  }
+
+  &.-sky {
+    stroke: #00c1ff;
+  }
+
+  &.-red {
+    stroke: #e53935;
+  }
+
+  &.-black {
+    stroke: #000;
+  }
+
+  &.-h-sky {
+    &:hover {
+      stroke: #00c1ff;
+    }
+  }
+}

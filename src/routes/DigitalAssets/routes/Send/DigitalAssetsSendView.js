@@ -6,7 +6,7 @@ import { t } from 'ttag'
 
 import JText from 'components/base/JText'
 import ESCButton from 'components/ESCButton'
-import { STEPS } from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
+import { STEPS } from 'store/modules/digitalAssetsSend'
 
 import DigitalAssetsSendSteps from './components/Steps'
 

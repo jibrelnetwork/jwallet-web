@@ -5,7 +5,9 @@ import config from 'config'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
-import { JText, JIcon } from 'components/base'
+import {
+  JText, JIcon,
+} from 'components/base'
 import handle from 'utils/eventHandlers/handle'
 import OverlayActions from 'components/OverlayActions'
 
@@ -80,7 +82,7 @@ class CopyableField extends PureComponent<Props, StateProps> {
         </div>
         <div className='success'>
           <div className='icon'>
-            <JIcon name='check-circle' color='white' size='medium' />
+            <JIcon name='check-circle' color='white' />
           </div>
           <div className='text'>
             <JText value={t`Copied!`} color='white' weight='bold' />

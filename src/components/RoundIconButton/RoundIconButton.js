@@ -1,9 +1,12 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
-import { JIcon, JText } from 'components/base'
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type RoundIconButtonBgColor = 'blue'
 type RoundIconButtonColor = 'gray' | 'white'
@@ -54,7 +57,7 @@ class RoundIconButton extends PureComponent<Props> {
           </div>
         )}
         <div className='icon'>
-          <JIcon name={iconName} color={color} size='medium' />
+          <JIcon name={iconName} color={color} />
         </div>
       </div>
     )

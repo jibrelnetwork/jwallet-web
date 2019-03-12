@@ -6,7 +6,11 @@ import { t } from 'ttag'
 
 import config from 'config'
 import JIcon from 'components/base/JIcon'
-import { handle, handleTargetValue } from 'utils/eventHandlers'
+
+import {
+  handle,
+  handleTargetValue,
+} from 'utils/eventHandlers'
 
 type Props = {|
   +onChange: (string) => void,
@@ -95,7 +99,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
     return (
       <div className={classNames('j-search', isActive && '-active')}>
         <div onClick={handle(this.toggle)(!isActive)} className='search' title={title}>
-          <JIcon size='medium' name='search' color='gray' />
+          <JIcon name='search' color='gray' />
         </div>
         <div className='field'>
           <input
@@ -107,7 +111,7 @@ class JSearch extends PureComponent<Props, ComponentState> {
             className='input'
           />
           <div onClick={handle(this.toggle)(false)} className='close'>
-            <JIcon size='medium' name='plus' color='gray' />
+            <JIcon name='plus' color='gray' />
           </div>
         </div>
       </div>

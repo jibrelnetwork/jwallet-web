@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { STEPS } from 'routes/DigitalAssets/routes/Send/modules/digitalAssetsSend'
+import { STEPS } from 'store/modules/digitalAssetsSend'
 
 import DigitalAssetsSendForm from '../Form'
 import DigitalAssetsSendConfirm from '../Confirm'

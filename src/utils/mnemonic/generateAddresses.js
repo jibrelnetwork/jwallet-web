@@ -9,7 +9,7 @@ function generateAddresses(
   bip32XPublicKey: string,
   start: ?number,
   end: ?number,
-): Array<string> {
+): string[] {
   const hdRoot: HDPublicKey = getPublicHdRoot(bip32XPublicKey)
   const startIndex: number = start || 0
   const endIndex: number = end || startIndex

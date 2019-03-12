@@ -1,13 +1,14 @@
 // @flow
 
 import classNames from 'classnames'
-import checkETH from 'utils/digitalAssets/checkETH'
 import { t } from 'ttag'
 
 import React, {
   Fragment,
   PureComponent,
 } from 'react'
+
+import checkETH from 'utils/digitalAssets/checkETH'
 
 import {
   AssetBalance,
@@ -57,25 +58,25 @@ class AssetItem extends PureComponent<Props, StateProps> {
     }
   }
 
-  onMouseEnterEdit = () => this.setState({ isHoveredEdit: true })
-  onMouseLeaveEdit = () => this.setState({ isHoveredEdit: false })
+  handleMouseEnterEdit = () => this.setState({ isHoveredEdit: true })
+  handleMouseLeaveEdit = () => this.setState({ isHoveredEdit: false })
 
-  onMouseEnterRemove = () => this.setState({ isHoveredTrash: true })
-  onMouseLeaveRemove = () => this.setState({ isHoveredTrash: false })
+  handleMouseEnterRemove = () => this.setState({ isHoveredTrash: true })
+  handleMouseLeaveRemove = () => this.setState({ isHoveredTrash: false })
 
-  onClickEdit = () => {
+  handleClickEdit = () => {
     this.props.edit(this.props.address)
   }
 
-  onClickRemove = () => {
+  handleClickRemove = () => {
     this.props.remove(this.props.address)
   }
 
-  onClickSetActive = () => {
+  handleClickSetActive = () => {
     this.props.setIsActive(this.props.address, !this.props.isActive)
   }
 
-  toggle = () => this.setState(prevState => ({ isToggled: !prevState.isToggled }))
+  handleClick = () => this.setState(prevState => ({ isToggled: !prevState.isToggled }))
 
   render() {
     const {
@@ -128,19 +129,18 @@ class AssetItem extends PureComponent<Props, StateProps> {
               )}
             </div>
           </div>
-          <div onClick={this.toggle} className='overlay' />
+          <div onClick={this.handleClick} className='overlay' />
           <div className='actions'>
             {isCustom ? (
               <Fragment>
                 <div
                   className='item -edit'
-                  onMouseEnter={this.onMouseEnterEdit}
-                  onMouseLeave={this.onMouseLeaveEdit}
-                  onClick={this.onClickEdit}
+                  onMouseEnter={this.handleMouseEnterEdit}
+                  onMouseLeave={this.handleMouseLeaveEdit}
+                  onClick={this.handleClickEdit}
                 >
                   <JTooltip text={t`Edit`}>
                     <JIcon
-                      size='medium'
                       color={isHoveredEdit ? 'sky' : 'blue'}
                       name='edit'
                     />
@@ -148,12 +148,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 </div>
                 <div
                   className='item -delete'
-                  onMouseEnter={this.onMouseEnterRemove}
-                  onMouseLeave={this.onMouseLeaveRemove}
-                  onClick={this.onMouseLeaveRemove}
+                  onMouseEnter={this.handleMouseEnterRemove}
+                  onMouseLeave={this.handleMouseLeaveRemove}
+                  onClick={this.handleMouseLeaveRemove}
                 >
                   <ButtonWithConfirm
-                    onClick={this.onClickRemove}
+                    onClick={this.handleClickRemove}
                     color='blue'
                     bgColor='white'
                     labelCancel={t`No`}
@@ -165,17 +165,16 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 </div>
                 <div
                   className='item -dots'
-                  onClick={this.toggle}
+                  onClick={this.handleClick}
                 >
                   <JIcon
-                    size='medium'
                     color='gray'
                     name='dots-full'
                   />
                 </div>
                 <div className='item -switch'>
                   <JSwitch
-                    onChange={this.onClickSetActive}
+                    onChange={this.handleClickSetActive}
                     isChecked={isActive}
                     name={address}
                   />
@@ -184,7 +183,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
             ) : (
               <div className='item -switch'>
                 <JSwitch
-                  onChange={this.onClickSetActive}
+                  onChange={this.handleClickSetActive}
                   name={address}
                   isChecked={isActive}
                   isDisabled={checkETH(address) && isActive}

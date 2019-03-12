@@ -3,10 +3,16 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
-import { JText, JIcon } from 'components/base'
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
-export type JThumbnailDescription = string | Array<string>
-export type JThumbnailImage = 'auth-question'
+export type JThumbnailColor = 'white' | 'gray' | 'blue' | 'red'
+export type JThumbnailDescription = string | string[]
+
+export type JThumbnailImage =
+  | 'auth-question'
   | 'auth-cross'
   | 'screen-search'
   | 'screen-reload'
@@ -17,9 +23,8 @@ export type JThumbnailImage = 'auth-question'
 type Props = {|
   +title: ?string,
   +image: JThumbnailImage,
-  +iconSize: 'large' | 'xlarge',
+  +color: JThumbnailColor,
   +description: JThumbnailDescription,
-  +color: 'white' | 'gray' | 'blue' | 'red',
   isTransparent: boolean,
 |}
 
@@ -32,7 +37,6 @@ class JThumbnail extends PureComponent<Props, *> {
   render() {
     const {
       image,
-      iconSize,
       color,
       isTransparent,
       title,
@@ -40,9 +44,9 @@ class JThumbnail extends PureComponent<Props, *> {
     } = this.props
 
     return (
-      <div className={classNames('j-thumbnail', isTransparent && '-transparent')} >
+      <div className={classNames('j-thumbnail', `-${color}`, isTransparent && '-transparent')} >
         <div className='icon'>
-          <JIcon size={iconSize} name={image} />
+          <JIcon name={image} />
         </div>
         {title && (
           <div className='title'>

@@ -1,11 +1,15 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText } from 'components/base'
+
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type RendererProps = {
   isOpen: boolean,
@@ -24,7 +28,7 @@ type Props = {|
 |}
 
 type ComponentState = {|
-  isOpen: boolean,
+  +isOpen: boolean,
 |}
 
 class JPicker extends PureComponent<Props, ComponentState> {
@@ -48,13 +52,16 @@ class JPicker extends PureComponent<Props, ComponentState> {
   }
 
   toggle = (isOpen: boolean) => {
-    const { onOpen, onClose } = this.props
+    const {
+      onOpen,
+      onClose,
+    } = this.props
 
     this.setState(
       { isOpen },
       () => isOpen
         ? onOpen && onOpen()
-        : onClose && onClose()
+        : onClose && onClose(),
     )
   }
 
@@ -70,13 +77,15 @@ class JPicker extends PureComponent<Props, ComponentState> {
 
     const { isOpen } = this.state
 
-    const currentEl = currentRenderer
-      ? currentRenderer({ isOpen, isDisabled })
-      : null
+    const currentEl = !currentRenderer ? null : currentRenderer({
+      isOpen,
+      isDisabled,
+    })
 
-    const bottomEl = bottomRenderer
-      ? bottomRenderer({ isOpen, isDisabled })
-      : null
+    const bottomEl = !bottomRenderer ? null : bottomRenderer({
+      isOpen,
+      isDisabled,
+    })
 
     const countClass = (React.Children.count(children) < 4)
       ? `-c${React.Children.count(children)}`
@@ -88,14 +97,14 @@ class JPicker extends PureComponent<Props, ComponentState> {
           'j-picker',
           isOpen && '-active',
           isDisabled && '-disabled',
-          countClass
+          countClass,
         )}
       >
         <div className='select'>
           <div onClick={isDisabled ? undefined : handle(this.toggle)(!isOpen)} className='current'>
             {currentEl}
             <div className='chevron'>
-              <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' size='medium' />
+              <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' />
             </div>
           </div>
           <div onClick={handle(this.toggle)(false)} className='options'>
@@ -104,10 +113,11 @@ class JPicker extends PureComponent<Props, ComponentState> {
                 {children}
               </Scrollbars>
             </div>
-            {bottomEl &&
-            <div className='bottom'>
-              {bottomEl}
-            </div>}
+            {bottomEl && (
+              <div className='bottom'>
+                {bottomEl}
+              </div>
+            )}
           </div>
         </div>
         {isOpen && <div onClick={handle(this.toggle)(false)} className='overlay' />}

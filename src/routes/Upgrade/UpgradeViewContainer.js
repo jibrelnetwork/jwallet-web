@@ -10,6 +10,11 @@ import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 import { selectUpgrade } from 'store/selectors/upgrade'
 
 import {
+  submitMnemonicRequest as onSubmitMnemonic,
+  submitPrivateKeyRequest as onSubmitPrivateKey,
+} from 'store/modules/upgrade'
+
+import {
   checkPrivateKeyValid,
   getAddressFromPrivateKey,
 } from 'utils/address'
@@ -26,11 +31,6 @@ import {
 } from 'store/selectors/wallets'
 
 import UpgradeView from './UpgradeView'
-
-import {
-  submitMnemonicRequest as onSubmitMnemonic,
-  submitPrivateKeyRequest as onSubmitPrivateKey,
-} from './modules/upgrade'
 
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {

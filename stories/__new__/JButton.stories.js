@@ -71,6 +71,5 @@ storiesOf('JButton', module)
       color='white'
       minimal
       iconName='search'
-      iconSize='medium'
     />
   ))

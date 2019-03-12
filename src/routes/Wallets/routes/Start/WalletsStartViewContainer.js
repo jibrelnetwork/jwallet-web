@@ -3,12 +3,12 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import WalletsStartView from './WalletsStartView'
-
 import {
   openView,
   closeView,
-} from './modules/walletsStart'
+} from 'store/modules/walletsStart'
+
+import WalletsStartView from './WalletsStartView'
 
 const mapDispatchToProps = {
   openView,

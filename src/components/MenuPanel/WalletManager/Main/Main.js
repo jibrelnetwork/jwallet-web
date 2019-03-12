@@ -39,13 +39,12 @@ function MenuPanelWalletManagerMain({
       className={classNames(
         'menu-panel-wallet-manager-main',
         isActive && '-active',
-        isReadOnly && '-read-only'
+        isReadOnly && '-read-only',
       )}
     >
       <div className='icon'>
         <JIcon
           name={isMnemonic ? 'multy' : 'binding'}
-          size='medium'
           color='white'
         />
       </div>
@@ -69,7 +68,6 @@ function MenuPanelWalletManagerMain({
       <div className='chevron'>
         <JIcon
           name='chevron-down'
-          size='medium'
           color='white'
         />
       </div>

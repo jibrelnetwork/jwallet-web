@@ -2,6 +2,13 @@
 
 import { t } from 'ttag'
 
+type GetFormattedDateStringInput = Date | string | number
+
+type TokensData = {|
+  +usedTokens: string[],
+  +str: string,
+|}
+
 const MONTHS = [
   t`January`,
   t`February`,
@@ -18,7 +25,7 @@ const MONTHS = [
 ]
 
 function getFormattedDateString(
-  dateObj: Date | string | number,
+  dateObj: GetFormattedDateStringInput,
   format: string = 'hh:mm MM/DD/YYYY',
   isUTC: boolean = false,
 ): string {
@@ -72,16 +79,14 @@ function getFormattedDateString(
       }
 
       return result
-    }, { usedTokens: [], str: format })
+    }, {
+      usedTokens: [],
+      str: format,
+    })
     /**
      * usedTokens not needed now, so return just result str
      */
     .str
-}
-
-type TokensData = {
-  +usedTokens: Array<string>,
-  +str: string,
 }
 
 export default getFormattedDateString

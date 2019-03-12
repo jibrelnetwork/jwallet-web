@@ -16,7 +16,7 @@ import {
 } from 'utils/eventHandlers'
 
 type Props = {|
-  +close: () => void,
+  +close: Function,
   +onClose: () => void,
   +add: (string, string, string) => void,
   +edit: (string, string, string) => void,
@@ -123,12 +123,9 @@ class FavoritesAddressView extends Component<Props> {
             <div className='actions'>
               <JRaisedButton
                 onClick={submitHandler}
-                label={t`Save`}
-                color='blue'
-                labelColor='white'
                 isLoading={isLoading}
-                isWide
-              />
+              >{t`Save`}
+              </JRaisedButton>
             </div>
           </form>
         </div>

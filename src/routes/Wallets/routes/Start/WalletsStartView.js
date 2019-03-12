@@ -3,12 +3,16 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import { JText } from 'components/base'
-import { WalletHeader, NewWalletButtons } from 'components'
+import JText from 'components/base/JText'
+
+import {
+  WalletHeader,
+  NewWalletButtons,
+} from 'components'
 
 type Props = {|
-  +openView: () => void,
-  +closeView: () => void,
+  +openView: Function,
+  +closeView: Function,
   +createWallet: () => void,
   +importWallet: () => void,
 |}

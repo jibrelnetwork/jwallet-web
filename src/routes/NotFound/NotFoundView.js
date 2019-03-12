@@ -3,15 +3,19 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
-import { JThumbnail, JFlatButton } from 'components/base'
+import {
+  JThumbnail,
+  JFlatButton,
+} from 'components/base'
+
 import handle from 'utils/eventHandlers/handle'
 
 type Props = {|
-  goToHome: () => void,
+  +goToHome: Function,
 |}
 
 type StateProps = {|
-  isHovered: boolean,
+  +isHovered: boolean,
 |}
 
 class NotFoundView extends PureComponent<Props, StateProps> {
@@ -39,7 +43,6 @@ class NotFoundView extends PureComponent<Props, StateProps> {
         <div className='content'>
           <JThumbnail
             color='white'
-            iconSize='xlarge'
             image='auth-question'
             title={t`404 – Page Not Found`}
             isTransparent

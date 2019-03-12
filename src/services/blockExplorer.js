@@ -2,6 +2,11 @@
 
 import { t } from 'ttag'
 
+import {
+  isNil,
+  isObject,
+} from 'lodash-es'
+
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
 import getENVVar from 'utils/config/getENVVar'
@@ -54,7 +59,7 @@ function callApi(
     .then((response: Response): Promise<any> => response.json())
 }
 
-function handleTransactionsResponse(response: any): Array<any> {
+function handleTransactionsResponse(response: any): any[] {
   if (type.isVoid(response) || !type.isObject(response)) {
     return []
   }
@@ -93,9 +98,9 @@ function checkETHTransaction(data: Object): boolean {
   )
 }
 
-function filterETHTransactions(list: Array<any>): Array<Object> {
+function filterETHTransactions(list: any[]): Object[] {
   return list.filter((item: any): boolean => {
-    if (type.isVoid(item) || !type.isObject(item)) {
+    if (isNil(item) || !isObject(item)) {
       return false
     }
 
@@ -113,7 +118,7 @@ function filterETHTransactions(list: Array<any>): Array<Object> {
   })
 }
 
-function prepareETHTransactions(data: Array<Object>): Transactions {
+function prepareETHTransactions(data: Object[]): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
     if (!checkETHTransaction(item)) {
       return result

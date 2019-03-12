@@ -4,10 +4,12 @@ import React, { PureComponent } from 'react'
 
 import classNames from 'classnames'
 
+type JCardColor = 'blue' | 'white'
+
 type Props = {
-  color: 'blue' | 'white',
-  title: ?string,
   children: ?React$Node,
+  title: ?string,
+  color: JCardColor,
   isHover: boolean,
   isBorderRadius: boolean,
   isOnContrastBackground: boolean,

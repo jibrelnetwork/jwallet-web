@@ -8,16 +8,16 @@ import {
   Field,
 } from 'react-final-form'
 
-import JText from 'components/base/JText'
 import SubsettingsView from 'routes/Settings/components/SubsettingsView'
 
+import { JRaisedButton } from 'components/base'
 import { CurrencyPickerField } from './components/CurrencyPickerField'
 
 import './currencyView.scss'
 
-import type {
-  CurrencyFormFieldValues,
-  CurrencyFormFieldErrors,
+import {
+  type CurrencyFormFieldValues,
+  type CurrencyFormFieldErrors,
 } from './types'
 
 type Props = {|
@@ -43,12 +43,7 @@ const CurrencyView = ({
             name='fiatCurrency'
             placeholder={t`Preffered fiat currency`}
           />
-          <button
-            type='submit'
-            className='submit j-raised-button -blue'
-          >
-            <JText value={t`Save`} />
-          </button>
+          <JRaisedButton type='submit'>{t`Save`}</JRaisedButton>
         </form>
       )}
     />

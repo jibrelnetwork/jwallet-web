@@ -1,17 +1,17 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router'
 import { t } from 'ttag'
+import { Link } from 'react-router'
 
 import FavoriteItem from 'components/FavoriteItem'
 import escapeRegExp from 'utils/regexp/escapeRegExp'
 import OverlayNotification from 'components/OverlayNotification'
 
 import {
+  JIcon,
   JText,
   JSearch,
-  JIcon,
 } from 'components/base'
 
 import './favoritesView.scss'
@@ -23,7 +23,7 @@ type Props = {|
 |}
 
 type State = {|
-  +searchQuery: string
+  +searchQuery: string,
 |}
 
 const createSymbol = (text: string): string => {
@@ -73,7 +73,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
     }
   }
 
-  setSearchQuery = (query: string): void => {
+  handleChange = (query: string): void => {
     this.setState({ searchQuery: query.trim() })
   }
 
@@ -148,14 +148,13 @@ class FavoritesIndexView extends PureComponent<Props, State> {
             <div className='actions'>
               <div className='search'>
                 <JSearch
-                  onChange={this.setSearchQuery}
+                  onChange={this.handleChange}
                   placeholder={t`Search favorites...`}
                 />
               </div>
               <Link className='add' to='/favorites/address' title={t`Add favorite address`}>
                 <JIcon
                   name='favorite-address-add'
-                  size='medium'
                   color='gray'
                 />
               </Link>

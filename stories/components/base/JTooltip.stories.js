@@ -16,7 +16,6 @@ storiesOf('JTooltip', module)
         >
           <JIcon
             name='edit'
-            size='medium'
             color='blue'
           />
         </JTooltip>
