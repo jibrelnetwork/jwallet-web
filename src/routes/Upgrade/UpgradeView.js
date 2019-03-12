@@ -51,9 +51,6 @@ const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
   return <JInputField {...fieldProps} />
 }
 
-/**
- * @return {null}
- */
 function UpgradeView({
   onClose,
   onSubmitMnemonic,

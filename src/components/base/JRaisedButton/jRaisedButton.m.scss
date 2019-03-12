@@ -1,6 +1,6 @@
 @import "styles/mixins";
 
-.j-button {
+.core {
   @include font;
   @include box;
   @include hover-animation;

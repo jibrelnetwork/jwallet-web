@@ -7,7 +7,7 @@ import classnames from 'classnames'
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 
-import jRaisedButton from 'components/base/JRaisedButton/jRaisedButton.m.scss'
+import jRaisedButtonStyle from 'components/base/JRaisedButton/jRaisedButton.m.scss'
 
 type Props = {|
   +isReadOnly: boolean,
@@ -24,7 +24,7 @@ function MenuPanelMainAction({
     return (
       <div className='main-action'>
         <Link
-          className={classnames(jRaisedButton.jButton, jRaisedButton.gray)}
+          className={classnames(jRaisedButtonStyle.core, jRaisedButtonStyle.gray)}
           to='/upgrade'
         >{t`Add private key`}
         </Link>
@@ -36,7 +36,7 @@ function MenuPanelMainAction({
     return (
       <div className='main-action'>
         <Link
-          className={classnames(jRaisedButton.jButton, jRaisedButton.white)}
+          className={classnames(jRaisedButtonStyle.core, jRaisedButtonStyle.white)}
           to='/upgrade'
         >{t`Add mnemonic`}
         </Link>
@@ -47,7 +47,7 @@ function MenuPanelMainAction({
   return (
     <div className='main-action'>
       <Link
-        className={classnames(jRaisedButton.jButton, jRaisedButton.white)}
+        className={classnames(jRaisedButtonStyle.core, jRaisedButtonStyle.white)}
         to='/digital-assets/send'
       >{t`Send asset`}
       </Link>

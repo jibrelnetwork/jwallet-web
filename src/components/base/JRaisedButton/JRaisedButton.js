@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 
 import JLoader, { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
-import style from './jRaisedButton.m.scss'
+import jRaisedButtonStyle from './jRaisedButton.m.scss'
 
 type Themes = 'blue' | 'white' | 'gray'
 
@@ -29,7 +29,7 @@ class JRaisedButton extends PureComponent<Props, *> {
   static defaultProps = {
     children: null,
     theme: 'blue',
-    onClick: null,
+    onClick: undefined,
     isLoading: false,
     disabled: undefined,
     className: undefined,
@@ -47,13 +47,14 @@ class JRaisedButton extends PureComponent<Props, *> {
       'className',
       'isLoading',
       'theme',
+      'disabled',
     ])
 
     const buttonClassName = classNames(
       this.props.className,
-      style.jButton,
-      style[this.props.theme],
-      isLoading && style.loading)
+      jRaisedButtonStyle.core,
+      jRaisedButtonStyle[this.props.theme],
+      isLoading && jRaisedButtonStyle.loading)
 
     const isDisabled = typeof disabled !== 'undefined' ? disabled : isLoading
 
