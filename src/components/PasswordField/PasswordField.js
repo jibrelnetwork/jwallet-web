@@ -7,7 +7,7 @@ import config from 'config'
 import JInput from 'components/base/JInput'
 import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
 
-import type { JInputColor } from 'components/base/JInput/JInput'
+import { type JInputColor } from 'components/base/JInput/JInput'
 
 import Indicator from './Indicator'
 

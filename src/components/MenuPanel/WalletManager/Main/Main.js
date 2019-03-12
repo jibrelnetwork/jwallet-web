@@ -45,7 +45,6 @@ function MenuPanelWalletManagerMain({
       <div className='icon'>
         <JIcon
           name={isMnemonic ? 'multy' : 'binding'}
-          size='medium'
           color='white'
         />
       </div>
@@ -69,7 +68,6 @@ function MenuPanelWalletManagerMain({
       <div className='chevron'>
         <JIcon
           name='chevron-down'
-          size='medium'
           color='white'
         />
       </div>

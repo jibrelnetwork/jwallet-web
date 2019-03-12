@@ -43,7 +43,6 @@ const NameStep = ({
       <JFlatButton
         onClick={goToWallets}
         iconName='arrow'
-        iconSize='small'
         iconColor='white'
         label={t`Previous step`}
         isTransparent

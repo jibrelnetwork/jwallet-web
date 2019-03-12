@@ -1,7 +1,9 @@
 /* @flow */
 
 import React from 'react'
-import { storiesOf, action } from '@storybook/react'
+import {
+  storiesOf, action,
+} from '@storybook/react'
 
 import JFlatButton from '../../../src/components/base/JFlatButton'
 
@@ -9,8 +11,14 @@ storiesOf('JFlatButton', module)
   .add('Different status', () => (
     <div>
       <h2>No icon</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '140px' }} >
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '100%',
+      }}
+      >
+        <div style={{
+          padding: '10px', backgroundColor: '#0033A3', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             label='Yes, delete'
@@ -18,7 +26,10 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '140px' }} >
+        <div style={{
+          padding: '10px', backgroundColor: '#0033A3', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             label='Yes, delete'
@@ -27,7 +38,10 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '140px' }} >
+        <div style={{
+          padding: '10px', backgroundColor: '#0033A3', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             color='white'
@@ -37,11 +51,17 @@ storiesOf('JFlatButton', module)
         </div>
       </div>
       <h2>With icon</h2>
-      <div className='story -blue' style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
+      <div
+        className='story -blue' style={{
+          display: 'flex', flexDirection: 'row', width: '100%',
+        }}
+      >
+        <div style={{
+          padding: '10px', backgroundColor: '#0033A3', width: '225px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='white'
             color='white'
@@ -49,10 +69,12 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
+        <div style={{
+          padding: '10px', backgroundColor: '#0033A3', width: '225px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='white'
             color='white'
@@ -61,7 +83,10 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
+        <div style={{
+          padding: '10px', backgroundColor: '#0033A3', width: '225px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             color='white'
@@ -75,8 +100,14 @@ storiesOf('JFlatButton', module)
   .add('Different color', () => (
     <div>
       <h2>Blue color</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <div style={{ padding: '10px', width: '140px' }} >
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '100%',
+      }}
+      >
+        <div style={{
+          padding: '10px', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             label='Yes, delete'
@@ -84,7 +115,10 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={{
+          padding: '10px', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             label='Yes, delete'
@@ -93,7 +127,10 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={{
+          padding: '10px', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             color='blue'
@@ -101,10 +138,12 @@ storiesOf('JFlatButton', module)
             isBordered
           />
         </div>
-        <div style={{ padding: '10px', width: '225px' }} >
+        <div style={{
+          padding: '10px', width: '225px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='blue'
             color='blue'
@@ -118,8 +157,14 @@ storiesOf('JFlatButton', module)
   .add('No border', () => (
     <div>
       <h2>No border</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <div style={{ padding: '10px', width: '140px' }} >
+      <div style={{
+        display: 'flex', flexDirection: 'row', width: '100%',
+      }}
+      >
+        <div style={{
+          padding: '10px', width: '140px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
             label='Yes, delete'
@@ -127,10 +172,12 @@ storiesOf('JFlatButton', module)
             isHoverOpacity
           />
         </div>
-        <div style={{ padding: '10px', width: '225px' }} >
+        <div style={{
+          padding: '10px', width: '225px',
+        }}
+        >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='blue'
             color='blue'

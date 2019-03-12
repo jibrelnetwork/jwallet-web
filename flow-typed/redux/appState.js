@@ -1,7 +1,11 @@
 // @flow
 
-/* eslint-disable-next-line no-unused-vars */
-import type { Saga, Channel } from 'redux-saga'
+import {
+  // eslint-disable-next-line no-unused-vars
+  type Saga,
+  // eslint-disable-next-line no-unused-vars
+  type Channel,
+} from 'redux-saga'
 
 declare type AppState = {
   // wallets

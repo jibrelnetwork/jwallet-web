@@ -20,7 +20,6 @@ const SingularTabBlockScreen = () => (
         <div className='content'>
           <JThumbnail
             color='white'
-            iconSize='xlarge'
             image='bad-browser'
             title={t`Jwallet supports only single tab`}
             description={descriptionText}

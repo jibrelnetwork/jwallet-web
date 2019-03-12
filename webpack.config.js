@@ -17,6 +17,8 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
+
 const PATHS = {
   INDEX_HTML: path.resolve('src/public/index.html'),
   INDEX_JS: path.resolve('src/main.js'),
@@ -124,7 +126,42 @@ module.exports = {
         ],
         include: PATHS.SOURCE,
       },
-
+      {
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+          path.resolve(__dirname, 'src/public/assets/tokens'),
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: '[hash:8].sprite.svg',
+              publicPath: '/static/media/',
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { removeDoctype: true },
+                { removeComments: true },
+                { collapseGroups: true },
+                { convertPathData: true },
+                { removeDimensions: true },
+                { convertTransform: true },
+                { removeUselessDefs: true },
+                { removeUselessStrokeAndFill: true },
+                { removeNonInheritableGroupAttrs: true },
+                { removeStyleElement: true },
+                { removeAttrs: { attrs: '(fill|stroke)' } },
+              ],
+            },
+          },
+        ],
+      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -293,7 +330,10 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
+                      path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+                      path.resolve(__dirname, 'src/public/assets/tokens'),
+            ],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
@@ -426,6 +466,8 @@ module.exports = {
         transformPath: targetPath => targetPath.replace(/src\/public/, ''),
       },
     ]),
+
+    new SpriteLoaderPlugin(),
   ].filter(Boolean),
 
   optimization: {

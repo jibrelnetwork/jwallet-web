@@ -4,9 +4,9 @@ import React, { PureComponent } from 'react'
 
 import JText from 'components/base/JText'
 
-import type {
-  JTextSize,
-  JTextColor,
+import {
+  type JTextSize,
+  type JTextColor,
 } from 'components/base/JText/JText'
 
 type Props = {|

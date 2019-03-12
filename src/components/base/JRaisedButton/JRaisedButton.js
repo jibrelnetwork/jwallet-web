@@ -11,13 +11,10 @@ import {
   JLoader,
 } from 'components/base'
 
-import type { JTextColor } from 'components/base/JText/JText'
-import type { JLoaderColor } from 'components/base/JLoader/JLoader'
+import { type JTextColor } from 'components/base/JText/JText'
+import { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
-import type {
-  JIconSize,
-  JIconColor,
-} from 'components/base/JIcon/JIcon'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 type JRaisedButtonColor = 'blue' | 'white'
 
@@ -25,7 +22,6 @@ type Props = {|
   +onClick: ?Function,
   +label: string,
   +iconName: ?string,
-  +iconSize: JIconSize,
   +iconColor: JIconColor,
   +labelColor: JTextColor,
   +loaderColor: JLoaderColor,
@@ -43,7 +39,6 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
   static defaultProps = {
     iconName: null,
     color: 'blue',
-    iconSize: 'medium',
     iconColor: 'white',
     labelColor: 'white',
     loaderColor: 'white',
@@ -70,7 +65,6 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
       label,
       color,
       iconName,
-      iconSize,
       iconColor,
       labelColor,
       loaderColor,
@@ -108,7 +102,7 @@ class JRaisedButton extends PureComponent<Props, StateProps> {
       >
         {iconName && (
           <div className='icon'>
-            <JIcon name={iconName} size={iconSize} color={iconColor} />
+            <JIcon name={iconName} color={iconColor} />
           </div>
         )}
         <div className='label'>

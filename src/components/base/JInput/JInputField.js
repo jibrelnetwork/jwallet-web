@@ -2,11 +2,9 @@
 
 import React from 'react'
 
-import JInput from './JInput'
-
-import type {
-  JInputType,
-  JInputColor,
+import JInput, {
+  type JInputType,
+  type JInputColor,
 } from './JInput'
 
 type InputValidateType = 'touched' | 'visited'
@@ -18,7 +16,6 @@ type Props = {|
   type?: JInputType,
   +color: JInputColor,
   placeholder?: string,
-  helpMessage?: string,
   errorMessage?: string,
   validateType?: InputValidateType,
   isLoading?: boolean,
@@ -37,7 +34,6 @@ function JInputField(props: Props) {
     color,
     type,
     validateType,
-    helpMessage,
     errorMessage,
     isLoading,
     isAutoFocus,
@@ -63,7 +59,6 @@ function JInputField(props: Props) {
       label={label}
       value={input.value}
       placeholder={placeholder}
-      helpMessage={helpMessage}
       errorMessage={errorMessage || (meta[validateType] && error ? error : undefined)}
       color={color}
       type={type}
@@ -80,7 +75,6 @@ JInputField.defaultProps = {
   placeholder: undefined,
   type: 'text',
   validateType: 'touched',
-  helpMessage: undefined,
   errorMessage: undefined,
   isLoading: false,
   isAutoFocus: false,

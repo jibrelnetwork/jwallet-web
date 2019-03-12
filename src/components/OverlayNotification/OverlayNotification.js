@@ -5,10 +5,10 @@ import React, { PureComponent } from 'react'
 
 import JThumbnail from 'components/base/JThumbnail'
 
-import type {
-  JThumbnailColor,
-  JThumbnailImage,
-  JThumbnailDescription,
+import {
+  type JThumbnailColor,
+  type JThumbnailImage,
+  type JThumbnailDescription,
 } from 'components/base/JThumbnail/JThumbnail'
 
 type Props = {|
@@ -37,7 +37,6 @@ class OverlayNotification extends PureComponent<Props> {
           color={color}
           image={image}
           description={description}
-          iconSize='large'
         />
       </div>
     )

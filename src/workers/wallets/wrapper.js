@@ -14,13 +14,11 @@ import {
   WalletInconsistentDataError,
 } from 'errors'
 
-import type {
-  WalletsAnyAction,
-  WalletsWorkerInstance,
-} from './worker'
-
 // eslint-disable-next-line import/default
-import WalletsWorker from './worker.js'
+import WalletsWorker, {
+  type WalletsAnyAction,
+  type WalletsWorkerInstance,
+} from './worker.js'
 
 type ImportWalletData = {|
   +data: string,

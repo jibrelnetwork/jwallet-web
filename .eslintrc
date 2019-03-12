@@ -143,6 +143,6 @@
     "flowtype/semi": [2, "never"],
     "flowtype/space-before-generic-bracket": [2, "never"],
     "flowtype/type-id-match": [2, "^([A-Z][a-z0-9]*)+$"],
-    "flowtype/type-import-style": [2, "declaration"]
+    "flowtype/type-import-style": [2, "identifier"]
   }
 }
