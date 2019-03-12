@@ -6,7 +6,7 @@ const walletId = '123'
 
 describe('WalletNotFoundError', () => {
   test('exists', () => {
-    expect(WalletNotFoundError).not.toEqual(undefined)
+    expect(WalletNotFoundError).toBeDefined()
   })
 
   test('can be thrown', () => {

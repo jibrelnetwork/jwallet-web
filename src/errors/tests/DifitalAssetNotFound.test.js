@@ -4,7 +4,7 @@ import { ActiveWalletNotFoundError } from '..'
 
 describe('ActiveWalletNotFoundError', () => {
   test('exists', () => {
-    expect(ActiveWalletNotFoundError).not.toEqual(undefined)
+    expect(ActiveWalletNotFoundError).toBeDefined()
   })
 
   test('can be thrown', () => {

@@ -23,7 +23,7 @@ import {
   selectWalletsPersist,
 } from 'store/selectors/wallets'
 
-import { WalletInvalidDataError } from 'errors'
+import { WalletInconsistentDataError } from 'errors'
 
 import * as wallets from 'store/modules/wallets'
 
@@ -115,7 +115,7 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
   const foundWallet: Wallet = getWallet(items, walletId)
 
   if (!checkMnemonicType(foundWallet.type)) {
-    throw new WalletInvalidDataError(walletId)
+    throw new WalletInconsistentDataError('Invalid mnemonic type', walletId)
   }
 
   const newItems: Wallets = updateWallet(items, walletId, {

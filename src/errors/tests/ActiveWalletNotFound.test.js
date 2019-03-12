@@ -6,7 +6,7 @@ const assetAddress = 'Ethereum'
 
 describe('DigitalAssetNotFoundError', () => {
   test('exists', () => {
-    expect(DigitalAssetNotFoundError).not.toEqual(undefined)
+    expect(DigitalAssetNotFoundError).toBeDefined()
   })
 
   test('can be thrown', () => {

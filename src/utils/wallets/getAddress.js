@@ -1,7 +1,7 @@
 // @flow
 
 import generateAddresses from 'utils/mnemonic/generateAddresses'
-import { WalletInvalidDataError } from 'errors'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   getWallet,
@@ -18,7 +18,7 @@ function getAddress(wallets: Wallets, walletId: string): Address {
 
   if (!checkMnemonicType(type)) {
     if (!address) {
-      throw new WalletInvalidDataError(walletId)
+      throw new WalletInconsistentDataError('!checkMnemonicType and !address', walletId)
     }
 
     return address
@@ -28,7 +28,7 @@ function getAddress(wallets: Wallets, walletId: string): Address {
   const indexEnd: number = indexStart + 1
 
   if (!bip32XPublicKey) {
-    throw new WalletInvalidDataError(walletId)
+    throw new WalletInconsistentDataError('bip32XPublicKey is empty', walletId)
   }
 
   const derivedAddresses: Address[] = generateAddresses(bip32XPublicKey, indexStart, indexEnd)

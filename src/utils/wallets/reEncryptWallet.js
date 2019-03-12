@@ -2,7 +2,7 @@
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 
-import { WalletInvalidDataError } from 'errors'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   decryptData,
@@ -76,7 +76,7 @@ function reEncryptWallet(
     }
   }
 
-  throw new WalletInvalidDataError(wallet.id, 'reEncryptWallet error')
+  throw new WalletInconsistentDataError('reEncryptWallet error', wallet.id)
 }
 
 export default reEncryptWallet

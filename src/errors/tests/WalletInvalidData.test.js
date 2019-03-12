@@ -1,42 +1,42 @@
 // @flow
 
-import { WalletInvalidDataError } from '..'
+import { WalletInconsistentDataError } from '..'
 
 const walletId = '123'
 
-describe('WalletInvalidDataError', () => {
+describe('WalletInconsistentDataError', () => {
   test('exists', () => {
-    expect(WalletInvalidDataError).not.toEqual(undefined)
+    expect(WalletInconsistentDataError).toBeDefined()
   })
 
   test('can be thrown', () => {
     const fn = () => {
-      throw new WalletInvalidDataError()
+      throw new WalletInconsistentDataError()
     }
 
-    expect(fn).toThrow(WalletInvalidDataError)
+    expect(fn).toThrow(WalletInconsistentDataError)
   })
 
   test('has correct name', () => {
     try {
-      throw new WalletInvalidDataError()
+      throw new WalletInconsistentDataError()
     } catch (err) {
-      expect(err.name).toEqual('WalletInvalidDataError')
+      expect(err.name).toEqual('WalletInconsistentDataError')
     }
   })
 
   test('can be checked by instanceof', () => {
     try {
-      throw new WalletInvalidDataError()
+      throw new WalletInconsistentDataError()
     } catch (err) {
-      expect(err instanceof WalletInvalidDataError).toBe(true)
+      expect(err instanceof WalletInconsistentDataError).toBe(true)
       expect(err instanceof Error).toBe(true)
     }
   })
 
   test('has stacktrace', () => {
     try {
-      throw new WalletInvalidDataError()
+      throw new WalletInconsistentDataError()
     } catch (err) {
       expect(err.stack).toBeDefined()
       expect(err.stack).not.toBeNull()
@@ -45,7 +45,7 @@ describe('WalletInvalidDataError', () => {
 
   test('has walletId', () => {
     try {
-      throw new WalletInvalidDataError(walletId)
+      throw new WalletInconsistentDataError('Some message', walletId)
     } catch (err) {
       expect(err.walletId).toBeDefined()
     }

@@ -4,7 +4,7 @@ import { ActiveNetworkNotFoundError } from '..'
 
 describe('ActiveNetworkNotFoundError', () => {
   test('exists', () => {
-    expect(ActiveNetworkNotFoundError).not.toEqual(undefined)
+    expect(ActiveNetworkNotFoundError).toBeDefined()
   })
 
   test('can be thrown', () => {

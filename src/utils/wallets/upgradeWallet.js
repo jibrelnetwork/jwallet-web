@@ -4,7 +4,7 @@ import config from 'config'
 import strip0x from 'utils/address/strip0x'
 import encryptData from 'utils/encryption/encryptData'
 
-import { WalletInvalidDataError } from 'errors'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   getWallet,
@@ -37,7 +37,7 @@ function addMnemonic(
   }: Wallet = wallet
 
   if (!checkMnemonicType(type) || !bip32XPublicKey) {
-    throw new WalletInvalidDataError(wallet.id, 'Invalid wallet mnemonic type')
+    throw new WalletInconsistentDataError('Invalid wallet mnemonic type', wallet.id)
   }
 
   const {
@@ -81,7 +81,7 @@ function addPrivateKey(
   }: Wallet = wallet
 
   if (checkMnemonicType(type) || !address) {
-    throw new WalletInvalidDataError(wallet.id, 'Invalid wallet mnemonic type')
+    throw new WalletInconsistentDataError('Invalid wallet mnemonic type', wallet.id)
   }
 
   return updateWallet(wallets, id, {
@@ -110,14 +110,14 @@ function upgradeWallet({
   const wallet: Wallet = getWallet(items, walletId)
 
   if (!wallet.isReadOnly) {
-    throw new WalletInvalidDataError(walletId, 'Wallet is read only')
+    throw new WalletInconsistentDataError('Wallet is read only', walletId)
   }
 
   const preparedData: string = data.trim().toLowerCase()
 
   if (checkMnemonicType(wallet.type)) {
     if (!mnemonicOptions) {
-      throw new WalletInvalidDataError(walletId, 'Invalid mnemonic options')
+      throw new WalletInconsistentDataError('Invalid mnemonic options', walletId)
     }
 
     return addMnemonic(items, wallet, preparedData, mnemonicOptions, internalKey, encryptionType)

@@ -11,7 +11,7 @@ import * as walletsBackup from 'store/modules/walletsBackup'
 
 import {
   ActiveWalletNotFoundError,
-  WalletInvalidDataError,
+  WalletInconsistentDataError,
 } from 'errors'
 
 import type {
@@ -144,7 +144,7 @@ export function upgradeRequest(
   if (!activeWalletId) {
     throw new ActiveWalletNotFoundError()
   } else if (!internalKey) {
-    throw new WalletInvalidDataError(activeWalletId, 'Invalid internal key')
+    throw new WalletInconsistentDataError('Invalid internal key', activeWalletId)
   }
 
   const mnemonicOptions: ?MnemonicOptionsUser = !derivationPath ? null : {

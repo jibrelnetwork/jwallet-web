@@ -15,7 +15,7 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
-import { WalletInvalidDataError } from 'errors'
+import { WalletInconsistentDataError } from 'errors'
 
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
@@ -162,7 +162,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new WalletInvalidDataError(walletId, 'Invalid password options')
+          throw new WalletInconsistentDataError('Invalid password options', walletId)
         }
 
         const {
@@ -197,7 +197,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new WalletInvalidDataError(wallet.id, 'Invalid password options')
+          throw new WalletInconsistentDataError('Invalid password options', wallet.id)
         }
 
         const {

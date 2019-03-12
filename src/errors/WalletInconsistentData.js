@@ -1,11 +1,11 @@
 // @flow
 
-class WalletInvalidDataError extends Error {
+class WalletInconsistentDataError extends Error {
   walletId: ?WalletId
 
-  constructor(walletId: ?WalletId, message: string = '') {
+  constructor(message: string = '', walletId: ?WalletId) {
     super(message)
-    this.name = 'WalletInvalidDataError'
+    this.name = 'WalletInconsistentDataError'
     this.walletId = walletId
 
     if (typeof Error.captureStackTrace === 'function') {
@@ -16,4 +16,4 @@ class WalletInvalidDataError extends Error {
   }
 }
 
-export default WalletInvalidDataError
+export default WalletInconsistentDataError
