@@ -1,3 +1,5 @@
+@import "styles/mixins";
+
 .j-raised-button {
   all: initial;
 
@@ -9,6 +11,7 @@
   padding: 0 25px;
   border-radius: 3px;
   cursor: pointer;
+  transition: all 0.3s ease 0s;
 
   &.-wide {
     height: 64px;
@@ -16,7 +19,7 @@
   }
 
   &.-loading,
-  &.-disabled {
+  &:disabled {
     cursor: default;
   }
 
@@ -30,7 +33,7 @@
     background-color: $blue-two;
     box-shadow: 0 3px 6px rgba($blue, 0.33);
 
-    &.-disabled {
+    &:disabled {
       background-color: $blue-three;
       box-shadow: none;
 
@@ -51,7 +54,7 @@
       }
     }
 
-    &.-disabled {
+    &:disabled {
       background-color: $blue-three;
 
       &.-hover-dark {
@@ -64,7 +67,7 @@
     }
   }
 
-  &.-hovered {
+  &:hover {
     background-color: $bright-sky-blue;
 
     &.-hover-dark {
@@ -76,7 +79,7 @@
         background-color: $blue-two;
       }
 
-      &.-disabled {
+      &:disabled {
         background-color: $blue-three;
       }
     }
@@ -90,7 +93,7 @@
         }
       }
 
-      &.-disabled {
+      &:disabled {
         background-color: $blue-three;
       }
     }

@@ -50,10 +50,8 @@ const NameStep = ({
       <div className='next'>
         <JRaisedButton
           onClick={setNextStep}
-          color='blue'
-          label={t`Next step`}
-          isWide
-        />
+        >{t`Next step`}
+        </JRaisedButton>
       </div>
     </div>
   </div>

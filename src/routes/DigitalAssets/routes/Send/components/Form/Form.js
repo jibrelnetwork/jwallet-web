@@ -151,11 +151,8 @@ function DigitalAssetsSendForm({
         <div className='actions'>
           <JRaisedButton
             onClick={submit}
-            color='blue'
-            label={t`Confirm`}
-            labelColor='white'
-            isWide
-          />
+          >{t`Confirm`}
+          </JRaisedButton>
         </div>
       </form>
       <div className='message'>

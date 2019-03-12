@@ -39,10 +39,9 @@ function DigitalAssetsSendConfirmPassword({
         <div className='actions'>
           <JRaisedButton
             onClick={submit}
-            label={t`Send asset`}
             isLoading={isLoading}
-            isWide
-          />
+          >{t`Send asset`}
+          </JRaisedButton>
         </div>
       </div>
     </div>

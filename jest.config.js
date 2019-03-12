@@ -23,12 +23,13 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
+    '[/\\\\]node_modules[/\\\\](?!lodash-es).+\\.(js|jsx)$',
   ],
   moduleFileExtensions: ['js', 'jsx'],
   moduleDirectories: ['src', 'node_modules'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
+    '^lodash-es$': 'lodash',
   },
   setupFiles: [
     'react-app-polyfill/jsdom',

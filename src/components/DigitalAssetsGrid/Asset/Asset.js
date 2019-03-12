@@ -2,8 +2,6 @@
 
 import React, { PureComponent } from 'react'
 
-import handle from 'utils/eventHandlers/handle'
-
 import {
   JText,
   JAssetSymbol,
@@ -23,28 +21,12 @@ type Props = {|
   +isCustom: boolean,
 |}
 
-type AssetsState = {
-  isHovered: boolean,
-}
-
-class AssetCard extends PureComponent<Props, AssetsState> {
+class AssetCard extends PureComponent<Props, *> {
   static defaultProps = {
     isError: false,
     isLoading: false,
     isCustom: false,
     // fiatBalance: '',
-  }
-
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isHovered: false,
-    }
-  }
-
-  onHover = (isHovered: boolean) => {
-    this.setState({ isHovered })
   }
 
   render() {
@@ -60,14 +42,8 @@ class AssetCard extends PureComponent<Props, AssetsState> {
       isCustom,
     } = this.props
 
-    const {
-      isHovered,
-    } = this.state
-
     return (
       <div
-        onMouseEnter={handle(this.onHover)(true)}
-        onMouseLeave={handle(this.onHover)(false)}
         className='asset-card'
       >
         {!isCustom ? (
@@ -90,7 +66,6 @@ class AssetCard extends PureComponent<Props, AssetsState> {
           balance={balance}
           isError={isError}
           isLoading={isLoading}
-          isHovered={isHovered}
         />
       </div>
     )
