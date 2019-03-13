@@ -57,7 +57,7 @@ class RoundIconButton extends PureComponent<Props> {
           </div>
         )}
         <div className='icon'>
-          <JIcon name={iconName} color={color} size='medium' />
+          <JIcon name={iconName} color={color} />
         </div>
       </div>
     )

@@ -15,8 +15,8 @@ import {
   JFlatButton,
 } from 'components/base'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
-import type { JFlatButtonColor } from 'components/base/JFlatButton/JFlatButton'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
+import { type JFlatButtonColor } from 'components/base/JFlatButton/JFlatButton'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,
@@ -172,7 +172,6 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
               <div className='icon' onClick={this.handleClickInit}>
                 <JTooltip text={t`Delete`}>
                   <JIcon
-                    size='medium'
                     color={iconTooltipColor}
                     name={iconTooltipName}
                   />

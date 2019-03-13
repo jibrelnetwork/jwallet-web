@@ -45,10 +45,18 @@
       bottom: -2px;
       position: absolute;
       transition: opacity 0.1s ease;
+
+      > .link {
+        line-height: 18px;
+
+        &:hover {
+          color: $bright-sky-blue;
+        }
+      }
     }
   }
 
-  &.-hovered {
+  &:hover {
     > .fiat {
       > .balance,
       > .message {

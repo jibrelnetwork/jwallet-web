@@ -7,14 +7,15 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import SettingsGrid from 'components/SettingsGrid'
 import escapeRegExp from 'utils/regexp/escapeRegExp'
 import formatCurrency from 'utils/formatters/formatCurrency'
-import SettingsGridCard from 'components/SettingsGrid/SettingsGridCard'
 
 import {
   JText,
   JSearch,
 } from 'components/base'
 
-import type { SettingsGridCardProps } from 'components/SettingsGrid/SettingsGridCard'
+import SettingsGridCard, {
+  type SettingsGridCardProps,
+} from 'components/SettingsGrid/SettingsGridCard'
 
 type Props = {|
   ...SettingsState,

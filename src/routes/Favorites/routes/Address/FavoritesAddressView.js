@@ -123,12 +123,9 @@ class FavoritesAddressView extends Component<Props> {
             <div className='actions'>
               <JRaisedButton
                 onClick={submitHandler}
-                label={t`Save`}
-                color='blue'
-                labelColor='white'
                 isLoading={isLoading}
-                isWide
-              />
+              >{t`Save`}
+              </JRaisedButton>
             </div>
           </form>
         </div>

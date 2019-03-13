@@ -125,7 +125,6 @@ function TransactionsAssetView({
               <JFlatButton
                 to={`/digital-assets/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'
-                iconSize='medium'
                 iconName='upload'
               />
             </div>
@@ -133,7 +132,6 @@ function TransactionsAssetView({
               <JFlatButton
                 onClick={handle(removeItemsByAsset)(assetAddress)}
                 iconColor='gray'
-                iconSize='medium'
                 iconName='reload'
                 isDisabled={isLoadingOrBlockEmpty}
               />

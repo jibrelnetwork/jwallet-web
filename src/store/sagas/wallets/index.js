@@ -16,7 +16,7 @@ export {
   GetPrivateKeyError,
 } from './core'
 
-export default {
+export default [
   walletsRootSaga,
   walletsStartRootSaga,
   walletsBackupRootSaga,
@@ -26,4 +26,4 @@ export default {
   walletsRenameRootSaga,
   walletsAddressesRootSaga,
   walletsRenameAddressRootSaga,
-}
+]

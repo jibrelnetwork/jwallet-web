@@ -5,14 +5,14 @@ import { Router } from 'react-router'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import type { Persistor } from 'redux-persist/lib/types'
+import { type Persistor } from 'redux-persist/lib/types'
 
-import type {
-  Store,
-  Dispatch,
+import {
+  type Store,
+  type Dispatch,
 } from 'redux'
 
-import type { AppAction } from 'routes'
+import { type AppAction } from 'routes'
 
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'

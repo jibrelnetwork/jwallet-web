@@ -12,7 +12,7 @@ import {
   JText,
 } from 'components/base'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 export type Props = {|
   +title: string,

@@ -13,7 +13,7 @@ import { settingsRootSaga } from './settings'
 import walletsSagas from './wallets'
 import digitalAssetsSagas from './digitalAssets'
 
-export default {
+export default [
   coreRootSaga,
   notFoundRootSaga,
   blocksRootSaga,
@@ -24,6 +24,6 @@ export default {
   upgradeRootSaga,
   favoritesRootSaga,
   settingsRootSaga,
-  walletsSagas,
-  digitalAssetsSagas,
-}
+  ...walletsSagas,
+  ...digitalAssetsSagas,
+]

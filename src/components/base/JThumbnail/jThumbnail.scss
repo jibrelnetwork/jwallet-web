@@ -6,6 +6,30 @@
   width: 480px;
   padding-bottom: 30px;
 
+  &.-white {
+    > .icon {
+      stroke: $white;
+    }
+  }
+
+  &.-gray {
+    > .icon {
+      stroke: $dusk;
+    }
+  }
+
+  &.-blue {
+    > .icon {
+      stroke: $blue;
+    }
+  }
+
+  &.-red {
+    > .icon {
+      stroke: $tomato;
+    }
+  }
+
   > .title {
     margin-top: 25px;
     text-align: center;

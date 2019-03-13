@@ -241,7 +241,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 color='gray'
                 iconColor='gray'
                 iconName='repeat'
-                iconSize='medium'
                 label={t`Repeat payment`}
               />
             </div>
@@ -255,7 +254,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 label={favoritesLabel}
                 color='gray'
                 iconColor='gray'
-                iconSize='medium'
               />
             </div>
           )}
@@ -266,7 +264,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
               iconName={`message-${comment ? 'edit' : 'add'}`}
               color='gray'
               iconColor='gray'
-              iconSize='medium'
             />
           </div>
         </div>

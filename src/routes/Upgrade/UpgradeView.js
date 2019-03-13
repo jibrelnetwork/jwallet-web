@@ -1,6 +1,5 @@
 // @flow
 
-import classNames from 'classnames'
 import React, { Fragment } from 'react'
 import { t } from 'ttag'
 
@@ -13,8 +12,7 @@ import CloseableScreen from 'components/CloseableScreen'
 import { JInputField } from 'components/base/JInput'
 
 import {
-  JText,
-  JLoader,
+  JRaisedButton,
 } from 'components/base'
 
 import './upgradeView.scss'
@@ -139,18 +137,11 @@ function UpgradeView({
                 isDisabled={isLoading}
                 render={renderPasswordField(isInvalidPassword)}
               />
-              <button
-                className={classNames(
-                  'submit j-raised-button -blue',
-                  (isLoading || invalid) && '-disabled',
-                )}
+              <JRaisedButton
                 type='submit'
-              >
-                {isLoading
-                  ? <JLoader color='white' />
-                  : <JText value={t`Save`} />
-                }
-              </button>
+                disabled={(isLoading || invalid)}
+              >{t`Save`}
+              </JRaisedButton>
             </form>
           )}
         />
