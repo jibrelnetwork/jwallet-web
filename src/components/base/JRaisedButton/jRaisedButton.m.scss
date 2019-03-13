@@ -22,10 +22,12 @@
   }
 
   &:active {
-    transition: all 0.2s linear;
+    transition: all 0.2s ease-out;
     box-shadow: none;
   }
 }
+
+// Themes
 
 .blue {
   height: 64px;
@@ -86,5 +88,99 @@
     &.-loading {
       background-color: $white;
     }
+  }
+}
+
+.flat-white-pale {
+  display: inline;
+  height: 40px;
+  line-height: 40px;
+  color: $white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $blue;
+  background: none;
+
+  > .content {
+    opacity: 0.5;
+  }
+
+  //&:focus,
+  &:hover {
+    border-color: $white;
+    color: $white;
+    opacity: 1;
+
+    > .content {
+      opacity: 1;
+    }
+  }
+
+  &:disabled {
+    border-color: rgba(0, 88, 210, 0.3);
+
+    > .content {
+      opacity: 0.2;
+    }
+
+    &.-loading {
+      > .content {
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+.flat-white-bright {
+  display: inline;
+  height: 40px;
+  line-height: 40px;
+  color: $white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $blue;
+  background: none;
+  opacity: 1;
+
+  //&:focus,
+  &:hover {
+    border-color: $white;
+    color: $white;
+  }
+
+  &:disabled {
+    border-color: rgba(0, 88, 210, 0.3);
+
+    // stylelint-disable
+    > .content {
+      opacity: 0.2;
+    }
+    // stylelint-enable
+
+    &.-loading {
+      > .content {
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+.flat-blue {
+  display: inline;
+  height: 40px;
+  line-height: 40px;
+  color: $blue-two;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 61, 198, 0.2);
+  background: none;
+
+  //&:focus,
+  &:hover {
+    border-color: $blue-two;
+  }
+
+  &:disabled {
+    opacity: 0.3;
   }
 }

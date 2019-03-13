@@ -8,21 +8,25 @@ import JLoader, { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
 import jRaisedButtonStyle from './jRaisedButton.m.scss'
 
-type Themes = 'blue' | 'white' | 'gray'
+export type JButtonThemes =
+  'blue' | 'white' | 'gray' | 'flat-white-pale' | 'flat-white-bright' | 'flat-blue'
 
 type Props = {
   children: React$Node,
-  theme: Themes,
+  theme: JButtonThemes,
   onClick?: Function,
   isLoading?: boolean,
   disabled?: boolean,
   className?: ?string,
 }
 
-const loaderColorMap: { [Themes]: JLoaderColor } = {
+const loaderColorMap: { [JButtonThemes]: JLoaderColor } = {
   blue: 'white',
   white: 'blue',
   gray: 'dark',
+  'flat-white-bright': 'gray',
+  'flat-white-pale': 'gray',
+  'flat-blue': 'white',
 }
 
 class JRaisedButton extends PureComponent<Props, *> {
@@ -66,10 +70,12 @@ class JRaisedButton extends PureComponent<Props, *> {
         onClick={this.props.onClick}
         disabled={isDisabled}
       >
-        {isLoading ?
-          <JLoader color={loaderColorMap[this.props.theme]} />
-          : this.props.children
-        }
+        <span className={jRaisedButtonStyle.content}>
+          {isLoading ?
+            <JLoader color={loaderColorMap[this.props.theme]} />
+            : this.props.children
+          }
+        </span>
       </button>
     )
   }

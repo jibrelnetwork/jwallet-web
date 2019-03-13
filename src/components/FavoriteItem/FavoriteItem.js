@@ -145,7 +145,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               <ButtonWithConfirm
                 onClick={ignoreEvent(this.remove)()}
                 iconTooltipColor={(hovered === 'trash') ? 'sky' : 'blue'}
-                color='blue'
+                color='flat-blue'
                 bgColor='white'
                 labelCancel={t`No`}
                 iconTooltipName='trash'

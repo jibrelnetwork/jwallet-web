@@ -3,6 +3,7 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { Link } from 'react-router'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
@@ -10,6 +11,7 @@ import divDecimals from 'utils/numbers/divDecimals'
 import {
   JText,
   JFlatButton,
+  JIcon,
 } from 'components/base'
 
 import {
@@ -18,6 +20,9 @@ import {
   getAddressLink,
 } from 'utils/transactions'
 import assetsData from 'data/assets'
+
+import jTextStyle from 'styles/components/jText.m.scss'
+import jFlatButtonStyle from 'styles/components/jFlatButton.m.scss'
 
 import TransactionItemDetailsComment from './Comment'
 
@@ -91,6 +96,14 @@ function getFavoriteLink(
   return `/favorites/address/${txAddress}`
 }
 
+const buttonClass = classNames(
+  jFlatButtonStyle['j-flat-button'],
+  jFlatButtonStyle['-label'],
+  jTextStyle['j-text'],
+  jTextStyle.gray,
+  jTextStyle.bold,
+)
+
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
     super(props)
@@ -143,10 +156,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     const repeatLink: ?string = getRepeatLink(txData, asset, comment, isSent)
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
-
-    const favoritesLabel = isFromFavorites
-      ? t`Remove from Favorites`
-      : t`Add to Favorites`
 
     const commentLabel = comment
       ? t`Edit comment`
@@ -236,25 +245,37 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         <div className='actions'>
           {!!repeatLink && !isMintable && (
             <div className='action'>
-              <JFlatButton
-                to={repeatLink}
-                color='gray'
-                iconColor='gray'
-                iconName='repeat'
-                label={t`Repeat payment`}
-              />
+              <Link to={repeatLink} className={buttonClass}>
+                <div className='icon'>
+                  <JIcon name='repeat' color='gray' />
+                </div>
+                {t`Repeat payment`}
+              </Link>
             </div>
           )}
           {(addFavoriteLink || isFromFavorites) && !isMintable && (
             <div className='action'>
-              <JFlatButton
-                onClick={isFromFavorites ? handle(removeFavorite)(txAddress) : null}
-                to={addFavoriteLink}
-                iconName={`star-${isFromFavorites ? 'remove' : 'add'}`}
-                label={favoritesLabel}
-                color='gray'
-                iconColor='gray'
-              />
+              {isFromFavorites ?
+                (
+                  <button
+                    type='button'
+                    className={buttonClass}
+                    onClick={handle(removeFavorite)(txAddress)}
+                  >
+                    <div className='icon'>
+                      <JIcon name='star-remove' color='gray' />
+                    </div>
+                    {t`Remove from Favorites`}
+                  </button>
+                ) :
+                (
+                  <Link to={addFavoriteLink} className={buttonClass}>
+                    <div className='icon'>
+                      <JIcon name='star-add' color='gray' />
+                    </div>
+                    {t`Add to Favorites`}
+                  </Link>
+                )}
             </div>
           )}
           <div className='action'>

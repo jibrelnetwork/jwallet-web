@@ -3,6 +3,7 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { t } from 'ttag'
+import { Link } from 'react-router'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
@@ -10,6 +11,7 @@ import { formatAssetBalance } from 'utils/formatters'
 import {
   JTabs,
   JSearch,
+  JIcon,
   JFlatButton,
 } from 'components/base'
 
@@ -121,12 +123,13 @@ function TransactionsAssetView({
                 isOnlyPending={isOnlyPending}
               />
             </div>
-            <div className='send' title={t`Send asset`}>
-              <JFlatButton
+            <div className='send'>
+              <Link
                 to={`/digital-assets/send?asset=${asset.blockchainParams.address}`}
-                iconColor='gray'
-                iconName='upload'
-              />
+                title={t`Send asset`}
+              >
+                <JIcon name='upload' color='gray' />
+              </Link>
             </div>
             <div className='refetch' title='Resync'>
               <JFlatButton

@@ -154,7 +154,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 >
                   <ButtonWithConfirm
                     onClick={this.handleClickRemove}
-                    color='blue'
+                    color='flat-white-bright'
                     bgColor='white'
                     labelCancel={t`No`}
                     iconTooltipName='trash'

@@ -7,24 +7,23 @@ import React, {
   PureComponent,
 } from 'react'
 
-import { Link } from 'react-router'
-
 import handle from 'utils/eventHandlers/handle'
 
 import {
   JIcon,
-  JText,
   JLoader,
 } from 'components/base'
 
 import { type JIconColor } from 'components/base/JIcon/JIcon'
+
+import jTextStyle from 'styles/components/jText.m.scss'
+import style from './jFlatButton.m.scss'
 
 export type JFlatButtonColor = 'blue' | 'gray' | 'sky' | 'white'
 export type JFlatButtonHandler = (SyntheticEvent<HTMLDivElement>) => void
 
 type Props = {|
   +onClick: ?JFlatButtonHandler,
-  +to: ?string,
   +label: ?string,
   +iconName: ?string,
   +iconColor: JIconColor,
@@ -53,7 +52,6 @@ type StateProps = {|
 class JFlatButton extends PureComponent<Props, StateProps> {
   static defaultProps = {
     onClick: null,
-    to: null,
     label: null,
     iconName: null,
     color: 'white',
@@ -83,7 +81,6 @@ class JFlatButton extends PureComponent<Props, StateProps> {
   render() {
     const {
       onClick,
-      to,
       label,
       color,
       isLink,
@@ -104,7 +101,12 @@ class JFlatButton extends PureComponent<Props, StateProps> {
 
     if (isLoading) {
       return (
-        <div className={classNames('j-flat-button -loading', `-${color}`, isBordered && '-border')}>
+        <div className={classNames(
+          style['j-flat-button'],
+          style['-loading'],
+          style[`-${color}`],
+          isBordered && style['-border'])}
+        >
           <JLoader color={color} />
         </div>
       )
@@ -120,12 +122,14 @@ class JFlatButton extends PureComponent<Props, StateProps> {
           </div>
         )}
         {label && (
-          <JText
-            value={label}
-            weight={isUnderscored ? null : 'bold'}
-            color={isUnderscoredAndHovered ? 'sky' : color}
-            decoration={isUnderscored ? 'underline' : null}
-          />
+          <span
+            className={classNames(
+              jTextStyle['j-text'],
+              isUnderscored ? jTextStyle.underline : jTextStyle.bold,
+              isUnderscoredAndHovered ? jTextStyle.sky : jTextStyle[color],
+            )}
+          >{label}
+          </span>
         )}
       </Fragment>
     )
@@ -134,14 +138,15 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       onMouseEnter: handle(this.onHover)(true),
       onMouseLeave: handle(this.onHover)(false),
       className: classNames(
-        `j-flat-button -${color}`,
-        label && '-label',
-        isLink && '-link',
-        isBordered && '-border',
-        isDisabled && '-disabled',
-        isTransparent && '-transparent',
-        isUnderscored && '-underscored',
-        isHoverOpacity && '-hover-opacity',
+        style['j-flat-button'],
+        style[`-${color}`],
+        label && style['-label'],
+        isLink && style['-link'],
+        isBordered && style['-border'],
+        isDisabled && style['-disabled'],
+        isTransparent && style['-transparent'],
+        isUnderscored && style['-underscored'],
+        isHoverOpacity && style['-hover-opacity'],
       ),
       title,
     }
@@ -154,7 +159,7 @@ class JFlatButton extends PureComponent<Props, StateProps> {
       )
     }
 
-    if (onClick && !to) {
+    if (onClick) {
       return (
         <div
           {...baseProps}
@@ -162,17 +167,6 @@ class JFlatButton extends PureComponent<Props, StateProps> {
         >
           {children}
         </div>
-      )
-    }
-
-    if (to && !onClick) {
-      return (
-        <Link
-          {...baseProps}
-          to={to}
-        >
-          {children}
-        </Link>
       )
     }
 

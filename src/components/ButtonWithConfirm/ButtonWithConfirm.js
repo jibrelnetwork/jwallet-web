@@ -12,18 +12,18 @@ import { t } from 'ttag'
 import {
   JIcon,
   JTooltip,
-  JFlatButton,
+  JRaisedButton,
 } from 'components/base'
 
 import { type JIconColor } from 'components/base/JIcon/JIcon'
-import { type JFlatButtonColor } from 'components/base/JFlatButton/JFlatButton'
+import { type JButtonThemes } from 'components/base/JRaisedButton/JRaisedButton'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,
   +onCancelClick: Function,
   +label: ?string,
   +bgColor: ?string,
-  +color: JFlatButtonColor,
+  +color: JButtonThemes,
   +iconTooltipName: ?string,
   +iconTooltipColor: ?JIconColor,
   +labelCancel: string,
@@ -142,31 +142,31 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
               isReverse && '-reverse',
             )}
           >
-            <JFlatButton
+            <JRaisedButton
               onClick={this.handleClickCancel}
-              label={labelCancel}
-              color={color}
-              isBordered
-            />
+              theme={color}
+            >
+              {labelCancel}
+            </JRaisedButton>
             <div className='confirm'>
-              <JFlatButton
+              <JRaisedButton
                 onClick={onClick}
-                color={color}
-                label={(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
-                isDisabled={countdown > 0}
-                isBordered
-              />
+                theme={color}
+                disabled={countdown > 0}
+              >
+                {(countdown > 0) ? `${labelConfirm} – ${countdown} sec` : labelConfirm}
+              </JRaisedButton>
             </div>
           </div>
         ) : (
           <Fragment>
             {label && !iconTooltipName && !iconTooltipColor && (
-              <JFlatButton
+              <JRaisedButton
                 onClick={this.handleClickInit}
-                label={label}
-                color={color}
-                isBordered
-              />
+                theme={color}
+              >
+                {label}
+              </JRaisedButton>
             )}
             {iconTooltipName && iconTooltipColor && !label && (
               <div className='icon' onClick={this.handleClickInit}>
