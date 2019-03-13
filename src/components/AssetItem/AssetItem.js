@@ -169,7 +169,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 >
                   <JIcon
                     color='gray'
-                    name='dots-full'
+                    name='dots-full-use-fill'
                   />
                 </div>
                 <div className='item -switch'>
