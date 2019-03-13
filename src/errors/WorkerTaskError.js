@@ -1,21 +1,15 @@
 // @flow
 
-type WorkerTaskErrorPayload = {|
-  +stack: Object,
-  +message: string,
+import JError, { type JErrorData } from './JError'
+
+type WorkerTaskErrorData = {|
+  +originStack: string,
 |}
 
-class WorkerTaskError extends Error {
-  constructor(error: WorkerTaskErrorPayload) {
-    super(error)
-
+class WorkerTaskError extends JError<WorkerTaskErrorData> {
+  constructor(data: JErrorData<WorkerTaskErrorData>, message: string) {
+    super(data, message)
     this.name = 'WorkerTaskError'
-
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, WorkerTaskError)
-    } else {
-      this.stack = (new Error()).stack
-    }
   }
 }
 

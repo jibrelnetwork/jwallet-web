@@ -127,7 +127,9 @@ describe('EventEmitterWorker', () => {
       })
     } catch (err) {
       expect(err).toMatchObject(
-        new WorkerError('Worker has been already listened', MOCK_WORKER_TYPE),
+        new WorkerError({
+          workerType: MOCK_WORKER_TYPE,
+        }, 'Worker has been already listened'),
       )
     }
 
@@ -143,7 +145,9 @@ describe('EventEmitterWorker', () => {
       })
     } catch (err) {
       expect(err).toMatchObject(
-        new WorkerError('Worker is not started', MOCK_WORKER_TYPE),
+        new WorkerError({
+          workerType: MOCK_WORKER_TYPE,
+        }, 'Worker is not started'),
       )
     }
   })
@@ -156,7 +160,10 @@ describe('EventEmitterWorker', () => {
         payload: MOCK_WORKER_THROW,
       })
     } catch (err) {
-      expect(err).toMatchObject(new WorkerError(new Error(MOCK_WORKER_ERROR), MOCK_WORKER_TYPE))
+      expect(err).toMatchObject(new WorkerError({
+        workerType: MOCK_WORKER_TYPE,
+        originError: new Error(MOCK_WORKER_ERROR),
+      }))
     }
 
     eeWorker.unsubscribe()

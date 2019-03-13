@@ -1,16 +1,11 @@
 // @flow
 
-class WorkerQueueExceededError extends Error {
+import JError from './JError'
+
+class WorkerQueueExceededError extends JError<{||}> {
   constructor() {
     super()
-
     this.name = 'WorkerQueueExceededError'
-
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, WorkerQueueExceededError)
-    } else {
-      this.stack = (new Error()).stack
-    }
   }
 }
 

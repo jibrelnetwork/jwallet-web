@@ -1,16 +1,11 @@
 // @flow
 
-class WorkerTaskReplacedError extends Error {
+import JError from './JError'
+
+class WorkerTaskReplacedError extends JError<{||}> {
   constructor() {
     super()
-
     this.name = 'WorkerTaskReplacedError'
-
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, WorkerTaskReplacedError)
-    } else {
-      this.stack = (new Error()).stack
-    }
   }
 }
 

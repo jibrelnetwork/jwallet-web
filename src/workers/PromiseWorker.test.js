@@ -142,9 +142,9 @@ describe('PromiseWorker', () => {
       /* eslint-disable-next-line no-unused-vars */
       const anotherPromiseWorker: Object = new PromiseWorker(MOCK_WORKER_INSTANCE)
     } catch (err) {
-      expect(err).toMatchObject(
-        new WorkerError('Worker has been already listened', MOCK_WORKER_TYPE),
-      )
+      expect(err).toMatchObject(new WorkerError({
+        workerType: MOCK_WORKER_TYPE,
+      }, 'Worker has been already listened'))
     }
 
     promiseWorker.terminate()
@@ -168,9 +168,8 @@ describe('PromiseWorker', () => {
       expect(err).toBeDefined()
 
       expect(err).toMatchObject(new WorkerTaskError({
-        stack: err.stack,
-        message: MOCK_WORKER_RESULT_FAIL,
-      }))
+        originStack: err.stack,
+      }, MOCK_WORKER_RESULT_FAIL))
     })
 
     promiseWorker.terminate()
@@ -182,7 +181,10 @@ describe('PromiseWorker', () => {
     try {
       promiseWorker.executeTask({ taskName: 'taskThrow' })
     } catch (err) {
-      expect(err).toMatchObject(new WorkerError(new Error(MOCK_WORKER_ERROR), MOCK_WORKER_TYPE))
+      expect(err).toMatchObject(new WorkerError({
+        workerType: MOCK_WORKER_TYPE,
+        originError: new Error(MOCK_WORKER_ERROR),
+      }))
     }
 
     promiseWorker.terminate()
@@ -195,7 +197,9 @@ describe('PromiseWorker', () => {
     try {
       promiseWorker.executeTask({ taskName: 'taskOk' })
     } catch (err) {
-      expect(err).toMatchObject(new WorkerError('Worker was terminated', MOCK_WORKER_TYPE))
+      expect(err).toMatchObject(new WorkerError({
+        workerType: MOCK_WORKER_TYPE,
+      }, 'Worker was terminated'))
     }
   })
 
@@ -236,7 +240,9 @@ describe('PromiseWorker', () => {
       promiseWorker.restart(MOCK_WORKER_INSTANCE)
     } catch (err) {
       expect(err).toMatchObject(
-        new WorkerError('Can not restart the same worker instance', MOCK_WORKER_TYPE),
+        new WorkerError({
+          workerType: MOCK_WORKER_TYPE,
+        }, 'Can not restart the same worker instance'),
       )
     }
 

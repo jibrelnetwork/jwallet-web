@@ -74,7 +74,10 @@ function addTask(self: Object, taskId: string, task: PromiseWorkerTask) {
 }
 
 function handleError(err: Error) {
-  throw new WorkerError(err, WORKER_TYPE)
+  throw new WorkerError({
+    originError: err,
+    workerType: WORKER_TYPE,
+  })
 }
 
 function handleTask(self, {
@@ -89,7 +92,14 @@ function handleTask(self, {
   }
 
   if (error) {
-    task.reject(new WorkerTaskError(payload))
+    const {
+      stack,
+      message,
+    } = payload
+
+    task.reject(new WorkerTaskError({
+      originStack: stack,
+    }, message))
   } else {
     task.resolve(payload)
   }
@@ -99,9 +109,13 @@ function handleTask(self, {
 
 function startListen(self: Object, worker: Object) {
   if (self.worker) {
-    throw new WorkerError('Worker has been already started', WORKER_TYPE)
+    throw new WorkerError({
+      workerType: WORKER_TYPE,
+    }, 'Worker has been already started')
   } else if (worker.onerror || worker.onmessage) {
-    throw new WorkerError('Worker has been already listened', WORKER_TYPE)
+    throw new WorkerError({
+      workerType: WORKER_TYPE,
+    }, 'Worker has been already listened')
   }
 
   self.worker = worker
@@ -142,7 +156,9 @@ class PromiseWorker {
     }
 
     if (!this.worker) {
-      throw new WorkerError('Worker was terminated', WORKER_TYPE)
+      throw new WorkerError({
+        workerType: WORKER_TYPE,
+      }, 'Worker was terminated')
     } else if (transfer) {
       this.worker.postMessage(msgData, transfer)
     } else {
@@ -168,7 +184,9 @@ class PromiseWorker {
 
   restart = (newWorker: Object) => {
     if (this.worker === newWorker) {
-      throw new WorkerError('Can not restart the same worker instance', WORKER_TYPE)
+      throw new WorkerError({
+        workerType: WORKER_TYPE,
+      }, 'Can not restart the same worker instance')
     }
 
     this.terminate()

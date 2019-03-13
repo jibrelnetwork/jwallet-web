@@ -1,24 +1,18 @@
 // @flow
 
-type WorkerErrorData = string | Error
+import JError, { type JErrorData } from './JError'
+
 type WorkerType = 'promise' | 'event-emitter'
 
-class WorkerError extends Error {
-  workerType: WorkerType
+type WorkerErrorData = {|
+  +originError?: Error,
+  +workerType: WorkerType,
+|}
 
-  constructor(originError: WorkerErrorData, workerType: WorkerType) {
-    super(originError)
-
+class WorkerError extends JError<WorkerErrorData> {
+  constructor(data: JErrorData<WorkerErrorData>, message?: string) {
+    super(data, message)
     this.name = 'WorkerError'
-    this.workerType = workerType
-
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, WorkerError)
-    } else {
-      this.stack = (typeof originError === 'string')
-        ? (new Error(originError)).stack
-        : originError.stack
-    }
   }
 }
 

@@ -21,7 +21,10 @@ const WORKER_TYPE = 'event-emitter'
  */
 
 function handleError(err: Error) {
-  throw new WorkerError(err, WORKER_TYPE)
+  throw new WorkerError({
+    originError: err,
+    workerType: WORKER_TYPE,
+  })
 }
 
 function handleEvent(self, {
@@ -60,11 +63,17 @@ class EventEmitterWorker {
     transfer,
   }: EventEmitterWorkerEventPayload): EventEmitter => {
     if (!worker) {
-      throw new WorkerError('Worker is not started', WORKER_TYPE)
+      throw new WorkerError({
+        workerType: WORKER_TYPE,
+      }, 'Worker is not started')
     } else if (worker.onerror || worker.onmessage) {
-      throw new WorkerError('Worker has been already listened', WORKER_TYPE)
+      throw new WorkerError({
+        workerType: WORKER_TYPE,
+      }, 'Worker has been already listened')
     } else if (this.ee) {
-      throw new WorkerError('Already subscribed', WORKER_TYPE)
+      throw new WorkerError({
+        workerType: WORKER_TYPE,
+      }, 'Already subscribed')
     } else if (transfer) {
       worker.postMessage(payload, transfer)
     } else {

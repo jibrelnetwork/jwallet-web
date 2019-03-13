@@ -1,16 +1,11 @@
 // @flow
 
-class WorkerTaskTimeoutError extends Error {
+import JError from './JError'
+
+class WorkerTaskTimeoutError extends JError<{||}> {
   constructor(message: string) {
     super(message)
-
     this.name = 'WorkerTaskTimeoutError'
-
-    if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, WorkerTaskTimeoutError)
-    } else {
-      this.stack = (new Error()).stack
-    }
   }
 }
 
