@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { Router } from 'react-router'
+import { RouterProvider } from 'react-router5'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -17,10 +17,11 @@ import { type AppAction } from 'routes'
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
 
+import AppRouterContainer from './AppRouter'
+
 type Props = {
   store: Store<AppState, AppAction, Dispatch<AppAction>>,
-  routes: Object,
-  history: Object,
+  router: Object,
   persistor: Persistor,
 }
 
@@ -55,24 +56,21 @@ class AppContainer extends React.Component<Props, State> {
   render() {
     const {
       store,
-      routes,
-      history,
+      router,
       persistor,
     } = this.props
 
     return (
       <Provider store={store}>
-        <div style={{ height: '100%' }}>
-          {this.state.isPrimaryInstance ? (
-            <PersistGate persistor={persistor}>
-              <Router history={history}>
-                {routes}
-              </Router>
-            </PersistGate>
-          ) :
-            <SingularTabBlockScreen />
-          }
-        </div>
+        {this.state.isPrimaryInstance ? (
+          <PersistGate persistor={persistor}>
+            <RouterProvider router={router}>
+              <AppRouterContainer />
+            </RouterProvider>
+          </PersistGate>
+        ) :
+          <SingularTabBlockScreen />
+        }
       </Provider>
     )
   }
