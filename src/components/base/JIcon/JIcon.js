@@ -17,18 +17,24 @@ function JIcon({
   const iconData = iconsUI[`${name}-usage`]
   const hasFill = name.indexOf('use-fill') !== -1
 
-  return (
-    <svg
-      className={classNames(
-        'j-icon',
-        color && `-${color}`,
-        hasFill && '-use-fill')}
-      width={iconData.width}
-      height={iconData.height}
-    >
-      <use xlinkHref={iconData.url} />
-    </svg>
-  )
+  if (iconData) {
+    return (
+      <svg
+        className={classNames(
+          'j-icon',
+          color && `-${color}`,
+          hasFill && '-use-fill')}
+        width={iconData.width}
+        height={iconData.height}
+      >
+        <use xlinkHref={iconData.url} />
+      </svg>
+    )
+  } else {
+    return (
+      <div className='j-icon -no-icon' />
+    )
+  }
 }
 
 JIcon.defaultProps = {

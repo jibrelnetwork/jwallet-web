@@ -154,7 +154,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               />
             </div>
             <div onClick={this.handleOpen} className='item -dots'>
-              <JIcon color='gray' name='dots-full' />
+              <JIcon color='gray' name='dots-full-use-fill' />
             </div>
           </div>
         </div>
