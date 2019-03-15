@@ -97,7 +97,12 @@ function* importWallet(): Saga<void> {
     data,
     passphrase,
     derivationPath,
+    walletType,
   }: ExtractReturn<typeof selectWalletsImport> = yield select(selectWalletsImport)
+
+  const walletData = walletType === 'address' && !data.startsWith('0x') ?
+    `0x${data}` :
+    data
 
   const isPasswordExists: boolean = !!persist.internalKey
 
@@ -142,7 +147,7 @@ function* importWallet(): Saga<void> {
   }
 
   const importWalletData = {
-    data,
+    data: walletData,
     passphrase,
     derivationPath,
   }
