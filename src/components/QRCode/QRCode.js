@@ -3,7 +3,17 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const QRCode = ({ isActive, color }: Props) => (
+type QRCodeColor = 'white' | 'gray'
+
+type Props = {
+  color: QRCodeColor,
+  isActive: boolean,
+}
+
+const QRCode = ({
+  color,
+  isActive,
+}: Props) => (
   <div className={classNames('qr-code', isActive && '-active', `-${color}`)}>
     <div className='qr'>
       <canvas id='qrcode' />
@@ -13,13 +23,6 @@ const QRCode = ({ isActive, color }: Props) => (
 
 QRCode.defaultProps = {
   color: 'gray',
-}
-
-type Props = {
-  copy: Function,
-  download: Function,
-  isActive: boolean,
-  color: 'white' | 'gray',
 }
 
 export default QRCode

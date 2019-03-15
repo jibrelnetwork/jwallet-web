@@ -4,11 +4,16 @@ import React, { PureComponent } from 'react'
 
 import JText from 'components/base/JText'
 
+import {
+  type JTextSize,
+  type JTextColor,
+} from 'components/base/JText/JText'
+
 type Props = {|
   +symbol: string,
+  +size: JTextSize,
+  +color: JTextColor,
   +balance: ?BalanceString,
-  +color: 'blue' | 'gray',
-  +size: 'small' | 'normal' | 'header',
 |}
 
 class AssetBalance extends PureComponent<Props> {

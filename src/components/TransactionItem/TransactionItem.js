@@ -43,6 +43,7 @@ function TransactionItem({
   if (!asset) {
     return null
   }
+
   const isMintable = data.eventType === 2
   const isEventMint = isMintable && !data.from
   const isEventBurn = isMintable && !data.to

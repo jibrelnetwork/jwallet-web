@@ -7,7 +7,7 @@ const EditAsset = {
   path: 'edit-asset/:assetAddress',
   onEnter: (nextState: ReactRouterState): void =>
     gaSendPageView(
-      nextState.location.pathname
+      nextState.location.pathname,
     ),
   component: EditAssetContainer,
 }

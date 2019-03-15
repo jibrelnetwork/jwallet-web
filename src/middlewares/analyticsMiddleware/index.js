@@ -14,7 +14,9 @@ export const analyticsMiddleware = store => next => (action) => {
   } catch (err) {
     // do nothing
   }
+
   next(action)
+
   try {
     userParams(store.getState(), action)
   } catch (err) {

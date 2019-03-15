@@ -5,16 +5,15 @@ import React from 'react'
 import { JIcon } from 'components/base'
 
 type Props = {|
-  +onClick: () => void
+  +onClick: () => void,
 |}
 
 const AddAsset = ({ onClick }: Props) => (
   <div className='add-asset' onClick={onClick}>
     <div className='icon'>
       <JIcon
-        size='medium'
         color='gray'
-        name='close-header'
+        name='cross-medium'
       />
     </div>
   </div>

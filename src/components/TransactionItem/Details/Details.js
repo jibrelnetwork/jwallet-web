@@ -37,9 +37,11 @@ type Props = {|
   +isMintable: boolean,
 |}
 
+type TransactionItemDetailsHovered = 'hash' | 'from' | 'to'
+
 type StateProps = {|
+  +hovered: ?TransactionItemDetailsHovered,
   +isCommenting: boolean,
-  +hovered: 'hash' | 'from' | 'to' | null,
 |}
 
 function getRepeatLink(
@@ -99,9 +101,9 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     }
   }
 
-  onHover = (hovered: 'hash' | 'from' | 'to' | null) => () => this.setState({ hovered })
+  onHover = (hovered: ?TransactionItemDetailsHovered) => () => this.setState({ hovered })
 
-  toggle = () => this.setState({ isCommenting: !this.state.isCommenting })
+  handleClick = () => this.setState({ isCommenting: !this.state.isCommenting })
 
   render() {
     const {
@@ -224,7 +226,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
               value={`${getTxFee(
                 receiptData.gasUsed,
                 data.gasPrice,
-                assetsData.ethereum.blockchainParams.decimals
+                assetsData.ethereum.blockchainParams.decimals,
               )} ETH`}
               color='gray'
               weight='bold'
@@ -239,7 +241,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 color='gray'
                 iconColor='gray'
                 iconName='repeat'
-                iconSize='medium'
                 label={t`Repeat payment`}
               />
             </div>
@@ -253,25 +254,23 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 label={favoritesLabel}
                 color='gray'
                 iconColor='gray'
-                iconSize='medium'
               />
             </div>
           )}
           <div className='action'>
             <JFlatButton
-              onClick={this.toggle}
+              onClick={this.handleClick}
               label={commentLabel}
               iconName={`message-${comment ? 'edit' : 'add'}`}
               color='gray'
               iconColor='gray'
-              iconSize='medium'
             />
           </div>
         </div>
         {isCommenting && (
           <TransactionItemDetailsComment
             edit={editComment}
-            toggle={this.toggle}
+            onToggle={this.handleClick}
             comment={comment}
             transactionId={keys.id}
           />

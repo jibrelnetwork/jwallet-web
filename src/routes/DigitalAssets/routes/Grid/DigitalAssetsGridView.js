@@ -55,6 +55,7 @@ class DigitalAssetsGridView extends Component<Props> {
     } = this.props
 
     const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
+
     return (
       <div className='digital-assets-grid-view'>
         <div className='header'>
@@ -82,7 +83,6 @@ class DigitalAssetsGridView extends Component<Props> {
                 title={t`Assets manager`}
               >
                 <JIcon
-                  size='medium'
                   color='gray'
                   name='setting-grid'
                 />

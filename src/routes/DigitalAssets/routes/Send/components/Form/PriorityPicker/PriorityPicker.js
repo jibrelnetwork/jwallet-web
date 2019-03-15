@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+
 import DoubleInput from 'components/DoubleInput'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
 
@@ -40,7 +41,7 @@ type Props = {|
 |}
 
 class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
-  closeCustomOptions = () => {
+  handleClose = () => {
     const {
       onSelect,
       setFormFieldValue,
@@ -72,13 +73,13 @@ class DigitalAssetsSendFormPriorityPicker extends PureComponent<Props> {
       <div className='digital-assets-send-form-priority-picker'>
         {(selectedPriority === 'CUSTOM') ? (
           <DoubleInput
-            onClose={this.closeCustomOptions}
+            onClose={this.handleClose}
             items={[{
-              onChange: setFormFieldValue('gasLimit'),
+              handleChange: setFormFieldValue('gasLimit'),
               value: formFieldValues.gasLimit,
               placeholder: t`Gas limit`,
             }, {
-              onChange: setFormFieldValue('gasPrice'),
+              handleChange: setFormFieldValue('gasPrice'),
               value: formFieldValues.gasPrice,
               placeholder: t`Gas price (gwei)`,
             }]}

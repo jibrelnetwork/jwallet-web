@@ -1,110 +1,76 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import { omit } from 'lodash-es'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 
-import handle from 'utils/eventHandlers/handle'
-import { JIcon, JText, JLoader } from 'components/base'
+import JLoader, { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
-type Props = {|
-  +onClick: ?Function,
-  +label: string,
-  +iconName: ?string,
-  +color: 'blue' | 'white',
-  +iconColor: 'blue' | 'white',
-  +iconSize: 'small' | 'medium',
-  +loaderColor: 'blue' | 'white',
-  +labelColor: 'blue' | 'white' | 'dark',
-  +isWide: boolean,
-  +isLoading: boolean,
-  +isDisabled: boolean,
-|}
+import jRaisedButtonStyle from './jRaisedButton.m.scss'
 
-type StateProps = {|
-  isHovered: boolean,
-|}
+type Themes = 'blue' | 'white' | 'gray'
 
-class JRaisedButton extends PureComponent<Props, StateProps> {
+type Props = {
+  children: React$Node,
+  theme: Themes,
+  onClick?: Function,
+  isLoading?: boolean,
+  disabled?: boolean,
+  className?: ?string,
+}
+
+const loaderColorMap: { [Themes]: JLoaderColor } = {
+  blue: 'white',
+  white: 'blue',
+  gray: 'dark',
+}
+
+class JRaisedButton extends PureComponent<Props, *> {
   static defaultProps = {
-    iconName: null,
-    color: 'blue',
-    iconSize: 'medium',
-    iconColor: 'white',
-    labelColor: 'white',
-    loaderColor: 'white',
-    isWide: false,
+    children: null,
+    theme: 'blue',
+    onClick: undefined,
     isLoading: false,
-    isDisabled: false,
-  }
-
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isHovered: false,
-    }
-  }
-
-  onHover = (isHovered: boolean) => {
-    this.setState({ isHovered })
+    disabled: undefined,
+    className: undefined,
   }
 
   render() {
     const {
-      onClick,
-      label,
-      color,
-      iconName,
-      iconSize,
-      iconColor,
-      labelColor,
-      loaderColor,
-      isWide,
-      isDisabled,
       isLoading,
+      disabled,
     }: Props = this.props
 
-    const {
-      isHovered,
-    }: StateProps = this.state
+    const omittedProps = omit(this.props, [
+      'children',
+      'onClick',
+      'className',
+      'isLoading',
+      'theme',
+      'disabled',
+    ])
 
     const buttonClassName = classNames(
-      `j-raised-button -${color}`,
-      isWide && '-wide',
-      isHovered && '-hovered',
-      isDisabled && '-disabled',
-      labelColor === 'dark' && '-hover-dark',
-    )
+      this.props.className,
+      jRaisedButtonStyle.core,
+      jRaisedButtonStyle[this.props.theme],
+      isLoading && jRaisedButtonStyle.loading)
 
-    if (isLoading) {
-      return (
-        <div className={`${buttonClassName} -loading`}>
-          <JLoader color={loaderColor} />
-        </div>
-      )
-    }
+    const isDisabled = typeof disabled !== 'undefined' ? disabled : isLoading
 
     return (
-      <div
-        onMouseEnter={handle(this.onHover)(true)}
-        onMouseLeave={handle(this.onHover)(false)}
-        onClick={isDisabled ? undefined : onClick}
+      <button
+        type='button'
+        {...omittedProps}
         className={buttonClassName}
+        onClick={this.props.onClick}
+        disabled={isDisabled}
       >
-        {iconName && (
-          <div className='icon'>
-            <JIcon name={iconName} size={iconSize} color={iconColor} />
-          </div>
-        )}
-        <div className='label'>
-          <JText
-            value={label}
-            color={((isHovered && labelColor !== 'dark') || isDisabled) ? 'white' : labelColor}
-            weight='bold'
-            whiteSpace='wrap'
-          />
-        </div>
-      </div>
+        {isLoading ?
+          <JLoader color={loaderColorMap[this.props.theme]} />
+          : this.props.children
+        }
+      </button>
     )
   }
 }

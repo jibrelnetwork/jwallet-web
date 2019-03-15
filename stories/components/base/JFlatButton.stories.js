@@ -41,7 +41,6 @@ storiesOf('JFlatButton', module)
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='white'
             color='white'
@@ -52,7 +51,6 @@ storiesOf('JFlatButton', module)
         <div style={{ padding: '10px', backgroundColor: '#0033A3', width: '225px' }} >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='white'
             color='white'
@@ -104,7 +102,6 @@ storiesOf('JFlatButton', module)
         <div style={{ padding: '10px', width: '225px' }} >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='blue'
             color='blue'
@@ -130,7 +127,6 @@ storiesOf('JFlatButton', module)
         <div style={{ padding: '10px', width: '225px' }} >
           <JFlatButton
             onClick={action('onClick')}
-            iconSize='small'
             label='Get more addresses'
             iconColor='blue'
             color='blue'

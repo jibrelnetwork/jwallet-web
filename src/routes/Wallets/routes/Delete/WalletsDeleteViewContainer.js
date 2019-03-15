@@ -3,13 +3,13 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import WalletsDeleteView from './WalletsDeleteView'
-
 import {
   remove,
   openView,
   closeView,
-} from './modules/walletsDelete'
+} from 'store/modules/walletsDelete'
+
+import WalletsDeleteView from './WalletsDeleteView'
 
 type StateProps = {|
   +items: Wallets,
@@ -28,6 +28,14 @@ const mapDispatchToProps = {
   goToWallets: () => push('/wallets'),
 }
 
+/* ::
+type OwnProps = {|
+  +params: {|
+    +walletId: string,
+  |},
+|}
+*/
+
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(WalletsDeleteView)

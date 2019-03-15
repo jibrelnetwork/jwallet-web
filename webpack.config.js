@@ -17,6 +17,8 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
 
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
+
 const PATHS = {
   INDEX_HTML: path.resolve('src/public/index.html'),
   INDEX_JS: path.resolve('src/main.js'),
@@ -124,7 +126,42 @@ module.exports = {
         ],
         include: PATHS.SOURCE,
       },
-
+      {
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+          path.resolve(__dirname, 'src/public/assets/tokens'),
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: '[hash:8].sprite.svg',
+              publicPath: '/static/media/',
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { removeDoctype: true },
+                { removeComments: true },
+                { collapseGroups: true },
+                { convertPathData: true },
+                { removeDimensions: true },
+                { convertTransform: true },
+                { removeUselessDefs: true },
+                { removeUselessStrokeAndFill: true },
+                { removeNonInheritableGroupAttrs: true },
+                { removeStyleElement: true },
+                { removeAttrs: { attrs: '(fill|stroke)' } },
+              ],
+            },
+          },
+        ],
+      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -139,6 +176,69 @@ module.exports = {
               limit: 10000,
               name: 'static/media/[name].[hash:8].[ext]',
             },
+          },
+
+          // SCSS modules loader
+          {
+            test: /\.m\.scss$/,
+            include: PATHS.SOURCE,
+            use: [
+              isEnvDevelopment && require.resolve('style-loader'),
+              isEnvProduction && {
+                loader: MiniCssExtractPlugin.loader,
+                options: Object.assign(
+                  {},
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
+                ),
+              },
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  url: false,
+                  import: false,
+                  modules: 'local',
+                  localIdentName: isEnvDevelopment ?
+                    '[path][name]__[local]--[hash:base64:5]' :
+                    '[hash:base64:8]',
+                  camelCase: true,
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                // Options for PostCSS as we reference these options twice
+                // Adds vendor prefixing based on your specified browser support in
+                // package.json
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebook/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    require('autoprefixer')({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 11',
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                  ],
+                  sourceMap: isEnvProduction,
+                },
+              },
+              {
+                loader: require.resolve('sass-loader'),
+                options: {
+                  sourceMap: isEnvProduction,
+                  includePaths: [
+                    PATHS.SOURCE,
+                  ],
+                },
+              },
+            ].filter(Boolean),
           },
 
           // SCSS loader
@@ -230,7 +330,10 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/],
+            exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
+                      path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+                      path.resolve(__dirname, 'src/public/assets/tokens'),
+            ],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
             },
@@ -363,6 +466,8 @@ module.exports = {
         transformPath: targetPath => targetPath.replace(/src\/public/, ''),
       },
     ]),
+
+    new SpriteLoaderPlugin(),
   ].filter(Boolean),
 
   optimization: {

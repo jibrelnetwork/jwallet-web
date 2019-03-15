@@ -10,7 +10,7 @@ function filterAssetsBalances(
   txsByOwner: ?TransactionsByOwner,
   assets: DigitalAssets,
   processingBlock: ?BlockData,
-  walletCreatedBlockNumber: ?number
+  walletCreatedBlockNumber: ?number,
 ): ?Balances {
   if (!(assetBalances && processingBlock)) {
     return null

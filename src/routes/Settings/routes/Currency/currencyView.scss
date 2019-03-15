@@ -18,13 +18,4 @@
     text-align: left;
     padding: 0 15px;
   }
-
-  > .submit {
-    width: 100%;
-    text-align: center;
-
-    &:not(.-disabled):hover {
-      background-color: $bright-sky-blue;
-    }
-  }
 }

@@ -2,36 +2,46 @@
 /* @flow */
 
 import React from 'react'
-import { storiesOf, action } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 
-import JRaisedButton from 'components/base/JRaisedButton'
+import { JRaisedButton } from 'components/base'
+
+const getBackground = background => ({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  background,
+})
+
+const componentCard = {
+  padding: '10px',
+  width: '140px',
+}
 
 storiesOf('JRaisedButton', module)
   .add('Different status', () => (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', background: '#fff' }}>
-        <div style={{ padding: '10px', width: '140px' }} >
+      <div style={getBackground('#ffffff')}>
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='blue'
-          />
+          >Yes, delete
+          </JRaisedButton>
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='blue'
-            isDisabled
-          />
+            disabled
+          >Yes, delete
+          </JRaisedButton>
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='blue'
             isLoading
-          />
+          >Yes, delete
+          </JRaisedButton>
         </div>
       </div>
     </div>
@@ -39,67 +49,55 @@ storiesOf('JRaisedButton', module)
   .add('Different color', () => (
     <div>
       <h2>White</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', background: '#0033A3' }}>
-        <div style={{ padding: '10px', width: '140px' }} >
+      <div style={getBackground('#0033A3')}>
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='white'
-            labelColor='blue'
-            loaderColor='blue'
-          />
+            theme='white'
+          >Yes, delete
+          </JRaisedButton>
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='white'
-            labelColor='white'
-            loaderColor='white'
-            isDisabled
-          />
+            theme='white'
+            disabled
+          >Yes, delete
+          </JRaisedButton>
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='white'
-            labelColor='white'
-            loaderColor='white'
+            theme='white'
             isLoading
-          />
+          >Yes, delete
+          </JRaisedButton>
         </div>
       </div>
       <h2>Dark</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', background: '#232d3e' }}>
-        <div style={{ padding: '10px', width: '140px' }} >
+      <div style={getBackground('#232d3e')}>
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='white'
-            labelColor='dark'
-            loaderColor='dark'
-          />
+            theme='gray'
+          >Yes, delete
+          </JRaisedButton>
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='white'
-            labelColor='dark'
-            loaderColor='dark'
-            isDisabled
-          />
+            theme='gray'
+            disabled
+          >Yes, delete
+          </JRaisedButton>
         </div>
-        <div style={{ padding: '10px', width: '140px' }} >
+        <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-            label='Yes, delete'
-            color='white'
-            labelColor='dark'
-            loaderColor='dark'
+            theme='gray'
             isLoading
-          />
+          >Yes, delete
+          </JRaisedButton>
         </div>
       </div>
     </div>

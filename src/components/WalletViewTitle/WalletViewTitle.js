@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 import JText from 'components/base/JText'
 
 type Props = {|
-  +data: ?Array<string>,
+  +data: ?string[],
 |}
 
 class WalletViewTitle extends PureComponent<Props> {

@@ -8,7 +8,6 @@ import fromGweiToWei from './fromGweiToWei'
 import divDecimals from './divDecimals'
 import toBigNumber from './toBigNumber'
 import formatBalance from './formatBalance'
-import divideThousands from './divideThousands'
 
 export {
   round,
@@ -19,5 +18,4 @@ export {
   divDecimals,
   toBigNumber,
   formatBalance,
-  divideThousands,
 }

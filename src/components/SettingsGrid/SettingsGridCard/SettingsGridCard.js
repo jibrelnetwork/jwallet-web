@@ -12,7 +12,7 @@ import {
   JText,
 } from 'components/base'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 export type Props = {|
   +title: string,
@@ -49,10 +49,11 @@ class SettingsGridCard extends PureComponent<Props, *> {
           <div className='title'>
             <JText value={title} color='dark' size='header' />
           </div>
-          {description &&
-          <div className='description'>
-            <JText value={description} color='dusk' />
-          </div>}
+          {description && (
+            <div className='description'>
+              <JText value={description} color='dusk' />
+            </div>
+          )}
         </div>
       </Fragment>
     )
