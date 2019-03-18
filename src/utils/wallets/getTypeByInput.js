@@ -19,7 +19,7 @@ function getTypeByInput(data: ?string): ?WalletCustomType {
     return 'bip32Xpub'
   } else if (checkPrivateKeyValid(data)) {
     return 'privateKey'
-  } else if (checkAddressValid(data)) {
+  } else if (checkAddressValid(data) || checkAddressValid(`0x${data}`)) {
     return 'address'
   }
 
