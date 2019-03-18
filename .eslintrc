@@ -16,14 +16,17 @@
   "rules": {
     "no-param-reassign": [2, {
       "props": true,
-      "ignorePropertyModificationsFor": ["reduceResult"]
+      "ignorePropertyModificationsFor": ["self", "reduceResult"]
     }],
+    "fp/no-events": 0,
     "fp/no-mutation": [2, {
       "commonjs": true,
       "allowThis": true,
       "exceptions": [
+        { "object": "self" },
         { "object": "formErrors" },
         { "object": "reduceResult" },
+        { "property": "onerror" },
         { "property": "onmessage" },
         { "property": "src" },
         { "property": "type" },
