@@ -1,9 +1,9 @@
 // @flow
 
-type Themes = 'white'
+type Theme = 'text-white' | 'text-blue'
 
 export type JLinkProps = {
-  theme?: Themes,
+  theme?: Theme,
   className?: string,
   activeClassName?: string,
   +children: React$Node,

@@ -13,16 +13,22 @@ import {
 } from './utils'
 
 export const JLink = (initialProps: JLinkProps) => {
-  const { href } = initialProps
+  const {
+    href,
+    theme,
+    className: initialClassName,
+  } = initialProps
+
   const props = omit(initialProps, [
     'theme',
     'className',
     'activeClassName',
     'rel',
   ])
+
   const className = classnames(
-    initialProps.theme && jLinkStyle[initialProps.theme],
-    initialProps.className,
+    theme && jLinkStyle[theme],
+    initialClassName,
   )
 
   /* eslint-disable jsx-a11y/anchor-has-content */

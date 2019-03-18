@@ -1,5 +1,31 @@
-// FIXME: add themes or remove forever
+@import "styles/colors";
 
-.core {
+.text-white {
   display: inline;
+  color: $white;
+  text-decoration: underline $white;
+  // stylelint-disable-next-line property-no-unknown
+  text-decoration-skip-ink: auto;
+  transition: color 0.2s, text-decoration-color 0.2s;
+
+  &:hover,
+  &:active {
+    color: $bright-sky-blue;
+    text-decoration-color: $bright-sky-blue;
+  }
+}
+
+.text-blue {
+  display: inline;
+  color: $blue-two;
+  text-decoration: underline $blue-two;
+  // stylelint-disable-next-line property-no-unknown
+  text-decoration-skip-ink: auto;
+  transition: color 0.2s, text-decoration-color 0.2s;
+
+  &:hover,
+  &:active {
+    color: $bright-sky-blue;
+    text-decoration-color: $bright-sky-blue;
+  }
 }
