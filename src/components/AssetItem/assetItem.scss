@@ -75,6 +75,11 @@
       &.-edit,
       &.-delete {
         display: none;
+        stroke: $blue;
+
+        &:hover {
+          stroke: $bright-sky-blue;
+        }
       }
 
       &.-dots {
@@ -84,6 +89,15 @@
         &:hover,
         &:active {
           opacity: 0.6;
+        }
+      }
+
+      > .confirms {
+        > .action {
+          > .confirm {
+            margin-right: 5px;
+            margin-left: 0;
+          }
         }
       }
     }
