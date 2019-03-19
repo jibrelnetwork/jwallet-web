@@ -26,7 +26,7 @@ type Props = {|
 
 type ComponentState = {|
   +isActionsToggled: boolean,
-  +showDelete: boolean,
+  +isDeleteVisible: boolean,
 |}
 
 class FavoriteItem extends PureComponent<Props, ComponentState> {
@@ -35,12 +35,12 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
 
     this.state = {
       isActionsToggled: false,
-      showDelete: false,
+      isDeleteVisible: false,
     }
   }
 
   handleClickToggleDelete = () => {
-    this.setState({ showDelete: !this.state.showDelete })
+    this.setState({ isDeleteVisible: !this.state.isDeleteVisible })
   }
 
   handleOpen = () => this.setState({
@@ -125,7 +125,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
             <div className='item -delete'>
               <div className='confirms'>
                 {
-                  this.state.showDelete ?
+                  this.state.isDeleteVisible ?
                     (
                       <div className='action -overlay-white'>
                         <JFlatButton
