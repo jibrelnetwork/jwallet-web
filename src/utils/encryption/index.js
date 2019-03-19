@@ -4,7 +4,6 @@ import getNonce from './getNonce'
 import decryptData from './decryptData'
 import encryptData from './encryptData'
 import generateSalt from './generateSalt'
-import testPassword from './testPassword'
 import decryptInternalKey from './decryptInternalKey'
 import encryptInternalKey from './encryptInternalKey'
 import getPasswordOptions from './getPasswordOptions'
@@ -16,7 +15,6 @@ export {
   decryptData,
   encryptData,
   generateSalt,
-  testPassword,
   decryptInternalKey,
   encryptInternalKey,
   getPasswordOptions,

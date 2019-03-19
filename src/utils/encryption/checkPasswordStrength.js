@@ -1,9 +1,8 @@
 // @flow
 
-import zxcvbn from 'zxcvbn'
-
-function checkPasswordStrength(password: string): PasswordResult {
-  return zxcvbn(password)
+function checkPasswordStrength(password: string): Promise<PasswordResult> {
+  return import(/* webpackChunkName: "zxcvbn" */ 'zxcvbn')
+    .then(({ default: zxcvbn }) => zxcvbn(password))
 }
 
 export default checkPasswordStrength
