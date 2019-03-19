@@ -10,7 +10,7 @@ import JRaisedButton from '../JRaisedButton.js'
 describe('Render', () => {
   test('Semantic html', () => {
     const wrapper = shallow(<JRaisedButton>Hello world</JRaisedButton>)
-    expect(wrapper.html()).toBe('<button type="button" class="jButton blue">Hello world</button>')
+    expect(wrapper.html()).toBe('<button type="button" class="core blue">Hello world</button>')
   })
 
   test('Children simple', () => {

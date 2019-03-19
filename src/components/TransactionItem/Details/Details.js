@@ -8,7 +8,6 @@ import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
 
 import {
-  JText,
   JFlatButton,
 } from 'components/base'
 
@@ -18,6 +17,8 @@ import {
   getAddressLink,
 } from 'utils/transactions'
 import assetsData from 'data/assets'
+
+import jTextStyle from 'styles/components/jText.m.scss'
 
 import TransactionItemDetailsComment from './Comment'
 
@@ -37,10 +38,7 @@ type Props = {|
   +isMintable: boolean,
 |}
 
-type TransactionItemDetailsHovered = 'hash' | 'from' | 'to'
-
 type StateProps = {|
-  +hovered: ?TransactionItemDetailsHovered,
   +isCommenting: boolean,
 |}
 
@@ -97,11 +95,8 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     this.state = {
       isCommenting: false,
-      hovered: null,
     }
   }
-
-  onHover = (hovered: ?TransactionItemDetailsHovered) => () => this.setState({ hovered })
 
   handleClick = () => this.setState({ isCommenting: !this.state.isCommenting })
 
@@ -124,7 +119,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     const {
       isCommenting,
-      hovered,
     }: StateProps = this.state
 
     const {
@@ -155,82 +149,76 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
         <div className='item'>
-          <div className='label'>
-            <JText value={t`TX Hash`} color='gray' />
+          <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+            {t`TX Hash`}
           </div>
           <div className='value'>
             <a
               href={getTxLink(hash, blockExplorerUISubdomain)}
-              onMouseEnter={this.onHover('hash')}
-              onMouseLeave={this.onHover(null)}
               target='_blank'
-              className='link'
+              className={classNames(
+                'link',
+                jTextStyle.core,
+                jTextStyle.bold,
+              )}
               rel='noopener noreferrer'
             >
-              <JText value={hash} color={hovered === 'hash' ? 'sky' : 'blue'} weight='bold' />
+              {hash}
             </a>
           </div>
         </div>
         {from && (
           <div className='item -small-width'>
-            <div className='label'>
-              <JText value={t`From address`} color='gray' />
+            <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+              {t`From address`}
             </div>
             <div className='value'>
               <a
                 href={getAddressLink(from, blockExplorerUISubdomain)}
-                onMouseEnter={this.onHover('from')}
-                onMouseLeave={this.onHover(null)}
                 target='_blank'
-                className='link'
+                className={classNames(
+                  'link',
+                  jTextStyle.core,
+                  jTextStyle.bold,
+                )}
                 rel='noopener noreferrer'
               >
-                <JText
-                  value={fromName ? `${fromName} — ${from}` : from}
-                  color={hovered === 'from' ? 'sky' : 'blue'}
-                  weight='bold'
-                />
+                {fromName ? `${fromName} — ${from}` : from}
               </a>
             </div>
           </div>
         )}
         {to && (
           <div className='item -small-width'>
-            <div className='label'>
-              <JText value={t`To address`} color='gray' />
+            <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+              {t`To address`}
             </div>
             <div className='value'>
               <a
                 href={getAddressLink(to, blockExplorerUISubdomain)}
-                onMouseEnter={this.onHover('to')}
-                onMouseLeave={this.onHover(null)}
                 target='_blank'
-                className='link'
+                className={classNames(
+                  'link',
+                  jTextStyle.core,
+                  jTextStyle.bold,
+                )}
                 rel='noopener noreferrer'
               >
-                <JText
-                  value={toName ? `${toName} — ${to}` : to}
-                  color={hovered === 'to' ? 'sky' : 'blue'}
-                  weight='bold'
-                />
+                {toName ? `${toName} — ${to}` : to}
               </a>
             </div>
           </div>
         )}
         <div className='item'>
-          <div className='label'>
-            <JText value={t`Fee`} color='gray' />
+          <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+            {t`Fee`}
           </div>
-          <div className='value'>
-            <JText
-              value={`${getTxFee(
-                receiptData.gasUsed,
-                data.gasPrice,
-                assetsData.ethereum.blockchainParams.decimals,
-              )} ETH`}
-              color='gray'
-              weight='bold'
-            />
+          <div className={classNames('value', jTextStyle.core, jTextStyle.gray, jTextStyle.bold)}>
+            {`${getTxFee(
+              receiptData.gasUsed,
+              data.gasPrice,
+              assetsData.ethereum.blockchainParams.decimals,
+            )} ETH`}
           </div>
         </div>
         <div className='actions'>
