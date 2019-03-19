@@ -38,7 +38,7 @@ type Props = {|
 
 type StateProps = {|
   +isToggled: boolean,
-  +showDelete: boolean,
+  +isDeleteVisibile: boolean,
 |}
 
 class AssetItem extends PureComponent<Props, StateProps> {
@@ -52,7 +52,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
     this.state = {
       isToggled: false,
-      showDelete: false,
+      isDeleteVisibile: false,
     }
   }
 
@@ -61,7 +61,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
   }
 
   handleClickToggleDelete = () => {
-    this.setState({ showDelete: !this.state.showDelete })
+    this.setState({ isDeleteVisibile: !this.state.isDeleteVisibile })
   }
 
   handleClickRemove = () => {
@@ -140,7 +140,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
                 <div className='item -delete'>
                   <div className='confirms'>
                     {
-                      this.state.showDelete ?
+                      this.state.isDeleteVisibile ?
                         (
                           <div className='action -overlay-white'>
                             <JFlatButton
