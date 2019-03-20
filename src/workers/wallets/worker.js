@@ -2,8 +2,6 @@
 
 import { t } from 'ttag'
 
-import generateMnemonic from 'utils/mnemonic/generateMnemonic'
-
 import {
   createWallet,
   upgradeWallet,
@@ -19,8 +17,6 @@ import {
 
 import * as upgrade from 'routes/Upgrade/modules/upgrade'
 import * as wallets from 'routes/Wallets/modules/wallets'
-import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
-import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
 import type { UpgradeAction } from 'routes/Upgrade/modules/upgrade'
@@ -66,7 +62,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
   const action: WalletsAnyAction = msg.data
 
   switch (action.type) {
-    case walletsCreate.CREATE_REQUEST: {
+    case wallets.CREATE_REQUEST: {
       try {
         const {
           items,
@@ -74,48 +70,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           passwordOptions,
           mnemonicOptions,
           createdBlockNumber,
-          name,
-          password,
-        } = action.payload
-
-        const {
-          salt,
-          scryptParams,
-          encryptionType,
-          derivedKeyLength,
-        }: PasswordOptions = passwordOptions
-
-        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
-
-        walletsWorker.postMessage(walletsCreate.createSuccess({
-          passwordOptions,
-          internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
-          items: createWallet(items, {
-            name,
-            mnemonicOptions,
-            createdBlockNumber,
-            isSimplified: true,
-            data: generateMnemonic(),
-          }, internalKeyDec, encryptionType),
-        }))
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-
-        walletsWorker.postMessage(walletsCreate.createError(err.message))
-      }
-
-      break
-    }
-
-    case walletsImport.IMPORT_REQUEST: {
-      try {
-        const {
-          items,
-          internalKey,
-          passwordOptions,
-          mnemonicOptions,
           data,
           name,
           password,
@@ -131,13 +85,14 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
         const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
 
-        walletsWorker.postMessage(walletsImport.importSuccess({
+        walletsWorker.postMessage(wallets.createSuccess({
           passwordOptions,
           internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
           items: createWallet(items, {
             data,
             name,
             mnemonicOptions,
+            createdBlockNumber,
             isSimplified: true,
           }, internalKeyDec, encryptionType),
         }))
@@ -145,7 +100,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        walletsWorker.postMessage(walletsImport.importError(err.message))
+        walletsWorker.postMessage(wallets.createError(err.message))
       }
 
       break

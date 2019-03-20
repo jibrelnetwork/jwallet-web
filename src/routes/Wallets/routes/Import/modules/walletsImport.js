@@ -1,10 +1,5 @@
 // @flow
 
-import type {
-  WalletsImportRequestPayload,
-  WalletsSetWalletsActionPayload,
-} from 'routes/Wallets/modules/wallets'
-
 export const OPEN_VIEW = '@@walletsImport/OPEN_VIEW'
 export const CLOSE_VIEW = '@@walletsImport/CLOSE_VIEW'
 
@@ -17,10 +12,6 @@ export const SET_WALLET_TYPE = '@@walletsImport/SET_WALLET_TYPE'
 export const GO_TO_NEXT_STEP = '@@walletsImport/GO_TO_NEXT_STEP'
 export const GO_TO_PREV_STEP = '@@walletsImport/GO_TO_PREV_STEP'
 export const SET_CURRENT_STEP = '@@walletsImport/SET_CURRENT_STEP'
-
-export const IMPORT_ERROR = '@@walletsImport/IMPORT_ERROR'
-export const IMPORT_SUCCESS = '@@walletsImport/IMPORT_SUCCESS'
-export const IMPORT_REQUEST = '@@walletsImport/IMPORT_REQUEST'
 
 export const SET_INVALID_FIELD = '@@walletsImport/SET_INVALID_FIELD'
 
@@ -101,30 +92,6 @@ export function setCurrentStep(currentStep: WalletsImportStepIndex) {
   }
 }
 
-export function importError(message: string) {
-  return {
-    type: IMPORT_ERROR,
-    payload: {
-      message,
-    },
-    error: true,
-  }
-}
-
-export function importSuccess(payload: WalletsSetWalletsActionPayload) {
-  return {
-    type: IMPORT_SUCCESS,
-    payload,
-  }
-}
-
-export function importRequest(payload: WalletsImportRequestPayload) {
-  return {
-    type: IMPORT_REQUEST,
-    payload,
-  }
-}
-
 export function setInvalidField(fieldName: string, message: string) {
   return {
     type: SET_INVALID_FIELD,
@@ -150,9 +117,6 @@ export type WalletsImportAction =
   ExtractReturn<typeof goToNextStep> |
   ExtractReturn<typeof goToPrevStep> |
   ExtractReturn<typeof setCurrentStep> |
-  ExtractReturn<typeof importError> |
-  ExtractReturn<typeof importSuccess> |
-  ExtractReturn<typeof importRequest> |
   ExtractReturn<typeof setInvalidField> |
   ExtractReturn<typeof clean>
 
@@ -168,7 +132,7 @@ const initialState: WalletsImportState = {
 function walletsImport(
   state: WalletsImportState = initialState,
   action: WalletsImportAction,
-): WalletsImportAction {
+): WalletsImportState {
   switch (action.type) {
     case CHANGE_DATA_INPUT:
       return {

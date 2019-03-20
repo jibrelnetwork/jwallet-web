@@ -7,8 +7,6 @@ import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 
 import * as upgrade from 'routes/Upgrade/modules/upgrade'
 import * as wallets from 'routes/Wallets/modules/wallets'
-import * as walletsCreate from 'routes/Wallets/routes/Create/modules/walletsCreate'
-import * as walletsImport from 'routes/Wallets/routes/Import/modules/walletsImport'
 import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
 
 import type {
@@ -30,33 +28,9 @@ const walletsWorker: WalletsWorkerInstance = new WalletsWorker()
 
 export function createRequest(
   walletsData: WalletsState,
-  createdBlockNumber: WalletCreatedBlockNumber,
+  importWalletData: ImportWalletData,
+  createdBlockNumber: ?WalletCreatedBlockNumber,
 ) {
-  const {
-    name,
-    persist,
-    password,
-    passwordHint,
-  }: WalletsState = walletsData
-
-  const {
-    items,
-    internalKey,
-    passwordOptions,
-  } = persist
-
-  walletsWorker.postMessage(walletsCreate.createRequest({
-    name,
-    items,
-    password,
-    internalKey,
-    createdBlockNumber,
-    mnemonicOptions: getMnemonicOptions(),
-    passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
-  }))
-}
-
-export function importRequest(walletsData: WalletsState, importWalletData: ImportWalletData) {
   const {
     name,
     persist,
@@ -76,12 +50,13 @@ export function importRequest(walletsData: WalletsState, importWalletData: Impor
     derivationPath,
   }: ImportWalletData = importWalletData
 
-  walletsWorker.postMessage(walletsImport.importRequest({
+  walletsWorker.postMessage(wallets.createRequest({
     data,
     name,
     items,
     password,
     internalKey,
+    createdBlockNumber,
     passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
     mnemonicOptions: getMnemonicOptions({
       passphrase,

@@ -10,17 +10,18 @@ const PRIVATE_KEY = '0xfb27c2394586feb01403ba3643b519c8f209e0427b31f510a6877b494
 const MNEMONIC = 'extra write absent bargain raw tilt follow jeans february brief nation express'
 
 storiesOf('CopyableField')
-  .add('only copy handler (mnemonic)', () => (
+  .add('only onCopySuccess handler (mnemonic)', () => (
     <CopyableField
-      copy={HANDLER}
+      onCopySuccess={HANDLER}
       value={MNEMONIC}
     />
   ))
-  .add('copy & download handlers (private key)', () => (
+  .add('onCopySuccess & onDownloadSuccess handlers (private key)', () => (
     <CopyableField
-      copy={HANDLER}
-      download={HANDLER}
+      onCopySuccess={HANDLER}
+      onDownloadSuccess={HANDLER}
       value={PRIVATE_KEY}
       valueToDisplay={`${PRIVATE_KEY.substr(0, 33)} ${PRIVATE_KEY.substr(33)}`}
+      isDownloadAvailable
     />
   ))

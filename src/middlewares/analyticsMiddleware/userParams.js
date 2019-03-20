@@ -1,6 +1,10 @@
 import { DIMENSIONS, METRICS, gaSetUserDimension, gaSetUserMetric } from 'utils/analytics'
 
-import { SET_WALLETS, SET_WALLETS_ITEMS } from 'routes/Wallets/modules/wallets'
+import {
+  SET_WALLETS,
+  SET_WALLETS_ITEMS,
+  CREATE_SUCCESS,
+} from 'routes/Wallets/modules/wallets'
 import { selectWalletsItems } from 'store/selectors/wallets'
 
 import {
@@ -19,9 +23,6 @@ import {
   REMOVE as FAVORITES_REMOVE,
 } from 'routes/Favorites/modules/favorites'
 import { selectFavoritesItems } from 'store/selectors/favorites'
-
-import { IMPORT_SUCCESS } from 'routes/Wallets/routes/Import/modules/walletsImport'
-import { CREATE_SUCCESS } from 'routes/Wallets/routes/Create/modules/walletsCreate'
 
 export const userParams = (state, action) => {
   switch (action.type) {
@@ -70,8 +71,7 @@ export const userParams = (state, action) => {
       gaSetUserMetric(METRICS.FAVORITES, selectFavoritesItems(state).length)
       break
     }
-    case CREATE_SUCCESS:
-    case IMPORT_SUCCESS: {
+    case CREATE_SUCCESS: {
       if (selectWalletsItems(state).length === 0) {
         const today = new Date()
         gaSetUserDimension(
