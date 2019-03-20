@@ -1151,6 +1151,7 @@ msgid "Copy recovery text"
 msgstr "Copy recovery text"
 
 #: src/routes/Wallets/routes/Backup/WalletsBackupView.js
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js
 msgid ""
 "This is your secret recovery text.\n"
 "It is the only way to restore access to your funds.\n"
@@ -1245,4 +1246,8 @@ msgstr ""
 
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageView.js
 msgid "Close"
+msgstr ""
+
+#: src/routes/Wallets/routes/Create/WalletsCreateView.js
+msgid "I saved the backup, let's go!"
 msgstr ""
