@@ -130,7 +130,7 @@ declare type WalletsState = {|
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
-  mnemonic: string,
+  +mnemonic: string,
   +isLoading: boolean,
 |}
 

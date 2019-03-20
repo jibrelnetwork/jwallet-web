@@ -18,7 +18,7 @@ type Props = {|
   +onDownloadSuccess: Function,
   +value: string,
   +valueToDisplay: ?string,
-  isDownloadAvailable: boolean,
+  +isDownloadAvailable: boolean,
 |}
 
 type StateProps = {|
