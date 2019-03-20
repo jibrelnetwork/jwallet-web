@@ -126,10 +126,10 @@ export default class PaymentPasswordView extends PureComponent<Props> {
               />
               <JRaisedButton
                 onClick={handleFormSubmit}
-                label={t`Set password`}
-                color='blue'
                 isLoading={passwordForm.isLoading}
-              />
+                type='submit'
+              >{t`Set password`}
+              </JRaisedButton>
             </form>
           )}
         />

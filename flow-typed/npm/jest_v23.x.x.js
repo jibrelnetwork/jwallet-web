@@ -1,5 +1,13 @@
-// flow-typed signature: 2a91b5ed6fd7a9d53a4d78a6d32d9f1e
+// @flow
+
+// flow-typed signature: 78c200acffbcc16bba9478f5396c3a00
 // flow-typed version: b2980740dd/jest_v23.x.x/flow_>=v0.39.x
+
+/* eslint-disable flowtype/array-style-simple-type, flowtype/delimiter-dangle,
+  flowtype/require-compound-type-alias, no-use-before-define, flowtype/semi,
+  flowtype/object-type-delimiter, max-len, no-multiple-empty-lines,
+  flowtype/space-after-type-colon, flowtype/no-dupe-keys, no-unused-vars
+ */
 
 type JestMockFn<TArguments: $ReadOnlyArray<*>, TReturn> = {
   (...args: TArguments): TReturn,
@@ -1153,3 +1161,9 @@ declare var jasmine: {
   objectContaining(value: Object): Object,
   stringMatching(value: string): string
 };
+
+/* eslint-enable flowtype/array-style-simple-type, flowtype/delimiter-dangle,
+  flowtype/require-compound-type-alias, no-use-before-define, flowtype/semi,
+  flowtype/object-type-delimiter, max-len, no-multiple-empty-lines,
+  flowtype/space-after-type-colon, flowtype/no-dupe-keys, no-unused-vars
+ */

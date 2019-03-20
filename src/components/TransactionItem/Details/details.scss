@@ -29,6 +29,7 @@
       @include flex-row;
 
       align-items: center;
+      line-height: 18px;
 
       > .icon {
         margin-right: 5px;
@@ -38,11 +39,18 @@
         @include flex-row;
 
         align-items: center;
+        color: $blue;
+        line-height: 18px;
+
+        &:hover {
+          color: $bright-sky-blue;
+        }
       }
     }
 
     > .label {
       opacity: 0.5;
+      line-height: 22px;
     }
   }
 

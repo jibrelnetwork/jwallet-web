@@ -5,6 +5,12 @@
   display: inline-block;
   transition: stroke 0.3s ease 0s;
 
+  &.-no-icon {
+    width: 24px;
+    height: 24px;
+    background-color: $tomato;
+  }
+
   &.-white {
     stroke: $white;
 

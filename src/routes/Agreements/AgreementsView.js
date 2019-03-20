@@ -114,13 +114,12 @@ class AgreementsView extends PureComponent<Props, StateProps> {
           </div>
           <div className={style.action}>
             <JRaisedButton
+              className={style.buttonHeight}
               onClick={this.props.onSubmit}
-              color='white'
-              labelColor='blue'
-              label={t`Confirm and continue`}
-              isDisabled={isDisabled}
-              isWide
-            />
+              theme='white'
+              disabled={isDisabled}
+            >{t`Confirm and continue`}
+            </JRaisedButton>
           </div>
         </div>
       </div>
