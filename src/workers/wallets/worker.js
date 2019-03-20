@@ -164,7 +164,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new WalletInconsistentDataError('Invalid password options', walletId)
+          throw new WalletInconsistentDataError({ walletId }, 'Invalid password options')
         }
 
         const {
@@ -199,7 +199,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new WalletInconsistentDataError('Invalid password options', wallet.id)
+          throw new WalletInconsistentDataError({ walletId: wallet.id }, 'Invalid password options')
         }
 
         const {

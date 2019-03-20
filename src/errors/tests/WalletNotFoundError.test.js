@@ -11,7 +11,7 @@ describe('WalletNotFoundError', () => {
 
   test('can be thrown', () => {
     const fn = () => {
-      throw new WalletNotFoundError()
+      throw new WalletNotFoundError({ walletId })
     }
 
     expect(fn).toThrow(WalletNotFoundError)
@@ -19,7 +19,7 @@ describe('WalletNotFoundError', () => {
 
   test('has correct name', () => {
     try {
-      throw new WalletNotFoundError()
+      throw new WalletNotFoundError({ walletId })
     } catch (err) {
       expect(err.name).toEqual('WalletNotFoundError')
     }
@@ -27,7 +27,7 @@ describe('WalletNotFoundError', () => {
 
   test('can be checked by instanceof', () => {
     try {
-      throw new WalletNotFoundError()
+      throw new WalletNotFoundError({ walletId })
     } catch (err) {
       expect(err instanceof WalletNotFoundError).toBe(true)
       expect(err instanceof Error).toBe(true)
@@ -36,7 +36,7 @@ describe('WalletNotFoundError', () => {
 
   test('has stacktrace', () => {
     try {
-      throw new WalletNotFoundError()
+      throw new WalletNotFoundError({ walletId })
     } catch (err) {
       expect(err.stack).toBeDefined()
       expect(err.stack).not.toBeNull()
@@ -45,9 +45,9 @@ describe('WalletNotFoundError', () => {
 
   test('has walletId', () => {
     try {
-      throw new WalletNotFoundError(walletId)
+      throw new WalletNotFoundError({ walletId })
     } catch (err) {
-      expect(err.walletId).toBeDefined()
+      expect(err.data.walletId).toBeDefined()
     }
   })
 })

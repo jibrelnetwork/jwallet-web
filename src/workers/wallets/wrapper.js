@@ -142,7 +142,7 @@ export function upgradeRequest(
   if (!activeWalletId) {
     throw new ActiveWalletNotFoundError()
   } else if (!internalKey) {
-    throw new WalletInconsistentDataError('Invalid internal key', activeWalletId)
+    throw new WalletInconsistentDataError({ walletId: activeWalletId }, 'Invalid internal key')
   }
 
   const mnemonicOptions: ?MnemonicOptionsUser = !derivationPath ? null : {

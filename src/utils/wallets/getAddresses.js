@@ -15,7 +15,7 @@ function getAddresses(wallets: Wallets, walletId: string, start: number, end: nu
   }: Wallet = getWallet(wallets, walletId)
 
   if (!checkMnemonicType(type) || !bip32XPublicKey) {
-    throw new WalletInconsistentDataError('Wallet does not have public key', walletId)
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet does not have public key')
   }
 
   return generateAddresses(bip32XPublicKey, start, end)

@@ -267,7 +267,7 @@ function createWallet(
   } else if (checkAddressValid(data)) {
     return createReadOnlyAddressWallet(wallets, walletData)
   } else {
-    throw new WalletInconsistentDataError('createWallet data error', id)
+    throw new WalletInconsistentDataError({ walletId: id }, 'createWallet data error')
   }
 }
 

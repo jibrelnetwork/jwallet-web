@@ -18,7 +18,7 @@ function getAddress(wallets: Wallets, walletId: string): Address {
 
   if (!checkMnemonicType(type)) {
     if (!address) {
-      throw new WalletInconsistentDataError('!checkMnemonicType and !address', walletId)
+      throw new WalletInconsistentDataError({ walletId }, '!checkMnemonicType and !address')
     }
 
     return address
@@ -28,7 +28,7 @@ function getAddress(wallets: Wallets, walletId: string): Address {
   const indexEnd: number = indexStart + 1
 
   if (!bip32XPublicKey) {
-    throw new WalletInconsistentDataError('bip32XPublicKey is empty', walletId)
+    throw new WalletInconsistentDataError({ walletId }, 'bip32XPublicKey is empty')
   }
 
   const derivedAddresses: Address[] = generateAddresses(bip32XPublicKey, indexStart, indexEnd)

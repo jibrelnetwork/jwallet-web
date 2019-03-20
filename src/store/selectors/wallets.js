@@ -70,7 +70,7 @@ export function selectWalletOrThrow(state: AppState, walletId: WalletId): Wallet
   const wallet = selectWallet(state, walletId)
 
   if (!wallet) {
-    throw new WalletNotFoundError(walletId)
+    throw new WalletNotFoundError({ walletId })
   }
 
   return wallet

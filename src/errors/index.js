@@ -1,10 +1,13 @@
 // @flow
 
-export { default as ActiveNetworkNotFoundError } from './ActiveNetworkNotFound'
-export { default as ActiveWalletNotFoundError } from './ActiveWalletNotFound'
-export { default as DigitalAssetNotFoundError } from './DigitalAssetNotFound'
-export { default as WalletNotFoundError } from './WalletNotFound'
-export { default as WalletInconsistentDataError } from './WalletInconsistentData'
+/* Selector errors */
+export { default as ActiveNetworkNotFoundError } from './ActiveNetworkNotFoundError'
+export { default as ActiveWalletNotFoundError } from './ActiveWalletNotFoundError'
+export { default as DigitalAssetNotFoundError } from './DigitalAssetNotFoundError'
+export { default as WalletNotFoundError } from './WalletNotFoundError'
+export { default as WalletInconsistentDataError } from './WalletInconsistentDataError'
+
+/* Worker errors */
 export { default as WorkerError } from './WorkerError'
 export { default as WorkerTaskError } from './WorkerTaskError'
 export { default as WorkerTaskTimeoutError } from './WorkerTaskTimeoutError'

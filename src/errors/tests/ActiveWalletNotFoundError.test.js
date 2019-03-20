@@ -11,7 +11,7 @@ describe('DigitalAssetNotFoundError', () => {
 
   test('can be thrown', () => {
     const fn = () => {
-      throw new DigitalAssetNotFoundError(assetAddress)
+      throw new DigitalAssetNotFoundError({ address: assetAddress })
     }
 
     expect(fn).toThrow(DigitalAssetNotFoundError)
@@ -19,7 +19,7 @@ describe('DigitalAssetNotFoundError', () => {
 
   test('has correct name', () => {
     try {
-      throw new DigitalAssetNotFoundError(assetAddress)
+      throw new DigitalAssetNotFoundError({ address: assetAddress })
     } catch (err) {
       expect(err.name).toEqual('DigitalAssetNotFoundError')
     }
@@ -27,7 +27,7 @@ describe('DigitalAssetNotFoundError', () => {
 
   test('can be checked by instanceof', () => {
     try {
-      throw new DigitalAssetNotFoundError(assetAddress)
+      throw new DigitalAssetNotFoundError({ address: assetAddress })
     } catch (err) {
       expect(err instanceof DigitalAssetNotFoundError).toBe(true)
       expect(err instanceof Error).toBe(true)
@@ -36,7 +36,7 @@ describe('DigitalAssetNotFoundError', () => {
 
   test('has stacktrace', () => {
     try {
-      throw new DigitalAssetNotFoundError(assetAddress)
+      throw new DigitalAssetNotFoundError({ address: assetAddress })
     } catch (err) {
       expect(err.stack).toBeDefined()
       expect(err.stack).not.toBeNull()
@@ -45,9 +45,9 @@ describe('DigitalAssetNotFoundError', () => {
 
   test('has correct address', () => {
     try {
-      throw new DigitalAssetNotFoundError(assetAddress)
+      throw new DigitalAssetNotFoundError({ address: assetAddress })
     } catch (err) {
-      expect(err.address).toEqual(assetAddress)
+      expect(err.data.address).toEqual(assetAddress)
     }
   })
 })

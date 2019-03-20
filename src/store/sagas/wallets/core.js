@@ -115,7 +115,7 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
   const foundWallet: Wallet = getWallet(items, walletId)
 
   if (!checkMnemonicType(foundWallet.type)) {
-    throw new WalletInconsistentDataError('Invalid mnemonic type', walletId)
+    throw new WalletInconsistentDataError({ walletId }, 'Invalid mnemonic type')
   }
 
   const newItems: Wallets = updateWallet(items, walletId, {

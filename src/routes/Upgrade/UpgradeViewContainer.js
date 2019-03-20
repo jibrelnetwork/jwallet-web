@@ -36,7 +36,7 @@ import UpgradeView from './UpgradeView'
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {
     if (!address) {
-      throw new WalletInconsistentDataError('Address is empty', '')
+      throw new WalletInconsistentDataError(null, 'Address is empty')
     }
 
     const privateKeyInvalidErr: string = t`Private key is invalid`
@@ -76,7 +76,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
     derivationPath,
   }: UpgradeMnemonicFormFieldValues): UpgradeMnemonicFormFieldErrors => {
     if (!bip32XPublicKey) {
-      throw new WalletInconsistentDataError('bip32XPublicKey is empty', '')
+      throw new WalletInconsistentDataError(null, 'bip32XPublicKey is empty')
     }
 
     const mnemonicInvalidErr: string = t`Mnemonic is invalid`

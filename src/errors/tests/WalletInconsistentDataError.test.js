@@ -45,9 +45,9 @@ describe('WalletInconsistentDataError', () => {
 
   test('has walletId', () => {
     try {
-      throw new WalletInconsistentDataError('Some message', walletId)
+      throw new WalletInconsistentDataError({ walletId }, 'Some message')
     } catch (err) {
-      expect(err.walletId).toBeDefined()
+      expect(err.data.walletId).toBeDefined()
     }
   })
 })

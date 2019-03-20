@@ -25,7 +25,7 @@ function getMnemonic(
     !checkMnemonicType(type) ||
     !encrypted.mnemonic
   ) {
-    throw new WalletInconsistentDataError('Can\'t get mnemonic', walletId)
+    throw new WalletInconsistentDataError({ walletId }, 'Can\'t get mnemonic')
   }
 
   return decryptData({

@@ -76,7 +76,7 @@ function reEncryptWallet(
     }
   }
 
-  throw new WalletInconsistentDataError('reEncryptWallet error', wallet.id)
+  throw new WalletInconsistentDataError({ walletId: wallet.id }, 'reEncryptWallet error')
 }
 
 export default reEncryptWallet

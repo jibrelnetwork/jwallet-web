@@ -36,7 +36,7 @@ export function selectDigitalAssetOrThrow(
   const asset = selectDigitalAsset(state, assetAddress)
 
   if (!asset) {
-    throw new DigitalAssetNotFoundError(assetAddress)
+    throw new DigitalAssetNotFoundError({ address: assetAddress })
   }
 
   return asset

@@ -10,7 +10,7 @@ function getWallet(wallets: Wallets, walletId: ?string): Wallet {
   const wallet: ?Wallet = wallets.find(({ id }: Wallet): boolean => (walletId === id))
 
   if (!wallet) {
-    throw new WalletNotFoundError(walletId)
+    throw new WalletNotFoundError({ walletId })
   }
 
   return { ...wallet }
