@@ -107,7 +107,7 @@ class AssetCardBody extends PureComponent<Props, *> {
               to={`/transactions/${address}`}
               className={classNames(
                 'link',
-                JTextStyle['j-text'],
+                JTextStyle.core,
                 JTextStyle.blue,
                 JTextStyle.bold,
                 JTextStyle.nowrap)}
