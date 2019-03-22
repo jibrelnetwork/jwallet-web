@@ -4,18 +4,21 @@ import React, { PureComponent } from 'react'
 import config from 'config'
 import classNames from 'classnames'
 import { t } from 'ttag'
+import { noop } from 'lodash-es'
 
 import { JText, JIcon } from 'components/base'
-import handle from 'utils/eventHandlers/handle'
 import OverlayActions from 'components/OverlayActions'
-
-type CopyableFieldHandler = (value: string) => void
+import {
+  clipboard,
+  fileSaver,
+} from 'services'
 
 type Props = {|
-  +copy: CopyableFieldHandler,
-  +download: ?CopyableFieldHandler,
+  +onCopySuccess: Function,
+  +onDownloadSuccess: Function,
   +value: string,
   +valueToDisplay: ?string,
+  +isDownloadAvailable: boolean,
 |}
 
 type StateProps = {|
@@ -24,8 +27,10 @@ type StateProps = {|
 
 class CopyableField extends PureComponent<Props, StateProps> {
   static defaultProps = {
-    download: null,
     valueToDisplay: null,
+    isDownloadAvailable: false,
+    onDownloadSuccess: noop,
+    onCopySuccess: noop,
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -39,26 +44,33 @@ class CopyableField extends PureComponent<Props, StateProps> {
     }
   }
 
-  onClick = (copy: CopyableFieldHandler, value: string) => {
-    (copy)(value)
-
-    this.setState({ isSuccess: true })
-
-    this.toggleTimeout = setTimeout(() => {
-      this.setState({ isSuccess: false })
-    }, config.messageCopyTimeout)
-  }
-
   componentWillUnmount() {
     if (this.toggleTimeout) {
       clearTimeout(this.toggleTimeout)
     }
   }
 
+  onClickCopy = () => {
+    clipboard.copyText(this.props.value)
+
+    this.setState({ isSuccess: true })
+
+    this.toggleTimeout = setTimeout(() => {
+      this.setState({ isSuccess: false })
+    }, config.messageCopyTimeout)
+
+    this.props.onCopySuccess()
+  }
+
+  onClickDownload = () => {
+    fileSaver.saveTXT(this.props.value, 'jwallet-backup')
+
+    this.props.onDownloadSuccess()
+  }
+
   render() {
     const {
-      copy,
-      download,
+      isDownloadAvailable,
       value,
       valueToDisplay,
     }: Props = this.props
@@ -88,8 +100,8 @@ class CopyableField extends PureComponent<Props, StateProps> {
         </div>
         <div className='overlay'>
           <OverlayActions
-            copy={handle(this.onClick)(copy, value)}
-            load={download ? handle(download)(value) : null}
+            copy={this.onClickCopy}
+            load={isDownloadAvailable ? this.onClickDownload : null}
             loadLabel={t`Download as TXT`}
             copyLabel={t`Copy recovery text`}
           />

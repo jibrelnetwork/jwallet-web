@@ -130,23 +130,14 @@ declare type WalletsState = {|
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
+  +mnemonic: string,
   +isLoading: boolean,
 |}
 
 /**
  * Wallets Create
  */
-declare type WalletsCreateNameStepIndex = 0
-declare type WalletsCreatePasswordStepIndex = 1
-
-declare type WalletsCreateStepIndex =
-  WalletsCreateNameStepIndex |
-  WalletsCreatePasswordStepIndex
-
-declare type WalletsCreateSteps = {|
-  +NAME: WalletsCreateNameStepIndex,
-  +PASSWORD: WalletsCreatePasswordStepIndex,
-|}
+declare type WalletsCreateStepIndex = 0 | 1 | 2
 
 declare type WalletsCreateState = {|
   +createdBlockNumber: WalletCreatedBlockNumber,
