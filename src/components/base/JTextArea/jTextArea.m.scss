@@ -1,0 +1,43 @@
+@import 'styles/mixins';
+
+.core {
+  @include hover-animation;
+  @include font($form-field-white-font-size);
+
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  margin-bottom: $form-field-margin-bottom;
+  border-radius: $form-border-radius;
+  line-height: $form-field-line-height;
+  resize: none;
+  border-width: 1px;
+  border-style: solid;
+  padding: $form-field-white-padding-vertical $form-field-horizontal-padding;
+
+  // stylelint-disable
+  &.blue {
+    background-color: transparent;
+    border-color: $blue;
+    color: $white;
+
+    &:hover,
+    &:focus {
+      border-color: $blue-bright;
+    }
+
+    &:active {
+      border-color: $blue-pale-bright;
+    }
+
+    &::placeholder {
+      color: $blue-bright;
+    }
+
+    &.error {
+      border-color: $blush;
+      color: $blush;
+    }
+  }
+}
