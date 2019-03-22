@@ -10,8 +10,18 @@ import {
 } from 'utils/uri'
 
 import jLinkStyle from './JLink.m.scss'
-import { type JLinkProps } from './types'
-import JLinkInternalWithRouter from './JLinkInternal'
+import { JLinkInternalWithRouter } from './JLinkInternal'
+
+type Theme = 'text-white' | 'text-blue'
+
+// base component with inexact props
+export type JLinkProps = {
+  theme?: Theme,
+  className?: string,
+  activeClassName?: string,
+  +children: React$Node,
+  +href: string,
+}
 
 export const JLink = (initialProps: JLinkProps) => {
   const {

@@ -7,7 +7,11 @@ import {
   withRouter,
 } from 'react-router5'
 
-import { type JLinkInternalProps } from './types'
+import { type JLinkProps } from './JLink'
+
+export type JLinkInternalProps = JLinkProps & {
+  router: Object,
+}
 
 export const JLinkInternal = (initialProps: JLinkInternalProps) => {
   const {
@@ -27,4 +31,4 @@ export const JLinkInternal = (initialProps: JLinkInternalProps) => {
   )
 }
 
-export default withRouter(JLinkInternal)
+export const JLinkInternalWithRouter = withRouter(JLinkInternal)

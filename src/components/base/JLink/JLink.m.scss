@@ -1,6 +1,10 @@
 @import "styles/colors";
+@import "styles/mixins";
 
 .text-white {
+  // FIXME: inherit font from parent
+  @include font;
+
   display: inline;
   color: $white;
   text-decoration: underline $white;
