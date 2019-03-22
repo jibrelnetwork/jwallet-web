@@ -17,19 +17,19 @@ const filesXLarge = require.context(
 
 const iconsSmall = keyBy(
   filesSmall.keys().map(x => filesSmall(x).default),
-  'id'
+  'id',
 )
 const iconsMedium = keyBy(
   filesMedium.keys().map(x => filesMedium(x).default),
-  'id'
+  'id',
 )
 const iconsLarge = keyBy(
   filesLarge.keys().map(x => filesLarge(x).default),
-  'id'
+  'id',
 )
 const iconsXLarge = keyBy(
   filesXLarge.keys().map(x => filesXLarge(x).default),
-  'id'
+  'id',
 )
 
 storiesOf('JIcon')
@@ -46,7 +46,7 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           {Object.keys(iconsSmall).map((item: string) => (
             <tr className='row' key={item}>
-              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
+              <td className='cell'><JIcon name={item.replace('-usage', '')} color='blue' /></td>
               <td className='cell'>{item.replace('-usage', '')}</td>
             </tr>
           ))}

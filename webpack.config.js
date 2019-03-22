@@ -98,7 +98,7 @@ module.exports = {
           'package.json',
           path.resolve('assets/mainnet/assets.json'),
           path.resolve('assets/ropsten/assets.json'),
-        ]
+        ],
       ),
     ],
   },
@@ -188,7 +188,7 @@ module.exports = {
                 loader: MiniCssExtractPlugin.loader,
                 options: Object.assign(
                   {},
-                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
                 ),
               },
               {
@@ -251,7 +251,7 @@ module.exports = {
                 loader: MiniCssExtractPlugin.loader,
                 options: Object.assign(
                   {},
-                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
+                  shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined,
                 ),
               },
               {
@@ -312,7 +312,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve(
-                'babel-preset-react-app/webpack-overrides'
+                'babel-preset-react-app/webpack-overrides',
               ),
               cacheDirectory: true,
               cacheCompression: isEnvProduction,
@@ -395,7 +395,7 @@ module.exports = {
     // See https://github.com/facebook/create-react-app/issues/186
     isEnvDevelopment &&
     new WatchMissingNodeModulesPlugin(
-      path.resolve('node_modules')
+      path.resolve('node_modules'),
     ),
 
     isEnvProduction &&
@@ -535,11 +535,12 @@ module.exports = {
     before(app, server) {
       // This lets us fetch source contents from webpack for the error overlay
       app.use(
-        require('react-dev-utils/evalSourceMapMiddleware')(server)
+        require('react-dev-utils/evalSourceMapMiddleware')(server),
       )
+
       // This lets us open files from the runtime error overlay.
       app.use(
-        require('react-dev-utils/errorOverlayMiddleware')()
+        require('react-dev-utils/errorOverlayMiddleware')(),
       )
 
       // This service worker file is effectively a 'no-op' that will reset any
@@ -548,7 +549,7 @@ module.exports = {
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       app.use(
-        require('react-dev-utils/noopServiceWorkerMiddleware')()
+        require('react-dev-utils/noopServiceWorkerMiddleware')(),
       )
     },
   },

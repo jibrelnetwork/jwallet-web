@@ -4,15 +4,21 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
 
 const srcPath = path.resolve(__dirname, '..', 'src')
 
-module.exports = (baseConfig, env) => {
-  baseConfig.module.rules.push({
+module.exports = async ({ config: baseConfig }, env) => {
+  const newRules = [{
     test: /\.scss$/,
     use: [
       require.resolve('style-loader'),
       {
         loader: require.resolve('css-loader'),
         options: {
+          url: false,
+          import: false,
+          modules: 'local',
+          localIdentName: '[hash:base64:8]',
+          camelCase: true,
           importLoaders: 2,
+          sourceMap: true,
         },
       },
       {
@@ -47,9 +53,7 @@ module.exports = (baseConfig, env) => {
         },
       },
     ],
-  })
-
-  baseConfig.module.rules.push({
+  }, {
     test: /\.svg$/,
     exclude: [
       path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
@@ -59,9 +63,7 @@ module.exports = (baseConfig, env) => {
     options: {
       name: 'static/media/[name].[hash:8].[ext]',
     }
-  })
-
-  baseConfig.module.rules.push({
+  }, {
     test: /\.svg$/,
     include: [
       path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
@@ -96,7 +98,7 @@ module.exports = (baseConfig, env) => {
         },
       },
     ],
-  })
+  }]
 
   baseConfig.plugins.push(
     new webpack.DefinePlugin({
@@ -117,6 +119,19 @@ module.exports = (baseConfig, env) => {
     ...baseConfig.resolve.modules,
     srcPath
   ]
+
+  baseConfig.module.rules = [
+    ...newRules,
+    ...baseConfig.module.rules,
+  ].map(loader => {
+    if (loader.loader && loader.loader.indexOf('file-loader')) {
+      loader.exclude = [
+        path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
+        path.resolve(srcPath, 'public/assets/tokens'),
+      ]
+    }
+    return loader
+  })
 
   return baseConfig
 }
