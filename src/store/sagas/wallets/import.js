@@ -5,6 +5,7 @@ import { t } from 'ttag'
 
 import {
   put,
+  call,
   select,
   takeEvery,
 } from 'redux-saga/effects'
@@ -139,7 +140,7 @@ function* importWallet(): Saga<void> {
       return
     }
 
-    const { score }: PasswordResult = checkPasswordStrength(password)
+    const { score }: PasswordResult = yield call(checkPasswordStrength, password)
 
     if (score < config.minPasswordStrengthScore) {
       return

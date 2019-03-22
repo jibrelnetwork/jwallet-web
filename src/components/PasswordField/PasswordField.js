@@ -66,8 +66,18 @@ class PasswordField extends Component<Props, StateProps> {
     const password: ?string = props.value
 
     this.state = {
-      passwordResult: password ? checkPasswordStrength(password) : null,
+      passwordResult: null,
     }
+
+    if (password) {
+      this.setCheckingPasswordResult(password)
+    }
+  }
+
+  setCheckingPasswordResult = (password: string) => {
+    checkPasswordStrength(password).then((passwordResult: PasswordResult) => {
+      this.setState({ passwordResult })
+    })
   }
 
   getInfoMessage = (): ?string => {
@@ -101,9 +111,11 @@ class PasswordField extends Component<Props, StateProps> {
   }
 
   handleChange = (password: string) => {
-    this.setState({
-      passwordResult: password ? checkPasswordStrength(password) : null,
-    })
+    if (password) {
+      this.setCheckingPasswordResult(password)
+    } else {
+      this.setState({ passwordResult: null })
+    }
 
     this.props.onChange(password)
   }
