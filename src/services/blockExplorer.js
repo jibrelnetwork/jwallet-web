@@ -10,7 +10,7 @@ import {
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
 import getENVVar from 'utils/config/getENVVar'
-import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
+import getAddressChecksum from 'utils/address/getAddressChecksum'
 import * as type from 'utils/type'
 
 const { blockExplorerAPIOptions }: AppConfig = config
@@ -152,9 +152,9 @@ function prepareETHTransactions(data: Object[]): Transactions {
       hash,
       blockHash,
       amount: value,
-      from: getAddressWithChecksum(from),
-      to: to.length ? getAddressWithChecksum(to) : null,
-      contractAddress: contractAddress.length ? getAddressWithChecksum(contractAddress) : null,
+      from: getAddressChecksum(from),
+      to: to.length ? getAddressChecksum(to) : null,
+      contractAddress: contractAddress.length ? getAddressChecksum(contractAddress) : null,
       eventType: 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
