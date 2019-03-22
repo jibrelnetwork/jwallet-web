@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Link } from 'react-router'
+import { JLink } from 'components/base'
 
 type Props = {|
   +tabs: { [string]: string },
@@ -11,14 +11,14 @@ type Props = {|
 const JTabs = ({ tabs }: Props) => (
   <div className='j-tabs'>
     {Object.keys(tabs).map((path: string) => (
-      <Link
+      <JLink
         key={path}
-        to={path}
+        href={path}
         activeClassName='-active'
         className='tab'
       >
         {tabs[path]}
-      </Link>
+      </JLink>
     ))}
   </div>
 )

@@ -4,9 +4,7 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import {
-  JText,
-  JCheckbox,
-  JRaisedButton,
+  JText, JCheckbox, JRaisedButton, JLink,
 } from 'components/base'
 
 import {
@@ -20,7 +18,6 @@ import { CONDITIONS_LIST } from 'data/agreements'
 import style from './AgreementsView.m.scss'
 
 export type Props = {|
-  +onSubmit: () => void,
 |}
 
 type StateProps = {|
@@ -88,38 +85,39 @@ class AgreementsView extends PureComponent<Props, StateProps> {
                     isChecked={getAgreementValue(key)}
                     isRegular
                   >
-                    <a
-                      className='j-text -white link'
+                    {' '}
+                    <JLink
+                      theme='text-white'
                       href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
-                      target='_blank'
-                      rel='noopener noreferrer'
                     >
                       {t`Terms of Use`}
-                    </a>
+                    </JLink>
+                    {' '}
                     <span className='label'>
                       <JText color='white' whiteSpace='wrap' value={t`and`} />
                     </span>
-                    <a
-                      className='j-text -white link'
+                    {' '}
+                    <JLink
+                      theme='text-white'
                       href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
-                      target='_blank'
-                      rel='noopener noreferrer'
                     >
                       {t`Privacy Policy`}
-                    </a>
+                    </JLink>
                   </JCheckbox>
                 )}
               </div>
             ))}
           </div>
           <div className={style.action}>
-            <JRaisedButton
-              className={style.buttonHeight}
-              onClick={this.props.onSubmit}
-              theme='white'
-              disabled={isDisabled}
-            >{t`Confirm and continue`}
-            </JRaisedButton>
+            <JLink href='/wallets'>
+              <JRaisedButton
+                className={style.buttonHeight}
+                theme='white'
+                disabled={isDisabled}
+              >
+                {t`Confirm and continue`}
+              </JRaisedButton>
+            </JLink>
           </div>
         </div>
       </div>

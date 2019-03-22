@@ -1,7 +1,7 @@
 // @flow
 
 import { t } from 'ttag'
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 import * as qs from 'query-string'
 
 import {
@@ -547,7 +547,11 @@ function* sendTransactionSuccess(
     assetAddress,
   }: DigitalAssetsSendFormFields = formFieldValues
 
-  yield put(push(`/transactions/${assetAddress}`))
+  yield put(router5Actions.navigateTo(
+    'Wallet.Transactions.Asset',
+    { address: assetAddress },
+  ))
+
   yield* addPendingTransaction(txHash, formFieldValues, networkId, decimals, gasValues)
   yield* addTransactionComment(txHash, comment)
 }

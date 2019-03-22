@@ -3,7 +3,6 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import { Link } from 'react-router'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
@@ -11,6 +10,7 @@ import {
   JCard,
   JFlatButton,
   JIcon,
+  JLink,
   JText,
   JTooltip,
 } from 'components/base'
@@ -105,23 +105,23 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
           <div onClick={this.handleClose} className='overlay' />
           <div className='actions'>
             {!isWalletReadOnly && (
-              <Link
-                to={`/digital-assets/send?to=${address}`}
+              <JLink
+                href={`/digital-assets/send?to=${address}`}
                 className='item -send'
               >
                 <JTooltip text={t`Send`}>
                   <JIcon name='upload' />
                 </JTooltip>
-              </Link>
+              </JLink>
             )}
-            <Link
-              to={`/favorites/address/${address}`}
+            <JLink
+              href={`/favorites/address/${address}`}
               className='item -edit'
             >
               <JTooltip text={t`Edit`}>
                 <JIcon name='edit' />
               </JTooltip>
-            </Link>
+            </JLink>
             <div className='item -delete'>
               <div className='confirms'>
                 {

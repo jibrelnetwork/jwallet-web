@@ -7,20 +7,12 @@ import { t } from 'ttag'
 import DigitalAssetsManage from 'components/DigitalAssetsManage'
 
 import {
-  JIcon,
-  JText,
-  JSearch,
+  JIcon, JText, JSearch, JLink, JLinkBack,
 } from 'components/base'
 
 type Props = {|
-  +addAsset: () => void,
   +openView: () => void,
   +closeView: () => void,
-  // FIXME: Temporary mapDispatchToProps solution
-  // fix when mapDispatchToProps shorthand will be supported by react-redux
-  // see related issue: https://github.com/flow-typed/flow-typed/issues/746
-  +onClickGoBack: Function,
-  +editAsset: (Address) => void,
   +setSearchQuery: (string) => void,
   +deleteCustomAsset: (Address) => void,
   +setAssetIsActive: (Address, boolean) => void,
@@ -39,12 +31,9 @@ class DigitalAssetsManageView extends Component<Props> {
   render() {
     const {
       items,
-      addAsset,
-      onClickGoBack,
       setSearchQuery,
       deleteCustomAsset,
       setAssetIsActive,
-      editAsset,
     } = this.props
 
     return (
@@ -58,19 +47,22 @@ class DigitalAssetsManageView extends Component<Props> {
               <div className='search'>
                 <JSearch onChange={setSearchQuery} placeholder={t`Search asset...`} />
               </div>
-              <div onClick={addAsset} className='button add' title={t`Add asset`}>
+              <JLink href='/digital-assets/add-asset' className='button add' title={t`Add asset`}>
                 <JIcon name='add' color='gray' />
-              </div>
-              <div onClick={onClickGoBack} className='button close' title={t`Close`}>
+              </JLink>
+              <JLinkBack
+                routeName='Wallet'
+                className='button close'
+                title={t`Close`}
+              >
                 <JIcon name='cross' color='gray' />
-              </div>
+              </JLinkBack>
             </div>
           </div>
         </div>
         <div className='content'>
           <Scrollbars autoHide>
             <DigitalAssetsManage
-              editAsset={editAsset}
               setAssetIsActive={setAssetIsActive}
               deleteCustomAsset={deleteCustomAsset}
               items={items}

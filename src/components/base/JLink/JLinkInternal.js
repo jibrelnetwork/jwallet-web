@@ -13,7 +13,7 @@ export type JLinkInternalProps = JLinkProps & {
   router: Object,
 }
 
-export const JLinkInternal = (initialProps: JLinkInternalProps) => {
+export const JLinkInternalDisconnected = (initialProps: JLinkInternalProps) => {
   const {
     name: routeName,
     params: routeParams,
@@ -31,4 +31,4 @@ export const JLinkInternal = (initialProps: JLinkInternalProps) => {
   )
 }
 
-export const JLinkInternalWithRouter = withRouter(JLinkInternal)
+export const JLinkInternal = withRouter(JLinkInternalDisconnected)

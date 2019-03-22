@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { actions } from 'redux-router5'
 
 import {
   remove,
@@ -25,7 +25,7 @@ const mapDispatchToProps = {
   remove,
   openView,
   closeView,
-  goToWallets: () => push('/wallets'),
+  goToWallets: () => actions.navigateTo('Wallets'),
 }
 
 /* ::

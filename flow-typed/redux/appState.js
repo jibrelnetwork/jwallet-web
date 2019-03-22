@@ -13,6 +13,11 @@ type Router5State = {
     +params: Object,
     +path: string,
   },
+  previousRoute?: {
+    +name: string,
+    +params: Object,
+    +path: string,
+  },
 }
 
 declare type AppState = {

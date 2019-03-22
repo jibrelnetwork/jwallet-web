@@ -15,17 +15,10 @@ import {
 } from 'components'
 
 import {
-  JCard,
-  JIcon,
-  JText,
-  JSwitch,
-  JTooltip,
-  JAssetSymbol,
-  JFlatButton,
+  JCard, JIcon, JText, JSwitch, JTooltip, JAssetSymbol, JFlatButton, JLink,
 } from 'components/base'
 
 type Props = {|
-  +edit: (string) => void,
   +remove: (string) => void,
   +setIsActive: (string, boolean) => void,
   +name: string,
@@ -54,10 +47,6 @@ class AssetItem extends PureComponent<Props, StateProps> {
       isToggled: false,
       isDeleteVisible: false,
     }
-  }
-
-  handleClickEdit = () => {
-    this.props.edit(this.props.address)
   }
 
   handleClickToggleDelete = () => {
@@ -127,16 +116,16 @@ class AssetItem extends PureComponent<Props, StateProps> {
           <div className='actions'>
             {isCustom ? (
               <Fragment>
-                <div
+                <JLink
                   className='item -edit'
-                  onClick={this.handleClickEdit}
+                  href={`/digital-assets/edit-asset/${address}`}
                 >
                   <JTooltip text={t`Edit`}>
                     <JIcon
                       name='edit'
                     />
                   </JTooltip>
-                </div>
+                </JLink>
                 <div className='item -delete'>
                   <div className='confirms'>
                     {

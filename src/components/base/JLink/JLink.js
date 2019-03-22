@@ -10,9 +10,9 @@ import {
 } from 'utils/uri'
 
 import jLinkStyle from './JLink.m.scss'
-import { JLinkInternalWithRouter } from './JLinkInternal'
+import { JLinkInternal } from './JLinkInternal'
 
-type Theme = 'text-white' | 'text-blue'
+export type Theme = 'text-white' | 'text-blue'
 
 // base component with inexact props
 export type JLinkProps = {
@@ -66,6 +66,6 @@ export const JLink = (initialProps: JLinkProps) => {
   /* eslint-enable jsx-a11y/anchor-has-content */
 
   return (
-    <JLinkInternalWithRouter {...props} className={className} />
+    <JLinkInternal {...props} className={className} />
   )
 }
