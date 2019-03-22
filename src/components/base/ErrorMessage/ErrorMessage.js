@@ -6,14 +6,11 @@ import classNames from 'classnames'
 import ErrorMessageStyle from './ErrorMessage.m.scss'
 
 type Theme = 'error' | 'info'
-type Props = {
-  theme: Theme,
+type Props = StyleComponent<Theme> & {
   message: string,
-  // eslint-disable-next-line react/require-default-props
-  className?: ?string,
 }
 
-export function Message(
+function ErrorMessage(
   {
     theme = 'error',
     message = '',
@@ -30,7 +27,7 @@ export function Message(
   )
 }
 
-const MemorizedErrorMessage = React.memo/* :: <Props> */(Message)
+const MemorizedErrorMessage = React.memo/* :: <Props> */(ErrorMessage)
 
 export {
   MemorizedErrorMessage as ErrorMessage,

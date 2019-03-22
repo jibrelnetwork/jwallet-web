@@ -8,31 +8,24 @@ import jTextAreaStyle from './jTextArea.m.scss'
 
 type Theme = 'blue'
 
-type Props = StyleComponent<Theme> & {
-  ...HTMLTextAreaElement,
-  onChange: Function,
-  onBlur?: Function,
-  onFocus?: Function,
-}
+type Props =
+  HTMLTextAreaElement
+  & StyleComponent<Theme>
+  & {
+    onChange: Function,
+    onBlur?: Function,
+    onFocus?: Function,
+  }
 
 const MAX_ROWS = 12
 
-function heightCalc(event: SyntheticEvent<HTMLTextAreaElement>): void {
-  if (event.currentTarget) {
-    const target = event.currentTarget
-
+function heightCalc({ currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>): void {
+  if (target) {
     while (target.clientHeight < target.scrollHeight && target.rows <= MAX_ROWS) {
       // mutating the DOM
-      // eslint-disable-next-line fp/no-mutation
+      // eslint-disable-next-line fp/no-mutation, no-param-reassign
       target.rows += 1
     }
-  }
-}
-
-function handleChange(finalFormHandler: Function): SyntheticEvent<HTMLTextAreaElement> => void {
-  return function textAreaChangeHandler(fieldEvent) {
-    heightCalc(fieldEvent)
-    finalFormHandler(fieldEvent)
   }
 }
 
@@ -42,6 +35,11 @@ export class JTextArea extends PureComponent<Props, void> {
     onFocus: undefined,
     theme: 'blue',
     className: undefined,
+  }
+
+  handleChange = (fieldEvent: SyntheticEvent<HTMLTextAreaElement>): void => {
+    heightCalc(fieldEvent)
+    this.props.onChange(fieldEvent)
   }
 
   render() {
@@ -60,7 +58,7 @@ export class JTextArea extends PureComponent<Props, void> {
           jTextAreaStyle.core,
           jTextAreaStyle[this.props.theme],
         )}
-        onChange={handleChange(this.props.onChange)}
+        onChange={this.handleChange}
       />
     )
   }
