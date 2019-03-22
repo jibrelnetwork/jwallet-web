@@ -23,7 +23,8 @@ function JIcon({
         className={classNames(
           'j-icon',
           color && `-${color}`,
-          hasFill && '-use-fill')}
+          hasFill && '-use-fill',
+        )}
         width={iconData.width}
         height={iconData.height}
       >

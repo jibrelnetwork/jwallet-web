@@ -81,12 +81,14 @@ class JFlatButton extends PureComponent<Props, *> {
 
     if (isLoading) {
       return (
-        <div className={classNames(
-          className,
-          'j-flat-button -loading',
-          jTextStyle[color],
-          `-${color}`,
-          isBordered && '-border')}
+        <div
+          className={classNames(
+            className,
+            'j-flat-button -loading',
+            jTextStyle[color],
+            `-${color}`,
+            isBordered && '-border',
+          )}
         >
           <JLoader color={color} />
         </div>
