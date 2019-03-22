@@ -140,6 +140,7 @@ function* createWallet(): Saga<void> {
 function* createError(action: { payload: Error }): Saga<void> {
   yield put(wallets.setInvalidField('password', action.payload.message))
   yield put(wallets.setIsLoading(false))
+  yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
 }
 
 function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<void> {
