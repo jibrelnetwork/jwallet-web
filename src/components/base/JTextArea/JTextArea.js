@@ -1,19 +1,19 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { omit } from 'lodash-es'
 import classNames from 'classnames'
 
 import jTextAreaStyle from './jTextArea.m.scss'
 
 type Theme = 'blue'
 
-type Props = HTMLTextAreaElement & {|
-  +onChange: Function,
-  +onBlur: Function,
-  +onFocus: Function,
-  +theme: Theme,
-  +className?: ?string,
-|}
+type Props = StyleComponent<Theme> & {
+  ...HTMLTextAreaElement,
+  onChange: Function,
+  onBlur?: Function,
+  onFocus?: Function,
+}
 
 const MAX_ROWS = 12
 
@@ -38,28 +38,29 @@ function handleChange(finalFormHandler: Function): SyntheticEvent<HTMLTextAreaEl
 
 export class JTextArea extends PureComponent<Props, void> {
   static defaultProps = {
-    className: null,
+    onBlur: undefined,
+    onFocus: undefined,
     theme: 'blue',
+    className: undefined,
   }
 
   render() {
-    const {
-      onChange,
-      theme,
-      children,
-      className,
-      ...rest
-    } = this.props
+    const omitedProps = omit(this.props, [
+      'children',
+      'onChange',
+      'theme',
+      'className',
+    ])
 
     return (
       <textarea
-        {...rest}
+        {...omitedProps}
         className={classNames(
-          className,
+          this.props.className,
           jTextAreaStyle.core,
-          jTextAreaStyle[theme],
+          jTextAreaStyle[this.props.theme],
         )}
-        onChange={handleChange(onChange)}
+        onChange={handleChange(this.props.onChange)}
       />
     )
   }
