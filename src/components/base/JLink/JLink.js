@@ -4,13 +4,14 @@ import React from 'react'
 import classnames from 'classnames'
 import { omit } from 'lodash-es'
 
+import {
+  checkIsAnchor,
+  checkIsExternal,
+} from 'utils/uri'
+
 import jLinkStyle from './JLink.m.scss'
 import { type JLinkProps } from './types'
 import JLinkInternalWithRouter from './JLinkInternal'
-import {
-  isAnchor,
-  isExternal,
-} from './utils'
 
 export const JLink = (initialProps: JLinkProps) => {
   const {
@@ -33,7 +34,7 @@ export const JLink = (initialProps: JLinkProps) => {
 
   /* eslint-disable jsx-a11y/anchor-has-content */
   // children are passed as props
-  if (isAnchor(href)) {
+  if (checkIsAnchor(href)) {
     return (
       <a
         {...props}
@@ -42,7 +43,7 @@ export const JLink = (initialProps: JLinkProps) => {
     )
   }
 
-  if (isExternal(href)) {
+  if (checkIsExternal(href)) {
     return (
       <a
         target='_blank'
