@@ -1,6 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
+import { omit } from 'lodash-es'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { Link } from 'react-router5'
@@ -20,6 +21,7 @@ type Props = {
   +routeName: string,
   className?: ?string,
   activeClassName?: ?string,
+  onClick?: ?Function,
 }
 
 export class JLinkBackDisconnected extends PureComponent<Props> {
@@ -30,12 +32,17 @@ export class JLinkBackDisconnected extends PureComponent<Props> {
     params: null,
     previousRoute: null,
     routeParams: null,
+    onClick: null,
   }
 
   handleClick = (event: SyntheticMouseEvent<EventTarget>) => {
     if (this.props.previousRoute) {
       event.preventDefault()
       window.history.back()
+    }
+
+    if (this.props.onClick) {
+      this.props.onClick(event)
     }
   }
 
@@ -50,9 +57,15 @@ export class JLinkBackDisconnected extends PureComponent<Props> {
       initialClassName,
     )
 
+    const props = omit(this.props, [
+      'dispatch',
+      'className',
+      'onClick',
+    ])
+
     return (
       <Link
-        {...this.props}
+        {...props}
         className={className}
         onClick={this.handleClick}
       />
