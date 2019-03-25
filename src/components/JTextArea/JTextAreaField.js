@@ -5,6 +5,7 @@ import { type FieldRenderProps /* FieldRenderProps */ } from 'react-final-form'
 import {
   omit,
   merge,
+  noop,
 } from 'lodash-es'
 
 import { ErrorMessage } from 'components/base/ErrorMessage/ErrorMessage'
@@ -15,7 +16,7 @@ import JTextAreaFieldStyle from './jTextAreaField.m.scss'
 
 type Props =
   FieldRenderProps
-  & { getMeta: Function }
+  & { getMeta: Function /* TODO Use mose specific typing */}
 
 export function JTextAreaField(props: Props) {
   props.getMeta(props.meta)
@@ -23,6 +24,7 @@ export function JTextAreaField(props: Props) {
   const resultProps = merge(omit(props, [
     'meta',
     'input',
+    'getMeta',
   ]), props.input)
 
   const { error: errorText } = props.meta
@@ -36,4 +38,8 @@ export function JTextAreaField(props: Props) {
       {errorText && <ErrorMessage message={errorText} theme='error' />}
     </Fragment>
   )
+}
+
+JTextAreaField.defaultProps = {
+  getMeta: noop,
 }

@@ -4,7 +4,7 @@
   @include font;
 
   font-size: 11px;
-  // stylelint-disable
+  // stylelint-disable selector-nested-pattern, rscss/class-format
   &.info {
     color: $dusk;
   }

@@ -15,7 +15,7 @@
   padding: $form-field-white-padding-vertical $form-field-white-horizontal-padding;
   font-weight: 600;
 
-  // stylelint-disable
+  // stylelint-disable selector-nested-pattern, rscss/class-format
   &.blue {
     background-color: transparent;
     border-color: $blue;
@@ -40,5 +40,4 @@
       color: $blush;
     }
   }
-  // stylelint-enable
 }
