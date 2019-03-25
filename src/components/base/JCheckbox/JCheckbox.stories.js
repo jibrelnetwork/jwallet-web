@@ -3,7 +3,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JCheckbox from 'components/base/JCheckbox'
+import JCheckbox from './JCheckbox'
 
 storiesOf('JCheckbox')
   .add('Default', () => (

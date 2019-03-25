@@ -4,32 +4,32 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { keyBy } from 'lodash-es'
 
-import JIcon from '../../../src/components/base/JIcon'
+import JIcon from './JIcon'
 
 const filesSmall = require.context(
-  '../../../src/public/assets/icons/sprite-pack/small', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/)
 const filesMedium = require.context(
-  '../../../src/public/assets/icons/sprite-pack/medium', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/medium', true, /.*\.svg$/)
 const filesLarge = require.context(
-  '../../../src/public/assets/icons/sprite-pack/large', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/large', true, /.*\.svg$/)
 const filesXLarge = require.context(
-  '../../../src/public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/)
 
 const iconsSmall = keyBy(
   filesSmall.keys().map(x => filesSmall(x).default),
-  'id'
+  'id',
 )
 const iconsMedium = keyBy(
   filesMedium.keys().map(x => filesMedium(x).default),
-  'id'
+  'id',
 )
 const iconsLarge = keyBy(
   filesLarge.keys().map(x => filesLarge(x).default),
-  'id'
+  'id',
 )
 const iconsXLarge = keyBy(
   filesXLarge.keys().map(x => filesXLarge(x).default),
-  'id'
+  'id',
 )
 
 storiesOf('JIcon')
@@ -46,7 +46,7 @@ storiesOf('JIcon')
         <tbody className='tbody'>
           {Object.keys(iconsSmall).map((item: string) => (
             <tr className='row' key={item}>
-              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
+              <td className='cell'><JIcon name={item.replace('-usage', '')} color='blue' /></td>
               <td className='cell'>{item.replace('-usage', '')}</td>
             </tr>
           ))}

@@ -3,19 +3,25 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JAssetSymbol from '../../../src/components/base/JAssetSymbol'
+import JAssetSymbol from './JAssetSymbol'
 
 storiesOf('JAssetSymbol')
   .add('Different colors', () => (
     <div>
       <h2>blue</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', padding: '10px' }}>
+      <div style={{
+        display: 'flex', flexDirection: 'row', padding: '10px',
+      }}
+      >
         <JAssetSymbol symbol='eth' color='blue' />
         <JAssetSymbol symbol='jnt' color='blue' />
         <JAssetSymbol symbol='jaed' color='blue' />
       </div>
       <h2>gray</h2>
-      <div style={{ display: 'flex', flexDirection: 'row', padding: '10px' }}>
+      <div style={{
+        display: 'flex', flexDirection: 'row', padding: '10px',
+      }}
+      >
         <JAssetSymbol symbol='adt' color='gray' />
         <JAssetSymbol symbol='ast' color='gray' />
         <JAssetSymbol symbol='ant' color='gray' />

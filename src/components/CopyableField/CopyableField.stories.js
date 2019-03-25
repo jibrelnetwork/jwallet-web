@@ -3,7 +3,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import CopyableField from '../../src/components/CopyableField'
+import CopyableField from 'components/CopyableField'
 
 const HANDLER = console.log
 const PRIVATE_KEY = '0xfb27c2394586feb01403ba3643b519c8f209e0427b31f510a6877b494c020f59'

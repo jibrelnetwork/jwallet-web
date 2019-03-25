@@ -54,7 +54,7 @@ class WalletCard extends PureComponent<Props> {
       isSimplified,
     }: Props = this.props
 
-    const iconName: string = WALLET_TYPE_ICON_MAP[type]
+    const iconName: string = WALLET_TYPE_ICON_MAP[type] || ''
 
     if (isLoading) {
       return <WalletLoading />
