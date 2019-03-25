@@ -3,7 +3,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { DigitalAssetsFilter, TransactionsFilter } from 'components'
+import {
+  DigitalAssetsFilter,
+  TransactionsFilter,
+} from 'components'
 
 storiesOf('FilterComponents')
   .add('DigitalAssetsFilter', () => (

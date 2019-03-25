@@ -110,7 +110,8 @@ class AssetCardBody extends PureComponent<Props, *> {
                 JTextStyle.core,
                 JTextStyle.blue,
                 JTextStyle.bold,
-                JTextStyle.nowrap)}
+                JTextStyle.nowrap,
+              )}
             >
               {t`Show transactions`}
             </Link>

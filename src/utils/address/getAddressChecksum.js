@@ -15,10 +15,10 @@ function getAddressChecksum(address: string): string {
 
   const checksum: string = addressLowerCase
     .split('')
-    .map((symbol: string, index: number) => ((parseInt(hash[index], 16) >= 8)
-      ? symbol.toUpperCase()
-      : symbol),
-    )
+    .map((
+      symbol: string,
+      index: number,
+    ) => ((parseInt(hash[index], 16) >= 8) ? symbol.toUpperCase() : symbol))
     .join('')
 
   return add0x(checksum)

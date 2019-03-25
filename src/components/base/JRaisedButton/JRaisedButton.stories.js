@@ -4,6 +4,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
+import {
+  withKnobs,
+  text,
+} from '@storybook/addon-knobs'
 
 import { JRaisedButton } from 'components/base'
 
@@ -20,27 +24,28 @@ const componentCard = {
 }
 
 storiesOf('JRaisedButton', module)
+  .addDecorator(withKnobs)
   .add('Different status', () => (
     <div>
       <div style={getBackground('#ffffff')}>
         <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
         <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
             disabled
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
         <div style={componentCard} >
           <JRaisedButton
             onClick={action('onClick')}
             isLoading
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
       </div>
@@ -54,7 +59,7 @@ storiesOf('JRaisedButton', module)
           <JRaisedButton
             onClick={action('onClick')}
             theme='white'
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
         <div style={componentCard} >
@@ -62,7 +67,7 @@ storiesOf('JRaisedButton', module)
             onClick={action('onClick')}
             theme='white'
             disabled
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
         <div style={componentCard} >
@@ -70,7 +75,7 @@ storiesOf('JRaisedButton', module)
             onClick={action('onClick')}
             theme='white'
             isLoading
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
       </div>
@@ -80,7 +85,7 @@ storiesOf('JRaisedButton', module)
           <JRaisedButton
             onClick={action('onClick')}
             theme='gray'
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
         <div style={componentCard} >
@@ -88,7 +93,7 @@ storiesOf('JRaisedButton', module)
             onClick={action('onClick')}
             theme='gray'
             disabled
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
         <div style={componentCard} >
@@ -96,7 +101,7 @@ storiesOf('JRaisedButton', module)
             onClick={action('onClick')}
             theme='gray'
             isLoading
-          >Yes, delete
+          >{text('Label', 'Yes, delete')}
           </JRaisedButton>
         </div>
       </div>

@@ -54,7 +54,8 @@ class JRaisedButton extends PureComponent<Props, *> {
       this.props.className,
       jRaisedButtonStyle.core,
       jRaisedButtonStyle[this.props.theme],
-      isLoading && jRaisedButtonStyle.loading)
+      isLoading && jRaisedButtonStyle.loading,
+    )
 
     const isDisabled = typeof disabled !== 'undefined' ? disabled : isLoading
 
