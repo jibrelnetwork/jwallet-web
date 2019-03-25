@@ -5,6 +5,11 @@ import { t } from 'ttag'
 
 import WalletStep from 'components/WalletStep'
 import { JInput } from 'components/base'
+import { JTextArea } from 'components/JTextArea'
+import { ErrorMessage } from 'components/base/ErrorMessage'
+import { handleTargetValue } from 'utils/eventHandlers'
+
+import WalletDataStepStyle from './WallletDataStep.m.scss'
 
 type Props = {|
   +onSubmit: Function,
@@ -37,17 +42,19 @@ const WalletDataStep = ({
     buttonLabel={buttonLabel}
     isLoading={isLoading}
   >
-    <JInput
-      onChange={onChangeData}
-      value={valueData}
-      errorMessage={invalidFields.data}
-      type='text'
-      color='white'
-      name='wallet-data'
-      placeholder={t`Address, Private key, BIP32 XPUB, Mnemonic`}
-      rows={2}
-      isAutoFocus
-    />
+    <Fragment>
+      <JTextArea
+        className={invalidFields.data && `${WalletDataStepStyle.with} ${WalletDataStepStyle.error}`}
+        onChange={handleTargetValue(onChangeData)}
+        value={valueData}
+        color='white'
+        name='wallet-data'
+        placeholder={t`Address, Private key, BIP32 XPUB, Mnemonic`}
+        rows={2}
+        autoFocus
+      />
+      {invalidFields.data && <ErrorMessage message={invalidFields.data} theme='error' />}
+    </Fragment>
     {isMnemonic && (
       <Fragment>
         <JInput

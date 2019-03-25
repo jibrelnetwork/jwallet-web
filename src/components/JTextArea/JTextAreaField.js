@@ -1,26 +1,39 @@
 // @flow
 
 import React, { Fragment } from 'react'
-import { type FieldRenderProps /* FieldRenderProps */ } from 'react-final-form/dist/types'
+import { type FieldRenderProps /* FieldRenderProps */ } from 'react-final-form'
+import {
+  omit,
+  merge,
+} from 'lodash-es'
 
 import { ErrorMessage } from 'components/base/ErrorMessage/ErrorMessage'
 
 import { JTextArea } from './JTextArea'
 
+import JTextAreaFieldStyle from './jTextAreaField.m.scss'
+
 type Props =
   FieldRenderProps
-  & StyleComponent<'blue'>
+  & { getMeta: Function }
 
 export function JTextAreaField(props: Props) {
-  const message = props.meta.visited ? String(props.meta.error) : ''
+  props.getMeta(props.meta)
+
+  const resultProps = merge(omit(props, [
+    'meta',
+    'input',
+  ]), props.input)
+
+  const { error: errorText } = props.meta
 
   return (
     <Fragment>
       <JTextArea
-        {...props}
-        {...props.input}
+        {...resultProps}
+        className={errorText && JTextAreaFieldStyle.withError}
       />
-      <ErrorMessage message={message} theme='error' />
+      {errorText && <ErrorMessage message={errorText} theme='error' />}
     </Fragment>
   )
 }

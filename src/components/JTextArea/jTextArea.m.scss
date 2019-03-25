@@ -1,4 +1,4 @@
-@import '../../styles/mixins';
+@import 'styles/mixins';
 
 .core {
   @include hover-animation;
@@ -6,15 +6,14 @@
 
   position: relative;
   width: 100%;
-  max-width: 100%;
   min-width: 100%;
-  margin-bottom: $form-field-margin-bottom;
   border-radius: $form-border-radius;
   line-height: $form-field-line-height;
   resize: none;
   border-width: 1px;
   border-style: solid;
-  padding: $form-field-white-padding-vertical $form-field-horizontal-padding;
+  padding: $form-field-white-padding-vertical $form-field-white-horizontal-padding;
+  font-weight: 600;
 
   // stylelint-disable
   &.blue {
@@ -22,16 +21,17 @@
     border-color: $blue;
     color: $white;
 
-    &:hover,
-    &:focus {
+    &:hover {
       border-color: $blue-bright;
     }
 
-    &:active {
+    &:active,
+    &:focus {
       border-color: $blue-pale-bright;
     }
 
     &::placeholder {
+      font-weight: 400;
       color: $blue-bright;
     }
 

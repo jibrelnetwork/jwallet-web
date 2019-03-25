@@ -53,9 +53,9 @@ export class JTextArea extends PureComponent<Props, void> {
       <textarea
         {...omitedProps}
         className={classNames(
-          this.props.className,
           jTextAreaStyle.core,
           jTextAreaStyle[this.props.theme],
+          this.props.className,
         )}
         onChange={this.handleChange}
       />

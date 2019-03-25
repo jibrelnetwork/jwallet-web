@@ -1,0 +1,8 @@
+@import 'styles/mixins';
+
+// Add more specificity for rewriting properties
+// stylelint-disable-next-line
+.with.error {
+  border-color: $blush;
+  color: $blush;
+}
