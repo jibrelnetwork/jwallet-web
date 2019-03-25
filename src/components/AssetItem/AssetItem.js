@@ -118,7 +118,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
               <Fragment>
                 <JLink
                   className='item -edit'
-                  href={`/digital-assets/edit-asset/${address}`}
+                  href={`/digital-assets/edit/${address}`}
                 >
                   <JTooltip text={t`Edit`}>
                     <JIcon

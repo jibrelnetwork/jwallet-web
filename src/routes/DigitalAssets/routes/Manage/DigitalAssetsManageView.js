@@ -47,7 +47,7 @@ class DigitalAssetsManageView extends Component<Props> {
               <div className='search'>
                 <JSearch onChange={setSearchQuery} placeholder={t`Search asset...`} />
               </div>
-              <JLink href='/digital-assets/add-asset' className='button add' title={t`Add asset`}>
+              <JLink href='/digital-assets/add' className='button add' title={t`Add asset`}>
                 <JIcon name='add' color='gray' />
               </JLink>
               <JLinkBack

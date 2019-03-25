@@ -2,7 +2,6 @@
 
 import { t } from 'ttag'
 import { actions as router5Actions } from 'redux-router5'
-import * as qs from 'query-string'
 
 import {
   put,
@@ -14,7 +13,7 @@ import {
 import web3 from 'services/web3'
 import isVoid from 'utils/type/isVoid'
 import checkETH from 'utils/digitalAssets/checkETH'
-import reactRouterBack from 'utils/browser/reactRouterBack'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectBalanceByAssetAddress } from 'store/selectors/balances'
@@ -85,7 +84,7 @@ function* openView(action: ExtractReturn<typeof digitalAssetsSend.openView>): Sa
     asset,
     amount,
     comment,
-  } = qs.parse(action.payload.query)
+  } = action.payload.params
 
   if (to) {
     yield put(digitalAssetsSend.setFormFieldValue('recipient', to))
@@ -677,15 +676,21 @@ function* goToPrevStep(): Saga<void> {
     yield select(selectDigitalAssetsSend)
 
   switch (currentStep) {
-    case digitalAssetsSend.STEPS.CONFIRM:
+    case digitalAssetsSend.STEPS.CONFIRM: {
       yield put(digitalAssetsSend.setCurrentStep(digitalAssetsSend.STEPS.FORM))
 
       break
+    }
+    default: {
+      const state = yield select()
 
-    default:
-      yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+      router5BackOrFallbackFunctionCreator(
+        state.router.previousRoute,
+        'Wallet',
+      )()
 
       break
+    }
   }
 }
 

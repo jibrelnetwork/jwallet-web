@@ -15,10 +15,9 @@ export const routes = [
     path: '/',
     forwardTo: 'Wallet',
   },
-  // FIXME: should be /wallet with respect to future login, kyc etc.
   {
     name: 'Wallet',
-    path: '/assets',
+    path: '/digital-assets',
     children: [
       {
         name: 'ManageAssets',
@@ -44,9 +43,10 @@ export const routes = [
         name: 'Favorites',
         path: '~/favorites',
       },
+      // FIXME: temporary solution
       {
         name: 'FavoritesAddress',
-        path: '~/favorites/address',
+        path: '~/favorites/edit',
       },
       {
         name: 'Settings',

@@ -115,7 +115,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               </JLink>
             )}
             <JLink
-              href={`/favorites/address/${address}`}
+              href={`/favorites/edit?address=${address}`}
               className='item -edit'
             >
               <JTooltip text={t`Edit`}>

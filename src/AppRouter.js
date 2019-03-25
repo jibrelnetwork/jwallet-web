@@ -106,7 +106,7 @@ export const AppRouter = ({
       return renderWithMenuLayout(ReceiveAsset)
     }
     case 'Wallet.SendAsset': {
-      return renderWithMenuLayout(SendAsset)
+      return renderWithMenuLayout(SendAsset, { params })
     }
     case 'Wallet.Favorites': {
       return renderWithMenuLayout(Favorites)

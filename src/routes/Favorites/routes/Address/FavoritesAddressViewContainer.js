@@ -2,19 +2,17 @@
 
 import { connect } from 'react-redux'
 
-import reactRouterBack from 'utils/browser/reactRouterBack'
-
 import {
   selectFavorites,
   selectFavoritesItems,
 } from 'store/selectors/favorites'
-
 import {
   edit,
   addByUser,
   setFormFieldValue,
   onAddressViewClose,
 } from 'store/modules/favorites'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
 import FavoritesAddressView from './FavoritesAddressView'
 
@@ -29,6 +27,10 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const items: Favorites = selectFavoritesItems(state)
 
   return {
+    close: router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet.Favorites',
+    ),
     isLoading,
     formFieldValues,
     formFieldErrors,
@@ -41,7 +43,6 @@ const mapDispatchToProps = {
   setFormFieldValue,
   add: addByUser,
   onClose: onAddressViewClose,
-  close: () => reactRouterBack({ fallbackUrl: '/favorites' }),
 }
 
 /* ::

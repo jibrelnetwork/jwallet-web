@@ -40,11 +40,11 @@ export const TXPRIORITY: TXPriority = {
   CUSTOM: 0,
 }
 
-export function openView(query: string) {
+export function openView(params: Object) {
   return {
     type: OPEN_VIEW,
     payload: {
-      query,
+      params,
     },
   }
 }

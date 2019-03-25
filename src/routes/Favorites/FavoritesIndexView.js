@@ -149,7 +149,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
                   placeholder={t`Search favorites...`}
                 />
               </div>
-              <JLink className='add' href='/favorites/address' title={t`Add favorite address`}>
+              <JLink className='add' href='/favorites/edit' title={t`Add favorite address`}>
                 <JIcon
                   name='favorite-address-add'
                   color='gray'

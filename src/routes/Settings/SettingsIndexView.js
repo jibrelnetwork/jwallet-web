@@ -39,14 +39,14 @@ const getSettingsCardProperties = ({
 }): {...SettingsGridCardProps, searchTags: string, isVisible: boolean}[] => [{
   title: t`Local currency`,
   description: formatCurrency(fiatCurrency),
-  path: 'settings/currency',
+  path: '/settings/currency',
   iconName: 'local-currency',
   searchTags: '',
   isVisible: true,
 }, {
   title: t`Payment password`,
   description: t`Change`,
-  path: 'settings/password',
+  path: '/settings/password',
   iconName: 'lock-pin',
   searchTags: '',
   isVisible: true,
@@ -67,14 +67,14 @@ const getSettingsCardProperties = ({
 }, {
   title: t`Rename wallet`,
   description: walletName,
-  path: `wallets/rename/${walletId}`,
+  path: `/wallets/rename/${walletId}`,
   iconName: 'edit-pen',
   searchTags: '',
   isVisible: true,
 }, {
   title: t`Delete wallet`,
   description: t`Don't forget to back it up!`,
-  path: `wallets/delete/${walletId}`,
+  path: `/wallets/delete/${walletId}`,
   iconName: 'cross-circle',
   iconColor: 'red',
   searchTags: '',
