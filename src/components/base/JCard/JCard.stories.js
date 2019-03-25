@@ -3,7 +3,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { JCard, JText } from '../../../src/components/base'
+import {
+  JCard,
+  JText,
+} from '..'
 
 storiesOf('JCard')
   .add('Different colors', () => (

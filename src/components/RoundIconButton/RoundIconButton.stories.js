@@ -1,9 +1,13 @@
 /* @flow */
 
 import React from 'react'
-import { storiesOf, action } from '@storybook/react'
+import {
+  storiesOf,
+} from '@storybook/react'
 
-import RoundIconButton from '../../../src/components/RoundIconButton'
+import { action } from '@storybook/addon-actions'
+
+import RoundIconButton from './RoundIconButton'
 
 storiesOf('RoundIconButton', module)
   .add('Different view', () => (

@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react'
 
 import FavoriteItem from 'components/FavoriteItem'
 
-/* eslint-disable max-len */
+/* eslint-disable max-len, react/jsx-handler-names */
 
 storiesOf('FavoriteItem')
 
@@ -43,4 +43,4 @@ storiesOf('FavoriteItem')
     </div>
   ))
 
-/* eslint-enable max-len */
+/* eslint-enable max-len, react/jsx-handler-names */

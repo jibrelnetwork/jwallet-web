@@ -12,15 +12,18 @@ storiesOf('PasswordField', module)
   .add('default state', () => (
     <div className='story -blue'>
       {React.createElement(StateHOC(
-        ({ password, setPassword, passwordConfirm }) => (
+        ({
+          password, setPassword, passwordConfirm,
+        }) => (
           <PasswordField
+            invalidFields={{}}
             value={password || ''}
             onPasswordChange={setPassword}
             onPasswordConfirmChange={() => {}}
             passwordConfirm={passwordConfirm}
             withConfirm
           />
-        )
+        ),
       ))}
     </div>
   ))

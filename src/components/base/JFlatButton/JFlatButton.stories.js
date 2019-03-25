@@ -4,7 +4,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import JFlatButton from '../../../src/components/base/JFlatButton'
+import JFlatButton from './JFlatButton'
 
 storiesOf('JFlatButton', module)
   .add('Different status', () => (

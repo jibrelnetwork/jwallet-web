@@ -6,54 +6,112 @@ const srcPath = path.resolve(__dirname, '..', 'src')
 
 module.exports = async ({ config: baseConfig }, env) => {
   const newRules = [{
-    test: /\.scss$/,
-    use: [
-      require.resolve('style-loader'),
+    oneOf: [
+      // SCSS modules loader
       {
-        loader: require.resolve('css-loader'),
-        options: {
-          url: false,
-          import: false,
-          modules: 'local',
-          localIdentName: '[hash:base64:8]',
-          camelCase: true,
-          importLoaders: 2,
-          sourceMap: true,
-        },
-      },
-      {
-        // Options for PostCSS as we reference these options twice
-        // Adds vendor prefixing based on your specified browser support in
-        // package.json
-        loader: require.resolve('postcss-loader'),
-        options: {
-          // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
-          ident: 'postcss',
-          plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            require('autoprefixer')({
-              browsers: [
-                '>1%',
-                'last 4 versions',
-                'Firefox ESR',
-                'not ie < 11',
+        test: /\.m\.scss$/,
+        include: path.resolve('src'),
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              url: false,
+              import: false,
+              modules: 'local',
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              camelCase: true,
+              importLoaders: 2,
+              sourceMap: true,
+            },
+          },
+          {
+            // Options for PostCSS as we reference these options twice
+            // Adds vendor prefixing based on your specified browser support in
+            // package.json
+            loader: require.resolve('postcss-loader'),
+            options: {
+              // Necessary for external CSS imports to work
+              // https://github.com/facebook/create-react-app/issues/2677
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 11',
+                  ],
+                  flexbox: 'no-2009',
+                }),
               ],
-              flexbox: 'no-2009',
-            }),
-          ],
-        },
+              sourceMap: true,
+            },
+          },
+          {
+            loader: require.resolve('sass-loader'),
+            options: {
+              sourceMap: true,
+              includePaths: [
+                path.resolve('src'),
+              ],
+            },
+          },
+        ].filter(Boolean),
       },
+
+      // SCSS loader
       {
-        loader: require.resolve('sass-loader'),
-        options: {
-          includePaths: [
-            path.resolve('src'),
-          ],
-        },
-      },
-    ],
-  }, {
+        test: /\.scss$/,
+        include: path.resolve('src'),
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              importLoaders: 2,
+              sourceMap: true,
+            },
+          },
+          {
+            // Options for PostCSS as we reference these options twice
+            // Adds vendor prefixing based on your specified browser support in
+            // package.json
+            loader: require.resolve('postcss-loader'),
+            options: {
+              // Necessary for external CSS imports to work
+              // https://github.com/facebook/create-react-app/issues/2677
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 11',
+                  ],
+                  flexbox: 'no-2009',
+                }),
+              ],
+              sourceMap: true,
+            },
+          },
+          {
+            loader: require.resolve('sass-loader'),
+            options: {
+              sourceMap: true,
+              includePaths: [
+                path.resolve('src'),
+              ],
+            },
+          },
+        ].filter(Boolean),
+      },    
+    ]
+  },
+  {
     test: /\.svg$/,
     exclude: [
       path.resolve(srcPath, 'public/assets/icons/sprite-pack'),

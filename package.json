@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@jibrelnetwork/contracts-jsapi": "1.1.0",
+    "@storybook/addon-knobs": "5.0.5",
     "bignumber.js": "4.1.0",
     "bitcore-lib": "0.16.0",
     "bitcore-mnemonic": "1.7.0",
