@@ -104,7 +104,7 @@ function* createWallet(): Saga<void> {
       return
     }
 
-    const { score }: PasswordResult = checkPasswordStrength(password)
+    const { score }: PasswordResult = yield call(checkPasswordStrength, password)
 
     if (score < config.minPasswordStrengthScore) {
       return

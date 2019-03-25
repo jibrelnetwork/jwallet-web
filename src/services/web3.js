@@ -4,7 +4,7 @@ import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { t } from 'ttag'
 
 import checkETH from 'utils/digitalAssets/checkETH'
-import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
+import getAddressChecksum from 'utils/address/getAddressChecksum'
 import * as type from 'utils/type'
 import { BigNumber } from 'bignumber.js'
 
@@ -178,8 +178,12 @@ function checkERC20InterfaceCode(
 
   const notFound = signatures.reduce(
     (result, methodName) =>
-      result || !checkMethodSignatureInSmartContractCode(smartContractCode, methodName)
-    , false)
+      result || !checkMethodSignatureInSmartContractCode(
+        smartContractCode,
+        methodName,
+      ),
+    false,
+  )
 
   return !notFound
 }
@@ -354,8 +358,8 @@ function prepareTransferEvents(data: Object[]): Transactions {
     } = args
 
     const newTransaction: Transaction = {
-      to: getAddressWithChecksum(to),
-      from: getAddressWithChecksum(from),
+      to: getAddressChecksum(to),
+      from: getAddressChecksum(from),
       blockHash,
       blockNumber,
       data: null,
@@ -464,7 +468,7 @@ function prepareJNTEvents(data: Object[]): Transactions {
       value,
     }: JNTEventArgs = args
 
-    const ownerAddressChecksum: OwnerAddress = getAddressWithChecksum(owner)
+    const ownerAddressChecksum: OwnerAddress = getAddressChecksum(owner)
 
     const newTransaction: Transaction = {
       blockHash,

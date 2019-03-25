@@ -23,7 +23,9 @@ describe('Render', () => {
       <JRaisedButton>
         <span className='hello'>Hello</span>
         <div className='world'>world!</div>
-      </JRaisedButton>)
+      </JRaisedButton>,
+    )
+
     expect(wrapper.children()).toHaveLength(2)
     expect(wrapper.children().first().hasClass('hello')).toBeTruthy()
     expect(wrapper.children().last().hasClass('world')).toBeTruthy()

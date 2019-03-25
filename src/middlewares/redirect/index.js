@@ -48,8 +48,9 @@ export const redirect = ({ getState }) => next => (action) => {
           root,
           upgrade,
           walletsAddresses,
-        ].reduce((memo, fn) =>
-          fn(state, memo), pathname,
+        ].reduce(
+          (memo, fn) => fn(state, memo),
+          pathname,
         )
 
         if (redirectPathname !== pathname) {
