@@ -11,6 +11,13 @@ import { RouterProvider } from 'react-router5'
 
 import { JLink } from '../JLink'
 
+const TEST_ROUTES = [
+  {
+    name: 'some-path',
+    path: '/some/path',
+  },
+]
+
 describe('JLink', () => {
   test('is available', () => {
     expect(JLink).toBeDefined()
@@ -35,12 +42,7 @@ describe('JLink', () => {
   })
 
   test('renders valid <a> element for internal link', () => {
-    const router = createRouter5([
-      {
-        name: 'some-path',
-        path: '/some/path',
-      },
-    ], {
+    const router = createRouter5(TEST_ROUTES, {
       allowNotFound: true,
     })
     router.usePlugin(browserPlugin())
@@ -60,12 +62,7 @@ describe('JLink', () => {
   })
 
   test('calls router on internal link click', () => {
-    const router = createRouter5([
-      {
-        name: 'some-path',
-        path: '/some/path',
-      },
-    ], {
+    const router = createRouter5(TEST_ROUTES, {
       allowNotFound: true,
     })
     const canActivateSomePathFake = sinon.fake.returns(true)
