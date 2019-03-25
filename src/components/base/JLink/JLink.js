@@ -23,11 +23,12 @@ export type JLinkProps = {
   +href: string,
 }
 
-export const JLink = (initialProps: JLinkProps) => {
+export function JLink(initialProps: JLinkProps) {
   const {
     href,
     theme,
     className: initialClassName,
+    activeClassName,
   } = initialProps
 
   const props = omit(initialProps, [
@@ -66,6 +67,10 @@ export const JLink = (initialProps: JLinkProps) => {
   /* eslint-enable jsx-a11y/anchor-has-content */
 
   return (
-    <JLinkInternal {...props} className={className} />
+    <JLinkInternal
+      {...props}
+      className={className}
+      activeClassName={activeClassName}
+    />
   )
 }
