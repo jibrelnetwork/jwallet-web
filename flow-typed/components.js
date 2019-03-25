@@ -11,7 +11,7 @@ declare type AddressPickerAddress = {|
   title: string,
 |}
 
-declare type StyleComponent<Theme: string> = {
+declare type StyleComponent<Theme: ?string> = {
   theme: Theme,
   className?: ?string,
 }

@@ -10,12 +10,11 @@ type Props = StyleComponent<Theme> & {
   message: string,
 }
 
-function ErrorMessage(
-  {
-    theme = 'error',
-    message = '',
-    className,
-  }: Props) {
+function ErrorMessage({
+  theme = 'error',
+  message = '',
+  className,
+}: Props) {
   return (
     <span className={classNames(
       className,
@@ -27,8 +26,8 @@ function ErrorMessage(
   )
 }
 
-const MemorizedErrorMessage = React.memo/* :: <Props> */(ErrorMessage)
+const MemoizedErrorMessage = React.memo/* :: <Props> */(ErrorMessage)
 
 export {
-  MemorizedErrorMessage as ErrorMessage,
+  MemoizedErrorMessage as ErrorMessage,
 }

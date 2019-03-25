@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Fragment } from 'react'
-import { type FieldRenderProps /* FieldRenderProps */ } from 'react-final-form/dist/types.js.flow'
+import { type FieldRenderProps /* FieldRenderProps */ } from 'react-final-form/dist/types'
 
 import { ErrorMessage } from 'components/base/ErrorMessage/ErrorMessage'
 
