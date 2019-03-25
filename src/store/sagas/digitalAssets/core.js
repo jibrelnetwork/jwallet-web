@@ -1,13 +1,18 @@
 // @flow
 
+import { mapKeys } from 'lodash-es'
+
 import {
   put,
+  call,
   select,
   takeEvery,
 } from 'redux-saga/effects'
-import { mapKeys } from 'lodash-es'
 
-import assetsData from 'data/assets'
+import {
+  ethereum,
+  getAssetsMainnet,
+} from 'data/assets'
 
 import {
   selectDigitalAsset,
@@ -19,9 +24,12 @@ import * as blocks from 'store/modules/blocks'
 import * as ticker from 'store/modules/ticker'
 import * as digitalAssets from 'store/modules/digitalAssets'
 
-function mergeItems(items: DigitalAssets): DigitalAssets {
+function mergeItems(
+  items: DigitalAssets,
+  assetsMainnet: DigitalAsset[],
+): DigitalAssets {
   // FIXME: use current network id instead
-  const defaultItems: DigitalAssets = assetsData.mainnet.reduce((
+  const defaultItems: DigitalAssets = assetsMainnet.reduce((
     reduceResult: DigitalAssets,
     item: DigitalAsset,
   ): DigitalAssets => {
@@ -94,16 +102,19 @@ function mergeItems(items: DigitalAssets): DigitalAssets {
   }
 }
 
-function addETHAsset(items: DigitalAssets): DigitalAssets {
-  const defaultETHAddress: AssetAddress = assetsData.ethereum.blockchainParams.address
+function addETHAsset(
+  items: DigitalAssets,
+  assetsMainnet: DigitalAsset[],
+): DigitalAssets {
+  const defaultETHAddress: AssetAddress = ethereum.blockchainParams.address
 
-  const foundETHAsset: ?DigitalAsset = assetsData.mainnet
+  const foundETHAsset: ?DigitalAsset = assetsMainnet
     .find((item: DigitalAsset) => (item.blockchainParams.type === 'ethereum'))
 
   if (!foundETHAsset) {
     return {
       ...items,
-      [defaultETHAddress]: assetsData.ethereum,
+      [defaultETHAddress]: ethereum,
     }
   }
 
@@ -126,8 +137,9 @@ function* init(): Saga<void> {
   const existingItems: ExtractReturn<typeof selectDigitalAssetsItems> =
     yield select(selectDigitalAssetsItems)
 
-  const mergedItems: DigitalAssets = mergeItems(existingItems)
-  const itemsWithETH: DigitalAssets = addETHAsset(mergedItems)
+  const assetsMainnet: DigitalAsset[] = yield call(getAssetsMainnet)
+  const mergedItems: DigitalAssets = mergeItems(existingItems, assetsMainnet)
+  const itemsWithETH: DigitalAssets = addETHAsset(mergedItems, assetsMainnet)
 
   yield put(digitalAssets.setInitialItems(itemsWithETH))
 }

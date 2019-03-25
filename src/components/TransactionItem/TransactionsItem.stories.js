@@ -4,7 +4,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import TransactionItem from 'components/TransactionItem'
-import ethereum from 'data/assets/ethereum'
+import { ethereum } from 'data/assets'
 
 storiesOf('TransactionItem')
 
