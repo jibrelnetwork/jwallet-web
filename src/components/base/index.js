@@ -17,7 +17,7 @@ import JThumbnail from './JThumbnail'
 import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
-import { JTextAreaField } from './JTextArea'
+import { ErrorMessage } from './ErrorMessage'
 
 export {
   JAssetSymbol,
@@ -37,5 +37,5 @@ export {
   JTooltip,
   JSwitch,
   JPicker,
-  JTextAreaField,
+  ErrorMessage,
 }
