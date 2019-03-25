@@ -183,9 +183,15 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
       const buffer = buffers.expanding(1)
       const requestQueue: Channel = yield channel(buffer)
 
-      const processQueueTasks: Task<typeof processQueue>[] = yield all(Array
-        .from({ length: config.requestQueueWorkersCount })
-        .map(() => fork(processQueue, requestQueue, networkId, ownerAddress)),
+      const processQueueTasks: Task<typeof processQueue>[] = yield all(
+        Array
+          .from({ length: config.requestQueueWorkersCount })
+          .map(() => fork(
+            processQueue,
+            requestQueue,
+            networkId,
+            ownerAddress,
+          )),
       )
 
       yield put(balances.fetchByOwnerRequest(
