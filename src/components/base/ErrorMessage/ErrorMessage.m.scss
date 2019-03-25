@@ -1,12 +1,19 @@
-@import 'styles/colors';
+@import 'styles/mixins';
 
 .core {
-  // stylelint-disable
-  .error {
+  @include font;
 
+  font-size: 11px;
+  // stylelint-disable
+  &.info {
+    color: $dusk;
   }
 
-  .info {
+  &.warning {
+    color: $faded-orange;
+  }
 
+  &.error {
+    color: $tomato;
   }
 }

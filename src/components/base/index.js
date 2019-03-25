@@ -17,6 +17,7 @@ import JThumbnail from './JThumbnail'
 import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
+import { JTextAreaField } from './JTextArea'
 
 export {
   JAssetSymbol,
@@ -36,4 +37,5 @@ export {
   JTooltip,
   JSwitch,
   JPicker,
+  JTextAreaField,
 }

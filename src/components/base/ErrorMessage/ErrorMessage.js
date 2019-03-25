@@ -5,7 +5,7 @@ import classNames from 'classnames'
 
 import ErrorMessageStyle from './ErrorMessage.m.scss'
 
-type Theme = 'error' | 'info'
+type Theme = 'info' | 'warning' | 'error'
 type Props = StyleComponent<Theme> & {
   message: string,
 }

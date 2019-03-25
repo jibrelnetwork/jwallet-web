@@ -9,8 +9,7 @@ import jTextAreaStyle from './jTextArea.m.scss'
 type Theme = 'blue'
 
 type Props =
-  HTMLTextAreaElement
-  & StyleComponent<Theme>
+  StyleComponent<Theme>
   & {
     onChange: Function,
     onBlur?: Function,
