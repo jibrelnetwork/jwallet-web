@@ -2,7 +2,7 @@
 
 import WalletsLayout from 'layouts/WalletsLayout'
 
-import NotFoundView from './NotFoundViewContainer'
+import NotFoundView from './NotFoundView'
 
 export default {
   path: '*',

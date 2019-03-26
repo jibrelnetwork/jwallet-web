@@ -15,7 +15,7 @@ import { selectWalletsItems } from 'store/selectors/wallets'
 import { checkAgreements } from 'utils/agreements'
 import { CONDITIONS_LIST } from 'data/agreements'
 
-import NotFound from 'routes/NotFound/NotFoundViewContainer'
+import NotFound from 'routes/NotFound/NotFoundView'
 import Agreements from 'routes/Agreements/AgreementsViewContainer'
 import DigitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/DigitalAssetsGridViewContainer'
 import ManageAssets
