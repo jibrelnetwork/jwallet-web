@@ -9,8 +9,7 @@ import {
   JFlatButton,
 } from 'components/base'
 
-import ethereum from 'data/assets/ethereum'
-
+import { ethereum } from 'data/assets'
 import { formatAssetBalance } from 'utils/formatters'
 
 type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
