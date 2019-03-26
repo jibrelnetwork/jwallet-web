@@ -10,7 +10,7 @@ import {
 
 import JText from 'components/base/JText'
 import getTxFee from 'utils/transactions/getTxFee'
-import ethereum from 'data/assets/ethereum'
+import { ethereum } from 'data/assets'
 
 type Props = {|
   +addressNames: AddressNames,
@@ -39,12 +39,10 @@ function DigitalAssetsSendConfirmCard({
     gasPrice,
   }: GasValues = gasValues
 
-  const {
-    symbol,
-  }: DigitalAsset = selectedAsset
-
+  const { symbol }: DigitalAsset = selectedAsset
   const toName: ?string = addressNames[recipient]
   const fromName: ?string = addressNames[ownerAddress]
+
   const fee: string = getTxFee(
     parseFloat(gasLimit),
     String(gasPrice),
@@ -52,8 +50,8 @@ function DigitalAssetsSendConfirmCard({
     ethereum.blockchainParams.decimals,
   )
 
-  const hasComment: boolean = !!formFieldValues.comment
   const hasNonce: boolean = !!formFieldValues.nonce
+  const hasComment: boolean = !!formFieldValues.comment
 
   const boldWillFail = <b>{t`it will most likely fail`}</b>
 

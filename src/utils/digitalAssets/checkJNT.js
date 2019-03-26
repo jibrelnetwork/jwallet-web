@@ -1,9 +1,7 @@
 // @flow
 
-import assetsData from 'data/assets'
-
-function checkJNT(address: AssetAddress): boolean {
-  const jntAsset: ?DigitalAsset = assetsData.mainnet
+function checkJNT(address: AssetAddress, assets: DigitalAsset[]): boolean {
+  const jntAsset: ?DigitalAsset = assets
     .find(({ symbol }: DigitalAsset): boolean => (symbol === 'JNT'))
 
   return jntAsset
