@@ -19,7 +19,8 @@ function ErrorMessage({
     <span className={classNames(
       className,
       ErrorMessageStyle.core,
-      ErrorMessageStyle[theme])}
+      ErrorMessageStyle[theme],
+    )}
     >
       {message}
     </span>

@@ -33,7 +33,8 @@ describe('Render', () => {
         data-unit='txt-area'
         random-attribute='wow'
         row={8}
-      />)
+      />,
+    )
 
     // eslint-disable-next-line max-len
     expect(wrapper.html()).toBe('<textarea aria-label="meow" data-unit="txt-area" random-attribute="wow" row="8" class="core blue"></textarea>')
