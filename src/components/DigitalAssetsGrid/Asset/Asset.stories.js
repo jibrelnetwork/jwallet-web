@@ -4,7 +4,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import AssetCard from 'components/DigitalAssetsGrid/Asset'
-import ethereum from 'data/assets/ethereum'
+import { ethereum } from 'data/assets'
 
 storiesOf('AssetCard')
   .add('Default', () => (
