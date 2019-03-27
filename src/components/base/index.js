@@ -19,6 +19,8 @@ import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 import { ErrorMessage } from './ErrorMessage'
 
+export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+
 export {
   JAssetSymbol,
   JCard,

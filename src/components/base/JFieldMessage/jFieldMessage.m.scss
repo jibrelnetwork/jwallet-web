@@ -1,0 +1,17 @@
+@import 'styles/mixins';
+@import 'styles/colors';
+
+.core {
+  @include font;
+
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.info {
+  color: $main-black;
+}
+
+.error {
+  color: $main-red;
+}
