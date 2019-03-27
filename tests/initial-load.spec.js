@@ -1,10 +1,12 @@
-/* global browser:false */
-
-describe('Application works in specified browser', () => {
-  it('starts', () => {
+describe('Initial app loading', () => {
+  it('redirects to agreements on first visit', () => {
     browser
       .url('/wallets/start')
 
-    expect(browser.isExisting('.wallets-view')).toBe(true)
+    browser.waitUntil(() => {
+      return $('.core-layout').isExisting()
+    }, 5000, 'expected page to initialize after 5s')
+
+    expect(browser.getUrl()).toContain('agreements')
   })
 })
