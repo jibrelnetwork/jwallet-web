@@ -10,7 +10,7 @@ import {
 } from 'store/modules/walletsImport'
 import {
   CREATE_SUCCESS,
-} from 'routes/Wallets/modules/wallets'
+} from 'store/modules/wallets'
 
 import {
   selectWalletsCreate,
