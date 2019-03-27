@@ -3,7 +3,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import JFieldMessageStyle from './jFieldMessage.m.scss'
+import jFieldMessageStyle from './jFieldMessage.m.scss'
 
 type Theme = 'info' | 'error'
 type Props = StyleComponent<Theme> & {
@@ -18,8 +18,8 @@ function JFieldMessage({
   return (
     <span className={classNames(
       className,
-      JFieldMessageStyle.core,
-      JFieldMessageStyle[theme],
+      jFieldMessageStyle.core,
+      jFieldMessageStyle[theme],
     )}
     >
       {message}
