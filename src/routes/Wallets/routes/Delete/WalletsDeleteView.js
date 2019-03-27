@@ -7,13 +7,17 @@ import config from 'config'
 import handle from 'utils/eventHandlers/handle'
 import getWallet from 'utils/wallets/getWallet'
 import JThumbnail from 'components/base/JThumbnail'
-import { ModalHeader, ButtonWithConfirm } from 'components'
+
+import {
+  ModalHeader,
+  ButtonWithConfirm,
+} from 'components'
 
 type Props = {|
-  +closeView: () => void,
-  +goToWallets: () => void,
-  +openView: (string) => void,
-  +remove: (Wallets, string) => void,
+  +remove: Function,
+  +openView: Function,
+  +closeView: Function,
+  +goToWallets: Function,
   +items: Wallets,
   +params: {|
     +walletId: string,
@@ -22,7 +26,11 @@ type Props = {|
 
 class WalletsDeleteView extends Component<Props> {
   componentDidMount() {
-    const { openView, params } = this.props
+    const {
+      openView,
+      params,
+    } = this.props
+
     openView(params.walletId)
   }
 
@@ -41,7 +49,8 @@ class WalletsDeleteView extends Component<Props> {
     }: Props = this.props
 
     const foundWallet: Wallet = getWallet(items, walletId)
-    const description: Array<string> =
+
+    const description: string[] =
       (t`All user data, including imported or generated private keys, will be deleted.
       The only way to restore deleted wallet is to use the backup phrase.`).split('\n')
 
@@ -56,7 +65,6 @@ class WalletsDeleteView extends Component<Props> {
           <div className='form'>
             <JThumbnail
               color='white'
-              iconSize='xlarge'
               image='auth-cross'
               title={t`Delete ${foundWallet.name}?`}
               description={description}

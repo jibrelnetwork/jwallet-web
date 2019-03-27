@@ -6,7 +6,9 @@ import classNames from 'classnames'
 import { t } from 'ttag'
 import { noop } from 'lodash-es'
 
-import { JText, JIcon } from 'components/base'
+import {
+  JText, JIcon,
+} from 'components/base'
 import OverlayActions from 'components/OverlayActions'
 import {
   clipboard,
@@ -92,7 +94,7 @@ class CopyableField extends PureComponent<Props, StateProps> {
         </div>
         <div className='success'>
           <div className='icon'>
-            <JIcon name='check-circle' color='white' size='medium' />
+            <JIcon name='check-circle' color='white' />
           </div>
           <div className='text'>
             <JText value={t`Copied!`} color='white' weight='bold' />

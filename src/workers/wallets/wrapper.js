@@ -5,17 +5,15 @@ import { t } from 'ttag'
 import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 
-import * as upgrade from 'routes/Upgrade/modules/upgrade'
-import * as wallets from 'routes/Wallets/modules/wallets'
-import * as walletsBackup from 'routes/Wallets/routes/Backup/modules/walletsBackup'
-
-import type {
-  WalletsAnyAction,
-  WalletsWorkerInstance,
-} from './worker'
+import * as upgrade from 'store/modules/upgrade'
+import * as wallets from 'store/modules/wallets'
+import * as walletsBackup from 'store/modules/walletsBackup'
 
 // eslint-disable-next-line import/default
-import WalletsWorker from './worker.js'
+import WalletsWorker, {
+  type WalletsAnyAction,
+  type WalletsWorkerInstance,
+} from './worker.js'
 
 type ImportWalletData = {|
   +data: string,

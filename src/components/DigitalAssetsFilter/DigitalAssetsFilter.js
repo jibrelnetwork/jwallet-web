@@ -1,21 +1,28 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { PopupButton } from 'components'
-import { JIcon, JText, JCheckbox } from 'components/base'
+
+import {
+  JIcon,
+  JText,
+  JCheckbox,
+} from 'components/base'
+
+type DigitalAssetsFilterSort = 'name' | 'balance'
 
 type Props = {|
   +sortByNameClick: ((void) => void),
   +sortByBalanceClick: ((void) => void),
   +setHideZeroBalance: ((boolean) => void),
+  +sortBy: DigitalAssetsFilterSort,
   +sortByNameDirection: SortDirection,
   +sortByBalanceDirection: SortDirection,
-  +sortBy: 'name' | 'balance',
-  +isHideZeroBalance: boolean,
   +filterCount: number,
+  +isHideZeroBalance: boolean,
 |}
 
 class DigitalAssetsFilter extends PureComponent<Props> {
@@ -70,10 +77,10 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             <button
               onClick={sortByNameClick}
               className={classNames('button', sortBy === 'name' ? '-active' : '')}
+              type='button'
             >
               <span className='icon'>
                 <JIcon
-                  size='medium'
                   color='blue'
                   name={`sort-alphabet-${sortByNameDirection}`}
                 />
@@ -89,10 +96,10 @@ class DigitalAssetsFilter extends PureComponent<Props> {
             <button
               onClick={sortByBalanceClick}
               className={classNames('button', sortBy === 'balance' ? '-active' : '')}
+              type='button'
             >
               <span className='icon'>
                 <JIcon
-                  size='medium'
                   color='blue'
                   name={`sort-${sortByBalanceDirection}`}
                 />

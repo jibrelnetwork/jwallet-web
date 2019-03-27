@@ -1,7 +1,6 @@
 // @flow
 
 import classNames from 'classnames'
-import checkETH from 'utils/digitalAssets/checkETH'
 import { t } from 'ttag'
 
 import React, {
@@ -9,9 +8,10 @@ import React, {
   PureComponent,
 } from 'react'
 
+import checkETH from 'utils/digitalAssets/checkETH'
+
 import {
   AssetBalance,
-  ButtonWithConfirm,
 } from 'components'
 
 import {
@@ -21,6 +21,7 @@ import {
   JSwitch,
   JTooltip,
   JAssetSymbol,
+  JFlatButton,
 } from 'components/base'
 
 type Props = {|
@@ -37,8 +38,7 @@ type Props = {|
 
 type StateProps = {|
   +isToggled: boolean,
-  +isHoveredEdit: boolean,
-  +isHoveredTrash: boolean,
+  +isDeleteVisible: boolean,
 |}
 
 class AssetItem extends PureComponent<Props, StateProps> {
@@ -52,30 +52,27 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
     this.state = {
       isToggled: false,
-      isHoveredEdit: false,
-      isHoveredTrash: false,
+      isDeleteVisible: false,
     }
   }
 
-  onMouseEnterEdit = () => this.setState({ isHoveredEdit: true })
-  onMouseLeaveEdit = () => this.setState({ isHoveredEdit: false })
-
-  onMouseEnterRemove = () => this.setState({ isHoveredTrash: true })
-  onMouseLeaveRemove = () => this.setState({ isHoveredTrash: false })
-
-  onClickEdit = () => {
+  handleClickEdit = () => {
     this.props.edit(this.props.address)
   }
 
-  onClickRemove = () => {
+  handleClickToggleDelete = () => {
+    this.setState({ isDeleteVisible: !this.state.isDeleteVisible })
+  }
+
+  handleClickRemove = () => {
     this.props.remove(this.props.address)
   }
 
-  onClickSetActive = () => {
+  handleClickSetActive = () => {
     this.props.setIsActive(this.props.address, !this.props.isActive)
   }
 
-  toggle = () => this.setState(prevState => ({ isToggled: !prevState.isToggled }))
+  handleClick = () => this.setState(prevState => ({ isToggled: !prevState.isToggled }))
 
   render() {
     const {
@@ -89,8 +86,6 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
     const {
       isToggled,
-      isHoveredEdit,
-      isHoveredTrash,
     }: StateProps = this.state
 
     return (
@@ -128,54 +123,63 @@ class AssetItem extends PureComponent<Props, StateProps> {
               )}
             </div>
           </div>
-          <div onClick={this.toggle} className='overlay' />
+          <div onClick={this.handleClick} className='overlay' />
           <div className='actions'>
             {isCustom ? (
               <Fragment>
                 <div
                   className='item -edit'
-                  onMouseEnter={this.onMouseEnterEdit}
-                  onMouseLeave={this.onMouseLeaveEdit}
-                  onClick={this.onClickEdit}
+                  onClick={this.handleClickEdit}
                 >
                   <JTooltip text={t`Edit`}>
                     <JIcon
-                      size='medium'
-                      color={isHoveredEdit ? 'sky' : 'blue'}
                       name='edit'
                     />
                   </JTooltip>
                 </div>
-                <div
-                  className='item -delete'
-                  onMouseEnter={this.onMouseEnterRemove}
-                  onMouseLeave={this.onMouseLeaveRemove}
-                  onClick={this.onMouseLeaveRemove}
-                >
-                  <ButtonWithConfirm
-                    onClick={this.onClickRemove}
-                    color='blue'
-                    bgColor='white'
-                    labelCancel={t`No`}
-                    iconTooltipName='trash'
-                    labelConfirm={t`Yes, delete`}
-                    iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
-                    isReverse
-                  />
+                <div className='item -delete'>
+                  <div className='confirms'>
+                    {
+                      this.state.isDeleteVisible ?
+                        (
+                          <div className='action -overlay-white'>
+                            <JFlatButton
+                              className='confirm'
+                              onClick={this.handleClickRemove}
+                              color='blue'
+                              label={t`Yes, delete`}
+                              isBordered
+                            />
+                            <JFlatButton
+                              onClick={this.handleClickToggleDelete}
+                              label={t`No`}
+                              color='blue'
+                              isBordered
+                            />
+                          </div>
+                        ) :
+                        (
+                          <div onClick={this.handleClickToggleDelete}>
+                            <JTooltip text={t`Delete`}>
+                              <JIcon name='trash' />
+                            </JTooltip>
+                          </div>
+                        )
+                    }
+                  </div>
                 </div>
                 <div
                   className='item -dots'
-                  onClick={this.toggle}
+                  onClick={this.handleClick}
                 >
                   <JIcon
-                    size='medium'
                     color='gray'
-                    name='dots-full'
+                    name='dots-full-use-fill'
                   />
                 </div>
                 <div className='item -switch'>
                   <JSwitch
-                    onChange={this.onClickSetActive}
+                    onChange={this.handleClickSetActive}
                     isChecked={isActive}
                     name={address}
                   />
@@ -184,7 +188,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
             ) : (
               <div className='item -switch'>
                 <JSwitch
-                  onChange={this.onClickSetActive}
+                  onChange={this.handleClickSetActive}
                   name={address}
                   isChecked={isActive}
                   isDisabled={checkETH(address) && isActive}

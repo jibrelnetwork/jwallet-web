@@ -1,12 +1,25 @@
-import { getFormattedDateString, getTokenNameBySymbolName } from '../src/utils'
+
+import getFormattedDateString from '../src/utils/time/getFormattedDateString'
 
 const keys = [
-  { privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x22E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x32E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x42E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x52E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x62E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
+  {
+    privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x22E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x32E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x42E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x52E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x62E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
 ]
 
 export default {
@@ -19,7 +32,9 @@ export default {
     { text: 'EUR' },
     { text: 'GBK' },
   ],
-  loaderStyle: { width: '200px', height: '100px', position: 'relative', border: '3px solid #999' },
+  loaderStyle: {
+    width: '200px', height: '100px', position: 'relative', border: '3px solid #999',
+  },
   keysManagerProps: {
     setActiveKey: index => alert(`Key ${index + 1} picked`),
     addNewKeys: () => alert('addNewKeys handler'),
@@ -85,7 +100,7 @@ export default {
     date: getFormattedDateString((new Date()).setDate(3)),
   }],
   accounts: [{
-    name: getTokenNameBySymbolName('ETH'),
+    name: 'Ethereum',
     symbol: 'ETH',
     balanceFixed: '2.123',
     balance: 2.123,
@@ -94,7 +109,7 @@ export default {
     isActive: true,
     isCurrent: false,
   }, {
-    name: getTokenNameBySymbolName('jUSD'),
+    name: 'Jibrel USD',
     symbol: 'jUSD',
     balance: 7.890,
     balanceFixed: '7.89000',
@@ -103,7 +118,7 @@ export default {
     isActive: true,
     isCurrent: true,
   }, {
-    name: getTokenNameBySymbolName('jEUR'),
+    name: 'Jibrel Euro',
     symbol: 'jEUR',
     balance: 8.657,
     balanceFixed: '8.65777',
@@ -112,7 +127,7 @@ export default {
     isActive: true,
     isCurrent: false,
   }, {
-    name: getTokenNameBySymbolName('JNT'),
+    name: 'Jibrel Network Token',
     symbol: 'JNT',
     balance: 9.999,
     balanceFixed: '9.99999',

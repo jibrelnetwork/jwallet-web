@@ -7,7 +7,7 @@ import {
   CopyableField, ModalHeader, WalletNameStep, WalletPasswordStep, WalletStep,
 } from 'components'
 
-import { STEPS } from './modules/walletsCreate'
+import { STEPS } from 'store/modules/walletsCreate'
 
 type Props = {|
   +openView: () => void,
@@ -57,7 +57,7 @@ class WalletsCreateView extends Component<Props> {
       mnemonic,
     } = this.props
 
-    const passwordStepTitle: Array<string> =
+    const passwordStepTitle: string[] =
       (t`You will use this password to unlock and transfer your funds.
         Keep it secure!`).split('\n')
     const backupStepTitle = (t`This is your secret recovery text.

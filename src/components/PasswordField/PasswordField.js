@@ -66,16 +66,18 @@ class PasswordField extends Component<Props, StateProps> {
     const password: ?string = props.value
 
     this.state = {
-      passwordResult: password ? checkPasswordStrength(password) : null,
+      passwordResult: null,
+    }
+
+    if (password) {
+      this.setCheckingPasswordResult(password)
     }
   }
 
-  onChange = (password: string) => {
-    this.setState({
-      passwordResult: password ? checkPasswordStrength(password) : null,
+  setCheckingPasswordResult = (password: string) => {
+    checkPasswordStrength(password).then((passwordResult: PasswordResult) => {
+      this.setState({ passwordResult })
     })
-
-    this.props.onChange(password)
   }
 
   getInfoMessage = (): ?string => {
@@ -108,6 +110,16 @@ class PasswordField extends Component<Props, StateProps> {
     return warning || suggestions[0] || statusMessage
   }
 
+  handleChange = (password: string) => {
+    if (password) {
+      this.setCheckingPasswordResult(password)
+    } else {
+      this.setState({ passwordResult: null })
+    }
+
+    this.props.onChange(password)
+  }
+
   render() {
     const {
       onChangeConfirm,
@@ -133,7 +145,7 @@ class PasswordField extends Component<Props, StateProps> {
       <div className='password-field'>
         <JInput
           color={color}
-          onChange={this.onChange}
+          onChange={this.handleChange}
           value={value}
           placeholder={placeholder}
           infoMessage={infoMessage}

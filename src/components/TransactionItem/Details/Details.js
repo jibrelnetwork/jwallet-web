@@ -6,18 +6,16 @@ import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
-
-import {
-  JText,
-  JFlatButton,
-} from 'components/base'
+import { ethereum } from 'data/assets'
+import { JFlatButton } from 'components/base'
 
 import {
   getTxFee,
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
-import assetsData from 'data/assets'
+
+import jTextStyle from 'styles/components/jText.m.scss'
 
 import TransactionItemDetailsComment from './Comment'
 
@@ -39,7 +37,6 @@ type Props = {|
 
 type StateProps = {|
   +isCommenting: boolean,
-  +hovered: 'hash' | 'from' | 'to' | null,
 |}
 
 function getRepeatLink(
@@ -95,13 +92,10 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     this.state = {
       isCommenting: false,
-      hovered: null,
     }
   }
 
-  onHover = (hovered: 'hash' | 'from' | 'to' | null) => () => this.setState({ hovered })
-
-  toggle = () => this.setState({ isCommenting: !this.state.isCommenting })
+  handleClick = () => this.setState({ isCommenting: !this.state.isCommenting })
 
   render() {
     const {
@@ -122,7 +116,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     const {
       isCommenting,
-      hovered,
     }: StateProps = this.state
 
     const {
@@ -153,82 +146,76 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
         <div className='item'>
-          <div className='label'>
-            <JText value={t`TX Hash`} color='gray' />
+          <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+            {t`TX Hash`}
           </div>
           <div className='value'>
             <a
               href={getTxLink(hash, blockExplorerUISubdomain)}
-              onMouseEnter={this.onHover('hash')}
-              onMouseLeave={this.onHover(null)}
               target='_blank'
-              className='link'
+              className={classNames(
+                'link',
+                jTextStyle.core,
+                jTextStyle.bold,
+              )}
               rel='noopener noreferrer'
             >
-              <JText value={hash} color={hovered === 'hash' ? 'sky' : 'blue'} weight='bold' />
+              {hash}
             </a>
           </div>
         </div>
         {from && (
           <div className='item -small-width'>
-            <div className='label'>
-              <JText value={t`From address`} color='gray' />
+            <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+              {t`From address`}
             </div>
             <div className='value'>
               <a
                 href={getAddressLink(from, blockExplorerUISubdomain)}
-                onMouseEnter={this.onHover('from')}
-                onMouseLeave={this.onHover(null)}
                 target='_blank'
-                className='link'
+                className={classNames(
+                  'link',
+                  jTextStyle.core,
+                  jTextStyle.bold,
+                )}
                 rel='noopener noreferrer'
               >
-                <JText
-                  value={fromName ? `${fromName} — ${from}` : from}
-                  color={hovered === 'from' ? 'sky' : 'blue'}
-                  weight='bold'
-                />
+                {fromName ? `${fromName} — ${from}` : from}
               </a>
             </div>
           </div>
         )}
         {to && (
           <div className='item -small-width'>
-            <div className='label'>
-              <JText value={t`To address`} color='gray' />
+            <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+              {t`To address`}
             </div>
             <div className='value'>
               <a
                 href={getAddressLink(to, blockExplorerUISubdomain)}
-                onMouseEnter={this.onHover('to')}
-                onMouseLeave={this.onHover(null)}
                 target='_blank'
-                className='link'
+                className={classNames(
+                  'link',
+                  jTextStyle.core,
+                  jTextStyle.bold,
+                )}
                 rel='noopener noreferrer'
               >
-                <JText
-                  value={toName ? `${toName} — ${to}` : to}
-                  color={hovered === 'to' ? 'sky' : 'blue'}
-                  weight='bold'
-                />
+                {toName ? `${toName} — ${to}` : to}
               </a>
             </div>
           </div>
         )}
         <div className='item'>
-          <div className='label'>
-            <JText value={t`Fee`} color='gray' />
+          <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
+            {t`Fee`}
           </div>
-          <div className='value'>
-            <JText
-              value={`${getTxFee(
-                receiptData.gasUsed,
-                data.gasPrice,
-                assetsData.ethereum.blockchainParams.decimals
-              )} ETH`}
-              color='gray'
-              weight='bold'
-            />
+          <div className={classNames('value', jTextStyle.core, jTextStyle.gray, jTextStyle.bold)}>
+            {`${getTxFee(
+              receiptData.gasUsed,
+              data.gasPrice,
+              ethereum.blockchainParams.decimals,
+            )} ETH`}
           </div>
         </div>
         <div className='actions'>
@@ -239,7 +226,6 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 color='gray'
                 iconColor='gray'
                 iconName='repeat'
-                iconSize='medium'
                 label={t`Repeat payment`}
               />
             </div>
@@ -253,25 +239,23 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 label={favoritesLabel}
                 color='gray'
                 iconColor='gray'
-                iconSize='medium'
               />
             </div>
           )}
           <div className='action'>
             <JFlatButton
-              onClick={this.toggle}
+              onClick={this.handleClick}
               label={commentLabel}
               iconName={`message-${comment ? 'edit' : 'add'}`}
               color='gray'
               iconColor='gray'
-              iconSize='medium'
             />
           </div>
         </div>
         {isCommenting && (
           <TransactionItemDetailsComment
             edit={editComment}
-            toggle={this.toggle}
+            onToggle={this.handleClick}
             comment={comment}
             transactionId={keys.id}
           />

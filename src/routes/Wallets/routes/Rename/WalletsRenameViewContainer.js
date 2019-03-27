@@ -3,13 +3,13 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
-import { changeNameInput } from '../../modules/wallets'
+import { changeNameInput } from 'store/modules/wallets'
 
 import {
   rename,
   openView,
   closeView,
-} from './modules/walletsRename'
+} from 'store/modules/walletsRename'
 
 import WalletsRenameView from './WalletsRenameView'
 
@@ -46,6 +46,14 @@ const mapDispatchToProps = {
   goToWallets: () => push('/wallets'),
 }
 
+/* ::
+type OwnProps = {|
+  +params: {|
+    +walletId: string,
+  |},
+|}
+*/
+
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(WalletsRenameView)

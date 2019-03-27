@@ -6,7 +6,7 @@ function getXPubFromMnemonic(
   mnemonic: string,
   passphrase: string,
   derivationPath: string,
-  network?: null | number | string = null,
+  network?: ?NetworkId = null,
 ): string {
   const hdRoot: HDPrivateKey = getPrivateHdRoot(mnemonic, passphrase, derivationPath, network)
 

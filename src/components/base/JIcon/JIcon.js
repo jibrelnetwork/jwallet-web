@@ -1,29 +1,45 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React from 'react'
+import classNames from 'classnames'
+import { iconsUI } from 'utils/sprite'
 
-export type JIconSize = 'small' | 'medium' | 'large' | 'xlarge'
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 type Props = {
   name: string,
-  size: JIconSize,
-  color: JIconColor,
+  color: ?JIconColor,
 }
 
-class JIcon extends PureComponent<Props> {
-  static defaultProps = {
-    size: 'medium',
-    color: 'white',
-  }
+function JIcon({
+  name, color,
+}: Props) {
+  const iconData = iconsUI[`${name}-usage`]
+  const hasFill = name.indexOf('use-fill') !== -1
 
-  render() {
-    const { name, size, color }: Props = this.props
-
+  if (iconData) {
     return (
-      <div className={`j-icon -${name} -${size} -${color}`} />
+      <svg
+        className={classNames(
+          'j-icon',
+          color && `-${color}`,
+          hasFill && '-use-fill',
+        )}
+        width={iconData.width}
+        height={iconData.height}
+      >
+        <use xlinkHref={iconData.url} />
+      </svg>
+    )
+  } else {
+    return (
+      <div className='j-icon -no-icon' />
     )
   }
+}
+
+JIcon.defaultProps = {
+  color: null,
 }
 
 export default JIcon

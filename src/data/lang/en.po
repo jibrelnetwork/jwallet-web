@@ -11,12 +11,12 @@ msgid "WalletsDataError"
 msgstr "Wallets Data Error"
 
 #: src/routes/DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer.js
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
 #: src/routes/Favorites/FavoritesIndexViewContainer.js
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js
-#: src/routes/Wallets/routes/Addresses/sagas/walletsAddresses.js
-#: src/routes/sagas/blocks.js
-#: src/routes/sagas/transactions.js
+#: src/store/sagas/blocks.js
+#: src/store/sagas/digitalAssets/send.js
+#: src/store/sagas/transactions.js
+#: src/store/sagas/wallets/addresses.js
 #: src/workers/wallets/wrapper.js
 msgid "ActiveWalletNotFoundError"
 msgstr "Active Wallet Not Found Error"
@@ -102,22 +102,22 @@ msgid "December"
 msgstr "December"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js
-#: src/routes/Wallets/routes/Create/sagas/walletsCreate.js
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/create.js
+#: src/store/sagas/wallets/import.js
 #: src/utils/password/validate.js
 msgid "Password does not match confirmation"
 msgstr "Inputted passwords do not match"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js
-#: src/routes/Wallets/routes/Create/sagas/walletsCreate.js
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/create.js
+#: src/store/sagas/wallets/import.js
 #: src/utils/password/validate.js
 msgid "Password hint is required"
 msgstr "Password hint is required"
 
 #: src/routes/Settings/routes/PaymentPassword/PaymentPasswordView.js
-#: src/routes/Wallets/routes/Create/sagas/walletsCreate.js
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/create.js
+#: src/store/sagas/wallets/import.js
 #: src/utils/password/validate.js
 msgid "Password and hint should not be equal"
 msgstr "Your Password hint cannot be your password"
@@ -129,14 +129,6 @@ msgstr "Concatenation of entropy buffers failed"
 #: src/utils/mnemonic/generateMnemonic.js
 msgid "Entropy is set but not a string"
 msgstr "Entropy is set but not a string"
-
-#: src/utils/formatters/formatBoolean.js
-msgid "Enabled"
-msgstr "Enabled"
-
-#: src/utils/formatters/formatBoolean.js
-msgid "Disabled"
-msgstr "Disabled"
 
 #: src/utils/formatters/formatCurrency.js
 msgid "InvalidFiatCurrencyCode"
@@ -171,22 +163,22 @@ msgstr "Block Explorer Request Transactions Error"
 msgid "InvalidSelectorError"
 msgstr "Invalid Selector Error"
 
-#: src/routes/sagas/balances.js
+#: src/store/sagas/balances.js
 msgid "DigitalAssetNotFoundError"
 msgstr "Digital Asset not found"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
-#: src/routes/Wallets/routes/Addresses/sagas/walletsAddresses.js
-#: src/routes/sagas/blocks.js
+#: src/store/sagas/blocks.js
+#: src/store/sagas/digitalAssets/add.js
+#: src/store/sagas/digitalAssets/send.js
+#: src/store/sagas/wallets/addresses.js
 msgid "ActiveNetworkNotFoundError"
 msgstr "Active Network not found"
 
-#: src/routes/sagas/blocks.js
+#: src/store/sagas/blocks.js
 msgid "Task handler for module ${ request.module } is not defined"
 msgstr "Task handler for module ${ request.module } is not defined"
 
-#: src/routes/sagas/blocks.js
+#: src/store/sagas/blocks.js
 msgid "ActiveAddressNotFoundError"
 msgstr "Active Address not found"
 
@@ -224,12 +216,12 @@ msgstr "OK"
 msgid "Address name"
 msgstr "Address Name"
 
-#: src/routes/Wallets/routes/Rename/sagas/walletsRename.js
-#: src/routes/Wallets/routes/RenameAddress/sagas/walletsRenameAddress.js
+#: src/store/sagas/wallets/rename.js
+#: src/store/sagas/wallets/renameAddress.js
 msgid "Wallet with this name already exists"
 msgstr "Wallet with this name already exists"
 
-#: src/routes/Wallets/routes/RenameAddress/sagas/walletsRenameAddress.js
+#: src/store/sagas/wallets/renameAddress.js
 msgid "Address with this name already exists"
 msgstr "Address with this name already exists"
 
@@ -256,25 +248,25 @@ msgstr "Import Wallet"
 msgid "Next step"
 msgstr "Next Step"
 
-#: src/routes/Wallets/routes/Create/sagas/walletsCreate.js
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/create.js
+#: src/store/sagas/wallets/import.js
 msgid "Name should not be empty"
 msgstr "Name cannot be empty"
 
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/import.js
 msgid "Data is empty"
 msgstr "Data is empty"
 
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/import.js
 msgid "Data is invalid"
 msgstr "Invalid Data"
 
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/import.js
 msgid "Derivation path is not valid"
 msgstr "Invalid Derivation Path"
 
-#: src/routes/Wallets/routes/Create/sagas/walletsCreate.js
-#: src/routes/Wallets/routes/Import/sagas/walletsImport.js
+#: src/store/sagas/wallets/create.js
+#: src/store/sagas/wallets/import.js
 msgid "Password should not be equal with wallet name"
 msgstr "Password cannot be the same was wallet name"
 
@@ -317,7 +309,7 @@ msgstr "Backup Wallet"
 msgid "Download as TXT"
 msgstr "Download as TXT file"
 
-#: src/routes/Wallets/routes/Backup/sagas/walletsBackup.js
+#: src/store/sagas/wallets/backup.js
 msgid "Password should not be empty"
 msgstr "Password field cannot be empty"
 
@@ -409,8 +401,8 @@ msgstr "Search transactions..."
 msgid "Send asset"
 msgstr "Send Asset"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
 #: src/routes/Transactions/routes/Asset/TransactionsAssetViewContainer.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "DigitalAssetNotFound"
 msgstr "Digital Asset not found"
 
@@ -436,7 +428,7 @@ msgstr "Support"
 
 #: src/routes/Settings/SettingsIndexView.js
 msgid "Check out Jwallet on Zendesk"
-msgstr ""
+msgstr "Check out Jwalllet on Zendesk"
 
 #: src/routes/Settings/SettingsIndexView.js
 msgid "Don't forget to back it up!"
@@ -532,31 +524,31 @@ msgstr "Search Favorites..."
 msgid "Add favorite address"
 msgstr "Add Favorite Address"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "Please input valid address"
 msgstr "Please input a valid address"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "Name length should be at least 2 symbols"
 msgstr "Name length must be at least 2 characters"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "Description length should be at least 2 symbols"
 msgstr "Description length must be at least 2 characters"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "Favorite with this address already exists"
 msgstr "This address is already saved to Favorites"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "Favorite with this name already exists"
 msgstr "A Favorite address with this name already exists"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "There is wallet with such name"
 msgstr "A wallet with this name already exists"
 
-#: src/routes/Favorites/sagas/favorites.js
+#: src/store/sagas/favorites.js
 msgid "There is address with such name"
 msgstr "An address with this name already exists"
 
@@ -578,75 +570,75 @@ msgstr "Name"
 msgid "Description (optional)"
 msgstr "Description (optional)"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't request gas price"
 msgstr "Couldn't request gas price"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid value for gas price"
 msgstr "Invalid Gas Price value"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid value for gas limit"
 msgstr "Invalid Gas Limit value"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't request gas limit, please use custom priority"
 msgstr "Couldn't request Gas Limit, please use the Custom Priority feature"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Priority is not selected"
 msgstr "Priority has not been selected"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Amount exceeds balance"
 msgstr "Amount exceeds current balance"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Amount plus blockchain fee exceeds balance"
 msgstr "Amount, including blockchain fees, exceeds current balance"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid nonce"
 msgstr "Invalid nonce"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't request nonce"
 msgstr "Couldn't request nonce"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid address"
 msgstr "Invalid Address"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid amount"
 msgstr "Invalid Amount"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid asset address"
 msgstr "Invalid Asset Address"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Please input password"
 msgstr "Please enter your password"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Invalid password"
 msgstr "Incorrect Password"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Can't get gas limit. Most likely, your transaction will fail"
 msgstr ""
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Gas limit is too small. Most likely, your transaction will fail"
 msgstr "Gas limit is too low. Your transaction will not be completed"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Gas price is too small. Most likely, your transaction will fail"
 msgstr "Gas price is too low. Your transaction will not be completed"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Recipient is the same as sender"
 msgstr "Recipient address is the same as sender address"
 
@@ -788,17 +780,17 @@ msgstr "Search Assets..."
 msgid "Edit digital asset"
 msgstr "Edit Digital Asset"
 
-#: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js
+#: src/store/sagas/digitalAssets/edit.js
 msgid "Asset not found"
 msgstr "Asset not found"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
-#: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js
+#: src/store/sagas/digitalAssets/add.js
+#: src/store/sagas/digitalAssets/edit.js
 msgid "Valid digital asset name is required"
 msgstr "Invalid Digital Asset Name"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
-#: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js
+#: src/store/sagas/digitalAssets/add.js
+#: src/store/sagas/digitalAssets/edit.js
 msgid "Valid digital asset symbol is required"
 msgstr "Invalid Digital Asset Symbol"
 
@@ -812,23 +804,23 @@ msgstr "Add Digital Asset"
 msgid "Add asset"
 msgstr "Add Asset"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
+#: src/store/sagas/digitalAssets/add.js
 msgid "This asset alreasy exists"
 msgstr "This asset already exists"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
+#: src/store/sagas/digitalAssets/add.js
 msgid "This asset is not ERC20 compatible"
 msgstr "This asset is not ERC-20 compatible"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
+#: src/store/sagas/digitalAssets/add.js
 msgid "Network connection error"
 msgstr "Network connection error"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
+#: src/store/sagas/digitalAssets/add.js
 msgid "Invalid ERC-20 contract address"
 msgstr "Invalid ERC-20 contract address"
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
+#: src/store/sagas/digitalAssets/add.js
 msgid "Please wait for asset validity check"
 msgstr "Checking validity of Digital Asset..."
 
@@ -945,7 +937,9 @@ msgstr "Your Comment"
 msgid "Cancel"
 msgstr "Cancel"
 
+#: src/components/AssetItem/AssetItem.js
 #: src/components/ButtonWithConfirm/ButtonWithConfirm.js
+#: src/components/FavoriteItem/FavoriteItem.js
 #: src/components/TransactionItem/Details/Comment/Comment.js
 #: src/components/WalletFace/Actions/WalletFaceActions.js
 msgid "Delete"
@@ -1094,7 +1088,7 @@ msgstr "Invalid ETH transaction format"
 msgid "Invalid contract events response"
 msgstr "Invalid contract events response"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "GasValuesError"
 msgstr "Gas Value Error"
 
@@ -1102,7 +1096,7 @@ msgstr "Gas Value Error"
 msgid "Previous step"
 msgstr "Previous step"
 
-#: src/routes/Wallets/routes/Rename/sagas/walletsRename.js
+#: src/store/sagas/wallets/rename.js
 msgid "Wallet name can't be empty"
 msgstr "Wallet name can't be empty"
 
@@ -1110,7 +1104,7 @@ msgstr "Wallet name can't be empty"
 msgid "The page you're looking for can't be found."
 msgstr "The page you're looking for can't be found"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "You don't have enough ETH to send this transaction"
 msgstr "You don't have enough ETH to complete this transaction"
 
@@ -1128,8 +1122,8 @@ msgstr ""
 "deleted.\n"
 "The only way to restore a deleted wallet is to use your backup phrase."
 
-#: src/routes/DigitalAssets/routes/AddAsset/sagas/addAsset.js
-#: src/routes/DigitalAssets/routes/EditAsset/sagas/editAsset.js
+#: src/store/sagas/digitalAssets/add.js
+#: src/store/sagas/digitalAssets/edit.js
 msgid "Digital asset decimals should be a number between 0...127"
 msgstr "Decimals should be a number between 0 and 127"
 
@@ -1181,7 +1175,7 @@ msgstr ""
 "need.\n"
 "Please select an address to continue"
 
-#: src/routes/DigitalAssets/routes/Send/sagas/digitalAssetsSend.js
+#: src/store/sagas/digitalAssets/send.js
 msgid "Nonce should be greater than ${ suggestedNonce }"
 msgstr "Nonce should be greater than ${ suggestedNonce }"
 

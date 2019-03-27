@@ -4,7 +4,7 @@ import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { t } from 'ttag'
 
 import checkETH from 'utils/digitalAssets/checkETH'
-import getAddressWithChecksum from 'utils/address/getAddressWithChecksum'
+import getAddressChecksum from 'utils/address/getAddressChecksum'
 import * as type from 'utils/type'
 import { BigNumber } from 'bignumber.js'
 
@@ -162,7 +162,7 @@ function checkERC20InterfaceCode(
   smartContractCode: string,
   isAllMethodsRequired: boolean = false,
 ): boolean {
-  const signatures: Array<$Keys<typeof ERC20_INTERFACE_SIGNATURES>> = isAllMethodsRequired ? [
+  const signatures: $Keys<typeof ERC20_INTERFACE_SIGNATURES>[] = isAllMethodsRequired ? [
     'approve',
     'transfer',
     'Transfer',
@@ -178,8 +178,13 @@ function checkERC20InterfaceCode(
 
   const notFound = signatures.reduce(
     (result, methodName) =>
-      result || !checkMethodSignatureInSmartContractCode(smartContractCode, methodName)
-    , false)
+      result || !checkMethodSignatureInSmartContractCode(
+        smartContractCode,
+        methodName,
+      ),
+    false,
+  )
+
   return !notFound
 }
 
@@ -304,7 +309,7 @@ function getTransactionReceiptData(network: Network, hash: Hash): Promise<Transa
   }).then(prepareTransactionReceipt)
 }
 
-function handleEventsResponse(response: any): Array<any> {
+function handleEventsResponse(response: any): any[] {
   if (type.isVoid(response) || !type.isArray(response)) {
     throw new Error(t`Invalid contract events response`)
   }
@@ -312,7 +317,7 @@ function handleEventsResponse(response: any): Array<any> {
   return response
 }
 
-function filterEvents(list: Array<any>): Array<Object> {
+function filterEvents(list: any[]): Object[] {
   return list.filter((item: any): boolean => (!type.isVoid(item) && type.isObject(item)))
 }
 
@@ -331,7 +336,7 @@ function checkTransferEvent(data: Object): boolean {
   )
 }
 
-function prepareTransferEvents(data: Array<Object>): Transactions {
+function prepareTransferEvents(data: Object[]): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
     if (!checkTransferEvent(item)) {
       return result
@@ -353,8 +358,8 @@ function prepareTransferEvents(data: Array<Object>): Transactions {
     } = args
 
     const newTransaction: Transaction = {
-      to: getAddressWithChecksum(to),
-      from: getAddressWithChecksum(from),
+      to: getAddressChecksum(to),
+      from: getAddressChecksum(from),
       blockHash,
       blockNumber,
       data: null,
@@ -442,7 +447,7 @@ function checkJNTEvent(data: Object): boolean {
   )
 }
 
-function prepareJNTEvents(data: Array<Object>): Transactions {
+function prepareJNTEvents(data: Object[]): Transactions {
   return data.reduce((result: Transactions, item: Object): Transactions => {
     if (!checkJNTEvent(item)) {
       return result
@@ -463,7 +468,7 @@ function prepareJNTEvents(data: Array<Object>): Transactions {
       value,
     }: JNTEventArgs = args
 
-    const ownerAddressChecksum: OwnerAddress = getAddressWithChecksum(owner)
+    const ownerAddressChecksum: OwnerAddress = getAddressChecksum(owner)
 
     const newTransaction: Transaction = {
       blockHash,
@@ -520,7 +525,7 @@ function getJNTEvents(
     .getPastEvents(fromProps)
     .then(handleEventsResponse)
     .then(filterEvents)
-    .then((data: Array<Object>): Transactions => prepareJNTEvents(data))
+    .then((data: Object[]): Transactions => prepareJNTEvents(data))
 }
 
 function getMintEvents(

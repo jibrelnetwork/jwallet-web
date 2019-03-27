@@ -1,13 +1,21 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { Form, Field } from 'react-final-form'
 import { t } from 'ttag'
 
-import { SubsettingsDescription, SubsettingsView } from 'routes/Settings/components'
+import {
+  Form,
+  Field,
+} from 'react-final-form'
+
+import { JRaisedButton } from 'components/base'
 import { JInputField } from 'components/base/JInput'
 import { PasswordFieldFinalFormAdapter } from 'components/PasswordField'
-import { JRaisedButton } from 'components/base'
+
+import {
+  SubsettingsView,
+  SubsettingsDescription,
+} from 'routes/Settings/components'
 
 import './paymentPassword.scss'
 
@@ -37,22 +45,31 @@ export default class PaymentPasswordView extends PureComponent<Props> {
     errorMessage: null,
   }
 
-  onSubmit = (formState: PaymentPasswordForm) => {
+  handleSubmit = (formState: PaymentPasswordForm) => {
     const { passwordHint } = formState
+
     if (passwordHint === undefined || passwordHint.length < 1) {
       return { passwordHint: text.hintAlert }
     }
+
     this.props.submit(formState)
+
     return {}
   }
 
   validate = (formState: PaymentPasswordForm) => {
-    const { passwordNew, passwordHint } = formState
+    const {
+      passwordNew,
+      passwordHint,
+    } = formState
+
     const errors = {}
+
     /* eslint-disable fp/no-mutation */
     if (passwordHint && passwordHint.length === 0) {
       errors.passwordHint = text.hintAlert
     }
+
     if (passwordHint && passwordHint === passwordNew) {
       errors.passwordHint = text.hintAlertPassword
     }
@@ -68,9 +85,16 @@ export default class PaymentPasswordView extends PureComponent<Props> {
       <SubsettingsView title={t`Update payment password`}>
         <SubsettingsDescription text={text.pageDescription} />
         <Form
-          onSubmit={this.onSubmit}
+          onSubmit={this.handleSubmit}
           validate={this.validate}
-          render={({ handleSubmit, form, values }) => (
+          render={({
+            handleSubmit,
+            values,
+            form: {
+              change: handleFormChange,
+              submit: handleFormSubmit,
+            },
+          }) => (
             <form className='password-form' onSubmit={handleSubmit}>
               <Field
                 component={JInputField}
@@ -85,7 +109,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 isAutoFocus
               />
               <PasswordFieldFinalFormAdapter
-                onChange={form.change}
+                onChange={handleFormChange}
                 errorMessages={passwordForm.messages}
                 isLoading={passwordForm.isLoading}
                 values={values}
@@ -101,11 +125,11 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 isDisabled={passwordForm.isLoading}
               />
               <JRaisedButton
-                onClick={form.submit}
-                label={t`Set password`}
-                color='blue'
+                onClick={handleFormSubmit}
                 isLoading={passwordForm.isLoading}
-              />
+                type='submit'
+              >{t`Set password`}
+              </JRaisedButton>
             </form>
           )}
         />

@@ -41,7 +41,7 @@ function MenuPanelWalletManagerDetails({
         'menu-panel-wallet-manager-details',
         isActive && '-active',
         isMnemonic && '-mnemonic',
-        isReadOnly && '-read-only'
+        isReadOnly && '-read-only',
       )}
     >
       {!isMnemonic ? <MenuPanelWalletManagerDetailsActions /> : (

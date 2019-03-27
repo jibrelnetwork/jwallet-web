@@ -1,11 +1,19 @@
 // @flow
 
-import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { Link } from 'react-router'
 
 import AssetBalance from 'components/AssetBalance'
-import { JFlatButton, JText, JLoader } from 'components/base'
+
+import {
+  JText,
+  JLoader,
+  JFlatButton,
+} from 'components/base'
+
+import JTextStyle from 'styles/components/jText.m.scss'
 
 type Props = {|
   +symbol: string,
@@ -15,30 +23,14 @@ type Props = {|
   // +fiatBalance: ?string,
   +isError: boolean,
   +isLoading: boolean,
-  +isHovered: boolean
 |}
 
-type StateProps = {|
-  isHover: boolean,
-|}
-
-class AssetCardBody extends PureComponent<Props, StateProps> {
+class AssetCardBody extends PureComponent<Props, *> {
   static defaultProps = {
     isError: false,
     isLoading: false,
-    isHovered: false,
     // fiatBalance: '',
   }
-
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isHover: false,
-    }
-  }
-
-  onHover = (isHover: boolean) => () => this.setState({ isHover })
 
   render() {
     const {
@@ -49,12 +41,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
       // fiatBalance,
       isError,
       isLoading,
-      isHovered,
     } = this.props
-
-    const {
-      isHover,
-    }: StateProps = this.state
 
     if (isLoading) {
       return (
@@ -80,8 +67,6 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
               color='blue'
               label={t`Reload asset`}
               isHoverOpacity
-              // eslint-disable-next-line no-console
-              onClick={console.log}
             />
           </div>
         </div>
@@ -89,7 +74,7 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
     }
 
     return (
-      <div className={classNames('asset-card-body', isHovered && '-hovered')}>
+      <div className='asset-card-body'>
         <div className='crypto'>
           <AssetBalance
             color='gray'
@@ -118,17 +103,18 @@ class AssetCardBody extends PureComponent<Props, StateProps> {
             </div>
           ) */ }
           <div className='show'>
-            <div
-              className='link'
-              onMouseEnter={this.onHover(true)}
-              onMouseLeave={this.onHover(false)}
+            <Link
+              to={`/transactions/${address}`}
+              className={classNames(
+                'link',
+                JTextStyle.core,
+                JTextStyle.blue,
+                JTextStyle.bold,
+                JTextStyle.nowrap,
+              )}
             >
-              <JFlatButton
-                to={`/transactions/${address}`}
-                color={isHover ? 'sky' : 'blue'}
-                label={t`Show transactions`}
-              />
-            </div>
+              {t`Show transactions`}
+            </Link>
           </div>
         </div>
       </div>

@@ -3,8 +3,9 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import handle from 'utils/eventHandlers/handle'
+import { STEPS } from 'store/modules/walletsBackup'
 
+import handle from 'utils/eventHandlers/handle'
 import getWallet from 'utils/wallets/getWallet'
 
 import {
@@ -13,8 +14,6 @@ import {
   CopyableField,
   WalletPasswordStep,
 } from 'components'
-
-import { STEPS } from './modules/walletsBackup'
 
 type Props = {|
   +closeView: () => void,
@@ -125,6 +124,7 @@ class WalletsBackupView extends Component<Props> {
       )
     } catch (err) {
       console.error(err)
+
       return null
     }
   }

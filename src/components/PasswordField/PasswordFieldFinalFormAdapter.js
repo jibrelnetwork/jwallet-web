@@ -1,4 +1,5 @@
 // @flow
+
 import React from 'react'
 import PasswordField from 'components/PasswordField'
 
@@ -16,11 +17,17 @@ const text = {
 
 const handlerChange = name => f => value => f(name, value)
 
-function PasswordFieldFinalFormAdapter({ onChange, isLoading, values, errorMessages }: Props) {
+function PasswordFieldFinalFormAdapter({
+  onChange,
+  values,
+  errorMessages,
+  isLoading,
+}: Props) {
   const invalidFields = {
     password: errorMessages.passwordNew,
     passwordConfirm: errorMessages.passwordNewConfirm,
   }
+
   return (
     <PasswordField
       onChange={handlerChange('passwordNew')(onChange)}

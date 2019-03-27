@@ -1,20 +1,29 @@
 // @flow
 
-import React, { Component, Fragment } from 'react'
-import { t } from 'ttag'
-
 import classNames from 'classnames'
 
-import { JFlatButton, JIcon, JTooltip } from 'components/base'
+import React, {
+  Fragment,
+  Component,
+} from 'react'
 
-import type { JIconColor } from 'components/base/JIcon/JIcon'
+import { t } from 'ttag'
+
+import {
+  JIcon,
+  JTooltip,
+  JFlatButton,
+} from 'components/base'
+
+import { type JIconColor } from 'components/base/JIcon/JIcon'
+import { type JFlatButtonColor } from 'components/base/JFlatButton/JFlatButton'
 
 type Props = {|
   +onClick: (SyntheticEvent<HTMLDivElement>) => void,
   +onCancelClick: Function,
-  +color: 'blue' | 'gray' | 'sky' | 'white',
   +label: ?string,
   +bgColor: ?string,
+  +color: JFlatButtonColor,
   +iconTooltipName: ?string,
   +iconTooltipColor: ?JIconColor,
   +labelCancel: string,
@@ -56,7 +65,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
 
   componentDidMount() {
     if (this.state.isActive) {
-      this.initAction()
+      this.handleClickInit()
     }
   }
 
@@ -95,12 +104,12 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
     this.props.onCancelClick()
   }
 
-  initAction = () => {
+  handleClickInit = () => {
     this.setState({ isActive: true })
     this.startCountdown()
   }
 
-  cancelAction = () => {
+  handleClickCancel = () => {
     this.setState({ isActive: false })
     this.resetCountdown()
   }
@@ -134,7 +143,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
             )}
           >
             <JFlatButton
-              onClick={this.cancelAction}
+              onClick={this.handleClickCancel}
               label={labelCancel}
               color={color}
               isBordered
@@ -153,17 +162,16 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
           <Fragment>
             {label && !iconTooltipName && !iconTooltipColor && (
               <JFlatButton
-                onClick={this.initAction}
+                onClick={this.handleClickInit}
                 label={label}
                 color={color}
                 isBordered
               />
             )}
             {iconTooltipName && iconTooltipColor && !label && (
-              <div className='icon' onClick={this.initAction}>
+              <div className='icon' onClick={this.handleClickInit}>
                 <JTooltip text={t`Delete`}>
                   <JIcon
-                    size='medium'
                     color={iconTooltipColor}
                     name={iconTooltipName}
                   />

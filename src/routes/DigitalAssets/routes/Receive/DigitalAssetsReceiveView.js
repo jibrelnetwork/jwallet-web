@@ -2,12 +2,29 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+
 import config from 'config'
 
-import { JCard, JInput, JRaisedButton } from 'components/base'
-import { saveQRCode, copyQRCode } from 'components/QRCode'
-import { CloseableScreen, QRCode } from 'components'
-import { clipboard, qrCode } from 'services'
+import {
+  qrCode,
+  clipboard,
+} from 'services'
+
+import {
+  QRCode,
+  CloseableScreen,
+} from 'components'
+
+import {
+  JCard,
+  JInput,
+  JRaisedButton,
+} from 'components/base'
+
+import {
+  copyQRCode,
+  saveQRCode,
+} from 'components/QRCode'
 
 import { isVoid } from 'utils/type'
 
@@ -31,9 +48,6 @@ type StateProps = {|
 |}
 
 class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
-  // eslint-disable-next-line react/sort-comp
-  toggleTimeout: ?TimeoutID = null
-
   constructor(props: Props) {
     super(props)
 
@@ -48,7 +62,15 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     }
   }
 
-  copyAddress = () => {
+  componentWillUnmount() {
+    if (this.toggleTimeout) {
+      clearTimeout(this.toggleTimeout)
+    }
+  }
+
+  toggleTimeout: ?TimeoutID = null
+
+  handleClick = () => {
     this.setState({ isCopied: true })
 
     this.toggleTimeout = setTimeout(() => {
@@ -60,14 +82,10 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     }
   }
 
-  componentWillUnmount() {
-    if (this.toggleTimeout) {
-      clearTimeout(this.toggleTimeout)
-    }
-  }
-
   render() {
-    const { address, close } = this.props
+    const {
+      address, close,
+    } = this.props
 
     const {
       isCopied,
@@ -78,7 +96,6 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     }
 
     return (
-
       <CloseableScreen
         close={close}
         title={t`Receive assets`}
@@ -90,24 +107,23 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
                 <JCard color='white'>
                   <QRCode
                     copy={copyQRCode}
-                    color='white'
                     download={saveQRCode}
+                    color='white'
                     isActive
                   />
                 </JCard>
               </div>
               <JInput
-                label={t`Recipient address`}
                 value={address}
+                label={t`Recipient address`}
                 color='gray'
                 type='text'
                 isDisabled
               />
               <JRaisedButton
-                onClick={this.copyAddress}
-                label={isCopied ? t`Copied!` : t`Copy address`}
-                color='blue'
-              />
+                onClick={this.handleClick}
+              >{isCopied ? t`Copied!` : t`Copy address`}
+              </JRaisedButton>
             </div>
           </div>
         </div>

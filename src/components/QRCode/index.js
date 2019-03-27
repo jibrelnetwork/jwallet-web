@@ -1,7 +1,15 @@
 // @flow
 
 import QRCode from './QRCode'
-import { saveQRCode, copyQRCode } from './utils'
+
+import {
+  copyQRCode,
+  saveQRCode,
+} from './utils'
+
+export {
+  copyQRCode,
+  saveQRCode,
+}
 
 export default QRCode
-export { saveQRCode, copyQRCode }

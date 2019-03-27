@@ -1,4 +1,5 @@
 // @flow
+
 import { connect } from 'react-redux'
 
 import { selectActiveWallet } from 'store/selectors/wallets'

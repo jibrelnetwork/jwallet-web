@@ -1,17 +1,21 @@
 // @flow
 
-import { divDecimals, toBigNumber } from 'utils/numbers'
+import {
+  divDecimals,
+  toBigNumber,
+} from 'utils/numbers'
 
 const toNominalValue = (asset: DigitalAssetWithBalance) => {
   const { balance } = asset
   const { decimals } = asset.blockchainParams
+
   if (!balance || !decimals) {
     return toBigNumber()
   }
 
   return divDecimals(
     balance.value,
-    decimals
+    decimals,
   )
 }
 

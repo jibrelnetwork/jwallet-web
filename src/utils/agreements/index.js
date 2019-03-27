@@ -1,10 +1,12 @@
+// @flow
+
+import checkAgreements from './checkAgreements'
 import getAgreementValue from './getAgreementValue'
 import setAgreementValue from './setAgreementValue'
-import checkAgreements from './checkAgreements'
 
 export {
+  checkAgreements,
   getAgreementValue,
   setAgreementValue,
-  checkAgreements,
 }
 

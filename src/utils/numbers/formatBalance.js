@@ -5,11 +5,9 @@ import {
   toBigNumber,
 } from '.'
 
-function formatBalance(
-  value: BigNumber | string | number | void,
-  dp?: number = 2,
-  rm?: number,
-): string {
+import { type ToBigNumberValue } from './toBigNumber'
+
+function formatBalance(value: ?ToBigNumberValue, dp?: number = 2, rm?: number): string {
   if (isZero(value)) {
     return '0.00'
   }

@@ -9,15 +9,15 @@ import {
   JFlatButton,
 } from 'components/base'
 
-import ethereum from 'data/assets/ethereum'
-
+import { ethereum } from 'data/assets'
 import { formatAssetBalance } from 'utils/formatters'
 
 type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
+type WalletFaceActionIconName = 'edit' | 'to-multiaddress' | 'to-oneaddress' | 'import' | 'bucket'
 
 type WalletFaceAction = {|
   +handler: ?WalletFaceActionsHandler,
-  +iconName: 'edit' | 'to-multiaddress' | 'to-oneaddress' | 'import' | 'bucket',
+  +iconName: WalletFaceActionIconName,
   +tooltip: string,
 |}
 
@@ -33,7 +33,7 @@ type Props = {|
 |}
 
 class WalletFaceActions extends PureComponent<Props> {
-  getActions = (): Array<WalletFaceAction> => {
+  getActions = (): WalletFaceAction[] => {
     const {
       backup,
       rename,
@@ -87,14 +87,16 @@ class WalletFaceActions extends PureComponent<Props> {
               />
             )}
             {this.getActions().map((action: WalletFaceAction) => {
-              const { handler, iconName }: WalletFaceAction = action
+              const {
+                handler,
+                iconName,
+              }: WalletFaceAction = action
 
               return !handler ? null : (
                 <div className='action' key={iconName}>
                   <JFlatButton
                     onClick={handler}
                     iconName={iconName}
-                    iconSize='medium'
                     iconColor='white'
                     isHoverOpacity
                     title={action.tooltip}
@@ -106,8 +108,7 @@ class WalletFaceActions extends PureComponent<Props> {
         ) : (
           <JFlatButton
             onClick={toggle}
-            iconName='dots'
-            iconSize='medium'
+            iconName='dots-full-use-fill'
             iconColor='white'
             isTransparent
             isHoverOpacity

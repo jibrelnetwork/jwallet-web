@@ -1,4 +1,6 @@
-import { LOCATION_CHANGE, push } from 'react-router-redux'
+import {
+  LOCATION_CHANGE, push,
+} from 'react-router-redux'
 import { REHYDRATE } from 'redux-persist'
 
 import {
@@ -16,15 +18,18 @@ const isFullyHydrated = state =>
     if (state[id]._persist) {
       return memo && state[id]._persist.rehydrated
     }
+
     return memo
   }, true)
 
 export const redirect = ({ getState }) => next => (action) => {
   next(action)
+
   switch (action.type) {
     case REHYDRATE:
     case LOCATION_CHANGE: {
       const state = getState()
+
       if (isFullyHydrated(state)) {
         const pathname = action.type === LOCATION_CHANGE ?
           action.payload.pathname :
@@ -43,14 +48,16 @@ export const redirect = ({ getState }) => next => (action) => {
           root,
           upgrade,
           walletsAddresses,
-        ].reduce((memo, fn) =>
-          fn(state, memo), pathname
+        ].reduce(
+          (memo, fn) => fn(state, memo),
+          pathname,
         )
 
         if (redirectPathname !== pathname) {
           next(push(redirectPathname))
         }
       }
+
       break
     }
     default: {

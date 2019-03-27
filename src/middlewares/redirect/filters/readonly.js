@@ -12,6 +12,7 @@ export const readonly = (state: AppState, pathname: string): string => {
   }
 
   const activeWallet = selectActiveWallet(state)
+
   if (activeWallet && activeWallet.isReadOnly) {
     return '/upgrade'
   }

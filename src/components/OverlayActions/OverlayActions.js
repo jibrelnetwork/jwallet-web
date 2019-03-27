@@ -1,19 +1,27 @@
 // @flow
 
-import React, { PureComponent, Fragment } from 'react'
 import classNames from 'classnames'
 
-import { JIcon, JText } from 'components/base'
+import React, {
+  Fragment,
+  PureComponent,
+} from 'react'
+
+import {
+  JIcon,
+  JText,
+} from 'components/base'
 
 type OverlayActionsHandler = () => void
+type OverlayActionsColor = 'white' | 'gray'
 
-type Props = {
-  copy: OverlayActionsHandler,
-  load: ?OverlayActionsHandler,
-  copyLabel: string,
-  loadLabel: ?string,
-  color: 'white' | 'gray',
-}
+type Props = {|
+  +copy: OverlayActionsHandler,
+  +load: ?OverlayActionsHandler,
+  +copyLabel: string,
+  +loadLabel: ?string,
+  +color: OverlayActionsColor,
+|}
 
 const colorTextMap = {
   white: 'blue',
@@ -48,7 +56,7 @@ class OverlayActions extends PureComponent<Props> {
       >
         <div onClick={copy} className='item'>
           <div className='icon'>
-            <JIcon name='list' color={textColor} size='medium' />
+            <JIcon name='list' color={textColor} />
           </div>
           <div className='text'>
             <JText value={copyLabel} color={textColor} weight='bold' />
@@ -61,7 +69,7 @@ class OverlayActions extends PureComponent<Props> {
             </div>
             <div onClick={load} className='item'>
               <div className='icon'>
-                <JIcon name='download' color={textColor} size='medium' />
+                <JIcon name='download' color={textColor} />
               </div>
               <div className='text'>
                 <JText value={loadLabel || ''} color={textColor} weight='bold' />

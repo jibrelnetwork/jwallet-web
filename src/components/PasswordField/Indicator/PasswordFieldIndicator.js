@@ -2,9 +2,11 @@
 
 import React from 'react'
 
+type PasswordFieldIndicatorColor = 'white' | 'gray'
+
 type Props = {|
   +status: ?PasswordStatus,
-  +color: 'white' | 'gray',
+  +color: PasswordFieldIndicatorColor,
 |}
 
 function PasswordFieldIndicator({

@@ -16,11 +16,10 @@ import {
 import {
   validationPasswordForm,
   changePaymentPasswordPending,
-} from 'routes/Settings/modules/settings'
+  type SettingsAction,
+} from 'store/modules/settings'
 
-import * as wallets from 'routes/Wallets/modules/wallets'
-
-import type { SettingsAction } from 'routes/Settings/modules/settings'
+import * as wallets from 'store/modules/wallets'
 
 type SettingsWorkerMessage = {|
   +data: SettingsAction,
@@ -73,15 +72,13 @@ settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
     )
 
     settingsWorker.postMessage(wallets.setWallets({
-      items: items.map(wallet =>
-        reEncryptWallet(
-          wallet,
-          internalKeyDec,
-          encryptionType,
-          internalKeyNew,
-          passwordOptionsNew.encryptionType,
-        )
-      ),
+      items: items.map(wallet => reEncryptWallet(
+        wallet,
+        internalKeyDec,
+        encryptionType,
+        internalKeyNew,
+        passwordOptionsNew.encryptionType,
+      )),
       passwordOptions: passwordOptionsNew,
       internalKey: encryptInternalKey(internalKeyNew, dkNew, passwordOptionsNew.encryptionType),
     }))

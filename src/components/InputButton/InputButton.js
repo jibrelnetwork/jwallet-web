@@ -60,6 +60,7 @@ class InputButton extends Component<Props, ComponentState> {
       if (onActivate) {
         onActivate(false)
       }
+
       onChange('')
     } else if (onActivate) {
       onActivate(true)
@@ -97,7 +98,6 @@ class InputButton extends Component<Props, ComponentState> {
           <div className='close' onClick={this.setIsActive(false)}>
             <JIcon
               color='blue'
-              size='medium'
               name='padding-cross'
             />
           </div>
@@ -106,7 +106,6 @@ class InputButton extends Component<Props, ComponentState> {
           <JIcon
             name={icon}
             color='gray'
-            size='medium'
           />
           <JText
             value={label}
