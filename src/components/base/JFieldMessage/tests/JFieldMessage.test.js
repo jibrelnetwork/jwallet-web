@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { JFieldMessage } from '../JFieldMessage.js'
+import { JFieldMessage } from '../JFieldMessage'
 
 describe('Render semantic html', () => {
   test('for error theme', () => {

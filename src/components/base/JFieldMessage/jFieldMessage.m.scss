@@ -6,13 +6,12 @@
 
   font-size: 12px;
   line-height: 20px;
+}
 
-  // stylelint-disable selector-nested-pattern, rscss/class-format
-  &.info {
-    color: $main-black;
-  }
+&.info {
+  color: $main-black;
+}
 
-  &.error {
-    color: $main-red;
-  }
+&.error {
+  color: $main-red;
 }
