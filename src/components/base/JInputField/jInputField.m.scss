@@ -1,0 +1,65 @@
+// stylelint-disable
+@import "styles/mixins";
+@import "styles/colors";
+
+$form-left-padding: 24px;
+$form-right-padding: 16px;
+
+.core {
+  position: relative;
+  align-items: center;
+  cursor: pointer;
+  height: 72px;
+  padding: 0;
+}
+
+.title {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  // transition: opacity 0.3s ease 0s, top 0.3s ease 0s;
+}
+
+.input {
+  @include font(14px, 14px);
+
+  display: block;
+  padding: 24px 24px 26px 16px;
+  line-height: 22px;
+  width: 100%;
+  background: inherit;
+  resize: none;
+  border: none;
+  transition: padding 0.3s ease 0s, top 0.3s ease 0s;
+
+  &::placeholder {
+    color: $main-black-30;
+  }
+}
+
+.core:hover > .input::placeholder {
+  color: $main-black-40;
+}
+
+.white {
+  background-color: $white;
+}
+
+.active > .input {
+  padding-top: 34px;
+  padding-bottom: 16px;
+}
+
+.error {
+  > .title {
+    color: $main-red;
+  }
+}
+
+.disabled {
+
+}
+
+.info {
+
+}
