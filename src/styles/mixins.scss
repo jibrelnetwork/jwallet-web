@@ -50,4 +50,5 @@
   transition-property: $property;
   transition-duration: 200ms;
   transition-timing-function: $default-animation;
+  transition-delay: 0ms;
 }

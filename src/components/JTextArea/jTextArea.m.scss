@@ -16,7 +16,7 @@
 
   // stylelint-disable selector-nested-pattern, rscss/class-format
   &.white {
-    @include property-transition(box-shadow, background);
+    @include property-transition(box-shadow);
 
     padding: 24px 16px 26px;
     border: none;
@@ -37,6 +37,7 @@
       transition-timing-function: $default-animation;
       transition-duration: 0.2s;
       transition-property: color, transform;
+      transition-delay: 0ms;
     }
 
     > .input {
@@ -48,6 +49,7 @@
       position: relative;
       display: block;
       min-width: 100%;
+      width: 100%;
       border: none;
       background: transparent;
       font-weight: 600;
