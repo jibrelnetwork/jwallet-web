@@ -44,8 +44,9 @@
       @include font(14px, 22px);
 
       appearance: none;
+      resize: none;
+      position: relative;
       display: block;
-      margin-top: 10px;
       min-width: 100%;
       border: none;
       background: transparent;
@@ -62,7 +63,11 @@
 
       > .label {
         font-weight: 400;
-        transform: translate(7px, 14px) scale(0.86);
+        transform: translate(9px, 14px) scale(0.86);
+      }
+
+      > .input {
+        top: 10px;
       }
     }
 

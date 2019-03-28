@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import {
+  noop,
   omit,
   kebabCase,
 } from 'lodash-es'
@@ -31,9 +32,9 @@ type State = {
 
 const MAX_ROWS = 12
 
-function noop() {}
-
-function heightCalc({ currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>): void {
+async function heightCalc(
+  { currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>,
+): Promise<void> {
   if (target) {
     while (target.clientHeight < target.scrollHeight && target.rows <= MAX_ROWS) {
       // mutating the DOM
@@ -50,7 +51,7 @@ export class JTextArea extends PureComponent<Props, State> {
     onFocus: noop,
     theme: 'white',
     className: undefined,
-    label: '',
+    label: undefined,
     id: undefined,
     value: '',
     rows: 1,
@@ -98,7 +99,7 @@ export class JTextArea extends PureComponent<Props, State> {
       'error',
     ])
 
-    const elementID: string = kebabCase(this.props.label)
+    const elementID: string = kebabCase(this.props.label) || undefined
 
     return (
       <div
@@ -112,9 +113,10 @@ export class JTextArea extends PureComponent<Props, State> {
           this.props.className,
         )}
       >
-        <label className={classNames(jTextAreaStyle.label)} htmlFor={elementID}>
-          {this.props.label}
-        </label>
+        {elementID && (
+          <label className={classNames(jTextAreaStyle.label)} htmlFor={elementID}>
+            {this.props.label}
+          </label>)}
         <textarea
           {...omitedProps}
           onChange={this.handleChange}

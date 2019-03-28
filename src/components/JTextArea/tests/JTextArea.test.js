@@ -11,19 +11,30 @@ describe('Render', () => {
   test('Semantic html', () => {
     const wrapper = shallow(<JTextArea value='Hello World' />)
 
-    expect(wrapper.html()).toBe('<textarea class="core blue">Hello World</textarea>')
+    // eslint-disable-next-line max-len
+    const expected = '<div class="core white focused"><textarea class="input" rows="1">Hello World</textarea></div>'
+    expect(wrapper.html()).toBe(expected)
   })
 
   test('The `blue` theme is apply class `blue` to textarea', () => {
     const wrapper = shallow(<JTextArea theme='blue' />)
 
-    expect(wrapper.html()).toBe('<textarea class="core blue"></textarea>')
+    const expected = '<div class="core blue"><textarea class="input" rows="1"></textarea></div>'
+    expect(wrapper.html()).toBe(expected)
   })
 
   test('className property is apply to textarea', () => {
     const wrapper = shallow(<JTextArea className='test-class' />)
 
     expect(wrapper.hasClass('test-class')).toBeTruthy()
+  })
+
+  test('Showing label for input when JTextArea has props label', () => {
+    const wrapper = shallow(<JTextArea label='Label textarea' value='Hello World' />)
+
+    // eslint-disable-next-line max-len
+    const expected = '<div class="core white focused"><label class="label" for="label-textarea">Label textarea</label><textarea id="label-textarea" class="input" rows="1">Hello World</textarea></div>'
+    expect(wrapper.html()).toBe(expected)
   })
 
   test('html attributes are apply to textarea', () => {
@@ -37,7 +48,8 @@ describe('Render', () => {
     )
 
     // eslint-disable-next-line max-len
-    expect(wrapper.html()).toBe('<textarea aria-label="meow" data-unit="txt-area" random-attribute="wow" row="8" class="core blue"></textarea>')
+    const expected = '<div class="core white"><textarea aria-label="meow" data-unit="txt-area" random-attribute="wow" row="8" class="input" rows="1"></textarea></div>'
+    expect(wrapper.html()).toBe(expected)
   })
 
   test('onChange handler is call on change value in textarea', () => {
