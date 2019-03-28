@@ -10,46 +10,40 @@ import jInputFieldStyle from './jInputField.m.scss'
 
 export type JInputType = 'text' | 'password'
 export type JInputTheme = 'white'
-export type JInputValidateType =
-  'touched' |
-  'visited' |
-  'dirtySinceLastSubmit'
 
-type Props = {
-  type: JInputType,
-  theme: JInputTheme,
-  validateType: JInputValidateType,
-  className: string,
-  placeholder: string,
-  title: string,
+type Props = StyledComponent<JInputTheme> & {
+  disabled: boolean,
   infoMessage: string,
   input: FinalFormInput,
+  label: string,
   meta: FinalFormMeta,
-  disabled: boolean,
+  placeholder: string,
+  type: JInputType,
+  validateType: FinalFormValidateType,
 }
 
 function JInputField({
-  type,
-  theme,
-  validateType,
-  infoMessage,
-  title,
-  placeholder,
-  input,
-  meta,
-  disabled,
   className,
+  theme,
+  disabled,
+  infoMessage,
+  input,
+  label,
+  meta,
+  placeholder,
+  type,
+  validateType,
   ...rest
 }: Props) {
   const textInput = React.createRef()
 
   const errorMessage = getErrorMessage(meta, validateType)
-  const hasTitle = !!title
+  const hasLabel = !!label
   const hasPlaceholder = !!placeholder
   const hasError = !!errorMessage
   const hasInfo = !!infoMessage
   const hasValue = !!input.value
-  const isActive = meta.active || hasValue || (hasTitle && hasPlaceholder)
+  const isActive = meta.active || hasValue || (hasLabel && hasPlaceholder)
 
   return (
     <div
@@ -75,12 +69,12 @@ function JInputField({
           className={jInputFieldStyle.input}
           placeholder={placeholder}
           disabled={disabled}
-          {...input}
           {...rest}
+          {...input}
         />
-        {hasTitle && (
-          <div className={jInputFieldStyle.title}>
-            {title}
+        {hasLabel && (
+          <div className={jInputFieldStyle.label}>
+            {label}
           </div>
         )}
       </div>
@@ -110,6 +104,7 @@ JInputField.defaultProps = {
   label: '',
   placeholder: '',
   meta: {},
+  input: {},
   disabled: false,
 }
 
