@@ -46,6 +46,8 @@
   padding-right: 10px;
 }
 
-@mixin property-animation($property: all, $duration: 200ms) {
-  transition: $property $duration $default-animation;
+@mixin property-transition($property...) {
+  transition-property: $property;
+  transition-duration: 200ms;
+  transition-timing-function: $default-animation;
 }

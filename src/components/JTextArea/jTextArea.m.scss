@@ -16,8 +16,7 @@
 
   // stylelint-disable selector-nested-pattern, rscss/class-format
   &.white {
-    @include property-animation(box-shadow);
-    @include property-animation(background);
+    @include property-transition(box-shadow, background);
 
     padding: 24px 16px 26px;
     border: none;
@@ -42,6 +41,7 @@
 
     > .input {
       @include font(14px, 22px);
+      @include property-transition(top);
 
       appearance: none;
       resize: none;
