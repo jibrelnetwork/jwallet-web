@@ -18,7 +18,7 @@ type Props =
     onChange?: Function,
     onBlur?: Function,
     onFocus?: Function,
-    label: string,
+    label?: string,
     id?: string,
     value?: any, // In common case it will be string, but in React value of input is `any` type
     rows?: number,
@@ -53,7 +53,7 @@ export class JTextArea extends PureComponent<Props, State> {
     className: undefined,
     label: undefined,
     id: undefined,
-    value: '',
+    value: undefined,
     rows: 1,
     error: false,
     disabled: false,

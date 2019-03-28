@@ -33,7 +33,7 @@ function handleValidate(e) {
 
 storiesOf('JTextAreaField', module).addDecorator(withKnobs)
   .add('JTextArea as is', () => (
-    <div className='story -blue'>
+    <div className='story' style={{ background: '#e5e5e5' }}>
       <div className='grid'>
         <JTextArea onChange={action('handle change')} />
       </div>
