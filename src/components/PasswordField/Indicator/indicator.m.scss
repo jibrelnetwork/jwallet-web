@@ -22,6 +22,7 @@ $password-field-indicator-height: 6px;
 
 .field-white {
   top: $form-field-white-height / 2 - $password-field-indicator-height / 2;
+  background-color: $white-20;
 }
 
 /**
@@ -32,7 +33,6 @@ $password-field-indicator-height: 6px;
   height: $password-field-indicator-height;
   width: 100%;
   border-radius: 4px;
-  background-color: $white-20;
 
   &::after {
     position: absolute;

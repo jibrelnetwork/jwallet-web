@@ -8,7 +8,10 @@ import { JInput } from 'components/base'
 import { checkPasswordStrength } from 'utils/encryption'
 import { type JInputColor } from 'components/base/JInput/JInput'
 
-import { Indicator } from './Indicator/Indicator'
+import {
+  Indicator,
+  type IndicatorStatus,
+} from './Indicator/Indicator'
 
 import passwordFieldStyle from './passwordField.m.scss'
 
@@ -32,8 +35,6 @@ type StateProps = {
   isFetching: boolean,
   isInitialised: boolean,
 }
-
-export type IndicatorStatus = 'red' | 'orange' | 'yellow' | 'green' | 'fetching'
 
 const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
   'red': t`Too weak`,
@@ -66,10 +67,11 @@ function getStatusByScore(
   }
 }
 
-class PasswordField extends Component<Props, StateProps> {
+export class PasswordField extends Component<Props, StateProps> {
   static defaultProps = {
     color: 'white',
-    isAutoFocus: true,
+    isDisabled: false,
+    isAutoFocus: false,
   }
 
   constructor(props: Props) {
@@ -177,8 +179,8 @@ class PasswordField extends Component<Props, StateProps> {
     return (
       <div className={passwordFieldStyle.core}>
         <JInput
-          color={color}
           onChange={this.handleChange}
+          color={color}
           value={value}
           placeholder={placeholder}
           infoMessage={infoMessage}
@@ -189,10 +191,10 @@ class PasswordField extends Component<Props, StateProps> {
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
-        {!isDisabled && <Indicator status={status} color={color} />}
+        {!isDisabled && <Indicator status={status} fieldColor={color} />}
         <JInput
-          color={color}
           onChange={onChangeConfirm}
+          color={color}
           value={valueConfirm}
           placeholder={placeholderConfirm}
           errorMessage={invalidFields.passwordConfirm}
@@ -204,5 +206,3 @@ class PasswordField extends Component<Props, StateProps> {
     )
   }
 }
-
-export default PasswordField

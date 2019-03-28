@@ -3,23 +3,23 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { type IndicatorStatus } from '../PasswordField'
+import { type JInputColor } from 'components/base/JInput/JInput'
 
 import indicatorStyle from './indicator.m.scss'
 
-type IndicatorColor = 'white' | 'gray'
+export type IndicatorStatus = 'red' | 'orange' | 'yellow' | 'green' | 'fetching'
 
 type Props = {|
+  +fieldColor: JInputColor,
   +status: ?IndicatorStatus,
-  +color: IndicatorColor,
 |}
 
 export function Indicator({
-  color,
   status,
+  fieldColor,
 }: Props) {
   return !status ? null : (
-    <div className={classNames(indicatorStyle.core, indicatorStyle[`field-${color}`])}>
+    <div className={classNames(indicatorStyle.core, indicatorStyle[`field-${fieldColor}`])}>
       <div className={classNames(indicatorStyle.indicator, indicatorStyle[status])} />
     </div>
   )
