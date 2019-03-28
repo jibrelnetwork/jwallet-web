@@ -1,22 +1,37 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { omit } from 'lodash-es'
+import {
+  omit,
+  kebabCase,
+} from 'lodash-es'
 import classNames from 'classnames'
 
 import jTextAreaStyle from './jTextArea.m.scss'
 
-type Theme = 'blue'
+type Theme = 'white'
 
 type Props =
   StyleComponent<Theme>
   & {
-    onChange: Function,
+    onChange?: Function,
     onBlur?: Function,
     onFocus?: Function,
+    label: string,
+    id?: string,
+    value?: any, // In common case it will be string, but in React value of input is `any` type
+    rows?: number,
+    error?: boolean,
+    disabled?: boolean,
   }
 
+type State = {
+  focused: boolean,
+}
+
 const MAX_ROWS = 12
+
+function noop() {}
 
 function heightCalc({ currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>): void {
   if (target) {
@@ -28,37 +43,90 @@ function heightCalc({ currentTarget: target }: SyntheticEvent<HTMLTextAreaElemen
   }
 }
 
-export class JTextArea extends PureComponent<Props, void> {
+export class JTextArea extends PureComponent<Props, State> {
   static defaultProps = {
-    onBlur: undefined,
-    onFocus: undefined,
-    theme: 'blue',
+    onChange: noop,
+    onBlur: noop,
+    onFocus: noop,
+    theme: 'white',
     className: undefined,
+    label: '',
+    id: undefined,
+    value: '',
+    rows: 1,
+    error: false,
+    disabled: false,
   }
 
-  handleChange = (fieldEvent: SyntheticEvent<HTMLTextAreaElement>): void => {
-    heightCalc(fieldEvent)
-    this.props.onChange(fieldEvent)
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      focused: String(this.props.value).length > 0,
+    }
+  }
+
+  handleChange = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
+    heightCalc(event)
+    this.props.onChange(event)
+  }
+
+  handleBlur = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
+    if (String(this.props.value).length <= 0) {
+      this.setState({ focused: false })
+    }
+
+    this.props.onBlur(event)
+  }
+
+  handleFocus = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
+    this.setState({ focused: true })
+    this.props.onFocus(event)
   }
 
   render() {
     const omitedProps = omit(this.props, [
-      'children',
       'onChange',
+      'children',
       'theme',
+      'label',
+      'id',
       'className',
+      'value',
+      'rows',
+      'placeholder',
+      'error',
     ])
 
+    const elementID: string = kebabCase(this.props.label)
+
     return (
-      <textarea
-        {...omitedProps}
+      <div
+        id={this.props.id}
         className={classNames(
           jTextAreaStyle.core,
           jTextAreaStyle[this.props.theme],
+          this.props.error && jTextAreaStyle.error,
+          this.state.focused && jTextAreaStyle.focused,
+          this.props.disabled && jTextAreaStyle.disabled,
           this.props.className,
         )}
-        onChange={this.handleChange}
-      />
+      >
+        <label className={classNames(jTextAreaStyle.label)} htmlFor={elementID}>
+          {this.props.label}
+        </label>
+        <textarea
+          {...omitedProps}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          id={elementID}
+          className={classNames(jTextAreaStyle.input)}
+          value={this.props.value}
+          rows={this.props.rows}
+          disabled={this.props.disabled}
+        />
+      </div>
     )
   }
 }

@@ -112,3 +112,8 @@ $transaction-item-height: 80px;
 $transaction-item-v-padding: 20px;
 $transaction-item-h-padding: 25px;
 $transaction-item-border-size: 1px;
+
+/**
+ * Animation
+ */
+$default-animation: cubic-bezier(0, 0, 0.2, 1);

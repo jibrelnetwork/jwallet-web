@@ -17,7 +17,6 @@ import JThumbnail from './JThumbnail'
 import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
-import { ErrorMessage } from './ErrorMessage'
 
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 
@@ -39,5 +38,4 @@ export {
   JTooltip,
   JSwitch,
   JPicker,
-  ErrorMessage,
 }

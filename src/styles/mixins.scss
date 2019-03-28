@@ -45,3 +45,7 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+
+@mixin property-animation($property: all, $duration: 200ms) {
+  transition: $property $duration $default-animation;
+}

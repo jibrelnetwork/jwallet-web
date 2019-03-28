@@ -2,7 +2,6 @@
 
 .core {
   @include hover-animation;
-  @include font($form-field-white-font-size);
 
   position: relative;
   width: 100%;
@@ -16,28 +15,66 @@
   font-weight: 600;
 
   // stylelint-disable selector-nested-pattern, rscss/class-format
-  &.blue {
-    background-color: transparent;
-    border-color: $blue;
-    color: $white;
+  &.white {
+    @include property-animation(box-shadow);
+    @include property-animation(background);
 
-    &:hover {
-      border-color: $blue-bright;
+    padding: 24px 16px 26px;
+    border: none;
+    background-color: $white;
+    box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+
+    > .label {
+      display: block; /* for Firefox */
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(16px, 24px) scale(1);
+      font-size: 14px;
+      font-weight: 600;
+      font-style: normal;
+      color: $main-black-30;
+      transition-timing-function: $default-animation;
+      transition-duration: 0.2s;
+      transition-property: color, transform;
     }
 
-    &:active,
-    &:focus {
-      border-color: $blue-pale-bright;
+    > .input {
+      @include font(14px, 22px);
+
+      appearance: none;
+      display: block;
+      margin-top: 10px;
+      min-width: 100%;
+      border: none;
+      background: transparent;
+      font-weight: 600;
+      color: $main-black;
     }
 
-    &::placeholder {
-      font-weight: 400;
-      color: $blue-bright;
+    &.disabled {
+      background: rgba(8, 30, 57, 0.05);
+    }
+
+    &.focused {
+      box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+
+      > .label {
+        font-weight: 400;
+        transform: translate(7px, 14px) scale(0.86);
+      }
     }
 
     &.error {
-      border-color: $blush;
-      color: $blush;
+      > .label {
+        color: $main-red;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
     }
   }
 }

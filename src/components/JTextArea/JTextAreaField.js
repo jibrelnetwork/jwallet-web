@@ -1,45 +1,45 @@
 // @flow
 
-import React, { Fragment } from 'react'
-import { type FieldRenderProps /* FieldRenderProps */ } from 'react-final-form'
+import React from 'react'
+import { type FieldRenderProps } from 'react-final-form/dist'
 import {
   omit,
   merge,
-  noop,
 } from 'lodash-es'
 
-import { ErrorMessage } from 'components/base/ErrorMessage/ErrorMessage'
+import { JFieldMessage } from 'components/base'
+
+import offsetStyle from 'styles/offsets.m.scss'
 
 import { JTextArea } from './JTextArea'
 
-import JTextAreaFieldStyle from './jTextAreaField.m.scss'
-
-type Props =
-  FieldRenderProps
-  & { getMeta: Function /* TODO Use mose specific typing */}
+type Props = FieldRenderProps & { offset?: OffsetVariant }
 
 export function JTextAreaField(props: Props) {
-  props.getMeta(props.meta)
-
   const resultProps = merge(omit(props, [
     'meta',
     'input',
-    'getMeta',
   ]), props.input)
 
-  const { error: errorText } = props.meta
+  const {
+    error: errorText,
+    touched,
+  } = props.meta
+
+  const hasError = Boolean(errorText && touched)
 
   return (
-    <Fragment>
+    <div className={offsetStyle[props.offset]}>
       <JTextArea
         {...resultProps}
-        className={errorText && JTextAreaFieldStyle.withError}
+        error={hasError}
+        className={hasError && offsetStyle.mb8}
       />
-      {errorText && <ErrorMessage message={errorText} theme='error' />}
-    </Fragment>
+      {hasError && <JFieldMessage message={String(errorText)} theme='error' />}
+    </div>
   )
 }
 
 JTextAreaField.defaultProps = {
-  getMeta: noop,
+  offset: 'mb16',
 }
