@@ -1,4 +1,5 @@
-// stylelint-disable
+// stylelint-disable rscss/class-format, selector-nested-pattern
+
 @import "styles/mixins";
 @import "styles/colors";
 
@@ -7,17 +8,30 @@ $form-right-padding: 16px;
 
 .core {
   position: relative;
-  align-items: center;
+}
+
+.wrap {
   cursor: pointer;
   height: 72px;
   padding: 0;
+  box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+
+  &:hover {
+    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+  }
 }
 
 .title {
   position: absolute;
   top: 24px;
-  left: 24px;
-  // transition: opacity 0.3s ease 0s, top 0.3s ease 0s;
+  left: 16px;
+  right: 24px;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: text;
+  transition:
+    font-size 0.3s ease 0s,
+    top 0.3s ease 0s;
 }
 
 .input {
@@ -37,29 +51,64 @@ $form-right-padding: 16px;
   }
 }
 
-.core:hover > .input::placeholder {
-  color: $main-black-40;
-}
+.active {
+  > .input {
+    padding-top: 34px;
+    padding-bottom: 16px;
+  }
 
-.white {
-  background-color: $white;
-}
+  > .input::placeholder {
+    color: $main-black-40;
+  }
 
-.active > .input {
-  padding-top: 34px;
-  padding-bottom: 16px;
-}
-
-.error {
   > .title {
-    color: $main-red;
+    top: 16px;
+    font-size: 12px;
+    background-color: transparent;
   }
 }
 
-.disabled {
+.white > .wrap {
+  background-color: $white;
 
+  > .input {
+    color: $main-black;
+  }
+
+  > .title {
+    color: $main-black-40;
+    background-color: $white;
+  }
+
+  &:hover > .input::placeholder,
+  &:hover > .title {
+    color: $main-black-40;
+  }
+
+  &.error > .title {
+    color: $main-red;
+  }
+
+  &.disabled {
+    background: $main-black-5;
+
+    > .title {
+      color: $main-black-30;
+      background-color: transparent;
+      user-select: none;
+      cursor: default;
+    }
+
+    > .input {
+      color: $main-black-30;
+    }
+  }
 }
 
-.info {
+.message {
+  margin-bottom: 8px;
+}
 
+.field-message {
+  padding-left: 16px;
 }

@@ -3,6 +3,9 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import { getErrorMessage } from 'utils/form'
+import { JFieldMessage } from 'components/base'
+
 import jInputFieldStyle from './jInputField.m.scss'
 
 export type JInputType = 'text' | 'password'
@@ -16,30 +19,13 @@ type Props = {
   type: JInputType,
   theme: JInputTheme,
   validateType: JInputValidateType,
-  title: string,
+  className: string,
   placeholder: string,
+  title: string,
   infoMessage: string,
   input: FinalFormInput,
   meta: FinalFormMeta,
-  isDisabled: boolean,
-}
-
-function getErrorMessage(meta: FinalFormMeta, validateType: ?JInputValidateType): ?string {
-  const err = meta.error || meta.submitError
-
-  const error = (typeof err === 'string')
-    ? err
-    : err instanceof Error && err.message
-      ? err.message
-      : ''
-
-  if (validateType === 'dirtySinceLastSubmit' && !meta[validateType]) {
-    return error
-  } else if ((validateType === 'touched' || validateType === 'visited') && meta[validateType]) {
-    return error
-  }
-
-  return undefined
+  disabled: boolean,
 }
 
 function JInputField({
@@ -51,39 +37,67 @@ function JInputField({
   placeholder,
   input,
   meta,
-  isDisabled,
+  disabled,
+  className,
+  ...rest
 }: Props) {
-  console.log(meta)
+  const textInput = React.createRef()
 
   const errorMessage = getErrorMessage(meta, validateType)
   const hasTitle = !!title
+  const hasPlaceholder = !!placeholder
   const hasError = !!errorMessage
   const hasInfo = !!infoMessage
   const hasValue = !!input.value
-  const isActive = meta.active || !!input.value
+  const isActive = meta.active || hasValue || (hasTitle && hasPlaceholder)
 
   return (
-    <div className={classNames(
-      jInputFieldStyle.core,
-      jInputFieldStyle[theme],
-      hasError && jInputFieldStyle.error,
-      isDisabled && jInputFieldStyle.disabled,
-      hasValue && jInputFieldStyle.value,
-      isActive && jInputFieldStyle.active,
-    )}
+    <div
+      className={classNames(
+        jInputFieldStyle.core,
+        jInputFieldStyle[theme],
+        className,
+      )}
+      onClick={() => textInput.current.focus()}
     >
-      <input
-        type={type}
-        className={jInputFieldStyle.input}
-        placeholder={placeholder}
-        {...input}
-      />
-      {hasTitle &&
-        <div className={jInputFieldStyle.title}>{title}</div>}
-      {!hasError && hasInfo &&
-        <div className={jInputFieldStyle.info}>{infoMessage}</div>}
-      {hasError &&
-        <div className={jInputFieldStyle.error}>{errorMessage}</div>}
+      <div className={classNames(
+        jInputFieldStyle.wrap,
+        (hasError || hasInfo) && jInputFieldStyle.message,
+        hasError && jInputFieldStyle.error,
+        disabled && jInputFieldStyle.disabled,
+        hasValue && jInputFieldStyle.value,
+        isActive && jInputFieldStyle.active,
+      )}
+      >
+        <input
+          ref={textInput}
+          type={type}
+          className={jInputFieldStyle.input}
+          placeholder={placeholder}
+          disabled={disabled}
+          {...input}
+          {...rest}
+        />
+        {hasTitle && (
+          <div className={jInputFieldStyle.title}>
+            {title}
+          </div>
+        )}
+      </div>
+      {!hasError && hasInfo && (
+        <JFieldMessage
+          theme='info'
+          message={infoMessage}
+          className={jInputFieldStyle.fieldMessage}
+        />
+      )}
+      {hasError && errorMessage && (
+        <JFieldMessage
+          theme='error'
+          message={errorMessage}
+          className={jInputFieldStyle.fieldMessage}
+        />
+      )}
     </div>
   )
 }
@@ -96,8 +110,7 @@ JInputField.defaultProps = {
   label: '',
   placeholder: '',
   meta: {},
-  isDisabled: false,
-  isLoading: false,
+  disabled: false,
 }
 
 export { JInputField }

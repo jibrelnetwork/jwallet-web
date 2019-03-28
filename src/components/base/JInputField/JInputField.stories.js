@@ -10,10 +10,10 @@ import {
 
 import { JInputField } from './JInputField'
 
-function formStoryWrapper(component, extraProps = {}) {
+function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   return (
     <Form
-      initialValue={{ foo: '' }}
+      initialValues={initialValues}
       onSubmit={values => alert(JSON.stringify(values, false, 4))}
       render={({
         form,
@@ -32,17 +32,35 @@ function formStoryWrapper(component, extraProps = {}) {
 }
 
 storiesOf('JInputField', module)
-  .add('Gray text', () => (
+  .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
-        placeholder: 'Placeholder',
+        title: 'Title',
       })}
     </div>
   ))
-  .add('Gray text disabled', () => (
+  .add('Title plus placeholder', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
-        isDisabled: true,
+        placeholder: 'Placeholder',
+        title: 'Title',
+      })}
+    </div>
+  ))
+  .add('Disabled', () => (
+    <div className='story'>
+      {formStoryWrapper(JInputField, {
+        title: 'Disabled',
+        disabled: true,
+      }, { foo: 'Some text' })}
+    </div>
+  ))
+  .add('Error and message', () => (
+    <div className='story'>
+      {formStoryWrapper(JInputField, {
+        title: 'Title',
+        infoMessage: 'Hello world',
+        validate: () => 'Some error',
       })}
     </div>
   ))
