@@ -43,7 +43,7 @@ storiesOf('JTextAreaField', module).addDecorator(withKnobs)
     <div className='story' style={{ background: '#e5e5e5' }}>
       <Form
         onSubmit={action('handle submit')}
-        validate={handleValidate}
+        validate={boolean('Validation', false) && handleValidate}
         render={({
           handleSubmit,
         }) => (

@@ -17,11 +17,12 @@
   // stylelint-disable selector-nested-pattern, rscss/class-format
   &.white {
     @include property-transition(box-shadow);
+    $normal-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
 
     padding: 24px 16px 26px;
     border: none;
     background-color: $white;
-    box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+    box-shadow: $normal-shadow;
 
     > .label {
       display: block; /* for Firefox */
@@ -58,6 +59,11 @@
 
     &.disabled {
       background: rgba(8, 30, 57, 0.05);
+
+      &:hover,
+      &:focus {
+        box-shadow: $normal-shadow;
+      }
     }
 
     &.focused {
