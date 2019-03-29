@@ -18,6 +18,8 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
+export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+
 export {
   JAssetSymbol,
   JCard,

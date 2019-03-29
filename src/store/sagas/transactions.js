@@ -37,6 +37,7 @@ import {
 import {
   checkETH,
   checkJNT,
+  flattenDigitalAssets,
   getDigitalAssetByAddress,
 } from 'utils/digitalAssets'
 
@@ -146,6 +147,7 @@ function getRequestTransactionsByAssetTasks(
   fromBlock: number,
   toBlock: number,
   minBlock: ?number,
+  isJNT: boolean,
 ): SchedulerTransactionsTask[] {
   const baseTaskMethod: GetTransactionsMethod = {
     name: 'getETHTransactions',
@@ -182,7 +184,7 @@ function getRequestTransactionsByAssetTasks(
     },
   }]
 
-  if (checkJNT(assetAddress)) {
+  if (isJNT) {
     const mintableTasks: SchedulerTransactionsTask[] = [{
       ...baseTask,
       method: {
@@ -368,6 +370,8 @@ function* fetchByOwnerRequest(
       deploymentBlockNumber,
     }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
+    const isJNT: boolean = checkJNT(address, activeAssets)
+
     return [
       ...result,
       ...getRequestTransactionsByAssetTasks(
@@ -375,6 +379,7 @@ function* fetchByOwnerRequest(
         fromBlock,
         toBlock,
         walletCreatedBlockNumber || deploymentBlockNumber,
+        isJNT,
       ),
     ]
   }, []).map((task: SchedulerTransactionsTask) => put(requestQueue, task)))
@@ -431,6 +436,7 @@ function getTasksToRefetchByAsset(
   digitalAsset: DigitalAsset,
   itemsByAssetAddress: TransactionsByAssetAddress,
   walletCreatedBlockNumber: ?number,
+  isJNT: boolean,
 ): SchedulerTransactionsTask[] {
   const {
     address,
@@ -452,6 +458,7 @@ function getTasksToRefetchByAsset(
         fromBlockNumber,
         currentBlockNumber,
         walletCreatedBlockNumber || deploymentBlockNumber,
+        isJNT,
       ),
     ]
 
@@ -495,12 +502,14 @@ function getTasksToRefetchByOwner(
     }: DigitalAssetBlockchainParams = digitalAsset.blockchainParams
 
     const minBlock: ?number = walletCreatedBlockNumber || deploymentBlockNumber
+    const isJNT: boolean = checkJNT(address, flattenDigitalAssets(digitalAssets))
 
     const fullyResyncTasks: SchedulerTransactionsTask[] = getRequestTransactionsByAssetTasks(
       address,
       GENESIS_BLOCK_NUMBER,
       latestBlockNumber,
       minBlock,
+      isJNT,
     )
 
     if (!itemsByAssetAddress) {
@@ -514,6 +523,7 @@ function getTasksToRefetchByOwner(
       digitalAsset,
       itemsByAssetAddress,
       walletCreatedBlockNumber,
+      isJNT,
     )
 
     const lastExistedBlock: number = getLastExistedBlockNumberByAsset(itemsByAssetAddress)
@@ -535,6 +545,7 @@ function getTasksToRefetchByOwner(
           GENESIS_BLOCK_NUMBER,
           lastExistedBlock,
           minBlock,
+          isJNT,
         ),
       ]
     }
