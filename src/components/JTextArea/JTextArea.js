@@ -20,7 +20,7 @@ type Props =
     onFocus?: Function,
     label?: string,
     id?: string,
-    value?: any, // In common case it will be string, but in React value of input is `any` type
+    value?: any, // In common case it will be string, but in React value of input has type `any`
     rows?: number,
     error?: boolean,
     disabled?: boolean,
@@ -32,9 +32,7 @@ type State = {
 
 const MAX_ROWS = 12
 
-async function heightCalc(
-  { currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>,
-): Promise<void> {
+function heightCalc({ currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>): void {
   if (target) {
     while (target.clientHeight < target.scrollHeight && target.rows <= MAX_ROWS) {
       // mutating the DOM
@@ -86,15 +84,13 @@ export class JTextArea extends PureComponent<Props, State> {
   }
 
   render() {
-    const omitedProps = omit(this.props, [
+    const omittedProps = omit(this.props, [
       'onChange',
       'children',
       'theme',
       'label',
       'id',
       'className',
-      'value',
-      'rows',
       'placeholder',
       'error',
     ])
@@ -105,6 +101,7 @@ export class JTextArea extends PureComponent<Props, State> {
       <div
         id={this.props.id}
         className={classNames(
+          't-jtextarea',
           jTextAreaStyle.core,
           jTextAreaStyle[this.props.theme],
           this.props.error && jTextAreaStyle.error,
@@ -114,19 +111,22 @@ export class JTextArea extends PureComponent<Props, State> {
         )}
       >
         {elementID && (
-          <label className={classNames(jTextAreaStyle.label)} htmlFor={elementID}>
+          <label
+            className={classNames(
+              't-jtextarea-label',
+              jTextAreaStyle.label,
+            )}
+            htmlFor={elementID}
+          >
             {this.props.label}
           </label>)}
         <textarea
-          {...omitedProps}
+          {...omittedProps}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           id={elementID}
-          className={classNames(jTextAreaStyle.input)}
-          value={this.props.value}
-          rows={this.props.rows}
-          disabled={this.props.disabled}
+          className={classNames('t-jtextarea-input', jTextAreaStyle.input)}
         />
       </div>
     )

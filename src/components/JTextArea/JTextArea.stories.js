@@ -35,7 +35,12 @@ storiesOf('JTextAreaField', module).addDecorator(withKnobs)
   .add('JTextArea as is', () => (
     <div className='story' style={{ background: '#e5e5e5' }}>
       <div className='grid'>
-        <JTextArea onChange={action('handle change')} />
+        <JTextArea
+          value={text('Input value', 'pepepe')}
+          label={text('Label', 'Hello label')}
+          onChange={action('handle change')}
+          autoFocus
+        />
       </div>
     </div>
   ))
