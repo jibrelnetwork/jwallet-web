@@ -57,13 +57,11 @@
       color: $main-black;
     }
 
-    &.disabled {
-      background: rgba(8, 30, 57, 0.05);
+    // States of component according with mockup from Figma
 
-      &:hover,
-      &:focus {
-        box-shadow: $normal-shadow;
-      }
+    &:hover,
+    &:focus {
+      box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
     }
 
     &.focused {
@@ -85,9 +83,13 @@
       }
     }
 
-    &:hover,
-    &:focus {
-      box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+    &.disabled {
+      background: rgba(8, 30, 57, 0.05);
+
+      &:hover,
+      &:focus {
+        box-shadow: $normal-shadow;
+      }
     }
   }
 }
