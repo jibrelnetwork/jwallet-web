@@ -8,7 +8,7 @@ import {
   JFlatButton,
 } from 'components/base'
 
-function NotFoundView() {
+export function NotFound() {
   return (
     <div className='not-found-view'>
       <div className='content'>
@@ -34,5 +34,3 @@ function NotFoundView() {
     </div>
   )
 }
-
-export default NotFoundView
