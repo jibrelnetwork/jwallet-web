@@ -83,7 +83,7 @@ function getFavoriteLink(
     return null
   }
 
-  return `/favorites/address/${txAddress}`
+  return `/favorites/edit?address=${txAddress}`
 }
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {

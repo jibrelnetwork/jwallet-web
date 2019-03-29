@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { t } from 'ttag'
-import { Link } from 'react-router'
 import classnames from 'classnames'
 
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+import { JLink } from 'components/base'
 
 import jRaisedButtonStyle from 'components/base/JRaisedButton/jRaisedButton.m.scss'
 
@@ -23,11 +23,11 @@ function MenuPanelMainAction({
   if (isReadOnly && !isMnemonic) {
     return (
       <div className='main-action'>
-        <Link
+        <JLink
           className={classnames(jRaisedButtonStyle.core, jRaisedButtonStyle.gray)}
-          to='/upgrade'
+          href='/upgrade'
         >{t`Add private key`}
-        </Link>
+        </JLink>
       </div>
     )
   }
@@ -35,22 +35,22 @@ function MenuPanelMainAction({
   if (isReadOnly && isMnemonic) {
     return (
       <div className='main-action'>
-        <Link
+        <JLink
           className={classnames(jRaisedButtonStyle.core, jRaisedButtonStyle.white)}
-          to='/upgrade'
+          href='/upgrade'
         >{t`Add mnemonic`}
-        </Link>
+        </JLink>
       </div>
     )
   }
 
   return (
     <div className='main-action'>
-      <Link
+      <JLink
         className={classnames(jRaisedButtonStyle.core, jRaisedButtonStyle.white)}
-        to='/digital-assets/send'
+        href='/digital-assets/send'
       >{t`Send asset`}
-      </Link>
+      </JLink>
     </div>
   )
 }

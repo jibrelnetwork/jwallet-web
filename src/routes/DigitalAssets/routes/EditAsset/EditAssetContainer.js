@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux'
 
-import { reactRouterBack } from 'utils/browser'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import { selectEditAsset } from 'store/selectors/digitalAssets'
 
 import {
@@ -31,6 +31,10 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     formFields,
     invalidFields,
     address: assetAddress,
+    close: router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet',
+    ),
   }
 }
 
@@ -38,7 +42,6 @@ const mapDispatchToProps = {
   openView,
   setField,
   submit: submitAssetForm,
-  close: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
 export default (

@@ -1,7 +1,6 @@
 // @flow
 
 import { coreRootSaga } from './core'
-import { notFoundRootSaga } from './notFound'
 import { blocksRootSaga } from './blocks'
 import { tickerRootSaga } from './ticker'
 import { balancesRootSaga } from './balances'
@@ -15,7 +14,6 @@ import digitalAssetsSagas from './digitalAssets'
 
 export default [
   coreRootSaga,
-  notFoundRootSaga,
   blocksRootSaga,
   tickerRootSaga,
   balancesRootSaga,
