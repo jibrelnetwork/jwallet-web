@@ -15,9 +15,9 @@ type Theme = 'white'
 type Props =
   StyleComponent<Theme>
   & {
-    onChange?: Function,
-    onBlur?: Function,
-    onFocus?: Function,
+    onChange?: () => mixed,
+    onBlur?: () => mixed,
+    onFocus?: () => mixed,
     label?: string,
     id?: string,
     value?: any, // In common case it will be string, but in React value of input has type `any`
@@ -95,7 +95,7 @@ export class JTextArea extends PureComponent<Props, State> {
       'error',
     ])
 
-    const elementID: string = kebabCase(this.props.label) || undefined
+    const elementID = kebabCase(this.props.label)
 
     return (
       <div
