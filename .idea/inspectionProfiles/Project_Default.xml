@@ -1,6 +1,11 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="ElmIncompletePattern" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ElmTypeDeclaration" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ElmTypeInference" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ElmUnusedImport" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="ElmUnusedSymbol" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="Eslint" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="Stylelint" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="UnterminatedStatementJS" enabled="false" level="WARNING" enabled_by_default="false">

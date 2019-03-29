@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 import { t } from 'ttag'
 
 import {
@@ -34,7 +34,7 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
   try {
     getWallet(items, action.payload.walletId)
   } catch (err) {
-    yield put(push('/wallets'))
+    yield put(router5Actions.navigateTo('Wallets'))
   }
 }
 
@@ -90,7 +90,7 @@ function* setPrevStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
-      yield put(push('/wallets'))
+      yield put(router5Actions.navigateTo('Wallets'))
 
       break
     }

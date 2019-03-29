@@ -8,11 +8,7 @@ import {
   JFlatButton,
 } from 'components/base'
 
-type Props = {|
-  +goToHome: Function,
-|}
-
-function NotFoundView({ goToHome }: Props) {
+function NotFoundView() {
   return (
     <div className='not-found-view'>
       <div className='content'>
@@ -29,7 +25,7 @@ function NotFoundView({ goToHome }: Props) {
         <div className='actions'>
           <JFlatButton
             className='back'
-            onClick={goToHome}
+            to='/'
             color='white'
             label={t`Back to Home`}
           />
