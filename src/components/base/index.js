@@ -19,6 +19,8 @@ import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+export { JTextArea } from './JTextArea/JTextArea'
+export { JTextAreaField } from './JTextArea/JTextAreaField'
 
 export {
   JAssetSymbol,

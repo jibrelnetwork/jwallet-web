@@ -39,7 +39,6 @@ import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
-import { JTextAreaField } from './JTextArea'
 
 export {
   QRCode,
@@ -81,5 +80,4 @@ export {
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,
-  JTextAreaField,
 }

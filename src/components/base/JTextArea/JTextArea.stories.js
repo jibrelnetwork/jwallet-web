@@ -15,10 +15,11 @@ import {
   Field,
 } from 'react-final-form'
 
-import { JTextAreaField } from 'components'
-import { JRaisedButton } from 'components/base'
-
-import { JTextArea } from 'components/JTextArea'
+import {
+  JTextArea,
+  JTextAreaField,
+  JRaisedButton,
+} from 'components/base'
 
 function handleValidate(e) {
   action('handle validate')(e)
