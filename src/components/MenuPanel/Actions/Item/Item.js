@@ -5,11 +5,10 @@ import React, {
   PureComponent,
 } from 'react'
 
-import { Link } from 'react-router'
-
 import {
   JIcon,
   JText,
+  JLink,
 } from 'components/base'
 
 type MenuPanelActionsItemHandler = () => void
@@ -20,8 +19,6 @@ type Props = {|
   +icon: string,
   +label: string,
 |}
-
-const isExternalURL = (url: string): boolean => /^https?:\/\//.test(url)
 
 class MenuPanelActionsItem extends PureComponent<Props> {
   static defaultProps = {
@@ -60,23 +57,15 @@ class MenuPanelActionsItem extends PureComponent<Props> {
       return <div onClick={onClick} className='menu-panel-actions-item'>{content}</div>
     }
 
-    const isExternal = path && isExternalURL(path)
-
-    if (path && isExternal) {
+    if (path) {
       return (
-        <a
+        <JLink
           href={path}
-          target='_blank'
-          rel='noopener noreferrer'
           className='menu-panel-actions-item'
         >
           {content}
-        </a>
+        </JLink>
       )
-    }
-
-    if (path && !isExternal) {
-      return <Link to={path} className='menu-panel-actions-item'>{content}</Link>
     }
 
     return null

@@ -39,3 +39,6 @@ export {
   JSwitch,
   JPicker,
 }
+
+export { JLink } from './JLink/JLink'
+export { JLinkBack } from './JLinkBack/JLinkBack'

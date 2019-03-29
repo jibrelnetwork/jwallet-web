@@ -1,7 +1,7 @@
 // @flow
 
 import { t } from 'ttag'
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 
 import {
   put,
@@ -19,7 +19,6 @@ import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {
   selectWallets,
-  selectWalletsItems,
   selectWalletsCreate,
 } from 'store/selectors/wallets'
 
@@ -173,16 +172,12 @@ function* goToWalletsCreateNameStep(): Saga<void> {
 }
 
 function* setPrevStep(): Saga<void> {
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-
   const { currentStep }: ExtractReturn<typeof selectWalletsCreate> =
     yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      const isEmptyWallets: boolean = !items.length
-
-      yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
+      yield put(router5Actions.navigateTo('Wallets'))
 
       break
     }

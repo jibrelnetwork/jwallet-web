@@ -3,12 +3,12 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import { Link } from 'react-router'
 
 import AssetBalance from 'components/AssetBalance'
 
 import {
   JText,
+  JLink,
   JLoader,
   JFlatButton,
 } from 'components/base'
@@ -103,8 +103,8 @@ class AssetCardBody extends PureComponent<Props, *> {
             </div>
           ) */ }
           <div className='show'>
-            <Link
-              to={`/transactions/${address}`}
+            <JLink
+              href={`/transactions/${address}`}
               className={classNames(
                 'link',
                 JTextStyle.core,
@@ -114,7 +114,7 @@ class AssetCardBody extends PureComponent<Props, *> {
               )}
             >
               {t`Show transactions`}
-            </Link>
+            </JLink>
           </div>
         </div>
       </div>

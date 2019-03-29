@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions } from 'redux-router5'
 import { t } from 'ttag'
 
 import {
@@ -49,7 +49,7 @@ function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): S
 
   const itemsNew: Wallets = updateWallet(items, walletId, { addressIndex })
   yield put(wallets.setWalletsItems(itemsNew))
-  yield put(push('/digital-assets'))
+  yield put(actions.navigateTo('Wallet'))
   yield put(blocks.syncRestart())
   yield put(ticker.syncRestart())
 }

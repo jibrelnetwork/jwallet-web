@@ -44,6 +44,7 @@
         > .setting {
           @include hover-animation;
 
+          display: block;
           transform: translateY(4px);
           opacity: 0.5;
           cursor: pointer;

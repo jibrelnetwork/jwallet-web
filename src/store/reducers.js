@@ -4,8 +4,7 @@ import {
   combineReducers,
   type Reducer,
 } from 'redux'
-
-import { routerReducer as router } from 'react-router-redux'
+import { router5Reducer as router } from 'redux-router5'
 
 import blocks from 'store/modules/blocks'
 import ticker from 'store/modules/ticker'
