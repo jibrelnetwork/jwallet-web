@@ -90,12 +90,6 @@
     transform: translate(0, -50%);
   }
 
-  &.-multiline {
-    > .input {
-      line-height: $form-field-line-height;
-    }
-  }
-
   &.-value {
     > .label {
       top: 14px;
@@ -136,13 +130,6 @@
       padding-right: $form-field-horizontal-padding;
     }
 
-    &.-multiline {
-      > .input {
-        padding-top: $form-field-gray-vertical-padding;
-        padding-bottom: $form-field-gray-vertical-padding;
-      }
-    }
-
     > .lock {
       opacity: 0.5;
     }
@@ -162,12 +149,39 @@
       padding-left: $form-field-white-horizontal-padding;
       padding-right: $form-field-white-horizontal-padding;
     }
+  }
 
-    &.-multiline {
-      > .input {
-        padding-top: $form-field-white-padding-vertical;
-        padding-bottom: $form-field-white-padding-vertical;
-      }
+  &.-with-indicator {
+    > .input {
+      padding-right: 90px;
+    }
+  }
+
+  &.-icon-posotion-right {
+    > .input {
+      padding-right: 40px;
+    }
+  }
+
+  &.-icon-posotion-left {
+    > .input {
+      padding-left: 40px;
+    }
+  }
+
+  &.-multiline {
+    > .input {
+      line-height: $form-field-line-height;
+    }
+
+    &.-gray > .input {
+      padding-top: $form-field-gray-vertical-padding;
+      padding-bottom: $form-field-gray-vertical-padding;
+    }
+
+    &.-white > .input {
+      padding-top: $form-field-white-padding-vertical;
+      padding-bottom: $form-field-white-padding-vertical;
     }
   }
 
@@ -200,19 +214,6 @@
   &.-white > .input:active,
   &.-white > .input:focus {
     border-color: $blue-pale-bright;
-  }
-
-  &.-gray.-value {
-    > .input {
-      padding-top: 31px;
-      padding-bottom: 14px;
-    }
-
-    &.-virtual-half-size {
-      > .input {
-        padding-right: calc(50% + 15px);
-      }
-    }
   }
 
   &.-error {
@@ -248,6 +249,11 @@
     -webkit-text-fill-color: $dusk !important;
   }
 
+  &.-gray.-value > .input {
+    padding-top: 31px;
+    padding-bottom: 14px;
+  }
+
   &.-disabled {
     cursor: default;
 
@@ -265,29 +271,15 @@
     }
   }
 
+  &.-gray.-value.-virtual-half-size > .input {
+    padding-right: calc(50% + 15px);
+  }
+
   &.-error.-white > .input:-webkit-autofill {
     -webkit-text-fill-color: $blush !important;
   }
 
   &.-error.-gray > .input:-webkit-autofill {
     -webkit-text-fill-color: $tomato !important;
-  }
-
-  &.-with-indicator {
-    > .input {
-      padding-right: 90px;
-    }
-  }
-
-  &.-icon-posotion-right {
-    > .input {
-      padding-right: 40px;
-    }
-  }
-
-  &.-icon-posotion-left {
-    > .input {
-      padding-left: 40px;
-    }
   }
 }
