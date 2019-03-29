@@ -6,6 +6,7 @@ import { storiesOf } from '@storybook/react'
 import {
   withKnobs,
   text,
+  select,
 } from '@storybook/addon-knobs'
 
 import { JFieldMessage } from './JFieldMessage'
@@ -19,19 +20,18 @@ const getBackground = background => ({
 
 const componentCard = {
   padding: '20px',
-  width: '200px',
 }
 
 storiesOf('JFieldMessage', module)
   .addDecorator(withKnobs)
   .add('Error and info messages', () => (
     <div>
-      <div style={getBackground('#ffffff')}>
+      <div style={getBackground('#e5e5e5')}>
         <div style={componentCard} >
-          <JFieldMessage message={text('message', 'Hello, world!')} theme='error' />
-        </div>
-        <div style={componentCard} >
-          <JFieldMessage message={text('message', 'Hello, world!')} theme='info' />
+          <JFieldMessage
+            message={text('Message', 'Hello, world!')}
+            theme={select('Theme', ['error', 'info'])}
+          />
         </div>
       </div>
     </div>

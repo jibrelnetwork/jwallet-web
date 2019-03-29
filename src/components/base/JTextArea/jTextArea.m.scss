@@ -1,0 +1,95 @@
+@import 'styles/mixins';
+
+.core {
+  @include hover-animation;
+
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  border-radius: $form-border-radius;
+  line-height: $form-field-line-height;
+  resize: none;
+  border-width: 1px;
+  border-style: solid;
+  padding: $form-field-white-padding-vertical $form-field-white-horizontal-padding;
+  font-weight: 600;
+}
+
+// stylelint-disable selector-nested-pattern, rscss/class-format
+.white {
+  @include property-transition(box-shadow);
+  $normal-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+
+  padding: 24px 16px 26px;
+  border: none;
+  background-color: $white;
+  box-shadow: $normal-shadow;
+
+  > .label {
+    display: block; /* for Firefox */
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(16px, 24px) scale(1);
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    color: $main-black-30;
+    transition-timing-function: $default-animation;
+    transition-duration: 0.2s;
+    transition-property: color, transform;
+    transition-delay: 0ms;
+  }
+
+  > .input {
+    @include font(14px, 22px);
+    @include property-transition(top);
+
+    appearance: none;
+    resize: none;
+    position: relative;
+    display: block;
+    min-width: 100%;
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    color: $main-black;
+  }
+
+  // States of component according with mockup from Figma
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+  }
+
+  &.focused {
+    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+
+    > .label {
+      font-weight: 400;
+      transform: translate(9px, 14px) scale(0.86);
+    }
+
+    > .input {
+      top: 10px;
+    }
+  }
+
+  &.error {
+    > .label {
+      color: $main-red;
+    }
+  }
+
+  &.disabled {
+    background: rgba(8, 30, 57, 0.05);
+
+    &:hover,
+    &:focus {
+      box-shadow: $normal-shadow;
+    }
+  }
+}
