@@ -101,7 +101,7 @@ export class JTextArea extends PureComponent<Props, State> {
       <div
         id={this.props.id}
         className={classNames(
-          't-jtextarea',
+          '__jtextarea',
           jTextAreaStyle.core,
           jTextAreaStyle[this.props.theme],
           this.props.error && jTextAreaStyle.error,
@@ -113,7 +113,7 @@ export class JTextArea extends PureComponent<Props, State> {
         {elementID && (
           <label
             className={classNames(
-              't-jtextarea-label',
+              '__jtextarea-label',
               jTextAreaStyle.label,
             )}
             htmlFor={elementID}
@@ -126,7 +126,7 @@ export class JTextArea extends PureComponent<Props, State> {
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           id={elementID}
-          className={classNames('t-jtextarea-input', jTextAreaStyle.input)}
+          className={classNames('__jtextarea-input', jTextAreaStyle.input)}
         />
       </div>
     )
