@@ -104,15 +104,13 @@ declare type WalletDecryptedData = {|
   +bip32XPublicKey: string,
 |}
 
-declare type Wallets = Array<Wallet>
-
-declare type PasswordStatus = 'red' | 'orange' | 'yellow' | 'green'
+declare type Wallets = Wallet[]
 
 declare type PasswordResult = {|
   +score: number,
   +feedback: {|
     +warning: string,
-    +suggestions: Array<string>,
+    +suggestions: string[],
   |},
 |}
 

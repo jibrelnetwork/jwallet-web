@@ -1,29 +1,38 @@
 /* @flow */
 
 import React from 'react'
-import { withState } from 'recompose'
 import { storiesOf } from '@storybook/react'
 
-import PasswordField from 'components/PasswordField'
+import {
+  compose,
+  withState,
+} from 'recompose'
 
-const StateHOC = withState('password', 'setPassword', '')
+import { PasswordField } from './PasswordField'
+
+const StateHOC = compose(
+  withState('value', 'onChange', ''),
+  withState('valueConfirm', 'onChangeConfirm', ''),
+)
 
 storiesOf('PasswordField', module)
   .add('default state', () => (
     <div className='story -blue'>
-      {React.createElement(StateHOC(
-        ({
-          password, setPassword, passwordConfirm,
-        }) => (
-          <PasswordField
-            invalidFields={{}}
-            value={password || ''}
-            onPasswordChange={setPassword}
-            onPasswordConfirmChange={() => {}}
-            passwordConfirm={passwordConfirm}
-            withConfirm
-          />
-        ),
-      ))}
+      {React.createElement(StateHOC(({
+        onChange,
+        onChangeConfirm,
+        value,
+        valueConfirm,
+      }) => (
+        <PasswordField
+          onChange={onChange}
+          onChangeConfirm={onChangeConfirm}
+          invalidFields={{}}
+          value={value}
+          valueConfirm={valueConfirm}
+          placeholder='Placeholder'
+          placeholderConfirm='Placeholder Confirm'
+        />
+      )))}
     </div>
   ))
