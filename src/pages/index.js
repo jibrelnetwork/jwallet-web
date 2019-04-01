@@ -11,8 +11,7 @@ export { default as Contacts }
 export { default as ContactsItemEdit }
   from './Favorites/routes/Address/FavoritesAddressViewContainer'
 export { default as History } from './Transactions/TransactionsIndexViewContainer'
-export { default as Home }
-  from './DigitalAssets/routes/Grid/DigitalAssetsGridViewContainer'
+export { default as Home } from './Home/Home'
 export { default as Receive }
   from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
 export { default as Send }
