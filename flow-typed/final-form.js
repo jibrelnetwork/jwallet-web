@@ -1,8 +1,8 @@
+// @flow strict
 
 declare type FinalFormInput = {
   name: string,
   onBlur: (?SyntheticFocusEvent<*>) => void,
-  // eslint-disable-next-line flowtype/require-compound-type-alias
   onChange: (SyntheticInputEvent<*> | any) => void,
   onFocus: (?SyntheticFocusEvent<*>) => void,
   value: any,
@@ -27,3 +27,7 @@ declare type FinalFormMeta = {
   valid?: boolean,
   visited?: boolean,
 }
+
+declare type FinalFormValidateType = 'touched' |
+  'visited' |
+  'dirtySinceLastSubmit'
