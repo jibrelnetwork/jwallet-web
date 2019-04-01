@@ -7,7 +7,7 @@ import {
 } from 'redux-saga/effects'
 
 import walletsWorker from 'workers/wallets'
-import reactRouterBack from 'utils/browser/reactRouterBack'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import { selectWallets } from 'store/selectors/wallets'
 
 import * as wallets from 'store/modules/wallets'
@@ -16,7 +16,12 @@ import * as upgrade from '../modules/upgrade'
 
 function* upgradeSuccess(action: ExtractReturn<typeof upgrade.upgradeSuccess>): Saga<void> {
   yield put(wallets.setWalletsItems(action.payload.items))
-  yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+  const state = yield select()
+
+  router5BackOrFallbackFunctionCreator(
+    state.router.previousRoute,
+    'Wallet',
+  )()
 }
 
 function* submitMnemonicRequest(

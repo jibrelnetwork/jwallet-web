@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react'
-import PasswordField from 'components/PasswordField'
+
+import { PasswordField } from './PasswordField'
 
 type Props = {
   onChange: (name: string, value: mixed) => void,
@@ -17,7 +18,7 @@ const text = {
 
 const handlerChange = name => f => value => f(name, value)
 
-function PasswordFieldFinalFormAdapter({
+export function PasswordFieldFinalFormAdapter({
   onChange,
   values,
   errorMessages,
@@ -38,10 +39,7 @@ function PasswordFieldFinalFormAdapter({
       valueConfirm={values ? values.passwordNewConfirm : ''}
       placeholderConfirm={text.passwordNewConfirm}
       isDisabled={Boolean(isLoading)}
-      isAutoFocus={false}
       color='gray'
     />
   )
 }
-
-export default PasswordFieldFinalFormAdapter

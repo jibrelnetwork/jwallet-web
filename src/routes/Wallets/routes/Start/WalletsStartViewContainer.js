@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { actions } from 'redux-router5'
 
 import {
   openView,
@@ -13,8 +13,9 @@ import WalletsStartView from './WalletsStartView'
 const mapDispatchToProps = {
   openView,
   closeView,
-  createWallet: () => push('/wallets/create'),
-  importWallet: () => push('/wallets/import'),
+  // FIXME: refactor to base links
+  createWallet: () => actions.navigateTo('WalletsCreate'),
+  importWallet: () => actions.navigateTo('WalletsImport'),
 }
 
 export default (

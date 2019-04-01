@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 import { t } from 'ttag'
 
 import {
@@ -22,7 +22,6 @@ import {
 
 import {
   selectWallets,
-  selectWalletsItems,
   selectWalletsImport,
 } from 'store/selectors/wallets'
 
@@ -155,7 +154,7 @@ function* importWallet(): Saga<void> {
 
   yield put(wallets.setIsLoading(true))
 
-  walletsWorker.importRequest(walletsData, importWalletData)
+  walletsWorker.createRequest(walletsData, importWalletData)
 }
 
 function* importError(action: { payload: Error }): Saga<void> {
@@ -217,16 +216,12 @@ function* goToWalletsImportDataStep(): Saga<void> {
 }
 
 export function* setPrevStep(): Saga<void> {
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-
   const { currentStep }: ExtractReturn<typeof selectWalletsImport> =
     yield select(selectWalletsImport)
 
   switch (currentStep) {
     case walletsImport.STEPS.NAME: {
-      const isEmptyWallets: boolean = !items.length
-
-      yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
+      yield put(router5Actions.navigateTo('Wallets'))
 
       break
     }
@@ -258,7 +253,7 @@ export function* walletsImportRootSaga(): Saga<void> {
   yield takeEvery(walletsImport.CLOSE_VIEW, clean)
   yield takeEvery(walletsImport.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsImport.GO_TO_PREV_STEP, setPrevStep)
-  yield takeEvery(walletsImport.IMPORT_ERROR, importError)
-  yield takeEvery(walletsImport.IMPORT_SUCCESS, importSuccess)
+  yield takeEvery(wallets.CREATE_ERROR, importError)
+  yield takeEvery(wallets.CREATE_SUCCESS, importSuccess)
   yield takeEvery(walletsImport.CHANGE_DATA_INPUT, checkWalletType)
 }

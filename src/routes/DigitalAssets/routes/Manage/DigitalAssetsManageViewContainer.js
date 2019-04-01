@@ -1,10 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 import { t } from 'ttag'
-
-import reactRouterBack from 'utils/browser/reactRouterBack'
 
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
@@ -72,8 +69,6 @@ function prepareDigitalAssets(
   return sortDigitalAssets(itemsFound)
 }
 
-const onClickGoBack = () => reactRouterBack({ fallbackUrl: '/digital-assets/grid' })
-
 const mapStateToProps = (state: AppState) => {
   const wallet: ?Wallet = selectActiveWallet(state)
 
@@ -124,9 +119,6 @@ const mapDispatchToProps = {
   setSearchQuery,
   setAssetIsActive,
   deleteCustomAsset,
-  addAsset: () => push('/digital-assets/add-asset'),
-  editAsset: (address: Address) => push(`/digital-assets/edit-asset/${address}`),
-  onClickGoBack,
 }
 
 export default (

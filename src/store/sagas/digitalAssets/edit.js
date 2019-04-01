@@ -1,7 +1,7 @@
 // @flow
 
 import { t } from 'ttag'
-import { reactRouterBack } from 'utils/browser'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
 import {
   put,
@@ -92,7 +92,12 @@ function* onAssetFormSumbit(): Saga<void> {
     const foundAssetAddress: AssetAddress = foundAsset.blockchainParams.address
 
     yield put(updateAsset(foundAssetAddress, contractName, contractSymbol, contractDecimals))
-    yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+    const state = yield select()
+
+    router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet',
+    )()
   }
 }
 
@@ -101,7 +106,12 @@ function* editAssetOpen({ payload: { assetAddress } }: ExtractReturn<openViewTyp
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, assetAddress)
 
   if (!(foundAsset && foundAsset.isCustom)) {
-    yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+    const state = yield select()
+
+    router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet',
+    )()
 
     return
   }

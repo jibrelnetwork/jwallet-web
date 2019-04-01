@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { actions } from 'redux-router5'
 
 import { changeNameInput } from 'store/modules/wallets'
 
@@ -43,7 +43,7 @@ const mapDispatchToProps = {
   openView,
   closeView,
   changeNameInput,
-  goToWallets: () => push('/wallets'),
+  goToWallets: () => actions.navigateTo('Wallets'),
 }
 
 /* ::

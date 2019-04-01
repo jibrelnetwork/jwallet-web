@@ -7,13 +7,17 @@ import { keyBy } from 'lodash-es'
 import JIcon from './JIcon'
 
 const filesSmall = require.context(
-  '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/,
+)
 const filesMedium = require.context(
-  '../../../public/assets/icons/sprite-pack/medium', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/medium', true, /.*\.svg$/,
+)
 const filesLarge = require.context(
-  '../../../public/assets/icons/sprite-pack/large', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/large', true, /.*\.svg$/,
+)
 const filesXLarge = require.context(
-  '../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/)
+  '../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/,
+)
 
 const iconsSmall = keyBy(
   filesSmall.keys().map(x => filesSmall(x).default),

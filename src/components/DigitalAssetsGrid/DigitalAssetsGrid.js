@@ -11,7 +11,6 @@ import DigitalAssetsGridEmpty from './Empty'
 import AddDigitalAsset from './AddDigitalAsset'
 
 type Props = {|
-  +addAssetClick: () => void,
   +items: DigitalAssetWithBalance[],
   // +fiatCurrency: FiatCurrency
 |}
@@ -21,7 +20,6 @@ class DigitalAssetsGrid extends PureComponent<Props> {
     const {
       items,
       // fiatCurrency,
-      addAssetClick,
     } = this.props
 
     return (
@@ -53,7 +51,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
         ))}
         {!items.length ? <DigitalAssetsGridEmpty /> : (
           <div className='box'>
-            <AddDigitalAsset onClick={addAssetClick} />
+            <AddDigitalAsset />
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 // @flow
 
 import { t } from 'ttag'
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 
 import {
   put,
@@ -35,12 +35,10 @@ function* openView(action: ExtractReturn<typeof walletsRenameAddress.openView>):
   const isAddressValid: boolean = checkAddressValid(address)
   const isAddressWalletExist: boolean = !!addressWalletsNames[address]
 
-  if (!items.length) {
-    yield put(push('/wallets/start'))
-  } else if (!walletId) {
-    yield put(push('/wallets'))
+  if (!items.length || !walletId) {
+    yield put(router5Actions.navigateTo('Wallets'))
   } else if (!isAddressValid || isAddressWalletExist) {
-    yield put(push('/wallets/addresses'))
+    yield put(router5Actions.navigateTo('WalletsAddresses'))
   } else {
     const addressNames: ExtractReturn<typeof selectAddressNames> =
       yield select(selectAddressNames)
@@ -68,7 +66,7 @@ function* removeAddressName(address: string): Saga<void> {
     }, {})
 
   yield put(walletsAddresses.setAddressNames(addressNamesNew))
-  yield put(push('/wallets/addresses'))
+  yield put(router5Actions.navigateTo('WalletsAddresses'))
 }
 
 function* renameAddress(
@@ -115,7 +113,7 @@ function* renameAddress(
   }
 
   yield put(walletsAddresses.setAddressNames(addressNamesNew))
-  yield put(push('/wallets/addresses'))
+  yield put(router5Actions.navigateTo('WalletsAddresses'))
 }
 
 export function* walletsRenameAddressRootSaga(): Saga<void> {

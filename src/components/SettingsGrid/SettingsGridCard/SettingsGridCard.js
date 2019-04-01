@@ -1,7 +1,5 @@
 // @flow
 
-import { Link } from 'react-router'
-
 import React, {
   Fragment,
   PureComponent,
@@ -10,6 +8,7 @@ import React, {
 import {
   JIcon,
   JText,
+  JLink,
 } from 'components/base'
 
 import { type JIconColor } from 'components/base/JIcon/JIcon'
@@ -21,8 +20,6 @@ export type Props = {|
   +description: string,
   +iconColor: JIconColor,
 |}
-
-const isExternalURL = (url: string): boolean => /^https?:\/\//.test(url)
 
 class SettingsGridCard extends PureComponent<Props, *> {
   static defaultProps = {
@@ -62,18 +59,13 @@ class SettingsGridCard extends PureComponent<Props, *> {
   render() {
     const { path } = this.props
 
-    if (isExternalURL(path)) {
-      return (
-        <a href={path} className='settings-grid-card' rel='noreferrer noopener' target='_blank'>
-          {this.renderContent()}
-        </a>
-      )
-    }
-
     return (
-      <Link to={path} className='settings-grid-card'>
+      <JLink
+        href={path}
+        className='settings-grid-card'
+      >
         {this.renderContent()}
-      </Link>
+      </JLink>
     )
   }
 }

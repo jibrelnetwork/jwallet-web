@@ -17,13 +17,6 @@ export function closeView() {
   }
 }
 
-export function goToHome() {
-  return {
-    type: GO_TO_HOME,
-  }
-}
-
 export type NotFoundAction =
   ExtractReturn<typeof openView> |
-  ExtractReturn<typeof closeView> |
-  ExtractReturn<typeof goToHome>
+  ExtractReturn<typeof closeView>
