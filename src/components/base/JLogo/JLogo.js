@@ -22,7 +22,7 @@ export class JLogo extends PureComponent<Props> {
     const { theme }: Props = this.props
 
     return (
-      <JLink to='/' className={jLogoStyle.core}>
+      <JLink href='/' className={jLogoStyle.core}>
         <span className={classNames(jLogoStyle.image, jLogoStyle[theme])} />
       </JLink>
     )

@@ -3,14 +3,6 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import { Link } from 'react-router'
-
-import {
-  getWallet,
-  getAddress,
-  checkMnemonicType,
-  getMnemonicAddressName,
-} from 'utils/wallets'
 
 import {
   divDecimals,
@@ -19,17 +11,18 @@ import {
 
 import {
   JIcon,
+  JLink,
   JLogo,
 } from 'components/base'
 
 import menuPanelStyle from './menuPanel.m.scss'
 
 type Props = {|
-  +items: Wallets,
-  +addressNames: AddressNames,
+  +walletName: string,
   +fiatCurrency: string,
-  +activeWalletId: ?WalletId,
+  +mnemonicAddressName: string,
   +fiatBalance: number,
+  +isMnemonic: boolean,
   +isMinimized: boolean,
 |}
 
@@ -40,113 +33,102 @@ export class MenuPanel extends PureComponent<Props> {
 
   render() {
     const {
-      items,
-      addressNames,
+      walletName,
       fiatCurrency,
-      activeWalletId,
+      mnemonicAddressName,
       fiatBalance,
+      isMnemonic,
       isMinimized,
     }: Props = this.props
 
-    try {
-      const wallet: Wallet = getWallet(items, activeWalletId)
-
-      const {
-        id,
-        name,
-        type,
-      }: Wallet = wallet
-
-      return (
-        <div
-          className={classNames(
-            menuPanelStyle.core,
-            isMinimized && menuPanelStyle.minimized,
-          )}
-        >
-          <div className={menuPanelStyle.top}>
-            <div className={menuPanelStyle.logo}>
-              <JLogo />
-            </div>
-            <Link to='/wallets' className={menuPanelStyle.ticker}>
-              <div className={menuPanelStyle.wrapper}>
-                <div className={menuPanelStyle.name}>
-                  {name}
-                </div>
-                {checkMnemonicType(type) && (
-                  <div className={menuPanelStyle.name}>
-                    {getMnemonicAddressName(wallet, addressNames[getAddress(items, id)])}
-                  </div>
-                )}
-                <div className={menuPanelStyle.balance}>
-                  {`${fiatCurrency}\u202F${formatBalance(divDecimals(fiatBalance))}`}
-                </div>
-                <div className={menuPanelStyle.chevron}>
-                  <JIcon name='arrow-right' size='medium' />
-                </div>
+    return (
+      <div
+        className={classNames(
+          '__menu-panel',
+          menuPanelStyle.core,
+          isMinimized && menuPanelStyle.minimized,
+        )}
+      >
+        <div className={menuPanelStyle.top}>
+          <div className={menuPanelStyle.logo}>
+            <JLogo />
+          </div>
+          <JLink href='/wallets' className={menuPanelStyle.ticker}>
+            <div className={menuPanelStyle.wrapper}>
+              <div className={menuPanelStyle.name}>
+                {walletName}
               </div>
-            </Link>
-          </div>
-          <div className={menuPanelStyle.separator} />
-          <div className={menuPanelStyle.actions}>
-            <Link
-              to='/digital-assets/grid'
-              className={menuPanelStyle.action}
-              activeClassName={menuPanelStyle.active}
-            >
-              <JIcon name='home' size='medium' />
-              <span className={menuPanelStyle.label}>
-                {t`Home`}
-              </span>
-            </Link>
-            <Link
-              to='/transactions'
-              className={menuPanelStyle.action}
-              activeClassName={menuPanelStyle.active}
-            >
-              <JIcon name='history' size='medium' />
-              <span className={menuPanelStyle.label}>
-                {t`History`}
-              </span>
-            </Link>
-            <Link
-              to='/favorites'
-              className={menuPanelStyle.action}
-              activeClassName={menuPanelStyle.active}
-            >
-              <JIcon name='contact' size='medium' />
-              <span className={menuPanelStyle.label}>
-                {t`Contacts`}
-              </span>
-            </Link>
-            <Link
-              to='/more'
-              className={menuPanelStyle.action}
-              activeClassName={menuPanelStyle.active}
-            >
-              <JIcon name='more' size='medium' />
-              <span className={menuPanelStyle.label}>
-                {t`More`}
-              </span>
-            </Link>
-          </div>
-          <div className={menuPanelStyle.separator} />
-          <div className={classNames(menuPanelStyle.actions, menuPanelStyle.settings)}>
-            <Link
-              to='/settings'
-              className={menuPanelStyle.action}
-              activeClassName={menuPanelStyle.active}
-            >
-              <JIcon name='settings' size='medium' />
-              <span className={menuPanelStyle.label}>
-                {t`Settings`}
-              </span>
-            </Link>
-          </div>
+              {isMnemonic && mnemonicAddressName && (
+                <div className={menuPanelStyle.name}>
+                  {mnemonicAddressName}
+                </div>
+              )}
+              <div className={menuPanelStyle.balance}>
+                {`${fiatCurrency}\u202F${formatBalance(divDecimals(fiatBalance))}`}
+              </div>
+              <div className={menuPanelStyle.chevron}>
+                <JIcon name='arrow-right' size='medium' />
+              </div>
+            </div>
+          </JLink>
         </div>
-      )
-    } catch (err) {
-      return null
-    }
+        <div className={menuPanelStyle.separator} />
+        <div className={menuPanelStyle.actions}>
+          <JLink
+            href='/'
+            className={menuPanelStyle.action}
+            activeClassName={menuPanelStyle.active}
+          >
+            <JIcon name='home' size='medium' />
+            <span className={menuPanelStyle.label}>
+              {t`Home`}
+            </span>
+          </JLink>
+          <JLink
+            href='/history'
+            className={menuPanelStyle.action}
+            activeClassName={menuPanelStyle.active}
+          >
+            <JIcon name='history' size='medium' />
+            <span className={menuPanelStyle.label}>
+              {t`History`}
+            </span>
+          </JLink>
+          <JLink
+            href='/contacts'
+            className={menuPanelStyle.action}
+            activeClassName={menuPanelStyle.active}
+          >
+            <JIcon name='contact' size='medium' />
+            <span className={menuPanelStyle.label}>
+              {t`Contacts`}
+            </span>
+          </JLink>
+          <JLink
+            href='/more'
+            className={menuPanelStyle.action}
+            activeClassName={menuPanelStyle.active}
+          >
+            <JIcon name='more' size='medium' />
+            <span className={menuPanelStyle.label}>
+              {t`More`}
+            </span>
+          </JLink>
+        </div>
+        <div className={menuPanelStyle.separator} />
+        <div className={classNames(menuPanelStyle.actions, menuPanelStyle.settings)}>
+          <JLink
+            href='/settings'
+            className={menuPanelStyle.action}
+            activeClassName={menuPanelStyle.active}
+          >
+            <JIcon name='settings' size='medium' />
+            <span className={menuPanelStyle.label}>
+              {t`Settings`}
+            </span>
+          </JLink>
+        </div>
+      </div>
+    )
   }
 }

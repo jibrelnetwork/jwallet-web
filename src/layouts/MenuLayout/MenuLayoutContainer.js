@@ -20,6 +20,13 @@ import {
 } from 'store/selectors/wallets'
 
 import {
+  getWallet,
+  getAddress,
+  checkMnemonicType,
+  getMnemonicAddressName,
+} from 'utils/wallets'
+
+import {
   openMenuLayout,
   closeMenuLayout,
 } from 'store/modules/core'
@@ -86,12 +93,24 @@ function mapStateToProps(state: AppState) {
     balances,
   )
 
+  const wallet: Wallet = getWallet(items, activeWalletId)
+
+  const {
+    id,
+    name,
+    type,
+  }: Wallet = wallet
+
+  const isMnemonic: boolean = checkMnemonicType(type)
+
   return {
-    items,
-    addressNames,
-    activeWalletId,
+    walletName: name,
     fiatCurrency: fiatCurrency.symbol,
     fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency.code),
+    mnemonicAddressName: isMnemonic
+      ? getMnemonicAddressName(wallet, addressNames[getAddress(items, id)])
+      : '',
+    isMnemonic,
     isConnectionError: false,
   }
 }
@@ -107,7 +126,7 @@ type OwnProps = {|
 |}
 */
 
-export default connect/* :: < AppState, any, OwnProps, _, _ > */(
+export const MenuLayoutContainer = connect/* :: < AppState, any, OwnProps, _, _ > */(
   mapStateToProps,
   mapDispatchToProps,
 )(MenuLayout)

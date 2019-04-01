@@ -14,12 +14,12 @@ import menuLayoutStyle from './menuLayout.m.scss'
 type Props = {|
   +openLayout: Function,
   +closeLayout: Function,
-  +items: Wallets,
-  +addressNames: AddressNames,
   +children: React$Node,
+  +walletName: string,
   +fiatCurrency: string,
-  +activeWalletId: ?WalletId,
+  +mnemonicAddressName: string,
   +fiatBalance: number,
+  +isMnemonic: boolean,
   +isConnectionError: boolean,
 |}
 
@@ -34,12 +34,12 @@ export class MenuLayout extends Component<Props> {
 
   render() {
     const {
-      items,
-      addressNames,
       children,
+      walletName,
       fiatCurrency,
-      activeWalletId,
+      mnemonicAddressName,
       fiatBalance,
+      isMnemonic,
       isConnectionError,
     }: Props = this.props
 
@@ -51,10 +51,10 @@ export class MenuLayout extends Component<Props> {
         )}
       >
         <MenuPanel
-          items={items}
-          addressNames={addressNames}
+          walletName={walletName}
           fiatCurrency={fiatCurrency}
-          activeWalletId={activeWalletId}
+          mnemonicAddressName={mnemonicAddressName}
+          isMnemonic={isMnemonic}
           fiatBalance={fiatBalance}
         />
         <div className={menuLayoutStyle.content}>
