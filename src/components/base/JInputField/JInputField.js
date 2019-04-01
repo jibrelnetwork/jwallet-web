@@ -44,7 +44,7 @@ function JInputField({
   className,
   ...rest
 }: Props) {
-  const textInput: { current: null | HTMLInputElement} = React.createRef()
+  const textInput: InputRef = React.createRef()
 
   const errorMessage = getErrorMessage(meta, validateType)
   const hasLabel = !!label
