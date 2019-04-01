@@ -19,7 +19,7 @@ import { selectWalletsItems } from 'store/selectors/wallets'
 import { checkAgreements } from 'utils/agreements'
 import { CONDITIONS_LIST } from 'data/agreements'
 
-import * as pages from 'routes'
+import * as pages from 'pages'
 
 type Props = {
   route: Object,
