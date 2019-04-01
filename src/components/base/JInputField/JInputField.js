@@ -24,6 +24,12 @@ type Props = StyleComponent<JInputTheme> & {
   validateType: FinalFormValidateType,
 }
 
+type InputRef = {
+  current: null | HTMLInputElement,
+}
+
+const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
+
 function JInputField({
   disabled,
   infoMessage,
@@ -62,7 +68,7 @@ function JInputField({
         jInputFieldStyle[theme],
         className,
       )}
-      onClick={() => textInput.current && textInput.current.focus()}
+      onClick={handleFocus(textInput)}
     >
       <div className={classNames(
         jInputFieldStyle.wrap,
