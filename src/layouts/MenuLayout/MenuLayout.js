@@ -48,7 +48,6 @@ class MenuLayout extends Component<Props> {
           fiatCurrency={fiatCurrency}
           activeWalletId={activeWalletId}
           fiatBalance={fiatBalance}
-          isMinimized={false}
         />
         <div className='content'>
           {children}
