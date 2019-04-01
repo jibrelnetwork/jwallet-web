@@ -32,7 +32,7 @@ import walletsBackup from 'store/modules/walletsBackup'
 import walletsAddresses from 'store/modules/walletsAddresses'
 import walletsRenameAddress from 'store/modules/walletsRenameAddress'
 
-import { type AppAction } from 'routes'
+import { type AppAction } from 'store/modules'
 
 import persistReducers from './persistReducers'
 

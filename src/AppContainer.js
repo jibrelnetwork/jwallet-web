@@ -12,7 +12,7 @@ import {
   type Dispatch,
 } from 'redux'
 
-import { type AppAction } from 'routes'
+import { type AppAction } from 'store/modules'
 
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
