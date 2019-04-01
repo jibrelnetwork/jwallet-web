@@ -35,7 +35,7 @@ storiesOf('JInputField', module)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
-        title: 'Title',
+        label: 'Label',
       })}
     </div>
   ))
@@ -43,14 +43,14 @@ storiesOf('JInputField', module)
     <div className='story'>
       {formStoryWrapper(JInputField, {
         placeholder: 'Placeholder',
-        title: 'Title',
+        label: 'Label',
       })}
     </div>
   ))
   .add('Disabled', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
-        title: 'Disabled',
+        label: 'Disabled',
         disabled: true,
       }, { foo: 'Some text' })}
     </div>
@@ -58,7 +58,7 @@ storiesOf('JInputField', module)
   .add('Error and message', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
-        title: 'Title',
+        label: 'Title',
         infoMessage: 'Hello world',
         validate: () => 'Some error',
       })}

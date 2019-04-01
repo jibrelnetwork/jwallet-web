@@ -2,6 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
+import { camelCase } from 'lodash-es'
 
 import { getErrorMessage } from 'utils/form'
 import { JFieldMessage } from 'components/base'
@@ -11,9 +12,10 @@ import jInputFieldStyle from './jInputField.m.scss'
 export type JInputType = 'text' | 'password'
 export type JInputTheme = 'white'
 
-type Props = StyledComponent<JInputTheme> & {
+type Props = StyleComponent<JInputTheme> & {
   disabled: boolean,
   infoMessage: string,
+  id: ?string,
   input: FinalFormInput,
   label: string,
   meta: FinalFormMeta,
@@ -23,19 +25,20 @@ type Props = StyledComponent<JInputTheme> & {
 }
 
 function JInputField({
-  className,
-  theme,
   disabled,
   infoMessage,
+  id,
   input,
   label,
   meta,
   placeholder,
   type,
   validateType,
+  theme,
+  className,
   ...rest
 }: Props) {
-  const textInput = React.createRef()
+  const textInput: { current: null | HTMLInputElement} = React.createRef()
 
   const errorMessage = getErrorMessage(meta, validateType)
   const hasLabel = !!label
@@ -44,19 +47,26 @@ function JInputField({
   const hasInfo = !!infoMessage
   const hasValue = !!input.value
   const isActive = meta.active || hasValue || (hasLabel && hasPlaceholder)
+  const inputId = id || `${camelCase(input.name || label || placeholder || 'noname')}Id`
+
+  const hasMessage = (hasError || hasInfo)
+  const messageTheme = hasError
+    ? 'error'
+    : 'info'
 
   return (
     <div
       className={classNames(
         jInputFieldStyle.core,
+        '__jinputfield',
         jInputFieldStyle[theme],
         className,
       )}
-      onClick={() => textInput.current.focus()}
+      onClick={() => textInput.current && textInput.current.focus()}
     >
       <div className={classNames(
         jInputFieldStyle.wrap,
-        (hasError || hasInfo) && jInputFieldStyle.message,
+        hasMessage && jInputFieldStyle.message,
         hasError && jInputFieldStyle.error,
         disabled && jInputFieldStyle.disabled,
         hasValue && jInputFieldStyle.value,
@@ -65,6 +75,7 @@ function JInputField({
       >
         <input
           ref={textInput}
+          id={inputId}
           type={type}
           className={jInputFieldStyle.input}
           placeholder={placeholder}
@@ -73,22 +84,15 @@ function JInputField({
           {...input}
         />
         {hasLabel && (
-          <div className={jInputFieldStyle.label}>
+          <label className={jInputFieldStyle.label} htmlFor={inputId}>
             {label}
-          </div>
+          </label>
         )}
       </div>
-      {!hasError && hasInfo && (
+      {hasMessage && (
         <JFieldMessage
-          theme='info'
-          message={infoMessage}
-          className={jInputFieldStyle.fieldMessage}
-        />
-      )}
-      {hasError && errorMessage && (
-        <JFieldMessage
-          theme='error'
-          message={errorMessage}
+          theme={messageTheme}
+          message={errorMessage || infoMessage}
           className={jInputFieldStyle.fieldMessage}
         />
       )}
@@ -100,6 +104,7 @@ JInputField.defaultProps = {
   type: 'text',
   theme: 'white',
   validateType: 'touched',
+  id: undefined,
   infoMessage: '',
   label: '',
   placeholder: '',

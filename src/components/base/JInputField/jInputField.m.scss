@@ -23,6 +23,7 @@ $form-right-padding: 16px;
 
 .label {
   position: absolute;
+  display: block;
   top: 24px;
   left: 16px;
   right: 24px;
@@ -61,7 +62,7 @@ $form-right-padding: 16px;
     color: $main-black-40;
   }
 
-  > .title {
+  > .label {
     top: 16px;
     font-size: 12px;
     background-color: transparent;
@@ -75,24 +76,24 @@ $form-right-padding: 16px;
     color: $main-black;
   }
 
-  > .title {
+  > .label {
     color: $main-black-40;
     background-color: $white;
   }
 
   &:hover > .input::placeholder,
-  &:hover > .title {
+  &:hover > .label {
     color: $main-black-40;
   }
 
-  &.error > .title {
+  &.error > .label {
     color: $main-red;
   }
 
   &.disabled {
     background: $main-black-5;
 
-    > .title {
+    > .label {
       color: $main-black-30;
       background-color: transparent;
       user-select: none;
