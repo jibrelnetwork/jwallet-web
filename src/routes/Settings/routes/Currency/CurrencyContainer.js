@@ -16,7 +16,9 @@ import {
 } from './types'
 
 const validate = ({ fiatCurrency }: CurrencyFormFieldValues): CurrencyFormFieldErrors => {
-  if (!currenciesData[fiatCurrency]) {
+  const fiatCurrencyData: ?FiatCurrencyData = currenciesData[fiatCurrency]
+
+  if (!fiatCurrencyData) {
     return {
       fiatCurrency: t`Currency ${fiatCurrency} is not available`,
     }
