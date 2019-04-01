@@ -1,5 +1,7 @@
 // @flow
 
+// FIXME: nobody uses me, remove me after migration to MainMenu component!
+
 import { connect } from 'react-redux'
 
 import getDigitalAssetsWithBalance from 'utils/digitalAssets/getDigitalAssetsWithBalance'
@@ -22,7 +24,7 @@ import {
   closeMenuLayout,
 } from 'store/modules/core'
 
-import MenuLayout from './MenuLayout'
+import { MenuLayout } from './MenuLayout'
 
 function getFiatBalance(
   assets: DigitalAssetWithBalance[],

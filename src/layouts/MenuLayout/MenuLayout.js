@@ -1,5 +1,6 @@
 // @flow
 
+import classNames from 'classnames'
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
@@ -7,6 +8,8 @@ import {
   MenuPanel,
   OverlayNotification,
 } from 'components'
+
+import menuLayoutStyle from './menuLayout.m.scss'
 
 type Props = {|
   +openLayout: Function,
@@ -20,7 +23,7 @@ type Props = {|
   +isConnectionError: boolean,
 |}
 
-class MenuLayout extends Component<Props> {
+export class MenuLayout extends Component<Props> {
   componentDidMount() {
     this.props.openLayout()
   }
@@ -41,7 +44,12 @@ class MenuLayout extends Component<Props> {
     }: Props = this.props
 
     return (
-      <div className='menu-layout'>
+      <div
+        className={classNames(
+          '__menu-layout',
+          menuLayoutStyle.core,
+        )}
+      >
         <MenuPanel
           items={items}
           addressNames={addressNames}
@@ -49,10 +57,10 @@ class MenuLayout extends Component<Props> {
           activeWalletId={activeWalletId}
           fiatBalance={fiatBalance}
         />
-        <div className='content'>
+        <div className={menuLayoutStyle.content}>
           {children}
           {isConnectionError && (
-            <div className='overlay'>
+            <div className={menuLayoutStyle.overlay}>
               <OverlayNotification
                 color='red'
                 image='screen-error'
@@ -68,5 +76,3 @@ class MenuLayout extends Component<Props> {
     )
   }
 }
-
-export default MenuLayout
