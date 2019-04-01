@@ -16,6 +16,7 @@ import { checkAgreements } from 'utils/agreements'
 import { CONDITIONS_LIST } from 'data/agreements'
 
 import NotFound from 'routes/NotFound/NotFoundView'
+import { Introduction } from 'routes/Introduction/Introduction'
 import Agreements from 'routes/Agreements/AgreementsViewContainer'
 import DigitalAssetsGrid from 'routes/DigitalAssets/routes/Grid/DigitalAssetsGridViewContainer'
 import ManageAssets
@@ -76,6 +77,11 @@ export const AppRouter = ({
   isAllAgreementsChecked,
   hasNoWallets,
 }: Props) => {
+  // FIXME: Add proper flags handling
+  if (!localStorage.getItem('introduced')) {
+    return <Introduction />
+  }
+
   if (!route || route.name === constants.UNKNOWN_ROUTE) {
     return renderWithWalletsLayout(NotFound)
   }

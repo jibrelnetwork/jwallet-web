@@ -1,0 +1,49 @@
+@import "styles/colors";
+@import "styles/mixins";
+
+.container {
+  display: block;
+  height: 100%;
+  padding: 164px 152px;
+}
+
+.logo {
+  position: absolute;
+  top: 64px;
+  left: 64px;
+}
+
+.content {
+  @include flex-column-center;
+
+  height: 100%;
+  max-width: 544px;
+  margin: 0 auto;
+}
+
+.slide {
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.slide-image {
+  width: 232px;
+  height: 232px;
+  border-radius: 50%;
+  background-color: $main-blue-10;
+  overflow: hidden;
+  margin: 0 auto 32px;
+}
+
+.slide-title {
+  display: block;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: normal;
+  margin: 0 0 8px;
+}
+
+.slide-description {
+  font-size: 14px;
+  line-height: 22px;
+}
