@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-import JLogo from 'components/base/JLogo'
+import { JLogo } from 'components/base'
 
 class WalletHeader extends Component<*> {
   render() {
