@@ -14,10 +14,6 @@ export type JLinkInternalProps = JLinkProps & {
 }
 
 export function JLinkInternalDisconnected(initialProps: JLinkInternalProps) {
-  const props = omit(initialProps, [
-    'href',
-  ])
-
   const {
     router,
     href,
@@ -32,14 +28,22 @@ export function JLinkInternalDisconnected(initialProps: JLinkInternalProps) {
       console.warn(`Path ${href} does not have matching route, link leads to 404`)
     }
 
+    const props = omit(initialProps, [
+      'activeClassName',
+      'router',
+    ])
+
     return (
       <a
         {...props}
-        href={href}
       />
     )
     /* eslint-enable jsx-a11y/anchor-has-content */
   }
+
+  const props = omit(initialProps, [
+    'href',
+  ])
 
   return (
     <BaseLink
