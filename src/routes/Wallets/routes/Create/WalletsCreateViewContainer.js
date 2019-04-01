@@ -32,6 +32,7 @@ type StateProps = {|
   +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
+  +mnemonic: string,
 |}
 
 function mapStateToProps(state: AppState): StateProps {
@@ -45,6 +46,7 @@ function mapStateToProps(state: AppState): StateProps {
     passwordHint,
     invalidFields,
     passwordConfirm,
+    mnemonic,
   }: WalletsState = selectWallets(state)
 
   const { currentStep }: WalletsCreateState = selectWalletsCreate(state)
@@ -58,6 +60,7 @@ function mapStateToProps(state: AppState): StateProps {
     invalidFields,
     passwordConfirm,
     isPasswordExists: !!internalKey,
+    mnemonic,
   }
 }
 

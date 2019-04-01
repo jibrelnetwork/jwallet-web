@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { actions } from 'redux-router5'
 
 import {
   openView,
@@ -27,11 +27,11 @@ const mapDispatchToProps = {
   closeView,
   simplifyWallet,
   setActiveWallet,
-  createWallet: () => push('/wallets/create'),
-  importWallet: () => push('/wallets/import'),
-  renameWallet: (walletId: WalletId) => push(`/wallets/rename/${walletId}`),
-  backupWallet: (walletId: WalletId) => push(`/wallets/backup/${walletId}`),
-  deleteWallet: (walletId: WalletId) => push(`/wallets/delete/${walletId}`),
+  createWallet: () => actions.navigateTo('WalletsCreate'),
+  importWallet: () => actions.navigateTo('WalletsImport'),
+  renameWallet: (walletId: WalletId) => actions.navigateTo('WalletsRename', { walletId }),
+  backupWallet: (walletId: WalletId) => actions.navigateTo('WalletsBackup', { walletId }),
+  deleteWallet: (walletId: WalletId) => actions.navigateTo('WalletsDelete', { walletId }),
 }
 
 export default (

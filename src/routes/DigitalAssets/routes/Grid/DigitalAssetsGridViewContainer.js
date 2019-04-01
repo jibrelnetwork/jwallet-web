@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 
 import isZero from 'utils/numbers/isZero'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
@@ -177,8 +176,6 @@ const mapDispatchToProps = {
   sortByNameClick,
   sortByBalanceClick,
   setHideZeroBalance,
-  addAssetClick: () => push('/digital-assets/manage'),
-  manageAssetsOpenClick: () => push('/digital-assets/manage'),
 }
 
 export default (

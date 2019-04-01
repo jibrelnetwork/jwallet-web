@@ -2,12 +2,24 @@
 import getFormattedDateString from '../src/utils/time/getFormattedDateString'
 
 const keys = [
-  { privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x22E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x32E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x42E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x52E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
-  { privateKey: '0x62E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH' },
+  {
+    privateKey: '0x12E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x22E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x32E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x42E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x52E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
+  {
+    privateKey: '0x62E67f8FD2E67f8FD2E67f8FD2E67f8FD2E67f8F4E', balance: 12.990, code: 'ETH',
+  },
 ]
 
 export default {
@@ -20,7 +32,9 @@ export default {
     { text: 'EUR' },
     { text: 'GBK' },
   ],
-  loaderStyle: { width: '200px', height: '100px', position: 'relative', border: '3px solid #999' },
+  loaderStyle: {
+    width: '200px', height: '100px', position: 'relative', border: '3px solid #999',
+  },
   keysManagerProps: {
     setActiveKey: index => alert(`Key ${index + 1} picked`),
     addNewKeys: () => alert('addNewKeys handler'),

@@ -116,7 +116,7 @@ class WalletsBackupView extends Component<Props> {
                 buttonLabel={t`Download as TXT`}
                 isLoading={isLoading}
               >
-                <CopyableField copy={copyToClipboard} value={this.getData(isMnemonic)} />
+                <CopyableField onCopySuccess={copyToClipboard} value={this.getData(isMnemonic)} />
               </WalletStep>
             )}
           </div>

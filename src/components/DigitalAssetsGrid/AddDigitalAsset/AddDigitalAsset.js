@@ -2,21 +2,23 @@
 
 import React from 'react'
 
-import { JIcon } from 'components/base'
+import {
+  JIcon,
+  JLink,
+} from 'components/base'
 
-type Props = {|
-  +onClick: () => void,
-|}
-
-const AddAsset = ({ onClick }: Props) => (
-  <div className='add-asset' onClick={onClick}>
+const AddAsset = () => (
+  <JLink
+    href='/digital-assets/manage'
+    className='add-asset'
+  >
     <div className='icon'>
       <JIcon
         color='gray'
         name='cross-medium'
       />
     </div>
-  </div>
+  </JLink>
 )
 
 export default AddAsset

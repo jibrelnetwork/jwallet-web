@@ -4,7 +4,7 @@
 // flow-typed version: b2980740dd/jest_v23.x.x/flow_>=v0.39.x
 
 /* eslint-disable flowtype/array-style-simple-type, flowtype/delimiter-dangle,
-  flowtype/require-compound-type-alias, no-use-before-define, flowtype/semi,
+  no-use-before-define, flowtype/semi,
   flowtype/object-type-delimiter, max-len, no-multiple-empty-lines,
   flowtype/space-after-type-colon, flowtype/no-dupe-keys, no-unused-vars
  */
@@ -1163,7 +1163,7 @@ declare var jasmine: {
 };
 
 /* eslint-enable flowtype/array-style-simple-type, flowtype/delimiter-dangle,
-  flowtype/require-compound-type-alias, no-use-before-define, flowtype/semi,
+  no-use-before-define, flowtype/semi,
   flowtype/object-type-delimiter, max-len, no-multiple-empty-lines,
   flowtype/space-after-type-colon, flowtype/no-dupe-keys, no-unused-vars
  */

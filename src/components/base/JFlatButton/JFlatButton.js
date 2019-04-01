@@ -7,11 +7,10 @@ import React, {
   PureComponent,
 } from 'react'
 
-import { Link } from 'react-router'
-
 import {
   JIcon,
   JLoader,
+  JLink,
 } from 'components/base'
 
 import jTextStyle from 'styles/components/jText.m.scss'
@@ -152,12 +151,12 @@ class JFlatButton extends PureComponent<Props, *> {
 
     if (to && !onClick) {
       return (
-        <Link
+        <JLink
           {...baseProps}
-          to={to}
+          href={to}
         >
           {children}
-        </Link>
+        </JLink>
       )
     }
 
