@@ -44,15 +44,6 @@ const shouldUseRelativeAssetPaths = publicPath === './'
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
 const publicUrl = publicPath.slice(0, -1)
 
-// replace globalObject when we are in development so HMR and web workers would work together
-// for details see:
-// https://github.com/webpack/webpack/issues/6642 (closed in favor of 6525)
-// https://github.com/webpack/webpack/issues/6525
-const globalObject = isEnvDevelopment ? 'this' : undefined
-
-// This is the production configuration.
-// It compiles slowly and is focused on producing a fast and minimal bundle.
-// The development configuration is different and lives in a separate file.
 module.exports = {
   mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
   bail: true,
@@ -64,12 +55,12 @@ module.exports = {
   ].filter(Boolean),
 
   output: {
+    publicPath,
     path: PATHS.OUTPUT,
+    globalObject: 'this',
     pathinfo: isEnvDevelopment,
     filename: 'static/js/[name].[hash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
-    publicPath,
-    globalObject,
     devtoolModuleFilenameTemplate: isEnvDevelopment
       ? info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
       : info =>
