@@ -7,11 +7,6 @@
   width: 100%;
   min-height: 100vh;
 
-  > .aside {
-    height: 100%;
-    width: $menu-panel-width;
-  }
-
   > .content {
     flex-grow: 1;
     position: relative;

@@ -4,7 +4,6 @@ import QRCode from './QRCode'
 import HelpText from './HelpText'
 import AssetItem from './AssetItem'
 import ESCButton from './ESCButton'
-import MenuPanel from './MenuPanel'
 import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
@@ -39,6 +38,8 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
+export { MenuPanel } from './MenuPanel/MenuPanel'
+
 export {
   PasswordField,
   PasswordFieldFinalFormAdapter,
@@ -49,7 +50,6 @@ export {
   HelpText,
   AssetItem,
   ESCButton,
-  MenuPanel,
   WalletCard,
   WalletFace,
   WalletStep,

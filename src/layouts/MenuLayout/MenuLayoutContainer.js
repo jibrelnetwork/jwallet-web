@@ -7,14 +7,13 @@ import { selectTickerItems } from 'store/selectors/ticker'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
 
 import {
   selectWalletsItems,
   selectActiveWalletId,
-  selectWalletsAddresses,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
@@ -22,11 +21,6 @@ import {
   openMenuLayout,
   closeMenuLayout,
 } from 'store/modules/core'
-
-import {
-  setActive,
-  getMoreRequest,
-} from 'store/modules/walletsAddresses'
 
 import MenuLayout from './MenuLayout'
 
@@ -74,10 +68,9 @@ function mapStateToProps(state: AppState) {
   const activeWalletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
-  const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const { addresses }: WalletsAddressesState = selectWalletsAddresses(state)
+  const fiatCurrency: FiatCurrencyData = selectSettingsFiatCurrencyData(state)
 
   const balances: ?Balances = selectBalancesByBlockNumber(
     state,
@@ -93,18 +86,15 @@ function mapStateToProps(state: AppState) {
 
   return {
     items,
-    addresses,
     addressNames,
     activeWalletId,
-    fiatCurrency,
-    fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency),
+    fiatCurrency: fiatCurrency.symbol,
+    fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency.code),
     isConnectionError: false,
   }
 }
 
 const mapDispatchToProps = {
-  setActive,
-  getMoreRequest,
   openLayout: openMenuLayout,
   closeLayout: closeMenuLayout,
 }

@@ -1,0 +1,142 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.core {
+  @include font;
+  @include flex-column;
+  @include hover-animation;
+
+  position: relative;
+  width: 304px;
+  min-height: 100vh;
+  background-color: $main-blue;
+  background-image: linear-gradient(71.21deg, $main-blue 0.35%, #00309b 100%);
+}
+
+.top,
+.separator,
+.actions {
+  @include hover-animation;
+}
+
+.top {
+  @include flex-column;
+
+  padding-top: 56px;
+}
+
+.logo {
+  margin: 0 48px 0 40px;
+}
+
+.ticker {
+  @include flex-column;
+
+  height: 112px;
+  justify-content: center;
+}
+
+.wrapper {
+  @include flex-column;
+  @include hover-animation;
+
+  position: relative;
+  margin: 0 32px 0 24px;
+  padding: 13px 8px 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: $main-black-20;
+  }
+}
+
+.name {
+  line-height: 22px;
+  font-size: 14px;
+  color: $white-60;
+}
+
+.balance {
+  line-height: normal;
+  font-size: 20px;
+  color: $white;
+}
+
+.chevron {
+  @include flex-row-center;
+
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  margin-top: -12px;
+}
+
+.separator {
+  height: 1px;
+  margin: 0 48px 0 40px;
+  background: $white-20;
+}
+
+.actions {
+  @include flex-column;
+
+  padding: 40px 0;
+  margin: 0 48px auto 40px;
+
+  &.settings {
+    padding: 16px 0;
+    margin-bottom: 0;
+  }
+}
+
+.action {
+  @include flex-row;
+  @include hover-animation;
+
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  svg {
+    opacity: 0.4;
+  }
+
+  &:hover,
+  &.active {
+    background: $main-black-20;
+
+    svg {
+      opacity: 1;
+    }
+  }
+
+  &:not(:first-child) {
+    margin-top: 8px;
+  }
+}
+
+.label {
+  margin-left: 16px;
+  line-height: 22px;
+  font-size: 14px;
+  color: $white;
+}
+
+.minimized {
+  width: 24px;
+  background-image: none;
+  background-color: $main-blue;
+  overflow: hidden;
+
+  .top,
+  .separator,
+  .actions {
+    width: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
