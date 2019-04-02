@@ -57,6 +57,7 @@ export const AppRouter = ({
     name,
     params,
   } = route
+
   const Component = getPage(name)
 
   if (!Component) {
@@ -64,7 +65,7 @@ export const AppRouter = ({
   }
 
   return (
-    <MenuLayout>
+    <MenuLayout routeName={name}>
       <Component {...params} />
     </MenuLayout>
   )
