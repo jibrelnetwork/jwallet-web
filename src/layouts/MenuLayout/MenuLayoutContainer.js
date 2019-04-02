@@ -14,14 +14,11 @@ import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
 
 import {
-  selectWalletsItems,
-  selectActiveWalletId,
+  selectActiveWallet,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
 import {
-  getWallet,
-  getAddress,
   checkMnemonicType,
   getMnemonicAddressName,
 } from 'utils/wallets'
@@ -32,6 +29,11 @@ import {
 } from 'store/modules/core'
 
 import { MenuLayout } from './MenuLayout'
+
+export type MenuMeta = {
+  isMinimized: boolean,
+  previousRouteNameFallback: ?string,
+}
 
 function getFiatBalance(
   assets: DigitalAssetWithBalance[],
@@ -71,10 +73,9 @@ function getFiatBalance(
 }
 
 function mapStateToProps(state: AppState) {
-  const items: Wallets = selectWalletsItems(state)
+  const wallet: ?Wallet = selectActiveWallet(state)
   const fiatCourses: FiatCourses = selectTickerItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const activeWalletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
@@ -93,23 +94,18 @@ function mapStateToProps(state: AppState) {
     balances,
   )
 
-  const wallet: Wallet = getWallet(items, activeWalletId)
+  const walletName: string = wallet ? wallet.name : ''
+  const isMnemonic: boolean = wallet ? checkMnemonicType(wallet.type) : false
 
-  const {
-    id,
-    name,
-    type,
-  }: Wallet = wallet
-
-  const isMnemonic: boolean = checkMnemonicType(type)
+  const mnemonicAddressName: string = (wallet && ownerAddress && isMnemonic)
+    ? getMnemonicAddressName(wallet, addressNames[ownerAddress])
+    : ''
 
   return {
-    walletName: name,
+    walletName,
+    mnemonicAddressName,
     fiatCurrency: fiatCurrency.symbol,
     fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency.code),
-    mnemonicAddressName: isMnemonic
-      ? getMnemonicAddressName(wallet, addressNames[getAddress(items, id)])
-      : '',
     isMnemonic,
     isConnectionError: false,
   }
@@ -122,6 +118,7 @@ const mapDispatchToProps = {
 
 /* ::
 type OwnProps = {|
+  +routeName: string,
   +children: React$Node,
 |}
 */

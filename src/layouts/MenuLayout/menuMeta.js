@@ -1,126 +1,123 @@
 // @flow
 
-import { type MenuMode } from './components/MainMenu'
+import { type MenuMeta } from './MenuLayoutContainer'
 
-const MENU_META_DEFAULT = {
-  menu: null,
+const MENU_META_DEFAULT: MenuMeta = {
+  isMinimized: false,
   previousRouteNameFallback: null,
 }
 
-export const menuConfig = {
+const MENU_META: { [string]: ?MenuMeta } = {
   Home: {
-    menu: null,
+    isMinimized: false,
     previousRouteNameFallback: null,
   },
   Send: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   Receive: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   AssetsItem: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   AssetsItemEdit: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   AssetsItemAdd: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   History: {
-    menu: null,
+    isMinimized: false,
     previousRouteNameFallback: null,
   },
   HistoryItem: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   Contacts: {
-    menu: null,
+    isMinimized: false,
     previousRouteNameFallback: null,
   },
   ContactsItemAdd: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   ContactsItemEdit: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   MoreActions: {
-    menu: null,
+    isMinimized: false,
     previousRouteNameFallback: null,
   },
   Support: {
-    menu: null,
+    isMinimized: false,
     previousRouteNameFallback: null,
   },
   About: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'MoreActions',
   },
   Settings: {
-    menu: null,
+    isMinimized: false,
     previousRouteNameFallback: null,
   },
   SettingsCurrency: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Settings',
   },
   SettingsDevelopment: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Settings',
   },
   SettingsLanguage: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Settings',
   },
   SettingsSecurityPassword: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Settings',
   },
   Wallets: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   WalletsCreate: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   WalletsImport: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   WalletsItem: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   WalletsItemBackup: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
-  WalletsItemRemove: {
-    menu: 'minimized',
+  WalletsItemDelete: {
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   WalletsItemRename: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
   WalletsItemUpgrade: {
-    menu: 'minimized',
+    isMinimized: true,
     previousRouteNameFallback: 'Home',
   },
 }
 
-export function getMenuConfig(name: string): {
-  menu: MenuMode,
-  previousRouteNameFallback: string,
-} {
-  return menuConfig[name] || MENU_META_DEFAULT
+export function getMenuMeta(name: string): MenuMeta {
+  return MENU_META[name] || MENU_META_DEFAULT
 }

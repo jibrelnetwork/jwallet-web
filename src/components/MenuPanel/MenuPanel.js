@@ -11,8 +11,9 @@ import {
 
 import {
   JIcon,
-  JLink,
   JLogo,
+  JLink,
+  JLinkBack,
 } from 'components/base'
 
 import menuPanelStyle from './menuPanel.m.scss'
@@ -21,6 +22,7 @@ type Props = {|
   +walletName: string,
   +fiatCurrency: string,
   +mnemonicAddressName: string,
+  +previousRouteNameFallback: string,
   +fiatBalance: number,
   +isMnemonic: boolean,
   +isMinimized: boolean,
@@ -36,13 +38,14 @@ export class MenuPanel extends PureComponent<Props> {
       walletName,
       fiatCurrency,
       mnemonicAddressName,
+      previousRouteNameFallback,
       fiatBalance,
       isMnemonic,
       isMinimized,
     }: Props = this.props
 
     return (
-      <div
+      <header
         className={classNames(
           '__menu-panel',
           menuPanelStyle.core,
@@ -128,7 +131,14 @@ export class MenuPanel extends PureComponent<Props> {
             </span>
           </JLink>
         </div>
-      </div>
+        <div className={menuPanelStyle.back}>
+          {isMinimized && previousRouteNameFallback && (
+            <JLinkBack routeName={previousRouteNameFallback}>
+              <JIcon name='arrow-back' size='medium' color='blue' />
+            </JLinkBack>
+          )}
+        </div>
+      </header>
     )
   }
 }

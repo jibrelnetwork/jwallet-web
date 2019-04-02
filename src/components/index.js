@@ -14,7 +14,6 @@ import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import FavoriteItem from './FavoriteItem'
 import PasswordStep from './PasswordStep'
-import WalletHeader from './WalletHeader'
 import SettingsGrid from './SettingsGrid'
 import AddressPicker from './AddressPicker'
 import CopyableField from './CopyableField'
@@ -60,7 +59,6 @@ export {
   AssetBalance,
   FavoriteItem,
   PasswordStep,
-  WalletHeader,
   SettingsGrid,
   AddressPicker,
   CopyableField,

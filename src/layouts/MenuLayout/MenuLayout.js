@@ -10,11 +10,14 @@ import {
 } from 'components'
 
 import menuLayoutStyle from './menuLayout.m.scss'
+import { getMenuMeta } from './menuMeta'
+import { type MenuMeta } from './MenuLayoutContainer'
 
 type Props = {|
   +openLayout: Function,
   +closeLayout: Function,
   +children: React$Node,
+  +routeName: string,
   +walletName: string,
   +fiatCurrency: string,
   +mnemonicAddressName: string,
@@ -35,6 +38,7 @@ export class MenuLayout extends Component<Props> {
   render() {
     const {
       children,
+      routeName,
       walletName,
       fiatCurrency,
       mnemonicAddressName,
@@ -42,6 +46,11 @@ export class MenuLayout extends Component<Props> {
       isMnemonic,
       isConnectionError,
     }: Props = this.props
+
+    const {
+      isMinimized,
+      previousRouteNameFallback,
+    }: MenuMeta = getMenuMeta(routeName)
 
     return (
       <div
@@ -54,8 +63,10 @@ export class MenuLayout extends Component<Props> {
           walletName={walletName}
           fiatCurrency={fiatCurrency}
           mnemonicAddressName={mnemonicAddressName}
-          isMnemonic={isMnemonic}
+          previousRouteNameFallback={previousRouteNameFallback}
           fiatBalance={fiatBalance}
+          isMnemonic={isMnemonic}
+          isMinimized={isMinimized || !walletName}
         />
         <div className={menuLayoutStyle.content}>
           {children}
