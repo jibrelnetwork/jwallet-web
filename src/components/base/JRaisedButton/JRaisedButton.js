@@ -1,10 +1,10 @@
 // @flow
 
-import { omit } from 'lodash-es'
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
+import { omit } from 'lodash-es'
 
-import JLoader, { type JLoaderColor } from 'components/base/JLoader/JLoader'
+import { JLoader } from 'components/base'
 
 import jRaisedButtonStyle from './jRaisedButton.m.scss'
 
@@ -17,12 +17,6 @@ type Props = {
   isLoading?: boolean,
   disabled?: boolean,
   className?: ?string,
-}
-
-const loaderColorMap: { [Themes]: JLoaderColor } = {
-  blue: 'white',
-  white: 'blue',
-  gray: 'dark',
 }
 
 class JRaisedButton extends PureComponent<Props, *> {
@@ -67,8 +61,8 @@ class JRaisedButton extends PureComponent<Props, *> {
         onClick={this.props.onClick}
         disabled={isDisabled}
       >
-        {isLoading ?
-          <JLoader color={loaderColorMap[this.props.theme]} />
+        {isLoading
+          ? <JLoader color={this.props.theme} />
           : this.props.children
         }
       </button>
