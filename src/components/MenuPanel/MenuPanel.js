@@ -22,6 +22,7 @@ type Props = {|
 
 export class MenuPanel extends PureComponent<Props> {
   static defaultProps = {
+    isMnemonic: false,
     isMinimized: false,
   }
 

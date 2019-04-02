@@ -90,6 +90,10 @@
     padding: 16px 0;
     margin-bottom: 0;
   }
+
+  li:not(:first-child) {
+    margin-top: 8px;
+  }
 }
 
 .action {
@@ -112,10 +116,6 @@
     svg {
       opacity: 1;
     }
-  }
-
-  &:not(:first-child) {
-    margin-top: 8px;
   }
 }
 
