@@ -2,9 +2,7 @@
 
 @import "styles/mixins";
 @import "styles/colors";
-
-$form-left-padding: 24px;
-$form-right-padding: 16px;
+@import 'styles/images';
 
 .core {
   position: relative;
@@ -71,12 +69,26 @@ $form-right-padding: 16px;
   z-index: 1;
 
   > .invisible {
+    display: inline-block;
     visibility: hidden;
     margin-right: 5px;
   }
 
   > .currency-value {
+    display: inline-block;
     color: $main-black-40;
+    margin-right: 5px;
+  }
+
+  > .max-value-chevron {
+    display: inline-block;
+    width: 32px;
+    height: 22px;
+    line-height: 22px;
+    background: $max-blue no-repeat center;
+    margin-bottom: -6px;
+    cursor: default;
+    user-select: none;
   }
 }
 
@@ -170,16 +182,20 @@ $form-right-padding: 16px;
       opacity: 0.3;
     }
   }
+
+  &.inputFocus {
+    > .max-button {
+      display: none;
+    }
+
+    > .clear-button {
+      display: inline-block;
+    }
+  }
 }
 
-.input:focus + .iconHolder {
-  > .max-button {
-    display: none;
-  }
-
-  > .clear-button {
-    display: inline-block;
-  }
+.has-max-value > .iconHolder > .max-button {
+  display: none;
 }
 
 .message {

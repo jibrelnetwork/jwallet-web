@@ -6,6 +6,10 @@ import { t } from 'ttag'
 
 import { getErrorMessage } from 'utils/form'
 import {
+  formatETHAmount,
+  formatCurrencyWithSymbol,
+} from 'utils/formatters'
+import {
   JFieldMessage,
   JIcon,
 } from 'components/base'
@@ -16,11 +20,10 @@ import fieldStyle from './sendAmountField.m.scss'
 
 type Props = {|
   blockchainFee: string,
-  blockchainFeeCurrency: string,
   className: string,
   currency: string,
-  fiatCurrency: string,
   fiatAmount: string,
+  fiatCurrency: FiatCurrency,
   input: FinalFormInput,
   maxValue: string,
   meta: FinalFormMeta,
@@ -31,11 +34,15 @@ const handleMaxClick = (input: FinalFormInput, maxValue: string) => () => input.
 
 const handleClearClick = (input: FinalFormInput) => () => input.onChange('')
 
+const filterAmountValue = (value: string) => value.replace(/[^\d.-]/g, '')
+
+const handlerOnChange = (input: FinalFormInput) => e =>
+  input.onChange(filterAmountValue(e.target.value))
+
 const LABEL_TEXT = t`Amount`
 
 function SendAmountField({
   blockchainFee,
-  blockchainFeeCurrency,
   className,
   currency,
   fiatCurrency,
@@ -48,6 +55,10 @@ function SendAmountField({
   const isActive = meta.active || !!input.value
   const errorMessage = getErrorMessage(meta, validateType)
 
+  const formattedBlockchainFee = blockchainFee ? formatETHAmount(blockchainFee) : ''
+  const formattedFiatAmount = fiatAmount ? formatCurrencyWithSymbol(fiatAmount, fiatCurrency) : ''
+  const hasMaxValue = (input.value === maxValue)
+
   return (
     <div className={classNames(
       fieldStyle.core,
@@ -58,13 +69,18 @@ function SendAmountField({
       <div className={classNames(
         fieldStyle.wrap,
         isActive && fieldStyle.active,
+        hasMaxValue && fieldStyle.hasMaxValue,
       )}
       >
         <div className={fieldStyle.currencyMask}>
           <span className={fieldStyle.invisible}>{input.value}</span>
           <span className={fieldStyle.currencyValue}>{currency}</span>
+          {hasMaxValue && (
+            <span className={fieldStyle.maxValueChevron} />
+          )}
         </div>
         <input
+          {...input}
           type='text'
           id='amountInputId'
           className={fieldStyle.input}
@@ -72,9 +88,20 @@ function SendAmountField({
           autoCorrect='off'
           autoCapitalize='none'
           spellCheck='false'
-          {...input}
+          onChange={handlerOnChange(input)}
         />
-        <div className={fieldStyle.iconHolder}>
+        <div className={classNames(
+          fieldStyle.iconHolder,
+          meta.active && fieldStyle.inputFocus,
+        )}
+        >
+          <button
+            type='button'
+            className={fieldStyle.clearButton}
+            onClick={handleClearClick(input)}
+          >
+            <JIcon name='close-padding' color='black' />
+          </button>
           <button
             type='button'
             className={fieldStyle.maxButton}
@@ -82,20 +109,14 @@ function SendAmountField({
           >
             {t`MAX`}
           </button>
-          <a
-            className={fieldStyle.clearButton}
-            onClick={handleClearClick(input)}
-          >
-            <JIcon name='close-padding' color='black' />
-          </a>
         </div>
-        <label htmlFor='amountInputId' className={fieldStyle.label} >{LABEL_TEXT}</label>
         <div className={fieldStyle.bottom}>
-          <div className={fieldStyle.fiatAmount}>{`=${fiatCurrency}${fiatAmount}`}</div>
+          <div className={fieldStyle.fiatAmount}>{`=${formattedFiatAmount}`}</div>
           <div className={fieldStyle.blockchainFee}>
-            {t`Blockchain fee — ${blockchainFee} ${blockchainFeeCurrency}`}
+            {t`Blockchain fee — ${formattedBlockchainFee} ETH`}
           </div>
         </div>
+        <label htmlFor='amountInputId' className={fieldStyle.label} >{LABEL_TEXT}</label>
       </div>
       {errorMessage && (
         <JFieldMessage
@@ -112,6 +133,7 @@ SendAmountField.defaultProps = {
   input: {},
   meta: {},
   validateType: 'touched',
+  fiatCurrency: 'USD',
   className: '',
 }
 
