@@ -13,14 +13,25 @@ export function formatCurrencyWithSymbol(
   currencyCode: string,
   locale: string = 'en-US',
 ): string {
-  const opts = {
-    style: 'currency',
-    currency: currencyCode,
+  try {
+    const opts = {
+      style: 'currency',
+      currency: currencyCode,
+    }
+
+    const numberAmount: number = toBigNumber(amount).toNumber()
+
+    const numberFormat = new Intl.NumberFormat(locale, opts)
+
+    return numberFormat.format(numberAmount)
+  } catch (err) {
+    if (err instanceof RangeError) {
+      // Invalid currency code or locale (Intl.NumberFormat)
+      const numberAmount: number = toBigNumber(amount).toNumber()
+
+      return `${numberAmount} ${currencyCode}`
+    } else {
+      return `${amount} ${currencyCode}`
+    }
   }
-
-  const numberAmount: number = toBigNumber(amount).toNumber()
-
-  const numberFormat = new Intl.NumberFormat(locale, opts)
-
-  return numberFormat.format(numberAmount)
 }

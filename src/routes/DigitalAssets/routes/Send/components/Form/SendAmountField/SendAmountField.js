@@ -55,8 +55,14 @@ function SendAmountField({
   const isActive = meta.active || !!input.value
   const errorMessage = getErrorMessage(meta, validateType)
 
-  const formattedBlockchainFee = blockchainFee ? formatETHAmount(blockchainFee) : ''
-  const formattedFiatAmount = fiatAmount ? formatCurrencyWithSymbol(fiatAmount, fiatCurrency) : ''
+  const formattedBlockchainFee = blockchainFee
+    ? formatETHAmount(blockchainFee)
+    : ''
+
+  const formattedFiatAmount = fiatAmount
+    ? formatCurrencyWithSymbol(fiatAmount, fiatCurrency)
+    : fiatAmount
+
   const hasMaxValue = (input.value === maxValue)
 
   return (
