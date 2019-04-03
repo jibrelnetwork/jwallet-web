@@ -29,9 +29,9 @@ export function formatCurrencyWithSymbol(
       // Invalid currency code or locale (Intl.NumberFormat)
       const numberAmount: number = toBigNumber(amount).toNumber()
 
-      return `${numberAmount} ${currencyCode}`
+      return `${currencyCode} ${numberAmount}`
     } else {
-      return `${amount} ${currencyCode}`
+      return `${currencyCode} ${amount}`
     }
   }
 }
