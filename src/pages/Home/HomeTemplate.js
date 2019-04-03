@@ -13,7 +13,7 @@ import {
   DigitalAssetsFilter,
 } from 'components'
 
-import style from './home.m.scss'
+import homeStyle from './home.m.scss'
 
 // eslint-disable-next-line max-len
 const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
@@ -55,17 +55,17 @@ class HomeTemplate extends Component<Props> {
     const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
 
     return (
-      <div className={style.home}>
+      <div className={homeStyle.home}>
         <section>
-          <h2 className={style.title}>
+          <h2 className={homeStyle.title}>
             {t`Transfer`}
           </h2>
-          <nav className={style.transferButtons}>
+          <nav className={homeStyle.transferButtons}>
             <JLink
-              className={style.transferButton}
+              className={homeStyle.transferButton}
               href='/send'
             >
-              <div className={style.transferButtonIcon}>
+              <div className={homeStyle.transferButtonIcon}>
                 <JIcon
                   name='home-send-use-fill'
                   color='blue'
@@ -74,10 +74,10 @@ class HomeTemplate extends Component<Props> {
               {t`Send`}
             </JLink>
             <JLink
-              className={style.transferButton}
+              className={homeStyle.transferButton}
               href='/receive'
             >
-              <div className={style.transferButtonIcon}>
+              <div className={homeStyle.transferButtonIcon}>
                 <JIcon
                   name='home-receive-use-fill'
                   color='blue'
@@ -86,10 +86,10 @@ class HomeTemplate extends Component<Props> {
               {t`Receive`}
             </JLink>
             <JLink
-              className={style.transferButton}
+              className={homeStyle.transferButton}
               href={JCASH_UTM_URL}
             >
-              <div className={style.transferButtonIcon}>
+              <div className={homeStyle.transferButtonIcon}>
                 <JIcon
                   name='home-exchange-use-fill'
                   color='blue'
@@ -99,17 +99,17 @@ class HomeTemplate extends Component<Props> {
             </JLink>
           </nav>
         </section>
-        <div className={style.header}>
-          <div className={style.container}>
+        <div className={homeStyle.header}>
+          <div className={homeStyle.container}>
             <JTabs tabs={DIGITAL_ASSETS_TABS} />
-            <div className={style.actions}>
-              <div className={style.search}>
+            <div className={homeStyle.actions}>
+              <div className={homeStyle.search}>
                 <JSearch
                   onChange={setSearchQuery}
                   placeholder={t`Search assets...`}
                 />
               </div>
-              <div className={style.filter}>
+              <div className={homeStyle.filter}>
                 <DigitalAssetsFilter
                   {...filterOptions}
                   filterCount={filterCount}
@@ -119,7 +119,7 @@ class HomeTemplate extends Component<Props> {
                 />
               </div>
               <JLink
-                className={style.setting}
+                className={homeStyle.setting}
                 href='/assets'
                 title={t`Assets manager`}
               >
@@ -131,7 +131,7 @@ class HomeTemplate extends Component<Props> {
             </div>
           </div>
         </div>
-        <div className={style.content}>
+        <div className={homeStyle.content}>
           <Scrollbars autoHide>
             <DigitalAssetsGrid
               items={items}
