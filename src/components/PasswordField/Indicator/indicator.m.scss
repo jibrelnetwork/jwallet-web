@@ -1,0 +1,89 @@
+@import "styles/colors";
+@import "styles/mixins";
+
+$password-field-indicator-height: 6px;
+
+.core {
+  @include box;
+  @include flex-row-center;
+
+  position: absolute;
+  right: $form-field-white-horizontal-padding;
+  width: 60px;
+  border-radius: 4px;
+}
+
+.field-gray {
+  top: $form-field-gray-height / 2 - $password-field-indicator-height / 2;
+  background-color: $main-black-10;
+}
+
+.field-white {
+  top: $form-field-white-height / 2 - $password-field-indicator-height / 2;
+  background-color: $white-20;
+}
+
+/**
+ * Indicator styles
+ */
+.indicator {
+  position: relative;
+  height: $password-field-indicator-height;
+  width: 100%;
+  border-radius: 4px;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+    content: '';
+    transition: width 0.3s ease 0s, background-color 0.3s ease 0s;
+  }
+}
+
+.fetching::after {
+  position: relative;
+  width: 100%;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: loading;
+  animation-timing-function: linear;
+  background: $main-black-10;
+  background: linear-gradient(-60deg, rgba($black, 0) 70%, rgba($white, 0.6) 80%, rgba($black, 0) 90%);
+  // background: radial-gradient(8px at 80% 0%, rgba($white, 0.6) 0%, rgba($black, 0) 100%);
+  background-size: 60px 6px;
+}
+
+.red::after {
+  width: 25%;
+  background-color: $pinkish;
+}
+
+.orange::after {
+  width: 50%;
+  background-color: $faded-orange;
+}
+
+.yellow::after {
+  width: 75%;
+  background-color: $yellowish;
+}
+
+.green::after {
+  width: 100%;
+  background-color: $soft-green;
+}
+
+@keyframes loading {
+  0% {
+    background-position: -60px 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}

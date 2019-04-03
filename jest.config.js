@@ -41,4 +41,7 @@ module.exports = {
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
   },
+  globals: {
+    __DEV__: true,
+  },
 }

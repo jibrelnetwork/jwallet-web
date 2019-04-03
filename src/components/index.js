@@ -19,7 +19,6 @@ import WalletHeader from './WalletHeader'
 import SettingsGrid from './SettingsGrid'
 import AddressPicker from './AddressPicker'
 import CopyableField from './CopyableField'
-import PasswordField from './PasswordField'
 import WalletLoading from './WalletLoading'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
@@ -41,6 +40,11 @@ import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export {
+  PasswordField,
+  PasswordFieldFinalFormAdapter,
+} from './PasswordField'
+
+export {
   QRCode,
   HelpText,
   AssetItem,
@@ -60,7 +64,6 @@ export {
   SettingsGrid,
   AddressPicker,
   CopyableField,
-  PasswordField,
   WalletLoading,
   OverlayActions,
   WalletDataStep,

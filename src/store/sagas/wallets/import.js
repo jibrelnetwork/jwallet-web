@@ -154,7 +154,7 @@ function* importWallet(): Saga<void> {
 
   yield put(wallets.setIsLoading(true))
 
-  walletsWorker.importRequest(walletsData, importWalletData)
+  walletsWorker.createRequest(walletsData, importWalletData)
 }
 
 function* importError(action: { payload: Error }): Saga<void> {
@@ -253,7 +253,7 @@ export function* walletsImportRootSaga(): Saga<void> {
   yield takeEvery(walletsImport.CLOSE_VIEW, clean)
   yield takeEvery(walletsImport.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsImport.GO_TO_PREV_STEP, setPrevStep)
-  yield takeEvery(walletsImport.IMPORT_ERROR, importError)
-  yield takeEvery(walletsImport.IMPORT_SUCCESS, importSuccess)
+  yield takeEvery(wallets.CREATE_ERROR, importError)
+  yield takeEvery(wallets.CREATE_SUCCESS, importSuccess)
   yield takeEvery(walletsImport.CHANGE_DATA_INPUT, checkWalletType)
 }

@@ -84,6 +84,7 @@ class WalletPasswordStep extends PureComponent<Props> {
               placeholder={t`Payment password`}
               placeholderConfirm={t`Confirm payment password`}
               isDisabled={isLoading}
+              isAutoFocus
             />
             <JInput
               onChange={onChangePasswordHint}
