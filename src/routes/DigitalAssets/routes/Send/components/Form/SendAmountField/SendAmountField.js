@@ -24,12 +24,18 @@ type Props = {|
   currency: string,
   fiatAmount: string,
   fiatCurrency: FiatCurrency,
+  infoMessage: string,
   input: FinalFormInput,
   isFetchingFiatAmount: boolean,
+  label: string,
   maxValue: string,
   meta: FinalFormMeta,
   validateType: FinalFormValidateType,
 |}
+
+type InputRef = {
+  current: null | HTMLInputElement,
+}
 
 const handleMaxClick = (input: FinalFormInput, maxValue: string) => () => input.onChange(maxValue)
 
@@ -40,7 +46,9 @@ const filterAmountValue = (value: string) => value.replace(/[^\d.-]/g, '')
 const handlerOnChange = (input: FinalFormInput) => e =>
   input.onChange(filterAmountValue(e.target.value))
 
-const LABEL_TEXT = t`Amount`
+const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
+
+const DEFAULT_LABEL_TEXT = t`Amount`
 
 function SendAmountField({
   blockchainFee,
@@ -48,14 +56,25 @@ function SendAmountField({
   currency,
   fiatCurrency,
   fiatAmount,
+  infoMessage,
   input,
   isFetchingFiatAmount,
+  label,
   maxValue,
   meta,
   validateType,
 }: Props) {
+  const textInput: InputRef = React.createRef()
+
   const isActive = meta.active || !!input.value
+
   const errorMessage = getErrorMessage(meta, validateType)
+  const hasError = !!errorMessage
+  const hasInfo = !!infoMessage
+  const hasMessage = (hasError || hasInfo)
+  const messageTheme = hasError
+    ? 'error'
+    : 'info'
 
   const formattedBlockchainFee = blockchainFee
     ? formatETHAmount(blockchainFee)
@@ -68,11 +87,13 @@ function SendAmountField({
   const hasMaxValue = (input.value === maxValue)
 
   return (
-    <div className={classNames(
-      fieldStyle.core,
-      '__sendamountfield',
-      className,
-    )}
+    <div
+      className={classNames(
+        fieldStyle.core,
+        '__sendamountfield',
+        className,
+      )}
+      onClick={handleFocus(textInput)}
     >
       <div className={classNames(
         fieldStyle.wrap,
@@ -89,6 +110,7 @@ function SendAmountField({
         </div>
         <input
           {...input}
+          ref={textInput}
           type='text'
           id='amountInputId'
           className={fieldStyle.input}
@@ -133,12 +155,12 @@ function SendAmountField({
             {formattedBlockchainFee && t`Blockchain fee — ${formattedBlockchainFee} ETH`}
           </div>
         </div>
-        <label htmlFor='amountInputId' className={fieldStyle.label} >{LABEL_TEXT}</label>
+        <label htmlFor='amountInputId' className={fieldStyle.label} >{label}</label>
       </div>
-      {errorMessage && (
+      {hasMessage && (
         <JFieldMessage
-          theme='error'
-          message={errorMessage}
+          theme={messageTheme}
+          message={errorMessage || infoMessage}
           className={fieldStyle.fieldMessage}
         />
       )}
@@ -152,6 +174,8 @@ SendAmountField.defaultProps = {
   validateType: 'touched',
   fiatCurrency: 'USD',
   className: '',
+  infoMessage: '',
+  label: DEFAULT_LABEL_TEXT,
 }
 
 export { SendAmountField }
