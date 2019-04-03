@@ -55,7 +55,7 @@ class HomeTemplate extends Component<Props> {
     const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
 
     return (
-      <div className={homeStyle.home}>
+      <div className={homeStyle.core}>
         <section>
           <h2 className={homeStyle.title}>
             {t`Transfer`}
