@@ -72,11 +72,11 @@ function SendAmountField({
         hasMaxValue && fieldStyle.hasMaxValue,
       )}
       >
-        <div className={fieldStyle.currencyMask}>
+        <div className={fieldStyle.currency}>
           <span className={fieldStyle.invisible}>{input.value}</span>
-          <span className={fieldStyle.currencyValue}>{currency}</span>
+          <span className={fieldStyle.value}>{currency}</span>
           {hasMaxValue && (
-            <span className={fieldStyle.maxValueChevron} />
+            <span className={fieldStyle.chevron} />
           )}
         </div>
         <input
@@ -91,28 +91,28 @@ function SendAmountField({
           onChange={handlerOnChange(input)}
         />
         <div className={classNames(
-          fieldStyle.iconHolder,
-          meta.active && fieldStyle.inputFocus,
+          fieldStyle.icons,
+          meta.active && fieldStyle.focused,
         )}
         >
           <button
             type='button'
-            className={fieldStyle.clearButton}
+            className={fieldStyle.clean}
             onClick={handleClearClick(input)}
           >
             <JIcon name='close-padding' color='black' />
           </button>
           <button
             type='button'
-            className={fieldStyle.maxButton}
+            className={fieldStyle.max}
             onClick={handleMaxClick(input, maxValue)}
           >
             {t`MAX`}
           </button>
         </div>
         <div className={fieldStyle.bottom}>
-          <div className={fieldStyle.fiatAmount}>{`=${formattedFiatAmount}`}</div>
-          <div className={fieldStyle.blockchainFee}>
+          <div className={fieldStyle.amount}>{`=${formattedFiatAmount}`}</div>
+          <div className={fieldStyle.fee}>
             {t`Blockchain fee — ${formattedBlockchainFee} ETH`}
           </div>
         </div>

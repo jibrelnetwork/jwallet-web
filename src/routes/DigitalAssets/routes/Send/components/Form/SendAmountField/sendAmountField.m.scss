@@ -58,7 +58,7 @@
   }
 }
 
-.currency-mask {
+.currency {
   @include font(14px, 14px);
 
   position: absolute;
@@ -74,13 +74,13 @@
     margin-right: 5px;
   }
 
-  > .currency-value {
+  > .value {
     display: inline-block;
     color: $main-black-40;
     margin-right: 5px;
   }
 
-  > .max-value-chevron {
+  > .chevron {
     display: inline-block;
     width: 32px;
     height: 22px;
@@ -98,7 +98,7 @@
     padding-bottom: 16px;
   }
 
-  > .currency-mask {
+  > .currency {
     padding-top: 34px;
     padding-bottom: 16px;
   }
@@ -125,11 +125,11 @@
   padding: 6px 16px;
   justify-content: space-between;
 
-  > .fiatAmount {
+  > .amount {
     color: $main-black-40;
   }
 
-  > .blockchainFee {
+  > .fee {
     color: $main-black;
   }
 
@@ -143,7 +143,7 @@
   }
 }
 
-.iconHolder {
+.icons {
   position: absolute;
   display: flex;
   align-items: center;
@@ -154,7 +154,7 @@
   text-align: right;
   z-index: 4;
 
-  > .max-button {
+  > .max {
     @include font(14px, 22px);
 
     position: relative;
@@ -168,7 +168,7 @@
     cursor: pointer;
   }
 
-  > .clear-button {
+  > .clean {
     display: none;
     outline: none;
     background: none;
@@ -183,18 +183,18 @@
     }
   }
 
-  &.inputFocus {
-    > .max-button {
+  &.focused {
+    > .max {
       display: none;
     }
 
-    > .clear-button {
+    > .clean {
       display: inline-block;
     }
   }
 }
 
-.has-max-value > .iconHolder > .max-button {
+.has-max-value > .icons > .max {
   display: none;
 }
 
