@@ -91,8 +91,7 @@ function SendAmountField({
           onChange={handlerOnChange(input)}
         />
         <div className={classNames(
-          fieldStyle.icons,
-          meta.active && fieldStyle.focused,
+          fieldStyle.buttons,
         )}
         >
           <button

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 // How to format local currency
 // https://developers.shopware.com/blog/2017/02/06/currency-formatting-is-easy-isnt-it/
@@ -8,7 +8,7 @@ import {
   type ToBigNumberValue,
 } from 'utils/numbers/toBigNumber'
 
-function formatCurrencyWithSymbol(
+export function formatCurrencyWithSymbol(
   amount: ToBigNumberValue,
   currencyCode: string,
   locale: string = 'en-US',
@@ -24,5 +24,3 @@ function formatCurrencyWithSymbol(
 
   return numberFormat.format(numberAmount)
 }
-
-export { formatCurrencyWithSymbol }

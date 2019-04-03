@@ -85,7 +85,7 @@
     width: 32px;
     height: 22px;
     line-height: 22px;
-    background: $max-blue no-repeat center;
+    background: url('public/assets/thumbnail/max-blue.svg') no-repeat center;
     margin-bottom: -6px;
     cursor: default;
     user-select: none;
@@ -143,7 +143,7 @@
   }
 }
 
-.icons {
+.buttons {
   position: absolute;
   display: flex;
   align-items: center;
@@ -182,20 +182,16 @@
       opacity: 0.3;
     }
   }
-
-  &.focused {
-    > .max {
-      display: none;
-    }
-
-    > .clean {
-      display: inline-block;
-    }
-  }
 }
 
-.has-max-value > .icons > .max {
-  display: none;
+.has-max-value > .buttons {
+  > .max {
+    display: none;
+  }
+
+  > .clean {
+    display: inline-block;
+  }
 }
 
 .message {
