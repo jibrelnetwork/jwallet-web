@@ -13,6 +13,7 @@ declare type Router5Route = {
     [key: string]: any,
   },
   +path: string,
+  // TODO: describe meta property
 }
 
 type Router5State = {

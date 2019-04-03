@@ -11,113 +11,124 @@ export const router = createRouter5([], {
 
 export const routes = [
   {
-    name: 'Root',
     path: '/',
-    forwardTo: 'Wallet',
+    name: 'Home',
   },
   {
-    name: 'Wallet',
-    path: '/digital-assets',
-    children: [
-      {
-        name: 'ManageAssets',
-        path: '/manage',
-      },
-      {
-        name: 'AddAsset',
-        path: '/add',
-      },
-      {
-        name: 'EditAsset',
-        path: '/edit/:asset-address',
-      },
-      {
-        name: 'ReceiveAsset',
-        path: '/receive',
-      },
-      {
-        name: 'SendAsset',
-        path: '/send',
-      },
-      {
-        name: 'Favorites',
-        path: '~/favorites',
-      },
-      // FIXME: temporary solution
-      {
-        name: 'FavoritesAddress',
-        path: '~/favorites/edit',
-      },
-      {
-        name: 'Settings',
-        path: '~/settings',
-      },
-      {
-        name: 'SettingsCurrency',
-        path: '~/settings/currency',
-      },
-      {
-        name: 'SettingsPassword',
-        path: '~/settings/password',
-      },
-      {
-        name: 'Transactions',
-        path: '~/transactions',
-        children: [
-          {
-            name: 'Asset',
-            path: '/:asset',
-          },
-        ],
-      },
-      {
-        name: 'Upgrade',
-        path: '~/upgrade',
-      },
-    ],
+    path: '/about',
+    name: 'About',
   },
   {
-    name: 'Wallets',
+    path: '/assets/add',
+    name: 'AssetsItemAdd',
+  },
+  {
+    path: '/assets',
+    name: 'AssetsManage',
+  },
+  {
+    path: '/assets/:assetId',
+    name: 'AssetsItem',
+  },
+  {
+    path: '/assets/:assetId/edit',
+    name: 'AssetsItemEdit',
+  },
+  {
+    path: '/contacts',
+    name: 'Contacts',
+  },
+  {
+    path: '/contacts/add',
+    name: 'ContactsItemAdd',
+  },
+  {
+    path: '/contacts/:contactId',
+    name: 'ContactsItemEdit',
+  },
+  {
+    path: '/history',
+    name: 'History',
+  },
+  {
+    path: '/history/:itemId',
+    name: 'HistoryItem',
+  },
+  {
+    path: '/more',
+    name: 'MoreActions',
+  },
+  {
+    path: '/receive',
+    name: 'Receive',
+  },
+  {
+    path: '/send',
+    name: 'Send',
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+  },
+  {
+    path: '/settings/currency',
+    name: 'SettingsCurrency',
+  },
+  {
+    path: '/settings/development',
+    name: 'SettingsDevelopment',
+  },
+  {
+    path: '/settings/language',
+    name: 'SettingsLanguage',
+  },
+  {
+    path: '/settings/security-password',
+    name: 'SettingsSecurityPassword',
+  },
+  {
+    path: '/support',
+    name: 'Support',
+  },
+  {
     path: '/wallets',
-  },
-  // FIXME: there should be no route for address selection
-  {
-    name: 'WalletsAddresses',
-    path: '/wallets/addresses',
-  },
-  // FIXME: walletId as query parameter?
-  {
-    name: 'WalletsBackup',
-    path: '/wallets/backup/:walletId',
+    name: 'Wallets',
   },
   {
-    name: 'WalletsCreate',
     path: '/wallets/create',
-  },
-  // FIXME: walletId as query parameter?
-  {
-    name: 'WalletsDelete',
-    path: '/wallets/delete/:walletId',
+    name: 'WalletsCreate',
   },
   {
-    name: 'WalletsImport',
     path: '/wallets/import',
+    name: 'WalletsImport',
   },
-  // FIXME: walletId as query parameter?
   {
-    name: 'WalletsRename',
-    path: '/wallets/rename/:walletId',
+    path: '/wallets/:walletId',
+    name: 'WalletsItem',
   },
-  // FIXME: address as query parameter?
   {
-    name: 'WalletsRenameAddress',
-    path: '/wallets/rename/address/:address',
+    path: '/wallets/:walletId/backup',
+    name: 'WalletsItemBackup',
+  },
+  {
+    path: '/wallets/:walletId/remove',
+    name: 'WalletsItemRemove',
+  },
+  {
+    path: '/wallets/:walletId/rename',
+    name: 'WalletsItemRename',
+  },
+  {
+    path: '/wallets/:walletId/upgrade',
+    name: 'WalletsItemUpgrade',
   },
 ]
 router.add(routes)
 
+// FIXME: this should be removed as soon as we get rid of
+// select current wallet that could select nothing
 router.canActivate(
-  'Wallet',
+  'Home',
   (routerInstance, dependencies) => (toState, fromState, done) => {
     const { store } = dependencies
     const state = store.getState()
@@ -143,7 +154,7 @@ router.canActivate(
 )
 
 router.canActivate(
-  'Wallet.SendAsset',
+  'Send',
   (routerInstance, dependencies) => (toState, fromState, done) => {
     const { store } = dependencies
     const state = store.getState()
@@ -153,7 +164,7 @@ router.canActivate(
     if (activeWallet && activeWallet.isReadOnly) {
       return done({
         redirect: {
-          name: 'Wallet.Upgrade',
+          name: 'WalletsItemUpgrade',
         },
       })
     }
@@ -163,7 +174,7 @@ router.canActivate(
 )
 
 router.canActivate(
-  'WalletsBackup',
+  'WalletsItemBackup',
   (routerInstance, dependencies) => (toState, fromState, done) => {
     const { store } = dependencies
     const state = store.getState()
@@ -173,27 +184,7 @@ router.canActivate(
     if (activeWallet && activeWallet.isReadOnly) {
       return done({
         redirect: {
-          name: 'Wallets',
-        },
-      })
-    }
-
-    return done()
-  },
-)
-
-router.canActivate(
-  'Wallet.Upgrade',
-  (routerInstance, dependencies) => (toState, fromState, done) => {
-    const { store } = dependencies
-    const state = store.getState()
-
-    const activeWallet = selectActiveWallet(state)
-
-    if (activeWallet && !activeWallet.isReadOnly) {
-      return done({
-        redirect: {
-          name: 'Wallet',
+          name: 'WalletsItemUpgrade',
         },
       })
     }

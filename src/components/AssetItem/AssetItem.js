@@ -15,7 +15,14 @@ import {
 } from 'components'
 
 import {
-  JCard, JIcon, JText, JSwitch, JTooltip, JAssetSymbol, JFlatButton, JLink,
+  JCard,
+  JIcon,
+  JText,
+  JSwitch,
+  JTooltip,
+  JAssetSymbol,
+  JFlatButton,
+  JLink,
 } from 'components/base'
 
 type Props = {|
