@@ -51,28 +51,3 @@ storiesOf('SendAmountField', module)
       })}
     </div>
   ))
-  // .add('Title plus placeholder', () => (
-  //   <div className='story'>
-  //     {formStoryWrapper(SendAmountField, {
-  //       placeholder: 'Placeholder',
-  //       label: 'Label',
-  //     })}
-  //   </div>
-  // ))
-  // .add('Disabled', () => (
-  //   <div className='story'>
-  //     {formStoryWrapper(SendAmountField, {
-  //       label: 'Disabled',
-  //       disabled: true,
-  //     }, { foo: 'Some text' })}
-  //   </div>
-  // ))
-  // .add('Error and message', () => (
-  //   <div className='story'>
-  //     {formStoryWrapper(SendAmountField, {
-  //       label: 'Title',
-  //       infoMessage: 'Hello world',
-  //       validate: () => 'Some error',
-  //     })}
-  //   </div>
-  // ))
