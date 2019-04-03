@@ -4,7 +4,7 @@ import storage from 'localforage'
 import { persistReducer } from 'redux-persist'
 
 import { type Reducer } from 'redux'
-import { type AppAction } from 'routes'
+import { type AppAction } from 'store/modules'
 import { type PersistConfig } from 'redux-persist/lib/types.js.flow'
 
 type PersistableReducerName =
