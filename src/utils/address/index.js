@@ -7,7 +7,6 @@ import getAddressChecksum from './getAddressChecksum'
 import getShortenedAddress from './getShortenedAddress'
 import checkPrivateKeyValid from './checkPrivateKeyValid'
 import getAddressFromKeyPair from './getAddressFromKeyPair'
-import getAddressWithChecksum from './getAddressWithChecksum'
 import getAddressFromPublicKey from './getAddressFromPublicKey'
 import getAddressFromPrivateKey from './getAddressFromPrivateKey'
 import checkAddressWithChecksumValid from './checkAddressWithChecksumValid'
@@ -20,7 +19,6 @@ export {
   getShortenedAddress,
   checkPrivateKeyValid,
   getAddressFromKeyPair,
-  getAddressWithChecksum,
   getAddressFromPublicKey,
   getAddressFromPrivateKey,
   checkAddressWithChecksumValid,

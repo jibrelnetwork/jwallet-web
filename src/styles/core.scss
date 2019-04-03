@@ -82,7 +82,6 @@ h4 {
 @import '../components/PasswordStep/passwordStep';
 @import '../components/AddressPicker/addressPicker';
 @import '../components/CopyableField/copyableField';
-@import '../components/PasswordField/passwordField';
 @import '../components/WalletLoading/walletLoading';
 @import '../components/OverlayActions/overlayActions';
 @import '../components/CloseableScreen/closeableScreen';
@@ -103,11 +102,9 @@ h4 {
 // Views
 @import '../routes/Wallets/walletsView';
 @import '../routes/Settings/settingsView';
-@import '../routes/NotFound/notFoundView';
+@import '../routes/NotFound/notFound';
 @import '../routes/DigitalAssets/digitalAssets';
 @import '../routes/Transactions/transactionsView';
 
 // Layouts
-@import '../layouts/CoreLayout/coreLayout';
-@import '../layouts/MenuLayout/menuLayout';
 @import '../layouts/WalletsLayout/walletsLayout';

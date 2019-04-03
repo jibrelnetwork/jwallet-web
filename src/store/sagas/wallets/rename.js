@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 import {
   put,
   select,
@@ -28,7 +28,7 @@ function* openView(action: ExtractReturn<typeof walletsRename.openView>): Saga<v
     const foundWallet: Wallet = getWallet(items, action.payload.walletId)
     yield put(wallets.changeNameInput(foundWallet.name))
   } catch (err) {
-    yield put(push('/wallets'))
+    yield put(router5Actions('Wallets'))
   }
 }
 
@@ -58,7 +58,7 @@ function* rename(action: ExtractReturn<typeof walletsRename.rename>): Saga<void>
     const itemsNew = updateWallet(items, walletId, { name })
 
     yield put(wallets.setWalletsItems(itemsNew))
-    yield put(push('/wallets'))
+    yield put(router5Actions.navigateTo('Wallets'))
   } catch (err) {
     yield put(wallets.setInvalidField('name', err.message))
   }

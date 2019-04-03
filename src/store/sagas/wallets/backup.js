@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 import { t } from 'ttag'
 
 import {
@@ -13,7 +13,6 @@ import walletsWorker from 'workers/wallets'
 import getWallet from 'utils/wallets/getWallet'
 
 import {
-  clipboard,
   fileSaver,
 } from 'services'
 
@@ -35,7 +34,7 @@ function* openView(action: ExtractReturn<typeof walletsBackup.openView>): Saga<v
   try {
     getWallet(items, action.payload.walletId)
   } catch (err) {
-    yield put(push('/wallets'))
+    yield put(router5Actions.navigateTo('Wallets'))
   }
 }
 
@@ -91,7 +90,7 @@ function* setPrevStep(): Saga<void> {
 
   switch (currentStep) {
     case walletsBackup.STEPS.PASSWORD: {
-      yield put(push('/wallets'))
+      yield put(router5Actions.navigateTo('Wallets'))
 
       break
     }
@@ -112,11 +111,6 @@ function* downloadToTxt(): Saga<void> {
   fileSaver.saveTXT(data, 'jwallet-backup')
 }
 
-function* copyToClipboard(): Saga<void> {
-  const { data }: ExtractReturn<typeof selectWalletsBackup> = yield select(selectWalletsBackup)
-  clipboard.copyText(data)
-}
-
 export function* walletsBackupRootSaga(): Saga<void> {
   yield takeEvery(walletsBackup.OPEN_VIEW, openView)
   yield takeEvery(walletsBackup.GO_TO_NEXT_STEP, setNextStep)
@@ -124,5 +118,4 @@ export function* walletsBackupRootSaga(): Saga<void> {
   yield takeEvery(walletsBackup.BACKUP_ERROR, backupError)
   yield takeEvery(walletsBackup.BACKUP_SUCCESS, backupSuccess)
   yield takeEvery(walletsBackup.DOWNLOAD_TO_TXT, downloadToTxt)
-  yield takeEvery(walletsBackup.COPY_TO_CLIPBOARD, copyToClipboard)
 }

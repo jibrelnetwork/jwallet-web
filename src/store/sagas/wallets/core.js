@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions } from 'redux-router5'
 
 import {
   put,
@@ -34,7 +34,7 @@ function* openView(): Saga<void> {
   const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
   if (!items.length) {
-    yield put(push('/wallets/start'))
+    yield put(actions.navigateTo('Wallets'))
   }
 }
 
@@ -54,9 +54,9 @@ function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>)
     }: Wallet = getWallet(items, activeWalletId)
 
     const isAddressRequired: boolean = checkMnemonicType(type) && !isSimplified
-    yield put(push(isAddressRequired ? '/wallets/addresses' : '/digital-assets/grid'))
+    yield put(actions.navigateTo(isAddressRequired ? 'WalletsAddresses' : 'Wallet'))
   } catch (err) {
-    yield put(push('/digital-assets/grid'))
+    yield put(actions.navigateTo('Wallet'))
   }
 }
 

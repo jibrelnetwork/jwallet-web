@@ -14,32 +14,18 @@
     "__DEFAULT_BLOCKEXPLORER_API__": false
   },
   "rules": {
+    "no-mixed-operators": 2,
+    "function-paren-newline": [2, "consistent"],
     "no-param-reassign": [2, {
       "props": true,
       "ignorePropertyModificationsFor": ["self", "reduceResult"]
     }],
-    "fp/no-events": 0,
-    "fp/no-mutation": [2, {
-      "commonjs": true,
-      "allowThis": true,
-      "exceptions": [
-        { "object": "self" },
-        { "object": "formErrors" },
-        { "object": "reduceResult" },
-        { "property": "onerror" },
-        { "property": "onmessage" },
-        { "property": "src" },
-        { "property": "type" },
-        { "property": "href" },
-        { "property": "innerHTML" },
-        { "property": "postMessage" },
-        { "property": "defaultProps" },
-        { "property": "asyncReducers" },
-        { "property": "childContextTypes" },
-        { "property": "captchaCallback" },
-        { "property": "captchaErrorCallback" },
-        { "property": "captchaExpiredCallback" }
-      ]
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline"
     }],
     "object-curly-newline": [2, {
       "ObjectExpression": {
@@ -106,6 +92,29 @@
       "prev": ["case"],
       "next": "*"
     }],
+    "fp/no-events": 0,
+    "fp/no-mutation": [2, {
+      "commonjs": true,
+      "allowThis": true,
+      "exceptions": [
+        { "object": "self" },
+        { "object": "formErrors" },
+        { "object": "reduceResult" },
+        { "property": "onerror" },
+        { "property": "onmessage" },
+        { "property": "src" },
+        { "property": "type" },
+        { "property": "href" },
+        { "property": "innerHTML" },
+        { "property": "postMessage" },
+        { "property": "defaultProps" },
+        { "property": "asyncReducers" },
+        { "property": "childContextTypes" },
+        { "property": "captchaCallback" },
+        { "property": "captchaErrorCallback" },
+        { "property": "captchaExpiredCallback" }
+      ]
+    }],
     "react/button-has-type": [2, {
       "button": true,
       "submit": true,
@@ -130,19 +139,11 @@
       "logical": "parens-new-line",
       "prop": "parens-new-line"
     }],
-    "comma-dangle": ["error", {
-      "arrays": "always-multiline",
-      "objects": "always-multiline",
-      "imports": "always-multiline",
-      "exports": "always-multiline",
-      "functions": "always-multiline"
-    }],
     "flowtype/no-dupe-keys": 2,
     "flowtype/array-style-simple-type": [2, "shorthand"],
     "flowtype/delimiter-dangle": [2, "always-multiline"],
     "flowtype/newline-after-flow-annotation": [2, "always"],
     "flowtype/object-type-delimiter": [2, "comma"],
-    "flowtype/require-compound-type-alias": [2, "always"],
     "flowtype/semi": [2, "never"],
     "flowtype/space-before-generic-bracket": [2, "never"],
     "flowtype/type-id-match": [2, "^([A-Z][a-z0-9]*)+$"],

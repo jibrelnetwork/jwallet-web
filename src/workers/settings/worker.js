@@ -72,15 +72,13 @@ settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
     )
 
     settingsWorker.postMessage(wallets.setWallets({
-      items: items.map(wallet =>
-        reEncryptWallet(
-          wallet,
-          internalKeyDec,
-          encryptionType,
-          internalKeyNew,
-          passwordOptionsNew.encryptionType,
-        ),
-      ),
+      items: items.map(wallet => reEncryptWallet(
+        wallet,
+        internalKeyDec,
+        encryptionType,
+        internalKeyNew,
+        passwordOptionsNew.encryptionType,
+      )),
       passwordOptions: passwordOptionsNew,
       internalKey: encryptInternalKey(internalKeyNew, dkNew, passwordOptionsNew.encryptionType),
     }))

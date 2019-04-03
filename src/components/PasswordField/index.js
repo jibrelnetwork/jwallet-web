@@ -1,7 +1,4 @@
 // @flow
 
-import PasswordField from './PasswordField'
-import PasswordFieldFinalFormAdapter from './PasswordFieldFinalFormAdapter'
-
-export default PasswordField
-export { PasswordFieldFinalFormAdapter }
+export { PasswordField } from './PasswordField'
+export { PasswordFieldFinalFormAdapter } from './PasswordFieldFinalFormAdapter'

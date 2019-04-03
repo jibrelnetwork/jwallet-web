@@ -5,9 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { t } from 'ttag'
 
 import {
-  JIcon,
-  JTabs,
-  JSearch,
+  JIcon, JTabs, JSearch, JLink,
 } from 'components/base'
 
 import {
@@ -23,11 +21,9 @@ const DIGITAL_ASSETS_TABS = {
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
-  +addAssetClick: () => void,
   +sortByNameClick: () => void,
   +sortByBalanceClick: () => void,
   +setSearchQuery: (string) => void,
-  +manageAssetsOpenClick: () => void,
   +setHideZeroBalance: (boolean) => void,
   +items: DigitalAssetWithBalance[],
   +filterOptions: DigitalAssetsFilterOptions,
@@ -44,12 +40,10 @@ class DigitalAssetsGridView extends Component<Props> {
 
   render() {
     const {
-      addAssetClick,
       setSearchQuery,
       sortByNameClick,
       sortByBalanceClick,
       setHideZeroBalance,
-      manageAssetsOpenClick,
       items,
       filterOptions,
     } = this.props
@@ -77,16 +71,16 @@ class DigitalAssetsGridView extends Component<Props> {
                   setHideZeroBalance={setHideZeroBalance}
                 />
               </div>
-              <div
+              <JLink
                 className='setting'
-                onClick={manageAssetsOpenClick}
+                href='/digital-assets/manage'
                 title={t`Assets manager`}
               >
                 <JIcon
                   color='gray'
                   name='setting-grid'
                 />
-              </div>
+              </JLink>
             </div>
           </div>
         </div>
@@ -94,7 +88,6 @@ class DigitalAssetsGridView extends Component<Props> {
           <Scrollbars autoHide>
             <DigitalAssetsGrid
               items={items}
-              addAssetClick={addAssetClick}
             />
           </Scrollbars>
         </div>

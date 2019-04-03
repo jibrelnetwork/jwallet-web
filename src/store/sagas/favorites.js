@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 import { t } from 'ttag'
 
 import {
@@ -136,7 +136,7 @@ function* edit(action: ExtractReturn<typeof favorites.edit>): Saga<void> {
   }
 
   yield put(favorites.setItems(newFavorites))
-  yield put(push('/favorites'))
+  yield put(router5Actions.navigateTo('Wallet.Favorites'))
 }
 
 function* remove(action: ExtractReturn<typeof favorites.remove>): Saga<void> {
@@ -184,7 +184,7 @@ function* addByUser(action: ExtractReturn<typeof favorites.addByUser>): Saga<voi
   }
 
   yield put(favorites.setItems(newFavorites))
-  yield put(push('/favorites'))
+  yield put(router5Actions.navigateTo('Wallet.Favorites'))
 }
 
 function* addAuto(action: ExtractReturn<typeof favorites.addAuto>): Saga<void> {

@@ -34,9 +34,14 @@ module.exports = {
   setupFiles: [
     'react-app-polyfill/jsdom',
   ],
-  setupTestFrameworkScriptFile: 'jest-enzyme',
+  setupFilesAfterEnv: [
+    'jest-enzyme',
+  ],
   testEnvironment: 'enzyme',
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
+  },
+  globals: {
+    __DEV__: true,
   },
 }

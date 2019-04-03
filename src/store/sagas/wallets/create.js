@@ -1,7 +1,7 @@
 // @flow
 
 import { t } from 'ttag'
-import { push } from 'react-router-redux'
+import { actions as router5Actions } from 'redux-router5'
 
 import {
   put,
@@ -15,11 +15,11 @@ import web3 from 'services/web3'
 import walletsWorker from 'workers/wallets'
 import checkWalletUniqueness from 'utils/wallets/checkWalletUniqueness'
 import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
+import generateMnemonic from 'utils/mnemonic/generateMnemonic'
 import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import {
   selectWallets,
-  selectWalletsItems,
   selectWalletsCreate,
 } from 'store/selectors/wallets'
 
@@ -34,6 +34,7 @@ function* clean(): Saga<void> {
 function* openView(): Saga<void> {
   yield* clean()
   yield put(walletsCreate.blockNumbersRequest())
+  yield put(wallets.setMnemonic(generateMnemonic()))
 }
 
 function* checkName(): Saga<void> {
@@ -58,7 +59,7 @@ function* checkName(): Saga<void> {
   }
 }
 
-function* createWallet(): Saga<void> {
+function* checkPassword(): Saga<void> {
   const walletsData: ExtractReturn<typeof selectWallets> = yield select(selectWallets)
 
   const {
@@ -104,12 +105,18 @@ function* createWallet(): Saga<void> {
       return
     }
 
-    const { score }: PasswordResult = checkPasswordStrength(password)
+    const { score }: PasswordResult = yield call(checkPasswordStrength, password)
 
     if (score < config.minPasswordStrengthScore) {
       return
     }
   }
+
+  yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.BACKUP))
+}
+
+function* createWallet(): Saga<void> {
+  const walletsData: ExtractReturn<typeof selectWallets> = yield select(selectWallets)
 
   const { createdBlockNumber }: ExtractReturn<typeof selectWalletsCreate> =
     yield select(selectWalletsCreate)
@@ -126,12 +133,17 @@ function* createWallet(): Saga<void> {
    * Current implementation is ok, because we send just one request
    * and we have enough time to get response while user enters name & password
    */
-  yield walletsWorker.createRequest(walletsData, createdBlockNumber)
+  yield walletsWorker.createRequest(walletsData, {
+    data: walletsData.mnemonic,
+    passphrase: '',
+    derivationPath: '',
+  }, createdBlockNumber)
 }
 
 function* createError(action: { payload: Error }): Saga<void> {
   yield put(wallets.setInvalidField('password', action.payload.message))
   yield put(wallets.setIsLoading(false))
+  yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
 }
 
 function* createSuccess(action: ExtractReturn<typeof wallets.setWallets>): Saga<void> {
@@ -158,6 +170,12 @@ function* setNextStep(): Saga<void> {
     }
 
     case walletsCreate.STEPS.PASSWORD: {
+      yield* checkPassword()
+
+      break
+    }
+
+    case walletsCreate.STEPS.BACKUP: {
       yield* createWallet()
 
       break
@@ -173,22 +191,24 @@ function* goToWalletsCreateNameStep(): Saga<void> {
 }
 
 function* setPrevStep(): Saga<void> {
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-
   const { currentStep }: ExtractReturn<typeof selectWalletsCreate> =
     yield select(selectWalletsCreate)
 
   switch (currentStep) {
     case walletsCreate.STEPS.NAME: {
-      const isEmptyWallets: boolean = !items.length
-
-      yield put(push(isEmptyWallets ? '/wallets/start' : '/wallets'))
+      yield put(router5Actions.navigateTo('Wallets'))
 
       break
     }
 
     case walletsCreate.STEPS.PASSWORD: {
       yield* goToWalletsCreateNameStep()
+
+      break
+    }
+
+    case walletsCreate.STEPS.BACKUP: {
+      yield put(walletsCreate.setCurrentStep(walletsCreate.STEPS.PASSWORD))
 
       break
     }
@@ -229,7 +249,7 @@ export function* walletsCreateRootSaga(): Saga<void> {
   yield takeEvery(walletsCreate.OPEN_VIEW, openView)
   yield takeEvery(walletsCreate.GO_TO_NEXT_STEP, setNextStep)
   yield takeEvery(walletsCreate.GO_TO_PREV_STEP, setPrevStep)
-  yield takeEvery(walletsCreate.CREATE_ERROR, createError)
-  yield takeEvery(walletsCreate.CREATE_SUCCESS, createSuccess)
+  yield takeEvery(wallets.CREATE_ERROR, createError)
+  yield takeEvery(wallets.CREATE_SUCCESS, createSuccess)
   yield takeEvery(walletsCreate.BLOCK_NUMBERS_REQUEST, blockNumbersRequest)
 }

@@ -1,5 +1,3 @@
-import { selectWalletsItems } from 'store/selectors/wallets'
-
 import {
   METRICS,
   DIMENSIONS,
@@ -10,7 +8,9 @@ import {
 import {
   SET_WALLETS,
   SET_WALLETS_ITEMS,
+  CREATE_SUCCESS,
 } from 'store/modules/wallets'
+import { selectWalletsItems } from 'store/selectors/wallets'
 
 import {
   ADD_CUSTOM_ASSET,
@@ -33,9 +33,6 @@ import {
 } from 'store/modules/favorites'
 
 import { selectFavoritesItems } from 'store/selectors/favorites'
-
-import { IMPORT_SUCCESS } from 'store/modules/walletsImport'
-import { CREATE_SUCCESS } from 'store/modules/walletsCreate'
 
 export const userParams = (state, action) => {
   switch (action.type) {
@@ -92,8 +89,7 @@ export const userParams = (state, action) => {
 
       break
     }
-    case CREATE_SUCCESS:
-    case IMPORT_SUCCESS: {
+    case CREATE_SUCCESS: {
       if (selectWalletsItems(state).length === 0) {
         const today = new Date()
 

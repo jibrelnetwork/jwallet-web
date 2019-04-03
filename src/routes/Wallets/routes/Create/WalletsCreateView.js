@@ -4,9 +4,7 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 
 import {
-  ModalHeader,
-  WalletNameStep,
-  WalletPasswordStep,
+  CopyableField, ModalHeader, WalletNameStep, WalletPasswordStep, WalletStep,
 } from 'components'
 
 import { STEPS } from 'store/modules/walletsCreate'
@@ -28,6 +26,7 @@ type Props = {|
   +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
+  +mnemonic: string,
 |}
 
 class WalletsCreateView extends Component<Props> {
@@ -55,11 +54,16 @@ class WalletsCreateView extends Component<Props> {
       currentStep,
       isLoading,
       isPasswordExists,
+      mnemonic,
     } = this.props
 
     const passwordStepTitle: string[] =
       (t`You will use this password to unlock and transfer your funds.
         Keep it secure!`).split('\n')
+    const backupStepTitle = (t`This is your secret recovery text.
+        It is the only way to restore access to your funds.
+        Keep it secure and never give it to anyone
+        you don’t trust!`).split('\n')
 
     return (
       <div className='wallets-view -create'>
@@ -97,6 +101,16 @@ class WalletsCreateView extends Component<Props> {
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />
+          )}
+          {(currentStep === STEPS.BACKUP) && (
+            <WalletStep
+              onSubmit={goToNextStep}
+              title={backupStepTitle}
+              buttonLabel={t`I saved the backup, let's go!`}
+              isLoading={isLoading}
+            >
+              <CopyableField value={mnemonic} isDownloadAvailable />
+            </WalletStep>
           )}
         </div>
       </div>

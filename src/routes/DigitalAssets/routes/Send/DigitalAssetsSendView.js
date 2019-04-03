@@ -14,7 +14,7 @@ type Props = {|
   +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
-  +openView: (query: string) => void,
+  +openView: (params: Object) => void,
   +setPriority: (priority: TXPriorityKey) => void,
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>, value: string) => void,
   +setNonceEditable: (isEditable: boolean) => void,
@@ -35,16 +35,31 @@ type Props = {|
   +isLoading: boolean,
   +isPotentiallyFail: boolean,
   +fiatCurrency: FiatCurrency,
+  +params: {
+    +to: ?string,
+    +asset: ?string,
+    +amount: ?string,
+    +comment: ?string,
+  },
 |}
 
 class DigitalAssetsSendView extends Component<Props> {
+  static defaultProps = {
+    params: {
+      to: null,
+      asset: null,
+      amount: null,
+      comment: null,
+    },
+  }
+
   componentDidMount() {
     const {
       openView,
-      location,
+      params,
     }: Props = this.props
 
-    openView(location.search)
+    openView(params)
   }
 
   componentWillUnmount() {

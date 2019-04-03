@@ -7,7 +7,7 @@ import {
 } from 'redux-saga/effects'
 
 import validatePassword from 'utils/password/validate'
-import reactRouterBack from 'utils/browser/reactRouterBack'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import * as ticker from 'store/modules/ticker'
 import * as settingsWorker from 'workers/settings/wrapper'
 
@@ -28,7 +28,12 @@ export function* changePaymentPassword({ payload }: Object): Saga<void> {
 
 export function* setFiatCurrency(): Saga<void> {
   yield put(ticker.syncRestart())
-  yield put(reactRouterBack({ fallbackUrl: '/digital-assets/grid' }))
+  const state = yield select()
+
+  router5BackOrFallbackFunctionCreator(
+    state.router.previousRoute,
+    'Wallet',
+  )()
 }
 
 export function* settingsRootSaga(): Saga<void> {

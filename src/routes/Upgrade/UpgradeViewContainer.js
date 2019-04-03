@@ -5,8 +5,8 @@ import { t } from 'ttag'
 
 import config from 'config'
 import getWallet from 'utils/wallets/getWallet'
-import reactRouterBack from 'utils/browser/reactRouterBack'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import { selectUpgrade } from 'store/selectors/upgrade'
 import { WalletInconsistentDataError } from 'errors'
 
@@ -30,7 +30,6 @@ import {
   selectWalletsItems,
   selectActiveWalletId,
 } from 'store/selectors/wallets'
-
 import UpgradeView from './UpgradeView'
 
 function validatePrivateKey(address: ?Address) {
@@ -130,6 +129,10 @@ function mapStateToProps(state: AppState) {
   }: Wallet = wallet
 
   return {
+    onClose: router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet',
+    ),
     isLoading,
     isReadOnly,
     isInvalidPassword,
@@ -142,7 +145,6 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = {
   onSubmitMnemonic,
   onSubmitPrivateKey,
-  onClose: () => reactRouterBack({ fallbackUrl: '/digital-assets' }),
 }
 
 export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(

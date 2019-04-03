@@ -18,6 +18,10 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
+export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+export { JTextArea } from './JTextArea/JTextArea'
+export { JTextAreaField } from './JTextArea/JTextAreaField'
+
 export {
   JAssetSymbol,
   JCard,
@@ -37,3 +41,6 @@ export {
   JSwitch,
   JPicker,
 }
+
+export { JLink } from './JLink/JLink'
+export { JLinkBack } from './JLinkBack/JLinkBack'

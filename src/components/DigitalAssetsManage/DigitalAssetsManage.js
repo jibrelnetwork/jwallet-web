@@ -8,7 +8,6 @@ import { formatAssetBalance } from 'utils/formatters'
 import Empty from './Empty'
 
 type Props = {|
-  +editAsset: (Address) => void,
   +deleteCustomAsset: (Address) => void,
   +setAssetIsActive: (Address, boolean) => void,
   +items: DigitalAssetWithBalance[],
@@ -17,7 +16,6 @@ type Props = {|
 class DigitalAssetsManage extends Component<Props> {
   render() {
     const {
-      editAsset,
       deleteCustomAsset,
       items,
       setAssetIsActive,
@@ -39,7 +37,6 @@ class DigitalAssetsManage extends Component<Props> {
         }) => (
           <div className='box' key={address}>
             <AssetItem
-              edit={editAsset}
               remove={deleteCustomAsset}
               setIsActive={setAssetIsActive}
               name={name}

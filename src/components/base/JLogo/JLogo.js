@@ -1,8 +1,9 @@
 // @flow
 
 import classNames from 'classnames'
-import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
+
+import { JLink } from 'components/base'
 
 type Props = {|
   +isOnlyIcon: boolean,
@@ -17,9 +18,9 @@ class JLogo extends PureComponent<Props> {
     const { isOnlyIcon }: Props = this.props
 
     return (
-      <Link to='/' className={classNames('j-logo', isOnlyIcon && '-only-icon')}>
+      <JLink href='/' className={classNames('j-logo', isOnlyIcon && '-only-icon')}>
         <span className='image' />
-      </Link>
+      </JLink>
     )
   }
 }

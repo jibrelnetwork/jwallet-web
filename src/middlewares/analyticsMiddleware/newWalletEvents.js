@@ -3,14 +3,14 @@ import { gaSendEvent } from 'utils/analytics'
 import {
   STEPS as CREATE_STEPS,
   GO_TO_NEXT_STEP as CREATE_GO_TO_NEXT_STEP,
-  CREATE_SUCCESS,
 } from 'store/modules/walletsCreate'
-
 import {
   STEPS as IMPORT_STEPS,
   GO_TO_NEXT_STEP as IMPORT_GO_TO_NEXT_STEP,
-  IMPORT_SUCCESS,
 } from 'store/modules/walletsImport'
+import {
+  CREATE_SUCCESS,
+} from 'store/modules/wallets'
 
 import {
   selectWalletsCreate,
@@ -37,18 +37,20 @@ export const newWalletEvents = (state, action) => {
       break
     }
     case CREATE_SUCCESS: {
-      gaSendEvent('CreateWallet', 'WalletCreated')
+      const walletsCreate = selectWalletsCreate(state)
+      const walletsImport = selectWalletsImport(state)
+
+      if (walletsCreate.currentStep !== CREATE_STEPS.NAME) {
+        gaSendEvent('CreateWallet', 'WalletCreated')
+      } else if (walletsImport.currentStep !== IMPORT_STEPS.NAME) {
+        gaSendEvent('ImportWallet', 'WalletCreated')
+      }
 
       break
     }
     case IMPORT_GO_TO_NEXT_STEP: {
       const walletsImport = selectWalletsImport(state)
       gaSendEvent('ImportWallet', IMPORT_EVENTS[walletsImport.currentStep])
-
-      break
-    }
-    case IMPORT_SUCCESS: {
-      gaSendEvent('ImportWallet', 'WalletCreated')
 
       break
     }

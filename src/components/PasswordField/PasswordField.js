@@ -4,12 +4,16 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 
 import config from 'config'
-import JInput from 'components/base/JInput'
-import checkPasswordStrength from 'utils/encryption/checkPasswordStrength'
-
+import { JInput } from 'components/base'
+import { checkPasswordStrength } from 'utils/encryption'
 import { type JInputColor } from 'components/base/JInput/JInput'
 
-import Indicator from './Indicator'
+import {
+  Indicator,
+  type IndicatorStatus,
+} from './Indicator/Indicator'
+
+import passwordFieldStyle from './passwordField.m.scss'
 
 type InputChangeHandler = (string) => void
 
@@ -28,16 +32,25 @@ type Props = {|
 
 type StateProps = {
   passwordResult: ?PasswordResult,
+  isFetching: boolean,
+  isInitialised: boolean,
 }
 
-const STATUS_MESSAGE_MAP: { [PasswordStatus]: string } = {
+const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
   'red': t`Too weak`,
   'green': t`Not bad`,
   'yellow': t`Bit weak`,
   'orange': t`Easily cracked`,
 }
 
-function getStatusByScore(score: number): ?PasswordStatus {
+function getStatusByScore(
+  score: number,
+  isFetching: boolean,
+): ?IndicatorStatus {
+  if (isFetching) {
+    return 'fetching'
+  }
+
   switch (score) {
     case 0:
       return 'red'
@@ -54,10 +67,11 @@ function getStatusByScore(score: number): ?PasswordStatus {
   }
 }
 
-class PasswordField extends Component<Props, StateProps> {
+export class PasswordField extends Component<Props, StateProps> {
   static defaultProps = {
     color: 'white',
-    isAutoFocus: true,
+    isDisabled: false,
+    isAutoFocus: false,
   }
 
   constructor(props: Props) {
@@ -66,7 +80,31 @@ class PasswordField extends Component<Props, StateProps> {
     const password: ?string = props.value
 
     this.state = {
-      passwordResult: password ? checkPasswordStrength(password) : null,
+      passwordResult: null,
+      isFetching: false,
+      isInitialised: false,
+    }
+
+    if (password) {
+      this.setCheckingPasswordResult(password)
+    }
+  }
+
+  setCheckingPasswordResult = async (password: string) => {
+    const { isInitialised }: StateProps = this.state
+
+    if (!isInitialised) {
+      this.setState({ isFetching: true })
+    }
+
+    const passwordResult: PasswordResult = await checkPasswordStrength(password)
+    this.setState({ passwordResult })
+
+    if (!isInitialised) {
+      this.setState({
+        isFetching: false,
+        isInitialised: true,
+      })
     }
   }
 
@@ -75,7 +113,10 @@ class PasswordField extends Component<Props, StateProps> {
       return null
     }
 
-    const { passwordResult }: StateProps = this.state
+    const {
+      passwordResult,
+      isFetching,
+    }: StateProps = this.state
 
     if (!passwordResult) {
       return null
@@ -94,16 +135,18 @@ class PasswordField extends Component<Props, StateProps> {
       suggestions,
     } = feedback
 
-    const status: ?PasswordStatus = getStatusByScore(score)
+    const status: ?IndicatorStatus = getStatusByScore(score, isFetching)
     const statusMessage: ?string = status ? STATUS_MESSAGE_MAP[status] : null
 
     return warning || suggestions[0] || statusMessage
   }
 
   handleChange = (password: string) => {
-    this.setState({
-      passwordResult: password ? checkPasswordStrength(password) : null,
-    })
+    if (password) {
+      this.setCheckingPasswordResult(password)
+    } else {
+      this.setState({ passwordResult: null })
+    }
 
     this.props.onChange(password)
   }
@@ -121,19 +164,23 @@ class PasswordField extends Component<Props, StateProps> {
       isAutoFocus,
     }: Props = this.props
 
-    const { passwordResult }: StateProps = this.state
-    const score: number = passwordResult ? passwordResult.score : 0
-    const status: ?PasswordStatus = passwordResult ? getStatusByScore(score) : null
+    const {
+      passwordResult,
+      isFetching,
+    }: StateProps = this.state
+
+    const score: number = passwordResult ? passwordResult.score : -1
+    const status: ?IndicatorStatus = getStatusByScore(score, isFetching)
     const infoMessage: ?string = this.getInfoMessage()
 
     const errorMessage: ?string = invalidFields.password ||
       (score < config.minPasswordStrengthScore) ? infoMessage : null
 
     return (
-      <div className='password-field'>
+      <div className={passwordFieldStyle.core}>
         <JInput
-          color={color}
           onChange={this.handleChange}
+          color={color}
           value={value}
           placeholder={placeholder}
           infoMessage={infoMessage}
@@ -144,10 +191,10 @@ class PasswordField extends Component<Props, StateProps> {
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
-        {!isDisabled && <Indicator status={status} color={color} />}
+        {!isDisabled && <Indicator status={status} fieldColor={color} />}
         <JInput
-          color={color}
           onChange={onChangeConfirm}
+          color={color}
           value={valueConfirm}
           placeholder={placeholderConfirm}
           errorMessage={invalidFields.passwordConfirm}
@@ -159,5 +206,3 @@ class PasswordField extends Component<Props, StateProps> {
     )
   }
 }
-
-export default PasswordField

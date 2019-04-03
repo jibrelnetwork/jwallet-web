@@ -10,16 +10,11 @@ declare type BalanceString = string
 declare type Address = string
 declare type OwnerAddress = Address
 declare type EthereumAddress = 'Ethereum'
-
-// eslint-disable-next-line flowtype/require-compound-type-alias
 declare type AssetAddress = Address | EthereumAddress
 
 declare type AddressNames = { [Address]: ?string }
 
-// eslint-disable-next-line flowtype/require-compound-type-alias
 declare type SortDirection = 'asc' | 'desc'
-
-// eslint-disable-next-line flowtype/require-compound-type-alias
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }

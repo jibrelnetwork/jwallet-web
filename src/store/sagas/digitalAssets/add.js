@@ -14,7 +14,7 @@ import {
 } from 'redux-saga/effects'
 
 import web3 from 'services/web3'
-import reactRouterBack from 'utils/browser/reactRouterBack'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
@@ -280,7 +280,13 @@ function* onAssetFormSumbit(): Saga<void> {
       digitalAssets.addCustomAsset(checksumAddres, contractName, contractSymbol, contractDecimals),
     )
 
-    yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+    const state = yield select()
+
+    router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet',
+    )()
+
     yield put(blocks.syncRestart())
     yield put(ticker.syncRestart())
   }

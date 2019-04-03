@@ -6,17 +6,14 @@ import { t } from 'ttag'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
-
-import {
-  JFlatButton,
-} from 'components/base'
+import { ethereum } from 'data/assets'
+import { JFlatButton } from 'components/base'
 
 import {
   getTxFee,
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
-import assetsData from 'data/assets'
 
 import jTextStyle from 'styles/components/jText.m.scss'
 
@@ -86,7 +83,7 @@ function getFavoriteLink(
     return null
   }
 
-  return `/favorites/address/${txAddress}`
+  return `/favorites/edit?address=${txAddress}`
 }
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {
@@ -217,7 +214,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
             {`${getTxFee(
               receiptData.gasUsed,
               data.gasPrice,
-              assetsData.ethereum.blockchainParams.decimals,
+              ethereum.blockchainParams.decimals,
             )} ETH`}
           </div>
         </div>

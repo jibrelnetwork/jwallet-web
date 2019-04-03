@@ -11,19 +11,10 @@ export type WalletsCreateRequestPayload = {|
   +internalKey: ?EncryptedData,
   +passwordOptions: PasswordOptions,
   +mnemonicOptions: MnemonicOptions,
-  +createdBlockNumber: WalletCreatedBlockNumber,
-  +name: string,
-  +password: string,
-|}
-
-export type WalletsImportRequestPayload = {|
-  +items: Wallets,
-  +internalKey: ?EncryptedData,
-  +passwordOptions: PasswordOptions,
-  +mnemonicOptions: MnemonicOptions,
   +data: string,
   +name: string,
   +password: string,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
 |}
 
 export type WalletsPrivateKeyRequestPayload = {|
@@ -45,6 +36,11 @@ export const CHANGE_NAME_INPUT = '@@wallets/CHANGE_NAME_INPUT'
 export const CHANGE_PASSWORD_INPUT = '@@wallets/CHANGE_PASSWORD_INPUT'
 export const CHANGE_PASSWORD_HINT_INPUT = '@@wallets/CHANGE_PASSWORD_HINT_INPUT'
 export const CHANGE_PASSWORD_CONFIRM_INPUT = '@@wallets/CHANGE_PASSWORD_CONFIRM_INPUT'
+export const SET_MNEMONIC = '@@wallets/SET_MNEMONIC'
+
+export const CREATE_REQUEST = '@@wallets/CREATE_REQUEST'
+export const CREATE_SUCCESS = '@@wallets/CREATE_SUCCESS'
+export const CREATE_ERROR = '@@wallets/CREATE_ERROR'
 
 export const SET_WALLETS = '@@wallets/SET_WALLETS'
 export const SET_WALLETS_ITEMS = '@@wallets/SET_WALLETS_ITEMS'
@@ -124,6 +120,39 @@ export function changePasswordConfirmInput(passwordConfirm: string) {
     payload: {
       passwordConfirm,
     },
+  }
+}
+
+export function setMnemonic(mnemonic: string) {
+  return {
+    type: SET_MNEMONIC,
+    payload: {
+      mnemonic,
+    },
+  }
+}
+
+export function createRequest(payload: WalletsCreateRequestPayload) {
+  return {
+    type: CREATE_REQUEST,
+    payload,
+  }
+}
+
+export function createError(message: string) {
+  return {
+    type: CREATE_ERROR,
+    payload: {
+      message,
+    },
+    error: true,
+  }
+}
+
+export function createSuccess(payload: WalletsSetWalletsActionPayload) {
+  return {
+    type: CREATE_SUCCESS,
+    payload,
   }
 }
 
@@ -245,6 +274,7 @@ const initialState: WalletsState = {
   password: '',
   passwordHint: '',
   passwordConfirm: '',
+  mnemonic: '',
   isLoading: false,
 }
 
@@ -288,6 +318,12 @@ function wallets(state: WalletsState = initialState, action: WalletsAction): Wal
           ...state.invalidFields,
           passwordConfirm: null,
         },
+      }
+
+    case SET_MNEMONIC:
+      return {
+        ...state,
+        mnemonic: action.payload.mnemonic,
       }
 
     case SET_WALLETS:

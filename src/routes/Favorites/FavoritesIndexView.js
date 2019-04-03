@@ -2,16 +2,13 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import { Link } from 'react-router'
 
 import FavoriteItem from 'components/FavoriteItem'
 import escapeRegExp from 'utils/regexp/escapeRegExp'
 import OverlayNotification from 'components/OverlayNotification'
 
 import {
-  JIcon,
-  JText,
-  JSearch,
+  JIcon, JText, JSearch, JLink,
 } from 'components/base'
 
 import './favoritesView.scss'
@@ -152,12 +149,12 @@ class FavoritesIndexView extends PureComponent<Props, State> {
                   placeholder={t`Search favorites...`}
                 />
               </div>
-              <Link className='add' to='/favorites/address' title={t`Add favorite address`}>
+              <JLink className='add' href='/favorites/edit' title={t`Add favorite address`}>
                 <JIcon
                   name='favorite-address-add'
                   color='gray'
                 />
-              </Link>
+              </JLink>
             </div>
           </div>
         </header>

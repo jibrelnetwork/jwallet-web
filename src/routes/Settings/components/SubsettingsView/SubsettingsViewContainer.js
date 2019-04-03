@@ -2,12 +2,17 @@
 
 import { connect } from 'react-redux'
 
-import reactRouterBack from 'utils/browser/reactRouterBack'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
 import SubsettingsView from './SubsettingsView'
 
-const mapDispatchToProps = {
-  close: () => reactRouterBack({ fallbackUrl: '/settings' }),
+function mapStateToProps(state: AppState) {
+  return {
+    close: router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet.Settings',
+    ),
+  }
 }
 
 /* ::
@@ -18,5 +23,5 @@ type OwnProps = {|
 */
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(null, mapDispatchToProps)(SubsettingsView)
+  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, null)(SubsettingsView)
 )

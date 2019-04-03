@@ -1,48 +1,41 @@
 // @flow
 
-import CoreLayout from 'layouts/CoreLayout'
+export { default as AssetsItem }
+  from './Transactions/routes/Asset/TransactionsAssetViewContainer'
+export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAssetContainer'
+export { default as AssetsItemEdit } from './DigitalAssets/routes/EditAsset/EditAssetContainer'
+export { default as AssetsManage }
+  from './DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer'
+export { default as Contacts }
+  from './Favorites/FavoritesIndexViewContainer'
+export { default as ContactsItemEdit }
+  from './Favorites/routes/Address/FavoritesAddressViewContainer'
+export { default as History } from './Transactions/TransactionsIndexViewContainer'
+export { default as Home }
+  from './DigitalAssets/routes/Grid/DigitalAssetsGridViewContainer'
+export { default as Receive }
+  from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
+export { default as Send }
+  from './DigitalAssets/routes/Send/DigitalAssetsSendViewContainer'
+export { default as Settings } from './Settings/SettingsIndexViewContainer'
+export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
+export { default as SettingsSecurityPassword }
+  from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
+export { default as Wallets } from './Wallets/WalletsIndexViewContainer'
+export { default as WalletsCreate } from './Wallets/routes/Create/WalletsCreateViewContainer'
+export { default as WalletsImport } from './Wallets/routes/Import/WalletsImportViewContainer'
+export { default as WalletsItemBackup } from './Wallets/routes/Backup/WalletsBackupViewContainer'
+export { default as WalletsItemRemove } from './Wallets/routes/Delete/WalletsDeleteViewContainer'
+export { default as WalletsItemRename } from './Wallets/routes/Rename/WalletsRenameViewContainer'
+export { default as WalletsItemUpgrade } from './Upgrade/UpgradeViewContainer'
 
-import {
-  reactRouterOnChangePageView,
-  reactRouterOnEnterPageView,
-} from 'utils/analytics'
+export { NotFound } from './NotFound/NotFound'
 
-import { type CoreAction } from 'store/modules/core'
-import { type NotFoundAction } from 'store/modules/notFound'
-import { type DigitalAssetsModuleAction } from 'store/modules/digitalAssets'
+// not available to user directly
 
-import Wallets from './Wallets'
-import Settings from './Settings'
-import NotFound from './NotFound'
-import Transactions from './Transactions'
-import DigitalAssets from './DigitalAssets'
-import Favorites from './Favorites'
-import Upgrade from './Upgrade'
-import Agreements from './Agreements'
-
-export type AppAction =
-  CoreAction |
-  NotFoundAction |
-  DigitalAssetsModuleAction
-
-const customAnalyticsRoutes = [
-  /^\/transactions\/.+/,
-  /^\/digital-assets\/edit-asset\/.+/,
-]
-
-export default {
-  path: '/',
-  component: CoreLayout,
-  onEnter: reactRouterOnEnterPageView(customAnalyticsRoutes),
-  onChange: reactRouterOnChangePageView(customAnalyticsRoutes),
-  childRoutes: [
-    Wallets,
-    Settings,
-    Transactions,
-    DigitalAssets,
-    Favorites,
-    Upgrade,
-    Agreements,
-    NotFound,
-  ],
-}
+export { default as Agreements } from './Agreements/AgreementsViewContainer'
+export { default as WalletsStart } from './Wallets/routes/Start/WalletsStartViewContainer'
+export { default as WalletsAddresses }
+  from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
+export { default as WalletsRenameAddress }
+  from './Wallets/routes/RenameAddress/WalletsRenameAddressViewContainer'
