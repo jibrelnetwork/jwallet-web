@@ -41,7 +41,7 @@ import {
   setHideZeroBalance,
 } from 'store/modules/digitalAssetsGrid'
 
-import HomeTemplate from 'pages/Home/HomeTemplate'
+import { HomeTemplate } from './HomeTemplate'
 
 function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
