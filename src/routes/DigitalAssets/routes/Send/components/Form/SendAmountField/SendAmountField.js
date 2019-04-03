@@ -16,8 +16,6 @@ import {
 
 import fieldStyle from './sendAmountField.m.scss'
 
-// #TODO: Fix types
-
 type Props = {|
   blockchainFee: string,
   className: string,
