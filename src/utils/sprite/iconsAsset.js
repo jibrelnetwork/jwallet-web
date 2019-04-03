@@ -2,13 +2,10 @@
 
 import { keyBy } from 'lodash-es'
 
-const files = require.context('../../public/assets/tokens/blue', true, /.*\.svg$/)
-const iconsAsset = keyBy(
-  files.keys().map((x) => {
-    const filesArray = files(x).default
+import sprite from './spriteAssets'
 
-    return filesArray
-  }),
+const iconsAsset = keyBy(
+  sprite.keys().map(x => sprite(x).default),
   'id',
 )
 

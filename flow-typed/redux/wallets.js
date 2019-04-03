@@ -104,15 +104,13 @@ declare type WalletDecryptedData = {|
   +bip32XPublicKey: string,
 |}
 
-declare type Wallets = Array<Wallet>
-
-declare type PasswordStatus = 'red' | 'orange' | 'yellow' | 'green'
+declare type Wallets = Wallet[]
 
 declare type PasswordResult = {|
   +score: number,
   +feedback: {|
     +warning: string,
-    +suggestions: Array<string>,
+    +suggestions: string[],
   |},
 |}
 
@@ -130,23 +128,14 @@ declare type WalletsState = {|
   +password: string,
   +passwordHint: string,
   +passwordConfirm: string,
+  +mnemonic: string,
   +isLoading: boolean,
 |}
 
 /**
  * Wallets Create
  */
-declare type WalletsCreateNameStepIndex = 0
-declare type WalletsCreatePasswordStepIndex = 1
-
-declare type WalletsCreateStepIndex =
-  WalletsCreateNameStepIndex |
-  WalletsCreatePasswordStepIndex
-
-declare type WalletsCreateSteps = {|
-  +NAME: WalletsCreateNameStepIndex,
-  +PASSWORD: WalletsCreatePasswordStepIndex,
-|}
+declare type WalletsCreateStepIndex = 0 | 1 | 2
 
 declare type WalletsCreateState = {|
   +createdBlockNumber: WalletCreatedBlockNumber,
