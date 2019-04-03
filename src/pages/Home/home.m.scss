@@ -17,13 +17,13 @@
   font-weight: normal;
 }
 
-.transfer-buttons {
+.links {
   @include flex-row;
 
   margin: 0 -16px;
 }
 
-.transfer-button {
+.link {
   @include property-transition(box-shadow);
 
   display: block;
@@ -45,7 +45,7 @@
   }
 }
 
-.transfer-button-icon {
+.link-icon {
   @include flex-column-center;
 
   margin: 0 auto 8px;

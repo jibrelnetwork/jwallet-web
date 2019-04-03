@@ -60,12 +60,12 @@ export class HomeTemplate extends Component<Props> {
           <h2 className={homeStyle.title}>
             {t`Transfer`}
           </h2>
-          <nav className={homeStyle.transferButtons}>
+          <nav className={homeStyle.links}>
             <JLink
-              className={homeStyle.transferButton}
+              className={homeStyle.link}
               href='/send'
             >
-              <div className={homeStyle.transferButtonIcon}>
+              <div className={homeStyle.linkIcon}>
                 <JIcon
                   name='home-send-use-fill'
                   color='blue'
@@ -74,10 +74,10 @@ export class HomeTemplate extends Component<Props> {
               {t`Send`}
             </JLink>
             <JLink
-              className={homeStyle.transferButton}
+              className={homeStyle.link}
               href='/receive'
             >
-              <div className={homeStyle.transferButtonIcon}>
+              <div className={homeStyle.linkIcon}>
                 <JIcon
                   name='home-receive-use-fill'
                   color='blue'
@@ -86,10 +86,10 @@ export class HomeTemplate extends Component<Props> {
               {t`Receive`}
             </JLink>
             <JLink
-              className={homeStyle.transferButton}
+              className={homeStyle.link}
               href={JCASH_UTM_URL}
             >
-              <div className={homeStyle.transferButtonIcon}>
+              <div className={homeStyle.linkIcon}>
                 <JIcon
                   name='home-exchange-use-fill'
                   color='blue'
