@@ -32,7 +32,7 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
     ) {
       throw new WalletInconsistentDataError(
         { walletId: wallet.id },
-        `Invalid mnemonic type ${type}`,
+        'Invalid mnemonic type',
       )
     }
 
