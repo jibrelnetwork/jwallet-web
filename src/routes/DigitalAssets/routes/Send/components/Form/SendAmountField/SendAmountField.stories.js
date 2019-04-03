@@ -11,6 +11,7 @@ import {
 import {
   withKnobs,
   text,
+  boolean,
 } from '@storybook/addon-knobs'
 
 import { SendAmountField } from './SendAmountField'
@@ -46,6 +47,7 @@ storiesOf('SendAmountField', module)
         fiatCurrency: text('Fiat currency', 'USD'),
         fiatAmount: text('Fiat amount', '100'),
         maxValue: text('Max value', '239.22'),
+        isFetchingFiatAmount: boolean('Fetching fiat amount', false),
       })}
     </div>
   ))

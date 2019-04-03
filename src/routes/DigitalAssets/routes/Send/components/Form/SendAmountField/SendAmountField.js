@@ -25,6 +25,7 @@ type Props = {|
   fiatAmount: string,
   fiatCurrency: FiatCurrency,
   input: FinalFormInput,
+  isFetchingFiatAmount: boolean,
   maxValue: string,
   meta: FinalFormMeta,
   validateType: FinalFormValidateType,
@@ -48,6 +49,7 @@ function SendAmountField({
   fiatCurrency,
   fiatAmount,
   input,
+  isFetchingFiatAmount,
   maxValue,
   meta,
   validateType,
@@ -60,8 +62,8 @@ function SendAmountField({
     : ''
 
   const formattedFiatAmount = fiatAmount
-    ? formatCurrencyWithSymbol(fiatAmount, fiatCurrency)
-    : fiatAmount
+    ? `=${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
+    : ''
 
   const hasMaxValue = (input.value === maxValue)
 
@@ -116,9 +118,19 @@ function SendAmountField({
           </button>
         </div>
         <div className={fieldStyle.bottom}>
-          <div className={fieldStyle.amount}>{`=${formattedFiatAmount}`}</div>
-          <div className={fieldStyle.fee}>
-            {t`Blockchain fee — ${formattedBlockchainFee} ETH`}
+          <div className={classNames(
+            fieldStyle.amount,
+            isFetchingFiatAmount && !formattedFiatAmount && fieldStyle.fetching,
+          )}
+          >
+            {formattedFiatAmount}
+          </div>
+          <div className={classNames(
+            fieldStyle.fee,
+            !formattedBlockchainFee && fieldStyle.fetching,
+          )}
+          >
+            {formattedBlockchainFee && t`Blockchain fee — ${formattedBlockchainFee} ETH`}
           </div>
         </div>
         <label htmlFor='amountInputId' className={fieldStyle.label} >{LABEL_TEXT}</label>

@@ -127,10 +127,12 @@
 
   > .amount {
     color: $main-black-40;
+    min-width: 60px;
   }
 
   > .fee {
     color: $main-black;
+    min-width: 120px;
   }
 
   &::before {
@@ -140,6 +142,32 @@
     left: 16px;
     right: 16px;
     border-top: 1px solid $main-black-10;
+  }
+}
+
+.fetching {
+  position: relative;
+  display: inline-block;
+  height: 16px;
+  margin-top: 2px;
+  background-color: $main-black-10;
+
+  &::after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: loading;
+    animation-timing-function: linear;
+    background: linear-gradient(-60deg, rgba($black, 0) 70%, rgba($white, 0.6) 80%, rgba($black, 0) 90%);
+    background-size: 60px 6px;
   }
 }
 
@@ -200,4 +228,14 @@
 
 .field-message {
   padding-left: 16px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: -60px 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
 }
