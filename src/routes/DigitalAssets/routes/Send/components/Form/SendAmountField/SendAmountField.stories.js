@@ -8,6 +8,11 @@ import {
   Field,
 } from 'react-final-form'
 
+import {
+  withKnobs,
+  text,
+} from '@storybook/addon-knobs'
+
 import { SendAmountField } from './SendAmountField'
 
 function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
@@ -32,15 +37,15 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
 }
 
 storiesOf('SendAmountField', module)
+  .addDecorator(withKnobs)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(SendAmountField, {
-        blockchainFee: '0.0015',
-        blockchainFeeCurrency: 'ETH',
-        currency: 'JNT',
-        fiatCurrency: 'USD',
-        fiatAmount: '101.23',
-        maxValue: '254.20',
+        blockchainFee: text('Blockchain fee', '1500000000000000'),
+        currency: text('Currency', 'JNT'),
+        fiatCurrency: text('Fiat currency', 'USD'),
+        fiatAmount: text('Fiat amount', '100'),
+        maxValue: text('Max value', '239.22'),
       })}
     </div>
   ))
