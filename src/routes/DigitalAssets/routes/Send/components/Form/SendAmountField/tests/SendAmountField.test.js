@@ -3,6 +3,7 @@ import {
   shallow,
   mount,
 } from 'enzyme'
+import sinon from 'sinon'
 
 import { JFieldMessage } from 'components/base'
 
@@ -150,5 +151,67 @@ describe('SendAmountField', () => {
 
     const focusedElAfterClick = document.activeElement
     expect(focusedElAfterClick instanceof HTMLInputElement).toBe(true)
+  })
+
+  test('get onChange correct when user enter amount', () => {
+    const onChangeSpy = sinon.spy()
+    const wrapper = mount(
+      <SendAmountField
+        input={{
+          onChange: onChangeSpy,
+        }}
+      />,
+    )
+
+    const labelEl = wrapper.find('.input')
+    labelEl.simulate('change', { target: { value: '12.93' } })
+    expect(onChangeSpy.calledWith('12.93')).toBe(true)
+  })
+
+  test('fix some incorrect user input', () => {
+    const onChangeSpy = sinon.spy()
+    const wrapper = mount(
+      <SendAmountField
+        input={{
+          onChange: onChangeSpy,
+        }}
+      />,
+    )
+
+    const inputEl = wrapper.find('.input')
+    inputEl.simulate('change', { target: { value: '$12.93' } })
+    expect(onChangeSpy.calledWith('12.93')).toBe(true)
+  })
+
+  // eslint-disable-next-line max-len
+  test('changes input value to maxValue when user clicks to the MAX button, then resets it when CLEAN button clicked', () => {
+    const onChangeSpy = sinon.spy()
+    const wrapper = mount(
+      <SendAmountField
+        input={{
+          onChange: onChangeSpy,
+        }}
+        maxValue='129.99'
+      />,
+    )
+
+    const maxValueEl = wrapper.find('.max')
+    maxValueEl.simulate('click')
+    expect(onChangeSpy.calledWith('129.99')).toBe(true)
+
+    const cleanEl = wrapper.find('.clean')
+    cleanEl.simulate('click')
+    expect(onChangeSpy.calledWith('')).toBe(true)
+  })
+
+  test('shows loader when fetching fiat amount', () => {
+    const wrapper = mount(
+      <SendAmountField
+        isFetchingFiatAmount
+      />,
+    )
+
+    const wrapEl = wrapper.find('div.amount')
+    expect(wrapEl.hasClass('fetching')).toBe(true)
   })
 })
