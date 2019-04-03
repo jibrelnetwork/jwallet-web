@@ -55,7 +55,7 @@ describe('JInputField', () => {
     )
 
     const labelEl = wrapper.find('.label')
-    expect(labelEl.html()).toBe('<div class="label">Hi</div>')
+    expect(labelEl.html()).toBe('<label class="label" for="hiId">Hi</label>')
   })
 
   test('can be disabled', () => {
