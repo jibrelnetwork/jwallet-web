@@ -175,7 +175,9 @@ SendAmountField.defaultProps = {
   fiatCurrency: 'USD',
   className: '',
   infoMessage: '',
+  isFetchingFiatAmount: false,
   label: DEFAULT_LABEL_TEXT,
+  maxValue: '',
 }
 
 export { SendAmountField }
