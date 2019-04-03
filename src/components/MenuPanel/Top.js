@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import classNames from 'classnames'
 
 import {
   divDecimals,
@@ -31,24 +32,27 @@ export function Top({
   fiatBalance,
 }: Props) {
   return (
-    <div className={menuPanelStyle.top}>
-      <div className={menuPanelStyle.logo}>
+    <div className={classNames('__menu-panel_top', menuPanelStyle.top)}>
+      <div className={classNames('__menu-panel_logo', menuPanelStyle.logo)}>
         <JLogo />
       </div>
-      <JLink href='/wallets' className={menuPanelStyle.ticker}>
-        <div className={menuPanelStyle.wrapper}>
-          <div className={menuPanelStyle.name}>
+      <JLink
+        href='/wallets'
+        className={classNames('__menu-panel_ticker', menuPanelStyle.ticker)}
+      >
+        <div className={classNames('__menu-panel_wrapper', menuPanelStyle.wrapper)}>
+          <div className={classNames('__menu-panel_name', menuPanelStyle.name)}>
             {walletName}
           </div>
           {isMnemonic && mnemonicAddressName && (
-            <div className={menuPanelStyle.name}>
+            <div className={classNames('__menu-panel_name', menuPanelStyle.name)}>
               {mnemonicAddressName}
             </div>
           )}
-          <div className={menuPanelStyle.balance}>
+          <div className={classNames('__menu-panel_balance', menuPanelStyle.balance)}>
             {`${fiatCurrency}\u202F${formatBalance(divDecimals(fiatBalance))}`}
           </div>
-          <div className={menuPanelStyle.chevron}>
+          <div className={classNames('__menu-panel_chevron', menuPanelStyle.chevron)}>
             <JIcon name='arrow-right' size='medium' />
           </div>
         </div>

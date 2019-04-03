@@ -10,32 +10,38 @@ import { Actions } from './Actions'
 import { Settings } from './Settings'
 import { Separator } from './Separator'
 
+import {
+  getMenuMeta,
+  type MenuMeta,
+} from './menuMeta'
+
 type Props = {|
+  +routeName: string,
   +walletName: string,
   +fiatCurrency: string,
   +mnemonicAddressName: string,
-  +previousRouteNameFallback: ?string,
   +fiatBalance: number,
   +isMnemonic: boolean,
-  +isMinimized: boolean,
 |}
 
 export class MenuPanel extends PureComponent<Props> {
   static defaultProps = {
     isMnemonic: false,
-    isMinimized: false,
   }
 
   render() {
     const {
+      routeName,
       walletName,
       fiatCurrency,
       mnemonicAddressName,
-      previousRouteNameFallback,
       fiatBalance,
       isMnemonic,
-      isMinimized,
     }: Props = this.props
+
+    const menuMeta: MenuMeta = getMenuMeta(routeName)
+    const { previousRouteNameFallback }: MenuMeta = menuMeta
+    const isMinimized: boolean = !walletName || menuMeta.isMinimized
 
     return (
       <header
@@ -53,7 +59,7 @@ export class MenuPanel extends PureComponent<Props> {
           isMnemonic={isMnemonic}
         />
         <Separator />
-        <Actions />
+        <Actions routeName={routeName} />
         <Separator />
         <Settings />
         <Back

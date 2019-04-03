@@ -43,15 +43,16 @@ describe('MenuPanel', () => {
 
   test('renders', () => {
     const fiatCurrency = '₩'
+    const routeName = 'Settings'
     const walletName = 'walletName'
-    const previousRouteNameFallback = 'Home'
+    const previousRouteNameFallback = null
     const fiatBalance = 123.45
 
     const wrapper = shallow(
       <MenuPanel
+        routeName={routeName}
         walletName={walletName}
         fiatCurrency={fiatCurrency}
-        previousRouteNameFallback={previousRouteNameFallback}
         mnemonicAddressName=''
         fiatBalance={fiatBalance}
       />,
@@ -64,11 +65,10 @@ describe('MenuPanel', () => {
 
     expect(componentInstance.props.walletName).toBe(walletName)
     expect(componentInstance.props.fiatCurrency).toBe(fiatCurrency)
-    expect(componentInstance.props.previousRouteNameFallback).toEqual(previousRouteNameFallback)
+    expect(componentInstance.props.routeName).toEqual(routeName)
     expect(componentInstance.props.mnemonicAddressName).toBe('')
     expect(componentInstance.props.fiatBalance).toBe(fiatBalance)
     expect(componentInstance.props.isMnemonic).toBe(false)
-    expect(componentInstance.props.isMinimized).toBe(false)
 
     expect(wrapper.children()).toHaveLength(6)
 
@@ -115,17 +115,21 @@ describe('MenuPanel', () => {
     /**
      * Separator
      */
-    const separatorHTML = '<div class="separator"></div>'
-    const separatorFirst = wrapper.childAt(1)
-    const separatorSecond = wrapper.childAt(3)
+    const separatorFirst = wrapper.childAt(1).shallow()
+    const separatorSecond = wrapper.childAt(3).shallow()
 
-    expect(separatorFirst.html()).toBe(separatorHTML)
-    expect(separatorSecond.html()).toBe(separatorHTML)
+    expect(separatorFirst.hasClass('separator')).toBe(true)
+    expect(separatorSecond.hasClass('separator')).toBe(true)
 
     /**
      * Actions
      */
-    const actions = wrapper.childAt(2).shallow()
+    const actionsWrapper = wrapper.childAt(2)
+
+    expect(actionsWrapper.prop('routeName')).toBe(routeName)
+
+    const actions = actionsWrapper.shallow()
+
     const actionsList = actions.find('ol > li')
 
     expect(actionsList.children()).toHaveLength(4)
@@ -181,16 +185,16 @@ describe('MenuPanel', () => {
 
   test('renders (mnemonic)', () => {
     const fiatCurrency = '₩'
+    const routeName = 'Home'
     const walletName = 'walletName'
-    const previousRouteNameFallback = 'Home'
     const mnemonicAddressName = 'mnemonicAddressName'
     const fiatBalance = 123.45
 
     const wrapper = shallow(
       <MenuPanel
+        routeName={routeName}
         walletName={walletName}
         fiatCurrency={fiatCurrency}
-        previousRouteNameFallback={previousRouteNameFallback}
         mnemonicAddressName={mnemonicAddressName}
         fiatBalance={fiatBalance}
         isMnemonic
@@ -220,27 +224,22 @@ describe('MenuPanel', () => {
   })
 
   test('renders (minimized)', () => {
+    const routeName = 'Send'
     const fiatCurrency = '₩'
     const walletName = 'walletName'
-    const previousRouteNameFallback = 'Home'
     const fiatBalance = 123.45
 
     const wrapper = shallow(
       <MenuPanel
+        routeName={routeName}
         walletName={walletName}
         fiatCurrency={fiatCurrency}
-        previousRouteNameFallback={previousRouteNameFallback}
         mnemonicAddressName=''
         fiatBalance={fiatBalance}
-        isMinimized
       />,
     )
 
     expect(wrapper.hasClass('minimized')).toBe(true)
-
-    const componentInstance = wrapper.instance()
-
-    expect(componentInstance.props.isMinimized).toBe(true)
 
     expect(wrapper.children()).toHaveLength(6)
 
@@ -254,7 +253,46 @@ describe('MenuPanel', () => {
 
     const backLink = back.children().first()
 
-    expect(backLink.prop('routeName')).toBe(previousRouteNameFallback)
+    expect(backLink.prop('routeName')).toBe('Home')
+
+    const backIcon = backLink.children().first()
+
+    expect(backIcon.prop('color')).toBe('blue')
+    expect(backIcon.prop('size')).toBe('medium')
+    expect(backIcon.prop('name')).toBe('arrow-back')
+  })
+
+  test('renders (empty wallet)', () => {
+    const walletName = ''
+    const fiatCurrency = '₩'
+    const routeName = 'Send'
+    const fiatBalance = 123.45
+
+    const wrapper = shallow(
+      <MenuPanel
+        routeName={routeName}
+        walletName={walletName}
+        fiatCurrency={fiatCurrency}
+        mnemonicAddressName=''
+        fiatBalance={fiatBalance}
+      />,
+    )
+
+    expect(wrapper.hasClass('minimized')).toBe(true)
+
+    expect(wrapper.children()).toHaveLength(6)
+
+    const backWrapper = wrapper.childAt(5)
+
+    expect(backWrapper.prop('isMinimized')).toBe(true)
+
+    const back = backWrapper.shallow()
+
+    expect(back.children()).toHaveLength(1)
+
+    const backLink = back.children().first()
+
+    expect(backLink.prop('routeName')).toBe('Home')
 
     const backIcon = backLink.children().first()
 

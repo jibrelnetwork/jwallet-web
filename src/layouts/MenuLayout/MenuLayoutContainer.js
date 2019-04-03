@@ -30,11 +30,6 @@ import {
 
 import { MenuLayout } from './MenuLayout'
 
-export type MenuMeta = {
-  isMinimized: boolean,
-  previousRouteNameFallback: ?string,
-}
-
 function getFiatBalance(
   assets: DigitalAssetWithBalance[],
   fiatCourses: FiatCourses,

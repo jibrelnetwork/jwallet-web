@@ -1,6 +1,9 @@
 // @flow
 
-import { type MenuMeta } from './MenuLayoutContainer'
+export type MenuMeta = {
+  isMinimized: boolean,
+  previousRouteNameFallback: ?string,
+}
 
 const MENU_META_DEFAULT: MenuMeta = {
   isMinimized: false,
