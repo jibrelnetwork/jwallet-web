@@ -1,6 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
 import {
   delay,
   type Task,
@@ -42,7 +41,7 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectActiveWallet,
+  selectActiveWalletOrThrow,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
@@ -252,11 +251,8 @@ function* checkTransactionsFetched(
 }
 
 function* getWalletCreatedBlockNumber(): Saga<void> {
-  const wallet: ExtractReturn<typeof selectActiveWallet> = yield select(selectActiveWallet)
-
-  if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const wallet: ExtractReturn<typeof selectActiveWalletOrThrow>
+    = yield select(selectActiveWalletOrThrow)
 
   /**
    * @TODO

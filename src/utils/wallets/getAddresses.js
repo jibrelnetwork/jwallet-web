@@ -1,8 +1,7 @@
 // @flow
 
-import { t } from 'ttag'
-
 import generateAddresses from 'utils/mnemonic/generateAddresses'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   getWallet,
@@ -16,7 +15,7 @@ function getAddresses(wallets: Wallets, walletId: string, start: number, end: nu
   }: Wallet = getWallet(wallets, walletId)
 
   if (!checkMnemonicType(type) || !bip32XPublicKey) {
-    throw new Error(t`WalletDataError`)
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet does not have public key')
   }
 
   return generateAddresses(bip32XPublicKey, start, end)

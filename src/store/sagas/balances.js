@@ -7,8 +7,6 @@ import {
   type Task,
 } from 'redux-saga'
 
-import { t } from 'ttag'
-
 import {
   all,
   put,
@@ -29,7 +27,7 @@ import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 
 import {
-  selectDigitalAsset,
+  selectDigitalAssetOrThrow,
   selectActiveDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
@@ -298,12 +296,8 @@ function* fetchByAssetSuccess(
 
   // check conditions - network, balance, etc
 
-  const digitalAsset: ExtractReturn<typeof selectDigitalAsset> =
-    yield select(selectDigitalAsset, assetAddress)
-
-  if (!digitalAsset) {
-    throw new Error(t`DigitalAssetNotFoundError`)
-  }
+  const digitalAsset: ExtractReturn<typeof selectDigitalAssetOrThrow> =
+    yield select(selectDigitalAssetOrThrow, assetAddress)
 
   const { priceFeed }: DigitalAsset = digitalAsset
 
