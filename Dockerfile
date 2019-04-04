@@ -5,10 +5,12 @@ ENV MAIN_RPC_ADDR=main.node.jwallet.network \
 
 RUN npm r lint-staged
 RUN npm run build:clean
+RUN npm run storybook:build
 
 FROM nginx:alpine
 
 COPY --from=build /usr/src/app/build/. /app/
+COPY --from=build /usr/src/app/docs/. /docs/
 COPY version.txt /app/
 COPY nginx.conf /etc/nginx/
 COPY run.sh /bin/run.sh

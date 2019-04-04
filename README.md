@@ -8,6 +8,12 @@ Download and start image:
 docker run -it -p 8080:80 jibrelnetwork/jwallet-web
 ```
 
+Start with storybook:
+
+```bash
+docker run -it --env ENV=demo --name nginx -p 8080:80 somename
+```
+
 And check it running: [http://localhost:8080]()
 
 Visit our repository on Docker Hub: https://hub.docker.com/r/jibrelnetwork/jwallet-web/

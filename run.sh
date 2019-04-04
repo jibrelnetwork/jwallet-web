@@ -2,6 +2,12 @@
 
 RUNMODE="${1:-start}"
 
+if [ "$ENV" = "demo" ]; then
+    sed -i '/location \/status/i \        location /storybook {\n            root /docs; \n            try_files $uri $uri/ /index.html; \n        }\n' /etc/nginx/nginx.conf
+    echo $ENV
+fi
+
+
 if [ "${RUNMODE}" = "check" ]; then
     /usr/sbin/nginx -t
 else
