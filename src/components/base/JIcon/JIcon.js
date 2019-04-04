@@ -6,7 +6,7 @@ import { iconsUI } from 'utils/sprite'
 
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
-type Props = {
+export type Props = {
   name: string,
   color: ?JIconColor,
 }
