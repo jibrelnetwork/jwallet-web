@@ -1,8 +1,10 @@
 // @flow
 
+import { type Store } from 'redux'
+
 import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import getPasswordOptions from 'utils/encryption/getPasswordOptions'
-
+import { type AppAction } from 'store/modules'
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
 import * as walletsBackup from 'store/modules/walletsBackup'
@@ -14,7 +16,6 @@ import {
 
 // eslint-disable-next-line import/default
 import WalletsWorker, {
-  type WalletsAnyAction,
   type WalletsWorkerInstance,
 } from './worker.js'
 
@@ -136,7 +137,7 @@ export function upgradeRequest(
   }))
 }
 
-export function run(store: { dispatch: (WalletsAnyAction) => void }) {
+export function run(store: Store<AppState, AppAction>) {
   walletsWorker.onmessage = function walletsWorkerOnMessage(msg) {
     store.dispatch(msg.data)
   }

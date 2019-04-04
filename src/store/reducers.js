@@ -4,6 +4,7 @@ import {
   combineReducers,
   type Reducer,
 } from 'redux'
+
 import { router5Reducer as router } from 'redux-router5'
 
 import blocks from 'store/modules/blocks'
@@ -36,7 +37,7 @@ import { type AppAction } from 'store/modules'
 
 import persistReducers from './persistReducers'
 
-export function makeRootReducer() {
+export function makeRootReducer(): Reducer<AppState, AppAction> {
   const rootReducer: Reducer<AppState, AppAction> = combineReducers({
     router,
     upgrade,

@@ -1,6 +1,4 @@
-.wallets-layout {
-  all: initial;
-
+.core {
   @include flex-column;
 
   height: 100vh;
