@@ -18,7 +18,7 @@ import {
 
 import { CONDITIONS_LIST } from 'data/agreements'
 
-import agreementsViewStyle from './AgreementsView.m.scss'
+import agreementsViewStyle from './agreementsView.m.scss'
 
 export type Props = {|
 |}
