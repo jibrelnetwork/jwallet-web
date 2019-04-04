@@ -29,14 +29,14 @@ export class Actions extends Component<Props> {
   render() {
     return (
       <nav className={classNames('__menu-panel_actions', menuPanelStyle.actions)}>
-        <ol>
+        <ul>
           <li>
             <JLink
               href='/'
               activeClassName={menuPanelStyle.active}
               className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
-              <JIcon name='home' size='medium' />
+              <JIcon name='home-use-fill' />
               <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
                 {t`Home`}
               </span>
@@ -48,7 +48,7 @@ export class Actions extends Component<Props> {
               activeClassName={menuPanelStyle.active}
               className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
-              <JIcon name='history' size='medium' />
+              <JIcon name='history-use-fill' />
               <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
                 {t`History`}
               </span>
@@ -60,7 +60,7 @@ export class Actions extends Component<Props> {
               activeClassName={menuPanelStyle.active}
               className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
-              <JIcon name='contact' size='medium' />
+              <JIcon name='contact-use-fill' />
               <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
                 {t`Contacts`}
               </span>
@@ -72,13 +72,13 @@ export class Actions extends Component<Props> {
               activeClassName={menuPanelStyle.active}
               className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
-              <JIcon name='more' size='medium' />
+              <JIcon name='more-use-fill' />
               <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
                 {t`More`}
               </span>
             </JLink>
           </li>
-        </ol>
+        </ul>
       </nav>
     )
   }

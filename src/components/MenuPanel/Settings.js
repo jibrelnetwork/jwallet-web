@@ -25,7 +25,7 @@ export function Settings() {
         activeClassName={menuPanelStyle.active}
         className={classNames('__menu-panel_action', menuPanelStyle.action)}
       >
-        <JIcon name='settings' size='medium' />
+        <JIcon name='settings-use-fill' />
         <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
           {t`Settings`}
         </span>
