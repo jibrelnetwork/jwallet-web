@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
 import { t } from 'ttag'
 
 import {
@@ -13,20 +12,14 @@ import menuPanelStyle from './menuPanel.m.scss'
 
 export function Settings() {
   return (
-    <div
-      className={classNames(
-        '__menu-panel_actions',
-        menuPanelStyle.actions,
-        menuPanelStyle.settings,
-      )}
-    >
+    <div className={`__settings ${menuPanelStyle.actions} ${menuPanelStyle.settings}`}>
       <JLink
         href='/settings'
+        className={menuPanelStyle.action}
         activeClassName={menuPanelStyle.active}
-        className={classNames('__menu-panel_action', menuPanelStyle.action)}
       >
         <JIcon name='settings-use-fill' />
-        <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
+        <span className={menuPanelStyle.label}>
           {t`Settings`}
         </span>
       </JLink>

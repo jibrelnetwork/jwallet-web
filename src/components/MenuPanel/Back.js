@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
 
 import {
   JIcon,
@@ -20,7 +19,7 @@ export function Back({
   isMinimized,
 }: Props) {
   return (
-    <div className={classNames('__menu-panel_back', menuPanelStyle.back)}>
+    <div className={`__back ${menuPanelStyle.back}`}>
       {isMinimized && previousRouteNameFallback && (
         <JLinkBack routeName={previousRouteNameFallback}>
           <JIcon name='arrow-back' size='medium' color='blue' />

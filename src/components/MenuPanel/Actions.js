@@ -1,6 +1,5 @@
 // @flow
 
-import classNames from 'classnames'
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
@@ -28,16 +27,16 @@ export class Actions extends Component<Props> {
 
   render() {
     return (
-      <nav className={classNames('__menu-panel_actions', menuPanelStyle.actions)}>
+      <nav className={`__actions ${menuPanelStyle.actions}`}>
         <ul>
           <li>
             <JLink
               href='/'
+              className={menuPanelStyle.action}
               activeClassName={menuPanelStyle.active}
-              className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
               <JIcon name='home-use-fill' />
-              <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
+              <span className={menuPanelStyle.label}>
                 {t`Home`}
               </span>
             </JLink>
@@ -45,11 +44,11 @@ export class Actions extends Component<Props> {
           <li>
             <JLink
               href='/history'
+              className={menuPanelStyle.action}
               activeClassName={menuPanelStyle.active}
-              className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
               <JIcon name='history-use-fill' />
-              <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
+              <span className={menuPanelStyle.label}>
                 {t`History`}
               </span>
             </JLink>
@@ -57,11 +56,11 @@ export class Actions extends Component<Props> {
           <li>
             <JLink
               href='/contacts'
+              className={menuPanelStyle.action}
               activeClassName={menuPanelStyle.active}
-              className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
               <JIcon name='contact-use-fill' />
-              <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
+              <span className={menuPanelStyle.label}>
                 {t`Contacts`}
               </span>
             </JLink>
@@ -69,11 +68,11 @@ export class Actions extends Component<Props> {
           <li>
             <JLink
               href='/more'
+              className={menuPanelStyle.action}
               activeClassName={menuPanelStyle.active}
-              className={classNames('__menu-panel_action', menuPanelStyle.action)}
             >
               <JIcon name='more-use-fill' />
-              <span className={classNames('__menu-panel_label', menuPanelStyle.label)}>
+              <span className={menuPanelStyle.label}>
                 {t`More`}
               </span>
             </JLink>
