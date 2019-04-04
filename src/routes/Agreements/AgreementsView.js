@@ -1,10 +1,13 @@
-// @flow
+// @flow strict
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import {
-  JText, JCheckbox, JRaisedButton, JLink,
+  JLink,
+  JText,
+  JCheckbox,
+  JRaisedButton,
 } from 'components/base'
 
 import {
@@ -15,7 +18,7 @@ import {
 
 import { CONDITIONS_LIST } from 'data/agreements'
 
-import style from './AgreementsView.m.scss'
+import agreementsViewStyle from './AgreementsView.m.scss'
 
 export type Props = {|
 |}
@@ -33,7 +36,7 @@ const conditions = {
 }
 /* eslint-enable max-len */
 
-class AgreementsView extends PureComponent<Props, StateProps> {
+export class AgreementsView extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -53,9 +56,9 @@ class AgreementsView extends PureComponent<Props, StateProps> {
     }: StateProps = this.state
 
     return (
-      <div className={style.container}>
-        <div className={style.content}>
-          <h1 className={style.title}>
+      <div className={`__agreements-view ${agreementsViewStyle.core}`}>
+        <div className={agreementsViewStyle.content}>
+          <h1 className={agreementsViewStyle.title}>
             <JText
               size='title'
               color='white'
@@ -66,7 +69,7 @@ class AgreementsView extends PureComponent<Props, StateProps> {
           </h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
-              <div className={style.item} key={key}>
+              <div className={agreementsViewStyle.item} key={key}>
                 {key !== 'acceptTermsAndConditions' ? (
                   <JCheckbox
                     onChange={this.onChange(key)}
@@ -108,10 +111,10 @@ class AgreementsView extends PureComponent<Props, StateProps> {
               </div>
             ))}
           </div>
-          <div className={style.action}>
+          <div className={agreementsViewStyle.action}>
             <JLink href='/wallets'>
               <JRaisedButton
-                className={style.buttonHeight}
+                className={agreementsViewStyle.button}
                 theme='white'
                 disabled={isDisabled}
               >
@@ -124,5 +127,3 @@ class AgreementsView extends PureComponent<Props, StateProps> {
     )
   }
 }
-
-export default AgreementsView
