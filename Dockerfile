@@ -9,10 +9,12 @@ RUN npm run storybook:build
 
 FROM nginx:alpine
 
+ENV ENV=production
 COPY --from=build /usr/src/app/build/. /app/
 COPY --from=build /usr/src/app/docs/. /docs/
 COPY version.txt /app/
 COPY nginx.conf /etc/nginx/
+COPY storybook-nginx.conf /etc/nginx/
 COPY run.sh /bin/run.sh
 
 RUN ["run.sh", "check"]
