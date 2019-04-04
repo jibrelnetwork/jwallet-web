@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 
@@ -13,7 +13,7 @@ import {
   JLink,
 } from 'components/base'
 
-import menuPanelStyle from './menuPanel.m.scss'
+import menuPanelStyle from '../menuPanel.m.scss'
 
 type Props = {|
   +walletName: string,

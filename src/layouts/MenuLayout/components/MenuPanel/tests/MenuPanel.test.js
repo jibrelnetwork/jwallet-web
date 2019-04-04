@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -8,11 +8,11 @@ import {
   formatBalance,
 } from 'utils/numbers'
 
-jest.mock('../../../utils/sprite/spriteUI', () => ({
+jest.mock('../../../../../utils/sprite/spriteUI', () => ({
   keys: () => [],
 }))
 
-jest.mock('../../../utils/sprite/spriteAssets', () => ({
+jest.mock('../../../../../utils/sprite/spriteAssets', () => ({
   keys: () => [],
 }))
 
@@ -70,7 +70,7 @@ describe('MenuPanel', () => {
     expect(componentInstance.props.fiatBalance).toBe(fiatBalance)
     expect(componentInstance.props.isMnemonic).toBe(false)
 
-    expect(wrapper.children()).toHaveLength(6)
+    expect(wrapper.children()).toHaveLength(4)
 
     /**
      * Top
@@ -113,66 +113,61 @@ describe('MenuPanel', () => {
     expect(chevronIcon.prop('name')).toBe('arrow-right')
 
     /**
-     * Separator
-     */
-    const separatorFirst = wrapper.childAt(1).shallow()
-    const separatorSecond = wrapper.childAt(3).shallow()
-
-    expect(separatorFirst.hasClass('separator')).toBe(true)
-    expect(separatorSecond.hasClass('separator')).toBe(true)
-
-    /**
      * Actions
      */
-    const actionsWrapper = wrapper.childAt(2)
+    const actionsWrapper = wrapper.childAt(1)
 
     expect(actionsWrapper.prop('routeName')).toBe(routeName)
 
     const actions = actionsWrapper.shallow()
 
-    const actionsList = actions.find('ol > li')
+    const actionsList = actions.find('ul')
 
     expect(actionsList.children()).toHaveLength(4)
     expect(actionsList.find('a').every('.action')).toBe(true)
 
-    const homeLink = actionsList.at(0).childAt(0)
+    const homeLink = actionsList.childAt(0)
 
     expect(homeLink.prop('href')).toBe('/')
-    expect(homeLink.children().first().prop('name')).toBe('home')
-    expect(homeLink.find('span.label').text()).toBe('Home')
+    expect(homeLink.prop('label')).toBe('Home')
+    expect(homeLink.prop('iconName')).toBe('home')
 
-    const historyLink = actionsList.at(1).childAt(0)
+    const historyLink = actionsList.childAt(1)
 
     expect(historyLink.prop('href')).toBe('/history')
-    expect(historyLink.children().first().prop('name')).toBe('history')
-    expect(historyLink.find('span.label').text()).toBe('History')
+    expect(historyLink.prop('label')).toBe('History')
+    expect(historyLink.prop('iconName')).toBe('history')
 
-    const contactsLink = actionsList.at(2).childAt(0)
+    const contactsLink = actionsList.childAt(2)
 
     expect(contactsLink.prop('href')).toBe('/contacts')
-    expect(contactsLink.children().first().prop('name')).toBe('contact')
-    expect(contactsLink.find('span.label').text()).toBe('Contacts')
+    expect(contactsLink.prop('label')).toBe('Contacts')
+    expect(contactsLink.prop('iconName')).toBe('contact')
 
-    const moreLink = actionsList.at(3).childAt(0)
+    const moreLink = actionsList.childAt(3)
 
     expect(moreLink.prop('href')).toBe('/more')
-    expect(moreLink.children().first().prop('name')).toBe('more')
-    expect(moreLink.find('span.label').text()).toBe('More')
+    expect(moreLink.prop('label')).toBe('More')
+    expect(moreLink.prop('iconName')).toBe('more')
 
     /**
      * Settings
      */
-    const settings = wrapper.childAt(4).shallow()
+    const settings = wrapper.childAt(2).shallow()
 
     expect(settings.hasClass('actions settings')).toBe(true)
     expect(settings.children()).toHaveLength(1)
-    expect(settings.children().first().prop('href')).toBe('/settings')
-    expect(settings.find('span.label').text()).toBe('Settings')
+
+    const settingsLink = settings.children().first()
+
+    expect(settingsLink.prop('href')).toBe('/settings')
+    expect(settingsLink.prop('label')).toBe('Settings')
+    expect(settingsLink.prop('iconName')).toBe('settings')
 
     /**
      * Back
      */
-    const backWrapper = wrapper.childAt(5)
+    const backWrapper = wrapper.childAt(3)
 
     expect(backWrapper.prop('previousRouteNameFallback')).toBe(previousRouteNameFallback)
     expect(backWrapper.prop('isMinimized')).toBe(false)
@@ -206,7 +201,7 @@ describe('MenuPanel', () => {
     expect(componentInstance.props.mnemonicAddressName).toBe(mnemonicAddressName)
     expect(componentInstance.props.isMnemonic).toBe(true)
 
-    expect(wrapper.children()).toHaveLength(6)
+    expect(wrapper.children()).toHaveLength(4)
 
     const top = wrapper.children().first()
 
@@ -241,9 +236,9 @@ describe('MenuPanel', () => {
 
     expect(wrapper.hasClass('minimized')).toBe(true)
 
-    expect(wrapper.children()).toHaveLength(6)
+    expect(wrapper.children()).toHaveLength(4)
 
-    const backWrapper = wrapper.childAt(5)
+    const backWrapper = wrapper.childAt(3)
 
     expect(backWrapper.prop('isMinimized')).toBe(true)
 
@@ -280,9 +275,9 @@ describe('MenuPanel', () => {
 
     expect(wrapper.hasClass('minimized')).toBe(true)
 
-    expect(wrapper.children()).toHaveLength(6)
+    expect(wrapper.children()).toHaveLength(4)
 
-    const backWrapper = wrapper.childAt(5)
+    const backWrapper = wrapper.childAt(3)
 
     expect(backWrapper.prop('isMinimized')).toBe(true)
 

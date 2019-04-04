@@ -1,19 +1,21 @@
-// @flow
+// @flow strict
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 
 import menuPanelStyle from './menuPanel.m.scss'
-import { Top } from './Top'
-import { Back } from './Back'
-import { Actions } from './Actions'
-import { Settings } from './Settings'
-import { Separator } from './Separator'
 
 import {
   getMenuMeta,
   type MenuMeta,
 } from './menuMeta'
+
+import {
+  Top,
+  Back,
+  Actions,
+  Settings,
+} from './components'
 
 type Props = {|
   +routeName: string,
@@ -58,9 +60,7 @@ export class MenuPanel extends PureComponent<Props> {
           fiatBalance={fiatBalance}
           isMnemonic={isMnemonic}
         />
-        <Separator />
         <Actions routeName={routeName} />
-        <Separator />
         <Settings />
         <Back
           previousRouteNameFallback={previousRouteNameFallback}

@@ -1,15 +1,13 @@
-// @flow
+// @flow strict
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import {
-  MenuPanel,
-  OverlayNotification,
-} from 'components'
+import { OverlayNotification } from 'components'
 
 import menuLayoutStyle from './menuLayout.m.scss'
+import { MenuPanel } from './components'
 
 type Props = {|
   +openLayout: Function,

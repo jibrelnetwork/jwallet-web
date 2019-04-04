@@ -37,8 +37,6 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
-export { MenuPanel } from './MenuPanel/MenuPanel'
-
 export {
   PasswordField,
   PasswordFieldFinalFormAdapter,

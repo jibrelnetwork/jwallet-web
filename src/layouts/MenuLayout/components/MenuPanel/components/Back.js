@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 
@@ -7,7 +7,7 @@ import {
   JLinkBack,
 } from 'components/base'
 
-import menuPanelStyle from './menuPanel.m.scss'
+import menuPanelStyle from '../menuPanel.m.scss'
 
 type Props = {|
   +previousRouteNameFallback: ?string,
