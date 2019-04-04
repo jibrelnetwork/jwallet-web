@@ -5,7 +5,7 @@ RUNMODE="${1:-start}"
 echo "Starting server in ${ENV:-undefined} mode"
 
 if [ "$ENV" = "demo" ]; then
-    sed -i '/location \/status/i location /storybook { include /etc/nginx/storybook-nginx.conf; }' /etc/nginx/nginx.conf
+    sed -i '/location \/status/i \        include /etc/nginx/storybook-nginx.conf;' /etc/nginx/nginx.conf
 fi
 
 
