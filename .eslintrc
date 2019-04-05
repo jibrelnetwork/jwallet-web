@@ -115,21 +115,22 @@
         { "property": "captchaExpiredCallback" }
       ]
     }],
+    "jsx-a11y/no-autofocus": 0,
+    "react/jsx-no-bind": 2,
+    "react/jsx-pascal-case": 2,
+    "react/jsx-handler-names": 2,
+    "react/jsx-closing-tag-location": 2,
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
     "react/button-has-type": [2, {
       "button": true,
       "submit": true,
       "reset": false
     }],
-    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
-    "react/jsx-closing-tag-location": 2,
     "react/jsx-curly-spacing": [2, {
       "when": "never",
       "allowMultiline": false,
       "objectLiterals": "never"
     }],
-    "react/jsx-handler-names": 2,
-    "react/jsx-no-bind": 2,
-    "react/jsx-pascal-case": 2,
     "react/jsx-wrap-multilines": [2, {
       "declaration": "parens-new-line",
       "assignment": "parens-new-line",
