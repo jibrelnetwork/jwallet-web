@@ -33,7 +33,7 @@ export type ContainerProps = {
   +onClick?: (Address) => mixed,
   +txAddress: Address,
   +offset?: OffsetVariant,
-  +isActive: boolean,
+  +isActive?: boolean,
 }
 
 type Props = ContainerProps & {
@@ -90,7 +90,7 @@ function formatTransactionAmount({
   const symboled = `${formatted}\u202F${asset.symbol}`
 
   return status === 'success'
-    ? `${(type === 'in' ? '+' : '\u002D')}${symboled}`
+    ? `${(type === 'in' ? '+' : '\u2212')}${symboled}`
     : symboled
 }
 
