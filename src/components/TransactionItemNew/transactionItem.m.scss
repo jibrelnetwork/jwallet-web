@@ -16,7 +16,6 @@
   border-radius: 4px;
   background: $white;
   box-shadow: $normal-shadow;
-  cursor: pointer;
 
   //&:focus,
   &:hover {
@@ -27,6 +26,7 @@
 
 .selected {
   box-shadow: $select-shadow;
+  // FIXME: Temporary solution
   height: 120px;
   max-height: 120px;
 }
@@ -68,11 +68,13 @@
 
 // stylelint-disable
 // selector names and nested selectors is necessary
-.error {
-  .main-block {
-    color: $main-red;
+.in {
+  .amount-block {
+    color: $main-blue;
   }
+}
 
+.error {
   .amount-block {
     color: $main-red;
   }

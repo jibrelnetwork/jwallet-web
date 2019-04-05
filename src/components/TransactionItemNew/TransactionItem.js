@@ -126,6 +126,7 @@ class TransactionItem extends PureComponent<Props, *> {
         className={classNames(
           '__transaction-item',
           transactionItemStyle.core,
+          transactionItemStyle[transaction.type],
           transaction.status === 'fail' && transactionItemStyle.error,
           isActive && transactionItemStyle.selected,
           offsetsStyle[offset],
