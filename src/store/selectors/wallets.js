@@ -2,6 +2,11 @@
 
 import getAddress from 'utils/wallets/getAddress'
 
+import {
+  WalletNotFoundError,
+  ActiveWalletNotFoundError,
+} from 'errors'
+
 export function selectWallets(state: AppState): WalletsState {
   return state.wallets
 }
@@ -45,10 +50,30 @@ export function selectActiveWalletId(state: AppState): ?WalletId {
   return walletsPersist.activeWalletId
 }
 
+export function selectActiveWalletIdOrThrow(state: AppState): WalletId {
+  const activeWalletId = selectActiveWalletId(state)
+
+  if (!activeWalletId) {
+    throw new ActiveWalletNotFoundError()
+  }
+
+  return activeWalletId
+}
+
 export function selectWallet(state: AppState, walletId: WalletId): ?Wallet {
   const items: Wallets = selectWalletsItems(state)
 
   return items.find(({ id }: Wallet): boolean => (id === walletId))
+}
+
+export function selectWalletOrThrow(state: AppState, walletId: WalletId): Wallet {
+  const wallet = selectWallet(state, walletId)
+
+  if (!wallet) {
+    throw new WalletNotFoundError({ walletId })
+  }
+
+  return wallet
 }
 
 export function selectActiveWallet(state: AppState): ?Wallet {
@@ -64,6 +89,16 @@ export function selectActiveWallet(state: AppState): ?Wallet {
   return items.find(({ id }: Wallet): boolean => (id === activeWalletId))
 }
 
+export function selectActiveWalletOrThrow(state: AppState): Wallet {
+  const activeWallet = selectActiveWallet(state)
+
+  if (!activeWallet) {
+    throw new ActiveWalletNotFoundError()
+  }
+
+  return activeWallet
+}
+
 export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
   const {
     items,
@@ -75,6 +110,16 @@ export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
   }
 
   return getAddress(items, activeWalletId)
+}
+
+export function selectActiveWalletAddressOrThrow(state: AppState): OwnerAddress {
+  const address = selectActiveWalletAddress(state)
+
+  if (!address) {
+    throw new ActiveWalletNotFoundError()
+  }
+
+  return address
 }
 
 export function selectWalletsCreate(state: AppState): WalletsCreateState {

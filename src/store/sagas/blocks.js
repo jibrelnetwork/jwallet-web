@@ -23,7 +23,8 @@ import {
 
 import config from 'config'
 import web3 from 'services/web3'
-import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
+import { ActiveNetworkNotFoundError } from 'errors'
 
 import {
   selectLatestBlock,
@@ -33,7 +34,7 @@ import {
 
 import {
   selectNetworkById,
-  selectCurrentNetworkId,
+  selectCurrentNetworkIdOrThrow,
 } from 'store/selectors/networks'
 
 import * as balances from 'store/modules/balances'
@@ -57,7 +58,7 @@ function* latestBlockSync(networkId: NetworkId): Saga<void> {
         yield select(selectNetworkById, networkId)
 
       if (!network) {
-        throw new Error(t`ActiveNetworkNotFoundError`)
+        throw new ActiveNetworkNotFoundError()
       }
 
       try {
@@ -143,7 +144,7 @@ export function* processQueue(
       yield select(selectNetworkById, networkId)
 
     if (!network) {
-      throw new Error(t`ActiveNetworkNotFoundError`)
+      throw new ActiveNetworkNotFoundError()
     }
 
     try {
@@ -228,19 +229,11 @@ function* processBlock(networkId: NetworkId, ownerAddress: OwnerAddress): Saga<v
 }
 
 function* syncStart(): Saga<void> {
-  const networkId: ExtractReturn<typeof selectCurrentNetworkId> =
-    yield select(selectCurrentNetworkId)
+  const networkId: ExtractReturn<typeof selectCurrentNetworkIdOrThrow> =
+    yield select(selectCurrentNetworkIdOrThrow)
 
-  if (!networkId) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
-
-  const address: ExtractReturn<typeof selectActiveWalletAddress> =
-    yield select(selectActiveWalletAddress)
-
-  if (!address) {
-    throw new Error(t`ActiveAddressNotFoundError`)
-  }
+  const address: ExtractReturn<typeof selectActiveWalletAddressOrThrow> =
+    yield select(selectActiveWalletAddressOrThrow)
 
   const latestSyncTask: Task<typeof latestBlockSync> = yield fork(latestBlockSync, networkId)
   const currentSyncTask: Task<typeof currentBlockSync> = yield fork(currentBlockSync, networkId)
