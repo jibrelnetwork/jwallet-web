@@ -17,18 +17,18 @@ import {
 import fieldStyle from './sendAmountField.m.scss'
 
 type Props = {|
-  blockchainFee: string,
-  className: string,
-  currency: string,
-  fiatAmount: string,
-  fiatCurrency: FiatCurrency,
-  infoMessage: string,
-  input: FinalFormInput,
-  isFetchingFiatAmount: boolean,
-  label: string,
-  maxValue: string,
-  meta: FinalFormMeta,
-  validateType: FinalFormValidateType,
+  +blockchainFee: string,
+  +className: string,
+  +currency: string,
+  +fiatAmount: string,
+  +fiatCurrency: FiatCurrency,
+  +infoMessage: string,
+  +input: FinalFormInput,
+  +isFetchingFiatAmount: boolean,
+  +label: string,
+  +maxValue: string,
+  +meta: FinalFormMeta,
+  +validateType: FinalFormValidateType,
 |}
 
 type InputRef = {
