@@ -1,3 +1,5 @@
+// @flow strict
+
 import createRouter5 from 'router5'
 
 import {
@@ -10,7 +12,10 @@ export const router = createRouter5([], {
   allowNotFound: true,
 })
 
-export const routes = [{
+export const routes: Array<{|
+  +name: string,
+  +path: string,
+|}> = [{
   path: '/',
   name: 'Home',
 }, {

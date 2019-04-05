@@ -19,11 +19,16 @@ import 'styles/core.scss'
 type Props = {|
   +route: Object,
   +hasWallets: boolean,
+  +hasPassword: boolean,
   +isAllAgreementsChecked: boolean,
+  +isAllFeaturesIntroduced: boolean,
 |}
 
 // FIXME: discuss with the team and update accordingly
-function renderWithWalletsLayout(Component, props = {}) {
+function renderWithWalletsLayout(
+  Component,
+  props = {},
+) {
   return (
     <WalletsLayout>
       <Component {...props} />
@@ -31,7 +36,11 @@ function renderWithWalletsLayout(Component, props = {}) {
   )
 }
 
-function renderWithMenuLayout(Component, props = {}, routeName) {
+function renderWithMenuLayout(
+  Component,
+  props = {},
+  routeName: ?string,
+) {
   return (
     <MenuLayout routeName={routeName}>
       <Component {...props} />
@@ -42,18 +51,28 @@ function renderWithMenuLayout(Component, props = {}, routeName) {
 function AppRouter({
   route,
   hasWallets,
+  hasPassword,
   isAllAgreementsChecked,
+  isAllFeaturesIntroduced,
 }: Props) {
   if (!route || route.name === constants.UNKNOWN_ROUTE) {
     return renderWithWalletsLayout(pages.NotFound)
   }
 
+  if (!isAllFeaturesIntroduced) {
+    return renderWithMenuLayout(pages.NotFound)
+  }
+
   if (!isAllAgreementsChecked) {
-    return renderWithWalletsLayout(pages.Agreements)
+    return renderWithWalletsLayout(pages.AgreementsView)
+  }
+
+  if (!hasPassword) {
+    return renderWithMenuLayout(pages.SetPasswordView)
   }
 
   if (!hasWallets) {
-    return null
+    return renderWithMenuLayout(pages.WalletsStartView)
   }
 
   const {
@@ -72,13 +91,18 @@ function AppRouter({
 
 function mapStateToProps(state) {
   const { route } = state.router
-  const hasWallets: boolean = selectWalletsItems(state).length !== 0
+  const wallets: Wallet[] = selectWalletsItems(state)
+  const hasWallets: boolean = !!wallets.length
+  const hasPassword: boolean = false
   const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
+  const isAllFeaturesIntroduced: boolean = true /* checkFeatures(FEATURES_LIST) */
 
   return {
     route,
     hasWallets,
+    hasPassword,
     isAllAgreementsChecked,
+    isAllFeaturesIntroduced,
   }
 }
 
