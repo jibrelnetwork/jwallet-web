@@ -3,9 +3,11 @@ import {
   shallow,
   mount,
 } from 'enzyme'
+import sinon from 'sinon'
 
-import { JInputField } from '../JInputField'
-import { JFieldMessage } from '../../JFieldMessage/JFieldMessage'
+import { JFieldMessage } from 'components/base'
+
+import { SendAmountField } from '../SendAmountField'
 
 const finalFormInputMock = {
   name: 'foo',
@@ -15,66 +17,39 @@ const finalFormInputMock = {
   value: 'abc',
 }
 
-describe('JInputField', () => {
+describe('SendAmountField', () => {
   test('is available', () => {
-    expect(JInputField).toBeDefined()
+    expect(SendAmountField).toBeDefined()
   })
 
   test('has correct defaultProps', () => {
     const wrapper = mount(
-      <JInputField />,
+      <SendAmountField />,
     )
 
-    expect(wrapper.prop('theme')).toBe('white')
-    expect(wrapper.prop('type')).toBe('text')
-    expect(wrapper.prop('disabled')).toBe(false)
     expect(wrapper.prop('validateType')).toBe('touched')
+    expect(wrapper.prop('fiatCurrency')).toBe('USD')
     expect(wrapper.prop('infoMessage')).toBe('')
-    expect(wrapper.prop('label')).toBe('')
-    expect(wrapper.prop('placeholder')).toBe('')
+    expect(wrapper.prop('className')).toBe('')
+    expect(wrapper.prop('label')).toBe('Amount')
     expect(wrapper.prop('meta')).toBeDefined()
     expect(wrapper.prop('input')).toBeDefined()
   })
 
-  test('html attributes are applies to input', () => {
-    const wrapper = shallow(
-      <JInputField
-        aria-label='meow'
-      />,
-    )
-
-    const inputEl = wrapper.find('input')
-    expect(inputEl.prop('aria-label')).toBe('meow')
-  })
-
   test('has label', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         label='Hi'
       />,
     )
 
     const labelEl = wrapper.find('.label')
-    expect(labelEl.html()).toBe('<label class="label" for="hiId">Hi</label>')
-  })
-
-  test('can be disabled', () => {
-    const wrapper = shallow(
-      <JInputField
-        disabled
-      />,
-    )
-
-    const wrapEl = wrapper.find('div.wrap')
-    const inputEl = wrapper.find('input')
-
-    expect(wrapEl.hasClass('disabled')).toBe(true)
-    expect(inputEl.prop('disabled')).toBe(true)
+    expect(labelEl.html()).toBe('<label for="amountInputId" class="label">Hi</label>')
   })
 
   test('can show infoMessage', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         infoMessage='Hi'
       />,
     )
@@ -87,7 +62,7 @@ describe('JInputField', () => {
 
   test('can show error message', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         meta={{
           error: 'Hi',
           touched: true,
@@ -104,7 +79,7 @@ describe('JInputField', () => {
 
   test('has error and info messages, but shows error message', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         meta={{
           error: 'Hi',
           touched: true,
@@ -120,9 +95,9 @@ describe('JInputField', () => {
     expect(messageEl.prop('message')).toBe('Hi')
   })
 
-  test('pass FinalForm input to input el', () => {
+  test('pass FinalForm input to the input el', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         input={finalFormInputMock}
       />,
     )
@@ -130,15 +105,16 @@ describe('JInputField', () => {
     const inputEl = wrapper.find('input')
 
     expect(inputEl.prop('name')).toBe(finalFormInputMock.name)
-    expect(inputEl.prop('onChange')).toBe(finalFormInputMock.onChange)
     expect(inputEl.prop('onBlur')).toBe(finalFormInputMock.onBlur)
     expect(inputEl.prop('onFocus')).toBe(finalFormInputMock.onFocus)
     expect(inputEl.prop('value')).toBe(finalFormInputMock.value)
+    // SendAmountField uses wrapper on final form onChange method
+    expect(inputEl.prop('onChange')).not.toBe(finalFormInputMock.onChange)
   })
 
   test('active when meta.active', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         meta={{
           active: true,
         }}
@@ -151,20 +127,8 @@ describe('JInputField', () => {
 
   test('active when has value', () => {
     const wrapper = shallow(
-      <JInputField
+      <SendAmountField
         input={finalFormInputMock}
-      />,
-    )
-
-    const wrapEl = wrapper.find('div.wrap')
-    expect(wrapEl.hasClass('active')).toBe(true)
-  })
-
-  test('active when has label and placeholder', () => {
-    const wrapper = shallow(
-      <JInputField
-        label='Hi'
-        placeholder='... and enter value'
       />,
     )
 
@@ -174,7 +138,7 @@ describe('JInputField', () => {
 
   test('set focus on label click', () => {
     const wrapper = mount(
-      <JInputField
+      <SendAmountField
         label='Click me'
       />,
     )
@@ -187,5 +151,67 @@ describe('JInputField', () => {
 
     const focusedElAfterClick = document.activeElement
     expect(focusedElAfterClick instanceof HTMLInputElement).toBe(true)
+  })
+
+  test('get onChange correct when user enter amount', () => {
+    const onChangeSpy = sinon.spy()
+    const wrapper = mount(
+      <SendAmountField
+        input={{
+          onChange: onChangeSpy,
+        }}
+      />,
+    )
+
+    const labelEl = wrapper.find('.input')
+    labelEl.simulate('change', { target: { value: '12.93' } })
+    expect(onChangeSpy.calledWith('12.93')).toBe(true)
+  })
+
+  test('fix some incorrect user input', () => {
+    const onChangeSpy = sinon.spy()
+    const wrapper = mount(
+      <SendAmountField
+        input={{
+          onChange: onChangeSpy,
+        }}
+      />,
+    )
+
+    const inputEl = wrapper.find('.input')
+    inputEl.simulate('change', { target: { value: '$12.93' } })
+    expect(onChangeSpy.calledWith('12.93')).toBe(true)
+  })
+
+  // eslint-disable-next-line max-len
+  test('changes input value to maxValue when user clicks to the MAX button, then resets it when CLEAN button clicked', () => {
+    const onChangeSpy = sinon.spy()
+    const wrapper = mount(
+      <SendAmountField
+        input={{
+          onChange: onChangeSpy,
+        }}
+        maxValue='129.99'
+      />,
+    )
+
+    const maxValueEl = wrapper.find('.max')
+    maxValueEl.simulate('click')
+    expect(onChangeSpy.calledWith('129.99')).toBe(true)
+
+    const cleanEl = wrapper.find('.clean')
+    cleanEl.simulate('click')
+    expect(onChangeSpy.calledWith('')).toBe(true)
+  })
+
+  test('shows loader when fetching fiat amount', () => {
+    const wrapper = mount(
+      <SendAmountField
+        isFetchingFiatAmount
+      />,
+    )
+
+    const wrapEl = wrapper.find('div.amount')
+    expect(wrapEl.hasClass('fetching')).toBe(true)
   })
 })
