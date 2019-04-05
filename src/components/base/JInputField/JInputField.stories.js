@@ -3,6 +3,7 @@
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+
 import {
   Form,
   Field,
@@ -14,7 +15,7 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   return (
     <Form
       initialValues={initialValues}
-      onSubmit={values => alert(JSON.stringify(values, false, 4))}
+      onSubmit={values => alert(JSON.stringify(values, null, 4))}
       render={({
         form,
         handleSubmit,

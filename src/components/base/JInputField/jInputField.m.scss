@@ -1,20 +1,22 @@
-// stylelint-disable rscss/class-format, selector-nested-pattern
-
 @import "styles/mixins";
-@import "styles/colors";
-
-$form-left-padding: 24px;
-$form-right-padding: 16px;
 
 .core {
   position: relative;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.wrap,
+.label,
+.input {
+  @include hover-animation;
 }
 
 .wrap {
-  cursor: pointer;
   height: 72px;
   padding: 0;
   box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
@@ -30,9 +32,6 @@ $form-right-padding: 16px;
   font-size: 14px;
   line-height: 22px;
   cursor: text;
-  transition:
-    font-size 0.3s ease 0s,
-    top 0.3s ease 0s;
 }
 
 .input {
@@ -45,7 +44,6 @@ $form-right-padding: 16px;
   background: inherit;
   resize: none;
   border: none;
-  transition: padding 0.3s ease 0s, top 0.3s ease 0s;
 
   &::placeholder {
     color: $main-black-30;
@@ -53,54 +51,54 @@ $form-right-padding: 16px;
 }
 
 .active {
-  > .input {
+  .input {
     padding-top: 34px;
     padding-bottom: 16px;
   }
 
-  > .input::placeholder {
+  .input::placeholder {
     color: $main-black-40;
   }
 
-  > .label {
+  .label {
     top: 16px;
     font-size: 12px;
     background-color: transparent;
   }
 }
 
-.white > .wrap {
+.white .wrap {
   background-color: $white;
 
-  > .input {
+  .input {
     color: $main-black;
   }
 
-  > .label {
+  .label {
     color: $main-black-40;
     background-color: $white;
   }
 
-  &:hover > .input::placeholder,
-  &:hover > .label {
+  &:hover .input::placeholder,
+  &:hover .label {
     color: $main-black-40;
   }
 
-  &.error > .label {
+  &.error .label {
     color: $main-red;
   }
 
   &.disabled {
     background: $main-black-5;
 
-    > .label {
+    .label {
       color: $main-black-30;
       background-color: transparent;
       user-select: none;
       cursor: default;
     }
 
-    > .input {
+    .input {
       color: $main-black-30;
     }
   }
