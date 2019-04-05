@@ -1,6 +1,5 @@
 FROM node:8-onbuild AS build
 
-RUN npm r lint-staged
 RUN npm run build:clean
 RUN npm run storybook:build
 

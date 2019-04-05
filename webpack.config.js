@@ -438,17 +438,6 @@ module.exports = {
       openAnalyzer: false,
     }),
 
-    // we pack files more than 8kb with gzip in advance
-    // to prevent nginx from converting it in run-time
-    isEnvProduction &&
-    new CompressionPlugin({
-      threshold: 8192,
-      exclude: /\.map$/,
-      algorithm(input, compressionOptions, callback) {
-        return zopfli.gzip(input, compressionOptions, callback)
-      },
-    }),
-
     new CopyWebpackPlugin([
       {
         from: 'src/public/**/*',
@@ -459,6 +448,17 @@ module.exports = {
     ]),
 
     new SpriteLoaderPlugin(),
+
+    // we pack files more than 1kb with gzip in advance
+    // to prevent nginx from converting it in run-time
+    isEnvProduction &&
+    new CompressionPlugin({
+      threshold: 1024,
+      exclude: /\.map$/,
+      algorithm(input, compressionOptions, callback) {
+        return zopfli.gzip(input, compressionOptions, callback)
+      },
+    }),
   ].filter(Boolean),
 
   optimization: {
