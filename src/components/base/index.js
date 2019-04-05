@@ -18,9 +18,12 @@ import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
 export { JLogo } from './JLogo/JLogo'
-export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+export { JLink } from './JLink/JLink'
+export { JLinkBack } from './JLinkBack/JLinkBack'
 export { JTextArea } from './JTextArea/JTextArea'
+export { JInputField } from './JInputField/JInputField'
 export { JTextAreaField } from './JTextArea/JTextAreaField'
+export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 
 export {
   JAssetSymbol,
@@ -40,6 +43,3 @@ export {
   JSwitch,
   JPicker,
 }
-
-export { JLink } from './JLink/JLink'
-export { JLinkBack } from './JLinkBack/JLinkBack'

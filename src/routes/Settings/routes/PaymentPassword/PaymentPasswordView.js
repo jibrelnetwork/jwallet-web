@@ -8,9 +8,12 @@ import {
   Field,
 } from 'react-final-form'
 
-import { JRaisedButton } from 'components/base'
-import { JInputField } from 'components/base/JInput'
-import { PasswordFieldFinalFormAdapter } from 'components/PasswordField'
+import { PasswordField } from 'components'
+
+import {
+  JInputField,
+  JRaisedButton,
+} from 'components/base'
 
 import {
   SubsettingsView,
@@ -35,7 +38,10 @@ const text = {
 const required = message => value => (value ? undefined : message)
 
 type Props = {
-  passwordForm: { isLoading: boolean, messages: PaymentPasswordForm },
+  passwordForm: {
+    messages: PaymentPasswordForm,
+    isLoading: boolean,
+  },
   submit: Function,
 }
 
@@ -108,11 +114,12 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 isDisabled={this.props.passwordForm.isLoading}
                 isAutoFocus
               />
-              <PasswordFieldFinalFormAdapter
+              <PasswordField
                 onChange={handleFormChange}
-                errorMessages={passwordForm.messages}
-                isLoading={passwordForm.isLoading}
                 values={values}
+                errors={passwordForm.messages}
+                placeholder='Enter Security Password'
+                isLoading={passwordForm.isLoading}
               />
               <Field
                 component={JInputField}

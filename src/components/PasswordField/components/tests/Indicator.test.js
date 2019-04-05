@@ -11,12 +11,7 @@ describe('Indicator', () => {
   })
 
   test('renders (with fetching status)', () => {
-    const wrapper = mount(
-      <Indicator
-        status='fetching'
-        fieldColor='gray'
-      />,
-    )
+    const wrapper = mount(<Indicator status='fetching' />)
 
     expect(wrapper.prop('status')).toBe('fetching')
     expect(wrapper.prop('fieldColor')).toBe('gray')
@@ -29,12 +24,7 @@ describe('Indicator', () => {
   })
 
   test('renders (with some "color" status)', () => {
-    const wrapper = mount(
-      <Indicator
-        status='green'
-        fieldColor='white'
-      />,
-    )
+    const wrapper = mount(<Indicator status='green' />)
 
     expect(wrapper.prop('status')).toBe('green')
     expect(wrapper.prop('fieldColor')).toBe('white')
