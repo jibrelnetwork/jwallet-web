@@ -1,6 +1,6 @@
-// @flow
+// @flow strict
 
-function getErrorMessage(
+export function getErrorMessage(
   meta: FinalFormMeta,
   validateType: ?FinalFormValidateType,
 ): ?string {
@@ -16,7 +16,5 @@ function getErrorMessage(
     return error
   }
 
-  return undefined
+  return null
 }
-
-export { getErrorMessage }
