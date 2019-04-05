@@ -13,7 +13,7 @@ type Props = {|
   +openLayout: Function,
   +closeLayout: Function,
   +children: React$Node,
-  +routeName: string,
+  +routeName: ?string,
   +walletName: string,
   +fiatCurrency: string,
   +mnemonicAddressName: string,
@@ -45,14 +45,16 @@ export class MenuLayout extends Component<Props> {
 
     return (
       <div className={classNames('__menu-layout', menuLayoutStyle.core)}>
-        <MenuPanel
-          routeName={routeName}
-          walletName={walletName}
-          fiatCurrency={fiatCurrency}
-          mnemonicAddressName={mnemonicAddressName}
-          fiatBalance={fiatBalance}
-          isMnemonic={isMnemonic}
-        />
+        {routeName && (
+          <MenuPanel
+            routeName={routeName}
+            walletName={walletName}
+            fiatCurrency={fiatCurrency}
+            mnemonicAddressName={mnemonicAddressName}
+            fiatBalance={fiatBalance}
+            isMnemonic={isMnemonic}
+          />
+        )}
         <div className={classNames('__menu-layout_content', menuLayoutStyle.content)}>
           {children}
           {isConnectionError && (
