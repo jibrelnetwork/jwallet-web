@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
 import {
   createWallet,
   upgradeWallet,
@@ -14,6 +12,8 @@ import {
   encryptInternalKey,
   deriveKeyFromPassword,
 } from 'utils/encryption'
+
+import { WalletInconsistentDataError } from 'errors'
 
 /* eslint-disable import/no-duplicates */
 import * as upgrade from 'store/modules/upgrade'
@@ -119,7 +119,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error(t`WalletsDataError`)
+          throw new WalletInconsistentDataError({ walletId }, 'Invalid password options')
         }
 
         const {
@@ -154,7 +154,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error(t`WalletsDataError`)
+          throw new WalletInconsistentDataError({ walletId: wallet.id }, 'Invalid password options')
         }
 
         const {
