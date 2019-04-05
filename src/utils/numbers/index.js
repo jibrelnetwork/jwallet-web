@@ -6,7 +6,7 @@ import isValidNumeric from './isValidNumeric'
 import fromWeiToGWei from './fromWeiToGWei'
 import fromGweiToWei from './fromGweiToWei'
 import divDecimals from './divDecimals'
-import toBigNumber from './toBigNumber'
+import { toBigNumber } from './toBigNumber'
 import formatBalance from './formatBalance'
 
 export {

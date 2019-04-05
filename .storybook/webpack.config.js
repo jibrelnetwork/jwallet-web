@@ -16,7 +16,7 @@ module.exports = async ({ config: baseConfig }, env) => {
           {
             loader: require.resolve('css-loader'),
             options: {
-              url: false,
+              url: true,
               import: false,
               modules: 'local',
               localIdentName: '[path][name]__[local]--[hash:base64:5]',
@@ -112,16 +112,6 @@ module.exports = async ({ config: baseConfig }, env) => {
     ]
   },
   {
-    test: /\.svg$/,
-    exclude: [
-      path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
-      path.resolve(srcPath, 'public/assets/tokens'),
-    ],
-    loader: 'file-loader',
-    options: {
-      name: 'static/media/[name].[hash:8].[ext]',
-    }
-  }, {
     test: /\.svg$/,
     include: [
       path.resolve(srcPath, 'public/assets/icons/sprite-pack'),

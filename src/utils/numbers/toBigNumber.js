@@ -9,4 +9,5 @@ function toBigNumber(value: ?ToBigNumberValue, base?: number = 10): BigNumber {
   return new BigNumber(value || 0, base)
 }
 
+export { toBigNumber }
 export default toBigNumber
