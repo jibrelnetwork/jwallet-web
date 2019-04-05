@@ -1,6 +1,7 @@
 // @flow
 
 import { type ComponentType } from 'react'
+import { type FormApi } from 'react-final-form'
 
 declare type Index = number
 
@@ -18,6 +19,14 @@ declare type SortDirection = 'asc' | 'desc'
 declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
+declare type FormValidate = (values: Object) => Object | Promise<Object>
+
+declare type FormSubmit = (
+  values: Object,
+  form: FormApi,
+  callback: ?(errors: ?Object) => void,
+) => ?Object | Promise<?Object> | void
+
 declare type SetFieldFunction<T> = ($Keys<T>, string) => void
 
 declare type OwnPropsEmpty = {||}
