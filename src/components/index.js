@@ -4,7 +4,6 @@ import QRCode from './QRCode'
 import HelpText from './HelpText'
 import AssetItem from './AssetItem'
 import ESCButton from './ESCButton'
-import MenuPanel from './MenuPanel'
 import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
@@ -15,7 +14,6 @@ import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import FavoriteItem from './FavoriteItem'
 import PasswordStep from './PasswordStep'
-import WalletHeader from './WalletHeader'
 import SettingsGrid from './SettingsGrid'
 import AddressPicker from './AddressPicker'
 import CopyableField from './CopyableField'
@@ -49,7 +47,6 @@ export {
   HelpText,
   AssetItem,
   ESCButton,
-  MenuPanel,
   WalletCard,
   WalletFace,
   WalletStep,
@@ -60,7 +57,6 @@ export {
   AssetBalance,
   FavoriteItem,
   PasswordStep,
-  WalletHeader,
   SettingsGrid,
   AddressPicker,
   CopyableField,

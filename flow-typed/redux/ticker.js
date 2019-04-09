@@ -8,6 +8,14 @@ declare type FiatCourseById = { [FiatTimestamp]: ?FiatCourse }
 declare type FiatCourses = { [FiatId]: ?FiatCourseById }
 declare type FiatCoursesAPI = { [FiatId]: ?FiatCourse }
 
+declare type FiatCurrencyData = {|
+  +name: string,
+  +symbol: string,
+  +code: FiatCurrency,
+|}
+
+declare type FiatCurrencies = { [FiatCurrency]: FiatCurrencyData }
+
 declare type TickerPersist = {|
   +items: FiatCourses,
 |}

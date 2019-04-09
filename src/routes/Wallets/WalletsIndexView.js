@@ -9,7 +9,6 @@ import getShortenedAddress from 'utils/address/getShortenedAddress'
 
 import {
   WalletCard,
-  WalletHeader,
   NewWalletButtons,
 } from 'components'
 
@@ -54,7 +53,6 @@ class WalletsIndexView extends Component<Props> {
 
     return (
       <div className='wallets-view -index'>
-        <WalletHeader />
         <div className='content'>
           <div className='wallets'>
             {items.map((item) => {

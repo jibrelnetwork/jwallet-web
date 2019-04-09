@@ -29,7 +29,6 @@ import * as wallets from 'store/modules/wallets'
 
 function* openView(): Saga<void> {
   yield put(wallets.clean())
-  yield put(wallets.setActiveWallet(null))
 
   const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
 
