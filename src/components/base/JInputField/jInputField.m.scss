@@ -16,7 +16,6 @@
   height: 72px;
   padding: 0;
   box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
-  cursor: pointer;
 
   &:hover {
     box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
@@ -50,6 +49,14 @@
   }
 }
 
+.message {
+  margin-bottom: 8px;
+}
+
+.field-message {
+  padding-left: 16px;
+}
+
 .active {
   .input {
     padding-top: 34px;
@@ -67,8 +74,24 @@
   }
 }
 
-.white .wrap {
-  background-color: $white;
+.white-icon {
+  .input {
+    padding-right: 72px;
+  }
+}
+
+.white-indicator {
+  .input {
+    padding-right: 148px;
+  }
+}
+
+.white,
+.white-icon,
+.white-indicator {
+  .wrap {
+    background-color: $white;
+  }
 
   .input {
     color: $main-black;
@@ -102,12 +125,4 @@
       color: $main-black-30;
     }
   }
-}
-
-.message {
-  margin-bottom: 8px;
-}
-
-.field-message {
-  padding-left: 16px;
 }

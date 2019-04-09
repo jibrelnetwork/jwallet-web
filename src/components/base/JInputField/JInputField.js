@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
@@ -9,10 +9,10 @@ import { JFieldMessage } from 'components/base'
 
 import jInputFieldStyle from './jInputField.m.scss'
 
-export type JInputTheme = 'white'
+export type JInputTheme = 'white' | 'white-icon' | 'white-indicator'
 export type JInputType = 'text' | 'password'
 
-type Props = StyleComponent<JInputTheme> & {
+export type JInputFieldProps = StyleComponent<JInputTheme> & {
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +id: ?string,
@@ -47,7 +47,7 @@ export function JInputField({
   isDisabled,
   isAutoFocus,
   ...rest
-}: Props) {
+}: JInputFieldProps) {
   const textInput: InputRef = React.createRef()
   const errorMsg: ?string = errorMessage || getErrorMessage(meta, validateType)
 
