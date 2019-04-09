@@ -54,7 +54,7 @@ const getSettingsCardProperties = ({
   title: t`Exchange service`,
   description: t`Try Jcash`,
   path: JCASH_UTM_URL,
-  iconName: 'exchange-service',
+  iconName: 'exchange-service-use-fill',
   searchTags: '',
   isVisible: true,
 }, {

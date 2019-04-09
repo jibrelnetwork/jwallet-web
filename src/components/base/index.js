@@ -4,7 +4,6 @@ import JAssetSymbol from './JAssetSymbol'
 import JCard from './JCard'
 import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
-import JIcon from './JIcon'
 import JInput from './JInput'
 import JLoader from './JLoader'
 import JLogo from './JLogo'
@@ -27,7 +26,6 @@ export {
   JCard,
   JCheckbox,
   JFlatButton,
-  JIcon,
   JInput,
   JLoader,
   JLogo,
@@ -42,5 +40,6 @@ export {
   JPicker,
 }
 
+export { JIcon } from './JIcon/JIcon'
 export { JLink } from './JLink/JLink'
 export { JLinkBack } from './JLinkBack/JLinkBack'

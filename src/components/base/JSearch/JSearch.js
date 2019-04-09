@@ -5,7 +5,7 @@ import React, { PureComponent }  from 'react'
 import { t } from 'ttag'
 
 import config from 'config'
-import JIcon from 'components/base/JIcon'
+import { JIcon } from 'components/base'
 
 import {
   handle,

@@ -4,15 +4,20 @@ import React from 'react'
 import classNames from 'classnames'
 import { iconsUI } from 'utils/sprite'
 
+import jIconStyle from './jIcon.m.scss'
+
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 type Props = {
   name: string,
   color: ?JIconColor,
+  className?: ?string,
 }
 
-function JIcon({
-  name, color,
+export function JIcon({
+  name,
+  color,
+  className,
 }: Props) {
   const iconData = iconsUI[`${name}-usage`]
   const hasFill = name.indexOf('use-fill') !== -1
@@ -21,9 +26,11 @@ function JIcon({
     return (
       <svg
         className={classNames(
-          'j-icon',
-          color && `-${color}`,
-          hasFill && '-use-fill',
+          '__icon',
+          jIconStyle.core,
+          color && jIconStyle[color],
+          hasFill && jIconStyle.fill,
+          className,
         )}
         width={iconData.width}
         height={iconData.height}
@@ -33,7 +40,14 @@ function JIcon({
     )
   } else {
     return (
-      <div className='j-icon -no-icon' />
+      <div
+        className={classNames(
+          '__icon',
+          jIconStyle.core,
+          jIconStyle.noIcon,
+          className,
+        )}
+      />
     )
   }
 }
@@ -41,5 +55,3 @@ function JIcon({
 JIcon.defaultProps = {
   color: null,
 }
-
-export default JIcon
