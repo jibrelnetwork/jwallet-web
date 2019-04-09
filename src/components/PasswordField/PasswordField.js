@@ -4,8 +4,7 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 import { Field } from 'react-final-form'
 
-import config from 'config'
-import { JInputField } from 'components/base'
+import { PasswordInput } from 'components'
 import { checkPasswordStrength } from 'utils/encryption'
 
 import {
@@ -15,11 +14,9 @@ import {
 
 import passwordFieldStyle from './passwordField.m.scss'
 
-type InputChangeHandler = (string, string) => void
-
 type Props = {|
-  +onChange: InputChangeHandler,
-  +errors: FormFields,
+  +onChange: FormFieldChange,
+  +onScoreChange: (boolean) => void,
   +values: FormFields,
   +label: string,
   +isDisabled: boolean,
@@ -31,6 +28,8 @@ type StateProps = {|
   +isFetching: boolean,
   +isInitialised: boolean,
 |}
+
+const MIN_PASSWORD_STRENGTH_SCORE: number = 3
 
 const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
   'red': t`Too weak`,
@@ -63,6 +62,10 @@ function getStatusByScore(
   }
 }
 
+function checkStrong(score: number): boolean {
+  return (score >= MIN_PASSWORD_STRENGTH_SCORE)
+}
+
 export class PasswordField extends Component<Props, StateProps> {
   static defaultProps = {
     isDisabled: false,
@@ -93,6 +96,7 @@ export class PasswordField extends Component<Props, StateProps> {
     }
 
     const passwordResult: PasswordResult = await checkPasswordStrength(password)
+    this.handleScoreChange(passwordResult)
     this.setState({ passwordResult })
 
     if (!isInitialised) {
@@ -103,7 +107,7 @@ export class PasswordField extends Component<Props, StateProps> {
     }
   }
 
-  getInfoMessage = (): ?string => {
+  getMessage = (): ?string => {
     if (this.props.isDisabled) {
       return null
     }
@@ -148,9 +152,16 @@ export class PasswordField extends Component<Props, StateProps> {
     this.props.onChange('password', password)
   }
 
+  handleScoreChange = (newPasswordResult: PasswordResult) => {
+    const { passwordResult } = this.state
+
+    if (!passwordResult || (newPasswordResult.score !== passwordResult.score)) {
+      this.props.onScoreChange(checkStrong(newPasswordResult.score))
+    }
+  }
+
   render() {
     const {
-      errors,
       values,
       label,
       isDisabled,
@@ -162,34 +173,32 @@ export class PasswordField extends Component<Props, StateProps> {
       isFetching,
     }: StateProps = this.state
 
-    const infoMessage: ?string = this.getInfoMessage()
+    const infoMessage: ?string = this.getMessage()
     const score: number = passwordResult ? passwordResult.score : -1
     const status: ?IndicatorStatus = getStatusByScore(score, isFetching)
-
-    const errorMessage: ?string = errors.password ||
-      (score < config.minPasswordStrengthScore) ? infoMessage : null
+    const isStrong: boolean = checkStrong(score)
+    const errorMessage: ?string = isStrong ? null : infoMessage
 
     return (
       <div className={passwordFieldStyle.core}>
         <Field
-          component={JInputField}
+          component={PasswordInput}
           onChange={this.handleChange}
           label={label}
           value={values.password}
           infoMessage={infoMessage}
           errorMessage={errorMessage}
-          type='password'
           name='password'
+          theme='white-indicator'
           isDisabled={isDisabled}
           isAutoFocus={isAutoFocus}
         />
         {!isDisabled && <Indicator status={status} />}
         <Field
-          component={JInputField}
+          component={PasswordInput}
           value={values.passwordConfirm}
           label={t`Repeat Security Password`}
-          errorMessage={errors.passwordConfirm}
-          type='password'
+          theme='white-icon'
           name='passwordConfirm'
           isDisabled={isDisabled}
         />

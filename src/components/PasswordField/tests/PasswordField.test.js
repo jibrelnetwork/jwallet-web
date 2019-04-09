@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import sinon from 'sinon'
@@ -13,6 +13,48 @@ jest.mock('../../../utils/sprite/spriteAssets', () => ({
   keys: () => [],
 }))
 
+jest.mock('../../../workers/scrypt/worker', () => class MOCK_WORKER {
+  onerror: ?Function
+  onmessage: ?Function
+
+  constructor() {
+    this.onerror = null
+    this.onmessage = null
+  }
+
+  terminate = () => {}
+
+  postMessage = (msgData: Object) => {
+    const self = this
+
+    const {
+      taskId,
+      taskName,
+    } = msgData
+
+    switch (taskName) {
+      case 'deriveKeyFromPassword': {
+        if (self.onmessage) {
+          return
+        }
+
+        // $FlowFixMe
+        self.onmessage({
+          data: {
+            taskId,
+            payload: new Uint8Array(Buffer.from('')),
+          },
+        })
+
+        break
+      }
+
+      default:
+        break
+    }
+  }
+})
+
 // eslint-disable-next-line import/first
 import { PasswordField } from '../PasswordField'
 
@@ -22,32 +64,29 @@ describe('PasswordField', () => {
   })
 
   test('renders (indicator fetching status)', async () => {
-    const onChange = sinon.spy()
-    const onChangeConfirm = sinon.spy()
+    const handleChange = sinon.spy()
+    const handleScoreChange = sinon.spy()
     const password = 'super'
+    const values = {
+      password: '',
+      passwordConfirm: '',
+    }
 
     const wrapper = shallow(
       <PasswordField
-        onChange={onChange}
-        onChangeConfirm={onChangeConfirm}
-        invalidFields={{}}
-        value=''
-        valueConfirm=''
-        placeholder='Placeholder'
-        placeholderConfirm='Placeholder Confirm'
+        onChange={handleChange}
+        onScoreChange={handleScoreChange}
+        values={values}
+        label='Label'
       />,
     )
 
     const componentInstance = wrapper.instance()
 
-    expect(componentInstance.props.onChange).toBe(onChange)
-    expect(componentInstance.props.onChangeConfirm).toBe(onChangeConfirm)
-    expect(componentInstance.props.invalidFields).toEqual({})
-    expect(componentInstance.props.color).toBe('white')
-    expect(componentInstance.props.value).toBe('')
-    expect(componentInstance.props.valueConfirm).toBe('')
-    expect(componentInstance.props.placeholder).toBe('Placeholder')
-    expect(componentInstance.props.placeholderConfirm).toBe('Placeholder Confirm')
+    expect(componentInstance.props.onChange).toBe(handleChange)
+    expect(componentInstance.props.onScoreChange).toBe(handleScoreChange)
+    expect(componentInstance.props.values).toBe(values)
+    expect(componentInstance.props.label).toBe('Label')
     expect(componentInstance.props.isDisabled).toBe(false)
     expect(componentInstance.props.isAutoFocus).toBe(false)
 
@@ -61,34 +100,29 @@ describe('PasswordField', () => {
 
     expect(passwordInput.prop('onChange')).toBe(componentInstance.handleChange)
     expect(passwordInput.prop('value')).toBe('')
-    expect(passwordInput.prop('color')).toBe('white')
-    expect(passwordInput.prop('type')).toBe('password')
     expect(passwordInput.prop('name')).toBe('password')
     expect(passwordInput.prop('infoMessage')).toBe(null)
     expect(passwordInput.prop('errorMessage')).toBe(null)
-    expect(passwordInput.prop('placeholder')).toBe('Placeholder')
+    expect(passwordInput.prop('label')).toBe('Label')
+    expect(passwordInput.prop('theme')).toBe('white-indicator')
     expect(passwordInput.prop('isDisabled')).toBe(false)
     expect(passwordInput.prop('isAutoFocus')).toBe(false)
-    expect(passwordInput.prop('withIndicator')).toBe(true)
 
     const indicator = wrapper.childAt(1)
 
     expect(indicator.prop('status')).toBe(null)
-    expect(indicator.prop('fieldColor')).toBe('white')
 
     const passwordConfirmInput = wrapper.children().last()
 
-    expect(passwordConfirmInput.prop('onChange')).toBe(onChangeConfirm)
     expect(passwordConfirmInput.prop('value')).toBe('')
-    expect(passwordConfirmInput.prop('color')).toBe('white')
-    expect(passwordConfirmInput.prop('type')).toBe('password')
-    expect(passwordConfirmInput.prop('name')).toBe('password-confirm')
-    expect(passwordConfirmInput.prop('errorMessage')).toBe(null)
-    expect(passwordConfirmInput.prop('placeholder')).toBe('Placeholder Confirm')
+    expect(passwordConfirmInput.prop('theme')).toBe('white-icon')
+    expect(passwordConfirmInput.prop('name')).toBe('passwordConfirm')
+    expect(passwordConfirmInput.prop('label')).toBe('Repeat Security Password')
     expect(passwordConfirmInput.prop('isDisabled')).toBe(false)
 
-    componentInstance.handleChange(password)
-    expect(onChange.calledWith(password)).toBe(true)
+    // $FlowFixMe
+    componentInstance.handleChange({ target: { value: password } })
+    expect(handleChange.calledWith('password', password)).toBe(true)
     expect(componentInstance.state.isFetching).toBe(true)
     const indicatorFetching = wrapper.update().childAt(1)
     expect(indicatorFetching.prop('status')).toBe('fetching')
@@ -111,6 +145,6 @@ describe('PasswordField', () => {
     // $FlowFixMe
     expect(componentInstance.state.passwordResult.feedback.suggestions).toEqual([])
     expect(indicatorGreen.prop('status')).toBe('green')
-    expect(componentInstance.getInfoMessage()).toBe('Not bad')
+    expect(componentInstance.getMessage()).toBe('Not bad')
   })
 })

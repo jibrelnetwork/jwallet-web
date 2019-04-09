@@ -38,6 +38,7 @@ import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { PasswordField } from './PasswordField/PasswordField'
+export { PasswordInput } from './PasswordInput/PasswordInput'
 
 export {
   QRCode,

@@ -1,38 +1,47 @@
-/* @flow */
+// @flow strict
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-
-import {
-  compose,
-  withState,
-} from 'recompose'
+import { Form } from 'react-final-form'
 
 import { PasswordField } from './PasswordField'
 
-const StateHOC = compose(
-  withState('value', 'onChange', ''),
-  withState('valueConfirm', 'onChangeConfirm', ''),
-)
+const values = {
+  password: '',
+  passwordConfirm: '',
+}
+
+/* eslint-disable fp/no-let, no-unused-vars, fp/no-mutation, fp/no-rest-parameters, no-console */
+let isStrongPassword = false
+
+function handleScoreChange(newValue: boolean) {
+  isStrongPassword = newValue
+}
+
+function handleFormSubmit(...args) {
+  console.log(args)
+}
+/* eslint-enable fp/no-let, no-unused-vars, fp/no-mutation, fp/no-rest-parameters, no-console */
 
 storiesOf('PasswordField', module)
   .add('default state', () => (
-    <div className='story -blue'>
-      {React.createElement(StateHOC(({
-        onChange,
-        onChangeConfirm,
-        value,
-        valueConfirm,
+    <Form
+      initialValues={values}
+      onSubmit={handleFormSubmit}
+      render={({
+        handleSubmit,
+        form: {
+          change: handleChange,
+        },
       }) => (
-        <PasswordField
-          onChange={onChange}
-          onChangeConfirm={onChangeConfirm}
-          invalidFields={{}}
-          value={value}
-          valueConfirm={valueConfirm}
-          placeholder='Placeholder'
-          placeholderConfirm='Placeholder Confirm'
-        />
-      )))}
-    </div>
+        <form onSubmit={handleSubmit}>
+          <PasswordField
+            onChange={handleChange}
+            onScoreChange={handleScoreChange}
+            values={values}
+            label='Label'
+          />
+        </form>
+      )}
+    />
   ))
