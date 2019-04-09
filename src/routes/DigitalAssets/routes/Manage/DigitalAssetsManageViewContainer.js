@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { t } from 'ttag'
 
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
@@ -21,7 +20,7 @@ import {
 } from 'utils/digitalAssets'
 
 import {
-  selectActiveWallet,
+  selectActiveWalletOrThrow,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
 
@@ -70,11 +69,7 @@ function prepareDigitalAssets(
 }
 
 const mapStateToProps = (state: AppState) => {
-  const wallet: ?Wallet = selectActiveWallet(state)
-
-  if (!wallet) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const wallet: Wallet = selectActiveWalletOrThrow(state)
 
   const networkId: NetworkId = selectCurrentNetworkId(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)

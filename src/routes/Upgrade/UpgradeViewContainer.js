@@ -8,6 +8,7 @@ import getWallet from 'utils/wallets/getWallet'
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import { selectUpgrade } from 'store/selectors/upgrade'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   submitMnemonicRequest as onSubmitMnemonic,
@@ -34,7 +35,7 @@ import UpgradeView from './UpgradeView'
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {
     if (!address) {
-      throw new Error(t`WalletDataError`)
+      throw new WalletInconsistentDataError('Address is empty')
     }
 
     const privateKeyInvalidErr: string = t`Private key is invalid`
@@ -74,7 +75,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
     derivationPath,
   }: UpgradeMnemonicFormFieldValues): UpgradeMnemonicFormFieldErrors => {
     if (!bip32XPublicKey) {
-      throw new Error(t`WalletDataError`)
+      throw new WalletInconsistentDataError('bip32XPublicKey is empty')
     }
 
     const mnemonicInvalidErr: string = t`Mnemonic is invalid`

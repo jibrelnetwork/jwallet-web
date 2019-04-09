@@ -1,8 +1,7 @@
 // @flow
 
-import { t } from 'ttag'
-
 import decryptData from 'utils/encryption/decryptData'
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   getWallet,
@@ -26,11 +25,10 @@ function getMnemonic(
     !checkMnemonicType(type) ||
     !encrypted.mnemonic
   ) {
-    throw new Error(t`WalletDataError`)
+    throw new WalletInconsistentDataError({ walletId }, 'Can\'t get mnemonic')
   }
 
   return decryptData({
-    // $FlowFixMe
     encryptionType,
     key: internalKey,
     data: encrypted.mnemonic,

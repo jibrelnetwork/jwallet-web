@@ -3,7 +3,8 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 
-import toBigNumber, {
+import {
+  toBigNumber,
   type ToBigNumberValue,
 } from './toBigNumber'
 

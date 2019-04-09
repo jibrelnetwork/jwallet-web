@@ -1,6 +1,7 @@
 // @flow
 
-import toBigNumber, {
+import {
+  toBigNumber,
   type ToBigNumberValue,
 } from './toBigNumber'
 
