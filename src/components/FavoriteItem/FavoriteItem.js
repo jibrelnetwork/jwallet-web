@@ -106,7 +106,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
           <div className='actions'>
             {!isWalletReadOnly && (
               <JLink
-                href={`/digital-assets/send?to=${address}`}
+                href={`/send?to=${address}`}
                 className='item -send'
               >
                 <JTooltip text={t`Send`}>
@@ -115,7 +115,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               </JLink>
             )}
             <JLink
-              href={`/favorites/edit?address=${address}`}
+              href={`/contacts/${address}`}
               className='item -edit'
             >
               <JTooltip text={t`Edit`}>

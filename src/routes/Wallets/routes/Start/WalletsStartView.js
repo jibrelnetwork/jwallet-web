@@ -3,12 +3,8 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import JText from 'components/base/JText'
-
-import {
-  WalletHeader,
-  NewWalletButtons,
-} from 'components'
+import { JText } from 'components/base'
+import { NewWalletButtons } from 'components'
 
 type Props = {|
   +openView: Function,
@@ -34,7 +30,6 @@ class WalletsStartView extends Component<Props> {
 
     return (
       <div className='wallets-view -start'>
-        <WalletHeader />
         <div className='content'>
           <div className='title'>
             <JText size='title' value={t`Create a new key pair or import an existing`} />

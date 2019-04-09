@@ -111,8 +111,8 @@ export const routes = [
     name: 'WalletsItemBackup',
   },
   {
-    path: '/wallets/:walletId/remove',
-    name: 'WalletsItemRemove',
+    path: '/wallets/:walletId/delete',
+    name: 'WalletsItemDelete',
   },
   {
     path: '/wallets/:walletId/rename',
