@@ -21,3 +21,9 @@ export function selectPasswordHint(state: AppState): string {
 
   return passwordPersist.hint
 }
+
+export function selectIsPasswordExists(state: AppState): boolean {
+  const internalKey: ?EncryptedData = selectPasswordInternalKey(state)
+
+  return !!internalKey
+}

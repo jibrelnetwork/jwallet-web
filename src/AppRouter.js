@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import { constants } from 'router5'
@@ -12,6 +12,7 @@ import {
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
 import { selectWalletsItems } from 'store/selectors/wallets'
+import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'routes'
 
 import 'styles/core.scss'
@@ -93,7 +94,7 @@ function mapStateToProps(state) {
   const { route } = state.router
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
-  const hasPassword: boolean = false
+  const hasPassword: boolean = selectIsPasswordExists(state)
   const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
   const isAllFeaturesIntroduced: boolean = true /* checkFeatures(FEATURES_LIST) */
 
