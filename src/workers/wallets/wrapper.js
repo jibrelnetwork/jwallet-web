@@ -3,7 +3,6 @@
 import { type Store } from 'redux'
 
 import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
-import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 import { type AppAction } from 'store/modules'
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
@@ -37,7 +36,6 @@ export function createRequest(
     name,
     persist,
     password,
-    passwordHint,
   }: WalletsState = walletsData
 
   const {
@@ -58,8 +56,8 @@ export function createRequest(
     items,
     password,
     internalKey,
+    passwordOptions,
     createdBlockNumber,
-    passwordOptions: passwordOptions || getPasswordOptions(passwordHint),
     mnemonicOptions: getMnemonicOptions({
       passphrase,
       derivationPath,
