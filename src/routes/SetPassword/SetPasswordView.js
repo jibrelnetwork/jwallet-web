@@ -19,9 +19,13 @@ import {
 import setPasswordViewStyle from './setPasswordView.m.scss'
 
 type Props = {|
+  +dispatch: Function,
   +validate: FormValidate,
-  +handleSubmit: FormSubmit,
-  +errors: FormFields,
+  +submit: (FormFields, Function) => Promise<void>,
+|}
+
+type StateProps = {|
+  +isStrongPassword: boolean,
 |}
 
 const PASSWORD_FORM_INITIAL_VALUES = {
@@ -30,7 +34,28 @@ const PASSWORD_FORM_INITIAL_VALUES = {
   passwordConfirm: '',
 }
 
-export class SetPasswordView extends Component<Props> {
+export class SetPasswordView extends Component<Props, StateProps> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      isStrongPassword: false,
+    }
+  }
+
+  handleScoreChange = (isStrongPassword: boolean) => {
+    this.setState({ isStrongPassword })
+  }
+
+  handleSubmit = async (values: FormFields): Promise<void> => {
+    const {
+      submit,
+      dispatch,
+    }: Props = this.props
+
+    await submit(values, dispatch)
+  }
+
   renderSetPasswordForm = ({
     handleSubmit,
     form: {
@@ -39,24 +64,27 @@ export class SetPasswordView extends Component<Props> {
     values = {},
     submitting: isSubmitting,
   }: FormRenderProps) => (
-    <form className={setPasswordViewStyle.form}>
+    <form
+      onSubmit={handleSubmit}
+      className={setPasswordViewStyle.form}
+    >
       <PasswordField
         onChange={handleChange}
+        onScoreChange={this.handleScoreChange}
         values={values}
-        errors={this.props.errors}
         label={t`Enter Security Password`}
         isDisabled={isSubmitting}
         isAutoFocus
       />
       <Field
         component={JInputField}
-        errorMessage={this.props.errors.passwordHint}
         name='passwordHint'
         label={t`Enter Password Hint (Optional)`}
       />
       <JRaisedButton
-        onClick={handleSubmit}
+        type='submit'
         isLoading={isSubmitting}
+        isDisabled={!this.state.isStrongPassword}
       >
         {t`Set Security Password`}
       </JRaisedButton>
@@ -64,19 +92,14 @@ export class SetPasswordView extends Component<Props> {
   )
 
   render() {
-    const {
-      validate,
-      handleSubmit,
-    } = this.props
-
     return (
       <div className={`__set-password-view ${setPasswordViewStyle.core}`}>
         <h1 className={setPasswordViewStyle.title}>
           {t`Set Password for your Storage`}
         </h1>
         <Form
-          validate={validate}
-          onSubmit={handleSubmit}
+          onSubmit={this.handleSubmit}
+          validate={this.props.validate}
           render={this.renderSetPasswordForm}
           initialValues={PASSWORD_FORM_INITIAL_VALUES}
         />

@@ -20,6 +20,7 @@ declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
 
 declare type FormFields = { [string]: ?string }
 declare type FormValidate = (values: Object) => Object | Promise<Object>
+declare type FormFieldChange = (name: string, value: any) => void
 
 declare type FormSubmit = (
   values: Object,
