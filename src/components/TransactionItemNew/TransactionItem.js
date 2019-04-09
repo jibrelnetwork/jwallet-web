@@ -40,7 +40,7 @@ type Props = ContainerProps & {
   +transaction: TransactionItemRecord,
 }
 
-const transactionIconMap: { [string]: JIconProps } = {
+const transactionIconMap: { [TransactionStatus | TransactionDirection]: JIconProps } = {
   pending: {
     name: 'clock-use-fill',
     color: 'gray',
@@ -57,12 +57,8 @@ const transactionIconMap: { [string]: JIconProps } = {
     name: 'circle-cross-use-fill',
     color: 'red',
   },
-  stucked: {
+  stuck: {
     name: 'circle-alert-use-fill',
-    color: 'red',
-  },
-  lost: {
-    name: 'circle-cross-use-fill',
     color: 'red',
   },
 }
@@ -89,7 +85,7 @@ function formatTransactionAmount({
     : amount
   const symboled = `${formatted}\u202F${asset.symbol}`
 
-  return status === 'success'
+  return status === 'success' || status === 'pending'
     ? `${(type === 'in' ? '+' : '\u2212')}${symboled}`
     : symboled
 }
@@ -127,7 +123,7 @@ class TransactionItem extends PureComponent<Props, *> {
           '__transaction-item',
           transactionItemStyle.core,
           transactionItemStyle[transaction.type],
-          transaction.status === 'fail' && transactionItemStyle.error,
+          transactionItemStyle[transaction.status],
           isActive && transactionItemStyle.selected,
           offsetsStyle[offset],
         )}

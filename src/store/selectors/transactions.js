@@ -3,6 +3,7 @@
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 import flattenTransactionsByOwner from 'utils/transactions/flattenTransactionsByOwner'
+import { flattenPendingTransactionsByOwner } from 'utils/transactions'
 
 export function selectTransactions(state: AppState): TransactionsState {
   return state.transactions
@@ -144,14 +145,6 @@ export function selectTransactionById(
   }, null)
 }
 
-export function selectTransactionsList(state: AppState): TransactionWithPrimaryKeys[] {
-  const networkID = selectCurrentNetworkId(state)
-  const currentAddress = selectActiveWalletAddress(state)
-  const transactionsList = selectTransactionsByOwner(state, networkID, currentAddress)
-
-  return flattenTransactionsByOwner(transactionsList)
-}
-
 export function selectPendingTransactionsByNetworkId(
   state: AppState,
   networkId: NetworkId,
@@ -220,4 +213,16 @@ export function selectPendingTransactionByHash(
   }
 
   return byAsset[txHash]
+}
+
+export function selectTransactionsList(state: AppState): TransactionWithPrimaryKeys[] {
+  const networkID = selectCurrentNetworkId(state)
+  const currentAddress = selectActiveWalletAddress(state)
+  const transactionsList = selectTransactionsByOwner(state, networkID, currentAddress)
+  const flatten = flattenTransactionsByOwner(transactionsList)
+
+  const pending = selectPendingTransactionsByOwner(state, networkID, currentAddress)
+  const flattenPending = flattenPendingTransactionsByOwner(pending)
+
+  return [...flatten, ...flattenPending]
 }

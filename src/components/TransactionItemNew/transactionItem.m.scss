@@ -16,6 +16,7 @@
   border-radius: 4px;
   background: $white;
   box-shadow: $normal-shadow;
+  will-change: height, opacity;
 
   //&:focus,
   &:hover {
@@ -74,7 +75,13 @@
   }
 }
 
-.error {
+.pending {
+  .status-icon {
+    opacity: 0.4;
+  }
+}
+
+.fail {
   .amount-block {
     color: $main-red;
   }

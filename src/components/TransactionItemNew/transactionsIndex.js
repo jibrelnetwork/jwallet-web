@@ -10,7 +10,7 @@ import { selectFavorites } from 'store/selectors/favorites'
 import { selectCommentsItems } from 'store/selectors/comments'
 
 export type TransactionDirection = 'in' | 'out'
-export type TransactionStatus = 'success' | 'pending' | 'fail' | 'stucked'
+export type TransactionStatus = 'success' | 'pending' | 'fail' | 'stuck'
 export type TransactionItem = {|
   +id: TransactionId,
   +asset: ?DigitalAsset,
@@ -21,6 +21,40 @@ export type TransactionItem = {|
   +amount: string,
   +fiatAmount: string,
 |}
+
+type StatusItem = {|
+  +status: TransactionStatus,
+  +criterion: (TransactionWithPrimaryKeys) => boolean,
+|}
+
+const HALF_HOUR = 1800000
+
+// Warning: The order of elements is matter. Each subsequent element has a higher priority.
+const STATUS_VALIDATORS: StatusItem[] = [
+  {
+    status: 'fail',
+    criterion: tx => String(tx.receiptData.status) === '0',
+  },
+  {
+    status: 'success',
+    criterion: tx => String(tx.receiptData.status) === '1',
+  },
+  {
+    status: 'pending',
+    criterion: tx => tx.blockHash === null,
+  },
+  {
+    status: 'stuck',
+    criterion: (tx) => {
+      const timestampDiff = (
+        +new Date() - (tx.blockData ? tx.blockData.timestamp : +new Date())
+      )
+      const isPending = tx.blockHash === null
+
+      return isPending && (timestampDiff > HALF_HOUR)
+    },
+  },
+]
 
 function getTransactionType(
   state: AppState,
@@ -35,12 +69,10 @@ function getTransactionStatus(
   state: AppState,
   transaction: TransactionWithPrimaryKeys,
 ): TransactionStatus {
-  const statusMap = {
-    '0': 'fail',
-    '1': 'success',
-  }
-
-  return transaction.receiptData ? statusMap[String(transaction.receiptData.status)] : 'fail'
+  return STATUS_VALIDATORS.reduce((currentStatus, {
+    status,
+    criterion,
+  }) => criterion(transaction) ? status : currentStatus, 'fail')
 }
 
 function getTransactionName(
@@ -50,9 +82,13 @@ function getTransactionName(
 ): string {
   const favorites = selectFavorites(state)
   const addressNames = selectAddressNames(state)
-  const primaryName = type === 'in' ? transaction.from : transaction.to
+  const primaryName = (type === 'in' ? transaction.from : transaction.to)
+    || transaction.contractAddress
+    || transaction.hash // I'm not sure
 
-  return favorites[primaryName] || addressNames[primaryName] || primaryName
+  return favorites[primaryName]
+    || addressNames[primaryName]
+    || primaryName
 }
 
 function getTransactionComment(
