@@ -2,6 +2,8 @@
 
 import { t } from 'ttag'
 
+import { WalletInconsistentDataError } from 'errors'
+
 import { checkMnemonicType } from '.'
 
 export function getMnemonicAddressName(
@@ -17,7 +19,7 @@ export function getMnemonicAddressName(
   const index: number = addressIndex + 1
 
   if (!isMnemonic) {
-    throw new Error(t`WalletInconsistentDataErrorData`)
+    throw new WalletInconsistentDataError()
   }
 
   if (addressName) {
