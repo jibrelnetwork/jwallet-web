@@ -1,0 +1,164 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+@import 'styles/zindex';
+
+.core {
+  @include font;
+  @include flex-column;
+
+  position: relative;
+  width: 304px;
+  min-height: 100vh;
+  background-color: $main-blue;
+  background-image: linear-gradient(71.21deg, $main-blue 0.35%, #00309b 100%);
+}
+
+.core,
+.top,
+.wrapper,
+.actions,
+.action,
+.action svg,
+.back {
+  @include hover-animation;
+}
+
+.top {
+  @include flex-column;
+
+  padding-top: 56px;
+}
+
+.logo {
+  margin: 0 48px 0 40px;
+}
+
+.ticker {
+  @include flex-column;
+
+  height: 112px;
+  justify-content: center;
+}
+
+.wrapper {
+  @include flex-column;
+
+  position: relative;
+  margin: 0 32px 0 24px;
+  padding: 13px 8px 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: $main-black-20;
+  }
+}
+
+.name {
+  line-height: 22px;
+  font-size: 14px;
+  color: $white-60;
+}
+
+.balance {
+  line-height: normal;
+  font-size: 20px;
+  color: $white;
+}
+
+.chevron {
+  @include flex-row-center;
+
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  margin-top: -12px;
+}
+
+.actions {
+  @include flex-column;
+
+  position: relative;
+  padding: 40px 0;
+  margin: 0 48px auto 40px;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: $white-20;
+    content: '';
+  }
+
+  &.settings {
+    padding: 16px 0;
+    margin-bottom: 0;
+  }
+
+  li:not(:first-child) {
+    margin-top: 8px;
+  }
+}
+
+.action {
+  @include flex-row;
+
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  svg {
+    opacity: 0.4;
+  }
+
+  &:hover,
+  &.active {
+    background: $main-black-20;
+
+    svg {
+      opacity: 1;
+    }
+  }
+}
+
+.label {
+  margin-left: 16px;
+  line-height: 22px;
+  font-size: 14px;
+  color: $white;
+}
+
+.back {
+  position: fixed;
+  z-index: $z-index-menu-back;
+  top: 54px;
+  left: 48px;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition-delay: 0.15s;
+}
+
+.minimized {
+  width: 24px;
+  background-image: none;
+  background-color: $main-blue;
+
+  .top,
+  .actions {
+    width: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  .back {
+    opacity: 1;
+    visibility: visible;
+  }
+}
