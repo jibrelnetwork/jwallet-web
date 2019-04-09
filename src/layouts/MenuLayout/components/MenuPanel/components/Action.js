@@ -21,17 +21,15 @@ export function Action({
   iconName,
 }: Props) {
   return (
-    <li>
-      <JLink
-        href={href}
-        className={menuPanelStyle.action}
-        activeClassName={menuPanelStyle.active}
-      >
-        <JIcon name={`${iconName}-use-fill`} />
-        <span className={menuPanelStyle.label}>
-          {label}
-        </span>
-      </JLink>
-    </li>
+    <JLink
+      href={href}
+      className={menuPanelStyle.action}
+      activeClassName={menuPanelStyle.active}
+    >
+      <JIcon name={`${iconName}-use-fill`} />
+      <span className={menuPanelStyle.label}>
+        {label}
+      </span>
+    </JLink>
   )
 }

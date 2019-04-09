@@ -25,26 +25,34 @@ export class Actions extends Component<Props> {
     return (
       <nav className={`__actions ${menuPanelStyle.actions}`}>
         <ul>
-          <Action
-            label={t`Home`}
-            href='/'
-            iconName='home'
-          />
-          <Action
-            label={t`History`}
-            href='/history'
-            iconName='history'
-          />
-          <Action
-            label={t`Contacts`}
-            href='/contacts'
-            iconName='contact'
-          />
-          <Action
-            label={t`More`}
-            href='/more'
-            iconName='more'
-          />
+          <li>
+            <Action
+              label={t`Home`}
+              href='/'
+              iconName='home'
+            />
+          </li>
+          <li>
+            <Action
+              label={t`History`}
+              href='/history'
+              iconName='history'
+            />
+          </li>
+          <li>
+            <Action
+              label={t`Contacts`}
+              href='/contacts'
+              iconName='contact'
+            />
+          </li>
+          <li>
+            <Action
+              label={t`More`}
+              href='/more'
+              iconName='more'
+            />
+          </li>
         </ul>
       </nav>
     )

@@ -126,25 +126,25 @@ describe('MenuPanel', () => {
     expect(actionsList.children()).toHaveLength(4)
     expect(actionsList.find('a').every('.action')).toBe(true)
 
-    const homeLink = actionsList.childAt(0)
+    const homeLink = actionsList.childAt(0).childAt(0)
 
     expect(homeLink.prop('href')).toBe('/')
     expect(homeLink.prop('label')).toBe('Home')
     expect(homeLink.prop('iconName')).toBe('home')
 
-    const historyLink = actionsList.childAt(1)
+    const historyLink = actionsList.childAt(1).childAt(0)
 
     expect(historyLink.prop('href')).toBe('/history')
     expect(historyLink.prop('label')).toBe('History')
     expect(historyLink.prop('iconName')).toBe('history')
 
-    const contactsLink = actionsList.childAt(2)
+    const contactsLink = actionsList.childAt(2).childAt(0)
 
     expect(contactsLink.prop('href')).toBe('/contacts')
     expect(contactsLink.prop('label')).toBe('Contacts')
     expect(contactsLink.prop('iconName')).toBe('contact')
 
-    const moreLink = actionsList.childAt(3)
+    const moreLink = actionsList.childAt(3).childAt(0)
 
     expect(moreLink.prop('href')).toBe('/more')
     expect(moreLink.prop('label')).toBe('More')
