@@ -21,7 +21,7 @@ function getRandomAmount(max) {
 
 function generateFakeAddress(length) {
   // eslint-disable-next-line no-bitwise
-  return [...new Array(length)].map(() => (~~(Math.random() * 36)).toString(36)).join('')
+  return `0x${[...new Array(length)].map(() => (~~(Math.random() * 36)).toString(36)).join('')}`
 }
 
 function getTransaction() {
