@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import {
   combineReducers,
@@ -34,8 +34,9 @@ import walletsAddresses from 'store/modules/walletsAddresses'
 import walletsRenameAddress from 'store/modules/walletsRenameAddress'
 
 import { type AppAction } from 'store/modules'
+import { password } from 'store/modules/password'
 
-import persistReducers from './persistReducers'
+import { persistReducers } from './persistReducers'
 
 export function makeRootReducer(): Reducer<AppState, AppAction> {
   const rootReducer: Reducer<AppState, AppAction> = combineReducers({
@@ -59,6 +60,7 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
       balances,
       comments,
       networks,
+      password,
       settings,
       favorites,
       transactions,

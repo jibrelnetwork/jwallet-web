@@ -56,4 +56,6 @@ declare type AppState = {
   +ticker: TickerState,
   // router
   +router: Router5State,
+  // password
+  +password: PasswordState,
 }

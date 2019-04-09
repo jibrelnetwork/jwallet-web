@@ -2,6 +2,7 @@
 
 import { type CoreAction } from './core'
 import { type NotFoundAction } from './notFound'
+import { type PasswordAction } from './password'
 import { type DigitalAssetsModuleAction } from './digitalAssets'
 
 export {
@@ -12,4 +13,5 @@ export {
 export type AppAction =
   CoreAction |
   NotFoundAction |
+  PasswordAction |
   DigitalAssetsModuleAction
