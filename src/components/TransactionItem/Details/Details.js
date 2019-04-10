@@ -63,7 +63,7 @@ function getRepeatLink(
     return null
   }
 
-  const path: string = '/digital-assets/send'
+  const path: string = '/send'
   const toParam: string = `to=${to}`
   const assetParam: string = `&asset=${address}`
   const commentParam: string = comment ? `&comment=${comment}` : ''
@@ -83,7 +83,7 @@ function getFavoriteLink(
     return null
   }
 
-  return `/favorites/edit?address=${txAddress}`
+  return `/contacts/${txAddress}`
 }
 
 class TransactionItemDetails extends PureComponent<Props, StateProps> {

@@ -15,6 +15,8 @@ import getTypeByInput from './getTypeByInput'
 import checkMnemonicType from './checkMnemonicType'
 import checkWalletUniqueness from './checkWalletUniqueness'
 
+export { getMnemonicAddressName } from './getMnemonicAddressName'
+
 export {
   getWallet,
   getAddress,

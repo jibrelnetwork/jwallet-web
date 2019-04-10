@@ -104,7 +104,7 @@ class AssetCardBody extends PureComponent<Props, *> {
           ) */ }
           <div className='show'>
             <JLink
-              href={`/transactions/${address}`}
+              href={`/history/${address}`}
               className={classNames(
                 'link',
                 JTextStyle.core,

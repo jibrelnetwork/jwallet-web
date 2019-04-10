@@ -6,7 +6,6 @@ import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
 import JInput from './JInput'
 import JLoader from './JLoader'
-import JLogo from './JLogo'
 import JRadio from './JRadio'
 import JRaisedButton from './JRaisedButton'
 import JSearch from './JSearch'
@@ -17,6 +16,7 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
+export { JLogo } from './JLogo/JLogo'
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 export { JTextArea } from './JTextArea/JTextArea'
 export { JTextAreaField } from './JTextArea/JTextAreaField'
@@ -28,7 +28,6 @@ export {
   JFlatButton,
   JInput,
   JLoader,
-  JLogo,
   JRadio,
   JRaisedButton,
   JSearch,

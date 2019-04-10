@@ -1,7 +1,8 @@
 // @flow
 
-import React from 'react'
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
+
 import { iconsUI } from 'utils/sprite'
 
 import jIconStyle from './jIcon.m.scss'
@@ -14,44 +15,48 @@ type Props = {
   className?: ?string,
 }
 
-export function JIcon({
-  name,
-  color,
-  className,
-}: Props) {
-  const iconData = iconsUI[`${name}-usage`]
-  const hasFill = name.indexOf('use-fill') !== -1
-
-  if (iconData) {
-    return (
-      <svg
-        className={classNames(
-          '__icon',
-          jIconStyle.core,
-          color && jIconStyle[color],
-          hasFill && jIconStyle.fill,
-          className,
-        )}
-        width={iconData.width}
-        height={iconData.height}
-      >
-        <use xlinkHref={iconData.url} />
-      </svg>
-    )
-  } else {
-    return (
-      <div
-        className={classNames(
-          '__icon',
-          jIconStyle.core,
-          jIconStyle.noIcon,
-          className,
-        )}
-      />
-    )
+export class JIcon extends PureComponent<Props> {
+  static defaultProps = {
+    color: 'white',
   }
-}
 
-JIcon.defaultProps = {
-  color: null,
+  render() {
+    const {
+      name,
+      color,
+      className,
+    }: Props = this.props
+
+    const iconData = iconsUI[`${name}-usage`]
+    const hasFill = name.indexOf('use-fill') !== -1
+
+    if (iconData) {
+      return (
+        <svg
+          className={classNames(
+            '__icon',
+            jIconStyle.core,
+            color && jIconStyle[color],
+            hasFill && jIconStyle.fill,
+            className,
+          )}
+          width={iconData.width}
+          height={iconData.height}
+        >
+          <use xlinkHref={iconData.url} />
+        </svg>
+      )
+    } else {
+      return (
+        <div
+          className={classNames(
+            '__icon',
+            jIconStyle.core,
+            jIconStyle.noIcon,
+            className,
+          )}
+        />
+      )
+    }
+  }
 }
