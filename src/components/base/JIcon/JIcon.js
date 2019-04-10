@@ -17,7 +17,8 @@ type Props = {
 
 export class JIcon extends PureComponent<Props> {
   static defaultProps = {
-    color: 'white',
+    color: null,
+    className: null,
   }
 
   render() {
