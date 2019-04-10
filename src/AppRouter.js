@@ -13,7 +13,7 @@ import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
-import * as pages from 'routes'
+import * as pages from 'pages'
 
 import 'styles/core.scss'
 

@@ -95,9 +95,9 @@ h4 {
 @import '../components/OverlayNotification/overlayNotification';
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
-// Views
-@import '../routes/Wallets/walletsView';
-@import '../routes/Settings/settingsView';
-@import '../routes/NotFound/notFound';
-@import '../routes/DigitalAssets/digitalAssets';
-@import '../routes/Transactions/transactionsView';
+// Pages
+@import '../pages/Wallets/walletsView';
+@import '../pages/Settings/settingsView';
+@import '../pages/NotFound/notFound';
+@import '../pages/DigitalAssets/digitalAssets';
+@import '../pages/Transactions/transactionsView';

@@ -18,7 +18,7 @@ import {
 import {
   SubsettingsView,
   SubsettingsDescription,
-} from 'routes/Settings/components'
+} from 'pages/Settings/components'
 
 import './paymentPassword.scss'
 

@@ -8,7 +8,7 @@ import {
   Field,
 } from 'react-final-form'
 
-import SubsettingsView from 'routes/Settings/components/SubsettingsView'
+import SubsettingsView from 'pages/Settings/components/SubsettingsView'
 
 import { JRaisedButton } from 'components/base'
 import { CurrencyPickerField } from './components/CurrencyPickerField'
