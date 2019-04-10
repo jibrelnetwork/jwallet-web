@@ -3,8 +3,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import JIcon from 'components/base/JIcon'
-import JTooltip from 'components/base/JTooltip'
+import {
+  JIcon,
+  JTooltip,
+} from 'components/base'
 
 storiesOf('JTooltip', module)
   .add('Default', () => (
