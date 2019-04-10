@@ -9,17 +9,13 @@ import {
   WalletsLayout,
 } from 'layouts'
 
-import 'styles/core.scss'
-import {
-  MenuLayout,
-} from 'layouts/MenuLayout/MenuLayout'
-
-import { selectWalletsItems } from 'store/selectors/wallets'
-
-import { checkAgreements } from 'utils/agreements'
+import { MenuLayout } from 'layouts/MenuLayout'
 import { CONDITIONS_LIST } from 'data/agreements'
-
+import { checkAgreements } from 'utils/agreements'
+import { selectWalletsItems } from 'store/selectors/wallets'
 import * as pages from 'pages'
+
+import 'styles/core.scss'
 
 type Props = {
   route: Object,
@@ -61,6 +57,7 @@ export const AppRouter = ({
     name,
     params,
   } = route
+
   const Component = getPage(name)
 
   if (!Component) {

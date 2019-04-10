@@ -33,6 +33,7 @@ module.exports = {
   },
   setupFiles: [
     'react-app-polyfill/jsdom',
+    '<rootDir>/.jest/register-context.js',
   ],
   setupFilesAfterEnv: [
     'jest-enzyme',

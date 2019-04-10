@@ -14,8 +14,8 @@ import {
 } from 'components'
 
 const DIGITAL_ASSETS_TABS = {
-  '/digital-assets': t`Digital Assets`,
-  '/transactions': t`Transactions`,
+  '/': t`Digital Assets`,
+  '/history': t`Transactions`,
 }
 
 type Props = {|
@@ -72,8 +72,8 @@ class DigitalAssetsGridView extends Component<Props> {
                 />
               </div>
               <JLink
+                href='/assets'
                 className='setting'
-                href='/digital-assets/manage'
                 title={t`Assets manager`}
               >
                 <JIcon

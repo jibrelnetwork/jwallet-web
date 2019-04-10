@@ -1,7 +1,6 @@
 // @flow
 
 import { actions } from 'redux-router5'
-import { t } from 'ttag'
 
 import {
   all,
@@ -13,7 +12,7 @@ import {
 
 import config from 'config'
 import web3 from 'services/web3'
-import { selectCurrentNetwork } from 'store/selectors/networks'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   getAddresses,
@@ -22,7 +21,7 @@ import {
 
 import {
   selectWalletsItems,
-  selectActiveWalletId,
+  selectActiveWalletIdOrThrow,
   selectWalletsAddresses,
 } from 'store/selectors/wallets'
 
@@ -38,12 +37,10 @@ function* onOpenView(): Saga<void> {
 }
 
 function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): Saga<void> {
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
-
-  if (!walletId) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const items: ExtractReturn<typeof selectWalletsItems>
+    = yield select(selectWalletsItems)
+  const walletId: ExtractReturn<typeof selectActiveWalletIdOrThrow>
+    = yield select(selectActiveWalletIdOrThrow)
 
   const { addressIndex } = action.payload
 
@@ -55,12 +52,10 @@ function* setActive(action: ExtractReturn<typeof walletsAddresses.setActive>): S
 }
 
 function* getMoreRequest(): Saga<void> {
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
-
-  if (!walletId) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  }
+  const items: ExtractReturn<typeof selectWalletsItems>
+    = yield select(selectWalletsItems)
+  const walletId: ExtractReturn<typeof selectActiveWalletIdOrThrow>
+    = yield select(selectActiveWalletIdOrThrow)
 
   const { iteration }: ExtractReturn<typeof selectWalletsAddresses> =
     yield select(selectWalletsAddresses)
@@ -94,14 +89,11 @@ function* getBalancesByAddresses(network: Network, items: OwnerAddress[]): Saga<
 }
 
 function* getBalancesRequest(): Saga<void> {
-  const walletId: ExtractReturn<typeof selectActiveWalletId> = yield select(selectActiveWalletId)
-  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
+  const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+    = yield select(selectCurrentNetworkOrThrow)
 
-  if (!walletId) {
-    throw new Error(t`ActiveWalletNotFoundError`)
-  } else if (!network) {
-    throw new Error(t`ActiveNetworkNotFoundError`)
-  }
+  // check, that active wallet is selected
+  yield select(selectActiveWalletIdOrThrow)
 
   const { addresses }: ExtractReturn<typeof selectWalletsAddresses> =
     yield select(selectWalletsAddresses)

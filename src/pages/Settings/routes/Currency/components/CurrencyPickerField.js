@@ -19,11 +19,17 @@ export const CurrencyPickerField = ({ input }: any) => {
     value,
   } = input
 
-  const currentCurrencyTitle = currenciesData[value]
+  const fiatCurrencyData: ?FiatCurrencyData = currenciesData[value]
+
+  if (!fiatCurrencyData) {
+    return null
+  }
+
+  const { name }: FiatCurrencyData = fiatCurrencyData
 
   return (
     <JPicker
-      currentRenderer={() => <CurrencyPickerCurrent title={currentCurrencyTitle} />}
+      currentRenderer={() => <CurrencyPickerCurrent title={name} />}
     >
       {CURRENCY_CODES.map((fiatCurrency: FiatCurrency) => (
         <JPickerItem

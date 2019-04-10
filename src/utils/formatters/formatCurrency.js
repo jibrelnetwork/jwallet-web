@@ -4,14 +4,14 @@ import { t } from 'ttag'
 
 import currenciesData from 'data/currencies'
 
-function formatCurrency(curCode: FiatCurrency): string {
-  const currencyDescription: ?string = currenciesData[curCode]
+function formatCurrency(fiatCurrency: FiatCurrency): string {
+  const fiatCurrencyData: ?FiatCurrencyData = currenciesData[fiatCurrency]
 
-  if (!currencyDescription) {
+  if (!fiatCurrencyData) {
     throw new Error(t`InvalidFiatCurrencyCode`)
   }
 
-  return currencyDescription
+  return fiatCurrencyData.name
 }
 
 export default formatCurrency

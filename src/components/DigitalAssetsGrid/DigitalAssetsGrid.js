@@ -8,7 +8,7 @@ import { formatAssetBalance } from 'utils/formatters'
 
 import Asset from './Asset'
 import DigitalAssetsGridEmpty from './Empty'
-import AddDigitalAsset from './AddDigitalAsset'
+import { AddAsset } from './AddAsset/AddAsset'
 
 type Props = {|
   +items: DigitalAssetWithBalance[],
@@ -51,7 +51,7 @@ class DigitalAssetsGrid extends PureComponent<Props> {
         ))}
         {!items.length ? <DigitalAssetsGridEmpty /> : (
           <div className='box'>
-            <AddDigitalAsset />
+            <AddAsset />
           </div>
         )}
       </div>

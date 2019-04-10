@@ -32,8 +32,8 @@ type Props = {|
 |}
 
 const TRANSACTIONS_TABS = {
-  '/digital-assets': t`Digital Assets`,
-  '/transactions': t`Transactions`,
+  '/': t`Digital Assets`,
+  '/history': t`Transactions`,
 }
 
 function TransactionsIndexView({

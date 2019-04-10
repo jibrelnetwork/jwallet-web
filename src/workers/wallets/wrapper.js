@@ -1,13 +1,16 @@
 // @flow
 
-import { t } from 'ttag'
-
 import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import getPasswordOptions from 'utils/encryption/getPasswordOptions'
 
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
 import * as walletsBackup from 'store/modules/walletsBackup'
+
+import {
+  ActiveWalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 // eslint-disable-next-line import/default
 import WalletsWorker, {
@@ -112,9 +115,9 @@ export function upgradeRequest(
   }: WalletsPersist = walletsData.persist
 
   if (!activeWalletId) {
-    throw new Error(t`ActiveWalletNotFoundError`)
+    throw new ActiveWalletNotFoundError()
   } else if (!internalKey) {
-    throw new Error(t`WalletDataError`)
+    throw new WalletInconsistentDataError({ walletId: activeWalletId }, 'Invalid internal key')
   }
 
   const mnemonicOptions: ?MnemonicOptionsUser = !derivationPath ? null : {

@@ -13,7 +13,7 @@ export default {
   path: 'digital-assets',
   component: MenuLayout,
   indexRoute: {
-    onEnter: (nextState: AppState, replace: (string) => void) => replace('/digital-assets/grid'),
+    onEnter: (nextState: AppState, replace: (string) => void) => replace('/'),
   },
   childRoutes: [
     Grid,

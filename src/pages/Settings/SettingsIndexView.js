@@ -46,7 +46,7 @@ const getSettingsCardProperties = ({
 }, {
   title: t`Payment password`,
   description: t`Change`,
-  path: '/settings/password',
+  path: '/settings/security-password',
   iconName: 'lock-pin',
   searchTags: '',
   isVisible: true,
@@ -54,7 +54,7 @@ const getSettingsCardProperties = ({
   title: t`Exchange service`,
   description: t`Try Jcash`,
   path: JCASH_UTM_URL,
-  iconName: 'exchange-service',
+  iconName: 'exchange-service-use-fill',
   searchTags: '',
   isVisible: true,
 }, {
@@ -67,14 +67,14 @@ const getSettingsCardProperties = ({
 }, {
   title: t`Rename wallet`,
   description: walletName,
-  path: `/wallets/rename/${walletId}`,
+  path: `/wallets/${walletId}/rename`,
   iconName: 'edit-pen',
   searchTags: '',
   isVisible: true,
 }, {
   title: t`Delete wallet`,
   description: t`Don't forget to back it up!`,
-  path: `/wallets/delete/${walletId}`,
+  path: `/wallets/${walletId}/delete`,
   iconName: 'cross-circle',
   iconColor: 'red',
   searchTags: '',

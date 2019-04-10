@@ -16,7 +16,7 @@ import {
 import web3 from 'services/web3'
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
-import { selectCurrentNetwork } from 'store/selectors/networks'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   checkAddressValid,
@@ -111,11 +111,8 @@ function* clearFieldsError(): Saga<void> {
  * Fires, when user changes fields on CustomAssetForm
  */
 function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
-  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
-
-  if (!network) {
-    throw new Error(t`ActiveNetworkNotFoundError`)
-  }
+  const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+    = yield select(selectCurrentNetworkOrThrow)
 
   const {
     value,
