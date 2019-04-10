@@ -33,7 +33,7 @@ type Props = {|
   +filterOptions: DigitalAssetsFilterOptions,
 |}
 
-export class HomeTemplate extends Component<Props> {
+export class HomeView extends Component<Props> {
   componentDidMount() {
     this.props.openView()
   }
