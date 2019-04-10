@@ -7,7 +7,7 @@ import {
   select,
 } from '@storybook/addon-knobs'
 
-import { JIcon } from './JIcon'
+import { JIcon } from 'components/base'
 
 const filesSmall = require.context(
   '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/,
