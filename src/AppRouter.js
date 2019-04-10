@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { constants } from 'router5'
 
@@ -16,6 +16,7 @@ import { selectWalletsItems } from 'store/selectors/wallets'
 import * as pages from 'pages'
 
 import 'styles/core.scss'
+import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 type Props = {
   route: Object,
@@ -23,11 +24,15 @@ type Props = {
   hasNoWallets: boolean,
 }
 
+type ComponentState = {|
+  +hasError: boolean,
+|}
+
 // FIXME: discuss with the team and update accordingly
-const renderWithWalletsLayout = (Component, props = {}) => (
+const renderWithWalletsLayout = (C, props = {}) => (
   <CoreLayout>
     <WalletsLayout>
-      <Component {...props} />
+      <C {...props} />
     </WalletsLayout>
   </CoreLayout>
 )
@@ -36,39 +41,61 @@ function getPage(name: string): ?ComponentType {
   return pages[name] || null
 }
 
-export const AppRouter = ({
-  route,
-  isAllAgreementsChecked,
-  hasNoWallets,
-}: Props) => {
-  if (!route || route.name === constants.UNKNOWN_ROUTE) {
-    return renderWithWalletsLayout(pages.NotFound)
+export class AppRouter extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      hasError: false,
+    }
   }
 
-  if (!isAllAgreementsChecked) {
-    return renderWithWalletsLayout(pages.Agreements)
+  static getDerivedStateFromError() {
+    // FIXME: add error reporting
+    return {
+      hasError: true,
+    }
   }
 
-  if (hasNoWallets) {
-    return null
+  render() {
+    if (this.state.hasError) {
+      return (<ErrorUnexpected />)
+    }
+
+    const {
+      route,
+      isAllAgreementsChecked,
+      hasNoWallets,
+    } = this.props
+
+    if (!route || route.name === constants.UNKNOWN_ROUTE) {
+      return renderWithWalletsLayout(pages.NotFound)
+    }
+
+    if (!isAllAgreementsChecked) {
+      return renderWithWalletsLayout(pages.Agreements)
+    }
+
+    if (hasNoWallets) {
+      return null
+    }
+
+    const {
+      name, params,
+    } = route
+
+    const Page = getPage(name)
+
+    if (!Page) {
+      return renderWithWalletsLayout(pages.NotFound)
+    }
+
+    return (
+      <MenuLayout routeName={name}>
+        <Page {...params} />
+      </MenuLayout>
+    )
   }
-
-  const {
-    name,
-    params,
-  } = route
-
-  const Component = getPage(name)
-
-  if (!Component) {
-    return renderWithWalletsLayout(pages.NotFound)
-  }
-
-  return (
-    <MenuLayout routeName={name}>
-      <Component {...params} />
-    </MenuLayout>
-  )
 }
 
 export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
