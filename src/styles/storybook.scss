@@ -56,68 +56,34 @@ h3 {
   padding: 10px 15px;
 }
 
-.custom-table {
-  border-collapse: collapse;
+.icons-list {
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 192px);
+  grid-row-gap: 24px;
 
-  > .thead,
-  > .tbody {
-    > .row {
-      > .cell {
-        display: table-cell;
-        stroke: #0058d2;
-        padding: 10px 15px;
-        vertical-align: middle;
-      }
+  > li {
+    padding: 10px;
+    text-align: center;
+
+    > svg {
+      display: block;
+      margin: 0 auto 10px;
     }
-  }
 
-  > .thead {
-    > .row {
-      > .cell {
-        text-align: left;
-      }
-    }
-  }
-
-  > .tbody {
-    > .row {
-      &:nth-child(even) {
-        background-color: rgb(240, 241, 252);
-      }
+    > span {
+      display: block;
+      white-space: nowrap;
     }
   }
 }
 
-.demo-icon {
-  margin-left: 5px;
+.icon-demo-container {
+  padding: 25px;
+}
 
-  &.-white {
-    stroke: #fff;
-  }
-
-  &.-blue {
-    stroke: #0058d2;
-  }
-
-  &.-gray {
-    stroke: #3d4f6c;
-  }
-
-  &.-sky {
-    stroke: #00c1ff;
-  }
-
-  &.-red {
-    stroke: #e53935;
-  }
-
-  &.-black {
-    stroke: #000;
-  }
-
-  &.-h-sky {
-    &:hover {
-      stroke: #00c1ff;
-    }
-  }
+svg.icon-with-magenta-color-and-margins {
+  stroke: magenta;
+  fill: magenta;
+  margin: 50px;
 }

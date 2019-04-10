@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 
-import JIcon from 'components/base/JIcon'
+import { JIcon } from 'components/base'
 
 import handleTargetValue from 'utils/eventHandlers/handleTargetValue'
 

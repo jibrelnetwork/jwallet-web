@@ -1,15 +1,13 @@
-@import 'styles/colors';
+@import "styles/colors";
 
 .core {
   fill: none;
+  fill-opacity: 0;
+  stroke-opacity: 1;
   cursor: inherit;
   stroke-width: 1.5px;
   display: inline-block;
   transition: stroke 0.3s ease 0s;
-}
-
-.fill {
-  stroke-width: 0;
 }
 
 .empty {
@@ -18,50 +16,38 @@
   background-color: $tomato;
 }
 
+.fill {
+  fill-opacity: 1;
+  stroke-opacity: 0;
+  stroke-width: 0;
+}
+
 .white {
   stroke: $white;
-
-  &.fill {
-    fill: $white;
-  }
+  fill: $white;
 }
 
 .blue {
   stroke: $blue;
-
-  &.fill {
-    fill: $blue;
-  }
+  fill: $blue;
 }
 
 .gray {
   stroke: $dusk;
-
-  &.fill {
-    fill: $dusk;
-  }
+  fill: $dusk;
 }
 
 .sky {
   stroke: $bright-sky-blue;
-
-  &.fill {
-    fill: $bright-sky-blue;
-  }
+  fill: $bright-sky-blue;
 }
 
 .red {
   stroke: $tomato;
-
-  &.fill {
-    fill: $tomato;
-  }
+  fill: $tomato;
 }
 
 .black {
   stroke: $main-black;
-
-  &.fill {
-    fill: $main-black;
-  }
+  fill: $main-black;
 }

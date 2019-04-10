@@ -11,18 +11,21 @@ export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 type Props = {
   name: string,
-  color: JIconColor,
+  color: ?JIconColor,
+  className?: ?string,
 }
 
-class JIcon extends PureComponent<Props> {
+export class JIcon extends PureComponent<Props> {
   static defaultProps = {
-    color: 'white',
+    color: null,
+    className: null,
   }
 
   render() {
     const {
       name,
       color,
+      className,
     }: Props = this.props
 
     const iconData = iconsUI[`${name}-usage`]
@@ -35,6 +38,7 @@ class JIcon extends PureComponent<Props> {
             '__j-icon',
             jIconStyle.core,
             hasFill && jIconStyle.empty,
+            className,
           )}
         />
       )
@@ -47,6 +51,7 @@ class JIcon extends PureComponent<Props> {
           jIconStyle.core,
           color && jIconStyle[color],
           hasFill && jIconStyle.fill,
+          className,
         )}
         width={iconData.width}
         height={iconData.height}
@@ -56,5 +61,3 @@ class JIcon extends PureComponent<Props> {
     )
   }
 }
-
-export default JIcon
