@@ -135,7 +135,12 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!hasWallets) {
-      return <pages.WalletsStart />
+      const isCreateWallet: boolean = (route.name === 'WalletsCreate')
+      const isImportWallet: boolean = (route.name === 'WalletsImport')
+
+      if (!(isCreateWallet || isImportWallet)) {
+        return <pages.WalletsStart />
+      }
     }
 
     return renderWithMenuLayout(pages[name], params, name)
