@@ -108,20 +108,13 @@ class FirstStepForm extends Component<Props> {
         render={({
           handleSubmit, form, submitting, submitError, values,
         }) => (
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={classNames(
               styles.form,
               { [styles.submitting]: submitting },
             )}
             >
               {submitError && <div className='error'>{submitError}</div>}
-              <Field
-                component={JInputField}
-                name='owner'
-                color='gray'
-                label={t`Current address`}
-                isDisabled
-              />
               <Field
                 component={JInputField}
                 name='asset'
@@ -142,13 +135,11 @@ class FirstStepForm extends Component<Props> {
                 label={t`Amount`}
               />
               <JRaisedButton
-                onClick={handleSubmit}
+                type='submit'
                 isLoading={submitting}
-                color='blue'
-                label={t`Confirm`}
-                labelColor='white'
-                isWide
-              />
+              >
+                {t`Confirm`}
+              </JRaisedButton>
             </div>
           </form>
         )}
