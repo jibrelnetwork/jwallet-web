@@ -9,10 +9,10 @@ import {
 } from 'react-final-form'
 
 import CloseableScreen from 'components/CloseableScreen'
-import { JInputField } from 'components/base/JInput'
 
 import {
   JRaisedButton,
+  JInputField,
 } from 'components/base'
 
 import './upgradeView.scss'

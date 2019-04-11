@@ -8,8 +8,10 @@ import {
   Field,
 } from 'react-final-form'
 
-import { JRaisedButton } from 'components/base'
-import { JInputField } from 'components/base/JInput'
+import {
+  JRaisedButton,
+  JInputField,
+} from 'components/base'
 import { PasswordFieldFinalFormAdapter } from 'components/PasswordField'
 
 import {
