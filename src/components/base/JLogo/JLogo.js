@@ -11,18 +11,30 @@ type JLogoTheme = 'white' | 'blue'
 
 type Props = {|
   +theme: JLogoTheme,
+  +className: string,
 |}
 
 export class JLogo extends PureComponent<Props> {
   static defaultProps = {
+    className: '',
     theme: 'white',
   }
 
   render() {
-    const { theme }: Props = this.props
+    const {
+      theme,
+      className,
+    }: Props = this.props
 
     return (
-      <JLink href='/' className={jLogoStyle.core}>
+      <JLink
+        href='/'
+        className={classNames(
+          '__j-logo',
+          jLogoStyle.core,
+          className,
+        )}
+      >
         <span className={classNames(jLogoStyle.image, jLogoStyle[theme])} />
       </JLink>
     )
