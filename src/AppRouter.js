@@ -135,7 +135,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!hasWallets) {
-      return <pages.WalletsStartView />
+      return <pages.WalletsStart />
     }
 
     return renderWithMenuLayout(pages[name], params, name)

@@ -33,7 +33,7 @@ export { NotFound } from './NotFound/NotFound'
 // not available to user directly
 
 export { SetPasswordView } from './SetPassword'
-export { WalletsStartView } from './Wallets/routes'
+export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
 export { default as WalletsAddresses }
   from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
