@@ -7,21 +7,19 @@ import JInput, {
   type JInputColor,
 } from './JInput'
 
-type InputValidateType = 'touched' |
-  'visited' |
-  'dirtySinceLastSubmit'
+// type InputValidateType = 'touched' |
+//   'visited' |
+//   'dirtySinceLastSubmit'
 
 type Props = {|
   +input: Object,
-  +meta: Object,
+  // +meta: Object,
   +label: string,
   type?: JInputType,
   +color: JInputColor,
   placeholder?: string,
-  helpMessage?: string,
-  infoMessage?: string,
   errorMessage?: string,
-  validateType?: InputValidateType,
+  // validateType?: InputValidateType,
   isLoading?: boolean,
   isAutoFocus?: boolean,
   isPinCode?: boolean,
@@ -29,35 +27,15 @@ type Props = {|
   rows: ?number,
 |}
 
-function getErrorMessage(meta: Object, validateType: ?InputValidateType): ?string {
-  const err = meta.error || meta.submitError
-
-  const error = (typeof err === 'string')
-    ? err
-    : typeof err === 'object' && err.message && !err.isInfo
-      ? err.message
-      : ''
-
-  if (validateType === 'dirtySinceLastSubmit' && !meta[validateType]) {
-    return error
-  } else if ((validateType === 'touched' || validateType === 'visited') && meta[validateType]) {
-    return error
-  }
-
-  return undefined
-}
-
 function JInputField(props: Props) {
   const {
     input,
-    meta,
+    // meta,
     label,
     placeholder,
     color,
     type,
-    validateType,
-    helpMessage,
-    infoMessage,
+    // validateType,
     errorMessage,
     isLoading,
     isAutoFocus,
@@ -81,9 +59,7 @@ function JInputField(props: Props) {
       label={label}
       value={input.value}
       placeholder={placeholder}
-      helpMessage={helpMessage}
-      errorMessage={errorMessage || getErrorMessage(meta, validateType)}
-      infoMessage={infoMessage}
+      errorMessage={errorMessage}
       color={color}
       type={type}
       isLoading={isLoading}
@@ -98,9 +74,7 @@ function JInputField(props: Props) {
 JInputField.defaultProps = {
   placeholder: undefined,
   type: 'text',
-  validateType: 'dirtySinceLastSubmit',
-  infoMessage: undefined,
-  helpMessage: undefined,
+  validateType: 'touched',
   errorMessage: undefined,
   isLoading: false,
   isAutoFocus: false,
