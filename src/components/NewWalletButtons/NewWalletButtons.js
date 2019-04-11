@@ -3,38 +3,31 @@
 import React from 'react'
 import { t } from 'ttag'
 
-import WalletFace from 'components/WalletFace'
+import { JLink } from 'components/base'
 
-type Props = {|
-  +createWallet: Function,
-  +importWallet: Function,
-|}
+import newWalletButtonsStyle from './newWalletButtons.m.scss'
 
-const NewWalletButtons = ({
-  createWallet,
-  importWallet,
-}: Props) => (
-  <div className='new-wallet-buttons'>
-    <div className='separator' />
-    <div className='create'>
-      <WalletFace
-        onClick={createWallet}
-        iconName='add'
-        title={t`Create new wallet`}
-        description={t`Create your own wallet to manage on-chain funds`}
-        isTransparent
-      />
+export function NewWalletButtons() {
+  return (
+    <div className={`__new-wallet-buttons ${newWalletButtonsStyle.core}`}>
+      <JLink
+        className={newWalletButtonsStyle.create}
+        href='/wallets/create'
+      >
+        {t`Create Wallet`}
+      </JLink>
+      <span className={newWalletButtonsStyle.text}>
+        {t`Create your own wallet to manage your digital assets`}
+      </span>
+      <JLink
+        className={newWalletButtonsStyle.import}
+        href='/wallets/import'
+      >
+        {t`Import Wallet`}
+      </JLink>
+      <span className={newWalletButtonsStyle.text}>
+        {t`Import an existing wallet with backup phrase, private key, etc.`}
+      </span>
     </div>
-    <div className='import'>
-      <WalletFace
-        onClick={importWallet}
-        iconName='import'
-        title={t`Import wallet`}
-        description={t`Import existing wallet to manage on-chain funds`}
-        isTransparent
-      />
-    </div>
-  </div>
-)
-
-export default NewWalletButtons
+  )
+}
