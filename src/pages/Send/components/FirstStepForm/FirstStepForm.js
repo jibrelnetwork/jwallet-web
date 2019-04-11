@@ -2,13 +2,14 @@
 
 import React, { Component } from 'react'
 import classNames from 'classnames'
+import * as yup from 'yup'
+
 import { t } from 'ttag'
 import { FORM_ERROR } from 'final-form'
 import {
   Form,
   Field,
 } from 'react-final-form'
-import * as yup from 'yup'
 
 import {
   JInputField,

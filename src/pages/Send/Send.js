@@ -5,7 +5,6 @@ import React, {
   Fragment,
 } from 'react'
 import { t } from 'ttag'
-import { Scrollbars } from 'react-custom-scrollbars'
 
 import { JText } from 'components/base'
 import { executeDeferredAction } from 'utils/misc'
@@ -16,13 +15,12 @@ import {
 } from 'store/modules/digitalAssetsSendWizard'
 
 import {
-  HeaderPanel,
   FirstStepForm,
   PasswordStepForm,
   ErrorMessage,
 } from './components'
 
-import styles from './digitalAssetsSendWizard.m.scss'
+import styles from './send.m.scss'
 
 export const FIRST_STEP: 1 = 1
 export const PASSWORD_STEP: 2 = 2
@@ -33,9 +31,6 @@ type Props = {|
   +sendTransaction: SendTransactionFunction,
   +addPendingTransaction: AddPendingTransactionFunction,
   +owner: OwnerAddress,
-  +location: {
-    +search: string,
-  },
 |}
 
 export type FirstStepValues = {|
@@ -52,7 +47,6 @@ export type PasswordStepValues = {|
 
 type State = {|
   step: WizardStep,
-  isLoading: boolean,
   firstStepValues: FirstStepValues,
   passwordStepValues: PasswordStepValues,
   sendTransactionError: string,
@@ -61,14 +55,10 @@ type State = {|
 class DigitalAssetsSendWizard extends Component<Props, State> {
   static defaultProps = {
     close: () => null,
-    location: {
-      search: '',
-    },
   }
 
   state: State = {
     step: FIRST_STEP,
-    isLoading: false,
     firstStepValues: {
       owner: this.props.owner,
       asset: 'Ethereum',
@@ -200,53 +190,45 @@ class DigitalAssetsSendWizard extends Component<Props, State> {
   render() {
     const {
       step,
-      isLoading,
       firstStepValues,
       sendTransactionError,
     } = this.state
 
     return (
       <div className={styles.wizard}>
-        <HeaderPanel
-          goToPrevStep={this.goToPrevStep}
-          currentStep={step}
-          isLoading={isLoading}
-        />
         <div className={styles.content}>
-          <Scrollbars autoHide>
-            <div className={styles.steps}>
-              {(step === FIRST_STEP) && (
-                <Fragment>
-                  <FirstStepForm
-                    initialValues={firstStepValues}
-                    onSubmit={this.handleFirstStepSubmit}
-                  />
-                  <div className={styles.message}>
-                    <JText
-                      value={t`The app doesn’t charge you any fees. 
+          <div className={styles.steps}>
+            {(step === FIRST_STEP) && (
+              <Fragment>
+                <FirstStepForm
+                  initialValues={firstStepValues}
+                  onSubmit={this.handleFirstStepSubmit}
+                />
+                <div className={styles.message}>
+                  <JText
+                    value={t`The app doesn’t charge you any fees. 
                       But you have to pay the blockchain fee to create a new transaction.`}
-                      color='gray'
-                      whiteSpace='wrap'
-                      align='center'
-                    />
-                  </div>
-                </Fragment>
-              )}
-              {(step === PASSWORD_STEP) && (
-                <Fragment>
-                  <PasswordStepForm
-                    onSubmit={this.handlePasswordStepSubmit}
+                    color='gray'
+                    whiteSpace='wrap'
+                    align='center'
                   />
-                  {sendTransactionError && (
-                    <ErrorMessage
-                      goBack={this.goToPrevStep}
-                      errorMessage={sendTransactionError}
-                    />
-                  )}
-                </Fragment>
-              )}
-            </div>
-          </Scrollbars>
+                </div>
+              </Fragment>
+            )}
+            {(step === PASSWORD_STEP) && (
+              <Fragment>
+                <PasswordStepForm
+                  onSubmit={this.handlePasswordStepSubmit}
+                />
+                {sendTransactionError && (
+                  <ErrorMessage
+                    goBack={this.goToPrevStep}
+                    errorMessage={sendTransactionError}
+                  />
+                )}
+              </Fragment>
+            )}
+          </div>
         </div>
       </div>
     )

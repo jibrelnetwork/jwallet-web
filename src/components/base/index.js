@@ -5,7 +5,6 @@ import JCard from './JCard'
 import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
 import JInput from './JInput'
-import JInputField from './JInput/JInputField'
 import JLoader from './JLoader'
 import JRadio from './JRadio'
 import JRaisedButton from './JRaisedButton'
@@ -21,6 +20,7 @@ export { JLogo } from './JLogo/JLogo'
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 export { JTextArea } from './JTextArea/JTextArea'
 export { JTextAreaField } from './JTextArea/JTextAreaField'
+export { JInputField } from './JInputField/JInputField'
 
 export {
   JAssetSymbol,
@@ -28,7 +28,6 @@ export {
   JCheckbox,
   JFlatButton,
   JInput,
-  JInputField,
   JLoader,
   JRadio,
   JRaisedButton,

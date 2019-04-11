@@ -1,7 +1,6 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
 
 import {
   selectActiveWalletAddress,
@@ -12,12 +11,9 @@ import {
   addPendingTransaction,
 } from 'store/modules/digitalAssetsSendWizard'
 
-import DigitalAssetsSendWizard from './DigitalAssetsSendWizard'
+import DigitalAssetsSendWizard from './Send'
 
 type OwnProps = {|
-  +location: {|
-    +search: string,
-  |},
 |}
 
 const mapStateToProps = (state: AppState) => {
@@ -33,8 +29,6 @@ const mapStateToProps = (state: AppState) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  close: () => dispatch(push('/digital-assets/grid')),
-
   // eslint-disable-next-line fp/no-rest-parameters
   sendTransaction: (...args) => dispatch(sendTransaction(...args)),
 

@@ -16,7 +16,7 @@ export { default as Home }
 export { default as Receive }
   from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
 export { default as Send }
-  from './DigitalAssets/routes/Send/DigitalAssetsSendViewContainer'
+  from './Send/SendContainer'
 export { default as Settings } from './Settings/SettingsIndexViewContainer'
 export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
 export { default as SettingsSecurityPassword }
