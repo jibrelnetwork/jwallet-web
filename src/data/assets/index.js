@@ -1,11 +1,19 @@
 // @flow
 
 import ethereum from './ethereum'
-import mainnet from '../../../assets/mainnet/assets.json'
-import ropsten from '../../../assets/ropsten/assets.json'
 
-export default {
-  mainnet,
-  ropsten,
+function getAssetsMainnet(): Promise<DigitalAsset[]> {
+  return import(/* webpackChunkName: "mainnet" */ '../../../assets/mainnet/assets.json')
+    .then(({ default: mainnet }) => mainnet)
+}
+
+function getAssetsRopsten(): Promise<DigitalAsset[]> {
+  return import(/* webpackChunkName: "ropsten" */ '../../../assets/ropsten/assets.json')
+    .then(({ default: ropsten }) => ropsten)
+}
+
+export {
   ethereum,
+  getAssetsMainnet,
+  getAssetsRopsten,
 }

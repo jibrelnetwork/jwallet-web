@@ -7,6 +7,20 @@ import {
   type Channel,
 } from 'redux-saga'
 
+declare type Router5Route = {
+  +name: string,
+  +params: {
+    [key: string]: any,
+  },
+  +path: string,
+  // TODO: describe meta property
+}
+
+type Router5State = {
+  +route: Router5Route,
+  previousRoute?: Router5Route,
+}
+
 declare type AppState = {
   // wallets
   +wallets: WalletsState,
@@ -41,5 +55,5 @@ declare type AppState = {
   // ticker
   +ticker: TickerState,
   // router
-  +router: RouterState,
+  +router: Router5State,
 }

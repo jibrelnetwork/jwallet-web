@@ -1,6 +1,6 @@
 // @flow
 
-import toBigNumber from './toBigNumber'
+import { toBigNumber } from './toBigNumber'
 
 type IsZeroValue = BigNumber | string | number | void
 

@@ -9,8 +9,7 @@ import {
   JFlatButton,
 } from 'components/base'
 
-import ethereum from 'data/assets/ethereum'
-
+import { ethereum } from 'data/assets'
 import { formatAssetBalance } from 'utils/formatters'
 
 type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
@@ -98,7 +97,6 @@ class WalletFaceActions extends PureComponent<Props> {
                   <JFlatButton
                     onClick={handler}
                     iconName={iconName}
-                    iconSize='medium'
                     iconColor='white'
                     isHoverOpacity
                     title={action.tooltip}
@@ -110,8 +108,7 @@ class WalletFaceActions extends PureComponent<Props> {
         ) : (
           <JFlatButton
             onClick={toggle}
-            iconName='dots'
-            iconSize='medium'
+            iconName='dots-full-use-fill'
             iconColor='white'
             isTransparent
             isHoverOpacity

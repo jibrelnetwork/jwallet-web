@@ -23,19 +23,26 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
+    '[/\\\\]node_modules[/\\\\](?!lodash-es).+\\.(js|jsx)$',
   ],
   moduleFileExtensions: ['js', 'jsx'],
   moduleDirectories: ['src', 'node_modules'],
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
+    '^lodash-es$': 'lodash',
   },
   setupFiles: [
     'react-app-polyfill/jsdom',
+    '<rootDir>/.jest/register-context.js',
   ],
-  setupTestFrameworkScriptFile: 'jest-enzyme',
+  setupFilesAfterEnv: [
+    'jest-enzyme',
+  ],
   testEnvironment: 'enzyme',
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
+  },
+  globals: {
+    __DEV__: true,
   },
 }

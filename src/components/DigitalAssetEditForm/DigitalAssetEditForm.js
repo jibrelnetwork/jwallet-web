@@ -80,13 +80,7 @@ const DigitalAssetEditForm = ({
           />
         ))}
         <div className='actions'>
-          <JRaisedButton
-            onClick={submit}
-            label={submitLabel}
-            color='blue'
-            labelColor='white'
-            isWide
-          />
+          <JRaisedButton onClick={submit}>{submitLabel}</JRaisedButton>
         </div>
       </div>
     </div>

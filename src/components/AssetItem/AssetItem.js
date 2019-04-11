@@ -12,7 +12,6 @@ import checkETH from 'utils/digitalAssets/checkETH'
 
 import {
   AssetBalance,
-  ButtonWithConfirm,
 } from 'components'
 
 import {
@@ -22,10 +21,11 @@ import {
   JSwitch,
   JTooltip,
   JAssetSymbol,
+  JFlatButton,
+  JLink,
 } from 'components/base'
 
 type Props = {|
-  +edit: (string) => void,
   +remove: (string) => void,
   +setIsActive: (string, boolean) => void,
   +name: string,
@@ -38,8 +38,7 @@ type Props = {|
 
 type StateProps = {|
   +isToggled: boolean,
-  +isHoveredEdit: boolean,
-  +isHoveredTrash: boolean,
+  +isDeleteVisible: boolean,
 |}
 
 class AssetItem extends PureComponent<Props, StateProps> {
@@ -53,19 +52,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
     this.state = {
       isToggled: false,
-      isHoveredEdit: false,
-      isHoveredTrash: false,
+      isDeleteVisible: false,
     }
   }
 
-  handleMouseEnterEdit = () => this.setState({ isHoveredEdit: true })
-  handleMouseLeaveEdit = () => this.setState({ isHoveredEdit: false })
-
-  handleMouseEnterRemove = () => this.setState({ isHoveredTrash: true })
-  handleMouseLeaveRemove = () => this.setState({ isHoveredTrash: false })
-
-  handleClickEdit = () => {
-    this.props.edit(this.props.address)
+  handleClickToggleDelete = () => {
+    this.setState({ isDeleteVisible: !this.state.isDeleteVisible })
   }
 
   handleClickRemove = () => {
@@ -90,8 +82,6 @@ class AssetItem extends PureComponent<Props, StateProps> {
 
     const {
       isToggled,
-      isHoveredEdit,
-      isHoveredTrash,
     }: StateProps = this.state
 
     return (
@@ -133,45 +123,54 @@ class AssetItem extends PureComponent<Props, StateProps> {
           <div className='actions'>
             {isCustom ? (
               <Fragment>
-                <div
+                <JLink
                   className='item -edit'
-                  onMouseEnter={this.handleMouseEnterEdit}
-                  onMouseLeave={this.handleMouseLeaveEdit}
-                  onClick={this.handleClickEdit}
+                  href={`/assets/${address}/edit`}
                 >
                   <JTooltip text={t`Edit`}>
                     <JIcon
-                      size='medium'
-                      color={isHoveredEdit ? 'sky' : 'blue'}
                       name='edit'
                     />
                   </JTooltip>
-                </div>
-                <div
-                  className='item -delete'
-                  onMouseEnter={this.handleMouseEnterRemove}
-                  onMouseLeave={this.handleMouseLeaveRemove}
-                  onClick={this.handleMouseLeaveRemove}
-                >
-                  <ButtonWithConfirm
-                    onClick={this.handleClickRemove}
-                    color='blue'
-                    bgColor='white'
-                    labelCancel={t`No`}
-                    iconTooltipName='trash'
-                    labelConfirm={t`Yes, delete`}
-                    iconTooltipColor={isHoveredTrash ? 'sky' : 'blue'}
-                    isReverse
-                  />
+                </JLink>
+                <div className='item -delete'>
+                  <div className='confirms'>
+                    {
+                      this.state.isDeleteVisible ?
+                        (
+                          <div className='action -overlay-white'>
+                            <JFlatButton
+                              className='confirm'
+                              onClick={this.handleClickRemove}
+                              color='blue'
+                              label={t`Yes, delete`}
+                              isBordered
+                            />
+                            <JFlatButton
+                              onClick={this.handleClickToggleDelete}
+                              label={t`No`}
+                              color='blue'
+                              isBordered
+                            />
+                          </div>
+                        ) :
+                        (
+                          <div onClick={this.handleClickToggleDelete}>
+                            <JTooltip text={t`Delete`}>
+                              <JIcon name='trash' />
+                            </JTooltip>
+                          </div>
+                        )
+                    }
+                  </div>
                 </div>
                 <div
                   className='item -dots'
                   onClick={this.handleClick}
                 >
                   <JIcon
-                    size='medium'
                     color='gray'
-                    name='dots-full'
+                    name='dots-full-use-fill'
                   />
                 </div>
                 <div className='item -switch'>

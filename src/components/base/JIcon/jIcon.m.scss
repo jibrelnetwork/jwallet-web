@@ -1,0 +1,53 @@
+@import "styles/colors";
+
+.core {
+  fill: none;
+  fill-opacity: 0;
+  stroke-opacity: 1;
+  cursor: inherit;
+  stroke-width: 1.5px;
+  display: inline-block;
+  transition: stroke 0.3s ease 0s;
+}
+
+.no-icon {
+  width: 24px;
+  height: 24px;
+  background-color: $tomato;
+}
+
+.fill {
+  fill-opacity: 1;
+  stroke-opacity: 0;
+  stroke-width: 0;
+}
+
+.white {
+  stroke: $white;
+  fill: $white;
+}
+
+.blue {
+  stroke: $blue;
+  fill: $blue;
+}
+
+.gray {
+  stroke: $dusk;
+  fill: $dusk;
+}
+
+.sky {
+  stroke: $bright-sky-blue;
+  fill: $bright-sky-blue;
+}
+
+.red {
+  stroke: $tomato;
+  fill: $tomato;
+}
+
+.black {
+  stroke: $black;
+  fill: $black;
+}

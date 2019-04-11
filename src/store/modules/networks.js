@@ -151,7 +151,7 @@ const initialState: NetworksState = {
         id: '1',
         blockExplorerUISubdomain: '',
         title: 'Main Ethereum Network',
-        rpcaddr: 'main-node.jwallet.network',
+        rpcaddr: 'main.jnode.network',
         rpcport: 443,
         ssl: true,
         isCustom: false,

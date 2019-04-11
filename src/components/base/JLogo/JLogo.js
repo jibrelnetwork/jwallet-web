@@ -1,27 +1,30 @@
 // @flow
 
 import classNames from 'classnames'
-import { Link } from 'react-router'
 import React, { PureComponent } from 'react'
 
+import { JLink } from 'components/base'
+
+import jLogoStyle from './jLogo.m.scss'
+
+type JLogoTheme = 'white' | 'blue'
+
 type Props = {|
-  +isOnlyIcon: boolean,
+  +theme: JLogoTheme,
 |}
 
-class JLogo extends PureComponent<Props> {
+export class JLogo extends PureComponent<Props> {
   static defaultProps = {
-    isOnlyIcon: false,
+    theme: 'white',
   }
 
   render() {
-    const { isOnlyIcon }: Props = this.props
+    const { theme }: Props = this.props
 
     return (
-      <Link to='/' className={classNames('j-logo', isOnlyIcon && '-only-icon')}>
-        <span className='image' />
-      </Link>
+      <JLink href='/' className={jLogoStyle.core}>
+        <span className={classNames(jLogoStyle.image, jLogoStyle[theme])} />
+      </JLink>
     )
   }
 }
-
-export default JLogo

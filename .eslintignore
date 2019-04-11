@@ -1,4 +1,5 @@
 node_modules/**
 build/**
-test/**
+tests/**
 src/public/**
+flow-typed/npm

@@ -4,11 +4,9 @@ import JAssetSymbol from './JAssetSymbol'
 import JCard from './JCard'
 import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
-import JIcon from './JIcon'
 import JInput from './JInput'
 import JInputField from './JInput/JInputField'
 import JLoader from './JLoader'
-import JLogo from './JLogo'
 import JRadio from './JRadio'
 import JRaisedButton from './JRaisedButton'
 import JSearch from './JSearch'
@@ -19,16 +17,19 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
+export { JLogo } from './JLogo/JLogo'
+export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+export { JTextArea } from './JTextArea/JTextArea'
+export { JTextAreaField } from './JTextArea/JTextAreaField'
+
 export {
   JAssetSymbol,
   JCard,
   JCheckbox,
   JFlatButton,
-  JIcon,
   JInput,
   JInputField,
   JLoader,
-  JLogo,
   JRadio,
   JRaisedButton,
   JSearch,
@@ -39,3 +40,7 @@ export {
   JSwitch,
   JPicker,
 }
+
+export { JIcon } from './JIcon/JIcon'
+export { JLink } from './JLink/JLink'
+export { JLinkBack } from './JLinkBack/JLinkBack'

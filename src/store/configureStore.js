@@ -3,7 +3,10 @@
 import createSagaMiddleware from 'redux-saga'
 
 import { persistStore } from 'redux-persist'
-import { routerMiddleware } from 'react-router-redux'
+import {
+  reduxPlugin,
+  router5Middleware,
+} from 'redux-router5'
 
 import {
   compose,
@@ -15,15 +18,25 @@ import sagas from './sagas'
 import workers from '../workers'
 import middlewares from '../middlewares'
 import { makeRootReducer } from './reducers'
-import { redirect } from '../middlewares/redirect'
 
 const sagaMiddleware = createSagaMiddleware()
 
-function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
+function configureStore({
+  initialState = {},
+  router,
+}: {
+  initialState: $Shape<AppState>,
+  router: Object,
+}) {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [sagaMiddleware, redirect, routerMiddleware(history), ...middlewares]
+  const middleware = [
+    sagaMiddleware,
+    router5Middleware(router),
+    // redirect,
+    ...middlewares,
+  ]
 
   if (__DEV__ && !window.localStorage.hideReduxLogger) {
     const { logger } = require('redux-logger')
@@ -52,6 +65,7 @@ function configureStore(initialState: $Shape<AppState> = {}, history: Object) {
   )
   const store = createStore(rootReducer, initialState, enhancer)
   const persistor = persistStore(store)
+  router.usePlugin(reduxPlugin(store.dispatch))
 
   // ======================================================
   // Run sagas

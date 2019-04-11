@@ -1,0 +1,27 @@
+@import 'styles/zindex';
+
+.core {
+  z-index: $z-index-menu-logo;
+  position: relative;
+  display: inline-block;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.image {
+  display: block;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+.white {
+  width: 120px;
+  height: 32px;
+  background-image: url('../../../public/assets/logo/logo-white.svg');
+}
+
+.blue {
+  width: 137px;
+  height: 36px;
+  background-image: url('../../../public/assets/logo/logo-blue.svg');
+}

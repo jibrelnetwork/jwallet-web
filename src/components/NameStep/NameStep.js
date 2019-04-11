@@ -43,7 +43,6 @@ const NameStep = ({
       <JFlatButton
         onClick={goToWallets}
         iconName='arrow'
-        iconSize='small'
         iconColor='white'
         label={t`Previous step`}
         isTransparent
@@ -51,10 +50,8 @@ const NameStep = ({
       <div className='next'>
         <JRaisedButton
           onClick={setNextStep}
-          color='blue'
-          label={t`Next step`}
-          isWide
-        />
+        >{t`Next step`}
+        </JRaisedButton>
       </div>
     </div>
   </div>

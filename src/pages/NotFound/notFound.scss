@@ -1,0 +1,29 @@
+@import 'styles/colors';
+
+.not-found-view {
+  all: initial;
+
+  @include flex-column-center;
+
+  height: 100%;
+
+  > .content {
+    @include flex-column-center;
+
+    > .actions {
+      position: absolute;
+      left: 0;
+      bottom: 55px;
+      width: 100%;
+      text-align: center;
+
+      > .back {
+        display: inline-block;
+
+        &:hover {
+          color: $bright-sky-blue;
+        }
+      }
+    }
+  }
+}

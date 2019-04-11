@@ -1,0 +1,21 @@
+@import 'styles/mixins';
+
+.currency-form {
+  all: initial;
+  display: block;
+  width: 455px;
+
+  > .j-picker > .select { /* stylelint-disable-line rscss/class-format, comment: FIXME */
+    width: 100%;
+
+    > .options {
+      width: 100%;
+    }
+  }
+
+  .j-picker-item { /* stylelint-disable-line rscss/class-format, rscss/no-descendant-combinator, selector-nested-pattern, comment: FIXME no other way to select picker item */
+    justify-content: flex-start;
+    text-align: left;
+    padding: 0 15px;
+  }
+}

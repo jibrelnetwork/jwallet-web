@@ -3,14 +3,14 @@
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import { Link } from 'react-router'
 
-import ButtonWithConfirm from 'components/ButtonWithConfirm'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
 import {
   JCard,
+  JFlatButton,
   JIcon,
+  JLink,
   JText,
   JTooltip,
 } from 'components/base'
@@ -24,11 +24,9 @@ type Props = {|
   +isWalletReadOnly: boolean,
 |}
 
-type FavoriteItemHoveredIcon = 'send' | 'edit' | 'trash'
-
 type ComponentState = {|
-  +hovered: ?FavoriteItemHoveredIcon,
   +isActionsToggled: boolean,
+  +isDeleteVisible: boolean,
 |}
 
 class FavoriteItem extends PureComponent<Props, ComponentState> {
@@ -36,12 +34,14 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
     super(props)
 
     this.state = {
-      hovered: null,
       isActionsToggled: false,
+      isDeleteVisible: false,
     }
   }
 
-  onHover = (hovered: ?FavoriteItemHoveredIcon) => () => this.setState({ hovered })
+  handleClickToggleDelete = () => {
+    this.setState({ isDeleteVisible: !this.state.isDeleteVisible })
+  }
 
   handleOpen = () => this.setState({
     isActionsToggled: true,
@@ -56,9 +56,6 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
       remove,
       address,
     }: Props = this.props
-
-    this.onHover(null)
-
     remove(address)
   }
 
@@ -72,7 +69,6 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
     }: Props = this.props
 
     const {
-      hovered,
       isActionsToggled,
     }: ComponentState = this.state
 
@@ -97,7 +93,7 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
           {description ? (
             <div className='description'>
               <div className='icon'>
-                <JIcon size='medium' name='message' color='gray' />
+                <JIcon name='message' color='gray' />
               </div>
               <div className='j-text text'>
                 {description}
@@ -109,54 +105,56 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
           <div onClick={this.handleClose} className='overlay' />
           <div className='actions'>
             {!isWalletReadOnly && (
-              <Link
-                onMouseEnter={this.onHover('send')}
-                onMouseLeave={this.onHover(null)}
-                to={`/digital-assets/send?to=${address}`}
+              <JLink
+                href={`/send?to=${address}`}
                 className='item -send'
               >
                 <JTooltip text={t`Send`}>
-                  <JIcon
-                    color={(hovered === 'send') ? 'sky' : 'blue'}
-                    size='medium'
-                    name='upload'
-                  />
+                  <JIcon name='upload' />
                 </JTooltip>
-              </Link>
+              </JLink>
             )}
-            <Link
-              onMouseEnter={this.onHover('edit')}
-              onMouseLeave={this.onHover(null)}
-              to={`/favorites/address/${address}`}
+            <JLink
+              href={`/contacts/${address}`}
               className='item -edit'
             >
               <JTooltip text={t`Edit`}>
-                <JIcon
-                  color={(hovered === 'edit') ? 'sky' : 'blue'}
-                  name='edit'
-                  size='medium'
-                />
+                <JIcon name='edit' />
               </JTooltip>
-            </Link>
-            <div
-              onClick={this.onHover(null)}
-              onMouseLeave={this.onHover(null)}
-              onMouseEnter={this.onHover('trash')}
-              className='item -delete'
-            >
-              <ButtonWithConfirm
-                onClick={ignoreEvent(this.remove)()}
-                iconTooltipColor={(hovered === 'trash') ? 'sky' : 'blue'}
-                color='blue'
-                bgColor='white'
-                labelCancel={t`No`}
-                iconTooltipName='trash'
-                labelConfirm={t`Yes, delete`}
-                isReverse
-              />
+            </JLink>
+            <div className='item -delete'>
+              <div className='confirms'>
+                {
+                  this.state.isDeleteVisible ?
+                    (
+                      <div className='action -overlay-white'>
+                        <JFlatButton
+                          className='confirm'
+                          onClick={ignoreEvent(this.remove)()}
+                          color='blue'
+                          label={t`Yes, delete`}
+                          isBordered
+                        />
+                        <JFlatButton
+                          onClick={this.handleClickToggleDelete}
+                          label={t`No`}
+                          color='blue'
+                          isBordered
+                        />
+                      </div>
+                    ) :
+                    (
+                      <div onClick={this.handleClickToggleDelete}>
+                        <JTooltip text={t`Delete`}>
+                          <JIcon name='trash' />
+                        </JTooltip>
+                      </div>
+                    )
+                }
+              </div>
             </div>
             <div onClick={this.handleOpen} className='item -dots'>
-              <JIcon size='medium' color='gray' name='dots-full' />
+              <JIcon color='gray' name='dots-full-use-fill' />
             </div>
           </div>
         </div>

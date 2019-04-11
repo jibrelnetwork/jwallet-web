@@ -1,8 +1,18 @@
 @import 'colors';
-@import 'icons';
+// @import 'icons';
 @import 'images';
-@import 'tokens';
+// @import 'tokens';
 @import 'zindex';
+
+/**
+ * Sizes
+ */
+$icon-small-size: 12px;
+$icon-medium-size: 24px;
+$icon-large-size: 48px;
+$icon-xlarge-size: 90px;
+
+$token-icon-size: 36px;
 
 /**
  * Window
@@ -102,3 +112,8 @@ $transaction-item-height: 80px;
 $transaction-item-v-padding: 20px;
 $transaction-item-h-padding: 25px;
 $transaction-item-border-size: 1px;
+
+/**
+ * Animation
+ */
+$default-animation: cubic-bezier(0, 0, 0.2, 1);

@@ -1,8 +1,8 @@
 // @flow
 
-import { t } from 'ttag'
-
 import checkMnemonicType from 'utils/wallets/checkMnemonicType'
+
+import { WalletInconsistentDataError } from 'errors'
 
 import {
   decryptData,
@@ -76,7 +76,7 @@ function reEncryptWallet(
     }
   }
 
-  throw new Error(t`WalletDataError`)
+  throw new WalletInconsistentDataError({ walletId: wallet.id }, 'reEncryptWallet error')
 }
 
 export default reEncryptWallet

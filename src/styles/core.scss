@@ -48,8 +48,6 @@ h4 {
 
 // Base components
 @import '../components/base/JCard/jCard';
-@import '../components/base/JIcon/jIcon';
-@import '../components/base/JLogo/jLogo';
 @import '../components/base/JTabs/jTabs';
 @import '../components/base/JText/jText';
 @import '../components/base/JInput/jInput';
@@ -63,13 +61,11 @@ h4 {
 @import '../components/base/JThumbnail/jThumbnail';
 @import '../components/base/JFlatButton/jFlatButton';
 @import '../components/base/JAssetSymbol/jAssetSymbol';
-@import '../components/base/JRaisedButton/jRaisedButton';
 
 // Components
 @import '../components/QRCode/qrCode';
 @import '../components/HelpText/helpText';
 @import '../components/AssetItem/assetItem';
-@import '../components/MenuPanel/menuPanel';
 @import '../components/WalletFace/walletFace';
 @import '../components/WalletStep/walletStep';
 @import '../components/DoubleInput/doubleInput';
@@ -78,12 +74,10 @@ h4 {
 @import '../components/PopupButton/popupButton';
 @import '../components/AssetBalance/assetBalance';
 @import '../components/SettingsGrid/settingsGrid';
-@import '../components/WalletHeader/walletHeader';
 @import '../components/FavoriteItem/favoriteItem';
 @import '../components/PasswordStep/passwordStep';
 @import '../components/AddressPicker/addressPicker';
 @import '../components/CopyableField/copyableField';
-@import '../components/PasswordField/passwordField';
 @import '../components/WalletLoading/walletLoading';
 @import '../components/OverlayActions/overlayActions';
 @import '../components/CloseableScreen/closeableScreen';
@@ -102,13 +96,11 @@ h4 {
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
 // Views
-@import '../routes/Wallets/walletsView';
-@import '../routes/Settings/settingsView';
-@import '../routes/NotFound/notFoundView';
-@import '../routes/DigitalAssets/digitalAssets';
-@import '../routes/Transactions/transactionsView';
+@import '../pages/Wallets/walletsView';
+@import '../pages/Settings/settingsView';
+@import '../pages/NotFound/notFound';
+@import '../pages/DigitalAssets/digitalAssets';
+@import '../pages/Transactions/transactionsView';
 
 // Layouts
-@import '../layouts/CoreLayout/coreLayout';
-@import '../layouts/MenuLayout/menuLayout';
 @import '../layouts/WalletsLayout/walletsLayout';

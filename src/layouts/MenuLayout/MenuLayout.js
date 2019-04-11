@@ -1,27 +1,28 @@
-// @flow
+// @flow strict
 
+import classNames from 'classnames'
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import MenuPanel from 'components/MenuPanel'
-import OverlayNotification from 'components/OverlayNotification'
+import { OverlayNotification } from 'components'
+
+import menuLayoutStyle from './menuLayout.m.scss'
+import { MenuPanel } from './components'
 
 type Props = {|
   +openLayout: Function,
   +closeLayout: Function,
-  +setActive: (Index) => void,
-  +getMoreRequest: () => void,
-  +items: Wallets,
-  +addresses: Address[],
-  +addressNames: AddressNames,
   +children: React$Node,
-  +activeWalletId: ?WalletId,
-  +fiatCurrency: FiatCurrency,
+  +routeName: string,
+  +walletName: string,
+  +fiatCurrency: string,
+  +mnemonicAddressName: string,
   +fiatBalance: number,
+  +isMnemonic: boolean,
   +isConnectionError: boolean,
 |}
 
-class MenuLayout extends Component<Props> {
+export class MenuLayout extends Component<Props> {
   componentDidMount() {
     this.props.openLayout()
   }
@@ -32,36 +33,30 @@ class MenuLayout extends Component<Props> {
 
   render() {
     const {
-      setActive,
-      getMoreRequest,
-      items,
-      addresses,
-      addressNames,
       children,
+      routeName,
+      walletName,
       fiatCurrency,
-      activeWalletId,
+      mnemonicAddressName,
       fiatBalance,
+      isMnemonic,
       isConnectionError,
     }: Props = this.props
 
     return (
-      <div className='menu-layout'>
-        <div className='aside'>
-          <MenuPanel
-            setActiveAddress={setActive}
-            getMoreAddresses={getMoreRequest}
-            items={items}
-            addresses={addresses}
-            addressNames={addressNames}
-            fiatCurrency={fiatCurrency}
-            activeWalletId={activeWalletId}
-            fiatBalance={fiatBalance}
-          />
-        </div>
-        <div className='content'>
+      <div className={classNames('__menu-layout', menuLayoutStyle.core)}>
+        <MenuPanel
+          routeName={routeName}
+          walletName={walletName}
+          fiatCurrency={fiatCurrency}
+          mnemonicAddressName={mnemonicAddressName}
+          fiatBalance={fiatBalance}
+          isMnemonic={isMnemonic}
+        />
+        <div className={classNames('__menu-layout_content', menuLayoutStyle.content)}>
           {children}
           {isConnectionError && (
-            <div className='overlay'>
+            <div className={classNames('__menu-layout_overlay', menuLayoutStyle.overlay)}>
               <OverlayNotification
                 color='red'
                 image='screen-error'
@@ -77,5 +72,3 @@ class MenuLayout extends Component<Props> {
     )
   }
 }
-
-export default MenuLayout

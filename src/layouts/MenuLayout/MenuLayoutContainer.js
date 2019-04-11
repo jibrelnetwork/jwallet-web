@@ -1,5 +1,7 @@
 // @flow
 
+// FIXME: nobody uses me, remove me after migration to MainMenu component!
+
 import { connect } from 'react-redux'
 
 import getDigitalAssetsWithBalance from 'utils/digitalAssets/getDigitalAssetsWithBalance'
@@ -7,28 +9,26 @@ import { selectTickerItems } from 'store/selectors/ticker'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
 
 import {
-  selectWalletsItems,
-  selectActiveWalletId,
-  selectWalletsAddresses,
+  selectActiveWallet,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
+
+import {
+  checkMnemonicType,
+  getMnemonicAddressName,
+} from 'utils/wallets'
 
 import {
   openMenuLayout,
   closeMenuLayout,
 } from 'store/modules/core'
 
-import {
-  setActive,
-  getMoreRequest,
-} from 'store/modules/walletsAddresses'
-
-import MenuLayout from './MenuLayout'
+import { MenuLayout } from './MenuLayout'
 
 function getFiatBalance(
   assets: DigitalAssetWithBalance[],
@@ -68,16 +68,14 @@ function getFiatBalance(
 }
 
 function mapStateToProps(state: AppState) {
-  const items: Wallets = selectWalletsItems(state)
+  const wallet: ?Wallet = selectActiveWallet(state)
   const fiatCourses: FiatCourses = selectTickerItems(state)
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const activeWalletId: ?WalletId = selectActiveWalletId(state)
   const addressNames: AddressNames = selectAllAddressNames(state)
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
-  const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const { addresses }: WalletsAddressesState = selectWalletsAddresses(state)
+  const fiatCurrency: FiatCurrencyData = selectSettingsFiatCurrencyData(state)
 
   const balances: ?Balances = selectBalancesByBlockNumber(
     state,
@@ -91,31 +89,36 @@ function mapStateToProps(state: AppState) {
     balances,
   )
 
+  const walletName: string = wallet ? wallet.name : ''
+  const isMnemonic: boolean = wallet ? checkMnemonicType(wallet.type) : false
+
+  const mnemonicAddressName: string = (wallet && ownerAddress && isMnemonic)
+    ? getMnemonicAddressName(wallet, addressNames[ownerAddress])
+    : ''
+
   return {
-    items,
-    addresses,
-    addressNames,
-    activeWalletId,
-    fiatCurrency,
-    fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency),
+    walletName,
+    mnemonicAddressName,
+    fiatCurrency: fiatCurrency.symbol,
+    fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency.code),
+    isMnemonic,
     isConnectionError: false,
   }
 }
 
 const mapDispatchToProps = {
-  setActive,
-  getMoreRequest,
   openLayout: openMenuLayout,
   closeLayout: closeMenuLayout,
 }
 
 /* ::
 type OwnProps = {|
+  +routeName: string,
   +children: React$Node,
 |}
 */
 
-export default connect/* :: < AppState, any, OwnProps, _, _ > */(
+export const MenuLayoutContainer = connect/* :: < AppState, any, OwnProps, _, _ > */(
   mapStateToProps,
   mapDispatchToProps,
 )(MenuLayout)

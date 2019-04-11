@@ -4,16 +4,22 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/components/base/JText/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/components/base/JRaisedButton/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/components/base/JTextArea/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/components/base/JLink/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/utils/uri/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/components/base/JIcon/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/docs/storybook" />
+      <excludeFolder url="file://$MODULE_DIR$/flow-typed/npm" />
       <excludeFolder url="file://$MODULE_DIR$/reports" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="@types/jasmine" level="application" />
     <orderEntry type="library" name="@types/webdriverio" level="application" />
+    <orderEntry type="library" name="@types/jest" level="application" />
   </component>
 </module>

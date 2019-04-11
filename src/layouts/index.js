@@ -1,11 +1,11 @@
 // @flow
 
 import CoreLayout from './CoreLayout'
-import MenuLayout from './MenuLayout'
 import WalletsLayout from './WalletsLayout'
+
+export { MenuLayout } from './MenuLayout'
 
 export {
   CoreLayout,
-  MenuLayout,
   WalletsLayout,
 }

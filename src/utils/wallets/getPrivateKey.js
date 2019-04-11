@@ -1,9 +1,8 @@
 // @flow
 
-import { t } from 'ttag'
-
 import decryptData from 'utils/encryption/decryptData'
 import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
+import { WalletInconsistentDataError } from 'errors'
 
 import checkMnemonicType from './checkMnemonicType'
 
@@ -15,7 +14,7 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
   }: Wallet = wallet
 
   if (isReadOnly) {
-    throw new Error(t`WalletDataError`)
+    throw new WalletInconsistentDataError({ walletId: wallet.id }, 'Wallet is read only')
   }
 
   if (checkMnemonicType(type)) {
@@ -31,7 +30,10 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
       !network ||
       !derivationPath
     ) {
-      throw new Error(t`WalletDataError`)
+      throw new WalletInconsistentDataError(
+        { walletId: wallet.id },
+        'Invalid mnemonic type',
+      )
     }
 
     const mnemonic: string = decryptData({
@@ -54,7 +56,10 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
     )
   } else {
     if (!encrypted.privateKey) {
-      throw new Error(t`WalletDataError`)
+      throw new WalletInconsistentDataError(
+        { walletId: wallet.id },
+        'Encrypted private key is empty',
+      )
     }
 
     return decryptData({

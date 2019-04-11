@@ -1,9 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
-import generateMnemonic from 'utils/mnemonic/generateMnemonic'
-
 import {
   createWallet,
   upgradeWallet,
@@ -17,11 +13,11 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
+import { WalletInconsistentDataError } from 'errors'
+
 /* eslint-disable import/no-duplicates */
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
-import * as walletsCreate from 'store/modules/walletsCreate'
-import * as walletsImport from 'store/modules/walletsImport'
 import * as walletsBackup from 'store/modules/walletsBackup'
 
 import { type UpgradeAction } from 'store/modules/upgrade'
@@ -68,7 +64,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
   const action: WalletsAnyAction = msg.data
 
   switch (action.type) {
-    case walletsCreate.CREATE_REQUEST: {
+    case wallets.CREATE_REQUEST: {
       try {
         const {
           items,
@@ -76,48 +72,6 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
           passwordOptions,
           mnemonicOptions,
           createdBlockNumber,
-          name,
-          password,
-        } = action.payload
-
-        const {
-          salt,
-          scryptParams,
-          encryptionType,
-          derivedKeyLength,
-        }: PasswordOptions = passwordOptions
-
-        const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
-        const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
-
-        walletsWorker.postMessage(walletsCreate.createSuccess({
-          passwordOptions,
-          internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
-          items: createWallet(items, {
-            name,
-            mnemonicOptions,
-            createdBlockNumber,
-            isSimplified: true,
-            data: generateMnemonic(),
-          }, internalKeyDec, encryptionType),
-        }))
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err)
-
-        walletsWorker.postMessage(walletsCreate.createError(err.message))
-      }
-
-      break
-    }
-
-    case walletsImport.IMPORT_REQUEST: {
-      try {
-        const {
-          items,
-          internalKey,
-          passwordOptions,
-          mnemonicOptions,
           data,
           name,
           password,
@@ -133,13 +87,14 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         const dk: Uint8Array = deriveKeyFromPassword(password, scryptParams, derivedKeyLength, salt)
         const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
 
-        walletsWorker.postMessage(walletsImport.importSuccess({
+        walletsWorker.postMessage(wallets.createSuccess({
           passwordOptions,
           internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
           items: createWallet(items, {
             data,
             name,
             mnemonicOptions,
+            createdBlockNumber,
             isSimplified: true,
           }, internalKeyDec, encryptionType),
         }))
@@ -147,7 +102,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         // eslint-disable-next-line no-console
         console.error(err)
 
-        walletsWorker.postMessage(walletsImport.importError(err.message))
+        walletsWorker.postMessage(wallets.createError(err.message))
       }
 
       break
@@ -164,7 +119,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error(t`WalletsDataError`)
+          throw new WalletInconsistentDataError({ walletId }, 'Invalid password options')
         }
 
         const {
@@ -199,7 +154,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         } = action.payload
 
         if (!passwordOptions) {
-          throw new Error(t`WalletsDataError`)
+          throw new WalletInconsistentDataError({ walletId: wallet.id }, 'Invalid password options')
         }
 
         const {

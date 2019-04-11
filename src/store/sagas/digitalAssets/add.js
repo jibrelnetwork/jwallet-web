@@ -14,9 +14,9 @@ import {
 } from 'redux-saga/effects'
 
 import web3 from 'services/web3'
-import reactRouterBack from 'utils/browser/reactRouterBack'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 import InvalidFieldError from 'utils/errors/InvalidFieldError'
-import { selectCurrentNetwork } from 'store/selectors/networks'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   checkAddressValid,
@@ -111,11 +111,8 @@ function* clearFieldsError(): Saga<void> {
  * Fires, when user changes fields on CustomAssetForm
  */
 function* onFieldChange(action: ExtractReturn<typeof setField>): Saga<void> {
-  const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
-
-  if (!network) {
-    throw new Error(t`ActiveNetworkNotFoundError`)
-  }
+  const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
+    = yield select(selectCurrentNetworkOrThrow)
 
   const {
     value,
@@ -283,7 +280,13 @@ function* onAssetFormSumbit(): Saga<void> {
       digitalAssets.addCustomAsset(checksumAddres, contractName, contractSymbol, contractDecimals),
     )
 
-    yield put(reactRouterBack({ fallbackUrl: '/digital-assets' }))
+    const state = yield select()
+
+    router5BackOrFallbackFunctionCreator(
+      state.router.previousRoute,
+      'Wallet',
+    )()
+
     yield put(blocks.syncRestart())
     yield put(ticker.syncRestart())
   }

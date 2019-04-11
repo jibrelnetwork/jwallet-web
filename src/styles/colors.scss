@@ -5,6 +5,7 @@ $black: #000;
 $dusk: #3d4f6c;
 $pale-grey: #f5f6fa;
 $pale-grey-two: #ebedf0;
+$pale-grey-three: #d8dce4;
 $tomato: #e53935;
 $blush: #eb7f7c;
 $pinkish: #e27c7e;
@@ -27,3 +28,25 @@ $pale-grey-two: #e1e4e8;
 $dark: #232d3e;
 $dark-two: #263143;
 $dark-three: #2e3b52;
+
+/* New colors */
+$main-black: #081e39;
+$main-black-5: rgba($main-black, 0.05);
+$main-black-10: rgba($main-black, 0.1);
+$main-black-20: rgba($main-black, 0.2);
+$main-black-30: rgba($main-black, 0.3);
+$main-black-40: rgba($main-black, 0.4);
+$main-black-60: rgba($main-black, 0.6);
+
+$white-10: rgba($white, 0.1);
+$white-20: rgba($white, 0.2);
+$white-30: rgba($white, 0.3);
+$white-40: rgba($white, 0.4);
+$white-50: rgba($white, 0.5);
+$white-60: rgba($white, 0.6);
+
+$main-blue: #003dc6;
+$main-blue-5: rgba($main-blue, 0.05);
+$main-blue-10: rgba($main-blue, 0.1);
+
+$main-red: #dc3632;

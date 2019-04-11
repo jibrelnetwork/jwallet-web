@@ -7,30 +7,25 @@ import React, {
   PureComponent,
 } from 'react'
 
-import { Link } from 'react-router'
-
-import handle from 'utils/eventHandlers/handle'
-
 import {
   JIcon,
-  JText,
   JLoader,
+  JLink,
 } from 'components/base'
 
-import {
-  type JIconSize,
-  type JIconColor,
-} from 'components/base/JIcon/JIcon'
+import jTextStyle from 'styles/components/jText.m.scss'
+
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 export type JFlatButtonColor = 'blue' | 'gray' | 'sky' | 'white'
 export type JFlatButtonHandler = (SyntheticEvent<HTMLDivElement>) => void
 
 type Props = {|
+  +className: ?string,
   +onClick: ?JFlatButtonHandler,
   +to: ?string,
   +label: ?string,
   +iconName: ?string,
-  +iconSize: JIconSize,
   +iconColor: JIconColor,
   +color: JFlatButtonColor,
   +isLink: boolean,
@@ -38,115 +33,98 @@ type Props = {|
   +isDisabled: boolean,
   +isBordered: boolean,
   +isTransparent: boolean,
-  +isUnderscored: boolean,
   +isHoverOpacity: boolean,
   title?: string,
 |}
 
 type BaseProps = {|
-  +onMouseEnter: (SyntheticEvent<any>) => void,
-  +onMouseLeave: (SyntheticEvent<any>) => void,
   +className: string,
   title?: string,
 |}
 
-type StateProps = {|
-  isHovered: boolean,
-|}
-
-class JFlatButton extends PureComponent<Props, StateProps> {
+class JFlatButton extends PureComponent<Props, *> {
   static defaultProps = {
+    className: null,
     onClick: null,
     to: null,
     label: null,
     iconName: null,
     color: 'white',
-    iconSize: 'small',
     iconColor: 'white',
     isLink: false,
     isLoading: false,
     isDisabled: false,
     isBordered: false,
     isTransparent: false,
-    isUnderscored: false,
     isHoverOpacity: false,
     title: undefined,
   }
 
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isHovered: false,
-    }
-  }
-
-  onHover = (isHovered: boolean) => {
-    this.setState({ isHovered })
-  }
-
   render() {
     const {
+      className,
       onClick,
       to,
       label,
       color,
       isLink,
       iconName,
-      iconSize,
       iconColor,
       isLoading,
       isDisabled,
       isBordered,
       isTransparent,
-      isUnderscored,
       isHoverOpacity,
       title,
     } = this.props
 
-    const {
-      isHovered,
-    }: StateProps = this.state
-
     if (isLoading) {
       return (
-        <div className={classNames('j-flat-button -loading', `-${color}`, isBordered && '-border')}>
+        <div
+          className={classNames(
+            className,
+            'j-flat-button -loading',
+            jTextStyle[color],
+            `-${color}`,
+            isBordered && '-border',
+          )}
+        >
           <JLoader color={color} />
         </div>
       )
     }
 
-    const isUnderscoredAndHovered: boolean = (isUnderscored && isHovered)
-
     const children: React$Node = (
       <Fragment>
         {iconName && (
           <div className='icon'>
-            <JIcon name={iconName} size={iconSize} color={iconColor} />
+            <JIcon name={iconName} color={iconColor} />
           </div>
         )}
         {label && (
-          <JText
-            value={label}
-            weight={isUnderscored ? null : 'bold'}
-            color={isUnderscoredAndHovered ? 'sky' : color}
-            decoration={isUnderscored ? 'underline' : null}
-          />
+          <span
+            className={classNames(
+              jTextStyle.core,
+              jTextStyle.bold,
+              jTextStyle[color],
+            )}
+          >
+            {label}
+          </span>
         )}
       </Fragment>
     )
 
     const baseProps: BaseProps = {
-      onMouseEnter: handle(this.onHover)(true),
-      onMouseLeave: handle(this.onHover)(false),
       className: classNames(
+        className,
+        jTextStyle[color],
         `j-flat-button -${color}`,
         label && '-label',
         isLink && '-link',
         isBordered && '-border',
         isDisabled && '-disabled',
         isTransparent && '-transparent',
-        isUnderscored && '-underscored',
         isHoverOpacity && '-hover-opacity',
       ),
       title,
@@ -173,12 +151,12 @@ class JFlatButton extends PureComponent<Props, StateProps> {
 
     if (to && !onClick) {
       return (
-        <Link
+        <JLink
           {...baseProps}
-          to={to}
+          href={to}
         >
           {children}
-        </Link>
+        </JLink>
       )
     }
 
