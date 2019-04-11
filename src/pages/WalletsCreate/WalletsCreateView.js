@@ -4,39 +4,36 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 
 import {
+  WalletStep,
   ModalHeader,
-  WalletDataStep,
+  CopyableField,
   WalletNameStep,
   WalletPasswordStep,
 } from 'components'
 
-import { STEPS } from 'store/modules/walletsImport'
+import { STEPS } from 'store/modules/walletsCreate'
 
 type Props = {|
-  +openView: Function,
-  +closeView: Function,
+  +openView: () => void,
+  +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,
-  +changeDataInput: Function,
-  +changeNameInput: Function,
-  +changePasswordInput: Function,
-  +changePasswordHintInput: Function,
-  +changeDerivationPathInput: Function,
-  +changePasswordConfirmInput: Function,
+  +changeNameInput: (string) => void,
+  +changePasswordInput: (string) => void,
+  +changePasswordHintInput: (string) => void,
+  +changePasswordConfirmInput: (string) => void,
   +invalidFields: FormFields,
-  +data: string,
   +name: string,
   +password: string,
   +passwordHint: string,
-  +derivationPath: string,
   +passwordConfirm: string,
-  +walletType: ?WalletCustomType,
-  +currentStep: WalletsImportStepIndex,
+  +currentStep: WalletsCreateStepIndex,
   +isLoading: boolean,
   +isPasswordExists: boolean,
+  +mnemonic: string,
 |}
 
-class WalletsImportView extends Component<Props> {
+export class WalletsCreateView extends Component<Props> {
   componentDidMount() {
     this.props.openView()
   }
@@ -49,39 +46,35 @@ class WalletsImportView extends Component<Props> {
     const {
       goToNextStep,
       goToPrevStep,
-      changeDataInput,
       changeNameInput,
       changePasswordInput,
       changePasswordHintInput,
-      changeDerivationPathInput,
       changePasswordConfirmInput,
       invalidFields,
-      data,
       name,
       password,
-      walletType,
       passwordHint,
-      derivationPath,
       passwordConfirm,
       currentStep,
       isLoading,
       isPasswordExists,
+      mnemonic,
     } = this.props
 
     const passwordStepTitle: string[] =
-     (t`You will use this password to unlock and transfer your funds.
-      Keep it secure!`).split('\n')
-
-    const dataStepTitle: string[] =
-     (t`Insert the private key or backup phrase to import. Also, you can import
-      an address in the read-only mode.`).split('\n')
+      (t`You will use this password to unlock and transfer your funds.
+        Keep it secure!`).split('\n')
+    const backupStepTitle = (t`This is your secret recovery text.
+        It is the only way to restore access to your funds.
+        Keep it secure and never give it to anyone
+        you don’t trust!`).split('\n')
 
     return (
-      <div className='wallets-view -import'>
+      <div className='wallets-view -create'>
         <ModalHeader
           onBack={goToPrevStep}
           color='white'
-          title={t`Import wallet`}
+          title={t`Create wallet`}
           isDisabled={isLoading}
         />
         <div className='content'>
@@ -92,23 +85,9 @@ class WalletsImportView extends Component<Props> {
               invalidFields={invalidFields}
               valueName={name}
               buttonLabel={t`Next step`}
-              fieldName='wallets-name'
+              fieldName={t`wallets-name`}
               placeholder={t`Wallet name`}
               isLoading={isLoading}
-            />
-          )}
-          {(currentStep === STEPS.DATA) && (
-            <WalletDataStep
-              onSubmit={goToNextStep}
-              onChangeData={changeDataInput}
-              onChangeDerivationPath={changeDerivationPathInput}
-              title={dataStepTitle}
-              invalidFields={invalidFields}
-              valueData={data}
-              valueDerivationPath={derivationPath}
-              buttonLabel={t`Next step`}
-              isLoading={isLoading}
-              isMnemonic={walletType === 'mnemonic'}
             />
           )}
           {(currentStep === STEPS.PASSWORD) && (
@@ -122,15 +101,23 @@ class WalletsImportView extends Component<Props> {
               valuePassword={password}
               valuePasswordHint={passwordHint}
               valuePasswordConfirm={passwordConfirm}
-              buttonLabel={t`Import wallet`}
+              buttonLabel={t`Create wallet`}
               isLoading={isLoading}
               isPasswordExists={isPasswordExists}
             />
+          )}
+          {(currentStep === STEPS.BACKUP) && (
+            <WalletStep
+              onSubmit={goToNextStep}
+              title={backupStepTitle}
+              buttonLabel={t`I saved the backup, let's go!`}
+              isLoading={isLoading}
+            >
+              <CopyableField value={mnemonic} isDownloadAvailable />
+            </WalletStep>
           )}
         </div>
       </div>
     )
   }
 }
-
-export default WalletsImportView

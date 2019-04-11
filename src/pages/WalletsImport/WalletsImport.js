@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import {
   selectWallets,
-  selectWalletsCreate,
+  selectWalletsImport,
 } from 'store/selectors/wallets'
 
 import {
@@ -19,23 +19,13 @@ import {
   closeView,
   goToNextStep,
   goToPrevStep,
-} from 'store/modules/walletsCreate'
+  changeDataInput,
+  changeDerivationPathInput,
+} from 'store/modules/walletsImport'
 
-import WalletsCreateView from './WalletsCreateView'
+import { WalletsImportView } from './WalletsImportView'
 
-type StateProps = {|
-  +invalidFields: FormFields,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-  +passwordConfirm: string,
-  +currentStep: WalletsCreateStepIndex,
-  +isLoading: boolean,
-  +isPasswordExists: boolean,
-  +mnemonic: string,
-|}
-
-function mapStateToProps(state: AppState): StateProps {
+function mapStateToProps(state: AppState) {
   const {
     persist: {
       internalKey,
@@ -46,21 +36,32 @@ function mapStateToProps(state: AppState): StateProps {
     passwordHint,
     invalidFields,
     passwordConfirm,
-    mnemonic,
   }: WalletsState = selectWallets(state)
 
-  const { currentStep }: WalletsCreateState = selectWalletsCreate(state)
+  const walletsImport: WalletsImportState = selectWalletsImport(state)
+
+  const {
+    data,
+    walletType,
+    currentStep,
+    derivationPath,
+  }: WalletsImportState = walletsImport
 
   return {
+    data,
     name,
     password,
-    isLoading,
+    walletType,
     currentStep,
     passwordHint,
-    invalidFields,
+    derivationPath,
     passwordConfirm,
+    isLoading,
     isPasswordExists: !!internalKey,
-    mnemonic,
+    invalidFields: {
+      ...invalidFields,
+      ...walletsImport.invalidFields,
+    },
   }
 }
 
@@ -69,12 +70,14 @@ const mapDispatchToProps = {
   closeView,
   goToNextStep,
   goToPrevStep,
+  changeDataInput,
   changeNameInput,
   changePasswordInput,
   changePasswordHintInput,
+  changeDerivationPathInput,
   changePasswordConfirmInput,
 }
 
-export default (
+export const WalletsImport =  (
   connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
-)(WalletsCreateView)
+)(WalletsImportView)
