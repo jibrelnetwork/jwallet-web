@@ -6,7 +6,7 @@ export type MenuMeta = {
 }
 
 const MENU_META_DEFAULT: MenuMeta = {
-  isMinimized: true,
+  isMinimized: false,
   previousRouteNameFallback: null,
 }
 
@@ -121,8 +121,6 @@ const MENU_META: { [string]: ?MenuMeta } = {
   },
 }
 
-export function getMenuMeta(name: ?string): MenuMeta {
-  const menuMeta: ?MenuMeta = name ? MENU_META[name] : MENU_META_DEFAULT
-
-  return menuMeta || MENU_META_DEFAULT
+export function getMenuMeta(name: string): MenuMeta {
+  return MENU_META[name] || MENU_META_DEFAULT
 }
