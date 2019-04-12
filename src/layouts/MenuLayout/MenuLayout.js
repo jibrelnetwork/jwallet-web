@@ -1,16 +1,26 @@
 // @flow strict
 
 import classNames from 'classnames'
-import React, { Component } from 'react'
 import { t } from 'ttag'
+
+import React, {
+  Fragment,
+  Component,
+} from 'react'
 
 import { OverlayNotification } from 'components'
 
 import menuLayoutStyle from './menuLayout.m.scss'
-import { MenuPanel } from './components'
+
+import {
+  Back,
+  MenuPanel,
+} from './components'
+
 import {
   getMenuMeta,
-} from './components/MenuPanel/menuMeta'
+  type MenuMeta,
+} from './menuMeta'
 
 type Props = {|
   +openLayout: Function,
@@ -46,25 +56,33 @@ export class MenuLayout extends Component<Props> {
       isConnectionError,
     }: Props = this.props
 
-    const { isMinimized } = getMenuMeta(routeName)
+    const menuMeta: MenuMeta = getMenuMeta(routeName)
+    const { previousRouteNameFallback }: MenuMeta = menuMeta
+    const isMinimized: boolean = !walletName || menuMeta.isMinimized
 
     return (
       <div
         className={classNames(
           '__menu-layout',
-          `__page-${routeName.toLowerCase()}`,
           menuLayoutStyle.core,
           isMinimized && menuLayoutStyle.minimized,
         )}
       >
-        <MenuPanel
-          routeName={routeName}
-          walletName={walletName}
-          fiatCurrency={fiatCurrency}
-          mnemonicAddressName={mnemonicAddressName}
-          fiatBalance={fiatBalance}
-          isMnemonic={isMnemonic}
-        />
+        <Fragment>
+          <MenuPanel
+            routeName={routeName}
+            walletName={walletName}
+            fiatCurrency={fiatCurrency}
+            mnemonicAddressName={mnemonicAddressName}
+            fiatBalance={fiatBalance}
+            isMnemonic={isMnemonic}
+            isMinimized={isMinimized}
+          />
+          <Back
+            previousRouteNameFallback={previousRouteNameFallback}
+            isHidden={!isMinimized}
+          />
+        </Fragment>
         <div className={classNames('__menu-layout_content', menuLayoutStyle.content)}>
           {children}
           {isConnectionError && (

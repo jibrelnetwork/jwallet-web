@@ -6,13 +6,7 @@ import React, { PureComponent } from 'react'
 import menuPanelStyle from './menuPanel.m.scss'
 
 import {
-  getMenuMeta,
-  type MenuMeta,
-} from './menuMeta'
-
-import {
   Top,
-  Back,
   Actions,
   Settings,
 } from './components'
@@ -24,11 +18,13 @@ type Props = {|
   +mnemonicAddressName: string,
   +fiatBalance: number,
   +isMnemonic: boolean,
+  +isMinimized: boolean,
 |}
 
 export class MenuPanel extends PureComponent<Props> {
   static defaultProps = {
     isMnemonic: false,
+    isMinimized: false,
   }
 
   render() {
@@ -39,11 +35,8 @@ export class MenuPanel extends PureComponent<Props> {
       mnemonicAddressName,
       fiatBalance,
       isMnemonic,
+      isMinimized,
     }: Props = this.props
-
-    const menuMeta: MenuMeta = getMenuMeta(routeName)
-    const { previousRouteNameFallback }: MenuMeta = menuMeta
-    const isMinimized: boolean = !walletName || menuMeta.isMinimized
 
     return (
       <header
@@ -62,10 +55,6 @@ export class MenuPanel extends PureComponent<Props> {
         />
         <Actions routeName={routeName} />
         <Settings />
-        <Back
-          previousRouteNameFallback={previousRouteNameFallback}
-          isMinimized={isMinimized}
-        />
       </header>
     )
   }

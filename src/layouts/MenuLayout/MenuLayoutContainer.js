@@ -1,6 +1,4 @@
-// @flow
-
-// FIXME: nobody uses me, remove me after migration to MainMenu component!
+// @flow strict
 
 import { connect } from 'react-redux'
 

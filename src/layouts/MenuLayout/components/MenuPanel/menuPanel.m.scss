@@ -1,4 +1,3 @@
-@import 'styles/colors';
 @import 'styles/mixins';
 @import 'styles/zindex';
 
@@ -20,8 +19,7 @@
 .wrapper,
 .actions,
 .action,
-.action svg,
-.back {
+.action svg {
   @include hover-animation;
 }
 
@@ -134,17 +132,6 @@
   color: $white;
 }
 
-.back {
-  position: fixed;
-  z-index: $z-index-menu-back;
-  top: 54px;
-  left: 48px;
-  opacity: 0;
-  visibility: hidden;
-  cursor: pointer;
-  transition-delay: 0.15s;
-}
-
 .minimized {
   width: 24px;
   background-image: none;
@@ -157,10 +144,5 @@
     padding: 0;
     opacity: 0;
     overflow: hidden;
-  }
-
-  .back {
-    opacity: 1;
-    visibility: visible;
   }
 }

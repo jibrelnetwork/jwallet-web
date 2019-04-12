@@ -1,6 +1,4 @@
-@import 'styles/base';
 @import 'styles/mixins';
-@import 'styles/colors';
 
 .core {
   width: 100%;
@@ -29,4 +27,24 @@
   height: 100%;
   padding-top: $page-header-height;
   background-color: rgba($pale-grey, 0.9);
+}
+
+.back {
+  @include hover-animation;
+
+  position: fixed;
+  z-index: $z-index-menu-back;
+  top: 54px;
+  left: 48px;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  transition-delay: 0.15s;
+}
+
+.minimized {
+  .back {
+    opacity: 1;
+    visibility: visible;
+  }
 }
