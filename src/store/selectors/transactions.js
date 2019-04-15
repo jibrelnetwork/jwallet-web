@@ -2,8 +2,10 @@
 
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
-import flattenTransactionsByOwner from 'utils/transactions/flattenTransactionsByOwner'
-import { flattenPendingTransactionsByOwner } from 'utils/transactions'
+import {
+  flattenTransactionsByOwner,
+  flattenPendingTransactionsByOwner,
+} from 'utils/transactions'
 
 export function selectTransactions(state: AppState): TransactionsState {
   return state.transactions

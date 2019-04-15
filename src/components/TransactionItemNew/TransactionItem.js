@@ -13,7 +13,7 @@ import {
   JIcon,
   JLink,
 } from 'components/base'
-import { type Props as JIconProps } from 'components/base/JIcon/JIcon'
+import { type JIconProps } from 'components/base/JIcon/JIcon'
 import formatAssetBalance from 'utils/formatters/formatAssetBalance'
 
 import offsetsStyle from 'styles/offsets.m.scss'

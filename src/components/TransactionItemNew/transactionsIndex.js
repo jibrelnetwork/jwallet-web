@@ -138,9 +138,10 @@ function prepareTransactionItem(
 export function transactionsIndex(state: AppState) {
   const transactions = selectTransactionsList(state)
 
-  return transactions.reduce((prev, transaction) => ({
-    ...prev,
-    [transaction.hash]: prepareTransactionItem(state, transaction),
-  }), {})
+  return transactions.reduce((reduceResult, transaction) => {
+    reduceResult[transaction.hash] = prepareTransactionItem(state, transaction)
+
+    return reduceResult
+  }, {})
 }
 
