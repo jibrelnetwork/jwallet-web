@@ -20,10 +20,7 @@ import browsercheck from './browsercheck'
 // ========================================================
 // Store and History Instantiation
 // ========================================================
-// Create redux store and sync with react-router-redux. We have installed the
-// react-router-redux reducer under the routerKey "router" in src/routes/index.js,
-// so we need to provide a custom `selectLocationState` to inform
-// react-router-redux of its location.
+// Create redux store and sync with redux-router5
 const initialState = window.___INITIAL_STATE__
 
 const {
@@ -100,7 +97,7 @@ if (!__DEV__) {
     }
 
     // Setup hot module replacement
-    hmr.accept('./routes/index', () => {
+    hmr.accept('./pages/index', () => {
       setTimeout(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE)
 

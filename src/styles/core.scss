@@ -48,7 +48,6 @@ h4 {
 
 // Base components
 @import '../components/base/JCard/jCard';
-@import '../components/base/JIcon/jIcon';
 @import '../components/base/JTabs/jTabs';
 @import '../components/base/JText/jText';
 @import '../components/base/JInput/jInput';
@@ -97,11 +96,11 @@ h4 {
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
 // Views
-@import '../routes/Wallets/walletsView';
-@import '../routes/Settings/settingsView';
-@import '../routes/NotFound/notFound';
-@import '../routes/DigitalAssets/digitalAssets';
-@import '../routes/Transactions/transactionsView';
+@import '../pages/Wallets/walletsView';
+@import '../pages/Settings/settingsView';
+@import '../pages/NotFound/notFound';
+@import '../pages/DigitalAssets/digitalAssets';
+@import '../pages/Transactions/transactionsView';
 
 // Layouts
 @import '../layouts/WalletsLayout/walletsLayout';

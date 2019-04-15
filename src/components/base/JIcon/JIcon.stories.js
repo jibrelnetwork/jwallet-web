@@ -2,9 +2,12 @@
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { keyBy } from 'lodash-es'
+import {
+  withKnobs,
+  select,
+} from '@storybook/addon-knobs'
 
-import JIcon from './JIcon'
+import { JIcon } from 'components/base'
 
 const filesSmall = require.context(
   '../../../public/assets/icons/sprite-pack/small', true, /.*\.svg$/,
@@ -19,152 +22,131 @@ const filesXLarge = require.context(
   '../../../public/assets/icons/sprite-pack/xlarge', true, /.*\.svg$/,
 )
 
-const iconsSmall = keyBy(
-  filesSmall.keys().map(x => filesSmall(x).default),
-  'id',
-)
-const iconsMedium = keyBy(
-  filesMedium.keys().map(x => filesMedium(x).default),
-  'id',
-)
-const iconsLarge = keyBy(
-  filesLarge.keys().map(x => filesLarge(x).default),
-  'id',
-)
-const iconsXLarge = keyBy(
-  filesXLarge.keys().map(x => filesXLarge(x).default),
-  'id',
-)
+const iconsSmall = filesSmall
+  .keys()
+  .map(
+    filepath =>
+      filesSmall(filepath).default.id.replace(/-usage$/, ''),
+  )
+const iconsMedium = filesMedium
+  .keys()
+  .map(
+    filepath =>
+      filesMedium(filepath).default.id.replace(/-usage$/, ''),
+  )
+const iconsLarge = filesLarge
+  .keys()
+  .map(
+    filepath =>
+      filesLarge(filepath).default.id.replace(/-usage$/, ''),
+  )
+const iconsXLarge = filesXLarge
+  .keys()
+  .map(
+    filepath =>
+      filesXLarge(filepath).default.id.replace(/-usage$/, ''),
+  )
 
-storiesOf('JIcon')
-  .add('Small sizes', () => (
+const AVAILABLE_COLORS = [
+  null,
+  'white',
+  'blue',
+  'gray',
+  'sky',
+  'red',
+  'black',
+]
+
+// this array is created specifically to be sorted here
+// eslint-disable-next-line fp/no-mutating-methods
+const AVAILABLE_ICONS = [
+  ...iconsSmall,
+  ...iconsMedium,
+  ...iconsLarge,
+  ...iconsXLarge,
+].sort()
+
+storiesOf('JIcon', module).addDecorator(withKnobs)
+  .add('Customizable', () => (
     <div>
-      <h2 className='title'>Icon size: medium</h2>
-      <table className='custom-table'>
-        <thead className='thead'>
-          <tr className='row'>
-            <th className='cell'>Icon view</th>
-            <th className='cell'>Icon name</th>
-          </tr>
-        </thead>
-        <tbody className='tbody'>
-          {Object.keys(iconsSmall).map((item: string) => (
-            <tr className='row' key={item}>
-              <td className='cell'><JIcon name={item.replace('-usage', '')} color='blue' /></td>
-              <td className='cell'>{item.replace('-usage', '')}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2 className='title'>Customizable example</h2>
+      <div className='icon-demo-container'>
+        <JIcon
+          name={select('Name', AVAILABLE_ICONS, AVAILABLE_ICONS[0])}
+          color={select('Color', AVAILABLE_COLORS, 'blue')}
+          className={select(
+            'Class name',
+            {
+              'none': null,
+              'icon-with-magenta-color-and-margins': 'icon-with-magenta-color-and-margins',
+            },
+            null,
+          )}
+        />
+      </div>
     </div>
   ))
-  .add('Medium sizes', () => (
-    <div>
-      <h2 className='title'>Icon size: medium</h2>
-      <table className='custom-table'>
-        <thead className='thead'>
-          <tr className='row'>
-            <th className='cell'>Icon view</th>
-            <th className='cell'>Icon name</th>
-          </tr>
-        </thead>
-        <tbody className='tbody'>
-          {Object.keys(iconsMedium).map((item: string) => (
-            <tr className='row' key={item}>
-              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
-              <td className='cell'>{item.replace('-usage', '')}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ))
-  .add('Large sizes', () => (
-    <div>
-      <h2 className='title'>Icon size: medium</h2>
-      <table className='custom-table'>
-        <thead className='thead'>
-          <tr className='row'>
-            <th className='cell'>Icon view</th>
-            <th className='cell'>Icon name</th>
-          </tr>
-        </thead>
-        <tbody className='tbody'>
-          {Object.keys(iconsLarge).map((item: string) => (
-            <tr className='row' key={item}>
-              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
-              <td className='cell'>{item.replace('-usage', '')}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ))
-  .add('XLarge sizes', () => (
-    <div>
-      <h2 className='title'>Icon size: medium</h2>
-      <table className='custom-table'>
-        <thead className='thead'>
-          <tr className='row'>
-            <th className='cell'>Icon view</th>
-            <th className='cell'>Icon name</th>
-          </tr>
-        </thead>
-        <tbody className='tbody'>
-          {Object.keys(iconsXLarge).map((item: string) => (
-            <tr className='row' key={item}>
-              <td className='cell'><JIcon name={item.replace('-usage', '')} /></td>
-              <td className='cell'>{item.replace('-usage', '')}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ))
-  .add('Demo', () => (
-    <div>
-      <h2 className='title'>Demo icons</h2>
-      <table className='custom-table'>
-        <thead className='thead'>
-          <tr className='row'>
-            <th className='cell'>Icon view</th>
-            <th className='cell'>Icon name</th>
-            <th className='cell'>Type of staining</th>
-            <th className='cell'>Change color</th>
-            <th className='cell'>Demo</th>
-          </tr>
-        </thead>
-        <tbody className='tbody'>
-          <tr className='row'>
-            <td className='cell'>
-              <span className='demo-icon'><JIcon name='add' color='white' /></span>
-              <span className='demo-icon'><JIcon name='add' color='blue' /></span>
-              <span className='demo-icon'><JIcon name='add' color='gray' /></span>
-              <span className='demo-icon'><JIcon name='add' color='sky' /></span>
-              <span className='demo-icon'><JIcon name='add' color='red' /></span>
-              <span className='demo-icon'><JIcon name='add' color='black' /></span>
-            </td>
-            <td className='cell'>add</td>
-            <td className='cell'>Props: color=white | blue | gray | sky | red | black</td>
-            <td className='cell'>Only js event</td>
-          </tr>
-          <tr className='row'>
-            <td className='cell'>
-              <span className='demo-icon -white'><JIcon name='add' /></span>
-              <span className='demo-icon -blue'><JIcon name='add' /></span>
-              <span className='demo-icon -gray'><JIcon name='add' /></span>
-              <span className='demo-icon -sky'><JIcon name='add' /></span>
-              <span className='demo-icon -red'><JIcon name='add' /></span>
-              <span className='demo-icon -black'><JIcon name='add' /></span>
-            </td>
-            <td className='cell'>add</td>
-            <td className='cell'>Inheritance from parent through stroke</td>
-            <td className='cell'>Best Practice - Inheritance from parent through styles</td>
-            <td className='cell'>
-              <span className='demo-icon -blue -h-sky'><JIcon name='add' /></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  ))
+  .add('List of all icons', () => {
+    const allIconsListColorSelectValue = select('Color', AVAILABLE_COLORS, 'blue')
+
+    return (
+      <div>
+        <section>
+          <h2 className='title'>Small</h2>
+          <ul className='icons-list'>
+            {iconsSmall.map(name => (
+              <li key={name}>
+                <JIcon
+                  name={name}
+                  color={allIconsListColorSelectValue}
+                />
+                <span>{name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2 className='title'>Medium</h2>
+          <ul className='icons-list'>
+            {iconsMedium.map(name => (
+              <li key={name}>
+                <JIcon
+                  name={name}
+                  color={allIconsListColorSelectValue}
+                />
+                <span>{name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2 className='title'>Large</h2>
+          <ul className='icons-list'>
+            {iconsLarge.map(name => (
+              <li key={name}>
+                <JIcon
+                  name={name}
+                  color={allIconsListColorSelectValue}
+                />
+                <span>{name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section>
+          <h2 className='title'>X-Large</h2>
+          <ul className='icons-list'>
+            {iconsXLarge.map(name => (
+              <li key={name}>
+                <JIcon
+                  name={name}
+                  color={allIconsListColorSelectValue}
+                />
+                <span>{name}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    )
+  })

@@ -5,22 +5,27 @@ import React, { PureComponent } from 'react'
 
 import { iconsUI } from 'utils/sprite'
 
+import jIconStyle from './jIcon.m.scss'
+
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 export type Props = {
   name: string,
-  color: JIconColor,
+  color: ?JIconColor,
+  className?: ?string,
 }
 
-class JIcon extends PureComponent<Props> {
+export class JIcon extends PureComponent<Props> {
   static defaultProps = {
-    color: 'white',
+    color: null,
+    className: null,
   }
 
   render() {
     const {
       name,
       color,
+      className,
     }: Props = this.props
 
     const iconData = iconsUI[`${name}-usage`]
@@ -30,9 +35,11 @@ class JIcon extends PureComponent<Props> {
       return (
         <svg
           className={classNames(
-            'j-icon',
-            color && `-${color}`,
-            hasFill && '-use-fill',
+            '__icon',
+            jIconStyle.core,
+            color && jIconStyle[color],
+            hasFill && jIconStyle.fill,
+            className,
           )}
           width={iconData.width}
           height={iconData.height}
@@ -42,10 +49,15 @@ class JIcon extends PureComponent<Props> {
       )
     } else {
       return (
-        <div className='j-icon -no-icon' />
+        <div
+          className={classNames(
+            '__icon',
+            jIconStyle.core,
+            jIconStyle.noIcon,
+            className,
+          )}
+        />
       )
     }
   }
 }
-
-export default JIcon
