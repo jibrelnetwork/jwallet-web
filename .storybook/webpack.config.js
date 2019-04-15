@@ -108,7 +108,7 @@ module.exports = async ({ config: baseConfig }, env) => {
             },
           },
         ].filter(Boolean),
-      },    
+      },
     ]
   },
   {
