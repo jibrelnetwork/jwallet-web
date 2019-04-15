@@ -66,7 +66,6 @@ function getTransactionType(
 }
 
 function getTransactionStatus(
-  state: AppState,
   transaction: TransactionWithPrimaryKeys,
 ): TransactionStatus {
   return STATUS_VALIDATORS.reduce((currentStatus, {
@@ -116,7 +115,7 @@ function prepareTransactionItem(
 ): TransactionItem {
   const asset = selectDigitalAssetsItems(state)[transaction.keys.assetAddress]
   const type = getTransactionType(state, transaction)
-  const status = getTransactionStatus(state, transaction)
+  const status = getTransactionStatus(transaction)
   const title = getTransactionName(state, transaction, type)
   const note = getTransactionComment(state, transaction)
   const { amount } = transaction
