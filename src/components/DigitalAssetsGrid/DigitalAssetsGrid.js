@@ -2,13 +2,7 @@
 
 import React, { PureComponent } from 'react'
 
-import checkBalanceLoading from 'utils/digitalAssets/checkBalanceLoading'
-
-import { formatAssetBalance } from 'utils/formatters'
-
-import Asset from './Asset'
-import DigitalAssetsGridEmpty from './Empty'
-import { AddAsset } from './AddAsset/AddAsset'
+import { AssetItem } from 'components/AssetItemNew/AssetItem'
 
 type Props = {|
   +items: DigitalAssetWithBalance[],
@@ -23,38 +17,20 @@ class DigitalAssetsGrid extends PureComponent<Props> {
     } = this.props
 
     return (
-      <div className='digital-assets-grid'>
+      <ul className='digital-assets-grid'>
         {items.map(({
           blockchainParams: {
             address,
-            decimals,
           },
-          name,
-          symbol,
-          balance,
-          isCustom,
           // fiatBalance,
         }: DigitalAssetWithBalance) => (
-          <div className='box' key={address}>
-            <Asset
-              name={name}
-              symbol={symbol}
+          <li key={address}>
+            <AssetItem
               address={address}
-              balance={formatAssetBalance(address, balance ? balance.value : 0, decimals)}
-              // fiatCurrency={fiatCurrency}
-              // fiatBalance={fiatBalance}
-              isCustom={isCustom}
-              isError={!!balance && !!balance.isError}
-              isLoading={checkBalanceLoading(balance)}
             />
-          </div>
+          </li>
         ))}
-        {!items.length ? <DigitalAssetsGridEmpty /> : (
-          <div className='box'>
-            <AddAsset />
-          </div>
-        )}
-      </div>
+      </ul>
     )
   }
 }

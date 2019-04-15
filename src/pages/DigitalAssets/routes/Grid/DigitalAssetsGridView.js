@@ -34,6 +34,10 @@ class DigitalAssetsGridView extends Component<Props> {
     this.props.openView()
   }
 
+  shouldComponentUpdate(nextProps: Props) {
+    return nextProps.items.length !== this.props.items.length
+  }
+
   componentWillUnmount() {
     this.props.closeView()
   }

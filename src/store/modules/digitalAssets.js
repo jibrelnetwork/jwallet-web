@@ -1,5 +1,7 @@
 // @flow
 
+import { toArray } from 'lodash-es'
+
 import { type DigitalAssetsGridAction } from 'store/modules/digitalAssetsGrid'
 import { type AddAssetAction } from 'store/modules/addAsset'
 import { type EditAssetAction } from 'store/modules/editAsset'
@@ -92,6 +94,7 @@ export type DigitalAssetsAction =
 const initialState: DigitalAssetsState = {
   persist: {
     items: {},
+    active: [],
   },
 }
 
@@ -102,12 +105,14 @@ const digitalAssets = (
   switch (action.type) {
     case SET_INITIAL_ITEMS: {
       const { items } = action.payload
+      const active = toArray(items).filter(asset => asset != null && asset.isActive)
 
       return {
         ...state,
         persist: {
           ...state.persist,
           items,
+          active,
         },
       }
     }
@@ -199,6 +204,10 @@ const digitalAssets = (
         isActive,
       }
 
+      const active = isActive
+        ? [...persist.active, updatedAsset]
+        : persist.active.filter(asset => asset.blockchainParams.address !== address)
+
       return {
         ...state,
         persist: {
@@ -207,6 +216,7 @@ const digitalAssets = (
             ...persist.items,
             [address]: updatedAsset,
           },
+          active,
         },
       }
     }
