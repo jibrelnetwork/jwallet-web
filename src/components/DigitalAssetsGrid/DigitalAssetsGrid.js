@@ -2,30 +2,19 @@
 
 import React, { PureComponent } from 'react'
 
-import { AssetItem } from 'components/AssetItemNew/AssetItem'
+import { AssetItemNew } from 'components'
 
 type Props = {|
-  +items: DigitalAssetWithBalance[],
-  // +fiatCurrency: FiatCurrency
+  +items: AssetAddress[],
 |}
 
 class DigitalAssetsGrid extends PureComponent<Props> {
   render() {
-    const {
-      items,
-      // fiatCurrency,
-    } = this.props
-
     return (
       <ul className='digital-assets-grid'>
-        {items.map(({
-          blockchainParams: {
-            address,
-          },
-          // fiatBalance,
-        }: DigitalAssetWithBalance) => (
+        {this.props.items.map((address: AssetAddress) => (
           <li key={address}>
-            <AssetItem
+            <AssetItemNew
               address={address}
             />
           </li>

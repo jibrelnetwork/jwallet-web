@@ -1,6 +1,8 @@
 // @flow
 
-import { toArray } from 'lodash-es'
+import {
+  toArray, remove,
+} from 'lodash-es'
 
 import { type DigitalAssetsGridAction } from 'store/modules/digitalAssetsGrid'
 import { type AddAssetAction } from 'store/modules/addAsset'
@@ -105,7 +107,15 @@ const digitalAssets = (
   switch (action.type) {
     case SET_INITIAL_ITEMS: {
       const { items } = action.payload
-      const active = toArray(items).filter(asset => asset != null && asset.isActive)
+      const active = toArray(items).reduce((reduceResult, asset) => {
+        if (asset != null && asset.isActive) {
+          // A perfect optimization
+          // eslint-disable-next-line fp/no-mutating-methods
+          reduceResult.push(asset.blockchainParams.address)
+        }
+
+        return reduceResult
+      }, [])
 
       return {
         ...state,
@@ -145,6 +155,7 @@ const digitalAssets = (
             ...state.persist.items,
             [address]: customAsset,
           },
+          active: [...state.persist.active, address],
         },
       }
     }
@@ -204,9 +215,15 @@ const digitalAssets = (
         isActive,
       }
 
-      const active = isActive
-        ? [...persist.active, updatedAsset]
-        : persist.active.filter(asset => asset.blockchainParams.address !== address)
+      const { active } = persist
+
+      if (isActive) {
+        // A perfect optimization
+        // eslint-disable-next-line fp/no-mutating-methods
+        active.push(address)
+      } else {
+        remove(active, activeAddress => address === activeAddress)
+      }
 
       return {
         ...state,

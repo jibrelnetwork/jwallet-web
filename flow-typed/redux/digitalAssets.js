@@ -83,7 +83,7 @@ declare type DigitalAssets = {
 
 declare type DigitalAssetsPersist = {|
   +items: DigitalAssets,
-  +active: DigitalAsset[],
+  +active: AssetAddress[],
 |}
 
 declare type DigitalAssetsState = {|
