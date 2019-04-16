@@ -41,7 +41,7 @@ import {
   setHideZeroBalance,
 } from 'store/modules/digitalAssetsGrid'
 
-import DigitalAssetsGridView from './DigitalAssetsGridView'
+import { HomeView } from './HomeView'
 
 function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
@@ -180,4 +180,4 @@ const mapDispatchToProps = {
 
 export default (
   connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
-)(DigitalAssetsGridView)
+)(HomeView)
