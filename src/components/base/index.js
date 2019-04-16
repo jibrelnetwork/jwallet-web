@@ -42,3 +42,4 @@ export {
 export { JIcon } from './JIcon/JIcon'
 export { JLink } from './JLink/JLink'
 export { JLinkBack } from './JLinkBack/JLinkBack'
+export { JShimmer } from './JShimmer/JShimmer'

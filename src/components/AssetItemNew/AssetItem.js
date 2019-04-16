@@ -1,84 +1,101 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 
 import {
-  JAssetSymbol, JIcon, JLink,
+  JAssetSymbol,
+  JIcon,
+  JLink,
+  JShimmer,
 } from 'components/base'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
+import { checkBalanceLoading } from 'utils/digitalAssets'
 import { formatAssetBalance } from 'utils/formatters'
+import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
 
 import offsetsStyle from 'styles/offsets.m.scss'
 import assetItemStyle from './assetItem.m.scss'
 
 type ContainerProps = {|
-  +address: Address,
+  +address: AssetAddress,
 |}
 
-type Props = ContainerProps & { asset: DigitalAssetWithBalance }
+type Props = ContainerProps
+  & DigitalAssetWithBalance
+  & {
+  balance: ToBigNumberValue,
+  isLoadingBalance: boolean,
+}
 
-class AssetItem extends PureComponent<Props> {
-  render() {
-    const { asset } = this.props
+function AssetItem(props: Props) {
+  // const { asset } = props
 
-    const balance = `${formatAssetBalance(
-      this.props.address,
-      asset.balance.value,
-      asset.blockchainParams.decimals,
-    )}\u202F${asset.symbol}`
+  // if (!asset) {
+  //   throw new Error(`Asset ${asset} with address ${props.address} is not found!`)
+  // }
 
-    return (
-      <JLink
-        className={`__asset-item ${assetItemStyle.core} ${offsetsStyle.mb16}`}
-        href={`/asset/${this.props.address}`}
+  const { symbol } = props
+
+  const balance = `${formatAssetBalance(
+    props.address,
+    props.balance,
+    props.blockchainParams.decimals,
+  )}\u00A0${props.symbol}`
+
+  return (
+    <JLink
+      className={`__asset-item ${assetItemStyle.core} ${offsetsStyle.mb16}`}
+      href={`/asset/${props.address}`}
+    >
+      <div
+        className={classNames(assetItemStyle.item, assetItemStyle.assetIcon)}
       >
-        <div
-          className={classNames(assetItemStyle.item, assetItemStyle.assetIcon)}
-        >
-          <JAssetSymbol symbol={asset.symbol} color='blue' />
+        <JAssetSymbol symbol={symbol} color='blue' />
+      </div>
+      <div
+        className={classNames(assetItemStyle.item, assetItemStyle.mainBlock)}
+      >
+        <div className={assetItemStyle.text}>
+          {props.name}
         </div>
-        <div
-          className={classNames(assetItemStyle.item, assetItemStyle.mainBlock)}
-        >
-          <div className={assetItemStyle.text}>
-            {asset.name}
-          </div>
-          <div className={assetItemStyle.subtext}>
-            {asset.symbol}
-          </div>
+        <div className={assetItemStyle.subtext}>
+          {symbol}
         </div>
-        <div
-          className={classNames(assetItemStyle.item, assetItemStyle.amountBlock)}
-        >
-          {asset.balance != null
-            ? balance
-            : '?' /* FIXME: Temporary solution for debug */}
+      </div>
+      <div
+        className={classNames(assetItemStyle.item, assetItemStyle.amountBlock)}
+      >
+        <div className={assetItemStyle.assetAmount}>
+          {props.isLoadingBalance
+            ? <JShimmer />
+            : balance}
         </div>
-        <div
-          className={classNames(assetItemStyle.item, assetItemStyle.arrowIcon)}
-        >
-          <JIcon className={assetItemStyle.arrow} name='arrow-right' />
-        </div>
-      </JLink>
-    )
-  }
+      </div>
+      <div
+        className={classNames(assetItemStyle.item, assetItemStyle.arrowIcon)}
+      >
+        <JIcon className={assetItemStyle.arrow} name='arrow-right' />
+      </div>
+    </JLink>
+  )
 }
 
 function mapStateToProps(state: AppState, props: ContainerProps) {
   const asset = selectDigitalAssetsItems(state)[props.address]
 
-  // eslint-disable-next-line fp/no-mutation
-  asset.balance = selectBalanceByAssetAddressToCurrentBlock(state, props.address) || {
-    isError: true,
-    value: 0,
+  if (!asset) {
+    return { ...props }
   }
 
+  const balance = selectBalanceByAssetAddressToCurrentBlock(state, props.address)
+
   return {
-    ...props,
-    asset,
+    ...asset,
+    balance: balance ? balance.value : 0,
+    isLoadingBalance: checkBalanceLoading(balance),
   }
 }
 

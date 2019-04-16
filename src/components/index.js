@@ -38,6 +38,11 @@ import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export {
+  AssetItem as AssetItemNew,
+  PureAssetItem,
+} from './AssetItemNew/AssetItem'
+
+export {
   PasswordField,
   PasswordFieldFinalFormAdapter,
 } from './PasswordField'
