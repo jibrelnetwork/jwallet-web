@@ -2,7 +2,6 @@
 
 import { type Store } from 'redux'
 
-import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import { type AppAction } from 'store/modules'
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
@@ -58,10 +57,7 @@ export function createRequest(
     internalKey,
     passwordOptions,
     createdBlockNumber,
-    mnemonicOptions: getMnemonicOptions({
-      passphrase,
-      derivationPath,
-    }),
+    mnemonicOptions: {},
   }))
 }
 

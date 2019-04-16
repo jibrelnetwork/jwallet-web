@@ -37,6 +37,7 @@ import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { LogoHeader } from './LogoHeader/LogoHeader'
+export { TitleHeader } from './TitleHeader/TitleHeader'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { NewWalletButtons } from './NewWalletButtons/NewWalletButtons'

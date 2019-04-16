@@ -1,7 +1,6 @@
 // @flow
 
 import {
-  createWallet,
   upgradeWallet,
   getBackupData,
   getPrivateKey,

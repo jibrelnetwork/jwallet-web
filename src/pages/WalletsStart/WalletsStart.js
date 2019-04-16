@@ -40,7 +40,7 @@ export class WalletsStart extends Component<Props, StateProps> {
     }
   }
 
-  handleClick = (action: WalletAction) => {
+  handleClick = (action?: ?WalletAction = null) => {
     this.setState({ action })
   }
 
@@ -62,7 +62,7 @@ export class WalletsStart extends Component<Props, StateProps> {
           </Fragment>
         )}
         {(action === ACTIONS.CREATE) && <WalletsCreate />}
-        {(action === ACTIONS.IMPORT) && <WalletsImport />}
+        {(action === ACTIONS.IMPORT) && <WalletsImport onBack={this.handleClick} />}
       </div>
     )
   }

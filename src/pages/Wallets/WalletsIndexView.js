@@ -3,14 +3,10 @@
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import checkMnemonicType from 'utils/wallets/checkMnemonicType'
-import generateAddresses from 'utils/mnemonic/generateAddresses'
-import getShortenedAddress from 'utils/address/getShortenedAddress'
-
-import {
-  WalletCard,
-  NewWalletButtons,
-} from 'components'
+import { WalletCard } from 'components'
+import { checkMnemonicType } from 'utils/wallets'
+import { generateAddresses } from 'utils/mnemonic'
+import { getShortenedAddress } from 'utils/address'
 
 import {
   handle,
@@ -18,10 +14,6 @@ import {
 } from 'utils/eventHandlers'
 
 type Props = {|
-  +openView: () => void,
-  +closeView: () => void,
-  +createWallet: () => void,
-  +importWallet: () => void,
   +backupWallet: (WalletId) => void,
   +renameWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,
@@ -31,18 +23,8 @@ type Props = {|
 |}
 
 class WalletsIndexView extends Component<Props> {
-  componentDidMount() {
-    this.props.openView()
-  }
-
-  componentWillUnmount() {
-    this.props.closeView()
-  }
-
   render() {
     const {
-      createWallet,
-      importWallet,
       backupWallet,
       renameWallet,
       deleteWallet,
@@ -60,16 +42,16 @@ class WalletsIndexView extends Component<Props> {
                 id,
                 name,
                 type,
+                xpub,
                 address,
                 isReadOnly,
                 isSimplified,
-                bip32XPublicKey,
               }: Wallet = item
 
               const isMnemonic: boolean = checkMnemonicType(type)
 
-              const walletAddress: ?Address = isMnemonic && bip32XPublicKey
-                ? generateAddresses(bip32XPublicKey, 0, 1)[0]
+              const walletAddress: ?Address = isMnemonic && xpub
+                ? generateAddresses(xpub, 0, 1)[0]
                 : address
 
               if (!walletAddress) {
@@ -101,10 +83,6 @@ class WalletsIndexView extends Component<Props> {
               )
             })}
           </div>
-          <NewWalletButtons
-            createWallet={createWallet}
-            importWallet={importWallet}
-          />
         </div>
       </div>
     )
