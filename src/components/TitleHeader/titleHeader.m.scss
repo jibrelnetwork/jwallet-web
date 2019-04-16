@@ -1,0 +1,28 @@
+@import 'styles/mixins';
+@import 'styles/zindex';
+
+.core {
+  @include font;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.title {
+  max-width: 736px;
+  margin: 48px auto 30px auto;
+  line-height: 34px;
+  font-size: 24px;
+  font-weight: normal;
+  color: $main-black;
+}
+
+.back {
+  position: fixed;
+  z-index: $z-index-menu-back;
+  top: 54px;
+  left: 48px;
+  cursor: pointer;
+}
