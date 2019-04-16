@@ -32,10 +32,12 @@
   @include font(16px, 24px);
 
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   font-weight: 600;
   color: $main-black;
+  min-width: 88px;
 }
 
 .text {
@@ -59,6 +61,13 @@
 
 .amount-block {
   color: $main-blue;
+}
+
+.asset-amount {
+  position: relative;
+  height: 24px;
+  min-width: 160px;
+  text-align: right;
 }
 
 .arrow-icon,
