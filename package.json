@@ -55,7 +55,7 @@
     "react-custom-scrollbars": "4.2.1",
     "react-dom": "16.8.4",
     "react-final-form": "4.1.0",
-    "react-redux": "5.0.7",
+    "react-redux": "7.0.2",
     "react-router5": "7.1.0",
     "redux": "4.0.1",
     "redux-persist": "5.10.0",
