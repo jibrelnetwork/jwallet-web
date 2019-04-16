@@ -12,6 +12,12 @@ import {
 } from 'components/base'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
+import { selectTickerItems } from 'store/selectors/ticker'
+import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
+import {
+  divDecimals,
+  formatBalance,
+} from 'utils/numbers'
 import { checkBalanceLoading } from 'utils/digitalAssets'
 import { formatAssetBalance } from 'utils/formatters'
 import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
@@ -27,6 +33,8 @@ type Props = ContainerProps
   & DigitalAssetWithBalance
   & {
   balance: ToBigNumberValue,
+  fiatSymbol: string,
+  fiatBalance: string,
   isLoadingBalance: boolean,
 }
 
@@ -44,6 +52,8 @@ function AssetItem(props: Props) {
     props.balance,
     props.blockchainParams.decimals,
   )}\u00A0${props.symbol}`
+
+  const fiatBalance = `${props.fiatSymbol}\u202F${formatBalance(divDecimals(props.fiatBalance))}`
 
   return (
     <JLink
@@ -68,10 +78,18 @@ function AssetItem(props: Props) {
       <div
         className={classNames(assetItemStyle.item, assetItemStyle.amountBlock)}
       >
-        <div className={assetItemStyle.assetAmount}>
+        <div className={`${assetItemStyle.assetAmount} ${assetItemStyle.text}`}>
           {props.isLoadingBalance
             ? <JShimmer />
             : balance}
+        </div>
+        <div
+          className={`${assetItemStyle.assetAmount} ${assetItemStyle.subtext}`}
+          style={{ minWidth: '80px' }}
+        >
+          {props.isLoadingBalance
+            ? <JShimmer />
+            : fiatBalance}
         </div>
       </div>
       <div
@@ -91,16 +109,35 @@ function mapStateToProps(state: AppState, props: ContainerProps) {
   }
 
   const balance = selectBalanceByAssetAddressToCurrentBlock(state, props.address)
+  const fiatCourses = selectTickerItems(state)
+  const currentFiatCurrency = selectSettingsFiatCurrencyData(state)
+
+  const fiatBalance =
+    asset.priceFeed == null || asset.priceFeed.currencyID == null
+      ? 0
+      : fiatCourses[String(asset.priceFeed.currencyID)] == null
+        ? 0
+        : fiatCourses[String(asset.priceFeed.currencyID)].latest == null
+          ? 0
+          : balance == null
+            ? 0
+            : (
+              Number(
+                fiatCourses[String(asset.priceFeed.currencyID)].latest[currentFiatCurrency.code],
+              ) * Number(balance.value)
+            )
 
   return {
     ...asset,
     balance: balance ? balance.value : 0,
     isLoadingBalance: checkBalanceLoading(balance),
+    fiatSymbol: currentFiatCurrency.symbol,
+    fiatBalance,
   }
 }
 
 const ConnectedAssetItem =
-  connect/* :: <AppState, ContainerProps, Props, _, _> */(mapStateToProps)(AssetItem)
+  connect/* :: <AppState, any, any, _, _> */(mapStateToProps)(AssetItem)
 
 export {
   ConnectedAssetItem as AssetItem,
