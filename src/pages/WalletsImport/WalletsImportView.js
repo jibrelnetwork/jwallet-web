@@ -1,7 +1,6 @@
 // @flow strict
 
 import { t } from 'ttag'
-import { omit } from 'lodash-es'
 
 import React, {
   Fragment,
@@ -36,20 +35,21 @@ export type WalletsImportBackHandler = () => void
 export type WalletsImportStep = 'DATA' | 'PASSWORD'
 type WalletsImportSteps = { [WalletsImportStep]: WalletsImportStep }
 
-export type WalletsImportSubmitPayload = {
-  goToPasswordStep: Function,
-  values: FormFields,
-  currentStep: WalletsImportStep,
-}
+export type WalletsImportSubmitPayload = {|
+  +goToPasswordStep: Function,
+  +values: FormFields,
+  +currentStep: WalletsImportStep,
+|}
 
 type Props = {|
   onBack?: ?WalletsImportBackHandler,
+  getInfoDataMessage: string => ?string,
+  getSuccessDataMessage: string => ?string,
   +validate: (FormFields, WalletsImportStep) => ?FormFields,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
 |}
 
 type StateProps = {|
-  +hint: string,
   +currentStep: WalletsImportStep,
 |}
 
@@ -76,7 +76,6 @@ export class WalletsImportView extends Component<Props, StateProps> {
     super(props)
 
     this.state = {
-      hint: '',
       currentStep: STEPS.DATA,
     }
   }
@@ -137,15 +136,11 @@ export class WalletsImportView extends Component<Props, StateProps> {
     change('walletType', walletType)
   }
 
-  validate = (values: FormFields) => {
+  validate = (values: FormFields): ?FormFields => {
     const { validate }: Props = this.props
     const { currentStep }: StateProps = this.state
 
-    const res: FormFields = validate(values, currentStep) || {}
-    const hint: string = res.address || res.privateKey || res.xpub || res.xprv || res.mnemonic || ''
-    this.setState({ hint })
-
-    return omit(res, ['address', 'privateKey', 'xpub', 'xprv', 'mnemonic'])
+    return validate(values, currentStep)
   }
 
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
@@ -159,9 +154,9 @@ export class WalletsImportView extends Component<Props, StateProps> {
     const { currentStep }: StateProps = state
 
     return submit({
-      currentStep,
       goToPasswordStep,
       values,
+      currentStep,
     })
   }
 
@@ -170,49 +165,56 @@ export class WalletsImportView extends Component<Props, StateProps> {
     form,
     values = {},
     submitting: isSubmitting,
-  }: FormRenderProps) => (
-    <form
-      onSubmit={handleSubmit}
-      className={walletsImportStyle.form}
-    >
-      <Field
-        component={JInputField}
-        label={t`Wallet Name`}
-        name='name'
-        isDisabled={isSubmitting}
-      />
-      <Field
-        component={JTextArea}
-        onChange={this.handleChange(form.change)}
-        label={t`Address, Key, Mnemonic`}
-        infoMessage={this.state.hint}
-        name='data'
-        isDisabled={isSubmitting}
-      />
-      {checkMnemonicType(values.walletType) && (
-        <Fragment>
-          <Field
-            component={JInputField}
-            label={t`Mnemonic Passphrase (Optional)`}
-            name='passphrase'
-            isDisabled={isSubmitting}
-          />
-          <Field
-            component={JInputField}
-            label={t`Derivation Path (Optional)`}
-            name='derivationPath'
-            isDisabled={isSubmitting}
-          />
-        </Fragment>
-      )}
-      <JRaisedButton
-        type='submit'
-        isLoading={isSubmitting}
+  }: FormRenderProps) => {
+    const {
+      getInfoDataMessage,
+      getSuccessDataMessage,
+    }: Props = this.props
+
+    return (
+      <form
+        onSubmit={handleSubmit}
+        className={walletsImportStyle.form}
       >
-        {t`Import`}
-      </JRaisedButton>
-    </form>
-  )
+        <Field
+          component={JInputField}
+          label={t`Wallet Name`}
+          name='name'
+          isDisabled={isSubmitting}
+        />
+        <Field
+          component={JTextArea}
+          onChange={this.handleChange(form.change)}
+          label={t`Address, Key, Mnemonic`}
+          infoMessage={getInfoDataMessage(values.data) || getSuccessDataMessage(values.data)}
+          name='data'
+          isDisabled={isSubmitting}
+        />
+        {checkMnemonicType(values.walletType) && (
+          <Fragment>
+            <Field
+              component={JInputField}
+              label={t`Mnemonic Passphrase (Optional)`}
+              name='passphrase'
+              isDisabled={isSubmitting}
+            />
+            <Field
+              component={JInputField}
+              label={t`Derivation Path (Optional)`}
+              name='derivationPath'
+              isDisabled={isSubmitting}
+            />
+          </Fragment>
+        )}
+        <JRaisedButton
+          type='submit'
+          isLoading={isSubmitting}
+        >
+          {t`Import`}
+        </JRaisedButton>
+      </form>
+    )
+  }
 
   renderWalletsImportPasswordStep = ({
     handleSubmit,

@@ -119,7 +119,6 @@ class WalletsPlugin {
     const mnemonic: string = data.toLowerCase()
     const xpub: string = getXPUBFromMnemonic(mnemonic, passphrase, derivationPath)
     const xprv: string = getXPRVFromMnemonic(mnemonic, passphrase, derivationPath)
-    this.checkWalletUniqueness(xpub, 'xpub')
 
     return {
       id,
@@ -166,12 +165,8 @@ class WalletsPlugin {
       orderIndex,
     }: WalletData = walletData
 
-    const xpub: string = getXPUBFromXPRV(data)
-    this.checkWalletUniqueness(xpub, 'xpub')
-
     return {
       id,
-      xpub,
       name,
       orderIndex,
       addressIndex: 0,
@@ -179,6 +174,7 @@ class WalletsPlugin {
       isReadOnly: false,
       isSimplified: true,
       customType: 'xprv',
+      xpub: getXPUBFromXPRV(data),
       encrypted: {
         mnemonic: null,
         privateKey: null,
@@ -202,33 +198,29 @@ class WalletsPlugin {
     data,
     name,
     orderIndex,
-  }: WalletData): Wallet => {
-    this.checkWalletUniqueness(data, 'xpub')
-
-    return {
-      id,
-      name,
-      orderIndex,
-      xpub: data,
-      addressIndex: 0,
-      isReadOnly: true,
-      type: 'mnemonic',
-      customType: 'xpub',
-      isSimplified: true,
-      encrypted: {
-        xprv: null,
-        mnemonic: null,
-        privateKey: null,
-        passphrase: null,
-      },
-      /**
-       * Another wallet data, necessary for consistency of types
-       */
-      address: null,
-      derivationPath: null,
-      createdBlockNumber: null,
-    }
-  }
+  }: WalletData): Wallet => ({
+    id,
+    name,
+    orderIndex,
+    xpub: data,
+    addressIndex: 0,
+    isReadOnly: true,
+    type: 'mnemonic',
+    customType: 'xpub',
+    isSimplified: true,
+    encrypted: {
+      xprv: null,
+      mnemonic: null,
+      privateKey: null,
+      passphrase: null,
+    },
+    /**
+     * Another wallet data, necessary for consistency of types
+     */
+    address: null,
+    derivationPath: null,
+    createdBlockNumber: null,
+  })
 
   createPrivateKeyWallet = (
     walletData: WalletData,
@@ -242,17 +234,15 @@ class WalletsPlugin {
     }: WalletData = walletData
 
     const privateKey: string = data.toLowerCase()
-    const address: string = getAddressFromPrivateKey(privateKey)
-    this.checkWalletUniqueness(address, 'address')
 
     return {
       id,
       name,
-      address,
       orderIndex,
       type: 'address',
       isReadOnly: false,
       customType: 'privateKey',
+      address: getAddressFromPrivateKey(privateKey),
       encrypted: {
         xprv: null,
         mnemonic: null,
@@ -278,33 +268,29 @@ class WalletsPlugin {
     data,
     name,
     orderIndex,
-  }: WalletData): Wallet => {
-    this.checkWalletUniqueness(data, 'address')
-
-    return {
-      id,
-      name,
-      orderIndex,
-      type: 'address',
-      isReadOnly: true,
-      customType: 'address',
-      address: getAddressChecksum(data),
-      encrypted: {
-        xprv: null,
-        mnemonic: null,
-        passphrase: null,
-        privateKey: null,
-      },
-      /**
-       * Another wallet data, necessary for consistency of types
-       */
-      xpub: null,
-      isSimplified: null,
-      addressIndex: null,
-      derivationPath: null,
-      createdBlockNumber: null,
-    }
-  }
+  }: WalletData): Wallet => ({
+    id,
+    name,
+    orderIndex,
+    type: 'address',
+    isReadOnly: true,
+    customType: 'address',
+    address: getAddressChecksum(data),
+    encrypted: {
+      xprv: null,
+      mnemonic: null,
+      passphrase: null,
+      privateKey: null,
+    },
+    /**
+     * Another wallet data, necessary for consistency of types
+     */
+    xpub: null,
+    isSimplified: null,
+    addressIndex: null,
+    derivationPath: null,
+    createdBlockNumber: null,
+  })
 
   createWallet = (
     walletData: WalletData,
@@ -347,7 +333,6 @@ class WalletsPlugin {
       throw new Error(t`Invalid wallet data`)
     }
 
-    this.checkWalletUniqueness(name, 'name')
     const state: AppState = this.getState()
 
     const {
@@ -421,7 +406,7 @@ class WalletsPlugin {
     })
 
     if (foundWallet) {
-      throw new Error(t`Wallet with such ${foundWallet.name} already exists`)
+      throw new Error(t`Wallet with such ${propertyName} already exists`)
     }
   }
 }
