@@ -136,10 +136,20 @@ class TransactionItem extends PureComponent<Props, *> {
           />
         </div>
         <div className={classNames(transactionItemStyle.item, transactionItemStyle.mainBlock)}>
-          <div>{transaction.title}</div>
-          {transaction.note
-            && <div className={transactionItemStyle.subtext}>{transaction.note}</div>
-          }
+          <div
+            title={transaction.title.length >= 50 && transaction.title}
+            className={transactionItemStyle.text}
+          >
+            {transaction.title}
+          </div>
+          {transaction.note && (
+            <div
+              title={transaction.note.length >= 60 && transaction.note}
+              className={transactionItemStyle.subtext}
+            >
+              {transaction.note}
+            </div>
+          )}
         </div>
         <div className={`${transactionItemStyle.item} ${transactionItemStyle.amountBlock}`}>
           {formatTransactionAmount(transaction)}
