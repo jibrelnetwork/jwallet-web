@@ -3,6 +3,7 @@
 import uuidv4 from 'uuid/v4'
 import { t } from 'ttag'
 import { type Store } from 'redux'
+import { actions as router5Actions } from 'redux-router5'
 
 import { WalletInconsistentDataError } from 'errors'
 import { selectWalletsItems } from 'store/selectors/wallets'
@@ -381,6 +382,7 @@ class WalletsPlugin {
       const newWallets: Wallets = this.appendWallet(newWallet)
 
       this.dispatch(setWalletsItems(newWallets))
+      this.dispatch(router5Actions.navigateTo('Wallets'))
 
       if (newWallets.length === 1) {
         this.dispatch(setActiveWallet(newWallet.id))
