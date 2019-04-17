@@ -13,6 +13,10 @@ import {
   DigitalAssetsFilter,
 } from 'components'
 
+import homeStyle from './home.m.scss'
+
+// eslint-disable-next-line max-len
+const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
 const DIGITAL_ASSETS_TABS = {
   '/': t`Digital Assets`,
   '/history': t`Transactions`,
@@ -29,7 +33,7 @@ type Props = {|
   +filterOptions: DigitalAssetsFilterOptions,
 |}
 
-class DigitalAssetsGridView extends Component<Props> {
+export class HomeView extends Component<Props> {
   componentDidMount() {
     this.props.openView()
   }
@@ -55,18 +59,61 @@ class DigitalAssetsGridView extends Component<Props> {
     const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
 
     return (
-      <div className='digital-assets-grid-view'>
-        <div className='header'>
-          <div className='container'>
+      <div className={homeStyle.core}>
+        <section>
+          <h2 className={homeStyle.title}>
+            {t`Transfer`}
+          </h2>
+          <nav className={homeStyle.links}>
+            <JLink
+              className={homeStyle.link}
+              href='/send'
+            >
+              <div className={homeStyle.linkIcon}>
+                <JIcon
+                  name='home-send-use-fill'
+                  color='blue'
+                />
+              </div>
+              {t`Send`}
+            </JLink>
+            <JLink
+              className={homeStyle.link}
+              href='/receive'
+            >
+              <div className={homeStyle.linkIcon}>
+                <JIcon
+                  name='home-receive-use-fill'
+                  color='blue'
+                />
+              </div>
+              {t`Receive`}
+            </JLink>
+            <JLink
+              className={homeStyle.link}
+              href={JCASH_UTM_URL}
+            >
+              <div className={homeStyle.linkIcon}>
+                <JIcon
+                  name='home-exchange-use-fill'
+                  color='blue'
+                />
+              </div>
+              {t`Exchange`}
+            </JLink>
+          </nav>
+        </section>
+        <div className={homeStyle.header}>
+          <div className={homeStyle.container}>
             <JTabs tabs={DIGITAL_ASSETS_TABS} />
-            <div className='actions'>
-              <div className='search'>
+            <div className={homeStyle.actions}>
+              <div className={homeStyle.search}>
                 <JSearch
                   onChange={setSearchQuery}
                   placeholder={t`Search assets...`}
                 />
               </div>
-              <div className='filter'>
+              <div className={homeStyle.filter}>
                 <DigitalAssetsFilter
                   {...filterOptions}
                   filterCount={filterCount}
@@ -76,8 +123,8 @@ class DigitalAssetsGridView extends Component<Props> {
                 />
               </div>
               <JLink
+                className={homeStyle.setting}
                 href='/assets'
-                className='setting'
                 title={t`Assets manager`}
               >
                 <JIcon
@@ -88,7 +135,7 @@ class DigitalAssetsGridView extends Component<Props> {
             </div>
           </div>
         </div>
-        <div className='content'>
+        <div className={homeStyle.content}>
           <Scrollbars autoHide>
             <DigitalAssetsGrid
               items={items}
@@ -99,5 +146,3 @@ class DigitalAssetsGridView extends Component<Props> {
     )
   }
 }
-
-export default DigitalAssetsGridView
