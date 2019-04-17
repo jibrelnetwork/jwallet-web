@@ -70,7 +70,7 @@ export class JTextArea extends PureComponent<Props> {
     label: '',
     className: '',
     theme: 'white',
-    validateType: 'visited',
+    validateType: 'touched',
     rows: 1,
     isDisabled: false,
   }

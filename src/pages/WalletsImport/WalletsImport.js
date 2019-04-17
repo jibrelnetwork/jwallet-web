@@ -8,12 +8,20 @@ import { walletsPlugin } from 'store/plugins'
 import { checkMnemonicType } from 'utils/wallets'
 
 import {
+  checkXkeyValid,
+  getXPUBFromXPRV,
   checkMnemonicValid,
+  getXPUBFromMnemonic,
   checkDerivationPathValid,
 } from 'utils/mnemonic'
 
 import {
+  add0x,
+  strip0x,
+  checkAddressValid,
+  checkPrivateKeyValid,
   checkNormalizedAddress,
+  getAddressFromPrivateKey,
   checkAddressWithChecksumValid,
 } from 'utils/address'
 
@@ -28,18 +36,186 @@ import {
 } from './WalletsImportView'
 
 const XKEY_LENGTH: number = 111
-const RE_HEX_PREFIX: RegExp = /^0x/i
 const RE_XPRV_PREFIX: RegExp = /^xprv/i
 const RE_XPUB_PREFIX: RegExp = /^xpub/i
+
+function getSuccessDataMessage(data: ?string): ?string {
+  const trimmedData: string = (data || '').trim()
+
+  if (checkMnemonicValid(trimmedData)) {
+    return t`You have entered BIP39 mnemonic`
+  } else if (checkXkeyValid(trimmedData, 'prv')) {
+    return t`You have entered BIP32 XPRV`
+  } else if (checkXkeyValid(trimmedData, 'pub')) {
+    return t`You have entered BIP32 XPUB`
+  } else if (checkPrivateKeyValid(trimmedData)) {
+    return t`You have entered Ethereum private key`
+  } else if (checkAddressValid(trimmedData)) {
+    return t`You have entered Ethereum address`
+  }
+
+  return null
+}
+
+function checkMnemonicInput(data: string): boolean {
+  const words: string[] = data.split(' ')
+  const wordsLen: number = words.length
+
+  if ((wordsLen < 3) || (wordsLen > 24)) {
+    return false
+  }
+
+  return true
+}
+
+function getInfoMnemonicMessage(data: string): ?string {
+  if (!checkMnemonicInput(data)) {
+    return null
+  }
+
+  const words: string[] = data.split(' ')
+  const wordsLen: number = words.length
+
+  const hasInvalidSymbols: boolean = /[^a-z ]/i.test(data)
+
+  if (hasInvalidSymbols) {
+    return t`BIP39 mnemonic should be in English`
+  }
+
+  const isFinalLen: boolean = !(wordsLen % 3)
+
+  if (!isFinalLen) {
+    return t`Seems like you are entering BIP39 mnemonic`
+  }
+
+  return null
+}
+
+function getInfoXPRVMessage(data: string): ?string {
+  if (!RE_XPRV_PREFIX.test(data)) {
+    return null
+  }
+
+  const cleanedData: string = data.replace(RE_XPRV_PREFIX, '')
+  const hasInvalidSymbols: boolean = /[^a-z1-9]/i.test(cleanedData)
+
+  if (hasInvalidSymbols) {
+    return t`BIP32 XPRV should be in base58 encoding`
+  }
+
+  const dataLen: number = data.length
+
+  if (dataLen < XKEY_LENGTH) {
+    return t`Seems like you are entering BIP32 XPRV`
+  }
+
+  if (dataLen > XKEY_LENGTH) {
+    return t`Length of BIP32 XPRV can't be greater than ${XKEY_LENGTH} symbols`
+  }
+
+  return null
+}
+
+function getInfoXPUBMessage(data: string): ?string {
+  if (!RE_XPUB_PREFIX.test(data)) {
+    return null
+  }
+
+  const cleanedData: string = data.replace(RE_XPUB_PREFIX, '')
+  const hasInvalidSymbols: boolean = /[^a-z1-9]/i.test(cleanedData)
+
+  if (hasInvalidSymbols) {
+    return t`BIP32 XPUB should be in base58 encoding`
+  }
+
+  const dataLen: number = data.length
+
+  if (dataLen < XKEY_LENGTH) {
+    return t`Seems like you are entering BIP32 XPUB`
+  }
+
+  if (dataLen > XKEY_LENGTH) {
+    return t`Length of BIP32 XPUB can't be greater than ${XKEY_LENGTH} symbols`
+  }
+
+  return null
+}
+
+function getInfoPrivateKeyMessage(data: string): ?string {
+  const cleanedData: string = strip0x(data)
+
+  if (cleanedData.length <= 40) {
+    return null
+  }
+
+  const hasInvalidSymbols: boolean = /[^a-f0-9]/i.test(cleanedData)
+
+  if (hasInvalidSymbols) {
+    return t`Ethereum private key should be in hex encoding`
+  }
+
+  if (cleanedData.length < 64) {
+    return t`Seems like you are entering Ethereum private key`
+  }
+
+  if (cleanedData.length > 64) {
+    return t`Length of private key can't be greater than 64 symbols`
+  }
+
+  return null
+}
+
+function getInfoAddressMessage(data: string): ?string {
+  const cleanedData: string = strip0x(data)
+
+  if (cleanedData.length > 40) {
+    return null
+  }
+
+  if (cleanedData.length < 40) {
+    const isPartialAddress: boolean = /[0-9a-f]{1,39}$/i.test(cleanedData)
+
+    if (cleanedData.length && !isPartialAddress) {
+      return t`Ethereum address should be in hex encoding`
+    }
+
+    return t`Seems like you are entering Ethereum address`
+  }
+
+  const isValidNormalizedAddress: boolean = checkNormalizedAddress(cleanedData)
+  const isValidChecksumAddress: boolean = checkAddressWithChecksumValid(cleanedData)
+
+  if (!(isValidNormalizedAddress || isValidChecksumAddress)) {
+    return t`Seems you made a typo in Ethereum address`
+  }
+
+  return null
+}
+
+function getInfoDataMessage(data: ?string): ?string {
+  const trimmedData: string = (data || '').trim()
+
+  if (!trimmedData) {
+    return null
+  }
+
+  return (
+    getInfoMnemonicMessage(trimmedData) ||
+    getInfoXPRVMessage(trimmedData) ||
+    getInfoXPUBMessage(trimmedData) ||
+    getInfoPrivateKeyMessage(trimmedData) ||
+    getInfoAddressMessage(trimmedData)
+  )
+}
 
 async function importWallet(values: FormFields): ?FormFields {
   return walletsPlugin.importWallet(values)
 }
 
 async function submitWalletsImportForm({
-  currentStep,
   goToPasswordStep,
   values,
+  currentStep,
 }: WalletsImportSubmitPayload): Promise<?FormFields> {
   switch (currentStep) {
     case STEPS.DATA:
@@ -60,224 +236,149 @@ function validateWalletName(name: ?string): ?string {
     return t`Length of name should not be greater than 32 symbols`
   }
 
+  try {
+    walletsPlugin.checkWalletUniqueness(name, 'name')
+  } catch (err) {
+    return err.message
+  }
+
   return null
 }
 
-function validateMnemonic(mnemonic: string): ?FormFields {
-  const words: string[] = mnemonic.split(' ')
-  const wordsLen: number = words.length
-
-  if ((wordsLen < 3) || (wordsLen > 24)) {
+function validateMnemonic(
+  data: string,
+  passphrase: ?string,
+  derivationPath: ?string,
+): ?string {
+  if (!checkMnemonicInput(data)) {
     return null
   }
 
-  const hasInvalidSymbols: boolean = /[^a-z ]/i.test(mnemonic)
-
-  if (hasInvalidSymbols) {
-    return {
-      data: t`BIP39 mnemonic should be in English`,
-    }
-  }
-
-  const isFinalLen: boolean = !(wordsLen % 3)
-
-  if (!isFinalLen) {
-    return {
-      mnemonic: t`Seems like you are entering BIP39 mnemonic`,
-    }
-  }
-
-  const isMnemonicValid: boolean = checkMnemonicValid(mnemonic)
+  const isMnemonicValid: boolean = checkMnemonicValid(data)
 
   if (!isMnemonicValid) {
-    return {
-      data: t`Incorrect BIP39 mnemonic`,
-    }
+    return t`Incorrect BIP39 mnemonic`
   }
 
-  return {
-    mnemonic: t`You have entered BIP39 mnemonic`,
-  }
-}
-
-function validateXPRV(xprv: string): ?FormFields {
-  const isXPRV: boolean = RE_XPRV_PREFIX.test(xprv)
-
-  if (!isXPRV) {
+  if (derivationPath && !checkDerivationPathValid(derivationPath)) {
     return null
   }
 
-  const cleanedXPRV: string = xprv.replace(RE_XPRV_PREFIX, '')
-  const hasInvalidSymbols: boolean = /[^a-z1-9]/i.test(cleanedXPRV)
+  const xpub: string = getXPUBFromMnemonic(data, passphrase, derivationPath)
 
-  if (hasInvalidSymbols) {
-    return {
-      data: t`BIP32 XPRV should be in base58 encoding`,
-    }
+  try {
+    walletsPlugin.checkWalletUniqueness(xpub, 'xpub')
+  } catch (err) {
+    return err.message
   }
 
-  const xprvLen: number = xprv.length
-
-  if (xprvLen < XKEY_LENGTH) {
-    return {
-      xprv: t`Seems like you are entering BIP32 XPRV`,
-    }
-  }
-
-  if (xprvLen > XKEY_LENGTH) {
-    return {
-      data: t`Length of BIP32 XPRV can't be greater than ${XKEY_LENGTH} symbols`,
-    }
-  }
-
-  return {
-    xprv: t`You have entered BIP32 XPRV`,
-  }
+  return null
 }
 
-function validateXPUB(xpub: string): ?FormFields {
-  const isXPUB: boolean = RE_XPUB_PREFIX.test(xpub)
-
-  if (!isXPUB) {
+function validateXPRV(data: string): ?string {
+  if (!RE_XPRV_PREFIX.test(data)) {
     return null
   }
 
-  const cleanedXPUB: string = xpub.replace(RE_XPUB_PREFIX, '')
-  const hasInvalidSymbols: boolean = /[^a-z1-9]/i.test(cleanedXPUB)
+  const xpub: string = getXPUBFromXPRV(data)
 
-  if (hasInvalidSymbols) {
-    return {
-      data: t`BIP32 XPUB should be in base58 encoding`,
-    }
+  try {
+    walletsPlugin.checkWalletUniqueness(xpub, 'xpub')
+  } catch (err) {
+    return err.message
   }
 
-  const xpubLen: number = xpub.length
-
-  if (xpubLen < XKEY_LENGTH) {
-    return {
-      xpub: t`Seems like you are entering BIP32 XPUB`,
-    }
-  }
-
-  if (xpubLen > XKEY_LENGTH) {
-    return {
-      data: t`Length of BIP32 XPUB can't be greater than ${XKEY_LENGTH} symbols`,
-    }
-  }
-
-  return {
-    xpub: t`You have entered BIP32 XPUB`,
-  }
+  return null
 }
 
-function validatePrivateKey(privateKey: string): ?FormFields {
-  if (privateKey.length < 41) {
+function validateXPUB(data: string): ?string {
+  if (!RE_XPUB_PREFIX.test(data)) {
     return null
   }
 
-  const hasInvalidSymbols: boolean = /[^a-f0-9]/i.test(privateKey)
-
-  if (hasInvalidSymbols) {
-    return {
-      data: t`Incorrect Ethereum private key`,
-    }
+  try {
+    walletsPlugin.checkWalletUniqueness(data, 'xpub')
+  } catch (err) {
+    return err.message
   }
 
-  if (privateKey.length < 64) {
-    return {
-      privateKey: t`Seems like you are entering Ethereum private key`,
-    }
-  }
-
-  if (privateKey.length > 64) {
-    return {
-      data: t`Length of private key can't be greater than 64 symbols`,
-    }
-  }
-
-  return {
-    privateKey: t`You have entered Ethereum private key`,
-  }
+  return null
 }
 
-function validateAddress(address: string): FormFields {
-  if (address.length < 40) {
-    const isPartialAddress: boolean = /[0-9a-f]{1,39}$/i.test(address)
+function validatePrivateKey(data: string): ?string {
+  const cleanedData: string = strip0x(data)
 
-    if (address.length && !isPartialAddress) {
-      return {
-        data: t`Incorrect Ethereum address`,
-      }
-    }
-
-    return {
-      address: t`Seems like you are entering Ethereum address`,
-    }
+  if (cleanedData.length <= 40) {
+    return null
   }
 
-  const isValidNormalizedAddress: boolean = checkNormalizedAddress(address)
+  const address: string = getAddressFromPrivateKey(cleanedData)
 
-  if (!isValidNormalizedAddress) {
-    return {
-      data: t`Incorrect Ethereum address`,
-    }
+  try {
+    walletsPlugin.checkWalletUniqueness(address, 'address')
+  } catch (err) {
+    return err.message
   }
 
-  const isValidChecksumAddress: boolean = checkAddressWithChecksumValid(address)
-
-  if (!isValidChecksumAddress) {
-    return {
-      data: t`Seems you made a typo in Ethereum address`,
-    }
-  }
-
-  return {
-    address: t`You have entered Ethereum address`,
-  }
+  return null
 }
 
-function validateWalletData(data: ?string): ?FormFields {
+function validateAddress(data: string): ?string {
+  const cleanedData: string = strip0x(data)
+
+  if (cleanedData.length > 40) {
+    return null
+  }
+
+  try {
+    walletsPlugin.checkWalletUniqueness(add0x(data), 'address')
+  } catch (err) {
+    return err.message
+  }
+
+  return null
+}
+
+function validateWalletData(
+  data: ?string,
+  passphrase: ?string,
+  derivationPath: ?string,
+): ?string {
   const trimmedData: string = (data || '').trim()
 
   if (!trimmedData) {
-    return {
-      data: t`The field should not be empty`,
-    }
+    return t`The field should not be empty`
   }
 
-  const validateMnemonicResult: ?FormFields = validateMnemonic(trimmedData)
+  const infoDataMessage: ?string = getInfoDataMessage(trimmedData)
 
-  if (validateMnemonicResult) {
-    return validateMnemonicResult
+  if (infoDataMessage) {
+    return infoDataMessage
   }
 
-  const validateXPRVResult: ?FormFields = validateXPRV(trimmedData)
+  const errorDataMessage: ?string = (
+    validateMnemonic(
+      trimmedData,
+      passphrase,
+      derivationPath,
+    ) ||
+    validateXPRV(trimmedData) ||
+    validateXPUB(trimmedData) ||
+    validatePrivateKey(trimmedData) ||
+    validateAddress(trimmedData)
+  )
 
-  if (validateXPRVResult) {
-    return validateXPRVResult
+  if (errorDataMessage) {
+    return errorDataMessage
   }
 
-  const validateXPUBResult: ?FormFields = validateXPUB(trimmedData)
+  const successDataMessage: ?string = getSuccessDataMessage(trimmedData)
 
-  if (validateXPUBResult) {
-    return validateXPUBResult
+  if (!successDataMessage) {
+    return t`Unable to recognize your input`
   }
 
-  if (data && RE_HEX_PREFIX.test(data)) {
-    const cleanedData: string = data.replace(RE_HEX_PREFIX, '')
-
-    const validatePrivateKeyResult: ?FormFields = validatePrivateKey(trimmedData)
-
-    if (validatePrivateKeyResult) {
-      return validatePrivateKeyResult
-    }
-
-    return validateAddress(cleanedData)
-  }
-
-  return {
-    data: t`Unable to recognize your input`,
-  }
+  return null
 }
 
 function validateDerivationPath(derivationPath: ?string): ?string {
@@ -302,6 +403,7 @@ function validateWalletsImportForm(
     name,
     data,
     password,
+    passphrase,
     derivationPath,
     walletType,
   }: FormFields = values
@@ -316,11 +418,14 @@ function validateWalletsImportForm(
         formErrors.name = validateWalletNameResult
       }
 
-      const validateWalletDataResult: ?FormFields = validateWalletData(data)
+      const validateWalletDataResult: ?string = validateWalletData(
+        data,
+        passphrase,
+        derivationPath,
+      )
 
       if (validateWalletDataResult) {
-        // eslint-disable-next-line fp/no-mutating-assign
-        Object.assign(formErrors, validateWalletDataResult)
+        formErrors.data = validateWalletDataResult
       }
 
       if (checkMnemonicType(walletType)) {
@@ -353,6 +458,8 @@ function validateWalletsImportForm(
 
 function mapStateToProps() {
   return {
+    getInfoDataMessage,
+    getSuccessDataMessage,
     submit: submitWalletsImportForm,
     validate: validateWalletsImportForm,
   }
