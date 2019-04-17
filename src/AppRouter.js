@@ -26,6 +26,7 @@ type Props = {
 
 type ComponentState = {|
   +hasError: boolean,
+  +prevRouteName: ?string,
 |}
 
 // FIXME: discuss with the team and update accordingly
@@ -47,11 +48,40 @@ export class AppRouter extends Component<Props, ComponentState> {
 
     this.state = {
       hasError: false,
+      // is used in state from props derivation logic
+      // eslint-disable-next-line react/no-unused-state
+      prevRouteName: null,
     }
   }
 
-  static getDerivedStateFromError() {
-    // FIXME: add error reporting
+  static getDerivedStateFromProps({ route }: Props, state: ComponentState) {
+    const nextRouteName = (!route && !route.name) ?
+      constants.UNKNOWN_ROUTE :
+      route.name
+
+    if (!state.prevRouteName) {
+      return {
+        prevRouteName: nextRouteName,
+      }
+    }
+
+    if (state.prevRouteName !== route.name) {
+      return {
+        prevRouteName: route.name,
+        hasError: false,
+      }
+    }
+
+    return {}
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    // FIXME: add error reporting to remote
+    /* eslint-disable no-console */
+    console.error('Unhandled error')
+    console.error(error)
+    /* eslint-enable no-console */
+
     return {
       hasError: true,
     }
