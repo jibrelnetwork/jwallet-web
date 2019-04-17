@@ -15,16 +15,23 @@
   font-size: inherit;
 
   &.-symbol-not-listed::before {
-    @include font;
+    @include font(14px, 38px);
 
-    display: block;
-    content: attr(data-symbol);
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    content: attr(data-symbol);
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    border: 1px solid $main-black-10;
+    border-radius: 50%;
+    font-style: normal;
     font-weight: 600;
-    font-size: inherit;
+    text-align: center;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: $main-blue;
   }
 
   &.-blue {

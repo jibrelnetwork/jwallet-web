@@ -11,26 +11,35 @@ type JAssetSymbolColor = 'blue' | 'gray' | 'white'
 type Props = {
   symbol: string,
   color: JAssetSymbolColor,
+  isCustom?: boolean,
 }
 
-const getSymbolClassName = symbol =>
-  SYMBOLS_AVAILABLE_CLASS_INDEX[symbol.toLowerCase()] || '-symbol-not-listed'
+const getSymbolClassName = (symbol, isCustom) =>
+  !isCustom && SYMBOLS_AVAILABLE_CLASS_INDEX[symbol.toLowerCase()] ? '' : '-symbol-not-listed'
 
 function JAssetSymbol({
-  symbol, color,
+  symbol, color, isCustom,
 }: Props) {
   const url = iconsAsset[`${symbol.toLowerCase()}-usage`]
 
   return (
     <div
-      className={classNames(`j-asset-symbol ${getSymbolClassName(symbol)} -${color}`)}
-      data-symbol={symbol}
+      className={classNames(`j-asset-symbol ${getSymbolClassName(symbol, isCustom)} -${color}`)}
+      data-symbol={symbol[0]}
     >
-      <svg className='icon' >
-        <use xlinkHref={url} />
-      </svg>
+      {!isCustom && url
+        ? (
+          <svg className='icon' >
+            <use xlinkHref={url} />
+          </svg>
+        )
+        : null}
     </div>
   )
+}
+
+JAssetSymbol.defaultProps = {
+  isCustom: false,
 }
 
 export default JAssetSymbol
