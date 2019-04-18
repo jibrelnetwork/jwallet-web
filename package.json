@@ -136,6 +136,7 @@
     "node-sass": "4.11.0",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
+    "prettier": "1.17.0",
     "react-app-polyfill": "0.2.2",
     "react-dev-utils": "8.0.0",
     "react-error-overlay": "1.0.10",
