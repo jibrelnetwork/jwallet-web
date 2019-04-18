@@ -9,13 +9,13 @@ import jIconStyle from './jIcon.m.scss'
 
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
-type Props = {
+export type JIconProps = {
   name: string,
   color: ?JIconColor,
   className?: ?string,
 }
 
-export class JIcon extends PureComponent<Props> {
+export class JIcon extends PureComponent<JIconProps> {
   static defaultProps = {
     color: null,
     className: null,
@@ -26,7 +26,7 @@ export class JIcon extends PureComponent<Props> {
       name,
       color,
       className,
-    }: Props = this.props
+    }: JIconProps = this.props
 
     const iconData = iconsUI[`${name}-usage`]
     const hasFill = name.indexOf('use-fill') !== -1

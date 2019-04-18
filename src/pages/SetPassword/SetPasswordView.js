@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { t } from 'ttag'
+import { noop } from 'lodash-es'
 
 import {
   Form,
@@ -35,6 +36,10 @@ const PASSWORD_FORM_INITIAL_VALUES = {
 }
 
 export class SetPasswordView extends Component<Props, StateProps> {
+  static defaultProps = {
+    dispatch: noop,
+  }
+
   constructor(props: Props) {
     super(props)
 

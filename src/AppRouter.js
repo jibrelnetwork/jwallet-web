@@ -1,6 +1,6 @@
 // @flow strict
 
-import React from 'react'
+import React, { Component } from 'react'
 import { constants } from 'router5'
 import { connect } from 'react-redux'
 
@@ -16,6 +16,7 @@ import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'pages'
 
 import 'styles/core.scss'
+import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 type Props = {|
   +route: Object,
@@ -25,69 +26,120 @@ type Props = {|
   +isAllFeaturesIntroduced: boolean,
 |}
 
+type ComponentState = {|
+  +hasError: boolean,
+  +prevRouteName: ?string,
+|}
+
 // FIXME: discuss with the team and update accordingly
 function renderWithWalletsLayout(
-  Component,
+  C,
   props = {},
 ) {
   return (
     <WalletsLayout>
-      <Component {...props} />
+      <C {...props} />
     </WalletsLayout>
   )
 }
 
 function renderWithMenuLayout(
-  Component,
+  C,
   props = {},
   routeName: ?string,
 ) {
   return (
     <MenuLayout routeName={routeName}>
-      <Component {...props} />
+      <C {...props} />
     </MenuLayout>
   )
 }
 
-function AppRouter({
-  route,
-  hasWallets,
-  hasPassword,
-  isAllAgreementsChecked,
-  isAllFeaturesIntroduced,
-}: Props) {
-  if (!route || route.name === constants.UNKNOWN_ROUTE) {
-    return renderWithWalletsLayout(pages.NotFound)
+class AppRouter extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      hasError: false,
+      // is used in state from props derivation logic
+      // eslint-disable-next-line react/no-unused-state
+      prevRouteName: null,
+    }
   }
 
-  if (!isAllFeaturesIntroduced) {
-    return renderWithMenuLayout(pages.NotFound)
+  static getDerivedStateFromProps({ route }: Props, state: ComponentState) {
+    const nextRouteName = (!route && !route.name) ?
+      constants.UNKNOWN_ROUTE :
+      route.name
+
+    if (!state.prevRouteName) {
+      return {
+        prevRouteName: nextRouteName,
+      }
+    }
+
+    if (state.prevRouteName !== route.name) {
+      return {
+        prevRouteName: route.name,
+        hasError: false,
+      }
+    }
+
+    return {}
   }
 
-  if (!isAllAgreementsChecked) {
-    return renderWithWalletsLayout(pages.AgreementsView)
+  static getDerivedStateFromError(error: Error) {
+    // FIXME: add error reporting to remote
+    /* eslint-disable no-console */
+    console.error('Unhandled error')
+    console.error(error)
+    /* eslint-enable no-console */
+
+    return {
+      hasError: true,
+    }
   }
 
-  if (!hasPassword) {
-    return renderWithMenuLayout(pages.SetPasswordView)
+  render() {
+    if (this.state.hasError) {
+      return (<ErrorUnexpected />)
+    }
+
+    const {
+      route,
+      hasWallets,
+      hasPassword,
+      isAllAgreementsChecked,
+      isAllFeaturesIntroduced,
+    } = this.props
+
+    const {
+      name,
+      params,
+    } = route
+
+    if (!route || (name === constants.UNKNOWN_ROUTE)) {
+      return renderWithWalletsLayout(pages.NotFound)
+    }
+
+    if (!isAllFeaturesIntroduced) {
+      return <pages.NotFound />
+    }
+
+    if (!isAllAgreementsChecked) {
+      return <pages.AgreementsView />
+    }
+
+    if (!hasPassword) {
+      return <pages.SetPasswordView />
+    }
+
+    if (!hasWallets) {
+      return <pages.WalletsStartView />
+    }
+
+    return renderWithMenuLayout(pages[name], params, name)
   }
-
-  if (!hasWallets) {
-    return renderWithMenuLayout(pages.WalletsStartView)
-  }
-
-  const {
-    name,
-    params,
-  } = route
-
-  const Component = pages[name]
-
-  if (!Component) {
-    return renderWithWalletsLayout(pages.NotFound)
-  }
-
-  return renderWithMenuLayout(Component, params, name)
 }
 
 function mapStateToProps(state) {
@@ -107,7 +159,7 @@ function mapStateToProps(state) {
   }
 }
 
-export const AppRouterContainer = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+const AppRouterContainer = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
   mapStateToProps,
 )(AppRouter)
 

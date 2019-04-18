@@ -25,7 +25,7 @@ exports.config = {
 
   framework: 'jasmine',
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000,
+    defaultTimeoutInterval: process.env.NODE_ENV === 'development' ? undefined : 30000,
   },
   sync: true,
 

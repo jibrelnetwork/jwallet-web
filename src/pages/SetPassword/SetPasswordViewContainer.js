@@ -78,7 +78,7 @@ function mapStateToProps() {
 
 /* ::
 type OwnProps = {|
-  +dispatch: Function,
+  dispatch?: Function,
 |}
 */
 
