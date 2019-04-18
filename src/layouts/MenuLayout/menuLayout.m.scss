@@ -3,16 +3,22 @@
 @import 'styles/colors';
 
 .core {
-  @include flex-row;
-
-  position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+  padding: 0 0 0 $menu-panel-width;
+  transition: padding-left 0.15s ease-in-out;
+}
+
+.minimized {
+  padding: 0 152px;
 }
 
 .content {
-  flex-grow: 1;
-  position: relative;
+  display: block;
+  max-width: 1200px;
+  padding: 0 40px;
+  height: 100%;
+  margin: 0 auto;
 }
 
 .overlay {
