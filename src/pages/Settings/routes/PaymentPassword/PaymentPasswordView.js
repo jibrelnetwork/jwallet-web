@@ -8,7 +8,7 @@ import {
   Field,
 } from 'react-final-form'
 
-import { PasswordField } from 'components'
+import { NewPasswordField } from 'components'
 
 import {
   JInputField,
@@ -114,7 +114,7 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 isDisabled={this.props.passwordForm.isLoading}
                 isAutoFocus
               />
-              <PasswordField
+              <NewPasswordField
                 onChange={handleFormChange}
                 values={values}
                 errors={passwordForm.messages}

@@ -56,11 +56,11 @@ jest.mock('../../../workers/scrypt/worker', () => class MOCK_WORKER {
 })
 
 // eslint-disable-next-line import/first
-import { PasswordField } from '../PasswordField'
+import { NewPasswordField } from '../NewPasswordField'
 
-describe('PasswordField', () => {
+describe('NewPasswordField', () => {
   test('is available', () => {
-    expect(PasswordField).toBeDefined()
+    expect(NewPasswordField).toBeDefined()
   })
 
   test('renders (indicator fetching status)', async () => {
@@ -73,7 +73,7 @@ describe('PasswordField', () => {
     }
 
     const wrapper = shallow(
-      <PasswordField
+      <NewPasswordField
         onChange={handleChange}
         onScoreChange={handleScoreChange}
         values={values}

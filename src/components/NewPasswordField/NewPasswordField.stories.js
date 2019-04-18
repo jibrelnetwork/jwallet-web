@@ -4,7 +4,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form } from 'react-final-form'
 
-import { PasswordField } from './PasswordField'
+import { NewPasswordField } from './NewPasswordField'
 
 const values = {
   password: '',
@@ -23,7 +23,7 @@ function handleFormSubmit(...args) {
 }
 /* eslint-enable fp/no-let, no-unused-vars, fp/no-mutation, fp/no-rest-parameters, no-console */
 
-storiesOf('PasswordField', module)
+storiesOf('NewPasswordField', module)
   .add('default state', () => (
     <Form
       initialValues={values}
@@ -35,7 +35,7 @@ storiesOf('PasswordField', module)
         },
       }) => (
         <form onSubmit={handleSubmit}>
-          <PasswordField
+          <NewPasswordField
             onChange={handleChange}
             onScoreChange={handleScoreChange}
             values={values}

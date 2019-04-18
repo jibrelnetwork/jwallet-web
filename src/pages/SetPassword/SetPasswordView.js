@@ -10,7 +10,7 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
-import { PasswordField } from 'components'
+import { NewPasswordField } from 'components'
 
 import {
   JInputField,
@@ -73,7 +73,7 @@ export class SetPasswordView extends Component<Props, StateProps> {
       onSubmit={handleSubmit}
       className={setPasswordViewStyle.form}
     >
-      <PasswordField
+      <NewPasswordField
         onChange={handleChange}
         onScoreChange={this.handleScoreChange}
         values={values}

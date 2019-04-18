@@ -12,7 +12,7 @@ import {
   type IndicatorStatus,
 } from './components/Indicator'
 
-import passwordFieldStyle from './passwordField.m.scss'
+import newPasswordFieldStyle from './newPasswordField.m.scss'
 
 type Props = {|
   +onChange: FormFieldChange,
@@ -66,7 +66,7 @@ function checkStrong(score: number): boolean {
   return (score >= MIN_PASSWORD_STRENGTH_SCORE)
 }
 
-export class PasswordField extends Component<Props, StateProps> {
+export class NewPasswordField extends Component<Props, StateProps> {
   static defaultProps = {
     isDisabled: false,
     isAutoFocus: false,
@@ -180,7 +180,7 @@ export class PasswordField extends Component<Props, StateProps> {
     const errorMessage: ?string = isStrong ? null : infoMessage
 
     return (
-      <div className={passwordFieldStyle.core}>
+      <div className={newPasswordFieldStyle.core}>
         <Field
           component={PasswordInput}
           onChange={this.handleChange}
