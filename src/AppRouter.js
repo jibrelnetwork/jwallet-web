@@ -33,24 +33,24 @@ type ComponentState = {|
 
 // FIXME: discuss with the team and update accordingly
 function renderWithWalletsLayout(
-  C,
+  Page,
   props = {},
 ) {
   return (
     <WalletsLayout>
-      <C {...props} />
+      <Page {...props} />
     </WalletsLayout>
   )
 }
 
 function renderWithMenuLayout(
-  C,
+  Page,
   props = {},
-  routeName: ?string,
+  routeName: string,
 ) {
   return (
     <MenuLayout routeName={routeName}>
-      <C {...props} />
+      <Page {...props} />
     </MenuLayout>
   )
 }

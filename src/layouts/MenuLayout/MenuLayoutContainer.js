@@ -114,7 +114,7 @@ const mapDispatchToProps = {
 /* ::
 type OwnProps = {|
   +children: React$Node,
-  +routeName: ?string,
+  +routeName: string,
 |}
 */
 
