@@ -35,9 +35,9 @@ export class JIcon extends PureComponent<JIconProps> {
       return (
         <div
           className={classNames(
-            '__j-icon',
+            '__icon',
             jIconStyle.core,
-            hasFill && jIconStyle.empty,
+            jIconStyle.empty,
             className,
           )}
         />
@@ -47,7 +47,7 @@ export class JIcon extends PureComponent<JIconProps> {
     return (
       <svg
         className={classNames(
-          '__j-icon',
+          '__icon',
           jIconStyle.core,
           color && jIconStyle[color],
           hasFill && jIconStyle.fill,
