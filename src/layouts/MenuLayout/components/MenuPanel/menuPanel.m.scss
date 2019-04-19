@@ -6,14 +6,16 @@
   @include font;
   @include flex-column;
 
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 304px;
   min-height: 100vh;
   background-color: $main-blue;
   background-image: linear-gradient(71.21deg, $main-blue 0.35%, #00309b 100%);
+  transition: width 0.15s ease-in-out;
 }
 
-.core,
 .top,
 .wrapper,
 .actions,
