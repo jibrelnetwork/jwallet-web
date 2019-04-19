@@ -39,12 +39,6 @@ type Props = ContainerProps
 }
 
 function AssetItem(props: Props) {
-  // const { asset } = props
-
-  // if (!asset) {
-  //   throw new Error(`Asset ${asset} with address ${props.address} is not found!`)
-  // }
-
   const { symbol } = props
 
   const balance = `${formatAssetBalance(
@@ -105,7 +99,7 @@ function mapStateToProps(state: AppState, props: ContainerProps) {
   const asset = selectDigitalAssetsItems(state)[props.address]
 
   if (!asset) {
-    return { ...props }
+    throw new Error(`Asset with address ${props.address} is not found!`)
   }
 
   const balance = selectBalanceByAssetAddressToCurrentBlock(state, props.address)
