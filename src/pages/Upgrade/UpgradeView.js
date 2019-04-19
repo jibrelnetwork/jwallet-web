@@ -34,7 +34,7 @@ const noop = () => undefined
 // FIXME: if we move password errors to validation function, we could get rid of this ugly hack
 // This is factory render function, so:
 // eslint-disable-next-line react/display-name
-const renderPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
+const renderNewPasswordField = (isInvalidPassword: boolean) => (fieldProps) => {
   if (isInvalidPassword) {
     return (
       <JInputField
@@ -135,7 +135,7 @@ function UpgradeView({
                 type='password'
                 color='gray'
                 isDisabled={isLoading}
-                render={renderPasswordField(isInvalidPassword)}
+                render={renderNewPasswordField(isInvalidPassword)}
               />
               <JRaisedButton
                 type='submit'

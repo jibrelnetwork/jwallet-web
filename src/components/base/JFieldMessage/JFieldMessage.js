@@ -5,22 +5,24 @@ import classNames from 'classnames'
 
 import jFieldMessageStyle from './jFieldMessage.m.scss'
 
-type Theme = 'info' | 'error'
-type Props = StyleComponent<Theme> & {
-  message: string,
+export type JFieldMessageTheme = 'info' | 'error'
+
+type Props = StyleComponent<JFieldMessageTheme> & {
+  +message: ?string,
 }
 
 function JFieldMessage({
-  theme = 'error',
-  message = '',
+  theme,
+  message,
   className,
 }: Props) {
   return (
-    <span className={classNames(
-      className,
-      jFieldMessageStyle.core,
-      jFieldMessageStyle[theme],
-    )}
+    <span
+      className={classNames(
+        className,
+        jFieldMessageStyle.core,
+        jFieldMessageStyle[theme],
+      )}
     >
       {message}
     </span>
@@ -29,6 +31,4 @@ function JFieldMessage({
 
 const MemoizedJFieldMessage = React.memo/* :: <Props> */(JFieldMessage)
 
-export {
-  MemoizedJFieldMessage as JFieldMessage,
-}
+export { MemoizedJFieldMessage as JFieldMessage }

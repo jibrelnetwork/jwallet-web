@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import React from 'react'
 import classNames from 'classnames'
@@ -9,19 +9,21 @@ import { JFieldMessage } from 'components/base'
 
 import jInputFieldStyle from './jInputField.m.scss'
 
+export type JInputTheme = 'white' | 'white-icon' | 'white-indicator'
 export type JInputType = 'text' | 'password'
-export type JInputTheme = 'white'
 
-type Props = StyleComponent<JInputTheme> & {
-  disabled: boolean,
-  infoMessage: string,
-  id: ?string,
-  input: FinalFormInput,
-  label: string,
-  meta: FinalFormMeta,
-  placeholder: string,
-  type: JInputType,
-  validateType: FinalFormValidateType,
+export type JInputFieldProps = StyleComponent<JInputTheme> & {
+  +meta: FinalFormMeta,
+  +input: FinalFormInput,
+  +id: ?string,
+  +label: string,
+  +type: JInputType,
+  +placeholder: string,
+  +infoMessage: ?string,
+  +errorMessage: ?string,
+  +validateType: FinalFormValidateType,
+  +isDisabled: boolean,
+  +isAutoFocus: boolean,
 }
 
 type InputRef = {
@@ -30,64 +32,63 @@ type InputRef = {
 
 const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
 
-function JInputField({
-  disabled,
-  infoMessage,
-  id,
-  input,
-  label,
+export function JInputField({
   meta,
-  placeholder,
+  input,
+  id,
   type,
-  validateType,
+  label,
   theme,
   className,
+  placeholder,
+  infoMessage,
+  errorMessage,
+  validateType,
+  isDisabled,
+  isAutoFocus,
   ...rest
-}: Props) {
+}: JInputFieldProps) {
   const textInput: InputRef = React.createRef()
+  const errorMsg: ?string = errorMessage || getErrorMessage(meta, validateType)
 
-  const errorMessage = getErrorMessage(meta, validateType)
-  const hasLabel = !!label
-  const hasPlaceholder = !!placeholder
-  const hasError = !!errorMessage
-  const hasInfo = !!infoMessage
-  const hasValue = !!input.value
-  const isActive = meta.active || hasValue || (hasLabel && hasPlaceholder)
-  const inputId = id || `${camelCase(input.name || label || placeholder || 'noname')}Id`
-
-  const hasMessage = (hasError || hasInfo)
-  const messageTheme = hasError
-    ? 'error'
-    : 'info'
+  const hasLabel: boolean = !!label
+  const hasError: boolean = !!errorMsg
+  const hasInfo: boolean = !!infoMessage
+  const hasValue: boolean = !!input.value
+  const hasPlaceholder: boolean = !!placeholder
+  const hasMessage: boolean = (hasError || hasInfo)
+  const isActive: boolean = meta.active || hasValue || (hasLabel && hasPlaceholder)
+  const inputId: string = id || `${camelCase(input.name || label || placeholder || 'noname')}Id`
 
   return (
     <div
+      onClick={handleFocus(textInput)}
       className={classNames(
+        '__j-input-field',
         jInputFieldStyle.core,
-        '__jinputfield',
         jInputFieldStyle[theme],
         className,
       )}
-      onClick={handleFocus(textInput)}
     >
       <div className={classNames(
         jInputFieldStyle.wrap,
         hasMessage && jInputFieldStyle.message,
         hasError && jInputFieldStyle.error,
-        disabled && jInputFieldStyle.disabled,
+        isDisabled && jInputFieldStyle.disabled,
         hasValue && jInputFieldStyle.value,
         isActive && jInputFieldStyle.active,
       )}
       >
         <input
           ref={textInput}
-          id={inputId}
           type={type}
-          className={jInputFieldStyle.input}
+          id={inputId}
           placeholder={placeholder}
-          disabled={disabled}
-          {...rest}
+          className={jInputFieldStyle.input}
+          disabled={isDisabled}
+          autoFocus={isAutoFocus}
           {...input}
+          {...rest}
         />
         {hasLabel && (
           <label className={jInputFieldStyle.label} htmlFor={inputId}>
@@ -97,8 +98,8 @@ function JInputField({
       </div>
       {hasMessage && (
         <JFieldMessage
-          theme={messageTheme}
-          message={errorMessage || infoMessage}
+          message={errorMsg || infoMessage}
+          theme={hasError ? 'error' : 'info'}
           className={jInputFieldStyle.fieldMessage}
         />
       )}
@@ -107,16 +108,16 @@ function JInputField({
 }
 
 JInputField.defaultProps = {
-  type: 'text',
-  theme: 'white',
-  validateType: 'touched',
-  id: undefined,
-  infoMessage: '',
-  label: '',
-  placeholder: '',
   meta: {},
   input: {},
-  disabled: false,
+  id: null,
+  label: '',
+  type: 'text',
+  theme: 'white',
+  placeholder: '',
+  infoMessage: null,
+  errorMessage: null,
+  validateType: 'touched',
+  isDisabled: false,
+  isAutoFocus: false,
 }
-
-export { JInputField }

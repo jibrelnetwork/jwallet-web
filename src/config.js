@@ -160,31 +160,9 @@ const config: AppConfig = {
 
   mnemonicWalletType: 'mnemonic',
 
-  encryptedDataLength: 120,
-
-  defaultSaltBytesCount: 32,
-
-  defaultScryptParams: {
-    /**
-     * 2 ** 18 - complexity like geth
-     * 2 ** 14 - recommended Scrypt complexity
-     */
-    N: __DEV__ ? 2 ** 14 : 2 ** 18,
-    r: 8,
-    p: 1,
-  },
-
-  defaultEncryptionType: 'nacl.secretbox',
-
-  defaultDerivationKeyLength: 32,
-
-  defaultRandomBufferLength: 32,
-
   fiatCoursesSyncTimeout: 10 * ONE_MINUTE,
 
   sessionIDKey: 'jwallet.activeTab',
-
-  minPasswordStrengthScore: 3,
 
   messageCopyTimeout: 2000,
 }
