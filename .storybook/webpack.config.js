@@ -5,6 +5,8 @@ const SpriteLoaderPlugin = require('svg-sprite-loader/plugin')
 const srcPath = path.resolve(__dirname, '..', 'src')
 
 module.exports = async ({ config: baseConfig }, env) => {
+  baseConfig.output.globalObject = 'this'
+
   const newRules = [{
     oneOf: [
       // SCSS modules loader
@@ -109,6 +111,15 @@ module.exports = async ({ config: baseConfig }, env) => {
           },
         ].filter(Boolean),
       },
+
+      // Worker loader
+      {
+        test: /worker\.js$/,
+        use: [
+          require.resolve('worker-loader'),
+          require.resolve('babel-loader'),
+        ],
+      },
     ]
   },
   {
@@ -123,7 +134,7 @@ module.exports = async ({ config: baseConfig }, env) => {
         options: {
           extract: true,
           spriteFilename: '[hash:8].sprite.svg',
-          publicPath: '/static/media/',
+          publicPath: './static/media/',
         },
       },
       {
@@ -178,6 +189,7 @@ module.exports = async ({ config: baseConfig }, env) => {
         path.resolve(srcPath, 'public/assets/tokens'),
       ]
     }
+
     return loader
   })
 

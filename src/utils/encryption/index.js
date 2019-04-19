@@ -1,23 +1,14 @@
-// @flow
+// @flow strict
 
-import getNonce from './getNonce'
-import decryptData from './decryptData'
-import encryptData from './encryptData'
-import generateSalt from './generateSalt'
-import decryptInternalKey from './decryptInternalKey'
-import encryptInternalKey from './encryptInternalKey'
-import getPasswordOptions from './getPasswordOptions'
-import checkPasswordStrength from './checkPasswordStrength'
-import deriveKeyFromPassword from './deriveKeyFromPassword'
+export { getNonce } from './getNonce'
+export { decryptData } from './decryptData'
+export { encryptData } from './encryptData'
+export { generateSalt } from './generateSalt'
+export { decryptInternalKey } from './decryptInternalKey'
+export { encryptInternalKey } from './encryptInternalKey'
+export { checkPasswordStrength } from './checkPasswordStrength'
 
 export {
-  getNonce,
-  decryptData,
-  encryptData,
-  generateSalt,
-  decryptInternalKey,
-  encryptInternalKey,
-  getPasswordOptions,
-  checkPasswordStrength,
   deriveKeyFromPassword,
-}
+  DERIVED_KEY_LENGTH,
+} from './deriveKeyFromPassword'

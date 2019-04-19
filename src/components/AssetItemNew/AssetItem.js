@@ -12,8 +12,8 @@ import {
 } from 'components/base'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
-import { selectTickerItems } from 'store/selectors/ticker'
 import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
+import { getFiatBalance } from 'store/utils/getFiatBalances'
 import {
   divDecimals,
   formatBalance,
@@ -63,7 +63,7 @@ function AssetItem(props: Props) {
       <div
         className={classNames(assetItemStyle.item, assetItemStyle.assetIcon)}
       >
-        <JAssetSymbol symbol={symbol} color='blue' />
+        <JAssetSymbol symbol={symbol} color='blue' isCustom={props.isCustom} />
       </div>
       <div
         className={classNames(assetItemStyle.item, assetItemStyle.mainBlock)}
@@ -109,29 +109,17 @@ function mapStateToProps(state: AppState, props: ContainerProps) {
   }
 
   const balance = selectBalanceByAssetAddressToCurrentBlock(state, props.address)
-  const fiatCourses = selectTickerItems(state)
-  const currentFiatCurrency = selectSettingsFiatCurrencyData(state)
-
-  const fiatBalance =
-    asset.priceFeed == null || asset.priceFeed.currencyID == null
-      ? 0
-      : fiatCourses[String(asset.priceFeed.currencyID)] == null
-        ? 0
-        : fiatCourses[String(asset.priceFeed.currencyID)].latest == null
-          ? 0
-          : balance == null
-            ? 0
-            : (
-              Number(
-                fiatCourses[String(asset.priceFeed.currencyID)].latest[currentFiatCurrency.code],
-              ) * Number(balance.value)
-            )
+  const { symbol: fiatSymbol } = selectSettingsFiatCurrencyData(state)
+  const fiatBalance = getFiatBalance(state, {
+    ...asset,
+    balance,
+  })
 
   return {
     ...asset,
     balance: balance ? balance.value : 0,
     isLoadingBalance: checkBalanceLoading(balance),
-    fiatSymbol: currentFiatCurrency.symbol,
+    fiatSymbol,
     fiatBalance,
   }
 }

@@ -13,7 +13,6 @@ type DecodedEncryptedData = {|
 type DecryptPayload = {|
   +key: Uint8Array,
   +data: EncryptedData,
-  +encryptionType: string,
 |}
 
 function decodeEncryptedData(data: EncryptedData): DecodedEncryptedData {
@@ -34,18 +33,11 @@ function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
   return util.encodeUTF8(decryptedData).trim()
 }
 
-function decryptData(payload: DecryptPayload): string {
+export function decryptData(payload: DecryptPayload): string {
   const {
     key,
     data,
-    encryptionType,
   }: DecryptPayload = payload
-
-  if (encryptionType !== 'nacl.secretbox') {
-    throw new Error(t`DecryptionTypeError ${encryptionType}`)
-  }
 
   return decryptNaclSecretbox(data, key)
 }
-
-export default decryptData

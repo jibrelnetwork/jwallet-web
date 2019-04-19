@@ -37,15 +37,9 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
-export {
-  AssetItem as AssetItemNew,
-  PureAssetItem,
-} from './AssetItemNew/AssetItem'
-
-export {
-  PasswordField,
-  PasswordFieldFinalFormAdapter,
-} from './PasswordField'
+export { AssetItem as AssetItemNew } from './AssetItemNew/AssetItem'
+export { PasswordInput } from './PasswordInput/PasswordInput'
+export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 
 export {
   QRCode,

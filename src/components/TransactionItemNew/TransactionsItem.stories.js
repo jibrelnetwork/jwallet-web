@@ -9,6 +9,8 @@ import { action } from '@storybook/addon-actions'
 import {
   withKnobs,
   number,
+  select,
+  text,
 } from '@storybook/addon-knobs'
 
 import { ethereum } from 'data/assets'
@@ -85,8 +87,45 @@ class TransactionsList extends PureComponent<ListProps, ListState> {
   }
 }
 
+const defaultTransaction = getTransaction()
+const STATUSES = {
+  success: 'success',
+  fail: 'fail',
+  pending: 'pending',
+  stuck: 'stuck',
+}
+const TYPES = {
+  receive: 'in',
+  send: 'out',
+}
+
 storiesOf('TransactionItemNew', module)
   .addDecorator(withKnobs)
+  .add('Single', () => {
+    const router = createRouter5([], {
+      allowNotFound: true,
+    })
+    router.usePlugin(browserPlugin())
+
+    return (
+      <RouterProvider router={router}>
+        <div className='story'>
+          <TransactionItem
+            txAddress={defaultTransaction.id}
+            offset='mb16'
+            transaction={{
+              ...defaultTransaction,
+              type: select('In/Out', TYPES, 'in'),
+              status: select('Status', STATUSES, 'success'),
+              title: text('Title', defaultTransaction.title),
+              note: text('Note', ''),
+              amount: `${number('Amount', 0) || 0}00000000000000`,
+            }}
+          />
+        </div>
+      </RouterProvider>
+    )
+  })
   .add('In list', () => {
     const router = createRouter5([], {
       allowNotFound: true,

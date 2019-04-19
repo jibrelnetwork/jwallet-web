@@ -12,9 +12,7 @@ import {
 function reEncryptWallet(
   wallet: Wallet,
   internalKey: Uint8Array,
-  encryptionType: string,
   internalKeyNew: Uint8Array,
-  encryptionTypeNew: string,
 ): Wallet {
   const {
     type,
@@ -28,13 +26,11 @@ function reEncryptWallet(
 
   if (checkMnemonicType(type) && encrypted.mnemonic && encrypted.passphrase) {
     const mnemonic: string = decryptData({
-      encryptionType,
       key: internalKey,
       data: encrypted.mnemonic,
     })
 
     const passphrase: string = decryptData({
-      encryptionType,
       key: internalKey,
       // $FlowFixMe
       data: encrypted.passphrase,
@@ -47,18 +43,15 @@ function reEncryptWallet(
         mnemonic: encryptData({
           data: mnemonic,
           key: internalKeyNew,
-          encryptionType: encryptionTypeNew,
         }),
         passphrase: encryptData({
           data: passphrase,
           key: internalKeyNew,
-          encryptionType: encryptionTypeNew,
         }),
       },
     }
   } else if (!checkMnemonicType(type) && encrypted.privateKey) {
     const privateKey: string = decryptData({
-      encryptionType,
       key: internalKey,
       data: encrypted.privateKey,
     })
@@ -70,7 +63,6 @@ function reEncryptWallet(
         privateKey: encryptData({
           data: privateKey,
           key: internalKeyNew,
-          encryptionType: encryptionTypeNew,
         }),
       },
     }
