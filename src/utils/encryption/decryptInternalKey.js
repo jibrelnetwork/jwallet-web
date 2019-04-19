@@ -1,28 +1,15 @@
-// @flow
+// @flow strict
 
-import config from 'config'
+import { decryptData } from '.'
 
-import {
-  getNonce,
-  decryptData,
-} from '.'
-
-function decryptInternalKey(
-  internalKey: ?EncryptedData,
+export function decryptInternalKey(
+  internalKey: EncryptedData,
   derivedKey: Uint8Array,
-  encryptionType: string,
 ): Uint8Array {
-  if (!internalKey) {
-    return getNonce(config.defaultDerivationKeyLength)
-  }
-
   const key: string = decryptData({
-    encryptionType,
     key: derivedKey,
     data: internalKey,
   })
 
   return new Uint8Array(key.split(',').map(i => parseInt(i, 10)))
 }
-
-export default decryptInternalKey

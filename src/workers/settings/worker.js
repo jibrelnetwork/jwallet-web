@@ -9,7 +9,6 @@ import reEncryptWallet from 'utils/wallets/reEncryptWallet'
 import {
   decryptInternalKey,
   encryptInternalKey,
-  getPasswordOptions,
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
@@ -62,7 +61,7 @@ settingsWorker.onmessage = (msg: SettingsWorkerMessage): void => {
 
     const internalKeyDec: Uint8Array = decryptInternalKey(internalKey, dk, encryptionType)
     const internalKeyNew: Uint8Array = nacl.randomBytes(config.defaultSaltBytesCount)
-    const passwordOptionsNew = getPasswordOptions(passwordForm.passwordHint)
+    const passwordOptionsNew = {}
 
     const dkNew: Uint8Array = deriveKeyFromPassword(
       passwordForm.passwordNew,

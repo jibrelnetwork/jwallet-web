@@ -1,28 +1,30 @@
-// @flow
+// @flow strict
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { constants } from 'router5'
+import { connect } from 'react-redux'
 
 import {
-  CoreLayout,
+  MenuLayout,
   WalletsLayout,
 } from 'layouts'
 
-import { MenuLayout } from 'layouts/MenuLayout'
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
 import { selectWalletsItems } from 'store/selectors/wallets'
+import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'pages'
 
 import 'styles/core.scss'
 import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
-type Props = {
-  route: Object,
-  isAllAgreementsChecked: boolean,
-  hasNoWallets: boolean,
-}
+type Props = {|
+  +route: Object,
+  +hasWallets: boolean,
+  +hasPassword: boolean,
+  +isAllAgreementsChecked: boolean,
+  +isAllFeaturesIntroduced: boolean,
+|}
 
 type ComponentState = {|
   +hasError: boolean,
@@ -30,19 +32,30 @@ type ComponentState = {|
 |}
 
 // FIXME: discuss with the team and update accordingly
-const renderWithWalletsLayout = (C, props = {}) => (
-  <CoreLayout>
+function renderWithWalletsLayout(
+  Page,
+  props = {},
+) {
+  return (
     <WalletsLayout>
-      <C {...props} />
+      <Page {...props} />
     </WalletsLayout>
-  </CoreLayout>
-)
-
-function getPage(name: string): ?ComponentType {
-  return pages[name] || null
+  )
 }
 
-export class AppRouter extends Component<Props, ComponentState> {
+function renderWithMenuLayout(
+  Page,
+  props = {},
+  routeName: string,
+) {
+  return (
+    <MenuLayout routeName={routeName}>
+      <Page {...props} />
+    </MenuLayout>
+  )
+}
+
+class AppRouter extends Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -94,49 +107,60 @@ export class AppRouter extends Component<Props, ComponentState> {
 
     const {
       route,
+      hasWallets,
+      hasPassword,
       isAllAgreementsChecked,
-      hasNoWallets,
+      isAllFeaturesIntroduced,
     } = this.props
 
-    if (!route || route.name === constants.UNKNOWN_ROUTE) {
+    const {
+      name,
+      params,
+    } = route
+
+    if (!route || (name === constants.UNKNOWN_ROUTE)) {
       return renderWithWalletsLayout(pages.NotFound)
+    }
+
+    if (!isAllFeaturesIntroduced) {
+      return <pages.NotFound />
     }
 
     if (!isAllAgreementsChecked) {
-      return renderWithWalletsLayout(pages.Agreements)
+      return <pages.AgreementsView />
     }
 
-    if (hasNoWallets) {
-      return null
+    if (!hasPassword) {
+      return <pages.SetPasswordView />
     }
 
-    const {
-      name, params,
-    } = route
-
-    const Page = getPage(name)
-
-    if (!Page) {
-      return renderWithWalletsLayout(pages.NotFound)
+    if (!hasWallets) {
+      return <pages.WalletsStartView />
     }
 
-    return (
-      <MenuLayout routeName={name}>
-        <Page {...params} />
-      </MenuLayout>
-    )
+    return renderWithMenuLayout(pages[name], params, name)
   }
 }
 
-export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
-  (state) => {
-    const isAllAgreementsChecked = checkAgreements(CONDITIONS_LIST)
-    const hasNoWallets = selectWalletsItems(state).length === 0
+function mapStateToProps(state) {
+  const { route } = state.router
+  const wallets: Wallet[] = selectWalletsItems(state)
+  const hasWallets: boolean = !!wallets.length
+  const hasPassword: boolean = selectIsPasswordExists(state)
+  const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
+  const isAllFeaturesIntroduced: boolean = true /* checkFeatures(FEATURES_LIST) */
 
-    return {
-      route: state.router.route,
-      isAllAgreementsChecked,
-      hasNoWallets,
-    }
-  },
+  return {
+    route,
+    hasWallets,
+    hasPassword,
+    isAllAgreementsChecked,
+    isAllFeaturesIntroduced,
+  }
+}
+
+const AppRouterContainer = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+  mapStateToProps,
 )(AppRouter)
+
+export { AppRouterContainer as AppRouter }

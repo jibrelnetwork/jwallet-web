@@ -1,12 +1,12 @@
-// @flow
+// @flow strict
 
-import decryptData from 'utils/encryption/decryptData'
-import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
+import { decryptData } from 'utils/encryption'
 import { WalletInconsistentDataError } from 'errors'
+import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
 
 import checkMnemonicType from './checkMnemonicType'
 
-function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: string): string {
+function getPrivateKey(wallet: Wallet, internalKey: Uint8Array): string {
   const {
     encrypted,
     type,
@@ -37,7 +37,6 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
     }
 
     const mnemonic: string = decryptData({
-      encryptionType,
       key: internalKey,
       data: encrypted.mnemonic,
     })
@@ -46,13 +45,11 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
       mnemonic,
       addressIndex || 0,
       decryptData({
-        encryptionType,
         key: internalKey,
         // $FlowFixMe
         data: encrypted.passphrase,
       }),
       derivationPath,
-      network,
     )
   } else {
     if (!encrypted.privateKey) {
@@ -63,7 +60,6 @@ function getPrivateKey(wallet: Wallet, internalKey: Uint8Array, encryptionType: 
     }
 
     return decryptData({
-      encryptionType,
       key: internalKey,
       data: encrypted.privateKey,
     })

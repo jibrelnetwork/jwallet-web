@@ -1,6 +1,6 @@
-// @flow
+// @flow strict
 
-import decryptData from 'utils/encryption/decryptData'
+import { decryptData } from 'utils/encryption'
 import { WalletInconsistentDataError } from 'errors'
 
 import {
@@ -12,7 +12,6 @@ function getMnemonic(
   wallets: Wallets,
   walletId: string,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): string {
   const {
     encrypted,
@@ -29,7 +28,6 @@ function getMnemonic(
   }
 
   return decryptData({
-    encryptionType,
     key: internalKey,
     data: encrypted.mnemonic,
   })
