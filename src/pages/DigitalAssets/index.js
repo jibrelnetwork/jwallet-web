@@ -2,7 +2,6 @@
 
 import MenuLayout from 'layouts/MenuLayout'
 
-import Grid from './routes/Grid'
 import AddAsset from './routes/AddAsset'
 import EditAsset from './routes/EditAsset'
 import Manage from './routes/Manage'
@@ -16,7 +15,6 @@ export default {
     onEnter: (nextState: AppState, replace: (string) => void) => replace('/'),
   },
   childRoutes: [
-    Grid,
     Manage,
     AddAsset,
     EditAsset,

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { constants } from 'router5'
 
@@ -16,6 +16,7 @@ import { selectWalletsItems } from 'store/selectors/wallets'
 import * as pages from 'pages'
 
 import 'styles/core.scss'
+import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 type Props = {
   route: Object,
@@ -23,11 +24,16 @@ type Props = {
   hasNoWallets: boolean,
 }
 
+type ComponentState = {|
+  +hasError: boolean,
+  +prevRouteName: ?string,
+|}
+
 // FIXME: discuss with the team and update accordingly
-const renderWithWalletsLayout = (Component, props = {}) => (
+const renderWithWalletsLayout = (C, props = {}) => (
   <CoreLayout>
     <WalletsLayout>
-      <Component {...props} />
+      <C {...props} />
     </WalletsLayout>
   </CoreLayout>
 )
@@ -36,39 +42,90 @@ function getPage(name: string): ?ComponentType {
   return pages[name] || null
 }
 
-export const AppRouter = ({
-  route,
-  isAllAgreementsChecked,
-  hasNoWallets,
-}: Props) => {
-  if (!route || route.name === constants.UNKNOWN_ROUTE) {
-    return renderWithWalletsLayout(pages.NotFound)
+export class AppRouter extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      hasError: false,
+      // is used in state from props derivation logic
+      // eslint-disable-next-line react/no-unused-state
+      prevRouteName: null,
+    }
   }
 
-  if (!isAllAgreementsChecked) {
-    return renderWithWalletsLayout(pages.Agreements)
+  static getDerivedStateFromProps({ route }: Props, state: ComponentState) {
+    const nextRouteName = (!route && !route.name) ?
+      constants.UNKNOWN_ROUTE :
+      route.name
+
+    if (!state.prevRouteName) {
+      return {
+        prevRouteName: nextRouteName,
+      }
+    }
+
+    if (state.prevRouteName !== route.name) {
+      return {
+        prevRouteName: route.name,
+        hasError: false,
+      }
+    }
+
+    return {}
   }
 
-  if (hasNoWallets) {
-    return null
+  static getDerivedStateFromError(error: Error) {
+    // FIXME: add error reporting to remote
+    /* eslint-disable no-console */
+    console.error('Unhandled error')
+    console.error(error)
+    /* eslint-enable no-console */
+
+    return {
+      hasError: true,
+    }
   }
 
-  const {
-    name,
-    params,
-  } = route
+  render() {
+    if (this.state.hasError) {
+      return (<ErrorUnexpected />)
+    }
 
-  const Component = getPage(name)
+    const {
+      route,
+      isAllAgreementsChecked,
+      hasNoWallets,
+    } = this.props
 
-  if (!Component) {
-    return renderWithWalletsLayout(pages.NotFound)
+    if (!route || route.name === constants.UNKNOWN_ROUTE) {
+      return renderWithWalletsLayout(pages.NotFound)
+    }
+
+    if (!isAllAgreementsChecked) {
+      return renderWithWalletsLayout(pages.Agreements)
+    }
+
+    if (hasNoWallets) {
+      return null
+    }
+
+    const {
+      name, params,
+    } = route
+
+    const Page = getPage(name)
+
+    if (!Page) {
+      return renderWithWalletsLayout(pages.NotFound)
+    }
+
+    return (
+      <MenuLayout routeName={name}>
+        <Page {...params} />
+      </MenuLayout>
+    )
   }
-
-  return (
-    <MenuLayout routeName={name}>
-      <Component {...params} />
-    </MenuLayout>
-  )
 }
 
 export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
