@@ -46,6 +46,8 @@ export {
   PasswordField,
   PasswordFieldFinalFormAdapter,
 } from './PasswordField'
+export { PasswordInput } from './PasswordInput/PasswordInput'
+export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 
 export {
   QRCode,

@@ -1,4 +1,3 @@
-@import "styles/colors";
 @import "styles/mixins";
 
 $password-field-indicator-height: 6px;
@@ -8,19 +7,11 @@ $password-field-indicator-height: 6px;
   @include flex-row-center;
 
   position: absolute;
-  right: $form-field-white-horizontal-padding;
+  top: $form-field-gray-height / 2 - $password-field-indicator-height / 2;
+  right: 64px;
   width: 60px;
   border-radius: 4px;
-}
-
-.field-gray {
-  top: $form-field-gray-height / 2 - $password-field-indicator-height / 2;
   background-color: $main-black-10;
-}
-
-.field-white {
-  top: $form-field-white-height / 2 - $password-field-indicator-height / 2;
-  background-color: $white-20;
 }
 
 /**

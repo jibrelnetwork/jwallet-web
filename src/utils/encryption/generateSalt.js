@@ -2,8 +2,8 @@
 
 import { crypto } from 'bitcore-lib'
 
-function generateSalt(byteCount: number): string {
-  return crypto.Random.getRandomBuffer(byteCount).toString('base64')
-}
+const DEFAULT_SALT_BYTES_COUNT: number = 32
 
-export default generateSalt
+export function generateSalt(bytesCount: number = DEFAULT_SALT_BYTES_COUNT): string {
+  return crypto.Random.getRandomBuffer(bytesCount).toString('base64')
+}

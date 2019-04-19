@@ -1,14 +1,14 @@
-// @flow
+// @flow strict
 
-function getErrorMessage(
+export function getErrorMessage(
   meta: FinalFormMeta,
   validateType: ?FinalFormValidateType,
 ): ?string {
-  const error = meta.error || meta.submitError
-
-  const isDirty = (validateType === 'dirtySinceLastSubmit' && !meta[validateType])
-  const isTouched = (validateType === 'touched' && meta[validateType])
-  const isVisited = (validateType === 'visited' && meta[validateType])
+  const error: ?string = meta.error || meta.submitError
+  const hasValidateType: boolean = !!validateType && !!meta[validateType]
+  const isTouched: boolean  = (validateType === 'touched' && hasValidateType)
+  const isVisited: boolean  = (validateType === 'visited' && hasValidateType)
+  const isDirty: boolean  = (validateType === 'dirtySinceLastSubmit' && hasValidateType)
 
   if (isDirty) {
     return error
@@ -16,7 +16,5 @@ function getErrorMessage(
     return error
   }
 
-  return undefined
+  return null
 }
-
-export { getErrorMessage }

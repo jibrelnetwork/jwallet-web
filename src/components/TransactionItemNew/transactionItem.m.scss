@@ -42,6 +42,10 @@
   color: $main-black;
 }
 
+.text {
+  margin-bottom: 2px;
+}
+
 .subtext {
   @include font(14px, 22px);
 
@@ -55,21 +59,28 @@
 }
 
 .main-block {
+  overflow: hidden;
   flex-direction: column;
   align-items: flex-start;
-  flex-grow: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  flex: 1;
+
+  > .text,
+  > .subtext {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.amount-block {
+  margin-left: 16px;
 }
 
 .asset-icon {
   flex-basis: 72px;
   width: 72px;
-
-  // FIXME: Dirty hack
-  > :global(.j-asset-symbol) {
-    height: 24px;
-  }
+  padding: 22px;
 }
 
 // stylelint-disable

@@ -1,10 +1,10 @@
-// @flow
+// @flow strict
 
 import uuidv4 from 'uuid/v4'
 import { t } from 'ttag'
 
 import config from 'config'
-import encryptData from 'utils/encryption/encryptData'
+import { encryptData } from 'utils/encryption'
 import { WalletInconsistentDataError } from 'errors'
 
 import {
@@ -46,7 +46,6 @@ function createMnemonicWallet(
   wallets: Wallets,
   walletData: WalletData,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): Wallets {
   const {
     id,
@@ -69,7 +68,7 @@ function createMnemonicWallet(
   }
 
   const mnemonic: string = data.toLowerCase()
-  const xpub: string = getXPubFromMnemonic(mnemonic, passphrase, derivationPath, network)
+  const xpub: string = getXPubFromMnemonic(mnemonic, passphrase, derivationPath)
 
   checkWalletUniqueness(wallets, xpub, 'bip32XPublicKey')
 
@@ -89,12 +88,10 @@ function createMnemonicWallet(
     encrypted: {
       privateKey: null,
       mnemonic: encryptData({
-        encryptionType,
         data: mnemonic,
         key: internalKey,
       }),
       passphrase: encryptData({
-        encryptionType,
         data: passphrase,
         key: internalKey,
       }),
@@ -147,7 +144,6 @@ function createAddressWallet(
   wallets: Wallets,
   walletData: WalletData,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): Wallets {
   const {
     id,
@@ -176,7 +172,6 @@ function createAddressWallet(
       mnemonic: null,
       passphrase: null,
       privateKey: encryptData({
-        encryptionType,
         key: internalKey,
         data: strip0x(privateKey),
       }),
@@ -232,7 +227,6 @@ function createWallet(
   wallets: Wallets,
   walletNewData: WalletNewData,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): Wallets {
   const {
     data,
@@ -259,11 +253,11 @@ function createWallet(
   }
 
   if (checkMnemonicValid(data)) {
-    return createMnemonicWallet(wallets, walletData, internalKey, encryptionType)
+    return createMnemonicWallet(wallets, walletData, internalKey)
   } else if (checkBip32XPublicKeyValid(data)) {
     return createReadOnlyMnemonicWallet(wallets, walletData)
   } else if (checkPrivateKeyValid(data)) {
-    return createAddressWallet(wallets, walletData, internalKey, encryptionType)
+    return createAddressWallet(wallets, walletData, internalKey)
   } else if (checkAddressValid(data)) {
     return createReadOnlyAddressWallet(wallets, walletData)
   } else {

@@ -10,7 +10,7 @@
   transition: stroke 0.3s ease 0s;
 }
 
-.no-icon {
+.empty {
   width: 24px;
   height: 24px;
   background-color: $tomato;
@@ -48,6 +48,6 @@
 }
 
 .black {
-  stroke: $black;
-  fill: $black;
+  stroke: $main-black;
+  fill: $main-black;
 }

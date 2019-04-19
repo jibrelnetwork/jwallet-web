@@ -17,7 +17,6 @@ body,
 
   height: 100%;
   width: 100%;
-  min-width: $window-min-width;
   margin: 0;
   padding: 0;
   overflow: auto;
@@ -95,12 +94,9 @@ h4 {
 @import '../components/OverlayNotification/overlayNotification';
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
-// Views
+// Pages
 @import '../pages/Wallets/walletsView';
 @import '../pages/Settings/settingsView';
 @import '../pages/NotFound/notFound';
 @import '../pages/DigitalAssets/digitalAssets';
 @import '../pages/Transactions/transactionsView';
-
-// Layouts
-@import '../layouts/WalletsLayout/walletsLayout';

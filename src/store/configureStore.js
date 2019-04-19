@@ -3,6 +3,7 @@
 import createSagaMiddleware from 'redux-saga'
 
 import { persistStore } from 'redux-persist'
+
 import {
   reduxPlugin,
   router5Middleware,
@@ -12,7 +13,10 @@ import {
   compose,
   createStore,
   applyMiddleware,
+  type Store,
 } from 'redux'
+
+import { type AppAction } from 'store/modules'
 
 import sagas from './sagas'
 import workers from '../workers'
@@ -21,7 +25,7 @@ import { makeRootReducer } from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
 
-function configureStore({
+export function configureStore({
   initialState = {},
   router,
 }: {
@@ -60,10 +64,12 @@ function configureStore({
   // Store Instantiation and HMR Setup
   // ======================================================
   const rootReducer = makeRootReducer()
+
   const enhancer = composeEnhancers(
     applyMiddleware(...middleware),
   )
-  const store = createStore(rootReducer, initialState, enhancer)
+
+  const store: Store<AppState, AppAction> = createStore(rootReducer, initialState, enhancer)
   const persistor = persistStore(store)
   router.usePlugin(reduxPlugin(store.dispatch))
 
@@ -82,5 +88,3 @@ function configureStore({
     persistor,
   }
 }
-
-export default configureStore

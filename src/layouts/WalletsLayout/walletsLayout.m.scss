@@ -1,6 +1,6 @@
-.wallets-layout {
-  all: initial;
+@import 'styles/mixins';
 
+.core {
   @include flex-column;
 
   height: 100vh;
