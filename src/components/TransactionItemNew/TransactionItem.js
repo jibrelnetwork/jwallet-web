@@ -157,7 +157,11 @@ class TransactionItem extends PureComponent<Props, *> {
             && <div className={transactionItemStyle.subtext}>{transaction.fiatAmount}</div>}
         </div>
         <div className={classNames(transactionItemStyle.item, transactionItemStyle.assetIcon)}>
-          <JAssetSymbol symbol={transaction.asset.symbol} color='gray' />
+          <JAssetSymbol
+            symbol={transaction.asset.symbol}
+            color='gray'
+            isCustom={transaction.asset.isCustom}
+          />
         </div>
       </JLink>
     )

@@ -46,15 +46,9 @@ class AssetCard extends PureComponent<Props, *> {
       <div
         className='asset-card'
       >
-        {!isCustom ? (
-          <div className='symbol -icon'>
-            <JAssetSymbol symbol={symbol} color='gray' />
-          </div>
-        ) : (
-          <div className='symbol -text'>
-            <JText value={symbol} color='blue' weight='bold' size='header' whiteSpace='wrap' />
-          </div>
-        )}
+        <div className='symbol -icon'>
+          <JAssetSymbol symbol={symbol} color='gray' isCustom={isCustom} />
+        </div>
         <div className='name'>
           <JText value={name} color='dark' weight='bold' size='header' whiteSpace='wrap' />
         </div>

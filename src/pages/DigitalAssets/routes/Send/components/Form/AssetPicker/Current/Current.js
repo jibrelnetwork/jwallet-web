@@ -90,23 +90,9 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
             />
           )}
         </div>
-        <Fragment>
-          {!isCustom ? (
-            <div className='symbol -icon'>
-              <JAssetSymbol symbol={symbol} color='gray' />
-            </div>
-          ) : (
-            <div className='symbol -text'>
-              <JText
-                value={symbol}
-                color='blue'
-                weight='bold'
-                size='normal'
-                whiteSpace='wrap'
-              />
-            </div>
-          )}
-        </Fragment>
+        <div className='symbol'>
+          <JAssetSymbol symbol={symbol} color='gray' isCustom={isCustom} />
+        </div>
       </Fragment>
     )
   }
