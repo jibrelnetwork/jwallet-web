@@ -1,6 +1,6 @@
 @import 'styles/mixins';
 
-.container {
+.core {
   @include flex-column-center;
 
   position: relative;
@@ -41,6 +41,6 @@
   padding-top: 25px;
 }
 
-.button-height {
+.button {
   height: 64px;
 }

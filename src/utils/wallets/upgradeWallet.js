@@ -2,7 +2,7 @@
 
 import config from 'config'
 import strip0x from 'utils/address/strip0x'
-import encryptData from 'utils/encryption/encryptData'
+import { encryptData } from 'utils/encryption'
 
 import { WalletInconsistentDataError } from 'errors'
 
@@ -28,7 +28,6 @@ function addMnemonic(
   mnemonic: string,
   mnemonicOptions: MnemonicOptions,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): Wallets {
   const {
     id,
@@ -51,12 +50,10 @@ function addMnemonic(
     derivationPath,
     encrypted: {
       mnemonic: encryptData({
-        encryptionType,
         data: mnemonic,
         key: internalKey,
       }),
       passphrase: encryptData({
-        encryptionType,
         key: internalKey,
         data: passphrase.trim().toLowerCase(),
       }),
@@ -72,7 +69,6 @@ function addPrivateKey(
   wallet: Wallet,
   privateKey: string,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): Wallets {
   const {
     id,
@@ -87,7 +83,6 @@ function addPrivateKey(
   return updateWallet(wallets, id, {
     encrypted: {
       privateKey: encryptData({
-        encryptionType,
         key: internalKey,
         data: strip0x(privateKey),
       }),
@@ -105,7 +100,6 @@ function upgradeWallet({
   data,
   walletId,
   internalKey,
-  encryptionType,
 }: UpgradeWalletData): Wallets {
   const wallet: Wallet = getWallet(items, walletId)
 
@@ -120,10 +114,10 @@ function upgradeWallet({
       throw new WalletInconsistentDataError({ walletId }, 'Invalid mnemonic options')
     }
 
-    return addMnemonic(items, wallet, preparedData, mnemonicOptions, internalKey, encryptionType)
+    return addMnemonic(items, wallet, preparedData, mnemonicOptions, internalKey)
   }
 
-  return addPrivateKey(items, wallet, preparedData, internalKey, encryptionType)
+  return addPrivateKey(items, wallet, preparedData, internalKey)
 }
 
 export default upgradeWallet

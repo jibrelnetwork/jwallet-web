@@ -44,5 +44,6 @@ module.exports = {
   },
   globals: {
     __DEV__: true,
+    __DEFAULT_BLOCKEXPLORER_API__: '',
   },
 }

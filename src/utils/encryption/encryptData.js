@@ -4,15 +4,14 @@ import nacl from 'tweetnacl'
 import util from 'tweetnacl-util'
 import { t } from 'ttag'
 
-import config from 'config'
-
-import getNonce from './getNonce'
+import { getNonce } from '.'
 
 type EncryptPayload = {|
   +data: string,
   +key: Uint8Array,
-  +encryptionType: string,
 |}
+
+const ENCRYPTED_DATA_LENGTH: number = 120
 
 function leftPadString(stringToPad: string, padChar: string, totalLength: number) {
   const padLength: number = totalLength - stringToPad.length
@@ -40,20 +39,13 @@ function encryptNaclSecretbox(data: string, key: Uint8Array): EncryptedData {
   return encodeEncryptedData(encryptedData, nonce)
 }
 
-function encryptData(payload: EncryptPayload): EncryptedData {
+export function encryptData(payload: EncryptPayload): EncryptedData {
   const {
     key,
     data,
-    encryptionType,
   }: EncryptPayload = payload
 
-  if (encryptionType !== 'nacl.secretbox') {
-    throw new Error(t`EncryptionTypeError ${encryptionType}`)
-  }
-
-  const dataPad: string = leftPadString(data, ' ', config.encryptedDataLength)
+  const dataPad: string = leftPadString(data, ' ', ENCRYPTED_DATA_LENGTH)
 
   return encryptNaclSecretbox(dataPad, key)
 }
-
-export default encryptData
