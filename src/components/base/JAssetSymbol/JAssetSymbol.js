@@ -21,25 +21,35 @@ function JAssetSymbol({
   symbol, color, isCustom,
 }: Props) {
   const url = iconsAsset[`${symbol.toLowerCase()}-usage`]
+  const hasIcon = !isCustom && url
 
   return (
     <div
       className={classNames(`j-asset-symbol ${getSymbolClassName(symbol, isCustom)} -${color}`)}
-      data-symbol={symbol[0]}
     >
-      {!isCustom && url
-        ? (
-          <svg className='icon' >
-            <use xlinkHref={url} />
-          </svg>
-        )
-        : null}
+      <svg className='icon' viewBox='0 0 36 36'>
+        {hasIcon
+          ? <use className='image' xlinkHref={url} />
+          : (
+            <text
+              x='18'
+              y='18'
+              textAnchor='middle'
+              dominantBaseline='central'
+              className='text'
+            >
+              {symbol.length > 4 ? symbol.substr(0, 3) : symbol }
+            </text>
+          )
+        }
+      </svg>
     </div>
   )
 }
 
 JAssetSymbol.defaultProps = {
   isCustom: false,
+  color: 'blue',
 }
 
-export default JAssetSymbol
+export default React.memo/* :: <Props> */(JAssetSymbol)

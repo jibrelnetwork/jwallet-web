@@ -49,17 +49,11 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
         <div className='info'>
           <div className='symbol'>
             <div className='wrap'>
-              {!isCustom ? (
-                <JAssetSymbol symbol={symbol} color={isSelected ? 'blue' : 'gray'} />
-              ) : (
-                <JText
-                  value={symbol}
-                  color={isSelected ? 'blue' : 'gray'}
-                  weight='bold'
-                  size='normal'
-                  whiteSpace='wrap'
-                />
-              )}
+              <JAssetSymbol
+                symbol={symbol}
+                color={isSelected ? 'blue' : 'gray'}
+                isCustom={isCustom}
+              />
             </div>
           </div>
           <div className='text'>

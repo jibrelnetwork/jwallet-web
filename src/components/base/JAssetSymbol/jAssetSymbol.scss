@@ -1,65 +1,39 @@
 .j-asset-symbol {
-  all: initial;
+  overflow: hidden;
+  width: 100%;
+  padding: 18%;
 
-  @include hover-animation;
+  &.-symbol-not-listed {
+    padding: 0;
+  }
 
-  display: flex;
-  width: $token-icon-size;
-  height: $token-icon-size;
-  background-size: $token-icon-size $token-icon-size;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 50%;
-  cursor: inherit;
-  position: relative;
-  font-size: inherit;
+  > .icon {
+    width: 100%;
+    pointer-events: none;
+    user-select: none;
 
-  &.-symbol-not-listed::before {
-    @include font(14px, 38px);
-
-    position: absolute;
-    box-sizing: border-box;
-    content: attr(data-symbol);
-    overflow: hidden;
-    width: 40px;
-    height: 40px;
-    border: 1px solid $main-black-10;
-    border-radius: 50%;
-    font-style: normal;
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: $main-blue;
+    .text {
+      font-family: $font;
+      font-size: 9px;
+      font-style: normal;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
   }
 
   &.-blue {
-    &.-symbol-not-listed {
-      color: $blue;
-    }
-
     > .icon {
-      fill: $blue;
+      fill: $main-blue;
     }
   }
 
   &.-gray {
-    &.-symbol-not-listed {
-      color: $blue;
-    }
-
     > .icon {
-      fill: $dusk;
-      opacity: 0.3;
+      fill: $main-black-20;
     }
   }
 
   &.-white {
-    &.-symbol-not-listed {
-      color: $dusk;
-    }
-
     > .icon {
       fill: $white;
     }
