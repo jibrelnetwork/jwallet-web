@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
+
+import walletsLayoutStyle from './walletsLayout.m.scss'
 
 type Props = {|
   +openLayout: () => void,
@@ -9,7 +10,7 @@ type Props = {|
   +children: React$Node,
 |}
 
-class WalletsLayout extends Component<Props> {
+export class WalletsLayout extends Component<Props> {
   componentDidMount() {
     this.props.openLayout()
   }
@@ -20,13 +21,9 @@ class WalletsLayout extends Component<Props> {
 
   render() {
     return (
-      <div className='wallets-layout'>
-        <Scrollbars autoHide>
-          {this.props.children}
-        </Scrollbars>
+      <div className={walletsLayoutStyle.core}>
+        {this.props.children}
       </div>
     )
   }
 }
-
-export default WalletsLayout

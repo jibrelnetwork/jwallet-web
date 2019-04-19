@@ -11,14 +11,13 @@ function getBackupData(
   wallets: Wallets,
   walletId: string,
   internalKey: Uint8Array,
-  encryptionType: string,
 ): string {
   const wallet: Wallet = getWallet(wallets, walletId)
 
   if (checkMnemonicType(wallet.type)) {
-    return getMnemonic(wallets, walletId, internalKey, encryptionType)
+    return getMnemonic(wallets, walletId, internalKey)
   } else {
-    return getPrivateKey(wallet, internalKey, encryptionType)
+    return getPrivateKey(wallet, internalKey)
   }
 }
 

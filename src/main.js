@@ -3,8 +3,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import configureStore from 'store/configureStore'
 import { router } from 'store/router'
+import { configureStore } from 'store/configureStore'
 
 import {
   DIMENSIONS,
@@ -12,10 +12,8 @@ import {
 } from 'utils/analytics'
 
 import './data/lang'
-
-import AppContainer from './AppContainer'
-
 import browsercheck from './browsercheck'
+import { AppContainer } from './AppContainer'
 
 // ========================================================
 // Store and History Instantiation
