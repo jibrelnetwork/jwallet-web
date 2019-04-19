@@ -1,5 +1,3 @@
-// createPage.js
-
 const Page = require('./page.page')
 
 class CreatePage extends Page {
@@ -8,7 +6,7 @@ class CreatePage extends Page {
   }
 
   get walletNameInput() {
-     return $('input[name="Wallet name"]')
+    return $('input[name="Wallet name"]')
   }
 
   get nextStepButton() {
@@ -28,8 +26,10 @@ class CreatePage extends Page {
     return $('input[name=password-hint]')
   }
 
-  get createWalletButton(){
-    return $('#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button')
+  get createWalletButton() {
+    return $(
+      '#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button'
+    )
   }
 
   get walletViewTitle() {
@@ -41,12 +41,14 @@ class CreatePage extends Page {
     // return $('div[class=wallet-view-title::before]')
   }
 
-  get backupPhraseContainer(){
+  get backupPhraseContainer() {
     return $('div[class=copyable-field]')
   }
 
-  get savedBackupButton(){
-    return $('#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button')
+  get savedBackupButton() {
+    return $(
+      '#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button'
+    )
   }
 }
 

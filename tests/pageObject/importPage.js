@@ -1,5 +1,3 @@
-// importPage.js
-
 const Page = require('./page.page')
 
 class ImportPage extends Page {
@@ -29,12 +27,16 @@ class ImportPage extends Page {
     return $('input[name=password-hint]')
   }
 
-  get createWalletButton(){
-    return $('#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button')
+  get createWalletButton() {
+    return $(
+      '#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button'
+    )
   }
 
-  get savedBackupButton(){
-    return $('#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button')
+  get savedBackupButton() {
+    return $(
+      '#root > div > div > div > div:nth-child(1) > div > div.content > div > form > div.actions > button'
+    )
   }
 }
 

@@ -1,5 +1,3 @@
-// startPage.js
-
 const Page = require('./page.page')
 
 class StartPage extends Page {
@@ -8,12 +6,15 @@ class StartPage extends Page {
   }
 
   get createNewWalletButton() {
-    return $('#root > div > div > div > div:nth-child(1) > div > div.content > div.buttons > div > div.create')
+    return $(
+      '#root > div > div > div > div:nth-child(1) > div > div.content > div.buttons > div > div.create'
+    )
   }
 
-
   get importWalletButton() {
-    return $('#root > div > div > div > div:nth-child(1) > div > div.content > div.buttons > div > div.import')
+    return $(
+      '#root > div > div > div > div:nth-child(1) > div > div.content > div.buttons > div > div.import'
+    )
   }
 }
 

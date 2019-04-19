@@ -4,11 +4,11 @@ const startPage = require('../pageObject/startPage.page')
 describe('Create or Import first wallet', () => {
   beforeAll(() => {
     loginTermsPage.open()
-    loginTermsPage.checkboxes.forEach((checkbox) => {
-        checkbox.$('label').click()
-    loginTermsPage.confirmAndContinueButton.click();
-      })
+    loginTermsPage.checkboxes.forEach(checkbox => {
+      checkbox.$('label').click()
+      loginTermsPage.confirmAndContinueButton.click()
     })
+  })
 
   //URL check
   it('URL is correct', () => {
@@ -22,14 +22,20 @@ describe('Create or Import first wallet', () => {
 
   //find Element "Create wallet" and check the text
   it('The text on the page matches with the layout', () => {
-    expect(startPage.createNewWalletButton.getText()).toContain('Create new wallet')
-    expect(startPage.createNewWalletButton.getText()).toContain('Create your own wallet to manage your digital assets')
-   })
+    expect(startPage.createNewWalletButton.getText()).toContain(
+      'Create new wallet'
+    )
+    expect(startPage.createNewWalletButton.getText()).toContain(
+      'Create your own wallet to manage your digital assets'
+    )
+  })
 
   //find Element "Import wallet" and check the text
   it('The text on the page matches with the layout', () => {
     expect(startPage.importWalletButton.getText()).toContain('Import Wallet')
-    expect(startPage.importWalletButton.getText()).toContain('Import an existing wallet to manage your digital assets')
+    expect(startPage.importWalletButton.getText()).toContain(
+      'Import an existing wallet to manage your digital assets'
+    )
     browser.pause(1000)
   })
 })
