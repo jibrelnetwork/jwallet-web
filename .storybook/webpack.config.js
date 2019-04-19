@@ -134,7 +134,7 @@ module.exports = async ({ config: baseConfig }, env) => {
         options: {
           extract: true,
           spriteFilename: '[hash:8].sprite.svg',
-          publicPath: '/static/media/',
+          publicPath: './static/media/',
         },
       },
       {
