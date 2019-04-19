@@ -112,7 +112,7 @@ describe('Initial app loading', () => {
   })
 
   //3. Check  any 3 checkboxes and try to proceed -> 'Continue' is disabled
-  it('Check  any 2 checkboxes', () => {
+  it('Check  any 3 checkboxes', () => {
     // Check 1, 2, 3 checkboxes -> 'Continue' is disabled
     loginTermsPage.checkboxes[0].click()
     loginTermsPage.checkboxes[1].click()
