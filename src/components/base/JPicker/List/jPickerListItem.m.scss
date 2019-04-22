@@ -6,17 +6,19 @@
   height: 72px;
   cursor: pointer;
   padding: 8px;
-  background-origin: content-box;
 
   &.focused {
-    background-color: $main-black-5;
+    background: $main-black-5;
+    background-clip: content-box;
   }
 
   &.selected {
-    background-color: $main-blue-5;
+    background: $main-blue-5;
+    background-clip: content-box;
   }
 
   &.selected.focused {
-    background-color: $main-blue-10;
+    background: $main-blue-10;
+    background-clip: content-box;
   }
 }
