@@ -1,0 +1,75 @@
+@import "styles/mixins";
+@import "styles/colors";
+
+// stylelint-disable rscss/class-format
+
+.core {
+  position: relative;
+}
+
+.select {
+  position: relative;
+  height: 72px;
+  box-shadow: 0 3px 6px 0 rgba($main-black, 0.05);
+  background-color: $white;
+  border-radius: 4px;
+  transition:
+    border-radius 0.3s ease 0s,
+    box-shadow 0.3s ease 0s;
+
+  &:hover {
+    box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
+  }
+
+  .current {
+    .chevron {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 24px 24px 24px 0;
+    }
+  }
+
+  > .options {
+    z-index: 3;
+    position: absolute;
+    width: 100%;
+    box-sizing: content-box;
+    top: 73px;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0;
+    background-color: $white;
+    box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
+    max-height: 0;
+    margin-bottom: 30px;
+    border-radius: 0 0 4px 4px;
+    transition:
+      max-height 0.3s ease 0s,
+      opacity 0.3s ease 0s;
+  }
+}
+
+.overlay {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.active {
+  > .select {
+    border-radius: $form-border-radius $form-border-radius 0 0;
+    z-index: 2;
+
+    > .options {
+      visibility: visible;
+      opacity: 1;
+      max-height: none;
+    }
+  }
+}
