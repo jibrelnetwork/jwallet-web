@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run smoke tests on local browser" type="NodeJSConfigurationType" application-parameters="wdio.conf.js --suite smoke" path-to-js-file="node_modules/.bin/wdio" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="Run all tests on local browser" type="NodeJSConfigurationType" application-parameters="wdio.conf.js" path-to-js-file="node_modules/.bin/wdio" working-dir="$PROJECT_DIR$">
     <envs>
       <env name="NODE_ENV" value="development" />
     </envs>
