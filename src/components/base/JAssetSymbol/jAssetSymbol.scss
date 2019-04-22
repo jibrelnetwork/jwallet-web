@@ -1,58 +1,39 @@
 .j-asset-symbol {
-  all: initial;
+  overflow: hidden;
+  width: 100%;
+  padding: 18%;
 
-  @include hover-animation;
+  &.-symbol-not-listed {
+    padding: 0;
+  }
 
-  display: flex;
-  width: $token-icon-size;
-  height: $token-icon-size;
-  background-size: $token-icon-size $token-icon-size;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 50%;
-  cursor: inherit;
-  position: relative;
-  font-size: inherit;
+  > .icon {
+    width: 100%;
+    pointer-events: none;
+    user-select: none;
 
-  &.-symbol-not-listed::before {
-    @include font;
-
-    display: block;
-    content: attr(data-symbol);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: 600;
-    font-size: inherit;
+    .text {
+      font-family: $font;
+      font-size: 9px;
+      font-style: normal;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
   }
 
   &.-blue {
-    &.-symbol-not-listed {
-      color: $blue;
-    }
-
     > .icon {
-      fill: $blue;
+      fill: $main-blue;
     }
   }
 
   &.-gray {
-    &.-symbol-not-listed {
-      color: $blue;
-    }
-
     > .icon {
-      fill: $dusk;
-      opacity: 0.3;
+      fill: $main-black-20;
     }
   }
 
   &.-white {
-    &.-symbol-not-listed {
-      color: $dusk;
-    }
-
     > .icon {
       fill: $white;
     }
