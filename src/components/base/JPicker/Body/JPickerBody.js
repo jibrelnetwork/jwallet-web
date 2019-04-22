@@ -49,7 +49,12 @@ function JPickerBody({
         >
           {currentEl}
           <div className={jPickerBodyStyle.chevron}>
-            <JIcon name={isOpen ? 'chevron-up' : 'chevron-down'} color='blue' />
+            <JIcon
+              name={isOpen
+                ? 'chevron-up-use-fill'
+                : 'chevron-down-use-fill'}
+              color='blue'
+            />
           </div>
         </div>
         <div onClick={onClose} className={jPickerBodyStyle.options}>
