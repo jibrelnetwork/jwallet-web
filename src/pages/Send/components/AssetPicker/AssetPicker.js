@@ -12,13 +12,14 @@ import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddre
 //   formatBalance,
 // } from 'utils/numbers'
 import {
-  DefaultItem,
   JPickerBody,
   JPickerList,
   JPickerCurrent,
 } from 'components/base/JPicker'
 
 import { JAssetSymbol } from 'components/base'
+
+import { AssetItem } from './Item/AssetItem'
 
 function searchDigitalAssets(
   digitalAssets: DigitalAssetWithBalance[],
@@ -67,8 +68,8 @@ class AssetPicker extends Component<Props, ComponentSatte> {
     searchQuery: '',
   }
 
-  handleSearchQueryChange = (searchQuery: string) => {
-    this.setState({ searchQuery })
+  handleSearchQueryChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ searchQuery: e.target.value })
   }
 
   handleOpen = () => {
@@ -99,6 +100,14 @@ class AssetPicker extends Component<Props, ComponentSatte> {
       ? activeAsset.blockchainParams.address
       : ''
 
+    const activeAssetSymbol = activeAsset
+      ? activeAsset.symbol
+      : ''
+
+    const activeAssetName = activeAsset
+      ? activeAsset.name
+      : ''
+
     const filteredDigitalAssets: DigitalAssetWithBalance[] = searchDigitalAssets(
       digitalAssets,
       searchQuery,
@@ -113,9 +122,10 @@ class AssetPicker extends Component<Props, ComponentSatte> {
           <JPickerCurrent
             isEditable={isOpen}
             label={t`Digital asset`}
-            value={activeAssetAddress}
+            value={activeAssetName}
             inputValue={searchQuery}
             onInputChange={this.handleSearchQueryChange}
+            iconRenderer={() => <JAssetSymbol color='blue' symbol={activeAssetSymbol} />}
           />
         )}
       >
@@ -139,12 +149,13 @@ class AssetPicker extends Component<Props, ComponentSatte> {
             //   ? `${formatBalance(divDecimals(balance.value, decimals), 6)} ${symbol}`
             //   : ''
 
+            console.log(item)
+
             return (
-              <DefaultItem
+              <AssetItem
                 key={address}
-                title={name}
-                description={symbol}
-                iconRenderer={() => <JAssetSymbol symbol={symbol} color='blue' />}
+                name={name}
+                symbol={symbol}
               />
             )
           })}

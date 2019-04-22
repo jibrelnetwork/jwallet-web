@@ -10,7 +10,6 @@ import {
 import defaultItemStyles from './defaultItem.m.scss'
 
 type Props = {
-  // +key: string
   +title: string,
   +description: string,
   +iconName: string,
