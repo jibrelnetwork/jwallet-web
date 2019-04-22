@@ -29,10 +29,6 @@ exports.config = {
   },
   sync: true,
 
-  beforeSession() {
-    require('@babel/register')
-  },
-
   afterTest(test) {
     if (!test.passed && test.error) {
       console.log(test.error.message)
