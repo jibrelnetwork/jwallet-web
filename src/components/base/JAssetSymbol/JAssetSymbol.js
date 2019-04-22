@@ -29,7 +29,13 @@ function JAssetSymbol({
     >
       <svg className='icon' viewBox='0 0 36 36'>
         {hasIcon
-          ? <use className='image' xlinkHref={url} />
+          ? (
+            <use
+              className='image'
+              xlinkHref={url}
+              key={symbol}
+            />
+          )
           : (
             <text
               x='18'
