@@ -15,6 +15,7 @@ import {
   JPickerBody,
   JPickerList,
   JPickerCurrent,
+  NotFoundItem,
 } from 'components/base/JPicker'
 
 import { JAssetSymbol } from 'components/base'
@@ -129,37 +130,44 @@ class AssetPicker extends Component<Props, ComponentSatte> {
           />
         )}
       >
-        <JPickerList
-          // eslint-disable-next-line react/jsx-handler-names
-          onItemClick={input.onChange}
-          activeItemKey={activeAssetAddress}
-        >
-          {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => {
-            const {
-              name,
-              symbol,
-              // balance,
-              blockchainParams: {
-                address,
-                // decimals,
-              },
-            } = item
+        {!filteredDigitalAssets.length
+          ? (
+            <NotFoundItem />
+          )
+          : (
+            <JPickerList
+            // eslint-disable-next-line react/jsx-handler-names
+              onItemClick={input.onChange}
+              activeItemKey={activeAssetAddress}
+            >
+              {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => {
+                const {
+                  name,
+                  symbol,
+                  // balance,
+                  blockchainParams: {
+                    address,
+                  // decimals,
+                  },
+                } = item
 
-            // const balanceStr: string = (balance && balance.value)
-            //   ? `${formatBalance(divDecimals(balance.value, decimals), 6)} ${symbol}`
-            //   : ''
+                // const balanceStr: string = (balance && balance.value)
+                //   ? `${formatBalance(divDecimals(balance.value, decimals), 6)} ${symbol}`
+                //   : ''
 
-            console.log(item)
+                console.log(item)
 
-            return (
-              <AssetItem
-                key={address}
-                name={name}
-                symbol={symbol}
-              />
-            )
-          })}
-        </JPickerList>
+                return (
+                  <AssetItem
+                    key={address}
+                    name={name}
+                    symbol={symbol}
+                  />
+                )
+              })}
+            </JPickerList>
+          )
+        }
       </JPickerBody>
     )
   }
