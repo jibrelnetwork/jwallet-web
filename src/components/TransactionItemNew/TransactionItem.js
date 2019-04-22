@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import {
   memoize,
   noop,
+  get,
 } from 'lodash-es'
 
 import {
@@ -160,7 +161,8 @@ class TransactionItem extends PureComponent<Props, *> {
           <JAssetSymbol
             symbol={transaction.asset.symbol}
             color='gray'
-            isCustom={transaction.asset.isCustom}
+            address={get(transaction, 'asset.blockchainParams.address')}
+            size={32}
           />
         </div>
       </JLink>

@@ -1,6 +1,5 @@
 // @flow
 
-import JAssetSymbol from './JAssetSymbol'
 import JCard from './JCard'
 import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
@@ -16,6 +15,7 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
+export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
 export { JIcon } from './JIcon/JIcon'
 export { JLogo } from './JLogo/JLogo'
 export { JLink } from './JLink/JLink'
@@ -26,7 +26,6 @@ export { JTextAreaField } from './JTextArea/JTextAreaField'
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 
 export {
-  JAssetSymbol,
   JCard,
   JCheckbox,
   JFlatButton,
