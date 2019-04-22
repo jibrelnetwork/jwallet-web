@@ -1,6 +1,7 @@
 @import 'styles/colors';
 @import 'styles/mixins';
 @import 'styles/zindex';
+@import 'styles/responsive';
 
 .core {
   @include font;
@@ -10,60 +11,86 @@
   top: 0;
   left: 0;
   width: 304px;
-  min-height: 100vh;
+  padding: 16px 0 0;
+  height: 100vh;
   background-color: $main-blue;
   background-image: linear-gradient(71.21deg, $main-blue 0.35%, #00309b 100%);
-  transition: width 0.15s ease-in-out;
+  transition: left 0.15s ease-in-out;
+
+  @include vertical-tablet {
+    @include flex-row;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: auto;
+    height: 80px;
+    transition: top 0.15s ease-in-out;
+  }
 }
 
-.top,
-.wrapper,
 .actions,
 .action,
-.action svg,
-.back {
+.action svg {
   @include hover-animation;
 }
 
-.top {
-  @include flex-column;
+.network {
+  @include flex-row;
 
-  padding-top: 56px;
+  margin: 0 0 8px;
+  background: $white-10;
+  padding: 10px 16px;
+}
+
+.network-icon {
+  flex-shrink: 0;
+  margin: 2px 16px 2px 0;
+  opacity: 0.6;
+}
+
+.network-description {
+  font-size: 12px;
+  line-height: 20px;
+  color: $white-60;
 }
 
 .logo {
-  margin: 0 48px 0 40px;
+  margin: 32px auto 14px 32px;
 }
 
-.ticker {
-  @include flex-column;
-
-  height: 112px;
-  justify-content: center;
-}
-
-.wrapper {
-  @include flex-column;
-
+.wallet {
   position: relative;
-  margin: 0 32px 0 24px;
-  padding: 13px 8px 10px 16px;
+  padding: 10px 48px 10px 16px;
   border-radius: 4px;
-  cursor: pointer;
+  justify-content: center;
+  margin: 0 32px 30px 24px;
 
   &:hover {
     background: $main-black-20;
   }
 }
 
-.name {
+.wallet-name {
+  @include ellipsis;
+
+  line-height: 22px;
+  font-size: 14px;
+  color: $white;
+}
+
+.address-name {
+  @include ellipsis;
+
   line-height: 22px;
   font-size: 14px;
   color: $white-60;
 }
 
 .balance {
-  line-height: normal;
+  @include ellipsis;
+
+  line-height: 28px;
   font-size: 20px;
   color: $white;
 }
@@ -71,18 +98,34 @@
 .chevron {
   @include flex-row-center;
 
+  display: block;
   position: absolute;
   top: 50%;
   right: 8px;
   margin-top: -12px;
 }
 
-.actions {
+.actions-wrapper {
   @include flex-column;
 
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
+  margin: 0 48px 0 40px;
+  border-top: 1px solid $white-20;
+}
+
+.primary {
+  flex: 1 0;
+  padding: 32px 0 24px;
+  margin-bottom: auto;
+}
+
+.secondary {
   position: relative;
-  padding: 40px 0;
-  margin: 0 48px auto 40px;
+  flex: 0 0;
+  padding: 15px 0 12px;
+  margin-bottom: 0;
 
   &::before {
     position: absolute;
@@ -94,15 +137,6 @@
     background: $white-20;
     content: '';
   }
-
-  &.settings {
-    padding: 16px 0;
-    margin-bottom: 0;
-  }
-
-  li:not(:first-child) {
-    margin-top: 8px;
-  }
 }
 
 .action {
@@ -111,15 +145,22 @@
   align-items: center;
   padding: 8px;
   border-radius: 4px;
-  cursor: pointer;
+  margin-bottom: 8px;
 
   svg {
     opacity: 0.4;
   }
 
-  &:hover,
-  &.active {
+  &:hover {
     background: $main-black-20;
+
+    svg {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    background: $white-10;
 
     svg {
       opacity: 1;
@@ -128,6 +169,8 @@
 }
 
 .label {
+  @include ellipsis;
+
   margin-left: 16px;
   line-height: 22px;
   font-size: 14px;
@@ -135,28 +178,46 @@
 }
 
 .back {
-  position: fixed;
+  @include flex-column-center;
+  @include property-transition(background-color, opacity);
+
+  width: 36px;
+  height: 36px;
+  position: absolute;
   z-index: $z-index-menu-back;
-  top: 54px;
-  left: 48px;
+  top: 48px;
+  left: 304px + 18px;
   opacity: 0;
   visibility: hidden;
-  cursor: pointer;
   transition-delay: 0.15s;
+  border-radius: 50%;
+  background-color: transparent;
+
+  &:hover {
+    background-color: $main-blue-10;
+  }
+
+  @include vertical-tablet {
+    left: 42px;
+    top: 106px;
+  }
 }
 
 .minimized {
-  width: 24px;
+  left: -280px;
   background-image: none;
   background-color: $main-blue;
 
-  .top,
-  .actions {
-    width: 0;
-    margin: 0;
-    padding: 0;
+  @include vertical-tablet {
+    left: 0;
+    top: -56px;
+  }
+
+  .network,
+  .logo,
+  .wallet,
+  .actions-wrapper {
     opacity: 0;
-    overflow: hidden;
   }
 
   .back {
