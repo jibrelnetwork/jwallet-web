@@ -32,8 +32,9 @@ export { NotFound } from './NotFound/NotFound'
 
 // not available to user directly
 
-export { default as Agreements } from './Agreements/AgreementsViewContainer'
-export { default as WalletsStart } from './Wallets/routes/Start/WalletsStartViewContainer'
+export { SetPasswordView } from './SetPassword'
+export { WalletsStartView } from './Wallets/routes'
+export { AgreementsView } from './Agreements/AgreementsView'
 export { default as WalletsAddresses }
   from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
 export { default as WalletsRenameAddress }

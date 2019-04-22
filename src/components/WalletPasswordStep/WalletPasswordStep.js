@@ -11,7 +11,7 @@ import { JInput } from 'components/base'
 
 import {
   WalletStep,
-  PasswordField,
+  NewPasswordField,
 } from 'components'
 
 type Props = {|
@@ -75,7 +75,7 @@ class WalletPasswordStep extends PureComponent<Props> {
           />
         ) : (
           <Fragment>
-            <PasswordField
+            <NewPasswordField
               onChange={onChangePassword}
               onChangeConfirm={onChangePasswordConfirm}
               invalidFields={invalidFields}

@@ -8,6 +8,9 @@ import { OverlayNotification } from 'components'
 
 import menuLayoutStyle from './menuLayout.m.scss'
 import { MenuPanel } from './components'
+import {
+  getMenuMeta,
+} from './components/MenuPanel/menuMeta'
 
 type Props = {|
   +openLayout: Function,
@@ -43,8 +46,17 @@ export class MenuLayout extends Component<Props> {
       isConnectionError,
     }: Props = this.props
 
+    const { isMinimized } = getMenuMeta(routeName)
+
     return (
-      <div className={classNames('__menu-layout', menuLayoutStyle.core)}>
+      <div
+        className={classNames(
+          '__menu-layout',
+          `__page-${routeName.toLowerCase()}`,
+          menuLayoutStyle.core,
+          isMinimized && menuLayoutStyle.minimized,
+        )}
+      >
         <MenuPanel
           routeName={routeName}
           walletName={walletName}

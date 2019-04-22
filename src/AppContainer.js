@@ -4,7 +4,6 @@ import React from 'react'
 import { RouterProvider } from 'react-router5'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-
 import { type Persistor } from 'redux-persist/lib/types'
 
 import {
@@ -12,24 +11,23 @@ import {
   type Dispatch,
 } from 'redux'
 
-import { type AppAction } from 'store/modules'
-
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
+import { type AppAction } from 'store/modules'
 
-import AppRouterContainer from './AppRouter'
+import { AppRouter } from './AppRouter'
 
-type Props = {
-  store: Store<AppState, AppAction, Dispatch<AppAction>>,
-  router: Object,
-  persistor: Persistor,
-}
+type Props = {|
+  +router: Object,
+  +persistor: Persistor,
+  +store: Store<AppState, AppAction, Dispatch<AppAction>>,
+|}
 
-type State = {
-  isPrimaryInstance: boolean,
-}
+type ComponentState = {|
+  +isPrimaryInstance: boolean,
+|}
 
-class AppContainer extends React.Component<Props, State> {
+export class AppContainer extends React.Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -47,9 +45,7 @@ class AppContainer extends React.Component<Props, State> {
     startSessionWatcher(
       persistor,
       store.dispatch,
-      (isPrimaryInstance) => {
-        this.setState({ isPrimaryInstance })
-      },
+      isPrimaryInstance => this.setState({ isPrimaryInstance }),
     )
   }
 
@@ -62,18 +58,14 @@ class AppContainer extends React.Component<Props, State> {
 
     return (
       <Provider store={store}>
-        {this.state.isPrimaryInstance ? (
+        {!this.state.isPrimaryInstance ? <SingularTabBlockScreen /> : (
           <PersistGate persistor={persistor}>
             <RouterProvider router={router}>
-              <AppRouterContainer />
+              <AppRouter />
             </RouterProvider>
           </PersistGate>
-        ) :
-          <SingularTabBlockScreen />
-        }
+        )}
       </Provider>
     )
   }
 }
-
-export default AppContainer

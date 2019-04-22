@@ -12,12 +12,6 @@
   justify-content: space-between;
   height: $transaction-item-height;
 
-  &.-in-single-asset-list {
-    > .box > .symbol {
-      display: none;
-    }
-  }
-
   > .box {
     @include flex-row;
 
@@ -46,6 +40,10 @@
       width: 80px;
       align-items: center;
       justify-content: center;
+    }
+
+    > .icon {
+      opacity: 0.3;
     }
 
     > .data {
@@ -101,10 +99,6 @@
         left: 0;
       }
 
-      > .icon {
-        opacity: 0.3;
-      }
-
       > .text {
         position: relative;
         width: 100%;
@@ -140,8 +134,15 @@
       @include flex-row;
 
       width: 70px;
+      padding: 7px;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  &.-in-single-asset-list {
+    > .box > .symbol {
+      display: none;
     }
   }
 }

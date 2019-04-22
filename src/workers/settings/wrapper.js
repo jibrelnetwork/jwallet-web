@@ -1,6 +1,8 @@
 // @flow
 
-import { type SettingsAction } from 'store/modules/settings'
+import { type Store } from 'redux'
+
+import { type AppAction } from 'store/modules'
 
 // eslint-disable-next-line import/default
 import SettingsWorker from './worker.js'
@@ -15,7 +17,7 @@ export function changePassword(state: AppState, passwordForm: PaymentPasswordFor
   })
 }
 
-export function run(store: { dispatch: (SettingsAction) => void }) {
+export function run(store: Store<AppState, AppAction>) {
   settingsWorker.onmessage = function settingsWorkerOnMessage(msg) {
     store.dispatch(msg.data)
   }
