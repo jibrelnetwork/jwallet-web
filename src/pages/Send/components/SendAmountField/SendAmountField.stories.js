@@ -37,7 +37,7 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   )
 }
 
-storiesOf('SendAmountField', module)
+storiesOf('send|SendAmountField', module)
   .addDecorator(withKnobs)
   .add('Default', () => (
     <div className='story'>
@@ -48,6 +48,20 @@ storiesOf('SendAmountField', module)
         fiatAmount: text('Fiat amount', '100'),
         maxValue: text('Max value', '239.22'),
         isFetchingFiatAmount: boolean('Fetching fiat amount', false),
+      })}
+    </div>
+  ))
+  .add('With info and error', () => (
+    <div className='story'>
+      {formStoryWrapper(SendAmountField, {
+        blockchainFee: text('Blockchain fee', '1500000000000000'),
+        currency: text('Currency', 'JNT'),
+        fiatCurrency: text('Fiat currency', 'USD'),
+        fiatAmount: text('Fiat amount', '100'),
+        maxValue: text('Max value', '239.22'),
+        isFetchingFiatAmount: boolean('Fetching fiat amount', false),
+        infoMessage: text('Info message', 'Shut up and send your money!'),
+        validate: () => 'No money',
       })}
     </div>
   ))
