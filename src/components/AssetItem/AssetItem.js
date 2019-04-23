@@ -88,21 +88,14 @@ class AssetItem extends PureComponent<Props, StateProps> {
       <JCard color='white' isBorderRadius isHover>
         <div className={classNames('asset-item', isToggled && '-active')}>
           <div className='info'>
-            {!isCustom ? (
-              <div className='symbol -icon'>
-                <JAssetSymbol symbol={symbol} color='gray' />
-              </div>
-            ) : (
-              <div className='symbol -text'>
-                <JText
-                  value={symbol}
-                  color='blue'
-                  weight='bold'
-                  size='semilarge'
-                  whiteSpace='wrap'
-                />
-              </div>
-            )}
+            <div className='symbol'>
+              <JAssetSymbol
+                address={address}
+                symbol={symbol}
+                color='gray'
+                size={32}
+              />
+            </div>
             <div className='data'>
               <div className='name'>
                 <JText value={name} color='dark' weight='bold' size='semilarge' whiteSpace='wrap' />

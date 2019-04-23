@@ -20,7 +20,7 @@ function JLinkInternal(props: JLinkInternalProps) {
     href,
   } = props
 
-  const route = router.matchUrl(href)
+  const route = router && router.matchUrl(href)
 
   if (!route) {
     if (__DEV__) {

@@ -60,8 +60,8 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
       name,
       symbol,
       balance,
-      isCustom,
       blockchainParams: {
+        address,
         decimals,
       },
     }: DigitalAssetWithBalance = currentAsset
@@ -90,23 +90,14 @@ class DigitalAssetsSendFormAssetPickerCurrent extends Component<Props, Component
             />
           )}
         </div>
-        <Fragment>
-          {!isCustom ? (
-            <div className='symbol -icon'>
-              <JAssetSymbol symbol={symbol} color='gray' />
-            </div>
-          ) : (
-            <div className='symbol -text'>
-              <JText
-                value={symbol}
-                color='blue'
-                weight='bold'
-                size='normal'
-                whiteSpace='wrap'
-              />
-            </div>
-          )}
-        </Fragment>
+        <div className='symbol'>
+          <JAssetSymbol
+            symbol={symbol}
+            address={address}
+            color='gray'
+            size={24}
+          />
+        </div>
       </Fragment>
     )
   }

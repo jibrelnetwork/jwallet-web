@@ -165,7 +165,12 @@ class TransactionItemMain extends PureComponent<Props> {
       >
         <div className='box'>
           <div className='symbol'>
-            <JAssetSymbol symbol={symbol} color='gray' />
+            <JAssetSymbol
+              symbol={symbol}
+              address={assetAddress}
+              color='gray'
+              size={32}
+            />
           </div>
           <div className='data'>
             {txAddress ? (

@@ -17,7 +17,6 @@ body,
 
   height: 100%;
   width: 100%;
-  min-width: $window-min-width;
   margin: 0;
   padding: 0;
   overflow: auto;
@@ -60,7 +59,6 @@ h4 {
 @import '../components/base/JCheckbox/jCheckbox';
 @import '../components/base/JThumbnail/jThumbnail';
 @import '../components/base/JFlatButton/jFlatButton';
-@import '../components/base/JAssetSymbol/jAssetSymbol';
 
 // Components
 @import '../components/QRCode/qrCode';

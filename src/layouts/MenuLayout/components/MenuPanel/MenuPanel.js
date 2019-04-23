@@ -1,7 +1,9 @@
 // @flow strict
 
 import classNames from 'classnames'
-import React, { PureComponent } from 'react'
+import React from 'react'
+
+import { JLogo } from 'components/base'
 
 import menuPanelStyle from './menuPanel.m.scss'
 
@@ -10,63 +12,40 @@ import {
   type MenuMeta,
 } from './menuMeta'
 
-import {
-  Top,
-  Back,
-  Actions,
-  Settings,
-} from './components'
+import { Wallet } from './components/Wallet'
+import { Back } from './components/Back'
+import { Actions } from './components/Actions'
+import { Network } from './components/Network'
 
 type Props = {|
   +routeName: string,
-  +walletName: string,
-  +fiatCurrency: string,
-  +mnemonicAddressName: string,
-  +fiatBalance: number,
-  +isMnemonic: boolean,
 |}
 
-export class MenuPanel extends PureComponent<Props> {
-  static defaultProps = {
-    isMnemonic: false,
-  }
+export function MenuPanel({
+  routeName,
+}: Props) {
+  const menuMeta: MenuMeta = getMenuMeta(routeName)
+  const {
+    isMinimized,
+    previousRouteNameFallback,
+  }: MenuMeta = menuMeta
 
-  render() {
-    const {
-      routeName,
-      walletName,
-      fiatCurrency,
-      mnemonicAddressName,
-      fiatBalance,
-      isMnemonic,
-    }: Props = this.props
-
-    const menuMeta: MenuMeta = getMenuMeta(routeName)
-    const { previousRouteNameFallback }: MenuMeta = menuMeta
-    const isMinimized: boolean = !walletName || menuMeta.isMinimized
-
-    return (
-      <header
-        className={classNames(
-          '__menu-panel',
-          menuPanelStyle.core,
-          isMinimized && menuPanelStyle.minimized,
-        )}
-      >
-        <Top
-          walletName={walletName}
-          fiatCurrency={fiatCurrency}
-          mnemonicAddressName={mnemonicAddressName}
-          fiatBalance={fiatBalance}
-          isMnemonic={isMnemonic}
-        />
-        <Actions routeName={routeName} />
-        <Settings />
-        <Back
-          previousRouteNameFallback={previousRouteNameFallback}
-          isMinimized={isMinimized}
-        />
-      </header>
-    )
-  }
+  return (
+    <header
+      className={classNames(
+        '__menu-panel',
+        menuPanelStyle.core,
+        isMinimized && menuPanelStyle.minimized,
+      )}
+    >
+      <Network />
+      <JLogo className={menuPanelStyle.logo} />
+      <Wallet />
+      <Actions routeName={routeName} />
+      <Back
+        previousRouteNameFallback={previousRouteNameFallback}
+        isMinimized={isMinimized}
+      />
+    </header>
+  )
 }

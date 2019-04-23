@@ -80,11 +80,7 @@
 .asset-icon {
   flex-basis: 72px;
   width: 72px;
-
-  // FIXME: Dirty hack
-  > :global(.j-asset-symbol) {
-    height: 24px;
-  }
+  padding: 22px;
 }
 
 // stylelint-disable

@@ -26,7 +26,12 @@ exports.config = Object.assign(
   {
     suites: {
       smoke: [
-        './tests/initial-load.spec.js',
+        './tests/specs/t433--TermsAndConditionsPage-AcceptAndContinue.spec.js',
+        './tests/specs/T452--TermsAndConditionsPage-PageChecks.spec.js',
+        './tests/specs/T453--CreateWallet-PageChecks-MainPage.spec.js',
+        './tests/specs/T455--CreateWallet-PageChecks-SetSecurityPassword.spec.js',
+        './tests/specs/T457--ImportWallet-PageChecks.spec.js',
+        './tests/specs/T476--StartPage-PageChecks.spec.js',
       ],
       regression: [],
     },
