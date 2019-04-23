@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-import AssetItem from 'components/AssetItem'
+import AssetItem from 'components/AssetItemLegacy'
 import { formatAssetBalance } from 'utils/formatters'
 
 import Empty from './Empty'

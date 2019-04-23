@@ -63,7 +63,7 @@ h4 {
 // Components
 @import '../components/QRCode/qrCode';
 @import '../components/HelpText/helpText';
-@import '../components/AssetItem/assetItem';
+@import '../components/AssetItemLegacy/assetItem';
 @import '../components/WalletFace/walletFace';
 @import '../components/WalletStep/walletStep';
 @import '../components/DoubleInput/doubleInput';
@@ -85,7 +85,6 @@ h4 {
 @import '../components/NewWalletButtons/newWalletButtons';
 @import '../components/TransactionsList/transactionsList';
 @import '../components/ButtonWithConfirm/buttonWithConfirm';
-@import '../components/DigitalAssetsGrid/digitalAssetsGrid';
 @import '../components/MnemonicAddresses/mnemonicAddresses';
 @import '../components/TransactionsFilter/transactionsFilter';
 @import '../components/DigitalAssetsFilter/digitalAssetsFilter';

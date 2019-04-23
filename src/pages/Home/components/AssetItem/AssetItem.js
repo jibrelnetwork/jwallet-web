@@ -23,7 +23,7 @@ import { formatAssetBalance } from 'utils/formatters'
 import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
 
 import offsetsStyle from 'styles/offsets.m.scss'
-import assetItemStyle from './assetItem.m.scss'
+import assetItemStyle from 'pages/Home/components/AssetItem/assetItem.m.scss'
 
 type ContainerProps = {|
   +address: AssetAddress,
@@ -38,38 +38,45 @@ type Props = ContainerProps
   isLoadingBalance: boolean,
 }
 
-function AssetItem(props: Props) {
-  // const { asset } = props
+export function AssetItemInternal({
+  symbol,
+  address,
+  balance,
+  name,
+  fiatSymbol,
+  fiatBalance,
+  blockchainParams,
+  isLoadingBalance,
+}: Props) {
+  // FIXME: move formatters to external file
+  const formattedBalance = `${formatAssetBalance(
+    address,
+    balance,
+    blockchainParams.decimals,
+  )}\u00A0${symbol}`
 
-  // if (!asset) {
-  //   throw new Error(`Asset ${asset} with address ${props.address} is not found!`)
-  // }
-
-  const { symbol } = props
-
-  const balance = `${formatAssetBalance(
-    props.address,
-    props.balance,
-    props.blockchainParams.decimals,
-  )}\u00A0${props.symbol}`
-
-  const fiatBalance = `${props.fiatSymbol}\u202F${formatBalance(divDecimals(props.fiatBalance))}`
+  const formattedFiatBalance = `${fiatSymbol}\u202F${formatBalance(divDecimals(fiatBalance))}`
 
   return (
     <JLink
       className={`__asset-item ${assetItemStyle.core} ${offsetsStyle.mb16}`}
-      href={`/asset/${props.address}`}
+      href={`/assets/${address}`}
     >
       <div
         className={classNames(assetItemStyle.item, assetItemStyle.assetIcon)}
       >
-        <JAssetSymbol symbol={symbol} color='blue' isCustom={props.isCustom} />
+        <JAssetSymbol
+          address={address}
+          symbol={symbol}
+          color='blue'
+          size={32}
+        />
       </div>
       <div
         className={classNames(assetItemStyle.item, assetItemStyle.mainBlock)}
       >
         <div className={assetItemStyle.text}>
-          {props.name}
+          {name}
         </div>
         <div className={assetItemStyle.subtext}>
           {symbol}
@@ -79,55 +86,50 @@ function AssetItem(props: Props) {
         className={classNames(assetItemStyle.item, assetItemStyle.amountBlock)}
       >
         <div className={`${assetItemStyle.assetAmount} ${assetItemStyle.text}`}>
-          {props.isLoadingBalance
+          {isLoadingBalance
             ? <JShimmer />
-            : balance}
+            : formattedBalance}
         </div>
         <div
           className={`${assetItemStyle.assetAmount} ${assetItemStyle.subtext}`}
           style={{ minWidth: '80px' }}
         >
-          {props.isLoadingBalance
+          {isLoadingBalance
             ? <JShimmer />
-            : fiatBalance}
+            : formattedFiatBalance}
         </div>
       </div>
       <div
         className={classNames(assetItemStyle.item, assetItemStyle.arrowIcon)}
       >
-        <JIcon className={assetItemStyle.arrow} name='arrow-right' />
+        <JIcon className={assetItemStyle.arrow} name='arrow-right-use-fill' />
       </div>
     </JLink>
   )
 }
 
-function mapStateToProps(state: AppState, props: ContainerProps) {
-  const asset = selectDigitalAssetsItems(state)[props.address]
+export const AssetItem =
+  connect/* :: <AppState, any, any, _, _> */(
+    (state: AppState, ownProps: ContainerProps) => {
+      const asset = selectDigitalAssetsItems(state)[ownProps.address]
 
-  if (!asset) {
-    return { ...props }
-  }
+      if (!asset) {
+        return { ...ownProps }
+      }
 
-  const balance = selectBalanceByAssetAddressToCurrentBlock(state, props.address)
-  const { symbol: fiatSymbol } = selectSettingsFiatCurrencyData(state)
-  const fiatBalance = getFiatBalance(state, {
-    ...asset,
-    balance,
-  })
+      const balance = selectBalanceByAssetAddressToCurrentBlock(state, ownProps.address)
+      const { symbol: fiatSymbol } = selectSettingsFiatCurrencyData(state)
+      const fiatBalance = getFiatBalance(state, {
+        ...asset,
+        balance,
+      })
 
-  return {
-    ...asset,
-    balance: balance ? balance.value : 0,
-    isLoadingBalance: checkBalanceLoading(balance),
-    fiatSymbol,
-    fiatBalance,
-  }
-}
-
-const ConnectedAssetItem =
-  connect/* :: <AppState, any, any, _, _> */(mapStateToProps)(AssetItem)
-
-export {
-  ConnectedAssetItem as AssetItem,
-  AssetItem as PureAssetItem,
-}
+      return {
+        ...asset,
+        balance: balance ? balance.value : 0,
+        isLoadingBalance: checkBalanceLoading(balance),
+        fiatSymbol,
+        fiatBalance,
+      }
+    },
+  )(AssetItemInternal)
