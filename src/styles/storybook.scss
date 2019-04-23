@@ -78,6 +78,38 @@ h3 {
   }
 }
 
+.symbols-list {
+  padding: 20px 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 192px);
+  grid-row-gap: 24px;
+
+  > li {
+    padding: 10px;
+    text-align: center;
+
+    > .image {
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    > .symbol {
+      display: block;
+      font-size: 16px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    > .address {
+      display: block;
+      font-size: 7px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
 .icon-demo-container {
   padding: 25px;
 }

@@ -139,7 +139,6 @@ class TransactionItemMain extends PureComponent<Props> {
       blockchainParams: {
         decimals,
       },
-      isCustom,
     }: DigitalAsset = asset
 
     if (!(blockData && receiptData)) {
@@ -166,7 +165,12 @@ class TransactionItemMain extends PureComponent<Props> {
       >
         <div className='box'>
           <div className='symbol'>
-            <JAssetSymbol symbol={symbol} color='gray' isCustom={isCustom} />
+            <JAssetSymbol
+              symbol={symbol}
+              address={assetAddress}
+              color='gray'
+              size={32}
+            />
           </div>
           <div className='data'>
             {txAddress ? (
