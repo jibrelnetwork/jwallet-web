@@ -18,7 +18,6 @@ type Props = {|
   // +fiatBalance: ?string,
   +isError: boolean,
   +isLoading: boolean,
-  +isCustom: boolean,
 |}
 
 class AssetCard extends PureComponent<Props, *> {
@@ -39,7 +38,6 @@ class AssetCard extends PureComponent<Props, *> {
       // fiatBalance,
       isError,
       isLoading,
-      isCustom,
     } = this.props
 
     return (
@@ -47,7 +45,12 @@ class AssetCard extends PureComponent<Props, *> {
         className='asset-card'
       >
         <div className='symbol -icon'>
-          <JAssetSymbol symbol={symbol} color='gray' isCustom={isCustom} />
+          <JAssetSymbol
+            address={address}
+            symbol={symbol}
+            color='gray'
+            size={32}
+          />
         </div>
         <div className='name'>
           <JText value={name} color='dark' weight='bold' size='header' whiteSpace='wrap' />

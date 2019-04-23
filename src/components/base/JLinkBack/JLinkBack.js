@@ -76,6 +76,7 @@ export class JLinkBackDisconnected extends PureComponent<Props> {
 /* ::
 type OwnProps = {|
   +children: React$Node,
+  className?: ?string,
   +routeName: string,
 |}
 */

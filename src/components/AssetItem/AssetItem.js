@@ -89,7 +89,12 @@ class AssetItem extends PureComponent<Props, StateProps> {
         <div className={classNames('asset-item', isToggled && '-active')}>
           <div className='info'>
             <div className='symbol'>
-              <JAssetSymbol symbol={symbol} color='gray' isCustom={isCustom} />
+              <JAssetSymbol
+                address={address}
+                symbol={symbol}
+                color='gray'
+                size={32}
+              />
             </div>
             <div className='data'>
               <div className='name'>

@@ -23,8 +23,8 @@ export class Actions extends Component<Props> {
 
   render() {
     return (
-      <nav className={`__actions ${menuPanelStyle.actions}`}>
-        <ul>
+      <nav className={`__actions ${menuPanelStyle.actionsWrapper}`}>
+        <ul className={`__primary ${menuPanelStyle.actions} ${menuPanelStyle.primary}`}>
           <li>
             <Action
               label={t`Home`}
@@ -51,6 +51,15 @@ export class Actions extends Component<Props> {
               label={t`More`}
               href='/more'
               iconName='more'
+            />
+          </li>
+        </ul>
+        <ul className={`__secondary ${menuPanelStyle.actions} ${menuPanelStyle.secondary}`}>
+          <li>
+            <Action
+              label={t`Settings`}
+              href='/settings'
+              iconName='settings'
             />
           </li>
         </ul>

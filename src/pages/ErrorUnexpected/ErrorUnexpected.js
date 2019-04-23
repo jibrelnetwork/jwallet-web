@@ -22,6 +22,7 @@ const HomePageLink = (
   <JLink
     href='/'
     theme='text-blue'
+    key='home'
   >
     {t`home page`}
   </JLink>
@@ -31,6 +32,7 @@ const SupportLink = (
   <JLink
     href='https://jibrel.zendesk.com/hc/en-us/requests/new'
     theme='text-blue'
+    key='support'
   >
     {t`contact support`}
   </JLink>
