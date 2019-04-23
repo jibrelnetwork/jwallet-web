@@ -56,7 +56,10 @@ export class JIcon extends PureComponent<JIconProps> {
         width={iconData.width}
         height={iconData.height}
       >
-        <use xlinkHref={iconData.url} />
+        <use
+          key={name}
+          xlinkHref={iconData.url}
+        />
       </svg>
     )
   }

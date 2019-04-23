@@ -7,7 +7,6 @@ import {
   selectActiveWallet,
   selectActiveWalletAddress,
 } from 'store/selectors/wallets'
-import { selectTickerItems } from 'store/selectors/ticker'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
@@ -23,6 +22,7 @@ import {
   divDecimals,
   formatBalance,
 } from 'utils/numbers'
+import { getFiatBalance } from 'store/utils/getFiatBalances'
 
 import {
   JIcon,
@@ -71,47 +71,14 @@ export function WalletView({
   )
 }
 
-function getFiatBalance(
-  assets: DigitalAssetWithBalance[],
-  fiatCourses: FiatCourses,
-  fiatCurrency: FiatCurrency,
-): number {
-  return assets.reduce((result: number, digitalAsset: DigitalAssetWithBalance): number => {
-    const {
-      balance,
-      priceFeed,
-    }: DigitalAssetWithBalance = digitalAsset
-
-    if (!(balance && priceFeed)) {
-      return result
-    }
-
-    const fiatCourseById: ?FiatCourseById = fiatCourses[priceFeed.currencyID.toString()]
-
-    if (!fiatCourseById) {
-      return result
-    }
-
-    const fiatCourse: ?FiatCourse = fiatCourseById.latest
-
-    if (!fiatCourse) {
-      return result
-    }
-
-    const fiatCourseValue: ?string = fiatCourse[fiatCurrency]
-
-    if (!fiatCourseValue) {
-      return result
-    }
-
-    return result + (parseFloat(fiatCourseValue) * parseFloat(balance.value))
-  }, 0)
+function getTotalFiatBalance(state: AppState, assets: DigitalAssetWithBalance[]): number {
+  return assets.reduce((result: number, digitalAsset: DigitalAssetWithBalance): number =>
+    result + (getFiatBalance(state, digitalAsset) || 0), 0)
 }
 
 export const Wallet = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
   (state: AppState) => {
     const wallet = selectActiveWallet(state)
-    const fiatCourses: FiatCourses = selectTickerItems(state)
     const networkId: NetworkId = selectCurrentNetworkId(state)
     const addressNames: AddressNames = selectAllAddressNames(state)
     const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
@@ -142,7 +109,7 @@ export const Wallet = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
       walletName,
       fiatCurrency: fiatCurrency.symbol,
       mnemonicAddressName,
-      fiatBalance: getFiatBalance(assetsWithBalance, fiatCourses, fiatCurrency.code),
+      fiatBalance: getTotalFiatBalance(state, assetsWithBalance),
       isMnemonic,
     }
   },

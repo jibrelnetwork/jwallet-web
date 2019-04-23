@@ -1,5 +1,9 @@
 // @flow
 
+import { selectCurrentNetworkId } from 'store/selectors/networks'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
+import { selectCurrentBlock } from 'store/selectors/blocks'
+
 export function selectBalances(state: AppState): BalancesState {
   return state.balances
 }
@@ -84,4 +88,22 @@ export function selectBalanceByAssetAddress(
   }
 
   return itemsByBlockNumber[assetAddress]
+}
+
+export function selectBalanceByAssetAddressToCurrentBlock(
+  state: AppState,
+  assetAddress: AssetAddress,
+): ?Balance {
+  const networkID = selectCurrentNetworkId(state)
+  const currentAddress = selectActiveWalletAddress(state)
+  const currentBlock = selectCurrentBlock(state, networkID)
+  const currentBlockNumber = currentBlock ? currentBlock.number : null
+
+  return selectBalanceByAssetAddress(
+    state,
+    networkID,
+    currentAddress,
+    String(currentBlockNumber),
+    assetAddress,
+  )
 }
