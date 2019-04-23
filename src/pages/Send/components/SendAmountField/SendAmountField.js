@@ -39,7 +39,8 @@ const handleMaxClick = (input: FinalFormInput, maxValue: string) => () => input.
 
 const handleClearClick = (input: FinalFormInput) => () => input.onChange('')
 
-const filterAmountValue = (value: string) => value.replace(/[^\d.-]/g, '')
+// Allow to use only digits and dot and remove leading zeroes
+const filterAmountValue = (value: string) => value.replace(/[^\d.]/g, '').replace(/^00+/g, '0')
 
 const handlerOnChange = (input: FinalFormInput) => e =>
   input.onChange(filterAmountValue(e.target.value))
@@ -88,7 +89,7 @@ function SendAmountField({
     <div
       className={classNames(
         fieldStyle.core,
-        '__sendamountfield',
+        '__send-amount-field',
         className,
       )}
       onClick={handleFocus(textInput)}
@@ -97,6 +98,8 @@ function SendAmountField({
         fieldStyle.wrap,
         isActive && fieldStyle.active,
         hasMaxValue && fieldStyle.hasMaxValue,
+        hasMessage && fieldStyle.message,
+        hasError && fieldStyle.error,
       )}
       >
         <div className={fieldStyle.currency}>

@@ -1,17 +1,16 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
 import { t } from 'ttag'
+import { get } from 'lodash-es'
 
 import {
   JIcon, JTabs, JSearch, JLink,
 } from 'components/base'
 
-import {
-  DigitalAssetsGrid,
-  DigitalAssetsFilter,
-} from 'components'
+import { DigitalAssetsFilter } from 'components'
+
+import { AssetItem } from './components/AssetItem/AssetItem'
 
 import homeStyle from './home.m.scss'
 
@@ -132,11 +131,16 @@ export class HomeView extends Component<Props> {
           </div>
         </div>
         <div className={homeStyle.content}>
-          <Scrollbars autoHide>
-            <DigitalAssetsGrid
-              items={items}
-            />
-          </Scrollbars>
+          {items.map((item) => {
+            const address = get(item, 'blockchainParams.address')
+
+            return (
+              <AssetItem
+                key={address}
+                address={address}
+              />
+            )
+          })}
         </div>
       </div>
     )

@@ -2,7 +2,6 @@
 
 import QRCode from './QRCode'
 import HelpText from './HelpText'
-import AssetItem from './AssetItem'
 import ESCButton from './ESCButton'
 import WalletCard from './WalletCard'
 import WalletFace from './WalletFace'
@@ -29,7 +28,6 @@ import NewWalletButtons from './NewWalletButtons'
 import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
-import DigitalAssetsGrid from './DigitalAssetsGrid'
 import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsFilter from './DigitalAssetsFilter'
@@ -43,7 +41,6 @@ export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export {
   QRCode,
   HelpText,
-  AssetItem,
   ESCButton,
   WalletCard,
   WalletFace,
@@ -68,7 +65,6 @@ export {
   WalletViewTitle,
   NewWalletButtons,
   TransactionsList,
-  DigitalAssetsGrid,
   ButtonWithConfirm,
   MnemonicAddresses,
   TransactionsFilter,
