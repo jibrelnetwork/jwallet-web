@@ -35,7 +35,6 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
-export { AssetItem } from '../pages/Home/components/AssetItem/AssetItem'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 
