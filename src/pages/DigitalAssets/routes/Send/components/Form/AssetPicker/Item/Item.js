@@ -29,8 +29,8 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
       name,
       symbol,
       balance,
-      isCustom,
       blockchainParams: {
+        address,
         decimals,
       },
     }: DigitalAssetWithBalance = data
@@ -51,8 +51,9 @@ class DigitalAssetsSendFormAssetPickerItem extends PureComponent<Props> {
             <div className='wrap'>
               <JAssetSymbol
                 symbol={symbol}
+                address={address}
                 color={isSelected ? 'blue' : 'gray'}
-                isCustom={isCustom}
+                size={24}
               />
             </div>
           </div>
