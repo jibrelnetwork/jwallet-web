@@ -24,6 +24,7 @@ export { JTextArea } from './JTextArea/JTextArea'
 export { JInputField } from './JInputField/JInputField'
 export { JTextAreaField } from './JTextArea/JTextAreaField'
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
+export { JShimmer } from './JShimmer/JShimmer'
 
 export {
   JCard,
