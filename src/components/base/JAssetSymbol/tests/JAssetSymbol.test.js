@@ -8,6 +8,7 @@ import { JAssetSymbol } from '../JAssetSymbol'
 jest.mock('../../../../utils/sprite/iconsAsset', () => ({
   'eth-usage': {
     url: '#eth',
+    viewBox: '0 0 24 24',
   },
 }))
 

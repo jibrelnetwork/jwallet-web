@@ -31,10 +31,9 @@ export function JAssetSymbolInternal({
   const symbolByAddress = address ?
     ADDRESSES_AVAILABLE[address.toLowerCase()] :
     null
-  const url = symbolByAddress ?
+  const iconData = symbolByAddress ?
     iconsAsset[`${symbolByAddress.toLowerCase()}-usage`] :
     null
-  const hasIcon = symbolByAddress && url
   const symbolShorthand = symbol.length > 4 ?
     symbol.substr(0, 3) :
     symbol
@@ -48,11 +47,14 @@ export function JAssetSymbolInternal({
         className,
       )}
     >
-      {hasIcon
+      {symbolByAddress && iconData
         ? (
-          <svg className={jAssetSymbolStyle.icon} viewBox='0 0 24 24'>
+          <svg
+            className={jAssetSymbolStyle.icon}
+            viewBox={iconData.viewBox}
+          >
             <use
-              xlinkHref={url}
+              xlinkHref={iconData.url}
               key={address}
             />
           </svg>
