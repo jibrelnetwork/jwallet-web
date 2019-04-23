@@ -17,17 +17,23 @@ type Props = {|
 |}
 
 export class NewWalletButtons extends PureComponent<Props> {
-  handleClick = (action: WalletAction) => (event: SyntheticEvent<HTMLDivElement>) => {
+  handleClickCreate = (event: SyntheticEvent<HTMLDivElement>) => {
     event.preventDefault()
 
-    this.props.onClick(action)
+    this.props.onClick(ACTIONS.CREATE)
+  }
+
+  handleClickImport = (event: SyntheticEvent<HTMLDivElement>) => {
+    event.preventDefault()
+
+    this.props.onClick(ACTIONS.IMPORT)
   }
 
   render() {
     return (
       <div className={`__new-wallet-buttons ${newWalletButtonsStyle.core}`}>
         <JLink
-          onClick={this.handleClick(ACTIONS.CREATE)}
+          onClick={this.handleClickCreate}
           className={newWalletButtonsStyle.create}
           href='/wallets/create'
         >
@@ -37,7 +43,7 @@ export class NewWalletButtons extends PureComponent<Props> {
           {t`Create your own wallet to manage your digital assets`}
         </span>
         <JLink
-          onClick={this.handleClick(ACTIONS.IMPORT)}
+          onClick={this.handleClickImport}
           className={newWalletButtonsStyle.import}
           href='/wallets/import'
         >

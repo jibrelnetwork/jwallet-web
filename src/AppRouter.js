@@ -20,10 +20,10 @@ import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 type Props = {|
   +route: Object,
-  +hasWallets: boolean,
   +hasPassword: boolean,
   +isAllAgreementsChecked: boolean,
   +isAllFeaturesIntroduced: boolean,
+  +showNewWalletProcess: boolean,
 |}
 
 type ComponentState = {|
@@ -107,10 +107,10 @@ class AppRouter extends Component<Props, ComponentState> {
 
     const {
       route,
-      hasWallets,
       hasPassword,
       isAllAgreementsChecked,
       isAllFeaturesIntroduced,
+      showNewWalletProcess,
     } = this.props
 
     const {
@@ -134,13 +134,8 @@ class AppRouter extends Component<Props, ComponentState> {
       return <pages.SetPasswordView />
     }
 
-    if (!hasWallets) {
-      const isCreateWallet: boolean = (route.name === 'WalletsCreate')
-      const isImportWallet: boolean = (route.name === 'WalletsImport')
-
-      if (!(isCreateWallet || isImportWallet)) {
-        return <pages.WalletsStart />
-      }
+    if (showNewWalletProcess) {
+      return <pages.WalletsStart />
     }
 
     return renderWithMenuLayout(pages[name], params, name)
@@ -157,10 +152,12 @@ function mapStateToProps(state) {
 
   return {
     route,
-    hasWallets,
     hasPassword,
     isAllAgreementsChecked,
     isAllFeaturesIntroduced,
+    showNewWalletProcess: !hasWallets &&
+      (route.name !== 'WalletsCreate') &&
+      (route.name !== 'WalletsImport'),
   }
 }
 
