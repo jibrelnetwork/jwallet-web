@@ -10,13 +10,16 @@ import {
 import { AssetPicker } from './AssetPicker'
 
 const ASSETS = [{
-  name: '0x',
-  symbol: 'ZRX',
-  balance: null,
+  name: 'First',
+  symbol: '1st',
+  balance: {
+    value: '800000000000000000000000',
+    fiatBalance: 100,
+  },
   isActive: true,
   isCustom: false,
   blockchainParams: {
-    address: '0xE41d2489571d322189246DaFA5ebDe1F4699F490',
+    address: '0xaf30d2a7e90d7dc361c8c4585e9bb7d2f6f15bc7',
     decimals: 18,
     deploymentBlockNumber: 4145415,
     staticGasAmount: 52106,
@@ -25,7 +28,9 @@ const ASSETS = [{
 }, {
   name: 'AdEx',
   symbol: 'ADX',
-  balance: null,
+  balance: {
+    value: '20000000000',
+  },
   isActive: true,
   isCustom: false,
   blockchainParams: {

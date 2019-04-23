@@ -21,14 +21,12 @@
     box-shadow: 0 9px 18px 0 rgba($dusk, 0.1);
   }
 
-  .current {
-    .chevron {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      padding: 24px 24px 24px 0;
-    }
+  .chevron {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 24px 24px 24px 0;
   }
 
   > .options {
@@ -57,11 +55,10 @@
   right: 0;
   bottom: 0;
   left: 0;
-  cursor: pointer;
 }
 
 .active {
-  > .select {
+  .select {
     border-radius: $form-border-radius $form-border-radius 0 0;
     z-index: 2;
 

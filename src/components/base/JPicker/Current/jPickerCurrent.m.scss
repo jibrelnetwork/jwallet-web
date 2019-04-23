@@ -28,7 +28,7 @@
   @include font(14px, 14px);
 
   display: block;
-  padding: 24px 64px 26px 16px;
+  padding: 24px 200px 26px 16px;
   line-height: 22px;
   width: 100%;
   background: inherit;
@@ -96,4 +96,13 @@
   height: 24px;
   width: 24px;
   padding: 0;
+}
+
+.balances {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 64px;
+  top: 0;
+  bottom: 0;
 }

@@ -7,19 +7,20 @@ import { t } from 'ttag'
 
 import escapeRegExp from 'utils/regexp/escapeRegExp'
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
-// import {
-//   divDecimals,
-//   formatBalance,
-// } from 'utils/numbers'
+
 import {
   JPickerBody,
   JPickerList,
   JPickerCurrent,
   NotFoundItem,
 } from 'components/base/JPicker'
-
+import {
+  formatAssetBalance,
+  formatCurrencyWithSymbol,
+} from 'utils/formatters'
 import { JAssetSymbol } from 'components/base'
 
+import { AssetBalance } from './AssetBalance/AssetBalance'
 import { AssetItem } from './Item/AssetItem'
 
 function searchDigitalAssets(
@@ -58,6 +59,7 @@ type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +digitalAssets: DigitalAssetWithBalance[],
+  +fiatCurrency: FiatCurrency,
 |}
 
 type ComponentSatte = {|
@@ -65,6 +67,10 @@ type ComponentSatte = {|
 |}
 
 class AssetPicker extends Component<Props, ComponentSatte> {
+  static defaultProps = {
+    fiatCurrency: 'USD',
+  }
+
   state = {
     searchQuery: '',
   }
@@ -88,6 +94,7 @@ class AssetPicker extends Component<Props, ComponentSatte> {
       meta,
       input,
       digitalAssets,
+      fiatCurrency,
     } = this.props
 
     const {
@@ -102,7 +109,7 @@ class AssetPicker extends Component<Props, ComponentSatte> {
       : ''
 
     const activeAssetSymbol = activeAsset
-      ? activeAsset.symbol
+      ? activeAsset.symbol.toUpperCase()
       : ''
 
     const activeAssetName = activeAsset
@@ -113,6 +120,19 @@ class AssetPicker extends Component<Props, ComponentSatte> {
       digitalAssets,
       searchQuery,
     )
+
+    const activeAssetBalance = activeAsset && activeAsset.balance && activeAsset.balance.value
+      ? `${formatAssetBalance(
+        activeAsset.blockchainParams.address,
+        activeAsset.balance.value,
+        activeAsset.blockchainParams.decimals,
+      )} ${activeAsset.symbol}`
+      : ''
+
+    const activeAssetFiatBalance =
+      activeAsset && activeAsset.balance && activeAsset.balance.fiatBalance
+        ? `${formatCurrencyWithSymbol(activeAsset.balance.fiatBalance, fiatCurrency)}`
+        : ''
 
     return (
       <JPickerBody
@@ -126,7 +146,20 @@ class AssetPicker extends Component<Props, ComponentSatte> {
             value={activeAssetName}
             inputValue={searchQuery}
             onInputChange={this.handleSearchQueryChange}
-            iconRenderer={() => <JAssetSymbol color='blue' symbol={activeAssetSymbol} />}
+            iconRenderer={() => (
+              <JAssetSymbol
+                address={activeAssetAddress}
+                color='blue'
+                symbol={activeAssetSymbol}
+                size={24}
+              />
+            )}
+            balancesRenderer={() => (
+              <AssetBalance
+                assetBalance={activeAssetBalance}
+                fiatBalance={activeAssetFiatBalance}
+              />
+            )}
           />
         )}
       >
@@ -143,25 +176,31 @@ class AssetPicker extends Component<Props, ComponentSatte> {
               {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => {
                 const {
                   name,
-                  symbol,
-                  // balance,
+                  balance,
                   blockchainParams: {
                     address,
-                  // decimals,
+                    decimals,
                   },
                 } = item
 
-                // const balanceStr: string = (balance && balance.value)
-                //   ? `${formatBalance(divDecimals(balance.value, decimals), 6)} ${symbol}`
-                //   : ''
+                const symbol = item.symbol.toUpperCase()
 
-                console.log(item)
+                const formattedAssetBalance = balance && balance.value
+                  ? `${formatAssetBalance(address, balance.value, decimals)} ${symbol}`
+                  : ''
+
+                const formattedFiatBalance = balance && balance.fiatBalance
+                  ? `=${formatCurrencyWithSymbol(balance.fiatBalance, fiatCurrency)}`
+                  : ''
 
                 return (
                   <AssetItem
                     key={address}
                     name={name}
                     symbol={symbol}
+                    address={address}
+                    assetBalance={formattedAssetBalance}
+                    fiatBalance={formattedFiatBalance}
                   />
                 )
               })}

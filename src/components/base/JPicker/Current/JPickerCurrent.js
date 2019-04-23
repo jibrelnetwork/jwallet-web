@@ -15,6 +15,7 @@ type Props = {
   +onClick: ?(() => any),
   +onInputChange: ?((value: string) => any),
   +iconRenderer: ?(() => React$Node),
+  +balancesRenderer: ?(() => React$Node),
 }
 
 function JPickerCurrent({
@@ -26,6 +27,7 @@ function JPickerCurrent({
   onClick,
   onInputChange,
   iconRenderer,
+  balancesRenderer,
 }: Props) {
   const hasValue = !!value
   const id = camelCase(`${label}currentId`)
@@ -58,6 +60,11 @@ function JPickerCurrent({
           {iconRenderer()}
         </div>
       )}
+      {balancesRenderer && (
+        <div className={pickerCurrentStyle.balances}>
+          {balancesRenderer()}
+        </div>
+      )}
     </div>
   )
 }
@@ -72,6 +79,7 @@ JPickerCurrent.defaultProps = {
   inputValue: null,
   onInputChange: null,
   iconRenderer: null,
+  balancesRenderer: null,
 }
 
 export { JPickerCurrent }
