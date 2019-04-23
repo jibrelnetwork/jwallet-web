@@ -8,9 +8,9 @@ import {
   JIcon, JTabs, JSearch, JLink,
 } from 'components/base'
 
-import {
-  DigitalAssetsFilter, AssetItem,
-} from 'components'
+import { DigitalAssetsFilter } from 'components'
+
+import { AssetItem } from './components/AssetItem/AssetItem'
 
 import homeStyle from './home.m.scss'
 
