@@ -115,6 +115,7 @@
         { "property": "captchaExpiredCallback" }
       ]
     }],
+    "unicorn/no-fn-reference-in-iterator": 0,
     "jsx-a11y/no-autofocus": 0,
     "react/jsx-no-bind": 2,
     "react/jsx-pascal-case": 2,

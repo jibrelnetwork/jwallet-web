@@ -40,9 +40,7 @@ function checkFound(item: TransactionWithNames, searchQuery: string): boolean {
   const searchableHashes = [hash, to, from]
   const searchableString = [toName, fromName]
 
-  // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
   return searchableHashes.some(searchBy(checkHashes, searchQuery))
-  // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     || searchableString.some(searchBy(checkNames, searchQuery))
 }
 
