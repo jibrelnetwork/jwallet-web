@@ -3,24 +3,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-jest.mock('react-router5', () => ({
-  withRouter: function withRouter(BaseComponent) {
-    const ReactForMock = require('react')
-
-    return function WithRouter(props) {
-      return ReactForMock.createElement(
-        BaseComponent, {
-          ...props,
-          router: {
-            matchUrl: () => null,
-          },
-        },
-      )
-    }
-  },
-}))
-
-// eslint-disable-next-line import/first
 import { JLogo } from '../JLogo'
 
 describe('JLogo', () => {
@@ -29,40 +11,26 @@ describe('JLogo', () => {
   })
 
   test('renders', () => {
-    const wrapper = mount(<JLogo />)
-
-    expect(wrapper.children()).toHaveLength(1)
-    expect(wrapper.prop('className')).toBe('')
-    expect(wrapper.prop('theme')).toBe('white')
-
-    const jLink = wrapper.childAt(0)
-
-    expect(jLink.prop('href')).toBe('/')
-    expect(jLink.hasClass('__j-logo')).toBe(true)
+    expect(() => mount(<JLogo />)).not.toThrow()
   })
 
-  test('renders (specified theme)', () => {
-    const wrapper = mount(<JLogo theme='blue' />)
+  test('changes image for different theme', () => {
+    const blue = mount(<JLogo theme='blue' />)
 
-    expect(wrapper.prop('theme')).toBe('blue')
+    expect(blue.find('img').prop('src')).toBe('./logo-blue.svg')
 
-    const span = wrapper.find('span')
+    const white = mount(<JLogo theme='white' />)
 
-    expect(span.hasClass('image blue')).toBe(true)
+    expect(white.find('img').prop('src')).toBe('./logo-white.svg')
   })
 
-  test('renders (specified className)', () => {
+  test('passes className', () => {
     const wrapper = mount(
       <JLogo
-        theme='blue'
         className='foo'
       />,
     )
 
-    expect(wrapper.prop('className')).toBe('foo')
-
-    const jLink = wrapper.childAt(0)
-
-    expect(jLink.hasClass('foo')).toBe(true)
+    expect(wrapper.hasClass('foo')).toBe(true)
   })
 })
