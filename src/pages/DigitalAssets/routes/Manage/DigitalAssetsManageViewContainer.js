@@ -103,8 +103,6 @@ const mapStateToProps = (state: AppState) => {
     assetsBalancesFiltered,
   )
 
-  console.log('itemsFound itemsFound itemsFound itemsFound', assetsWithBalance)
-
   return {
     items: prepareDigitalAssets(assetsWithBalance, searchQuery),
   }

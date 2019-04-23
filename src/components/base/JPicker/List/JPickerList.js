@@ -48,8 +48,6 @@ class JPickerList extends React.Component<Props, ComponentState> {
 
     const count = React.Children.count(children)
 
-    console.log(count)
-
     return (
       <div
         className={classNames(
@@ -63,7 +61,7 @@ class JPickerList extends React.Component<Props, ComponentState> {
           } = child
 
           if (!key) {
-            console.log('Invalid key for element', child)
+            console.error('Invalid key for element', child)
 
             return null
           }

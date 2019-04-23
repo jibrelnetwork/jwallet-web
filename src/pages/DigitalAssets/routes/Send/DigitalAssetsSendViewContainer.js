@@ -75,8 +75,6 @@ function mapStateToProps(state: AppState) {
     assetsBalances,
   )
 
-  console.log(assetsWithBalance)
-
   const allAddressNames: AddressNames = selectAllAddressNames(state)
   const addressNames = removeOwnerAddress(allAddressNames, ownerAddress)
 
