@@ -7,9 +7,7 @@ import {
   JIcon, JLink,
 } from 'components/base'
 
-import {
-  DigitalAssetsGrid,
-} from 'components'
+import AssetsList from './components/AssetsList/AssetsList'
 
 import homeStyle from './home.m.scss'
 
@@ -90,7 +88,7 @@ export class HomeView extends Component<Props> {
             {t`Assets`}
           </h2>
           <div className={homeStyle.content}>
-            <DigitalAssetsGrid
+            <AssetsList
               items={items}
             />
           </div>

@@ -1,0 +1,11 @@
+@import '../../../../components/DigitalAssetsGrid/Asset/asset';
+@import '../../../../components/DigitalAssetsGrid/AddAsset/addAsset';
+@import '../../../../components/DigitalAssetsGrid/Asset/AssetCardBody/assetCardBody';
+
+.digital-assets-grid {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto -20px auto;
+}

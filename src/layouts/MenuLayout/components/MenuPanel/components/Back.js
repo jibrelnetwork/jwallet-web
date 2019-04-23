@@ -18,13 +18,19 @@ export function Back({
   previousRouteNameFallback,
   isMinimized,
 }: Props) {
+  if (!isMinimized || !previousRouteNameFallback) {
+    return null
+  }
+
   return (
-    <div className={`__back ${menuPanelStyle.back}`}>
-      {isMinimized && previousRouteNameFallback && (
-        <JLinkBack routeName={previousRouteNameFallback}>
-          <JIcon name='arrow-back' size='medium' color='blue' />
-        </JLinkBack>
-      )}
-    </div>
+    <JLinkBack
+      className={`__back ${menuPanelStyle.back}`}
+      routeName={previousRouteNameFallback}
+    >
+      <JIcon
+        name='arrow-back-use-fill'
+        color='blue'
+      />
+    </JLinkBack>
   )
 }

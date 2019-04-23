@@ -1,3 +1,3 @@
-const spriteAssets = require.context('../../public/assets/tokens/blue', true, /.*\.svg$/)
+const spriteAssets = require.context('../../public/assets/tokens', true, /.*\.svg$/)
 
 module.exports = spriteAssets
