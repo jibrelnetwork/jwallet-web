@@ -82,7 +82,10 @@ const ASSETS = [{
 }, {
   name: 'Ethereum',
   symbol: 'ETH',
-  balance: null,
+  balance: {
+    value: '320000000000000000000',
+    fiatBalance: 99,
+  },
   isActive: true,
   isCustom: false,
   blockchainParams: {
@@ -115,7 +118,7 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   )
 }
 
-storiesOf('send|AssetPicher', module)
+storiesOf('send|AssetPicker', module)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(AssetPicker, {

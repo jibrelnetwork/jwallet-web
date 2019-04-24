@@ -75,7 +75,7 @@ class AssetPicker extends Component<Props, ComponentSatte> {
     searchQuery: '',
   }
 
-  handleSearchQueryChange = (e: SyntheticEvent<HTMLInputElement>) => {
+  handleSearchQueryChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     this.setState({ searchQuery: e.target.value })
   }
 
@@ -126,7 +126,7 @@ class AssetPicker extends Component<Props, ComponentSatte> {
         activeAsset.blockchainParams.address,
         activeAsset.balance.value,
         activeAsset.blockchainParams.decimals,
-      )} ${activeAsset.symbol}`
+      )} ${activeAssetSymbol}`
       : ''
 
     const activeAssetFiatBalance =
@@ -142,7 +142,7 @@ class AssetPicker extends Component<Props, ComponentSatte> {
         currentRenderer={({ isOpen }) => (
           <JPickerCurrent
             isEditable={isOpen}
-            label={t`Digital asset`}
+            label={t`Asset`}
             value={activeAssetName}
             inputValue={searchQuery}
             onInputChange={this.handleSearchQueryChange}
@@ -190,7 +190,7 @@ class AssetPicker extends Component<Props, ComponentSatte> {
                   : ''
 
                 const formattedFiatBalance = balance && balance.fiatBalance
-                  ? `=${formatCurrencyWithSymbol(balance.fiatBalance, fiatCurrency)}`
+                  ? `${formatCurrencyWithSymbol(balance.fiatBalance, fiatCurrency)}`
                   : ''
 
                 return (

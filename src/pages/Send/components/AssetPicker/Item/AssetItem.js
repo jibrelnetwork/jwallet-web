@@ -12,7 +12,6 @@ type Props = {
   +name: string,
   +address: AssetAddress,
   +symbol: string,
-  +isCustom: boolean,
   +assetBalance: ?string,
   +fiatBalance: ?string,
 }
@@ -21,7 +20,6 @@ function AssetItem({
   name,
   symbol,
   address,
-  isCustom,
   assetBalance,
   fiatBalance,
 }: Props) {
@@ -31,7 +29,6 @@ function AssetItem({
         <JAssetSymbol
           address={address}
           symbol={symbol}
-          isCustom={isCustom}
           color='blue'
           size={24}
         />
