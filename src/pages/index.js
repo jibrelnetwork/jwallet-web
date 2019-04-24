@@ -1,5 +1,8 @@
 // @flow
 
+export { WalletsCreate } from './WalletsCreate/WalletsCreate'
+export { WalletsImport } from './WalletsImport/WalletsImport'
+
 export { default as AssetsItem }
   from './Transactions/routes/Asset/TransactionsAssetViewContainer'
 export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAssetContainer'
@@ -21,8 +24,6 @@ export { default as SettingsCurrency } from './Settings/routes/Currency/Currency
 export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
 export { default as Wallets } from './Wallets/WalletsIndexViewContainer'
-export { default as WalletsCreate } from './Wallets/routes/Create/WalletsCreateViewContainer'
-export { default as WalletsImport } from './Wallets/routes/Import/WalletsImportViewContainer'
 export { default as WalletsItemBackup } from './Wallets/routes/Backup/WalletsBackupViewContainer'
 export { default as WalletsItemRemove } from './Wallets/routes/Delete/WalletsDeleteViewContainer'
 export { default as WalletsItemRename } from './Wallets/routes/Rename/WalletsRenameViewContainer'
@@ -33,8 +34,9 @@ export { NotFound } from './NotFound/NotFound'
 // not available to user directly
 
 export { SetPasswordView } from './SetPassword'
-export { WalletsStartView } from './Wallets/routes'
+export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
+
 export { default as WalletsAddresses }
   from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
 export { default as WalletsRenameAddress }

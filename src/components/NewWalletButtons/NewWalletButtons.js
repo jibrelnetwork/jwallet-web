@@ -1,40 +1,58 @@
 // @flow
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
-import WalletFace from 'components/WalletFace'
+import { JLink } from 'components/base'
+
+import {
+  ACTIONS,
+  type WalletAction,
+} from 'pages/WalletsStart/WalletsStart'
+
+import newWalletButtonsStyle from './newWalletButtons.m.scss'
 
 type Props = {|
-  +createWallet: Function,
-  +importWallet: Function,
+  +onClick: (WalletAction) => void,
 |}
 
-const NewWalletButtons = ({
-  createWallet,
-  importWallet,
-}: Props) => (
-  <div className='new-wallet-buttons'>
-    <div className='separator' />
-    <div className='create'>
-      <WalletFace
-        onClick={createWallet}
-        iconName='add'
-        title={t`Create new wallet`}
-        description={t`Create your own wallet to manage on-chain funds`}
-        isTransparent
-      />
-    </div>
-    <div className='import'>
-      <WalletFace
-        onClick={importWallet}
-        iconName='import'
-        title={t`Import wallet`}
-        description={t`Import existing wallet to manage on-chain funds`}
-        isTransparent
-      />
-    </div>
-  </div>
-)
+export class NewWalletButtons extends PureComponent<Props> {
+  handleClickCreate = (event: SyntheticEvent<HTMLDivElement>) => {
+    event.preventDefault()
 
-export default NewWalletButtons
+    this.props.onClick(ACTIONS.CREATE)
+  }
+
+  handleClickImport = (event: SyntheticEvent<HTMLDivElement>) => {
+    event.preventDefault()
+
+    this.props.onClick(ACTIONS.IMPORT)
+  }
+
+  render() {
+    return (
+      <div className={`__new-wallet-buttons ${newWalletButtonsStyle.core}`}>
+        <JLink
+          onClick={this.handleClickCreate}
+          className={newWalletButtonsStyle.create}
+          href='/wallets/create'
+        >
+          {t`Create Wallet`}
+        </JLink>
+        <span className={newWalletButtonsStyle.text}>
+          {t`Create your own wallet to manage your digital assets`}
+        </span>
+        <JLink
+          onClick={this.handleClickImport}
+          className={newWalletButtonsStyle.import}
+          href='/wallets/import'
+        >
+          {t`Import Wallet`}
+        </JLink>
+        <span className={newWalletButtonsStyle.text}>
+          {t`Import an existing wallet with backup phrase, private key, etc.`}
+        </span>
+      </div>
+    )
+  }
+}

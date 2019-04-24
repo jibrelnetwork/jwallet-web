@@ -112,5 +112,8 @@ $default-animation: cubic-bezier(0, 0, 0.2, 1);
 /**
  * Shadows
  */
+$blue-shadow: 0 3px 6px rgba(0, 61, 198, 0.2);
+$blue-shadow-2: 0 6px 12px rgba(0, 61, 198, 0.4);
 $normal-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+$normal-shadow-2: 0 6px 12px rgba(8, 30, 57, 0.1);
 $select-shadow: 0 7px 18px rgba(8, 30, 57, 0.2);
