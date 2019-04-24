@@ -2,10 +2,8 @@
 
 import * as React from 'react'
 
-import {
-  JIcon,
-  type JIconColor,
-} from 'components/base/JIcon/JIcon'
+import { JIcon } from 'components/base'
+import { type JIconColor } from 'components/base/JIcon/JIcon'
 
 import defaultItemStyles from './defaultItem.m.scss'
 
