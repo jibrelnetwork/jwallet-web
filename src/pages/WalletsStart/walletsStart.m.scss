@@ -1,20 +1,5 @@
 @import 'styles/mixins';
 
-.core {
-  @include flex-column-center;
-
-  position: relative;
-  height: 100%;
-}
-
-.content {
-  @include box;
-  @include flex-column-center;
-
-  min-height: 100%;
-  flex: 1;
-}
-
 .title {
   @include flex-column-center;
 

@@ -2,8 +2,11 @@
 
 import classNames from 'classnames'
 import React from 'react'
+import { t } from 'ttag'
 
-import { JLogo } from 'components/base'
+import { JLink } from 'components/base'
+
+import svgLogoWhite from 'public/assets/logo/logo-white.svg'
 
 import menuPanelStyle from './menuPanel.m.scss'
 
@@ -39,7 +42,21 @@ export function MenuPanel({
       )}
     >
       <Network />
-      <JLogo className={menuPanelStyle.logo} />
+      <JLink
+        href='/'
+        className={classNames(
+          '__logo',
+          menuPanelStyle.logo,
+        )}
+      >
+        <img
+          src={svgLogoWhite}
+          alt={t`Jwallet Logo`}
+          width='136'
+          height='48'
+          className={menuPanelStyle.logoImage}
+        />
+      </JLink>
       <Wallet />
       <Actions routeName={routeName} />
       <Back

@@ -16,6 +16,7 @@ import {
   JInputField,
   JRaisedButton,
 } from 'components/base'
+import { StartLayout } from 'layouts'
 
 import setPasswordViewStyle from './setPasswordView.m.scss'
 
@@ -98,9 +99,11 @@ export class SetPasswordView extends Component<Props, StateProps> {
 
   render() {
     return (
-      <div className={`__set-password-view ${setPasswordViewStyle.core}`}>
+      <StartLayout
+        className='__new-password'
+      >
         <h1 className={setPasswordViewStyle.title}>
-          {t`Set Password for your Storage`}
+          {t`Set Password to Secure Your Storage`}
         </h1>
         <Form
           onSubmit={this.handleSubmit}
@@ -108,7 +111,7 @@ export class SetPasswordView extends Component<Props, StateProps> {
           render={this.renderSetPasswordForm}
           initialValues={PASSWORD_FORM_INITIAL_VALUES}
         />
-      </div>
+      </StartLayout>
     )
   }
 }
