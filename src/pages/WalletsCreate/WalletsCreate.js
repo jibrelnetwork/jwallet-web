@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import {
   selectWallets,
-  selectWalletsImport,
+  selectWalletsCreate,
 } from 'store/selectors/wallets'
 
 import {
@@ -19,13 +19,23 @@ import {
   closeView,
   goToNextStep,
   goToPrevStep,
-  changeDataInput,
-  changeDerivationPathInput,
-} from 'store/modules/walletsImport'
+} from 'store/modules/walletsCreate'
 
-import WalletsCreateView from './WalletsImportView'
+import { WalletsCreateView } from './WalletsCreateView'
 
-function mapStateToProps(state: AppState) {
+type StateProps = {|
+  +invalidFields: FormFields,
+  +name: string,
+  +password: string,
+  +passwordHint: string,
+  +passwordConfirm: string,
+  +currentStep: WalletsCreateStepIndex,
+  +isLoading: boolean,
+  +isPasswordExists: boolean,
+  +mnemonic: string,
+|}
+
+function mapStateToProps(state: AppState): StateProps {
   const {
     persist: {
       internalKey,
@@ -36,32 +46,21 @@ function mapStateToProps(state: AppState) {
     passwordHint,
     invalidFields,
     passwordConfirm,
+    mnemonic,
   }: WalletsState = selectWallets(state)
 
-  const walletsImport: WalletsImportState = selectWalletsImport(state)
-
-  const {
-    data,
-    walletType,
-    currentStep,
-    derivationPath,
-  }: WalletsImportState = walletsImport
+  const { currentStep }: WalletsCreateState = selectWalletsCreate(state)
 
   return {
-    data,
     name,
     password,
-    walletType,
+    isLoading,
     currentStep,
     passwordHint,
-    derivationPath,
+    invalidFields,
     passwordConfirm,
-    isLoading,
     isPasswordExists: !!internalKey,
-    invalidFields: {
-      ...invalidFields,
-      ...walletsImport.invalidFields,
-    },
+    mnemonic,
   }
 }
 
@@ -70,14 +69,12 @@ const mapDispatchToProps = {
   closeView,
   goToNextStep,
   goToPrevStep,
-  changeDataInput,
   changeNameInput,
   changePasswordInput,
   changePasswordHintInput,
-  changeDerivationPathInput,
   changePasswordConfirmInput,
 }
 
-export default (
+export const WalletsCreate = (
   connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
 )(WalletsCreateView)
