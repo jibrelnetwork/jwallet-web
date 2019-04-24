@@ -1,0 +1,28 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.slider {
+  width: 100%;
+}
+
+.slide {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.link {
+  width: 100%;
+  max-width: 544px;
+  margin-top: 37px;
+}
+
+.button {
+  width: 100%;
+}

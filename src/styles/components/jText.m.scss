@@ -7,6 +7,10 @@
   transition: color 0.3s ease 0s, opacity 0.3s ease 0s, font-size 0.3s ease 0s;
 }
 
+.main-black {
+  color: $main_black;
+}
+
 .blue {
   color: $blue;
 }

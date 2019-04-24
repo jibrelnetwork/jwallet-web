@@ -11,6 +11,7 @@ import {
 
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
+import { getIntroductionValue } from 'utils/introduction'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'pages'
@@ -123,7 +124,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!isAllFeaturesIntroduced) {
-      return <pages.NotFound />
+      return <pages.IntroductionView />
     }
 
     if (!isAllAgreementsChecked) {
@@ -148,7 +149,7 @@ function mapStateToProps(state) {
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
   const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
-  const isAllFeaturesIntroduced: boolean = true /* checkFeatures(FEATURES_LIST) */
+  const isAllFeaturesIntroduced: boolean = getIntroductionValue()
 
   return {
     route,
