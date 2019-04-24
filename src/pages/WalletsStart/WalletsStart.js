@@ -11,9 +11,9 @@ import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
 import {
-  LogoHeader,
   NewWalletButtons,
 } from 'components'
+import { StartLayout } from 'layouts'
 
 import walletsStartStyle from './walletsStart.m.scss'
 
@@ -48,22 +48,23 @@ export class WalletsStart extends Component<Props, StateProps> {
     const { action } = this.state
 
     return (
-      <div className={`__wallets-start ${walletsStartStyle.core}`}>
+      <StartLayout
+        className='__first-wallet'
+      >
         {!action && (
           <Fragment>
-            <LogoHeader />
-            <div className={walletsStartStyle.content}>
-              <h1 className={walletsStartStyle.title}>
-                <span>{t`Create a new wallet or import an existing`}</span>
-                <span>{t`to get started`}</span>
-              </h1>
-              <NewWalletButtons onClick={this.handleClick} />
-            </div>
+            <h1
+              className={walletsStartStyle.title}
+              dangerouslySetInnerHTML={{
+                __html: t`Create a new wallet or import an existing<br> to get started`,
+              }}
+            />
+            <NewWalletButtons onClick={this.handleClick} />
           </Fragment>
         )}
         {(action === ACTIONS.CREATE) && <WalletsCreate />}
         {(action === ACTIONS.IMPORT) && <WalletsImport />}
-      </div>
+      </StartLayout>
     )
   }
 }
