@@ -6,7 +6,7 @@ import { t } from 'ttag'
 
 import svgLogoBlue from 'public/assets/logo/logo-blue.svg'
 
-import startLayoutStyle from 'layouts/StartLayout/startLayout.m.scss'
+import startLayoutStyle from './startLayout.m.scss'
 
 type Props = {|
   className?: ?string,
