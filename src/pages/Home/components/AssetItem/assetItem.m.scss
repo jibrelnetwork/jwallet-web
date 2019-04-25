@@ -1,8 +1,7 @@
-@import '../../../../styles/mixins';
+@import 'styles/mixins';
 
 .core {
-  @include property-transition(height, opacity);
-  @include hover-animation;
+  @include property-transition(box-shadow);
 
   display: flex;
   width: 100%;
