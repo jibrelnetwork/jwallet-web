@@ -27,13 +27,16 @@ function JPickerListItem({
       onClick={onClick}
       onMouseEnter={onFocus}
       onMouseLeave={onBlur}
-      className={classNames(
-        jPickerItemStyle.core,
+      className={jPickerItemStyle.core}
+    >
+      <div className={classNames(
+        jPickerItemStyle.inner,
         isSelected && jPickerItemStyle.selected,
         isFocused && jPickerItemStyle.focused,
       )}
-    >
-      {children}
+      >
+        {children}
+      </div>
     </div>
   )
 }
