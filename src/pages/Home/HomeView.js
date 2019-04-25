@@ -5,10 +5,8 @@ import { t } from 'ttag'
 import { get } from 'lodash-es'
 
 import {
-  JIcon, JTabs, JSearch, JLink,
+  JIcon, JSearch, JLink, Header,
 } from 'components/base'
-
-import { DigitalAssetsFilter } from 'components'
 
 import { AssetItem } from './components/AssetItem/AssetItem'
 
@@ -16,20 +14,12 @@ import homeStyle from './home.m.scss'
 
 // eslint-disable-next-line max-len
 const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
-const DIGITAL_ASSETS_TABS = {
-  '/': t`Digital Assets`,
-  '/history': t`Transactions`,
-}
 
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
-  +sortByNameClick: () => void,
-  +sortByBalanceClick: () => void,
   +setSearchQuery: (string) => void,
-  +setHideZeroBalance: (boolean) => void,
   +items: DigitalAssetWithBalance[],
-  +filterOptions: DigitalAssetsFilterOptions,
 |}
 
 export class HomeView extends Component<Props> {
@@ -44,21 +34,13 @@ export class HomeView extends Component<Props> {
   render() {
     const {
       setSearchQuery,
-      sortByNameClick,
-      sortByBalanceClick,
-      setHideZeroBalance,
       items,
-      filterOptions,
     } = this.props
-
-    const filterCount: number = filterOptions.isHideZeroBalance ? 1 : 0
 
     return (
       <div className={homeStyle.core}>
         <section>
-          <h2 className={homeStyle.title}>
-            {t`Transfer`}
-          </h2>
+          <Header title={t`Transfer`} />
           <nav className={homeStyle.links}>
             <JLink
               className={homeStyle.link}
@@ -98,50 +80,38 @@ export class HomeView extends Component<Props> {
             </JLink>
           </nav>
         </section>
-        <div className={homeStyle.header}>
-          <div className={homeStyle.container}>
-            <JTabs tabs={DIGITAL_ASSETS_TABS} />
-            <div className={homeStyle.actions}>
-              <div className={homeStyle.search}>
-                <JSearch
-                  onChange={setSearchQuery}
-                  placeholder={t`Search assets...`}
-                />
-              </div>
-              <div className={homeStyle.filter}>
-                <DigitalAssetsFilter
-                  {...filterOptions}
-                  filterCount={filterCount}
-                  sortByNameClick={sortByNameClick}
-                  sortByBalanceClick={sortByBalanceClick}
-                  setHideZeroBalance={setHideZeroBalance}
-                />
-              </div>
-              <JLink
-                className={homeStyle.setting}
-                href='/assets'
-                title={t`Assets manager`}
-              >
-                <JIcon
-                  color='gray'
-                  name='setting-grid'
-                />
-              </JLink>
-            </div>
-          </div>
-        </div>
-        <div className={homeStyle.content}>
-          {items.map((item) => {
-            const address = get(item, 'blockchainParams.address')
-
-            return (
-              <AssetItem
-                key={address}
-                address={address}
+        <section>
+          <Header title={t`Assets`}>
+            <div className={homeStyle.search}>
+              <JSearch
+                onChange={setSearchQuery}
+                placeholder={t`Search assets...`}
               />
-            )
-          })}
-        </div>
+            </div>
+            <JLink
+              className={homeStyle.setting}
+              href='/assets'
+              title={t`Assets manager`}
+            >
+              <JIcon
+                color='gray'
+                name='setting-grid'
+              />
+            </JLink>
+          </Header>
+          <div className={homeStyle.content}>
+            {items.map((item) => {
+              const address = get(item, 'blockchainParams.address')
+
+              return (
+                <AssetItem
+                  key={address}
+                  address={address}
+                />
+              )
+            })}
+          </div>
+        </section>
       </div>
     )
   }
