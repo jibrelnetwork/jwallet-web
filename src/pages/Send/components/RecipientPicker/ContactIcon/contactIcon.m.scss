@@ -1,0 +1,18 @@
+@import "styles/mixins";
+@import "styles/colors";
+
+.core {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  width: 24px;
+  text-align: center;
+}
+
+.symbol {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  font-weight: normal;
+  color: $main-blue;
+}
