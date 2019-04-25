@@ -7,7 +7,6 @@
   position: relative;
   height: 72px;
   padding: 0;
-  background-color: $white;
 }
 
 .label {
@@ -36,6 +35,7 @@
   border: none;
   transition: padding 0.3s ease 0s, top 0.3s ease 0s;
   cursor: pointer;
+  border-radius: 4px;
 
   &::placeholder {
     opacity: 0;
