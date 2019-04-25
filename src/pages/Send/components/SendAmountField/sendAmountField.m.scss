@@ -33,6 +33,7 @@
   padding: 0;
   box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
   background-color: $white;
+  border-radius: 4px;
 
   &:hover {
     box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
@@ -186,8 +187,11 @@
   z-index: 4;
 
   > .max {
-    @include font(14px, 22px);
-
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    border-radius: 4px;
     position: relative;
     display: inline-block;
     outline: none;
@@ -195,8 +199,21 @@
     text-align: center;
     color: $main-blue;
     padding: 0 6px;
-    border: 1px solid $main-blue-10;
+    border: 1px solid $main-black-10;
     cursor: pointer;
+    transition:
+      background-color 0.2s ease 0s,
+      border 0.2s ease 0s;
+
+    &:hover {
+      border: 1px solid transparent;
+      background-color: $main-blue-10;
+    }
+
+    &:active {
+      border: 1px solid transparent;
+      background-color: $main-blue-20;
+    }
   }
 
   > .clean {
@@ -206,11 +223,16 @@
     text-align: center;
     padding: 6px;
     border: none;
-    opacity: 0.4;
     cursor: pointer;
+    stroke: $main-black-40;
+    fill: $main-black-40;
+    transition:
+      stroke 0.2s ease 0s,
+      fill 0.2s ease 0s;
 
     &:hover {
-      opacity: 0.3;
+      stroke: $main-blue;
+      fill: $main-blue;
     }
   }
 }
