@@ -80,7 +80,7 @@ function SendAmountField({
     : ''
 
   const formattedFiatAmount = fiatAmount
-    ? `=${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
+    ? `≈${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
     : ''
 
   const hasMaxValue = (input.value === maxValue)
@@ -119,6 +119,7 @@ function SendAmountField({
           autoCorrect='off'
           autoCapitalize='none'
           spellCheck='false'
+          maxLength='40'
           onChange={handlerOnChange(input)}
         />
         <div className={classNames(
@@ -130,7 +131,7 @@ function SendAmountField({
             className={fieldStyle.clean}
             onClick={handleClearClick(input)}
           >
-            <JIcon name='close-padding' color='black' />
+            <JIcon name='close-use-fill' />
           </button>
           <button
             type='button'
