@@ -72,11 +72,22 @@ export class HomeView extends Component<Props, ComponentState> {
     this.props.closeView()
   }
 
+  handleClickManage = () => {
+    this.setState(({
+      isInManageMode,
+    }) => ({
+      isInManageMode: !isInManageMode,
+    }))
+  }
+
   render() {
     const {
       setSearchQuery,
       items,
     } = this.props
+    const {
+      isInManageMode,
+    } = this.state
 
     const filteredItems = items.filter(item => filterAssetByQuery(
       item,
@@ -134,16 +145,30 @@ export class HomeView extends Component<Props, ComponentState> {
                 placeholder={t`Search assets...`}
               />
             </div>
-            <JLink
-              className={homeStyle.setting}
-              href='/assets'
-              title={t`Assets manager`}
-            >
-              <JIcon
-                color='gray'
-                name='setting-grid'
-              />
-            </JLink>
+            {isInManageMode
+              ? (
+                <button
+                  className={`__save-button ${homeStyle.save}`}
+                  type='button'
+                  onClick={this.handleClickManage}
+                >
+                  {t`Save`}
+                </button>
+              )
+              : (
+                <button
+                  className={`__manage-button ${homeStyle.manage}`}
+                  type='button'
+                  onClick={this.handleClickManage}
+                >
+                  <JIcon
+                    name='ic_manage_24-use-fill'
+                    className={`__manage-button ${homeStyle.manageIcon}`}
+                  />
+                  {t`Manage`}
+                </button>
+              )
+            }
           </Header>
           <div className={homeStyle.content}>
             {filteredItems.map((item) => {

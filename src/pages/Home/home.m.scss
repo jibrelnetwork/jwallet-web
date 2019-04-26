@@ -76,28 +76,67 @@
 }
 
 .actions {
-  @include box;
-  @include flex-row;
+  @include flex-row-center;
+}
 
-  align-items: center;
+.manage {
+  @include flex-row-center;
+  @include ellipsis;
+  @include property-transition(background-color, color);
+
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  color: $main-black-40;
+  padding: 9px 8px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: $main-blue-10;
+    color: $main-blue;
+  }
+
+  &:active {
+    background-color: $main-blue-20;
+  }
+}
+
+.manage-icon {
+  @include sprite-icon-color($main-black-30);
+
+  margin-right: 8px;
+}
+
+.save {
+  @include flex-row-center;
+  @include ellipsis;
+  @include property-transition(color);
+
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 600;
+  color: $main-blue;
+  padding: 9px 20px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: $main-blue-10;
+  }
+
+  &:active {
+    background-color: $main-blue-20;
+  }
 }
 
 .search,
 .filter {
   margin-right: 45px;
-}
-
-.setting {
-  @include hover-animation;
-
-  display: block;
-  transform: translateY(4px);
-  opacity: 0.5;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .content {
