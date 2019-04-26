@@ -22,6 +22,8 @@
     box-shadow: $select-shadow;
 
     .arrow {
+      @include sprite-icon-color($main-blue);
+
       transform: translate(8px);
     }
   }
@@ -79,8 +81,9 @@
 // utility animation
 // stylelint-disable-next-line no-descending-specificity
 .arrow {
-  stroke: $main-black-40;
-  fill: $main-black-40;
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-40);
+
   transition: transform 0.4s 0.2s $default-animation;
   transform: translate(0);
 }
