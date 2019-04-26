@@ -20,6 +20,7 @@
   .input {
     @include property-transition(color);
 
+    appearance: none;
     display: block;
     flex-grow: 1;
     font-size: 14px;

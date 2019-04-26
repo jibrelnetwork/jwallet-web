@@ -40,7 +40,6 @@ export function SearchInput({
         name='ic_search_24-use-fill'
       />
       <input
-        type='search'
         className={searchInputStyle.input}
         onChange={onChange}
         onFocus={onFocus}
