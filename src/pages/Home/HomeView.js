@@ -2,13 +2,17 @@
 
 import React, { Component } from 'react'
 import { t } from 'ttag'
-import { get } from 'lodash-es'
+import {
+  get,
+  isEqual,
+} from 'lodash-es'
 
 import {
   JIcon, JSearch, JLink, Header,
 } from 'components/base'
 
 import { AssetItem } from './components/AssetItem/AssetItem'
+import { filterAssetByQuery } from './filterAssetByQuery'
 
 import homeStyle from './home.m.scss'
 
@@ -22,9 +26,46 @@ type Props = {|
   +items: DigitalAssetWithBalance[],
 |}
 
-export class HomeView extends Component<Props> {
+type ComponentState = {
+  searchQuery: string,
+  isInManageMode: boolean,
+}
+
+export class HomeView extends Component<Props, ComponentState> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      searchQuery: '',
+      isInManageMode: false,
+    }
+  }
+
   componentDidMount() {
     this.props.openView()
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: ComponentState) {
+    if (
+      nextProps.items
+        .find(
+          (item, idx) => get(
+            item,
+            'blockchainParams.address',
+          ) !== get(
+            this.props.items[idx],
+            'blockchainParams.address',
+          ),
+        )
+    ) {
+      return true
+    }
+
+    if (!isEqual(this.state, nextState)) {
+      return true
+    }
+
+    return false
   }
 
   componentWillUnmount() {
@@ -36,6 +77,11 @@ export class HomeView extends Component<Props> {
       setSearchQuery,
       items,
     } = this.props
+
+    const filteredItems = items.filter(item => filterAssetByQuery(
+      item,
+      this.state.searchQuery,
+    ))
 
     return (
       <div className={homeStyle.core}>
@@ -100,7 +146,7 @@ export class HomeView extends Component<Props> {
             </JLink>
           </Header>
           <div className={homeStyle.content}>
-            {items.map((item) => {
+            {filteredItems.map((item) => {
               const address = get(item, 'blockchainParams.address')
 
               return (

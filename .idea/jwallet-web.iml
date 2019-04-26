@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/components/base/JIcon/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/layouts/MenuLayout/components/MenuPanel/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/components/base/JAssetSymbol/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/utils/address/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/docs/storybook" />
