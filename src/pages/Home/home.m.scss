@@ -79,6 +79,12 @@
   @include flex-row-center;
 }
 
+.manage-icon {
+  @include sprite-icon-color($main-black-30);
+
+  margin-right: 8px;
+}
+
 .manage {
   @include flex-row-center;
   @include ellipsis;
@@ -94,20 +100,19 @@
   padding: 9px 8px;
   border-radius: 4px;
 
-  &:hover {
+  &:hover,
+  &:active {
     background-color: $main-blue-10;
     color: $main-blue;
+
+    .manage-icon {
+      @include sprite-icon-color($main-blue);
+    }
   }
 
   &:active {
     background-color: $main-blue-20;
   }
-}
-
-.manage-icon {
-  @include sprite-icon-color($main-black-30);
-
-  margin-right: 8px;
 }
 
 .save {
