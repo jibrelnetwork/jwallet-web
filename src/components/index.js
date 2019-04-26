@@ -24,7 +24,6 @@ import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
 import TransactionItem from './TransactionItem'
 import WalletViewTitle from './WalletViewTitle'
-import NewWalletButtons from './NewWalletButtons'
 import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
@@ -35,9 +34,9 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
-export { AssetItem } from '../pages/Home/components/AssetItem/AssetItem'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
+export { NewWalletButtons } from './NewWalletButtons/NewWalletButtons'
 
 export {
   QRCode,
@@ -64,7 +63,6 @@ export {
   RoundIconButton,
   TransactionItem,
   WalletViewTitle,
-  NewWalletButtons,
   TransactionsList,
   ButtonWithConfirm,
   MnemonicAddresses,

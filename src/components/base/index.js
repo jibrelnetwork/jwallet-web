@@ -17,7 +17,7 @@ import JPicker from './JPicker'
 
 export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
 export { JIcon } from './JIcon/JIcon'
-export { JLogo } from './JLogo/JLogo'
+export { Header } from './Header/Header'
 export { JLink } from './JLink/JLink'
 export { JLinkBack } from './JLinkBack/JLinkBack'
 export { JTextArea } from './JTextArea/JTextArea'

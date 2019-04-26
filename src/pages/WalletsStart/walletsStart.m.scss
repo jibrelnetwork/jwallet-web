@@ -1,0 +1,12 @@
+@import 'styles/mixins';
+
+.title {
+  @include flex-column-center;
+
+  margin-bottom: 30px;
+  line-height: 28px;
+  font-size: 20px;
+  font-weight: normal;
+  text-align: center;
+  color: $main-black;
+}

@@ -43,7 +43,7 @@ module.exports = {
     enzymeAdapter: 'react16',
   },
   globals: {
-    __DEV__: true,
+    __DEV__: false,
     __DEFAULT_BLOCKEXPLORER_API__: '',
   },
 }

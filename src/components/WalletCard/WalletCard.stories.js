@@ -4,7 +4,6 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import WalletCard from 'components/WalletCard'
-import NewWalletButtons from 'components/NewWalletButtons'
 
 const walletData = [
   {
@@ -82,17 +81,6 @@ storiesOf('WalletCard')
       <h2>WalletLoading</h2>
       <div>
         <WalletCard walletData={walletData[0]} {...props[2]} />
-      </div>
-    </div>
-  ))
-  .add('NewWalletButtons', () => (
-    <div>
-      <h2>NewWalletButtons</h2>
-      <div className='story -blue'>
-        <NewWalletButtons
-          createWallet={props.createWallet}
-          importWallet={props.importWallet}
-        />
       </div>
     </div>
   ))

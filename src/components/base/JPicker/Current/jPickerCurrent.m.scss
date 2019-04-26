@@ -1,0 +1,108 @@
+// stylelint-disable rscss/class-format, selector-nested-pattern
+
+@import "styles/mixins";
+@import "styles/colors";
+
+.core {
+  position: relative;
+  height: 72px;
+  padding: 0;
+}
+
+.label {
+  position: absolute;
+  display: block;
+  top: 24px;
+  left: 16px;
+  font-size: 14px;
+  line-height: 22px;
+  cursor: text;
+  color: $main-black-40;
+  transition:
+    font-size 0.3s ease 0s,
+    top 0.3s ease 0s;
+}
+
+.input {
+  @include font(14px, 14px);
+
+  display: block;
+  padding: 24px 200px 26px 16px;
+  line-height: 22px;
+  width: 100%;
+  background: inherit;
+  resize: none;
+  border: none;
+  transition: padding 0.3s ease 0s, top 0.3s ease 0s;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &::placeholder {
+    opacity: 0;
+  }
+}
+
+.value {
+  > .input {
+    padding-top: 34px;
+    padding-bottom: 16px;
+  }
+
+  > .input::placeholder {
+    color: $main-black;
+    opacity: 1;
+  }
+
+  > .label {
+    top: 16px;
+    font-size: 12px;
+    background-color: transparent;
+  }
+}
+
+.editble .input {
+  cursor: text;
+}
+
+.has-icon {
+  .input {
+    padding-left: 64px;
+  }
+
+  .label {
+    left: 64px;
+  }
+}
+
+.input:focus {
+  padding-top: 34px;
+  padding-bottom: 16px;
+
+  &::placeholder {
+    opacity: 0;
+  }
+
+  & + .label {
+    top: 16px;
+    font-size: 12px;
+    background-color: transparent;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  height: 24px;
+  width: 24px;
+  padding: 0;
+}
+
+.balances {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 64px;
+  top: 0;
+  bottom: 0;
+}

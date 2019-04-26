@@ -25,7 +25,7 @@
   background-color: $white;
   box-shadow: $normal-shadow;
 
-  > .label {
+  .label {
     @include property-transition(color, font-size, font-weight, top);
 
     will-change: contents;
@@ -44,7 +44,7 @@
     color: $main-black-30;
   }
 
-  > .input {
+  .input {
     @include font(14px, 22px);
     @include property-transition(top);
 
@@ -70,29 +70,39 @@
   &.focused {
     box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
 
-    > .label {
+    .label {
+      color: $main-black-40;
       font-weight: 400;
       font-size: 12px;
       top: 14px;
     }
 
-    > .input {
+    .input {
       top: 10px;
     }
   }
 
   &.error {
-    > .label {
+    .label {
       color: $main-red;
     }
   }
 
   &.disabled {
-    background: rgba(8, 30, 57, 0.05);
+    opacity: 0.7;
+
+    .input {
+      color: $main-black-40;
+    }
 
     &:hover,
     &:focus {
       box-shadow: $normal-shadow;
     }
   }
+}
+
+.message {
+  display: block;
+  padding: 0 16px;
 }

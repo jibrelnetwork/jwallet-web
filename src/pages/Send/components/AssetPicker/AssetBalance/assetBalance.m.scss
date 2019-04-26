@@ -1,0 +1,24 @@
+@import "styles/mixins";
+@import "styles/colors";
+
+.core {
+  display: flex;
+  text-align: right;
+  flex-direction: column;
+
+  .asset {
+    display: block;
+    color: $main-blue;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+  }
+
+  .fiat {
+    display: block;
+    color: $main-black-40;
+    font-weight: normal;
+    line-height: 20px;
+    font-size: 12px;
+  }
+}
