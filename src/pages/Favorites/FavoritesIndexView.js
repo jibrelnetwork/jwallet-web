@@ -8,7 +8,7 @@ import escapeRegExp from 'utils/regexp/escapeRegExp'
 import OverlayNotification from 'components/OverlayNotification'
 
 import {
-  JIcon, JText, JSearch, JLink,
+  JIcon, JText, JLink, SearchInput,
 } from 'components/base'
 
 import './favoritesView.scss'
@@ -144,10 +144,7 @@ class FavoritesIndexView extends PureComponent<Props, State> {
             <JText value={t`Favorites`} size='tab' color='dark' />
             <div className='actions'>
               <div className='search'>
-                <JSearch
-                  onChange={this.handleChange}
-                  placeholder={t`Search favorites...`}
-                />
+                <SearchInput onChange={this.handleChange} />
               </div>
               <JLink className='add' href='/contacts/add' title={t`Add favorite address`}>
                 <JIcon

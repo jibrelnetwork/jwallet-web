@@ -7,7 +7,6 @@ import JInput from './JInput'
 import JLoader from './JLoader'
 import JRadio from './JRadio'
 import JRaisedButton from './JRaisedButton'
-import JSearch from './JSearch'
 import JTabs from './JTabs'
 import JText from './JText'
 import JThumbnail from './JThumbnail'
@@ -25,6 +24,7 @@ export { JInputField } from './JInputField/JInputField'
 export { JTextAreaField } from './JTextArea/JTextAreaField'
 export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 export { JShimmer } from './JShimmer/JShimmer'
+export { SearchInput } from './SearchInput/SearchInput'
 
 export {
   JCard,
@@ -34,7 +34,6 @@ export {
   JLoader,
   JRadio,
   JRaisedButton,
-  JSearch,
   JTabs,
   JText,
   JThumbnail,

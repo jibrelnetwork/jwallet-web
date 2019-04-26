@@ -7,7 +7,11 @@ import { t } from 'ttag'
 import DigitalAssetsManage from 'components/DigitalAssetsManage'
 
 import {
-  JIcon, JText, JSearch, JLink, JLinkBack,
+  JIcon,
+  JText,
+  JLink,
+  JLinkBack,
+  SearchInput,
 } from 'components/base'
 
 type Props = {|
@@ -45,7 +49,7 @@ class DigitalAssetsManageView extends Component<Props> {
             </div>
             <div className='actions'>
               <div className='search'>
-                <JSearch onChange={setSearchQuery} placeholder={t`Search asset...`} />
+                <SearchInput onChange={setSearchQuery} />
               </div>
               <JLink href='/assets/add' className='button add' title={t`Add asset`}>
                 <JIcon name='add' color='gray' />

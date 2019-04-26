@@ -5,7 +5,7 @@ import { t } from 'ttag'
 import { get } from 'lodash-es'
 
 import {
-  JIcon, JTabs, JSearch, JLink,
+  JIcon, JTabs, JLink, SearchInput,
 } from 'components/base'
 
 import { DigitalAssetsFilter } from 'components'
@@ -103,9 +103,8 @@ export class HomeView extends Component<Props> {
             <JTabs tabs={DIGITAL_ASSETS_TABS} />
             <div className={homeStyle.actions}>
               <div className={homeStyle.search}>
-                <JSearch
+                <SearchInput
                   onChange={setSearchQuery}
-                  placeholder={t`Search assets...`}
                 />
               </div>
               <div className={homeStyle.filter}>
