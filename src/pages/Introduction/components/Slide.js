@@ -1,11 +1,6 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import classNames from 'classnames'
-
-import { t } from 'ttag'
-
-import jTextStyle from 'styles/components/jText.m.scss'
 
 import introductionStyle from './slide.m.scss'
 
@@ -72,22 +67,12 @@ export class Slide extends PureComponent<Props, State> {
           <img src={imgCover} className={introductionStyle.img} alt='' />
           <div className={introductionStyle.animation} ref={this.canvasRef} />
         </div>
-        <div className={classNames(
-          introductionStyle.title,
-          jTextStyle.mainBlack,
-          jTextStyle.tab,
-        )}
-        >
-          {t`${title}`}
+        <div className={introductionStyle.title}>
+          {title}
         </div>
-        <div className={classNames(
-          introductionStyle.descr,
-          jTextStyle.mainBlack,
-          jTextStyle.tab,
-        )}
-        >
+        <div className={introductionStyle.descr}>
           {descr.map(item => (
-            <p key={item}>{t`${item}`}</p>
+            <p key={item}>{item}</p>
           ))}
         </div>
       </div>

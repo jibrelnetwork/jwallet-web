@@ -1,3 +1,5 @@
+@import 'styles/mixins';
+
 .slide {
   width: 100%;
 }
@@ -31,9 +33,12 @@
 .title {
   line-height: 1.4;
   padding-bottom: 18px;
+  font-size: 20px;
+  color: $main-black;
 }
 
 .descr {
   font-size: 14px;
   line-height: 1.428;
+  color: $main-black;
 }
