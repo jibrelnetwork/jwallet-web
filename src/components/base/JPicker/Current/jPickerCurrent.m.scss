@@ -16,7 +16,7 @@
   left: 16px;
   font-size: 14px;
   line-height: 22px;
-  cursor: text;
+  cursor: pointer;
   color: $main-black-40;
   transition:
     font-size 0.3s ease 0s,
@@ -29,6 +29,7 @@
   display: block;
   padding: 24px 200px 26px 16px;
   line-height: 22px;
+  font-weight: 600;
   width: 100%;
   background: inherit;
   resize: none;
@@ -96,6 +97,7 @@
   height: 24px;
   width: 24px;
   padding: 0;
+  cursor: pointer;
 }
 
 .balances {
@@ -105,4 +107,5 @@
   right: 64px;
   top: 0;
   bottom: 0;
+  cursor: pointer;
 }
