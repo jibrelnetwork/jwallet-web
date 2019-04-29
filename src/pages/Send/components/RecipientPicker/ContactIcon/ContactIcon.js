@@ -1,6 +1,7 @@
 // @flow strict
 
 import * as React from 'react'
+import classNames from 'classnames'
 
 import { JIcon } from 'components/base'
 
@@ -37,17 +38,20 @@ function createSymbol(text: string) {
 type Props = {|
   +name: string,
   +forceAddressIcon: boolean,
+  +className: string,
 |}
 
 export function ContactIcon({
   name,
   forceAddressIcon,
+  className,
 }: Props) {
   if (forceAddressIcon || !name) {
     return (
       <JIcon
         name='contact-2-use-fill'
         color='blue'
+        className={className}
       />
     )
   }
@@ -55,7 +59,7 @@ export function ContactIcon({
   const symbol = createSymbol(name)
 
   return (
-    <div className={contactIconStyles.core}>
+    <div className={classNames(contactIconStyles.core, className)}>
       <span className={contactIconStyles.symbol}>{symbol}</span>
     </div>
   )
@@ -64,4 +68,5 @@ export function ContactIcon({
 ContactIcon.defaultProps = {
   forceAddressIcon: false,
   name: '',
+  className: '',
 }

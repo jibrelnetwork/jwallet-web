@@ -5,8 +5,7 @@ import React, {
 } from 'react'
 import { t } from 'ttag'
 
-// import escapeRegExp from 'utils/regexp/escapeRegExp'
-// import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
+import escapeRegExp from 'utils/regexp/escapeRegExp'
 
 import {
   JPickerBody,
@@ -14,59 +13,51 @@ import {
   JPickerCurrent,
   NotFoundItem,
 } from 'components/base/JPicker'
-// import {
-// // formatAssetBalance,
-// // formatCurrencyWithSymbol,
-// } from 'utils/formatters'
 
+import { Empty } from './Tabs/Empty'
+import { ContactItem } from './ContactItem/ContactItem'
+import { ContactIcon } from './ContactIcon/ContactIcon'
+import { WalletList } from './WalletList/WalletList'
 import {
   Tabs,
   type Tab,
 } from './Tabs/Tabs'
-import { Empty } from './Tabs/Empty'
-
-// import { JAssetSymbol } from 'components/base'
-
-// import { AssetBalance } from './AssetBalance/AssetBalance'
-// import { AssetItem } from './Item/AssetItem'
-
-// function searchDigitalAssets(
-//   digitalAssets: DigitalAssetWithBalance[],
-//   searchQuery: string,
-// ): DigitalAssetWithBalance[] {
-//   const query: string = searchQuery.trim()
-//   const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
-
-//   return !query ? digitalAssets : digitalAssets.reduce((
-//     result: DigitalAssetWithBalance[],
-//     asset: DigitalAssetWithBalance,
-//   ): DigitalAssetWithBalance[] => {
-//     const {
-//       name,
-//       symbol,
-//       blockchainParams: {
-//         address,
-//       },
-//     }: DigitalAssetWithBalance = asset
-
-//     const isFound: boolean = (
-//       (name.search(searchRe) !== -1) ||
-//       (symbol.search(searchRe) !== -1) ||
-//       (address.search(searchRe) !== -1)
-//     )
-
-//     return !isFound ? result : [
-//       ...result,
-//       asset,
-//     ]
-//   }, [])
-// }
 
 type Contact = {|
   +name?: string,
   +description?: string,
   +address: Address,
 |}
+
+function filterContacts(
+  contacts: Contact[],
+  searchQuery: string,
+): Contact[] {
+  const query: string = searchQuery.trim()
+  const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
+
+  return !query ? contacts : contacts.reduce((
+    result,
+    contact,
+  ) => {
+    const {
+      name,
+      description,
+      address,
+    } = contact
+
+    const isFound: boolean = (
+      (name && name.search(searchRe) !== -1) ||
+      (description && description.search(searchRe) !== -1) ||
+      (address.search(searchRe) !== -1)
+    )
+
+    return !isFound ? result : [
+      ...result,
+      contact,
+    ]
+  }, [])
+}
 
 type Props = {|
   +meta: FinalFormMeta,
@@ -109,7 +100,7 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
     this.setState({ activeTab })
   }
 
-  renderContactsTab = () => {
+  renderContactsTab = (activeContact: Contact) => {
     const {
       input,
       contacts,
@@ -122,8 +113,7 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
       )
     }
 
-    const activeContact = contacts.find(contact => contact.id === input.value)
-    const filteredContacts = contacts
+    const filteredContacts = filterContacts(contacts, this.state.searchQuery)
 
     if (!filteredContacts.length) {
       return (
@@ -135,10 +125,15 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
       <JPickerList
       // eslint-disable-next-line react/jsx-handler-names
         onItemClick={input.onChange}
-        activeItemKey={activeContact ? activeContact.id : ''}
+        activeItemKey={activeContact ? activeContact.address : ''}
       >
         {filteredContacts.map(contact => (
-          <span key={contact.id} />
+          <ContactItem
+            key={contact.address}
+            name={contact.name}
+            description={contact.description}
+            address={contact.address}
+          />
         ))}
       </JPickerList>
     )
@@ -167,24 +162,20 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
     }
 
     return (
-      <JPickerList
-      // eslint-disable-next-line react/jsx-handler-names
-        onItemClick={input.onChange}
-        activeItemKey={activeWallet ? activeWallet.id : ''}
-      >
-        {filteredWallets.map(wallet => (
-          <span key={wallet.id} />
-        ))}
-      </JPickerList>
+      <WalletList
+        wallets={wallets}
+        balances={{}}
+        onChange={input.onChange}
+      />
     )
   }
 
   render() {
     const {
       meta,
-      // wallets,
-      // contacts,
-      // input,
+      // wallet,
+      contacts,
+      input,
       // fiatCurrency,
     } = this.props
 
@@ -193,9 +184,18 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
       activeTab,
     } = this.state
 
-    const currentValue = ''
+    const activeContact = contacts.find(contact => contact.address === input.value)
+    // const activeWalletInfo = input.value && input.value.walletId
+    //   ? input.value
+    //   : null
 
     // const isWalletsAndContactsEmpty = (!wallets.length && !contacts.length)
+
+    const currentValue = activeContact
+      ? activeContact.name
+        ? activeContact.name
+        : activeContact.address
+      : ''
 
     return (
       <JPickerBody
@@ -209,9 +209,11 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
             value={currentValue}
             inputValue={searchQuery}
             onInputChange={this.handleSearchQueryChange}
-            iconRenderer={() => (
-              <span />
-            )}
+            iconRenderer={() => activeContact ? (
+              <ContactIcon
+                {...activeContact}
+              />
+            ) : (<span />)}
           />
         )}
       >
@@ -219,51 +221,9 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
           activeTab={activeTab}
           onTabClick={this.handleTabClick}
         />
-        {activeTab === 'contacts' ? this.renderContactsTab() : this.renderWalletsTab()}
-        {/* {!filteredDigitalAssets.length
-          ? (
-            <NotFoundItem />
-          )
-          : (
-            <JPickerList
-            // eslint-disable-next-line react/jsx-handler-names
-              onItemClick={input.onChange}
-              activeItemKey={activeAssetAddress}
-            >
-              {filteredDigitalAssets.map((item: DigitalAssetWithBalance) => {
-                const {
-                  name,
-                  balance,
-                  blockchainParams: {
-                    address,
-                    decimals,
-                  },
-                } = item
-
-                const symbol = item.symbol.toUpperCase()
-
-                const formattedAssetBalance = balance && balance.value
-                  ? `${formatAssetBalance(address, balance.value, decimals)} ${symbol}`
-                  : ''
-
-                const formattedFiatBalance = balance && balance.fiatBalance
-                  ? `=${formatCurrencyWithSymbol(balance.fiatBalance, fiatCurrency)}`
-                  : ''
-
-                return (
-                  <AssetItem
-                    key={address}
-                    name={name}
-                    symbol={symbol}
-                    address={address}
-                    assetBalance={formattedAssetBalance}
-                    fiatBalance={formattedFiatBalance}
-                  />
-                )
-              })}
-            </JPickerList>
-          )
-        } */}
+        {activeTab === 'contacts'
+          ? this.renderContactsTab(activeContact)
+          : this.renderWalletsTab()}
       </JPickerBody>
     )
   }
