@@ -58,3 +58,28 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+// Service mixin
+@mixin simple_transition($value) {
+  transition: $value;
+}
+// Usage example: @include transition(height, opacity, transform);
+// Result of use: transition: height 0.3s ease 0s , opacity 0.3s ease 0s , transform 0.3s ease 0s , -webkit-transform 0.3s ease 0s;
+@mixin transition($args...) {
+  $type: nth($args, length($args));
+  $props: $args;
+  $result: ();
+
+  @for $i from 1 through length($props) {
+    $anim: length($args);
+    $prop: nth($props, $i);
+    $result: append($result, $prop);
+    $result: append($result, unquote($string: '0.3s ease 0s'));
+
+    @if $i != length($props) {
+      $result: append($result, unquote($string: ","));
+    }
+  }
+
+  @include simple_transition($result);
+}
