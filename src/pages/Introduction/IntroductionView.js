@@ -2,8 +2,8 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import Swiper from 'react-id-swiper'
-import { Pagination } from 'swiper/dist/js/swiper.esm'
+import classNames from 'classnames'
+import ViewSlider from 'react-view-slider'
 
 import {
   JLink,
@@ -17,60 +17,6 @@ import {
 import { Slide } from './components/Slide'
 
 import introductionViewStyle from './introductionView.m.scss'
-import './swiper.scss'
-
-const sliders = [
-  {
-    id: 0,
-    img: '/assets/feature/jwallet.png',
-    animationName: 'jwallet',
-    title: 'Jwallet',
-    descr: [
-      'A simple, fast and secure mobile wallet',
-      'for Ethereum and all ERC-20 tokens.',
-    ],
-  },
-  {
-    id: 1,
-    img: '/assets/feature/store.png',
-    animationName: 'store',
-    title: 'Store',
-    descr: [
-      'Create and manage several wallets for different goals or just simply',
-      'import your existing Ethereum and ERC-20 wallet.',
-    ],
-  },
-  {
-    id: 2,
-    img: '/assets/feature/protect.png',
-    animationName: 'protect',
-    title: 'Protect',
-    descr: [
-      'All sensitive data never leaves your device and your private keys',
-      'are never shared with anyone, including us.',
-    ],
-  },
-  {
-    id: 3,
-    img: '/assets/feature/send_receive.png',
-    animationName: 'send_receive',
-    title: 'Send & Receive',
-    descr: [
-      'All sensitive data never leaves your device and your private keys',
-      'are never shared with anyone, including us.',
-    ],
-  },
-  {
-    id: 4,
-    img: '/assets/feature/manage.png',
-    animationName: 'manage',
-    title: 'Manage',
-    descr: [
-      'Enjoy complete control over your digital assets.',
-      'Manage ETH and all ERC-20 tokens.',
-    ],
-  },
-]
 
 export type Props = {|
 |}
@@ -78,6 +24,71 @@ export type Props = {|
 type State = {|
   activeId: number,
 |}
+
+const sliders = [
+  {
+    img: '/assets/feature/jwallet.png',
+    animationName: 'jwallet',
+    title: 'Jwallet',
+    descr: [
+      t`A simple, fast and secure mobile wallet`,
+      t`for Ethereum and all ERC-20 tokens.`,
+    ],
+  },
+  {
+    img: '/assets/feature/store.png',
+    animationName: 'store',
+    title: 'Store',
+    descr: [
+      t`Create and manage several wallets for different goals or just simply`,
+      t`import your existing Ethereum and ERC-20 wallet.`,
+    ],
+  },
+  {
+    img: '/assets/feature/protect.png',
+    animationName: 'protect',
+    title: 'Protect',
+    descr: [
+      t`All sensitive data never leaves your device and your private keys`,
+      t`are never shared with anyone, including us.`,
+    ],
+  },
+  {
+    img: '/assets/feature/send_receive.png',
+    animationName: 'send_receive',
+    title: 'Send & Receive',
+    descr: [
+      t`All sensitive data never leaves your device and your private keys`,
+      t`are never shared with anyone, including us.`,
+    ],
+  },
+  {
+    img: '/assets/feature/manage.png',
+    animationName: 'manage',
+    title: 'Manage',
+    descr: [
+      t`Enjoy complete control over your digital assets.`,
+      t`Manage ETH and all ERC-20 tokens.`,
+    ],
+  },
+]
+
+const renderView = ({
+  index,
+}) => (
+  <div className={introductionViewStyle.slider}>
+    <div className={introductionViewStyle.slide}>
+      <div className={introductionViewStyle.box}>
+        <Slide
+          title={sliders[index].title}
+          descr={sliders[index].descr}
+          imgCover={sliders[index].img}
+          animationName={sliders[index].animationName}
+        />
+      </div>
+    </div>
+  </div>
+)
 
 export class IntroductionView extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -92,47 +103,64 @@ export class IntroductionView extends PureComponent<Props, State> {
     setIntroductionValue()
   }
 
+  setActiveId = number => () => {
+    console.log(number)
+    this.setState({ activeId: number })
+  }
+
   render() {
     const {
       activeId,
     }: State = this.state
 
-    const self = this
-
-    const params = {
-      modules: [Pagination],
-      pagination: {
-        el: '.swiper-pagination.customized-swiper-pagination',
-        type: 'bullets',
-        clickable: true,
-      },
-      spaceBetween: 0,
-      on: {
-        slideChange() {
-          self.setState({
-            activeId: this.activeIndex,
-          })
-        },
-      },
-    }
-
     return (
       <div className={`__introduction ${introductionViewStyle.core}`} >
-        <div className={introductionViewStyle.slider}>
-          <Swiper {...params}>
-            {sliders.map(item => (
-              <div className={introductionViewStyle.slide} key={item.id}>
-                <Slide
-                  id={item.id}
-                  activeId={activeId}
-                  descr={item.descr}
-                  title={item.title}
-                  imgCover={item.img}
-                  animationName={item.animationName}
-                />
-              </div>
-            ))}
-          </Swiper>
+        <ViewSlider
+          renderView={renderView}
+          numViews={5}
+          activeView={activeId}
+        />
+        <div className={introductionViewStyle.paginations}>
+          <button
+            type='button'
+            className={classNames(
+              introductionViewStyle.item,
+              activeId === 0 && introductionViewStyle['-current'],
+            )}
+            onClick={this.setActiveId(0)}
+          />
+          <button
+            type='button'
+            className={classNames(
+              introductionViewStyle.item,
+              activeId === 1 && introductionViewStyle['-current'],
+            )}
+            onClick={this.setActiveId(1)}
+          />
+          <button
+            type='button'
+            className={classNames(
+              introductionViewStyle.item,
+              activeId === 2 && introductionViewStyle['-current'],
+            )}
+            onClick={this.setActiveId(2)}
+          />
+          <button
+            type='button'
+            className={classNames(
+              introductionViewStyle.item,
+              activeId === 3 && introductionViewStyle['-current'],
+            )}
+            onClick={this.setActiveId(3)}
+          />
+          <button
+            type='button'
+            className={classNames(
+              introductionViewStyle.item,
+              activeId === 4 && introductionViewStyle['-current'],
+            )}
+            onClick={this.setActiveId(4)}
+          />
         </div>
         <JLink href='/wallets' className={introductionViewStyle.link}>
           <JRaisedButton

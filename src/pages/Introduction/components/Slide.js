@@ -10,8 +10,6 @@ import jTextStyle from 'styles/components/jText.m.scss'
 import introductionStyle from './slide.m.scss'
 
 type Props = {|
-  id: number,
-  activeId: number,
   descr: Object,
   title: string,
   imgCover: string,
@@ -54,16 +52,12 @@ export class Slide extends PureComponent<Props, State> {
 
   render() {
     const {
-      id,
-      activeId,
       descr,
       title,
       imgCover,
     } = this.props
 
-    if (id === activeId && this.state.animationData && this.canvasRef.current) {
-      this.lottie.destroy()
-
+    if (this.state.animationData && this.canvasRef.current) {
       this.lottie.loadAnimation({
         container: this.canvasRef.current,
         loop: false,
