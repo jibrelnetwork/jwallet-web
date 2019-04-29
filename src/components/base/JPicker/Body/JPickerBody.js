@@ -44,7 +44,11 @@ function JPickerBody({
     >
       <div className={jPickerBodyStyle.select}>
         <div
-          onClick={isDisabled ? undefined : onOpen}
+          onClick={isDisabled
+            ? undefined
+            : isOpen
+              ? onClose
+              : onOpen}
           className={jPickerBodyStyle.current}
         >
           {currentEl}
