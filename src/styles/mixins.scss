@@ -59,13 +59,9 @@
   text-overflow: ellipsis;
 }
 
-// Service mixin
-@mixin simple_transition($value) {
-  transition: $value;
-}
-// Usage example: @include transition(height, opacity, transform);
+// Usage example: @include default-transition(height, opacity, transform);
 // Result of use: transition: height 200ms cubic-bezier(0, 0, 0.2, 1) 0s , opacity 200ms cubic-bezier(0, 0, 0.2, 1) 0s , transform 200ms cubic-bezier(0, 0, 0.2, 1) 0s , -webkit-transform 200ms cubic-bezier(0, 0, 0.2, 1) 0s;
-@mixin transition($args...) {
+@mixin default-transition($args...) {
   $type: nth($args, length($args));
   $props: $args;
   $result: ();
@@ -81,5 +77,5 @@
     }
   }
 
-  @include simple_transition($result);
+  transition: $result;
 }
