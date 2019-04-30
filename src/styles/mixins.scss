@@ -64,7 +64,7 @@
   transition: $value;
 }
 // Usage example: @include transition(height, opacity, transform);
-// Result of use: transition: height 0.3s ease 0s , opacity 0.3s ease 0s , transform 0.3s ease 0s , -webkit-transform 0.3s ease 0s;
+// Result of use: transition: height 200ms cubic-bezier(0, 0, 0.2, 1) 0s , opacity 200ms cubic-bezier(0, 0, 0.2, 1) 0s , transform 200ms cubic-bezier(0, 0, 0.2, 1) 0s , -webkit-transform 200ms cubic-bezier(0, 0, 0.2, 1) 0s;
 @mixin transition($args...) {
   $type: nth($args, length($args));
   $props: $args;
@@ -74,7 +74,7 @@
     $anim: length($args);
     $prop: nth($props, $i);
     $result: append($result, $prop);
-    $result: append($result, unquote($string: '0.3s ease 0s'));
+    $result: append($result, unquote($string: 200ms $default-animation 0s));
 
     @if $i != length($props) {
       $result: append($result, unquote($string: ","));
