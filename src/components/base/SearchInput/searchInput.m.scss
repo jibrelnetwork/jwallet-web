@@ -19,12 +19,13 @@
 
   .input {
     @include property-transition(color);
+    @include font(14px, 22px);
 
     appearance: none;
     display: block;
     flex-grow: 1;
-    font-size: 14px;
-    line-height: 22px;
+    font-style: normal;
+    font-weight: 600;
     border: none;
     padding: 0;
     margin: 0;

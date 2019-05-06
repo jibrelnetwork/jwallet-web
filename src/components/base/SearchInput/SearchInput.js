@@ -11,8 +11,8 @@ import { useFocus } from 'utils/hooks/useFocus'
 import searchInputStyle from './searchInput.m.scss'
 
 type Props = {|
-  +onChange: (string) => void,
-  +value: string,
+  +onChange: (SyntheticEvent<HTMLInputElement>) => void,
+  +value: ?string,
   className?: ?string,
 |}
 
@@ -53,4 +53,5 @@ export function SearchInput({
 
 SearchInput.defaultProps = {
   className: null,
+  value: null,
 }

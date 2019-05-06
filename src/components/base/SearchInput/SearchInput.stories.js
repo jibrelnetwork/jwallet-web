@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { withKnobs } from '@storybook/addon-knobs'
+import { action } from '@storybook/addon-actions'
 
 import { SearchInput } from './SearchInput'
 
-storiesOf('base|Search Input', module).addDecorator(withKnobs)
+storiesOf('base|Search Input', module)
   .add('Basic', () => (
     <div style={{ padding: 20 }}>
-      <SearchInput />
+      <SearchInput onChange={action('On change handler')} />
     </div>
   ))
