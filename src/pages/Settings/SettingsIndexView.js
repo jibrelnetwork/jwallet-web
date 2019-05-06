@@ -9,8 +9,7 @@ import escapeRegExp from 'utils/regexp/escapeRegExp'
 import formatCurrency from 'utils/formatters/formatCurrency'
 
 import {
-  JText,
-  JSearch,
+  JText, SearchInput,
 } from 'components/base'
 
 import SettingsGridCard, {
@@ -164,9 +163,8 @@ class SettingsIndexView extends PureComponent<Props, ComponentState> {
             <JText value='Settings' size='tab' color='dark' />
             <div className='actions'>
               <div className='search'>
-                <JSearch
+                <SearchInput
                   onChange={this.handleChange}
-                  placeholder={t`Search settings...`}
                 />
               </div>
             </div>

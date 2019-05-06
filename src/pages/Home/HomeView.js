@@ -8,7 +8,7 @@ import {
 } from 'lodash-es'
 
 import {
-  JIcon, JSearch, JLink, Header,
+  JIcon, SearchInput, JLink, Header,
 } from 'components/base'
 
 import { AssetItem } from './components/AssetItem/AssetItem'
@@ -140,9 +140,9 @@ export class HomeView extends Component<Props, ComponentState> {
         <section>
           <Header title={t`Assets`}>
             <div className={homeStyle.search}>
-              <JSearch
+              <SearchInput
                 onChange={setSearchQuery}
-                placeholder={t`Search assets...`}
+
               />
             </div>
             {isInManageMode
