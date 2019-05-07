@@ -53,5 +53,5 @@ export function SearchInput({
 
 SearchInput.defaultProps = {
   className: null,
-  value: null,
+  value: undefined,
 }

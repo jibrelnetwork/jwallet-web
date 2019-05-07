@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
+import classNames from 'classnames'
 import { t } from 'ttag'
 import {
   get,
@@ -22,7 +23,6 @@ const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=inter
 type Props = {|
   +openView: () => void,
   +closeView: () => void,
-  +setSearchQuery: (string) => void,
   +items: DigitalAssetWithBalance[],
 |}
 
@@ -61,15 +61,15 @@ export class HomeView extends Component<Props, ComponentState> {
       return true
     }
 
-    if (!isEqual(this.state, nextState)) {
-      return true
-    }
-
-    return false
+    return isEqual(this.state, nextState)
   }
 
   componentWillUnmount() {
     this.props.closeView()
+  }
+
+  handleSearchQueryInput = (e) => {
+    this.setState({ searchQuery: e.target.value })
   }
 
   handleClickManage = () => {
@@ -80,9 +80,29 @@ export class HomeView extends Component<Props, ComponentState> {
     }))
   }
 
+  renderAssetsList = filteredItems => (
+    <ul>
+      {filteredItems.map((item) => {
+        const address = get(item, 'blockchainParams.address')
+
+        return (
+          <li key={address}>
+            <AssetItem address={address} />
+          </li>
+        )
+      })}
+    </ul>
+  )
+
+  renderEmptyList = () => (
+    <figure>
+      <JIcon name='pic_assets_112-use-fill' className={homeStyle.emptyIcon} />
+      <figcaption>{t`No Search Results.`}</figcaption>
+    </figure>
+  )
+
   render() {
     const {
-      setSearchQuery,
       items,
     } = this.props
     const {
@@ -93,10 +113,11 @@ export class HomeView extends Component<Props, ComponentState> {
       item,
       this.state.searchQuery,
     ))
+    const isEmptyAssetsList = filteredItems.length <= 0
 
     return (
       <div className={homeStyle.core}>
-        <section>
+        <section className={homeStyle.linksSection}>
           <Header title={t`Transfer`} />
           <nav className={homeStyle.links}>
             <JLink
@@ -137,12 +158,16 @@ export class HomeView extends Component<Props, ComponentState> {
             </JLink>
           </nav>
         </section>
-        <section>
+        <section
+          className={classNames(
+            homeStyle.assetsSection,
+            isEmptyAssetsList && homeStyle.empty,
+          )}
+        >
           <Header title={t`Assets`}>
             <div className={homeStyle.search}>
               <SearchInput
-                onChange={setSearchQuery}
-
+                onChange={this.handleSearchQueryInput}
               />
             </div>
             {isInManageMode
@@ -171,16 +196,10 @@ export class HomeView extends Component<Props, ComponentState> {
             }
           </Header>
           <div className={homeStyle.content}>
-            {filteredItems.map((item) => {
-              const address = get(item, 'blockchainParams.address')
-
-              return (
-                <AssetItem
-                  key={address}
-                  address={address}
-                />
-              )
-            })}
+            {isEmptyAssetsList
+              ? this.renderEmptyList()
+              : this.renderAssetsList(filteredItems)
+            }
           </div>
         </section>
       </div>

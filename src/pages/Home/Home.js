@@ -35,10 +35,6 @@ import {
 import {
   openView,
   closeView,
-  setSearchQuery,
-  sortByNameClick,
-  sortByBalanceClick,
-  setHideZeroBalance,
 } from 'store/modules/digitalAssetsGrid'
 
 import { HomeView } from './HomeView'
@@ -172,10 +168,6 @@ function mapStateToProps(state: AppState) {
 const mapDispatchToProps = {
   openView,
   closeView,
-  setSearchQuery,
-  sortByNameClick,
-  sortByBalanceClick,
-  setHideZeroBalance,
 }
 
 export default (
