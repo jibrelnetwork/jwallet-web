@@ -58,3 +58,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@mixin sprite-icon-color($color) {
+  fill: $color;
+  stroke: $color;
+}
