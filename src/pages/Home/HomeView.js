@@ -12,6 +12,8 @@ import {
   JIcon, SearchInput, JLink, Header,
 } from 'components/base'
 
+import noResultImg from 'public/assets/pic_assets_112.svg'
+
 import { AssetItem } from './components/AssetItem/AssetItem'
 import { filterAssetByQuery } from './filterAssetByQuery'
 
@@ -29,6 +31,7 @@ type Props = {|
 type ComponentState = {
   searchQuery: string,
   isInManageMode: boolean,
+  isSticky: boolean,
 }
 
 export class HomeView extends Component<Props, ComponentState> {
@@ -38,10 +41,12 @@ export class HomeView extends Component<Props, ComponentState> {
     this.state = {
       searchQuery: '',
       isInManageMode: false,
+      isSticky: false,
     }
   }
 
   componentDidMount() {
+    root.addEventListener('scroll', this.handleScroll)
     this.props.openView()
   }
 
@@ -61,15 +66,31 @@ export class HomeView extends Component<Props, ComponentState> {
       return true
     }
 
-    return isEqual(this.state, nextState)
+    return !isEqual(this.state, nextState)
   }
 
   componentWillUnmount() {
+    root.removeEventListener('scroll', this.handleScroll)
     this.props.closeView()
   }
 
   handleSearchQueryInput = (e) => {
+    e.preventDefault()
+
     this.setState({ searchQuery: e.target.value })
+  }
+
+  handleScroll = (e) => {
+    e.preventDefault()
+    const { isSticky } = this.state
+
+    if (!isSticky && root.scrollTop >= 376) {
+      this.setState({ isSticky: true })
+    }
+
+    if (isSticky && root.scrollTop < 376) {
+      this.setState({ isSticky: false })
+    }
   }
 
   handleClickManage = () => {
@@ -81,7 +102,7 @@ export class HomeView extends Component<Props, ComponentState> {
   }
 
   renderAssetsList = filteredItems => (
-    <ul>
+    <ul className={homeStyle.assetList}>
       {filteredItems.map((item) => {
         const address = get(item, 'blockchainParams.address')
 
@@ -96,7 +117,11 @@ export class HomeView extends Component<Props, ComponentState> {
 
   renderEmptyList = () => (
     <figure>
-      <JIcon name='pic_assets_112-use-fill' className={homeStyle.emptyIcon} />
+      <img
+        src={noResultImg}
+        className={homeStyle.emptyIcon}
+        alt={t`No search results in assets list`}
+      />
       <figcaption>{t`No Search Results.`}</figcaption>
     </figure>
   )
@@ -107,6 +132,7 @@ export class HomeView extends Component<Props, ComponentState> {
     } = this.props
     const {
       isInManageMode,
+      isSticky,
     } = this.state
 
     const filteredItems = items.filter(item => filterAssetByQuery(
@@ -164,37 +190,47 @@ export class HomeView extends Component<Props, ComponentState> {
             isEmptyAssetsList && homeStyle.empty,
           )}
         >
-          <Header title={t`Assets`}>
-            <div className={homeStyle.search}>
-              <SearchInput
-                onChange={this.handleSearchQueryInput}
-              />
-            </div>
-            {isInManageMode
-              ? (
-                <button
-                  className={`__save-button ${homeStyle.save}`}
-                  type='button'
-                  onClick={this.handleClickManage}
-                >
-                  {t`Save`}
-                </button>
-              )
-              : (
-                <button
-                  className={`__manage-button ${homeStyle.manage}`}
-                  type='button'
-                  onClick={this.handleClickManage}
-                >
-                  <JIcon
-                    name='ic_manage_24-use-fill'
-                    className={`__manage-button ${homeStyle.manageIcon}`}
-                  />
-                  {t`Manage`}
-                </button>
-              )
-            }
-          </Header>
+          <div
+            className={classNames(
+              homeStyle.assetsHeaderWrapper,
+              isSticky && homeStyle.sticky,
+            )}
+          >
+            <Header
+              title={t`Assets`}
+              className={homeStyle.assetsHeader}
+            >
+              <div className={homeStyle.search}>
+                <SearchInput
+                  onChange={this.handleSearchQueryInput}
+                />
+              </div>
+              {isInManageMode
+                ? (
+                  <button
+                    className={`__save-button ${homeStyle.save}`}
+                    type='button'
+                    onClick={this.handleClickManage}
+                  >
+                    {t`Save`}
+                  </button>
+                )
+                : (
+                  <button
+                    className={`__manage-button ${homeStyle.manage}`}
+                    type='button'
+                    onClick={this.handleClickManage}
+                  >
+                    <JIcon
+                      name='ic_manage_24-use-fill'
+                      className={`__manage-button ${homeStyle.manageIcon}`}
+                    />
+                    {t`Manage`}
+                  </button>
+                )
+              }
+            </Header>
+          </div>
           <div className={homeStyle.content}>
             {isEmptyAssetsList
               ? this.renderEmptyList()
