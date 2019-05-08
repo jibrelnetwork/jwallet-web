@@ -81,9 +81,10 @@
 // utility animation
 // stylelint-disable-next-line no-descending-specificity
 .arrow {
-  @include property-transition(fill, stroke);
   @include sprite-icon-color($main-black-40);
 
-  transition: transform 0.4s 0.2s $default-animation;
+  transition:
+    transform 0.4s 0s $default-animation,
+    fill 0.4s 0.2s $default-animation;
   transform: translate(0);
 }
