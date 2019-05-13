@@ -1,5 +1,7 @@
 // @flow strict
 
+import { startsWith } from 'lodash-es'
+
 import { startsWithOrEndsWith } from 'utils/address'
 
 export function filterAssetByQuery(item: DigitalAssetWithBalance, query: string) {
@@ -11,7 +13,7 @@ export function filterAssetByQuery(item: DigitalAssetWithBalance, query: string)
     },
   } = item
 
-  return name.toLowerCase().startsWith(query.toLowerCase())
-    || symbol.toLowerCase().startsWith(query.toLowerCase())
+  return startsWith(name.toLowerCase(), query.toLowerCase())
+    || startsWith(symbol.toLowerCase(), query.toLowerCase())
     || (address && startsWithOrEndsWith(address, query))
 }
