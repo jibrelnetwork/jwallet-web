@@ -9,7 +9,10 @@ import {
 } from 'lodash-es'
 
 import {
-  JIcon, SearchInput, JLink, Header,
+  JIcon,
+  SearchInput,
+  JLink,
+  Header,
 } from 'components/base'
 
 import noResultImg from 'public/assets/pic_assets_112.svg'
@@ -74,13 +77,13 @@ export class HomeView extends Component<Props, ComponentState> {
     this.props.closeView()
   }
 
-  handleSearchQueryInput = (e) => {
+  handleSearchQueryInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
     e.preventDefault()
 
     this.setState({ searchQuery: e.target.value })
   }
 
-  handleScroll = (e) => {
+  handleScroll = (e: SyntheticEvent<HTMLDivElement>) => {
     e.preventDefault()
     const { isSticky } = this.state
 
@@ -101,7 +104,7 @@ export class HomeView extends Component<Props, ComponentState> {
     }))
   }
 
-  renderAssetsList = filteredItems => (
+  renderAssetsList = (filteredItems: DigitalAssetWithBalance[]) => (
     <ul className={homeStyle.assetList}>
       {filteredItems.map((item) => {
         const address = get(item, 'blockchainParams.address')

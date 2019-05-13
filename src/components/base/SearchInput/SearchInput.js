@@ -11,7 +11,7 @@ import { useFocus } from 'utils/hooks/useFocus'
 import searchInputStyle from './searchInput.m.scss'
 
 type Props = {|
-  +onChange: (SyntheticEvent<HTMLInputElement>) => void,
+  +onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
   +value: ?string,
   className?: ?string,
 |}
