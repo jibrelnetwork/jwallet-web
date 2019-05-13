@@ -24,6 +24,7 @@ import homeStyle from './home.m.scss'
 
 // eslint-disable-next-line max-len
 const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
+const ASSETS_HEADER_BOTTOM_EDGE = 376
 
 type Props = {|
   +openView: () => void,
@@ -49,7 +50,7 @@ export class HomeView extends Component<Props, ComponentState> {
   }
 
   componentDidMount() {
-    root.addEventListener('scroll', this.handleScroll)
+    this.rootWrapper.addEventListener('scroll', this.handleScroll)
     this.props.openView()
   }
 
@@ -73,9 +74,11 @@ export class HomeView extends Component<Props, ComponentState> {
   }
 
   componentWillUnmount() {
-    root.removeEventListener('scroll', this.handleScroll)
+    this.rootWrapper.removeEventListener('scroll', this.handleScroll)
     this.props.closeView()
   }
+
+  rootWrapper = window.root || document.getElementById('root')
 
   handleSearchQueryInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -86,12 +89,13 @@ export class HomeView extends Component<Props, ComponentState> {
   handleScroll = (e: SyntheticEvent<HTMLDivElement>) => {
     e.preventDefault()
     const { isSticky } = this.state
+    const { scrollTop } = this.rootWrapper
 
-    if (!isSticky && root.scrollTop >= 376) {
+    if (!isSticky && scrollTop >= ASSETS_HEADER_BOTTOM_EDGE) {
       this.setState({ isSticky: true })
     }
 
-    if (isSticky && root.scrollTop < 376) {
+    if (isSticky && scrollTop < ASSETS_HEADER_BOTTOM_EDGE) {
       this.setState({ isSticky: false })
     }
   }
