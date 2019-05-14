@@ -65,11 +65,15 @@ function heightCalc({ currentTarget }: SyntheticEvent<HTMLTextAreaElement>): voi
 
 export class JTextArea extends PureComponent<Props> {
   static defaultProps = {
+    meta: {},
+    input: {},
     onChange: noop,
     id: null,
     label: '',
     className: '',
     theme: 'white',
+    infoMessage: null,
+    errorMessage: null,
     validateType: 'touched',
     rows: 1,
     isDisabled: false,
@@ -133,7 +137,7 @@ export class JTextArea extends PureComponent<Props> {
       <div
         onClick={handleFocus(textArea)}
         className={classNames(
-          '__j-textarea',
+          '__textarea',
           jTextAreaStyle.core,
           jTextAreaStyle[theme],
           className,
@@ -148,7 +152,7 @@ export class JTextArea extends PureComponent<Props> {
             isDisabled && jTextAreaStyle.disabled,
           )}
         >
-          {elementID && (
+          {label && elementID && (
             <label
               className={jTextAreaStyle.label}
               htmlFor={elementID}
