@@ -79,7 +79,6 @@ describe('JInputField', () => {
       />,
     )
 
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     const messageEl = wrapper.find(JFieldMessage)
     expect(messageEl.prop('theme')).toBe('info')
     expect(messageEl.prop('message')).toBe('Hi')
@@ -96,7 +95,6 @@ describe('JInputField', () => {
       />,
     )
 
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     const messageEl = wrapper.find(JFieldMessage)
     expect(messageEl.prop('theme')).toBe('error')
     expect(messageEl.prop('message')).toBe('Hi')
@@ -114,7 +112,6 @@ describe('JInputField', () => {
       />,
     )
 
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     const messageEl = wrapper.find(JFieldMessage)
     expect(messageEl.prop('theme')).toBe('error')
     expect(messageEl.prop('message')).toBe('Hi')
