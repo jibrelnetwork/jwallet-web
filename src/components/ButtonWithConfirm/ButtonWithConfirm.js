@@ -137,7 +137,7 @@ class ButtonWithConfirm extends Component<Props, ComponentState> {
         {isActive ? (
           <div
             className={classNames(
-              'actions',
+              'constants.js',
               bgColor && `-overlay-${bgColor}`,
               isReverse && '-reverse',
             )}

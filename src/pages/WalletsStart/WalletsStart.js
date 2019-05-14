@@ -18,7 +18,7 @@ import { StartLayout } from 'layouts'
 import {
   ACTIONS,
   type WalletAction,
-} from './actions'
+} from 'pages/WalletsStart/constants'
 
 import walletsStartStyle from './walletsStart.m.scss'
 

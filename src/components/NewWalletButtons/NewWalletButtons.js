@@ -8,7 +8,7 @@ import { JLink } from 'components/base'
 import {
   ACTIONS,
   type WalletAction,
-} from 'pages/WalletsStart/actions'
+} from 'pages/WalletsStart/constants'
 
 import newWalletButtonsStyle from './newWalletButtons.m.scss'
 
