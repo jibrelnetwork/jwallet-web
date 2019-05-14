@@ -29,7 +29,6 @@ import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
-import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
@@ -68,7 +67,6 @@ export {
   MnemonicAddresses,
   TransactionsFilter,
   WalletPasswordStep,
-  DigitalAssetsFilter,
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,
