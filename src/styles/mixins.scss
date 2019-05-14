@@ -5,7 +5,7 @@
 }
 
 @mixin font($font-size: 13px, $line-height: 1) {
-  font-family: $font;
+  font-family: $font !important;
   font-size: $font-size;
   line-height: $line-height;
 }
