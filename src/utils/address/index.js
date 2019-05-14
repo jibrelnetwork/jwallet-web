@@ -23,3 +23,5 @@ export {
   getAddressFromPrivateKey,
   checkAddressWithChecksumValid,
 }
+
+export { startsWithOrEndsWith } from './startsWithOrEndsWith'
