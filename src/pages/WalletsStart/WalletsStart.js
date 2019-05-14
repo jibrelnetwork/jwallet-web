@@ -15,21 +15,18 @@ import {
 } from 'components'
 import { StartLayout } from 'layouts'
 
-import walletsStartStyle from './walletsStart.m.scss'
+import {
+  ACTIONS,
+  type WalletAction,
+} from './actions'
 
-export type WalletAction = 'CREATE' | 'IMPORT'
-type WalletActions = { [WalletAction]: WalletAction }
+import walletsStartStyle from './walletsStart.m.scss'
 
 type Props = {||}
 
 type StateProps = {|
   +action: ?WalletAction,
 |}
-
-export const ACTIONS: WalletActions = {
-  CREATE: 'CREATE',
-  IMPORT: 'IMPORT',
-}
 
 export class WalletsStart extends Component<Props, StateProps> {
   constructor(props: Props) {

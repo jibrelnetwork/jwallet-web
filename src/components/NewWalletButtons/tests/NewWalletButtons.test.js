@@ -4,7 +4,7 @@ import React from 'react'
 import sinon from 'sinon'
 import { shallow } from 'enzyme'
 
-import { ACTIONS } from 'pages/WalletsStart/WalletsStart'
+import { ACTIONS } from 'pages/WalletsStart/actions'
 
 import { NewWalletButtons } from '../NewWalletButtons'
 import newWalletButtonsStyle from '../newWalletButtons.m.scss'
