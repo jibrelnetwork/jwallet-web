@@ -8,7 +8,6 @@ import { OverlayNotification } from 'components'
 
 import menuLayoutStyle from './menuLayout.m.scss'
 import { MenuPanel } from './components'
-
 import {
   getMenuMeta,
 } from './components/MenuPanel/menuMeta'

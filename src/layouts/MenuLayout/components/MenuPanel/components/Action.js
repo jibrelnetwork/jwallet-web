@@ -27,8 +27,8 @@ export function Action({
       activeClassName={menuPanelStyle.active}
     >
       <JIcon
-        name={`${iconName}-use-fill`}
         color='white'
+        name={`${iconName}-use-fill`}
       />
       <span className={menuPanelStyle.label}>
         {label}
