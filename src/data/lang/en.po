@@ -14,6 +14,10 @@ msgstr "Invalid Password"
 msgid "Wallet with such ${ foundWallet.name } already exists"
 msgstr "You already have a wallet named ${ foundWallet.name }"
 
+#: src/utils/wallets/createWallet.js
+msgid "DerivationPathInvalidError"
+msgstr "Invalid Derivation Path"
+
 #: src/utils/time/getFormattedDateString.js
 msgid "January"
 msgstr "January"
@@ -62,7 +66,6 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: src/pages/SetPassword/SetPasswordViewContainer.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -70,7 +73,6 @@ msgstr "December"
 msgid "Password does not match confirmation"
 msgstr "Inputted passwords do not match"
 
-#: src/pages/SetPassword/SetPasswordViewContainer.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -78,7 +80,6 @@ msgstr "Inputted passwords do not match"
 msgid "Password hint is required"
 msgstr "Password hint is required"
 
-#: src/pages/SetPassword/SetPasswordViewContainer.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -103,6 +104,14 @@ msgstr "Invalid Fiat Currency Code"
 msgid "InvalidPasswordError"
 msgstr "Invalid Password Error"
 
+#: src/utils/encryption/decryptData.js
+msgid "DecryptionTypeError ${ encryptionType }"
+msgstr "Decryption Error ${ encryptionType }"
+
+#: src/utils/encryption/encryptData.js
+msgid "EncryptionTypeError ${ encryptionType }"
+msgstr "Encryption Error ${ encryptionType }"
+
 #: src/services/blockExplorer.js
 msgid "BlockExplorerPrivateNetworkError"
 msgstr "Block Explorer Private Network Error"
@@ -122,6 +131,14 @@ msgstr "Task handler for module ${ request.module } is not defined"
 #: src/pages/Wallets/WalletsIndexView.js
 msgid "Mnemonic, many addresses"
 msgstr "Mnemonic, many addresses"
+
+#: src/pages/Wallets/routes/Start/WalletsStartView.js
+msgid "Create a new key pair or import an existing"
+msgstr "Create a new key pair or import an existing"
+
+#: src/pages/Wallets/routes/Start/WalletsStartView.js
+msgid "one to get started"
+msgstr "wallet to get started"
 
 #: src/pages/Agreements/AgreementsView.js
 msgid "Terms of Use"
@@ -160,21 +177,23 @@ msgid "Rename wallet"
 msgstr "Rename wallet"
 
 #: src/components/NameStep/NameStep.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/Wallets/routes/Import/WalletsImportView.js
 #: src/pages/Wallets/routes/Rename/WalletsRenameView.js
-#: src/pages/WalletsCreate/WalletsCreateView.js
 msgid "Wallet name"
 msgstr "Wallet Name"
 
-#: src/pages/WalletsImport/WalletsImportView.js
+#: src/components/NewWalletButtons/NewWalletButtons.js
+#: src/pages/Wallets/routes/Import/WalletsImportView.js
 msgid "Import wallet"
 msgstr "Import Wallet"
 
 #: src/components/NameStep/NameStep.js
-#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/Wallets/routes/Import/WalletsImportView.js
 msgid "Next step"
 msgstr "Next Step"
 
-#: src/pages/WalletsImport/WalletsImport.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
 msgid "Name should not be empty"
@@ -188,7 +207,6 @@ msgstr "Data is empty"
 msgid "Data is invalid"
 msgstr "Invalid Data"
 
-#: src/pages/WalletsImport/WalletsImport.js
 #: src/store/sagas/wallets/import.js
 msgid "Derivation path is not valid"
 msgstr "Invalid Derivation Path"
@@ -220,11 +238,11 @@ msgstr "Delete"
 msgid "Nope, stop it"
 msgstr "Cancel"
 
-#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
 msgid "Create wallet"
 msgstr "Create Wallet"
 
-#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
 msgid "wallets-name"
 msgstr "Wallet Name"
 
@@ -359,7 +377,8 @@ msgid "Search settings..."
 msgstr "Search Settings..."
 
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
-#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/Wallets/routes/Import/WalletsImportView.js
 msgid ""
 "You will use this password to unlock and transfer your funds.\n"
 "Keep it secure!"
@@ -888,6 +907,18 @@ msgstr "A bit weak"
 msgid "Easily cracked"
 msgstr "Easily cracked"
 
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Create new wallet"
+msgstr "Create new wallet"
+
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Create your own wallet to manage on-chain funds"
+msgstr "Create your own wallet to manage your digital assets"
+
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Import existing wallet to manage on-chain funds"
+msgstr "Import an existing wallet to manage your digital assets"
+
 #: src/components/NameStep/NameStep.js
 msgid "Set name of the wallet"
 msgstr "Name your wallet"
@@ -1023,7 +1054,7 @@ msgid "Copy recovery text"
 msgstr "Copy recovery text"
 
 #: src/pages/Wallets/routes/Backup/WalletsBackupView.js
-#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
 msgid ""
 "This is your secret recovery text.\n"
 "It is the only way to restore access to your funds.\n"
@@ -1034,6 +1065,15 @@ msgstr ""
 "It is the only way to restore access to your funds.\n"
 "Keep it safe and never share it with anyone\n"
 "you don’t trust!"
+
+#: src/pages/Wallets/routes/Import/WalletsImportView.js
+msgid ""
+"Insert the private key or backup phrase to import. Also, you can import\n"
+"an address in the read-only mode."
+msgstr ""
+"Input a private key or backup phrase to import a wallet. You can also "
+"import\n"
+"a public key or address to access your wallet in read-only mode."
 
 #: src/pages/Wallets/routes/Addresses/WalletsAddressesView.js
 msgid ""
@@ -1111,168 +1151,8 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/Wallets/routes/Create/WalletsCreateView.js
 msgid "I saved the backup, let's go!"
-msgstr ""
-
-#: src/store/plugins/walletsPlugin.js
-msgid "Invalid wallet data"
-msgstr ""
-
-#: src/store/plugins/walletsPlugin.js
-msgid "Invalid password data"
-msgstr ""
-
-#: src/store/plugins/walletsPlugin.js
-msgid "Wallet with such ${ propertyName } already exists"
-msgstr ""
-
-#: src/pages/WalletsStart/WalletsStart.js
-msgid "Create a new wallet or import an existing"
-msgstr ""
-
-#: src/pages/WalletsStart/WalletsStart.js
-msgid "to get started"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Length of name should not be greater than 32 symbols"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "BIP39 mnemonic should be in English"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Seems like you are entering BIP39 mnemonic"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Incorrect BIP39 mnemonic"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "You have entered BIP39 mnemonic"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "BIP32 XPRV should be in base58 encoding"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Seems like you are entering BIP32 XPRV"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Length of BIP32 XPRV can't be greater than ${ XKEY_LENGTH } symbols"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "You have entered BIP32 XPRV"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "BIP32 XPUB should be in base58 encoding"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Seems like you are entering BIP32 XPUB"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Length of BIP32 XPUB can't be greater than ${ XKEY_LENGTH } symbols"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "You have entered BIP32 XPUB"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Incorrect Ethereum private key"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Seems like you are entering Ethereum private key"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Length of private key can't be greater than 64 symbols"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "You have entered Ethereum private key"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Incorrect Ethereum address"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Seems like you are entering Ethereum address"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Seems you made a typo in Ethereum address"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "You have entered Ethereum address"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "The field should not be empty"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Unable to recognize your input"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImport.js
-msgid "Password can't be empty"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Enter Security Password to Protect Your Wallet"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Wallet Name"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Address, Key, Mnemonic"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Mnemonic Passphrase (Optional)"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Derivation Path (Optional)"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Import"
-msgstr ""
-
-#: src/pages/WalletsImport/WalletsImportView.js
-msgid "Security Password"
-msgstr ""
-
-#: src/pages/SetPassword/SetPasswordView.js
-msgid "Enter Security Password"
-msgstr ""
-
-#: src/pages/SetPassword/SetPasswordView.js
-msgid "Enter Password Hint (Optional)"
-msgstr ""
-
-#: src/pages/SetPassword/SetPasswordView.js
-msgid "Set Security Password"
-msgstr ""
-
-#: src/pages/SetPassword/SetPasswordView.js
-msgid "Set Password for your Storage"
 msgstr ""
 
 #: src/pages/DigitalAssets/routes/Send/components/Form/SendAmountField/SendAmountField.js
@@ -1303,22 +1183,24 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: src/components/PasswordField/PasswordField.js
-msgid "Repeat Security Password"
+#: src/pages/ErrorUnexpected/ErrorUnexpected.js
+msgid "home page"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Create Wallet"
+#: src/pages/ErrorUnexpected/ErrorUnexpected.js
+msgid "contact support"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Create your own wallet to manage your digital assets"
+#: src/pages/ErrorUnexpected/ErrorUnexpected.js
+msgid "Unexpected Error"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Import Wallet"
+#: src/pages/ErrorUnexpected/ErrorUnexpected.js
+msgid ""
+"Something went wrong! Our developers already received error report,\n"
+"but you can also reload page, go to ${ HomePageLink } or ${ SupportLink }"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Import an existing wallet with backup phrase, private key, etc."
+#: src/pages/ErrorUnexpected/ErrorUnexpected.js
+msgid "Reload"
 msgstr ""
