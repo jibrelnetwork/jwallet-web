@@ -8,8 +8,6 @@ export async function deriveKeyFromPassword(
   password: string,
   salt: string,
 ): Promise<Uint8Array> {
-  console.log(scryptWorkerInstance)
-
   return scryptWorkerInstance.executeTask({
     taskName: 'deriveKeyFromPassword',
     payload: {
