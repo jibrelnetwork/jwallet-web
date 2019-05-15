@@ -9,7 +9,7 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import checkAddressValid from 'utils/address/checkAddressValid'
+import { checkAddressValid } from 'utils/address'
 
 import {
   selectAddressNames,
