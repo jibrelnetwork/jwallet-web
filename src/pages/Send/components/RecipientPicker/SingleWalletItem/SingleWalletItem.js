@@ -18,7 +18,7 @@ export function SingleWalletItem({
 }: Props) {
   return (
     <div className={itemStyles.core}>
-      <JIcon name='wallet' color='blue' className={itemStyles.icon} />
+      <JIcon name='wallet-use-fill' color='blue' className={itemStyles.icon} />
       <div className={itemStyles.wrap}>
         <span className={itemStyles.title}>{title}</span>
       </div>
@@ -27,4 +27,8 @@ export function SingleWalletItem({
       />
     </div>
   )
+}
+
+SingleWalletItem.defaultProps = {
+  fiatBalance: '',
 }

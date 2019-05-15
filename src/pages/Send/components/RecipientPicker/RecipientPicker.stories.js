@@ -9,6 +9,8 @@ import {
 
 import { RecipientPicker } from './RecipientPicker'
 
+import { prepareWallets } from './prepareWallets'
+
 // +name?: string,
 // +description?: string,
 // +address: FavoriteAddress,
@@ -47,11 +49,12 @@ const CONTACT_ITEMS = [
 const WALLET_ITEMS = [
   {
     id: '1',
-    name: 'My single wallet',
+    name: 'My single wallet 1',
     type: 'address',
-    address: '0x312321312321312312341798432643783418',
+    address: '0x312321312321312312341798432643783419',
     isReadOnly: true,
     isSimplified: true,
+    bip32XPublicKey: null,
     //   +bip32XPublicKey: ?string,
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
@@ -62,11 +65,12 @@ const WALLET_ITEMS = [
   },
   {
     id: '2',
-    name: 'My single wallet',
+    name: 'My single wallet 2',
     type: 'address',
-    address: '0x312321312321312312341798432643783418',
+    address: '0x312321312321312312341798432643783420',
     isReadOnly: true,
     isSimplified: true,
+    bip32XPublicKey: null,
     //   +bip32XPublicKey: ?string,
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
@@ -77,11 +81,11 @@ const WALLET_ITEMS = [
   },
   {
     id: '3',
-    name: 'My mnemonic wallet',
+    name: 'My mnemonic wallet 3',
     type: 'mnemonic',
-    // address: '0x312321312321312312341798432643783418',
-    isReadOnly: true,
-    isSimplified: true,
+    isReadOnly: false,
+    isSimplified: false,
+    // eslint-disable-next-line max-len
     bip32XPublicKey: 'xpub6AHA9hZDN11k2ijHMeS5QqHx2KP9aMBRhTDqANMnwVtdyw2TDYRmF8PjpvwUFcL1Et8Hj59S3gTSMcUQ5gAqTz3Wd8EsMTmF3DChhqPQBnU',
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
@@ -94,9 +98,10 @@ const WALLET_ITEMS = [
     id: '4',
     name: 'My single wallet',
     type: 'address',
-    address: '0x312321312321312312341798432643783418',
+    address: '0x312321312321312312341798432643783421',
     isReadOnly: true,
     isSimplified: true,
+    bip32XPublicKey: null,
     //   +bip32XPublicKey: ?string,
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
@@ -132,9 +137,8 @@ storiesOf('send|RecipientPicker', module)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(RecipientPicker, {
-        wallets: [],
         contacts: CONTACT_ITEMS,
-        wallets: WALLET_ITEMS,
+        wallets: prepareWallets(WALLET_ITEMS),
       }, { foo: 'Ethereum' })}
     </div>
   ))

@@ -25,3 +25,13 @@
     padding-bottom: 0;
   }
 }
+
+.sublist {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease 0s;
+
+  &.isOpen {
+    max-height: 100%;
+  }
+}

@@ -10,7 +10,7 @@
 }
 
 .icon {
-  display: inline-flex;
+  display: inline-block;
   margin-right: 16px;
 }
 
@@ -24,7 +24,6 @@
   font-size: 14px;
   line-height: 22px;
   color: $main-black;
-  font-weight: 600;
 }
 
 .description {

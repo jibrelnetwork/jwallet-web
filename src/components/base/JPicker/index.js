@@ -2,7 +2,7 @@
 
 import Item from './Item'
 import FullItem from './Item/FullItem'
-import JPickerBase from './JPicker'
+import JPickerBase, { type RendererProps } from './JPicker'
 
 export { JPickerBody } from './Body/JPickerBody'
 export { JPickerCurrent } from './Current/JPickerCurrent'
@@ -15,4 +15,8 @@ export {
   Item as JPickerItem,
   FullItem as JPickerFullItem,
   JPickerBase as default,
+}
+
+export type {
+  RendererProps,
 }

@@ -13,6 +13,7 @@ import {
   JPickerCurrent,
   NotFoundItem,
 } from 'components/base/JPicker'
+import { JIcon } from 'components/base'
 
 import { Empty } from './Tabs/Empty'
 import { ContactItem } from './ContactItem/ContactItem'
@@ -27,6 +28,19 @@ type Contact = {|
   +name?: string,
   +description?: string,
   +address: Address,
+|}
+
+export type RecipientPickerWalletAddress = {|
+  address: Address,
+  name: string,
+  fiatBalance?: string,
+|}
+
+export type RecipientPickerWallet = {|
+  id: WalletId,
+  type: 'address' | 'mnemonic' | 'read-only',
+  name: string,
+  addresses: RecipientPickerWalletAddress[],
 |}
 
 function filterContacts(
@@ -59,20 +73,63 @@ function filterContacts(
   }, [])
 }
 
+function getAddressName(address: RecipientWalletAddress, addressIndex: number) {
+  return address.name
+    ? address.name
+    : t`Address ${addressIndex + 1}`
+}
+
+function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
+  if (!searchQuery) {
+    return wallets
+  }
+
+  const searchQueryLower = searchQuery.trim().toLowerCase()
+
+  return wallets.map((wallet) => {
+    if (wallet.name.toLowerCase().indexOf(searchQueryLower) !== -1) {
+      return wallet
+    }
+
+    if (wallet.type !== 'mnemonic') {
+      return null
+    }
+
+    // filter addresses
+    const addresses = wallet.addresses.filter((address, index) =>
+      getAddressName(address, index).toLowerCase().indexOf(searchQueryLower) !== -1)
+
+    if (addresses.length) {
+      return {
+        ...wallet,
+        addresses,
+      }
+    }
+
+    return null
+  }).filter(Boolean)
+}
+
 type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   // +fiatCurrency: FiatCurrency,
   +contacts: Contact[],
-  +wallets: Wallet[],
+  +wallets: RecipientPickerWallet[],
 |}
 
-type ComponentSatte = {|
+type ComponentState = {|
   searchQuery: string,
   activeTab: Tab,
+  openWallets: string[],
 |}
 
-class RecipientPicker extends Component<Props, ComponentSatte> {
+type CurrentRendererInput = {
+  // eslint-disable-next-line react/no-unused-prop-types
+  +isOpen: boolean,
+}
+
+class RecipientPicker extends Component<Props, ComponentState> {
   static defaultProps = {
     fiatCurrency: 'USD',
   }
@@ -80,6 +137,106 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
   state = {
     searchQuery: '',
     activeTab: 'contacts',
+    openWallets: [],
+  }
+
+  currentRenderer = ({ isOpen }: CurrentRendererInput): React$Node => {
+    const {
+      input,
+      contacts,
+      wallets,
+    } = this.props
+
+    const { searchQuery } =  this.state
+
+    const activeContact = contacts.find(contact => contact.address === input.value)
+
+    if (activeContact) {
+      const title = activeContact.name
+        ? activeContact.name
+        : activeContact.address
+
+      return (
+        <JPickerCurrent
+          isEditable={isOpen}
+          label={t`Recipient`}
+          value={title}
+          inputValue={searchQuery}
+          onInputChange={this.handleSearchQueryChange}
+          iconRenderer={() => (
+            <ContactIcon name={activeContact.name} />
+          )}
+        />
+      )
+    }
+
+    const activeWallet = wallets.find((wallet) => {
+      if (wallet.id === input.value) {
+        return true
+      }
+
+      if (wallet.addresses.find(walletAddress => walletAddress.address === input.value)) {
+        return true
+      }
+
+      return false
+    })
+
+    if (activeWallet && activeWallet.type === 'mnemonic') {
+      const [activeAddress, activeAddressIndex] =
+        activeWallet.addresses.reduce((
+          result,
+          walletAddress,
+          index,
+        ) => walletAddress.address === input.value
+          ? [walletAddress, index]
+          : result, [undefined, 0])
+
+      const title = activeAddress
+        ? activeAddress.name
+          ? `${activeWallet.name} / ${activeAddress.name}`
+          : `${activeWallet.name} / Address ${activeAddressIndex + 1}`
+        : activeWallet.name
+
+      return (
+        <JPickerCurrent
+          isEditable={isOpen}
+          label={t`Recipient`}
+          value={title}
+          inputValue={searchQuery}
+          onInputChange={this.handleSearchQueryChange}
+          iconRenderer={() => (
+            <ContactIcon name={activeAddress && activeAddress.name} />
+          )}
+        />
+      )
+    } else if (activeWallet) {
+      return (
+        <JPickerCurrent
+          isEditable={isOpen}
+          label={t`Recipient`}
+          value={activeWallet.name}
+          inputValue={searchQuery}
+          onInputChange={this.handleSearchQueryChange}
+          iconRenderer={() => (
+            <JIcon name='wallet-use-fill' color='blue' />
+          )}
+        />
+      )
+    }
+
+    return (
+      <JPickerCurrent
+        isEditable={isOpen}
+        label={t`Recipient`}
+        value=''
+        inputValue={searchQuery}
+        onInputChange={this.handleSearchQueryChange}
+        iconRenderer={() => (
+          <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
+        )}
+      />
+    )
   }
 
   handleSearchQueryChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -100,7 +257,30 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
     this.setState({ activeTab })
   }
 
-  renderContactsTab = (activeContact: Contact) => {
+  handleMnemonicWalletToggle = (walletId: string) => {
+    const { openWallets } = this.state
+
+    if (openWallets.includes(walletId)) {
+      this.setState({
+        openWallets: openWallets.reduce(
+          (res, cur) => (cur === walletId
+            ? res
+            : [...res, cur]
+          ),
+          [],
+        ),
+      })
+    } else {
+      this.setState({
+        openWallets: [
+          ...openWallets,
+          walletId,
+        ],
+      })
+    }
+  }
+
+  renderContactsTab = () => {
     const {
       input,
       contacts,
@@ -113,6 +293,7 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
       )
     }
 
+    const activeContact = contacts.find(contact => contact.address === input.value)
     const filteredContacts = filterContacts(contacts, this.state.searchQuery)
 
     if (!filteredContacts.length) {
@@ -123,7 +304,7 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
 
     return (
       <JPickerList
-      // eslint-disable-next-line react/jsx-handler-names
+        // eslint-disable-next-line react/jsx-handler-names
         onItemClick={input.onChange}
         activeItemKey={activeContact ? activeContact.address : ''}
       >
@@ -143,7 +324,6 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
     const {
       input,
       wallets,
-      // fiatCurrency,
     } = this.props
 
     if (!wallets.length) {
@@ -152,8 +332,11 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
       )
     }
 
-    const activeWallet = wallets.find(wallet => wallet.id === input.value)
-    const filteredWallets = wallets
+    const {
+      searchQuery,
+    } = this.state
+
+    const filteredWallets = filterWallets(wallets, searchQuery)
 
     if (!filteredWallets.length) {
       return (
@@ -163,9 +346,13 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
 
     return (
       <WalletList
-        wallets={wallets}
-        balances={{}}
+        openWalletIds={this.state.openWallets}
+        onMnemonicWalletToggle={this.handleMnemonicWalletToggle}
+        wallets={filteredWallets}
+        // eslint-disable-next-line react/jsx-handler-names
         onChange={input.onChange}
+        activeWalletAddress={input.value}
+        isWalletsForceOpened={!!searchQuery}
       />
     )
   }
@@ -173,56 +360,27 @@ class RecipientPicker extends Component<Props, ComponentSatte> {
   render() {
     const {
       meta,
-      // wallet,
-      contacts,
-      input,
-      // fiatCurrency,
     } = this.props
 
     const {
-      searchQuery,
       activeTab,
     } = this.state
 
-    const activeContact = contacts.find(contact => contact.address === input.value)
-    // const activeWalletInfo = input.value && input.value.walletId
-    //   ? input.value
-    //   : null
-
-    // const isWalletsAndContactsEmpty = (!wallets.length && !contacts.length)
-
-    const currentValue = activeContact
-      ? activeContact.name
-        ? activeContact.name
-        : activeContact.address
-      : ''
+    const isOpen = meta.active || false
 
     return (
       <JPickerBody
-        isOpen={meta.active || false}
+        isOpen={isOpen}
         onOpen={this.handleOpen}
         onClose={this.handleClose}
-        currentRenderer={({ isOpen }) => (
-          <JPickerCurrent
-            isEditable={isOpen}
-            label={t`Recipient`}
-            value={currentValue}
-            inputValue={searchQuery}
-            onInputChange={this.handleSearchQueryChange}
-            iconRenderer={() => activeContact ? (
-              <ContactIcon
-                {...activeContact}
-              />
-            ) : (<span />)}
-          />
-        )}
+        currentRenderer={this.currentRenderer}
       >
         <Tabs
           activeTab={activeTab}
           onTabClick={this.handleTabClick}
         />
         {activeTab === 'contacts'
-          ? this.renderContactsTab(activeContact)
+          ? this.renderContactsTab()
           : this.renderWalletsTab()}
       </JPickerBody>
     )

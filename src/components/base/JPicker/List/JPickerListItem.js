@@ -10,7 +10,7 @@ type Props = {|
   +isFocused: boolean,
   +onBlur: () => any,
   +onFocus: () => any,
-  +onClick: () => any,
+  +onClick: (SyntheticEvent<HTMLDivElement>) => any,
   +children: React$Node,
 |}
 
