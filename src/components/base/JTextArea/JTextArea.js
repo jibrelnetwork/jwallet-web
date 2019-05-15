@@ -17,7 +17,7 @@ import jTextAreaStyle from './jTextArea.m.scss'
 type Theme = 'white'
 
 type Props = StyleComponent<Theme> & {
-  +onChange: (?SyntheticEvent<HTMLTextAreaElement>) => void,
+  +onChange: MaybeEventHandler<HTMLTextAreaElement>,
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +id: ?string,
