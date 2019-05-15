@@ -1,9 +1,8 @@
 // @flow
 
 import config from 'config'
-import strip0x from 'utils/address/strip0x'
+import { strip0x } from 'utils/address'
 import { encryptData } from 'utils/encryption'
-
 import { WalletInconsistentDataError } from 'errors'
 
 import {
