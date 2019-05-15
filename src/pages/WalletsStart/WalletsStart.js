@@ -10,15 +10,16 @@ import { t } from 'ttag'
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
-import {
-  NewWalletButtons,
-} from 'components'
 import { StartLayout } from 'layouts'
 
 import {
   ACTIONS,
   type WalletAction,
 } from 'pages/WalletsStart/constants'
+
+import {
+  NewWalletButtons,
+} from './components/NewWalletButtons/NewWalletButtons'
 
 import walletsStartStyle from './walletsStart.m.scss'
 
