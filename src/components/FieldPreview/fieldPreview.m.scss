@@ -1,0 +1,53 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row;
+
+  position: relative;
+  padding: 14px 24px 16px 16px;
+  justify-content: space-between;
+  background-color: $white;
+}
+
+.data {
+  overflow: hidden;
+}
+
+.label {
+  @include ellipsis;
+
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-40;
+}
+
+.body {
+  @include ellipsis;
+
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black;
+}
+
+.link {
+  //text-decoration: underline solid $main-blue-10;
+  display: inline;
+  background-size: 1px 1em;
+  box-shadow:
+    inset 0 0 $white,
+    inset 0 -0.07em $main-blue-30;
+  color: $blue;
+
+  &:hover {
+    box-shadow: none;
+    text-decoration: none;
+  }
+
+  &:active {
+    color: $main-blue-50;
+  }
+}
+
+.actions {
+  @include flex-row-center;
+}
