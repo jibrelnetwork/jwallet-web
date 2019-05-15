@@ -70,14 +70,14 @@ export function JInputField({
         className,
       )}
     >
-      <div className={classNames(
-        jInputFieldStyle.wrap,
-        hasMessage && jInputFieldStyle.message,
-        hasError && jInputFieldStyle.error,
-        isDisabled && jInputFieldStyle.disabled,
-        hasValue && jInputFieldStyle.value,
-        isActive && jInputFieldStyle.active,
-      )}
+      <div
+        className={classNames(
+          jInputFieldStyle.wrap,
+          hasError && jInputFieldStyle.error,
+          isActive && jInputFieldStyle.active,
+          hasMessage && jInputFieldStyle.message,
+          isDisabled && jInputFieldStyle.disabled,
+        )}
       >
         <input
           ref={textInput}
