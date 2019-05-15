@@ -131,7 +131,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!hasPassword) {
-      return <pages.SetPasswordView />
+      return <pages.SetPassword />
     }
 
     if (showNewWalletProcess) {

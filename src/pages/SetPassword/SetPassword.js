@@ -82,6 +82,6 @@ type OwnProps = {|
 |}
 */
 
-export const SetPasswordViewContainer = connect/* :: < AppState, null, OwnProps, _, _ > */(
+export const SetPassword = connect/* :: < AppState, null, OwnProps, _, _ > */(
   mapStateToProps,
 )(SetPasswordView)
