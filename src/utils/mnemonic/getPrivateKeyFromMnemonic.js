@@ -1,18 +1,15 @@
-// @flow
+// @flow strict
 
-import getPrivateHdRoot from './getPrivateHdRoot'
+import { getPrivateHdRoot } from '.'
 
-function getPrivateKeyFromMnemonic(
+export function getPrivateKeyFromMnemonic(
   mnemonic: string,
   addressIndex: number,
-  passphrase: string,
-  derivationPath: string,
-  network: ?NetworkId,
+  passphrase: ?string,
+  derivationPath: ?string,
 ): string {
-  const hdRoot: HDPrivateKey = getPrivateHdRoot(mnemonic, passphrase, derivationPath, network)
+  const hdRoot: HDPrivateKey = getPrivateHdRoot(mnemonic, passphrase, derivationPath)
   const generatedKey: HDPrivateKey = hdRoot.derive(addressIndex)
 
   return generatedKey.privateKey.toString()
 }
-
-export default getPrivateKeyFromMnemonic

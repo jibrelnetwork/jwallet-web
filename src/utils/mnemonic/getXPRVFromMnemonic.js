@@ -2,12 +2,12 @@
 
 import { getPrivateHdRoot } from '.'
 
-export function getXPUBFromMnemonic(
+export function getXPRVFromMnemonic(
   mnemonic: string,
   passphrase: ?string,
   derivationPath: ?string,
 ): string {
   const hdRoot: HDPrivateKey = getPrivateHdRoot(mnemonic, passphrase, derivationPath)
 
-  return hdRoot.hdPublicKey.toString()
+  return hdRoot.xprivkey
 }
