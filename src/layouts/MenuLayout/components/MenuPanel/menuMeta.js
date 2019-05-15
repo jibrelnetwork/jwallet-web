@@ -93,31 +93,31 @@ const MENU_META: { [string]: ?MenuMeta } = {
   },
   WalletsCreate: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
   WalletsImport: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
   WalletsItem: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
   WalletsItemBackup: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
   WalletsItemDelete: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
   WalletsItemRename: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
   WalletsItemUpgrade: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Wallets',
   },
 }
 
