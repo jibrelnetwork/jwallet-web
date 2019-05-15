@@ -43,10 +43,11 @@ export type WalletsImportSubmitPayload = {|
 
 type Props = {|
   onBack?: ?WalletsImportBackHandler,
-  getInfoDataMessage: string => ?string,
   getSuccessDataMessage: string => ?string,
   +validate: (FormFields, WalletsImportStep) => ?FormFields,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
+  getInfoDataMessage: (?string, ?string, ?string, ?string) => ?string,
+  +hint: string,
 |}
 
 type StateProps = {|
@@ -129,7 +130,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
   }
 
   handleChange = (change: FormFieldChange) => (event: SyntheticInputEvent<HTMLInputElement>) => {
-    const data: string = event.target.value
+    const data: string = (event.target.value || '').trim()
     const walletType: ?WalletCustomType = getTypeByInput(data)
 
     change('data', data)
@@ -171,6 +172,20 @@ export class WalletsImportView extends Component<Props, StateProps> {
       getSuccessDataMessage,
     }: Props = this.props
 
+    const {
+      data,
+      passphrase,
+      derivationPath,
+      walletType,
+    }: FormFields = values
+
+    const infoDataMessage: ?string = getInfoDataMessage(
+      data,
+      passphrase,
+      derivationPath,
+      walletType,
+    )
+
     return (
       <form
         onSubmit={handleSubmit}
@@ -186,7 +201,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           component={JTextArea}
           onChange={this.handleChange(form.change)}
           label={t`Address, Key, Mnemonic`}
-          infoMessage={getInfoDataMessage(values.data) || getSuccessDataMessage(values.data)}
+          infoMessage={infoDataMessage || getSuccessDataMessage(values.data)}
           name='data'
           isDisabled={isSubmitting}
         />
@@ -229,6 +244,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
         component={PasswordInput}
         value={values.password}
         label={t`Security Password`}
+        infoMessage={`${t`Hint`}: ${this.props.hint}`}
         theme='white-icon'
         name='password'
         isDisabled={isSubmitting}

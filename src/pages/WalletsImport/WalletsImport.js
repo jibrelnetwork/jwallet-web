@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import { walletsPlugin } from 'store/plugins'
 import { checkMnemonicType } from 'utils/wallets'
+import { selectPasswordHint } from 'store/selectors/password'
 
 import {
   checkXkeyValid,
@@ -42,6 +43,7 @@ const RE_XPUB_PREFIX: RegExp = /^xpub/i
 function getSuccessDataMessage(data: ?string): ?string {
   const trimmedData: string = (data || '').trim()
 
+  // Order is important
   if (checkMnemonicValid(trimmedData)) {
     return t`You have entered BIP39 mnemonic`
   } else if (checkXkeyValid(trimmedData, 'prv')) {
@@ -192,14 +194,82 @@ function getInfoAddressMessage(data: string): ?string {
   return null
 }
 
-function getInfoDataMessage(data: ?string): ?string {
+function getUniquenessMessage(
+  data: string,
+  passphrase: ?string,
+  derivationPath: ?string,
+  walletType: ?string,
+): ?string {
+  try {
+    switch (walletType) {
+      case 'address': {
+        walletsPlugin.checkWalletUniqueness(data, 'address')
+
+        break
+      }
+
+      case 'privateKey': {
+        const address: string = getAddressFromPrivateKey(strip0x(data))
+        walletsPlugin.checkWalletUniqueness(address, 'address')
+
+        break
+      }
+
+      case 'xpub': {
+        walletsPlugin.checkWalletUniqueness(data, 'xpub')
+
+        break
+      }
+
+      case 'xprv': {
+        const xpub: string = getXPUBFromXPRV(data)
+        walletsPlugin.checkWalletUniqueness(xpub, 'xpub')
+
+        break
+      }
+
+      case 'mnemonic': {
+        const xpub: string = getXPUBFromMnemonic(data, passphrase, derivationPath)
+        walletsPlugin.checkWalletUniqueness(xpub, 'xpub')
+
+        break
+      }
+
+      default: break
+    }
+  } catch (err) {
+    return err.message
+  }
+
+  return null
+}
+
+function getInfoDataMessage(
+  data: ?string,
+  passphrase: ?string,
+  derivationPath: ?string,
+  walletType: ?string,
+): ?string {
   const trimmedData: string = (data || '').trim()
 
   if (!trimmedData) {
     return null
   }
 
+  const uniqMessage: ?string = getUniquenessMessage(
+    trimmedData,
+    passphrase,
+    derivationPath,
+    walletType,
+  )
+
+  if (walletType && !uniqMessage) {
+    return null
+  }
+
   return (
+    // Order is important
+    uniqMessage ||
     getInfoMnemonicMessage(trimmedData) ||
     getInfoXPRVMessage(trimmedData) ||
     getInfoXPUBMessage(trimmedData) ||
@@ -236,10 +306,10 @@ function validateWalletName(name: ?string): ?string {
     return t`Length of name should not be greater than 32 symbols`
   }
 
-  try {
-    walletsPlugin.checkWalletUniqueness(name, 'name')
-  } catch (err) {
-    return err.message
+  const hasInvalidSymbols: boolean = /[/]/i.test(name)
+
+  if (hasInvalidSymbols) {
+    return t`Name should not include invalid symbols`
   }
 
   return null
@@ -343,6 +413,7 @@ function validateWalletData(
   data: ?string,
   passphrase: ?string,
   derivationPath: ?string,
+  walletType: ?string,
 ): ?string {
   const trimmedData: string = (data || '').trim()
 
@@ -350,13 +421,19 @@ function validateWalletData(
     return t`The field should not be empty`
   }
 
-  const infoDataMessage: ?string = getInfoDataMessage(trimmedData)
+  const infoDataMessage: ?string = getInfoDataMessage(
+    trimmedData,
+    passphrase,
+    derivationPath,
+    walletType,
+  )
 
   if (infoDataMessage) {
     return infoDataMessage
   }
 
   const errorDataMessage: ?string = (
+    // Order is important
     validateMnemonic(
       trimmedData,
       passphrase,
@@ -422,6 +499,7 @@ function validateWalletsImportForm(
         data,
         passphrase,
         derivationPath,
+        walletType,
       )
 
       if (validateWalletDataResult) {
@@ -456,10 +534,11 @@ function validateWalletsImportForm(
   }
 }
 
-function mapStateToProps() {
+function mapStateToProps(state: AppState) {
   return {
     getInfoDataMessage,
     getSuccessDataMessage,
+    hint: selectPasswordHint(state),
     submit: submitWalletsImportForm,
     validate: validateWalletsImportForm,
   }
