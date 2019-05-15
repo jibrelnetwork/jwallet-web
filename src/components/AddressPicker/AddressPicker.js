@@ -3,8 +3,8 @@
 import React, { Component } from 'react'
 
 import escapeRegExp from 'utils/regexp/escapeRegExp'
-import checkAddressValid from 'utils/address/checkAddressValid'
 import JPicker, { JPickerFullItem } from 'components/base/JPicker'
+import { checkAddressValid } from 'utils/address'
 
 import AddressPickerCurrent from './Current'
 
