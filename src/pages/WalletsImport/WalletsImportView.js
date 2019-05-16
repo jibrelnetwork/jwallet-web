@@ -68,6 +68,10 @@ const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
   walletType: null,
 }
 
+const DEFAULT_DATA_MESSAGE: string = `Enter a private key or backup phrase of the wallet you want 
+to import. You can also enter a public key or address to access wallet in read-only mode. We 
+support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
+
 export class WalletsImportView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
@@ -186,6 +190,8 @@ export class WalletsImportView extends Component<Props, StateProps> {
       walletType,
     )
 
+    const successDataMessage: ?string = getSuccessDataMessage(values.data)
+
     return (
       <form
         onSubmit={handleSubmit}
@@ -201,7 +207,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           component={JTextArea}
           onChange={this.handleChange(form.change)}
           label={t`Address, Key, Mnemonic`}
-          infoMessage={infoDataMessage || getSuccessDataMessage(values.data)}
+          infoMessage={infoDataMessage || successDataMessage || DEFAULT_DATA_MESSAGE}
           name='data'
           isDisabled={isSubmitting}
         />
