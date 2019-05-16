@@ -25,7 +25,7 @@ export function TitleHeader({
           onClick={handleClick}
           className={titleHeaderStyle.back}
         >
-          <JIcon name='arrow-back' size='medium' color='blue' />
+          <JIcon name='arrow-back-use-fill' size='medium' color='blue' />
         </div>
       )}
     </div>
