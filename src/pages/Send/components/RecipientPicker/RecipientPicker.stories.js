@@ -112,6 +112,13 @@ const WALLET_ITEMS = [
   },
 ]
 
+const WALLET_BALANCES = {
+}
+
+const NAMED_ADDRESSES = {
+  '0x312321312321312312341798432643783420': 'My address',
+}
+
 function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   return (
     <Form
@@ -138,7 +145,7 @@ storiesOf('send|RecipientPicker', module)
     <div className='story'>
       {formStoryWrapper(RecipientPicker, {
         contacts: CONTACT_ITEMS,
-        wallets: prepareWallets(WALLET_ITEMS),
+        wallets: prepareWallets(WALLET_ITEMS, WALLET_BALANCES, NAMED_ADDRESSES),
       }, { foo: 'Ethereum' })}
     </div>
   ))

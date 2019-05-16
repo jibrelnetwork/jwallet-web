@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { t } from 'ttag-cli'
 
 import {
   generateAddresses,

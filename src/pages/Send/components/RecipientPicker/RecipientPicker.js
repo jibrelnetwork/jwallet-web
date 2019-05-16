@@ -14,6 +14,7 @@ import {
   NotFoundItem,
 } from 'components/base/JPicker'
 import { JIcon } from 'components/base'
+import { startsWithOrEndsWith } from 'utils/address'
 
 import { Empty } from './Tabs/Empty'
 import { ContactItem } from './ContactItem/ContactItem'
@@ -63,7 +64,7 @@ function filterContacts(
     const isFound: boolean = (
       (name && name.search(searchRe) !== -1) ||
       (description && description.search(searchRe) !== -1) ||
-      (address.search(searchRe) !== -1)
+      startsWithOrEndsWith(address, query)
     )
 
     return !isFound ? result : [
@@ -84,10 +85,10 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
     return wallets
   }
 
-  const searchQueryLower = searchQuery.trim().toLowerCase()
+  const searchRe: RegExp = new RegExp(escapeRegExp(searchQuery), 'ig')
 
   return wallets.map((wallet) => {
-    if (wallet.name.toLowerCase().indexOf(searchQueryLower) !== -1) {
+    if (wallet.name.search(searchRe)) {
       return wallet
     }
 
@@ -97,7 +98,7 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
 
     // filter addresses
     const addresses = wallet.addresses.filter((address, index) =>
-      getAddressName(address, index).toLowerCase().indexOf(searchQueryLower) !== -1)
+      getAddressName(address, index).search(searchRe))
 
     if (addresses.length) {
       return {
