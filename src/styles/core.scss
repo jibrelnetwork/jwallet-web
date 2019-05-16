@@ -1,3 +1,4 @@
+@import 'modern-normalize'; // import from node_modules
 @import 'base';
 @import 'mixins';
 
@@ -52,7 +53,6 @@ h4 {
 @import '../components/base/JInput/jInput';
 @import '../components/base/JRadio/jRadio';
 @import '../components/base/JLoader/jLoader';
-@import '../components/base/JSearch/jSearch';
 @import '../components/base/JPicker/jPicker';
 @import '../components/base/JSwitch/jSwitch';
 @import '../components/base/JTooltip/jTooltip';
@@ -86,7 +86,6 @@ h4 {
 @import '../components/ButtonWithConfirm/buttonWithConfirm';
 @import '../components/MnemonicAddresses/mnemonicAddresses';
 @import '../components/TransactionsFilter/transactionsFilter';
-@import '../components/DigitalAssetsFilter/digitalAssetsFilter';
 @import '../components/DigitalAssetsManage/digitalAssetsManage';
 @import '../components/OverlayNotification/overlayNotification';
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';

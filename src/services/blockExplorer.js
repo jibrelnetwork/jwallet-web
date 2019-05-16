@@ -10,7 +10,7 @@ import {
 import config from 'config'
 import isZero from 'utils/numbers/isZero'
 import getENVVar from 'utils/config/getENVVar'
-import getAddressChecksum from 'utils/address/getAddressChecksum'
+import { getAddressChecksum } from 'utils/address'
 import * as type from 'utils/type'
 
 const { blockExplorerAPIOptions }: AppConfig = config

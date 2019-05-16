@@ -6,6 +6,7 @@
 
   height: 112px;
   padding: 48px 40px 30px;
+  margin: 0 -40px;
 }
 
 .title {
@@ -24,6 +25,7 @@
 .aside {
   @include flex-row-center;
 
+  padding-left: 24px;
   flex-grow: 1;
   flex-shrink: 0;
   justify-content: flex-end;

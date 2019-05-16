@@ -8,9 +8,7 @@ import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
 
 import {
-  JTabs,
-  JSearch,
-  JFlatButton,
+  JTabs, JFlatButton, SearchInput,
 } from 'components/base'
 
 import {
@@ -108,10 +106,9 @@ function TransactionsAssetView({
           <JTabs tabs={getTransactionsTabs(asset, assetBalance, isBalanceAllowed)} />
           <div className='actions'>
             <div className='search'>
-              <JSearch
+              <SearchInput
                 onChange={changeSearchInput}
                 value={searchQuery}
-                placeholder={t`Search transactions...`}
               />
             </div>
             <div className='filter'>

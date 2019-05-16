@@ -76,7 +76,7 @@ JPickerCurrent.defaultProps = {
   editable: false,
   hasError: false,
   onClick: null,
-  inputValue: null,
+  inputValue: undefined,
   onInputChange: null,
   iconRenderer: null,
   balancesRenderer: null,

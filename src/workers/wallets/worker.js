@@ -1,7 +1,6 @@
 // @flow
 
 import {
-  createWallet,
   upgradeWallet,
   getBackupData,
   getPrivateKey,
@@ -67,13 +66,8 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
     case wallets.CREATE_REQUEST: {
       try {
         const {
-          items,
           internalKey,
           passwordOptions,
-          mnemonicOptions,
-          createdBlockNumber,
-          data,
-          name,
           password,
         } = action.payload
 
@@ -90,13 +84,7 @@ walletsWorker.onmessage = (msg: WalletsWorkerMessage): void => {
         walletsWorker.postMessage(wallets.createSuccess({
           passwordOptions,
           internalKey: internalKey || encryptInternalKey(internalKeyDec, dk, encryptionType),
-          items: createWallet(items, {
-            data,
-            name,
-            mnemonicOptions,
-            createdBlockNumber,
-            isSimplified: true,
-          }, internalKeyDec, encryptionType),
+          items: [],
         }))
       } catch (err) {
         // eslint-disable-next-line no-console

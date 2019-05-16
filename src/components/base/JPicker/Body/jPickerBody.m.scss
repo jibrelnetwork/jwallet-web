@@ -45,6 +45,18 @@
     transition:
       max-height 0.3s ease 0s,
       opacity 0.3s ease 0s;
+
+    /* Fix box-shadow overlap ob the top component */
+    &::after {
+      content: ' ';
+      position: absolute;
+      cursor: pointer;
+      top: -18px;
+      width: 100%;
+      height: 17px;
+      background-color: $white;
+      z-index: 10;
+    }
   }
 }
 

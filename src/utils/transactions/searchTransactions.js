@@ -1,6 +1,7 @@
 // @flow
 
 import escapeRegExp from 'utils/regexp/escapeRegExp'
+import { startsWithOrEndsWith } from 'utils/address'
 
 type TransactionWithNames = {
   ...TransactionWithPrimaryKeys,
@@ -12,14 +13,6 @@ const HEX_PREFIX: string = '0x'
 
 function searchBy(f: Function, query: string): Function {
   return (value: ?string): boolean => value ? f(value, query) : false
-}
-
-function checkHashes(field: string, searchQuery: string): boolean {
-  const query: string = searchQuery.replace(`/^${HEX_PREFIX}/`, '')
-  const fromEnd: RegExp = new RegExp(`${escapeRegExp(query)}$`, 'ig')
-  const fromStart: RegExp = new RegExp(`^${HEX_PREFIX}${escapeRegExp(query)}`, 'ig')
-
-  return fromStart.test(field) || fromEnd.test(field)
 }
 
 function checkNames(field: string, searchQuery: string): boolean {
@@ -40,7 +33,7 @@ function checkFound(item: TransactionWithNames, searchQuery: string): boolean {
   const searchableHashes = [hash, to, from]
   const searchableString = [toName, fromName]
 
-  return searchableHashes.some(searchBy(checkHashes, searchQuery))
+  return searchableHashes.some(searchBy(startsWithOrEndsWith, searchQuery))
     || searchableString.some(searchBy(checkNames, searchQuery))
 }
 

@@ -6,42 +6,35 @@
   position: relative;
   width: 100%;
   min-width: 100%;
+  margin-bottom: 16px;
   border-radius: $form-border-radius;
   line-height: $form-field-line-height;
   resize: none;
-  border-width: 1px;
-  border-style: solid;
-  padding: $form-field-white-padding-vertical $form-field-white-horizontal-padding;
-  font-weight: 600;
+  cursor: text;
 }
 
-// stylelint-disable selector-nested-pattern, rscss/class-format
+.field-message {
+  padding-left: 16px;
+}
+
 .white {
-  @include property-transition(box-shadow);
-  $normal-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
-
-  padding: 24px 16px 26px;
-  border: none;
-  background-color: $white;
-  box-shadow: $normal-shadow;
-
   .label {
     @include property-transition(color, font-size, font-weight, top);
 
-    will-change: contents;
-    display: block; /* for Firefox */
-    overflow: hidden;
-    pointer-events: none;
     position: absolute;
     top: 24px;
     left: 16px;
     right: 24px;
+    display: block; /* for Firefox */
+    line-height: 22px;
     font-size: 14px;
-    font-weight: 600;
     font-style: normal;
+    color: $main-black-30;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: $main-black-30;
+    will-change: contents;
+    pointer-events: none;
   }
 
   .input {
@@ -56,48 +49,47 @@
     width: 100%;
     border: none;
     background: transparent;
-    font-weight: 600;
     color: $main-black;
   }
 
-  // States of component according with mockup from Figma
+  .wrap {
+    @include property-transition(box-shadow);
 
-  &:hover,
-  &:focus {
-    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
-  }
+    padding: 24px 16px 26px;
+    background-color: $white;
+    box-shadow: $normal-shadow;
 
-  &.focused {
-    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
-
-    .label {
-      color: $main-black-40;
-      font-weight: 400;
-      font-size: 12px;
-      top: 14px;
+    &:hover {
+      box-shadow: $normal-shadow-2;
     }
 
-    .input {
-      top: 10px;
-    }
-  }
+    &.active {
+      .label {
+        top: 14px;
+        font-size: 12px;
+      }
 
-  &.error {
-    .label {
-      color: $main-red;
-    }
-  }
-
-  &.disabled {
-    opacity: 0.7;
-
-    .input {
-      color: $main-black-40;
+      .input {
+        top: 10px;
+      }
     }
 
-    &:hover,
-    &:focus {
-      box-shadow: $normal-shadow;
+    &.error {
+      .label {
+        color: $main-red;
+      }
+    }
+
+    &.message {
+      margin-bottom: 8px;
+    }
+
+    &.disabled {
+      background: $white-70;
+
+      &:hover {
+        box-shadow: $normal-shadow;
+      }
     }
   }
 }
