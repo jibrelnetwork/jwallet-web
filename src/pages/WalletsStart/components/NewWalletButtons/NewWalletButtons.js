@@ -6,7 +6,8 @@ import React, {
 } from 'react'
 import { t } from 'ttag'
 
-import { JRaisedButton } from 'components/base'
+import { JLink } from 'components/base'
+import jRaisedButtonStyle from 'components/base/JRaisedButton/jRaisedButton.m.scss'
 
 import {
   ACTIONS,
@@ -35,22 +36,29 @@ export class NewWalletButtons extends PureComponent<Props> {
   render() {
     return (
       <Fragment>
-        <JRaisedButton
+        <JLink
           onClick={this.handleClickCreate}
-          className={`__create-button ${newWalletButtonsStyle.create}`}
+          className={`__create-button 
+            ${jRaisedButtonStyle.core} 
+            ${jRaisedButtonStyle.blue} 
+            ${newWalletButtonsStyle.create}`}
+          href='/wallets/create'
         >
           {t`Create Wallet`}
-        </JRaisedButton>
+        </JLink>
         <div className={newWalletButtonsStyle.text}>
           {t`Create your own wallet to manage your digital assets`}
         </div>
-        <JRaisedButton
+        <JLink
           onClick={this.handleClickImport}
-          className={`__import-button ${newWalletButtonsStyle.import}`}
-          theme='white'
+          className={`__import-button 
+            ${jRaisedButtonStyle.core} 
+            ${jRaisedButtonStyle.white} 
+            ${newWalletButtonsStyle.import}`}
+          href='/wallets/import'
         >
           {t`Import Wallet`}
-        </JRaisedButton>
+        </JLink>
         <div className={newWalletButtonsStyle.text}>
           {t`Import an existing wallet with backup phrase, private key, etc.`}
         </div>
