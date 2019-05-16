@@ -62,7 +62,7 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: src/pages/SetPassword/SetPasswordViewContainer.js
+#: src/pages/SetPassword/SetPassword.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -70,7 +70,7 @@ msgstr "December"
 msgid "Password does not match confirmation"
 msgstr "Inputted passwords do not match"
 
-#: src/pages/SetPassword/SetPasswordViewContainer.js
+#: src/pages/SetPassword/SetPassword.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -78,7 +78,7 @@ msgstr "Inputted passwords do not match"
 msgid "Password hint is required"
 msgstr "Password hint is required"
 
-#: src/pages/SetPassword/SetPasswordViewContainer.js
+#: src/pages/SetPassword/SetPassword.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -1282,10 +1282,6 @@ msgid "Enter Security Password"
 msgstr ""
 
 #: src/pages/SetPassword/SetPasswordView.js
-msgid "Enter Password Hint (Optional)"
-msgstr ""
-
-#: src/pages/SetPassword/SetPasswordView.js
 msgid "Set Security Password"
 msgstr ""
 
@@ -1364,4 +1360,17 @@ msgstr ""
 
 #: src/components/NewPasswordField/NewPasswordField.js
 msgid "Repeat Security Password"
+msgstr ""
+
+#: src/pages/WalletsImport/WalletsImportView.js
+msgid ""
+"Enter a private key or backup phrase of the wallet you want \n"
+"to import. You can also enter a public key or address to access wallet in "
+"read-only mode. We \n"
+"support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 "
+"XPUB, BIP44 XPRIV."
+msgstr ""
+
+#: src/pages/SetPassword/SetPasswordView.js
+msgid "Enter Password Hint"
 msgstr ""
