@@ -26,7 +26,7 @@ import {
 
 import {
   TitleHeader,
-  PasswordInput,
+  NewWalletPasswordForm,
 } from 'components'
 
 import walletsImportStyle from './walletsImport.m.scss'
@@ -236,40 +236,27 @@ export class WalletsImportView extends Component<Props, StateProps> {
     )
   }
 
-  renderWalletsImportPasswordStep = ({
-    handleSubmit,
-    values = {},
-    submitting: isSubmitting,
-  }: FormRenderProps) => (
-    <form
-      onSubmit={handleSubmit}
-      className={walletsImportStyle.form}
-    >
-      <Field
-        component={PasswordInput}
-        value={values.password}
-        label={t`Security Password`}
-        infoMessage={`${t`Hint`}: ${this.props.hint}`}
-        theme='white-icon'
-        name='password'
-        isDisabled={isSubmitting}
-      />
-      <Button
-        type='submit'
-        isLoading={isSubmitting}
-      >
-        {t`Import`}
-      </Button>
-    </form>
-  )
-
   renderWalletsImportForm = (formRenderProps: FormRenderProps) => {
     switch (this.state.currentStep) {
       case STEPS.DATA:
         return this.renderWalletsImportDataStep(formRenderProps)
 
-      case STEPS.PASSWORD:
-        return this.renderWalletsImportPasswordStep(formRenderProps)
+      case STEPS.PASSWORD: {
+        const {
+          handleSubmit,
+          values = {},
+          submitting,
+        }: FormRenderProps = formRenderProps
+
+        return (
+          <NewWalletPasswordForm
+            handleSubmit={handleSubmit}
+            values={values}
+            hint={this.props.hint}
+            isSubmitting={submitting}
+          />
+        )
+      }
 
       default:
         return null
