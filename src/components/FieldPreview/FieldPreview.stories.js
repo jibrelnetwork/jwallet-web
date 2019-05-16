@@ -42,20 +42,20 @@ storiesOf('FieldPreview', module)
         <FieldPreview
           label='Sender'
           body='My First Wallet'
-          link='https://google.com'
+          link='https://jibrel.network'
           copy='Hello world'
         />
         <FieldPreview
           label='Recipient'
           body='0x000d2bod...D8р0641a81'
-          link='https://google.com'
-          contact='https://google.com'
+          link='https://jibrel.network'
+          contact='https://jibrel.network'
           copy={PRIVATE_KEY}
         />
         <FieldPreview
           label='Blockchain transaction'
           body='0xfb27c2...b494c020f59'
-          link='https://google.com'
+          link='https://jibrel.network'
           copy={PRIVATE_KEY}
         />
         <FieldPreview
