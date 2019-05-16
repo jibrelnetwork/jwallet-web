@@ -3,6 +3,7 @@
 .core {
   @include font;
 
+  display: inline-block;
   font-size: 12px;
   line-height: 20px;
 }
