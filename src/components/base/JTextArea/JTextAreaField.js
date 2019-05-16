@@ -11,6 +11,7 @@ import { JFieldMessage } from 'components/base'
 
 import offsetStyle from 'styles/offsets.m.scss'
 
+import jTextAreaStyle from './jTextArea.m.scss'
 import { JTextArea } from './JTextArea'
 
 type Props = FieldRenderProps & { offset?: OffsetVariant }
@@ -35,7 +36,13 @@ export function JTextAreaField(props: Props) {
         error={hasError}
         className={hasError && offsetStyle.mb8}
       />
-      {hasError && <JFieldMessage message={String(errorText)} theme='error' />}
+      {hasError && (
+        <JFieldMessage
+          message={String(errorText)}
+          className={jTextAreaStyle.message}
+          theme='error'
+        />
+      )}
     </div>
   )
 }

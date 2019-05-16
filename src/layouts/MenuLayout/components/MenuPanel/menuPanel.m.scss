@@ -56,7 +56,13 @@
 }
 
 .logo {
+  display: block;
   margin: 32px auto 14px 32px;
+}
+
+.logo-image {
+  display: block;
+  color: $white;
 }
 
 .wallet {

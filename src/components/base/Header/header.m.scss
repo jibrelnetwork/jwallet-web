@@ -1,0 +1,32 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.core {
+  @include flex-row;
+
+  height: 112px;
+  padding: 48px 40px 30px;
+  margin: 0 -40px;
+}
+
+.title {
+  @include ellipsis;
+
+  flex-grow: 1;
+  flex-shrink: 0;
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: normal;
+  color: $main-black;
+  margin: 0;
+  max-width: 400px;
+}
+
+.aside {
+  @include flex-row-center;
+
+  padding-left: 24px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}

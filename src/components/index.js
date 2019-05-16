@@ -24,19 +24,18 @@ import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
 import TransactionItem from './TransactionItem'
 import WalletViewTitle from './WalletViewTitle'
-import NewWalletButtons from './NewWalletButtons'
 import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
-import DigitalAssetsFilter from './DigitalAssetsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
+export { NewWalletButtons } from './NewWalletButtons/NewWalletButtons'
 
 export {
   QRCode,
@@ -63,13 +62,11 @@ export {
   RoundIconButton,
   TransactionItem,
   WalletViewTitle,
-  NewWalletButtons,
   TransactionsList,
   ButtonWithConfirm,
   MnemonicAddresses,
   TransactionsFilter,
   WalletPasswordStep,
-  DigitalAssetsFilter,
   DigitalAssetsManage,
   OverlayNotification,
   DigitalAssetEditForm,

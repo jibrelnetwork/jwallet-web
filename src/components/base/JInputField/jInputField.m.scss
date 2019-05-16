@@ -15,10 +15,10 @@
 .wrap {
   height: 72px;
   padding: 0;
-  box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+  box-shadow: $normal-shadow;
 
   &:hover {
-    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+    box-shadow: $normal-shadow-2;
   }
 }
 
@@ -99,12 +99,11 @@
 
   .label {
     color: $main-black-40;
-    background-color: $white;
   }
 
   &:hover .input::placeholder,
   &:hover .label {
-    color: $main-black-40;
+    color: $main-black-30;
   }
 
   &.error .label {
@@ -115,8 +114,6 @@
     background: $main-black-5;
 
     .label {
-      color: $main-black-30;
-      background-color: transparent;
       user-select: none;
       cursor: default;
     }

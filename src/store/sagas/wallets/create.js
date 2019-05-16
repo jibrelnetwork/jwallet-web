@@ -14,7 +14,7 @@ import config from 'config'
 import web3 from 'services/web3'
 import walletsWorker from 'workers/wallets'
 import checkWalletUniqueness from 'utils/wallets/checkWalletUniqueness'
-import generateMnemonic from 'utils/mnemonic/generateMnemonic'
+import { generateMnemonic } from 'utils/mnemonic'
 import { checkPasswordStrength } from 'utils/encryption'
 import { selectCurrentNetwork } from 'store/selectors/networks'
 

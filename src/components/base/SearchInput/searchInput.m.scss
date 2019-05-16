@@ -1,0 +1,60 @@
+@import 'styles/colors';
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+  @include property-transition(border-color);
+
+  border: 1px solid $main-black-20;
+  border-radius: 4px;
+  padding: 8px;
+
+  .icon {
+    @include property-transition(fill, stroke);
+
+    fill: $main-black-30;
+    stroke: $main-black-30;
+    margin-right: 8px;
+  }
+
+  .input {
+    @include property-transition(color);
+    @include font(14px, 22px);
+
+    appearance: none;
+    display: block;
+    flex-grow: 1;
+    font-style: normal;
+    font-weight: 600;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    color: $main-black;
+
+    &::placeholder {
+      @include property-transition(color);
+
+      color: $main-black-40;
+      opacity: 1;
+    }
+  }
+
+  &:hover,
+  &.focused {
+    border-color: $main-blue;
+
+    .icon {
+      fill: $main-blue;
+      stroke: $main-blue;
+    }
+  }
+
+  &:hover .input::placeholder {
+    color: $main-blue;
+  }
+
+  &.focused .input::placeholder {
+    opacity: 0;
+  }
+}

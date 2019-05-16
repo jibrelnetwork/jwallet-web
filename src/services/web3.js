@@ -2,11 +2,11 @@
 
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { t } from 'ttag'
+import { BigNumber } from 'bignumber.js'
 
 import checkETH from 'utils/digitalAssets/checkETH'
-import getAddressChecksum from 'utils/address/getAddressChecksum'
+import { getAddressChecksum } from 'utils/address'
 import * as type from 'utils/type'
-import { BigNumber } from 'bignumber.js'
 
 /**
  * Pre-calculated keccak256 values

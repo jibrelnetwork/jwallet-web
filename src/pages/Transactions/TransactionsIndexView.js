@@ -5,8 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { t } from 'ttag'
 
 import {
-  JTabs,
-  JSearch,
+  JTabs, SearchInput,
 } from 'components/base'
 
 import {
@@ -65,10 +64,9 @@ function TransactionsIndexView({
           <JTabs tabs={TRANSACTIONS_TABS} />
           <div className='actions'>
             <div className='search'>
-              <JSearch
+              <SearchInput
                 onChange={changeSearchInput}
                 value={searchQuery}
-                placeholder={t`Search transactions...`}
               />
             </div>
             <div className='filter'>

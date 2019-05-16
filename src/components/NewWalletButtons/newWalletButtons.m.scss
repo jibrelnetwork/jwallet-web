@@ -1,0 +1,52 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+}
+
+.create,
+.import {
+  @include flex-row-center;
+
+  width: 544px;
+  height: 64px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  transition:
+    opacity 0.3s ease 0s,
+    box-shadow 0.3s ease 0s;
+}
+
+.create {
+  background: $main-blue;
+  color: $white;
+  box-shadow: $blue-shadow;
+
+  &:hover {
+    color: $white;
+    box-shadow: $blue-shadow-2;
+  }
+}
+
+.import {
+  background: $white-70;
+  border: 1px solid $main-blue-10;
+  color: $main-blue;
+  box-shadow: $normal-shadow;
+
+  &:hover {
+    box-shadow: $normal-shadow-2;
+  }
+}
+
+.text {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-60;
+}
+
+.create + .text {
+  margin-bottom: 18px;
+}

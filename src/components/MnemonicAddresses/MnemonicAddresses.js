@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import getShortenedAddress from 'utils/address/getShortenedAddress'
+import { getShortenedAddress } from 'utils/address'
 
 import {
   WalletFace,

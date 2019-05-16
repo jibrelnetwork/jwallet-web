@@ -1,7 +1,6 @@
-// @flow
+// @flow strict
 
-import checkMnemonicType from 'utils/wallets/checkMnemonicType'
-
+import { checkMnemonicType } from 'utils/wallets'
 import { WalletInconsistentDataError } from 'errors'
 
 import {
