@@ -68,7 +68,7 @@ const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
   walletType: null,
 }
 
-const DEFAULT_DATA_MESSAGE: string = `Enter a private key or backup phrase of the wallet you want 
+const DEFAULT_DATA_MESSAGE: string = t`Enter a private key or backup phrase of the wallet you want 
 to import. You can also enter a public key or address to access wallet in read-only mode. We 
 support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
 
