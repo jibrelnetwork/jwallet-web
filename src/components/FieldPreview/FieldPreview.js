@@ -33,7 +33,7 @@ function joinAddContact(body: string): string {
     : ''
 }
 
-export function FieldPreview({
+function FieldPreviewInternal({
   label,
   body,
   link,
@@ -78,8 +78,10 @@ export function FieldPreview({
   )
 }
 
-FieldPreview.defaultProps = {
+FieldPreviewInternal.defaultProps = {
   link: '',
   contact: '',
   copy: '',
 }
+
+export const FieldPreview = React.memo/* :: <Props> */(FieldPreviewInternal)
