@@ -1,6 +1,7 @@
 @import 'styles/mixins';
 
 .core {
+  @include font;
   @include flex-column-center;
 }
 
