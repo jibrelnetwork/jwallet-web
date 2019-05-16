@@ -18,29 +18,29 @@ import { prepareWallets } from './prepareWallets'
 
 const CONTACT_ITEMS = [
   {
-    name: 'Mr Credo',
+    name: 'Mr Credo 1',
     description: 'Singer',
     address: '0x312321312321312312341798432643783412',
   },
   {
-    name: 'Mr Credo',
+    name: 'Mr Credo 2',
     description: 'Singer',
     address: '0x312321312321312312341798432643783413',
   },
   {
-    name: 'Mr Credo',
+    name: 'Mr Credo 3',
     description: 'Singer',
     address: '0x312321312321312312341798432643783414',
   },
   {
-    name: 'Mr Credo',
+    name: 'Mr Credo 4',
     address: '0x312321312321312312341798432643783415',
   },
   {
     address: '0x312321312321312312341798432643783416',
   },
   {
-    name: 'Mr Credo',
+    name: 'Mr Credo 5',
     description: 'Singer',
     address: '0x312321312321312312341798432643783417',
   },
@@ -67,10 +67,10 @@ const WALLET_ITEMS = [
     id: '2',
     name: 'My single wallet 2',
     type: 'address',
-    address: '0x312321312321312312341798432643783420',
-    isReadOnly: true,
+    // eslint-disable-next-line max-len
+    bip32XPublicKey: 'xpub6BVyo8p6jgRS5KPzMaJabfD5r4eJY5xpa4uDYU7ohu5eCUfYxyrtAFRJyqsmB85LGerYVDJ6stjXgsDWRUda2EJoLJJ32wHoTuFYduEcave',
+    isReadOnly: false,
     isSimplified: true,
-    bip32XPublicKey: null,
     //   +bip32XPublicKey: ?string,
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
@@ -113,11 +113,20 @@ const WALLET_ITEMS = [
 ]
 
 const WALLET_BALANCES = {
+  '0x312321312321312312341798432643783419': '$1.00',
+  '0x9b20009CfC19601B53491a35a647D56106c89555': '$5000.00',
+  '0x312321312321312312341798432643783412': '$200.00',
 }
 
 const NAMED_ADDRESSES = {
-  '0x312321312321312312341798432643783420': 'My address',
+  '0x312321312321312312341798432643783420': 'Some named adress',
+  '0x9b20009CfC19601B53491a35a647D56106c89555': 'My *** address',
 }
+
+console.log(CONTACT_ITEMS)
+console.log(WALLET_ITEMS)
+console.log(WALLET_BALANCES)
+console.log(NAMED_ADDRESSES)
 
 function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   return (
@@ -140,13 +149,16 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   )
 }
 
+const preparedWallets = prepareWallets(WALLET_ITEMS, WALLET_BALANCES, NAMED_ADDRESSES)
+console.log(preparedWallets)
+
 storiesOf('send|RecipientPicker', module)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(RecipientPicker, {
         contacts: CONTACT_ITEMS,
-        wallets: prepareWallets(WALLET_ITEMS, WALLET_BALANCES, NAMED_ADDRESSES),
-      }, { foo: 'Ethereum' })}
+        wallets: preparedWallets,
+      }, { foo: '' })}
     </div>
   ))
   .add('Empty', () => (
