@@ -44,7 +44,7 @@ export class WalletsStart extends Component<Props, StateProps> {
     return (
       <StartLayout
         className='__first-wallet'
-        hasNotLogo={!!action}
+        hasNoLogo={!!action}
       >
         {!action && (
           <Fragment>

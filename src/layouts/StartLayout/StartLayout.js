@@ -11,17 +11,17 @@ import startLayoutStyle from './startLayout.m.scss'
 type Props = {|
   +children: React$Node,
   +className: ?string,
-  +hasNotLogo: boolean,
+  +hasNoLogo: boolean,
 |}
 
 export function StartLayout({
   children,
   className,
-  hasNotLogo,
+  hasNoLogo,
 }: Props) {
   return (
     <div className={classNames(startLayoutStyle.core, className)}>
-      {!hasNotLogo && (
+      {!hasNoLogo && (
         <img
           className={startLayoutStyle.logo}
           src={svgLogoBlue}
@@ -39,5 +39,5 @@ export function StartLayout({
 
 StartLayout.defaultProps = {
   className: null,
-  hasNotLogo: false,
+  hasNoLogo: false,
 }
