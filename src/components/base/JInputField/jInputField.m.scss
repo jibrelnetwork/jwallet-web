@@ -16,9 +16,10 @@
   height: 72px;
   padding: 0;
   box-shadow: $normal-shadow;
+  border-radius: 4px;
 
   &:hover {
-    box-shadow: $normal-shadow-2;
+    box-shadow: $hover-shadow;
   }
 }
 
@@ -40,7 +41,7 @@
   padding: 24px 24px 26px 16px;
   line-height: 22px;
   width: 100%;
-  background: inherit;
+  background: transparent;
   resize: none;
   border: none;
 
