@@ -5,10 +5,11 @@ import { t } from 'ttag'
 
 import {
   JLink,
-  JText,
+  JIcon,
   JCheckbox,
   JRaisedButton,
 } from 'components/base'
+import { StartLayout } from 'layouts'
 
 import {
   checkAgreements,
@@ -56,17 +57,14 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
     }: StateProps = this.state
 
     return (
-      <div className={`__agreements-view ${agreementsViewStyle.core}`}>
+      <StartLayout className='__agreements-view'>
         <div className={agreementsViewStyle.content}>
-          <h1 className={agreementsViewStyle.title}>
-            <JText
-              size='title'
-              color='white'
-              value={t`Terms and Conditions`}
-              whiteSpace='wrap'
-              align='center'
-            />
-          </h1>
+          <JIcon
+            name='terms-and-conditions-use-fill'
+            className={agreementsViewStyle.icon}
+            color='blue'
+          />
+          <h1 className={agreementsViewStyle.title}>Terms and Conditions {isDisabled}</h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
               <div className={agreementsViewStyle.item} key={key}>
@@ -74,7 +72,7 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
                   <JCheckbox
                     onChange={this.onChange(key)}
                     label={conditions[key]}
-                    color='white'
+                    color='black'
                     name={key}
                     isChecked={getAgreementValue(key)}
                     isRegular
@@ -82,7 +80,7 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
                 ) : (
                   <JCheckbox
                     onChange={this.onChange(key)}
-                    color='white'
+                    color='black'
                     label={t`I have read and accepted`}
                     name={key}
                     isChecked={getAgreementValue(key)}
@@ -90,18 +88,16 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
                   >
                     {' '}
                     <JLink
-                      theme='text-white'
+                      theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
                     >
                       {t`Terms of Use`}
                     </JLink>
                     {' '}
-                    <span className='label'>
-                      <JText color='white' whiteSpace='wrap' value={t`and`} />
-                    </span>
+                    <span className='label'>{t`and`}</span>
                     {' '}
                     <JLink
-                      theme='text-white'
+                      theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
                     >
                       {t`Privacy Policy`}
@@ -115,15 +111,15 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
             <JLink href='/wallets'>
               <JRaisedButton
                 className={agreementsViewStyle.button}
-                theme='white'
-                disabled={isDisabled}
+                theme='blue'
+                isDisabled={isDisabled}
               >
-                {t`Confirm and continue`}
+                {t`Continue`}
               </JRaisedButton>
             </JLink>
           </div>
         </div>
-      </div>
+      </StartLayout>
     )
   }
 }
