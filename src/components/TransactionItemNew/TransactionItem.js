@@ -157,14 +157,13 @@ class TransactionItem extends PureComponent<Props, *> {
           {transaction.fiatAmount
             && <div className={transactionItemStyle.subtext}>{transaction.fiatAmount}</div>}
         </div>
-        <div className={classNames(transactionItemStyle.item, transactionItemStyle.assetIcon)}>
-          <JAssetSymbol
-            symbol={transaction.asset.symbol}
-            color='gray'
-            address={get(transaction, 'asset.blockchainParams.address')}
-            size={32}
-          />
-        </div>
+        <JAssetSymbol
+          symbol={transaction.asset.symbol}
+          color='gray'
+          address={get(transaction, 'asset.blockchainParams.address')}
+          size={24}
+          className={transactionItemStyle.assetIcon}
+        />
       </JLink>
     )
   }

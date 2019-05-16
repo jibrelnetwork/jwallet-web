@@ -13,6 +13,7 @@ import {
   SearchInput,
   JLink,
   Header,
+  JRaisedButton,
 } from 'components/base'
 
 import noResultImg from 'public/assets/pic_assets_112.svg'
@@ -214,18 +215,18 @@ export class HomeView extends Component<Props, ComponentState> {
               </div>
               {isInManageMode
                 ? (
-                  <button
+                  <JRaisedButton
                     className={`__save-button ${homeStyle.save}`}
-                    type='button'
+                    theme='additional'
                     onClick={this.handleClickManage}
                   >
                     {t`Save`}
-                  </button>
+                  </JRaisedButton>
                 )
                 : (
-                  <button
+                  <JRaisedButton
                     className={`__manage-button ${homeStyle.manage}`}
-                    type='button'
+                    theme='additional-icon'
                     onClick={this.handleClickManage}
                   >
                     <JIcon
@@ -233,7 +234,7 @@ export class HomeView extends Component<Props, ComponentState> {
                       className={`__manage-button ${homeStyle.manageIcon}`}
                     />
                     {t`Manage`}
-                  </button>
+                  </JRaisedButton>
                 )
               }
             </Header>

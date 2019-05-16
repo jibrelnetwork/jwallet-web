@@ -86,20 +86,6 @@
 }
 
 .manage {
-  @include flex-row-center;
-  @include ellipsis;
-  @include property-transition(background-color, color);
-
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 600;
-  color: $main-black-40;
-  padding: 9px 8px;
-  border-radius: 4px;
-
   &:hover,
   &:active {
     background-color: $main-blue-10;
@@ -109,39 +95,16 @@
       @include sprite-icon-color($main-blue);
     }
   }
-
-  &:active {
-    background-color: $main-blue-20;
-  }
 }
 
-.save {
-  @include flex-row-center;
-  @include ellipsis;
-  @include property-transition(color);
-
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 600;
-  color: $main-blue;
-  padding: 9px 20px;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: $main-blue-10;
-  }
-
-  &:active {
-    background-color: $main-blue-20;
-  }
+.search {
+  max-width: 414px;
 }
 
 .search,
 .filter {
-  margin-right: 45px;
+  flex: 1;
+  margin-right: 24px;
 }
 
 .content {
@@ -173,7 +136,7 @@
     left: 304px;
     right: 0;
     top: -112px;
-    transition: transform 0.5s 0.1s $default-animation;
+    transition: transform 0.3s 0.1s $default-animation;
     transform: translateY(112px);
     box-shadow: 0 7px 18px rgba(8, 30, 57, 0.2);
 

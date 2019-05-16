@@ -7,29 +7,23 @@ import React, {
 
 import { t } from 'ttag'
 
+import { StartLayout } from 'layouts'
+import { NewWalletButtons } from 'components'
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
 import {
-  NewWalletButtons,
-} from 'components'
-import { StartLayout } from 'layouts'
+  ACTIONS,
+  type WalletAction,
+} from 'pages/WalletsStart/constants'
 
 import walletsStartStyle from './walletsStart.m.scss'
-
-export type WalletAction = 'CREATE' | 'IMPORT'
-type WalletActions = { [WalletAction]: WalletAction }
 
 type Props = {||}
 
 type StateProps = {|
   +action: ?WalletAction,
 |}
-
-export const ACTIONS: WalletActions = {
-  CREATE: 'CREATE',
-  IMPORT: 'IMPORT',
-}
 
 export class WalletsStart extends Component<Props, StateProps> {
   constructor(props: Props) {
@@ -40,7 +34,7 @@ export class WalletsStart extends Component<Props, StateProps> {
     }
   }
 
-  handleClick = (action: WalletAction) => {
+  handleClick = (action?: ?WalletAction = null) => {
     this.setState({ action })
   }
 
@@ -50,6 +44,7 @@ export class WalletsStart extends Component<Props, StateProps> {
     return (
       <StartLayout
         className='__first-wallet'
+        hasNoLogo={!!action}
       >
         {!action && (
           <Fragment>
@@ -63,7 +58,7 @@ export class WalletsStart extends Component<Props, StateProps> {
           </Fragment>
         )}
         {(action === ACTIONS.CREATE) && <WalletsCreate />}
-        {(action === ACTIONS.IMPORT) && <WalletsImport />}
+        {(action === ACTIONS.IMPORT) && <WalletsImport onBack={this.handleClick} />}
       </StartLayout>
     )
   }

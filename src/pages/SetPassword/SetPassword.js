@@ -27,9 +27,11 @@ async function submitSetPasswordForm(
     return
   }
 
+  const salt: string = generateSalt()
+
   const derivedKey: Uint8Array = await deriveKeyFromPassword(
     password,
-    generateSalt(),
+    salt,
   )
 
   const internalKeyEnc: EncryptedData = encryptInternalKey(
@@ -37,10 +39,11 @@ async function submitSetPasswordForm(
     derivedKey,
   )
 
-  dispatch(setNewPassword(
-    internalKeyEnc,
-    passwordHint || '',
-  ))
+  dispatch(setNewPassword({
+    salt,
+    internalKey: internalKeyEnc,
+    hint: passwordHint || '',
+  }))
 }
 
 function validateSetPasswordForm({
@@ -82,6 +85,6 @@ type OwnProps = {|
 |}
 */
 
-export const SetPasswordViewContainer = connect/* :: < AppState, null, OwnProps, _, _ > */(
+export const SetPassword = connect/* :: < AppState, null, OwnProps, _, _ > */(
   mapStateToProps,
 )(SetPasswordView)

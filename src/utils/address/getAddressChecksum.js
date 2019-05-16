@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import cryptoJS from 'crypto-js'
 
@@ -9,7 +9,7 @@ import {
 
 const ENCODER: KeyWordArrayEncoder = cryptoJS.enc.Hex
 
-function getAddressChecksum(address: string): string {
+export function getAddressChecksum(address: string): string {
   const addressLowerCase: string = strip0x(address).toLowerCase()
   const hash: string = cryptoJS.SHA3(addressLowerCase, { outputLength: 256 }).toString(ENCODER)
 
@@ -23,5 +23,3 @@ function getAddressChecksum(address: string): string {
 
   return add0x(checksum)
 }
-
-export default getAddressChecksum

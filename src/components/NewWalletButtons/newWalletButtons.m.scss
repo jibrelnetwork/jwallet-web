@@ -1,6 +1,7 @@
 @import 'styles/mixins';
 
 .core {
+  @include font;
   @include flex-column-center;
 }
 
@@ -36,7 +37,7 @@
   box-shadow: $normal-shadow;
 
   &:hover {
-    box-shadow: $normal-shadow-2;
+    box-shadow: $hover-shadow;
   }
 }
 

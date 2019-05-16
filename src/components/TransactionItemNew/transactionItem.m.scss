@@ -3,15 +3,10 @@
 .core {
   @include property-transition(height, opacity);
   @include hover-animation;
+  @include flex-row-center;
 
-  display: flex;
-  width: 100%;
   height: 88px;
   max-height: 88px;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-direction: row;
-  flex-wrap: wrap;
   border: none;
   border-radius: 4px;
   background: $white;
@@ -78,13 +73,9 @@
 }
 
 .asset-icon {
-  flex-basis: 72px;
-  width: 72px;
-  padding: 22px;
+  margin: 0 32px 0 16px;
 }
 
-// stylelint-disable
-// selector names and nested selectors is necessary
 .in {
   .amount-block {
     color: $main-blue;

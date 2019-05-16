@@ -1,11 +1,10 @@
-// @flow
+// @flow strict
 
 import Mnemonic from 'bitcore-mnemonic'
 import { crypto } from 'bitcore-lib'
 import { t } from 'ttag'
 
-import config from 'config'
-
+const RANDOM_BUFFER_LENGTH: number = 32
 const ENGLISH_WORDS: string[] = Mnemonic.Words.ENGLISH
 
 function concatEntropyBuffers(entropyBuffer: Buffer, randomBuffer: Buffer): Buffer {
@@ -31,11 +30,8 @@ function getHashedEntropy(entropy: ?string, randomBufferLength: number): ?Buffer
   return concatEntropyBuffers(entropyBuffer, randomBuffer).slice(0, 16)
 }
 
-function generateMnemonic(
-  entropy?: string,
-  randomBufferLength?: number = config.defaultRandomBufferLength,
-): string {
-  const hashedEntropy: ?Buffer = getHashedEntropy(entropy, randomBufferLength)
+export function generateMnemonic(entropy?: string): string {
+  const hashedEntropy: ?Buffer = getHashedEntropy(entropy, RANDOM_BUFFER_LENGTH)
 
   const mnemonic = hashedEntropy
     ? new Mnemonic(hashedEntropy, ENGLISH_WORDS)
@@ -43,5 +39,3 @@ function generateMnemonic(
 
   return mnemonic.toString()
 }
-
-export default generateMnemonic

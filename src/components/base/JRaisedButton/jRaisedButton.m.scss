@@ -5,6 +5,7 @@
   @include box;
   @include hover-animation;
   @include flex-row-center;
+  @include ellipsis;
 
   height: 48px;
   width: 100%;
@@ -15,7 +16,6 @@
   line-height: 48px;
   text-align: center;
   font-weight: 600;
-  white-space: normal;
 
   &:disabled {
     cursor: default;
@@ -86,5 +86,47 @@
     &.-loading {
       background-color: $white;
     }
+  }
+}
+
+.additional {
+  @include property-transition(background-color, color);
+
+  height: 40px;
+  width: auto;
+  background: transparent;
+  line-height: 22px;
+  font-weight: 600;
+  color: $main-black-40;
+  padding: 9px 8px;
+  border-radius: 4px;
+
+  &:hover,
+  &:active {
+    background-color: $main-blue-10;
+    color: $main-blue;
+  }
+}
+
+.additional-icon {
+  @include property-transition(background-color, color);
+
+  height: 40px;
+  width: auto;
+  background: transparent;
+  line-height: 22px;
+  font-weight: 600;
+  color: $main-black-40;
+  padding: 9px 10px 9px 8px;
+  border-radius: 4px;
+
+  &:hover,
+  &:active {
+    background-color: $main-blue-10;
+    color: $main-blue;
+  }
+
+  &:active {
+    background-color: $main-blue-20;
   }
 }

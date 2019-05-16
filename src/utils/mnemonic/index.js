@@ -1,29 +1,15 @@
-// @flow
+// @flow strict
 
-import getHdPath from './getHdPath'
-import generateAddress from './generateAddress'
-import getPublicHdRoot from './getPublicHdRoot'
-import generateMnemonic from './generateMnemonic'
-import getPrivateHdRoot from './getPrivateHdRoot'
-import generateAddresses from './generateAddresses'
-import checkMnemonicValid from './checkMnemonicValid'
-import getMnemonicOptions from './getMnemonicOptions'
-import getXPubFromMnemonic from './getXPubFromMnemonic'
-import checkDerivationPathValid from './checkDerivationPathValid'
-import checkBip32XPublicKeyValid from './checkBip32XPublicKeyValid'
-import getPrivateKeyFromMnemonic from './getPrivateKeyFromMnemonic'
-
-export {
-  getHdPath,
-  generateAddress,
-  getPublicHdRoot,
-  generateMnemonic,
-  getPrivateHdRoot,
-  generateAddresses,
-  checkMnemonicValid,
-  getMnemonicOptions,
-  getXPubFromMnemonic,
-  checkDerivationPathValid,
-  checkBip32XPublicKeyValid,
-  getPrivateKeyFromMnemonic,
-}
+export { getHdPath } from './getHdPath'
+export { checkXkeyValid } from './checkXkeyValid'
+export { getXPUBFromXPRV } from './getXPUBFromXPRV'
+export { generateAddress } from './generateAddress'
+export { getPublicHdRoot } from './getPublicHdRoot'
+export { generateMnemonic } from './generateMnemonic'
+export { getPrivateHdRoot } from './getPrivateHdRoot'
+export { generateAddresses } from './generateAddresses'
+export { checkMnemonicValid } from './checkMnemonicValid'
+export { getXPUBFromMnemonic } from './getXPUBFromMnemonic'
+export { getXPRVFromMnemonic } from './getXPRVFromMnemonic'
+export { checkDerivationPathValid } from './checkDerivationPathValid'
+export { getPrivateKeyFromMnemonic } from './getPrivateKeyFromMnemonic'
