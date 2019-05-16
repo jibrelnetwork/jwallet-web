@@ -14,12 +14,16 @@ import {
   NotFoundItem,
 } from 'components/base/JPicker'
 import { JIcon } from 'components/base'
-import { startsWithOrEndsWith } from 'utils/address'
+import {
+  startsWithOrEndsWith,
+  checkAddressPartValid,
+} from 'utils/address'
 
 import { Empty } from './Tabs/Empty'
 import { ContactItem } from './ContactItem/ContactItem'
 import { ContactIcon } from './ContactIcon/ContactIcon'
 import { WalletList } from './WalletList/WalletList'
+import { QuickSendItem } from './QuickSendItem/QuickSendItem'
 import {
   Tabs,
   type Tab,
@@ -61,11 +65,10 @@ function filterContacts(
       address,
     } = contact
 
-    const isFound: boolean = (
-      (name && name.search(searchRe) !== -1) ||
-      (description && description.search(searchRe) !== -1) ||
+    const isFound: boolean =
+      (name && searchRe.test(name)) ||
+      (description && searchRe.test(description)) ||
       startsWithOrEndsWith(address, query)
-    )
 
     return !isFound ? result : [
       ...result,
@@ -74,7 +77,7 @@ function filterContacts(
   }, [])
 }
 
-function getAddressName(address: RecipientWalletAddress, addressIndex: number) {
+function getAddressName(address: RecipientPickerWalletAddress, addressIndex: number) {
   return address.name
     ? address.name
     : t`Address ${addressIndex + 1}`
@@ -88,17 +91,14 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
   const searchRe: RegExp = new RegExp(escapeRegExp(searchQuery), 'ig')
 
   return wallets.map((wallet) => {
-    if (wallet.name.search(searchRe)) {
+    if (searchRe.test(wallet.name || '')) {
       return wallet
     }
 
-    if (wallet.type !== 'mnemonic') {
-      return null
-    }
-
     // filter addresses
-    const addresses = wallet.addresses.filter((address, index) =>
-      getAddressName(address, index).search(searchRe))
+    const addresses = wallet.addresses.filter((addr, index) =>
+      searchRe.test(getAddressName(addr, index)) ||
+      startsWithOrEndsWith(addr.address, searchQuery))
 
     if (addresses.length) {
       return {
@@ -130,6 +130,10 @@ type CurrentRendererInput = {
   +isOpen: boolean,
 }
 
+type SearchInputRef = {
+  current: null | HTMLInputElement,
+}
+
 class RecipientPicker extends Component<Props, ComponentState> {
   static defaultProps = {
     fiatCurrency: 'USD',
@@ -140,6 +144,8 @@ class RecipientPicker extends Component<Props, ComponentState> {
     activeTab: 'contacts',
     openWallets: [],
   }
+
+  searchInputRef: SearchInputRef = React.createRef()
 
   currentRenderer = ({ isOpen }: CurrentRendererInput): React$Node => {
     const {
@@ -159,9 +165,10 @@ class RecipientPicker extends Component<Props, ComponentState> {
 
       return (
         <JPickerCurrent
+          ref={this.searchInputRef}
           isEditable={isOpen}
           label={t`Recipient`}
-          value={title}
+          value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
           iconRenderer={() => (
@@ -201,9 +208,10 @@ class RecipientPicker extends Component<Props, ComponentState> {
 
       return (
         <JPickerCurrent
+          ref={this.searchInputRef}
           isEditable={isOpen}
           label={t`Recipient`}
-          value={title}
+          value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
           iconRenderer={() => (
@@ -214,9 +222,10 @@ class RecipientPicker extends Component<Props, ComponentState> {
     } else if (activeWallet) {
       return (
         <JPickerCurrent
+          ref={this.searchInputRef}
           isEditable={isOpen}
           label={t`Recipient`}
-          value={activeWallet.name}
+          value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
           iconRenderer={() => (
@@ -228,9 +237,10 @@ class RecipientPicker extends Component<Props, ComponentState> {
 
     return (
       <JPickerCurrent
+        ref={this.searchInputRef}
         isEditable={isOpen}
         label={t`Recipient`}
-        value=''
+        value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
         iconRenderer={() => (
@@ -245,8 +255,13 @@ class RecipientPicker extends Component<Props, ComponentState> {
   }
 
   handleOpen = () => {
-    this.setState({ searchQuery: '' })
     this.props.input.onFocus()
+
+    this.setState({ searchQuery: '' }, () => {
+      if (this.searchInputRef.current) {
+        this.searchInputRef.current.focus()
+      }
+    })
   }
 
   handleClose = () => {
@@ -255,7 +270,11 @@ class RecipientPicker extends Component<Props, ComponentState> {
   }
 
   handleTabClick = (activeTab: Tab) => {
-    this.setState({ activeTab })
+    this.setState({ activeTab }, () => {
+      if (this.searchInputRef.current) {
+        this.searchInputRef.current.focus()
+      }
+    })
   }
 
   handleMnemonicWalletToggle = (walletId: string) => {
@@ -294,13 +313,25 @@ class RecipientPicker extends Component<Props, ComponentState> {
       )
     }
 
+    const { searchQuery } = this.state
+
     const activeContact = contacts.find(contact => contact.address === input.value)
-    const filteredContacts = filterContacts(contacts, this.state.searchQuery)
+    const filteredContacts = filterContacts(contacts, searchQuery)
 
     if (!filteredContacts.length) {
-      return (
-        <NotFoundItem />
-      )
+      if (checkAddressPartValid(searchQuery)) {
+        return (
+          <QuickSendItem
+            address={searchQuery}
+            // eslint-disable-next-line react/jsx-handler-names
+            onChange={input.onChange}
+          />
+        )
+      } else {
+        return (
+          <NotFoundItem />
+        )
+      }
     }
 
     return (
@@ -340,9 +371,19 @@ class RecipientPicker extends Component<Props, ComponentState> {
     const filteredWallets = filterWallets(wallets, searchQuery)
 
     if (!filteredWallets.length) {
-      return (
-        <NotFoundItem />
-      )
+      if (checkAddressPartValid(searchQuery)) {
+        return (
+          <QuickSendItem
+            address={searchQuery}
+            // eslint-disable-next-line react/jsx-handler-names
+            onChange={input.onChange}
+          />
+        )
+      } else {
+        return (
+          <NotFoundItem />
+        )
+      }
     }
 
     return (
