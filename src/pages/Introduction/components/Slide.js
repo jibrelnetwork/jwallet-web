@@ -71,9 +71,7 @@ export class Slide extends PureComponent<Props, State> {
           {title}
         </div>
         <div className={introductionStyle.descr}>
-          {descr.map(item => (
-            <p key={item}>{item}</p>
-          ))}
+          <p dangerouslySetInnerHTML={{ __html: descr }} />
         </div>
       </div>
     )

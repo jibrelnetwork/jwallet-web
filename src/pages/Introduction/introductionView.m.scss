@@ -1,13 +1,5 @@
 @import 'styles/mixins';
 
-.core {
-  @include flex-column-center;
-
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
 .slider {
   width: 100%;
   display: flex;
@@ -25,34 +17,6 @@
   width: 100%;
   justify-content: center;
   padding-top: 20px;
-}
-
-.item {
-  width: 14px;
-  height: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-width: 0;
-  background-color: transparent;
-  cursor: pointer;
-
-  &::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 100px;
-    background-color: $main-black;
-    opacity: 0.2;
-    transition: opacity 0.3s ease 0s;
-  }
-
-  &:hover,
-  &.-current {
-    &::before {
-      opacity: 1;
-    }
-  }
 }
 
 .link {
