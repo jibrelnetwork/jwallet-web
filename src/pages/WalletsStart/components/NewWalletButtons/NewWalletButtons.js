@@ -1,9 +1,13 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React, {
+  PureComponent,
+  Fragment,
+} from 'react'
 import { t } from 'ttag'
 
 import { JLink } from 'components/base'
+import jRaisedButtonStyle from 'components/base/JRaisedButton/jRaisedButton.m.scss'
 
 import {
   ACTIONS,
@@ -31,28 +35,34 @@ export class NewWalletButtons extends PureComponent<Props> {
 
   render() {
     return (
-      <div className={`__new-wallet-buttons ${newWalletButtonsStyle.core}`}>
+      <Fragment>
         <JLink
           onClick={this.handleClickCreate}
-          className={newWalletButtonsStyle.create}
+          className={`__create-button 
+            ${jRaisedButtonStyle.core} 
+            ${jRaisedButtonStyle.blue} 
+            ${newWalletButtonsStyle.create}`}
           href='/wallets/create'
         >
           {t`Create Wallet`}
         </JLink>
-        <span className={newWalletButtonsStyle.text}>
+        <div className={newWalletButtonsStyle.text}>
           {t`Create your own wallet to manage your digital assets`}
-        </span>
+        </div>
         <JLink
           onClick={this.handleClickImport}
-          className={newWalletButtonsStyle.import}
+          className={`__import-button 
+            ${jRaisedButtonStyle.core} 
+            ${jRaisedButtonStyle.white} 
+            ${newWalletButtonsStyle.import}`}
           href='/wallets/import'
         >
           {t`Import Wallet`}
         </JLink>
-        <span className={newWalletButtonsStyle.text}>
+        <div className={newWalletButtonsStyle.text}>
           {t`Import an existing wallet with backup phrase, private key, etc.`}
-        </span>
-      </div>
+        </div>
+      </Fragment>
     )
   }
 }
