@@ -86,6 +86,9 @@ export class SetPasswordView extends Component<Props, StateProps> {
         component={JInputField}
         name='passwordHint'
         label={t`Enter Password Hint`}
+        infoMessage={t`If you forget your Security Password,
+some functions won’t be available. To restore access to all functions
+you will need to clear your data and re-import your wallets again using backup phrase.`}
       />
       <JRaisedButton
         type='submit'
