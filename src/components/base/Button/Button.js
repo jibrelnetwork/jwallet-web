@@ -7,9 +7,9 @@ import { omit } from 'lodash-es'
 import { JLoader } from 'components/base'
 import { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
-import jRaisedButtonStyle from './jRaisedButton.m.scss'
+import buttonStyle from 'components/base/Button/button.m.scss'
 
-type Theme = 'blue' | 'white' | 'gray' | 'additional' | 'additional-icon'
+type Theme = 'blue' | 'white' | 'additional' | 'additional-icon'
 
 type Props =
   StyleComponent<Theme>
@@ -21,14 +21,13 @@ type Props =
 }
 
 const loaderColorMap: { [Theme]: JLoaderColor } = {
-  blue: 'blue',
-  white: 'white',
-  gray: 'gray',
+  blue: 'white',
+  white: 'blue',
   additional: 'blue',
   'additional-icon': 'blue',
 }
 
-class JRaisedButton extends PureComponent<Props, *> {
+export class Button extends PureComponent<Props, *> {
   static defaultProps = {
     onClick: null,
     children: null,
@@ -37,6 +36,8 @@ class JRaisedButton extends PureComponent<Props, *> {
     isDisabled: false,
     className: undefined,
   }
+
+  static iconClassName = buttonStyle.icon
 
   render() {
     const {
@@ -56,11 +57,11 @@ class JRaisedButton extends PureComponent<Props, *> {
     ])
 
     const buttonClassName = classNames(
-      '__j-raised-button',
+      '__button',
       this.props.className,
-      jRaisedButtonStyle.core,
-      jRaisedButtonStyle[theme],
-      isLoading && jRaisedButtonStyle.loading,
+      buttonStyle.core,
+      buttonStyle[theme],
+      isLoading && buttonStyle.loading,
     )
 
     return (
@@ -79,5 +80,3 @@ class JRaisedButton extends PureComponent<Props, *> {
     )
   }
 }
-
-export default JRaisedButton

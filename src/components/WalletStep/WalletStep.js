@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 
 import WalletViewTitle from 'components/WalletViewTitle'
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
-import JRaisedButton from 'components/base/JRaisedButton'
+import { Button } from 'components/base'
 
 type Props = {|
   +onSubmit: Function,
@@ -35,12 +35,12 @@ class WalletStep extends PureComponent<Props> {
         <form className='form' onSubmit={ignoreEvent(isLoading ? null : onSubmit)()}>
           {children}
           <div className='actions'>
-            <JRaisedButton
+            <Button
               onClick={onSubmit}
               theme='white'
               isLoading={isLoading}
             >{buttonLabel}
-            </JRaisedButton>
+            </Button>
           </div>
         </form>
       </div>

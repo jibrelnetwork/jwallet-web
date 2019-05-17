@@ -6,7 +6,6 @@ import JFlatButton from './JFlatButton'
 import JInput from './JInput'
 import JLoader from './JLoader'
 import JRadio from './JRadio'
-import JRaisedButton from './JRaisedButton'
 import JTabs from './JTabs'
 import JText from './JText'
 import JThumbnail from './JThumbnail'
@@ -14,6 +13,7 @@ import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
 import JPicker from './JPicker'
 
+export { Button } from './Button/Button'
 export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
 export { JIcon } from './JIcon/JIcon'
 export { Header } from './Header/Header'
@@ -33,7 +33,6 @@ export {
   JInput,
   JLoader,
   JRadio,
-  JRaisedButton,
   JTabs,
   JText,
   JThumbnail,
