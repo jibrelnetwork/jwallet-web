@@ -10,7 +10,7 @@ import {
 import {
   JIcon,
   JLink,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import errorUnexpectedStyle from './errorUnexpected.m.scss'
@@ -59,12 +59,12 @@ export function ErrorUnexpected() {
             but you can also reload page, go to ${HomePageLink} or ${SupportLink}`
         }
       </div>
-      <JRaisedButton
+      <Button
         onClick={handleReloadClick}
         className={errorUnexpectedStyle.button}
       >
         {t`Reload`}
-      </JRaisedButton>
+      </Button>
     </main>
   )
 }

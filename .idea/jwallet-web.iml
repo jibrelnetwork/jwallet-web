@@ -15,6 +15,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/pages/WalletsStart/components/NewWalletButtons/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/utils/address/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/components/base/JFieldMessage/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/components/base/Button/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/components/base/JInputField/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/docs/storybook" />
