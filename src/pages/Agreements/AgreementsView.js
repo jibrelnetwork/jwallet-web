@@ -115,7 +115,7 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
             <JLink href='/wallets'>
               <Button
                 className={agreementsViewStyle.button}
-                theme='white'
+                theme='secondary'
                 disabled={isDisabled}
               >
                 {t`Confirm and continue`}

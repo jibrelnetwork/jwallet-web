@@ -37,7 +37,7 @@ class WalletStep extends PureComponent<Props> {
           <div className='actions'>
             <Button
               onClick={onSubmit}
-              theme='white'
+              theme='secondary'
               isLoading={isLoading}
             >{buttonLabel}
             </Button>

@@ -62,7 +62,7 @@ storiesOf('JTextAreaField', module).addDecorator(withKnobs)
               component={JTextAreaField}
               offset='mb16'
             />
-            <Button type='submit' theme='white'>Submit!</Button>
+            <Button type='submit' theme='secondary'>Submit!</Button>
           </form>)}
       />
     </div>

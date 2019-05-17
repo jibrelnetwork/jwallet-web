@@ -16,25 +16,25 @@ import {
 } from 'components/base'
 
 const THEMES_FOR_STATUSES = [
-  'blue',
-  'white',
+  'general',
+  'secondary',
 ]
 
 storiesOf('base|Button', module)
   .addDecorator(withKnobs)
   .add('Default', () => (
     <div>
-      <h2>blue</h2>
+      <h2>general</h2>
       <Button
         onClick={action('onClick')}
-        theme='blue'
+        theme='general'
       >
         {text('Label', 'Yes, delete')}
       </Button>
-      <h2>white</h2>
+      <h2>secondary</h2>
       <Button
         onClick={action('onClick')}
-        theme='white'
+        theme='secondary'
       >
         {text('Label', 'Yes, delete')}
       </Button>
@@ -63,14 +63,14 @@ storiesOf('base|Button', module)
       <h2>Default</h2>
       <Button
         onClick={action('onClick')}
-        theme={select('Theme', THEMES_FOR_STATUSES, 'blue')}
+        theme={select('Theme', THEMES_FOR_STATUSES, 'general')}
       >
         {text('Label', 'Yes, delete')}
       </Button>
       <h2>Disabled</h2>
       <Button
         onClick={action('onClick')}
-        theme={select('Theme', THEMES_FOR_STATUSES, 'blue')}
+        theme={select('Theme', THEMES_FOR_STATUSES, 'general')}
         isDisabled
       >
         {text('Label', 'Yes, delete')}
@@ -78,7 +78,7 @@ storiesOf('base|Button', module)
       <h2>Loading</h2>
       <Button
         onClick={action('onClick')}
-        theme={select('Theme', THEMES_FOR_STATUSES, 'blue')}
+        theme={select('Theme', THEMES_FOR_STATUSES, 'general')}
         isLoading
       >
         {text('Label', 'Yes, delete')}

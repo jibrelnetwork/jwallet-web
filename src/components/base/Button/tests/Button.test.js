@@ -34,8 +34,8 @@ describe('Button', () => {
 
   it('uses correct class names for themes', () => {
     const THEMES = [
-      'blue',
-      'white',
+      'general',
+      'secondary',
       'additional',
       'additional-icon',
     ]

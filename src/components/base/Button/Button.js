@@ -9,7 +9,7 @@ import { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
 import buttonStyle from 'components/base/Button/button.m.scss'
 
-type Theme = 'blue' | 'white' | 'additional' | 'additional-icon'
+type Theme = 'general' | 'secondary' | 'additional' | 'additional-icon'
 
 type Props =
   StyleComponent<Theme>
@@ -21,8 +21,8 @@ type Props =
 }
 
 const loaderColorMap: { [Theme]: JLoaderColor } = {
-  blue: 'white',
-  white: 'blue',
+  general: 'white',
+  secondary: 'blue',
   additional: 'blue',
   'additional-icon': 'blue',
 }
@@ -31,7 +31,7 @@ export class Button extends PureComponent<Props, *> {
   static defaultProps = {
     onClick: null,
     children: null,
-    theme: 'blue',
+    theme: 'general',
     isLoading: false,
     isDisabled: false,
     className: undefined,
