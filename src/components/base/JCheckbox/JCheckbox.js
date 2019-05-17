@@ -34,11 +34,10 @@ export class JCheckbox extends PureComponent<Props> {
       isChecked,
     } = this.props
 
+    /* eslint-disable jsx-a11y/label-has-for */
     return (
       <div className={classNames('__checkbox', jCheckboxStyles.core)}>
-        <label
-          className={jCheckboxStyles.field}
-        >
+        <label className={jCheckboxStyles.field} >
           <input
             onChange={this.handleChange}
             name={name}
@@ -62,5 +61,6 @@ export class JCheckbox extends PureComponent<Props> {
         </label>
       </div>
     )
+    /* eslint-enable jsx-a11y/label-has-for */
   }
 }
