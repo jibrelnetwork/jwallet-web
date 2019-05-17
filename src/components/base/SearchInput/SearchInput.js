@@ -1,7 +1,7 @@
-// @flow
+// @flow strict
 
 import classNames from 'classnames'
-import React from 'react'
+import React, { Children } from 'react'
 import { t } from 'ttag'
 
 import { JIcon } from 'components/base'
@@ -14,12 +14,14 @@ type Props = {|
   +onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
   +value: ?string,
   className?: ?string,
+  children?: ?React$Node,
 |}
 
 export function SearchInput({
   onChange,
   value,
   className,
+  children,
 }: Props) {
   const [isFocused, {
     onFocus,
@@ -27,7 +29,7 @@ export function SearchInput({
   }] = useFocus()
 
   return (
-    <label
+    <div
       className={classNames(
         '__search',
         searchInputStyle.core,
@@ -35,23 +37,31 @@ export function SearchInput({
         className,
       )}
     >
-      <JIcon
-        className={searchInputStyle.icon}
-        name='ic_search_24-use-fill'
-      />
-      <input
-        className={searchInputStyle.input}
-        onChange={onChange}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        value={value}
-        placeholder={t`Search`}
-      />
-    </label>
+      <label className={searchInputStyle.label}>
+        <JIcon
+          className={searchInputStyle.icon}
+          name='ic_search_24-use-fill'
+        />
+        <input
+          className={searchInputStyle.input}
+          onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          value={value}
+          placeholder={t`Search`}
+        />
+      </label>
+      {Children.count(children) > 0 && (
+        <aside className={searchInputStyle.aside}>
+          {children}
+        </aside>
+      )}
+    </div>
   )
 }
 
 SearchInput.defaultProps = {
   className: null,
   value: undefined,
+  children: null,
 }
