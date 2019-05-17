@@ -4,11 +4,13 @@ import React from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
-import { JIcon } from 'components/base'
+import {
+  JIcon,
+  Button,
+} from 'components/base'
 
 import { useFocus } from 'utils/hooks/useFocus'
 
-import JRaisedButton from 'components/base/JRaisedButton'
 import searchFilterStyle from 'components/base/SearchInput/SearchFilter/searchFilter.m.scss'
 
 type Props = {|
@@ -33,7 +35,7 @@ export function SearchFilter({
           onClick={onBlur}
         />
       )}
-      <JRaisedButton
+      <Button
         theme='additional'
         className={classNames(
           searchFilterStyle.button,
@@ -47,7 +49,7 @@ export function SearchFilter({
             {activeCount}
           </em>
         )}
-      </JRaisedButton>
+      </Button>
       <div
         className={classNames(
           searchFilterStyle.dropdown,
