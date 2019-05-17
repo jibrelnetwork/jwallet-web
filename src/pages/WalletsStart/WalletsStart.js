@@ -61,7 +61,7 @@ export class WalletsStart extends Component<Props, StateProps> {
             <NewWalletButtons onClick={this.handleClick} />
           </Fragment>
         )}
-        {(action === ACTIONS.CREATE) && <WalletsCreate />}
+        {(action === ACTIONS.CREATE) && <WalletsCreate onBack={this.handleClick} />}
         {(action === ACTIONS.IMPORT) && <WalletsImport onBack={this.handleClick} />}
       </StartLayout>
     )

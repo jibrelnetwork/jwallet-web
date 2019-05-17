@@ -1,83 +1,123 @@
-// @flow
+// @flow strict
 
+import Promise from 'bluebird'
+import { t } from 'ttag'
 import { connect } from 'react-redux'
 
-import {
-  selectWallets,
-  selectWalletsCreate,
-} from 'store/selectors/wallets'
+import { walletsPlugin } from 'store/plugins'
+import { selectPasswordHint } from 'store/selectors/password'
 
 import {
-  changeNameInput,
-  changePasswordInput,
-  changePasswordHintInput,
-  changePasswordConfirmInput,
-} from 'store/modules/wallets'
-
-import {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
-} from 'store/modules/walletsCreate'
-
-import {
+  STEPS,
   WalletsCreateView,
   type Props,
+  type WalletsCreateStep,
+  type WalletsCreateBackHandler,
+  type WalletsCreateSubmitPayload,
 } from './WalletsCreateView'
 
-type StateProps = {|
-  +invalidFields: FormFields,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-  +passwordConfirm: string,
-  +currentStep: WalletsCreateStepIndex,
-  +isLoading: boolean,
-  +isPasswordExists: boolean,
-  +mnemonic: string,
+type OwnProps = {|
+  +onBack?: ?WalletsCreateBackHandler,
 |}
 
-function mapStateToProps(state: AppState): StateProps {
-  const {
-    persist: {
-      internalKey,
-    },
-    name,
-    password,
-    isLoading,
-    passwordHint,
-    invalidFields,
-    passwordConfirm,
-    mnemonic,
-  }: WalletsState = selectWallets(state)
+async function createWallet(values: FormFields): ?FormFields {
+  return walletsPlugin.importWallet(values)
+}
 
-  const { currentStep }: WalletsCreateState = selectWalletsCreate(state)
+async function submitWalletsCreateForm({
+  setCurrentStep,
+  values,
+  currentStep,
+}: WalletsCreateSubmitPayload): Promise<?FormFields> {
+  switch (currentStep) {
+    case STEPS.NAME:
+      return setCurrentStep(STEPS.BACKUP_TICKS)()
 
-  return {
-    name,
-    password,
-    isLoading,
-    currentStep,
-    passwordHint,
-    invalidFields,
-    passwordConfirm,
-    isPasswordExists: !!internalKey,
-    mnemonic,
+    case STEPS.BACKUP_TICKS:
+      return setCurrentStep(STEPS.BACKUP_FORM)()
+
+    case STEPS.BACKUP_FORM:
+      return setCurrentStep(STEPS.PASSWORD)()
+
+    case STEPS.PASSWORD:
+      return createWallet(values)
+
+    default:
+      return null
   }
 }
 
-const mapDispatchToProps = {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
-  changeNameInput,
-  changePasswordInput,
-  changePasswordHintInput,
-  changePasswordConfirmInput,
+function validateWalletName(name: ?string): ?string {
+  if (!name) {
+    return t`Name should not be empty`
+  } else if (name.length > 32) {
+    return t`Length of name should not be greater than 32 symbols`
+  }
+
+  const hasInvalidSymbols: boolean = /[/]/i.test(name)
+
+  if (hasInvalidSymbols) {
+    return t`Name should not include invalid symbols`
+  }
+
+  return null
 }
 
-export const WalletsCreate = (
-  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
+function validatePassword(password: ?string): ?string {
+  if (password) {
+    return null
+  }
+
+  return t`Password can't be empty`
+}
+
+function validateWalletsCreateForm(
+  values: FormFields,
+  currentStep: WalletsCreateStep,
+): ?FormFields {
+  const {
+    name,
+    password,
+  }: FormFields = values
+
+  const formErrors: FormFields = {}
+
+  switch (currentStep) {
+    case STEPS.NAME: {
+      const validateWalletNameResult: ?string = validateWalletName(name)
+
+      if (validateWalletNameResult) {
+        formErrors.name = validateWalletNameResult
+      }
+
+      return formErrors
+    }
+
+    case STEPS.PASSWORD: {
+      const validatePasswordResult: ?string = validatePassword(password)
+
+      if (validatePasswordResult) {
+        return {
+          password: validatePasswordResult,
+        }
+      }
+
+      return null
+    }
+
+    default:
+      return null
+  }
+}
+
+function mapStateToProps(state: AppState) {
+  return {
+    hint: selectPasswordHint(state),
+    submit: submitWalletsCreateForm,
+    validate: validateWalletsCreateForm,
+  }
+}
+
+export const WalletsCreate = connect<Props, OwnProps, _, _, _, _>(
+  mapStateToProps,
 )(WalletsCreateView)
