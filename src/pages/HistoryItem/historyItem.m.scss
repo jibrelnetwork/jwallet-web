@@ -1,0 +1,10 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  height: 100%;
+  max-width: 544px;
+  margin: 0 auto;
+  padding-top: $new-page-header-height;
+}

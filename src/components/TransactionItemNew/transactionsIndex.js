@@ -17,6 +17,9 @@ export type TransactionItem = {|
   +type: TransactionDirection,
   +status: TransactionStatus,
   +title: string,
+  +from: ?OwnerAddress,
+  +to: ?OwnerAddress,
+  +timestamp: number,
   +note: ?string,
   +amount: string,
   +fiatAmount: string,
@@ -118,7 +121,12 @@ function prepareTransactionItem(
   const status = getTransactionStatus(transaction)
   const title = getTransactionName(state, transaction, type)
   const note = getTransactionComment(state, transaction)
-  const { amount } = transaction
+  const {
+    amount,
+    from,
+    to,
+    blockData,
+  } = transaction
 
   return {
     id: transaction.keys.id,
@@ -126,6 +134,9 @@ function prepareTransactionItem(
     type,
     status,
     title,
+    from,
+    to,
+    timestamp: blockData.timestamp,
     note,
     amount,
     // TODO: We can't get correct fiat amount yet, because we are have't exchange rate history
