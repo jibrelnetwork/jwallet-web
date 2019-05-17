@@ -24,7 +24,7 @@ $font: 'Open Sans', Arial, sans-serif;
  * Page Header
  */
 $page-header-height: 130px;
-$new-page-header-height: 112px;
+$new-page-header-height: 112px; // FIXME: Rename it when $page-header-height property stay useless
 
 /**
  * Menu Panel
