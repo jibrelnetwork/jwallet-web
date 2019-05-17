@@ -10,7 +10,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 304px;
+  width: $menu-panel-width;
   padding: 16px 0 0;
   height: 100vh;
   background-color: $main-blue;
@@ -192,7 +192,7 @@
   position: absolute;
   z-index: $z-index-menu-back;
   top: 48px;
-  left: 304px + 18px;
+  left: $menu-panel-width + 18px;
   opacity: 0;
   visibility: hidden;
   transition-delay: 0.15s;
