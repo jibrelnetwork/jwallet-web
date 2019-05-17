@@ -85,7 +85,7 @@ export class SetPasswordView extends Component<Props, StateProps> {
       <Field
         component={JInputField}
         name='passwordHint'
-        label={t`Enter Password Hint (Optional)`}
+        label={t`Enter Password Hint`}
       />
       <JRaisedButton
         type='submit'

@@ -33,7 +33,7 @@ export { NotFound } from './NotFound/NotFound'
 
 // not available to user directly
 
-export { SetPasswordView } from './SetPassword'
+export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
 
