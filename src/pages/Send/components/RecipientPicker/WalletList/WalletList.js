@@ -1,10 +1,14 @@
 // @flow
 
-import React, { Fragment } from 'react'
+import React, {
+  Component,
+  Fragment,
+} from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
 import { JPickerListItem } from 'components/base/JPicker'
+
 import { SingleWalletItem } from '../SingleWalletItem/SingleWalletItem'
 import { MultiAddressWalletItem } from '../MultiAddressWalletItem/MultiAddressWalletItem'
 import { ContactItem } from '../ContactItem/ContactItem'
@@ -42,7 +46,7 @@ function getLineCount(wallets: RecipientPickerWallet[]) {
   return num
 }
 
-class WalletList extends React.Component<Props, ComponentState> {
+class WalletList extends Component<Props, ComponentState> {
   state: ComponentState = {
     focusedItem: null,
   }

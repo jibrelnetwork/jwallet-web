@@ -11,11 +11,6 @@ import { RecipientPicker } from './RecipientPicker'
 
 import { prepareWallets } from './prepareWallets'
 
-// +name?: string,
-// +description?: string,
-// +address: FavoriteAddress,
-// +isAddedByUser?: boolean,
-
 const CONTACT_ITEMS = [
   {
     name: 'Mr Credo 1',
@@ -123,12 +118,7 @@ const NAMED_ADDRESSES = {
   '0x9b20009CfC19601B53491a35a647D56106c89555': 'My *** address',
 }
 
-console.log(CONTACT_ITEMS)
-console.log(WALLET_ITEMS)
-console.log(WALLET_BALANCES)
-console.log(NAMED_ADDRESSES)
-
-function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
+function formStoryWrapper(component, extraProps = {}, initialValues = {}) {
   return (
     <Form
       initialValues={initialValues}
@@ -150,7 +140,6 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
 }
 
 const preparedWallets = prepareWallets(WALLET_ITEMS, WALLET_BALANCES, NAMED_ADDRESSES)
-console.log(preparedWallets)
 
 storiesOf('send|RecipientPicker', module)
   .add('Default', () => (
