@@ -21,7 +21,7 @@ import {
 import {
   JTextArea,
   JInputField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import {
@@ -227,12 +227,12 @@ export class WalletsImportView extends Component<Props, StateProps> {
             />
           </Fragment>
         )}
-        <JRaisedButton
+        <Button
           type='submit'
           isLoading={isSubmitting}
         >
           {t`Import`}
-        </JRaisedButton>
+        </Button>
       </form>
     )
   }
@@ -255,12 +255,12 @@ export class WalletsImportView extends Component<Props, StateProps> {
         name='password'
         isDisabled={isSubmitting}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
       >
         {t`Import`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 

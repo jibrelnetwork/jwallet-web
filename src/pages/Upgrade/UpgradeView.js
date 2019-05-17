@@ -12,7 +12,7 @@ import CloseableScreen from 'components/CloseableScreen'
 import { JInputField } from 'components/base/JInput'
 
 import {
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import './upgradeView.scss'
@@ -137,11 +137,11 @@ function UpgradeView({
                 isDisabled={isLoading}
                 render={renderNewPasswordField(isInvalidPassword)}
               />
-              <JRaisedButton
+              <Button
                 type='submit'
                 disabled={(isLoading || invalid)}
               >{t`Save`}
-              </JRaisedButton>
+              </Button>
             </form>
           )}
         />

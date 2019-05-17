@@ -79,24 +79,6 @@
   @include flex-row-center;
 }
 
-.manage-icon {
-  @include sprite-icon-color($main-black-30);
-
-  margin-right: 8px;
-}
-
-.manage {
-  &:hover,
-  &:active {
-    background-color: $main-blue-10;
-    color: $main-blue;
-
-    .manage-icon {
-      @include sprite-icon-color($main-blue);
-    }
-  }
-}
-
 .search {
   max-width: 414px;
 }

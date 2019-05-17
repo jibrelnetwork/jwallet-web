@@ -14,7 +14,7 @@ import { NewPasswordField } from 'components'
 
 import {
   JInputField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 import { StartLayout } from 'layouts'
 
@@ -87,13 +87,13 @@ export class SetPasswordView extends Component<Props, StateProps> {
         name='passwordHint'
         label={t`Enter Password Hint`}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
         isDisabled={!this.state.isStrongPassword}
       >
         {t`Set Security Password`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 

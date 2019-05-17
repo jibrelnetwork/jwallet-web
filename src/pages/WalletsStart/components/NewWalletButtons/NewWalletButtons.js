@@ -7,7 +7,7 @@ import React, {
 import { t } from 'ttag'
 
 import { JLink } from 'components/base'
-import jRaisedButtonStyle from 'components/base/JRaisedButton/jRaisedButton.m.scss'
+import buttonStyle from 'components/base/Button/button.m.scss'
 
 import {
   ACTIONS,
@@ -39,8 +39,8 @@ export class NewWalletButtons extends PureComponent<Props> {
         <JLink
           onClick={this.handleClickCreate}
           className={`__create-button 
-            ${jRaisedButtonStyle.core} 
-            ${jRaisedButtonStyle.blue} 
+            ${buttonStyle.core} 
+            ${buttonStyle.blue} 
             ${newWalletButtonsStyle.create}`}
           href='/wallets/create'
         >
@@ -52,8 +52,8 @@ export class NewWalletButtons extends PureComponent<Props> {
         <JLink
           onClick={this.handleClickImport}
           className={`__import-button 
-            ${jRaisedButtonStyle.core} 
-            ${jRaisedButtonStyle.white} 
+            ${buttonStyle.core} 
+            ${buttonStyle.white} 
             ${newWalletButtonsStyle.import}`}
           href='/wallets/import'
         >

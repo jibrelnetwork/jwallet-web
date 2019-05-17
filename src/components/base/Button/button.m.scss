@@ -27,62 +27,53 @@
   }
 }
 
-.blue {
+.general {
   height: 64px;
   background-color: $blue-two;
-  box-shadow: 0 3px 6px rgba($blue, 0.33);
+  box-shadow: $blue-shadow;
   color: $white;
 
   //&:focus,
   &:hover {
-    color: $white;
-    background-color: $bright-sky-blue;
+    box-shadow: $hover-on-general-button-shadow;
+  }
+
+  &:active {
+    box-shadow: none;
+    color: $white-60;
   }
 
   &:disabled {
-    background-color: $pale-grey-three;
+    background-color: $main-black-10;
+    color: $main-black-20;
     box-shadow: none;
 
     &.-loading {
-      background-color: $blue-two;
+      background-color: $main-blue;
     }
   }
 }
 
-.white {
+.secondary {
+  height: 64px;
   background-color: $white;
   box-shadow: 0 3px 6px rgba($black, 0.1);
-  color: $blue-two;
+  color: $main-blue;
 
   //&:focus,
   &:hover {
-    background-color: $bright-sky-blue;
-    color: $white;
+    box-shadow: $hover-shadow;
+  }
+
+  &:active {
+    box-shadow: none;
+    color: $main-blue-60;
   }
 
   &:disabled {
-    background-color: $blue-three;
-    color: rgba($white, 0.3);
-
-    &.-loading {
-      background-color: $blue;
-    }
-  }
-}
-
-.gray {
-  background-color: $white;
-  box-shadow: 0 3px 6px rgba($black, 0.1);
-  color: $dark-two;
-
-  //&:focus,
-  &:hover {
-    background-color: $pale-grey-three;
-  }
-
-  &:disabled {
-    background-color: $blue-three;
-    color: $dusk;
+    background-color: $main-black-10;
+    color: $main-black-20;
+    box-shadow: none;
 
     &.-loading {
       background-color: $white;
@@ -92,33 +83,14 @@
 
 .additional {
   @include property-transition(background-color, color);
+  @include font(14px, 22px);
 
   height: 40px;
   width: auto;
   background: transparent;
-  line-height: 22px;
   font-weight: 600;
   color: $main-black-40;
-  padding: 9px 8px;
-  border-radius: 4px;
-
-  &:hover,
-  &:active {
-    background-color: $main-blue-10;
-    color: $main-blue;
-  }
-}
-
-.additional-icon {
-  @include property-transition(background-color, color);
-
-  height: 40px;
-  width: auto;
-  background: transparent;
-  line-height: 22px;
-  font-weight: 600;
-  color: $main-black-40;
-  padding: 9px 10px 9px 8px;
+  padding: 9px 20px;
   border-radius: 4px;
 
   &:hover,
@@ -130,4 +102,42 @@
   &:active {
     background-color: $main-blue-20;
   }
+
+  // Design suggests there is no disabled state for this button style, so none implemented
+}
+
+.additional-icon {
+  @include property-transition(background-color, color);
+  @include font(14px, 22px);
+
+  height: 40px;
+  width: auto;
+  background: transparent;
+  font-weight: 600;
+  color: $main-black-40;
+  padding: 9px 10px 9px 8px;
+  border-radius: 4px;
+
+  .icon {
+    @include property-transition(fill, stroke);
+    @include sprite-icon-color($main-black-20);
+
+    margin: 0 8px 0 0;
+  }
+
+  &:hover,
+  &:active {
+    background-color: $main-blue-10;
+    color: $main-blue;
+
+    .icon {
+      @include sprite-icon-color($main-blue);
+    }
+  }
+
+  &:active {
+    background-color: $main-blue-20;
+  }
+
+  // Design suggests there is no disabled state for this button style, so none implemented
 }

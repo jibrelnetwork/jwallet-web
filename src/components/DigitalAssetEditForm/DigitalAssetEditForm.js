@@ -5,7 +5,7 @@ import { t } from 'ttag'
 
 import {
   JInput,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 type DigitalAssetEditFormProps = {|
@@ -80,7 +80,7 @@ const DigitalAssetEditForm = ({
           />
         ))}
         <div className='actions'>
-          <JRaisedButton onClick={submit}>{submitLabel}</JRaisedButton>
+          <Button onClick={submit}>{submitLabel}</Button>
         </div>
       </div>
     </div>
