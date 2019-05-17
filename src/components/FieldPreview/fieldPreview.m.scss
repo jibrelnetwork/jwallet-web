@@ -57,10 +57,17 @@
   @include flex-row-center;
 
   .action {
+    @include sprite-icon-color($main-black-30);
+
     cursor: pointer;
     display: block;
     border: none;
     background: none;
     padding: 0;
+
+    &:hover,
+    &:active {
+      @include sprite-icon-color($main-blue);
+    }
   }
 }

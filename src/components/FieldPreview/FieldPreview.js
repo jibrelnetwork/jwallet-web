@@ -59,7 +59,7 @@ function FieldPreviewInternal({
             title={t`Add Contact`}
             href={joinAddContact(contact)}
           >
-            <JIcon name='add-contact' color='gray' />
+            <JIcon name='add-contact-use-fill' />
           </JLink>)
         }
         {copy && (
@@ -70,7 +70,7 @@ function FieldPreviewInternal({
             data-value={copy}
             onClick={copyToClipboard}
           >
-            <JIcon name='copy' color='gray' />
+            <JIcon name='copy-use-fill' />
           </button>)
         }
       </div>
