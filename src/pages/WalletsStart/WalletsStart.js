@@ -8,7 +8,7 @@ import React, {
 import { t } from 'ttag'
 
 import { StartLayout } from 'layouts'
-import { NewWalletButtons } from 'components'
+
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
@@ -16,6 +16,10 @@ import {
   ACTIONS,
   type WalletAction,
 } from 'pages/WalletsStart/constants'
+
+import {
+  NewWalletButtons,
+} from './components/NewWalletButtons/NewWalletButtons'
 
 import walletsStartStyle from './walletsStart.m.scss'
 
