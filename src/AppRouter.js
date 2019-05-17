@@ -124,7 +124,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!isAllFeaturesIntroduced) {
-      return <pages.IntroductionView />
+      return <pages.Introduction />
     }
 
     if (!isAllAgreementsChecked) {

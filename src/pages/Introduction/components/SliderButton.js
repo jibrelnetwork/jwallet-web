@@ -28,7 +28,7 @@ export class SliderButton extends PureComponent<Props> {
           sliderButtonStyles.core,
           isActive && sliderButtonStyles['-current'],
         )}
-        onClick={this.handleClick}
+        onClick={!isActive ? this.handleClick : null}
       />
     )
   }

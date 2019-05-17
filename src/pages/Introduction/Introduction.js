@@ -18,7 +18,7 @@ import {
 import { Slide } from './components/Slide'
 import { SliderButton } from './components/SliderButton'
 
-import introductionViewStyle from './introductionView.m.scss'
+import IntroductionStyle from './introduction.m.scss'
 
 export type Props = {|
 |}
@@ -68,8 +68,8 @@ const sliders = [
 const renderView = ({
   index,
 }) => (
-  <div className={introductionViewStyle.slider}>
-    <div className={introductionViewStyle.slide}>
+  <div className={IntroductionStyle.slider}>
+    <div className={IntroductionStyle.slide}>
       <Slide
         title={sliders[index].title}
         descr={sliders[index].descr}
@@ -80,7 +80,7 @@ const renderView = ({
   </div>
 )
 
-export class IntroductionView extends PureComponent<Props, ComponentState> {
+export class Introduction extends PureComponent<Props, ComponentState> {
   state = {
     activeId: 0,
   }
@@ -105,7 +105,7 @@ export class IntroductionView extends PureComponent<Props, ComponentState> {
           numViews={sliders.length}
           activeView={activeId}
         />
-        <div className={introductionViewStyle.paginations}>
+        <div className={IntroductionStyle.paginations}>
           {sliders.map((slide, index) => (
             <SliderButton
               slideId={index}
@@ -115,9 +115,9 @@ export class IntroductionView extends PureComponent<Props, ComponentState> {
             />
           ))}
         </div>
-        <JLink href='/wallets' className={introductionViewStyle.link}>
+        <JLink href='/wallets' className={IntroductionStyle.link}>
           <JRaisedButton
-            className={introductionViewStyle.button}
+            className={IntroductionStyle.button}
             theme='blue'
             onClick={this.handleGetStartedClick}
           >

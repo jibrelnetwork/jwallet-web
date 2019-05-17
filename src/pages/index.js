@@ -36,7 +36,7 @@ export { NotFound } from './NotFound/NotFound'
 export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
-export { IntroductionView } from './Introduction/IntroductionView'
+export { Introduction } from './Introduction/Introduction'
 export { default as WalletsAddresses }
   from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
 export { default as WalletsRenameAddress }
