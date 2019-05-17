@@ -5,8 +5,13 @@ body {
 
 #root,
 html {
-  height: 100%;
   background-color: #f5f6fa;
+}
+
+#root {
+  padding: 20px;
+  height: auto;
+  min-height: 100%;
 }
 
 h1 {
