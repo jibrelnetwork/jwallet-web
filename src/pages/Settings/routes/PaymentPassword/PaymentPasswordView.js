@@ -12,7 +12,7 @@ import { NewPasswordField } from 'components'
 
 import {
   JInputField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import {
@@ -131,12 +131,12 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 validate={required(text.hintAlert)}
                 isDisabled={passwordForm.isLoading}
               />
-              <JRaisedButton
+              <Button
                 onClick={handleFormSubmit}
                 isLoading={passwordForm.isLoading}
                 type='submit'
               >{t`Set password`}
-              </JRaisedButton>
+              </Button>
             </form>
           )}
         />

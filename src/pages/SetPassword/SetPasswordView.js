@@ -14,7 +14,7 @@ import { NewPasswordField } from 'components'
 
 import {
   JInputField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 import { StartLayout } from 'layouts'
 
@@ -90,13 +90,13 @@ export class SetPasswordView extends Component<Props, StateProps> {
 some functions won’t be available. To restore access to all functions
 you will need to clear your data and re-import your wallets again using backup phrase.`}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
         isDisabled={!this.state.isStrongPassword}
       >
         {t`Set Security Password`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 

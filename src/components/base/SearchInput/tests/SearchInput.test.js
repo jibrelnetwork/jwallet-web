@@ -36,4 +36,16 @@ describe('SearchInput', () => {
 
     expect(wrapper.hasClass('test')).toBe(true)
   })
+
+  it('does not show additional items container if no children passed', () => {
+    expect(
+      shallow(<SearchInput />).exists('aside'),
+    ).toBe(false)
+  })
+
+  it('shows additional items container if children are passed', () => {
+    expect(
+      shallow(<SearchInput>test</SearchInput>).exists('aside'),
+    ).toBe(true)
+  })
 })
