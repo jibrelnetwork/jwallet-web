@@ -15,6 +15,7 @@ import {
   setIntroductionValue,
 } from 'utils/introduction'
 
+import slides from './data.js'
 import { Slide } from './components/Slide'
 import { SliderButton } from './components/SliderButton'
 
@@ -27,54 +28,16 @@ type ComponentState = {|
   +activeId: number,
 |}
 
-const sliders = [
-  {
-    img: '/assets/feature/jwallet.png',
-    animationName: 'jwallet',
-    title: t`Jwallet`,
-    descr: t`A simple, fast and secure mobile wallet 
-      <br> for Ethereum and all ERC-20 tokens.`,
-  },
-  {
-    img: '/assets/feature/store.png',
-    animationName: 'store',
-    title: t`Store`,
-    descr: t`Create and manage several wallets for different goals or just simply 
-      <br> import your existing Ethereum and ERC-20 wallet.`,
-  },
-  {
-    img: '/assets/feature/protect.png',
-    animationName: 'protect',
-    title: t`Protect`,
-    descr: t`All sensitive data never leaves your device and your private keys 
-      <br> are never shared with anyone, including us.`,
-  },
-  {
-    img: '/assets/feature/send_receive.png',
-    animationName: 'send_receive',
-    title: t`Send & Receive`,
-    descr: t`All sensitive data never leaves your device and your private keys 
-      <br> are never shared with anyone, including us.`,
-  },
-  {
-    img: '/assets/feature/manage.png',
-    animationName: 'manage',
-    title: t`Manage`,
-    descr: t`Enjoy complete control over your digital assets. 
-      <br> Manage ETH and all ERC-20 tokens.`,
-  },
-]
-
 const renderView = ({
   index,
 }) => (
   <div className={IntroductionStyle.slider}>
     <div className={IntroductionStyle.slide}>
       <Slide
-        title={sliders[index].title}
-        descr={sliders[index].descr}
-        imgCover={sliders[index].img}
-        animationName={sliders[index].animationName}
+        title={slides[index].title}
+        descr={slides[index].descr}
+        imgCover={slides[index].img}
+        animationName={slides[index].animationName}
       />
     </div>
   </div>
@@ -102,11 +65,11 @@ export class Introduction extends PureComponent<Props, ComponentState> {
       <StartLayout className='__introduction'>
         <ViewSlider
           renderView={renderView}
-          numViews={sliders.length}
+          numViews={slides.length}
           activeView={activeId}
         />
         <div className={IntroductionStyle.paginations}>
-          {sliders.map((slide, index) => (
+          {slides.map((slide, index) => (
             <SliderButton
               slideId={index}
               key={slide.animationName}
