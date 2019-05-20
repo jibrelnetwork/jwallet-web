@@ -2,9 +2,9 @@ import React from 'react'
 import {
   shallow,
   mount,
-} from 'enzyme/build'
+} from 'enzyme'
 
-import { FieldPreview } from 'components/TransactionDetails/components/FieldPreview/FieldPreview.js'
+import { FieldPreview } from '../FieldPreview.js'
 
 describe('Render', () => {
   test('Label and body value', () => {
