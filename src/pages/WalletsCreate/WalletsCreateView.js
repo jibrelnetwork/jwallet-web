@@ -3,6 +3,10 @@
 import { t } from 'ttag'
 import React, { Component } from 'react'
 
+import { type FormApi } from 'final-form'
+import { gaSendEvent } from 'utils/analytics'
+import { generateMnemonic } from 'utils/mnemonic'
+
 import {
   Form,
   Field,
@@ -18,6 +22,7 @@ import {
 
 import {
   TitleHeader,
+  WalletBackupForm,
   NewWalletPasswordForm,
 } from 'components'
 
@@ -31,13 +36,16 @@ export type WalletsCreateSubmitPayload = {|
   +setCurrentStep: Function,
   +values: FormFields,
   +currentStep: WalletsCreateStep,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
 |}
 
 export type Props = {|
+  +requestBlockNumbers: () => void,
   onBack?: ?WalletsCreateBackHandler,
   +validate: (FormFields, WalletsCreateStep) => ?FormFields,
   +submit: WalletsCreateSubmitPayload => Promise<?FormFields>,
   +hint: string,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
 |}
 
 type StateProps = {|
@@ -51,9 +59,15 @@ export const STEPS: WalletsCreateSteps = {
   PASSWORD: 'PASSWORD',
 }
 
+const EVENTS: { [WalletsCreateStep]: string } = {
+  BACKUP_TICKS: 'NameEntered',
+  BACKUP_FORM: 'BackupTicksConfirmed',
+  PASSWORD: 'BackupCompleted',
+}
+
 const WALLETS_CREATE_INITIAL_VALUES: FormFields = {
   name: '',
-  mnemonic: '',
+  data: '',
   password: '',
   loseAccess: '',
   compromise: '',
@@ -76,8 +90,13 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     }
   }
 
+  componentDidMount() {
+    this.props.requestBlockNumbers()
+  }
+
   setCurrentStep = (currentStep: WalletsCreateStep) => () => {
     this.setState({ currentStep })
+    gaSendEvent('CreateWallet', EVENTS[currentStep])
   }
 
   getTitle = (): string => {
@@ -133,13 +152,25 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     }
   }
 
-  handleSubmit = async (values: FormFields): Promise<?FormFields> => {
-    const { submit }: Props = this.props
+  handleSubmit = async (
+    values: FormFields,
+    { change }: FormApi,
+  ): Promise<?FormFields> => {
+    const {
+      submit,
+      createdBlockNumber,
+    }: Props = this.props
+
     const { currentStep }: StateProps = this.state
+
+    if (!values.data) {
+      change('data', generateMnemonic())
+    }
 
     return submit({
       values,
       currentStep,
+      createdBlockNumber,
       setCurrentStep: this.setCurrentStep,
     })
   }
@@ -226,6 +257,12 @@ export class WalletsCreateView extends Component<Props, StateProps> {
   )
 
   renderWalletsCreateForm = (formRenderProps: FormRenderProps) => {
+    const {
+      handleSubmit,
+      values = {},
+      submitting,
+    }: FormRenderProps = formRenderProps
+
     switch (this.state.currentStep) {
       case STEPS.NAME:
         return this.renderWalletNameForm(formRenderProps)
@@ -234,15 +271,15 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         return this.renderBackupTicksForm(formRenderProps)
 
       case STEPS.BACKUP_FORM:
-        return this.renderBackupTicksForm(formRenderProps)
+        return (
+          <WalletBackupForm
+            handleSubmit={handleSubmit}
+            name={values.name}
+            isMnemonic
+          />
+        )
 
-      case STEPS.PASSWORD: {
-        const {
-          handleSubmit,
-          values = {},
-          submitting,
-        }: FormRenderProps = formRenderProps
-
+      case STEPS.PASSWORD:
         return (
           <NewWalletPasswordForm
             handleSubmit={handleSubmit}
@@ -251,7 +288,6 @@ export class WalletsCreateView extends Component<Props, StateProps> {
             isSubmitting={submitting}
           />
         )
-      }
 
       default:
         return null

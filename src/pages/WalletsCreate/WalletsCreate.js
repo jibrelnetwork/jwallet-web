@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 
 import { walletsPlugin } from 'store/plugins'
 import { selectPasswordHint } from 'store/selectors/password'
+import { blockNumbersRequest } from 'store/modules/walletsCreate'
+import { selectWalletsCreateBlockNumbers } from 'store/selectors/wallets'
 
 import {
   STEPS,
@@ -20,14 +22,21 @@ type OwnProps = {|
   +onBack?: ?WalletsCreateBackHandler,
 |}
 
-async function createWallet(values: FormFields): ?FormFields {
-  return walletsPlugin.importWallet(values)
+async function createWallet(
+  values: FormFields,
+  createdBlockNumber: ?WalletCreatedBlockNumber,
+): ?FormFields {
+  return walletsPlugin.importWallet(
+    values,
+    createdBlockNumber,
+  )
 }
 
 async function submitWalletsCreateForm({
   setCurrentStep,
   values,
   currentStep,
+  createdBlockNumber,
 }: WalletsCreateSubmitPayload): Promise<?FormFields> {
   switch (currentStep) {
     case STEPS.NAME:
@@ -40,7 +49,10 @@ async function submitWalletsCreateForm({
       return setCurrentStep(STEPS.PASSWORD)()
 
     case STEPS.PASSWORD:
-      return createWallet(values)
+      return createWallet(
+        values,
+        createdBlockNumber,
+      )
 
     default:
       return null
@@ -115,9 +127,15 @@ function mapStateToProps(state: AppState) {
     hint: selectPasswordHint(state),
     submit: submitWalletsCreateForm,
     validate: validateWalletsCreateForm,
+    createdBlockNumber: selectWalletsCreateBlockNumbers(state),
   }
+}
+
+const mapDispatchToProps = {
+  requestBlockNumbers: blockNumbersRequest,
 }
 
 export const WalletsCreate = connect<Props, OwnProps, _, _, _, _>(
   mapStateToProps,
+  mapDispatchToProps,
 )(WalletsCreateView)

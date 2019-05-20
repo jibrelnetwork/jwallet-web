@@ -126,6 +126,12 @@ export function selectWalletsCreate(state: AppState): WalletsCreateState {
   return state.walletsCreate
 }
 
+export function selectWalletsCreateBlockNumbers(state: AppState): WalletCreatedBlockNumber {
+  const walletsCreate: WalletsCreateState = selectWalletsCreate(state)
+
+  return walletsCreate.createdBlockNumber
+}
+
 export function selectWalletsImport(state: AppState): WalletsImportState {
   return state.walletsImport
 }
