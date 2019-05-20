@@ -7,7 +7,13 @@
 
   border: 1px solid $main-black-20;
   border-radius: 4px;
-  padding: 8px;
+
+  .label {
+    @include flex-row-center;
+
+    flex-grow: 1;
+    padding: 7px;
+  }
 
   .icon {
     @include property-transition(fill, stroke);
@@ -56,5 +62,22 @@
 
   &.focused .input::placeholder {
     opacity: 0;
+  }
+}
+
+.aside {
+  position: relative;
+  margin: 3px 0;
+  padding: 0 3px 0 4px;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 1px;
+    background: $main-black-20;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
   }
 }

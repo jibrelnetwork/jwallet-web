@@ -27,12 +27,6 @@ function copyToClipboard({ currentTarget }: SyntheticEvent<HTMLButtonElement>): 
   }
 }
 
-function joinAddContact(body: string): string {
-  return body
-    ? `/contacts/add/address=${body}`
-    : ''
-}
-
 function FieldPreviewInternal({
   label,
   body,
@@ -57,7 +51,7 @@ function FieldPreviewInternal({
           <JLink
             className={style.action}
             title={t`Add Contact`}
-            href={joinAddContact(contact)}
+            href={`/contacts/add?address=${contact}`}
           >
             <JIcon name='add-contact-use-fill' />
           </JLink>)
