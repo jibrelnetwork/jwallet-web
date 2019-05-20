@@ -38,15 +38,9 @@ $password-field-indicator-height: 6px;
 .fetching::after {
   position: relative;
   width: 100%;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: loading;
-  animation-timing-function: linear;
-  background: $main-black-10;
-  background: linear-gradient(-60deg, rgba($black, 0) 70%, rgba($white, 0.6) 80%, rgba($black, 0) 90%);
-  // background: radial-gradient(8px at 80% 0%, rgba($white, 0.6) 0%, rgba($black, 0) 100%);
-  background-size: 60px 6px;
+  animation: loading 1s linear 0s infinite alternate;
+  background: $main-black;
+  opacity: 0.3;
 }
 
 .red::after {
@@ -71,10 +65,10 @@ $password-field-indicator-height: 6px;
 
 @keyframes loading {
   0% {
-    background-position: -60px 0;
+    opacity: 0.1;
   }
 
   100% {
-    background-position: 60px 0;
+    opacity: 0.3;
   }
 }

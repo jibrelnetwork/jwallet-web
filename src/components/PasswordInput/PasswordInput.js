@@ -51,7 +51,6 @@ export class PasswordInput extends Component<JInputFieldProps, StateProps> {
         >
           <JIcon
             name='visibility-off-use-fill'
-            color='black'
           />
         </div>
         <div
@@ -60,7 +59,6 @@ export class PasswordInput extends Component<JInputFieldProps, StateProps> {
         >
           <JIcon
             name='visibility-on-use-fill'
-            color='black'
           />
         </div>
       </div>
