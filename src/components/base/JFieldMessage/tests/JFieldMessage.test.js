@@ -2,20 +2,27 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import { JFieldMessage } from '../JFieldMessage'
+import jFieldMessageStyle from '../jFieldMessage.m.scss'
 
-describe('Render semantic html', () => {
-  test('for error theme', () => {
-    const wrapper = shallow(<JFieldMessage message='Hello world' theme='error' />)
-    expect(wrapper.html()).toBe('<span class="core error">Hello world</span>')
-  })
-
-  test('without theme prop', () => {
+describe('JFieldMessage', () => {
+  it('has no error nor info class if theme is not specified', () => {
     const wrapper = shallow(<JFieldMessage message='Hello world' />)
-    expect(wrapper.html()).toBe('<span class="core error">Hello world</span>')
+    expect(wrapper.hasClass(jFieldMessageStyle.error)).toBe(false)
+    expect(wrapper.hasClass(jFieldMessageStyle.info)).toBe(false)
   })
 
-  test('for info theme', () => {
+  it('displays message string', () => {
+    const wrapper = shallow(<JFieldMessage message='Hello world' />)
+    expect(wrapper.text()).toBe('Hello world')
+  })
+
+  it('has info class for error theme', () => {
     const wrapper = shallow(<JFieldMessage message='Hello world' theme='info' />)
-    expect(wrapper.html()).toBe('<span class="core info">Hello world</span>')
+    expect(wrapper.hasClass(jFieldMessageStyle.info)).toBe(true)
+  })
+
+  it('has error class for error theme', () => {
+    const wrapper = shallow(<JFieldMessage message='Hello world' theme='error' />)
+    expect(wrapper.hasClass(jFieldMessageStyle.error)).toBe(true)
   })
 })
