@@ -1,0 +1,38 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  position: relative;
+}
+
+.icon {
+  margin-bottom: 32px;
+}
+
+.title {
+  margin-bottom: 8px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: normal;
+  color: $main-black;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black-60;
+}
+
+.form {
+  width: 544px;
+  margin-top: 32px;
+}
+
+.field {
+  margin-bottom: -16px;
+}
+
+.button {
+  margin: 32px 0 16px 0;
+}
