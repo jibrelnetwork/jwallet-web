@@ -18,7 +18,7 @@ import {
 import {
   JCard,
   JInput,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import {
@@ -120,10 +120,10 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
                 type='text'
                 isDisabled
               />
-              <JRaisedButton
+              <Button
                 onClick={this.handleClick}
               >{isCopied ? t`Copied!` : t`Copy address`}
-              </JRaisedButton>
+              </Button>
             </div>
           </div>
         </div>

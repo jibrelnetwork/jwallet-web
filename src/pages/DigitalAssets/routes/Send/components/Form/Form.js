@@ -15,7 +15,7 @@ import {
 import {
   JText,
   JInput,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import DigitalAssetsSendFormAssetPicker from './AssetPicker'
@@ -149,10 +149,10 @@ function DigitalAssetsSendForm({
           </div>
         </div>
         <div className='actions'>
-          <JRaisedButton
+          <Button
             onClick={submit}
           >{t`Confirm`}
-          </JRaisedButton>
+          </Button>
         </div>
       </form>
       <div className='message'>

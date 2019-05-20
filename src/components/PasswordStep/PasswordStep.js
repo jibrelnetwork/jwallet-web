@@ -5,7 +5,7 @@ import { t } from 'ttag'
 
 import {
   JInput,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 type Props = {|
@@ -70,11 +70,11 @@ class PasswordStep extends Component<Props, ComponentState> {
             isDisabled={isLoading}
           />
           <div className='actions'>
-            <JRaisedButton
+            <Button
               onClick={this.handleSubmit}
               isLoading={isLoading}
             >{submitLabel}
-            </JRaisedButton>
+            </Button>
           </div>
         </div>
       </div>
