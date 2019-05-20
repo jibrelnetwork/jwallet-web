@@ -8,7 +8,7 @@ import {
   boolean,
 } from '@storybook/addon-knobs'
 
-import { FieldPreview } from 'components/FieldPreview/FieldPreview'
+import { FieldPreview } from 'components/TransactionDetails/components/FieldPreview/FieldPreview'
 
 const PRIVATE_KEY = '0xfb27c2394586feb01403ba3643b519c8f209e0427b31f510a6877b494c020f59'
 

@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { memoize } from 'lodash-es'
 import { t } from 'ttag'
 
-import { FieldPreview } from 'components'
 import {
   JIcon,
   JInputField,
@@ -25,7 +24,10 @@ import {
 
 import offset from 'styles/offsets.m.scss'
 
-import { AssetItemPreview } from './AssetItemPreview/AssetItemPreview'
+import {
+  AssetItemPreview,
+  FieldPreview,
+} from './components'
 
 import style from './transactionDetails.m.scss'
 

@@ -1,7 +1,8 @@
 // @flow strict
 
 import React from 'react'
-import classNames from 'classnames'
+import { t } from 'ttag'
+
 import {
   JAssetSymbol,
   JIcon,
@@ -17,11 +18,11 @@ export function AssetItemPreview({
 }: DigitalAsset) {
   return (
     <JLink
-      className={`__asset-item ${style.core}`}
+      className={`__asset-item ${style.core} ${style.data}`}
       href={`/assets/${address}`}
     >
       <div
-        className={classNames(style.item, style.assetIcon)}
+        className={`${style.item} ${style.assetIcon}`}
       >
         <JAssetSymbol
           address={address}
@@ -31,17 +32,17 @@ export function AssetItemPreview({
         />
       </div>
       <div
-        className={classNames(style.item, style.mainBlock)}
+        className={`${style.item} ${style.mainBlock}`}
       >
-        <div className={style.text}>
-          {name}
+        <div className={style.label}>
+          {t`Asset`}
         </div>
-        <div className={style.subtext}>
-          {symbol}
+        <div className={style.body}>
+          {name}
         </div>
       </div>
       <div
-        className={classNames(style.item, style.arrowIcon)}
+        className={`${style.item} ${style.arrowIcon}`}
       >
         <JIcon className={style.arrow} name='arrow-right-use-fill' />
       </div>
