@@ -3,8 +3,8 @@
 .core {
   @include flex-column-center;
 
-  height: 100%;
+  min-height: 100%;
   max-width: 544px;
   margin: 0 auto;
-  padding-top: $new-page-header-height;
+  padding: $new-page-header-height 0;
 }

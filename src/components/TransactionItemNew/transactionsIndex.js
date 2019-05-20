@@ -1,5 +1,7 @@
 // @flow
 
+import { get } from 'lodash-es'
+
 import { selectTransactionsList } from 'store/selectors/transactions'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import {
@@ -8,17 +10,19 @@ import {
 } from 'store/selectors/wallets'
 import { selectFavorites } from 'store/selectors/favorites'
 import { selectCommentsItems } from 'store/selectors/comments'
+import { getTxFee } from 'utils/transactions'
 
 export type TransactionDirection = 'in' | 'out'
 export type TransactionStatus = 'success' | 'pending' | 'fail' | 'stuck'
 export type TransactionItem = {|
   +id: TransactionId,
-  +asset: ?DigitalAsset,
+  +asset: ?DigitalAsset, // FIXME: Don't use nested properties, use only used properties from object
   +type: TransactionDirection,
   +status: TransactionStatus,
   +title: string,
-  +from: ?OwnerAddress,
-  +to: ?OwnerAddress,
+  +from: OwnerAddress,
+  +to: OwnerAddress,
+  +fee: string,
   +timestamp: number,
   +note: ?string,
   +amount: string,
@@ -121,12 +125,15 @@ function prepareTransactionItem(
   const status = getTransactionStatus(transaction)
   const title = getTransactionName(state, transaction, type)
   const note = getTransactionComment(state, transaction)
-  const {
-    amount,
-    from,
-    to,
-    blockData,
-  } = transaction
+  const from = get(transaction, 'from', '')
+  const to = get(transaction, 'to', '')
+  const timestamp = (get(transaction, 'blockData.timestamp', 0)) * 1000
+  const { amount } = transaction
+
+  const gasUsed = get(transaction, 'receiptData.gasUsed', 0)
+  const gasPrice = get(transaction, 'data.gasPrice', 0)
+  const decimals = get(asset, 'blockchainParams.decimals', 18)
+  const fee = getTxFee(gasUsed, gasPrice, decimals)
 
   return {
     id: transaction.keys.id,
@@ -136,7 +143,8 @@ function prepareTransactionItem(
     title,
     from,
     to,
-    timestamp: blockData.timestamp,
+    fee,
+    timestamp,
     note,
     amount,
     // TODO: We can't get correct fiat amount yet, because we are have't exchange rate history

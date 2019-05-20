@@ -10,12 +10,16 @@ import {
   JIcon,
   JInputField,
 } from 'components/base'
-import { selectCurrentNetwork } from 'store/selectors/networks'
-import { formatTransactionAmount } from 'utils/formatters/formatTransactionAmount'
+import { selectFavorites } from 'store/selectors/favorites'
+import { selectAddressWalletsNames } from 'store/selectors/wallets'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import { getFormattedDateString } from 'utils/time'
+import { getShortenedAddress } from 'utils/address'
 import {
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
+import { formatTransactionAmount } from 'utils/formatters/formatTransactionAmount'
 
 import {
   type TransactionItem,
@@ -38,16 +42,21 @@ type ContainerProps = {
 
 type Props = TransactionItem & ContainerProps & {
   blockExplorer: string,
+  fromName: string,
+  toName: string,
 }
 
 const memoizedIndex = memoize(transactionsIndex)
 
 function TransactionDetailsInternal(props: Props) {
-  const formattedDate = new Date(props.timestamp)
-
   if (!props.asset || !props.asset.blockchainParams) {
     return null
   }
+
+  const formattedDate = getFormattedDateString(
+    new Date(props.timestamp),
+    'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
+  )
 
   return (
     <div className={classNames(style.core, props.className)}>
@@ -64,7 +73,7 @@ function TransactionDetailsInternal(props: Props) {
               {props.status}
             </div>
             <div className={style.date}>
-              {formattedDate.getTime()}
+              {formattedDate}
             </div>
           </div>
         </div>
@@ -75,26 +84,26 @@ function TransactionDetailsInternal(props: Props) {
         />
         <FieldPreview
           label={t`Sender`}
-          body={props.from}
+          body={props.fromName}
           link={getAddressLink(props.from, props.blockExplorer)}
           contact={props.from}
           copy={props.from}
         />
         <FieldPreview
           label={t`Recipient`}
-          body={props.to}
+          body={props.toName}
           link={getAddressLink(props.to, props.blockExplorer)}
           copy={props.to}
         />
         <FieldPreview
           label={t`Blockchain transaction`}
-          body={props.txHash}
+          body={getShortenedAddress(props.txHash)}
           link={getTxLink(props.txHash, props.blockExplorer)}
           copy={props.txHash}
         />
         <FieldPreview
           label={t`Estimated blockchain fee`}
-          body='-0.004 ETH'
+          body={`${props.fee} ETH`}
         />
       </div>
       <JInputField
@@ -111,11 +120,26 @@ TransactionDetailsInternal.defaultProps = {
   blockExplorer: '',
 }
 
+function getPrimaryName(
+  state: AppState,
+  address: OwnerAddress,
+): string {
+  const favorites = selectFavorites(state)
+  const addressNames = selectAddressWalletsNames(state)
+
+  return favorites[address]
+    || addressNames[address]
+    || getShortenedAddress(address)
+}
+
 function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
-  const { blockExplorerUISubdomain } = selectCurrentNetwork(state)
+  const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
+  const transactionRecord = memoizedIndex(state)[txHash]
 
   return {
-    ...memoizedIndex(state)[txHash],
+    ...transactionRecord,
+    fromName: getPrimaryName(state, transactionRecord.from),
+    toName: getPrimaryName(state, transactionRecord.to),
     blockExplorer: blockExplorerUISubdomain,
   }
 }
