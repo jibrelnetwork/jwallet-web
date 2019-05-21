@@ -14,7 +14,6 @@ module.exports = {
   coverageDirectory: '<rootDir>/reports/unit-tests/coverage',
   coverageReporters: [
     'lcov',
-    'html',
   ],
   testMatch: [
     '<rootDir>/src/**/*.test.{js,jsx}',
