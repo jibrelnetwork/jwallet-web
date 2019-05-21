@@ -11,7 +11,7 @@ module.exports = {
       statements: 0,
     },
   },
-  coverageDirectory: '<rootDir>/reports/coverage',
+  coverageDirectory: '<rootDir>/reports/unit-tests/coverage',
   coverageReporters: [
     'lcov',
     'html',
@@ -31,6 +31,15 @@ module.exports = {
     '\\.(css|scss)$': 'identity-obj-proxy',
     '^lodash-es$': 'lodash',
   },
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        outputDirectory: '<rootDir>/reports/unit-tests',
+      },
+    ],
+  ],
   setupFiles: [
     'react-app-polyfill/jsdom',
     '<rootDir>/.jest/register-context.js',
