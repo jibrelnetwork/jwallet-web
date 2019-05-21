@@ -8,9 +8,9 @@ import { fileSaver } from 'services'
 
 import {
   JIcon,
+  Button,
   JTextArea,
   JInputField,
-  JRaisedButton,
 } from 'components/base'
 
 import walletBackupFormStyle from './walletBackupForm.m.scss'
@@ -109,20 +109,20 @@ export function WalletBackupForm({
             name='derivationPath'
           />
         )}
-        <JRaisedButton
+        <Button
           type='button'
-          theme='white'
+          theme='general'
           className={walletBackupFormStyle.button}
           onClick={handleDownload}
         >
           {t`Download Backup as TXT`}
-        </JRaisedButton>
-        <JRaisedButton
+        </Button>
+        <Button
           type='submit'
-          theme='blue'
+          theme='secondary'
         >
           {t`Done`}
-        </JRaisedButton>
+        </Button>
       </form>
     </div>
   )
