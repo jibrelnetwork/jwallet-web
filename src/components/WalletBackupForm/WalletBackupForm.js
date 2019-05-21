@@ -17,6 +17,7 @@ import walletBackupFormStyle from './walletBackupForm.m.scss'
 
 type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?FormFields>,
+  +values: FormFields,
   +name: string,
   +passphrase: ?string,
   +derivationPath: ?string,
@@ -46,18 +47,19 @@ function getBackupText(passphrase, derivationPath): string {
   return BACKUP_TEXT.SINGLE_DATA
 }
 
-function handleDownload({
-  data,
-  passphrase,
-  derivationPath,
-}: FormFields) {
+function handleDownload(
+  data: ?string,
+  passphrase: ?string,
+  derivationPath: ?string,
+) {
   const content: string = `${data || ''}\n${passphrase || ''}\n${derivationPath || ''}`
 
-  fileSaver.saveTXT(content, 'jwallet-backup')
+  return () => fileSaver.saveTXT(content, 'jwallet-backup')
 }
 
 export function WalletBackupForm({
   handleSubmit,
+  values,
   name,
   passphrase,
   derivationPath,
@@ -111,7 +113,7 @@ export function WalletBackupForm({
           type='button'
           theme='general'
           className={walletBackupFormStyle.button}
-          onClick={handleDownload}
+          onClick={handleDownload(values.data, passphrase, derivationPath)}
         >
           {t`Download Backup as TXT`}
         </Button>

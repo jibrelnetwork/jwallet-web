@@ -274,6 +274,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         return (
           <WalletBackupForm
             handleSubmit={handleSubmit}
+            values={values}
             name={values.name}
             isMnemonic
           />
