@@ -16,7 +16,7 @@ import {
 import walletBackupFormStyle from './walletBackupForm.m.scss'
 
 type Props = {|
-  +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => Promise<?FormFields>,
+  +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?FormFields>,
   +name: string,
   +passphrase: ?string,
   +derivationPath: ?string,
