@@ -7,7 +7,7 @@ import { Field } from 'react-final-form'
 import { PasswordInput } from 'components'
 import { Button } from 'components/base'
 
-import newWalletPasswordFormStyle from './newWalletPasswordForm.m.scss'
+import walletPasswordFormStyle from './walletPasswordForm.m.scss'
 
 type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
@@ -16,7 +16,7 @@ type Props = {|
   +isSubmitting: boolean,
 |}
 
-export function NewWalletPasswordForm({
+export function WalletPasswordForm({
   handleSubmit,
   values,
   hint,
@@ -25,7 +25,7 @@ export function NewWalletPasswordForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className={newWalletPasswordFormStyle.form}
+      className={walletPasswordFormStyle.form}
     >
       <Field
         component={PasswordInput}
@@ -46,6 +46,6 @@ export function NewWalletPasswordForm({
   )
 }
 
-NewWalletPasswordForm.defaultProps = {
+WalletPasswordForm.defaultProps = {
   isSubmitting: false,
 }

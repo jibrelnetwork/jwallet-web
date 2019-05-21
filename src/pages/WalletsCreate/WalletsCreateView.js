@@ -23,7 +23,7 @@ import {
 import {
   TitleHeader,
   WalletBackupForm,
-  NewWalletPasswordForm,
+  WalletPasswordForm,
 } from 'components'
 
 import walletsCreateStyle from './walletsCreate.m.scss'
@@ -281,7 +281,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
 
       case STEPS.PASSWORD:
         return (
-          <NewWalletPasswordForm
+          <WalletPasswordForm
             handleSubmit={handleSubmit}
             values={values}
             hint={this.props.hint}
