@@ -126,10 +126,6 @@ export function selectWalletsCreate(state: AppState): WalletsCreateState {
   return state.walletsCreate
 }
 
-export function selectWalletsImport(state: AppState): WalletsImportState {
-  return state.walletsImport
-}
-
 export function selectWalletsBackup(state: AppState): WalletsBackupState {
   return state.walletsBackup
 }
