@@ -59,7 +59,8 @@ export const STEPS: WalletsCreateSteps = {
   PASSWORD: 'PASSWORD',
 }
 
-const EVENTS: { [WalletsCreateStep]: string } = {
+const EVENTS = {
+  NAME: null,
   BACKUP_TICKS: 'NameEntered',
   BACKUP_FORM: 'BackupTicksConfirmed',
   PASSWORD: 'BackupCompleted',
@@ -96,7 +97,11 @@ export class WalletsCreateView extends Component<Props, StateProps> {
 
   setCurrentStep = (currentStep: WalletsCreateStep) => () => {
     this.setState({ currentStep })
-    gaSendEvent('CreateWallet', EVENTS[currentStep])
+    const event: ?string = EVENTS[currentStep]
+
+    if (event) {
+      gaSendEvent('CreateWallet', event)
+    }
   }
 
   getTitle = (): string => {
