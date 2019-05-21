@@ -18,6 +18,8 @@ import * as pages from 'pages'
 import 'styles/core.scss'
 import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
+type OwnProps = {||}
+
 type Props = {|
   +route: Object,
   +hasPassword: boolean,
@@ -142,7 +144,7 @@ class AppRouter extends Component<Props, ComponentState> {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: AppState) {
   const { route } = state.router
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
@@ -161,8 +163,9 @@ function mapStateToProps(state) {
   }
 }
 
-const AppRouterContainer = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+const AppRouterContainer = connect<Props, OwnProps, _, _, _, _>(
   mapStateToProps,
+  () => ({}),
 )(AppRouter)
 
 export { AppRouterContainer as AppRouter }

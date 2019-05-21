@@ -54,7 +54,8 @@ function FieldPreviewInternal({
             href={`/contacts/add?address=${contact}`}
           >
             <JIcon name='add-contact-use-fill' />
-          </JLink>)
+          </JLink>
+        )
         }
         {copy && (
           <button
@@ -65,7 +66,8 @@ function FieldPreviewInternal({
             onClick={copyToClipboard}
           >
             <JIcon name='copy-use-fill' />
-          </button>)
+          </button>
+        )
         }
       </div>
     </div>
@@ -78,4 +80,4 @@ FieldPreviewInternal.defaultProps = {
   copy: '',
 }
 
-export const FieldPreview = React.memo/* :: <Props> */(FieldPreviewInternal)
+export const FieldPreview = React.memo<Props>(FieldPreviewInternal)

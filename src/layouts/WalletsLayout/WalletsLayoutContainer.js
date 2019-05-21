@@ -7,7 +7,12 @@ import {
   closeLayout,
 } from 'store/modules/wallets'
 
-import { WalletsLayout } from './WalletsLayout'
+import {
+  WalletsLayout,
+  type Props,
+} from './WalletsLayout'
+
+type OwnProps = {||}
 
 const mapDispatchToProps = {
   openLayout,
@@ -15,5 +20,5 @@ const mapDispatchToProps = {
 }
 
 export const WalletsLayoutContainer = (
-  connect/* :: < AppState, any, Object, _, _ > */(null, mapDispatchToProps)
+  connect<Props, OwnProps, _, _, _, _ >(null, mapDispatchToProps)
 )(WalletsLayout)

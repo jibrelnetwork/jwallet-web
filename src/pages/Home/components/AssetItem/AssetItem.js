@@ -29,14 +29,14 @@ type ContainerProps = {|
   +address: AssetAddress,
 |}
 
-type Props = ContainerProps
-  & DigitalAssetWithBalance
-  & {
+type Props = {|
+  ...$Exact<ContainerProps>,
+  ...$Exact<DigitalAssetWithBalance>,
   balance: ToBigNumberValue,
   fiatSymbol: string,
   fiatBalance: string,
   isLoadingBalance: boolean,
-}
+|}
 
 export function AssetItemInternal({
   symbol,
@@ -109,7 +109,7 @@ export function AssetItemInternal({
 }
 
 export const AssetItem =
-  connect/* :: <AppState, any, any, _, _> */(
+  connect<Props, ContainerProps, _, _, _, _>(
     (state: AppState, ownProps: ContainerProps) => {
       const asset = selectDigitalAssetsItems(state)[ownProps.address]
 

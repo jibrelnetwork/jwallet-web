@@ -1,9 +1,12 @@
 {
   "plugins": [
-    "transform-export-extensions"
+    "transform-export-extensions",
+    "transform-flow-strip-types"
   ],
   "presets": [
+    ["@babel/env", { "modules": false }],
     "react-app",
     "@babel/flow"
-  ]
+  ],
+  "retainLines": true
 }

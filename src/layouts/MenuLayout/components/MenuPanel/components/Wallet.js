@@ -31,6 +31,9 @@ import {
 
 import menuPanelStyle from '../menuPanel.m.scss'
 
+type OwnProps = {|
+|}
+
 type Props = {|
   +walletName: string,
   +fiatCurrency: string,
@@ -76,7 +79,7 @@ function getTotalFiatBalance(state: AppState, assets: DigitalAssetWithBalance[])
     result + (getFiatBalance(state, digitalAsset) || 0), 0)
 }
 
-export const Wallet = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+export const Wallet = connect< Props, OwnProps, _, _, _, _ >(
   (state: AppState) => {
     const wallet = selectActiveWallet(state)
     const networkId: NetworkId = selectCurrentNetworkId(state)
@@ -113,4 +116,5 @@ export const Wallet = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
       isMnemonic,
     }
   },
+  () => ({}),
 )(WalletView)
