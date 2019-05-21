@@ -13,6 +13,8 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import { gaSendEvent } from 'utils/analytics'
+
 import {
   getTypeByInput,
   checkMnemonicType,
@@ -87,6 +89,10 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
   setCurrentStep = (currentStep: WalletsImportStep) => {
     this.setState({ currentStep })
+
+    if (currentStep === STEPS.PASSWORD) {
+      gaSendEvent('ImportWallet', 'DataEntered')
+    }
   }
 
   getTitle = (): string => {
