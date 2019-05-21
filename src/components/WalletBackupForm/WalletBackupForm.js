@@ -1,6 +1,6 @@
 // @flow strict
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import { t } from 'ttag'
 import { Field } from 'react-final-form'
 
@@ -16,35 +16,34 @@ import {
 import walletBackupFormStyle from './walletBackupForm.m.scss'
 
 type Props = {|
-  +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
+  +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => Promise<?FormFields>,
   +name: string,
   +passphrase: ?string,
   +derivationPath: ?string,
   +isMnemonic: boolean,
 |}
 
-const BACKUP_MNEMONIC_FIRST_LINE: string = t`Save a wallet backup phrase`
-const BACKUP_MNEMONIC_SECOND_LINE: string = t`to a secure storage or write it down on the paper.`
-
-const BACKUP_KEY_FIRST_LINE: string = t`Save a wallet backup phrase to a secure storage`
-const BACKUP_KEY_SECOND_LINE: string = t`or write it down on the paper.`
-
-const MNEMONIC_ATTRIBUTES: {[string]: string} = {
-  passphrase: t` and passphrase`,
-  derivationPath: t` and derivation path`,
-  both: t`, passphrase and derivation path`,
+const BACKUP_TEXT = {
+  SINGLE_DATA: t`Save a wallet backup phrase to a secure storage
+  or write it down on the paper.`,
+  PASSPHRASE: t`Save a wallet backup phrase and passphrase
+  to a secure storage or write it down on the paper.`,
+  DERIVATION_PATH: t`Save a wallet backup phrase and derivation path
+  to a secure storage or write it down on the paper.`,
+  ALL_FIELDS: t`Save a wallet backup phrase, passphrase, and derivation path
+  to a secure storage or write it down on the paper.`,
 }
 
-function getMnemonicAttributesFirstLine(passphrase, derivationPath): string {
+function getBackupText(passphrase, derivationPath): string {
   if (passphrase && derivationPath) {
-    return `${BACKUP_MNEMONIC_FIRST_LINE} ${MNEMONIC_ATTRIBUTES.both}`
+    return BACKUP_TEXT.ALL_FIELDS
   } else if (passphrase) {
-    return `${BACKUP_MNEMONIC_FIRST_LINE} ${MNEMONIC_ATTRIBUTES.passphrase}`
+    return BACKUP_TEXT.PASSPHRASE
   } else if (derivationPath) {
-    return `${BACKUP_MNEMONIC_FIRST_LINE} ${MNEMONIC_ATTRIBUTES.derivationPath}`
+    return BACKUP_TEXT.DERIVATION_PATH
   }
 
-  return ''
+  return BACKUP_TEXT.SINGLE_DATA
 }
 
 function handleDownload({
@@ -64,7 +63,7 @@ export function WalletBackupForm({
   derivationPath,
   isMnemonic,
 }: Props) {
-  const hasMnemonicAttributes: boolean = !!(passphrase || derivationPath)
+  const backupText: string[] = getBackupText(passphrase, derivationPath).split('\n')
 
   return (
     <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
@@ -75,13 +74,12 @@ export function WalletBackupForm({
       />
       <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
       <p className={walletBackupFormStyle.text}>
-        {hasMnemonicAttributes
-          ? getMnemonicAttributesFirstLine(passphrase, derivationPath)
-          : BACKUP_KEY_FIRST_LINE
-        }
-      </p>
-      <p className={walletBackupFormStyle.text}>
-        {hasMnemonicAttributes ? BACKUP_MNEMONIC_SECOND_LINE : BACKUP_KEY_SECOND_LINE}
+        {backupText.map((text: string, index: number) => (
+          <Fragment key={text}>
+            {text}
+            {(index < (backupText.length - 1)) && <br />}
+          </Fragment>
+        ))}
       </p>
       <form
         onSubmit={handleSubmit}
