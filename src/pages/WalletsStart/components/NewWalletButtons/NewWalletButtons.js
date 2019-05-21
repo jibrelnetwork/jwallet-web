@@ -38,9 +38,9 @@ export class NewWalletButtons extends PureComponent<Props> {
       <Fragment>
         <JLink
           onClick={this.handleClickCreate}
-          className={`__create-button 
-            ${buttonStyle.core} 
-            ${buttonStyle.blue} 
+          className={`__create-button
+            ${buttonStyle.core}
+            ${buttonStyle.general}
             ${newWalletButtonsStyle.create}`}
           href='/wallets/create'
         >
@@ -51,9 +51,9 @@ export class NewWalletButtons extends PureComponent<Props> {
         </div>
         <JLink
           onClick={this.handleClickImport}
-          className={`__import-button 
-            ${buttonStyle.core} 
-            ${buttonStyle.white} 
+          className={`__import-button
+            ${buttonStyle.core}
+            ${buttonStyle.secondary}
             ${newWalletButtonsStyle.import}`}
           href='/wallets/import'
         >
