@@ -6,6 +6,14 @@
   height: 64px;
 }
 
+.create:hover {
+  color: $white;
+}
+
+.import:hover {
+  color: $main-blue;
+}
+
 .text {
   text-align: center;
   margin-top: 8px;
