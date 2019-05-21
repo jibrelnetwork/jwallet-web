@@ -5,7 +5,7 @@ import { t } from 'ttag'
 import { Field } from 'react-final-form'
 
 import { PasswordInput } from 'components'
-import { JRaisedButton } from 'components/base'
+import { Button } from 'components/base'
 
 import newWalletPasswordFormStyle from './newWalletPasswordForm.m.scss'
 
@@ -36,12 +36,12 @@ export function NewWalletPasswordForm({
         name='password'
         isDisabled={isSubmitting}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
       >
         {t`Import`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 }

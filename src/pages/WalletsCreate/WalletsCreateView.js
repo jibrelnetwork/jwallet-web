@@ -15,9 +15,9 @@ import {
 
 import {
   JIcon,
+  Button,
   JCheckbox,
   JInputField,
-  JRaisedButton,
 } from 'components/base'
 
 import {
@@ -193,12 +193,12 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         name='name'
         isDisabled={isSubmitting}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
       >
         {t`Next`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 
@@ -246,12 +246,12 @@ export class WalletsCreateView extends Component<Props, StateProps> {
           {t`Be very careful with wallet backup phrase — anyone who know it will get access to 
           your funds.`}
         </p>
-        <JRaisedButton
+        <Button
           type='submit'
           isDisabled={!(loseAccess && compromise)}
         >
           {t`Next`}
-        </JRaisedButton>
+        </Button>
       </form>
     </div>
   )
