@@ -12,7 +12,11 @@ import {
 import jLinkStyle from './JLink.m.scss'
 import { JLinkInternal } from './JLinkInternal'
 
-export type Theme = 'text-white' | 'text-blue'
+export type Theme
+  = 'text-white'
+  | 'text-blue'
+  | 'button-general'
+  | 'button-secondary'
 
 // base component with inexact props
 export type JLinkProps = {
@@ -39,6 +43,7 @@ export function JLink(initialProps: JLinkProps) {
   ])
 
   const className = classnames(
+    jLinkStyle.core,
     theme && jLinkStyle[theme],
     initialClassName,
   )
