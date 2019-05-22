@@ -49,6 +49,12 @@ export const routes: Array<{|
   path: '/history/:itemId',
   name: 'HistoryItem',
 }, {
+  path: '/history/:itemId/cancel',
+  name: 'HistoryItemCancel',
+}, {
+  path: '/history/:itemId/restart',
+  name: 'HistoryItemRestart',
+}, {
   path: '/more',
   name: 'MoreActions',
 }, {

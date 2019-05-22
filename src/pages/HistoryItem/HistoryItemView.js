@@ -17,7 +17,12 @@ export function HistoryItemView(props: Props) {
   return (
     <div className={style.core}>
       <TransactionDetails className={offset.mb32} txHash={props.itemId} />
-      <JLink href='/history'>{t`Go to History`}</JLink>
+      <JLink
+        theme='button-general'
+        href='/history'
+      >
+        {t`Go to History`}
+      </JLink>
     </div>
   )
 }

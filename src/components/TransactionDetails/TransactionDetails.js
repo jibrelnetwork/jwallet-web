@@ -1,15 +1,19 @@
 // @flow strict
 
-import React from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import { memoize } from 'lodash-es'
+import {
+  memoize,
+} from 'lodash-es'
 import { t } from 'ttag'
 
 import {
   JIcon,
   JInput,
+  JLink,
 } from 'components/base'
+import { edit } from 'store/modules/comments'
 import { selectFavorites } from 'store/selectors/favorites'
 import { selectAddressWalletsNames } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
@@ -43,6 +47,7 @@ type ContainerProps = {
 type Props =
   ContainerProps &
   TransactionItem & {
+  editNote: () => mixed,
   blockExplorer: string,
   fromName: string,
   toName: string,
@@ -54,6 +59,8 @@ function TransactionDetailsInternal(props: Props) {
   if (!props.asset || !props.asset.blockchainParams) {
     return null
   }
+
+  const [note, setNote] = useState(props.note)
 
   const formattedDate = getFormattedDateString(
     new Date(props.timestamp),
@@ -115,16 +122,33 @@ function TransactionDetailsInternal(props: Props) {
           label={t`Note`}
           infoMessage={t`This note is only visible to you.`}
           color='gray'
-          value={props.note}
+          value={note}
+          onChange={setNote}
         />
       </div>
-      {/* Buttons */}
+      <JLink
+        className={offset.mb8}
+        theme='button-secondary'
+        href={`/history/${props.txHash}/restart`}
+      >
+        {t`Restart`}
+      </JLink>
+      <JLink
+        theme='button-secondary'
+        href={`/history/${props.txHash}/cancel`}
+      >
+        {t`Cancel`}
+      </JLink>
     </div>
   )
 }
 
 TransactionDetailsInternal.defaultProps = {
   blockExplorer: '',
+}
+
+const mapDispatchToProps = {
+  editNote: edit,
 }
 
 function getPrimaryName(
@@ -152,7 +176,7 @@ function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
 }
 
 export const TransactionDetails = (
-  connect/* :: < AppState, any, ContainerProps, _, _> */(mapStateToProps)(
+  connect/* :: < AppState, any, ContainerProps, _, _> */(mapStateToProps, mapDispatchToProps)(
     React.memo/* :: <Props> */(TransactionDetailsInternal),
   )
 )
