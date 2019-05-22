@@ -37,16 +37,14 @@ function createSymbol(text: string) {
 
 type Props = {|
   +name: string,
-  +forceAddressIcon: boolean,
   +className: string,
 |}
 
 export function ContactIcon({
   name,
-  forceAddressIcon,
   className,
 }: Props) {
-  if (forceAddressIcon || !name) {
+  if (!name) {
     return (
       <JIcon
         name='contact-2-use-fill'
@@ -66,7 +64,6 @@ export function ContactIcon({
 }
 
 ContactIcon.defaultProps = {
-  forceAddressIcon: false,
   name: '',
   className: '',
 }

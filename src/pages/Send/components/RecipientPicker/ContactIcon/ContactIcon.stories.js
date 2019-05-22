@@ -5,7 +5,6 @@ import { storiesOf } from '@storybook/react'
 import {
   withKnobs,
   text,
-  boolean,
 } from '@storybook/addon-knobs'
 
 import { ContactIcon } from './ContactIcon'
@@ -16,7 +15,6 @@ storiesOf('icons|ContactIcon', module)
     <div className='story'>
       <ContactIcon
         name={text('Name', 'Vasya Pupkin')}
-        forceAddressIcon={boolean('Force addeess icon', false)}
       />
     </div>
   ))
