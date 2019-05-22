@@ -36,6 +36,7 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
+export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
 
 export {
   QRCode,
