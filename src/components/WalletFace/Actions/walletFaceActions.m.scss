@@ -1,0 +1,57 @@
+@import 'styles/_base';
+@import 'styles/mixins';
+@import 'styles/colors';
+
+.overlay {
+  z-index: 2;
+  top: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+  display: none;
+  cursor: pointer;
+  position: fixed;
+}
+
+.actions {
+  z-index: 3;
+  border-radius: 6px;
+  background-color: $white;
+  padding: 8px;
+  width: 240px;
+  font-size: 14px;
+  font-family: $font;
+  font-weight: normal;
+  top: -15px;
+  right: 8px;
+  position: absolute;
+}
+
+.action {
+  @include property-transition(background-color);
+
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 8px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: $main-black-5;
+  }
+}
+
+.core {
+  @include flex-row-center;
+
+  padding: 0 16px;
+  cursor: pointer;
+  margin-left: auto;
+  position: relative;
+
+  &.-toggled {
+    .overlay {
+      display: block;
+    }
+  }
+}

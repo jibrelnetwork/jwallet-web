@@ -5,12 +5,13 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import {
-  JText,
   JFlatButton,
 } from 'components/base'
 
-import { ethereum } from 'data/assets'
-import { formatAssetBalance } from 'utils/formatters'
+// import { ethereum } from 'data/assets'
+// import { formatAssetBalance } from 'utils/formatters'
+
+import walletFaceActions from './walletFaceActions.m.scss'
 
 type WalletFaceActionsHandler = (SyntheticEvent<HTMLDivElement>) => void
 type WalletFaceActionIconName = 'edit' | 'to-multiaddress' | 'to-oneaddress' | 'import' | 'bucket'
@@ -27,7 +28,7 @@ type Props = {|
   +rename: ?WalletFaceActionsHandler,
   +remove: ?WalletFaceActionsHandler,
   +simplify: ?WalletFaceActionsHandler,
-  +balance: ?string,
+  // +balance: ?string,
   +isToggled: boolean,
   +isSimplified: ?boolean,
 |}
@@ -71,16 +72,28 @@ class WalletFaceActions extends PureComponent<Props> {
   render() {
     const {
       toggle,
-      balance,
+      // balance,
       isToggled,
     }: Props = this.props
 
     return (
-      <div className={classNames('wallet-face-actions', isToggled && '-toggled')}>
-        <div onClick={toggle} className='overlay' />
-        {isToggled ? (
-          <div className='actions'>
-            {balance && (
+      <div className={classNames(
+        walletFaceActions.core,
+        isToggled && walletFaceActions['-toggled'],
+      )}
+      >
+        <div onClick={toggle} className={walletFaceActions.overlay} />
+        <div className={walletFaceActions.icon}>
+          <JFlatButton
+            onClick={toggle}
+            iconName='kebab-menu-use-fill'
+            iconColor='white'
+            isHoverOpacity
+          />
+        </div>
+        {isToggled && (
+          <div className={walletFaceActions.actions}>
+            {/* {balance && (
               <JText
                 value={`${formatAssetBalance(ethereum.blockchainParams.address, balance)} ETH`}
                 color='white'
@@ -93,7 +106,7 @@ class WalletFaceActions extends PureComponent<Props> {
               }: WalletFaceAction = action
 
               return !handler ? null : (
-                <div className='action' key={iconName}>
+                <div className={walletFaceActions.action} key={iconName}>
                   <JFlatButton
                     onClick={handler}
                     iconName={iconName}
@@ -103,16 +116,13 @@ class WalletFaceActions extends PureComponent<Props> {
                   />
                 </div>
               )
-            })}
+            })} */}
+            <div className={walletFaceActions.action}>Copy Wallet Address</div>
+            <div className={walletFaceActions.action}>Rename Wallet</div>
+            <div className={walletFaceActions.action}>Enable Multi-Address Mode</div>
+            <div className={walletFaceActions.action}>Backup Wallet</div>
+            <div className={walletFaceActions.action}>Delete Wallet</div>
           </div>
-        ) : (
-          <JFlatButton
-            onClick={toggle}
-            iconName='dots-full-use-fill'
-            iconColor='white'
-            isTransparent
-            isHoverOpacity
-          />
         )}
       </div>
     )

@@ -1,0 +1,104 @@
+@import 'styles/_base';
+@import 'styles/mixins';
+@import 'styles/colors';
+
+.left-part {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: $wallet-button-height;
+}
+
+.body {
+  @include flex-row;
+
+  align-items: center;
+  width: $wallet-button-width;
+  height: $wallet-button-height;
+  position: relative;
+  border-radius: 0 6px 6px 0;
+  background-color: $main-blue;
+  padding-left: 10px;
+}
+
+.data {
+  flex: 2 2 150px;
+  min-width: 150px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.description {
+  @include flex-row;
+
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+.sum {
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.title,
+.description,
+.sum {
+  color: $white;
+  font-family: $font;
+}
+
+.eye {
+  transform: translate(-5px, -3px);
+}
+
+.actions {
+  @include hover-animation;
+  @include flex-column-center;
+
+  height: 100%;
+  flex: 0 0 56px;
+}
+
+.core {
+  position: relative;
+  min-width: 0;
+  align-items: center;
+  border-radius: 6px;
+  padding-left: 38px;
+  cursor: pointer;
+  box-shadow: $blue-shadow;
+
+  &::before {
+    @include property-transition(border-color, background-color);
+
+    content: '';
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: -16px;
+    position: absolute;
+    margin-top: -12px;
+    border-radius: 100px;
+    border: 2px solid $main-blue-30;
+    background-color: $white;
+  }
+
+  &:hover {
+    &::before {
+      background-color: $main-blue-20;
+    }
+  }
+
+  &.-selected {
+    &::before {
+      background-color: $main-blue;
+    }
+  }
+}
