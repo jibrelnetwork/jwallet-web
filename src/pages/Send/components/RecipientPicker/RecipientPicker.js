@@ -196,9 +196,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           : result, [undefined, 0])
 
       const title = activeAddress
-        ? activeAddress.name
-          ? `${activeWallet.name} / ${activeAddress.name}`
-          : `${activeWallet.name} / Address ${activeAddressIndex + 1}`
+        ? `${activeWallet.name} / ${getAddressName(activeAddress.name, activeAddressIndex)}`
         : activeWallet.name
 
       return (
@@ -210,7 +208,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
           iconRenderer={() => (
-            <ContactIcon name={activeAddress && activeAddress.name} />
+            <JIcon name='0x-use-fill' color='blue' />
           )}
         />
       )

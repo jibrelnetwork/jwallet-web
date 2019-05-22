@@ -5,13 +5,13 @@ import React, {
   Fragment,
 } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
 
 import { JPickerListItem } from 'components/base/JPicker'
+import { getAddressName } from 'utils/address'
 
 import { SingleWalletItem } from '../SingleWalletItem/SingleWalletItem'
 import { MultiAddressWalletItem } from '../MultiAddressWalletItem/MultiAddressWalletItem'
-import { ContactItem } from '../ContactItem/ContactItem'
+import { WalletAddressItem } from '../WalletAddressItem/WalletAddressItem'
 import { type RecipientPickerWallet } from '../RecipientPicker'
 
 import jPickerListStyle from './walletList.m.scss'
@@ -167,10 +167,10 @@ class WalletList extends Component<Props, ComponentState> {
               onBlur={this.handleItemBlur}
               onClick={this.handleItemClick(address)}
             >
-              <ContactItem
+              <WalletAddressItem
                 key={address}
                 address={address}
-                name={name || t`Address ${index + 1}`}
+                name={getAddressName(name, index)}
                 description={address}
                 fiatBalance={fiatBalance}
               />
