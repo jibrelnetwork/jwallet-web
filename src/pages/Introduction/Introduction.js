@@ -1,27 +1,24 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-
-import { StartLayout } from 'layouts'
-import { t } from 'ttag'
 import ViewSlider from 'react-view-slider'
+import { connect } from 'react-redux'
+import { t } from 'ttag'
+import { StartLayout } from 'layouts'
 
+import { setIntroductionIsPassed } from 'store/modules/user'
 import {
-  JLink,
   JRaisedButton,
 } from 'components/base'
 
-import {
-  setIntroductionValue,
-} from 'utils/introduction'
-
-import slides from './data.js'
 import { Slide } from './components/Slide'
 import { SliderButton } from './components/SliderButton'
+import slides from './data'
 
 import IntroductionStyle from './introduction.m.scss'
 
 export type Props = {|
+  setIntroductionIsPassed: () => any,
 |}
 
 type ComponentState = {|
@@ -43,7 +40,7 @@ const renderView = ({
   </div>
 )
 
-export class Introduction extends PureComponent<Props, ComponentState> {
+class IntroductionScreen extends PureComponent<Props, ComponentState> {
   state = {
     activeId: 0,
   }
@@ -53,7 +50,7 @@ export class Introduction extends PureComponent<Props, ComponentState> {
   }
 
   handleGetStartedClick = () => {
-    setIntroductionValue()
+    this.props.setIntroductionIsPassed()
   }
 
   render() {
@@ -78,16 +75,23 @@ export class Introduction extends PureComponent<Props, ComponentState> {
             />
           ))}
         </div>
-        <JLink href='/wallets' className={IntroductionStyle.link}>
-          <JRaisedButton
-            className={IntroductionStyle.button}
-            theme='blue'
-            onClick={this.handleGetStartedClick}
-          >
-            {t`Get Started`}
-          </JRaisedButton>
-        </JLink>
+        <JRaisedButton
+          className={`__get-started ${IntroductionStyle.button}`}
+          theme='blue'
+          onClick={this.handleGetStartedClick}
+        >
+          {t`Get Started`}
+        </JRaisedButton>
       </StartLayout>
     )
   }
 }
+
+const mapDispatchToProps = {
+  setIntroductionIsPassed,
+}
+
+export const Introduction = connect(
+  null,
+  mapDispatchToProps,
+)(IntroductionScreen)

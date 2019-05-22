@@ -58,4 +58,6 @@ declare type AppState = {
   +router: Router5State,
   // password
   +password: PasswordState,
+  // user
+  +user: UserState,
 }

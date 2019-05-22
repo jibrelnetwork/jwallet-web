@@ -3,7 +3,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Plural-Forms: nplurals = 2; plural = (n !== 1);\n"
 "Language: en\n"
-"MIME-Version: 1.0\n"
+"mime-version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/workers/settings/worker.js
@@ -66,6 +66,7 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
+#: src/pages/SetPassword/SetPassword.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -73,6 +74,7 @@ msgstr "December"
 msgid "Password does not match confirmation"
 msgstr "Inputted passwords do not match"
 
+#: src/pages/SetPassword/SetPassword.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -80,6 +82,7 @@ msgstr "Inputted passwords do not match"
 msgid "Password hint is required"
 msgstr "Password hint is required"
 
+#: src/pages/SetPassword/SetPassword.js
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
 #: src/store/sagas/wallets/create.js
 #: src/store/sagas/wallets/import.js
@@ -104,14 +107,6 @@ msgstr "Invalid Fiat Currency Code"
 msgid "InvalidPasswordError"
 msgstr "Invalid Password Error"
 
-#: src/utils/encryption/decryptData.js
-msgid "DecryptionTypeError ${ encryptionType }"
-msgstr "Decryption Error ${ encryptionType }"
-
-#: src/utils/encryption/encryptData.js
-msgid "EncryptionTypeError ${ encryptionType }"
-msgstr "Encryption Error ${ encryptionType }"
-
 #: src/services/blockExplorer.js
 msgid "BlockExplorerPrivateNetworkError"
 msgstr "Block Explorer Private Network Error"
@@ -131,14 +126,6 @@ msgstr "Task handler for module ${ request.module } is not defined"
 #: src/pages/Wallets/WalletsIndexView.js
 msgid "Mnemonic, many addresses"
 msgstr "Mnemonic, many addresses"
-
-#: src/pages/Wallets/routes/Start/WalletsStartView.js
-msgid "Create a new key pair or import an existing"
-msgstr "Create a new key pair or import an existing"
-
-#: src/pages/Wallets/routes/Start/WalletsStartView.js
-msgid "one to get started"
-msgstr "wallet to get started"
 
 #: src/pages/Agreements/AgreementsView.js
 msgid "Terms of Use"
@@ -177,20 +164,19 @@ msgid "Rename wallet"
 msgstr "Rename wallet"
 
 #: src/components/NameStep/NameStep.js
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
-#: src/pages/Wallets/routes/Import/WalletsImportView.js
 #: src/pages/Wallets/routes/Rename/WalletsRenameView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/WalletsImport/WalletsImportView.js
 msgid "Wallet name"
 msgstr "Wallet Name"
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
-#: src/pages/Wallets/routes/Import/WalletsImportView.js
+#: src/pages/WalletsImport/WalletsImportView.js
 msgid "Import wallet"
 msgstr "Import Wallet"
 
 #: src/components/NameStep/NameStep.js
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
-#: src/pages/Wallets/routes/Import/WalletsImportView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/WalletsImport/WalletsImportView.js
 msgid "Next step"
 msgstr "Next Step"
 
@@ -229,7 +215,7 @@ msgstr "Delete ${ foundWallet.name }"
 msgid "Yes"
 msgstr "Yes"
 
-#: src/components/AssetItem/AssetItem.js
+#: src/components/AssetItemLegacy/AssetItem.js
 #: src/components/FavoriteItem/FavoriteItem.js
 msgid "Yes, delete"
 msgstr "Delete"
@@ -238,11 +224,11 @@ msgstr "Delete"
 msgid "Nope, stop it"
 msgstr "Cancel"
 
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
 msgid "Create wallet"
 msgstr "Create Wallet"
 
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
 msgid "wallets-name"
 msgstr "Wallet Name"
 
@@ -307,6 +293,7 @@ msgstr "Payment Password"
 #: src/components/TransactionItem/Details/Comment/Comment.js
 #: src/pages/DigitalAssets/routes/EditAsset/EditAssetView.js
 #: src/pages/Favorites/routes/Address/FavoritesAddressView.js
+#: src/pages/Home/HomeView.js
 #: src/pages/Settings/routes/Currency/CurrencyView.js
 #: src/pages/Upgrade/UpgradeView.js
 msgid "Save"
@@ -328,15 +315,9 @@ msgstr "Invalid Mnemonic"
 msgid "Derivation path is invalid"
 msgstr "Invalid Derivation Path"
 
-#: src/pages/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
 #: src/pages/Transactions/TransactionsIndexView.js
 msgid "Transactions"
 msgstr "Transactions"
-
-#: src/pages/Transactions/TransactionsIndexView.js
-#: src/pages/Transactions/routes/Asset/TransactionsAssetView.js
-msgid "Search transactions..."
-msgstr "Search transactions..."
 
 #: src/pages/DigitalAssets/routes/Send/DigitalAssetsSendView.js
 #: src/pages/DigitalAssets/routes/Send/components/Confirm/Password/Password.js
@@ -372,13 +353,9 @@ msgstr "Check out Jwalllet on Zendesk"
 msgid "Don't forget to back it up!"
 msgstr "Don't forget to back-up your wallet!"
 
-#: src/pages/Settings/SettingsIndexView.js
-msgid "Search settings..."
-msgstr "Search Settings..."
-
 #: src/pages/Settings/routes/PaymentPassword/PaymentPasswordView.js
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
-#: src/pages/Wallets/routes/Import/WalletsImportView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
+#: src/pages/WalletsImport/WalletsImportView.js
 msgid ""
 "You will use this password to unlock and transfer your funds.\n"
 "Keep it secure!"
@@ -453,10 +430,6 @@ msgid "Favorites"
 msgstr "Favorites"
 
 #: src/pages/Favorites/FavoritesIndexView.js
-msgid "Search favorites..."
-msgstr "Search Favorites..."
-
-#: src/pages/Favorites/FavoritesIndexView.js
 #: src/pages/Favorites/routes/Address/FavoritesAddressView.js
 msgid "Add favorite address"
 msgstr "Add Favorite Address"
@@ -499,7 +472,6 @@ msgid "Address"
 msgstr "Address"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js
-#: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js
 #: src/pages/Favorites/routes/Address/FavoritesAddressView.js
 msgid "Name"
 msgstr "Name"
@@ -701,18 +673,9 @@ msgstr "Recipient Address"
 msgid "Copy address"
 msgstr "Copy Address"
 
-#: src/pages/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
 #: src/pages/DigitalAssets/routes/Manage/DigitalAssetsManageView.js
 msgid "Assets manager"
 msgstr "Asset Manager"
-
-#: src/pages/DigitalAssets/routes/Manage/DigitalAssetsManageView.js
-msgid "Search asset..."
-msgstr "Search Assets..."
-
-#: src/pages/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
-msgid "Search assets..."
-msgstr "Search Assets..."
 
 #: src/pages/DigitalAssets/routes/EditAsset/EditAssetView.js
 msgid "Edit digital asset"
@@ -826,7 +789,6 @@ msgstr "Address, Private Key, BIP32 XPUB, Mnemonic"
 msgid "There are no items to display"
 msgstr "There are no transactions to display"
 
-#: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js
 #: src/components/TransactionsFilter/TransactionsFilter.js
 msgid "Filter"
 msgstr "Filter"
@@ -875,7 +837,7 @@ msgstr "Your Comment"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/AssetItem/AssetItem.js
+#: src/components/AssetItemLegacy/AssetItem.js
 #: src/components/ButtonWithConfirm/ButtonWithConfirm.js
 #: src/components/FavoriteItem/FavoriteItem.js
 #: src/components/TransactionItem/Details/Comment/Comment.js
@@ -891,43 +853,31 @@ msgstr "Jwallet can only be accessed from a single tab at a time"
 msgid "Reload Page"
 msgstr "Reload Page"
 
-#: src/components/PasswordField/PasswordField.js
+#: src/components/NewPasswordField/NewPasswordField.js
 msgid "Too weak"
 msgstr "Too weak"
 
-#: src/components/PasswordField/PasswordField.js
+#: src/components/NewPasswordField/NewPasswordField.js
 msgid "Not bad"
 msgstr "Not bad"
 
-#: src/components/PasswordField/PasswordField.js
+#: src/components/NewPasswordField/NewPasswordField.js
 msgid "Bit weak"
 msgstr "A bit weak"
 
-#: src/components/PasswordField/PasswordField.js
+#: src/components/NewPasswordField/NewPasswordField.js
 msgid "Easily cracked"
 msgstr "Easily cracked"
-
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Create new wallet"
-msgstr "Create new wallet"
-
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Create your own wallet to manage on-chain funds"
-msgstr "Create your own wallet to manage your digital assets"
-
-#: src/components/NewWalletButtons/NewWalletButtons.js
-msgid "Import existing wallet to manage on-chain funds"
-msgstr "Import an existing wallet to manage your digital assets"
 
 #: src/components/NameStep/NameStep.js
 msgid "Set name of the wallet"
 msgstr "Name your wallet"
 
-#: src/layouts/MenuLayout/components/MenuPanel/components/Settings.js
+#: src/layouts/MenuLayout/components/MenuPanel/components/Actions.js
 msgid "Settings"
 msgstr "Settings"
 
-#: src/components/AssetItem/AssetItem.js
+#: src/components/AssetItemLegacy/AssetItem.js
 #: src/components/FavoriteItem/FavoriteItem.js
 msgid "No"
 msgstr "No"
@@ -948,18 +898,6 @@ msgstr "Reload Asset"
 #: src/components/DigitalAssetsGrid/Asset/AssetCardBody/AssetCardBody.js
 msgid "Show transactions"
 msgstr ""
-
-#: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js
-msgid "Hide zero balance"
-msgstr "Hide Zero Balance"
-
-#: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js
-msgid "Sorting"
-msgstr "Sorting"
-
-#: src/components/DigitalAssetsFilter/DigitalAssetsFilter.js
-msgid "Balance"
-msgstr "Balance"
 
 #: src/components/DigitalAssetEditForm/DigitalAssetEditForm.js
 msgid "Address (ERC-20)"
@@ -1036,15 +974,16 @@ msgstr ""
 msgid "Digital asset decimals should be a number between 0...127"
 msgstr "Decimals should be a number between 0 and 127"
 
-#: src/components/base/JSearch/JSearch.js
+#: src/components/base/SearchInput/SearchInput.js
 msgid "Search"
 msgstr "Search"
 
 #: src/components/FavoriteItem/FavoriteItem.js
+#: src/pages/Home/HomeView.js
 msgid "Send"
 msgstr "Send"
 
-#: src/components/AssetItem/AssetItem.js
+#: src/components/AssetItemLegacy/AssetItem.js
 #: src/components/FavoriteItem/FavoriteItem.js
 msgid "Edit"
 msgstr "Edit"
@@ -1054,7 +993,7 @@ msgid "Copy recovery text"
 msgstr "Copy recovery text"
 
 #: src/pages/Wallets/routes/Backup/WalletsBackupView.js
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
 msgid ""
 "This is your secret recovery text.\n"
 "It is the only way to restore access to your funds.\n"
@@ -1066,7 +1005,7 @@ msgstr ""
 "Keep it safe and never share it with anyone\n"
 "you don’t trust!"
 
-#: src/pages/Wallets/routes/Import/WalletsImportView.js
+#: src/pages/WalletsImport/WalletsImportView.js
 msgid ""
 "Insert the private key or backup phrase to import. Also, you can import\n"
 "an address in the read-only mode."
@@ -1125,7 +1064,6 @@ msgstr "Remove from Favorites"
 msgid "Add to Favorites"
 msgstr "Add to Favorites"
 
-#: src/pages/DigitalAssets/routes/Grid/DigitalAssetsGridView.js
 #: src/pages/Transactions/TransactionsIndexView.js
 #: src/pages/Transactions/routes/Asset/TransactionsAssetView.js
 msgid "Digital Assets"
@@ -1151,19 +1089,19 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/pages/Wallets/routes/Create/WalletsCreateView.js
+#: src/pages/WalletsCreate/WalletsCreateView.js
 msgid "I saved the backup, let's go!"
 msgstr ""
 
-#: src/pages/DigitalAssets/routes/Send/components/Form/SendAmountField/SendAmountField.js
+#: src/pages/Send/components/SendAmountField/SendAmountField.js
 msgid "Amount"
 msgstr ""
 
-#: src/pages/DigitalAssets/routes/Send/components/Form/SendAmountField/SendAmountField.js
+#: src/pages/Send/components/SendAmountField/SendAmountField.js
 msgid "MAX"
 msgstr ""
 
-#: src/pages/DigitalAssets/routes/Send/components/Form/SendAmountField/SendAmountField.js
+#: src/pages/Send/components/SendAmountField/SendAmountField.js
 msgid "Blockchain fee — ${ formattedBlockchainFee } ETH"
 msgstr ""
 
@@ -1203,4 +1141,151 @@ msgstr ""
 
 #: src/pages/ErrorUnexpected/ErrorUnexpected.js
 msgid "Reload"
+msgstr ""
+
+#: src/pages/WalletsStart/WalletsStart.js
+msgid "Create a new wallet or import an existing<br> to get started"
+msgstr ""
+
+#: src/pages/SetPassword/SetPasswordView.js
+msgid "Enter Security Password"
+msgstr ""
+
+#: src/pages/SetPassword/SetPasswordView.js
+msgid "Enter Password Hint"
+msgstr ""
+
+#: src/pages/SetPassword/SetPasswordView.js
+msgid "Set Security Password"
+msgstr ""
+
+#: src/pages/SetPassword/SetPasswordView.js
+msgid "Set Password to Secure Your Storage"
+msgstr ""
+
+#: src/pages/Send/components/AssetPicker/AssetPicker.js
+msgid "Asset"
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid "Jwallet"
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid ""
+"A simple, fast and secure mobile wallet \n"
+"<br> for Ethereum and all ERC-20 tokens."
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid "Store"
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid ""
+"Create and manage several wallets for different goals or just simply \n"
+"<br> import your existing Ethereum and ERC-20 wallet."
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid "Protect"
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid ""
+"All sensitive data never leaves your device and your private keys \n"
+"<br> are never shared with anyone, including us."
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid "Send & Receive"
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid "Manage"
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+#: src/pages/Introduction/data.js
+msgid ""
+"Enjoy complete control over your digital assets. \n"
+"<br> Manage ETH and all ERC-20 tokens."
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+msgid "Get Started"
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+msgid "No search results in assets list"
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+msgid "No Search Results."
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+msgid "Transfer"
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+msgid "Receive"
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+msgid "Exchange"
+msgstr ""
+
+#: src/pages/Home/HomeView.js
+msgid "Assets"
+msgstr ""
+
+#: src/layouts/MenuLayout/components/MenuPanel/MenuPanel.js
+#: src/layouts/StartLayout/StartLayout.js
+msgid "Jwallet Logo"
+msgstr ""
+
+#: src/layouts/MenuLayout/components/MenuPanel/components/Network.js
+msgid "You Are Using Ropsten Test Network"
+msgstr ""
+
+#: src/layouts/MenuLayout/components/MenuPanel/components/Network.js
+msgid "You Are Using Rinkeby Test Network"
+msgstr ""
+
+#: src/layouts/MenuLayout/components/MenuPanel/components/Network.js
+msgid "You Are Using Kovan Test Network"
+msgstr ""
+
+#: src/components/base/JPicker/List/NotFoundItem.js
+msgid "Not Found"
+msgstr ""
+
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Create Wallet"
+msgstr ""
+
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Create your own wallet to manage your digital assets"
+msgstr ""
+
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Import Wallet"
+msgstr ""
+
+#: src/components/NewWalletButtons/NewWalletButtons.js
+msgid "Import an existing wallet with backup phrase, private key, etc."
+msgstr ""
+
+#: src/components/NewPasswordField/NewPasswordField.js
+msgid "Repeat Security Password"
 msgstr ""
