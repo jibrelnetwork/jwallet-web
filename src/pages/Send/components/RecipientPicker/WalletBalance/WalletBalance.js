@@ -11,13 +11,13 @@ type Props = {|
 export function WalletBalance({
   fiatBalance,
 }: Props) {
-  if (fiatBalance) {
-    return (
-      <div className={balanceStyles.core}>
-        <span className={balanceStyles.balance}>{fiatBalance}</span>
-      </div>
-    )
-  } else {
+  if (!fiatBalance) {
     return null
   }
+
+  return (
+    <div className={balanceStyles.core}>
+      <span className={balanceStyles.balance}>{fiatBalance}</span>
+    </div>
+  )
 }
