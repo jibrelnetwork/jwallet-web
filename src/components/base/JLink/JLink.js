@@ -39,6 +39,7 @@ export function JLink(initialProps: JLinkProps) {
   ])
 
   const className = classnames(
+    jLinkStyle.core,
     theme && jLinkStyle[theme],
     initialClassName,
   )
