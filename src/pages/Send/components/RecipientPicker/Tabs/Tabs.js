@@ -15,14 +15,14 @@ type Props = {|
   onTabClick: TabClickHandler,
 |}
 
+const handleTabBarClick = (e: SyntheticEvent<HTMLDivElement>) => {
+  e.stopPropagation()
+}
+
 const handleTabClick = (onTabClick: TabClickHandler, tabName: Tab) => (e) => {
   e.stopPropagation()
 
   onTabClick(tabName)
-}
-
-const handleTabBarClick = (e: SyntheticEvent<HTMLDivElement>) => {
-  e.stopPropagation()
 }
 
 export function Tabs({
