@@ -36,3 +36,13 @@
     text-decoration-color: $bright-sky-blue;
   }
 }
+
+.button-general {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core general from '../Button/button.m.scss';
+}
+
+.button-secondary {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core secondary from '../Button/button.m.scss';
+}
