@@ -5,12 +5,10 @@ import React, { PureComponent } from 'react'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
-import {
-  JIcon,
-  JText,
-} from 'components/base'
-
 import WalletFaceActions from './Actions'
+
+import walletFace from './walletFace.m.scss'
+import leftPartWalletCard from './left-part-wallet-card.svg'
 
 type WalletFaceHandler = (SyntheticEvent<HTMLDivElement>) => void
 
@@ -22,12 +20,11 @@ type Props = {|
   +simplify: ?WalletFaceHandler,
   +title: string,
   +balance: ?string,
-  +iconName: string,
   +description: string,
-  +isReadOnly: boolean,
+  // +isReadOnly: boolean,
   +hasActions: boolean,
   +isSimplified: ?boolean,
-  +isTransparent: boolean,
+  +isSelected: boolean,
 |}
 
 type StateProps = {|
@@ -41,10 +38,10 @@ class WalletFace extends PureComponent<Props, StateProps> {
     remove: null,
     balance: null,
     simplify: null,
-    isReadOnly: false,
+    // isReadOnly: false,
     hasActions: false,
     isSimplified: false,
-    isTransparent: false,
+    isSelected: false,
   }
 
   constructor(props: Props) {
@@ -78,12 +75,11 @@ class WalletFace extends PureComponent<Props, StateProps> {
       simplify,
       title,
       balance,
-      iconName,
       description,
       hasActions,
-      isReadOnly,
+      // isReadOnly,
       isSimplified,
-      isTransparent,
+      isSelected,
     }: Props = this.props
 
     const { isToggled }: StateProps = this.state
@@ -92,39 +88,33 @@ class WalletFace extends PureComponent<Props, StateProps> {
       <div
         onClick={onClick}
         className={classNames(
-          'wallet-face',
-          isToggled && '-toggled',
-          (isTransparent || isReadOnly) && '-transparent',
+          walletFace.core,
+          isToggled && walletFace['-toggled'],
+          isSelected && walletFace['-selected'],
         )}
       >
-        <div className='type'>
-          <JIcon name={iconName} color='white' />
+        <img src={leftPartWalletCard} className={walletFace['left-part']} alt='' />
+        <div className={walletFace.body}>
+          <div className={walletFace.data}>
+            <h2 className={walletFace.title}>{title}</h2>
+            <p className={walletFace.description}>{description}</p>
+            <p className={walletFace.sum}>$9,999,999.99</p>
+          </div>
+          {hasActions && (
+            <div className={walletFace.actions}>
+              <WalletFaceActions
+                backup={backup}
+                rename={rename}
+                remove={remove}
+                toggle={ignoreEvent(this.toggle)()}
+                simplify={simplify && this.simplify}
+                balance={balance}
+                isToggled={isToggled}
+                isSimplified={isSimplified}
+              />
+            </div>
+          )}
         </div>
-        <div className='data'>
-          <div className='title'>
-            <JText value={title} size='large' color='white' />
-          </div>
-          <div className='description'>
-            {isReadOnly && (
-              <div className='eye'><JIcon name='eye' color='white' /></div>
-            )}
-            <JText value={description} color='white' />
-          </div>
-        </div>
-        {hasActions && (
-          <div className='actions'>
-            <WalletFaceActions
-              backup={backup}
-              rename={rename}
-              remove={remove}
-              toggle={ignoreEvent(this.toggle)()}
-              simplify={simplify && this.simplify}
-              balance={balance}
-              isToggled={isToggled}
-              isSimplified={isSimplified}
-            />
-          </div>
-        )}
       </div>
     )
   }

@@ -16,17 +16,11 @@ type Props = {|
   +simplify: ?WalletCardHandler,
   +setActive: WalletCardHandler,
   +title: string,
-  +type: WalletType,
   +description: string,
   +isLoading: boolean,
   +isReadOnly: boolean,
   +isSimplified: ?boolean,
 |}
-
-const WALLET_TYPE_ICON_MAP: { [WalletType]: string } = {
-  'mnemonic': 'multy',
-  'address': 'binding',
-}
 
 class WalletCard extends PureComponent<Props> {
   static defaultProps = {
@@ -46,15 +40,12 @@ class WalletCard extends PureComponent<Props> {
       remove,
       simplify,
       setActive,
-      type,
       title,
       description,
       isLoading,
       isReadOnly,
       isSimplified,
     }: Props = this.props
-
-    const iconName: string = WALLET_TYPE_ICON_MAP[type] || ''
 
     if (isLoading) {
       return <WalletLoading />
@@ -68,7 +59,6 @@ class WalletCard extends PureComponent<Props> {
         simplify={simplify}
         onClick={setActive}
         title={title}
-        iconName={iconName}
         description={description}
         isReadOnly={isReadOnly}
         isSimplified={isSimplified}
