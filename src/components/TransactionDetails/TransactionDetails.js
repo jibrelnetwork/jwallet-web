@@ -8,7 +8,7 @@ import { t } from 'ttag'
 
 import {
   JIcon,
-  JInputField,
+  JInput,
 } from 'components/base'
 import { selectFavorites } from 'store/selectors/favorites'
 import { selectAddressWalletsNames } from 'store/selectors/wallets'
@@ -19,7 +19,7 @@ import {
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
-import { formatTransactionAmount } from 'utils/formatters/formatTransactionAmount'
+import { formatTransactionAmount } from 'utils/formatters'
 
 import {
   type TransactionItem,
@@ -36,11 +36,13 @@ import {
 import style from './transactionDetails.m.scss'
 
 type ContainerProps = {
-  className: string,
   txHash: TransactionId,
+  className: string,
 }
 
-type Props = TransactionItem & ContainerProps & {
+type Props =
+  ContainerProps &
+  TransactionItem & {
   blockExplorer: string,
   fromName: string,
   toName: string,
@@ -106,11 +108,16 @@ function TransactionDetailsInternal(props: Props) {
           body={`${props.fee} ETH`}
         />
       </div>
-      <JInputField
-        label={t`Note`}
-        infoMessage={t`This note is only visible to you.`}
-        value={props.note}
-      />
+      <div
+        className={`${offset.mb16} ${style.noteWrapper}`}
+      >
+        <JInput
+          label={t`Note`}
+          infoMessage={t`This note is only visible to you.`}
+          color='gray'
+          value={props.note}
+        />
+      </div>
       {/* Buttons */}
     </div>
   )

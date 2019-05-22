@@ -3,10 +3,10 @@
 import { get } from 'lodash-es'
 
 import { selectTransactionsList } from 'store/selectors/transactions'
-import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
+import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import {
-  selectActiveWalletAddress,
-  selectAddressNames,
+  selectActiveWalletAddressOrThrow,
+  selectAddressWalletsNames,
 } from 'store/selectors/wallets'
 import { selectFavorites } from 'store/selectors/favorites'
 import { selectCommentsItems } from 'store/selectors/comments'
@@ -40,11 +40,11 @@ const HALF_HOUR = 1800000
 const STATUS_VALIDATORS: StatusItem[] = [
   {
     status: 'fail',
-    criterion: tx => String(tx.receiptData.status) === '0',
+    criterion: tx => String(get(tx, 'receiptData.status', null)) === '0',
   },
   {
     status: 'success',
-    criterion: tx => String(tx.receiptData.status) === '1',
+    criterion: tx => String(get(tx, 'receiptData.status', null)) === '1',
   },
   {
     status: 'pending',
@@ -67,7 +67,7 @@ function getTransactionType(
   state: AppState,
   { from }: TransactionWithPrimaryKeys,
 ): TransactionDirection {
-  const ownerAddress = selectActiveWalletAddress(state) || ''
+  const ownerAddress = selectActiveWalletAddressOrThrow(state)
 
   return !!from && (ownerAddress.toLowerCase() === from.toLowerCase()) ? 'out' : 'in'
 }
@@ -87,7 +87,7 @@ function getTransactionName(
   type: TransactionDirection,
 ): string {
   const favorites = selectFavorites(state)
-  const addressNames = selectAddressNames(state)
+  const addressNames = selectAddressWalletsNames(state)
   const primaryName = (type === 'in' ? transaction.from : transaction.to)
     || transaction.contractAddress
     || transaction.hash // I'm not sure
@@ -116,24 +116,31 @@ function getTransactionComment(
   return comments[hash]
 }
 
+function getTransactionFee(
+  transaction: TransactionWithPrimaryKeys,
+  asset: DigitalAsset,
+): string {
+  const gasUsed = get(transaction, 'receiptData.gasUsed', 0)
+  const gasPrice = get(transaction, 'data.gasPrice', 0)
+  const decimals = get(asset, 'blockchainParams.decimals', 18)
+
+  return getTxFee(gasUsed, gasPrice, decimals)
+}
+
 function prepareTransactionItem(
   state: AppState,
   transaction: TransactionWithPrimaryKeys,
 ): TransactionItem {
-  const asset = selectDigitalAssetsItems(state)[transaction.keys.assetAddress]
+  const asset = selectDigitalAssetOrThrow(state, transaction.keys.assetAddress)
   const type = getTransactionType(state, transaction)
   const status = getTransactionStatus(transaction)
   const title = getTransactionName(state, transaction, type)
   const note = getTransactionComment(state, transaction)
+  const fee = getTransactionFee(transaction, asset)
   const from = get(transaction, 'from', '')
   const to = get(transaction, 'to', '')
   const timestamp = (get(transaction, 'blockData.timestamp', 0)) * 1000
   const { amount } = transaction
-
-  const gasUsed = get(transaction, 'receiptData.gasUsed', 0)
-  const gasPrice = get(transaction, 'data.gasPrice', 0)
-  const decimals = get(asset, 'blockchainParams.decimals', 18)
-  const fee = getTxFee(gasUsed, gasPrice, decimals)
 
   return {
     id: transaction.keys.id,
