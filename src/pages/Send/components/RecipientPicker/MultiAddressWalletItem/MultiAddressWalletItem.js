@@ -25,7 +25,7 @@ export function MultiAddressWalletItem({
         <span className={itemStyles.title}>{title}</span>
         <span className={itemStyles.description}>{t`${addressCount} addresses`}</span>
       </div>
-      <JIcon name={isOpen ? 'chevron-up-use-fill' : 'chevron-down-use-fill'} color='blue' />
+      <JIcon name={`${isOpen ? 'chevron-up' : 'chevron-down'}-use-fill`} color='blue' />
     </div>
   )
 }
