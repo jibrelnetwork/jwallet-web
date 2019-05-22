@@ -5,7 +5,7 @@ import { t } from 'ttag'
 
 import { JIcon } from 'components/base'
 
-import itemStyles from './multiAddressWalletItem.m.scss'
+import multiAddressWalletItemStyles from './multiAddressWalletItem.m.scss'
 
 type Props = {
   +title: string,
@@ -19,11 +19,13 @@ export function MultiAddressWalletItem({
   isOpen,
 }: Props) {
   return (
-    <div className={itemStyles.core}>
-      <JIcon name='wallet-use-fill' color='gray' className={itemStyles.icon} />
-      <div className={itemStyles.wrap}>
-        <span className={itemStyles.title}>{title}</span>
-        <span className={itemStyles.description}>{t`${addressCount} addresses`}</span>
+    <div className={multiAddressWalletItemStyles.core}>
+      <JIcon name='wallet-use-fill' color='gray' className={multiAddressWalletItemStyles.icon} />
+      <div className={multiAddressWalletItemStyles.wrap}>
+        <span className={multiAddressWalletItemStyles.title}>{title}</span>
+        <span className={multiAddressWalletItemStyles.description}>
+          {t`${addressCount} addresses`}
+        </span>
       </div>
       <JIcon name={`${isOpen ? 'chevron-up' : 'chevron-down'}-use-fill`} color='blue' />
     </div>
