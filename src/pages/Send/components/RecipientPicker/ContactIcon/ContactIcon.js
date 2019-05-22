@@ -54,11 +54,9 @@ export function ContactIcon({
     )
   }
 
-  const symbol = createSymbol(name)
-
   return (
     <div className={classNames(contactIconStyles.core, className)}>
-      <span className={contactIconStyles.symbol}>{symbol}</span>
+      <span className={contactIconStyles.symbol}>{createSymbol(name)}</span>
     </div>
   )
 }
