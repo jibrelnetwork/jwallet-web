@@ -81,7 +81,7 @@
     "@jibrelnetwork/browserslist-config": "1.0.0",
     "@storybook/addon-actions": "5.0.10",
     "@storybook/addon-knobs": "5.0.10",
-    "@storybook/react": "5.0.10",
+    "@storybook/react": "5.0.11",
     "@wdio/browserstack-service": "5.7.13",
     "@wdio/cli": "5.7.15",
     "@wdio/dot-reporter": "5.7.8",
