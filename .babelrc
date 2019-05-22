@@ -1,7 +1,6 @@
 {
   "plugins": [
-    "transform-export-extensions",
-    "transform-flow-strip-types"
+    "transform-export-extensions"
   ],
   "presets": [
     ["@babel/env", { "modules": false }],
