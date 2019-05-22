@@ -21,12 +21,16 @@ const handleTabClick = (onTabClick: TabClickHandler, tabName: Tab) => (e) => {
   onTabClick(tabName)
 }
 
+const handleTabBarClick = (e: SyntheticEvent<HTMLDivElement>) => {
+  e.stopPropagation()
+}
+
 export function Tabs({
   activeTab,
   onTabClick,
 }: Props) {
   return (
-    <div className={tabsStyle.core}>
+    <div className={tabsStyle.core} onClick={handleTabBarClick}>
       <button
         type='button'
         onClick={handleTabClick(onTabClick, 'contacts')}
