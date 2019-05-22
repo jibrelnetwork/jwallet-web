@@ -3,8 +3,9 @@
 .core {
   @include flex-column;
 
-  padding: 64px 0 0;
+  position: relative;
   height: 100%;
+  padding: 64px 0 0;
 }
 
 .logo {
@@ -21,4 +22,5 @@
   margin: 0 auto 176px;
   padding: 0 64px;
   max-width: 544px + 2 * 64px;
+  width: 100%;
 }

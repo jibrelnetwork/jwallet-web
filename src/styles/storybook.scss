@@ -5,8 +5,13 @@ body {
 
 #root,
 html {
-  height: 100%;
   background-color: #f5f6fa;
+}
+
+#root {
+  padding: 20px;
+  height: auto;
+  min-height: 100%;
 }
 
 h1 {
@@ -54,6 +59,12 @@ h3 {
 .title {
   font-size: 16px;
   padding: 10px 15px;
+}
+
+.details {
+  max-width: 544px;
+  margin: 0 auto;
+  box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
 }
 
 .icons-list {

@@ -4,7 +4,7 @@
 .core {
   @include flex-row;
 
-  height: 112px;
+  height: $new-page-header-height;
   padding: 48px 40px 30px;
   margin: 0 -40px;
 }
