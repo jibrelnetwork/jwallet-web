@@ -1,5 +1,8 @@
-@import "styles/colors";
 @import "styles/mixins";
+
+.core {
+  text-decoration: none;
+}
 
 .text-white {
   // FIXME: inherit font from parent
