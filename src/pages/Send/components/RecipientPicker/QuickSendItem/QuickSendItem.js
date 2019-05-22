@@ -1,8 +1,9 @@
 // @flow strict
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
+import { useFocus } from 'utils/hooks/useFocus'
 
 import { JPickerListItem } from 'components/base/JPicker'
 import { checkAddressValid } from 'utils/address'
@@ -14,51 +15,40 @@ type Props = {|
   +onChange: (address: string) => any,
 |}
 
-type ComponenState = {|
-  isFocused: boolean,
-|}
+const handleItemClick = (
+  onChange: (address: string) => any,
+  address: string,
+) => () => onChange(address)
 
-export class QuickSendItem extends PureComponent<Props, ComponenState> {
-  state = {
-    isFocused: false,
-  }
+export function QuickSendItem({
+  address,
+  onChange,
+}: Props) {
+  const [isFocused, {
+    onFocus,
+    onBlur,
+  }] = useFocus()
 
-  handleFocus = () => {
-    this.setState({ isFocused: true })
-  }
+  const isAddressValid = checkAddressValid(address)
 
-  handleBlur = () => {
-    this.setState({ isFocused: false })
-  }
-
-  handleItemClick = () => {
-    this.props.onChange(this.props.address)
-  }
-
-  render() {
-    const { address } = this.props
-
-    const isAddressValid = checkAddressValid(address)
-
-    return (
-      <JPickerListItem
-        isSelected={false}
-        isFocused={isAddressValid && this.state.isFocused}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onClick={isAddressValid ? this.handleItemClick : undefined}
+  return (
+    <JPickerListItem
+      isSelected={false}
+      isFocused={isAddressValid && isFocused}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onClick={isAddressValid ? handleItemClick(onChange, address) : undefined}
+    >
+      <div className={classNames(
+        itemStyles.core,
+        isAddressValid && itemStyles.valid,
+      )}
       >
-        <div className={classNames(
-          itemStyles.core,
-          isAddressValid && itemStyles.valid,
-        )}
-        >
-          <div className={itemStyles.wrap}>
-            <span className={itemStyles.title}>{t`Send to this address...`}</span>
-            <span className={itemStyles.address}>{address}</span>
-          </div>
+        <div className={itemStyles.wrap}>
+          <span className={itemStyles.title}>{t`Send to this address...`}</span>
+          <span className={itemStyles.address}>{address}</span>
         </div>
-      </JPickerListItem>
-    )
-  }
+      </div>
+    </JPickerListItem>
+  )
 }
