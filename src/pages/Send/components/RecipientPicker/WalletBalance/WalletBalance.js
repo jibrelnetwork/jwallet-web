@@ -1,6 +1,6 @@
 // @flow strict
 
-import * as React from 'react'
+import React from 'react'
 
 import balanceStyles from './walletBalance.m.scss'
 

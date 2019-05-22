@@ -1,6 +1,6 @@
 // @flow strict
 
-import * as React from 'react'
+import React from 'react'
 
 import itemStyles from './contactItem.m.scss'
 import { ContactIcon } from '../ContactIcon/ContactIcon'
