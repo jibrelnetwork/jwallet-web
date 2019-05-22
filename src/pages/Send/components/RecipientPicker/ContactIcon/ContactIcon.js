@@ -11,22 +11,22 @@ function createSymbol(text: string) {
   const letters = text
     .trim()
     .split(/\s+/)
-    .reduce((memo, part, idx) => {
-      /* eslint-disable no-param-reassign, prefer-destructuring, fp/no-mutation */
-      // reduce is designed to mutate memo
+    .reduce((reduceResult, part, idx) => {
+      /* eslint-disable prefer-destructuring */
+      // reduce is designed to mutate reduceResult
       // destructuring is not applicable, because those are strings, not arrays
       if (idx === 0) {
-        memo.first = part[0]
+        reduceResult.first = part[0]
 
         if (part.length > 1) {
-          memo.last = part[1]
+          reduceResult.last = part[1]
         }
       } else {
-        memo.last = part[0]
+        reduceResult.last = part[0]
       }
-      /* eslint-enable no-param-reassign, prefer-destructuring, fp/no-mutation */
+      /* eslint-enable prefer-destructuring */
 
-      return memo
+      return reduceResult
     }, {
       first: '',
       last: '',
