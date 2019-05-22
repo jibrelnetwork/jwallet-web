@@ -28,6 +28,7 @@ storiesOf('FieldPreview', module)
             link={text('Link', 'http://google.com')}
             contact={text('Contact Address', PRIVATE_KEY)}
             copy={text('Copy string', PRIVATE_KEY)}
+            copyMessage={text('Copy message', 'Address')}
           />
         </Tag>
       </div>)
