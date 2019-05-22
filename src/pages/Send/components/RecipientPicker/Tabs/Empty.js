@@ -14,30 +14,37 @@ type Props = {|
   tab: Tab,
 |}
 
+const emptyContactsTab = () => (
+  <Fragment>
+    <img
+      src={emptyContacts}
+      className={emptyStyles.img}
+      alt={t`Empty contacts`}
+    />
+    <div className={emptyStyles.text}>{t`Your contacts will be displayed here.`}</div>
+  </Fragment>
+)
+
+const emptyWalletsTab = () => (
+  <Fragment>
+    <img
+      src={emptyWallets}
+      className={emptyStyles.img}
+      alt={t`Empty wallets`}
+    />
+    <div className={emptyStyles.text}>{t`Your wallets will be displayed here.`}</div>
+  </Fragment>
+)
+
 export function Empty({
   tab,
 }: Props) {
   return (
     <div className={emptyStyles.core}>
-      {tab === 'contacts' ? (
-        <Fragment>
-          <img
-            src={emptyContacts}
-            className={emptyStyles.img}
-            alt={t`Empty contacts`}
-          />
-          <div className={emptyStyles.text}>{t`Your contacts will be displayed here.`}</div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <img
-            src={emptyWallets}
-            className={emptyStyles.img}
-            alt={t`Empty wallets`}
-          />
-          <div className={emptyStyles.text}>{t`Your wallets will be displayed here.`}</div>
-        </Fragment>
-      )}
+      {tab === 'contacts'
+        ? emptyContactsTab()
+        : emptyWalletsTab()
+      }
     </div>
   )
 }
