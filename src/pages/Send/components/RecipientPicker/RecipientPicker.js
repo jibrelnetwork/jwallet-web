@@ -15,6 +15,7 @@ import {
 } from 'components/base/JPicker'
 import { JIcon } from 'components/base'
 import {
+  getAddressName,
   startsWithOrEndsWith,
   checkAddressPartValid,
 } from 'utils/address'
@@ -77,12 +78,6 @@ function filterContacts(
   }, [])
 }
 
-function getAddressName(address: RecipientPickerWalletAddress, addressIndex: number) {
-  return address.name
-    ? address.name
-    : t`Address ${addressIndex + 1}`
-}
-
 function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
   if (!searchQuery) {
     return wallets
@@ -97,7 +92,7 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
 
     // filter addresses
     const addresses = wallet.addresses.filter((addr, index) =>
-      searchRe.test(getAddressName(addr, index)) ||
+      searchRe.test(getAddressName(addr.name, index)) ||
       startsWithOrEndsWith(addr.address, searchQuery))
 
     if (addresses.length) {
