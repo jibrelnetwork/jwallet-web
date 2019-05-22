@@ -43,10 +43,11 @@ export type WalletsImportSubmitPayload = {|
 
 export type Props = {|
   onBack?: ?WalletsImportBackHandler,
-  getSuccessDataMessage: string => ?string,
-  +validate: (FormFields, WalletsImportStep) => ?FormFields,
+  +getSuccessDataMessage: string => ?string,
+  +getErrorDerivationPathMessage: string => ?string,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
-  getInfoDataMessage: (?string, ?string, ?string, ?string) => ?string,
+  +getInfoDataMessage: (?string, ?string, ?string, ?string) => ?string,
+  +getErrorDataMessage: (?string, ?string, ?string, ?string) => ?string,
   +hint: string,
 |}
 
@@ -141,13 +142,6 @@ export class WalletsImportView extends Component<Props, StateProps> {
     change('walletType', walletType)
   }
 
-  validate = (values: FormFields): ?FormFields => {
-    const { validate }: Props = this.props
-    const { currentStep }: StateProps = this.state
-
-    return validate(values, currentStep)
-  }
-
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
       goToPasswordStep,
@@ -172,7 +166,9 @@ export class WalletsImportView extends Component<Props, StateProps> {
   }: FormRenderProps) => {
     const {
       getInfoDataMessage,
+      getErrorDataMessage,
       getSuccessDataMessage,
+      getErrorDerivationPathMessage,
     }: Props = this.props
 
     const {
@@ -183,6 +179,13 @@ export class WalletsImportView extends Component<Props, StateProps> {
     }: FormFields = values
 
     const infoDataMessage: ?string = getInfoDataMessage(
+      data,
+      passphrase,
+      derivationPath,
+      walletType,
+    )
+
+    const errorDataMessage: ?string = getErrorDataMessage(
       data,
       passphrase,
       derivationPath,
@@ -206,6 +209,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           component={JTextArea}
           onChange={this.handleChange(form.change)}
           label={t`Address, Key, Mnemonic`}
+          errorMessage={errorDataMessage}
           infoMessage={infoDataMessage || successDataMessage || DEFAULT_DATA_MESSAGE}
           name='data'
           isDisabled={isSubmitting}
@@ -221,6 +225,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
             <Field
               component={JInputField}
               label={t`Derivation Path (Optional)`}
+              errorMessage={derivationPath && getErrorDerivationPathMessage(derivationPath)}
               name='derivationPath'
               isDisabled={isSubmitting}
             />
@@ -286,7 +291,6 @@ export class WalletsImportView extends Component<Props, StateProps> {
           title={this.getTitle()}
         />
         <Form
-          validate={this.validate}
           onSubmit={this.handleSubmit}
           render={this.renderWalletsImportForm}
           initialValues={WALLETS_IMPORT_INITIAL_VALUES}

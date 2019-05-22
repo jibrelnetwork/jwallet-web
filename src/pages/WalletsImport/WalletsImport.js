@@ -2,22 +2,12 @@
 
 import Promise from 'bluebird'
 import { t } from 'ttag'
+import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
 import { walletsPlugin } from 'store/plugins'
 import { checkMnemonicType } from 'utils/wallets'
 import { selectPasswordHint } from 'store/selectors/password'
-
-import {
-  checkXkeyValid,
-  checkMnemonicValid,
-  checkDerivationPathValid,
-} from 'utils/mnemonic'
-
-import {
-  checkAddressValid,
-  checkPrivateKeyValid,
-} from 'utils/address'
 
 import {
   STEPS,
@@ -31,6 +21,8 @@ import {
 import {
   getInfoDataMessage,
   getErrorDataMessage,
+  getSuccessDataMessage,
+  getErrorDerivationPathMessage,
 } from './dataMessage'
 
 type OwnProps = {|
@@ -39,46 +31,8 @@ type OwnProps = {|
 
 const RE_INVALID_NAME: RegExp = /[/]/
 
-function getSuccessDataMessage(data: ?string): ?string {
-  const trimmedData: string = (data || '').trim()
-
-  // Order is important
-  if (checkMnemonicValid(trimmedData)) {
-    const wordsLen: number = trimmedData.split(' ').length
-
-    return t`You have entered ${wordsLen} BIP39 mnemonic`
-  } else if (checkXkeyValid(trimmedData, 'prv')) {
-    return t`You have entered BIP32 XPRV`
-  } else if (checkXkeyValid(trimmedData, 'pub')) {
-    return t`You have entered BIP32 XPUB`
-  } else if (checkPrivateKeyValid(trimmedData)) {
-    return t`You have entered Ethereum private key`
-  } else if (checkAddressValid(trimmedData)) {
-    return t`You have entered Ethereum address`
-  }
-
-  return null
-}
-
 async function importWallet(values: FormFields): ?FormFields {
   return walletsPlugin.importWallet(values)
-}
-
-async function submitWalletsImportForm({
-  goToPasswordStep,
-  values,
-  currentStep,
-}: WalletsImportSubmitPayload): Promise<?FormFields> {
-  switch (currentStep) {
-    case STEPS.DATA:
-      return goToPasswordStep()
-
-    case STEPS.PASSWORD:
-      return importWallet(values)
-
-    default:
-      return null
-  }
 }
 
 function validateWalletName(name: ?string): ?string {
@@ -131,19 +85,7 @@ function validateWalletData(
     return errorDataMessage
   }
 
-  const successDataMessage: ?string = getSuccessDataMessage(trimmedData)
-
-  if (!successDataMessage) {
-    return t`Unable to recognize your input`
-  }
-
   return null
-}
-
-function validateDerivationPath(derivationPath: ?string): ?string {
-  return (!derivationPath || checkDerivationPathValid(derivationPath))
-    ? null
-    : t`Derivation path is not valid`
 }
 
 function validateWalletsImportForm(
@@ -180,7 +122,7 @@ function validateWalletsImportForm(
       }
 
       if (checkMnemonicType(walletType)) {
-        const validateDerivationPathResult: ?string = validateDerivationPath(derivationPath)
+        const validateDerivationPathResult: ?string = getErrorDerivationPathMessage(derivationPath)
 
         if (validateDerivationPathResult) {
           formErrors.derivationPath = validateDerivationPathResult
@@ -195,14 +137,37 @@ function validateWalletsImportForm(
   }
 }
 
+async function submitWalletsImportForm({
+  goToPasswordStep,
+  values,
+  currentStep,
+}: WalletsImportSubmitPayload): Promise<?FormFields> {
+  const errors: ?FormFields = validateWalletsImportForm(values, currentStep)
+
+  if (!isEmpty(errors)) {
+    return errors
+  }
+
+  switch (currentStep) {
+    case STEPS.DATA:
+      return goToPasswordStep()
+
+    case STEPS.PASSWORD:
+      return importWallet(values)
+
+    default:
+      return null
+  }
+}
+
 function mapStateToProps(state: AppState) {
   return {
     getInfoDataMessage,
     getErrorDataMessage,
     getSuccessDataMessage,
+    getErrorDerivationPathMessage,
     hint: selectPasswordHint(state),
     submit: submitWalletsImportForm,
-    validate: validateWalletsImportForm,
   }
 }
 

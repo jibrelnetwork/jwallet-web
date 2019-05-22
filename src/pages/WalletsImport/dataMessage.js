@@ -14,17 +14,47 @@ import {
 
 import {
   strip0x,
+  checkAddressValid,
+  checkPrivateKeyValid,
   checkNormalizedAddress,
   getAddressFromPrivateKey,
   checkAddressWithChecksumValid,
 } from 'utils/address'
 
 const XKEY_LENGTH: number = 111
+const RE_HEX_PREFIX: RegExp = /^0x/i
 const RE_XPRV_PREFIX: RegExp = /^xprv/i
 const RE_XPUB_PREFIX: RegExp = /^xpub/i
 const RE_INVALID_HEX: RegExp = /[^a-f0-9]/i
 const RE_INVALID_BASE: RegExp = /[^a-z1-9]/i
 const RE_INVALID_MNEMONIC: RegExp = /[^a-z ]/i
+
+export function getErrorDerivationPathMessage(derivationPath: ?string): ?string {
+  return (!derivationPath || checkDerivationPathValid(derivationPath))
+    ? null
+    : t`Derivation path is not valid`
+}
+
+export function getSuccessDataMessage(data: ?string): ?string {
+  const trimmedData: string = (data || '').trim()
+
+  // Order is important
+  if (checkMnemonicValid(trimmedData)) {
+    const wordsLen: number = trimmedData.split(' ').length
+
+    return t`You have entered ${wordsLen} BIP39 mnemonic`
+  } else if (checkXkeyValid(trimmedData, 'prv')) {
+    return t`You have entered BIP32 XPRV`
+  } else if (checkXkeyValid(trimmedData, 'pub')) {
+    return t`You have entered BIP32 XPUB`
+  } else if (checkPrivateKeyValid(trimmedData)) {
+    return t`You have entered Ethereum private key`
+  } else if (checkAddressValid(trimmedData)) {
+    return t`You have entered Ethereum address`
+  }
+
+  return null
+}
 
 function checkMnemonicInput(data: string): boolean {
   const words: string[] = data.split(' ')
@@ -72,6 +102,10 @@ function getUniquenessMessage(
       }
 
       case 'mnemonic': {
+        if (derivationPath && !checkDerivationPathValid(derivationPath)) {
+          return null
+        }
+
         const xpub: string = getXPUBFromMnemonic(data, passphrase, derivationPath)
         walletsPlugin.checkWalletUniqueness(xpub, 'xpub')
 
@@ -158,6 +192,8 @@ function getInfoPrivateKeyMessage(data: string): ?string {
     return null
   } else if (cleanedData.length < 64) {
     return t`Seems like you are entering Ethereum private key`
+  } else if (cleanedData.length > 64) {
+    return null
   }
 
   const address: string = getAddressFromPrivateKey(cleanedData)
@@ -286,9 +322,21 @@ function getErrorPrivateKeyMessage(data: string): ?string {
 
   if (cleanedData.length <= 40) {
     return null
-  } else if (RE_INVALID_HEX.test(cleanedData)) {
-    return t`Ethereum private key should be in hex encoding`
-  } else if (cleanedData.length > 64) {
+  }
+
+  const hasHexPrefix: boolean = RE_HEX_PREFIX.test(data)
+  const isValidPKLength: boolean = (cleanedData.length <= 64)
+  const hasInvalidSymbols: boolean = RE_INVALID_HEX.test(cleanedData)
+
+  if (isValidPKLength) {
+    if (hasHexPrefix && hasInvalidSymbols) {
+      return t`Incorrect Ethereum private key`
+    }
+  } else {
+    if (hasInvalidSymbols) {
+      return null
+    }
+
     return t`Ethereum private key shouldn't be longer than 64 characters`
   }
 
@@ -297,11 +345,21 @@ function getErrorPrivateKeyMessage(data: string): ?string {
 
 function getErrorAddressMessage(data: string): ?string {
   const cleanedData: string = strip0x(data)
+  const hasHexPrefix: boolean = RE_HEX_PREFIX.test(data)
+  const hasInvalidSymbols: boolean = RE_INVALID_HEX.test(cleanedData)
 
   if (cleanedData.length > 40) {
     return null
-  } else if (RE_INVALID_HEX.test(cleanedData)) {
-    return t`Incorrect Ethereum address`
+  } else if (cleanedData.length < 40) {
+    if (hasHexPrefix && hasInvalidSymbols) {
+      return t`Incorrect Ethereum address`
+    }
+
+    return null
+  }
+
+  if (hasInvalidSymbols) {
+    return null
   }
 
   const isValidNormalizedAddress: boolean = checkNormalizedAddress(cleanedData)
@@ -330,7 +388,7 @@ export function getErrorDataMessage(
     return null
   }
 
-  return (
+  const errorDataMessage: ?string = (
     // Order is important
     getErrorMnemonicMessage(trimmedData) ||
     getErrorXPRVMessage(trimmedData) ||
@@ -338,4 +396,17 @@ export function getErrorDataMessage(
     getErrorPrivateKeyMessage(trimmedData) ||
     getErrorAddressMessage(trimmedData)
   )
+
+  if (errorDataMessage) {
+    return errorDataMessage
+  }
+
+  const infoDataMessage: ?string = getInfoDataMessage(trimmedData)
+  const successDataMessage: ?string = getSuccessDataMessage(trimmedData)
+
+  if (!(successDataMessage || infoDataMessage)) {
+    return t`Unable to recognize your input`
+  }
+
+  return null
 }

@@ -74,7 +74,7 @@ export class JTextArea extends PureComponent<Props> {
     theme: 'white',
     infoMessage: null,
     errorMessage: null,
-    validateType: 'touched',
+    validateType: 'dirtySinceLastSubmit',
     rows: 1,
     isDisabled: false,
   }

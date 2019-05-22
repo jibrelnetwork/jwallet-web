@@ -117,7 +117,7 @@ JInputField.defaultProps = {
   placeholder: '',
   infoMessage: null,
   errorMessage: null,
-  validateType: 'touched',
+  validateType: 'dirtySinceLastSubmit',
   isDisabled: false,
   isAutoFocus: false,
 }
