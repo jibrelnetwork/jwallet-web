@@ -4,7 +4,7 @@
   @include flex-row;
 
   position: relative;
-  padding: 14px 24px 16px 16px;
+  padding: 14px 24px 14px 16px;
   justify-content: space-between;
   background-color: $white;
 }
@@ -28,6 +28,7 @@
   font-weight: 600;
   line-height: 22px;
   color: $main-black;
+  margin-bottom: 2px;
 }
 
 .link {
@@ -37,7 +38,7 @@
   text-decoration-skip-ink: auto;
   text-decoration-underline-offset: 1.1em;
   // stylelint-enable property-no-unknown
-  color: $blue;
+  color: $main-blue;
 
   &:active,
   &:hover {
@@ -68,6 +69,10 @@
     &:hover,
     &:active {
       @include sprite-icon-color($main-blue);
+    }
+
+    > .action-icon {
+      display: block;
     }
   }
 }

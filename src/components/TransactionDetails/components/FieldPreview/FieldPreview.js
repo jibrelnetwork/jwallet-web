@@ -61,7 +61,10 @@ function FieldPreviewInternal({
             title={t`Add Contact`}
             href={`/contacts/add?address=${contact}`}
           >
-            <JIcon name='add-contact-use-fill' />
+            <JIcon
+              className={style.actionIcon}
+              name='add-contact-use-fill'
+            />
           </JLink>)
         }
         {copy && (
@@ -73,7 +76,10 @@ function FieldPreviewInternal({
             data-message={copyMessage}
             onClick={copyToClipboard}
           >
-            <JIcon name='copy-use-fill' />
+            <JIcon
+              className={style.actionIcon}
+              name='copy-use-fill'
+            />
           </button>)
         }
       </div>
