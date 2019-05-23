@@ -7,27 +7,24 @@ import {
   closeMenuLayout,
 } from 'store/modules/core'
 
-import { MenuLayout } from './MenuLayout'
+import {
+  MenuLayout,
+  type Props,
+} from './MenuLayout'
 
-function mapStateToProps() {
-  return {
-    isConnectionError: false,
-  }
-}
+type OwnProps = {|
+  +children: React$Node,
+  +routeName: string,
+|}
 
 const mapDispatchToProps = {
   openLayout: openMenuLayout,
   closeLayout: closeMenuLayout,
 }
 
-/* ::
-type OwnProps = {|
-  +children: React$Node,
-  +routeName: string,
-|}
-*/
+const mapStateToProps = () => ({ isConnectionError: false })
 
-export const MenuLayoutContainer = connect/* :: < AppState, any, OwnProps, _, _ > */(
+export const MenuLayoutContainer = connect<Props, OwnProps, _, _, _, _>(
   mapStateToProps,
   mapDispatchToProps,
 )(MenuLayout)

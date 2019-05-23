@@ -10,7 +10,11 @@ import {
   changeNameInput,
 } from 'store/modules/walletsRenameAddress'
 
+// eslint-disable-next-line import/no-duplicates
 import WalletsRenameAddressView from './WalletsRenameAddressView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './WalletsRenameAddressView'
 
 type StateProps = {|
   +invalidFields: FormFields,
@@ -37,14 +41,12 @@ const mapDispatchToProps = {
   goToWalletsAddresses: () => actions.navigateTo('WalletsAddresses'),
 }
 
-/* ::
 type OwnProps = {|
   +params: {|
     +address: string,
   |},
 |}
-*/
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsRenameAddressView)

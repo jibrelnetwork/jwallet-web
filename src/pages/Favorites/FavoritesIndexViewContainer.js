@@ -7,7 +7,11 @@ import flattenFavorites from 'utils/favorites/flattenFavorites'
 import { selectActiveWalletOrThrow } from 'store/selectors/wallets'
 import { selectFavoritesItems } from 'store/selectors/favorites'
 
+// eslint-disable-next-line import/no-duplicates
 import FavoritesIndexView from './FavoritesIndexView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './FavoritesIndexView'
 
 function mapStateToProps(state: AppState) {
   const activeWallet: Wallet = selectActiveWalletOrThrow(state)
@@ -25,5 +29,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(FavoritesIndexView)

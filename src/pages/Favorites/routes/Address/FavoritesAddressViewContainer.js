@@ -14,7 +14,17 @@ import {
 } from 'store/modules/favorites'
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
+// eslint-disable-next-line import/no-duplicates
 import FavoritesAddressView from './FavoritesAddressView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './FavoritesAddressView'
+
+type OwnProps = {|
+  +params: {|
+    +address?: string,
+  |},
+|}
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const {
@@ -45,14 +55,6 @@ const mapDispatchToProps = {
   onClose: onAddressViewClose,
 }
 
-/* ::
-type OwnProps = {|
-  +params: {|
-    +address?: string,
-  |}
-|}
-*/
-
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(FavoritesAddressView)

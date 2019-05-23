@@ -17,7 +17,7 @@ import {
 
 import './upgradeView.scss'
 
-type Props = {|
+export type Props = {|
   +onClose: Function,
   +onSubmitMnemonic: (UpgradeMnemonicFormFieldValues) => void,
   +onSubmitPrivateKey: (UpgradePrivateKeyFormFieldValues) => void,
