@@ -42,7 +42,7 @@ export type Props =
   fromName: string,
   toName: string,
   statusDescription: string,
-  showRepeatButton: boolean,
+  iconName: string,
 }
 
 function handleEditNote(
@@ -83,7 +83,7 @@ function TransactionDetailsView(props: Props) {
       <div className={classNames(style.card, offset.mb16)}>
         <div className={classNames(style.header, style[props.status])}>
           <div className={style.statusIcon}>
-            <JIcon name='clock-use-fill' />
+            <JIcon name={props.iconName} />
           </div>
           <div className={style.description}>
             <div className={style.status}>
@@ -139,7 +139,6 @@ function TransactionDetailsView(props: Props) {
       </div>
       {props.status === 'success' && (
         <JLink
-          className={offset.mb8}
           theme='button-secondary'
           href={REPEAT_PAYMENT_URI}
         >
