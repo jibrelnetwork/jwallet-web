@@ -185,7 +185,7 @@ module.exports = {
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  import: false,
+                  import: true,
                   modules: 'local',
                   localIdentName: isEnvDevelopment ?
                     '[path][name]__[local]--[hash:base64:5]' :

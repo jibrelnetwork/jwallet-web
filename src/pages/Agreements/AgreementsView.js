@@ -7,7 +7,7 @@ import {
   JLink,
   JText,
   JCheckbox,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import {
@@ -113,13 +113,13 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
           </div>
           <div className={agreementsViewStyle.action}>
             <JLink href='/wallets'>
-              <JRaisedButton
+              <Button
                 className={agreementsViewStyle.button}
-                theme='white'
+                theme='secondary'
                 disabled={isDisabled}
               >
                 {t`Confirm and continue`}
-              </JRaisedButton>
+              </Button>
             </JLink>
           </div>
         </div>

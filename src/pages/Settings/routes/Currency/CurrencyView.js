@@ -10,7 +10,7 @@ import {
 
 import SubsettingsView from 'pages/Settings/components/SubsettingsView'
 
-import { JRaisedButton } from 'components/base'
+import { Button } from 'components/base'
 import { CurrencyPickerField } from './components/CurrencyPickerField'
 
 import './currencyView.scss'
@@ -43,7 +43,7 @@ const CurrencyView = ({
             name='fiatCurrency'
             placeholder={t`Preffered fiat currency`}
           />
-          <JRaisedButton type='submit'>{t`Save`}</JRaisedButton>
+          <Button type='submit'>{t`Save`}</Button>
         </form>
       )}
     />

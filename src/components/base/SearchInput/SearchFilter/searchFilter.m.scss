@@ -1,0 +1,81 @@
+@import 'styles/mixins';
+@import 'styles/colors';
+
+.core {
+  display: block;
+  position: relative;
+}
+
+.button {
+  position: relative;
+  height: 32px;
+  padding: 5px 12px;
+  overflow: visible;
+
+  &.active {
+    background: $main-blue-20;
+    color: $main-blue;
+  }
+}
+
+.count {
+  @include font(10px, 16px);
+  @include ellipsis;
+
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: $main-blue;
+  color: $white;
+  font-style: normal;
+  box-shadow: 0 1px 4px rgba(0, 61, 198, 0.41);
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: -4px;
+  min-width: 287px;
+  background: $white;
+  margin: 9px 0 0 0;
+  padding: 48px 64px 32px 24px;
+  border-radius: 4px;
+  box-shadow: $normal-shadow;
+
+  &.open {
+    display: block;
+  }
+}
+
+.close {
+  @include property-transition(fill);
+
+  position: absolute;
+  top: 19px;
+  right: 16px;
+  display: block;
+  background: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+  line-height: 0;
+  fill: $main-black-40;
+
+  &:hover,
+  &:active {
+    cursor: pointer;
+    fill: $main-blue;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

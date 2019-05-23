@@ -25,7 +25,6 @@ declare type AppState = {
   // wallets
   +wallets: WalletsState,
   +walletsCreate: WalletsCreateState,
-  +walletsImport: WalletsImportState,
   +walletsBackup: WalletsBackupState,
   +walletsAddresses: WalletsAddressesState,
   +walletsRenameAddress: WalletsRenameAddressState,

@@ -79,24 +79,6 @@
   @include flex-row-center;
 }
 
-.manage-icon {
-  @include sprite-icon-color($main-black-30);
-
-  margin-right: 8px;
-}
-
-.manage {
-  &:hover,
-  &:active {
-    background-color: $main-blue-10;
-    color: $main-blue;
-
-    .manage-icon {
-      @include sprite-icon-color($main-blue);
-    }
-  }
-}
-
 .search {
   max-width: 414px;
 }
@@ -117,7 +99,7 @@
 
     > .content {
       display: flex;
-      height: calc(100% - 112px);
+      height: calc(100% - #{$new-page-header-height});
       align-items: center;
       justify-content: center;
       text-align: center;
@@ -133,11 +115,11 @@
   &.sticky {
     position: fixed;
     z-index: 100;
-    left: 304px;
+    left: $menu-panel-width;
     right: 0;
-    top: -112px;
+    top: -$new-page-header-height;
     transition: transform 0.3s 0.1s $default-animation;
-    transform: translateY(112px);
+    transform: translateY($new-page-header-height);
     box-shadow: 0 7px 18px rgba(8, 30, 57, 0.2);
 
     > .assets-header {
@@ -146,7 +128,7 @@
     }
 
     + .content {
-      padding-top: 112px;
+      padding-top: $new-page-header-height;
     }
   }
 }
