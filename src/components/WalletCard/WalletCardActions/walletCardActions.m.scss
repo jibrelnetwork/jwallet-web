@@ -1,6 +1,13 @@
-@import 'styles/_base';
 @import 'styles/mixins';
-@import 'styles/colors';
+
+.core {
+  @include flex-row-center;
+
+  padding: 0 16px;
+  cursor: pointer;
+  margin-left: auto;
+  position: relative;
+}
 
 .overlay {
   z-index: 2;
@@ -41,17 +48,12 @@
   }
 }
 
-.core {
-  @include flex-row-center;
+.label {
+  width: 100%;
+}
 
-  padding: 0 16px;
-  cursor: pointer;
-  margin-left: auto;
-  position: relative;
-
-  &.-toggled {
-    .overlay {
-      display: block;
-    }
+.toggled {
+  .overlay {
+    display: block;
   }
 }
