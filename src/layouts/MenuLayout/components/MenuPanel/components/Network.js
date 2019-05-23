@@ -8,9 +8,9 @@ import { JIcon } from 'components/base'
 
 import menuPanelStyle from '../menuPanel.m.scss'
 
-type Props = {
+type Props = {|
   networkId?: 'ropsten' | 'rinkeby' | 'kovan' | null,
-}
+|}
 
 const messages = {
   ropsten: t`You Are Using Ropsten Test Network`,
@@ -43,7 +43,7 @@ NetworkView.defaultProps = {
   networkId: null,
 }
 
-export const Network = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+export const Network = connect< Props, OwnPropsEmpty, _, _, _, _ >(
   // FIXME: connect to real network setting
   () => ({}),
   null,

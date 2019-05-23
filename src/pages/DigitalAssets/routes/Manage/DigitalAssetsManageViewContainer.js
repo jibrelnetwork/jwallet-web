@@ -40,7 +40,11 @@ import {
   deleteCustomAsset,
 } from 'store/modules/digitalAssets'
 
+// eslint-disable-next-line import/no-duplicates
 import DigitalAssetsManageView from './DigitalAssetsManageView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './DigitalAssetsManageView'
 
 function sortDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   // eslint-disable-next-line fp/no-mutating-methods
@@ -117,5 +121,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsManageView)

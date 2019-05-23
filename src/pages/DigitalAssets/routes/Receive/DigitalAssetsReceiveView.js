@@ -38,7 +38,7 @@ const generateQRCode = (address: Address): void => {
   }
 }
 
-type Props = {|
+export type Props = {|
   +close: Function,
   +address: ?Address,
 |}

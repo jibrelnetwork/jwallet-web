@@ -76,7 +76,7 @@ function getTotalFiatBalance(state: AppState, assets: DigitalAssetWithBalance[])
     result + (getFiatBalance(state, digitalAsset) || 0), 0)
 }
 
-export const Wallet = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+export const Wallet = connect< Props, OwnPropsEmpty, _, _, _, _ >(
   (state: AppState) => {
     const wallet = selectActiveWallet(state)
     const networkId: NetworkId = selectCurrentNetworkId(state)
@@ -113,4 +113,5 @@ export const Wallet = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
       isMnemonic,
     }
   },
+  () => ({}),
 )(WalletView)

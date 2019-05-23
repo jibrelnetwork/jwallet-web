@@ -10,7 +10,7 @@ import { STEPS } from 'store/modules/digitalAssetsSend'
 
 import DigitalAssetsSendSteps from './components/Steps'
 
-type Props = {|
+export type Props = {|
   +closeView: () => void,
   +goToNextStep: () => void,
   +goToPrevStep: () => void,

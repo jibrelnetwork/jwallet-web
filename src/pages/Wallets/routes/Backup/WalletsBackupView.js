@@ -15,7 +15,7 @@ import {
   WalletPasswordStep,
 } from 'components'
 
-type Props = {|
+export type Props = {|
   +closeView: () => void,
   +goToNextStep: (walletId: string) => void,
   +goToPrevStep: () => void,
