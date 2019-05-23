@@ -1,6 +1,9 @@
 // @flow
 
-import React, { PureComponent } from 'react'
+import React, {
+  PureComponent,
+  Fragment,
+} from 'react'
 import { t } from 'ttag'
 
 import { JLink } from 'components/base'
@@ -31,28 +34,30 @@ export class NewWalletButtons extends PureComponent<Props> {
 
   render() {
     return (
-      <div className={`__new-wallet-buttons ${newWalletButtonsStyle.core}`}>
+      <Fragment>
         <JLink
+          theme='button-general'
           onClick={this.handleClickCreate}
-          className={newWalletButtonsStyle.create}
+          className='__create-button'
           href='/wallets/create'
         >
           {t`Create Wallet`}
         </JLink>
-        <span className={newWalletButtonsStyle.text}>
+        <div className={newWalletButtonsStyle.text}>
           {t`Create your own wallet to manage your digital assets`}
-        </span>
+        </div>
         <JLink
+          theme='button-secondary'
           onClick={this.handleClickImport}
-          className={newWalletButtonsStyle.import}
+          className='__import-button'
           href='/wallets/import'
         >
           {t`Import Wallet`}
         </JLink>
-        <span className={newWalletButtonsStyle.text}>
+        <div className={newWalletButtonsStyle.text}>
           {t`Import an existing wallet with backup phrase, private key, etc.`}
-        </span>
-      </div>
+        </div>
+      </Fragment>
     )
   }
 }

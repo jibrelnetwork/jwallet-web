@@ -14,13 +14,13 @@ import { NewPasswordField } from 'components'
 
 import {
   JInputField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 import { StartLayout } from 'layouts'
 
 import setPasswordViewStyle from './setPasswordView.m.scss'
 
-type Props = {|
+export type Props = {|
   +dispatch: Function,
   +validate: FormValidate,
   +submit: (FormFields, Function) => Promise<void>,
@@ -86,14 +86,17 @@ export class SetPasswordView extends Component<Props, StateProps> {
         component={JInputField}
         name='passwordHint'
         label={t`Enter Password Hint`}
+        infoMessage={t`If you forget your Security Password,
+some functions won’t be available. To restore access to all functions
+you will need to clear your data and re-import your wallets again using backup phrase.`}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
         isDisabled={!this.state.isStrongPassword}
       >
         {t`Set Security Password`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 

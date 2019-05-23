@@ -5,7 +5,7 @@ import { t } from 'ttag'
 
 import {
   JInput,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 type Props = {|
@@ -37,11 +37,11 @@ function DigitalAssetsSendConfirmPassword({
           isDisabled={isLoading}
         />
         <div className='actions'>
-          <JRaisedButton
+          <Button
             onClick={submit}
             isLoading={isLoading}
           >{t`Send asset`}
-          </JRaisedButton>
+          </Button>
         </div>
       </div>
     </div>

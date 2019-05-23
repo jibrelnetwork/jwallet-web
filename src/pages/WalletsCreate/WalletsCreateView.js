@@ -13,7 +13,7 @@ import {
 
 import { STEPS } from 'store/modules/walletsCreate'
 
-type Props = {|
+export type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +goToNextStep: () => void,

@@ -21,7 +21,7 @@ import {
 import {
   JTextArea,
   JInputField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import {
@@ -41,7 +41,7 @@ export type WalletsImportSubmitPayload = {|
   +currentStep: WalletsImportStep,
 |}
 
-type Props = {|
+export type Props = {|
   onBack?: ?WalletsImportBackHandler,
   getSuccessDataMessage: string => ?string,
   +validate: (FormFields, WalletsImportStep) => ?FormFields,
@@ -151,11 +151,10 @@ export class WalletsImportView extends Component<Props, StateProps> {
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
       goToPasswordStep,
-      props,
       state,
     } = this
 
-    const { submit }: Props = props
+    const { submit }: Props = this.props
     const { currentStep }: StateProps = state
 
     return submit({
@@ -227,12 +226,12 @@ export class WalletsImportView extends Component<Props, StateProps> {
             />
           </Fragment>
         )}
-        <JRaisedButton
+        <Button
           type='submit'
           isLoading={isSubmitting}
         >
           {t`Import`}
-        </JRaisedButton>
+        </Button>
       </form>
     )
   }
@@ -255,12 +254,12 @@ export class WalletsImportView extends Component<Props, StateProps> {
         name='password'
         isDisabled={isSubmitting}
       />
-      <JRaisedButton
+      <Button
         type='submit'
         isLoading={isSubmitting}
       >
         {t`Import`}
-      </JRaisedButton>
+      </Button>
     </form>
   )
 

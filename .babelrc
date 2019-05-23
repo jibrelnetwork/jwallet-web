@@ -3,7 +3,9 @@
     "transform-export-extensions"
   ],
   "presets": [
+    ["@babel/env", { "modules": false }],
     "react-app",
     "@babel/flow"
-  ]
+  ],
+  "retainLines": true
 }

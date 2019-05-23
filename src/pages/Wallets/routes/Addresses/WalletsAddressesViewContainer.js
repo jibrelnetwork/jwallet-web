@@ -20,7 +20,11 @@ import {
   selectAddressWalletsNames,
 } from 'store/selectors/wallets'
 
+// eslint-disable-next-line import/no-duplicates
 import WalletsAddressesView from './WalletsAddressesView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './WalletsAddressesView'
 
 function checkWalletReadOnly(wallets: Wallets, walletId: ?WalletId): boolean {
   // FIXME: a hack to avoid breaking UI apart before redirect happens
@@ -65,5 +69,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect<Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsAddressesView)

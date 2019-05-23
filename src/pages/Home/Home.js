@@ -35,7 +35,10 @@ import {
   closeView,
 } from 'store/modules/digitalAssetsGrid'
 
-import { HomeView } from './HomeView'
+import {
+  HomeView,
+  type Props,
+} from './HomeView'
 
 function filterActiveDigitalAssets(items: DigitalAssetWithBalance[]): DigitalAssetWithBalance[] {
   return items.filter(({ isActive }: DigitalAssetWithBalance) => !!isActive)
@@ -119,5 +122,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(HomeView)

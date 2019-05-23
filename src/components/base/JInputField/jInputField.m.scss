@@ -44,6 +44,7 @@
   background: transparent;
   resize: none;
   border: none;
+  font-weight: 600;
 
   &::placeholder {
     color: $main-black-30;
@@ -55,7 +56,7 @@
 }
 
 .field-message {
-  padding-left: 16px;
+  padding: 0 16px;
 }
 
 .active {

@@ -43,7 +43,7 @@ const checkHeightIncreased = ({
   scrollHeight,
 }) => (clientHeight < scrollHeight)
 
-function heightCalc({ currentTarget }: SyntheticEvent<HTMLTextAreaElement>): void {
+function heightCalc(currentTarget): void {
   if (!currentTarget) {
     return
   }
@@ -79,6 +79,18 @@ export class JTextArea extends PureComponent<Props> {
     isDisabled: false,
   }
 
+  constructor(props: Props) {
+    super(props)
+
+    this.textArea = React.createRef()
+  }
+
+  componentDidMount() {
+    heightCalc(this.textArea.current)
+  }
+
+  textArea: TextAreaRef
+
   handleChange = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
     const {
       onChange,
@@ -86,7 +98,7 @@ export class JTextArea extends PureComponent<Props> {
     }: Props = this.props
 
     onChange(event)
-    heightCalc(event)
+    heightCalc(event.currentTarget)
 
     if (input && input.onChange) {
       input.onChange(event)
@@ -124,7 +136,6 @@ export class JTextArea extends PureComponent<Props> {
       isDisabled,
     }: Props = this.props
 
-    const textArea: TextAreaRef = React.createRef()
     const errorMsg: ?string = errorMessage || getErrorMessage(meta, validateType)
     const elementID: string = id || `${kebabCase(input.name || label || 'noname')}Id`
 
@@ -135,7 +146,7 @@ export class JTextArea extends PureComponent<Props> {
 
     return (
       <div
-        onClick={handleFocus(textArea)}
+        onClick={handleFocus(this.textArea)}
         className={classNames(
           '__textarea',
           jTextAreaStyle.core,
@@ -164,7 +175,7 @@ export class JTextArea extends PureComponent<Props> {
             {...input}
             {...omittedProps}
             onChange={this.handleChange}
-            ref={textArea}
+            ref={this.textArea}
             id={elementID}
             className={jTextAreaStyle.input}
             disabled={isDisabled}

@@ -14,8 +14,8 @@ import {
   JIcon,
   JLink,
 } from 'components/base'
+import { formatTransactionAmount } from 'utils/formatters'
 import { type JIconProps } from 'components/base/JIcon/JIcon'
-import formatAssetBalance from 'utils/formatters/formatAssetBalance'
 
 import offsetsStyle from 'styles/offsets.m.scss'
 
@@ -30,16 +30,17 @@ import transactionItemStyle from './transactionItem.m.scss'
 
 const memoizedIndex = memoize(transactionsIndex)
 
-export type ContainerProps = {
+export type ContainerProps = {|
   +onClick?: (Address) => mixed,
   +txAddress: Address,
   +offset?: OffsetVariant,
   +isActive?: boolean,
-}
+|}
 
-type Props = ContainerProps & {
+type Props = {|
+  ...$Exact<ContainerProps>,
   +transaction: TransactionItemRecord,
-}
+|}
 
 const transactionIconMap: { [TransactionStatus | TransactionDirection]: JIconProps } = {
   pending: {
@@ -73,22 +74,6 @@ function getTransactionIcon(
   }
 
   return transactionIconMap[status]
-}
-
-function formatTransactionAmount({
-  asset,
-  amount,
-  type,
-  status,
-}: TransactionItemRecord): string {
-  const formatted = asset
-    ? formatAssetBalance(asset.blockchainParams.address, amount, asset.blockchainParams.decimals)
-    : amount
-  const symboled = `${formatted}\u202F${asset.symbol}`
-
-  return status === 'success' || status === 'pending'
-    ? `${(type === 'in' ? '+' : '\u2212')}${symboled}`
-    : symboled
 }
 
 class TransactionItem extends PureComponent<Props, *> {
@@ -174,7 +159,7 @@ function mapStateToProps(state: AppState, { txAddress }: ContainerProps) {
 }
 
 const connectedComponent = (
-  connect/* :: < AppState, ContainerProps, any, _, _ > */(mapStateToProps)(TransactionItem)
+  connect<Props, ContainerProps, _, _, _, _>(mapStateToProps)(TransactionItem)
 )
 
 export {
