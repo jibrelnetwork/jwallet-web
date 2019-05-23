@@ -14,7 +14,19 @@
 
   padding: 24px 0 22px;
   border-radius: 4px 4px 0 0;
-  background-color: $main-blue;
+
+  &.success {
+    background-color: $main-blue;
+  }
+
+  &.pending {
+    background-color: $main-black-50;
+  }
+
+  &.fail,
+  &.stuck {
+    background-color: $main-red;
+  }
 }
 
 .statusIcon {
