@@ -26,7 +26,11 @@ import {
   setNonceEditable,
 } from 'store/modules/digitalAssetsSend'
 
+// eslint-disable-next-line import/no-duplicates
 import DigitalAssetsSendView from './DigitalAssetsSendView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './DigitalAssetsSendView'
 
 const removeOwnerAddress = (
   allAddressNames: AddressNames,
@@ -109,14 +113,12 @@ const mapDispatchToProps = {
   setNonceEditable,
 }
 
-/* ::
 type OwnProps = {|
   +location: {|
     +search: string,
   |},
 |}
-*/
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _> */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnProps, _, _, _, _>(mapStateToProps, mapDispatchToProps)
 )(DigitalAssetsSendView)

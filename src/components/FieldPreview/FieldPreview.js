@@ -16,14 +16,21 @@ type Props = {
   +body: string,
   link?: string,
   contact?: string,
-  copy?: string,
+  copy?: ?string,
+  copyMessage?: ?string,
 }
 
 function copyToClipboard({ currentTarget }: SyntheticEvent<HTMLButtonElement>): void {
   const value = currentTarget.getAttribute('data-value')
+  const message = currentTarget.getAttribute('data-message')
 
   if (value) {
     clipboard.copyText(value)
+  }
+
+  if (message) {
+    // FIXME: Call real snackbar method
+    alert(`${message} copied`)
   }
 }
 
@@ -33,6 +40,7 @@ function FieldPreviewInternal({
   link,
   contact,
   copy,
+  copyMessage,
 }: Props) {
   return (
     <div className={style.core}>
@@ -53,7 +61,10 @@ function FieldPreviewInternal({
             title={t`Add Contact`}
             href={`/contacts/add?address=${contact}`}
           >
-            <JIcon name='add-contact-use-fill' />
+            <JIcon
+              className={style.actionIcon}
+              name='add-contact-use-fill'
+            />
           </JLink>)
         }
         {copy && (
@@ -62,9 +73,13 @@ function FieldPreviewInternal({
             type='button'
             title={t`Copy`}
             data-value={copy}
+            data-message={copyMessage}
             onClick={copyToClipboard}
           >
-            <JIcon name='copy-use-fill' />
+            <JIcon
+              className={style.actionIcon}
+              name='copy-use-fill'
+            />
           </button>)
         }
       </div>
@@ -75,7 +90,8 @@ function FieldPreviewInternal({
 FieldPreviewInternal.defaultProps = {
   link: '',
   contact: '',
-  copy: '',
+  copy: undefined,
+  copyMessage: undefined,
 }
 
-export const FieldPreview = React.memo/* :: <Props> */(FieldPreviewInternal)
+export const FieldPreview = React.memo<Props>(FieldPreviewInternal)

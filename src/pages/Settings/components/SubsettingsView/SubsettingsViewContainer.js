@@ -4,7 +4,11 @@ import { connect } from 'react-redux'
 
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
+// eslint-disable-next-line import/no-duplicates
 import SubsettingsView from './SubsettingsView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './SubsettingsView'
 
 function mapStateToProps(state: AppState) {
   return {
@@ -15,13 +19,11 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-/* ::
 type OwnProps = {|
   +children: React$Node,
   +title: string,
 |}
-*/
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, null)(SubsettingsView)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, null)(SubsettingsView)
 )

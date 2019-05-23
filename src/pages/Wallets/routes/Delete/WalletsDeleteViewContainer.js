@@ -9,7 +9,11 @@ import {
   closeView,
 } from 'store/modules/walletsDelete'
 
+// eslint-disable-next-line import/no-duplicates
 import WalletsDeleteView from './WalletsDeleteView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './WalletsDeleteView'
 
 type StateProps = {|
   +items: Wallets,
@@ -28,14 +32,12 @@ const mapDispatchToProps = {
   goToWallets: () => actions.navigateTo('Wallets'),
 }
 
-/* ::
 type OwnProps = {|
   +params: {|
     +walletId: string,
   |},
 |}
-*/
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsDeleteView)
