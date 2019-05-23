@@ -37,7 +37,7 @@ export const routes: Array<{|
   path: '/contacts',
   name: 'Contacts',
 }, {
-  path: '/contacts/add',
+  path: '/contacts/add?:address&:name&:note',
   name: 'ContactsItemAdd',
 }, {
   path: '/contacts/:contactId',
@@ -61,7 +61,7 @@ export const routes: Array<{|
   path: '/receive',
   name: 'Receive',
 }, {
-  path: '/send',
+  path: '/send?:asset&:to&:amount',
   name: 'Send',
 }, {
   path: '/settings',
