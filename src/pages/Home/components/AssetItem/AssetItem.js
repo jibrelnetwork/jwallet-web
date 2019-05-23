@@ -49,11 +49,12 @@ export function AssetItemInternal({
   isLoadingBalance,
 }: Props) {
   // FIXME: move formatters to external file
-  const formattedBalance = `${formatAssetBalance(
+  const formattedBalance = formatAssetBalance(
     address,
     balance,
     blockchainParams.decimals,
-  )}\u00A0${symbol}`
+    symbol,
+  )
 
   const formattedFiatBalance = `${fiatSymbol}\u202F${formatBalance(divDecimals(fiatBalance))}`
 

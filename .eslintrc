@@ -1,6 +1,6 @@
 {
   "extends": [
-    "@jibrelnetwork/eslint-config-jibrelnetwork"
+    "@jibrelnetwork"
   ],
   "globals": {
     "Modernizr": false,

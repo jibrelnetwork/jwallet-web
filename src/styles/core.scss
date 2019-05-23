@@ -25,15 +25,6 @@ body,
   color: $dusk;
 }
 
-a {
-  text-decoration: none;
-  color: $blue;
-
-  &:hover {
-    color: $blue-two;
-  }
-}
-
 li {
   list-style: none;
 }

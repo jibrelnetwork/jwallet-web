@@ -7,7 +7,6 @@ import React, {
 import { t } from 'ttag'
 
 import { JLink } from 'components/base'
-import buttonStyle from 'components/base/Button/button.m.scss'
 
 import {
   ACTIONS,
@@ -37,11 +36,9 @@ export class NewWalletButtons extends PureComponent<Props> {
     return (
       <Fragment>
         <JLink
+          theme='button-general'
           onClick={this.handleClickCreate}
-          className={`__create-button 
-            ${buttonStyle.core} 
-            ${buttonStyle.blue} 
-            ${newWalletButtonsStyle.create}`}
+          className='__create-button'
           href='/wallets/create'
         >
           {t`Create Wallet`}
@@ -50,11 +47,9 @@ export class NewWalletButtons extends PureComponent<Props> {
           {t`Create your own wallet to manage your digital assets`}
         </div>
         <JLink
+          theme='button-secondary'
           onClick={this.handleClickImport}
-          className={`__import-button 
-            ${buttonStyle.core} 
-            ${buttonStyle.white} 
-            ${newWalletButtonsStyle.import}`}
+          className='__import-button'
           href='/wallets/import'
         >
           {t`Import Wallet`}

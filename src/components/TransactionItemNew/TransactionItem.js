@@ -14,8 +14,8 @@ import {
   JIcon,
   JLink,
 } from 'components/base'
+import { formatTransactionAmount } from 'utils/formatters'
 import { type JIconProps } from 'components/base/JIcon/JIcon'
-import formatAssetBalance from 'utils/formatters/formatAssetBalance'
 
 import offsetsStyle from 'styles/offsets.m.scss'
 
@@ -74,22 +74,6 @@ function getTransactionIcon(
   }
 
   return transactionIconMap[status]
-}
-
-function formatTransactionAmount({
-  asset,
-  amount,
-  type,
-  status,
-}: TransactionItemRecord): string {
-  const formatted = asset
-    ? formatAssetBalance(asset.blockchainParams.address, amount, asset.blockchainParams.decimals)
-    : amount
-  const symboled = `${formatted}\u202F${asset.symbol}`
-
-  return status === 'success' || status === 'pending'
-    ? `${(type === 'in' ? '+' : '\u2212')}${symboled}`
-    : symboled
 }
 
 class TransactionItem extends PureComponent<Props, *> {
