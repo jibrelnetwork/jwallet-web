@@ -8,7 +8,7 @@ import { StartLayout } from 'layouts'
 
 import { setIntroductionIsPassed } from 'store/modules/user'
 import {
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import { Slide } from './components/Slide'
@@ -75,13 +75,13 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
             />
           ))}
         </div>
-        <JRaisedButton
+        <Button
           className={`__get-started ${IntroductionStyle.button}`}
-          theme='blue'
+          theme='general'
           onClick={this.handleGetStartedClick}
         >
           {t`Get Started`}
-        </JRaisedButton>
+        </Button>
       </StartLayout>
     )
   }
