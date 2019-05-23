@@ -12,9 +12,6 @@ type Props = {|
   networkId?: 'ropsten' | 'rinkeby' | 'kovan' | null,
 |}
 
-type OwnProps = {|
-|}
-
 const messages = {
   ropsten: t`You Are Using Ropsten Test Network`,
   rinkeby: t`You Are Using Rinkeby Test Network`,
@@ -46,7 +43,7 @@ NetworkView.defaultProps = {
   networkId: null,
 }
 
-export const Network = connect< Props, OwnProps, _, _, _, _ >(
+export const Network = connect< Props, OwnPropsEmpty, _, _, _, _ >(
   // FIXME: connect to real network setting
   () => ({}),
   null,

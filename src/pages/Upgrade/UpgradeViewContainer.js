@@ -30,7 +30,12 @@ import {
   selectWalletsItems,
   selectActiveWalletId,
 } from 'store/selectors/wallets'
+
+// eslint-disable-next-line import/no-duplicates
 import UpgradeView from './UpgradeView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './UpgradeView'
 
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {
@@ -147,7 +152,7 @@ const mapDispatchToProps = {
   onSubmitPrivateKey,
 }
 
-export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+export default connect< Props, OwnPropsEmpty, _, _, _, _ >(
   mapStateToProps,
   mapDispatchToProps,
 )(UpgradeView)

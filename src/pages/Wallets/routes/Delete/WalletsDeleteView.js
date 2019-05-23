@@ -13,7 +13,7 @@ import {
   ButtonWithConfirm,
 } from 'components'
 
-type Props = {|
+export type Props = {|
   +remove: Function,
   +openView: Function,
   +closeView: Function,

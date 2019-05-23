@@ -11,7 +11,7 @@ import {
   MnemonicAddresses,
 } from 'components'
 
-type Props = {|
+export type Props = {|
   +onOpenView: () => void,
   +onCloseView: () => void,
   +goToWallets: () => void,

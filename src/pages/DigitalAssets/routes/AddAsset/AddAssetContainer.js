@@ -18,8 +18,6 @@ import AddAssetView from './AddAssetView'
 // eslint-disable-next-line import/no-duplicates
 import { type Props } from './AddAssetView'
 
-type OwnProps = {||}
-
 function mapStateToProps(state: AppState) {
   const {
     formFields,
@@ -46,5 +44,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(AddAssetView)

@@ -18,8 +18,6 @@ import * as pages from 'pages'
 import 'styles/core.scss'
 import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
-type OwnProps = {||}
-
 type Props = {|
   +route: Object,
   +hasPassword: boolean,
@@ -163,7 +161,7 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-const AppRouterContainer = connect<Props, OwnProps, _, _, _, _>(
+const AppRouterContainer = connect<Props, OwnPropsEmpty, _, _, _, _>(
   mapStateToProps,
   () => ({}),
 )(AppRouter)

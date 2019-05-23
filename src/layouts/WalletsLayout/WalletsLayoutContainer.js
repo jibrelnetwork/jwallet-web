@@ -12,13 +12,11 @@ import {
   type Props,
 } from './WalletsLayout'
 
-type OwnProps = {||}
-
 const mapDispatchToProps = {
   openLayout,
   closeLayout,
 }
 
 export const WalletsLayoutContainer = (
-  connect<Props, OwnProps, _, _, _, _ >(null, mapDispatchToProps)
+  connect<Props, OwnPropsEmpty, _, _, _, _ >(null, mapDispatchToProps)
 )(WalletsLayout)

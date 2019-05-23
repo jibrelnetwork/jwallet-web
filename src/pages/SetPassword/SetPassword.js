@@ -82,11 +82,9 @@ function mapStateToProps() {
   }
 }
 
-/* ::
 type OwnProps = {|
   dispatch?: Function,
 |}
-*/
 
 export const SetPassword = connect< Props, OwnProps, _, _, _, _ >(
   mapStateToProps,
