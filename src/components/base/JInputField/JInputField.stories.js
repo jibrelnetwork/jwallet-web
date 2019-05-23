@@ -40,19 +40,11 @@ storiesOf('JInputField', module)
       })}
     </div>
   ))
-  .add('Title plus placeholder', () => (
-    <div className='story'>
-      {formStoryWrapper(JInputField, {
-        placeholder: 'Placeholder',
-        label: 'Label',
-      })}
-    </div>
-  ))
   .add('Disabled', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
         label: 'Disabled',
-        disabled: true,
+        isDisabled: true,
       }, { foo: 'Some text' })}
     </div>
   ))

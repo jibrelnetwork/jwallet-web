@@ -15,12 +15,7 @@
 .wrap {
   height: 72px;
   padding: 0;
-  box-shadow: $normal-shadow;
   border-radius: 4px;
-
-  &:hover {
-    box-shadow: $hover-shadow;
-  }
 }
 
 .label {
@@ -38,6 +33,7 @@
   @include font(14px, 14px);
 
   display: block;
+  font-style: normal;
   padding: 24px 24px 26px 16px;
   line-height: 22px;
   width: 100%;
@@ -53,6 +49,7 @@
 
 .message {
   margin-bottom: 8px;
+  color: $main-black-60;
 }
 
 .field-message {
@@ -63,10 +60,6 @@
   .input {
     padding-top: 34px;
     padding-bottom: 16px;
-  }
-
-  .input::placeholder {
-    color: $main-black-40;
   }
 
   .label {
@@ -93,6 +86,11 @@
 .white-indicator {
   .wrap {
     background-color: $white;
+    box-shadow: $normal-shadow;
+
+    &:hover {
+      box-shadow: $hover-shadow;
+    }
   }
 
   .input {
@@ -100,28 +98,28 @@
   }
 
   .label {
-    color: $main-black-40;
-  }
-
-  &:hover .input::placeholder,
-  &:hover .label {
     color: $main-black-30;
   }
 
-  &.error .label {
+  .error .label {
     color: $main-red;
   }
 
-  &.disabled {
-    background: $main-black-5;
+  .disabled {
+    box-shadow: none;
+    background: $white;
+
+    &:hover {
+      box-shadow: none;
+    }
 
     .label {
-      user-select: none;
       cursor: default;
+      color: $main-black-40;
     }
 
     .input {
-      color: $main-black-30;
+      color: $main-black-40;
     }
   }
 }
