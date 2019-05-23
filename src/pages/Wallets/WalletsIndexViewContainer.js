@@ -10,7 +10,11 @@ import {
   setActiveWallet,
 } from 'store/modules/wallets'
 
+// eslint-disable-next-line import/no-duplicates
 import WalletsIndexView from './WalletsIndexView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './WalletsIndexView'
 
 type StateProps = {|
   +items: Wallets,
@@ -35,5 +39,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsIndexView)

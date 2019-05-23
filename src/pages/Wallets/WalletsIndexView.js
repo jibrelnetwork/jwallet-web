@@ -13,7 +13,7 @@ import {
   ignoreEvent,
 } from 'utils/eventHandlers'
 
-type Props = {|
+export type Props = {|
   +backupWallet: (WalletId) => void,
   +renameWallet: (WalletId) => void,
   +deleteWallet: (WalletId) => void,

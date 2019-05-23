@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import walletsLayoutStyle from './walletsLayout.m.scss'
 
-type Props = {|
+export type Props = {|
   +openLayout: () => void,
   +closeLayout: () => void,
   +children: React$Node,

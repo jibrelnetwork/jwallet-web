@@ -11,7 +11,11 @@ import {
   closeView,
 } from 'store/modules/walletsRename'
 
+// eslint-disable-next-line import/no-duplicates
 import WalletsRenameView from './WalletsRenameView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './WalletsRenameView'
 
 type StateProps = {|
   +items: Wallets,
@@ -46,14 +50,12 @@ const mapDispatchToProps = {
   goToWallets: () => actions.navigateTo('Wallets'),
 }
 
-/* ::
 type OwnProps = {|
   +params: {|
     +walletId: string,
   |},
 |}
-*/
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsRenameView)

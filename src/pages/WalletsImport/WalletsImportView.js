@@ -41,7 +41,7 @@ export type WalletsImportSubmitPayload = {|
   +currentStep: WalletsImportStep,
 |}
 
-type Props = {|
+export type Props = {|
   onBack?: ?WalletsImportBackHandler,
   getSuccessDataMessage: string => ?string,
   +validate: (FormFields, WalletsImportStep) => ?FormFields,
@@ -151,11 +151,10 @@ export class WalletsImportView extends Component<Props, StateProps> {
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
       goToPasswordStep,
-      props,
       state,
     } = this
 
-    const { submit }: Props = props
+    const { submit }: Props = this.props
     const { currentStep }: StateProps = state
 
     return submit({

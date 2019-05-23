@@ -30,10 +30,9 @@ import {
   STEPS,
   WalletsImportView,
   type WalletsImportStep,
-  /* ::
   type WalletsImportBackHandler,
-  */
   type WalletsImportSubmitPayload,
+  type Props,
 } from './WalletsImportView'
 
 const XKEY_LENGTH: number = 111
@@ -544,12 +543,10 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-/* ::
 type OwnProps = {|
   +onBack?: ?WalletsImportBackHandler,
 |}
-*/
 
-export const WalletsImport = connect/* :: < AppState, null, OwnProps, _, _ > */(
+export const WalletsImport = connect< Props, OwnProps, _, _, _, _ >(
   mapStateToProps,
 )(WalletsImportView)

@@ -8,7 +8,7 @@ import {
   DigitalAssetEditForm,
 } from 'components'
 
-type Props = {
+export type Props = {
   +close: Function,
   +submit: () => void,
   +openView: Function,

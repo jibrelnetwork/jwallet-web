@@ -21,7 +21,10 @@ import {
   goToPrevStep,
 } from 'store/modules/walletsCreate'
 
-import { WalletsCreateView } from './WalletsCreateView'
+import {
+  WalletsCreateView,
+  type Props,
+} from './WalletsCreateView'
 
 type StateProps = {|
   +invalidFields: FormFields,
@@ -76,5 +79,5 @@ const mapDispatchToProps = {
 }
 
 export const WalletsCreate = (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsCreateView)

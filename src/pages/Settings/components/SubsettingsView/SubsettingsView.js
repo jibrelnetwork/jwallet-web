@@ -6,7 +6,7 @@ import { CloseableScreen } from 'components'
 
 import './subsettingsView.scss'
 
-type Props = {|
+export type Props = {|
   +close: Function,
   +children: React$Node,
   +title: string,

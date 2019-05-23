@@ -94,4 +94,4 @@ FieldPreviewInternal.defaultProps = {
   copyMessage: undefined,
 }
 
-export const FieldPreview = React.memo/* :: <Props> */(FieldPreviewInternal)
+export const FieldPreview = React.memo<Props>(FieldPreviewInternal)

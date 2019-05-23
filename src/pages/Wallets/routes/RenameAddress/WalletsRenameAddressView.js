@@ -10,7 +10,7 @@ import {
   WalletNameStep,
 } from 'components'
 
-type Props = {|
+export type Props = {|
   +closeView: () => void,
   +openView: (string) => void,
   +goToWalletsAddresses: () => void,

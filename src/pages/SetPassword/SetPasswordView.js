@@ -20,7 +20,7 @@ import { StartLayout } from 'layouts'
 
 import setPasswordViewStyle from './setPasswordView.m.scss'
 
-type Props = {|
+export type Props = {|
   +dispatch: Function,
   +validate: FormValidate,
   +submit: (FormFields, Function) => Promise<void>,
