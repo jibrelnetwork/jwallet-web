@@ -94,8 +94,11 @@ export const routes: Array<{|
   path: '/wallets/:walletId/delete',
   name: 'WalletsItemDelete',
 }, {
-  path: '/wallets/:walletId/rename',
-  name: 'WalletsItemRename',
+  path: '/wallets/:walletId/addresses',
+  name: 'WalletsItemAddresses',
+}, {
+  path: '/wallets/:walletId/mode',
+  name: 'WalletsItemMode',
 }, {
   path: '/wallets/:walletId/upgrade',
   name: 'WalletsItemUpgrade',
