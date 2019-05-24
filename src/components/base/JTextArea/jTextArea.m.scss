@@ -7,7 +7,6 @@
   width: 100%;
   min-width: 100%;
   margin-bottom: 16px;
-  border-radius: $form-border-radius;
   line-height: $form-field-line-height;
   resize: none;
   cursor: text;
@@ -58,6 +57,7 @@
 
     padding: 24px 16px 26px;
     background-color: $white;
+    border-radius: 4px;
     box-shadow: $normal-shadow;
 
     &:hover {
