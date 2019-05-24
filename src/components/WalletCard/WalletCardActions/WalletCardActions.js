@@ -72,14 +72,12 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
         className={classNames(
           walletCardActionsStyles.core,
           isToggled && walletCardActionsStyles.toggled,
+          '__wallet-card-actions',
         )}
       >
         <div
           onClick={this.handleToggle}
-          className={classNames(
-            walletCardActionsStyles.overlay,
-            'overlay',
-          )}
+          className={walletCardActionsStyles.overlay}
         />
         <div
           onClick={this.handleToggle}

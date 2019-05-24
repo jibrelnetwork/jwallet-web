@@ -109,6 +109,7 @@ class WalletCard extends Component<Props, StateProps> {
         className={classNames(
           walletCard.core,
           isActive && walletCard.active,
+          '__wallet-card',
         )}
       >
         <div className={walletCard.card}>
