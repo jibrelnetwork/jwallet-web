@@ -1,0 +1,26 @@
+@import 'styles/mixins';
+
+.slider {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.slide {
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.paginations {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.button {
+  max-width: 544px;
+  margin-top: 33px;
+  width: 100%;
+}
