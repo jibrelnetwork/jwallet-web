@@ -4,10 +4,13 @@
   position: relative;
   min-width: 0;
   align-items: center;
-  border-radius: 6px;
-  padding-left: 38px;
   cursor: pointer;
-  box-shadow: $blue-shadow;
+  width: $wallet-button-width;
+  height: $wallet-button-height;
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
 
   &::before {
     @include property-transition(border-color, background-color);
@@ -37,23 +40,40 @@
   }
 }
 
+.card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100% - 59px);
+    height: 100%;
+    top: 0;
+    right: 0;
+    border-radius: 0 6px 6px 0;
+    background-color: $main-blue;
+    filter: drop-shadow($blue-shadow);
+  }
+}
+
 .left-part {
   position: absolute;
   top: 0;
   left: 0;
-  height: $wallet-button-height;
+  height: 100%;
+  fill: $main-blue;
+  filter: drop-shadow($blue-shadow);
 }
 
 .body {
   @include flex-row;
 
   align-items: center;
-  width: $wallet-button-width;
-  height: $wallet-button-height;
+  padding-left: 48px;
+  height: 100%;
   position: relative;
-  border-radius: 0 6px 6px 0;
-  background-color: $main-blue;
-  padding-left: 10px;
 }
 
 .data {
@@ -64,10 +84,11 @@
 .name {
   font-size: 14px;
   font-weight: normal;
-  margin-bottom: 3px;
+  padding-bottom: 3px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  line-height: 1.57;
 }
 
 .input {
@@ -84,7 +105,8 @@
 
 .balance {
   font-size: 20px;
-  margin-top: 5px;
+  padding-top: 3px;
+  line-height: 1.4;
 }
 
 .name,

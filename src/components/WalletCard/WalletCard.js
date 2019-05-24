@@ -11,7 +11,6 @@ import { selectWalletOrThrow } from 'store/selectors/wallets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 
 import walletCard from './walletCard.m.scss'
-import leftPartWalletCard from './left-part-wallet-card.svg'
 import { WalletCardActions } from './WalletCardActions/WalletCardActions'
 
 type Props = {|
@@ -112,7 +111,14 @@ class WalletCard extends Component<Props, StateProps> {
           isActive && walletCard.active,
         )}
       >
-        <img src={leftPartWalletCard} className={walletCard.leftPart} alt='' />
+        <div className={walletCard.card}>
+          <svg viewBox='0 0 62 104' className={walletCard['left-part']}>
+            <path
+              d='M62 0v104H4c-2.2 0-4-1.8-4-4V71.7c0-1.8 1.3-3.4 3-4.2 5.9-2.7
+              10-8.6 10-15.5S8.9 39.2 3 36.5c-1.7-.8-3-2.3-3-4.2V4c0-2.2 1.8-4 4-4'
+            />
+          </svg>
+        </div>
         <div className={walletCard.body}>
           <div className={walletCard.data}>
             {isRenameActive ? (
