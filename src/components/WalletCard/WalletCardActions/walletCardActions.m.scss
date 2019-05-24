@@ -21,6 +21,8 @@
 }
 
 .actions {
+  @include property-transition(opacity, visibility);
+
   z-index: 3;
   border-radius: 6px;
   background-color: $white;
@@ -32,6 +34,13 @@
   top: -15px;
   right: 8px;
   position: absolute;
+  box-shadow: $normal-shadow;
+
+  &.-hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .action {
@@ -42,14 +51,18 @@
   height: 36px;
   padding: 8px;
   border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+  color: $main-black;
+
+  &.-button {
+    margin: 0;
+    border-width: 0;
+  }
 
   &:hover {
     background-color: $main-black-5;
   }
-}
-
-.label {
-  width: 100%;
 }
 
 .toggled {

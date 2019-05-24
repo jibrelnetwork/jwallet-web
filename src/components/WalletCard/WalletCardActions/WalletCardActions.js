@@ -1,7 +1,7 @@
 // @flow strict
 
-import classNames from 'classnames'
 import React, { PureComponent } from 'react'
+import classNames from 'classnames'
 import { t } from 'ttag'
 
 import { clipboard } from 'services'
@@ -90,75 +90,71 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
             name='kebab-menu-use-fill'
           />
         </div>
-        {isToggled && (
-          <ul className={walletCardActionsStyles.actions}>
-            {hasSingleAddress && (
-              <li className={walletCardActionsStyles.action}>
-                <span
-                  onClick={this.handleCopyAddress}
-                  className={walletCardActionsStyles.label}
-                >
-                  {t`Copy Wallet Address`}
-                </span>
-              </li>
-            )}
-            <li className={walletCardActionsStyles.action}>
-              <span
-                onClick={this.handleRename}
-                className={walletCardActionsStyles.label}
-              >
-                {t`Rename Wallet`}
-              </span>
-            </li>
-            <li className={walletCardActionsStyles.action}>
-              <JLink
-                href={`/wallets/${id}/upgrade`}
-                className={walletCardActionsStyles.label}
-              >
-                {t`Unlock Features`}
-              </JLink>
-            </li>
-            <li className={walletCardActionsStyles.action}>
-              <JLink
-                href={`/wallets/${id}/addresses`}
-                className={walletCardActionsStyles.label}
-              >
-                {t`Manage Addresses`}
-              </JLink>
-            </li>
-            {isMultiAddressWallet && (
-              <li className={walletCardActionsStyles.action}>
-                <JLink
-                  href={`/wallets/${id}/mode`}
-                  className={walletCardActionsStyles.label}
-                >
-                  {isSimplified
-                    ? t`Enable Multi-Address Mode`
-                    : t`Disable Multi-Address Mode`
-                  }
-                </JLink>
-              </li>
-            )}
-            {!isReadOnly && (
-              <li className={walletCardActionsStyles.action}>
-                <JLink
-                  href={`/wallets/${id}/backup`}
-                  className={walletCardActionsStyles.label}
-                >
-                  {t`Backup Wallet`}
-                </JLink>
-              </li>
-            )}
-            <li className={walletCardActionsStyles.action}>
-              <JLink
-                href={`/wallets/${id}/delete`}
-                className={walletCardActionsStyles.label}
-              >
-                {t`Delete Wallet`}
-              </JLink>
-            </li>
-          </ul>
+        <div className={classNames(
+          walletCardActionsStyles.actions,
+          !isToggled && walletCardActionsStyles['-hide'],
         )}
+        >
+          {hasSingleAddress && (
+            <button
+              type='button'
+              onClick={this.handleCopyAddress}
+              className={classNames(
+                walletCardActionsStyles.action,
+                walletCardActionsStyles['-button'],
+              )}
+            >
+              {t`Copy Wallet Address`}
+            </button>
+          )}
+          <button
+            type='button'
+            onClick={this.handleRename}
+            className={classNames(
+              walletCardActionsStyles.action,
+              walletCardActionsStyles['-button'],
+            )}
+          >
+            {t`Rename Wallet`}
+          </button>
+          <JLink
+            href={`/wallets/${id}/upgrade`}
+            className={walletCardActionsStyles.action}
+          >
+            {t`Unlock Features`}
+          </JLink>
+          <JLink
+            href={`/wallets/${id}/addresses`}
+            className={walletCardActionsStyles.action}
+          >
+            {t`Manage Addresses`}
+          </JLink>
+          {isMultiAddressWallet && (
+            <JLink
+              href={`/wallets/${id}/mode`}
+              className={walletCardActionsStyles.action}
+            >
+              {isSimplified
+                ? t`Enable Multi-Address Mode`
+                : t`Disable Multi-Address Mode`
+              }
+            </JLink>
+          )}
+          {!isReadOnly && (
+            <JLink
+              href={`/wallets/${id}/backup`}
+              className={walletCardActionsStyles.action}
+            >
+              {t`Backup Wallet`}
+            </JLink>
+          )}
+          <JLink
+            href={`/wallets/${id}/delete`}
+            className={walletCardActionsStyles.action}
+          >
+            {t`Delete Wallet`}
+          </JLink>
+        </div>
       </div>
     )
   }
