@@ -229,6 +229,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
         <Button
           type='submit'
           isLoading={isSubmitting}
+          isDisabled={!(values.name && values.data)}
         >
           {t`Import`}
         </Button>
@@ -257,6 +258,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
       <Button
         type='submit'
         isLoading={isSubmitting}
+        isDisabled={!values.password}
       >
         {t`Import`}
       </Button>
