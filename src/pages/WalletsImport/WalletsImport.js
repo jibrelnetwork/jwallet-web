@@ -36,8 +36,12 @@ import {
 } from './WalletsImportView'
 
 const XKEY_LENGTH: number = 111
+const RE_INVALID_NAME: RegExp = /[/]/
 const RE_XPRV_PREFIX: RegExp = /^xprv/i
 const RE_XPUB_PREFIX: RegExp = /^xpub/i
+const RE_INVALID_HEX: RegExp = /[^a-f0-9]/i
+const RE_INVALID_BASE: RegExp = /[^a-z1-9]/i
+const RE_INVALID_MNEMONIC: RegExp = /[^a-z ]/i
 
 function getSuccessDataMessage(data: ?string): ?string {
   const trimmedData: string = (data || '').trim()
@@ -76,8 +80,7 @@ function getInfoMnemonicMessage(data: string): ?string {
 
   const words: string[] = data.split(' ')
   const wordsLen: number = words.length
-
-  const hasInvalidSymbols: boolean = /[^a-z ]/i.test(data)
+  const hasInvalidSymbols: boolean = RE_INVALID_MNEMONIC.test(data)
 
   if (hasInvalidSymbols) {
     return t`BIP39 mnemonic should be in English`
@@ -98,7 +101,7 @@ function getInfoXPRVMessage(data: string): ?string {
   }
 
   const cleanedData: string = data.replace(RE_XPRV_PREFIX, '')
-  const hasInvalidSymbols: boolean = /[^a-z1-9]/i.test(cleanedData)
+  const hasInvalidSymbols: boolean = RE_INVALID_BASE.test(cleanedData)
 
   if (hasInvalidSymbols) {
     return t`BIP32 XPRV should be in base58 encoding`
@@ -123,7 +126,7 @@ function getInfoXPUBMessage(data: string): ?string {
   }
 
   const cleanedData: string = data.replace(RE_XPUB_PREFIX, '')
-  const hasInvalidSymbols: boolean = /[^a-z1-9]/i.test(cleanedData)
+  const hasInvalidSymbols: boolean = RE_INVALID_BASE.test(cleanedData)
 
   if (hasInvalidSymbols) {
     return t`BIP32 XPUB should be in base58 encoding`
@@ -149,7 +152,7 @@ function getInfoPrivateKeyMessage(data: string): ?string {
     return null
   }
 
-  const hasInvalidSymbols: boolean = /[^a-f0-9]/i.test(cleanedData)
+  const hasInvalidSymbols: boolean = RE_INVALID_HEX.test(cleanedData)
 
   if (hasInvalidSymbols) {
     return t`Ethereum private key should be in hex encoding`
@@ -174,9 +177,9 @@ function getInfoAddressMessage(data: string): ?string {
   }
 
   if (cleanedData.length < 40) {
-    const isPartialAddress: boolean = /[0-9a-f]{1,39}$/i.test(cleanedData)
+    const hasInvalidSymbols: boolean = RE_INVALID_HEX.test(cleanedData)
 
-    if (cleanedData.length && !isPartialAddress) {
+    if (cleanedData.length && hasInvalidSymbols) {
       return t`Ethereum address should be in hex encoding`
     }
 
@@ -305,7 +308,7 @@ function validateWalletName(name: ?string): ?string {
     return t`Length of name should not be greater than 32 symbols`
   }
 
-  const hasInvalidSymbols: boolean = /[/]/i.test(name)
+  const hasInvalidSymbols: boolean = RE_INVALID_NAME.test(name)
 
   if (hasInvalidSymbols) {
     return t`Name should not include invalid symbols`
