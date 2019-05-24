@@ -9,7 +9,7 @@ import { JSwitch } from 'components/base'
 const StateHOC = withState('value', 'setValue', '')
 
 // $FlowFixMe
-storiesOf('JSwitch')
+storiesOf('base|JSwitch')
   .add('Default', () => (
     <div className='story'>
       {React.createElement(StateHOC(
