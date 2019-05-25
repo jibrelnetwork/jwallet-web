@@ -32,7 +32,7 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
   )
 }
 
-storiesOf('JInputField', module)
+storiesOf('base|JInputField', module)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
