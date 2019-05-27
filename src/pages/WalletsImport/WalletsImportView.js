@@ -229,7 +229,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {checkMnemonicType(walletType) && (isAdvancedOpened ? (
+        {checkMnemonicType(walletType) && isAdvancedOpened ? (
           <Fragment>
             <Field
               component={JInputField}
@@ -253,7 +253,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           >
             {t`Advanced`}
           </Button>
-        ))}
+        )}
         <Button
           type='submit'
           isLoading={isSubmitting}
