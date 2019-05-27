@@ -94,7 +94,9 @@ class TransactionsList extends Component<Props, State> {
               className={style.closeSidebar}
               onClick={this.handleClearActive}
             >
-              <JIcon name='cross' color='white' />
+              <JIcon
+                name='ic_close_24-use-fill'
+              />
             </button>
           </div>
         )}

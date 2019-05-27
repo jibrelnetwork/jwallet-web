@@ -25,6 +25,8 @@
 }
 
 .close-sidebar {
+  @include sprite-icon-color($white-60);
+
   position: absolute;
   right: 24px;
   top: 24px;
@@ -33,4 +35,9 @@
   border: none;
   background: none;
   cursor: pointer;
+
+  &:hover,
+  &:active {
+    @include sprite-icon-color($white);
+  }
 }
