@@ -26,12 +26,8 @@ type State = {
 }
 
 class TransactionsList extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      activeItem: null,
-    }
+  state = {
+    activeItem: null,
   }
 
   handleSetActive = (id: TransactionId) => {
