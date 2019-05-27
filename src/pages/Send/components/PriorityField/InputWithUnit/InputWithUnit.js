@@ -11,7 +11,7 @@ import inputStyles from './inputWithUnit.m.scss'
 type Props = {|
   +className: string,
   +label: string,
-  +unit: string,
+  +unit: ?string,
   +input: FinalFormInput,
   +meta: FinalFormMeta,
   +validateType: FinalFormValidateType,
@@ -28,7 +28,7 @@ class InputWithUnit extends PureComponent<Props> {
     validateType: 'touched',
   }
 
-  handleOnChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  handleChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const {
       input: {
         onChange,
@@ -78,7 +78,7 @@ class InputWithUnit extends PureComponent<Props> {
             name={name}
             value={value}
             className={inputStyles.input}
-            onChange={this.handleOnChange}
+            onChange={this.handleChange}
             onFocus={onFocus}
             onBlur={onBlur}
           />
