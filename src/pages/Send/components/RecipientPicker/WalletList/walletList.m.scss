@@ -1,0 +1,36 @@
+@import "styles/colors";
+
+.core {
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: (72px * 4);
+
+  &.count-3 {
+    height: (72px * 3);
+  }
+
+  &.count-2 {
+    height: (72px * 2);
+  }
+
+  &.count-1 {
+    height: (72px * 1);
+  }
+
+  &.count-0 {
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.sublist {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease 0s;
+
+  &.isOpen {
+    max-height: 100%;
+  }
+}
