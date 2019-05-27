@@ -81,14 +81,55 @@
   min-width: 150px;
 }
 
+.name,
+.address,
+.balance {
+  color: $white;
+  font-family: $font;
+}
+
+.name-box {
+  position: relative;
+  margin-left: -8px;
+}
+
 .name {
+  @include property-transition(background-color);
+
   font-size: 14px;
   font-weight: normal;
-  padding-bottom: 3px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
   line-height: 1.57;
+  height: 28px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
+
+  &:hover {
+    background-color: $main-black-20;
+  }
+
+  &.-editable {
+    background-color: $main-black-50;
+    color: transparent;
+  }
+}
+
+.input {
+  border: none;
+  background-color: transparent;
+  height: 28px;
+  font-size: 14px;
+  font-weight: normal;
+  padding-left: 0;
+  padding-right: 0;
+  left: 8px;
+  position: absolute;
+  color: #fff;
+  width: 100%;
 }
 
 .address {
@@ -102,28 +143,6 @@
   font-size: 20px;
   padding-top: 3px;
   line-height: 1.4;
-}
-
-.name,
-.address,
-.balance {
-  color: $white;
-  font-family: $font;
-}
-
-.input {
-  border: none;
-  background: $main-black-50;
-  height: 28px;
-  padding-left: 8px;
-  padding-right: 8px;
-  border-radius: 4px;
-  margin-left: -8px;
-  margin-top: -1px;
-
-  + .balance {
-    padding-top: 1px;
-  }
 }
 
 .actions {

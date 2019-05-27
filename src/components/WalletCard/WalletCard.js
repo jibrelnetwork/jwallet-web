@@ -87,7 +87,6 @@ class WalletCard extends Component<Props, StateProps> {
 
     const {
       id,
-      name,
       type,
       xpub,
       isSimplified,
@@ -122,20 +121,27 @@ class WalletCard extends Component<Props, StateProps> {
         </div>
         <div className={walletCard.body}>
           <div className={walletCard.data}>
-            {isRenameActive ? (
-              <input
-                onBlur={this.handleRenameBlur}
-                onChange={this.handleChangeName}
-                ref={this.nameInputRef}
-                value={newName}
-                className={classNames(walletCard.name, walletCard.input)}
-                type='text'
-              />
-            ) : (
-              <h2 className={walletCard.name}>
-                {name}
-              </h2>
-            )}
+            <h2 className={walletCard['name-box']}>
+              <span
+                className={classNames(
+                  walletCard.name,
+                  isRenameActive && walletCard['-editable'],
+                )}
+                onClick={this.handleActivateRename}
+              >
+                {newName}
+              </span>
+              {isRenameActive && (
+                <input
+                  onBlur={this.handleRenameBlur}
+                  onChange={this.handleChangeName}
+                  ref={this.nameInputRef}
+                  value={newName}
+                  className={classNames(walletCard.input)}
+                  type='text'
+                />
+              )}
+            </h2>
             {isMultiAddress && (
               <p className={walletCard.address}>
                 {t`${addressName}  •  ${addressesCount} Addresses`}
