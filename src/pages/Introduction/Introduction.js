@@ -60,11 +60,13 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
 
     return (
       <StartLayout className='__introduction'>
-        <ViewSlider
-          renderView={renderView}
-          numViews={slides.length}
-          activeView={activeId}
-        />
+        <div className={IntroductionStyle.wrapper}>
+          <ViewSlider
+            renderView={renderView}
+            numViews={slides.length}
+            activeView={activeId}
+          />
+        </div>
         <div className={IntroductionStyle.paginations}>
           {slides.map((slide, index) => (
             <SliderButton

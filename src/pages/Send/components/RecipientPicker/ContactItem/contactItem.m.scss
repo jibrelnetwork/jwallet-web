@@ -9,13 +9,12 @@
 }
 
 .icon {
-  display: inline-block;
+  display: inline-flex;
   margin-right: 16px;
-  height: 24px;
-  width: 24px;
 }
 
 .wrap {
+  display: inline-block;
   flex-grow: 1;
 }
 
@@ -23,8 +22,8 @@
   display: block;
   font-size: 14px;
   line-height: 22px;
-  font-weight: 600;
   color: $main-black;
+  font-weight: 600;
 }
 
 .description {
