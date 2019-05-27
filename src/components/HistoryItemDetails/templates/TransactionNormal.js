@@ -1,6 +1,6 @@
 // @flow strict
 
-import React, { useState } from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
@@ -55,111 +55,135 @@ const TRANSACTION_DESCRIPTION = {
   success: {},
 }
 
-export function TransactionNormalTemplate(props: Props) {
-  if (!props.asset || !props.asset.blockchainParams) {
-    return null
+type State = {
+  note: string,
+}
+
+export class TransactionNormalTemplate extends PureComponent<Props, State> {
+  state = {
+    note: this.props.note || '',
   }
 
-  // eslint-disable-next-line max-len
-  const REPEAT_PAYMENT_URI = `/send?asset=${props.asset.blockchainParams.address}&to=${props.to}&amount=${props.amount}`
+  handleEditNote = (note: string) => {
+    this.setState({ note })
+    this.props.editNote(this.props.id, note)
+  }
 
-  const [note, setNote] = useState(props.note)
+  render() {
+    if (!this.props.asset || !this.props.asset.blockchainParams) {
+      return null
+    }
 
-  const formattedDate = getFormattedDateString(
-    new Date(props.timestamp),
-    'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
-  )
-  const status = props.status === 'success'
-    ? props.type
-    : props.status
+    const {
+      asset,
+      amount,
+      blockExplorer,
+      id,
+      to,
+      from,
+      type,
+      status,
+    } = this.props
 
-  return (
-    <div className={classNames(style.core, props.className)}>
-      <div className={classNames(style.card, offset.mb16)}>
-        <div className={classNames(style.header, style[props.status])}>
-          <div className={style.statusIcon}>
-            <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
+    // eslint-disable-next-line max-len
+    const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
+
+    const formattedDate = getFormattedDateString(
+      new Date(this.props.timestamp),
+      'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
+    )
+    const extendedStatus = status === 'success'
+      ? type
+      : status
+
+    return (
+      <div className={classNames(style.core, this.props.className)}>
+        <div className={classNames(style.card, offset.mb16)}>
+          <div className={classNames(style.header, style[this.props.status])}>
+            <div className={style.statusIcon}>
+              <JIcon name={TRANSACTION_DESCRIPTION[extendedStatus].iconName} />
+            </div>
+            <div className={style.description}>
+              <div className={style.status}>
+                {this.props.status}
+              </div>
+              <div className={style.comment}>
+                {TRANSACTION_DESCRIPTION[extendedStatus].statusDescription}
+              </div>
+              <div className={style.date}>
+                {formattedDate}
+              </div>
+            </div>
           </div>
-          <div className={style.description}>
-            <div className={style.status}>
-              {props.status}
-            </div>
-            <div className={style.comment}>
-              {TRANSACTION_DESCRIPTION[status].statusDescription}
-            </div>
-            <div className={style.date}>
-              {formattedDate}
-            </div>
-          </div>
+          <AssetItemPreview {...asset} />
+          <FieldPreview
+            label={t`Amount`}
+            body={formatTransactionAmount(this.props)}
+          />
+          <FieldPreview
+            label={t`Sender`}
+            body={this.props.fromName}
+            link={getAddressLink(from, blockExplorer)}
+            contact={from}
+            copy={from}
+            copyMessage={ADDRESS_COPIED}
+          />
+          <FieldPreview
+            label={t`Recipient`}
+            body={this.props.toName}
+            link={getAddressLink(this.props.to, this.props.blockExplorer)}
+            copy={this.props.to}
+            copyMessage={ADDRESS_COPIED}
+          />
+          <FieldPreview
+            label={t`Blockchain transaction`}
+            body={getShortenedAddress(this.props.id)}
+            link={getTxLink(this.props.id, this.props.blockExplorer)}
+            copy={this.props.id}
+            copyMessage={TX_COPIED}
+          />
+          <FieldPreview
+            label={t`Estimated blockchain fee`}
+            body={`${this.props.fee} ETH`}
+          />
         </div>
-        <AssetItemPreview {...props.asset} />
-        <FieldPreview
-          label={t`Amount`}
-          body={formatTransactionAmount(props)}
-        />
-        <FieldPreview
-          label={t`Sender`}
-          body={props.fromName}
-          link={getAddressLink(props.from, props.blockExplorer)}
-          contact={props.from}
-          copy={props.from}
-          copyMessage={ADDRESS_COPIED}
-        />
-        <FieldPreview
-          label={t`Recipient`}
-          body={props.toName}
-          link={getAddressLink(props.to, props.blockExplorer)}
-          copy={props.to}
-          copyMessage={ADDRESS_COPIED}
-        />
-        <FieldPreview
-          label={t`Blockchain transaction`}
-          body={getShortenedAddress(props.id)}
-          link={getTxLink(props.id, props.blockExplorer)}
-          copy={props.id}
-          copyMessage={TX_COPIED}
-        />
-        <FieldPreview
-          label={t`Estimated blockchain fee`}
-          body={`${props.fee} ETH`}
-        />
-      </div>
-      <div
-        className={`${offset.mb16} ${style.noteWrapper}`}
-      >
-        <JInput
-          label={t`Note`}
-          infoMessage={t`This note is only visible to you.`}
-          color='gray'
-          value={note}
-          onChange={props.editNote(setNote, props.id)}
-        />
-      </div>
-      {props.status === 'success' && (
-        <JLink
-          theme='button-secondary'
-          href={REPEAT_PAYMENT_URI}
+        <div
+          className={`${offset.mb16} ${style.noteWrapper}`}
         >
-          {t`Repeat Payment`}
-        </JLink>
-      )}
-      {props.status === 'stuck' && (
-        <>
-          <JLink
-            className={offset.mb8}
-            theme='button-secondary'
-            href={`/history/${props.id}/restart`}
-          >
-            {t`Restart`}
-          </JLink>
+          <JInput
+            label={t`Note`}
+            infoMessage={t`This note is only visible to you.`}
+            color='gray'
+            value={this.state.note}
+            onChange={this.handleEditNote}
+          />
+        </div>
+        {status === 'success' && (
           <JLink
             theme='button-secondary'
-            href={`/history/${props.id}/cancel`}
+            href={REPEAT_PAYMENT_URI}
           >
-            {t`Cancel`}
+            {t`Repeat Payment`}
           </JLink>
-        </>
-      )}
-    </div>
-  )
+        )}
+        {status === 'stuck' && (
+          <>
+            <JLink
+              className={offset.mb8}
+              theme='button-secondary'
+              href={`/history/${id}/restart`}
+            >
+              {t`Restart`}
+            </JLink>
+            <JLink
+              theme='button-secondary'
+              href={`/history/${id}/cancel`}
+            >
+              {t`Cancel`}
+            </JLink>
+          </>
+        )}
+      </div>
+    )
+  }
 }
