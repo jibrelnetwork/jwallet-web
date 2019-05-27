@@ -57,6 +57,7 @@ export type Props = {|
 
 type StateProps = {|
   +currentStep: WalletsImportStep,
+  +isAdvancedOpened: boolean,
 |}
 
 export const STEPS: WalletsImportSteps = {
@@ -91,11 +92,15 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
     this.state = {
       currentStep: STEPS.DATA,
+      isAdvancedOpened: false,
     }
   }
 
   setCurrentStep = (currentStep: WalletsImportStep) => {
-    this.setState({ currentStep })
+    this.setState({
+      currentStep,
+      isAdvancedOpened: false,
+    })
   }
 
   getTitle = (): string => {
@@ -125,6 +130,10 @@ export class WalletsImportView extends Component<Props, StateProps> {
     this.setCurrentStep(STEPS.PASSWORD)
   }
 
+  handleOpenAdvanced = () => {
+    this.setState({ isAdvancedOpened: true })
+  }
+
   handleBack = () => {
     if (!this.props.onBack) {
       return null
@@ -148,6 +157,8 @@ export class WalletsImportView extends Component<Props, StateProps> {
 
     change('data', data)
     change('walletType', walletType)
+
+    this.setState({ isAdvancedOpened: false })
   }
 
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
@@ -194,7 +205,8 @@ export class WalletsImportView extends Component<Props, StateProps> {
       walletType,
     )
 
-    const successDataMessage: ?string = getSuccessDataMessage(values.data)
+    const successDataMessage: ?string = getSuccessDataMessage(data)
+    const { isAdvancedOpened }: StateProps = this.state
 
     return (
       <form
@@ -217,7 +229,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {checkMnemonicType(values.walletType) && (
+        {checkMnemonicType(walletType) && (isAdvancedOpened ? (
           <Fragment>
             <Field
               component={JInputField}
@@ -234,11 +246,18 @@ export class WalletsImportView extends Component<Props, StateProps> {
               isDisabled={isSubmitting}
             />
           </Fragment>
-        )}
+        ) : (
+          <Button
+            theme='secondary'
+            onClick={this.handleOpenAdvanced}
+          >
+            {t`Advanced`}
+          </Button>
+        ))}
         <Button
           type='submit'
           isLoading={isSubmitting}
-          isDisabled={!!infoDataMessage || !!errorDataMessage || !(values.name && values.data)}
+          isDisabled={!!infoDataMessage || !!errorDataMessage || !(name && data)}
         >
           {t`Import`}
         </Button>
