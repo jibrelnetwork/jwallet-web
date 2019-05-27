@@ -11,25 +11,15 @@
 .icon {
   display: inline-block;
   margin-right: 16px;
-  height: 24px;
-  width: 24px;
 }
 
 .wrap {
-  flex-grow: 1;
+  display: inline-block;
 }
 
 .title {
   display: block;
   font-size: 14px;
   line-height: 22px;
-  font-weight: 600;
   color: $main-black;
-}
-
-.description {
-  display: block;
-  font-size: 12px;
-  line-height: 20px;
-  color: $main-black-40;
 }

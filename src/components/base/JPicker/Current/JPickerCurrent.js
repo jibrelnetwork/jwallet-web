@@ -6,29 +6,31 @@ import { camelCase } from 'lodash-es'
 
 import pickerCurrentStyle from './jPickerCurrent.m.scss'
 
-type Props = {
+type Props = {|
   +value: string,
-  +inputValue: ?string,
   +label: string,
   +isEditable: boolean,
-  +hasError: boolean,
-  +onClick: ?(() => any),
-  +onInputChange: ?((e: SyntheticInputEvent<HTMLInputElement>) => any),
-  +iconRenderer: ?(() => React$Node),
-  +balancesRenderer: ?(() => React$Node),
-}
+  inputValue?: string,
+  hasError?: boolean,
+  onClick?: ?(() => any),
+  onInputChange?: ?((e: SyntheticInputEvent<HTMLInputElement>) => any),
+  iconRenderer?: ?(() => React$Node),
+  balancesRenderer?: ?(() => React$Node),
+|}
 
-function JPickerCurrent({
-  value,
-  inputValue,
-  label,
-  isEditable,
-  hasError,
-  onClick,
-  onInputChange,
-  iconRenderer,
-  balancesRenderer,
-}: Props) {
+const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
+  const {
+    value,
+    inputValue,
+    label,
+    isEditable,
+    hasError,
+    onClick,
+    onInputChange,
+    iconRenderer,
+    balancesRenderer,
+  } = props
+
   const hasValue = !!value
   const id = camelCase(`${label}currentId`)
 
@@ -44,6 +46,7 @@ function JPickerCurrent({
       onClick={onClick}
     >
       <input
+        ref={ref}
         id={id}
         type='text'
         className={pickerCurrentStyle.input}
@@ -51,6 +54,7 @@ function JPickerCurrent({
         value={inputValue}
         disabled={!isEditable}
         onChange={onInputChange}
+        autoComplete='off'
       />
       <label className={pickerCurrentStyle.label} htmlFor={id}>
         {label}
@@ -69,7 +73,7 @@ function JPickerCurrent({
   )
 }
 
-JPickerCurrent.defaultProps = {
+JPickerCurrentComponent.defaultProps = {
   value: '',
   lebel: '',
   isEditable: true,
@@ -77,9 +81,11 @@ JPickerCurrent.defaultProps = {
   hasError: false,
   onClick: null,
   inputValue: undefined,
-  onInputChange: null,
-  iconRenderer: null,
-  balancesRenderer: null,
+  onInputChange: undefined,
+  iconRenderer: undefined,
+  balancesRenderer: undefined,
 }
+
+const JPickerCurrent = React.forwardRef/* :: <Props, HTMLInputElement> */(JPickerCurrentComponent)
 
 export { JPickerCurrent }

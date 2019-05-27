@@ -1,15 +1,13 @@
 // @flow strict
 
-import React from 'react'
-import { memoize } from 'lodash-es'
+import React, { PureComponent } from 'react'
+import { debounce } from 'lodash-es'
 import { type TransactionItem } from 'components/TransactionItemNew/transactionsIndex'
 
 import {
   TransactionCancelTemplate,
   TransactionNormalTemplate,
 } from './templates'
-
-import { handleEditNote } from './utils'
 
 import { type ContainerProps } from './HistoryItemDetails'
 
@@ -24,27 +22,23 @@ export type Props = {
   iconName: string,
 }
 
-const memoizedEditNote = memoize(handleEditNote)
-
-function TransactionDetailsView(props: Props) {
-  if (!props.asset || !props.asset.blockchainParams) {
-    return null
+export class HistoryItemDetailsInternal extends PureComponent<Props> {
+  static defaultProps = {
+    blockExplorer: '',
   }
 
-  const newProps: Props = {
-    ...props,
-    // eslint-disable-next-line fp/no-rest-parameters
-    editNote: (...args) => memoizedEditNote(props.editNote, ...args),
+  debouncedHandlerOnEditNote = debounce(this.props.editNote, 1000, {
+    leading: false,
+    trailing: true,
+  })
+
+  render() {
+    if (!this.props.asset || !this.props.asset.blockchainParams) {
+      return null
+    }
+
+    return this.props.type !== 'cancel'
+      ? <TransactionNormalTemplate {...this.props} editNote={this.debouncedHandlerOnEditNote} />
+      : <TransactionCancelTemplate {...this.props} editNote={this.debouncedHandlerOnEditNote} />
   }
-
-  return props.type !== 'cancel'
-    ? <TransactionNormalTemplate {...newProps} />
-    : <TransactionCancelTemplate {...newProps} />
 }
-
-TransactionDetailsView.defaultProps = {
-  blockExplorer: '',
-}
-
-export const HistoryItemDetailsInternal =
-  React.memo<Props>(TransactionDetailsView)

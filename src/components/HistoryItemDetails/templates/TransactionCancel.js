@@ -1,6 +1,6 @@
 // @flow strict
 
-import React, { useState } from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
@@ -39,69 +39,91 @@ const TRANSACTION_DESCRIPTION = {
   },
 }
 
-export function TransactionCancelTemplate(props: Props) {
-  if (!props.asset || !props.asset.blockchainParams) {
-    return null
+type State = {
+  note: string,
+}
+
+export class TransactionCancelTemplate extends PureComponent<Props, State> {
+  state = {
+    note: this.props.note || '',
   }
 
-  const [note, setNote] = useState(props.note)
+  handleEditNote = (note: string) => {
+    this.setState({ note })
+    this.props.editNote(this.props.id, note)
+  }
 
-  const formattedDate = getFormattedDateString(
-    new Date(props.timestamp),
-    'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
-  )
+  render() {
+    if (!this.props.asset || !this.props.asset.blockchainParams) {
+      return null
+    }
 
-  return (
-    <div className={classNames(style.core, props.className)}>
-      <div className={classNames(style.card, offset.mb16)}>
-        <div className={classNames(style.header, style[props.status])}>
-          <div className={style.statusIcon}>
-            <JIcon name={TRANSACTION_DESCRIPTION[props.status].iconName} />
+    const {
+      className,
+      fee,
+      fromName,
+      id,
+      timestamp,
+      status,
+    } = this.props
+
+    const formattedDate = getFormattedDateString(
+      new Date(timestamp),
+      'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
+    )
+
+    return (
+      <div className={classNames(style.core, className)}>
+        <div className={classNames(style.card, offset.mb16)}>
+          <div className={classNames(style.header, style[status])}>
+            <div className={style.statusIcon}>
+              <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
+            </div>
+            <div className={style.description}>
+              <div className={style.status}>
+                {status}
+              </div>
+              <div className={style.comment}>
+                {TRANSACTION_DESCRIPTION[status].statusDescription}
+              </div>
+              <div className={style.date}>
+                {formattedDate}
+              </div>
+            </div>
           </div>
-          <div className={style.description}>
-            <div className={style.status}>
-              {props.status}
-            </div>
-            <div className={style.comment}>
-              {TRANSACTION_DESCRIPTION[props.status].statusDescription}
-            </div>
-            <div className={style.date}>
-              {formattedDate}
-            </div>
-          </div>
+          <FieldPreview
+            label={t`Sender`}
+            body={fromName}
+          />
+          <FieldPreview
+            label={t`Blockchain transaction`}
+            body={getShortenedAddress(id)}
+          />
+          <FieldPreview
+            label={t`Estimated blockchain fee`}
+            body={`${fee} ETH`}
+          />
         </div>
-        <FieldPreview
-          label={t`Sender`}
-          body={props.fromName}
-        />
-        <FieldPreview
-          label={t`Blockchain transaction`}
-          body={getShortenedAddress(props.id)}
-        />
-        <FieldPreview
-          label={t`Estimated blockchain fee`}
-          body={`${props.fee} ETH`}
-        />
-      </div>
-      <div
-        className={`${offset.mb16} ${style.noteWrapper}`}
-      >
-        <JInput
-          label={t`Note`}
-          infoMessage={t`This note is only visible to you.`}
-          color='gray'
-          value={note}
-          onChange={props.editNote(setNote, props.id)}
-        />
-      </div>
-      {(props.status === 'stuck' || props.status === 'fail') && (
-        <JLink
-          theme='button-secondary'
-          href={`/history/${props.id}/cancel`}
+        <div
+          className={`${offset.mb16} ${style.noteWrapper}`}
         >
-          {t`Cancel`}
-        </JLink>
-      )}
-    </div>
-  )
+          <JInput
+            label={t`Note`}
+            infoMessage={t`This note is only visible to you.`}
+            color='gray'
+            value={this.state.note}
+            onChange={this.handleEditNote}
+          />
+        </div>
+        {(status === 'stuck' || status === 'fail') && (
+          <JLink
+            theme='button-secondary'
+            href={`/history/${id}/cancel`}
+          >
+            {t`Cancel`}
+          </JLink>
+        )}
+      </div>
+    )
+  }
 }

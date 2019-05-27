@@ -8,6 +8,7 @@ export { JPickerBody } from './Body/JPickerBody'
 export { JPickerCurrent } from './Current/JPickerCurrent'
 export { DefaultItem } from './Item/DefaultItem'
 export { JPickerList } from './List/JPickerList'
+export { JPickerListItem } from './List/JPickerListItem'
 export { NotFoundItem } from './List/NotFoundItem'
 
 export {
