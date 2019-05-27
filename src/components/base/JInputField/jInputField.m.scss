@@ -115,6 +115,10 @@
 
     .label {
       cursor: default;
+      color: $main-black-30;
+    }
+
+    &.value .label {
       color: $main-black-40;
     }
 

@@ -96,6 +96,7 @@ export class JInputField extends PureComponent<JInputFieldProps> {
             isActive && jInputFieldStyle.active,
             hasMessage && jInputFieldStyle.message,
             isDisabled && jInputFieldStyle.disabled,
+            hasValue && jInputFieldStyle.value,
           )}
         >
           <input

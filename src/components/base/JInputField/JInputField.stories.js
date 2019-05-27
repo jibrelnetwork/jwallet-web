@@ -9,6 +9,11 @@ import {
   Field,
 } from 'react-final-form'
 
+import {
+  withKnobs,
+  text,
+} from '@storybook/addon-knobs'
+
 import { JInputField } from './JInputField'
 
 function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
@@ -33,6 +38,7 @@ function formStoryWrapper(component, extraProps = {}, initialValues = { }) {
 }
 
 storiesOf('base|JInputField', module)
+  .addDecorator(withKnobs)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(JInputField, {
@@ -45,7 +51,7 @@ storiesOf('base|JInputField', module)
       {formStoryWrapper(JInputField, {
         label: 'Disabled',
         isDisabled: true,
-      }, { foo: 'Some text' })}
+      }, { foo: text('Value', 'Some text') })}
     </div>
   ))
   .add('Error and message', () => (
