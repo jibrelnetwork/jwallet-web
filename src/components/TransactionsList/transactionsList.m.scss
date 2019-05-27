@@ -1,0 +1,36 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row;
+
+  padding-bottom: $new-page-header-height;
+}
+
+.transactions-list {
+  width: 100%;
+
+  > .loader {
+    @include flex-row-center;
+
+    width: 100%;
+    margin-top: 30px;
+  }
+}
+
+.sidebar {
+  position: relative;
+  width: 100%;
+  max-width: 352px;
+  margin-left: 32px;
+}
+
+.close-sidebar {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  z-index: 100;
+  display: block;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
