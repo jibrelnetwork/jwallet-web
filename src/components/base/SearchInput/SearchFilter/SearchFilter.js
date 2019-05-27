@@ -27,6 +27,7 @@ export function SearchFilter({
     onBlur,
   }] = useFocus()
 
+  // JIcon data-focused is required to turn off weird webpack optimization that breaks storybook
   return (
     <div className={`__search-filter ${searchFilterStyle.core}`}>
       {isFocused && (
@@ -62,7 +63,7 @@ export function SearchFilter({
           onClick={onBlur}
           title={t`Close filter`}
         >
-          <JIcon name='ic_close_24-use-fill' />
+          <JIcon data-focused={isFocused} name='ic_close_24-use-fill' />
         </button>
         {children}
       </div>

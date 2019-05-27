@@ -12,9 +12,9 @@ import {
   getMenuMeta,
 } from './components/MenuPanel/menuMeta'
 
-type Props = {|
-  +openLayout: Function,
-  +closeLayout: Function,
+export type Props = {|
+  +openLayout: () => any,
+  +closeLayout: () => any,
   +children: React$Node,
   +routeName: string,
   +isConnectionError: boolean,

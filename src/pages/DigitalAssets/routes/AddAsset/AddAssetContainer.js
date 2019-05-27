@@ -12,7 +12,11 @@ import {
   submitAssetForm,
 } from 'store/modules/addAsset'
 
+// eslint-disable-next-line import/no-duplicates
 import AddAssetView from './AddAssetView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './AddAssetView'
 
 function mapStateToProps(state: AppState) {
   const {
@@ -40,5 +44,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(AddAssetView)

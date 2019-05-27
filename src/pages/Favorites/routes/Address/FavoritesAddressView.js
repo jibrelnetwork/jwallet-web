@@ -15,7 +15,7 @@ import {
   ignoreEvent,
 } from 'utils/eventHandlers'
 
-type Props = {|
+export type Props = {|
   +close: Function,
   +onClose: () => void,
   +add: (string, string, string) => void,

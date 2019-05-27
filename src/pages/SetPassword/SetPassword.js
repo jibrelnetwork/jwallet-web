@@ -12,7 +12,10 @@ import {
   deriveKeyFromPassword,
 } from 'utils/encryption'
 
-import { SetPasswordView } from './SetPasswordView'
+import {
+  SetPasswordView,
+  type Props,
+} from './SetPasswordView'
 
 async function submitSetPasswordForm(
   values: FormFields,
@@ -79,12 +82,10 @@ function mapStateToProps() {
   }
 }
 
-/* ::
 type OwnProps = {|
   dispatch?: Function,
 |}
-*/
 
-export const SetPassword = connect/* :: < AppState, null, OwnProps, _, _ > */(
+export const SetPassword = connect< Props, OwnProps, _, _, _, _ >(
   mapStateToProps,
 )(SetPasswordView)

@@ -11,7 +11,11 @@ import {
   submitAssetForm,
 } from 'store/modules/editAsset'
 
+// eslint-disable-next-line import/no-duplicates
 import EditAssetView from './EditAssetView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './EditAssetView'
 
 type OwnProps = {|
   +params: {|
@@ -45,5 +49,5 @@ const mapDispatchToProps = {
 }
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(EditAssetView)

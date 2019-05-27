@@ -13,7 +13,7 @@ import {
 
 import './favoritesView.scss'
 
-type Props = {|
+export type Props = {|
   +remove: (FavoriteAddress) => void,
   +items: Favorite[],
   +isWalletReadOnly: boolean,

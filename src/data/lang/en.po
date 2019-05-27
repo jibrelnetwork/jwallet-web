@@ -785,6 +785,7 @@ msgid "There are no items to display"
 msgstr "There are no transactions to display"
 
 #: src/components/TransactionsFilter/TransactionsFilter.js
+#: src/components/base/SearchInput/SearchFilter/SearchFilter.js
 msgid "Filter"
 msgstr "Filter"
 
@@ -1318,6 +1319,7 @@ msgid "Assets"
 msgstr ""
 
 #: src/pages/Home/HomeView.js
+#: src/pages/Introduction/data.js
 msgid "Manage"
 msgstr ""
 
@@ -1342,19 +1344,19 @@ msgstr ""
 msgid "Not Found"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
+#: src/pages/WalletsStart/components/NewWalletButtons/NewWalletButtons.js
 msgid "Create Wallet"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
+#: src/pages/WalletsStart/components/NewWalletButtons/NewWalletButtons.js
 msgid "Create your own wallet to manage your digital assets"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
+#: src/pages/WalletsStart/components/NewWalletButtons/NewWalletButtons.js
 msgid "Import Wallet"
 msgstr ""
 
-#: src/components/NewWalletButtons/NewWalletButtons.js
+#: src/pages/WalletsStart/components/NewWalletButtons/NewWalletButtons.js
 msgid "Import an existing wallet with backup phrase, private key, etc."
 msgstr ""
 
@@ -1373,4 +1375,120 @@ msgstr ""
 
 #: src/pages/SetPassword/SetPasswordView.js
 msgid "Enter Password Hint"
+msgstr ""
+
+#: src/pages/SetPassword/SetPasswordView.js
+msgid ""
+"If you forget your Security Password,\n"
+"some functions won’t be available. To restore access to all functions\n"
+"you will need to clear your data and re-import your wallets again using "
+"backup phrase."
+msgstr ""
+
+#: src/pages/Introduction/Introduction.js
+msgid "Get Started"
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid "Jwallet"
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid ""
+"A simple, fast and secure mobile wallet \n"
+"<br> for Ethereum and all ERC-20 tokens."
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid "Store"
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid ""
+"Create and manage several wallets for different goals or just simply \n"
+"<br> import your existing Ethereum and ERC-20 wallet."
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid "Protect"
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid ""
+"All sensitive data never leaves your device and your private keys \n"
+"<br> are never shared with anyone, including us."
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid "Send & Receive"
+msgstr ""
+
+#: src/pages/Introduction/data.js
+msgid ""
+"Enjoy complete control over your digital assets. \n"
+"<br> Manage ETH and all ERC-20 tokens."
+msgstr ""
+
+#: src/components/base/SearchInput/SearchFilter/SearchFilter.js
+msgid "Close filter"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Save a wallet backup phrase"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "to a secure storage or write it down on the paper."
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Save a wallet backup phrase to a secure storage"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "or write it down on the paper."
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid " and passphrase"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid " and derivation path"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid ", passphrase and derivation path"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Back Up ${ name }"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Mnemonic Phrase"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Passphrase"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Derivation Path"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Download Backup as TXT"
+msgstr ""
+
+#: src/components/WalletBackupForm/WalletBackupForm.js
+msgid "Done"
+msgstr ""
+
+#: src/components/FieldPreview/FieldPreview.js
+msgid "Add Contact"
+msgstr ""
+
+#: src/components/FieldPreview/FieldPreview.js
+msgid "Copy"
 msgstr ""

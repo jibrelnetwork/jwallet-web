@@ -68,4 +68,18 @@ describe('Render', () => {
 
     expect(wrapper.find('.actions > .action').length).toBe(2)
   })
+
+  test('Applying copy message', () => {
+    const props = {
+      label: 'Test label',
+      body: 'Some value',
+      link: 'https://jibrel.network',
+      copy: 'haha',
+      contact: 'contact',
+      copyMessage: 'Copymassage :D',
+    }
+    const wrapper = shallow(<FieldPreview {...props} />)
+
+    expect(wrapper.find('.actions > .action').length).toBe(2)
+  })
 })

@@ -24,6 +24,18 @@ type Props = {
   onClick?: ?Function,
 }
 
+type OwnProps = {|
+  +children: React$Node,
+  className?: ?string,
+  +routeName: string,
+  routeParams?: ?{
+    [key: string]: any,
+  },
+  theme?: ?Theme,
+  activeClassName?: ?string,
+  onClick?: ?Function,
+|}
+
 export class JLinkBackDisconnected extends PureComponent<Props> {
   static defaultProps = {
     theme: null,
@@ -73,17 +85,11 @@ export class JLinkBackDisconnected extends PureComponent<Props> {
   }
 }
 
-/* ::
-type OwnProps = {|
-  +children: React$Node,
-  className?: ?string,
-  +routeName: string,
-|}
-*/
+const mapStateToProps = (state: AppState) => ({
+  previousRoute: state.router.previousRoute,
+})
 
 // FIXME: support inexact OwnProps
-export const JLinkBack = connect/* :: < AppState, any, OwnProps, _, _ > */(
-  (state: AppState) => ({
-    previousRoute: state.router.previousRoute,
-  }),
+export const JLinkBack = connect< Props, OwnProps, _, _, _, _ >(
+  mapStateToProps,
 )(JLinkBackDisconnected)

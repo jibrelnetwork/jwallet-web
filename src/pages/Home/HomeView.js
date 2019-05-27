@@ -27,17 +27,17 @@ import homeStyle from './home.m.scss'
 const JCASH_UTM_URL = 'https://jcash.network?utm_source=jwallet&utm_medium=internal_link&utm_campaign=jibrel_projects_promo&utm_content=home_exchange'
 const ASSETS_HEADER_BOTTOM_EDGE = 376
 
-type Props = {|
+export type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +items: DigitalAssetWithBalance[],
 |}
 
-type ComponentState = {
+type ComponentState = {|
   searchQuery: string,
   isInManageMode: boolean,
   isSticky: boolean,
-}
+|}
 
 export class HomeView extends Component<Props, ComponentState> {
   constructor(props: Props) {
