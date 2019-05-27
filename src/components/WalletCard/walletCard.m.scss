@@ -91,11 +91,6 @@
   line-height: 1.57;
 }
 
-.input {
-  border: none;
-  background: $main-black-40;
-}
-
 .address {
   @include flex-row;
 
@@ -114,6 +109,21 @@
 .balance {
   color: $white;
   font-family: $font;
+}
+
+.input {
+  border: none;
+  background: $main-black-50;
+  height: 28px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 4px;
+  margin-left: -8px;
+  margin-top: -1px;
+
+  + .balance {
+    padding-top: 1px;
+  }
 }
 
 .actions {
