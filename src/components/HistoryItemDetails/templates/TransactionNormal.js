@@ -135,7 +135,7 @@ export function TransactionNormalTemplate(props: Props) {
           onChange={props.editNote(setNote, props.id)}
         />
       </div>
-      {props.status === 'success' && (
+      {props.status === 'success' && props.type === 'out' && (
         <JLink
           theme='button-secondary'
           href={REPEAT_PAYMENT_URI}
