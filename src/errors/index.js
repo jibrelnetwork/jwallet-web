@@ -1,5 +1,8 @@
 // @flow
 
+/* Common Errors */
+export { PageNotFoundError } from './PageNotFoundError'
+
 /* Selector errors */
 export { default as ActiveNetworkNotFoundError } from './ActiveNetworkNotFoundError'
 export { default as ActiveWalletNotFoundError } from './ActiveWalletNotFoundError'
