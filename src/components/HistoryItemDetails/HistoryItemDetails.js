@@ -50,7 +50,6 @@ function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
     fromName: getPrimaryName(state, transactionRecord.from),
     toName: getPrimaryName(state, transactionRecord.to),
     blockExplorer: blockExplorerUISubdomain,
-    type: 'cancel',
   }
 }
 
