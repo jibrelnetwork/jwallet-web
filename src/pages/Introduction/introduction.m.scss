@@ -1,9 +1,39 @@
 @import 'styles/mixins';
 
+.wrapper {
+  overflow: hidden;
+  max-width: 544px;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 232px;
+    width: 130px;
+    z-index: 1;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(90deg, $pale-grey 0%, rgba($pale-grey, 0) 100%);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(270deg, $pale-grey 0%, rgba($pale-grey, 0) 100%);
+  }
+}
+
 .slider {
-  width: 100%;
+  width: 544px;
   display: flex;
   align-items: flex-start;
+
+  @media (max-width: 544px) {
+    width: 100vw;
+  }
 }
 
 .slide {
