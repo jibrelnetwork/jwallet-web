@@ -29,6 +29,20 @@ const RE_INVALID_HEX: RegExp = /[^a-f0-9]/i
 const RE_INVALID_BASE: RegExp = /[^a-z1-9]/i
 const RE_INVALID_MNEMONIC: RegExp = /[^a-z ]/i
 
+export function getInfoNameMessage(name: string): ?string {
+  if (!name) {
+    return null
+  }
+
+  try {
+    walletsPlugin.checkWalletUniqueness(name, 'name')
+  } catch (error) {
+    return t`You already have a wallet with this name.`
+  }
+
+  return null
+}
+
 export function getErrorDerivationPathMessage(derivationPath: ?string): ?string {
   return (!derivationPath || checkDerivationPathValid(derivationPath))
     ? null

@@ -31,6 +31,14 @@ import {
 
 import walletsImportStyle from './walletsImport.m.scss'
 
+import {
+  getInfoNameMessage,
+  getInfoDataMessage,
+  getErrorDataMessage,
+  getSuccessDataMessage,
+  getErrorDerivationPathMessage,
+} from './dataMessage'
+
 export type WalletsImportBackHandler = () => void
 export type WalletsImportStep = 'DATA' | 'PASSWORD'
 type WalletsImportSteps = { [WalletsImportStep]: WalletsImportStep }
@@ -43,11 +51,7 @@ export type WalletsImportSubmitPayload = {|
 
 export type Props = {|
   onBack?: ?WalletsImportBackHandler,
-  +getSuccessDataMessage: string => ?string,
-  +getErrorDerivationPathMessage: string => ?string,
   +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
-  +getInfoDataMessage: (?string, ?string, ?string, ?string) => ?string,
-  +getErrorDataMessage: (?string, ?string, ?string, ?string) => ?string,
   +hint: string,
 |}
 
@@ -169,13 +173,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
     submitting: isSubmitting,
   }: FormRenderProps) => {
     const {
-      getInfoDataMessage,
-      getErrorDataMessage,
-      getSuccessDataMessage,
-      getErrorDerivationPathMessage,
-    }: Props = this.props
-
-    const {
+      name,
       data,
       passphrase,
       derivationPath,
@@ -206,6 +204,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
         <Field
           component={JInputField}
           label={t`Wallet Name`}
+          infoMessage={name && getInfoNameMessage(name)}
           name='name'
           isDisabled={isSubmitting}
         />

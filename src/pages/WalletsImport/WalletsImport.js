@@ -21,7 +21,6 @@ import {
 import {
   getInfoDataMessage,
   getErrorDataMessage,
-  getSuccessDataMessage,
   getErrorDerivationPathMessage,
 } from './dataMessage'
 
@@ -162,10 +161,6 @@ async function submitWalletsImportForm({
 
 function mapStateToProps(state: AppState) {
   return {
-    getInfoDataMessage,
-    getErrorDataMessage,
-    getSuccessDataMessage,
-    getErrorDerivationPathMessage,
     hint: selectPasswordHint(state),
     submit: submitWalletsImportForm,
   }
