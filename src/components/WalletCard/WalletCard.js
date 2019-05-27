@@ -125,7 +125,7 @@ class WalletCard extends Component<Props, StateProps> {
               <span
                 className={classNames(
                   walletCard.name,
-                  isRenameActive && walletCard['-editable'],
+                  isRenameActive && walletCard.editable,
                 )}
                 onClick={this.handleActivateRename}
               >

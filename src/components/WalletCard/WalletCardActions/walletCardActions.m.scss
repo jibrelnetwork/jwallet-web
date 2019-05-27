@@ -10,7 +10,6 @@
 }
 
 .overlay {
-  z-index: 2;
   top: -9999px;
   right: -9999px;
   bottom: -9999px;
@@ -18,6 +17,7 @@
   display: none;
   cursor: pointer;
   position: fixed;
+  z-index: $z-wallet-card-actions-overlay;
 }
 
 .actions {
