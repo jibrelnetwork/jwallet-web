@@ -16,9 +16,9 @@ import offset from 'styles/offsets.m.scss'
 
 import { FieldPreview } from '../components'
 
-import { type Props } from '../TransactionDetailsInternal'
+import { type Props } from '../HistoryItemDetailsInternal'
 
-import style from '../transactionDetails.m.scss'
+import style from '../historyItemDetails.m.scss'
 
 const TRANSACTION_DESCRIPTION = {
   success: {
@@ -76,7 +76,7 @@ export function TransactionCancelTemplate(props: Props) {
         />
         <FieldPreview
           label={t`Blockchain transaction`}
-          body={getShortenedAddress(props.txHash)}
+          body={getShortenedAddress(props.id)}
         />
         <FieldPreview
           label={t`Estimated blockchain fee`}
@@ -91,13 +91,13 @@ export function TransactionCancelTemplate(props: Props) {
           infoMessage={t`This note is only visible to you.`}
           color='gray'
           value={note}
-          onChange={props.editNote(setNote, props.txHash)}
+          onChange={props.editNote(setNote, props.id)}
         />
       </div>
       {(props.status === 'stuck' || props.status === 'fail') && (
         <JLink
           theme='button-secondary'
-          href={`/history/${props.txHash}/cancel`}
+          href={`/history/${props.id}/cancel`}
         >
           {t`Cancel`}
         </JLink>

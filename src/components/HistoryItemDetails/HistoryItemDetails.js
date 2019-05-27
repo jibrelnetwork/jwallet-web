@@ -1,13 +1,9 @@
 // @flow strict
 
 import { connect } from 'react-redux'
-import {
-  memoize,
-} from 'lodash-es'
+import { memoize } from 'lodash-es'
 
-import {
-  edit,
-} from 'store/modules/comments'
+import { edit } from 'store/modules/comments'
 import { selectFavorites } from 'store/selectors/favorites'
 import { selectAddressWalletsNames } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
@@ -19,8 +15,8 @@ import {
 
 import {
   type Props,
-  TransactionDetailsInternal,
-} from './TransactionDetailsInternal'
+  HistoryItemDetailsInternal,
+} from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 
 export type ContainerProps = {
   txHash: TransactionId,
@@ -57,8 +53,8 @@ function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
   }
 }
 
-export const TransactionDetails = (
+export const HistoryItemDetails = (
   connect< Props, ContainerProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)(
-    (TransactionDetailsInternal),
+    (HistoryItemDetailsInternal),
   )
 )

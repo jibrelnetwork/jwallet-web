@@ -24,9 +24,9 @@ import {
   FieldPreview,
 } from '../components'
 
-import { type Props } from '../TransactionDetailsInternal'
+import { type Props } from '../HistoryItemDetailsInternal'
 
-import style from '../transactionDetails.m.scss'
+import style from '../historyItemDetails.m.scss'
 
 const TRANSACTION_DESCRIPTION = {
   in: {
@@ -110,9 +110,9 @@ export function TransactionNormalTemplate(props: Props) {
         />
         <FieldPreview
           label={t`Blockchain transaction`}
-          body={getShortenedAddress(props.txHash)}
-          link={getTxLink(props.txHash, props.blockExplorer)}
-          copy={props.txHash}
+          body={getShortenedAddress(props.id)}
+          link={getTxLink(props.id, props.blockExplorer)}
+          copy={props.id}
         />
         <FieldPreview
           label={t`Estimated blockchain fee`}
@@ -127,7 +127,7 @@ export function TransactionNormalTemplate(props: Props) {
           infoMessage={t`This note is only visible to you.`}
           color='gray'
           value={note}
-          onChange={props.editNote(setNote, props.txHash)}
+          onChange={props.editNote(setNote, props.id)}
         />
       </div>
       {props.status === 'success' && (
@@ -143,13 +143,13 @@ export function TransactionNormalTemplate(props: Props) {
           <JLink
             className={offset.mb8}
             theme='button-secondary'
-            href={`/history/${props.txHash}/restart`}
+            href={`/history/${props.id}/restart`}
           >
             {t`Restart`}
           </JLink>
           <JLink
             theme='button-secondary'
-            href={`/history/${props.txHash}/cancel`}
+            href={`/history/${props.id}/cancel`}
           >
             {t`Cancel`}
           </JLink>

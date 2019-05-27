@@ -11,7 +11,7 @@ import {
 
 import { handleEditNote } from './utils'
 
-import { type ContainerProps } from './TransactionDetails'
+import { type ContainerProps } from './HistoryItemDetails'
 
 export type Props = {
   ...ContainerProps,
@@ -46,5 +46,5 @@ TransactionDetailsView.defaultProps = {
   blockExplorer: '',
 }
 
-export const TransactionDetailsInternal =
+export const HistoryItemDetailsInternal =
   React.memo<Props>(TransactionDetailsView)
