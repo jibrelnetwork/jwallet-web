@@ -44,7 +44,7 @@ describe('form finalFormComposeWithValidateRequired', () => {
     await expect(validate({ test: [] })).resolves.not.toHaveProperty([FORM_ERROR_REQUIRED])
   })
 
-  it('adds 2 additional errors on any number of required fields', async () => {
+  it('adds 1 additional error on any number of required fields', async () => {
     const values = {
       foo: 'foo',
       bar: null,
@@ -55,36 +55,35 @@ describe('form finalFormComposeWithValidateRequired', () => {
     }, () => {})
 
     await expect(validateOne(values)).resolves.toHaveProperty([FORM_ERROR_REQUIRED])
-    await expect(validateOne(values)).resolves.toHaveProperty([FORM_ERROR])
 
     const validateTwo = finalFormComposeWithValidateRequired({
       requiredKeys: ['bar', 'foobar'],
     }, () => {})
 
     await expect(validateTwo(values)).resolves.toHaveProperty([FORM_ERROR_REQUIRED])
-    await expect(validateTwo(values)).resolves.toHaveProperty([FORM_ERROR])
+  })
+
+  it('adds general form error if it is turned on by config', async () => {
+    const values = { test: null }
+    const validate = finalFormComposeWithValidateRequired({
+      requiredKeys: ['test'],
+      setFormError: true,
+    }, () => {})
+
+    await expect(validate(values)).resolves.toHaveProperty([FORM_ERROR_REQUIRED])
+    await expect(validate(values)).resolves.toHaveProperty([FORM_ERROR])
   })
 
   it('does not change general form error if it is already specified', async () => {
     const values = { test: null }
     const validate = finalFormComposeWithValidateRequired({
       requiredKeys: ['test'],
+      setFormError: true,
     }, () => ({
       [FORM_ERROR]: 'Test',
     }))
 
     await expect(validate(values)).resolves.toHaveProperty([FORM_ERROR_REQUIRED])
     await expect(validate(values)).resolves.toHaveProperty([FORM_ERROR], 'Test')
-  })
-
-  it('does not add general form error if it is turned off by config', async () => {
-    const values = { test: null }
-    const validate = finalFormComposeWithValidateRequired({
-      requiredKeys: ['test'],
-      setFormError: false,
-    }, () => {})
-
-    await expect(validate(values)).resolves.toHaveProperty([FORM_ERROR_REQUIRED])
-    await expect(validate(values)).resolves.not.toHaveProperty([FORM_ERROR])
   })
 })

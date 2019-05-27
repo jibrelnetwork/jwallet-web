@@ -12,7 +12,7 @@ export const FORM_ERROR_REQUIRED = 'FINAL_FORM/required-error'
 
 export const finalFormComposeWithValidateRequired = ({
   requiredKeys = [],
-  setFormError = true,
+  setFormError = false,
 }, validate) => values =>
   Promise.resolve()
     .then(
