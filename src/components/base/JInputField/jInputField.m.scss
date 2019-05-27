@@ -7,7 +7,6 @@
 }
 
 .wrap,
-.label,
 .input {
   @include hover-animation;
 }
@@ -24,12 +23,15 @@
 }
 
 .label {
+  @include property-transition(color, font-size, font-weight, top);
+
   position: absolute;
   display: block;
   top: 24px;
   left: 16px;
   right: 24px;
   font-size: 14px;
+  font-weight: 600;
   line-height: 22px;
   cursor: text;
 }
@@ -100,7 +102,7 @@
   }
 
   .label {
-    color: $main-black-40;
+    color: $main-black-30;
   }
 
   &:hover .input::placeholder,
