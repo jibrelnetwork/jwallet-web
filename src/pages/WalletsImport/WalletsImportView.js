@@ -73,6 +73,10 @@ const DEFAULT_DATA_MESSAGE: string = t`Enter a private key or backup phrase of t
 to import. You can also enter a public key or address to access wallet in read-only mode. We 
 support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
 
+const DEFAULT_DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
+affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
+mnemonic from a hardwallet. In all other cases just leave it as is.`
+
 export class WalletsImportView extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: null,
@@ -225,6 +229,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
             <Field
               component={JInputField}
               label={t`Derivation Path (Optional)`}
+              infoMessage={DEFAULT_DERIVATION_PATH_MESSAGE}
               errorMessage={derivationPath && getErrorDerivationPathMessage(derivationPath)}
               name='derivationPath'
               isDisabled={isSubmitting}
