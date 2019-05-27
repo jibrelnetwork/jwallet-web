@@ -17,7 +17,10 @@ import {
   transactionsIndex,
 } from 'components/TransactionItemNew/transactionsIndex'
 
-import { TransactionDetailsInternal } from './TransactionDetailsInternal'
+import {
+  type Props,
+  TransactionDetailsInternal,
+} from './TransactionDetailsInternal'
 
 import { getTransactionDetailsConfig } from './getTransactionDetailsConfig'
 
@@ -57,7 +60,7 @@ function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
 }
 
 export const TransactionDetails = (
-  connect/* :: < AppState, any, ContainerProps, _, _> */(mapStateToProps, mapDispatchToProps)(
+  connect< Props, ContainerProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)(
     (TransactionDetailsInternal),
   )
 )

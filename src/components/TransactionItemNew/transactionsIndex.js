@@ -12,12 +12,12 @@ import { selectFavorites } from 'store/selectors/favorites'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { getTxFee } from 'utils/transactions'
 
-export type TransactionDirection = 'in' | 'out'
+export type TransactionDirection = 'in' | 'out' | 'cancel'
 export type TransactionStatus = 'success' | 'pending' | 'fail' | 'stuck'
 export type TransactionItem = {|
   +id: TransactionId,
   +asset: ?DigitalAsset, // FIXME: Don't use nested properties, use only used properties from object
-  +type: TransactionDirection,
+  +type: TransactionDirection, // FIXME: direction?
   +status: TransactionStatus,
   +title: string,
   +from: OwnerAddress,

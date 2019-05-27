@@ -22,7 +22,6 @@ import {
 import { formatTransactionAmount } from 'utils/formatters'
 import { getFormattedDateString } from 'utils/time'
 
-import { type ContainerProps } from 'components/TransactionDetails/TransactionDetails'
 import { type TransactionItem } from 'components/TransactionItemNew/transactionsIndex'
 
 import offset from 'styles/offsets.m.scss'
@@ -31,6 +30,8 @@ import {
   AssetItemPreview,
   FieldPreview,
 } from './components'
+
+import { type ContainerProps } from './TransactionDetails'
 
 import style from './transactionDetails.m.scss'
 
@@ -77,6 +78,7 @@ function TransactionDetailsView(props: Props) {
     new Date(props.timestamp),
     'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
   )
+  const isNotCancel = props.type !== 'cancel'
 
   return (
     <div className={classNames(style.core, props.className)}>
@@ -97,29 +99,33 @@ function TransactionDetailsView(props: Props) {
             </div>
           </div>
         </div>
-        <AssetItemPreview {...props.asset} />
-        <FieldPreview
-          label={t`Amount`}
-          body={formatTransactionAmount(props)}
-        />
+        {isNotCancel && <AssetItemPreview {...props.asset} />}
+        {isNotCancel && (
+          <FieldPreview
+            label={t`Amount`}
+            body={formatTransactionAmount(props)}
+          />
+        )}
         <FieldPreview
           label={t`Sender`}
           body={props.fromName}
-          link={getAddressLink(props.from, props.blockExplorer)}
-          contact={props.from}
-          copy={props.from}
+          link={isNotCancel ? getAddressLink(props.from, props.blockExplorer) : ''}
+          contact={isNotCancel ? props.from : ''}
+          copy={isNotCancel ? props.from : ''}
         />
-        <FieldPreview
-          label={t`Recipient`}
-          body={props.toName}
-          link={getAddressLink(props.to, props.blockExplorer)}
-          copy={props.to}
-        />
+        {isNotCancel && (
+          <FieldPreview
+            label={t`Recipient`}
+            body={props.toName}
+            link={getAddressLink(props.to, props.blockExplorer)}
+            copy={props.to}
+          />
+        )}
         <FieldPreview
           label={t`Blockchain transaction`}
           body={getShortenedAddress(props.txHash)}
-          link={getTxLink(props.txHash, props.blockExplorer)}
-          copy={props.txHash}
+          link={isNotCancel ? getTxLink(props.txHash, props.blockExplorer) : ''}
+          copy={isNotCancel ? props.txHash : ''}
         />
         <FieldPreview
           label={t`Estimated blockchain fee`}
@@ -137,7 +143,7 @@ function TransactionDetailsView(props: Props) {
           onChange={memoizedHandler(props.editNote, setNote, props.txHash)}
         />
       </div>
-      {props.status === 'success' && (
+      {props.status === 'success' && isNotCancel && (
         <JLink
           theme='button-secondary'
           href={REPEAT_PAYMENT_URI}
@@ -162,6 +168,14 @@ function TransactionDetailsView(props: Props) {
           </JLink>
         </>
       )}
+      {((props.status === 'stuck' || props.status === 'fail') && !isNotCancel) && (
+        <JLink
+          theme='button-secondary'
+          href={`/history/${props.txHash}/cancel`}
+        >
+          {t`Cancel`}
+        </JLink>
+      )}
     </div>
   )
 }
@@ -171,4 +185,4 @@ TransactionDetailsView.defaultProps = {
 }
 
 export const TransactionDetailsInternal =
-  React.memo/* :: <Props> */(TransactionDetailsView)
+  React.memo<Props>(TransactionDetailsView)
