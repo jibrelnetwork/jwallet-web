@@ -22,8 +22,6 @@ import {
   TransactionDetailsInternal,
 } from './TransactionDetailsInternal'
 
-import { getTransactionDetailsConfig } from './getTransactionDetailsConfig'
-
 export type ContainerProps = {
   txHash: TransactionId,
   className: string,
@@ -51,12 +49,12 @@ function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
   const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
   const transactionRecord = memoizedIndex(state)[txHash]
 
-  return getTransactionDetailsConfig({
+  return {
     ...transactionRecord,
     fromName: getPrimaryName(state, transactionRecord.from),
     toName: getPrimaryName(state, transactionRecord.to),
     blockExplorer: blockExplorerUISubdomain,
-  })
+  }
 }
 
 export const TransactionDetails = (
