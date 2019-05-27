@@ -28,6 +28,8 @@ import { type Props } from '../HistoryItemDetailsInternal'
 
 import style from '../historyItemDetails.m.scss'
 
+const ADDRESS_COPIED = t`Address copied.`
+const TX_COPIED = t`Blockchain transaction copied.`
 const TRANSACTION_DESCRIPTION = {
   in: {
     statusDescription: t`Transfer processed.`,
@@ -101,18 +103,21 @@ export function TransactionNormalTemplate(props: Props) {
           link={getAddressLink(props.from, props.blockExplorer)}
           contact={props.from}
           copy={props.from}
+          copyMessage={ADDRESS_COPIED}
         />
         <FieldPreview
           label={t`Recipient`}
           body={props.toName}
           link={getAddressLink(props.to, props.blockExplorer)}
           copy={props.to}
+          copyMessage={ADDRESS_COPIED}
         />
         <FieldPreview
           label={t`Blockchain transaction`}
           body={getShortenedAddress(props.id)}
           link={getTxLink(props.id, props.blockExplorer)}
           copy={props.id}
+          copyMessage={TX_COPIED}
         />
         <FieldPreview
           label={t`Estimated blockchain fee`}
