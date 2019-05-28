@@ -6,7 +6,11 @@ import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { PasswordInput } from 'components'
-import { Button } from 'components/base'
+
+import {
+  JLink,
+  Button,
+} from 'components/base'
 
 import walletPasswordFormStyle from './walletPasswordForm.m.scss'
 
@@ -45,8 +49,15 @@ export function WalletPasswordForm({
         isLoading={isSubmitting}
         isDisabled={!(password || '').trim()}
       >
-        {t`Import`}
+        {t`Continue`}
       </Button>
+      <JLink
+        className={walletPasswordFormStyle.forgot}
+        color='blue'
+        href='/forgot-password'
+      >
+        {t`Forgot?`}
+      </JLink>
     </form>
   )
 }

@@ -6,8 +6,13 @@ import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
 import { walletsPlugin } from 'store/plugins'
-import { checkMnemonicType } from 'utils/wallets'
 import { selectPasswordHint } from 'store/selectors/password'
+
+import {
+  validateName,
+  checkMnemonicType,
+  validateDerivationPath,
+} from 'utils/wallets'
 
 import {
   STEPS,
@@ -21,33 +26,14 @@ import {
 import {
   getInfoDataMessage,
   getErrorDataMessage,
-  getErrorDerivationPathMessage,
 } from './dataMessage'
 
 type OwnProps = {|
   +onBack?: ?WalletsImportBackHandler,
 |}
 
-const RE_INVALID_NAME: RegExp = /[/]/
-
 async function importWallet(values: FormFields): ?FormFields {
   return walletsPlugin.importWallet(values)
-}
-
-function validateWalletName(name: ?string): ?string {
-  if (!name) {
-    return t`Name should not be empty`
-  } else if (name.length > 32) {
-    return t`Length of name should not be greater than 32 symbols`
-  }
-
-  const hasInvalidSymbols: boolean = RE_INVALID_NAME.test(name)
-
-  if (hasInvalidSymbols) {
-    return t`Name should not include invalid symbols`
-  }
-
-  return null
 }
 
 function validateWalletData(
@@ -103,7 +89,7 @@ function validateWalletsImportForm(
 
   switch (currentStep) {
     case STEPS.DATA: {
-      const validateWalletNameResult: ?string = validateWalletName(name)
+      const validateWalletNameResult: ?string = validateName(name)
 
       if (validateWalletNameResult) {
         formErrors.name = validateWalletNameResult
@@ -121,7 +107,7 @@ function validateWalletsImportForm(
       }
 
       if (checkMnemonicType(walletType)) {
-        const validateDerivationPathResult: ?string = getErrorDerivationPathMessage(derivationPath)
+        const validateDerivationPathResult: ?string = validateDerivationPath(derivationPath)
 
         if (validateDerivationPathResult) {
           formErrors.derivationPath = validateDerivationPathResult
