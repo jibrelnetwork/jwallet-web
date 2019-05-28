@@ -1,11 +1,5 @@
-// @flow
+// @flow strict
 
-import getWallet from './getWallet'
-
-function removeWallet(wallets: Wallets, walletId: string): Wallets {
-  const wallet: Wallet = getWallet(wallets, walletId)
-
-  return wallets.filter(({ id }: Wallet): boolean => (wallet.id !== id))
+export function removeWallet(wallets: Wallets, walletId: WalletId): Wallets {
+  return wallets.filter(({ id }: Wallet): boolean => (walletId !== id))
 }
-
-export default removeWallet

@@ -6,9 +6,13 @@ import { type Store } from 'redux'
 import { actions as router5Actions } from 'redux-router5'
 
 import { gaSendEvent } from 'utils/analytics'
-import { WalletInconsistentDataError } from 'errors'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectPasswordPersist } from 'store/selectors/password'
+
+import {
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 import {
   setActiveWallet,
@@ -59,6 +63,25 @@ function max(a: number, b: number): number {
   return (a > b) ? a : b
 }
 
+function removeWallet(items: Wallets, walletId: WalletId): Wallets {
+  return items.filter(({ id }: Wallet): boolean => (walletId !== id))
+}
+
+function appendWallet(items: Wallets, wallet: Wallet): Wallets {
+  /* eslint-disable-next-line fp/no-mutating-methods */
+  return [
+    ...items,
+    wallet,
+  ].sort((a: Wallet, b: Wallet): number => {
+    if (a.orderIndex === b.orderIndex) {
+      return 0
+    }
+
+    return (a.orderIndex > b.orderIndex) ? 1 : -1
+  })
+  /* eslint-enable-next-line fp/no-mutating-methods */
+}
+
 class WalletsPlugin {
   store: ?Store<AppState, any>
 
@@ -87,23 +110,6 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
-
-  appendWallet(wallet: Wallet): Wallets {
-    const items: Wallets = this.getItems()
-
-    /* eslint-disable-next-line fp/no-mutating-methods */
-    return [
-      ...items,
-      wallet,
-    ].sort((a: Wallet, b: Wallet): number => {
-      if (a.orderIndex === b.orderIndex) {
-        return 0
-      }
-
-      return (a.orderIndex > b.orderIndex) ? 1 : -1
-    })
-    /* eslint-enable-next-line fp/no-mutating-methods */
-  }
 
   createMnemonicWallet = (
     walletData: WalletData,
@@ -375,6 +381,12 @@ class WalletsPlugin {
         orderIndex: this.getNextOrderIndex(),
       }, internalKeyDec)
 
+      const items: Wallets = this.getItems()
+      const newItems: Wallets = appendWallet(items, newWallet)
+
+      this.dispatch(setWalletsItems(newItems))
+      this.dispatch(router5Actions.navigateTo('Wallets'))
+
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreated')
       } else {
@@ -383,7 +395,7 @@ class WalletsPlugin {
 
       const newWallets: Wallets = this.appendWallet(newWallet)
 
-      if (newWallets.length === 1) {
+      if (newItems.length === 1) {
         this.dispatch(setActiveWallet(newWallet.id))
       }
 
@@ -431,6 +443,55 @@ class WalletsPlugin {
     if (foundWallet) {
       throw new Error(t`Wallet with such ${propertyName} already exists`)
     }
+  }
+
+  getWallet = (walletId: WalletId): Wallet => {
+    const items: Wallets = this.getItems()
+    const wallet: ?Wallet = items.find(({ id }: Wallet): boolean => (walletId === id))
+
+    if (!wallet) {
+      throw new WalletNotFoundError({ walletId })
+    }
+
+    return { ...wallet }
+  }
+
+  updateWallet = (
+    walletId: WalletId,
+    updatedData: WalletUpdatedData,
+  ): Wallets => {
+    const {
+      encrypted,
+      name,
+      xpub,
+      derivationPath,
+      customType,
+      addressIndex,
+      isReadOnly,
+      isSimplified,
+    }: WalletUpdatedData = updatedData
+
+    const wallet: Wallet = this.getWallet(walletId)
+
+    const newWallet: Wallet = {
+      ...wallet,
+      encrypted: encrypted || wallet.encrypted,
+      name: name || wallet.name,
+      xpub: xpub || wallet.xpub,
+      customType: customType || wallet.customType,
+      derivationPath: derivationPath || wallet.derivationPath,
+      addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
+      isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
+      isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
+    }
+
+    const items: Wallets = this.getItems()
+    const itemsRemoved: Wallets = removeWallet(items, walletId)
+    const itemsAppended: Wallets = appendWallet(itemsRemoved, newWallet)
+
+    this.dispatch(setWalletsItems(itemsAppended))
+
+    return itemsAppended
   }
 }
 
