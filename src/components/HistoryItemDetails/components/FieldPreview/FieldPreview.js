@@ -30,7 +30,7 @@ function copyToClipboard({ currentTarget }: SyntheticEvent<HTMLButtonElement>): 
 
   if (message) {
     // FIXME: Call real snackbar method
-    alert(`${message} copied`)
+    alert(message)
   }
 }
 

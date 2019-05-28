@@ -26,8 +26,8 @@ export default [
     img: '/assets/feature/send_receive.png',
     animationName: 'send_receive',
     title: t`Send & Receive`,
-    descr: t`All sensitive data never leaves your device and your private keys 
-      <br> are never shared with anyone, including us.`,
+    descr: t`Easily send and receive assets. Save addresses 
+      <br> for fast access to your contacts.`,
   },
   {
     img: '/assets/feature/manage.png',

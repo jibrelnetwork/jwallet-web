@@ -1,0 +1,62 @@
+@import "styles/colors";
+
+.core {
+  position: relative;
+}
+
+.wrap {
+  position: relative;
+  padding: 24px 16px 12px;
+  box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
+  background-color: $white;
+  border-radius: 4px;
+
+  &:hover {
+    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+  }
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .title {
+      color: $main-black;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 22px;
+    }
+  }
+
+  .settings {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+
+    .fields {
+      display: flex;
+
+      .field {
+        width: 50%;
+
+        &:nth-child(1) {
+          padding-right: 16px;
+        }
+
+        &:nth-child(2) {
+          padding-left: 16px;
+        }
+      }
+    }
+
+    .bottom {
+      font-size: 12px;
+      line-height: 18px;
+      color: $main-black-40;
+    }
+  }
+
+  &.open .settings {
+    max-height: 500px;
+  }
+}

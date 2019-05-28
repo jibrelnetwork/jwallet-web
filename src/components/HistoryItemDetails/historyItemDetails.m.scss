@@ -1,0 +1,66 @@
+@import 'styles/mixins';
+
+.core {
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+  box-shadow: $normal-shadow;
+}
+
+.header {
+  @include flex-row;
+
+  padding: 24px 0 22px;
+  border-radius: 4px 4px 0 0;
+
+  &.success {
+    background-color: $main-blue;
+  }
+
+  &.pending {
+    background-color: $main-black-50;
+  }
+
+  &.fail,
+  &.stuck {
+    background-color: $main-red;
+  }
+}
+
+.statusIcon {
+  @include flex-row;
+  @include sprite-icon-color($white);
+
+  justify-content: center;
+  width: 100%;
+  min-width: 24px;
+  max-width: 64px;
+}
+
+.description {
+  @include font(14px, 22px);
+
+  color: $white;
+}
+
+.status {
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.comment {
+  margin-bottom: 2px;
+}
+
+.date {
+  @include font(12px, 20px);
+
+  color: $white-60;
+}
+
+.note-wrapper {
+  height: 100%;
+}

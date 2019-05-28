@@ -76,7 +76,6 @@ declare type PasswordResult = {|
 declare type WalletsPersist = {|
   +items: Wallets,
   +internalKey: ?EncryptedData,
-  +passwordOptions: ?PasswordOptions,
   +activeWalletId: ?WalletId,
 |}
 
@@ -94,11 +93,8 @@ declare type WalletsState = {|
 /**
  * Wallets Create
  */
-declare type WalletsCreateStepIndex = 0 | 1 | 2
-
 declare type WalletsCreateState = {|
-  +createdBlockNumber: WalletCreatedBlockNumber,
-  +currentStep: WalletsCreateStepIndex,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
   +isBlocksLoading: boolean,
 |}
 
