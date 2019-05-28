@@ -13,7 +13,11 @@ import {
   copyToClipboard,
 } from 'store/modules/walletsBackup'
 
+// eslint-disable-next-line import/no-duplicates
 import WalletsBackupView from './WalletsBackupView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './WalletsBackupView'
 
 function mapStateToProps({
   wallets,
@@ -47,14 +51,12 @@ const mapDispatchToProps = {
   changePasswordInput,
 }
 
-/* ::
 type OwnProps = {|
   params: {|
     walletId: string,
   |},
 |}
-*/
 
 export default (
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect<Props, OwnProps, _, _, _, _ >(mapStateToProps, mapDispatchToProps)
 )(WalletsBackupView)

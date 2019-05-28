@@ -9,6 +9,8 @@ export { startsWithOrEndsWith } from './startsWithOrEndsWith'
 export { getAddressFromKeyPair } from './getAddressFromKeyPair'
 export { getAddressFromPublicKey } from './getAddressFromPublicKey'
 export { getAddressFromPrivateKey } from './getAddressFromPrivateKey'
+export { checkAddressPartValid } from './checkAddressPartValid'
+export { getAddressName } from './getAddressName'
 
 export {
   checkAddressValid,

@@ -1,7 +1,10 @@
 @import 'styles/mixins';
 
 .core {
+  @include flex-row-center;
+
   width: 100%;
+  height: 100%;
 }
 
 .form {
@@ -9,6 +12,5 @@
 
   position: relative;
   width: 544px;
-  min-height: 100vh;
   margin: 0 auto;
 }

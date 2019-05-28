@@ -30,16 +30,17 @@ import transactionItemStyle from './transactionItem.m.scss'
 
 const memoizedIndex = memoize(transactionsIndex)
 
-export type ContainerProps = {
+export type ContainerProps = {|
   +onClick?: (Address) => mixed,
   +txAddress: Address,
   +offset?: OffsetVariant,
   +isActive?: boolean,
-}
+|}
 
-type Props = ContainerProps & {
+type Props = {|
+  ...$Exact<ContainerProps>,
   +transaction: TransactionItemRecord,
-}
+|}
 
 const transactionIconMap: { [TransactionStatus | TransactionDirection]: JIconProps } = {
   pending: {
@@ -112,7 +113,7 @@ class TransactionItem extends PureComponent<Props, *> {
           isActive && transactionItemStyle.selected,
           offsetsStyle[offset],
         )}
-        href={`/history/${transaction.asset.blockchainParams.address}/${txAddress}`}
+        href={`/history/${txAddress}`}
         onClick={this.handleClick}
       >
         <div className={`${transactionItemStyle.item} ${transactionItemStyle.statusIcon}`}>
@@ -158,7 +159,7 @@ function mapStateToProps(state: AppState, { txAddress }: ContainerProps) {
 }
 
 const connectedComponent = (
-  connect/* :: < AppState, ContainerProps, any, _, _ > */(mapStateToProps)(TransactionItem)
+  connect<Props, ContainerProps, _, _, _, _>(mapStateToProps)(TransactionItem)
 )
 
 export {

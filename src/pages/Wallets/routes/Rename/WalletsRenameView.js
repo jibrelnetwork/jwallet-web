@@ -10,7 +10,7 @@ import {
   WalletNameStep,
 } from 'components'
 
-type Props = {|
+export type Props = {|
   +rename: Function,
   +openView: Function,
   +closeView: Function,

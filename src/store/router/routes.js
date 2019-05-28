@@ -37,7 +37,7 @@ export const routes: Array<{|
   path: '/contacts',
   name: 'Contacts',
 }, {
-  path: '/contacts/add',
+  path: '/contacts/add?:address&:name&:note',
   name: 'ContactsItemAdd',
 }, {
   path: '/contacts/:contactId',
@@ -49,13 +49,19 @@ export const routes: Array<{|
   path: '/history/:itemId',
   name: 'HistoryItem',
 }, {
+  path: '/history/:itemId/cancel',
+  name: 'HistoryItemCancel',
+}, {
+  path: '/history/:itemId/restart',
+  name: 'HistoryItemRestart',
+}, {
   path: '/more',
   name: 'MoreActions',
 }, {
   path: '/receive',
   name: 'Receive',
 }, {
-  path: '/send',
+  path: '/send?:asset&:to&:amount',
   name: 'Send',
 }, {
   path: '/settings',
@@ -94,8 +100,11 @@ export const routes: Array<{|
   path: '/wallets/:walletId/delete',
   name: 'WalletsItemDelete',
 }, {
-  path: '/wallets/:walletId/rename',
-  name: 'WalletsItemRename',
+  path: '/wallets/:walletId/addresses',
+  name: 'WalletsItemAddresses',
+}, {
+  path: '/wallets/:walletId/mode',
+  name: 'WalletsItemMode',
 }, {
   path: '/wallets/:walletId/upgrade',
   name: 'WalletsItemUpgrade',

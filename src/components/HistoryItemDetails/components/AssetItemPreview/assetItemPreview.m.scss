@@ -1,0 +1,71 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row;
+
+  position: relative;
+  padding: 14px 0 16px;
+  justify-content: space-between;
+  background-color: $white;
+
+  //&:focus,
+  &:hover {
+    .arrow {
+      @include sprite-icon-color($main-blue);
+
+      transform: translate(8px);
+    }
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  min-width: 64px;
+}
+
+.data {
+  overflow: hidden;
+}
+
+.label {
+  @include ellipsis;
+
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-40;
+}
+
+.body {
+  @include ellipsis;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  color: $main-black;
+}
+
+.main-block {
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.arrow-icon,
+.asset-icon {
+  flex-basis: 64px;
+  width: 64px;
+}
+
+// utility animation
+// stylelint-disable-next-line no-descending-specificity
+.arrow {
+  @include sprite-icon-color($main-black-40);
+
+  transition:
+    transform 0.4s 0s $default-animation,
+    fill 0.4s 0.2s $default-animation;
+  transform: translate(0);
+}

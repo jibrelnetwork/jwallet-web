@@ -44,9 +44,8 @@ declare type Wallet = {|
 declare type WalletUpdatedData = {|
   +encrypted?: WalletEncryptedData,
   +name?: string,
+  +xpub?: ?string,
   +derivationPath?: string,
-  +network?: number | string,
-  +bip32XPublicKey?: ?string,
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,
   +isReadOnly?: ?boolean,
@@ -76,7 +75,7 @@ declare type WalletsState = {|
  * Wallets Create
  */
 declare type WalletsCreateState = {|
-  +createdBlockNumber: WalletCreatedBlockNumber,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
   +isBlocksLoading: boolean,
 |}
 

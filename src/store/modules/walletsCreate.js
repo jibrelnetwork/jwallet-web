@@ -31,7 +31,7 @@ export type WalletsCreateAction =
   ExtractReturn<typeof blockNumbersRequest>
 
 const initialState: WalletsCreateState = {
-  createdBlockNumber: {},
+  createdBlockNumber: null,
   isBlocksLoading: false,
 }
 

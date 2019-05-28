@@ -1,7 +1,6 @@
-// @flow
+// @flow strict
 
 import JCard from './JCard'
-import JCheckbox from './JCheckbox'
 import JFlatButton from './JFlatButton'
 import JInput from './JInput'
 import JLoader from './JLoader'
@@ -18,6 +17,7 @@ export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
 export { JIcon } from './JIcon/JIcon'
 export { Header } from './Header/Header'
 export { JLink } from './JLink/JLink'
+export { JCheckbox } from './JCheckbox/JCheckbox'
 export { JLinkBack } from './JLinkBack/JLinkBack'
 export { JTextArea } from './JTextArea/JTextArea'
 export { JInputField } from './JInputField/JInputField'
@@ -29,7 +29,6 @@ export { SearchFilter } from './SearchInput/SearchFilter/SearchFilter'
 
 export {
   JCard,
-  JCheckbox,
   JFlatButton,
   JInput,
   JLoader,

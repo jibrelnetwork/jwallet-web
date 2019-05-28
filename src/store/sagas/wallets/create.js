@@ -12,6 +12,8 @@ import { selectCurrentNetwork } from 'store/selectors/networks'
 
 import * as walletsCreate from 'store/modules/walletsCreate'
 
+const MAX_NODE_REORG_DEEP: number = 6
+
 function* blockNumbersRequest(): Saga<void> {
   const network: ExtractReturn<typeof selectCurrentNetwork> = yield select(selectCurrentNetwork)
 
@@ -31,7 +33,7 @@ function* blockNumbersRequest(): Saga<void> {
       kovan: 0,
       rinkeby: 0,
       ropsten: 0,
-      mainnet: latestBlockNumberMainnet,
+      mainnet: (latestBlockNumberMainnet - MAX_NODE_REORG_DEEP),
     }))
   } catch (err) {
     yield put(walletsCreate.blockNumbersError(err))
