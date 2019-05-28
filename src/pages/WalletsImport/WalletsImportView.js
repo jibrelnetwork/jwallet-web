@@ -13,9 +13,13 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import ofssetsStyle from 'styles/offsets.m.scss'
+
 import {
   getTypeByInput,
+  checkNameExists,
   checkMnemonicType,
+  validateDerivationPath,
 } from 'utils/wallets'
 
 import {
@@ -32,11 +36,9 @@ import {
 import walletsImportStyle from './walletsImport.m.scss'
 
 import {
-  getInfoNameMessage,
   getInfoDataMessage,
   getErrorDataMessage,
   getSuccessDataMessage,
-  getErrorDerivationPathMessage,
 } from './dataMessage'
 
 export type WalletsImportBackHandler = () => void
@@ -180,17 +182,15 @@ export class WalletsImportView extends Component<Props, StateProps> {
   renderWalletsImportDataStep = ({
     handleSubmit,
     form,
-    values = {},
-    submitting: isSubmitting,
-  }: FormRenderProps) => {
-    const {
-      name,
-      data,
+    values: {
+      name = '',
+      data = '',
       passphrase,
       derivationPath,
       walletType,
-    }: FormFields = values
-
+    } = {},
+    submitting: isSubmitting,
+  }: FormRenderProps) => {
     const infoDataMessage: ?string = getInfoDataMessage(
       data,
       passphrase,
@@ -216,7 +216,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
         <Field
           component={JInputField}
           label={t`Wallet Name`}
-          infoMessage={name && getInfoNameMessage(name)}
+          infoMessage={checkNameExists(name)}
           name='name'
           isDisabled={isSubmitting}
         />
@@ -229,7 +229,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {checkMnemonicType(walletType) && isAdvancedOpened ? (
+        {checkMnemonicType(walletType) && (isAdvancedOpened ? (
           <Fragment>
             <Field
               component={JInputField}
@@ -241,23 +241,25 @@ export class WalletsImportView extends Component<Props, StateProps> {
               component={JInputField}
               label={t`Derivation Path (Optional)`}
               infoMessage={DEFAULT_DERIVATION_PATH_MESSAGE}
-              errorMessage={derivationPath && getErrorDerivationPathMessage(derivationPath)}
+              errorMessage={validateDerivationPath(derivationPath)}
               name='derivationPath'
               isDisabled={isSubmitting}
             />
           </Fragment>
         ) : (
           <Button
+            className={ofssetsStyle.mt16}
             theme='secondary'
             onClick={this.handleOpenAdvanced}
           >
             {t`Advanced`}
           </Button>
-        )}
+        ))}
         <Button
+          className={ofssetsStyle.mt16}
           type='submit'
           isLoading={isSubmitting}
-          isDisabled={!!infoDataMessage || !!errorDataMessage || !(name && data)}
+          isDisabled={!!infoDataMessage || !!errorDataMessage || !(name.trim() && data.trim())}
         >
           {t`Import`}
         </Button>
