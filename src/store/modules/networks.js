@@ -136,27 +136,27 @@ type NetworksAction =
   ExtractReturn<typeof removeCustomNetwork>
 
 const initialState: NetworksState = {
-  persist: {
-    items: {
-      '3': {
-        id: '3',
-        title: 'Ropsten Test Network',
-        blockExplorerUISubdomain: 'ropsten',
-        rpcaddr: 'ropsten.jnode.network',
-        rpcport: 443,
-        ssl: true,
-        isCustom: false,
-      },
-      '1': {
-        id: '1',
-        blockExplorerUISubdomain: '',
-        title: 'Main Ethereum Network',
-        rpcaddr: 'main.jnode.network',
-        rpcport: 443,
-        ssl: true,
-        isCustom: false,
-      },
+  items: {
+    '3': {
+      id: '3',
+      title: 'Ropsten Test Network',
+      blockExplorerUISubdomain: 'ropsten',
+      rpcaddr: 'ropsten.jnode.network',
+      rpcport: 443,
+      ssl: true,
+      isCustom: false,
     },
+    '1': {
+      id: '1',
+      blockExplorerUISubdomain: '',
+      title: 'Main Ethereum Network',
+      rpcaddr: 'main.jnode.network',
+      rpcport: 443,
+      ssl: true,
+      isCustom: false,
+    },
+  },
+  persist: {
     currentNetworkId: '1',
   },
 }
