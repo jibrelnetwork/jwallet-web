@@ -81,6 +81,7 @@ export class JInputField extends PureComponent<JInputFieldProps> {
 
     return (
       <div
+        onClick={this.handleFocus}
         className={classNames(
           '__j-input-field',
           jInputFieldStyle.core,

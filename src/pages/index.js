@@ -29,6 +29,8 @@ export { default as WalletsItemRemove } from './Wallets/routes/Delete/WalletsDel
 export { default as WalletsItemRename } from './Wallets/routes/Rename/WalletsRenameViewContainer'
 export { default as WalletsItemUpgrade } from './Upgrade/UpgradeViewContainer'
 
+export { HistoryItem } from './HistoryItem/HistoryItem'
+
 export { NotFound } from './NotFound/NotFound'
 
 // not available to user directly
@@ -36,8 +38,9 @@ export { NotFound } from './NotFound/NotFound'
 export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
-
+export { Introduction } from './Introduction/Introduction'
 export { default as WalletsAddresses }
   from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
 export { default as WalletsRenameAddress }
   from './Wallets/routes/RenameAddress/WalletsRenameAddressViewContainer'
+

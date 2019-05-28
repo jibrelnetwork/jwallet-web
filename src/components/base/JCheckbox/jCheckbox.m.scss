@@ -1,0 +1,58 @@
+@import 'styles/mixins';
+
+.core {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.3s ease 0s;
+}
+
+.field {
+  position: relative;
+  display: block;
+  padding-left: 40px;
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black;
+  cursor: pointer;
+
+  .off {
+    stroke: $main-black;
+    opacity: 0.2;
+  }
+
+  .on {
+    stroke: $blue;
+    opacity: 0;
+  }
+
+  &:hover {
+    .off {
+      opacity: 1;
+    }
+  }
+}
+
+.input {
+  display: none;
+
+  &:checked ~ .off {
+    opacity: 0;
+  }
+
+  &:checked ~ .on {
+    opacity: 1;
+  }
+}
+
+.link {
+  margin-left: 5px;
+  margin-right: 5px;
+}
