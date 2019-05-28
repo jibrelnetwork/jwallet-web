@@ -22,7 +22,6 @@ import WalletDataStep from './WalletDataStep'
 import WalletNameStep from './WalletNameStep'
 import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
-import TransactionItem from './TransactionItem'
 import WalletViewTitle from './WalletViewTitle'
 import TransactionsList from './TransactionsList'
 import ButtonWithConfirm from './ButtonWithConfirm'
@@ -36,8 +35,9 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
-export { FieldPreview } from './FieldPreview/FieldPreview'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
+export { TransactionItem } from './TransactionItemNew/TransactionItem'
+export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 
 export {
   QRCode,
@@ -62,7 +62,6 @@ export {
   WalletNameStep,
   CloseableScreen,
   RoundIconButton,
-  TransactionItem,
   WalletViewTitle,
   TransactionsList,
   ButtonWithConfirm,

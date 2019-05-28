@@ -29,6 +29,8 @@ export { default as WalletsItemRemove } from './Wallets/routes/Delete/WalletsDel
 export { default as WalletsItemRename } from './Wallets/routes/Rename/WalletsRenameViewContainer'
 export { default as WalletsItemUpgrade } from './Upgrade/UpgradeViewContainer'
 
+export { HistoryItem } from './HistoryItem/HistoryItem'
+
 export { NotFound } from './NotFound/NotFound'
 
 // not available to user directly
