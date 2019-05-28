@@ -1,9 +1,10 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import { t } from 'ttag'
+import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
+import { validateName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { selectPasswordHint } from 'store/selectors/password'
 import { blockNumbersRequest } from 'store/modules/walletsCreate'
@@ -32,12 +33,40 @@ async function createWallet(
   )
 }
 
+function validateWalletsCreateForm(
+  values: FormFields,
+  currentStep: WalletsCreateStep,
+): ?FormFields {
+  const formErrors: FormFields = {}
+
+  switch (currentStep) {
+    case STEPS.NAME: {
+      const validateWalletNameResult: ?string = validateName(values.name)
+
+      if (validateWalletNameResult) {
+        formErrors.name = validateWalletNameResult
+      }
+
+      return formErrors
+    }
+
+    default:
+      return null
+  }
+}
+
 async function submitWalletsCreateForm({
   setCurrentStep,
   values,
   currentStep,
   createdBlockNumber,
 }: WalletsCreateSubmitPayload): Promise<?FormFields> {
+  const errors: ?FormFields = validateWalletsCreateForm(values, currentStep)
+
+  if (!isEmpty(errors)) {
+    return errors
+  }
+
   switch (currentStep) {
     case STEPS.NAME:
       return setCurrentStep(STEPS.BACKUP_TICKS)()
@@ -59,74 +88,10 @@ async function submitWalletsCreateForm({
   }
 }
 
-function validateWalletName(name: ?string): ?string {
-  if (!name) {
-    return t`Name should not be empty`
-  } else if (name.length > 32) {
-    return t`Length of name should not be greater than 32 symbols`
-  }
-
-  const hasInvalidSymbols: boolean = /[/]/i.test(name)
-
-  if (hasInvalidSymbols) {
-    return t`Name should not include invalid symbols`
-  }
-
-  return null
-}
-
-function validatePassword(password: ?string): ?string {
-  if (password) {
-    return null
-  }
-
-  return t`Password can't be empty`
-}
-
-function validateWalletsCreateForm(
-  values: FormFields,
-  currentStep: WalletsCreateStep,
-): ?FormFields {
-  const {
-    name,
-    password,
-  }: FormFields = values
-
-  const formErrors: FormFields = {}
-
-  switch (currentStep) {
-    case STEPS.NAME: {
-      const validateWalletNameResult: ?string = validateWalletName(name)
-
-      if (validateWalletNameResult) {
-        formErrors.name = validateWalletNameResult
-      }
-
-      return formErrors
-    }
-
-    case STEPS.PASSWORD: {
-      const validatePasswordResult: ?string = validatePassword(password)
-
-      if (validatePasswordResult) {
-        return {
-          password: validatePasswordResult,
-        }
-      }
-
-      return null
-    }
-
-    default:
-      return null
-  }
-}
-
 function mapStateToProps(state: AppState) {
   return {
     hint: selectPasswordHint(state),
     submit: submitWalletsCreateForm,
-    validate: validateWalletsCreateForm,
     createdBlockNumber: selectWalletsCreateBlockNumbers(state),
   }
 }

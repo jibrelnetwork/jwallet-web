@@ -3,8 +3,10 @@
 import { t } from 'ttag'
 import React, { Component } from 'react'
 
+import ofssetsStyle from 'styles/offsets.m.scss'
 import { type FormApi } from 'final-form'
 import { gaSendEvent } from 'utils/analytics'
+import { checkNameExists } from 'utils/wallets'
 import { generateMnemonic } from 'utils/mnemonic'
 
 import {
@@ -42,7 +44,6 @@ export type WalletsCreateSubmitPayload = {|
 export type Props = {|
   +requestBlockNumbers: () => void,
   onBack?: ?WalletsCreateBackHandler,
-  +validate: (FormFields, WalletsCreateStep) => ?FormFields,
   +submit: WalletsCreateSubmitPayload => Promise<?FormFields>,
   +hint: string,
   +createdBlockNumber: ?WalletCreatedBlockNumber,
@@ -127,13 +128,6 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     return onBack ? onBack() : undefined
   }
 
-  validate = (values: FormFields): ?FormFields => {
-    const { validate }: Props = this.props
-    const { currentStep }: StateProps = this.state
-
-    return validate(values, currentStep)
-  }
-
   handleBack = () => {
     if (!this.props.onBack) {
       return null
@@ -187,6 +181,9 @@ export class WalletsCreateView extends Component<Props, StateProps> {
   renderWalletNameForm = ({
     handleSubmit,
     submitting: isSubmitting,
+    values: {
+      name = '',
+    } = {},
   }: FormRenderProps) => (
     <form
       onSubmit={handleSubmit}
@@ -195,12 +192,15 @@ export class WalletsCreateView extends Component<Props, StateProps> {
       <Field
         component={JInputField}
         label={t`Wallet Name`}
+        infoMessage={checkNameExists(name)}
         name='name'
         isDisabled={isSubmitting}
       />
       <Button
+        className={ofssetsStyle.mt16}
         type='submit'
         isLoading={isSubmitting}
+        isDisabled={!name.trim()}
       >
         {t`Next`}
       </Button>
@@ -308,7 +308,6 @@ export class WalletsCreateView extends Component<Props, StateProps> {
           title={this.getTitle()}
         />
         <Form
-          validate={this.validate}
           onSubmit={this.handleSubmit}
           render={this.renderWalletsCreateForm}
           initialValues={WALLETS_CREATE_INITIAL_VALUES}

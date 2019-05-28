@@ -366,12 +366,12 @@ class WalletsPlugin {
       )
 
       const newWallet: Wallet = this.createWallet({
-        data,
-        name,
         passphrase,
         derivationPath,
         createdBlockNumber,
         id: uuidv4(),
+        data: data.trim(),
+        name: name.trim(),
         orderIndex: this.getNextOrderIndex(),
       }, internalKeyDec)
 
@@ -397,7 +397,7 @@ class WalletsPlugin {
       }
 
       return {
-        password: err.message,
+        password: t`Invalid password`,
       }
     }
 
