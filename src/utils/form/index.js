@@ -1,7 +1,8 @@
 // @flow
 
 export { getErrorMessage } from './getErrorMessage'
+export { allValidators } from './allValidators'
 export {
   FORM_ERROR_REQUIRED,
-  finalFormComposeWithValidateRequired,
-} from 'utils/form/finalFormComposeWithValidateRequired'
+  validateRequired,
+} from './validateRequired'
