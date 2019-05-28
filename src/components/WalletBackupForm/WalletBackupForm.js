@@ -1,6 +1,6 @@
 // @flow strict
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 import { Field } from 'react-final-form'
 
@@ -16,119 +16,126 @@ import {
 import walletBackupFormStyle from './walletBackupForm.m.scss'
 
 type Props = {|
-  +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?Object>,
+  +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?FormFields>,
+  +values: FormFields,
   +name: string,
   +passphrase: ?string,
   +derivationPath: ?string,
   +isMnemonic: boolean,
 |}
 
-const BACKUP_MNEMONIC_FIRST_LINE: string = t`Save a wallet backup phrase`
-const BACKUP_MNEMONIC_SECOND_LINE: string = t`to a secure storage or write it down on the paper.`
-
-const BACKUP_KEY_FIRST_LINE: string = t`Save a wallet backup phrase to a secure storage`
-const BACKUP_KEY_SECOND_LINE: string = t`or write it down on the paper.`
-
-const MNEMONIC_ATTRIBUTES: {[string]: string} = {
-  passphrase: t` and passphrase`,
-  derivationPath: t` and derivation path`,
-  both: t`, passphrase and derivation path`,
+const BACKUP_TEXT = {
+  SINGLE_DATA: t`Save a wallet backup phrase to a secure storage
+  or write it down on the paper.`,
+  PASSPHRASE: t`Save a wallet backup phrase and passphrase
+  to a secure storage or write it down on the paper.`,
+  DERIVATION_PATH: t`Save a wallet backup phrase and derivation path
+  to a secure storage or write it down on the paper.`,
+  ALL_FIELDS: t`Save a wallet backup phrase, passphrase, and derivation path
+  to a secure storage or write it down on the paper.`,
 }
 
-function getMnemonicAttributesFirstLine(passphrase, derivationPath): string {
+function getBackupText(passphrase, derivationPath): string {
   if (passphrase && derivationPath) {
-    return `${BACKUP_MNEMONIC_FIRST_LINE} ${MNEMONIC_ATTRIBUTES.both}`
+    return BACKUP_TEXT.ALL_FIELDS
   } else if (passphrase) {
-    return `${BACKUP_MNEMONIC_FIRST_LINE} ${MNEMONIC_ATTRIBUTES.passphrase}`
+    return BACKUP_TEXT.PASSPHRASE
   } else if (derivationPath) {
-    return `${BACKUP_MNEMONIC_FIRST_LINE} ${MNEMONIC_ATTRIBUTES.derivationPath}`
+    return BACKUP_TEXT.DERIVATION_PATH
   }
 
-  return ''
+  return BACKUP_TEXT.SINGLE_DATA
 }
 
-function handleDownload({
-  data,
-  passphrase,
-  derivationPath,
-}: FormFields) {
-  const content: string = `${data || ''}\n${passphrase || ''}\n${derivationPath || ''}`
+export class WalletBackupForm extends PureComponent<Props> {
+  static defaultProps = {
+    passphrase: null,
+    derivationPath: null,
+  }
 
-  fileSaver.saveTXT(content, 'jwallet-backup')
-}
+  handleDownload = () => {
+    const {
+      values,
+      passphrase,
+      derivationPath,
+    } = this.props
 
-export function WalletBackupForm({
-  handleSubmit,
-  name,
-  passphrase,
-  derivationPath,
-  isMnemonic,
-}: Props) {
-  const hasMnemonicAttributes: boolean = !!(passphrase || derivationPath)
+    fileSaver.saveTXT(
+      `${values.data || ''}\n${passphrase || ''}\n${derivationPath || ''}`,
+      'jwallet-backup',
+    )
+  }
 
-  return (
-    <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
-      <JIcon
-        className={walletBackupFormStyle.icon}
-        color='blue'
-        name='ic_backup_48-use-fill'
-      />
-      <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
-      <p className={walletBackupFormStyle.text}>
-        {hasMnemonicAttributes
-          ? getMnemonicAttributesFirstLine(passphrase, derivationPath)
-          : BACKUP_KEY_FIRST_LINE
-        }
-      </p>
-      <p className={walletBackupFormStyle.text}>
-        {hasMnemonicAttributes ? BACKUP_MNEMONIC_SECOND_LINE : BACKUP_KEY_SECOND_LINE}
-      </p>
-      <form
-        onSubmit={handleSubmit}
-        className={walletBackupFormStyle.form}
-      >
-        <Field
-          component={JTextArea}
-          className={walletBackupFormStyle.field}
-          label={isMnemonic ? t`Mnemonic Phrase` : 'Private Key'}
-          name='data'
-          readOnly
+  render() {
+    const {
+      handleSubmit,
+      name,
+      passphrase,
+      derivationPath,
+      isMnemonic,
+    }: Props = this.props
+
+    /* eslint-disable react/no-danger */
+    return (
+      <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
+        <JIcon
+          className={walletBackupFormStyle.icon}
+          color='blue'
+          name='ic_backup_48-use-fill'
         />
-        {passphrase && (
+        <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
+        <p
+          className={walletBackupFormStyle.text}
+          dangerouslySetInnerHTML={{
+            __html: getBackupText(
+              passphrase,
+              derivationPath,
+            ).split('\n').join('<br />'),
+          }}
+        />
+        <form
+          onSubmit={handleSubmit}
+          className={walletBackupFormStyle.form}
+        >
           <Field
-            component={JInputField}
-            label={t`Passphrase`}
+            component={JTextArea}
             className={walletBackupFormStyle.field}
-            name='passphrase'
+            label={isMnemonic ? t`Mnemonic Phrase` : 'Private Key'}
+            name='data'
+            readOnly
           />
-        )}
-        {derivationPath && (
-          <Field
-            component={JInputField}
-            label={t`Derivation Path`}
-            name='derivationPath'
-          />
-        )}
-        <Button
-          type='button'
-          theme='general'
-          className={walletBackupFormStyle.button}
-          onClick={handleDownload}
-        >
-          {t`Download Backup as TXT`}
-        </Button>
-        <Button
-          type='submit'
-          theme='secondary'
-        >
-          {t`Done`}
-        </Button>
-      </form>
-    </div>
-  )
-}
-
-WalletBackupForm.defaultProps = {
-  passphrase: null,
-  derivationPath: null,
+          {passphrase && (
+            <Field
+              component={JInputField}
+              label={t`Passphrase`}
+              className={walletBackupFormStyle.field}
+              name='passphrase'
+            />
+          )}
+          {derivationPath && (
+            <Field
+              component={JInputField}
+              label={t`Derivation Path`}
+              name='derivationPath'
+            />
+          )}
+          <Button
+            type='button'
+            theme='general'
+            className={walletBackupFormStyle.button}
+            onClick={this.handleDownload}
+          >
+            {t`Download Backup as TXT`}
+          </Button>
+          <Button
+            type='submit'
+            theme='secondary'
+          >
+            {t`Done`}
+          </Button>
+        </form>
+      </div>
+    )
+    /* eslint-enable react/no-danger */
+  }
 }

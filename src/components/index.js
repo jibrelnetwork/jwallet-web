@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import QRCode from './QRCode'
 import HelpText from './HelpText'
@@ -38,6 +38,7 @@ export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
 export { TransactionItem } from './TransactionItemNew/TransactionItem'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
+export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 
 export {
   QRCode,

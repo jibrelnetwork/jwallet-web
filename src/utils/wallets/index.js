@@ -12,9 +12,12 @@ import getBackupData from './getBackupData'
 import getPrivateKey from './getPrivateKey'
 import checkWalletUniqueness from './checkWalletUniqueness'
 
+export { validateName } from './validateName'
 export { getTypeByInput } from './getTypeByInput'
+export { checkNameExists } from './checkNameExists'
 export { checkMnemonicType } from './checkMnemonicType'
 export { getMnemonicAddressName } from './getMnemonicAddressName'
+export { validateDerivationPath } from './validateDerivationPath'
 
 export {
   getWallet,
