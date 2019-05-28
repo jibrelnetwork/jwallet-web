@@ -6,7 +6,7 @@ import { WalletCard } from 'components'
 
 import walletsStyles from './wallets.m.scss'
 
-type Props = {|
+export type Props = {|
   +items: Wallets,
   +activeWalletId: WalletId,
 |}

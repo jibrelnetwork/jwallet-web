@@ -7,7 +7,9 @@ import {
   selectActiveWalletIdOrThrow,
 } from 'store/selectors/wallets'
 
-import { WalletsView } from './WalletsView'
+import {
+  WalletsView, type Props,
+} from './WalletsView'
 
 function mapStateToProps(state: AppState) {
   return {
@@ -17,5 +19,5 @@ function mapStateToProps(state: AppState) {
 }
 
 export const Wallets = (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps)
+  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps)
 )(WalletsView)
