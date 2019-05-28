@@ -26,10 +26,10 @@ declare type Networks = {
 }
 
 declare type NetworksPersist = {|
-  +items: Networks,
   +currentNetworkId: NetworkId,
 |}
 
 declare type NetworksState = {|
+  +items: Networks,
   +persist: NetworksPersist,
 |}
