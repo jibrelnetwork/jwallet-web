@@ -62,7 +62,6 @@ export function JInputField({
 
   return (
     <div
-      onClick={handleFocus(textInput)}
       className={classNames(
         '__j-input-field',
         jInputFieldStyle.core,
@@ -71,6 +70,7 @@ export function JInputField({
       )}
     >
       <div
+        onClick={handleFocus(textInput)}
         className={classNames(
           jInputFieldStyle.wrap,
           hasError && jInputFieldStyle.error,

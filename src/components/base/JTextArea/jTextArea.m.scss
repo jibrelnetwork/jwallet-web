@@ -27,6 +27,7 @@
     display: block; /* for Firefox */
     line-height: 22px;
     font-size: 14px;
+    font-weight: 600;
     font-style: normal;
     color: $main-black-30;
     overflow: hidden;
@@ -72,12 +73,6 @@
 
       .input {
         top: 10px;
-      }
-    }
-
-    &.error {
-      .label {
-        color: $main-red;
       }
     }
 

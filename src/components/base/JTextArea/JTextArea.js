@@ -144,9 +144,9 @@ export class JTextArea extends PureComponent<Props> {
     const hasMessage: boolean = (hasError || hasInfo)
     const isActive: boolean = (meta.active || (input.value && input.value.length))
 
+    /* eslint-disable jsx-a11y/label-has-for */
     return (
       <div
-        onClick={handleFocus(this.textArea)}
         className={classNames(
           '__textarea',
           jTextAreaStyle.core,
@@ -155,6 +155,7 @@ export class JTextArea extends PureComponent<Props> {
         )}
       >
         <div
+          onClick={handleFocus(this.textArea)}
           className={classNames(
             jTextAreaStyle.wrap,
             hasError && jTextAreaStyle.error,
@@ -190,5 +191,6 @@ export class JTextArea extends PureComponent<Props> {
         )}
       </div>
     )
+    /* eslint-enable jsx-a11y/label-has-for */
   }
 }
