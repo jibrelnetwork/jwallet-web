@@ -5,13 +5,13 @@ import getAddress from './getAddress'
 import getMnemonic from './getMnemonic'
 import getAddresses from './getAddresses'
 import appendWallet from './appendWallet'
-import removeWallet from './removeWallet'
 import updateWallet from './updateWallet'
 import upgradeWallet from './upgradeWallet'
 import getBackupData from './getBackupData'
 import getPrivateKey from './getPrivateKey'
 import checkWalletUniqueness from './checkWalletUniqueness'
 
+export { removeWallet } from './removeWallet'
 export { validateName } from './validateName'
 export { getTypeByInput } from './getTypeByInput'
 export { checkNameExists } from './checkNameExists'
@@ -25,7 +25,6 @@ export {
   getMnemonic,
   getAddresses,
   appendWallet,
-  removeWallet,
   updateWallet,
   upgradeWallet,
   getBackupData,

@@ -1,23 +1,21 @@
-// @flow
+// @flow strict
 
-import {
-  ActiveNetworkNotFoundError,
-} from 'errors'
+import { ActiveNetworkNotFoundError } from 'errors'
 
 export function selectNetworks(state: AppState): NetworksState {
   return state.networks
+}
+
+export function selectNetworksItems(state: AppState): Networks {
+  const networks: NetworksState = selectNetworks(state)
+
+  return networks.items
 }
 
 export function selectNetworksPersist(state: AppState): NetworksPersist {
   const networks: NetworksState = selectNetworks(state)
 
   return networks.persist
-}
-
-export function selectNetworksItems(state: AppState): Networks {
-  const networksPersist: NetworksPersist = selectNetworksPersist(state)
-
-  return networksPersist.items
 }
 
 export function selectCurrentNetworkId(state: AppState): NetworkId {
@@ -39,10 +37,10 @@ export function selectCurrentNetworkIdOrThrow(state: AppState): NetworkId {
 export function selectCurrentNetwork(state: AppState): ?Network {
   const {
     items,
-    currentNetworkId,
-  }: NetworksPersist = selectNetworksPersist(state)
+    persist,
+  }: NetworksState = selectNetworks(state)
 
-  return items[currentNetworkId]
+  return items[persist.currentNetworkId]
 }
 
 export function selectCurrentNetworkOrThrow(state: AppState): Network {
