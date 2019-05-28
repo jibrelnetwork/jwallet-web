@@ -1,6 +1,6 @@
 // @flow strict
 
-import React, { Fragment } from 'react'
+import React from 'react'
 import { t } from 'ttag'
 import { Field } from 'react-final-form'
 
@@ -65,8 +65,7 @@ export function WalletBackupForm({
   derivationPath,
   isMnemonic,
 }: Props) {
-  const backupText: string[] = getBackupText(passphrase, derivationPath).split('\n')
-
+  /* eslint-disable react/no-danger */
   return (
     <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
       <JIcon
@@ -75,14 +74,15 @@ export function WalletBackupForm({
         name='ic_backup_48-use-fill'
       />
       <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
-      <p className={walletBackupFormStyle.text}>
-        {backupText.map((text: string, index: number) => (
-          <Fragment key={text}>
-            {text}
-            {(index < (backupText.length - 1)) && <br />}
-          </Fragment>
-        ))}
-      </p>
+      <p
+        className={walletBackupFormStyle.text}
+        dangerouslySetInnerHTML={{
+          __html: getBackupText(
+            passphrase,
+            derivationPath,
+          ).split('\n').join('<br />'),
+        }}
+      />
       <form
         onSubmit={handleSubmit}
         className={walletBackupFormStyle.form}
@@ -126,6 +126,7 @@ export function WalletBackupForm({
       </form>
     </div>
   )
+  /* eslint-enable react/no-danger */
 }
 
 WalletBackupForm.defaultProps = {

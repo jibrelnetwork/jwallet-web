@@ -75,9 +75,9 @@ const WALLETS_CREATE_INITIAL_VALUES: FormFields = {
   compromise: '',
 }
 
-const BACKUP_TEXT: string[] = t`Jwallet never sends your wallets anywhere.
+const BACKUP_TEXT: string = t`Jwallet never sends your wallets anywhere.
 Therefore, in case of device loss or failure, the only way to restore access to your
-funds is to use a wallet backup phrase.`.split('\n')
+funds is to use a wallet backup phrase.`
 
 export class WalletsCreateView extends Component<Props, StateProps> {
   static defaultProps = {
@@ -207,6 +207,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     </form>
   )
 
+  /* eslint-disable react/no-danger */
   renderBackupTicksForm = ({
     handleSubmit,
     form,
@@ -222,14 +223,12 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         name='ic_backup_48-use-fill'
       />
       <h2 className={walletsCreateStyle.title}>{t`Back Up Wallet`}</h2>
-      {BACKUP_TEXT.map((text: string) => (
-        <p
-          key={text}
-          className={walletsCreateStyle.text}
-        >
-          {text}
-        </p>
-      ))}
+      <p
+        className={walletsCreateStyle.text}
+        dangerouslySetInnerHTML={{
+          __html: BACKUP_TEXT.split('\n').join('<br />'),
+        }}
+      />
       <form
         onSubmit={handleSubmit}
         className={walletsCreateStyle.ticks}
@@ -260,6 +259,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
       </form>
     </div>
   )
+  /* eslint-enable react/no-danger */
 
   renderWalletsCreateForm = (formRenderProps: FormRenderProps) => {
     const {
