@@ -9,9 +9,9 @@ import offset from 'styles/offsets.m.scss'
 
 import style from './historyItem.m.scss'
 
-type Props = {
+export type Props = {|
   itemId: TransactionId,
-}
+|}
 
 export function HistoryItemView(props: Props) {
   return (

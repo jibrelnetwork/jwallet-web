@@ -6,11 +6,14 @@ import { memoize } from 'lodash-es'
 import { PageNotFoundError } from 'errors'
 import { transactionsIndex } from 'components/TransactionItemNew/transactionsIndex'
 
-import { HistoryItemView } from './HistoryItemView'
+import {
+  type Props,
+  HistoryItemView,
+} from './HistoryItemView'
 
-type OwnProps = {
-  itemId: TransactionId,
-}
+type OwnProps = {|
+  +itemId: TransactionId,
+|}
 
 function mapStateToProps(state: AppState, { itemId }: OwnProps) {
   const hasTransaction = memoize(transactionsIndex)(state)[itemId] !== undefined
@@ -23,4 +26,4 @@ function mapStateToProps(state: AppState, { itemId }: OwnProps) {
 }
 
 export const HistoryItem =
-  connect/* :: < AppState, any, OwnProps, _, _ > */(mapStateToProps)(HistoryItemView)
+  connect< Props, OwnProps, _, _, _, _ >(mapStateToProps)(HistoryItemView)

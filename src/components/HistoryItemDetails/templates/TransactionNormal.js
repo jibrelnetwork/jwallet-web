@@ -158,7 +158,7 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
             onChange={this.handleEditNote}
           />
         </div>
-        {status === 'success' && (
+        {status === 'success' && type === 'out' && (
           <JLink
             theme='button-secondary'
             href={REPEAT_PAYMENT_URI}

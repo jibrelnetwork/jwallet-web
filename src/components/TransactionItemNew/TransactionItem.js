@@ -113,7 +113,7 @@ class TransactionItem extends PureComponent<Props, *> {
           isActive && transactionItemStyle.selected,
           offsetsStyle[offset],
         )}
-        href={`/history/${transaction.asset.blockchainParams.address}/${txAddress}`}
+        href={`/history/${txAddress}`}
         onClick={this.handleClick}
       >
         <div className={`${transactionItemStyle.item} ${transactionItemStyle.statusIcon}`}>
