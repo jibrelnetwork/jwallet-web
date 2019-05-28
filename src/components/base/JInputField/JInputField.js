@@ -1,6 +1,6 @@
 // @flow strict
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { camelCase } from 'lodash-es'
 
@@ -30,94 +30,101 @@ type InputRef = {
   current: null | HTMLInputElement,
 }
 
-const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
+export class JInputField extends PureComponent<JInputFieldProps> {
+  static defaultProps = {
+    meta: {},
+    input: {},
+    id: null,
+    label: '',
+    type: 'text',
+    theme: 'white',
+    placeholder: '',
+    infoMessage: null,
+    errorMessage: null,
+    validateType: 'touched',
+    isDisabled: false,
+    isAutoFocus: false,
+  }
 
-export function JInputField({
-  meta,
-  input,
-  id,
-  type,
-  label,
-  theme,
-  className,
-  placeholder,
-  infoMessage,
-  errorMessage,
-  validateType,
-  isDisabled,
-  isAutoFocus,
-  ...rest
-}: JInputFieldProps) {
-  const textInput: InputRef = React.createRef()
-  const errorMsg: ?string = errorMessage || getErrorMessage(meta, validateType)
+  textInput: InputRef = React.createRef()
 
-  const hasLabel: boolean = !!label
-  const hasError: boolean = !!errorMsg
-  const hasInfo: boolean = !!infoMessage
-  const hasValue: boolean = !!input.value
-  const hasPlaceholder: boolean = !!placeholder
-  const hasMessage: boolean = (hasError || hasInfo)
-  const isActive: boolean = meta.active || hasValue || (hasLabel && hasPlaceholder)
-  const inputId: string = id || `${camelCase(input.name || label || placeholder || 'noname')}Id`
+  handleFocus = () => this.textInput.current && this.textInput.current.focus()
 
-  return (
-    <div
-      className={classNames(
-        '__j-input-field',
-        jInputFieldStyle.core,
-        jInputFieldStyle[theme],
-        className,
-      )}
-    >
+  render() {
+    const {
+      meta,
+      input,
+      id,
+      type,
+      label,
+      theme,
+      className,
+      placeholder,
+      infoMessage,
+      errorMessage,
+      validateType,
+      isDisabled,
+      isAutoFocus,
+      ...rest
+    } = this.props
+
+    const errorMsg: ?string = errorMessage || getErrorMessage(meta, validateType)
+
+    const hasLabel: boolean = !!label
+    const hasError: boolean = !!errorMsg
+    const hasInfo: boolean = !!infoMessage
+    const hasValue: boolean = !!input.value
+    const hasPlaceholder: boolean = !!placeholder
+    const hasMessage: boolean = (hasError || hasInfo)
+    const isActive: boolean = meta.active || hasValue || (hasLabel && hasPlaceholder)
+    const inputId: string = id || `${camelCase(input.name || label || placeholder || 'noname')}Id`
+
+    return (
       <div
-        onClick={handleFocus(textInput)}
+        onClick={this.handleFocus}
         className={classNames(
-          jInputFieldStyle.wrap,
-          hasError && jInputFieldStyle.error,
-          isActive && jInputFieldStyle.active,
-          hasMessage && jInputFieldStyle.message,
-          isDisabled && jInputFieldStyle.disabled,
+          '__j-input-field',
+          jInputFieldStyle.core,
+          jInputFieldStyle[theme],
+          className,
         )}
       >
-        <input
-          ref={textInput}
-          type={type}
-          id={inputId}
-          placeholder={placeholder}
-          className={jInputFieldStyle.input}
-          disabled={isDisabled}
-          autoFocus={isAutoFocus}
-          {...input}
-          {...rest}
-        />
-        {hasLabel && (
-          <label className={jInputFieldStyle.label} htmlFor={inputId}>
-            {label}
-          </label>
+        <div
+          onClick={this.handleFocus}
+          className={classNames(
+            jInputFieldStyle.wrap,
+            hasError && jInputFieldStyle.error,
+            isActive && jInputFieldStyle.active,
+            hasMessage && jInputFieldStyle.message,
+            isDisabled && jInputFieldStyle.disabled,
+            hasValue && jInputFieldStyle.value,
+          )}
+        >
+          <input
+            ref={this.textInput}
+            type={type}
+            id={inputId}
+            placeholder={placeholder}
+            className={jInputFieldStyle.input}
+            disabled={isDisabled}
+            autoFocus={isAutoFocus}
+            {...input}
+            {...rest}
+          />
+          {hasLabel && (
+            <label className={jInputFieldStyle.label} htmlFor={inputId}>
+              {label}
+            </label>
+          )}
+        </div>
+        {hasMessage && (
+          <JFieldMessage
+            message={errorMsg || infoMessage}
+            theme={hasError ? 'error' : 'info'}
+            className={jInputFieldStyle.fieldMessage}
+          />
         )}
       </div>
-      {hasMessage && (
-        <JFieldMessage
-          message={errorMsg || infoMessage}
-          theme={hasError ? 'error' : 'info'}
-          className={jInputFieldStyle.fieldMessage}
-        />
-      )}
-    </div>
-  )
-}
-
-JInputField.defaultProps = {
-  meta: {},
-  input: {},
-  id: null,
-  label: '',
-  type: 'text',
-  theme: 'white',
-  placeholder: '',
-  infoMessage: null,
-  errorMessage: null,
-  validateType: 'dirtySinceLastSubmit',
-  isDisabled: false,
-  isAutoFocus: false,
+    )
+  }
 }
