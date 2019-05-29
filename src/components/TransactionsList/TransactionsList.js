@@ -49,7 +49,6 @@ class TransactionsList extends PureComponent<Props, State> {
     if (this.sidebar && this.sidebar.current) {
       const { scrollTop } = this.rootWrapper
       const { current } = this.sidebar
-      console.log(scrollTop, current.offsetTop)
 
       // eslint-disable-next-line fp/no-mutation
       current.style = (current.offsetTop < 112) || (scrollTop < (window.screen.height / 2))
