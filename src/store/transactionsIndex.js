@@ -1,6 +1,9 @@
 // @flow
 
-import { get } from 'lodash-es'
+import {
+  get,
+  memoize,
+} from 'lodash-es'
 
 import { selectTransactionsList } from 'store/selectors/transactions'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
@@ -169,7 +172,7 @@ export const MEMO = {
   transactions: '',
 }
 
-export function transactionsIndex(state: AppState) {
+function getHistoryItemsIndex(state: AppState) {
   const transactions = selectTransactionsList(state)
 
   // Performance optimization
@@ -182,3 +185,5 @@ export function transactionsIndex(state: AppState) {
 
   return MEMO.transactionsIndex
 }
+
+export const transactionsIndex = memoize(getHistoryItemsIndex)

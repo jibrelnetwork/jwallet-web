@@ -14,7 +14,7 @@ import { type ContainerProps } from './HistoryItemDetails'
 export type Props = {
   ...ContainerProps,
   ...TransactionItem,
-  editNote: Function,
+  editNote: () => mixed,
   blockExplorer: string,
   fromName: string,
   toName: string,

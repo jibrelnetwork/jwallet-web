@@ -9,9 +9,7 @@ import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { getShortenedAddress } from 'utils/address'
 
 import { PageNotFoundError } from 'errors'
-import {
-  MEMO,
-} from 'store/transactionsIndex'
+import { MEMO } from 'store/transactionsIndex'
 
 import {
   type Props,

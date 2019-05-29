@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
+import { debounce } from 'lodash-es'
 
 import {
   JLoader,
@@ -44,21 +45,18 @@ class TransactionsList extends PureComponent<Props, State> {
     this.rootWrapper.addEventListener('scroll', this.handleScroll)
   }
 
-  scrollTo = () => {
-    const { scrollTop } = this.rootWrapper
-    const { current } = this.sidebar
-
-    // eslint-disable-next-line fp/no-mutation
-    current.style = (current.offsetTop < 112) || (scrollTop < (window.screen.height / 2))
-      ? 'top: 112px'
-      : `top: ${scrollTop + 16}px`
-  }
-
-  handleScroll = () => {
+  handleScroll = debounce(() => {
     if (this.sidebar && this.sidebar.current) {
-      setTimeout(this.scrollTo, 10)
+      const { scrollTop } = this.rootWrapper
+      const { current } = this.sidebar
+      console.log(scrollTop, current.offsetTop)
+
+      // eslint-disable-next-line fp/no-mutation
+      current.style = (current.offsetTop < 112) || (scrollTop < (window.screen.height / 2))
+        ? 'top: 112px'
+        : `top: ${scrollTop + 16}px`
     }
-  }
+  }, 0)
 
   handleSetActive = (id: TransactionId) => {
     this.setState({ activeItem: id }, this.handleScroll)
