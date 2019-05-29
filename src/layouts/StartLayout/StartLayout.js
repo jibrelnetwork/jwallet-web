@@ -20,7 +20,13 @@ export function StartLayout({
   hasNoLogo,
 }: Props) {
   return (
-    <div className={classNames(startLayoutStyle.core, className)}>
+    <div
+      className={classNames(
+        className,
+        startLayoutStyle.core,
+        !hasNoLogo && startLayoutStyle.hasLogo,
+      )}
+    >
       {!hasNoLogo && (
         <img
           className={startLayoutStyle.logo}
