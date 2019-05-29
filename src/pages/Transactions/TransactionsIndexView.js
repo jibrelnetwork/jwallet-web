@@ -3,6 +3,8 @@
 import React from 'react'
 import { t } from 'ttag'
 
+import { type TransactionItem } from 'store/transactionsIndex'
+
 import {
   Header, SearchFilter, SearchInput,
 } from 'components/base'
@@ -12,28 +14,14 @@ import {
 } from 'components'
 
 type Props = {|
-  +transactions: TransactionWithPrimaryKeys[],
-  +network: ?Network,
-  +ownerAddress: ?OwnerAddress,
-  +searchQuery: string,
+  +transactions: TransactionItem[],
   +isLoading: boolean,
-  +isOnlyPending: boolean,
 |}
 
 function TransactionsIndexView({
   transactions,
-  network,
-  searchQuery,
-  ownerAddress,
   isLoading,
-  isOnlyPending,
 }: Props) {
-  if (!(ownerAddress && network)) {
-    return null
-  }
-
-  const filterCount: number = isOnlyPending ? 1 : 0
-
   return (
     <div className='transactions-view -index'>
       <Header
@@ -47,13 +35,10 @@ function TransactionsIndexView({
           </SearchFilter>
         </SearchInput>
       </Header>
-      <div className='content'>
-        <TransactionsList
-          items={transactions}
-          isLoading={isLoading}
-          isFiltered={!!filterCount || !!searchQuery}
-        />
-      </div>
+      <TransactionsList
+        items={transactions}
+        isLoading={isLoading}
+      />
     </div>
   )
 }
