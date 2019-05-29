@@ -3,7 +3,6 @@
 import uuidv4 from 'uuid/v4'
 import { t } from 'ttag'
 import { type Store } from 'redux'
-import { actions as router5Actions } from 'redux-router5'
 
 import { gaSendEvent } from 'utils/analytics'
 import { selectWalletsItems } from 'store/selectors/wallets'
@@ -384,23 +383,17 @@ class WalletsPlugin {
       const items: Wallets = this.getItems()
       const newItems: Wallets = appendWallet(items, newWallet)
 
+      if (newItems.length === 1) {
+        this.dispatch(setActiveWallet(newWallet.id))
+      }
+
       this.dispatch(setWalletsItems(newItems))
-      this.dispatch(router5Actions.navigateTo('Wallets'))
 
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreated')
       } else {
         gaSendEvent('ImportWallet', 'WalletCreated')
       }
-
-      const newWallets: Wallets = this.appendWallet(newWallet)
-
-      if (newItems.length === 1) {
-        this.dispatch(setActiveWallet(newWallet.id))
-      }
-
-      this.dispatch(setWalletsItems(newWallets))
-      this.dispatch(router5Actions.navigateTo('Wallets'))
     } catch (err) {
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreationError')
