@@ -1,10 +1,8 @@
-// @flow
+// @flow strict
 
 import QRCode from './QRCode'
 import HelpText from './HelpText'
 import ESCButton from './ESCButton'
-import WalletCard from './WalletCard'
-import WalletFace from './WalletFace'
 import WalletStep from './WalletStep'
 import InputButton from './InputButton'
 import DoubleInput from './DoubleInput'
@@ -32,19 +30,19 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
+export { WalletCard } from './WalletCard/WalletCard'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
 export { TransactionItem } from './TransactionItemNew/TransactionItem'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
+export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 
 export {
   QRCode,
   HelpText,
   ESCButton,
-  WalletCard,
-  WalletFace,
   WalletStep,
   DoubleInput,
   InputButton,

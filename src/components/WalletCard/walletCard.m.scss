@@ -1,0 +1,154 @@
+@import 'styles/mixins';
+
+.core {
+  position: relative;
+  min-width: 0;
+  align-items: center;
+  cursor: pointer;
+  width: $wallet-button-width;
+  height: $wallet-button-height;
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  &::before {
+    @include property-transition(border-color, background-color);
+
+    content: '';
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: -16px;
+    position: absolute;
+    margin-top: -10px;
+    border-radius: 100px;
+    border: 2px solid $main-blue-30;
+    background-color: $white;
+  }
+
+  &:hover {
+    &::before {
+      background-color: $main-blue-20;
+    }
+  }
+
+  &.active {
+    &::before {
+      background-color: $main-blue;
+    }
+  }
+}
+
+.card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100% - 59px);
+    height: 100%;
+    top: 0;
+    right: 0;
+    border-radius: 0 6px 6px 0;
+    background-color: $main-blue;
+    filter: drop-shadow($blue-shadow);
+  }
+}
+
+.left-part {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  fill: $main-blue;
+  filter: drop-shadow($blue-shadow);
+}
+
+.body {
+  @include flex-row;
+
+  align-items: center;
+  padding-left: 48px;
+  height: 100%;
+  position: relative;
+}
+
+.data {
+  flex: 2 2 150px;
+  min-width: 150px;
+}
+
+.name,
+.address,
+.balance {
+  color: $white;
+  font-family: $font;
+}
+
+.name-box {
+  position: relative;
+  margin-left: -8px;
+}
+
+.name {
+  @include property-transition(background-color);
+
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.57;
+  height: 28px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-block;
+
+  &:hover {
+    background-color: $main-black-20;
+  }
+
+  &.editable {
+    background-color: $main-black-50;
+    color: transparent;
+  }
+}
+
+.input {
+  border: none;
+  background-color: transparent;
+  height: 28px;
+  font-size: 14px;
+  font-weight: normal;
+  padding-left: 0;
+  padding-right: 0;
+  left: 8px;
+  position: absolute;
+  color: #fff;
+  width: 100%;
+}
+
+.address {
+  @include flex-row;
+
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+.balance {
+  font-size: 20px;
+  padding-top: 3px;
+  line-height: 1.4;
+}
+
+.actions {
+  @include hover-animation;
+  @include flex-column-center;
+
+  height: 100%;
+  flex: 0 0 56px;
+}

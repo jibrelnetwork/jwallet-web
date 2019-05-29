@@ -1,9 +1,17 @@
 @import 'styles/mixins';
 
 .core {
+  @include flex-row-center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.form {
   @include flex-column-center;
 
   position: relative;
+  width: 544px;
 }
 
 .icon {
@@ -18,18 +26,21 @@
   color: $main-black;
 }
 
-.text {
+.text,
+.note {
   font-size: 14px;
   line-height: 22px;
   color: $main-black-60;
+}
+
+.text {
   text-align: center;
 }
 
-.form {
-  width: 544px;
-  margin-top: 32px;
+.note {
+  margin: 16px 0 32px 0;
 }
 
-.button {
-  margin: 32px 0 16px 0;
+.ticks {
+  margin-top: 32px;
 }

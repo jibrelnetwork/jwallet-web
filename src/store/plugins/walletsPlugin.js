@@ -5,9 +5,14 @@ import { t } from 'ttag'
 import { type Store } from 'redux'
 import { actions as router5Actions } from 'redux-router5'
 
-import { WalletInconsistentDataError } from 'errors'
+import { gaSendEvent } from 'utils/analytics'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectPasswordPersist } from 'store/selectors/password'
+
+import {
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 import {
   setActiveWallet,
@@ -51,10 +56,30 @@ export type WalletData = {|
   +passphrase: ?string,
   +derivationPath: ?string,
   +orderIndex: number,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
 |}
 
 function max(a: number, b: number): number {
   return (a > b) ? a : b
+}
+
+function removeWallet(items: Wallets, walletId: WalletId): Wallets {
+  return items.filter(({ id }: Wallet): boolean => (walletId !== id))
+}
+
+function appendWallet(items: Wallets, wallet: Wallet): Wallets {
+  /* eslint-disable-next-line fp/no-mutating-methods */
+  return [
+    ...items,
+    wallet,
+  ].sort((a: Wallet, b: Wallet): number => {
+    if (a.orderIndex === b.orderIndex) {
+      return 0
+    }
+
+    return (a.orderIndex > b.orderIndex) ? 1 : -1
+  })
+  /* eslint-enable-next-line fp/no-mutating-methods */
 }
 
 class WalletsPlugin {
@@ -86,23 +111,6 @@ class WalletsPlugin {
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
 
-  appendWallet(wallet: Wallet): Wallets {
-    const items: Wallets = this.getItems()
-
-    /* eslint-disable-next-line fp/no-mutating-methods */
-    return [
-      ...items,
-      wallet,
-    ].sort((a: Wallet, b: Wallet): number => {
-      if (a.orderIndex === b.orderIndex) {
-        return 0
-      }
-
-      return (a.orderIndex > b.orderIndex) ? 1 : -1
-    })
-    /* eslint-enable-next-line fp/no-mutating-methods */
-  }
-
   createMnemonicWallet = (
     walletData: WalletData,
     internalKey: Uint8Array,
@@ -114,6 +122,7 @@ class WalletsPlugin {
       passphrase,
       derivationPath,
       orderIndex,
+      createdBlockNumber,
     }: WalletData = walletData
 
     const mnemonic: string = data.toLowerCase()
@@ -126,6 +135,7 @@ class WalletsPlugin {
       name,
       orderIndex,
       derivationPath,
+      createdBlockNumber,
       addressIndex: 0,
       isReadOnly: false,
       isSimplified: true,
@@ -150,7 +160,6 @@ class WalletsPlugin {
        * Another wallet data, necessary for consistency of types
        */
       address: null,
-      createdBlockNumber: null,
     }
   }
 
@@ -163,12 +172,14 @@ class WalletsPlugin {
       data,
       name,
       orderIndex,
+      createdBlockNumber,
     }: WalletData = walletData
 
     return {
       id,
       name,
       orderIndex,
+      createdBlockNumber,
       addressIndex: 0,
       type: 'mnemonic',
       isReadOnly: false,
@@ -189,7 +200,6 @@ class WalletsPlugin {
        */
       address: null,
       derivationPath: null,
-      createdBlockNumber: null,
     }
   }
 
@@ -198,10 +208,12 @@ class WalletsPlugin {
     data,
     name,
     orderIndex,
+    createdBlockNumber,
   }: WalletData): Wallet => ({
     id,
     name,
     orderIndex,
+    createdBlockNumber,
     xpub: data,
     addressIndex: 0,
     isReadOnly: true,
@@ -219,7 +231,6 @@ class WalletsPlugin {
      */
     address: null,
     derivationPath: null,
-    createdBlockNumber: null,
   })
 
   createPrivateKeyWallet = (
@@ -231,6 +242,7 @@ class WalletsPlugin {
       data,
       name,
       orderIndex,
+      createdBlockNumber,
     }: WalletData = walletData
 
     const privateKey: string = data.toLowerCase()
@@ -239,6 +251,7 @@ class WalletsPlugin {
       id,
       name,
       orderIndex,
+      createdBlockNumber,
       type: 'address',
       isReadOnly: false,
       customType: 'privateKey',
@@ -259,7 +272,6 @@ class WalletsPlugin {
       isSimplified: null,
       addressIndex: null,
       derivationPath: null,
-      createdBlockNumber: null,
     }
   }
 
@@ -268,10 +280,12 @@ class WalletsPlugin {
     data,
     name,
     orderIndex,
+    createdBlockNumber,
   }: WalletData): Wallet => ({
     id,
     name,
     orderIndex,
+    createdBlockNumber,
     type: 'address',
     isReadOnly: true,
     customType: 'address',
@@ -289,7 +303,6 @@ class WalletsPlugin {
     isSimplified: null,
     addressIndex: null,
     derivationPath: null,
-    createdBlockNumber: null,
   })
 
   createWallet = (
@@ -322,13 +335,16 @@ class WalletsPlugin {
     }
   }
 
-  importWallet = async ({
-    data,
-    name,
-    password,
-    passphrase,
-    derivationPath,
-  }: FormFields): ?FormFields => {
+  importWallet = async (
+    {
+      data,
+      name,
+      password,
+      passphrase,
+      derivationPath,
+    }: FormFields,
+    createdBlockNumber?: ?WalletCreatedBlockNumber = null,
+  ): ?FormFields => {
     if (!data || !name || !password) {
       throw new Error(t`Invalid wallet data`)
     }
@@ -356,25 +372,44 @@ class WalletsPlugin {
       )
 
       const newWallet: Wallet = this.createWallet({
-        data,
-        name,
         passphrase,
         derivationPath,
+        createdBlockNumber,
         id: uuidv4(),
+        data: data.trim(),
+        name: name.trim(),
         orderIndex: this.getNextOrderIndex(),
       }, internalKeyDec)
 
+      const items: Wallets = this.getItems()
+      const newItems: Wallets = appendWallet(items, newWallet)
+
+      this.dispatch(setWalletsItems(newItems))
+      this.dispatch(router5Actions.navigateTo('Wallets'))
+
+      if (createdBlockNumber) {
+        gaSendEvent('CreateWallet', 'WalletCreated')
+      } else {
+        gaSendEvent('ImportWallet', 'WalletCreated')
+      }
+
       const newWallets: Wallets = this.appendWallet(newWallet)
+
+      if (newItems.length === 1) {
+        this.dispatch(setActiveWallet(newWallet.id))
+      }
 
       this.dispatch(setWalletsItems(newWallets))
       this.dispatch(router5Actions.navigateTo('Wallets'))
-
-      if (newWallets.length === 1) {
-        this.dispatch(setActiveWallet(newWallet.id))
-      }
     } catch (err) {
+      if (createdBlockNumber) {
+        gaSendEvent('CreateWallet', 'WalletCreationError')
+      } else {
+        gaSendEvent('ImportWallet', 'WalletCreationError')
+      }
+
       return {
-        password: err.message,
+        password: t`Invalid password`,
       }
     }
 
@@ -408,6 +443,55 @@ class WalletsPlugin {
     if (foundWallet) {
       throw new Error(t`Wallet with such ${propertyName} already exists`)
     }
+  }
+
+  getWallet = (walletId: WalletId): Wallet => {
+    const items: Wallets = this.getItems()
+    const wallet: ?Wallet = items.find(({ id }: Wallet): boolean => (walletId === id))
+
+    if (!wallet) {
+      throw new WalletNotFoundError({ walletId })
+    }
+
+    return { ...wallet }
+  }
+
+  updateWallet = (
+    walletId: WalletId,
+    updatedData: WalletUpdatedData,
+  ): Wallets => {
+    const {
+      encrypted,
+      name,
+      xpub,
+      derivationPath,
+      customType,
+      addressIndex,
+      isReadOnly,
+      isSimplified,
+    }: WalletUpdatedData = updatedData
+
+    const wallet: Wallet = this.getWallet(walletId)
+
+    const newWallet: Wallet = {
+      ...wallet,
+      encrypted: encrypted || wallet.encrypted,
+      name: name || wallet.name,
+      xpub: xpub || wallet.xpub,
+      customType: customType || wallet.customType,
+      derivationPath: derivationPath || wallet.derivationPath,
+      addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
+      isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
+      isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
+    }
+
+    const items: Wallets = this.getItems()
+    const itemsRemoved: Wallets = removeWallet(items, walletId)
+    const itemsAppended: Wallets = appendWallet(itemsRemoved, newWallet)
+
+    this.dispatch(setWalletsItems(itemsAppended))
+
+    return itemsAppended
   }
 }
 

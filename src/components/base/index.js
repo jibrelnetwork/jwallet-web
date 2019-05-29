@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import JCard from './JCard'
 import JFlatButton from './JFlatButton'
