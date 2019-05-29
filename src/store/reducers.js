@@ -28,7 +28,6 @@ import digitalAssetsManage from 'store/modules/digitalAssetsManage'
 // wallets
 import wallets from 'store/modules/wallets'
 import walletsCreate from 'store/modules/walletsCreate'
-import walletsBackup from 'store/modules/walletsBackup'
 import walletsAddresses from 'store/modules/walletsAddresses'
 import walletsRenameAddress from 'store/modules/walletsRenameAddress'
 
@@ -46,7 +45,6 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
     upgrade,
     // wallets
     walletsCreate,
-    walletsBackup,
     walletsRenameAddress,
     // digitalAssets
     digitalAssetsAdd,

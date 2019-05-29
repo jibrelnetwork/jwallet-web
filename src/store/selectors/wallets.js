@@ -132,10 +132,6 @@ export function selectWalletsCreatedBlockNumber(state: AppState): ?WalletCreated
   return walletsCreate.createdBlockNumber
 }
 
-export function selectWalletsBackup(state: AppState): WalletsBackupState {
-  return state.walletsBackup
-}
-
 export function selectWalletsAddresses(state: AppState): WalletsAddressesState {
   return state.walletsAddresses
 }

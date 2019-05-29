@@ -80,26 +80,6 @@ declare type WalletsCreateState = {|
 |}
 
 /**
- * Wallets backup
- */
-declare type WalletsBackupPasswordStepIndex = 0
-declare type WalletsBackupPrivateStepIndex = 1
-
-declare type WalletsBackupStepIndex =
-  WalletsBackupPasswordStepIndex |
-  WalletsBackupPrivateStepIndex
-
-declare type WalletsBackupSteps = {|
-  +PASSWORD: WalletsBackupPasswordStepIndex,
-  +PRIVATE: WalletsBackupPrivateStepIndex,
-|}
-
-declare type WalletsBackupState = {|
-  +data: string,
-  +currentStep: WalletsBackupStepIndex,
-|}
-
-/**
  * Wallets addresses
  */
 declare type WalletsBalances = { [OwnerAddress]: ?string }
