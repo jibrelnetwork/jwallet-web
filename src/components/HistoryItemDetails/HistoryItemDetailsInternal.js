@@ -37,8 +37,14 @@ export class HistoryItemDetailsInternal extends PureComponent<Props> {
       return null
     }
 
+    const extendedProps = {
+      ...this.props,
+      editNote: this.debouncedHandlerOnEditNote,
+      key: this.props.id,
+    }
+
     return this.props.type !== 'cancel'
-      ? <TransactionNormalTemplate {...this.props} editNote={this.debouncedHandlerOnEditNote} />
-      : <TransactionCancelTemplate {...this.props} editNote={this.debouncedHandlerOnEditNote} />
+      ? <TransactionNormalTemplate {...extendedProps} />
+      : <TransactionCancelTemplate {...extendedProps} />
   }
 }

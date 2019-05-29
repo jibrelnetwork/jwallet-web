@@ -13,7 +13,7 @@
   @include flex-row;
 
   padding: 24px 0 22px;
-  border-radius: 4px 4px 0 0;
+  border-radius: 4px;
 
   &.success {
     background-color: $main-blue;

@@ -75,6 +75,7 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
     }
 
     const {
+      className,
       asset,
       amount,
       blockExplorer,
@@ -97,7 +98,7 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
       : status
 
     return (
-      <div className={style.core}>
+      <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[this.props.status])}>
             <div className={style.statusIcon}>

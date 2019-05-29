@@ -10,7 +10,7 @@ import { getShortenedAddress } from 'utils/address'
 
 import { PageNotFoundError } from 'errors'
 import {
-  MEMO, transactionsIndex,
+  MEMO,
 } from 'store/transactionsIndex'
 
 import {
@@ -20,6 +20,7 @@ import {
 
 export type ContainerProps = {
   txHash: TransactionId,
+  className: ?string,
 }
 
 const mapDispatchToProps = {
@@ -40,10 +41,7 @@ function getPrimaryName(
 
 function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
   const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-  const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
-    ? MEMO.transactionsIndex
-    : transactionsIndex(state)
-  const transactionRecord = dataMap[txHash]
+  const transactionRecord = MEMO.transactionsIndex[txHash]
 
   if (!transactionRecord) {
     throw new PageNotFoundError()

@@ -13,7 +13,7 @@ export function formatTransactionAmount({
     ? formatAssetBalance(asset.blockchainParams.address, amount, asset.blockchainParams.decimals)
     : amount
   const symbol = asset
-    ? `\u202F${asset.symbol}`
+    ? `\u2007${asset.symbol}`
     : ''
   const formattedAmount = `${formatted}${symbol}`
 

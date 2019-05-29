@@ -44,26 +44,24 @@ class TransactionsList extends PureComponent<Props, State> {
     this.rootWrapper.addEventListener('scroll', this.handleScroll)
   }
 
-  handleScroll = (e: SyntheticEvent<HTMLDivElement>) => {
-    e.preventDefault()
+  scrollTo = () => {
+    const { scrollTop } = this.rootWrapper
+    const { current } = this.sidebar
 
-    if (this.sidebar) {
-      const { scrollTop } = this.rootWrapper
-      const { current } = this.sidebar
+    // eslint-disable-next-line fp/no-mutation
+    current.style = (current.offsetTop < 112) || (scrollTop < (window.screen.height / 2))
+      ? 'top: 112px'
+      : `top: ${scrollTop + 16}px`
+  }
 
-      if (current) {
-        setTimeout(() => {
-          // eslint-disable-next-line fp/no-mutation
-          current.style = current.offsetTop >= 112
-            ? `top: ${scrollTop + 16}px`
-            : 'top: 112px'
-        }, 10)
-      }
+  handleScroll = () => {
+    if (this.sidebar && this.sidebar.current) {
+      setTimeout(this.scrollTo, 10)
     }
   }
 
   handleSetActive = (id: TransactionId) => {
-    this.setState({ activeItem: id })
+    this.setState({ activeItem: id }, this.handleScroll)
   }
 
   handleClearActive = () => {
