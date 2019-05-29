@@ -1,83 +1,157 @@
-// @flow
+// @flow strict
 
+import Promise from 'bluebird'
+import { t } from 'ttag'
+import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
-import {
-  selectWallets,
-  selectWalletsImport,
-} from 'store/selectors/wallets'
+import { walletsPlugin } from 'store/plugins'
+import { selectPasswordHint } from 'store/selectors/password'
 
 import {
-  changeNameInput,
-  changePasswordInput,
-  changePasswordHintInput,
-  changePasswordConfirmInput,
-} from 'store/modules/wallets'
+  validateName,
+  checkMnemonicType,
+  validateDerivationPath,
+} from 'utils/wallets'
 
 import {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
-  changeDataInput,
-  changeDerivationPathInput,
-} from 'store/modules/walletsImport'
+  STEPS,
+  WalletsImportView,
+  type WalletsImportStep,
+  type WalletsImportBackHandler,
+  type WalletsImportSubmitPayload,
+  type Props,
+} from './WalletsImportView'
 
-import { WalletsImportView } from './WalletsImportView'
+import {
+  getInfoDataMessage,
+  getErrorDataMessage,
+} from './dataMessage'
 
-function mapStateToProps(state: AppState) {
-  const {
-    persist: {
-      internalKey,
-    },
-    name,
-    password,
-    isLoading,
-    passwordHint,
-    invalidFields,
-    passwordConfirm,
-  }: WalletsState = selectWallets(state)
+type OwnProps = {|
+  +onBack?: ?WalletsImportBackHandler,
+|}
 
-  const walletsImport: WalletsImportState = selectWalletsImport(state)
+async function importWallet(values: FormFields): ?FormFields {
+  return walletsPlugin.importWallet(values)
+}
 
-  const {
-    data,
-    walletType,
-    currentStep,
+function validateWalletData(
+  data: ?string,
+  passphrase: ?string,
+  derivationPath: ?string,
+  walletType: ?string,
+): ?string {
+  const trimmedData: string = (data || '').trim()
+
+  if (!trimmedData) {
+    return t`The field should not be empty`
+  }
+
+  const infoDataMessage: ?string = getInfoDataMessage(
+    trimmedData,
+    passphrase,
     derivationPath,
-  }: WalletsImportState = walletsImport
-
-  return {
-    data,
-    name,
-    password,
     walletType,
-    currentStep,
-    passwordHint,
+  )
+
+  if (infoDataMessage) {
+    return infoDataMessage
+  }
+
+  const errorDataMessage: ?string = getErrorDataMessage(
+    trimmedData,
+    passphrase,
     derivationPath,
-    passwordConfirm,
-    isLoading,
-    isPasswordExists: !!internalKey,
-    invalidFields: {
-      ...invalidFields,
-      ...walletsImport.invalidFields,
-    },
+    walletType,
+  )
+
+  if (errorDataMessage) {
+    return errorDataMessage
+  }
+
+  return null
+}
+
+function validateWalletsImportForm(
+  values: FormFields,
+  currentStep: WalletsImportStep,
+): ?FormFields {
+  const {
+    name,
+    data,
+    passphrase,
+    derivationPath,
+    walletType,
+  }: FormFields = values
+
+  const formErrors: FormFields = {}
+
+  switch (currentStep) {
+    case STEPS.DATA: {
+      const validateWalletNameResult: ?string = validateName(name)
+
+      if (validateWalletNameResult) {
+        formErrors.name = validateWalletNameResult
+      }
+
+      const validateWalletDataResult: ?string = validateWalletData(
+        data,
+        passphrase,
+        derivationPath,
+        walletType,
+      )
+
+      if (validateWalletDataResult) {
+        formErrors.data = validateWalletDataResult
+      }
+
+      if (checkMnemonicType(walletType)) {
+        const validateDerivationPathResult: ?string = validateDerivationPath(derivationPath)
+
+        if (validateDerivationPathResult) {
+          formErrors.derivationPath = validateDerivationPathResult
+        }
+      }
+
+      return formErrors
+    }
+
+    default:
+      return null
   }
 }
 
-const mapDispatchToProps = {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
-  changeDataInput,
-  changeNameInput,
-  changePasswordInput,
-  changePasswordHintInput,
-  changeDerivationPathInput,
-  changePasswordConfirmInput,
+async function submitWalletsImportForm({
+  goToPasswordStep,
+  values,
+  currentStep,
+}: WalletsImportSubmitPayload): Promise<?FormFields> {
+  const errors: ?FormFields = validateWalletsImportForm(values, currentStep)
+
+  if (!isEmpty(errors)) {
+    return errors
+  }
+
+  switch (currentStep) {
+    case STEPS.DATA:
+      return goToPasswordStep()
+
+    case STEPS.PASSWORD:
+      return importWallet(values)
+
+    default:
+      return null
+  }
 }
 
-export const WalletsImport =  (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+function mapStateToProps(state: AppState) {
+  return {
+    hint: selectPasswordHint(state),
+    submit: submitWalletsImportForm,
+  }
+}
+
+export const WalletsImport = connect<Props, OwnProps, _, _, _, _>(
+  mapStateToProps,
 )(WalletsImportView)

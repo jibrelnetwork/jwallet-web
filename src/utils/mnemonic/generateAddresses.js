@@ -1,16 +1,16 @@
-// @flow
+// @flow strict
 
 import {
   getPublicHdRoot,
   generateAddress,
 } from '.'
 
-function generateAddresses(
-  bip32XPublicKey: string,
+export function generateAddresses(
+  xpub: string,
   start: ?number,
   end: ?number,
 ): string[] {
-  const hdRoot: HDPublicKey = getPublicHdRoot(bip32XPublicKey)
+  const hdRoot: HDPublicKey = getPublicHdRoot(xpub)
   const startIndex: number = start || 0
   const endIndex: number = end || startIndex
   const addressesCount: number = endIndex - startIndex
@@ -20,5 +20,3 @@ function generateAddresses(
     .from(new Array(addressesCount + 1).keys())
     .map((currentIndex: number): string => generateAddress(hdRoot, startIndex + currentIndex))
 }
-
-export default generateAddresses

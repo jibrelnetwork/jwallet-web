@@ -9,13 +9,14 @@ import {
 
 import { type ToBigNumberValue } from 'utils/numbers/toBigNumber'
 
-export default function formatAssetBalance(
+export function formatAssetBalance(
   asset: AssetAddress,
   balance: ToBigNumberValue,
   decimals?: number = 18,
+  symbol?: ?string = null,
 ): string {
-  return formatBalance(
+  return `${formatBalance(
     divDecimals(balance, decimals),
     checkETH(asset) ? 4 : 2,
-  )
+  )}${symbol ? `\u00A0${symbol}` : ''}`
 }

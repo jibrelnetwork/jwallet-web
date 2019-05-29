@@ -12,8 +12,8 @@ import {
 
 import config from 'config'
 import walletsWorker from 'workers/wallets'
-import checkDerivationPathValid from 'utils/mnemonic/checkDerivationPathValid'
 import { checkPasswordStrength } from 'utils/encryption'
+import { checkDerivationPathValid } from 'utils/mnemonic'
 
 import {
   getTypeByInput,

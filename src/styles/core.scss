@@ -1,3 +1,4 @@
+@import 'modern-normalize'; // import from node_modules
 @import 'base';
 @import 'mixins';
 
@@ -24,15 +25,6 @@ body,
   color: $dusk;
 }
 
-a {
-  text-decoration: none;
-  color: $blue;
-
-  &:hover {
-    color: $blue-two;
-  }
-}
-
 li {
   list-style: none;
 }
@@ -52,11 +44,9 @@ h4 {
 @import '../components/base/JInput/jInput';
 @import '../components/base/JRadio/jRadio';
 @import '../components/base/JLoader/jLoader';
-@import '../components/base/JSearch/jSearch';
 @import '../components/base/JPicker/jPicker';
 @import '../components/base/JSwitch/jSwitch';
 @import '../components/base/JTooltip/jTooltip';
-@import '../components/base/JCheckbox/jCheckbox';
 @import '../components/base/JThumbnail/jThumbnail';
 @import '../components/base/JFlatButton/jFlatButton';
 
@@ -64,7 +54,6 @@ h4 {
 @import '../components/QRCode/qrCode';
 @import '../components/HelpText/helpText';
 @import '../components/AssetItemLegacy/assetItem';
-@import '../components/WalletFace/walletFace';
 @import '../components/WalletStep/walletStep';
 @import '../components/DoubleInput/doubleInput';
 @import '../components/InputButton/inputButton';
@@ -82,11 +71,9 @@ h4 {
 @import '../components/RoundIconButton/roundIconButton';
 @import '../components/TransactionItem/transactionItem';
 @import '../components/WalletViewTitle/walletViewTitle';
-@import '../components/TransactionsList/transactionsList';
 @import '../components/ButtonWithConfirm/buttonWithConfirm';
 @import '../components/MnemonicAddresses/mnemonicAddresses';
 @import '../components/TransactionsFilter/transactionsFilter';
-@import '../components/DigitalAssetsFilter/digitalAssetsFilter';
 @import '../components/DigitalAssetsManage/digitalAssetsManage';
 @import '../components/OverlayNotification/overlayNotification';
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';

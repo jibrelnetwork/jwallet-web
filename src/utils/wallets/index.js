@@ -1,21 +1,23 @@
-// @flow
+// @flow strict
 
 import getWallet from './getWallet'
 import getAddress from './getAddress'
 import getMnemonic from './getMnemonic'
 import getAddresses from './getAddresses'
 import appendWallet from './appendWallet'
-import createWallet from './createWallet'
-import removeWallet from './removeWallet'
 import updateWallet from './updateWallet'
 import upgradeWallet from './upgradeWallet'
 import getBackupData from './getBackupData'
 import getPrivateKey from './getPrivateKey'
-import getTypeByInput from './getTypeByInput'
-import checkMnemonicType from './checkMnemonicType'
 import checkWalletUniqueness from './checkWalletUniqueness'
 
+export { removeWallet } from './removeWallet'
+export { validateName } from './validateName'
+export { getTypeByInput } from './getTypeByInput'
+export { checkNameExists } from './checkNameExists'
+export { checkMnemonicType } from './checkMnemonicType'
 export { getMnemonicAddressName } from './getMnemonicAddressName'
+export { validateDerivationPath } from './validateDerivationPath'
 
 export {
   getWallet,
@@ -23,13 +25,9 @@ export {
   getMnemonic,
   getAddresses,
   appendWallet,
-  createWallet,
-  removeWallet,
   updateWallet,
   upgradeWallet,
   getBackupData,
   getPrivateKey,
-  getTypeByInput,
-  checkMnemonicType,
   checkWalletUniqueness,
 }

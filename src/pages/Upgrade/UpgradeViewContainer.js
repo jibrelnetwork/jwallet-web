@@ -5,10 +5,10 @@ import { t } from 'ttag'
 
 import config from 'config'
 import getWallet from 'utils/wallets/getWallet'
-import checkMnemonicType from 'utils/wallets/checkMnemonicType'
-import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
-import { selectUpgrade } from 'store/selectors/upgrade'
+import { checkMnemonicType } from 'utils/wallets'
 import { WalletInconsistentDataError } from 'errors'
+import { selectUpgrade } from 'store/selectors/upgrade'
+import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
 import {
   submitMnemonicRequest as onSubmitMnemonic,
@@ -22,7 +22,7 @@ import {
 
 import {
   checkMnemonicValid,
-  getXPubFromMnemonic,
+  getXPUBFromMnemonic,
   checkDerivationPathValid,
 } from 'utils/mnemonic'
 
@@ -30,7 +30,12 @@ import {
   selectWalletsItems,
   selectActiveWalletId,
 } from 'store/selectors/wallets'
+
+// eslint-disable-next-line import/no-duplicates
 import UpgradeView from './UpgradeView'
+
+// eslint-disable-next-line import/no-duplicates
+import { type Props } from './UpgradeView'
 
 function validatePrivateKey(address: ?Address) {
   return ({ privateKey }: UpgradePrivateKeyFormFieldValues): UpgradePrivateKeyFormFieldErrors => {
@@ -98,7 +103,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
       }
     }
 
-    const xpubFromMnemonic: string = getXPubFromMnemonic(mnemonicLower, passphrase, derivPath)
+    const xpubFromMnemonic: string = getXPUBFromMnemonic(mnemonicLower, passphrase, derivPath)
     const isXPUBEqual: boolean = (bip32XPublicKey === xpubFromMnemonic)
 
     if (!isXPUBEqual) {
@@ -123,9 +128,9 @@ function mapStateToProps(state: AppState) {
 
   const {
     type,
+    xpub,
     address,
     isReadOnly,
-    bip32XPublicKey,
   }: Wallet = wallet
 
   return {
@@ -137,8 +142,8 @@ function mapStateToProps(state: AppState) {
     isReadOnly,
     isInvalidPassword,
     isMnemonic: checkMnemonicType(type),
+    validateMnemonic: validateMnemonic(xpub),
     validatePrivateKey: validatePrivateKey(address),
-    validateMnemonic: validateMnemonic(bip32XPublicKey),
   }
 }
 
@@ -147,7 +152,7 @@ const mapDispatchToProps = {
   onSubmitPrivateKey,
 }
 
-export default connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+export default connect< Props, OwnPropsEmpty, _, _, _, _ >(
   mapStateToProps,
   mapDispatchToProps,
 )(UpgradeView)

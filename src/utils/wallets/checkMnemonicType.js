@@ -1,9 +1,7 @@
-// @flow
+// @flow strict
 
 import config from 'config'
 
-function checkMnemonicType(walletType: ?WalletType): boolean {
+export function checkMnemonicType(walletType: ?string): boolean {
   return (walletType === config.mnemonicWalletType)
 }
-
-export default checkMnemonicType

@@ -2,7 +2,6 @@
 
 import { type Store } from 'redux'
 
-import getMnemonicOptions from 'utils/mnemonic/getMnemonicOptions'
 import { type AppAction } from 'store/modules'
 import * as upgrade from 'store/modules/upgrade'
 import * as wallets from 'store/modules/wallets'
@@ -41,14 +40,9 @@ export function createRequest(
   const {
     items,
     internalKey,
-    passwordOptions,
   } = persist
 
-  const {
-    data,
-    passphrase,
-    derivationPath,
-  }: ImportWalletData = importWalletData
+  const { data }: ImportWalletData = importWalletData
 
   walletsWorker.postMessage(wallets.createRequest({
     data,
@@ -56,12 +50,8 @@ export function createRequest(
     items,
     password,
     internalKey,
-    passwordOptions,
     createdBlockNumber,
-    mnemonicOptions: getMnemonicOptions({
-      passphrase,
-      derivationPath,
-    }),
+    mnemonicOptions: {},
   }))
 }
 
@@ -103,8 +93,6 @@ export function upgradeRequest(
   walletsData: WalletsState,
   password: string,
   data: string,
-  derivationPath: ?string,
-  passphrase: ?string,
 ) {
   const {
     items,
@@ -119,11 +107,6 @@ export function upgradeRequest(
     throw new WalletInconsistentDataError({ walletId: activeWalletId }, 'Invalid internal key')
   }
 
-  const mnemonicOptions: ?MnemonicOptionsUser = !derivationPath ? null : {
-    passphrase,
-    derivationPath,
-  }
-
   walletsWorker.postMessage(upgrade.upgradeRequest({
     items,
     internalKey,
@@ -131,7 +114,7 @@ export function upgradeRequest(
     password,
     data,
     walletId: activeWalletId,
-    mnemonicOptions: getMnemonicOptions(mnemonicOptions),
+    mnemonicOptions: {},
   }))
 }
 

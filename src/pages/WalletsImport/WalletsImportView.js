@@ -1,133 +1,311 @@
-// @flow
+// @flow strict
 
-import React, { Component } from 'react'
 import { t } from 'ttag'
 
+import React, {
+  Fragment,
+  Component,
+} from 'react'
+
 import {
-  ModalHeader,
-  WalletDataStep,
-  WalletNameStep,
-  WalletPasswordStep,
+  Form,
+  Field,
+  type FormRenderProps,
+} from 'react-final-form'
+
+import ofssetsStyle from 'styles/offsets.m.scss'
+
+import {
+  getTypeByInput,
+  checkNameExists,
+  checkMnemonicType,
+  validateDerivationPath,
+} from 'utils/wallets'
+
+import {
+  JTextArea,
+  JInputField,
+  Button,
+} from 'components/base'
+
+import {
+  TitleHeader,
+  WalletPasswordForm,
 } from 'components'
 
-import { STEPS } from 'store/modules/walletsImport'
+import walletsImportStyle from './walletsImport.m.scss'
 
-type Props = {|
-  +openView: Function,
-  +closeView: Function,
-  +goToNextStep: () => void,
-  +goToPrevStep: () => void,
-  +changeDataInput: Function,
-  +changeNameInput: Function,
-  +changePasswordInput: Function,
-  +changePasswordHintInput: Function,
-  +changeDerivationPathInput: Function,
-  +changePasswordConfirmInput: Function,
-  +invalidFields: FormFields,
-  +data: string,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-  +derivationPath: string,
-  +passwordConfirm: string,
-  +walletType: ?WalletCustomType,
-  +currentStep: WalletsImportStepIndex,
-  +isLoading: boolean,
-  +isPasswordExists: boolean,
+import {
+  getInfoDataMessage,
+  getErrorDataMessage,
+  getSuccessDataMessage,
+} from './dataMessage'
+
+export type WalletsImportBackHandler = () => void
+export type WalletsImportStep = 'DATA' | 'PASSWORD'
+type WalletsImportSteps = { [WalletsImportStep]: WalletsImportStep }
+
+export type WalletsImportSubmitPayload = {|
+  +goToPasswordStep: Function,
+  +values: FormFields,
+  +currentStep: WalletsImportStep,
 |}
 
-export class WalletsImportView extends Component<Props> {
-  componentDidMount() {
-    this.props.openView()
+export type Props = {|
+  onBack?: ?WalletsImportBackHandler,
+  +submit: WalletsImportSubmitPayload => Promise<?FormFields>,
+  +hint: string,
+|}
+
+type StateProps = {|
+  +currentStep: WalletsImportStep,
+  +isAdvancedOpened: boolean,
+|}
+
+export const STEPS: WalletsImportSteps = {
+  DATA: 'DATA',
+  PASSWORD: 'PASSWORD',
+}
+
+const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
+  name: '',
+  data: '',
+  password: '',
+  passphrase: '',
+  derivationPath: '',
+  walletType: null,
+}
+
+const DEFAULT_DATA_MESSAGE: string = t`Enter a private key or backup phrase of the wallet you want 
+to import. You can also enter a public key or address to access wallet in read-only mode. We 
+support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
+
+const DEFAULT_DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
+affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
+mnemonic from a hardwallet. In all other cases just leave it as is.`
+
+export class WalletsImportView extends Component<Props, StateProps> {
+  static defaultProps = {
+    onBack: null,
   }
 
-  componentWillUnmount() {
-    this.props.closeView()
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      currentStep: STEPS.DATA,
+      isAdvancedOpened: false,
+    }
+  }
+
+  setCurrentStep = (currentStep: WalletsImportStep) => {
+    this.setState({
+      currentStep,
+      isAdvancedOpened: false,
+    })
+  }
+
+  getTitle = (): string => {
+    switch (this.state.currentStep) {
+      case STEPS.DATA:
+        return t`Import wallet`
+
+      case STEPS.PASSWORD:
+        return t`Enter Security Password to Protect Your Wallet`
+
+      default:
+        return ''
+    }
+  }
+
+  goBack = () => {
+    const { onBack }: Props = this.props
+
+    return onBack ? onBack() : undefined
+  }
+
+  goToDataStep = () => {
+    this.setCurrentStep(STEPS.DATA)
+  }
+
+  goToPasswordStep = () => {
+    this.setCurrentStep(STEPS.PASSWORD)
+  }
+
+  handleOpenAdvanced = () => {
+    this.setState({ isAdvancedOpened: true })
+  }
+
+  handleBack = () => {
+    if (!this.props.onBack) {
+      return null
+    }
+
+    switch (this.state.currentStep) {
+      case STEPS.DATA:
+        return this.goBack
+
+      case STEPS.PASSWORD:
+        return this.goToDataStep
+
+      default:
+        return null
+    }
+  }
+
+  handleChange = (change: FormFieldChange) => (event: SyntheticInputEvent<HTMLInputElement>) => {
+    const data: string = (event.target.value || '').trim()
+    const walletType: ?WalletCustomType = getTypeByInput(data)
+
+    change('data', data)
+    change('walletType', walletType)
+
+    this.setState({ isAdvancedOpened: false })
+  }
+
+  handleSubmit = async (values: FormFields): Promise<?FormFields> => {
+    const {
+      goToPasswordStep,
+      state,
+    } = this
+
+    const { submit }: Props = this.props
+    const { currentStep }: StateProps = state
+
+    return submit({
+      goToPasswordStep,
+      values,
+      currentStep,
+    })
+  }
+
+  renderWalletsImportDataStep = ({
+    handleSubmit,
+    form,
+    values: {
+      name = '',
+      data = '',
+      passphrase,
+      derivationPath,
+      walletType,
+    } = {},
+    submitting: isSubmitting,
+  }: FormRenderProps) => {
+    const infoDataMessage: ?string = getInfoDataMessage(
+      data,
+      passphrase,
+      derivationPath,
+      walletType,
+    )
+
+    const errorDataMessage: ?string = getErrorDataMessage(
+      data,
+      passphrase,
+      derivationPath,
+      walletType,
+    )
+
+    const successDataMessage: ?string = getSuccessDataMessage(data)
+    const { isAdvancedOpened }: StateProps = this.state
+
+    return (
+      <form
+        onSubmit={handleSubmit}
+        className={walletsImportStyle.form}
+      >
+        <Field
+          component={JInputField}
+          label={t`Wallet Name`}
+          infoMessage={checkNameExists(name)}
+          name='name'
+          isDisabled={isSubmitting}
+        />
+        <Field
+          component={JTextArea}
+          onChange={this.handleChange(form.change)}
+          label={t`Address, Key, Mnemonic`}
+          errorMessage={errorDataMessage}
+          infoMessage={infoDataMessage || successDataMessage || DEFAULT_DATA_MESSAGE}
+          name='data'
+          isDisabled={isSubmitting}
+        />
+        {checkMnemonicType(walletType) && (isAdvancedOpened ? (
+          <Fragment>
+            <Field
+              component={JInputField}
+              label={t`Mnemonic Passphrase (Optional)`}
+              name='passphrase'
+              isDisabled={isSubmitting}
+            />
+            <Field
+              component={JInputField}
+              label={t`Derivation Path (Optional)`}
+              infoMessage={DEFAULT_DERIVATION_PATH_MESSAGE}
+              errorMessage={validateDerivationPath(derivationPath)}
+              name='derivationPath'
+              isDisabled={isSubmitting}
+            />
+          </Fragment>
+        ) : (
+          <Button
+            className={ofssetsStyle.mt16}
+            theme='secondary'
+            onClick={this.handleOpenAdvanced}
+          >
+            {t`Advanced`}
+          </Button>
+        ))}
+        <Button
+          className={ofssetsStyle.mt16}
+          type='submit'
+          isLoading={isSubmitting}
+          isDisabled={!!infoDataMessage || !!errorDataMessage || !(name.trim() && data.trim())}
+        >
+          {t`Import`}
+        </Button>
+      </form>
+    )
+  }
+
+  renderWalletsImportForm = (formRenderProps: FormRenderProps) => {
+    switch (this.state.currentStep) {
+      case STEPS.DATA:
+        return this.renderWalletsImportDataStep(formRenderProps)
+
+      case STEPS.PASSWORD: {
+        const {
+          handleSubmit,
+          values = {},
+          submitting,
+        }: FormRenderProps = formRenderProps
+
+        return (
+          <WalletPasswordForm
+            handleSubmit={handleSubmit}
+            values={values}
+            hint={this.props.hint}
+            isSubmitting={submitting}
+          />
+        )
+      }
+
+      default:
+        return null
+    }
   }
 
   render() {
-    const {
-      goToNextStep,
-      goToPrevStep,
-      changeDataInput,
-      changeNameInput,
-      changePasswordInput,
-      changePasswordHintInput,
-      changeDerivationPathInput,
-      changePasswordConfirmInput,
-      invalidFields,
-      data,
-      name,
-      password,
-      walletType,
-      passwordHint,
-      derivationPath,
-      passwordConfirm,
-      currentStep,
-      isLoading,
-      isPasswordExists,
-    } = this.props
-
-    const passwordStepTitle: string[] =
-     (t`You will use this password to unlock and transfer your funds.
-      Keep it secure!`).split('\n')
-
-    const dataStepTitle: string[] =
-     (t`Insert the private key or backup phrase to import. Also, you can import
-      an address in the read-only mode.`).split('\n')
-
     return (
-      <div className='wallets-view -import'>
-        <ModalHeader
-          onBack={goToPrevStep}
-          color='white'
-          title={t`Import wallet`}
-          isDisabled={isLoading}
+      <div className={walletsImportStyle.core}>
+        <TitleHeader
+          onBack={this.handleBack()}
+          title={this.getTitle()}
         />
-        <div className='content'>
-          {(currentStep === STEPS.NAME) && (
-            <WalletNameStep
-              onSubmit={goToNextStep}
-              onChangeName={changeNameInput}
-              invalidFields={invalidFields}
-              valueName={name}
-              buttonLabel={t`Next step`}
-              fieldName='wallets-name'
-              placeholder={t`Wallet name`}
-              isLoading={isLoading}
-            />
-          )}
-          {(currentStep === STEPS.DATA) && (
-            <WalletDataStep
-              onSubmit={goToNextStep}
-              onChangeData={changeDataInput}
-              onChangeDerivationPath={changeDerivationPathInput}
-              title={dataStepTitle}
-              invalidFields={invalidFields}
-              valueData={data}
-              valueDerivationPath={derivationPath}
-              buttonLabel={t`Next step`}
-              isLoading={isLoading}
-              isMnemonic={walletType === 'mnemonic'}
-            />
-          )}
-          {(currentStep === STEPS.PASSWORD) && (
-            <WalletPasswordStep
-              onSubmit={goToNextStep}
-              onChangePassword={changePasswordInput}
-              onChangePasswordHint={changePasswordHintInput}
-              onChangePasswordConfirm={changePasswordConfirmInput}
-              title={passwordStepTitle}
-              invalidFields={invalidFields}
-              valuePassword={password}
-              valuePasswordHint={passwordHint}
-              valuePasswordConfirm={passwordConfirm}
-              buttonLabel={t`Import wallet`}
-              isLoading={isLoading}
-              isPasswordExists={isPasswordExists}
-            />
-          )}
-        </div>
+        <Form
+          onSubmit={this.handleSubmit}
+          render={this.renderWalletsImportForm}
+          initialValues={WALLETS_IMPORT_INITIAL_VALUES}
+        />
       </div>
     )
   }

@@ -8,7 +8,7 @@ import HelpText from 'components/HelpText'
 import {
   JInput,
   JFlatButton,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 type Props = {|
@@ -48,10 +48,10 @@ const NameStep = ({
         isTransparent
       />
       <div className='next'>
-        <JRaisedButton
+        <Button
           onClick={setNextStep}
         >{t`Next step`}
-        </JRaisedButton>
+        </Button>
       </div>
     </div>
   </div>

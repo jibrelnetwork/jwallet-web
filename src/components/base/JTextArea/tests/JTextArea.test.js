@@ -1,5 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
+
 import {
   shallow,
   mount,
@@ -8,33 +9,30 @@ import {
 import { JTextArea } from '../JTextArea.js'
 
 describe('Render', () => {
-  test('Semantic html', () => {
+  test('default props', () => {
     const wrapper = shallow(<JTextArea value='Hello World' />)
 
-    // eslint-disable-next-line max-len
-    const expected = '<div class="core white focused"><textarea class="input" rows="1">Hello World</textarea></div>'
-    expect(wrapper.html()).toBe(expected)
+    expect(wrapper.prop('className')).toBe('__textarea core white')
+    expect(wrapper.find('textarea').prop('rows')).toBe(1)
   })
 
   test('The `blue` theme is apply class `blue` to textarea', () => {
     const wrapper = shallow(<JTextArea theme='blue' />)
 
-    const expected = '<div class="core blue"><textarea class="input" rows="1"></textarea></div>'
-    expect(wrapper.html()).toBe(expected)
+    expect(wrapper.hasClass('blue')).toBe(true)
   })
 
   test('className property is apply to textarea', () => {
     const wrapper = shallow(<JTextArea className='test-class' />)
 
-    expect(wrapper.hasClass('test-class')).toBeTruthy()
+    expect(wrapper.hasClass('test-class')).toBe(true)
   })
 
   test('Showing label for input when JTextArea has props label', () => {
-    const wrapper = shallow(<JTextArea label='Label textarea' value='Hello World' />)
+    const labelText = 'Label textarea'
+    const wrapper = shallow(<JTextArea label={labelText} value='Hello World' />)
 
-    // eslint-disable-next-line max-len
-    const expected = '<div class="core white focused"><label class="label" for="label-textarea">Label textarea</label><textarea id="label-textarea" class="input" rows="1">Hello World</textarea></div>'
-    expect(wrapper.html()).toBe(expected)
+    expect(wrapper.find('label').text()).toBe(labelText)
   })
 
   test('html attributes are apply to textarea', () => {
@@ -47,9 +45,12 @@ describe('Render', () => {
       />,
     )
 
-    // eslint-disable-next-line max-len
-    const expected = '<div class="core white"><textarea aria-label="meow" data-unit="txt-area" random-attribute="wow" row="8" class="input" rows="1"></textarea></div>'
-    expect(wrapper.html()).toBe(expected)
+    expect(wrapper.find('textarea').prop('row')).toBe(8)
+    expect(wrapper.find('textarea').prop('rows')).toBe(1)
+    expect(wrapper.find('textarea').prop('className')).toBe('input')
+    expect(wrapper.find('textarea').prop('aria-label')).toBe('meow')
+    expect(wrapper.find('textarea').prop('data-unit')).toBe('txt-area')
+    expect(wrapper.find('textarea').prop('random-attribute')).toBe('wow')
   })
 
   test('onChange handler is call on change value in textarea', () => {

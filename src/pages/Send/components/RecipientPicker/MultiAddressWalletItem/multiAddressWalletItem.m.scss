@@ -1,0 +1,33 @@
+@import "styles/colors";
+
+.core {
+  position: relative;
+  display: flex;
+  padding: 0 16px;
+  align-items: center;
+  height: 100%;
+}
+
+.icon {
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.wrap {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+.title {
+  display: block;
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black;
+}
+
+.description {
+  display: block;
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-40;
+}

@@ -1,10 +1,9 @@
-// @flow
+// @flow strict
 
 declare type Password = string
 declare type WalletId = string
 declare type WalletType = 'address' | 'mnemonic'
-declare type WalletCustomType = WalletType | 'bip32Xpub' | 'privateKey'
-declare type WalletAction = 'edit' | 'backup' | 'change-password' | 'remove'
+declare type WalletCustomType = WalletType | 'xprv' | 'xpub' | 'privateKey'
 
 type EncryptedData = {|
   +data: string,
@@ -12,6 +11,7 @@ type EncryptedData = {|
 |}
 
 declare type WalletEncryptedData = {|
+  +xprv: ?EncryptedData,
   +mnemonic: ?EncryptedData,
   +passphrase: ?EncryptedData,
   +privateKey: ?EncryptedData,
@@ -23,27 +23,6 @@ declare type ScryptParams = {|
   +p: number,
 |}
 
-declare type MnemonicOptionsUser = {|
-  +network?: ?number | string,
-  +passphrase?: ?string,
-  +derivationPath?: string,
-|}
-
-declare type PasswordOptions = {|
-  +scryptParams: ScryptParams,
-  +salt: string,
-  +passwordHint: string,
-  +encryptionType: string,
-  +saltBytesCount: number,
-  +derivedKeyLength: number,
-|}
-
-declare type MnemonicOptions = {|
-  +network: number | string,
-  +passphrase: string,
-  +derivationPath: string,
-|}
-
 declare type WalletCreatedBlockNumber = { [NetworkName]: ?number }
 
 declare type Wallet = {|
@@ -51,14 +30,13 @@ declare type Wallet = {|
   +createdBlockNumber: ?WalletCreatedBlockNumber,
   +id: string,
   +name: string,
+  +xpub: ?string,
   +type: WalletType,
   +address: ?string,
   +derivationPath: ?string,
-  +bip32XPublicKey: ?string,
   +customType: WalletCustomType,
   +orderIndex: number,
   +addressIndex: ?number,
-  +network: null | number | string,
   +isReadOnly: boolean,
   +isSimplified: ?boolean,
 |}
@@ -66,31 +44,12 @@ declare type Wallet = {|
 declare type WalletUpdatedData = {|
   +encrypted?: WalletEncryptedData,
   +name?: string,
+  +xpub?: ?string,
   +derivationPath?: string,
-  +network?: number | string,
-  +bip32XPublicKey?: ?string,
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,
   +isReadOnly?: ?boolean,
   +isSimplified?: ?boolean,
-|}
-
-declare type WalletNewData = {|
-  +mnemonicOptions: MnemonicOptions,
-  +createdBlockNumber?: WalletCreatedBlockNumber,
-  +data: string,
-  +name?: string,
-  +isSimplified: ?boolean,
-|}
-
-declare type WalletData = {|
-  +mnemonicOptions: MnemonicOptions,
-  +createdBlockNumber: ?WalletCreatedBlockNumber,
-  +id: string,
-  +data: string,
-  +name: string,
-  +orderIndex: number,
-  +isSimplified: ?boolean,
 |}
 
 declare type WalletDecryptedData = {|
@@ -117,7 +76,6 @@ declare type PasswordResult = {|
 declare type WalletsPersist = {|
   +items: Wallets,
   +internalKey: ?EncryptedData,
-  +passwordOptions: ?PasswordOptions,
   +activeWalletId: ?WalletId,
 |}
 
@@ -135,39 +93,9 @@ declare type WalletsState = {|
 /**
  * Wallets Create
  */
-declare type WalletsCreateStepIndex = 0 | 1 | 2
-
 declare type WalletsCreateState = {|
-  +createdBlockNumber: WalletCreatedBlockNumber,
-  +currentStep: WalletsCreateStepIndex,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
   +isBlocksLoading: boolean,
-|}
-
-/**
- * Wallets Import
- */
-declare type WalletsImportNameStepIndex = 0
-declare type WalletsImportDataStepIndex = 1
-declare type WalletsImportPasswordStepIndex = 2
-
-declare type WalletsImportStepIndex =
-  WalletsImportNameStepIndex |
-  WalletsImportDataStepIndex |
-  WalletsImportPasswordStepIndex
-
-declare type WalletsImportSteps = {|
-  +NAME: WalletsImportNameStepIndex,
-  +DATA: WalletsImportDataStepIndex,
-  +PASSWORD: WalletsImportPasswordStepIndex,
-|}
-
-declare type WalletsImportState = {|
-  +invalidFields: FormFields,
-  +data: string,
-  +passphrase: string,
-  +derivationPath: string,
-  +walletType: ?WalletCustomType,
-  +currentStep: WalletsImportStepIndex,
 |}
 
 /**

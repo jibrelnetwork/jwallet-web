@@ -1,134 +1,196 @@
-// @flow
+// @flow strict
 
+import classNames from 'classnames'
 import React, { PureComponent } from 'react'
+
 import {
   noop,
   omit,
   kebabCase,
 } from 'lodash-es'
-import classNames from 'classnames'
+
+import { getErrorMessage } from 'utils/form'
+import { JFieldMessage } from 'components/base'
 
 import jTextAreaStyle from './jTextArea.m.scss'
 
 type Theme = 'white'
 
-type Props =
-  StyleComponent<Theme>
-  & {
-    onChange?: () => mixed,
-    onBlur?: () => mixed,
-    onFocus?: () => mixed,
-    label?: string,
-    id?: string,
-    value?: any, // In common case it will be string, but in React value of input has type `any`
-    rows?: number,
-    error?: boolean,
-    disabled?: boolean,
-  }
+type Props = StyleComponent<Theme> & {
+  +onChange: MaybeEventHandler<HTMLTextAreaElement>,
+  +meta: FinalFormMeta,
+  +input: FinalFormInput,
+  +id: ?string,
+  +label: string,
+  +infoMessage: ?string,
+  +errorMessage: ?string,
+  +validateType: FinalFormValidateType,
+  +rows: number,
+  +isDisabled: boolean,
+}
 
-type State = {
-  focused: boolean,
+type TextAreaRef = {
+  current: null | HTMLTextAreaElement,
 }
 
 const MAX_ROWS = 12
 
-function heightCalc({ currentTarget: target }: SyntheticEvent<HTMLTextAreaElement>): void {
-  if (target) {
-    while (target.clientHeight < target.scrollHeight && target.rows <= MAX_ROWS) {
-      // mutating the DOM
+const checkExpandable = ({ rows }) => ((rows >= 1) && (MAX_ROWS >= rows))
+const handleFocus = (ref: TextAreaRef) => () => ref.current && ref.current.focus()
+
+const checkHeightIncreased = ({
+  clientHeight,
+  scrollHeight,
+}) => (clientHeight < scrollHeight)
+
+function heightCalc(currentTarget): void {
+  if (!currentTarget) {
+    return
+  }
+
+  const isExpandable: boolean = checkExpandable(currentTarget)
+  const isHeightIncreased: boolean = checkHeightIncreased(currentTarget)
+
+  if (!isExpandable) {
+    return
+  }
+
+  if (isHeightIncreased) {
+    while (checkExpandable(currentTarget) && checkHeightIncreased(currentTarget)) {
       // eslint-disable-next-line fp/no-mutation, no-param-reassign
-      target.rows += 1
+      currentTarget.rows += 1
     }
   }
 }
 
-export class JTextArea extends PureComponent<Props, State> {
+export class JTextArea extends PureComponent<Props> {
   static defaultProps = {
+    meta: {},
+    input: {},
     onChange: noop,
-    onBlur: noop,
-    onFocus: noop,
+    id: null,
+    label: '',
+    className: '',
     theme: 'white',
-    className: undefined,
-    label: undefined,
-    id: undefined,
-    value: undefined,
+    infoMessage: null,
+    errorMessage: null,
+    validateType: 'dirtySinceLastSubmit',
     rows: 1,
-    error: false,
-    disabled: false,
+    isDisabled: false,
   }
 
   constructor(props: Props) {
     super(props)
 
-    this.state = {
-      focused: String(this.props.value).length > 0,
-    }
+    this.textArea = React.createRef()
   }
+
+  componentDidMount() {
+    heightCalc(this.textArea.current)
+  }
+
+  textArea: TextAreaRef
 
   handleChange = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
-    heightCalc(event)
-    this.props.onChange(event)
-  }
+    const {
+      onChange,
+      input,
+    }: Props = this.props
 
-  handleBlur = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
-    if (String(this.props.value).length <= 0) {
-      this.setState({ focused: false })
+    onChange(event)
+    heightCalc(event.currentTarget)
+
+    if (input && input.onChange) {
+      input.onChange(event)
     }
-
-    this.props.onBlur(event)
-  }
-
-  handleFocus = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
-    this.setState({ focused: true })
-    this.props.onFocus(event)
   }
 
   render() {
     const omittedProps = omit(this.props, [
       'onChange',
+      'meta',
+      'input',
       'children',
+      'id',
+      'error',
       'theme',
       'label',
-      'id',
       'className',
       'placeholder',
-      'error',
+      'infoMessage',
+      'errorMessage',
+      'validateType',
+      'isDisabled',
     ])
 
-    const elementID = kebabCase(this.props.label)
+    const {
+      meta,
+      input,
+      id,
+      label,
+      theme,
+      className,
+      infoMessage,
+      errorMessage,
+      validateType,
+      isDisabled,
+    }: Props = this.props
 
+    const errorMsg: ?string = errorMessage || getErrorMessage(meta, validateType)
+    const elementID: string = id || `${kebabCase(input.name || label || 'noname')}Id`
+
+    const hasError: boolean = !!errorMsg
+    const hasInfo: boolean = !!infoMessage
+    const hasMessage: boolean = (hasError || hasInfo)
+    const isActive: boolean = (meta.active || (input.value && input.value.length))
+
+    /* eslint-disable jsx-a11y/label-has-for */
     return (
       <div
-        id={this.props.id}
         className={classNames(
-          '__jtextarea',
+          '__textarea',
           jTextAreaStyle.core,
-          jTextAreaStyle[this.props.theme],
-          this.props.error && jTextAreaStyle.error,
-          this.state.focused && jTextAreaStyle.focused,
-          this.props.disabled && jTextAreaStyle.disabled,
-          this.props.className,
+          jTextAreaStyle[theme],
+          className,
         )}
       >
-        {elementID && (
-          <label
-            className={classNames(
-              '__jtextarea-label',
-              jTextAreaStyle.label,
-            )}
-            htmlFor={elementID}
-          >
-            {this.props.label}
-          </label>)}
-        <textarea
-          {...omittedProps}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          id={elementID}
-          className={classNames('__jtextarea-input', jTextAreaStyle.input)}
-        />
+        <div
+          onClick={handleFocus(this.textArea)}
+          className={classNames(
+            jTextAreaStyle.wrap,
+            hasError && jTextAreaStyle.error,
+            isActive && jTextAreaStyle.active,
+            hasMessage && jTextAreaStyle.message,
+            isDisabled && jTextAreaStyle.disabled,
+          )}
+        >
+          {label && elementID && (
+            <label
+              className={jTextAreaStyle.label}
+              htmlFor={elementID}
+            >
+              {label}
+            </label>
+          )}
+          <textarea
+            {...input}
+            {...omittedProps}
+            onChange={this.handleChange}
+            ref={this.textArea}
+            id={elementID}
+            className={jTextAreaStyle.input}
+            disabled={isDisabled}
+          />
+        </div>
+        {hasMessage && (
+          <JFieldMessage
+            message={errorMsg || infoMessage}
+            theme={hasError ? 'error' : 'info'}
+            className={jTextAreaStyle.fieldMessage}
+          />
+        )}
       </div>
     )
+    /* eslint-enable jsx-a11y/label-has-for */
   }
 }

@@ -18,7 +18,7 @@ import {
 import {
   JTextArea,
   JTextAreaField,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 function handleValidate(e) {
@@ -62,7 +62,7 @@ storiesOf('JTextAreaField', module).addDecorator(withKnobs)
               component={JTextAreaField}
               offset='mb16'
             />
-            <JRaisedButton type='submit' theme='white'>Submit!</JRaisedButton>
+            <Button type='submit' theme='secondary'>Submit!</Button>
           </form>)}
       />
     </div>

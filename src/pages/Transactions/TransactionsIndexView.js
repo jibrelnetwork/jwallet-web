@@ -1,52 +1,28 @@
 // @flow
 
 import React from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
 import { t } from 'ttag'
 
 import {
-  JTabs,
-  JSearch,
+  Header, SearchFilter, SearchInput,
 } from 'components/base'
 
 import {
   TransactionsList,
-  TransactionsFilter,
 } from 'components'
 
 type Props = {|
-  +removeFavorite: (Address) => void,
-  +setIsOnlyPending: (boolean) => void,
-  +changeSearchInput: (string) => void,
-  +editComment: (CommentId, string) => void,
   +transactions: TransactionWithPrimaryKeys[],
   +network: ?Network,
-  +comments: Comments,
-  +favorites: AddressNames,
-  +addressNames: AddressNames,
-  +digitalAssets: DigitalAssets,
   +ownerAddress: ?OwnerAddress,
   +searchQuery: string,
   +isLoading: boolean,
   +isOnlyPending: boolean,
 |}
 
-const TRANSACTIONS_TABS = {
-  '/': t`Digital Assets`,
-  '/history': t`Transactions`,
-}
-
 function TransactionsIndexView({
-  editComment,
-  removeFavorite,
-  setIsOnlyPending,
-  changeSearchInput,
   transactions,
   network,
-  comments,
-  favorites,
-  addressNames,
-  digitalAssets,
   searchQuery,
   ownerAddress,
   isLoading,
@@ -60,43 +36,23 @@ function TransactionsIndexView({
 
   return (
     <div className='transactions-view -index'>
-      <div className='header'>
-        <div className='container'>
-          <JTabs tabs={TRANSACTIONS_TABS} />
-          <div className='actions'>
-            <div className='search'>
-              <JSearch
-                onChange={changeSearchInput}
-                value={searchQuery}
-                placeholder={t`Search transactions...`}
-              />
-            </div>
-            <div className='filter'>
-              <TransactionsFilter
-                setOnlyPending={setIsOnlyPending}
-                filterCount={filterCount}
-                isOnlyPending={isOnlyPending}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header
+        title={t`History`}
+      >
+        <SearchInput onChange={() => {}}>
+          <SearchFilter
+            activeCount={-1}
+          >
+            <span>Hi! I am a filter</span>
+          </SearchFilter>
+        </SearchInput>
+      </Header>
       <div className='content'>
-        <Scrollbars autoHide>
-          <TransactionsList
-            editComment={editComment}
-            removeFavorite={removeFavorite}
-            items={transactions}
-            comments={comments}
-            favorites={favorites}
-            addressNames={addressNames}
-            digitalAssets={digitalAssets}
-            ownerAddress={ownerAddress}
-            blockExplorerUISubdomain={network.blockExplorerUISubdomain}
-            isLoading={isLoading}
-            isFiltered={!!filterCount || !!searchQuery}
-          />
-        </Scrollbars>
+        <TransactionsList
+          items={transactions}
+          isLoading={isLoading}
+          isFiltered={!!filterCount || !!searchQuery}
+        />
       </div>
     </div>
   )

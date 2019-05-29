@@ -7,7 +7,6 @@
 }
 
 .wrap,
-.label,
 .input {
   @include hover-animation;
 }
@@ -15,20 +14,19 @@
 .wrap {
   height: 72px;
   padding: 0;
-  box-shadow: 0 3px 6px rgba(8, 30, 57, 0.05);
-
-  &:hover {
-    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
-  }
+  border-radius: 4px;
 }
 
 .label {
+  @include property-transition(color, font-size, font-weight, top);
+
   position: absolute;
   display: block;
   top: 24px;
   left: 16px;
   right: 24px;
   font-size: 14px;
+  font-weight: 600;
   line-height: 22px;
   cursor: text;
 }
@@ -37,12 +35,14 @@
   @include font(14px, 14px);
 
   display: block;
+  font-style: normal;
   padding: 24px 24px 26px 16px;
   line-height: 22px;
   width: 100%;
-  background: inherit;
+  background: transparent;
   resize: none;
   border: none;
+  font-weight: 600;
 
   &::placeholder {
     color: $main-black-30;
@@ -51,20 +51,17 @@
 
 .message {
   margin-bottom: 8px;
+  color: $main-black-60;
 }
 
 .field-message {
-  padding-left: 16px;
+  padding: 0 16px;
 }
 
 .active {
   .input {
     padding-top: 34px;
     padding-bottom: 16px;
-  }
-
-  .input::placeholder {
-    color: $main-black-40;
   }
 
   .label {
@@ -91,6 +88,11 @@
 .white-indicator {
   .wrap {
     background-color: $white;
+    box-shadow: $normal-shadow;
+
+    &:hover {
+      box-shadow: $hover-shadow;
+    }
   }
 
   .input {
@@ -98,31 +100,38 @@
   }
 
   .label {
-    color: $main-black-40;
-    background-color: $white;
+    color: $main-black-30;
   }
 
   &:hover .input::placeholder,
   &:hover .label {
-    color: $main-black-40;
+    color: $main-black-30;
   }
 
-  &.error .label {
+  .error .label {
     color: $main-red;
   }
 
-  &.disabled {
-    background: $main-black-5;
+  .disabled {
+    opacity: 0.7;
+    box-shadow: none;
+    background: $white;
+
+    &:hover {
+      box-shadow: none;
+    }
 
     .label {
-      color: $main-black-30;
-      background-color: transparent;
-      user-select: none;
       cursor: default;
+      color: $main-black-30;
+    }
+
+    &.value .label {
+      color: $main-black-40;
     }
 
     .input {
-      color: $main-black-30;
+      color: $main-black-40;
     }
   }
 }

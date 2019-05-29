@@ -15,3 +15,5 @@ declare type StyleComponent<Theme: ?string> = {
   +theme: Theme,
   +className?: ?string,
 }
+
+declare type MaybeEventHandler<ElementT> = ?SyntheticEvent<ElementT> => void

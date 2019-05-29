@@ -2,45 +2,38 @@
 
 import React from 'react'
 
-import getShortenedAddress from 'utils/address/getShortenedAddress'
-
 import {
-  WalletFace,
+  // WalletFace,
   WalletLoading,
 } from 'components'
 
-import {
-  handle,
-  ignoreEvent,
-} from 'utils/eventHandlers'
-
 type Props = {|
-  +renameAddress: (Address) => void,
-  +setActive: (addressIndex: Index) => void,
+  // +renameAddress: (Address) => void,
+  // +setActive: (addressIndex: Index) => void,
   +balances: WalletsBalances,
   +addresses: OwnerAddress[],
-  +addressNames: AddressNames,
-  +walletsAddressNames: AddressNames,
+  // +addressNames: AddressNames,
+  // +walletsAddressNames: AddressNames,
   +isLoading: boolean,
-  +isReadOnly: boolean,
+  // +isReadOnly: boolean,
 |}
 
 // #FIXME: title={addressName || `Address #${index + 1}`}
 
 const MnemonicAddresses = ({
-  setActive,
-  renameAddress,
+  // setActive,
+  // renameAddress,
   balances,
   addresses,
-  addressNames,
-  walletsAddressNames,
+  // addressNames,
+  // walletsAddressNames,
   isLoading,
-  isReadOnly,
+  // isReadOnly,
 }: Props) => (
   <div className='mnemonic-addresses'>
-    {addresses.map((address: OwnerAddress, index: Index) => {
-      const walletName: ?string = walletsAddressNames[address]
-      const addressName: ?string = walletName || addressNames[address]
+    {addresses.map((address: OwnerAddress) => {
+      // const walletName: ?string = walletsAddressNames[address]
+      // const addressName: ?string = walletName || addressNames[address]
       const balance: ?string = balances[address]
 
       if (!balance || (!balance && isLoading)) {
@@ -49,6 +42,7 @@ const MnemonicAddresses = ({
 
       return (
         <div key={address} className='address'>
+          {/*
           <WalletFace
             onClick={handle(setActive)(index)}
             rename={walletName ? null : ignoreEvent(renameAddress)(address)}
@@ -59,6 +53,7 @@ const MnemonicAddresses = ({
             isReadOnly={isReadOnly}
             hasActions={!walletName}
           />
+          */}
         </div>
       )
     })}

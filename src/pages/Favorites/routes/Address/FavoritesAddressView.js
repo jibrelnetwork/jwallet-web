@@ -7,7 +7,7 @@ import CloseableScreen from 'components/CloseableScreen'
 
 import {
   JInput,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 
 import {
@@ -15,7 +15,7 @@ import {
   ignoreEvent,
 } from 'utils/eventHandlers'
 
-type Props = {|
+export type Props = {|
   +close: Function,
   +onClose: () => void,
   +add: (string, string, string) => void,
@@ -121,11 +121,11 @@ class FavoritesAddressView extends Component<Props> {
               name='favorite-description'
             />
             <div className='actions'>
-              <JRaisedButton
+              <Button
                 onClick={submitHandler}
                 isLoading={isLoading}
               >{t`Save`}
-              </JRaisedButton>
+              </Button>
             </div>
           </form>
         </div>

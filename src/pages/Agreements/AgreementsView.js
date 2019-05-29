@@ -7,7 +7,7 @@ import {
   JLink,
   JIcon,
   JCheckbox,
-  JRaisedButton,
+  Button,
 } from 'components/base'
 import { StartLayout } from 'layouts'
 
@@ -109,13 +109,13 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
           </div>
           <div className={agreementsViewStyle.action}>
             <JLink href='/wallets'>
-              <JRaisedButton
+              <Button
                 className={agreementsViewStyle.button}
-                theme='blue'
-                isDisabled={isDisabled}
+                theme='secondary'
+                disabled={isDisabled}
               >
-                {t`Continue`}
-              </JRaisedButton>
+                {t`Confirm and continue`}
+              </Button>
             </JLink>
           </div>
         </div>

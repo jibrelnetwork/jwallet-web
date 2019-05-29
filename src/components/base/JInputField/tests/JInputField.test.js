@@ -27,9 +27,9 @@ describe('JInputField', () => {
 
     expect(wrapper.prop('theme')).toBe('white')
     expect(wrapper.prop('type')).toBe('text')
-    expect(wrapper.prop('disabled')).toBe(false)
+    expect(wrapper.prop('isDisabled')).toBe(false)
     expect(wrapper.prop('validateType')).toBe('touched')
-    expect(wrapper.prop('infoMessage')).toBe('')
+    expect(wrapper.prop('infoMessage')).toBe(null)
     expect(wrapper.prop('label')).toBe('')
     expect(wrapper.prop('placeholder')).toBe('')
     expect(wrapper.prop('meta')).toBeDefined()
@@ -61,7 +61,7 @@ describe('JInputField', () => {
   test('can be disabled', () => {
     const wrapper = shallow(
       <JInputField
-        disabled
+        isDisabled
       />,
     )
 
@@ -79,7 +79,6 @@ describe('JInputField', () => {
       />,
     )
 
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     const messageEl = wrapper.find(JFieldMessage)
     expect(messageEl.prop('theme')).toBe('info')
     expect(messageEl.prop('message')).toBe('Hi')
@@ -96,7 +95,6 @@ describe('JInputField', () => {
       />,
     )
 
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     const messageEl = wrapper.find(JFieldMessage)
     expect(messageEl.prop('theme')).toBe('error')
     expect(messageEl.prop('message')).toBe('Hi')
@@ -114,7 +112,6 @@ describe('JInputField', () => {
       />,
     )
 
-    // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
     const messageEl = wrapper.find(JFieldMessage)
     expect(messageEl.prop('theme')).toBe('error')
     expect(messageEl.prop('message')).toBe('Hi')

@@ -1,28 +1,29 @@
-// @flow
-
-import React, { PureComponent } from 'react'
+// @flow strict
 
 import classNames from 'classnames'
+import React, { PureComponent } from 'react'
+
 import { JIcon } from 'components/base'
 
+import jCheckboxStyles from './jCheckbox.m.scss'
+
 type JCheckboxColor = 'white' | 'gray' | 'black'
+type JCheckboxHandler = (boolean) => void
 
 type Props = {|
-  +onChange: ?((boolean) => void),
+  +color: JCheckboxColor,
+  +onChange: ?JCheckboxHandler,
   +name: string,
   +label: string,
-  +color: JCheckboxColor,
-  +children: ?React$Node,
-  +isRegular: boolean,
+  +children: React$Node,
   +isChecked: boolean,
+  +isRegular: boolean,
 |}
 
-class JCheckbox extends PureComponent<Props> {
+export class JCheckbox extends PureComponent<Props> {
   static defaultProps = {
-    color: 'gray',
-    children: null,
-    isRegular: false,
     isChecked: false,
+    isRegular: false,
   }
 
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -31,34 +32,37 @@ class JCheckbox extends PureComponent<Props> {
     }
   }
 
-  /* eslint-disable jsx-a11y/label-has-for */
   render() {
     const {
+      color,
       name,
       label,
-      color,
       children,
-      isRegular,
       isChecked,
+      isRegular,
     } = this.props
 
+    /* eslint-disable jsx-a11y/label-has-for */
     return (
-      <div className={classNames('j-checkbox', `-${color}`)}>
-        <label className='field'>
+      <div className={classNames('__checkbox', jCheckboxStyles.core)}>
+        <label className={jCheckboxStyles.field}>
           <input
             onChange={this.handleChange}
-            name={`checkbox-${name}`}
+            name={name}
+            className={jCheckboxStyles.input}
             type='checkbox'
-            className='checkbox'
             defaultChecked={isChecked}
           />
-          <span className='flag -unchecked'>
-            <JIcon name='unchecked' color={color} />
-          </span>
-          <span className='flag -checked'>
+          <span className={classNames(jCheckboxStyles.tick, jCheckboxStyles.off, 'off')}>
             <JIcon
-              name='checked-use-fill'
+              color='gray'
+              name='unchecked'
+            />
+          </span>
+          <span className={classNames(jCheckboxStyles.tick, jCheckboxStyles.on, 'on')}>
+            <JIcon
               color={color === 'gray' || color === 'black' ? 'blue' : color}
+              name='checked-use-fill'
             />
           </span>
           <span className={classNames(
@@ -73,8 +77,6 @@ class JCheckbox extends PureComponent<Props> {
         </label>
       </div>
     )
+    /* eslint-enable jsx-a11y/label-has-for */
   }
-  /* eslint-enable jsx-a11y/label-has-for */
 }
-
-export default JCheckbox

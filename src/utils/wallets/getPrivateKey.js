@@ -2,9 +2,9 @@
 
 import { decryptData } from 'utils/encryption'
 import { WalletInconsistentDataError } from 'errors'
-import getPrivateKeyFromMnemonic from 'utils/mnemonic/getPrivateKeyFromMnemonic'
+import { getPrivateKeyFromMnemonic } from 'utils/mnemonic'
 
-import checkMnemonicType from './checkMnemonicType'
+import { checkMnemonicType } from '.'
 
 function getPrivateKey(wallet: Wallet, internalKey: Uint8Array): string {
   const {

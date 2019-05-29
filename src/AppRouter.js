@@ -11,6 +11,7 @@ import {
 
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
+import { selectIntroductionValue } from 'store/selectors/user'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'pages'
@@ -123,7 +124,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!isAllFeaturesIntroduced) {
-      return <pages.NotFound />
+      return <pages.Introduction />
     }
 
     if (!isAllAgreementsChecked) {
@@ -131,7 +132,7 @@ class AppRouter extends Component<Props, ComponentState> {
     }
 
     if (!hasPassword) {
-      return <pages.SetPasswordView />
+      return <pages.SetPassword />
     }
 
     if (showNewWalletProcess) {
@@ -142,13 +143,13 @@ class AppRouter extends Component<Props, ComponentState> {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: AppState) {
   const { route } = state.router
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
   const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
-  const isAllFeaturesIntroduced: boolean = true /* checkFeatures(FEATURES_LIST) */
+  const isAllFeaturesIntroduced: boolean = selectIntroductionValue(state)
 
   return {
     route,
@@ -161,8 +162,9 @@ function mapStateToProps(state) {
   }
 }
 
-const AppRouterContainer = connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(
+const AppRouterContainer = connect<Props, OwnPropsEmpty, _, _, _, _>(
   mapStateToProps,
+  () => ({}),
 )(AppRouter)
 
 export { AppRouterContainer as AppRouter }
