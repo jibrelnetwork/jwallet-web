@@ -1,0 +1,46 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  position: relative;
+  padding: 14px 27px 16px 16px;
+  background-color: $white;
+}
+
+.content {
+  @include flex-column;
+
+  flex-grow: 1;
+}
+
+.label {
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  color: $main-black-40;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.value {
+  position: relative;
+  color: $main-black;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.icon {
+  @include property-transition(fill);
+
+  margin-left: 27px;
+  fill: $main-black-30;
+  cursor: pointer;
+
+  &:hover {
+    fill: $main-blue;
+  }
+}
