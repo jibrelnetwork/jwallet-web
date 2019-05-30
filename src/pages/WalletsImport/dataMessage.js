@@ -344,7 +344,7 @@ function getErrorAddressMessage(data: string): ?string {
 
   if (cleanedData.length > 40) {
     return null
-  } else if (cleanedData.length < 40) {
+  } else if (cleanedData.length <= 40) {
     if (hasHexPrefix && hasInvalidSymbols) {
       return t`Incorrect Ethereum address`
     }
