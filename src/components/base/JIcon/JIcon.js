@@ -7,9 +7,11 @@ import { iconsUI } from 'utils/sprite'
 
 import jIconStyle from './jIcon.m.scss'
 
+type JIconHandler = () => void
 export type JIconColor = 'white' | 'blue' | 'gray' | 'sky' | 'red' | 'black'
 
 export type JIconProps = {
+  onClick: ?JIconHandler,
   name: string,
   color: ?JIconColor,
   className?: ?string,
@@ -17,12 +19,14 @@ export type JIconProps = {
 
 export class JIcon extends PureComponent<JIconProps> {
   static defaultProps = {
+    onClick: null,
     color: null,
     className: null,
   }
 
   render() {
     const {
+      onClick,
       name,
       color,
       className,
@@ -46,6 +50,7 @@ export class JIcon extends PureComponent<JIconProps> {
 
     return (
       <svg
+        onClick={onClick}
         className={classNames(
           '__icon',
           jIconStyle.core,
