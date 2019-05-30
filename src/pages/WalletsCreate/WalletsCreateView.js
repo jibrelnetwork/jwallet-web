@@ -275,15 +275,21 @@ export class WalletsCreateView extends Component<Props, StateProps> {
       case STEPS.BACKUP_TICKS:
         return this.renderBackupTicksForm(formRenderProps)
 
-      case STEPS.BACKUP_FORM:
+      case STEPS.BACKUP_FORM: {
+        const {
+          name,
+          data,
+        }: FormFields = values
+
         return (
           <WalletBackupForm
             handleSubmit={handleSubmit}
-            values={values}
-            name={values.name}
+            data={data || ''}
+            name={name || ''}
             isMnemonic
           />
         )
+      }
 
       case STEPS.PASSWORD:
         return (
