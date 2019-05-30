@@ -59,7 +59,7 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
     }
 
     const {
-      className,
+      hash,
       fee,
       fromName,
       id,
@@ -73,7 +73,7 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
     )
 
     return (
-      <div className={classNames(style.core, className)}>
+      <div className={style.core}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[status])}>
             <div className={style.statusIcon}>
@@ -97,7 +97,7 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
           />
           <FieldPreview
             label={t`Blockchain transaction`}
-            body={getShortenedAddress(id)}
+            body={getShortenedAddress(hash)}
           />
           <FieldPreview
             label={t`Estimated blockchain fee`}

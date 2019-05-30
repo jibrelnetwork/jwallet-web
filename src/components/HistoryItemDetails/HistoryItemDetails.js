@@ -1,7 +1,6 @@
 // @flow strict
 
 import { connect } from 'react-redux'
-import { memoize } from 'lodash-es'
 
 import { edit } from 'store/modules/comments'
 import { selectFavorites } from 'store/selectors/favorites'
@@ -9,9 +8,10 @@ import { selectAddressWalletsNames } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { getShortenedAddress } from 'utils/address'
 
+import { PageNotFoundError } from 'errors'
 import {
-  transactionsIndex,
-} from 'components/TransactionItemNew/transactionsIndex'
+  MEMO, transactionsIndex,
+} from 'store/transactionsIndex'
 
 import {
   type Props,
@@ -20,10 +20,7 @@ import {
 
 export type ContainerProps = {
   txHash: TransactionId,
-  className: string,
 }
-
-const memoizedIndex = memoize(transactionsIndex)
 
 const mapDispatchToProps = {
   editNote: edit,
@@ -43,7 +40,14 @@ function getPrimaryName(
 
 function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
   const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-  const transactionRecord = memoizedIndex(state)[txHash]
+  const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
+    ? MEMO.transactionsIndex
+    : transactionsIndex(state)
+  const transactionRecord = dataMap[txHash]
+
+  if (!transactionRecord) {
+    throw new PageNotFoundError()
+  }
 
   return {
     ...transactionRecord,

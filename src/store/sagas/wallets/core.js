@@ -25,26 +25,14 @@ import { WalletInconsistentDataError } from 'errors'
 
 import * as wallets from 'store/modules/wallets'
 
-function* setActiveWallet(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
-  const { activeWalletId } = action.payload
+function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
+  const { items } = action.payload
 
-  if (!activeWalletId) {
+  if (!items.length) {
     return
   }
 
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-
-  try {
-    const {
-      type,
-      isSimplified,
-    }: Wallet = getWallet(items, activeWalletId)
-
-    const isAddressRequired: boolean = checkMnemonicType(type) && !isSimplified
-    yield put(actions.navigateTo(isAddressRequired ? 'WalletsAddresses' : 'Wallet'))
-  } catch (err) {
-    yield put(actions.navigateTo('Wallet'))
-  }
+  yield put(actions.navigateTo('Wallets'))
 }
 
 export class GetPrivateKeyError extends Error {
@@ -117,5 +105,5 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
 
 export function* walletsRootSaga(): Saga<void> {
   yield takeEvery(wallets.SIMPLIFY_WALLET, simplifyWallet)
-  yield takeEvery(wallets.SET_ACTIVE_WALLET, setActiveWallet)
+  yield takeEvery(wallets.SET_WALLETS_ITEMS, setWalletsItems)
 }

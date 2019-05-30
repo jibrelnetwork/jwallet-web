@@ -16,6 +16,7 @@ export type TransactionDirection = 'in' | 'out' | 'cancel'
 export type TransactionStatus = 'success' | 'pending' | 'fail' | 'stuck'
 export type TransactionItem = {|
   +id: TransactionId,
+  +hash: Hash,
   +asset: ?DigitalAsset, // FIXME: Don't use nested properties, use only used properties from object
   +type: TransactionDirection, // FIXME: direction?
   +status: TransactionStatus,
@@ -106,14 +107,13 @@ function getTransactionComment(
    * this is actual only for contract events
    */
   const { id } = transaction.keys
-  const { hash } = transaction
   const comments = selectCommentsItems(state)
 
   if (comments[id] != null) {
     return comments[id]
   }
 
-  return comments[hash]
+  return comments[id]
 }
 
 function getTransactionFee(
@@ -140,10 +140,14 @@ function prepareTransactionItem(
   const from = get(transaction, 'from', '')
   const to = get(transaction, 'to', '')
   const timestamp = (get(transaction, 'blockData.timestamp', 0)) * 1000
-  const { amount } = transaction
+  const {
+    amount,
+    hash,
+  } = transaction
 
   return {
     id: transaction.keys.id,
+    hash,
     asset,
     type,
     status,
@@ -160,13 +164,21 @@ function prepareTransactionItem(
 }
 
 // FIXME: Temporary solution to store indexed values for transactions
+export const MEMO = {
+  transactionsIndex: {},
+  transactions: '',
+}
+
 export function transactionsIndex(state: AppState) {
   const transactions = selectTransactionsList(state)
 
-  return transactions.reduce((reduceResult, transaction) => {
-    reduceResult[transaction.hash] = prepareTransactionItem(state, transaction)
+  // Performance optimization
+  // eslint-disable-next-line fp/no-mutation
+  MEMO.transactionsIndex = transactions.reduce((reduceResult, transaction) => {
+    reduceResult[transaction.keys.id] = prepareTransactionItem(state, transaction)
 
     return reduceResult
   }, {})
-}
 
+  return MEMO.transactionsIndex
+}

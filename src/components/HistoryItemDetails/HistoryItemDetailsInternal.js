@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { debounce } from 'lodash-es'
-import { type TransactionItem } from 'components/TransactionItemNew/transactionsIndex'
+import { type TransactionItem } from 'store/transactionsIndex'
 
 import {
   TransactionCancelTemplate,
