@@ -3,6 +3,7 @@
 export { Wallets } from './Wallets/Wallets'
 export { WalletsCreate } from './WalletsCreate/WalletsCreate'
 export { WalletsImport } from './WalletsImport/WalletsImport'
+export { WalletsItemBackup } from './WalletsItemBackup/WalletsItemBackup'
 
 export { default as AssetsItem }
   from './Transactions/routes/Asset/TransactionsAssetViewContainer'
@@ -24,7 +25,6 @@ export { default as Settings } from './Settings/SettingsIndexViewContainer'
 export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
 export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
-export { default as WalletsItemBackup } from './Wallets/routes/Backup/WalletsBackupViewContainer'
 export { default as WalletsItemRemove } from './Wallets/routes/Delete/WalletsDeleteViewContainer'
 export { default as WalletsItemRename } from './Wallets/routes/Rename/WalletsRenameViewContainer'
 export { default as WalletsItemUpgrade } from './Upgrade/UpgradeViewContainer'

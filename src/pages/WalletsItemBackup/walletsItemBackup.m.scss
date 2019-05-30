@@ -1,0 +1,8 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  width: 100%;
+  height: 100%;
+}
