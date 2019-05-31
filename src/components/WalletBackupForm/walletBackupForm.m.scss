@@ -30,6 +30,12 @@
   margin-top: 32px;
 }
 
+.fields {
+  border-radius: 4px;
+  box-shadow: $normal-shadow;
+  overflow: hidden;
+}
+
 .button {
   margin: 32px 0 16px 0;
 }
