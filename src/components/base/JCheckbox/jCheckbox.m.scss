@@ -24,18 +24,19 @@
   cursor: pointer;
 
   .off {
-    stroke: $main-black;
-    opacity: 0.2;
+    stroke: $main-black-30;
+    transition: stroke 0.3s ease 0s;
   }
 
   .on {
-    stroke: $blue;
+    fill: $blue;
     opacity: 0;
+    transition: opacity 0.3s ease 0s;
   }
 
   &:hover {
     .off {
-      opacity: 1;
+      stroke: $main-black-50;
     }
   }
 }

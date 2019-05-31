@@ -11,7 +11,11 @@ import {
 
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
-import { selectIntroductionValue } from 'store/selectors/user'
+import {
+  selectIntroductionValue,
+  selectAgreements,
+} from 'store/selectors/user'
+
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'pages'
@@ -148,8 +152,9 @@ function mapStateToProps(state: AppState) {
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
-  const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
-  const isAllFeaturesIntroduced: boolean = selectIntroductionValue(state)
+  const agreements = selectAgreements(state)
+  const isAllAgreementsChecked = checkAgreements(CONDITIONS_LIST, agreements)
+  const isAllFeaturesIntroduced = selectIntroductionValue(state)
 
   return {
     route,

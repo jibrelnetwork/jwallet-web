@@ -1,9 +1,5 @@
 // @flow
 
-import getAgreementValue from './getAgreementValue'
-
-function checkAgreements(nameConditionsArray: string[]) {
-  return nameConditionsArray.every(key => getAgreementValue(key))
+export function checkAgreements(nameConditionsArray: string[], agreements: Object) {
+  return nameConditionsArray.every(key => agreements[key])
 }
-
-export default checkAgreements
