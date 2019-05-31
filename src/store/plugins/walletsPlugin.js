@@ -306,11 +306,17 @@ class WalletsPlugin {
 
   createWallet = (
     walletData: WalletData,
-    internalKey: Uint8Array,
+    internalKey: ?Uint8Array,
   ): Wallet => {
     const { data }: WalletData = walletData
 
-    if (checkMnemonicValid(data)) {
+    if (!internalKey) {
+      if (checkXkeyValid(data, 'pub')) {
+        return this.createXPUBWallet(walletData)
+      } else if (checkAddressValid(data)) {
+        return this.createAddressWallet(walletData)
+      }
+    } else if (checkMnemonicValid(data)) {
       return this.createMnemonicWallet(
         walletData,
         internalKey,
@@ -320,18 +326,14 @@ class WalletsPlugin {
         walletData,
         internalKey,
       )
-    } else if (checkXkeyValid(data, 'pub')) {
-      return this.createXPUBWallet(walletData)
     } else if (checkPrivateKeyValid(data)) {
       return this.createPrivateKeyWallet(
         walletData,
         internalKey,
       )
-    } else if (checkAddressValid(data)) {
-      return this.createAddressWallet(walletData)
-    } else {
-      throw new WalletInconsistentDataError('createWallet data error')
     }
+
+    throw new WalletInconsistentDataError('createWallet data error')
   }
 
   importWallet = async (
@@ -344,7 +346,7 @@ class WalletsPlugin {
     }: FormFields,
     createdBlockNumber?: ?WalletCreatedBlockNumber = null,
   ): ?FormFields => {
-    if (!data || !name || !password) {
+    if (!(data && name)) {
       throw new Error(t`Invalid wallet data`)
     }
 
@@ -359,13 +361,13 @@ class WalletsPlugin {
       throw new Error(t`Invalid password data`)
     }
 
-    const derivedKey: Uint8Array = await deriveKeyFromPassword(
+    const derivedKey: ?Uint8Array = !password ? null : await deriveKeyFromPassword(
       password,
       salt,
     )
 
     try {
-      const internalKeyDec: Uint8Array = decryptInternalKey(
+      const internalKeyDec: ?Uint8Array = !derivedKey ? null : decryptInternalKey(
         internalKey,
         derivedKey,
       )
