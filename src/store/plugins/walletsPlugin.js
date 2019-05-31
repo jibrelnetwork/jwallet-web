@@ -5,8 +5,12 @@ import { t } from 'ttag'
 import { type Store } from 'redux'
 
 import { gaSendEvent } from 'utils/analytics'
-import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectPasswordPersist } from 'store/selectors/password'
+
+import {
+  selectWalletsItems,
+  selectActiveWalletId,
+} from 'store/selectors/wallets'
 
 import {
   WalletNotFoundError,
@@ -493,6 +497,21 @@ class WalletsPlugin {
     const { customType }: Wallet = this.getWallet(walletId)
 
     return ['address', 'xpub'].includes(customType)
+  }
+
+  removeWallet = (walletId: WalletId): Wallets => {
+    const items: Wallets = this.getItems()
+    const newItems: Wallets = removeWallet(items, walletId)
+    const activeWalletId: ?WalletId = selectActiveWalletId(this.getState())
+
+    if (walletId === activeWalletId) {
+      const firstWallet: ?Wallet = newItems[0]
+      this.dispatch(setActiveWallet(firstWallet ? firstWallet.id : null))
+    }
+
+    this.dispatch(setWalletsItems(newItems))
+
+    return newItems
   }
 }
 
