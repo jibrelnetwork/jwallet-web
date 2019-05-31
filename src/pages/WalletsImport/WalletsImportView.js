@@ -72,7 +72,7 @@ const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
   data: '',
   password: '',
   passphrase: '',
-  derivationPath: '',
+  derivationPath: 'm/44\'/60\'/0\'/0',
   walletType: null,
 }
 
