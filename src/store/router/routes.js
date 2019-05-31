@@ -2,6 +2,8 @@
 
 import createRouter5 from 'router5'
 
+import { walletsPlugin } from 'store/plugins'
+
 import {
   selectActiveWallet,
   selectActiveWalletId,
@@ -162,16 +164,26 @@ router.canActivate(
 
 router.canActivate(
   'WalletsItemBackup',
-  (routerInstance, dependencies) => (toState, fromState, done) => {
-    const { store } = dependencies
-    const state = store.getState()
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    try {
+      const { params } = toState
 
-    const activeWallet = selectActiveWallet(state)
-
-    if (activeWallet && activeWallet.isReadOnly) {
+      if (walletsPlugin.checkWalletReadOnly(params.walletId)) {
+        return done({
+          redirect: {
+            params,
+            name: 'WalletsItemUpgrade',
+          },
+        })
+      }
+    } catch (error) {
       return done({
         redirect: {
-          name: 'WalletsItemUpgrade',
+          name: 'Wallets',
         },
       })
     }

@@ -488,6 +488,12 @@ class WalletsPlugin {
 
     return itemsAppended
   }
+
+  checkWalletReadOnly = (walletId: WalletId): boolean => {
+    const { customType }: Wallet = this.getWallet(walletId)
+
+    return ['address', 'xpub'].includes(customType)
+  }
 }
 
 export const walletsPlugin = new WalletsPlugin()
