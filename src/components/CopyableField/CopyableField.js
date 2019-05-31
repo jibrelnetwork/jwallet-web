@@ -2,6 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
+import { t } from 'ttag'
 
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
@@ -39,11 +40,14 @@ export class CopyableField extends PureComponent<Props> {
             {value}
           </div>
         </div>
-        <JIcon
+        <button
+          type='button'
+          title={t`Copy${label ? ' ' : ''}${label || ''}`}
           onClick={this.handleCopy}
-          className={copyableFieldStyles.icon}
-          name='copy-use-fill'
-        />
+          className={copyableFieldStyles.button}
+        >
+          <JIcon name='copy-use-fill' />
+        </button>
       </div>
     )
   }

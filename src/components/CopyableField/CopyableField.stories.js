@@ -14,3 +14,9 @@ storiesOf('CopyableField', module)
       label='Mnemonic Phrase'
     />
   ))
+  .add('long text', () => (
+    <CopyableField
+      label='Long text'
+      value={MNEMONIC.repeat(10)}
+    />
+  ))

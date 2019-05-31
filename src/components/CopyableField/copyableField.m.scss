@@ -11,10 +11,14 @@
 .content {
   @include flex-column;
 
+  max-width: 100%;
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .label {
+  @include ellipsis;
+
   line-height: 20px;
   font-size: 12px;
   font-weight: 600;
@@ -33,14 +37,18 @@
   line-height: 22px;
 }
 
-.icon {
-  @include property-transition(fill);
+.button {
+  @include flex-row-center;
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-30);
 
   margin-left: 27px;
-  fill: $main-black-30;
+  appearance: none;
+  border: none;
+  background: transparent;
   cursor: pointer;
 
   &:hover {
-    fill: $main-blue;
+    @include sprite-icon-color($main-blue);
   }
 }
