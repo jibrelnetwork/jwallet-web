@@ -115,12 +115,14 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
           >
             {t`Rename Wallet`}
           </button>
-          <JLink
-            href={`/wallets/${id}/upgrade`}
-            className={walletCardActionsStyles.action}
-          >
-            {t`Unlock Features`}
-          </JLink>
+          {isReadOnly && (
+            <JLink
+              href={`/wallets/${id}/upgrade`}
+              className={walletCardActionsStyles.action}
+            >
+              {t`Unlock Features`}
+            </JLink>
+          )}
           <JLink
             href={`/wallets/${id}/addresses`}
             className={walletCardActionsStyles.action}

@@ -344,23 +344,15 @@ function getErrorAddressMessage(data: string): ?string {
 
   if (cleanedData.length > 40) {
     return null
-  } else if (cleanedData.length <= 40) {
-    if (hasHexPrefix && hasInvalidSymbols) {
-      return t`Incorrect Ethereum address`
+  } else if ((cleanedData.length === 40) && !hasInvalidSymbols) {
+    const isValidNormalizedAddress: boolean = checkNormalizedAddress(cleanedData)
+    const isValidChecksumAddress: boolean = checkAddressWithChecksumValid(cleanedData)
+
+    if (!(isValidNormalizedAddress || isValidChecksumAddress)) {
+      return t`Seems you made a typo in Ethereum address`
     }
-
-    return null
-  }
-
-  if (hasInvalidSymbols) {
-    return null
-  }
-
-  const isValidNormalizedAddress: boolean = checkNormalizedAddress(cleanedData)
-  const isValidChecksumAddress: boolean = checkAddressWithChecksumValid(cleanedData)
-
-  if (!(isValidNormalizedAddress || isValidChecksumAddress)) {
-    return t`Seems you made a typo in Ethereum address`
+  } else if ((cleanedData.length <= 40) && hasHexPrefix && hasInvalidSymbols) {
+    return t`Incorrect Ethereum address`
   }
 
   return null
