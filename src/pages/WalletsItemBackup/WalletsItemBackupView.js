@@ -90,6 +90,45 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
     }
   }
 
+  handleData = (
+    data: ?EncryptedData,
+    key: Uint8Array,
+  ) => {
+    if (!data) {
+      throw new WalletInconsistentDataError()
+    }
+
+    this.setState({
+      data: decryptData({
+        key,
+        data,
+      }),
+    })
+  }
+
+  handleMnemonicData = (
+    mnemonic: ?EncryptedData,
+    passphrase: ?EncryptedData,
+    derivationPath: ?string,
+    key: Uint8Array,
+  ) => {
+    if (!(mnemonic && passphrase)) {
+      throw new WalletInconsistentDataError()
+    }
+
+    this.setState({
+      data: decryptData({
+        key,
+        data: mnemonic,
+      }),
+      passphrase: decryptData({
+        key,
+        data: passphrase,
+      }),
+      derivationPath: derivationPath || 'm/44\'/60\'/0\'/0',
+    })
+  }
+
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
       goBackToWallets,
@@ -125,60 +164,30 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
 
           switch (customType) {
             case 'privateKey': {
-              if (!encrypted.privateKey) {
-                throw new WalletInconsistentDataError()
-              }
-
-              const data: string = decryptData({
-                key: internalKeyDec,
-                data: encrypted.privateKey,
-              })
-
-              this.setState({ data })
+              this.handleData(
+                encrypted.privateKey,
+                internalKeyDec,
+              )
 
               break
             }
 
             case 'xprv': {
-              if (!encrypted.xprv) {
-                throw new WalletInconsistentDataError()
-              }
-
-              const data: string = decryptData({
-                key: internalKeyDec,
-                data: encrypted.xprv,
-              })
-
-              this.setState({ data })
+              this.handleData(
+                encrypted.xprv,
+                internalKeyDec,
+              )
 
               break
             }
 
             case 'mnemonic': {
-              if (!encrypted.mnemonic) {
-                throw new WalletInconsistentDataError()
-              }
-
-              const data: string = decryptData({
-                key: internalKeyDec,
-                data: encrypted.mnemonic,
-              })
-
-              if (!encrypted.passphrase) {
-                throw new WalletInconsistentDataError()
-              }
-
-              const passphrase: string = decryptData({
-                key: internalKeyDec,
-                data: encrypted.passphrase,
-              })
-
-              this.setState({ data })
-
-              this.setState({
-                passphrase,
+              this.handleMnemonicData(
+                encrypted.mnemonic,
+                encrypted.passphrase,
                 derivationPath,
-              })
+                internalKeyDec,
+              )
 
               break
             }
@@ -188,7 +197,11 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
           }
 
           this.setState({ currentStep: STEPS.BACKUP_FORM })
-          gaSendEvent('BackupWallet', 'PasswordEntered')
+
+          gaSendEvent(
+            'BackupWallet',
+            'PasswordEntered',
+          )
         } catch (error) {
           return {
             password: 'Invalid password',
