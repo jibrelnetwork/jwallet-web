@@ -13,7 +13,6 @@ import FavoriteItem from './FavoriteItem'
 import PasswordStep from './PasswordStep'
 import SettingsGrid from './SettingsGrid'
 import AddressPicker from './AddressPicker'
-import CopyableField from './CopyableField'
 import WalletLoading from './WalletLoading'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
@@ -32,6 +31,7 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { WalletCard } from './WalletCard/WalletCard'
 export { TitleHeader } from './TitleHeader/TitleHeader'
+export { CopyableField } from './CopyableField/CopyableField'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
@@ -53,7 +53,6 @@ export {
   PasswordStep,
   SettingsGrid,
   AddressPicker,
-  CopyableField,
   WalletLoading,
   OverlayActions,
   WalletDataStep,
