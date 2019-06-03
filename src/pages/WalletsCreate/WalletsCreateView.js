@@ -254,7 +254,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
           type='submit'
           isDisabled={!(loseAccess && compromise)}
         >
-          {t`Next`}
+          {t`Continue`}
         </Button>
       </form>
     </div>
