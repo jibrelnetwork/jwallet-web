@@ -103,7 +103,7 @@ class AppRouter extends Component<Props, ComponentState> {
 
   render() {
     if (this.state.hasError) {
-      return (<ErrorUnexpected />)
+      return <ErrorUnexpected />
     }
 
     const {
@@ -117,6 +117,7 @@ class AppRouter extends Component<Props, ComponentState> {
     const {
       name,
       params,
+      hasMenu,
     } = route
 
     if (!route || (name === constants.UNKNOWN_ROUTE)) {
@@ -139,7 +140,13 @@ class AppRouter extends Component<Props, ComponentState> {
       return <pages.WalletsStart />
     }
 
-    return renderWithMenuLayout(pages[name], params, name)
+    if (hasMenu) {
+      return renderWithMenuLayout(pages[name], params, name)
+    }
+
+    const Page = pages[name]
+
+    return <Page {...params} />
   }
 }
 
