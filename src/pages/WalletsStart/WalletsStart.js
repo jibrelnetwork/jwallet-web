@@ -8,7 +8,6 @@ import React, {
 import { t } from 'ttag'
 
 import { StartLayout } from 'layouts'
-
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
 import { WalletsImport } from 'pages/WalletsImport/WalletsImport'
 
@@ -17,11 +16,8 @@ import {
   type WalletAction,
 } from 'pages/WalletsStart/constants'
 
-import {
-  NewWalletButtons,
-} from './components/NewWalletButtons/NewWalletButtons'
-
 import walletsStartStyle from './walletsStart.m.scss'
+import { NewWalletButtons } from './components/NewWalletButtons/NewWalletButtons'
 
 type Props = {||}
 
@@ -45,6 +41,7 @@ export class WalletsStart extends Component<Props, StateProps> {
   render() {
     const { action } = this.state
 
+    /* eslint-disable react/no-danger */
     return (
       <StartLayout
         className='__first-wallet'
@@ -65,5 +62,6 @@ export class WalletsStart extends Component<Props, StateProps> {
         {(action === ACTIONS.IMPORT) && <WalletsImport onBack={this.handleClick} />}
       </StartLayout>
     )
+    /* eslint-enable react/no-danger */
   }
 }
