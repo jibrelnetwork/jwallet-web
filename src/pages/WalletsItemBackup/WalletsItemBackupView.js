@@ -38,7 +38,7 @@ export type WalletsItemBackupSubmitPayload = {|
 |}
 
 export type Props = {|
-  +goBackToWallets: () => void,
+  +goHome: () => any,
   +internalKey: EncryptedData,
   +salt: string,
   +hint: string,
@@ -131,7 +131,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
 
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
-      goBackToWallets,
+      goHome,
       walletId,
       internalKey,
       salt,
@@ -212,7 +212,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
       }
 
       case STEPS.BACKUP_FORM:
-        return goBackToWallets()
+        return goHome()
 
       default:
         return null
