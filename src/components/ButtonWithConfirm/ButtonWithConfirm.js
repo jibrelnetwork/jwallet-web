@@ -99,23 +99,21 @@ export class ButtonWithConfirm extends Component<Props, StateProps> {
 
     return (
       <div className={buttonWithConfirmStyle.core}>
-        <div className={buttonWithConfirmStyle.actions}>
-          <Button
-            onClick={handleConfirm}
-            className={buttonWithConfirmStyle.confirm}
-            theme='secondary'
-            isDisabled={isConfirmDisabled}
-          >
-            {isConfirmDisabled ? `${countdown} sec` : labelConfirm}
-          </Button>
-          <Button
-            onClick={this.handleCancel}
-            className={buttonWithConfirmStyle.cancel}
-            theme='general'
-          >
-            {labelCancel}
-          </Button>
-        </div>
+        <Button
+          onClick={handleConfirm}
+          className={buttonWithConfirmStyle.confirm}
+          theme='secondary'
+          isDisabled={isConfirmDisabled}
+        >
+          {isConfirmDisabled ? `${countdown} sec` : labelConfirm}
+        </Button>
+        <Button
+          onClick={this.handleCancel}
+          className={buttonWithConfirmStyle.cancel}
+          theme='general'
+        >
+          {labelCancel}
+        </Button>
       </div>
     )
   }
