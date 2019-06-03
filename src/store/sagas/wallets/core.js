@@ -44,6 +44,12 @@ function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>)
     return
   }
 
+  if (items.length === 1) {
+    yield put(actions.navigateTo('Home'))
+
+    return
+  }
+
   yield put(actions.navigateTo('Wallets'))
 }
 
