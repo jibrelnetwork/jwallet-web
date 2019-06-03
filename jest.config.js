@@ -11,7 +11,7 @@ module.exports = {
       statements: 0,
     },
   },
-  coverageDirectory: '<rootDir>/reports/unit-tests/coverage',
+  coverageDirectory: '<rootDir>/reports/coverage',
   coverageReporters: [
     'lcov',
   ],
