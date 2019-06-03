@@ -4,20 +4,22 @@ import React, { Component } from 'react'
 import { constants } from 'router5'
 import { connect } from 'react-redux'
 
+import { routes } from 'store/router/routes'
+import { CONDITIONS_LIST } from 'data/agreements'
+import { checkAgreements } from 'utils/agreements'
+import { selectWalletsItems } from 'store/selectors/wallets'
+import { selectIntroductionValue } from 'store/selectors/user'
+import { selectIsPasswordExists } from 'store/selectors/password'
+import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
+
 import {
   MenuLayout,
   WalletsLayout,
 } from 'layouts'
 
-import { CONDITIONS_LIST } from 'data/agreements'
-import { checkAgreements } from 'utils/agreements'
-import { selectIntroductionValue } from 'store/selectors/user'
-import { selectWalletsItems } from 'store/selectors/wallets'
-import { selectIsPasswordExists } from 'store/selectors/password'
 import * as pages from 'pages'
 
 import 'styles/core.scss'
-import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 type Props = {|
   +route: Object,
@@ -31,6 +33,12 @@ type ComponentState = {|
   +hasError: boolean,
   +prevRouteName: ?string,
 |}
+
+function checkHasMenu(name): boolean {
+  const foundRoute = routes.find(route => (route.name === name))
+
+  return !!foundRoute && foundRoute.hasMenu
+}
 
 // FIXME: discuss with the team and update accordingly
 function renderWithWalletsLayout(
@@ -117,7 +125,6 @@ class AppRouter extends Component<Props, ComponentState> {
     const {
       name,
       params,
-      hasMenu,
     } = route
 
     if (!route || (name === constants.UNKNOWN_ROUTE)) {
@@ -140,7 +147,7 @@ class AppRouter extends Component<Props, ComponentState> {
       return <pages.WalletsStart />
     }
 
-    if (hasMenu) {
+    if (checkHasMenu(name)) {
       return renderWithMenuLayout(pages[name], params, name)
     }
 
