@@ -2,6 +2,7 @@
 
 import createRouter5 from 'router5'
 
+import { WalletNotFoundError } from 'errors'
 import { walletsPlugin } from 'store/plugins'
 
 import {
@@ -231,9 +232,11 @@ router.canActivate(
     fromState,
     done,
   ) => {
+    const { walletId } = toState.params
+
     try {
-      if (!walletsPlugin.getWallet(toState.params.walletId)) {
-        throw new Error('Wallet not found')
+      if (!walletsPlugin.getWallet(walletId)) {
+        throw new WalletNotFoundError({ walletId })
       }
     } catch (error) {
       return done({
