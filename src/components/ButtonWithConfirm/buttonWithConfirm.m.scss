@@ -1,0 +1,18 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  position: relative;
+  width: 100%;
+}
+
+.cancel,
+.confirm {
+  display: inline-flex;
+  flex-grow: 1;
+}
+
+.cancel {
+  margin-left: 32px;
+}
