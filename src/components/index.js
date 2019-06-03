@@ -21,7 +21,6 @@ import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
 import WalletViewTitle from './WalletViewTitle'
 import TransactionsList from './TransactionsList'
-import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
@@ -36,6 +35,7 @@ export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
 export { TransactionItem } from './TransactionItemNew/TransactionItem'
+export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 
@@ -61,7 +61,6 @@ export {
   RoundIconButton,
   WalletViewTitle,
   TransactionsList,
-  ButtonWithConfirm,
   MnemonicAddresses,
   TransactionsFilter,
   WalletPasswordStep,
