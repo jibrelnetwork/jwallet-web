@@ -82,7 +82,7 @@ export class WalletBackupForm extends PureComponent<Props> {
           color='blue'
           name='ic_backup_48-use-fill'
         />
-        <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
+        <h2 className={walletBackupFormStyle.title}>{t`Back Up "${name}"`}</h2>
         <p
           className={walletBackupFormStyle.text}
           dangerouslySetInnerHTML={{
@@ -99,7 +99,7 @@ export class WalletBackupForm extends PureComponent<Props> {
           <div className={walletBackupFormStyle.fields}>
             <CopyableField
               value={data}
-              label={isMnemonic ? t`Mnemonic Phrase` : 'Private Key'}
+              label={t`Backup Phrase`}
             />
             {isMnemonic && passphrase && (
               <CopyableField
