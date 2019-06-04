@@ -4,6 +4,7 @@ import Promise from 'bluebird'
 import { t } from 'ttag'
 import React, { Component } from 'react'
 
+import { add0x } from 'utils/address'
 import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
 import { checkMnemonicType } from 'utils/wallets'
@@ -93,16 +94,19 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
   handleData = (
     data: ?EncryptedData,
     key: Uint8Array,
+    isPrivateKey: boolean = false,
   ) => {
     if (!data) {
       throw new WalletInconsistentDataError()
     }
 
+    const decryptedData: string = decryptData({
+      key,
+      data,
+    })
+
     this.setState({
-      data: decryptData({
-        key,
-        data,
-      }),
+      data: isPrivateKey ? add0x(decryptedData) : decryptedData,
     })
   }
 
@@ -167,6 +171,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
               this.handleData(
                 encrypted.privateKey,
                 internalKeyDec,
+                true,
               )
 
               break
