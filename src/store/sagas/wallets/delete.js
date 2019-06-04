@@ -19,8 +19,6 @@ import * as wallets from 'store/modules/wallets'
 import * as walletsDelete from 'store/modules/walletsDelete'
 
 function* openView(action: ExtractReturn<typeof walletsDelete.openView>): Saga<void> {
-  yield put(wallets.clean())
-
   const items: Wallets = yield select(selectWalletsItems)
 
   try {
@@ -36,17 +34,11 @@ function* remove(action: ExtractReturn<typeof walletsDelete.remove>): Saga<void>
     walletId,
   } = action.payload
 
-  yield put(wallets.setIsLoading(true))
-
   const itemsNew: Wallets = removeWallet(items, walletId)
   const isEmptyWallets: boolean = !itemsNew.length
 
   if (isEmptyWallets) {
-    yield put(wallets.setWallets({
-      items: [],
-      internalKey: null,
-      passwordOptions: null,
-    }))
+    //
   } else {
     yield put(wallets.setWalletsItems(itemsNew))
   }

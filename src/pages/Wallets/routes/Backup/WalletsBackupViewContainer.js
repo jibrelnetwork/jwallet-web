@@ -2,17 +2,6 @@
 
 import { connect } from 'react-redux'
 
-import { changePasswordInput } from 'store/modules/wallets'
-
-import {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
-  downloadToTxt,
-  copyToClipboard,
-} from 'store/modules/walletsBackup'
-
 // eslint-disable-next-line import/no-duplicates
 import WalletsBackupView from './WalletsBackupView'
 
@@ -27,28 +16,15 @@ function mapStateToProps({
     persist: {
       items,
     },
-    password,
-    isLoading,
-    invalidFields,
   } = wallets
 
   return {
     ...walletsBackup,
     items,
-    password,
-    isLoading,
-    invalidFields,
   }
 }
 
 const mapDispatchToProps = {
-  openView,
-  closeView,
-  goToNextStep,
-  goToPrevStep,
-  downloadToTxt,
-  copyToClipboard,
-  changePasswordInput,
 }
 
 type OwnProps = {|

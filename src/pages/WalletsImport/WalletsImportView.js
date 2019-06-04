@@ -14,6 +14,7 @@ import {
 } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   getTypeByInput,
@@ -103,6 +104,10 @@ export class WalletsImportView extends Component<Props, StateProps> {
       currentStep,
       isAdvancedOpened: false,
     })
+
+    if (currentStep === STEPS.PASSWORD) {
+      gaSendEvent('ImportWallet', 'DataEntered')
+    }
   }
 
   getTitle = (): string => {
