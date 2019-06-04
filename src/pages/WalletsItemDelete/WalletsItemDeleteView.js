@@ -35,7 +35,6 @@ export class WalletsItemDeleteView extends PureComponent<Props> {
       <div className={walletsItemDeleteStyle.core}>
         <JIcon
           className={walletsItemDeleteStyle.icon}
-          color='gray'
           name='ic_delete_48-use-fill'
         />
         <h2 className={walletsItemDeleteStyle.title}>{t`Delete Wallet`}</h2>
@@ -45,13 +44,15 @@ export class WalletsItemDeleteView extends PureComponent<Props> {
             __html: DELETE_TEXT.split('\n').join('<br />'),
           }}
         />
-        <ButtonWithConfirm
-          onCancel={handleBack}
-          onConfirm={this.handleRemove}
-          labelConfirm={t`Delete`}
-          labelCancel={t`Keep Wallet`}
-          confirmTimeout={DELETE_CONFIRM_TIMEOUT}
-        />
+        <div className={walletsItemDeleteStyle.buttons}>
+          <ButtonWithConfirm
+            onCancel={handleBack}
+            onConfirm={this.handleRemove}
+            labelConfirm={t`Delete`}
+            labelCancel={t`Keep Wallet`}
+            confirmTimeout={DELETE_CONFIRM_TIMEOUT}
+          />
+        </div>
       </div>
     )
     /* eslint-enable react/no-danger */
