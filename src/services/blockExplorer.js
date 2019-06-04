@@ -136,6 +136,7 @@ function prepareETHTransactions(data: Object[]): Transactions {
       timeStamp,
       blockNumber,
       contractAddress,
+      nonce,
     }: TransactionFromBlockExplorer = item
 
     const newTransaction: Transaction = {
@@ -158,6 +159,7 @@ function prepareETHTransactions(data: Object[]): Transactions {
       eventType: 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
+      nonce: Number(nonce),
     }
 
     return {

@@ -1,10 +1,12 @@
 // @flow
 
 declare type Hash = string
+// TransactionId consist of: `${txHash}${?txLogIndex}`
 declare type TransactionId = string
 
 declare type TransactionFromBlockExplorer = {|
   +hash: Hash,
+  +nonce: string,
   +to: string,
   +from: string,
   +value: string,
@@ -59,6 +61,7 @@ declare type TransferEventFromEthereumNode = {|
   +address: string,
   +blockHash: ?string,
   +transactionHash: string,
+  +nonce: string,
   +logIndex: number,
   +blockNumber: ?number,
   +removed: boolean,
@@ -70,6 +73,7 @@ declare type JNTEventFromEthereumNode = {|
   +address: string,
   +blockHash: ?string,
   +transactionHash: string,
+  +nonce: string,
   +logIndex: number,
   +blockNumber: ?number,
   +removed: boolean,
@@ -110,6 +114,7 @@ declare type Transaction = {|
   +hash: Hash,
   +amount: string,
   +blockHash: ?Hash,
+  +nonce: number,
   +to: ?OwnerAddress,
   +from: ?OwnerAddress,
   +contractAddress: ?OwnerAddress,
@@ -119,23 +124,12 @@ declare type Transaction = {|
 |}
 
 declare type TransactionWithPrimaryKeys = {|
+  ...Transaction,
   +keys: {|
     +id: TransactionId,
     +blockNumber: BlockNumber,
     +assetAddress: AssetAddress,
   |},
-  +data: ?TransactionData,
-  +blockData: ?TransactionBlockData,
-  +receiptData: ?TransactionReceiptData,
-  +hash: Hash,
-  +amount: string,
-  +blockHash: ?Hash,
-  +to: ?OwnerAddress,
-  +from: ?OwnerAddress,
-  +contractAddress: ?OwnerAddress,
-  +blockNumber: ?number,
-  +eventType: TransactionEventType,
-  +isRemoved: boolean,
 |}
 
 declare type Transactions = {
