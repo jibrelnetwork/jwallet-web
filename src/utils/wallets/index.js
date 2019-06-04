@@ -8,11 +8,11 @@ import appendWallet from './appendWallet'
 import updateWallet from './updateWallet'
 import upgradeWallet from './upgradeWallet'
 import getBackupData from './getBackupData'
-import getPrivateKey from './getPrivateKey'
 import checkWalletUniqueness from './checkWalletUniqueness'
 
 export { removeWallet } from './removeWallet'
 export { validateName } from './validateName'
+export { getPrivateKey } from './getPrivateKey'
 export { getTypeByInput } from './getTypeByInput'
 export { checkNameExists } from './checkNameExists'
 export { checkMnemonicType } from './checkMnemonicType'
@@ -28,6 +28,5 @@ export {
   updateWallet,
   upgradeWallet,
   getBackupData,
-  getPrivateKey,
   checkWalletUniqueness,
 }

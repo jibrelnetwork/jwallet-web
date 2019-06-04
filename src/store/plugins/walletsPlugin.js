@@ -5,6 +5,7 @@ import { t } from 'ttag'
 import { type Store } from 'redux'
 
 import { gaSendEvent } from 'utils/analytics'
+import { getPrivateKey } from 'utils/wallets'
 import { selectPasswordPersist } from 'store/selectors/password'
 
 import {
@@ -113,6 +114,31 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
+
+  getInternalKey = async (password: string): Promise<?Uint8Array> => {
+    const state: AppState = this.getState()
+
+    const {
+      salt,
+      internalKey,
+    }: PasswordPersist = selectPasswordPersist(state)
+
+    if (!internalKey) {
+      return null
+    }
+
+    const derivedKey: ?Uint8Array = !password ? null : await deriveKeyFromPassword(
+      password,
+      salt,
+    )
+
+    const internalKeyDec: ?Uint8Array = !derivedKey ? null : decryptInternalKey(
+      internalKey,
+      derivedKey,
+    )
+
+    return internalKeyDec
+  }
 
   createMnemonicWallet = (
     walletData: WalletData,
@@ -354,27 +380,8 @@ class WalletsPlugin {
       throw new Error(t`Invalid wallet data`)
     }
 
-    const state: AppState = this.getState()
-
-    const {
-      internalKey,
-      salt,
-    }: PasswordPersist = selectPasswordPersist(state)
-
-    if (!internalKey) {
-      throw new Error(t`Invalid password data`)
-    }
-
-    const derivedKey: ?Uint8Array = !password ? null : await deriveKeyFromPassword(
-      password,
-      salt,
-    )
-
     try {
-      const internalKeyDec: ?Uint8Array = !derivedKey ? null : decryptInternalKey(
-        internalKey,
-        derivedKey,
-      )
+      const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
 
       const newWallet: Wallet = this.createWallet({
         passphrase,
@@ -384,7 +391,7 @@ class WalletsPlugin {
         data: data.trim(),
         name: name.trim(),
         orderIndex: this.getNextOrderIndex(),
-      }, internalKeyDec)
+      }, internalKey)
 
       const items: Wallets = this.getItems()
       const newItems: Wallets = appendWallet(items, newWallet)
@@ -512,6 +519,17 @@ class WalletsPlugin {
     this.dispatch(setWalletsItems(newItems))
 
     return newItems
+  }
+
+  getPrivateKey = async (walletId: WalletId, password: string): Promise<string> => {
+    const wallet: Wallet = this.getWallet(walletId)
+    const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
+
+    if (!internalKey) {
+      throw new WalletInconsistentDataError('getPrivateKey data error')
+    }
+
+    return getPrivateKey(wallet, internalKey)
   }
 }
 
