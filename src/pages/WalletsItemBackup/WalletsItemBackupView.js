@@ -83,7 +83,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
         return t`Enter Security Password`
 
       case STEPS.BACKUP_FORM:
-        return t`Backup wallet`
+        return t`Back Up Wallet`
 
       default:
         return ''
