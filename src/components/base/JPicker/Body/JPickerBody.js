@@ -15,6 +15,7 @@ type RendererProps = {
 type Props = {|
   +isOpen: boolean,
   +isDisabled: boolean,
+  +className: string,
   +currentRenderer: ?((props: RendererProps) => React$Node),
   +onOpen: (e: SyntheticEvent<HTMLDivElement>) => any,
   +onClose: (e: SyntheticEvent<HTMLDivElement>) => any,
@@ -24,6 +25,7 @@ type Props = {|
 function JPickerBody({
   isOpen,
   isDisabled,
+  className,
   currentRenderer,
   onOpen,
   onClose,
@@ -40,6 +42,7 @@ function JPickerBody({
         jPickerBodyStyle.core,
         isOpen && jPickerBodyStyle.active,
         isDisabled && jPickerBodyStyle.disabled,
+        className,
       )}
     >
       <div className={jPickerBodyStyle.select}>
@@ -73,6 +76,7 @@ function JPickerBody({
 JPickerBody.defaultProps = {
   isDisabled: false,
   isOpen: false,
+  className: '',
 }
 
 export { JPickerBody }

@@ -20,11 +20,12 @@ import { JAssetSymbol } from 'components/base'
 import { AssetBalance } from './AssetBalance/AssetBalance'
 import { AssetItem } from './Item/AssetItem'
 
-type Props = {|
+export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
   +digitalAssets: DigitalAssetWithBalance[],
   +fiatCurrency: FiatCurrency,
+  +className: string,
 |}
 
 export function AssetPicker({
@@ -32,6 +33,7 @@ export function AssetPicker({
   input,
   digitalAssets,
   fiatCurrency,
+  className,
 }: Props) {
   const activeAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress(digitalAssets, input.value)
@@ -63,6 +65,7 @@ export function AssetPicker({
 
   return (
     <JPickerBody
+      className={className}
       isOpen={meta.active || false}
       // eslint-disable-next-line react/jsx-handler-names
       onOpen={input.onFocus}
@@ -140,4 +143,5 @@ export function AssetPicker({
 
 AssetPicker.defaultProps = {
   fiatCurrency: 'USD',
+  className: '',
 }

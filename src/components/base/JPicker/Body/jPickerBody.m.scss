@@ -1,10 +1,10 @@
 @import "styles/mixins";
-@import "styles/colors";
 
 // stylelint-disable rscss/class-format
 
 .core {
   position: relative;
+  width: 100%;
 }
 
 .select {
@@ -62,7 +62,7 @@
 }
 
 .overlay {
-  z-index: 1;
+  z-index: 5;
   position: fixed;
   top: 0;
   right: 0;
@@ -73,7 +73,7 @@
 .active {
   .select {
     border-radius: $form-border-radius $form-border-radius 0 0;
-    z-index: 2;
+    z-index: 6;
 
     > .options {
       visibility: visible;
