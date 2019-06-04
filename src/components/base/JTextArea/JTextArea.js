@@ -36,7 +36,6 @@ type TextAreaRef = {
 const MAX_ROWS = 12
 
 const checkExpandable = ({ rows }) => ((rows >= 1) && (MAX_ROWS >= rows))
-const handleFocus = (ref: TextAreaRef) => () => ref.current && ref.current.focus()
 
 const checkHeightIncreased = ({
   clientHeight,
@@ -90,6 +89,12 @@ export class JTextArea extends PureComponent<Props> {
   }
 
   textArea: TextAreaRef
+
+  handleFocus = () => {
+    if (this.textArea.current) {
+      this.textArea.current.focus()
+    }
+  }
 
   handleChange = (event: SyntheticEvent<HTMLTextAreaElement>): void => {
     const {
@@ -155,7 +160,7 @@ export class JTextArea extends PureComponent<Props> {
         )}
       >
         <div
-          onClick={handleFocus(this.textArea)}
+          onClick={this.handleFocus}
           className={classNames(
             jTextAreaStyle.wrap,
             hasError && jTextAreaStyle.error,

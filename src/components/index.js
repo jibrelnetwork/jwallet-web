@@ -13,7 +13,6 @@ import FavoriteItem from './FavoriteItem'
 import PasswordStep from './PasswordStep'
 import SettingsGrid from './SettingsGrid'
 import AddressPicker from './AddressPicker'
-import CopyableField from './CopyableField'
 import WalletLoading from './WalletLoading'
 import OverlayActions from './OverlayActions'
 import WalletDataStep from './WalletDataStep'
@@ -22,7 +21,6 @@ import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
 import WalletViewTitle from './WalletViewTitle'
 import TransactionsList from './TransactionsList'
-import ButtonWithConfirm from './ButtonWithConfirm'
 import MnemonicAddresses from './MnemonicAddresses'
 import WalletPasswordStep from './WalletPasswordStep'
 import TransactionsFilter from './TransactionsFilter'
@@ -32,10 +30,12 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { WalletCard } from './WalletCard/WalletCard'
 export { TitleHeader } from './TitleHeader/TitleHeader'
+export { CopyableField } from './CopyableField/CopyableField'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { NewPasswordField } from './NewPasswordField/NewPasswordField'
 export { WalletBackupForm } from './WalletBackupForm/WalletBackupForm'
 export { TransactionItem } from './TransactionItemNew/TransactionItem'
+export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 
@@ -53,7 +53,6 @@ export {
   PasswordStep,
   SettingsGrid,
   AddressPicker,
-  CopyableField,
   WalletLoading,
   OverlayActions,
   WalletDataStep,
@@ -62,7 +61,6 @@ export {
   RoundIconButton,
   WalletViewTitle,
   TransactionsList,
-  ButtonWithConfirm,
   MnemonicAddresses,
   TransactionsFilter,
   WalletPasswordStep,

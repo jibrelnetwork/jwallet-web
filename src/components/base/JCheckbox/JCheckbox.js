@@ -46,16 +46,10 @@ export class JCheckbox extends PureComponent<Props> {
             defaultChecked={isChecked}
           />
           <span className={classNames(jCheckboxStyles.tick, jCheckboxStyles.off, 'off')}>
-            <JIcon
-              color='gray'
-              name='unchecked'
-            />
+            <JIcon name='checkbox_off_24-use-fill' />
           </span>
           <span className={classNames(jCheckboxStyles.tick, jCheckboxStyles.on, 'on')}>
-            <JIcon
-              color='blue'
-              name='checked-use-fill'
-            />
+            <JIcon name='checkbox_on_24-use-fill' />
           </span>
           {children}
         </label>
