@@ -31,6 +31,7 @@
 
 .value {
   position: relative;
+  overflow-wrap: break-word;
   color: $main-black;
   font-weight: 600;
   font-size: 14px;

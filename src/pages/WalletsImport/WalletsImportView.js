@@ -108,7 +108,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
   getTitle = (): string => {
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return t`Import wallet`
+        return t`Import Wallet`
 
       case STEPS.PASSWORD:
         return t`Enter Security Password to Protect Your Wallet`

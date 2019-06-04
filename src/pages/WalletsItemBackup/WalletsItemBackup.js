@@ -29,7 +29,7 @@ function mapStateToProps(state: AppState) {
 }
 
 const mapDispatchToProps = {
-  goBackToWallets: () => actions.navigateTo('Wallets'),
+  goHome: () => actions.navigateTo('Home'),
 }
 
 export const WalletsItemBackup = connect<Props, OwnProps, _, _, _, _>(
