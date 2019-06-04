@@ -1,0 +1,23 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.form {
+  @include flex-column-center;
+
+  position: relative;
+  width: 544px;
+}
+
+.mb16 {
+  margin-bottom: 16px;
+}
+
+.mb32 {
+  margin-bottom: 32px;
+}

@@ -3,6 +3,8 @@
 import React from 'react'
 import { t } from 'ttag'
 
+import { getFiatBalance } from 'store/utils/getFiatBalances'
+
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 
 import {

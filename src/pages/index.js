@@ -19,8 +19,10 @@ export { default as History } from './Transactions/TransactionsIndexViewContaine
 export { default as Home } from './Home/Home'
 export { default as Receive }
   from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
-export { default as Send }
-  from './DigitalAssets/routes/Send/DigitalAssetsSendViewContainer'
+
+// export { default as Send }
+//   from './DigitalAssets/routes/Send/DigitalAssetsSendViewContainer'
+
 export { default as Settings } from './Settings/SettingsIndexViewContainer'
 export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
 export { default as SettingsSecurityPassword }
@@ -35,6 +37,7 @@ export { NotFound } from './NotFound/NotFound'
 
 // not available to user directly
 
+export { Send } from './Send/Send'
 export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
