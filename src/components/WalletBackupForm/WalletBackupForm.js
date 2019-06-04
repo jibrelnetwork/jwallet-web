@@ -99,7 +99,7 @@ export class WalletBackupForm extends PureComponent<Props> {
           <div className={walletBackupFormStyle.fields}>
             <CopyableField
               value={data}
-              label={isMnemonic ? t`Mnemonic Phrase` : 'Private Key'}
+              label={t`Backup Phrase`}
             />
             {isMnemonic && passphrase && (
               <CopyableField
