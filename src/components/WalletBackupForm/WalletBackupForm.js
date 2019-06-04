@@ -82,7 +82,7 @@ export class WalletBackupForm extends PureComponent<Props> {
           color='blue'
           name='ic_backup_48-use-fill'
         />
-        <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
+        <h2 className={walletBackupFormStyle.title}>{t`Back Up "${name}"`}</h2>
         <p
           className={walletBackupFormStyle.text}
           dangerouslySetInnerHTML={{
