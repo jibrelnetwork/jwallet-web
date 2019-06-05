@@ -1,8 +1,8 @@
 // @flow strict
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { t } from 'ttag'
-import { pick } from 'lodash-es'
 import {
   Form,
   Field,
@@ -11,6 +11,8 @@ import {
 
 import { TitleHeader } from 'components'
 import { Button } from 'components/base'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
+import web3 from 'services/web3'
 
 import { ConnectedAssetPicker } from './components/AssetPicker/AssetPickerContainer'
 import { ConnectedRecipientPicker } from './components/RecipientPicker/RecipientPickerContainer'
@@ -19,7 +21,13 @@ import { SendAmountField } from './components/SendAmountField/SendAmountField'
 
 import styles from './send.m.scss'
 
+const { getGasPrice } = web3
+
 type Props = {|
+  +network: Network,
+|}
+
+type OwnProps = {|
 
 |}
 
@@ -41,19 +49,17 @@ type SendFormValues = {|
   gasLimitValue: string,
 |}
 
-type RequestedValues = {
-  gasPrice: string,
-  gasLimit: string,
-  isLoading: boolean,
-}
-
 type ComponentState = {|
   currentStep: SendAssetStep,
   sendFormValues: SendFormValues,
-  requestedValues: RequestedValues,
+  requestedGasPrice: string,
+  requestedGasLimit: string,
+  isGasPriceLoading: boolean,
+  isGasLimitLoading: boolean,
+  isNetworkError: boolean,
 |}
 
-class Send extends Component<Props, ComponentState> {
+class SendAsset extends Component<Props, ComponentState> {
   state = {
     currentStep: STEPS.SEND_FORM,
     sendFormValues: {
@@ -64,24 +70,81 @@ class Send extends Component<Props, ComponentState> {
       gasPriceValue: '',
       gasLimitValue: '',
     },
-    requestedValues: {
-      gasPrice: '',
-      gasLimit: '',
-      isLoading: false,
-    },
+    requestedGasPrice: '',
+    isGasPriceLoading: false,
+    requestedGasLimit: '',
+    isGasLimitLoading: false,
+    isNetworkError: false,
   }
 
   handleSendFormSubmit = (values: SendFormValues) => {
     this.setState({ sendFormValues: values })
-    console.log(values)
   }
+
+  requestGasPrice = async () => {
+    const { network } = this.props
+
+    this.setState({
+      isGasPriceLoading: true,
+      isNetworkError: false,
+    })
+
+    try {
+      const gasPrice = await getGasPrice(network)
+
+      this.setState({
+        isGasLimitLoading: false,
+        requestedGasPrice: gasPrice.toString(),
+      })
+    } catch (err) {
+      console.error(err)
+      this.setState({ isNetworkError: true })
+    }
+  }
+
+  // type Props = {|
+  //   +blockchainFee: string,
+  //   +className: string,
+  //   +currency: string,
+  //   +fiatAmount: string,
+  //   +fiatCurrency: FiatCurrency,
+  //   +infoMessage: string,
+  //   +input: FinalFormInput,
+  //   +isFetchingFiatAmount: boolean,
+  //   +maxValue: string,
+  //   +meta: FinalFormMeta,
+  //   +validateType: FinalFormValidateType,
+  // |}
 
   renderSendStepForm = (props: FormRenderProps) => {
     const {
       handleSubmit,
       submitting: isSubmitting,
-      // values,
+      values,
     } = props
+
+    const {
+      recipientAddress,
+      assetAddress,
+      amountValue,
+    } = values || {}
+
+    // const {
+    //   // requestedGasPrice,
+    //   // requestedGasLimit,
+    //   isGasPriceLoading,
+    //   isGasLimitLoading,
+    // } = this.state
+
+    const isPriorityEnabled = !!recipientAddress &&
+      !!assetAddress &&
+      !!amountValue
+
+    const isFormDisabled = !!recipientAddress ||
+      !!assetAddress ||
+      !!amountValue
+
+    const isEthereumAsset = (assetAddress === 'Ethereum')
 
     return (
       <form
@@ -104,6 +167,8 @@ class Send extends Component<Props, ComponentState> {
           name='amountValue'
         />
         <Field
+          isEth={isEthereumAsset}
+          isDisabled={!isPriorityEnabled}
           className={styles.mb32}
           component={PriorityField}
           name='isPriorityOpen'
@@ -112,8 +177,9 @@ class Send extends Component<Props, ComponentState> {
         />
         <Button
           type='submit'
+          name='send'
           isLoading={isSubmitting}
-          // isDisabled={!name.trim()}
+          isDisabled={isFormDisabled}
         >
           {t`Next`}
         </Button>
@@ -205,4 +271,12 @@ class Send extends Component<Props, ComponentState> {
   }
 }
 
-export { Send }
+function mapStateToProps(state: AppState) {
+  const network = selectCurrentNetworkOrThrow(state)
+
+  return {
+    network,
+  }
+}
+
+export const Send = connect<Props, OwnProps, _, _, _, _>(mapStateToProps)(SendAsset)
