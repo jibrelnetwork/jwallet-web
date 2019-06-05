@@ -245,13 +245,15 @@ function prepareTransaction(data: any): TransactionData {
   if (!(
     !type.isVoid(data) &&
     type.isObject(data) &&
-    isBigNumber(data.gasPrice)
+    isBigNumber(data.gasPrice) &&
+    data.nonce
   )) {
     throw new Error(t`Invalid ETH transaction format`)
   }
 
   return {
     gasPrice: data.gasPrice.toString(),
+    nonce: Number(data.nonce),
   }
 }
 
@@ -349,7 +351,6 @@ function prepareTransferEvents(data: Object[]): Transactions {
       blockNumber,
       transactionHash,
       removed,
-      nonce,
     }: TransferEventFromEthereumNode = item
 
     const {
@@ -371,7 +372,6 @@ function prepareTransferEvents(data: Object[]): Transactions {
       contractAddress: null,
       eventType: 1,
       isRemoved: !!removed,
-      nonce: Number(nonce),
     }
 
     return {
@@ -463,7 +463,6 @@ function prepareJNTEvents(data: Object[]): Transactions {
       blockNumber,
       transactionHash,
       removed,
-      nonce,
     }: JNTEventFromEthereumNode = item
 
     const {
@@ -486,7 +485,6 @@ function prepareJNTEvents(data: Object[]): Transactions {
       from: (event === 'BurnEvent') ? ownerAddressChecksum : null,
       eventType: 2,
       isRemoved: !!removed,
-      nonce: Number(nonce),
     }
 
     return {

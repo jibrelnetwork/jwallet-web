@@ -6,7 +6,6 @@ declare type TransactionId = string
 
 declare type TransactionFromBlockExplorer = {|
   +hash: Hash,
-  +nonce: string,
   +to: string,
   +from: string,
   +value: string,
@@ -61,7 +60,6 @@ declare type TransferEventFromEthereumNode = {|
   +address: string,
   +blockHash: ?string,
   +transactionHash: string,
-  +nonce: string,
   +logIndex: number,
   +blockNumber: ?number,
   +removed: boolean,
@@ -73,7 +71,6 @@ declare type JNTEventFromEthereumNode = {|
   +address: string,
   +blockHash: ?string,
   +transactionHash: string,
-  +nonce: string,
   +logIndex: number,
   +blockNumber: ?number,
   +removed: boolean,
@@ -96,6 +93,7 @@ declare type TransactionEventType = 0 | 1 | 2
 
 declare type TransactionData = {|
   +gasPrice: string,
+  +nonce: number,
 |}
 
 declare type TransactionBlockData = {|
@@ -114,7 +112,6 @@ declare type Transaction = {|
   +hash: Hash,
   +amount: string,
   +blockHash: ?Hash,
-  +nonce: number,
   +to: ?OwnerAddress,
   +from: ?OwnerAddress,
   +contractAddress: ?OwnerAddress,
