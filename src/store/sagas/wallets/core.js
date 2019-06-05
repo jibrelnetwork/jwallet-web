@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { actions } from 'redux-router5'
 
@@ -10,8 +10,6 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import walletsWorker from 'workers/wallets'
-
 import {
   getWallet,
   updateWallet,
@@ -20,27 +18,23 @@ import {
 
 import {
   selectWalletsItems,
-  selectWalletsPersist,
+  // selectWalletsPersist,
 } from 'store/selectors/wallets'
 
 import { WalletInconsistentDataError } from 'errors'
 
 import * as wallets from 'store/modules/wallets'
 
-function* openView(): Saga<void> {
-  yield put(wallets.clean())
-
-  const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-
-  if (!items.length) {
-    yield put(actions.navigateTo('Wallets'))
-  }
-}
-
 function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
   const { items } = action.payload
 
   if (!items.length) {
+    return
+  }
+
+  if (items.length === 1) {
+    yield put(actions.navigateTo('Home'))
+
     return
   }
 
@@ -55,13 +49,15 @@ export class GetPrivateKeyError extends Error {
   }
 }
 
-export function* getPrivateKey(walletId: string, password: string): Saga<string> {
+export function* getPrivateKey(walletId: string/* , password: string */): Saga<string> {
+  /*
   const walletsPersist: ExtractReturn<typeof selectWalletsPersist> =
     yield select(selectWalletsPersist)
 
   const wallet: Wallet = getWallet(walletsPersist.items, walletId)
 
   walletsWorker.privateKeyRequest(walletsPersist, wallet, password)
+  */
 
   while (true) {
     const {
@@ -114,7 +110,6 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
 }
 
 export function* walletsRootSaga(): Saga<void> {
-  yield takeEvery(wallets.OPEN_VIEW, openView)
   yield takeEvery(wallets.SIMPLIFY_WALLET, simplifyWallet)
   yield takeEvery(wallets.SET_WALLETS_ITEMS, setWalletsItems)
 }

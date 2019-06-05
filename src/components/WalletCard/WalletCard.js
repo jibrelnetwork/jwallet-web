@@ -87,8 +87,8 @@ class WalletCard extends Component<Props, StateProps> {
 
     const {
       id,
-      type,
       xpub,
+      customType,
       isSimplified,
     }: Wallet = data
 
@@ -154,7 +154,7 @@ class WalletCard extends Component<Props, StateProps> {
           <div className={walletCard.actions}>
             <WalletCardActions
               id={id}
-              type={type}
+              type={customType}
               isSimplified={isSimplified}
               onRename={this.handleActivateRename}
             />
@@ -185,7 +185,7 @@ const mapDispatchToProps = {
   setActiveWallet,
 }
 
-const WalletCardEnhanced = connect/* :: < AppState, any, OwnProps, _, _ > */(
+const WalletCardEnhanced = connect<Props, OwnProps, _, _, _, _>(
   mapStateToProps,
   mapDispatchToProps,
 )(WalletCard)

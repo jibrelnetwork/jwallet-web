@@ -245,13 +245,15 @@ function prepareTransaction(data: any): TransactionData {
   if (!(
     !type.isVoid(data) &&
     type.isObject(data) &&
-    isBigNumber(data.gasPrice)
+    isBigNumber(data.gasPrice) &&
+    data.nonce
   )) {
     throw new Error(t`Invalid ETH transaction format`)
   }
 
   return {
     gasPrice: data.gasPrice.toString(),
+    nonce: Number(data.nonce),
   }
 }
 

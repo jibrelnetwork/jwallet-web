@@ -14,6 +14,7 @@ import {
 } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   getTypeByInput,
@@ -72,7 +73,7 @@ const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
   data: '',
   password: '',
   passphrase: '',
-  derivationPath: '',
+  derivationPath: 'm/44\'/60\'/0\'/0',
   walletType: null,
 }
 
@@ -103,12 +104,16 @@ export class WalletsImportView extends Component<Props, StateProps> {
       currentStep,
       isAdvancedOpened: false,
     })
+
+    if (currentStep === STEPS.PASSWORD) {
+      gaSendEvent('ImportWallet', 'DataEntered')
+    }
   }
 
   getTitle = (): string => {
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return t`Import wallet`
+        return t`Import Wallet`
 
       case STEPS.PASSWORD:
         return t`Enter Security Password to Protect Your Wallet`

@@ -5,8 +5,13 @@ import { t } from 'ttag'
 import { type Store } from 'redux'
 
 import { gaSendEvent } from 'utils/analytics'
-import { selectWalletsItems } from 'store/selectors/wallets'
+import { getPrivateKey } from 'utils/wallets'
 import { selectPasswordPersist } from 'store/selectors/password'
+
+import {
+  selectWalletsItems,
+  selectActiveWalletId,
+} from 'store/selectors/wallets'
 
 import {
   WalletNotFoundError,
@@ -109,6 +114,31 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
+
+  getInternalKey = async (password: string): Promise<?Uint8Array> => {
+    const state: AppState = this.getState()
+
+    const {
+      salt,
+      internalKey,
+    }: PasswordPersist = selectPasswordPersist(state)
+
+    if (!internalKey) {
+      return null
+    }
+
+    const derivedKey: ?Uint8Array = !password ? null : await deriveKeyFromPassword(
+      password,
+      salt,
+    )
+
+    const internalKeyDec: ?Uint8Array = !derivedKey ? null : decryptInternalKey(
+      internalKey,
+      derivedKey,
+    )
+
+    return internalKeyDec
+  }
 
   createMnemonicWallet = (
     walletData: WalletData,
@@ -306,11 +336,17 @@ class WalletsPlugin {
 
   createWallet = (
     walletData: WalletData,
-    internalKey: Uint8Array,
+    internalKey: ?Uint8Array,
   ): Wallet => {
     const { data }: WalletData = walletData
 
-    if (checkMnemonicValid(data)) {
+    if (!internalKey) {
+      if (checkXkeyValid(data, 'pub')) {
+        return this.createXPUBWallet(walletData)
+      } else if (checkAddressValid(data)) {
+        return this.createAddressWallet(walletData)
+      }
+    } else if (checkMnemonicValid(data)) {
       return this.createMnemonicWallet(
         walletData,
         internalKey,
@@ -320,18 +356,14 @@ class WalletsPlugin {
         walletData,
         internalKey,
       )
-    } else if (checkXkeyValid(data, 'pub')) {
-      return this.createXPUBWallet(walletData)
     } else if (checkPrivateKeyValid(data)) {
       return this.createPrivateKeyWallet(
         walletData,
         internalKey,
       )
-    } else if (checkAddressValid(data)) {
-      return this.createAddressWallet(walletData)
-    } else {
-      throw new WalletInconsistentDataError('createWallet data error')
     }
+
+    throw new WalletInconsistentDataError('createWallet data error')
   }
 
   importWallet = async (
@@ -344,31 +376,12 @@ class WalletsPlugin {
     }: FormFields,
     createdBlockNumber?: ?WalletCreatedBlockNumber = null,
   ): ?FormFields => {
-    if (!data || !name || !password) {
+    if (!(data && name)) {
       throw new Error(t`Invalid wallet data`)
     }
 
-    const state: AppState = this.getState()
-
-    const {
-      internalKey,
-      salt,
-    }: PasswordPersist = selectPasswordPersist(state)
-
-    if (!internalKey) {
-      throw new Error(t`Invalid password data`)
-    }
-
-    const derivedKey: Uint8Array = await deriveKeyFromPassword(
-      password,
-      salt,
-    )
-
     try {
-      const internalKeyDec: Uint8Array = decryptInternalKey(
-        internalKey,
-        derivedKey,
-      )
+      const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
 
       const newWallet: Wallet = this.createWallet({
         passphrase,
@@ -378,7 +391,7 @@ class WalletsPlugin {
         data: data.trim(),
         name: name.trim(),
         orderIndex: this.getNextOrderIndex(),
-      }, internalKeyDec)
+      }, internalKey)
 
       const items: Wallets = this.getItems()
       const newItems: Wallets = appendWallet(items, newWallet)
@@ -485,6 +498,38 @@ class WalletsPlugin {
     this.dispatch(setWalletsItems(itemsAppended))
 
     return itemsAppended
+  }
+
+  checkWalletReadOnly = (walletId: WalletId): boolean => {
+    const { customType }: Wallet = this.getWallet(walletId)
+
+    return ['address', 'xpub'].includes(customType)
+  }
+
+  removeWallet = (walletId: WalletId): Wallets => {
+    const items: Wallets = this.getItems()
+    const newItems: Wallets = removeWallet(items, walletId)
+    const activeWalletId: ?WalletId = selectActiveWalletId(this.getState())
+
+    if (walletId === activeWalletId) {
+      const firstWallet: ?Wallet = newItems[0]
+      this.dispatch(setActiveWallet(firstWallet ? firstWallet.id : null))
+    }
+
+    this.dispatch(setWalletsItems(newItems))
+
+    return newItems
+  }
+
+  getPrivateKey = async (walletId: WalletId, password: string): Promise<string> => {
+    const wallet: Wallet = this.getWallet(walletId)
+    const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
+
+    if (!internalKey) {
+      throw new WalletInconsistentDataError('getPrivateKey data error')
+    }
+
+    return getPrivateKey(wallet, internalKey)
   }
 }
 

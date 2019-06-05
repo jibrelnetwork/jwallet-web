@@ -94,7 +94,8 @@ function checkETHTransaction(data: Object): boolean {
     type.isString(data.blockHash) &&
     type.isString(data.timeStamp) &&
     type.isString(data.blockNumber) &&
-    type.isString(data.contractAddress)
+    type.isString(data.contractAddress) &&
+    type.isString(data.nonce)
   )
 }
 
@@ -136,11 +137,13 @@ function prepareETHTransactions(data: Object[]): Transactions {
       timeStamp,
       blockNumber,
       contractAddress,
+      nonce,
     }: TransactionFromBlockExplorer = item
 
     const newTransaction: Transaction = {
       data: {
         gasPrice,
+        nonce: Number(nonce),
       },
       blockData: {
         timestamp: parseInt(timeStamp, 10) || 0,

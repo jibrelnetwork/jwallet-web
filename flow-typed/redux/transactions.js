@@ -1,6 +1,7 @@
 // @flow
 
 declare type Hash = string
+// TransactionId consist of: `${txHash}${?txLogIndex}`
 declare type TransactionId = string
 
 declare type TransactionFromBlockExplorer = {|
@@ -92,6 +93,7 @@ declare type TransactionEventType = 0 | 1 | 2
 
 declare type TransactionData = {|
   +gasPrice: string,
+  +nonce: number,
 |}
 
 declare type TransactionBlockData = {|
@@ -119,23 +121,12 @@ declare type Transaction = {|
 |}
 
 declare type TransactionWithPrimaryKeys = {|
+  ...Transaction,
   +keys: {|
     +id: TransactionId,
     +blockNumber: BlockNumber,
     +assetAddress: AssetAddress,
   |},
-  +data: ?TransactionData,
-  +blockData: ?TransactionBlockData,
-  +receiptData: ?TransactionReceiptData,
-  +hash: Hash,
-  +amount: string,
-  +blockHash: ?Hash,
-  +to: ?OwnerAddress,
-  +from: ?OwnerAddress,
-  +contractAddress: ?OwnerAddress,
-  +blockNumber: ?number,
-  +eventType: TransactionEventType,
-  +isRemoved: boolean,
 |}
 
 declare type Transactions = {

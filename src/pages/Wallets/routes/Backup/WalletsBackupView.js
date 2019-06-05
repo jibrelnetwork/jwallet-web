@@ -1,36 +1,18 @@
-// @flow
+// @flow strict
 
 import React, { Component } from 'react'
 import { t } from 'ttag'
 
-import { STEPS } from 'store/modules/walletsBackup'
-
-import handle from 'utils/eventHandlers/handle'
-import getWallet from 'utils/wallets/getWallet'
-
-import {
-  WalletStep,
-  ModalHeader,
-  CopyableField,
-  WalletPasswordStep,
-} from 'components'
+import { ModalHeader } from 'components'
 
 export type Props = {|
   +closeView: () => void,
-  +goToNextStep: (walletId: string) => void,
   +goToPrevStep: () => void,
-  +downloadToTxt: () => void,
   +openView: (string) => void,
-  +copyToClipboard: () => void,
-  +changePasswordInput: (string) => void,
-  +items: Wallets,
-  +invalidFields: FormFields,
   +params: {|
     +walletId: string,
   |},
   +data: string,
-  +password: string,
-  +currentStep: WalletsBackupStepIndex,
   +isLoading: boolean,
 |}
 
@@ -67,28 +49,11 @@ class WalletsBackupView extends Component<Props> {
 
   render() {
     const {
-      goToNextStep,
       goToPrevStep,
-      downloadToTxt,
-      copyToClipboard,
-      changePasswordInput,
-      items,
-      params,
-      invalidFields,
-      password,
-      currentStep,
       isLoading,
     } = this.props
 
     try {
-      const foundWallet: Wallet = getWallet(items, params.walletId)
-      const isMnemonic: boolean = (foundWallet.type === 'mnemonic')
-
-      const walletStepTitle = (t`This is your secret recovery text.
-        It is the only way to restore access to your funds.
-        Keep it secure and never give it to anyone
-        you don’t trust!`).split('\n')
-
       return (
         <div className='wallets-view -backup'>
           <ModalHeader
@@ -97,29 +62,7 @@ class WalletsBackupView extends Component<Props> {
             title={t`Backup wallet`}
             isDisabled={isLoading}
           />
-          <div className='content'>
-            {(currentStep === STEPS.PASSWORD) && (
-              <WalletPasswordStep
-                onSubmit={handle(goToNextStep)(params.walletId)}
-                onChangePassword={changePasswordInput}
-                invalidFields={invalidFields}
-                valuePassword={password}
-                buttonLabel={t`OK`}
-                isLoading={isLoading}
-                isPasswordExists
-              />
-            )}
-            {(currentStep === STEPS.PRIVATE) && (
-              <WalletStep
-                onSubmit={downloadToTxt}
-                title={walletStepTitle}
-                buttonLabel={t`Download as TXT`}
-                isLoading={isLoading}
-              >
-                <CopyableField onCopySuccess={copyToClipboard} value={this.getData(isMnemonic)} />
-              </WalletStep>
-            )}
-          </div>
+          <div className='content' />
         </div>
       )
     } catch (err) {

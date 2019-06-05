@@ -2,22 +2,20 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
-import { Field } from 'react-final-form'
 
 import { fileSaver } from 'services'
+import { CopyableField } from 'components'
 
 import {
   JIcon,
   Button,
-  JTextArea,
-  JInputField,
 } from 'components/base'
 
 import walletBackupFormStyle from './walletBackupForm.m.scss'
 
 type Props = {|
   +handleSubmit: (?SyntheticEvent<HTMLFormElement>) => ?Promise<?FormFields>,
-  +values: FormFields,
+  +data: string,
   +name: string,
   +passphrase: ?string,
   +derivationPath: ?string,
@@ -55,13 +53,13 @@ export class WalletBackupForm extends PureComponent<Props> {
 
   handleDownload = () => {
     const {
-      values,
+      data,
       passphrase,
       derivationPath,
     } = this.props
 
     fileSaver.saveTXT(
-      `${values.data || ''}\n${passphrase || ''}\n${derivationPath || ''}`,
+      `${data || ''}\n${passphrase || ''}\n${derivationPath || ''}`,
       'jwallet-backup',
     )
   }
@@ -70,6 +68,7 @@ export class WalletBackupForm extends PureComponent<Props> {
     const {
       handleSubmit,
       name,
+      data,
       passphrase,
       derivationPath,
       isMnemonic,
@@ -83,7 +82,7 @@ export class WalletBackupForm extends PureComponent<Props> {
           color='blue'
           name='ic_backup_48-use-fill'
         />
-        <h2 className={walletBackupFormStyle.title}>{t`Back Up ${name}`}</h2>
+        <h2 className={walletBackupFormStyle.title}>{t`Back Up "${name}"`}</h2>
         <p
           className={walletBackupFormStyle.text}
           dangerouslySetInnerHTML={{
@@ -97,31 +96,27 @@ export class WalletBackupForm extends PureComponent<Props> {
           onSubmit={handleSubmit}
           className={walletBackupFormStyle.form}
         >
-          <Field
-            component={JTextArea}
-            className={walletBackupFormStyle.field}
-            label={isMnemonic ? t`Mnemonic Phrase` : 'Private Key'}
-            name='data'
-            readOnly
-          />
-          {passphrase && (
-            <Field
-              component={JInputField}
-              label={t`Passphrase`}
-              className={walletBackupFormStyle.field}
-              name='passphrase'
+          <div className={walletBackupFormStyle.fields}>
+            <CopyableField
+              value={data}
+              label={t`Backup Phrase`}
             />
-          )}
-          {derivationPath && (
-            <Field
-              component={JInputField}
-              label={t`Derivation Path`}
-              name='derivationPath'
-            />
-          )}
+            {isMnemonic && passphrase && (
+              <CopyableField
+                value={passphrase}
+                label={t`Passphrase`}
+              />
+            )}
+            {isMnemonic && derivationPath && (
+              <CopyableField
+                value={derivationPath}
+                label={t`Derivation Path`}
+              />
+            )}
+          </div>
           <Button
             type='button'
-            theme='general'
+            theme='secondary'
             className={walletBackupFormStyle.button}
             onClick={this.handleDownload}
           >
@@ -129,7 +124,7 @@ export class WalletBackupForm extends PureComponent<Props> {
           </Button>
           <Button
             type='submit'
-            theme='secondary'
+            theme='general'
           >
             {t`Done`}
           </Button>
