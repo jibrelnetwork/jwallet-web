@@ -52,17 +52,6 @@ declare type WalletUpdatedData = {|
   +isSimplified?: ?boolean,
 |}
 
-declare type WalletDecryptedData = {|
-  +id: string,
-  +name: string,
-  +address: string,
-  +mnemonic: string,
-  +privateKey: string,
-  +type: WalletCustomType,
-  +readOnly: 'yes' | 'no',
-  +bip32XPublicKey: string,
-|}
-
 declare type Wallets = Wallet[]
 
 declare type PasswordResult = {|
@@ -75,19 +64,11 @@ declare type PasswordResult = {|
 
 declare type WalletsPersist = {|
   +items: Wallets,
-  +internalKey: ?EncryptedData,
   +activeWalletId: ?WalletId,
 |}
 
 declare type WalletsState = {|
   +persist: WalletsPersist,
-  +invalidFields: FormFields,
-  +name: string,
-  +password: string,
-  +passwordHint: string,
-  +passwordConfirm: string,
-  +mnemonic: string,
-  +isLoading: boolean,
 |}
 
 /**
@@ -96,26 +77,6 @@ declare type WalletsState = {|
 declare type WalletsCreateState = {|
   +createdBlockNumber: ?WalletCreatedBlockNumber,
   +isBlocksLoading: boolean,
-|}
-
-/**
- * Wallets backup
- */
-declare type WalletsBackupPasswordStepIndex = 0
-declare type WalletsBackupPrivateStepIndex = 1
-
-declare type WalletsBackupStepIndex =
-  WalletsBackupPasswordStepIndex |
-  WalletsBackupPrivateStepIndex
-
-declare type WalletsBackupSteps = {|
-  +PASSWORD: WalletsBackupPasswordStepIndex,
-  +PRIVATE: WalletsBackupPrivateStepIndex,
-|}
-
-declare type WalletsBackupState = {|
-  +data: string,
-  +currentStep: WalletsBackupStepIndex,
 |}
 
 /**

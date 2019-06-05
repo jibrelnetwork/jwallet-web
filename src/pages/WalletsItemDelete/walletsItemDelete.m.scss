@@ -10,6 +10,8 @@
 }
 
 .icon {
+  @include sprite-icon-color($main-black-60);
+
   margin-bottom: 32px;
 }
 
@@ -27,4 +29,10 @@
   line-height: 22px;
   color: $main-black-60;
   text-align: center;
+}
+
+.buttons {
+  position: relative;
+  width: 100%;
+  height: 48px;
 }

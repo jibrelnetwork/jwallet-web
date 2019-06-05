@@ -4,6 +4,7 @@ import Promise from 'bluebird'
 import { t } from 'ttag'
 import React, { Component } from 'react'
 
+import { add0x } from 'utils/address'
 import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
 import { checkMnemonicType } from 'utils/wallets'
@@ -38,7 +39,7 @@ export type WalletsItemBackupSubmitPayload = {|
 |}
 
 export type Props = {|
-  +goBackToWallets: () => void,
+  +goHome: () => any,
   +internalKey: EncryptedData,
   +salt: string,
   +hint: string,
@@ -83,7 +84,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
         return t`Enter Security Password`
 
       case STEPS.BACKUP_FORM:
-        return t`Backup wallet`
+        return t`Back Up Wallet`
 
       default:
         return ''
@@ -93,16 +94,19 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
   handleData = (
     data: ?EncryptedData,
     key: Uint8Array,
+    isPrivateKey: boolean = false,
   ) => {
     if (!data) {
       throw new WalletInconsistentDataError()
     }
 
+    const decryptedData: string = decryptData({
+      key,
+      data,
+    })
+
     this.setState({
-      data: decryptData({
-        key,
-        data,
-      }),
+      data: isPrivateKey ? add0x(decryptedData) : decryptedData,
     })
   }
 
@@ -131,7 +135,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
 
   handleSubmit = async (values: FormFields): Promise<?FormFields> => {
     const {
-      goBackToWallets,
+      goHome,
       walletId,
       internalKey,
       salt,
@@ -167,6 +171,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
               this.handleData(
                 encrypted.privateKey,
                 internalKeyDec,
+                true,
               )
 
               break
@@ -212,7 +217,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
       }
 
       case STEPS.BACKUP_FORM:
-        return goBackToWallets()
+        return goHome()
 
       default:
         return null

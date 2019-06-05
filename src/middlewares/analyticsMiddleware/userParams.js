@@ -1,3 +1,11 @@
+// @flow strict
+
+import { SET_WALLETS_ITEMS } from 'store/modules/wallets'
+import { SET_FIAT_CURRENCY } from 'store/modules/settings'
+import { selectWalletsItems } from 'store/selectors/wallets'
+import { selectFavoritesItems } from 'store/selectors/favorites'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+
 import {
   METRICS,
   DIMENSIONS,
@@ -6,11 +14,10 @@ import {
 } from 'utils/analytics'
 
 import {
-  SET_WALLETS,
-  SET_WALLETS_ITEMS,
-  CREATE_SUCCESS,
-} from 'store/modules/wallets'
-import { selectWalletsItems } from 'store/selectors/wallets'
+  ADD_AUTO as FAVORITES_ADD_AUTO,
+  ADD_BY_USER as FAVORITES_ADD_BY_USER,
+  REMOVE as FAVORITES_REMOVE,
+} from 'store/modules/favorites'
 
 import {
   ADD_CUSTOM_ASSET,
@@ -23,74 +30,31 @@ import {
   selectCustomDigitalAssets,
 } from 'store/selectors/digitalAssets'
 
-import { SET_FIAT_CURRENCY } from 'store/modules/settings'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
-
-import {
-  ADD_AUTO as FAVORITES_ADD_AUTO,
-  ADD_BY_USER as FAVORITES_ADD_BY_USER,
-  REMOVE as FAVORITES_REMOVE,
-} from 'store/modules/favorites'
-
-import { selectFavoritesItems } from 'store/selectors/favorites'
-
-export const userParams = (state, action) => {
+export const userParams = (state: AppState, action: Object) => {
   switch (action.type) {
-    case SET_WALLETS:
     case SET_WALLETS_ITEMS: {
-      /* eslint-disable no-param-reassign, fp/no-mutation */
-      // because reduce is designed to work this way
-      const stats = selectWalletsItems(state).reduce((memo, wallet) => {
-        memo.total += 1
+      const stats = selectWalletsItems(state).reduce((reduceResult, wallet) => {
+        reduceResult.total += 1
 
         if (wallet.isReadOnly) {
-          memo.readonly += 1
+          reduceResult.readonly += 1
         }
 
         if (wallet.type === 'mnemonic') {
-          memo.mnemonic += 1
+          reduceResult.mnemonic += 1
         }
 
-        return memo
+        return reduceResult
       }, {
         total: 0,
         readonly: 0,
         mnemonic: 0,
       })
-      /* eslint-enable no-param-reassign, fp/no-mutation */
       gaSetUserMetric(METRICS.WALLETS, stats.total)
       gaSetUserMetric(METRICS.WALLETS_READONLY, stats.readonly)
       gaSetUserMetric(METRICS.WALLETS_MNEMONIC, stats.mnemonic)
 
-      break
-    }
-    case ADD_CUSTOM_ASSET:
-    case DELETE_CUSTOM_ASSET: {
-      const quantity = selectCustomDigitalAssets(state).length
-      gaSetUserMetric(METRICS.ASSETS_CUSTOM, quantity)
-
-      break
-    }
-    case SET_ASSET_IS_ACTIVE: {
-      const quantity = selectActiveDigitalAssets(state).length
-      gaSetUserMetric(METRICS.ASSETS_ACTIVE, quantity)
-
-      break
-    }
-    case SET_FIAT_CURRENCY: {
-      gaSetUserDimension(DIMENSIONS.CURRENCY, selectSettingsFiatCurrency(state))
-
-      break
-    }
-    case FAVORITES_ADD_AUTO:
-    case FAVORITES_ADD_BY_USER:
-    case FAVORITES_REMOVE: {
-      gaSetUserMetric(METRICS.FAVORITES, selectFavoritesItems(state).length)
-
-      break
-    }
-    case CREATE_SUCCESS: {
-      if (selectWalletsItems(state).length === 0) {
+      if (stats.total === 1) {
         const today = new Date()
 
         gaSetUserDimension(
@@ -101,8 +65,37 @@ export const userParams = (state, action) => {
 
       break
     }
-    default: {
-      // do nothing
+
+    case ADD_CUSTOM_ASSET:
+    case DELETE_CUSTOM_ASSET: {
+      const quantity = selectCustomDigitalAssets(state).length
+      gaSetUserMetric(METRICS.ASSETS_CUSTOM, quantity)
+
+      break
     }
+
+    case SET_ASSET_IS_ACTIVE: {
+      const quantity = selectActiveDigitalAssets(state).length
+      gaSetUserMetric(METRICS.ASSETS_ACTIVE, quantity)
+
+      break
+    }
+
+    case SET_FIAT_CURRENCY: {
+      gaSetUserDimension(DIMENSIONS.CURRENCY, selectSettingsFiatCurrency(state))
+
+      break
+    }
+
+    case FAVORITES_ADD_AUTO:
+    case FAVORITES_ADD_BY_USER:
+    case FAVORITES_REMOVE: {
+      gaSetUserMetric(METRICS.FAVORITES, selectFavoritesItems(state).length)
+
+      break
+    }
+
+    default:
+      break
   }
 }
