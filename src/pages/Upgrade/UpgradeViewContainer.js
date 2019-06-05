@@ -4,11 +4,18 @@ import { connect } from 'react-redux'
 import { t } from 'ttag'
 
 import config from 'config'
-import getWallet from 'utils/wallets/getWallet'
-import { checkMnemonicType } from 'utils/wallets'
-import { WalletInconsistentDataError } from 'errors'
 import { selectUpgrade } from 'store/selectors/upgrade'
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
+
+import {
+  getWalletById,
+  checkMultiAddressType,
+} from 'utils/wallets'
+
+import {
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 import {
   submitMnemonicRequest as onSubmitMnemonic,
@@ -119,7 +126,16 @@ function validateMnemonic(bip32XPublicKey: ?string) {
 function mapStateToProps(state: AppState) {
   const wallets: Wallets = selectWalletsItems(state)
   const activeWalletId: ?WalletId = selectActiveWalletId(state)
-  const wallet: Wallet = getWallet(wallets, activeWalletId)
+
+  if (!activeWalletId) {
+    throw new Error('activeWalletId is empty')
+  }
+
+  const wallet: ?Wallet = getWalletById(wallets, activeWalletId)
+
+  if (!wallet) {
+    throw new WalletNotFoundError({ walletId: activeWalletId })
+  }
 
   const {
     isLoading,
@@ -127,9 +143,9 @@ function mapStateToProps(state: AppState) {
   }: UpgradeState = selectUpgrade(state)
 
   const {
-    type,
     xpub,
     address,
+    customType,
     isReadOnly,
   }: Wallet = wallet
 
@@ -141,8 +157,8 @@ function mapStateToProps(state: AppState) {
     isLoading,
     isReadOnly,
     isInvalidPassword,
-    isMnemonic: checkMnemonicType(type),
     validateMnemonic: validateMnemonic(xpub),
+    isMnemonic: checkMultiAddressType(customType),
     validatePrivateKey: validatePrivateKey(address),
   }
 }
