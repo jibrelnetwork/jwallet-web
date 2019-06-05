@@ -52,6 +52,16 @@ declare type WalletUpdatedData = {|
   +isSimplified?: ?boolean,
 |}
 
+declare type WalletNewData = {|
+  +id: string,
+  +data: string,
+  +name: string,
+  +passphrase: ?string,
+  +derivationPath: ?string,
+  +orderIndex: number,
+  +createdBlockNumber: ?WalletCreatedBlockNumber,
+|}
+
 declare type Wallets = Wallet[]
 
 declare type PasswordResult = {|
