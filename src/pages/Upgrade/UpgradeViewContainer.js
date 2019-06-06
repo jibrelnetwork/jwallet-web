@@ -35,7 +35,7 @@ import {
 
 import {
   selectWalletsItems,
-  selectActiveWalletId,
+  selectActiveWalletAddressOrThrow,
 } from 'store/selectors/wallets'
 
 // eslint-disable-next-line import/no-duplicates
@@ -125,12 +125,7 @@ function validateMnemonic(bip32XPublicKey: ?string) {
 
 function mapStateToProps(state: AppState) {
   const wallets: Wallets = selectWalletsItems(state)
-  const activeWalletId: ?WalletId = selectActiveWalletId(state)
-
-  if (!activeWalletId) {
-    throw new Error('activeWalletId is empty')
-  }
-
+  const activeWalletId: WalletId = selectActiveWalletAddressOrThrow(state)
   const wallet: ?Wallet = getWalletById(wallets, activeWalletId)
 
   if (!wallet) {
