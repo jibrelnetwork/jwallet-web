@@ -8,15 +8,19 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import { WalletInconsistentDataError } from 'errors'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import * as wallets from 'store/modules/wallets'
 
 import {
-  getWallet,
   updateWallet,
-  checkMnemonicType,
+  getWalletById,
+  checkMultiAddressType,
 } from 'utils/wallets'
+
+import {
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
   const { items } = action.payload
@@ -41,10 +45,14 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
   } = action.payload
 
   const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-  const foundWallet: Wallet = getWallet(items, walletId)
+  const foundWallet: ?Wallet = getWalletById(items, walletId)
 
-  if (!checkMnemonicType(foundWallet.type)) {
-    throw new WalletInconsistentDataError({ walletId }, 'Invalid mnemonic type')
+  if (!foundWallet) {
+    throw new WalletNotFoundError({ walletId })
+  }
+
+  if (!checkMultiAddressType(foundWallet.customType)) {
+    throw new WalletInconsistentDataError({ walletId }, 'Invalid wallet type')
   }
 
   const newItems: Wallets = updateWallet(items, walletId, {

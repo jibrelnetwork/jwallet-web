@@ -10,7 +10,6 @@ import { selectPasswordHint } from 'store/selectors/password'
 
 import {
   validateName,
-  checkMnemonicType,
   validateDerivationPath,
 } from 'utils/wallets'
 
@@ -106,7 +105,7 @@ function validateWalletsImportForm(
         formErrors.data = validateWalletDataResult
       }
 
-      if (checkMnemonicType(walletType)) {
+      if (walletType === 'mnemonic') {
         const validateDerivationPathResult: ?string = validateDerivationPath(derivationPath)
 
         if (validateDerivationPathResult) {
