@@ -1,9 +1,9 @@
-// @flow
+// @flow strict
 
-function appendWallet(wallets: Wallets, wallet: Wallet): Wallets {
+export function appendWallet(items: Wallets, wallet: Wallet): Wallets {
   /* eslint-disable-next-line fp/no-mutating-methods */
   return [
-    ...wallets,
+    ...items,
     wallet,
   ].sort((a: Wallet, b: Wallet): number => {
     if (a.orderIndex === b.orderIndex) {
@@ -14,5 +14,3 @@ function appendWallet(wallets: Wallets, wallet: Wallet): Wallets {
   })
   /* eslint-enable-next-line fp/no-mutating-methods */
 }
-
-export default appendWallet

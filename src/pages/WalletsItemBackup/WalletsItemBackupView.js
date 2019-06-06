@@ -7,7 +7,6 @@ import React, { Component } from 'react'
 import { add0x } from 'utils/address'
 import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
-import { checkMnemonicType } from 'utils/wallets'
 import { WalletInconsistentDataError } from 'errors'
 
 import {
@@ -259,7 +258,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
             data={data}
             passphrase={passphrase}
             derivationPath={derivationPath}
-            isMnemonic={checkMnemonicType(customType)}
+            isMnemonic={(customType === 'mnemonic')}
           />
         )
 

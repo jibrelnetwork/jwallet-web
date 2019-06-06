@@ -19,7 +19,6 @@ import { gaSendEvent } from 'utils/analytics'
 import {
   getTypeByInput,
   checkNameExists,
-  checkMnemonicType,
   validateDerivationPath,
 } from 'utils/wallets'
 
@@ -234,7 +233,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {checkMnemonicType(walletType) && (isAdvancedOpened ? (
+        {(walletType === 'mnemonic') && (isAdvancedOpened ? (
           <Fragment>
             <Field
               component={JInputField}
