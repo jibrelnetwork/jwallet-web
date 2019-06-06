@@ -6,6 +6,7 @@ import {
   // eslint-disable-next-line no-unused-vars
   type Channel,
 } from 'redux-saga'
+import { type AddressState } from 'store/modules/address'
 
 declare type Router5Route = {
   +name: string,
@@ -58,4 +59,6 @@ declare type AppState = {
   +password: PasswordState,
   // user
   +user: UserState,
+  // address
+  +address: AddressState,
 }

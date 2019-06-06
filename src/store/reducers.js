@@ -34,6 +34,8 @@ import walletsRenameAddress from 'store/modules/walletsRenameAddress'
 // user
 import user from 'store/modules/user'
 
+import { address } from 'store/modules/address'
+
 import { type AppAction } from 'store/modules'
 import { password } from 'store/modules/password'
 
@@ -66,6 +68,7 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
       digitalAssets,
       walletsAddresses,
       user,
+      address,
     }),
   })
 

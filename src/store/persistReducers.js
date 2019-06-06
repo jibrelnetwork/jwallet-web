@@ -6,6 +6,7 @@ import { type Reducer } from 'redux'
 import { type PersistConfig } from 'redux-persist/lib/types.js.flow'
 
 type PersistableReducerName =
+  'address' |
   'user' |
   'blocks' |
   'ticker' |
