@@ -249,3 +249,26 @@ router.canActivate(
     return done()
   },
 )
+
+router.canActivate(
+  'WalletsItemUpgrade',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    try {
+      if (!walletsPlugin.checkWalletReadOnly(toState.params.walletId)) {
+        throw new Error('Wallet is not read only')
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
