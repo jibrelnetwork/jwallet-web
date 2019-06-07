@@ -1,6 +1,9 @@
-// @flow
+// @flow strict
 
-import getAddress from 'utils/wallets/getAddress'
+import {
+  getAddress,
+  getWalletById,
+} from 'utils/wallets'
 
 import {
   WalletNotFoundError,
@@ -109,7 +112,13 @@ export function selectActiveWalletAddress(state: AppState): ?OwnerAddress {
     return null
   }
 
-  return getAddress(items, activeWalletId)
+  const wallet: ?Wallet = getWalletById(items, activeWalletId)
+
+  if (!wallet) {
+    return null
+  }
+
+  return getAddress(wallet)
 }
 
 export function selectActiveWalletAddressOrThrow(state: AppState): OwnerAddress {

@@ -4,26 +4,23 @@ import { actions } from 'redux-router5'
 
 import {
   put,
-  race,
-  take,
   select,
   takeEvery,
 } from 'redux-saga/effects'
 
+import { selectWalletsItems } from 'store/selectors/wallets'
+import * as wallets from 'store/modules/wallets'
+
 import {
-  getWallet,
   updateWallet,
-  checkMnemonicType,
+  getWalletById,
+  checkMultiAddressType,
 } from 'utils/wallets'
 
 import {
-  selectWalletsItems,
-  // selectWalletsPersist,
-} from 'store/selectors/wallets'
-
-import { WalletInconsistentDataError } from 'errors'
-
-import * as wallets from 'store/modules/wallets'
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
   const { items } = action.payload
@@ -41,53 +38,6 @@ function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>)
   yield put(actions.navigateTo('Wallets'))
 }
 
-export class GetPrivateKeyError extends Error {
-  // eslint-disable-next-line fp/no-rest-parameters
-  constructor(...args: any) {
-    super(...args)
-    this.name = 'GetPrivateKeyError'
-  }
-}
-
-export function* getPrivateKey(walletId: string/* , password: string */): Saga<string> {
-  /*
-  const walletsPersist: ExtractReturn<typeof selectWalletsPersist> =
-    yield select(selectWalletsPersist)
-
-  const wallet: Wallet = getWallet(walletsPersist.items, walletId)
-
-  walletsWorker.privateKeyRequest(walletsPersist, wallet, password)
-  */
-
-  while (true) {
-    const {
-      response,
-      error,
-    } = yield race({
-      response: take(wallets.PRIVATE_KEY_SUCCESS),
-      error: take(wallets.PRIVATE_KEY_ERROR),
-    })
-
-    if (response) {
-      if (response.payload.walletId !== walletId) {
-        continue
-      }
-
-      return response.payload.privateKey
-    } else if (error) {
-      if (error.payload.walletId !== walletId) {
-        continue
-      }
-
-      throw new GetPrivateKeyError(error.payload.message)
-    }
-  }
-}
-
-export function* getPrivateKeyCancel(walletId: string): Saga<void> {
-  yield put(wallets.privateKeyError(walletId, 'Cancelled'))
-}
-
 export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWallet>): Saga<void> {
   const {
     walletId,
@@ -95,10 +45,14 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
   } = action.payload
 
   const items: ExtractReturn<typeof selectWalletsItems> = yield select(selectWalletsItems)
-  const foundWallet: Wallet = getWallet(items, walletId)
+  const foundWallet: ?Wallet = getWalletById(items, walletId)
 
-  if (!checkMnemonicType(foundWallet.type)) {
-    throw new WalletInconsistentDataError({ walletId }, 'Invalid mnemonic type')
+  if (!foundWallet) {
+    throw new WalletNotFoundError({ walletId })
+  }
+
+  if (!checkMultiAddressType(foundWallet.customType)) {
+    throw new WalletInconsistentDataError({ walletId }, 'Invalid wallet type')
   }
 
   const newItems: Wallets = updateWallet(items, walletId, {

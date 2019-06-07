@@ -1,46 +1,39 @@
-// @flow
+// @flow strict
 
 import {
-  getWallet,
   appendWallet,
   removeWallet,
 } from '.'
 
-function updateWallet(
-  wallets: Wallets,
-  walletId: string,
+export function updateWallet(
+  items: Wallets,
+  wallet: Wallet,
   updatedData: WalletUpdatedData,
 ): Wallets {
   const {
     encrypted,
     name,
-    network,
+    xpub,
     derivationPath,
     customType,
-    bip32XPublicKey,
     addressIndex,
     isReadOnly,
     isSimplified,
   }: WalletUpdatedData = updatedData
 
-  const wallet: Wallet = getWallet(wallets, walletId)
-
   const newWallet: Wallet = {
     ...wallet,
     encrypted: encrypted || wallet.encrypted,
     name: name || wallet.name,
-    network: network || wallet.network,
+    xpub: xpub || wallet.xpub,
     customType: customType || wallet.customType,
     derivationPath: derivationPath || wallet.derivationPath,
-    bip32XPublicKey: bip32XPublicKey || wallet.bip32XPublicKey,
     addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
     isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
     isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
   }
 
-  const newWallets: Wallets = removeWallet(wallets, walletId)
+  const newItems: Wallets = removeWallet(items, wallet.id)
 
-  return appendWallet(newWallets, newWallet)
+  return appendWallet(newItems, newWallet)
 }
-
-export default updateWallet

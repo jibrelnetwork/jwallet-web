@@ -26,7 +26,6 @@ export { default as Settings } from './Settings/SettingsIndexViewContainer'
 export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
 export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
-export { default as WalletsItemRename } from './Wallets/routes/Rename/WalletsRenameViewContainer'
 export { default as WalletsItemUpgrade } from './Upgrade/UpgradeViewContainer'
 
 export { HistoryItem } from './HistoryItem/HistoryItem'
@@ -39,8 +38,4 @@ export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
 export { Introduction } from './Introduction/Introduction'
-export { default as WalletsAddresses }
-  from './Wallets/routes/Addresses/WalletsAddressesViewContainer'
-export { default as WalletsRenameAddress }
-  from './Wallets/routes/RenameAddress/WalletsRenameAddressViewContainer'
 

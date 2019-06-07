@@ -1,51 +1,35 @@
-// @flow
+// @flow strict
 
-import config from 'config'
 import { strip0x } from 'utils/address'
 import { encryptData } from 'utils/encryption'
+import { getXPRVFromMnemonic } from 'utils/mnemonic'
 import { WalletInconsistentDataError } from 'errors'
 
-import {
-  getWallet,
-  checkMnemonicType,
-} from 'utils/wallets'
+import { checkReadOnlyType } from '.'
 
-import updateWallet from './updateWallet'
-
-type UpgradeWalletData = {|
-  +items: Wallets,
-  +mnemonicOptions: ?MnemonicOptions,
+export type UpgradeWalletData = {|
+  +wallet: Wallet,
   +data: string,
-  +walletId: WalletId,
-  +encryptionType: string,
+  +passphrase: string,
+  +derivationPath: string,
   +internalKey: Uint8Array,
 |}
 
 function addMnemonic(
-  wallets: Wallets,
-  wallet: Wallet,
+  {
+    xpub,
+    id: walletId,
+  }: Wallet,
   mnemonic: string,
-  mnemonicOptions: MnemonicOptions,
+  passphrase: string,
+  derivationPath: string,
   internalKey: Uint8Array,
-): Wallets {
-  const {
-    id,
-    type,
-    bip32XPublicKey,
-  }: Wallet = wallet
-
-  if (!checkMnemonicType(type) || !bip32XPublicKey) {
-    throw new WalletInconsistentDataError({ walletId: wallet.id }, 'Invalid wallet mnemonic type')
+): WalletUpdatedData {
+  if (!xpub) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet xpub is empty')
   }
 
-  const {
-    network,
-    passphrase,
-    derivationPath,
-  }: MnemonicOptions = mnemonicOptions
-
-  return updateWallet(wallets, id, {
-    network,
+  return {
     derivationPath,
     encrypted: {
       mnemonic: encryptData({
@@ -54,69 +38,78 @@ function addMnemonic(
       }),
       passphrase: encryptData({
         key: internalKey,
-        data: passphrase.trim().toLowerCase(),
+        data: passphrase,
+      }),
+      xprv: encryptData({
+        key: internalKey,
+        data: getXPRVFromMnemonic(mnemonic, passphrase, derivationPath),
       }),
       privateKey: null,
     },
-    customType: config.mnemonicWalletType,
+    customType: 'mnemonic',
     isReadOnly: false,
-  })
+  }
 }
 
 function addPrivateKey(
-  wallets: Wallets,
-  wallet: Wallet,
+  {
+    address,
+    id: walletId,
+  }: Wallet,
   privateKey: string,
   internalKey: Uint8Array,
-): Wallets {
-  const {
-    id,
-    type,
-    address,
-  }: Wallet = wallet
-
-  if (checkMnemonicType(type) || !address) {
-    throw new WalletInconsistentDataError({ walletId: wallet.id }, 'Invalid wallet mnemonic type')
+): WalletUpdatedData {
+  if (!address) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet address is empty')
   }
 
-  return updateWallet(wallets, id, {
+  return {
     encrypted: {
       privateKey: encryptData({
         key: internalKey,
         data: strip0x(privateKey),
       }),
+      xprv: null,
       mnemonic: null,
       passphrase: null,
     },
     customType: 'privateKey',
     isReadOnly: false,
-  })
+  }
 }
 
-function upgradeWallet({
-  items,
-  mnemonicOptions,
+export function upgradeWallet({
+  wallet,
   data,
-  walletId,
+  passphrase,
+  derivationPath,
   internalKey,
-}: UpgradeWalletData): Wallets {
-  const wallet: Wallet = getWallet(items, walletId)
+}: UpgradeWalletData): WalletUpdatedData {
+  const {
+    xpub,
+    customType,
+    id: walletId,
+  }: Wallet = wallet
 
-  if (!wallet.isReadOnly) {
+  if (checkReadOnlyType(customType)) {
     throw new WalletInconsistentDataError({ walletId }, 'Wallet is read only')
   }
 
   const preparedData: string = data.trim().toLowerCase()
 
-  if (checkMnemonicType(wallet.type)) {
-    if (!mnemonicOptions) {
-      throw new WalletInconsistentDataError({ walletId }, 'Invalid mnemonic options')
-    }
-
-    return addMnemonic(items, wallet, preparedData, mnemonicOptions, internalKey)
+  if (xpub) {
+    return addMnemonic(
+      wallet,
+      preparedData,
+      passphrase,
+      derivationPath,
+      internalKey,
+    )
   }
 
-  return addPrivateKey(items, wallet, preparedData, internalKey)
+  return addPrivateKey(
+    wallet,
+    preparedData,
+    internalKey,
+  )
 }
-
-export default upgradeWallet
