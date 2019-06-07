@@ -1,0 +1,49 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.form {
+  @include flex-column-center;
+
+  position: relative;
+  width: 544px;
+  margin: 0 auto;
+}
+
+.finish {
+  @include flex-column-center;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $pale-grey;
+}
+
+.icon {
+  @include sprite-icon-color($main-blue);
+
+  margin-bottom: 32px;
+}
+
+.title {
+  margin-bottom: 8px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: normal;
+  color: $main-black;
+}
+
+.text {
+  margin-bottom: 32px;
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black-60;
+  text-align: center;
+}
