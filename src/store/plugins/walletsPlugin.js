@@ -77,7 +77,7 @@ class WalletsPlugin {
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
 
-  getInternalKey = async (password: string): Promise<?Uint8Array> => {
+  getInternalKey = async (password: ?string): Promise<?Uint8Array> => {
     const state: AppState = this.getState()
 
     const {
@@ -205,12 +205,13 @@ class WalletsPlugin {
   updateWallet = (
     walletId: WalletId,
     updatedData: WalletUpdatedData,
+    isRedirectBlocked: boolean = false,
   ): Wallets => {
     const wallet: Wallet = this.getWallet(walletId)
     const items: Wallets = this.getItems()
     const newItems: Wallets = walletsUtils.updateWallet(items, wallet, updatedData)
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, isRedirectBlocked))
 
     return newItems
   }
@@ -272,27 +273,42 @@ class WalletsPlugin {
 
   upgradeWallet = async (
     walletId: WalletId,
-    password: string,
-    data: string,
-    passphrase: string,
-    derivationPath: string,
-  ): Promise<Wallets> => {
-    const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
+    values: FormFields,
+  ): ?FormFields => {
+    const {
+      data,
+      password,
+      passphrase,
+      derivationPath,
+    }: FormFields = values
 
-    if (!internalKey) {
-      throw new WalletInconsistentDataError('upgradeWallet data error')
+    try {
+      const internalKey: ?Uint8Array = await this.getInternalKey(password)
+
+      if (!internalKey) {
+        throw new WalletInconsistentDataError('upgradeWallet data error')
+      }
+
+      this.updateWallet(
+        walletId,
+        walletsUtils.upgradeWallet({
+          wallet: this.getWallet(walletId),
+          data,
+          passphrase,
+          internalKey,
+          derivationPath,
+        }),
+        true,
+      )
+    } catch (error) {
+      gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
+
+      return {
+        password: t`Invalid password`,
+      }
     }
 
-    return this.updateWallet(
-      walletId,
-      walletsUtils.upgradeWallet({
-        wallet: this.getWallet(walletId),
-        data,
-        passphrase,
-        internalKey,
-        derivationPath,
-      }),
-    )
+    return null
   }
 
   reEncryptWallets = async (

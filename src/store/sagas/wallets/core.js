@@ -22,8 +22,15 @@ import {
   WalletInconsistentDataError,
 } from 'errors'
 
-function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
-  const { items } = action.payload
+function* onSetWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>): Saga<void> {
+  const {
+    items,
+    isRedirectBlocked,
+  } = action.payload
+
+  if (isRedirectBlocked) {
+    return
+  }
 
   if (!items.length) {
     return
@@ -38,7 +45,9 @@ function* setWalletsItems(action: ExtractReturn<typeof wallets.setActiveWallet>)
   yield put(actions.navigateTo('Wallets'))
 }
 
-export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWallet>): Saga<void> {
+export function* onSimplifyWallet(
+  action: ExtractReturn<typeof wallets.simplifyWallet>,
+): Saga<void> {
   const {
     walletId,
     isSimplified,
@@ -64,6 +73,6 @@ export function* simplifyWallet(action: ExtractReturn<typeof wallets.simplifyWal
 }
 
 export function* walletsRootSaga(): Saga<void> {
-  yield takeEvery(wallets.SIMPLIFY_WALLET, simplifyWallet)
-  yield takeEvery(wallets.SET_WALLETS_ITEMS, setWalletsItems)
+  yield takeEvery(wallets.SIMPLIFY_WALLET, onSimplifyWallet)
+  yield takeEvery(wallets.SET_WALLETS_ITEMS, onSetWalletsItems)
 }
