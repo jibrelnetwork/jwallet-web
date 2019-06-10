@@ -26,7 +26,6 @@ import {
 } from 'react-final-form'
 
 import {
-  JIcon,
   Button,
   JTextArea,
   JInputField,
@@ -34,6 +33,7 @@ import {
 
 import {
   TitleHeader,
+  UserActionInfo,
   WalletPasswordForm,
 } from 'components'
 
@@ -77,12 +77,6 @@ crypto wallets use many different synonyms to name it: "Recovery phrase", "Priva
 const DEFAULT_DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
 affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
 mnemonic from a hardwallet. In all other cases just leave it as is.`
-
-const DATA_TEXT: string =
-  t`Add private key to get the full access to Jwallet features and send assets.`
-
-const SUCCESS_TEXT: string = t`Congratulations, you have full access to Jwallet features.
-Start using them now!`
 
 export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   constructor(props: Props) {
@@ -238,22 +232,16 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
     const isMnemonicInputted: boolean = (getTypeByInput(data) === 'mnemonic')
     const { isAdvancedOpened }: StateProps = this.state
 
-    /* eslint-disable react/no-danger */
     return (
       <form
         onSubmit={handleSubmit}
         className={walletsItemUpgradeStyle.form}
       >
-        <JIcon
-          className={walletsItemUpgradeStyle.icon}
-          name='ic_key_48-use-fill'
-        />
-        <h2 className={walletsItemUpgradeStyle.title}>{t`Your Wallet Is in Read-Only Mode`}</h2>
-        <p
-          className={walletsItemUpgradeStyle.text}
-          dangerouslySetInnerHTML={{
-            __html: DATA_TEXT.split('\n').join('<br />'),
-          }}
+        <UserActionInfo
+          title={t`Your Wallet Is in Read-Only Mode`}
+          iconClassName={walletsItemUpgradeStyle.icon}
+          text={t`Add private key to get the full access to Jwallet features and send assets.`}
+          iconName='ic_key_48-use-fill'
         />
         <Field
           component={JTextArea}
@@ -299,7 +287,6 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
         </Button>
       </form>
     )
-    /* eslint-enable react/no-danger */
   }
 
   renderPasswordStep = (formRenderProps: FormRenderProps) => {
@@ -322,19 +309,14 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   renderFinishStep = () => {
     const handleGoHome = this.goToHome
 
-    /* eslint-disable react/no-danger */
     return (
       <div className={walletsItemUpgradeStyle.finish}>
-        <JIcon
-          className={walletsItemUpgradeStyle.icon}
-          name='ic_success_48-use-fill'
-        />
-        <h2 className={walletsItemUpgradeStyle.title}>{t`Features Unlocked`}</h2>
-        <p
-          className={walletsItemUpgradeStyle.text}
-          dangerouslySetInnerHTML={{
-            __html: SUCCESS_TEXT.split('\n').join('<br />'),
-          }}
+        <UserActionInfo
+          title={t`Features Unlocked`}
+          iconClassName={walletsItemUpgradeStyle.icon}
+          text={t`Congratulations, you have full access to Jwallet features.
+          Start using them now!`}
+          iconName='ic_success_48-use-fill'
         />
         <div className={walletsItemUpgradeStyle.buttons}>
           <Button
@@ -346,7 +328,6 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
         </div>
       </div>
     )
-    /* eslint-enable react/no-danger */
   }
 
   renderForm = (formRenderProps: FormRenderProps) => {
