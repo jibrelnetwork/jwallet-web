@@ -164,7 +164,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
     })
   }
 
-  renderWalletsImportDataStep = ({
+  renderDataStep = ({
     handleSubmit,
     form,
     values: {
@@ -231,27 +231,26 @@ export class WalletsImportView extends Component<Props, StateProps> {
     )
   }
 
-  renderWalletsImportForm = (formRenderProps: FormRenderProps) => {
+  renderPasswordStep = ({
+    handleSubmit,
+    values = {},
+    submitting,
+  }: FormRenderProps) => (
+    <WalletPasswordForm
+      handleSubmit={handleSubmit}
+      values={values}
+      hint={this.props.hint}
+      isSubmitting={submitting}
+    />
+  )
+
+  renderForm = (formRenderProps: FormRenderProps) => {
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return this.renderWalletsImportDataStep(formRenderProps)
+        return this.renderDataStep(formRenderProps)
 
-      case STEPS.PASSWORD: {
-        const {
-          handleSubmit,
-          values = {},
-          submitting,
-        }: FormRenderProps = formRenderProps
-
-        return (
-          <WalletPasswordForm
-            handleSubmit={handleSubmit}
-            values={values}
-            hint={this.props.hint}
-            isSubmitting={submitting}
-          />
-        )
-      }
+      case STEPS.PASSWORD:
+        return this.renderPasswordStep(formRenderProps)
 
       default:
         return null
@@ -266,8 +265,8 @@ export class WalletsImportView extends Component<Props, StateProps> {
           title={this.getTitle()}
         />
         <Form
+          render={this.renderForm}
           onSubmit={this.handleSubmit}
-          render={this.renderWalletsImportForm}
           initialValues={WALLETS_IMPORT_INITIAL_VALUES}
         />
       </div>
