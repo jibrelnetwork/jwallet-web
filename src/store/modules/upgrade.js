@@ -1,10 +1,8 @@
-// @flow
+// @flow strict
 
 export type UpgradeRequestPayload = {|
   +items: Wallets,
   +internalKey: ?EncryptedData,
-  +mnemonicOptions: MnemonicOptions,
-  +passwordOptions: ?PasswordOptions,
   +data: string,
   +password: string,
   +walletId: WalletId,

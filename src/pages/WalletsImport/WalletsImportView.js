@@ -14,11 +14,11 @@ import {
 } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
+import { gaSendEvent } from 'utils/analytics'
 
 import {
   getTypeByInput,
   checkNameExists,
-  checkMnemonicType,
   validateDerivationPath,
 } from 'utils/wallets'
 
@@ -103,12 +103,16 @@ export class WalletsImportView extends Component<Props, StateProps> {
       currentStep,
       isAdvancedOpened: false,
     })
+
+    if (currentStep === STEPS.PASSWORD) {
+      gaSendEvent('ImportWallet', 'DataEntered')
+    }
   }
 
   getTitle = (): string => {
     switch (this.state.currentStep) {
       case STEPS.DATA:
-        return t`Import wallet`
+        return t`Import Wallet`
 
       case STEPS.PASSWORD:
         return t`Enter Security Password to Protect Your Wallet`
@@ -229,7 +233,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {checkMnemonicType(walletType) && (isAdvancedOpened ? (
+        {(walletType === 'mnemonic') && (isAdvancedOpened ? (
           <Fragment>
             <Field
               component={JInputField}

@@ -2,6 +2,7 @@
 
 import createRouter5 from 'router5'
 
+import { WalletNotFoundError } from 'errors'
 import { walletsPlugin } from 'store/plugins'
 
 import {
@@ -17,99 +18,131 @@ export const router = createRouter5([], {
 export const routes: Array<{|
   +name: string,
   +path: string,
+  +hasMenu: boolean,
 |}> = [{
   path: '/',
   name: 'Home',
+  hasMenu: true,
 }, {
   path: '/about',
   name: 'About',
+  hasMenu: true,
 }, {
   path: '/assets/add',
   name: 'AssetsItemAdd',
+  hasMenu: true,
 }, {
   path: '/assets',
   name: 'AssetsManage',
+  hasMenu: true,
 }, {
   path: '/assets/:assetId',
   name: 'AssetsItem',
+  hasMenu: true,
 }, {
   path: '/assets/:assetId/edit',
   name: 'AssetsItemEdit',
+  hasMenu: true,
 }, {
   path: '/contacts',
   name: 'Contacts',
+  hasMenu: true,
 }, {
   path: '/contacts/add?:address&:name&:note',
   name: 'ContactsItemAdd',
+  hasMenu: true,
 }, {
   path: '/contacts/:contactId',
   name: 'ContactsItemEdit',
+  hasMenu: true,
 }, {
   path: '/history',
   name: 'History',
+  hasMenu: true,
 }, {
   path: '/history/:itemId',
   name: 'HistoryItem',
+  hasMenu: true,
 }, {
   path: '/history/:itemId/cancel',
   name: 'HistoryItemCancel',
+  hasMenu: true,
 }, {
   path: '/history/:itemId/restart',
   name: 'HistoryItemRestart',
+  hasMenu: true,
 }, {
   path: '/more',
   name: 'MoreActions',
+  hasMenu: true,
 }, {
   path: '/receive',
   name: 'Receive',
+  hasMenu: true,
 }, {
   path: '/send?:asset&:to&:amount',
   name: 'Send',
+  hasMenu: true,
 }, {
   path: '/settings',
   name: 'Settings',
+  hasMenu: true,
 }, {
   path: '/settings/currency',
   name: 'SettingsCurrency',
+  hasMenu: true,
 }, {
   path: '/settings/development',
   name: 'SettingsDevelopment',
+  hasMenu: true,
 }, {
   path: '/settings/language',
   name: 'SettingsLanguage',
+  hasMenu: true,
 }, {
   path: '/settings/security-password',
   name: 'SettingsSecurityPassword',
+  hasMenu: true,
 }, {
   path: '/support',
   name: 'Support',
+  hasMenu: true,
 }, {
   path: '/wallets',
   name: 'Wallets',
+  hasMenu: true,
 }, {
   path: '/wallets/create',
   name: 'WalletsCreate',
+  hasMenu: true,
 }, {
   path: '/wallets/import',
   name: 'WalletsImport',
+  hasMenu: true,
 }, {
   path: '/wallets/:walletId',
   name: 'WalletsItem',
+  hasMenu: true,
 }, {
   path: '/wallets/:walletId/backup',
   name: 'WalletsItemBackup',
-}, {
-  path: '/wallets/:walletId/delete',
-  name: 'WalletsItemDelete',
+  hasMenu: true,
 }, {
   path: '/wallets/:walletId/addresses',
   name: 'WalletsItemAddresses',
+  hasMenu: true,
+}, {
+  path: '/wallets/:walletId/delete',
+  name: 'WalletsItemDelete',
+  hasMenu: false,
 }, {
   path: '/wallets/:walletId/mode',
   name: 'WalletsItemMode',
+  hasMenu: false,
 }, {
   path: '/wallets/:walletId/upgrade',
   name: 'WalletsItemUpgrade',
+  hasMenu: false,
 }]
 
 router.add(routes)
@@ -179,6 +212,31 @@ router.canActivate(
             name: 'WalletsItemUpgrade',
           },
         })
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemDelete',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    const { walletId } = toState.params
+
+    try {
+      if (!walletsPlugin.getWallet(walletId)) {
+        throw new WalletNotFoundError({ walletId })
       }
     } catch (error) {
       return done({
