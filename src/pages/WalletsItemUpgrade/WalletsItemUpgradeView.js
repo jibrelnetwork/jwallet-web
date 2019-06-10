@@ -1,14 +1,15 @@
 // @flow strict
 
 import Promise from 'bluebird'
-
-import React, {
-  Fragment,
-  Component,
-} from 'react'
-
+import React, { Component } from 'react'
 import { t } from 'ttag'
 import { isEmpty } from 'lodash-es'
+
+import {
+  Form,
+  Field,
+  type FormRenderProps,
+} from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { gaSendEvent } from 'utils/analytics'
@@ -20,20 +21,14 @@ import {
 } from 'utils/wallets'
 
 import {
-  Form,
-  Field,
-  type FormRenderProps,
-} from 'react-final-form'
-
-import {
   Button,
   JTextArea,
-  JInputField,
 } from 'components/base'
 
 import {
   TitleHeader,
   UserActionInfo,
+  MnemonicOptions,
   WalletPasswordForm,
 } from 'components'
 
@@ -45,7 +40,6 @@ type WalletsItemUpgradeSteps = { [WalletsItemUpgradeStep]: WalletsItemUpgradeSte
 
 type StateProps = {|
   +currentStep: WalletsItemUpgradeStep,
-  +isAdvancedOpened: boolean,
 |}
 
 export type Props = {|
@@ -74,17 +68,12 @@ phrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Pri
 crypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", 
 "Mnemonic phrase" etc.`
 
-const DEFAULT_DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
-affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
-mnemonic from a hardwallet. In all other cases just leave it as is.`
-
 export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
     this.state = {
       currentStep: STEPS.DATA,
-      isAdvancedOpened: false,
     }
   }
 
@@ -121,10 +110,6 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   goToFinishStep = () => {
     gaSendEvent('UnlockFeatures', 'WalletUpgraded')
     this.setState({ currentStep: STEPS.FINISH })
-  }
-
-  handleOpenAdvanced = () => {
-    this.setState({ isAdvancedOpened: true })
   }
 
   handleBack = () => {
@@ -230,7 +215,6 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
 
     const isXPUB: boolean = (type === 'xpub')
     const isMnemonicInputted: boolean = (getTypeByInput(data) === 'mnemonic')
-    const { isAdvancedOpened }: StateProps = this.state
 
     return (
       <form
@@ -251,32 +235,12 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
           name='data'
           isDisabled={isSubmitting}
         />
-        {isXPUB && isMnemonicInputted && (isAdvancedOpened ? (
-          <Fragment>
-            <Field
-              component={JInputField}
-              label={t`Mnemonic Passphrase (Optional)`}
-              name='passphrase'
-              isDisabled={isSubmitting}
-            />
-            <Field
-              component={JInputField}
-              label={t`Derivation Path (Optional)`}
-              infoMessage={DEFAULT_DERIVATION_PATH_MESSAGE}
-              errorMessage={validateDerivationPath(derivationPath)}
-              name='derivationPath'
-              isDisabled={isSubmitting}
-            />
-          </Fragment>
-        ) : (
-          <Button
-            className={ofssetsStyle.mt16}
-            theme='secondary'
-            onClick={this.handleOpenAdvanced}
-          >
-            {t`Advanced`}
-          </Button>
-        ))}
+        {isXPUB && isMnemonicInputted && (
+          <MnemonicOptions
+            derivationPath={derivationPath}
+            isFormDisabled={!!isSubmitting}
+          />
+        )}
         <Button
           className={ofssetsStyle.mt16}
           type='submit'
