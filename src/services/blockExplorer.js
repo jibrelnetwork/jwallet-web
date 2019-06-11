@@ -161,6 +161,7 @@ function prepareETHTransactions(data: Object[]): Transactions {
       eventType: 0,
       blockNumber: parseInt(blockNumber, 10) || 0,
       isRemoved: false,
+      isCanceled: false,
     }
 
     return {
