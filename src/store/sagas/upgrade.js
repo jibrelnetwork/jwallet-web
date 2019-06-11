@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import {
   put,
@@ -6,9 +6,8 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
-import walletsWorker from 'workers/wallets'
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
-import { selectWallets } from 'store/selectors/wallets'
+// import { selectWallets } from 'store/selectors/wallets'
 
 import * as wallets from 'store/modules/wallets'
 
@@ -25,8 +24,9 @@ function* upgradeSuccess(action: ExtractReturn<typeof upgrade.upgradeSuccess>): 
 }
 
 function* submitMnemonicRequest(
-  action: ExtractReturn<typeof upgrade.submitMnemonicRequest>,
+// action: ExtractReturn<typeof upgrade.submitMnemonicRequest>,
 ): Saga<void> {
+  /*
   const {
     password,
     mnemonic,
@@ -43,11 +43,13 @@ function* submitMnemonicRequest(
     passphrase,
     derivationPath,
   )
+  */
 }
 
 function* submitPrivateKeyRequest(
-  action: ExtractReturn<typeof upgrade.submitPrivateKeyRequest>,
+// action: ExtractReturn<typeof upgrade.submitPrivateKeyRequest>,
 ): Saga<void> {
+  /*
   const {
     password,
     privateKey,
@@ -55,6 +57,7 @@ function* submitPrivateKeyRequest(
 
   const walletsData: ExtractReturn<typeof selectWallets> = yield select(selectWallets)
   walletsWorker.upgradeRequest(walletsData, password, privateKey)
+  */
 }
 
 function* clean(): Saga<void> {

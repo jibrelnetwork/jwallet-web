@@ -1,33 +1,27 @@
 // @flow strict
 
-import getWallet from './getWallet'
-import getAddress from './getAddress'
-import getMnemonic from './getMnemonic'
-import getAddresses from './getAddresses'
-import appendWallet from './appendWallet'
-import updateWallet from './updateWallet'
-import upgradeWallet from './upgradeWallet'
-import getBackupData from './getBackupData'
-import getPrivateKey from './getPrivateKey'
-import checkWalletUniqueness from './checkWalletUniqueness'
-
+export { getAddress } from './getAddress'
+export { getAddresses } from './getAddresses'
+export { appendWallet } from './appendWallet'
 export { removeWallet } from './removeWallet'
+export { updateWallet } from './updateWallet'
 export { validateName } from './validateName'
+export { getPrivateKey } from './getPrivateKey'
+export { getWalletById } from './getWalletById'
+export { upgradeWallet } from './upgradeWallet'
 export { getTypeByInput } from './getTypeByInput'
 export { checkNameExists } from './checkNameExists'
-export { checkMnemonicType } from './checkMnemonicType'
+export { reEncryptWallet } from './reEncryptWallet'
+export { checkReadOnlyType } from './checkReadOnlyType'
+export { findWalletByProperty } from './findWalletByProperty'
+export { checkMultiAddressType } from './checkMultiAddressType'
 export { getMnemonicAddressName } from './getMnemonicAddressName'
 export { validateDerivationPath } from './validateDerivationPath'
 
-export {
-  getWallet,
-  getAddress,
-  getMnemonic,
-  getAddresses,
-  appendWallet,
-  updateWallet,
-  upgradeWallet,
-  getBackupData,
-  getPrivateKey,
-  checkWalletUniqueness,
-}
+export { prepareWallet } from './prepareWallet'
+export { prepareXPRVWallet } from './prepareXPRVWallet'
+export { prepareXPUBWallet } from './prepareXPUBWallet'
+export { prepareAddressWallet } from './prepareAddressWallet'
+export { prepareMnemonicWallet } from './prepareMnemonicWallet'
+export { preparePrivateKeyWallet } from './preparePrivateKeyWallet'
+

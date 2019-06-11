@@ -52,25 +52,18 @@ h4 {
 
 // Components
 @import '../components/QRCode/qrCode';
-@import '../components/HelpText/helpText';
 @import '../components/AssetItemLegacy/assetItem';
-@import '../components/WalletStep/walletStep';
 @import '../components/DoubleInput/doubleInput';
 @import '../components/InputButton/inputButton';
-@import '../components/ModalHeader/modalHeader';
 @import '../components/PopupButton/popupButton';
 @import '../components/AssetBalance/assetBalance';
 @import '../components/SettingsGrid/settingsGrid';
 @import '../components/FavoriteItem/favoriteItem';
-@import '../components/PasswordStep/passwordStep';
 @import '../components/AddressPicker/addressPicker';
 @import '../components/WalletLoading/walletLoading';
-@import '../components/OverlayActions/overlayActions';
 @import '../components/CloseableScreen/closeableScreen';
 @import '../components/RoundIconButton/roundIconButton';
 @import '../components/TransactionItem/transactionItem';
-@import '../components/WalletViewTitle/walletViewTitle';
-@import '../components/ButtonWithConfirm/buttonWithConfirm';
 @import '../components/MnemonicAddresses/mnemonicAddresses';
 @import '../components/TransactionsFilter/transactionsFilter';
 @import '../components/DigitalAssetsManage/digitalAssetsManage';
@@ -78,7 +71,6 @@ h4 {
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
 // Pages
-@import '../pages/Wallets/walletsView';
 @import '../pages/Settings/settingsView';
 @import '../pages/NotFound/notFound';
 @import '../pages/DigitalAssets/digitalAssets';

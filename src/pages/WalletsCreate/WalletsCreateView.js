@@ -108,11 +108,11 @@ export class WalletsCreateView extends Component<Props, StateProps> {
   getTitle = (): string => {
     switch (this.state.currentStep) {
       case STEPS.NAME:
-        return t`Create wallet`
+        return t`Create Wallet`
 
       case STEPS.BACKUP_FORM:
       case STEPS.BACKUP_TICKS:
-        return t`Backup wallet`
+        return t`Back Up Wallet`
 
       case STEPS.PASSWORD:
         return t`Enter Security Password to Protect Your Wallet`
@@ -254,7 +254,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
           type='submit'
           isDisabled={!(loseAccess && compromise)}
         >
-          {t`Next`}
+          {t`Continue`}
         </Button>
       </form>
     </div>
