@@ -16,11 +16,11 @@ const STATUS_VALIDATORS: StatusItem[] = [
   {
     status: 'fail',
     criterion: tx =>
-      tx.isRemoved || get(tx, 'receiptData.status', 'null') === '0',
+      tx.isRemoved || get(tx, 'receiptData.status', null) === 0,
   },
   {
     status: 'success',
-    criterion: tx => get(tx, 'receiptData.status', 'null') === '1',
+    criterion: tx => get(tx, 'receiptData.status', null) === 1,
   },
   {
     status: 'pending',

@@ -1,25 +1,43 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { debounce } from 'lodash-es'
-import { type TransactionItem } from 'store/transactionsIndex'
+import {
+  debounce,
+  noop,
+} from 'lodash-es'
 
 import {
-  TransactionCancelTemplate,
-  TransactionNormalTemplate,
+  TRANSFER_IN_TYPE,
+  TRANSFER_OUT_TYPE,
+  TRANSFER_CANCEL_TYPE,
+  type HistoryItemsTypes,
+  type HistoryItem,
+} from 'store/utils/HistoryItem/types'
+
+import {
+  TransferIn,
+  TransferOut,
+  TransferCancel,
 } from './templates'
 
 import { type ContainerProps } from './HistoryItemDetails'
 
-export type Props = {
+export type Props = {|
+  ...HistoryItem,
   ...ContainerProps,
-  ...TransactionItem,
-  editNote: () => mixed,
+  editNote: Function,
+  asset: DigitalAsset,
   blockExplorer: string,
   fromName: string,
   toName: string,
   statusDescription: string,
   iconName: string,
+|}
+
+const viewTypeMap: { [HistoryItemsTypes]: Function } = {
+  [TRANSFER_IN_TYPE]: TransferIn,
+  [TRANSFER_OUT_TYPE]: TransferOut,
+  [TRANSFER_CANCEL_TYPE]: TransferCancel,
 }
 
 export class HistoryItemDetailsInternal extends PureComponent<Props> {
@@ -33,18 +51,13 @@ export class HistoryItemDetailsInternal extends PureComponent<Props> {
   })
 
   render() {
-    if (!this.props.asset || !this.props.asset.blockchainParams) {
-      return null
-    }
-
     const extendedProps = {
       ...this.props,
       editNote: this.debouncedHandlerOnEditNote,
       key: this.props.id,
     }
+    const Component = viewTypeMap[extendedProps.type] || noop
 
-    return this.props.type !== 'cancel'
-      ? <TransactionNormalTemplate {...extendedProps} />
-      : <TransactionCancelTemplate {...extendedProps} />
+    return <Component {...extendedProps} />
   }
 }

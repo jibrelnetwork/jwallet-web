@@ -6,7 +6,7 @@ import {
   selectCurrentBlock,
   selectProcessingBlock,
 } from 'store/selectors/blocks'
-import { transactionsIndex } from 'store/transactionsIndex'
+import { transactionsIndex } from 'store/utils/HistoryItem/HistoryItem'
 
 import {
   selectCurrentNetworkId,

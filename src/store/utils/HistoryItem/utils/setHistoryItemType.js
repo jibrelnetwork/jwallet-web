@@ -5,7 +5,6 @@ import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
 import {
   TRANSFER_IN_TYPE,
   TRANSFER_OUT_TYPE,
-  TRANSFER_CANCEL_TYPE,
   CONTRACT_CALL_TYPE,
   type HistoryItemsTypes,
 } from 'store/utils/HistoryItem/types'
@@ -26,13 +25,6 @@ export function setHistoryItemType(
 
   if (transaction.from === currentAddress) {
     type = TRANSFER_OUT_TYPE
-  }
-
-  if (
-    transaction.data
-    // && transaction.data.nonce < currentNonce
-  ) {
-    type = TRANSFER_CANCEL_TYPE
   }
 
   if (transaction.contractAddress) {

@@ -7,7 +7,6 @@ import { t } from 'ttag'
 import {
   JIcon,
   JInput,
-  JLink,
 } from 'components/base'
 import { getShortenedAddress } from 'utils/address'
 import {
@@ -17,6 +16,12 @@ import {
 import { formatTransactionAmount } from 'utils/formatters'
 import { getFormattedDateString } from 'utils/time'
 
+import {
+  TRANSFER_IN_TYPE,
+  type TransactionState,
+  type TransferIn as TransferInRecord,
+} from 'store/utils/HistoryItem/types'
+
 import offset from 'styles/offsets.m.scss'
 
 import {
@@ -24,20 +29,18 @@ import {
   FieldPreview,
 } from '../components'
 
-import { type Props } from '../HistoryItemDetailsInternal'
+import { type Props as MasterProps } from '../HistoryItemDetailsInternal'
 
 import style from '../historyItemDetails.m.scss'
 
 const ADDRESS_COPIED = t`Address copied.`
 const TX_COPIED = t`Blockchain transaction copied.`
-const TRANSACTION_DESCRIPTION = {
-  in: {
+const TRANSACTION_DESCRIPTION: {
+  [TransactionState]: { statusDescription: string, iconName: string },
+} = {
+  success: {
     statusDescription: t`Transfer processed.`,
     iconName: 'trx-in-use-fill',
-  },
-  out: {
-    statusDescription: t`Transfer processed.`,
-    iconName: 'trx-out-use-fill',
   },
   fail: {
     statusDescription: t`Transfer declined.`,
@@ -51,15 +54,19 @@ const TRANSACTION_DESCRIPTION = {
     statusDescription: t`Transfer is being processed. This may take some time.`,
     iconName: 'trx-pending-use-fill',
   },
-  cancel: {},
-  success: {},
 }
+
+type Props = {|
+  ...TransferInRecord,
+  ...MasterProps,
+  +type: typeof TRANSFER_IN_TYPE,
+|}
 
 type State = {
   note: string,
 }
 
-export class TransactionNormalTemplate extends PureComponent<Props, State> {
+export class TransferIn extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -77,39 +84,29 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
     const {
       className,
       asset,
-      amount,
       blockExplorer,
-      id,
-      to,
       from,
-      type,
       status,
     } = this.props
-
-    // eslint-disable-next-line max-len
-    const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
 
     const formattedDate = getFormattedDateString(
       new Date(this.props.timestamp),
       'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
     )
-    const extendedStatus = status === 'success'
-      ? type
-      : status
 
     return (
       <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[this.props.status])}>
             <div className={style.statusIcon}>
-              <JIcon name={TRANSACTION_DESCRIPTION[extendedStatus].iconName} />
+              <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
             </div>
             <div className={style.description}>
               <div className={style.status}>
                 {this.props.status}
               </div>
               <div className={style.comment}>
-                {TRANSACTION_DESCRIPTION[extendedStatus].statusDescription}
+                {TRANSACTION_DESCRIPTION[status].statusDescription}
               </div>
               <div className={style.date}>
                 {formattedDate}
@@ -159,31 +156,6 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
             onChange={this.handleEditNote}
           />
         </div>
-        {status === 'success' && type === 'out' && (
-          <JLink
-            theme='button-secondary'
-            href={REPEAT_PAYMENT_URI}
-          >
-            {t`Repeat Payment`}
-          </JLink>
-        )}
-        {status === 'stuck' && (
-          <>
-            <JLink
-              className={offset.mb8}
-              theme='button-secondary'
-              href={`/history/${id}/restart`}
-            >
-              {t`Restart`}
-            </JLink>
-            <JLink
-              theme='button-secondary'
-              href={`/history/${id}/cancel`}
-            >
-              {t`Cancel`}
-            </JLink>
-          </>
-        )}
       </div>
     )
   }

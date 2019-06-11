@@ -13,7 +13,7 @@ import {
   HistoryItemDetails,
 } from 'components'
 
-import { type TransactionItem as TransactionRecord } from 'store/transactionsIndex'
+import { type TransactionItem as TransactionRecord } from 'store/utils/HistoryItem/HistoryItem'
 
 import TransactionsListEmpty from './Empty'
 

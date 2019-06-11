@@ -14,13 +14,23 @@ import { getFormattedDateString } from 'utils/time'
 
 import offset from 'styles/offsets.m.scss'
 
+import {
+  type TransactionState,
+  type TransferCancel as TransferCancelRecord,
+} from 'store/utils/HistoryItem/types'
+
 import { FieldPreview } from '../components'
 
-import { type Props } from '../HistoryItemDetailsInternal'
+import { type Props as MasterProps } from '../HistoryItemDetailsInternal'
 
 import style from '../historyItemDetails.m.scss'
 
-const TRANSACTION_DESCRIPTION = {
+const TRANSACTION_DESCRIPTION: {
+  [TransactionState]: {
+    statusDescription: string,
+    iconName: string,
+  },
+} = {
   success: {
     statusDescription: t`Transfer canceled.`,
     iconName: 'trx-success-use-fill',
@@ -39,11 +49,16 @@ const TRANSACTION_DESCRIPTION = {
   },
 }
 
+type Props = {|
+  ...TransferCancelRecord,
+  ...MasterProps,
+|}
+
 type State = {
   note: string,
 }
 
-export class TransactionCancelTemplate extends PureComponent<Props, State> {
+export class TransferCancel extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }

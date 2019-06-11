@@ -19,12 +19,23 @@ import { type JIconProps } from 'components/base/JIcon/JIcon'
 import offsetsStyle from 'styles/offsets.m.scss'
 
 import {
-  type TransactionItem as TransactionItemRecord,
-  type TransactionDirection,
-  type TransactionStatus,
   transactionsIndex,
   MEMO,
+} from 'store/utils/HistoryItem/HistoryItem'
+
+import {
+  type TransactionItem as TransactionItemRecord,
+  type TransactionStatus,
 } from 'store/transactionsIndex'
+
+import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
+import { selectFavorites } from 'store/selectors/favorites'
+import { selectAddressWalletsNames } from 'store/selectors/wallets'
+import {
+  TRANSFER_IN_TYPE,
+  TRANSFER_OUT_TYPE,
+  type HistoryItem,
+} from 'store/utils/HistoryItem/types'
 
 import transactionItemStyle from './transactionItem.m.scss'
 
@@ -36,20 +47,20 @@ export type ContainerProps = {|
 |}
 
 type Props = {|
-  ...$Exact<ContainerProps>,
+  ...ContainerProps,
   +transaction: TransactionItemRecord,
 |}
 
-const transactionIconMap: { [TransactionStatus | TransactionDirection]: JIconProps } = {
+const transactionIconMap: { [TransactionStatus | '$TransferIn' | '$TransferOut']: JIconProps } = {
   pending: {
     name: 'clock-use-fill',
     color: 'gray',
   },
-  in: {
+  [TRANSFER_IN_TYPE]: {
     name: 'transaction-in-use-fill',
     color: 'blue',
   },
-  out: {
+  [TRANSFER_OUT_TYPE]: {
     name: 'transaction-out-use-fill',
     color: 'blue',
   },
@@ -64,14 +75,14 @@ const transactionIconMap: { [TransactionStatus | TransactionDirection]: JIconPro
 }
 
 function getTransactionIcon(
-  type: TransactionDirection,
+  type: '$TransferIn' | '$TransferOut',
   status: TransactionStatus,
 ): JIconProps {
   if (status === 'success') {
     return transactionIconMap[type]
   }
 
-  return transactionIconMap[status]
+  return transactionIconMap[status] || transactionIconMap.fail
 }
 
 class TransactionItem extends PureComponent<Props, *> {
@@ -151,12 +162,31 @@ class TransactionItem extends PureComponent<Props, *> {
   }
 }
 
+function getItemTitle(
+  state: AppState,
+  tx: HistoryItem,
+) {
+  const favorites = selectFavorites(state)
+  const addressNames = selectAddressWalletsNames(state)
+  const address = tx.type === TRANSFER_IN_TYPE ? tx.from : tx.to
+
+  return favorites[address] || addressNames[address] || tx.hash
+}
+
 function mapStateToProps(state: AppState, { txAddress }: ContainerProps) {
   const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
     ? MEMO.transactionsIndex
     : transactionsIndex(state)
+  const tx = dataMap[txAddress]
+  const asset = selectDigitalAssetOrThrow(state, dataMap[txAddress].asset)
 
-  return { transaction: dataMap[txAddress] }
+  return {
+    transaction: {
+      ...tx,
+      asset,
+      title: getItemTitle(state, tx),
+    },
+  }
 }
 
 const connectedComponent = (

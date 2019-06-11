@@ -7,13 +7,13 @@ export const CONTRACT_CALL_TYPE: '$ContractCall' = '$ContractCall'
 export const EVENT_MINT_TYPE: '$EventMint' = '$EventMint'
 export const EVENT_BURN_TYPE: '$EventBurn' = '$EventBurn'
 
-export type HistoryItemsTypes =
-  '$TransferIn'
+export type HistoryItemsTypes
+  = '$TransferIn'
   | '$TransferOut'
   | '$TransferCancel'
-  | '$ContractCall'
-  | '$EventMint'
-  | '$EventBurn'
+  // | '$ContractCall'
+  // | '$EventMint'
+  // | '$EventBurn'
 
 export type TransactionState
   = 'success'
@@ -66,6 +66,6 @@ export type HistoryItem
   = TransferIn
   | TransferOut
   | TransferCancel
-  | ContractCall
-  | EventMint
-  | EventBurn
+  // | ContractCall
+  // | EventMint
+  // | EventBurn

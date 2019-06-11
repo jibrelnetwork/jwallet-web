@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 
 import { PageNotFoundError } from 'errors'
-import { transactionsIndex } from 'store/transactionsIndex'
+import { transactionsIndex } from 'store/utils/HistoryItem/HistoryItem'
 
 import {
   type Props,

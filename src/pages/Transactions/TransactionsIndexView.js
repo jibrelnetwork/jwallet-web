@@ -3,7 +3,7 @@
 import React from 'react'
 import { t } from 'ttag'
 
-import { type TransactionItem } from 'store/transactionsIndex'
+import { type TransactionItem } from 'store/utils/HistoryItem/HistoryItem'
 
 import {
   Header, SearchFilter, SearchInput,

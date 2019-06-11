@@ -1,14 +1,25 @@
 // @flow strict
 
 import { formatAssetBalance } from 'utils/formatters'
-import { type TransactionItem } from 'store/transactionsIndex'
+import {
+  type TransactionState,
+  TRANSFER_IN_TYPE,
+  TRANSFER_OUT_TYPE,
+} from 'store/utils/HistoryItem/types'
+
+type TransferInternal = {
+  +asset: DigitalAsset,
+  +amount: string,
+  +type: typeof TRANSFER_IN_TYPE | typeof TRANSFER_OUT_TYPE,
+  +status: TransactionState,
+}
 
 export function formatTransactionAmount({
   asset,
   amount,
   type,
   status,
-}: TransactionItem): string {
+}: TransferInternal): string {
   const formatted = asset
     ? formatAssetBalance(asset.blockchainParams.address, amount, asset.blockchainParams.decimals)
     : amount
@@ -18,6 +29,6 @@ export function formatTransactionAmount({
   const formattedAmount = `${formatted}${symbol}`
 
   return status === 'success' || status === 'pending'
-    ? `${(type === 'in' ? '+' : '\u2212')}${formattedAmount}`
+    ? `${(type === TRANSFER_IN_TYPE ? '+' : '\u2212')}${formattedAmount}`
     : formattedAmount
 }
