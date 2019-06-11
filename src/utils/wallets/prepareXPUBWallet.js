@@ -17,6 +17,7 @@ export function prepareXPUBWallet({
     isReadOnly: true,
     type: 'mnemonic',
     customType: 'xpub',
+    derivationIndex: 0,
     isSimplified: true,
     encrypted: {
       xprv: null,

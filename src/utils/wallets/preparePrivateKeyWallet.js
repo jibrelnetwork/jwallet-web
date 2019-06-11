@@ -46,5 +46,6 @@ export function preparePrivateKeyWallet(
     isSimplified: null,
     addressIndex: null,
     derivationPath: null,
+    derivationIndex: null,
   }
 }

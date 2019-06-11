@@ -31,5 +31,6 @@ export function prepareAddressWallet({
     isSimplified: null,
     addressIndex: null,
     derivationPath: null,
+    derivationIndex: null,
   }
 }

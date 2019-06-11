@@ -33,9 +33,10 @@ export function prepareMnemonicWallet(
     derivationPath,
     createdBlockNumber,
     addressIndex: 0,
-    isReadOnly: false,
-    isSimplified: true,
     type: 'mnemonic',
+    isReadOnly: false,
+    derivationIndex: 0,
+    isSimplified: true,
     customType: 'mnemonic',
     encrypted: {
       privateKey: null,
