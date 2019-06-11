@@ -1,0 +1,30 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  width: 100%;
+}
+
+.icon {
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-30);
+}
+
+.add {
+  position: absolute;
+  top: 45px;
+  right: 202px;
+  height: 42px;
+
+  &:hover,
+  &:active {
+    .icon {
+      @include sprite-icon-color($main-black-60);
+    }
+  }
+}
+
+.label {
+  margin-left: 5px;
+}
