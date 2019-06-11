@@ -1,0 +1,17 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-30);
+
+  margin-left: auto;
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    @include sprite-icon-color($main-blue);
+  }
+}
