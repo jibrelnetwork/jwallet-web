@@ -372,6 +372,21 @@ class WalletsPlugin {
 
     return newItems
   }
+
+  deriveOneMoreAddress = (walletId: WalletId): Wallets => {
+    const { derivationIndex }: Wallet = this.getWallet(walletId)
+
+    if (derivationIndex === null) {
+      throw new WalletInconsistentDataError('derivationIndex doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        derivationIndex: (derivationIndex + 1),
+      },
+      true,
+    )
+  }
 }
 
 export const walletsPlugin = new WalletsPlugin()
