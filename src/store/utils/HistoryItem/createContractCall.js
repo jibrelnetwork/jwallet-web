@@ -10,14 +10,14 @@ import { getTransactionFee } from './utils/getTransactionFee'
 import { getTransactionTimestamp } from './utils/getTransactionTimestamp'
 
 import {
-  TRANSFER_CANCEL_TYPE,
-  type TransferCancel,
+  CONTRACT_CALL_TYPE,
+  type ContractCall,
 } from './types'
 
-export function createTransferCancel(
+export function createContractCall(
   state: AppState,
   transaction: TransactionWithPrimaryKeys,
-): TransferCancel {
+): ContractCall {
   const {
     id,
     assetAddress: asset,
@@ -28,10 +28,11 @@ export function createTransferCancel(
   const from: Address = get(transaction, 'from', '')
   const to: Address = get(transaction, 'to', '')
   const timestamp = getTransactionTimestamp(transaction)
+  const contractAddress = get(transaction, 'contractAddress', '')
   const { hash } = transaction
 
   return {
-    type: TRANSFER_CANCEL_TYPE,
+    type: CONTRACT_CALL_TYPE,
     id,
     hash,
     asset,
@@ -41,5 +42,6 @@ export function createTransferCancel(
     fee,
     timestamp,
     note,
+    contractAddress,
   }
 }

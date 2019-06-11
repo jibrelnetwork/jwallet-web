@@ -27,11 +27,11 @@ import offset from 'styles/offsets.m.scss'
 import {
   AssetItemPreview,
   FieldPreview,
-} from '../components'
+} from 'components/HistoryItemDetails/components/index'
 
-import { type Props as MasterProps } from '../HistoryItemDetailsInternal'
+import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 
-import style from '../historyItemDetails.m.scss'
+import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
 
 const ADDRESS_COPIED = t`Address copied.`
 const TX_COPIED = t`Blockchain transaction copied.`

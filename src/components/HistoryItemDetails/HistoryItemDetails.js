@@ -17,7 +17,10 @@ import {
 } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 
-import { type HistoryItem } from 'store/utils/HistoryItem/types'
+import {
+  CONTRACT_CALL_TYPE,
+  type HistoryItem,
+} from 'store/utils/HistoryItem/types'
 
 export type ContainerProps = {|
   txHash: TransactionId,
@@ -37,7 +40,9 @@ function getPrimaryName(
 
   return favorites[address]
     || addressNames[address]
-    || getShortenedAddress(address)
+    || address
+    ? getShortenedAddress(address)
+    : ''
 }
 
 function mapStateToProps(
@@ -51,6 +56,10 @@ function mapStateToProps(
   const transactionRecord: HistoryItem = MEMO.transactionsIndex[txHash]
   const asset = selectDigitalAssetOrThrow(state, transactionRecord.asset)
 
+  const to = transactionRecord.type === CONTRACT_CALL_TYPE
+    ? transactionRecord.contractAddress
+    : transactionRecord.to
+
   if (!transactionRecord) {
     throw new PageNotFoundError()
   }
@@ -60,7 +69,7 @@ function mapStateToProps(
     className,
     asset,
     fromName: getPrimaryName(state, transactionRecord.from),
-    toName: getPrimaryName(state, transactionRecord.to),
+    toName: getPrimaryName(state, to),
     blockExplorer: blockExplorerUISubdomain,
   }
 }

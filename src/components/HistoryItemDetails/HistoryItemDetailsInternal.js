@@ -10,15 +10,17 @@ import {
   TRANSFER_IN_TYPE,
   TRANSFER_OUT_TYPE,
   TRANSFER_CANCEL_TYPE,
+  CONTRACT_CALL_TYPE,
   type HistoryItemsTypes,
   type HistoryItem,
 } from 'store/utils/HistoryItem/types'
 
 import {
+  ContractCall,
   TransferIn,
   TransferOut,
   TransferCancel,
-} from './templates'
+} from './components/Items'
 
 import { type ContainerProps } from './HistoryItemDetails'
 
@@ -38,6 +40,7 @@ const viewTypeMap: { [HistoryItemsTypes]: Function } = {
   [TRANSFER_IN_TYPE]: TransferIn,
   [TRANSFER_OUT_TYPE]: TransferOut,
   [TRANSFER_CANCEL_TYPE]: TransferCancel,
+  [CONTRACT_CALL_TYPE]: ContractCall,
 }
 
 export class HistoryItemDetailsInternal extends PureComponent<Props> {

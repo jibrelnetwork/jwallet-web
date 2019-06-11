@@ -7,58 +7,66 @@ import { t } from 'ttag'
 import {
   JIcon,
   JInput,
-  JLink,
 } from 'components/base'
 import { getShortenedAddress } from 'utils/address'
+import {
+  getTxLink,
+  getAddressLink,
+} from 'utils/transactions'
+import { formatTransactionAmount } from 'utils/formatters'
 import { getFormattedDateString } from 'utils/time'
+
+import {
+  TRANSFER_IN_TYPE,
+  type TransactionState,
+  type TransferIn as TransferInRecord,
+} from 'store/utils/HistoryItem/types'
 
 import offset from 'styles/offsets.m.scss'
 
 import {
-  type TransactionState,
-  type TransferCancel as TransferCancelRecord,
-} from 'store/utils/HistoryItem/types'
+  AssetItemPreview,
+  FieldPreview,
+} from 'components/HistoryItemDetails/components/index'
 
-import { FieldPreview } from '../components'
+import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 
-import { type Props as MasterProps } from '../HistoryItemDetailsInternal'
+import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
 
-import style from '../historyItemDetails.m.scss'
-
+const ADDRESS_COPIED = t`Address copied.`
+const TX_COPIED = t`Blockchain transaction copied.`
 const TRANSACTION_DESCRIPTION: {
-  [TransactionState]: {
-    statusDescription: string,
-    iconName: string,
-  },
+  [TransactionState]: { statusDescription: string, iconName: string },
 } = {
   success: {
-    statusDescription: t`Transfer canceled.`,
-    iconName: 'trx-success-use-fill',
+    statusDescription: t`Transfer processed.`,
+    iconName: 'trx-in-use-fill',
   },
   fail: {
-    statusDescription: t`Transfer not canceled.`,
+    statusDescription: t`Transfer declined.`,
     iconName: 'trx-error-declined-use-fill',
   },
   stuck: {
-    statusDescription: t`Cancel transfer stuck.`,
+    statusDescription: t`Transfer stuck.`,
     iconName: 'trx-error-stuck-use-fill',
   },
   pending: {
-    statusDescription: t`Cancel transfer. This may take some time.`,
+    statusDescription: t`Transfer is being processed. This may take some time.`,
     iconName: 'trx-pending-use-fill',
   },
 }
 
 type Props = {|
-  ...TransferCancelRecord,
+  ...TransferInRecord,
   ...MasterProps,
+  +type: typeof TRANSFER_IN_TYPE,
 |}
 
 type State = {
   note: string,
 }
 
-export class TransferCancel extends PureComponent<Props, State> {
+export class TransferIn extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -75,29 +83,27 @@ export class TransferCancel extends PureComponent<Props, State> {
 
     const {
       className,
-      hash,
-      fee,
-      fromName,
-      id,
-      timestamp,
+      asset,
+      blockExplorer,
+      from,
       status,
     } = this.props
 
     const formattedDate = getFormattedDateString(
-      new Date(timestamp),
+      new Date(this.props.timestamp),
       'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
     )
 
     return (
       <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
-          <div className={classNames(style.header, style[status])}>
+          <div className={classNames(style.header, style[this.props.status])}>
             <div className={style.statusIcon}>
               <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
             </div>
             <div className={style.description}>
               <div className={style.status}>
-                {status}
+                {this.props.status}
               </div>
               <div className={style.comment}>
                 {TRANSACTION_DESCRIPTION[status].statusDescription}
@@ -107,17 +113,36 @@ export class TransferCancel extends PureComponent<Props, State> {
               </div>
             </div>
           </div>
+          <AssetItemPreview {...asset} />
+          <FieldPreview
+            label={t`Amount`}
+            body={formatTransactionAmount(this.props)}
+          />
           <FieldPreview
             label={t`Sender`}
-            body={fromName}
+            body={this.props.fromName}
+            link={getAddressLink(from, blockExplorer)}
+            contact={from}
+            copy={from}
+            copyMessage={ADDRESS_COPIED}
+          />
+          <FieldPreview
+            label={t`Recipient`}
+            body={this.props.toName}
+            link={getAddressLink(this.props.to, this.props.blockExplorer)}
+            copy={this.props.to}
+            copyMessage={ADDRESS_COPIED}
           />
           <FieldPreview
             label={t`Blockchain transaction`}
-            body={getShortenedAddress(hash)}
+            body={getShortenedAddress(this.props.hash)}
+            link={getTxLink(this.props.hash, this.props.blockExplorer)}
+            copy={this.props.hash}
+            copyMessage={TX_COPIED}
           />
           <FieldPreview
             label={t`Estimated blockchain fee`}
-            body={`${fee} ETH`}
+            body={`${this.props.fee} ETH`}
           />
         </div>
         <div
@@ -131,14 +156,6 @@ export class TransferCancel extends PureComponent<Props, State> {
             onChange={this.handleEditNote}
           />
         </div>
-        {(status === 'stuck' || status === 'fail') && (
-          <JLink
-            theme='button-secondary'
-            href={`/history/${id}/cancel`}
-          >
-            {t`Cancel`}
-          </JLink>
-        )}
       </div>
     )
   }

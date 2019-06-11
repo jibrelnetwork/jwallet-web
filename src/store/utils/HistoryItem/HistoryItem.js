@@ -7,11 +7,14 @@ import { setHistoryItemType } from 'store/utils/HistoryItem/utils/setHistoryItem
 
 import { createTransferIn } from './createTransferIn'
 import { createTransferOut } from './createTransferOut'
+import { createTransferCancel } from './createTransferCancel'
+import { createContractCall } from './createContractCall'
 
 import {
   TRANSFER_IN_TYPE,
   TRANSFER_OUT_TYPE,
   TRANSFER_CANCEL_TYPE,
+  CONTRACT_CALL_TYPE,
   type HistoryItem,
   type HistoryItemsTypes,
 } from './types'
@@ -23,7 +26,8 @@ type HistoryItemHandlerMap = {
 const ITEM_HANDLER_MAP: HistoryItemHandlerMap = {
   [TRANSFER_IN_TYPE]: createTransferIn,
   [TRANSFER_OUT_TYPE]: createTransferOut,
-  [TRANSFER_CANCEL_TYPE]: createTransferOut,
+  [TRANSFER_CANCEL_TYPE]: createTransferCancel,
+  [CONTRACT_CALL_TYPE]: createContractCall,
 }
 
 function prepareHistoryItem(

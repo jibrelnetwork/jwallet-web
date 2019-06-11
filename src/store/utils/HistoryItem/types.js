@@ -11,7 +11,7 @@ export type HistoryItemsTypes
   = '$TransferIn'
   | '$TransferOut'
   | '$TransferCancel'
-  // | '$ContractCall'
+  | '$ContractCall'
   // | '$EventMint'
   // | '$EventBurn'
 
@@ -51,7 +51,9 @@ export type TransferCancel = {|
 |}
 
 export type ContractCall = {|
+  ...TransactionRecord,
   +type: typeof CONTRACT_CALL_TYPE,
+  contractAddress: OwnerAddress,
 |}
 
 export type EventMint = {|
@@ -66,6 +68,6 @@ export type HistoryItem
   = TransferIn
   | TransferOut
   | TransferCancel
-  // | ContractCall
+  | ContractCall
   // | EventMint
   // | EventBurn

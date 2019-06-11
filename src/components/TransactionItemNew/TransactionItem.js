@@ -34,7 +34,10 @@ import { selectAddressWalletsNames } from 'store/selectors/wallets'
 import {
   TRANSFER_IN_TYPE,
   TRANSFER_OUT_TYPE,
+  TRANSFER_CANCEL_TYPE,
+  CONTRACT_CALL_TYPE,
   type HistoryItem,
+  type HistoryItemsTypes,
 } from 'store/utils/HistoryItem/types'
 
 import transactionItemStyle from './transactionItem.m.scss'
@@ -51,31 +54,39 @@ type Props = {|
   +transaction: TransactionItemRecord,
 |}
 
-const transactionIconMap: { [TransactionStatus | '$TransferIn' | '$TransferOut']: JIconProps } = {
+const transactionIconMap: { [TransactionStatus | HistoryItemsTypes]: JIconProps } = {
   pending: {
-    name: 'clock-use-fill',
+    name: 'trx-pending-use-fill',
     color: 'gray',
   },
   [TRANSFER_IN_TYPE]: {
-    name: 'transaction-in-use-fill',
+    name: 'trx-in-use-fill',
     color: 'blue',
   },
   [TRANSFER_OUT_TYPE]: {
-    name: 'transaction-out-use-fill',
+    name: 'trx-out-use-fill',
+    color: 'blue',
+  },
+  [TRANSFER_CANCEL_TYPE]: {
+    name: 'trx-success-use-fill',
+    color: 'blue',
+  },
+  [CONTRACT_CALL_TYPE]: {
+    name: 'trx-success-use-fill',
     color: 'blue',
   },
   fail: {
-    name: 'circle-cross-use-fill',
+    name: 'trx-error-declined-use-fill',
     color: 'red',
   },
   stuck: {
-    name: 'circle-alert-use-fill',
+    name: 'trx-error-stuck-use-fill',
     color: 'red',
   },
 }
 
 function getTransactionIcon(
-  type: '$TransferIn' | '$TransferOut',
+  type: HistoryItemsTypes,
   status: TransactionStatus,
 ): JIconProps {
   if (status === 'success') {

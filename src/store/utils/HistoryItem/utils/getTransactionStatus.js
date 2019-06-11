@@ -30,7 +30,7 @@ const STATUS_VALIDATORS: StatusItem[] = [
     status: 'stuck',
     criterion: (tx) => {
       const timestampDiff = (
-        +new Date() - (tx.blockData ? tx.blockData.timestamp : +new Date())
+        +new Date() - (tx.blockData ? (tx.blockData.timestamp * 1000) : +new Date())
       )
       const isPending = tx.blockHash === null
 
