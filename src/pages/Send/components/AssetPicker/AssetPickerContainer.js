@@ -42,8 +42,6 @@ function mapStateToProps(state: AppState) {
     assetsBalances,
   )
 
-  console.log('assetsWithBalance', assetsWithBalance)
-
   return {
     fiatCurrency: 'USD',
     digitalAssets: assetsWithBalance,
