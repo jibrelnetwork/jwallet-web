@@ -12,6 +12,7 @@
 
   position: relative;
   width: 544px;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -28,22 +29,4 @@
 
 .icon {
   @include sprite-icon-color($main-blue);
-
-  margin-bottom: 32px;
-}
-
-.title {
-  margin-bottom: 8px;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: normal;
-  color: $main-black;
-}
-
-.text {
-  margin-bottom: 32px;
-  font-size: 14px;
-  line-height: 22px;
-  color: $main-black-60;
-  text-align: center;
 }
