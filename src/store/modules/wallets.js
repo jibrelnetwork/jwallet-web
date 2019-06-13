@@ -5,11 +5,12 @@ export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
 
 export const SIMPLIFY_WALLET = '@@wallets/SIMPLIFY_WALLET'
 
-export function setWalletsItems(items: Wallets) {
+export function setWalletsItems(items: Wallets, isRedirectBlocked: boolean = false) {
   return {
     type: SET_WALLETS_ITEMS,
     payload: {
       items,
+      isRedirectBlocked,
     },
   }
 }
