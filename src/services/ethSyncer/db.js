@@ -60,7 +60,7 @@ import {
 export function addListToDB(tx: IDBPTransactionExtends) {
   return async (list: any[]): Promise<boolean> => {
     try {
-      list.forEach((item) => { tx.store.add(item) })
+      list.forEach((item) => { tx.store.put(item) })
 
       await tx.done
     } catch (error) {
@@ -79,8 +79,12 @@ export async function init(address: string, version: number = 1) {
         db.createObjectStore('History', { keyPath: 'transactionID' })
       addressObjectStore.createIndex('blockNumber', 'blockNumber')
     },
-    blocked() {},
-    blocking() {},
+    blocked() {
+      console.log('DB IS BLOCKED')
+    },
+    blocking() {
+      console.log('DB IS BLOCKING')
+    },
   })
 }
 
