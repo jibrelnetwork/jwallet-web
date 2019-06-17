@@ -3,7 +3,7 @@
 import {
   openDB,
   type IDBPTransactionExtends,
-} from 'idb/build/esm/index'
+} from 'idb'
 
 // export type BlockResponse = {
 //   parentHash: string,

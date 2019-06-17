@@ -1,145 +1,232 @@
 // @flow strict
 
+import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import {
   toPairs,
+  get,
+  flatten,
+  noop,
 } from 'lodash-es'
 
-import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
+import {
+  getAssetsMainnet,
+} from 'data/assets'
 
-import web3 from 'services/web3'
+import CONFIG from 'config'
+
+import WEB3 from 'services/web3'
+import { checkETH } from 'utils/digitalAssets'
 
 import blockExplorer from 'services/blockExplorer'
 import {
   init,
   addListToDB,
-} from 'services/sync/transactions/db'
+} from './db'
 
 import {
   initRemote,
   type SyncerConfig,
-} from 'services/sync/transactions/utils/initRemote'
+} from './utils/initRemote'
+
+type SyncerStartOptions = {
+  currentBlock: number,
+  onUpdate: Function,
+}
+
+// eslint-disable-next-line more/no-numeric-endings-for-variables
+const NAME = 'Syncer'
 
 class Syncer {
-  network: Network
+  onUpdate: Function
   withNetwork: Function
+  network: Network
+  currentBlock: number
   lastSyncedBlock: number
   address: string
+  addressAssets: string[]
   isInit: boolean
+  DB: Object // TODO: Actually, it's enhanced IndexedDB object via idb module
+  assetsMap: { [Address]: DigitalAsset }
 
   isInit = false
   // eslint-disable-next-line fp/no-rest-parameters
-  withNetwork = Function
+  onUpdate = noop
+  withNetwork = () => () => noop
   lastSyncedBlock = 0 // get from wallet
   address = null
 
-  init = (config: SyncerConfig) => {
+  init = async (config: SyncerConfig) => {
     this.isInit = true
     this.network = config.network
     this.withNetwork = initRemote(config)
+
+    this.assetsMap = (await getAssetsMainnet()).reduce((reduceResult, asset) => {
+      const address = get(asset, 'blockchainParams.address', null)
+
+      if (asset.blockchainParams.address) {
+        reduceResult[address] = asset
+      }
+
+      return reduceResult
+    }, {})
   }
 
   start = async (
     address: string,
     assets: string[],
+    options: SyncerStartOptions = {
+      currentBlock: -1,
+      onUpdate: noop,
+    },
   ): Promise<boolean> => {
     if (this.isInit == null || this.withNetwork == null) {
-      throw new Error(`Syncer was't initiated.
+      throw new Error(`${NAME} was't initiated.
       Please, call init method with config before start syncing`)
     }
 
-    console.log(address, assets)
-
     this.address = address
-    this.assets = assets
+    this.addressAssets = assets
+    this.onUpdate = options.onUpdate
     this.DB = await init(address)
+    this.currentBlock = await this.updateCurrentBlock(options.currentBlock)
+    this.lastSyncedBlock = this.currentBlock
 
-    const latestBlock = await this.sync()
+    return this.autoSync()
+  }
 
-    if (latestBlock > this.lastSyncedBlock) {
-      this.lastSyncedBlock = latestBlock
+  autoSync = async (): Promise<boolean> => {
+    if (this.address == null) {
+      throw new Error(`Please start ${NAME} with address.`)
     }
+
+    const infinitySyncer = () => setTimeout(async () => {
+      try {
+        const currentBlock = await this.updateCurrentBlock(-1)
+        const transfersETH = await this.fetchETH(currentBlock)
+        const transfersContract =
+          await this.addressAssets.reduce(async (acc, assetAddress) => {
+            const transfers = await this.fetchDataFromContract(assetAddress, currentBlock)
+
+            return [...(await acc), transfers]
+          }, [])
+
+        await this.addData(transfersETH)
+        await this.addData(flatten(transfersContract))
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.onUpdate()
+        infinitySyncer()
+      }
+    }, CONFIG.syncTransactionsTimeout)
+    infinitySyncer()
 
     return true
   }
 
-  sync = async () => {
-    if (this.address == null) {
-      throw new Error('Please start Syncer with address.')
-    }
+  fetchETH = async (currentBlockNumber: ?number = null): Promise<any> => {
+    const transferETH = await blockExplorer.getETHTransactions(
+      this.network.id,
+      this.address,
+      this.lastSyncedBlock,
+      (currentBlockNumber || this.currentBlock),
+    )
 
-    const contractAddress = this.assets[0]
+    return this.normalizeBlockchainTransactions(transferETH)
+  }
+
+  fetchDataFromContract = async (
+    contractAddress: ?string = null,
+    currentBlockNumber: ?number = null,
+  ) => {
     const { address } = this
 
-    // Example using with simple method
-    const latestBlock = await this.withNetwork(jibrelContractsApi.eth.getBlockNumber)()
+    /* eslint-disable fp/no-mutating-methods, fp/no-mutation */
+    const historyItems = []
 
-    /* eslint-disable fp/no-let, fp/no-mutating-methods, fp/no-mutation */
-    let historyItems = []
+    if (contractAddress && !checkETH(contractAddress)) {
+      if (
+        get(
+          this.assetsMap[contractAddress],
+          'blockchainParams.symbol',
+          null,
+        ) === 'JNT'
+      ) {
+        const mintEvents =
+          await this.withNetwork(WEB3.getMintEvents)(
+            contractAddress,
+            address,
+            this.lastSyncedBlock,
+            (currentBlockNumber || this.currentBlock),
+          )
+        const burnEvents =
+          await this.withNetwork(WEB3.getBurnEvents)(
+            contractAddress,
+            address,
+            this.lastSyncedBlock,
+            (currentBlockNumber || this.currentBlock),
+          )
 
-    const transferETH =
-      await blockExplorer.getETHTransactions(
-        this.network.id,
-        address,
-        this.lastSyncedBlock,
-        latestBlock,
-      )
-
-    historyItems.push(...toPairs(transferETH))
-
-    // Example using with extended props of method
-    if (contractAddress) {
-      const mintEvents =
-        await this.withNetwork(web3.getMintEvents)(
-          contractAddress,
-          address,
-          this.lastSyncedBlock,
-          latestBlock,
+        historyItems.push(
+          ...toPairs(burnEvents),
+          ...toPairs(mintEvents),
         )
-      const burnEvents =
-        await this.withNetwork(web3.getBurnEvents)(
-          contractAddress,
-          address,
-          this.lastSyncedBlock,
-          latestBlock,
-        )
+      }
+
       const transferEventsFrom =
-        await this.withNetwork(web3.getTransferEventsFrom)(
+        await this.withNetwork(WEB3.getTransferEventsFrom)(
           contractAddress,
           address,
           this.lastSyncedBlock,
-          latestBlock,
+          (currentBlockNumber || this.currentBlock),
         )
       const transferEventsTo =
-        await this.withNetwork(web3.getTransferEventsTo)(
+        await this.withNetwork(WEB3.getTransferEventsTo)(
           contractAddress,
           address,
           this.lastSyncedBlock,
-          latestBlock,
+          (currentBlockNumber || this.currentBlock),
         )
 
       historyItems.push(
-        ...toPairs(burnEvents),
-        ...toPairs(mintEvents),
         ...toPairs(transferEventsFrom),
         ...toPairs(transferEventsTo),
       )
     }
 
-    historyItems = historyItems.reduce((reduceResult, transfer) => {
-      const item = {
-        ...transfer[1],
-        transactionID: transfer[0],
-      }
+    this.lastSyncedBlock = this.currentBlock
 
-      reduceResult.push(item)
+    return historyItems.reduce((acc, transfer) => [...acc, {
+      ...transfer[1],
+      transactionID: transfer[0],
+    }], [])
+    /* eslint-enable fp/no-mutating-methods, fp/no-mutation */
+  }
 
-      return reduceResult
-    }, [])
-    // eslint-enable no-let, fp/no-mutating-methods
+  stop = (): boolean => true
+  config = (): boolean => true
 
-    console.log(historyItems)
-    /* eslint-enable fp/no-let, fp/no-mutating-methods, fp/no-mutation */
+  normalizeBlockchainTransactions = (transactions: Object[]): Object[] =>
+    toPairs(transactions).reduce((acc, transfer) => [...acc, {
+      ...transfer[1],
+      transactionID: transfer[0],
+      businessType: '',
+    }], [])
 
+  updateCurrentBlock = async (currentBlock: number = -1) => {
+    try {
+      this.currentBlock = currentBlock === -1
+        ? await this.withNetwork(jibrelContractsApi.eth.getBlockNumber)()
+        : currentBlock
+    } catch (error) {
+      throw new Error(`${NAME} can't set current block for ${String(this.address)}.
+      Error: ${error}`)
+    }
+
+    return this.currentBlock
+  }
+
+  addData = async (historyItems: Transaction[] = []) => {
     if (historyItems.length > 0) {
       try {
         const dbTransaction = await this.DB.transaction('History', 'readwrite')
@@ -148,17 +235,19 @@ class Syncer {
         console.log(e)
       }
     }
-
-    // Example using with our web3 service
-    // const assetBalance = await this.withNetwork(web3.getAssetBalance)(address, contractAddress)
-    // console.log(assetBalance)
-    console.log(latestBlock)
-
-    return latestBlock
   }
 
-  stop = (): boolean => true
-  config = (): boolean => true
+  updateAssetsMap = (assets: DigitalAsset[]) => {
+    assets.reduce((reduceResult, asset) => {
+      const address = get(asset, 'blockchainParams.address', null)
+
+      if (asset.blockchainParams.address) {
+        reduceResult[address] = asset
+      }
+
+      return reduceResult
+    }, this.assetsMap)
+  }
 }
 
 export default new Syncer()
