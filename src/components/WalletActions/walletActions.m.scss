@@ -1,0 +1,72 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  padding: 0 16px;
+  cursor: pointer;
+  margin-left: auto;
+  position: relative;
+}
+
+.overlay {
+  top: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+  display: none;
+  cursor: pointer;
+  position: fixed;
+  z-index: $z-wallet-card-actions-overlay;
+}
+
+.actions {
+  @include property-transition(opacity, visibility);
+
+  z-index: 3;
+  border-radius: 6px;
+  background-color: $white;
+  padding: 8px;
+  width: 240px;
+  font-size: 14px;
+  font-family: $font;
+  font-weight: normal;
+  top: -15px;
+  right: 8px;
+  position: absolute;
+  box-shadow: $normal-shadow;
+
+  &.-hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.action {
+  @include property-transition(background-color);
+
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
+  cursor: pointer;
+  color: $main-black;
+
+  &.-button {
+    margin: 0;
+    border-width: 0;
+  }
+
+  &:hover {
+    background-color: $main-black-5;
+  }
+}
+
+.toggled {
+  .overlay {
+    display: block;
+  }
+}

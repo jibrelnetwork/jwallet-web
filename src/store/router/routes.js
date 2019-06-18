@@ -2,8 +2,12 @@
 
 import createRouter5 from 'router5'
 
-import { WalletNotFoundError } from 'errors'
 import { walletsPlugin } from 'store/plugins'
+
+import {
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
 import {
   selectActiveWallet,
@@ -118,10 +122,6 @@ export const routes: Array<{|
 }, {
   path: '/wallets/import',
   name: 'WalletsImport',
-  hasMenu: true,
-}, {
-  path: '/wallets/:walletId',
-  name: 'WalletsItem',
   hasMenu: true,
 }, {
   path: '/wallets/:walletId/backup',
@@ -259,7 +259,34 @@ router.canActivate(
   ) => {
     try {
       if (!walletsPlugin.checkWalletReadOnly(toState.params.walletId)) {
-        throw new Error('Wallet is not read only')
+        throw new WalletInconsistentDataError('Wallet is not read only')
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemAddresses',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    const { walletId } = toState.params
+
+    try {
+      const wallet: Wallet = walletsPlugin.getWallet(walletId)
+
+      if (!wallet.xpub) {
+        throw new WalletInconsistentDataError('Wallet is not read only')
       }
     } catch (error) {
       return done({

@@ -17,6 +17,7 @@ export function updateWallet(
     derivationPath,
     customType,
     addressIndex,
+    derivationIndex,
     isReadOnly,
     isSimplified,
   }: WalletUpdatedData = updatedData
@@ -29,6 +30,7 @@ export function updateWallet(
     customType: customType || wallet.customType,
     derivationPath: derivationPath || wallet.derivationPath,
     addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
+    derivationIndex: (derivationIndex != null) ? derivationIndex : wallet.derivationIndex,
     isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
     isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
   }

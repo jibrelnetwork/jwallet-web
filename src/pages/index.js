@@ -6,6 +6,7 @@ export { WalletsImport } from './WalletsImport/WalletsImport'
 export { WalletsItemBackup } from './WalletsItemBackup/WalletsItemBackup'
 export { WalletsItemDelete } from './WalletsItemDelete/WalletsItemDelete'
 export { WalletsItemUpgrade } from './WalletsItemUpgrade/WalletsItemUpgrade'
+export { WalletsItemAddresses } from './WalletsItemAddresses/WalletsItemAddresses'
 
 export { default as AssetsItem }
   from './Transactions/routes/Asset/TransactionsAssetViewContainer'
