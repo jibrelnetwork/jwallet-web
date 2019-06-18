@@ -78,6 +78,9 @@ export async function init(address: string, version: number = 1) {
       const addressObjectStore =
         db.createObjectStore('History', { keyPath: 'transactionID' })
       addressObjectStore.createIndex('blockNumber', 'blockNumber')
+
+      db.createObjectStore('Blocks', { keyPath: 'id' })
+        .createIndex('status', 'status')
     },
     blocked() {
       console.log('DB IS BLOCKED')

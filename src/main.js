@@ -15,7 +15,7 @@ import './data/lang'
 import browsercheck from './browsercheck'
 import { AppContainer } from './AppContainer'
 
-// import 'services/sync/legacy-transactions'
+// import 'services/sync/transactions/past'
 
 // ========================================================
 // Store and History Instantiation
