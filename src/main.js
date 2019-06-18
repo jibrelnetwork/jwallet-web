@@ -3,8 +3,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import Syncer from 'services/sync/transactions'
 import { router } from 'store/router'
 import { configureStore } from 'store/configureStore'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   DIMENSIONS,
@@ -49,6 +51,10 @@ const renderApp = () => {
   browsercheck()
     .then(
       () => {
+        Syncer.init({
+          network: selectCurrentNetworkOrThrow(store.getState()),
+        })
+
         // router starts only after browser check is ok
         router.start()
 

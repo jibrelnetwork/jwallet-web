@@ -15,10 +15,12 @@ import {
   takeEvery,
 } from 'redux-saga/effects'
 
+import Syncer from 'services/sync/transactions'
 import config from 'config'
 import tickerService from 'services/ticker'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
+import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
 import * as ticker from '../modules/ticker'
 
@@ -56,6 +58,17 @@ function* syncFiatCourses(): Saga<void> {
 
 function* syncStart(): Saga<void> {
   const syncFiatCoursesTask: Task<typeof syncFiatCourses> = yield fork(syncFiatCourses)
+
+  const address = yield select(selectActiveWalletAddress)
+  const addressAssets = yield select(selectActiveDigitalAssets)
+
+  Syncer.start(
+    address,
+    addressAssets.reduce((acc, asset) => [...acc, asset.blockchainParams.address], []), {
+      currentBlock: -1,
+      onUpdate: (items) => { console.log('update', items) },
+    },
+  )
 
   yield take(ticker.SYNC_STOP)
   yield cancel(syncFiatCoursesTask)
