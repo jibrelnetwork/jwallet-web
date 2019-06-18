@@ -123,10 +123,8 @@ class Syncer {
 
         const assetsList = makeIterableAssetsList(this.addressAssets)
         let result = assetsList.next()
-        console.log(this.addressAssets)
 
         while (!result.done) {
-          console.log(result)
           const data = await this.fetchDataFromContract(result.value, {
             from: latestSyncedBLock,
             to: currentBlock,
