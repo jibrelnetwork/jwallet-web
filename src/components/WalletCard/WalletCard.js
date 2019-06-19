@@ -5,13 +5,13 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 import { connect } from 'react-redux'
 
+import { WalletActions } from 'components'
 import { walletsPlugin } from 'store/plugins'
 import { setActiveWallet } from 'store/modules/wallets'
 import { selectWalletOrThrow } from 'store/selectors/wallets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 
 import walletCard from './walletCard.m.scss'
-import { WalletCardActions } from './WalletCardActions/WalletCardActions'
 
 type Props = {|
   +setActiveWallet: (WalletId) => void,
@@ -152,7 +152,7 @@ class WalletCard extends Component<Props, StateProps> {
             </p>
           </div>
           <div className={walletCard.actions}>
-            <WalletCardActions
+            <WalletActions
               id={id}
               type={customType}
               isSimplified={isSimplified}

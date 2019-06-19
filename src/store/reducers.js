@@ -12,7 +12,6 @@ import ticker from 'store/modules/ticker'
 import balances from 'store/modules/balances'
 import comments from 'store/modules/comments'
 import networks from 'store/modules/networks'
-import upgrade from 'store/modules/upgrade'
 import transactions from 'store/modules/transactions'
 import settings from 'store/modules/settings'
 import favorites from 'store/modules/favorites'
@@ -42,7 +41,6 @@ import { persistReducers } from './persistReducers'
 export function makeRootReducer(): Reducer<AppState, AppAction> {
   const rootReducer: Reducer<AppState, AppAction> = combineReducers({
     router,
-    upgrade,
     // wallets
     walletsCreate,
     walletsRenameAddress,

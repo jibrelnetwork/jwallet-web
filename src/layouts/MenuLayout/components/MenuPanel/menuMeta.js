@@ -99,7 +99,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
-  WalletsItem: {
+  WalletsItemAddresses: {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
@@ -111,7 +111,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
-  WalletsItemRename: {
+  WalletsItemMode: {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },

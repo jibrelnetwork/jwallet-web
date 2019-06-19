@@ -223,7 +223,11 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
     }
   }
 
-  renderWalletsItemBackupForm = (formRenderProps: FormRenderProps) => {
+  renderForm = ({
+    handleSubmit,
+    values = {},
+    submitting,
+  }: FormRenderProps) => {
     const {
       name,
       data,
@@ -232,12 +236,6 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
       currentStep,
       derivationPath,
     }: StateProps = this.state
-
-    const {
-      handleSubmit,
-      values = {},
-      submitting,
-    }: FormRenderProps = formRenderProps
 
     switch (currentStep) {
       case STEPS.PASSWORD:
@@ -272,8 +270,8 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
       <div className={walletsItemBackupStyle.core}>
         <TitleHeader title={this.getTitle()} />
         <Form
+          render={this.renderForm}
           onSubmit={this.handleSubmit}
-          render={this.renderWalletsItemBackupForm}
           initialValues={WALLETS_BACKUP_INITIAL_VALUES}
         />
       </div>

@@ -3,14 +3,17 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
-import { JIcon } from 'components/base'
 import { walletsPlugin } from 'store/plugins'
-import { ButtonWithConfirm } from 'components'
+
+import {
+  UserActionInfo,
+  ButtonWithConfirm,
+} from 'components'
 
 import walletsItemDeleteStyle from './walletsItemDelete.m.scss'
 
 export type Props = {|
-  +goBackToWallets: () => void,
+  +goBackToWallets: () => any,
   +walletId: string,
 |}
 
@@ -26,23 +29,15 @@ export class WalletsItemDeleteView extends PureComponent<Props> {
   }
 
   render() {
-    const {
-      goBackToWallets: handleBack,
-    }: Props = this.props
+    const handleBack = this.props.goBackToWallets
 
-    /* eslint-disable react/no-danger */
     return (
       <div className={walletsItemDeleteStyle.core}>
-        <JIcon
-          className={walletsItemDeleteStyle.icon}
-          name='ic_delete_48-use-fill'
-        />
-        <h2 className={walletsItemDeleteStyle.title}>{t`Delete Wallet`}</h2>
-        <p
-          className={walletsItemDeleteStyle.text}
-          dangerouslySetInnerHTML={{
-            __html: DELETE_TEXT.split('\n').join('<br />'),
-          }}
+        <UserActionInfo
+          text={DELETE_TEXT}
+          title={t`Delete Wallet`}
+          iconClassName={walletsItemDeleteStyle.icon}
+          iconName='ic_delete_48-use-fill'
         />
         <div className={walletsItemDeleteStyle.buttons}>
           <ButtonWithConfirm
@@ -55,6 +50,5 @@ export class WalletsItemDeleteView extends PureComponent<Props> {
         </div>
       </div>
     )
-    /* eslint-enable react/no-danger */
   }
 }

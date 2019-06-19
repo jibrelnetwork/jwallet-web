@@ -37,6 +37,7 @@ declare type Wallet = {|
   +customType: WalletCustomType,
   +orderIndex: number,
   +addressIndex: ?number,
+  +derivationIndex: ?number,
   +isReadOnly: boolean,
   +isSimplified: ?boolean,
 |}
@@ -48,6 +49,7 @@ declare type WalletUpdatedData = {|
   +derivationPath?: string,
   +customType?: ?WalletCustomType,
   +addressIndex?: ?number,
+  +derivationIndex?: ?number,
   +isReadOnly?: ?boolean,
   +isSimplified?: ?boolean,
 |}

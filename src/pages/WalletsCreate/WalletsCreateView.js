@@ -16,7 +16,6 @@ import {
 } from 'react-final-form'
 
 import {
-  JIcon,
   Button,
   JCheckbox,
   JInputField,
@@ -24,6 +23,7 @@ import {
 
 import {
   TitleHeader,
+  UserActionInfo,
   WalletBackupForm,
   WalletPasswordForm,
 } from 'components'
@@ -178,7 +178,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     onChange(name, isChecked ? 'true' : null)
   }
 
-  renderWalletNameForm = ({
+  renderNameStep = ({
     handleSubmit,
     submitting: isSubmitting,
     values: {
@@ -207,8 +207,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     </form>
   )
 
-  /* eslint-disable react/no-danger */
-  renderBackupTicksForm = ({
+  renderTicksStep = ({
     handleSubmit,
     form,
     values: {
@@ -217,17 +216,11 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     } = {},
   }: FormRenderProps) => (
     <div className={walletsCreateStyle.form}>
-      <JIcon
-        className={walletsCreateStyle.icon}
-        color='blue'
-        name='ic_backup_48-use-fill'
-      />
-      <h2 className={walletsCreateStyle.title}>{t`Back Up Wallet`}</h2>
-      <p
-        className={walletsCreateStyle.text}
-        dangerouslySetInnerHTML={{
-          __html: BACKUP_TEXT.split('\n').join('<br />'),
-        }}
+      <UserActionInfo
+        text={BACKUP_TEXT}
+        title={t`Back Up Wallet`}
+        iconClassName={walletsCreateStyle.icon}
+        iconName='ic_backup_48-use-fill'
       />
       <form
         onSubmit={handleSubmit}
@@ -259,47 +252,48 @@ export class WalletsCreateView extends Component<Props, StateProps> {
       </form>
     </div>
   )
-  /* eslint-enable react/no-danger */
 
-  renderWalletsCreateForm = (formRenderProps: FormRenderProps) => {
-    const {
-      handleSubmit,
-      values = {},
-      submitting,
-    }: FormRenderProps = formRenderProps
+  renderBackupStep = ({
+    handleSubmit,
+    values: {
+      name,
+      data,
+    } = {},
+  }: FormRenderProps) => (
+    <WalletBackupForm
+      handleSubmit={handleSubmit}
+      data={data || ''}
+      name={name || ''}
+      isMnemonic
+    />
+  )
 
+  renderPasswordStep = ({
+    handleSubmit,
+    values = {},
+    submitting,
+  }: FormRenderProps) => (
+    <WalletPasswordForm
+      handleSubmit={handleSubmit}
+      values={values}
+      hint={this.props.hint}
+      isSubmitting={submitting}
+    />
+  )
+
+  renderForm = (formRenderProps: FormRenderProps) => {
     switch (this.state.currentStep) {
       case STEPS.NAME:
-        return this.renderWalletNameForm(formRenderProps)
+        return this.renderNameStep(formRenderProps)
 
       case STEPS.BACKUP_TICKS:
-        return this.renderBackupTicksForm(formRenderProps)
+        return this.renderTicksStep(formRenderProps)
 
-      case STEPS.BACKUP_FORM: {
-        const {
-          name,
-          data,
-        }: FormFields = values
-
-        return (
-          <WalletBackupForm
-            handleSubmit={handleSubmit}
-            data={data || ''}
-            name={name || ''}
-            isMnemonic
-          />
-        )
-      }
+      case STEPS.BACKUP_FORM:
+        return this.renderBackupStep(formRenderProps)
 
       case STEPS.PASSWORD:
-        return (
-          <WalletPasswordForm
-            handleSubmit={handleSubmit}
-            values={values}
-            hint={this.props.hint}
-            isSubmitting={submitting}
-          />
-        )
+        return this.renderPasswordStep(formRenderProps)
 
       default:
         return null
@@ -314,8 +308,8 @@ export class WalletsCreateView extends Component<Props, StateProps> {
           title={this.getTitle()}
         />
         <Form
+          render={this.renderForm}
           onSubmit={this.handleSubmit}
-          render={this.renderWalletsCreateForm}
           initialValues={WALLETS_CREATE_INITIAL_VALUES}
         />
       </div>

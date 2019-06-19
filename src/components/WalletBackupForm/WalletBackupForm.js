@@ -4,12 +4,12 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { fileSaver } from 'services'
-import { CopyableField } from 'components'
+import { Button } from 'components/base'
 
 import {
-  JIcon,
-  Button,
-} from 'components/base'
+  CopyableField,
+  UserActionInfo,
+} from 'components'
 
 import walletBackupFormStyle from './walletBackupForm.m.scss'
 
@@ -74,23 +74,16 @@ export class WalletBackupForm extends PureComponent<Props> {
       isMnemonic,
     }: Props = this.props
 
-    /* eslint-disable react/no-danger */
     return (
       <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
-        <JIcon
-          className={walletBackupFormStyle.icon}
-          color='blue'
-          name='ic_backup_48-use-fill'
-        />
-        <h2 className={walletBackupFormStyle.title}>{t`Back Up "${name}"`}</h2>
-        <p
-          className={walletBackupFormStyle.text}
-          dangerouslySetInnerHTML={{
-            __html: getBackupText(
-              passphrase,
-              derivationPath,
-            ).split('\n').join('<br />'),
-          }}
+        <UserActionInfo
+          text={getBackupText(
+            passphrase,
+            derivationPath,
+          )}
+          title={t`Back Up "${name}"`}
+          iconClassName={walletBackupFormStyle.icon}
+          iconName='ic_backup_48-use-fill'
         />
         <form
           onSubmit={handleSubmit}
@@ -131,6 +124,5 @@ export class WalletBackupForm extends PureComponent<Props> {
         </form>
       </div>
     )
-    /* eslint-enable react/no-danger */
   }
 }
