@@ -111,13 +111,14 @@ class Syncer {
     if (this.address == null) {
       throw new Error(`Please start ${NAME} with address.`)
     }
+    let latestSyncedBlock = this.lastSyncedBlock
 
     const infinitySyncer = () => setTimeout(async () => {
       try {
         const currentBlock = await this.updateCurrentBlock(-1)
-        const latestSyncedBLock = this.lastSyncedBlock
+        latestSyncedBlock = this.lastSyncedBlock
         const transfersETH = await this.fetchETH({
-          from: latestSyncedBLock,
+          from: latestSyncedBlock,
           to: currentBlock,
         })
 
@@ -126,7 +127,7 @@ class Syncer {
 
         while (!result.done) {
           const data = await this.fetchDataFromContract(result.value, {
-            from: latestSyncedBLock,
+            from: latestSyncedBlock,
             to: currentBlock,
           })
           await this.addData(data)
@@ -134,13 +135,14 @@ class Syncer {
         }
 
         this.onUpdate({
-          latestSyncedBLock,
+          latestSyncedBLock: latestSyncedBlock,
           currentBlock,
           history: [...transfersETH],
         })
 
         await this.addData(transfersETH)
       } catch (error) {
+        this.lastSyncedBlock = latestSyncedBlock
         console.log(error)
       } finally {
         infinitySyncer()
