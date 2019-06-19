@@ -81,6 +81,8 @@ export async function init(address: string, version: number = 1) {
 
       db.createObjectStore('Blocks', { keyPath: 'id' })
         .createIndex('status', 'status')
+
+      db.createObjectStore('HistoryMeta')
     },
     blocked() {
       console.log('DB IS BLOCKED')

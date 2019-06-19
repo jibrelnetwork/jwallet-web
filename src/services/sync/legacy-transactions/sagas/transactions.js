@@ -53,12 +53,9 @@ import {
   selectCurrentAssetsList,
   selectCurrentAddress,
   selectCurrentAddressCreatedBlockNumber,
-} from '../selectors/priorities'
-
-import {
   selectCurrentNetwork,
   selectCurrentNetworkId,
-} from '../selectors/network'
+} from '../selectors/config'
 
 const {
   syncTransactionsTimeout,

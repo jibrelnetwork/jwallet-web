@@ -6,18 +6,17 @@ import {
 } from 'redux'
 
 import blocks from './modules/blocks'
-import network from './modules/network'
 import transactions from './modules/transactions'
-import priorities from './modules/priorities'
+import config from './modules/config'
 
 import { type HistoryState } from './types'
 import { type HistoryAction } from './modules/core'
 
-export function makeRootReducer(): Reducer<HistoryState, HistoryAction> {
-  return combineReducers({
-    blocks,
-    network,
-    transactions,
-    priorities,
-  })
-}
+const reducers: Reducer<HistoryState, HistoryAction> = combineReducers({
+  blocks,
+  config,
+  transactions,
+})
+
+export default reducers
+

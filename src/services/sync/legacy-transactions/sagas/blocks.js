@@ -30,11 +30,10 @@ import {
 } from '../selectors/blocks'
 
 import {
+  selectCurrentAddress,
   selectCurrentNetworkId,
   selectCurrentNetwork,
-} from '../selectors/network'
-
-import { selectCurrentAddress } from '../selectors/priorities'
+} from '../selectors/config'
 
 import * as transactions from '../modules/transactions'
 

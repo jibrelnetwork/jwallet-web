@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import createSagaMiddleware from 'redux-saga'
 
@@ -13,42 +13,30 @@ import { type HistoryAction } from './modules/core'
 import { type HistoryState } from './types'
 
 import sagas from './sagas'
-import { makeRootReducer } from './reducers'
+import reducers from './reducers'
 
 const sagaMiddleware = createSagaMiddleware()
 
 export function configureStore(
   initialState: $Shape<HistoryState> = {},
 ) {
-  // ======================================================
-  // Middleware Configuration
-  // ======================================================
-  const middleware = [
-    sagaMiddleware,
-  ]
-
-  // ======================================================
-  // Store Enhancers, redux developer tools
-  // ======================================================
-  const composeEnhancers =
-    typeof window === 'object'
-    && __DEV__
-    && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        name: 'Ethereum Blockchain Synchronization',
-      })
-      : compose
-
-  // ======================================================
-  // Store Instantiation and HMR Setup
-  // ======================================================
-  const rootReducer = makeRootReducer()
+  const composeEnhancers = (__DEV__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      name: 'Ethereum Blockchain Synchronization',
+    })
+    : compose
 
   const enhancer = composeEnhancers(
-    applyMiddleware(...middleware),
+    applyMiddleware(
+      sagaMiddleware,
+    ),
   )
 
-  const store: Store<HistoryState, HistoryAction> = createStore(rootReducer, initialState, enhancer)
+  const store: Store<HistoryState, HistoryAction> = createStore(
+    reducers,
+    initialState,
+    enhancer,
+  )
 
   // ======================================================
   // Run sagas

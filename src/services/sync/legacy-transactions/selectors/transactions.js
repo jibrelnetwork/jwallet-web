@@ -7,8 +7,10 @@ import {
 
 import { type HistoryState } from '../types'
 
-import { selectCurrentNetworkId } from './network'
-import { selectCurrentAddress } from './priorities'
+import {
+  selectCurrentNetworkId,
+  selectCurrentAddress,
+} from './config'
 
 export function selectTransactionsForCurrentNetwork(state: HistoryState) {
   const networkId = selectCurrentNetworkId(state)

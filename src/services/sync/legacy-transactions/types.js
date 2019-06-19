@@ -2,12 +2,10 @@
 
 import { type HistoryBlocksState } from './modules/blocks'
 import { type TransactionsItemsState } from './modules/transactions'
-import { type NetworkState } from './modules/network'
-import { type PrioritiesState } from './modules/priorities'
+import { type ConfigState } from './modules/config'
 
 export type HistoryState = {|
   +blocks: HistoryBlocksState,
-  +network: NetworkState,
+  +config: ConfigState,
   +transactions: TransactionsItemsState,
-  +priorities: PrioritiesState,
 |}

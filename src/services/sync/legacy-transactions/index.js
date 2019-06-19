@@ -1,13 +1,23 @@
 // @flow strict
 
+import { MAINNET } from 'data/networks'
+
 import { configureStore } from './configureStore'
-import { start } from './modules/core'
-import { setCurrentPriority } from './modules/priorities'
+import {
+  start,
+} from './modules/core'
+import {
+  setCurrentNetwork,
+  setCurrentAddress,
+  setCurrentAssets,
+} from './modules/config'
 
 const store = configureStore()
 
-store.dispatch(setCurrentPriority(
-  '0x6b05dD32BDCC1C162D0e3141D9e270c4d4A09918',
+store.dispatch(setCurrentNetwork(MAINNET))
+store.dispatch(setCurrentAddress('0x6b05dD32BDCC1C162D0e3141D9e270c4d4A09918'))
+
+store.dispatch(setCurrentAssets(
   {
     Ethereum: {
       name: 'Ethereum',
