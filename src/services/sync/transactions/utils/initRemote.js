@@ -2,11 +2,7 @@
 
 import { isEmpty } from 'lodash-es'
 
-export type SyncerConfig = {
-  network: Network,
-}
-
-export function initRemote({ network }: SyncerConfig) {
+export function initRemote(network: Network) {
   if (!network) {
     throw new Error('Network is not defined.')
   }

@@ -22,10 +22,9 @@ import {
 } from './db'
 import {
   initRemote,
-  type SyncerConfig,
 } from './utils/initRemote'
 
-/* eslint-disable fp/no-let, fp/no-mutation */
+/* eslint-disable fp/no-let, fp/no-mutation, no-return-assign */
 function makeIterableAssetsList(list: Object[]) {
   let nextIndex = -1
 
@@ -39,9 +38,12 @@ function makeIterableAssetsList(list: Object[]) {
         : { done: true },
   }
 }
-/* eslint-enable fp/no-let, fp/no-mutation */
+/* eslint-enable fp/no-let, fp/no-mutation, no-return-assign */
 
-type SyncerStartOptions = {
+type SyncerInit = {
+  network: Network,
+  address: string,
+  assets: string[],
   currentBlock: number,
   onUpdate: Function,
 }
@@ -53,45 +55,35 @@ class Syncer {
   onUpdate: Function
   withNetwork: Function
   network: Network
+  activeSyncer: ?Function
   currentBlock: number
   lastSyncedBlock: number
   address: string
   addressAssets: string[]
   isInit: boolean
+  isSyncing: boolean
   DB: Object // TODO: Actually, it's enhanced IndexedDB object via idb module
   assetsMap: { [Address]: DigitalAsset }
 
   isInit = false
-  // eslint-disable-next-line fp/no-rest-parameters
+  isSyncing = false
   onUpdate = noop
-  withNetwork = () => () => noop
-  lastSyncedBlock = 0 // get from wallet
-  address = null
+  // eslint-disable-next-line fp/no-rest-parameters, no-unused-vars
+  withNetwork = (web3Method: any, mergedProps: any) => (...args: mixed[]) => noop
+  activeSyncer = null
 
-  init = (config: SyncerConfig) => {
-    this.isInit = true
-    this.network = config.network
-    this.withNetwork = initRemote(config)
-  }
-
-  start = async (
-    address: string,
-    assets: string[],
-    options: SyncerStartOptions = {
-      currentBlock: -1,
-      onUpdate: noop,
-    },
-  ): Promise<boolean> => {
-    if (this.isInit == null || this.withNetwork == null) {
-      throw new Error(`${NAME} was't initiated.
-      Please, call init method with config before start syncing`)
+  init = async (config: SyncerInit) => {
+    if (this.isInit) {
+      this.stop()
     }
 
-    this.address = address
-    this.addressAssets = assets.filter(asset => asset !== ethereum.blockchainParams.address)
-    this.onUpdate = options.onUpdate
-    this.DB = await init(address)
-    this.currentBlock = await this.updateCurrentBlock(options.currentBlock)
+    this.withNetwork = initRemote(config.network)
+    this.network = config.network
+    this.address = config.address
+    this.addressAssets = config.assets.filter(asset => asset !== ethereum.blockchainParams.address)
+    this.onUpdate = config.onUpdate
+    this.DB = await init(config.address)
+    this.currentBlock = await this.updateCurrentBlock(config.currentBlock)
     this.lastSyncedBlock = this.currentBlock
 
     this.assetsMap = (await getAssetsMainnet()).reduce((reduceResult, asset) => {
@@ -104,53 +96,82 @@ class Syncer {
       return reduceResult
     }, {})
 
-    return this.autoSync()
+    this.isInit = true
   }
 
-  autoSync = async (): Promise<boolean> => {
-    if (this.address == null) {
-      throw new Error(`Please start ${NAME} with address.`)
+  start = () => {
+    if (this.isInit == null) {
+      throw new Error(`${NAME} was't initiated.
+      Please, call init method with config before start syncing`)
     }
-    let latestSyncedBlock = this.lastSyncedBlock
 
-    const infinitySyncer = () => setTimeout(async () => {
-      try {
-        const currentBlock = await this.updateCurrentBlock(-1)
-        latestSyncedBlock = this.lastSyncedBlock
-        const transfersETH = await this.fetchETH({
-          from: latestSyncedBlock,
+    this.activeSyncer = this.createInfinitySyncer(this.syncer)
+    this.autoSync()
+  }
+
+  createInfinitySyncer = (f: Function) =>
+    (blockNumber: number) =>
+      setTimeout(
+        () => f(blockNumber),
+        CONFIG.syncTransactionsTimeout,
+      )
+
+  syncer = async (latestSyncedBlock: ?number = null) => {
+    if (!this.activeSyncer) {
+      throw new Error(`Active syncer is not defined. Please start ${NAME} with.`)
+    }
+
+    const lastBlock =  latestSyncedBlock || this.lastSyncedBlock
+
+    try {
+      const currentBlock = await this.updateCurrentBlock(-1)
+
+      const transfersETH = await this.fetchETH({
+        from: lastBlock,
+        to: currentBlock,
+      })
+
+      const assetsList = makeIterableAssetsList(this.addressAssets)
+      // eslint-disable-next-line fp/no-let
+      let result = assetsList.next()
+
+      while (!result.done) {
+        console.log(result)
+        // eslint-disable-next-line no-await-in-loop
+        const data = await this.fetchDataFromContract(result.value, {
+          from: lastBlock,
           to: currentBlock,
         })
-
-        const assetsList = makeIterableAssetsList(this.addressAssets)
-        let result = assetsList.next()
-
-        while (!result.done) {
-          const data = await this.fetchDataFromContract(result.value, {
-            from: latestSyncedBlock,
-            to: currentBlock,
-          })
-          await this.addData(data)
-          result = assetsList.next()
-        }
-
-        this.onUpdate({
-          latestSyncedBLock: latestSyncedBlock,
-          currentBlock,
-          history: [...transfersETH],
-        })
-
-        await this.addData(transfersETH)
-      } catch (error) {
-        this.lastSyncedBlock = latestSyncedBlock
-        console.log(error)
-      } finally {
-        infinitySyncer()
+        // eslint-disable-next-line no-await-in-loop
+        await this.addData(data)
+        // eslint-disable-next-line fp/no-mutation
+        result = assetsList.next()
       }
-    }, CONFIG.syncTransactionsTimeout)
-    infinitySyncer()
 
-    return true
+      this.onUpdate({
+        latestSyncedBLock: lastBlock,
+        currentBlock,
+        history: [...transfersETH],
+      })
+
+      await this.addData(transfersETH)
+
+      this.lastSyncedBlock = this.currentBlock
+    } catch (error) {
+      this.lastSyncedBlock = lastBlock
+      console.log(error)
+    }
+
+    this.activeSyncer(this.lastSyncedBlock)
+  }
+
+  autoSync = () => {
+    if (!this.activeSyncer) {
+      throw new Error(`Active syncer is not defined. Please start ${NAME} with.`)
+    }
+
+    this.activeSyncer(this.lastSyncedBlock)
+    this.isSyncing = true
   }
 
   fetchETH = async (blocks: { from: ?number, to: ?number }): Promise<any> => {
@@ -223,8 +244,6 @@ class Syncer {
       )
     }
 
-    this.lastSyncedBlock = this.currentBlock
-
     return historyItems.reduce((acc, transfer) => [...acc, {
       ...transfer[1],
       transactionID: transfer[0],
@@ -267,8 +286,8 @@ class Syncer {
   }
 
   updateAssetsMap = (assets: DigitalAsset[]) => {
-    this.assetsMap = assets.reduce((reduceResult, asset) => {
-      const address = get(asset, 'blockchainParams.address', null)
+    this.assetsMap = assets.reduce((reduceResult, asset: DigitalAsset) => {
+      const { address } = asset.blockchainParams
 
       if (asset.blockchainParams.address) {
         reduceResult[address] = asset

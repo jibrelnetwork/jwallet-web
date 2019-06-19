@@ -22,6 +22,7 @@ import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 import { selectActiveWalletAddress } from 'store/selectors/wallets'
 
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import * as ticker from '../modules/ticker'
 
 function getActiveAssetsFiatIds(items: DigitalAsset[]): FiatId[] {
@@ -61,14 +62,19 @@ function* syncStart(): Saga<void> {
 
   const address = yield select(selectActiveWalletAddress)
   const addressAssets = yield select(selectActiveDigitalAssets)
+  const network = yield select(selectCurrentNetworkOrThrow)
 
-  Syncer.start(
+  Syncer.init({
+    network,
     address,
-    addressAssets.reduce((acc, asset) => [...acc, asset.blockchainParams.address], []), {
-      currentBlock: -1,
-      onUpdate: (items) => { console.log('update', items) },
+    assets: addressAssets.reduce((acc, asset) => [...acc, asset.blockchainParams.address], []),
+    currentBlock: -1,
+    onUpdate: (items) => {
+      console.log('update', items)
     },
-  )
+  })
+
+  yield Syncer.start()
 
   yield take(ticker.SYNC_STOP)
   yield cancel(syncFiatCoursesTask)
