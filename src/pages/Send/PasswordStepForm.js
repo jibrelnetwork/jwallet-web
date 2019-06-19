@@ -76,10 +76,10 @@ class PasswordStepForm extends PureComponent<Props> {
 
     return (
       <WalletPasswordForm
+        isSubmitting={submitting}
         handleSubmit={handleSubmit}
         values={values}
         hint={this.props.hint}
-        isSubmitting={submitting}
       />
     )
   }

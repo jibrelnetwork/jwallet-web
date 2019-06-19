@@ -209,8 +209,6 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
   }
 
   renderSendStepForm = (props: FormRenderProps) => {
-    console.log(props)
-
     const {
       handleSubmit,
       submitting: isSubmitting,
