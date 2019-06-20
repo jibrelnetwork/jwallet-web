@@ -84,7 +84,7 @@ class Syncer {
     this.onUpdate = config.onUpdate
     this.DB = await init(config.address)
     this.currentBlock = await this.updateCurrentBlock(config.currentBlock)
-    this.lastSyncedBlock = this.currentBlock
+    this.lastSyncedBlock = 0
 
     this.assetsMap = (await getAssetsMainnet()).reduce((reduceResult, asset) => {
       const assetAddress = get(asset, 'blockchainParams.address', null)
@@ -136,7 +136,6 @@ class Syncer {
       let result = assetsList.next()
 
       while (!result.done) {
-        console.log(result)
         // eslint-disable-next-line no-await-in-loop
         const data = await this.fetchDataFromContract(result.value, {
           from: lastBlock,
@@ -191,7 +190,7 @@ class Syncer {
   ) => {
     const { address } = this
 
-    /* eslint-disable fp/no-mutating-methods, fp/no-mutation */
+    /* eslint-disable fp/no-mutating-methods, fp/no-mutation, no-await-in-loop */
     const historyItems = []
 
     if (contractAddress && !checkETH(contractAddress)) {
@@ -244,11 +243,30 @@ class Syncer {
       )
     }
 
-    return historyItems.reduce((acc, transfer) => [...acc, {
-      ...transfer[1],
-      transactionID: transfer[0],
-    }], [])
-    /* eslint-enable fp/no-mutating-methods, fp/no-mutation */
+    const items = makeIterableAssetsList(historyItems)
+    // eslint-disable-next-line fp/no-let
+    let iterableItem = items.next()
+    const result = []
+
+    while (!iterableItem.done) {
+      const transfer = iterableItem.value
+      const transferRecord = transfer[1]
+      const blockData = await WEB3.getBlockData(this.network, transferRecord.blockNumber)
+      const receiptData =
+        await this.withNetwork(WEB3.getTransactionReceiptData)(transferRecord.hash)
+
+      // eslint-disable-next-line prefer-destructuring
+      transferRecord.id = transfer[0]
+      transferRecord.blockData = blockData
+      transferRecord.receiptData = receiptData
+      transferRecord.assetAddress = contractAddress
+
+      result.push(transferRecord)
+      iterableItem = items.next()
+    }
+
+    return result
+    /* eslint-enable fp/no-mutating-methods, fp/no-mutation, no-await-in-loop */
   }
 
   stop = (): boolean => true
@@ -257,8 +275,8 @@ class Syncer {
   normalizeBlockchainTransactions = (transactions: Object[]): Object[] =>
     toPairs(transactions).reduce((acc, transfer) => [...acc, {
       ...transfer[1],
-      transactionID: transfer[0],
-      businessType: '',
+      id: transfer[0],
+      assetAddress: ethereum.blockchainParams.address,
     }], [])
 
   updateCurrentBlock = async (currentBlock: number = -1) => {
