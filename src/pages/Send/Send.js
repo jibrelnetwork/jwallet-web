@@ -27,6 +27,8 @@ import {
   type SendFormValues,
 } from './StepOneForm'
 import { ConnectedPasswordStepForm } from './PasswordStepForm'
+import { ValidationFailed } from './ValidationFailed'
+import { SendError } from './SendError'
 
 import styles from './send.m.scss'
 
@@ -86,10 +88,12 @@ class SendAsset extends Component<Props, ComponentState> {
     this.props.goHome()
   }
 
-  handleSendFormSubmit = (values: SendFormValues) => {
+  handleSendFormSubmit = (values: SendFormValues, isValidationFailed: boolean) => {
     this.setState({
       sendFormValues: values,
-      currentStep: STEPS.SEND_CONFIRM,
+      currentStep: isValidationFailed
+        ? STEPS.VALIDATION_FAILED
+        : STEPS.SEND_CONFIRM,
     })
   }
 
@@ -156,7 +160,6 @@ class SendAsset extends Component<Props, ComponentState> {
       privateKey,
       gasLimit,
       gasPrice,
-      // nonce
     }
 
     console.log('sendTransactionPayload', sendTransactionPayload)
@@ -216,6 +219,36 @@ class SendAsset extends Component<Props, ComponentState> {
     </div>
   )
 
+  handleValidationFailedNextClick = () => {
+    this.setState({ currentStep: STEPS.SEND_CONFIRM })
+  }
+
+  renderValidationFailedStep = () => (
+    <div className={styles.core}>
+      <TitleHeader
+        onBack={this.handleBackToSendForm}
+        title=''
+      />
+      <ValidationFailed
+        onGoBackClick={this.handleBackToSendForm}
+        onGoNextClick={this.handleValidationFailedNextClick}
+      />
+    </div>
+  )
+
+  renderErrorStep = () => (
+    <div className={styles.core}>
+      <TitleHeader
+        onBack={this.handleBackToSendForm}
+        title=''
+      />
+      <SendError
+        onGoBackClick={this.handleBackToSendForm}
+        onCancelClick={this.handleClose}
+      />
+    </div>
+  )
+
   render() {
     switch (this.state.currentStep) {
       case STEPS.SEND_FORM:
@@ -223,6 +256,12 @@ class SendAsset extends Component<Props, ComponentState> {
 
       case STEPS.SEND_CONFIRM:
         return this.renderPasswordStep()
+
+      case STEPS.VALIDATION_FAILED:
+        return this.renderValidationFailedStep()
+
+      case STEPS.ERROR:
+        return this.renderErrorStep()
 
       default:
         return <span />

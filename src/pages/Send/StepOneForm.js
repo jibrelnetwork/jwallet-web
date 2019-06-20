@@ -13,6 +13,7 @@ import {
 
 import web3 from 'services/web3'
 import checkETH from 'utils/digitalAssets/checkETH'
+import getTransactionValue from 'utils/transactions/getTransactionValue'
 
 import { Button } from 'components/base'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
@@ -43,28 +44,29 @@ export type SendFormValues = {|
   recipientAddress: string,
   assetAddress: string,
   amountValue: string,
-  isPriorityOpen: boolean,
-  gasPriceValue: string,
-  gasLimitValue: string,
+  isPriorityOpen?: boolean,
+  gasPriceValue?: string,
+  gasLimitValue?: string,
 |}
 
 type Props = {|
   +network: Network,
   +ownerAddress: OwnerAddress,
   +initialValues: SendFormValues,
-  +onSubmit: (values: SendFormValues) => any,
+  +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +getAssetByAddress: (assetAddress: string) => DigitalAsset,
   +getAssetBalanceByAddress: (assetAddress: string) => ?string,
 |}
 
 type OwnProps = {|
-  +onSubmit: (values: SendFormValues) => any,
+  +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +initialValues: SendFormValues,
 |}
 
 type ComponentState = {|
   isGasPriceLoading: boolean,
   isGasLimitLoading: boolean,
+  isValidationFailed: boolean,
 |}
 
 const FALLBACK_GAS_AMOUNT = 21000
@@ -84,16 +86,18 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
   state = {
     isGasPriceLoading: false,
     isGasLimitLoading: false,
+    isValidationFailed: false,
   }
 
   handleSendFormSubmit = (values: SendFormValues) => {
-    this.props.onSubmit(values)
+    this.props.onSubmit(values, this.state.isValidationFailed)
   }
 
-  validate = (values: SendFormValues) => {
+  validate = async (values: SendFormValues) => {
     const {
       amountValue,
       assetAddress,
+      recipientAddress,
     } = values
 
     const {
@@ -115,6 +119,14 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         amountValue: t`Invalid amount value`,
       }
       : undefined
+
+    if (assetAddress && amountValue && recipientAddress) {
+      await this.requestGasLimit({
+        assetAddress,
+        amountValue,
+        recipientAddress,
+      })
+    }
 
     return {
       ...amountError,
@@ -148,6 +160,8 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     amountValue,
     recipientAddress,
   }: SendFormValues) => {
+    console.log('requestGasLimit', assetAddress, amountValue, recipientAddress)
+
     const {
       network,
       ownerAddress,
@@ -157,6 +171,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       blockchainParams: {
         staticGasAmount,
+        decimals,
       },
     } = getAssetByAddress(assetAddress)
 
@@ -164,14 +179,19 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       return String(staticGasAmount || FALLBACK_GAS_AMOUNT)
     }
 
+    const amount = getTransactionValue(amountValue, decimals)
+
     try {
-      this.setState({ isGasLimitLoading: true })
+      this.setState({
+        isGasLimitLoading: true,
+        isValidationFailed: false,
+      })
 
       if (checkETH(assetAddress)) {
         const requestedGasLimit = await estimateETHGas(
           network,
           recipientAddress,
-          toBigNumber(amountValue),
+          amount,
         )
 
         const gasLimit = String(max([requestedGasLimit, staticGasAmount || FALLBACK_GAS_AMOUNT]))
@@ -187,7 +207,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           assetAddress,
           ownerAddress,
           recipientAddress,
-          toBigNumber(amountValue),
+          amount,
         )
 
         const gasLimit = String(max([requestedGasLimit, staticGasAmount || FALLBACK_GAS_AMOUNT]))
@@ -199,7 +219,12 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         return gasLimit
       }
     } catch (err) {
-      this.setState({ isGasLimitLoading: false })
+      console.log('requestGasLimit', err)
+
+      this.setState({
+        isGasLimitLoading: false,
+        isValidationFailed: true,
+      })
       // #TODO: check network error, and show toast
       // alert(`#TODO: Fixme when toast notifications will be ready\n
       // Network error, can\'t request gasPrice`)
