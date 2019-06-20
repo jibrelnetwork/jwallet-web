@@ -1,6 +1,12 @@
 declare type UserState = {|
   persist: {|
     +isIntroductionPassed: boolean,
-    +isAgreementsPassed: boolean,
+    +agreementsConditions: {
+      understandPrivateDataPolicy?: boolean,
+      consentNoWarranty?: boolean,
+      consentTrackingCookies?: boolean,
+      acceptTermsAndConditions?: boolean,
+    },
+    +isAgreementsConfirmed?: boolean,
   |},
 |}

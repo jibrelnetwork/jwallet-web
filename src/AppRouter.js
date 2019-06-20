@@ -13,7 +13,8 @@ import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
 import {
   selectIntroductionValue,
-  selectAgreements,
+  selectAgreementsConditions,
+  selectIsAgreementsConfirmed,
 } from 'store/selectors/user'
 
 import { selectWalletsItems } from 'store/selectors/wallets'
@@ -152,8 +153,10 @@ function mapStateToProps(state: AppState) {
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
-  const agreements = selectAgreements(state)
+  const agreements = selectAgreementsConditions(state)
+  const isAgreementsConfirmed = selectIsAgreementsConfirmed(state)
   const isAllAgreementsChecked = checkAgreements(CONDITIONS_LIST, agreements)
+    && isAgreementsConfirmed
   const isAllFeaturesIntroduced = selectIntroductionValue(state)
 
   return {

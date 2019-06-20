@@ -4,17 +4,23 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 import { connect } from 'react-redux'
 
+import { StartLayout } from 'layouts'
+
 import {
   JLink,
   JIcon,
   JCheckbox,
   Button,
 } from 'components/base'
-import { StartLayout } from 'layouts'
 
-import { checkAgreements } from 'utils/agreements'
-import { selectAgreements } from 'store/selectors/user'
-import { setAgreementIsConfirmed } from 'store/modules/user'
+import {
+  selectAgreementsConditions,
+} from 'store/selectors/user'
+
+import {
+  setAgreementIsConfirmed,
+  setAllAgreementsAreConfirmed,
+} from 'store/modules/user'
 
 import { CONDITIONS_LIST } from 'data/agreements'
 
@@ -22,6 +28,7 @@ import agreementsViewStyle from './agreementsView.m.scss'
 
 export type Props = {|
   setAgreementIsConfirmed: Function,
+  setAllAgreementsAreConfirmed: Function,
   agreements: {
     [agreement: string]: boolean,
   },
@@ -42,10 +49,18 @@ class AgreementsScreen extends PureComponent<Props> {
     this.props.setAgreementIsConfirmed(key, isChecked)
   }
 
+  handleAgreementsConfirmClick = () => {
+    this.props.setAllAgreementsAreConfirmed(true)
+  }
+
+  componentDidMount = () => {
+    this.props.setAllAgreementsAreConfirmed(false)
+  }
+
   render() {
     const { agreements } = this.props
 
-    const isDisabled = !checkAgreements(CONDITIONS_LIST, agreements)
+    const isAllAgreementsChecked = CONDITIONS_LIST.every(key => agreements[key])
 
     return (
       <StartLayout className='__agreements-view'>
@@ -55,7 +70,7 @@ class AgreementsScreen extends PureComponent<Props> {
             className={agreementsViewStyle.icon}
             color='blue'
           />
-          <h1 className={agreementsViewStyle.title}>Terms and Conditions</h1>
+          <h1 className={agreementsViewStyle.title}>{t`Terms and Conditions`}</h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
               <div className={agreementsViewStyle.item} key={key}>
@@ -102,7 +117,8 @@ class AgreementsScreen extends PureComponent<Props> {
               <Button
                 className={agreementsViewStyle.button}
                 theme='general'
-                disabled={isDisabled}
+                disabled={!isAllAgreementsChecked}
+                onClick={this.handleAgreementsConfirmClick}
               >
                 {t`Confirm and continue`}
               </Button>
@@ -115,7 +131,7 @@ class AgreementsScreen extends PureComponent<Props> {
 }
 
 function mapStateToProps(state: AppState) {
-  const agreements = selectAgreements(state)
+  const agreements = selectAgreementsConditions(state)
 
   return {
     agreements,
@@ -124,6 +140,7 @@ function mapStateToProps(state: AppState) {
 
 const mapDispatchToProps = {
   setAgreementIsConfirmed,
+  setAllAgreementsAreConfirmed,
 }
 
 export const AgreementsView = connect<Props, OwnPropsEmpty, _, _, _, _>(

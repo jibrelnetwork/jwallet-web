@@ -2,6 +2,7 @@
 
 export const SET_INTRODUCTION_IS_PASSED = '@@user/SET_INTRODUCTION_IS_PASSED'
 export const SET_AGREEMENT_IS_CONFIRMED = '@@user/SET_AGREEMENT_IS_CONFIRMED'
+export const SET_ALL_AGREEMENTS_ARE_CONFIRMED = '@@user/SET_ALL_AGREEMENTS_ARE_CONFIRMED'
 
 export function setIntroductionIsPassed() {
   return {
@@ -19,14 +20,24 @@ export function setAgreementIsConfirmed(agreement: string, isConfirmed: boolean)
   }
 }
 
+export function setAllAgreementsAreConfirmed(isConfirmed: boolean) {
+  return {
+    type: SET_ALL_AGREEMENTS_ARE_CONFIRMED,
+    payload: {
+      isConfirmed,
+    },
+  }
+}
+
 export type UserAction =
   ExtractReturn<typeof setIntroductionIsPassed> |
-  ExtractReturn<typeof setAgreementsIsPassed>
+  ExtractReturn<typeof setAgreementIsConfirmed>
 
-const initialState = {
+const initialState: UserState = {
   persist: {
     isIntroductionPassed: false,
-    agreements: {},
+    agreementsConditions: {},
+    isAgreementsConfirmed: false,
   },
 }
 
@@ -44,18 +55,33 @@ function user(
         },
       }
 
-    case SET_AGREEMENT_IS_CONFIRMED:
-      // eslint-disable-next-line no-case-declarations
+    case SET_ALL_AGREEMENTS_ARE_CONFIRMED: {
       const {
-        agreement, isConfirmed,
+        isConfirmed,
       } = action.payload
 
       return {
         ...state,
         persist: {
           ...state.persist,
-          agreements: {
-            ...state.persist.agreements,
+          isAgreementsConfirmed: isConfirmed,
+        },
+      }
+    }
+
+    case SET_AGREEMENT_IS_CONFIRMED:
+      // eslint-disable-next-line no-case-declarations
+      const {
+        agreement,
+        isConfirmed,
+      } = action.payload
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          agreementsConditions: {
+            ...state.persist.agreementsConditions,
             [agreement]: isConfirmed,
           },
         },
