@@ -1,5 +1,7 @@
 // @flow
 
+import { set } from 'lodash-es'
+
 import { type Channel } from 'redux-saga'
 
 export const FETCH_BY_OWNER_REQUEST = '@@transactions/FETCH_BY_OWNER_REQUEST'
@@ -281,8 +283,6 @@ export default function transactions(
 ): TransactionsItemsState {
   switch (action.type) {
     case FETCH_BY_OWNER_REQUEST: {
-      const { items } = state
-
       const {
         networkId,
         ownerAddress,
@@ -291,21 +291,14 @@ export default function transactions(
       const itemsByNetworkId: TransactionsByNetworkId = state.items[networkId] || {}
       const itemsByOwner: ?TransactionsByOwner = itemsByNetworkId[ownerAddress]
 
-      return itemsByOwner ? state : {
-        ...state,
-        items: {
-          ...items,
-          [networkId]: {
-            ...itemsByNetworkId,
-            [ownerAddress]: null,
-          },
-        },
+      if (!itemsByOwner) {
+        set(state, ['items', networkId, ownerAddress], null)
       }
+
+      return state
     }
 
     case INIT_ITEMS_BY_ASSET: {
-      const { items } = state
-
       const {
         networkId,
         assetAddress,
@@ -317,24 +310,14 @@ export default function transactions(
       const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
       const itemsByAsset: ?TransactionsByAssetAddress = itemsByOwner[assetAddress]
 
-      return (itemsByAsset && !isExistedIgnored) ? state : {
-        ...state,
-        items: {
-          ...items,
-          [networkId]: {
-            ...itemsByNetworkId,
-            [ownerAddress]: {
-              ...itemsByOwner,
-              [assetAddress]: null,
-            },
-          },
-        },
+      if (!itemsByAsset || isExistedIgnored) {
+        set(state, ['items', networkId, ownerAddress, assetAddress], null)
       }
+
+      return state
     }
 
     case INIT_ITEMS_BY_BLOCK: {
-      const { items } = state
-
       const {
         networkId,
         blockNumber,
@@ -347,22 +330,17 @@ export default function transactions(
       const itemsByAsset: TransactionsByAssetAddress = itemsByOwner[assetAddress] || {}
       const itemsByBlock: ?TransactionsByBlockNumber = itemsByAsset[blockNumber]
 
-      return itemsByBlock ? state : {
-        ...state,
-        items: {
-          ...items,
-          [networkId]: {
-            ...itemsByNetworkId,
-            [ownerAddress]: {
-              ...itemsByOwner,
-              [assetAddress]: {
-                ...itemsByAsset,
-                [blockNumber]: {},
-              },
-            },
-          },
-        },
+      if (!itemsByBlock) {
+        set(state, [
+          'items',
+          networkId,
+          ownerAddress,
+          assetAddress,
+          blockNumber,
+        ], {})
       }
+
+      return state
     }
 
     case FETCH_BY_BLOCK_SUCCESS: {
@@ -403,25 +381,16 @@ export default function transactions(
           }
         }, oldTransactions)
 
-      return {
-        ...state,
-        items: {
-          ...state.items,
-          [networkId]: {
-            ...itemsByNetworkId,
-            [ownerAddress]: {
-              ...itemsByOwner,
-              [assetAddress]: {
-                ...itemsByAsset,
-                [blockNumber]: {
-                  ...itemsByBlock,
-                  items: newTransactions,
-                },
-              },
-            },
-          },
-        },
-      }
+      set(state, [
+        'items',
+        networkId,
+        ownerAddress,
+        assetAddress,
+        blockNumber,
+        'items',
+      ], newTransactions)
+
+      return state
     }
 
     case UPDATE_TRANSACTION_DATA: {
@@ -461,25 +430,16 @@ export default function transactions(
           }
         }, oldTransactions)
 
-      return {
-        ...state,
-        items: {
-          ...items,
-          [networkId]: {
-            ...itemsByNetworkId,
-            [ownerAddress]: {
-              ...itemsByOwner,
-              [assetAddress]: {
-                ...itemsByAsset,
-                [blockNumber]: {
-                  ...itemsByBlock,
-                  items: newTransactions,
-                },
-              },
-            },
-          },
-        },
-      }
+      set(state, [
+        'items',
+        networkId,
+        ownerAddress,
+        assetAddress,
+        blockNumber,
+        'items',
+      ], newTransactions)
+
+      return state
     }
 
     case ADD_PENDING_TRANSACTION: {
@@ -578,8 +538,6 @@ export default function transactions(
     }
 
     case FETCH_BY_BLOCK_ERROR: {
-      const { items } = state
-
       const {
         networkId,
         blockNumber,
@@ -587,33 +545,16 @@ export default function transactions(
         ownerAddress,
       } = action.payload
 
-      const itemsByNetworkId: TransactionsByNetworkId = state.items[networkId] || {}
-      const itemsByOwner: TransactionsByOwner = itemsByNetworkId[ownerAddress] || {}
-      const itemsByAsset: TransactionsByAssetAddress = itemsByOwner[assetAddress] || {}
+      set(state, [
+        'items',
+        networkId,
+        ownerAddress,
+        assetAddress,
+        blockNumber,
+        'isError',
+      ], true)
 
-      const itemsByBlock: TransactionsByBlockNumber = itemsByAsset[blockNumber] || {
-        items: {},
-      }
-
-      return {
-        ...state,
-        items: {
-          ...items,
-          [networkId]: {
-            ...itemsByNetworkId,
-            [ownerAddress]: {
-              ...itemsByOwner,
-              [assetAddress]: {
-                ...itemsByAsset,
-                [blockNumber]: {
-                  ...itemsByBlock,
-                  isError: true,
-                },
-              },
-            },
-          },
-        },
-      }
+      return state
     }
 
     case SET_IS_ONLY_PENDING:

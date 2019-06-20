@@ -15,10 +15,7 @@ export const LATEST_BLOCK_SYNC_ERROR = '@@blocks/LATEST_BLOCK_SYNC_ERROR'
 
 export const PROCESS_QUEUE_ERROR = '@@blocks/PROCESS_QUEUE_ERROR'
 
-export const SET_IS_BALANCES_LOADING = '@@blocks/SET_IS_BALANCES_LOADING'
 export const SET_IS_TRANSACTIONS_LOADING = '@@blocks/SET_IS_TRANSACTIONS_LOADING'
-
-export const SET_IS_BALANCES_FETCHED = '@@blocks/SET_IS_BALANCES_FETCHED'
 export const SET_IS_TRANSACTIONS_FETCHED = '@@blocks/SET_IS_TRANSACTIONS_FETCHED'
 
 export const SET_IS_CONNECTION_ERROR = '@@blocks/SET_IS_CONNECTION_ERROR'
@@ -107,32 +104,12 @@ export function processQueueError(err: Error) {
   }
 }
 
-export function setIsBalancesLoading(networkId: string, isLoading: boolean) {
-  return {
-    type: SET_IS_BALANCES_LOADING,
-    payload: {
-      networkId,
-      isLoading,
-    },
-  }
-}
-
 export function setIsTransactionsLoading(networkId: string, isLoading: boolean) {
   return {
     type: SET_IS_TRANSACTIONS_LOADING,
     payload: {
       networkId,
       isLoading,
-    },
-  }
-}
-
-export function setIsBalancesFetched(networkId: string, isFetched: boolean) {
-  return {
-    type: SET_IS_BALANCES_FETCHED,
-    payload: {
-      networkId,
-      isFetched,
     },
   }
 }
@@ -167,9 +144,7 @@ export type BlocksAction =
   | ExtractReturn<typeof latestBlockSyncStop>
   | ExtractReturn<typeof latestBlockSyncError>
   | ExtractReturn<typeof processQueueError>
-  | ExtractReturn<typeof setIsBalancesLoading>
   | ExtractReturn<typeof setIsTransactionsLoading>
-  | ExtractReturn<typeof setIsBalancesFetched>
   | ExtractReturn<typeof setIsTransactionsFetched>
   | ExtractReturn<typeof setIsConnectionError>
 
@@ -214,31 +189,6 @@ function blocks(
       }
     }
 
-    case SET_IS_BALANCES_LOADING: {
-      const { items } = state
-
-      const {
-        networkId,
-        isLoading,
-      } = action.payload
-
-      const itemByNetworkId: ?Blocks = items[networkId]
-      const processingBlock: ?BlockData = itemByNetworkId ? itemByNetworkId.processing : undefined
-
-      return {
-        ...state,
-        items: {
-          [networkId]: {
-            ...itemByNetworkId,
-            processing: {
-              ...processingBlock,
-              isBalancesLoading: isLoading,
-            },
-          },
-        },
-      }
-    }
-
     case SET_IS_TRANSACTIONS_LOADING: {
       const { items } = state
 
@@ -258,31 +208,6 @@ function blocks(
             processing: {
               ...processingBlock,
               isTransactionsLoading: isLoading,
-            },
-          },
-        },
-      }
-    }
-
-    case SET_IS_BALANCES_FETCHED: {
-      const { items } = state
-
-      const {
-        networkId,
-        isFetched,
-      } = action.payload
-
-      const itemByNetworkId: ?Blocks = items[networkId]
-      const processingBlock: ?BlockData = itemByNetworkId ? itemByNetworkId.processing : undefined
-
-      return {
-        ...state,
-        items: {
-          [networkId]: {
-            ...itemByNetworkId,
-            processing: {
-              ...processingBlock,
-              isBalancesFetched: isFetched,
             },
           },
         },
