@@ -5,18 +5,16 @@ import React, { Component } from 'react'
 import walletsLayoutStyle from './walletsLayout.m.scss'
 
 export type Props = {|
-  +openLayout: () => void,
-  +closeLayout: () => void,
   +children: React$Node,
 |}
 
 export class WalletsLayout extends Component<Props> {
   componentDidMount() {
-    this.props.openLayout()
+    // this.props.openLayout()
   }
 
   componentWillUnmount() {
-    this.props.closeLayout()
+    // this.props.closeLayout()
   }
 
   render() {

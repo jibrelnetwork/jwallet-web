@@ -20,7 +20,6 @@ import {
 import { type AppAction } from 'store/modules'
 
 import sagas from './sagas'
-import workers from '../workers'
 import middlewares from '../middlewares'
 import { makeRootReducer } from './reducers'
 import * as plugins from './plugins'
@@ -79,11 +78,6 @@ export function configureStore({
   // Run sagas
   // ======================================================
   sagas.forEach(saga => sagaMiddleware.run(saga))
-
-  // ======================================================
-  // Start workers
-  // ======================================================
-  workers.forEach(worker => worker.run(store))
 
   // ======================================================
   // Connect plugins

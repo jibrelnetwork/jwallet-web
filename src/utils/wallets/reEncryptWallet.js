@@ -1,6 +1,5 @@
 // @flow strict
 
-import { checkMnemonicType } from 'utils/wallets'
 import { WalletInconsistentDataError } from 'errors'
 
 import {
@@ -8,25 +7,33 @@ import {
   encryptData,
 } from 'utils/encryption'
 
-function reEncryptWallet(
+import { checkReadOnlyType } from '.'
+
+export function reEncryptWallet(
   wallet: Wallet,
   internalKey: Uint8Array,
   internalKeyNew: Uint8Array,
 ): Wallet {
   const {
-    type,
+    customType,
     encrypted,
-    isReadOnly,
+    id: walletId,
   }: Wallet = wallet
 
-  if (isReadOnly) {
+  if (checkReadOnlyType(customType)) {
     return wallet
   }
 
-  if (checkMnemonicType(type) && encrypted.mnemonic && encrypted.passphrase) {
+  if (encrypted.mnemonic && encrypted.passphrase && encrypted.xprv) {
     const mnemonic: string = decryptData({
       key: internalKey,
       data: encrypted.mnemonic,
+    })
+
+    const xprv: string = decryptData({
+      key: internalKey,
+      // $FlowFixMe
+      data: encrypted.xprv,
     })
 
     const passphrase: string = decryptData({
@@ -43,13 +50,17 @@ function reEncryptWallet(
           data: mnemonic,
           key: internalKeyNew,
         }),
+        xprv: encryptData({
+          data: xprv,
+          key: internalKeyNew,
+        }),
         passphrase: encryptData({
           data: passphrase,
           key: internalKeyNew,
         }),
       },
     }
-  } else if (!checkMnemonicType(type) && encrypted.privateKey) {
+  } else if (encrypted.privateKey) {
     const privateKey: string = decryptData({
       key: internalKey,
       data: encrypted.privateKey,
@@ -67,7 +78,5 @@ function reEncryptWallet(
     }
   }
 
-  throw new WalletInconsistentDataError({ walletId: wallet.id }, 'reEncryptWallet error')
+  throw new WalletInconsistentDataError({ walletId }, 'reEncryptWallet error')
 }
-
-export default reEncryptWallet

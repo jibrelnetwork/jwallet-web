@@ -8,7 +8,8 @@ import {
 } from 'store/selectors/wallets'
 
 import {
-  WalletsView, type Props,
+  type Props,
+  WalletsView,
 } from './WalletsView'
 
 function mapStateToProps(state: AppState) {
@@ -18,6 +19,6 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export const Wallets = (
-  connect< Props, OwnPropsEmpty, _, _, _, _ >(mapStateToProps)
+export const Wallets = connect<Props, OwnPropsEmpty, _, _, _, _>(
+  mapStateToProps,
 )(WalletsView)

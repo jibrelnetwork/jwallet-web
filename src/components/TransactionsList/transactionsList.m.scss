@@ -1,13 +1,15 @@
 @import 'styles/mixins';
 
 .core {
-  @include flex-row;
-
   padding-bottom: $new-page-header-height;
+
+  &.is-active {
+    padding-right: 384px;
+  }
 }
 
 .transactions-list {
-  width: 100%;
+  max-width: 100%;
 
   > .loader {
     @include flex-row-center;
@@ -18,10 +20,17 @@
 }
 
 .sidebar {
-  position: relative;
+  @include property-transition(top);
+
+  width: 384px;
+  position: absolute;
+  top: $new-page-header-height;
+  right: 0;
+}
+
+.details {
   width: 100%;
-  max-width: 352px;
-  margin-left: 32px;
+  padding-left: 32px;
 }
 
 .close-sidebar {

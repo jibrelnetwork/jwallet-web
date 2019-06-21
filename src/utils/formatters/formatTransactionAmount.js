@@ -1,7 +1,7 @@
 // @flow strict
 
 import { formatAssetBalance } from 'utils/formatters'
-import { type TransactionItem } from 'components/TransactionItemNew/transactionsIndex'
+import { type TransactionItem } from 'store/transactionsIndex'
 
 export function formatTransactionAmount({
   asset,

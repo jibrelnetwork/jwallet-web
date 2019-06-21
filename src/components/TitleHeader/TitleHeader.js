@@ -31,3 +31,7 @@ export function TitleHeader({
     </div>
   )
 }
+
+TitleHeader.defaultProps = {
+  onBack: undefined,
+}

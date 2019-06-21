@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
+import classNames from 'classnames'
 
 import {
   JLoader,
@@ -11,23 +12,54 @@ import {
   HistoryItemDetails,
 } from 'components'
 
+import { type TransactionItem as TransactionRecord } from 'store/transactionsIndex'
+
 import TransactionsListEmpty from './Empty'
 
 import style from './transactionsList.m.scss'
 
 type Props = {|
-  +items: TransactionWithPrimaryKeys[],
+  +items: TransactionRecord[],
   +isLoading: boolean,
-  +isFiltered: boolean,
 |}
 
 type State = {
   activeItem: ?string,
 }
 
-class TransactionsList extends Component<Props, State> {
-  state = {
-    activeItem: null,
+class TransactionsList extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      activeItem: null,
+    }
+  }
+
+  sidebar = React.createRef()
+
+  rootWrapper = window.root || document.getElementById('root')
+
+  componentDidMount() {
+    this.rootWrapper.addEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = (e: SyntheticEvent<HTMLDivElement>) => {
+    e.preventDefault()
+
+    if (this.sidebar) {
+      const { scrollTop } = this.rootWrapper
+      const { current } = this.sidebar
+
+      if (current) {
+        setTimeout(() => {
+          // eslint-disable-next-line fp/no-mutation
+          current.style = current.offsetTop >= 112
+            ? `top: ${scrollTop + 16}px`
+            : 'top: 112px'
+        }, 10)
+      }
+    }
   }
 
   handleSetActive = (id: TransactionId) => {
@@ -38,17 +70,20 @@ class TransactionsList extends Component<Props, State> {
     this.setState({ activeItem: null })
   }
 
+  componentWillUnmount() {
+    this.rootWrapper.removeEventListener('scroll', this.handleScroll)
+  }
+
   render() {
     const {
       items,
       isLoading,
-      isFiltered,
     }: Props = this.props
 
     if (!(isLoading || items.length)) {
       return (
         <div className={`${style.transactionsList} ${style.empty}`}>
-          <TransactionsListEmpty isFiltered={isFiltered} />
+          <TransactionsListEmpty isFiltered={false} />
         </div>
       )
     }
@@ -56,26 +91,17 @@ class TransactionsList extends Component<Props, State> {
     const { activeItem } = this.state
 
     return (
-      <div className={style.core}>
+      <div className={classNames(style.core, activeItem && style.isActive)}>
         <ul className={style.transactionsList}>
-          {items.map((item: TransactionWithPrimaryKeys) => {
-            const {
-              keys,
-              hash,
-            }: TransactionWithPrimaryKeys = item
-
-            return (
-              <li
-                key={keys.id}
-              >
-                <TransactionItem
-                  offset='mb16'
-                  txAddress={hash}
-                  onClick={this.handleSetActive}
-                />
-              </li>
-            )
-          })}
+          {items.map(({ id }: TransactionRecord) => (
+            <li key={id}>
+              <TransactionItem
+                offset='mb16'
+                txAddress={id}
+                onClick={this.handleSetActive}
+              />
+            </li>
+          ))}
           {isLoading && (
             <div className={style.loader}>
               <JLoader color='gray' />
@@ -83,8 +109,10 @@ class TransactionsList extends Component<Props, State> {
           )}
         </ul>
         {activeItem && (
-          <div className={style.sidebar}>
-            <HistoryItemDetails txHash={activeItem} />
+          <div className={style.sidebar} ref={this.sidebar}>
+            <div className={style.details}>
+              <HistoryItemDetails txHash={activeItem} />
+            </div>
             <button
               type='button'
               className={style.closeSidebar}

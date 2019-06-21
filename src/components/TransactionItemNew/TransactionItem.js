@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import {
-  memoize,
   noop,
   get,
 } from 'lodash-es'
@@ -24,14 +23,13 @@ import {
   type TransactionDirection,
   type TransactionStatus,
   transactionsIndex,
-} from './transactionsIndex'
+  MEMO,
+} from 'store/transactionsIndex'
 
 import transactionItemStyle from './transactionItem.m.scss'
 
-const memoizedIndex = memoize(transactionsIndex)
-
 export type ContainerProps = {|
-  +onClick?: (Address) => mixed,
+  +onClick?: (TransactionId) => mixed,
   +txAddress: Address,
   +offset?: OffsetVariant,
   +isActive?: boolean,
@@ -92,14 +90,13 @@ class TransactionItem extends PureComponent<Props, *> {
 
   render() {
     const {
-      txAddress,
       transaction,
       isActive,
       offset,
     } = this.props
 
     // FIXME: Temporary solution, don't handle mint/burn events and other strange things
-    if (transaction.asset && !transaction.asset.blockchainParams) {
+    if (transaction === undefined || !transaction.asset) {
       return null
     }
 
@@ -113,7 +110,7 @@ class TransactionItem extends PureComponent<Props, *> {
           isActive && transactionItemStyle.selected,
           offsetsStyle[offset],
         )}
-        href={`/history/${txAddress}`}
+        href={`/history/${transaction.id}`}
         onClick={this.handleClick}
       >
         <div className={`${transactionItemStyle.item} ${transactionItemStyle.statusIcon}`}>
@@ -123,14 +120,14 @@ class TransactionItem extends PureComponent<Props, *> {
         </div>
         <div className={classNames(transactionItemStyle.item, transactionItemStyle.mainBlock)}>
           <div
-            title={transaction.title.length >= 50 && transaction.title}
+            title={transaction.title.length >= 50 ? transaction.title : undefined}
             className={transactionItemStyle.text}
           >
             {transaction.title}
           </div>
           {transaction.note && (
             <div
-              title={transaction.note.length >= 60 && transaction.note}
+              title={transaction.note.length >= 60 ? transaction.note : undefined}
               className={transactionItemStyle.subtext}
             >
               {transaction.note}
@@ -155,7 +152,11 @@ class TransactionItem extends PureComponent<Props, *> {
 }
 
 function mapStateToProps(state: AppState, { txAddress }: ContainerProps) {
-  return { transaction: memoizedIndex(state)[txAddress] }
+  const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
+    ? MEMO.transactionsIndex
+    : transactionsIndex(state)
+
+  return { transaction: dataMap[txAddress] }
 }
 
 const connectedComponent = (

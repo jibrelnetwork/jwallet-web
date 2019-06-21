@@ -5,7 +5,10 @@
 
   position: relative;
   height: 100%;
-  padding: 64px 0 0;
+
+  &.has-logo {
+    padding: 64px 0 176px;
+  }
 }
 
 .logo {
@@ -19,7 +22,7 @@
   @include flex-column-center;
 
   flex-grow: 1;
-  margin: 0 auto 176px;
+  margin: 0 auto;
   padding: 0 64px;
   max-width: 544px + 2 * 64px;
   width: 100%;

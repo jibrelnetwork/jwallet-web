@@ -11,7 +11,6 @@
   left: -3px;
   width: 24px;
   height: 24px;
-  transition: opacity 0.3s ease 0s;
 }
 
 .field {
@@ -20,23 +19,29 @@
   padding-left: 40px;
   font-size: 14px;
   line-height: 22px;
-  color: $main-black;
   cursor: pointer;
 
+  .on,
   .off {
-    stroke: $main-black-30;
-    transition: stroke 0.3s ease 0s;
+    @include property-transition(fill, stroke, opacity);
+  }
+
+  .off {
+    @include sprite-icon-color($main-black-20);
+
+    opacity: 1;
   }
 
   .on {
-    fill: $blue;
+    @include sprite-icon-color($main-blue);
+
     opacity: 0;
     transition: opacity 0.3s ease 0s;
   }
 
   &:hover {
     .off {
-      stroke: $main-black-50;
+      @include sprite-icon-color($main-black-50);
     }
   }
 }

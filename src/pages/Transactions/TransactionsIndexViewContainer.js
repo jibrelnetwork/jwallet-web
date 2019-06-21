@@ -2,135 +2,36 @@
 
 import { connect } from 'react-redux'
 
-import { selectCommentsItems } from 'store/selectors/comments'
-import { selectFavoritesAddressNames } from 'store/selectors/favorites'
-import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
-
-import {
-  removeDuplicates,
-  sortTransactions,
-  filterTransactions,
-  searchTransactions,
-  flattenTransactionsByOwner,
-  flattenPendingTransactionsByOwner,
-} from 'utils/transactions'
-
 import {
   selectCurrentBlock,
   selectProcessingBlock,
 } from 'store/selectors/blocks'
+import { transactionsIndex } from 'store/transactionsIndex'
 
 import {
-  selectNetworkById,
   selectCurrentNetworkId,
 } from 'store/selectors/networks'
 
-import {
-  selectAddressNames,
-  selectActiveWalletAddress,
-  selectAddressWalletsNames,
-} from 'store/selectors/wallets'
-
-import {
-  selectTransactions,
-  selectTransactionsByOwner,
-  selectPendingTransactionsByOwner,
-} from 'store/selectors/transactions'
-
-import {
-  setIsOnlyPending,
-  changeSearchInput,
-} from 'store/modules/transactions'
-
-import { edit as editComment } from 'store/modules/comments'
-import { remove as removeFavorite } from 'store/modules/favorites'
-
 import TransactionsIndexView from './TransactionsIndexView'
 
-function prepareTransactions(
-  items: ?TransactionsByOwner,
-  pending: ?PendingTransactionsByOwner,
-  names: AddressNames,
-  searchQuery: string,
-  isOnlyPending: boolean,
-): TransactionWithPrimaryKeys[] {
-  if (!items) {
-    return []
-  }
-
-  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(items)
-  const flattenPending: TransactionWithPrimaryKeys[] = flattenPendingTransactionsByOwner(pending)
-  const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPending]
-  const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
-  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isOnlyPending)
-  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
-  const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
-
-  return sorted
-}
-
 function mapStateToProps(state: AppState) {
-  const comments: Comments = selectCommentsItems(state)
+  const index = transactionsIndex(state)
+  // Sorting transactions
+  // eslint-disable-next-line fp/no-mutating-methods
+  const transactions = Object.keys(index).map(id => index[id]).reverse()
   const networkId: NetworkId = selectCurrentNetworkId(state)
-  const addressNames: AddressNames = selectAddressNames(state)
-  const network: ?Network = selectNetworkById(state, networkId)
-  const favorites: AddressNames = selectFavoritesAddressNames(state)
-  const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
-  const digitalAssets: DigitalAssets = selectDigitalAssetsItems(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const addressWalletsNames: AddressNames = selectAddressWalletsNames(state)
   const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
-
-  const {
-    searchQuery,
-    isOnlyPending,
-  }: TransactionsState = selectTransactions(state)
-
-  const transactionsByOwner: ?TransactionsByOwner =
-    selectTransactionsByOwner(state, networkId, ownerAddress)
-
-  const pendingTransactions: ?PendingTransactionsByOwner =
-    selectPendingTransactionsByOwner(state, networkId, ownerAddress)
 
   const isCurrentBlockEmpty: boolean = !currentBlock
   const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
 
   return {
-    network,
-    comments,
-    favorites,
-    addressNames: {
-      ...addressNames,
-      ...addressWalletsNames,
-    },
-    digitalAssets,
-    searchQuery,
-    ownerAddress,
-    isOnlyPending,
     isLoading: isCurrentBlockEmpty || isLoading,
-    transactions: isCurrentBlockEmpty
-      ? []
-      : prepareTransactions(
-        transactionsByOwner,
-        pendingTransactions,
-        {
-          ...favorites,
-          ...addressNames,
-          ...addressWalletsNames,
-        },
-        searchQuery,
-        isOnlyPending,
-      ),
+    transactions,
   }
 }
 
-const mapDispatchToProps = {
-  editComment,
-  removeFavorite,
-  setIsOnlyPending,
-  changeSearchInput,
-}
-
 export default (
-  connect/* :: < AppState, any, OwnPropsEmpty, _, _ > */(mapStateToProps, mapDispatchToProps)
+  connect< any, OwnPropsEmpty, _, _, _, _ >(mapStateToProps)
 )(TransactionsIndexView)

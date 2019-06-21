@@ -1,24 +1,19 @@
-// @flow
+// @flow strict
 
 import { t } from 'ttag'
 
 import { WalletInconsistentDataError } from 'errors'
 
-import { checkMnemonicType } from '.'
+import { checkMultiAddressType } from '.'
 
 export function getMnemonicAddressName(
-  wallet: Wallet,
+  {
+    customType,
+    addressIndex,
+  }: Wallet,
   addressName: ?string,
 ): string {
-  const {
-    type,
-    addressIndex,
-  }: Wallet = wallet
-
-  const isMnemonic: boolean = checkMnemonicType(type)
-  const index: number = addressIndex + 1
-
-  if (!isMnemonic) {
+  if (!checkMultiAddressType(customType)) {
     throw new WalletInconsistentDataError()
   }
 
@@ -26,5 +21,5 @@ export function getMnemonicAddressName(
     return addressName
   }
 
-  return `${t`Address`} ${index}`
+  return `${t`Address`} ${addressIndex + 1}`
 }

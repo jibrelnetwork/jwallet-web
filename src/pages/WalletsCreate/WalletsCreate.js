@@ -8,7 +8,7 @@ import { validateName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { selectPasswordHint } from 'store/selectors/password'
 import { blockNumbersRequest } from 'store/modules/walletsCreate'
-import { selectWalletsCreateBlockNumbers } from 'store/selectors/wallets'
+import { selectWalletsCreatedBlockNumber } from 'store/selectors/wallets'
 
 import {
   STEPS,
@@ -92,7 +92,7 @@ function mapStateToProps(state: AppState) {
   return {
     hint: selectPasswordHint(state),
     submit: submitWalletsCreateForm,
-    createdBlockNumber: selectWalletsCreateBlockNumbers(state),
+    createdBlockNumber: selectWalletsCreatedBlockNumber(state),
   }
 }
 

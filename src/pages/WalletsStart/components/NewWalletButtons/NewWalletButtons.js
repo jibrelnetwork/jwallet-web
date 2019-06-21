@@ -1,9 +1,10 @@
-// @flow
+// @flow strict
 
 import React, {
   PureComponent,
   Fragment,
 } from 'react'
+
 import { t } from 'ttag'
 
 import { JLink } from 'components/base'
@@ -36,10 +37,10 @@ export class NewWalletButtons extends PureComponent<Props> {
     return (
       <Fragment>
         <JLink
-          theme='button-general'
           onClick={this.handleClickCreate}
-          className='__create-button'
+          className={`__create-button ${newWalletButtonsStyle.create}`}
           href='/wallets/create'
+          theme='button-general'
         >
           {t`Create Wallet`}
         </JLink>
@@ -47,10 +48,10 @@ export class NewWalletButtons extends PureComponent<Props> {
           {t`Create your own wallet to manage your digital assets`}
         </div>
         <JLink
-          theme='button-secondary'
           onClick={this.handleClickImport}
-          className='__import-button'
+          className={`__import-button ${newWalletButtonsStyle.import}`}
           href='/wallets/import'
+          theme='button-secondary'
         >
           {t`Import Wallet`}
         </JLink>

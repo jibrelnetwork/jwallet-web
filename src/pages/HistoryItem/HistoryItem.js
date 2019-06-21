@@ -1,10 +1,9 @@
 // @flow strict
 
 import { connect } from 'react-redux'
-import { memoize } from 'lodash-es'
 
 import { PageNotFoundError } from 'errors'
-import { transactionsIndex } from 'components/TransactionItemNew/transactionsIndex'
+import { transactionsIndex } from 'store/transactionsIndex'
 
 import {
   type Props,
@@ -16,7 +15,7 @@ type OwnProps = {|
 |}
 
 function mapStateToProps(state: AppState, { itemId }: OwnProps) {
-  const hasTransaction = memoize(transactionsIndex)(state)[itemId] !== undefined
+  const hasTransaction = transactionsIndex(state)[itemId] !== undefined
 
   if (!hasTransaction) {
     throw new PageNotFoundError()

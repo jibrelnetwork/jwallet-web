@@ -10,7 +10,6 @@ import { selectPasswordHint } from 'store/selectors/password'
 
 import {
   validateName,
-  checkMnemonicType,
   validateDerivationPath,
 } from 'utils/wallets'
 
@@ -106,7 +105,7 @@ function validateWalletsImportForm(
         formErrors.data = validateWalletDataResult
       }
 
-      if (checkMnemonicType(walletType)) {
+      if (walletType === 'mnemonic') {
         const validateDerivationPathResult: ?string = validateDerivationPath(derivationPath)
 
         if (validateDerivationPathResult) {
@@ -133,16 +132,16 @@ async function submitWalletsImportForm({
     return errors
   }
 
-  switch (currentStep) {
-    case STEPS.DATA:
-      return goToPasswordStep()
+  const { walletType }: FormFields = values
+  const isReadOnly: boolean = ['address', 'xpub'].includes(walletType)
 
-    case STEPS.PASSWORD:
-      return importWallet(values)
-
-    default:
-      return null
+  if ((currentStep === STEPS.PASSWORD) || isReadOnly) {
+    return importWallet(values)
+  } else if (currentStep === STEPS.DATA) {
+    return goToPasswordStep()
   }
+
+  return null
 }
 
 function mapStateToProps(state: AppState) {

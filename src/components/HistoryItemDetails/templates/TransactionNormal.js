@@ -97,7 +97,7 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
       : status
 
     return (
-      <div className={classNames(style.core, this.props.className)}>
+      <div className={style.core}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[this.props.status])}>
             <div className={style.statusIcon}>
@@ -137,9 +137,9 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
           />
           <FieldPreview
             label={t`Blockchain transaction`}
-            body={getShortenedAddress(this.props.id)}
-            link={getTxLink(this.props.id, this.props.blockExplorer)}
-            copy={this.props.id}
+            body={getShortenedAddress(this.props.hash)}
+            link={getTxLink(this.props.hash, this.props.blockExplorer)}
+            copy={this.props.hash}
             copyMessage={TX_COPIED}
           />
           <FieldPreview

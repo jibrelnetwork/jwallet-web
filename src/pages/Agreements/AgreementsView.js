@@ -80,26 +80,25 @@ class AgreementsScreen extends PureComponent<Props> {
                     name={key}
                     isChecked={agreements[key]}
                     isRegular
-                  />
+                  >
+                    {conditions[key]}
+                  </JCheckbox>
                 ) : (
                   <JCheckbox
                     onChange={this.onChange(key)}
                     color='black'
-                    label={t`I have read and accepted`}
                     name={key}
                     isChecked={agreements[key]}
                     isRegular
                   >
-                    {' '}
+                    {t`I have read and accepted `}
                     <JLink
                       theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
                     >
                       {t`Terms of Use`}
                     </JLink>
-                    {' '}
-                    <span className='label'>{t`and`}</span>
-                    {' '}
+                    <span className='label'>{t` and `}</span>
                     <JLink
                       theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'

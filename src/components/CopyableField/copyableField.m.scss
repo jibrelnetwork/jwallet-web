@@ -1,0 +1,40 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-row-center;
+
+  position: relative;
+  padding: 14px 27px 16px 16px;
+  background-color: $white;
+}
+
+.content {
+  @include flex-column;
+
+  max-width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.label {
+  @include ellipsis;
+
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  color: $main-black-40;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.value {
+  position: relative;
+  margin-right: 27px;
+  overflow-wrap: break-word;
+  color: $main-black;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+}

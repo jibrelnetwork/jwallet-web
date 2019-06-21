@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { t } from 'ttag'
 import { actions as router5Actions } from 'redux-router5'
@@ -25,8 +25,8 @@ import {
 } from 'utils/address'
 
 import {
-  getPrivateKey,
-  GetPrivateKeyError,
+// getPrivateKey,
+// GetPrivateKeyError,
 } from 'store/sagas/wallets/core'
 
 import {
@@ -38,7 +38,7 @@ import {
 
 import {
   selectActiveWalletAddress,
-  selectActiveWalletIdOrThrow,
+  // selectActiveWalletIdOrThrow,
   selectActiveWalletAddressOrThrow,
 } from 'store/selectors/wallets'
 
@@ -562,8 +562,8 @@ function* sendTransactionRequest(
   const network: ExtractReturn<typeof selectCurrentNetworkOrThrow>
     = yield select(selectCurrentNetworkOrThrow)
 
-  const walletId: ExtractReturn<typeof selectActiveWalletIdOrThrow>
-    = yield select(selectActiveWalletIdOrThrow)
+  // const walletId: ExtractReturn<typeof selectActiveWalletIdOrThrow>
+  //   = yield select(selectActiveWalletIdOrThrow)
 
   const digitalAsset: ExtractReturn<typeof selectDigitalAssetOrThrow> =
     yield select(selectDigitalAssetOrThrow, assetAddress)
@@ -576,7 +576,7 @@ function* sendTransactionRequest(
   yield put(digitalAssetsSend.setIsLoading(true))
 
   try {
-    const privateKey: string = yield* getPrivateKey(walletId, password)
+    const privateKey: string = '' // yield* getPrivateKey(walletId, password)
 
     const txData: SendTransactionProps = {
       to: recipient,
@@ -598,11 +598,11 @@ function* sendTransactionRequest(
     const txHash: Hash = yield call(web3.sendTransaction, network, address, txData)
     yield* sendTransactionSuccess(txHash, formFieldValues, network.id, decimals, gasValues)
   } catch (err) {
-    if (err instanceof GetPrivateKeyError) {
-      yield put(digitalAssetsSend.setFormFieldError('password', t`Invalid password`))
-    } else {
-      yield put(digitalAssetsSend.setSendAssetError(err.message))
-    }
+    // if (err instanceof GetPrivateKeyError) {
+    //   yield put(digitalAssetsSend.setFormFieldError('password', t`Invalid password`))
+    // } else {
+    yield put(digitalAssetsSend.setSendAssetError(err.message))
+    // }
   }
 
   yield put(digitalAssetsSend.setIsLoading(false))

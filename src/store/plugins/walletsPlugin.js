@@ -3,16 +3,18 @@
 import uuidv4 from 'uuid/v4'
 import { t } from 'ttag'
 import { type Store } from 'redux'
-import { actions as router5Actions } from 'redux-router5'
 
 import { gaSendEvent } from 'utils/analytics'
-import { selectWalletsItems } from 'store/selectors/wallets'
+import { setNewPassword } from 'store/modules/password'
 import { selectPasswordPersist } from 'store/selectors/password'
 
 import {
-  WalletNotFoundError,
-  WalletInconsistentDataError,
-} from 'errors'
+  getNonce,
+  generateSalt,
+  encryptInternalKey,
+  decryptInternalKey,
+  deriveKeyFromPassword,
+} from 'utils/encryption'
 
 import {
   setActiveWallet,
@@ -20,26 +22,16 @@ import {
 } from 'store/modules/wallets'
 
 import {
-  strip0x,
-  checkAddressValid,
-  getAddressChecksum,
-  checkPrivateKeyValid,
-  getAddressFromPrivateKey,
-} from 'utils/address'
+  selectWalletsItems,
+  selectActiveWalletId,
+} from 'store/selectors/wallets'
 
 import {
-  checkXkeyValid,
-  getXPUBFromXPRV,
-  checkMnemonicValid,
-  getXPUBFromMnemonic,
-  getXPRVFromMnemonic,
-} from 'utils/mnemonic'
+  WalletNotFoundError,
+  WalletInconsistentDataError,
+} from 'errors'
 
-import {
-  encryptData,
-  decryptInternalKey,
-  deriveKeyFromPassword,
-} from 'utils/encryption'
+import * as walletsUtils from 'utils/wallets'
 
 export type ImportWalletPayload = {|
   +data: string,
@@ -49,37 +41,11 @@ export type ImportWalletPayload = {|
   +derivationPath: ?string,
 |}
 
-export type WalletData = {|
-  +id: string,
-  +data: string,
-  +name: string,
-  +passphrase: ?string,
-  +derivationPath: ?string,
-  +orderIndex: number,
-  +createdBlockNumber: ?WalletCreatedBlockNumber,
-|}
-
-function max(a: number, b: number): number {
+function max(
+  a: number,
+  b: number,
+): number {
   return (a > b) ? a : b
-}
-
-function removeWallet(items: Wallets, walletId: WalletId): Wallets {
-  return items.filter(({ id }: Wallet): boolean => (walletId !== id))
-}
-
-function appendWallet(items: Wallets, wallet: Wallet): Wallets {
-  /* eslint-disable-next-line fp/no-mutating-methods */
-  return [
-    ...items,
-    wallet,
-  ].sort((a: Wallet, b: Wallet): number => {
-    if (a.orderIndex === b.orderIndex) {
-      return 0
-    }
-
-    return (a.orderIndex > b.orderIndex) ? 1 : -1
-  })
-  /* eslint-enable-next-line fp/no-mutating-methods */
 }
 
 class WalletsPlugin {
@@ -111,228 +77,29 @@ class WalletsPlugin {
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
 
-  createMnemonicWallet = (
-    walletData: WalletData,
-    internalKey: Uint8Array,
-  ): Wallet => {
+  getInternalKey = async (password: ?string): Promise<?Uint8Array> => {
+    const state: AppState = this.getState()
+
     const {
-      id,
-      data,
-      name,
-      passphrase,
-      derivationPath,
-      orderIndex,
-      createdBlockNumber,
-    }: WalletData = walletData
+      salt,
+      internalKey,
+    }: PasswordPersist = selectPasswordPersist(state)
 
-    const mnemonic: string = data.toLowerCase()
-    const xpub: string = getXPUBFromMnemonic(mnemonic, passphrase, derivationPath)
-    const xprv: string = getXPRVFromMnemonic(mnemonic, passphrase, derivationPath)
-
-    return {
-      id,
-      xpub,
-      name,
-      orderIndex,
-      derivationPath,
-      createdBlockNumber,
-      addressIndex: 0,
-      isReadOnly: false,
-      isSimplified: true,
-      type: 'mnemonic',
-      customType: 'mnemonic',
-      encrypted: {
-        privateKey: null,
-        xprv: encryptData({
-          key: internalKey,
-          data: xprv,
-        }),
-        mnemonic: encryptData({
-          key: internalKey,
-          data: mnemonic,
-        }),
-        passphrase: encryptData({
-          key: internalKey,
-          data: passphrase || '',
-        }),
-      },
-      /**
-       * Another wallet data, necessary for consistency of types
-       */
-      address: null,
+    if (!internalKey) {
+      return null
     }
-  }
 
-  createXPRVWallet = (
-    walletData: WalletData,
-    internalKey: Uint8Array,
-  ): Wallet => {
-    const {
-      id,
-      data,
-      name,
-      orderIndex,
-      createdBlockNumber,
-    }: WalletData = walletData
+    const derivedKey: ?Uint8Array = !password ? null : await deriveKeyFromPassword(
+      password,
+      salt,
+    )
 
-    return {
-      id,
-      name,
-      orderIndex,
-      createdBlockNumber,
-      addressIndex: 0,
-      type: 'mnemonic',
-      isReadOnly: false,
-      isSimplified: true,
-      customType: 'xprv',
-      xpub: getXPUBFromXPRV(data),
-      encrypted: {
-        mnemonic: null,
-        privateKey: null,
-        passphrase: null,
-        xprv: encryptData({
-          data,
-          key: internalKey,
-        }),
-      },
-      /**
-       * Another wallet data, necessary for consistency of types
-       */
-      address: null,
-      derivationPath: null,
-    }
-  }
+    const internalKeyDec: ?Uint8Array = !derivedKey ? null : decryptInternalKey(
+      internalKey,
+      derivedKey,
+    )
 
-  createXPUBWallet = ({
-    id,
-    data,
-    name,
-    orderIndex,
-    createdBlockNumber,
-  }: WalletData): Wallet => ({
-    id,
-    name,
-    orderIndex,
-    createdBlockNumber,
-    xpub: data,
-    addressIndex: 0,
-    isReadOnly: true,
-    type: 'mnemonic',
-    customType: 'xpub',
-    isSimplified: true,
-    encrypted: {
-      xprv: null,
-      mnemonic: null,
-      privateKey: null,
-      passphrase: null,
-    },
-    /**
-     * Another wallet data, necessary for consistency of types
-     */
-    address: null,
-    derivationPath: null,
-  })
-
-  createPrivateKeyWallet = (
-    walletData: WalletData,
-    internalKey: Uint8Array,
-  ): Wallet => {
-    const {
-      id,
-      data,
-      name,
-      orderIndex,
-      createdBlockNumber,
-    }: WalletData = walletData
-
-    const privateKey: string = data.toLowerCase()
-
-    return {
-      id,
-      name,
-      orderIndex,
-      createdBlockNumber,
-      type: 'address',
-      isReadOnly: false,
-      customType: 'privateKey',
-      address: getAddressFromPrivateKey(privateKey),
-      encrypted: {
-        xprv: null,
-        mnemonic: null,
-        passphrase: null,
-        privateKey: encryptData({
-          key: internalKey,
-          data: strip0x(privateKey),
-        }),
-      },
-      /**
-       * Another wallet data, necessary for consistency of types
-       */
-      xpub: null,
-      isSimplified: null,
-      addressIndex: null,
-      derivationPath: null,
-    }
-  }
-
-  createAddressWallet = ({
-    id,
-    data,
-    name,
-    orderIndex,
-    createdBlockNumber,
-  }: WalletData): Wallet => ({
-    id,
-    name,
-    orderIndex,
-    createdBlockNumber,
-    type: 'address',
-    isReadOnly: true,
-    customType: 'address',
-    address: getAddressChecksum(data),
-    encrypted: {
-      xprv: null,
-      mnemonic: null,
-      passphrase: null,
-      privateKey: null,
-    },
-    /**
-     * Another wallet data, necessary for consistency of types
-     */
-    xpub: null,
-    isSimplified: null,
-    addressIndex: null,
-    derivationPath: null,
-  })
-
-  createWallet = (
-    walletData: WalletData,
-    internalKey: Uint8Array,
-  ): Wallet => {
-    const { data }: WalletData = walletData
-
-    if (checkMnemonicValid(data)) {
-      return this.createMnemonicWallet(
-        walletData,
-        internalKey,
-      )
-    } else if (checkXkeyValid(data, 'prv')) {
-      return this.createXPRVWallet(
-        walletData,
-        internalKey,
-      )
-    } else if (checkXkeyValid(data, 'pub')) {
-      return this.createXPUBWallet(walletData)
-    } else if (checkPrivateKeyValid(data)) {
-      return this.createPrivateKeyWallet(
-        walletData,
-        internalKey,
-      )
-    } else if (checkAddressValid(data)) {
-      return this.createAddressWallet(walletData)
-    } else {
-      throw new WalletInconsistentDataError('createWallet data error')
-    }
+    return internalKeyDec
   }
 
   importWallet = async (
@@ -345,33 +112,14 @@ class WalletsPlugin {
     }: FormFields,
     createdBlockNumber?: ?WalletCreatedBlockNumber = null,
   ): ?FormFields => {
-    if (!data || !name || !password) {
+    if (!(data && name)) {
       throw new Error(t`Invalid wallet data`)
     }
 
-    const state: AppState = this.getState()
-
-    const {
-      internalKey,
-      salt,
-    }: PasswordPersist = selectPasswordPersist(state)
-
-    if (!internalKey) {
-      throw new Error(t`Invalid password data`)
-    }
-
-    const derivedKey: Uint8Array = await deriveKeyFromPassword(
-      password,
-      salt,
-    )
-
     try {
-      const internalKeyDec: Uint8Array = decryptInternalKey(
-        internalKey,
-        derivedKey,
-      )
+      const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
 
-      const newWallet: Wallet = this.createWallet({
+      const newWallet: Wallet = walletsUtils.prepareWallet({
         passphrase,
         derivationPath,
         createdBlockNumber,
@@ -379,28 +127,22 @@ class WalletsPlugin {
         data: data.trim(),
         name: name.trim(),
         orderIndex: this.getNextOrderIndex(),
-      }, internalKeyDec)
+      }, internalKey)
 
       const items: Wallets = this.getItems()
-      const newItems: Wallets = appendWallet(items, newWallet)
+      const newItems: Wallets = walletsUtils.appendWallet(items, newWallet)
+
+      if (newItems.length === 1) {
+        this.dispatch(setActiveWallet(newWallet.id))
+      }
 
       this.dispatch(setWalletsItems(newItems))
-      this.dispatch(router5Actions.navigateTo('Wallets'))
 
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreated')
       } else {
         gaSendEvent('ImportWallet', 'WalletCreated')
       }
-
-      const newWallets: Wallets = this.appendWallet(newWallet)
-
-      if (newItems.length === 1) {
-        this.dispatch(setActiveWallet(newWallet.id))
-      }
-
-      this.dispatch(setWalletsItems(newWallets))
-      this.dispatch(router5Actions.navigateTo('Wallets'))
     } catch (err) {
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreationError')
@@ -434,20 +176,24 @@ class WalletsPlugin {
   ): void => {
     const items: Wallets = this.getItems()
 
-    const foundWallet: ?Wallet = items.find((wallet: Wallet): boolean => {
-      const propertyValue: string = wallet[propertyName]
-
-      return propertyValue ? (propertyValue.toLowerCase() === uniqueProperty.toLowerCase()) : false
-    })
+    const foundWallet: ?Wallet = walletsUtils.findWalletByProperty(
+      items,
+      uniqueProperty,
+      propertyName,
+    )
 
     if (foundWallet) {
-      throw new Error(t`Wallet with such ${propertyName} already exists`)
+      throw new Error(t`Wallet with such ${foundWallet.name} already exists`)
     }
   }
 
   getWallet = (walletId: WalletId): Wallet => {
     const items: Wallets = this.getItems()
-    const wallet: ?Wallet = items.find(({ id }: Wallet): boolean => (walletId === id))
+
+    const wallet: ?Wallet = walletsUtils.getWalletById(
+      items,
+      walletId,
+    )
 
     if (!wallet) {
       throw new WalletNotFoundError({ walletId })
@@ -459,39 +205,187 @@ class WalletsPlugin {
   updateWallet = (
     walletId: WalletId,
     updatedData: WalletUpdatedData,
+    isRedirectBlocked: boolean = false,
   ): Wallets => {
-    const {
-      encrypted,
-      name,
-      xpub,
-      derivationPath,
-      customType,
-      addressIndex,
-      isReadOnly,
-      isSimplified,
-    }: WalletUpdatedData = updatedData
-
     const wallet: Wallet = this.getWallet(walletId)
+    const items: Wallets = this.getItems()
+    const newItems: Wallets = walletsUtils.updateWallet(items, wallet, updatedData)
 
-    const newWallet: Wallet = {
-      ...wallet,
-      encrypted: encrypted || wallet.encrypted,
-      name: name || wallet.name,
-      xpub: xpub || wallet.xpub,
-      customType: customType || wallet.customType,
-      derivationPath: derivationPath || wallet.derivationPath,
-      addressIndex: (addressIndex != null) ? addressIndex : wallet.addressIndex,
-      isReadOnly: (typeof (isReadOnly) === 'boolean') ? isReadOnly : wallet.isReadOnly,
-      isSimplified: (typeof (isSimplified) === 'boolean') ? isSimplified : wallet.isSimplified,
+    this.dispatch(setWalletsItems(newItems, isRedirectBlocked))
+
+    return newItems
+  }
+
+  checkWalletReadOnly = (walletId: WalletId): boolean => {
+    const { customType }: Wallet = this.getWallet(walletId)
+
+    return walletsUtils.checkReadOnlyType(customType)
+  }
+
+  removeWallet = (walletId: WalletId): Wallets => {
+    const items: Wallets = this.getItems()
+    const newItems: Wallets = walletsUtils.removeWallet(items, walletId)
+    const activeWalletId: ?WalletId = selectActiveWalletId(this.getState())
+
+    if (walletId === activeWalletId) {
+      const firstWallet: ?Wallet = newItems[0]
+      this.dispatch(setActiveWallet(firstWallet ? firstWallet.id : null))
     }
 
+    this.dispatch(setWalletsItems(newItems))
+
+    return newItems
+  }
+
+  getPrivateKey = async (
+    walletId: WalletId,
+    password: string,
+  ): Promise<string> => {
+    const wallet: Wallet = this.getWallet(walletId)
+    const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
+
+    if (!internalKey) {
+      throw new WalletInconsistentDataError('getPrivateKey data error')
+    }
+
+    return walletsUtils.getPrivateKey(wallet, internalKey)
+  }
+
+  getAddress = (walletId: WalletId): Address => {
+    const wallet: Wallet = this.getWallet(walletId)
+
+    return walletsUtils.getAddress(wallet)
+  }
+
+  getAddresses = (
+    walletId: WalletId,
+    start: number,
+    end: number,
+  ): Address[] => {
+    const wallet: Wallet = this.getWallet(walletId)
+
+    return walletsUtils.getAddresses(
+      wallet,
+      start,
+      end,
+    )
+  }
+
+  upgradeWallet = async (
+    walletId: WalletId,
+    values: FormFields,
+  ): ?FormFields => {
+    const {
+      data,
+      password,
+      passphrase,
+      derivationPath,
+    }: FormFields = values
+
+    try {
+      const internalKey: ?Uint8Array = await this.getInternalKey(password)
+
+      if (!internalKey) {
+        throw new WalletInconsistentDataError('upgradeWallet data error')
+      }
+
+      this.updateWallet(
+        walletId,
+        walletsUtils.upgradeWallet({
+          wallet: this.getWallet(walletId),
+          data,
+          passphrase,
+          internalKey,
+          derivationPath,
+        }),
+        true,
+      )
+    } catch (error) {
+      gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
+
+      return {
+        password: t`Invalid password`,
+      }
+    }
+
+    return null
+  }
+
+  reEncryptWallets = async (
+    password: string,
+    newPassword: string,
+    passwordHint: string,
+  ): Promise<Wallets> => {
+    const state: AppState = this.getState()
+
+    const {
+      salt,
+      internalKey,
+    }: PasswordPersist = selectPasswordPersist(state)
+
+    if (!internalKey) {
+      throw new WalletInconsistentDataError('reEncryptWallets data error')
+    }
+
+    if (!newPassword) {
+      throw new WalletInconsistentDataError('password can\'t be empty')
+    }
+
+    const derivedKey: Uint8Array = await deriveKeyFromPassword(
+      password,
+      salt,
+    )
+
+    const internalKeyDec: Uint8Array = decryptInternalKey(
+      internalKey,
+      derivedKey,
+    )
+
+    const newSalt: string = generateSalt()
+    const newInternalKey: Uint8Array = getNonce()
+
+    const newDerivedKey: Uint8Array = await deriveKeyFromPassword(
+      newPassword,
+      newSalt,
+    )
+
+    const internalKeyEnc: EncryptedData = encryptInternalKey(
+      newInternalKey,
+      newDerivedKey,
+    )
+
     const items: Wallets = this.getItems()
-    const itemsRemoved: Wallets = removeWallet(items, walletId)
-    const itemsAppended: Wallets = appendWallet(itemsRemoved, newWallet)
 
-    this.dispatch(setWalletsItems(itemsAppended))
+    const newItems: Wallets = items.map((wallet: Wallet) => walletsUtils.reEncryptWallet(
+      wallet,
+      internalKeyDec,
+      newInternalKey,
+    ))
 
-    return itemsAppended
+    this.dispatch(setNewPassword({
+      salt,
+      internalKey: internalKeyEnc,
+      hint: passwordHint || '',
+    }))
+
+    this.dispatch(setWalletsItems(newItems))
+
+    return newItems
+  }
+
+  deriveOneMoreAddress = (walletId: WalletId): Wallets => {
+    const { derivationIndex }: Wallet = this.getWallet(walletId)
+
+    if (derivationIndex === null) {
+      throw new WalletInconsistentDataError('derivationIndex doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        derivationIndex: (derivationIndex + 1),
+      },
+      true,
+    )
   }
 }
 
