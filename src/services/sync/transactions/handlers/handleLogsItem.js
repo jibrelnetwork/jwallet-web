@@ -1,6 +1,6 @@
 // @flow strict
 
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
 import {
   type DBBlock,
