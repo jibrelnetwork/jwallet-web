@@ -116,7 +116,7 @@ class AgreementsScreen extends PureComponent<Props> {
               <Button
                 className={agreementsViewStyle.button}
                 theme='general'
-                disabled={!isAllAgreementsChecked}
+                isDisabled={!isAllAgreementsChecked}
                 onClick={this.handleAgreementsConfirmClick}
               >
                 {t`Confirm and continue`}
