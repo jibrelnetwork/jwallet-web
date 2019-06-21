@@ -100,7 +100,7 @@ class PriorityField extends Component<Props> {
                   className={fieldStyle.field}
                   component={InputWithUnit}
                   name={gasLimitFieldName}
-                  label={t`Gas Limit`}
+                  label={t`Gas limit`}
                 />
               }
               <Field
