@@ -31,7 +31,8 @@ export function setAllAgreementsAreConfirmed(isConfirmed: boolean) {
 
 export type UserAction =
   ExtractReturn<typeof setIntroductionIsPassed> |
-  ExtractReturn<typeof setAgreementIsConfirmed>
+  ExtractReturn<typeof setAgreementIsConfirmed> |
+  ExtractReturn<typeof setAllAgreementsAreConfirmed>
 
 const initialState: UserState = {
   persist: {

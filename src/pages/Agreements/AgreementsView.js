@@ -45,7 +45,6 @@ const conditions = {
 
 class AgreementsScreen extends PureComponent<Props> {
   onChange = (key: string) => (isChecked: boolean) => {
-    console.log(key, isChecked)
     this.props.setAgreementIsConfirmed(key, isChecked)
   }
 
