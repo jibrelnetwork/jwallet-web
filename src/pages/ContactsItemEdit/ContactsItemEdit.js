@@ -2,8 +2,6 @@
 
 import { connect } from 'react-redux'
 
-import { getShortenedAddress } from 'utils/address'
-
 import {
   type Props,
   ContactsItemEditView,
@@ -14,14 +12,8 @@ type OwnProps = {|
 |}
 
 function mapStateToProps(state: AppState, { contactId }: OwnProps) {
-  // const hasTransaction = transactionsIndex(state)[itemId] !== undefined
-
-  // if (!hasTransaction) {
-  //   throw new PageNotFoundError()
-  // }
-
   const note = ''
-  const name = getShortenedAddress(contactId)
+  const name = contactId
 
   return {
     contactId,
