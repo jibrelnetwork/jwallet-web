@@ -157,7 +157,42 @@ module.exports = async ({ config: baseConfig }, env) => {
         },
       },
     ],
-  }]
+  },
+  {
+    test: /\.svg$/,
+    include: [
+      path.resolve(srcPath, 'public/assets/icons/sprite-colored')
+    ],
+    use: [
+      {
+        loader: 'svg-sprite-loader',
+        options: {
+          extract: true,
+          spriteFilename: '[hash:8].sprite-colored.svg',
+          publicPath: './static/media/',
+        },
+      },
+      {
+        loader: 'svgo-loader',
+        options: {
+          plugins: [
+            { removeTitle: true },
+            { removeDoctype: true },
+            { removeComments: true },
+            { collapseGroups: true },
+            { convertPathData: true },
+            { removeDimensions: true },
+            { convertTransform: true },
+            { removeUselessDefs: true },
+            { removeUselessStrokeAndFill: true },
+            { removeNonInheritableGroupAttrs: true },
+            { removeStyleElement: true }
+          ],
+        },
+      },
+    ],
+  },
+]
 
   baseConfig.plugins.push(
     new webpack.DefinePlugin({
@@ -186,6 +221,7 @@ module.exports = async ({ config: baseConfig }, env) => {
     if (loader.loader && loader.loader.indexOf('file-loader')) {
       loader.exclude = [
         path.resolve(srcPath, 'public/assets/icons/sprite-pack'),
+        path.resolve(srcPath, 'public/assets/icons/sprite-colored'),
         path.resolve(srcPath, 'public/assets/tokens'),
       ]
     }

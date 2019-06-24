@@ -154,6 +154,40 @@ module.exports = {
         ],
       },
       {
+        test: /\.svg$/,
+        include: [
+          path.resolve(__dirname, 'src/public/assets/icons/sprite-colored'),
+        ],
+        use: [
+          {
+            loader: 'svg-sprite-loader',
+            options: {
+              extract: true,
+              spriteFilename: '[hash:8].sprite-colored.svg',
+              publicPath: '/static/media/',
+            },
+          },
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { removeDoctype: true },
+                { removeComments: true },
+                { collapseGroups: true },
+                { convertPathData: true },
+                { removeDimensions: true },
+                { convertTransform: true },
+                { removeUselessDefs: true },
+                { removeUselessStrokeAndFill: true },
+                { removeNonInheritableGroupAttrs: true },
+                { removeStyleElement: true },
+              ],
+            },
+          },
+        ],
+      },
+      {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
@@ -319,6 +353,7 @@ module.exports = {
             // by webpacks internal loaders.
             exclude: [/\.(js|jsx)$/, /\.html$/, /\.json$/,
                       path.resolve(__dirname, 'src/public/assets/icons/sprite-pack'),
+                      path.resolve(__dirname, 'src/public/assets/icons/sprite-colored'),
                       path.resolve(__dirname, 'src/public/assets/tokens'),
             ],
             options: {
