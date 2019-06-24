@@ -38,7 +38,6 @@ export function CurrencyPicker({
     name: activeName = '',
   } = currenciesList[value] || {}
 
-  // ...
   return (
     <JPickerBody
       isOpen={meta.active || false}
