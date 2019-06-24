@@ -2,13 +2,10 @@
 
 import QRCode from './QRCode'
 import ESCButton from './ESCButton'
-import InputButton from './InputButton'
-import DoubleInput from './DoubleInput'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import FavoriteItem from './FavoriteItem'
 import SettingsGrid from './SettingsGrid'
-import AddressPicker from './AddressPicker'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
@@ -37,13 +34,10 @@ export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 export {
   QRCode,
   ESCButton,
-  DoubleInput,
-  InputButton,
   PopupButton,
   AssetBalance,
   FavoriteItem,
   SettingsGrid,
-  AddressPicker,
   WalletLoading,
   CloseableScreen,
   RoundIconButton,
