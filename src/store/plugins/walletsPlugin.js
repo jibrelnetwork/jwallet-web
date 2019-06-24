@@ -131,12 +131,13 @@ class WalletsPlugin {
 
       const items: Wallets = this.getItems()
       const newItems: Wallets = walletsUtils.appendWallet(items, newWallet)
+      const isFirst: boolean = (newItems.length === 1)
 
-      if (newItems.length === 1) {
+      if (isFirst) {
         this.dispatch(setActiveWallet(newWallet.id))
       }
 
-      this.dispatch(setWalletsItems(newItems))
+      this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
 
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreated')
@@ -205,13 +206,14 @@ class WalletsPlugin {
   updateWallet = (
     walletId: WalletId,
     updatedData: WalletUpdatedData,
-    isRedirectBlocked: boolean = false,
+    nextPage?: ?string = null,
+    params?: { [key: string]: any } = {},
   ): Wallets => {
     const wallet: Wallet = this.getWallet(walletId)
     const items: Wallets = this.getItems()
     const newItems: Wallets = walletsUtils.updateWallet(items, wallet, updatedData)
 
-    this.dispatch(setWalletsItems(newItems, isRedirectBlocked))
+    this.dispatch(setWalletsItems(newItems, nextPage, params || {}))
 
     return newItems
   }
@@ -232,7 +234,7 @@ class WalletsPlugin {
       this.dispatch(setActiveWallet(firstWallet ? firstWallet.id : null))
     }
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, 'Wallets'))
 
     return newItems
   }
@@ -298,7 +300,6 @@ class WalletsPlugin {
           internalKey,
           derivationPath,
         }),
-        true,
       )
     } catch (error) {
       gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
@@ -368,7 +369,7 @@ class WalletsPlugin {
       hint: passwordHint || '',
     }))
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, 'Wallets'))
 
     return newItems
   }
@@ -384,7 +385,30 @@ class WalletsPlugin {
       walletId, {
         derivationIndex: (derivationIndex + 1),
       },
-      true,
+    )
+  }
+
+  switchMode = (
+    walletId: WalletId,
+    addressIndexNew?: number,
+  ): Wallets => {
+    const {
+      xpub,
+      addressIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (!xpub) {
+      throw new WalletInconsistentDataError('xpub doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        isSimplified: !isSimplified,
+        addressIndex: isSimplified ? addressIndex : addressIndexNew || 0,
+      },
+      isSimplified ? 'WalletsItemAddresses' : 'Wallets',
+      isSimplified ? { walletId } : {},
     )
   }
 }
