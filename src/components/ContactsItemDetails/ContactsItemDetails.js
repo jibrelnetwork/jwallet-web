@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
-import { getShortenedAddress } from 'utils/address'
 
 import {
   type Props,
@@ -17,7 +16,7 @@ type OwnProps = {|
 export const ContactsItemDetails = connect<Props, OwnProps, _, _, _, _>(
   (state: AppState, ownProps: OwnProps) => {
     const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-    const name = getShortenedAddress(ownProps.contactId)
+    const name = ownProps.contactId
     const id = ownProps.contactId
 
     return {

@@ -2,17 +2,19 @@
 
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import offset from 'styles/offsets.m.scss'
-import {
-  JIcon, JInput, JLink,
-} from 'components/base'
-import {
-  FieldPreview,
-} from 'components/HistoryItemDetails/components'
 import { t } from 'ttag'
+
 import {
-  getAddressLink,
-} from 'utils/transactions'
+  JIcon,
+  JInput,
+  JLink,
+} from 'components/base'
+import { FieldPreview } from 'components/HistoryItemDetails/components'
+
+import { getAddressLink } from 'utils/transactions'
+import { getShortenedAddress } from 'utils/address'
+
+import offset from 'styles/offsets.m.scss'
 
 import style from './contactsItem.m.scss'
 
@@ -31,16 +33,16 @@ function Component(props: Props) {
       <div className={classNames(style.card, offset.mb16)}>
         <div className={style.header}>
           <JLink href={`/contacts/${props.id}/edit`} className={style.action}>
-            <JIcon name='edit-use-fill' />
+            <JIcon name='ic_edit_24-use-fill' />
           </JLink>
         </div>
         <div className={style.contactPreview}>
-          <JIcon name='account-use-fill' className={style.contactAvatar} />
+          <JIcon name='ic_account_48-use-fill' className={style.contactAvatar} />
           <h2 className={style.contactTitle}>{props.name}</h2>
         </div>
         <FieldPreview
           label={t`Sender`}
-          body={props.name}
+          body={getShortenedAddress(props.name)}
           link={getAddressLink(props.id, props.blockExplorer)}
           copy={props.id}
           copyMessage='Address was copied.'
