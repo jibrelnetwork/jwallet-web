@@ -9,8 +9,7 @@ import {
   JInput,
   JLink,
 } from 'components/base'
-import { FieldPreview } from 'components/HistoryItemDetails/components'
-
+import { FieldPreview } from 'components'
 import { getAddressLink } from 'utils/transactions'
 import { getShortenedAddress } from 'utils/address'
 
