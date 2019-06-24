@@ -4,7 +4,7 @@ import {
   mount,
 } from 'enzyme'
 
-import { FieldPreview } from '../FieldPreview'
+import { FieldPreview } from '../FieldPreview.js'
 
 describe('Render', () => {
   test('Label and body value', () => {
