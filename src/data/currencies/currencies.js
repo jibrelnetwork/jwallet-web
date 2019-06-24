@@ -1,35 +1,37 @@
 // @flow
 
+import { t } from 'ttag'
+
 const CURRENCIES: FiatCurrencies = {
   USD: {
     code: 'USD',
     symbol: '$',
-    name: 'US Dollar',
+    name: t`US Dollar`,
   },
   EUR: {
     code: 'EUR',
     symbol: '€',
-    name: 'Euro',
+    name: t`Euro`,
   },
   GBP: {
     code: 'GBP',
     symbol: '£',
-    name: 'Pound Sterling',
+    name: t`Pound Sterling`,
   },
   CNY: {
     code: 'CNY',
     symbol: '¥',
-    name: 'Chinese Yuan',
+    name: t`Chinese Yuan`,
   },
   JPY: {
     code: 'JPY',
     symbol: '¥',
-    name: 'Japanese Yen',
+    name: t`Japanese Yen`,
   },
   KRW: {
     code: 'KRW',
     symbol: '₩',
-    name: 'South Korean won',
+    name: t`South Korean won`,
   },
 }
 
