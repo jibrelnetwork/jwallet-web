@@ -4,32 +4,32 @@ const CURRENCIES: FiatCurrencies = {
   USD: {
     code: 'USD',
     symbol: '$',
-    name: 'US Dollar (USD)',
-  },
-  CNY: {
-    code: 'CNY',
-    symbol: '¥',
-    name: 'Chinese Yuan (CNY)',
+    name: 'US Dollar',
   },
   EUR: {
     code: 'EUR',
     symbol: '€',
-    name: 'Euro (EUR)',
+    name: 'Euro',
   },
   GBP: {
     code: 'GBP',
     symbol: '£',
-    name: 'Pound Sterling (GBP)',
+    name: 'Pound Sterling',
+  },
+  CNY: {
+    code: 'CNY',
+    symbol: '¥',
+    name: 'Chinese Yuan',
   },
   JPY: {
     code: 'JPY',
     symbol: '¥',
-    name: 'Japanese Yen (JPY)',
+    name: 'Japanese Yen',
   },
   KRW: {
     code: 'KRW',
     symbol: '₩',
-    name: 'South Korean won (KRW)',
+    name: 'South Korean won',
   },
 }
 
