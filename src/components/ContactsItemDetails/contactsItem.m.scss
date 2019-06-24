@@ -6,8 +6,10 @@
 
 .card {
   width: 100%;
+  border-radius: 4px;
   box-shadow: $normal-shadow;
   background-color: $white;
+  overflow: hidden;
 }
 
 .header {
@@ -15,12 +17,17 @@
 
   justify-content: flex-end;
   padding: 24px 24px 22px;
-  border-radius: 4px 4px 0 0;
   background-color: $main-blue;
 }
 
 .action {
   @include sprite-icon-color($white-60);
+
+  &:hover,
+  &:active,
+  &:focus {
+    @include sprite-icon-color($white);
+  }
 }
 
 .contact-preview {
@@ -29,6 +36,8 @@
 }
 
 .contact-avatar {
+  @include sprite-icon-color($main-blue-20);
+
   margin-bottom: 16px;
 }
 
