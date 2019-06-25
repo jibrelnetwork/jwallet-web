@@ -7,6 +7,8 @@ export { WalletsItemBackup } from './WalletsItemBackup/WalletsItemBackup'
 export { WalletsItemDelete } from './WalletsItemDelete/WalletsItemDelete'
 export { WalletsItemUpgrade } from './WalletsItemUpgrade/WalletsItemUpgrade'
 export { WalletsItemAddresses } from './WalletsItemAddresses/WalletsItemAddresses'
+export { WalletsItemModeEnable } from './WalletsItemModeEnable/WalletsItemModeEnable'
+export { WalletsItemModeDisable } from './WalletsItemModeDisable/WalletsItemModeDisable'
 
 export { default as AssetsItem }
   from './Transactions/routes/Asset/TransactionsAssetViewContainer'
@@ -14,10 +16,6 @@ export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAss
 export { default as AssetsItemEdit } from './DigitalAssets/routes/EditAsset/EditAssetContainer'
 export { default as AssetsManage }
   from './DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer'
-export { default as Contacts }
-  from './Favorites/FavoritesIndexViewContainer'
-export { default as ContactsItemEdit }
-  from './Favorites/routes/Address/FavoritesAddressViewContainer'
 export { default as History } from './Transactions/TransactionsIndexViewContainer'
 export { default as Home } from './Home/Home'
 export { default as Receive }
@@ -39,4 +37,5 @@ export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
 export { Introduction } from './Introduction/Introduction'
-
+export { ContactsItem } from './ContactsItem/ContactsItem'
+export { ContactsItemEdit } from './ContactsItemEdit/ContactsItemEdit'

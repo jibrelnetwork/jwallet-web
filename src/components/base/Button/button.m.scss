@@ -141,3 +141,15 @@
 
   // Design suggests there is no disabled state for this button style, so none implemented
 }
+
+.general-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: general;
+  height: 48px;
+}
+
+.secondary-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: secondary;
+  height: 48px;
+}

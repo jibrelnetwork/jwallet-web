@@ -131,8 +131,8 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
           </JLink>
           {isMultiAddressWallet && (
             <JLink
-              href={`/wallets/${id}/mode`}
               className={walletCardActionsStyles.action}
+              href={`/wallets/${id}/mode-${isSimplified ? 'enable' : 'disable'}`}
             >
               {isSimplified
                 ? t`Enable Multi-Address Mode`

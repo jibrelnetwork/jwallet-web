@@ -16,8 +16,8 @@ type Props = {|
   +isOpen: boolean,
   +isDisabled: boolean,
   +currentRenderer: ?((props: RendererProps) => React$Node),
-  +onOpen: (e: SyntheticEvent<HTMLDivElement>) => any,
-  +onClose: (e: SyntheticEvent<HTMLDivElement>) => any,
+  +onOpen: (e: SyntheticFocusEvent<HTMLDivElement>) => any,
+  +onClose: (e: SyntheticFocusEvent<HTMLDivElement>) => any,
   +children: ?React$Node,
 |}
 
