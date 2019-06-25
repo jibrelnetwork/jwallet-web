@@ -33,13 +33,13 @@ export function ContactsItemDeleteView(props: Props) {
       <div className={style.actions}>
         <Button
           className={offset.mr32}
-          theme='secondary'
+          theme='secondary-confirm'
           onClick={() => { alert(`${props.name} with address ${props.contactId} was deleted.`) }}
         >
           {t`Delete`}
         </Button>
         <JLink
-          theme='button-general'
+          theme='button-general-confirm'
           href={`/contacts/${props.contactId}`}
         >
           {t`Keep Contact`}

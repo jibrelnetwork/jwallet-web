@@ -13,11 +13,4 @@
   @include flex-row;
 
   width: 100%;
-  height: 48px;
-
-  // TODO: It'll removed when new theme for buttons will create
-  // stylelint-disable-next-line
-  & > * {
-    height: 48px;
-  }
 }
