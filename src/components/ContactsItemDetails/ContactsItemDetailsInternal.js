@@ -40,7 +40,7 @@ function Component(props: Props) {
           <h2 className={style.contactTitle}>{props.name}</h2>
         </div>
         <FieldPreview
-          label={t`Sender`}
+          label={t`Address`}
           body={getShortenedAddress(props.name)}
           link={getAddressLink(props.id, props.blockExplorer)}
           copy={props.id}
