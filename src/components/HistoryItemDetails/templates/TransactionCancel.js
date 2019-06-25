@@ -9,12 +9,11 @@ import {
   JInput,
   JLink,
 } from 'components/base'
+import { FieldPreview } from 'components'
 import { getShortenedAddress } from 'utils/address'
 import { getFormattedDateString } from 'utils/time'
 
 import offset from 'styles/offsets.m.scss'
-
-import { FieldPreview } from '../components'
 
 import { type Props } from '../HistoryItemDetailsInternal'
 
