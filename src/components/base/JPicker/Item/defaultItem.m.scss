@@ -20,9 +20,11 @@
 
 .title {
   display: block;
+  font-style: normal;
   font-size: 14px;
   line-height: 22px;
   color: $main-black;
+  font-weight: 600;
 }
 
 .description {
@@ -30,4 +32,6 @@
   font-size: 12px;
   line-height: 20px;
   color: $main-black-40;
+  font-style: normal;
+  font-weight: normal;
 }
