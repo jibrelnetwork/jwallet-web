@@ -15,6 +15,11 @@
   background-color: $tomato;
 }
 
+.colored {
+  fill-opacity: initial;
+  stroke-width: initial;
+}
+
 .fill {
   fill-opacity: 1;
   stroke-opacity: 0;
