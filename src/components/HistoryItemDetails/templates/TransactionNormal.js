@@ -9,6 +9,7 @@ import {
   JInput,
   JLink,
 } from 'components/base'
+import { FieldPreview } from 'components'
 import { getShortenedAddress } from 'utils/address'
 import {
   getTxLink,
@@ -21,7 +22,6 @@ import offset from 'styles/offsets.m.scss'
 
 import {
   AssetItemPreview,
-  FieldPreview,
 } from '../components'
 
 import { type Props } from '../HistoryItemDetailsInternal'
