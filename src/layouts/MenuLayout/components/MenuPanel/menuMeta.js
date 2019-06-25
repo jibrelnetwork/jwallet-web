@@ -53,11 +53,15 @@ const MENU_META: { [string]: ?MenuMeta } = {
   },
   ContactsItemAdd: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: null,
   },
   ContactsItemEdit: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: null,
+  },
+  ContactsItemDelete: {
+    isMinimized: true,
+    previousRouteNameFallback: null,
   },
   MoreActions: {
     isMinimized: false,

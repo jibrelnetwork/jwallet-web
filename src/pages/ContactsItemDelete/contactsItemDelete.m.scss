@@ -1,0 +1,23 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+
+  min-height: 100%;
+  max-width: 544px;
+  margin: 0 auto;
+  padding: $new-page-header-height 0;
+}
+
+.actions {
+  @include flex-row;
+
+  width: 100%;
+  height: 48px;
+
+  // TODO: It'll removed when new theme for buttons will create
+  // stylelint-disable-next-line
+  & > * {
+    height: 48px;
+  }
+}
