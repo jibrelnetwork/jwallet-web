@@ -9,7 +9,7 @@ import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddre
 import {
   InputButton,
   DoubleInput,
-  AddressPicker,
+  // AddressPicker,
 } from 'components'
 
 import {
@@ -27,7 +27,7 @@ type Props = {|
   +setFormFieldValue: (fieldName: $Keys<DigitalAssetsSendFormFields>) => (value: string) => void,
   +setNonceEditable: (isEditable: boolean) => void,
   +digitalAssets: DigitalAssetWithBalance[],
-  +addressNames: AddressNames,
+  // +addressNames: AddressNames,
   +formFieldValues: DigitalAssetsSendFormFields,
   +formFieldErrors: DigitalAssetsSendFormFields,
   +formFieldWarnings: DigitalAssetsSendFormFields,
@@ -43,7 +43,7 @@ function DigitalAssetsSendForm({
   setNonceEditable,
   setFormFieldValue,
   digitalAssets,
-  addressNames,
+  // addressNames,
   formFieldValues,
   formFieldErrors,
   formFieldWarnings,
@@ -65,7 +65,7 @@ function DigitalAssetsSendForm({
     getDigitalAssetByAddress/* :: <DigitalAssetWithBalance> */(digitalAssets, assetAddress)
 
   const selectedAssetSymbol: string = selectedAsset ? selectedAsset.symbol : ''
-  const hasManyRecipientAddresses: boolean = Object.keys(addressNames).length > 0
+  // const hasManyRecipientAddresses: boolean = Object.keys(addressNames).length > 0
 
   return (
     <div className='digital-assets-send-form'>
@@ -77,25 +77,25 @@ function DigitalAssetsSendForm({
           label={t`Current address`}
           isDisabled
         />
-        {hasManyRecipientAddresses ? (
-          <AddressPicker
+        {/* {hasManyRecipientAddresses ? (
+          <AddressPickerLegacy
             onSelect={setFormFieldValue('recipient')}
             addressNames={addressNames}
             selectedAddress={recipient}
             infoMessage={formFieldWarnings.recipient}
             errorMessage={formFieldErrors.recipient}
           />
-        ) : (
-          <JInput
-            onChange={setFormFieldValue('recipient')}
-            value={recipient}
-            color='gray'
-            name='owner-address'
-            placeholder={t`Recipient address`}
-            infoMessage={formFieldWarnings.recipient}
-            errorMessage={formFieldErrors.recipient}
-          />
-        )}
+        ) : ( */}
+        <JInput
+          onChange={setFormFieldValue('recipient')}
+          value={recipient}
+          color='gray'
+          name='owner-address'
+          placeholder={t`Recipient address`}
+          infoMessage={formFieldWarnings.recipient}
+          errorMessage={formFieldErrors.recipient}
+        />
+        {/* )} */}
         <DigitalAssetsSendFormAssetPicker
           onSelect={setFormFieldValue('assetAddress')}
           digitalAssets={digitalAssets}

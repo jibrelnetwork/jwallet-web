@@ -1,127 +1,102 @@
-// @flow
+// @flow strict
 
-import React, { Component } from 'react'
+import React from 'react'
+import { t } from 'ttag'
+import { map } from 'lodash-es'
 
-import escapeRegExp from 'utils/regexp/escapeRegExp'
-import JPicker, { JPickerFullItem } from 'components/base/JPicker'
-import { checkAddressValid } from 'utils/address'
+import {
+  WalletAddressItem,
+} from 'components'
 
-import AddressPickerCurrent from './Current'
+import {
+  JIcon,
+} from 'components/base'
 
-type Props = {|
-  +onSelect: (address: Address) => void,
-  +addressNames: AddressNames,
-  +errorMessage: string,
-  +infoMessage: string,
-  +selectedAddress: Address,
-  +isDisabled: boolean,
+import {
+  JPickerBody,
+  JPickerList,
+  JPickerCurrent,
+} from 'components/base/JPicker'
+
+import {
+  getShortenedAddress,
+} from 'utils/address'
+
+import {
+  WalletAddressBalance,
+} from './WalletAddressBalance/WalletAddressBalance'
+
+export type AddressPickerItem = {|
+  +name: string,
+  +address: string,
+  +fiatBalance: string,
 |}
 
-type ComponentState = {|
-  +searchQuery: string,
+export type Props = {|
+  +meta: FinalFormMeta,
+  +input: FinalFormInput,
+  label: string,
+  addresses: AddressPickerItem[],
 |}
 
-function searchAddressNames(addressNames: AddressNames, searchQuery: string): AddressNames {
-  const query: string = searchQuery.trim()
-  const searchRe: RegExp = new RegExp(escapeRegExp(query), 'ig')
+export function AddressPicker({
+  meta,
+  input,
+  label,
+  addresses,
+}: Props) {
+  const {
+    value,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    onChange: handleChange,
+  } = input
 
-  return !query ? addressNames : Object.keys(addressNames).reduce((
-    result: AddressNames,
-    address: Address,
-  ): AddressNames => {
-    const name: ?string = addressNames[address]
+  const {
+    fiatBalance = '',
+    address: activeAddress = '',
+    name: activeAddressName = '',
+  } = addresses.find(addr => addr.address === value) || {}
 
-    if (!name) {
-      return result
-    }
-
-    const isFound: boolean = ((name.search(searchRe) !== -1) || (address.search(searchRe) !== -1))
-
-    return !isFound ? result : {
-      ...result,
-      [address]: name,
-    }
-  }, {})
-}
-
-class AddressPicker extends Component<Props, ComponentState> {
-  static defaultProps = {
-    isDisabled: false,
-    infoMessage: '',
-    errorMessage: '',
-  }
-
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      searchQuery: '',
-    }
-  }
-
-  handleChange = (searchQuery: string) => {
-    this.setState({ searchQuery }, () => {
-      if (checkAddressValid(searchQuery)) {
-        this.props.onSelect(searchQuery)
-      }
-    })
-  }
-
-  handleOpen = () => this.setState({ searchQuery: '' })
-
-  render() {
-    const {
-      onSelect,
-      addressNames,
-      selectedAddress,
-      errorMessage,
-      infoMessage,
-      isDisabled,
-    }: Props = this.props
-
-    const { searchQuery }: ComponentState = this.state
-    const filteredAddressNames: AddressNames = searchAddressNames(addressNames, searchQuery)
-
-    return (
-      <div className='address-picker'>
-        <JPicker
-          onOpen={this.handleOpen}
-          currentRenderer={({ isOpen }) => (
-            <AddressPickerCurrent
-              onChange={this.handleChange}
-              address={selectedAddress}
-              addressName={addressNames[selectedAddress]}
-              searchQuery={searchQuery}
-              isOpen={isOpen}
+  return (
+    <JPickerBody
+      isOpen={meta.active || false}
+      onOpen={handleFocus}
+      onClose={handleBlur}
+      currentRenderer={() => (
+        <JPickerCurrent
+          isEditable={false}
+          label={label}
+          value={activeAddressName}
+          iconRenderer={() => (
+            <JIcon name='0x-use-fill' size='24' color='blue' />
+          )}
+          balancesRenderer={() => (
+            <WalletAddressBalance
+              fiatBalance={fiatBalance}
+              address={getShortenedAddress(activeAddress)}
             />
           )}
-          errorMessage={errorMessage}
-          infoMessage={infoMessage}
-          isDisabled={isDisabled}
-        >
-          {Object.keys(filteredAddressNames).map((address: Address) => {
-            const name: ?string = filteredAddressNames[address]
-
-            if (!name) {
-              return null
-            }
-
-            return (
-              <JPickerFullItem
-                key={address}
-                onSelect={onSelect}
-                title={name}
-                value={address}
-                description={address}
-                icon='padding-binding'
-                isSelected={address === selectedAddress}
-              />
-            )
-          })}
-        </JPicker>
-      </div>
-    )
-  }
+        />
+      )}
+    >
+      <JPickerList
+        onItemClick={handleChange}
+        activeItemKey={value}
+      >
+        {map(addresses, (item: AddressPickerItem) => (
+          <WalletAddressItem
+            key={item.address}
+            description={getShortenedAddress(item.address)}
+            {...item}
+          />
+        ))}
+      </JPickerList>
+    </JPickerBody>
+  )
 }
 
-export default AddressPicker
+AddressPicker.defaultProps = {
+  label: t`Address`,
+  addresses: [],
+}

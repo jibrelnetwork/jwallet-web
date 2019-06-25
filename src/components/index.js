@@ -8,7 +8,6 @@ import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import FavoriteItem from './FavoriteItem'
 import SettingsGrid from './SettingsGrid'
-import AddressPicker from './AddressPicker'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
 import RoundIconButton from './RoundIconButton'
@@ -34,6 +33,8 @@ export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 export { FieldPreview } from './FieldPreview/FieldPreview'
+export { WalletAddressItem } from './WalletAddressItem/WalletAddressItem'
+export { AddressPicker } from './AddressPicker/AddressPicker'
 
 export {
   QRCode,
@@ -44,7 +45,6 @@ export {
   AssetBalance,
   FavoriteItem,
   SettingsGrid,
-  AddressPicker,
   WalletLoading,
   CloseableScreen,
   RoundIconButton,

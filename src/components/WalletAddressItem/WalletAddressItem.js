@@ -5,7 +5,6 @@ import React from 'react'
 import { JIcon } from 'components/base'
 
 import itemStyles from './walletAddressItem.m.scss'
-import { WalletBalance } from '../WalletBalance/WalletBalance'
 
 type Props = {
   +name: string,
@@ -27,7 +26,11 @@ export function WalletAddressItem({
         <span className={itemStyles.title}>{name || address}</span>
         <span className={itemStyles.description}>{description}</span>
       </div>
-      {fiatBalance && <WalletBalance fiatBalance={fiatBalance} />}
+      {fiatBalance &&
+      <div className={itemStyles.balance}>
+        <span className={itemStyles.value}>{fiatBalance}</span>
+      </div>
+      }
     </div>
   )
 }
