@@ -50,6 +50,7 @@ export class JIcon extends PureComponent<JIconProps> {
           '__icon',
           jIconStyle.core,
           color && jIconStyle[color],
+          iconData.colored && jIconStyle.colored,
           hasFill && jIconStyle.fill,
           className,
         )}
