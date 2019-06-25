@@ -111,15 +111,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
-  WalletsItemDelete: {
-    isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
-  },
-  WalletsItemMode: {
-    isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
-  },
-  WalletsItemUpgrade: {
+  WalletsItemModeDisable: {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
