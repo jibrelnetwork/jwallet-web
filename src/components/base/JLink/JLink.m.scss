@@ -46,3 +46,13 @@
   // stylelint-disable-next-line property-no-unknown
   composes: core secondary from '../Button/button.m.scss';
 }
+
+.button-general-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core general-confirm from '../Button/button.m.scss';
+}
+
+.button-secondary-confirm {
+  // stylelint-disable-next-line property-no-unknown
+  composes: core secondary-confirm from '../Button/button.m.scss';
+}

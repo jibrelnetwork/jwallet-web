@@ -17,6 +17,8 @@ export type Theme
   | 'text-blue'
   | 'button-general'
   | 'button-secondary'
+  | 'button-general-confirm'
+  | 'button-secondary-confirm'
 
 // base component with inexact props
 export type JLinkProps = {
