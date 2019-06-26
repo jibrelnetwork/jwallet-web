@@ -144,9 +144,13 @@ export const routes: Array<{|
   name: 'WalletsItemDelete',
   hasMenu: false,
 }, {
-  path: '/wallets/:walletId/mode',
-  name: 'WalletsItemMode',
+  path: '/wallets/:walletId/mode-enable',
+  name: 'WalletsItemModeEnable',
   hasMenu: false,
+}, {
+  path: '/wallets/:walletId/mode-disable',
+  name: 'WalletsItemModeDisable',
+  hasMenu: true,
 }, {
   path: '/wallets/:walletId/upgrade',
   name: 'WalletsItemUpgrade',
@@ -291,10 +295,85 @@ router.canActivate(
     const { walletId } = toState.params
 
     try {
-      const wallet: Wallet = walletsPlugin.getWallet(walletId)
+      const { xpub }: Wallet = walletsPlugin.getWallet(walletId)
+
+      if (!xpub) {
+        throw new WalletInconsistentDataError('Wallet does not have XPUB')
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemModeEnable',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    const { params } = toState
+
+    try {
+      const {
+        xpub,
+        isSimplified,
+      }: Wallet = walletsPlugin.getWallet(params.walletId)
+
+      if (!xpub) {
+        throw new WalletInconsistentDataError('Wallet does not have XPUB')
+      }
+
+      if (!isSimplified) {
+        return done({
+          redirect: {
+            params,
+            name: 'WalletsItemModeDisable',
+          },
+        })
+      }
+    } catch (error) {
+      return done({
+        redirect: {
+          name: 'Wallets',
+        },
+      })
+    }
+
+    return done()
+  },
+)
+
+router.canActivate(
+  'WalletsItemModeDisable',
+  () => (
+    toState,
+    fromState,
+    done,
+  ) => {
+    const { params } = toState
+
+    try {
+      const wallet: Wallet = walletsPlugin.getWallet(params.walletId)
 
       if (!wallet.xpub) {
-        throw new WalletInconsistentDataError('Wallet is not read only')
+        throw new WalletInconsistentDataError('Wallet does not have XPUB')
+      }
+
+      if (wallet.isSimplified) {
+        return done({
+          redirect: {
+            params,
+            name: 'WalletsItemModeEnable',
+          },
+        })
       }
     } catch (error) {
       return done({

@@ -7,6 +7,8 @@ export { WalletsItemBackup } from './WalletsItemBackup/WalletsItemBackup'
 export { WalletsItemDelete } from './WalletsItemDelete/WalletsItemDelete'
 export { WalletsItemUpgrade } from './WalletsItemUpgrade/WalletsItemUpgrade'
 export { WalletsItemAddresses } from './WalletsItemAddresses/WalletsItemAddresses'
+export { WalletsItemModeEnable } from './WalletsItemModeEnable/WalletsItemModeEnable'
+export { WalletsItemModeDisable } from './WalletsItemModeDisable/WalletsItemModeDisable'
 
 export { default as AssetsItem }
   from './Transactions/routes/Asset/TransactionsAssetViewContainer'

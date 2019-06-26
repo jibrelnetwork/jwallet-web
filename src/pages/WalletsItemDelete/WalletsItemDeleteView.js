@@ -46,6 +46,7 @@ export class WalletsItemDeleteView extends PureComponent<Props> {
             labelConfirm={t`Delete`}
             labelCancel={t`Keep Wallet`}
             confirmTimeout={DELETE_CONFIRM_TIMEOUT}
+            isReversed
           />
         </div>
       </div>
