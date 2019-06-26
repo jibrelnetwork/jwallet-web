@@ -29,7 +29,7 @@ export function ContactsItemView(props: Props) {
         theme='button-general'
         href={`/send?to=${props.contactId}`}
       >
-        {t`Send to Asset`}
+        {t`Send to Address`}
       </JLink>
     </div>
   )
