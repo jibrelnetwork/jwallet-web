@@ -11,22 +11,24 @@ import { type RecipientPickerWallet } from './RecipientPicker'
 export function prepareWallets(
   wallets: Wallet[],
   walletBalances: Object = {},
-  walletNames: Object = {},
+  addressNames: Object = {},
 ): RecipientPickerWallet[] {
   return wallets.map((wallet) => {
     const {
-      bip32XPublicKey,
+      xpub,
       isSimplified,
       isReadOnly,
-      addressIndex, // TODO: fix this when will be finished
+      addressIndex,
     } = wallet
 
-    if (bip32XPublicKey) {
+    const derivationIndex = 0
+
+    if (xpub) {
       if (isSimplified) {
         const walletAddresses = generateAddresses(
-          bip32XPublicKey,
-          0,
-          1,
+          xpub,
+          addressIndex,
+          addressIndex + 1,
         )
         const address = walletAddresses[0]
 
@@ -34,7 +36,7 @@ export function prepareWallets(
           type: 'address',
           addresses: [{
             address,
-            name: walletNames[address] || '',
+            name: addressNames[address] || '',
             fiatBalance: undefined,
           }],
           id: wallet.id,
@@ -42,12 +44,12 @@ export function prepareWallets(
         }
       } else {
         const walletAddresses = generateAddresses(
-          bip32XPublicKey,
+          xpub,
           0,
-          addressIndex,
+          derivationIndex,
         ).map((address, index) => ({
           address,
-          name: walletNames[address] || t`Address ${index + 1}`,
+          name: addressNames[address] || t`Address ${index + 1}`, // TODO: use function for this
           fiatBalance: walletBalances[address],
         }))
 
@@ -65,7 +67,7 @@ export function prepareWallets(
         type: 'read-only',
         addresses: [{
           address,
-          name: walletNames[address] || '',
+          name: addressNames[address] || '',
           fiatBalance: undefined,
         }],
         id: wallet.id,

@@ -8,13 +8,8 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
-import {
-  decryptInternalKey,
-  deriveKeyFromPassword,
-} from 'utils/encryption'
-
-import { getPrivateKey } from 'utils/wallets'
-import { selectActiveWalletOrThrow } from 'store/selectors/wallets'
+import { walletsPlugin } from 'store/plugins/walletsPlugin'
+import { selectActiveWalletIdOrThrow } from 'store/selectors/wallets'
 import { selectPasswordPersist } from 'store/selectors/password'
 import { WalletPasswordForm } from 'components'
 
@@ -23,10 +18,8 @@ type PasswordFormValues= {|
 |}
 
 type Props = {|
-  internalKey: EncryptedData,
-  salt: string,
   hint: string,
-  activeWallet: Wallet,
+  activeWalletId: WalletId,
   onDecryptPrivateKey: (privateKey: string) => Promise<*>,
 |}
 
@@ -37,25 +30,14 @@ type OwnProps = {|
 class PasswordStepForm extends PureComponent<Props> {
   handleSendFormSubmit = async (values: PasswordFormValues) => {
     const {
-      salt,
-      internalKey,
-      activeWallet,
+      activeWalletId,
     } = this.props
 
     try {
-      const derivedKey = await deriveKeyFromPassword(
+      const privateKey = await walletsPlugin.getPrivateKey(
+        activeWalletId,
         values.password,
-        salt,
       )
-
-      const internalKeyDec = decryptInternalKey(
-        internalKey,
-        derivedKey,
-      )
-
-      const privateKey = getPrivateKey(activeWallet, internalKeyDec)
-
-      // console.log(derivedKey, internalKeyDec, privateKey)
 
       await this.props.onDecryptPrivateKey(privateKey)
 
@@ -100,19 +82,15 @@ class PasswordStepForm extends PureComponent<Props> {
 }
 
 function mapStateToProps(state: AppState) {
-  const activeWallet = selectActiveWalletOrThrow(state)
+  const activeWalletId = selectActiveWalletIdOrThrow(state)
 
   const {
-    internalKey,
-    salt,
     hint,
   } = selectPasswordPersist(state)
 
   return {
-    internalKey,
-    salt,
     hint,
-    activeWallet,
+    activeWalletId,
   }
 }
 

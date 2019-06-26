@@ -32,7 +32,10 @@ import { SendError } from './SendError'
 
 import styles from './send.m.scss'
 
-const { sendTransaction } = web3
+const {
+  sendTransaction,
+  getNonce,
+} = web3
 
 type Props = {|
   +network: Network,
@@ -147,24 +150,28 @@ class SendAsset extends Component<Props, ComponentState> {
       ? toBigNumber(gasLimitValue)
       : undefined
 
-    const gasPrice = gasPriceValue
-      ? toBigNumber(fromGweiToWei(gasPriceValue))
-      : undefined
+    const gasPrice = toBigNumber(fromGweiToWei(gasPriceValue))
 
     const amount = getTransactionValue(amountValue, decimals)
 
-    // send transaction
-    const sendTransactionPayload: SendTransactionProps = {
-      to: recipientAddress,
-      value: amount,
-      privateKey,
-      gasLimit,
-      gasPrice,
-    }
-
-    console.log('sendTransactionPayload', sendTransactionPayload)
-
     try {
+      const nonce = await getNonce(
+        network,
+        ownerAddress,
+        'pending',
+      )
+
+      const sendTransactionPayload: SendTransactionProps = {
+        to: recipientAddress,
+        value: amount,
+        privateKey,
+        gasLimit,
+        gasPrice,
+        nonce,
+      }
+
+      console.log('sendTransactionPayload', sendTransactionPayload)
+
       const txHash = await sendTransaction(
         network,
         assetAddress,
@@ -180,6 +187,7 @@ class SendAsset extends Component<Props, ComponentState> {
         {
           data: {
             gasPrice,
+            nonce,
           },
           blockData: {
             timestamp: Date.now() / 1000,
