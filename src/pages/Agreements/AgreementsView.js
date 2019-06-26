@@ -2,29 +2,36 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { connect } from 'react-redux'
+
+import { StartLayout } from 'layouts'
 
 import {
   JLink,
-  JText,
+  JIcon,
   JCheckbox,
   Button,
 } from 'components/base'
 
 import {
-  checkAgreements,
-  getAgreementValue,
-  setAgreementValue,
-} from 'utils/agreements'
+  selectAgreementsConditions,
+} from 'store/selectors/user'
+
+import {
+  setAgreementIsConfirmed,
+  setAllAgreementsAreConfirmed,
+} from 'store/modules/user'
 
 import { CONDITIONS_LIST } from 'data/agreements'
 
 import agreementsViewStyle from './agreementsView.m.scss'
 
 export type Props = {|
-|}
-
-type StateProps = {|
-  +isDisabled: boolean,
+  setAgreementIsConfirmed: Function,
+  setAllAgreementsAreConfirmed: Function,
+  agreements: {
+    [agreement: string]: boolean,
+  },
 |}
 
 /* eslint-disable max-len */
@@ -36,37 +43,33 @@ const conditions = {
 }
 /* eslint-enable max-len */
 
-export class AgreementsView extends PureComponent<Props, StateProps> {
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isDisabled: !checkAgreements(CONDITIONS_LIST),
-    }
+class AgreementsScreen extends PureComponent<Props> {
+  onChange = (key: string) => (isChecked: boolean) => {
+    this.props.setAgreementIsConfirmed(key, isChecked)
   }
 
-  onChange = (key: string) => () => {
-    setAgreementValue(key, !getAgreementValue(key))
-    this.setState({ isDisabled: !checkAgreements(CONDITIONS_LIST) })
+  handleAgreementsConfirmClick = () => {
+    this.props.setAllAgreementsAreConfirmed(true)
+  }
+
+  componentDidMount = () => {
+    this.props.setAllAgreementsAreConfirmed(false)
   }
 
   render() {
-    const {
-      isDisabled,
-    }: StateProps = this.state
+    const { agreements } = this.props
+
+    const isAllAgreementsChecked = CONDITIONS_LIST.every(key => agreements[key])
 
     return (
-      <div className={`__agreements-view ${agreementsViewStyle.core}`}>
+      <StartLayout className='__agreements-view'>
         <div className={agreementsViewStyle.content}>
-          <h1 className={agreementsViewStyle.title}>
-            <JText
-              size='title'
-              color='white'
-              value={t`Terms and Conditions`}
-              whiteSpace='wrap'
-              align='center'
-            />
-          </h1>
+          <JIcon
+            name='terms-and-conditions-use-fill'
+            className={agreementsViewStyle.icon}
+            color='blue'
+          />
+          <h1 className={agreementsViewStyle.title}>{t`Terms and Conditions`}</h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
               <div className={agreementsViewStyle.item} key={key}>
@@ -74,34 +77,30 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
                   <JCheckbox
                     onChange={this.onChange(key)}
                     label={conditions[key]}
-                    color='white'
                     name={key}
-                    isChecked={getAgreementValue(key)}
+                    isChecked={agreements[key]}
                     isRegular
-                  />
+                  >
+                    {conditions[key]}
+                  </JCheckbox>
                 ) : (
                   <JCheckbox
                     onChange={this.onChange(key)}
-                    color='white'
-                    label={t`I have read and accepted`}
+                    color='black'
                     name={key}
-                    isChecked={getAgreementValue(key)}
+                    isChecked={agreements[key]}
                     isRegular
                   >
-                    {' '}
+                    {t`I have read and accepted `}
                     <JLink
-                      theme='text-white'
+                      theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
                     >
                       {t`Terms of Use`}
                     </JLink>
-                    {' '}
-                    <span className='label'>
-                      <JText color='white' whiteSpace='wrap' value={t`and`} />
-                    </span>
-                    {' '}
+                    <span className='label'>{t` and `}</span>
                     <JLink
-                      theme='text-white'
+                      theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
                     >
                       {t`Privacy Policy`}
@@ -115,15 +114,34 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
             <JLink href='/wallets'>
               <Button
                 className={agreementsViewStyle.button}
-                theme='secondary'
-                disabled={isDisabled}
+                theme='general'
+                isDisabled={!isAllAgreementsChecked}
+                onClick={this.handleAgreementsConfirmClick}
               >
                 {t`Confirm and continue`}
               </Button>
             </JLink>
           </div>
         </div>
-      </div>
+      </StartLayout>
     )
   }
 }
+
+function mapStateToProps(state: AppState) {
+  const agreements = selectAgreementsConditions(state)
+
+  return {
+    agreements,
+  }
+}
+
+const mapDispatchToProps = {
+  setAgreementIsConfirmed,
+  setAllAgreementsAreConfirmed,
+}
+
+export const AgreementsView = connect<Props, OwnPropsEmpty, _, _, _, _>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AgreementsScreen)

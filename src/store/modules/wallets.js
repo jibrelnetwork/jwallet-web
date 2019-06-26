@@ -3,14 +3,17 @@
 export const SET_WALLETS_ITEMS = '@@wallets/SET_WALLETS_ITEMS'
 export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
 
-export const SIMPLIFY_WALLET = '@@wallets/SIMPLIFY_WALLET'
-
-export function setWalletsItems(items: Wallets, isRedirectBlocked: boolean = false) {
+export function setWalletsItems(
+  items: Wallets,
+  nextPage?: ?string = null,
+  params?: { [key: string]: any } = {},
+) {
   return {
     type: SET_WALLETS_ITEMS,
     payload: {
       items,
-      isRedirectBlocked,
+      params,
+      nextPage,
     },
   }
 }
@@ -24,20 +27,9 @@ export function setActiveWallet(activeWalletId: ?WalletId) {
   }
 }
 
-export function simplifyWallet(walletId: WalletId, isSimplified: boolean) {
-  return {
-    type: SIMPLIFY_WALLET,
-    payload: {
-      walletId,
-      isSimplified,
-    },
-  }
-}
-
 export type WalletsAction =
   ExtractReturn<typeof setWalletsItems> |
-  ExtractReturn<typeof setActiveWallet> |
-  ExtractReturn<typeof simplifyWallet>
+  ExtractReturn<typeof setActiveWallet>
 
 const initialState: WalletsState = {
   persist: {

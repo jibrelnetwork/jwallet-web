@@ -15,6 +15,8 @@ import {
   JIcon,
 } from 'components/base'
 
+import offset from 'styles/offsets.m.scss'
+
 const THEMES_FOR_STATUSES = [
   'general',
   'secondary',
@@ -38,6 +40,26 @@ storiesOf('base|Button', module)
       >
         {text('Label', 'Yes, delete')}
       </Button>
+      <h2>2 button — confirmation</h2>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+      }}
+      >
+        <Button
+          onClick={action('onClick')}
+          theme='secondary-confirm'
+          className={offset.mr32}
+        >
+          {text('Label', 'Cancel')}
+        </Button>
+        <Button
+          onClick={action('onClick')}
+          theme='general-confirm'
+        >
+          {text('Label', 'Yes, delete')}
+        </Button>
+      </div>
       <h2>additional</h2>
       <Button
         onClick={action('onClick')}
