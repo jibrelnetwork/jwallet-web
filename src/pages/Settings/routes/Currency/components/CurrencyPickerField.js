@@ -3,15 +3,15 @@
 import React from 'react'
 
 import JText from 'components/base/JText'
-import currenciesData from 'data/currencies'
 import formatCurrency from 'utils/formatters/formatCurrency'
 import JPicker, { JPickerItem } from 'components/base/JPicker'
+import { CURRENCIES } from 'data'
 
 import './currencyPickerField.scss'
 
 import { CurrencyPickerCurrent } from './CurrencyPickerCurrent'
 
-const CURRENCY_CODES: FiatCurrency[] = Object.keys(currenciesData)
+const CURRENCY_CODES: FiatCurrency[] = Object.keys(CURRENCIES)
 
 export const CurrencyPickerField = ({ input }: any) => {
   const {
@@ -19,7 +19,7 @@ export const CurrencyPickerField = ({ input }: any) => {
     value,
   } = input
 
-  const fiatCurrencyData: ?FiatCurrencyData = currenciesData[value]
+  const fiatCurrencyData: ?FiatCurrencyData = CURRENCIES[value]
 
   if (!fiatCurrencyData) {
     return null

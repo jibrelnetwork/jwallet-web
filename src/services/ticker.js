@@ -1,11 +1,11 @@
-// @flow
+// @flow strict
 
 import { t } from 'ttag'
 
 import config from 'config'
-import currenciesData from 'data/currencies'
 import getENVVar from 'utils/config/getENVVar'
 import { typeUtils } from 'utils'
+import { CURRENCIES } from 'data'
 
 type TickerAPIParams = {|
   +id: FiatId[],
@@ -75,7 +75,7 @@ function prepareFiatCourses(data: Object): FiatCoursesAPI {
       fiatCode: any,
     ): FiatCourse => {
       // filter invalid currency codes
-      if (!Object.keys(currenciesData).includes(fiatCode)) {
+      if (!Object.keys(CURRENCIES).includes(fiatCode)) {
         return resultCourse
       }
 

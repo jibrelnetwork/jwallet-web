@@ -11,7 +11,6 @@ declare type FiatCoursesAPI = { [FiatId]: ?FiatCourse }
 declare type FiatCurrencyData = {|
   +name: string,
   +symbol: string,
-  +code: FiatCurrency,
 |}
 
 declare type FiatCurrencies = { [FiatCurrency]: FiatCurrencyData }
