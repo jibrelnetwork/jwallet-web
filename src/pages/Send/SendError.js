@@ -18,7 +18,7 @@ export function SendError({
   onCancelClick,
 }: Props) {
   return (
-    <div className='__validation-failed'>
+    <div className='__send-error'>
       <UserActionInfo
         title={t`Internet Connection Error`}
         // eslint-disable-next-line max-len

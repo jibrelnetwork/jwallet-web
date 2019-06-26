@@ -11,6 +11,8 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+import stylesOffsets from 'styles/offsets.m.scss'
+
 import web3 from 'services/web3'
 import checkETH from 'utils/digitalAssets/checkETH'
 import getTransactionValue from 'utils/transactions/getTransactionValue'
@@ -160,8 +162,6 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     amountValue,
     recipientAddress,
   }: SendFormValues) => {
-    console.log('requestGasLimit', assetAddress, amountValue, recipientAddress)
-
     const {
       network,
       ownerAddress,
@@ -219,8 +219,6 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         return gasLimit
       }
     } catch (err) {
-      console.log('requestGasLimit', err)
-
       this.setState({
         isGasLimitLoading: false,
         isValidationFailed: true,
@@ -273,17 +271,17 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         className={styles.form}
       >
         <Field
-          className={styles.mb16}
+          className={stylesOffsets.mb16}
           component={ConnectedAssetPicker}
           name='assetAddress'
         />
         <Field
-          className={styles.mb16}
+          className={stylesOffsets.mb16}
           component={ConnectedRecipientPicker}
           name='recipientAddress'
         />
         <Field
-          className={styles.mb16}
+          className={stylesOffsets.mb16}
           component={ConnectedSendAmountField}
           assetAddress={assetAddress}
           gasPrice={gasPriceValue}
@@ -294,7 +292,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           isLoading={isGasPriceLoading}
           isEth={isEthereumAsset}
           isDisabled={!isPriorityEnabled}
-          className={styles.mb32}
+          className={stylesOffsets.mb32}
           component={PriorityField}
           name='isPriorityOpen'
           gasPriceFieldName='gasPriceValue'

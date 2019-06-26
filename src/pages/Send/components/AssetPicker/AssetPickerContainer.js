@@ -43,6 +43,7 @@ function mapStateToProps(state: AppState) {
   )
 
   return {
+    // #TODO: Fix after currency page will be added
     fiatCurrency: 'USD',
     digitalAssets: assetsWithBalance,
   }
