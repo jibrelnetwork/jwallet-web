@@ -1,18 +1,12 @@
 // @flow
 
 import React from 'react'
-import classNames from 'classnames'
-import {
-  t,
-} from 'ttag'
+import { t } from 'ttag'
 
 import {
-  JIcon,
-  Button,
-} from 'components/base'
-
-// shared styles with ValidationFailed
-import style from './validationFailed.m.scss'
+  UserActionInfo,
+  ButtonWithConfirm,
+} from 'components'
 
 type Props = {|
   onGoBackClick: () => any,
@@ -24,40 +18,19 @@ export function SendError({
   onCancelClick,
 }: Props) {
   return (
-    <main
-      className={classNames(
-        '__send_error',
-        style.core,
-      )}
-    >
-      <JIcon
-        name='ic_fail_48-use-fill'
-        className={style.icon}
+    <div className='__validation-failed'>
+      <UserActionInfo
+        title={t`Internet Connection Error`}
+        // eslint-disable-next-line max-len
+        text={t`Transfer can't be processed without internet connection. Please, try again later.`}
+        iconName='ic_fail_48-use-fill'
       />
-      <h1 className={style.title}>
-        {t`Internet Connection Error`}
-      </h1>
-      <div className={style.description}>
-        {
-          t`Transfer can't be processed without internet connection. Please, try again later.`
-        }
-      </div>
-      <div className={style.buttons}>
-        <Button
-          onClick={onGoBackClick}
-          className={style.button}
-          theme='secondary'
-        >
-          {t`Go Back and Try Again`}
-        </Button>
-        <Button
-          onClick={onCancelClick}
-          className={style.button}
-          theme='general'
-        >
-          {t`Cancel Transfer`}
-        </Button>
-      </div>
-    </main>
+      <ButtonWithConfirm
+        onCancel={onGoBackClick}
+        onConfirm={onCancelClick}
+        labelCancel={t`Go Back and Try Again`}
+        labelConfirm={t`Cancel Transfer`}
+      />
+    </div>
   )
 }
