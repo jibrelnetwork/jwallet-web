@@ -26,6 +26,7 @@ export { JFieldMessage } from './JFieldMessage/JFieldMessage'
 export { JShimmer } from './JShimmer/JShimmer'
 export { SearchInput } from './SearchInput/SearchInput'
 export { SearchFilter } from './SearchInput/SearchFilter/SearchFilter'
+export { ItemCard } from './ItemCard/ItemCard'
 
 export {
   JCard,
