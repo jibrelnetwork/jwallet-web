@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { t } from 'ttag'
-import { map } from 'lodash-es'
 
 import {
   JIcon,
@@ -29,17 +28,13 @@ export function CurrencyPicker({
   className,
 }: Props) {
   const {
-    value,
-    onFocus: handleFocus,
     onBlur: handleBlur,
+    onFocus: handleFocus,
     onChange: handleChange,
+    value: currency,
   } = input
 
-  const activeCode = value || ''
-
-  const {
-    name: activeName = '',
-  } = CURRENCIES[value] || {}
+  const activeName: string = CURRENCIES[currency].name
 
   return (
     <JPickerBody
@@ -53,30 +48,23 @@ export function CurrencyPicker({
           label={t`Local currency`}
           value={activeName}
           iconComponent={(
-            <JIcon name={`ic_${activeCode.toLowerCase()}_24-use-fill`} size='24' color='blue' />
+            <JIcon name={`ic_${currency.toLowerCase()}_24-use-fill`} size='24' color='blue' />
           )}
         />
       )}
     >
       <JPickerList
         onItemClick={handleChange}
-        activeItemKey={value}
+        activeItemKey={currency}
       >
-        {map(CURRENCIES, (item, code) => {
-          const {
-            name,
-          } = item
-
-          return (
-            <DefaultItem
-              key={code}
-              title={name}
-              description={code}
-              iconColor='blue'
-              iconName={`ic_${code.toLowerCase()}_24-use-fill`}
-            />
-          )
-        })}
+        {Object.keys(CURRENCIES).map((code: FiatCurrency) => (
+          <DefaultItem
+            key={code}
+            description={code}
+            title={CURRENCIES[code].name}
+            iconName={`ic_${code.toLowerCase()}_24-use-fill`}
+          />
+        ))}
       </JPickerList>
     </JPickerBody>
   )
