@@ -10,7 +10,6 @@ import JText from './JText'
 import JThumbnail from './JThumbnail'
 import JTooltip from './JTooltip'
 import JSwitch from './JSwitch'
-import JPicker from './JPicker'
 
 export { Button } from './Button/Button'
 export { JAssetSymbol } from './JAssetSymbol/JAssetSymbol'
@@ -38,5 +37,4 @@ export {
   JThumbnail,
   JTooltip,
   JSwitch,
-  JPicker,
 }
