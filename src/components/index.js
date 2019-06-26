@@ -34,6 +34,7 @@ export { ButtonWithConfirm } from './ButtonWithConfirm/ButtonWithConfirm'
 export { HistoryItemDetails } from './HistoryItemDetails/HistoryItemDetails'
 export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 export { FieldPreview } from './FieldPreview/FieldPreview'
+export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
 
 export {
   QRCode,
