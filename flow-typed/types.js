@@ -17,7 +17,14 @@ declare type AssetAddress = Address | EthereumAddress
 declare type AddressNames = { [Address]: ?string }
 
 declare type SortDirection = 'asc' | 'desc'
-declare type LanguageCode = 'en' | 'ko' | 'zh' | 'ja'
+declare type LanguageCode = 'en' | 'ru' | 'ko' | 'zh-Hans' | 'zh-Hant' | 'ja' | 'es'
+
+declare type LanguageData = {
+  title: string,
+  isDisabled: boolean,
+}
+
+declare type Languages = { [LanguageCode]: LanguageInfo }
 
 declare type FormFields = { [string]: ?string }
 declare type FormValidate = (values: Object) => Object | Promise<Object>
