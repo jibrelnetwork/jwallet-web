@@ -28,6 +28,8 @@ type StateProps = {|
   +isRenameActive: boolean,
 |}
 
+const RE_INVALID_NAME: RegExp = /[/]/
+
 class WalletCard extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
@@ -66,16 +68,25 @@ class WalletCard extends Component<Props, StateProps> {
   handleRenameBlur = () => {
     this.handleActivateRename(false)
 
-    const { data }: Props = this.props
-    const { newName }: StateProps = this.state
+    const {
+      id,
+      name,
+    } = this.props.data
 
-    if (data.name === newName) {
+    const newName: string = this.state.newName.substring(0, 32).trim()
+    const hasInvalidSymbols: boolean = RE_INVALID_NAME.test(newName)
+
+    if (!newName || (name === newName) || hasInvalidSymbols) {
+      this.setState({ newName: name })
+
       return
     }
 
-    walletsPlugin.updateWallet(data.id, {
+    walletsPlugin.updateWallet(id, {
       name: newName,
     })
+
+    this.setState({ newName })
   }
 
   render() {
