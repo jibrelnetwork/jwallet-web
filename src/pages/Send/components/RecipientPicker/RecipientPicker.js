@@ -106,12 +106,13 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
   }).filter(Boolean)
 }
 
-type Props = {|
+export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  // +fiatCurrency: FiatCurrency,
   +contacts: Contact[],
   +wallets: RecipientPickerWallet[],
+  +className: string,
+  // fiatCurrency: FiatCurrency,
 |}
 
 type ComponentState = {|
@@ -131,7 +132,7 @@ type SearchInputRef = {
 
 class RecipientPicker extends Component<Props, ComponentState> {
   static defaultProps = {
-    fiatCurrency: 'USD',
+    className: '',
   }
 
   state = {
@@ -395,6 +396,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
   render() {
     const {
       meta,
+      className,
     } = this.props
 
     const {
@@ -405,6 +407,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
 
     return (
       <JPickerBody
+        className={className}
         isOpen={isOpen}
         onOpen={this.handleOpen}
         onClose={this.handleClose}

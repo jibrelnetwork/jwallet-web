@@ -9,6 +9,8 @@ import divDecimals from './divDecimals'
 import { toBigNumber } from './toBigNumber'
 import formatBalance from './formatBalance'
 
+export { trimLeadingZeroes } from './trimLeadingZeroes'
+
 export {
   round,
   isZero,

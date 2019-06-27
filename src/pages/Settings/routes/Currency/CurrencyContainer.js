@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 import { t } from 'ttag'
 
-import currenciesData from 'data/currencies'
+import { CURRENCIES } from 'data'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 
 import { setFiatCurrency } from 'store/modules/settings'
@@ -16,7 +16,7 @@ import {
 } from './types'
 
 const validate = ({ fiatCurrency }: CurrencyFormFieldValues): CurrencyFormFieldErrors => {
-  const fiatCurrencyData: ?FiatCurrencyData = currenciesData[fiatCurrency]
+  const fiatCurrencyData: ?FiatCurrencyData = CURRENCIES[fiatCurrency]
 
   if (!fiatCurrencyData) {
     return {
