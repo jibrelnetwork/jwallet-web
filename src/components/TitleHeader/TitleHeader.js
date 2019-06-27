@@ -19,6 +19,12 @@ type StateProps = {|
   +isScrolled: boolean,
 |}
 
+const MIN_SCROLL_TOP_PIXELS: number = 20
+
+function checkScrolled(rootElement: ?HTMLElement): boolean {
+  return !!rootElement && (rootElement.scrollTop > MIN_SCROLL_TOP_PIXELS)
+}
+
 export class TitleHeader extends Component<Props, StateProps> {
   static defaultProps = {
     onBack: undefined,
@@ -33,7 +39,7 @@ export class TitleHeader extends Component<Props, StateProps> {
     this.rootElement = this.rootElement || document.getElementById('root')
 
     this.state = {
-      isScrolled: false,
+      isScrolled: checkScrolled(this.rootElement),
     }
   }
 
@@ -53,7 +59,7 @@ export class TitleHeader extends Component<Props, StateProps> {
     e.preventDefault()
 
     const wasScrolled: boolean = this.state.isScrolled
-    const isScrolled: boolean = !!this.rootElement && (this.rootElement.scrollTop > 20)
+    const isScrolled: boolean = checkScrolled(this.rootElement)
 
     if (!wasScrolled && isScrolled) {
       this.setState({ isScrolled: true })
