@@ -295,10 +295,13 @@ router.canActivate(
     const { walletId } = toState.params
 
     try {
-      const { xpub }: Wallet = walletsPlugin.getWallet(walletId)
+      const {
+        xpub,
+        isSimplified,
+      }: Wallet = walletsPlugin.getWallet(walletId)
 
-      if (!xpub) {
-        throw new WalletInconsistentDataError('Wallet does not have XPUB')
+      if (!xpub || isSimplified) {
+        throw new WalletInconsistentDataError('Wallet is not multi-address')
       }
     } catch (error) {
       return done({
