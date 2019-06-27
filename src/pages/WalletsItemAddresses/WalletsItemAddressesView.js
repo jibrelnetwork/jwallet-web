@@ -5,10 +5,17 @@ import { t } from 'ttag'
 
 import { walletsPlugin } from 'store/plugins'
 
-import { WalletActions } from 'components'
+import {
+  JIcon,
+  Button,
+} from 'components/base'
+
+import {
+  TitleHeader,
+  WalletActions,
+} from 'components'
 
 import styles from './walletsItemAddresses.m.scss'
-import { Header } from './Header/Header'
 import { WalletAddressCard } from './components/WalletAddressCard/WalletAddressCard'
 
 export type Props = {|
@@ -57,10 +64,25 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     }: Props = this.props
 
     const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
+    const addressesCount: number = (derivationIndex + 1)
 
     return (
       <div className={styles.core}>
-        <Header onAdd={this.handleAdd} />
+        <TitleHeader title={t`Manage Addresses`}>
+          <Button
+            onClick={this.handleAdd}
+            className={styles.add}
+            theme='additional-icon'
+          >
+            <JIcon
+              name='ic_add_24-use-fill'
+              className={styles.icon}
+            />
+            <span className={styles.text}>
+              {t`Add New Address`}
+            </span>
+          </Button>
+        </TitleHeader>
         <div className={styles.wallet}>
           <div className={styles.main}>
             <div className={styles.info}>
@@ -68,7 +90,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
                 {name}
               </div>
               <div className={styles.addresses}>
-                {t`Multi-Address Wallet  •  ${derivationIndex + 1} ${addressesLabel}`}
+                {t`Multi-Address Wallet  •  ${addressesCount} ${addressesLabel}`}
               </div>
             </div>
             <div className={styles.actions}>

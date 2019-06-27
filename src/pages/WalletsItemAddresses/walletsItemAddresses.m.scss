@@ -7,10 +7,6 @@
   min-height: 100%;
 }
 
-.icon {
-  @include sprite-icon-color($main-black-60);
-}
-
 .buttons {
   position: relative;
   width: 100%;
