@@ -5,7 +5,8 @@ import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
 import { isFinite } from 'lodash-es'
 
-import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
+import { CURRENCIES } from 'data'
+import { selectSettingsFiatCurrency } from 'store/selectors/settings'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
@@ -56,10 +57,11 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const isEthereumAsset = (assetAddress === 'Ethereum')
 
+  const fiatCurrencyCode = selectSettingsFiatCurrency(state)
+
   const {
     symbol: fiatCurrencySymbol,
-    code: fiatCurrencyCode,
-  } = selectSettingsFiatCurrencyData(state)
+  } = CURRENCIES[fiatCurrencyCode]
 
   const {
     symbol: assetSymbol,
