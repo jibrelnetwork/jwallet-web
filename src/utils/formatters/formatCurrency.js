@@ -1,11 +1,11 @@
-// @flow
+// @flow strict
 
 import { t } from 'ttag'
 
-import currenciesData from 'data/currencies'
+import { CURRENCIES } from 'data'
 
 function formatCurrency(fiatCurrency: FiatCurrency): string {
-  const fiatCurrencyData: ?FiatCurrencyData = currenciesData[fiatCurrency]
+  const fiatCurrencyData: ?FiatCurrencyData = CURRENCIES[fiatCurrency]
 
   if (!fiatCurrencyData) {
     throw new Error(t`InvalidFiatCurrencyCode`)

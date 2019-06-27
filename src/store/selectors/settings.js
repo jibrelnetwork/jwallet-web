@@ -1,6 +1,4 @@
-// @flow
-
-import currenciesData from 'data/currencies'
+// @flow strict
 
 export function selectSettings(state: AppState): SettingsState {
   return state.settings
@@ -12,20 +10,20 @@ export function selectSettingsPersist(state: AppState): SettingsPersist {
   return settings.persist
 }
 
+export function selectSettingsLanguage(state: AppState): LanguageCode {
+  const { language }: SettingsPersist = selectSettingsPersist(state)
+
+  return language
+}
+
 export function selectSettingsFiatCurrency(state: AppState): FiatCurrency {
-  const settingsPersist: SettingsPersist = selectSettingsPersist(state)
-
-  return settingsPersist.fiatCurrency
-}
-
-export function selectSettingsFiatCurrencyData(state: AppState): FiatCurrencyData {
   const { fiatCurrency }: SettingsPersist = selectSettingsPersist(state)
 
-  return currenciesData[fiatCurrency]
+  return fiatCurrency
 }
 
-export function selectSettingsFiatCurrencySymbol(state: AppState): string {
-  const { fiatCurrency }: SettingsPersist = selectSettingsPersist(state)
+export function selectSettingsDeveloperMode(state: AppState): boolean {
+  const { isDeveloperMode }: SettingsPersist = selectSettingsPersist(state)
 
-  return currenciesData[fiatCurrency].symbol
+  return isDeveloperMode
 }

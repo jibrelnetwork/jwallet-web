@@ -9,50 +9,61 @@ import {
 } from 'react-final-form'
 
 import {
-  Button, JInputField, JLink,
+  Button,
+  JInputField,
 } from 'components/base'
 import { TitleHeader } from 'components'
+import { checkAddressValid } from 'utils/address'
+
 import offset from 'styles/offsets.m.scss'
 
-import style from './contactsItemEdit.m.scss'
+import style from './contactsItemAdd.m.scss'
 
 export type Props = {|
-  contactId: ContactId,
+  address: OwnerAddress,
   note: string,
   name: string,
 |}
 
 function handleFormSubmit(values) {
+  const errors = {}
+
+  if (!checkAddressValid(values.address)) {
+    // eslint-disable-next-line no-param-reassign, fp/no-mutation
+    errors.address = t`Invalid address`
+  }
+
   if (values.name == null) {
     // eslint-disable-next-line no-param-reassign, fp/no-mutation
     values.name = values.address
   }
 
   alert(JSON.stringify(values, null, 4))
+
+  return errors
 }
 
-export function ContactsItemEditView({
-  contactId,
+export function ContactsItemAddView({
+  address,
   name,
   note,
 }: Props) {
   const initValues = {
     name,
     note,
-    address: contactId,
+    address,
   }
 
   return (
     <div className={style.core}>
       <TitleHeader
-        title={t`Edit Contact`}
-        onBack={null}
+        title={t`Add Contact`}
       />
       <Form
         render={({
           handleSubmit,
           submitting,
-          invalid,
+          errors,
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
@@ -68,7 +79,8 @@ export function ContactsItemEditView({
               component={JInputField}
               label={t`Address`}
               name='address'
-              isDisabled
+              errorMessage={errors.address}
+              isDisabled={submitting || address}
             />
             <Field
               className={offset.mb32}
@@ -80,7 +92,6 @@ export function ContactsItemEditView({
             />
             <Button
               type='submit'
-              isDisabled={invalid}
               isLoading={submitting}
             >
               {t`Save`}
@@ -90,12 +101,6 @@ export function ContactsItemEditView({
         onSubmit={handleFormSubmit}
         initialValues={initValues}
       />
-      <JLink
-        theme='button-secondary'
-        href={`/contacts/${contactId}/delete`}
-      >
-        {t`Delete Contact`}
-      </JLink>
     </div>
   )
 }
