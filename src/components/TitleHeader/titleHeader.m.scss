@@ -4,11 +4,19 @@
 .core {
   @include font;
   @include flex-row;
+  @include property-transition(box-shadow);
 
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  background-color: transparent;
+
+  &.scrolled {
+    z-index: $z-index-header;
+    box-shadow: $select-shadow;
+    background-color: $pale-grey;
+  }
 }
 
 .back {
