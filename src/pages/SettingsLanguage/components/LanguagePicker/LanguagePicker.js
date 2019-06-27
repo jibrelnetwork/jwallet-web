@@ -47,7 +47,7 @@ export function LanguagePicker({
           isEditable={false}
           label={t`Local currency`}
           value={activeTitle}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name={`ic_${value}_24`} size='24' />
           )}
         />

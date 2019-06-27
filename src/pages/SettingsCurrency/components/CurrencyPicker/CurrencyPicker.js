@@ -49,7 +49,7 @@ export function CurrencyPicker({
           isEditable={false}
           label={t`Local currency`}
           value={activeName}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name={`ic_${activeCode.toLowerCase()}_24-use-fill`} size='24' color='blue' />
           )}
         />

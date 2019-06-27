@@ -76,7 +76,7 @@ export function AssetPicker({
           isEditable={false}
           label={t`Asset`}
           value={activeAssetName}
-          iconRenderer={() => (
+          iconComponent={(
             <JAssetSymbol
               address={activeAssetAddress}
               color='blue'
@@ -84,7 +84,7 @@ export function AssetPicker({
               size={24}
             />
           )}
-          balancesRenderer={() => (
+          balancesComponent={(
             <AssetBalance
               assetBalance={activeAssetBalance}
               fiatBalance={activeAssetFiatBalance}
