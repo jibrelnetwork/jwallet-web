@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { t } from 'ttag'
 
 import { clipboard } from 'services'
+import { walletsPlugin } from 'store/plugins'
 
 import {
   JIcon,
@@ -49,7 +50,8 @@ export class WalletActions extends PureComponent<Props, StateProps> {
 
   handleCopyAddress = (event: SyntheticEvent<HTMLSpanElement>) => {
     this.setState({ isToggled: false })
-    clipboard.copyText('TEST ADDRESS')
+    const address: Address = walletsPlugin.getAddress(this.props.id)
+    clipboard.copyText(address)
     event.stopPropagation()
   }
 
