@@ -4,7 +4,7 @@
   @include flex-column;
 
   position: relative;
-  height: 100%;
+  min-height: 100%;
 
   &.has-logo {
     padding: 64px 0 176px;
