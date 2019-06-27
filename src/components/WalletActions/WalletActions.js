@@ -143,7 +143,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
               {t`Unlock Features`}
             </JLink>
           )}
-          {isMultiAddressWallet && !isFromAddressManager && (
+          {isMultiAddressWallet && !isSimplified && !isFromAddressManager && (
             <JLink
               href={`/wallets/${id}/addresses`}
               className={walletActionsStyle.action}
