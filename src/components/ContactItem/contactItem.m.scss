@@ -1,8 +1,6 @@
 @import 'styles/mixins';
 
 .item {
-  @include font(16px, 24px);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,6 +9,8 @@
 }
 
 .text {
+  @include font(16px, 24px);
+
   margin-bottom: 2px;
 }
 
@@ -43,6 +43,7 @@
   flex-direction: column;
   align-items: flex-start;
   flex: 1;
+  padding-right: 24px;
 
   > .text,
   > .subtext {

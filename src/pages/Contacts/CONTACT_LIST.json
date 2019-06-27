@@ -1,10 +1,5 @@
 [
   {
-    "id": "0xf2D5cDEBBcA6cCdDcFe629de53dC40bf7d7000B04",
-    "name": "Evgeniy Taaball",
-    "note": ""
-  },
-  {
     "id": "0x405d7Ae7e50b7cAa5B3Ee5B6FFC5d1A9eBc239Bc6",
     "name": "Ivan Petrov",
     "note": ""
@@ -21,7 +16,7 @@
   },
   {
     "id": "0x3f7cB71B1C15249CC08F5D4b10Df63fCAD0204F4A",
-    "name": "Misha Petrov",
+    "name": "Михаил Петров",
     "note": ""
   },
   {
@@ -36,7 +31,7 @@
   },
   {
     "id": "0xBccBcCEDf8ECc2Edceb2EBD9e7CF529F9fAFFFfD4",
-    "name": "Stanislav Ivanov",
+    "name": "Станислав Иванов",
     "note": ""
   },
   {
@@ -56,8 +51,8 @@
   },
   {
     "id": "0x3382C1CdDB81B0Db18AD6e2d147b9A0eBAE3fa3Fd",
-    "name": "Vasiliy Petrov",
-    "note": ""
+    "name": "Vasiliy Vasiliyev",
+    "note": "Lists are used to group together related pieces of information so they are clearly associated with each other and easy to read. In modern web development, lists are workhorse elements, frequently used for navigation as well as general content."
   },
   {
     "id": "0xd8adCc25CbFC7483Eb44BFE9eD574AEC79ffF735c",
@@ -71,7 +66,7 @@
   },
   {
     "id": "0x8BcAEae26a84Abae4EEeb4cEBdeeBb0E4EE5F691F",
-    "name": "Evgeniy Joster",
+    "name": "梅丽 秀英",
     "note": ""
   },
   {
@@ -91,11 +86,6 @@
   },
   {
     "id": "0xECE7BccCaFe27Ad6eC7ac6B1C1032aaCb5cBEa8D2",
-    "name": "Evgeniy Taaball",
-    "note": ""
-  },
-  {
-    "id": "0xd350465328Efc24BF1317de1F3083cbf8f0Fb74Ef",
     "name": "Evgeniy Taaball",
     "note": ""
   },
@@ -141,8 +131,8 @@
   },
   {
     "id": "0xe94c6149f6a16d8Ca011d60ffA177cFD295a51Ba5",
-    "name": "Misha Parcel",
-    "note": ""
+    "name": "秀丽 统禮儀上",
+    "note": "深夜花园里四处静悄悄\n只有风儿在轻轻唱\n夜色多么好心儿多爽朗\n在这迷人的晚上"
   },
   {
     "id": "0xAC83Ad04B102f5F64bDd0bADdaee3CBF89c9d78fd",
@@ -151,8 +141,8 @@
   },
   {
     "id": "0xc3EaECbEBA5aFFc055fE3b93B2763baed6880acCF",
-    "name": "Misha Taaball",
-    "note": ""
+    "name": "تفاصيل وأسرار مثيرة",
+    "note": "الجزيرة نت تنشر أسرار انقلاب السودان.. لماذا أغلق حميدتي هواتفه؟"
   },
   {
     "id": "0x1CAC229FDb2746BF5efB39f6B09D30cC4Eb643b90",
@@ -217,7 +207,7 @@
   {
     "id": "0xBa03d4ED7fFeEE5375bFBC5AA9C19c7Add77FB9aF",
     "name": "Stanislav Taaball",
-    "note": ""
+    "note": "Creates an array with all falsey values removed."
   },
   {
     "id": "0x234F04d3CE2b97Fbb41b87F7d0beD9cF05A29729f",
@@ -270,13 +260,8 @@
     "note": ""
   },
   {
-    "id": "0x09E9CB7D8ebA6c6bcd5DbAf578cEAFf1bDAAD088C",
-    "name": "Vasiliy Ivanov",
-    "note": ""
-  },
-  {
     "id": "0x2c36e4e226fDD09864a2eB70DFBb06531acD916BC",
-    "name": "Vasiliy Ivanov",
+    "name": "Vasiliy Cherenkov",
     "note": "125125 125 125 1253634526"
   },
   {
@@ -295,18 +280,8 @@
     "note": ""
   },
   {
-    "id": "0xE37cC1d8B5aE6EE8f430a85A4dC3d5a85fcFaD4FD",
-    "name": "Vasiliy Petrov",
-    "note": ""
-  },
-  {
     "id": "0xe1a8b4FF4953189E48e8740E61cA0E9ADeb8e9528",
     "name": "Vasiliy Petrov",
-    "note": ""
-  },
-  {
-    "id": "0x962AA6100abdd3edfCeCfbeCC5BBb88b7Ca4Ee089",
-    "name": "Vasiliy Taaball",
     "note": ""
   },
   {

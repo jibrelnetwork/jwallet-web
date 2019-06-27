@@ -1,5 +1,6 @@
 // @flow
 
+import React from 'react'
 import { connect } from 'react-redux'
 import {
   sortBy,
@@ -21,4 +22,4 @@ function mapStateToProps() {
 }
 
 export const Contacts =
-  connect< Props, {||}, _, _, _, _ >(mapStateToProps)(ContactsView)
+  connect< Props, {||}, _, _, _, _ >(mapStateToProps)(React.memo<Props>(ContactsView))

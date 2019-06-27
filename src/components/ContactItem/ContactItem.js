@@ -25,9 +25,18 @@ type Props = {|
   ...OwnProps,
 |}
 
-function Component(props: Props) {
-  const splitedName = props.name.split(' ')
+function getName(dividedName: string[]) {
+  switch (dividedName.length) {
+    case 0:
+      return null
+    case 1:
+      return dividedName[0][0]
+    default:
+      return `${dividedName[0][0]}${dividedName[1][0]}`
+  }
+}
 
+function Component(props: Props) {
   return (
     <ItemCard
       href={`/contacts/${props.id}`}
@@ -37,7 +46,7 @@ function Component(props: Props) {
     >
       <div className={`${style.item} ${style.avatar}`}>
         <div className={style.placeholder}>
-          {splitedName[0][0]}{splitedName[splitedName.length - 1][0]}
+          {getName(props.name.split(' '))}
         </div>
       </div>
       <div className={`${style.item} ${style.mainBlock}`}>
