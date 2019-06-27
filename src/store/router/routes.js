@@ -64,6 +64,10 @@ export const routes: Array<{|
   name: 'ContactsItemEdit',
   hasMenu: true,
 }, {
+  path: '/contacts/:contactId/delete',
+  name: 'ContactsItemDelete',
+  hasMenu: false,
+}, {
   path: '/history',
   name: 'History',
   hasMenu: true,

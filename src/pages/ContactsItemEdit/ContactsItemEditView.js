@@ -45,7 +45,8 @@ export function ContactsItemEditView({
   return (
     <div className={style.core}>
       <TitleHeader
-        title='Edit Contact'
+        title={t`Edit Contact`}
+        onBack={null}
       />
       <Form
         render={({

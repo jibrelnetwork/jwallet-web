@@ -1,7 +1,7 @@
 @import "styles/mixins";
 
 .core {
-  @include font;
+  @include font(14px, 22px);
   @include box;
   @include hover-animation;
   @include flex-row-center;
@@ -83,7 +83,6 @@
 
 .additional {
   @include property-transition(background-color, color);
-  @include font(14px, 22px);
 
   height: 40px;
   width: auto;
@@ -108,7 +107,6 @@
 
 .additional-icon {
   @include property-transition(background-color, color);
-  @include font(14px, 22px);
 
   height: 40px;
   width: auto;

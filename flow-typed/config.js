@@ -37,7 +37,6 @@ declare type AppConfig = {|
   +copyToBufferTimeout: number,
   +walletIdInitTimeout: number,
   +blockExplorerUILink: 'etherscan.io',
-  +supportedLanguages: LanguageCode[],
   +mnemonicAddressesCount: number,
   +landingURL: 'https://jwallet.network',
   +deleteConfirmTimeout: number,

@@ -15,7 +15,7 @@ import {
   DefaultItem,
 } from 'components/base/JPicker'
 
-import currenciesList from 'data/currencies'
+import { CURRENCIES } from 'data'
 
 type Props = {|
   +meta: FinalFormMeta,
@@ -33,10 +33,11 @@ export function CurrencyPicker({
     onChange: handleChange,
   } = input
 
+  const activeCode = value || ''
+
   const {
-    code: activeCode = '',
     name: activeName = '',
-  } = currenciesList[value] || {}
+  } = CURRENCIES[value] || {}
 
   return (
     <JPickerBody
@@ -58,10 +59,9 @@ export function CurrencyPicker({
         onItemClick={handleChange}
         activeItemKey={value}
       >
-        {map(currenciesList, (item) => {
+        {map(CURRENCIES, (item, code) => {
           const {
             name,
-            code,
           } = item
 
           return (
