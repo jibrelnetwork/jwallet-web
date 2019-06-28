@@ -20,11 +20,13 @@ import { LANGUAGES } from 'data'
 type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
+  +className: string,
 |}
 
 export function LanguagePicker({
   meta,
   input,
+  className,
 }: Props) {
   const {
     value,
@@ -42,6 +44,7 @@ export function LanguagePicker({
       isOpen={meta.active || false}
       onOpen={handleFocus}
       onClose={handleBlur}
+      className={className}
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}
