@@ -45,7 +45,7 @@ export function SettingsView({
           <Card
             title={t`Language`}
             description={languageTitle}
-            iconName='ic_english_24'
+            iconName={`ic_${language}_24`}
           />
         </JLink>
         <JLink href='/settings/currency'>
