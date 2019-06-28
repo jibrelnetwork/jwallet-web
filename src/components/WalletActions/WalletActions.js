@@ -31,6 +31,7 @@ type StateProps = {|
 export class WalletActions extends PureComponent<Props, StateProps> {
   static defaultProps = {
     onRename: null,
+    isSimplified: false,
     isFromAddressManager: false,
   }
 

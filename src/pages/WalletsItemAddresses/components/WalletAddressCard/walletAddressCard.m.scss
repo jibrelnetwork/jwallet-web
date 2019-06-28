@@ -1,0 +1,44 @@
+@import 'styles/mixins';
+
+.core {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 16px 16px 16px;
+  background: $white;
+  border-radius: 4px;
+}
+
+.main {
+  @include flex-row;
+}
+
+.label {
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-40;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black;
+}
+
+.balance {
+  @include flex-row-center;
+
+  margin-left: auto;
+  color: $main-blue;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.address {
+  @include flex-row;
+
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid $main-black-10;
+}
