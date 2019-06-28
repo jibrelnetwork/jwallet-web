@@ -2,7 +2,7 @@
 
 import { t } from 'ttag'
 
-export const CURRENCIES: FiatCurrencies = {
+export const CURRENCIES = {
   USD: {
     symbol: '$',
     name: t`US Dollar`,
@@ -27,4 +27,15 @@ export const CURRENCIES: FiatCurrencies = {
     symbol: '₩',
     name: t`South Korean won`,
   },
+}
+
+export type FiatCurrencyCode = $Keys<typeof CURRENCIES>
+
+export type FiatCurrencyData = {
+  symbol: string,
+  name: string,
+}
+
+export type FiatCurrencies = {
+  [code: FiatCurrencyCode]: FiatCurrencyData,
 }

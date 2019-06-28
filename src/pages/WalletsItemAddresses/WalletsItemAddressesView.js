@@ -5,20 +5,17 @@ import { t } from 'ttag'
 
 import { walletsPlugin } from 'store/plugins'
 
-import {
-  WalletActions,
-  CopyIconButton,
-} from 'components'
+import { WalletActions } from 'components'
 
-import walletsItemAddressesStyle from './walletsItemAddresses.m.scss'
+import styles from './walletsItemAddresses.m.scss'
 import { Header } from './Header/Header'
+import { WalletAddressCard } from './components/WalletAddressCard/WalletAddressCard'
 
 export type Props = {|
   +walletId: string,
   +name: string,
   +type: WalletCustomType,
   +derivationIndex: number,
-  +isSimplified: boolean,
 |}
 
 type StateProps = {|
@@ -47,10 +44,6 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     derivationIndex,
   )
 
-  handleRemove = () => {
-    walletsPlugin.removeWallet(this.props.walletId)
-  }
-
   handleAdd = () => {
     walletsPlugin.deriveOneMoreAddress(this.props.walletId)
   }
@@ -60,61 +53,39 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       name,
       type,
       walletId,
-      isSimplified,
       derivationIndex,
     }: Props = this.props
 
-    const specific: string = isSimplified ? t`Single-Address` : t`Multi-Address`
     const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
 
     return (
-      <div className={walletsItemAddressesStyle.core}>
+      <div className={styles.core}>
         <Header onAdd={this.handleAdd} />
-        <div className={walletsItemAddressesStyle.wallet}>
-          <div className={walletsItemAddressesStyle.main}>
-            <div className={walletsItemAddressesStyle.info}>
-              <div className={walletsItemAddressesStyle.name}>
+        <div className={styles.wallet}>
+          <div className={styles.main}>
+            <div className={styles.info}>
+              <div className={styles.name}>
                 {name}
               </div>
-              <div className={walletsItemAddressesStyle.addresses}>
-                {t`${specific} Wallet  •  ${derivationIndex + 1} ${addressesLabel}`}
+              <div className={styles.addresses}>
+                {t`Multi-Address Wallet  •  ${derivationIndex + 1} ${addressesLabel}`}
               </div>
             </div>
-            <div className={walletsItemAddressesStyle.actions}>
+            <div className={styles.actions}>
               <WalletActions
                 type={type}
                 id={walletId}
-                isSimplified={isSimplified}
                 isFromAddressManager
               />
             </div>
           </div>
-          {this.state.addresses.map((address: Address, index: number) => {
-            const addressName: string = t`Address ${index + 1}`
-
-            return (
-              <div
-                key={address}
-                className={walletsItemAddressesStyle.item}
-              >
-                <div className={walletsItemAddressesStyle.label}>
-                  {t`Name`}
-                </div>
-                <div className={walletsItemAddressesStyle.title}>
-                  {addressName}
-                </div>
-                <div className={walletsItemAddressesStyle.address}>
-                  <div className={walletsItemAddressesStyle.title}>
-                    {address}
-                  </div>
-                  <CopyIconButton
-                    title={t`Copy ${addressName}`}
-                    content={address}
-                  />
-                </div>
-              </div>
-            )
-          })}
+          {this.state.addresses.map((address: Address, index: number) => (
+            <WalletAddressCard
+              key={address}
+              address={address}
+              index={index}
+            />
+          ))}
         </div>
       </div>
     )
