@@ -20,11 +20,13 @@ import { CURRENCIES } from 'data'
 type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
+  +className: string,
 |}
 
 export function CurrencyPicker({
   meta,
   input,
+  className,
 }: Props) {
   const {
     value,
@@ -44,6 +46,7 @@ export function CurrencyPicker({
       isOpen={meta.active || false}
       onOpen={handleFocus}
       onClose={handleBlur}
+      className={className}
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}

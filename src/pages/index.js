@@ -25,7 +25,8 @@ export { default as Receive }
 //   from './DigitalAssets/routes/Send/DigitalAssetsSendViewContainer'
 
 export { default as Settings } from './Settings/SettingsIndexViewContainer'
-export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
+export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'
+export { SettingsLanguage } from './SettingsLanguage/SettingsLanguage'
 export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
 
