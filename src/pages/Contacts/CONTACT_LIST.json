@@ -1,5 +1,10 @@
 [
   {
+    "id": "0xf2D5cDEBBcA6cCdDcFe629de53dC40bf7d7000B04",
+    "name": "Evgeniy Taaball",
+    "note": ""
+  },
+  {
     "id": "0x405d7Ae7e50b7cAa5B3Ee5B6FFC5d1A9eBc239Bc6",
     "name": "Ivan Petrov",
     "note": ""
@@ -88,6 +93,11 @@
     "id": "0xECE7BccCaFe27Ad6eC7ac6B1C1032aaCb5cBEa8D2",
     "name": "Evgeniy Taaball",
     "note": ""
+  },
+  {
+    "id": "0xd350465328Efc24BF1317de1F3083cbf8f0Fb74Ef",
+    "name": "Evgeniy Taaball",
+    "note": "0"
   },
   {
     "id": "0x28cA58fdafAD50E40dbecCFEFE2cC51AEb7783ABF",
@@ -280,8 +290,18 @@
     "note": ""
   },
   {
+    "id": "0xE37cC1d8B5aE6EE8f430a85A4dC3d5a85fcFaD4FD",
+    "name": "Vasiliy Petrov",
+    "note": ""
+  },
+  {
     "id": "0xe1a8b4FF4953189E48e8740E61cA0E9ADeb8e9528",
     "name": "Vasiliy Petrov",
+    "note": ""
+  },
+  {
+    "id": "0x962AA6100abdd3edfCeCfbeCC5BBb88b7Ca4Ee089",
+    "name": "Vasiliy Taaball",
     "note": ""
   },
   {

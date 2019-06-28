@@ -5,7 +5,6 @@ import MenuLayout from 'layouts/MenuLayout'
 import AddAsset from './routes/AddAsset'
 import EditAsset from './routes/EditAsset'
 import Manage from './routes/Manage'
-import Send from './routes/Send'
 import Receive from './routes/Receive'
 
 export default {
@@ -18,7 +17,6 @@ export default {
     Manage,
     AddAsset,
     EditAsset,
-    Send,
     Receive,
   ],
 }
