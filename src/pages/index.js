@@ -10,6 +10,10 @@ export { WalletsItemAddresses } from './WalletsItemAddresses/WalletsItemAddresse
 export { WalletsItemModeEnable } from './WalletsItemModeEnable/WalletsItemModeEnable'
 export { WalletsItemModeDisable } from './WalletsItemModeDisable/WalletsItemModeDisable'
 
+export { Settings } from './Settings/Settings'
+export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'
+export { SettingsLanguage } from './SettingsLanguage/SettingsLanguage'
+
 export { default as AssetsItem }
   from './Transactions/routes/Asset/TransactionsAssetViewContainer'
 export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAssetContainer'
@@ -20,10 +24,6 @@ export { default as History } from './Transactions/TransactionsIndexViewContaine
 export { default as Home } from './Home/Home'
 export { default as Receive }
   from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
-export { default as Send }
-  from './DigitalAssets/routes/Send/DigitalAssetsSendViewContainer'
-export { default as Settings } from './Settings/SettingsIndexViewContainer'
-export { default as SettingsCurrency } from './Settings/routes/Currency/CurrencyContainer'
 export { default as SettingsSecurityPassword }
   from './Settings/routes/PaymentPassword/PaymentPasswordContainer'
 
@@ -33,10 +33,12 @@ export { NotFound } from './NotFound/NotFound'
 
 // not available to user directly
 
+export { Send } from './Send/Send'
 export { SetPassword } from './SetPassword/SetPassword'
 export { WalletsStart } from './WalletsStart/WalletsStart'
 export { AgreementsView } from './Agreements/AgreementsView'
 export { Introduction } from './Introduction/Introduction'
 export { ContactsItem } from './ContactsItem/ContactsItem'
+export { ContactsItemAdd } from './ContactsItemAdd/ContactsItemAdd'
 export { ContactsItemEdit } from './ContactsItemEdit/ContactsItemEdit'
 export { ContactsItemDelete } from './ContactsItemDelete/ContactsItemDelete'

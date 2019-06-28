@@ -12,7 +12,6 @@
   @include flex-column-center;
 
   flex: 1;
-  padding: 150px 0;
   height: 100vh;
   width: 544px;
 }
@@ -21,6 +20,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 25px;
+  flex-shrink: 0;
 }
 
 .title {
