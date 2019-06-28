@@ -89,24 +89,28 @@
 }
 
 .name-box {
+  @include flex-row;
+
   position: relative;
   margin-left: -8px;
+  align-items: center;
 }
 
 .name {
+  @include flex-row;
   @include property-transition(background-color);
 
   font-size: 14px;
   font-weight: normal;
-  line-height: 1.57;
+  line-height: 22px;
   height: 28px;
-  padding: 3px 8px;
+  padding: 0 8px;
+  align-items: center;
   border-radius: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  display: inline-block;
 
   &:hover {
     background-color: $main-black-20;
@@ -119,15 +123,16 @@
 }
 
 .input {
+  position: absolute;
+  top: 0;
   border: none;
   background-color: transparent;
   height: 28px;
   font-size: 14px;
+  line-height: 28px;
   font-weight: normal;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
   left: 8px;
-  position: absolute;
   color: #fff;
   width: 100%;
 }
