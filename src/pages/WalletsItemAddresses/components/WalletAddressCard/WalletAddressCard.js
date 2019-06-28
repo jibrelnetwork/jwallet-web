@@ -115,6 +115,7 @@ function mapStateToProps(
     index,
   }: OwnProps,
 ) {
+  const addessIndex: number = (index + 1)
   const network: ?Network = selectCurrentNetwork(state)
   const addressNames: AddressNames = selectAddressNames(state)
 
@@ -124,7 +125,7 @@ function mapStateToProps(
 
   return {
     network,
-    addressName: addressNames[address] || t`Address ${index + 1}`,
+    addressName: addressNames[address] || t`Address ${addessIndex}`,
   }
 }
 

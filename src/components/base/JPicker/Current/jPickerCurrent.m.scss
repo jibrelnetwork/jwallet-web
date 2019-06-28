@@ -37,6 +37,7 @@
   transition: padding 0.3s ease 0s, top 0.3s ease 0s;
   cursor: pointer;
   border-radius: 4px;
+  pointer-events: none;
 
   &::placeholder {
     opacity: 0;

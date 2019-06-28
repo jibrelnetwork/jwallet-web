@@ -7,6 +7,7 @@
   @include font;
   @include flex-column;
 
+  z-index: $z-index-menu;
   position: absolute;
   top: 0;
   left: 0;

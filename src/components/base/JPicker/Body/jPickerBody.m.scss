@@ -30,6 +30,10 @@
     cursor: pointer;
   }
 
+  .current {
+    height: 72px;
+  }
+
   > .options {
     z-index: 3;
     position: absolute;
