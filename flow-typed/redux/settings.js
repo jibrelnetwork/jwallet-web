@@ -1,22 +1,11 @@
-// @flow
+// @flow strict
 
 declare type SettingsPersist = {|
+  +language: LanguageCode,
   +fiatCurrency: FiatCurrency,
-  +systemLanguageCode: LanguageCode,
-  +hasPinCode: boolean,
+  +isDeveloperMode: boolean,
 |}
 
 declare type SettingsState = {|
   +persist: SettingsPersist,
-  +passwordForm: {
-    isLoading: boolean,
-    messages: PaymentPasswordForm,
-  },
-|}
-
-declare type PaymentPasswordForm = {|
-  passwordOld?: string,
-  passwordNew?: string,
-  passwordNewConfirm?: string,
-  passwordHint?: string,
 |}
