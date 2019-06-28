@@ -63,6 +63,7 @@ export function CurrencyPicker({
             description={code}
             title={CURRENCIES[code].name}
             iconName={`ic_${code.toLowerCase()}_24-use-fill`}
+            iconColor='blue'
           />
         ))}
       </JPickerList>
