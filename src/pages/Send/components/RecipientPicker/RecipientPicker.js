@@ -167,7 +167,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <ContactIcon name={activeContact.name} />
           )}
         />
@@ -208,7 +208,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name='0x-use-fill' color='blue' />
           )}
         />
@@ -222,7 +222,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name='wallet-use-fill' color='blue' />
           )}
         />
@@ -237,7 +237,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
-        iconRenderer={() => (
+        iconComponent={(
           <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
         )}
       />

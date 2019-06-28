@@ -15,14 +15,14 @@ import {
   DefaultItem,
 } from 'components/base/JPicker'
 
-import { CURRENCIES } from 'data'
+import { LANGUAGES } from 'data'
 
 type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
 |}
 
-export function CurrencyPicker({
+export function LanguagePicker({
   meta,
   input,
 }: Props) {
@@ -33,11 +33,9 @@ export function CurrencyPicker({
     onChange: handleChange,
   } = input
 
-  const activeCode = value || ''
-
   const {
-    name: activeName = '',
-  } = CURRENCIES[value] || {}
+    title: activeTitle = '',
+  } = LANGUAGES[value] || {}
 
   return (
     <JPickerBody
@@ -48,9 +46,9 @@ export function CurrencyPicker({
         <JPickerCurrent
           isEditable={false}
           label={t`Local currency`}
-          value={activeName}
+          value={activeTitle}
           iconComponent={(
-            <JIcon name={`ic_${activeCode.toLowerCase()}_24-use-fill`} size='24' color='blue' />
+            <JIcon name={`ic_${value}_24`} size='24' />
           )}
         />
       )}
@@ -59,18 +57,17 @@ export function CurrencyPicker({
         onItemClick={handleChange}
         activeItemKey={value}
       >
-        {map(CURRENCIES, (item, code) => {
+        {map(LANGUAGES, (item, code) => {
           const {
-            name,
+            title,
           } = item
 
           return (
             <DefaultItem
               key={code}
-              title={name}
+              title={title}
               description={code}
-              iconColor='blue'
-              iconName={`ic_${code.toLowerCase()}_24-use-fill`}
+              iconName={`ic_${code}_24`}
             />
           )
         })}
