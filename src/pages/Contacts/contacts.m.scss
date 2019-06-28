@@ -2,25 +2,6 @@
 
 .core {
   position: relative;
-  padding-top: $new-page-header-height;
-}
-
-.header-wrapper {
-  position: fixed;
-  z-index: 100;
-  left: $menu-panel-width;
-  right: 0;
-  top: 0;
-  background-color: $pale-grey;
-
-  & > .actions {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  &.sticky {
-    box-shadow: 0 7px 18px rgba(8, 30, 57, 0.2);
-  }
 }
 
 .search {

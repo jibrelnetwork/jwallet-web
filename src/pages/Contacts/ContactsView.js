@@ -22,7 +22,7 @@ export type Props = {|
   list: Contact[],
 |}
 
-const NAMELESS_SYMBOL = ''
+const NAMELESS_SYMBOL = '#'
 
 function extractAlphabet(list: Contact[]): { [string]: Contact[] } {
   const resultList = {}
@@ -47,26 +47,21 @@ export function ContactsView(props: Props) {
 
   return (
     <div className={style.core}>
-      <div className={style.headerWrapper}>
-        <Header
-          className={style.actions}
-          title={t`Contacts`}
+      <Header title={t`Contacts`}>
+        <div className={`${style.search} ${offset.mr24}`}>
+          <SearchInput
+            onChange={noop}
+          />
+        </div>
+        <JLink
+          href='/contacts/add'
+          theme='button-additional-icon'
+          className={style.addContact}
         >
-          <div className={`${style.search} ${offset.mr24}`}>
-            <SearchInput
-              onChange={noop}
-            />
-          </div>
-          <JLink
-            href='/contacts/add'
-            theme='button-additional-icon'
-            className={style.addContact}
-          >
-            <JIcon name='add-contact-use-fill' className={Button.iconClassName} />
-            {t`Add Contact`}
-          </JLink>
-        </Header>
-      </div>
+          <JIcon name='add-contact-use-fill' className={Button.iconClassName} />
+          {t`Add Contact`}
+        </JLink>
+      </Header>
       <ul className='__contacts-list'>
         {Object.keys(alphabetList).map(k => (
           <li key={k}>
