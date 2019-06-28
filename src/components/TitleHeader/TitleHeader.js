@@ -55,9 +55,7 @@ export class TitleHeader extends Component<Props, StateProps> {
     }
   }
 
-  handleScroll = (e: Event) => {
-    e.preventDefault()
-
+  handleScroll = () => {
     const wasScrolled: boolean = this.state.isScrolled
     const isScrolled: boolean = checkScrolled(this.rootElement)
 
