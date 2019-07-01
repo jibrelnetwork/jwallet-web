@@ -6,19 +6,23 @@ import { t } from 'ttag'
 import { walletsPlugin } from 'store/plugins'
 
 import {
+  JIcon,
+  Button,
+} from 'components/base'
+
+import {
+  TitleHeader,
   WalletActions,
-  CopyIconButton,
 } from 'components'
 
-import walletsItemAddressesStyle from './walletsItemAddresses.m.scss'
-import { Header } from './Header/Header'
+import styles from './walletsItemAddresses.m.scss'
+import { WalletAddressCard } from './components/WalletAddressCard/WalletAddressCard'
 
 export type Props = {|
   +walletId: string,
   +name: string,
   +type: WalletCustomType,
   +derivationIndex: number,
-  +isSimplified: boolean,
 |}
 
 type StateProps = {|
@@ -47,10 +51,6 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     derivationIndex,
   )
 
-  handleRemove = () => {
-    walletsPlugin.removeWallet(this.props.walletId)
-  }
-
   handleAdd = () => {
     walletsPlugin.deriveOneMoreAddress(this.props.walletId)
   }
@@ -60,61 +60,54 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       name,
       type,
       walletId,
-      isSimplified,
       derivationIndex,
     }: Props = this.props
 
-    const specific: string = isSimplified ? t`Single-Address` : t`Multi-Address`
     const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
+    const addressesCount: number = (derivationIndex + 1)
 
     return (
-      <div className={walletsItemAddressesStyle.core}>
-        <Header onAdd={this.handleAdd} />
-        <div className={walletsItemAddressesStyle.wallet}>
-          <div className={walletsItemAddressesStyle.main}>
-            <div className={walletsItemAddressesStyle.info}>
-              <div className={walletsItemAddressesStyle.name}>
+      <div className={styles.core}>
+        <TitleHeader title={t`Manage Addresses`}>
+          <Button
+            onClick={this.handleAdd}
+            className={styles.add}
+            theme='additional-icon'
+          >
+            <JIcon
+              name='ic_add_24-use-fill'
+              className={styles.icon}
+            />
+            <span className={styles.text}>
+              {t`Add New Address`}
+            </span>
+          </Button>
+        </TitleHeader>
+        <div className={styles.wallet}>
+          <div className={styles.main}>
+            <div className={styles.info}>
+              <div className={styles.name}>
                 {name}
               </div>
-              <div className={walletsItemAddressesStyle.addresses}>
-                {t`${specific} Wallet  •  ${derivationIndex + 1} ${addressesLabel}`}
+              <div className={styles.addresses}>
+                {t`Multi-Address Wallet  •  ${addressesCount} ${addressesLabel}`}
               </div>
             </div>
-            <div className={walletsItemAddressesStyle.actions}>
+            <div className={styles.actions}>
               <WalletActions
                 type={type}
                 id={walletId}
-                isSimplified={isSimplified}
                 isFromAddressManager
               />
             </div>
           </div>
-          {this.state.addresses.map((address: Address, index: number) => {
-            const addressName: string = t`Address ${index + 1}`
-
-            return (
-              <div
-                key={address}
-                className={walletsItemAddressesStyle.item}
-              >
-                <div className={walletsItemAddressesStyle.label}>
-                  {t`Name`}
-                </div>
-                <div className={walletsItemAddressesStyle.title}>
-                  {addressName}
-                </div>
-                <div className={walletsItemAddressesStyle.address}>
-                  <div className={walletsItemAddressesStyle.title}>
-                    {address}
-                  </div>
-                  <CopyIconButton
-                    title={t`Copy ${addressName}`}
-                    content={address}
-                  />
-                </div>
-              </div>
-            )
-          })}
+          {this.state.addresses.map((address: Address, index: number) => (
+            <WalletAddressCard
+              key={address}
+              address={address}
+              index={index}
+            />
+          ))}
         </div>
       </div>
     )

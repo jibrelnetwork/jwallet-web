@@ -14,8 +14,8 @@ type Props = {|
   hasError?: boolean,
   onClick?: ?(() => any),
   onInputChange?: ?((e: SyntheticInputEvent<HTMLInputElement>) => any),
-  iconRenderer?: ?(() => React$Node),
-  balancesRenderer?: ?(() => React$Node),
+  iconComponent?: ?React$Node,
+  balancesComponent?: ?React$Node,
 |}
 
 const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
@@ -27,8 +27,8 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
     hasError,
     onClick,
     onInputChange,
-    iconRenderer,
-    balancesRenderer,
+    iconComponent,
+    balancesComponent,
   } = props
 
   const hasValue = !!value
@@ -41,7 +41,7 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
         hasError && pickerCurrentStyle.error,
         isEditable && pickerCurrentStyle.editble,
         hasValue && pickerCurrentStyle.value,
-        iconRenderer && pickerCurrentStyle.hasIcon,
+        !!iconComponent && pickerCurrentStyle.hasIcon,
       )}
       onClick={onClick}
     >
@@ -59,14 +59,14 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
       <label className={pickerCurrentStyle.label} htmlFor={id}>
         {label}
       </label>
-      {iconRenderer && (
+      {iconComponent && (
         <div className={pickerCurrentStyle.icon}>
-          {iconRenderer()}
+          {iconComponent}
         </div>
       )}
-      {balancesRenderer && (
+      {balancesComponent && (
         <div className={pickerCurrentStyle.balances}>
-          {balancesRenderer()}
+          {balancesComponent}
         </div>
       )}
     </div>
@@ -82,8 +82,8 @@ JPickerCurrentComponent.defaultProps = {
   onClick: null,
   inputValue: undefined,
   onInputChange: undefined,
-  iconRenderer: undefined,
-  balancesRenderer: undefined,
+  iconComponent: undefined,
+  balancesComponent: undefined,
 }
 
 const JPickerCurrent = React.forwardRef/* :: <Props, HTMLInputElement> */(JPickerCurrentComponent)

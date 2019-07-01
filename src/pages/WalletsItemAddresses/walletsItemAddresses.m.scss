@@ -4,10 +4,7 @@
   @include flex-column-center;
 
   margin: 0 auto;
-}
-
-.icon {
-  @include sprite-icon-color($main-black-60);
+  min-height: 100%;
 }
 
 .buttons {
@@ -74,10 +71,25 @@
   color: $main-black;
 }
 
-.address {
-  @include flex-row;
+.icon {
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-30);
+}
 
-  margin-top: 18px;
-  padding-top: 15px;
-  border-top: 1px solid $main-black-10;
+.add {
+  position: absolute;
+  top: 45px;
+  right: 202px;
+  height: 42px;
+
+  &:hover,
+  &:active {
+    .icon {
+      @include sprite-icon-color($main-black-60);
+    }
+  }
+}
+
+.text {
+  margin-left: 5px;
 }

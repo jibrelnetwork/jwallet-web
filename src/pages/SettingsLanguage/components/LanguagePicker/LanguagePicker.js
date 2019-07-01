@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { t } from 'ttag'
+import { map } from 'lodash-es'
 
 import {
   JIcon,
@@ -14,7 +15,7 @@ import {
   DefaultItem,
 } from 'components/base/JPicker'
 
-import { CURRENCIES } from 'data'
+import { LANGUAGES } from 'data'
 
 type Props = {|
   +meta: FinalFormMeta,
@@ -22,19 +23,21 @@ type Props = {|
   +className: string,
 |}
 
-export function CurrencyPicker({
+export function LanguagePicker({
   meta,
   input,
   className,
 }: Props) {
   const {
-    onBlur: handleBlur,
+    value,
     onFocus: handleFocus,
+    onBlur: handleBlur,
     onChange: handleChange,
-    value: currency,
   } = input
 
-  const activeName: string = CURRENCIES[currency].name
+  const {
+    title: activeTitle = '',
+  } = LANGUAGES[value] || {}
 
   return (
     <JPickerBody
@@ -46,26 +49,31 @@ export function CurrencyPicker({
         <JPickerCurrent
           isEditable={false}
           label={t`Local currency`}
-          value={activeName}
+          value={activeTitle}
           iconComponent={(
-            <JIcon name={`ic_${currency.toLowerCase()}_24-use-fill`} size='24' color='blue' />
+            <JIcon name={`ic_${value}_24`} size='24' />
           )}
         />
       )}
     >
       <JPickerList
         onItemClick={handleChange}
-        activeItemKey={currency}
+        activeItemKey={value}
       >
-        {Object.keys(CURRENCIES).map((code: FiatCurrency) => (
-          <DefaultItem
-            key={code}
-            description={code}
-            title={CURRENCIES[code].name}
-            iconName={`ic_${code.toLowerCase()}_24-use-fill`}
-            iconColor='blue'
-          />
-        ))}
+        {map(LANGUAGES, (item, code) => {
+          const {
+            title,
+          } = item
+
+          return (
+            <DefaultItem
+              key={code}
+              title={title}
+              description={code}
+              iconName={`ic_${code}_24`}
+            />
+          )
+        })}
       </JPickerList>
     </JPickerBody>
   )

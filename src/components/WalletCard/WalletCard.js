@@ -66,16 +66,24 @@ class WalletCard extends Component<Props, StateProps> {
   handleRenameBlur = () => {
     this.handleActivateRename(false)
 
-    const { data }: Props = this.props
-    const { newName }: StateProps = this.state
+    const {
+      id,
+      name,
+    } = this.props.data
 
-    if (data.name === newName) {
+    const newName: string = this.state.newName.substring(0, 32).trim().replace(/\//g, '–')
+
+    if (!newName || (name === newName)) {
+      this.setState({ newName: name })
+
       return
     }
 
-    walletsPlugin.updateWallet(data.id, {
+    walletsPlugin.updateWallet(id, {
       name: newName,
     })
+
+    this.setState({ newName })
   }
 
   render() {

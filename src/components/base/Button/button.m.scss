@@ -106,14 +106,16 @@
 }
 
 .additional-icon {
+  @include flex-row-center;
   @include property-transition(background-color, color);
 
   height: 40px;
   width: auto;
   background: transparent;
   font-weight: 600;
+  line-height: 22px;
   color: $main-black-40;
-  padding: 9px 10px 9px 8px;
+  padding: 0 10px 0 8px;
   border-radius: 4px;
 
   .icon {
