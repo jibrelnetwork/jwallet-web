@@ -4,7 +4,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { keyBy } from 'lodash-es'
 
-import { ItemCard } from 'components/base'
+import {
+  ItemCard, JIcon,
+} from 'components/base'
+import { formatInitials } from 'utils/formatters'
 
 import offset from 'styles/offsets.m.scss'
 
@@ -25,18 +28,9 @@ type Props = {|
   ...OwnProps,
 |}
 
-function getName(dividedName: string[]) {
-  switch (dividedName.length) {
-    case 0:
-      return null
-    case 1:
-      return dividedName[0][0]
-    default:
-      return `${dividedName[0][0]}${dividedName[1][0]}`
-  }
-}
-
 function Component(props: Props) {
+  const nameInitials = formatInitials(props.name)
+
   return (
     <ItemCard
       href={`/contacts/${props.id}`}
@@ -45,8 +39,11 @@ function Component(props: Props) {
       className={`__contact-item ${offset.mb16}`}
     >
       <div className={`${style.item} ${style.avatar}`}>
-        <div className={style.placeholder}>
-          {getName(props.name.split(' '))}
+        <div className={style.back}>
+          {nameInitials
+            ? <div className={style.placeholder}>{nameInitials}</div>
+            : <JIcon name='ic_account_24-use-fill' />
+          }
         </div>
       </div>
       <div className={`${style.item} ${style.mainBlock}`}>

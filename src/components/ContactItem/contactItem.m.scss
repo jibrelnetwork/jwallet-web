@@ -25,16 +25,21 @@
   width: 88px;
   flex-basis: 88px;
 
-  > .placeholder {
-    @include font(12px, 40px);
+  > .back {
+    @include flex-column-center;
+    @include sprite-icon-color($main-blue);
 
     height: 40px;
     width: 40px;
     border-radius: 50%;
     background-color: $main-blue-5;
-    font-weight: 400;
-    text-align: center;
-    color: $main-blue;
+
+    > .placeholder {
+      @include font(12px);
+
+      font-weight: 400;
+      color: $main-blue;
+    }
   }
 }
 

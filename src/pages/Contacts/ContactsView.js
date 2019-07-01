@@ -13,6 +13,7 @@ import {
   SearchInput,
 } from 'components/base'
 import { ContactItem } from 'components'
+import { splitContactName } from 'utils/formatters'
 
 import offset from 'styles/offsets.m.scss'
 
@@ -28,7 +29,8 @@ function extractAlphabet(list: Contact[]): { [string]: Contact[] } {
   const resultList = {}
 
   list.forEach((item) => {
-    const char = item.name[0] || NAMELESS_SYMBOL
+    const { firstChar } = splitContactName(item.name)[0]
+    const char = firstChar || NAMELESS_SYMBOL
 
     if (resultList[char]) {
       // eslint-disable-next-line fp/no-mutating-methods
