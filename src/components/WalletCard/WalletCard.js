@@ -7,11 +7,12 @@ import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
 import { walletsPlugin } from 'store/plugins'
+import { JFieldMessage } from 'components/base'
 import { setActiveWallet } from 'store/modules/wallets'
 import { selectWalletOrThrow } from 'store/selectors/wallets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 
-import walletCard from './walletCard.m.scss'
+import styles from './walletCard.m.scss'
 
 type Props = {|
   +setActiveWallet: (WalletId) => void,
@@ -25,8 +26,13 @@ type Props = {|
 
 type StateProps = {|
   +newName: string,
+  +isNewNameUniq: boolean,
   +isRenameActive: boolean,
 |}
+
+function sanitizeName(name: string) {
+  return name.substring(0, 32).trim().replace(/\//g, '–')
+}
 
 class WalletCard extends Component<Props, StateProps> {
   constructor(props: Props) {
@@ -34,6 +40,7 @@ class WalletCard extends Component<Props, StateProps> {
 
     this.state = {
       newName: props.data.name,
+      isNewNameUniq: true,
       isRenameActive: false,
     }
 
@@ -51,12 +58,29 @@ class WalletCard extends Component<Props, StateProps> {
     setActive(data.id)
   }
 
-  handleChangeName = (event: SyntheticInputEvent<*>) => {
-    this.setState({ newName: event.target.value })
+  handleChangeName = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    const newName: string = e.target.value
+    const sanitizedName: string = sanitizeName(newName)
+
+    try {
+      walletsPlugin.checkWalletUniqueness(sanitizedName, 'name')
+    } catch (error) {
+      this.setState({
+        newName,
+        isNewNameUniq: false,
+      })
+
+      return
+    }
+
+    this.setState({
+      newName,
+      isNewNameUniq: true,
+    })
   }
 
   handleActivateRename = (isRenameActive?: boolean = true) => {
-    this.setState({ isRenameActive }, () => {
+    this.setState({ isRenameActive: !!isRenameActive }, () => {
       if (isRenameActive) {
         this.nameInputRef.current.focus()
       }
@@ -71,7 +95,7 @@ class WalletCard extends Component<Props, StateProps> {
       name,
     } = this.props.data
 
-    const newName: string = this.state.newName.substring(0, 32).trim().replace(/\//g, '–')
+    const newName: string = sanitizeName(this.state.newName)
 
     if (!newName || (name === newName)) {
       this.setState({ newName: name })
@@ -102,6 +126,7 @@ class WalletCard extends Component<Props, StateProps> {
 
     const {
       newName,
+      isNewNameUniq,
       isRenameActive,
     }: StateProps = this.state
 
@@ -109,31 +134,33 @@ class WalletCard extends Component<Props, StateProps> {
     const isMultiAddress: boolean = !!xpub
     const addressName: ?string = 'Address Name'
     const isActive: boolean = (id === activeWalletId)
+    const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
 
     return (
       <div
         onClick={(id === activeWalletId) ? undefined : this.handleSetActive}
         className={classNames(
-          walletCard.core,
-          isActive && walletCard.active,
           '__wallet-card',
+          styles.core,
+          isActive && styles.active,
+          hasMessage && styles.message,
         )}
       >
-        <div className={walletCard.card}>
-          <svg viewBox='0 0 62 104' className={walletCard['left-part']}>
+        <div className={styles.card}>
+          <svg viewBox='0 0 62 104' className={styles.left}>
             <path
               d='M62 0v104H4c-2.2 0-4-1.8-4-4V71.7c0-1.8 1.3-3.4 3-4.2 5.9-2.7
               10-8.6 10-15.5S8.9 39.2 3 36.5c-1.7-.8-3-2.3-3-4.2V4c0-2.2 1.8-4 4-4'
             />
           </svg>
         </div>
-        <div className={walletCard.body}>
-          <div className={walletCard.data}>
-            <h2 className={walletCard['name-box']}>
+        <div className={styles.body}>
+          <div className={styles.data}>
+            <h2 className={styles.wrapper}>
               <span
                 className={classNames(
-                  walletCard.name,
-                  isRenameActive && walletCard.editable,
+                  styles.name,
+                  isRenameActive && styles.editable,
                 )}
                 onClick={this.handleActivateRename}
               >
@@ -153,21 +180,21 @@ class WalletCard extends Component<Props, StateProps> {
                   onChange={this.handleChangeName}
                   ref={this.nameInputRef}
                   value={newName}
-                  className={classNames(walletCard.input)}
+                  className={classNames(styles.input)}
                   type='text'
                 />
               )}
             </h2>
             {isMultiAddress && (
-              <p className={walletCard.address}>
+              <p className={styles.address}>
                 {t`${addressName}  •  ${addressesCount} Addresses`}
               </p>
             )}
-            <p className={walletCard.balance}>
+            <p className={styles.balance}>
               {`${balance ? balance.value || 0 : 0} ETH`}
             </p>
           </div>
-          <div className={walletCard.actions}>
+          <div className={styles.actions}>
             <WalletActions
               id={id}
               type={customType}
@@ -176,6 +203,13 @@ class WalletCard extends Component<Props, StateProps> {
             />
           </div>
         </div>
+        {hasMessage && (
+          <JFieldMessage
+            className={styles.warning}
+            message={t`You already have a wallet with this name.`}
+            theme='info'
+          />
+        )}
       </div>
     )
   }

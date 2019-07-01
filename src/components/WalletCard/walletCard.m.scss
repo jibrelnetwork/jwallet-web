@@ -38,6 +38,10 @@
       background-color: $main-blue;
     }
   }
+
+  &.message {
+    margin-bottom: 44px;
+  }
 }
 
 .card {
@@ -58,7 +62,7 @@
   }
 }
 
-.left-part {
+.left {
   position: absolute;
   top: 0;
   left: 0;
@@ -88,7 +92,7 @@
   font-family: $font;
 }
 
-.name-box {
+.wrapper {
   @include flex-row;
 
   position: relative;
@@ -152,6 +156,13 @@
   font-size: 20px;
   padding-top: 3px;
   line-height: 1.4;
+}
+
+.warning {
+  @include flex-row;
+
+  max-width: 512px;
+  margin: 8px auto 16px auto;
 }
 
 .actions {
