@@ -63,7 +63,9 @@ class WalletCard extends Component<Props, StateProps> {
     const sanitizedName: string = sanitizeName(newName)
 
     try {
-      walletsPlugin.checkWalletUniqueness(sanitizedName, 'name')
+      if (sanitizedName !== this.props.data.name) {
+        walletsPlugin.checkWalletUniqueness(sanitizedName, 'name')
+      }
     } catch (error) {
       this.setState({
         newName,
