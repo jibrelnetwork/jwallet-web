@@ -143,8 +143,6 @@ class WalletList extends Component<Props, ComponentState> {
       ? { maxHeight: `${ITEM_HEIGHT * (addresses.length + 1)}px` }
       : {}
 
-    console.log(addresses.length, addresses)
-
     return (
       <Fragment key={`multi-address-wallet-${id}`}>
         <JPickerListItem
