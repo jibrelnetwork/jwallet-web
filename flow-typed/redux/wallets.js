@@ -102,10 +102,6 @@ declare type WalletsAddressesPersist = {|
 
 declare type WalletsAddressesState = {|
   +persist: WalletsAddressesPersist,
-  +addresses: OwnerAddress[],
-  +balances: WalletsBalances,
-  +iteration: Index,
-  +isLoading: boolean,
 |}
 
 /**
