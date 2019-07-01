@@ -16,6 +16,8 @@ import { type RecipientPickerWallet } from '../RecipientPicker'
 
 import jPickerListStyle from './walletList.m.scss'
 
+const ITEM_HEIGHT = 72
+
 type Props = {|
   +activeWalletAddress: ?string,
   +onChange: (item: string) => any,
@@ -37,7 +39,7 @@ function getLineCount(wallets: RecipientPickerWallet[]) {
     // eslint-disable-next-line fp/no-mutation
     num += 1
 
-    if (wallet.addresses && wallet.addresses.length > 1) {
+    if (wallet.addresses && wallet.type === 'mnemonic') {
       // eslint-disable-next-line fp/no-mutation
       num += wallet.addresses.length
     }
@@ -137,6 +139,12 @@ class WalletList extends Component<Props, ComponentState> {
 
     const isOpen = isWalletsForceOpened || (openWalletIds && !!openWalletIds.find(w => w === id))
 
+    const openedStyle = isOpen
+      ? { maxHeight: `${ITEM_HEIGHT * (addresses.length + 1)}px` }
+      : {}
+
+    console.log(addresses.length, addresses)
+
     return (
       <Fragment key={`multi-address-wallet-${id}`}>
         <JPickerListItem
@@ -151,10 +159,11 @@ class WalletList extends Component<Props, ComponentState> {
             isOpen={isOpen}
           />
         </JPickerListItem>
-        <div className={classNames(
-          jPickerListStyle.sublist,
-          isOpen && jPickerListStyle.isOpen,
-        )}
+        <div
+          className={classNames(
+            jPickerListStyle.sublist,
+          )}
+          style={openedStyle}
         >
           {addresses.map(({
             address, name, fiatBalance,
