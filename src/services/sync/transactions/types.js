@@ -25,9 +25,9 @@ export type DBTransaction = {|
 |}
 
 export type DBBlock = {
-  id: number, // primary key, block number for now
+  id: string, // primary key, block number as string for now
   number: number,
-  hash: string,
+  hash: string, // index
   parentHash: string,
   timestamp: number,
   transactions: string[],

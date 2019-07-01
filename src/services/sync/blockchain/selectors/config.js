@@ -1,7 +1,5 @@
 // @flow
 
-import { values } from 'lodash-es'
-
 import {
   MAINNET,
   NETWORKS,
@@ -11,7 +9,7 @@ import {
 import { type HistoryState } from '../types'
 
 export function selectCurrentAddressCreatedBlockNumber(state: HistoryState) {
-  return state.config.createdBlockNumber || 1
+  return state.config.createdBlockNumber || 0
 }
 
 export function selectCurrentAddress(state: HistoryState) {
@@ -20,12 +18,6 @@ export function selectCurrentAddress(state: HistoryState) {
 
 export function selectCurrentAssets(state: HistoryState) {
   return state.config.digitalAssets
-}
-
-export function selectCurrentAssetsList(state: HistoryState) {
-  const assets = selectCurrentAssets(state)
-
-  return values(assets)
 }
 
 export function selectCurrentNetworkId(state: HistoryState) {
@@ -44,4 +36,8 @@ export function selectCurrentNetwork(state: HistoryState) {
   const id = selectCurrentNetworkId(state)
 
   return NETWORKS[id]
+}
+
+export function selectDBInstance(state: HistoryState) {
+  return state.config.db
 }

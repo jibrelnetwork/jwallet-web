@@ -20,6 +20,8 @@ export const SET_IS_TRANSACTIONS_FETCHED = '@@blocks/SET_IS_TRANSACTIONS_FETCHED
 
 export const SET_IS_CONNECTION_ERROR = '@@blocks/SET_IS_CONNECTION_ERROR'
 
+export const SET_INITIAL_BLOCK_NUMBER = '@@blocks/SET_INITIAL_BLOCK_NUMBER'
+
 export function syncStart() {
   return {
     type: SYNC_START,
@@ -133,6 +135,15 @@ export function setIsConnectionError(isConnectionError: boolean) {
   }
 }
 
+export function setInitialBlockNumber(blockNumber: number) {
+  return {
+    type: SET_INITIAL_BLOCK_NUMBER,
+    payload: {
+      blockNumber,
+    },
+  }
+}
+
 export type BlocksAction =
   ExtractReturn<typeof syncStart>
   | ExtractReturn<typeof syncStop>
@@ -147,17 +158,20 @@ export type BlocksAction =
   | ExtractReturn<typeof setIsTransactionsLoading>
   | ExtractReturn<typeof setIsTransactionsFetched>
   | ExtractReturn<typeof setIsConnectionError>
+  | ExtractReturn<typeof setInitialBlockNumber>
 
 export type HistoryBlocksState = {|
   items: {
     [networkId: string]: ?Blocks,
   },
   isConnectionError: boolean,
+  initialBlockNumber: ?number,
 |}
 
 const initialState: HistoryBlocksState = {
   items: {},
   isConnectionError: false,
+  initialBlockNumber: null,
 }
 
 function blocks(
@@ -236,6 +250,13 @@ function blocks(
             },
           },
         },
+      }
+    }
+
+    case SET_INITIAL_BLOCK_NUMBER: {
+      return {
+        ...state,
+        initialBlockNumber: action.payload.blockNumber,
       }
     }
 

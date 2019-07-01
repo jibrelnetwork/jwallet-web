@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import { type HistoryState } from '../types'
 
@@ -18,4 +18,8 @@ export function selectProcessingBlock(state: HistoryState, networkId: string): ?
   const blocksByNetworkId: ?Blocks = state.blocks.items[networkId]
 
   return blocksByNetworkId ? blocksByNetworkId.processing : null
+}
+
+export function selectInitialBlockNumber(state: HistoryState): ?number {
+  return state.blocks.initialBlockNumber
 }

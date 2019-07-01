@@ -7,7 +7,6 @@ import { type PersistConfig } from 'redux-persist/lib/types.js.flow'
 
 type PersistableReducerName =
   'user' |
-  'blocks' |
   'ticker' |
   'wallets' |
   'balances' |
@@ -16,7 +15,6 @@ type PersistableReducerName =
   'password' |
   'settings' |
   'favorites' |
-  'transactions' |
   'digitalAssets' |
   'walletsAddresses'
 

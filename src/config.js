@@ -1,9 +1,10 @@
 // @flow
 
-const ONE_SECOND: number = 1000
-const ONE_MINUTE: number = 60 * ONE_SECOND
-const ONE_HOUR: number = 60 * ONE_MINUTE
-const ONE_DAY: number = 24 * ONE_HOUR
+import {
+  ONE_SECOND,
+  ONE_MINUTE,
+  ONE_DAY,
+} from 'data/intervals'
 
 const ONE_KB: number = 1024
 const ONE_MB: number = 1024 * ONE_KB
