@@ -68,10 +68,10 @@ export function AddressPicker({
           isEditable={false}
           label={label}
           value={activeAddressName}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name='0x-use-fill' size='24' color='blue' />
           )}
-          balancesRenderer={() => (
+          balancesComponent={(
             <WalletAddressBalance
               fiatBalance={fiatBalance}
               address={getShortenedAddress(activeAddress)}
