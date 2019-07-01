@@ -16,8 +16,10 @@
   left: 16px;
   font-size: 14px;
   line-height: 22px;
+  font-weight: 600;
   cursor: pointer;
   color: $main-black-40;
+  user-select: none;
   transition:
     font-size 0.3s ease 0s,
     top 0.3s ease 0s;
