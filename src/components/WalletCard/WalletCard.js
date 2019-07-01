@@ -137,7 +137,15 @@ class WalletCard extends Component<Props, StateProps> {
                 )}
                 onClick={this.handleActivateRename}
               >
-                {newName}
+                {isRenameActive
+                  /**
+                   * Next line is necessarry, because we must render newName inside div
+                   * to show background. But ending spaces are ignored,
+                   * so we have to replace them by something.
+                   */
+                  ? newName.replace(/ /g, '.')
+                  : newName
+                }
               </span>
               {isRenameActive && (
                 <input
