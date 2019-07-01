@@ -63,7 +63,7 @@ const WALLET_ITEMS = [
     name: 'My single wallet 2',
     type: 'address',
     // eslint-disable-next-line max-len
-    bip32XPublicKey: 'xpub6BVyo8p6jgRS5KPzMaJabfD5r4eJY5xpa4uDYU7ohu5eCUfYxyrtAFRJyqsmB85LGerYVDJ6stjXgsDWRUda2EJoLJJ32wHoTuFYduEcave',
+    xpub: 'xpub6BVyo8p6jgRS5KPzMaJabfD5r4eJY5xpa4uDYU7ohu5eCUfYxyrtAFRJyqsmB85LGerYVDJ6stjXgsDWRUda2EJoLJJ32wHoTuFYduEcave',
     isReadOnly: false,
     isSimplified: true,
     //   +bip32XPublicKey: ?string,
@@ -81,7 +81,7 @@ const WALLET_ITEMS = [
     isReadOnly: false,
     isSimplified: false,
     // eslint-disable-next-line max-len
-    bip32XPublicKey: 'xpub6AHA9hZDN11k2ijHMeS5QqHx2KP9aMBRhTDqANMnwVtdyw2TDYRmF8PjpvwUFcL1Et8Hj59S3gTSMcUQ5gAqTz3Wd8EsMTmF3DChhqPQBnU',
+    xpub: 'xpub6AHA9hZDN11k2ijHMeS5QqHx2KP9aMBRhTDqANMnwVtdyw2TDYRmF8PjpvwUFcL1Et8Hj59S3gTSMcUQ5gAqTz3Wd8EsMTmF3DChhqPQBnU',
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
     addressIndex: 4,
@@ -96,7 +96,7 @@ const WALLET_ITEMS = [
     address: '0x312321312321312312341798432643783421',
     isReadOnly: true,
     isSimplified: true,
-    bip32XPublicKey: null,
+    xpub: null,
     //   +bip32XPublicKey: ?string,
     //   +customType: WalletCustomType,
     //   +orderIndex: number,

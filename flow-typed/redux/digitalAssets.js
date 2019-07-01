@@ -78,7 +78,7 @@ declare type DigitalAssetWithBalance = {|
 |}
 
 declare type DigitalAssets = {
-  [AssetAddress]: ?DigitalAsset
+  [AssetAddress]: ?DigitalAsset,
 }
 
 declare type DigitalAssetsPersist = {|
@@ -118,7 +118,7 @@ declare type AddAssetState = {|
  */
 declare type EditAssetState = {|
   +formFields: EditAssetFormFields,
-  +invalidFields: EditAssetFormFields
+  +invalidFields: EditAssetFormFields,
 |}
 
 /**
