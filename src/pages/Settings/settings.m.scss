@@ -1,0 +1,12 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column;
+}
+
+.cards {
+  @include flex-row;
+
+  margin: -8px -16px;
+  flex-wrap: wrap;
+}

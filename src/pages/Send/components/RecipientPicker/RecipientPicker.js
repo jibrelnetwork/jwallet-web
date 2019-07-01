@@ -106,12 +106,13 @@ function filterWallets(wallets: RecipientPickerWallet[], searchQuery: string) {
   }).filter(Boolean)
 }
 
-type Props = {|
+export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  // +fiatCurrency: FiatCurrency,
   +contacts: Contact[],
   +wallets: RecipientPickerWallet[],
+  +className: string,
+  // fiatCurrency: FiatCurrency,
 |}
 
 type ComponentState = {|
@@ -131,7 +132,7 @@ type SearchInputRef = {
 
 class RecipientPicker extends Component<Props, ComponentState> {
   static defaultProps = {
-    fiatCurrency: 'USD',
+    className: '',
   }
 
   state = {
@@ -166,7 +167,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <ContactIcon name={activeContact.name} />
           )}
         />
@@ -207,7 +208,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name='0x-use-fill' color='blue' />
           )}
         />
@@ -221,7 +222,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
           value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
-          iconRenderer={() => (
+          iconComponent={(
             <JIcon name='wallet-use-fill' color='blue' />
           )}
         />
@@ -236,7 +237,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
-        iconRenderer={() => (
+        iconComponent={(
           <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
         )}
       />
@@ -395,6 +396,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
   render() {
     const {
       meta,
+      className,
     } = this.props
 
     const {
@@ -405,6 +407,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
 
     return (
       <JPickerBody
+        className={className}
         isOpen={isOpen}
         onOpen={this.handleOpen}
         onClose={this.handleClose}

@@ -16,7 +16,7 @@ import {
 
 import fieldStyle from './sendAmountField.m.scss'
 
-type Props = {|
+export type Props = {|
   +blockchainFee: string,
   +className: string,
   +currency: string,
@@ -29,6 +29,11 @@ type Props = {|
   +maxValue: string,
   +meta: FinalFormMeta,
   +validateType: FinalFormValidateType,
+
+  // from ownProps:
+  +assetAddress: string,
+  +gasPrice: string,
+  +gasLimit: string,
 |}
 
 type InputRef = {
@@ -83,7 +88,7 @@ function SendAmountField({
     ? `≈${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
     : ''
 
-  const hasMaxValue = (input.value === maxValue)
+  const hasMaxValue = (maxValue && input.value === maxValue)
 
   return (
     <div

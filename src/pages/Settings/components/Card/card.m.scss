@@ -1,0 +1,58 @@
+@import 'styles/mixins';
+
+.core {
+  @include flex-column-center;
+  @include property-transition(box-shadow);
+
+  width: 352px;
+  height: 152px;
+  margin: 8px 16px;
+  background: $white;
+  border-radius: 4px;
+  box-shadow: $normal-shadow;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    box-shadow: $select-shadow;
+  }
+}
+
+.icon {
+  @include flex-column-center;
+
+  margin: 0 auto 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: $main-blue-5;
+
+  &.black {
+    @include sprite-icon-color($main-black);
+  }
+
+  &.blue {
+    @include sprite-icon-color($main-blue);
+  }
+}
+
+.title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+
+  &.black {
+    color: $main-black;
+  }
+
+  &.blue {
+    color: $main-blue;
+  }
+}
+
+.description {
+  font-size: 14px;
+  line-height: 22px;
+  color: $main-black-60;
+}

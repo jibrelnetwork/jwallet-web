@@ -2,8 +2,6 @@
 
 import QRCode from './QRCode'
 import ESCButton from './ESCButton'
-import InputButton from './InputButton'
-import DoubleInput from './DoubleInput'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
 import FavoriteItem from './FavoriteItem'
@@ -35,12 +33,12 @@ export { WalletPasswordForm } from './WalletPasswordForm/WalletPasswordForm'
 export { FieldPreview } from './FieldPreview/FieldPreview'
 export { WalletAddressItem } from './WalletAddressItem/WalletAddressItem'
 export { AddressPicker } from './AddressPicker/AddressPicker'
+export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
+export { ContactItem } from './ContactItem/ContactItem'
 
 export {
   QRCode,
   ESCButton,
-  DoubleInput,
-  InputButton,
   PopupButton,
   AssetBalance,
   FavoriteItem,

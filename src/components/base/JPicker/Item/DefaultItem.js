@@ -11,7 +11,7 @@ type Props = {
   +title: string,
   +description: string,
   +iconName: string,
-  +iconColor: JIconColor,
+  +iconColor: ?JIconColor,
 }
 
 function DefaultItem({
@@ -34,7 +34,7 @@ function DefaultItem({
 DefaultItem.defaultProps = {
   description: '',
   iconName: '',
-  iconColor: 'blue',
+  iconColor: undefined,
 }
 
 export { DefaultItem }

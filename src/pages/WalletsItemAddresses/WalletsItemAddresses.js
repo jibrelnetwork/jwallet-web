@@ -22,12 +22,7 @@ function mapStateToProps(
     name,
     customType,
     derivationIndex,
-    isSimplified,
   }: Wallet = selectWalletOrThrow(state, walletId)
-
-  /**
-   * @TODO: get address names and balances
-   */
 
   if (derivationIndex === null) {
     throw new WalletInconsistentDataError('derivationIndex is null')
@@ -36,7 +31,6 @@ function mapStateToProps(
   return {
     name,
     derivationIndex,
-    isSimplified,
     type: customType,
   }
 }

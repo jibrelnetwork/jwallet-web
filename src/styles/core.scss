@@ -53,8 +53,6 @@ h4 {
 // Components
 @import '../components/QRCode/qrCode';
 @import '../components/AssetItemLegacy/assetItem';
-@import '../components/DoubleInput/doubleInput';
-@import '../components/InputButton/inputButton';
 @import '../components/PopupButton/popupButton';
 @import '../components/AssetBalance/assetBalance';
 @import '../components/SettingsGrid/settingsGrid';
@@ -70,7 +68,6 @@ h4 {
 @import '../components/DigitalAssetEditForm/digitalAssetEditForm';
 
 // Pages
-@import '../pages/Settings/settingsView';
 @import '../pages/NotFound/notFound';
 @import '../pages/DigitalAssets/digitalAssets';
 @import '../pages/Transactions/transactionsView';

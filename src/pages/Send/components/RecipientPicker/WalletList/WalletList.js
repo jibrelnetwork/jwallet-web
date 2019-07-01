@@ -37,7 +37,7 @@ function getLineCount(wallets: RecipientPickerWallet[]) {
     // eslint-disable-next-line fp/no-mutation
     num += 1
 
-    if (wallet.addresses) {
+    if (wallet.addresses && wallet.addresses.length > 1) {
       // eslint-disable-next-line fp/no-mutation
       num += wallet.addresses.length
     }

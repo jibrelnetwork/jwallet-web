@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { t } from 'ttag'
 
 import { clipboard } from 'services'
+import { walletsPlugin } from 'store/plugins'
 
 import {
   JIcon,
@@ -30,6 +31,7 @@ type StateProps = {|
 export class WalletActions extends PureComponent<Props, StateProps> {
   static defaultProps = {
     onRename: null,
+    isSimplified: false,
     isFromAddressManager: false,
   }
 
@@ -49,7 +51,8 @@ export class WalletActions extends PureComponent<Props, StateProps> {
 
   handleCopyAddress = (event: SyntheticEvent<HTMLSpanElement>) => {
     this.setState({ isToggled: false })
-    clipboard.copyText('TEST ADDRESS')
+    const address: Address = walletsPlugin.getAddress(this.props.id)
+    clipboard.copyText(address)
     event.stopPropagation()
   }
 
@@ -141,7 +144,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
               {t`Unlock Features`}
             </JLink>
           )}
-          {isMultiAddressWallet && !isFromAddressManager && (
+          {isMultiAddressWallet && !isSimplified && !isFromAddressManager && (
             <JLink
               href={`/wallets/${id}/addresses`}
               className={walletActionsStyle.action}
@@ -151,8 +154,8 @@ export class WalletActions extends PureComponent<Props, StateProps> {
           )}
           {isMultiAddressWallet && (
             <JLink
-              href={`/wallets/${id}/mode`}
               className={walletActionsStyle.action}
+              href={`/wallets/${id}/mode-${isSimplified ? 'enable' : 'disable'}`}
             >
               {isSimplified
                 ? t`Enable Multi-Address Mode`

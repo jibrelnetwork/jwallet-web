@@ -36,9 +36,9 @@ export type Props = {|
 
 /* eslint-disable max-len */
 const conditions = {
-  understandPrivateDataPolicy: t`I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser`,
-  consentNoWarranty: t`I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind`,
-  consentTrackingCookies: t`I consent to allow cookies for collecting anonymous usage data to improve quality of provided service`,
+  understandPrivateDataPolicy: t`I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser.`,
+  consentNoWarranty: t`I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind.`,
+  consentTrackingCookies: t`I consent to allow cookies for collecting anonymous usage data to improve quality of provided service.`,
   acceptTermsAndConditions: t`I have read and accepted`,
 }
 /* eslint-enable max-len */
@@ -103,7 +103,7 @@ class AgreementsScreen extends PureComponent<Props> {
                       theme='text-blue'
                       href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
                     >
-                      {t`Privacy Policy`}
+                      {t`Privacy Policy.`}
                     </JLink>
                   </JCheckbox>
                 )}

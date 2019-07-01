@@ -53,13 +53,9 @@ export type SettingsAction =
 
 const initialState: SettingsState = {
   persist: {
+    language: 'en',
     fiatCurrency: 'USD',
-    systemLanguageCode: 'en',
-    hasPinCode: false,
-  },
-  passwordForm: {
-    isLoading: false,
-    messages: {},
+    isDeveloperMode: false,
   },
 }
 
