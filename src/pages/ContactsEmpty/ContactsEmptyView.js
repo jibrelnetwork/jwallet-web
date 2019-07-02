@@ -49,6 +49,7 @@ export function ContactsEmptyView(props: Props) {
         <figure className={style.emptyFigure}>
           <img
             src={noContactsImg}
+            className={offset.mb24}
             alt=''
             aria-disabled
           />
