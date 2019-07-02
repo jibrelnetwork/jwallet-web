@@ -13,4 +13,6 @@ declare type OffsetVariant
   = 'mb8'
   | 'mb16'
   | 'mb32'
+  | 'mr8'
+  | 'mr24'
   | 'mr32'
