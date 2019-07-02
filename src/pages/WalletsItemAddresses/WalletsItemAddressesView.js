@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { walletsPlugin } from 'store/plugins'
+import { formatAssetBalance } from 'utils/formatters'
 
 import {
   JIcon,
@@ -27,6 +28,7 @@ export type Props = {|
 
 type StateProps = {|
   +addresses: Address[],
+  +ethBalance: ?BigNumber,
 |}
 
 export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
@@ -34,12 +36,35 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     super(props)
 
     this.state = {
+      ethBalance: null,
       addresses: this.deriveAddresses(props),
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  async componentDidMount() {
+    this.requestETHBalance()
+  }
+
+  async componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.derivationIndex === this.props.derivationIndex) {
+      return
+    }
+
+    await this.requestETHBalance()
     this.setState({ addresses: this.deriveAddresses(nextProps) })
+  }
+
+  requestETHBalance = async () => {
+    const ethBalance: BigNumber = await walletsPlugin.requestETHBalance(this.props.walletId)
+
+    this.setState({
+      ethBalance: formatAssetBalance(
+        'Ethereum',
+        ethBalance,
+        18,
+        'ETH',
+      ),
+    })
   }
 
   deriveAddresses = ({
@@ -63,8 +88,8 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       derivationIndex,
     }: Props = this.props
 
-    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
     const addressesCount: number = (derivationIndex + 1)
+    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
 
     return (
       <div className={styles.core}>
@@ -92,6 +117,9 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
               <div className={styles.addresses}>
                 {t`Multi-Address Wallet  •  ${addressesCount} ${addressesLabel}`}
               </div>
+            </div>
+            <div className={`${styles.name} ${styles.balance}`}>
+              {this.state.ethBalance}
             </div>
             <div className={styles.actions}>
               <WalletActions

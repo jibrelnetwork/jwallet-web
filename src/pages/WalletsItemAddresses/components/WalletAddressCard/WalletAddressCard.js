@@ -5,11 +5,10 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 import { connect } from 'react-redux'
 
-import { web3 } from 'services'
 import { CopyIconButton } from 'components'
+import { walletsPlugin } from 'store/plugins'
 import { formatAssetBalance } from 'utils/formatters'
 import { selectAddressNames } from 'store/selectors/wallets'
-import { selectCurrentNetwork } from 'store/selectors/networks'
 import { setAddressName } from 'store/modules/walletsAddresses'
 
 import styles from './walletAddressCard.m.scss'
@@ -21,7 +20,6 @@ type OwnProps = {|
 
 type Props = {|
   +setAddressName: (address: Address, name: string) => any,
-  +network: Network,
   +address: Address,
   +addressName: string,
   /* ::
@@ -34,8 +32,6 @@ type StateProps = {|
   +ethBalance: ?BigNumber,
   +isRenameActive: boolean,
 |}
-
-const MINUTE: number = 60 * 1000
 
 class WalletAddressCard extends Component<Props, StateProps> {
   nameInputRef: Object
@@ -53,28 +49,16 @@ class WalletAddressCard extends Component<Props, StateProps> {
   }
 
   async componentDidMount() {
-    this.requestETHBalance()
-  }
+    const ethBalance: BigNumber = await walletsPlugin.requestETHBalanceByAddress(this.props.address)
 
-  requestETHBalance = async () => {
-    const {
-      network,
-      address,
-    }: Props = this.props
-
-    try {
-      const ethBalanceStr: string = await web3.getAssetBalance(network, address, 'Ethereum')
-
-      this.setState({
-        ethBalance: formatAssetBalance('Ethereum', ethBalanceStr, 18, 'ETH'),
-      })
-    } catch (error) {
-      console.error(error)
-
-      setTimeout(() => {
-        this.requestETHBalance()
-      }, MINUTE)
-    }
+    this.setState({
+      ethBalance: formatAssetBalance(
+        'Ethereum',
+        ethBalance,
+        18,
+        'ETH',
+      ),
+    })
   }
 
   handleChangeName = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -190,15 +174,9 @@ function mapStateToProps(
   }: OwnProps,
 ) {
   const addessIndex: number = (index + 1)
-  const network: ?Network = selectCurrentNetwork(state)
   const addressNames: AddressNames = selectAddressNames(state)
 
-  if (!network) {
-    throw new Error('Network not found')
-  }
-
   return {
-    network,
     addressName: addressNames[address] || t`Address ${addessIndex}`,
   }
 }
