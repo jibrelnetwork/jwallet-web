@@ -6,12 +6,12 @@ import React, {
 } from 'react'
 import classNames from 'classnames'
 
+import { WalletAddressItem } from 'components'
 import { JPickerListItem } from 'components/base/JPicker'
 import { getAddressName } from 'utils/address'
 
 import { SingleWalletItem } from '../SingleWalletItem/SingleWalletItem'
 import { MultiAddressWalletItem } from '../MultiAddressWalletItem/MultiAddressWalletItem'
-import { WalletAddressItem } from '../WalletAddressItem/WalletAddressItem'
 import { type RecipientPickerWallet } from '../RecipientPicker'
 
 import jPickerListStyle from './walletList.m.scss'
