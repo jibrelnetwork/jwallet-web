@@ -18,6 +18,56 @@
   color: $main-black-40;
 }
 
+.wrapper {
+  position: relative;
+  max-width: 350px;
+  margin: 0 -8px;
+}
+
+.name {
+  @include flex-row;
+  @include property-transition(background-color);
+
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 22px;
+  height: 28px;
+  padding: 0 8px;
+  align-items: center;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+
+  &:hover {
+    background-color: $main-black-10;
+  }
+
+  &.editable {
+    padding: 0 8px;
+    background-color: $main-black-20;
+    color: transparent;
+  }
+}
+
+.input {
+  @include flex-row;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  background-color: transparent;
+  height: 28px;
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 600;
+  padding: 0 8px;
+  color: $main-black;
+  width: 350px;
+}
+
 .title {
   font-weight: 600;
   font-size: 14px;
