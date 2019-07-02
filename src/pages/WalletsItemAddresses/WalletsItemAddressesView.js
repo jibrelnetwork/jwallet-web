@@ -27,7 +27,6 @@ export type Props = {|
 |}
 
 type StateProps = {|
-  +addresses: Address[],
   +ethBalance: ?BigNumber,
 |}
 
@@ -37,7 +36,6 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
 
     this.state = {
       ethBalance: null,
-      addresses: this.deriveAddresses(props),
     }
   }
 
@@ -45,13 +43,10 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     this.requestETHBalance()
   }
 
-  async componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.derivationIndex === this.props.derivationIndex) {
-      return
+  async componentDidUpdate(prevProps: Props) {
+    if (prevProps.derivationIndex !== this.props.derivationIndex) {
+      await this.requestETHBalance()
     }
-
-    await this.requestETHBalance()
-    this.setState({ addresses: this.deriveAddresses(nextProps) })
   }
 
   requestETHBalance = async () => {
@@ -67,14 +62,18 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     })
   }
 
-  deriveAddresses = ({
-    walletId,
-    derivationIndex,
-  }: Props): Address[] => walletsPlugin.getAddresses(
-    walletId,
-    0,
-    derivationIndex,
-  )
+  deriveAddresses = (): Address[] => {
+    const {
+      walletId,
+      derivationIndex,
+    }: Props = this.props
+
+    return walletsPlugin.getAddresses(
+      walletId,
+      0,
+      derivationIndex,
+    )
+  }
 
   handleAdd = () => {
     walletsPlugin.deriveOneMoreAddress(this.props.walletId)
@@ -129,7 +128,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
               />
             </div>
           </div>
-          {this.state.addresses.map((address: Address, index: number) => (
+          {this.deriveAddresses().map((address: Address, index: number) => (
             <WalletAddressCard
               key={address}
               address={address}
