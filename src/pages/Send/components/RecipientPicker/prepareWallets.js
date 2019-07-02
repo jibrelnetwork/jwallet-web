@@ -1,12 +1,11 @@
-// @flow strict
+// @flow
 
-import { t } from 'ttag'
+import { generateAddresses } from 'utils/mnemonic'
+import { getAddressName } from 'utils/address'
 
 import {
-  generateAddresses,
-} from 'utils/mnemonic'
-
-import { type RecipientPickerWallet } from './RecipientPicker'
+  type RecipientPickerWallet,
+} from './RecipientPicker'
 
 export function prepareWallets(
   wallets: Wallet[],
@@ -19,9 +18,8 @@ export function prepareWallets(
       isSimplified,
       isReadOnly,
       addressIndex,
+      derivationIndex,
     } = wallet
-
-    const derivationIndex = 0
 
     if (xpub) {
       if (isSimplified) {
@@ -49,7 +47,7 @@ export function prepareWallets(
           derivationIndex,
         ).map((address, index) => ({
           address,
-          name: addressNames[address] || t`Address ${index + 1}`, // TODO: use function for this
+          name: getAddressName(addressNames[address], index),
           fiatBalance: walletBalances[address],
         }))
 
