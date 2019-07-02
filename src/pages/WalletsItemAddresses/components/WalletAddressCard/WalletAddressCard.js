@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 
 import { CopyIconButton } from 'components'
 import { walletsPlugin } from 'store/plugins'
+import { getAddressName } from 'utils/address'
 import { formatAssetBalance } from 'utils/formatters'
 import { selectAddressNames } from 'store/selectors/wallets'
 import { setAddressName } from 'store/modules/walletsAddresses'
@@ -173,11 +174,10 @@ function mapStateToProps(
     index,
   }: OwnProps,
 ) {
-  const addessIndex: number = (index + 1)
   const addressNames: AddressNames = selectAddressNames(state)
 
   return {
-    addressName: addressNames[address] || t`Address ${addessIndex}`,
+    addressName: getAddressName(addressNames[address], index),
   }
 }
 

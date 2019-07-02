@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
 import { walletsPlugin } from 'store/plugins'
+import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
 import { formatAssetBalance } from 'utils/formatters'
 import { setActiveWallet } from 'store/modules/wallets'
@@ -248,18 +249,18 @@ function mapStateToProps(state: AppState, {
   const wallet: Wallet = selectWalletOrThrow(state, id)
   const address: Address = walletsPlugin.getAddress(id)
   const addressNames: AddressNames = selectAddressNames(state)
-  const addessIndex: number = (wallet.addressIndex || 0) + 1
 
   const {
     name,
     xpub,
     customType,
+    addressIndex,
     derivationIndex,
     isSimplified,
   }: Wallet = wallet
 
   const addressName: ?string = !isSimplified
-    ? addressNames[address] || t`Address ${addessIndex}`
+    ? getAddressName(addressNames[address], addressIndex)
     : null
 
   return {
