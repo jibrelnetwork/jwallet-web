@@ -2,7 +2,6 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { camelCase } from 'lodash-es'
 
 import pickerCurrentStyle from './jPickerCurrent.m.scss'
 
@@ -32,7 +31,6 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
   } = props
 
   const hasValue = !!value
-  const id = camelCase(`${label}currentId`)
 
   return (
     <div
@@ -47,7 +45,6 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
     >
       <input
         ref={ref}
-        id={id}
         type='text'
         className={pickerCurrentStyle.input}
         placeholder={value}
@@ -56,9 +53,9 @@ const JPickerCurrentComponent = (props: Props, ref: React$Ref<*>) => {
         onChange={onInputChange}
         autoComplete='off'
       />
-      <label className={pickerCurrentStyle.label} htmlFor={id}>
+      <span className={pickerCurrentStyle.label}>
         {label}
-      </label>
+      </span>
       {iconComponent && (
         <div className={pickerCurrentStyle.icon}>
           {iconComponent}
