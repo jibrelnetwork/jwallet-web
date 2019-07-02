@@ -36,7 +36,7 @@ type StateProps = {|
 |}
 
 class WalletAddressCard extends Component<Props, StateProps> {
-  nameInputRef: Object
+  nameInputRef = React.createRef<HTMLInputElement>()
 
   constructor(props: Props) {
     super(props)
@@ -46,8 +46,6 @@ class WalletAddressCard extends Component<Props, StateProps> {
       ethBalance: null,
       isRenameActive: false,
     }
-
-    this.nameInputRef = React.createRef()
   }
 
   async componentDidMount() {
@@ -69,7 +67,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
 
   handleActivateRename = (isRenameActive?: boolean = true) => {
     this.setState({ isRenameActive: !!isRenameActive }, () => {
-      if (isRenameActive) {
+      if (isRenameActive && this.nameInputRef && this.nameInputRef.current) {
         this.nameInputRef.current.focus()
       }
     })
