@@ -1,0 +1,21 @@
+@import 'styles/mixins';
+
+.core {
+  position: relative;
+}
+
+.search {
+  width: 100%;
+  max-width: 414px;
+}
+
+.contact-group-title {
+  @include font(14px, 22px);
+
+  padding: 0 0 8px;
+  margin-top: 18px;
+  font-style: normal;
+  font-weight: 600;
+  color: $main-black-40;
+  text-transform: uppercase;
+}

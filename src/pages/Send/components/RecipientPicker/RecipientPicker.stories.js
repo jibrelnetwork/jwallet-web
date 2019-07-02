@@ -1,15 +1,17 @@
 /* @flow */
 
 import React from 'react'
+
 import { storiesOf } from '@storybook/react'
 import {
   Form,
   Field,
 } from 'react-final-form'
 
-import { RecipientPicker } from './RecipientPicker'
-
 import { prepareWallets } from './prepareWallets'
+import {
+  RecipientPicker,
+} from './RecipientPicker'
 
 const CONTACT_ITEMS = [
   {
@@ -84,7 +86,8 @@ const WALLET_ITEMS = [
     xpub: 'xpub6AHA9hZDN11k2ijHMeS5QqHx2KP9aMBRhTDqANMnwVtdyw2TDYRmF8PjpvwUFcL1Et8Hj59S3gTSMcUQ5gAqTz3Wd8EsMTmF3DChhqPQBnU',
     //   +customType: WalletCustomType,
     //   +orderIndex: number,
-    addressIndex: 4,
+    addressIndex: 1,
+    derivationIndex: 5,
     //   +network: null | number | string,
     //   +isReadOnly: boolean,
     //   +isSimplified: ?boolean,
@@ -139,6 +142,7 @@ function formStoryWrapper(component, extraProps = {}, initialValues = {}) {
   )
 }
 
+// $FlowFixMe
 const preparedWallets = prepareWallets(WALLET_ITEMS, WALLET_BALANCES, NAMED_ADDRESSES)
 
 storiesOf('send|RecipientPicker', module)
