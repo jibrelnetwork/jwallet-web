@@ -76,6 +76,12 @@ export function SettingsView({
             iconName='ic_dev_mode_24-use-fill'
           />
         </JLink>
+        {
+          /**
+           * Empty divs below are necessary to align items (3 per row)
+           * On screen resizing, they all should have the same width
+           */
+        }
         <div className={styles.item} />
         <div className={styles.item} />
       </div>
