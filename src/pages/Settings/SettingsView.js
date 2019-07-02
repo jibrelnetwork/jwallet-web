@@ -34,21 +34,30 @@ export function SettingsView({
     <div className={styles.core}>
       <Header title={t`Settings`} />
       <div className={styles.cards}>
-        <JLink href='/settings/password'>
+        <JLink
+          className={styles.item}
+          href='/settings/password'
+        >
           <Card
             title={t`Change Security Password`}
             iconColor='blue'
             iconName='ic_security_password_24-use-fill'
           />
         </JLink>
-        <JLink href='/settings/language'>
+        <JLink
+          className={styles.item}
+          href='/settings/language'
+        >
           <Card
             title={t`Language`}
             description={languageTitle}
             iconName={`ic_${language}_24`}
           />
         </JLink>
-        <JLink href='/settings/currency'>
+        <JLink
+          className={styles.item}
+          href='/settings/currency'
+        >
           <Card
             title={t`Currency`}
             description={currencyName}
@@ -56,7 +65,10 @@ export function SettingsView({
             iconColor='blue'
           />
         </JLink>
-        <JLink href='/settings/development'>
+        <JLink
+          className={styles.item}
+          href='/settings/development'
+        >
           <Card
             title={t`Developer Mode`}
             description={isDeveloperMode ? t`Enabled` : t`Disabled`}
@@ -64,6 +76,8 @@ export function SettingsView({
             iconName='ic_dev_mode_24-use-fill'
           />
         </JLink>
+        <div className={styles.item} />
+        <div className={styles.item} />
       </div>
     </div>
   )
