@@ -6,6 +6,7 @@ import { t } from 'ttag'
 import { connect } from 'react-redux'
 
 import { CopyIconButton } from 'components'
+import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { formatAssetBalance } from 'utils/formatters'
@@ -82,7 +83,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
       addressName,
     } = this.props
 
-    const newName: string = this.state.newName.substring(0, 32).trim().replace(/\//g, '–')
+    const newName: string = sanitizeName(this.state.newName)
 
     if (!newName || (addressName === newName)) {
       this.setState({ newName: addressName })

@@ -6,6 +6,7 @@ import { t } from 'ttag'
 import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
+import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
@@ -41,10 +42,6 @@ type StateProps = {|
   +isNewNameUniq: boolean,
   +isRenameActive: boolean,
 |}
-
-function sanitizeName(name: string) {
-  return name.substring(0, 32).trim().replace(/\//g, '–')
-}
 
 class WalletCard extends Component<Props, StateProps> {
   constructor(props: Props) {
