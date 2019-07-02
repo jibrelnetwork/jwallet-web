@@ -155,6 +155,7 @@ class WalletCard extends Component<Props, StateProps> {
 
     const isMultiAddress: boolean = !!xpub
     const isActive: boolean = (id === activeWalletId)
+    const addressesCount: number = (derivationIndex + 1)
     const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
     const name: string = addressName ? `${addressName}  •  ` : ''
 
@@ -209,7 +210,7 @@ class WalletCard extends Component<Props, StateProps> {
             </h2>
             {isMultiAddress && !isSimplified && (
               <p className={styles.address}>
-                {t`${name}${derivationIndex} Addresses`}
+                {t`${name}${addressesCount} Addresses`}
               </p>
             )}
             {ethBalance && (
