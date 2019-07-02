@@ -4,7 +4,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { keyBy } from 'lodash-es'
 
-import { ItemCard } from 'components/base'
+import {
+  ItemCard, JIcon,
+} from 'components/base'
+import { formatInitials } from 'utils/formatters'
 
 import offset from 'styles/offsets.m.scss'
 
@@ -26,7 +29,7 @@ type Props = {|
 |}
 
 function Component(props: Props) {
-  const splitedName = props.name.split(' ')
+  const nameInitials = formatInitials(props.name)
 
   return (
     <ItemCard
@@ -36,8 +39,11 @@ function Component(props: Props) {
       className={`__contact-item ${offset.mb16}`}
     >
       <div className={`${style.item} ${style.avatar}`}>
-        <div className={style.placeholder}>
-          {splitedName[0][0]}{splitedName[splitedName.length - 1][0]}
+        <div className={style.back}>
+          {nameInitials
+            ? <div className={style.placeholder}>{nameInitials}</div>
+            : <JIcon name='ic_account_24-use-fill' />
+          }
         </div>
       </div>
       <div className={`${style.item} ${style.mainBlock}`}>

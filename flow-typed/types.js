@@ -10,7 +10,6 @@ declare type BalanceString = string
 
 declare type Address = string
 declare type OwnerAddress = Address
-declare type ContactId = OwnerAddress // It's just address yet
 declare type EthereumAddress = 'Ethereum'
 declare type AssetAddress = Address | EthereumAddress
 
