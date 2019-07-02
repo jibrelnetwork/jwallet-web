@@ -179,6 +179,13 @@ class WalletsPlugin {
     return (current + 1)
   }
 
+  getNextWalletName = (): string => {
+    const walletsCount: number = this.getItems().length
+    const nextWalletNumber: string = walletsCount ? ` ${walletsCount + 1}` : ''
+
+    return `My Wallet${nextWalletNumber}`
+  }
+
   checkWalletUniqueness = (
     uniqueProperty: string,
     propertyName: string,
