@@ -32,3 +32,17 @@
   line-height: 20px;
   color: $main-black-40;
 }
+
+.balance {
+  display: flex;
+  text-align: right;
+  flex-direction: column;
+
+  .value {
+    display: block;
+    color: $main-blue;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+  }
+}
