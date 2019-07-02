@@ -1,12 +1,17 @@
 // @flow strict
 
 import uuidv4 from 'uuid/v4'
+import Promise from 'bluebird'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 import { t } from 'ttag'
 import { type Store } from 'redux'
 
+import { web3 } from 'services'
 import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
 import { selectPasswordPersist } from 'store/selectors/password'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   getNonce,
@@ -40,6 +45,8 @@ export type ImportWalletPayload = {|
   +passphrase: ?string,
   +derivationPath: ?string,
 |}
+
+const MINUTE: number = 60 * 1000
 
 function max(
   a: number,
@@ -76,6 +83,7 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
+  getNetwork = (): Network => selectCurrentNetworkOrThrow(this.getState())
 
   getInternalKey = async (password: ?string): Promise<?Uint8Array> => {
     const state: AppState = this.getState()
@@ -410,6 +418,47 @@ class WalletsPlugin {
       isSimplified ? 'WalletsItemAddresses' : 'Wallets',
       isSimplified ? { walletId } : {},
     )
+  }
+
+  requestETHBalanceByAddress = async (address: Address): Promise<string> => {
+    const network: Network = this.getNetwork()
+
+    try {
+      const ethBalance: string = await web3.getAssetBalance(network, address, 'Ethereum')
+
+      return new BigNumber(ethBalance)
+    } catch (error) {
+      return Promise.delay(MINUTE).then(() => this.requestETHBalanceByAddress(address))
+    }
+  }
+
+  requestETHBalanceByXPUB = async (
+    walletId: WalletId,
+    derivationIndex: number,
+  ): Promise<BigNumber> => {
+    const addresses: Address[] = this.getAddresses(walletId, 0, derivationIndex)
+
+    return Promise
+      .map(addresses, this.requestETHBalanceByAddress)
+      .then((ethBalances: BigNumber[]) => ethBalances.reduce((
+        result: BigNumber,
+        ethBalance: BigNumber,
+      ) => result.plus(ethBalance), new BigNumber(0)))
+  }
+
+  requestETHBalance = async (walletId: WalletId): Promise<BigNumber> => {
+    const {
+      id,
+      xpub,
+      derivationIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (xpub && !isSimplified) {
+      return this.requestETHBalanceByXPUB(id, derivationIndex || 0)
+    }
+
+    return this.requestETHBalanceByAddress(this.getAddress(id))
   }
 }
 

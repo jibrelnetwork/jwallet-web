@@ -24,16 +24,16 @@
   @include property-transition(opacity, visibility);
 
   z-index: 3;
+  position: absolute;
+  top: -15px;
+  right: 8px;
+  width: 240px;
+  padding: 8px;
   border-radius: 6px;
   background-color: $white;
-  padding: 8px;
-  width: 240px;
   font-size: 14px;
   font-family: $font;
   font-weight: normal;
-  top: -15px;
-  right: 8px;
-  position: absolute;
   box-shadow: $normal-shadow;
 
   &.-hide {
@@ -47,11 +47,11 @@
   @include property-transition(background-color);
 
   display: flex;
-  align-items: center;
+  width: 100%;
   height: 36px;
   padding: 8px;
-  border-radius: 6px;
-  width: 100%;
+  align-items: center;
+  border-radius: 2px;
   cursor: pointer;
   color: $main-black;
 

@@ -6,40 +6,50 @@ import { t } from 'ttag'
 import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
+import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
+import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
+import { formatAssetBalance } from 'utils/formatters'
 import { setActiveWallet } from 'store/modules/wallets'
-import { selectWalletOrThrow } from 'store/selectors/wallets'
-import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
+
+import {
+  selectAddressNames,
+  selectWalletOrThrow,
+} from 'store/selectors/wallets'
 
 import styles from './walletCard.m.scss'
 
-type Props = {|
-  +setActiveWallet: (WalletId) => void,
-  +data: Wallet,
-  +balance: ?Balance,
-  +activeWalletId: WalletId,
-  /* ::
+type OwnProps = {|
   +id: WalletId,
-  */
+  +activeWalletId: WalletId,
+|}
+
+type Props = {|
+  ...OwnProps,
+  +setActiveWallet: (WalletId) => void,
+  +name: string,
+  +xpub: ?string,
+  +addressName: ?string,
+  +type: WalletCustomType,
+  +derivationIndex: number,
+  +isSimplified: boolean,
 |}
 
 type StateProps = {|
   +newName: string,
+  +ethBalance: ?BigNumber,
   +isNewNameUniq: boolean,
   +isRenameActive: boolean,
 |}
-
-function sanitizeName(name: string) {
-  return name.substring(0, 32).trim().replace(/\//g, '–')
-}
 
 class WalletCard extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      newName: props.data.name,
+      ethBalance: null,
+      newName: props.name,
       isNewNameUniq: true,
       isRenameActive: false,
     }
@@ -49,13 +59,26 @@ class WalletCard extends Component<Props, StateProps> {
 
   nameInputRef: Object
 
+  async componentDidMount() {
+    const ethBalance: BigNumber = await walletsPlugin.requestETHBalance(this.props.id)
+
+    this.setState({
+      ethBalance: formatAssetBalance(
+        'Ethereum',
+        ethBalance,
+        18,
+        'ETH',
+      ),
+    })
+  }
+
   handleSetActive = () => {
     const {
-      data,
+      id,
       setActiveWallet: setActive,
     }: Props = this.props
 
-    setActive(data.id)
+    setActive(id)
   }
 
   handleChangeName = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -63,7 +86,7 @@ class WalletCard extends Component<Props, StateProps> {
     const sanitizedName: string = sanitizeName(newName)
 
     try {
-      if (sanitizedName !== this.props.data.name) {
+      if (sanitizedName !== this.props.name) {
         walletsPlugin.checkWalletUniqueness(sanitizedName, 'name')
       }
     } catch (error) {
@@ -95,7 +118,7 @@ class WalletCard extends Component<Props, StateProps> {
     const {
       id,
       name,
-    } = this.props.data
+    } = this.props
 
     const newName: string = sanitizeName(this.state.newName)
 
@@ -114,29 +137,27 @@ class WalletCard extends Component<Props, StateProps> {
 
   render() {
     const {
-      data,
-      balance,
+      id,
+      xpub,
+      type,
+      addressName,
+      derivationIndex,
+      isSimplified,
       activeWalletId,
     }: Props = this.props
 
     const {
-      id,
-      xpub,
-      customType,
-      isSimplified,
-    }: Wallet = data
-
-    const {
       newName,
+      ethBalance,
       isNewNameUniq,
       isRenameActive,
     }: StateProps = this.state
 
-    const addressesCount: number = 5
     const isMultiAddress: boolean = !!xpub
-    const addressName: ?string = 'Address Name'
     const isActive: boolean = (id === activeWalletId)
+    const addressesCount: number = (derivationIndex + 1)
     const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
+    const name: string = addressName ? `${addressName}  •  ` : ''
 
     return (
       <div
@@ -187,19 +208,21 @@ class WalletCard extends Component<Props, StateProps> {
                 />
               )}
             </h2>
-            {isMultiAddress && (
+            {isMultiAddress && !isSimplified && (
               <p className={styles.address}>
-                {t`${addressName}  •  ${addressesCount} Addresses`}
+                {t`${name}${addressesCount} Addresses`}
               </p>
             )}
-            <p className={styles.balance}>
-              {`${balance ? balance.value || 0 : 0} ETH`}
-            </p>
+            {ethBalance && (
+              <p className={styles.balance}>
+                {ethBalance}
+              </p>
+            )}
           </div>
           <div className={styles.actions}>
             <WalletActions
               id={id}
-              type={customType}
+              type={type}
               isSimplified={isSimplified}
               onRename={this.handleActivateRename}
             />
@@ -217,19 +240,36 @@ class WalletCard extends Component<Props, StateProps> {
   }
 }
 
-type OwnProps = {|
-  +id: WalletId,
-  +activeWalletId: WalletId,
-|}
-
 function mapStateToProps(state: AppState, {
   id,
   activeWalletId,
 }: OwnProps) {
+  const wallet: Wallet = selectWalletOrThrow(state, id)
+  const address: Address = walletsPlugin.getAddress(id)
+  const addressNames: AddressNames = selectAddressNames(state)
+
+  const {
+    name,
+    xpub,
+    customType,
+    addressIndex,
+    derivationIndex,
+    isSimplified,
+  }: Wallet = wallet
+
+  const addressName: ?string = !isSimplified
+    ? getAddressName(addressNames[address], addressIndex)
+    : null
+
   return {
+    id,
+    name,
+    xpub,
+    addressName,
     activeWalletId,
-    data: selectWalletOrThrow(state, id),
-    balance: selectBalanceByAssetAddressToCurrentBlock(state, 'Ethereum'),
+    derivationIndex,
+    isSimplified,
+    type: customType,
   }
 }
 
