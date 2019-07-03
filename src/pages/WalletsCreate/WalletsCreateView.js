@@ -8,6 +8,7 @@ import { type FormApi } from 'final-form'
 import { gaSendEvent } from 'utils/analytics'
 import { checkNameExists } from 'utils/wallets'
 import { generateMnemonic } from 'utils/mnemonic'
+import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   Form,
@@ -67,7 +68,7 @@ const EVENTS = {
   PASSWORD: 'BackupCompleted',
 }
 
-const WALLETS_CREATE_INITIAL_VALUES: FormFields = {
+const INITIAL_VALUES: FormFields = {
   name: '',
   data: '',
   password: '',
@@ -78,6 +79,13 @@ const WALLETS_CREATE_INITIAL_VALUES: FormFields = {
 const BACKUP_TEXT: string = t`Jwallet never sends your wallets anywhere.
 Therefore, in case of device loss or failure, the only way to restore access to your
 funds is to use a wallet backup phrase.`
+
+function getInitialValues(): FormFields {
+  return {
+    ...INITIAL_VALUES,
+    name: walletsPlugin.getNextWalletName(),
+  }
+}
 
 export class WalletsCreateView extends Component<Props, StateProps> {
   static defaultProps = {
@@ -310,7 +318,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         <Form
           render={this.renderForm}
           onSubmit={this.handleSubmit}
-          initialValues={WALLETS_CREATE_INITIAL_VALUES}
+          initialValues={getInitialValues()}
         />
       </div>
     )
