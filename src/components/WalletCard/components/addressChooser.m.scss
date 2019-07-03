@@ -1,0 +1,83 @@
+@import "styles/mixins";
+
+.core {
+  @include flex-column;
+
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+
+  &.open {
+    max-height: 344px;
+    overflow: visible;
+    opacity: 1;
+  }
+}
+
+.main {
+  @include flex-column;
+
+  z-index: 2;
+  margin: 16px 0 32px 0;
+  background-color: $white;
+  box-shadow: $hover-shadow;
+}
+
+.header {
+  @include flex-row;
+
+  position: relative;
+  height: 56px;
+  padding: 0 8px 0 24px;
+  align-items: center;
+  border-bottom: 1px solid $main-black-10;
+}
+
+.title {
+  @include font(14px, 22px);
+
+  color: $main-black;
+}
+
+.manage {
+  margin-left: auto;
+  padding: 0 10px 0 5px;
+}
+
+.close {
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-40);
+
+  position: absolute;
+  top: 16px;
+  right: -34px;
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+
+  &:hover {
+    @include sprite-icon-color($main-blue);
+  }
+}
+
+.body {
+  position: relative;
+  max-height: 288px;
+  overflow-y: scroll;
+}
+
+.list {
+  @include flex-column;
+}
+
+.overlay {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
