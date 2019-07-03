@@ -3,7 +3,6 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
-import { isFinite } from 'lodash-es'
 
 import { CURRENCIES } from 'data'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
@@ -14,6 +13,7 @@ import {
   toBigNumber,
   divDecimals,
   fromGweiToWei,
+  isValidNumeric,
 } from 'utils/numbers'
 
 import {
@@ -36,11 +36,17 @@ export type OwnProps = {|
 |}
 
 function getMaxValueForEthereum(balance, gasPrice, gasLimit) {
-  return divDecimals(
+  const maxValue = divDecimals(
     toBigNumber(balance).minus(
       toBigNumber(gasPrice).times(gasLimit),
     ),
-  ).toFormat(4, BigNumber.ROUND_FLOOR)
+  )
+
+  if (maxValue.isNegative()) {
+    return '0.00'
+  }
+
+  return maxValue.toFormat(4, BigNumber.ROUND_FLOOR)
 }
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
@@ -79,12 +85,16 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   ) || {}
 
   const blockchainFee =
-    gasPrice &&
-    gasLimit &&
-    isFinite(parseFloat(gasPrice)) &&
-    isFinite(parseFloat(gasLimit))
-      ? toBigNumber(gasPrice).times(gasLimit).toString()
-      : ''
+    amountValue && isValidNumeric(amountValue)
+      ? gasPrice &&
+        gasLimit &&
+        isValidNumeric(gasPrice) &&
+        isValidNumeric(gasLimit)
+        ? toBigNumber(gasPrice)
+          .times(gasLimit)
+          .toString()
+        : ''
+      : '0.00'
 
   const maxValue = isEthereumAsset
     ? getMaxValueForEthereum(assetBalance, gasPrice, gasLimit)
@@ -96,15 +106,18 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
       String(priceFeed.currencyID),
       fiatCurrencyCode,
     )
-    : {}
+    : null
 
   const fiatAmount =
     amountValue &&
     latestFiatCourse &&
-    isFinite(parseFloat(amountValue)) &&
-    isFinite(parseFloat(latestFiatCourse))
-      ? toBigNumber(amountValue).times(latestFiatCourse).toString()
-      : ''
+    isValidNumeric(amountValue) &&
+    isValidNumeric(latestFiatCourse)
+      ? toBigNumber(amountValue)
+        .times(latestFiatCourse)
+        .toFormat(2, BigNumber.ROUND_FLOOR)
+        .toString()
+      : '0.00'
 
   return {
     maxValue,

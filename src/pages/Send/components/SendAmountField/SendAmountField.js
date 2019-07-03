@@ -45,7 +45,10 @@ const handleMaxClick = (input: FinalFormInput, maxValue: string) => () => input.
 const handleClearClick = (input: FinalFormInput) => () => input.onChange('')
 
 // Allow to use only digits and dot and remove leading zeroes
-const filterAmountValue = (value: string) => value.replace(/[^\d.]/g, '').replace(/^00+/g, '0')
+const filterAmountValue = (value: string) => value
+  .replace(/[^\d.]/g, '')
+  .replace(/^00+/g, '0')
+  .replace('..', '.')
 
 const handlerOnChange = (input: FinalFormInput) => e =>
   input.onChange(filterAmountValue(e.target.value))
@@ -162,7 +165,7 @@ function SendAmountField({
             {formattedBlockchainFee && t`Blockchain fee — ${formattedBlockchainFee} ETH`}
           </div>
         </div>
-        <label htmlFor='amountInputId' className={fieldStyle.label} >{label}</label>
+        <label htmlFor='amountInputId' className={fieldStyle.label}>{label}</label>
       </div>
       {hasMessage && (
         <JFieldMessage

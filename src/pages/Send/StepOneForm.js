@@ -11,6 +11,9 @@ import {
   type FormRenderProps,
 } from 'react-final-form'
 
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
+
 import stylesOffsets from 'styles/offsets.m.scss'
 
 import web3 from 'services/web3'
@@ -69,6 +72,7 @@ type ComponentState = {|
   isGasPriceLoading: boolean,
   isGasLimitLoading: boolean,
   isValidationFailed: boolean,
+  estimatedGasLimit: ?string,
 |}
 
 const FALLBACK_GAS_AMOUNT = 21000
@@ -89,6 +93,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     isGasPriceLoading: false,
     isGasLimitLoading: false,
     isValidationFailed: false,
+    estimatedGasLimit: null,
   }
 
   handleSendFormSubmit = (values: SendFormValues) => {
@@ -99,6 +104,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       amountValue,
       assetAddress,
+      gasPriceValue,
       recipientAddress,
     } = values
 
@@ -115,7 +121,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
     const selectedAssetBalance = getAssetBalanceByAddress(assetAddress)
 
-    const amountError = amountValue &&
+    const amountError = !isValidNumeric(amountValue) &&
       (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
       ? {
         amountValue: t`Invalid amount value`,
@@ -130,8 +136,19 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       })
     }
 
+    const gasPriceError =
+      !gasPriceValue ||
+      !isValidNumeric(gasPriceValue) ||
+      toBigNumber(gasPriceValue).lt(1) ||
+      toBigNumber(gasPriceValue).gt(1000)
+        ? {
+          gasPriceValue: t`Invalid gas price value`,
+        }
+        : undefined
+
     return {
       ...amountError,
+      ...gasPriceError,
     }
   }
 
@@ -149,7 +166,9 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         isGasPriceLoading: false,
       })
 
-      return fromWeiToGWei(gasPrice)
+      return toBigNumber(fromWeiToGWei(gasPrice))
+        .toFormat(2, BigNumber.ROUND_FLOOR)
+        .toString()
     } catch (err) {
       alert('#TODO: Fixme / Network error, can\'t request gasPrice')
 
@@ -185,6 +204,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       this.setState({
         isGasLimitLoading: true,
         isValidationFailed: false,
+        estimatedGasLimit: null,
       })
 
       if (checkETH(assetAddress)) {
@@ -198,6 +218,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
         this.setState({
           isGasLimitLoading: false,
+          estimatedGasLimit: gasLimit,
         })
 
         return gasLimit
@@ -214,6 +235,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
         this.setState({
           isGasLimitLoading: false,
+          estimatedGasLimit: gasLimit,
         })
 
         return gasLimit
@@ -242,6 +264,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       isGasPriceLoading,
       isGasLimitLoading,
+      estimatedGasLimit,
     } = this.state
 
     const {
@@ -252,13 +275,16 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       gasLimitValue,
     } = values || {}
 
-    const isPriorityEnabled = !!recipientAddress &&
-      !!assetAddress &&
-      !!amountValue
+    const isAmountValid = isValidNumeric(amountValue) &&
+      toBigNumber(amountValue).gt(0)
+
+    const isPriorityPickerDisabled = !recipientAddress ||
+      !assetAddress ||
+      !isAmountValid
 
     const isFormDisabled = !recipientAddress ||
       !assetAddress ||
-      !amountValue ||
+      !isAmountValid ||
       isGasLimitLoading ||
       isGasPriceLoading ||
       !isValid
@@ -291,12 +317,13 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         <Field
           isLoading={isGasPriceLoading}
           isEth={isEthereumAsset}
-          isDisabled={!isPriorityEnabled}
+          isDisabled={isPriorityPickerDisabled}
           className={stylesOffsets.mb32}
           component={PriorityField}
           name='isPriorityOpen'
           gasPriceFieldName='gasPriceValue'
           gasLimitFieldName='gasLimitValue'
+          estimatedGasLimit={estimatedGasLimit}
         />
         <Button
           type='submit'

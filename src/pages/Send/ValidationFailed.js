@@ -31,6 +31,7 @@ export function ValidationFailed({
         onConfirm={onGoNextClick}
         labelCancel={t`Change Transfer Details`}
         labelConfirm={t`Proceed Anyway`}
+        isReversed
       />
     </div>
   )
