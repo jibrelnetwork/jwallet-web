@@ -224,7 +224,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
         iconComponent={(
-          <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
+          <JIcon name='contact-2-use-fill' color={(isOpen || input.value) ? 'blue' : 'gray'} />
         )}
       />
     )
