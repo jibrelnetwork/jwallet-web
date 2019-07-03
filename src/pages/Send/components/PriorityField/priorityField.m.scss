@@ -22,6 +22,7 @@
     margin-bottom: 12px;
 
     .title {
+      user-select: none;
       color: $main-black;
       font-size: 14px;
       font-weight: 600;
@@ -51,6 +52,7 @@
     }
 
     .bottom {
+      user-select: none;
       font-size: 12px;
       line-height: 18px;
       color: $main-black-40;
