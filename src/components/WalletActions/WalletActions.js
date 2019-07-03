@@ -43,6 +43,10 @@ export class WalletActions extends PureComponent<Props, StateProps> {
     }
   }
 
+  handleLinkClick = (event: SyntheticEvent<HTMLAnchorElement>) => {
+    event.stopPropagation()
+  }
+
   handleToggle = (event: SyntheticEvent<HTMLDivElement>) => {
     event.preventDefault()
     this.setState({ isToggled: !this.state.isToggled })
@@ -138,6 +142,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
           )}
           {isReadOnly && (
             <JLink
+              onClick={this.handleLinkClick}
               href={`/wallets/${id}/upgrade`}
               className={walletActionsStyle.action}
             >
@@ -146,6 +151,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
           )}
           {isMultiAddressWallet && !isSimplified && !isFromAddressManager && (
             <JLink
+              onClick={this.handleLinkClick}
               href={`/wallets/${id}/addresses`}
               className={walletActionsStyle.action}
             >
@@ -154,6 +160,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
           )}
           {isMultiAddressWallet && (
             <JLink
+              onClick={this.handleLinkClick}
               className={walletActionsStyle.action}
               href={`/wallets/${id}/mode-${isSimplified ? 'enable' : 'disable'}`}
             >
@@ -165,6 +172,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
           )}
           {!isReadOnly && (
             <JLink
+              onClick={this.handleLinkClick}
               href={`/wallets/${id}/backup`}
               className={walletActionsStyle.action}
             >
@@ -172,6 +180,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
             </JLink>
           )}
           <JLink
+            onClick={this.handleLinkClick}
             href={`/wallets/${id}/delete`}
             className={walletActionsStyle.action}
           >

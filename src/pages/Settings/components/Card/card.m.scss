@@ -4,9 +4,10 @@
   @include flex-column-center;
   @include property-transition(box-shadow);
 
-  width: 352px;
   height: 152px;
+  max-width: 352px;
   margin: 8px 16px;
+  padding: 0 16px;
   background: $white;
   border-radius: 4px;
   box-shadow: $normal-shadow;
