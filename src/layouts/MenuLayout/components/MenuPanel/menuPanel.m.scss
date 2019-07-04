@@ -186,6 +186,7 @@
 
 .back {
   @include flex-column-center;
+  @include sprite-icon-color($main-blue);
   @include property-transition(background-color, opacity);
 
   width: 36px;
