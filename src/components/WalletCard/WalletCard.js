@@ -5,13 +5,17 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 import { connect } from 'react-redux'
 
-import { WalletActions } from 'components'
 import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
 import { formatAssetBalance } from 'utils/formatters'
 import { setActiveWallet } from 'store/modules/wallets'
+
+import {
+  EditableField,
+  WalletActions,
+} from 'components'
 
 import {
   selectAddressNames,
@@ -33,7 +37,7 @@ type Props = {|
   +setActiveWallet: (WalletId) => void,
   +name: string,
   +addressIndex: ?number,
-  +addressName: ?string,
+  +addressName: string,
   +type: WalletCustomType,
   +derivationIndex: number,
   +isSimplified: boolean,
@@ -41,7 +45,6 @@ type Props = {|
 |}
 
 type StateProps = {|
-  +newName: string,
   +ethBalance: ?BigNumber,
   +isNewNameUniq: boolean,
   +isRenameActive: boolean,
@@ -52,14 +55,11 @@ class WalletCard extends Component<Props, StateProps> {
     isActive: false,
   }
 
-  nameInputRef = React.createRef<HTMLInputElement>()
-
   constructor(props: Props) {
     super(props)
 
     this.state = {
       ethBalance: null,
-      newName: props.name,
       isNewNameUniq: true,
       isRenameActive: false,
     }
@@ -94,8 +94,15 @@ class WalletCard extends Component<Props, StateProps> {
     }
   }
 
-  handleChangeName = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    const newName: string = e.target.value
+  handleActivateRename = () => {
+    this.setState({ isRenameActive: true })
+  }
+
+  handleRenameFocus = () => {
+    this.setState({ isRenameActive: false })
+  }
+
+  handleChange = (newName: string) => {
     const sanitizedName: string = sanitizeName(newName)
 
     try {
@@ -103,49 +110,23 @@ class WalletCard extends Component<Props, StateProps> {
         walletsPlugin.checkWalletUniqueness(sanitizedName, 'name')
       }
     } catch (error) {
-      this.setState({
-        newName,
-        isNewNameUniq: false,
-      })
+      this.setState({ isNewNameUniq: false })
 
       return
     }
 
+    this.setState({ isNewNameUniq: true })
+  }
+
+  handleChangeFinish = (newName: string) => {
     this.setState({
-      newName,
       isNewNameUniq: true,
+      isRenameActive: false,
     })
-  }
 
-  handleActivateRename = (isRenameActive?: boolean = true) => {
-    this.setState({ isRenameActive: !!isRenameActive }, () => {
-      if (isRenameActive && this.nameInputRef && this.nameInputRef.current) {
-        this.nameInputRef.current.focus()
-      }
-    })
-  }
-
-  handleRenameBlur = () => {
-    this.handleActivateRename(false)
-
-    const {
-      id,
-      name,
-    } = this.props
-
-    const newName: string = sanitizeName(this.state.newName)
-
-    if (!newName || (name === newName)) {
-      this.setState({ newName: name })
-
-      return
-    }
-
-    walletsPlugin.updateWallet(id, {
+    walletsPlugin.updateWallet(this.props.id, {
       name: newName,
     })
-
-    this.setState({ newName })
   }
 
   handleCloseAddressChooser = (e: Event) => {
@@ -156,6 +137,7 @@ class WalletCard extends Component<Props, StateProps> {
   render() {
     const {
       id,
+      name,
       type,
       addressName,
       addressIndex,
@@ -167,15 +149,13 @@ class WalletCard extends Component<Props, StateProps> {
     }: Props = this.props
 
     const {
-      newName,
       ethBalance,
       isNewNameUniq,
       isRenameActive,
     }: StateProps = this.state
 
+    const hasMessage: boolean = !isNewNameUniq
     const addressesCount: number = (derivationIndex + 1)
-    const name: string = addressName ? `${addressName}  •  ` : ''
-    const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
     const isAnyAddressChooserActive: boolean = !!activeAddressChooserId
 
     return (
@@ -199,38 +179,20 @@ class WalletCard extends Component<Props, StateProps> {
         </div>
         <div className={styles.body}>
           <div className={styles.data}>
-            <h2 className={styles.wrapper}>
-              <span
-                className={classNames(
-                  styles.name,
-                  isRenameActive && styles.editable,
-                )}
-                onClick={this.handleActivateRename}
-              >
-                {isRenameActive
-                  /**
-                   * Next line is necessarry, because we must render newName inside div
-                   * to show background. But ending spaces are ignored,
-                   * so we have to replace them by something.
-                   */
-                  ? newName.replace(/ /g, '.')
-                  : newName
-                }
-              </span>
-              {isRenameActive && (
-                <input
-                  onBlur={this.handleRenameBlur}
-                  onChange={this.handleChangeName}
-                  ref={this.nameInputRef}
-                  value={newName}
-                  className={classNames(styles.input)}
-                  type='text'
-                />
-              )}
-            </h2>
+            <EditableField
+              sanitize={sanitizeName}
+              onChange={this.handleChange}
+              onFocus={this.handleRenameFocus}
+              onChangeFinish={this.handleChangeFinish}
+              value={name}
+              className={styles.name}
+              theme='blue'
+              maxLen={32}
+              isDefaultFocused={isRenameActive}
+            />
             {isMultiAddress && (
               <p className={styles.address}>
-                {t`${name}${addressesCount} Addresses`}
+                {t`${addressName}${addressesCount} Addresses`}
               </p>
             )}
             {ethBalance && (
@@ -271,6 +233,7 @@ class WalletCard extends Component<Props, StateProps> {
 
 function mapStateToProps(state: AppState, {
   id,
+  isActive,
 }: OwnProps) {
   const wallet: Wallet = selectWalletOrThrow(state, id)
   const address: Address = walletsPlugin.getAddress(id)
@@ -285,9 +248,11 @@ function mapStateToProps(state: AppState, {
     isSimplified,
   }: Wallet = wallet
 
-  const addressName: ?string = !isSimplified
-    ? getAddressName(addressNames[address], addressIndex)
-    : null
+  const isMultiAddress: boolean = !!xpub && !isSimplified
+
+  const addressName: string = isMultiAddress && isActive
+    ? `${getAddressName(addressNames[address], addressIndex)}  •  `
+    : ''
 
   return {
     name,
@@ -296,7 +261,7 @@ function mapStateToProps(state: AppState, {
     derivationIndex,
     type: customType,
     isSimplified,
-    isMultiAddress: !!xpub && !isSimplified,
+    isMultiAddress,
   }
 }
 
