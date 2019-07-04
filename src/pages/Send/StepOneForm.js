@@ -28,6 +28,7 @@ import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import {
   toBigNumber,
   fromWeiToGWei,
+  fromGweiToWei,
   isValidNumeric,
   divDecimals,
 } from 'utils/numbers'
@@ -283,6 +284,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       amountValue,
       gasPriceValue,
       gasLimitValue,
+      isPriorityOpen,
     } = values || {}
 
     const isAmountValid = isValidNumeric(amountValue) &&
@@ -300,6 +302,17 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       !isValid
 
     const isEthereumAsset = checkETH(assetAddress)
+
+    const blockchainFee = gasPriceValue &&
+      gasLimitValue &&
+      isValidNumeric(gasPriceValue) &&
+      isValidNumeric(gasLimitValue)
+      ? divDecimals(
+        toBigNumber(fromGweiToWei(gasPriceValue))
+          .times(gasLimitValue),
+      )
+        .toFormat(6, BigNumber.ROUND_FLOOR)
+      : undefined
 
     return (
       <form
@@ -322,6 +335,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           assetAddress={assetAddress}
           gasPrice={gasPriceValue}
           gasLimit={gasLimitValue}
+          showBlockchainFee={!isPriorityOpen}
           name='amountValue'
         />
         <Field
@@ -330,6 +344,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           isDisabled={isPriorityPickerDisabled}
           className={stylesOffsets.mb32}
           component={PriorityField}
+          blockchainFee={blockchainFee}
           name='isPriorityOpen'
           gasPriceFieldName='gasPriceValue'
           gasLimitFieldName='gasLimitValue'

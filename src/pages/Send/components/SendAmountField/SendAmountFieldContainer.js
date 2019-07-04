@@ -29,6 +29,7 @@ export type OwnProps = {|
   +input: FinalFormInput,
   +meta: FinalFormMeta,
   +validateType: FinalFormValidateType,
+  +showBlockchainFee: boolean,
 
   // extra
   +assetAddress: string,
@@ -53,6 +54,7 @@ function getMaxValueForEthereum(balance, gasPrice, gasLimit) {
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const {
     assetAddress,
+    showBlockchainFee,
     gasPrice: gasPriceGWei,
     gasLimit,
     input: {
@@ -137,7 +139,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     fiatCurrency: fiatCurrencySymbol,
     currency: assetSymbol,
     fiatAmount,
-    blockchainFee,
+    blockchainFee: showBlockchainFee && blockchainFee,
     // seems, not implemented now in ticker module
     isFetchingFiatAmount: false,
   }

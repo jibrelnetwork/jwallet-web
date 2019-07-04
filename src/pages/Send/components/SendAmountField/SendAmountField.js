@@ -33,6 +33,7 @@ export type Props = {|
   +assetAddress: string,
   +gasPrice: string,
   +gasLimit: string,
+  +showBlockchainFee: boolean,
 |}
 
 type InputRef = {
@@ -154,7 +155,6 @@ function SendAmountField({
           </div>
           <div className={classNames(
             fieldStyle.fee,
-            !blockchainFee && fieldStyle.fetching,
           )}
           >
             {blockchainFee && t`Blockchain fee — ${blockchainFee} ETH`}

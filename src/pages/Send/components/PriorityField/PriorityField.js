@@ -91,10 +91,11 @@ class PriorityField extends Component<Props> {
         >
           <div className={fieldStyle.main}>
             <div className={fieldStyle.title}>
-              {isOpened && blockchainFee
-                ? t`Blockchain Fee — ${blockchainFee} ETH`
-                : t`Custom Blockchain Fee`
-              }
+              {isOpened
+                ? blockchainFee
+                  ? t`Blockchain Fee — ${blockchainFee} ETH`
+                  : t`Blockchain Fee`
+                : t`Custom Blockchain Fee`}
             </div>
             <JSwitch
               name='priority-field-switch'
