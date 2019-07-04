@@ -224,7 +224,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
         iconComponent={(
-          <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
+          <JIcon name='contact-2-use-fill' color={(isOpen || input.value) ? 'blue' : 'gray'} />
         )}
       />
     )
@@ -287,12 +287,6 @@ class RecipientPicker extends Component<Props, ComponentState> {
       // fiatCurrency,
     } = this.props
 
-    if (!contacts.length) {
-      return (
-        <Empty tab='contacts' />
-      )
-    }
-
     const { searchQuery } = this.state
 
     const activeContact = contacts.find(contact => contact.address === input.value)
@@ -308,13 +302,23 @@ class RecipientPicker extends Component<Props, ComponentState> {
           />
         )
       } else {
+        if (!contacts.length) {
+          return (
+            <Empty tab='contacts' />
+          )
+        }
+
         return (
           <NotFoundItem />
         )
       }
     }
 
-    console.log(searchQuery, filteredContacts)
+    if (!contacts.length) {
+      return (
+        <Empty tab='contacts' />
+      )
+    }
 
     return (
       <JPickerList

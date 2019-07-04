@@ -3,7 +3,7 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
-import { isFinite } from 'lodash-es'
+import { t } from 'ttag'
 
 import { CURRENCIES } from 'data'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
@@ -14,6 +14,7 @@ import {
   toBigNumber,
   divDecimals,
   fromGweiToWei,
+  isValidNumeric,
 } from 'utils/numbers'
 
 import {
@@ -28,6 +29,7 @@ export type OwnProps = {|
   +input: FinalFormInput,
   +meta: FinalFormMeta,
   +validateType: FinalFormValidateType,
+  +showBlockchainFee: boolean,
 
   // extra
   +assetAddress: string,
@@ -36,16 +38,23 @@ export type OwnProps = {|
 |}
 
 function getMaxValueForEthereum(balance, gasPrice, gasLimit) {
-  return divDecimals(
+  const maxValue = divDecimals(
     toBigNumber(balance).minus(
       toBigNumber(gasPrice).times(gasLimit),
     ),
-  ).toFormat(4, BigNumber.ROUND_FLOOR)
+  )
+
+  if (maxValue.isNegative()) {
+    return '0.00'
+  }
+
+  return maxValue.toFormat(6, BigNumber.ROUND_FLOOR)
 }
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const {
     assetAddress,
+    showBlockchainFee,
     gasPrice: gasPriceGWei,
     gasLimit,
     input: {
@@ -78,17 +87,32 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     assetAddress,
   ) || {}
 
+  const {
+    value: ethereumBalance,
+  } = selectBalanceByAssetAddressToCurrentBlock(
+    state,
+    'Ethereum',
+  ) || {}
+
   const blockchainFee =
-    gasPrice &&
-    gasLimit &&
-    isFinite(parseFloat(gasPrice)) &&
-    isFinite(parseFloat(gasLimit))
-      ? toBigNumber(gasPrice).times(gasLimit).toString()
-      : ''
+    amountValue && isValidNumeric(amountValue)
+      ? gasPrice &&
+        gasLimit &&
+        isValidNumeric(gasPrice) &&
+        isValidNumeric(gasLimit)
+        ? divDecimals(toBigNumber(gasPrice)
+          .times(gasLimit))
+          .toFormat(6, BigNumber.ROUND_FLOOR)
+        : ''
+      : '0.000000'
 
   const maxValue = isEthereumAsset
     ? getMaxValueForEthereum(assetBalance, gasPrice, gasLimit)
     : divDecimals(assetBalance, decimals).toFormat(2, BigNumber.ROUND_FLOOR)
+
+  const walletEthBalance = divDecimals(toBigNumber(ethereumBalance))
+    .toFormat(4, BigNumber.ROUND_FLOOR)
+  const infoMessage = !isEthereumAsset && t`Address ETH balance — ${walletEthBalance} ETH`
 
   const latestFiatCourse = priceFeed.currencyID
     ? selectTickerItemCourseByCurrency(
@@ -96,22 +120,26 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
       String(priceFeed.currencyID),
       fiatCurrencyCode,
     )
-    : {}
+    : null
 
   const fiatAmount =
     amountValue &&
     latestFiatCourse &&
-    isFinite(parseFloat(amountValue)) &&
-    isFinite(parseFloat(latestFiatCourse))
-      ? toBigNumber(amountValue).times(latestFiatCourse).toString()
-      : ''
+    isValidNumeric(amountValue) &&
+    isValidNumeric(latestFiatCourse)
+      ? toBigNumber(amountValue)
+        .times(latestFiatCourse)
+        .toFormat(2, BigNumber.ROUND_FLOOR)
+        .toString()
+      : '0.00'
 
   return {
+    infoMessage,
     maxValue,
     fiatCurrency: fiatCurrencySymbol,
     currency: assetSymbol,
     fiatAmount,
-    blockchainFee,
+    blockchainFee: showBlockchainFee && blockchainFee,
     // seems, not implemented now in ticker module
     isFetchingFiatAmount: false,
   }
