@@ -3,6 +3,7 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
+import { t } from 'ttag'
 
 import { CURRENCIES } from 'data'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
@@ -84,6 +85,13 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     assetAddress,
   ) || {}
 
+  const {
+    value: ethereumBalance,
+  } = selectBalanceByAssetAddressToCurrentBlock(
+    state,
+    'Ethereum',
+  ) || {}
+
   const blockchainFee =
     amountValue && isValidNumeric(amountValue)
       ? gasPrice &&
@@ -99,6 +107,10 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
   const maxValue = isEthereumAsset
     ? getMaxValueForEthereum(assetBalance, gasPrice, gasLimit)
     : divDecimals(assetBalance, decimals).toFormat(2, BigNumber.ROUND_FLOOR)
+
+  const walletEthBalance = divDecimals(toBigNumber(ethereumBalance))
+    .toFormat(4, BigNumber.ROUND_FLOOR)
+  const infoMessage = !isEthereumAsset && t`Address ETH balance — ${walletEthBalance} ETH`
 
   const latestFiatCourse = priceFeed.currencyID
     ? selectTickerItemCourseByCurrency(
@@ -120,6 +132,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
       : '0.00'
 
   return {
+    infoMessage,
     maxValue,
     fiatCurrency: fiatCurrencySymbol,
     currency: assetSymbol,

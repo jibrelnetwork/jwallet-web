@@ -171,7 +171,7 @@ function SendAmountField({
         <JFieldMessage
           theme={messageTheme}
           message={errorMessage || infoMessage}
-          className={fieldStyle.fieldMessage}
+          className={classNames(fieldStyle.fieldMessage, fieldStyle.infoMessage)}
         />
       )}
     </div>
