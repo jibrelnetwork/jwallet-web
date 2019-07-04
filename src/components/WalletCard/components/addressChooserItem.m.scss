@@ -1,0 +1,56 @@
+@import "styles/mixins";
+
+.core {
+  @include property-transition(background-color);
+  @include flex-row;
+
+  position: relative;
+  height: 56px;
+  margin: 8px;
+  padding: 0 16px;
+  align-items: center;
+  background-color: $white;
+  border-radius: 2px;
+  cursor: pointer;
+
+  &.active {
+    background-color: $main-blue-5;
+  }
+
+  &:hover,
+  &:active {
+    background-color: $main-black-5;
+
+    &.active {
+      background-color: $main-blue-10;
+    }
+  }
+}
+
+.icon {
+  @include sprite-icon-color($main-blue);
+
+  display: inline-flex;
+  margin-right: 16px;
+}
+
+.name {
+  @include font(14px, 22px);
+
+  color: $main-black;
+  font-weight: 600;
+}
+
+.address {
+  @include font(12px, 20px);
+
+  color: $main-black-40;
+}
+
+.balance {
+  @include font(14px, 22px);
+
+  margin-left: auto;
+  color: $main-blue;
+  font-weight: 600;
+}

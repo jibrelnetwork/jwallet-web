@@ -2,7 +2,7 @@
 
 .card,
 .left {
-  @include property-transition(filter);
+  @include property-transition(filter, opacity);
 
   position: absolute;
   height: 100%;
@@ -32,6 +32,8 @@
 }
 
 .core {
+  @include property-transition(opacity);
+
   position: relative;
   min-width: 0;
   align-items: center;
@@ -77,6 +79,13 @@
 
   &.message {
     margin-bottom: 44px;
+  }
+
+  &.chooser {
+    &::before,
+    .card {
+      opacity: 0.3;
+    }
   }
 }
 
