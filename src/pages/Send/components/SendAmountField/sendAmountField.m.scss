@@ -17,6 +17,7 @@
   right: 80px;
   font-size: 14px;
   line-height: 22px;
+  font-weight: 600;
   cursor: text;
   user-select: none;
   background: $white;
@@ -37,7 +38,7 @@
   border-radius: 4px;
 
   &:hover {
-    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.05);
+    box-shadow: 0 9px 18px rgba(8, 30, 57, 0.1);
   }
 }
 
@@ -254,6 +255,12 @@
 
 .field-message {
   padding-left: 16px;
+}
+
+.infoMessage {
+  float: right;
+  text-align: right;
+  padding-right: 16px;
 }
 
 @keyframes loading {

@@ -29,6 +29,8 @@ type Props = {|
   +className: ?string,
   +gasPriceFieldName: string,
   +gasLimitFieldName: string,
+  +estimatedGasLimit: ?string,
+  +isDisabled: boolean,
 |}
 
 class PriorityField extends Component<Props> {
@@ -40,6 +42,7 @@ class PriorityField extends Component<Props> {
     gasPriceFieldName: 'gasPrice',
     gasLimitFieldName: 'gasLimit',
     validateType: 'touched',
+    isDisabled: false,
   }
 
   handleOpen = (isOpened: boolean) => {
@@ -61,9 +64,15 @@ class PriorityField extends Component<Props> {
       isLoading,
       gasPriceFieldName,
       gasLimitFieldName,
+      estimatedGasLimit,
+      isDisabled,
     } = this.props
 
     const isOpened = !!input.value
+
+    const gasLimitLabel = estimatedGasLimit
+      ? t`Gas limit (estimated: ${estimatedGasLimit})`
+      : t`Gas limit`
 
     return (
       <div
@@ -77,20 +86,22 @@ class PriorityField extends Component<Props> {
           fieldStyle.wrap,
           isOpened && fieldStyle.open,
           isLoading && fieldStyle.loading,
+          isDisabled && fieldStyle.disabled,
         )}
         >
           <div className={fieldStyle.main}>
             <div className={fieldStyle.title}>
-              {isOpened && blockchainFee
-                ? t`Blockchain fee — ${blockchainFee} ETH`
-                : t`Customize blockchain fee`
-              }
+              {isOpened
+                ? blockchainFee
+                  ? t`Blockchain Fee — ${blockchainFee} ETH`
+                  : t`Blockchain Fee`
+                : t`Custom Blockchain Fee`}
             </div>
             <JSwitch
               name='priority-field-switch'
               isChecked={isOpened}
               onChange={this.handleOpen}
-              isDisabled={isLoading}
+              isDisabled={isDisabled || isLoading}
             />
           </div>
           <div className={fieldStyle.settings}>
@@ -100,13 +111,15 @@ class PriorityField extends Component<Props> {
                   className={fieldStyle.field}
                   component={InputWithUnit}
                   name={gasLimitFieldName}
-                  label={t`Gas limit`}
+                  label={gasLimitLabel}
+                  isDisabled={isDisabled}
                 />
               }
               <Field
                 className={fieldStyle.field}
                 component={InputWithUnit}
                 name={gasPriceFieldName}
+                isDisabled={isDisabled}
                 label={t`Gas price`}
                 unit='GWei'
                 forceZero

@@ -624,7 +624,7 @@ msgstr "Manually specify Gas and Gas Price "
 
 #: src/pages/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js
 msgid "Gas limit"
-msgstr "Gas Limit"
+msgstr "Gas limit"
 
 #: src/pages/DigitalAssets/routes/Send/components/Form/PriorityPicker/PriorityPicker.js
 msgid "Gas price (gwei)"
