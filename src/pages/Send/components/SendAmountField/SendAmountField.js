@@ -6,7 +6,6 @@ import { t } from 'ttag'
 
 import { getErrorMessage } from 'utils/form'
 import {
-  formatETHAmount,
   formatCurrencyWithSymbol,
 } from 'utils/formatters'
 import {
@@ -34,6 +33,7 @@ export type Props = {|
   +assetAddress: string,
   +gasPrice: string,
   +gasLimit: string,
+  +showBlockchainFee: boolean,
 |}
 
 type InputRef = {
@@ -45,7 +45,10 @@ const handleMaxClick = (input: FinalFormInput, maxValue: string) => () => input.
 const handleClearClick = (input: FinalFormInput) => () => input.onChange('')
 
 // Allow to use only digits and dot and remove leading zeroes
-const filterAmountValue = (value: string) => value.replace(/[^\d.]/g, '').replace(/^00+/g, '0')
+const filterAmountValue = (value: string) => value
+  .replace(/[^\d.]/g, '')
+  .replace(/^00+/g, '0')
+  .replace('..', '.')
 
 const handlerOnChange = (input: FinalFormInput) => e =>
   input.onChange(filterAmountValue(e.target.value))
@@ -79,10 +82,6 @@ function SendAmountField({
   const messageTheme = hasError
     ? 'error'
     : 'info'
-
-  const formattedBlockchainFee = blockchainFee
-    ? formatETHAmount(blockchainFee)
-    : ''
 
   const formattedFiatAmount = fiatAmount
     ? `≈${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
@@ -156,19 +155,18 @@ function SendAmountField({
           </div>
           <div className={classNames(
             fieldStyle.fee,
-            !formattedBlockchainFee && fieldStyle.fetching,
           )}
           >
-            {formattedBlockchainFee && t`Blockchain fee — ${formattedBlockchainFee} ETH`}
+            {blockchainFee && t`Blockchain fee — ${blockchainFee} ETH`}
           </div>
         </div>
-        <label htmlFor='amountInputId' className={fieldStyle.label} >{label}</label>
+        <label htmlFor='amountInputId' className={fieldStyle.label}>{label}</label>
       </div>
       {hasMessage && (
         <JFieldMessage
           theme={messageTheme}
           message={errorMessage || infoMessage}
-          className={fieldStyle.fieldMessage}
+          className={classNames(fieldStyle.fieldMessage, fieldStyle.infoMessage)}
         />
       )}
     </div>

@@ -2,7 +2,10 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import {
+  t,
+  jt,
+} from 'ttag'
 import { actions } from 'redux-router5'
 
 import web3 from 'services/web3'
@@ -115,6 +118,10 @@ class SendAsset extends Component<Props, ComponentState> {
           onSubmit={this.handleSendFormSubmit}
           initialValues={sendFormValues}
         />
+        <p className={styles.warning}>
+          {jt`The app doesn’t charge you any fees.${<br />}
+But you have to pay the blokchain fee to create a new transaction.`}
+        </p>
       </div>
     )
   }
