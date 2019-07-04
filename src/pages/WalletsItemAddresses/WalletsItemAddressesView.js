@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { walletsPlugin } from 'store/plugins'
+import { formatAssetBalance } from 'utils/formatters'
 
 import {
   JIcon,
@@ -26,7 +27,7 @@ export type Props = {|
 |}
 
 type StateProps = {|
-  +addresses: Address[],
+  +ethBalance: ?BigNumber,
 |}
 
 export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
@@ -34,22 +35,45 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     super(props)
 
     this.state = {
-      addresses: this.deriveAddresses(props),
+      ethBalance: null,
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.setState({ addresses: this.deriveAddresses(nextProps) })
+  async componentDidMount() {
+    this.requestETHBalance()
   }
 
-  deriveAddresses = ({
-    walletId,
-    derivationIndex,
-  }: Props): Address[] => walletsPlugin.getAddresses(
-    walletId,
-    0,
-    derivationIndex,
-  )
+  async componentDidUpdate(prevProps: Props) {
+    if (prevProps.derivationIndex !== this.props.derivationIndex) {
+      await this.requestETHBalance()
+    }
+  }
+
+  requestETHBalance = async () => {
+    const ethBalance: BigNumber = await walletsPlugin.requestETHBalance(this.props.walletId)
+
+    this.setState({
+      ethBalance: formatAssetBalance(
+        'Ethereum',
+        ethBalance,
+        18,
+        'ETH',
+      ),
+    })
+  }
+
+  deriveAddresses = (): Address[] => {
+    const {
+      walletId,
+      derivationIndex,
+    }: Props = this.props
+
+    return walletsPlugin.getAddresses(
+      walletId,
+      0,
+      derivationIndex,
+    )
+  }
 
   handleAdd = () => {
     walletsPlugin.deriveOneMoreAddress(this.props.walletId)
@@ -63,8 +87,8 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       derivationIndex,
     }: Props = this.props
 
-    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
     const addressesCount: number = (derivationIndex + 1)
+    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
 
     return (
       <div className={styles.core}>
@@ -93,6 +117,9 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
                 {t`Multi-Address Wallet  •  ${addressesCount} ${addressesLabel}`}
               </div>
             </div>
+            <div className={`${styles.name} ${styles.balance}`}>
+              {this.state.ethBalance}
+            </div>
             <div className={styles.actions}>
               <WalletActions
                 type={type}
@@ -101,7 +128,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
               />
             </div>
           </div>
-          {this.state.addresses.map((address: Address, index: number) => (
+          {this.deriveAddresses().map((address: Address, index: number) => (
             <WalletAddressCard
               key={address}
               address={address}

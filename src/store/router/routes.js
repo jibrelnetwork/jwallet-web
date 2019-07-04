@@ -52,6 +52,10 @@ export const routes: Array<{|
   name: 'Contacts',
   hasMenu: true,
 }, {
+  path: '/contacts/empty',
+  name: 'ContactsEmpty',
+  hasMenu: true,
+}, {
   path: '/contacts/:contactId',
   name: 'ContactsItem',
   hasMenu: true,

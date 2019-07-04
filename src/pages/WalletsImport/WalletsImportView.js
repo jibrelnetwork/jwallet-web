@@ -11,6 +11,7 @@ import {
 
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { gaSendEvent } from 'utils/analytics'
+import { walletsPlugin } from 'store/plugins/walletsPlugin'
 
 import {
   getTypeByInput,
@@ -62,7 +63,7 @@ export const STEPS: WalletsImportSteps = {
   PASSWORD: 'PASSWORD',
 }
 
-const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
+const INITIAL_VALUES: FormFields = {
   name: '',
   data: '',
   password: '',
@@ -74,6 +75,13 @@ const WALLETS_IMPORT_INITIAL_VALUES: FormFields = {
 const DEFAULT_DATA_MESSAGE: string = t`Enter a private key or backup phrase of the wallet you want 
 to import. You can also enter a public key or address to access wallet in read-only mode. We 
 support: Ethereum address, Ethereum private key, BIP39 mnemonic, BIP32 XPUB, BIP44 XPRIV.`
+
+function getInitialValues(): FormFields {
+  return {
+    ...INITIAL_VALUES,
+    name: walletsPlugin.getNextWalletName(),
+  }
+}
 
 export class WalletsImportView extends Component<Props, StateProps> {
   static defaultProps = {
@@ -267,7 +275,7 @@ export class WalletsImportView extends Component<Props, StateProps> {
         <Form
           render={this.renderForm}
           onSubmit={this.handleSubmit}
-          initialValues={WALLETS_IMPORT_INITIAL_VALUES}
+          initialValues={getInitialValues()}
         />
       </div>
     )

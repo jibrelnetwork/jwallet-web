@@ -5,11 +5,12 @@ import React, { Component } from 'react'
 import { t } from 'ttag'
 import { connect } from 'react-redux'
 
-import { web3 } from 'services'
 import { CopyIconButton } from 'components'
+import { sanitizeName } from 'utils/wallets'
+import { walletsPlugin } from 'store/plugins'
+import { getAddressName } from 'utils/address'
 import { formatAssetBalance } from 'utils/formatters'
 import { selectAddressNames } from 'store/selectors/wallets'
-import { selectCurrentNetwork } from 'store/selectors/networks'
 import { setAddressName } from 'store/modules/walletsAddresses'
 
 import styles from './walletAddressCard.m.scss'
@@ -21,7 +22,6 @@ type OwnProps = {|
 
 type Props = {|
   +setAddressName: (address: Address, name: string) => any,
-  +network: Network,
   +address: Address,
   +addressName: string,
   /* ::
@@ -35,10 +35,8 @@ type StateProps = {|
   +isRenameActive: boolean,
 |}
 
-const MINUTE: number = 60 * 1000
-
 class WalletAddressCard extends Component<Props, StateProps> {
-  nameInputRef: Object
+  nameInputRef = React.createRef<HTMLInputElement>()
 
   constructor(props: Props) {
     super(props)
@@ -48,33 +46,19 @@ class WalletAddressCard extends Component<Props, StateProps> {
       ethBalance: null,
       isRenameActive: false,
     }
-
-    this.nameInputRef = React.createRef()
   }
 
   async componentDidMount() {
-    this.requestETHBalance()
-  }
+    const ethBalance: BigNumber = await walletsPlugin.requestETHBalanceByAddress(this.props.address)
 
-  requestETHBalance = async () => {
-    const {
-      network,
-      address,
-    }: Props = this.props
-
-    try {
-      const ethBalanceStr: string = await web3.getAssetBalance(network, address, 'Ethereum')
-
-      this.setState({
-        ethBalance: formatAssetBalance('Ethereum', ethBalanceStr, 18, 'ETH'),
-      })
-    } catch (error) {
-      console.error(error)
-
-      setTimeout(() => {
-        this.requestETHBalance()
-      }, MINUTE)
-    }
+    this.setState({
+      ethBalance: formatAssetBalance(
+        'Ethereum',
+        ethBalance,
+        18,
+        'ETH',
+      ),
+    })
   }
 
   handleChangeName = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -83,7 +67,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
 
   handleActivateRename = (isRenameActive?: boolean = true) => {
     this.setState({ isRenameActive: !!isRenameActive }, () => {
-      if (isRenameActive) {
+      if (isRenameActive && this.nameInputRef && this.nameInputRef.current) {
         this.nameInputRef.current.focus()
       }
     })
@@ -97,7 +81,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
       addressName,
     } = this.props
 
-    const newName: string = this.state.newName.substring(0, 32).trim().replace(/\//g, '–')
+    const newName: string = sanitizeName(this.state.newName)
 
     if (!newName || (addressName === newName)) {
       this.setState({ newName: addressName })
@@ -189,17 +173,10 @@ function mapStateToProps(
     index,
   }: OwnProps,
 ) {
-  const addessIndex: number = (index + 1)
-  const network: ?Network = selectCurrentNetwork(state)
   const addressNames: AddressNames = selectAddressNames(state)
 
-  if (!network) {
-    throw new Error('Network not found')
-  }
-
   return {
-    network,
-    addressName: addressNames[address] || t`Address ${addessIndex}`,
+    addressName: getAddressName(addressNames[address], index),
   }
 }
 

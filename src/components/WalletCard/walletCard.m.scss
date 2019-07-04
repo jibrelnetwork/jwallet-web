@@ -1,5 +1,36 @@
 @import 'styles/mixins';
 
+.card,
+.left {
+  @include property-transition(filter);
+
+  position: absolute;
+  height: 100%;
+}
+
+.card {
+  width: 100%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% - 59px);
+    height: 100%;
+    border-radius: 0 6px 6px 0;
+    background-color: $main-blue;
+    filter: drop-shadow($blue-shadow);
+  }
+}
+
+.left {
+  top: 0;
+  left: 0;
+  fill: $main-blue;
+  filter: drop-shadow($blue-shadow);
+}
+
 .core {
   position: relative;
   min-width: 0;
@@ -16,12 +47,12 @@
     @include property-transition(border-color, background-color);
 
     content: '';
-    width: 20px;
-    height: 20px;
+    position: absolute;
     top: 50%;
     left: -16px;
-    position: absolute;
-    margin-top: -10px;
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
     border-radius: 100px;
     border: 2px solid $main-blue-30;
     background-color: $white;
@@ -31,6 +62,11 @@
     &::before {
       background-color: $main-blue-20;
     }
+
+    .card,
+    .left {
+      filter: drop-shadow($blue-shadow-2);
+    }
   }
 
   &.active {
@@ -38,33 +74,10 @@
       background-color: $main-blue;
     }
   }
-}
 
-.card {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-
-  &::before {
-    content: '';
-    position: absolute;
-    width: calc(100% - 59px);
-    height: 100%;
-    top: 0;
-    right: 0;
-    border-radius: 0 6px 6px 0;
-    background-color: $main-blue;
-    filter: drop-shadow($blue-shadow);
+  &.message {
+    margin-bottom: 44px;
   }
-}
-
-.left-part {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  fill: $main-blue;
-  filter: drop-shadow($blue-shadow);
 }
 
 .body {
@@ -88,10 +101,11 @@
   font-family: $font;
 }
 
-.name-box {
+.wrapper {
   @include flex-row;
 
   position: relative;
+  width: 350px;
   margin-left: -8px;
   align-items: center;
 }
@@ -123,18 +137,21 @@
 }
 
 .input {
+  @include flex-row;
+
   position: absolute;
   top: 0;
+  left: 0;
+  height: 28px;
+  align-items: center;
   border: none;
   background-color: transparent;
-  height: 28px;
   font-size: 14px;
   line-height: 28px;
   font-weight: normal;
-  padding: 0;
-  left: 8px;
-  color: #fff;
-  width: 100%;
+  padding: 0 8px;
+  color: $white;
+  width: 350px;
 }
 
 .address {
@@ -148,6 +165,13 @@
   font-size: 20px;
   padding-top: 3px;
   line-height: 1.4;
+}
+
+.warning {
+  @include flex-row;
+
+  max-width: 512px;
+  margin: 8px auto 16px auto;
 }
 
 .actions {
