@@ -47,7 +47,7 @@ function getMaxValueForEthereum(balance, gasPrice, gasLimit) {
     return '0.00'
   }
 
-  return maxValue.toFormat(4, BigNumber.ROUND_FLOOR)
+  return maxValue.toFormat(6, BigNumber.ROUND_FLOOR)
 }
 
 function mapStateToProps(state: AppState, ownProps: OwnProps) {
@@ -98,11 +98,11 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
         gasLimit &&
         isValidNumeric(gasPrice) &&
         isValidNumeric(gasLimit)
-        ? toBigNumber(gasPrice)
-          .times(gasLimit)
-          .toString()
+        ? divDecimals(toBigNumber(gasPrice)
+          .times(gasLimit))
+          .toFormat(6, BigNumber.ROUND_FLOOR)
         : ''
-      : '0.00'
+      : '0.000000'
 
   const maxValue = isEthereumAsset
     ? getMaxValueForEthereum(assetBalance, gasPrice, gasLimit)

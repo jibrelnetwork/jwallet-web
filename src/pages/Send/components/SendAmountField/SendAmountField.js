@@ -6,7 +6,6 @@ import { t } from 'ttag'
 
 import { getErrorMessage } from 'utils/form'
 import {
-  formatETHAmount,
   formatCurrencyWithSymbol,
 } from 'utils/formatters'
 import {
@@ -83,10 +82,6 @@ function SendAmountField({
     ? 'error'
     : 'info'
 
-  const formattedBlockchainFee = blockchainFee
-    ? formatETHAmount(blockchainFee)
-    : ''
-
   const formattedFiatAmount = fiatAmount
     ? `≈${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
     : ''
@@ -159,10 +154,10 @@ function SendAmountField({
           </div>
           <div className={classNames(
             fieldStyle.fee,
-            !formattedBlockchainFee && fieldStyle.fetching,
+            !blockchainFee && fieldStyle.fetching,
           )}
           >
-            {formattedBlockchainFee && t`Blockchain fee — ${formattedBlockchainFee} ETH`}
+            {blockchainFee && t`Blockchain fee — ${blockchainFee} ETH`}
           </div>
         </div>
         <label htmlFor='amountInputId' className={fieldStyle.label}>{label}</label>
