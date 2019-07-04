@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
 import { walletsPlugin } from 'store/plugins'
+import { getAddressesLabel } from 'utils/wallets'
 import { formatAssetBalance } from 'utils/formatters'
 
 import {
@@ -88,7 +89,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     }: Props = this.props
 
     const addressesCount: number = (derivationIndex + 1)
-    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
+    const addressesLabel: string = getAddressesLabel(derivationIndex)
 
     return (
       <div className={styles.core}>

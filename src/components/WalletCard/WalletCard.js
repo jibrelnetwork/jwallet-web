@@ -6,12 +6,16 @@ import { t } from 'ttag'
 import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
-import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { JFieldMessage } from 'components/base'
 import { formatAssetBalance } from 'utils/formatters'
 import { setActiveWallet } from 'store/modules/wallets'
+
+import {
+  sanitizeName,
+  getAddressesLabel,
+} from 'utils/wallets'
 
 import {
   selectAddressNames,
@@ -158,6 +162,7 @@ class WalletCard extends Component<Props, StateProps> {
     const addressesCount: number = (derivationIndex + 1)
     const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
     const name: string = addressName ? `${addressName}  •  ` : ''
+    const addressesLabel: string = getAddressesLabel(derivationIndex)
 
     return (
       <div
@@ -210,7 +215,7 @@ class WalletCard extends Component<Props, StateProps> {
             </h2>
             {isMultiAddress && !isSimplified && (
               <p className={styles.address}>
-                {t`${name}${addressesCount} Addresses`}
+                {t`${name}${addressesCount} ${addressesLabel}`}
               </p>
             )}
             {ethBalance && (
