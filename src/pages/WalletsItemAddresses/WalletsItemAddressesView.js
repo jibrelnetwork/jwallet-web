@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
+import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
 import { formatAssetBalance } from 'utils/formatters'
 
@@ -104,14 +105,14 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
         <TitleHeader title={t`Manage Addresses`}>
           <Button
             onClick={this.handleAdd}
-            className={styles.add}
+            className={titleHeaderStyle.action}
             theme='additional-icon'
           >
             <JIcon
               name='ic_add_24-use-fill'
-              className={styles.icon}
+              className={titleHeaderStyle.icon}
             />
-            <span className={styles.text}>
+            <span className={titleHeaderStyle.label}>
               {t`Add New Address`}
             </span>
           </Button>
