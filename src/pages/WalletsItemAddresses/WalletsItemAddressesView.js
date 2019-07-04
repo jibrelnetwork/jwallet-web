@@ -31,6 +31,8 @@ type StateProps = {|
 |}
 
 export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
+  walletRef = React.createRef<HTMLDivElement>()
+
   constructor(props: Props) {
     super(props)
 
@@ -45,7 +47,14 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
 
   async componentDidUpdate(prevProps: Props) {
     if (prevProps.derivationIndex !== this.props.derivationIndex) {
-      await this.requestETHBalance()
+      this.requestETHBalance()
+
+      if (this.walletRef && this.walletRef.current) {
+        this.walletRef.current.scrollIntoView({
+          block: 'end',
+          behavior: 'smooth',
+        })
+      }
     }
   }
 
@@ -107,7 +116,10 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
             </span>
           </Button>
         </TitleHeader>
-        <div className={styles.wallet}>
+        <div
+          ref={this.walletRef}
+          className={styles.wallet}
+        >
           <div className={styles.main}>
             <div className={styles.info}>
               <div className={styles.name}>
