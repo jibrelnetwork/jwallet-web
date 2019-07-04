@@ -105,6 +105,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       amountValue,
       assetAddress,
       gasPriceValue,
+      gasLimitValue,
       recipientAddress,
     } = values
 
@@ -146,9 +147,18 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         }
         : undefined
 
+    const gasLimitError = !gasLimitValue ||
+      !isValidNumeric(gasLimitValue) ||
+      parseInt(gasLimitValue, 10) < 21000
+      ? {
+        gasLimitValue: t`Invalid gas limit`,
+      }
+      : undefined
+
     return {
       ...amountError,
       ...gasPriceError,
+      ...gasLimitError,
     }
   }
 
@@ -331,7 +341,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           isLoading={isSubmitting}
           isDisabled={isFormDisabled}
         >
-          {t`Next`}
+          {t`Send`}
         </Button>
       </form>
     )
