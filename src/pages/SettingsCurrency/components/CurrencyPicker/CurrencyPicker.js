@@ -45,7 +45,7 @@ export function CurrencyPicker({
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}
-          label={t`Local currency`}
+          label={t`Currency`}
           value={activeName}
           iconComponent={(
             <JIcon name={`ic_${currency.toLowerCase()}_24-use-fill`} size='24' color='blue' />
