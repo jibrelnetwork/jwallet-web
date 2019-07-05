@@ -16,6 +16,7 @@ import DigitalAssetsManage from './DigitalAssetsManage'
 import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
+export { Toast } from './Toast/Toast'
 export { WalletCard } from './WalletCard/WalletCard'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { CopyableField } from './CopyableField/CopyableField'
