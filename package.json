@@ -19,7 +19,7 @@
     "clean:report:size": "npx rimraf ./reports/bundle-size",
     "clean:report:flow": "npx rimraf ./reports/flow-coverage",
     "storybook": "./node_modules/.bin/start-storybook -p 9001 -c .storybook",
-    "storybook:build": "npm run clean:storybook && ./node_modules/.bin/build-storybook -c .storybook -o docs/storybook",
+    "storybook:build": "npm run clean:storybook && ./node_modules/.bin/build-storybook --quiet -c .storybook -o docs/storybook",
     "lint:js": "./node_modules/.bin/eslint ./src",
     "lint:css": "./node_modules/.bin/stylelint ./src/**/*.scss",
     "lint-staged": "./node_modules/.bin/lint-staged",
