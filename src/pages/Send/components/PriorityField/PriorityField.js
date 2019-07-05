@@ -122,7 +122,6 @@ class PriorityField extends Component<Props> {
                 isDisabled={isDisabled}
                 label={t`Gas price`}
                 unit='GWei'
-                forceZero
               />
             </div>
             <div className={fieldStyle.bottom}>
