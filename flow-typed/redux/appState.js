@@ -58,4 +58,6 @@ declare type AppState = {
   +password: PasswordState,
   // user
   +user: UserState,
+  // toasts
+  +toasts: ToastsState,
 }

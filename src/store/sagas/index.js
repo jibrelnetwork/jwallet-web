@@ -3,6 +3,7 @@
 import { coreRootSaga } from './core'
 import { blocksRootSaga } from './blocks'
 import { tickerRootSaga } from './ticker'
+import { toastsRootSaga } from './toasts'
 import { balancesRootSaga } from './balances'
 import { commentsRootSaga } from './comments'
 import { transactionsRootSaga } from './transactions'
@@ -15,6 +16,7 @@ export default [
   coreRootSaga,
   blocksRootSaga,
   tickerRootSaga,
+  toastsRootSaga,
   balancesRootSaga,
   commentsRootSaga,
   transactionsRootSaga,
