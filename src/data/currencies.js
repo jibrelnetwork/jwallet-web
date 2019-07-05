@@ -29,6 +29,8 @@ export const CURRENCIES = {
   },
 }
 
+export const DEFAULT_CURRENCY = 'USD'
+
 export type FiatCurrencyCode = $Keys<typeof CURRENCIES>
 
 export type FiatCurrencyData = {

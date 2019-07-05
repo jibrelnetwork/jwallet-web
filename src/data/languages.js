@@ -24,6 +24,8 @@ export const LANGUAGES = {
   },
 }
 
+export const DEFAULT_LANGUAGE = 'en'
+
 export type LanguageCode = $Keys<typeof LANGUAGES>
 
 export type Languages = {
