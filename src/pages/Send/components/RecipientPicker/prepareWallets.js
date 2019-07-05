@@ -16,7 +16,6 @@ export function prepareWallets(
     const {
       xpub,
       isSimplified,
-      // isReadOnly,
       addressIndex,
       derivationIndex,
     } = wallet
