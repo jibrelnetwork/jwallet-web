@@ -1,10 +1,11 @@
 {
   "plugins": [
-    "transform-export-extensions"
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-class-properties"
   ],
   "presets": [
     ["@babel/env", { "modules": false }],
-    "react-app",
+    "@babel/preset-react",
     "@babel/flow"
   ],
   "retainLines": true
