@@ -38,6 +38,8 @@ declare type AppState = {
   +digitalAssetsSend: DigitalAssetsSendState,
   // blocks
   +blocks: BlocksState,
+  // contacts
+  +contacts: ContactsState,
   // transactions
   +transactions: TransactionsState,
   // balances
