@@ -71,7 +71,7 @@ class PriorityField extends Component<Props> {
     const isOpened = !!input.value
 
     const gasLimitLabel = estimatedGasLimit
-      ? t`Gas limit (estimated: ${estimatedGasLimit})`
+      ? t`Gas limit (${estimatedGasLimit} estimated)`
       : t`Gas limit`
 
     return (
