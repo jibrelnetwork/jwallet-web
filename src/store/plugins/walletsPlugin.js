@@ -288,6 +288,31 @@ class WalletsPlugin {
     )
   }
 
+  setActiveAddress = (
+    walletId: WalletId,
+    addressIndexNew: number,
+  ): Wallets => {
+    const {
+      xpub,
+      addressIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (!xpub) {
+      throw new WalletInconsistentDataError('xpub doesn\'t exist')
+    }
+
+    const newItems: Wallets = this.updateWallet(
+      walletId, {
+        addressIndex: isSimplified ? addressIndex : addressIndexNew || 0,
+      },
+    )
+
+    this.dispatch(setActiveWallet(walletId))
+
+    return newItems
+  }
+
   upgradeWallet = async (
     walletId: WalletId,
     values: FormFields,

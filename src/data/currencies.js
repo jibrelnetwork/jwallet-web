@@ -17,7 +17,7 @@ export const CURRENCIES = {
   },
   CNY: {
     symbol: '¥',
-    name: t`Chinese Yuan`,
+    name: t`Chinese Yuan Renminbi`,
   },
   JPY: {
     symbol: '¥',
