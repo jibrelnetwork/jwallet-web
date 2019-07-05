@@ -1,11 +1,11 @@
 // @flow strict
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
-import buttonStyle from 'components/base/Button/button.m.scss'
-import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
+import buttonStyles from 'components/base/Button/button.m.scss'
+import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
 
 import {
   WalletCard,
@@ -17,56 +17,82 @@ import {
   JLink,
 } from 'components/base'
 
-import style from './wallets.m.scss'
+import styles from './wallets.m.scss'
 
 export type Props = {|
   +items: Wallets,
   +activeWalletId: WalletId,
 |}
 
-export function WalletsView({
-  items,
-  activeWalletId,
-}: Props) {
-  return (
-    <div className={style.core}>
-      <TitleHeader title='My Wallets'>
-        <JLink
-          className={classNames(buttonStyle.additionalIcon, titleHeaderStyle.action)}
-          href='/wallets/create'
-        >
-          <JIcon
-            name='ic_add_24-use-fill'
-            className={titleHeaderStyle.icon}
-          />
-          <span className={titleHeaderStyle.label}>
-            {t`Create Wallet`}
-          </span>
-        </JLink>
-        <JLink
-          className={classNames(buttonStyle.additionalIcon, titleHeaderStyle.action)}
-          href='/wallets/import'
-        >
-          <JIcon
-            name='ic_import_wallet_24-use-fill'
-            className={titleHeaderStyle.icon}
-          />
-          <span className={titleHeaderStyle.label}>
-            {t`Import Wallet`}
-          </span>
-        </JLink>
-      </TitleHeader>
-      <div className={style.content}>
-        <div className={style.wallets}>
-          {items.map(({ id }: Wallet) => (
-            <WalletCard
-              id={id}
-              key={id}
-              activeWalletId={activeWalletId}
+type StateProps = {|
+  +activeAddressChooserId: ?WalletId,
+|}
+
+export class WalletsView extends PureComponent<Props, StateProps> {
+  constructor(props: Props) {
+    super(props)
+
+    this.state = {
+      activeAddressChooserId: null,
+    }
+  }
+
+  handleActiveAddressChooser = (walletId: ?WalletId) => {
+    this.setState({
+      activeAddressChooserId: walletId,
+    })
+  }
+
+  render() {
+    const {
+      items,
+      activeWalletId,
+    }: Props = this.props
+
+    const { activeAddressChooserId }: StateProps = this.state
+
+    return (
+      <div className={styles.core}>
+        <TitleHeader title='My Wallets'>
+          <JLink
+            className={classNames(buttonStyles.additionalIcon, titleHeaderStyles.action)}
+            href='/wallets/create'
+          >
+            <JIcon
+              name='ic_add_24-use-fill'
+              className={titleHeaderStyles.icon}
             />
-          ))}
+            <span className={titleHeaderStyles.label}>
+              {t`Create Wallet`}
+            </span>
+          </JLink>
+          <JLink
+            className={classNames(buttonStyles.additionalIcon, titleHeaderStyles.action)}
+            href='/wallets/import'
+          >
+            <JIcon
+              name='ic_import_wallet_24-use-fill'
+              className={titleHeaderStyles.icon}
+            />
+            <span className={titleHeaderStyles.label}>
+              {t`Import Wallet`}
+            </span>
+          </JLink>
+        </TitleHeader>
+        <div className={styles.content}>
+          <div className={styles.wallets}>
+            {items.map(({ id }: Wallet) => (
+              <WalletCard
+                onActiveAddressChooser={this.handleActiveAddressChooser}
+                id={id}
+                key={id}
+                activeAddressChooserId={activeAddressChooserId}
+                isActive={(id === activeWalletId)}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }

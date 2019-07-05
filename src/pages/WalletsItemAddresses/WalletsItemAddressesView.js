@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 
+import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
 import { formatAssetBalance } from 'utils/formatters'
 
@@ -31,6 +32,8 @@ type StateProps = {|
 |}
 
 export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
+  walletRef = React.createRef<HTMLDivElement>()
+
   constructor(props: Props) {
     super(props)
 
@@ -45,7 +48,14 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
 
   async componentDidUpdate(prevProps: Props) {
     if (prevProps.derivationIndex !== this.props.derivationIndex) {
-      await this.requestETHBalance()
+      this.requestETHBalance()
+
+      if (this.walletRef && this.walletRef.current) {
+        this.walletRef.current.scrollIntoView({
+          block: 'end',
+          behavior: 'smooth',
+        })
+      }
     }
   }
 
@@ -95,19 +105,22 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
         <TitleHeader title={t`Manage Addresses`}>
           <Button
             onClick={this.handleAdd}
-            className={styles.add}
+            className={titleHeaderStyle.action}
             theme='additional-icon'
           >
             <JIcon
               name='ic_add_24-use-fill'
-              className={styles.icon}
+              className={titleHeaderStyle.icon}
             />
-            <span className={styles.text}>
+            <span className={titleHeaderStyle.label}>
               {t`Add New Address`}
             </span>
           </Button>
         </TitleHeader>
-        <div className={styles.wallet}>
+        <div
+          ref={this.walletRef}
+          className={styles.wallet}
+        >
           <div className={styles.main}>
             <div className={styles.info}>
               <div className={styles.name}>

@@ -64,3 +64,26 @@
     margin-right: 37px;
   }
 }
+
+@media (max-width: 1024px) {
+  .aside {
+    margin: 0 42px 0 auto;
+  }
+}
+
+@media (max-width: 850px) {
+  .title {
+    max-width: 500px;
+    margin-left: 72px;
+  }
+
+  .aside {
+    margin: 0 16px 0 auto;
+  }
+
+  .action {
+    &:not(:last-child) {
+      margin-right: 11px;
+    }
+  }
+}
