@@ -1,7 +1,8 @@
 {
   "plugins": [
     "@babel/plugin-proposal-export-default-from",
-    "@babel/plugin-proposal-class-properties"
+    "@babel/plugin-proposal-class-properties",
+    ["@babel/plugin-transform-runtime", { "regenerator": true }]
   ],
   "presets": [
     ["@babel/env", { "modules": false }],
