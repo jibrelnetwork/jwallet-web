@@ -1,6 +1,6 @@
 // @flow strict
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { t } from 'ttag'
 import {
   Form,
@@ -19,88 +19,97 @@ import offset from 'styles/offsets.m.scss'
 
 import style from './contactsItemAdd.m.scss'
 
-export type Props = {|
-  address: OwnerAddress,
+type FormValues = {|
+  address: string,
   note: string,
   name: string,
 |}
 
-function handleFormSubmit(values) {
-  const errors = {}
+type Props = {|
+  address: string,
+  note: string,
+  name: string,
+  saveContact: (values: Contact) => any,
+|}
 
-  if (!checkAddressValid(values.address)) {
-    // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    errors.address = t`Invalid address`
+export class ContactsItemAddView extends PureComponent<Props> {
+  handleSubmit(values: FormValues) {
+    const errors: $Shape<FormValues> = {}
+
+    if (!checkAddressValid(values.address)) {
+      // eslint-disable-next-line no-param-reassign, fp/no-mutation
+      errors.address = t`Invalid address`
+    }
+
+    if (errors) {
+      return errors
+    }
+
+    return this.props.saveContact({
+      ...values,
+      id: values.address,
+    })
   }
 
-  if (values.name == null) {
-    // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    values.name = values.address
-  }
+  render() {
+    const {
+      address = '',
+      name = '',
+      note = '',
+    } = this.props
 
-  alert(JSON.stringify(values, null, 4))
+    const initialValues: FormValues = {
+      address,
+      name,
+      note,
+    }
 
-  return errors
-}
-
-export function ContactsItemAddView({
-  address,
-  name,
-  note,
-}: Props) {
-  const initValues = {
-    name,
-    note,
-    address,
-  }
-
-  return (
-    <div className={style.core}>
-      <TitleHeader
-        title={t`Add Contact`}
-      />
-      <Form
-        render={({
-          handleSubmit,
-          submitting,
-          errors,
-        }: FormRenderProps) => (
-          <form
-            onSubmit={handleSubmit}
-            className={`${style.form} ${offset.mb16}`}
-          >
-            <Field
-              component={JInputField}
-              label={t`Name`}
-              name='name'
-              isDisabled={submitting}
-            />
-            <Field
-              component={JInputField}
-              label={t`Address`}
-              name='address'
-              errorMessage={errors.address}
-              isDisabled={submitting || address}
-            />
-            <Field
-              className={offset.mb32}
-              component={JInputField}
-              label={t`Note`}
-              name='note'
-              infoMessage={t`This note is only visible to you.`}
-              isDisabled={submitting}
-            />
-            <Button
-              type='submit'
-              isLoading={submitting}
+    return (
+      <div className={style.core}>
+        <TitleHeader
+          title={t`Add Contact`}
+        />
+        <Form
+          render={({
+            handleSubmit,
+            submitting,
+          }: FormRenderProps) => (
+            <form
+              onSubmit={handleSubmit}
+              className={`${style.form} ${offset.mb16}`}
             >
-              {t`Save`}
-            </Button>
-          </form>
-        )}
-        onSubmit={handleFormSubmit}
-        initialValues={initValues}
-      />
-    </div>
-  )
+              <Field
+                component={JInputField}
+                label={t`Name`}
+                name='name'
+                isDisabled={submitting}
+              />
+              <Field
+                component={JInputField}
+                label={t`Address`}
+                name='address'
+                isDisabled={submitting}
+              />
+              <Field
+                className={offset.mb32}
+                component={JInputField}
+                label={t`Note`}
+                name='note'
+                infoMessage={t`This note is only visible to you.`}
+                isDisabled={submitting}
+              />
+              <Button
+                type='submit'
+                isLoading={submitting}
+              >
+                {t`Save`}
+              </Button>
+            </form>
+          )}
+          onSubmit={this.handleSubmit}
+          initialValues={initialValues}
+        />
+      </div>
+    )
+  }
 }
