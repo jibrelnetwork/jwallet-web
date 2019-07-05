@@ -158,6 +158,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
           </div>
           <CopyIconButton
             title={t`Copy ${addressName}`}
+            toastMessage={t`Address copied.`}
             content={address}
           />
         </div>

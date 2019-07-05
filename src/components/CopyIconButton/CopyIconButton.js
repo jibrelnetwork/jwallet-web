@@ -2,24 +2,42 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { connect } from 'react-redux'
 
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
+import { showToast } from 'store/modules/toasts'
 
 import copyIconButtonStyle from './copyIconButton.m.scss'
 
-export type Props = {|
+type OwnProps = {|
   +title: string,
   +content: string,
+  +toastMessage?: string,
 |}
 
-export class CopyIconButton extends PureComponent<Props> {
+type Props = {|
+  ...OwnProps,
+  +showToast: (payload: ToastPayload) => any,
+|}
+
+class CopyIconButton extends PureComponent<Props> {
   static defaultProps = {
     title: '',
+    toastMessage: '',
   }
 
   handleCopy = (address: Address) => () => {
     clipboard.copyText(address)
+
+    const { toastMessage }: Props = this.props
+
+    if (toastMessage) {
+      this.props.showToast({
+        type: 'base',
+        message: toastMessage,
+      })
+    }
   }
 
   render() {
@@ -40,3 +58,14 @@ export class CopyIconButton extends PureComponent<Props> {
     )
   }
 }
+
+const mapDispatchToProps = {
+  showToast,
+}
+
+const CopyIconButtonEnhanced = connect<Props, OwnProps, _, _, _, _>(
+  null,
+  mapDispatchToProps,
+)(CopyIconButton)
+
+export { CopyIconButtonEnhanced as CopyIconButton }
