@@ -45,14 +45,14 @@ class PriorityField extends Component<Props> {
     isDisabled: false,
   }
 
-  handleOpen = (isOpened: boolean) => {
+  handleOpen = (isOpen: boolean) => {
     const {
       input: {
         onChange,
       },
     } = this.props
 
-    onChange(isOpened)
+    onChange(isOpen)
   }
 
   render() {
@@ -68,10 +68,10 @@ class PriorityField extends Component<Props> {
       isDisabled,
     } = this.props
 
-    const isOpened = !!input.value
+    const isOpen = !isDisabled && !!input.value
 
     const gasLimitLabel = estimatedGasLimit
-      ? t`Gas limit (estimated: ${estimatedGasLimit})`
+      ? t`Gas limit (${estimatedGasLimit} estimated)`
       : t`Gas limit`
 
     return (
@@ -84,14 +84,14 @@ class PriorityField extends Component<Props> {
       >
         <div className={classNames(
           fieldStyle.wrap,
-          isOpened && fieldStyle.open,
+          isOpen && fieldStyle.open,
           isLoading && fieldStyle.loading,
           isDisabled && fieldStyle.disabled,
         )}
         >
           <div className={fieldStyle.main}>
             <div className={fieldStyle.title}>
-              {isOpened
+              {isOpen
                 ? blockchainFee
                   ? t`Blockchain Fee — ${blockchainFee} ETH`
                   : t`Blockchain Fee`
@@ -99,7 +99,7 @@ class PriorityField extends Component<Props> {
             </div>
             <JSwitch
               name='priority-field-switch'
-              isChecked={isOpened}
+              isChecked={isOpen}
               onChange={this.handleOpen}
               isDisabled={isDisabled || isLoading}
             />
@@ -122,7 +122,6 @@ class PriorityField extends Component<Props> {
                 isDisabled={isDisabled}
                 label={t`Gas price`}
                 unit='GWei'
-                forceZero
               />
             </div>
             <div className={fieldStyle.bottom}>
