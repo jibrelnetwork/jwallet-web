@@ -2,15 +2,16 @@
 
 import {
   openDB,
+  type IDBPDatabase,
 } from 'idb'
 
 const DB_VERSION = 1
 
 export type DBType = {
-  Lang: {
-    lang: string,
-  },
+  lang: string,
 }
+
+export type LanguageStore = IDBPDatabase<DBType>
 
 export async function init() {
   // eslint-disable-next-line no-return-await

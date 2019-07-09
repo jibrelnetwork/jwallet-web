@@ -431,6 +431,7 @@ declare module "idb" {
       name: StoreName
     ): IDBPObjectStore<DBTypes, TxStores, StoreName>
   } & IDBPTransactionExtends;
+
   declare type IDBPObjectStoreExtends = omit<
     IDBObjectStore,
     | "transaction"
@@ -450,6 +451,7 @@ declare module "idb" {
     | "indexNames"
     | "name"
   >;
+
   declare export type IDBPObjectStore<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -586,13 +588,6 @@ declare module "idb" {
     ): Promise<StoreKey<DBTypes, StoreName>>,
 
     /**
-     * Iterate over the store.
-     */
-    @@asyncIterator: () => AsyncIterableIterator<
-      IDBPCursorWithValueIteratorValue<DBTypes, TxStores, StoreName>
-    >,
-
-    /**
      * Iterate over the records matching the query.
      * @param query If null, all records match.
      * @param direction
@@ -604,6 +599,7 @@ declare module "idb" {
       IDBPCursorWithValueIteratorValue<DBTypes, TxStores, StoreName>
     >
   } & IDBPObjectStoreExtends;
+
   declare type IDBPIndexExtends = omit<
     IDBIndex,
     | "objectStore"
@@ -615,6 +611,7 @@ declare module "idb" {
     | "openCursor"
     | "openKeyCursor"
   >;
+
   declare export type IDBPIndex<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -721,6 +718,7 @@ declare module "idb" {
       IDBPCursorWithValueIteratorValue<DBTypes, TxStores, StoreName, IndexName>
     >
   } & IDBPIndexExtends;
+
   declare type IDBPCursorExtends = omit<
     IDBCursor,
     | "key"
@@ -732,6 +730,7 @@ declare module "idb" {
     | "delete"
     | "update"
   >;
+
   declare export type IDBPCursor<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -803,6 +802,7 @@ declare module "idb" {
       IDBPCursorIteratorValue<DBTypes, TxStores, StoreName, IndexName>
     >
   } & IDBPCursorExtends;
+
   declare type IDBPCursorIteratorValueExtends<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -812,6 +812,7 @@ declare module "idb" {
     IDBPCursor<DBTypes, TxStores, StoreName, IndexName>,
     "advance" | "continue" | "continuePrimaryKey"
   >;
+
   declare export type IDBPCursorIteratorValue<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -841,6 +842,7 @@ declare module "idb" {
       primaryKey: StoreKey<DBTypes, StoreName>
     ): void
   } & IDBPCursorIteratorValueExtends<DBTypes, TxStores, StoreName, IndexName>;
+
   declare export type IDBPCursorWithValue<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -859,6 +861,7 @@ declare module "idb" {
       IDBPCursorWithValueIteratorValue<DBTypes, TxStores, StoreName, IndexName>
     >
   } & IDBPCursor<DBTypes, TxStores, StoreName, IndexName>;
+
   declare type IDBPCursorWithValueIteratorValueExtends<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],
@@ -868,6 +871,7 @@ declare module "idb" {
     IDBPCursorWithValue<DBTypes, TxStores, StoreName, IndexName>,
     "advance" | "continue" | "continuePrimaryKey"
   >;
+
   declare export type IDBPCursorWithValueIteratorValue<
     DBTypes: DBSchema | mixed = mixed,
     TxStores: StoreNames<DBTypes>[] = StoreNames<DBTypes>[],

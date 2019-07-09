@@ -5,22 +5,18 @@ import {
 } from 'data/languages'
 
 import {
-  type IDBPObjectStore,
-} from 'idb'
-
-import {
-  type DBType,
+  type LanguageStore,
 } from '.'
 
 export async function storeLang(
-  db: IDBPObjectStore<DBType>,
+  db: LanguageStore,
   lang: LanguageCode,
 ) {
   return db.put('Lang', lang, 'lang')
 }
 
 export async function getStoredLang(
-  db: IDBPObjectStore<DBType>,
+  db: LanguageStore,
 ) {
   return db.get('Lang', 'lang')
 }

@@ -1,6 +1,6 @@
 // @flow
 
-export { init } from './db'
+export * from './db'
 
 export {
   storeLang,
