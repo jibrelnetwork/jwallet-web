@@ -34,6 +34,9 @@ storiesOf('settings|LanguagePicker', module)
   .add('Default', () => (
     <div className='story'>
       {formStoryWrapper(LanguagePicker, {
-      }, { foo: 'en' })}
+      }, {
+        foo: 'en',
+        label: 'Currency',
+      })}
     </div>
   ))
