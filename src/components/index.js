@@ -4,7 +4,6 @@ import QRCode from './QRCode'
 import ESCButton from './ESCButton'
 import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
-import FavoriteItem from './FavoriteItem'
 import SettingsGrid from './SettingsGrid'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
@@ -41,7 +40,6 @@ export {
   ESCButton,
   PopupButton,
   AssetBalance,
-  FavoriteItem,
   SettingsGrid,
   WalletLoading,
   CloseableScreen,
