@@ -1,7 +1,7 @@
 // @flow strict
 
 import React, { Fragment } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import emptyContacts from 'public/assets/thumbnail/empty-contacts.svg'
 import emptyWallets from 'public/assets/thumbnail/empty-wallets.svg'
@@ -19,9 +19,19 @@ const emptyContactsTab = () => (
     <img
       src={emptyContacts}
       className={emptyStyles.img}
-      alt={t`Empty contacts`}
+      alt={i18n._(
+        'Send.RecipientPicker.contactsEmpty.alt',
+        null,
+        { defaults: 'Empty contacts' },
+      )}
     />
-    <div className={emptyStyles.text}>{t`Your contacts will be displayed here.`}</div>
+    <div className={emptyStyles.text}>
+      {i18n._(
+        'Send.RecipientPicker.contactsEmpty.description',
+        null,
+        { defaults: 'Your contacts will be displayed here.' },
+      )}
+    </div>
   </Fragment>
 )
 
@@ -30,9 +40,19 @@ const emptyWalletsTab = () => (
     <img
       src={emptyWallets}
       className={emptyStyles.img}
-      alt={t`Empty wallets`}
+      alt={i18n._(
+        'Send.RecipientPicker.walletsEmpty.alt',
+        null,
+        { defaults: 'Empty wallets' },
+      )}
     />
-    <div className={emptyStyles.text}>{t`Your wallets will be displayed here.`}</div>
+    <div className={emptyStyles.text}>
+      {i18n._(
+        'Send.RecipientPicker.walletsEmpty.description',
+        null,
+        { defaults: 'Your wallets will be displayed here.' },
+      )}
+    </div>
   </Fragment>
 )
 

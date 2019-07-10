@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   CloseableScreen,
@@ -33,14 +33,22 @@ const AddAssetView = ({
     close={close}
     onOpen={openView}
     onClose={closeView}
-    title={t`Add digital asset`}
+    title={i18n._(
+      'AssetsItemAdd.title',
+      null,
+      { defaults: 'Add digital asset' },
+    )}
   >
     <DigitalAssetEditForm
       submit={submit}
       setField={setField}
       formFields={formFields}
       invalidFields={invalidFields}
-      submitLabel={t`Add asset`}
+      submitLabel={i18n._(
+        'AssetsItemAdd.primaryButton.title',
+        null,
+        { defaults: 'Add asset' },
+      )}
       isAddressLoading={isAddressLoading}
       isAddressEditable
     />

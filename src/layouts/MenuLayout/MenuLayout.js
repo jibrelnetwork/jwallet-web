@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { OverlayNotification } from 'components'
 
@@ -58,8 +58,16 @@ export class MenuLayout extends Component<Props> {
                 color='red'
                 image='screen-error'
                 description={[
-                  t`Internet connection error.`,
-                  t`Try again.`,
+                  i18n._(
+                    'MenuLayout.networkError.description0',
+                    null,
+                    { defaults: 'Internet connection error.' },
+                  ),
+                  i18n._(
+                    'MenuLayout.networkError.description1',
+                    null,
+                    { defaults: 'Try again.' },
+                  ),
                 ]}
               />
             </div>

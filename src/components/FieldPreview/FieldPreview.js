@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JLink,
@@ -58,7 +58,11 @@ function FieldPreviewInternal({
         {contact && (
           <JLink
             className={style.action}
-            title={t`Add Contact`}
+            title={i18n._(
+              'FieldPreview.addContact',
+              null,
+              { defaults: 'Add Contact' },
+            )}
             href={`/contacts/add?address=${contact}`}
           >
             <JIcon
@@ -71,7 +75,11 @@ function FieldPreviewInternal({
           <button
             className={style.action}
             type='button'
-            title={t`Copy`}
+            title={i18n._(
+              'FieldPreview.copy',
+              null,
+              { defaults: 'Copy' },
+            )}
             data-value={copy}
             data-message={copyMessage}
             onClick={copyToClipboard}

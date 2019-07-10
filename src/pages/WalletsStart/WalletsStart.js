@@ -5,7 +5,7 @@ import React, {
   Component,
 } from 'react'
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { StartLayout } from 'layouts'
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
@@ -52,7 +52,11 @@ export class WalletsStart extends Component<Props, StateProps> {
             <h1
               className={walletsStartStyle.title}
               dangerouslySetInnerHTML={{
-                __html: t`Create a new wallet or import an existing<br> to get started`,
+                __html: i18n._(
+                  'WalletsStart.SelectScenario.title',
+                  null,
+                  { defaults: 'Create a new wallet or import an existing<br> to get started' },
+                ),
               }}
             />
             <NewWalletButtons onClick={this.handleClick} />

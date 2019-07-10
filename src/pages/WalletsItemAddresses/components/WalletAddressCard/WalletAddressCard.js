@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { connect } from 'react-redux'
 
 import { CopyIconButton } from 'components'
@@ -113,7 +113,11 @@ class WalletAddressCard extends Component<Props, StateProps> {
         <div className={styles.main}>
           <div className={styles.info}>
             <div className={styles.label}>
-              {t`Name`}
+              {i18n._(
+                'WalletsItemAddresses.WalletAddressCard.title',
+                null,
+                { defaults: 'Name' },
+              )}
             </div>
             <div className={styles.wrapper}>
               <div
@@ -157,7 +161,11 @@ class WalletAddressCard extends Component<Props, StateProps> {
             {address}
           </div>
           <CopyIconButton
-            title={t`Copy ${addressName}`}
+            title={i18n._(
+              'WalletsItemAddresses.WalletAddressCard.actions.copy',
+              { addressName },
+              { defaults: 'Copy {addressName}' },
+            )}
             content={address}
           />
         </div>

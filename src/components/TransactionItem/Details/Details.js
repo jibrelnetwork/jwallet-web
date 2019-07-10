@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
@@ -136,18 +136,38 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
 
     const favoritesLabel = isFromFavorites
-      ? t`Remove from Favorites`
-      : t`Add to Favorites`
+      ? i18n._(
+        'TransactionItem.Details.favoriteRemove',
+        null,
+        { defaults: 'Remove from Favorites' },
+      )
+      : i18n._(
+        'TransactionItem.Details.favoriteAdd',
+        null,
+        { defaults: 'Add to Favorites' },
+      )
 
     const commentLabel = comment
-      ? t`Edit comment`
-      : t`Add comment`
+      ? i18n._(
+        'TransactionItem.Details.commentEdit',
+        null,
+        { defaults: 'Edit comment' },
+      )
+      : i18n._(
+        'TransactionItem.Details.commentAdd',
+        null,
+        { defaults: 'Add comment' },
+      )
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
         <div className='item'>
           <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-            {t`TX Hash`}
+            {i18n._(
+              'TransactionItem.Details.txHashLabel',
+              null,
+              { defaults: 'TX Hash' },
+            )}
           </div>
           <div className='value'>
             <a
@@ -167,7 +187,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         {from && (
           <div className='item -small-width'>
             <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-              {t`From address`}
+              {i18n._(
+                'TransactionItem.Details.fromLabel',
+                null,
+                { defaults: 'From address' },
+              )}
             </div>
             <div className='value'>
               <a
@@ -188,7 +212,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         {to && (
           <div className='item -small-width'>
             <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-              {t`To address`}
+              {i18n._(
+                'TransactionItem.Details.toLabel',
+                null,
+                { defaults: 'To address' },
+              )}
             </div>
             <div className='value'>
               <a
@@ -208,7 +236,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         )}
         <div className='item'>
           <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-            {t`Fee`}
+            {i18n._(
+              'TransactionItem.Details.feeLabel',
+              null,
+              { defaults: 'Fee' },
+            )}
           </div>
           <div className={classNames('value', jTextStyle.core, jTextStyle.gray, jTextStyle.bold)}>
             {`${getTxFee(
@@ -226,7 +258,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 color='gray'
                 iconColor='gray'
                 iconName='repeat'
-                label={t`Repeat payment`}
+                label={i18n._(
+                  'TransactionItem.Details.repeat',
+                  null,
+                  { defaults: 'Repeat payment' },
+                )}
               />
             </div>
           )}

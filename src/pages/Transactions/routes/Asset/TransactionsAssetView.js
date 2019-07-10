@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
@@ -33,7 +33,11 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   )
 
   return {
-    '/assets': t`Digital Assets`,
+    '/assets': i18n._(
+      'Transactions.Asset.assetsHome',
+      null,
+      { defaults: 'Digital Assets' },
+    ),
     [`/history/${address}`]: (isFetched && assetBalance)
       ? `${name} — ${balance} ${symbol}`
       : name,
@@ -118,7 +122,13 @@ function TransactionsAssetView({
                 isOnlyPending={isOnlyPending}
               />
             </div>
-            <div className='send' title={t`Send asset`}>
+            <div
+              className='send' title={i18n._(
+                'Transactions.Asset.send',
+                null,
+                { defaults: 'Send Asset' },
+              )}
+            >
               <JFlatButton
                 to={`/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'

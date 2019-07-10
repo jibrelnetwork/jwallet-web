@@ -2,10 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import {
-  t,
-  jt,
-} from 'ttag'
+import { i18n } from 'i18n/lingui'
+import { Trans } from '@lingui/react'
 
 import {
   JIcon,
@@ -18,27 +16,8 @@ import errorUnexpectedStyle from './errorUnexpected.m.scss'
 const handleReloadClick = () =>
   window.location.reload()
 
-const HomePageLink = (
-  <JLink
-    href='/'
-    theme='text-blue'
-    key='home'
-  >
-    {t`home page`}
-  </JLink>
-)
-
-const SupportLink = (
-  <JLink
-    href='https://jibrel.zendesk.com/hc/en-us/requests/new'
-    theme='text-blue'
-    key='support'
-  >
-    {t`contact support`}
-  </JLink>
-)
-
 export function ErrorUnexpected() {
+  /* eslint-disable max-len */
   return (
     <main
       className={classNames(
@@ -51,20 +30,40 @@ export function ErrorUnexpected() {
         className={errorUnexpectedStyle.icon}
       />
       <h1 className={errorUnexpectedStyle.title}>
-        {t`Unexpected Error`}
+        {i18n._(
+          'ErrorUnexpected.title',
+          null,
+          { defaults: 'Unexpected Error' },
+        )}
       </h1>
-      <div className={errorUnexpectedStyle.description}>
-        {
-          jt`Something went wrong! Our developers already received error report,
-            but you can also reload page, go to ${HomePageLink} or ${SupportLink}`
-        }
-      </div>
+      <Trans className={errorUnexpectedStyle.description} id='ErrorUnexpected.description'>
+        Something went wrong! Our developers already received error report, but you can also reload page, go to
+        <JLink
+          href='/'
+          theme='text-blue'
+          key='home'
+        >
+          home page
+        </JLink> or
+        <JLink
+          href='https://jibrel.zendesk.com/hc/en-us/requests/new'
+          theme='text-blue'
+          key='support'
+        >
+          contact support
+        </JLink>
+      </Trans>
       <Button
         onClick={handleReloadClick}
         className={errorUnexpectedStyle.button}
       >
-        {t`Reload`}
+        {i18n._(
+          'ErrorUnexpected.reload',
+          null,
+          { defaults: 'Reload' },
+        )}
       </Button>
     </main>
   )
+  /* eslint-enable max-len */
 }

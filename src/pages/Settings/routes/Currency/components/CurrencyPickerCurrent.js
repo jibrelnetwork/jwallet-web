@@ -1,5 +1,5 @@
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { JText } from 'components/base'
 
@@ -8,7 +8,11 @@ export const CurrencyPickerCurrent = ({
 }) => (
   <div className='currency-picker-current'>
     <JText
-      value={t`Select currency`}
+      value={i18n._(
+        'SettingsCurrency.select.label',
+        null,
+        { defaults: 'Select currency' },
+      )}
       size='small'
       color='dusk'
     />

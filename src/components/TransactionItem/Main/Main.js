@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import React, {
   PureComponent,
@@ -195,7 +195,11 @@ class TransactionItemMain extends PureComponent<Props> {
                 {isEventMint && (
                   <JText
                     color={color}
-                    value={t`Token minting`}
+                    value={i18n._(
+                      'TransactionItem.mint',
+                      null,
+                      { defaults: 'Token minting' },
+                    )}
                     weight='bold'
                     size='normal'
                     whiteSpace='wrap'
@@ -204,7 +208,11 @@ class TransactionItemMain extends PureComponent<Props> {
                 {isEventBurn && (
                   <JText
                     color={color}
-                    value={t`Token burning`}
+                    value={i18n._(
+                      'TransactionItem.burn',
+                      null,
+                      { defaults: 'Token burning' },
+                    )}
                     weight='bold'
                     size='normal'
                     whiteSpace='wrap'

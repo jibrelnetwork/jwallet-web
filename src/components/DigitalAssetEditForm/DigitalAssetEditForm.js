@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JInput,
@@ -37,22 +37,38 @@ const DigitalAssetEditForm = ({
     isLoading: boolean,
   }> = [{
     key: 'address',
-    placeholder: t`Address (ERC-20)`,
+    placeholder: i18n._(
+      'AssetItemEdit.addressLabel',
+      null,
+      { defaults: 'Address (ERC-20)' },
+    ),
     isDisabled: !isAddressEditable,
     isLoading: isAddressLoading,
   }, {
     key: 'name',
-    placeholder: t`Name`,
+    placeholder: i18n._(
+      'AssetItemEdit.nameLabel',
+      null,
+      { defaults: 'Name' },
+    ),
     isDisabled: false,
     isLoading: false,
   }, {
     key: 'symbol',
-    placeholder: t`Symbol`,
+    placeholder: i18n._(
+      'AssetItemEdit.symbolLabel',
+      null,
+      { defaults: 'Symbol' },
+    ),
     isDisabled: false,
     isLoading: false,
   }, {
     key: 'decimals',
-    placeholder: t`Decimals`,
+    placeholder: i18n._(
+      'AssetItemEdit.decimalsLabel',
+      null,
+      { defaults: 'Decimals' },
+    ),
     isDisabled: false,
     isLoading: false,
   }]
@@ -90,7 +106,11 @@ const DigitalAssetEditForm = ({
 DigitalAssetEditForm.defaultProps = {
   isAddressLoading: false,
   isAddressEditable: true,
-  submitLabel: t`Add asset`,
+  submitLabel: i18n._(
+    'AssetItemEdit.add',
+    null,
+    { defaults: 'Add asset' },
+  ),
 }
 
 export default DigitalAssetEditForm

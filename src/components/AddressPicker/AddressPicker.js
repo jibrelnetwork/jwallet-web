@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { map } from 'lodash-es'
 
 import {
@@ -97,6 +97,6 @@ export function AddressPicker({
 }
 
 AddressPicker.defaultProps = {
-  label: t`Address`,
+  label: i18n._('common.AddressPicker.label', null, { defaults: 'Address' }),
   addresses: [],
 }

@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { JLink } from 'components/base'
 import { TitleHeader } from 'components'
 
@@ -29,7 +29,7 @@ export function ContactsItemView(props: Props) {
         theme='button-general'
         href={`/send?to=${props.contactId}`}
       >
-        {t`Send to Address`}
+        {i18n._('ContactsItem.actions.send', null, { defaults: 'Send to Address' })}
       </JLink>
     </div>
   )

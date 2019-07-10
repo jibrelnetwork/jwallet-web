@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JIcon,
@@ -40,7 +40,11 @@ function Component(props: Props) {
           <h2 className={style.contactTitle}>{props.name}</h2>
         </div>
         <FieldPreview
-          label={t`Address`}
+          label={i18n._(
+            'common.ContactsItemDetails.address.title',
+            null,
+            { defaults: 'Address' },
+          )}
           body={getShortenedAddress(props.name)}
           link={getAddressLink(props.id, props.blockExplorer)}
           copy={props.id}
@@ -49,8 +53,16 @@ function Component(props: Props) {
       </div>
       <div className={style.noteWrapper}>
         <JInput
-          label={t`Note`}
-          infoMessage={t`This note is only visible to you.`}
+          label={i18n._(
+            'common.ContactsItemDetails.note.title',
+            null,
+            { defaults: 'Note' },
+          )}
+          infoMessage={i18n._(
+            'common.ContactsItemDetails.note.info',
+            null,
+            { defaults: 'This note is only visible to you.' },
+          )}
           color='gray'
           value={noteText}
           onChange={setNoteText}

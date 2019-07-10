@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import AssetBalance from 'components/AssetBalance'
 
@@ -59,13 +59,21 @@ class AssetCardBody extends PureComponent<Props, *> {
               color='gray'
               weight='bold'
               whiteSpace='wrap'
-              value={t`Balance loading error`}
+              value={i18n._(
+                'AssetCardBody.errors.balance',
+                null,
+                { defaults: 'Balance loading error' },
+              )}
             />
           </div>
           <div className='fiat'>
             <JFlatButton
               color='blue'
-              label={t`Reload asset`}
+              label={i18n._(
+                'AssetCardBody.reloadButton',
+                null,
+                { defaults: 'Reload asset' },
+              )}
               isHoverOpacity
             />
           </div>
@@ -86,7 +94,7 @@ class AssetCardBody extends PureComponent<Props, *> {
           { /* !fiatBalance ? (
             <div className='message -transparent'>
               <JText
-                value={t`No ${fiatCurrency} Exchange`}
+                value={i18n._(INSERT_ID_HERE, null, { defaults: 'No ${fiatCurrency} Exchange' })}
                 color='gray'
                 weight='bold'
                 whiteSpace='wrap'
@@ -113,7 +121,11 @@ class AssetCardBody extends PureComponent<Props, *> {
                 JTextStyle.nowrap,
               )}
             >
-              {t`Show transactions`}
+              {i18n._(
+                'AssetCardBody.showTransactions',
+                null,
+                { defaults: 'Show transactions' },
+              )}
             </JLink>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { JLink } from 'components/base'
 
@@ -51,7 +51,11 @@ export function MenuPanel({
       >
         <img
           src={svgLogoWhite}
-          alt={t`Jwallet Logo`}
+          alt={i18n._(
+            'Menu.logo.alt',
+            null,
+            { defaults: 'Jwallet Logo' },
+          )}
           width='136'
           height='48'
           className={menuPanelStyle.logoImage}

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   Form,
@@ -31,7 +31,13 @@ const CurrencyView = ({
   validate,
   fiatCurrency,
 }: Props) => (
-  <SubsettingsView title={t`Select currency`}>
+  <SubsettingsView
+    title={i18n._(
+      'SettingsCurrency.title',
+      null,
+      { defaults: 'Select currency' },
+    )}
+  >
     <Form
       onSubmit={onSubmit}
       validate={validate}
@@ -41,9 +47,19 @@ const CurrencyView = ({
           <Field
             component={CurrencyPickerField}
             name='fiatCurrency'
-            placeholder={t`Preffered fiat currency`}
+            placeholder={i18n._(
+              'SettingsCurrency.preferred',
+              null,
+              { defaults: 'Preffered fiat currency' },
+            )}
           />
-          <Button type='submit'>{t`Save`}</Button>
+          <Button type='submit'>
+            {i18n._(
+              'SettingsCurrency.save',
+              null,
+              { defaults: 'Save' },
+            )}
+          </Button>
         </form>
       )}
     />

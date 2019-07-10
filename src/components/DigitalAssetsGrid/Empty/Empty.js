@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import OverlayNotification from 'components/OverlayNotification'
 
@@ -10,7 +10,11 @@ function DigitalAssetsGridEmpty() {
     <OverlayNotification
       color='gray'
       image='screen-search'
-      description={t`There are no Digital Assets to show`}
+      description={i18n._(
+        'DigitalAssetsGrid.Empty.description',
+        null,
+        { defaults: 'There are no Digital Assets to show' },
+      )}
       isTransparent
     />
   )

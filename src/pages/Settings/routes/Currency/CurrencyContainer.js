@@ -1,7 +1,7 @@
 // @flow
 
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { CURRENCIES } from 'data'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
@@ -20,7 +20,11 @@ const validate = ({ fiatCurrency }: CurrencyFormFieldValues): CurrencyFormFieldE
 
   if (!fiatCurrencyData) {
     return {
-      fiatCurrency: t`Currency ${fiatCurrency} is not available`,
+      fiatCurrency: i18n._(
+        'SettingsCurrency.errors.currencyUnavailable',
+        { symbol: fiatCurrency },
+        { defaults: 'Currency { symbol } is not available' },
+      ),
     }
   }
 

@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { HistoryItemDetails } from 'components/HistoryItemDetails/HistoryItemDetails'
 import { JLink } from 'components/base'
 
@@ -21,7 +21,11 @@ export function HistoryItemView(props: Props) {
         theme='button-general'
         href='/history'
       >
-        {t`Go to History`}
+        {i18n._(
+          'HistoryItem.goToHistory',
+          null,
+          { defaults: 'Go to History' },
+        )}
       </JLink>
     </div>
   )

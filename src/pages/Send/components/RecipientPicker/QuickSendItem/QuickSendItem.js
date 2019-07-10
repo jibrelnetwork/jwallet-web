@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { useFocus } from 'utils/hooks/useFocus'
 
 import { JPickerListItem } from 'components/base/JPicker'
@@ -45,7 +45,13 @@ export function QuickSendItem({
       )}
       >
         <div className={itemStyles.wrap}>
-          <span className={itemStyles.title}>{t`Send to this address...`}</span>
+          <span className={itemStyles.title}>
+            {i18n._(
+              'Send.RecipientPicker.selectTextAddress',
+              null,
+              { defaults: 'Send to this address...' },
+            )}
+          </span>
           <span className={itemStyles.address}>{address}</span>
         </div>
       </div>

@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
@@ -38,8 +38,16 @@ export function WalletPasswordForm({
       <Field
         component={PasswordInput}
         value={password}
-        label={t`Security Password`}
-        infoMessage={`${t`Hint`}: ${hint}`}
+        label={i18n._(
+          'WalletPasswordForm.password',
+          null,
+          { defaults: 'Security Password' },
+        )}
+        infoMessage={i18n._(
+          'WalletPasswordForm.hint',
+          { hint },
+          { defaults: 'Hint: {hint}' },
+        )}
         theme='white-icon'
         name='password'
         isDisabled={isSubmitting}
@@ -50,14 +58,22 @@ export function WalletPasswordForm({
         isLoading={isSubmitting}
         isDisabled={!(password || '').trim()}
       >
-        {t`Continue`}
+        {i18n._(
+          'WalletPasswordForm.submit',
+          null,
+          { defaults: 'Continue' },
+        )}
       </Button>
       <JLink
         className={`${buttonStyle.additional} ${walletPasswordFormStyle.forgot}`}
         color='blue'
         href='/forgot-password'
       >
-        {t`Forgot?`}
+        {i18n._(
+          'WalletPasswordForm.forgot',
+          null,
+          { defaults: 'Forgot?' },
+        )}
       </JLink>
     </form>
   )

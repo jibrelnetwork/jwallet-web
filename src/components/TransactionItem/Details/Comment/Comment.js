@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   handle,
@@ -72,13 +72,21 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           type='text'
           id='message'
           className='field'
-          placeholder={t`Your comment`}
+          placeholder={i18n._(
+            'TransactionItem.Details.Comment.placeholder',
+            null,
+            { defaults: 'Your comment' },
+          )}
         />
         <div className='actions'>
           <div className='button'>
             <JFlatButton
               onClick={handle(this.saveComment)(newValue)}
-              label={t`Save`}
+              label={i18n._(
+                'TransactionItem.Details.Comment.save',
+                null,
+                { defaults: 'Save' },
+              )}
               color='blue'
               isBordered
             />
@@ -86,7 +94,17 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           <div className='button'>
             <JFlatButton
               onClick={isValueChanged ? onToggle : this.deleteComment}
-              label={isValueChanged ? t`Cancel` : t`Delete`}
+              label={isValueChanged
+                ? i18n._(
+                  'TransactionItem.Details.Comment.cancel',
+                  null,
+                  { defaults: 'Cancel' },
+                )
+                : i18n._(
+                  'TransactionItem.Details.Comment.delete',
+                  null,
+                  { defaults: 'Delete' },
+                )}
               color='blue'
               isBordered
             />

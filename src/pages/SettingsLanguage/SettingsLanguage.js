@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Form,
   Field,
@@ -65,7 +65,7 @@ class SettingsLanguagePage extends Component<Props> {
           name='send'
           isLoading={isSubmitting}
         >
-          {t`OK`}
+          {i18n._('SettingsLanguage.form.submit', null, { defaults: 'OK' })}
         </Button>
       </form>
     )
@@ -84,7 +84,7 @@ class SettingsLanguagePage extends Component<Props> {
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBackClick}
-          title={t`Language`}
+          title={i18n._('SettingsLanguage.title', null, { defaults: 'Language' })}
         />
         <Form
           onSubmit={this.handleSubmit}

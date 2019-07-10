@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Children } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { JIcon } from 'components/base'
 
@@ -48,7 +48,11 @@ export function SearchInput({
           onFocus={onFocus}
           onBlur={onBlur}
           value={value}
-          placeholder={t`Search`}
+          placeholder={i18n._(
+            'SearchInput.search',
+            null,
+            { defaults: 'Search' },
+          )}
         />
       </label>
       {Children.count(children) > 0 && (

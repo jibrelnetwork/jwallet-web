@@ -3,7 +3,7 @@
 import React, {
   Component,
 } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JPickerBody,
@@ -149,7 +149,11 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={i18n._(
+            'Send.RecipientPicker.recipient',
+            null,
+            { defaults: 'Recipient' },
+          )}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -190,7 +194,11 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={i18n._(
+            'Send.RecipientPicker.recipient',
+            null,
+            { defaults: 'Recipient' },
+          )}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -204,7 +212,11 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={i18n._(
+            'Send.RecipientPicker.recipient',
+            null,
+            { defaults: 'Recipient' },
+          )}
           value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -219,7 +231,11 @@ class RecipientPicker extends Component<Props, ComponentState> {
       <JPickerCurrent
         ref={this.searchInputRef}
         isEditable={isOpen}
-        label={t`Recipient`}
+        label={i18n._(
+          'Send.RecipientPicker.recipient',
+          null,
+          { defaults: 'Recipient' },
+        )}
         value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}

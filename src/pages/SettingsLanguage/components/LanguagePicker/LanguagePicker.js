@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { map } from 'lodash-es'
 
 import {
@@ -48,7 +48,7 @@ export function LanguagePicker({
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}
-          label={t`Language`}
+          label={i18n._('SettingsLanguage.LanguagePicker.title', null, { defaults: 'Language' })}
           value={activeTitle}
           iconComponent={(
             <JIcon name={`ic_${value}_24`} size='24' />

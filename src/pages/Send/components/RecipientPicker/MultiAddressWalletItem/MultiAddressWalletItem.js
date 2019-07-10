@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { JIcon } from 'components/base'
 
@@ -24,7 +24,11 @@ export function MultiAddressWalletItem({
       <div className={multiAddressWalletItemStyles.wrap}>
         <span className={multiAddressWalletItemStyles.title}>{title}</span>
         <span className={multiAddressWalletItemStyles.description}>
-          {t`${addressCount} addresses`}
+          {i18n._(
+            'Send.RecipientPicker.addressQuantity',
+            { addressCount },
+            { defaults: '{addressCount} addresses' },
+          )}
         </span>
       </div>
       <JIcon name={`${isOpen ? 'chevron-up' : 'chevron-down'}-use-fill`} color='blue' />

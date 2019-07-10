@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
@@ -174,7 +174,7 @@ class WalletCard extends Component<Props, StateProps> {
     }: StateProps = this.state
 
     const addressesCount: number = (derivationIndex + 1)
-    const name: string = addressName ? `${addressName}  •  ` : ''
+    const nameWithDivider: string = addressName ? `${addressName}  •  ` : ''
     const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
     const isAnyAddressChooserActive: boolean = !!activeAddressChooserId
 
@@ -230,7 +230,14 @@ class WalletCard extends Component<Props, StateProps> {
             </h2>
             {isMultiAddress && (
               <p className={styles.address}>
-                {t`${name}${addressesCount} Addresses`}
+                {i18n._(
+                  'WalletCard.currentAddress',
+                  {
+                    nameWithDivider,
+                    addressesCount,
+                  },
+                  { defaults: '{nameWithDivider}{addressesCount} Addresses' },
+                )}
               </p>
             )}
             {ethBalance && (
@@ -260,7 +267,11 @@ class WalletCard extends Component<Props, StateProps> {
         {hasMessage && (
           <JFieldMessage
             className={styles.warning}
-            message={t`You already have a wallet with this name.`}
+            message={i18n._(
+              'WalletCard.duplicateName',
+              null,
+              { defaults: 'You already have a wallet with this name.' },
+            )}
             theme='info'
           />
         )}

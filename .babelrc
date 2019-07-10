@@ -2,6 +2,7 @@
   "plugins": [
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-class-properties",
+    "macros",
     ["@babel/plugin-transform-runtime", { "regenerator": true }]
   ],
   "presets": [

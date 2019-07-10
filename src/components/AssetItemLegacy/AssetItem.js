@@ -1,7 +1,7 @@
 // @flow
 
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import React, {
   Fragment,
@@ -120,7 +120,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   className='item -edit'
                   href={`/assets/${address}/edit`}
                 >
-                  <JTooltip text={t`Edit`}>
+                  <JTooltip
+                    text={i18n._(
+                      'AssetItemLegacy.edit',
+                      null,
+                      { defaults: 'Edit' },
+                    )}
+                  >
                     <JIcon
                       name='edit'
                     />
@@ -136,12 +142,20 @@ class AssetItem extends PureComponent<Props, StateProps> {
                               className='confirm'
                               onClick={this.handleClickRemove}
                               color='blue'
-                              label={t`Yes, delete`}
+                              label={i18n._(
+                                'AssetItemLegacy.delete.yes',
+                                null,
+                                { defaults: 'Yes, delete' },
+                              )}
                               isBordered
                             />
                             <JFlatButton
                               onClick={this.handleClickToggleDelete}
-                              label={t`No`}
+                              label={i18n._(
+                                'AssetItemLegacy.delete.no',
+                                null,
+                                { defaults: 'No' },
+                              )}
                               color='blue'
                               isBordered
                             />
@@ -149,7 +163,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                         ) :
                         (
                           <div onClick={this.handleClickToggleDelete}>
-                            <JTooltip text={t`Delete`}>
+                            <JTooltip
+                              text={i18n._(
+                                'AssetItemLegacy.delete',
+                                null,
+                                { defaults: 'Delete' },
+                              )}
+                            >
                               <JIcon name='trash' />
                             </JTooltip>
                           </div>

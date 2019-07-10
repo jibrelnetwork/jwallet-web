@@ -3,6 +3,7 @@
 import classNames from 'classnames'
 import React, { Component } from 'react'
 
+import { i18n } from 'i18n/lingui'
 import { Button } from 'components/base'
 
 import buttonWithConfirmStyle from './buttonWithConfirm.m.scss'
@@ -121,7 +122,13 @@ export class ButtonWithConfirm extends Component<Props, StateProps> {
           theme={isReversed ? 'secondary' : 'general'}
           isDisabled={isConfirmDisabled}
         >
-          {isConfirmDisabled ? `${countdown} sec` : labelConfirm}
+          {isConfirmDisabled
+            ? i18n._(
+              'common.ButtonWithConfirm.countdown',
+              { countdown },
+              { defaults: '{countdown} sec' },
+            )
+            : labelConfirm}
         </Button>
       </div>
     )

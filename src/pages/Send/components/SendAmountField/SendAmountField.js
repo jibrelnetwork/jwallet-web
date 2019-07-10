@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { getErrorMessage } from 'utils/form'
 import {
@@ -55,7 +55,11 @@ const handlerOnChange = (input: FinalFormInput) => e =>
 
 const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
 
-const DEFAULT_LABEL_TEXT = t`Amount`
+const DEFAULT_LABEL_TEXT = i18n._(
+  'Send.Amount.amount',
+  null,
+  { defaults: 'Amount' },
+)
 
 function SendAmountField({
   blockchainFee,
@@ -142,7 +146,11 @@ function SendAmountField({
             className={fieldStyle.max}
             onClick={handleMaxClick(input, maxValue)}
           >
-            {t`MAX`}
+            {i18n._(
+              'Send.Amount.setMax',
+              null,
+              { defaults: 'MAX' },
+            )}
           </button>
         </div>
         <div className={fieldStyle.bottom}>
@@ -157,7 +165,11 @@ function SendAmountField({
             fieldStyle.fee,
           )}
           >
-            {blockchainFee && t`Blockchain fee — ${blockchainFee} ETH`}
+            {blockchainFee && i18n._(
+              'Send.Amount.fee',
+              { blockchainFee },
+              { defaults: 'Blockchain fee — {blockchainFee} ETH' },
+            )}
           </div>
         </div>
         <label htmlFor='amountInputId' className={fieldStyle.label}>{label}</label>

@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import ignoreEvent from 'utils/eventHandlers/ignoreEvent'
 
@@ -109,7 +109,12 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                 href={`/send?to=${address}`}
                 className='item -send'
               >
-                <JTooltip text={t`Send`}>
+                <JTooltip text={i18n._(
+                  'FavoriteItem.send',
+                  null,
+                  { defaults: 'Send' },
+                )}
+                >
                   <JIcon name='upload' />
                 </JTooltip>
               </JLink>
@@ -118,7 +123,12 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
               href={`/contacts/${address}`}
               className='item -edit'
             >
-              <JTooltip text={t`Edit`}>
+              <JTooltip text={i18n._(
+                'FavoriteItem.edit',
+                null,
+                { defaults: 'Edit' },
+              )}
+              >
                 <JIcon name='edit' />
               </JTooltip>
             </JLink>
@@ -132,12 +142,20 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                           className='confirm'
                           onClick={ignoreEvent(this.remove)()}
                           color='blue'
-                          label={t`Yes, delete`}
+                          label={i18n._(
+                            'FavoriteItem.yes',
+                            null,
+                            { defaults: 'Yes, delete' },
+                          )}
                           isBordered
                         />
                         <JFlatButton
                           onClick={this.handleClickToggleDelete}
-                          label={t`No`}
+                          label={i18n._(
+                            'FavoriteItem.no',
+                            null,
+                            { defaults: 'No' },
+                          )}
                           color='blue'
                           isBordered
                         />
@@ -145,7 +163,12 @@ class FavoriteItem extends PureComponent<Props, ComponentState> {
                     ) :
                     (
                       <div onClick={this.handleClickToggleDelete}>
-                        <JTooltip text={t`Delete`}>
+                        <JTooltip text={i18n._(
+                          'FavoriteItem.delete',
+                          null,
+                          { defaults: 'Delete' },
+                        )}
+                        >
                           <JIcon name='trash' />
                         </JTooltip>
                       </div>

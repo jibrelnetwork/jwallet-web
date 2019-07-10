@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { Field } from 'react-final-form'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JSwitch,
@@ -71,8 +71,16 @@ class PriorityField extends Component<Props> {
     const isOpen = !isDisabled && !!input.value
 
     const gasLimitLabel = estimatedGasLimit
-      ? t`Gas limit (${estimatedGasLimit} estimated)`
-      : t`Gas limit`
+      ? i18n._(
+        'Send.PriorityField.gasLimit.estimated',
+        { estimatedGasLimit },
+        { defaults: 'Gas limit ({estimatedGasLimit} estimated)' },
+      )
+      : i18n._(
+        'Send.PriorityField.gasLimit',
+        null,
+        { defaults: 'Gas limit' },
+      )
 
     return (
       <div
@@ -93,9 +101,21 @@ class PriorityField extends Component<Props> {
             <div className={fieldStyle.title}>
               {isOpen
                 ? blockchainFee
-                  ? t`Blockchain Fee — ${blockchainFee} ETH`
-                  : t`Blockchain Fee`
-                : t`Custom Blockchain Fee`}
+                  ? i18n._(
+                    'Send.PriorityField.fee.estimated',
+                    { blockchainFee },
+                    { defaults: 'Blockchain fee — {blockchainFee} ETH' },
+                  )
+                  : i18n._(
+                    'Send.PriorityField.fee',
+                    null,
+                    { defaults: 'Blockchain Fee' },
+                  )
+                : i18n._(
+                  'Send.PriorityField.fee.custom',
+                  null,
+                  { defaults: 'Custom Blockchain Fee' },
+                )}
             </div>
             <JSwitch
               name='priority-field-switch'
@@ -120,12 +140,21 @@ class PriorityField extends Component<Props> {
                 component={InputWithUnit}
                 name={gasPriceFieldName}
                 isDisabled={isDisabled}
-                label={t`Gas price`}
+                label={i18n._(
+                  'Send.PriorityField.gasPrice',
+                  null,
+                  { defaults: 'Gas price' },
+                )}
                 unit='GWei'
               />
             </div>
             <div className={fieldStyle.bottom}>
-              {t`Higher gas price reduces the processing time but increases the transaction fee.`}
+              {i18n._(
+                'Send.PriorityField.help',
+                null,
+                // eslint-disable-next-line max-len
+                { defaults: 'Higher gas price reduces the processing time but increases the transaction fee.' },
+              )}
             </div>
           </div>
         </div>

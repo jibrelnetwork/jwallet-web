@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Form,
   Field,
@@ -65,7 +65,7 @@ class SettingsCurrencyPage extends Component<Props> {
           name='send'
           isLoading={isSubmitting}
         >
-          {t`OK`}
+          {i18n._('SettingsCurrency.form.submit', null, { defaults: 'OK' })}
         </Button>
       </form>
     )
@@ -84,7 +84,7 @@ class SettingsCurrencyPage extends Component<Props> {
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBackClick}
-          title={t`Currency`}
+          title={i18n._('SettingsCurrency.title', null, { defaults: 'Currency' })}
         />
         <Form
           onSubmit={this.handleSubmit}

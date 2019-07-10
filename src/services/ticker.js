@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import config from 'config'
 import getENVVar from 'utils/config/getENVVar'
@@ -25,7 +25,11 @@ function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> 
       return callApi(params, (retryCount - 1))
     }
 
-    throw new Error(t`TickerRequestError`)
+    throw new Error(i18n._(
+      'notforuser.errors.tickerRequest',
+      null,
+      { defaults: 'Ticker Request Error' },
+    ))
   }
 
   return fetch(requestInfo, {

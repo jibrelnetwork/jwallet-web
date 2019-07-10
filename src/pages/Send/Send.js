@@ -2,10 +2,8 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-  t,
-  jt,
-} from 'ttag'
+import { i18n } from 'i18n/lingui'
+import { Trans } from '@lingui/react'
 import { actions } from 'redux-router5'
 
 import web3 from 'services/web3'
@@ -112,16 +110,16 @@ class SendAsset extends Component<Props, ComponentState> {
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleClose}
-          title={t`Send`}
+          title={i18n._('Send.title', null, { defaults: 'Send' })}
         />
         <ConnectedStepOneForm
           onSubmit={this.handleSendFormSubmit}
           initialValues={sendFormValues}
         />
-        <p className={styles.warning}>
-          {jt`The app doesn’t charge you any fees.${<br />}
-But you have to pay the blokchain fee to create a new transaction.`}
-        </p>
+        <Trans id='Send.fee.description' render='p' className={styles.warning}>
+          The app doesn’t charge you any fees.<br />
+          But you have to pay the blokchain fee to create a new transaction.
+        </Trans>
       </div>
     )
   }
@@ -226,7 +224,7 @@ But you have to pay the blokchain fee to create a new transaction.`}
     <div className={styles.core}>
       <TitleHeader
         onBack={this.handleBackToSendForm}
-        title={t`Enter Secutity Password`}
+        title={i18n._('Send.PasswordStepForm.title', null, { defaults: 'Enter Security Password' })}
       />
       <ConnectedPasswordStepForm
         onDecryptPrivateKey={this.handleDecryptPrivateKey}

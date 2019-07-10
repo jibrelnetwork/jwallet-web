@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JIcon,
@@ -44,7 +44,11 @@ export function SearchFilter({
         )}
         onClick={isFocused ? onBlur : onFocus}
       >
-        {t`Filter`}
+        {i18n._(
+          'SearchInput.filter',
+          null,
+          { defaults: 'Filter' },
+        )}
         {!!activeCount && activeCount > 0 && (
           <em className={searchFilterStyle.count}>
             {activeCount}
@@ -61,7 +65,11 @@ export function SearchFilter({
           className={`__close ${searchFilterStyle.close}`}
           type='button'
           onClick={onBlur}
-          title={t`Close filter`}
+          title={i18n._(
+            'SearchInput.closeFilter',
+            null,
+            { defaults: 'Close filter' },
+          )}
         >
           <JIcon data-focused={isFocused} name='ic_close_24-use-fill' />
         </button>

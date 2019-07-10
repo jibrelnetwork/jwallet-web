@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Form,
   type FormRenderProps,
@@ -44,7 +44,11 @@ class PasswordStepForm extends PureComponent<Props> {
       return {}
     } catch (err) {
       return {
-        password: t`Invalid password`,
+        password: i18n._(
+          'Send.PasswordStepForm.input.password.error.invalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
       }
     }
   }

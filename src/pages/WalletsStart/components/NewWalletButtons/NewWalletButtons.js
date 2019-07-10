@@ -5,7 +5,7 @@ import React, {
   Fragment,
 } from 'react'
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { JLink } from 'components/base'
 
@@ -42,10 +42,18 @@ export class NewWalletButtons extends PureComponent<Props> {
           href='/wallets/create'
           theme='button-general'
         >
-          {t`Create Wallet`}
+          {i18n._(
+            'WalletsStart.createWallet.action',
+            null,
+            { defaults: 'Create Wallet' },
+          )}
         </JLink>
         <div className={newWalletButtonsStyle.text}>
-          {t`Create your own wallet to manage your digital assets`}
+          {i18n._(
+            'WalletsStart.createWallet.description',
+            null,
+            { defaults: 'Create your own wallet to manage your digital assets' },
+          )}
         </div>
         <JLink
           onClick={this.handleClickImport}
@@ -53,10 +61,18 @@ export class NewWalletButtons extends PureComponent<Props> {
           href='/wallets/import'
           theme='button-secondary'
         >
-          {t`Import Wallet`}
+          {i18n._(
+            'WalletsStart.importWallet.action',
+            null,
+            { defaults: 'Import Wallet' },
+          )}
         </JLink>
         <div className={newWalletButtonsStyle.text}>
-          {t`Import an existing wallet with backup phrase, private key, etc.`}
+          {i18n._(
+            'WalletsStart.importWallet.description',
+            null,
+            { defaults: 'Import an existing wallet with backup phrase, private key, etc.' },
+          )}
         </div>
       </Fragment>
     )

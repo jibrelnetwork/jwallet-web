@@ -4,7 +4,7 @@ import React from 'react'
 import {
   noop,
 } from 'lodash-es'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Button,
   Header,
@@ -49,7 +49,7 @@ export function ContactsView(props: Props) {
 
   return (
     <div className={style.core}>
-      <Header title={t`Contacts`}>
+      <Header title={i18n._('Contacts.title', null, { defaults: 'Contacts' })}>
         <div className={`${style.search} ${offset.mr24}`}>
           <SearchInput
             onChange={noop}
@@ -61,7 +61,7 @@ export function ContactsView(props: Props) {
           className={style.addContact}
         >
           <JIcon name='add-contact-use-fill' className={Button.iconClassName} />
-          {t`Add Contact`}
+          {i18n._('Contacts.actions.add', null, { defaults: 'Add Contact' })}
         </JLink>
       </Header>
       <ul className='__contacts-list'>

@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import React, { Component } from 'react'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
@@ -76,9 +76,12 @@ const INITIAL_VALUES: FormFields = {
   compromise: '',
 }
 
-const BACKUP_TEXT: string = t`Jwallet never sends your wallets anywhere.
-Therefore, in case of device loss or failure, the only way to restore access to your
-funds is to use a wallet backup phrase.`
+const BACKUP_TEXT: string = i18n._(
+  'WalletsCreate.Backup.description',
+  null,
+  // eslint-disable-next-line max-len
+  { defaults: 'Jwallet never sends your wallets anywhere. \nTherefore, in case of device loss or failure, the only way to restore access to your \nfunds is to use a wallet backup phrase.' },
+)
 
 function getInitialValues(): FormFields {
   return {
@@ -116,14 +119,26 @@ export class WalletsCreateView extends Component<Props, StateProps> {
   getTitle = (): string => {
     switch (this.state.currentStep) {
       case STEPS.NAME:
-        return t`Create Wallet`
+        return i18n._(
+          'WalletsCreate.Create.title',
+          null,
+          { defaults: 'Create wallet' },
+        )
 
       case STEPS.BACKUP_FORM:
       case STEPS.BACKUP_TICKS:
-        return t`Back Up Wallet`
+        return i18n._(
+          'WalletsCreate.Backup.title',
+          null,
+          { defaults: 'Backup wallet' },
+        )
 
       case STEPS.PASSWORD:
-        return t`Enter Security Password to Protect Your Wallet`
+        return i18n._(
+          'WalletsCreate.Password.title',
+          null,
+          { defaults: 'Enter Security Password to Protect Your Wallet' },
+        )
 
       default:
         return ''
@@ -199,7 +214,11 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     >
       <Field
         component={JInputField}
-        label={t`Wallet Name`}
+        label={i18n._(
+          'WalletsCreate.Create.name',
+          null,
+          { defaults: 'Wallet Name' },
+        )}
         infoMessage={checkNameExists(name)}
         name='name'
         isDisabled={isSubmitting}
@@ -210,7 +229,11 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         isLoading={isSubmitting}
         isDisabled={!name.trim()}
       >
-        {t`Next`}
+        {i18n._(
+          'WalletsCreate.Create.submit',
+          null,
+          { defaults: 'Next' },
+        )}
       </Button>
     </form>
   )
@@ -226,7 +249,11 @@ export class WalletsCreateView extends Component<Props, StateProps> {
     <div className={walletsCreateStyle.form}>
       <UserActionInfo
         text={BACKUP_TEXT}
-        title={t`Back Up Wallet`}
+        title={i18n._(
+          'WalletsCreate.Backup.title',
+          null,
+          { defaults: 'Back Up Wallet' },
+        )}
         iconClassName={walletsCreateStyle.icon}
         iconName='ic_backup_48-use-fill'
       />
@@ -238,24 +265,41 @@ export class WalletsCreateView extends Component<Props, StateProps> {
           name='loseAccess'
           onChange={this.handleChange(form.change, 'loseAccess')}
         >
-          {t`I understand that I will lose access to my funds if I loose wallet backup phrase.`}
+          {i18n._(
+            'WalletsCreate.Backup.loseAccess',
+            null,
+            // eslint-disable-next-line max-len
+            { defaults: 'I understand that I will lose access to my funds if I loose wallet backup phrase.' },
+          )}
         </JCheckbox>
         <JCheckbox
           name='compromise'
           onChange={this.handleChange(form.change, 'compromise')}
         >
-          {t`I understand that all my assets might be lost if my wallet backup phrase is 
-          compromised.`}
+          {i18n._(
+            'WalletsCreate.Backup.compromise',
+            null,
+            // eslint-disable-next-line max-len
+            { defaults: 'I understand that all my assets might be lost if my wallet backup phrase is \ncompromised.' },
+          )}
         </JCheckbox>
         <p className={walletsCreateStyle.note}>
-          {t`Be very careful with wallet backup phrase — anyone who know it will get access to 
-          your funds.`}
+          {i18n._(
+            'WalletsCreate.Backup.beCareful',
+            null,
+            // eslint-disable-next-line max-len
+            { defaults: 'Be very careful with wallet backup phrase — anyone who know it will get access to \nyour funds.' },
+          )}
         </p>
         <Button
           type='submit'
           isDisabled={!(loseAccess && compromise)}
         >
-          {t`Continue`}
+          {i18n._(
+            'WalletsCreate.Backup.submit',
+            null,
+            { defaults: 'Continue' },
+          )}
         </Button>
       </form>
     </div>

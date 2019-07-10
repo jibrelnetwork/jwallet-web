@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { clipboard } from 'services'
 
@@ -102,7 +102,11 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
                 walletCardActionsStyles['-button'],
               )}
             >
-              {t`Copy Wallet Address`}
+              {i18n._(
+                'WalletCard.menu.copyWalletAddress',
+                null,
+                { defaults: 'Copy Wallet Address' },
+              )}
             </button>
           )}
           <button
@@ -113,21 +117,31 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
               walletCardActionsStyles['-button'],
             )}
           >
-            {t`Rename Wallet`}
+            {i18n._(
+              'WalletCard.menu.renameWallet',
+              null,
+              { defaults: 'Rename Wallet' },
+            )}
           </button>
-          {isReadOnly && (
-            <JLink
-              href={`/wallets/${id}/upgrade`}
-              className={walletCardActionsStyles.action}
-            >
-              {t`Unlock Features`}
-            </JLink>
-          )}
+          <JLink
+            href={`/wallets/${id}/upgrade`}
+            className={walletCardActionsStyles.action}
+          >
+            {i18n._(
+              'WalletCard.menu.unlock',
+              null,
+              { defaults: 'Unlock Features' },
+            )}
+          </JLink>
           <JLink
             href={`/wallets/${id}/addresses`}
             className={walletCardActionsStyles.action}
           >
-            {t`Manage Addresses`}
+            {i18n._(
+              'WalletCard.menu.addresses',
+              null,
+              { defaults: 'Manage Addresses' },
+            )}
           </JLink>
           {isMultiAddressWallet && (
             <JLink
@@ -135,8 +149,16 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
               href={`/wallets/${id}/mode-${isSimplified ? 'enable' : 'disable'}`}
             >
               {isSimplified
-                ? t`Enable Multi-Address Mode`
-                : t`Disable Multi-Address Mode`
+                ? i18n._(
+                  'WalletCard.menu.enableMulti',
+                  null,
+                  { defaults: 'Enable Multi-Address Mode' },
+                )
+                : i18n._(
+                  'WalletCard.menu.disableMulti',
+                  null,
+                  { defaults: 'Disable Multi-Address Mode' },
+                )
               }
             </JLink>
           )}
@@ -145,14 +167,22 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
               href={`/wallets/${id}/backup`}
               className={walletCardActionsStyles.action}
             >
-              {t`Backup Wallet`}
+              {i18n._(
+                'WalletCard.menu.backup',
+                null,
+                { defaults: 'Backup Wallet' },
+              )}
             </JLink>
           )}
           <JLink
             href={`/wallets/${id}/delete`}
             className={walletCardActionsStyles.action}
           >
-            {t`Delete Wallet`}
+            {i18n._(
+              'WalletCard.menu.delete',
+              null,
+              { defaults: 'Delete Wallet' },
+            )}
           </JLink>
         </div>
       </div>

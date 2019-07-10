@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 import ViewSlider from 'react-view-slider'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { StartLayout } from 'layouts'
 
 import { setIntroductionIsPassed } from 'store/modules/user'
@@ -82,7 +82,11 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
           theme='general'
           onClick={this.handleGetStartedClick}
         >
-          {t`Get Started`}
+          {i18n._(
+            'Introduction.complete',
+            null,
+            { defaults: 'Get Started' },
+          )}
         </Button>
       </StartLayout>
     )

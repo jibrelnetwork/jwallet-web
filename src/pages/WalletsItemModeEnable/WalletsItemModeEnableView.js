@@ -1,7 +1,7 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { walletsPlugin } from 'store/plugins'
 
@@ -25,12 +25,12 @@ export class WalletsItemModeEnableView extends PureComponent<Props> {
   render() {
     const handleBack = this.props.goBackToWallets
 
+    /* eslint-disable max-len */
     return (
       <div className={walletsItemModeEnableStyle.core}>
         <UserActionInfo
-          text={t`You will be able to create multiple addresses within this wallet.
-          They will have a common backup phrase.`}
-          title={t`Enable Multi-Address Mode`}
+          text={i18n._('WalletsItemModeEnable.description', null, { defaults: 'You will be able to create multiple addresses within this wallet. \nThey will have a common backup phrase.' })}
+          title={i18n._('WalletsItemModeEnable.title', null, { defaults: 'Enable Multi-Address Mode' })}
           iconClassName={walletsItemModeEnableStyle.icon}
           iconName='ic_attention_48-use-fill'
         />
@@ -38,11 +38,12 @@ export class WalletsItemModeEnableView extends PureComponent<Props> {
           <ButtonWithConfirm
             onCancel={handleBack}
             onConfirm={this.handleEnable}
-            labelConfirm={t`Enable`}
-            labelCancel={t`Do It Later`}
+            labelConfirm={i18n._('WalletsItemModeEnable.actions.submit', null, { defaults: 'Enable' })}
+            labelCancel={i18n._('WalletsItemModeEnable.actions.cancel', null, { defaults: 'Do It Later' })}
           />
         </div>
       </div>
     )
+    /* eslint-enable max-len */
   }
 }

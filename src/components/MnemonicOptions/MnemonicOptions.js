@@ -5,7 +5,7 @@ import React, {
   Component,
 } from 'react'
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
@@ -25,9 +25,12 @@ type StateProps = {|
   +isOpened: boolean,
 |}
 
-const DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
-affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
-mnemonic from a hardwallet. In all other cases just leave it as is.`
+const DERIVATION_PATH_MESSAGE: string = i18n._(
+  'common.MnemonicOptions.derivationPath.info',
+  null,
+  // eslint-disable-next-line max-len
+  { defaults: 'Derivation path and BIP39 mnemonic passphrase affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import mnemonic from a hardwallet. In all other cases just leave it as is.' },
+)
 
 export class MnemonicOptions extends Component<Props, StateProps> {
   constructor(props: Props) {
@@ -52,13 +55,21 @@ export class MnemonicOptions extends Component<Props, StateProps> {
       <Fragment>
         <Field
           component={JInputField}
-          label={t`Mnemonic Passphrase (Optional)`}
+          label={i18n._(
+            'common.MnemonicOptions.mnemonicPassphrase.title',
+            null,
+            { defaults: 'Mnemonic Passphrase (Optional)' },
+          )}
           name='passphrase'
           isDisabled={isFormDisabled}
         />
         <Field
           component={JInputField}
-          label={t`Derivation Path (Optional)`}
+          label={i18n._(
+            'common.MnemonicOptions.derivationPath.title',
+            null,
+            { defaults: 'Derivation Path (Optional)' },
+          )}
           infoMessage={DERIVATION_PATH_MESSAGE}
           errorMessage={validateDerivationPath(derivationPath)}
           name='derivationPath'
@@ -71,7 +82,11 @@ export class MnemonicOptions extends Component<Props, StateProps> {
         className={ofssetsStyle.mt16}
         theme='secondary'
       >
-        {t`Advanced`}
+        {i18n._(
+          'common.MnemonicOptions.actions.advanced',
+          null,
+          { defaults: 'Advanced' },
+        )}
       </Button>
     )
   }

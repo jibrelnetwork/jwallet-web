@@ -3,7 +3,7 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { CURRENCIES } from 'data'
 import { selectSettingsFiatCurrency } from 'store/selectors/settings'
@@ -112,7 +112,11 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const walletEthBalance = divDecimals(toBigNumber(ethereumBalance))
     .toFormat(4, BigNumber.ROUND_FLOOR)
-  const infoMessage = !isEthereumAsset && t`Address ETH balance — ${walletEthBalance} ETH`
+  const infoMessage = !isEthereumAsset && i18n._(
+    'Send.SendAmountField.info',
+    { walletEthBalance },
+    { defaults: 'Address ETH balance — {walletEthBalance, number, decimal} ETH' },
+  )
 
   const latestFiatCourse = priceFeed.currencyID
     ? selectTickerItemCourseByCurrency(

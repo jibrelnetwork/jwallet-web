@@ -1,14 +1,18 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import notFoundItemStyles from './notFoundItem.m.scss'
 
 function NotFoundItem() {
   return (
     <div className={notFoundItemStyles.core}>
-      {t`Not Found`}
+      {i18n._(
+        'JPicker.notFound',
+        null,
+        { defaults: 'Not Found' },
+      )}
     </div>
   )
 }

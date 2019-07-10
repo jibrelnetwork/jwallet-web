@@ -1,7 +1,7 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { noop } from 'lodash-es'
 
 import {
@@ -78,24 +78,39 @@ export class SetPasswordView extends Component<Props, StateProps> {
         onChange={handleChange}
         onScoreChange={this.handleScoreChange}
         values={values}
-        label={t`Enter Security Password`}
+        label={i18n._(
+          'SetPassword.securityPassword',
+          null,
+          { defaults: 'Enter Security Password' },
+        )}
         isDisabled={isSubmitting}
         isAutoFocus
       />
       <Field
         component={JInputField}
         name='passwordHint'
-        label={t`Enter Password Hint`}
-        infoMessage={t`If you forget your Security Password,
-some functions won’t be available. To restore access to all functions
-you will need to clear your data and re-import your wallets again using backup phrase.`}
+        label={i18n._(
+          'SetPassword.hint.label',
+          null,
+          { defaults: 'Enter Password Hint' },
+        )}
+        infoMessage={i18n._(
+          'SetPassword.hint.description',
+          null,
+          // eslint-disable-next-line max-len
+          { defaults: 'If you forget your Security Password, some functions won’t be available. To restore access to all functions you will need to clear your data and re-import your wallets again using backup phrase.' },
+        )}
       />
       <Button
         type='submit'
         isLoading={isSubmitting}
         isDisabled={!this.state.isStrongPassword}
       >
-        {t`Set Security Password`}
+        {i18n._(
+          'SetPassword.submit',
+          null,
+          { defaults: 'Set Security Password' },
+        )}
       </Button>
     </form>
   )
@@ -106,7 +121,11 @@ you will need to clear your data and re-import your wallets again using backup p
         className='__new-password'
       >
         <h1 className={setPasswordViewStyle.title}>
-          {t`Set Password to Secure Your Storage`}
+          {i18n._(
+            'SetPassword.title',
+            null,
+            { defaults: 'Set Password to Secure Your Storage' },
+          )}
         </h1>
         <Form
           onSubmit={this.handleSubmit}

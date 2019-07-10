@@ -1,7 +1,7 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import React, { Component } from 'react'
 
 import { add0x } from 'utils/address'
@@ -80,10 +80,18 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
   getTitle = (): string => {
     switch (this.state.currentStep) {
       case STEPS.PASSWORD:
-        return t`Enter Security Password`
+        return i18n._(
+          'WalletsItemBackup.securityPassword.title',
+          null,
+          { defaults: 'Enter Security Password' },
+        )
 
       case STEPS.BACKUP_FORM:
-        return t`Back Up Wallet`
+        return i18n._(
+          'WalletsItemBackup.backup.title',
+          null,
+          { defaults: 'Back Up Wallet' },
+        )
 
       default:
         return ''

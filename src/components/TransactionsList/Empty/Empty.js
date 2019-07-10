@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import OverlayNotification from 'components/OverlayNotification'
 
@@ -9,18 +9,24 @@ type Props = {|
   +isFiltered: boolean,
 |}
 
-const noTransactionsText: string[] =
-  (t`Looks like you haven't made
-  any transactions yet.`).split('\n')
+const noTransactionsText = i18n._(
+  'TransactionsList.Empty.default',
+  null,
+  { defaults: 'Looks like you haven\'t made any transactions yet.' },
+)
 
 function TransactionsListEmpty({ isFiltered }: Props) {
   return (
     <OverlayNotification
       color='gray'
       image='screen-reload'
-      description={isFiltered ? [
-        t`There are no items to display`,
-      ] : noTransactionsText}
+      description={isFiltered
+        ? [i18n._(
+          'TransactionsList.Empty.filtered',
+          null,
+          { defaults: 'There are no items to display' },
+        )]
+        : [noTransactionsText]}
       isTransparent
     />
   )

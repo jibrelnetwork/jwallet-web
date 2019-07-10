@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 import createCaluclateDecorator from 'final-form-calculate'
 import { connect } from 'react-redux'
 import { max } from 'lodash-es'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Form,
   Field,
@@ -125,14 +125,22 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
     const amountFormatError = !isValidNumeric(amountValue)
       ? {
-        amountValue: t`Invalid amount value`,
+        amountValue: i18n._(
+          'Send.StepOneForm.input.amountValue.error.invalid',
+          null,
+          { defaults: 'Invalid amount value' },
+        ),
       }
       : undefined
 
     const amountBalanceError = isValidNumeric(amountValue) &&
       (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
       ? {
-        amountValue: t`Amount exceeds current balance`,
+        amountValue: i18n._(
+          'Send.StepOneForm.input.amountValue.error.tooMuch',
+          null,
+          { defaults: 'Amount exceeds current balance' },
+        ),
       }
       : undefined
 
@@ -152,7 +160,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       toBigNumber(gasPriceValue).lt(1) ||
       toBigNumber(gasPriceValue).gt(1000)
         ? {
-          gasPriceValue: t`Invalid gas price value`,
+          gasPriceValue: i18n._(
+            'Send.StepOneForm.input.gasPriceValue.error.invalid',
+            null,
+            { defaults: 'Invalid gas price value' },
+          ),
         }
         : undefined
 
@@ -160,7 +172,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       !isValidNumeric(gasLimitValue) ||
       parseInt(gasLimitValue, 10) < 21000
       ? {
-        gasLimitValue: t`Invalid gas limit`,
+        gasLimitValue: i18n._(
+          'Send.StepOneForm.input.gasLimitValue.error.invalid',
+          null,
+          { defaults: 'Invalid gas limit' },
+        ),
       }
       : undefined
 
@@ -365,7 +381,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           isLoading={isSubmitting}
           isDisabled={isFormDisabled}
         >
-          {t`Send`}
+          {i18n._(
+            'Send.StepOneForm.form.actions.submit',
+            null,
+            { defaults: 'Send' },
+          )}
         </Button>
       </form>
     )

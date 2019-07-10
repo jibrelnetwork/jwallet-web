@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import buttonStyles from 'components/base/Button/button.m.scss'
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
@@ -63,7 +63,7 @@ export class WalletsView extends PureComponent<Props, StateProps> {
               className={titleHeaderStyles.icon}
             />
             <span className={titleHeaderStyles.label}>
-              {t`Create Wallet`}
+              {i18n._('Wallets.actions.create', null, { defaults: 'Create Wallet' })}
             </span>
           </JLink>
           <JLink
@@ -75,7 +75,7 @@ export class WalletsView extends PureComponent<Props, StateProps> {
               className={titleHeaderStyles.icon}
             />
             <span className={titleHeaderStyles.label}>
-              {t`Import Wallet`}
+              {i18n._('Wallets.actions.import', null, { defaults: 'Import Wallet' })}
             </span>
           </JLink>
         </TitleHeader>

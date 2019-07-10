@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { Field } from 'react-final-form'
 
 import { PasswordInput } from 'components'
@@ -32,10 +32,26 @@ type StateProps = {|
 const MIN_PASSWORD_STRENGTH_SCORE: number = 3
 
 const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
-  'red': t`Too weak`,
-  'green': t`Not bad`,
-  'yellow': t`Bit weak`,
-  'orange': t`Easily cracked`,
+  'red': i18n._(
+    'NewPasswordField.strength.red',
+    null,
+    { defaults: 'Too weak' },
+  ),
+  'green': i18n._(
+    'NewPasswordField.strength.green',
+    null,
+    { defaults: 'Not bad' },
+  ),
+  'yellow': i18n._(
+    'NewPasswordField.strength.yellow',
+    null,
+    { defaults: 'Bit weak' },
+  ),
+  'orange': i18n._(
+    'NewPasswordField.strength.orange',
+    null,
+    { defaults: 'Easily cracked' },
+  ),
 }
 
 function getStatusByScore(
@@ -197,7 +213,11 @@ export class NewPasswordField extends Component<Props, StateProps> {
         <Field
           component={PasswordInput}
           value={values.passwordConfirm}
-          label={t`Repeat Security Password`}
+          label={i18n._(
+            'NewPasswordField.repeat.label',
+            null,
+            { defaults: 'Repeat Security Password' },
+          )}
           theme='white-icon'
           name='passwordConfirm'
           isDisabled={isDisabled}

@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Button,
   JLink,
@@ -25,7 +25,11 @@ export function ContactsItemDeleteView(props: Props) {
       <ConfirmationBody
         iconName='ic_delete_48-use-fill'
         iconColor='gray'
-        title={t`Delete Contact?`}
+        title={i18n._(
+          'ContactsItemDelete.title',
+          null,
+          { defaults: 'Delete Contact?' },
+        )}
       >
         <span>{props.name}</span><br />
         <span>{props.contactId}</span>
@@ -36,13 +40,21 @@ export function ContactsItemDeleteView(props: Props) {
           theme='secondary-confirm'
           onClick={() => { alert(`${props.name} with address ${props.contactId} was deleted.`) }}
         >
-          {t`Delete`}
+          {i18n._(
+            'ContactsItemDelete.actions.confirm',
+            null,
+            { defaults: 'Delete' },
+          )}
         </Button>
         <JLink
           theme='button-general-confirm'
           href={`/contacts/${props.contactId}`}
         >
-          {t`Keep Contact`}
+          {i18n._(
+            'ContactsItemDelete.actions.cancel',
+            null,
+            { defaults: 'Keep Contact' },
+          )}
         </JLink>
       </div>
     </div>

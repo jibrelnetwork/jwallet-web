@@ -1,7 +1,7 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
@@ -31,7 +31,11 @@ export class CopyIconButton extends PureComponent<Props> {
     return (
       <button
         onClick={this.handleCopy(this.props.content)}
-        title={title || t`Copy ${content}`}
+        title={title || i18n._(
+          'common.CopyIconButton.title',
+          { content },
+          { defaults: 'Copy {content}' },
+        )}
         className={`__copy-icon-button ${copyIconButtonStyle.core}`}
         type='button'
       >

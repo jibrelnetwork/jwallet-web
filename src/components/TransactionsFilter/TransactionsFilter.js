@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import PopupButton from 'components/PopupButton'
 
@@ -36,14 +36,22 @@ class TransactionsFilter extends PureComponent<Props> {
               color='gray'
               size='normal'
               weight='bold'
-              value={t`Filter`}
+              value={i18n._(
+                'TransactionsFilter.filter',
+                null,
+                { defaults: 'Filter' },
+              )}
               whiteSpace='wrap'
             />
           </div>
           <JCheckbox
             onChange={setOnlyPending}
             name='only-pending'
-            label={t`Only pending`}
+            label={i18n._(
+              'TransactionsFilter.pendingOnly',
+              null,
+              { defaults: 'Only pending' },
+            )}
             isChecked={isOnlyPending}
           />
         </div>

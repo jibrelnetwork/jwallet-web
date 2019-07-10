@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { handle } from 'utils/eventHandlers'
 
@@ -35,14 +35,22 @@ const EditAssetView = ({
   <CloseableScreen
     close={close}
     onOpen={handle(openView)(address)}
-    title={t`Edit digital asset`}
+    title={i18n._(
+      'AssetsItemEdit.title',
+      null,
+      { defaults: 'Edit digital asset' },
+    )}
   >
     <DigitalAssetEditForm
       submit={submit}
       setField={setField}
       formFields={formFields}
       invalidFields={invalidFields}
-      submitLabel={t`Save`}
+      submitLabel={i18n._(
+        'AssetsItemEdit.submit',
+        null,
+        { defaults: 'Save' },
+      )}
       isAddressEditable={false}
     />
   </CloseableScreen>

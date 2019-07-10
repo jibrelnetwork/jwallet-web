@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import buttonStyles from 'components/base/Button/button.m.scss'
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
@@ -65,7 +65,11 @@ export class AddressChooser extends Component<Props> {
         <div className={styles.main}>
           <div className={styles.header}>
             <div className={styles.title}>
-              {t`Choose Address`}
+              {i18n._(
+                'common.WalletCard.AddressChooser.choose',
+                null,
+                { defaults: 'Choose Address' },
+              )}
             </div>
             <JLink
               href={`/wallets/${walletId}/addresses`}
@@ -76,7 +80,11 @@ export class AddressChooser extends Component<Props> {
                 className={titleHeaderStyles.icon}
               />
               <span className={titleHeaderStyles.label}>
-                {t`Manage`}
+                {i18n._(
+                  'common.WalletCard.AddressChooser.manage',
+                  null,
+                  { defaults: 'Manage' },
+                )}
               </span>
             </JLink>
             <button

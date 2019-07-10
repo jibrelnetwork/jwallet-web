@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JAssetSymbol,
@@ -35,7 +35,11 @@ export function AssetItemPreview({
         className={`${style.item} ${style.mainBlock}`}
       >
         <div className={style.label}>
-          {t`Asset`}
+          {i18n._(
+            'HistoryItemDetails.AssetItemPreview.label',
+            null,
+            { defaults: 'Asset' },
+          )}
         </div>
         <div className={style.body}>
           {name}

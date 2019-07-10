@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Form,
   Field,
@@ -30,7 +30,11 @@ function handleFormSubmit(values) {
 
   if (!checkAddressValid(values.address)) {
     // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    errors.address = t`Invalid address`
+    errors.address = i18n._(
+      'ContactsItemAdd.input.address.error.invalid',
+      null,
+      { defaults: 'Invalid address' },
+    )
   }
 
   if (values.name == null) {
@@ -57,7 +61,7 @@ export function ContactsItemAddView({
   return (
     <div className={style.core}>
       <TitleHeader
-        title={t`Add Contact`}
+        title={i18n._('ContactsItemAdd.title', null, { defaults: 'Add Contact' })}
       />
       <Form
         render={({
@@ -71,13 +75,21 @@ export function ContactsItemAddView({
           >
             <Field
               component={JInputField}
-              label={t`Name`}
+              label={i18n._(
+                'ContactsItemAdd.input.name.title',
+                null,
+                { defaults: 'Name' },
+              )}
               name='name'
               isDisabled={submitting}
             />
             <Field
               component={JInputField}
-              label={t`Address`}
+              label={i18n._(
+                'ContactsItemAdd.input.address.title',
+                null,
+                { defaults: 'Address' },
+              )}
               name='address'
               errorMessage={errors.address}
               isDisabled={submitting || address}
@@ -85,16 +97,24 @@ export function ContactsItemAddView({
             <Field
               className={offset.mb32}
               component={JInputField}
-              label={t`Note`}
+              label={i18n._(
+                'ContactsItemAdd.input.note.title',
+                null,
+                { defaults: 'Note' },
+              )}
               name='note'
-              infoMessage={t`This note is only visible to you.`}
+              infoMessage={i18n._(
+                'ContactsItemAdd.input.note.info',
+                null,
+                { defaults: 'This note is only visible to you.' },
+              )}
               isDisabled={submitting}
             />
             <Button
               type='submit'
               isLoading={submitting}
             >
-              {t`Save`}
+              {i18n._('ContactsItemAdd.actions.save', null, { defaults: 'Save' })}
             </Button>
           </form>
         )}

@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 type GetFormattedDateStringInput = Date | string | number
 
@@ -10,18 +10,66 @@ type TokensData = {|
 |}
 
 const MONTHS = [
-  t`January`,
-  t`February`,
-  t`March`,
-  t`April`,
-  t`May`,
-  t`June`,
-  t`July`,
-  t`August`,
-  t`Septemner`,
-  t`October`,
-  t`November`,
-  t`December`,
+  i18n._(
+    'fixme.january',
+    null,
+    { defaults: 'January' },
+  ),
+  i18n._(
+    'fixme.february',
+    null,
+    { defaults: 'February' },
+  ),
+  i18n._(
+    'fixme.march',
+    null,
+    { defaults: 'March' },
+  ),
+  i18n._(
+    'fixme.april',
+    null,
+    { defaults: 'April' },
+  ),
+  i18n._(
+    'fixme.may',
+    null,
+    { defaults: 'May' },
+  ),
+  i18n._(
+    'fixme.june',
+    null,
+    { defaults: 'June' },
+  ),
+  i18n._(
+    'fixme.july',
+    null,
+    { defaults: 'July' },
+  ),
+  i18n._(
+    'fixme.august',
+    null,
+    { defaults: 'August' },
+  ),
+  i18n._(
+    'fixme.september',
+    null,
+    { defaults: 'September' },
+  ),
+  i18n._(
+    'fixme.october',
+    null,
+    { defaults: 'October' },
+  ),
+  i18n._(
+    'fixme.november',
+    null,
+    { defaults: 'November' },
+  ),
+  i18n._(
+    'fixme.december',
+    null,
+    { defaults: 'December' },
+  ),
 ]
 
 function getFormattedDateString(

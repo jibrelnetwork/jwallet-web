@@ -1,7 +1,7 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import menuPanelStyle from '../menuPanel.m.scss'
 import { Action } from './Action'
@@ -27,28 +27,44 @@ export class Actions extends Component<Props> {
         <ul className={`__primary ${menuPanelStyle.actions} ${menuPanelStyle.primary}`}>
           <li>
             <Action
-              label={t`Home`}
+              label={i18n._(
+                'menu.home',
+                null,
+                { defaults: 'Home' },
+              )}
               href='/'
               iconName='home'
             />
           </li>
           <li>
             <Action
-              label={t`History`}
+              label={i18n._(
+                'menu.history',
+                null,
+                { defaults: 'History' },
+              )}
               href='/history'
               iconName='history'
             />
           </li>
           <li>
             <Action
-              label={t`Contacts`}
+              label={i18n._(
+                'menu.contacts',
+                null,
+                { defaults: 'Contacts' },
+              )}
               href='/contacts'
               iconName='contact'
             />
           </li>
           <li>
             <Action
-              label={t`More`}
+              label={i18n._(
+                'menu.more',
+                null,
+                { defaults: 'More' },
+              )}
               href='/more'
               iconName='more'
             />
@@ -57,7 +73,11 @@ export class Actions extends Component<Props> {
         <ul className={`__secondary ${menuPanelStyle.actions} ${menuPanelStyle.secondary}`}>
           <li>
             <Action
-              label={t`Settings`}
+              label={i18n._(
+                'menu.settings',
+                null,
+                { defaults: 'Settings' },
+              )}
               href='/settings'
               iconName='settings'
             />

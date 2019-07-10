@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import {
   Form,
   Field,
@@ -45,7 +45,7 @@ export function ContactsItemEditView({
   return (
     <div className={style.core}>
       <TitleHeader
-        title={t`Edit Contact`}
+        title={i18n._('ContactsItemEdit.title', null, { defaults: 'Edit Contact' })}
         onBack={null}
       />
       <Form
@@ -60,22 +60,26 @@ export function ContactsItemEditView({
           >
             <Field
               component={JInputField}
-              label={t`Name`}
+              label={i18n._('ContactsItemEdit.input.name.title', null, { defaults: 'Name' })}
               name='name'
               isDisabled={submitting}
             />
             <Field
               component={JInputField}
-              label={t`Address`}
+              label={i18n._('ContactsItemEdit.input.address.title', null, { defaults: 'Address' })}
               name='address'
               isDisabled
             />
             <Field
               className={offset.mb32}
               component={JInputField}
-              label={t`Note`}
+              label={i18n._('ContactsItemEdit.input.note.title', null, { defaults: 'Note' })}
               name='note'
-              infoMessage={t`This note is only visible to you.`}
+              infoMessage={i18n._(
+                'ContactsItemEdit.input.note.info',
+                null,
+                { defaults: 'This note is only visible to you.' },
+              )}
               isDisabled={submitting}
             />
             <Button
@@ -83,7 +87,7 @@ export function ContactsItemEditView({
               isDisabled={invalid}
               isLoading={submitting}
             >
-              {t`Save`}
+              {i18n._('ContactsItemEdit.actions.save', null, { defaults: 'Save' })}
             </Button>
           </form>
         )}
@@ -94,7 +98,7 @@ export function ContactsItemEditView({
         theme='button-secondary'
         href={`/contacts/${contactId}/delete`}
       >
-        {t`Delete Contact`}
+        {i18n._('ContactsItemEdit.actions.delete', null, { defaults: 'Delete Contact' })}
       </JLink>
     </div>
   )

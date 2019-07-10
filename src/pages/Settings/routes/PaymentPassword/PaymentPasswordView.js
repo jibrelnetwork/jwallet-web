@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   Form,
@@ -23,16 +23,46 @@ import {
 import './paymentPassword.scss'
 
 const text = {
-  pageDescription: t`You will use this password to unlock and transfer your funds.
-    Keep it secure!`,
-  passwordOld: t`Old payment password`,
-  passwordOldAlert: t`Old password is required`,
-  passwordConfirmAlert: t`Password does not match confirmation`,
-  passwordNotEqual: t`Not equal`,
-  hint: t`Password hint`,
-  hintAlert: t`Password hint is required`,
-  hintAlertPassword: t`Password and hint should not be equal`,
-  button: t`Set button`,
+  pageDescription: i18n._(
+    'SettingsSecurityPassword.description',
+    null,
+    { defaults: 'You will use this password to unlock and transfer your funds. Keep it secure!' },
+  ),
+  passwordOld: i18n._(
+    'SettingsSecurityPassword.oldPassword',
+    null,
+    { defaults: 'Old payment password' },
+  ),
+  passwordOldAlert: i18n._(
+    'SettingsSecurityPassword.errors.oldPasswordRequired',
+    null,
+    { defaults: 'Old password is required' },
+  ),
+  passwordConfirmAlert: i18n._(
+    'SettingsSecurityPassword.errors.passwordsNotMatch',
+    null,
+    { defaults: 'Password does not match confirmation' },
+  ),
+  passwordNotEqual: i18n._(
+    'SettingsSecurityPassword.errors.passwordsNotEqual',
+    null,
+    { defaults: 'Not equal' },
+  ),
+  hint: i18n._(
+    'SettingsSecurityPassword.hint',
+    null,
+    { defaults: 'Password hint' },
+  ),
+  hintAlert: i18n._(
+    'SettingsSecurityPassword.errors.hintRequired',
+    null,
+    { defaults: 'Password hint is required' },
+  ),
+  hintAlertPassword: i18n._(
+    'SettingsSecurityPassword.errors.hintEqualsPassword',
+    null,
+    { defaults: 'Password and hint should not be equal' },
+  ),
 }
 
 const required = message => value => (value ? undefined : message)
@@ -88,7 +118,13 @@ export default class PaymentPasswordView extends PureComponent<Props> {
     const { passwordForm } = this.props
 
     return (
-      <SubsettingsView title={t`Update payment password`}>
+      <SubsettingsView
+        title={i18n._(
+          'SettingsSecurityPassword.title',
+          null,
+          { defaults: 'Update payment password' },
+        )}
+      >
         <SubsettingsDescription text={text.pageDescription} />
         <Form
           onSubmit={this.handleSubmit}
@@ -135,7 +171,12 @@ export default class PaymentPasswordView extends PureComponent<Props> {
                 onClick={handleFormSubmit}
                 isLoading={passwordForm.isLoading}
                 type='submit'
-              >{t`Set password`}
+              >
+                {i18n._(
+                  'SettingsSecurityPassword.submit',
+                  null,
+                  { defaults: 'Set password' },
+                )}
               </Button>
             </form>
           )}
