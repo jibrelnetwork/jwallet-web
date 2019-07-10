@@ -209,7 +209,7 @@ class WalletsPlugin {
     if (foundWallet) {
       // FIXME: Do we need to translate this? Looks like internal error text
       throw new Error(i18n._(
-        'WalletsImport.errors.dataInvalid',
+        'WalletsImport.errors.walletIsNotUnique',
         { propertyName },
         { defaults: 'Wallet with such {propertyName} already exists' },
       ))

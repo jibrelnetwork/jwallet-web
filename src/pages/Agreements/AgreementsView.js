@@ -110,10 +110,11 @@ class AgreementsScreen extends PureComponent<Props> {
                     isChecked={agreements[key]}
                     isRegular
                   >
+                    {/* eslint-disable max-len */}
                     <Trans id='TermsAndConditions.acceptTermsAndConditions'>
-                      {/* eslint-disable-next-line max-len */}
                       I have read and accepted <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'>Terms of Use</JLink> and <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'>Privacy Policy</JLink>
                     </Trans>
+                    {/* eslint-enable max-len */}
                   </JCheckbox>
                 )}
               </div>

@@ -130,7 +130,7 @@ export class WalletsCreateView extends Component<Props, StateProps> {
         return i18n._(
           'WalletsCreate.Backup.title',
           null,
-          { defaults: 'Backup wallet' },
+          { defaults: 'Back Up Wallet' },
         )
 
       case STEPS.PASSWORD:

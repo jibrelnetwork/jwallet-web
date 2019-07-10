@@ -33,7 +33,7 @@ const CurrencyView = ({
 }: Props) => (
   <SubsettingsView
     title={i18n._(
-      'SettingsCurrency.title',
+      'SettingsCurrency.CurrencyView.title',
       null,
       { defaults: 'Select currency' },
     )}
