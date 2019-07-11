@@ -18,7 +18,7 @@ import { TitleHeader } from 'components'
 import {
   withLanguageChange,
   type WithLanguageChangeProps,
-} from 'app/components/LangProvider'
+} from 'app/components'
 import { type LanguageCode } from 'data/languages'
 import { Button } from 'components/base'
 

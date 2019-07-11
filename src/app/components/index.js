@@ -2,7 +2,18 @@
 
 export {
   useI18n,
-  useLanguageChange,
+  useLanguage,
+} from './LanguageProvider/hooks'
+
+export {
   withLanguageChange,
+} from './LanguageProvider/withLanguageChange'
+
+export {
   LanguageProvider,
-} from './LanguageProvider'
+  LanguageConsumer,
+} from './LanguageProvider/LanguageProvider'
+
+export type {
+  WithLanguageChangeProps,
+} from './LanguageProvider/withLanguageChange'

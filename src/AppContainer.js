@@ -14,7 +14,7 @@ import {
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
 import { type AppAction } from 'store/modules'
-import { LanguageProvider } from 'app/components/LanguageProvider'
+import { LanguageProvider } from 'app/components'
 
 import { AppRouter } from './AppRouter'
 
