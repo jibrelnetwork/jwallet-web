@@ -1,7 +1,11 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { I18nProvider } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import {
+  I18nProvider,
+  I18n,
+} from '@lingui/react'
 
 import { type LanguageCode } from 'data/languages'
 import { catalogs } from 'data/lingui'
@@ -22,19 +26,22 @@ type ComponentState = {|
   language: LanguageCode,
 |}
 
-type ChangeLanguage = (language: LanguageCode) => Promise<any>
+export type ChangeLanguage = (language: LanguageCode) => Promise<any>
 
-type LangContextType = {
+type LanguageContextType = {
   language: LanguageCode,
   changeLanguage: ChangeLanguage,
+  i18n: I18nType,
 }
 
-const LangContext = React.createContext<LangContextType>({
+export const LanguageContext = React.createContext<LanguageContextType>({
   language: 'en',
   changeLanguage: () => Promise.resolve(),
+  // $FlowFixMe
+  i18n: { '_': () => '' },
 })
 
-export class LangProvider extends PureComponent<Props, ComponentState> {
+export class LanguageProvider extends PureComponent<Props, ComponentState> {
   state = {
     isInitialized: false,
     language: 'en',
@@ -79,48 +86,27 @@ export class LangProvider extends PureComponent<Props, ComponentState> {
       return null
     }
 
-    const value = {
-      language,
-      changeLanguage: this.changeLanguage,
-    }
-
     console.log(
-      `LangProvider: language=${language}, availableCatalogs=${Object.keys(catalogs).join(',')}`,
+      `LanguageProvider: language=${language}, catalogs=${Object.keys(catalogs).join(',')}`,
     )
 
     return (
       <I18nProvider language={language} catalogs={catalogs}>
-        <LangContext.Provider value={value}>
-          {this.props.children}
-        </LangContext.Provider>
+        <I18n>
+          {({ i18n }) => (
+            <LanguageContext.Provider value={{
+              i18n,
+              language,
+              changeLanguage: this.changeLanguage,
+            }}
+            >
+              {this.props.children}
+            </LanguageContext.Provider>
+          )}
+        </I18n>
       </I18nProvider>
     )
   }
 }
 
-export const LangConsumer = LangContext.Consumer
-
-export type WithLanguageChangeProps = {|
-  language: LanguageCode,
-  changeLanguage: ChangeLanguage,
-|}
-
-export function withLanguageChange<Config: {}>(
-  Component: React$AbstractComponent<Config, any>,
-): React$AbstractComponent<$Diff<Config, WithLanguageChangeProps>, any> {
-  return function WithLang(props: $Diff<Config, WithLanguageChangeProps>) {
-    return (
-      <LangConsumer>
-        {({
-          language, changeLanguage,
-        }) => (
-          <Component
-            {...props}
-            language={language}
-            changeLanguage={changeLanguage}
-          />
-        )}
-      </LangConsumer>
-    )
-  }
-}
+export const LanguageConsumer = LanguageContext.Consumer
