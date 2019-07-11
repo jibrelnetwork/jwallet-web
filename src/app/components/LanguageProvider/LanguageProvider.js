@@ -9,6 +9,7 @@ import {
 
 import { type LanguageCode } from 'data/languages'
 import { catalogs } from 'data/lingui'
+import { i18n as i18nInstance } from 'i18n/lingui'
 
 import {
   init,
@@ -90,8 +91,17 @@ export class LanguageProvider extends PureComponent<Props, ComponentState> {
       `LanguageProvider: language=${language}, catalogs=${Object.keys(catalogs).join(',')}`,
     )
 
+    i18nInstance.load({
+      [language]: catalogs[language],
+    })
+
+    i18nInstance.activate(language)
+
     return (
-      <I18nProvider language={language} catalogs={catalogs}>
+      <I18nProvider
+        i18n={i18nInstance}
+        language={language}
+      >
         <I18n>
           {({ i18n }) => (
             <LanguageContext.Provider value={{
