@@ -123,14 +123,22 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
     const selectedAssetBalance = getAssetBalanceByAddress(assetAddress)
 
-    const amountError = !isValidNumeric(amountValue) &&
-      (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
+    const amountFormatError = !isValidNumeric(amountValue)
       ? {
         amountValue: t`Invalid amount value`,
       }
       : undefined
 
-    if (assetAddress && amountValue && recipientAddress) {
+    const amountBalanceError = isValidNumeric(amountValue) &&
+      (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
+      ? {
+        amountValue: t`Amount exceeds current balance`,
+      }
+      : undefined
+
+    const isAmountValid = !(amountFormatError && amountBalanceError)
+
+    if (assetAddress && isAmountValid && recipientAddress) {
       await this.requestGasLimit({
         assetAddress,
         amountValue,
@@ -157,7 +165,8 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       : undefined
 
     return {
-      ...amountError,
+      ...amountFormatError,
+      ...amountBalanceError,
       ...gasPriceError,
       ...gasLimitError,
     }
