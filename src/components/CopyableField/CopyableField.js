@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import { CopyIconButton } from 'components'
 
@@ -20,6 +20,8 @@ export function CopyableField({
   const labelOrNothing = label
     ? ` ${label}`
     : ''
+
+  const i18n = useI18n()
 
   return (
     <div

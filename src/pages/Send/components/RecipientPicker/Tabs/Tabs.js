@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import classNames from 'classnames'
 
@@ -29,6 +29,8 @@ export function Tabs({
   activeTab,
   onTabClick,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={tabsStyle.core} onClick={handleTabBarClick}>
       <button

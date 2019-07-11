@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import {
   noop,
 } from 'lodash-es'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import {
   Button,
   Header,
@@ -25,6 +25,7 @@ export type Props = {|
 
 export function ContactsEmptyView(props: Props) {
   const isEmpty = props.list.length <= 0
+  const i18n = useI18n()
 
   return (
     <div className={classNames(style.core, isEmpty && style.empty)}>

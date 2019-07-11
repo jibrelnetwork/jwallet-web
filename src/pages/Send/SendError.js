@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   UserActionInfo,
@@ -17,6 +17,8 @@ export function SendError({
   onGoBackClick,
   onCancelClick,
 }: Props) {
+  const i18n = useI18n()
+
   /* eslint-disable max-len */
   return (
     <div className='__send-error'>

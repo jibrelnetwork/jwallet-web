@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import { JLink } from 'components/base'
 
@@ -27,6 +27,8 @@ type Props = {|
 export function MenuPanel({
   routeName,
 }: Props) {
+  const i18n = useI18n()
+
   const menuMeta: MenuMeta = getMenuMeta(routeName)
   const {
     isMinimized,

@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
 import { JIcon } from 'components/base'
@@ -11,9 +12,10 @@ import copyIconButtonStyle from './copyIconButton.m.scss'
 export type Props = {|
   +title: string,
   +content: string,
+  +i18n: I18nType,
 |}
 
-export class CopyIconButton extends PureComponent<Props> {
+class CopyIconButtonComponent extends PureComponent<Props> {
   static defaultProps = {
     title: '',
   }
@@ -24,6 +26,7 @@ export class CopyIconButton extends PureComponent<Props> {
 
   render() {
     const {
+      i18n,
       title,
       content,
     }: Props = this.props
@@ -44,3 +47,5 @@ export class CopyIconButton extends PureComponent<Props> {
     )
   }
 }
+
+export const CopyIconButton = withI18n()(CopyIconButtonComponent)

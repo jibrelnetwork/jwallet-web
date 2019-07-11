@@ -1,7 +1,9 @@
 // @flow
 
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import React, {
   Fragment,
@@ -34,6 +36,7 @@ type Props = {|
   +balance: ?BalanceString,
   +isCustom: boolean,
   +isActive: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -78,6 +81,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
       balance,
       isCustom,
       isActive,
+      i18n,
     } = this.props
 
     const {
@@ -211,4 +215,4 @@ class AssetItem extends PureComponent<Props, StateProps> {
   }
 }
 
-export default AssetItem
+export default withI18n()(AssetItem)

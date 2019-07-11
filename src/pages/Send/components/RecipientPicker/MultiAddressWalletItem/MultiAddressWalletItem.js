@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import { JIcon } from 'components/base'
 
@@ -18,6 +18,8 @@ export function MultiAddressWalletItem({
   addressCount,
   isOpen,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={multiAddressWalletItemStyles.core}>
       <JIcon name='wallet-use-fill' color='gray' className={multiAddressWalletItemStyles.icon} />

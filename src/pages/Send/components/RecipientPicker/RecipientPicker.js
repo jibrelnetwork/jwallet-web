@@ -3,7 +3,6 @@
 import React, {
   Component,
 } from 'react'
-import { i18n } from 'i18n/lingui'
 
 import {
   JPickerBody,
@@ -98,7 +97,7 @@ export type Props = {|
   +contacts: Contact[],
   +wallets: RecipientPickerWallet[],
   +className: string,
-  // fiatCurrency: FiatCurrency,
+  +label: string,
 |}
 
 type ComponentState = {|
@@ -134,6 +133,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
       input,
       contacts,
       wallets,
+      label,
     } = this.props
 
     const { searchQuery } =  this.state
@@ -149,11 +149,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={i18n._(
-            'Send.RecipientPicker.recipient',
-            null,
-            { defaults: 'Recipient' },
-          )}
+          label={label}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -194,11 +190,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={i18n._(
-            'Send.RecipientPicker.recipient',
-            null,
-            { defaults: 'Recipient' },
-          )}
+          label={label}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -212,11 +204,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={i18n._(
-            'Send.RecipientPicker.recipient',
-            null,
-            { defaults: 'Recipient' },
-          )}
+          label={label}
           value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -231,11 +219,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
       <JPickerCurrent
         ref={this.searchInputRef}
         isEditable={isOpen}
-        label={i18n._(
-          'Send.RecipientPicker.recipient',
-          null,
-          { defaults: 'Recipient' },
-        )}
+        label={label}
         value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}

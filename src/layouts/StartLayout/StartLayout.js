@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import svgLogoBlue from 'public/assets/logo/logo-blue.svg'
 
@@ -19,6 +19,8 @@ export function StartLayout({
   className,
   hasNoLogo,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div
       className={classNames(

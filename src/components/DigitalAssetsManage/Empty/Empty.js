@@ -1,11 +1,13 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import OverlayNotification from 'components/OverlayNotification'
 
 function DigitalAssetsManageEmpty() {
+  const i18n = useI18n()
+
   return (
     <OverlayNotification
       color='gray'

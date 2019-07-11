@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import { useFocus } from 'utils/hooks/useFocus'
 
 import { JPickerListItem } from 'components/base/JPicker'
@@ -28,7 +28,7 @@ export function QuickSendItem({
     onFocus,
     onBlur,
   }] = useFocus()
-
+  const i18n = useI18n()
   const isAddressValid = checkAddressValid(address)
 
   return (

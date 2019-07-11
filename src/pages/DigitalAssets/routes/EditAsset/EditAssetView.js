@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import { handle } from 'utils/eventHandlers'
 
@@ -31,29 +31,33 @@ const EditAssetView = ({
   setField,
   address,
   submit,
-}: Props) => (
-  <CloseableScreen
-    close={close}
-    onOpen={handle(openView)(address)}
-    title={i18n._(
-      'AssetsItemEdit.title',
-      null,
-      { defaults: 'Edit digital asset' },
-    )}
-  >
-    <DigitalAssetEditForm
-      submit={submit}
-      setField={setField}
-      formFields={formFields}
-      invalidFields={invalidFields}
-      submitLabel={i18n._(
-        'AssetsItemEdit.submit',
+}: Props) => {
+  const i18n = useI18n()
+
+  return (
+    <CloseableScreen
+      close={close}
+      onOpen={handle(openView)(address)}
+      title={i18n._(
+        'AssetsItemEdit.title',
         null,
-        { defaults: 'Save' },
+        { defaults: 'Edit digital asset' },
       )}
-      isAddressEditable={false}
-    />
-  </CloseableScreen>
-)
+    >
+      <DigitalAssetEditForm
+        submit={submit}
+        setField={setField}
+        formFields={formFields}
+        invalidFields={invalidFields}
+        submitLabel={i18n._(
+          'AssetsItemEdit.submit',
+          null,
+          { defaults: 'Save' },
+        )}
+        isAddressEditable={false}
+      />
+    </CloseableScreen>
+  )
+}
 
 export default EditAssetView

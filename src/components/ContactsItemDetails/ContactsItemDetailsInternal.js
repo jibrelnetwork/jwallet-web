@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   JIcon,
@@ -26,6 +26,7 @@ export type Props = {
 
 function Component(props: Props) {
   const [noteText, setNoteText] = useState('')
+  const i18n = useI18n()
 
   return (
     <div className={classNames(style.core, props.className)}>

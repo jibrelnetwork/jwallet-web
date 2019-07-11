@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   JIcon,
@@ -33,6 +33,7 @@ export function CurrencyPicker({
     onChange: handleChange,
     value: currency,
   } = input
+  const i18n = useI18n()
 
   const activeName: string = CURRENCIES[currency].name
 

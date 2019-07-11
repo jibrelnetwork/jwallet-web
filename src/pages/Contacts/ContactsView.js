@@ -4,7 +4,7 @@ import React from 'react'
 import {
   noop,
 } from 'lodash-es'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import {
   Button,
   Header,
@@ -46,6 +46,7 @@ function extractAlphabet(list: Contact[]): { [string]: Contact[] } {
 
 export function ContactsView(props: Props) {
   const alphabetList = extractAlphabet(props.list)
+  const i18n = useI18n()
 
   return (
     <div className={style.core}>

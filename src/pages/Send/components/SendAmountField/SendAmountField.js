@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import { getErrorMessage } from 'utils/form'
 import {
@@ -55,12 +55,6 @@ const handlerOnChange = (input: FinalFormInput) => e =>
 
 const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
 
-const DEFAULT_LABEL_TEXT = i18n._(
-  'Send.Amount.amount',
-  null,
-  { defaults: 'Amount' },
-)
-
 function SendAmountField({
   blockchainFee,
   className,
@@ -76,7 +70,7 @@ function SendAmountField({
   validateType,
 }: Props) {
   const textInput: InputRef = React.createRef()
-
+  const i18n = useI18n()
   const isActive = meta.active || !!input.value
 
   const errorMessage = getErrorMessage(meta, validateType)
@@ -146,11 +140,7 @@ function SendAmountField({
             className={fieldStyle.max}
             onClick={handleMaxClick(input, maxValue)}
           >
-            {i18n._(
-              'Send.Amount.setMax',
-              null,
-              { defaults: 'MAX' },
-            )}
+            MAX
           </button>
         </div>
         <div className={fieldStyle.bottom}>
@@ -196,7 +186,6 @@ SendAmountField.defaultProps = {
   className: '',
   infoMessage: '',
   isFetchingFiatAmount: false,
-  label: DEFAULT_LABEL_TEXT,
   maxValue: '',
 }
 

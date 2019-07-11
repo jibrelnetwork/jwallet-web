@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   JLink,
@@ -42,6 +42,8 @@ function FieldPreviewInternal({
   copy,
   copyMessage,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={style.core}>
       <div className={style.data}>

@@ -1,7 +1,6 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
 
 import {
   LANGUAGES,
@@ -12,6 +11,8 @@ import {
   JLink,
   Header,
 } from 'components/base'
+
+import { useI18n } from 'app/hooks'
 
 import styles from './settings.m.scss'
 import { Card } from './components/Card/Card'
@@ -29,6 +30,8 @@ export function SettingsView({
 }: Props) {
   const languageTitle: string = LANGUAGES[language].title
   const currencyName: string = CURRENCIES[fiatCurrency].name
+
+  const i18n = useI18n()
 
   return (
     <div className={styles.core}>

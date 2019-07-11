@@ -1,9 +1,9 @@
 // @flow strict
 
-import classNames from 'classnames'
 import React, { Children } from 'react'
-import { i18n } from 'i18n/lingui'
+import classNames from 'classnames'
 
+import { useI18n } from 'app/hooks'
 import { JIcon } from 'components/base'
 
 import { useFocus } from 'utils/hooks/useFocus'
@@ -27,6 +27,8 @@ export function SearchInput({
     onFocus,
     onBlur,
   }] = useFocus()
+
+  const i18n = useI18n()
 
   return (
     <div

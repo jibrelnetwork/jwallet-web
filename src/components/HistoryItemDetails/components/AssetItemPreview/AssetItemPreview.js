@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   JAssetSymbol,
@@ -16,6 +16,8 @@ export function AssetItemPreview({
   symbol,
   name,
 }: DigitalAsset) {
+  const i18n = useI18n()
+
   return (
     <JLink
       className={`__asset-item ${style.core} ${style.data}`}

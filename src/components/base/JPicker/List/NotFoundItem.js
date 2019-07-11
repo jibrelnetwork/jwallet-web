@@ -1,11 +1,13 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import notFoundItemStyles from './notFoundItem.m.scss'
 
-function NotFoundItem() {
+export function NotFoundItem() {
+  const i18n = useI18n()
+
   return (
     <div className={notFoundItemStyles.core}>
       {i18n._(
@@ -16,5 +18,3 @@ function NotFoundItem() {
     </div>
   )
 }
-
-export { NotFoundItem }

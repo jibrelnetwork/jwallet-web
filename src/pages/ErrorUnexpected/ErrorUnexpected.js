@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import { Trans } from '@lingui/react'
 
 import {
@@ -17,6 +17,8 @@ const handleReloadClick = () =>
   window.location.reload()
 
 export function ErrorUnexpected() {
+  const i18n = useI18n()
+
   /* eslint-disable max-len */
   return (
     <main

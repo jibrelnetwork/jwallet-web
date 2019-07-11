@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import { JLink } from 'components/base'
 import { TitleHeader } from 'components'
 
@@ -15,6 +15,8 @@ export type Props = {|
 |}
 
 export function ContactsItemView(props: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={style.core}>
       <TitleHeader

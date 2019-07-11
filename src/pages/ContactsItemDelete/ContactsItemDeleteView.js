@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import {
   Button,
   JLink,
@@ -20,6 +20,8 @@ export type Props = {|
 |}
 
 export function ContactsItemDeleteView(props: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={style.core}>
       <ConfirmationBody

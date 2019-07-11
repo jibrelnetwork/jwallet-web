@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
@@ -30,6 +30,8 @@ export function WalletPasswordForm({
   hint,
   isSubmitting,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <form
       onSubmit={handleSubmit}

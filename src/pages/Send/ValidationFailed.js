@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   UserActionInfo,
@@ -17,6 +17,8 @@ export function ValidationFailed({
   onGoBackClick,
   onGoNextClick,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className='__validation-failed'>
       <UserActionInfo

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import { type TransactionItem } from 'store/transactionsIndex'
 
@@ -22,6 +22,8 @@ function TransactionsIndexView({
   transactions,
   isLoading,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className='transactions-view -index'>
       <Header

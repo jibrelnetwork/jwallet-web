@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+
+import { useI18n } from 'app/hooks'
 
 import {
   JInput,
@@ -27,6 +28,8 @@ const DigitalAssetEditForm = ({
   isAddressEditable,
   submitLabel,
 }: DigitalAssetEditFormProps) => {
+  const i18n = useI18n()
+
   const setFieldHandler = (fieldName: $Keys<EditAssetFormFields>) =>
     (value: string) => setField(fieldName, value)
 
@@ -106,11 +109,6 @@ const DigitalAssetEditForm = ({
 DigitalAssetEditForm.defaultProps = {
   isAddressLoading: false,
   isAddressEditable: true,
-  submitLabel: i18n._(
-    'AssetItemEdit.add',
-    null,
-    { defaults: 'Add asset' },
-  ),
 }
 
 export default DigitalAssetEditForm

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import {
   JThumbnail,
@@ -9,6 +9,8 @@ import {
 } from 'components/base'
 
 export function NotFound() {
+  const i18n = useI18n()
+
   return (
     <div className='not-found-view'>
       <div className='content'>

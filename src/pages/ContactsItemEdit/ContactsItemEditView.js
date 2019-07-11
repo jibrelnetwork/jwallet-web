@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import {
   Form,
   Field,
@@ -41,6 +41,7 @@ export function ContactsItemEditView({
     note,
     address: contactId,
   }
+  const i18n = useI18n()
 
   return (
     <div className={style.core}>

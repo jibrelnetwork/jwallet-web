@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 import {
   Form,
   Field,
@@ -25,7 +25,7 @@ export type Props = {|
   name: string,
 |}
 
-function handleFormSubmit(values) {
+const handleFormSubmit = i18n => (values) => {
   const errors = {}
 
   if (!checkAddressValid(values.address)) {
@@ -57,6 +57,8 @@ export function ContactsItemAddView({
     note,
     address,
   }
+
+  const i18n = useI18n()
 
   return (
     <div className={style.core}>
@@ -118,7 +120,7 @@ export function ContactsItemAddView({
             </Button>
           </form>
         )}
-        onSubmit={handleFormSubmit}
+        onSubmit={handleFormSubmit(i18n)}
         initialValues={initValues}
       />
     </div>

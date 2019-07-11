@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
@@ -16,7 +16,10 @@ import {
   TransactionsFilter,
 } from 'components'
 
-function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetched: boolean) {
+function getTransactionsTabs(i18n,
+                             asset: DigitalAsset,
+                             assetBalance: ?Balance,
+                             isFetched: boolean) {
   const {
     name,
     symbol,
@@ -93,6 +96,7 @@ function TransactionsAssetView({
     return null
   }
 
+  const i18n = useI18n()
   const asset: ?DigitalAsset = digitalAssets[params.asset]
 
   if (!asset) {
@@ -107,7 +111,7 @@ function TransactionsAssetView({
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
-          <JTabs tabs={getTransactionsTabs(asset, assetBalance, isBalanceAllowed)} />
+          <JTabs tabs={getTransactionsTabs(i18n, asset, assetBalance, isBalanceAllowed)} />
           <div className='actions'>
             <div className='search'>
               <SearchInput

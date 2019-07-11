@@ -2,7 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+
+import { useI18n } from 'app/hooks'
 
 import {
   JIcon,
@@ -26,6 +27,8 @@ export function SearchFilter({
     onFocus,
     onBlur,
   }] = useFocus()
+
+  const i18n = useI18n()
 
   // JIcon data-focused is required to turn off weird webpack optimization that breaks storybook
   return (

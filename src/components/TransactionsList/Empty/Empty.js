@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import OverlayNotification from 'components/OverlayNotification'
 
@@ -9,13 +9,15 @@ type Props = {|
   +isFiltered: boolean,
 |}
 
-const noTransactionsText = i18n._(
-  'TransactionsList.Empty.default',
-  null,
-  { defaults: 'Looks like you haven\'t made any transactions yet.' },
-)
-
 function TransactionsListEmpty({ isFiltered }: Props) {
+  const i18n = useI18n()
+
+  const noTransactionsText = i18n._(
+    'TransactionsList.Empty.default',
+    null,
+    { defaults: 'Looks like you haven\'t made any transactions yet.' },
+  )
+
   return (
     <OverlayNotification
       color='gray'
