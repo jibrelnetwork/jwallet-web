@@ -1,6 +1,6 @@
 // @flow strict
 
-import { selectSettingsFiatCurrency } from './settings'
+import { selectFiatCurrency } from './user'
 
 export function selectTicker(state: AppState): TickerState {
   return state.ticker
@@ -41,7 +41,7 @@ export function selectTickerItemCourseByCurrency(
     return null
   }
 
-  const currency: FiatCurrency = fiatCurrency || selectSettingsFiatCurrency(state)
+  const currency: FiatCurrency = fiatCurrency || selectFiatCurrency(state)
 
   return latestFiatCourse[currency]
 }

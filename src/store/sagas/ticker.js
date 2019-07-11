@@ -17,7 +17,7 @@ import {
 
 import config from 'config'
 import tickerService from 'services/ticker'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
 
 import * as ticker from '../modules/ticker'
@@ -69,8 +69,8 @@ function* syncRestart(): Saga<void> {
 function* fiatCoursesRequest(action: ExtractReturn<typeof ticker.fiatCoursesRequest>): Saga<void> {
   const { fiatIds } = action.payload
 
-  const currentFiatCurrency: ExtractReturn<typeof selectSettingsFiatCurrency> =
-    yield select(selectSettingsFiatCurrency)
+  const currentFiatCurrency: ExtractReturn<typeof selectFiatCurrency> =
+    yield select(selectFiatCurrency)
 
   if (!(fiatIds.length && currentFiatCurrency)) {
     yield put(ticker.fiatCoursesSuccess({}))
