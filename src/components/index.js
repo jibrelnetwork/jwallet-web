@@ -31,6 +31,8 @@ export { AddressPicker } from './AddressPicker/AddressPicker'
 export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
 export { ContactItem } from './ContactItem/ContactItem'
 
+export { default as PopupButton } from './PopupButton'
+
 export {
   QRCode,
   AssetBalance,
