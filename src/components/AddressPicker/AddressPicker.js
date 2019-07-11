@@ -1,7 +1,6 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
 import { map } from 'lodash-es'
 
 import {
@@ -35,7 +34,7 @@ export type AddressPickerItem = {|
 export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  label: string,
+  +label: string,
   addresses: AddressPickerItem[],
 |}
 
@@ -97,6 +96,5 @@ export function AddressPicker({
 }
 
 AddressPicker.defaultProps = {
-  label: i18n._('common.AddressPicker.label', null, { defaults: 'Address' }),
   addresses: [],
 }
