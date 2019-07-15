@@ -1,7 +1,5 @@
 // @flow
 
-import { i18n } from 'i18n/lingui'
-
 import {
   isNil,
   isObject,
@@ -42,12 +40,7 @@ function callApi(
   const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
 
   if (!apiSubdomain) {
-    // FIXME I18N No translation?
-    throw new Error(i18n._(
-      'services.blockExplorerPrivateNetworkError',
-      null,
-      { defaults: 'Block Explorer Private Network Error' },
-    ))
+    throw new Error('Block Explorer Private Network Error')
   }
 
   const apiEnpoint: string = `${BLOCKEXPLORER_API}/v1/${apiSubdomain}/${address}/transactions`
@@ -81,12 +74,7 @@ function handleTransactionsResponse(response: any): any[] {
   if (!(isResultFound && isResultValid)) {
     return []
   } else if (isRequestFailed) {
-    // FIXME I18N No translation?
-    throw new Error(i18n._(
-      'services.blockExplorerRequestTransactionsError',
-      null,
-      { defaults: 'BlockExplorerRequestTransactionsError' },
-    ))
+    throw new Error('Block Explorer Request Transactions Error')
   }
 
   return result

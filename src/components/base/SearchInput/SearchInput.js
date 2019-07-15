@@ -51,7 +51,7 @@ export function SearchInput({
           onBlur={onBlur}
           value={value}
           placeholder={i18n._(
-            'SearchInput.search',
+            'common.SearchInput.input.placeholder',
             null,
             { defaults: 'Search' },
           )}

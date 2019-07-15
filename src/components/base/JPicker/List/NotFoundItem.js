@@ -11,7 +11,7 @@ export function NotFoundItem() {
   return (
     <div className={notFoundItemStyles.core}>
       {i18n._(
-        'JPicker.notFound',
+        'common.JPicker.List.NotFoundItem.description',
         null,
         { defaults: 'Not Found' },
       )}

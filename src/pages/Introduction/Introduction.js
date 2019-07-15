@@ -83,7 +83,7 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
           onClick={this.handleGetStartedClick}
         >
           {i18n._(
-            'Introduction.complete',
+            'Introduction.action.submit',
             null,
             { defaults: 'Get Started' },
           )}

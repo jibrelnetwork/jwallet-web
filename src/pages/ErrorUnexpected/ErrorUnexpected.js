@@ -60,7 +60,7 @@ export function ErrorUnexpected() {
         className={errorUnexpectedStyle.button}
       >
         {i18n._(
-          'ErrorUnexpected.reload',
+          'ErrorUnexpected.action.reload',
           null,
           { defaults: 'Reload' },
         )}

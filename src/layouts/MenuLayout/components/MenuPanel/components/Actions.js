@@ -28,7 +28,7 @@ export class Actions extends Component<Props> {
           <li>
             <Action
               label={i18n._(
-                'menu.home',
+                'layout.MenuLayout.MenuPanel.link.home',
                 null,
                 { defaults: 'Home' },
               )}
@@ -39,7 +39,7 @@ export class Actions extends Component<Props> {
           <li>
             <Action
               label={i18n._(
-                'menu.history',
+                'layout.MenuLayout.MenuPanel.link.history',
                 null,
                 { defaults: 'History' },
               )}
@@ -50,7 +50,7 @@ export class Actions extends Component<Props> {
           <li>
             <Action
               label={i18n._(
-                'menu.contacts',
+                'layout.MenuLayout.MenuPanel.link.contacts',
                 null,
                 { defaults: 'Contacts' },
               )}
@@ -61,7 +61,7 @@ export class Actions extends Component<Props> {
           <li>
             <Action
               label={i18n._(
-                'menu.more',
+                'layout.MenuLayout.MenuPanel.link.more',
                 null,
                 { defaults: 'More' },
               )}
@@ -74,7 +74,7 @@ export class Actions extends Component<Props> {
           <li>
             <Action
               label={i18n._(
-                'menu.settings',
+                'layout.MenuLayout.MenuPanel.link.settings',
                 null,
                 { defaults: 'Settings' },
               )}

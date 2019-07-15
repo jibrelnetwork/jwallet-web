@@ -34,7 +34,7 @@ export function StartLayout({
           className={startLayoutStyle.logo}
           src={svgLogoBlue}
           alt={i18n._(
-            'Start.logoAlt',
+            'layout.StartLayout.logo.alt',
             null,
             { defaults: 'Jwallet Logo' },
           )}

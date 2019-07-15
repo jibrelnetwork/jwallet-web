@@ -12,15 +12,15 @@ import {
 const SingularTabBlockScreen = () => {
   const i18n = useI18n()
 
-  // FIXME
+  // FIXME I18N after JThumbnail
   const descriptionText = [
     i18n._(
-      'MultiTabBlocker.description.0',
+      'SingularTabBlockScreen.description.0',
       null,
       { defaults: 'Jwallet can be open only in one tab simultaneously.' },
     ),
     i18n._(
-      'MultiTabBlocker.description.1',
+      'SingularTabBlockScreen.description.1',
       null,
       { defaults: 'Please reload this tab to continue using it.' },
     ),
@@ -35,7 +35,7 @@ const SingularTabBlockScreen = () => {
               color='white'
               image='bad-browser'
               title={i18n._(
-                'MultiTabBlocker.title',
+                'SingularTabBlockScreen.title',
                 null,
                 { defaults: 'Jwallet supports only single tab' },
               )}
@@ -47,7 +47,7 @@ const SingularTabBlockScreen = () => {
                   onClick={() => { window.location.reload(false) }}
                   color='white'
                   label={i18n._(
-                    'MultiTabBlocker.reload',
+                    'SingularTabBlockScreen.action.reload',
                     null,
                     { defaults: 'Reload Page' },
                   )}

@@ -196,7 +196,7 @@ class TransactionItemMain extends PureComponent<Props> {
                   <JText
                     color={color}
                     value={i18n._(
-                      'TransactionItem.mint',
+                      'common.TransactionItem.mint.title',
                       null,
                       { defaults: 'Token minting' },
                     )}
@@ -209,7 +209,7 @@ class TransactionItemMain extends PureComponent<Props> {
                   <JText
                     color={color}
                     value={i18n._(
-                      'TransactionItem.burn',
+                      'common.TransactionItem.burn.title',
                       null,
                       { defaults: 'Token burning' },
                     )}

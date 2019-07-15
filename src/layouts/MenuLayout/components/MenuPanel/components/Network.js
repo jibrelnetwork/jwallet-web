@@ -23,19 +23,17 @@ export function NetworkView({
 
   const messages = {
     ropsten: i18n._(
-      'Menu.network.ropsten',
-      null,
-      { defaults: 'You Are Using Ropsten Test Network' },
+      'layout.MenuLayout.MenuPanel.testNetwork.info',
+      { networkName: 'Ropsten' },
+      { defaults: 'You Are Using {networkName} Test Network' },
     ),
     rinkeby: i18n._(
-      'Menu.network.rinkeby',
-      null,
-      { defaults: 'You Are Using Rinkeby Test Network' },
+      'layout.MenuLayout.MenuPanel.testNetwork.info',
+      { networkName: 'Rinkeby' },
     ),
     kovan: i18n._(
-      'Menu.network.kovan',
-      null,
-      { defaults: 'You Are Using Kovan Test Network' },
+      'layout.MenuLayout.MenuPanel.testNetwork.info',
+      { networkName: 'Kovan' },
     ),
   }
 

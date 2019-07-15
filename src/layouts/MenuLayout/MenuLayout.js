@@ -59,12 +59,12 @@ export class MenuLayout extends Component<Props> {
                 image='screen-error'
                 description={[
                   i18n._(
-                    'MenuLayout.networkError.description0',
+                    'layout.MenuLayout.error.noConnection.description.0',
                     null,
                     { defaults: 'Internet connection error.' },
                   ),
                   i18n._(
-                    'MenuLayout.networkError.description1',
+                    'layout.MenuLayout.error.noConnection.description.1',
                     null,
                     { defaults: 'Try again.' },
                   ),

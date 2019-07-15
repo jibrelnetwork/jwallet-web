@@ -231,7 +231,7 @@ class WalletCard extends Component<Props, StateProps> {
             {isMultiAddress && (
               <p className={styles.address}>
                 {i18n._(
-                  'WalletCard.currentAddress',
+                  'common.WalletCard.currentAddress',
                   {
                     nameWithDivider,
                     addressesCount,
@@ -268,7 +268,7 @@ class WalletCard extends Component<Props, StateProps> {
           <JFieldMessage
             className={styles.warning}
             message={i18n._(
-              'WalletCard.duplicateName',
+              'common.WalletCard.duplicateName',
               null,
               { defaults: 'You already have a wallet with this name.' },
             )}

@@ -103,7 +103,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
               )}
             >
               {i18n._(
-                'WalletCard.menu.copyWalletAddress',
+                'common.WalletCard.action.copyWalletAddress',
                 null,
                 { defaults: 'Copy Wallet Address' },
               )}
@@ -118,7 +118,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
             )}
           >
             {i18n._(
-              'WalletCard.menu.renameWallet',
+              'common.WalletCard.action.renameWallet',
               null,
               { defaults: 'Rename Wallet' },
             )}
@@ -128,7 +128,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
             className={walletCardActionsStyles.action}
           >
             {i18n._(
-              'WalletCard.menu.unlock',
+              'common.WalletCard.action.unlock',
               null,
               { defaults: 'Unlock Features' },
             )}
@@ -138,7 +138,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
             className={walletCardActionsStyles.action}
           >
             {i18n._(
-              'WalletCard.menu.addresses',
+              'common.WalletCard.action.addresses',
               null,
               { defaults: 'Manage Addresses' },
             )}
@@ -150,12 +150,12 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
             >
               {isSimplified
                 ? i18n._(
-                  'WalletCard.menu.enableMulti',
+                  'common.WalletCard.action.enableMulti',
                   null,
                   { defaults: 'Enable Multi-Address Mode' },
                 )
                 : i18n._(
-                  'WalletCard.menu.disableMulti',
+                  'common.WalletCard.action.disableMulti',
                   null,
                   { defaults: 'Disable Multi-Address Mode' },
                 )
@@ -168,7 +168,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
               className={walletCardActionsStyles.action}
             >
               {i18n._(
-                'WalletCard.menu.backup',
+                'common.WalletCard.action.backup',
                 null,
                 { defaults: 'Backup Wallet' },
               )}
@@ -179,7 +179,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
             className={walletCardActionsStyles.action}
           >
             {i18n._(
-              'WalletCard.menu.delete',
+              'common.WalletCard.action.delete',
               null,
               { defaults: 'Delete Wallet' },
             )}

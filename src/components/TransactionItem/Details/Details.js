@@ -137,24 +137,24 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
 
     const favoritesLabel = isFromFavorites
       ? i18n._(
-        'TransactionItem.Details.favoriteRemove',
+        'common.TransactionItem.Details.action.favoriteRemove',
         null,
         { defaults: 'Remove from Favorites' },
       )
       : i18n._(
-        'TransactionItem.Details.favoriteAdd',
+        'common.TransactionItem.Details.action.favoriteAdd',
         null,
         { defaults: 'Add to Favorites' },
       )
 
     const commentLabel = comment
       ? i18n._(
-        'TransactionItem.Details.commentEdit',
+        'common.TransactionItem.Details.action.commentEdit',
         null,
         { defaults: 'Edit comment' },
       )
       : i18n._(
-        'TransactionItem.Details.commentAdd',
+        'common.TransactionItem.Details.action.commentAdd',
         null,
         { defaults: 'Add comment' },
       )
@@ -164,7 +164,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         <div className='item'>
           <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
             {i18n._(
-              'TransactionItem.Details.txHashLabel',
+              'common.TransactionItem.Details.txHash.title',
               null,
               { defaults: 'TX Hash' },
             )}
@@ -188,7 +188,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           <div className='item -small-width'>
             <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
               {i18n._(
-                'TransactionItem.Details.fromLabel',
+                'common.TransactionItem.Details.from.title',
                 null,
                 { defaults: 'From address' },
               )}
@@ -213,7 +213,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
           <div className='item -small-width'>
             <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
               {i18n._(
-                'TransactionItem.Details.toLabel',
+                'common.TransactionItem.Details.to.title',
                 null,
                 { defaults: 'To address' },
               )}
@@ -237,7 +237,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         <div className='item'>
           <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
             {i18n._(
-              'TransactionItem.Details.feeLabel',
+              'common.TransactionItem.Details.fee.title',
               null,
               { defaults: 'Fee' },
             )}
@@ -259,7 +259,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 iconColor='gray'
                 iconName='repeat'
                 label={i18n._(
-                  'TransactionItem.Details.repeat',
+                  'common.TransactionItem.Details.action.repeat',
                   null,
                   { defaults: 'Repeat payment' },
                 )}

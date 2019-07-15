@@ -28,9 +28,7 @@ function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
 
   if ((decryptedData === null) || (decryptedData === undefined)) {
     throw new Error(i18n._(
-      'Encryption.errors.passwordInvalid',
-      null,
-      { defaults: 'Invalid Password' },
+      'entity.Password.error.invalid',
     ))
   }
 

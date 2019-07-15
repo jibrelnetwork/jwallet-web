@@ -48,7 +48,7 @@ export function SearchFilter({
         onClick={isFocused ? onBlur : onFocus}
       >
         {i18n._(
-          'SearchInput.filter',
+          'common.SearchInput.SearchFilter.action.filter',
           null,
           { defaults: 'Filter' },
         )}
@@ -69,7 +69,7 @@ export function SearchFilter({
           type='button'
           onClick={onBlur}
           title={i18n._(
-            'SearchInput.closeFilter',
+            'common.SearchInput.SearchFilter.action.close',
             null,
             { defaults: 'Close filter' },
           )}

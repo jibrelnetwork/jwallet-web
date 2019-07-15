@@ -54,7 +54,7 @@ export function MenuPanel({
         <img
           src={svgLogoWhite}
           alt={i18n._(
-            'Menu.logo.alt',
+            'layout.MenuLayout.logo.alt',
             null,
             { defaults: 'Jwallet Logo' },
           )}

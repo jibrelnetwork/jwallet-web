@@ -38,21 +38,20 @@ export type Props = {|
 /* eslint-disable max-len */
 const conditions = {
   understandPrivateDataPolicy: i18n._(
-    'TermsAndConditions.understandPrivateDataPolicy',
+    'Agreements.understandPrivateDataPolicy',
     null,
     { defaults: 'I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser' },
   ),
   consentNoWarranty: i18n._(
-    'TermsAndConditions.consentNoWarranty',
+    'Agreements.consentNoWarranty',
     null,
     { defaults: 'I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind' },
   ),
   consentTrackingCookies: i18n._(
-    'TermsAndConditions.consentTrackingCookies',
+    'Agreements.consentTrackingCookies',
     null,
     { defaults: 'I consent to allow cookies for collecting anonymous usage data to improve quality of provided service' },
   ),
-  // acceptTermsAndConditions: t('TermsAndConditions.acceptTermsAndConditions', 'I have read and accepted'),
 }
 /* eslint-enable max-len */
 
@@ -84,7 +83,7 @@ class AgreementsScreen extends PureComponent<Props> {
           />
           <h1 className={agreementsViewStyle.title}>
             {i18n._(
-              'TermsAndConditions.title',
+              'Agreements.title',
               null,
               { defaults: 'Terms and Conditions' },
             )}
@@ -111,7 +110,7 @@ class AgreementsScreen extends PureComponent<Props> {
                     isRegular
                   >
                     {/* eslint-disable max-len */}
-                    <Trans id='TermsAndConditions.acceptTermsAndConditions'>
+                    <Trans id='Agreements.acceptTermsAndConditions'>
                       I have read and accepted <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'>Terms of Use</JLink> and <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'>Privacy Policy</JLink>
                     </Trans>
                     {/* eslint-enable max-len */}
@@ -129,7 +128,7 @@ class AgreementsScreen extends PureComponent<Props> {
                 onClick={this.handleAgreementsConfirmClick}
               >
                 {i18n._(
-                  'TermsAndConditions.button',
+                  'Agreements.action.submit',
                   null,
                   { defaults: 'Confirm and continue' },
                 )}

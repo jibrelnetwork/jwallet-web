@@ -73,7 +73,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           id='message'
           className='field'
           placeholder={i18n._(
-            'TransactionItem.Details.Comment.placeholder',
+            'common.TransactionItem.Details.Comment.input.placeholder',
             null,
             { defaults: 'Your comment' },
           )}
@@ -83,7 +83,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
             <JFlatButton
               onClick={handle(this.saveComment)(newValue)}
               label={i18n._(
-                'TransactionItem.Details.Comment.save',
+                'common.TransactionItem.Details.Comment.action.save',
                 null,
                 { defaults: 'Save' },
               )}
@@ -96,12 +96,12 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
               onClick={isValueChanged ? onToggle : this.deleteComment}
               label={isValueChanged
                 ? i18n._(
-                  'TransactionItem.Details.Comment.cancel',
+                  'common.TransactionItem.Details.Comment.action.cancel',
                   null,
                   { defaults: 'Cancel' },
                 )
                 : i18n._(
-                  'TransactionItem.Details.Comment.delete',
+                  'common.TransactionItem.Details.Comment.action.delete',
                   null,
                   { defaults: 'Delete' },
                 )}

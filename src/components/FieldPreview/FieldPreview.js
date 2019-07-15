@@ -61,7 +61,7 @@ function FieldPreviewInternal({
           <JLink
             className={style.action}
             title={i18n._(
-              'FieldPreview.addContact',
+              'common.FieldPreview.action.addContact',
               null,
               { defaults: 'Add Contact' },
             )}
@@ -78,7 +78,7 @@ function FieldPreviewInternal({
             className={style.action}
             type='button'
             title={i18n._(
-              'FieldPreview.copy',
+              'common.FieldPreview.action.copy',
               null,
               { defaults: 'Copy' },
             )}

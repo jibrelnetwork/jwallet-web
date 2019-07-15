@@ -1,7 +1,6 @@
 // @flow
 
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
-import { i18n } from 'i18n/lingui'
 import { BigNumber } from 'bignumber.js'
 
 import checkETH from 'utils/digitalAssets/checkETH'
@@ -68,12 +67,7 @@ export function getAssetBalance(
 
   return balancePromise.then((value: any) => {
     if (!isBigNumber(value)) {
-      // FIXME: No need for trnslation?
-      throw new Error(i18n._(
-        'web3.errors.balanceNotBigNumber',
-        null,
-        { defaults: 'Returned balance is not an instance of BigNumber' },
-      ))
+      throw new Error('Returned balance is not an instance of BigNumber')
     }
 
     return value.toString()
@@ -94,12 +88,7 @@ function getAssetDecimals(network: Network, assetAddress: AssetAddress): Promise
     contractAddress: assetAddress,
   }).then((value: any) => {
     if (!isBigNumber(value)) {
-      // FIXME: no translate?
-      throw new Error(i18n._(
-        'web3.errors.decimalsNotBigNumber',
-        null,
-        { defaults: 'Returned decimals is not an instance of BigNumber' },
-      ))
+      throw new Error('Returned decimals is not an instance of BigNumber')
     }
 
     return value.toNumber()
@@ -207,12 +196,7 @@ function prepareBlock(data: any): BlockData {
     type.isNumber(data.number) &&
     type.isNumber(data.timestamp)
   )) {
-    // FIXME: no translate?
-    throw new Error(i18n._(
-      'web3.errors.blockInvalid',
-      null,
-      { defaults: 'Invalid ETH block format' },
-    ))
+    throw new Error('Invalid ETH block format')
   }
 
   const {
@@ -263,12 +247,7 @@ function prepareTransaction(data: any): TransactionData {
     isBigNumber(data.gasPrice) &&
     data.nonce
   )) {
-    // FIXME: no translate?
-    throw new Error(i18n._(
-      'web3.errors.transactionInvalid',
-      null,
-      { defaults: 'Invalid ETH transaction format' },
-    ))
+    throw new Error('Invalid ETH transaction format')
   }
 
   return {
@@ -298,12 +277,7 @@ function prepareTransactionReceipt(data: any): TransactionReceiptData {
     type.isObject(data) &&
     type.isNumber(data.gasUsed)
   )) {
-    // FIXME: no translate?
-    throw new Error(i18n._(
-      'web3.errors.transactionInvalid',
-      null,
-      { defaults: 'Invalid ETH transaction format' },
-    ))
+    throw new Error('Invalid ETH transaction format')
   }
 
   const {
@@ -338,12 +312,7 @@ function getTransactionReceiptData(network: Network, hash: Hash): Promise<Transa
 
 function handleEventsResponse(response: any): any[] {
   if (type.isVoid(response) || !type.isArray(response)) {
-    // FIXME: no translate?
-    throw new Error(i18n._(
-      'web3.errors.eventsInvalid',
-      null,
-      { defaults: 'Invalid contract events response' },
-    ))
+    throw new Error('Invalid contract events response')
   }
 
   return response

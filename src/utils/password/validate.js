@@ -9,7 +9,7 @@ const passwordNotEqual = ({
   passwordNew !== passwordNewConfirm
     ? {
       passwordNewConfirm: i18n._(
-        'password.validate.passwordsNotMatch',
+        'common.password.validate.passwordsNotMatch',
         null,
         { defaults: 'Password does not match confirmation' },
       ),
@@ -20,7 +20,7 @@ const hintRequired = ({ passwordHint }) =>
   !passwordHint
     ? {
       passwordHint: i18n._(
-        'password.validate.hintRequired',
+        'common.password.validate.hintRequired',
         null,
         { defaults: 'Password hint is required' },
       ),
@@ -34,7 +34,7 @@ const passwordHintEqualPassword = ({
   passwordOld === passwordHint
     ? {
       passwordHint: i18n._(
-        'password.validate.hintEqualsPassword',
+        'common.password.validate.hintEqualsPassword',
         null,
         { defaults: 'Password and hint should not be equal' },
       ),

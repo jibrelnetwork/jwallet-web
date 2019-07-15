@@ -33,7 +33,7 @@ settingsWorker.onmessage = (): void => {
 
     settingsWorker.postMessage(validationPasswordForm({
       passwordOld: i18n._(
-        'settingsWorker.passwordInvalid',
+        'common.settings.worker.error.passwordInvalid',
         null,
         { defaults: 'Password is invalid' },
       ),

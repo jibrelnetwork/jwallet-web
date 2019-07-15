@@ -33,22 +33,22 @@ const MIN_PASSWORD_STRENGTH_SCORE: number = 3
 
 const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
   'red': i18n._(
-    'NewPasswordField.strength.red',
+    'common.NewPasswordField.strength.red',
     null,
     { defaults: 'Too weak' },
   ),
   'green': i18n._(
-    'NewPasswordField.strength.green',
+    'common.NewPasswordField.strength.green',
     null,
     { defaults: 'Not bad' },
   ),
   'yellow': i18n._(
-    'NewPasswordField.strength.yellow',
+    'common.NewPasswordField.strength.yellow',
     null,
     { defaults: 'Bit weak' },
   ),
   'orange': i18n._(
-    'NewPasswordField.strength.orange',
+    'common.NewPasswordField.strength.orange',
     null,
     { defaults: 'Easily cracked' },
   ),
@@ -214,7 +214,7 @@ export class NewPasswordField extends Component<Props, StateProps> {
           component={PasswordInput}
           value={values.passwordConfirm}
           label={i18n._(
-            'NewPasswordField.repeat.label',
+            'common.NewPasswordField.input.passwordConfirm.title',
             null,
             { defaults: 'Repeat Security Password' },
           )}
