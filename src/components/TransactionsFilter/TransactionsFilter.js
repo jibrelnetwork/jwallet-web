@@ -1,7 +1,8 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import PopupButton from 'components/PopupButton'
 
@@ -14,6 +15,7 @@ type Props = {|
   +setOnlyPending: (boolean) => void,
   +filterCount: number,
   +isOnlyPending: boolean,
+  +i18n: I18nType,
 |}
 
 class TransactionsFilter extends PureComponent<Props> {
@@ -26,6 +28,7 @@ class TransactionsFilter extends PureComponent<Props> {
       setOnlyPending,
       filterCount,
       isOnlyPending,
+      i18n,
     } = this.props
 
     return (
@@ -60,4 +63,4 @@ class TransactionsFilter extends PureComponent<Props> {
   }
 }
 
-export default TransactionsFilter
+export default withI18n()(TransactionsFilter)

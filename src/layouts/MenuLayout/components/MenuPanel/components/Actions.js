@@ -1,16 +1,18 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import menuPanelStyle from '../menuPanel.m.scss'
 import { Action } from './Action'
 
 type Props = {|
   +routeName: string,
+  +i18n: I18nType,
 |}
 
-export class Actions extends Component<Props> {
+class ActionsComponent extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
     const { routeName }: Props = this.props
 
@@ -22,6 +24,8 @@ export class Actions extends Component<Props> {
   }
 
   render() {
+    const { i18n } = this.props
+
     return (
       <nav className={`__actions ${menuPanelStyle.actionsWrapper}`}>
         <ul className={`__primary ${menuPanelStyle.actions} ${menuPanelStyle.primary}`}>
@@ -87,3 +91,7 @@ export class Actions extends Component<Props> {
     )
   }
 }
+
+export const Actions = withI18n()(
+  ActionsComponent,
+)

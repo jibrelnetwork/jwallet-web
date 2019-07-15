@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { i18n } from 'i18n/lingui'
+import { useI18n } from 'app/hooks'
 
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 
@@ -35,6 +35,8 @@ export function AssetPicker({
   fiatCurrency,
   className,
 }: Props) {
+  const i18n = useI18n()
+
   const activeAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress(digitalAssets, input.value)
 

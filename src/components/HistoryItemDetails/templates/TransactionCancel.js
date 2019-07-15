@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
 
 import {
   JIcon,
@@ -19,46 +19,11 @@ import { type Props } from '../HistoryItemDetailsInternal'
 
 import style from '../historyItemDetails.m.scss'
 
-const TRANSACTION_DESCRIPTION = {
-  success: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionCancel.statusSuccess',
-      null,
-      { defaults: 'Transfer canceled.' },
-    ),
-    iconName: 'trx-success-use-fill',
-  },
-  fail: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionCancel.statusFailed',
-      null,
-      { defaults: 'Transfer not canceled.' },
-    ),
-    iconName: 'trx-error-declined-use-fill',
-  },
-  stuck: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionCancel.statusStuck',
-      null,
-      { defaults: 'Cancel transfer stuck.' },
-    ),
-    iconName: 'trx-error-stuck-use-fill',
-  },
-  pending: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionCancel.statusPending',
-      null,
-      { defaults: 'Cancel transfer. This may take some time.' },
-    ),
-    iconName: 'trx-pending-use-fill',
-  },
-}
-
 type State = {
   note: string,
 }
 
-export class TransactionCancelTemplate extends PureComponent<Props, State> {
+class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -80,7 +45,43 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
       id,
       timestamp,
       status,
+      i18n,
     } = this.props
+
+    const TRANSACTION_DESCRIPTION = {
+      success: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusSuccess',
+          null,
+          { defaults: 'Transfer canceled.' },
+        ),
+        iconName: 'trx-success-use-fill',
+      },
+      fail: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusFailed',
+          null,
+          { defaults: 'Transfer not canceled.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
+      stuck: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusStuck',
+          null,
+          { defaults: 'Cancel transfer stuck.' },
+        ),
+        iconName: 'trx-error-stuck-use-fill',
+      },
+      pending: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusPending',
+          null,
+          { defaults: 'Cancel transfer. This may take some time.' },
+        ),
+        iconName: 'trx-pending-use-fill',
+      },
+    }
 
     const formattedDate = getFormattedDateString(
       new Date(timestamp),
@@ -166,3 +167,7 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
     )
   }
 }
+
+export const TransactionCancelTemplate = withI18n()(
+  TransactionCancelTemplateComponent,
+)

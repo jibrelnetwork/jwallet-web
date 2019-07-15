@@ -2,8 +2,10 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { CopyIconButton } from 'components'
 import { sanitizeName } from 'utils/wallets'
@@ -24,6 +26,7 @@ type Props = {|
   +setAddressName: (address: Address, name: string) => any,
   +address: Address,
   +addressName: string,
+  +i18n: I18nType,
   /* ::
   +index: number,
   */
@@ -97,6 +100,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
     const {
       address,
       addressName,
+      i18n,
     }: Props = this.props
 
     const {
@@ -192,9 +196,12 @@ const mapDispatchToProps = {
   setAddressName,
 }
 
-const WalletAddressCardEnhanced = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+const WalletAddressCardEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(WalletAddressCard)
 
 export { WalletAddressCardEnhanced as WalletAddressCard }

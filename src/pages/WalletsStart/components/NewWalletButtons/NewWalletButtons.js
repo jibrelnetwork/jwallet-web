@@ -4,8 +4,8 @@ import React, {
   PureComponent,
   Fragment,
 } from 'react'
-
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { JLink } from 'components/base'
 
@@ -18,9 +18,10 @@ import newWalletButtonsStyle from './newWalletButtons.m.scss'
 
 type Props = {|
   +onClick: (WalletAction) => void,
+  +i18n: I18nType,
 |}
 
-export class NewWalletButtons extends PureComponent<Props> {
+class NewWalletButtonsComponent extends PureComponent<Props> {
   handleClickCreate = (event: SyntheticEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -34,6 +35,8 @@ export class NewWalletButtons extends PureComponent<Props> {
   }
 
   render() {
+    const { i18n } = this.props
+
     return (
       <Fragment>
         <JLink
@@ -78,3 +81,7 @@ export class NewWalletButtons extends PureComponent<Props> {
     )
   }
 }
+
+export const NewWalletButtons = withI18n()(
+  NewWalletButtonsComponent,
+)

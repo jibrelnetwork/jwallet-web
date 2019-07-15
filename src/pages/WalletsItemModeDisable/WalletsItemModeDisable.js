@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { Button } from 'components/base'
 import { UserActionInfo } from 'components'
@@ -11,14 +12,17 @@ import walletsItemModeDisableStyle from './walletsItemModeDisable.m.scss'
 
 export type Props = {|
   +walletId: string,
+  +i18n: I18nType,
 |}
 
-export class WalletsItemModeDisable extends PureComponent<Props> {
+class WalletsItemModeDisableComponent extends PureComponent<Props> {
   handleDisable = () => {
     walletsPlugin.switchMode(this.props.walletId)
   }
 
   render() {
+    const { i18n } = this.props
+
     /* eslint-disable max-len */
     return (
       <div className={walletsItemModeDisableStyle.core}>
@@ -41,3 +45,7 @@ export class WalletsItemModeDisable extends PureComponent<Props> {
     /* eslint-enable max-len */
   }
 }
+
+export const WalletsItemModeDisable = withI18n()(
+  WalletsItemModeDisableComponent,
+)

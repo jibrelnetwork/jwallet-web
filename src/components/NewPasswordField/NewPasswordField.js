@@ -1,8 +1,9 @@
 // @flow
 
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
 import { Field } from 'react-final-form'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { PasswordInput } from 'components'
 import { checkPasswordStrength } from 'utils/encryption'
@@ -21,6 +22,7 @@ type Props = {|
   +label: string,
   +isDisabled: boolean,
   +isAutoFocus: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -30,29 +32,6 @@ type StateProps = {|
 |}
 
 const MIN_PASSWORD_STRENGTH_SCORE: number = 3
-
-const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
-  'red': i18n._(
-    'common.NewPasswordField.strength.red',
-    null,
-    { defaults: 'Too weak' },
-  ),
-  'green': i18n._(
-    'common.NewPasswordField.strength.green',
-    null,
-    { defaults: 'Not bad' },
-  ),
-  'yellow': i18n._(
-    'common.NewPasswordField.strength.yellow',
-    null,
-    { defaults: 'Bit weak' },
-  ),
-  'orange': i18n._(
-    'common.NewPasswordField.strength.orange',
-    null,
-    { defaults: 'Easily cracked' },
-  ),
-}
 
 function getStatusByScore(
   score: number,
@@ -82,7 +61,7 @@ function checkStrong(score: number): boolean {
   return (score >= MIN_PASSWORD_STRENGTH_SCORE)
 }
 
-export class NewPasswordField extends Component<Props, StateProps> {
+class NewPasswordFieldComponent extends Component<Props, StateProps> {
   static defaultProps = {
     isDisabled: false,
     isAutoFocus: false,
@@ -126,6 +105,31 @@ export class NewPasswordField extends Component<Props, StateProps> {
   getMessage = (): ?string => {
     if (this.props.isDisabled) {
       return null
+    }
+
+    const { i18n } = this.props
+
+    const STATUS_MESSAGE_MAP: { [IndicatorStatus]: ?string } = {
+      'red': i18n._(
+        'common.NewPasswordField.strength.red',
+        null,
+        { defaults: 'Too weak' },
+      ),
+      'green': i18n._(
+        'common.NewPasswordField.strength.green',
+        null,
+        { defaults: 'Not bad' },
+      ),
+      'yellow': i18n._(
+        'common.NewPasswordField.strength.yellow',
+        null,
+        { defaults: 'Bit weak' },
+      ),
+      'orange': i18n._(
+        'common.NewPasswordField.strength.orange',
+        null,
+        { defaults: 'Easily cracked' },
+      ),
     }
 
     const {
@@ -182,6 +186,7 @@ export class NewPasswordField extends Component<Props, StateProps> {
       label,
       isDisabled,
       isAutoFocus,
+      i18n,
     }: Props = this.props
 
     const {
@@ -226,3 +231,5 @@ export class NewPasswordField extends Component<Props, StateProps> {
     )
   }
 }
+
+export const NewPasswordField = withI18n()(NewPasswordFieldComponent)

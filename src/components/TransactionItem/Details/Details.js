@@ -2,7 +2,8 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
@@ -33,6 +34,7 @@ type Props = {|
   +isActive: boolean,
   +isFromFavorites: boolean,
   +isMintable: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -112,6 +114,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       isFromFavorites,
       isMintable,
       data: txData,
+      i18n,
     } = this.props
 
     const {
@@ -301,4 +304,4 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
   }
 }
 
-export default TransactionItemDetails
+export default withI18n()(TransactionItemDetails)

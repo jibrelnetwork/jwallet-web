@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import {
   get,
   isEqual,
@@ -31,6 +32,7 @@ export type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +items: DigitalAssetWithBalance[],
+  +i18n: I18nType,
 |}
 
 type ComponentState = {|
@@ -39,7 +41,7 @@ type ComponentState = {|
   isSticky: boolean,
 |}
 
-export class HomeView extends Component<Props, ComponentState> {
+class HomeViewComponent extends Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -123,29 +125,34 @@ export class HomeView extends Component<Props, ComponentState> {
     </ul>
   )
 
-  renderEmptyList = () => (
-    <figure>
-      <img
-        src={noResultImg}
-        className={homeStyle.emptyIcon}
-        alt={i18n._(
-          'Home.noSearchResults.alt',
+  renderEmptyList = () => {
+    const { i18n } = this.props
+
+    return (
+      <figure>
+        <img
+          src={noResultImg}
+          className={homeStyle.emptyIcon}
+          alt={i18n._(
+            'Home.noSearchResults.alt',
+            null,
+            { defaults: 'No search results in assets list' },
+          )}
+        />
+        <figcaption>{i18n._(
+          'Home.noSearchResults.description',
           null,
-          { defaults: 'No search results in assets list' },
+          { defaults: 'No Search Results.' },
         )}
-      />
-      <figcaption>{i18n._(
-        'Home.noSearchResults.description',
-        null,
-        { defaults: 'No Search Results.' },
-      )}
-      </figcaption>
-    </figure>
-  )
+        </figcaption>
+      </figure>
+    )
+  }
 
   render() {
     const {
       items,
+      i18n,
     } = this.props
     const {
       isInManageMode,
@@ -288,3 +295,7 @@ export class HomeView extends Component<Props, ComponentState> {
     )
   }
 }
+
+export const HomeView = withI18n()(
+  HomeViewComponent,
+)

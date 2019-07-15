@@ -3,8 +3,10 @@
 import React, { PureComponent } from 'react'
 import createCaluclateDecorator from 'final-form-calculate'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { max } from 'lodash-es'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import {
   Form,
   Field,
@@ -62,6 +64,7 @@ type Props = {|
   +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +getAssetByAddress: (assetAddress: string) => DigitalAsset,
   +getAssetBalanceByAddress: (assetAddress: string) => ?string,
+  +i18n: I18nType,
 |}
 
 type OwnProps = {|
@@ -113,6 +116,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       getAssetByAddress,
       getAssetBalanceByAddress,
+      i18n,
     } = this.props
 
     const {
@@ -304,6 +308,10 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     } = this.state
 
     const {
+      i18n,
+    } = this.props
+
+    const {
       recipientAddress,
       assetAddress,
       amountValue,
@@ -462,6 +470,9 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export const ConnectedStepOneForm = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
+export const ConnectedStepOneForm = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+  ),
 )(StepOneForm)

@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
   handle,
@@ -18,6 +19,7 @@ type Props = {|
   +edit: (CommentId, string) => void,
   +comment: ?string,
   +transactionId: TransactionId,
+  +i18n: I18nType,
 |}
 
 type ComponentState = {|
@@ -56,6 +58,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
     const {
       onToggle,
       comment,
+      i18n,
     } = this.props
 
     const { newValue }: ComponentState = this.state
@@ -115,4 +118,4 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
   }
 }
 
-export default TransactionItemDetailsComment
+export default withI18n()(TransactionItemDetailsComment)

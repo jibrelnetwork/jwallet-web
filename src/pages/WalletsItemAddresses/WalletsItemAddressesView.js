@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
@@ -25,13 +26,14 @@ export type Props = {|
   +name: string,
   +type: WalletCustomType,
   +derivationIndex: number,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +ethBalance: ?BigNumber,
 |}
 
-export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
+class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps> {
   walletRef = React.createRef<HTMLDivElement>()
 
   constructor(props: Props) {
@@ -95,6 +97,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       type,
       walletId,
       derivationIndex,
+      i18n,
     }: Props = this.props
 
     /* eslint-disable max-len */
@@ -168,3 +171,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     /* eslint-enable max-len */
   }
 }
+
+export const WalletsItemAddressesView = withI18n()(
+  WalletsItemAddressesViewComponent,
+)

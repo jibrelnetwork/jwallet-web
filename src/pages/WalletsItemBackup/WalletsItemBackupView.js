@@ -1,7 +1,9 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import React, { Component } from 'react'
 
 import { add0x } from 'utils/address'
@@ -43,6 +45,7 @@ export type Props = {|
   +salt: string,
   +hint: string,
   +walletId: string,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -63,7 +66,7 @@ const WALLETS_BACKUP_INITIAL_VALUES: FormFields = {
   password: '',
 }
 
-export class WalletsItemBackupView extends Component<Props, StateProps> {
+class WalletsItemBackupViewComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -78,6 +81,8 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
+    const { i18n } = this.props
+
     switch (this.state.currentStep) {
       case STEPS.PASSWORD:
         return i18n._(
@@ -286,3 +291,7 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
     )
   }
 }
+
+export const WalletsItemBackupView = withI18n()(
+  WalletsItemBackupViewComponent,
+)
