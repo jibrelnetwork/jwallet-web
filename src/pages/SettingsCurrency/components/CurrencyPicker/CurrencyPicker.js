@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import {
   JIcon,
@@ -33,6 +33,7 @@ export function CurrencyPicker({
     onChange: handleChange,
     value: currency,
   } = input
+  const i18n = useI18n()
 
   const activeName: string = CURRENCIES[currency].name
 
@@ -45,7 +46,7 @@ export function CurrencyPicker({
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}
-          label={t`Currency`}
+          label={i18n._('SettingsCurrency.CurrencyPicker.title', null, { defaults: 'Currency' })}
           value={activeName}
           iconComponent={(
             <JIcon name={`ic_${currency.toLowerCase()}_24-use-fill`} size='24' color='blue' />

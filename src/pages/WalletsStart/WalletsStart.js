@@ -4,8 +4,8 @@ import React, {
   Fragment,
   Component,
 } from 'react'
-
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { StartLayout } from 'layouts'
 import { WalletsCreate } from 'pages/WalletsCreate/WalletsCreate'
@@ -19,13 +19,15 @@ import {
 import walletsStartStyle from './walletsStart.m.scss'
 import { NewWalletButtons } from './components/NewWalletButtons/NewWalletButtons'
 
-type Props = {||}
+type Props = {|
+  +i18n: I18nType,
+|}
 
 type StateProps = {|
   +action: ?WalletAction,
 |}
 
-export class WalletsStart extends Component<Props, StateProps> {
+class WalletsStartComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -40,6 +42,7 @@ export class WalletsStart extends Component<Props, StateProps> {
 
   render() {
     const { action } = this.state
+    const { i18n } = this.props
 
     /* eslint-disable react/no-danger */
     return (
@@ -52,7 +55,11 @@ export class WalletsStart extends Component<Props, StateProps> {
             <h1
               className={walletsStartStyle.title}
               dangerouslySetInnerHTML={{
-                __html: t`Create a new wallet or import an existing<br> to get started`,
+                __html: i18n._(
+                  'WalletsStart.SelectScenario.title',
+                  null,
+                  { defaults: 'Create a new wallet or import an existing<br> to get started' },
+                ),
               }}
             />
             <NewWalletButtons onClick={this.handleClick} />
@@ -65,3 +72,7 @@ export class WalletsStart extends Component<Props, StateProps> {
     /* eslint-enable react/no-danger */
   }
 }
+
+export const WalletsStart = withI18n()(
+  WalletsStartComponent,
+)

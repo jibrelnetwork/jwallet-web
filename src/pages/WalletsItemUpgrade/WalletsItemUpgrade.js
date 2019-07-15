@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
 
@@ -34,8 +34,16 @@ type OwnProps = {|
   +walletId: string,
 |}
 
-const XPUB_ERROR: string = t`Input XPRV or mnemonic for your current XPUB`
-const ADDRESS_ERROR: string = t`Input private key for your current address`
+const XPUB_ERROR: string = i18n._(
+  'WalletsItemUpgrade.input.data.error.noXprv',
+  null,
+  { defaults: 'Input XPRV or mnemonic for your current XPUB' },
+)
+const ADDRESS_ERROR: string = i18n._(
+  'WalletsItemUpgrade.input.data.error.noPrivateKey',
+  null,
+  { defaults: 'Input private key for your current address' },
+)
 
 function getErrorPrivateKeyMessage(
   type: WalletCustomType,
@@ -45,7 +53,11 @@ function getErrorPrivateKeyMessage(
   if (type !== 'address') {
     return XPUB_ERROR
   } else if (!checkPrivateKeyValid(data)) {
-    return t`Invalid private key`
+    return i18n._(
+      'WalletsItemUpgrade.input.data.error.invalidPrivateKey',
+      null,
+      { defaults: 'Invalid private key' },
+    )
   } else if (getAddressFromPrivateKey(data) !== publicData) {
     return ADDRESS_ERROR
   }
@@ -61,7 +73,11 @@ function getErrorXPRVMessage(
   if (type !== 'xpub') {
     return ADDRESS_ERROR
   } else if (!checkXkeyValid(data, 'prv')) {
-    return t`Invalid XPRV`
+    return i18n._(
+      'WalletsItemUpgrade.input.data.error.invalidXprv',
+      null,
+      { defaults: 'Invalid XPRV' },
+    )
   } else if (getXPUBFromXPRV(data) !== publicData) {
     return XPUB_ERROR
   }
@@ -79,7 +95,11 @@ function getErrorMnemonicMessage(
   if (type !== 'xpub') {
     return ADDRESS_ERROR
   } else if (!checkMnemonicValid(data)) {
-    return t`Invalid mnemonic`
+    return i18n._(
+      'WalletsItemUpgrade.input.data.error.invalidMnemonic',
+      null,
+      { defaults: 'Invalid mnemonic' },
+    )
   } else if (!checkDerivationPathValid((derivationPath || '').trim())) {
     return null
   } else if (getXPUBFromMnemonic(data, passphrase, derivationPath) !== publicData) {
@@ -101,13 +121,21 @@ export function getErrorDataMessage(
   const inputData: string = (data || '').trim()
 
   if (!inputData) {
-    return t`The field should not be empty`
+    return i18n._(
+      'WalletsItemUpgrade.input.data.error.empty',
+      null,
+      { defaults: 'The field should not be empty' },
+    )
   }
 
   const dataType: ?WalletCustomType = getTypeByInput(inputData)
 
   if (!checkReadOnlyType(type)) {
-    return t`You can't unlock not read only wallet`
+    return i18n._(
+      'WalletsItemUpgrade.input.data.error.cantunlock',
+      null,
+      { defaults: 'You can\'t unlock not read only wallet' },
+    )
   }
 
   switch (dataType) {

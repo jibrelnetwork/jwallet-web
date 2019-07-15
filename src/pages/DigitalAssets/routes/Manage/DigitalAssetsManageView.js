@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import DigitalAssetsManage from 'components/DigitalAssetsManage'
 
@@ -45,19 +45,39 @@ class DigitalAssetsManageView extends Component<Props> {
         <div className='header'>
           <div className='container'>
             <div className='title'>
-              <JText size='tab' color='gray' value={t`Assets manager`} />
+              <JText
+                size='tab'
+                color='gray'
+                value={i18n._(
+                  'AssetsManage.title',
+                  null,
+                  { defaults: 'Assets manager' },
+                )}
+              />
             </div>
             <div className='actions'>
               <div className='search'>
                 <SearchInput onChange={setSearchQuery} />
               </div>
-              <JLink href='/assets/add' className='button add' title={t`Add asset`}>
+              <JLink
+                href='/assets/add'
+                className='button add'
+                title={i18n._(
+                  'AssetsManage.add',
+                  null,
+                  { defaults: 'Add asset' },
+                )}
+              >
                 <JIcon name='add' color='gray' />
               </JLink>
               <JLinkBack
                 routeName='Wallet'
                 className='button close'
-                title={t`Close`}
+                title={i18n._(
+                  'AssetsManage.close',
+                  null,
+                  { defaults: 'Close' },
+                )}
               >
                 <JIcon name='cross' color='gray' />
               </JLinkBack>

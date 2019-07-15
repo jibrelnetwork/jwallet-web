@@ -1,16 +1,20 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import notFoundItemStyles from './notFoundItem.m.scss'
 
-function NotFoundItem() {
+export function NotFoundItem() {
+  const i18n = useI18n()
+
   return (
     <div className={notFoundItemStyles.core}>
-      {t`Not Found`}
+      {i18n._(
+        'common.JPicker.List.NotFoundItem.description',
+        null,
+        { defaults: 'Not Found' },
+      )}
     </div>
   )
 }
-
-export { NotFoundItem }

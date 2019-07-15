@@ -2,7 +2,8 @@
 
 import Promise from 'bluebird'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import { isEmpty } from 'lodash-es'
 
 import {
@@ -48,6 +49,7 @@ export type Props = {|
   +walletId: WalletId,
   +publicData: string,
   +type: WalletCustomType,
+  +i18n: I18nType,
 |}
 
 export const STEPS: WalletsItemUpgradeSteps = {
@@ -63,12 +65,7 @@ const INITIAL_VALUES: FormFields = {
   derivationPath: 'm/44\'/60\'/0\'/0',
 }
 
-const DEFAULT_DATA_MESSAGE: string = t`To unlock all features you need to provide a wallet backup 
-phrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other 
-crypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", 
-"Mnemonic phrase" etc.`
-
-export class WalletsItemUpgradeView extends Component<Props, StateProps> {
+class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -78,12 +75,18 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
+    const { i18n } = this.props
+
     switch (this.state.currentStep) {
       case STEPS.DATA:
         return ''
 
       case STEPS.PASSWORD:
-        return t`Enter Security Password`
+        return i18n._(
+          'WalletsItemUpgrade.password.title',
+          null,
+          { defaults: 'Enter Security Password' },
+        )
 
       default:
         return ''
@@ -202,6 +205,7 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
     const {
       type,
       publicData,
+      i18n,
     }: Props = this.props
 
     const data: string = (values.data || '').trim()
@@ -216,20 +220,28 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
     const isXPUB: boolean = (type === 'xpub')
     const isMnemonicInputted: boolean = (getTypeByInput(data) === 'mnemonic')
 
+    const DEFAULT_DATA_MESSAGE: string = i18n._(
+      'WalletsItemUpgrade.input.data.info',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'To unlock all features you need to provide a wallet backup \nphrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other \ncrypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", \n"Mnemonic phrase" etc.' },
+    )
+
+    /* eslint-disable max-len */
     return (
       <form
         onSubmit={handleSubmit}
         className={walletsItemUpgradeStyle.form}
       >
         <UserActionInfo
-          title={t`Your Wallet Is in Read-Only Mode`}
+          title={i18n._('WalletsItemUpgrade.data.title', null, { defaults: 'Your Wallet Is in Read-Only Mode' })}
           iconClassName={walletsItemUpgradeStyle.icon}
-          text={t`Add private key to get the full access to Jwallet features and send assets.`}
+          text={i18n._('WalletsItemUpgrade.data.description', null, { defaults: 'Add private key to get the full access to Jwallet features and send assets.' })}
           iconName='ic_key_48-use-fill'
         />
         <Field
           component={JTextArea}
-          label={t`Address, Key, Mnemonic`}
+          label={i18n._('WalletsItemUpgrade.input.data.title', null, { defaults: 'Address, Key, Mnemonic' })}
           errorMessage={errorDataMessage}
           infoMessage={DEFAULT_DATA_MESSAGE}
           name='data'
@@ -247,10 +259,11 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
           isLoading={isSubmitting}
           isDisabled={!!errorDataMessage || !data}
         >
-          {t`Unlock`}
+          {i18n._('WalletsItemUpgrade.data.actions.submit', null, { defaults: 'Unlock' })}
         </Button>
       </form>
     )
+    /* eslint-enable max-len */
   }
 
   renderPasswordStep = (formRenderProps: FormRenderProps) => {
@@ -271,15 +284,16 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   }
 
   renderFinishStep = () => {
+    const { i18n } = this.props
     const handleGoHome = this.goToHome
 
+    /* eslint-disable max-len */
     return (
       <div className={walletsItemUpgradeStyle.finish}>
         <UserActionInfo
-          title={t`Features Unlocked`}
+          title={i18n._('WalletsItemUpgrade.finish.title', null, { defaults: 'Features Unlocked' })}
           iconClassName={walletsItemUpgradeStyle.icon}
-          text={t`Congratulations, you have full access to Jwallet features.
-          Start using them now!`}
+          text={i18n._('WalletsItemUpgrade.finish.description', null, { defaults: 'Congratulations, you have full access to Jwallet features. \nStart using them now!' })}
           iconName='ic_success_48-use-fill'
         />
         <div className={walletsItemUpgradeStyle.buttons}>
@@ -287,11 +301,12 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
             onClick={handleGoHome}
             theme='general'
           >
-            {t`Go to Wallet`}
+            {i18n._('WalletsItemUpgrade.finish.actions.submit', null, { defaults: 'Go to Wallet' })}
           </Button>
         </div>
       </div>
     )
+    /* eslint-enable max-len */
   }
 
   renderForm = (formRenderProps: FormRenderProps) => {
@@ -326,3 +341,7 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
     )
   }
 }
+
+export const WalletsItemUpgradeView = withI18n()(
+  WalletsItemUpgradeViewComponent,
+)

@@ -2,12 +2,14 @@
   "plugins": [
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-class-properties",
-    ["@babel/plugin-transform-runtime", { "regenerator": true }]
+    ["@babel/plugin-transform-runtime", { "regenerator": true }],
+    "macros"
   ],
   "presets": [
     ["@babel/env", { "modules": false }],
     "@babel/preset-react",
-    "@babel/flow"
+    "@babel/flow",
+    "@lingui/react"
   ],
   "retainLines": true
 }

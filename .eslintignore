@@ -3,3 +3,4 @@ build/**
 tests/**
 src/public/**
 flow-typed/npm
+src/data/lingui/**
