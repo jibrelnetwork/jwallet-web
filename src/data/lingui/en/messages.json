@@ -271,6 +271,7 @@
   "WalletsItemDelete.actions.submit": "Delete",
   "WalletsItemDelete.description": "This action will delete the wallet from this device. You can restore it using wallet \nbackup phrase. If the wallet is not backed up, it will be gone forever.",
   "WalletsItemDelete.title": "Delete Wallet",
+  "WalletsItemModeDisable.actions.address": "Address to Keep",
   "WalletsItemModeDisable.actions.submit": "Disable",
   "WalletsItemModeDisable.description": "This action will leave only one active wallet address of your choice. \nYou will be able return to the multi-address mode at any time and get access to all \nyour currently available addresses.",
   "WalletsItemModeDisable.title": "Disable Multi-Address Mode",
