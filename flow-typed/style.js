@@ -12,6 +12,7 @@ declare module CSSModule {
 declare type OffsetVariant
   = 'mb8'
   | 'mb16'
+  | 'mb24'
   | 'mb32'
   | 'mr8'
   | 'mr24'

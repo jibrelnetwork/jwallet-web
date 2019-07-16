@@ -1,4 +1,4 @@
-import { sendTransactionEvents } from './sendTransactionEvents'
+// import { sendTransactionEvents } from './sendTransactionEvents'
 import { userParams } from './userParams'
 import { resyncTransactionsEvents } from './resyncTransactionsEvents'
 
@@ -7,7 +7,7 @@ import { resyncTransactionsEvents } from './resyncTransactionsEvents'
 export const analyticsMiddleware = store => next => (action) => {
   try {
     const startState = store.getState()
-    sendTransactionEvents(startState, action)
+    // sendTransactionEvents(startState, action)
     resyncTransactionsEvents(startState, action)
   } catch (err) {
     // do nothing

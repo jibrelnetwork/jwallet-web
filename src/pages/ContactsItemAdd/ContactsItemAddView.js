@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 import {
   Form,
   Field,
@@ -25,12 +25,16 @@ export type Props = {|
   name: string,
 |}
 
-function handleFormSubmit(values) {
+const handleFormSubmit = i18n => (values) => {
   const errors = {}
 
   if (!checkAddressValid(values.address)) {
     // eslint-disable-next-line no-param-reassign, fp/no-mutation
-    errors.address = t`Invalid address`
+    errors.address = i18n._(
+      'ContactsItemAdd.input.address.error.invalid',
+      null,
+      { defaults: 'Invalid address' },
+    )
   }
 
   if (values.name == null) {
@@ -54,10 +58,12 @@ export function ContactsItemAddView({
     address,
   }
 
+  const i18n = useI18n()
+
   return (
     <div className={style.core}>
       <TitleHeader
-        title={t`Add Contact`}
+        title={i18n._('ContactsItemAdd.title', null, { defaults: 'Add Contact' })}
       />
       <Form
         render={({
@@ -71,13 +77,21 @@ export function ContactsItemAddView({
           >
             <Field
               component={JInputField}
-              label={t`Name`}
+              label={i18n._(
+                'ContactsItemAdd.input.name.title',
+                null,
+                { defaults: 'Name' },
+              )}
               name='name'
               isDisabled={submitting}
             />
             <Field
               component={JInputField}
-              label={t`Address`}
+              label={i18n._(
+                'ContactsItemAdd.input.address.title',
+                null,
+                { defaults: 'Address' },
+              )}
               name='address'
               errorMessage={errors.address}
               isDisabled={submitting || address}
@@ -85,20 +99,28 @@ export function ContactsItemAddView({
             <Field
               className={offset.mb32}
               component={JInputField}
-              label={t`Note`}
+              label={i18n._(
+                'ContactsItemAdd.input.note.title',
+                null,
+                { defaults: 'Note' },
+              )}
               name='note'
-              infoMessage={t`This note is only visible to you.`}
+              infoMessage={i18n._(
+                'ContactsItemAdd.input.note.info',
+                null,
+                { defaults: 'This note is only visible to you.' },
+              )}
               isDisabled={submitting}
             />
             <Button
               type='submit'
               isLoading={submitting}
             >
-              {t`Save`}
+              {i18n._('ContactsItemAdd.actions.save', null, { defaults: 'Save' })}
             </Button>
           </form>
         )}
-        onSubmit={handleFormSubmit}
+        onSubmit={handleFormSubmit(i18n)}
         initialValues={initValues}
       />
     </div>

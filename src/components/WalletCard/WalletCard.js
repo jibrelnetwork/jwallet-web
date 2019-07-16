@@ -2,7 +2,9 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
@@ -19,21 +21,27 @@ import {
 } from 'store/selectors/wallets'
 
 import styles from './walletCard.m.scss'
+import { AddressChooser } from './components/AddressChooser'
 
 type OwnProps = {|
+  +onActiveAddressChooser: (id: ?WalletId) => any,
   +id: WalletId,
-  +activeWalletId: WalletId,
+  +activeAddressChooserId: ?WalletId,
+  +isActive: boolean,
+  +i18n: I18nType,
 |}
 
 type Props = {|
   ...OwnProps,
   +setActiveWallet: (WalletId) => void,
   +name: string,
-  +xpub: ?string,
+  +addressIndex: ?number,
   +addressName: ?string,
   +type: WalletCustomType,
   +derivationIndex: number,
   +isSimplified: boolean,
+  +isMultiAddress: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -44,6 +52,12 @@ type StateProps = {|
 |}
 
 class WalletCard extends Component<Props, StateProps> {
+  static defaultProps = {
+    isActive: false,
+  }
+
+  nameInputRef = React.createRef<HTMLInputElement>()
+
   constructor(props: Props) {
     super(props)
 
@@ -53,11 +67,7 @@ class WalletCard extends Component<Props, StateProps> {
       isNewNameUniq: true,
       isRenameActive: false,
     }
-
-    this.nameInputRef = React.createRef()
   }
-
-  nameInputRef: Object
 
   async componentDidMount() {
     const ethBalance: BigNumber = await walletsPlugin.requestETHBalance(this.props.id)
@@ -75,10 +85,17 @@ class WalletCard extends Component<Props, StateProps> {
   handleSetActive = () => {
     const {
       id,
+      isActive,
+      isMultiAddress,
+      onActiveAddressChooser,
       setActiveWallet: setActive,
     }: Props = this.props
 
-    setActive(id)
+    if (isMultiAddress) {
+      onActiveAddressChooser(id)
+    } else if (!isActive) {
+      setActive(id)
+    }
   }
 
   handleChangeName = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -106,7 +123,7 @@ class WalletCard extends Component<Props, StateProps> {
 
   handleActivateRename = (isRenameActive?: boolean = true) => {
     this.setState({ isRenameActive: !!isRenameActive }, () => {
-      if (isRenameActive) {
+      if (isRenameActive && this.nameInputRef && this.nameInputRef.current) {
         this.nameInputRef.current.focus()
       }
     })
@@ -135,15 +152,23 @@ class WalletCard extends Component<Props, StateProps> {
     this.setState({ newName })
   }
 
+  handleCloseAddressChooser = (e: Event) => {
+    this.props.onActiveAddressChooser(null)
+    e.stopPropagation()
+  }
+
   render() {
     const {
       id,
-      xpub,
       type,
       addressName,
+      addressIndex,
       derivationIndex,
+      activeAddressChooserId,
+      isActive,
       isSimplified,
-      activeWalletId,
+      isMultiAddress,
+      i18n,
     }: Props = this.props
 
     const {
@@ -153,20 +178,20 @@ class WalletCard extends Component<Props, StateProps> {
       isRenameActive,
     }: StateProps = this.state
 
-    const isMultiAddress: boolean = !!xpub
-    const isActive: boolean = (id === activeWalletId)
     const addressesCount: number = (derivationIndex + 1)
+    const nameWithDivider: string = addressName ? `${addressName}  •  ` : ''
     const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
-    const name: string = addressName ? `${addressName}  •  ` : ''
+    const isAnyAddressChooserActive: boolean = !!activeAddressChooserId
 
     return (
       <div
-        onClick={(id === activeWalletId) ? undefined : this.handleSetActive}
+        onClick={this.handleSetActive}
         className={classNames(
           '__wallet-card',
           styles.core,
           isActive && styles.active,
           hasMessage && styles.message,
+          isAnyAddressChooserActive && styles.chooser,
         )}
       >
         <div className={styles.card}>
@@ -208,9 +233,16 @@ class WalletCard extends Component<Props, StateProps> {
                 />
               )}
             </h2>
-            {isMultiAddress && !isSimplified && (
+            {isMultiAddress && (
               <p className={styles.address}>
-                {t`${name}${addressesCount} Addresses`}
+                {i18n._(
+                  'common.WalletCard.currentAddress',
+                  {
+                    nameWithDivider,
+                    addressesCount,
+                  },
+                  { defaults: '{nameWithDivider}{addressesCount} Addresses' },
+                )}
               </p>
             )}
             {ethBalance && (
@@ -228,10 +260,23 @@ class WalletCard extends Component<Props, StateProps> {
             />
           </div>
         </div>
+        {isMultiAddress && (
+          <AddressChooser
+            onClose={this.handleCloseAddressChooser}
+            walletId={id}
+            activeIndex={addressIndex || 0}
+            derivationIndex={derivationIndex}
+            isOpen={(id === activeAddressChooserId)}
+          />
+        )}
         {hasMessage && (
           <JFieldMessage
             className={styles.warning}
-            message={t`You already have a wallet with this name.`}
+            message={i18n._(
+              'common.WalletCard.duplicateName',
+              null,
+              { defaults: 'You already have a wallet with this name.' },
+            )}
             theme='info'
           />
         )}
@@ -242,7 +287,6 @@ class WalletCard extends Component<Props, StateProps> {
 
 function mapStateToProps(state: AppState, {
   id,
-  activeWalletId,
 }: OwnProps) {
   const wallet: Wallet = selectWalletOrThrow(state, id)
   const address: Address = walletsPlugin.getAddress(id)
@@ -262,14 +306,13 @@ function mapStateToProps(state: AppState, {
     : null
 
   return {
-    id,
     name,
-    xpub,
     addressName,
-    activeWalletId,
+    addressIndex,
     derivationIndex,
-    isSimplified,
     type: customType,
+    isSimplified,
+    isMultiAddress: !!xpub && !isSimplified,
   }
 }
 
@@ -277,9 +320,12 @@ const mapDispatchToProps = {
   setActiveWallet,
 }
 
-const WalletCardEnhanced = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+const WalletCardEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(WalletCard)
 
 export { WalletCardEnhanced as WalletCard }

@@ -1,10 +1,10 @@
 // @flow strict
 
 import { SET_WALLETS_ITEMS } from 'store/modules/wallets'
-import { SET_FIAT_CURRENCY } from 'store/modules/settings'
+import { SET_FIAT_CURRENCY } from 'store/modules/user'
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectFavoritesItems } from 'store/selectors/favorites'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 
 import {
   METRICS,
@@ -82,7 +82,7 @@ export const userParams = (state: AppState, action: Object) => {
     }
 
     case SET_FIAT_CURRENCY: {
-      gaSetUserDimension(DIMENSIONS.CURRENCY, selectSettingsFiatCurrency(state))
+      gaSetUserDimension(DIMENSIONS.CURRENCY, selectFiatCurrency(state))
 
       break
     }

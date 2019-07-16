@@ -3,7 +3,6 @@
 import React, {
   Component,
 } from 'react'
-import { t } from 'ttag'
 
 import {
   JPickerBody,
@@ -98,7 +97,7 @@ export type Props = {|
   +contacts: Contact[],
   +wallets: RecipientPickerWallet[],
   +className: string,
-  // fiatCurrency: FiatCurrency,
+  +label: string,
 |}
 
 type ComponentState = {|
@@ -134,6 +133,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
       input,
       contacts,
       wallets,
+      label,
     } = this.props
 
     const { searchQuery } =  this.state
@@ -149,7 +149,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={label}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -190,7 +190,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={label}
           value={!isOpen ? title : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -204,7 +204,7 @@ class RecipientPicker extends Component<Props, ComponentState> {
         <JPickerCurrent
           ref={this.searchInputRef}
           isEditable={isOpen}
-          label={t`Recipient`}
+          label={label}
           value={!isOpen ? activeWallet.name : ''}
           inputValue={searchQuery}
           onInputChange={this.handleSearchQueryChange}
@@ -219,12 +219,12 @@ class RecipientPicker extends Component<Props, ComponentState> {
       <JPickerCurrent
         ref={this.searchInputRef}
         isEditable={isOpen}
-        label={t`Recipient`}
+        label={label}
         value={!isOpen ? input.value : ''}
         inputValue={searchQuery}
         onInputChange={this.handleSearchQueryChange}
         iconComponent={(
-          <JIcon name='contact-2-use-fill' color={isOpen ? 'blue' : 'gray'} />
+          <JIcon name='contact-2-use-fill' color={(isOpen || input.value) ? 'blue' : 'gray'} />
         )}
       />
     )
@@ -287,12 +287,6 @@ class RecipientPicker extends Component<Props, ComponentState> {
       // fiatCurrency,
     } = this.props
 
-    if (!contacts.length) {
-      return (
-        <Empty tab='contacts' />
-      )
-    }
-
     const { searchQuery } = this.state
 
     const activeContact = contacts.find(contact => contact.address === input.value)
@@ -308,13 +302,23 @@ class RecipientPicker extends Component<Props, ComponentState> {
           />
         )
       } else {
+        if (!contacts.length) {
+          return (
+            <Empty tab='contacts' />
+          )
+        }
+
         return (
           <NotFoundItem />
         )
       }
     }
 
-    console.log(searchQuery, filteredContacts)
+    if (!contacts.length) {
+      return (
+        <Empty tab='contacts' />
+      )
+    }
 
     return (
       <JPickerList

@@ -1,7 +1,9 @@
 // @flow
 
 import classNames from 'classnames'
-import { t } from 'ttag'
+
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import React, {
   Fragment,
@@ -34,6 +36,7 @@ type Props = {|
   +balance: ?BalanceString,
   +isCustom: boolean,
   +isActive: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -78,6 +81,7 @@ class AssetItem extends PureComponent<Props, StateProps> {
       balance,
       isCustom,
       isActive,
+      i18n,
     } = this.props
 
     const {
@@ -120,7 +124,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                   className='item -edit'
                   href={`/assets/${address}/edit`}
                 >
-                  <JTooltip text={t`Edit`}>
+                  <JTooltip
+                    text={i18n._(
+                      'AssetItemLegacy.edit',
+                      null,
+                      { defaults: 'Edit' },
+                    )}
+                  >
                     <JIcon
                       name='edit'
                     />
@@ -136,12 +146,20 @@ class AssetItem extends PureComponent<Props, StateProps> {
                               className='confirm'
                               onClick={this.handleClickRemove}
                               color='blue'
-                              label={t`Yes, delete`}
+                              label={i18n._(
+                                'AssetItemLegacy.delete.yes',
+                                null,
+                                { defaults: 'Yes, delete' },
+                              )}
                               isBordered
                             />
                             <JFlatButton
                               onClick={this.handleClickToggleDelete}
-                              label={t`No`}
+                              label={i18n._(
+                                'AssetItemLegacy.delete.no',
+                                null,
+                                { defaults: 'No' },
+                              )}
                               color='blue'
                               isBordered
                             />
@@ -149,7 +167,13 @@ class AssetItem extends PureComponent<Props, StateProps> {
                         ) :
                         (
                           <div onClick={this.handleClickToggleDelete}>
-                            <JTooltip text={t`Delete`}>
+                            <JTooltip
+                              text={i18n._(
+                                'AssetItemLegacy.delete',
+                                null,
+                                { defaults: 'Delete' },
+                              )}
+                            >
                               <JIcon name='trash' />
                             </JTooltip>
                           </div>
@@ -191,4 +215,4 @@ class AssetItem extends PureComponent<Props, StateProps> {
   }
 }
 
-export default AssetItem
+export default withI18n()(AssetItem)

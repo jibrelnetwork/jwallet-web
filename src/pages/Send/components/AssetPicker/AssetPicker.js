@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import getDigitalAssetByAddress from 'utils/digitalAssets/getDigitalAssetByAddress'
 
@@ -35,6 +35,8 @@ export function AssetPicker({
   fiatCurrency,
   className,
 }: Props) {
+  const i18n = useI18n()
+
   const activeAsset: ?DigitalAssetWithBalance =
     getDigitalAssetByAddress(digitalAssets, input.value)
 
@@ -74,7 +76,11 @@ export function AssetPicker({
       currentRenderer={() => (
         <JPickerCurrent
           isEditable={false}
-          label={t`Asset`}
+          label={i18n._(
+            'Send.AssetPicker.label',
+            null,
+            { defaults: 'Asset' },
+          )}
           value={activeAssetName}
           iconComponent={(
             <JAssetSymbol

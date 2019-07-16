@@ -1,14 +1,9 @@
 // @flow strict
 
 import QRCode from './QRCode'
-import ESCButton from './ESCButton'
-import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
-import FavoriteItem from './FavoriteItem'
-import SettingsGrid from './SettingsGrid'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
-import RoundIconButton from './RoundIconButton'
 import TransactionsList from './TransactionsList'
 import MnemonicAddresses from './MnemonicAddresses'
 import TransactionsFilter from './TransactionsFilter'
@@ -36,16 +31,13 @@ export { AddressPicker } from './AddressPicker/AddressPicker'
 export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
 export { ContactItem } from './ContactItem/ContactItem'
 
+export { default as PopupButton } from './PopupButton'
+
 export {
   QRCode,
-  ESCButton,
-  PopupButton,
   AssetBalance,
-  FavoriteItem,
-  SettingsGrid,
   WalletLoading,
   CloseableScreen,
-  RoundIconButton,
   TransactionsList,
   MnemonicAddresses,
   TransactionsFilter,

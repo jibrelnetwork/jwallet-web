@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { walletsPlugin } from 'store/plugins'
 
@@ -36,15 +36,35 @@ export function getSuccessDataMessage(data: ?string): ?string {
   if (checkMnemonicValid(trimmedData)) {
     const wordsLen: number = trimmedData.split(' ').length
 
-    return t`You have entered ${wordsLen} BIP39 mnemonic`
+    return i18n._(
+      'WalletsImport.finalGuess.mnemonic',
+      { wordsLen },
+      { defaults: 'You have entered {wordsLen}-words BIP39 mnemonic' },
+    )
   } else if (checkXkeyValid(trimmedData, 'prv')) {
-    return t`You have entered BIP32 XPRV`
+    return i18n._(
+      'WalletsImport.finalGuess.xprv',
+      null,
+      { defaults: 'You have entered BIP32 XPRV' },
+    )
   } else if (checkXkeyValid(trimmedData, 'pub')) {
-    return t`You have entered BIP32 XPUB`
+    return i18n._(
+      'WalletsImport.finalGuess.xpub',
+      null,
+      { defaults: 'You have entered BIP32 XPUB' },
+    )
   } else if (checkPrivateKeyValid(trimmedData)) {
-    return t`You have entered Ethereum private key`
+    return i18n._(
+      'WalletsImport.finalGuess.privateKey',
+      null,
+      { defaults: 'You have entered Ethereum private key' },
+    )
   } else if (checkAddressValid(trimmedData)) {
-    return t`You have entered Ethereum address`
+    return i18n._(
+      'WalletsImport.finalGuess.address',
+      null,
+      { defaults: 'You have entered Ethereum address' },
+    )
   }
 
   return null
@@ -129,7 +149,11 @@ function getInfoMnemonicMessage(
   const isFinalLen: boolean = !(wordsLen % 3)
 
   if (!isFinalLen) {
-    return t`Seems like you are entering BIP39 mnemonic`
+    return i18n._(
+      'WalletsImport.guess.mnemonic',
+      null,
+      { defaults: 'Seems like you are entering BIP39 mnemonic' },
+    )
   } else if (!checkMnemonicValid(data)) {
     return null
   }
@@ -153,7 +177,11 @@ function getInfoXPRVMessage(data: string): ?string {
   if (!RE_XPRV_PREFIX.test(data) || RE_INVALID_BASE.test(data)) {
     return null
   } else if (data.length < XKEY_LENGTH) {
-    return t`Seems like you are entering BIP32 XPRV`
+    return i18n._(
+      'WalletsImport.guess.xprv',
+      null,
+      { defaults: 'Seems like you are entering BIP32 XPRV' },
+    )
   } else if (!checkXkeyValid(data, 'prv')) {
     return null
   }
@@ -173,7 +201,11 @@ function getInfoXPUBMessage(data: string): ?string {
   if (!RE_XPUB_PREFIX.test(data) || RE_INVALID_BASE.test(data)) {
     return null
   } else if (data.length < XKEY_LENGTH) {
-    return t`Seems like you are entering BIP32 XPUB`
+    return i18n._(
+      'WalletsImport.guess.xpub',
+      null,
+      { defaults: 'Seems like you are entering BIP32 XPUB' },
+    )
   }
 
   return null
@@ -185,7 +217,11 @@ function getInfoPrivateKeyMessage(data: string): ?string {
   if ((cleanedData.length <= 40) || RE_INVALID_HEX.test(cleanedData)) {
     return null
   } else if (cleanedData.length < 64) {
-    return t`Seems like you are entering Ethereum private key`
+    return i18n._(
+      'WalletsImport.guess.privateKey',
+      null,
+      { defaults: 'Seems like you are entering Ethereum private key' },
+    )
   } else if (cleanedData.length > 64) {
     return null
   }
@@ -207,7 +243,11 @@ function getInfoAddressMessage(data: string): ?string {
   if ((cleanedData.length > 40) || RE_INVALID_HEX.test(cleanedData)) {
     return null
   } else if (cleanedData.length < 40) {
-    return t`Seems like you are entering Ethereum address`
+    return i18n._(
+      'WalletsImport.guess.address',
+      null,
+      { defaults: 'Seems like you are entering Ethereum address' },
+    )
   }
 
   return null
@@ -263,9 +303,17 @@ function getErrorMnemonicMessage(data: string): ?string {
   if (!isFinalLen) {
     return null
   } else if (!checkMnemonicValid(data)) {
-    return t`Incorrect BIP39 mnemonic`
+    return i18n._(
+      'WalletsImport.errors.mnemonicInvalid',
+      null,
+      { defaults: 'Incorrect BIP39 mnemonic' },
+    )
   } else if (RE_INVALID_MNEMONIC.test(data)) {
-    return t`BIP39 mnemonic should be in English`
+    return i18n._(
+      'WalletsImport.errors.mnemonicLanguage',
+      null,
+      { defaults: 'BIP39 mnemonic should be in English' },
+    )
   }
 
   return null
@@ -275,7 +323,11 @@ function getErrorXPRVMessage(data: string): ?string {
   if (!RE_XPRV_PREFIX.test(data)) {
     return null
   } else if (RE_INVALID_BASE.test(data)) {
-    return t`Incorrect BIP32 XPRV`
+    return i18n._(
+      'WalletsImport.errors.xprvInvalid',
+      null,
+      { defaults: 'Incorrect BIP32 XPRV' },
+    )
   }
 
   const dataLen: number = data.length
@@ -283,9 +335,17 @@ function getErrorXPRVMessage(data: string): ?string {
   if (dataLen < XKEY_LENGTH) {
     return null
   } else if (dataLen > XKEY_LENGTH) {
-    return t`BIP32 XPRV shouldn't be longer than ${XKEY_LENGTH} characters`
+    return i18n._(
+      'WalletsImport.errors.xprvTooLong',
+      { length: XKEY_LENGTH },
+      'BIP32 XPRV shouldn\'t be longer than { length } characters',
+    )
   } else if (!checkXkeyValid(data, 'prv')) {
-    return t`Incorrect BIP32 XPRV`
+    return i18n._(
+      'WalletsImport.errors.xprvInvalid',
+      null,
+      { defaults: 'Incorrect BIP32 XPRV' },
+    )
   }
 
   return null
@@ -295,7 +355,11 @@ function getErrorXPUBMessage(data: string): ?string {
   if (!RE_XPUB_PREFIX.test(data)) {
     return null
   } else if (RE_INVALID_BASE.test(data)) {
-    return t`Incorrect BIP32 XPUB`
+    return i18n._(
+      'WalletsImport.errors.xpubInvalid',
+      null,
+      { defaults: 'Incorrect BIP32 XPUB' },
+    )
   }
 
   const dataLen: number = data.length
@@ -303,9 +367,17 @@ function getErrorXPUBMessage(data: string): ?string {
   if (dataLen < XKEY_LENGTH) {
     return null
   } else if (dataLen > XKEY_LENGTH) {
-    return t`BIP32 XPUB shouldn't be longer than ${XKEY_LENGTH} characters`
+    return i18n._(
+      'WalletsImport.errors.xpubTooLong',
+      { length: XKEY_LENGTH },
+      'BIP32 XPUB shouldn\'t be longer than { length } characters',
+    )
   } else if (!checkXkeyValid(data, 'pub')) {
-    return t`Incorrect BIP32 XPUB`
+    return i18n._(
+      'WalletsImport.errors.xpubInvalid',
+      null,
+      { defaults: 'Incorrect BIP32 XPUB' },
+    )
   }
 
   return null
@@ -324,14 +396,22 @@ function getErrorPrivateKeyMessage(data: string): ?string {
 
   if (isValidPKLength) {
     if (hasHexPrefix && hasInvalidSymbols) {
-      return t`Incorrect Ethereum private key`
+      return i18n._(
+        'WalletsImport.errors.privateKeyInvalid',
+        null,
+        { defaults: 'Incorrect Ethereum private key' },
+      )
     }
   } else {
     if (hasInvalidSymbols) {
       return null
     }
 
-    return t`Ethereum private key shouldn't be longer than 64 characters`
+    return i18n._(
+      'WalletsImport.errors.privateKeyTooLong',
+      null,
+      'Ethereum private key shouldn\'t be longer than 64 characters',
+    )
   }
 
   return null
@@ -349,10 +429,18 @@ function getErrorAddressMessage(data: string): ?string {
     const isValidChecksumAddress: boolean = checkAddressWithChecksumValid(cleanedData)
 
     if (!(isValidNormalizedAddress || isValidChecksumAddress)) {
-      return t`Seems you made a typo in Ethereum address`
+      return i18n._(
+        'WalletsImport.errors.addressTypo',
+        null,
+        { defaults: 'Seems you made a typo in Ethereum address' },
+      )
     }
   } else if ((cleanedData.length <= 40) && hasHexPrefix && hasInvalidSymbols) {
-    return t`Incorrect Ethereum address`
+    return i18n._(
+      'WalletsImport.errors.addressInvalid',
+      null,
+      { defaults: 'Incorrect Ethereum address' },
+    )
   }
 
   return null
@@ -391,7 +479,11 @@ export function getErrorDataMessage(
   const successDataMessage: ?string = getSuccessDataMessage(trimmedData)
 
   if (!(successDataMessage || infoDataMessage)) {
-    return t`Unable to recognize your input`
+    return i18n._(
+      'WalletsImport.errors.unrecognizable',
+      null,
+      { defaults: 'Unable to recognize your input' },
+    )
   }
 
   return null

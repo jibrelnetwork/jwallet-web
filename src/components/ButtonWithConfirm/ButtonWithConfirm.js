@@ -1,7 +1,9 @@
 // @flow strict
 
-import classNames from 'classnames'
 import React, { Component } from 'react'
+import classNames from 'classnames'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { Button } from 'components/base'
 
@@ -14,6 +16,7 @@ type Props = {|
   +labelConfirm: string,
   +confirmTimeout: number,
   +isReversed: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -23,7 +26,7 @@ type StateProps = {|
 
 const ONE_SECOND: 1000 = 1000
 
-export class ButtonWithConfirm extends Component<Props, StateProps> {
+class ButtonWithConfirmComponent extends Component<Props, StateProps> {
   static defaultProps = {
     confirmTimeout: 0,
     isReversed: false,
@@ -92,6 +95,7 @@ export class ButtonWithConfirm extends Component<Props, StateProps> {
 
   render() {
     const {
+      i18n,
       isReversed,
       labelCancel,
       labelConfirm,
@@ -121,9 +125,17 @@ export class ButtonWithConfirm extends Component<Props, StateProps> {
           theme={isReversed ? 'secondary' : 'general'}
           isDisabled={isConfirmDisabled}
         >
-          {isConfirmDisabled ? `${countdown} sec` : labelConfirm}
+          {isConfirmDisabled
+            ? i18n._(
+              'common.ButtonWithConfirm.countdown',
+              { countdown },
+              { defaults: '{countdown} sec' },
+            )
+            : labelConfirm}
         </Button>
       </div>
     )
   }
 }
+
+export const ButtonWithConfirm = withI18n()(ButtonWithConfirmComponent)

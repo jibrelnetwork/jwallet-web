@@ -1,14 +1,14 @@
 // @flow strict
 
 import { selectTickerItems } from 'store/selectors/ticker'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 
 export function getFiatBalance(
   state: AppState,
   digitalAsset: DigitalAssetWithBalance,
 ): ?number {
   const fiatCourses = selectTickerItems(state)
-  const currency = selectSettingsFiatCurrency(state)
+  const currency = selectFiatCurrency(state)
 
   const {
     balance,

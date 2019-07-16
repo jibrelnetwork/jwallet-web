@@ -1,7 +1,6 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
 import { map } from 'lodash-es'
 
 import {
@@ -35,7 +34,7 @@ export type AddressPickerItem = {|
 export type Props = {|
   +meta: FinalFormMeta,
   +input: FinalFormInput,
-  label: string,
+  +label: string,
   addresses: AddressPickerItem[],
 |}
 
@@ -97,6 +96,5 @@ export function AddressPicker({
 }
 
 AddressPicker.defaultProps = {
-  label: t`Address`,
   addresses: [],
 }

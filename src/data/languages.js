@@ -8,21 +8,23 @@ export const LANGUAGES = {
     title: 'Русский',
   },
   ko: {
-    title: 'Korean',
+    title: '한국어',
   },
   'zh-Hans': {
-    title: 'Chinese Simplified',
+    title: '体中文',
   },
   'zh-Hant': {
-    title: 'Chinese Traditional',
+    title: '繁體中文',
   },
   ja: {
-    title: 'Japan',
+    title: '日本語',
   },
   es: {
-    title: 'Spanish',
+    title: 'Español',
   },
 }
+
+export const DEFAULT_LANGUAGE = 'en'
 
 export type LanguageCode = $Keys<typeof LANGUAGES>
 

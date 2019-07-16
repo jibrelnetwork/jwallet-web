@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
   handle,
@@ -18,6 +19,7 @@ type Props = {|
   +edit: (CommentId, string) => void,
   +comment: ?string,
   +transactionId: TransactionId,
+  +i18n: I18nType,
 |}
 
 type ComponentState = {|
@@ -56,6 +58,7 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
     const {
       onToggle,
       comment,
+      i18n,
     } = this.props
 
     const { newValue }: ComponentState = this.state
@@ -72,13 +75,21 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           type='text'
           id='message'
           className='field'
-          placeholder={t`Your comment`}
+          placeholder={i18n._(
+            'common.TransactionItem.Details.Comment.input.placeholder',
+            null,
+            { defaults: 'Your comment' },
+          )}
         />
         <div className='actions'>
           <div className='button'>
             <JFlatButton
               onClick={handle(this.saveComment)(newValue)}
-              label={t`Save`}
+              label={i18n._(
+                'common.TransactionItem.Details.Comment.action.save',
+                null,
+                { defaults: 'Save' },
+              )}
               color='blue'
               isBordered
             />
@@ -86,7 +97,17 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
           <div className='button'>
             <JFlatButton
               onClick={isValueChanged ? onToggle : this.deleteComment}
-              label={isValueChanged ? t`Cancel` : t`Delete`}
+              label={isValueChanged
+                ? i18n._(
+                  'common.TransactionItem.Details.Comment.action.cancel',
+                  null,
+                  { defaults: 'Cancel' },
+                )
+                : i18n._(
+                  'common.TransactionItem.Details.Comment.action.delete',
+                  null,
+                  { defaults: 'Delete' },
+                )}
               color='blue'
               isBordered
             />
@@ -97,4 +118,4 @@ class TransactionItemDetailsComment extends Component<Props, ComponentState> {
   }
 }
 
-export default TransactionItemDetailsComment
+export default withI18n()(TransactionItemDetailsComment)

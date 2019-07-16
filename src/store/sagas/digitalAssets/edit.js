@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { router5BackOrFallbackFunctionCreator } from 'utils/browser'
 
 import {
@@ -53,24 +53,40 @@ function* onAssetFormSumbit(): Saga<void> {
   const foundAsset: ?DigitalAsset = yield select(selectDigitalAsset, address)
 
   if (!(foundAsset && foundAsset.isCustom)) {
-    yield put(setFieldError('address', t`Asset not found`))
+    yield put(setFieldError('address', i18n._(
+      'AssetsItemAdd.errors.notfound',
+      null,
+      { defaults: 'Asset not found' },
+    )))
 
     return
   }
 
   if (contractName.length === 0) {
-    yield put(setFieldError('name', t`Valid digital asset name is required`))
+    yield put(setFieldError('name', i18n._(
+      'AssetsItemAdd.errors.nameInvalid',
+      null,
+      { defaults: 'Valid digital asset name is required' },
+    )))
   }
 
   if (contractSymbol.length === 0 || contractSymbol.length > 10) {
-    yield put(setFieldError('symbol', t`Valid digital asset symbol is required`))
+    yield put(setFieldError('symbol', i18n._(
+      'AssetsItemAdd.errors.symbolInvalid',
+      null,
+      { defaults: 'Valid digital asset symbol is required' },
+    )))
   }
 
   if (Number.isNaN(contractDecimals) ||
     contractDecimals < 0 ||
     contractDecimals > 127) {
     yield put(
-      setFieldError('decimals', t`Digital asset decimals should be a number between 0...127`),
+      setFieldError('decimals', i18n._(
+        'AssetsItemAdd.errors.decimalsInvalid',
+        null,
+        { defaults: 'Digital asset decimals should be a number between 0...127' },
+      )),
     )
   }
 

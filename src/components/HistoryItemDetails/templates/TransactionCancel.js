@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
 
 import {
   JIcon,
@@ -19,30 +19,11 @@ import { type Props } from '../HistoryItemDetailsInternal'
 
 import style from '../historyItemDetails.m.scss'
 
-const TRANSACTION_DESCRIPTION = {
-  success: {
-    statusDescription: t`Transfer canceled.`,
-    iconName: 'trx-success-use-fill',
-  },
-  fail: {
-    statusDescription: t`Transfer not canceled.`,
-    iconName: 'trx-error-declined-use-fill',
-  },
-  stuck: {
-    statusDescription: t`Cancel transfer stuck.`,
-    iconName: 'trx-error-stuck-use-fill',
-  },
-  pending: {
-    statusDescription: t`Cancel transfer. This may take some time.`,
-    iconName: 'trx-pending-use-fill',
-  },
-}
-
 type State = {
   note: string,
 }
 
-export class TransactionCancelTemplate extends PureComponent<Props, State> {
+class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -64,7 +45,43 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
       id,
       timestamp,
       status,
+      i18n,
     } = this.props
+
+    const TRANSACTION_DESCRIPTION = {
+      success: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusSuccess',
+          null,
+          { defaults: 'Transfer canceled.' },
+        ),
+        iconName: 'trx-success-use-fill',
+      },
+      fail: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusFailed',
+          null,
+          { defaults: 'Transfer not canceled.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
+      stuck: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusStuck',
+          null,
+          { defaults: 'Cancel transfer stuck.' },
+        ),
+        iconName: 'trx-error-stuck-use-fill',
+      },
+      pending: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusPending',
+          null,
+          { defaults: 'Cancel transfer. This may take some time.' },
+        ),
+        iconName: 'trx-pending-use-fill',
+      },
+    }
 
     const formattedDate = getFormattedDateString(
       new Date(timestamp),
@@ -91,15 +108,27 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
             </div>
           </div>
           <FieldPreview
-            label={t`Sender`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.sender',
+              null,
+              { defaults: 'Sender' },
+            )}
             body={fromName}
           />
           <FieldPreview
-            label={t`Blockchain transaction`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.hash',
+              null,
+              { defaults: 'Blockchain transaction' },
+            )}
             body={getShortenedAddress(hash)}
           />
           <FieldPreview
-            label={t`Estimated blockchain fee`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.fee',
+              null,
+              { defaults: 'Estimated blockchain fee' },
+            )}
             body={`${fee} ETH`}
           />
         </div>
@@ -107,8 +136,16 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
           className={`${offset.mb16} ${style.noteWrapper}`}
         >
           <JInput
-            label={t`Note`}
-            infoMessage={t`This note is only visible to you.`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.note',
+              null,
+              { defaults: 'Note' },
+            )}
+            infoMessage={i18n._(
+              'HistoryItem.TransactionCancel.noteDescription',
+              null,
+              { defaults: 'This note is only visible to you.' },
+            )}
             color='gray'
             value={this.state.note}
             onChange={this.handleEditNote}
@@ -119,10 +156,18 @@ export class TransactionCancelTemplate extends PureComponent<Props, State> {
             theme='button-secondary'
             href={`/history/${id}/cancel`}
           >
-            {t`Cancel`}
+            {i18n._(
+              'HistoryItem.TransactionCancel.cancel',
+              null,
+              { defaults: 'Cancel' },
+            )}
           </JLink>
         )}
       </div>
     )
   }
 }
+
+export const TransactionCancelTemplate = withI18n()(
+  TransactionCancelTemplateComponent,
+)
