@@ -292,7 +292,7 @@
   "WalletsItemUpgrade.input.data.error.noPrivateKey": "Input private key for your current address",
   "WalletsItemUpgrade.input.data.error.noXprv": "Input XPRV or mnemonic for your current XPUB",
   "WalletsItemUpgrade.input.data.info": "To unlock all features you need to provide a wallet backup \nphrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other \ncrypto wallets use many different synonyms to name it: \"Recovery phrase\", \"Private key\", \n\"Mnemonic phrase\" etc.",
-  "WalletsItemUpgrade.input.data.title": "Address, Key, Mnemonic",
+  "WalletsItemUpgrade.input.data.title": "Backup Phrase",
   "WalletsItemUpgrade.password.title": "Enter Security Password",
   "WalletsStart.SelectScenario.title": "Create a new wallet or import an existing<br> to get started",
   "WalletsStart.createWallet.action": "Create Wallet",
