@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
 
 import {
   JIcon,
@@ -28,66 +28,11 @@ import { type Props } from '../HistoryItemDetailsInternal'
 
 import style from '../historyItemDetails.m.scss'
 
-const ADDRESS_COPIED = i18n._(
-  'HistoryItem.TransactionNormal.addressCopied',
-  null,
-  { defaults: 'Address copied.' },
-)
-const TX_COPIED = i18n._(
-  'HistoryItem.TransactionNormal.hashCopied',
-  null,
-  { defaults: 'Blockchain transaction copied.' },
-)
-const TRANSACTION_DESCRIPTION = {
-  in: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionNormal.statusInSuccess',
-      null,
-      { defaults: 'Transfer processed.' },
-    ),
-    iconName: 'trx-in-use-fill',
-  },
-  out: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionNormal.statusOutSuccess',
-      null,
-      { defaults: 'Transfer processed.' },
-    ),
-    iconName: 'trx-out-use-fill',
-  },
-  fail: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionNormal.statusFailed',
-      null,
-      { defaults: 'Transfer declined.' },
-    ),
-    iconName: 'trx-error-declined-use-fill',
-  },
-  stuck: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionNormal.statusStucke',
-      null,
-      { defaults: 'Transfer stuck.' },
-    ),
-    iconName: 'trx-error-stuck-use-fill',
-  },
-  pending: {
-    statusDescription: i18n._(
-      'HistoryItem.TransactionNormal.statusPending',
-      null,
-      { defaults: 'Transfer is being processed. This may take some time.' },
-    ),
-    iconName: 'trx-pending-use-fill',
-  },
-  cancel: {},
-  success: {},
-}
-
 type State = {
   note: string,
 }
 
-export class TransactionNormalTemplate extends PureComponent<Props, State> {
+class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -111,7 +56,63 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
       from,
       type,
       status,
+      i18n,
     } = this.props
+
+    const ADDRESS_COPIED = i18n._(
+      'HistoryItem.TransactionNormal.addressCopied',
+      null,
+      { defaults: 'Address copied.' },
+    )
+    const TX_COPIED = i18n._(
+      'HistoryItem.TransactionNormal.hashCopied',
+      null,
+      { defaults: 'Blockchain transaction copied.' },
+    )
+    const TRANSACTION_DESCRIPTION = {
+      in: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusInSuccess',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-in-use-fill',
+      },
+      out: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusOutSuccess',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-out-use-fill',
+      },
+      fail: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusFailed',
+          null,
+          { defaults: 'Transfer declined.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
+      stuck: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusStucke',
+          null,
+          { defaults: 'Transfer stuck.' },
+        ),
+        iconName: 'trx-error-stuck-use-fill',
+      },
+      pending: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusPending',
+          null,
+          { defaults: 'Transfer is being processed. This may take some time.' },
+        ),
+        iconName: 'trx-pending-use-fill',
+      },
+      cancel: {},
+      success: {},
+    }
 
     // eslint-disable-next-line max-len
     const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
@@ -255,3 +256,5 @@ export class TransactionNormalTemplate extends PureComponent<Props, State> {
     )
   }
 }
+
+export const TransactionNormalTemplate = withI18n()(TransactionNormalTemplateComponent)

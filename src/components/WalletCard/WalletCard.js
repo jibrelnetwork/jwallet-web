@@ -2,7 +2,9 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { WalletActions } from 'components'
@@ -26,6 +28,7 @@ type OwnProps = {|
   +id: WalletId,
   +activeAddressChooserId: ?WalletId,
   +isActive: boolean,
+  +i18n: I18nType,
 |}
 
 type Props = {|
@@ -38,6 +41,7 @@ type Props = {|
   +derivationIndex: number,
   +isSimplified: boolean,
   +isMultiAddress: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -164,6 +168,7 @@ class WalletCard extends Component<Props, StateProps> {
       isActive,
       isSimplified,
       isMultiAddress,
+      i18n,
     }: Props = this.props
 
     const {
@@ -315,9 +320,12 @@ const mapDispatchToProps = {
   setActiveWallet,
 }
 
-const WalletCardEnhanced = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+const WalletCardEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(WalletCard)
 
 export { WalletCardEnhanced as WalletCard }

@@ -4,8 +4,8 @@ import React, {
   Fragment,
   Component,
 } from 'react'
-
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
@@ -19,20 +19,14 @@ import {
 type Props = {|
   +derivationPath: string,
   +isFormDisabled: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +isOpened: boolean,
 |}
 
-const DERIVATION_PATH_MESSAGE: string = i18n._(
-  'common.MnemonicOptions.derivationPath.info',
-  null,
-  // eslint-disable-next-line max-len
-  { defaults: 'Derivation path and BIP39 mnemonic passphrase affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import mnemonic from a hardwallet. In all other cases just leave it as is.' },
-)
-
-export class MnemonicOptions extends Component<Props, StateProps> {
+class MnemonicOptionsComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -49,7 +43,15 @@ export class MnemonicOptions extends Component<Props, StateProps> {
     const {
       derivationPath,
       isFormDisabled,
+      i18n,
     }: Props = this.props
+
+    const DERIVATION_PATH_MESSAGE: string = i18n._(
+      'common.MnemonicOptions.derivationPath.info',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'Derivation path and BIP39 mnemonic passphrase affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import mnemonic from a hardwallet. In all other cases just leave it as is.' },
+    )
 
     return this.state.isOpened ? (
       <Fragment>
@@ -91,3 +93,5 @@ export class MnemonicOptions extends Component<Props, StateProps> {
     )
   }
 }
+
+export const MnemonicOptions = withI18n()(MnemonicOptionsComponent)

@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
 
@@ -18,13 +19,14 @@ type Props = {|
   +id: WalletId,
   +type: WalletCustomType,
   +isSimplified: ?boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   isToggled: boolean,
 |}
 
-export class WalletCardActions extends PureComponent<Props, StateProps> {
+class WalletCardActionsComponent extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -56,6 +58,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
       id,
       type,
       isSimplified,
+      i18n,
     }: Props = this.props
 
     const { isToggled }: StateProps = this.state
@@ -189,3 +192,7 @@ export class WalletCardActions extends PureComponent<Props, StateProps> {
     )
   }
 }
+
+export const WalletCardActions = withI18n()(
+  WalletCardActionsComponent,
+)

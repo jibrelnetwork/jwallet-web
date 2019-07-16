@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
 import { walletsPlugin } from 'store/plugins'
@@ -22,13 +23,14 @@ type Props = {|
   +type: WalletCustomType,
   +isSimplified: ?boolean,
   +isFromAddressManager: ?boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +isToggled: boolean,
 |}
 
-export class WalletActions extends PureComponent<Props, StateProps> {
+class WalletActionsComponent extends PureComponent<Props, StateProps> {
   static defaultProps = {
     onRename: null,
     isSimplified: false,
@@ -79,6 +81,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
       onRename,
       isSimplified,
       isFromAddressManager,
+      i18n,
     }: Props = this.props
 
     const { isToggled }: StateProps = this.state
@@ -203,3 +206,5 @@ export class WalletActions extends PureComponent<Props, StateProps> {
     )
   }
 }
+
+export const WalletActions = withI18n()(WalletActionsComponent)

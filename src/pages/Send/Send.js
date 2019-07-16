@@ -2,8 +2,12 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { i18n } from 'i18n/lingui'
-import { Trans } from '@lingui/react'
+import {
+  withI18n,
+  Trans,
+} from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import { actions } from 'redux-router5'
 
 import web3 from 'services/web3'
@@ -32,6 +36,7 @@ import { ValidationFailed } from './ValidationFailed'
 import { SendError } from './SendError'
 
 import styles from './send.m.scss'
+import { compose } from '../../../node_modules/redux'
 
 const {
   sendTransaction,
@@ -44,6 +49,7 @@ type Props = {|
   +goHome: () => any,
   +openTransaction: (txHash: string) => any,
   +getAssetDecimals: (assetAddress: string) => number,
+  +i18n: I18nType,
   +addPendingTransaction: (
     networkId: string,
     ownerAddress: string,
@@ -105,6 +111,9 @@ class SendAsset extends Component<Props, ComponentState> {
     const {
       sendFormValues,
     } = this.state
+    const {
+      i18n,
+    } = this.props
 
     return (
       <div className={styles.core}>
@@ -220,18 +229,22 @@ class SendAsset extends Component<Props, ComponentState> {
     }
   }
 
-  renderPasswordStep = () => (
-    <div className={styles.core}>
-      <TitleHeader
-        onBack={this.handleBackToSendForm}
-        title={i18n._('Send.PasswordStepForm.title', null, { defaults: 'Enter Security Password' })}
-      />
-      <ConnectedPasswordStepForm
-        onDecryptPrivateKey={this.handleDecryptPrivateKey}
-      />
-    </div>
-  )
+  renderPasswordStep = () => {
+    const { i18n } = this.props
 
+    return (
+      <div className={styles.core}>
+        <TitleHeader
+          onBack={this.handleBackToSendForm}
+          title={i18n._('Send.PasswordStepForm.title', null,
+                        { defaults: 'Enter Security Password' })}
+        />
+        <ConnectedPasswordStepForm
+          onDecryptPrivateKey={this.handleDecryptPrivateKey}
+        />
+      </div>
+    )
+  }
   handleValidationFailedNextClick = () => {
     this.setState({ currentStep: STEPS.SEND_CONFIRM })
   }
@@ -309,7 +322,10 @@ const mapDispatchToProps = {
   openTransaction: (txHash: string) => actions.navigateTo('HistoryItem', { itemId: txHash }),
 }
 
-export const Send = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+export const Send = compose(
+  withI18n(),
+  connect<Props, OwnPropsEmpty, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(SendAsset)

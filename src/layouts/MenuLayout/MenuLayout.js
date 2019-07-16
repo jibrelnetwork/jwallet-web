@@ -2,7 +2,8 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { OverlayNotification } from 'components'
 
@@ -18,9 +19,10 @@ export type Props = {|
   +children: React$Node,
   +routeName: string,
   +isConnectionError: boolean,
+  +i18n: I18nType,
 |}
 
-export class MenuLayout extends Component<Props> {
+class MenuLayoutComponent extends Component<Props> {
   componentDidMount() {
     this.props.openLayout()
   }
@@ -34,6 +36,7 @@ export class MenuLayout extends Component<Props> {
       children,
       routeName,
       isConnectionError,
+      i18n,
     }: Props = this.props
 
     const { isMinimized } = getMenuMeta(routeName)
@@ -77,3 +80,7 @@ export class MenuLayout extends Component<Props> {
     )
   }
 }
+
+export const MenuLayout = withI18n()(
+  MenuLayoutComponent,
+)

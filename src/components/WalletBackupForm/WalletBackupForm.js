@@ -1,7 +1,8 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { fileSaver } from 'services'
 import { Button } from 'components/base'
@@ -20,51 +21,54 @@ type Props = {|
   +passphrase: ?string,
   +derivationPath: ?string,
   +isMnemonic: boolean,
+  +i18n: I18nType,
 |}
 
-const BACKUP_TEXT = {
-  SINGLE_DATA: i18n._(
-    'WalletBackupForm.backup.single',
-    null,
-    // eslint-disable-next-line max-len
-    { defaults: 'Save a wallet backup phrase to a secure storage \nor write it down on the paper.' },
-  ),
-  PASSPHRASE: i18n._(
-    'WalletBackupForm.backup.passphrase',
-    null,
-    // eslint-disable-next-line max-len
-    { defaults: 'Save a wallet backup phrase and passphrase \nto a secure storage or write it down on the paper.' },
-  ),
-  DERIVATION_PATH: i18n._(
-    'WalletBackupForm.backup.derivationPath',
-    null,
-    // eslint-disable-next-line max-len
-    { defaults: 'Save a wallet backup phrase and derivation path \nto a secure storage or write it down on the paper.' },
-  ),
-  ALL_FIELDS: i18n._(
-    'WalletBackupForm.backup.allFields',
-    null,
-    // eslint-disable-next-line max-len
-    { defaults: 'Save a wallet backup phrase, passphrase, and derivation path \nto a secure storage or write it down on the paper.' },
-  ),
-}
-
-function getBackupText(passphrase, derivationPath): string {
-  if (passphrase && derivationPath) {
-    return BACKUP_TEXT.ALL_FIELDS
-  } else if (passphrase) {
-    return BACKUP_TEXT.PASSPHRASE
-  } else if (derivationPath) {
-    return BACKUP_TEXT.DERIVATION_PATH
-  }
-
-  return BACKUP_TEXT.SINGLE_DATA
-}
-
-export class WalletBackupForm extends PureComponent<Props> {
+class WalletBackupFormComponent extends PureComponent<Props> {
   static defaultProps = {
     passphrase: null,
     derivationPath: null,
+  }
+
+  getBackupText = (passphrase: ?string, derivationPath: ?string) => {
+    const { i18n } = this.props
+
+    const BACKUP_TEXT = {
+      SINGLE_DATA: i18n._(
+        'WalletBackupForm.backup.single',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase to a secure storage \nor write it down on the paper.' },
+      ),
+      PASSPHRASE: i18n._(
+        'WalletBackupForm.backup.passphrase',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase and passphrase \nto a secure storage or write it down on the paper.' },
+      ),
+      DERIVATION_PATH: i18n._(
+        'WalletBackupForm.backup.derivationPath',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase and derivation path \nto a secure storage or write it down on the paper.' },
+      ),
+      ALL_FIELDS: i18n._(
+        'WalletBackupForm.backup.allFields',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase, passphrase, and derivation path \nto a secure storage or write it down on the paper.' },
+      ),
+    }
+
+    if (passphrase && derivationPath) {
+      return BACKUP_TEXT.ALL_FIELDS
+    } else if (passphrase) {
+      return BACKUP_TEXT.PASSPHRASE
+    } else if (derivationPath) {
+      return BACKUP_TEXT.DERIVATION_PATH
+    }
+
+    return BACKUP_TEXT.SINGLE_DATA
   }
 
   handleDownload = () => {
@@ -88,12 +92,13 @@ export class WalletBackupForm extends PureComponent<Props> {
       passphrase,
       derivationPath,
       isMnemonic,
+      i18n,
     }: Props = this.props
 
     return (
       <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
         <UserActionInfo
-          text={getBackupText(
+          text={this.getBackupText(
             passphrase,
             derivationPath,
           )}
@@ -166,3 +171,5 @@ export class WalletBackupForm extends PureComponent<Props> {
     )
   }
 }
+
+export const WalletBackupForm = withI18n()(WalletBackupFormComponent)

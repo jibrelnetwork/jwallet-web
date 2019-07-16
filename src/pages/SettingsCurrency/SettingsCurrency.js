@@ -2,8 +2,11 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { actions } from 'redux-router5'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import {
   Form,
   Field,
@@ -30,6 +33,7 @@ type Props = {|
   goBack: () => any,
   setFiatCurrency: (code: FiatCurrencyCode) => any,
   selectedCurrencyCode: FiatCurrencyCode,
+  i18n: I18nType,
 |}
 
 class SettingsCurrencyPage extends Component<Props> {
@@ -51,6 +55,7 @@ class SettingsCurrencyPage extends Component<Props> {
     const {
       handleSubmit,
       submitting: isSubmitting,
+      i18n,
     } = props
 
     return (
@@ -77,6 +82,7 @@ class SettingsCurrencyPage extends Component<Props> {
   render() {
     const {
       selectedCurrencyCode,
+      i18n,
     } = this.props
 
     const initialValues = {
@@ -112,7 +118,10 @@ const mapDispatchToProps = {
   setFiatCurrency,
 }
 
-export const SettingsCurrency = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+export const SettingsCurrency = compose(
+  withI18n(),
+  connect<Props, OwnPropsEmpty, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(SettingsCurrencyPage)

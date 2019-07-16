@@ -1,7 +1,8 @@
 // @flow
 
 import classNames from 'classnames'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import React, {
   PureComponent,
@@ -42,6 +43,7 @@ type Props = {|
   +isAssetList: boolean,
   +isEventMint: boolean,
   +isEventBurn: boolean,
+  +i18n: I18nType,
 |}
 
 function getTransactionTextColor(
@@ -119,6 +121,7 @@ class TransactionItemMain extends PureComponent<Props> {
       isAssetList,
       isEventMint,
       isEventBurn,
+      i18n,
     }: Props = this.props
 
     const {
@@ -268,4 +271,4 @@ class TransactionItemMain extends PureComponent<Props> {
   }
 }
 
-export default TransactionItemMain
+export default withI18n()(TransactionItemMain)

@@ -3,7 +3,7 @@
 import Promise from 'bluebird'
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { i18n } from 'i18n/lingui'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
   Form,
@@ -25,6 +25,7 @@ import styles from './walletsItemModeDisable.m.scss'
 
 export type Props = {|
   +addressNames: AddressNames,
+  +i18n: I18nType,
   +walletId: string,
 |}
 
@@ -78,6 +79,8 @@ export class WalletsItemModeDisableView extends PureComponent<Props, StateProps>
   }
 
   render() {
+    const { i18n }: Props = this.props
+
     const {
       addresses,
       addressIndex,

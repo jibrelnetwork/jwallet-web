@@ -2,7 +2,8 @@
 
 import Promise from 'bluebird'
 import React, { Component } from 'react'
-import { i18n } from 'i18n/lingui'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import { isEmpty } from 'lodash-es'
 
 import {
@@ -48,6 +49,7 @@ export type Props = {|
   +walletId: WalletId,
   +publicData: string,
   +type: WalletCustomType,
+  +i18n: I18nType,
 |}
 
 export const STEPS: WalletsItemUpgradeSteps = {
@@ -63,14 +65,7 @@ const INITIAL_VALUES: FormFields = {
   derivationPath: 'm/44\'/60\'/0\'/0',
 }
 
-const DEFAULT_DATA_MESSAGE: string = i18n._(
-  'WalletsItemUpgrade.input.data.info',
-  null,
-  // eslint-disable-next-line max-len
-  { defaults: 'To unlock all features you need to provide a wallet backup \nphrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other \ncrypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", \n"Mnemonic phrase" etc.' },
-)
-
-export class WalletsItemUpgradeView extends Component<Props, StateProps> {
+class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -80,6 +75,8 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
+    const { i18n } = this.props
+
     switch (this.state.currentStep) {
       case STEPS.DATA:
         return ''
@@ -208,6 +205,7 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
     const {
       type,
       publicData,
+      i18n,
     }: Props = this.props
 
     const data: string = (values.data || '').trim()
@@ -221,6 +219,13 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
 
     const isXPUB: boolean = (type === 'xpub')
     const isMnemonicInputted: boolean = (getTypeByInput(data) === 'mnemonic')
+
+    const DEFAULT_DATA_MESSAGE: string = i18n._(
+      'WalletsItemUpgrade.input.data.info',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'To unlock all features you need to provide a wallet backup \nphrase apropriate for your wallet type: BIP39 Mnemonic, BIP32 XPRV, Ethereum Private Key. Other \ncrypto wallets use many different synonyms to name it: "Recovery phrase", "Private key", \n"Mnemonic phrase" etc.' },
+    )
 
     /* eslint-disable max-len */
     return (
@@ -279,6 +284,7 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
   }
 
   renderFinishStep = () => {
+    const { i18n } = this.props
     const handleGoHome = this.goToHome
 
     /* eslint-disable max-len */
@@ -335,3 +341,7 @@ export class WalletsItemUpgradeView extends Component<Props, StateProps> {
     )
   }
 }
+
+export const WalletsItemUpgradeView = withI18n()(
+  WalletsItemUpgradeViewComponent,
+)
