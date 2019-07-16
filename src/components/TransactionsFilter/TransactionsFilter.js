@@ -1,7 +1,8 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import PopupButton from 'components/PopupButton'
 
@@ -14,6 +15,7 @@ type Props = {|
   +setOnlyPending: (boolean) => void,
   +filterCount: number,
   +isOnlyPending: boolean,
+  +i18n: I18nType,
 |}
 
 class TransactionsFilter extends PureComponent<Props> {
@@ -26,6 +28,7 @@ class TransactionsFilter extends PureComponent<Props> {
       setOnlyPending,
       filterCount,
       isOnlyPending,
+      i18n,
     } = this.props
 
     return (
@@ -36,14 +39,22 @@ class TransactionsFilter extends PureComponent<Props> {
               color='gray'
               size='normal'
               weight='bold'
-              value={t`Filter`}
+              value={i18n._(
+                'TransactionsFilter.filter',
+                null,
+                { defaults: 'Filter' },
+              )}
               whiteSpace='wrap'
             />
           </div>
           <JCheckbox
             onChange={setOnlyPending}
             name='only-pending'
-            label={t`Only pending`}
+            label={i18n._(
+              'TransactionsFilter.pendingOnly',
+              null,
+              { defaults: 'Only pending' },
+            )}
             isChecked={isOnlyPending}
           />
         </div>
@@ -52,4 +63,4 @@ class TransactionsFilter extends PureComponent<Props> {
   }
 }
 
-export default TransactionsFilter
+export default withI18n()(TransactionsFilter)

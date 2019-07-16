@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 import { HistoryItemDetails } from 'components/HistoryItemDetails/HistoryItemDetails'
 import { JLink } from 'components/base'
 
@@ -14,6 +14,8 @@ export type Props = {|
 |}
 
 export function HistoryItemView(props: Props) {
+  const i18n = useI18n()
+
   return (
     <div className={style.core}>
       <HistoryItemDetails className={offset.mb32} txHash={props.itemId} />
@@ -21,7 +23,11 @@ export function HistoryItemView(props: Props) {
         theme='button-general'
         href='/history'
       >
-        {t`Go to History`}
+        {i18n._(
+          'HistoryItem.goToHistory',
+          null,
+          { defaults: 'Go to History' },
+        )}
       </JLink>
     </div>
   )

@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
 type GetFormattedDateStringInput = Date | string | number
 
 type TokensData = {|
@@ -9,19 +7,20 @@ type TokensData = {|
   +str: string,
 |}
 
+// FIXME I18N: use Intl.DateTimeFormat
 const MONTHS = [
-  t`January`,
-  t`February`,
-  t`March`,
-  t`April`,
-  t`May`,
-  t`June`,
-  t`July`,
-  t`August`,
-  t`Septemner`,
-  t`October`,
-  t`November`,
-  t`December`,
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]
 
 function getFormattedDateString(

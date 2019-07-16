@@ -14,6 +14,7 @@ import {
 import startSessionWatcher from 'utils/browser/startSessionWatcher'
 import SingularTabBlockScreen from 'components/SingularTabBlockScreen/SingularTabBlockScreen'
 import { type AppAction } from 'store/modules'
+import { LanguageProvider } from 'app/components'
 
 import { AppRouter } from './AppRouter'
 
@@ -57,15 +58,17 @@ export class AppContainer extends React.Component<Props, ComponentState> {
     } = this.props
 
     return (
-      <Provider store={store}>
-        {!this.state.isPrimaryInstance ? <SingularTabBlockScreen /> : (
-          <PersistGate persistor={persistor}>
-            <RouterProvider router={router}>
-              <AppRouter />
-            </RouterProvider>
-          </PersistGate>
-        )}
-      </Provider>
+      <LanguageProvider>
+        <Provider store={store}>
+          {!this.state.isPrimaryInstance ? <SingularTabBlockScreen /> : (
+            <PersistGate persistor={persistor}>
+              <RouterProvider router={router}>
+                <AppRouter />
+              </RouterProvider>
+            </PersistGate>
+          )}
+        </Provider>
+      </LanguageProvider>
     )
   }
 }

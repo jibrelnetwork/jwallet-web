@@ -1,3 +1,8 @@
+// @flow
+
+import { type FiatCurrencyCode } from 'data/currencies'
+import { type LanguageCode } from 'data/languages'
+
 declare type UserState = {|
   persist: {|
     +isIntroductionPassed: boolean,
@@ -8,5 +13,7 @@ declare type UserState = {|
       +acceptTermsAndConditions?: boolean,
     },
     +isAgreementsConfirmed?: boolean,
+    +fiatCurrency: FiatCurrencyCode,
+    +language: LanguageCode,
   |},
 |}

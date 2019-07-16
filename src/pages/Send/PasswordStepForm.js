@@ -2,7 +2,10 @@
 
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import { compose } from 'redux'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import {
   Form,
   type FormRenderProps,
@@ -21,6 +24,7 @@ type Props = {|
   hint: string,
   activeWalletId: WalletId,
   onDecryptPrivateKey: (privateKey: string) => Promise<*>,
+  i18n: I18nType,
 |}
 
 type OwnProps = {|
@@ -31,6 +35,7 @@ class PasswordStepForm extends PureComponent<Props> {
   handleSendFormSubmit = async (values: PasswordFormValues) => {
     const {
       activeWalletId,
+      i18n,
     } = this.props
 
     try {
@@ -44,7 +49,11 @@ class PasswordStepForm extends PureComponent<Props> {
       return {}
     } catch (err) {
       return {
-        password: t`Invalid password`,
+        password: i18n._(
+          'Send.PasswordStepForm.input.password.error.invalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
       }
     }
   }
@@ -94,6 +103,9 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export const ConnectedPasswordStepForm = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
+export const ConnectedPasswordStepForm = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+  ),
 )(PasswordStepForm)

@@ -2,8 +2,11 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { actions } from 'redux-router5'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import {
   Form,
   Field,
@@ -13,6 +16,8 @@ import {
 import { TitleHeader } from 'components'
 import { Button } from 'components/base'
 import { type FiatCurrencyCode } from 'data'
+import { selectFiatCurrency } from 'store/selectors/user'
+import { setFiatCurrency } from 'store/modules/user'
 
 import stylesOffsets from 'styles/offsets.m.scss'
 
@@ -21,12 +26,14 @@ import { CurrencyPicker } from './components/CurrencyPicker/CurrencyPicker'
 import styles from './settingsCurrency.m.scss'
 
 type FormValues = {|
-  currencyCode: string,
+  currencyCode: FiatCurrencyCode,
 |}
 
 type Props = {|
-  goBack: Function,
+  goBack: () => any,
+  setFiatCurrency: (code: FiatCurrencyCode) => any,
   selectedCurrencyCode: FiatCurrencyCode,
+  i18n: I18nType,
 |}
 
 class SettingsCurrencyPage extends Component<Props> {
@@ -35,7 +42,7 @@ class SettingsCurrencyPage extends Component<Props> {
   }
 
   handleSubmit = (values: FormValues) => {
-    alert(`Currency: ${JSON.stringify(values)}`)
+    this.props.setFiatCurrency(values.currencyCode)
   }
 
   handleBackClick = () => {
@@ -48,6 +55,7 @@ class SettingsCurrencyPage extends Component<Props> {
     const {
       handleSubmit,
       submitting: isSubmitting,
+      i18n,
     } = props
 
     return (
@@ -65,7 +73,7 @@ class SettingsCurrencyPage extends Component<Props> {
           name='send'
           isLoading={isSubmitting}
         >
-          {t`OK`}
+          {i18n._('SettingsCurrency.form.submit', null, { defaults: 'OK' })}
         </Button>
       </form>
     )
@@ -74,6 +82,7 @@ class SettingsCurrencyPage extends Component<Props> {
   render() {
     const {
       selectedCurrencyCode,
+      i18n,
     } = this.props
 
     const initialValues = {
@@ -84,7 +93,7 @@ class SettingsCurrencyPage extends Component<Props> {
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBackClick}
-          title={t`Currency`}
+          title={i18n._('SettingsCurrency.title', null, { defaults: 'Currency' })}
         />
         <Form
           onSubmit={this.handleSubmit}
@@ -96,17 +105,23 @@ class SettingsCurrencyPage extends Component<Props> {
   }
 }
 
-function mapStateToProps() {
-  return {
+function mapStateToProps(state: AppState) {
+  const selectedCurrencyCode = selectFiatCurrency(state)
 
+  return {
+    selectedCurrencyCode,
   }
 }
 
 const mapDispatchToProps = {
   goBack: () => actions.navigateTo('Settings'),
+  setFiatCurrency,
 }
 
-export const SettingsCurrency = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+export const SettingsCurrency = compose(
+  withI18n(),
+  connect<Props, OwnPropsEmpty, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(SettingsCurrencyPage)

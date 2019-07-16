@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { clipboard } from 'services'
 import { walletsPlugin } from 'store/plugins'
@@ -22,13 +23,14 @@ type Props = {|
   +type: WalletCustomType,
   +isSimplified: ?boolean,
   +isFromAddressManager: ?boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +isToggled: boolean,
 |}
 
-export class WalletActions extends PureComponent<Props, StateProps> {
+class WalletActionsComponent extends PureComponent<Props, StateProps> {
   static defaultProps = {
     onRename: null,
     isSimplified: false,
@@ -79,6 +81,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
       onRename,
       isSimplified,
       isFromAddressManager,
+      i18n,
     }: Props = this.props
 
     const { isToggled }: StateProps = this.state
@@ -125,7 +128,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
                 walletActionsStyle['-button'],
               )}
             >
-              {t`Copy Wallet Address`}
+              {i18n._('common.WalletActions.copy', null, { defaults: 'Copy Wallet Address' })}
             </button>
           )}
           {onRename && (
@@ -137,7 +140,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
                 walletActionsStyle['-button'],
               )}
             >
-              {t`Rename Wallet`}
+              {i18n._('common.WalletActions.rename', null, { defaults: 'Rename Wallet' })}
             </button>
           )}
           {isReadOnly && (
@@ -146,7 +149,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
               href={`/wallets/${id}/upgrade`}
               className={walletActionsStyle.action}
             >
-              {t`Unlock Features`}
+              {i18n._('common.WalletActions.unlock', null, { defaults: 'Unlock Features' })}
             </JLink>
           )}
           {isMultiAddressWallet && !isSimplified && !isFromAddressManager && (
@@ -155,7 +158,11 @@ export class WalletActions extends PureComponent<Props, StateProps> {
               href={`/wallets/${id}/addresses`}
               className={walletActionsStyle.action}
             >
-              {t`Manage Addresses`}
+              {i18n._(
+                'common.WalletActions.manageAddresses',
+                null,
+                { defaults: 'Manage Addresses' },
+              )}
             </JLink>
           )}
           {isMultiAddressWallet && (
@@ -165,8 +172,16 @@ export class WalletActions extends PureComponent<Props, StateProps> {
               href={`/wallets/${id}/mode-${isSimplified ? 'enable' : 'disable'}`}
             >
               {isSimplified
-                ? t`Enable Multi-Address Mode`
-                : t`Disable Multi-Address Mode`
+                ? i18n._(
+                  'common.WalletActions.multiaddress.enable',
+                  null,
+                  { defaults: 'Enable Multi-Address Mode' },
+                )
+                : i18n._(
+                  'common.WalletActions.multiaddress.disable',
+                  null,
+                  { defaults: 'Disable Multi-Address Mode' },
+                )
               }
             </JLink>
           )}
@@ -176,7 +191,7 @@ export class WalletActions extends PureComponent<Props, StateProps> {
               href={`/wallets/${id}/backup`}
               className={walletActionsStyle.action}
             >
-              {t`Backup Wallet`}
+              {i18n._('common.WalletActions.backup', null, { defaults: 'Backup Wallet' })}
             </JLink>
           )}
           <JLink
@@ -184,10 +199,12 @@ export class WalletActions extends PureComponent<Props, StateProps> {
             href={`/wallets/${id}/delete`}
             className={walletActionsStyle.action}
           >
-            {t`Delete Wallet`}
+            {i18n._('common.WalletActions.delete', null, { defaults: 'Delete Wallet' })}
           </JLink>
         </div>
       </div>
     )
   }
 }
+
+export const WalletActions = withI18n()(WalletActionsComponent)
