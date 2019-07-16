@@ -4,7 +4,7 @@ echo "OSX version of script"
 
 npx lingui extract --clean
 lokalise --config ./lokalise.cfg import --file ./src/data/lingui/en/messages.json --icu_plurals 1 --lang_iso en --cleanup_mode 1
-lokalise --config ./lokalise.cfg export --type json --unzip_to ./src/data/lingui --placeholder_format icu --json_unescaped_slashes 1 && \
+lokalise --config ./lokalise.cfg export --type json --unzip_to ./src/data/lingui --placeholder_format icu --json_unescaped_slashes 1
 
 cd ./src/data/lingui && \
   mv ./locale/en.json ./en/messages.json && \
