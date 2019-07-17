@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import nacl from 'tweetnacl'
 import util from 'tweetnacl-util'
@@ -27,7 +27,9 @@ function decryptNaclSecretbox(data: EncryptedData, key: Uint8Array): string {
   const decryptedData: ?Uint8Array = nacl.secretbox.open(decoded.data, decoded.nonce, key)
 
   if ((decryptedData === null) || (decryptedData === undefined)) {
-    throw new Error(t`InvalidPasswordError`)
+    throw new Error(i18n._(
+      'entity.Password.error.invalid',
+    ))
   }
 
   return util.encodeUTF8(decryptedData).trim()

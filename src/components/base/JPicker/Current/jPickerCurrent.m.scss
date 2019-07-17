@@ -12,12 +12,14 @@
 .label {
   position: absolute;
   display: block;
-  top: 24px;
+  top: 25px;
   left: 16px;
   font-size: 14px;
   line-height: 22px;
+  font-weight: 600;
   cursor: pointer;
   color: $main-black-40;
+  user-select: none;
   transition:
     font-size 0.3s ease 0s,
     top 0.3s ease 0s;
@@ -27,7 +29,7 @@
   @include font(14px, 14px);
 
   display: block;
-  padding: 24px 200px 26px 16px;
+  padding: 24px 135px 26px 16px;
   line-height: 22px;
   font-weight: 600;
   width: 100%;
@@ -37,6 +39,7 @@
   transition: padding 0.3s ease 0s, top 0.3s ease 0s;
   cursor: pointer;
   border-radius: 4px;
+  pointer-events: none;
 
   &::placeholder {
     opacity: 0;

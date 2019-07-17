@@ -1,15 +1,16 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { fileSaver } from 'services'
-import { CopyableField } from 'components'
+import { Button } from 'components/base'
 
 import {
-  JIcon,
-  Button,
-} from 'components/base'
+  CopyableField,
+  UserActionInfo,
+} from 'components'
 
 import walletBackupFormStyle from './walletBackupForm.m.scss'
 
@@ -20,35 +21,54 @@ type Props = {|
   +passphrase: ?string,
   +derivationPath: ?string,
   +isMnemonic: boolean,
+  +i18n: I18nType,
 |}
 
-const BACKUP_TEXT = {
-  SINGLE_DATA: t`Save a wallet backup phrase to a secure storage
-  or write it down on the paper.`,
-  PASSPHRASE: t`Save a wallet backup phrase and passphrase
-  to a secure storage or write it down on the paper.`,
-  DERIVATION_PATH: t`Save a wallet backup phrase and derivation path
-  to a secure storage or write it down on the paper.`,
-  ALL_FIELDS: t`Save a wallet backup phrase, passphrase, and derivation path
-  to a secure storage or write it down on the paper.`,
-}
-
-function getBackupText(passphrase, derivationPath): string {
-  if (passphrase && derivationPath) {
-    return BACKUP_TEXT.ALL_FIELDS
-  } else if (passphrase) {
-    return BACKUP_TEXT.PASSPHRASE
-  } else if (derivationPath) {
-    return BACKUP_TEXT.DERIVATION_PATH
-  }
-
-  return BACKUP_TEXT.SINGLE_DATA
-}
-
-export class WalletBackupForm extends PureComponent<Props> {
+class WalletBackupFormComponent extends PureComponent<Props> {
   static defaultProps = {
     passphrase: null,
     derivationPath: null,
+  }
+
+  getBackupText = (passphrase: ?string, derivationPath: ?string) => {
+    const { i18n } = this.props
+
+    const BACKUP_TEXT = {
+      SINGLE_DATA: i18n._(
+        'WalletBackupForm.backup.single',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase to a secure storage \nor write it down on the paper.' },
+      ),
+      PASSPHRASE: i18n._(
+        'WalletBackupForm.backup.passphrase',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase and passphrase \nto a secure storage or write it down on the paper.' },
+      ),
+      DERIVATION_PATH: i18n._(
+        'WalletBackupForm.backup.derivationPath',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase and derivation path \nto a secure storage or write it down on the paper.' },
+      ),
+      ALL_FIELDS: i18n._(
+        'WalletBackupForm.backup.allFields',
+        null,
+        // eslint-disable-next-line max-len
+        { defaults: 'Save a wallet backup phrase, passphrase, and derivation path \nto a secure storage or write it down on the paper.' },
+      ),
+    }
+
+    if (passphrase && derivationPath) {
+      return BACKUP_TEXT.ALL_FIELDS
+    } else if (passphrase) {
+      return BACKUP_TEXT.PASSPHRASE
+    } else if (derivationPath) {
+      return BACKUP_TEXT.DERIVATION_PATH
+    }
+
+    return BACKUP_TEXT.SINGLE_DATA
   }
 
   handleDownload = () => {
@@ -72,25 +92,23 @@ export class WalletBackupForm extends PureComponent<Props> {
       passphrase,
       derivationPath,
       isMnemonic,
+      i18n,
     }: Props = this.props
 
-    /* eslint-disable react/no-danger */
     return (
       <div className={`__wallet-backup-form ${walletBackupFormStyle.core}`}>
-        <JIcon
-          className={walletBackupFormStyle.icon}
-          color='blue'
-          name='ic_backup_48-use-fill'
-        />
-        <h2 className={walletBackupFormStyle.title}>{t`Back Up "${name}"`}</h2>
-        <p
-          className={walletBackupFormStyle.text}
-          dangerouslySetInnerHTML={{
-            __html: getBackupText(
-              passphrase,
-              derivationPath,
-            ).split('\n').join('<br />'),
-          }}
+        <UserActionInfo
+          text={this.getBackupText(
+            passphrase,
+            derivationPath,
+          )}
+          title={i18n._(
+            'WalletBackupForm',
+            { name },
+            { defaults: 'Back Up {name}' },
+          )}
+          iconClassName={walletBackupFormStyle.icon}
+          iconName='ic_backup_48-use-fill'
         />
         <form
           onSubmit={handleSubmit}
@@ -99,18 +117,30 @@ export class WalletBackupForm extends PureComponent<Props> {
           <div className={walletBackupFormStyle.fields}>
             <CopyableField
               value={data}
-              label={t`Backup Phrase`}
+              label={i18n._(
+                'WalletBackupForm.backupPhrase',
+                null,
+                { defaults: 'Backup Phrase' },
+              )}
             />
             {isMnemonic && passphrase && (
               <CopyableField
                 value={passphrase}
-                label={t`Passphrase`}
+                label={i18n._(
+                  'WalletBackupForm.passphrase',
+                  null,
+                  { defaults: 'Passphrase' },
+                )}
               />
             )}
             {isMnemonic && derivationPath && (
               <CopyableField
                 value={derivationPath}
-                label={t`Derivation Path`}
+                label={i18n._(
+                  'WalletBackupForm.derivationPath',
+                  null,
+                  { defaults: 'Derivation Path' },
+                )}
               />
             )}
           </div>
@@ -120,17 +150,26 @@ export class WalletBackupForm extends PureComponent<Props> {
             className={walletBackupFormStyle.button}
             onClick={this.handleDownload}
           >
-            {t`Download Backup as TXT`}
+            {i18n._(
+              'WalletBackupForm.download',
+              null,
+              { defaults: 'Download Backup as TXT' },
+            )}
           </Button>
           <Button
             type='submit'
             theme='general'
           >
-            {t`Done`}
+            {i18n._(
+              'WalletBackupForm.done',
+              null,
+              { defaults: 'Done' },
+            )}
           </Button>
         </form>
       </div>
     )
-    /* eslint-enable react/no-danger */
   }
 }
+
+export const WalletBackupForm = withI18n()(WalletBackupFormComponent)

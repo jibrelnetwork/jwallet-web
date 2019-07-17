@@ -5,12 +5,17 @@ import { constants } from 'router5'
 import { connect } from 'react-redux'
 
 import { routes } from 'store/router/routes'
+import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
+import {
+  selectIntroductionValue,
+  selectAgreementsConditions,
+  selectIsAgreementsConfirmed,
+} from 'store/selectors/user'
+
 import { selectWalletsItems } from 'store/selectors/wallets'
-import { selectIntroductionValue } from 'store/selectors/user'
 import { selectIsPasswordExists } from 'store/selectors/password'
-import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 
 import {
   MenuLayout,
@@ -162,8 +167,11 @@ function mapStateToProps(state: AppState) {
   const wallets: Wallet[] = selectWalletsItems(state)
   const hasWallets: boolean = !!wallets.length
   const hasPassword: boolean = selectIsPasswordExists(state)
-  const isAllAgreementsChecked: boolean = checkAgreements(CONDITIONS_LIST)
-  const isAllFeaturesIntroduced: boolean = selectIntroductionValue(state)
+  const agreements = selectAgreementsConditions(state)
+  const isAgreementsConfirmed = selectIsAgreementsConfirmed(state)
+  const isAllAgreementsChecked = checkAgreements(CONDITIONS_LIST, agreements)
+    && isAgreementsConfirmed
+  const isAllFeaturesIntroduced = selectIntroductionValue(state)
 
   return {
     route,

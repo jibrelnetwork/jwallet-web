@@ -2,11 +2,10 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import { getErrorMessage } from 'utils/form'
 import {
-  formatETHAmount,
   formatCurrencyWithSymbol,
 } from 'utils/formatters'
 import {
@@ -16,7 +15,7 @@ import {
 
 import fieldStyle from './sendAmountField.m.scss'
 
-type Props = {|
+export type Props = {|
   +blockchainFee: string,
   +className: string,
   +currency: string,
@@ -29,6 +28,12 @@ type Props = {|
   +maxValue: string,
   +meta: FinalFormMeta,
   +validateType: FinalFormValidateType,
+
+  // from ownProps:
+  +assetAddress: string,
+  +gasPrice: string,
+  +gasLimit: string,
+  +showBlockchainFee: boolean,
 |}
 
 type InputRef = {
@@ -40,14 +45,15 @@ const handleMaxClick = (input: FinalFormInput, maxValue: string) => () => input.
 const handleClearClick = (input: FinalFormInput) => () => input.onChange('')
 
 // Allow to use only digits and dot and remove leading zeroes
-const filterAmountValue = (value: string) => value.replace(/[^\d.]/g, '').replace(/^00+/g, '0')
+const filterAmountValue = (value: string) => value
+  .replace(/[^\d.]/g, '')
+  .replace(/^00+/g, '0')
+  .replace('..', '.')
 
 const handlerOnChange = (input: FinalFormInput) => e =>
   input.onChange(filterAmountValue(e.target.value))
 
 const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
-
-const DEFAULT_LABEL_TEXT = t`Amount`
 
 function SendAmountField({
   blockchainFee,
@@ -64,7 +70,7 @@ function SendAmountField({
   validateType,
 }: Props) {
   const textInput: InputRef = React.createRef()
-
+  const i18n = useI18n()
   const isActive = meta.active || !!input.value
 
   const errorMessage = getErrorMessage(meta, validateType)
@@ -75,15 +81,11 @@ function SendAmountField({
     ? 'error'
     : 'info'
 
-  const formattedBlockchainFee = blockchainFee
-    ? formatETHAmount(blockchainFee)
-    : ''
-
   const formattedFiatAmount = fiatAmount
     ? `≈${formatCurrencyWithSymbol(fiatAmount, fiatCurrency)}`
     : ''
 
-  const hasMaxValue = (input.value === maxValue)
+  const hasMaxValue = (maxValue && input.value === maxValue)
 
   return (
     <div
@@ -138,7 +140,7 @@ function SendAmountField({
             className={fieldStyle.max}
             onClick={handleMaxClick(input, maxValue)}
           >
-            {t`MAX`}
+            MAX
           </button>
         </div>
         <div className={fieldStyle.bottom}>
@@ -151,19 +153,25 @@ function SendAmountField({
           </div>
           <div className={classNames(
             fieldStyle.fee,
-            !formattedBlockchainFee && fieldStyle.fetching,
           )}
           >
-            {formattedBlockchainFee && t`Blockchain fee — ${formattedBlockchainFee} ETH`}
+            {blockchainFee && i18n._(
+              'Send.Amount.fee',
+              { blockchainFee },
+              { defaults: 'Blockchain fee — {blockchainFee} ETH' },
+            )}
           </div>
         </div>
-        <label htmlFor='amountInputId' className={fieldStyle.label} >{label}</label>
+        <label htmlFor='amountInputId' className={fieldStyle.label}>{label}</label>
       </div>
       {hasMessage && (
         <JFieldMessage
           theme={messageTheme}
           message={errorMessage || infoMessage}
-          className={fieldStyle.fieldMessage}
+          className={classNames(
+            fieldStyle.fieldMessage,
+            infoMessage && !errorMessage && fieldStyle.infoMessage,
+          )}
         />
       )}
     </div>
@@ -178,7 +186,6 @@ SendAmountField.defaultProps = {
   className: '',
   infoMessage: '',
   isFetchingFiatAmount: false,
-  label: DEFAULT_LABEL_TEXT,
   maxValue: '',
 }
 

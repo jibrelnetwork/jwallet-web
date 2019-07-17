@@ -1,12 +1,17 @@
 // @flow strict
 
 import uuidv4 from 'uuid/v4'
-import { t } from 'ttag'
+import Promise from 'bluebird'
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
+import { i18n } from 'i18n/lingui'
 import { type Store } from 'redux'
 
+import { web3 } from 'services'
 import { gaSendEvent } from 'utils/analytics'
 import { setNewPassword } from 'store/modules/password'
 import { selectPasswordPersist } from 'store/selectors/password'
+import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 
 import {
   getNonce,
@@ -40,6 +45,8 @@ export type ImportWalletPayload = {|
   +passphrase: ?string,
   +derivationPath: ?string,
 |}
+
+const MINUTE: number = 60 * 1000
 
 function max(
   a: number,
@@ -76,8 +83,9 @@ class WalletsPlugin {
   }
 
   getItems = (): Wallets => selectWalletsItems(this.getState())
+  getNetwork = (): Network => selectCurrentNetworkOrThrow(this.getState())
 
-  getInternalKey = async (password: string): Promise<?Uint8Array> => {
+  getInternalKey = async (password: ?string): Promise<?Uint8Array> => {
     const state: AppState = this.getState()
 
     const {
@@ -113,7 +121,11 @@ class WalletsPlugin {
     createdBlockNumber?: ?WalletCreatedBlockNumber = null,
   ): ?FormFields => {
     if (!(data && name)) {
-      throw new Error(t`Invalid wallet data`)
+      throw new Error(i18n._(
+        'WalletsImport.errors.dataInvalid',
+        null,
+        { defaults: 'Invalid wallet data' },
+      ))
     }
 
     try {
@@ -131,12 +143,13 @@ class WalletsPlugin {
 
       const items: Wallets = this.getItems()
       const newItems: Wallets = walletsUtils.appendWallet(items, newWallet)
+      const isFirst: boolean = (newItems.length === 1)
 
-      if (newItems.length === 1) {
+      if (isFirst) {
         this.dispatch(setActiveWallet(newWallet.id))
       }
 
-      this.dispatch(setWalletsItems(newItems))
+      this.dispatch(setWalletsItems(newItems, isFirst ? 'Home' : 'Wallets'))
 
       if (createdBlockNumber) {
         gaSendEvent('CreateWallet', 'WalletCreated')
@@ -151,7 +164,11 @@ class WalletsPlugin {
       }
 
       return {
-        password: t`Invalid password`,
+        password: i18n._(
+          'WalletsImport.errors.passwordInvalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
       }
     }
 
@@ -170,6 +187,13 @@ class WalletsPlugin {
     return (current + 1)
   }
 
+  getNextWalletName = (): string => {
+    const walletsCount: number = this.getItems().length
+    const nextWalletNumber: string = walletsCount ? ` ${walletsCount + 1}` : ''
+
+    return `My Wallet${nextWalletNumber}`
+  }
+
   checkWalletUniqueness = (
     uniqueProperty: string,
     propertyName: string,
@@ -183,7 +207,12 @@ class WalletsPlugin {
     )
 
     if (foundWallet) {
-      throw new Error(t`Wallet with such ${foundWallet.name} already exists`)
+      // FIXME: Do we need to translate this? Looks like internal error text
+      throw new Error(i18n._(
+        'WalletsImport.errors.walletIsNotUnique',
+        { propertyName },
+        { defaults: 'Wallet with such {propertyName} already exists' },
+      ))
     }
   }
 
@@ -205,12 +234,14 @@ class WalletsPlugin {
   updateWallet = (
     walletId: WalletId,
     updatedData: WalletUpdatedData,
+    nextPage?: ?string = null,
+    params?: { [key: string]: any } = {},
   ): Wallets => {
     const wallet: Wallet = this.getWallet(walletId)
     const items: Wallets = this.getItems()
     const newItems: Wallets = walletsUtils.updateWallet(items, wallet, updatedData)
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, nextPage, params || {}))
 
     return newItems
   }
@@ -231,7 +262,7 @@ class WalletsPlugin {
       this.dispatch(setActiveWallet(firstWallet ? firstWallet.id : null))
     }
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, 'Wallets'))
 
     return newItems
   }
@@ -270,29 +301,72 @@ class WalletsPlugin {
     )
   }
 
-  upgradeWallet = async (
+  setActiveAddress = (
     walletId: WalletId,
-    password: string,
-    data: string,
-    passphrase: string,
-    derivationPath: string,
-  ): Promise<Wallets> => {
-    const internalKey: ?Uint8Array = await this.getInternalKey(password || '')
+    addressIndexNew: number,
+  ): Wallets => {
+    const {
+      xpub,
+      addressIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
 
-    if (!internalKey) {
-      throw new WalletInconsistentDataError('upgradeWallet data error')
+    if (!xpub) {
+      throw new WalletInconsistentDataError('xpub doesn\'t exist')
     }
 
-    return this.updateWallet(
-      walletId,
-      walletsUtils.upgradeWallet({
-        wallet: this.getWallet(walletId),
-        data,
-        passphrase,
-        internalKey,
-        derivationPath,
-      }),
+    const newItems: Wallets = this.updateWallet(
+      walletId, {
+        addressIndex: isSimplified ? addressIndex : addressIndexNew || 0,
+      },
     )
+
+    this.dispatch(setActiveWallet(walletId))
+
+    return newItems
+  }
+
+  upgradeWallet = async (
+    walletId: WalletId,
+    values: FormFields,
+  ): ?FormFields => {
+    const {
+      data,
+      password,
+      passphrase,
+      derivationPath,
+    }: FormFields = values
+
+    try {
+      const internalKey: ?Uint8Array = await this.getInternalKey(password)
+
+      if (!internalKey) {
+        throw new WalletInconsistentDataError('upgradeWallet data error')
+      }
+
+      this.updateWallet(
+        walletId,
+        walletsUtils.upgradeWallet({
+          wallet: this.getWallet(walletId),
+          data,
+          passphrase,
+          internalKey,
+          derivationPath,
+        }),
+      )
+    } catch (error) {
+      gaSendEvent('UnlockFeatures', 'WalletUpgradeError')
+
+      return {
+        password: i18n._(
+          'entity.Password.error.invalid',
+          null,
+          { defaults: 'Invalid password' },
+        ),
+      }
+    }
+
+    return null
   }
 
   reEncryptWallets = async (
@@ -352,9 +426,88 @@ class WalletsPlugin {
       hint: passwordHint || '',
     }))
 
-    this.dispatch(setWalletsItems(newItems))
+    this.dispatch(setWalletsItems(newItems, 'Wallets'))
 
     return newItems
+  }
+
+  deriveOneMoreAddress = (walletId: WalletId): Wallets => {
+    const { derivationIndex }: Wallet = this.getWallet(walletId)
+
+    if (derivationIndex === null) {
+      throw new WalletInconsistentDataError('derivationIndex doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        derivationIndex: (derivationIndex + 1),
+      },
+    )
+  }
+
+  switchMode = (
+    walletId: WalletId,
+    addressIndexNew?: number,
+  ): Wallets => {
+    const {
+      xpub,
+      addressIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (!xpub) {
+      throw new WalletInconsistentDataError('xpub doesn\'t exist')
+    }
+
+    return this.updateWallet(
+      walletId, {
+        isSimplified: !isSimplified,
+        addressIndex: isSimplified ? addressIndex : addressIndexNew || 0,
+      },
+      isSimplified ? 'WalletsItemAddresses' : 'Wallets',
+      isSimplified ? { walletId } : {},
+    )
+  }
+
+  requestETHBalanceByAddress = async (address: Address): Promise<string> => {
+    const network: Network = this.getNetwork()
+
+    try {
+      const ethBalance: string = await web3.getAssetBalance(network, address, 'Ethereum')
+
+      return new BigNumber(ethBalance)
+    } catch (error) {
+      return Promise.delay(MINUTE).then(() => this.requestETHBalanceByAddress(address))
+    }
+  }
+
+  requestETHBalanceByXPUB = async (
+    walletId: WalletId,
+    derivationIndex: number,
+  ): Promise<BigNumber> => {
+    const addresses: Address[] = this.getAddresses(walletId, 0, derivationIndex)
+
+    return Promise
+      .map(addresses, this.requestETHBalanceByAddress)
+      .then((ethBalances: BigNumber[]) => ethBalances.reduce((
+        result: BigNumber,
+        ethBalance: BigNumber,
+      ) => result.plus(ethBalance), new BigNumber(0)))
+  }
+
+  requestETHBalance = async (walletId: WalletId): Promise<BigNumber> => {
+    const {
+      id,
+      xpub,
+      derivationIndex,
+      isSimplified,
+    }: Wallet = this.getWallet(walletId)
+
+    if (xpub && !isSimplified) {
+      return this.requestETHBalanceByXPUB(id, derivationIndex || 0)
+    }
+
+    return this.requestETHBalanceByAddress(this.getAddress(id))
   }
 }
 

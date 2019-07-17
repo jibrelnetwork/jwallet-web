@@ -2,71 +2,47 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
-import {
-  TRANSFER_OUT_TYPE,
-  type TransactionState,
-  type TransferOut as TransferOutRecord,
-} from 'store/utils/HistoryItem/types'
+import offset from 'styles/offsets.m.scss'
+import { FieldPreview } from 'components'
+import { getShortenedAddress } from 'utils/address'
+import { getFormattedDateString } from 'utils/time'
+import { formatTransactionAmount } from 'utils/formatters'
+import { AssetItemPreview } from 'components/HistoryItemDetails/components/index'
+import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+
 import {
   JIcon,
   JInput,
   JLink,
 } from 'components/base'
-import { getShortenedAddress } from 'utils/address'
+
 import {
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
-import { formatTransactionAmount } from 'utils/formatters'
-import { getFormattedDateString } from 'utils/time'
-
-import offset from 'styles/offsets.m.scss'
 
 import {
-  AssetItemPreview,
-  FieldPreview,
-} from 'components/HistoryItemDetails/components/index'
-
-import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+  TRANSFER_OUT_TYPE,
+  type TransferOut as TransferOutRecord,
+} from 'store/utils/HistoryItem/types'
 
 import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
-
-const ADDRESS_COPIED = t`Address copied.`
-const TX_COPIED = t`Blockchain transaction copied.`
-const TRANSACTION_DESCRIPTION: {
-  [TransactionState]: { statusDescription: string, iconName: string },
-} = {
-  success: {
-    statusDescription: t`Transfer processed.`,
-    iconName: 'trx-out-use-fill',
-  },
-  fail: {
-    statusDescription: t`Transfer declined.`,
-    iconName: 'trx-error-declined-use-fill',
-  },
-  stuck: {
-    statusDescription: t`Transfer stuck.`,
-    iconName: 'trx-error-stuck-use-fill',
-  },
-  pending: {
-    statusDescription: t`Transfer is being processed. This may take some time.`,
-    iconName: 'trx-pending-use-fill',
-  },
-}
 
 type Props = {|
   ...TransferOutRecord,
   ...MasterProps,
   type: typeof TRANSFER_OUT_TYPE,
+  +i18n: I18nType,
 |}
 
 type State = {
   note: string,
 }
 
-export class TransferOut extends PureComponent<Props, State> {
+class TransferOut extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -90,7 +66,63 @@ export class TransferOut extends PureComponent<Props, State> {
       to,
       from,
       status,
+      i18n,
     } = this.props
+
+    const ADDRESS_COPIED = i18n._(
+      'HistoryItem.TransactionNormal.addressCopied',
+      null,
+      { defaults: 'Address copied.' },
+    )
+    const TX_COPIED = i18n._(
+      'HistoryItem.TransactionNormal.hashCopied',
+      null,
+      { defaults: 'Blockchain transaction copied.' },
+    )
+    const TRANSACTION_DESCRIPTION = {
+      in: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusInSuccess',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-in-use-fill',
+      },
+      out: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusOutSuccess',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-out-use-fill',
+      },
+      fail: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusFailed',
+          null,
+          { defaults: 'Transfer declined.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
+      stuck: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusStucke',
+          null,
+          { defaults: 'Transfer stuck.' },
+        ),
+        iconName: 'trx-error-stuck-use-fill',
+      },
+      pending: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionNormal.statusPending',
+          null,
+          { defaults: 'Transfer is being processed. This may take some time.' },
+        ),
+        iconName: 'trx-pending-use-fill',
+      },
+      cancel: {},
+      success: {},
+    }
 
     // eslint-disable-next-line max-len
     const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
@@ -121,18 +153,30 @@ export class TransferOut extends PureComponent<Props, State> {
           </div>
           <AssetItemPreview {...asset} />
           <FieldPreview
-            label={t`Amount`}
+            label={i18n._(
+              'HistoryItem.TransactionNormal.amount',
+              null,
+              { defaults: 'Amount' },
+            )}
             body={formatTransactionAmount(this.props)}
           />
           <FieldPreview
-            label={t`Sender`}
+            label={i18n._(
+              'HistoryItem.TransactionNormal.sender',
+              null,
+              { defaults: 'Sender' },
+            )}
             body={this.props.fromName}
             link={getAddressLink(from, blockExplorer)}
             copy={from}
             copyMessage={ADDRESS_COPIED}
           />
           <FieldPreview
-            label={t`Recipient`}
+            label={i18n._(
+              'HistoryItem.TransactionNormal.recipient',
+              null,
+              { defaults: 'Recipient' },
+            )}
             body={this.props.toName}
             link={getAddressLink(this.props.to, this.props.blockExplorer)}
             contact={to}
@@ -140,14 +184,22 @@ export class TransferOut extends PureComponent<Props, State> {
             copyMessage={ADDRESS_COPIED}
           />
           <FieldPreview
-            label={t`Blockchain transaction`}
+            label={i18n._(
+              'HistoryItem.TransactionNormal.hash',
+              null,
+              { defaults: 'Blockchain transaction' },
+            )}
             body={getShortenedAddress(this.props.hash)}
             link={getTxLink(this.props.hash, this.props.blockExplorer)}
             copy={this.props.hash}
             copyMessage={TX_COPIED}
           />
           <FieldPreview
-            label={t`Estimated blockchain fee`}
+            label={i18n._(
+              'HistoryItem.TransactionNormal.fee',
+              null,
+              { defaults: 'Estimated blockchain fee' },
+            )}
             body={`${this.props.fee} ETH`}
           />
         </div>
@@ -155,8 +207,16 @@ export class TransferOut extends PureComponent<Props, State> {
           className={`${offset.mb16} ${style.noteWrapper}`}
         >
           <JInput
-            label={t`Note`}
-            infoMessage={t`This note is only visible to you.`}
+            label={i18n._(
+              'HistoryItem.TransactionNormal.note',
+              null,
+              { defaults: 'Note' },
+            )}
+            infoMessage={i18n._(
+              'HistoryItem.TransactionNormal.noteDescription',
+              null,
+              { defaults: 'This note is only visible to you.' },
+            )}
             color='gray'
             value={this.state.note}
             onChange={this.handleEditNote}
@@ -167,7 +227,11 @@ export class TransferOut extends PureComponent<Props, State> {
             theme='button-secondary'
             href={REPEAT_PAYMENT_URI}
           >
-            {t`Repeat Payment`}
+            {i18n._(
+              'HistoryItem.TransactionNormal.repeat',
+              null,
+              { defaults: 'Repeat Payment' },
+            )}
           </JLink>
         )}
         {status === 'stuck' && (
@@ -177,13 +241,21 @@ export class TransferOut extends PureComponent<Props, State> {
               theme='button-secondary'
               href={`/history/${id}/restart`}
             >
-              {t`Restart`}
+              {i18n._(
+                'HistoryItem.TransactionNormal.restart',
+                null,
+                { defaults: 'Restart' },
+              )}
             </JLink>
             <JLink
               theme='button-secondary'
               href={`/history/${id}/cancel`}
             >
-              {t`Cancel`}
+              {i18n._(
+                'HistoryItem.TransactionNormal.cancel',
+                null,
+                { defaults: 'Cancel' },
+              )}
             </JLink>
           </>
         )}
@@ -191,3 +263,6 @@ export class TransferOut extends PureComponent<Props, State> {
     )
   }
 }
+
+const TransferOutEnhanced = withI18n()(TransferOut)
+export { TransferOutEnhanced as TransferOut }

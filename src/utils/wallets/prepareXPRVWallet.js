@@ -23,8 +23,9 @@ export function prepareXPRVWallet(
     addressIndex: 0,
     type: 'mnemonic',
     isReadOnly: false,
-    isSimplified: true,
     customType: 'xprv',
+    derivationIndex: 0,
+    isSimplified: true,
     xpub: getXPUBFromXPRV(data),
     encrypted: {
       mnemonic: null,

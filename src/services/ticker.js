@@ -1,11 +1,9 @@
-// @flow
-
-import { t } from 'ttag'
+// @flow strict
 
 import config from 'config'
-import currenciesData from 'data/currencies'
 import getENVVar from 'utils/config/getENVVar'
 import { typeUtils } from 'utils'
+import { CURRENCIES } from 'data'
 
 type TickerAPIParams = {|
   +id: FiatId[],
@@ -25,7 +23,7 @@ function callApi(params: TickerAPIParams, retryCount: number = 4): Promise<any> 
       return callApi(params, (retryCount - 1))
     }
 
-    throw new Error(t`TickerRequestError`)
+    throw new Error('Ticker Request Error')
   }
 
   return fetch(requestInfo, {
@@ -75,7 +73,7 @@ function prepareFiatCourses(data: Object): FiatCoursesAPI {
       fiatCode: any,
     ): FiatCourse => {
       // filter invalid currency codes
-      if (!Object.keys(currenciesData).includes(fiatCode)) {
+      if (!Object.keys(CURRENCIES).includes(fiatCode)) {
         return resultCourse
       }
 

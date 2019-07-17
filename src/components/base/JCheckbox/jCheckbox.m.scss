@@ -36,6 +36,7 @@
     @include sprite-icon-color($main-blue);
 
     opacity: 0;
+    transition: opacity 0.3s ease 0s;
   }
 
   &:hover {

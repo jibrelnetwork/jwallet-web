@@ -3,11 +3,28 @@
 
 .core {
   @include font;
+  @include flex-row;
+  @include property-transition(box-shadow);
 
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  background-color: transparent;
+
+  &.scrolled {
+    z-index: $z-index-header;
+    box-shadow: $select-shadow;
+    background-color: $pale-grey;
+  }
+}
+
+.back {
+  z-index: $z-index-menu-back;
+  position: absolute;
+  top: 54px;
+  left: 48px;
+  cursor: pointer;
 }
 
 .title {
@@ -19,10 +36,54 @@
   color: $main-black;
 }
 
-.back {
-  z-index: $z-index-menu-back;
-  position: absolute;
-  top: 54px;
-  left: 48px;
-  cursor: pointer;
+.aside {
+  @include flex-row-center;
+
+  margin: 0 202px 0 auto;
+}
+
+.icon {
+  @include property-transition(fill, stroke);
+  @include sprite-icon-color($main-black-20);
+}
+
+.label {
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.action {
+  @include flex-row-center;
+
+  margin-top: 45px;
+  margin-bottom: 27px;
+
+  &:not(:last-child) {
+    margin-right: 37px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .aside {
+    margin: 0 42px 0 auto;
+  }
+}
+
+@media (max-width: 850px) {
+  .title {
+    max-width: 500px;
+    margin-left: 72px;
+  }
+
+  .aside {
+    margin: 0 16px 0 auto;
+  }
+
+  .action {
+    &:not(:last-child) {
+      margin-right: 11px;
+    }
+  }
 }

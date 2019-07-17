@@ -1,71 +1,104 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import {
+  withI18n,
+  Trans,
+} from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+
+import { StartLayout } from 'layouts'
 
 import {
   JLink,
-  JText,
+  JIcon,
   JCheckbox,
   Button,
 } from 'components/base'
 
 import {
-  checkAgreements,
-  getAgreementValue,
-  setAgreementValue,
-} from 'utils/agreements'
+  selectAgreementsConditions,
+} from 'store/selectors/user'
+
+import {
+  setAgreementIsConfirmed,
+  setAllAgreementsAreConfirmed,
+} from 'store/modules/user'
 
 import { CONDITIONS_LIST } from 'data/agreements'
 
 import agreementsViewStyle from './agreementsView.m.scss'
 
 export type Props = {|
+  setAgreementIsConfirmed: Function,
+  setAllAgreementsAreConfirmed: Function,
+  agreements: {
+    [agreement: string]: boolean,
+  },
+  i18n: I18nType,
 |}
 
-type StateProps = {|
-  +isDisabled: boolean,
+type OwnProps = {|
+  i18n: I18nType,
 |}
 
-/* eslint-disable max-len */
-const conditions = {
-  understandPrivateDataPolicy: t`I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser`,
-  consentNoWarranty: t`I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind`,
-  consentTrackingCookies: t`I consent to allow cookies for collecting anonymous usage data to improve quality of provided service`,
-  acceptTermsAndConditions: t`I have read and accepted`,
-}
-/* eslint-enable max-len */
-
-export class AgreementsView extends PureComponent<Props, StateProps> {
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isDisabled: !checkAgreements(CONDITIONS_LIST),
-    }
+class AgreementsScreen extends PureComponent<Props> {
+  onChange = (key: string) => (isChecked: boolean) => {
+    this.props.setAgreementIsConfirmed(key, isChecked)
   }
 
-  onChange = (key: string) => () => {
-    setAgreementValue(key, !getAgreementValue(key))
-    this.setState({ isDisabled: !checkAgreements(CONDITIONS_LIST) })
+  handleAgreementsConfirmClick = () => {
+    this.props.setAllAgreementsAreConfirmed(true)
+  }
+
+  componentDidMount = () => {
+    this.props.setAllAgreementsAreConfirmed(false)
   }
 
   render() {
     const {
-      isDisabled,
-    }: StateProps = this.state
+      agreements,
+      i18n,
+    } = this.props
+
+    /* eslint-disable max-len */
+    const conditions = {
+      understandPrivateDataPolicy: i18n._(
+        'Agreements.understandPrivateDataPolicy',
+        null,
+        { defaults: 'I understand that my funds are stored securely on my personal computer. No private data is sent to Jibrel AG servers. All encryption is done locally in browser' },
+      ),
+      consentNoWarranty: i18n._(
+        'Agreements.consentNoWarranty',
+        null,
+        { defaults: 'I consent that Jwallet service is provided as is without warranty. Jibrel AG does not have access to my private information and could not participate in resolution of issues concerning money loss of any kind' },
+      ),
+      consentTrackingCookies: i18n._(
+        'Agreements.consentTrackingCookies',
+        null,
+        { defaults: 'I consent to allow cookies for collecting anonymous usage data to improve quality of provided service' },
+      ),
+    }
+    /* eslint-enable max-len */
+
+    const isAllAgreementsChecked = CONDITIONS_LIST.every(key => agreements[key])
 
     return (
-      <div className={`__agreements-view ${agreementsViewStyle.core}`}>
+      <StartLayout className='__agreements-view'>
         <div className={agreementsViewStyle.content}>
+          <JIcon
+            name='terms-and-conditions-use-fill'
+            className={agreementsViewStyle.icon}
+            color='blue'
+          />
           <h1 className={agreementsViewStyle.title}>
-            <JText
-              size='title'
-              color='white'
-              value={t`Terms and Conditions`}
-              whiteSpace='wrap'
-              align='center'
-            />
+            {i18n._(
+              'Agreements.title',
+              null,
+              { defaults: 'Terms and Conditions' },
+            )}
           </h1>
           <div>
             {CONDITIONS_LIST.map((key: string) => (
@@ -74,38 +107,25 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
                   <JCheckbox
                     onChange={this.onChange(key)}
                     label={conditions[key]}
-                    color='white'
                     name={key}
-                    isChecked={getAgreementValue(key)}
+                    isChecked={agreements[key]}
                     isRegular
-                  />
+                  >
+                    {conditions[key]}
+                  </JCheckbox>
                 ) : (
                   <JCheckbox
                     onChange={this.onChange(key)}
-                    color='white'
-                    label={t`I have read and accepted`}
+                    color='black'
                     name={key}
-                    isChecked={getAgreementValue(key)}
+                    isChecked={agreements[key]}
                     isRegular
                   >
-                    {' '}
-                    <JLink
-                      theme='text-white'
-                      href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'
-                    >
-                      {t`Terms of Use`}
-                    </JLink>
-                    {' '}
-                    <span className='label'>
-                      <JText color='white' whiteSpace='wrap' value={t`and`} />
-                    </span>
-                    {' '}
-                    <JLink
-                      theme='text-white'
-                      href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'
-                    >
-                      {t`Privacy Policy`}
-                    </JLink>
+                    {/* eslint-disable max-len */}
+                    <Trans id='Agreements.acceptTermsAndConditions'>
+                      I have read and accepted <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-TermsofUse.pdf'>Terms of Use</JLink> and <JLink theme='text-white' href='https://jwallet.network/docs/JibrelAG-PrivacyPolicy.pdf'>Privacy Policy</JLink>
+                    </Trans>
+                    {/* eslint-enable max-len */}
                   </JCheckbox>
                 )}
               </div>
@@ -115,15 +135,41 @@ export class AgreementsView extends PureComponent<Props, StateProps> {
             <JLink href='/wallets'>
               <Button
                 className={agreementsViewStyle.button}
-                theme='secondary'
-                disabled={isDisabled}
+                theme='general'
+                isDisabled={!isAllAgreementsChecked}
+                onClick={this.handleAgreementsConfirmClick}
               >
-                {t`Confirm and continue`}
+                {i18n._(
+                  'Agreements.action.submit',
+                  null,
+                  { defaults: 'Confirm and continue' },
+                )}
               </Button>
             </JLink>
           </div>
         </div>
-      </div>
+      </StartLayout>
     )
   }
 }
+
+function mapStateToProps(state: AppState) {
+  const agreements = selectAgreementsConditions(state)
+
+  return {
+    agreements,
+  }
+}
+
+const mapDispatchToProps = {
+  setAgreementIsConfirmed,
+  setAllAgreementsAreConfirmed,
+}
+
+export const AgreementsView = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(AgreementsScreen)

@@ -4,32 +4,29 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { t } from 'ttag'
 
+import offset from 'styles/offsets.m.scss'
+import { FieldPreview } from 'components'
+import { getShortenedAddress } from 'utils/address'
+import { getFormattedDateString } from 'utils/time'
+import { formatTransactionAmount } from 'utils/formatters'
+import { AssetItemPreview } from 'components/HistoryItemDetails/components/index'
+import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+
 import {
   JIcon,
   JInput,
 } from 'components/base'
-import { getShortenedAddress } from 'utils/address'
+
 import {
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
-import { formatTransactionAmount } from 'utils/formatters'
-import { getFormattedDateString } from 'utils/time'
 
 import {
   TRANSFER_IN_TYPE,
   type TransactionState,
   type TransferIn as TransferInRecord,
 } from 'store/utils/HistoryItem/types'
-
-import offset from 'styles/offsets.m.scss'
-
-import {
-  AssetItemPreview,
-  FieldPreview,
-} from 'components/HistoryItemDetails/components/index'
-
-import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 
 import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
 

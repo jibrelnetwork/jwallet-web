@@ -9,7 +9,13 @@ import { type JLoaderColor } from 'components/base/JLoader/JLoader'
 
 import buttonStyle from 'components/base/Button/button.m.scss'
 
-type Theme = 'general' | 'secondary' | 'additional' | 'additional-icon'
+type Theme
+  = 'general'
+  | 'secondary'
+  | 'additional'
+  | 'additional-icon'
+  | 'general-confirm'
+  | 'secondary-confirm'
 
 type Props =
   StyleComponent<Theme>

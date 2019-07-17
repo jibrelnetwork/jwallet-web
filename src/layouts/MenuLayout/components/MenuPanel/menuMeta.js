@@ -45,15 +45,23 @@ const MENU_META: { [string]: ?MenuMeta } = {
   },
   Contacts: {
     isMinimized: false,
-    previousRouteNameFallback: null,
+    previousRouteNameFallback: 'Home',
+  },
+  ContactsItem: {
+    isMinimized: true,
+    previousRouteNameFallback: 'Contacts',
   },
   ContactsItemAdd: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Contacts',
   },
   ContactsItemEdit: {
     isMinimized: true,
-    previousRouteNameFallback: 'Home',
+    previousRouteNameFallback: 'Contacts',
+  },
+  ContactsItemDelete: {
+    isMinimized: true,
+    previousRouteNameFallback: null,
   },
   MoreActions: {
     isMinimized: false,
@@ -99,7 +107,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
-  WalletsItem: {
+  WalletsItemAddresses: {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
@@ -107,15 +115,7 @@ const MENU_META: { [string]: ?MenuMeta } = {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },
-  WalletsItemDelete: {
-    isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
-  },
-  WalletsItemRename: {
-    isMinimized: true,
-    previousRouteNameFallback: 'Wallets',
-  },
-  WalletsItemUpgrade: {
+  WalletsItemModeDisable: {
     isMinimized: true,
     previousRouteNameFallback: 'Wallets',
   },

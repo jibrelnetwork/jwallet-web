@@ -1,7 +1,9 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import React, { Component } from 'react'
 
 import { add0x } from 'utils/address'
@@ -43,6 +45,7 @@ export type Props = {|
   +salt: string,
   +hint: string,
   +walletId: string,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -63,7 +66,7 @@ const WALLETS_BACKUP_INITIAL_VALUES: FormFields = {
   password: '',
 }
 
-export class WalletsItemBackupView extends Component<Props, StateProps> {
+class WalletsItemBackupViewComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -78,12 +81,22 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
   }
 
   getTitle = (): string => {
+    const { i18n } = this.props
+
     switch (this.state.currentStep) {
       case STEPS.PASSWORD:
-        return t`Enter Security Password`
+        return i18n._(
+          'WalletsItemBackup.securityPassword.title',
+          null,
+          { defaults: 'Enter Security Password' },
+        )
 
       case STEPS.BACKUP_FORM:
-        return t`Back Up Wallet`
+        return i18n._(
+          'WalletsItemBackup.backup.title',
+          null,
+          { defaults: 'Back Up Wallet' },
+        )
 
       default:
         return ''
@@ -223,7 +236,11 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
     }
   }
 
-  renderWalletsItemBackupForm = (formRenderProps: FormRenderProps) => {
+  renderForm = ({
+    handleSubmit,
+    values = {},
+    submitting,
+  }: FormRenderProps) => {
     const {
       name,
       data,
@@ -232,12 +249,6 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
       currentStep,
       derivationPath,
     }: StateProps = this.state
-
-    const {
-      handleSubmit,
-      values = {},
-      submitting,
-    }: FormRenderProps = formRenderProps
 
     switch (currentStep) {
       case STEPS.PASSWORD:
@@ -272,11 +283,15 @@ export class WalletsItemBackupView extends Component<Props, StateProps> {
       <div className={walletsItemBackupStyle.core}>
         <TitleHeader title={this.getTitle()} />
         <Form
+          render={this.renderForm}
           onSubmit={this.handleSubmit}
-          render={this.renderWalletsItemBackupForm}
           initialValues={WALLETS_BACKUP_INITIAL_VALUES}
         />
       </div>
     )
   }
 }
+
+export const WalletsItemBackupView = withI18n()(
+  WalletsItemBackupViewComponent,
+)

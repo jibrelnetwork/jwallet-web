@@ -9,12 +9,13 @@ import {
 } from 'store/selectors/wallets'
 
 import getDigitalAssetsWithBalance from 'utils/digitalAssets/getDigitalAssetsWithBalance'
+import { CURRENCIES } from 'data'
 import { selectCurrentBlock } from 'store/selectors/blocks'
 import { getFiatBalance } from 'store/utils/getFiatBalances'
 import { selectCurrentNetworkId } from 'store/selectors/networks'
 import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectActiveDigitalAssets } from 'store/selectors/digitalAssets'
-import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectBalancesByBlockNumber } from 'store/selectors/balances'
 
 import {
@@ -86,7 +87,7 @@ function mapStateToProps(state: AppState) {
   const assets: DigitalAsset[] = selectActiveDigitalAssets(state)
   const ownerAddress: ?OwnerAddress = selectActiveWalletAddress(state)
   const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const fiatCurrency: FiatCurrencyData = selectSettingsFiatCurrencyData(state)
+  const fiatCurrency: FiatCurrency = selectFiatCurrency(state)
 
   const balances: ?Balances = selectBalancesByBlockNumber(
     state,
@@ -109,8 +110,8 @@ function mapStateToProps(state: AppState) {
 
   return {
     walletName,
-    fiatCurrency: fiatCurrency.symbol,
     mnemonicAddressName,
+    fiatCurrency: CURRENCIES[fiatCurrency].symbol,
     fiatBalance: getTotalFiatBalance(state, assetsWithBalance),
     isMnemonic,
   }

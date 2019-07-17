@@ -7,6 +7,7 @@
   @include font;
   @include flex-column;
 
+  z-index: $z-index-menu;
   position: absolute;
   top: 0;
   left: 0;
@@ -229,5 +230,11 @@
   .back {
     opacity: 1;
     visibility: visible;
+  }
+}
+
+@media (max-width: 850px) {
+  .back {
+    left: 16px;
   }
 }

@@ -10,9 +10,10 @@ import {
   JLink,
   JShimmer,
 } from 'components/base'
+import { CURRENCIES } from 'data'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
-import { selectSettingsFiatCurrencyData } from 'store/selectors/settings'
 import { getFiatBalance } from 'store/utils/getFiatBalances'
 import {
   divDecimals,
@@ -119,7 +120,8 @@ export const AssetItem =
       }
 
       const balance = selectBalanceByAssetAddressToCurrentBlock(state, ownProps.address)
-      const { symbol: fiatSymbol } = selectSettingsFiatCurrencyData(state)
+      const fiatCurrency = selectFiatCurrency(state)
+
       const fiatBalance = getFiatBalance(state, {
         ...asset,
         balance,
@@ -128,8 +130,8 @@ export const AssetItem =
       return {
         ...asset,
         balance: balance ? balance.value : 0,
+        fiatSymbol: CURRENCIES[fiatCurrency].symbol,
         isLoadingBalance: checkBalanceLoading(balance),
-        fiatSymbol,
         fiatBalance,
       }
     },

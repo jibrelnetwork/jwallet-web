@@ -2,7 +2,7 @@
 
 import nacl from 'tweetnacl'
 import util from 'tweetnacl-util'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { getNonce } from '.'
 
@@ -33,7 +33,11 @@ function encryptNaclSecretbox(data: string, key: Uint8Array): EncryptedData {
   const encryptedData: ?Uint8Array = nacl.secretbox(dataToEncrypt, nonce, key)
 
   if ((encryptedData === null) || (encryptedData === undefined)) {
-    throw new Error(t`InvalidPasswordError`)
+    throw new Error(i18n._(
+      'encryption.errors.passwordInvalid',
+      null,
+      { defaults: 'Invalid Password' },
+    ))
   }
 
   return encodeEncryptedData(encryptedData, nonce)

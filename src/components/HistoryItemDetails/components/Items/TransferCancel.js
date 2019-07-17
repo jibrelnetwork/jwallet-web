@@ -2,63 +2,37 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
   JIcon,
   JInput,
   JLink,
 } from 'components/base'
+import { FieldPreview } from 'components'
 import { getShortenedAddress } from 'utils/address'
 import { getFormattedDateString } from 'utils/time'
 
 import offset from 'styles/offsets.m.scss'
 
-import {
-  type TransactionState,
-  type TransferCancel as TransferCancelRecord,
-} from 'store/utils/HistoryItem/types'
-
-import { FieldPreview } from 'components/HistoryItemDetails/components/index'
+import { type TransferCancel as TransferCancelRecord } from 'store/utils/HistoryItem/types'
 
 import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 
 import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
 
-const TRANSACTION_DESCRIPTION: {
-  [TransactionState]: {
-    statusDescription: string,
-    iconName: string,
-  },
-} = {
-  success: {
-    statusDescription: t`Transfer canceled.`,
-    iconName: 'trx-success-use-fill',
-  },
-  fail: {
-    statusDescription: t`Transfer not canceled.`,
-    iconName: 'trx-error-declined-use-fill',
-  },
-  stuck: {
-    statusDescription: t`Cancel transfer stuck.`,
-    iconName: 'trx-error-stuck-use-fill',
-  },
-  pending: {
-    statusDescription: t`Cancel transfer. This may take some time.`,
-    iconName: 'trx-pending-use-fill',
-  },
-}
-
 type Props = {|
   ...TransferCancelRecord,
   ...MasterProps,
+  +i18n: I18nType,
 |}
 
 type State = {
   note: string,
 }
 
-export class TransferCancel extends PureComponent<Props, State> {
+class TransferCancel extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -81,6 +55,7 @@ export class TransferCancel extends PureComponent<Props, State> {
       id,
       timestamp,
       status,
+      i18n,
     } = this.props
 
     const formattedDate = getFormattedDateString(
@@ -88,19 +63,54 @@ export class TransferCancel extends PureComponent<Props, State> {
       'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
     )
 
+    const info = {
+      success: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusSuccess',
+          null,
+          { defaults: 'Transfer canceled.' },
+        ),
+        iconName: 'trx-success-use-fill',
+      },
+      fail: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusFailed',
+          null,
+          { defaults: 'Transfer not canceled.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
+      stuck: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusStuck',
+          null,
+          { defaults: 'Cancel transfer stuck.' },
+        ),
+        iconName: 'trx-error-stuck-use-fill',
+      },
+      pending: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionCancel.statusPending',
+          null,
+          { defaults: 'Cancel transfer. This may take some time.' },
+        ),
+        iconName: 'trx-pending-use-fill',
+      },
+    }
+
     return (
       <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[status])}>
             <div className={style.statusIcon}>
-              <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
+              <JIcon name={info[status].iconName} />
             </div>
             <div className={style.description}>
               <div className={style.status}>
                 {status}
               </div>
               <div className={style.comment}>
-                {TRANSACTION_DESCRIPTION[status].statusDescription}
+                {info[status].statusDescription}
               </div>
               <div className={style.date}>
                 {formattedDate}
@@ -108,15 +118,27 @@ export class TransferCancel extends PureComponent<Props, State> {
             </div>
           </div>
           <FieldPreview
-            label={t`Sender`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.sender',
+              null,
+              { defaults: 'Sender' },
+            )}
             body={fromName}
           />
           <FieldPreview
-            label={t`Blockchain transaction`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.hash',
+              null,
+              { defaults: 'Blockchain transaction' },
+            )}
             body={getShortenedAddress(hash)}
           />
           <FieldPreview
-            label={t`Estimated blockchain fee`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.fee',
+              null,
+              { defaults: 'Estimated blockchain fee' },
+            )}
             body={`${fee} ETH`}
           />
         </div>
@@ -124,8 +146,16 @@ export class TransferCancel extends PureComponent<Props, State> {
           className={`${offset.mb16} ${style.noteWrapper}`}
         >
           <JInput
-            label={t`Note`}
-            infoMessage={t`This note is only visible to you.`}
+            label={i18n._(
+              'HistoryItem.TransactionCancel.note',
+              null,
+              { defaults: 'Note' },
+            )}
+            infoMessage={i18n._(
+              'HistoryItem.TransactionCancel.noteDescription',
+              null,
+              { defaults: 'This note is only visible to you.' },
+            )}
             color='gray'
             value={this.state.note}
             onChange={this.handleEditNote}
@@ -136,10 +166,17 @@ export class TransferCancel extends PureComponent<Props, State> {
             theme='button-secondary'
             href={`/history/${id}/cancel`}
           >
-            {t`Cancel`}
+            {i18n._(
+              'HistoryItem.TransactionCancel.cancel',
+              null,
+              { defaults: 'Cancel' },
+            )}
           </JLink>
         )}
       </div>
     )
   }
 }
+
+const TransferCancelEnhanced = withI18n()(TransferCancel)
+export { TransferCancelEnhanced as TransferCancel }

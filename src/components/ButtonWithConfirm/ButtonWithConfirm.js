@@ -1,6 +1,9 @@
 // @flow strict
 
 import React, { Component } from 'react'
+import classNames from 'classnames'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { Button } from 'components/base'
 
@@ -12,6 +15,8 @@ type Props = {|
   +labelCancel: string,
   +labelConfirm: string,
   +confirmTimeout: number,
+  +isReversed: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -21,9 +26,10 @@ type StateProps = {|
 
 const ONE_SECOND: 1000 = 1000
 
-export class ButtonWithConfirm extends Component<Props, StateProps> {
+class ButtonWithConfirmComponent extends Component<Props, StateProps> {
   static defaultProps = {
     confirmTimeout: 0,
+    isReversed: false,
   }
 
   constructor(props: Props) {
@@ -89,6 +95,8 @@ export class ButtonWithConfirm extends Component<Props, StateProps> {
 
   render() {
     const {
+      i18n,
+      isReversed,
       labelCancel,
       labelConfirm,
       onConfirm: handleConfirm,
@@ -98,23 +106,36 @@ export class ButtonWithConfirm extends Component<Props, StateProps> {
     const isConfirmDisabled: boolean = (countdown > 0)
 
     return (
-      <div className={buttonWithConfirmStyle.core}>
-        <Button
-          onClick={handleConfirm}
-          className={buttonWithConfirmStyle.confirm}
-          theme='secondary'
-          isDisabled={isConfirmDisabled}
-        >
-          {isConfirmDisabled ? `${countdown} sec` : labelConfirm}
-        </Button>
+      <div
+        className={classNames(
+          buttonWithConfirmStyle.core,
+          isReversed && buttonWithConfirmStyle.reversed,
+        )}
+      >
         <Button
           onClick={this.handleCancel}
           className={buttonWithConfirmStyle.cancel}
-          theme='general'
+          theme={isReversed ? 'general' : 'secondary'}
         >
           {labelCancel}
+        </Button>
+        <Button
+          onClick={handleConfirm}
+          className={buttonWithConfirmStyle.confirm}
+          theme={isReversed ? 'secondary' : 'general'}
+          isDisabled={isConfirmDisabled}
+        >
+          {isConfirmDisabled
+            ? i18n._(
+              'common.ButtonWithConfirm.countdown',
+              { countdown },
+              { defaults: '{countdown} sec' },
+            )
+            : labelConfirm}
         </Button>
       </div>
     )
   }
 }
+
+export const ButtonWithConfirm = withI18n()(ButtonWithConfirmComponent)

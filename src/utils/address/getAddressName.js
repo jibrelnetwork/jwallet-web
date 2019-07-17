@@ -1,7 +1,13 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 export function getAddressName(name: ?string, addressIndex: number) {
-  return name || t`Address ${addressIndex + 1}`
+  const index = addressIndex + 1
+
+  return name || i18n._(
+    'entity.Address.defaultName',
+    { index },
+    { defaults: 'Address {index}' },
+  )
 }

@@ -1,11 +1,10 @@
 // @flow strict
 
+import React from 'react'
 import classNames from 'classnames'
-import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
-import { clipboard } from 'services'
-import { JIcon } from 'components/base'
+import { CopyIconButton } from 'components'
 
 import copyableFieldStyles from './copyableField.m.scss'
 
@@ -14,41 +13,39 @@ type Props = {|
   +label: string,
 |}
 
-export class CopyableField extends PureComponent<Props> {
-  handleCopy = () => {
-    clipboard.copyText(this.props.value)
-  }
+export function CopyableField({
+  value,
+  label,
+}: Props) {
+  const labelOrNothing = label
+    ? ` ${label}`
+    : ''
 
-  render() {
-    const {
-      value,
-      label,
-    }: Props = this.props
+  const i18n = useI18n()
 
-    return (
-      <div
-        className={classNames(
-          '__copyable-field',
-          copyableFieldStyles.core,
-        )}
-      >
-        <div className={copyableFieldStyles.content}>
-          <div className={copyableFieldStyles.label}>
-            {label}
-          </div>
-          <div className={copyableFieldStyles.value}>
-            {value}
-          </div>
+  return (
+    <div
+      className={classNames(
+        '__copyable-field',
+        copyableFieldStyles.core,
+      )}
+    >
+      <div className={copyableFieldStyles.content}>
+        <div className={copyableFieldStyles.label}>
+          {label}
         </div>
-        <button
-          type='button'
-          title={t`Copy${label ? ' ' : ''}${label || ''}`}
-          onClick={this.handleCopy}
-          className={copyableFieldStyles.button}
-        >
-          <JIcon name='copy-use-fill' />
-        </button>
+        <div className={copyableFieldStyles.value}>
+          {value}
+        </div>
       </div>
-    )
-  }
+      <CopyIconButton
+        content={value}
+        title={i18n._(
+          'common.CopyableField.copy',
+          { labelOrNothing },
+          { defaults: 'Copy{labelOrNothing}' },
+        )}
+      />
+    </div>
+  )
 }

@@ -1,4 +1,4 @@
-import { getAgreementValue } from 'utils/agreements'
+// import { getAgreementValue } from 'utils/agreements'
 
 const REPORTED_ONCE = {}
 
@@ -33,13 +33,13 @@ const reportOnce = (message) => {
 // We pass parameters directly to external library function, so:
 // eslint-disable-next-line fp/no-rest-parameters
 export const ga = (...args) => {
-  if (getAgreementValue('consentTrackingCookies')) {
-    try {
-      window.ga(...args)
-    } catch (err) {
-      reportOnce('Google Analytics is not available')
-    }
+  // if (getAgreementValue('consentTrackingCookies')) {
+  try {
+    window.ga(...args)
+  } catch (err) {
+    reportOnce('Google Analytics is not available')
   }
+  // }
 }
 
 export const gaSendPageView = (location) => {

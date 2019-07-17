@@ -9,9 +9,9 @@ import { checkReadOnlyType } from '.'
 
 export type UpgradeWalletData = {|
   +wallet: Wallet,
-  +data: string,
-  +passphrase: string,
-  +derivationPath: string,
+  +data: ?string,
+  +passphrase: ?string,
+  +derivationPath: ?string,
   +internalKey: Uint8Array,
 |}
 
@@ -21,8 +21,8 @@ function addMnemonic(
     id: walletId,
   }: Wallet,
   mnemonic: string,
-  passphrase: string,
-  derivationPath: string,
+  passphrase: ?string,
+  derivationPath: ?string,
   internalKey: Uint8Array,
 ): WalletUpdatedData {
   if (!xpub) {
@@ -30,7 +30,6 @@ function addMnemonic(
   }
 
   return {
-    derivationPath,
     encrypted: {
       mnemonic: encryptData({
         data: mnemonic,
@@ -38,7 +37,7 @@ function addMnemonic(
       }),
       passphrase: encryptData({
         key: internalKey,
-        data: passphrase,
+        data: passphrase || '',
       }),
       xprv: encryptData({
         key: internalKey,
@@ -47,6 +46,7 @@ function addMnemonic(
       privateKey: null,
     },
     customType: 'mnemonic',
+    derivationPath: (derivationPath || '').trim(),
     isReadOnly: false,
   }
 }
@@ -91,11 +91,11 @@ export function upgradeWallet({
     id: walletId,
   }: Wallet = wallet
 
-  if (checkReadOnlyType(customType)) {
-    throw new WalletInconsistentDataError({ walletId }, 'Wallet is read only')
+  if (!checkReadOnlyType(customType)) {
+    throw new WalletInconsistentDataError({ walletId }, 'Wallet is not read only')
   }
 
-  const preparedData: string = data.trim().toLowerCase()
+  const preparedData: string = (data || '').trim().toLowerCase()
 
   if (xpub) {
     return addMnemonic(
