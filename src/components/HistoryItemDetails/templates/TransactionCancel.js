@@ -11,7 +11,7 @@ import {
 } from 'components/base'
 import { FieldPreview } from 'components'
 import { getShortenedAddress } from 'utils/address'
-import { getFormattedDateString } from 'utils/time'
+import { DateTimeFormat } from 'app/components'
 
 import offset from 'styles/offsets.m.scss'
 
@@ -83,11 +83,6 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
       },
     }
 
-    const formattedDate = getFormattedDateString(
-      new Date(timestamp),
-      'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
-    )
-
     return (
       <div className={style.core}>
         <div className={classNames(style.card, offset.mb16)}>
@@ -103,7 +98,7 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
                 {TRANSACTION_DESCRIPTION[status].statusDescription}
               </div>
               <div className={style.date}>
-                {formattedDate}
+                <DateTimeFormat value={timestamp} />
               </div>
             </div>
           </div>
