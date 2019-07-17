@@ -9,7 +9,6 @@ COPY package.json .
 RUN npm install && npm cache clean --force
 COPY . .
 
-RUN npm run lang:compile
 RUN npm run build:clean
 RUN npm run storybook:build
 
