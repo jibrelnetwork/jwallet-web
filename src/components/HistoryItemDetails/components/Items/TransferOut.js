@@ -120,8 +120,22 @@ class TransferOut extends PureComponent<Props, State> {
         ),
         iconName: 'trx-pending-use-fill',
       },
-      cancel: {},
-      success: {},
+      success: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionOut.statusPending',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-in-use-fill',
+      },
+      cancel: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionOut.statusCancel',
+          null,
+          { defaults: 'Transfer declined.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
     }
 
     // eslint-disable-next-line max-len

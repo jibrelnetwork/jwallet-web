@@ -1,25 +1,29 @@
 // @flow
 
 import React from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
 import { useI18n } from 'app/hooks'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
 
 import {
-  JTabs, JFlatButton, SearchInput,
+  JTabs,
+  JFlatButton,
+  SearchInput,
 } from 'components/base'
 
 import {
-  TransactionsList,
+  HistoryList,
   TransactionsFilter,
 } from 'components'
 
-function getTransactionsTabs(i18n,
-                             asset: DigitalAsset,
-                             assetBalance: ?Balance,
-                             isFetched: boolean) {
+function getTransactionsTabs(
+  i18n,
+  asset: DigitalAsset,
+  assetBalance: ?Balance,
+  isFetched: boolean,
+) {
   const {
     name,
     symbol,
@@ -152,7 +156,7 @@ function TransactionsAssetView({
       </div>
       <div className='content'>
         <Scrollbars autoHide>
-          <TransactionsList
+          <HistoryList
             editComment={editComment}
             removeFavorite={removeFavorite}
             items={transactions}
