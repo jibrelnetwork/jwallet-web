@@ -12,26 +12,27 @@ import {
   Header,
 } from 'components/base'
 
-import { useI18n } from 'app/hooks'
+import { useLanguage } from 'app/hooks'
 
 import styles from './settings.m.scss'
 import { Card } from './components/Card/Card'
 
 export type Props = {|
   +fiatCurrency: FiatCurrency,
-  +language: LanguageCode,
   +isDeveloperMode: boolean,
 |}
 
 export function SettingsView({
-  language,
   fiatCurrency,
   isDeveloperMode,
 }: Props) {
+  const {
+    i18n,
+    language,
+  } = useLanguage()
+
   const languageTitle: string = LANGUAGES[language].title
   const currencyName: string = CURRENCIES[fiatCurrency].name
-
-  const i18n = useI18n()
 
   return (
     <div className={styles.core}>

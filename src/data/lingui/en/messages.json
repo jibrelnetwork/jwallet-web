@@ -176,7 +176,7 @@
     "SettingsCurrency.title": "Currency",
     "SettingsLanguage.LanguagePicker.label": "Language",
     "SettingsLanguage.actions.ok": "OK",
-    "SettingsLanguage.header.title": "SettingsLanguage.header.title",
+    "SettingsLanguage.header.title": "Language",
     "SettingsSecurityPassword.description": "You will use this password to unlock and transfer your funds. Keep it secure!",
     "SettingsSecurityPassword.errors.hintEqualsPassword": "Password and hint should not be equal",
     "SettingsSecurityPassword.errors.hintRequired": "Password hint is required",
