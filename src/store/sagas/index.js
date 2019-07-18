@@ -6,7 +6,6 @@ import { tickerRootSaga } from './ticker'
 import { balancesRootSaga } from './balances'
 import { commentsRootSaga } from './comments'
 import { transactionsRootSaga } from './transactions'
-import { favoritesRootSaga } from './favorites'
 import { settingsRootSaga } from './settings'
 import walletsSagas from './wallets'
 import digitalAssetsSagas from './digitalAssets'
@@ -18,7 +17,6 @@ export default [
   balancesRootSaga,
   commentsRootSaga,
   transactionsRootSaga,
-  favoritesRootSaga,
   settingsRootSaga,
   ...walletsSagas,
   ...digitalAssetsSagas,

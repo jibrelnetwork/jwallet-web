@@ -29,9 +29,6 @@ import walletsCreate from 'store/modules/walletsCreate'
 import walletsAddresses from 'store/modules/walletsAddresses'
 import walletsRenameAddress from 'store/modules/walletsRenameAddress'
 
-// contacts
-import contacts from 'store/modules/contacts'
-
 // user
 import user from 'store/modules/user'
 
@@ -53,7 +50,6 @@ export function makeRootReducer(): Reducer<AppState, AppAction> {
     digitalAssetsManage,
     ...persistReducers({
       blocks,
-      contacts,
       ticker,
       wallets,
       balances,
