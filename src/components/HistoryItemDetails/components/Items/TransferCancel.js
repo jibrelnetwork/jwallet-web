@@ -12,7 +12,7 @@ import {
 } from 'components/base'
 import { FieldPreview } from 'components'
 import { getShortenedAddress } from 'utils/address'
-import { getFormattedDateString } from 'utils/time'
+import { DateTimeFormat } from 'app/components'
 
 import offset from 'styles/offsets.m.scss'
 
@@ -57,11 +57,6 @@ class TransferCancel extends PureComponent<Props, State> {
       status,
       i18n,
     } = this.props
-
-    const formattedDate = getFormattedDateString(
-      new Date(timestamp),
-      'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
-    )
 
     const info = {
       success: {
@@ -113,7 +108,7 @@ class TransferCancel extends PureComponent<Props, State> {
                 {info[status].statusDescription}
               </div>
               <div className={style.date}>
-                {formattedDate}
+                <DateTimeFormat value={timestamp} />
               </div>
             </div>
           </div>

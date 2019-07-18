@@ -1,19 +1,22 @@
 // @flow strict
 
-import classNames from 'classnames'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
-import { CopyIconButton } from 'components'
 import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
 import { getAddressName } from 'utils/address'
 import { formatAssetBalance } from 'utils/formatters'
 import { selectAddressNames } from 'store/selectors/wallets'
 import { setAddressName } from 'store/modules/walletsAddresses'
+
+import {
+  EditableField,
+  CopyIconButton,
+} from 'components'
 
 import styles from './walletAddressCard.m.scss'
 
@@ -33,21 +36,15 @@ type Props = {|
 |}
 
 type StateProps = {|
-  +newName: string,
   +ethBalance: ?BigNumber,
-  +isRenameActive: boolean,
 |}
 
 class WalletAddressCard extends Component<Props, StateProps> {
-  nameInputRef = React.createRef<HTMLInputElement>()
-
   constructor(props: Props) {
     super(props)
 
     this.state = {
-      newName: props.addressName,
       ethBalance: null,
-      isRenameActive: false,
     }
   }
 
@@ -64,36 +61,8 @@ class WalletAddressCard extends Component<Props, StateProps> {
     })
   }
 
-  handleChangeName = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    this.setState({ newName: event.target.value })
-  }
-
-  handleActivateRename = (isRenameActive?: boolean = true) => {
-    this.setState({ isRenameActive: !!isRenameActive }, () => {
-      if (isRenameActive && this.nameInputRef && this.nameInputRef.current) {
-        this.nameInputRef.current.focus()
-      }
-    })
-  }
-
-  handleRenameBlur = () => {
-    this.handleActivateRename(false)
-
-    const {
-      address,
-      addressName,
-    } = this.props
-
-    const newName: string = sanitizeName(this.state.newName)
-
-    if (!newName || (addressName === newName)) {
-      this.setState({ newName: addressName })
-
-      return
-    }
-
-    this.props.setAddressName(address, newName)
-    this.setState({ newName })
+  handleChangeFinish = (newName: string) => {
+    this.props.setAddressName(this.props.address, newName)
   }
 
   render() {
@@ -103,57 +72,23 @@ class WalletAddressCard extends Component<Props, StateProps> {
       i18n,
     }: Props = this.props
 
-    const {
-      newName,
-      ethBalance,
-      isRenameActive,
-    }: StateProps = this.state
+    const { ethBalance }: StateProps = this.state
 
     return (
-      <div
-        key={address}
-        className={styles.core}
-      >
+      <div className={styles.core}>
         <div className={styles.main}>
-          <div className={styles.info}>
-            <div className={styles.label}>
-              {i18n._(
-                'WalletsItemAddresses.WalletAddressCard.title',
-                null,
-                { defaults: 'Name' },
-              )}
-            </div>
-            <div className={styles.wrapper}>
-              <div
-                className={classNames(
-                  styles.name,
-                  styles.title,
-                  isRenameActive && styles.editable,
-                )}
-                onClick={this.handleActivateRename}
-              >
-                {isRenameActive
-                  /**
-                   * Next line is necessarry, because we must render newName inside div
-                   * to show background. But ending spaces are ignored,
-                   * so we have to replace them by something.
-                   */
-                  ? newName.replace(/ /g, '.')
-                  : newName
-                }
-              </div>
-              {isRenameActive && (
-                <input
-                  onBlur={this.handleRenameBlur}
-                  onChange={this.handleChangeName}
-                  ref={this.nameInputRef}
-                  value={newName}
-                  className={styles.input}
-                  type='text'
-                />
-              )}
-            </div>
-          </div>
+          <EditableField
+            sanitize={sanitizeName}
+            onChangeFinish={this.handleChangeFinish}
+            value={addressName}
+            label={i18n._(
+              'WalletsItemAddresses.WalletAddressCard.title',
+              null,
+              { defaults: 'Name' },
+            )}
+            theme='white'
+            maxLen={32}
+          />
           {ethBalance && (
             <div className={styles.balance}>
               {ethBalance}

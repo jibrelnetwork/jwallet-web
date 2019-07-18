@@ -7,8 +7,8 @@ import { type I18n as I18nType } from '@lingui/core'
 
 import offset from 'styles/offsets.m.scss'
 import { FieldPreview } from 'components'
+import { DateTimeFormat } from 'app/components'
 import { getShortenedAddress } from 'utils/address'
-import { getFormattedDateString } from 'utils/time'
 import { formatTransactionAmount } from 'utils/formatters'
 import { AssetItemPreview } from 'components/HistoryItemDetails/components/index'
 import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
@@ -141,11 +141,6 @@ class TransferOut extends PureComponent<Props, State> {
     // eslint-disable-next-line max-len
     const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
 
-    const formattedDate = getFormattedDateString(
-      new Date(this.props.timestamp),
-      'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
-    )
-
     return (
       <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
@@ -161,7 +156,7 @@ class TransferOut extends PureComponent<Props, State> {
                 {TRANSACTION_DESCRIPTION[status].statusDescription}
               </div>
               <div className={style.date}>
-                {formattedDate}
+                <DateTimeFormat value={this.props.timestamp} />
               </div>
             </div>
           </div>

@@ -70,7 +70,6 @@ export function LanguagePicker({
             <DefaultItem
               key={code}
               title={title}
-              description={code}
               iconName={`ic_${code}_24`}
             />
           )
