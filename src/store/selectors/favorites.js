@@ -20,7 +20,7 @@ export function selectFavoritesAddressNames(state: AppState): AddressNames {
 
   return Object.keys(items).reduce((reduceResult, address: string) => {
     if (items[address]) {
-      reduceResult[address] = items[address].name || ''
+      reduceResult[address] = items[address].name
     }
 
     return reduceResult
