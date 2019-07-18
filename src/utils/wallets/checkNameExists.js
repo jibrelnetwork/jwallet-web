@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { walletsPlugin } from 'store/plugins'
 
@@ -14,7 +14,11 @@ export function checkNameExists(name: ?string): ?string {
   try {
     walletsPlugin.checkWalletUniqueness(trimmedName, 'name')
   } catch (error) {
-    return t`You already have a wallet with this name.`
+    return i18n._(
+      'Wallets.errors.duplicateName',
+      null,
+      { defaults: 'You already have a wallet with this name.' },
+    )
   }
 
   return null

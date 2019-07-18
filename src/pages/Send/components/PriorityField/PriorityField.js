@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { Field } from 'react-final-form'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   JSwitch,
@@ -45,14 +45,14 @@ class PriorityField extends Component<Props> {
     isDisabled: false,
   }
 
-  handleOpen = (isOpened: boolean) => {
+  handleOpen = (isOpen: boolean) => {
     const {
       input: {
         onChange,
       },
     } = this.props
 
-    onChange(isOpened)
+    onChange(isOpen)
   }
 
   render() {
@@ -68,11 +68,19 @@ class PriorityField extends Component<Props> {
       isDisabled,
     } = this.props
 
-    const isOpened = !!input.value
+    const isOpen = !isDisabled && !!input.value
 
     const gasLimitLabel = estimatedGasLimit
-      ? t`Gas limit (estimated: ${estimatedGasLimit})`
-      : t`Gas limit`
+      ? i18n._(
+        'Send.PriorityField.gasLimit.estimated',
+        { estimatedGasLimit },
+        { defaults: 'Gas limit ({estimatedGasLimit} estimated)' },
+      )
+      : i18n._(
+        'Send.PriorityField.gasLimit',
+        null,
+        { defaults: 'Gas limit' },
+      )
 
     return (
       <div
@@ -84,22 +92,34 @@ class PriorityField extends Component<Props> {
       >
         <div className={classNames(
           fieldStyle.wrap,
-          isOpened && fieldStyle.open,
+          isOpen && fieldStyle.open,
           isLoading && fieldStyle.loading,
           isDisabled && fieldStyle.disabled,
         )}
         >
           <div className={fieldStyle.main}>
             <div className={fieldStyle.title}>
-              {isOpened
+              {isOpen
                 ? blockchainFee
-                  ? t`Blockchain Fee — ${blockchainFee} ETH`
-                  : t`Blockchain Fee`
-                : t`Custom Blockchain Fee`}
+                  ? i18n._(
+                    'Send.PriorityField.fee.estimated',
+                    { blockchainFee },
+                    { defaults: 'Blockchain fee — {blockchainFee} ETH' },
+                  )
+                  : i18n._(
+                    'Send.PriorityField.fee',
+                    null,
+                    { defaults: 'Blockchain Fee' },
+                  )
+                : i18n._(
+                  'Send.PriorityField.fee.custom',
+                  null,
+                  { defaults: 'Custom Blockchain Fee' },
+                )}
             </div>
             <JSwitch
               name='priority-field-switch'
-              isChecked={isOpened}
+              isChecked={isOpen}
               onChange={this.handleOpen}
               isDisabled={isDisabled || isLoading}
             />
@@ -120,13 +140,21 @@ class PriorityField extends Component<Props> {
                 component={InputWithUnit}
                 name={gasPriceFieldName}
                 isDisabled={isDisabled}
-                label={t`Gas price`}
+                label={i18n._(
+                  'Send.PriorityField.gasPrice',
+                  null,
+                  { defaults: 'Gas price' },
+                )}
                 unit='GWei'
-                forceZero
               />
             </div>
             <div className={fieldStyle.bottom}>
-              {t`Higher gas price reduces the processing time but increases the transaction fee.`}
+              {i18n._(
+                'Send.PriorityField.help',
+                null,
+                // eslint-disable-next-line max-len
+                { defaults: 'Higher gas price reduces the processing time but increases the transaction fee.' },
+              )}
             </div>
           </div>
         </div>

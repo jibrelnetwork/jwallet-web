@@ -1,9 +1,9 @@
 // @flow strict
 
-import classNames from 'classnames'
 import React, { Children } from 'react'
-import { t } from 'ttag'
+import classNames from 'classnames'
 
+import { useI18n } from 'app/hooks'
 import { JIcon } from 'components/base'
 
 import { useFocus } from 'utils/hooks/useFocus'
@@ -28,6 +28,8 @@ export function SearchInput({
     onBlur,
   }] = useFocus()
 
+  const i18n = useI18n()
+
   return (
     <div
       className={classNames(
@@ -48,7 +50,11 @@ export function SearchInput({
           onFocus={onFocus}
           onBlur={onBlur}
           value={value}
-          placeholder={t`Search`}
+          placeholder={i18n._(
+            'common.SearchInput.input.placeholder',
+            null,
+            { defaults: 'Search' },
+          )}
         />
       </label>
       {Children.count(children) > 0 && (

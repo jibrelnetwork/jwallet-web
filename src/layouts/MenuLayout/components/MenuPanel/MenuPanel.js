@@ -2,7 +2,7 @@
 
 import classNames from 'classnames'
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import { JLink } from 'components/base'
 
@@ -27,6 +27,8 @@ type Props = {|
 export function MenuPanel({
   routeName,
 }: Props) {
+  const i18n = useI18n()
+
   const menuMeta: MenuMeta = getMenuMeta(routeName)
   const {
     isMinimized,
@@ -51,7 +53,11 @@ export function MenuPanel({
       >
         <img
           src={svgLogoWhite}
-          alt={t`Jwallet Logo`}
+          alt={i18n._(
+            'layout.MenuLayout.logo.alt',
+            null,
+            { defaults: 'Jwallet Logo' },
+          )}
           width='136'
           height='48'
           className={menuPanelStyle.logoImage}

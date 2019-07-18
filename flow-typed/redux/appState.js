@@ -35,7 +35,6 @@ declare type AppState = {
   +digitalAssetsEdit: EditAssetState,
   +digitalAssetsGrid: DigitalAssetsGridState,
   +digitalAssetsManage: DigitalAssetsManageState,
-  +digitalAssetsSend: DigitalAssetsSendState,
   // blocks
   +blocks: BlocksState,
   // contacts

@@ -1,33 +1,35 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 export const CURRENCIES = {
   USD: {
     symbol: '$',
-    name: t`US Dollar`,
+    name: i18n._('common.currency.usd', null, { defaults: 'US Dollar' }),
   },
   EUR: {
     symbol: '€',
-    name: t`Euro`,
+    name: i18n._('common.currency.eur', null, { defaults: 'Euro' }),
   },
   GBP: {
     symbol: '£',
-    name: t`Pound Sterling`,
+    name: i18n._('common.currency.gbp', null, { defaults: 'Pound Sterling' }),
   },
   CNY: {
     symbol: '¥',
-    name: t`Chinese Yuan Renminbi`,
+    name: i18n._('common.currency.cny', null, { defaults: 'Chinese Yuan Renminbi' }),
   },
   JPY: {
     symbol: '¥',
-    name: t`Japanese Yen`,
+    name: i18n._('common.currency.jpy', null, { defaults: 'Japanese Yen' }),
   },
   KRW: {
     symbol: '₩',
-    name: t`South Korean won`,
+    name: i18n._('common.currency.krw', null, { defaults: 'South Korean won' }),
   },
 }
+
+export const DEFAULT_CURRENCY = 'USD'
 
 export type FiatCurrencyCode = $Keys<typeof CURRENCIES>
 

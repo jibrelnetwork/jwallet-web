@@ -2,7 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+
+import { useI18n } from 'app/hooks'
 
 import {
   JIcon,
@@ -27,6 +28,8 @@ export function SearchFilter({
     onBlur,
   }] = useFocus()
 
+  const i18n = useI18n()
+
   // JIcon data-focused is required to turn off weird webpack optimization that breaks storybook
   return (
     <div className={`__search-filter ${searchFilterStyle.core}`}>
@@ -44,7 +47,11 @@ export function SearchFilter({
         )}
         onClick={isFocused ? onBlur : onFocus}
       >
-        {t`Filter`}
+        {i18n._(
+          'common.SearchInput.SearchFilter.action.filter',
+          null,
+          { defaults: 'Filter' },
+        )}
         {!!activeCount && activeCount > 0 && (
           <em className={searchFilterStyle.count}>
             {activeCount}
@@ -61,7 +68,11 @@ export function SearchFilter({
           className={`__close ${searchFilterStyle.close}`}
           type='button'
           onClick={onBlur}
-          title={t`Close filter`}
+          title={i18n._(
+            'common.SearchInput.SearchFilter.action.close',
+            null,
+            { defaults: 'Close filter' },
+          )}
         >
           <JIcon data-focused={isFocused} name='ic_close_24-use-fill' />
         </button>

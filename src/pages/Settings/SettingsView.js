@@ -1,7 +1,6 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
 
 import {
   LANGUAGES,
@@ -13,33 +12,42 @@ import {
   Header,
 } from 'components/base'
 
+import { useLanguage } from 'app/hooks'
+
 import styles from './settings.m.scss'
 import { Card } from './components/Card/Card'
 
 export type Props = {|
   +fiatCurrency: FiatCurrency,
-  +language: LanguageCode,
   +isDeveloperMode: boolean,
 |}
 
 export function SettingsView({
-  language,
   fiatCurrency,
   isDeveloperMode,
 }: Props) {
+  const {
+    i18n,
+    language,
+  } = useLanguage()
+
   const languageTitle: string = LANGUAGES[language].title
   const currencyName: string = CURRENCIES[fiatCurrency].name
 
   return (
     <div className={styles.core}>
-      <Header title={t`Settings`} />
+      <Header title={i18n._('Settings.title', null, { defaults: 'Settings' })} />
       <div className={styles.cards}>
         <JLink
           className={styles.item}
           href='/settings/password'
         >
           <Card
-            title={t`Change Security Password`}
+            title={i18n._(
+              'Settings.actions.password',
+              null,
+              { defaults: 'Change Security Password' },
+            )}
             iconColor='blue'
             iconName='ic_security_password_24-use-fill'
           />
@@ -49,7 +57,11 @@ export function SettingsView({
           href='/settings/language'
         >
           <Card
-            title={t`Language`}
+            title={i18n._(
+              'Settings.actions.language',
+              null,
+              { defaults: 'Language' },
+            )}
             description={languageTitle}
             iconName={`ic_${language}_24`}
           />
@@ -59,7 +71,7 @@ export function SettingsView({
           href='/settings/currency'
         >
           <Card
-            title={t`Currency`}
+            title={i18n._('Settings.actions.currency', null, { defaults: 'Currency' })}
             description={currencyName}
             iconName={`ic_${fiatCurrency.toLowerCase()}_24-use-fill`}
             iconColor='blue'
@@ -70,8 +82,10 @@ export function SettingsView({
           href='/settings/development'
         >
           <Card
-            title={t`Developer Mode`}
-            description={isDeveloperMode ? t`Enabled` : t`Disabled`}
+            title={i18n._('Settings.actions.devmode', null, { defaults: 'Developer Mode' })}
+            description={isDeveloperMode
+              ? i18n._('Settings.actions.devmode.enabled', null, { defaults: 'Enabled' })
+              : i18n._('Settings.actions.devmode.disabled', null, { defaults: 'Disabled' })}
             iconColor='blue'
             iconName='ic_dev_mode_24-use-fill'
           />

@@ -1,14 +1,9 @@
 // @flow strict
 
 import QRCode from './QRCode'
-import ESCButton from './ESCButton'
-import PopupButton from './PopupButton'
 import AssetBalance from './AssetBalance'
-import FavoriteItem from './FavoriteItem'
-import SettingsGrid from './SettingsGrid'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
-import RoundIconButton from './RoundIconButton'
 import TransactionsList from './TransactionsList'
 import MnemonicAddresses from './MnemonicAddresses'
 import TransactionsFilter from './TransactionsFilter'
@@ -19,6 +14,7 @@ import DigitalAssetEditForm from './DigitalAssetEditForm'
 export { WalletCard } from './WalletCard/WalletCard'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { CopyableField } from './CopyableField/CopyableField'
+export { EditableField } from './EditableField/EditableField'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { WalletActions } from './WalletActions/WalletActions'
 export { CopyIconButton } from './CopyIconButton/CopyIconButton'
@@ -37,16 +33,13 @@ export { ConfirmationBody } from './ConfirmationBody/ConfirmationBody'
 export { ContactItem } from './ContactItem/ContactItem'
 export { ContactsEditForm } from './ContactsEditForm/ContactsEditForm'
 
+export { default as PopupButton } from './PopupButton'
+
 export {
   QRCode,
-  ESCButton,
-  PopupButton,
   AssetBalance,
-  FavoriteItem,
-  SettingsGrid,
   WalletLoading,
   CloseableScreen,
-  RoundIconButton,
   TransactionsList,
   MnemonicAddresses,
   TransactionsFilter,

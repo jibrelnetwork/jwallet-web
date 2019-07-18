@@ -4,8 +4,8 @@ import React, {
   PureComponent,
   Fragment,
 } from 'react'
-
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { JLink } from 'components/base'
 
@@ -18,9 +18,10 @@ import newWalletButtonsStyle from './newWalletButtons.m.scss'
 
 type Props = {|
   +onClick: (WalletAction) => void,
+  +i18n: I18nType,
 |}
 
-export class NewWalletButtons extends PureComponent<Props> {
+class NewWalletButtonsComponent extends PureComponent<Props> {
   handleClickCreate = (event: SyntheticEvent<HTMLDivElement>) => {
     event.preventDefault()
 
@@ -34,6 +35,8 @@ export class NewWalletButtons extends PureComponent<Props> {
   }
 
   render() {
+    const { i18n } = this.props
+
     return (
       <Fragment>
         <JLink
@@ -42,10 +45,18 @@ export class NewWalletButtons extends PureComponent<Props> {
           href='/wallets/create'
           theme='button-general'
         >
-          {t`Create Wallet`}
+          {i18n._(
+            'WalletsStart.createWallet.action',
+            null,
+            { defaults: 'Create Wallet' },
+          )}
         </JLink>
         <div className={newWalletButtonsStyle.text}>
-          {t`Create your own wallet to manage your digital assets`}
+          {i18n._(
+            'WalletsStart.createWallet.description',
+            null,
+            { defaults: 'Create your own wallet to manage your digital assets' },
+          )}
         </div>
         <JLink
           onClick={this.handleClickImport}
@@ -53,12 +64,24 @@ export class NewWalletButtons extends PureComponent<Props> {
           href='/wallets/import'
           theme='button-secondary'
         >
-          {t`Import Wallet`}
+          {i18n._(
+            'WalletsStart.importWallet.action',
+            null,
+            { defaults: 'Import Wallet' },
+          )}
         </JLink>
         <div className={newWalletButtonsStyle.text}>
-          {t`Import an existing wallet with backup phrase, private key, etc.`}
+          {i18n._(
+            'WalletsStart.importWallet.description',
+            null,
+            { defaults: 'Import an existing wallet with backup phrase, private key, etc.' },
+          )}
         </div>
       </Fragment>
     )
   }
 }
+
+export const NewWalletButtons = withI18n()(
+  NewWalletButtonsComponent,
+)

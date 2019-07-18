@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import buttonStyles from 'components/base/Button/button.m.scss'
 import titleHeaderStyles from 'components/TitleHeader/titleHeader.m.scss'
@@ -22,13 +23,14 @@ import styles from './wallets.m.scss'
 export type Props = {|
   +items: Wallets,
   +activeWalletId: WalletId,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +activeAddressChooserId: ?WalletId,
 |}
 
-export class WalletsView extends PureComponent<Props, StateProps> {
+class WalletsViewComponent extends PureComponent<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -47,6 +49,7 @@ export class WalletsView extends PureComponent<Props, StateProps> {
     const {
       items,
       activeWalletId,
+      i18n,
     }: Props = this.props
 
     const { activeAddressChooserId }: StateProps = this.state
@@ -63,7 +66,7 @@ export class WalletsView extends PureComponent<Props, StateProps> {
               className={titleHeaderStyles.icon}
             />
             <span className={titleHeaderStyles.label}>
-              {t`Create Wallet`}
+              {i18n._('Wallets.actions.create', null, { defaults: 'Create Wallet' })}
             </span>
           </JLink>
           <JLink
@@ -75,7 +78,7 @@ export class WalletsView extends PureComponent<Props, StateProps> {
               className={titleHeaderStyles.icon}
             />
             <span className={titleHeaderStyles.label}>
-              {t`Import Wallet`}
+              {i18n._('Wallets.actions.import', null, { defaults: 'Import Wallet' })}
             </span>
           </JLink>
         </TitleHeader>
@@ -96,3 +99,7 @@ export class WalletsView extends PureComponent<Props, StateProps> {
     )
   }
 }
+
+export const WalletsView = withI18n()(
+  WalletsViewComponent,
+)

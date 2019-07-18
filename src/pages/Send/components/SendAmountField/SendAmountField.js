@@ -2,7 +2,7 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import { getErrorMessage } from 'utils/form'
 import {
@@ -55,8 +55,6 @@ const handlerOnChange = (input: FinalFormInput) => e =>
 
 const handleFocus = (ref: InputRef) => () => ref.current && ref.current.focus()
 
-const DEFAULT_LABEL_TEXT = t`Amount`
-
 function SendAmountField({
   blockchainFee,
   className,
@@ -72,7 +70,7 @@ function SendAmountField({
   validateType,
 }: Props) {
   const textInput: InputRef = React.createRef()
-
+  const i18n = useI18n()
   const isActive = meta.active || !!input.value
 
   const errorMessage = getErrorMessage(meta, validateType)
@@ -142,7 +140,7 @@ function SendAmountField({
             className={fieldStyle.max}
             onClick={handleMaxClick(input, maxValue)}
           >
-            {t`MAX`}
+            MAX
           </button>
         </div>
         <div className={fieldStyle.bottom}>
@@ -157,7 +155,11 @@ function SendAmountField({
             fieldStyle.fee,
           )}
           >
-            {blockchainFee && t`Blockchain fee — ${blockchainFee} ETH`}
+            {blockchainFee && i18n._(
+              'Send.Amount.fee',
+              { blockchainFee },
+              { defaults: 'Blockchain fee — {blockchainFee} ETH' },
+            )}
           </div>
         </div>
         <label htmlFor='amountInputId' className={fieldStyle.label}>{label}</label>
@@ -166,7 +168,10 @@ function SendAmountField({
         <JFieldMessage
           theme={messageTheme}
           message={errorMessage || infoMessage}
-          className={classNames(fieldStyle.fieldMessage, fieldStyle.infoMessage)}
+          className={classNames(
+            fieldStyle.fieldMessage,
+            infoMessage && !errorMessage && fieldStyle.infoMessage,
+          )}
         />
       )}
     </div>
@@ -181,7 +186,6 @@ SendAmountField.defaultProps = {
   className: '',
   infoMessage: '',
   isFetchingFiatAmount: false,
-  label: DEFAULT_LABEL_TEXT,
   maxValue: '',
 }
 

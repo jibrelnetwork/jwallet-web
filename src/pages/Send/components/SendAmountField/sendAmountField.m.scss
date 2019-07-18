@@ -117,6 +117,7 @@
 
   &.error .label {
     color: $main-red;
+    font-weight: normal;
   }
 }
 
@@ -134,6 +135,10 @@
   > .amount {
     color: $main-black-40;
     min-width: 60px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 60%;
   }
 
   > .fee {

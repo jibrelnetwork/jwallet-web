@@ -13,7 +13,6 @@ type Props = {|
   +className: string,
   +label: string,
   +unit: ?string,
-  +forceZero: boolean,
   +input: FinalFormInput,
   +meta: FinalFormMeta,
   +validateType: FinalFormValidateType,
@@ -27,7 +26,6 @@ function filterNumericValue(value: string) {
 class InputWithUnit extends PureComponent<Props> {
   static defaultProps = {
     unit: null,
-    forceZero: false,
     validateType: 'touched',
   }
 
@@ -38,7 +36,7 @@ class InputWithUnit extends PureComponent<Props> {
       },
     } = this.props
 
-    onChange(filterNumericValue(e.target.value))
+    onChange(filterNumericValue(e.target.value) || '')
   }
 
   render() {
@@ -53,7 +51,6 @@ class InputWithUnit extends PureComponent<Props> {
         onBlur,
       },
       meta,
-      forceZero,
       validateType,
     } = this.props
 
@@ -71,7 +68,7 @@ class InputWithUnit extends PureComponent<Props> {
           <span className={inputStyles.title}>{label}</span>
           {unit &&
             <span className={inputStyles.mask}>
-              <span className={inputStyles.maskedValue}>{value || (forceZero && '0')}</span>
+              <span className={inputStyles.maskedValue}>{value || '0'}</span>
               <span className={inputStyles.maskedUnit}>{unit}</span>
             </span>
           }
@@ -80,7 +77,8 @@ class InputWithUnit extends PureComponent<Props> {
             type='text'
             autoComplete='off'
             name={name}
-            value={value || (forceZero && '0')}
+            value={value}
+            placeholder='0'
             className={inputStyles.input}
             onChange={this.handleChange}
             onFocus={onFocus}

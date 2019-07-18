@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import {
   noop,
 } from 'lodash-es'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 import {
   Button,
   Header,
@@ -25,10 +25,18 @@ export type Props = {|
 
 export function ContactsEmptyView(props: Props) {
   const isEmpty = props.list.length <= 0
+  const i18n = useI18n()
 
   return (
     <div className={classNames(style.core, isEmpty && style.empty)}>
-      <Header title={t`Contacts`} className={style.header}>
+      <Header
+        title={i18n._(
+          'Contacts.title',
+          null,
+          { defaults: 'Contacts' },
+        )}
+        className={style.header}
+      >
         {!isEmpty && (
           <div className={`${style.search} ${offset.mr24}`}>
             <SearchInput
@@ -42,7 +50,7 @@ export function ContactsEmptyView(props: Props) {
           className={style.addContact}
         >
           <JIcon name='add-contact-use-fill' className={Button.iconClassName} />
-          {t`Add Contact`}
+          {i18n._('Contacts.actions.add', null, { defaults: 'Add Contact' })}
         </JLink>
       </Header>
       <ul className={`__contacts-list ${style.list}`}>
@@ -54,7 +62,11 @@ export function ContactsEmptyView(props: Props) {
             aria-disabled
           />
           <figcaption>
-            {t`Your contacts will be displayed here. You can add a first one now!.`}
+            {i18n._(
+              'Contacts.empty',
+              null,
+              { defaults: 'Your contacts will be displayed here. You can add a first one now!.' },
+            )}
           </figcaption>
         </figure>
       </ul>

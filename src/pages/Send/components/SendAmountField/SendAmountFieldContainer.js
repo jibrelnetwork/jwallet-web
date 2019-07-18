@@ -3,10 +3,10 @@
 // $FlowFixMe
 import BigNumber from 'bignumber.js'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { CURRENCIES } from 'data'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 import { selectTickerItemCourseByCurrency } from 'store/selectors/ticker'
@@ -66,7 +66,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const isEthereumAsset = (assetAddress === 'Ethereum')
 
-  const fiatCurrencyCode = selectSettingsFiatCurrency(state)
+  const fiatCurrencyCode = selectFiatCurrency(state)
 
   const {
     symbol: fiatCurrencySymbol,
@@ -112,7 +112,11 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const walletEthBalance = divDecimals(toBigNumber(ethereumBalance))
     .toFormat(4, BigNumber.ROUND_FLOOR)
-  const infoMessage = !isEthereumAsset && t`Address ETH balance — ${walletEthBalance} ETH`
+  const infoMessage = !isEthereumAsset && i18n._(
+    'Send.SendAmountField.info',
+    { walletEthBalance },
+    { defaults: 'Address ETH balance — {walletEthBalance, number, decimal} ETH' },
+  )
 
   const latestFiatCourse = priceFeed.currencyID
     ? selectTickerItemCourseByCurrency(

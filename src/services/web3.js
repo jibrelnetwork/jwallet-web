@@ -1,7 +1,6 @@
 // @flow
 
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
-import { t } from 'ttag'
 import { BigNumber } from 'bignumber.js'
 
 import checkETH from 'utils/digitalAssets/checkETH'
@@ -68,7 +67,7 @@ export function getAssetBalance(
 
   return balancePromise.then((value: any) => {
     if (!isBigNumber(value)) {
-      throw new Error(t`Returned balance is not an instance of BigNumber`)
+      throw new Error('Returned balance is not an instance of BigNumber')
     }
 
     return value.toString()
@@ -89,7 +88,7 @@ function getAssetDecimals(network: Network, assetAddress: AssetAddress): Promise
     contractAddress: assetAddress,
   }).then((value: any) => {
     if (!isBigNumber(value)) {
-      throw new Error(t`Returned decimals is not an instance of BigNumber`)
+      throw new Error('Returned decimals is not an instance of BigNumber')
     }
 
     return value.toNumber()
@@ -197,7 +196,7 @@ function prepareBlock(data: any): BlockData {
     type.isNumber(data.number) &&
     type.isNumber(data.timestamp)
   )) {
-    throw new Error(t`Invalid ETH block format`)
+    throw new Error('Invalid ETH block format')
   }
 
   const {
@@ -248,7 +247,7 @@ function prepareTransaction(data: any): TransactionData {
     isBigNumber(data.gasPrice) &&
     data.nonce
   )) {
-    throw new Error(t`Invalid ETH transaction format`)
+    throw new Error('Invalid ETH transaction format')
   }
 
   return {
@@ -278,7 +277,7 @@ function prepareTransactionReceipt(data: any): TransactionReceiptData {
     type.isObject(data) &&
     type.isNumber(data.gasUsed)
   )) {
-    throw new Error(t`Invalid ETH transaction format`)
+    throw new Error('Invalid ETH transaction format')
   }
 
   const {
@@ -313,7 +312,7 @@ function getTransactionReceiptData(network: Network, hash: Hash): Promise<Transa
 
 function handleEventsResponse(response: any): any[] {
   if (type.isVoid(response) || !type.isArray(response)) {
-    throw new Error(t`Invalid contract events response`)
+    throw new Error('Invalid contract events response')
   }
 
   return response

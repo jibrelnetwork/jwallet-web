@@ -2,6 +2,9 @@
 
 import React, { PureComponent } from 'react'
 import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
 import {
   Form,
   Field,
@@ -24,13 +27,14 @@ type FormValues = {|
 |}
 
 export type Props = {|
-  address: string,
-  note: string,
-  name: string,
-  saveForm: (values: Contact) => Promise<?FormValues>,
+  +address: string,
+  +note: string,
+  +name: string,
+  +i18n: I18nType,
+  +saveForm: (values: Contact) => Promise<?FormValues>,
 |}
 
-export class ContactsEditForm extends PureComponent<Props> {
+class ContactsEditFormComponent extends PureComponent<Props> {
   handleSubmit = async (values: FormValues) => {
     const errors: $Shape<FormValues> = {}
 
@@ -56,6 +60,7 @@ export class ContactsEditForm extends PureComponent<Props> {
       address = '',
       name = '',
       note = '',
+      i18n,
     } = this.props
 
     const initialValues: FormValues = {
@@ -76,29 +81,45 @@ export class ContactsEditForm extends PureComponent<Props> {
           >
             <Field
               component={JInputField}
-              label={t`Name`}
+              label={i18n._(
+                'ContactsItemAdd.input.name.title',
+                null,
+                { defaults: 'Name' },
+              )}
               name='name'
               isDisabled={submitting}
             />
             <Field
               component={JInputField}
-              label={t`Address`}
+              label={i18n._(
+                'ContactsItemAdd.input.address.title',
+                null,
+                { defaults: 'Address' },
+              )}
               name='address'
               isDisabled={submitting || address}
             />
             <Field
               className={offset.mb32}
               component={JInputField}
-              label={t`Note`}
+              label={i18n._(
+                'ContactsItemAdd.input.note.title',
+                null,
+                { defaults: 'Note' },
+              )}
               name='note'
-              infoMessage={t`This note is only visible to you.`}
+              infoMessage={i18n._(
+                'ContactsItemAdd.input.note.info',
+                null,
+                { defaults: 'This note is only visible to you.' },
+              )}
               isDisabled={submitting}
             />
             <Button
               type='submit'
               isLoading={submitting}
             >
-              {t`Save`}
+              {i18n._('ContactsItemAdd.actions.save', null, { defaults: 'Save' })}
             </Button>
           </form>
         )}
@@ -108,3 +129,5 @@ export class ContactsEditForm extends PureComponent<Props> {
     )
   }
 }
+
+export const ContactsEditForm = withI18n()(ContactsEditFormComponent)

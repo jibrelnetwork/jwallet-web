@@ -16,7 +16,6 @@ export function prepareWallets(
     const {
       xpub,
       isSimplified,
-      isReadOnly,
       addressIndex,
       derivationIndex,
     } = wallet
@@ -58,7 +57,7 @@ export function prepareWallets(
           name: wallet.name,
         }
       }
-    } else if (isReadOnly && wallet.address) {
+    } else if (wallet.address) {
       const { address } = wallet
 
       return {
