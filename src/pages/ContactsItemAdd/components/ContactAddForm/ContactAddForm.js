@@ -116,7 +116,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
                 null,
                 { defaults: 'Note' },
               )}
-              name='note'
+              name='description'
               infoMessage={i18n._(
                 'ContactForm.input.note.info',
                 null,
