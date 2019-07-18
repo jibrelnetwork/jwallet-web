@@ -14,8 +14,7 @@ import {
 } from 'utils/analytics'
 
 import {
-  ADD_AUTO as FAVORITES_ADD_AUTO,
-  ADD_BY_USER as FAVORITES_ADD_BY_USER,
+  ADD as FAVORITES_ADD,
   REMOVE as FAVORITES_REMOVE,
 } from 'store/modules/favorites'
 
@@ -87,8 +86,7 @@ export const userParams = (state: AppState, action: Object) => {
       break
     }
 
-    case FAVORITES_ADD_AUTO:
-    case FAVORITES_ADD_BY_USER:
+    case FAVORITES_ADD:
     case FAVORITES_REMOVE: {
       gaSetUserMetric(METRICS.FAVORITES, selectFavoritesItems(state).length)
 

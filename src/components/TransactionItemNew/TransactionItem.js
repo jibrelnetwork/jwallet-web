@@ -29,7 +29,7 @@ import {
 } from 'store/transactionsIndex'
 
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
-import { selectFavorites } from 'store/selectors/favorites'
+import { selectFavoritesAddressNames } from 'store/selectors/favorites'
 import { selectAddressWalletsNames } from 'store/selectors/wallets'
 import {
   TRANSFER_IN_TYPE,
@@ -178,7 +178,7 @@ function getItemTitle(
   state: AppState,
   tx: HistoryItem,
 ) {
-  const favorites = selectFavorites(state)
+  const favorites = selectFavoritesAddressNames(state)
   const addressNames = selectAddressWalletsNames(state)
   const address = tx.type === TRANSFER_IN_TYPE ? tx.from : tx.to
 

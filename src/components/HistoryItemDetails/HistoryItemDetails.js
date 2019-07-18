@@ -3,7 +3,7 @@
 import { connect } from 'react-redux'
 
 import { edit } from 'store/modules/comments'
-import { selectFavorites } from 'store/selectors/favorites'
+import { selectFavoritesAddressNames } from 'store/selectors/favorites'
 import { selectAddressWalletsNames } from 'store/selectors/wallets'
 import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { getShortenedAddress } from 'utils/address'
@@ -35,7 +35,7 @@ function getPrimaryName(
   state: AppState,
   address: OwnerAddress,
 ): string {
-  const favorites = selectFavorites(state)
+  const favorites = selectFavoritesAddressNames(state)
   const addressNames = selectAddressWalletsNames(state)
 
   return favorites[address]
