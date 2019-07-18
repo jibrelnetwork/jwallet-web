@@ -15,6 +15,7 @@ import {
 import ofssetsStyle from 'styles/offsets.m.scss'
 import { gaSendEvent } from 'utils/analytics'
 import { walletsPlugin } from 'store/plugins'
+import { getSuccessDataMessage } from 'pages/WalletsImport/dataMessage'
 
 import {
   getTypeByInput,
@@ -218,7 +219,10 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
     )
 
     const isXPUB: boolean = (type === 'xpub')
-    const isMnemonicInputted: boolean = (getTypeByInput(data) === 'mnemonic')
+    const inputtedDataType: ?WalletCustomType = getTypeByInput(data)
+    const isDPathError: boolean = !!derivationPath && !!validateDerivationPath(derivationPath)
+    const isDisabled: boolean = !inputtedDataType || !!errorDataMessage || isDPathError
+    const successDataMessage: ?string = isDisabled ? null : getSuccessDataMessage(data)
 
     const DEFAULT_DATA_MESSAGE: string = i18n._(
       'WalletsItemUpgrade.input.data.info',
@@ -241,13 +245,13 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
         />
         <Field
           component={JTextArea}
-          label={i18n._('WalletsItemUpgrade.input.data.title', null, { defaults: 'Address, Key, Mnemonic' })}
+          label={i18n._('WalletsItemUpgrade.input.data.title', null, { defaults: 'Backup Phrase' })}
           errorMessage={errorDataMessage}
-          infoMessage={DEFAULT_DATA_MESSAGE}
+          infoMessage={successDataMessage || DEFAULT_DATA_MESSAGE}
           name='data'
           isDisabled={isSubmitting}
         />
-        {isXPUB && isMnemonicInputted && (
+        {isXPUB && (inputtedDataType === 'mnemonic') && (
           <MnemonicOptions
             derivationPath={derivationPath}
             isFormDisabled={!!isSubmitting}
@@ -256,8 +260,8 @@ class WalletsItemUpgradeViewComponent extends Component<Props, StateProps> {
         <Button
           className={ofssetsStyle.mt16}
           type='submit'
+          isDisabled={isDisabled}
           isLoading={isSubmitting}
-          isDisabled={!!errorDataMessage || !data}
         >
           {i18n._('WalletsItemUpgrade.data.actions.submit', null, { defaults: 'Unlock' })}
         </Button>
