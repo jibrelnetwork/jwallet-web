@@ -198,8 +198,8 @@ class WalletCard extends Component<Props, StateProps> {
               <p className={styles.address}>
                 {i18n._(
                   'common.WalletCard.currentAddress', {
+                    name: addressName,
                     count: derivationIndex + 1,
-                    name: addressName ? `${addressName}  •  ` : '',
                   }, {
                     defaults: '{name}{count, plural, one {1 Address} other {# Addresses}}',
                   },
