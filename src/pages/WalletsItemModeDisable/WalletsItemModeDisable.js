@@ -1,51 +1,31 @@
 // @flow strict
 
-import React, { PureComponent } from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
-import { Button } from 'components/base'
-import { UserActionInfo } from 'components'
-import { walletsPlugin } from 'store/plugins'
+import { selectAddressNames } from 'store/selectors/wallets'
 
-import walletsItemModeDisableStyle from './walletsItemModeDisable.m.scss'
+import {
+  type Props,
+  WalletsItemModeDisableView,
+} from './WalletsItemModeDisableView'
 
-export type Props = {|
-  +walletId: string,
+type OwnProps = {|
   +i18n: I18nType,
+  +walletId: string,
 |}
 
-class WalletsItemModeDisableComponent extends PureComponent<Props> {
-  handleDisable = () => {
-    walletsPlugin.switchMode(this.props.walletId)
-  }
-
-  render() {
-    const { i18n } = this.props
-
-    /* eslint-disable max-len */
-    return (
-      <div className={walletsItemModeDisableStyle.core}>
-        <UserActionInfo
-          text={i18n._('WalletsItemModeDisable.description', null, { defaults: 'This action will leave only one active wallet address of your choice. \nYou will be able return to the multi-address mode at any time and get access to all \nyour currently available addresses.' })}
-          title={i18n._('WalletsItemModeDisable.title', null, { defaults: 'Disable Multi-Address Mode' })}
-          iconClassName={walletsItemModeDisableStyle.icon}
-          iconName='ic_attention_48-use-fill'
-        />
-        <div className={walletsItemModeDisableStyle.buttons}>
-          <Button
-            onClick={this.handleDisable}
-            theme='general'
-          >
-            {i18n._('WalletsItemModeDisable.actions.submit', null, { defaults: 'Disable' })}
-          </Button>
-        </div>
-      </div>
-    )
-    /* eslint-enable max-len */
+function mapStateToProps(state: AppState) {
+  return {
+    addressNames: selectAddressNames(state),
   }
 }
 
-export const WalletsItemModeDisable = withI18n()(
-  WalletsItemModeDisableComponent,
-)
+export const WalletsItemModeDisable = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+  ),
+)(WalletsItemModeDisableView)
