@@ -11,7 +11,7 @@ export const LANGUAGES = {
     title: '한국어',
   },
   'zh-Hans': {
-    title: '体中文',
+    title: '简体中文',
   },
   'zh-Hant': {
     title: '繁體中文',

@@ -55,8 +55,11 @@ class SettingsCurrencyPage extends Component<Props> {
     const {
       handleSubmit,
       submitting: isSubmitting,
-      i18n,
     } = props
+
+    const {
+      i18n,
+    } = this.props
 
     return (
       <form
