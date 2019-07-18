@@ -28,7 +28,7 @@ declare type AppState = {
   +walletsAddresses: WalletsAddressesState,
   +walletsRenameAddress: WalletsRenameAddressState,
   // networks
-   +networks: NetworksState,
+  +networks: NetworksState,
   // digitalAssets
   +digitalAssets: DigitalAssetsState,
   +digitalAssetsAdd: AddAssetState,
@@ -37,8 +37,6 @@ declare type AppState = {
   +digitalAssetsManage: DigitalAssetsManageState,
   // blocks
   +blocks: BlocksState,
-  // contacts
-  +contacts: ContactsState,
   // transactions
   +transactions: TransactionsState,
   // balances
