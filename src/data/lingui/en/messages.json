@@ -40,12 +40,6 @@
     "ContactsItemDelete.actions.cancel": "Keep Contact",
     "ContactsItemDelete.actions.confirm": "Delete",
     "ContactsItemDelete.title": "Delete Contact?",
-    "ContactsItemEdit.actions.delete": "Delete Contact",
-    "ContactsItemEdit.actions.save": "Save",
-    "ContactsItemEdit.input.address.title": "Address",
-    "ContactsItemEdit.input.name.title": "Name",
-    "ContactsItemEdit.input.note.info": "This note is only visible to you.",
-    "ContactsItemEdit.input.note.title": "Note",
     "ContactsItemEdit.title": "Edit Contact",
     "DigitalAssetsManage.Empty.description": "There are no Digital Assets to show",
     "ErrorUnexpected.action.reload": "Reload",
@@ -360,5 +354,6 @@
     "ContactsEditForm.input.address.error.invalid": "Invalid address",
     "History.title": "History",
     "HistoryItem.TransactionOut.statusCancel": "Transfer declined.",
-    "HistoryItem.TransactionOut.statusPending": "Transfer processed."
+    "HistoryItem.TransactionOut.statusPending": "Transfer processed.",
+    "ContactForm.actions.delete": "Delete Contact"
 }
