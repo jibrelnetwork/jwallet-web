@@ -98,69 +98,14 @@
   position: relative;
 }
 
-.data {
-  flex: 2 2 150px;
-  min-width: 150px;
+.name {
+  margin-bottom: 4px;
 }
 
-.name,
 .address,
 .balance {
   color: $white;
   font-family: $font;
-}
-
-.wrapper {
-  @include flex-row;
-
-  position: relative;
-  width: 350px;
-  margin-left: -8px;
-  align-items: center;
-}
-
-.name {
-  @include flex-row;
-  @include property-transition(background-color);
-
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 22px;
-  height: 28px;
-  padding: 0 8px;
-  align-items: center;
-  border-radius: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-
-  &:hover {
-    background-color: $main-black-20;
-  }
-
-  &.editable {
-    background-color: $main-black-50;
-    color: transparent;
-  }
-}
-
-.input {
-  @include flex-row;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 28px;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  font-size: 14px;
-  line-height: 28px;
-  font-weight: normal;
-  padding: 0 8px;
-  color: $white;
-  width: 350px;
 }
 
 .address {
@@ -171,8 +116,8 @@
 }
 
 .balance {
-  font-size: 20px;
   padding-top: 3px;
+  font-size: 20px;
   line-height: 1.4;
 }
 
@@ -188,5 +133,5 @@
   @include flex-column-center;
 
   height: 100%;
-  flex: 0 0 56px;
+  margin-left: auto;
 }

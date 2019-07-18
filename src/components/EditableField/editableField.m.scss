@@ -1,0 +1,93 @@
+@import 'styles/mixins';
+
+.value {
+  @include font(14px, 22px);
+  @include property-transition(background-color);
+
+  display: inline-flex;
+  height: 28px;
+  min-width: 20px;
+  padding: 0 8px;
+  align-items: center;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+
+  &.editable {
+    padding: 0 8px;
+  }
+}
+
+.input {
+  @include flex-row;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  background-color: transparent;
+  height: 28px;
+  font-size: 14px;
+  line-height: 28px;
+  padding: 0 8px;
+  width: 350px;
+}
+
+/* stylelint-disable */
+.core {
+  &.blue {
+    .value,
+    .input {
+      color: $white;
+      font-weight: normal;
+    }
+    
+    .value {
+      &:hover {
+        background-color: $main-black-20;
+      }
+    
+      &.editable {
+        background-color: $main-black-50;
+        color: transparent;
+      }
+    }
+  }
+
+  &.white {
+    .value,
+    .input {
+      color: $main-black;
+      font-weight: 600;
+    }
+
+    .value {
+      &:hover {
+        background-color: $main-black-10;
+      }
+
+      &.editable {
+        background-color: $main-black-20;
+        color: transparent;
+      }
+    }
+  }
+}
+/* stylelint-enable */
+
+.label {
+  font-size: 12px;
+  line-height: 20px;
+  color: $main-black-40;
+  cursor: default;
+}
+
+.wrapper {
+  position: relative;
+  height: 28px;
+  max-width: 350px;
+  margin: 0 -8px;
+}
