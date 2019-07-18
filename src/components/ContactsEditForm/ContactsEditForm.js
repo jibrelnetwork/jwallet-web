@@ -1,7 +1,6 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
 import { withI18n } from '@lingui/react'
 import { type I18n as I18nType } from '@lingui/core'
 
@@ -36,11 +35,16 @@ export type Props = {|
 
 class ContactsEditFormComponent extends PureComponent<Props> {
   handleSubmit = async (values: FormValues) => {
+    const { i18n } = this.props
     const errors: $Shape<FormValues> = {}
 
     if (!checkAddressValid(values.address)) {
       // eslint-disable-next-line no-param-reassign, fp/no-mutation
-      errors.address = t`Invalid address`
+      errors.address = i18n._(
+        'ContactsItemAdd.input.address.error.invalid',
+        null,
+        { defaults: 'Invalid address' },
+      )
     }
 
     if (errors) {
