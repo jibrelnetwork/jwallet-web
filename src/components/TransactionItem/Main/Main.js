@@ -1,7 +1,8 @@
 // @flow
 
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import React, {
   PureComponent,
@@ -42,6 +43,7 @@ type Props = {|
   +isAssetList: boolean,
   +isEventMint: boolean,
   +isEventBurn: boolean,
+  +i18n: I18nType,
 |}
 
 function getTransactionTextColor(
@@ -119,6 +121,7 @@ class TransactionItemMain extends PureComponent<Props> {
       isAssetList,
       isEventMint,
       isEventBurn,
+      i18n,
     }: Props = this.props
 
     const {
@@ -195,7 +198,11 @@ class TransactionItemMain extends PureComponent<Props> {
                 {isEventMint && (
                   <JText
                     color={color}
-                    value={t`Token minting`}
+                    value={i18n._(
+                      'common.TransactionItem.mint.title',
+                      null,
+                      { defaults: 'Token minting' },
+                    )}
                     weight='bold'
                     size='normal'
                     whiteSpace='wrap'
@@ -204,7 +211,11 @@ class TransactionItemMain extends PureComponent<Props> {
                 {isEventBurn && (
                   <JText
                     color={color}
-                    value={t`Token burning`}
+                    value={i18n._(
+                      'common.TransactionItem.burn.title',
+                      null,
+                      { defaults: 'Token burning' },
+                    )}
                     weight='bold'
                     size='normal'
                     whiteSpace='wrap'
@@ -260,4 +271,4 @@ class TransactionItemMain extends PureComponent<Props> {
   }
 }
 
-export default TransactionItemMain
+export default withI18n()(TransactionItemMain)

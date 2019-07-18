@@ -3,13 +3,18 @@
 import React, { PureComponent } from 'react'
 import createCaluclateDecorator from 'final-form-calculate'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { max } from 'lodash-es'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import {
   Form,
   Field,
   type FormRenderProps,
 } from 'react-final-form'
+
+// $FlowFixMe
+import BigNumber from 'bignumber.js'
 
 import stylesOffsets from 'styles/offsets.m.scss'
 
@@ -25,6 +30,7 @@ import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 import {
   toBigNumber,
   fromWeiToGWei,
+  fromGweiToWei,
   isValidNumeric,
   divDecimals,
 } from 'utils/numbers'
@@ -58,6 +64,7 @@ type Props = {|
   +onSubmit: (values: SendFormValues, isValidationFailed: boolean) => any,
   +getAssetByAddress: (assetAddress: string) => DigitalAsset,
   +getAssetBalanceByAddress: (assetAddress: string) => ?string,
+  +i18n: I18nType,
 |}
 
 type OwnProps = {|
@@ -69,6 +76,7 @@ type ComponentState = {|
   isGasPriceLoading: boolean,
   isGasLimitLoading: boolean,
   isValidationFailed: boolean,
+  estimatedGasLimit: ?string,
 |}
 
 const FALLBACK_GAS_AMOUNT = 21000
@@ -89,6 +97,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     isGasPriceLoading: false,
     isGasLimitLoading: false,
     isValidationFailed: false,
+    estimatedGasLimit: null,
   }
 
   handleSendFormSubmit = (values: SendFormValues) => {
@@ -99,12 +108,15 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       amountValue,
       assetAddress,
+      gasPriceValue,
+      gasLimitValue,
       recipientAddress,
     } = values
 
     const {
       getAssetByAddress,
       getAssetBalanceByAddress,
+      i18n,
     } = this.props
 
     const {
@@ -115,14 +127,30 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
     const selectedAssetBalance = getAssetBalanceByAddress(assetAddress)
 
-    const amountError = amountValue &&
-      (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
+    const amountFormatError = !isValidNumeric(amountValue)
       ? {
-        amountValue: t`Invalid amount value`,
+        amountValue: i18n._(
+          'Send.StepOneForm.input.amountValue.error.invalid',
+          null,
+          { defaults: 'Invalid amount value' },
+        ),
       }
       : undefined
 
-    if (assetAddress && amountValue && recipientAddress) {
+    const amountBalanceError = isValidNumeric(amountValue) &&
+      (toBigNumber(amountValue).gt(divDecimals(selectedAssetBalance, decimals)))
+      ? {
+        amountValue: i18n._(
+          'Send.StepOneForm.input.amountValue.error.tooMuch',
+          null,
+          { defaults: 'Amount exceeds current balance' },
+        ),
+      }
+      : undefined
+
+    const isAmountValid = !(amountFormatError && amountBalanceError)
+
+    if (assetAddress && isAmountValid && recipientAddress) {
       await this.requestGasLimit({
         assetAddress,
         amountValue,
@@ -130,8 +158,37 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       })
     }
 
+    const gasPriceError =
+      !gasPriceValue ||
+      !isValidNumeric(gasPriceValue) ||
+      toBigNumber(gasPriceValue).lt(1) ||
+      toBigNumber(gasPriceValue).gt(1000)
+        ? {
+          gasPriceValue: i18n._(
+            'Send.StepOneForm.input.gasPriceValue.error.invalid',
+            null,
+            { defaults: 'Invalid gas price value' },
+          ),
+        }
+        : undefined
+
+    const gasLimitError = !gasLimitValue ||
+      !isValidNumeric(gasLimitValue) ||
+      parseInt(gasLimitValue, 10) < 21000
+      ? {
+        gasLimitValue: i18n._(
+          'Send.StepOneForm.input.gasLimitValue.error.invalid',
+          null,
+          { defaults: 'Invalid gas limit' },
+        ),
+      }
+      : undefined
+
     return {
-      ...amountError,
+      ...amountFormatError,
+      ...amountBalanceError,
+      ...gasPriceError,
+      ...gasLimitError,
     }
   }
 
@@ -149,7 +206,9 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
         isGasPriceLoading: false,
       })
 
-      return fromWeiToGWei(gasPrice)
+      return toBigNumber(fromWeiToGWei(gasPrice))
+        .toFormat(2, BigNumber.ROUND_FLOOR)
+        .toString()
     } catch (err) {
       alert('#TODO: Fixme / Network error, can\'t request gasPrice')
 
@@ -185,6 +244,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       this.setState({
         isGasLimitLoading: true,
         isValidationFailed: false,
+        estimatedGasLimit: null,
       })
 
       if (checkETH(assetAddress)) {
@@ -198,6 +258,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
         this.setState({
           isGasLimitLoading: false,
+          estimatedGasLimit: gasLimit,
         })
 
         return gasLimit
@@ -214,6 +275,7 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
 
         this.setState({
           isGasLimitLoading: false,
+          estimatedGasLimit: gasLimit,
         })
 
         return gasLimit
@@ -242,7 +304,12 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
     const {
       isGasPriceLoading,
       isGasLimitLoading,
+      estimatedGasLimit,
     } = this.state
+
+    const {
+      i18n,
+    } = this.props
 
     const {
       recipientAddress,
@@ -250,20 +317,35 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
       amountValue,
       gasPriceValue,
       gasLimitValue,
+      isPriorityOpen,
     } = values || {}
 
-    const isPriorityEnabled = !!recipientAddress &&
-      !!assetAddress &&
-      !!amountValue
+    const isAmountValid = isValidNumeric(amountValue) &&
+      toBigNumber(amountValue).gt(0)
+
+    const isPriorityPickerDisabled = !recipientAddress ||
+      !assetAddress ||
+      !isAmountValid
 
     const isFormDisabled = !recipientAddress ||
       !assetAddress ||
-      !amountValue ||
+      !isAmountValid ||
       isGasLimitLoading ||
       isGasPriceLoading ||
       !isValid
 
     const isEthereumAsset = checkETH(assetAddress)
+
+    const blockchainFee = gasPriceValue &&
+      gasLimitValue &&
+      isValidNumeric(gasPriceValue) &&
+      isValidNumeric(gasLimitValue)
+      ? divDecimals(
+        toBigNumber(fromGweiToWei(gasPriceValue))
+          .times(gasLimitValue),
+      )
+        .toFormat(6, BigNumber.ROUND_FLOOR)
+      : undefined
 
     return (
       <form
@@ -286,17 +368,20 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           assetAddress={assetAddress}
           gasPrice={gasPriceValue}
           gasLimit={gasLimitValue}
+          showBlockchainFee={!isPriorityOpen}
           name='amountValue'
         />
         <Field
           isLoading={isGasPriceLoading}
           isEth={isEthereumAsset}
-          isDisabled={!isPriorityEnabled}
+          isDisabled={isPriorityPickerDisabled}
           className={stylesOffsets.mb32}
           component={PriorityField}
+          blockchainFee={blockchainFee}
           name='isPriorityOpen'
           gasPriceFieldName='gasPriceValue'
           gasLimitFieldName='gasLimitValue'
+          estimatedGasLimit={estimatedGasLimit}
         />
         <Button
           type='submit'
@@ -304,7 +389,11 @@ class StepOneForm extends PureComponent<Props, ComponentState> {
           isLoading={isSubmitting}
           isDisabled={isFormDisabled}
         >
-          {t`Next`}
+          {i18n._(
+            'Send.StepOneForm.form.actions.submit',
+            null,
+            { defaults: 'Send' },
+          )}
         </Button>
       </form>
     )
@@ -381,6 +470,9 @@ function mapStateToProps(state: AppState) {
   }
 }
 
-export const ConnectedStepOneForm = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
+export const ConnectedStepOneForm = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+  ),
 )(StepOneForm)

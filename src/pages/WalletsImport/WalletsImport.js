@@ -1,7 +1,7 @@
 // @flow strict
 
 import Promise from 'bluebird'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 import { isEmpty } from 'lodash-es'
 import { connect } from 'react-redux'
 
@@ -44,7 +44,11 @@ function validateWalletData(
   const trimmedData: string = (data || '').trim()
 
   if (!trimmedData) {
-    return t`The field should not be empty`
+    return i18n._(
+      'WalletsImport.errors.dataEmpty',
+      null,
+      { defaults: 'The field should not be empty' },
+    )
   }
 
   const infoDataMessage: ?string = getInfoDataMessage(

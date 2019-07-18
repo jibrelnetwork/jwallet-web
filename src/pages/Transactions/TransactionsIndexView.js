@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import { type TransactionItem } from 'store/transactionsIndex'
 
@@ -22,10 +22,16 @@ function TransactionsIndexView({
   transactions,
   isLoading,
 }: Props) {
+  const i18n = useI18n()
+
   return (
     <div className='transactions-view -index'>
       <Header
-        title={t`History`}
+        title={i18n._(
+          'Transactions.history',
+          null,
+          { defaults: 'History' },
+        )}
       >
         <SearchInput onChange={() => {}}>
           <SearchFilter

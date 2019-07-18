@@ -2,7 +2,8 @@
 
 import classNames from 'classnames'
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import handle from 'utils/eventHandlers/handle'
 import divDecimals from 'utils/numbers/divDecimals'
@@ -33,6 +34,7 @@ type Props = {|
   +isActive: boolean,
   +isFromFavorites: boolean,
   +isMintable: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -112,6 +114,7 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
       isFromFavorites,
       isMintable,
       data: txData,
+      i18n,
     } = this.props
 
     const {
@@ -136,18 +139,38 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
     const addFavoriteLink: ?string = getFavoriteLink(txAddress, isFromFavorites, !!contractAddress)
 
     const favoritesLabel = isFromFavorites
-      ? t`Remove from Favorites`
-      : t`Add to Favorites`
+      ? i18n._(
+        'common.TransactionItem.Details.action.favoriteRemove',
+        null,
+        { defaults: 'Remove from Favorites' },
+      )
+      : i18n._(
+        'common.TransactionItem.Details.action.favoriteAdd',
+        null,
+        { defaults: 'Add to Favorites' },
+      )
 
     const commentLabel = comment
-      ? t`Edit comment`
-      : t`Add comment`
+      ? i18n._(
+        'common.TransactionItem.Details.action.commentEdit',
+        null,
+        { defaults: 'Edit comment' },
+      )
+      : i18n._(
+        'common.TransactionItem.Details.action.commentAdd',
+        null,
+        { defaults: 'Add comment' },
+      )
 
     return (
       <div className={classNames('transaction-item-details', isActive && '-active')}>
         <div className='item'>
           <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-            {t`TX Hash`}
+            {i18n._(
+              'common.TransactionItem.Details.txHash.title',
+              null,
+              { defaults: 'TX Hash' },
+            )}
           </div>
           <div className='value'>
             <a
@@ -167,7 +190,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         {from && (
           <div className='item -small-width'>
             <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-              {t`From address`}
+              {i18n._(
+                'common.TransactionItem.Details.from.title',
+                null,
+                { defaults: 'From address' },
+              )}
             </div>
             <div className='value'>
               <a
@@ -188,7 +215,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         {to && (
           <div className='item -small-width'>
             <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-              {t`To address`}
+              {i18n._(
+                'common.TransactionItem.Details.to.title',
+                null,
+                { defaults: 'To address' },
+              )}
             </div>
             <div className='value'>
               <a
@@ -208,7 +239,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
         )}
         <div className='item'>
           <div className={classNames('label', jTextStyle.core, jTextStyle.gray)}>
-            {t`Fee`}
+            {i18n._(
+              'common.TransactionItem.Details.fee.title',
+              null,
+              { defaults: 'Fee' },
+            )}
           </div>
           <div className={classNames('value', jTextStyle.core, jTextStyle.gray, jTextStyle.bold)}>
             {`${getTxFee(
@@ -226,7 +261,11 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
                 color='gray'
                 iconColor='gray'
                 iconName='repeat'
-                label={t`Repeat payment`}
+                label={i18n._(
+                  'common.TransactionItem.Details.action.repeat',
+                  null,
+                  { defaults: 'Repeat payment' },
+                )}
               />
             </div>
           )}
@@ -265,4 +304,4 @@ class TransactionItemDetails extends PureComponent<Props, StateProps> {
   }
 }
 
-export default TransactionItemDetails
+export default withI18n()(TransactionItemDetails)

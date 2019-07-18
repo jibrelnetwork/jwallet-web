@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import config from 'config'
 
@@ -98,7 +98,11 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
     return (
       <CloseableScreen
         close={close}
-        title={t`Receive assets`}
+        title={i18n._(
+          'Receive.title',
+          null,
+          { defaults: 'Receive assets' },
+        )}
       >
         <div className='digital-assets-receive-view'>
           <div className='content'>
@@ -115,14 +119,28 @@ class DigitalAssetsReceiveView extends PureComponent<Props, StateProps> {
               </div>
               <JInput
                 value={address}
-                label={t`Recipient address`}
+                label={i18n._(
+                  'Receive.recipientLabel',
+                  null,
+                  { defaults: 'Recipient address' },
+                )}
                 color='gray'
                 type='text'
                 isDisabled
               />
               <Button
                 onClick={this.handleClick}
-              >{isCopied ? t`Copied!` : t`Copy address`}
+              >{isCopied
+                  ? i18n._(
+                    'Receive.copied',
+                    null,
+                    { defaults: 'Copied!' },
+                  )
+                  : i18n._(
+                    'Receive.copy',
+                    null,
+                    { defaults: 'Copy address' },
+                  )}
               </Button>
             </div>
           </div>

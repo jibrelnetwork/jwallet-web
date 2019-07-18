@@ -3,9 +3,11 @@
 import React, { PureComponent } from 'react'
 import ViewSlider from 'react-view-slider'
 import { connect } from 'react-redux'
-import { t } from 'ttag'
-import { StartLayout } from 'layouts'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import { compose } from 'redux'
 
+import { StartLayout } from 'layouts'
 import { setIntroductionIsPassed } from 'store/modules/user'
 import {
   Button,
@@ -19,6 +21,7 @@ import IntroductionStyle from './introduction.m.scss'
 
 export type Props = {|
   setIntroductionIsPassed: () => any,
+  +i18n: I18nType,
 |}
 
 type ComponentState = {|
@@ -58,6 +61,10 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
       activeId,
     } = this.state
 
+    const {
+      i18n,
+    } = this.props
+
     return (
       <StartLayout className='__introduction'>
         <div className={IntroductionStyle.wrapper}>
@@ -82,7 +89,11 @@ class IntroductionScreen extends PureComponent<Props, ComponentState> {
           theme='general'
           onClick={this.handleGetStartedClick}
         >
-          {t`Get Started`}
+          {i18n._(
+            'Introduction.action.submit',
+            null,
+            { defaults: 'Get Started' },
+          )}
         </Button>
       </StartLayout>
     )
@@ -93,7 +104,10 @@ const mapDispatchToProps = {
   setIntroductionIsPassed,
 }
 
-export const Introduction = connect(
-  null,
-  mapDispatchToProps,
+export const Introduction = compose(
+  withI18n(),
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
 )(IntroductionScreen)

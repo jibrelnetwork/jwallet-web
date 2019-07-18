@@ -2,7 +2,9 @@
 
 import classNames from 'classnames'
 import React, { Component } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { sanitizeName } from 'utils/wallets'
@@ -30,6 +32,7 @@ type OwnProps = {|
   +id: WalletId,
   +activeAddressChooserId: ?WalletId,
   +isActive: boolean,
+  +i18n: I18nType,
 |}
 
 type Props = {|
@@ -42,6 +45,7 @@ type Props = {|
   +derivationIndex: number,
   +isSimplified: boolean,
   +isMultiAddress: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
@@ -146,6 +150,7 @@ class WalletCard extends Component<Props, StateProps> {
       isActive,
       isSimplified,
       isMultiAddress,
+      i18n,
     }: Props = this.props
 
     const {
@@ -154,8 +159,7 @@ class WalletCard extends Component<Props, StateProps> {
       isRenameActive,
     }: StateProps = this.state
 
-    const hasMessage: boolean = !isNewNameUniq
-    const addressesCount: number = (derivationIndex + 1)
+    const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
     const isAnyAddressChooserActive: boolean = !!activeAddressChooserId
 
     return (
@@ -192,7 +196,14 @@ class WalletCard extends Component<Props, StateProps> {
             />
             {isMultiAddress && (
               <p className={styles.address}>
-                {t`${addressName}${addressesCount} Addresses`}
+                {i18n._(
+                  'common.WalletCard.currentAddress', {
+                    count: derivationIndex + 1,
+                    name: addressName ? `${addressName}  •  ` : '',
+                  }, {
+                    defaults: '{name}{count, plural, one {1 Address} other {# Addresses}}',
+                  },
+                )}
               </p>
             )}
             {ethBalance && (
@@ -222,7 +233,11 @@ class WalletCard extends Component<Props, StateProps> {
         {hasMessage && (
           <JFieldMessage
             className={styles.warning}
-            message={t`You already have a wallet with this name.`}
+            message={i18n._(
+              'common.WalletCard.duplicateName',
+              null,
+              { defaults: 'You already have a wallet with this name.' },
+            )}
             theme='info'
           />
         )}
@@ -251,7 +266,7 @@ function mapStateToProps(state: AppState, {
   const isMultiAddress: boolean = !!xpub && !isSimplified
 
   const addressName: string = isMultiAddress && isActive
-    ? `${getAddressName(addressNames[address], addressIndex)}  •  `
+    ? `${getAddressName(addressNames[address], addressIndex || 0)}  •  `
     : ''
 
   return {
@@ -269,9 +284,12 @@ const mapDispatchToProps = {
   setActiveWallet,
 }
 
-const WalletCardEnhanced = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+const WalletCardEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(WalletCard)
 
 export { WalletCardEnhanced as WalletCard }

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import handle from 'utils/eventHandlers/handle'
 import { formatAssetBalance } from 'utils/formatters'
@@ -16,7 +16,10 @@ import {
   TransactionsFilter,
 } from 'components'
 
-function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetched: boolean) {
+function getTransactionsTabs(i18n,
+                             asset: DigitalAsset,
+                             assetBalance: ?Balance,
+                             isFetched: boolean) {
   const {
     name,
     symbol,
@@ -33,7 +36,11 @@ function getTransactionsTabs(asset: DigitalAsset, assetBalance: ?Balance, isFetc
   )
 
   return {
-    '/assets': t`Digital Assets`,
+    '/assets': i18n._(
+      'Transactions.Asset.assetsHome',
+      null,
+      { defaults: 'Digital Assets' },
+    ),
     [`/history/${address}`]: (isFetched && assetBalance)
       ? `${name} — ${balance} ${symbol}`
       : name,
@@ -89,6 +96,7 @@ function TransactionsAssetView({
     return null
   }
 
+  const i18n = useI18n()
   const asset: ?DigitalAsset = digitalAssets[params.asset]
 
   if (!asset) {
@@ -103,7 +111,7 @@ function TransactionsAssetView({
     <div className='transactions-view -asset'>
       <div className='header'>
         <div className='container'>
-          <JTabs tabs={getTransactionsTabs(asset, assetBalance, isBalanceAllowed)} />
+          <JTabs tabs={getTransactionsTabs(i18n, asset, assetBalance, isBalanceAllowed)} />
           <div className='actions'>
             <div className='search'>
               <SearchInput
@@ -118,7 +126,13 @@ function TransactionsAssetView({
                 isOnlyPending={isOnlyPending}
               />
             </div>
-            <div className='send' title={t`Send asset`}>
+            <div
+              className='send' title={i18n._(
+                'Transactions.Asset.send',
+                null,
+                { defaults: 'Send Asset' },
+              )}
+            >
               <JFlatButton
                 to={`/send?asset=${asset.blockchainParams.address}`}
                 iconColor='gray'

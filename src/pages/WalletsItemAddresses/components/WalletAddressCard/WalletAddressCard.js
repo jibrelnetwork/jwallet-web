@@ -1,8 +1,10 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { t } from 'ttag'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import { sanitizeName } from 'utils/wallets'
 import { walletsPlugin } from 'store/plugins'
@@ -27,6 +29,7 @@ type Props = {|
   +setAddressName: (address: Address, name: string) => any,
   +address: Address,
   +addressName: string,
+  +i18n: I18nType,
   /* ::
   +index: number,
   */
@@ -66,6 +69,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
     const {
       address,
       addressName,
+      i18n,
     }: Props = this.props
 
     const { ethBalance }: StateProps = this.state
@@ -76,8 +80,12 @@ class WalletAddressCard extends Component<Props, StateProps> {
           <EditableField
             sanitize={sanitizeName}
             onChangeFinish={this.handleChangeFinish}
-            label={t`Name`}
             value={addressName}
+            label={i18n._(
+              'WalletsItemAddresses.WalletAddressCard.title',
+              null,
+              { defaults: 'Name' },
+            )}
             theme='white'
             maxLen={32}
           />
@@ -92,7 +100,11 @@ class WalletAddressCard extends Component<Props, StateProps> {
             {address}
           </div>
           <CopyIconButton
-            title={t`Copy ${addressName}`}
+            title={i18n._(
+              'WalletsItemAddresses.WalletAddressCard.actions.copy',
+              { addressName },
+              { defaults: 'Copy {addressName}' },
+            )}
             content={address}
           />
         </div>
@@ -119,9 +131,12 @@ const mapDispatchToProps = {
   setAddressName,
 }
 
-const WalletAddressCardEnhanced = connect<Props, OwnProps, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+const WalletAddressCardEnhanced = compose(
+  withI18n(),
+  connect<Props, OwnProps, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
 )(WalletAddressCard)
 
 export { WalletAddressCardEnhanced as WalletAddressCard }

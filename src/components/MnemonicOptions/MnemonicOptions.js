@@ -4,8 +4,8 @@ import React, {
   Fragment,
   Component,
 } from 'react'
-
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import { Field } from 'react-final-form'
 
 import ofssetsStyle from 'styles/offsets.m.scss'
@@ -19,17 +19,14 @@ import {
 type Props = {|
   +derivationPath: string,
   +isFormDisabled: boolean,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +isOpened: boolean,
 |}
 
-const DERIVATION_PATH_MESSAGE: string = t`Derivation path and BIP39 mnemonic passphrase 
-affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import 
-mnemonic from a hardwallet. In all other cases just leave it as is.`
-
-export class MnemonicOptions extends Component<Props, StateProps> {
+class MnemonicOptionsComponent extends Component<Props, StateProps> {
   constructor(props: Props) {
     super(props)
 
@@ -46,19 +43,35 @@ export class MnemonicOptions extends Component<Props, StateProps> {
     const {
       derivationPath,
       isFormDisabled,
+      i18n,
     }: Props = this.props
+
+    const DERIVATION_PATH_MESSAGE: string = i18n._(
+      'common.MnemonicOptions.derivationPath.info',
+      null,
+      // eslint-disable-next-line max-len
+      { defaults: 'Derivation path and BIP39 mnemonic passphrase affect generation of blockchain addresses from mnemonic. Usually you need to edit them to import mnemonic from a hardwallet. In all other cases just leave it as is.' },
+    )
 
     return this.state.isOpened ? (
       <Fragment>
         <Field
           component={JInputField}
-          label={t`Mnemonic Passphrase (Optional)`}
+          label={i18n._(
+            'common.MnemonicOptions.mnemonicPassphrase.title',
+            null,
+            { defaults: 'Mnemonic Passphrase (Optional)' },
+          )}
           name='passphrase'
           isDisabled={isFormDisabled}
         />
         <Field
           component={JInputField}
-          label={t`Derivation Path (Optional)`}
+          label={i18n._(
+            'common.MnemonicOptions.derivationPath.title',
+            null,
+            { defaults: 'Derivation Path (Optional)' },
+          )}
           infoMessage={DERIVATION_PATH_MESSAGE}
           errorMessage={validateDerivationPath(derivationPath)}
           name='derivationPath'
@@ -71,8 +84,14 @@ export class MnemonicOptions extends Component<Props, StateProps> {
         className={ofssetsStyle.mt16}
         theme='secondary'
       >
-        {t`Advanced`}
+        {i18n._(
+          'common.MnemonicOptions.actions.advanced',
+          null,
+          { defaults: 'Advanced' },
+        )}
       </Button>
     )
   }
 }
+
+export const MnemonicOptions = withI18n()(MnemonicOptionsComponent)

@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import {
   validationPasswordForm,
@@ -32,7 +32,11 @@ settingsWorker.onmessage = (): void => {
     console.error(err)
 
     settingsWorker.postMessage(validationPasswordForm({
-      passwordOld: t`Password is invalid`,
+      passwordOld: i18n._(
+        'common.settings.worker.error.passwordInvalid',
+        null,
+        { defaults: 'Password is invalid' },
+      ),
     }))
   } finally {
     settingsWorker.postMessage(changePaymentPasswordPending(false))

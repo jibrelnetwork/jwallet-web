@@ -1,9 +1,13 @@
 // @flow strict
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { actions } from 'redux-router5'
-import { t } from 'ttag'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+import { t } from '@lingui/macro'
+
 import {
   Form,
   Field,
@@ -11,8 +15,12 @@ import {
 } from 'react-final-form'
 
 import { TitleHeader } from 'components'
+import {
+  withLanguageChange,
+  type WithLanguageChangeProps,
+} from 'app/components'
+import { type LanguageCode } from 'data/languages'
 import { Button } from 'components/base'
-import { type LanguageCode } from 'data'
 
 import stylesOffsets from 'styles/offsets.m.scss'
 
@@ -21,21 +29,23 @@ import { LanguagePicker } from './components/LanguagePicker/LanguagePicker'
 import styles from './settingsLanguage.m.scss'
 
 type FormValues = {|
-  language: string,
+  language: LanguageCode,
 |}
 
 type Props = {|
   goBack: Function,
-  selectedLanguage: LanguageCode,
+  i18n: I18nType,
+  ...WithLanguageChangeProps,
+|}
+
+type OwnProps = {|
+  i18n: I18nType,
+  ...WithLanguageChangeProps,
 |}
 
 class SettingsLanguagePage extends Component<Props> {
-  static defaultProps = {
-    selectedLanguage: 'en',
-  }
-
-  handleSubmit = (values: FormValues) => {
-    alert(`Currency: ${JSON.stringify(values)}`)
+  handleSubmit = async (values: FormValues) => {
+    await this.props.changeLanguage(values.language)
   }
 
   handleBackClick = () => {
@@ -50,6 +60,10 @@ class SettingsLanguagePage extends Component<Props> {
       submitting: isSubmitting,
     } = props
 
+    const {
+      i18n,
+    } = this.props
+
     return (
       <form
         onSubmit={handleSubmit}
@@ -58,6 +72,7 @@ class SettingsLanguagePage extends Component<Props> {
         <Field
           className={stylesOffsets.mb16}
           component={LanguagePicker}
+          label={i18n._(t('SettingsLanguage.LanguagePicker.label')`Language`)}
           name='language'
         />
         <Button
@@ -65,7 +80,7 @@ class SettingsLanguagePage extends Component<Props> {
           name='send'
           isLoading={isSubmitting}
         >
-          {t`OK`}
+          {i18n._(t('SettingsLanguage.actions.ok')`OK`)}
         </Button>
       </form>
     )
@@ -73,18 +88,19 @@ class SettingsLanguagePage extends Component<Props> {
 
   render() {
     const {
-      selectedLanguage,
+      i18n,
+      language,
     } = this.props
 
     const initialValues = {
-      language: selectedLanguage,
+      language,
     }
 
     return (
       <div className={styles.core}>
         <TitleHeader
           onBack={this.handleBackClick}
-          title={t`Language`}
+          title={i18n._('SettingsLanguage.header.title')}
         />
         <Form
           onSubmit={this.handleSubmit}
@@ -96,17 +112,15 @@ class SettingsLanguagePage extends Component<Props> {
   }
 }
 
-function mapStateToProps() {
-  return {
-
-  }
-}
-
 const mapDispatchToProps = {
   goBack: () => actions.navigateTo('Settings'),
 }
 
-export const SettingsLanguage = connect<Props, OwnPropsEmpty, _, _, _, _>(
-  mapStateToProps,
-  mapDispatchToProps,
+export const SettingsLanguage = compose(
+  withI18n(),
+  withLanguageChange,
+  connect<Props, OwnProps, _, _, _, _>(
+    null,
+    mapDispatchToProps,
+  ),
 )(SettingsLanguagePage)

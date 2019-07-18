@@ -11,7 +11,6 @@ import {
   gaSetUserDimension,
 } from 'utils/analytics'
 
-import './data/lang'
 import browsercheck from './browsercheck'
 import { AppContainer } from './AppContainer'
 

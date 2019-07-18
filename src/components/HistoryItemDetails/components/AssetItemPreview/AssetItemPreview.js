@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 
 import {
   JAssetSymbol,
@@ -16,6 +16,8 @@ export function AssetItemPreview({
   symbol,
   name,
 }: DigitalAsset) {
+  const i18n = useI18n()
+
   return (
     <JLink
       className={`__asset-item ${style.core} ${style.data}`}
@@ -35,7 +37,11 @@ export function AssetItemPreview({
         className={`${style.item} ${style.mainBlock}`}
       >
         <div className={style.label}>
-          {t`Asset`}
+          {i18n._(
+            'HistoryItemDetails.AssetItemPreview.label',
+            null,
+            { defaults: 'Asset' },
+          )}
         </div>
         <div className={style.body}>
           {name}

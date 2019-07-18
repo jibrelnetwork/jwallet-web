@@ -11,7 +11,7 @@ import {
   JShimmer,
 } from 'components/base'
 import { CURRENCIES } from 'data'
-import { selectSettingsFiatCurrency } from 'store/selectors/settings'
+import { selectFiatCurrency } from 'store/selectors/user'
 import { selectDigitalAssetsItems } from 'store/selectors/digitalAssets'
 import { selectBalanceByAssetAddressToCurrentBlock } from 'store/selectors/balances'
 import { getFiatBalance } from 'store/utils/getFiatBalances'
@@ -120,7 +120,7 @@ export const AssetItem =
       }
 
       const balance = selectBalanceByAssetAddressToCurrentBlock(state, ownProps.address)
-      const fiatCurrency: FiatCurrency = selectSettingsFiatCurrency(state)
+      const fiatCurrency = selectFiatCurrency(state)
 
       const fiatBalance = getFiatBalance(state, {
         ...asset,
