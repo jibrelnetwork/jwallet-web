@@ -91,7 +91,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
             <Field
               component={JInputField}
               label={i18n._(
-                'ContactsEditForm.input.name.title',
+                'ContactForm.input.name.title',
                 null,
                 { defaults: 'Name' },
               )}
@@ -101,7 +101,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
             <Field
               component={JInputField}
               label={i18n._(
-                'ContactsEditForm.input.address.title',
+                'ContactForm.input.address.title',
                 null,
                 { defaults: 'Address' },
               )}
@@ -112,13 +112,13 @@ class ContactAddFormComponent extends PureComponent<Props> {
               className={offset.mb32}
               component={JInputField}
               label={i18n._(
-                'ContactsEditForm.input.note.title',
+                'ContactForm.input.note.title',
                 null,
                 { defaults: 'Note' },
               )}
               name='note'
               infoMessage={i18n._(
-                'ContactsEditForm.input.note.info',
+                'ContactForm.input.note.info',
                 null,
                 { defaults: 'This note is only visible to you.' },
               )}
@@ -129,7 +129,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
               isDisabled={!isValid}
               isLoading={submitting}
             >
-              {i18n._('ContactsAddForm.actions.save', null, { defaults: 'Save' })}
+              {i18n._('ContactForm.actions.save', null, { defaults: 'Save' })}
             </Button>
           </form>
         )}
