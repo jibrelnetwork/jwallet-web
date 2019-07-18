@@ -3,22 +3,23 @@
 import React from 'react'
 import { useI18n } from 'app/hooks'
 
+import { clipboard } from 'services'
+
 import {
   JLink,
   JIcon,
 } from 'components/base'
-import { clipboard } from 'services'
 
 import style from './fieldPreview.m.scss'
 
-type Props = {
+type Props = {|
   +label: string,
   +body: string,
-  link?: string,
-  contact?: string,
-  copy?: ?string,
-  copyMessage?: ?string,
-}
+  +link: string,
+  +contact: string,
+  +copy: ?string,
+  +copyMessage: ?string,
+|}
 
 function copyToClipboard({ currentTarget }: SyntheticEvent<HTMLButtonElement>): void {
   const value = currentTarget.getAttribute('data-value')
@@ -51,7 +52,7 @@ function FieldPreviewInternal({
         <div className={style.body}>
           {
             link
-              ? <JLink className={style.link} href={link}>{body}</JLink>
+              ? <JLink className={style.link} href={`https://${link}`}>{body}</JLink>
               : <span>{body}</span>
           }
         </div>
@@ -90,8 +91,8 @@ function FieldPreviewInternal({
               className={style.actionIcon}
               name='copy-use-fill'
             />
-          </button>)
-        }
+          </button>
+        )}
       </div>
     </div>
   )
