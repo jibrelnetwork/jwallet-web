@@ -120,8 +120,22 @@ class TransferOut extends PureComponent<Props, State> {
         ),
         iconName: 'trx-pending-use-fill',
       },
-      cancel: {},
-      success: {},
+      success: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionOut.statusPending',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-in-use-fill',
+      },
+      cancel: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionOut.statusCancel',
+          null,
+          { defaults: 'Transfer declined.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
     }
 
     // eslint-disable-next-line max-len
@@ -203,25 +217,21 @@ class TransferOut extends PureComponent<Props, State> {
             body={`${this.props.fee} ETH`}
           />
         </div>
-        <div
-          className={`${offset.mb16} ${style.noteWrapper}`}
-        >
-          <JInput
-            label={i18n._(
-              'HistoryItem.TransactionNormal.note',
-              null,
-              { defaults: 'Note' },
-            )}
-            infoMessage={i18n._(
-              'HistoryItem.TransactionNormal.noteDescription',
-              null,
-              { defaults: 'This note is only visible to you.' },
-            )}
-            color='gray'
-            value={this.state.note}
-            onChange={this.handleEditNote}
-          />
-        </div>
+        <JInput
+          label={i18n._(
+            'HistoryItem.TransactionNormal.note',
+            null,
+            { defaults: 'Note' },
+          )}
+          infoMessage={i18n._(
+            'HistoryItem.TransactionNormal.noteDescription',
+            null,
+            { defaults: 'This note is only visible to you.' },
+          )}
+          color='gray'
+          value={this.state.note}
+          onChange={this.handleEditNote}
+        />
         {status === 'success' && (
           <JLink
             theme='button-secondary'

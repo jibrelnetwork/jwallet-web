@@ -10,6 +10,8 @@ export { WalletsItemAddresses } from './WalletsItemAddresses/WalletsItemAddresse
 export { WalletsItemModeEnable } from './WalletsItemModeEnable/WalletsItemModeEnable'
 export { WalletsItemModeDisable } from './WalletsItemModeDisable/WalletsItemModeDisable'
 
+export { History } from './Transactions/History'
+
 export { Settings } from './Settings/Settings'
 export { SettingsCurrency } from './SettingsCurrency/SettingsCurrency'
 export { SettingsLanguage } from './SettingsLanguage/SettingsLanguage'
@@ -20,7 +22,6 @@ export { default as AssetsItemAdd } from './DigitalAssets/routes/AddAsset/AddAss
 export { default as AssetsItemEdit } from './DigitalAssets/routes/EditAsset/EditAssetContainer'
 export { default as AssetsManage }
   from './DigitalAssets/routes/Manage/DigitalAssetsManageViewContainer'
-export { default as History } from './Transactions/TransactionsIndexViewContainer'
 export { default as Home } from './Home/Home'
 export { default as Receive }
   from './DigitalAssets/routes/Receive/DigitalAssetsReceiveViewContainer'
