@@ -82,6 +82,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
         render={({
           handleSubmit,
           submitting,
+          valid: isValid,
         }: FormRenderProps) => (
           <form
             onSubmit={handleSubmit}
@@ -125,6 +126,7 @@ class ContactAddFormComponent extends PureComponent<Props> {
             />
             <Button
               type='submit'
+              isDisabled={!isValid}
               isLoading={submitting}
             >
               {i18n._('ContactsAddForm.actions.save', null, { defaults: 'Save' })}
