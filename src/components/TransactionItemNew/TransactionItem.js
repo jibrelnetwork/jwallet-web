@@ -103,8 +103,6 @@ class TransactionItem extends PureComponent<Props, *> {
   }
 
   handleClick = (event: SyntheticEvent<HTMLAnchorElement>): void => {
-    console.log(this.props.isActive)
-
     if (this.props.isActive) {
       return
     }
