@@ -2,7 +2,9 @@
 
 import { connect } from 'react-redux'
 
-import { selectSettingsPersist } from 'store/selectors/settings'
+import {
+  selectFiatCurrency,
+} from 'store/selectors/user'
 
 import {
   type Props,
@@ -10,14 +12,12 @@ import {
 } from './SettingsView'
 
 function mapStateToProps(state: AppState) {
-  const {
-    language,
-    fiatCurrency,
-    isDeveloperMode,
-  }: SettingsPersist = selectSettingsPersist(state)
+  const fiatCurrency = selectFiatCurrency(state)
+
+  // #TODO: developer mode: check active network from networks selector
+  const isDeveloperMode = false
 
   return {
-    language,
     fiatCurrency,
     isDeveloperMode,
   }

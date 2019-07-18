@@ -128,21 +128,6 @@ declare type DigitalAssetsManageState = {|
   +searchQuery: string,
 |}
 
-/**
- * Send asset
- */
-declare type DigitalAssetsSendFormStepIndex = 0
-declare type DigitalAssetsSendConfirmStepIndex = 1
-
-declare type DigitalAssetsSendStepIndex =
-  DigitalAssetsSendFormStepIndex |
-  DigitalAssetsSendConfirmStepIndex
-
-declare type DigitalAssetsSendSteps = {|
-  +FORM: DigitalAssetsSendFormStepIndex,
-  +CONFIRM: DigitalAssetsSendConfirmStepIndex,
-|}
-
 declare type TXPriorityKey = 'LOW' | 'NORMAL' | 'HIGH' | 'CUSTOM'
 declare type TXPriorityValue = 0 | 1 | 1.5 | 2
 declare type TXPriority = { [TXPriorityKey]: TXPriorityValue }
@@ -151,53 +136,4 @@ declare type TXPriorityData = {|
   +title: string,
   +icon: string,
   +description: string,
-|}
-
-declare type DigitalAssetsSendFormFields = {|
-  +nonce: string,
-  +amount: string,
-  +comment: string,
-  +gasLimit: string,
-  +gasPrice: string,
-  +password: string,
-  +amountFiat: string,
-  +recipient: Address,
-  +assetAddress: AssetAddress,
-|}
-
-declare type GasValues = {|
-  gasPrice: ?string,
-  gasLimit: ?string,
-|}
-
-declare type DigitalAssetsSendState = {|
-  +formFieldValues: DigitalAssetsSendFormFields,
-  +formFieldErrors: DigitalAssetsSendFormFields,
-  +formFieldWarnings: DigitalAssetsSendFormFields,
-  +priority: TXPriorityKey,
-  +currentStep: DigitalAssetsSendStepIndex,
-  +isLoading: boolean,
-  +requestedGasValues: GasValues,
-  +finalGasValues: GasValues,
-  +sendAssetError: string,
-  +isPotentiallyFail: boolean,
-|}
-
-declare type SendTransactionProps = {|
-  +value: BigNumber,
-  gasLimit?: BigNumber,
-  gasPrice?: BigNumber,
-  +to: Address,
-  +privateKey: string,
-  nonce?: number,
-|}
-
-declare type DigitalAssetsSendRouteParams = {|
-  +to?: string,
-  +gas?: string,
-  +nonce?: string,
-  +asset?: string,
-  +amount?: string,
-  +comment?: string,
-  +gasPrice?: string,
 |}

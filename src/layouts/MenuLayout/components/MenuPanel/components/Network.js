@@ -1,7 +1,7 @@
 // @flow strict
 
 import React from 'react'
-import { t } from 'ttag'
+import { useI18n } from 'app/hooks'
 import { connect } from 'react-redux'
 
 import { JIcon } from 'components/base'
@@ -12,17 +12,29 @@ type Props = {|
   networkId?: 'ropsten' | 'rinkeby' | 'kovan' | null,
 |}
 
-const messages = {
-  ropsten: t`You Are Using Ropsten Test Network`,
-  rinkeby: t`You Are Using Rinkeby Test Network`,
-  kovan: t`You Are Using Kovan Test Network`,
-}
-
 export function NetworkView({
   networkId,
 }: Props) {
   if (!networkId) {
     return null
+  }
+
+  const i18n = useI18n()
+
+  const messages = {
+    ropsten: i18n._(
+      'layout.MenuLayout.MenuPanel.testNetwork.info',
+      { networkName: 'Ropsten' },
+      { defaults: 'You Are Using {networkName} Test Network' },
+    ),
+    rinkeby: i18n._(
+      'layout.MenuLayout.MenuPanel.testNetwork.info',
+      { networkName: 'Rinkeby' },
+    ),
+    kovan: i18n._(
+      'layout.MenuLayout.MenuPanel.testNetwork.info',
+      { networkName: 'Kovan' },
+    ),
   }
 
   return (

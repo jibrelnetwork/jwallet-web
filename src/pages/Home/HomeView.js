@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react'
 import classNames from 'classnames'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 import {
   get,
   isEqual,
@@ -31,6 +32,7 @@ export type Props = {|
   +openView: () => void,
   +closeView: () => void,
   +items: DigitalAssetWithBalance[],
+  +i18n: I18nType,
 |}
 
 type ComponentState = {|
@@ -39,7 +41,7 @@ type ComponentState = {|
   isSticky: boolean,
 |}
 
-export class HomeView extends Component<Props, ComponentState> {
+class HomeViewComponent extends Component<Props, ComponentState> {
   constructor(props: Props) {
     super(props)
 
@@ -123,20 +125,34 @@ export class HomeView extends Component<Props, ComponentState> {
     </ul>
   )
 
-  renderEmptyList = () => (
-    <figure>
-      <img
-        src={noResultImg}
-        className={homeStyle.emptyIcon}
-        alt={t`No search results in assets list`}
-      />
-      <figcaption>{t`No Search Results.`}</figcaption>
-    </figure>
-  )
+  renderEmptyList = () => {
+    const { i18n } = this.props
+
+    return (
+      <figure>
+        <img
+          src={noResultImg}
+          className={homeStyle.emptyIcon}
+          alt={i18n._(
+            'Home.noSearchResults.alt',
+            null,
+            { defaults: 'No search results in assets list' },
+          )}
+        />
+        <figcaption>{i18n._(
+          'Home.noSearchResults.description',
+          null,
+          { defaults: 'No Search Results.' },
+        )}
+        </figcaption>
+      </figure>
+    )
+  }
 
   render() {
     const {
       items,
+      i18n,
     } = this.props
     const {
       isInManageMode,
@@ -152,7 +168,12 @@ export class HomeView extends Component<Props, ComponentState> {
     return (
       <div className={homeStyle.core}>
         <section className={homeStyle.linksSection}>
-          <Header title={t`Transfer`} />
+          <Header title={i18n._(
+            'Home.transfer.title',
+            null,
+            { defaults: 'Transfer' },
+          )}
+          />
           <nav className={homeStyle.links}>
             <JLink
               className={homeStyle.link}
@@ -164,7 +185,11 @@ export class HomeView extends Component<Props, ComponentState> {
                   color='blue'
                 />
               </div>
-              {t`Send`}
+              {i18n._(
+                'Home.transfer.send',
+                null,
+                { defaults: 'Send' },
+              )}
             </JLink>
             <JLink
               className={homeStyle.link}
@@ -176,7 +201,11 @@ export class HomeView extends Component<Props, ComponentState> {
                   color='blue'
                 />
               </div>
-              {t`Receive`}
+              {i18n._(
+                'Home.transfer.receive',
+                null,
+                { defaults: 'Receive' },
+              )}
             </JLink>
             <JLink
               className={homeStyle.link}
@@ -188,7 +217,11 @@ export class HomeView extends Component<Props, ComponentState> {
                   color='blue'
                 />
               </div>
-              {t`Exchange`}
+              {i18n._(
+                'Home.transfer.exchange',
+                null,
+                { defaults: 'Exchange' },
+              )}
             </JLink>
           </nav>
         </section>
@@ -205,7 +238,11 @@ export class HomeView extends Component<Props, ComponentState> {
             )}
           >
             <Header
-              title={t`Assets`}
+              title={i18n._(
+                'Home.assets.title',
+                null,
+                { defaults: 'Assets' },
+              )}
               className={homeStyle.assetsHeader}
             >
               <div className={homeStyle.search}>
@@ -220,7 +257,11 @@ export class HomeView extends Component<Props, ComponentState> {
                     theme='additional'
                     onClick={this.handleClickManage}
                   >
-                    {t`Save`}
+                    {i18n._(
+                      'Home.assets.save',
+                      null,
+                      { defaults: 'Save' },
+                    )}
                   </Button>
                 )
                 : (
@@ -233,7 +274,11 @@ export class HomeView extends Component<Props, ComponentState> {
                       name='ic_manage_24-use-fill'
                       className={`${Button.iconClassName}`}
                     />
-                    {t`Manage`}
+                    {i18n._(
+                      'Home.assets.manage',
+                      null,
+                      { defaults: 'Manage' },
+                    )}
                   </Button>
                 )
               }
@@ -250,3 +295,7 @@ export class HomeView extends Component<Props, ComponentState> {
     )
   }
 }
+
+export const HomeView = withI18n()(
+  HomeViewComponent,
+)

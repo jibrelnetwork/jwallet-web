@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from 'ttag'
-
 import {
   isNil,
   isObject,
@@ -42,7 +40,7 @@ function callApi(
   const apiSubdomain: ?BlockExplorerAPISubdomain = ENDPOINT_NAMES_BY_NETWORK_ID[networkId]
 
   if (!apiSubdomain) {
-    throw new Error(t`BlockExplorerPrivateNetworkError`)
+    throw new Error('Block Explorer Private Network Error')
   }
 
   const apiEnpoint: string = `${BLOCKEXPLORER_API}/v1/${apiSubdomain}/${address}/transactions`
@@ -76,7 +74,7 @@ function handleTransactionsResponse(response: any): any[] {
   if (!(isResultFound && isResultValid)) {
     return []
   } else if (isRequestFailed) {
-    throw new Error(t`BlockExplorerRequestTransactionsError`)
+    throw new Error('Block Explorer Request Transactions Error')
   }
 
   return result

@@ -1,6 +1,6 @@
 // @flow strict
 
-import { t } from 'ttag'
+import { i18n } from 'i18n/lingui'
 
 import { WalletInconsistentDataError } from 'errors'
 
@@ -21,5 +21,9 @@ export function getMnemonicAddressName(
     return addressName
   }
 
-  return `${t`Address`} ${addressIndex + 1}`
+  return i18n._(
+    'entity.Address.defaultName',
+    { index: addressIndex },
+    { defaults: 'Address {index}' },
+  )
 }

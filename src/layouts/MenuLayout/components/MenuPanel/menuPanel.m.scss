@@ -233,3 +233,9 @@
     visibility: visible;
   }
 }
+
+@media (max-width: 850px) {
+  .back {
+    left: 16px;
+  }
+}

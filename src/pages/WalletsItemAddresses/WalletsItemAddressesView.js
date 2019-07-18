@@ -1,8 +1,10 @@
 // @flow strict
 
 import React, { PureComponent } from 'react'
-import { t } from 'ttag'
+import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
+import titleHeaderStyle from 'components/TitleHeader/titleHeader.m.scss'
 import { walletsPlugin } from 'store/plugins'
 import { formatAssetBalance } from 'utils/formatters'
 
@@ -24,13 +26,16 @@ export type Props = {|
   +name: string,
   +type: WalletCustomType,
   +derivationIndex: number,
+  +i18n: I18nType,
 |}
 
 type StateProps = {|
   +ethBalance: ?BigNumber,
 |}
 
-export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
+class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps> {
+  walletRef = React.createRef<HTMLDivElement>()
+
   constructor(props: Props) {
     super(props)
 
@@ -45,7 +50,14 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
 
   async componentDidUpdate(prevProps: Props) {
     if (prevProps.derivationIndex !== this.props.derivationIndex) {
-      await this.requestETHBalance()
+      this.requestETHBalance()
+
+      if (this.walletRef && this.walletRef.current) {
+        this.walletRef.current.scrollIntoView({
+          block: 'end',
+          behavior: 'smooth',
+        })
+      }
     }
   }
 
@@ -85,36 +97,54 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
       type,
       walletId,
       derivationIndex,
+      i18n,
     }: Props = this.props
-
-    const addressesCount: number = (derivationIndex + 1)
-    const addressesLabel: string = (derivationIndex === 0) ? t`Address` : t`Addresses`
 
     return (
       <div className={styles.core}>
-        <TitleHeader title={t`Manage Addresses`}>
+        <TitleHeader
+          title={i18n._(
+            'WalletsItemAddresses.title',
+            null,
+            { defaults: 'Manage Addresses' },
+          )}
+        >
           <Button
             onClick={this.handleAdd}
-            className={styles.add}
+            className={titleHeaderStyle.action}
             theme='additional-icon'
           >
             <JIcon
               name='ic_add_24-use-fill'
-              className={styles.icon}
+              className={titleHeaderStyle.icon}
             />
-            <span className={styles.text}>
-              {t`Add New Address`}
+            <span className={titleHeaderStyle.label}>
+              {i18n._(
+                'WalletsItemAddresses.actions.addAddress',
+                null,
+                { defaults: 'Add New Address' },
+              )}
             </span>
           </Button>
         </TitleHeader>
-        <div className={styles.wallet}>
+        <div
+          ref={this.walletRef}
+          className={styles.wallet}
+        >
           <div className={styles.main}>
             <div className={styles.info}>
               <div className={styles.name}>
                 {name}
               </div>
               <div className={styles.addresses}>
-                {t`Multi-Address Wallet  •  ${addressesCount} ${addressesLabel}`}
+                {i18n._(
+                  'WalletsItemAddresses.wallet.description', {
+                    count: derivationIndex + 1,
+                  }, {
+                    /* eslint-disable-next-line max-len */
+                    defaults: 'Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}',
+                  },
+                )}
               </div>
             </div>
             <div className={`${styles.name} ${styles.balance}`}>
@@ -140,3 +170,7 @@ export class WalletsItemAddressesView extends PureComponent<Props, StateProps> {
     )
   }
 }
+
+export const WalletsItemAddressesView = withI18n()(
+  WalletsItemAddressesViewComponent,
+)

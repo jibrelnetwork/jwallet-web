@@ -27,7 +27,7 @@ describe('JLink', () => {
     const wrapper = shallow(<JLink href='#the-anchor'>link</JLink>)
 
     expect(wrapper.text()).toBe('link')
-    expect(wrapper.find('a').length).toBe(1)
+    expect(wrapper.find('a')).toHaveLength(1)
     expect(wrapper.find('a').prop('href')).toBe('#the-anchor')
   })
 
@@ -35,7 +35,7 @@ describe('JLink', () => {
     const wrapper = shallow(<JLink href='https://google.com'>link</JLink>)
 
     expect(wrapper.text()).toBe('link')
-    expect(wrapper.find('a').length).toBe(1)
+    expect(wrapper.find('a')).toHaveLength(1)
     expect(wrapper.find('a').prop('href')).toBe('https://google.com')
     expect(wrapper.find('a').prop('target')).toBe('_blank')
     expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer')
@@ -56,7 +56,7 @@ describe('JLink', () => {
     )
 
     expect(wrapper.text()).toBe('some path')
-    expect(wrapper.find('a').length).toBe(1)
+    expect(wrapper.find('a')).toHaveLength(1)
     expect(wrapper.find('a').prop('href')).toBe('/some/path')
     expect(wrapper.find('a').prop('target')).toBeUndefined()
   })
