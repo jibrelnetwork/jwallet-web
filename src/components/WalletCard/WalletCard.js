@@ -178,8 +178,7 @@ class WalletCard extends Component<Props, StateProps> {
       isRenameActive,
     }: StateProps = this.state
 
-    const addressesCount: number = (derivationIndex + 1)
-    const nameWithDivider: string = addressName ? `${addressName}  •  ` : ''
+    const name: string = addressName ? `${addressName}  •  ` : ''
     const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
     const isAnyAddressChooserActive: boolean = !!activeAddressChooserId
 
@@ -236,12 +235,13 @@ class WalletCard extends Component<Props, StateProps> {
             {isMultiAddress && (
               <p className={styles.address}>
                 {i18n._(
-                  'common.WalletCard.currentAddress',
-                  {
-                    nameWithDivider,
-                    addressesCount,
+                  'common.WalletCard.currentAddress', {
+                    name,
+                    count: derivationIndex + 1,
+                  }, {
+                    /* eslint-disable-next-line max-len */
+                    defaults: '{name}{count, plural, one {1 Address} other {# Addresses}}',
                   },
-                  { defaults: '{nameWithDivider}{addressesCount} Addresses' },
                 )}
               </p>
             )}
@@ -302,7 +302,7 @@ function mapStateToProps(state: AppState, {
   }: Wallet = wallet
 
   const addressName: ?string = !isSimplified
-    ? getAddressName(addressNames[address], addressIndex)
+    ? getAddressName(addressNames[address], addressIndex || 0)
     : null
 
   return {

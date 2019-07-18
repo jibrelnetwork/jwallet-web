@@ -100,7 +100,6 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
       i18n,
     }: Props = this.props
 
-    /* eslint-disable max-len */
     return (
       <div className={styles.core}>
         <TitleHeader
@@ -139,11 +138,12 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
               </div>
               <div className={styles.addresses}>
                 {i18n._(
-                  'WalletsItemAddresses.wallet.description',
-                  {
+                  'WalletsItemAddresses.wallet.description', {
                     count: derivationIndex + 1,
+                  }, {
+                    /* eslint-disable-next-line max-len */
+                    defaults: 'Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}',
                   },
-                  { defaults: 'Multi-Address Wallet  •  {count, plural, one {1 Address} other {# Addresses}}' },
                 )}
               </div>
             </div>
@@ -168,7 +168,6 @@ class WalletsItemAddressesViewComponent extends PureComponent<Props, StateProps>
         </div>
       </div>
     )
-    /* eslint-enable max-len */
   }
 }
 
