@@ -16,7 +16,7 @@ import {
   getAddressLink,
 } from 'utils/transactions'
 import { formatTransactionAmount } from 'utils/formatters'
-import { getFormattedDateString } from 'utils/time'
+import { DateTimeFormat } from 'app/components'
 
 import offset from 'styles/offsets.m.scss'
 
@@ -117,10 +117,6 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
     // eslint-disable-next-line max-len
     const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
 
-    const formattedDate = getFormattedDateString(
-      new Date(this.props.timestamp),
-      'hh:mm\u2007\u2022\u2007MM.DD.YYYY',
-    )
     const extendedStatus = status === 'success'
       ? type
       : status
@@ -140,7 +136,7 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
                 {TRANSACTION_DESCRIPTION[extendedStatus].statusDescription}
               </div>
               <div className={style.date}>
-                {formattedDate}
+                <DateTimeFormat value={this.props.timestamp} />
               </div>
             </div>
           </div>

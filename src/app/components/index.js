@@ -17,3 +17,7 @@ export {
 export type {
   WithLanguageChangeProps,
 } from './LanguageProvider/withLanguageChange'
+
+export {
+  DateTimeFormat,
+} from './DateTimeFormat/DateTimeFormat'
