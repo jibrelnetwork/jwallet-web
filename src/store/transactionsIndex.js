@@ -4,11 +4,8 @@ import { get } from 'lodash-es'
 
 import { selectTransactionsList } from 'store/selectors/transactions'
 import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
-import {
-  selectActiveWalletAddressOrThrow,
-  selectAddressWalletsNames,
-} from 'store/selectors/wallets'
-import { selectFavorites } from 'store/selectors/favorites'
+import { selectActiveWalletAddressOrThrow } from 'store/selectors/wallets'
+import { selectAllAddressNames } from 'store/selectors/favorites'
 import { selectCommentsItems } from 'store/selectors/comments'
 import { getTxFee } from 'utils/transactions'
 
@@ -87,15 +84,15 @@ function getTransactionName(
   transaction: TransactionWithPrimaryKeys,
   type: TransactionDirection,
 ): string {
-  const favorites = selectFavorites(state)
-  const addressNames = selectAddressWalletsNames(state)
-  const primaryName = (type === 'in' ? transaction.from : transaction.to)
-    || transaction.contractAddress
-    || transaction.hash // I'm not sure
+  const addressNames = selectAllAddressNames(state)
+  const primaryName = (type === 'in')
+    ? transaction.from
+    : transaction.to
 
-  return favorites[primaryName]
-    || addressNames[primaryName]
-    || primaryName
+  //  #TODO: check, this is correct?
+  return primaryName
+    ? addressNames[primaryName] || primaryName
+    : ''
 }
 
 function getTransactionComment(
