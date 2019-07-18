@@ -4,33 +4,30 @@ import React from 'react'
 
 import {
   JIcon,
-  JLinkBack,
+  JLink,
 } from 'components/base'
 
 import menuPanelStyle from '../menuPanel.m.scss'
 
 type Props = {|
-  +previousRouteNameFallback: ?string,
+  +previousRoute: ?string,
   +isMinimized: boolean,
 |}
 
 export function Back({
-  previousRouteNameFallback,
+  previousRoute,
   isMinimized,
 }: Props) {
-  if (!isMinimized || !previousRouteNameFallback) {
+  if (!isMinimized || !previousRoute) {
     return null
   }
 
   return (
-    <JLinkBack
+    <JLink
+      href={previousRoute}
       className={`__back ${menuPanelStyle.back}`}
-      routeName={previousRouteNameFallback}
     >
-      <JIcon
-        name='arrow-back-use-fill'
-        color='blue'
-      />
-    </JLinkBack>
+      <JIcon name='arrow-back-use-fill' />
+    </JLink>
   )
 }
