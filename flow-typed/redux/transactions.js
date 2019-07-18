@@ -16,6 +16,7 @@ declare type TransactionFromBlockExplorer = {|
   +timeStamp: string,
   +blockNumber: string,
   +contractAddress: string,
+  +nonce: string,
 |}
 
 declare type ERC20EventName = 'Transfer'
@@ -118,6 +119,7 @@ declare type Transaction = {|
   +blockNumber: ?number,
   +eventType: TransactionEventType,
   +isRemoved: boolean,
+  +isCanceled: boolean,
 |}
 
 declare type TransactionWithPrimaryKeys = {|

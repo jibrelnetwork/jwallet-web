@@ -4,7 +4,6 @@ import QRCode from './QRCode'
 import AssetBalance from './AssetBalance'
 import WalletLoading from './WalletLoading'
 import CloseableScreen from './CloseableScreen'
-import TransactionsList from './TransactionsList'
 import MnemonicAddresses from './MnemonicAddresses'
 import TransactionsFilter from './TransactionsFilter'
 import DigitalAssetsManage from './DigitalAssetsManage'
@@ -12,6 +11,7 @@ import OverlayNotification from './OverlayNotification'
 import DigitalAssetEditForm from './DigitalAssetEditForm'
 
 export { WalletCard } from './WalletCard/WalletCard'
+export { HistoryList } from './HistoryList/HistoryList'
 export { TitleHeader } from './TitleHeader/TitleHeader'
 export { CopyableField } from './CopyableField/CopyableField'
 export { EditableField } from './EditableField/EditableField'
@@ -39,7 +39,6 @@ export {
   AssetBalance,
   WalletLoading,
   CloseableScreen,
-  TransactionsList,
   MnemonicAddresses,
   TransactionsFilter,
   DigitalAssetsManage,

@@ -371,6 +371,7 @@ function prepareTransferEvents(data: Object[]): Transactions {
       contractAddress: null,
       eventType: 1,
       isRemoved: !!removed,
+      isCanceled: false,
     }
 
     return {
@@ -484,6 +485,7 @@ function prepareJNTEvents(data: Object[]): Transactions {
       from: (event === 'BurnEvent') ? ownerAddressChecksum : null,
       eventType: 2,
       isRemoved: !!removed,
+      isCanceled: false,
     }
 
     return {

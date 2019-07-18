@@ -9,18 +9,23 @@ import { selectCurrentNetworkOrThrow } from 'store/selectors/networks'
 import { getShortenedAddress } from 'utils/address'
 
 import { PageNotFoundError } from 'errors'
-import {
-  MEMO, transactionsIndex,
-} from 'store/transactionsIndex'
+import { MEMO } from 'store/utils/HistoryItem/HistoryItem'
 
 import {
   type Props,
   HistoryItemDetailsInternal,
 } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
 
-export type ContainerProps = {
+import {
+  CONTRACT_CALL_TYPE,
+  type HistoryItem,
+} from 'store/utils/HistoryItem/types'
+
+export type ContainerProps = {|
   txHash: TransactionId,
-}
+  className: ?string,
+|}
 
 const mapDispatchToProps = {
   editNote: edit,
@@ -35,15 +40,25 @@ function getPrimaryName(
 
   return favorites[address]
     || addressNames[address]
-    || getShortenedAddress(address)
+    || address
+    ? getShortenedAddress(address)
+    : ''
 }
 
-function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
+function mapStateToProps(
+  state: AppState,
+  {
+    txHash,
+    className,
+  }: ContainerProps,
+) {
   const { blockExplorerUISubdomain } = selectCurrentNetworkOrThrow(state)
-  const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
-    ? MEMO.transactionsIndex
-    : transactionsIndex(state)
-  const transactionRecord = dataMap[txHash]
+  const transactionRecord: HistoryItem = MEMO.transactionsIndex[txHash]
+  const asset = selectDigitalAssetOrThrow(state, transactionRecord.asset)
+
+  const to = transactionRecord.type === CONTRACT_CALL_TYPE
+    ? transactionRecord.contractAddress
+    : transactionRecord.to
 
   if (!transactionRecord) {
     throw new PageNotFoundError()
@@ -51,8 +66,10 @@ function mapStateToProps(state: AppState, { txHash }: ContainerProps) {
 
   return {
     ...transactionRecord,
+    className,
+    asset,
     fromName: getPrimaryName(state, transactionRecord.from),
-    toName: getPrimaryName(state, transactionRecord.to),
+    toName: getPrimaryName(state, to),
     blockExplorer: blockExplorerUISubdomain,
   }
 }

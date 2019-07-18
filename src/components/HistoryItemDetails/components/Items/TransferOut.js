@@ -3,36 +3,46 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
+
+import offset from 'styles/offsets.m.scss'
+import { FieldPreview } from 'components'
+import { DateTimeFormat } from 'app/components'
+import { getShortenedAddress } from 'utils/address'
+import { formatTransactionAmount } from 'utils/formatters'
+import { AssetItemPreview } from 'components/HistoryItemDetails/components/index'
+import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
 
 import {
   JIcon,
   JInput,
   JLink,
 } from 'components/base'
-import { FieldPreview } from 'components'
-import { getShortenedAddress } from 'utils/address'
+
 import {
   getTxLink,
   getAddressLink,
 } from 'utils/transactions'
-import { formatTransactionAmount } from 'utils/formatters'
-import { DateTimeFormat } from 'app/components'
-
-import offset from 'styles/offsets.m.scss'
 
 import {
-  AssetItemPreview,
-} from '../components'
+  TRANSFER_OUT_TYPE,
+  type TransferOut as TransferOutRecord,
+} from 'store/utils/HistoryItem/types'
 
-import { type Props } from '../HistoryItemDetailsInternal'
+import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
 
-import style from '../historyItemDetails.m.scss'
+type Props = {|
+  ...TransferOutRecord,
+  ...MasterProps,
+  type: typeof TRANSFER_OUT_TYPE,
+  +i18n: I18nType,
+|}
 
 type State = {
   note: string,
 }
 
-class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
+class TransferOut extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -48,13 +58,13 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
     }
 
     const {
+      className,
       asset,
       amount,
       blockExplorer,
       id,
       to,
       from,
-      type,
       status,
       i18n,
     } = this.props
@@ -110,30 +120,40 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
         ),
         iconName: 'trx-pending-use-fill',
       },
-      cancel: {},
-      success: {},
+      success: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionOut.statusPending',
+          null,
+          { defaults: 'Transfer processed.' },
+        ),
+        iconName: 'trx-in-use-fill',
+      },
+      cancel: {
+        statusDescription: i18n._(
+          'HistoryItem.TransactionOut.statusCancel',
+          null,
+          { defaults: 'Transfer declined.' },
+        ),
+        iconName: 'trx-error-declined-use-fill',
+      },
     }
 
     // eslint-disable-next-line max-len
     const REPEAT_PAYMENT_URI = `/send?asset=${asset.blockchainParams.address}&to=${to}&amount=${amount}`
 
-    const extendedStatus = status === 'success'
-      ? type
-      : status
-
     return (
-      <div className={style.core}>
+      <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[this.props.status])}>
             <div className={style.statusIcon}>
-              <JIcon name={TRANSACTION_DESCRIPTION[extendedStatus].iconName} />
+              <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
             </div>
             <div className={style.description}>
               <div className={style.status}>
                 {this.props.status}
               </div>
               <div className={style.comment}>
-                {TRANSACTION_DESCRIPTION[extendedStatus].statusDescription}
+                {TRANSACTION_DESCRIPTION[status].statusDescription}
               </div>
               <div className={style.date}>
                 <DateTimeFormat value={this.props.timestamp} />
@@ -157,7 +177,6 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
             )}
             body={this.props.fromName}
             link={getAddressLink(from, blockExplorer)}
-            contact={from}
             copy={from}
             copyMessage={ADDRESS_COPIED}
           />
@@ -169,6 +188,7 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
             )}
             body={this.props.toName}
             link={getAddressLink(this.props.to, this.props.blockExplorer)}
+            contact={to}
             copy={this.props.to}
             copyMessage={ADDRESS_COPIED}
           />
@@ -192,26 +212,22 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
             body={`${this.props.fee} ETH`}
           />
         </div>
-        <div
-          className={`${offset.mb16} ${style.noteWrapper}`}
-        >
-          <JInput
-            label={i18n._(
-              'HistoryItem.TransactionNormal.note',
-              null,
-              { defaults: 'Note' },
-            )}
-            infoMessage={i18n._(
-              'HistoryItem.TransactionNormal.noteDescription',
-              null,
-              { defaults: 'This note is only visible to you.' },
-            )}
-            color='gray'
-            value={this.state.note}
-            onChange={this.handleEditNote}
-          />
-        </div>
-        {status === 'success' && type === 'out' && (
+        <JInput
+          label={i18n._(
+            'HistoryItem.TransactionNormal.note',
+            null,
+            { defaults: 'Note' },
+          )}
+          infoMessage={i18n._(
+            'HistoryItem.TransactionNormal.noteDescription',
+            null,
+            { defaults: 'This note is only visible to you.' },
+          )}
+          color='gray'
+          value={this.state.note}
+          onChange={this.handleEditNote}
+        />
+        {status === 'success' && (
           <JLink
             theme='button-secondary'
             href={REPEAT_PAYMENT_URI}
@@ -253,4 +269,5 @@ class TransactionNormalTemplateComponent extends PureComponent<Props, State> {
   }
 }
 
-export const TransactionNormalTemplate = withI18n()(TransactionNormalTemplateComponent)
+const TransferOutEnhanced = withI18n()(TransferOut)
+export { TransferOutEnhanced as TransferOut }
