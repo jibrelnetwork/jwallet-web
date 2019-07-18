@@ -1,0 +1,87 @@
+@import 'styles/mixins';
+
+.main,
+.right {
+  height: calc(100vh - 112px);
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.main {
+  @include property-transition(max-width);
+
+  margin-right: -16px;
+  padding-right: 16px;
+}
+
+.right {
+  @include property-transition(right, opacity);
+
+  position: relative;
+  right: -400px;
+  max-width: 0;
+  opacity: 0;
+}
+
+.list {
+  @include flex-column;
+
+  max-width: 1120px;
+
+  > .loader {
+    @include flex-row-center;
+
+    margin: 32px 0;
+  }
+}
+
+.sidebar {
+  padding-bottom: 16px;
+}
+
+.details {
+  position: relative;
+}
+
+.close {
+  @include sprite-icon-color($white-60);
+
+  z-index: 1;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: block;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    @include sprite-icon-color($white);
+  }
+}
+
+.core {
+  @include flex-row;
+
+  position: relative;
+  overflow: visible;
+
+  &.active {
+    margin-right: -16px;
+    overflow: hidden;
+
+    .main {
+      max-width: 752px;
+    }
+
+    .right {
+      right: 0;
+      max-width: 400px;
+      padding-left: 32px;
+      padding-right: 16px;
+      margin-right: -16px;
+      opacity: 1;
+    }
+  }
+}

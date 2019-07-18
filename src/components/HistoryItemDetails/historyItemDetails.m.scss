@@ -7,13 +7,14 @@
 .card {
   width: 100%;
   box-shadow: $normal-shadow;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .header {
   @include flex-row;
 
   padding: 24px 0 22px;
-  border-radius: 4px 4px 0 0;
 
   &.success {
     background-color: $main-blue;
@@ -59,8 +60,4 @@
   @include font(12px, 20px);
 
   color: $white-60;
-}
-
-.note-wrapper {
-  height: 100%;
 }

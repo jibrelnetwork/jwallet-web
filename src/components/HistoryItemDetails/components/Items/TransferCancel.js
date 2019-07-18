@@ -3,6 +3,7 @@
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import { withI18n } from '@lingui/react'
+import { type I18n as I18nType } from '@lingui/core'
 
 import {
   JIcon,
@@ -15,15 +16,23 @@ import { DateTimeFormat } from 'app/components'
 
 import offset from 'styles/offsets.m.scss'
 
-import { type Props } from '../HistoryItemDetailsInternal'
+import { type TransferCancel as TransferCancelRecord } from 'store/utils/HistoryItem/types'
 
-import style from '../historyItemDetails.m.scss'
+import { type Props as MasterProps } from 'components/HistoryItemDetails/HistoryItemDetailsInternal'
+
+import style from 'components/HistoryItemDetails/historyItemDetails.m.scss'
+
+type Props = {|
+  ...TransferCancelRecord,
+  ...MasterProps,
+  +i18n: I18nType,
+|}
 
 type State = {
   note: string,
 }
 
-class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
+class TransferCancel extends PureComponent<Props, State> {
   state = {
     note: this.props.note || '',
   }
@@ -39,6 +48,7 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
     }
 
     const {
+      className,
       hash,
       fee,
       fromName,
@@ -48,7 +58,7 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
       i18n,
     } = this.props
 
-    const TRANSACTION_DESCRIPTION = {
+    const info = {
       success: {
         statusDescription: i18n._(
           'HistoryItem.TransactionCancel.statusSuccess',
@@ -84,18 +94,18 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
     }
 
     return (
-      <div className={style.core}>
+      <div className={classNames(style.core, className)}>
         <div className={classNames(style.card, offset.mb16)}>
           <div className={classNames(style.header, style[status])}>
             <div className={style.statusIcon}>
-              <JIcon name={TRANSACTION_DESCRIPTION[status].iconName} />
+              <JIcon name={info[status].iconName} />
             </div>
             <div className={style.description}>
               <div className={style.status}>
                 {status}
               </div>
               <div className={style.comment}>
-                {TRANSACTION_DESCRIPTION[status].statusDescription}
+                {info[status].statusDescription}
               </div>
               <div className={style.date}>
                 <DateTimeFormat value={timestamp} />
@@ -127,25 +137,21 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
             body={`${fee} ETH`}
           />
         </div>
-        <div
-          className={`${offset.mb16} ${style.noteWrapper}`}
-        >
-          <JInput
-            label={i18n._(
-              'HistoryItem.TransactionCancel.note',
-              null,
-              { defaults: 'Note' },
-            )}
-            infoMessage={i18n._(
-              'HistoryItem.TransactionCancel.noteDescription',
-              null,
-              { defaults: 'This note is only visible to you.' },
-            )}
-            color='gray'
-            value={this.state.note}
-            onChange={this.handleEditNote}
-          />
-        </div>
+        <JInput
+          label={i18n._(
+            'HistoryItem.TransactionCancel.note',
+            null,
+            { defaults: 'Note' },
+          )}
+          infoMessage={i18n._(
+            'HistoryItem.TransactionCancel.noteDescription',
+            null,
+            { defaults: 'This note is only visible to you.' },
+          )}
+          color='gray'
+          value={this.state.note}
+          onChange={this.handleEditNote}
+        />
         {(status === 'stuck' || status === 'fail') && (
           <JLink
             theme='button-secondary'
@@ -163,6 +169,5 @@ class TransactionCancelTemplateComponent extends PureComponent<Props, State> {
   }
 }
 
-export const TransactionCancelTemplate = withI18n()(
-  TransactionCancelTemplateComponent,
-)
+const TransferCancelEnhanced = withI18n()(TransferCancel)
+export { TransferCancelEnhanced as TransferCancel }

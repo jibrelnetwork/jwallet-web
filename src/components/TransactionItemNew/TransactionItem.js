@@ -19,73 +19,96 @@ import { type JIconProps } from 'components/base/JIcon/JIcon'
 import offsetsStyle from 'styles/offsets.m.scss'
 
 import {
-  type TransactionItem as TransactionItemRecord,
-  type TransactionDirection,
-  type TransactionStatus,
   transactionsIndex,
   MEMO,
+} from 'store/utils/HistoryItem/HistoryItem'
+
+import {
+  type TransactionItem as TransactionItemRecord,
+  type TransactionStatus,
 } from 'store/transactionsIndex'
+
+import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
+import { selectFavorites } from 'store/selectors/favorites'
+import { selectAddressWalletsNames } from 'store/selectors/wallets'
+import {
+  TRANSFER_IN_TYPE,
+  TRANSFER_OUT_TYPE,
+  TRANSFER_CANCEL_TYPE,
+  CONTRACT_CALL_TYPE,
+  type HistoryItem,
+  type HistoryItemsTypes,
+} from 'store/utils/HistoryItem/types'
 
 import transactionItemStyle from './transactionItem.m.scss'
 
 export type ContainerProps = {|
-  +onClick?: (TransactionId) => mixed,
+  +onClick: (TransactionId) => mixed,
   +txAddress: Address,
-  +offset?: OffsetVariant,
-  +isActive?: boolean,
+  +offset: OffsetVariant,
+  +isActive: boolean,
 |}
 
 type Props = {|
-  ...$Exact<ContainerProps>,
+  ...ContainerProps,
   +transaction: TransactionItemRecord,
 |}
 
-const transactionIconMap: { [TransactionStatus | TransactionDirection]: JIconProps } = {
+const transactionIconMap: { [TransactionStatus | HistoryItemsTypes]: JIconProps } = {
   pending: {
-    name: 'clock-use-fill',
+    name: 'trx-pending-use-fill',
     color: 'gray',
   },
-  in: {
-    name: 'transaction-in-use-fill',
+  [TRANSFER_IN_TYPE]: {
+    name: 'trx-in-use-fill',
     color: 'blue',
   },
-  out: {
-    name: 'transaction-out-use-fill',
+  [TRANSFER_OUT_TYPE]: {
+    name: 'trx-out-use-fill',
+    color: 'blue',
+  },
+  [TRANSFER_CANCEL_TYPE]: {
+    name: 'trx-success-use-fill',
+    color: 'blue',
+  },
+  [CONTRACT_CALL_TYPE]: {
+    name: 'trx-success-use-fill',
     color: 'blue',
   },
   fail: {
-    name: 'circle-cross-use-fill',
+    name: 'trx-error-declined-use-fill',
     color: 'red',
   },
   stuck: {
-    name: 'circle-alert-use-fill',
+    name: 'trx-error-stuck-use-fill',
     color: 'red',
   },
 }
 
 function getTransactionIcon(
-  type: TransactionDirection,
+  type: HistoryItemsTypes,
   status: TransactionStatus,
 ): JIconProps {
   if (status === 'success') {
     return transactionIconMap[type]
   }
 
-  return transactionIconMap[status]
+  return transactionIconMap[status] || transactionIconMap.fail
 }
 
 class TransactionItem extends PureComponent<Props, *> {
   static defaultProps = {
     onClick: noop,
+    isActive: false,
   }
 
   handleClick = (event: SyntheticEvent<HTMLAnchorElement>): void => {
-    event.preventDefault()
-
-    if (!this.props.isActive) {
-      // $FlowFixMe
-      this.props.onClick(this.props.transaction.id)
+    if (this.props.isActive) {
+      return
     }
+
+    event.preventDefault()
+    this.props.onClick(this.props.transaction.id)
   }
 
   render() {
@@ -151,12 +174,31 @@ class TransactionItem extends PureComponent<Props, *> {
   }
 }
 
+function getItemTitle(
+  state: AppState,
+  tx: HistoryItem,
+) {
+  const favorites = selectFavorites(state)
+  const addressNames = selectAddressWalletsNames(state)
+  const address = tx.type === TRANSFER_IN_TYPE ? tx.from : tx.to
+
+  return favorites[address] || addressNames[address] || tx.hash
+}
+
 function mapStateToProps(state: AppState, { txAddress }: ContainerProps) {
   const dataMap = Object.keys(MEMO.transactionsIndex).length > 0
     ? MEMO.transactionsIndex
     : transactionsIndex(state)
+  const tx = dataMap[txAddress]
+  const asset = selectDigitalAssetOrThrow(state, dataMap[txAddress].asset)
 
-  return { transaction: dataMap[txAddress] }
+  return {
+    transaction: {
+      ...tx,
+      asset,
+      title: getItemTitle(state, tx),
+    },
+  }
 }
 
 const connectedComponent = (
