@@ -217,25 +217,21 @@ class TransferOut extends PureComponent<Props, State> {
             body={`${this.props.fee} ETH`}
           />
         </div>
-        <div
-          className={`${offset.mb16} ${style.noteWrapper}`}
-        >
-          <JInput
-            label={i18n._(
-              'HistoryItem.TransactionNormal.note',
-              null,
-              { defaults: 'Note' },
-            )}
-            infoMessage={i18n._(
-              'HistoryItem.TransactionNormal.noteDescription',
-              null,
-              { defaults: 'This note is only visible to you.' },
-            )}
-            color='gray'
-            value={this.state.note}
-            onChange={this.handleEditNote}
-          />
-        </div>
+        <JInput
+          label={i18n._(
+            'HistoryItem.TransactionNormal.note',
+            null,
+            { defaults: 'Note' },
+          )}
+          infoMessage={i18n._(
+            'HistoryItem.TransactionNormal.noteDescription',
+            null,
+            { defaults: 'This note is only visible to you.' },
+          )}
+          color='gray'
+          value={this.state.note}
+          onChange={this.handleEditNote}
+        />
         {status === 'success' && (
           <JLink
             theme='button-secondary'

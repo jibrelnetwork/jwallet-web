@@ -86,6 +86,7 @@ export class HistoryList extends PureComponent<Props, StateProps> {
                   offset='mb16'
                   txAddress={id}
                   onClick={this.handleSetActive}
+                  isActive={(id === activeItem)}
                 />
               </li>
             ))}
@@ -113,7 +114,6 @@ export class HistoryList extends PureComponent<Props, StateProps> {
             </div>
           </div>
         </div>
-
       </div>
     )
   }

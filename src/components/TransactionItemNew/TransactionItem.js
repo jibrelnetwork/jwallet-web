@@ -43,10 +43,10 @@ import {
 import transactionItemStyle from './transactionItem.m.scss'
 
 export type ContainerProps = {|
-  +onClick?: (TransactionId) => mixed,
+  +onClick: (TransactionId) => mixed,
   +txAddress: Address,
-  +offset?: OffsetVariant,
-  +isActive?: boolean,
+  +offset: OffsetVariant,
+  +isActive: boolean,
 |}
 
 type Props = {|
@@ -99,15 +99,18 @@ function getTransactionIcon(
 class TransactionItem extends PureComponent<Props, *> {
   static defaultProps = {
     onClick: noop,
+    isActive: false,
   }
 
   handleClick = (event: SyntheticEvent<HTMLAnchorElement>): void => {
-    event.preventDefault()
+    console.log(this.props.isActive)
 
-    if (!this.props.isActive) {
-      // $FlowFixMe
-      this.props.onClick(this.props.transaction.id)
+    if (this.props.isActive) {
+      return
     }
+
+    event.preventDefault()
+    this.props.onClick(this.props.transaction.id)
   }
 
   render() {

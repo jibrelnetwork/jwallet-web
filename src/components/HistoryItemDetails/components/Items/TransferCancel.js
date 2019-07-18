@@ -142,25 +142,21 @@ class TransferCancel extends PureComponent<Props, State> {
             body={`${fee} ETH`}
           />
         </div>
-        <div
-          className={`${offset.mb16} ${style.noteWrapper}`}
-        >
-          <JInput
-            label={i18n._(
-              'HistoryItem.TransactionCancel.note',
-              null,
-              { defaults: 'Note' },
-            )}
-            infoMessage={i18n._(
-              'HistoryItem.TransactionCancel.noteDescription',
-              null,
-              { defaults: 'This note is only visible to you.' },
-            )}
-            color='gray'
-            value={this.state.note}
-            onChange={this.handleEditNote}
-          />
-        </div>
+        <JInput
+          label={i18n._(
+            'HistoryItem.TransactionCancel.note',
+            null,
+            { defaults: 'Note' },
+          )}
+          infoMessage={i18n._(
+            'HistoryItem.TransactionCancel.noteDescription',
+            null,
+            { defaults: 'This note is only visible to you.' },
+          )}
+          color='gray'
+          value={this.state.note}
+          onChange={this.handleEditNote}
+        />
         {(status === 'stuck' || status === 'fail') && (
           <JLink
             theme='button-secondary'

@@ -2,8 +2,6 @@
 
 import { get } from 'lodash-es'
 
-import { selectDigitalAssetOrThrow } from 'store/selectors/digitalAssets'
-
 import { getTransactionStatus } from './utils/getTransactionStatus'
 import { getTransactionNote } from './utils/getTransactionNote'
 import { getTransactionFee } from './utils/getTransactionFee'
@@ -22,9 +20,9 @@ export function createContractCall(
     id,
     assetAddress: asset,
   } = transaction.keys
+  const fee = getTransactionFee(transaction)
   const status = getTransactionStatus(transaction)
   const note = getTransactionNote(state, transaction)
-  const fee = getTransactionFee(transaction, selectDigitalAssetOrThrow(state, asset))
   const from: Address = get(transaction, 'from', '')
   const to: Address = get(transaction, 'to', '')
   const timestamp = getTransactionTimestamp(transaction)
