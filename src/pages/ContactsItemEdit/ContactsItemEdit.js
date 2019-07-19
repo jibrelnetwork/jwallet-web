@@ -7,6 +7,7 @@ import { useI18n } from 'app/hooks'
 
 import { TitleHeader } from 'components'
 import { selectFavorite } from 'store/selectors/favorites'
+import { PageNotFoundError } from 'errors'
 
 import * as favorites from 'store/modules/favorites'
 
@@ -18,7 +19,7 @@ import {
 import style from './contactsItemEdit.m.scss'
 
 type OwnProps = {|
-  +contactId?: OwnerAddress,
+  +contactId: OwnerAddress,
 |}
 
 type Props = {|
@@ -26,9 +27,8 @@ type Props = {|
   +name: string,
   +description: string,
   +address: OwnerAddress,
-  +checkContactExists: (address: OwnerAddress) => boolean,
-  +editContact: (contact: FormValues) => ?FormValues,
-  +onDeleteClick: (address: OwnerAddress) => any,
+  +onEditFinish: (contact: FormValues) => ?FormValues,
+  +onDelete: (address: OwnerAddress) => any,
   +goBack: () => any,
 |}
 
@@ -36,9 +36,8 @@ function ContactsItemEditView({
   address,
   name,
   description,
-  checkContactExists,
-  editContact,
-  onDeleteClick,
+  onEditFinish,
+  onDelete,
   goBack,
 }: Props) {
   const i18n = useI18n()
@@ -60,40 +59,41 @@ function ContactsItemEditView({
       />
       <ContactEditForm
         initialValues={initialValues}
-        checkContactExists={checkContactExists}
-        editContact={editContact}
-        onDeleteClick={onDeleteClick}
+        onEditFinish={onEditFinish}
+        onDelete={onDelete}
         goBack={goBack}
       />
     </div>
   )
 }
 
-const checkContactExists = (state: AppState) => (address: OwnerAddress) =>
-  !!selectFavorite(state, address)
-
 function mapStateToProps(
   state: AppState,
   { contactId }: OwnProps,
 ) {
+  const favorite = selectFavorite(state, contactId)
+
+  if (!favorite) {
+    throw new PageNotFoundError()
+  }
+
   const {
     address,
     name = '',
     description = '',
-  } = selectFavorite(state, contactId || '') || {}
+  } = favorite
 
   return {
     address,
     name,
     description,
-    checkContactExists: checkContactExists(state),
   }
 }
 
 const mapDispatchToProps = {
-  editContact: favorites.update,
+  onEditFinish: favorites.update,
   goBack: () => routerActions.navigateTo('Contacts'),
-  onDeleteClick: (address: OwnerAddress) =>
+  onDelete: (address: OwnerAddress) =>
     routerActions.navigateTo('ContactsItemDelete', { contactId: address }),
 }
 

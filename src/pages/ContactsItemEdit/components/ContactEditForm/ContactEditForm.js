@@ -27,34 +27,19 @@ export type FormValues = {|
 export type Props = {|
   +initialValues: FormValues,
   +i18n: I18nType,
-  +checkContactExists: (address: OwnerAddress) => boolean,
-  +editContact: (contact: FormValues) => any,
-  +onDeleteClick: (address: OwnerAddress) => any,
+  +onEditFinish: (contact: FormValues) => any,
+  +onDelete: (address: OwnerAddress) => any,
   +goBack: () => any,
 |}
 
 class ContactEditFormComponent extends PureComponent<Props> {
   handleSubmit = (values: FormValues) => {
-    this.props.editContact(values)
+    this.props.onEditFinish(values)
     this.props.goBack()
   }
 
-  componentDidMount() {
-    const {
-      initialValues: {
-        address,
-      },
-      goBack,
-      checkContactExists,
-    } = this.props
-
-    if (!checkContactExists(address)) {
-      goBack()
-    }
-  }
-
   handleDeleteClick = () => {
-    this.props.onDeleteClick(this.props.initialValues.address)
+    this.props.onDelete(this.props.initialValues.address)
   }
 
   render() {
