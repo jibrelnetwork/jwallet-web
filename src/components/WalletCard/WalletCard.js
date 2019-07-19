@@ -159,7 +159,7 @@ class WalletCard extends Component<Props, StateProps> {
       isRenameActive,
     }: StateProps = this.state
 
-    const hasMessage: boolean = (!isNewNameUniq && isRenameActive)
+    const hasMessage: boolean = !isNewNameUniq
     const isAnyAddressChooserActive: boolean = !!activeAddressChooserId
 
     return (
