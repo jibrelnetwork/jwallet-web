@@ -8,6 +8,7 @@ import { routes } from 'store/router/routes'
 import { ErrorUnexpected } from 'pages/ErrorUnexpected/ErrorUnexpected'
 import { CONDITIONS_LIST } from 'data/agreements'
 import { checkAgreements } from 'utils/agreements'
+import { PageNotFoundError } from 'errors'
 import {
   selectIntroductionValue,
   selectAgreementsConditions,
@@ -26,6 +27,9 @@ import * as pages from 'pages'
 
 import 'styles/core.scss'
 
+type ApplicationError = 'PageNotFoundError' |
+  'UnexpectedError'
+
 type Props = {|
   +route: Object,
   +hasPassword: boolean,
@@ -35,7 +39,7 @@ type Props = {|
 |}
 
 type ComponentState = {|
-  +hasError: boolean,
+  +error: ?ApplicationError,
   +prevRouteName: ?string,
 |}
 
@@ -74,7 +78,7 @@ class AppRouter extends Component<Props, ComponentState> {
     super(props)
 
     this.state = {
-      hasError: false,
+      error: null,
       // is used in state from props derivation logic
       // eslint-disable-next-line react/no-unused-state
       prevRouteName: null,
@@ -95,28 +99,38 @@ class AppRouter extends Component<Props, ComponentState> {
     if (state.prevRouteName !== route.name) {
       return {
         prevRouteName: route.name,
-        hasError: false,
+        error: null,
       }
     }
 
     return {}
   }
 
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(err: Error) {
     // FIXME: add error reporting to remote
     /* eslint-disable no-console */
     console.error('Unhandled error')
-    console.error(error)
+    console.error(err)
     /* eslint-enable no-console */
 
+    const error = err instanceof PageNotFoundError
+      ? 'PageNotFoundError'
+      : 'UnexpectedError'
+
     return {
-      hasError: true,
+      error,
     }
   }
 
   render() {
-    if (this.state.hasError) {
-      return <ErrorUnexpected />
+    switch (this.state.error) {
+      case 'PageNotFoundError':
+        return renderWithWalletsLayout(pages.NotFound)
+
+      case 'UnexpectedError':
+        return <ErrorUnexpected />
+
+      default:
     }
 
     const {
