@@ -60,15 +60,15 @@ export const routes: Array<{|
   name: 'ContactsItem',
   hasMenu: true,
 }, {
-  path: '/contacts/add?:address&:name&:note',
+  path: '/contacts/add?:address&:name',
   name: 'ContactsItemAdd',
   hasMenu: true,
 }, {
-  path: '/contacts/:contactId/edit',
+  path: '/contacts/edit/:contactId',
   name: 'ContactsItemEdit',
   hasMenu: true,
 }, {
-  path: '/contacts/:contactId/delete',
+  path: '/contacts/delete/:contactId',
   name: 'ContactsItemDelete',
   hasMenu: false,
 }, {
