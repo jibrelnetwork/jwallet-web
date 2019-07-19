@@ -14,14 +14,9 @@ import {
   selectAgreementsConditions,
   selectIsAgreementsConfirmed,
 } from 'store/selectors/user'
-
 import { selectWalletsItems } from 'store/selectors/wallets'
 import { selectIsPasswordExists } from 'store/selectors/password'
-
-import {
-  MenuLayout,
-  WalletsLayout,
-} from 'layouts'
+import { MenuLayout } from 'layouts'
 
 import * as pages from 'pages'
 
@@ -47,18 +42,6 @@ function checkHasMenu(name): boolean {
   const foundRoute = routes.find(route => (route.name === name))
 
   return !!foundRoute && foundRoute.hasMenu
-}
-
-// FIXME: discuss with the team and update accordingly
-function renderWithWalletsLayout(
-  Page,
-  props = {},
-) {
-  return (
-    <WalletsLayout>
-      <Page {...props} />
-    </WalletsLayout>
-  )
 }
 
 function renderWithMenuLayout(
@@ -125,7 +108,7 @@ class AppRouter extends Component<Props, ComponentState> {
   render() {
     switch (this.state.error) {
       case 'PageNotFoundError':
-        return renderWithWalletsLayout(pages.NotFound)
+        return <pages.NotFound />
 
       case 'UnexpectedError':
         return <ErrorUnexpected />
@@ -147,7 +130,7 @@ class AppRouter extends Component<Props, ComponentState> {
     } = route
 
     if (!route || (name === constants.UNKNOWN_ROUTE)) {
-      return renderWithWalletsLayout(pages.NotFound)
+      return <pages.NotFound />
     }
 
     if (!isAllFeaturesIntroduced) {
