@@ -40,12 +40,6 @@
     "ContactsItemDelete.actions.cancel": "保留聯絡人",
     "ContactsItemDelete.actions.confirm": "刪除",
     "ContactsItemDelete.title": "刪除聯絡人？",
-    "ContactsItemEdit.actions.delete": "刪除聯絡人",
-    "ContactsItemEdit.actions.save": "儲存",
-    "ContactsItemEdit.input.address.title": "位址",
-    "ContactsItemEdit.input.name.title": "名稱",
-    "ContactsItemEdit.input.note.info": "只有您能看見此註釋。",
-    "ContactsItemEdit.input.note.title": "註釋",
     "ContactsItemEdit.title": "編輯聯絡人",
     "DigitalAssetsManage.Empty.description": "沒有可顯示的數字資產",
     "ErrorUnexpected.action.reload": "刷新",
@@ -360,5 +354,6 @@
     "ContactsEditForm.input.address.error.invalid": "",
     "History.title": "",
     "HistoryItem.TransactionOut.statusCancel": "",
-    "HistoryItem.TransactionOut.statusPending": ""
+    "HistoryItem.TransactionOut.statusPending": "",
+    "ContactForm.actions.delete": ""
 }

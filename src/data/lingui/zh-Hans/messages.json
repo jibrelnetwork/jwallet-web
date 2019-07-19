@@ -40,12 +40,6 @@
     "ContactsItemDelete.actions.cancel": "",
     "ContactsItemDelete.actions.confirm": "",
     "ContactsItemDelete.title": "",
-    "ContactsItemEdit.actions.delete": "",
-    "ContactsItemEdit.actions.save": "",
-    "ContactsItemEdit.input.address.title": "",
-    "ContactsItemEdit.input.name.title": "",
-    "ContactsItemEdit.input.note.info": "",
-    "ContactsItemEdit.input.note.title": "",
     "ContactsItemEdit.title": "",
     "DigitalAssetsManage.Empty.description": "",
     "ErrorUnexpected.action.reload": "",
@@ -360,5 +354,6 @@
     "ContactsEditForm.input.address.error.invalid": "",
     "History.title": "",
     "HistoryItem.TransactionOut.statusCancel": "",
-    "HistoryItem.TransactionOut.statusPending": ""
+    "HistoryItem.TransactionOut.statusPending": "",
+    "ContactForm.actions.delete": ""
 }
