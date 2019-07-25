@@ -91,7 +91,7 @@ class Item extends PureComponent<Props> {
     }
 
     if (isStuck) {
-      return 'error_stuck'
+      // return 'error_stuck'
     }
 
     if (isPending) {
@@ -119,7 +119,6 @@ class Item extends PureComponent<Props> {
       from,
       eventType,
       isSent,
-      isStuck,
       hasInput,
       isFailed,
       isPending,
@@ -129,7 +128,7 @@ class Item extends PureComponent<Props> {
     const isEventBurn: boolean = (isMintable && !to)
     const isEventMint: boolean = (isMintable && !from)
 
-    if (isFailed || isStuck) {
+    if (isFailed) {
       return 'error'
     }
 
