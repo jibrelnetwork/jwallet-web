@@ -1,121 +1,88 @@
 // @flow strict
 
-import React, { PureComponent } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withI18n } from '@lingui/react'
-import { type I18n as I18nType } from '@lingui/core'
 
-import { HistoryList } from 'components'
-import { type HistoryItem } from 'store/utils/HistoryItem/types'
-import { selectCurrentNetworkId } from 'store/selectors/networks'
-import { transactionsIndex } from 'store/utils/HistoryItem/HistoryItem'
+import { selectAllAddressNames } from 'store/selectors/favorites'
 
 import {
-  Header,
-  SearchInput,
-  SearchFilter,
-} from 'components/base'
+  removeDuplicates,
+  sortTransactions,
+  filterTransactions,
+  searchTransactions,
+  flattenTransactionsByOwner,
+  flattenPendingTransactionsByOwner,
+} from 'utils/transactions'
 
 import {
   selectCurrentBlock,
   selectProcessingBlock,
 } from 'store/selectors/blocks'
 
-import styles from './history.m.scss'
+import {
+  selectTransactions,
+  selectTransactionsByOwner,
+  selectPendingTransactionsByOwner,
+} from 'store/selectors/transactions'
 
-type Props = {|
-  +i18n: I18nType,
-  +items: HistoryItem[],
-  +isLoading: boolean,
-|}
+import {
+  type Props,
+  HistoryView,
+} from './HistoryView'
 
-type StateProps = {|
-  +isListScrolled: boolean,
-  +isAsideScrolled: boolean,
-|}
+function prepareTransactions(
+  items: TransactionWithPrimaryKeys[],
+  pending: TransactionWithPrimaryKeys[],
+  names: AddressNames,
+  searchQuery: string,
+  isPendingFiltered: boolean,
+): TransactionWithPrimaryKeys[] {
+  const merged: TransactionWithPrimaryKeys[] = [...items, ...pending]
+  const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
+  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isPendingFiltered)
+  const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
+  const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
-class HistoryView extends PureComponent<Props, StateProps> {
-  constructor(props: Props) {
-    super(props)
-
-    this.state = {
-      isListScrolled: false,
-      isAsideScrolled: false,
-    }
-  }
-
-  handleListScroll = (e: Event) => {
-    // $FlowFixMe
-    this.setState({ isListScrolled: !!e.target.scrollTop })
-  }
-
-  handleAsideScroll = (e: Event) => {
-    // $FlowFixMe
-    this.setState({ isAsideScrolled: !!e.target.scrollTop })
-  }
-
-  render() {
-    const {
-      i18n,
-      items,
-      isLoading,
-    }: Props = this.props
-
-    const {
-      isListScrolled,
-      isAsideScrolled,
-    }: StateProps = this.state
-
-    return (
-      <div className={styles.core}>
-        <Header
-          className={(isListScrolled || isAsideScrolled) ? styles.scrolled : ''}
-          title={i18n._(
-            'History.title',
-            null,
-            { defaults: 'History' },
-          )}
-        >
-          <SearchInput onChange={() => {}}>
-            <SearchFilter
-              activeCount={-1}
-            >
-              <span>Hi! I am a filter</span>
-            </SearchFilter>
-          </SearchInput>
-        </Header>
-        <HistoryList
-          onListScroll={this.handleListScroll}
-          onAsideScroll={this.handleAsideScroll}
-          items={items}
-          isLoading={isLoading}
-        />
-      </div>
-    )
-  }
+  return sorted
 }
 
 function mapStateToProps(state: AppState) {
-  const index = transactionsIndex(state)
-  // Sorting transactions
-  // eslint-disable-next-line fp/no-mutating-methods
-  const items = Object.keys(index).map(id => index[id]).reverse()
-  const networkId: NetworkId = selectCurrentNetworkId(state)
-  const currentBlock: ?BlockData = selectCurrentBlock(state, networkId)
-  const processingBlock: ?BlockData = selectProcessingBlock(state, networkId)
+  const currentBlock: ?BlockData = selectCurrentBlock(state)
+  const addressNames: AddressNames = selectAllAddressNames(state)
+  const processingBlock: ?BlockData = selectProcessingBlock(state)
+
+  const {
+    searchQuery,
+    // isErrorFiltered,
+    // isStuckFiltered,
+    isPendingFiltered,
+  }: TransactionsState = selectTransactions(state)
+
+  const items: ?TransactionsByOwner = selectTransactionsByOwner(state)
+  const flatten: TransactionWithPrimaryKeys[] = flattenTransactionsByOwner(items)
+  const pending: ?PendingTransactionsByOwner = selectPendingTransactionsByOwner(state)
+  const flattenPending: TransactionWithPrimaryKeys[] = flattenPendingTransactionsByOwner(pending)
+
   const isCurrentBlockEmpty: boolean = !currentBlock
-  const isLoading: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
+  const isProcessing: boolean = !!(processingBlock && processingBlock.isTransactionsLoading)
 
   return {
-    items,
-    isLoading: isCurrentBlockEmpty || isLoading,
+    items: isCurrentBlockEmpty
+      ? []
+      : prepareTransactions(
+        flatten,
+        flattenPending,
+        addressNames,
+        searchQuery,
+        isPendingFiltered,
+      ),
+    currentBlock: currentBlock && currentBlock.number,
+    isLoading: isCurrentBlockEmpty || isProcessing,
   }
 }
 
 export const History = compose(
   withI18n(),
-  connect<Props, OwnPropsEmpty, _, _, _, _>(
-    mapStateToProps,
-  ),
+  connect<Props, OwnPropsEmpty, _, _, _, _>(mapStateToProps),
 )(HistoryView)
