@@ -107,7 +107,7 @@ class WalletAddressCard extends Component<Props, StateProps> {
               { defaults: 'Copy {addressName}' },
             )}
             toastMessage={i18n._(
-              'WalletsItemAddresses.WalletAddressCard.actions.copy',
+              'WalletsItemAddresses.WalletAddressCard.actions.message',
               null,
               { defaults: 'Address copied.' },
             )}

@@ -37,10 +37,16 @@ class ToastsPlugin {
     return this.store.dispatch(action)
   }
 
-  showToast = (payload: ToastPayload) => {
-    this.dispatch(showToast(payload))
+  showToast = (
+    message: string,
+    options?: ToastOptions = { type: 'base' },
+  ) => {
+    this.dispatch(showToast(
+      message,
+      options,
+    ))
 
-    if (payload.type !== 'base') {
+    if (!options || (options.type !== 'base')) {
       return
     }
 

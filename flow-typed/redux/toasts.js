@@ -19,13 +19,17 @@ declare type ToastControl = {|
   +icon?: string,
 |}
 
-declare type ToastPayload = {|
+declare type ToastOptions = {|
   +type: ToastType,
-  +message: string,
   +controls?: ToastControl[],
   +controlsPosition?: ToastControlsPosition,
 |}
 
+declare type ToastData = {|
+  +message: string,
+  +options: ToastOptions,
+|}
+
 declare type ToastsState = {|
-  +data: ?ToastPayload,
+  +data: ?ToastData,
 |}

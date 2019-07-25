@@ -3,10 +3,16 @@
 export const SHOW = '@@toasts/SHOW'
 export const HIDE = '@@toasts/HIDE'
 
-export function showToast(payload: ToastPayload) {
+export function showToast(
+  message: string,
+  options: ToastOptions,
+) {
   return {
     type: SHOW,
-    payload,
+    payload: {
+      options,
+      message,
+    },
   }
 }
 

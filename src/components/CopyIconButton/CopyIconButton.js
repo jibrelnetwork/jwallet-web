@@ -29,10 +29,7 @@ class CopyIconButton extends PureComponent<Props> {
     const { toastMessage }: Props = this.props
 
     if (toastMessage) {
-      toastsPlugin.showToast({
-        type: 'base',
-        message: toastMessage,
-      })
+      toastsPlugin.showToast(toastMessage)
     }
   }
 
