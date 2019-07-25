@@ -234,6 +234,7 @@ function mapStateToProps(
 
   const { timestamp }: TransactionBlockData = blockData
   const isZeroAmount: boolean = toBigNumber(amount).isZero()
+  const isSent: boolean = !!from && (ownerAddress.toLowerCase() === from.toLowerCase())
 
   const {
     name: assetName,
@@ -242,6 +243,13 @@ function mapStateToProps(
       decimals: assetDecimals,
     },
   }: DigitalAsset = digitalAsset
+
+  const amountStr: ?string = isZeroAmount ? null : formatAssetBalance(
+    assetAddress,
+    amount,
+    assetDecimals,
+    assetSymbol,
+  )
 
   return {
     to,
@@ -256,6 +264,7 @@ function mapStateToProps(
     toName: to && addressNames[to],
     fromName: from && addressNames[from],
     blockExplorerUISubdomain: network.blockExplorerUISubdomain,
+    amountStr: amountStr && `${isSent ? '-' : '+'}\u00A0${amountStr}`,
     fee: getTxFee(
       receiptData.gasUsed,
       data.gasPrice,
@@ -264,12 +273,6 @@ function mapStateToProps(
       notes,
       id,
       hash,
-    ),
-    amountStr: isZeroAmount ? null : formatAssetBalance(
-      assetAddress,
-      amount,
-      assetDecimals,
-      assetSymbol,
     ),
     timestamp,
     assetDecimals,
