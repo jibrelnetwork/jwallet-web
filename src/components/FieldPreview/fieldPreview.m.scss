@@ -4,7 +4,8 @@
   @include flex-row;
 
   position: relative;
-  padding: 14px 24px 14px 16px;
+  height: 72px;
+  padding: 14px 24px 16px 16px;
   justify-content: space-between;
   background-color: $white;
 }
@@ -15,25 +16,22 @@
 
 .label {
   @include ellipsis;
+  @include font(12px, 20px);
 
-  font-size: 12px;
-  line-height: 20px;
   color: $main-black-40;
 }
 
-.body {
+.value {
   @include ellipsis;
+  @include font(14px, 22px);
 
-  font-size: 14px;
   font-weight: 600;
-  line-height: 22px;
   color: $main-black;
-  margin-bottom: 2px;
 }
 
 .link {
   display: inline;
-  text-decoration: underline solid $main-blue-30;
+  text-decoration: underline solid;
   // stylelint-disable property-no-unknown
   text-decoration-skip-ink: auto;
   text-decoration-underline-offset: 1.1em;
@@ -50,29 +48,29 @@
   }
 }
 
-.action + .action {
-  margin-left: 16px;
-}
-
 .actions {
   @include flex-row-center;
+}
 
-  .action {
-    @include sprite-icon-color($main-black-30);
+.action {
+  @include sprite-icon-color($main-black-30);
 
-    cursor: pointer;
-    display: block;
-    border: none;
-    background: none;
-    padding: 0;
+  cursor: pointer;
+  display: block;
+  border: none;
+  background: none;
+  padding: 0;
 
-    &:hover,
-    &:active {
-      @include sprite-icon-color($main-blue);
-    }
-
-    > .action-icon {
-      display: block;
-    }
+  &:hover,
+  &:active {
+    @include sprite-icon-color($main-blue);
   }
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.icon {
+  display: block;
 }

@@ -10,14 +10,14 @@ import { JIcon } from 'components/base'
 import copyIconButtonStyle from './copyIconButton.m.scss'
 
 export type Props = {|
-  +title: string,
-  +content: string,
   +i18n: I18nType,
+  +title: ?string,
+  +content: string,
 |}
 
-class CopyIconButtonComponent extends PureComponent<Props> {
+class CopyIconButton extends PureComponent<Props> {
   static defaultProps = {
-    title: '',
+    title: null,
   }
 
   handleCopy = (address: Address) => () => {
@@ -48,4 +48,5 @@ class CopyIconButtonComponent extends PureComponent<Props> {
   }
 }
 
-export const CopyIconButton = withI18n()(CopyIconButtonComponent)
+const CopyIconButtonEnhanced = withI18n()(CopyIconButton)
+export { CopyIconButtonEnhanced as CopyIconButton }

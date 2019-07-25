@@ -1,56 +1,57 @@
 // @flow strict
 
 import React from 'react'
+
 import { useI18n } from 'app/hooks'
 
 import {
-  JAssetSymbol,
   JIcon,
   JLink,
+  JAssetSymbol,
 } from 'components/base'
 
-import style from './assetItemPreview.m.scss'
+import styles from './assetItemPreview.m.scss'
+
+type Props = {|
+  name: string,
+  symbol: string,
+  address: string,
+|}
 
 export function AssetItemPreview({
-  blockchainParams: { address },
-  symbol,
   name,
-}: DigitalAsset) {
+  symbol,
+  address,
+}: Props) {
   const i18n = useI18n()
 
   return (
     <JLink
-      className={`__asset-item ${style.core} ${style.data}`}
       href={`/assets/${address}`}
+      className={`__asset-item-preview ${styles.core} ${styles.data}`}
     >
-      <div
-        className={`${style.item} ${style.assetIcon}`}
-      >
+      <div className={`${styles.item} ${styles.symbol}`}>
         <JAssetSymbol
-          address={address}
           symbol={symbol}
+          address={address}
           color='blue'
           size={24}
         />
       </div>
-      <div
-        className={`${style.item} ${style.mainBlock}`}
-      >
-        <div className={style.label}>
+      <div className={`${styles.item} ${styles.info}`}>
+        <div className={styles.label}>
           {i18n._(
             'HistoryItemDetails.AssetItemPreview.label',
             null,
             { defaults: 'Asset' },
           )}
         </div>
-        <div className={style.body}>
+        <div className={styles.body}>
           {name}
         </div>
       </div>
-      <div
-        className={`${style.item} ${style.arrowIcon}`}
-      >
-        <JIcon className={style.arrow} name='arrow-right-use-fill' />
+      <div className={`${styles.item} ${styles.icon}`}>
+        <JIcon className={styles.arrow} name='arrow-right-use-fill' />
       </div>
     </JLink>
   )

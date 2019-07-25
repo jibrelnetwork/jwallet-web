@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 import jibrelContractsApi from '@jibrelnetwork/contracts-jsapi'
 import { BigNumber } from 'bignumber.js'
@@ -244,15 +244,16 @@ function prepareTransaction(data: any): TransactionData {
   if (!(
     !type.isVoid(data) &&
     type.isObject(data) &&
-    isBigNumber(data.gasPrice) &&
-    data.nonce
+    type.isNumber(data.nonce) &&
+    isBigNumber(data.gasPrice)
   )) {
     throw new Error('Invalid ETH transaction format')
   }
 
   return {
     gasPrice: data.gasPrice.toString(),
-    nonce: Number(data.nonce),
+    nonce: data.nonce,
+    hasInput: false, // always false, because we show them as token events
   }
 }
 
@@ -371,7 +372,6 @@ function prepareTransferEvents(data: Object[]): Transactions {
       contractAddress: null,
       eventType: 1,
       isRemoved: !!removed,
-      isCanceled: false,
     }
 
     return {
@@ -485,7 +485,6 @@ function prepareJNTEvents(data: Object[]): Transactions {
       from: (event === 'BurnEvent') ? ownerAddressChecksum : null,
       eventType: 2,
       isRemoved: !!removed,
-      isCanceled: false,
     }
 
     return {
