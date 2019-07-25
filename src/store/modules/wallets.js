@@ -2,6 +2,7 @@
 
 export const SET_WALLETS_ITEMS = '@@wallets/SET_WALLETS_ITEMS'
 export const SET_ACTIVE_WALLET = '@@wallets/SET_ACTIVE_WALLET'
+export const CHANGE_ACTIVE_ADDRESS = '@@wallets/CHANGE_ACTIVE_ADDRESS'
 
 export function setWalletsItems(
   items: Wallets,
@@ -27,9 +28,16 @@ export function setActiveWallet(activeWalletId: ?WalletId) {
   }
 }
 
+export function changeActiveAddress() {
+  return {
+    type: CHANGE_ACTIVE_ADDRESS,
+  }
+}
+
 export type WalletsAction =
   ExtractReturn<typeof setWalletsItems> |
-  ExtractReturn<typeof setActiveWallet>
+  ExtractReturn<typeof setActiveWallet> |
+  ExtractReturn<typeof changeActiveAddress>
 
 const initialState: WalletsState = {
   persist: {

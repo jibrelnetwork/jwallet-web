@@ -2,8 +2,8 @@
 
 import React from 'react'
 import classNames from 'classnames'
-import { useI18n } from 'app/hooks'
 
+import { useI18n } from 'app/hooks'
 import { CopyIconButton } from 'components'
 
 import copyableFieldStyles from './copyableField.m.scss'

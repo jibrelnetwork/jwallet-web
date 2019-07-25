@@ -76,15 +76,15 @@ export const routes: Array<{|
   name: 'History',
   hasMenu: true,
 }, {
-  path: '/history/:itemId',
+  path: '/history/:id',
   name: 'HistoryItem',
   hasMenu: true,
 }, {
-  path: '/history/:itemId/cancel',
+  path: '/history/:id/cancel',
   name: 'HistoryItemCancel',
   hasMenu: true,
 }, {
-  path: '/history/:itemId/restart',
+  path: '/history/:id/restart',
   name: 'HistoryItemRestart',
   hasMenu: true,
 }, {
