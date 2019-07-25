@@ -1,29 +1,9 @@
 @import 'styles/mixins';
 
-.core {
-  @include flex-row;
-
-  position: relative;
-  padding: 14px 0 16px;
-  justify-content: space-between;
-  background-color: $white;
-
-  //&:focus,
-  &:hover {
-    .arrow {
-      @include sprite-icon-color($main-blue);
-
-      transform: translate(8px);
-    }
-  }
-}
-
 .item {
-  display: flex;
-  flex-direction: column;
+  @include flex-column-center;
+
   position: relative;
-  justify-content: center;
-  align-items: center;
   min-width: 64px;
 }
 
@@ -33,22 +13,20 @@
 
 .label {
   @include ellipsis;
+  @include font(12px, 20px);
 
-  font-size: 12px;
-  line-height: 20px;
   color: $main-black-40;
 }
 
 .body {
   @include ellipsis;
+  @include font(14px, 22px);
 
-  font-size: 14px;
   font-weight: 600;
-  line-height: 22px;
   color: $main-black;
 }
 
-.main-block {
+.info {
   align-items: flex-start;
   flex-grow: 1;
 }
@@ -59,8 +37,6 @@
   width: 64px;
 }
 
-// utility animation
-// stylelint-disable-next-line no-descending-specificity
 .arrow {
   @include sprite-icon-color($main-black-40);
 
@@ -68,4 +44,21 @@
     transform 0.4s 0s $default-animation,
     fill 0.4s 0.2s $default-animation;
   transform: translate(0);
+}
+
+.core {
+  @include flex-row;
+
+  position: relative;
+  padding: 14px 0 16px;
+  justify-content: space-between;
+  background-color: $white;
+
+  &:hover {
+    .arrow {
+      @include sprite-icon-color($main-blue);
+
+      transform: translate(8px);
+    }
+  }
 }
