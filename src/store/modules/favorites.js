@@ -5,6 +5,7 @@ import { omit } from 'lodash-es'
 export const ADD = '@@favorites/ADD'
 export const REMOVE = '@@favorites/REMOVE'
 export const UPDATE = '@@favorites/UPDATE'
+export const SET_DESCRIPTION = '@@favorites/SET_DESCRIPTION'
 
 export function add(contact: Favorite) {
   return {
@@ -29,9 +30,20 @@ export function update(contact: Favorite) {
   }
 }
 
+export function setDescription(address: string, description: string) {
+  return {
+    type: SET_DESCRIPTION,
+    payload: {
+      address,
+      description,
+    },
+  }
+}
+
 export type FavoritesAction =
   ExtractReturn<typeof add> |
   ExtractReturn<typeof update> |
+  ExtractReturn<typeof setDescription> |
   ExtractReturn<typeof remove>
 
 const initialState: FavoritesState = {
@@ -56,6 +68,28 @@ function favorites(
           items: {
             ...state.persist.items,
             [address]: action.payload,
+          },
+        },
+      }
+    }
+
+    case SET_DESCRIPTION: {
+      const {
+        address,
+        description,
+      } = action.payload
+      const { items } = state.persist
+
+      return {
+        ...state,
+        persist: {
+          ...state.persist,
+          items: {
+            ...items,
+            [address]: {
+              ...items[address],
+              description,
+            },
           },
         },
       }
