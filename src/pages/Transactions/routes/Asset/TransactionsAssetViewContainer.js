@@ -40,7 +40,7 @@ import {
 } from 'utils/transactions'
 
 import {
-  setIsOnlyPending,
+  setPendingFilter,
   changeSearchInput,
   removeItemsByAsset,
 } from 'store/modules/transactions'
@@ -62,7 +62,7 @@ function prepareTransactions(
   assetAddress: string,
   names: AddressNames,
   searchQuery: string,
-  isOnlyPending: boolean,
+  isPendingFiltered: boolean,
 ): TransactionWithPrimaryKeys[] {
   if (!items) {
     return []
@@ -72,7 +72,7 @@ function prepareTransactions(
   const flattenPen: TransactionWithPrimaryKeys[] = flattenPendingTransactions(pending, assetAddress)
   const merged: TransactionWithPrimaryKeys[] = [...flatten, ...flattenPen]
   const cleaned: TransactionWithPrimaryKeys[] = removeDuplicates(merged)
-  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isOnlyPending)
+  const filtered: TransactionWithPrimaryKeys[] = filterTransactions(cleaned, isPendingFiltered)
   const found: TransactionWithPrimaryKeys[] = searchTransactions(filtered, searchQuery, names)
   const sorted: TransactionWithPrimaryKeys[] = sortTransactions(found)
 
@@ -104,7 +104,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 
   const {
     searchQuery,
-    isOnlyPending,
+    isPendingFiltered,
   }: TransactionsState = selectTransactions(state)
 
   const transactionsByAsset: ?TransactionsByAssetAddress =
@@ -136,7 +136,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
     assetAddress,
     ownerAddress,
     isLoading,
-    isOnlyPending,
+    isPendingFiltered,
     isCurrentBlockEmpty,
     transactions: isCurrentBlockEmpty ? [] : prepareTransactions(
       transactionsByAsset,
@@ -148,7 +148,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
         ...addressWalletsNames,
       },
       searchQuery,
-      isOnlyPending,
+      isPendingFiltered,
     ),
   }
 }
@@ -156,7 +156,7 @@ function mapStateToProps(state: AppState, ownProps: OwnProps) {
 const mapDispatchToProps = {
   editComment,
   removeFavorite,
-  setIsOnlyPending,
+  setPendingFilter,
   changeSearchInput,
   removeItemsByAsset,
 }
