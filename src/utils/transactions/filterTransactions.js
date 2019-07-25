@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 
 function checkPending({ blockHash }: TransactionWithPrimaryKeys): boolean {
   return !blockHash
@@ -6,9 +6,9 @@ function checkPending({ blockHash }: TransactionWithPrimaryKeys): boolean {
 
 function filterTransactions(
   items: TransactionWithPrimaryKeys[],
-  isOnlyPending: boolean,
+  isPendingFiltered: boolean,
 ): TransactionWithPrimaryKeys[] {
-  if (!isOnlyPending) {
+  if (!isPendingFiltered) {
     return items
   }
 
